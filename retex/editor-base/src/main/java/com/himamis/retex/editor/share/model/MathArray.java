@@ -210,7 +210,7 @@ public class MathArray extends MathContainer {
 
 	public void checkMatrix(MetaModel metaModel) {
 		int matrixWidth = -1;
-		for (int i = 0; i < this.size(); i++) {
+		for (int i = 0; i < size(); i++) {
 			if (getArgument(i).size() == 1
 					&& getArgument(i).getArgument(0) instanceof MathArray) {
 				MathArray row = (MathArray) getArgument(i).getArgument(0);
@@ -227,8 +227,8 @@ public class MathArray extends MathContainer {
 		}
 
 		if (matrixWidth >= 0) {
-			this.columns = matrixWidth;
-			this.rows = size();
+			columns = matrixWidth;
+			rows = size();
 			ArrayList<MathComponent> entries = new ArrayList<MathComponent>();
 			for (int i = 0; i < this.size(); i++) {
 				for (int j = 0; j < ((MathContainer) getArgument(i)
@@ -239,11 +239,10 @@ public class MathArray extends MathContainer {
 					entries.add(arg);
 				}
 			}
-			this.arguments.clear();
-			this.arguments.addAll(entries);
-			this.meta = metaModel.getMatrix();
+			clearArguments();
+			arguments.addAll(entries);
+			meta = metaModel.getMatrix();
 		}
-
 	}
 
 }
