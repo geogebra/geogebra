@@ -289,7 +289,7 @@ var app = document.createElement("script");
 		
 		app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-		//document.head.appendChild(app);	
+		document.head.appendChild(app);	
 }
 	function isLocalhost(){
 		return location.protocol.match(/(app|file):/) || location.host.match(/^([0-9:.]*|(autotest|deploy).geogebra.org|localhost)$/);
@@ -337,10 +337,10 @@ var app = document.createElement("script");
 	
 	function getPerspective(){
 		if(getURLparam("perspective")){
-			return getURLparam("perspective"));			
+			return getURLparam("perspective");			
 		}
 		if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
-		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/)){
+		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
 			return location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 		}
 	}
