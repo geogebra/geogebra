@@ -2993,7 +2993,7 @@ __GGB__keysVar.it.menu = {
     "math_apps": "Math Apps",
     "max": "max",
     "min": "min",
-    "off": "disattiva",
+    "off": "Disattiva",
     "on": "Attiva",
     "otherwise": "altrove",
     "parallel": "parallela",

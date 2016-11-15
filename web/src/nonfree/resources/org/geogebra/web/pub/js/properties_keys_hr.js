@@ -1629,7 +1629,7 @@ __GGB__keysVar.hr.menu = {
     "Dodecahedron": "Dodekaedar",
     "DontDeleteTool": "Ne bri\u0161i alat",
     "DontOverwrite": "Nemoj zamijeniti",
-    "DontSave": "Ne spremaj",
+    "DontSave": "Nemoj spremiti",
     "DotPlot": "To\u010dkasti dijagram",
     "DoubleClickToOpen": "Dvostruki klik otvara prozor programa",
     "DoubleLine": "Dvostruki pravac",
