@@ -138,6 +138,19 @@ var prerelease = false;
 		}
 		return ret;
 	}
+	
+	function setPickerLabels(dict){
+		button("graphing",1).innerHTML=dict["GraphingCalculator"] || "Graphing Calculator";
+		button("geometry",2).innerHTML=dict["Perspective.Geometry"] || "Geometry";
+		button("cas",4).innerHTML=dict["Perspective.CAS"] || "CAS";
+		button("spreadsheet",3).innerHTML=dict["Perspective.Spreadsheet"] || "Spreadsheet";
+		button("perspective3d",5).innerHTML=dict["GeoGebra3DGrapher.short"] || "3D Grapher";
+		button("probability",6).innerHTML=dict["Perspective.Probability"] || "Probability";
+		button("whiteboard",7).innerHTML=dict["Perspective.Whiteboard"] || "Whiteboard";
+		button("tutorials",0).innerHTML=dict["Tutorials"] || "Tutorials";
+		button("exam","exam").innerHTML=dict["exam_menu_entry"] || "Exam";			
+		e("create").innerHTML=dict["CreateYourOwn"] || "GeoGebra Math Apps";
+	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
 		e("ggbPage").style.display="";
@@ -146,32 +159,14 @@ var prerelease = false;
 			return;
 		}
 		var props = __GGB__keysVar[lang];
-			button("graphing",1).innerHTML=props.menu["GraphingCalculator"];
-			button("geometry",2).innerHTML=props.menu["Perspective.Geometry"];
-			button("cas",4).innerHTML=props.menu["Perspective.CAS"];
-			button("spreadsheet",3).innerHTML=props.menu["Perspective.Spreadsheet"];
-			button("perspective3d",5).innerHTML=props.menu["GeoGebra3DGrapher.short"];
-			button("probability",6).innerHTML=props.menu["Perspective.Probability"];
-			button("tutorials",0).innerHTML=props.menu["Tutorials"];
-			button("exam","exam").innerHTML=props.menu["exam_menu_entry"];
-			//e("search").innerHTML=props.menu["search_geogebra_materials"];
-			e("create").innerHTML=props.menu["CreateYourOwn"];
+		setPickerLabels(props.menu);
 
 			//console.trace();
 	}
 	
 	function showInEnglish(){
 			if(!window.__GGB__keysVar){
-				button("graphing",1).innerHTML="Graphing Calculator";			
-				button("geometry",2).innerHTML="Geometry";
-				button("cas",4).innerHTML="CAS";
-				button("spreadsheet",3).innerHTML="Spreadsheet";
-				button("perspective3d",5).innerHTML="3D Grapher";
-				button("probability",6).innerHTML="Probability";
-				button("tutorials",0).innerHTML="Tutorials";
-				button("exam","exam").innerHTML="Exam";
-				//e("search").innerHTML="Search GeoGebra materials";
-				e("create").innerHTML="GeoGebra Math Apps";
+				setPickerLabeles({});
 	
 				e("ggbPage").style.display="";
 			}
@@ -922,7 +917,7 @@ z-index:501;
 
 <table  class="perspectivesRow" id="whiteboardRow" style="display:none"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAArElEQVR42mNgoAdIS0tjTU1NTUpPT98BZB+gBIPMAJkFMhNuAVTgGJB2B9IalGCgBa5AfAhkJtwCqK3u1AoRoFn2IDORgwjkPQ1qWZCRkaEAMnPUglELRi0YdhZkZua/y8oqekUNnJlZ8BbDgokTn/+fOfM/VfDkyW/+j1pAmgWgyqG7+xrVLOjtvfUfpcIBVW9FRd3/e3pugm2nBIMMLy7u+49SZdK80qclAABJLH8ovBt5+AAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="probability">Whiteboard</div></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="whiteboard">Whiteboard</div></td><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
 <table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
