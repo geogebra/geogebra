@@ -94,12 +94,12 @@ public class MathArray extends MathContainer {
 
     @Override
     public void addArgument(int i, MathComponent argument) {
-        arguments.add(i, argument);
+        super.addArgument(i, argument);
         columns += 1;
     }
 
     public void delArgument(int i) {
-        arguments.remove(i);
+        super.removeArgument(i);
         columns -= 1;
     }
 
