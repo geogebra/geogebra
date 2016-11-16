@@ -1855,7 +1855,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		return CoordSys.XOY;
 	}
 
-	public FunctionNVar getFunctionExpression() {
+	public FunctionNVar getFunctionDefinition() {
 		return getExpression();
 	}
 

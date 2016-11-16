@@ -63,7 +63,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		super.set(geo);
 		GeoImplicit implicit = (GeoImplicit) geo;
 		transformCoordSys.set(implicit.getTransformedCoordSys());
-		setFunctionExpression(implicit.getFunctionExpression());
+		setFunctionExpression(implicit.getFunctionDefinition());
 		setPlaneEquation(implicit.getPlaneEquation());
 		translateZ = implicit.getTranslateZ();
 	}
@@ -187,7 +187,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	}
 
 	@Override
-	public FunctionNVar getFunctionExpression() {
+	public FunctionNVar getFunctionDefinition() {
 		return functionExpression;
 	}
 

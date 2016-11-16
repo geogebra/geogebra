@@ -74,7 +74,7 @@ public interface GeoImplicit extends GeoElementND {
 	 * 
 	 * @return function expression creating this implicit curve
 	 */
-	public FunctionNVar getFunctionExpression();
+	public FunctionNVar getFunctionDefinition();
 
 	/**
 	 * 

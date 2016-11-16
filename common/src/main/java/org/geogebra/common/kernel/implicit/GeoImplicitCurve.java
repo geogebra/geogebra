@@ -2260,7 +2260,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return ':';
 	}
 
-	public FunctionNVar getFunctionExpression() {
+	public FunctionNVar getFunctionDefinition() {
 		return expression;
 	}
 
