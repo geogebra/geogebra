@@ -683,23 +683,25 @@ ToolbarD.getAllTools(this));
 	 */
 	protected void initFactories() {
 
+		if (AwtFactory.prototype == null) {
 		AwtFactory.prototype = new AwtFactoryD();
+		}
+
+		if (FormatFactory.prototype == null) {
 		FormatFactory.prototype = new FormatFactoryJre();
-		LaTeXFactory.prototype = new LaTeXFactoryD();
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+		if (LaTeXFactory.prototype == null) {
+			LaTeXFactory.prototype = new LaTeXFactoryD();
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.SwingFactory.prototype = new
-		// SwingFactoryD();
+		if (UtilFactory.prototype == null) {
+			UtilFactory.prototype = new UtilFactoryD();
+		}
 
-		UtilFactory.prototype = new UtilFactoryD();
-
-		// moved to getFactory() so that applets load quicker
-		// geogebra.common.factories.Factory.prototype = new FactoryD();
-
-		StringUtil.prototype = new StringUtilD();
+		if (StringUtil.prototype == null) {
+			StringUtil.prototype = new StringUtilD();
+		}
 
 	}
 

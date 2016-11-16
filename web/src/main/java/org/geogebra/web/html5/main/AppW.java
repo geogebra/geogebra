@@ -324,11 +324,26 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * inits factories
 	 */
 	protected void initFactories() {
+
+		if (FormatFactory.prototype == null) {
 		FormatFactory.prototype = new FormatFactoryW();
+		}
+
+		if (AwtFactory.prototype == null) {
 		AwtFactory.prototype = new AwtFactoryW();
-		StringUtil.prototype = new StringUtil();
-		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
-		UtilFactory.prototype = new UtilFactoryW();
+		}
+
+		if (StringUtil.prototype == null) {
+			StringUtil.prototype = new StringUtil();
+		}
+
+		if (CASFactory.getPrototype() == null) {
+			CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
+		}
+
+		if (UtilFactory.prototype == null) {
+			UtilFactory.prototype = new UtilFactoryW();
+		}
 
 	}
 
