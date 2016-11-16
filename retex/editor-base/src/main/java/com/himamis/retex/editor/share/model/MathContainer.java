@@ -93,7 +93,7 @@ abstract public class MathContainer extends MathComponent {
         if (arguments == null) {
             arguments = new ArrayList<MathComponent>();
         }
-        for (int i = 0; i < arguments.size(); i++) {
+        for (int i = arguments.size() - 1; i > -1; i--) {
             removeArgument(i);
         }
     }
