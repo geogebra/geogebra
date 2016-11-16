@@ -247,6 +247,7 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 		mf.setFocus(focus);
 		//canvas.setFocus(b);
+		app.adjustViews();
 	}
 
 	@Override
