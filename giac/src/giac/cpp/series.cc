@@ -644,6 +644,16 @@ namespace giac {
       e_cur=rem.front().exponent-e0;
       res.push_back(monome(q_cur,e_cur));
       pshift(b,e_cur,bshift,contextptr);
+      sparse_poly1::iterator it=bshift.begin(),itend=bshift.end();
+      for (;it!=itend;++it){
+	if (is_undef(it->coeff))
+	  break;
+	if (ck_is_strictly_greater(it->exponent,ordre,contextptr)){
+	  it->coeff=undef;
+	  bshift.erase(it+1,itend);
+	  break;
+	}
+      }
       if (!pmul(-q_cur,bshift,bshift,contextptr))
 	return false;
       padd(rem,bshift,rem,contextptr);
@@ -658,7 +668,11 @@ namespace giac {
 
   sparse_poly1 spdiv(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT){
     sparse_poly1 res;
-    if (!pdiv(a,b,res,series_default_order(contextptr),contextptr))
+    gen og=min(porder(a),porder(b),contextptr);
+    int o=series_default_order(contextptr);
+    if (og.type==_INT_)
+      o=og.val;
+    if (!pdiv(a,b,res,o,contextptr))
       res=sparse_poly1(1,monome(1,undef));
     return res;
   }

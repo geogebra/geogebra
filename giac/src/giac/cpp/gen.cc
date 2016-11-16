@@ -8585,6 +8585,14 @@ namespace giac {
       if (subtype==_SPARSE_MATRIX)
 	return 0;
     }
+    if (type==_SPOL1){
+      sparse_poly1::const_iterator it=_SPOL1ptr->begin(),itend=_SPOL1ptr->end();
+      for (;it!=itend;++it){
+	if (it->exponent==i)
+	  return it->coeff;
+      }
+      return 0;
+    }
     if (is_symb_of_sommet(at_at)){ // add i at the end of the index
       if (_SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
 	gen operand=_SYMBptr->feuille._VECTptr->front();

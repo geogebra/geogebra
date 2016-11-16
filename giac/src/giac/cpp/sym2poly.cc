@@ -2279,6 +2279,15 @@ namespace giac {
 	return symb_rootof(r2sym(*(pp._EXTptr),lt,ltend,contextptr),r2sym(f,lt,ltend,contextptr),contextptr);
       return symb_horner(*(r2sym(*(pp._EXTptr),lt,ltend,contextptr)._VECTptr),fvalue);
     }
+    if (p.type==_SPOL1){
+      sparse_poly1 s=*p._SPOL1ptr;
+      sparse_poly1::iterator it=s.begin(),itend=s.end();
+      vecteur l(lt,ltend);
+      for (;it!=itend;++it){
+	it->coeff=r2sym(it->coeff,l,contextptr);
+      }
+      return s;
+    }
     if ((p.type!=_POLY) || (lt==ltend))
       return p;
     if (p._POLYptr->coord.empty())
@@ -2371,6 +2380,8 @@ namespace giac {
     }
     if (p.type==_POLY)
       return r2sym(*p._POLYptr,l,contextptr);
+    if (p.type==_SPOL1)
+      return r2sym(p,l.begin(),l.end(),contextptr);
     return p;
   }
 
