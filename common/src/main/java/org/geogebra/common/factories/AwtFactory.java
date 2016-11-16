@@ -32,7 +32,24 @@ import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.main.App;
 
 public abstract class AwtFactory {
-	public static AwtFactory prototype = null;
+
+
+	public static volatile AwtFactory prototype = null;
+
+	private static final Object lock = new Object();
+
+	public static AwtFactory getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototypeIfNull(AwtFactory p) {
+
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
 
 	public abstract GColor newColor(int RGB);
 

@@ -249,6 +249,21 @@ public class StringUtil {
 
 	public static StringUtil prototype;
 
+	private static final Object lock = new Object();
+
+	public static StringUtil getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototypeIfNull(StringUtil p) {
+
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
+
 	/**
 	 * Replaces special unicode letters (e.g. greek letters) in str by LaTeX
 	 * strings.

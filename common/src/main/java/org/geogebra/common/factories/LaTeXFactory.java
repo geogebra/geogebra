@@ -9,6 +9,21 @@ public abstract class LaTeXFactory {
 	/** platform dependent prototype */
 	public static LaTeXFactory prototype;
 
+	private static final Object lock = new Object();
+
+	public static LaTeXFactory getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototypeIfNull(LaTeXFactory p) {
+
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
+
 	/**
 	 * @return LaTeX cache
 	 */

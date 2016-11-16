@@ -15,6 +15,21 @@ public abstract class UtilFactory {
 	 */
 	public static UtilFactory prototype;
 
+	private static final Object lock = new Object();
+
+	public static UtilFactory getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototypeIfNull(UtilFactory p) {
+
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
+
 	/**
 	 * @return HttpRequest object Creates a HttpRequest object
 	 */

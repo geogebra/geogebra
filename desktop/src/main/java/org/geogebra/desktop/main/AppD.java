@@ -683,24 +683,24 @@ ToolbarD.getAllTools(this));
 	 */
 	protected void initFactories() {
 
-		if (AwtFactory.prototype == null) {
-			AwtFactory.prototype = new AwtFactoryD();
+		if (AwtFactory.getPrototype() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryD());
 		}
 
 		if (FormatFactory.prototype == null) {
-			FormatFactory.prototype = new FormatFactoryJre();
+			FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		}
 
 		if (LaTeXFactory.prototype == null) {
-			LaTeXFactory.prototype = new LaTeXFactoryD();
+			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
 		}
 
 		if (UtilFactory.prototype == null) {
-			UtilFactory.prototype = new UtilFactoryD();
+			UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		}
 
 		if (StringUtil.prototype == null) {
-			StringUtil.prototype = new StringUtilD();
+			StringUtil.setPrototypeIfNull(new StringUtilD());
 		}
 
 	}
