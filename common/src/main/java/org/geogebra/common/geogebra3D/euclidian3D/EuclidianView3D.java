@@ -2427,13 +2427,13 @@ GRectangle selectionRectangle) {
 	public void updatePreviewable() {
 
 		if (getCursor3DType() != PREVIEW_POINT_NONE) {
-			getPreviewDrawable().updatePreview();
+			previewDrawable.updatePreview();
 		}
 	}
 
 	@Override
 	public void updatePreviewableForProcessMode() {
-		if (getPreviewDrawable() != null) {
+		if (previewDrawable != null) {
 			updatePreviewable();
 		}
 	}
