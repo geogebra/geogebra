@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,7 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public class AlgoSlopeField extends AlgoElement {
 
-	private FunctionalNVar func; // input
+	private Evaluate2Var func; // input
 	private GeoNumeric n, lengthRatio, minX, minY, maxX, maxY;
 	// private GeoList g; // output
 	private GeoLocus locus; // output
@@ -57,7 +58,7 @@ public class AlgoSlopeField extends AlgoElement {
 	 * @param maxY
 	 *            maxY
 	 */
-	public AlgoSlopeField(Construction cons, String label, FunctionalNVar func,
+	public AlgoSlopeField(Construction cons, String label, Evaluate2Var func,
 			GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX,
 			GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
 		super(cons);

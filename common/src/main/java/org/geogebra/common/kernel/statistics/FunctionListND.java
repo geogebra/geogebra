@@ -4,8 +4,9 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+//import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -76,14 +77,14 @@ public interface FunctionListND {
 
 	public class XYZ implements FunctionListND {
 
-		private FunctionalNVar[] array;
+		private Evaluate2Var[] array;
 
 
 		public boolean set(int i, GeoElement geo) {
-			if (!(geo instanceof FunctionalNVar)) {
+			if (!(geo instanceof Evaluate2Var)) {
 				return false;
 			}
-			array[i] = (FunctionalNVar) geo;
+			array[i] = (Evaluate2Var) geo;
 			return true;
 		}
 
@@ -98,7 +99,7 @@ public interface FunctionListND {
 		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
 				GeoList functionlist, RealMatrix P) {
 			double p;
-			FunctionalNVar gf = null;
+			Evaluate2Var gf = null;
 			GeoFunctionNVar product = new GeoFunctionNVar(
 					template.getConstruction());
 
@@ -137,10 +138,11 @@ public interface FunctionListND {
 
 		}
 
-		private void mult(GeoFunctionNVar res, double lt, FunctionalNVar rt,
+		private void mult(GeoFunctionNVar res, double lt, Evaluate2Var rt,
 				Operation op) {
 			Kernel kernel1 = res.getKernel();
-			FunctionNVar fRes = GeoFunction.applyNumberSymb(op, rt,
+			FunctionNVar fRes = GeoFunction
+					.applyNumberSymb(op, rt,
 					new MyDouble(kernel1, lt), false).deepCopy(kernel1);
 			fRes.setExpression(AlgoDependentFunction
 					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
@@ -153,7 +155,7 @@ public interface FunctionListND {
 		}
 
 		public void setSize(int size) {
-			array = new FunctionalNVar[size];
+			array = new Evaluate2Var[size];
 
 		}
 

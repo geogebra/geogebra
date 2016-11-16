@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1526,7 +1527,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return new Function(sum, var.next());
 	}
 
-	private static ExpressionNode toExpr(FunctionalNVar lt,
+	private static ExpressionNode toExpr(Evaluate2Var lt,
 			HashMap<String, FunctionVariable> varMap, Kernel kernel) {
 		if (lt instanceof GeoFunction)
 			return new ExpressionNode(kernel, lt,
@@ -1540,6 +1541,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 			return new ExpressionNode(kernel, lt,
 					Operation.FUNCTION_NVAR, varList);
+		}
+		if (lt instanceof GeoNumeric) {
+			return lt.wrap();
 		}
 		if (lt instanceof FunctionNVar) {
 			ExpressionNode ret = ((FunctionNVar) lt).getExpression();
@@ -1563,7 +1567,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return resulting function
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op,
-			FunctionalNVar fun1, ExpressionValue ev, boolean right) {
+			Evaluate2Var fun1, ExpressionValue ev, boolean right) {
 		ExpressionValue nv = ev;
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();

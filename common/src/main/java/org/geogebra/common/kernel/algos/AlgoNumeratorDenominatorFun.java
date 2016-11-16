@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -25,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Find Numerator
@@ -33,23 +35,23 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
  */
 public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
-	private FunctionalNVar f; // input
+	private Evaluate2Var f; // input
 	private GeoElement g; // output
 	private Commands type;
 
 	public AlgoNumeratorDenominatorFun(Construction cons, String label,
-			FunctionalNVar f, Commands type) {
+			Evaluate2Var f, Commands type) {
 		this(cons, f, type);
 		g.setLabel(label);
 	}
 
-	public AlgoNumeratorDenominatorFun(Construction cons, FunctionalNVar f,
+	public AlgoNumeratorDenominatorFun(Construction cons, Evaluate2Var f,
 			Commands type) {
 		super(cons);
 		this.f = f;
 		this.type = type;
 
-		if (f instanceof GeoFunction) {
+		if (f instanceof GeoFunction || f instanceof GeoNumeric) {
 			g = new GeoFunction(cons);
 		} else {
 			g = new GeoFunctionNVar(cons);
@@ -84,7 +86,8 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			return;
 		}
 		ExpressionValue[] numDen = new ExpressionValue[2];
-		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen, false);;
+		f.getFunctionExpression().deepCopy(kernel).wrap().getFraction(numDen,
+				false);
 		ExpressionValue ev;
 		if (type == Commands.Numerator) {
 			ev = numDen[0];
@@ -98,7 +101,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
 		if (ev.isExpressionNode()) {
 
-			if (f instanceof GeoFunction) {
+			if (g instanceof GeoFunction) {
 
 				Function fun = new Function((ExpressionNode) ev, f
 						.getFunction().getFunctionVariables()[0]);
