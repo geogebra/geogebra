@@ -62,7 +62,7 @@ public class DrawLabel3D {
 	private boolean waitForReset;
 
 	/** temp graphics used for calculate bounds */
-	protected GGraphics2D tempGraphics = AwtFactory.prototype
+	protected GGraphics2D tempGraphics = AwtFactory.getPrototype()
 			.newBufferedImage(1, 1, 1)
 			.createGraphics();
 
@@ -195,7 +195,7 @@ public class DrawLabel3D {
 	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
 		GGraphics2D g2d = bimg.createGraphics();
 
-		GAffineTransform gt = AwtFactory.prototype
+		GAffineTransform gt = AwtFactory.getPrototype()
 				.newAffineTransform();
 		gt.scale(1, -1d);
 		gt.translate(-xOffset2, yOffset2);// put the baseline on the label anchor

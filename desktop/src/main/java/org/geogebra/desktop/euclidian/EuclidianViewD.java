@@ -537,7 +537,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 		GGraphics2DD.setAntialiasing(g2d);
 
-		g2d.setStroke(((AwtFactoryD) AwtFactory.prototype)
+		g2d.setStroke(((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
 				(penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
 						: penLineStyle)));

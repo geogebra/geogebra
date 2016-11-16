@@ -32,10 +32,10 @@ public class EuclidianStatic {
 	public static final int CLIP_DISTANCE = 5;
 
 	/** standardstroke */
-	protected static final GBasicStroke standardStroke = AwtFactory.prototype
+	protected static final GBasicStroke standardStroke = AwtFactory.getPrototype()
 			.newMyBasicStroke(1.0f);
 	/** stroke for selected geos */
-	protected static final GBasicStroke selStroke = AwtFactory.prototype
+	protected static final GBasicStroke selStroke = AwtFactory.getPrototype()
 			.newMyBasicStroke(1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	/**
@@ -66,7 +66,7 @@ public class EuclidianStatic {
 			GFontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		GTextLayout layout = AwtFactory.prototype
+		GTextLayout layout = AwtFactory.getPrototype()
 				.newTextLayout(str, font, frc);
 		return layout.getAdvance();
 
@@ -120,7 +120,7 @@ public class EuclidianStatic {
 		int endCap = dash != null ? GBasicStroke.CAP_BUTT : standardStroke
 				.getEndCap();
 
-		return AwtFactory.prototype.newBasicStroke(
+		return AwtFactory.getPrototype().newBasicStroke(
 				width, endCap, standardStroke.getLineJoin(),
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
@@ -190,7 +190,7 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				GDimension dim = AwtFactory.prototype.newDimension(0,0);
+				GDimension dim = AwtFactory.getPrototype().newDimension(0,0);
 				dim = app.getDrawEquation().drawEquation(app, geo,
 						tempGraphics, 0, 0, elements[i], font,
 						((GeoText) geo).isSerifFont(), fgColor, bgColor, false,
@@ -297,7 +297,7 @@ public class EuclidianStatic {
 			isLaTeX = !isLaTeX;
 		}
 
-		return AwtFactory.prototype.newRectangle(xLabel - 3,
+		return AwtFactory.getPrototype().newRectangle(xLabel - 3,
 				yLabel - 3 + depth, width + 6, height + 6);
 
 	}
@@ -509,7 +509,7 @@ public class EuclidianStatic {
 	private static double measureString(String tempStr, GFont font,
 			GFontRenderContext frc) {
 		if (frc != null)
-			return AwtFactory.prototype.newTextLayout(tempStr, font, frc)
+			return AwtFactory.getPrototype().newTextLayout(tempStr, font, frc)
 					.getAdvance();
 		return StringUtil.getPrototype().estimateLength(tempStr, font);
 	}
@@ -584,7 +584,7 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return AwtFactory.prototype.newRectangle(xLabel - 3, yLabel - fontSize
+		return AwtFactory.getPrototype().newRectangle(xLabel - 3, yLabel - fontSize
 				- 3, xoffset + 6, height + 6);
 	}
 

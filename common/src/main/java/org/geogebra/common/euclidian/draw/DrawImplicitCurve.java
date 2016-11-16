@@ -46,7 +46,7 @@ public class DrawImplicitCurve extends DrawLocus {
 
 	@Override
 	public GArea getShape() {
-		return AwtFactory.prototype.newArea();
+		return AwtFactory.getPrototype().newArea();
 	}
 
 	/**

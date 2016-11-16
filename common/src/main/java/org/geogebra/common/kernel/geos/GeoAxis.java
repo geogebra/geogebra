@@ -46,14 +46,14 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			setObjColor(AwtFactory.prototype.newColor(255, 0, 0));// will be
+			setObjColor(AwtFactory.getPrototype().newColor(255, 0, 0));// will be
 																	// Color.RED
 			break;
 
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
-			setObjColor(AwtFactory.prototype.newColor(0, 0.5f, 0));
+			setObjColor(AwtFactory.getPrototype().newColor(0, 0.5f, 0));
 			break;
 		}
 		

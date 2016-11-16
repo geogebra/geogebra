@@ -14,22 +14,22 @@ public class GeoGebraColorConstants {
 
 	// table colors
 	/** background of selected cell */
-	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR = AwtFactory.prototype
+	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR = AwtFactory.getPrototype()
 			.newColor(214, 224, 245);
 	/** background of selected row / column header */
 	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR_HEADER = GColor.LIGHT_GRAY;
 	/** background of row / column header */
-	public static final GColor TABLE_BACKGROUND_COLOR_HEADER = AwtFactory.prototype
+	public static final GColor TABLE_BACKGROUND_COLOR_HEADER = AwtFactory.getPrototype()
 			.newColor(232, 238, 247);
 	/** grid color for spreadsheet */
 	public static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 
 	private static GColor rgb(int r, int g, int b) {
-		return AwtFactory.prototype.newColor(r, g, b);
+		return AwtFactory.getPrototype().newColor(r, g, b);
 	};
 
 	private static GColor rgb(int rgb) {
-		return AwtFactory.prototype.newColor(rgb);
+		return AwtFactory.getPrototype().newColor(rgb);
 	};
 	// ggb color constants
 
@@ -37,7 +37,7 @@ public class GeoGebraColorConstants {
 	public static final GColor VIOLET = rgb(127, 0, 255);
 
 	/** lime */
-	public static final GColor LIME = AwtFactory.prototype
+	public static final GColor LIME = AwtFactory.getPrototype()
 			.newColor(191, 255, 0);
 	/** pink */
 	public static final GColor PINK = rgb(255, 192, 203);
@@ -75,7 +75,7 @@ public class GeoGebraColorConstants {
 	 */
 	public static final GColor LIGHTBLUE = rgb(125, 125, 255);
 	/** gold */
-	public static final GColor GOLD = AwtFactory.prototype
+	public static final GColor GOLD = AwtFactory.getPrototype()
 			.newColor(255, 215, 0);
 	/** dark blue (wikipedia persian blue) */
 	public static final GColor DARKBLUE = rgb(28, 57, 187);
@@ -109,17 +109,17 @@ public class GeoGebraColorConstants {
 
 	// input coloring
 	/** defined objects (violet) */
-	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype
+	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.getPrototype()
 			.newColor(102, 102, 255);
 	/** undefined objects */
 	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
 	/** local objects (local variables, blue) */
-	public static final GColor LOCAL_OBJECT_COLOR = AwtFactory.prototype
+	public static final GColor LOCAL_OBJECT_COLOR = AwtFactory.getPrototype()
 			.newColor(0, 102, 255);
 	/** unbalanced brackets */
 	public static final GColor UNBALANCED_BRACKET_COLOR = GColor.RED;
 	/** balanced bracket (green) */
-	public static final GColor BALANCED_BRACKET_COLOR = AwtFactory.prototype
+	public static final GColor BALANCED_BRACKET_COLOR = AwtFactory.getPrototype()
 			.newColor(0, 127, 0);
 	/** text mode */
 	public static final GColor INPUT_TEXT_COLOR = GRAY4;

@@ -78,12 +78,12 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public SpreadsheetSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
-		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 	public SpreadsheetSettings() {
 		super();
-		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 	public HashMap<Integer, Integer> getWidthMap() {

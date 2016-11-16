@@ -31,8 +31,8 @@ public class HatchingHandler {
 	 * 
 	 */
 	public HatchingHandler() {
-		path = AwtFactory.prototype.newGeneralPath();
-		rect = AwtFactory.prototype.newRectangle(0, 0, 1, 1);
+		path = AwtFactory.getPrototype().newGeneralPath();
+		rect = AwtFactory.getPrototype().newRectangle(0, 0, 1, 1);
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class HatchingHandler {
 			xInt *= exportScale;
 			yInt *= exportScale;
 
-			objStroke = AwtFactory.prototype
+			objStroke = AwtFactory.getPrototype()
 					.newBasicStroke(objStroke.getLineWidth() * exportScale);
 
 		}
@@ -164,7 +164,7 @@ public class HatchingHandler {
 		case SYMBOLS:
 			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
 					(int) (dist * 2.5)));
-			GTextLayout t = AwtFactory.prototype.newTextLayout(symbol,
+			GTextLayout t = AwtFactory.getPrototype().newTextLayout(symbol,
 					g2d.getFont(),
 							g2d.getFontRenderContext());
 			g2d = createImage(objStroke, color, bgColor,
@@ -186,10 +186,10 @@ public class HatchingHandler {
 		}
 
 		// use the middle square of our 3 x 3 grid to fill with
-		GPaint ret = AwtFactory.prototype.newTexturePaint(
+		GPaint ret = AwtFactory.getPrototype().newTexturePaint(
 				subImage = bufferedImage.getSubimage(startX, startY, width,
 						height),
-				AwtFactory.prototype.newRectangle(0, 0, width / exportScale,
+				AwtFactory.getPrototype().newRectangle(0, 0, width / exportScale,
 						height / exportScale));
 		g3.setPaint(ret);
 		return ret;
@@ -197,7 +197,7 @@ public class HatchingHandler {
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
 			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
-		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3,
+		bufferedImage = AwtFactory.getPrototype().newBufferedImage(xInt * 3,
 				yInt * 3, 1);
 
 		GGraphics2D g2d = bufferedImage.createGraphics();
@@ -210,10 +210,10 @@ public class HatchingHandler {
 
 		// paint background transparent
 		if (bgColor == null) {
-			g2d.setColor(AwtFactory.prototype.newColor(255, 255, 255,
+			g2d.setColor(AwtFactory.getPrototype().newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
-			g2d.setColor(AwtFactory.prototype.newColor(bgColor.getRed(),
+			g2d.setColor(AwtFactory.getPrototype().newColor(bgColor.getRed(),
 					bgColor.getGreen(), bgColor.getBlue(),
 					(int) (backgroundTransparency * 255f)));
 
@@ -243,13 +243,13 @@ public class HatchingHandler {
 		}
 
 		MyImage image = geo.getFillImage();
-		GRectangle tr = AwtFactory.prototype.newRectangle(0, 0,
+		GRectangle tr = AwtFactory.getPrototype().newRectangle(0, 0,
 				image.getWidth(), image.getHeight());
 
 		GPaint tp;
 
 		if (alpha < 1.0f) {
-			GBufferedImage copy = AwtFactory.prototype
+			GBufferedImage copy = AwtFactory.getPrototype()
 					.newBufferedImage(image.getWidth(), image.getHeight(), 1);
 
 			GGraphics2D g2d = copy.createGraphics();
@@ -264,7 +264,7 @@ public class HatchingHandler {
 
 			// paint background transparent
 			if (bgColor == null) {
-				g2d.setColor(AwtFactory.prototype.newColor(0, 0, 0, 0));
+				g2d.setColor(AwtFactory.getPrototype().newColor(0, 0, 0, 0));
 			} else {
 				g2d.setColor(bgColor);
 			}
@@ -274,7 +274,7 @@ public class HatchingHandler {
 				// set partial transparency
 				// AlphaComposite alphaComp = AlphaComposite.getInstance(
 				// AlphaComposite.SRC_OVER, alpha);
-				GAlphaComposite ac = AwtFactory.prototype.newAlphaComposite(
+				GAlphaComposite ac = AwtFactory.getPrototype().newAlphaComposite(
 						GAlphaComposite.SRC_OVER, alpha);
 				g2d.setComposite(ac);
 
@@ -282,9 +282,9 @@ public class HatchingHandler {
 				g2d.drawImage(image, 0, 0);
 			}
 
-			tp = AwtFactory.prototype.newTexturePaint(copy, tr);
+			tp = AwtFactory.getPrototype().newTexturePaint(copy, tr);
 		} else {
-			tp = AwtFactory.prototype.newTexturePaint(image, tr);
+			tp = AwtFactory.getPrototype().newTexturePaint(image, tr);
 		}
 
 		// tr = new Rectangle2D.Double(0, 0, 200, 200);
@@ -369,13 +369,13 @@ public class HatchingHandler {
 	private static void drawDotted(double dist, GGraphics2D g2d) {
 		int distInt = (int) dist;
 		int size = 2;
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, distInt, size,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, distInt, size,
 				size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt, distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt, distInt,
 				size, size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, 2 * distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, 2 * distInt,
 				size, size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt,
 				2 * distInt, size, size));
 	}
 

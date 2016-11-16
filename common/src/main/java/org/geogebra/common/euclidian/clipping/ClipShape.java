@@ -76,7 +76,7 @@ public class ClipShape {
 		 *            winding rule
 		 */
 		public ClippedPath(int windingRule) {
-			g = AwtFactory.prototype.newGeneralPath(windingRule);
+			g = AwtFactory.getPrototype().newGeneralPath(windingRule);
 		}
 
 		/**
@@ -361,7 +361,7 @@ public class ClipShape {
 			eqn[3] = a;
 			if (offset == 0) {
 				// int k = CubicCurve2D.solveCubic(eqn,dest);
-				int k = AwtFactory.prototype.newCubicCurve2D().solveCubic(eqn,
+				int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn,
 						dest);
 				if (k < 0)
 					return 0;
@@ -370,7 +370,7 @@ public class ClipShape {
 			if (t2 == null)
 				t2 = new double[3];
 			// int k = CubicCurve2D.solveCubic(eqn,t2);
-			int k = AwtFactory.prototype.newCubicCurve2D().solveCubic(eqn, t2);
+			int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn, t2);
 			if (k < 0)
 				return 0;
 			for (int i = 0; i < k; i++) {

@@ -59,7 +59,7 @@ public class DrawAxis {
 		boolean filled = (view.axesLineType & EuclidianStyleConstants.AXES_FILL_ARROWS) != 0;
 
 		if (filled && view.gp == null) {
-			view.gp = AwtFactory.prototype.newGeneralPath();
+			view.gp = AwtFactory.getPrototype().newGeneralPath();
 		}
 
 		boolean drawRightArrow = ((view.axesLineType & EuclidianStyleConstants.AXES_RIGHT_ARROW) != 0)
@@ -173,7 +173,7 @@ public class DrawAxis {
 			if (view.axesLabels[0] != null) {
 				GFont font = view.getFontLine()
 						.deriveFont(view.axesLabelsStyle[0]);
-				GTextLayout layout = AwtFactory.prototype.newTextLayout(
+				GTextLayout layout = AwtFactory.getPrototype().newTextLayout(
 						view.axesLabels[0], font, frc);
 				if (!view.axesLabels[0].contains("_")) {
 					layout.draw(g2,
@@ -285,7 +285,7 @@ public class DrawAxis {
 			if (view.axesLabels[1] != null) {
 				GFont font = view.getFontLine()
 						.deriveFont(view.axesLabelsStyle[1]);
-				GTextLayout layout = AwtFactory.prototype.newTextLayout(
+				GTextLayout layout = AwtFactory.getPrototype().newTextLayout(
 						view.axesLabels[1],
 						font,
 						frc);
@@ -407,7 +407,7 @@ public class DrawAxis {
 							sb.append(view.axesUnitLabels[1]);
 						}
 
-						GTextLayout layout = AwtFactory.prototype
+						GTextLayout layout = AwtFactory.getPrototype()
 								.newTextLayout(sb.toString(),
 										view.getFontAxes(),
 										g2.getFontRenderContext());
@@ -562,7 +562,7 @@ public class DrawAxis {
 							sb.append(view.axesUnitLabels[1]);
 						}
 
-						GTextLayout layout = AwtFactory.prototype.newTextLayout(
+						GTextLayout layout = AwtFactory.getPrototype().newTextLayout(
 								sb.toString(), view.getFontAxes(),
 								g2.getFontRenderContext());
 

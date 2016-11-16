@@ -196,7 +196,7 @@ public class ConstructionDefaults {
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;
 	/** preview fill color */
-	public static final GColor colPreviewFill = AwtFactory.prototype
+	public static final GColor colPreviewFill = AwtFactory.getPrototype()
 			.newColor(colPolygon.getRed(), colPolygon.getGreen(),
 					colPolygon.getBlue(), (int) (DEFAULT_POLYGON_ALPHA * 255));
 

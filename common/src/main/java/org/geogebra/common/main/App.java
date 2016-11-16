@@ -1965,7 +1965,7 @@ public abstract class App implements UpdateSelection {
 	 * @return font with given parameters
 	 */
 	public GFont getFontCommon(boolean serif, int style, int size) {
-		return AwtFactory.prototype.newFont(serif ? "Serif" : "SansSerif",
+		return AwtFactory.getPrototype().newFont(serif ? "Serif" : "SansSerif",
 				style, size);
 	}
 

@@ -517,7 +517,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
-		geo.setObjColor(AwtFactory.prototype.newColor(red, green, blue));
+		geo.setObjColor(AwtFactory.getPrototype().newColor(red, green, blue));
 		geo.updateRepaint();
 	}
 
@@ -1311,7 +1311,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	final public void setPenColor(int red, int green, int blue) {
 		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenColor(AwtFactory.prototype.newColor(red, green, blue));
+				.setPenColor(AwtFactory.getPrototype().newColor(red, green, blue));
 	}
 
 	final public void setPenSize(int size) {

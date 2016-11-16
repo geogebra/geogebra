@@ -74,9 +74,9 @@ public final class DrawPoint extends Drawable {
 	private int diameter, hightlightDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
-	private GEllipse2DDouble circle = AwtFactory.prototype
+	private GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
-	private GEllipse2DDouble circleHighlight = AwtFactory.prototype
+	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 	private GLine2D line1, line2, line3, line4;// for cross
 	private GGeneralPath gp = null;
@@ -205,7 +205,7 @@ public final class DrawPoint extends Drawable {
 			double yB = coords[1] + pointSize;
 
 			if (gp == null) {
-				gp = AwtFactory.prototype.newGeneralPath();
+				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
 			gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
@@ -222,7 +222,7 @@ public final class DrawPoint extends Drawable {
 				direction = -1.0;
 
 			if (gp == null) {
-				gp = AwtFactory.prototype.newGeneralPath();
+				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
 			gp.moveTo((float) coords[0], (float) (coords[1] + direction
@@ -244,7 +244,7 @@ public final class DrawPoint extends Drawable {
 				direction = -1.0;
 
 			if (gp == null) {
-				gp = AwtFactory.prototype.newGeneralPath();
+				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
 			gp.moveTo((float) (coords[0] + direction * pointSize),
@@ -263,15 +263,15 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.prototype
+				line1 = AwtFactory.getPrototype()
 						.newLine2D();
-				line2 = AwtFactory.prototype
+				line2 = AwtFactory.getPrototype()
 						.newLine2D();
 			}
 			if (line3 == null) {
-				line3 = AwtFactory.prototype
+				line3 = AwtFactory.getPrototype()
 						.newLine2D();
-				line4 = AwtFactory.prototype
+				line4 = AwtFactory.getPrototype()
 						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
@@ -285,9 +285,9 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.prototype
+				line1 = AwtFactory.getPrototype()
 						.newLine2D();
-				line2 = AwtFactory.prototype
+				line2 = AwtFactory.getPrototype()
 						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
@@ -299,9 +299,9 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.prototype
+				line1 = AwtFactory.getPrototype()
 						.newLine2D();
-				line2 = AwtFactory.prototype
+				line2 = AwtFactory.getPrototype()
 						.newLine2D();
 			}
 			line1.setLine(xUL, yUL, xR, yB);
@@ -390,7 +390,7 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords1);
 
-			GEllipse2DFloat circleClip = AwtFactory.prototype
+			GEllipse2DFloat circleClip = AwtFactory.getPrototype()
 					.newEllipse2DFloat((int) coords1[0] - 30,
 							(int) coords1[1] - 30, 60, 60);
 			g2.setClip(circleClip);
@@ -547,7 +547,7 @@ public final class DrawPoint extends Drawable {
 			selRadius = minRadius;
 		}
 
-		return AwtFactory.prototype.newRectangle((int) coords[0] - selRadius,
+		return AwtFactory.getPrototype().newRectangle((int) coords[0] - selRadius,
 				(int) coords[1] - selRadius, 2 * selRadius, 2 * selRadius);
 	}
 
@@ -567,10 +567,10 @@ public final class DrawPoint extends Drawable {
 	 */
 	final private static GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
-			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+			return AwtFactory.getPrototype().newBasicStrokeJoinMitre(pointSize / 2f);
 
 		if (emptyStrokes[pointSize] == null)
-			emptyStrokes[pointSize] = AwtFactory.prototype
+			emptyStrokes[pointSize] = AwtFactory.getPrototype()
 					.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		return emptyStrokes[pointSize];
@@ -583,10 +583,10 @@ public final class DrawPoint extends Drawable {
 	final private static GBasicStroke getFillStroke(int pointSize) {
 
 		if (pointSize > 9)
-			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
+			return AwtFactory.getPrototype().newBasicStroke(pointSize / 2f);
 
 		if (fillStrokes[pointSize] == null)
-			fillStrokes[pointSize] = AwtFactory.prototype
+			fillStrokes[pointSize] = AwtFactory.getPrototype()
 					.newBasicStroke(pointSize / 2f);
 
 		return fillStrokes[pointSize];
@@ -608,7 +608,7 @@ public final class DrawPoint extends Drawable {
 	 * @return the circle as area
 	 */
 	public GArea getDot() {
-		return AwtFactory.prototype.newArea(this.circle);
+		return AwtFactory.getPrototype().newArea(this.circle);
 	}
 
 }

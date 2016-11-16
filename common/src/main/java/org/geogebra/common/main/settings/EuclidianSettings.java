@@ -72,7 +72,7 @@ public class EuclidianSettings extends AbstractSettings {
 		//this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
-		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 		this.app = app;
 		resetNoFire();
 	}
@@ -88,7 +88,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	protected void resetNoFire() {
-		sizeFromFile = AwtFactory.prototype.newDimension(0, 0);
+		sizeFromFile = AwtFactory.getPrototype().newDimension(0, 0);
 		size = null;
 
 		gridDistances = null;
@@ -1036,7 +1036,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 
 	public void setSize(int w, int h) {
-		size = AwtFactory.prototype.newDimension(w, h);
+		size = AwtFactory.getPrototype().newDimension(w, h);
 	}
 
 	public void setOriginNoUpdate(double xZero, double yZero){

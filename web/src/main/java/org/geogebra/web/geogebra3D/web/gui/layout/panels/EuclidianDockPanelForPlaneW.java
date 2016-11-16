@@ -159,7 +159,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 						((GeoElement) view.getCompanion().getPlane())
 								.getLabelSimple());
 		settings.setPreferredSize(
-				AwtFactory.prototype
+				AwtFactory.getPrototype()
 				.newDimension(width, height));
 
 		view.synCanvasSize();

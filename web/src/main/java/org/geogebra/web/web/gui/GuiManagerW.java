@@ -679,7 +679,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// update view sizes
 		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
-		app.setPreferredSize(AwtFactory.prototype.newDimension(width, height));
+		app.setPreferredSize(AwtFactory.getPrototype().newDimension(width, height));
 	}
 
 	public ToolBarW getGeneralToolbar() {

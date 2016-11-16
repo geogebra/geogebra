@@ -84,7 +84,7 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected GRectangle labelRectangle = AwtFactory.prototype.newRectangle(0,
+	protected GRectangle labelRectangle = AwtFactory.getPrototype().newRectangle(0,
 			0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
@@ -575,15 +575,15 @@ public abstract class Drawable extends DrawableND {
 			lineThickness = fromGeo.getLineThickness();
 
 			float width = lineThickness / 2.0f;
-			objStroke = AwtFactory.prototype.newBasicStroke(width,
+			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							objStroke.getDashArray(), 0.0f);
-			decoStroke = AwtFactory.prototype.newBasicStroke(width,
+			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							decoStroke.getDashArray(), 0.0f);
-			selStroke = AwtFactory.prototype.newBasicStroke(
+			selStroke = AwtFactory.getPrototype().newBasicStroke(
 					width + EuclidianStyleConstants.SELECTION_ADD,
 							objStroke.getEndCap(), objStroke.getLineJoin(),
 							objStroke.getMiterLimit(),
@@ -643,7 +643,7 @@ public abstract class Drawable extends DrawableND {
 				}
 
 				// take care of filling after the image is loaded
-				AwtFactory.prototype.fillAfterImageLoaded(fillShape, g2,
+				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
 						subImage2,
 						geo.getKernel().getApplication());
 			}
@@ -736,7 +736,7 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			color = AwtFactory.prototype.newColor(color.getRed(),
+			color = AwtFactory.getPrototype().newColor(color.getRed(),
 					color.getGreen(), color.getBlue(), geo.getLineOpacity());
 		}
 		return color;

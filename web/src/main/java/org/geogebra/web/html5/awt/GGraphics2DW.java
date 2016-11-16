@@ -586,7 +586,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		float[] dash_array_save = dash_array;
 		dash_array = null;
-		GShape sh = AwtFactory.prototype.newRectangle(x, y,
+		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
 		setClip(sh);
 		dash_array = dash_array_save;

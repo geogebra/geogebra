@@ -455,10 +455,10 @@ public class EuclidianPen {
 
 	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
 										   GPoint point2) {
-		GLine2D line = AwtFactory.prototype.newLine2D();
+		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
 		// use for line the thickness from properties
-		// g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
+		// g2D.setStroke(AwtFactory.getPrototype().newBasicStroke(getLineThickness(),
 		// GBasicStroke.CAP_ROUND,
 		// GBasicStroke.JOIN_ROUND));
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),

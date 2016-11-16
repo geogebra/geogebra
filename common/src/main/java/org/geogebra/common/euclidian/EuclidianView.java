@@ -137,15 +137,15 @@ public abstract class EuclidianView
 	 */
 	protected GGraphics2D bgGraphics;
 	// zoom rectangle colors
-	private static final GColor colZoomRectangle = AwtFactory.prototype
+	private static final GColor colZoomRectangle = AwtFactory.getPrototype()
 			.newColor(200, 200, 230);
-	private static final GColor colZoomRectangleFill = AwtFactory.prototype
+	private static final GColor colZoomRectangleFill = AwtFactory.getPrototype()
 			.newColor(200, 200, 230, 50);
 
 	// deletion square design
-	protected static final GColor colDeletionSquare = AwtFactory.prototype
+	protected static final GColor colDeletionSquare = AwtFactory.getPrototype()
 			.newColor(128, 0, 0);
-	protected static final GBasicStroke strokeDeletionSquare = AwtFactory.prototype
+	protected static final GBasicStroke strokeDeletionSquare = AwtFactory.getPrototype()
 			.newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
@@ -156,11 +156,11 @@ public abstract class EuclidianView
 	/**
 	 * default axes stroke
 	 */
-	static GBasicStroke defAxesStroke = AwtFactory.prototype.newBasicStroke(
+	static GBasicStroke defAxesStroke = AwtFactory.getPrototype().newBasicStroke(
 			1.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
 
 	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
-	static GBasicStroke boldAxesStroke = AwtFactory.prototype.newBasicStroke(
+	static GBasicStroke boldAxesStroke = AwtFactory.getPrototype().newBasicStroke(
 			2.0f,
 
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
@@ -202,7 +202,7 @@ public abstract class EuclidianView
 
 	// end
 	private int fontSize;
-	private GAffineTransform coordTransform = AwtFactory.prototype
+	private GAffineTransform coordTransform = AwtFactory.getPrototype()
 			.newAffineTransform();
 	protected double[] AxesTickInterval; // for axes =
 	/** number formats for axes */
@@ -2354,7 +2354,7 @@ public abstract class EuclidianView
 	 */
 	public GAffineTransform getCoordTransform() {
 		if (coordTransform == null)
-			coordTransform = AwtFactory.prototype.newAffineTransform();
+			coordTransform = AwtFactory.getPrototype().newAffineTransform();
 		return coordTransform;
 	}
 
@@ -3355,7 +3355,7 @@ public abstract class EuclidianView
 						StringTemplate.defaultTemplate));
 				sb.append(')');
 
-				GTextLayout layout = AwtFactory.prototype.newTextLayout(
+				GTextLayout layout = AwtFactory.getPrototype().newTextLayout(
 						sb.toString(), getFontAxes(),
 						g2.getFontRenderContext());
 				layout.draw(g2, (int) (getWidth() - 5 - EuclidianView
@@ -3376,10 +3376,10 @@ public abstract class EuclidianView
 		return isPrimaryEV();
 	}
 
-	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble(); // polar
+	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble(); // polar
 																					// grid
 																					// circles
-	private GLine2D tempLine = AwtFactory.prototype.newLine2D();
+	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	GGeneralPath gp;
 	/**
 	 * Get styleBar
@@ -3797,7 +3797,7 @@ public abstract class EuclidianView
 	 * @return path along border of this view
 	 */
 	public GeneralPathClipped getBoundingPath() {
-		GeneralPathClipped gs = new GeneralPathClipped(this);// AwtFactory.prototype.newGeneralPath();
+		GeneralPathClipped gs = new GeneralPathClipped(this);// AwtFactory.getPrototype().newGeneralPath();
 		gs.moveTo(0, 0);
 		gs.lineTo(getWidth(), 0);
 		gs.lineTo(getWidth(), getHeight());
@@ -3867,7 +3867,7 @@ public abstract class EuclidianView
 				if (result == null) {
 					// changed () to (bb) bugfix, otherwise top-left of screen
 					// is always included
-					result = AwtFactory.prototype.newRectangle(bb);
+					result = AwtFactory.getPrototype().newRectangle(bb);
 				}
 				// add bounding box of list element
 				result.add(bb);
@@ -3876,7 +3876,7 @@ public abstract class EuclidianView
 
 		// Cong Liu
 		if (result == null) {
-			result = AwtFactory.prototype.newRectangle(0, 0, 0, 0);
+			result = AwtFactory.getPrototype().newRectangle(0, 0, 0, 0);
 		}
 		return result;
 	}
@@ -5439,7 +5439,7 @@ public abstract class EuclidianView
 	public GBufferedImage getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
-		GBufferedImage img = AwtFactory.prototype.createBufferedImage(width,
+		GBufferedImage img = AwtFactory.getPrototype().createBufferedImage(width,
 				height, transparency);
 		exportPaint(img.createGraphics(), scale, transparency, ExportType.PNG);
 		img.flush();

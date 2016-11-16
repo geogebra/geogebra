@@ -116,7 +116,7 @@ public class DockPanelData implements Cloneable {
 			int windowWidth, int windowHeight, String embeddedDef,
 			int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame,
-				showStyleBar, AwtFactory.prototype.newRectangle(windowX,
+				showStyleBar, AwtFactory.getPrototype().newRectangle(windowX,
 						windowY, windowWidth, windowHeight),
 				embeddedDef, embeddedSize, null);
 	}
@@ -146,7 +146,7 @@ public class DockPanelData implements Cloneable {
 			boolean inFrame, boolean showStyleBar, GPoint windowLoc,
 			GDimension windowSize, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar,
-				AwtFactory.prototype.newRectangle(
+				AwtFactory.getPrototype().newRectangle(
 						windowLoc.getX(), windowLoc.getY(),
 						windowSize.getWidth(), windowSize.getHeight()),
 				embeddedDef, embeddedSize, null);

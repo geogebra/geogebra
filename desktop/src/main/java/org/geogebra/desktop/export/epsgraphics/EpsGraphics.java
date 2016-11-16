@@ -112,14 +112,14 @@ abstract public class EpsGraphics implements GGraphics2D {
 		this.colorMode = colorMode;
 		_backgroundColor = bgColor == null ? GColor.WHITE : bgColor;
 		_clip = null;
-		_transform = AwtFactory.prototype.newAffineTransform();
-		_clipTransform = AwtFactory.prototype.newAffineTransform();
+		_transform = AwtFactory.getPrototype().newAffineTransform();
+		_clipTransform = AwtFactory.getPrototype().newAffineTransform();
 		_accurateTextMode = true;
 		setColor(GColor.BLACK);
 		setPaint(GColor.BLACK);
 		// setComposite(AlphaComposite.getInstance(AlphaComposite.CLEAR));
 		// setFont(GFont.decode(null));
-		setStroke(AwtFactory.prototype.newBasicStroke(1));
+		setStroke(AwtFactory.getPrototype().newBasicStroke(1));
 
 	}
 
@@ -194,7 +194,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Returns the point after it has been transformed by the transformation.
 	 */
 	protected GPoint2D transform(double x, double y) {
-		GPoint2D result = AwtFactory.prototype.newPoint2D(x, y);
+		GPoint2D result = AwtFactory.getPrototype().newPoint2D(x, y);
 		result = _transform.transform(result, result);
 		result.setLocation(result.getX(), -result.getY());
 		return result;
@@ -352,7 +352,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	@Override
 	public void drawImage(GBufferedImage img, int x,
 			int y) {
-		GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
+		GAffineTransform transform = AwtFactory.getPrototype().newAffineTransform();
 		transform.setTransform(1f, 0f, 0f, 1f, x, y);
 		// drawImage(op.filter(img, null), transform, null);
 		drawImage(img, transform);
@@ -594,9 +594,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	public void setTransform(GAffineTransform Tx) {
 		if (Tx == null) {
-			_transform = AwtFactory.prototype.newAffineTransform();
+			_transform = AwtFactory.getPrototype().newAffineTransform();
 		} else {
-			_transform = AwtFactory.prototype.newAffineTransform();
+			_transform = AwtFactory.getPrototype().newAffineTransform();
 			_transform.setTransform(Tx);
 		}
 		// Need to update the stroke and font so they know the scale changed
@@ -608,7 +608,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Gets the AffineTransform used by this EpsGraphics2D.
 	 */
 	public GAffineTransform getTransform() {
-		GAffineTransform ret = AwtFactory.prototype.newAffineTransform();
+		GAffineTransform ret = AwtFactory.getPrototype().newAffineTransform();
 		ret.setTransform(_transform);
 		return ret;
 	}
@@ -841,7 +841,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	// @Override
 	// public void clipRect(int x, int y, int width, int height) {
-	// clip(AwtFactory.prototype.newRectangle(x, y, width, height));
+	// clip(AwtFactory.getPrototype().newRectangle(x, y, width, height));
 	// }
 
 	/**
@@ -850,7 +850,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void setClip(int x, int y, int width, int height) {
-		setClip(AwtFactory.prototype.newRectangle(x, y, width, height));
+		setClip(AwtFactory.getPrototype().newRectangle(x, y, width, height));
 	}
 
 	/**
@@ -886,7 +886,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 			draw(clip, "clip", false);
 			_clip = clip;
 			// _clipTransform = (GAffineTransform) _transform.clone();
-			_clipTransform = AwtFactory.prototype.newAffineTransform();
+			_clipTransform = AwtFactory.getPrototype().newAffineTransform();
 			_clipTransform.setTransform(_transform);
 		} else {
 			if (_document.isClipSet()) {
@@ -912,7 +912,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		GLine2D line = AwtFactory.prototype.newLine2D();
+		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(x1, y1, x2, y2);
 		draw(line);
 	}
@@ -922,7 +922,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
-		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
 		draw(shape, "fill", false);
 	}
 
@@ -931,7 +931,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
 		draw(shape);
 	}
 
@@ -943,7 +943,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void clearRect(int x, int y, int width, int height) {
 		GColor originalColor = getColor();
 		setColor(getBackground());
-		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
 		draw(shape, "fill", false);
 		setColor(originalColor);
 	}
@@ -959,7 +959,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 		drawLine(x + radius, y, x + width - radius, y);
 
-		GQuadCurve2D arc = AwtFactory.prototype.newQuadCurve2D();
+		GQuadCurve2D arc = AwtFactory.getPrototype().newQuadCurve2D();
 		arc.setCurve(x + width - radius, y, x + width, y, x + width,
 				y + radius);
 		draw(arc);
@@ -994,11 +994,11 @@ abstract public class EpsGraphics implements GGraphics2D {
 		appendStroke();
 		append("newpath");
 		
-		GLine2D line = AwtFactory.prototype.newLine2D();
+		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(x + radius, y, x + width - radius, y);
 		draw(line, null, true);
 
-		GQuadCurve2D arc = AwtFactory.prototype.newQuadCurve2D();
+		GQuadCurve2D arc = AwtFactory.getPrototype().newQuadCurve2D();
 		arc.setCurve(x + width - radius, y, x + width, y, x + width,
 				y + radius);
 		draw(arc, null, true);
@@ -1237,7 +1237,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	private GShape _clip;
 
-	protected GAffineTransform _transform = AwtFactory.prototype
+	protected GAffineTransform _transform = AwtFactory.getPrototype()
 			.newAffineTransform();
 
 	private boolean _accurateTextMode;
@@ -1281,7 +1281,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	}
 
-	private GLine2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {

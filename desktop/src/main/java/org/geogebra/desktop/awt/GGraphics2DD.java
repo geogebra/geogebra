@@ -182,7 +182,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(((AwtFactoryD) AwtFactory.prototype).getAwtStroke(s));
+		impl.setStroke(((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
 
 	}
 
@@ -343,7 +343,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	private GLine2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {

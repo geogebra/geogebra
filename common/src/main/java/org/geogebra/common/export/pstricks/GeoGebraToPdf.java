@@ -1067,7 +1067,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			GFont font = AwtFactory.prototype.newFont(
+			GFont font = AwtFactory.getPrototype().newFont(
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
@@ -3009,7 +3009,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			int green = c.getGreen();
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
+			c = AwtFactory.getPrototype().newColor(grayscale, grayscale, grayscale);
 			if (CustomColor.containsKey(c)) {
 				colorname = CustomColor.get(c).toString();
 			} else {

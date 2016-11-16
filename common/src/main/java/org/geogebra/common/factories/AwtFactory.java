@@ -34,7 +34,7 @@ import org.geogebra.common.main.App;
 public abstract class AwtFactory {
 
 
-	public static volatile AwtFactory prototype = null;
+	private static volatile AwtFactory prototype = null;
 
 	private static final Object lock = new Object();
 

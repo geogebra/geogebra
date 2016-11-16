@@ -145,7 +145,7 @@ public class DrawEquationW extends DrawEquation {
 		JLMContext2d ctx = (JLMContext2d) c.getContext2d();
 		AppW app = ((AppW) geo.getKernel().getApplication());
 		app.getDrawEquation().checkFirstCall(app);
-		GFont font = AwtFactory.prototype.newFont("geogebra", GFont.PLAIN,
+		GFont font = AwtFactory.getPrototype().newFont("geogebra", GFont.PLAIN,
 				fontSize - 3);
 		TeXIcon icon = app.getDrawEquation().createIcon(
 				"\\mathsf{\\mathrm {" + text0 + "}}",

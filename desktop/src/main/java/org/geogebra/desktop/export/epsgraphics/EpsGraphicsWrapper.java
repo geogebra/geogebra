@@ -58,7 +58,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public Stroke getStroke() {
-		return new StrokeD(((AwtFactoryD) AwtFactory.prototype)
+		return new StrokeD(((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(impl.getStroke()));
 	}
 

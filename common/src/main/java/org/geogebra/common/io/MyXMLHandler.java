@@ -1012,7 +1012,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (attrs.get("key").equals("barColor")) {
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
-						AwtFactory.prototype.newColor(
+						AwtFactory.getPrototype().newColor(
 								Integer.parseInt(c[0].substring(5)),
 								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
@@ -1463,8 +1463,8 @@ public class MyXMLHandler implements DocHandler {
 					height = app.getAppCanvasHeight();
 				}
 				ev.setPreferredSize(
-						AwtFactory.prototype.newDimension(width, height));
-				ev.setSizeFromFile(AwtFactory.prototype.newDimension(
+						AwtFactory.getPrototype().newDimension(width, height));
+				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
 						Integer.parseInt(attrs.get("width")),
 						Integer.parseInt(attrs.get("height"))));
 			}
@@ -1482,7 +1482,7 @@ public class MyXMLHandler implements DocHandler {
 			int width = Integer.parseInt(attrs.get("width"));
 			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredSize(
-					AwtFactory.prototype
+					AwtFactory.getPrototype()
 							.newDimension(width, height));
 			return true;
 		} catch (Exception e) {
@@ -2171,18 +2171,18 @@ new GPoint(row, column));
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
 				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(400, 400),
 						defEV, width),
 				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
 						false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(200, 400),
 						defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2
 								: 200),
 				new DockPanelData(App.VIEW_SPREADSHEET, null,
 						tmp_showSpreadsheet, false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(400, 400),
 						defSV, ssize) };
 		tmp_perspective.setDockPanelData(dpXml);
@@ -2248,7 +2248,7 @@ new GPoint(row, column));
 
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(AwtFactory.prototype
+		app.setPreferredSize(AwtFactory.getPrototype()
 				.newDimension(width, height));
 		app.setTmpPerspectives(tmp_perspectives);
 	}
@@ -2556,7 +2556,7 @@ new GPoint(row, column));
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			GDimension size = AwtFactory.prototype
+			GDimension size = AwtFactory.getPrototype()
 					.newDimension(Integer.parseInt(attrs.get("width")),
 							Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
@@ -2833,7 +2833,7 @@ new GPoint(row, column));
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			GRectangle windowRect = AwtFactory.prototype
+			GRectangle windowRect = AwtFactory.getPrototype()
 					.newRectangle(Integer.parseInt(window[0]),
 							Integer.parseInt(window[1]),
 							Integer.parseInt(window[2]),
@@ -3254,7 +3254,7 @@ new GPoint(row, column));
 			String b = attrs.get("b");
 			String g = attrs.get("g");
 			geoCasCell.setFontColor(
-					AwtFactory.prototype.newColor(
+					AwtFactory.getPrototype().newColor(
 							Integer.parseInt(r), Integer.parseInt(g),
 							Integer.parseInt(b)));
 		} else
@@ -4089,7 +4089,7 @@ new GPoint(row, column));
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return AwtFactory.prototype
+			return AwtFactory.getPrototype()
 					.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -4106,7 +4106,7 @@ new GPoint(row, column));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return AwtFactory.prototype
+			return AwtFactory.getPrototype()
 					.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;

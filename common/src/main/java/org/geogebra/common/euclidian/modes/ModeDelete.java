@@ -33,7 +33,7 @@ public class ModeDelete {
 		this.view = view;
 	}
 
-	GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, 100, 100);
+	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {

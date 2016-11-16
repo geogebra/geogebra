@@ -135,7 +135,7 @@ public class DrawConicSection extends DrawConic {
 
 		if (Kernel.isZero(B.getZ())) {
 			if (line == null)
-				line = AwtFactory.prototype.newLine2D();
+				line = AwtFactory.getPrototype().newLine2D();
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -227,7 +227,7 @@ public class DrawConicSection extends DrawConic {
 
 		// set arc
 		if (arc == null) {
-			arc = AwtFactory.prototype.newArc2D();
+			arc = AwtFactory.getPrototype().newArc2D();
 		}
 
 		Double extent0 = getExtent(0);
@@ -250,7 +250,7 @@ public class DrawConicSection extends DrawConic {
 		if (Double.isNaN(start1)) {
 			arcs = arc;
 		} else {
-			arcs = AwtFactory.prototype.newGeneralPath();
+			arcs = AwtFactory.getPrototype().newGeneralPath();
 
 			((GGeneralPath) arcs).append(arc, true);
 
@@ -275,7 +275,7 @@ public class DrawConicSection extends DrawConic {
 			shape = transform.createTransformedShape(arcs);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arcs, transform, AwtFactory.prototype
+			shape = ClipShape.clipToRect(arcs, transform, AwtFactory.getPrototype()
 					.newRectangle(-1, -1, view.getWidth() + 2,
 							view.getHeight() + 2));
 		}
@@ -314,7 +314,7 @@ public class DrawConicSection extends DrawConic {
 		endPoints[2] = view
 				.getCoordsForView(m.copy().addInsideMul(d, getEnd(1)));
 
-		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
+		GGeneralPath path = AwtFactory.getPrototype().newGeneralPath();
 
 		int numPoints = -1;
 
@@ -342,7 +342,7 @@ public class DrawConicSection extends DrawConic {
 						lines = new GLine2D[4];
 					}
 					if (lines[numPoints] == null)
-						lines[numPoints] = AwtFactory.prototype
+						lines[numPoints] = AwtFactory.getPrototype()
 								.newLine2D();
 					lines[numPoints].setLine(x1, y1, x2, y2);
 					x1 = x2;
@@ -355,7 +355,7 @@ public class DrawConicSection extends DrawConic {
 		if (numPoints > 0) {// close path only if at least two points
 			path.closePath();
 			if (lines[numPoints] == null)
-				lines[numPoints] = AwtFactory.prototype
+				lines[numPoints] = AwtFactory.getPrototype()
 						.newLine2D();
 			lines[numPoints].setLine(x1, y1, tx0, ty0);
 		}
@@ -377,7 +377,7 @@ public class DrawConicSection extends DrawConic {
 
 		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
 			if (line == null)
-				line = AwtFactory.prototype.newLine2D();
+				line = AwtFactory.getPrototype().newLine2D();
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -458,7 +458,7 @@ public class DrawConicSection extends DrawConic {
 
 		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
 			if (line == null)
-				line = AwtFactory.prototype.newLine2D();
+				line = AwtFactory.getPrototype().newLine2D();
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;
@@ -516,7 +516,7 @@ public class DrawConicSection extends DrawConic {
 
 		if (A != null && Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
 			if (line == null)
-				line = AwtFactory.prototype.newLine2D();
+				line = AwtFactory.getPrototype().newLine2D();
 			line.setLine(A.getX(), A.getY(), B.getX(), B.getY());
 		} else {
 			isVisible = false;

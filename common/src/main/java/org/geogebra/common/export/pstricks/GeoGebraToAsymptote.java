@@ -1065,7 +1065,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			GFont font = AwtFactory.prototype.newFont(
+			GFont font = AwtFactory.getPrototype().newFont(
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
@@ -2244,7 +2244,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 				// check if label is of point
 				isPointLabel = (geocolor.equals(GColor.BLUE) || ColorEquals(
-						geocolor, AwtFactory.prototype.newColor(124, 124, 255))) // xdxdff
+						geocolor, AwtFactory.getPrototype().newColor(124, 124, 255))) // xdxdff
 						// is of the form "A" or "$A$"
 						&& (((name.length() == 1) && Character.isUpperCase(name
 								.charAt(0))) || (((name.length() == 3)
@@ -2884,7 +2884,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (grayscale) {
 			String colorname = "";
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(
+			c = AwtFactory.getPrototype().newColor(
 					grayscale, grayscale, grayscale);
 			if (CustomColor.containsKey(c)) {
 				colorname = CustomColor.get(c).toString();
@@ -2980,7 +2980,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (grayscale) {
 			String colorname = "";
 			int grayscale = (red + green + blue) / 3;
-			tempc = AwtFactory.prototype.newColor(
+			tempc = AwtFactory.getPrototype().newColor(
 					grayscale, grayscale, grayscale);
 			if (CustomColor.containsKey(tempc)) {
 				colorname = CustomColor.get(tempc).toString();
@@ -3010,7 +3010,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			else
 				sb.append(colorname);
 		} else {
-			tempc = AwtFactory.prototype.newColor(red, green, blue);
+			tempc = AwtFactory.getPrototype().newColor(red, green, blue);
 			if (tempc.equals(GColor.BLACK))
 				sb.append("black");
 			// else if (tempc.equals(Color.DARK_GRAY)) sb.append("darkgray");
@@ -3065,7 +3065,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		if (grayscale) {
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
+			c = AwtFactory.getPrototype().newColor(grayscale, grayscale, grayscale);
 			sb.append("\\color[rgb]{" + format(grayscale / 255d) + ","
 					+ format(grayscale / 255d) + "," + format(grayscale / 255d)
 					+ "}");

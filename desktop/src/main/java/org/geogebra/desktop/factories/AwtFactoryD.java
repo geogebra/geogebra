@@ -334,7 +334,7 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	static public java.awt.BasicStroke getDefaultStrokeAwt() {
-		return ((AwtFactoryD) prototype)
+		return ((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 

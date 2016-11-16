@@ -83,9 +83,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 	protected GRectangle2D[] nearToScreenRect = new GRectangle2D[] {
-			AwtFactory.prototype.newRectangle2D(),
-			AwtFactory.prototype.newRectangle2D(),
-			AwtFactory.prototype.newRectangle2D() };
+			AwtFactory.getPrototype().newRectangle2D(),
+			AwtFactory.getPrototype().newRectangle2D(),
+			AwtFactory.getPrototype().newRectangle2D() };
 
 
 

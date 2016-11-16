@@ -97,7 +97,7 @@ public final class DrawBoolean extends Drawable {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 		int size = view.getBooleanSize();
-		GDimension prefSize = AwtFactory.prototype.newDimension(size + 12,
+		GDimension prefSize = AwtFactory.getPrototype().newDimension(size + 12,
 				size + 12);// checkBox.getPreferredSize();
 		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth()
 				+ textSize.x, prefSize.getHeight());
@@ -245,7 +245,7 @@ public final class DrawBoolean extends Drawable {
 		private EuclidianView ev;
 
 		/** background color when highlighted */
-		public static final GColor highlightBackground = AwtFactory.prototype
+		public static final GColor highlightBackground = AwtFactory.getPrototype()
 				.newColor(248, 248, 248);
 
 		/**
@@ -303,7 +303,7 @@ public final class DrawBoolean extends Drawable {
 					if (csize == 13) {
 						
 						if (stroke13 == null) {
-							stroke13 = AwtFactory.prototype
+							stroke13 = AwtFactory.getPrototype()
 							.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
 									GBasicStroke.JOIN_ROUND);
 						}
@@ -315,7 +315,7 @@ public final class DrawBoolean extends Drawable {
 					} else { // csize == 26
 						
 						if (stroke26 == null) {
-							stroke26 = AwtFactory.prototype
+							stroke26 = AwtFactory.getPrototype()
 									.newBasicStroke(4f, GBasicStroke.CAP_ROUND,
 											GBasicStroke.JOIN_ROUND);
 						}

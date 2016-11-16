@@ -464,7 +464,7 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(((AwtFactoryD) AwtFactory.prototype)
+		g2.setStroke(((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic
 				.getStroke(thickness, dashStyle)));
 		int mid = h / 2;

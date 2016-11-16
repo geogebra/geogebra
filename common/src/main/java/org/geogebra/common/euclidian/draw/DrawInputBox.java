@@ -82,7 +82,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
 		getTextField().addFocusListener(
-				AwtFactory.prototype.newFocusListener(ifListener));
+				AwtFactory.getPrototype().newFocusListener(ifListener));
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		getTextField().addKeyHandler(ifKeyListener);

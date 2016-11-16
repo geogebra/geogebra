@@ -227,10 +227,10 @@ public class AdjustScreen {
 		for (int idx = 0; idx < buttons.size() - 1; idx++) {
 			GeoButton btn1 = buttons.get(idx);
 			GeoButton btn2 = buttons.get(idx + 1);
-			GRectangle rect1 = AwtFactory.prototype.newRectangle(btn1.getAbsoluteScreenLocX(),
+			GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
 					btn1.getAbsoluteScreenLocY(),
 					btn1.getWidth(), btn1.getHeight());
-			GRectangle rect2 = AwtFactory.prototype.newRectangle(
+			GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
 					btn2.getAbsoluteScreenLocX(), btn2.getAbsoluteScreenLocY(),
 					btn2.getWidth(), btn2.getHeight());
 			
@@ -297,11 +297,11 @@ public class AdjustScreen {
 				GDimension t1 = d1.getTotalSize();
 				GDimension t2 = d2.getTotalSize();
 
-				GRectangle rect1 = AwtFactory.prototype.newRectangle(
+				GRectangle rect1 = AwtFactory.getPrototype().newRectangle(
 						input1.getAbsoluteScreenLocX(),
 						input1.getAbsoluteScreenLocY(), t1.getWidth(),
 						t1.getHeight());
-				GRectangle rect2 = AwtFactory.prototype.newRectangle(
+				GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
 						input2.getAbsoluteScreenLocX(),
 						input2.getAbsoluteScreenLocY(), t2.getWidth(),
 						t2.getHeight());

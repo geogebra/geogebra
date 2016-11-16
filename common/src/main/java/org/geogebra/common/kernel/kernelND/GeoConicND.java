@@ -1937,7 +1937,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	final public GAffineTransform getAffineTransform() {
 		if (transform == null)
-			transform = AwtFactory.prototype.newAffineTransform();
+			transform = AwtFactory.getPrototype().newAffineTransform();
 		return transform;
 	}
 
@@ -2646,7 +2646,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		// path parameters of all points on this conic.		
 		getAffineTransform();
 		if (oldTransform == null)
-			oldTransform = AwtFactory.prototype.newAffineTransform();
+			oldTransform = AwtFactory.getPrototype().newAffineTransform();
 		boolean eigenVectorsSame = 
 				Kernel.isEqual(transform.getScaleX(), oldTransform.getScaleX(), Kernel.MIN_PRECISION) ||
 				Kernel.isEqual(transform.getScaleY(), oldTransform.getScaleY(), Kernel.MIN_PRECISION) ||

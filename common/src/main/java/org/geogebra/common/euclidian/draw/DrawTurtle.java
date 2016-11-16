@@ -45,11 +45,11 @@ public class DrawTurtle extends Drawable {
 
 	private double turnAngle = 0.0;
 
-	private GRectangle turtleImageBounds = AwtFactory.prototype
+	private GRectangle turtleImageBounds = AwtFactory.getPrototype()
 			.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
-	private GAffineTransform at = AwtFactory.prototype.newAffineTransform();
+	private GAffineTransform at = AwtFactory.getPrototype().newAffineTransform();
 
 	/**
 	 * @param view
@@ -76,7 +76,7 @@ public class DrawTurtle extends Drawable {
 			color = c;
 			thickness = th;
 			path1 = p;
-			stroke = AwtFactory.prototype.newBasicStroke(thickness);
+			stroke = AwtFactory.getPrototype().newBasicStroke(thickness);
 		}
 
 		public void draw(GGraphics2D g2) {
@@ -334,11 +334,11 @@ public class DrawTurtle extends Drawable {
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private GEllipse2DDouble ellipse = AwtFactory.prototype
+	private GEllipse2DDouble ellipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
-	private GBasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
-	private GBasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
-	private GGeneralPath gPath = AwtFactory.prototype.newGeneralPath();
+	private GBasicStroke stroke1 = AwtFactory.getPrototype().newBasicStroke(1f);
+	private GBasicStroke stroke2 = AwtFactory.getPrototype().newBasicStroke(2f);
+	private GGeneralPath gPath = AwtFactory.getPrototype().newGeneralPath();
 	private GShape legs;
 	private GShape head;
 	private GShape body;

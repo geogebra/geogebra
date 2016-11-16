@@ -426,7 +426,7 @@ public class GeoInputBox extends GeoButton {
 			blue = bgCol.getBlue();
 		}
 		
-		bgColor = AwtFactory.prototype.newColor(red, green, blue);
+		bgColor = AwtFactory.getPrototype().newColor(red, green, blue);
 	}
 
 }

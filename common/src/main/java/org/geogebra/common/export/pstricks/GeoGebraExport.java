@@ -126,7 +126,7 @@ public abstract class GeoGebraExport {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		GRectangle rec = AwtFactory.prototype
+		GRectangle rec = AwtFactory.getPrototype()
 				.newRectangle(x1, y2, x2 - x1, y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
@@ -1505,7 +1505,7 @@ public abstract class GeoGebraExport {
 				if (algo.getBarColor(barNumber) != null) {
 					rgb = new float[4];
 					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
-					linecolor = AwtFactory.prototype.newColor(rgb[0], rgb[1],
+					linecolor = AwtFactory.getPrototype().newColor(rgb[0], rgb[1],
 							rgb[2], rgb[3]);
 				}
 				if (algo.getBarHatchDistance(barNumber) != -1) {

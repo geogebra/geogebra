@@ -7719,7 +7719,7 @@ public abstract class EuclidianController {
 		}
 
 		if (view.getSelectionRectangle() == null) {
-			view.setSelectionRectangle(AwtFactory.prototype.newRectangle(0, 0));
+			view.setSelectionRectangle(AwtFactory.getPrototype().newRectangle(0, 0));
 		}
 
 		int dx = mouseLoc.x - selectionStartPoint.x;

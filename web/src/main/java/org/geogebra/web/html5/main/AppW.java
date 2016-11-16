@@ -3063,7 +3063,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void ggwGraphicsViewDimChanged(int width, int height) {
 		// Log.debug("dim changed" + getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
+		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.
@@ -3084,7 +3084,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public void ggwGraphicsView2DimChanged(int width, int height) {
 		getSettings().getEuclidian(2).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
+		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.
@@ -3518,7 +3518,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				height = getAppCanvasHeight();
 			}
 			evSet.setPreferredSize(
-					AwtFactory.prototype.newDimension(width, height));
+					AwtFactory.getPrototype().newDimension(width, height));
 		}
 
 	}

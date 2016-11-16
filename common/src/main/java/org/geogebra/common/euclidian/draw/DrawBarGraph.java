@@ -103,7 +103,7 @@ public class DrawBarGraph extends Drawable {
 		}
 
 		// GRectangle
-		// rect=geogebra.common.factories.AwtFactory.prototype.newRectangle(
+		// rect=geogebra.common.factories.AwtFactory.getPrototype().newRectangle(
 		// (int)(algo.getLeftBorder()[0]),(int)algo.getFreqMax(),
 		// (int)(algo.getLeftBorder().length*algo.getWidth()),(int)algo.getFreqMax());
 		// return rect;
@@ -135,7 +135,7 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(AwtFactory.prototype.newColor(
+							g2.setPaint(AwtFactory.getPrototype().newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), col.getAlpha()));
 						} else {
@@ -249,7 +249,7 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(AwtFactory.prototype.newColor(
+							g2.setPaint(AwtFactory.getPrototype().newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), geo.getLineOpacity()));
 						} else {

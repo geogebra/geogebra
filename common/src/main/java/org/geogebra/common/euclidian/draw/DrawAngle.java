@@ -50,8 +50,8 @@ public class DrawAngle extends Drawable implements Previewable {
 	private AlgoAngle algo;
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
-	private GArc2D drawArc = AwtFactory.prototype.newArc2D();
-	private GGeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael
+	private GArc2D drawArc = AwtFactory.getPrototype().newArc2D();
+	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath(); // Michael
 																			// Borcherds
 	// 2007-11-19
 	private GEllipse2DDouble dot90degree;
@@ -65,7 +65,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	// For decoration
 	private GShape shapeArc1, shapeArc2;
-	private GArc2D decoArc = AwtFactory.prototype.newArc2D();
+	private GArc2D decoArc = AwtFactory.getPrototype().newArc2D();
 	private GLine2D[] tick;
 	private double[] angleTick = new double[2];
 	/** maximum angle distance between two ticks. */
@@ -272,7 +272,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 				// set 90 degrees square
 				if (square == null)
-					square = AwtFactory.prototype.newGeneralPath();
+					square = AwtFactory.getPrototype().newGeneralPath();
 				else
 					square.reset();
 				double length = arcSize * 0.7071067811865;
@@ -300,7 +300,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
 				// Belgian offset |_
 				if (square == null)
-					square = AwtFactory.prototype.newGeneralPath();
+					square = AwtFactory.getPrototype().newGeneralPath();
 				else
 					square.reset();
 				length = arcSize * 0.7071067811865;
@@ -337,7 +337,7 @@ public class DrawAngle extends Drawable implements Previewable {
 				drawDot = true;
 
 				if (dot90degree == null)
-					dot90degree = AwtFactory.prototype.newEllipse2DDouble();
+					dot90degree = AwtFactory.getPrototype().newEllipse2DDouble();
 				int diameter = 2 * geo.getLineThickness();
 				double radius = r / 1.7;
 				double labelAngle = angSt + angExt / 2.0;
@@ -605,7 +605,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		if (tick == null) {
 			tick = new GLine2D[3];
 			for (int i = 0; i < tick.length; i++) {
-				tick[i] = AwtFactory.prototype.newLine2D();
+				tick[i] = AwtFactory.getPrototype().newLine2D();
 			}
 		}
 

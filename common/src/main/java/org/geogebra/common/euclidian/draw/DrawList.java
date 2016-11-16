@@ -278,7 +278,7 @@ public final class DrawList extends CanvasDrawable
 			}
 			if (item.getRect() == null || item.getRect().getX() != rectLeft
 					|| item.getRect().getY() != rectTop) {
-				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
+				item.setRect(AwtFactory.getPrototype().newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
 
@@ -331,7 +331,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			if (item.getRect() == null) {
-				item.setRect(AwtFactory.prototype.newRectangle(rectLeft,
+				item.setRect(AwtFactory.getPrototype().newRectangle(rectLeft,
 						rectTop, dimItem.getWidth(), itemHeight));
 			}
 			g2.setPaint(getGeoElement().getObjectColor());
@@ -671,13 +671,13 @@ public final class DrawList extends CanvasDrawable
 				}
 			}
 
-			dimTable = AwtFactory.prototype.newDimension(tableWidth,
+			dimTable = AwtFactory.getPrototype().newDimension(tableWidth,
 					tableHeight);
 
 			if (left + dimTable.getWidth() > viewOpt.getWidth()) {
 				left = (viewOpt.getWidth() - dimTable.getWidth());
 			}
-			rectTable = AwtFactory.prototype.newRectangle(left,
+			rectTable = AwtFactory.getPrototype().newRectangle(left,
 					top + MARGIN,
 					dimTable.getWidth(), dimTable.getHeight());
 
@@ -739,7 +739,7 @@ public final class DrawList extends CanvasDrawable
 		}
 		private void getOneColumnSettings() {
 			setColCount(1);
-			dimItem = AwtFactory.prototype
+			dimItem = AwtFactory.getPrototype()
 					.newDimension(boxWidth > dimItem.getWidth() ? boxWidth
 							: dimItem.getWidth(), dimItem.getHeight());
 
@@ -755,9 +755,9 @@ public final class DrawList extends CanvasDrawable
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();
 			getOneColumnSettings();
-			rectUp = AwtFactory.prototype
+			rectUp = AwtFactory.getPrototype()
 					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
-			rectDown = AwtFactory.prototype
+			rectDown = AwtFactory.getPrototype()
 					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
 
 
@@ -883,7 +883,7 @@ public final class DrawList extends CanvasDrawable
 
 			}
 
-			dimItem = AwtFactory.prototype.newDimension(
+			dimItem = AwtFactory.getPrototype().newDimension(
 					(int) (maxWidth + 2 * xPadding),
 					(int) (maxHeight + 2 * yPadding));
 
@@ -1039,7 +1039,7 @@ public final class DrawList extends CanvasDrawable
 		drawOptions = new DrawOptions(view);
 		dropDown = new DropDownList(view.getApplication(), this);
 
-		ctrlRect = AwtFactory.prototype.newRectangle();
+		ctrlRect = AwtFactory.getPrototype().newRectangle();
 		reset();
 
 		update();
@@ -1302,7 +1302,7 @@ public final class DrawList extends CanvasDrawable
 			GRectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null) {
-					result = AwtFactory.prototype.newRectangle(bb);
+					result = AwtFactory.getPrototype().newRectangle(bb);
 				}
 				// changed () to (bb) bugfix,
 				// otherwise top-left of screen
@@ -1517,7 +1517,7 @@ public final class DrawList extends CanvasDrawable
 					left, top, false, false);
 		}
 
-		return AwtFactory.prototype.newDimension(w,
+		return AwtFactory.getPrototype().newDimension(w,
 				Math.round(layout.getDescent() + layout.getAscent()));
 	}
 
@@ -1547,10 +1547,10 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	public GDimension getPreferredSize() {
 		if (selectedDimension == null) {
-			return AwtFactory.prototype.newDimension(0, 0);
+			return AwtFactory.getPrototype().newDimension(0, 0);
 		}
 
-		return AwtFactory.prototype.newDimension(getPreferredWidth(),
+		return AwtFactory.getPrototype().newDimension(getPreferredWidth(),
 				selectedDimension.getHeight() + COMBO_TEXT_MARGIN);
 
 	}

@@ -243,7 +243,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final void setBackground(GColor bgColor) {
 		if (bgColor != null)
-			backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(),
+			backgroundColor = AwtFactory.getPrototype().newColor(bgColor.getRed(),
 			        bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 	}
 

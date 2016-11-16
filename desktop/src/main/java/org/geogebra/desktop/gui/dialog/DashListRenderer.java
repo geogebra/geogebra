@@ -51,7 +51,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		BasicStroke stroke;
 		for (int i = 0; i < types.length; i++) {
 			type = types[i];
-			stroke = ((AwtFactoryD) AwtFactory.prototype)
+			stroke = ((AwtFactoryD) AwtFactory.getPrototype())
 					.getAwtStroke(EuclidianStatic
 					.getStroke(1.0f, type));
 			dashStrokeMap.put(type, stroke);

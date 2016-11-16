@@ -27,12 +27,12 @@ public class DataCollectionSettings extends AbstractSettings {
 
 	public DataCollectionSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
-		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 	public DataCollectionSettings() {
 		super();
-		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
 
 	// Object can be String or GeoElement

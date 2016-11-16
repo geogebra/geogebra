@@ -89,12 +89,12 @@ public class GeoGebraIcon extends BasicIcons{
 		float[] rgb = new float[3];
 		if(fgColor!=null){
 			fgColor.getRGBColorComponents(rgb);
-			ret.setFgColor(AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2],
+			ret.setFgColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
 					alpha));
 		}
 		if(bgColor!=null){
 			bgColor.getRGBColorComponents(rgb);
-			ret.setBgColor(AwtFactory.prototype.newColor(rgb[0], rgb[1], rgb[2],
+			ret.setBgColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
 					alpha));
 		}
 		return ret;

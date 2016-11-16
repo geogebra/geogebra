@@ -13,7 +13,7 @@ public abstract class GFontRenderContext {
 		if (text == null || text.isEmpty()) {
 			return null;
 		}
-		return AwtFactory.prototype.newTextLayout(text, font, this);
+		return AwtFactory.getPrototype().newTextLayout(text, font, this);
 
 	}
 }

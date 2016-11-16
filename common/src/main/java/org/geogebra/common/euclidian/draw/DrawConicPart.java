@@ -51,7 +51,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	private boolean isVisible, labelVisible;
 
-	private GArc2D arc = AwtFactory.prototype.newArc2D();
+	private GArc2D arc = AwtFactory.getPrototype().newArc2D();
 	private GShape shape;
 	// private GeoVec2D transVec;
 	private double[] halfAxes;
@@ -62,7 +62,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private static final int DRAW_TYPE_SEGMENT = 2;
 	private static final int DRAW_TYPE_RAYS = 3;
 	private int draw_type;
-	private GAffineTransform transform = AwtFactory.prototype
+	private GAffineTransform transform = AwtFactory.getPrototype()
 			.newAffineTransform();
 
 	// these are needed for degenerate arcs
@@ -242,7 +242,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			shape = transform.createTransformedShape(arc);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arc, transform, AwtFactory.prototype
+			shape = ClipShape.clipToRect(arc, transform, AwtFactory.getPrototype()
 					.newRectangle(-1, -1, view.getWidth() + 2,
 							view.getHeight() + 2));
 		}

@@ -85,7 +85,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + tH);
 		p.addPoint(midx + tW, midy + tH);
 		p.addPoint(midx, midy + 2 * tW);
@@ -105,7 +105,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + 2 * tW);
 		p.addPoint(midx + tW, midy + 2 * tW);
 		p.addPoint(midx, midy + tH);
@@ -125,7 +125,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + tH);
 		p.addPoint(midx + tW, midy + tH);
 		p.addPoint(midx, midy + 2 * tW);

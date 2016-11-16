@@ -76,9 +76,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 	private GRectangle2D[] nearToScreenRect = {
-			AwtFactory.prototype.newRectangle2D(),
-			AwtFactory.prototype.newRectangle2D(),
-			AwtFactory.prototype.newRectangle2D() };
+			AwtFactory.getPrototype().newRectangle2D(),
+			AwtFactory.getPrototype().newRectangle2D(),
+			AwtFactory.getPrototype().newRectangle2D() };
 
 	private boolean continuous;
 	protected boolean[] lastFarAway = { false, false, false };

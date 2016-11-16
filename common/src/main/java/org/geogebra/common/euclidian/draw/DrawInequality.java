@@ -475,7 +475,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			GArea b = AwtFactory.prototype.newArea(view
+			GArea b = AwtFactory.getPrototype().newArea(view
 					.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
@@ -528,14 +528,14 @@ public class DrawInequality extends Drawable {
 			setShape(left.getShape());
 			getShape().add(right.getShape());
 		} else if (operation.equals(Operation.EQUAL_BOOLEAN)) {
-			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
+			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
 		} else if (operation.equals(Operation.NOT_EQUAL)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {
-			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
+			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
 		}
 	}

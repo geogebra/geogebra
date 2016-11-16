@@ -260,7 +260,7 @@ public class DrawInequality1Var extends Drawable {
 			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			GArea a = AwtFactory.prototype
+			GArea a = AwtFactory.getPrototype()
 					.newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
@@ -270,13 +270,13 @@ public class DrawInequality1Var extends Drawable {
 				gp[i].lineTo(-10, x[2 * i + j + 1]);
 				gp[i].lineTo(-10, x[2 * i + j]);
 				gp[i].closePath();
-				lines[2 * i] = AwtFactory.prototype.newLine2D();
+				lines[2 * i] = AwtFactory.getPrototype().newLine2D();
 				lines[2 * i].setLine(-10, x[2 * i + j], view.getWidth() + 10,
 						x[2 * i + j]);
-				lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
+				lines[2 * i + 1] = AwtFactory.getPrototype().newLine2D();
 				lines[2 * i + 1].setLine(-10, x[2 * i + j + 1],
 						view.getWidth() + 10, x[2 * i + j + 1]);
-				a.add(AwtFactory.prototype.newArea(gp[i]));
+				a.add(AwtFactory.getPrototype().newArea(gp[i]));
 			}
 			setShape(a);
 		} else {
@@ -302,7 +302,7 @@ public class DrawInequality1Var extends Drawable {
 
 			initGP(numOfX);
 
-			GArea a = AwtFactory.prototype
+			GArea a = AwtFactory.getPrototype()
 					.newArea();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)
@@ -313,7 +313,7 @@ public class DrawInequality1Var extends Drawable {
 						continue;
 					if (x[i] > view.getWidth())
 						break;
-					circle[circleCount] = AwtFactory.prototype
+					circle[circleCount] = AwtFactory.getPrototype()
 							.newEllipse2DDouble();
 					double radius = geo.getLineThickness() * DOT_RADIUS;
 					circle[circleCount].setFrame(x[i] - radius,
@@ -333,13 +333,13 @@ public class DrawInequality1Var extends Drawable {
 					gp[i].lineTo(x[2 * i + j + 1], -10);
 					gp[i].lineTo(x[2 * i + j], -10);
 					gp[i].closePath();
-					lines[2 * i] = AwtFactory.prototype.newLine2D();
+					lines[2 * i] = AwtFactory.getPrototype().newLine2D();
 					lines[2 * i].setLine(x[2 * i + j], -10, x[2 * i + j],
 							view.getHeight() + 10);
-					lines[2 * i + 1] = AwtFactory.prototype.newLine2D();
+					lines[2 * i + 1] = AwtFactory.getPrototype().newLine2D();
 					lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10, x[2 * i + 1
 							+ j], view.getHeight() + 10);
-					a.add(AwtFactory.prototype.newArea(gp[i]));
+					a.add(AwtFactory.getPrototype().newArea(gp[i]));
 				}
 			}
 			setShape(a);

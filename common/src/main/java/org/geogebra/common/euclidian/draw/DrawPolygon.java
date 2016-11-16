@@ -177,10 +177,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	}
 
 	private void createShape() {
-		setShape(AwtFactory.prototype
+		setShape(AwtFactory.getPrototype()
 				.newArea(view.getBoundingPath()));
 		getShape().subtract(
-AwtFactory.prototype.newArea(gp));
+AwtFactory.getPrototype().newArea(gp));
 
 	}
 
@@ -270,13 +270,13 @@ AwtFactory.prototype.newArea(gp));
 					
 					// create the shape
 					if (geo.isInverseFill()) {
-						setShape(AwtFactory.prototype
+						setShape(AwtFactory.getPrototype()
 								.newArea(view.getBoundingPath()));
 						getShape().subtract(
-								AwtFactory.prototype
+								AwtFactory.getPrototype()
 										.newArea(gpTriangularize));
 					}else{
-						setShape(AwtFactory.prototype
+						setShape(AwtFactory.getPrototype()
 								.newArea(gpTriangularize));
 					}
 				}
@@ -521,7 +521,7 @@ AwtFactory.prototype.newArea(gp));
 		}
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -677,7 +677,7 @@ AwtFactory.prototype.newArea(gp));
 	public GArea getShape() {
 		if (geo.isInverseFill() || super.getShape() != null)
 			return super.getShape();
-		setShape(AwtFactory.prototype.newArea(gp));
+		setShape(AwtFactory.getPrototype().newArea(gp));
 		return super.getShape();
 	}
 
