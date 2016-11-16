@@ -693,7 +693,7 @@ background-color:#f8f8f8;
 border:1px solid #dcdcdc
 }
 
-.toolBPanel:nth-child(2){
+.toolBPanel.cas{
  display:none;
 }
 
@@ -718,11 +718,11 @@ border:1px solid #dcdcdc
     display: none;
 }
 
-.cas .toolBPanel:nth-child(2), .exam-cas .toolBPanel:nth-child(2){
+.cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
  display:block;
 }
 
-.cas .startScreen .toolBPanel:nth-child(1), .exam-cas .startScreen .toolBPanel:nth-child(1){
+.cas .startScreen .toolBPanel.graphics, .exam-cas .startScreen .toolBPanel.graphics{
  display:none;
 }
 
@@ -760,7 +760,7 @@ z-index:501;
 
     <div id="ggbHeader" class="GeoGebraFrame">
         <div class="startScreen toolbarPanel">
-            <div class="toolBPanel">
+            <div class="toolBPanel grphics">
 			<ul>
 			<li class="toolbar_item">
                  <div class="toolbar_button" style="border-width: 1px;">
@@ -815,7 +815,7 @@ z-index:501;
 				 </li>
 				 </ul>
             </div>
-			<div class="toolBPanel">
+			<div class="toolBPanel cas">
 			<ul>
 			<li class="toolbar_item">
                  <div class="toolbar_button" style="border-width: 1px;">
