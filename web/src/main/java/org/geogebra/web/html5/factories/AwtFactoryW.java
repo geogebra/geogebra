@@ -15,6 +15,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGradientPaint;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint2D;
@@ -29,6 +30,7 @@ import org.geogebra.common.euclidian.event.ActionListener;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
 import org.geogebra.ggbjdk.java.awt.geom.Area;
@@ -50,10 +52,15 @@ import org.geogebra.web.html5.awt.GGradientPaintW;
 import org.geogebra.web.html5.awt.GPoint2DW;
 import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.event.ActionListenerW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.ImageLoadCallback;
+import org.geogebra.web.html5.util.ImageWrapper;
+
+import com.google.gwt.core.client.Scheduler;
 
 /**
  * Creates AWT wrappers for web
@@ -152,9 +159,8 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
-	        float miterLimit, float[] dash, float f) {
-		return new GBasicStrokeW(width, endCap, lineJoin,
-		        miterLimit, dash, f);
+			float miterLimit, float[] dash, float f) {
+		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash, f);
 	}
 
 	@Override
@@ -187,7 +193,7 @@ public class AwtFactoryW extends AwtFactory {
 	// see #1699
 	public GBasicStroke newBasicStrokeJoinMitre(float f) {
 		return new GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
-		        GBasicStroke.JOIN_MITER);
+				GBasicStroke.JOIN_MITER);
 	}
 
 	@Override
@@ -238,7 +244,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GTextLayout newTextLayout(String string, GFont fontLine,
-	        GFontRenderContext frc) {
+			GFontRenderContext frc) {
 		return new GTextLayoutW(string, fontLine, (GFontRenderContextW) frc);
 	}
 
@@ -249,7 +255,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
-	        int i, GColor bg) {
+			int i, GColor bg) {
 		return new GGradientPaintW(x, y, bg2, x2, i, bg);
 	}
 
@@ -269,11 +275,10 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-		return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight,
- 1)
-						.getImageElement(),
-				false);
+	public MyImage newMyImage(int pixelWidth, int pixelHeight,
+			int typeIntArgb) {
+		return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight, 1)
+				.getImageElement(), false);
 	}
 
 	@Override
@@ -283,14 +288,67 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-		return new GTexturePaintW(new GBufferedImageW(
-		        ((MyImageW) subimage).getImage()));
+		return new GTexturePaintW(
+				new GBufferedImageW(((MyImageW) subimage).getImage()));
 
 	}
 
 	@Override
 	public GPolygon newPolygon() {
 		return new Polygon();
+	}
+
+	// to make code more efficient in the following method
+	boolean repaintDeferred = false;
+
+	// to avoid infinite loop in the following method
+	int repaintsFromHereInProgress = 0;
+
+	@Override
+	public void fillAfterImageLoaded(final GShape shape, final GGraphics2D g3,
+			GBufferedImage gi, final App app) {
+		{
+			if (((GBufferedImageW) gi).isLoaded()) {
+				// when the image is already loaded, no new repaint is necessary
+				// in theory, the image will be loaded after some repaints so
+				// this will not be an infinite loop ...
+				g3.fill(shape);
+			} else if (repaintsFromHereInProgress == 0) {
+				// the if condition makes sure there will be no infinite loop
+
+				// note: AFAIK (?), DOM's addEventListener method can add more
+				// listeners
+				ImageWrapper.nativeon(((GBufferedImageW) gi).getImageElement(),
+						"load", new ImageLoadCallback() {
+							public void onLoad() {
+								if (!repaintDeferred) {
+									repaintDeferred = true;
+									// otherwise, at the first time, issue a
+									// complete repaint
+									// but schedule it deferred to avoid
+									// conflicts
+									// in repaints
+									Scheduler.get().scheduleDeferred(
+											new Scheduler.ScheduledCommand() {
+												public void execute() {
+													repaintDeferred = false;
+													repaintsFromHereInProgress++;
+													((EuclidianViewW) app
+															.getEuclidianView1())
+																	.doRepaint();
+													if (app.hasEuclidianView2(
+															1))
+														((EuclidianViewW) app
+																.getEuclidianView2(
+																		1)).doRepaint();
+													repaintsFromHereInProgress--;
+												}
+											});
+								}
+							}
+						});
+			}
+		}
 	}
 
 }

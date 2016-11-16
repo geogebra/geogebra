@@ -117,7 +117,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -701,8 +700,6 @@ ToolbarD.getAllTools(this));
 		// geogebra.common.factories.Factory.prototype = new FactoryD();
 
 		StringUtil.prototype = new StringUtilD();
-
-		EuclidianStatic.prototype = new EuclidianStatic();
 
 	}
 

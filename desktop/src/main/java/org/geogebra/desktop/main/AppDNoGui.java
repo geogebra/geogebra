@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
@@ -114,8 +113,6 @@ public class AppDNoGui extends App {
 		// geogebra.common.factories.Factory.prototype = new FactoryD();
 
 		StringUtil.prototype = new StringUtilD();
-
-		EuclidianStatic.prototype = new EuclidianStatic();
 
 	}
 

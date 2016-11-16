@@ -641,7 +641,8 @@ public abstract class Drawable extends DrawableND {
 				}
 
 				// take care of filling after the image is loaded
-				EuclidianStatic.fillAfterImageLoaded(fillShape, g2, subImage2,
+				AwtFactory.prototype.fillAfterImageLoaded(fillShape, g2,
+						subImage2,
 						geo.getKernel().getApplication());
 			}
 

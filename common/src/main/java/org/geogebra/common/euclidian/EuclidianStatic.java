@@ -35,7 +35,7 @@ public class EuclidianStatic {
 	/**
 	 * Prototype decides what implementation will be used for static methods
 	 */
-	public static EuclidianStatic prototype;
+	public static final EuclidianStatic prototype = new EuclidianStatic();
 	/** standardstroke */
 	protected static final GBasicStroke standardStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f);

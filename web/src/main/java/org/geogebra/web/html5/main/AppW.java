@@ -14,7 +14,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
@@ -49,7 +48,6 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -87,7 +85,6 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.euclidian.EuclidianStaticW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -329,7 +326,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected void initFactories() {
 		FormatFactory.prototype = new FormatFactoryW();
 		AwtFactory.prototype = new AwtFactoryW();
-		EuclidianStatic.prototype = new EuclidianStaticW();
 		StringUtil.prototype = new StringUtil();
 		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 
