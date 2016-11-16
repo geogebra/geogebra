@@ -5872,6 +5872,17 @@ public abstract class EuclidianController {
 		return false;
 	}
 
+
+	/**
+	 * exit temporary mode (if set) and reset mode to old mode
+	 */
+	public void exitTemporaryMode() {
+		if (temporaryMode) {
+			view.setMode(oldMode);
+			temporaryMode = false;
+		}
+	}
+
 	protected final void rotateObject(boolean repaint) {
 		double newAngle = Math.atan2(yRW - rotationCenter.inhomY,
 				xRW - rotationCenter.inhomX);
