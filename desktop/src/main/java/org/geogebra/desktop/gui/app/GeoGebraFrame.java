@@ -632,7 +632,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			}
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
-			HttpRequestD httpr = (HttpRequestD) UtilFactory.prototype
+			HttpRequestD httpr = (HttpRequestD) UtilFactory.getPrototype()
 					.newHttpRequest();
 			String newestVersion = null;
 			StringBuilder sb = new StringBuilder();

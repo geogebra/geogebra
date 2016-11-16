@@ -63,7 +63,7 @@ public abstract class AbstractProverReciosMethod {
 		}
 		if (B) {
 			// use Botana's method if there is no native support
-			p = UtilFactory.prototype.newProver();
+			p = UtilFactory.getPrototype().newProver();
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
 			ProverBotanasMethod pbm = new ProverBotanasMethod();
 			as = pbm.new AlgebraicStatement(statement, null, p);

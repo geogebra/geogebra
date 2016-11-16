@@ -57,7 +57,7 @@ public class ResourceAvailability {
 
 	@Test
 	public void checkToolIcons() {
-		StringUtil.prototype = new StringUtilD();
+		StringUtil.setPrototypeIfNull(new StringUtilD());
 		ImageManagerD man = new ImageManagerD(new JPanel());
 		for (int i = 0; i < 1000; i++) {
 			String modeText = EuclidianConstants.getModeTextSimple(i);

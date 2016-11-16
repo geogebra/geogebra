@@ -1070,7 +1070,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
 				width = Math.max(width,
-						(int) Math.ceil(StringUtil.prototype.estimateLength(line, font)));
+						(int) Math.ceil(StringUtil.getPrototype()
+								.estimateLength(line, font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");

@@ -53,10 +53,10 @@ public class SingularWebService {
 		String encodedParameters = "";
 		String caching = cachingString();
 		if (parameters != null) {
-			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
+			URLEncoder urle = UtilFactory.getPrototype().newURLEncoder();
 			encodedParameters = urle.encode(parameters);
 		}
-		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+		HttpRequest httpr = UtilFactory.getPrototype().newHttpRequest();
 		httpr.setTimeout(timeout);
 		// Varnish currently cannot do caching for POST requests,
 		// so we prefer GET for the shorter Singular programs:

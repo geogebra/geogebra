@@ -247,7 +247,7 @@ public class StringUtil {
 		return false;
 	}
 
-	public static StringUtil prototype;
+	private static StringUtil prototype;
 
 	private static final Object lock = new Object();
 

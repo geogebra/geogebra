@@ -325,7 +325,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 	
 	private String getImplicitPoly(boolean implicit) throws Throwable {
-		Prover p = UtilFactory.prototype.newProver();
+		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
 		ProverBotanasMethod pbm = new ProverBotanasMethod();

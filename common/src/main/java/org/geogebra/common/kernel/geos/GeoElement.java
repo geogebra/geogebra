@@ -3662,7 +3662,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public LaTeXCache getLaTeXCache() {
 		if (latexCache == null) {
-			latexCache = LaTeXFactory.prototype.newLaTeXCache();
+			latexCache = LaTeXFactory.getPrototype().newLaTeXCache();
 		}
 		return latexCache;
 	}

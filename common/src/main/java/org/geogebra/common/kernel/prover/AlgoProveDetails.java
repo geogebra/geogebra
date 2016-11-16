@@ -134,7 +134,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public final void initialCompute() {
 
 		// Create and initialize the prover
-		Prover p = UtilFactory.prototype.newProver();
+		Prover p = UtilFactory.getPrototype().newProver();
 		ProverSettings proverSettings = ProverSettings.get();
 		if ("OpenGeoProver".equalsIgnoreCase(proverSettings.proverEngine)) {
 			if ("Wu".equalsIgnoreCase(proverSettings.proverMethod))

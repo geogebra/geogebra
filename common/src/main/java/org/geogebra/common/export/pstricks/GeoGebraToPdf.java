@@ -1072,7 +1072,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
 				width = Math.max(width, (int) Math
-						.ceil(StringUtil.prototype.estimateLength(line, font)));
+						.ceil(StringUtil.getPrototype().estimateLength(line,
+								font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");
@@ -2405,12 +2406,12 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				GColor geocolor = geo.getObjectColor();
 				startBeamer(codePoint);
 				int width = (int) Math
-						.ceil(StringUtil.prototype.estimateLength(
+						.ceil(StringUtil.getPrototype().estimateLength(
 								StringUtil.toLaTeXString(
 										geo.getLabelDescription(), true),
 								euclidianView.getFont()));
 				int height = (int) Math
-						.ceil(StringUtil.prototype.estimateHeight(
+						.ceil(StringUtil.getPrototype().estimateHeight(
 								StringUtil.toLaTeXString(
 										geo.getLabelDescription(), true),
 								euclidianView.getFont()));
@@ -2619,7 +2620,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
 
-				int width = (int) Math.ceil(StringUtil.prototype
+				int width = (int) Math.ceil(StringUtil.getPrototype()
 						.estimateLength(label[0], euclidianView.getFont()));
 				GRectangle rect = euclidianView.getSelectionRectangle();
 				double x = euclidianView.toRealWorldCoordX(
@@ -2781,7 +2782,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				codeBeginDoc.append("\\draw[color=");
 				ColorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
-				int height = (int) Math.ceil(StringUtil.prototype
+				int height = (int) Math.ceil(StringUtil.getPrototype()
 						.estimateHeight(label[1], euclidianView.getFont()));
 				GRectangle rect = euclidianView.getSelectionRectangle();
 				double x = euclidianView
