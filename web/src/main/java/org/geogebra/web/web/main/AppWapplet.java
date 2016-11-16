@@ -125,8 +125,11 @@ public class AppWapplet extends AppWFull {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		if (this.showMenuBar()) {
-			this.initSignInEventFlow(new LoginOperationW(this),
+			// opening file -> this was inited before
+			if (getLoginOperation() == null) {
+				initSignInEventFlow(new LoginOperationW(this),
 					ae.isEnableUsageStats());
+			}
 		} else {
 			if (Browser.runningLocal() && ae.isEnableUsageStats()) {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
