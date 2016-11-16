@@ -879,16 +879,18 @@ public abstract class Drawable3D extends DrawableND {
 				if (!thisGeo.isSelected() && otherGeo.isSelected()) {
 					return 1;
 				}
-				// check can drag one (only)
-				boolean thisDraggable = EuclidianController3D
-						.isDraggable(thisGeo, getView3D());
-				boolean otherDraggable = EuclidianController3D
-						.isDraggable(otherGeo, getView3D());
-				if (thisDraggable && !otherDraggable) {
-					return -1;
-				}
-				if (!thisDraggable && otherDraggable) {
-					return 1;
+				// check can drag one (only) -- if same type
+				if (thisGeo.getGeoClassType() == otherGeo.getGeoClassType()) {
+					boolean thisDraggable = EuclidianController3D
+							.isDraggable(thisGeo, getView3D());
+					boolean otherDraggable = EuclidianController3D
+							.isDraggable(otherGeo, getView3D());
+					if (thisDraggable && !otherDraggable) {
+						return -1;
+					}
+					if (!thisDraggable && otherDraggable) {
+						return 1;
+					}
 				}
 			} else {
 				if (this.getGeoElement().isSelected()
