@@ -25,7 +25,8 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.desktop.awt.GBasicStrokeD;
+import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
  * used by LineStylePanel for rendering a combobox with different line styles
@@ -50,7 +51,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		BasicStroke stroke;
 		for (int i = 0; i < types.length; i++) {
 			type = types[i];
-			stroke = GBasicStrokeD
+			stroke = ((AwtFactoryD) AwtFactory.prototype)
 					.getAwtStroke(EuclidianStatic
 					.getStroke(1.0f, type));
 			dashStrokeMap.put(type, stroke);

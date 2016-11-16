@@ -57,6 +57,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
@@ -69,7 +70,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
@@ -78,6 +78,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.export.PrintPreview;
+import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
@@ -536,7 +537,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 		GGraphics2DD.setAntialiasing(g2d);
 
-		g2d.setStroke(GBasicStrokeD
+		g2d.setStroke(((AwtFactoryD) AwtFactory.prototype)
 				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
 				(penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
 						: penLineStyle)));

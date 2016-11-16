@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
 
 import com.kitfox.svg.SVGException;
@@ -181,7 +182,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(GBasicStrokeD.getAwtStroke(s));
+		impl.setStroke(((AwtFactoryD) AwtFactory.prototype).getAwtStroke(s));
 
 	}
 

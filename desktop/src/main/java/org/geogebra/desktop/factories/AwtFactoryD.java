@@ -34,9 +34,11 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GAffineTransformD;
 import org.geogebra.desktop.awt.GAlphaCompositeD;
 import org.geogebra.desktop.awt.GArc2DD;
@@ -319,6 +321,21 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GPolygon newPolygon() {
 		return new GPolygonD();
+	}
+
+	public BasicStroke getAwtStroke(GBasicStroke s) {
+		if (!(s instanceof GBasicStrokeD)) {
+			if (s != null) {
+				Log.debug("other type: " + s.getClass());
+			}
+			return null;
+		}
+		return ((GBasicStrokeD) s).getImpl();
+	}
+
+	static public java.awt.BasicStroke getDefaultStrokeAwt() {
+		return ((AwtFactoryD) prototype)
+				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
 }

@@ -26,7 +26,7 @@ import org.geogebra.common.util.StringUtil;
  *
  *         Abstract class for EuclidianStatic
  */
-public abstract class EuclidianStatic {
+public class EuclidianStatic {
 	/**
 	 * need to clip just outside the viewing area when drawing eg vectors as a
 	 * near-horizontal thick vector isn't drawn correctly otherwise

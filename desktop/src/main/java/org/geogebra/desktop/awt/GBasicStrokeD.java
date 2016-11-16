@@ -6,7 +6,6 @@ import java.awt.geom.Path2D;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * @author kondr
@@ -27,15 +26,6 @@ public class GBasicStrokeD implements GBasicStroke {
 		impl = new BasicStroke(f);
 	}
 
-	public static BasicStroke getAwtStroke(GBasicStroke s) {
-		if (!(s instanceof GBasicStrokeD)) {
-			if (s != null)
-				Log.debug("other type");
-			return null;
-		} else
-			return ((GBasicStrokeD) s).impl;
-	}
-
 	public int getEndCap() {
 		return impl.getEndCap();
 	}
@@ -54,7 +44,7 @@ public class GBasicStrokeD implements GBasicStroke {
 			Path2D p2d = (Path2D) shapeD;
 			if (p2d.getCurrentPoint() != null
 					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
-				Log.debug("fix kicks in");
+				// Log.debug("fix kicks in");
 				return new GGenericShapeD(shapeD);
 			}
 		}
@@ -67,6 +57,10 @@ public class GBasicStrokeD implements GBasicStroke {
 
 	public float[] getDashArray() {
 		return impl.getDashArray();
+	}
+
+	public BasicStroke getImpl() {
+		return impl;
 	}
 
 }

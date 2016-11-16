@@ -21,15 +21,15 @@ import javax.swing.ImageIcon;
 
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
+import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -464,7 +464,7 @@ public class GeoGebraIcon {
 
 		// draw dashed line
 		g2.setPaint(fgColor);
-		g2.setStroke(GBasicStrokeD
+		g2.setStroke(((AwtFactoryD) AwtFactory.prototype)
 				.getAwtStroke(EuclidianStatic
 				.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
@@ -660,8 +660,7 @@ public class GeoGebraIcon {
 		private Ellipse2D.Double circle = new Ellipse2D.Double();
 		private Line2D.Double line1, line2, line3, line4;
 		private GeneralPath gp = null;
-		private BasicStroke borderStroke = EuclidianStaticD
-				.getDefaultStrokeAwt();
+		private BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
 		private BasicStroke[] crossStrokes = new BasicStroke[10];
 		private int h, w;
 

@@ -15,7 +15,7 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
+import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
  * adapted from PointStyleListRenderer
@@ -36,8 +36,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	private int pointSize = 4;
 	private Line2D.Double tempLine = new Line2D.Double();
 	private GeneralPath gp = new GeneralPath();
-	private static BasicStroke borderStroke = EuclidianStaticD
-			.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
 
 	public AxesStyleListRenderer() {
 		setOpaque(true);

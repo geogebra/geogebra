@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GAffineTransformD;
 import org.geogebra.desktop.awt.GBasicStrokeD;
@@ -13,6 +14,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGenericRectangle2DD;
 import org.geogebra.desktop.awt.GLine2DD;
+import org.geogebra.desktop.factories.AwtFactoryD;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
@@ -56,7 +58,8 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public Stroke getStroke() {
-		return new StrokeD(GBasicStrokeD.getAwtStroke(impl.getStroke()));
+		return new StrokeD(((AwtFactoryD) AwtFactory.prototype)
+				.getAwtStroke(impl.getStroke()));
 	}
 
 	public void setColor(Color color) {

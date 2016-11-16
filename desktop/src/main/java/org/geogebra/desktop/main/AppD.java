@@ -181,7 +181,6 @@ import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
@@ -703,7 +702,7 @@ ToolbarD.getAllTools(this));
 
 		StringUtil.prototype = new StringUtilD();
 
-		EuclidianStatic.prototype = new EuclidianStaticD();
+		EuclidianStatic.prototype = new EuclidianStatic();
 
 	}
 

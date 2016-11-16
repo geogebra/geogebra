@@ -52,7 +52,6 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
@@ -116,7 +115,7 @@ public class AppDNoGui extends App {
 
 		StringUtil.prototype = new StringUtilD();
 
-		EuclidianStatic.prototype = new EuclidianStaticD();
+		EuclidianStatic.prototype = new EuclidianStatic();
 
 	}
 
