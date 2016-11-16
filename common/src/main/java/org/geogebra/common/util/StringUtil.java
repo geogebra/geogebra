@@ -639,7 +639,7 @@ public class StringUtil {
 	 * @see #toLowerCase(String)
 	 */
 	protected String toLower(String s) {
-		return s.toLowerCase();
+		return s.toLowerCase(Locale.US);
 	}
 
 	/**
@@ -651,7 +651,7 @@ public class StringUtil {
 	 * @see #toLowerCase(String)
 	 */
 	protected String toUpper(String s) {
-		return s.toUpperCase();
+		return s.toUpperCase(Locale.US);
 	}
 
 	/**
@@ -1624,4 +1624,6 @@ public class StringUtil {
 			return loc.getColor("black");
 		}
 	}
+	
+
 }
