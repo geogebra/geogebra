@@ -1073,7 +1073,7 @@ __GGB__keysVar.da.command = {
     "ZMeanEstimate.Syntax": "[ <Liste med udvalgsdata>, <\u03c3>, <Level> ]\n[ <Udvalgsmiddel>, <\u03c3>, <Udvalgsst\xf8rrelse>, <Level> ]",
     "ZMeanTest": "ZGennemsnitTest",
     "ZMeanTest.Syntax": "[ <Liste med udvalgsdata>, <\u03c3>, <Hypotetisk Middel>, <Forhold> ]\n[ <Udvalgsmiddel>, <\u03c3>, <Udvalgsst\xf8rrelse>, <Hypotetisk Middel>, <Forhold> ]",
-    "ZProportion2Estimate": "ZProportion2Estimat",
+    "ZProportion2Estimate": "ZAndel2Estimat",
     "ZProportion2Estimate.Syntax": "[ <Udvalgsandel 1>, <Udvalgsst\xf8rrelse 1>, <Udvalgsandel 2>, <Udvalgsst\xf8rrelse 2>, <Level> ]",
     "ZProportion2Test": "ZProportion2Test",
     "ZProportion2Test.Syntax": "[ <Udvalgsandel 1>, <Udvalgsst\xf8rrelse 1>, <Udvalgsandel 2>, <Udvalgsst\xf8rrelse 2>, <Forhold> ]",

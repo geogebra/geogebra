@@ -1825,7 +1825,7 @@ __GGB__keysVar.nl.menu = {
     "GeoGebra3DGrapher.short": "3D Grafisch rekenapparaat",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra grafisch rekenapparaat",
-    "GeoGebraMaterials": "GeoGebra Materials",
+    "GeoGebraMaterials": "GeoGebra Materiaal",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebra eigenschappen",
     "GeogebraToAsymptoteExport": "Exporteer GeoGebra naar Asymptote",
