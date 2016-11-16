@@ -684,11 +684,11 @@ ToolbarD.getAllTools(this));
 	protected void initFactories() {
 
 		if (AwtFactory.prototype == null) {
-		AwtFactory.prototype = new AwtFactoryD();
+			AwtFactory.prototype = new AwtFactoryD();
 		}
 
 		if (FormatFactory.prototype == null) {
-		FormatFactory.prototype = new FormatFactoryJre();
+			FormatFactory.prototype = new FormatFactoryJre();
 		}
 
 		if (LaTeXFactory.prototype == null) {

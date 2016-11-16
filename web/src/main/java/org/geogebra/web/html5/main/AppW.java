@@ -326,11 +326,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected void initFactories() {
 
 		if (FormatFactory.prototype == null) {
-		FormatFactory.prototype = new FormatFactoryW();
+			FormatFactory.prototype = new FormatFactoryW();
 		}
 
 		if (AwtFactory.prototype == null) {
-		AwtFactory.prototype = new AwtFactoryW();
+			AwtFactory.prototype = new AwtFactoryW();
 		}
 
 		if (StringUtil.prototype == null) {
