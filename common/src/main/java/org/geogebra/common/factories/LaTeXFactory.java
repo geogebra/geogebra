@@ -7,7 +7,7 @@ import org.geogebra.common.util.LaTeXCache;
  */
 public abstract class LaTeXFactory {
 	/** platform dependent prototype */
-	private static LaTeXFactory prototype;
+	private static volatile LaTeXFactory prototype;
 
 	private static final Object lock = new Object();
 

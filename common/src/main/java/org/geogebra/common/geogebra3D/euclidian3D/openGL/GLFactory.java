@@ -11,7 +11,21 @@ public abstract class GLFactory {
 	/**
 	 * prototype to factor stuff
 	 */
-	public static GLFactory prototype = null;
+	private static volatile GLFactory prototype = null;
+
+	private static final Object lock = new Object();
+
+	public static GLFactory getPrototype() {
+		return prototype;
+	}
+
+	public static void setPrototype(GLFactory p) {
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
 
 	/**
 	 * 

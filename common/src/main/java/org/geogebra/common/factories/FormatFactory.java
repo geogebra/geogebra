@@ -4,7 +4,7 @@ import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
 
 public abstract class FormatFactory {
-	private static FormatFactory prototype;
+	private static volatile FormatFactory prototype;
 
 	private static final Object lock = new Object();
 

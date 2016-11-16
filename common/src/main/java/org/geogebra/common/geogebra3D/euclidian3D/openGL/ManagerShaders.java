@@ -94,10 +94,10 @@ public class ManagerShaders extends Manager {
 		 */
 		public Geometry(Type type) {
 			this.type = type;
-			this.v = GLFactory.prototype.newBuffer();
-			this.n = GLFactory.prototype.newBuffer();
-			this.t = GLFactory.prototype.newBuffer();
-			this.c = GLFactory.prototype.newBuffer();
+			this.v = GLFactory.getPrototype().newBuffer();
+			this.n = GLFactory.getPrototype().newBuffer();
+			this.t = GLFactory.getPrototype().newBuffer();
+			this.c = GLFactory.getPrototype().newBuffer();
 
 		}
 

@@ -13,7 +13,7 @@ public abstract class UtilFactory {
 	/**
 	 * UtilFactory prototype for various common utils
 	 */
-	private static UtilFactory prototype;
+	private static volatile UtilFactory prototype;
 
 	private static final Object lock = new Object();
 
