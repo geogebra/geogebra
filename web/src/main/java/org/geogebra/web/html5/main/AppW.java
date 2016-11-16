@@ -328,6 +328,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		AwtFactory.prototype = new AwtFactoryW();
 		StringUtil.prototype = new StringUtil();
 		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
+		UtilFactory.prototype = new UtilFactoryW();
 
 	}
 
@@ -1660,9 +1661,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	protected void initCommonObjects() {
 		initFactories();
-		UtilFactory.prototype = new UtilFactoryW();
-		Factory.setPrototype(new FactoryW());
-		// App.initializeSingularWS();
 
 		// Online - Offline event handling begins here
 		initNetworkEventFlow();
@@ -2056,7 +2054,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public Factory getFactory() {
-		return Factory.getPrototype();
+		Factory ret = Factory.getPrototype();
+
+		if (ret == null) {
+			ret = new FactoryW();
+			Factory.setPrototype(ret);
+		}
+
+		return ret;
 	}
 
 	public void restoreCurrentUndoInfo() {
