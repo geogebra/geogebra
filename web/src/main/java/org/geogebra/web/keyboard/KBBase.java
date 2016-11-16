@@ -423,7 +423,8 @@ public abstract class KBBase extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (KBBase.this.processField.isSVCell()) {
+				if ((KBBase.this.processField != null)
+						&& KBBase.this.processField.isSVCell()) {
 					// hideInSV = true;
 
 					((SpreadsheetViewInterface)((AppW) app)
