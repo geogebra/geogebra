@@ -687,19 +687,19 @@ ToolbarD.getAllTools(this));
 			AwtFactory.setPrototypeIfNull(new AwtFactoryD());
 		}
 
-		if (FormatFactory.prototype == null) {
+		if (FormatFactory.getPrototype() == null) {
 			FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
 		}
 
-		if (LaTeXFactory.prototype == null) {
+		if (LaTeXFactory.getPrototype() == null) {
 			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
 		}
 
-		if (UtilFactory.prototype == null) {
+		if (UtilFactory.getPrototype() == null) {
 			UtilFactory.setPrototypeIfNull(new UtilFactoryD());
 		}
 
-		if (StringUtil.prototype == null) {
+		if (StringUtil.getPrototype() == null) {
 			StringUtil.setPrototypeIfNull(new StringUtilD());
 		}
 
