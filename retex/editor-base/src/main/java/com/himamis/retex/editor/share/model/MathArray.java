@@ -209,40 +209,48 @@ public class MathArray extends MathContainer {
     }
 
 	public void checkMatrix(MetaModel metaModel) {
-		int matrixWidth = -1;
-		for (int i = 0; i < size(); i++) {
-			if (getArgument(i).size() == 1
-					&& getArgument(i).getArgument(0) instanceof MathArray) {
-				MathArray row = (MathArray) getArgument(i).getArgument(0);
-
-				if (row.meta != metaModel.getArray(MetaArray.CURLY)) {
-					return;
-				}
-				else if (matrixWidth == -1) {
-					matrixWidth = row.size();
-				} else if (matrixWidth != row.size()) {
-					return;
-				}
-			}
-		}
-
+		int matrixWidth = numberOfColumns(metaModel);
 		if (matrixWidth >= 0) {
-			columns = matrixWidth;
-			rows = size();
-			ArrayList<MathComponent> entries = new ArrayList<MathComponent>();
-			for (int i = 0; i < this.size(); i++) {
-				for (int j = 0; j < ((MathContainer) getArgument(i)
-						.getArgument(0)).size(); j++) {
-					MathComponent arg = ((MathContainer) getArgument(i)
-							.getArgument(0)).getArgument(j);
-					arg.setParent(this);
-					entries.add(arg);
-				}
-			}
-			clearArguments();
-			arguments.addAll(entries);
-			meta = metaModel.getMatrix();
+            rows = size();
+            flattenMatrix();
+            columns = matrixWidth;
+            meta = metaModel.getMatrix();
 		}
 	}
 
+	// Returns the number of columns or -1 if it's not a matrix
+	private int numberOfColumns(MetaModel metaModel) {
+        int matrixWidth = -1;
+        for (int i = 0; i < size(); i++) {
+            if (getArgument(i).size() == 1
+                    && getArgument(i).getArgument(0) instanceof MathArray) {
+                MathArray row = (MathArray) getArgument(i).getArgument(0);
+
+                if (row.meta != metaModel.getArray(MetaArray.CURLY)) {
+                    return -1;
+                } else if (matrixWidth == -1) {
+                    matrixWidth = row.size();
+                } else if (matrixWidth != row.size()) {
+                    return -1;
+                }
+            }
+        }
+        return matrixWidth;
+    }
+
+    private void flattenMatrix() {
+        ArrayList<MathComponent> entries = new ArrayList<MathComponent>();
+        for (int i = 0; i < size(); i++) {
+            for (int j = 0; j < ((MathContainer) getArgument(i)
+                    .getArgument(0)).size(); j++) {
+                MathComponent arg = ((MathContainer) getArgument(i)
+                        .getArgument(0)).getArgument(j);
+                entries.add(arg);
+            }
+        }
+        clearArguments();
+        for (MathComponent entry : entries) {
+            addArgument(entry);
+        }
+    }
 }
