@@ -19,7 +19,10 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * @author gabor
@@ -27,8 +30,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Toolbar for GeoGebraWeb
  * 
  */
-public class ToolBarW extends FlowPanel implements ClickHandler,
-        ToolBarInterface {
+public class ToolBarW extends FlowPanel
+ implements ClickHandler, ToolBarInterface, MouseOutHandler {
 
 	private AppW app;
 	private int mode;
@@ -48,6 +51,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	protected UnorderedList menuList;
 	private GGWToolBar tb;
 	private boolean isMobileToolbar;
+	private boolean isMouseDown = false;
+	private int mousePosition;
+	private int toolbarPosition;
 
 	/**
 	 * Creates general toolbar. There is no app parameter here, because of
@@ -58,6 +64,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.tb = tb;
 		this.addStyleName("GGWToolbar");
 		this.addDomHandler(this, ClickEvent.getType());
+
 	}
 
 	/**
@@ -72,6 +79,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.addStyleName("GGWToolbar");
 
 		this.addDomHandler(this, ClickEvent.getType());
+		this.addDomHandler(this, MouseOutEvent.getType());
+		submenuPanel.addDomHandler(this, MouseOutEvent.getType());
 	}
 
 	/**
@@ -451,4 +460,31 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	public GGWToolBar getGGWToolBar() {
 		return tb;
 	}
+
+	public void setPosition(int positionX) {
+		if (isMouseDown) {
+			if (this.isVisible()) {
+				((ScrollPanel) this.getParent())
+						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+			} else {
+				((ScrollPanel) submenuPanel.getParent())
+						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+			}
+		}
+	}
+
+
+	public void onMouseOut(MouseOutEvent event) {
+		setMouseDown(false);
+	}
+
+	public void setMouseDown(boolean down) {
+		isMouseDown = down;
+	}
+
+	public void setStartPositions(int mouse, int tb) {
+		mousePosition = mouse;
+		toolbarPosition = tb;
+	}
+
 }

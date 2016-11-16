@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.toolbar;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -16,12 +15,17 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.HumanInputEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ModeToggleMenuP extends ModeToggleMenu {
+public class ModeToggleMenuP extends ModeToggleMenu implements MouseMoveHandler {
 
 	FlowPanel submenuPanel;
 	StandardButton back;
@@ -42,8 +46,13 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	
 	@Override
 	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
-		Log.debug("create toolbar submenu P");
 		return new ToolbarSubmenuP(app, order);
+	}
+
+	@Override
+	public void addDomHandlers(Widget w) {
+		super.addDomHandlers(w);
+		 w.addDomHandler(this, MouseMoveEvent.getType());
 	}
 
 	@Override
@@ -94,9 +103,9 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 
 	@Override
 	public void showMenu() {
-		Log.debug("show menu phone");
-		// remove toolbar before showing submenu
+		// hide toolbar before showing submenu
 		toolbar.setVisible(false);
+		toolbar.getParent().setVisible(false);
 
 		if (this.submenu == null) {
 			this.buildGui();
@@ -120,6 +129,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 			submenu.setVisible(false);
 		}
 		removeBackButton();
+		toolbar.getParent().setVisible(true);
 		toolbar.setVisible(true);
 	}
 
@@ -143,7 +153,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		if (event.getSource() == tbutton) {
 			tbutton.addStyleName("touched");
 		}
-		Log.debug("onstart");
+
 		if (toolbar.isVisible()) {
 			startPosition = toolbar.getAbsoluteLeft();
 		} else {
@@ -191,12 +201,42 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			// if we click the toolbar button, only interpret it as real click
-			// if
-			// there is only one tool in this menu
+			// if there is only one tool in this menu
 			app.setMode(mode,
 					event.getSource() == tbutton && menu.size() > 1 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 		tbutton.getElement().focus();
 	}
+
+	@Override
+	public void onMouseDown(MouseDownEvent event) {
+		event.preventDefault();
+		startPosition = event.getClientX();
+		if (toolbar.isVisible()) {
+			toolbar.setStartPositions(startPosition,
+				((ScrollPanel) toolbar.getParent()).getHorizontalScrollPosition());
+		} else {
+			toolbar.setStartPositions(startPosition,
+					((ScrollPanel) submenuPanel.getParent()).getHorizontalScrollPosition());
+		}
+		toolbar.setMouseDown(true);
+	}
+
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
+		toolbar.setMouseDown(false);
+		endPosition = event.getClientX();
+
+		if (startPosition == endPosition) {
+			super.onMouseUp(event);
+		}
+	}
+
+
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+			toolbar.setPosition(event.getClientX());
+	}
+
 }

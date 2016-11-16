@@ -43,6 +43,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -72,12 +73,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	//panel which contains the toolbar and undo-redo buttons.
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
-	FlowPanel toolBPanel;
+	ScrollPanel toolBPanel;
 	// ScrollPanel ;
 	// panel for mobile submenu view
 	FlowPanel submenuPanel;
-	FlowPanel submenuScrollPanel;
-	// ScrollPanel submenuScrollPanel;
+	ScrollPanel submenuScrollPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
@@ -132,7 +132,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolbars = new ArrayList<ToolBarW>();
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			submenuScrollPanel = new FlowPanel();
+			submenuScrollPanel = new ScrollPanel();
 			submenuPanel = new FlowPanel();
 			submenuPanel.addStyleName("submenuPanel");
 			submenuScrollPanel.addStyleName("submenuScrollPanel");
@@ -146,7 +146,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 
 		updateClassname(app.getToolbarPosition());
-		toolBPanel = new FlowPanel();
+		toolBPanel = new ScrollPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 
@@ -158,6 +158,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
+		toolBPanel.addStyleName("overflow");
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init(app1);
@@ -1204,6 +1205,7 @@ pr.menu_header_undo(), null, 32);
 				int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
 				toolBar.setWidth(tbwidth + "px");
 				toolBPanel.setWidth((maxButtons) * 45 + "px");
+				toolBPanel.removeStyleName("overflow");
 				toolBPanel.addStyleName("toolBPanelMobile");
 				rightButtonPanel.addStyleName("rightButtonPanelMobile");
 				setSubmenuDimensions(width);
@@ -1211,6 +1213,7 @@ pr.menu_header_undo(), null, 32);
 				toolBar.setWidth("");
 				toolBPanel.setWidth("");
 				toolBPanel.removeStyleName("toolBPanelMobile");
+				toolBPanel.addStyleName("overflow");
 				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 			}
 		}
