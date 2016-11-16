@@ -374,7 +374,8 @@ public abstract class EuclidianView
 		// ggb3D 2009-02-05
 		hits = new Hits();
 
-		printScaleNF = FormatFactory.prototype.getNumberFormat("#.#####", 5);
+		printScaleNF = FormatFactory.getPrototype().getNumberFormat("#.#####",
+				5);
 
 	}
 
@@ -1533,13 +1534,13 @@ public abstract class EuclidianView
 				|| (axesNumberingDistances[axis] > 10E6)) {
 			// df.applyPattern("0.##E0");
 			maxFractionDigtis = Math.min(14, maxFractionDigtis);
-			axesNumberFormat[axis] = FormatFactory.prototype
+			axesNumberFormat[axis] = FormatFactory.getPrototype()
 					.getNumberFormat("0.##E0", maxFractionDigtis);
 			// avoid 4.00000000000004E-11 due to rounding error when
 			// computing
 			// tick mark numbers
 		} else {
-			axesNumberFormat[axis] = FormatFactory.prototype
+			axesNumberFormat[axis] = FormatFactory.getPrototype()
 					.getNumberFormat("###0.##", maxFractionDigtis);
 		}
 

@@ -321,8 +321,8 @@ public class Kernel {
 	 *            factory for new elements
 	 */
 	protected Kernel(GeoFactory factory) {
-		nf = FormatFactory.prototype.getNumberFormat(2);
-		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
+		nf = FormatFactory.getPrototype().getNumberFormat(2);
+		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
 		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
 		this.deleteList = new ArrayList<GeoElement>();
 		this.geoFactory = factory;
@@ -2706,7 +2706,7 @@ public class Kernel {
 	final public void setPrintDecimals(int decimals) {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
-			nf = FormatFactory.prototype.getNumberFormat(decimals);
+			nf = FormatFactory.getPrototype().getNumberFormat(decimals);
 		}
 	}
 

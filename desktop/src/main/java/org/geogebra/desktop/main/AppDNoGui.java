@@ -95,30 +95,35 @@ public class AppDNoGui extends App {
 		return new App3DCompanionD(this);
 	}
 
-	private void initFactories() {
-		AwtFactory.prototype = new AwtFactoryD();
-		FormatFactory.prototype = new FormatFactoryJre();
-		LaTeXFactory.prototype = new LaTeXFactoryD();
+	/**
+	 * init factories
+	 */
+	protected void initFactories() {
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+		if (AwtFactory.getPrototype() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryD());
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.SwingFactory.prototype = new
-		// SwingFactoryD();
+		if (FormatFactory.getPrototype() == null) {
+			FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+		}
 
-		UtilFactory.prototype = new UtilFactoryD();
+		if (LaTeXFactory.getPrototype() == null) {
+			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
+		}
 
-		// moved to getFactory() so that applets load quicker
-		// geogebra.common.factories.Factory.prototype = new FactoryD();
+		if (UtilFactory.getPrototype() == null) {
+			UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+		}
 
-		StringUtil.prototype = new StringUtilD();
+		if (StringUtil.getPrototype() == null) {
+			StringUtil.setPrototypeIfNull(new StringUtilD());
+		}
 
 	}
 
 	@Override
 	public boolean isApplet() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

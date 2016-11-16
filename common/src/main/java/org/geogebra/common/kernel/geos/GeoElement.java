@@ -5819,7 +5819,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return numberD.toString();
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
-		final NumberFormatAdapter df = FormatFactory.prototype
+		final NumberFormatAdapter df = FormatFactory.getPrototype()
 				.getNumberFormat("#.######", 6);
 		return df.format(number);
 	}
