@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBasicStroke;
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -11,7 +10,6 @@ import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -32,10 +30,7 @@ public class EuclidianStatic {
 	 * near-horizontal thick vector isn't drawn correctly otherwise
 	 */
 	public static final int CLIP_DISTANCE = 5;
-	/**
-	 * Prototype decides what implementation will be used for static methods
-	 */
-	public static final EuclidianStatic prototype = new EuclidianStatic();
+
 	/** standardstroke */
 	protected static final GBasicStroke standardStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f);
@@ -135,41 +130,6 @@ public class EuclidianStatic {
 	 * frc);
 	 */
 
-	/**
-	 * Draw a multiline LaTeX label.
-	 * 
-	 * @param app
-	 *            application
-	 * @param tempGraphics
-	 *            temporary graphics
-	 * @param geo
-	 *            geo
-	 * 
-	 * @param g2
-	 *            graphics
-	 * @param font
-	 *            font
-	 * @param fgColor
-	 *            color
-	 * @param bgColor
-	 *            background color
-	 * @param labelDesc
-	 *            LaTeX text
-	 * @param xLabel
-	 *            x-coord
-	 * @param yLabel
-	 *            y-coord
-	 * @param serif
-	 *            true touseserif font
-	 * @return bounds of resulting LaTeX formula
-	 */
-	public static final GRectangle drawMultilineLaTeX(App app,
-			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
-			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
-			int xLabel, int yLabel, boolean serif, Runnable callback) {
-		return prototype.doDrawMultilineLaTeX(app, tempGraphics, geo, g2, font,
-				fgColor, bgColor, labelDesc, xLabel, yLabel, serif, callback);
-	}
 
 	/**
 	 * Draw a multiline LaTeX label.
@@ -199,7 +159,7 @@ public class EuclidianStatic {
 	 *            true touseserif font
 	 * @return bounds of resulting LaTeX formula
 	 */
-	public final GRectangle doDrawMultilineLaTeX(App app,
+	public static final GRectangle drawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
 			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
 			int xLabel, int yLabel, boolean serif, Runnable callback) {
@@ -349,7 +309,7 @@ public class EuclidianStatic {
 	 *            String to split
 	 * @return str split on $ but not \$
 	 */
-	private String[] blockSplit(String str) {
+	private static String[] blockSplit(String str) {
 		
 		// http://stackoverflow.com/questions/2709839/how-do-i-express-but-not-preceded-by-in-a-java-regular-expression
 		// negative lookbehind
@@ -413,8 +373,7 @@ public class EuclidianStatic {
 	 *            true to use serif font
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
-	public static GPoint drawIndexedString(App app,
- GGraphics2D g3, String str,
+	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
 			float xPos,
 			float yPos, boolean serif, boolean precise) {
 
@@ -553,21 +512,6 @@ public class EuclidianStatic {
 			return AwtFactory.prototype.newTextLayout(tempStr, font, frc)
 					.getAdvance();
 		return StringUtil.prototype.estimateLength(tempStr, font);
-	}
-
-	/**
-	 * This hack was needed for ticket #3265
-	 */
-	protected void doFillAfterImageLoaded(GShape shape, GGraphics2D g3,
-			GBufferedImage gi, App app) {
-	}
-
-	/**
-	 * This hack was needed for ticket #3265
-	 */
-	public static void fillAfterImageLoaded(GShape shape, GGraphics2D g3,
-			GBufferedImage gi, App app) {
-		prototype.doFillAfterImageLoaded(shape, g3, gi, app);
 	}
 
 	/**
