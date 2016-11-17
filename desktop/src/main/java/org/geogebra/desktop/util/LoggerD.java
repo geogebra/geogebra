@@ -27,7 +27,7 @@ public class LoggerD extends Log {
 	}
 
 	@Override
-	protected String getTimeInfo() {
+	protected String getTimeInfoImpl() {
 		Calendar calendar = new GregorianCalendar();
 		int min = calendar.get(Calendar.MINUTE);
 		String minS = (min < 10) ? "0" + min : "" + min;
@@ -53,7 +53,7 @@ public class LoggerD extends Log {
 	}
 
 	@Override
-	public void setLogFile(String logFileName) {
+	public void setLogFileImpl(String logFileName) {
 		if (logFile != null && logFileWriter != null) {
 			try {
 				logFileWriter.close();

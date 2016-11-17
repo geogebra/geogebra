@@ -688,7 +688,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	        GeoGebraFrameW frame, JavaScriptObject onLoadCallback) {
 
 		final ArticleElement article = ArticleElement.as(element);
-		if(Log.logger == null){
+		if (Log.getLogger() == null) {
 			LoggerW.startLogger(article);
 		}
 		article.clear();

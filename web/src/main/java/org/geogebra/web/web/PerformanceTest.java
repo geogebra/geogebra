@@ -56,7 +56,7 @@ public class PerformanceTest implements EntryPoint {
 		GeoGebraProfiler.getInstance().profile();
 		NodeList<Element> nodes = Dom
 		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		Log.logger = new LoggerW();
+		Log.setLogger(new LoggerW());
 		ArticleElement ae = ArticleElement.as(nodes.getItem(0));
 		GeoGebraFrameSimple gfs = new GeoGebraFrameSimple();
 		ae.setId("ggbPerfTest");

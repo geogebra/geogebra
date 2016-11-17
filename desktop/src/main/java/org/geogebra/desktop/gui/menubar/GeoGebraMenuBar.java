@@ -659,10 +659,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 		sb.append("\n\n");
 
-		if (Log.logger != null) {
+		if (Log.getLogger() != null) {
 			// copy the entire log to systemInfo (maybe not required at all)
 			sb.append("GeoGebraLogger log:\n");
-			sb.append(Log.logger.getEntireLog());
+			sb.append(Log.getEntireLog());
 			sb.append("\n");
 		}
 

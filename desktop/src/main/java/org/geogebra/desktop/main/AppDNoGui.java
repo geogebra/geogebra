@@ -74,7 +74,7 @@ public class AppDNoGui extends App {
 
 		super(Versions.DESKTOP);
 		if (!silent) {
-			Log.logger = new LoggerD();
+			Log.setLogger(new LoggerD());
 		}
 
 		prerelease = true;

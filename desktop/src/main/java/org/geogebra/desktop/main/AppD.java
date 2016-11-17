@@ -406,14 +406,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		this.args = args;
 
 		if (args != null && !args.containsArg("silent")) {
-			Log.logger = new LoggerD();
-			Log.logger.setLogDestination(LogDestination.CONSOLE);
+			Log.setLogger(new LoggerD());
+			Log.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
-				Log.logger.setLogLevel(args.getStringValue("logLevel"));
+				Log.setLogLevel(args.getStringValue("logLevel"));
 			}
 			if (args.containsArg("logFile")) {
-				Log.logger.setLogDestination(LogDestination.FILE);
-				Log.logger.setLogFile(args.getStringValue("logFile"));
+				Log.setLogDestination(LogDestination.FILE);
+				Log.setLogFile(args.getStringValue("logFile"));
 			}
 		}
 		this.prerelease = args != null
@@ -4406,7 +4406,7 @@ ToolbarD.getAllTools(this));
 	 */
 	private void setUpLogging() {
 		Log.debug("Setting up logging");
-		if (Log.logger.getLogDestination() == LogDestination.FILE) {
+		if (Log.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
 			Log.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
 			return;
@@ -4427,13 +4427,13 @@ ToolbarD.getAllTools(this));
 		logFile.append(".txt");
 
 		Log.debug("Logging is redirected to " + logFile.toString());
-		Log.logger.setTimeShown(false); // do not print the time twice
+		Log.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
 		try {
 			fileHandler = new FileHandler(logFile.toString(),
-					Log.logger.LOGFILE_MAXLENGTH, 1, false);
+					Log.LOGFILE_MAXLENGTH, 1, false);
 		} catch (Exception e) {
 			logFile = null;
 			return;
@@ -4493,8 +4493,8 @@ ToolbarD.getAllTools(this));
 		}
 		logFile.append(".txt");
 
-		Log.logger.setLogDestination(LogDestination.FILE);
-		Log.logger.setLogFile(logFile.toString());
+		Log.setLogDestination(LogDestination.FILE);
+		Log.setLogFile(logFile.toString());
 		Log.debug(logFile.toString());
 	}
 

@@ -57,7 +57,7 @@ public class GeoGebraCasIntegrationTest {
 		app = new AppDNoGui(new LocalizationD(3), false);
 
     if (silent) {
-      Log.logger = null;
+			Log.setLogger(null);
     }
 
     // Set language to something else than English to test automatic translation.
