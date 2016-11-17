@@ -244,7 +244,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 		});
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.insert(getClearInputButton(), 1);
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				content.insert(getClearInputButton(), 1);
+			}
 			controls.setVisible(false);
 		}
 

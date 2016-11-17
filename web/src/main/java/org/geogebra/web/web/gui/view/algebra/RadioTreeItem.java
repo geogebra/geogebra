@@ -1302,7 +1302,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		editing = false;
 		av.cancelEditing();
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (btnClearInput != null) {
+			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 				content.remove(btnClearInput);
 				btnClearInput = null;
 			}
@@ -2531,10 +2531,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			// content.add(getClearInputButton());
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			if (app.has(Feature.AV_PREVIEW)) {
 				content.insert(getClearInputButton(), 0);
 			} else {
 				content.add(getClearInputButton());
+			}
 			}
 			if (controls != null) {
 				controls.setVisible(false);
