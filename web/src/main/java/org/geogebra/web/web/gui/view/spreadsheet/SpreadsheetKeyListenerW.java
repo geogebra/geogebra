@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GWTKeycodes;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -149,7 +148,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the bottom
 			if (table.getSelectedRow() + 1 >= table.getRowCount()
-					&& table.getSelectedRow() + 1 < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
+					&& table.getSelectedRow() + 1 < app
+							.getMaxSpreadsheetRowsVisible()) {
 				model.setRowCount(table.getRowCount() + 1);
 
 				// getView().getRowHeader().revalidate(); //G.STURR 2010-1-9
@@ -244,7 +244,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			// auto increase spreadsheet size when you go off the right
 
 			if (table.getSelectedColumn() + 1 >= table.getColumnCount()
-					&& table.getSelectedColumn() + 1 < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
+					&& table.getSelectedColumn() + 1 < app
+							.getMaxSpreadsheetColumnsVisible()) {
 
 				// table.setRepaintAll();
 				model.setColumnCount(table.getColumnCount() + 1);

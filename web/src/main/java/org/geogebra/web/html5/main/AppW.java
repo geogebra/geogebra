@@ -57,7 +57,6 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.events.NativeEventAttacher;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -1707,8 +1706,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// if (has(Feature.AV_EXTENSIONS)) {
 		// settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
 		// }
-		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
-		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 200;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
@@ -3526,6 +3523,22 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void setNewExam() {
 		setExam(new ExamEnvironmentW(this));
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetRowsVisible() {
+		return Kernel.MAX_SPREADSHEET_ROWS_WEB;
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetColumnsVisible() {
+		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	}
 
 }

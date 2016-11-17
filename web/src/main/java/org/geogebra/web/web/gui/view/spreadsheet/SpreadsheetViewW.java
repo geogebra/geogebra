@@ -372,8 +372,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// table.setRepaintAll();
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
-				&& location.y < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
+				&& location.x < app.getMaxSpreadsheetColumnsVisible()
+				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener

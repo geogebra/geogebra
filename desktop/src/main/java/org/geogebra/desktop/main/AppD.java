@@ -5478,4 +5478,5 @@ ToolbarD.getAllTools(this));
 		return copyPaste;
 	}
 
+
 }

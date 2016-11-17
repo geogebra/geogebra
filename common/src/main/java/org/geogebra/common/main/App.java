@@ -4547,5 +4547,20 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetRowsVisible() {
+		return Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetColumnsVisible() {
+		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	}
 
 }

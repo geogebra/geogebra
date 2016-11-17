@@ -55,7 +55,6 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTraceManager;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -750,7 +749,7 @@ implements
 			Integer value = Integer.parseInt(source.getText());
 			
 			if (value != null && value > 0
-					&& value < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
+					&& value < app.getMaxSpreadsheetRowsVisible()) {
 
 				if (source == firstRowField) {
 					traceManager.clearGeoTraceColumns(getSelectedGeo());
@@ -880,7 +879,7 @@ implements
 					getSettings().traceRow1, 
 					getSettings().traceColumn2,
 						(getSettings().doRowLimit) ? getSettings().traceRow2
-								: SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE);
+								: app.getMaxSpreadsheetRowsVisible());
 			}
 			break;
 
@@ -896,7 +895,7 @@ implements
 
 			int w = getSettings().traceColumn2 - getSettings().traceColumn1;
 			int h = ((getSettings().doRowLimit) ? getSettings().traceRow2
-					: SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE)
+					: app.getMaxSpreadsheetRowsVisible())
 					- getSettings().traceRow1;
 
 			cr.setCellRange(anchorColumn, anchorRow, anchorColumn + w,anchorRow + h);
