@@ -202,7 +202,7 @@ public class ToolCreationDialogModel {
 	 * @param iconFileName
 	 *            fileName of the Icon to use for the macro, might be a empty
 	 *            string
-	 * @return true if successfull and false if a macro existed which could not
+	 * @return true if successful and false if a macro existed which could not
 	 *         be overwritten because the new macro was not compatible with the
 	 *         old.
 	 */
