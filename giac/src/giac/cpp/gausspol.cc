@@ -1058,19 +1058,22 @@ namespace giac {
     gen T1=th.coord.front().value,T2=other.coord.front().value;
     // gen T1=th.coord[c1/2].value,T2=other.coord[c2/2].value;
     int t1=T1.type,t2=T2.type;
-#if 0 // does not pass chk_geo and the time gain is small
+#if 0 // does not work if _ext are embedded inside fractions
     if (t1==_EXT || t2==_EXT){
       gen minp;
       if (t1==_EXT)
 	minp=*(T1._EXTptr+1);
       else
 	minp=*(T2._EXTptr+1);
-      polynome p1m,p2m;
-      if (unext(th,minp,p1m) && unext(other,minp,p2m)){
-	mulpoly(p1m,p2m,res,0);
-	ext(res,minp);
+      polynome p1m,p2m,pm(th.dim);
+      if (minp.type==_VECT && unext(th,minp,p1m) && unext(other,minp,p2m)){
+	mulpoly(p1m,p2m,pm,0);
+	ext(pm,minp,res);
+	//Mul<gen>(ita,ita_end,itb,itb_end,pm.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+	//if (!(pm-res).coord.empty()) 
+	//CERR << "err" << th << endl << other << endl << pm-res << endl;
+	return;
       }
-      return;
     }
 #endif
 #ifdef NO_TEMPLATE_MULTGCD
@@ -3626,24 +3629,43 @@ namespace giac {
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     res.coord.reserve(itend-it);
     for (;it!=itend;++it){
-      if (it->value.type==_EXT){
-	if (*(it->value._EXTptr+1)!=pmin)
+      gen g=it->value;
+      if (g.type==_FRAC)
+	return false;
+      if (g.type==_EXT){
+	if (*(g._EXTptr+1)!=pmin)
 	  return false;
-	gen g=*it->value._EXTptr;
+	g=*g._EXTptr;
 	if (g.type==_VECT)
 	  g.subtype=_POLY1__VECT;
 	res.coord.push_back(monomial<gen>(g,it->index));
       }
       else
-	res.coord.push_back(monomial<gen>(it->value,it->index));
+	res.coord.push_back(*it);
     }
     return true;
   }
 
-  void ext(polynome & res,const gen & pmin){
+  bool ext(polynome & res,const gen & pmin){
     vector< monomial<gen> >::iterator it=res.coord.begin(),itend=res.coord.end();
     for (;it!=itend;++it){
-      it->value=ext_reduce(it->value,pmin);
+      gen g=ext_reduce(it->value,pmin);
+      if (is_zero(g)) return false;
+      it->value=g;
+    }
+    return true;
+  }
+
+  void ext(const polynome & p,const gen & pmin,polynome & res){
+    res.dim=p.dim;
+    res.coord.clear();
+    res.coord.reserve(p.coord.size());
+    vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    for (;it!=itend;++it){
+      gen g=ext_reduce(it->value,pmin);
+      if (is_zero(g)) 
+	continue;
+      res.coord.push_back(monomial<gen>(g,it->index));
     }
   }
 

@@ -890,6 +890,7 @@ namespace giac {
     mpz_init(prod);
     new_coord.clear();
     if (ita0==ita_end || itb0==itb_end) return;
+    //new_coord.reserve((ita_end-ita0)+(itb_end-itb0)-1);
     modpoly::const_iterator ita_begin=ita0,ita=ita0,itb=itb0;
     for ( ; ita!=ita_end; ++ita ){
       ref_mpz_t * res = new ref_mpz_t; 

@@ -60,7 +60,8 @@ namespace giac {
   void modularize(polynome & d,const gen & m);
   // remove EXT, also checks that pmin is the min poly
   bool unext(const polynome & p,const gen & pmin,polynome & res);
-  void ext(polynome & res,const gen & pmin);
+  bool ext(polynome & res,const gen & pmin);
+  void ext(const polynome & p,const gen & pmin,polynome & res);
   // arithmetic
   bool is_one(const polynome & p);
   bool operator < (const polynome & f,const polynome & g);

@@ -12162,9 +12162,9 @@ namespace giac {
     if (!mhessenberg(m,h,p,modulo,maxiter,eps,contextptr))
       return gensizeerr(contextptr);
     if (modulo<0)
-      return makevecteur(_trn(p,contextptr),h); // p,h such that p*h*p^-1=orig
+      return makesequence(_trn(p,contextptr),h); // p,h such that p*h*p^-1=orig
     else
-      return makevecteur(inv(p,contextptr),h); // p,h such that p*h*p^-1=orig
+      return makesequence(inv(p,contextptr),h); // p,h such that p*h*p^-1=orig
   }
   static const char _hessenberg_s []="hessenberg";
   static define_unary_function_eval (__hessenberg,&giac::_hessenberg,_hessenberg_s);
