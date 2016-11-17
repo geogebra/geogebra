@@ -582,8 +582,11 @@ public class EuclidianOptionsModel {
 		listener.updateBounds();
 
 		// need style with bold removed for menu
-		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
-			if (EuclidianView.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
+		for (int i = 0; i < EuclidianStyleConstants
+				.getLineStyleOptions().length; i++) {
+			if (EuclidianView.getBoldAxes(false,
+					view.getAxesLineStyle()) == EuclidianStyleConstants
+							.getLineStyleOptions()[i]) {
 				listener.selectAxesStyle(i);
 				break;
 			}

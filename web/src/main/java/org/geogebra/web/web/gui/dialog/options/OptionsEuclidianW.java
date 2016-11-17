@@ -346,7 +346,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon
-				        .createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i]);
+						.createAxesStyleIcon(EuclidianStyleConstants
+								.getLineStyleOptions()[i]);
 			}
 			
 			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1,
@@ -355,7 +356,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();
 					
-					model.appyAxesStyle(EuclidianStyleConstants.lineStyleOptions[idx]
+					model.appyAxesStyle(
+							EuclidianStyleConstants.getLineStyleOptions()[idx]
 					// make sure bold checkbox doesn't change
 							+ (cbBoldAxes.getValue() ? EuclidianStyleConstants.AXES_BOLD
 									: 0));
