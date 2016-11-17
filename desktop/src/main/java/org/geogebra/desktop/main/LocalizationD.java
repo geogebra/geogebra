@@ -35,7 +35,8 @@ public class LocalizationD extends LocalizationJre {
 	}
 
 	// supported GUI languages (from properties files)
-	private static ArrayList<Locale> supportedLocales = null;
+	private static volatile ArrayList<Locale> supportedLocales = null;
+	private static Object lock = new Object();
 
 	@Override
 	protected ArrayList<Locale> getSupportedLocales() {
@@ -50,35 +51,43 @@ public class LocalizationD extends LocalizationJre {
 	 */
 	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 
-		if (supportedLocales != null) {
-			return supportedLocales;
-		}
+		if (supportedLocales == null) {
+			synchronized (lock) {
+				if (supportedLocales == null) {
 
-		supportedLocales = new ArrayList<Locale>();
+					ArrayList<Locale> supportedLocales0 = new ArrayList<Locale>();
 
-		Language[] languages = Language.values();
+					Language[] languages = Language.values();
 
-		for (int i = 0; i < languages.length; i++) {
+					for (int i = 0; i < languages.length; i++) {
 
-			Language language = languages[i];
+						Language language = languages[i];
 
-			if (language.fullyTranslated || prerelease) {
+						if (language.fullyTranslated || prerelease) {
 
-				if (language.locale.length() == 2) {
-					// eg "en"
-					supportedLocales.add(new Locale(language.locale));
-				} else if (language.locale.length() == 4) {
-					// eg "enGB" -> "en", "GB"
-					supportedLocales.add(new Locale(language.locale.substring(
-							0, 2), language.locale.substring(2, 4)));
-				} else if (language.locale.length() == 6) {
-					// eg "noNONY" -> "no", "NO", "NY"
-					supportedLocales.add(new Locale(language.locale.substring(
-							0, 2), language.locale.substring(2, 4),
-							language.locale.substring(4, 6)));
+							if (language.locale.length() == 2) {
+								// eg "en"
+								supportedLocales0
+										.add(new Locale(language.locale));
+							} else if (language.locale.length() == 4) {
+								// eg "enGB" -> "en", "GB"
+								supportedLocales0.add(new Locale(
+										language.locale.substring(0, 2),
+										language.locale.substring(2, 4)));
+							} else if (language.locale.length() == 6) {
+								// eg "noNONY" -> "no", "NO", "NY"
+								supportedLocales0.add(new Locale(
+										language.locale.substring(0, 2),
+										language.locale.substring(2, 4),
+										language.locale.substring(4, 6)));
+							}
+						}
+
+					}
+					supportedLocales = supportedLocales0;
 				}
-			}
 
+			}
 		}
 
 		return supportedLocales;
