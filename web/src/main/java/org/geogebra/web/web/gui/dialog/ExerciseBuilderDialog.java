@@ -49,8 +49,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		GeoElementSelectionListener, ChangeHandler {
-
-	private AppW app;
+	/** application */
+	protected AppW app;
 	private Exercise exercise;
 
 	private VerticalPanel mainWidget;
@@ -572,14 +572,11 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	private void newTool() {
 		setVisible(false);
 		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
-				new AsyncOperation() {
+				new AsyncOperation<Macro>() {
 					@Override
-					public void callback(Object obj) {
-						if (obj instanceof Macro) {
-							Macro macro = (Macro) obj;
-							if (app.getKernel().getMacroID(macro) >= 0) {
-								addAssignment(macro);
-							}
+					public void callback(Macro macro) {
+						if (app.getKernel().getMacroID(macro) >= 0) {
+							addAssignment(macro);
 						}
 						ExerciseBuilderDialog.this.setVisible(true);
 					}

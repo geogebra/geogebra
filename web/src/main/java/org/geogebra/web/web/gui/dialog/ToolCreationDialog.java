@@ -49,7 +49,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 	ToolCreationDialogModel toolModel;
 
 	// Widgets
-	private Button btBack, btNext, btCancel;
+	private Button btBack;
+	private Button btNext;
+	private Button btCancel;
 	private VerticalPanel mainWidget;
 	private FlowPanel bottomWidget;
 	private TabPanel tabPanel;
@@ -59,7 +61,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	private Button btRemove;
 	private Button btDown;
 	private Button btUp;
-	private AsyncOperation returnHandler;
+	private AsyncOperation<Macro> returnHandler;
 	private Localization loc;
 
 	/**
@@ -101,7 +103,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	 *            {@link Macro}
 	 * 
 	 */
-	public ToolCreationDialog(AppW app, AsyncOperation returnHandler) {
+	public ToolCreationDialog(AppW app, AsyncOperation<Macro> returnHandler) {
 		this(app);
 		this.returnHandler = returnHandler;
 	}
@@ -235,28 +237,37 @@ public class ToolCreationDialog extends DialogBoxW implements
 			public void onSelection(SelectionEvent<Integer> event) {
 				int tab = event.getSelectedItem();
 
-				btBack.setEnabled(tab > 0);
-
-				switch (tab) {
-				case 1: // input objects
-					toolModel.updateInputList();
-				case 0: // output objects
-					btNext.setText(loc.getMenu("Next") + " >");
-					btNext.setEnabled(true);
-					break;
-
-				case 2: // name panel (finish)
-					if (toolModel.createTool()) {
-						btNext.setText(loc.getMenu("Finish"));
-						btNext.setEnabled(true);
-					} else {
-						btNext.setEnabled(false);
-					}
-					break;
-				}
+				updateBackNextButtons(tab);
 			}
 		};
 		return handler;
+	}
+
+	/**
+	 * @param tab
+	 *            selected tab
+	 */
+	protected void updateBackNextButtons(int tab) {
+		btBack.setEnabled(tab > 0);
+
+		switch (tab) {
+		case 1: // input objects
+			toolModel.updateInputList();
+		case 0: // output objects
+			btNext.setText(loc.getMenu("Next") + " >");
+			btNext.setEnabled(true);
+			break;
+
+		case 2: // name panel (finish)
+			if (toolModel.createTool()) {
+				btNext.setText(loc.getMenu("Finish"));
+				btNext.setEnabled(true);
+			} else {
+				btNext.setEnabled(false);
+			}
+			break;
+		}
+
 	}
 
 	private void createNavigation() {
