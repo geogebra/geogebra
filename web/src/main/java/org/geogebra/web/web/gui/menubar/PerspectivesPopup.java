@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -108,7 +107,7 @@ public class PerspectivesPopup {
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = Layout.getDefaultPerspectives();
 		if (defaultPerspectives[i] == null) {
 			return;
 		}

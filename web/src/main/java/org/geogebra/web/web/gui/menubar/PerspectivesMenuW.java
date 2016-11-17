@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -77,7 +76,7 @@ public class PerspectivesMenuW extends GMenuBar {
 
 
 	private void addPerspective(int i, ResourcePrototype icon) {
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		Perspective[] defaultPerspectives = Layout.getDefaultPerspectives();
 		if (defaultPerspectives[i] == null) {
 			return;
 		}
@@ -127,7 +126,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	static void setPerspective(AppW app, int index) {
 		app.persistWidthAndHeight();
 		boolean changed = app.getGuiManager().getLayout()
-				.applyPerspective(Layout.defaultPerspectives[index]);
+				.applyPerspective(Layout.getDefaultPerspectives()[index]);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting

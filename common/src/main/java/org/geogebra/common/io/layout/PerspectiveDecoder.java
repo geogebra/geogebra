@@ -100,9 +100,9 @@ public class PerspectiveDecoder {
 		if (code.length() == 0 || code.startsWith("search:")) {
 			return null;
 		}
-		for (int i = 1; i <= Layout.defaultPerspectives.length; i++) {
+		for (int i = 1; i <= Layout.getDefaultPerspectives().length; i++) {
 			if (code.equals(i + "")) {
-				return Layout.defaultPerspectives[i - 1];
+				return Layout.getDefaultPerspectives()[i - 1];
 			}
 		}
 		String longCode = "";

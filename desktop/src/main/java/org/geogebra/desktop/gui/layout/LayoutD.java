@@ -41,7 +41,7 @@ public class LayoutD extends Layout implements SettingListener {
 		initializeDefaultPerspectives(app, 0.25);
 
 		this.perspectives = new ArrayList<Perspective>(
-				defaultPerspectives.length);
+				getDefaultPerspectives().length);
 	}
 
 	/**
@@ -239,9 +239,9 @@ public class LayoutD extends Layout implements SettingListener {
 	 * @return perspective with 'id' as name or null
 	 */
 	public Perspective getPerspective(String id) {
-		for (int i = 0; i < defaultPerspectives.length; ++i) {
-			if (id.equals(defaultPerspectives[i].getId())) {
-				return defaultPerspectives[i];
+		for (int i = 0; i < getDefaultPerspectives().length; ++i) {
+			if (id.equals(getDefaultPerspectives()[i].getId())) {
+				return getDefaultPerspectives()[i];
 			}
 		}
 

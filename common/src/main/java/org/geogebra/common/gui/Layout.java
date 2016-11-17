@@ -310,7 +310,7 @@ public abstract class Layout {
 	/**
 	 * An array with the default perspectives.
 	 */
-	public static Perspective[] defaultPerspectives;
+	private static Perspective[] defaultPerspectives;
 
 	/**
 	 * Set a list of perspectives as the perspectives of this user and apply the
@@ -351,6 +351,10 @@ public abstract class Layout {
 
 	protected Perspective getDefaultPerspective(){
 		return defaultPerspectives[0];
+	}
+
+	public static Perspective[] getDefaultPerspectives() {
+		return defaultPerspectives;
 	}
 
 	protected boolean setEVsettingsFromPerspective(App app,
