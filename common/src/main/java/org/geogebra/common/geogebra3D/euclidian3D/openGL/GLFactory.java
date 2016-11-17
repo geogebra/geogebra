@@ -19,7 +19,7 @@ public abstract class GLFactory {
 		return prototype;
 	}
 
-	public static void setPrototype(GLFactory p) {
+	public static void setPrototypeIfNull(GLFactory p) {
 		synchronized (lock) {
 			if (prototype == null) {
 				prototype = p;
