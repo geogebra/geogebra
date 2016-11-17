@@ -1309,12 +1309,6 @@ ToolbarD.getAllTools(this));
 	@Override
 	public boolean freeMemoryIsCritical() {
 
-		if (runtime.freeMemory() > MEMORY_CRITICAL) {
-			return false;
-		}
-
-		System.gc();
-
 		return runtime.freeMemory() < MEMORY_CRITICAL;
 	}
 
