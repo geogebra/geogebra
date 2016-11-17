@@ -157,12 +157,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
-			GeoGebraProfiler.moveEventsIgnored--;
+			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onMouseMoveNow(waitingMouseMove, time, false);
 			return;
 		}
 		if (this.waitingTouchMove != null) {
-			GeoGebraProfiler.moveEventsIgnored--;
+			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onTouchMoveNow(waitingTouchMove, time, false);
 		}
 
@@ -226,7 +226,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-		GeoGebraProfiler.drags++;
+		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
@@ -241,7 +241,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				        || waitingMouseMove != null;
 				this.waitingTouchMove = e;
 				this.waitingMouseMove = null;
-				GeoGebraProfiler.moveEventsIgnored++;
+				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
 					this.repaintTimer
 					        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
@@ -299,7 +299,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingTouchMove = null;
 		this.waitingMouseMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.dragTime += dragTime;
+		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
 			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
@@ -460,7 +460,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		PointerEvent e = PointerEvent.wrapEvent(event, this);
 		event.preventDefault();
-		GeoGebraProfiler.drags++;
+		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 
 		if (time < this.lastMoveEvent
@@ -468,8 +468,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			boolean wasWaiting = waitingTouchMove != null
 			        || waitingMouseMove != null;
 			this.waitingMouseMove = e;
-			this.waitingTouchMove = null;
-			GeoGebraProfiler.moveEventsIgnored++;
+			this.setWaitingTouchMove(null);
+			GeoGebraProfiler.incrementMoveEventsIgnored();
 			if (wasWaiting) {
 				this.repaintTimer
 				        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
@@ -480,6 +480,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 
 		onMouseMoveNow(e, time, true);
+	}
+
+	private void setWaitingTouchMove(PointerEvent o) {
+		waitingTouchMove = o;
 	}
 
 	public void onMouseMoveNow(PointerEvent event, long time,
@@ -495,7 +499,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingMouseMove = null;
 		this.waitingTouchMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.dragTime += dragTime;
+		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
 			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}

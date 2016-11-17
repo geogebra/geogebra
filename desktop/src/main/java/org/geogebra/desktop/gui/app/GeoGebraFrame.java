@@ -97,7 +97,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static final int VERSION_TO_LONG_MULTIPLIER = 1000;
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
+
 	private static GeoGebraFrame activeInstance;
+	private static Object lock = new Object();
+
 	private static FileDropTargetListener dropTargetListener;
 
 	private static List<NewInstanceListener> instanceListener = new ArrayList<NewInstanceListener>();
@@ -109,7 +112,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	public GeoGebraFrame() {
 		instances.add(this);
-		activeInstance = this;
+		setActiveInstance(this);
 		born = System.currentTimeMillis();
 		this.addComponentListener(this);
 	}
@@ -131,7 +134,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	public void dispose() {
 		instances.remove(this);
 		if (this == activeInstance)
-			activeInstance = null;
+			setActiveInstance(null);
 	}
 
 	public AppD getApplication() {
@@ -151,7 +154,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	}
 
 	public void windowGainedFocus(WindowEvent arg0) {
-		activeInstance = this;
+		setActiveInstance(this);
 		app.updateMenuWindow();
 	}
 
@@ -346,6 +349,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 */
 	public static synchronized GeoGebraFrame getActiveInstance() {
 		return activeInstance;
+	}
+
+	private static void setActiveInstance(GeoGebraFrame frame) {
+		synchronized (lock) {
+			activeInstance = frame;
+		}
 	}
 
 	/**

@@ -275,7 +275,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	// APPLET fields
 	// ==============================================================
 
-	private static AppletImplementation appletImpl;
+	private static volatile AppletImplementation appletImpl;
+	private static Object lock = new Object();
 	private boolean isApplet = false;
 
 	// ==============================================================
@@ -604,9 +605,11 @@ ToolbarD.getAllTools(this));
 	// INIT
 	// **************************************************************************
 
-	public void setApplet(AppletImplementation appletImpl) {
+	public void setApplet(AppletImplementation appletImpl0) {
 		isApplet = true;
-		AppD.appletImpl = appletImpl;
+		synchronized (lock) {
+			AppD.appletImpl = appletImpl0;
+		}
 		mainComp = appletImpl.getJApplet();
 	}
 

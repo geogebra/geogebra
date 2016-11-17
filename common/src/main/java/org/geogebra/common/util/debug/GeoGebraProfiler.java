@@ -1,6 +1,5 @@
 package org.geogebra.common.util.debug;
 
-
 /**
  * @author gabor
  * 
@@ -12,12 +11,14 @@ public abstract class GeoGebraProfiler {
 
 	private static GeoGebraProfiler instance = null;
 
-	public static int repaints, repaintTime, drags, dragTime;
-	public static int moveEventsIgnored;
+	private static volatile int repaints, repaintTime, drags, dragTime;
+	private static volatile int moveEventsIgnored;
 
-	private static int algebra, event, hits, cascades;
+	private static volatile int algebra, event, hits, cascades;
 
-	private static long algebraTime, eventTime, hitTime, cascadeTime;
+	private static volatile long algebraTime, eventTime, hitTime, cascadeTime;
+
+	private static Object lock = new Object();
 
 	/**
 	 */
@@ -71,60 +72,97 @@ public abstract class GeoGebraProfiler {
 	 *            GeoGebraProfiler inst from Web or Desktop
 	 */
 	public static void init(GeoGebraProfiler inst) {
-		instance = inst;
+		synchronized (lock) {
+			instance = inst;
+		}
 	}
 
 	public static void addRepaint(long time) {
-		repaints++;
-		repaintTime += time;
-		if (repaints % 100 == 0) {
-			Log.debug("Profile Repaint: " + repaints + " x "
-					+ (repaintTime / repaints) + " = " + repaintTime);
-			int realDrags = drags - moveEventsIgnored;
-			if (realDrags > 0) {
-				Log.debug("Profile Drag: " + realDrags + " x "
-						+ (dragTime / realDrags) + " = " + dragTime + ","
-						+ moveEventsIgnored + " ignored");
-			}
-			if (hits > 0) {
-				Log.debug("Profile Hits: " + hits + " x " + (hitTime / hits)
-						+ " = " + hitTime);
-			}
-			if (cascades > 0) {
-				Log.debug("Profile Cascades: " + cascades + " x "
-						+ (cascadeTime / cascades) + " = " + cascadeTime);
-			}
-			if (algebra > 0) {
-				Log.debug("Profile Algebra: " + algebra + " x "
-						+ (algebraTime / algebra) + " = " + algebraTime);
-			}
-			if (event > 0) {
-				Log.debug("Profile EventDispatcher: " + event + " x "
-						+ (eventTime / event) + " = " + eventTime);
+		synchronized (lock) {
+			repaints++;
+			repaintTime += time;
+			if (repaints % 100 == 0) {
+				Log.debug("Profile Repaint: " + repaints + " x "
+						+ (repaintTime / repaints) + " = " + repaintTime);
+				int realDrags = drags - moveEventsIgnored;
+				if (realDrags > 0) {
+					Log.debug("Profile Drag: " + realDrags + " x "
+							+ (dragTime / realDrags) + " = " + dragTime + ","
+							+ moveEventsIgnored + " ignored");
+				}
+				if (hits > 0) {
+					Log.debug("Profile Hits: " + hits + " x " + (hitTime / hits)
+							+ " = " + hitTime);
+				}
+				if (cascades > 0) {
+					Log.debug("Profile Cascades: " + cascades + " x "
+							+ (cascadeTime / cascades) + " = " + cascadeTime);
+				}
+				if (algebra > 0) {
+					Log.debug("Profile Algebra: " + algebra + " x "
+							+ (algebraTime / algebra) + " = " + algebraTime);
+				}
+				if (event > 0) {
+					Log.debug("Profile EventDispatcher: " + event + " x "
+							+ (eventTime / event) + " = " + eventTime);
+				}
 			}
 		}
 
 	}
 
 	public static void addHit(long l) {
-		hitTime += l;
-		hits++;
+		synchronized (lock) {
+			hitTime += l;
+			hits++;
+		}
 
 	}
 
 	public static void addUpdateCascade(long l) {
-		cascades++;
-		cascadeTime += l;
+		synchronized (lock) {
+			cascades++;
+			cascadeTime += l;
+		}
 
 	}
 
 	public static void addAlgebra(long l) {
-		algebra++;
-		algebraTime += l;
+		synchronized (lock) {
+			algebra++;
+			algebraTime += l;
+		}
 	}
 
 	public static void addEvent(long l) {
-		event++;
-		eventTime += l;
+		synchronized (lock) {
+			event++;
+			eventTime += l;
+		}
+	}
+
+	public static void incrementMoveEventsIgnored() {
+		synchronized (lock) {
+			moveEventsIgnored++;
+		}
+	}
+
+	public static void decrementMoveEventsIgnored() {
+		synchronized (lock) {
+			moveEventsIgnored--;
+		}
+	}
+
+	public static void incrementDragTime(int t) {
+		synchronized (lock) {
+			dragTime += t;
+		}
+
+	}
+
+	public static void incrementDrags() {
+		synchronized (lock) {
+			drags++;
+		}
 	}
 }
