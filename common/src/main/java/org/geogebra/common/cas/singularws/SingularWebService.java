@@ -21,11 +21,11 @@ public class SingularWebService {
 
 	private final int GET_REQUEST_MAX_SIZE = 2000;
 
-	private int timeout = SingularWSSettings.singularWebServiceTimeout;
+	private int timeout = SingularWSSettings.getTimeout();
 	private final String testConnectionCommand = "t";
 	private final String singularDirectCommand = "s";
 
-	private String wsHost = SingularWSSettings.singularWebServiceRemoteURL;
+	private String wsHost = SingularWSSettings.getSingularWebServiceRemoteURL();
 	private Boolean available;
 
 	private static String locusLib = "";
@@ -87,11 +87,11 @@ public class SingularWebService {
 	}
 
 	private static String cachingString() {
-		if (SingularWSSettings.useCaching == null) {
+		if (SingularWSSettings.getCachingText() == null) {
 			return "";
 		}
 		final String prefix = "&l=";
-		if (SingularWSSettings.useCaching) {
+		if (SingularWSSettings.getUseCaching()) {
 			return prefix + "1";
 		}
 		return prefix + "0";
@@ -229,7 +229,7 @@ public class SingularWebService {
 	 * unless it is disabled by a command line option.
 	 */
 	public void enable() {
-		if (!SingularWSSettings.useSingularWebService) {
+		if (!SingularWSSettings.useSingularWebService()) {
 			Log.debug("SingularWS connection disabled by command line option");
 			this.available = false;
 			return;

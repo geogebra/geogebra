@@ -803,13 +803,14 @@ ToolbarD.getAllTools(this));
 					.println(" --singularWS=OPTIONS\tset options for SingularWS\n"
 							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
-							+ SingularWSSettings.useSingularWebService
+									+ SingularWSSettings.useSingularWebService()
 							+ "]\n"
 							+ "      remoteURL:URL\tset the remote server URL ["
-							+ SingularWSSettings.singularWebServiceRemoteURL
+									+ SingularWSSettings
+											.getSingularWebServiceRemoteURL()
 							+ "]\n"
 							+ "      timeout:SECS\tset the timeout ["
-							+ SingularWSSettings.singularWebServiceTimeout
+									+ SingularWSSettings.getTimeout()
 							+ "]\n"
 							+ "      caching:BOOLEAN\tset server side caching ["
 							+ SingularWSSettings.getCachingText()
@@ -1191,18 +1192,17 @@ ToolbarD.getAllTools(this));
 	private static void setSingularWSOption(String option) {
 		String[] str = option.split(":", 2);
 		if ("enable".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.useSingularWebService = Boolean.valueOf(str[1])
-					.booleanValue();
+			SingularWSSettings.setUseSingularWebService(
+					Boolean.valueOf(str[1]).booleanValue());
 			return;
 		}
 		if ("remoteURL".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.singularWebServiceRemoteURL = str[1]
-					.toLowerCase();
+			SingularWSSettings
+					.setSingularWebServiceRemoteURL(str[1].toLowerCase());
 			return;
 		}
 		if ("timeout".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.singularWebServiceTimeout = Integer
-					.parseInt(str[1]);
+			SingularWSSettings.setTimeout(Integer.parseInt(str[1]));
 			return;
 		}
 		if ("caching".equalsIgnoreCase(str[0])) {
@@ -5001,7 +5001,8 @@ ToolbarD.getAllTools(this));
 			} catch (InterruptedException e) {
 				return;
 			}
-			if (((System.currentTimeMillis() - startTime) > SingularWSSettings.singularWebServiceTimeout * 1000L)
+			if (((System.currentTimeMillis() - startTime) > SingularWSSettings
+					.getTimeout() * 1000L)
 					&& t.isAlive()) {
 				Log.debug("SingularWS startup timeout");
 				t.interrupt();
