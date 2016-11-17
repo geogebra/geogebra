@@ -1685,7 +1685,7 @@ __GGB__keysVar.tr.menu = {
     "EstimatedValue": "Tahmini De\u011fer",
     "Evaluate": "Simgesel De\u011ferlendirme",
     "Evaluate.Help": "Kesin de\u011ferini bulma",
-    "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS": "GeoGebra S\u0131nav CAS",
     "ExamGraphingCalc.long": "GeoGebra S\u0131nav Grafik \xc7izme Hesap Makinesi",
     "ExamGraphingCalc.short": "S\u0131nav Grafik \xc7izme",
     "ExamSimpleCalc.long": "GeoGebra S\u0131nav Basit Hesap Makinesi",
