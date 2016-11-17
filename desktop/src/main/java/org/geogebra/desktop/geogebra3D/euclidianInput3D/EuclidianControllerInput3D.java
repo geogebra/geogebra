@@ -45,8 +45,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Coords startMouse3DPosition;
 
-	private Coords[] glassesPosition;
-
 	private Quaternion mouse3DOrientation, startMouse3DOrientation;
 	private Coords rotV;
 	private CoordMatrix startOrientationMatrix;
@@ -76,12 +74,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
-
-		// glasses position
-		glassesPosition = new Coords[2];
-		for (int i = 0 ; i < 2 ; i++){
-			glassesPosition[i] = new Coords(3);
-		}
 		
 		// 3D mouse position
 		mouse3DPosition = new Coords(3);
