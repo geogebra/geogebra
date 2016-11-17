@@ -3,8 +3,6 @@ package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -86,7 +84,7 @@ public class InputIntelRealsense3D extends Input3D {
 	}
 	
 	
-	public boolean update(GPoint panelPosition, GDimension panelDimension) {
+	public boolean update() {
 	
 		boolean updateOccured = false;
 		
@@ -95,7 +93,7 @@ public class InputIntelRealsense3D extends Input3D {
 			
 			// mouse position
 			// double factor = screenHalfWidth;
-			double factor = panelDimension.getWidth() / 2;
+			double factor = panelWidth / 2;
 			mousePosition[0] = socket.handX * factor;
 			mousePosition[1] = socket.handY * factor;
 			mousePosition[2] = socket.handZ * factor;

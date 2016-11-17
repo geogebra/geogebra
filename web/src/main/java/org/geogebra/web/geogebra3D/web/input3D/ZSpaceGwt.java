@@ -10,36 +10,43 @@ public class ZSpaceGwt {
 	JavaScriptObject impl;
 
 	public ZSpaceGwt(WebGLRenderingContext gl, Element canvas) {
-		init(this, gl, canvas);
+		init(gl, canvas);
 	}
 
-	protected native void init(ZSpaceGwt zsGwt, WebGLRenderingContext gl,
+	protected native void init(WebGLRenderingContext gl,
 			Element canvas) /*-{
-		zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl = new $wnd.ZSpace(
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl = new $wnd.ZSpace(
 				gl, canvas, $wnd);
-		var zs = zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl;
+		var zs = this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl;
 		zs.zspaceInit();
-		zs.setCanvasOffset(310, 0);
+		zs.setCanvasOffset(0, 0);
 	}-*/;
 
-	public native void zspaceUpdate(ZSpaceGwt zsGwt) /*-{
-		zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+	public native void zspaceUpdate() /*-{
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
 				.zspaceUpdate();
 	}-*/;
 
-	public native JsArrayNumber zspaceLeftView(ZSpaceGwt zsGwt) /*-{
-		zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+	public native void zspaceLeftView() /*-{
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
 				.zspaceLeftView();
-		return zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.leftViewMatrix;
 	}-*/;
 
-	public native void zspaceRightView(ZSpaceGwt zsGwt) /*-{
-		zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+	public native void zspaceRightView() /*-{
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
 				.zspaceRightView();
 	}-*/;
 
-	public native void zspaceFrameEnd(ZSpaceGwt zsGwt) /*-{
-		zsGwt.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+	public native JsArrayNumber getLeftViewMatrix() /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.leftViewMatrix;
+	}-*/;
+
+	public native JsArrayNumber getRightViewMatrix() /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.rightViewMatrix;
+	}-*/;
+
+	public native void zspaceFrameEnd() /*-{
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
 				.zspaceFrameEnd();
 	}-*/;
 

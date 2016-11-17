@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Quaternion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -177,11 +176,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		Point panelPosition = ((EuclidianView3DD) view3D).getJPanel()
 				.getLocationOnScreen();
 
-		input3D.setPanel(panelDimension.width, panelDimension.width,
+		input3D.setPanel(panelDimension.width, panelDimension.height,
 				panelPosition.x, panelPosition.y);
 
-		if (input3D.update(new GPoint(panelPosition.x, panelPosition.y),
-				new GDimensionD(panelDimension))) {
+		if (input3D.update()) {
 
 			// ////////////////////
 			// set values

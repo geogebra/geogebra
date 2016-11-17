@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian3D;
 
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -223,8 +221,7 @@ abstract public class Input3D {
 	 * 
 	 * @return true if the update worked
 	 */
-	abstract public boolean update(GPoint panelPosition,
-			GDimension panelDimension);
+	abstract public boolean update();
 
 	/**
 	 * 

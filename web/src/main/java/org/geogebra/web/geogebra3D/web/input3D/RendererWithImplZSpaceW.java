@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 
@@ -62,32 +63,33 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	@Override
 	public void drawScene() {
 
-		zSpace.zspaceUpdate(zSpace);
+		zSpace.zspaceUpdate();
 		clearColorBuffer();
 		clearDepthBuffer();
 
 		super.drawScene();
 
-		zSpace.zspaceFrameEnd(zSpace);
+		zSpace.zspaceFrameEnd();
 
 	}
 
 	@Override
 	final protected void setBufferLeft() {
-		JsArrayNumber matrix = zSpace.zspaceLeftView(zSpace);
-		// String s = "";
-		// for (int i = 0; i < 16; i++) {
-		// if (i % 4 == 0) {
-		// s += "\n";
-		// }
-		// s += " " + matrix.get(i);
-		// }
-		// Log.debug(s);
+		zSpace.zspaceLeftView();
+		JsArrayNumber matrix = zSpace.getLeftViewMatrix();
+		String s = "\n(renderer) left\n";
+		for (int i = 0; i < 16; i++) {
+			if (i % 4 == 0) {
+				s += "\n";
+			}
+			s += " " + matrix.get(i);
+		}
+		Log.debug(s);
 	}
 
 	@Override
 	final protected void setBufferRight() {
-		zSpace.zspaceRightView(zSpace);
+		zSpace.zspaceRightView();
 	}
 
 }
