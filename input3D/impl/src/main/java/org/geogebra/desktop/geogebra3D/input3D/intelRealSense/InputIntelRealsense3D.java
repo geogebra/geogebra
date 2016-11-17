@@ -21,7 +21,7 @@ import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionTy
  * @author mathieu
  *
  */
-public class InputIntelRealsense3D implements Input3D {
+public class InputIntelRealsense3D extends Input3D {
 
 	
 	private Socket socket;

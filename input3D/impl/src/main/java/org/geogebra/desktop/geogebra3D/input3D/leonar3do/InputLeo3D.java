@@ -16,7 +16,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  * @author mathieu
  *
  */
-public class InputLeo3D implements Input3D {
+public class InputLeo3D extends Input3D {
 
 	
 	private LeoSocket leoSocket;

@@ -7,12 +7,12 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
- * interface for specific 3D inputs
+ * class for specific 3D inputs
  * 
  * @author mathieu
  *
  */
-public interface Input3D {
+abstract public class Input3D {
 
 	public enum DeviceType {
 		HAND, PEN
@@ -30,7 +30,7 @@ public interface Input3D {
 	 * 
 	 * @return device type
 	 */
-	public DeviceType getDeviceType();
+	abstract public DeviceType getDeviceType();
 
 
 	/**
@@ -38,7 +38,7 @@ public interface Input3D {
 	 * 
 	 * @return 3D mouse position
 	 */
-	public double[] getMouse3DPosition();
+	abstract public double[] getMouse3DPosition();
 
 	// /**
 	// *
@@ -62,56 +62,56 @@ public interface Input3D {
 	 *
 	 * @return 3D mouse orientation (as quaternion)
 	 */
-	public double[] getMouse3DOrientation();
+	abstract public double[] getMouse3DOrientation();
 
 	/**
 	 * Center is center of the screen, unit is pixels
 	 * 
 	 * @return glasses position (two eyes center)
 	 */
-	public double[] getGlassesPosition(int i);
+	abstract public double[] getGlassesPosition(int i);
 
 	/**
 	 * 
 	 * @return eye separation
 	 */
-	public double getEyeSeparation();
+	abstract public double getEyeSeparation();
 
 	/**
 	 * 
 	 * @return true if right button is pressed
 	 */
-	public boolean isRightPressed();
+	abstract public boolean isRightPressed();
 
 	/**
 	 * 
 	 * @return true if left button is pressed
 	 */
-	public boolean isLeftPressed();
+	abstract public boolean isLeftPressed();
 
 	/**
 	 * 
 	 * @return true if third button is pressed
 	 */
-	public boolean isThirdButtonPressed();
+	abstract public boolean isThirdButtonPressed();
 
 	/**
 	 * 
 	 * @return true if one button is pressed
 	 */
-	public boolean isButtonPressed();
+	abstract public boolean isButtonPressed();
 
 	/**
 	 * 
 	 * @return true if the input use depth for hitting
 	 */
-	public boolean useInputDepthForHitting();
+	abstract public boolean useInputDepthForHitting();
 
 	/**
 	 * 
 	 * @return true if the input use a robot to controll 2D mouse
 	 */
-	public boolean useMouseRobot();
+	abstract public boolean useMouseRobot();
 
 	/**
 	 * 
@@ -121,7 +121,8 @@ public interface Input3D {
 	 *            current 3D mouse position
 	 * @return true if input3D has mouse on 3D view
 	 */
-	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition);
+	abstract public boolean hasMouse(EuclidianView3D view3D,
+			Coords mouse3DPosition);
 
 	/**
 	 * 
@@ -129,13 +130,13 @@ public interface Input3D {
 	 *            3D view
 	 * @return true if input3D has mouse on 3D view
 	 */
-	public boolean hasMouse(EuclidianView3D view3D);
+	abstract public boolean hasMouse(EuclidianView3D view3D);
 
 	/**
 	 * 
 	 * @return true if 3D input is currently (possibly) using 2D mouse
 	 */
-	public boolean currentlyUseMouse2D();
+	abstract public boolean currentlyUseMouse2D();
 
 	/**
 	 * set left button is pressed
@@ -143,13 +144,13 @@ public interface Input3D {
 	 * @param flag
 	 *            flag
 	 */
-	public void setHasCompletedGrabbingDelay(boolean flag);
+	abstract public void setHasCompletedGrabbingDelay(boolean flag);
 
 	/**
 	 * 
 	 * @return if hand input has completed grabbing delay
 	 */
-	public boolean hasCompletedGrabbingDelay();
+	abstract public boolean hasCompletedGrabbingDelay();
 
 	/**
 	 * calc position of 3D mouse on 3D view
@@ -171,7 +172,8 @@ public interface Input3D {
 	 * @param panelDimH
 	 *            panel height
 	 */
-	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos,
+	abstract public void setPositionXYOnPanel(double[] absolutePos,
+			Coords panelPos,
 			double screenHalfWidth, double screenHalfHeight,
 			int panelPositionX, int panelPositionY, int panelDimW, int panelDimH);
 
@@ -179,37 +181,37 @@ public interface Input3D {
 	 * 
 	 * @return true if we use z offset to make the scene out of the screen
 	 */
-	public boolean useScreenZOffset();
+	abstract public boolean useScreenZOffset();
 
 	/**
 	 * 
 	 * @return true if it uses stereo buffers
 	 */
-	public boolean isStereoBuffered();
+	abstract public boolean isStereoBuffered();
 
 	/**
 	 * 
 	 * @return true if uses polarized monitor with interlaced lines
 	 */
-	public boolean useInterlacedPolarization();
+	abstract public boolean useInterlacedPolarization();
 
 	/**
 	 * 
 	 * @return true if using completing delay (e.g. for hand tracking -- no button)
 	 */
-	public boolean useCompletingDelay();
+	abstract public boolean useCompletingDelay();
 
 	/**
 	 * 
 	 * @return true if the input has direction for mouse
 	 */
-	public boolean hasMouseDirection();
+	abstract public boolean hasMouseDirection();
 
 	/**
 	 * 
 	 * @return mouse direction
 	 */
-	public double[] getMouse3DDirection();
+	abstract public double[] getMouse3DDirection();
 
 	/**
 	 * update values
@@ -221,88 +223,175 @@ public interface Input3D {
 	 * 
 	 * @return true if the update worked
 	 */
-	public boolean update(GPoint panelPosition, GDimension panelDimension);
+	abstract public boolean update(GPoint panelPosition,
+			GDimension panelDimension);
 
 	/**
 	 * 
 	 * @return true if input uses quaternions for rotate
 	 */
-	public boolean useQuaternionsForRotate();
+	abstract public boolean useQuaternionsForRotate();
 
 	/**
 	 * @return true if stereo glasses are detected
 	 * 
 	 */
-	public boolean wantsStereo();
+	abstract public boolean wantsStereo();
 
 	/**
 	 * 
 	 * @return default rotation angle for Oz
 	 */
-	public double getDefaultRotationOz();
+	abstract public double getDefaultRotationOz();
 
 	/**
 	 * 
 	 * @return default rotation angle for xOy
 	 */
-	public double getDefaultRotationXOY();
+	abstract public double getDefaultRotationXOY();
 
 	/**
 	 * Inputs tracking head don't need to store eye position
 	 * 
 	 * @return true if we need to store stereo infos
 	 */
-	public boolean shouldStoreStereoToXML();
+	abstract public boolean shouldStoreStereoToXML();
 
 	/**
 	 * 
 	 * @return true if this input needs gray background to minimize ghost effect
 	 */
-	public boolean needsGrayBackground();
+	abstract public boolean needsGrayBackground();
 
 	/**
 	 * 
 	 * @return true if this input uses head tracking
 	 */
-	public boolean useHeadTracking();
+	abstract public boolean useHeadTracking();
 
 	/**
 	 * 
 	 * @return true if input uses hand grabbing
 	 */
-	public boolean useHandGrabbing();
+	abstract public boolean useHandGrabbing();
 
 	/**
 	 * 
 	 * @return out of field type
 	 */
-	public OutOfField getOutOfField();
+	abstract public OutOfField getOutOfField();
 
 	/**
 	 * exit
 	 */
-	public void exit();
+	abstract public void exit();
 
 	/**
 	 * says that 3D input position leads to mouse cursor on physical screen
 	 */
-	public void setPositionOnScreen();
+	abstract public void setPositionOnScreen();
 
 	/**
 	 * says that 3D input position leads to mouse cursor off physical screen
 	 */
-	public void setPositionOffScreen();
+	abstract public void setPositionOffScreen();
 
 	/**
 	 * 
 	 * @return true if zSpace
 	 */
-	public boolean isZSpace();
+	abstract public boolean isZSpace();
 
 	/**
 	 * 
 	 * @param settings TODO
 	 */
-	public void setSpecificSettings(EuclidianSettings3D settings);
+	abstract public void setSpecificSettings(EuclidianSettings3D settings);
+
+	private Coords[] glassesPosition;
+
+	protected double screenHalfWidth, screenHalfHeight;
+	protected int panelWidth, panelHeight, panelX, panelY;
+
+	private EuclidianView3D view3D;
+
+	public void init(EuclidianView3D view3D) {
+		this.view3D = view3D;
+
+		// glasses position
+		glassesPosition = new Coords[2];
+		for (int i = 0; i < 2; i++) {
+			glassesPosition[i] = new Coords(3);
+		}
+	}
+
+	public void setScreenHalfDimensions(double halfWidth, double halfHeight) {
+		screenHalfWidth = halfWidth;
+		screenHalfHeight = halfHeight;
+	}
+
+	public double getScreenHalfWidth() {
+		return screenHalfWidth;
+	}
+
+	public double getScreenHalfHeight() {
+		return screenHalfHeight;
+	}
+
+	public void setPanel(int width, int height, int x, int y) {
+		panelWidth = width;
+		panelHeight = height;
+		panelX = x;
+		panelY = y;
+	}
+
+	public int getPanelWidth() {
+		return panelWidth;
+	}
+
+	public int getPanelHeight() {
+		return panelHeight;
+	}
+
+	public int getPanelX() {
+		return panelX;
+	}
+
+	public int getPanelY() {
+		return panelY;
+	}
+
+	public void updateHeadTracking() {
+		// eyes : set position only if we use glasses
+		if (useHeadTracking()
+				&& view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES)
+
+		{
+			for (int i = 0; i < 2; i++) {
+				double[] pos = getGlassesPosition(i);
+				setPositionXYOnPanel(pos, glassesPosition[i]);
+				glassesPosition[i].setZ(pos[2]);
+			}
+
+			// Log.debug("\n"+glassesPosition);
+
+			// Log.debug(input3D.getGlassesPosition()[2]+"");
+			// if (eyeSepIsNotSet){
+			view3D.setEyes(glassesPosition[0].getX(), glassesPosition[0].getY(),
+					glassesPosition[1].getX(), glassesPosition[1].getY());
+			// eyeSepIsNotSet = false;
+			// }
+
+			view3D.setProjectionPerspectiveEyeDistance(
+					glassesPosition[0].getZ(), glassesPosition[1].getZ());
+
+		}
+	}
+
+	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
+
+		setPositionXYOnPanel(absolutePos, panelPos, screenHalfWidth,
+				screenHalfHeight, panelX, panelY, panelWidth, panelHeight);
+	}
 
 }

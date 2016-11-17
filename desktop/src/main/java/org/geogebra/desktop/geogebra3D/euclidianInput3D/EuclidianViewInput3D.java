@@ -65,6 +65,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	protected void start(){
 		input3D = ((EuclidianControllerInput3D) euclidianController).input3D;
+		input3D.init(this);
 		super.start();
 	}
 

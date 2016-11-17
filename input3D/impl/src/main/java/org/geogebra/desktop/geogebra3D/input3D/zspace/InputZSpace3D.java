@@ -14,7 +14,7 @@ import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
  * @author mathieu
  *
  */
-public class InputZSpace3D implements Input3D {
+public class InputZSpace3D extends Input3D {
 
 	
 	private Socket socket;
