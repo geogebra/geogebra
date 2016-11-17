@@ -736,7 +736,7 @@ public class App3D extends AppD {
 		super.initFactories();
 
 		if (GLFactory.getPrototype() == null) {
-			GLFactory.setPrototype(new GLFactoryD());
+			GLFactory.setPrototypeIfNull(new GLFactoryD());
 		}
 	}
 

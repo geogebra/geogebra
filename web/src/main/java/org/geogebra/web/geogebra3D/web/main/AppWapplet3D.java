@@ -88,7 +88,7 @@ public class AppWapplet3D extends AppWapplet {
 
 		super.initFactories();
 		if (GLFactory.getPrototype() == null) {
-			GLFactory.setPrototype(new GLFactoryW());
+			GLFactory.setPrototypeIfNull(new GLFactoryW());
 		}
 	}
 

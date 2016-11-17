@@ -116,7 +116,7 @@ public class AppWapplication3D extends AppWapplication {
 
 		super.initFactories();
 		if (GLFactory.getPrototype() == null) {
-			GLFactory.setPrototype(new GLFactoryW());
+			GLFactory.setPrototypeIfNull(new GLFactoryW());
 		}
 	}
 
