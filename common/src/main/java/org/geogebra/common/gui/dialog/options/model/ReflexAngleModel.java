@@ -68,7 +68,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		List<String> result = new ArrayList<String>();
 
 		if (hasOrientation) {
-			int length = GeoAngle.INTERVAL_MIN.length;
+			int length = GeoAngle.getIntervalMinList().length;
 
 			if (isDrawable) {
 				// don't want to allow (-inf, +inf)
@@ -77,14 +77,16 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 			for (int i = 0; i < length; i++) {
 				result.add(loc.getPlain("AandB",
-						GeoAngle.INTERVAL_MIN[i],
-						GeoAngle.INTERVAL_MAX[i]));
+						GeoAngle.getIntervalMinList()[i],
+						GeoAngle.getIntervalMaxList()[i]));
 			}
 		} else {// only 180degree wide interval are possible
 			result.add(loc.getPlain("AandB",
-					GeoAngle.INTERVAL_MIN[1], GeoAngle.INTERVAL_MAX[1]));
+					GeoAngle.getIntervalMinList()[1],
+					GeoAngle.getIntervalMaxList()[1]));
 			result.add(loc.getPlain("AandB",
-					GeoAngle.INTERVAL_MIN[2], GeoAngle.INTERVAL_MAX[2]));
+					GeoAngle.getIntervalMinList()[2],
+					GeoAngle.getIntervalMaxList()[2]));
 		}
 		return result;
 	}

@@ -89,7 +89,7 @@ public class SpecialNumberFormat implements ActionListener {
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this, strDecimalSpaces,
-				App.strDecimalSpacesAC, 0);
+				App.getStrDecimalSpacesAC(), 0);
 
 		updateMenuDecimalPlaces();
 

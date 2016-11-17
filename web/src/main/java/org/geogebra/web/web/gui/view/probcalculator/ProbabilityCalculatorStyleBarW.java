@@ -199,7 +199,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		MyMenuBar menu = new MyMenuBar();
 		
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
-		addRadioButtonMenuItems(menu, this, strDecimalSpaces, App.strDecimalSpacesAC, 0);
+		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
+				App.getStrDecimalSpacesAC(), 0);
 		
 		return menu;
 	}

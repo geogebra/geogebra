@@ -190,10 +190,14 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Rounding menu options (not internationalized)
 	 */
-	final public static String[] strDecimalSpacesAC = {"0 decimals",
+	final private static String[] strDecimalSpacesAC = { "0 decimals",
 			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
 			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
 			"5 figures", "10 figures", "15 figures"};
+
+	public static String[] getStrDecimalSpacesAC() {
+		return strDecimalSpacesAC;
+	}
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
 

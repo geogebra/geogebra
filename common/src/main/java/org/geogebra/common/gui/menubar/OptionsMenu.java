@@ -188,7 +188,7 @@ public class OptionsMenu {
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener) menu,
-				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
+				strDecimalSpaces, App.getStrDecimalSpacesAC(), 0, false);
 
 		menuFactory.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
 

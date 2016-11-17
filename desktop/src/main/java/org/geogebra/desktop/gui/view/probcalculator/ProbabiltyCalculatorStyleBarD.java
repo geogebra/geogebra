@@ -287,7 +287,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
-				App.strDecimalSpacesAC, 0);
+				App.getStrDecimalSpacesAC(), 0);
 
 		return menu;
 	}
