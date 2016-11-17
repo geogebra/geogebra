@@ -895,6 +895,7 @@ public class EuclidianPen {
 		// app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]",
 		// false);
 
+		poly.setSelected(false);
 		poly.updateRepaint();
 
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
