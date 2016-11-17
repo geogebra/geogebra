@@ -36,6 +36,8 @@ public class WindowReference implements EventRenderable {
 
 	static LoginOperationW lOW;
 
+	private static Object lock = new Object();
+
 	/**
 	 * protected constructor as superclass of js object
 	 */
@@ -59,8 +61,12 @@ public class WindowReference implements EventRenderable {
 	 */
 	public static WindowReference createSignInWindow(App app, String callback) {
 		if (instance == null) {
-			instance = new WindowReference();
-			lOW = ((LoginOperationW) app.getLoginOperation());
+			synchronized (lock) {
+				if (instance == null) {
+					instance = new WindowReference();
+					lOW = ((LoginOperationW) app.getLoginOperation());
+				}
+			}
 			instance.wnd = createWindowReference(
 					app.getLocalization().getMenu("GeoGebraMaterials"),
 					lOW.getLoginURL(app.getLocalization().getLanguage()),
@@ -121,8 +127,10 @@ public class WindowReference implements EventRenderable {
 
 	void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();
-	    WindowReference.instance = null;
-	    lOW = null;
+		synchronized (lock) {
+			WindowReference.instance = null;
+			lOW = null;
+		}
     }
 
 	private static JavaScriptObject createWindowReference(String name,

@@ -16,14 +16,14 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class MML2LaTeX implements EntryPoint {
 
-	private static MathMLParser mathmlParserLaTeX;
+	final private static MathMLParser mathmlParserLaTeX = new MathMLParser(
+			false);
 
 	private static String convert(String mml) {
 		return mathmlParserLaTeX.parse(mml, false, false);
 	}
 
 	public void onModuleLoad() {
-		mathmlParserLaTeX = new MathMLParser(false);
 		exportJS();
 	
 	}

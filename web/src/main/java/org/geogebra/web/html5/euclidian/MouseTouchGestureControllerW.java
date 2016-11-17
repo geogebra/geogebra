@@ -290,7 +290,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
 		// in SMART we actually get move events even if mouse button is up ...
-		if (!DRAGMODE_MUST_BE_SELECTED) {
+		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
 			ec.wrapMouseDragged(event, startCapture);
@@ -314,7 +314,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
-		DRAGMODE_MUST_BE_SELECTED = false;
+		dragModeMustBeSelected = false;
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
 		}
@@ -389,10 +389,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		second.release();
 	}
 
-	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
+	private boolean dragModeMustBeSelected = false;
 	private int deltaSum = 0;
 	private int moveCounter = 0;
-	private boolean DRAGMODE_IS_RIGHT_CLICK = false;
+	private boolean dragModeIsRightClick = false;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
@@ -489,10 +489,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onMouseMoveNow(PointerEvent event, long time,
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
-		if (!DRAGMODE_MUST_BE_SELECTED) {
+		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
-			event.setIsRightClick(DRAGMODE_IS_RIGHT_CLICK);
+			event.setIsRightClick(dragModeIsRightClick);
 			ec.wrapMouseDragged(event, startCapture);
 		}
 		event.release();
@@ -524,7 +524,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
-		DRAGMODE_MUST_BE_SELECTED = false;
+		dragModeMustBeSelected = false;
 
 		// hide dialogs if they are open
 		// but don't hide context menu if we just opened it via long tap in IE
@@ -565,8 +565,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onPointerEventStart(AbstractEvent event) {
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)
 		        && (!ec.isTextfieldHasFocus())) {
-			DRAGMODE_MUST_BE_SELECTED = true;
-			DRAGMODE_IS_RIGHT_CLICK = event.isRightClick();
+			dragModeMustBeSelected = true;
+			dragModeIsRightClick = event.isRightClick();
 		}
 
 		ec.wrapMousePressed(event);
