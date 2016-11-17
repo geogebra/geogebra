@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -808,22 +809,38 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 								alpha = ((GeoElement) geos[i]).getAlphaValue();
 								break;
 							}
+							if (geos[i] instanceof GeoPolyLine
+									&& EuclidianView.isPenMode(mode)) {
+								hasFillable = true;
+								alpha = ((GeoElement) geos[i]).getLineOpacity();
+
+								break;
+							}
 						}
 
 						if (hasFillable)
 							setTitle(loc.getMenu("stylebar.ColorTransparency"));
 						else
 							setTitle(loc.getMenu("stylebar.Color"));
+
 						setSliderVisible(hasFillable);
 
-						setSliderValue(Math.round(alpha * 100));
+						if (EuclidianView.isPenMode(mode)) {
+							setSliderValue(Math.round((alpha * 100) / 255));
+						} else {
+							setSliderValue(Math.round(alpha * 100));
+						}
 
 						updateColorTable();
 						setEnableTable(!(geos[0] instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
-						setDefaultColor(alpha, geoColor);
+						if (EuclidianView.isPenMode(mode)) {
+							setDefaultColor(alpha / 255, geoColor);
+						} else {
+							setDefaultColor(alpha, geoColor);
+						}
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}

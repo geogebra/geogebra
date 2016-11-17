@@ -9,6 +9,7 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularValueDecomposition;
 import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
@@ -154,6 +155,7 @@ public class EuclidianPen {
 	private boolean startNewStroke = false;
 
 	private int penSize;
+	private int lineOpacity;
 	private int lineThickness;
 	private GColor lineDrawingColor;
 	private int lineDrawingStyle;
@@ -213,9 +215,16 @@ public class EuclidianPen {
 				super.setLineType(i);
 				setPenLineStyle(i);
 			}
+
+			@Override
+			public void setLineOpacity(int lineOpacity) {
+				super.setLineOpacity(lineOpacity);
+				setPenOpacity(lineOpacity);
+			}
 		};
-		DEFAULT_PEN_LINE.setObjColor(penColor);
 		DEFAULT_PEN_LINE.setLineThickness(penSize);
+		DEFAULT_PEN_LINE.setLineOpacity(lineOpacity);
+		DEFAULT_PEN_LINE.setObjColor(penColor);
 	}
 
 	// ===========================================
@@ -230,6 +239,7 @@ public class EuclidianPen {
 		eraserSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
+		lineOpacity = 10;
 		setAbsoluteScreenPosition(true);
 	}
 
@@ -238,6 +248,21 @@ public class EuclidianPen {
 	 */
 	public int getPenSize() {
 		return penSize;
+	}
+
+	/**
+	 * @param line
+	 *            Opacity
+	 */
+	public void setPenOpacity(int lineOpacity) {
+		if (this.lineOpacity != lineOpacity) {
+			startNewStroke = true;
+		}
+		this.lineOpacity = lineOpacity;
+		float[] rgb = new float[3];
+		penColor.getRGBColorComponents(rgb);
+		setPenColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
+				lineOpacity / 255.0f));
 	}
 
 	/**
@@ -457,15 +482,51 @@ public class EuclidianPen {
 										   GPoint point2) {
 		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
-		// use for line the thickness from properties
-		// g2D.setStroke(AwtFactory.getPrototype().newBasicStroke(getLineThickness(),
-		// GBasicStroke.CAP_ROUND,
-		// GBasicStroke.JOIN_ROUND));
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
 				lineDrawingStyle));
 		g2D.setColor(lineDrawingColor);
 		g2D.fill(line);
 		g2D.draw(line);
+	}
+
+	private void drawPenPreviewEllipse(GGraphics2D g2D, GPoint point) {
+		GEllipse2DDouble ellipse = AwtFactory.getPrototype()
+				.newEllipse2DDouble();
+		ellipse.setFrameFromCenter(point.getX(), point.getY(),
+				point.getX() + getLineThicknessForPointPreview(),
+				point.getY() + getLineThicknessForPointPreview());
+		float[] rgb = new float[3];
+		penColor.getRGBColorComponents(rgb);
+		lineDrawingColor = AwtFactory.getPrototype().newColor(rgb[0], rgb[1],
+				rgb[2], this.lineOpacity / 255.0f);
+		g2D.setPaint(lineDrawingColor);
+		g2D.fill(ellipse);
+		g2D.setStroke(EuclidianStatic
+				.getDefaultStroke());
+		g2D.draw(AwtFactory.getPrototype().newArea(ellipse));
+	}
+
+
+	private int getLineThicknessForPointPreview() {
+		switch (lineThickness) {
+		case 4:
+			return 3;
+		case 5:
+		case 6:
+			return 4;
+		case 7:
+		case 8:
+		case 9:
+			return 5;
+		case 10:
+		case 11:
+			return 6;
+		case 12:
+		case 13:
+			return 7;
+		default:
+			return lineThickness;
+		}
 	}
 
 	/**
@@ -507,6 +568,8 @@ public class EuclidianPen {
 
 		// Application.debug(penPoints.size()+"");
 
+		// Log.debug("POINTS IN RELEASE!");
+		// penPoints(penPoints);
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
@@ -823,6 +886,7 @@ public class EuclidianPen {
 
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
+		poly.setLineOpacity(lineOpacity);
 		poly.setObjColor(penColor);
 
 		app.getSelectionManager().clearSelectedGeos(false);

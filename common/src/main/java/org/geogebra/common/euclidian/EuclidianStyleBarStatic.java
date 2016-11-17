@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -410,14 +411,24 @@ public class EuclidianStyleBarStatic {
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText)) {
 				if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 					geo.setAlphaValue(alpha);
-				} else if ((geo.getObjectColor() != color || geo.getAlphaValue() != alpha)) {
+				} else if ((geo.getObjectColor() != color
+						|| geo.getAlphaValue() != alpha
+						|| geo instanceof GeoPolyLine && geo.getKernel()
+								.getApplication()
+								.getMode() == EuclidianConstants.MODE_PEN)) {
 					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
 					if (geo.isFillable())
 						geo.setAlphaValue(alpha);
+					if (geo instanceof GeoPolyLine
+							&& geo.getKernel().getApplication()
+									.getMode() == EuclidianConstants.MODE_PEN) {
+						geo.setLineOpacity(Math.round(alpha * 255));
+					}
 				}
 
 				geo.updateVisualStyle(GProperty.COLOR);
+
 				needUndo = true;
 
 			}
