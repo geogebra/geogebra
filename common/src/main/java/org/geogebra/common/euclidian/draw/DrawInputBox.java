@@ -396,6 +396,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				boxHeight - 3);
 		if (isSelectedForInput()) {
 			getBox().setBounds(labelRectangle);
+
 		}
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
@@ -419,6 +420,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				textBottom, false,
 				false);
 		g2.setFont(font);
+		if (isSelectedForInput()) {
+		getBox().repaint(g2);
+		}
 	}
 
 
