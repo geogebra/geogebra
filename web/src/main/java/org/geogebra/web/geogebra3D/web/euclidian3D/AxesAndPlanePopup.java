@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
@@ -44,7 +45,7 @@ public class AxesAndPlanePopup extends PopupMenuButton {
 	public void setEVFromIndex() {
 		int index = getSelectedIndex();
 		ev.getSettings().beginBatch();
-		ev.getSettings().setShowAxes(index % 2 == 1);
+		ev.getSettings().setShowAxes(MyDouble.isOdd(index));
 		ev.getSettings().setShowPlate(index >= 2);
 		ev.getSettings().endBatch();
 		((EuclidianView3DW) ev).doRepaint();

@@ -91,7 +91,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 			degInt = 2;
 		}
 
-		if (degInt % 2 == 1 || degInt < 2 || !isQuadratic || Kernel.isZero(p)) {
+		if (MyDouble.isOdd(degInt) || degInt < 2 || !isQuadratic
+				|| Kernel.isZero(p)) {
 			square.setUndefined();
 			return;
 		}

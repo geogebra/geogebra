@@ -1279,4 +1279,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public static boolean exactEqual(double a, double b) {
 		return a == b;
 	}
+
+	/**
+	 * works for positive and negative numbers see
+	 * http://findbugs.sourceforge.net/bugDescriptions.html#IM_BAD_CHECK_FOR_ODD
+	 * 
+	 * @param i
+	 * @return true if i is odd
+	 */
+	public static boolean isOdd(int i) {
+		return (i % 2) != 0;
+	}
 }

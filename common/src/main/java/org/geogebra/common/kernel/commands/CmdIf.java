@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
@@ -85,7 +86,7 @@ public class CmdIf extends CommandProcessor {
 				}
 				alternatives.add(arg[i + 1]);
 			}
-			if (n % 2 == 1) {
+			if (MyDouble.isOdd(n)) {
 				alternatives.add(arg[n - 1]);
 			}
 			return new AlgoIf(cons, c.getLabel(), cond, alternatives)
@@ -170,7 +171,7 @@ public class CmdIf extends CommandProcessor {
 			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo), vars);
 		}
-		if (n % 2 == 1) {
+		if (MyDouble.isOdd(n)) {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
 					varName, fv);
 			vars = checkAdd(c, functions,

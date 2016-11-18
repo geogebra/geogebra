@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
@@ -1022,7 +1023,7 @@ public class StringUtil {
 			Character lastNonWhitespace = ' ';
 			int level = 0;
 			if (dir == 1) {
-				if (topLevelBars % 2 == 1) {
+				if (MyDouble.isOdd(topLevelBars)) {
 					int lPos = sbFix.lastIndexOf("|");
 					sbFix.replace(lPos, lPos + 1, ")");
 					sbFix.insert(0, "(");

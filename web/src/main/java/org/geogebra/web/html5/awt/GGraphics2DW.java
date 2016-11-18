@@ -16,6 +16,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
@@ -135,7 +136,7 @@ public class GGraphics2DW implements GGraphics2D {
 		int width = (int) context.getLineWidth();
 		context.beginPath();
 		if (dash_array == null || nativeDashUsed) {
-			if (width % 2 == 1) {
+			if (MyDouble.isOdd(width)) {
 				context.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
 				context.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
 			} else {
