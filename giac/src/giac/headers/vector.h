@@ -220,6 +220,7 @@ namespace std {
     const _Tp & operator [](size_t i) const { return *(begin()+i); }
     void push_back(const _Tp & p0){ 
       _Tp p(p0); 
+      int abstaille;
       // create a copy since p0 may be scratched 
       // if p0 is a vector element and the vector is realloced
       if (_taille<=0){ 
@@ -228,12 +229,16 @@ namespace std {
 	  --_taille;
 	  return;
 	}
-	_realloc(_taille?2*_abs(_taille):1);
+	abstaille=-_taille;
+	_realloc(abstaille?2*abstaille:1);
       }
-      if (_endalloc_immediate_vect==_begin_immediate_vect+_abs(_taille))
-	_realloc(_abs(_taille)?2*_taille:1);
-      *(_begin_immediate_vect+_abs(_taille))=p;
-      if (_taille==immvector_max) _taille=1; else ++_taille;
+      else {
+	abstaille=(_taille==immvector_max)?0:_taille;
+      }
+      if (_endalloc_immediate_vect==_begin_immediate_vect+abstaille)
+	_realloc(abstaille?2*abstaille:1);
+      *(_begin_immediate_vect+abstaille)=p;
+      _taille=abstaille+1;
     }
     _Tp pop_back(){ 
       if (_taille<=0){
