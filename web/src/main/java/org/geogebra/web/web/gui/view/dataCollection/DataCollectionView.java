@@ -483,8 +483,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 					.equals(listBox.getValue(selectedIndex))) {
 				listBox.setSelection(newSelection); // set null, handled in
 													// GeoListBox
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_NUMBER
-					.getText()) {
+			} else if (DefaultEntries.CREATE_NUMBER.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				GeoNumeric num = new GeoNumeric(
 						this.app.getKernel().getConstruction(), 0);
 				num.setShowExtendedAV(false);
@@ -492,15 +492,15 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				num.setLabel(null);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_DATA_FUNCTION
-					.getText()) {
+			} else if (DefaultEntries.CREATE_DATA_FUNCTION.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				// create new data function
 				newSelection = CmdDataFunction.emptyFunction(app.getKernel(),
 						null)[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_LIST
-					.getText()) {
+			} else if (DefaultEntries.CREATE_LIST.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				newSelection = new GeoList(this.app.getKernel()
 						.getConstruction());
 				newSelection.setLabel(null);

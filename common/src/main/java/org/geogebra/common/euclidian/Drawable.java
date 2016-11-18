@@ -253,7 +253,7 @@ public abstract class Drawable extends DrawableND {
 
 		// no index in label: draw it fast
 		int fontSize = g2.getFont().getSize();
-		if (oldLabelDesc == labelDesc && !labelHasIndex
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex
 				&& lastFontSize == fontSize) {
 			g2.drawString(label, xLabel, yLabel);
 			labelRectangle.setLocation(xLabel, yLabel - fontSize);
