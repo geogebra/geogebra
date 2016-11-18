@@ -98,29 +98,31 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 
 			// right-arrow
 
-			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2
+			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
+					HEIGHT / 2.0
 					+ arrowSize);
 			g2.draw(tempLine);
 
-			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2
+			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
+					HEIGHT / 2.0
 					- arrowSize);
 			g2.draw(tempLine);
 			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
 			// just a line
-			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
 			g2.draw(tempLine);
 			break;
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
 
 			// left arrow (filled)
-			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
 			g2.draw(tempLine);
 
 			gp.reset();
-			gp.moveTo(0, HEIGHT / 2);
-			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 + arrowSize);
-			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 - arrowSize);
+			gp.moveTo(0, HEIGHT / 2.0);
+			gp.lineTo(0 + filledArrowLength, HEIGHT / 2.0 + arrowSize);
+			gp.lineTo(0 + filledArrowLength, HEIGHT / 2.0 - arrowSize);
 
 			g2.fill(gp);
 
@@ -128,13 +130,13 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
 
 			// right-arrow (filled)
-			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
 			g2.draw(tempLine);
 
 			gp.reset();
-			gp.moveTo(WIDTH, HEIGHT / 2);
-			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 + arrowSize);
-			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 - arrowSize);
+			gp.moveTo(WIDTH, HEIGHT / 2.0);
+			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2.0 + arrowSize);
+			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2.0 - arrowSize);
 
 			g2.fill(gp);
 
