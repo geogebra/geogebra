@@ -1972,8 +1972,8 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[acosd(0.5)]", result:"60\u00B0", notes:"GGB-1353" },
 { cat:"Evaluate", cmd:"Evaluate[atand(1)]", result:"45\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[asind(0.317)]", result:"18.48159427073\u00B0", round:"18.48\u00B0", notes:"GGB-1353" },
-{ cat:"Numeric", cmd:"Numeric[acosd(0.317)]", result:"71.51840572927\u00B0", result:"71.52\u00B0", notes:"GGB-1353" },
-{ cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", result:"17.59\u00B0", notes:"GGB-1353" },
+{ cat:"Numeric", cmd:"Numeric[acosd(0.317)]", result:"71.51840572927\u00B0", round:"71.52\u00B0", notes:"GGB-1353" },
+{ cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", round:"17.59\u00B0", notes:"GGB-1353" },
 { cat:"ComplexRoot", cmd:"ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]", result:"{-0.6454972243679 - 1.053972753436\u03AF, -0.6454972243679 + 1.053972753436\u03AF}", round:"{-0.65 - 1.05\u03AF, -0.65 + 1.05\u03AF}" },
 
 // JSONEND
