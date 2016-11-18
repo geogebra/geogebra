@@ -76,14 +76,14 @@ public class PerspectivesMenuW extends GMenuBar {
 
 
 	private void addPerspective(int i, ResourcePrototype icon) {
-		Perspective[] defaultPerspectives = Layout.getDefaultPerspectives();
-		if (defaultPerspectives[i] == null) {
+		if (Layout.getDefaultPerspectives(i) == null) {
 			return;
 		}
 		final int index = i;
-		final int defID = defaultPerspectives[i].getDefaultID();
+		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
 		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
-				app.getLocalization().getMenu(defaultPerspectives[i].getId()),
+				app.getLocalization()
+						.getMenu(Layout.getDefaultPerspectives(i).getId()),
 				true), true,
 				new MenuCommand(app) {
 
@@ -126,7 +126,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	static void setPerspective(AppW app, int index) {
 		app.persistWidthAndHeight();
 		boolean changed = app.getGuiManager().getLayout()
-				.applyPerspective(Layout.getDefaultPerspectives()[index]);
+				.applyPerspective(Layout.getDefaultPerspectives(index));
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting

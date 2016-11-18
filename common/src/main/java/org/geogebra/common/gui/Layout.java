@@ -353,8 +353,12 @@ public abstract class Layout {
 		return defaultPerspectives[0];
 	}
 
-	public static Perspective[] getDefaultPerspectives() {
-		return defaultPerspectives;
+	public static Perspective getDefaultPerspectives(int i) {
+		return defaultPerspectives[i];
+	}
+
+	public static int getDefaultPerspectivesLength() {
+		return defaultPerspectives.length;
 	}
 
 	protected boolean setEVsettingsFromPerspective(App app,

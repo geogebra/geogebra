@@ -139,12 +139,11 @@ public class PerspectivePanel extends JPopupMenu {
 	}
 
 	private void addPerspective(int i, ImageResourceD icon) {
-		Perspective[] defaultPerspectives = Layout.getDefaultPerspectives();
-		if (defaultPerspectives[i] == null) {
+		if (Layout.getDefaultPerspectives(i) == null) {
 			return;
 		}
 		JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-		tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
+		tmpItem.setText(app.getMenu(Layout.getDefaultPerspectives(i).getId()));
 		tmpItem.setActionCommand("d" + i);
 
 		Icon ic;
@@ -196,7 +195,7 @@ public class PerspectivePanel extends JPopupMenu {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
 					changed = layout.applyPerspective(
-							Layout.getDefaultPerspectives()[index]);
+							Layout.getDefaultPerspectives(index));
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					changed = layout.applyPerspective(layout
