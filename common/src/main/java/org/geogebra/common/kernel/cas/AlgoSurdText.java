@@ -822,15 +822,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 
 	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
-		return PSLQ(x.length, x, AccuracyFactor, bound, null, null, null);
+		return PSLQ(x.length, x, AccuracyFactor, bound, null, null);
 	}
 
 	/*
 	 * Algorithm PSLQ from Ferguson and Bailey (1992)
 	 */
 	private static int[] PSLQ(int n, double[] x_input, double AccuracyFactor,
-			int bound, int[][] B_mutable, double[] xB_mutable,
-			int[] orthoIndices_mutable) {
+			int bound, int[][] B_mutable, double[] xB_mutable) {
 
 		double[] x = new double[n];
 		for (int i = 0; i < n; i++) { // need a copy of the input
@@ -855,7 +854,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// other working variables
 		double normX;
 		double[] ss;
-		double[][] H, P, newH;
+		double[][] H, newH;
 		int[][] D, E, A, newAorB;
 		double[][][] G;
 		int[][][] R;

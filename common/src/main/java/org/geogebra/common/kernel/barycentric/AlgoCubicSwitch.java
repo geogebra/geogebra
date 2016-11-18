@@ -30,9 +30,6 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		return getEquation(cp.n, cp.a, cp.b, cp.c);
 	}
 
-	private double[] b(double p, double q, double r) {
-		return new double[] { p, q, r };
-	}
 
 	/**
 	 * Returns equation in case cubic is symmetric or antisymmetric
@@ -61,11 +58,11 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 		return equation;
 	}
 
-	private double[] a(double p, double q, double r) {
+	private static double[] a(double p, double q, double r) {
 		return new double[] { p, q, -q, r };
 	}
 
-	private double[] s(double p, double q, double r) {
+	private static double[] s(double p, double q, double r) {
 		return new double[] { p, q, q, r };
 	}
 

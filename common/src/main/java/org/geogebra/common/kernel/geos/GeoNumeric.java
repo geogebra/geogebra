@@ -1833,7 +1833,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return getGeoFunction().getFunction();
 	}
 
-	public Object getVarString(StringTemplate defaulttemplate) {
+	public String getVarString(StringTemplate defaulttemplate) {
 		return "x";
 	}
 }

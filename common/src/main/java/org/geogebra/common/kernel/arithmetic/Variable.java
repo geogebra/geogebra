@@ -217,7 +217,7 @@ public class Variable extends ValidExpression {
 				break;
 		}
 		while (nameNoX.length() > 0
-				&& !(geo2 instanceof GeoElement)
+				&& geo2 == null
 				&& (nameNoX.startsWith("pi") || nameNoX.charAt(0) == Unicode.pi)) {
 			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
 			exponents[4]++;
@@ -229,7 +229,7 @@ public class Variable extends ValidExpression {
 				break;
 			}
 		}
-		if (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)) {
+		if (nameNoX.length() > 0 && geo2 == null) {
 			return new Variable(kernel, nameNoX);
 		}
 		ExpressionNode powers = xyzPowers(kernel, exponents);
