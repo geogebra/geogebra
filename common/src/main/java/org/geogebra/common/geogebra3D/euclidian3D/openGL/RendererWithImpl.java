@@ -225,7 +225,7 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	final public void updateProjectionObliqueValues() {
+	public void updateProjectionObliqueValues() {
 		super.updateProjectionObliqueValues();
 		if (rendererImpl != null) {
 			rendererImpl.updateProjectionObliqueValues();

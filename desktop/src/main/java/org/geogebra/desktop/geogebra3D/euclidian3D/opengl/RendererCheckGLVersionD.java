@@ -666,4 +666,12 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	final public void disableTextures2D() {
 		rendererImpl.glDisable(GL.GL_TEXTURE_2D);
 	}
+
+	@Override
+	public void updateProjectionObliqueValues() {
+		if (type == RendererType.GL2) {
+			updateOrthoValues();
+		}
+		super.updateProjectionObliqueValues();
+	}
 }
