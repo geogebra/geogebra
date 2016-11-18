@@ -20,9 +20,9 @@ abstract public class Input3D {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
-	static public String PREFS_REALSENSE = "realsense";
-	static public String PREFS_ZSPACE = "zspace";
-	static public String PREFS_NONE = "none";
+	final static public String PREFS_REALSENSE = "realsense";
+	final static public String PREFS_ZSPACE = "zspace";
+	final static public String PREFS_NONE = "none";
 
 	/**
 	 * 
