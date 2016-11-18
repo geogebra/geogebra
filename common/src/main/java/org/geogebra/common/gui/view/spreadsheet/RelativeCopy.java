@@ -565,6 +565,9 @@ public class RelativeCopy {
 			value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel, app,
 					text, oldValue, column0 + dx, row0 + dy, true);
 		}
+		if (value2 == null) {
+			return null;
+		}
 		value2.setAllVisualProperties(value, false);
 
 		value2.setAuxiliaryObject(true);
