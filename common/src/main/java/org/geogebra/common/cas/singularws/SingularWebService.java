@@ -87,9 +87,6 @@ public class SingularWebService {
 	}
 
 	private static String cachingString() {
-		if (SingularWSSettings.getCachingText() == null) {
-			return "";
-		}
 		final String prefix = "&l=";
 		if (SingularWSSettings.getUseCaching()) {
 			return prefix + "1";

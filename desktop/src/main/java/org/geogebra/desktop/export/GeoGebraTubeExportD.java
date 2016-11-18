@@ -233,7 +233,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 							+ " - " + responseMessage);
 
 					BufferedReader errors = new BufferedReader(
-							new InputStreamReader(urlConn.getErrorStream()));
+							new InputStreamReader(urlConn.getErrorStream(),
+									Charsets.UTF_8));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;

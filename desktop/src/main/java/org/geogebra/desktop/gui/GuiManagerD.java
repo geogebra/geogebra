@@ -106,7 +106,7 @@ import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.InputDialogOpenURL;
-import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
+import org.geogebra.desktop.gui.dialog.ToolCreationDialogD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.inputbar.InputBarHelpPanelD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -3193,7 +3193,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
-		return ToolCreationDialog.isMyCellRenderer(renderer);
+		return ToolCreationDialogD.isMyCellRenderer(renderer);
 	}
 
 

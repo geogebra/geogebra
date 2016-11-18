@@ -5,7 +5,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
-import org.geogebra.web.web.gui.dialog.ToolCreationDialog;
+import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
 
 /**
@@ -55,7 +55,7 @@ public class ToolsMenuW extends GMenuBar {
 	
 				@Override
 				public void doExecute() {
-					ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app);
+					ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(app);
 					toolCreationDialog.center();
 				}
 			});

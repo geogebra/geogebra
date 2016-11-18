@@ -36,10 +36,12 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Dialog to create a new user defined tool
  */
-public class ToolCreationDialog extends DialogBoxW implements
+public class ToolCreationDialogW extends DialogBoxW implements
 		GeoElementSelectionListener, ClickHandler, ToolInputOutputListener {
 
 	private AppW app;
@@ -71,7 +73,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	 *            Aplication to which this dialog belongs
 	 */
 
-	public ToolCreationDialog(App app) {
+	public ToolCreationDialogW(App app) {
 		super(false, false, null, ((AppW) app).getPanel());
 		this.app = (AppW) app;
 		this.loc = app.getLocalization();
@@ -103,7 +105,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	 *            {@link Macro}
 	 * 
 	 */
-	public ToolCreationDialog(AppW app, AsyncOperation<Macro> returnHandler) {
+	public ToolCreationDialogW(AppW app, AsyncOperation<Macro> returnHandler) {
 		this(app);
 		this.returnHandler = returnHandler;
 	}
@@ -247,12 +249,14 @@ public class ToolCreationDialog extends DialogBoxW implements
 	 * @param tab
 	 *            selected tab
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH", "OK to fall through here" })
 	protected void updateBackNextButtons(int tab) {
 		btBack.setEnabled(tab > 0);
 
 		switch (tab) {
 		case 1: // input objects
 			toolModel.updateInputList();
+			// fall through
 		case 0: // output objects
 			btNext.setText(loc.getMenu("Next") + " >");
 			btNext.setEnabled(true);
@@ -265,6 +269,9 @@ public class ToolCreationDialog extends DialogBoxW implements
 			} else {
 				btNext.setEnabled(false);
 			}
+			break;
+
+		default:
 			break;
 		}
 

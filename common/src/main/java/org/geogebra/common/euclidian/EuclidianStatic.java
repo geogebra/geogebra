@@ -175,7 +175,7 @@ public class EuclidianStatic {
 		String[] elements = blockSplit(labelDesc);
 
 		ArrayList<Integer> lineHeights = new ArrayList<Integer>();
-		lineHeights.add(new Integer(lineSpread + lineSpace));
+		lineHeights.add(lineSpread + lineSpace);
 		ArrayList<Integer> elementHeights = new ArrayList<Integer>();
 
 		int depth = 0;

@@ -571,7 +571,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private void newTool() {
 		setVisible(false);
-		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
+		ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(app,
 				new AsyncOperation<Macro>() {
 					@Override
 					public void callback(Macro macro) {

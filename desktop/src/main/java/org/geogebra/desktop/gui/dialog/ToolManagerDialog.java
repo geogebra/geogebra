@@ -142,7 +142,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 			toolList.setCellRenderer(new MacroCellRenderer());
 			toolList.setVisibleRowCount(6);
 
-			JPanel centerPanel = ToolCreationDialog
+			JPanel centerPanel = ToolCreationDialogD
 					.createListUpDownRemovePanel(loc, toolList, null, false,
 							true, false, null);
 

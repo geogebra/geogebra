@@ -81,15 +81,19 @@ public class EuclidianStyleConstants {
 			+ AXES_LEFT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
 
 	// for the options menu
-	private static Integer[] lineStyleOptions = {
+	protected static Integer[] lineStyleOptions = {
 			EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED };
 
-	public static Integer[] getLineStyleOptions() {
-		return lineStyleOptions;
+	public static Integer getLineStyleOptions(int i) {
+		return lineStyleOptions[i];
+	}
+
+	public static Integer getLineStyleOptionsLength() {
+		return lineStyleOptions.length;
 	}
 
 	public static final int POINT_STYLE_DOT = 0;

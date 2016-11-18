@@ -583,10 +583,10 @@ public class EuclidianOptionsModel {
 
 		// need style with bold removed for menu
 		for (int i = 0; i < EuclidianStyleConstants
-				.getLineStyleOptions().length; i++) {
+				.getLineStyleOptionsLength(); i++) {
 			if (EuclidianView.getBoldAxes(false,
 					view.getAxesLineStyle()) == EuclidianStyleConstants
-							.getLineStyleOptions()[i]) {
+							.getLineStyleOptions(i)) {
 				listener.selectAxesStyle(i);
 				break;
 			}

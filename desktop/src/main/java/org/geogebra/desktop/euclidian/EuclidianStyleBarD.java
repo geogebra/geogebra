@@ -798,12 +798,12 @@ axesIcon, iconHeight);
 		// angle interval button
 
 		String[] angleIntervalArray = new String[GeoAngle
-				.getIntervalMinList().length - 1];
+				.getIntervalMinListLength() - 1];
 		
-		for (int i = 0; i < GeoAngle.getIntervalMinList().length - 1; i++) {
+		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
 			angleIntervalArray[i] = loc.getPlain("AngleBetweenAB.short",
-					GeoAngle.getIntervalMinList()[i],
-					GeoAngle.getIntervalMaxList()[i]);
+					GeoAngle.getIntervalMinList(i),
+					GeoAngle.getIntervalMaxList(i));
 		}
 
 		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,

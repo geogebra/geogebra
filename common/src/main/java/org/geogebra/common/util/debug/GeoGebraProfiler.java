@@ -9,7 +9,7 @@ package org.geogebra.common.util.debug;
  */
 public abstract class GeoGebraProfiler {
 
-	private static GeoGebraProfiler instance = null;
+	private static volatile GeoGebraProfiler instance = null;
 
 	private static volatile int repaints, repaintTime, drags, dragTime;
 	private static volatile int moveEventsIgnored;

@@ -348,8 +348,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		lblAxisLabelStyle = new JLabel(loc.getMenu("LabelStyle") + ":");
 
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
-		cbAxesStyle = new JComboBox(
-				EuclidianStyleConstants.getLineStyleOptions());
+		cbAxesStyle = EuclidianStyleConstantsD.getLineOptionsCombobox();
 		cbAxesStyle.setRenderer(renderer);
 		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
 		// cbAxesStyle.setBackground(getBackground());

@@ -148,16 +148,24 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		"-"+Unicode.INFINITY
 	};
 
-	public static String[] getIntervalMinList() {
-		return INTERVAL_MIN;
+	public static String getIntervalMinList(int i) {
+		return INTERVAL_MIN[i];
 	}
 
-	public static String[] getIntervalMaxList() {
-		return INTERVAL_MAX;
+	public static int getIntervalMinListLength() {
+		return INTERVAL_MIN.length;
+	}
+
+	public static int getIntervalMaxListLength() {
+		return INTERVAL_MAX.length;
+	}
+
+	public static String getIntervalMaxList(int i) {
+		return INTERVAL_MAX[i];
 	}
 
 	/** interval maxima for different angle styles */
-	public static final String[] INTERVAL_MAX = {
+	private static final String[] INTERVAL_MAX = {
 		"360" + Unicode.DEGREE_CHAR,
 		"180" + Unicode.DEGREE_CHAR,
 		"360" + Unicode.DEGREE_CHAR,
