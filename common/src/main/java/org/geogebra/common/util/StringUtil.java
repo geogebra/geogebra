@@ -548,23 +548,20 @@ public class StringUtil {
 		return sbReplaceExp.toString();
 	}
 
-	private static StringBuilder sb;
-
 	/*
 	 * returns a string with n instances of s eg string("hello",2) ->
 	 * "hellohello";
 	 */
 	public static String string(String s, int n) {
 
-		if (n == 1)
+		if (n == 1) {
 			return s; // most common, check first
-		if (n < 1)
+		}
+		if (n < 1) {
 			return "";
+		}
 
-		if (sb == null)
-			sb = new StringBuilder();
-
-		sb.setLength(0);
+		StringBuilder sb = new StringBuilder(s.length() * n);
 
 		for (int i = 0; i < n; i++) {
 			sb.append(s);
@@ -575,19 +572,19 @@ public class StringUtil {
 
 	public static String removeSpaces(String str) {
 
-		if (str == null || str.length() == 0)
+		if (str == null || str.length() == 0) {
 			return "";
+		}
 
-		if (sb == null)
-			sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder(str.length());
 
-		sb.setLength(0);
 		char c;
 
 		for (int i = 0; i < str.length(); i++) {
 			c = str.charAt(i);
-			if (c != ' ')
+			if (c != ' ') {
 				sb.append(c);
+			}
 		}
 
 		return sb.toString();

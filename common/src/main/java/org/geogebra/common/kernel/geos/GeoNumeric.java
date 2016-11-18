@@ -1406,7 +1406,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return comparator;
 	}
 
-	private static Comparator<GeoNumberValue> comparator;
+	private static volatile Comparator<GeoNumberValue> comparator;
 
 	// protected void setRandomNumber(boolean flag) {
 	// isRandomNumber = flag;

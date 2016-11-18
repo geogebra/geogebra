@@ -149,7 +149,7 @@ public class GgbAPID extends GgbAPIJre {
 		}
 	}
 
-	private static MessageDigest messageDigestMD5 = null;
+	private static volatile MessageDigest messageDigestMD5 = null;
 
 	/**
 	 * @return reference to MD5 algorithm
