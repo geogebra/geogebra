@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
@@ -19,9 +18,10 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	private ZSpaceGwt zSpace;
 
-	public RendererWithImplZSpaceW(EuclidianView3D view) {
+	public RendererWithImplZSpaceW(EuclidianViewInput3DW view) {
 		super(view);
 		zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
+		((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
 
 	}
 
@@ -90,6 +90,10 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	@Override
 	final protected void setBufferRight() {
 		zSpace.zspaceRightView();
+	}
+
+	public ZSpaceGwt getZSpace() {
+		return zSpace;
 	}
 
 }

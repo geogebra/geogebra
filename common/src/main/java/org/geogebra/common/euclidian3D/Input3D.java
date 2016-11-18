@@ -305,12 +305,12 @@ abstract public class Input3D {
 	 */
 	abstract public void setSpecificSettings(EuclidianSettings3D settings);
 
-	private Coords[] glassesPosition;
+	protected Coords[] glassesPosition;
 
 	protected double screenHalfWidth, screenHalfHeight;
 	protected int panelWidth, panelHeight, panelX, panelY;
 
-	private EuclidianView3D view3D;
+	protected EuclidianView3D view3D;
 
 	public void init(EuclidianView3D view3D) {
 		this.view3D = view3D;
@@ -358,17 +358,22 @@ abstract public class Input3D {
 		return panelY;
 	}
 
+	protected void setGlassesPosition() {
+		for (int i = 0; i < 2; i++) {
+			double[] pos = getGlassesPosition(i);
+			setPositionXYOnPanel(pos, glassesPosition[i]);
+			glassesPosition[i].setZ(pos[2]);
+		}
+	}
+
 	public void updateHeadTracking() {
 		// eyes : set position only if we use glasses
 		if (useHeadTracking()
-				&& view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES)
+				&& view3D
+						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 
-		{
-			for (int i = 0; i < 2; i++) {
-				double[] pos = getGlassesPosition(i);
-				setPositionXYOnPanel(pos, glassesPosition[i]);
-				glassesPosition[i].setZ(pos[2]);
-			}
+			// set glasses position from tracker data
+			setGlassesPosition();
 
 			// Log.debug("\n"+glassesPosition);
 

@@ -22,6 +22,10 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 		super.start();
 	}
 
+	public Input3D getInput3D() {
+		return input3D;
+	}
+
 	@Override
 	protected Renderer createRenderer() {
 		return new RendererWithImplZSpaceW(this);
@@ -42,5 +46,10 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 	public boolean wantsStereo() {
 		return true;
 	}
+
+	// @Override
+	// public boolean isAnimated() {
+	// return true;
+	// }
 
 }
