@@ -91,6 +91,7 @@ namespace giac {
   // Use operator_times unless you know what you do
   void mulmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord);
   void mulmodpoly(const modpoly & th, const gen & fact, environment * env, modpoly & new_coord);
+  void mulmodpoly_naive(const modpoly & a, const modpoly & b,modpoly & new_coord);
   // modpoly operator * (const modpoly & th, const gen & fact);
   modpoly operator_times (const modpoly & th, const gen & fact,environment * env);
   // commented otherwise int * gen might be interpreted as

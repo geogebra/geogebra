@@ -2952,6 +2952,8 @@ namespace giac {
   }
   gen _cyclotomic(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type==_VECT && a._VECTptr->size()==2 && a._VECTptr->front().type==_INT_)
+      return symb_horner(cyclotomic(a._VECTptr->front().val),a._VECTptr->back());
     if (a.type!=_INT_)
       return gentypeerr(contextptr); // symb_cyclotomic(a);
     return cyclotomic(a.val);
@@ -4760,7 +4762,7 @@ namespace giac {
     vecteur lv(1,var);
     lvar(v,lv);
     if (lv.size()!=1)
-      return gensizeerr(gettext("Too many variables ")+gen(lv).print(contextptr));
+      *logptr(contextptr) << gettext("Too many variables ")+gen(lv).print(contextptr) << endl;
     gen aa=e2r(a,lv,contextptr),aan,aad,bb=e2r(p,lv,contextptr),bbn,bbd;
     fxnd(aa,aan,aad);
     if ( (aad.type==_POLY) && (aad._POLYptr->lexsorted_degree() ) )
@@ -4777,11 +4779,17 @@ namespace giac {
       A.push_back(aan);
     modpoly B=polynome2poly1(*bbn._POLYptr);
     environment env;
-    env.moduloon=true;
-    env.modulo=m;
+    if (!is_zero(m)){
+      env.moduloon=true;
+      env.modulo=m;
+    }
     // if (!B.empty() && !is_zero(m)) mulmodpoly(B,invmod(B.front(),m),&env,B);
     modpoly res=powmod(A,n,B,&env);
-    polynome R(poly12polynome(res));
+    polynome R;
+    if (lv.size()==1)
+      R=poly12polynome(res);
+    else
+      R=poly12polynome(res,1,lv.size());
     if (modafter)
       modularize(R,m);
     gen Res=r2e(R,lv,contextptr)/pow(r2e(aad,lv,contextptr),n,contextptr);

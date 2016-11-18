@@ -255,14 +255,17 @@ namespace std {
     }
     void clear(){ 
       if (_taille>0 &&_begin_immediate_vect){
-	delete [] _begin_immediate_vect; 
-	_zero_tab();
+	if (_taille!=immvector_max){
+	  for (unsigned i=0;i<_taille;++i)
+	    *(_begin_immediate_vect+i)=_Tp();
+	  _taille=immvector_max;
+	}
       }
       else {
 	if (_taille<0)
 	  _free_tab();
+	_taille=0;
       }
-      _taille=0;
     }
     bool empty() const { return _taille==0 || _taille==immvector_max; }
     void reserve(size_t n){ if (_abs(_taille)<n) _realloc(int(n)); }
