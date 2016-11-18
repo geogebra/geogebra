@@ -77,11 +77,10 @@ public class ChangeableCoordParent {
 
 	/**
 	 * constructor
-	 * @param child child
 	 * @param number number
 	 * @param director director
 	 */
-	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
+	public ChangeableCoordParent(GeoNumeric number,
 			GeoElement director) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;

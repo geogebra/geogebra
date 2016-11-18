@@ -619,7 +619,7 @@ Traceable{
 		 * 
 		 */
 		final public void setChangeableCoordParent(GeoNumeric number, GeoElement direction) {
-			changeableCoordParent = new ChangeableCoordParent(this, number, direction);
+		changeableCoordParent = new ChangeableCoordParent(number, direction);
 		}
 
 		

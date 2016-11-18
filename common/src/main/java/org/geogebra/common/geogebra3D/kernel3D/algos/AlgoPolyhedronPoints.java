@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
@@ -7,6 +8,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -33,6 +35,98 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			outputSegmentsSide, outputSegmentsTop;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom,
 			outputPolygonsSide, outputPolygonsTop;
+
+	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
+
+		public OutputPolygonsHandler() {
+			super(new elementFactory<GeoPolygon3D>() {
+				public GeoPolygon3D newElement() {
+					GeoPolygon3D p = new GeoPolygon3D(cons);
+					// p.setParentAlgorithm(AlgoPolyhedron.this);
+					if (heightChangeableCoordParent != null) {
+						p.setChangeableCoordParent(heightChangeableCoordParent);
+					}
+					return p;
+				}
+			});
+		}
+
+		@Override
+		public void addOutput(GeoPolygon3D geo, boolean setDependencies) {
+			if (heightChangeableCoordParent != null) {
+				geo.setChangeableCoordParent(heightChangeableCoordParent);
+			}
+			super.addOutput(geo, setDependencies);
+		}
+
+	}
+
+	@Override
+	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
+		return new OutputPolygonsHandler();
+	}
+
+	private class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
+
+		public OutputSegmentsHandler() {
+			super(new elementFactory<GeoSegment3D>() {
+				public GeoSegment3D newElement() {
+					GeoSegment3D s = new GeoSegment3D(cons);
+					if (heightChangeableCoordParent != null) {
+						s.setChangeableCoordParentIfNull(
+								heightChangeableCoordParent);
+					}
+					return s;
+				}
+			});
+		}
+
+		@Override
+		public void addOutput(GeoSegment3D geo, boolean setDependencies) {
+			if (heightChangeableCoordParent != null) {
+				geo.setChangeableCoordParentIfNull(heightChangeableCoordParent);
+			}
+			super.addOutput(geo, setDependencies);
+		}
+
+	}
+
+
+	@Override
+	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
+		return new OutputSegmentsHandler();
+	}
+
+	private class OutputPointsHandler extends OutputHandler<GeoPoint3D> {
+
+		public OutputPointsHandler() {
+			super(new PointFactory() {
+				@Override
+				public GeoPoint3D newElement() {
+					GeoPoint3D ret = super.newElement();
+					if (heightChangeableCoordParent != null) {
+						ret.setChangeableCoordParentIfNull(
+								heightChangeableCoordParent);
+					}
+					return ret;
+				}
+			});
+		}
+
+		@Override
+		public void addOutput(GeoPoint3D geo, boolean setDependencies) {
+			if (heightChangeableCoordParent != null) {
+				geo.setChangeableCoordParentIfNull(heightChangeableCoordParent);
+			}
+			super.addOutput(geo, setDependencies);
+		}
+
+	}
+
+	@Override
+	protected OutputHandler<GeoPoint3D> createOutputPointsHandler() {
+		return new OutputPointsHandler();
+	}
 
 	// ///////////////////////////////////////////
 	// POLYHEDRON OF DETERMINED TYPE
@@ -217,6 +311,14 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			GeoPolygon polygon, NumberValue height) {
 		super(c);
 
+		// create ChangeableCoordParent if possible
+		GeoNumeric changeableHeight = ChangeableCoordParent
+				.getGeoNumeric(height);
+		if (changeableHeight != null) {
+			heightChangeableCoordParent = new ChangeableCoordParent(
+					changeableHeight, polygon);
+		}
+
 		initCoords();
 
 		bottom = polygon;
@@ -234,21 +336,20 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		input[1] = (GeoElement) height;
 		addAlgoToInput();
 
+
 		updateOutputPoints();
 		createFaces();
 		setOutput();
 
-		if (height instanceof GeoNumeric) {
-			if (((GeoNumeric) height).isIndependent()) {
-
-				for (GeoPolygon p : polyhedron.getPolygons()) {
-					p.setChangeableCoordParent((GeoNumeric) height, bottom);
-				}
-
-				// getTopFace().setCoordParentNumber((GeoNumeric) height);
-				// getTopFace().setCoordParentDirector(bottom);
-			}
-		}
+		// GeoNumeric changeableHeight = ChangeableCoordParent
+		// .getGeoNumeric(height);
+		// if (changeableHeight != null) {
+		// heightChangeableCoordParent = new ChangeableCoordParent(
+		// changeableHeight, bottom);
+		// for (GeoPolygon p : polyhedron.getPolygons()) {
+		// p.setChangeableCoordParent(heightChangeableCoordParent);
+		// }
+		// }
 
 		setLabels(labels);
 
@@ -257,6 +358,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		// force update segments and polygons
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
+
+	ChangeableCoordParent heightChangeableCoordParent = null;
 
 	/**
 	 * init Coords values

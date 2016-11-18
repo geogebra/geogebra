@@ -600,7 +600,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		defined = poly.defined;
 
 		if (poly.hasChangeableCoordParentNumbers())
-			setChangeableCoordParent(poly.changeableCoordParent.getNumber(),poly.changeableCoordParent.getDirector());
+			setChangeableCoordParent(poly.changeableCoordParent);
 		updateRegionCS();
 	}
 	
@@ -2197,15 +2197,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	private ChangeableCoordParent changeableCoordParent = null;
 
-	/**
-	 * sets the parents for changing coords
-	 * @param number number
-	 * @param direction direction
-	 * 
-	 */
-	final public void setChangeableCoordParent(GeoNumeric number, GeoElement direction) {
-		changeableCoordParent = new ChangeableCoordParent(this, number, direction);
-	}
 
 	/**
 	 * @param ccp
