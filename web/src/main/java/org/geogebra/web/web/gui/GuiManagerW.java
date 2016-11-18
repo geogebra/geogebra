@@ -1991,13 +1991,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 					@Override
 					public void callback(String[] obj) {
+						getApp().dispatchEvent(
+								new Event(EventType.EXPORT, null, "[\"ggb\"]"));
 						if (Browser.isXWALK()) {
-							((AppW) app).getGgbApi().getBase64(true,
+							getApp().getGgbApi().getBase64(true,
 									getStringCallback(obj[1]));
 						}
 
 				else if (Integer.parseInt(obj[0]) == 0) {
-							((AppW) app).getGgbApi().getGGB(true,
+							getApp().getGgbApi().getGGB(true,
 									getDownloadCallback(obj[1]));
 						}
 					}
@@ -2005,8 +2007,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 
-
-	private native JavaScriptObject getStringCallback(String title) /*-{
+	/**
+	 * @param title
+	 *            construction title
+	 * @return local file saving callback for base64
+	 */
+	native JavaScriptObject getStringCallback(String title) /*-{
 
 		return function(base64) {
 			var a = $doc.createElement("a");
@@ -2018,7 +2024,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 
 	}-*/;
-	private native JavaScriptObject getDownloadCallback(String title) /*-{
+
+	/**
+	 * @param title
+	 *            construction title
+	 * @return local file saving callback for binary file
+	 */
+	native JavaScriptObject getDownloadCallback(String title) /*-{
 		var _this = this;
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
@@ -2219,6 +2231,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	@Override
 	public void replaceInputSelection(String string) {
 		if (app.showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) app.getAlgebraView())

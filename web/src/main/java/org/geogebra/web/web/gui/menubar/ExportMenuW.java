@@ -53,7 +53,7 @@ public class ExportMenuW extends MenuBar {
 				.getSafeUri().asString(), "png", true), true,
 				new MenuCommand(app) {
 
-						@Override
+					@Override
 					public void execute() {
 						app.getActiveEuclidianView()
 								.setSelectionRectangle(null);
@@ -67,7 +67,7 @@ public class ExportMenuW extends MenuBar {
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), app);
 					}
-					});
+				});
 		if (!app.getLAF().isTablet()) {
 			addItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
