@@ -4072,6 +4072,10 @@ public abstract class App implements UpdateSelection {
 		case ONSCREEN_KEYBOARD_AT_PROBCALC:
 			return prerelease;
 
+			// GGB-1349
+		case FIX_KEYBOARD_POSITION:
+			return prerelease;
+
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 

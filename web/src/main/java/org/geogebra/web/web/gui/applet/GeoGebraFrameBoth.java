@@ -6,6 +6,7 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -49,6 +50,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private DockGlassPaneW glass;
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
+	private boolean keyboardVisibilityChanging;
 
 	/**
 	 * @param factory
@@ -190,6 +192,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
+
+		if (app.has(Feature.FIX_KEYBOARD_POSITION) && (keyboardVisibilityChanging)) {
+			return;
+		}
 		if (this.keyboardShowing == show) {
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
@@ -198,13 +204,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// this.mainPanel.clear();
 
 		if (show) {
+			keyboardVisibilityChanging = true;
 			app.hideMenu();
 			app.persistWidthAndHeight();
 			addKeyboard(textField);
 		} else {
+			keyboardVisibilityChanging = true;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
 			removeKeyboard(textField);
+			keyboardVisibilityChanging = false;
 		}
 
 		// this.mainPanel.add(this.dockPanel);
@@ -290,6 +299,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
 		}
+		keyboardVisibilityChanging = false;
 
 	}
 
@@ -317,6 +327,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
+		if (app.has(Feature.FIX_KEYBOARD_POSITION) && this.keyboardVisibilityChanging) {
+			return;
+		}
 		if (app.getLAF().isTablet()
 				|| keyboardShowing // if keyboard is already
 									// showing, we don't have

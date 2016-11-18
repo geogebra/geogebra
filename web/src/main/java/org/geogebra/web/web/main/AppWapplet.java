@@ -275,6 +275,8 @@ public class AppWapplet extends AppWFull {
 
 
 	private void attachSplitLayoutPanel() {
+		boolean oldSLPanelChanged = oldSplitLayoutPanel == getSplitLayoutPanel() ? false
+				: true;
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
@@ -292,6 +294,10 @@ public class AppWapplet extends AppWFull {
 			}
 			Browser.removeDefaultContextMenu(
 					getSplitLayoutPanel().getElement());
+
+			if (has(Feature.FIX_KEYBOARD_POSITION) && !oldSLPanelChanged) {
+				return;
+			}
 
 			ClickStartHandler.init(oldSplitLayoutPanel,
 					new ClickStartHandler() {
