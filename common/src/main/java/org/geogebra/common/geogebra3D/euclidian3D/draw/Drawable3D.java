@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -907,29 +908,23 @@ public abstract class Drawable3D extends DrawableND {
 
 		}
 
-		// check if the two objects are "mixed"
-		if (this.zPickFar <= d.zPickNear && d.zPickFar <= this.zPickNear) {
-
+		if (Kernel.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
 			GeoElement geo1 = this.getGeoElement();
 			GeoElement geo2 = d.getGeoElement();
-
 			if (geo1 == geo2) {
-				// Log.debug("\nsame geo : "+geo1);
 				return 0;
 			}
+			if (geo1.getConstructionIndex() > geo2.getConstructionIndex()) {
+				return -1;
+			}
+			if (geo1.getConstructionIndex() < geo2.getConstructionIndex()) {
+				return 1;
+			}
 
-			/*
-			 * DecimalFormat df = new DecimalFormat("0.000000000");
-			 * Log.debug("\nmixed :\n"
-			 * +"zMin= "+df.format(this.zPickMin)+" | zMax= "
-			 * +df.format(this.zPickMax
-			 * )+" ("+this.getGeoElement().getLabel(StringTemplate
-			 * .defaultTemplate)+")\n"
-			 * +"zMin= "+df.format(d.zPickMin)+" | zMax= "
-			 * +df.format(d.zPickMax)+
-			 * " ("+d.getGeoElement().getLabel(StringTemplate
-			 * .defaultTemplate)+")\n");
-			 */
+		}
+
+		// check if the two objects are "mixed"
+		if (this.zPickFar <= d.zPickNear && d.zPickFar <= this.zPickNear) {
 
 			if (checkPickOrder) {
 				if (this.getPickOrder() < d.getPickOrder())
@@ -937,6 +932,9 @@ public abstract class Drawable3D extends DrawableND {
 				if (this.getPickOrder() > d.getPickOrder())
 					return 1;
 			}
+
+			GeoElement geo1 = this.getGeoElement();
+			GeoElement geo2 = d.getGeoElement();
 
 			// if both are points
 			if (geo1.isGeoPoint() && geo2.isGeoPoint()) {
