@@ -993,7 +993,9 @@ public class RelativeCopy {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
-				if ("CircularDefinition".equals(msg)) {
+				Log.debug(msg);
+				if (kernel.getLocalization().getError("CircularDefinition")
+						.equals(msg)) {
 					kernel.getApplication().getDefaultErrorHandler()
 							.showError(msg);
 				} else {
