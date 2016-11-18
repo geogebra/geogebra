@@ -310,7 +310,7 @@ public abstract class Layout {
 	/**
 	 * An array with the default perspectives.
 	 */
-	private static Perspective[] defaultPerspectives;
+	protected static Perspective[] defaultPerspectives;
 
 	/**
 	 * Set a list of perspectives as the perspectives of this user and apply the
