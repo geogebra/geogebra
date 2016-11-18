@@ -4063,9 +4063,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_TOOLBAR_FROM_FILE:
 			return true;
 
-		case FOLD_POLYHEDRON_NET_BY_DRAGGING:
-			return true; // 5.0.290
-
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
 			return prerelease;
 

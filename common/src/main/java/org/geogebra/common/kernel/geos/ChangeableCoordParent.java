@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -39,11 +38,8 @@ public class ChangeableCoordParent {
 
 		if (v instanceof GeoNumeric) {
 			GeoNumeric geo = (GeoNumeric) v;
-			if (geo.getKernel().getApplication()
-					.has(Feature.FOLD_POLYHEDRON_NET_BY_DRAGGING)) {
-				if (geo.isIndependent()) {
-					return geo;
-				}
+			if (geo.isIndependent()) {
+				return geo;
 			}
 		}
 		return null;

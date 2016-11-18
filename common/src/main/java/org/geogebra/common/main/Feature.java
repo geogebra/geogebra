@@ -131,9 +131,6 @@ public enum Feature {
 	/** MOB-774, MOB-775 */
 	MOBILE_TOOLBAR_FROM_FILE,
 
-	
-	FOLD_POLYHEDRON_NET_BY_DRAGGING,
-
 	/** GGB-1288 */
 	ADJUST_VIEWS,
 
