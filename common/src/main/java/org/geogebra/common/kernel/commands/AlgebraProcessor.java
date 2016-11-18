@@ -3086,7 +3086,7 @@ public class AlgebraProcessor {
 	 *            key for error.properties
 	 */
 	public void showError(String key) {
-		app.showError(loc.getError(key));
+		app.showError(key);
 	}
 
 	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,

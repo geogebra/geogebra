@@ -4219,7 +4219,7 @@ ToolbarD.getAllTools(this));
 
 	@Override
 	public void showError(String key) {
-		showErrorDialog(getLocalization().getError(key));
+		showErrorDialog(key);
 	}
 
 	@Override
