@@ -47,9 +47,9 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 		return true;
 	}
 
-	// @Override
-	// public boolean isAnimated() {
-	// return true;
-	// }
+	@Override
+	public boolean isAnimated() {
+		return true;
+	}
 
 }
