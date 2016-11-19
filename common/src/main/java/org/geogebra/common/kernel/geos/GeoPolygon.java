@@ -979,7 +979,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 * @return true - if input is congruent with this polygon false - otherwise
 	 */
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
+	public ExtendedBoolean isCongruent(GeoElement geo) {
 		if (geo instanceof GeoPolygon) {
 		GeoPolygon polygon = (GeoPolygon) geo;
 		// Polygons:
@@ -1141,16 +1141,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					anglesPoly1, anglesPoly2);
 			algo1.remove();
 			algo2.remove();
-			return result;
+				return ExtendedBoolean.newExtendedBoolean(result);
 		}
 		}
 		// case the geo is a GeoNumeric, e.g. area using formula
 		// we can check whether the areas are equal or not
 		if (geo instanceof GeoNumeric) {
 			if (Kernel.isEqual(this.getArea(), ((GeoNumeric) geo).getValue()))
-				return true;
+				return ExtendedBoolean.TRUE;
 		}
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	// shift angles to left

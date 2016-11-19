@@ -830,10 +830,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 	
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoSegment()
-				&& Kernel
-						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && Kernel
+				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
 

@@ -2567,8 +2567,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoPoint();
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoPoint());
 	}
 
 	@Override

@@ -8142,14 +8142,32 @@ public abstract class GeoElement extends ConstructionElement implements
 		this.labelWanted = b;
 	}
 
+	public enum ExtendedBoolean {
+		TRUE, FALSE, UNKNOWN;
+
+		final public boolean boolVal() {
+			switch (this) {
+			case TRUE:
+				return true;
+			default:
+				return false;
+			}
+
+		}
+
+		final public static ExtendedBoolean newExtendedBoolean(boolean b) {
+			return b ? TRUE : FALSE;
+		}
+	}
+
 	/**
 	 * 
 	 * @param geo
 	 *            other geo
 	 * @return whether this and geo are congruent
 	 */
-	public Boolean isCongruent(GeoElement geo) {
-		return isEqual(geo) ? true : null;
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return isEqual(geo) ? ExtendedBoolean.TRUE : ExtendedBoolean.UNKNOWN;
 	}
 
 	public void setDefinition(ExpressionNode root) {

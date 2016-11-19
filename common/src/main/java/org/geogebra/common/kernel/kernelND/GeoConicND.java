@@ -4125,15 +4125,15 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true - if input is congruent with this conic false - otherwise
 	 */
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
+	public ExtendedBoolean isCongruent(GeoElement geo) {
 		if (!geo.isGeoConic()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		GeoConicND conic = (GeoConicND) geo;
 		// Circles are congruent if their radius are of equal length:
 		if (this.isCircle() && conic.isCircle()) {
-			return (Kernel.isEqual(this.getCircleRadius(),
-					conic.getCircleRadius()));
+			return ExtendedBoolean.newExtendedBoolean((Kernel
+					.isEqual(this.getCircleRadius(), conic.getCircleRadius())));
 		}
 
 		// Two parabolas are congruent if they have the same distance between
@@ -4152,7 +4152,8 @@ public abstract class GeoConicND extends GeoQuadricND
 				d = (GeoLine) ge2[1];
 				double d2 = getKernel().getAlgoDispatcher()
 						.getNewAlgoClosestPoint(cons, d, F).getP().distance(F);
-				return (Kernel.isEqual(d1, d2));
+				return ExtendedBoolean
+						.newExtendedBoolean(Kernel.isEqual(d1, d2));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4178,7 +4179,8 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d1_ = F1.distance(F2);
 				double d2_ = F1.distance(P) + F2.distance(P);
 
-				return ((Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+				return ExtendedBoolean.newExtendedBoolean(
+						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4206,13 +4208,14 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d1_ = F1.distance(F2);
 				double d2_ = Math.abs(F1.distance(P) - F2.distance(P));
 
-				return ((Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+				return ExtendedBoolean.newExtendedBoolean(
+						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
 				// TODO: Consider unifying this case with the ellipse case.
 			}
 			// TODO: Handle the other case(s).
 		}
 
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**
