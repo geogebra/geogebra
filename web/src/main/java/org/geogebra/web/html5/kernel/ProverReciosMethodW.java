@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.geogebra.common.kernel.algos.SymbolicParameters;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
@@ -72,13 +73,13 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, values.get(v).longValue());
 				}
-				Boolean solvable = Polynomial.solvable(as.polynomials
+				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana #" + nrOfTests + ": "
 						+ substitutions);
-				if (solvable) {
+				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
 			} else

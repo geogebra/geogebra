@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -1244,18 +1245,18 @@ public class ProverBotanasMethod {
 
 			/* START OF PROVE. */
 		} else {
-			Boolean solvable = Polynomial.solvable(as.polynomials
+			ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 					.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext);
-			if (solvable == null) {
+			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
 				/*
 				 * Prover returned with no success, search for another prover:
 				 */
 				Log.debug("Unsuccessful run, statement is UNKNOWN at the moment");
 				return ProofResult.UNKNOWN;
 			}
-			if (solvable) {
+			if (solvable.boolVal()) {
 				if (!proverSettings.transcext) {
 					/*
 					 * We cannot reliably tell if the statement is really false:

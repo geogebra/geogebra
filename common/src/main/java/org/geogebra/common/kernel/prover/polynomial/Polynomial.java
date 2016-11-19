@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.debug.Log;
@@ -985,7 +986,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param transcext use coefficients from transcendent extension if possible 
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys,
+	public static ExtendedBoolean solvable(Polynomial[] polys,
 			HashMap<Variable, Long> substitutions, Kernel kernel,
 			boolean transcext) {
 		
@@ -1015,15 +1016,17 @@ public class Polynomial implements Comparable<Polynomial> {
 							+ " bytes");
 				else
 					Log.trace("singular -> " + solvableResult);
-				if ("0".equals(solvableResult))
-					return false; // no solution
-				if ("".equals(solvableResult))
-					return null; // maybe timeout (no answer)
+				if ("0".equals(solvableResult)) {
+					return ExtendedBoolean.FALSE; // no solution
+				}
+				if ("".equals(solvableResult)) {
+					return ExtendedBoolean.UNKNOWN; // maybe timeout (no answer)
+				}
 			} catch (Throwable e) {
 				Log.debug("Could not compute solvability with SingularWS");
-				return null;
+				return ExtendedBoolean.UNKNOWN;
 			}
-			return true; // at least one solution exists
+			return ExtendedBoolean.TRUE; // at least one solution exists
 		}
 
 		// If SingularWS is not applicable, then we try to use the internal CAS:
@@ -1033,14 +1036,16 @@ public class Polynomial implements Comparable<Polynomial> {
 				freeVars, dependantVars, transcext);
 		if (solvableProgram == null) {
 			Log.info("Not implemented (yet)");
-			return null; // cannot decide
+			return ExtendedBoolean.UNKNOWN; // cannot decide
 		}
 		solvableResult = cas.evaluate(solvableProgram);
-		if ("0".equals(solvableResult) || "false".equals(solvableResult))
-			return false; // no solution
-		if ("1".equals(solvableResult) || "true".equals(solvableResult))
-			return true; // at least one solution exists
-		return null; // cannot decide 
+		if ("0".equals(solvableResult) || "false".equals(solvableResult)) {
+			return ExtendedBoolean.FALSE; // no solution
+		}
+		if ("1".equals(solvableResult) || "true".equals(solvableResult)) {
+			return ExtendedBoolean.TRUE; // at least one solution exists
+		}
+		return ExtendedBoolean.UNKNOWN; // cannot decide
 	}
 	
 	/** Returns the square of the input polynomial
