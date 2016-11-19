@@ -256,8 +256,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
 				+ "\nGL_VERSION: " + glInfo[7]);
 
-		GeoGebraMenuBar.glCard = glInfo[6];
-		GeoGebraMenuBar.glVersion = glInfo[7];
+		GeoGebraMenuBar.setGlCard(glInfo[6]);
+		GeoGebraMenuBar.setGlVersion(glInfo[7]);
 
 		// this is abstract method: don't create old GL / shaders here
 	}

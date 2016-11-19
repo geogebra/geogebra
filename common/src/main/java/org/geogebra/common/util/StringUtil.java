@@ -1589,7 +1589,7 @@ public class StringUtil {
 			return null;
 		}
 
-		return removeFileExtension(fileName) + "." + extension.ext;
+		return removeFileExtension(fileName) + "." + extension.toString();
 	}
 
 	/**

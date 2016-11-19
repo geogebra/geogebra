@@ -310,6 +310,8 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		case 1: // input objects
 			toolModel.addToInput(geo);
 			break;
+		default:
+
 		}
 	}
 
@@ -364,6 +366,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 						toolModel.removeFromInput(selIndices);
 					}
 				}
+			default:
 			}
 		}
 	}

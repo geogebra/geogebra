@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
@@ -996,7 +997,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
 		String solvableResult, solvableProgram;
 		
-		if (App.singularWS != null && App.singularWS.isAvailable()) {
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+
+		if (singularWS != null && singularWS.isAvailable()) {
 			
 			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
 					freeVars, dependantVars, transcext);
@@ -1131,8 +1134,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		if (App.singularWS != null && App.singularWS.isAvailable()
-				&& factorized) {
+		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+
+		if (singularWS != null && singularWS.isAvailable() && factorized) {
 
 			/*
 			 * In most cases the revlex permutation gives good (readable) result, but not always.

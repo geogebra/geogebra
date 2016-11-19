@@ -48,9 +48,9 @@ public enum FileExtensions {
 
 	GEOGEBRA_TOOL("ggt", false, false);
 
-	private boolean allowedImage;
-	private boolean isImage;
-	public String ext;
+	final private boolean allowedImage;
+	final private boolean isImage;
+	final private String ext;
 
 	private FileExtensions(String extension, boolean allowedImage,
 			boolean isImage) {
@@ -61,11 +61,11 @@ public enum FileExtensions {
 	}
 
 	@Override
-	public String toString() {
+	final public String toString() {
 		return ext;
 	}
 
-	public static FileExtensions get(String ext0) {
+	final public static FileExtensions get(String ext0) {
 		for (FileExtensions fe : FileExtensions.values()) {
 			if (fe.ext.equals(ext0)) {
 				return fe;
@@ -76,14 +76,14 @@ public enum FileExtensions {
 
 	}
 
-	public boolean isAllowedImage() {
+	final public boolean isAllowedImage() {
 		return allowedImage;
 	}
 
 	/**
 	 * @return is image that can be plotted in EV (ie not EPS, PDF)
 	 */
-	public boolean isImage() {
+	final public boolean isImage() {
 		return isImage;
 	}
 

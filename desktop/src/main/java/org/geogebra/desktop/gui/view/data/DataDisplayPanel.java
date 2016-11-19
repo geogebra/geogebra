@@ -641,7 +641,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 				int index, boolean isSelected, boolean cellHasFocus) {
 			String str = "";
 			if (value instanceof PlotType) {
-				str = app.getMenu(((PlotType) value).key);
+				str = app.getMenu(((PlotType) value).getKey());
 			} else {
 				Log.error("wrong class" + value);
 			}

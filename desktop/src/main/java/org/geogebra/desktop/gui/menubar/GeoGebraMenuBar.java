@@ -32,6 +32,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
@@ -526,8 +527,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 	}
 
-	public static String glVersion = null;
-	public static String glCard = null;
+	private static String glVersion = null;
+	private static String glCard = null;
 
 	/**
 	 * Show the "About" dialog.
@@ -563,8 +564,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(App.getCASVersionString());
 
 		String v;
-		if (App.singularWS != null
-				&& (v = App.singularWS.getSingularVersionString()) != null)
+		SingularWebService singularWS = app.getSingularWS();
+
+		if (singularWS != null
+				&& (v = singularWS.getSingularVersionString()) != null)
 			sb.append(",<br>" + v);
 		sb.append(")<br>");
 
@@ -701,5 +704,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(sb.toString()), null);
 
+	}
+
+	public static void setGlCard(String s) {
+		glCard = s;
+	}
+
+	public static void setGlVersion(String s) {
+		glVersion = s;
 	}
 }

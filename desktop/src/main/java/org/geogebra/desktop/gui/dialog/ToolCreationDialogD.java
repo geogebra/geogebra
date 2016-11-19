@@ -543,6 +543,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 						namePanel.requestFocus();
 					}
 					break;
+				default:
 				}
 			}
 		};
@@ -760,6 +761,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		case 1: // input objects
 			inputList.addElement(geo);
 			break;
+		default:
 		}
 
 	}

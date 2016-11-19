@@ -585,7 +585,7 @@ public class PrintPreview extends JDialog {
 		}
 	}
 	
-	public static int computePageIndex(int pageIndex){
+	public static int computePageIndex(int pageIndex) {
 		for (int i=0; i<targetPages.length && targetPages[i] <= pageIndex; i++ ){
 			pageIndex -= targetPages[i];
 		}

@@ -1477,7 +1477,7 @@ ToolbarD.getAllTools(this));
 		}
 		String fileArgument = args.getStringValue("file0");
 		String lowerCase = StringUtil.toLowerCase(fileArgument);
-		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.ext);
+		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.toString());
 	}
 
 	/**

@@ -466,6 +466,10 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	public SingularWebService getSingularWS() {
+		return singularWS;
+	}
+
 	/* selection handling */
 
 	/**

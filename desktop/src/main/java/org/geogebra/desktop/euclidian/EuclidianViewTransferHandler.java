@@ -53,7 +53,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	}
 
 	// supported data flavors
-	private static DataFlavor supportedFlavors[] = null;// {
+	private static volatile DataFlavor supportedFlavors[] = null;// {
 
 	// null,//DataFlavor.imageFlavor,
 	// null,//DataFlavor.stringFlavor,
@@ -63,19 +63,22 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 	private void setSupportedFlavours() {
 		if (supportedFlavors == null) {
+			DataFlavor[] supportedFlavors0;
 			if (app.isUsingFullGui()) {
-				supportedFlavors = new DataFlavor[5];
-				supportedFlavors[0] = DataFlavor.imageFlavor;
-				supportedFlavors[1] = DataFlavor.stringFlavor;
-				supportedFlavors[2] = DataFlavor.javaFileListFlavor;
-				supportedFlavors[3] = AlgebraViewTransferHandler.algebraViewFlavor;
-				supportedFlavors[4] = PlotPanelEuclidianViewD.plotPanelFlavor;
+				supportedFlavors0 = new DataFlavor[5];
+				supportedFlavors0[0] = DataFlavor.imageFlavor;
+				supportedFlavors0[1] = DataFlavor.stringFlavor;
+				supportedFlavors0[2] = DataFlavor.javaFileListFlavor;
+				supportedFlavors0[3] = AlgebraViewTransferHandler.algebraViewFlavor;
+				supportedFlavors0[4] = PlotPanelEuclidianViewD.plotPanelFlavor;
 			} else {
-				supportedFlavors = new DataFlavor[3];
-				supportedFlavors[0] = DataFlavor.imageFlavor;
-				supportedFlavors[1] = DataFlavor.stringFlavor;
-				supportedFlavors[2] = DataFlavor.javaFileListFlavor;
+				supportedFlavors0 = new DataFlavor[3];
+				supportedFlavors0[0] = DataFlavor.imageFlavor;
+				supportedFlavors0[1] = DataFlavor.stringFlavor;
+				supportedFlavors0[2] = DataFlavor.javaFileListFlavor;
 			}
+
+			supportedFlavors = supportedFlavors0;
 
 		}
 	}

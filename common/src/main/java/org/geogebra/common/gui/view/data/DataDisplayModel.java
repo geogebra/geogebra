@@ -91,11 +91,15 @@ public class DataDisplayModel {
 		 * the associated key from menu.properties app.getMenu(key) gives the
 		 * translation (for the menu) in the current locale
 		 */
-		public String key;
+		final private String key;
 
 		PlotType(String key) {
 			this.key = key;
 
+		}
+
+		final public String getKey() {
+			return key;
 		}
 
 		/**

@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
@@ -1034,7 +1035,9 @@ public class ProverBotanasMethod {
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
-		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
+		SingularWebService singularWS = statement.getKernel().getApplication()
+				.getSingularWS();
+		if (singularWS == null || (!singularWS.isAvailable())) {
 			proverSettings.transcext = false;
 		}
 

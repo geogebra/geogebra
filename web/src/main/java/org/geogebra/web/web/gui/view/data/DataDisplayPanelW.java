@@ -628,7 +628,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void addDisplayTypeItem(PlotType type) {
-		lbDisplayType.addItem(loc.getMenu(type.key));
+		lbDisplayType.addItem(loc.getMenu(type.getKey()));
 		plotTypes.add(type);
 	}
 

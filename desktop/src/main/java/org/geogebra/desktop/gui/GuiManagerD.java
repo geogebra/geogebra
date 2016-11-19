@@ -1796,7 +1796,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				NSSavePanel panel = new NSSavePanel();
 				String result = panel.saveDialog(app.getMenu("Save"),
-						fileExtension.ext);
+						fileExtension.toString());
 				file = new File(result);
 				done = true;
 
@@ -1953,7 +1953,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public static File addExtension(File file, FileExtensions fileExtension) {
-		return addExtension(file, fileExtension.ext);
+		return addExtension(file, fileExtension.toString());
 	}
 
 	public static File addExtension(File file, String fileExtension) {
