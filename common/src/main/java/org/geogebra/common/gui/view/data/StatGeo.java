@@ -542,21 +542,6 @@ public class StatGeo {
 		return w / 2;
 	}
 
-	/**
-	 * @param array
-	 *            sorted array of double
-	 * @return preferred bar width = half of the minimum width between
-	 *         consecutive values in the given array.
-	 */
-	private static double getPreferredBarWidth(double[] array) {
-
-		double w = 1;
-		for (int i = 0; i < array.length - 1; i++) {
-			w = Math.min(Math.abs(array[i + 1] - array[i]), w);
-		}
-		return w / 2;
-	}
-
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
 			PlotType plotType) throws Exception {
 

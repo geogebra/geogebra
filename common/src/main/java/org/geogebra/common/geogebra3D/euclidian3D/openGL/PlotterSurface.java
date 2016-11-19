@@ -971,17 +971,17 @@ public class PlotterSurface {
 
 	}
 
-	private static final void sphericalCoords(int ui, int vi, int longitude,
-			int latitude, Coords n) {
-
-		double u = ((double) ui / longitude) * 2 * Math.PI;
-		double v = ((double) vi / latitude) * Math.PI / 2;
-
-		n.setX(Math.cos(u) * Math.cos(v));
-		n.setY(Math.sin(u) * Math.cos(v));
-		n.setZ(Math.sin(v));
-
-	}
+	// private static final void sphericalCoords(int ui, int vi, int longitude,
+	// int latitude, Coords n) {
+	//
+	// double u = ((double) ui / longitude) * 2 * Math.PI;
+	// double v = ((double) vi / latitude) * Math.PI / 2;
+	//
+	// n.setX(Math.cos(u) * Math.cos(v));
+	// n.setY(Math.sin(u) * Math.cos(v));
+	// n.setZ(Math.sin(v));
+	//
+	// }
 
 
 	/**

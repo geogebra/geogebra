@@ -677,10 +677,10 @@ public class RelationNumerical {
 	 * This is not used yet. It requires support for 3 points in the Relation
 	 * Tool.
 	 */
-	final private String triangleNonDegenerateString(GeoPoint A, GeoPoint B,
-			GeoPoint C) {
-		return triangleNonDegenerateString(A, B, C, loc);
-	}
+	// final private String triangleNonDegenerateString(GeoPoint A, GeoPoint B,
+	// GeoPoint C) {
+	// return triangleNonDegenerateString(A, B, C, loc);
+	// }
 
 	/**
 	 * Internationalized string of "Triangle ABC is non-degenerate"
@@ -704,7 +704,6 @@ public class RelationNumerical {
 								+ C.getColoredLabel());
 	}
 
-	// Michael Borcherds 2008-05-15
 	final private String perpendicularString(GeoLine a, GeoLine b, boolean perp) {
 		return perpendicularString(a, b, perp, loc);
 	}
