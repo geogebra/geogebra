@@ -48,14 +48,14 @@ public class GeoGebra {
 
 		int fontSize = (int) Math.round(screenDPI / 8.0);
 
-		GeoGebraPreferencesXML.defaultFontSize = Util
-				.getValidFontSize(fontSize);
+		GeoGebraPreferencesXML
+				.setDefaultFontSize(Util.getValidFontSize(fontSize));
 
 		// 96 corresponds to 100%
 		// 192 to 200%
 		double sf = screenDPI / 96.0;
-		GeoGebraPreferencesXML.defaultWindowX = (int) (800.0 * sf);
-		GeoGebraPreferencesXML.defaultWindowY = (int) (600.0 * sf);
+		GeoGebraPreferencesXML.setDefaultWindowX((int) (800.0 * sf));
+		GeoGebraPreferencesXML.setDefaultWindowY((int) (600.0 * sf));
 	}
 
 	protected void doMain(String[] cmdArgs) {

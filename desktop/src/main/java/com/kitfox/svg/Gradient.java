@@ -322,7 +322,8 @@ abstract public class Gradient extends FillElement
             try
             {
                 URI newVal = sty.getURIValue(getXMLBase());
-                if ((newVal == null && stopRef != null) || !newVal.equals(stopRef))
+				if ((newVal == null && stopRef != null)
+						|| (newVal != null && !newVal.equals(stopRef)))
                 {
                     stopRef = newVal;
                     stateChange = true;

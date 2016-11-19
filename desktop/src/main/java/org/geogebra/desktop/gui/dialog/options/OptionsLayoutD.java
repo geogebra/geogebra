@@ -46,9 +46,8 @@ public class OptionsLayoutD extends OptionsLayout
 			perspectivesPanel;
 
 	/**	 */
-	private JCheckBox ckShowInputHelp, ckIgnoreDocumentLayout, ckShowTitleBar,
-			ckAllowStyleBar, ckShowInputBar, ckShowToolbar, ckShowToolHelp,
-			ckShowMenuBar,
+	private JCheckBox ckShowInputHelp, ckShowTitleBar, ckAllowStyleBar,
+			ckShowInputBar, ckShowToolbar, ckShowToolHelp, ckShowMenuBar,
 			ckShowSideBar;
 
 	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
@@ -380,9 +379,9 @@ public class OptionsLayoutD extends OptionsLayout
 		// dock panel (perspective) settings
 		if (source == ckShowTitleBar) {
 			settings.getLayout().setShowTitleBar(ckShowTitleBar.isSelected());
-		} else if (source == ckIgnoreDocumentLayout) {
-			settings.getLayout().setIgnoreDocumentLayout(
-					ckIgnoreDocumentLayout.isSelected());
+			// } else if (source == ckIgnoreDocumentLayout) {
+			// settings.getLayout().setIgnoreDocumentLayout(
+			// ckIgnoreDocumentLayout.isSelected());
 		} else if (source == ckAllowStyleBar) {
 			settings.getLayout().setAllowStyleBar(ckAllowStyleBar.isSelected());
 

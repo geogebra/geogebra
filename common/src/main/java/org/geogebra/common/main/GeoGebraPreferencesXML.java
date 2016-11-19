@@ -12,9 +12,9 @@ public class GeoGebraPreferencesXML {
 	 * these can get changed by --screenDPI (and maybe by --screenResX,
 	 * --screenResY)
 	 */
-	public static int defaultFontSize = 16;
-	public static int defaultWindowX = 800;
-	public static int defaultWindowY = 600;
+	private static int defaultFontSize = 16;
+	private static int defaultWindowX = 800;
+	private static int defaultWindowY = 600;
 
 	/**
 	 * @return defaults as XML
@@ -94,6 +94,20 @@ public class GeoGebraPreferencesXML {
 
 				+ "<scripting blocked=\"false\"/>"
 				+ "</geogebra>";
+	}
+
+	public static void setDefaultFontSize(int i) {
+		defaultFontSize = i;
+
+	}
+
+	public static void setDefaultWindowX(int i) {
+		defaultWindowX = i;
+	}
+
+	public static void setDefaultWindowY(int i) {
+		defaultWindowY = i;
+
 	}
 
 }

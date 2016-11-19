@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author thilina
@@ -185,6 +186,12 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		if (coeff != null) {
 			sum = lineIntersect(coeff, tx, ty);
 		}
+
+		if (sum == null) {
+			Log.debug("problem in AlgoIntersectImplicitpolyPolyLine");
+			return;
+		}
+
 		setRootsPolynomialWithinRange(intersectCoords2, sum, minT, maxT);
 
 	}

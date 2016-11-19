@@ -665,7 +665,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
         if (encode[0] == null) {
             if (image.getColorModel().hasAlpha() && (bkg == null)) {
                 encode[0] = "Flate";
-                return imageToBytes(image, bkg, encode);
+				return imageToBytes(image, null, encode);
             }
 
             // return the smallest

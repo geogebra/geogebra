@@ -409,7 +409,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			        + ")");
 			JsEval.callNativeJavaScript(fun, args[0].toString());
 		} else {
-			JsArrayString jsStrings = (JsArrayString) JsArrayString
+			JsArrayString jsStrings = (JsArrayString) JavaScriptObject
 			        .createArray();
 			for (Object obj : args) {
 				jsStrings.push(obj.toString());
@@ -422,11 +422,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void callAppletJavaScript(String fun, Object arg0, Object arg1) {
 		if (arg0 == null && arg1 == null) {
 			JsEval.callNativeJavaScript(fun);
-		} else if (arg1 == null) {
-			Log.debug("calling function: " + fun + "(" + arg0.toString()
-					+ ")");
+		} else if (arg0 != null && arg1 == null) {
+			// Log.debug("calling function: " + fun + "(" + arg0.toString()
+			// + ")");
 			JsEval.callNativeJavaScript(fun, arg0.toString());
-		} else {
+		} else if (arg0 != null && arg1 != null) {
 			JsEval.callNativeJavaScriptMultiArg(fun, arg0.toString(),
 					arg1.toString());
 		}

@@ -328,8 +328,7 @@ public class TextInputDialogD extends InputDialogD
 	 */
 	private void buildInsertUnicodeButton() {
 
-		if (btInsertUnicode != null)
-			btInsertUnicode.removeAllMenuItems();
+		btInsertUnicode.removeAllMenuItems();
 
 		btInsertUnicode.setKeepVisible(false);
 		btInsertUnicode.setStandardButton(true);
@@ -391,9 +390,7 @@ public class TextInputDialogD extends InputDialogD
 	 */
 	private void buildInsertLaTeXButton() {
 
-		if (btInsertLaTeX != null) {
-			btInsertLaTeX.removeAllMenuItems();
-		}
+		btInsertLaTeX.removeAllMenuItems();
 
 		btInsertLaTeX.setKeepVisible(false);
 		btInsertLaTeX.setStandardButton(true);

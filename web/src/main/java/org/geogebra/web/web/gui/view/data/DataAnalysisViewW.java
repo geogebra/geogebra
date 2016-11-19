@@ -695,9 +695,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public List<Widget> getPrintable() {
 
-		Widget[] printableList = {};
+		Widget[] printableList = { new Label("Data analysis View") };
 
-		printableList[0] = new Label("Data analysis View");
 		return Arrays.asList(printableList);
 	}
 

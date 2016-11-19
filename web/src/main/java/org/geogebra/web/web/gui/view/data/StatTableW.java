@@ -158,29 +158,6 @@ public class StatTableW extends FlowPanel {
 		return null;
 	}
 	
-	/**
-	 * Sets the selected index for a cell given cell comboBox
-	 * 
-	 * @param index
-	 * @param row
-	 * @param column
-	 * @return
-	 */
-	public boolean setComboCellSelectedIndex(int index, int row, int column) {
-
-		if (comboBoxRendererMap == null)
-			return false;
-
-		int modelColumn = myTable.convertColumnIndexToModel(column);
-		GPointW cell = new GPointW(row, modelColumn);
-
-		if (comboBoxEditorMap.keySet().contains(cell)) {
-			comboBoxEditorMap.get(cell).setSelectedIndex(index);
-			return true;
-		}
-		return false;
-	}
-	
 	public void setLabels(String[] rowNames, String[] columnNames) {
 		setLabels(rowNames, columnNames, true);
 	}
@@ -218,7 +195,6 @@ public class StatTableW extends FlowPanel {
 	public class MyTable extends Grid /*do it with CellTable later*/ {
 
 		private boolean allowCellEdith;
-		private Object comboBoxEditorMap;
 		private int firstRow = 0;
 
 		public MyTable() {

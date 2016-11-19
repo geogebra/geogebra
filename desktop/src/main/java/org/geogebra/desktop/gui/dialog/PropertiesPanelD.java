@@ -3208,8 +3208,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		private void buildInsertUnicodeButton() {
-			if (btInsertUnicode != null)
-				btInsertUnicode.removeAllMenuItems();
+			btInsertUnicode.removeAllMenuItems();
 
 			btInsertUnicode.setKeepVisible(false);
 			btInsertUnicode.setStandardButton(true);

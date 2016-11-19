@@ -1188,7 +1188,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	@Override
 	public String toString() {
 		if (_document == null) {
-			return null;
+			return "";
 		}
 
 		return _document.getStream().toString();

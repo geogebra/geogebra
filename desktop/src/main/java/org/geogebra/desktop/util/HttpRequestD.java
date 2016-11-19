@@ -54,7 +54,7 @@ public class HttpRequestD extends HttpRequest {
 	public void sendRequestPost(final String url, final String post,
 			final AjaxCallback callback) {
 		if (callback == null) {
-			sendRequestPostSync(url, post, callback);
+			sendRequestPostSync(url, post, null);
 		}
 
 		else {

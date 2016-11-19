@@ -1544,11 +1544,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							}
 						}
 
-						if (imageFile == null) {
-							app.setDefaultCursor();
-							return null;
-						}
 					}
+				}
+
+				if (imageFile == null) {
+					app.setDefaultCursor();
+					return null;
 				}
 
 				// get file name
@@ -2747,6 +2748,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 				try {
 					kb = new WindowsUnicodeKeyboard();
 				} catch (Exception e) {
+					return;
 				}
 			}
 

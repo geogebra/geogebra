@@ -86,7 +86,7 @@ public class GeoElementGraphicsAdapterW extends
 		        && fileName.charAt(0) == '/')
 			fileName = fileName.substring(1);
 
-		if (fileName.equals(this.imageFileName)) {
+		if (fileName == null || fileName.equals(this.imageFileName)) {
 			return;
 		}
 

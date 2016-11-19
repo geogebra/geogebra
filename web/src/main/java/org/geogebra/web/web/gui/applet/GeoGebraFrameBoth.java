@@ -358,9 +358,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
 
-
 		}
-		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+
+		if (showKeyboardButton != null) {
+			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+		}
 	}
 
 	private boolean appNeedsKeyboard() {

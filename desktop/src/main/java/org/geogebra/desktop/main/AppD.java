@@ -5410,7 +5410,9 @@ ToolbarD.getAllTools(this));
 		westPanel.revalidate();
 		eastPanel.revalidate();
 		toolBarContainer.buildGui();
-		helpPanel.revalidate();
+		if (helpPanel != null) {
+			helpPanel.revalidate();
+		}
 	}
 
 	public static void initInputBar(AppD app, boolean showInputTop,

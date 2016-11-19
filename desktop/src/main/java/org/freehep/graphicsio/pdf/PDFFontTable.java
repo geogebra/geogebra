@@ -81,8 +81,11 @@ public class PDFFontTable extends FontTable {
                     fontIncluder = new PDFFontIncluder(context, pdf, e
                             .getReference(), tracker);
                 }
-                fontIncluder.includeFont(e.getFont(), e.getEncoding(), e
-                        .getReference());
+
+				if (fontIncluder != null) {
+					fontIncluder.includeFont(e.getFont(), e.getEncoding(),
+							e.getReference());
+				}
             }
         }
         tracker.writeAll();

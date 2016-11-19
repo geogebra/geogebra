@@ -727,8 +727,9 @@ public class CASInputHandler {
 
 		StringBuilder cellText = new StringBuilder("{");
 		for (int i = 0; i < nrEquations; i++) {
-			if (i != 0)
+			if (i != 0) {
 				cellText.append(", ");
+			}
 			cellText.append(references[i]);
 		}
 		cellText.append("}");

@@ -451,7 +451,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	public void setColor(GColor fillColor) {
 		// checking for the same color here speeds up axis drawing by 25%
-		if (fillColor != null && fillColor.equals(color)) {
+		if (fillColor.equals(color)) {
 			return;
 		}
 		// but it seems that setColor is not only for setting "color",

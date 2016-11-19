@@ -128,16 +128,16 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			@Override
 			public void setSelectedItem(TreeItem item, boolean fireEvents) {
 				if (item == null) {
-					super.setSelectedItem(item, fireEvents);
+					super.setSelectedItem(null, fireEvents);
 					return;
 				}
 				onSelectionNative(item, fireEvents);
 			}
 
 			private native void onSelectionNative(TreeItem item, boolean fireEvents)/*-{
-																					this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
-																					
-																					}-*/;
+		this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
+
+	}-*/;
 		};
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);

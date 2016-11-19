@@ -481,7 +481,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 			if (DefaultEntries.EMPTY_SELECTION.getText()
 					.equals(listBox.getValue(selectedIndex))) {
-				listBox.setSelection(newSelection); // set null, handled in
+				listBox.setSelection(null); // set null, handled in
 													// GeoListBox
 			} else if (DefaultEntries.CREATE_NUMBER.getText()
 					.equals(listBox.getValue(selectedIndex))) {

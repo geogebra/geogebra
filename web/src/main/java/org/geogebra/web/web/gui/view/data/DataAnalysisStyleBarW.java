@@ -23,7 +23,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 	private Button btnRounding, btnPrint;
 	private MyToggleButton2 btnShowStatistics, btnShowPlot2, btnShowData;
 	private AutoCompleteTextFieldW fldSource;
-	private MyToggleButton2 btnDataSource;
 	private AutoCompleteTextFieldW fldDataSource;
 	private MyToggleButton2 btnExport;
 	private MyToggleButton2 btnSwapXY;
@@ -187,12 +186,6 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 			daView.getController().swapXY();
 			updateGUI();
 		}
-
-		else if (source == btnDataSource) {
-			btnDataSource.setSelected(false);
-			model.setShowDataOptionsDialog(true);
-		}
-
 		else if (source == btnExport) {
 //			JPopupMenu menu = daView.getExportMenu();
 //			menu.show(btnExport, 0, btnExport.getHeight());

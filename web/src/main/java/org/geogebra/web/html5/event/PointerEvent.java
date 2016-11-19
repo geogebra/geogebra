@@ -12,7 +12,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -236,7 +235,7 @@ public class PointerEvent extends AbstractEvent {
 		} else if (event instanceof TouchMoveEvent) {
 			touches = event.getTargetTouches();
 			index = touches.length() - 1;
-		} else if (event instanceof TouchEndEvent) {
+		} else { // assume if (event instanceof TouchEndEvent) {
 			touches = event.getChangedTouches();
 		}
 		PointerEvent e = wrapEvent(touches.get(index), off);
