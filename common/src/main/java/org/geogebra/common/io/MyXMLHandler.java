@@ -567,8 +567,6 @@ public class MyXMLHandler implements DocHandler {
 						if (!(kernel instanceof MacroKernel))
 							kernel.setContinuous(true);
 
-						// before V3.0 the automaticGridDistanceFactor was 0.5
-						EuclidianStyleConstants.automaticGridDistanceFactor = 0.5;
 					}
 
 				} catch (Exception e) {

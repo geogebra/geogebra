@@ -1546,7 +1546,7 @@ public abstract class EuclidianView
 
 		if (automaticGridDistance && axis < 2) {
 			gridDistances[axis] = axesNumberingDistances[axis]
-					* EuclidianStyleConstants.automaticGridDistanceFactor;
+					* EuclidianStyleConstants.DEFAULT_GRID_DIST_FACTOR;
 		}
 	}
 
@@ -4248,8 +4248,7 @@ public abstract class EuclidianView
 		}
 
 		// grid distances
-		if (!automaticGridDistance || (// compatibility to v2.7:
-		EuclidianStyleConstants.automaticGridDistanceFactor != EuclidianStyleConstants.DEFAULT_GRID_DIST_FACTOR)) {
+		if (!automaticGridDistance) {
 			sbxml.append("\t<grid distX=\"");
 			sbxml.append(gridDistances[0]);
 			sbxml.append("\" distY=\"");

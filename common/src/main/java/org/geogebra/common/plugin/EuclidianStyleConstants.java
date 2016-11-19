@@ -127,5 +127,4 @@ public class EuclidianStyleConstants {
 	public static final int TOOLTIPS_OFF = 2;
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
-	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 }
