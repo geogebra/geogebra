@@ -393,9 +393,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		main.add(buttonPanel);// dirty hack of adding it two times!
 
-		if (plusButton != null) {
-			this.buttonPanel.add(plusButton);
-		}
+		this.buttonPanel.add(plusButton);
 
 		this.buttonPanel.add(btnDelete);
 

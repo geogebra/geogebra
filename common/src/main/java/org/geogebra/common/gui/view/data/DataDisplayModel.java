@@ -310,10 +310,8 @@ public class DataDisplayModel {
 					}
 
 					// update settings
-					if (dataListSelected != null) {
-						statGeo.getHistogramSettings(dataListSelected, histogram, settings);
-
-					}
+				statGeo.getHistogramSettings(dataListSelected, histogram,
+						settings);
 
 					listener.updatePlotPanelSettings();
 
