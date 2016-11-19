@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -22,7 +21,6 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	private boolean euclidian3D;
 
 	public static PointStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider, PointStyleModel model) {
-		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getPointStyles();
 		
 		PointStylePopup.mode = mode;
 		

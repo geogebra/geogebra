@@ -184,13 +184,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		updatePreferredSize();
 		// init button-specific fields
 		// TODO: put these in button classes
-		EuclidianStyleBarStatic.pointStyleArray = EuclidianView
-				.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
 			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
 
-		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
 			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
