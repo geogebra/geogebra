@@ -80,7 +80,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			rootAllCommands;
 	private DefaultTreeModel cmdTreeModel;
 
-	private String selectedCommand, rollOverCommand;
+	private String selectedCommand;
+	String rollOverCommand;
 
 	public String getSelectedCommand() {
 		return selectedCommand;
@@ -600,10 +601,10 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						Object nodeInfo = node.getUserObject();
 						String cmd = (String) nodeInfo;
 						rollOverCommand = cmd;
-						StringBuilder sb = new StringBuilder();
-						cmd = app.getReverseCommand(cmd); // internal name
+						// StringBuilder sb = new StringBuilder();
+						// cmd = app.getReverseCommand(cmd); // internal name
 						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
-						sb.append(app.getLocalization().getCommandSyntax(cmd));
+						// sb.append(app.getLocalization().getCommandSyntax(cmd));
 						// helpTextArea.setText(sb.toString());
 
 					}

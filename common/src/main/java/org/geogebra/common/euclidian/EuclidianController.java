@@ -2385,10 +2385,10 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selCurves() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoCurveCartesian curve = getSelectedCurves()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectLineCurve(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher()
+					.IntersectLineCurve(new String[] { null },
 					line, curve);
 			return ret;
 		}
