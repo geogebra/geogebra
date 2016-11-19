@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -362,6 +363,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    	fldParameterArray[i].addKeyUpHandler(this);
 			fldParameterArray[i].addFocusHandler(focusHandler);
 	    	fldParameterArray[i].addBlurHandler(this);
+			addInsertHandler(fldParameterArray[i]);
 	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
 	    }
 	    
@@ -379,6 +381,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldLow.addKeyUpHandler(this);
 		fldLow.addFocusHandler(focusHandler);
 	    fldLow.addBlurHandler(this);
+		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 
 
@@ -387,6 +390,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldHigh.addKeyUpHandler(this);
 		fldHigh.addFocusHandler(focusHandler);
 	    fldHigh.addBlurHandler(this);
+		addInsertHandler(fldHigh);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
 	    fldResult = new AutoCompleteTextFieldW(app);
@@ -394,6 +398,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldResult.addKeyUpHandler(this);
 		fldResult.addFocusHandler(focusHandler);
 	    fldResult.addBlurHandler(this);
+		addInsertHandler(fldResult);
 	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
 
 	    lblMeanSigma = new Label();
@@ -859,7 +864,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   
     }
 	
-	private void doTextFieldActionPerformed(TextBox source,
+	void doTextFieldActionPerformed(TextBox source,
 	        boolean intervalCheck) {
 		if (isIniting)
 			return;
@@ -967,6 +972,16 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	}
 
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				public void onInsert(String text) {
+					doTextFieldActionPerformed((TextBox) field.getTextBox(),
+							false);
+				}
+			});
+		}
+	}
 
 	@Override
     public void onBlur(BlurEvent event) {
