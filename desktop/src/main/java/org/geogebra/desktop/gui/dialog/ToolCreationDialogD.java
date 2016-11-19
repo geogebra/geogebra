@@ -56,6 +56,8 @@ import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Dialog to create a new user defined tool
  * 
@@ -116,7 +118,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		}
 	}
 
-	private class OutputListModel extends DefaultListModel {
+	private static class OutputListModel extends DefaultListModel {
 		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbOutputAddList;
 
@@ -156,7 +158,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 
 	}
 
-	private class InputListModel extends DefaultListModel {
+	private static class InputListModel extends DefaultListModel {
 		private static final long serialVersionUID = 1L;
 		private DefaultComboBoxModel cbInputAddList;
 
@@ -478,6 +480,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		}
 	}
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH", "fall through in switch" })
 	private JPanel createNavigationPanel() {
 		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 5));
@@ -526,6 +529,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 				case 1: // input objects
 					updateInputList();
 
+					// fall through
 				case 0: // output objects
 					btNext.setText(loc.getMenu("Next") + " >");
 					btNext.setEnabled(true);

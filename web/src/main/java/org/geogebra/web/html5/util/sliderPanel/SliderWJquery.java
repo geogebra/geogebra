@@ -22,7 +22,7 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
 	private Double curValue;
-	private static SliderWJquery currentSlider;
+	private static volatile SliderWJquery currentSlider;
 
 	/**
 	 * Creates new slider

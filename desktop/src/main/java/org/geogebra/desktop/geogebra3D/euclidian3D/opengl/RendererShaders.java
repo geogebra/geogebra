@@ -207,8 +207,12 @@ public class RendererShaders extends RendererD implements
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
 					(int[]) null, 0, log, 0);
 
-			Log.error("Error compiling the fragment shader: "
-					+ new String(log));
+			try {
+				Log.error("Error compiling the fragment shader: "
+						+ new String(log, Charsets.UTF_8));
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
 			System.exit(1);
 		}
 

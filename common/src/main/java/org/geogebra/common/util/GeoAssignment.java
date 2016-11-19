@@ -264,7 +264,8 @@ public class GeoAssignment extends Assignment {
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		} else if (checkOp.equals("AreCongruent")) {
-			partRes.add(macroOutput.isCongruent(possibleOutput[i]) ? Result.CORRECT
+			partRes.add(boolVal(macroOutput.isCongruent(possibleOutput[i]))
+					? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;

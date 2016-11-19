@@ -189,7 +189,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
 	// when losing focus, remembering it so that ENTER can give focus back
-	private static Element lastActiveElement = null;
+	private static volatile Element lastActiveElement = null;
 	// but not in case of anything important in any app has focus,
 	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
 	private static boolean anyAppHasFocus = true;

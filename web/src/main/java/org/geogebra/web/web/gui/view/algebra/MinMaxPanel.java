@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
-	public static MinMaxPanel openedMinMaxPanel = null;
+	public static volatile MinMaxPanel openedMinMaxPanel = null;
 	/**
 	 * Closes min/max/step settings panel of the slider and restores its size if
 	 * needed.
