@@ -63,7 +63,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	// public final static String closeString = "caseval(\"close geogebra\")";
 	// public final static String closeStringWeb = "close geogebra";
 
-	protected static enum InitFunctions {
+	public static enum InitFunctions {
 		RESTART(null, "restart"),
 
 		PROBA_EPSILON(null, "proba_epsilon:=0;"),
