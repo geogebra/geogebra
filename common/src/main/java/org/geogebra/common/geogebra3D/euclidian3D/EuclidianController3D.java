@@ -1919,7 +1919,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected boolean processReleaseForRotate3D(PointerEventType type) {
 
 		if (temporaryMode) {
-			view.setMode(oldMode);
+			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
 			if (dontClearSelection == false) {
 				clearSelections();

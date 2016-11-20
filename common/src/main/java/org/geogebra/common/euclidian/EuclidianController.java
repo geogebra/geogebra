@@ -5878,7 +5878,7 @@ public abstract class EuclidianController {
 	 */
 	public void exitTemporaryMode() {
 		if (temporaryMode) {
-			view.setMode(oldMode);
+			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
 		}
 	}

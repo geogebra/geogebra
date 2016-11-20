@@ -9,6 +9,10 @@ public enum ModeSetter {
 	/** human action in toolbar */
 	TOOLBAR,
 	/** CAS view switching to 1st mode automatically */
-	CAS_VIEW
+	CAS_VIEW,
+	/**
+	 * exit mode set temporarily
+	 */
+	EXIT_TEMPORARY_MODE
 
 }
