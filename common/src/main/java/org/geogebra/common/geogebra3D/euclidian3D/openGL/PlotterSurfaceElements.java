@@ -719,14 +719,12 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		double zMin = o.getZ() - frustumRadius;
 		double zMax = o.getZ() + frustumRadius;
 
-		latitudeMaxTop = 0;
 		latitudeMaxTop = latitude;
 		if (Kernel.isGreater(z + radius, zMax)) {
 			double angle = Math.asin((zMax - z) / radius);
 			latitudeMaxTop = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
-		latitudeMaxBottom = 0;
 		latitudeMaxBottom = latitude;
 		if (Kernel.isGreater(zMin, z - radius)) {
 			double angle = Math.asin((z - zMin) / radius);
