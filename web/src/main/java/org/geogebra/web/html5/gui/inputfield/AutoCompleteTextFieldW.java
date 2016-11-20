@@ -671,8 +671,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		textField.getValueBox().addFocusHandler((FocusListenerW) listener);
-		textField.getValueBox().addBlurHandler((FocusListenerW) listener);
+		if (listener instanceof FocusListenerW) {
+			textField.getValueBox().addFocusHandler((FocusListenerW) listener);
+			textField.getValueBox().addBlurHandler((FocusListenerW) listener);
+		}
 	}
 
 	@Override

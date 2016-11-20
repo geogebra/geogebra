@@ -365,7 +365,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    frameLayout.add(bg);
 	    bg.setVisible(true);
 
-	    ((MyHeaderPanel)bg).setFrame(this);
+		if (bg instanceof MyHeaderPanel) {
+			((MyHeaderPanel) bg).setFrame(this);
+		}
 	    frameLayout.forceLayout();
 	    
     }

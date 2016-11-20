@@ -244,8 +244,11 @@ public class ConstructionProtocolNavigationD extends
 		if (prot == null) { 
 			initGUI(); 
 		}
-		prot = (ConstructionProtocolViewD) constructionProtocolView;
-		prot.registerNavigationBar(this);
+
+		if (constructionProtocolView instanceof ConstructionProtocolViewD) {
+			prot = (ConstructionProtocolViewD) constructionProtocolView;
+			prot.registerNavigationBar(this);
+		}
 	}
 	
 	/**

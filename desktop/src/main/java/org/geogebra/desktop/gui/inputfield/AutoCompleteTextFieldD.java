@@ -994,7 +994,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 
 	public void addFocusListener(FocusListener focusListener) {
-		super.addFocusListener((FocusListenerD) focusListener);
+		if (focusListener instanceof FocusListenerD) {
+			super.addFocusListener((FocusListenerD) focusListener);
+		}
 	}
 
 	public void wrapSetText(final String s) {

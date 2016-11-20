@@ -177,8 +177,11 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		if (prot == null) { 
 			initGUI(); 
 		}
-		prot = (ConstructionProtocolViewW) constructionProtocolView;
-		prot.registerNavigationBar(this);
+
+		if (constructionProtocolView instanceof ConstructionProtocolViewW) {
+			prot = (ConstructionProtocolViewW) constructionProtocolView;
+			prot.registerNavigationBar(this);
+		}
 	}
 
 	@Override

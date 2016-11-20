@@ -101,7 +101,9 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	@Override
 	public void setTree(AlgebraTree tree) {
 		super.setTree(tree);
-		this.view = (AlgebraViewD) tree;
+		if (tree instanceof AlgebraViewD) {
+			this.view = (AlgebraViewD) tree;
+		}
 	}
 
 	protected void enableDnD() {

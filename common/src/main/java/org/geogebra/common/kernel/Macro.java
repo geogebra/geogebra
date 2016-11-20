@@ -163,7 +163,9 @@ public class Macro {
 		// after initing we turn global variable lookup on again,
 		// so we can use for example functions with parameters in macros too.
 		// Such parameters are global variables
-		((MacroConstruction) macroCons1).setGlobalVariableLookup(true);
+		if (macroCons1 instanceof MacroConstruction) {
+			((MacroConstruction) macroCons1).setGlobalVariableLookup(true);
+		}
 	}
 
 	private void initInputOutput() {

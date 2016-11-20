@@ -168,7 +168,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
-		initGUI((AlgebraControllerW) algCtrl);
+		if (algCtrl instanceof AlgebraControllerW) {
+			initGUI((AlgebraControllerW) algCtrl);
+		}
 
 			app.getSelectionManager()
 					.addSelectionListener(new GeoElementSelectionListener() {

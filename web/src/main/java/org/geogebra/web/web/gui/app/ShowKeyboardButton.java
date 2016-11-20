@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -45,7 +44,9 @@ public class ShowKeyboardButton extends SimplePanel {
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
-		((DockPanelW) parent).addSouth(this);
+		if (parent instanceof DockPanelW) {
+			((DockPanelW) parent).addSouth(this);
+		}
 		ClickStartHandler.init(ShowKeyboardButton.this, new ClickStartHandler(
 		        true, true) {
 
