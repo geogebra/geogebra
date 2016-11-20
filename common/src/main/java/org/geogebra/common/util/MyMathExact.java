@@ -97,7 +97,7 @@ public class MyMathExact {
 
 		public MyDecimal sqrt() {
 
-			if (impl.equals(BigDecimal.ZERO)) {
+			if (impl.compareTo(BigDecimal.ZERO) == 0) {
 				return new MyDecimal(BigDecimal.ZERO);
 			}
 

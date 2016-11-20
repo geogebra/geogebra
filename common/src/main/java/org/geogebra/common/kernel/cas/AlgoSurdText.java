@@ -1460,7 +1460,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			xNorm = new MyDecimal(lessScale1);
 
 			// normalize x
+			Log.debug("normalizing " + n);
 			for (int i = 0; i < n; i++) {
+				Log.debug(x_full[i]);
 				xNorm = xNorm.add(x_full[i].multiply(x_full[i]));
 			}
 
@@ -1469,8 +1471,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// System.out.println(xNorm.toFullString());
 
 			for (int i = 0; i < n; i++) {
+				if (xNorm.getImpl().compareTo(BigDecimal.ZERO) != 0) {
 				x_full[i] = x_full[i].divide(xNorm);
+				}
 				x_double[i] = new MyDecimal(lessScale1, x_full[i].getImpl());
+
 			}
 
 			// partial sums of squares
