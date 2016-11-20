@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
@@ -836,8 +835,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// to 0,1,2,3,4
 
 		Integer[] types = EuclidianView.getLineTypes();
-		for (int i = 0; i < types.length; i++) {
-			if (type == types[i].intValue())
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
+			if (type == EuclidianView.getLineType(i))
 				return i;
 		}
 
@@ -845,16 +844,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	public synchronized void setLineStyle(String objName, int style) {
-		Integer[] types = EuclidianView.getLineTypes();
 
-		if (style < 0 || style >= types.length)
+		if (style < 0 || style >= EuclidianView.getLineTypeLength())
 			return;
 
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
 
-		geo.setLineType(types[style].intValue());
+		geo.setLineType(EuclidianView.getLineType(style));
 		geo.updateRepaint();
 	}
 

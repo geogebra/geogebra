@@ -46,11 +46,10 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	public DashListRenderer() {
 		// init stroke map
 		dashStrokeMap = new HashMap<Integer, BasicStroke>();
-		Integer[] types = EuclidianView.getLineTypes();
 		int type;
 		BasicStroke stroke;
-		for (int i = 0; i < types.length; i++) {
-			type = types[i];
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
+			type = EuclidianView.getLineType(i);
 			stroke = ((AwtFactoryD) AwtFactory.getPrototype())
 					.getAwtStroke(EuclidianStatic
 					.getStroke(1.0f, type));

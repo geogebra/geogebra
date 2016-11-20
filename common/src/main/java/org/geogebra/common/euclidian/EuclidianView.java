@@ -145,8 +145,8 @@ public abstract class EuclidianView
 	// deletion square design
 	protected static final GColor colDeletionSquare = AwtFactory.getPrototype()
 			.newColor(128, 0, 0);
-	protected static final GBasicStroke strokeDeletionSquare = AwtFactory.getPrototype()
-			.newBasicStroke(1.0f);
+	protected static final GBasicStroke strokeDeletionSquare = AwtFactory
+			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
 	// colors: axes, grid, background
@@ -156,14 +156,14 @@ public abstract class EuclidianView
 	/**
 	 * default axes stroke
 	 */
-	static GBasicStroke defAxesStroke = AwtFactory.getPrototype().newBasicStroke(
-			1.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	static GBasicStroke defAxesStroke = AwtFactory.getPrototype()
+			.newBasicStroke(1.0f, GBasicStroke.CAP_BUTT,
+					GBasicStroke.JOIN_MITER);
 
 	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
-	static GBasicStroke boldAxesStroke = AwtFactory.getPrototype().newBasicStroke(
-			2.0f,
-
-			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	static GBasicStroke boldAxesStroke = AwtFactory.getPrototype()
+			.newBasicStroke(2.0f, GBasicStroke.CAP_BUTT,
+					GBasicStroke.JOIN_MITER);
 
 	// axes and grid stroke
 	GBasicStroke axesStroke;
@@ -172,32 +172,65 @@ public abstract class EuclidianView
 	/** kernel */
 	protected Kernel kernel;
 
-	/** @return line types */
-	public static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
-		return ret;
+	public final static int[] lineTypes = {
+			EuclidianStyleConstants.LINE_TYPE_FULL,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
+			EuclidianStyleConstants.LINE_TYPE_DOTTED,
+			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
+			EuclidianStyleConstants.LINE_TYPE_POINTWISE };
+
+	public static int getLineType(int i) {
+		return lineTypes[i];
 	}
 
-	// G.Sturr added 2009-9-21
+	public static int getLineTypeLength() {
+		return lineTypes.length;
+	}
+
+	/** @return line types */
+	public static final Integer[] getLineTypes() {
+		Integer[] ret = new Integer[lineTypes.length];
+
+		for (int i = 0; i < lineTypes.length; i++) {
+			ret[i] = lineTypes[i];
+		}
+
+		return ret;
+
+	}
+
+	public final static int[] pointStyles = {
+			EuclidianStyleConstants.POINT_STYLE_DOT,
+			EuclidianStyleConstants.POINT_STYLE_CROSS,
+			EuclidianStyleConstants.POINT_STYLE_CIRCLE,
+			EuclidianStyleConstants.POINT_STYLE_PLUS,
+			EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND,
+			EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND,
+			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
+			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
+			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
+			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST };
+
+	public static int getPointStyle(int i) {
+		return pointStyles[i];
+	}
+
+	public static int getPointStyleLength() {
+		return pointStyles.length;
+	}
+
 	/** @return point styles */
 	public static final Integer[] getPointStyles() {
-		Integer[] ret = { new Integer(EuclidianStyleConstants.POINT_STYLE_DOT),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CROSS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CIRCLE),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_PLUS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST),
-				new Integer(
-						EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) };
+
+		Integer[] ret = new Integer[pointStyles.length];
+
+		for (int i = 0; i < pointStyles.length; i++) {
+			ret[i] = pointStyles[i];
+		}
+
 		return ret;
+
 	}
 
 	// end
@@ -580,8 +613,7 @@ public abstract class EuclidianView
 		double ymin2 = yminObject.getDouble();
 		double ymax2 = ymaxObject.getDouble();
 		if (isLockedAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
-			double ratio = gridType == GRID_POLAR ? 1
-					: lockedAxesRatio;
+			double ratio = gridType == GRID_POLAR ? 1 : lockedAxesRatio;
 			double newWidth = ratio * ((ymax2 - ymin2) * getWidth())
 					/ (getHeight() + 0.0);
 			double newHeight = 1 / ratio * ((xmax2 - xmin2) * getHeight())
@@ -837,8 +869,7 @@ public abstract class EuclidianView
 		// convert to screen coords
 
 		if (getXaxisLog()) {
-			inOut[0] = getWidth()
-					* (Math.log10(inOut[0]) - Math.log10(xmin))
+			inOut[0] = getWidth() * (Math.log10(inOut[0]) - Math.log10(xmin))
 					/ (Math.log10(xmax) - Math.log10(xmin));
 		} else
 			inOut[0] = getXZero() + (inOut[0] * getXscale());
@@ -999,7 +1030,8 @@ public abstract class EuclidianView
 	}
 
 	/** Sets coord system from mouse move */
-	public void translateCoordSystemInPixels(int dx, int dy, int dz, int modeForTranslate) {
+	public void translateCoordSystemInPixels(int dx, int dy, int dz,
+			int modeForTranslate) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
@@ -1200,7 +1232,6 @@ public abstract class EuclidianView
 	protected void setFontSize(int fontSize) {
 		this.fontSize = fontSize;
 	}
-
 
 	/**
 	 * Returns x coordinate of axes origin.
@@ -1921,8 +1952,8 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * WARNING: ensure setLabelHitNeedsRefresh() is
-	 * call once since last mouse event
+	 * WARNING: ensure setLabelHitNeedsRefresh() is call once since last mouse
+	 * event
 	 * 
 	 * @param p
 	 *            mouse position
@@ -2059,9 +2090,7 @@ public abstract class EuclidianView
 	public void repaintView() {
 		repaint();
 
-
 	}
-
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
@@ -2926,7 +2955,7 @@ public abstract class EuclidianView
 			int w = getWidth();
 			int h = getHeight();
 			Log.debug(w + "x" + h);
-			Log.debug("xZero: "+xZero+", yZero: "+yZero);
+			Log.debug("xZero: " + xZero + ", yZero: " + yZero);
 			if (getSettings() != null) {
 				int sw = getSettings().getWidth();
 				int sh = getSettings().getHeight();
@@ -2942,7 +2971,7 @@ public abstract class EuclidianView
 				int dy = (h - sh) / 2;
 				xZero = getSettings().getXZero() + dx;
 				yZero = getSettings().getYZero() + dy;
-				Log.debug(">> xZero: "+xZero+", yZero: "+yZero);
+				Log.debug(">> xZero: " + xZero + ", yZero: " + yZero);
 				getSettings().setSize(w, h);
 				getSettings().setOriginNoUpdate(xZero, yZero);
 			} else {
@@ -2950,7 +2979,7 @@ public abstract class EuclidianView
 			}
 
 			updateSizeChange();
-		}else {
+		} else {
 			if (!mViewCentered) {
 				mCenterX = 0;
 				mCenterY = 0;
@@ -3376,9 +3405,10 @@ public abstract class EuclidianView
 		return isPrimaryEV();
 	}
 
-	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble(); // polar
-																					// grid
-																					// circles
+	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+			.newEllipse2DDouble(); // polar
+									// grid
+									// circles
 	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	GGeneralPath gp;
 	/**
@@ -3495,11 +3525,9 @@ public abstract class EuclidianView
 	private void drawIsometricGrid(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		boolean clipX = positiveAxes[1] && yCrossPix < getHeight();
-		int yAxisEnd = clipX
-				? (int) yCrossPix : getHeight();
+		int yAxisEnd = clipX ? (int) yCrossPix : getHeight();
 		boolean clipY = positiveAxes[0] && xCrossPix > 0;
-		int xAxisStart = clipY ? (int) xCrossPix
-				: 0;
+		int xAxisStart = clipY ? (int) xCrossPix : 0;
 
 		// set the clipping region to the region defined by the axes
 
@@ -3531,9 +3559,12 @@ public abstract class EuclidianView
 					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
 							/ getYscale());
 			if (clipX || clipY) {
-			DrawSegment.drawClipped(new double[]{pix, startY - tickStepY}, new double[]{endx,
-							(startY - tickStepY) + getHeight() + tickStepY },
-					tempLine, xAxisStart, getWidth(), 0, yAxisEnd);
+				DrawSegment.drawClipped(
+						new double[] { pix, startY - tickStepY },
+						new double[] { endx,
+								(startY - tickStepY) + getHeight()
+										+ tickStepY },
+						tempLine, xAxisStart, getWidth(), 0, yAxisEnd);
 			} else {
 				tempLine.setLine(pix, startY - tickStepY, endx,
 						startY + getHeight());
@@ -3549,9 +3580,9 @@ public abstract class EuclidianView
 						* Math.sqrt(3.0))); j += 1)
 		// for (int j=0; j<=kk; j+=1)
 		{
-			double endx =
-					pix - (((getHeight() + tickStepY) * Math.sqrt(3)
-							* getXscale()) / getYscale());
+			double endx = pix
+					- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
+							/ getYscale());
 			if (clipX || clipY) {
 				DrawSegment.drawClipped(
 						new double[] { pix, startY - tickStepY },
@@ -3568,8 +3599,6 @@ public abstract class EuclidianView
 		}
 
 	}
-
-
 
 	double getXAxisCrossingPixel() {
 		return getXZero() + (axisCross[1] * getXscale());
@@ -3598,10 +3627,6 @@ public abstract class EuclidianView
 	double yLabelMaxWidthPos = 0;
 	double yLabelMaxWidthNeg = 0;
 	double xLabelHeights = 0;
-
-
-
-
 
 	/**
 	 * @param g
@@ -4093,7 +4118,7 @@ public abstract class EuclidianView
 		int width = getWidth();
 		int height = getHeight();
 		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
-//			Log.debug(width + "x" + height);
+			// Log.debug(width + "x" + height);
 			if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
 				EuclidianSettings evSettings = getSettings();
 				if (evSettings != null) {
@@ -4101,7 +4126,7 @@ public abstract class EuclidianView
 					height = evSettings.getHeight();
 				}
 			}
-//			Log.debug("after:" + width + "x" + height);
+			// Log.debug("after:" + width + "x" + height);
 		}
 
 		if ((width > MIN_WIDTH) && (height > MIN_HEIGHT)) {
@@ -4376,7 +4401,8 @@ public abstract class EuclidianView
 		setViewShowAllObjects(storeUndo, keepRatio, 10);
 	}
 
-	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
+	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio,
+			int steps) {
 
 		// check for functions
 		TreeSet<GeoElement> allFunctions = kernel.getConstruction()
@@ -4560,17 +4586,17 @@ public abstract class EuclidianView
 			}
 
 			// check if animation is needed
-			if (steps == 0){
+			if (steps == 0) {
 				setRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW);
 				if (storeUndo) {
 					getApplication().storeUndoInfo();
 				}
-			}else{
+			} else {
 				setAnimatedRealWorldCoordSystem(x0RW, x1RW, y0RW, y1RW, steps,
 						storeUndo);
 			}
 
-		}else{
+		} else {
 			if (keepRatio) {
 				alignView(x0RW, x1RW, y0RW, y1RW);
 			} else {
@@ -5174,6 +5200,7 @@ public abstract class EuclidianView
 	private DrawList openedComboBox = null;
 
 	protected ViewTextField viewTextField;
+
 	/**
 	 * sets the option panel for gui update
 	 * 
@@ -5438,8 +5465,8 @@ public abstract class EuclidianView
 	public GBufferedImage getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
-		GBufferedImage img = AwtFactory.getPrototype().createBufferedImage(width,
-				height, transparency);
+		GBufferedImage img = AwtFactory.getPrototype()
+				.createBufferedImage(width, height, transparency);
 		exportPaint(img.createGraphics(), scale, transparency, ExportType.PNG);
 		img.flush();
 		return img;
@@ -5570,7 +5597,6 @@ public abstract class EuclidianView
 		return 1;
 	}
 
-
 	public double getXZeroOld() {
 		return xZeroOld;
 	}
@@ -5605,8 +5631,8 @@ public abstract class EuclidianView
 
 	public AutoCompleteTextField getTextField(GeoInputBox input,
 			DrawInputBox drawInputBox) {
-		return viewTextField == null ? null : viewTextField.getTextField(
-				input.getLength(), drawInputBox);
+		return viewTextField == null ? null
+				: viewTextField.getTextField(input.getLength(), drawInputBox);
 	}
 
 	public void focusTextField(GeoInputBox inputBox) {

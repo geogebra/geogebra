@@ -922,7 +922,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
 				public void fireActionPerformed(PopupMenuButton actionButton) {
-					model.appyGridStyle(EuclidianView.getLineTypes()[btnGridStyle.getSelectedIndex()]);
+					model.appyGridStyle(EuclidianView
+							.getLineType(btnGridStyle.getSelectedIndex()));
 
 				}});
 			btnGridStyle.setKeepVisible(false);

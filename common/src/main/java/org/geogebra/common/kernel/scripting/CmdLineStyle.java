@@ -33,15 +33,15 @@ public class CmdLineStyle extends CmdScripting {
 			if (arg[1] instanceof NumberValue) {
 
 				int style = (int) ((NumberValue) arg[1]).getDouble();
-				Integer[] types = EuclidianView.getLineTypes();
+				// Integer[] types = EuclidianView.getLineTypes();
 
 				// For invalid number we assume it's 0
 				// We do this also for SetPointStyle
 
-				if (style < 0 || style >= types.length)
+				if (style < 0 || style >= EuclidianView.getLineTypeLength())
 					style = 0;
 
-				arg[0].setLineType(types[style].intValue());
+				arg[0].setLineType(EuclidianView.getLineType(style));
 				arg[0].updateRepaint();
 
 				return arg;

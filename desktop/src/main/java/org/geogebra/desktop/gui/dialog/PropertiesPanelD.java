@@ -64,6 +64,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -149,7 +150,6 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
@@ -2299,7 +2299,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			PointStyleListRenderer renderer = new PointStyleListRenderer();
 			renderer.setPreferredSize(new Dimension(18, 18));
-			cbStyle = new JComboBox(EuclidianViewD.getPointStyles());
+			cbStyle = new JComboBox(EuclidianView.getPointStyles());
 			cbStyle.setRenderer(renderer);
 			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
 			cbStyle.setBackground(getBackground());
@@ -3486,7 +3486,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			DashListRenderer renderer = new DashListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
 					app.getGUIFontSize() + 6));
-			dashCB = new JComboBox(EuclidianViewD.getLineTypes());
+			dashCB = new JComboBox(EuclidianView.getLineTypes());
 			dashCB.setRenderer(renderer);
 			dashCB.addActionListener(this);
 

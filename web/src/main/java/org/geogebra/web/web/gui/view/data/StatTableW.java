@@ -28,7 +28,7 @@ public class StatTableW extends FlowPanel {
 	private MyTable myTable;
 	private ScheduledCommand al;
 	private HashMap<GPointW, MyComboBoxEditor> comboBoxEditorMap;
-	private HashMap<GPointW, MyComBoxRenderer> comboBoxRendererMap;
+	// private HashMap<GPointW, MyComBoxRenderer> comboBoxRendererMap;
 
 	/**
 	 * @param app App

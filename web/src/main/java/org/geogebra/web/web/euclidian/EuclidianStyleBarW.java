@@ -149,12 +149,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// init button-specific fields
 		// TODO: put these in button classes
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
+			lineStyleMap.put(EuclidianView.getLineType(i), i);
+		}
 
 		initGUI();
 		isIniting = false;
@@ -609,7 +610,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		ImageOrText[] grids = new ImageOrText[4];
 		for (int i = 0; i < 4; i++)
 			grids[i] = GeoGebraIcon
-			        .createGridStyleIcon(EuclidianStyleBarStatic.pointStyleArray[i]);
+					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, ev);
 		btnShowGrid.addPopupHandler(this);

@@ -185,12 +185,13 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// init button-specific fields
 		// TODO: put these in button classes
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 
+		Integer[] lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
+		for (int i = 0; i < lineStyleArray.length; i++)
+			lineStyleMap.put(lineStyleArray[i], i);
 
 		setLabels(); // this will also init the GUI
 
@@ -622,16 +623,16 @@ axesIcon, iconHeight);
 		// create line style icon array
 		final Dimension lineStyleIconSize = new Dimension(Math.max(80,
 				iconHeight * 4), iconHeight);
-		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianStyleBarStatic.lineStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
+		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianView
+				.getLineTypeLength()];
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++)
 			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
-					EuclidianStyleBarStatic.lineStyleArray[i], 2,
+					EuclidianView.getLineType(i), 2,
 					lineStyleIconSize, Color.BLACK, null);
 
 		// create button
 		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
-				lineStyleIconSize,
- SelectionTable.MODE_ICON) {
+				lineStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -684,8 +685,7 @@ axesIcon, iconHeight);
 			public ImageIcon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createLineStyleIcon(
-							EuclidianStyleBarStatic.lineStyleArray[this
-									.getSelectedIndex()],
+							EuclidianView.getLineType(this.getSelectedIndex()),
 							this.getSliderValue(), lineStyleIconSize,
 							Color.BLACK, null);
 				}
@@ -714,16 +714,16 @@ axesIcon, iconHeight);
 		// create line style icon array
 		final Dimension pointStyleIconSize = new Dimension(getIconWidth(),
 				iconHeight);
-		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianStyleBarStatic.pointStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
+		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianView
+				.getPointStyleLength()];
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[i], 4,
+					EuclidianView.getPointStyle(i), 4,
 					pointStyleIconSize, Color.BLACK, null);
 
 		// create button
 		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
-				pointStyleIconSize,
- SelectionTable.MODE_ICON) {
+				pointStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -768,8 +768,8 @@ axesIcon, iconHeight);
 			public ImageIcon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
 					return GeoGebraIcon.createPointStyleIcon(
-							EuclidianStyleBarStatic.pointStyleArray[this
-									.getSelectedIndex()],
+							EuclidianView
+									.getPointStyle(this.getSelectedIndex()),
 							this.getSliderValue(), pointStyleIconSize,
 							Color.BLACK, null);
 				}
@@ -1607,8 +1607,8 @@ axesIcon, iconHeight);
 			if (btnLineStyle.getSelectedValue() != null) {
 				if (EuclidianView.isPenMode(mode)) {
 					ec.getPen().setPenLineStyle(
-							EuclidianStyleBarStatic.lineStyleArray[btnLineStyle
-									.getSelectedIndex()]);
+							EuclidianView.getLineType(
+									btnLineStyle.getSelectedIndex()));
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());
 				} else {
 					int selectedIndex = btnLineStyle.getSelectedIndex();

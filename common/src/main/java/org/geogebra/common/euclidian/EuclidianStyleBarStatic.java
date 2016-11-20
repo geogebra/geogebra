@@ -35,11 +35,8 @@ public class EuclidianStyleBarStatic {
 
 	public final static String[] bracketArray = { "\u00D8", "{ }", "( )",
 			"[ ]", "| |", "|| ||" };
-	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
+	private final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
 			"[ ]", "||", "||||" };
-	final public static Integer[] lineStyleArray = EuclidianView.getLineTypes();
-	final public static Integer[] pointStyleArray = EuclidianView
-			.getPointStyles();
 
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
@@ -365,7 +362,7 @@ public class EuclidianStyleBarStatic {
 
 	public static boolean applyLineStyle(ArrayList<GeoElement> geos,
 			int lineStyleIndex, int lineSize) {
-		int lineStyle = lineStyleArray[lineStyleIndex];
+		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
@@ -384,7 +381,7 @@ public class EuclidianStyleBarStatic {
 
 	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
 			int pointStyleSelIndex, int pointSize) {
-		int pointStyle = pointStyleArray[pointStyleSelIndex];
+		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);

@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.util;
 import java.util.HashMap;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -25,14 +25,15 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		PointStylePopup.mode = mode;
 		
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 
 		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
-		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianStyleBarStatic.pointStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
+		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView
+				.getPointStyleLength()];
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
 			pointStyleIcons[i] = GeoGebraIcon
-			        .createPointStyleIcon(EuclidianStyleBarStatic.pointStyleArray[i]);
+					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
 		        pointStyleIconSize,
@@ -111,8 +112,8 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
 			return GeoGebraIcon
-			        .createPointStyleIcon(EuclidianStyleBarStatic.pointStyleArray[this
-			                .getSelectedIndex()]);
+					.createPointStyleIcon(EuclidianView
+							.getPointStyle(this.getSelectedIndex()));
 		}
 		return new ImageOrText();
 	}
