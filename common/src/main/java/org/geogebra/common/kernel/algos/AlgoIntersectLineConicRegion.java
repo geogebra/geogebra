@@ -377,6 +377,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			}
 			break;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			ex = c.getEigenvec(0);
 			if (numberOfLineParts == 1) {
 				currentPartIsInRegion = true;
 			} else if (numberOfLineParts == 2) {
