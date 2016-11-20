@@ -462,7 +462,7 @@ public enum Language {
 
 	final public String localeGWT;
 	final public String locale;
-	final private String localeISO6391;
+	final public String localeISO6391;
 	final public String name;
 	// official counties which speak that language
 	final private Country[] countries;
