@@ -612,6 +612,7 @@ public class AppWapplet extends AppWFull {
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);
 			getGuiManager().updateStyleBarPositions(true);
+			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			hideMenu();
 		}

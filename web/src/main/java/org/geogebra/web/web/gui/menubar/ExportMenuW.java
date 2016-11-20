@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -66,6 +67,8 @@ public class ExportMenuW extends MenuBar {
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), app);
+				app.dispatchEvent(new org.geogebra.common.plugin.Event(
+						EventType.OPEN_DIALOG, null, "exportPNG"));
 					}
 				});
 		if (!app.getLAF().isTablet()) {
@@ -76,7 +79,7 @@ public class ExportMenuW extends MenuBar {
 						@Override
 						public void doExecute() {
 							hide();
-							((FileManagerW) app.getFileManager())
+							FileManagerW
 									.createRemoteAnimGif(app);
 						}
 					});

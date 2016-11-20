@@ -69,7 +69,8 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 	private static final long serialVersionUID = 1L;
 	private final AppD app;
 	private final LocalizationD loc;
-	private JTabbedPane tabbedPane;
+	/** tabs */
+	protected JTabbedPane tabbedPane;
 	private ToolNameIconPanel namePanel;
 
 	private OutputListModel outputList;
