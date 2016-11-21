@@ -851,7 +851,9 @@ public abstract class KBBase extends PopupPanel {
 	}
 
 	public void endEditing() {
-		processField.endEditing();
+		if (processField != null) {
+			processField.endEditing();
+		}
 	}
 
 	protected void processAccent(String accent, KeyBoardButtonBase source) {

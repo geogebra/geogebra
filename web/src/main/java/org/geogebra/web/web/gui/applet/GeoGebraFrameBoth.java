@@ -203,8 +203,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		GuiManagerInterfaceW gm = app.getGuiManager();
-		if ((gm != null) && (gm instanceof GuiManagerW)) {
-			((GuiManagerW) gm).setOnScreenKeyboardTextFieldEnabled(true);
+		if (gm != null) {
+			gm.setOnScreenKeyboardTextFieldEnabled(true);
 		}
 
 		// this.mainPanel.clear();

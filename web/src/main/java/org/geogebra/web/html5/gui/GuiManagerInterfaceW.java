@@ -109,4 +109,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public AlgebraView getAlgebraView();
 
 	public SpreadsheetViewInterface getSpreadsheetView();
+
+	public void setOnScreenKeyboardTextFieldEnabled(boolean b);
 }

@@ -2125,7 +2125,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void setOnScreenKeyboardTextFieldEnabled(boolean b) {
-		onScreenKeyboard.endEditing();
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.endEditing();
+		}
 	}
 
 	@Override
