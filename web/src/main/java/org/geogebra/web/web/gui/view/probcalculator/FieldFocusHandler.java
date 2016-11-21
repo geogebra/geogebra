@@ -27,17 +27,13 @@ public class FieldFocusHandler implements FocusHandler {
 				Widget parent = tb.getParent().getParent();
 				if (parent instanceof AutoCompleteTextFieldW) {
 					if (MyTableW.isAndroid() || MyTableW.isIPad()) {
-						if (MyTableW.isIPad()) {
-							tb.setFocus(false);
-							event.preventDefault();
-						}
-						((AutoCompleteTextFieldW) parent).setEnabled(false);
+						tb.setFocus(false);
+						event.preventDefault();
+						
+						tb.setEnabled(false);
 						((AutoCompleteTextFieldW) parent)
 								.addDummyCursor(((AutoCompleteTextFieldW) parent)
 										.getCaretPosition());
-						if (MyTableW.isIPad()) {
-							// fldHigh.getTextBox().setFocus(true);
-						}
 					} else {
 						tb.selectAll();
 					}
