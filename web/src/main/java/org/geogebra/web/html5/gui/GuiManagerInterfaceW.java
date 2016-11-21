@@ -110,5 +110,5 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public SpreadsheetViewInterface getSpreadsheetView();
 
-	public void setOnScreenKeyboardTextFieldEnabled(boolean b);
+	public void onScreenEditingEnded();
 }

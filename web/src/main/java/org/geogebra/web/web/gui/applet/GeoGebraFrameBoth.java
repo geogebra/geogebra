@@ -204,7 +204,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		GuiManagerInterfaceW gm = app.getGuiManager();
 		if (gm != null) {
-			gm.setOnScreenKeyboardTextFieldEnabled(true);
+			gm.onScreenEditingEnded();
 		}
 
 		// this.mainPanel.clear();
