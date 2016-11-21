@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.probcalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -569,6 +570,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addKeyUpHandler(this);
 		fldNullHyp.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldNullHyp);
 		addNextTabIndex(fldNullHyp);
 		
 		lblConfLevel = new Label();
@@ -576,6 +578,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyUpHandler(this);
 		fldConfLevel.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldConfLevel);
 
 		addNextTabIndex(fldConfLevel);
 		
@@ -584,6 +587,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyUpHandler(this);
 		fldSigma.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldSigma);
 		
 		addNextTabIndex(fldSigma);
 		
@@ -601,6 +605,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
 			fldSampleStat1[i].addFocusHandler(focusHandler);
+			this.addInsertHandler(fldSampleStat1[i]);
+
 			addNextTabIndex(fldSampleStat1[i]);
 		}
 
@@ -617,6 +623,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
 			fldSampleStat2[i].addFocusHandler(focusHandler);
+			this.addInsertHandler(fldSampleStat2[i]);
+
 			addNextTabIndex(fldSampleStat2[i]);
 
 		}	    
@@ -803,6 +811,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
     }
 
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				public void onInsert(String text) {
+					field.removeDummyCursor();
+					doTextFieldActionPerformed();
+					field.addDummyCursor(field.getCaretPosition());
+				}
+			});
+		}
+	}
+
 	public void onBlur(BlurEvent event) {
 	    if (event.getSource() instanceof TextBox) {
 	    	doTextFieldActionPerformed();
@@ -810,7 +830,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    
     }
 
-	private void doTextFieldActionPerformed() {
+	void doTextFieldActionPerformed() {
 		 updateResult();
     }
 
