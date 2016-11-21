@@ -251,9 +251,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             mathFieldController.update(mathFormula, editorState, false);
         }
 
-		mathField.showKeyboardOnDown();
-		mathField.requestViewFocus();
-
     }
 
 	private double length(double d, double e) {
@@ -297,7 +294,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
             mathFieldController.update(mathFormula, editorState, false);
 
-			mathField.showKeyboardOnUp();
+			mathField.showKeyboard();
 			mathField.requestViewFocus();
 		}
 
@@ -312,7 +309,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         }
         mathFieldController.update(mathFormula, editorState, false);
 		mathField.showCopyPasteButtons();
-		mathField.showKeyboardOnUp();
+		mathField.showKeyboard();
+		mathField.requestViewFocus();
 	}
 
     public void onScroll(int dx, int dy) {
@@ -320,7 +318,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             mathField.scroll(dx, dy);
             scrollOccured = true;
         }
-    }
+		mathField.requestViewFocus();
+	}
 
     private boolean scrollOccured = false;
 
