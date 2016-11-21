@@ -108,7 +108,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	public void endEditing() {
 		if (Browser.isAndroid() || Browser.isIPad()) {
-			field.setEnabled(false);
+			field.setEnabled(true);
 		}
 	}
 }
