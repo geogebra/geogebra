@@ -705,7 +705,8 @@ public class CASInputHandler {
 				}
 			}
 			String cellText;
-			String assignedVariable = selCellValue.getAssignmentVariable();
+			String assignedVariable = selCellValue != null
+					? selCellValue.getAssignmentVariable() : null;
 			boolean inTheSelectedRow = currentRow == selectedIndices[i];
 			if (assignedVariable != null) {
 				references[i] = assignedVariable;
