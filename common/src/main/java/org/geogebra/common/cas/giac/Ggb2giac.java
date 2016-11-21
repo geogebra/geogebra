@@ -367,16 +367,16 @@ public class Ggb2giac {
 		// check length for eg Integral[ln(x),0.45,2.07]
 		p("Integral.3",
 				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
+						+ "when(ggbintanssimplified==undef || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("Integral.4",
 				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
+						+ "when(ggbintanssimplified==undef || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("IntegralBetween.4",
 				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
+						+ "when(ggbintanssimplified==undef || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 		p("IntegralBetween.5",
 				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)], [ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)], [ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==? || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
+						+ "when(ggbintanssimplified==undef || length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 
 		// p("Integral.3",
 		// "[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]],"
