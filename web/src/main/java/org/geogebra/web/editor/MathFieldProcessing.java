@@ -88,4 +88,9 @@ public class MathFieldProcessing implements KeyboardListener {
 		return false;
 	}
 
+	public void setEnabled(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

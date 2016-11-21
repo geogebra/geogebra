@@ -2124,6 +2124,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	public void setOnScreenKeyboardTextFieldEnabled(boolean b) {
+		onScreenKeyboard.setFieldEnabled(b);
+	}
+
 	@Override
 	public boolean hasDataCollectionView() {
 		return dataCollectionView != null;

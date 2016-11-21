@@ -9,6 +9,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -199,6 +200,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (this.keyboardShowing == show) {
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
+		}
+
+		GuiManagerInterfaceW gm = app.getGuiManager();
+		if ((gm != null) && (gm instanceof GuiManagerW)) {
+			((GuiManagerW) gm).setOnScreenKeyboardTextFieldEnabled(true);
 		}
 
 		// this.mainPanel.clear();

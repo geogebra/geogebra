@@ -118,4 +118,9 @@ public class GTextBoxProcessing implements KeyboardListener {
 	public boolean isSVCell() {
 		return false;
 	}
+
+	public void setEnabled(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
 }

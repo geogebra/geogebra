@@ -75,4 +75,6 @@ public interface KeyboardListener {
 	public void setKeyBoardModeText(boolean text);
 
 	public boolean isSVCell();
+
+	void setEnabled(boolean b);
 }

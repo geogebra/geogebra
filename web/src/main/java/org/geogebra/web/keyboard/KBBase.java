@@ -840,6 +840,10 @@ public abstract class KBBase extends PopupPanel {
 		this.processField = processing;
 	}
 
+	public void setFieldEnabled(boolean b) {
+		processField.setEnabled(b);
+	}
+
 	protected void processAccent(String accent, KeyBoardButtonBase source) {
 		if (accentDown && source != accentButton) {
 			removeAccents();
