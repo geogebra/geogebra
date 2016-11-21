@@ -976,8 +976,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
 				public void onInsert(String text) {
+					field.removeDummyCursor();
 					doTextFieldActionPerformed((TextBox) field.getTextBox(),
 							false);
+					field.addDummyCursor(field.getCaretPosition());
 				}
 			});
 		}
