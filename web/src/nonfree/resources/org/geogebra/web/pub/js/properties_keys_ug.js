@@ -280,7 +280,7 @@ __GGB__keysVar.ug.command = {
     "DotPlot": "DotPlot",
     "DotPlot.Syntax": "[ <\u0626\u06d5\u0633\u0644\u0649 \u0633\u0627\u0646\u0644\u0649\u0642 \u0645\u06d5\u0644\u06c7\u0645\u0627\u062a \u062a\u0648\u067e\u0644\u0649\u0645\u0649>, <\u0642\u0648\u0634\u0646\u0627 \u0626\u0648\u064a\u06c7\u0642 \u0626\u0627\u0631\u0644\u0649\u0642\u0649(\u062a\u0627\u0644\u0644\u0649\u0646\u0649\u0634\u0686\u0627\u0646)>, <\u0642\u0649\u0633\u0642\u0627\u0631\u0645\u0627 \u0641\u0627\u0643\u062a\u0648\u0631(\u062a\u0627\u0644\u0644\u0649\u0646\u0649\u0634\u0686\u0627\u0646)> ]",
     "DynamicCoordinates": "DynamicCoordinates",
-    "DynamicCoordinates.Syntax": "[ <Point>, <Number>, <Number> ]",
+    "DynamicCoordinates.Syntax": "[ <Point>, <x-Coordinate>, <y-Coordinate> ]\n[ <Point>, <x-Coordinate>, <y-Coordinate>, <z-Coordinate> ]",
     "Eccentricity": "Eccentricity",
     "Eccentricity.Syntax": "[ <Conic> ]",
     "Element": "Element",

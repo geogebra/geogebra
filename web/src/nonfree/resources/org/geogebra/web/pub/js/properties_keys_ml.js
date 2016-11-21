@@ -280,7 +280,7 @@ __GGB__keysVar.ml.command = {
     "DotPlot": "DotPlot",
     "DotPlot.Syntax": "[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",
     "DynamicCoordinates": "DynamicCoordinates",
-    "DynamicCoordinates.Syntax": "[ <Point>, <Number>, <Number> ]",
+    "DynamicCoordinates.Syntax": "[ <Point>, <x-Coordinate>, <y-Coordinate> ]\n[ <Point>, <x-Coordinate>, <y-Coordinate>, <z-Coordinate> ]",
     "Eccentricity": "Eccentricity",
     "Eccentricity.Syntax": "[ <Conic> ]",
     "Element": "Element",

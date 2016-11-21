@@ -1687,7 +1687,7 @@ __GGB__keysVar.de_AT.menu = {
     "Evaluate.Help": "Berechnen Sie die aktuelle Zeile (Eingabe) exakt.",
     "ExamCAS": "GeoGebra Pr\xfcfung CAS",
     "ExamGraphingCalc.long": "GeoGebra Pr\xfcfung Grafikrechner",
-    "ExamGraphingCalc.short": "Exam Graphing",
+    "ExamGraphingCalc.short": "Pr\xfcfung Grafikrechner",
     "ExamSimpleCalc.long": "GeoGebra Pr\xfcfung Rechner",
     "Exercise.CreateNew": "Neue \xdcbung",
     "Exit": "Beenden",
