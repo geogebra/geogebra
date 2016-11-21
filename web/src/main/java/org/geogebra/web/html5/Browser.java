@@ -439,4 +439,20 @@ public class Browser {
 		return !!$wnd.ggbExamXWalkExtension;
 	}-*/;
 
+	public native static boolean isAndroid()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("Android") != -1;
+		}
+		return false;
+	}-*/;
+
+	public native static boolean isIPad()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("iPad") != -1;
+		}
+		return false;
+	}-*/;
+
 }

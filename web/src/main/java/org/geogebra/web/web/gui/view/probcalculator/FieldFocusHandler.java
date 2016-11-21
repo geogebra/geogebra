@@ -1,9 +1,9 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -26,7 +26,7 @@ public class FieldFocusHandler implements FocusHandler {
 			if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 				Widget parent = tb.getParent().getParent();
 				if (parent instanceof AutoCompleteTextFieldW) {
-					if (MyTableW.isAndroid() || MyTableW.isIPad()) {
+					if (Browser.isAndroid() || Browser.isIPad()) {
 						tb.setFocus(false);
 						event.preventDefault();
 						

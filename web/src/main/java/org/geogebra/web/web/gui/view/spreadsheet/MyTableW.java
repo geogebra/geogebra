@@ -29,6 +29,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -1645,7 +1646,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
-					if (isAndroid() || isIPad()) {
+					if (Browser.isAndroid() || Browser.isIPad()) {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}
@@ -1687,22 +1688,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			mce.cancelCellEditing();
 		return false;// TODO: implementation needed
 	}
-
-	public native static boolean isAndroid()/*-{
-		var userAgent = navigator.userAgent;
-		if (userAgent) {
-			return navigator.userAgent.indexOf("Android") != -1;
-		}
-		return false;
-	}-*/;
-
-	public native static boolean isIPad()/*-{
-		var userAgent = navigator.userAgent;
-		if (userAgent) {
-			return navigator.userAgent.indexOf("iPad") != -1;
-		}
-		return false;
-	}-*/;
 
 	private SpreadsheetController getEditorController() {
 		if (controller == null) {
