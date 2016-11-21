@@ -406,11 +406,4 @@ public class MathFieldW implements MathField, IsWidget {
 		return contents;
 	}-*/;
 
-	public void showKeyboardOnDown() {
-		showKeyboard();
-	}
-
-	public void showKeyboardOnUp() {
-		// TODO Auto-generated method stub
-	}
 }

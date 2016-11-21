@@ -210,12 +210,4 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
-	public void showKeyboardOnDown() {
-		showKeyboard();
-	}
-
-	public void showKeyboardOnUp() {
-		// TODO Auto-generated method stub
-
-	}
 }
