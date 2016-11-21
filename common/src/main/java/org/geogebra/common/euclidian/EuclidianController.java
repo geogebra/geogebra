@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -8991,6 +8992,10 @@ public abstract class EuclidianController {
 
 		setMoveModeForFurnitures();
 
+		AutoCompleteTextField tf = view.getTextField();
+		if (tf != null && tf.hasFocus()) {
+			view.requestFocusInWindow();
+		}
 		altCopy = true;
 
 		DrawList dl = getComboBoxHit();
