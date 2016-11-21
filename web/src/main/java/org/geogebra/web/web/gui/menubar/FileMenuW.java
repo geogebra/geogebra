@@ -4,7 +4,6 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
@@ -45,7 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app application
 	 */
 	public FileMenuW(final AppW app) {
-		super(true, "help");
+		super(true, "file");
 	    this.app = app;
 		this.loc = app.getLocalization();
 	    this.newConstruction = new Runnable() {

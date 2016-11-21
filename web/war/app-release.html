@@ -303,8 +303,8 @@ var app = document.createElement("script");
 		})();
 		window.GGBT_offlineRequestHandler.initServiceWorker();
 	}
-	function setPrerelease(){
-		e("ggw").setAttribute("data-param-prerelease",prerelease);
+	function setPrerelease(prereleaseParam){
+		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
 		e("ggw").setAttribute("data-param-showlogging",true);
 		e("whiteboardRow").style.display="block";		
 	}
