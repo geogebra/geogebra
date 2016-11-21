@@ -22,6 +22,7 @@ import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.OutlineStyle;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
@@ -324,12 +325,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static void setBorder(ArticleElement ae, GeoGebraFrameW gf,
 	        String dpBorder, int px) {
-		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
-		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		ae.getStyle().setBorderColor(dpBorder);
-		gf.getStyleElement().getStyle().setBorderWidth(px, Style.Unit.PX);
-		gf.getStyleElement().getStyle().setBorderStyle(Style.BorderStyle.SOLID);
-		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
+		setBorder(ae, gf.getStyleElement(), dpBorder, px);
 	}
 
 	private static void setBorder(ArticleElement ae, Element gfE,
@@ -340,6 +336,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		gfE.getStyle().setBorderWidth(px, Style.Unit.PX);
 		gfE.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
 		gfE.getStyle().setBorderColor(dpBorder);
+		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
 	/**
@@ -366,6 +363,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		gf.getElement().addClassName(
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
 	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
