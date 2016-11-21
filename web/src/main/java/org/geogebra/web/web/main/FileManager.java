@@ -119,7 +119,6 @@ public abstract class FileManager implements FileManagerI {
 			Log.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
-		mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
@@ -127,7 +126,10 @@ public abstract class FileManager implements FileManagerI {
 		mat.setThumbnailBase64(((EuclidianViewWInterface) app
 		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
-		mat.setAuthor(app.getLoginOperation().getUserName());
+		if (app.getLoginOperation() != null) {
+			mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
+			mat.setAuthor(app.getLoginOperation().getUserName());
+		}
 		if (app.getActiveMaterial() != null) {
 			mat.setSharingKey(app.getActiveMaterial().getSharingKey());
 			mat.setVisibility(app.getActiveMaterial().getVisibility());
