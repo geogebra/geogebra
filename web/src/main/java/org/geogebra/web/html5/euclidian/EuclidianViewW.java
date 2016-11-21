@@ -283,6 +283,11 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
 		paint(this.g2p);
+		// if we have pen tool in action
+		// repaint the preview line
+		if (getEuclidianController().getPen().needsRepaint()) {
+			getEuclidianController().getPen().doRepaintPreviewLine(this.g2p);
+		}
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);

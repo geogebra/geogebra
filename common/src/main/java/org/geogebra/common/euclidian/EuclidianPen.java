@@ -9,7 +9,6 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularValueDecomposition;
 import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
@@ -159,6 +158,8 @@ public class EuclidianPen {
 	private int lineThickness;
 	private GColor lineDrawingColor;
 	private int lineDrawingStyle;
+	// true if we need repaint
+	private boolean needsRepaint;
 
 	/**
 	 * start point of the gesture
@@ -311,6 +312,13 @@ public class EuclidianPen {
 	}
 
 	/**
+	 * @return true if we need to repaint the preview line
+	 */
+	public boolean needsRepaint() {
+		return needsRepaint;
+	}
+
+	/**
 	 * use one point as first point of the created shape
 	 *
 	 * @param point
@@ -373,6 +381,8 @@ public class EuclidianPen {
 					.handleMouseDraggedForDelete(e, eraserSize, true);
 			app.getKernel().notifyRepaint();
 		} else {
+			// drawing in progress, so we need repaint
+			needsRepaint = true;
 			addPointPenMode(e, null);
 		}
 	}
@@ -387,6 +397,22 @@ public class EuclidianPen {
 		if (!isErasingEvent(e)) {
 			penPoints.clear();
 			addPointPenMode(e, hits);
+			// add point from press event to support click
+			penPoints.add(e.getPoint());
+			// will create the single point for pen tool
+			addPointsToPolyLine(penPoints);
+		}
+	}
+
+	/**
+	 * Method to repaint the whole preview line
+	 * 
+	 * @param g2D
+	 *            graphics for pen
+	 */
+	public void doRepaintPreviewLine(GGraphics2D g2D) {
+		for (int i = 0; i < penPoints.size() - 1; i++) {
+			drawPenPreviewLine(g2D, penPoints.get(i), penPoints.get(i + 1));
 		}
 	}
 
@@ -489,46 +515,6 @@ public class EuclidianPen {
 		g2D.draw(line);
 	}
 
-	private void drawPenPreviewEllipse(GGraphics2D g2D, GPoint point) {
-		GEllipse2DDouble ellipse = AwtFactory.getPrototype()
-				.newEllipse2DDouble();
-		ellipse.setFrameFromCenter(point.getX(), point.getY(),
-				point.getX() + getLineThicknessForPointPreview(),
-				point.getY() + getLineThicknessForPointPreview());
-		float[] rgb = new float[3];
-		penColor.getRGBColorComponents(rgb);
-		lineDrawingColor = AwtFactory.getPrototype().newColor(rgb[0], rgb[1],
-				rgb[2], this.lineOpacity / 255.0f);
-		g2D.setPaint(lineDrawingColor);
-		g2D.fill(ellipse);
-		g2D.setStroke(EuclidianStatic
-				.getDefaultStroke());
-		g2D.draw(AwtFactory.getPrototype().newArea(ellipse));
-	}
-
-
-	private int getLineThicknessForPointPreview() {
-		switch (lineThickness) {
-		case 4:
-			return 3;
-		case 5:
-		case 6:
-			return 4;
-		case 7:
-		case 8:
-		case 9:
-			return 5;
-		case 10:
-		case 11:
-			return 6;
-		case 12:
-		case 13:
-			return 7;
-		default:
-			return lineThickness;
-		}
-	}
-
 	/**
 	 * Clean up the pen mode stuff, add points.
 	 *
@@ -573,6 +559,8 @@ public class EuclidianPen {
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
+		// drawing done, so no need for repaint
+		needsRepaint = false;
 	}
 
 	/**
