@@ -241,7 +241,7 @@ public class MyXMLHandler implements DocHandler {
 	/** errors encountered during load */
 	ArrayList<String> errors = new ArrayList<String>();
 
-	private class GeoExpPair {
+	private static class GeoExpPair {
 		private GeoElement geoElement;
 		String exp;
 
@@ -259,7 +259,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private class GeoNumericMinMax {
+	private static class GeoNumericMinMax {
 		private GeoElement geoElement;
 		String min;
 		String max;
@@ -279,7 +279,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private class LocateableExpPair {
+	private static class LocateableExpPair {
 		Locateable locateable;
 		String exp; // String with expression to create point
 		GeoPointND point; // free point

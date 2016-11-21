@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.kernel.Kernel;
@@ -426,9 +425,8 @@ public class SpreadsheetColumnControllerW implements
 	// Renderer Class
 	// =========================================================
 
-	protected class ColumnHeaderRenderer {
+	protected static class ColumnHeaderRenderer {
 
-		private GColor defaultBackground;
 		/*private JLabel lblHeader;
 		private JButton btnTrace;
 		private BorderLayout layout;
@@ -448,7 +446,6 @@ public class SpreadsheetColumnControllerW implements
 			btnTrace.setBorderPainted(false);
 
 			setOpaque(true);*/
-			defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER;
 			/*setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
 					MyTableD.HEADER_GRID_COLOR));
 

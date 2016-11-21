@@ -254,7 +254,7 @@ public class AlgorithmSet {
 		return sb.toString();
 	}
 
-	private class Link {
+	private static class Link {
 		AlgoElement algo;
 		Link next;
 

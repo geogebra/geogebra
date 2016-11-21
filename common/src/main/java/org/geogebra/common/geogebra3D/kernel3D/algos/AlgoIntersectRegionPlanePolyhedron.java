@@ -60,7 +60,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * class extending Coords with reference to parent geo
 	 *
 	 */
-	private class CoordsWithParent extends Coords implements
+	private static class CoordsWithParent extends Coords implements
 			Comparable<CoordsWithParent> {
 
 		protected GeoElementND parent;
@@ -111,7 +111,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * bi-point for each intersection segment
 	 *
 	 */
-	private class Segment {
+	private static class Segment {
 		protected CoordsWithParent p1, p2;
 
 		public Segment(CoordsWithParent p1, CoordsWithParent p2) {
@@ -127,7 +127,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * @author mathieu
 	 *
 	 */
-	private class Vertices extends ArrayList<Coords> implements
+	private static class Vertices extends ArrayList<Coords> implements
 			Comparable<Vertices> {
 
 		// index for the lowest vertex
@@ -535,7 +535,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	}
 
 	@SuppressWarnings("serial")
-	private class VerticesList extends ArrayList<ArrayList<Coords>> {
+	private static class VerticesList extends ArrayList<ArrayList<Coords>> {
 
 		protected int cumulateSize = 0;
 

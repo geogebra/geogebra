@@ -76,7 +76,7 @@ public abstract class GeoGebraTubeExport {
 	 * 
 	 * @author Florian Sonner
 	 */
-	public class UploadResults {
+	public static class UploadResults {
 		private String status;
 		private String uid;
 		private String errorMessage;

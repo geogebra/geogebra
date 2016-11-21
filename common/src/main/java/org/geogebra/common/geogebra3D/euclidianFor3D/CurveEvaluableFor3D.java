@@ -25,7 +25,7 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 	 * @author mathieu
 	 *
 	 */
-	private class FunMustBeZero implements RealRootFunction {
+	private static class FunMustBeZero implements RealRootFunction {
 
 		private RealRootFunction parentFun;
 

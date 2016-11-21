@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class PolygonTriangulation {
 
-	private class MyTreeSet<E> extends TreeSet<E> {
+	private static class MyTreeSet<E> extends TreeSet<E> {
 
 		/**
 		 * 
@@ -539,7 +539,7 @@ public class PolygonTriangulation {
 	 * @author mathieu
 	 *
 	 */
-	public class TriangleFan extends ArrayList<Integer> {
+	public static class TriangleFan extends ArrayList<Integer> {
 
 		/**
 		 * 
@@ -587,7 +587,7 @@ public class PolygonTriangulation {
 
 	}
 
-	private class PolygonPoints extends TreeSet<Point> {
+	private static class PolygonPoints extends TreeSet<Point> {
 
 		/**
 		 * 

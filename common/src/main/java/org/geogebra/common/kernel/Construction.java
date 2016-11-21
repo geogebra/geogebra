@@ -1947,12 +1947,7 @@ public class Construction {
 		 */
 	}
 
-	/**
-	 * 
-	 * TODO: private again
-	 * 
-	 */
-	public class LabelComparator implements Comparator<GeoElement> {
+	private static class LabelComparator implements Comparator<GeoElement> {
 		public int compare(GeoElement ob1, GeoElement ob2) {
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;

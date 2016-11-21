@@ -200,7 +200,7 @@ public class MyArbitraryConstant {
 	 * construction protocol.
 	 *
 	 */
-	public class AlgoDependentArbconst extends AlgoElement {
+	public static class AlgoDependentArbconst extends AlgoElement {
 		private GeoElement constant;
 		private ConstructionElement outCE;
 

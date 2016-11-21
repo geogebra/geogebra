@@ -39,7 +39,7 @@ public class AdjustScreen {
 	private List<GeoButton> buttons = new ArrayList<GeoButton>();
 	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
 
-	private class HSliderComparator implements Comparator {
+	private static class HSliderComparator implements Comparator {
 		public int compare(Object o1, Object o2) {
 			double y1 = ((GeoNumeric) o1).getSliderY();
 			double y2 = ((GeoNumeric) o2).getSliderY();
@@ -50,7 +50,7 @@ public class AdjustScreen {
 		}
 	}
 
-	private class VSliderComparator implements Comparator {
+	private static class VSliderComparator implements Comparator {
 		public int compare(Object o1, Object o2) {
 			double x1 = ((GeoNumeric) o1).getSliderX();
 			double x2 = ((GeoNumeric) o2).getSliderX();
@@ -61,7 +61,7 @@ public class AdjustScreen {
 		}
 	}
 
-	private class ButtonComparator implements Comparator {
+	private static class ButtonComparator implements Comparator {
 		public int compare(Object o1, Object o2) {
 			int y1 = ((GeoButton) o1).getAbsoluteScreenLocY();
 			int y2 = ((GeoButton) o2).getAbsoluteScreenLocY();

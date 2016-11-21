@@ -394,7 +394,7 @@ public class CellRangeProcessor {
 		return ret;
 	}
 
-	class PointDimension {
+	static class PointDimension {
 		boolean doHorizontalPairs;
 		int c1;
 		int c2;

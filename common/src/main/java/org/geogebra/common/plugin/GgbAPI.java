@@ -834,7 +834,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// convert from 0,10,15,20,30
 		// to 0,1,2,3,4
 
-		Integer[] types = EuclidianView.getLineTypes();
 		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
 			if (type == EuclidianView.getLineType(i))
 				return i;

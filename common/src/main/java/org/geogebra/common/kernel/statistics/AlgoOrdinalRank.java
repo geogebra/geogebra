@@ -118,7 +118,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 	}
 
-	private class OrderedPair {
+	private static class OrderedPair {
 		public double x;
 		public int y;
 

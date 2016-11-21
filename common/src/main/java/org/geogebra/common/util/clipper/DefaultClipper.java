@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public class DefaultClipper extends ClipperBase {
-    private class IntersectNode implements Comparator<IntersectNode>{
+	private static class IntersectNode implements Comparator<IntersectNode> {
         Edge edge1;
         Edge Edge2;
         //private LongPoint pt;

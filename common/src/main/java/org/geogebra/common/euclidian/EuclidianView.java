@@ -172,7 +172,7 @@ public abstract class EuclidianView
 	/** kernel */
 	protected Kernel kernel;
 
-	public final static int[] lineTypes = {
+	private final static int[] lineTypes = {
 			EuclidianStyleConstants.LINE_TYPE_FULL,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_LONG,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT,
@@ -200,7 +200,7 @@ public abstract class EuclidianView
 
 	}
 
-	public final static int[] pointStyles = {
+	private final static int[] pointStyles = {
 			EuclidianStyleConstants.POINT_STYLE_DOT,
 			EuclidianStyleConstants.POINT_STYLE_CROSS,
 			EuclidianStyleConstants.POINT_STYLE_CIRCLE,

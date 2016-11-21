@@ -587,7 +587,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// DISTANCE FUNCTION
 	// /////////////////////////////////////
 
-	private class CurveCartesian3DDistanceFunction implements DistanceFunction {
+	private static class CurveCartesian3DDistanceFunction
+			implements DistanceFunction {
 
 		private Coords distCoords, distDirection;
 

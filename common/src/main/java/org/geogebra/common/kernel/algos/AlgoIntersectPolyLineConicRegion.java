@@ -658,7 +658,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * 
 	 * @author thilina
 	 */
-	private class CalcDetails {
+	private static class CalcDetails {
 		int segmentIndex, intersectPathcount;
 		Coords[] intersectPathCoords;
 

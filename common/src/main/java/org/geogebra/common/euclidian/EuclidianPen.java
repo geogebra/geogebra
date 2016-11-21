@@ -1809,7 +1809,7 @@ public class EuclidianPen {
 
 	}
 
-	private class RecoSegment {
+	private static class RecoSegment {
 		public RecoSegment() {
 		}
 
@@ -1820,7 +1820,7 @@ public class EuclidianPen {
 
 	}
 
-	private class Inertia {
+	private static class Inertia {
 		public Inertia() {
 		}
 

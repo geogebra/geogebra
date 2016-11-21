@@ -252,7 +252,7 @@ public class ColorProvider {
 
 	// MyMatchResult and MyLabelParamRegExp are
 	// inner classes used for matching labels/functions/commands
-	private class MyMatchResult {
+	private static class MyMatchResult {
 
 		int index;
 		String input;

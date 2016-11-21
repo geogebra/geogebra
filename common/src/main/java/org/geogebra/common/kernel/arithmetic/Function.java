@@ -1006,7 +1006,7 @@ public class Function extends FunctionNVar implements
 	/*
 	 * for root finding
 	 */
-	private class DerivFunction implements RealRootDerivFunction {
+	private static class DerivFunction implements RealRootDerivFunction {
 
 		private Function fun, realRootDerivative;
 		private double[] ret = new double[2];

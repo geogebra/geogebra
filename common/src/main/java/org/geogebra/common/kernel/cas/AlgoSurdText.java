@@ -1220,7 +1220,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * }
 	 */
 
-	private class IntRelationFinder {
+	private static class IntRelationFinder {
 
 		// constants (defined later)
 		private MyDecimal ZERO;

@@ -29,7 +29,7 @@ public class Hits3D extends Hits {
 	 * 
 	 * @author matthieu
 	 */
-	private class TreeSetOfDrawable3D extends TreeSet<Drawable3D> {
+	private static class TreeSetOfDrawable3D extends TreeSet<Drawable3D> {
 
 		private static final long serialVersionUID = 1L;
 

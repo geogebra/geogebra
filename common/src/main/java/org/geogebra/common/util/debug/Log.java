@@ -23,7 +23,7 @@ public abstract class Log {
 	/**
 	 * Logging level
 	 */
-	public class Level {
+	public static class Level {
 		/**
 		 * Log level priority
 		 */

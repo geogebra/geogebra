@@ -12,7 +12,7 @@ import org.geogebra.common.factories.AwtFactory;
  */
 public class SpreadsheetSettings extends AbstractSettings {
 
-	public class Defaults {
+	public static class Defaults {
 		public static final boolean SHOW_FORMULA_BAR = false;
 		public static final boolean SHOW_GRID = true;
 		public static final boolean SHOW_ROW_HEADER = true;

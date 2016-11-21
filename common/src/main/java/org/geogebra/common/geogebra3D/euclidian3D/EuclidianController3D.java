@@ -148,7 +148,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * Store infos for intersection curve
 	 */
-	public class IntersectionCurve {
+	public static class IntersectionCurve {
 		protected GeoElement geo1, geo2, result;
 		public Drawable3D drawable;
 		protected boolean hitted;
