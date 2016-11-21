@@ -397,10 +397,14 @@ public class EuclidianPen {
 		if (!isErasingEvent(e)) {
 			penPoints.clear();
 			addPointPenMode(e, hits);
-			// add point from press event to support click
-			penPoints.add(e.getPoint());
-			// will create the single point for pen tool
-			addPointsToPolyLine(penPoints);
+			// we need single point only for pen tool
+			// prevent creating points with freehand tool
+			if (!freehand) {
+				// add point from press event to support click
+				penPoints.add(e.getPoint());
+				// will create the single point for pen tool
+				addPointsToPolyLine(penPoints);
+			}
 		}
 	}
 
