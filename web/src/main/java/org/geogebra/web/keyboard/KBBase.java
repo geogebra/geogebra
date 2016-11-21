@@ -6,6 +6,7 @@ import java.util.Set;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
@@ -836,12 +837,21 @@ public abstract class KBBase extends PopupPanel {
 	 * @param processing
 	 *            the text field to be used
 	 */
-	public void setProcessing(KeyboardListener processing) {
+	public void setProcessing(KeyboardListener processing) {		
+		// checking if app is null and instance of AppW needed only avoid
+		// exceptions at checking feature. So at deleting feature check, you can
+		// delete "app != null && app instanceof AppW" too
+		if (app != null && app instanceof AppW
+				&& ((AppW) app).has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			if (processField != null && processField != processing) {
+				endEditing();
+			}
+		}
 		this.processField = processing;
 	}
 
-	public void setFieldEnabled(boolean b) {
-		processField.setEnabled(b);
+	public void endEditing() {
+		processField.endEditing();
 	}
 
 	protected void processAccent(String accent, KeyBoardButtonBase source) {

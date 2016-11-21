@@ -4,6 +4,7 @@ import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -105,8 +106,9 @@ public class AutocompleteProcessing implements KeyboardListener {
 		// overridden for RTI
 	}
 
-	public void setEnabled(boolean b) {
-		field.setEnabled(b);
-
+	public void endEditing() {
+		if (MyTableW.isAndroid() || MyTableW.isIPad()) {
+			field.setEnabled(false);
+		}
 	}
 }

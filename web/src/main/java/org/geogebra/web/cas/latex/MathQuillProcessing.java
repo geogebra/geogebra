@@ -201,7 +201,7 @@ public class MathQuillProcessing implements KeyboardListener {
 		return false;
 	}
 
-	public void setEnabled(boolean b) {
+	public void endEditing() {
 		// TODO Auto-generated method stub
 
 	}
