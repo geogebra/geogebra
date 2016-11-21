@@ -104,7 +104,7 @@ public class EuclidianController3DCompanion extends
 				// update point decorations
 				if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
 					((EuclidianController3D) ec).view3D
-							.updatePointDecorations(movedGeoPoint3D);
+							.updatePointDecorations();
 				}
 
 			}

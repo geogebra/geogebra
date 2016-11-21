@@ -113,8 +113,7 @@ public class EuclidianControllerInput3DCompanion extends
 					&& !ec.movedGeoPoint.hasPath()
 					&& !ec.movedGeoPoint.hasRegion()) {
 				// update point decorations
-				((EuclidianView3D) ec.view)
-						.updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
+				((EuclidianView3D) ec.view).updatePointDecorations();
 			}
 
 			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {

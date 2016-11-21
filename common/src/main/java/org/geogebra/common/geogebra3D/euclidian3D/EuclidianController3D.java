@@ -236,6 +236,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMovedGeoPoint(GeoElement geo) {
 
 		movedGeoPoint = (GeoPointND) geo;
+		((EuclidianView3D) view).setPointDecorations(movedGeoPoint);
 
 		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
@@ -1568,7 +1569,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
-		((EuclidianView3D) view).updatePointDecorations(null);
+		((EuclidianView3D) view).setPointDecorations(null);
 
 		if (isModeForMovingPoint(mode)) {
 			if (freePointJustCreated) {

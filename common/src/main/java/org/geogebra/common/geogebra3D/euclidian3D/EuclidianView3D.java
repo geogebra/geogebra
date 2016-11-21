@@ -252,7 +252,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private DrawAxis3D[] axisDrawable;
 	// point decorations
 	private DrawPointDecorations pointDecorations;
-	private boolean decorationVisible = false;
 	// preview
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D;
@@ -2804,21 +2803,24 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * update decorations for localizing point in the space if point==null, no
-	 * decoration will be drawn
+	 * update decorations for localizing point in the space
+	 *
+	 */
+	public void updatePointDecorations() {
+
+		pointDecorations.setWaitForUpdate();
+
+	}
+
+	/**
+	 * set point for point decorations for localizing point in the space. If
+	 * point==null, no decoration will be drawn
 	 *
 	 * @param point
 	 */
-	public void updatePointDecorations(GeoPoint3D point) {
+	public void setPointDecorations(GeoPointND point) {
 
-		if (point == null)
-			decorationVisible = false;
-		else {
-			decorationVisible = true;
-			pointDecorations.setPoint(point);
-		}
-
-		// Application.debug("point :\n"+point.getDrawingMatrix()+"\ndecorations :\n"+decorationMatrix);
+		pointDecorations.setPoint(point);
 
 	}
 
@@ -3523,7 +3525,7 @@ GRectangle selectionRectangle) {
 	}
 
 	protected boolean decorationVisible() {
-		return decorationVisible;
+		return pointDecorations.shouldBeDrawn();
 	}
 
 	/**
