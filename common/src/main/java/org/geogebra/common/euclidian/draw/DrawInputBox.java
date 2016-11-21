@@ -477,25 +477,32 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
+		GeoElement last = view.getTextField().getDrawTextField()
+				.getGeoElement();
+		if (last != null) {
+			Log.debug("LAST: " + last);
+
+		}
 		view.cancelBlur();
 		getBox().revalidate();
-		updateTextField();
-
 		getBox().setVisible(true);
+		attachTextField();
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			getTextField().requestFocus();
 		}
 	}
 
-	private void updateTextField() {
+	public void attachTextField() {
 
+		updateBoxPosition();
 		AutoCompleteTextField tf = getTextField();
-		// getBox().add(tf);
-		// view.add(getBox());
 
+		tf.setDrawTextField(this);
 		tf.setUsedForInputBox(geoInputBox);
 		tf.setVisible(true);
 		tf.setColumns(geoInputBox.getLength());
+		tf.setText(geoInputBox.getText());
+
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
 
@@ -510,15 +517,16 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		} else {
 			tf.prepareShowSymbolButton(true);
 		}
-		updateBoxPosition();
 
 	}
 
 	@Override
 	protected void hideWidget() {
+
 		if (!isSelectedForInput()) {
 			return;
 		}
+
 		getTextField().hideDeferred(getBox());
 
 	}
@@ -543,6 +551,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		return view.getBoxForTextField();
 	}
 
+	/**
+	 * Writes the real textfield's value to the GeoInputBox.
+	 */
+	public void apply() {
+		geoInputBox.setText(getTextField().getText());
+	}
 
 
 }

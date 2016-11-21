@@ -1767,8 +1767,16 @@ public abstract class EuclidianView
 							|| d.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
-					((CanvasDrawable) d).setWidgetVisible(true);
+					if (getTextField().hasFocus()) {
+						Log.debug("TF geo: "
+								+ getTextField().getDrawTextField()
+										.getGeoElement()
+								+ " tf text "
+								+ getTextField().getText());
+
+					}
 					focusTextField((GeoInputBox) geo);
+					((CanvasDrawable) d).setWidgetVisible(true);
 					return true;
 				}
 
