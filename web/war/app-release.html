@@ -16,6 +16,7 @@ var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
 var startDelay = 0;
+var analyticsVersion = 'GeoGebraWeb';
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>			
@@ -439,7 +440,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 		_gaq.push(['_setDomainName', 'geogebra.org']);
 		_gaq.push(['_setAllowLinker', true]);
 		_gaq.push(['_trackPageview']);
-		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
+		_gaq.push(['_trackEvent', 'Startup', 'Application', analyticsVersion]);
 
 		(function() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript';
