@@ -723,6 +723,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	public void removeDummyCursor() {
+		if (!dummyCursor) {
+			return;
+		}
 		String text = textField.getText();
 		int cpos = getCaretPosition();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);

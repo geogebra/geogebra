@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -817,7 +818,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 				public void onInsert(String text) {
 					field.removeDummyCursor();
 					doTextFieldActionPerformed();
-					field.addDummyCursor(field.getCaretPosition());
+					if (Browser.isAndroid() || Browser.isIPad()) {
+						field.addDummyCursor(field.getCaretPosition());
+					}
 				}
 			});
 		}
