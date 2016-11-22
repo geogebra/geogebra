@@ -333,6 +333,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 		public boolean hasAnimPanel() {
 			return animPanel != null;
 		}
+
+		@Override
+		public void setVisible(boolean b) {
+			if (isEditing()) {
+				Log.printStacktrace(
+						"[EDITING]  controls setVisible(" + b + ")");
+				return;
+			}
+			super.setVisible(b);
+		}
 	}
 
 	protected GeoElement geo;
@@ -992,10 +1002,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 			doUpdate();
 		}
 		// highlight only
-		setSelected(geo.doHighlighting());
+		boolean selected = geo.doHighlighting();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			selected = selected || commonEditingCheck();
+		}
+
+		setSelected(selected);
 
 		// select only if it is in selection really.
-		selectItem(geo.doHighlighting());
+		selectItem(selected);
 	}
 
 	public boolean commonEditingCheck() {
@@ -1565,6 +1580,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				geo.setAnimating(false);
 				av.startEditing(geo);
 				if (app.has(Feature.AV_INPUT_BUTTON_COVER)
+						&& !app.has(Feature.AV_SINGLE_TAP_EDIT)
 						&& controls != null) {
 					controls.setVisible(false);
 				}
@@ -1574,7 +1590,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 							public void execute() {
 								expandSize(getWidthForEdit());
-
 								if (styleBarCanHide()
 										&& (!getAlgebraDockPanel()
 												.isStyleBarVisible())) {
@@ -2209,7 +2224,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (isForceControls()) {
 			setForceControls(false);
-			controls.setVisible(controls.isVisible());
+			controls.setVisible(true);
+			return;
 
 		}
 
@@ -2227,9 +2243,24 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public void selectItem(boolean selected) {
+	private void selectOnTap(boolean selected) {
+		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			return;
+		}
 
-		toggleControls();
+		if (controls != null) {
+			boolean visible = selected || isEditing();
+			controls.setVisible(visible);
+		}
+
+	}
+
+	public void selectItem(boolean selected) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			selectOnTap(selected);
+		} else {
+			toggleControls();
+		}
 
 		if (selectedItem == selected) {
 			return;
@@ -2530,17 +2561,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			// content.add(getClearInputButton());
 			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			if (app.has(Feature.AV_PREVIEW)) {
-				content.insert(getClearInputButton(), 0);
-			} else {
-				content.add(getClearInputButton());
+				if (app.has(Feature.AV_PREVIEW)) {
+					content.insert(getClearInputButton(), 0);
+				} else {
+					content.add(getClearInputButton());
+				}
+				if (controls != null) {
+					controls.setVisible(false);
+				}
 			}
-			}
-			if (controls != null) {
-				controls.setVisible(false);
-			}
+
 			setLatexItemVisible(true);
 		}
 

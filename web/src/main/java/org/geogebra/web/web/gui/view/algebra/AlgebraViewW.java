@@ -1638,7 +1638,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			stopCurrentEditor();
 		}
 		if ((this.activeItem != null) && !sameItem
-				&& (!this.activeItem.commonEditingCheck())) {
+				&& (!this.activeItem.commonEditingCheck())
+				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			// removeCloseButton() on this would cause infinite recursion
 			activeItem.removeCloseButton();
 		}
