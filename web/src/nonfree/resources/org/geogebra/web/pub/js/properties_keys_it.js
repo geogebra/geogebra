@@ -280,7 +280,7 @@ __GGB__keysVar.it.command = {
     "DotPlot": "DiagrammaPunti",
     "DotPlot.Syntax": "[ <Lista dati grezzi>, <Impila punti adiacenti (facoltativo)>, <Fattore di scala (facoltativo)> ]",
     "DynamicCoordinates": "CoordinateDinamiche",
-    "DynamicCoordinates.Syntax": "[ <Punto>, <Numero>, <Numero> ]",
+    "DynamicCoordinates.Syntax": "[ <Punto>, <Ascissa>, <Ordinata> ]\n[ <Punto>, <Ascissa>, <Ordinata>, <Quota> ]",
     "Eccentricity": "Eccentricit\xe0",
     "Eccentricity.Syntax": "[ <Conica> ]",
     "Element": "Elemento",

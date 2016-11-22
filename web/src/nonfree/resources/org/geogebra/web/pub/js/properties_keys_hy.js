@@ -914,7 +914,7 @@ __GGB__keysVar.hy.command = {
     "Sphere": "\u0533\u0578\u0582\u0576\u0564",
     "Sphere.Syntax": "[ <\u053f\u0565\u057f>, <\u0547\u0561\u057c\u0561\u057e\u056b\u0572> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "\u054d\u056f\u057d\u0565\u0574\u0531\u0576\u056b\u0574\u0561\u0581\u056b\u0561\u0576",
     "StartAnimation.Syntax": "[ ]\n[ <\u054f\u0580\u0561\u0574\u0561\u0562\u0561\u0576\u0561\u056f\u0561\u0576 \u0561\u0580\u056a\u0565\u0584> ]\n[ <\u054d\u0578\u0572\u0576\u0561\u056f \u056f\u0561\u0574 \u056f\u0565\u057f>, <\u054d\u0578\u0572\u0576\u0561\u056f \u056f\u0561\u0574 \u056f\u0565\u057f>, ... ]\n[ <\u054d\u0578\u0572\u0576\u0561\u056f \u056f\u0561\u0574 \u056f\u0565\u057f>, <\u054d\u0578\u0572\u0576\u0561\u056f \u056f\u0561\u0574 \u056f\u0565\u057f>, ..., <\u054f\u0580\u0561\u0574\u0561\u0562\u0561\u0576\u0561\u056f\u0561\u0576 \u0561\u0580\u056a\u0565\u0584> ]",
     "StartLogging": "StartLogging",

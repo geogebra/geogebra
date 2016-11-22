@@ -914,7 +914,7 @@ __GGB__keysVar.cy.command = {
     "Sphere": "Sphere",
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "CychwynAnimeddio",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ... ]\n[ <Llithrydd neu Bwynt>, <Llithrydd neu Bwynt>, ..., <Boolean> ]",
     "StartLogging": "StartLogging",

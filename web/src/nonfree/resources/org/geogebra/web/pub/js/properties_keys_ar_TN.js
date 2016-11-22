@@ -914,7 +914,7 @@ __GGB__keysVar.ar_TN.command = {
     "Sphere": "\u0627\u0644\u0643\u0631\u0629",
     "Sphere.Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0627\u0644\u0634\u0639\u0627\u0639> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "\u0628\u062f\u0627\u064a\u0629_\u062a\u0646\u0634\u064a\u0637",
     "StartAnimation.Syntax": "[ ]\n[ <\u0645\u0646\u0637\u0642\u064a> ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, ... ]\n[ <\u0646\u0642\u0637\u0629>, <\u0646\u0642\u0637\u0629>, ..., <\u0645\u0646\u0637\u0642\u064a> ]",
     "StartLogging": "StartLogging",

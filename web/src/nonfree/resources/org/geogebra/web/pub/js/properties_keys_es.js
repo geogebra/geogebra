@@ -1687,7 +1687,7 @@ __GGB__keysVar.es.menu = {
     "Evaluate.Help": "Evaluaci\xf3n exacta",
     "ExamCAS": "GeoGebra Exam CAS",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
-    "ExamGraphingCalc.short": "Gr\xe1fica Examen",
+    "ExamGraphingCalc.short": "Examen Gr\xe1fica",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
     "Exercise.CreateNew": "Nuevo ejercicio",
     "Exit": "Salir",

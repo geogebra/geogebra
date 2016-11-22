@@ -914,7 +914,7 @@ __GGB__keysVar.sq.command = {
     "Sphere": "Sfera",
     "Sphere.Syntax": "[ <Pike>, <Numer i Rrezes> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "FilloLevizje",
     "StartAnimation.Syntax": "[ ]\n[ <Bulean> ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ... ]\n[ <Rreshqites ose Pike>, <Rreshqites ose Pike>, ..., <Bulean> ]",
     "StartLogging": "StartLogging",

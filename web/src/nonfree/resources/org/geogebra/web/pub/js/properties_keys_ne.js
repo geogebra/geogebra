@@ -914,7 +914,7 @@ __GGB__keysVar.ne.command = {
     "Sphere": "Sphere",
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "\u090f\u0928\u093f\u092e\u0947\u0938\u0928\u0936\u0941\u0930\u0941",
     "StartAnimation.Syntax": "[ ]\n[ <\u092c\u0941\u0932\u0928> ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d\u0926\u0941>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094d>, ... ]\n[ <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, <\u0938\u094d\u0932\u093e\u0908\u0921\u0930 \u0935\u093e \u092c\u093f\u0928\u094dt>, ..., <\u092c\u0941\u0932\u0928> ]",
     "StartLogging": "StartLogging",

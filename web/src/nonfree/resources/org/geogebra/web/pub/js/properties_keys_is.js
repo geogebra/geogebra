@@ -914,7 +914,7 @@ __GGB__keysVar.is.command = {
     "Sphere": "K\xfala",
     "Sphere.Syntax": "[ <Point>, <Radius> ]\n[ <Point>, <Point> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "SetjaHreyfingu\xc1",
     "StartAnimation.Syntax": "[ ]\n[ <Boole-gildi> ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ... ]\n[ <Rennistika e\xf0a punktur>, <Rennistika e\xf0a punktur>, ..., <Boole-gildi> ]",
     "StartLogging": "StartLogging",

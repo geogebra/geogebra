@@ -914,7 +914,7 @@ __GGB__keysVar.sr.command = {
     "Sphere": "Sfera",
     "Sphere.Syntax": "[ <ta\u010dka>, <du\u017eina polupre\u010dnika> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "Po\u010dniAnimaciju",
     "StartAnimation.Syntax": "[ ]\n[ <logi\u010dka vrednost> ]\n[ <kliza\u010d ili ta\u010dka>, <kliza\u010d ili ta\u010dka>, ... ]\n[ <kliza\u010d ili ta\u010dka>, <kliza\u010d ili ta\u010dka>, ..., <logi\u010dka vrednost> ]",
     "StartLogging": "StartLogging",

@@ -914,7 +914,7 @@ __GGB__keysVar.in.command = {
     "Sphere": "Bola",
     "Sphere.Syntax": "[ <Titik>, <Angka Radius> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]",
+    "Spline.Syntax": "[ <List of Points> ]\n[ <List of Points>, <Order \u2265 3> ]\n[ <List of Points>, <Order \u2265 3>, <Weight Function> ]",
     "StartAnimation": "MulaiAnimasi",
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Luncuran atau Titik>, <Luncuran atau Titik>, ... ]\n[ <Luncuran atau Titik>, <Luncuran atau Titik>, ..., <Boolean> ]",
     "StartLogging": "StartLogging",
