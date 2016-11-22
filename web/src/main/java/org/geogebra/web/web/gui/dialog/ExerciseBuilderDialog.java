@@ -286,7 +286,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 						.evaluateToNumeric(fractions.getText(), true);
 				if(num!=null){
 					assignment.setFractionForResult(res,
-							(float) num.getDouble());
+							(float) (num.getDouble() * 0.01));
+					fractions.setText(
+							num.toValueString(StringTemplate.defaultTemplate));
 				}
 			}
 		});
@@ -294,7 +296,9 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		fractions.addAttachHandler(new Handler() {
 
 			public void onAttachOrDetach(AttachEvent event) {
-				fractions.setValue(app.getKernel().format(assignment.getFractionForResult(res),StringTemplate.defaultTemplate));
+				fractions.setValue(app.getKernel().format(
+						assignment.getFractionForResult(res) * 100,
+						StringTemplate.defaultTemplate));
 			}
 		});
 

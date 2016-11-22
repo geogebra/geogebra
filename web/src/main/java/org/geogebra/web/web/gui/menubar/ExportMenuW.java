@@ -3,8 +3,8 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -38,16 +38,17 @@ public class ExportMenuW extends MenuBar {
 	private void initActions() {
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-		// translation not needed
-				.getSafeUri().asString(), "ggb", true), true, new MenuCommand(
-				app) {
+				// translation not needed
+				.getSafeUri().asString(), "ggb", true), true,
+				new MenuCommand(app) {
 
-			@Override
-			public void doExecute() {
-				hide();
-				app.getFileManager().export(app);
-			}
-		});
+					@Override
+					public void doExecute() {
+						hide();
+						dialogEvent("exportGGB");
+						app.getFileManager().export(app);
+					}
+				});
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
@@ -67,8 +68,7 @@ public class ExportMenuW extends MenuBar {
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), app);
-				app.dispatchEvent(new org.geogebra.common.plugin.Event(
-						EventType.OPEN_DIALOG, null, "exportPNG"));
+						dialogEvent("exportPNG");
 					}
 				});
 		if (!app.getLAF().isTablet()) {
@@ -79,11 +79,24 @@ public class ExportMenuW extends MenuBar {
 						@Override
 						public void doExecute() {
 							hide();
-							FileManagerW
-									.createRemoteAnimGif(app);
+							dialogEvent("exportGIF");
+							((DialogManagerW) app.getDialogManager())
+									.showAnimGifExportDialog();
 						}
 					});
 		}
+	}
+
+	/**
+	 * Fire dialog open event
+	 * 
+	 * @param string
+	 *            dialog name
+	 */
+	protected void dialogEvent(String string) {
+		app.dispatchEvent(new org.geogebra.common.plugin.Event(
+				EventType.OPEN_DIALOG, null, string));
+
 	}
 
 	/** hide the submenu */
