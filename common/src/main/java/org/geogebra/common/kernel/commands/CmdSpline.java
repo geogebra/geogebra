@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 
@@ -64,26 +63,22 @@ public class CmdSpline extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 3:
-			if (app.has(Feature.SPLINE_WEIGHT)) {
-				arg = resArgs(c);
-				if (!arg[2].isGeoFunctionNVar()) {
+			arg = resArgs(c);
+			if (!arg[2].isGeoFunctionNVar()) {
 					throw argErr(app, c.getName(), arg[2]);
+			}
+			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
+				int degree = (int) c.getArgument(1).evaluateDouble();
+				if (Double.isNaN(degree) || degree > ((GeoList) arg[0]).size()
+						|| degree < 3) {
+					throw argErr(app, c.getName(), c.getArgument(1));
 				}
-				if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
-					int degree = (int) c.getArgument(1).evaluateDouble();
-					if (Double.isNaN(degree)
-							|| degree > ((GeoList) arg[0]).size()
-							|| degree < 3) {
-						throw argErr(app, c.getName(), c.getArgument(1));
-					}
-					GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
-					AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-							(GeoList) arg[0], degreeNum,
-							(GeoFunctionNVar) arg[2]);
-					GeoCurveCartesianND list = algo.getSpline();
-					GeoElement[] ret = { list };
-					return ret;
-				}
+				GeoNumberValue degreeNum = (GeoNumberValue) arg[1];
+				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
+						(GeoList) arg[0], degreeNum, (GeoFunctionNVar) arg[2]);
+				GeoCurveCartesianND list = algo.getSpline();
+				GeoElement[] ret = { list };
+				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		default:
