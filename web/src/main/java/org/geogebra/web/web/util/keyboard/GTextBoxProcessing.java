@@ -123,4 +123,8 @@ public class GTextBoxProcessing implements KeyboardListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	public GTextBox getField() {
+		return field;
+	}
 }

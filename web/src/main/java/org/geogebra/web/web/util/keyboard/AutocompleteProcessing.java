@@ -109,6 +109,11 @@ public class AutocompleteProcessing implements KeyboardListener {
 	public void endEditing() {
 		if (Browser.isAndroid() || Browser.isIPad()) {
 			field.setEnabled(true);
+			field.removeDummyCursor();
 		}
+	}
+
+	public AutoCompleteTextFieldW getField() {
+		return field;
 	}
 }

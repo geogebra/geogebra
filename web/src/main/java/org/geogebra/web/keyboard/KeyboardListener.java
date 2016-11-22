@@ -77,4 +77,6 @@ public interface KeyboardListener {
 	public boolean isSVCell();
 
 	void endEditing();
+
+	Object getField();
 }

@@ -843,7 +843,8 @@ public abstract class KBBase extends PopupPanel {
 		// delete "app != null && app instanceof AppW" too
 		if (app != null && app instanceof AppW
 				&& ((AppW) app).has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-			if (processField != null && processField != processing) {
+			if (processField != null && processField.getField() != null
+					&& processField.getField() != processing.getField()) {
 				endEditing();
 			}
 		}

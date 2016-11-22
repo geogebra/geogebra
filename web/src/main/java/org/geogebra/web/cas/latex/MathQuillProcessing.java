@@ -205,4 +205,8 @@ public class MathQuillProcessing implements KeyboardListener {
 		// TODO Auto-generated method stub
 
 	}
+
+	public EquationEditorListener getField() {
+		return field;
+	}
 }

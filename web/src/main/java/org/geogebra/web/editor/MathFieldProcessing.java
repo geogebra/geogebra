@@ -93,4 +93,8 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	public MathFieldW getField() {
+		return mf;
+	}
+
 }
