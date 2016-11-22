@@ -264,6 +264,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		// and they are still correct (e.g. from eliminateFactorized).
 		// TODO: Find a better way for checking, now we assume that \"[ start is
 		// OK (or \"\").
+
+		Log.debug("input = " + input);
+
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"")) {
 			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)
@@ -282,6 +285,8 @@ public abstract class CASgiac implements CASGenericInterface {
 																	// right
 			}
 		}
+
+		Log.debug("result = " + result);
 
 		return result;
 	}

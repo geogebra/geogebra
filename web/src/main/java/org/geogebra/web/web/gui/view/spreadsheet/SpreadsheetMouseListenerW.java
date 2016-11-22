@@ -287,10 +287,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		postfix = text.substring(caretPos, text.length());
 
 		table.isDragging = true;
-		table.minColumn = column;
-		table.maxColumn = column;
-		table.minRow = row;
-		table.maxRow = row;
+
 	}
 
 	private void finishEditing() {
@@ -528,10 +525,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 					name1 = prefix + name1 + postfix;
 					editor.setLabel(name1);
-					table.minColumn = column1;
-					table.maxColumn = column2;
-					table.minRow = row1;
-					table.maxRow = row2;
 					table.repaint();
 				}
 				return;
@@ -705,10 +698,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				        4);
 				boolean overDnD = dndRect.contains(getAbsoluteX(event),
 				        getAbsoluteY(event));
-				if (table.isOverDnDRegion != overDnD) {
-					table.isOverDnDRegion = overDnD;
-					// TODO//setTableCursor();
-				}
+
 			}
 		}
 

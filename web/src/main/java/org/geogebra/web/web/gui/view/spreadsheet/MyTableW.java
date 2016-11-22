@@ -55,7 +55,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -91,8 +90,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
-
-	protected SpreadsheetColumnControllerW scc;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
@@ -135,18 +132,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected int leadSelectionRow = -1;
 	protected int leadSelectionColumn = -1;
 
-	public boolean[] selectedColumns;
-
 	// Used for rendering headers with ctrl-select
 	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
 	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
 
 	private int selectionType = MyTable.CELL_SELECT;
 
-	private boolean columnSelectionAllowed;
-	private boolean rowSelectionAllowed;
-
-	private boolean doShowDragHandle = true;
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
 	// Dragging vars
@@ -158,19 +149,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected boolean isOverDot = false;
 	protected boolean isDragging = false;
 
-	protected int minColumn = -1;
-	protected int maxColumn = -1;
-	protected int minRow = -1;
-	protected int maxRow = -1;
-
 	protected boolean showRowHeader = true;
 	protected boolean showColumnHeader = true;
-
-	protected boolean isOverDnDRegion = false;
-
-	public boolean isOverDnDRegion() {
-		return isOverDnDRegion;
-	}
 
 	protected boolean isEditing = false;
 
@@ -246,7 +226,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected SpreadsheetColumnHeaderW columnHeader;
 
 	private FlowPanel rowHeaderContainer;
-	private HandlerRegistration scrollHandlerRegistration;
 
 	public Widget getContainer() {
 		return tableWrapper;
@@ -323,7 +302,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectedCellRanges.add(new CellRange(app));
 
 		selectionType = MyTable.CELL_SELECT;
-		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		// add mouse and key listeners
 		// scc = new SpreadsheetColumnControllerW(app, this);
@@ -1298,36 +1276,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selType = MyTable.COLUMN_SELECT;
 		}
 
-		switch (selType) {
-
-		case MyTable.CELL_SELECT:
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(true);
-			break;
-
-		case MyTable.ROW_SELECT:
-			setColumnSelectionAllowed(false);
-			setRowSelectionAllowed(true);
-			break;
-
-		case MyTable.COLUMN_SELECT:
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(false);
-			break;
-
-		}
-
 		// in web, selectionType should do what setSelectionMode do too
 		this.selectionType = selType;
 
-	}
-
-	public void setColumnSelectionAllowed(boolean allow) {
-		columnSelectionAllowed = allow;
-	}
-
-	public void setRowSelectionAllowed(boolean allow) {
-		rowSelectionAllowed = allow;
 	}
 
 	public int getSelectionType() {

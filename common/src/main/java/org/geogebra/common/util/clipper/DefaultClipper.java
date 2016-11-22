@@ -586,7 +586,7 @@ public class DefaultClipper extends ClipperBase {
 
     private boolean usingPolyTree;
 
-	public ZFillCallback zFillFunction;
+	// public ZFillCallback zFillFunction;
 
     //------------------------------------------------------------------------------
 
@@ -615,7 +615,7 @@ public class DefaultClipper extends ClipperBase {
         reverseSolution = (REVERSE_SOLUTION & InitOptions) != 0;
         strictlySimple = (STRICTLY_SIMPLE & InitOptions) != 0;
 
-        zFillFunction = null;
+		// zFillFunction = null;
 
     }
 
@@ -1577,7 +1577,7 @@ public class DefaultClipper extends ClipperBase {
         final boolean e1Contributing = e1.outIdx >= 0;
         final boolean e2Contributing = e2.outIdx >= 0;
 
-        setZ( pt, e1, e2 );
+		// setZ( pt, e1, e2 );
 
         //if either edge is on an OPEN path ...
         if (e1.windDelta == 0 || e2.windDelta == 0) {
@@ -2037,7 +2037,7 @@ public class DefaultClipper extends ClipperBase {
                                     && ePrev.windDelta != 0) {
                         final DoublePoint ip = new DoublePoint( e.getCurrent() );
 
-                        setZ( ip, ePrev, e );
+						// setZ( ip, ePrev, e );
 
                         final OutPt op = addOutPt( ePrev, ip );
                         final OutPt op2 = addOutPt( e, ip );
@@ -2300,26 +2300,27 @@ public class DefaultClipper extends ClipperBase {
     /**
 	 * modified to be compatible with double
 	 */
-    private void setZ( DoublePoint pt, Edge e1, Edge e2 ) {
-        if (pt.getZ() != 0 || zFillFunction == null) {
-            return;
-        }
-        else if (pt.equals( e1.getBot() )) {
-            pt.setZ( e1.getBot().getZ() );
-        }
-        else if (pt.equals( e1.getTop() )) {
-            pt.setZ( e1.getTop().getZ() );
-        }
-        else if (pt.equals( e2.getBot() )) {
-            pt.setZ( e2.getBot().getZ() );
-        }
-        else if (pt.equals( e2.getTop() )) {
-            pt.setZ( e2.getTop().getZ() );
-        }
-        else {
-            zFillFunction.zFill( e1.getBot(), e1.getTop(), e2.getBot(), e2.getTop(), pt );
-        }
-    }
+	// private void setZ( DoublePoint pt, Edge e1, Edge e2 ) {
+	// if (pt.getZ() != 0 || zFillFunction == null) {
+	// return;
+	// }
+	// else if (pt.equals( e1.getBot() )) {
+	// pt.setZ( e1.getBot().getZ() );
+	// }
+	// else if (pt.equals( e1.getTop() )) {
+	// pt.setZ( e1.getTop().getZ() );
+	// }
+	// else if (pt.equals( e2.getBot() )) {
+	// pt.setZ( e2.getBot().getZ() );
+	// }
+	// else if (pt.equals( e2.getTop() )) {
+	// pt.setZ( e2.getTop().getZ() );
+	// }
+	// else {
+	// zFillFunction.zFill( e1.getBot(), e1.getTop(), e2.getBot(), e2.getTop(),
+	// pt );
+	// }
+	// }
 
     private void swapPositionsInAEL( Edge edge1, Edge edge2 ) {
 

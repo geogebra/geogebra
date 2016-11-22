@@ -50,11 +50,18 @@ public class GPoint {
 		return x;
 	}
 
+	public int getZ() {
+		return 0;
+	}
+
 	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof GPoint))
+	final public boolean equals(Object o) {
+
+		if (!(o instanceof GPoint)) {
 			return false;
-		return ((GPoint) o).x == x && ((GPoint) o).y == y;
+		}
+		return ((GPoint) o).x == x && ((GPoint) o).y == y
+				&& ((GPoint) o).getZ() == getZ();
 	}
 
 	@Override

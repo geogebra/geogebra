@@ -1355,7 +1355,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				if (r < n - 2) { // for r=n-2 we don't need to define these.
 									// Also l will be undefined
-					H.getEntry(r, r);
 					b = H.getEntry(r + 1, r);
 					l = H.getEntry(r + 1, r + 1);
 					d = b.multiply(b).add(l.multiply(l)).sqrt();

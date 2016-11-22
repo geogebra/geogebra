@@ -541,11 +541,6 @@ public class PolygonTriangulation {
 	 */
 	public static class TriangleFan extends ArrayList<Integer> {
 
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		private boolean isClockWise;
 		private int apex;
 

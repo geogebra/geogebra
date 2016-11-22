@@ -48,14 +48,6 @@ public class GPointWithZ extends GPoint {
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (!(o instanceof GPointWithZ))
-			return false;
-		return ((GPointWithZ) o).x == x && ((GPointWithZ) o).y == y
-				&& ((GPointWithZ) o).z == z;
-	}
-
-	@Override
 	public int hashCode() {
 		return (super.hashCode() << 16) ^ z;
 	}

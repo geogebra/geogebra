@@ -289,7 +289,7 @@ public class ColorProvider {
 
 	}
 
-	private class MyLabelParamRegExp {
+	private static class MyLabelParamRegExp {
 
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
 		String input;
