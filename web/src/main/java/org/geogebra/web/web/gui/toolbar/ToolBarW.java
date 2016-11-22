@@ -36,13 +36,6 @@ public class ToolBarW extends FlowPanel
 	private AppW app;
 	private int mode;
 
-	/**
-	 * Dock panel associated to this toolbar or null if this is the general
-	 * toolbar. Just a single toolbar might have no dock panel, otherwise the
-	 * ToolbarContainer logic will not work properly.
-	 */
-	private DockPanel dockPanel;
-
 	// panels for mobile submenu view
 	private FlowPanel submenuPanel;
 
@@ -115,7 +108,7 @@ public class ToolBarW extends FlowPanel
 	 *         the general toolbar.
 	 */
 	public DockPanel getDockPanel() {
-		return dockPanel;
+		return null;
 	}
 
 	/**
@@ -297,25 +290,19 @@ public class ToolBarW extends FlowPanel
 	protected Vector<ToolbarItem> getToolbarVec() {
 		Vector<ToolbarItem> toolbarVec;
 		try {
-			if (dockPanel != null) {
-				toolbarVec = ToolBar.parseToolbarString(
-				        dockPanel.getToolbarString());
-			} else {
-				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-				        .getToolbarDefinition());
-			}
+
+			toolbarVec = ToolBar.parseToolbarString(
+					app.getGuiManager().getToolbarDefinition());
+
 		} catch (Exception e) {
-			if (dockPanel != null) {
-				Log.debug("invalid toolbar string: "
-				        + dockPanel.getToolbarString());
-			} else {
-				Log.debug("invalid toolbar string: "
-				        + app.getGuiManager().getToolbarDefinition());
-			}
+
+			Log.debug("invalid toolbar string: "
+					+ app.getGuiManager().getToolbarDefinition());
+
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 		return toolbarVec;
-    }
+	}
 
 	public int getToolbarVecSize() {
 		return this.getToolbarVec().size();
@@ -324,9 +311,7 @@ public class ToolBarW extends FlowPanel
 	 * @return The default definition of this toolbar with macros.
 	 */
 	public String getDefaultToolbarString() {
-		if (dockPanel != null) {
-			return dockPanel.getDefaultToolbarString();
-		}
+
 		return ToolBar.getAllTools(app);
 	}
 

@@ -43,7 +43,7 @@ import org.geogebra.desktop.main.AppD;
  *
  * @version 2010-06-14
  */
-public class ToolNameIconPanel extends JPanel {
+public class ToolNameIconPanelD extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/** With of tool icon in pixels **/
@@ -72,7 +72,7 @@ public class ToolNameIconPanel extends JPanel {
 	 * @param app
 	 *            Application to which the Tool Creation Dialog belongs
 	 */
-	public ToolNameIconPanel(final AppD app, boolean edithappens) {
+	public ToolNameIconPanelD(final AppD app, boolean edithappens) {
 		this.app = app;
 		this.editHappens = edithappens;
 		GridBagLayout namePanelLayout = new GridBagLayout();

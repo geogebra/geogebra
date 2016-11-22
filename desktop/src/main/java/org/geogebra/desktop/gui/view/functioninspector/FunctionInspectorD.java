@@ -52,7 +52,6 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -107,8 +106,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 	private int pointCount = 9;
 
 	private SpecialNumberFormat nf;
-
-	private GeoElementSelectionListener sl;
 
 	/***************************************************************
 	 * Constructs a FunctionInspecor
@@ -601,10 +598,9 @@ public class FunctionInspectorD extends FunctionInspector implements
 		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!wrappedDialog.isModal()) {
-			getApp().setSelectionListenerMode(sl);
-		}
+		//
 	}
 
 	@Override

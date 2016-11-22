@@ -31,8 +31,8 @@ import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.ToolNameIconPanel;
-import org.geogebra.web.web.gui.ToolNameIconPanel.MacroChangeListener;
+import org.geogebra.web.web.gui.ToolNameIconPanelW;
+import org.geogebra.web.web.gui.ToolNameIconPanelW.MacroChangeListener;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.main.GeoGebraTubeExportW;
@@ -152,7 +152,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btClose;
 
-	private ToolNameIconPanel macroPanel;
+	private ToolNameIconPanelW macroPanel;
 	private int lastMacroIdx;
 
 	private Button btShare;
@@ -336,7 +336,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btShare.setText(loc.getMenu("Share") + " ...");
 
 		// name & icon
-		macroPanel = new ToolNameIconPanel(app);
+		macroPanel = new ToolNameIconPanelW(app);
 		macroPanel.setTitle(loc.getMenu("NameIcon"));
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);

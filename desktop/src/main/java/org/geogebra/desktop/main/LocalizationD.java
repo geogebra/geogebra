@@ -5,7 +5,6 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.main.LocalizationJre;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 
@@ -24,7 +23,6 @@ public class LocalizationD extends LocalizationJre {
 	/** path to javaui properties (without extension) */
 	public static final String RB_JAVA_UI = "/org/geogebra/desktop/properties/javaui";
 	private static final String RB_COLORS = "/org/geogebra/desktop/properties/colors";
-	private App app;
 
 	/**
 	 * @param dimension

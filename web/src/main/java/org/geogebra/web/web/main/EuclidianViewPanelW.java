@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Panel for Euclidian View
  */
-public class EuclidianViewPanel extends Composite implements HasWidgets {
+public class EuclidianViewPanelW extends Composite implements HasWidgets {
 
 	private AbsolutePanel evPanel;
 	private FocusPanel focusPanel;
@@ -20,7 +20,7 @@ public class EuclidianViewPanel extends Composite implements HasWidgets {
 	/**
 	 * Creates new EV panel
 	 */
-	public EuclidianViewPanel() {
+	public EuclidianViewPanelW() {
 		evPanel = new AbsolutePanel();
 		focusPanel = new FocusPanel();
 		focusPanel.setWidget(evPanel);

@@ -57,7 +57,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private FlowPanel opacityPanel, hatchFillPanel, imagePanel, anglePanel,
 			distancePanel;
-	private Label lblFillType;
 	private Label lblSelectedSymbol;
 	private Label lblMsgSelected;
 	private Button btnOpenFile;
@@ -557,10 +556,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		if (model.hasGeoButton() || model.hasGeoTurtle()) {
 			fillTypePanel.setVisible(false);
 			opacityPanel.setVisible(false);
-			if (lblFillType != null) {
-				lblFillType.setVisible(false);
-				lbFillType.setVisible(false);
-			}
 			if (model.hasGeoTurtle()) {
 				this.btnImage.setVisible(false);
 				this.btnClearImage.setVisible(true);

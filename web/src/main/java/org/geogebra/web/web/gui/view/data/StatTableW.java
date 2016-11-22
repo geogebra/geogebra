@@ -27,8 +27,6 @@ public class StatTableW extends FlowPanel {
 	private Localization loc;
 	private MyTable myTable;
 	private ScheduledCommand al;
-	private HashMap<GPointW, MyComboBoxEditor> comboBoxEditorMap;
-	// private HashMap<GPointW, MyComBoxRenderer> comboBoxRendererMap;
 
 	/**
 	 * @param app App
@@ -139,25 +137,6 @@ public class StatTableW extends FlowPanel {
 		}*/
 	}
 	
-	/**
-	 * Gets the selected index for a cell given cell comboBox
-	 * 
-	 * @param row
-	 * @param column
-	 * @return
-	 */
-	public Integer getComboCellEditorSelectedIndex(int row, int column) {
-		if (comboBoxEditorMap == null)
-			return null;
-
-		int modelColumn = myTable.convertColumnIndexToModel(column);
-		GPointW cell = new GPointW(row, modelColumn);
-		if (comboBoxEditorMap.keySet().contains(cell)) {
-			return comboBoxEditorMap.get(cell).getSelectedIndex();
-		}
-		return null;
-	}
-	
 	public void setLabels(String[] rowNames, String[] columnNames) {
 		setLabels(rowNames, columnNames, true);
 	}
@@ -223,20 +202,8 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		public boolean isCellEditable(int rowIndex, int colIndex) {
-			if (allowCellEdith == true) {
-				return true;
-			}
 			
-			if (comboBoxEditorMap == null) {
-				//TODO: finish this GWT style
-				return false;
-			}
-			
-			//TODO!
-			//int modelColumn = convertColumnIndexToModel(colIndex);
-			//Point cell = new Point(rowIndex, modelColumn);
-			//return comboBoxEditorMap.keySet().contains(cell);
-			return false;
+			return allowCellEdith;
 		}
 		
 		

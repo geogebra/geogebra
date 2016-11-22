@@ -15,7 +15,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.ToolNameIconPanel;
+import org.geogebra.web.web.gui.ToolNameIconPanelW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -59,7 +59,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	private TabPanel tabPanel;
 	private ListBox outputAddLB, outputLB;
 	private ListBox inputAddLB, inputLB;
-	private ToolNameIconPanel toolNameIconPanel;
+	private ToolNameIconPanelW toolNameIconPanel;
 	private Button btRemove;
 	private Button btDown;
 	private Button btUp;
@@ -161,7 +161,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		VerticalPanel inputObjectPanel = createInputOutputPanel(inputAddLB,
 				inputLB);
 
-		toolNameIconPanel = new ToolNameIconPanel(app);
+		toolNameIconPanel = new ToolNameIconPanelW(app);
 
 		// Create tabPanel and add Selectionhandler
 		tabPanel.add(outputObjectPanel, loc.getMenu("OutputObjects"));

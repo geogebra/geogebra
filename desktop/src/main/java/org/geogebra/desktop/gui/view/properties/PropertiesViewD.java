@@ -535,13 +535,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 				.getPanel(App.VIEW_PROPERTIES).updateTitleBar();
 	}
 
-	public void closeIfNotCurrentListener() {
-
-		if (wrappedPanel != app.getCurrentSelectionListener()) {
-			wrappedPanel.setVisible(false);
-		}
-	}
-
 	// //////////////////////////////////////////////////////
 	// VIEW INTERFACE
 	// //////////////////////////////////////////////////////

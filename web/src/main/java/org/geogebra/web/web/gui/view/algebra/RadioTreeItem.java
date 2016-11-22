@@ -1526,7 +1526,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (btnHelpToggle != null) {
 					helpPopup.setBtnHelpToggle(btnHelpToggle);
 				}
-			} else if (app != null && helpPopup.getWidget() == null) {
+			} else if (helpPopup.getWidget() == null) {
 				helpPanel = (InputBarHelpPanelW) app.getGuiManager()
 						.getInputHelpPanel();
 				helpPopup.add(helpPanel);

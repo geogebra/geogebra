@@ -695,7 +695,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
-	private TreeItem dummy;
 
 	/**
 	 * Fill this view and attach it to kernel
@@ -1089,10 +1088,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()) {
-			if(this.dummy != null){
-				removeItem(this.dummy);
-				this.dummy = null;
-			}
+
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY)
 					&& !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {

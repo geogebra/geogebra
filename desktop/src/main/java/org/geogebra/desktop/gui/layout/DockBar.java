@@ -38,7 +38,7 @@ public class DockBar extends JPanel implements SetLabels,
 	private LayoutD layout;
 
 	private PerspectivePanel popup;
-	private JPanel buttonPanel, slimSidebarPanel;
+	private JPanel slimSidebarPanel;
 	private JLabel lblIcon, lblIconRight;
 
 	private boolean isEastOrientation = true;
@@ -154,9 +154,7 @@ public class DockBar extends JPanel implements SetLabels,
 
 		removeAll();
 
-		if (showButtonBar) {
-			add(buttonPanel, BorderLayout.CENTER);
-		} else {
+		if (!showButtonBar) {
 			add(slimSidebarPanel, BorderLayout.CENTER);
 		}
 		revalidate();

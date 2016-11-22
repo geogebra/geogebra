@@ -41,8 +41,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 	public TextPreviewPanelW(Kernel kernel) {
 
 		super(kernel);
-		app = (AppW) kernel.getApplication();
-		ev = getEuclidianView();
 	}
 
 	/**

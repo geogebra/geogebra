@@ -42,7 +42,6 @@ public class MatchingBlockManager {
 	private MatchingBlockScanner scanner;
 	private Highlighter highlighter;
 	private MatchingBlockScanner.MatchingPositions smpos;
-	private Highlighter.HighlightPainter kwPainter;
 	private Highlighter.HighlightPainter ocPainter;
 	private Object first;
 	private Object second;
@@ -201,7 +200,7 @@ public class MatchingBlockManager {
 			if (mpos != null && tok == GeoGebraLexerConstants.OPENCLOSE) {
 				createHighlights(mpos, insideOc, ocIncluded, ocPainter);
 			} else if (mpos != null) {
-				createHighlights(mpos, insideKw, kwIncluded, kwPainter);
+				createHighlights(mpos, insideKw, kwIncluded, null);
 			}
 		}
 	}

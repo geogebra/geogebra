@@ -101,7 +101,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private JButton btnPaste;
 	private JScrollPane scroller;
 	private LocalizationD loc;
-	private MyRenderer renderer;
 
 	/***************************************************
 	 * Constructor
@@ -326,9 +325,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 	public void updateFonts() {
 
-		if (renderer != null) {
-			renderer.update();
-		}
 		functionTable.updateFonts();
 		if (helpTextPane != null) {
 			helpTextPane.setFont(app.getPlainFont());

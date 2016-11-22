@@ -17,7 +17,7 @@ public abstract class LocalizationJre extends Localization {
 			rbcolors, rbsymbol;
 
 	private Locale tooltipLocale = null;
-	private App app;
+	protected App app;
 
 	/**
 	 * @param dimension

@@ -2,10 +2,6 @@ package org.geogebra.web.web.gui.menubar;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.VerticalAlign;
-import com.google.gwt.dom.client.TableCellElement;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -122,18 +118,6 @@ public class GMenuBar extends MenuBar{
 			}
 		});
 
-		// adding the submenu icon
-		Element menuitem = ((MenuItem)ait[0]).getElement();
-		if (menuitem.hasParentElement()
-		        && (menuitem instanceof TableCellElement)
-		        && iconSubMenu != null) {
-			Element menuparent = menuitem.getParentElement();// tr
-			Element rb = DOM.createTD();
-			rb.setInnerHTML(iconSubMenu.getSafeHtml().asString());
-			rb.setClassName("subMenuIcon");
-			rb.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
-			menuparent.appendChild(rb);
-		}
 		return (MenuItem) ait[0];
 	}
 

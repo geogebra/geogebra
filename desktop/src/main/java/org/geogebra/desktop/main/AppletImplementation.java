@@ -48,7 +48,6 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
 
 import geogebra.GeoGebraAppletPreloader;
-import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -60,7 +59,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	protected AppD app;
 	protected Kernel kernel;
 	private JButton btOpen;
-	private DoubleClickListener dcListener;
 	private EuclidianViewD ev;
 	public boolean undoActive;
 	public boolean showToolBar, showToolBarHelp, showAlgebraInput,
@@ -80,7 +78,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	private String fileStr, customToolBar;
 	private int maxIconSize;
 	private JFrame wnd;
-	private JSObject browserWindow;
 	public int width, height;
 	// public static URL codeBase=null;
 	// public static URL documentBase=null;
@@ -133,7 +130,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public void dispose() {
 		app = null;
 		kernel = null;
-		browserWindow = null;
 		ev = null;
 
 		if (wnd != null) {
@@ -486,9 +482,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// clear applet
 		Container cp = applet.getContentPane();
 		cp.removeAll();
-		if (ev != null) {
-			ev.removeMouseListener(dcListener);
-		}
 
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.white);
@@ -817,21 +810,22 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public Object callJavaScript(String jsFunction, Object[] args) {
 		// Application.debug("callJavaScript: " + jsFunction);
 
-		initJavaScript();
-
-		try {
-			if (browserWindow != null) {
-				Log.debug("callJavaScript: " + jsFunction);
-				return browserWindow.call(jsFunction, args);
-			}
-
-			Log.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
-					+ jsFunction);
-		} catch (Exception e) {
-			Log.error("Warning: Error calling JavaScript function '"
-					+ jsFunction + "' (" + e.getLocalizedMessage() + ")");
-			// e.printStackTrace();
-		}
+		// initJavaScript();
+		//
+		// try {
+		// if (browserWindow != null) {
+		// Log.debug("callJavaScript: " + jsFunction);
+		// return browserWindow.call(jsFunction, args);
+		// }
+		//
+		// Log.debug("Warning: could not initialize JSObject.getWindow() for
+		// GeoGebraApplet when calling "
+		// + jsFunction);
+		// } catch (Exception e) {
+		// Log.error("Warning: Error calling JavaScript function '"
+		// + jsFunction + "' (" + e.getLocalizedMessage() + ")");
+		// // e.printStackTrace();
+		// }
 
 		return null;
 	}

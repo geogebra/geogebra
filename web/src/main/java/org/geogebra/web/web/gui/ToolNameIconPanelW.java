@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
-public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
+public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
         KeyUpHandler {
 	public interface MacroChangeListener {
 		void onMacroChange(Macro macro);
@@ -62,7 +62,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 	 * @param app
 	 *            application
 	 */
-	public ToolNameIconPanel(final App app) {
+	public ToolNameIconPanelW(final App app) {
 		super();
 
 		this.app = (AppW) app;

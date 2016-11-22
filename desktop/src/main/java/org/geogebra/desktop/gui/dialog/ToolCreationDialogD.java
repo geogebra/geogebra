@@ -51,7 +51,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.ToolNameIconPanel;
+import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -71,7 +71,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 	private final LocalizationD loc;
 	/** tabs */
 	protected JTabbedPane tabbedPane;
-	private ToolNameIconPanel namePanel;
+	private ToolNameIconPanelD namePanel;
 
 	private OutputListModel outputList;
 	private InputListModel inputList;
@@ -438,7 +438,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 					null);
 
 			// name & icon
-			namePanel = new ToolNameIconPanel(app, false);
+			namePanel = new ToolNameIconPanelD(app, false);
 			tabbedPane.addTab(app.getMenu("NameIcon"), null, namePanel, null);
 
 			app.setComponentOrientation(this);

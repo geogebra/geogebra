@@ -42,7 +42,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
 import org.geogebra.desktop.gui.MyImageD;
-import org.geogebra.desktop.gui.ToolNameIconPanel;
+import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -172,7 +172,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 			btShare.setText(loc.getMenu("Share") + " ...");
 
 			// name & icon
-			final ToolNameIconPanel namePanel = new ToolNameIconPanel(app, true);
+			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app, true);
 			namePanel.setBorder(BorderFactory.createTitledBorder(app
 					.getMenu("NameIcon")));
 			panel.add(namePanel, BorderLayout.CENTER);
