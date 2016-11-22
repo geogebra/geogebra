@@ -29,11 +29,8 @@ public class FieldFocusHandler implements FocusHandler {
 					if (Browser.isAndroid() || Browser.isIPad()) {
 						tb.setFocus(false);
 						event.preventDefault();
-						
-						tb.setEnabled(false);
 						((AutoCompleteTextFieldW) parent)
-								.addDummyCursor(((AutoCompleteTextFieldW) parent)
-										.getCaretPosition());
+							.startOnscreenKeyboardEditing();
 					} else {
 						tb.selectAll();
 					}

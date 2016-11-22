@@ -1,7 +1,6 @@
 package org.geogebra.web.web.util.keyboard;
 
 import org.geogebra.common.main.KeyboardLocale;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
@@ -107,10 +106,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 	}
 
 	public void endEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			field.setEnabled(true);
-			field.removeDummyCursor();
-		}
+		field.endOnscreenKeyboardEditing();
 	}
 
 	public AutoCompleteTextFieldW getField() {

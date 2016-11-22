@@ -30,6 +30,7 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
@@ -720,6 +721,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		textField.setValue(text);
 		textField.getValueBox().setCursorPos(caretPos);
 		dummyCursor = true;
+	}
+
+	public void addDummyCursor() {
+		int caretPos = getCaretPosition();
+		addDummyCursor(caretPos);
 	}
 
 	public void removeDummyCursor() {
@@ -1679,6 +1685,23 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void ensureEditing() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void endOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(true);
+			removeDummyCursor();
+			removeStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void startOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(false);
+			addDummyCursor();
+			addStyleName("disabledTextfieldEditing");
+		}
 
 	}
 
