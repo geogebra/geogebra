@@ -359,8 +359,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private boolean needsUpdate;
 	protected Label errorLabel;
 
-	private boolean singleTapEdit;
-
 	/** Clears input only when editing */
 	protected PushButton btnClearInput;
 
@@ -457,8 +455,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		loc = app.getLocalization();
 		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
-		singleTapEdit = app.has(Feature.AV_SINGLE_TAP_EDIT);
-
 		main = new FlowPanel();
 		content = new FlowPanel();
 		plainTextItem = new FlowPanel();
@@ -1553,7 +1549,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if (singleTapEdit) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}
 
@@ -1693,7 +1689,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		this.updateButtonPanelPosition();
-		if (singleTapEdit) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			edit(event.isControlKeyDown());
 		}
 	}
