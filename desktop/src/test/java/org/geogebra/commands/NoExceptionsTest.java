@@ -610,7 +610,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdDynamicCoordinates() {
-		t("DynamicCoordinates[ Pt1, n1, n1 ]");
+		t("DynamicCoordinates[ Pt1, n1, n2 ]");
+		t("DynamicCoordinates[ Pt1, n1, n2, n3 ]");
 
 	}
 
