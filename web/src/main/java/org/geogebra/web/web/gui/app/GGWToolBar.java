@@ -7,8 +7,10 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -280,31 +282,27 @@ pr.menu_header_undo(), null, 32);
 		info.setStyleName("examInfo");
 		fp.add(info);
 
+		final Localization loc = app.getLocalization();
+		final Settings settings = app.getSettings();
+		final ExamEnvironment exam = app.getExam();
+
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
 				if (app.getArticleElement().hasDataParamEnableGraphing()) {
-					app.getExam().setHasGraph(true);
-					boolean supportsCAS = app.getSettings().getCasSettings()
-							.isEnabled();
-					boolean supports3D = app.getSettings().getEuclidian(-1)
-							.isEnabled();
+					exam.setHasGraph(true);
+					boolean supportsCAS = settings.getCasSettings().isEnabled();
+					boolean supports3D = settings.getEuclidian(-1).isEnabled();
 					if (!supports3D && supportsCAS) {
-						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
-										app.getSettings()),
-								app.getMenu("ExamCAS"), null, null);
+						app.showMessage(true, exam.getLog(loc, settings),
+								loc.getMenu("ExamCAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
 						if (app.enableGraphing()) {
-							app.showMessage(true,
-									app.getExam().getLog(app.getLocalization(),
-											app.getSettings()),
-									app.getMenu("ExamGraphingCalc.long"), null,
+							app.showMessage(true, exam.getLog(loc, settings),
+									loc.getMenu("ExamGraphingCalc.long"), null,
 									null);
 						} else {
-							app.showMessage(true,
-									app.getExam().getLog(app.getLocalization(),
-											app.getSettings()),
+							app.showMessage(true, exam.getLog(loc, settings),
 									app.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
@@ -314,7 +312,9 @@ pr.menu_header_undo(), null, 32);
 				app.showMessage(true,
 						app.getExam().getLog(app.getLocalization(),
 								app.getSettings()),
-						app.getMenu("exam_log_header"), null, null);
+							app.getMenu("exam_log_header") + " "
+									+ app.getVersionString(),
+							null, null);
 				}
 
 			}

@@ -4,6 +4,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
@@ -82,14 +83,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 */
 	protected void exitAndResetExam() {
 		if (!ExamUtil.toggleFullscreen(false)) {
-			app.getExam().exit();
+
+			ExamEnvironment exam = app.getExam();
+			exam.exit();
 			boolean examFile = app.getArticleElement()
 					.hasDataParamEnableGraphing();
 			String buttonText = null;
 			AsyncOperation<String[]> handler = null;
 
 			if (examFile) {
-				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP) && app.getVersion().isAndroidWebview()) {
+				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP)
+						&& app.getVersion().isAndroidWebview()) {
 					handler = new AsyncOperation<String[]>() {
 						@Override
 						public void callback(String[] dialogResult) {
@@ -108,39 +112,37 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					};
 					buttonText = loc.getPlain("Restart");
 				}
-				app.getExam().setHasGraph(true);
+				exam.setHasGraph(true);
 				boolean supportsCAS = app.getSettings().getCasSettings()
 						.isEnabled();
 				boolean supports3D = app.getSettings().getEuclidian(-1)
 						.isEnabled();
 				if (!supports3D && supportsCAS) {
 					app.showMessage(true,
-							app.getExam().getLog(app.getLocalization(),
+							exam.getLog(app.getLocalization(),
 									app.getSettings()),
 							loc.getMenu("ExamCAS"), buttonText, handler);
 				} else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
 						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
+								exam.getLog(app.getLocalization(),
 										app.getSettings()),
 								loc.getMenu("ExamGraphingCalc.long"),
-								buttonText,
-								handler);
+								buttonText, handler);
 					} else {
 						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
+								exam.getLog(app.getLocalization(),
 										app.getSettings()),
-								loc.getMenu("ExamSimpleCalc.long"),
-								buttonText,
+								loc.getMenu("ExamSimpleCalc.long"), buttonText,
 								handler);
 					}
 				}
 
 			} else {
-				app.showMessage(true,
-						app.getExam().getLog(app.getLocalization(),
-								app.getSettings()),
-						loc.getMenu("exam_log_header"), buttonText, handler);
+				app.showMessage(true, exam.getLog(loc, app.getSettings()),
+						loc.getMenu("exam_log_header") + " "
+								+ app.getVersionString(),
+						buttonText, handler);
 			}
 			app.setExam(null);
 			app.resetViewsEnabled();
