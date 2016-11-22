@@ -104,6 +104,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean funcinsp;
 	private boolean macro;
 	private String sharingKey;
+	private int elemcntApplet;
 
 	public boolean isDeleted() {
 		return deleted;
@@ -639,4 +640,11 @@ public class Material implements Comparable<Material>, Serializable {
 				: sharingKey;
 	}
 
+	public int getElemcntApplet() {
+		return elemcntApplet;
+	}
+
+	public void setElemcntApplet(int elemcntApplet) {
+		this.elemcntApplet = elemcntApplet;
+	}
 }

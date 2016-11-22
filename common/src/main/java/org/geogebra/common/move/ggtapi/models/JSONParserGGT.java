@@ -66,6 +66,7 @@ public class JSONParserGGT {
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
 		material.setIs3d(getStringBoolean(obj, "is3d", false));
+		material.setElemcntApplet(getInt(obj, "elemcnt_applet", -1));
 		if (setLocalValues) {
 			material.setLocalID(getInt(obj, "localID", -1));
 			material.setAutosaveTimestamp(getInt(obj, "autoSaveTimestamp", 0));
