@@ -392,4 +392,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	}
 
+	@Override
+	public boolean isSliderItem() {
+		return true;
+	}
 }

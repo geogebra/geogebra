@@ -386,5 +386,9 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		controls.showAnimPanel(visible);
 	}
 
+	@Override
+	public boolean isSliderItem() {
+		return true;
+	}
 
 }

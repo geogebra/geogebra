@@ -1676,6 +1676,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		app.closePopups();
+
 		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
@@ -1688,10 +1689,20 @@ public abstract class RadioTreeItem extends AVTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		this.updateButtonPanelPosition();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			edit(event.isControlKeyDown());
+			boolean enable = true;
+			if (isSliderItem() && !isWidgetHit(plainTextItem, event)) {
+				enable = false;
+				stopEditing(getText(), null);
+			}
+
+			if (enable) {
+				edit(event.isControlKeyDown());
+				return;
+			}
 		}
+		this.updateButtonPanelPosition();
+
 	}
 
 	@Override
@@ -2720,6 +2731,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public boolean isLatex() {
 		return latex;
+	}
+
+	public boolean isSliderItem() {
+		return false;
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
