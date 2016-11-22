@@ -230,16 +230,6 @@ public class FormulaEditor extends View implements MathField {
     }
 
     @Override
-    protected void onConfigurationChanged(Configuration newConfig) {
-        float newFontScale = newConfig.fontScale;
-        if (Math.abs(mScale - newFontScale) > 0.001) {
-            mScale = newConfig.fontScale;
-            mMinHeight = 0;
-            mMathFieldInternal.update();
-        }
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int desiredWidth = mTeXIcon.getIconWidth();
         final int desiredHeight = (int) (Math.max(getMinHeigth(), mTeXIcon.getIconHeight()) + 0.5);
