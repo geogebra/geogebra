@@ -369,10 +369,8 @@ public class EuclidianViewD extends EuclidianView implements
 		return y;
 	}
 
-	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-		if(!PrintPreview.justPreview){
-			pageIndex = PrintPreview.computePageIndex(pageIndex);
-		}
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
+		int pageIndex = PrintPreview.adjustIndex(pageIndex0);
 		if (pageIndex > 0) {
 			return (NO_SUCH_PAGE);
 		}

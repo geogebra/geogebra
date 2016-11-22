@@ -1260,12 +1260,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 ************/
 
 	@Override
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 		
-		if(!PrintPreview.justPreview){
-			pageIndex = PrintPreview.computePageIndex(pageIndex);
-		}
+		int pageIndex = PrintPreview.adjustIndex(pageIndex0);
 
 		if (!isViewAttached) {
 			data.clearView();

@@ -81,8 +81,8 @@ public class PrintPreview extends JDialog {
 	protected ActionListener lst;
 
 	protected boolean kernelChanged = false;
-	public static boolean justPreview = true;
-	public static int[] targetPages;
+	private static boolean justPreview = true;
+	private static int[] targetPages;
 
 	private Book book;
 
@@ -793,5 +793,12 @@ public class PrintPreview extends JDialog {
 				throws IndexOutOfBoundsException {
 			return m_target.get(0);
 		}
+	}
+
+	public static int adjustIndex(int pageIndex0) {
+		if (!PrintPreview.justPreview) {
+			return PrintPreview.computePageIndex(pageIndex0);
+		}
+		return pageIndex0;
 	}
 }
