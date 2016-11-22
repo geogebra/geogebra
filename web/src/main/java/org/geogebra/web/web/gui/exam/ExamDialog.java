@@ -193,9 +193,17 @@ public class ExamDialog {
 	}
 
 
+	private void startExam(boolean needsFullscreen) {
+		startExam(box, app, needsFullscreen);
+	}
+
 	public static void startExam(DialogBoxW box, AppW app) {
+		startExam(box, app, true);
+	}
+
+	public static void startExam(DialogBoxW box, AppW app, boolean needsFullscreen) {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		if (app.getLAF().supportsFullscreen()) {
+		if (needsFullscreen && app.getLAF().supportsFullscreen()) {
 			ExamUtil.toggleFullscreen(true);
 		}
 		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
@@ -296,9 +304,12 @@ public class ExamDialog {
 					setLockTaskDialog();
 					return;
 				}
+				// go to full screen
+				updateFullscreenStatusOn();
 				// all set: start exam
 				ExamEnvironmentW.setJavascriptTargetToNone();
-				startExam(box, app);
+				// dont go to fullscreen if lock task is available
+				startExam(!lockTaskIsAvailable);
 				break;
 		}
 	}
@@ -318,8 +329,6 @@ public class ExamDialog {
 	}
 
 	private void setAirplaneModeDialog() {
-		updateFullscreenStatusOff();
-
 		instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
 		instruction.setVisible(true);
 
@@ -337,8 +346,6 @@ public class ExamDialog {
 			return;
 		}
 
-		updateFullscreenStatusOff();
-
 		instruction.setText(loc.getMenu("exam_accept_pin"));
 		instruction.setVisible(true);
 
@@ -352,8 +359,6 @@ public class ExamDialog {
 	}
 
 	private void setStartExamDialog() {
-		updateFullscreenStatusOn();
-
 		instruction.setVisible(false);
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
@@ -399,10 +404,6 @@ public class ExamDialog {
 
 	private static native boolean updateFullscreenStatusOn() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOn();
-	}-*/;
-
-	private static native boolean updateFullscreenStatusOff() /*-{
-		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOff();
 	}-*/;
 
 	private static native boolean checkLockTaskAvailable() /*-{
