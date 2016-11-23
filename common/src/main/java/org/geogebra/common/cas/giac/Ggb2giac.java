@@ -170,19 +170,20 @@ public class Ggb2giac {
 		// when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
 
 		p("Derivative.1",
-				"[[ggbderivarg0:=%0], regroup(diff(ggbderivarg0, "
+				"[[ggbderivarg0:=%0], regroup(regroup(diff(ggbderivarg0, "
 						+
 						// check for constant
 						"when(length(lname(ggbderivarg0))==0,x,"
-						+ "when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]");
+						+ "when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x)))))][1]");
 		p("Derivative.2",
 				"[[[ggbderiv2arg0:=%0],[ggbderiv2arg1:=%1]],"
 						+ "when(type(ggbderiv2arg1)==DOM_INT,"
-						+ "regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(%0)[0],x),ggbderiv2arg1))"
-						+ "," + "regroup(diff(ggbderiv2arg0,ggbderiv2arg1))"
+						+ "regroup(regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(%0)[0],x),ggbderiv2arg1)))"
+						+ ","
+						+ "regroup(regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))"
 						+ ")][1]");
 
-		p("Derivative.3", "regroup(diff(%0,%1,%2))");
+		p("Derivative.3", "regroup(regroup(diff(%0,%1,%2)))");
 
 		// det_minor for symbolic, see GGB-830
 		p("Determinant.1", "when(size(lname(%0))==0,det(%0),det_minor(%0))");
