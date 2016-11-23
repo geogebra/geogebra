@@ -19,8 +19,6 @@ public class DropDownList {
 	}
 
 	protected static final int BOX_ROUND = 8;
-	protected static final GColor FOCUS_COLOR = GColor.BLUE;
-	protected static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	protected static final int MAX_WIDTH = 40;
 
 	protected int scrollDelay = 100;
@@ -68,7 +66,7 @@ public class DropDownList {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? FOCUS_COLOR : NORMAL_COLOR);
+		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.LIGHT_GRAY);
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 	}
