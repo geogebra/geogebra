@@ -117,6 +117,7 @@ import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
@@ -2583,16 +2584,17 @@ new GPoint(row, column));
 			if (guiSize <= 0) {
 				app.setGUIFontSize(-1); // default
 			} else {
-				for (int i = 0; i < GeoGebraConstants.menuFontSizes.length; i++) {
-					if (GeoGebraConstants.menuFontSizes[i] >= guiSize) {
-						guiSize = GeoGebraConstants.menuFontSizes[i];
+				for (int i = 0; i < Util
+						.menuFontSizesLength(); i++) {
+					if (Util.menuFontSizes(i) >= guiSize) {
+						guiSize = Util.menuFontSizes(i);
 						break;
 					}
 				}
-				if (guiSize > GeoGebraConstants.menuFontSizes[GeoGebraConstants.menuFontSizes.length
-						- 1])
-					guiSize = GeoGebraConstants.menuFontSizes[GeoGebraConstants.menuFontSizes.length
-							- 1];
+				if (guiSize > Util
+						.menuFontSizes(Util.menuFontSizesLength() - 1))
+					guiSize = Util
+							.menuFontSizes(Util.menuFontSizesLength() - 1);
 				app.setGUIFontSize(guiSize);
 			}
 			return true;

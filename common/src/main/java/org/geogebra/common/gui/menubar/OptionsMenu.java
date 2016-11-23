@@ -3,6 +3,7 @@ package org.geogebra.common.gui.menubar;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Util;
 
 /**
  * This class is not a superclass of OptionsMenu, only common method stack
@@ -228,19 +229,19 @@ public class OptionsMenu {
 		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
 		// "24 pt",
 		// "28 pt", "32 pt" };
-		String[] fsfi = new String[GeoGebraConstants.menuFontSizes.length];
-		String[] fontActionCommands = new String[GeoGebraConstants.menuFontSizes.length];
+		String[] fsfi = new String[Util.menuFontSizesLength()];
+		String[] fontActionCommands = new String[Util.menuFontSizesLength()];
 
 		// find current pos
 		int fontSize = app.getFontSize();
 		int pos = 0;
-		for (int i = 0; i < GeoGebraConstants.menuFontSizes.length; i++) {
-			if (fontSize == GeoGebraConstants.menuFontSizes[i]) {
+		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
+			if (fontSize == Util.menuFontSizes(i)) {
 				pos = i;
 			}
 			fsfi[i] = app.getLocalization().getPlain("Apt",
-					GeoGebraConstants.menuFontSizes[i] + "");
-			fontActionCommands[i] = GeoGebraConstants.menuFontSizes[i] + " pt";
+					Util.menuFontSizes(i) + "");
+			fontActionCommands[i] = Util.menuFontSizes(i) + " pt";
 		}
 
 		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,

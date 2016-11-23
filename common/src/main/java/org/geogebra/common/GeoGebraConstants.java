@@ -217,8 +217,6 @@ public abstract class GeoGebraConstants {
 	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
 			-1, -1, 11, -1, -1, -1, -1, 12 };
 
-	/** available font sizes (will be reused in OptionsAdvanced) */
-	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
-			48 };
+
 
 }
