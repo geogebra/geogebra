@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -276,10 +277,21 @@ public class ToolTipManagerW {
 		if (left < 0) {
 			left = 0;
 		}
-		style.setLeft(left, Unit.PX);
-
-		style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
-
+		if (app.has(Feature.WHITEBOARD_APP)) {
+			// Toolbar on bottom - tooltip needs to be positioned higher so it
+			// doesn't overlap with the toolbar
+			if (app.getToolbarPosition() == 5) {
+				style.setLeft(left * 1.5, Unit.PX);
+				style.setTop((app.getHeight() - (kb ? 250 : 70) - 50), Unit.PX);
+				// Toolbar on top
+			} else {
+				style.setLeft(left, Unit.PX);
+				style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
+			}
+		} else {
+			style.setLeft(left, Unit.PX);
+			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
+		}
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
 			scheduleHideBottom();
