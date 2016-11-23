@@ -1,7 +1,5 @@
 package org.freehep.graphicsio.pdf;
 
-import java.text.SimpleDateFormat;
-
 /**
  * Specifies constants for use with the PDFWriter, PDFStream and PDFUtil.
  * <p>
@@ -48,7 +46,4 @@ public interface PDFConstants {
 
     public static final int MODE_CLIP = 7;
 
-    // Date Format for PDF: (D:YYYYMMDDHHmmSSOHH'mm')
-    public static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-            "yyyyMMddHHmmss");
 }

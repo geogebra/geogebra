@@ -29,9 +29,9 @@ import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
@@ -266,9 +266,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		tooltipTimeoutLabel = new JLabel();
 
 		// get tooltipTimeouts from MyXMLHandler
-		tooltipTimeouts = new String[MyXMLHandler.tooltipTimeouts.length];
-		for (int i = 0; i < MyXMLHandler.tooltipTimeouts.length - 1; i++)
-			tooltipTimeouts[i] = MyXMLHandler.tooltipTimeouts[i];
+		tooltipTimeouts = new String[GeoGebraConstants.tooltipTimeouts.length];
+		for (int i = 0; i < GeoGebraConstants.tooltipTimeouts.length - 1; i++)
+			tooltipTimeouts[i] = GeoGebraConstants.tooltipTimeouts[i];
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
@@ -513,20 +513,23 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	public void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
-		if (cbGUIFont.getItemCount() == MyXMLHandler.menuFontSizes.length + 1) {
+		if (cbGUIFont.getItemCount() == GeoGebraConstants.menuFontSizes.length
+				+ 1) {
 			int gfs = app.getGUIFontSize();
 			if (gfs <= -1) {
 				cbGUIFont.setSelectedIndex(0);
 			} else {
-				for (int j = 0; j < MyXMLHandler.menuFontSizes.length; j++) {
-					if (MyXMLHandler.menuFontSizes[j] >= gfs) {
+				for (int j = 0; j < GeoGebraConstants.menuFontSizes.length; j++) {
+					if (GeoGebraConstants.menuFontSizes[j] >= gfs) {
 						cbGUIFont.setSelectedIndex(j + 1);
 						break;
 					}
 				}
-				if (MyXMLHandler.menuFontSizes[MyXMLHandler.menuFontSizes.length - 1] < gfs) {
+				if (GeoGebraConstants.menuFontSizes[GeoGebraConstants.menuFontSizes.length
+						- 1] < gfs) {
 					cbGUIFont
-							.setSelectedIndex(MyXMLHandler.menuFontSizes.length);
+							.setSelectedIndex(
+									GeoGebraConstants.menuFontSizes.length);
 				}
 			}
 		}
@@ -634,7 +637,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 			if (index == 0)
 				app.setGUIFontSize(-1); // default
 			else
-				app.setGUIFontSize(MyXMLHandler.menuFontSizes[index - 1]);
+				app.setGUIFontSize(GeoGebraConstants.menuFontSizes[index - 1]);
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
 			if (index == 0)
@@ -849,12 +852,13 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		// "24 pt",
 		// "28 pt", "32 pt" };
 
-		String[] fontSizesStr = new String[MyXMLHandler.menuFontSizes.length + 1];
+		String[] fontSizesStr = new String[GeoGebraConstants.menuFontSizes.length
+				+ 1];
 		fontSizesStr[0] = loc.getPlain("Default");
 
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
+		for (int i = 0; i < GeoGebraConstants.menuFontSizes.length; i++) {
 			fontSizesStr[i + 1] = loc.getPlain("Apt",
-					MyXMLHandler.menuFontSizes[i] + ""); // eg "12 pt"
+					GeoGebraConstants.menuFontSizes[i] + ""); // eg "12 pt"
 		}
 
 		int selectedIndex = cbGUIFont.getSelectedIndex();

@@ -168,14 +168,6 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_DEFAULT_GEO = 501;
 
 
-	/** available font sizes (will be reused in OptionsAdvanced) */
-	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
-			48 };
-	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
-	final public static String[] tooltipTimeouts = new String[] { "1", "3", "5",
-			"10", "20", "30", "60", "0" };
-	/** available CAS timeout options (will be reused in OptionsCAS) */
-	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 
 
@@ -417,10 +409,10 @@ public class MyXMLHandler implements DocHandler {
 	 * @return timeout in seconds
 	 */
 	public static Integer getTimeoutOption(long integer) {
-		for (int i = 0; i < cbTimeoutOptions.length; i++)
-			if (cbTimeoutOptions[i].intValue() == integer)
-				return cbTimeoutOptions[i];
-		return cbTimeoutOptions[0];
+		for (int i = 0; i < GeoGebraConstants.cbTimeoutOptions.length; i++)
+			if (GeoGebraConstants.cbTimeoutOptions[i].intValue() == integer)
+				return GeoGebraConstants.cbTimeoutOptions[i];
+		return GeoGebraConstants.cbTimeoutOptions[0];
 	}
 
 	// ===============================================
@@ -2601,14 +2593,16 @@ new GPoint(row, column));
 			if (guiSize <= 0) {
 				app.setGUIFontSize(-1); // default
 			} else {
-				for (int i = 0; i < menuFontSizes.length; i++) {
-					if (menuFontSizes[i] >= guiSize) {
-						guiSize = menuFontSizes[i];
+				for (int i = 0; i < GeoGebraConstants.menuFontSizes.length; i++) {
+					if (GeoGebraConstants.menuFontSizes[i] >= guiSize) {
+						guiSize = GeoGebraConstants.menuFontSizes[i];
 						break;
 					}
 				}
-				if (guiSize > menuFontSizes[menuFontSizes.length - 1])
-					guiSize = menuFontSizes[menuFontSizes.length - 1];
+				if (guiSize > GeoGebraConstants.menuFontSizes[GeoGebraConstants.menuFontSizes.length
+						- 1])
+					guiSize = GeoGebraConstants.menuFontSizes[GeoGebraConstants.menuFontSizes.length
+							- 1];
 				app.setGUIFontSize(guiSize);
 			}
 			return true;

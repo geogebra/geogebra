@@ -14,6 +14,7 @@ package org.geogebra.common.gui.view.functioninspector;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -1114,12 +1115,12 @@ public class FunctionInspectorModel {
 	public void applyDecimalPlaces(int index) {
 		if (index < 8) // decimal places
 		{
-			printDecimals =	App.roundingMenuLookup[index];
+			printDecimals = GeoGebraConstants.roundingMenuLookup[index];
 			printFigures = -1;
 		} else // significant figures
 		{
 			printDecimals = -1;
-			printFigures = App.roundingMenuLookup[index];
+			printFigures = GeoGebraConstants.roundingMenuLookup[index];
 		}
 		listener.changedNumberFormat();
 	}

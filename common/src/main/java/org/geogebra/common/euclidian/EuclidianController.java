@@ -2396,7 +2396,7 @@ public abstract class EuclidianController {
 		// curve-curve
 		else if ((selCurves() >= 2)) {
 			GeoCurveCartesian[] curves = getSelectedCurves();
-			GeoElement[] ret = { null };
+			GeoElement[] ret;
 			checkZooming();
 
 			// multiple points disabled in ggb42, Reduce too slow

@@ -884,7 +884,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		// allToolsPanel.add(buildItem());
 
 		for (Integer mode : allTools) {
-			if (!usedTools.contains(mode) && mode != ToolBar.SEPARATOR) {
+			if (!usedTools.contains(mode) && !ToolBar.SEPARATOR.equals(mode)) {
 				DraggableTool tool = new DraggableTool(mode);
 				allToolsPanelContent.add(tool);
 			}
@@ -921,7 +921,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			ToolbarItem element = defTools.get(i);
 			Integer m = element.getMode();
 
-			if (m != ToolBar.SEPARATOR && element.getMenu() != null) {
+			if (!ToolBar.SEPARATOR.equals(m) && element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
 				final DraggableTool tool = new DraggableTool(menu.get(0));
 

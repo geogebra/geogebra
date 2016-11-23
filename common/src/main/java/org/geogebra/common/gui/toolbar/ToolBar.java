@@ -1030,7 +1030,7 @@ public class ToolBar {
 			Vector<Integer> menu = item.getMenu();
 			// iterate through menu backwards because items might be removed
 			for (int i = menu.size() - 1; i > -1; i--) {
-				if (menu.get(i) == ToolBar.SEPARATOR) {
+				if (ToolBar.SEPARATOR.equals(menu.get(i))) {
 					menu.remove(i);
 				}
 			}

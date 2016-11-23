@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import org.geogebra.common.main.App;
@@ -175,11 +176,13 @@ public class ProbabilityCalculatorStyleBarW extends
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < App.figuresLookup.length)
-				pos = App.figuresLookup[printFigures];
+			if (printFigures > 0
+					&& printFigures < GeoGebraConstants.figuresLookup.length)
+				pos = GeoGebraConstants.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[printDecimals];
+			if (printDecimals > 0
+					&& printDecimals < GeoGebraConstants.decimalsLookup.length)
+				pos = GeoGebraConstants.decimalsLookup[printDecimals];
 		}
 
 		try {

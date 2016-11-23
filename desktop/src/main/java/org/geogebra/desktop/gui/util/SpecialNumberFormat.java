@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.App;
@@ -105,11 +106,13 @@ public class SpecialNumberFormat implements ActionListener {
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < App.figuresLookup.length)
-				pos = App.figuresLookup[printFigures];
+			if (printFigures > 0
+					&& printFigures < GeoGebraConstants.figuresLookup.length)
+				pos = GeoGebraConstants.figuresLookup[printFigures];
 		} else {
-			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[printDecimals];
+			if (printDecimals > 0
+					&& printDecimals < GeoGebraConstants.decimalsLookup.length)
+				pos = GeoGebraConstants.decimalsLookup[printDecimals];
 		}
 
 		try {

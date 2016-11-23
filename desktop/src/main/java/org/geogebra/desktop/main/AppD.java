@@ -128,7 +128,6 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -2480,13 +2479,16 @@ ToolbarD.getAllTools(this));
 			return -1;
 		}
 		dmd /= 1000;
-		for (int i = 0; i < (MyXMLHandler.tooltipTimeouts.length - 1); i++) {
-			if (Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]) >= dmd) {
-				return Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]);
+		for (int i = 0; i < (GeoGebraConstants.tooltipTimeouts.length
+				- 1); i++) {
+			if (Integer.parseInt(GeoGebraConstants.tooltipTimeouts[i]) >= dmd) {
+				return Integer.parseInt(GeoGebraConstants.tooltipTimeouts[i]);
 			}
 		}
 		return Integer
-				.parseInt(MyXMLHandler.tooltipTimeouts[MyXMLHandler.tooltipTimeouts.length - 2]);
+				.parseInt(
+						GeoGebraConstants.tooltipTimeouts[GeoGebraConstants.tooltipTimeouts.length
+								- 2]);
 	}
 
 	@Override

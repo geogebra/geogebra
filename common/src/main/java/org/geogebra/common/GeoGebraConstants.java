@@ -210,6 +210,20 @@ public interface GeoGebraConstants {
 
 	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
 
-	public static int[] VALID_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
+	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
+			-1, 3, 5, 10, 15 };
+	final public static int decimalsLookup[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7 };
+	final public static int figuresLookup[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12 };
+
+	/** available font sizes (will be reused in OptionsAdvanced) */
+	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
+			48 };
+	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
+	final public static String[] tooltipTimeouts = new String[] { "1", "3", "5",
+			"10", "20", "30", "60", "0" };
+	/** available CAS timeout options (will be reused in OptionsCAS) */
+	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 }

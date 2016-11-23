@@ -78,6 +78,6 @@ public class Util extends Object {
 	 */
 	public static int getValidFontSize(int fontSize) {
 		return getNextHigestNumberInSortedList(fontSize,
-				GeoGebraConstants.VALID_FONT_SIZES);
+				GeoGebraConstants.menuFontSizes);
 	}
 }

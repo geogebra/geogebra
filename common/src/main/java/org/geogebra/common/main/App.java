@@ -181,12 +181,6 @@ public abstract class App implements UpdateSelection {
 	public static final int SPREADSHEET_INI_ROWS = 100;
 	// used by PropertyDialogGeoElement and MenuBarImpl
 	// for the Rounding Menus
-	final public static int roundingMenuLookup[] = {0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15};
-	final public static int decimalsLookup[] = {0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7};
-	final public static int figuresLookup[] = {-1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12};
 	/**
 	 * Rounding menu options (not internationalized)
 	 */

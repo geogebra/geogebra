@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.menubar;
 
-import org.geogebra.common.io.MyXMLHandler;
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 
@@ -162,13 +162,14 @@ public class OptionsMenu {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < App.figuresLookup.length)
-				pos = App.figuresLookup[figures];
+			if (figures > 0 && figures < GeoGebraConstants.figuresLookup.length)
+				pos = GeoGebraConstants.figuresLookup[figures];
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals >= 0 && decimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[decimals];
+			if (decimals >= 0
+					&& decimals < GeoGebraConstants.decimalsLookup.length)
+				pos = GeoGebraConstants.decimalsLookup[decimals];
 
 		}
 
@@ -227,19 +228,19 @@ public class OptionsMenu {
 		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
 		// "24 pt",
 		// "28 pt", "32 pt" };
-		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
-		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
+		String[] fsfi = new String[GeoGebraConstants.menuFontSizes.length];
+		String[] fontActionCommands = new String[GeoGebraConstants.menuFontSizes.length];
 
 		// find current pos
 		int fontSize = app.getFontSize();
 		int pos = 0;
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
-			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
+		for (int i = 0; i < GeoGebraConstants.menuFontSizes.length; i++) {
+			if (fontSize == GeoGebraConstants.menuFontSizes[i]) {
 				pos = i;
 			}
 			fsfi[i] = app.getLocalization().getPlain("Apt",
-					MyXMLHandler.menuFontSizes[i] + "");
-			fontActionCommands[i] = MyXMLHandler.menuFontSizes[i] + " pt";
+					GeoGebraConstants.menuFontSizes[i] + "");
+			fontActionCommands[i] = GeoGebraConstants.menuFontSizes[i] + " pt";
 		}
 
 		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,

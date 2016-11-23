@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.io.MyXMLHandler;
@@ -76,7 +77,7 @@ public class OptionsCASD extends OptionsCAS
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10, 1));
 
-		cbTimeout = new JComboBox(MyXMLHandler.cbTimeoutOptions);
+		cbTimeout = new JComboBox(GeoGebraConstants.cbTimeoutOptions);
 		cbTimeout.addActionListener(this);
 
 		timeoutLabel = new JLabel();
