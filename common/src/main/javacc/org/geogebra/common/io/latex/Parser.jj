@@ -194,6 +194,7 @@ void power(MathContainer currentField) : { }
         MathFunction power = new MathFunction(metaModel.getGeneral("^"));
         MathSequence mathSequence = new MathSequence();
         mathAtom(mathSequence);
+        mathSequence.removeBrackets();
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
      }
@@ -215,6 +216,7 @@ void fraction(MathContainer currentField) :
     	//handle denominator
         MathSequence mathSequence = new MathSequence();
         mathAtom(mathSequence);
+        mathSequence.removeBrackets();
         fraction.setArgument(1, mathSequence);
         currentField.addArgument(fraction);
     } 
