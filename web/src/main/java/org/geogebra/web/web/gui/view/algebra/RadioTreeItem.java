@@ -1675,6 +1675,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		boolean active = isEditing();
 		app.closePopups();
 
 		event.stopPropagation();
@@ -1692,7 +1693,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			boolean enable = true;
 			if (isSliderItem() && !isWidgetHit(plainTextItem, event)) {
 				enable = false;
-				stopEditing(getText(), null);
+				if (active) {
+					stopEditing(getText(), null);
+				}
 
 			}
 
