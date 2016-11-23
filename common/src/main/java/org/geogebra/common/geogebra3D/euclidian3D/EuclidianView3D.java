@@ -327,7 +327,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				"******************* 3D View being initialized ********************************");
 		Log.error(
 				"******************************************************************************");
-
+		Log.printStacktrace("");
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 

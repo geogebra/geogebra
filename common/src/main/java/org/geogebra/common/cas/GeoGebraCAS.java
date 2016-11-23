@@ -64,7 +64,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return casParser;
 	}
 
-	public CASGenericInterface getCurrentCAS() {
+	public synchronized CASGenericInterface getCurrentCAS() {
 		if (cas == null) {
 			app.setWaitCursor();
 			initCurrentCAS();

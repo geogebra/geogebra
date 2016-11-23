@@ -53,15 +53,16 @@ public class CompressedUpdateListener implements ActionListener {
 
 		GeoElement[] work;
 		lock.lock();
-		{
+		try {
 			updateTimer.start();
 			isWorking = true;
 
 			work = new GeoElement[updateSet.size()];
 			updateSet.toArray(work);
 			updateSet.clear();
+		} finally {
+			lock.unlock();
 		}
-		lock.unlock();
 
 		for (GeoElement geo : work) {
 			view.updateNow(geo);

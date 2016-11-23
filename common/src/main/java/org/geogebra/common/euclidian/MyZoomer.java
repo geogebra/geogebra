@@ -109,7 +109,8 @@ public abstract class MyZoomer {
 	 * @param doStoreUndo
 	 *            true to store undo info
 	 */
-	public void initRW(double rwx0, double rwx1, double rwy0, double rwy1,
+	public synchronized void initRW(double rwx0, double rwx1, double rwy0,
+			double rwy1,
 			int noOfSteps, boolean doStoreUndo) {
 		this.x0 = rwx0;
 		this.x1 = rwx1;
@@ -135,7 +136,7 @@ public abstract class MyZoomer {
 	 * @param doStoreUndo
 	 *            true to store undo info
 	 */
-	public void init(double ox, double oy, boolean doStoreUndo) {
+	public synchronized void init(double ox, double oy, boolean doStoreUndo) {
 		this.px = ox;
 		this.py = oy;
 		this.storeUndo = doStoreUndo;
@@ -146,7 +147,7 @@ public abstract class MyZoomer {
 	/**
 	 * Perform one zoom step
 	 */
-	protected void step() {
+	protected synchronized void step() {
 		counter++;
 		long time = System.currentTimeMillis() - startTime;
 		if ((counter == steps) || (time > MAX_TIME)) { // end of animation
@@ -222,7 +223,7 @@ public abstract class MyZoomer {
 	 * @param yzero
 	 *            standard yzero
 	 */
-	public void setStandardViewAfter(double xzero, double yzero) {
+	public synchronized void setStandardViewAfter(double xzero, double yzero) {
 		setStandard = true;
 		standardX = xzero;
 		standardY = yzero;

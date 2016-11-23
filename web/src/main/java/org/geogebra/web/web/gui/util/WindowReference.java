@@ -32,9 +32,9 @@ public class WindowReference implements EventRenderable {
 	/**
 	 * The instance of the opened window. We would like to have only one window opened in a given time
 	 */
-	static WindowReference instance = null;
+	static volatile WindowReference instance = null;
 
-	static LoginOperationW lOW;
+	static volatile LoginOperationW lOW;
 
 	private static Object lock = new Object();
 

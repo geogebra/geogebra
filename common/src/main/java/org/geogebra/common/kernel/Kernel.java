@@ -3129,7 +3129,7 @@ public class Kernel {
 	 *            (true when called from File -> New, false after loading a file
 	 *            otherwise the GlobalJavascript is wrongly deleted)
 	 */
-	public void clearConstruction(boolean clearScripts) {
+	public synchronized void clearConstruction(boolean clearScripts) {
 
 		if (clearScripts) {
 			resetLibraryJavaScript();
@@ -5105,7 +5105,7 @@ public class Kernel {
 	/**
 	 * clear cache (needed in web when CAS loaded)
 	 */
-	public void clearCasCache() {
+	public synchronized void clearCasCache() {
 		if (ggbCasCache != null) {
 			ggbCasCache.clear();
 		}

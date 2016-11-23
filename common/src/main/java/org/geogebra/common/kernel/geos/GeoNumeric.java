@@ -542,7 +542,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 *            if true, value is changed also for animation TODO reduce
 	 *            visibility again
 	 */
-	public void setValue(double x, boolean changeAnimationValue) {
+	public synchronized void setValue(double x, boolean changeAnimationValue) {
 		setDefinition(null);
 		if (Double.isNaN(x))
 			value = Double.NaN;

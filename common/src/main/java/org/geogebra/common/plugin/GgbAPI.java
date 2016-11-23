@@ -1327,7 +1327,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						.getEuclidianController().getPen().getPenColor());
 	}
 
-	public double getListValue(String objName, int index) {
+	public synchronized double getListValue(String objName, int index) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null || !geo.isGeoList()) {
 			return Double.NaN;
@@ -1556,7 +1556,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return;
 	}
 
-	public boolean getVisible(String label, int view) {
+	public synchronized boolean getVisible(String label, int view) {
 		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}
@@ -1587,10 +1587,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
 	}
 
-	public boolean getGridVisible() {
+	public synchronized boolean getGridVisible() {
 		return getGridVisible(1);
 	}
-	public boolean getGridVisible(int view) {
+
+	public synchronized boolean getGridVisible(int view) {
 		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}
