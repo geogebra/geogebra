@@ -171,7 +171,7 @@ public class StatTableW extends FlowPanel {
 	 * Table for StatTable
 	 *
 	 */
-	public class MyTable extends Grid /*do it with CellTable later*/ {
+	public static class MyTable extends Grid /* do it with CellTable later */ {
 
 		private boolean allowCellEdith;
 		private int firstRow = 0;

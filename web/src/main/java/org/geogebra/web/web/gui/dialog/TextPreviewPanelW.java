@@ -14,7 +14,6 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -31,8 +30,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TextPreviewPanelW extends TextPreviewer {
 
-	private AppW app;
-	private EuclidianViewW ev;
 	private MyEuclidianViewPanelForTextPreviewPanelW evPanel;
 
 	/**
@@ -81,21 +78,21 @@ public class TextPreviewPanelW extends TextPreviewer {
 		
 			rect = EuclidianStatic.drawMultilineLaTeX(app,
 					ev.getTempGraphics2D(textFont), previewGeo,
-					ev.getTempGraphics2D(textFont),
- textFont, GColor.BLACK,
+					ev.getTempGraphics2D(textFont), textFont, GColor.BLACK,
 					GColor.WHITE,
 							previewGeo.getTextString(), 0, 0, serif, null);
 			
 		} else {
 			
 			rect = EuclidianStatic.drawMultiLineText(app,
-			        previewGeo.getTextString(), 0, 0, ev.g2p, serif, textFont);
+					previewGeo.getTextString(), 0, 0, ((EuclidianViewW) ev).g2p,
+					serif, textFont);
 		}
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());
 		int w = (int) rect.getWidth() + padding;
 		int h = (int) rect.getHeight() + padding;
-		ev.setPreferredSize(w, h);
+		((EuclidianViewW) ev).setPreferredSize(w, h);
 		evPanel.setSize(w + "px", h + "px");
 
 	}
@@ -116,7 +113,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 			        kernel), showAxes, showGrid, EuclidianView.EVNO_GENERAL,
 			        null);
 		}
-		return ev;
+		return (EuclidianViewW) ev;
 	}
 
 	private MyEuclidianViewPanelForTextPreviewPanelW getEVPanel() {

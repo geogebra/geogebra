@@ -403,8 +403,7 @@ public class EuclidianPen {
 				// add point from press event to support click
 				penPoints.add(e.getPoint());
 				int lineType = penLineStyle;
-				setPenLineStyle(
-						new Integer(EuclidianStyleConstants.LINE_TYPE_FULL));
+				setPenLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
 				// will create the single point for pen tool
 				addPointsToPolyLine(penPoints);
 				setPenLineStyle(lineType);

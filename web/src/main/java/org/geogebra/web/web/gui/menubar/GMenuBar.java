@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.menubar;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
@@ -10,7 +9,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public class GMenuBar extends MenuBar{
 	private int separators = 0;
-	private AbstractImagePrototype iconSubMenu;
 	private String menuTitle;
 
 	public GMenuBar(boolean vertical, String menuTitle) {
@@ -22,7 +20,6 @@ public class GMenuBar extends MenuBar{
 			MenuResources menuResources) {
 	    super(vertical, menuResources);
 		this.menuTitle = menuTitle;
-		iconSubMenu = AbstractImagePrototype.create(menuResources.menuBarSubMenuIcon());
     }
 
 	public boolean isFirstItemSelected(){
