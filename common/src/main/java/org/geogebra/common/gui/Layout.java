@@ -24,6 +24,20 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class Layout {
+	/**
+	 * Perspectives used by current file (usually only "tmp")
+	 */
+	protected ArrayList<Perspective> perspectives;
+
+	/**
+	 * Layout settings.
+	 */
+	protected LayoutSettings settings;
+
+	/**
+	 * An array with the default perspectives.
+	 */
+	private static Perspective[] defaultPerspectives;
 
 	/**
 	 * Initialize the default perspectives
@@ -298,25 +312,14 @@ public abstract class Layout {
 	}
 
 	/**
-	 * Perspectives used by current file (usually only "tmp")
-	 */
-	protected ArrayList<Perspective> perspectives;
-
-	/**
-	 * Layout settings.
-	 */
-	protected LayoutSettings settings;
-
-	/**
-	 * An array with the default perspectives.
-	 */
-	protected static Perspective[] defaultPerspectives;
-
-	/**
 	 * Set a list of perspectives as the perspectives of this user and apply the
 	 * "tmp" perspective if one was found.
 	 * 
 	 * @param perspectives
+	 *            default perspectives
+	 * @param customPerspective
+	 *            user defined perspective (in xml saved as tmp)
+	 * 
 	 */
 	public void setPerspectives(ArrayList<Perspective> perspectives,
 			Perspective customPerspective) {
@@ -349,18 +352,38 @@ public abstract class Layout {
 
 	}
 
+	/**
+	 * @return default perspective 0 (graphing)
+	 */
 	protected Perspective getDefaultPerspective(){
 		return defaultPerspectives[0];
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return default perspective at given index
+	 */
 	public static Perspective getDefaultPerspectives(int i) {
 		return defaultPerspectives[i];
 	}
 
+	/**
+	 * @return number of default perspectives
+	 */
 	public static int getDefaultPerspectivesLength() {
 		return defaultPerspectives.length;
 	}
 
+	/**
+	 * Sets the grid and axes from perspective
+	 * 
+	 * @param app
+	 *            app to receive the settings
+	 * @param perspective
+	 *            perspective
+	 * @return true if changed
+	 */
 	protected boolean setEVsettingsFromPerspective(App app,
 			Perspective perspective) {
 		boolean changed = false;
@@ -410,6 +433,12 @@ public abstract class Layout {
 		return changed;
 	}
 
+	/**
+	 * Append current perspective XML to builder
+	 * 
+	 * @param sb
+	 *            xml builder
+	 */
 	public void getCurrentPerspectiveXML(StringBuilder sb) {
 		/**
 		 * Create a temporary perspective which is used to store the layout of
