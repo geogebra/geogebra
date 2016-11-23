@@ -3678,7 +3678,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * select dash style for hidden parts.
 	 * 
-	 * @author matthieu
+	 * @author Mathieu
 	 * 
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements

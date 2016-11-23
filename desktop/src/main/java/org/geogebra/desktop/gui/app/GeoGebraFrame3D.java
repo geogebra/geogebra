@@ -9,7 +9,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Frame for geogebra 3D.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class GeoGebraFrame3D extends GeoGebraFrame {
@@ -37,6 +37,7 @@ public class GeoGebraFrame3D extends GeoGebraFrame {
 		return createNewWindow(args, new GeoGebraFrame3D());
 	}
 
+	@Override
 	protected GeoGebraFrame copy() {
 		return new GeoGebraFrame3D();
 	}

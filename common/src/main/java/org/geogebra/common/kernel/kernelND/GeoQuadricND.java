@@ -25,16 +25,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
 
 
-/** Abstract class describing quadrics in n-dimension space.
- * Extended by GeoConic, GeoQuadric3D
- * @author matthieu
+/**
+ * Abstract class describing quadrics in n-dimension space. Extended by
+ * GeoConic, GeoQuadric3D
+ * 
+ * @author Mathieu
  *
  */
 public abstract class GeoQuadricND extends GeoElement implements GeoQuadricNDConstants,
 Traceable{
 	
 	
-	private int dimension;	
+	private int dimension;
+	/** matrix dimension */
 	protected int matrixDim;
 	
 	// types    

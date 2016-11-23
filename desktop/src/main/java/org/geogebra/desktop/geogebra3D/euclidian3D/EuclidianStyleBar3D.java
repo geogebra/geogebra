@@ -20,7 +20,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * StyleBar for 3D euclidian view
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class EuclidianStyleBar3D extends EuclidianStyleBarD {

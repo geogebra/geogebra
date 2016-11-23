@@ -2,8 +2,10 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Matrix.CoordSys;
 
-/** Simple interface for elements that have a coord sys
- * @author matthieu
+/**
+ * Simple interface for elements that have a coord sys
+ * 
+ * @author Mathieu
  *
  */
 public interface GeoCoordSys extends GeoDirectionND {

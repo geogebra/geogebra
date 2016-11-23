@@ -32,7 +32,7 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  * Class for cartesian curves in 3D
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements

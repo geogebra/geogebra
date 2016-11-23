@@ -12,13 +12,14 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  * Simple geo class for the whole space
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 
 	/**
 	 * @param c
+	 *            construction
 	 */
 	public GeoSpace(Construction c) {
 		super(c);

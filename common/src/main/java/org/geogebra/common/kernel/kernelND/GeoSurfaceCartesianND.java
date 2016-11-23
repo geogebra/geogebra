@@ -13,7 +13,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Abstract class for cartesian curves in any dimension
- * @author matthieu
+ * 
+ * @author Mathieu
  *
  */
 public abstract class GeoSurfaceCartesianND extends GeoElement implements

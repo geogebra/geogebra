@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 /**
  * Class for drawing surfaces.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class PlotterSurface {

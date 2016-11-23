@@ -8,11 +8,18 @@ import org.geogebra.common.kernel.commands.Commands;
 /**
  * Compute the bottom of a limited quadric
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param quadric
+	 *            quadric
+	 */
 	public AlgoQuadricEndBottom(Construction cons, String label,
 			GeoQuadric3DLimited quadric) {
 		super(cons, label, quadric);

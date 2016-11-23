@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 /**
  * buffers for openGL
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class GLBufferD implements GLBuffer {

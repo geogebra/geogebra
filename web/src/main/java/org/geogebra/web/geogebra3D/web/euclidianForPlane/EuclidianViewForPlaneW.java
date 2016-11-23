@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * 2D view for plane.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class EuclidianViewForPlaneW extends EuclidianViewW implements
@@ -34,6 +34,8 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 *            plane creating this view
 	 * @param settings
 	 *            euclidian settings
+	 * @param panelID
+	 *            id of the view
 	 */
 	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController ec, ViewCreator plane,

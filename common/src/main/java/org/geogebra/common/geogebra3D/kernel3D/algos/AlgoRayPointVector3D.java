@@ -23,10 +23,20 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  * Compute a line through a point and parallel to a vector
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            start point
+	 * @param v
+	 *            direction vector
+	 */
 	public AlgoRayPointVector3D(Construction cons, String label,
 			GeoPointND point, GeoVectorND v) {
 		super(cons, label, point, v);
@@ -38,8 +48,8 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 	}
 
 	@Override
-	protected GeoLine3D createLine(Construction cons) {
-		return new GeoRay3D(cons, getPoint());
+	protected GeoLine3D createLine(Construction cons1) {
+		return new GeoRay3D(cons1, getPoint());
 	}
 
 	@Override

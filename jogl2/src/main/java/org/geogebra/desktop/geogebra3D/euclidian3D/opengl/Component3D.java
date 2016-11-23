@@ -7,10 +7,10 @@ import java.awt.Point;
 import javax.media.opengl.GLEventListener;
 
 
-
 /**
  * Simple interface for GL JPanel/Canvas
- * @author matthieu
+ * 
+ * @author Mathieu
  *
  */
 

@@ -1,17 +1,17 @@
 package org.geogebra.common.euclidian;
 
-import com.google.j2objc.annotations.Weak;
-
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
+import com.google.j2objc.annotations.Weak;
+
 /**
  * Class for drawables in any dimension
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public abstract class DrawableND {

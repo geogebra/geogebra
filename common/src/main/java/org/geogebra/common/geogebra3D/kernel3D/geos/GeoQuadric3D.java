@@ -40,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * class describing quadric for 3D space
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  *         ( A[0] A[4] A[5] A[7]) matrix = ( A[4] A[1] A[6] A[8]) ( A[5] A[6]
  *         A[2] A[9]) ( A[7] A[8] A[9] A[3])
@@ -56,6 +56,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoQuadric3D(Construction c) {
 		super(c, 3);
 

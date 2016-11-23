@@ -57,9 +57,10 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
-/** Class for conic in any dimension.
+/**
+ * Class for conic in any dimension.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public abstract class GeoConicND extends GeoQuadricND

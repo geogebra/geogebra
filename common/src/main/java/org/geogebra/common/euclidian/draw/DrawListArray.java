@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Class for storing drawables includes in a DrawList
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class DrawListArray extends ArrayList<DrawableND> {

@@ -21,16 +21,20 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
 
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param point
+	 *            point
 	 * @param line
+	 *            orthogonal line
 	 */
 	public AlgoOrthoPlanePointLine(Construction cons, String label,
 			GeoPointND point, GeoLineND line) {

@@ -13,7 +13,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * StyleBar for view for plane
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
@@ -29,6 +29,7 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	 * Common constructor.
 	 * 
 	 * @param ev
+	 *            view
 	 */
 	public EuclidianStyleBarForPlaneD(EuclidianViewForPlaneD ev) {
 		super(ev);

@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * 3D hits (for picking, selection, ...)
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class Hits3D extends Hits {
@@ -27,7 +27,6 @@ public class Hits3D extends Hits {
 	/**
 	 * class for tree set of drawable 3D
 	 * 
-	 * @author matthieu
 	 */
 	private static class TreeSetOfDrawable3D extends TreeSet<Drawable3D> {
 

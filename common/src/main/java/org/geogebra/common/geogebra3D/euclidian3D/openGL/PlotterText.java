@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 /**
  * Class that manages text rendering
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class PlotterText {
@@ -15,6 +15,7 @@ public class PlotterText {
 	 * common constructor
 	 * 
 	 * @param manager
+	 *            openGL manager
 	 */
 	public PlotterText(Manager manager) {
 

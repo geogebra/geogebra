@@ -12,7 +12,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 /**
  * 2D view for plane.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class EuclidianViewForPlaneD extends EuclidianViewD implements

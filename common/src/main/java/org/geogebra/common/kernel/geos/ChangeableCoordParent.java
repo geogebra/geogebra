@@ -15,7 +15,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.
- * @author matthieu
+ * 
+ * @author Mathieu
  *
  */
 public class ChangeableCoordParent {

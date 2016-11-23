@@ -12,20 +12,18 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Extending ContextMenuGraphicsWindow class for 3D
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * default constructor
 	 * 
 	 * @param app
-	 * @param px
-	 * @param py
+	 *            application
 	 */
-	public ContextMenuGraphicsWindow3DD(AppD app, double px, double py) {
+	public ContextMenuGraphicsWindow3DD(AppD app) {
 		super(app);
 
 		setTitle("<html>" + app.getLocalization().getMenu("GraphicsView3D")

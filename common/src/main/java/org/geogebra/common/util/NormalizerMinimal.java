@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Normalizer to get string to lower case and without accents
  * 
- * @author matthieu / michael
+ * @author Mathieu / Michael
  *
  */
 public class NormalizerMinimal {

@@ -97,7 +97,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Controller for the 3D view
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public abstract class EuclidianController3D extends EuclidianController {
@@ -107,8 +107,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/** min/max values for moving a point */
 	private double[] xMinMax, yMinMax;
-
-	double[] zMinMax;
+	/** min/max values for moving a point along z */
+	protected double[] zMinMax;
 
 	/** current plane where the movedGeoPoint3D lies */
 	protected CoordMatrix4x4 currentPlane = null;
@@ -193,6 +193,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * common constructor
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public EuclidianController3D(App app) {
 		super(app);
@@ -213,6 +214,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * sets the view controlled by this
 	 * 
 	 * @param view
+	 *            euclidian view (3D assumed, not checked)
 	 */
 	public void setView3D(EuclidianView view) {
 		this.view3D = (EuclidianView3D) view;
@@ -3933,6 +3935,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
+	/**
+	 * @param geoRot
+	 *            rotated object
+	 * @param phi
+	 *            angle
+	 * @param line
+	 *            line
+	 * @return rotated object
+	 */
 	public GeoElement[] rotateAroundLine(GeoElement geoRot, GeoNumberValue phi,
 			GeoLineND line) {
 

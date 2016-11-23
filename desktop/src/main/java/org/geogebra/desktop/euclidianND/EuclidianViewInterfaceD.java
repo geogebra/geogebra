@@ -8,14 +8,15 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 
 /**
  * interface for 2D/3D view in desktop
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
-public interface EuclidianViewInterfaceD {
+public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 
 	/**
 	 * @return mouse position
@@ -46,6 +47,11 @@ public interface EuclidianViewInterfaceD {
 	 */
 	public EuclidianController getEuclidianController();
 
+	/**
+	 * @param scale
+	 *            image scale
+	 * @return image
+	 */
 	public GBufferedImage getExportImage(double scale);
 	
 	/**
@@ -71,14 +77,24 @@ public interface EuclidianViewInterfaceD {
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard);
 
+	/**
+	 * @return printing scale
+	 */
 	public double getPrintingScale();
 
-	public double getXscale();
-
+	/**
+	 * Update fonts
+	 */
 	public void updateFonts();
 
+	/**
+	 * @return export width in pixels
+	 */
 	public int getExportWidth();
 
+	/**
+	 * @return export height in pixels
+	 */
 	public int getExportHeight();
 
 }

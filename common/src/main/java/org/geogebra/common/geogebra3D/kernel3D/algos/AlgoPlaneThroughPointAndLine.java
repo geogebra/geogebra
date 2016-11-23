@@ -23,12 +23,22 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Compute a plane through a point and a line (or segment, ...)
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
 	private GeoLineND line; // input
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param line
+	 *            line in plane
+	 */
 	public AlgoPlaneThroughPointAndLine(Construction cons, String label,
 			GeoPointND point, GeoLineND line) {
 		super(cons, point);

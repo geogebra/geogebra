@@ -21,12 +21,20 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
- * @author matthieu
+ * @author Matthieu
  */
 public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 
 	private GeoSegmentND segment; // input
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param segment
+	 *            bisected segment
+	 */
 	public AlgoOrthoPlaneBisectorSegment(Construction cons, String label,
 			GeoSegmentND segment) {
 		super(cons);

@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 /**
  * computer used for extrusions (prism, cylinder)
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class ExtrusionComputer {
