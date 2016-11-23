@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.menubar;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Util;
@@ -164,14 +163,14 @@ public class OptionsMenu {
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
 			if (figures > 0
-					&& figures < GeoGebraConstants.figuresLookupLength())
-				pos = GeoGebraConstants.figuresLookup(figures);
+					&& figures < figuresLookupLength())
+				pos = figuresLookup(figures);
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
 			if (decimals >= 0
-					&& decimals < GeoGebraConstants.decimalsLookupLength())
-				pos = GeoGebraConstants.decimalsLookup(decimals);
+					&& decimals < decimalsLookupLength())
+				pos = decimalsLookup(decimals);
 
 		}
 
@@ -254,5 +253,32 @@ public class OptionsMenu {
 		updateMenuDecimalPlaces();
 		// updateMenuViewDescription();
 		updateMenuLabeling();
+	}
+
+	final private static int ROUNDING_MENU_LOOKUP[] = { 0, 1, 2, 3, 4, 5, 10,
+			15, -1, 3, 5, 10, 15 };
+	final private static int DECIMALS_LOOKUP[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7 };
+	final private static int FIGURES_LOOKUP[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12 };
+
+	public static int figuresLookup(int i) {
+		return FIGURES_LOOKUP[i];
+	}
+
+	public static int figuresLookupLength() {
+		return FIGURES_LOOKUP.length;
+	}
+
+	public static int decimalsLookup(int i) {
+		return DECIMALS_LOOKUP[i];
+	}
+
+	public static int decimalsLookupLength() {
+		return DECIMALS_LOOKUP.length;
+	}
+
+	public static int roundingMenuLookup(int i) {
+		return ROUNDING_MENU_LOOKUP[i];
 	}
 }

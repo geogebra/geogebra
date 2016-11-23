@@ -3,7 +3,7 @@ package org.geogebra.common;
 /**
  * Application-wide constants (version strings, URLs)
  */
-public abstract class GeoGebraConstants {
+public interface GeoGebraConstants {
 
 	// GeoGebra version
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
@@ -210,28 +210,7 @@ public abstract class GeoGebraConstants {
 
 	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
 
-	final public static int roundingMenuLookup[] = { 0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15 };
-	final private static int DECIMALS_LOOKUP[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7 };
-	final private static int FIGURES_LOOKUP[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12 };
 
-	public static int figuresLookup(int i) {
-		return FIGURES_LOOKUP[i];
-	}
-
-	public static int figuresLookupLength() {
-		return FIGURES_LOOKUP.length;
-	}
-
-	public static int decimalsLookup(int i) {
-		return DECIMALS_LOOKUP[i];
-	}
-
-	public static int decimalsLookupLength() {
-		return DECIMALS_LOOKUP.length;
-	}
 
 
 

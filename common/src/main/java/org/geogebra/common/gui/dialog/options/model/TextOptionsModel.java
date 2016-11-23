@@ -2,9 +2,9 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -128,14 +128,14 @@ public class TextOptionsModel extends OptionsModel {
 		int selItem = -1;
 
 		int decimals = geo0.getPrintDecimals();
-		if (decimals > 0 && decimals < GeoGebraConstants.decimalsLookupLength()
+		if (decimals > 0 && decimals < OptionsMenu.decimalsLookupLength()
 				&& !geo0.useSignificantFigures())
-			selItem = GeoGebraConstants.decimalsLookup(decimals);
+			selItem = OptionsMenu.decimalsLookup(decimals);
 
 		int figures = geo0.getPrintFigures();
-		if (figures > 0 && figures < GeoGebraConstants.figuresLookupLength()
+		if (figures > 0 && figures < OptionsMenu.figuresLookupLength()
 				&& geo0.useSignificantFigures())
-			selItem = GeoGebraConstants.figuresLookup(figures);
+			selItem = OptionsMenu.figuresLookup(figures);
 
 		listener.selectDecimalPlaces(selItem);
 		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
@@ -232,12 +232,12 @@ public class TextOptionsModel extends OptionsModel {
 			{
 				// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
 				text.setPrintDecimals(
-						GeoGebraConstants.roundingMenuLookup[decimals], true);
+						OptionsMenu.roundingMenuLookup(decimals), true);
 			} else // significant figures
 			{
 				// Application.debug("figures"+roundingMenuLookup[decimals]+"");
 				text.setPrintFigures(
-						GeoGebraConstants.roundingMenuLookup[decimals],
+						OptionsMenu.roundingMenuLookup(decimals),
 						true);
 			}
 			((GeoElement) text).updateRepaint();

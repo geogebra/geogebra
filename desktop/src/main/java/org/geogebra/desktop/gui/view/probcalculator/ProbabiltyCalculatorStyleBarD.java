@@ -12,7 +12,7 @@ import javax.swing.JToolBar;
 import javax.swing.MenuElement;
 import javax.swing.SwingConstants;
 
-import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import org.geogebra.common.main.App;
@@ -268,12 +268,12 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < GeoGebraConstants.figuresLookupLength())
-				pos = GeoGebraConstants.figuresLookup(printFigures);
+					&& printFigures < OptionsMenu.figuresLookupLength())
+				pos = OptionsMenu.figuresLookup(printFigures);
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < GeoGebraConstants.decimalsLookupLength())
-				pos = GeoGebraConstants.decimalsLookup(printDecimals);
+					&& printDecimals < OptionsMenu.decimalsLookupLength())
+				pos = OptionsMenu.decimalsLookup(printDecimals);
 		}
 
 		try {
