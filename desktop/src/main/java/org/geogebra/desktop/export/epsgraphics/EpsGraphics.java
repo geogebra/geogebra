@@ -342,7 +342,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void drawImage(GBufferedImage img, GAffineTransform xform) {
 		GAffineTransform at = getTransform();
 		transform(xform);
-		drawImage(img, 0, 0);
+		drawImage(img, 0, 0, img.getWidth(), img.getHeight());
 		setTransform(at);
 	}
 
