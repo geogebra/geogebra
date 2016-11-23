@@ -1224,7 +1224,7 @@ pr.menu_header_undo(), null, 32);
 	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
-			extraButtons = 90;
+			extraButtons = 95;
 		 }
 		 if(app.showMenuBar()){
 			extraButtons += 90;
