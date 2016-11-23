@@ -223,7 +223,5 @@ public interface GeoGebraConstants {
 	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
 	final public static String[] tooltipTimeouts = new String[] { "1", "3", "5",
 			"10", "20", "30", "60", "0" };
-	/** available CAS timeout options (will be reused in OptionsCAS) */
-	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 }

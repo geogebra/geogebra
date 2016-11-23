@@ -33,6 +33,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -403,17 +404,6 @@ public class MyXMLHandler implements DocHandler {
 		return consStep;
 	}
 
-	/**
-	 * @param integer
-	 *            option index
-	 * @return timeout in seconds
-	 */
-	public static Integer getTimeoutOption(long integer) {
-		for (int i = 0; i < GeoGebraConstants.cbTimeoutOptions.length; i++)
-			if (GeoGebraConstants.cbTimeoutOptions[i].intValue() == integer)
-				return GeoGebraConstants.cbTimeoutOptions[i];
-		return GeoGebraConstants.cbTimeoutOptions[0];
-	}
 
 	// ===============================================
 	// SAX ContentHandler methods
@@ -1963,7 +1953,7 @@ new GPoint(row, column));
 			int timeout = Integer.parseInt(attrs.get("timeout"));
 			if (timeout > 0)
 				app.getSettings().getCasSettings().setTimeoutMilliseconds(
-						getTimeoutOption(timeout) * 1000);
+						OptionsCAS.getTimeoutOption(timeout) * 1000);
 			return true;
 		} catch (Exception e) {
 			return false;

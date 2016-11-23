@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
+import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -4547,7 +4548,8 @@ public class Kernel {
 
 			sb.append("\t<casSettings");
 			sb.append(" timeout=\"");
-			sb.append(MyXMLHandler.getTimeoutOption(app.getSettings()
+			sb.append(OptionsCAS.getTimeoutOption(
+					app.getSettings()
 					.getCasSettings().getTimeoutMilliseconds() / 1000));
 			sb.append("\"");
 			sb.append(" expRoots=\"");
