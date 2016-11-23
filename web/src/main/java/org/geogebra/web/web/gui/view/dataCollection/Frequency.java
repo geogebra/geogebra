@@ -10,7 +10,7 @@ import org.geogebra.common.plugin.SensorLogger.Types;
 public class Frequency {
 	
 	/** time in ms to keep the last received data */
-	private final int TIME_TO_KEEP = 1000;
+	private final static int TIME_TO_KEEP = 1000;
 	
 	private ArrayList<Double> timestamps = new ArrayList<Double>();
 	private Types type;

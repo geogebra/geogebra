@@ -53,23 +53,23 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	private boolean areCallbacks = false;
 	private int morewidth = 0;
 
-	private final int ORIG_INFOWIDTH = 300;
+	private final static int ORIG_INFOWIDTH = 300;
 	private int INFOWIDTH;
 	/**
 	 * Current row height computed by the window size (y), by default it uses
 	 * ORIG_ROWHEIGHT.
 	 */
 	double ROWHEIGHT;
-	private final int ORIG_ROWHEIGHT = 30;
-	private final int MARGIN = 10;
-	private final int ROWMARGIN = 1;
+	private final static int ORIG_ROWHEIGHT = 30;
+	private final static int MARGIN = 10;
+	private final static int ROWMARGIN = 1;
 
-	private final int ORIG_MOREWIDTH = 140;
+	private final static int ORIG_MOREWIDTH = 140;
 	private int MOREWIDTH;
 
-	private final int ORIG_OKHEIGHT = 30;
+	private final static int ORIG_OKHEIGHT = 30;
 	private int OKHEIGHT;
-	private final int ORIG_OKWIDTH = 140;
+	private final static int ORIG_OKWIDTH = 140;
 	private int OKWIDTH;
 
 	public void showDialog(String title, final RelationRow[] relations, App app) {

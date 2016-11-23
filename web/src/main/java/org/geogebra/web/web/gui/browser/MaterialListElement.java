@@ -49,7 +49,7 @@ public class MaterialListElement extends FlowPanel implements
 		Default, Selected, Disabled;
 	}
 	
-	private final int MAX_TITLE_HEIGHT = 40;
+	private final static int MAX_TITLE_HEIGHT = 40;
 	private FlowPanel materialElementContent;
 	private SimplePanel previewPicturePanel;
 	private FlowPanel background;

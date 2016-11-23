@@ -19,7 +19,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class SingularWebService {
 
-	private final int GET_REQUEST_MAX_SIZE = 2000;
+	private final static int GET_REQUEST_MAX_SIZE = 2000;
 
 	private int timeout = SingularWSSettings.getTimeout();
 	private final String testConnectionCommand = "t";
@@ -31,11 +31,12 @@ public class SingularWebService {
 	private static String locusLib = "";
 	private static boolean fastConn;
 
-	private final String[] SINGULAR_LIB_GROBCOVs = { "grobcovG", "grobcovF2m",
+	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcovG",
+			"grobcovF2m",
 			"grobcovC1", "grobcovC0" };
 
-	private final int CONNECTION_SPEED_NO_TESTS = 3;
-	private final int CONNECTION_SPEED_THRESHOLD = 100;
+	private final static int CONNECTION_SPEED_NO_TESTS = 3;
+	private final static int CONNECTION_SPEED_THRESHOLD = 100;
 
 	/**
 	 * Creates a Singular webservice connection handler

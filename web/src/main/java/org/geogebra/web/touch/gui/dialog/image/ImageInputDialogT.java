@@ -22,7 +22,7 @@ import com.googlecode.gwtphonegap.client.camera.PictureOptions;
 public class ImageInputDialogT extends UploadImageDialog {
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;
-	private final int PICTURE_QUALITY = 25;
+	private static final int PICTURE_QUALITY = 25;
 	private SimplePanel cameraPanel;
 	private SimplePanel picturePanel;
 	private Label camera;

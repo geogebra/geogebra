@@ -42,8 +42,8 @@ import javax.sound.midi.Track;
  */
 public final class MidiEventManager
 {
-    private final int CHANNELS = 16;
-    private final int LAYERS = 16;
+	private final static int CHANNELS = 16;
+	private final static int LAYERS = 16;
     private byte currentTrack = 0;
     private byte[] currentLayer = new byte[CHANNELS];
     private long time[][] = new long[CHANNELS][LAYERS];
