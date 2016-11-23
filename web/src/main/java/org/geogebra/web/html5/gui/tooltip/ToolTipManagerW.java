@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui.tooltip;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -17,8 +17,6 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ScrollEvent;
-import com.google.gwt.user.client.Window.ScrollHandler;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -79,11 +77,10 @@ public class ToolTipManagerW {
 	private Label helpLabel;
 
 	private String oldText = "";
-
+	/** last mouse x coord */
 	int mouseX = 0;
+	/** last mouse y coord */
 	int mouseY = 0;
-	int scrollLeft = 0;
-	int scrollTop = 0;
 
 	private Timer timer, bottomTimer;
 	private boolean blockToolTip = true;
@@ -192,18 +189,33 @@ public class ToolTipManagerW {
 
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
-				if (helpURL != null) {
-					openWindow(helpURL);
-					hideAllToolTips();
-				}
+				openHelp();
 			}
 		});
 	}
 
+	/**
+	 * Open current help URL in browser / webview
+	 */
+	protected void openHelp() {
+		if (helpURL != null) {
+			openWindow(helpURL);
+			hideAllToolTips();
+		}
+
+	}
+
+	/**
+	 * @return whether tooltips are blocked
+	 */
 	public boolean isToolTipBlocked() {
 		return blockToolTip;
 	}
 
+	/**
+	 * @param blockToolTip
+	 *            whether to block tooltips
+	 */
 	public void setBlockToolTip(boolean blockToolTip) {
 		this.blockToolTip = blockToolTip;
 	}
@@ -220,6 +232,8 @@ public class ToolTipManagerW {
 	 *            {@link ToolTipLinkType}
 	 * @param app
 	 *            app for positioning
+	 * @param kb
+	 *            whether keyboard is open
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
 			ToolTipLinkType link, AppW app, boolean kb) {
@@ -277,21 +291,17 @@ public class ToolTipManagerW {
 		if (left < 0) {
 			left = 0;
 		}
-		if (app.has(Feature.WHITEBOARD_APP)) {
 			// Toolbar on bottom - tooltip needs to be positioned higher so it
 			// doesn't overlap with the toolbar
-			if (app.getToolbarPosition() == 5) {
-				style.setLeft(left * 1.5, Unit.PX);
-				style.setTop((app.getHeight() - (kb ? 250 : 70) - 50), Unit.PX);
-				// Toolbar on top
-			} else {
-				style.setLeft(left, Unit.PX);
-				style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
-			}
+		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
+			style.setLeft(left * 1.5, Unit.PX);
+			style.setTop((app.getHeight() - (kb ? 250 : 70) - 50), Unit.PX);
+			// Toolbar on top
 		} else {
 			style.setLeft(left, Unit.PX);
 			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
 		}
+
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
 			scheduleHideBottom();
@@ -306,6 +316,8 @@ public class ToolTipManagerW {
 	 * @param closeAutomatic
 	 *            whether the message should be closed automatically after
 	 *            dismissDelay milliseconds
+	 * @param app
+	 *            application
 	 */
 	public void showBottomMessage(String text, boolean closeAutomatic, AppW app) {
 		if (text == null || "".equals(text)) {
@@ -346,6 +358,9 @@ public class ToolTipManagerW {
 		$wnd.open(url);
 	}-*/;
 
+	/**
+	 * Hide the bottom tooltip
+	 */
 	public void hideBottomInfoToolTip() {
 		cancelTimer();
 		bottomInfoTipPanel.setVisible(false);
@@ -428,19 +443,7 @@ public class ToolTipManagerW {
 			}
 		});
 
-		// TODO: is this needed?
-		// observe scroll event, so we can offset x and y for toolTip location
-		Window.addWindowScrollHandler(new ScrollHandler() {
-			public void onWindowScroll(ScrollEvent event) {
 
-				scrollLeft = event.getScrollLeft();
-				scrollTop = event.getScrollTop();
-
-				// App.debug("scrollLeft: " + scrollLeft + " scrollTop: "
-				// + scrollTop);
-
-			}
-		});
 	}
 
 	// ======================================
@@ -457,8 +460,8 @@ public class ToolTipManagerW {
 		// get initial position from associated tip element or,
 		// if this is null, from mouse coordinates
 		if (tipElement == null) {
-			left = scrollLeft + mouseX;
-			topAbove = top = scrollTop + mouseY + 18;
+			left = Window.getScrollLeft() + mouseX;
+			topAbove = top = Window.getScrollTop() + mouseY + 18;
 
 		} else {
 			left = tipElement.getAbsoluteLeft();
@@ -648,12 +651,17 @@ public class ToolTipManagerW {
 		}
 	}
 
+	/**
+	 * @param allowToolTips
+	 *            global tooltips flag
+	 */
 	public static void setEnabled(boolean allowToolTips) {
 		enabled = allowToolTips;
 	}
 
-
-
+	/**
+	 * Hide all tooltips
+	 */
 	public static void hideAllToolTips() {
 
 		sharedInstance().showImmediately = false;
