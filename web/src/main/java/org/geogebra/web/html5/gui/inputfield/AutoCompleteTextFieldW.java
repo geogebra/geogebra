@@ -78,6 +78,8 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
         AutoCompleteW, MathKeyboardListener,
         org.geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
@@ -1066,6 +1068,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void onKeyUp(KeyUpEvent e) {
 		int keyCode = e.getNativeKeyCode();
 		// we don't want to trap AltGr

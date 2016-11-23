@@ -6,12 +6,16 @@
 
 package org.mozilla.classfile;
 
-import org.mozilla.javascript.ObjToIntMap;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
+
 import org.mozilla.javascript.ObjArray;
+import org.mozilla.javascript.ObjToIntMap;
 import org.mozilla.javascript.UintMap;
 
-import java.io.*;
-import java.util.Arrays;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * ClassFileWriter
@@ -475,6 +479,8 @@ public class ClassFileWriter {
      * @param theOpCode the opcode of the bytecode
      * @param theOperand the operand of the bytecode
      */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     public void add(int theOpCode, int theOperand) {
         if (DEBUGCODE) {
             System.out.println("Add "+bytecodeStr(theOpCode)
@@ -2848,7 +2854,9 @@ public class ClassFileWriter {
         If Java really supported references we wouldn't have to be this
         perverted.
     */
-    private static int sizeOfParameters(String pString)
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
+	private static int sizeOfParameters(String pString)
     {
         int length = pString.length();
         int rightParenthesis = pString.lastIndexOf(')');

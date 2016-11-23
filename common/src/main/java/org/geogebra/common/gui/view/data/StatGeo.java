@@ -52,6 +52,8 @@ import org.geogebra.common.kernel.statistics.AlgoStemPlot;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * 
  * Creates geos for use in plot panels and provides updates to plot panel
@@ -857,6 +859,8 @@ public class StatGeo {
 
 
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
 			int order, boolean residual) {
 

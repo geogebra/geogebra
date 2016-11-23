@@ -69,6 +69,7 @@ import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author Markus Hohenwarter
@@ -210,6 +211,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	private void initGUI() {
 		setResizable(false);
 		setTitle(loc.getMenu("ExportAsPicture"));
@@ -223,7 +226,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		
 		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
 			formats = new String[] {
- loc.getMenu("png") + " ("
+					loc.getMenu("png") + " ("
 					+ FileExtensions.PNG + ")" };
 		}else{
 			formats = new String[] {

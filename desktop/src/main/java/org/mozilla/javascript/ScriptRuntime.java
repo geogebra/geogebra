@@ -18,6 +18,8 @@ import org.mozilla.javascript.v8dtoa.FastDtoa;
 import org.mozilla.javascript.xml.XMLLib;
 import org.mozilla.javascript.xml.XMLObject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This is the class that implements the runtime.
  *
@@ -456,6 +458,8 @@ public class ScriptRuntime {
     /*
      * Helper function for toNumber, parseInt, and TokenStream.getToken.
      */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     static double stringToNumber(String s, int start, int radix) {
         char digitMax = '9';
         char lowerCaseBound = 'a';

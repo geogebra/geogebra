@@ -19,6 +19,8 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.TopLevel;
 import org.mozilla.javascript.Undefined;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This class implements the RegExp native object.
  *
@@ -548,6 +550,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
     }
 
     /* calculate the total size of the bitmap required for a class expression */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static boolean
     calculateBitmapSize(CompilerState state, RENode target, char[] src,
                         int index, int end)
@@ -803,6 +807,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
         return value;
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static boolean
     parseTerm(CompilerState state)
     {
@@ -1222,7 +1228,9 @@ public class NativeRegExp extends IdScriptableObject implements Function
 
     private static final int INDEX_LEN  = 2;
 
-    private static int
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
+	private static int
     emitREBytecode(CompilerState state, RECompiled re, int pc, RENode t)
     {
         RENode nextAlt;
@@ -1539,6 +1547,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
     }
 
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static void
     processCharSetImpl(REGlobalData gData, RECharSet charSet)
     {
@@ -1935,7 +1945,9 @@ public class NativeRegExp extends IdScriptableObject implements Function
     }
 
 
-    private static boolean
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
+	private static boolean
     executeREBytecode(REGlobalData gData, String input, int end)
     {
         int pc = 0;

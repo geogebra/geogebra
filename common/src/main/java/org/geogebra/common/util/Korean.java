@@ -2,6 +2,8 @@ package org.geogebra.common.util;
 
 import java.util.HashMap;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Korean {
 
 	static StringBuilder sb;
@@ -240,6 +242,8 @@ public class Korean {
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public static String mergeDoubleCharacters(String str) {
 
 		if (str.length() < 2)

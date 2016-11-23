@@ -17,6 +17,8 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler {
 
 	private AppW app;
@@ -38,6 +40,8 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 	}
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void onKeyDown(KeyDownEvent e) {
 
 		e.stopPropagation();

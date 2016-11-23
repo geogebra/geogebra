@@ -52,6 +52,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Tree node for expressions like "3*a - b/5"
  * 
@@ -1724,6 +1726,8 @@ kernel, left,
 	 *            kernel
 	 * @return string representation of a node.
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	final public static String operationToString(ExpressionValue left,
 			ExpressionValue right, Operation operation, String leftStr,
 			String rightStr, boolean valueForm, StringTemplate tpl,

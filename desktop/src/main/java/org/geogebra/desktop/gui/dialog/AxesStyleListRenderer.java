@@ -17,6 +17,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * adapted from PointStyleListRenderer
  * 
@@ -59,6 +61,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	}
 
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;

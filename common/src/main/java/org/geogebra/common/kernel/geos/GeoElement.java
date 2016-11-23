@@ -104,6 +104,8 @@ import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * 
  * @author Markus
@@ -2231,6 +2233,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param view view
 	 * @return whether this geo has only moveable input points
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {

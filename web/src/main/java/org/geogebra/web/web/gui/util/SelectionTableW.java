@@ -221,7 +221,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		}
 		switch (mode) {
 		case MODE_TEXT:
-		case MODE_ICON:// fall through
+		case MODE_ICON:
 			w = new Label();
 			object.applyToLabel((Label)w);
 			break;
