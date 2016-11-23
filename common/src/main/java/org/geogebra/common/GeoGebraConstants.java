@@ -3,7 +3,7 @@ package org.geogebra.common;
 /**
  * Application-wide constants (version strings, URLs)
  */
-public interface GeoGebraConstants {
+public abstract class GeoGebraConstants {
 
 	// GeoGebra version
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
@@ -220,8 +220,5 @@ public interface GeoGebraConstants {
 	/** available font sizes (will be reused in OptionsAdvanced) */
 	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
 			48 };
-	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
-	final public static String[] tooltipTimeouts = new String[] { "1", "3", "5",
-			"10", "20", "30", "60", "0" };
 
 }

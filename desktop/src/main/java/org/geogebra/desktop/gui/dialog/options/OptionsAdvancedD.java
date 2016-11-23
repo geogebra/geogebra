@@ -266,9 +266,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		tooltipTimeoutLabel = new JLabel();
 
 		// get tooltipTimeouts from MyXMLHandler
-		tooltipTimeouts = new String[GeoGebraConstants.tooltipTimeouts.length];
-		for (int i = 0; i < GeoGebraConstants.tooltipTimeouts.length - 1; i++)
-			tooltipTimeouts[i] = GeoGebraConstants.tooltipTimeouts[i];
+		tooltipTimeouts = new String[OptionsAdvancedD.tooltipTimeoutsLength()];
+		for (int i = 0; i < OptionsAdvancedD.tooltipTimeoutsLength() - 1; i++)
+			tooltipTimeouts[i] = OptionsAdvancedD.tooltipTimeouts(i);
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
@@ -1003,4 +1003,17 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}
+
+	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
+	final private static String[] TOOLTIP_TIMEOUTS = new String[] { "1", "3",
+			"5", "10", "20", "30", "60", "0" };
+
+	public static String tooltipTimeouts(int i) {
+		return TOOLTIP_TIMEOUTS[i];
+	}
+
+	public static int tooltipTimeoutsLength() {
+		return TOOLTIP_TIMEOUTS.length;
+	}
+
 }

@@ -195,6 +195,7 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
+import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -2479,16 +2480,16 @@ ToolbarD.getAllTools(this));
 			return -1;
 		}
 		dmd /= 1000;
-		for (int i = 0; i < (GeoGebraConstants.tooltipTimeouts.length
+		for (int i = 0; i < (OptionsAdvancedD.tooltipTimeoutsLength()
 				- 1); i++) {
-			if (Integer.parseInt(GeoGebraConstants.tooltipTimeouts[i]) >= dmd) {
-				return Integer.parseInt(GeoGebraConstants.tooltipTimeouts[i]);
+			if (Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i)) >= dmd) {
+				return Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i));
 			}
 		}
 		return Integer
 				.parseInt(
-						GeoGebraConstants.tooltipTimeouts[GeoGebraConstants.tooltipTimeouts.length
-								- 2]);
+						OptionsAdvancedD.tooltipTimeouts(
+								OptionsAdvancedD.tooltipTimeoutsLength() - 2));
 	}
 
 	@Override
