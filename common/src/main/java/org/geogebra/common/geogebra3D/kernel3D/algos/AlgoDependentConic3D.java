@@ -108,5 +108,5 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 		return conic.getDefinition().toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 }

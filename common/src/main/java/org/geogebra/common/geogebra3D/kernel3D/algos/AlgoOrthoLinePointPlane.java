@@ -49,6 +49,6 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

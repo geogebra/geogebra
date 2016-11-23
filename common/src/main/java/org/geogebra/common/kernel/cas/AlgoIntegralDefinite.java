@@ -821,6 +821,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

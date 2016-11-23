@@ -103,6 +103,6 @@ public class AlgoFirst extends AlgoElement {
 			outputList.add(((GeoList) inputList).get(i).copyInternal(cons));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

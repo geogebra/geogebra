@@ -97,6 +97,6 @@ public class AlgoConicCoefficients extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

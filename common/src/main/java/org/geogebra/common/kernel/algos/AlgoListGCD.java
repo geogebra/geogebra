@@ -108,6 +108,6 @@ public class AlgoListGCD extends AlgoElement {
 		num.setValue(result);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

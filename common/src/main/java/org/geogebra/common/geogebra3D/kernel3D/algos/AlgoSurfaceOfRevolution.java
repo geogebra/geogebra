@@ -317,5 +317,5 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

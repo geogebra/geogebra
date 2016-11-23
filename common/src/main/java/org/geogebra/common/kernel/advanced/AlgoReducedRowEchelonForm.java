@@ -92,6 +92,6 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 		matrix.getGeoList(outputList, cons);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

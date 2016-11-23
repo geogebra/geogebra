@@ -179,6 +179,6 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

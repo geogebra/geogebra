@@ -103,5 +103,5 @@ public class AlgoDynamicCoordinates3D extends AlgoElement implements
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 }

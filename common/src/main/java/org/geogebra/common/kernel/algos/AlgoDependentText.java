@@ -274,6 +274,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		return text.getDefinition();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

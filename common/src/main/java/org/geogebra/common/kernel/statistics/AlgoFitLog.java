@@ -108,6 +108,6 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-	// TODO Consider locusequability
+	
 
 }// class AlgoFitLog

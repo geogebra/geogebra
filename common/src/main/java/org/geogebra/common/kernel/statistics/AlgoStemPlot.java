@@ -498,6 +498,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

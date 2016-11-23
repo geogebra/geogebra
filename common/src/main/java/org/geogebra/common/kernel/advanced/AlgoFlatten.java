@@ -92,6 +92,6 @@ public class AlgoFlatten extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

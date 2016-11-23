@@ -91,6 +91,6 @@ public class AlgoHarmonicMean extends AlgoElement {
 		result.setValue(size / sum);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

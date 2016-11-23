@@ -193,6 +193,6 @@ public class AlgoLaTeX extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

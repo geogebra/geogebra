@@ -249,7 +249,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	}// getX()
 
 
-	// TODO Consider locusequability
+	
 
 	// */ //--- SNIP end ---------------------------------------
 

@@ -96,5 +96,5 @@ public class AlgoExcentricity extends AlgoElement {
 		return getLoc().getPlain("LinearEccentricityOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

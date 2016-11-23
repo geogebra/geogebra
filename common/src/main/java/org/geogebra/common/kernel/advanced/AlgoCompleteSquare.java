@@ -145,6 +145,6 @@ public class AlgoCompleteSquare extends AlgoElement {
 		return Commands.CompleteSquare;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

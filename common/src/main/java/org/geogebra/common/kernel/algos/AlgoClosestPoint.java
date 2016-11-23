@@ -132,6 +132,6 @@ public class AlgoClosestPoint extends AlgoElement implements FixedPathRegionAlgo
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

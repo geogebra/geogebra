@@ -190,5 +190,5 @@ public class AlgoDilate extends AlgoTransformation {
 		return r.getDouble() * r.getDouble();
 	}
 
-	// TODO Consider locusequability
+	
 }

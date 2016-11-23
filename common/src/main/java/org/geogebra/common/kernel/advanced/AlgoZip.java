@@ -384,5 +384,5 @@ public class AlgoZip extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

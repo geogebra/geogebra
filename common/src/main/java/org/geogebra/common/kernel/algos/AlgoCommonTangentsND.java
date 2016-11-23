@@ -376,7 +376,7 @@ public abstract class AlgoCommonTangentsND extends AlgoElement implements
 				c[0].getLabel(tpl), c[1].getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }
 
 // Local Variables:

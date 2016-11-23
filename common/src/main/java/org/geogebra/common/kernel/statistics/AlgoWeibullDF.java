@@ -127,6 +127,6 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

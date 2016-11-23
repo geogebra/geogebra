@@ -95,5 +95,5 @@ public class AlgoRadius extends AlgoElement {
 		return getLoc().getPlain("RadiusOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

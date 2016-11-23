@@ -422,6 +422,6 @@ public class AlgoAreCongruent extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

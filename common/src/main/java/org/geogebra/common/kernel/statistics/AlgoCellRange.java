@@ -336,5 +336,5 @@ public class AlgoCellRange extends AlgoElement {
 		return endCell;
 	}
 
-	// TODO Consider locusequability
+	
 }

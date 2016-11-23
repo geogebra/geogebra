@@ -93,6 +93,6 @@ public class AlgoRandomFixed extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -91,5 +91,5 @@ public class AlgoParabolaParameter extends AlgoElement {
 		return getLoc().getPlain("ParameterOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

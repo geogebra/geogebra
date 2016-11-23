@@ -129,6 +129,6 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

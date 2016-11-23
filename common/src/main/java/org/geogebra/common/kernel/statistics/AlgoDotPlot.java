@@ -244,6 +244,6 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		return scaleFactor;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

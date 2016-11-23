@@ -219,6 +219,6 @@ public class AlgoAreCollinear extends AlgoElement implements
 		return (GeoPoint) inputPoint3;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

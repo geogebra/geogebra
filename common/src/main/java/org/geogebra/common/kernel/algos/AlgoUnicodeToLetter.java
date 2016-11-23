@@ -65,5 +65,5 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 		text.setTextString(ss + "");
 	}
 
-	// TODO Consider locusequability
+	
 }

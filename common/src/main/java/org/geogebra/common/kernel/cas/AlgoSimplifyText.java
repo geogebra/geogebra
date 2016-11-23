@@ -126,5 +126,5 @@ public class AlgoSimplifyText extends AlgoElement {
 		text.setTextString(ret);
 	}
 
-	// TODO Consider locusequability
+	
 }

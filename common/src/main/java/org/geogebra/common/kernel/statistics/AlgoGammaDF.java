@@ -133,6 +133,6 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

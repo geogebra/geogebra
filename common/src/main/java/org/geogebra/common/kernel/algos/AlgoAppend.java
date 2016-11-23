@@ -114,6 +114,6 @@ public class AlgoAppend extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

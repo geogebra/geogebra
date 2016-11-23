@@ -133,6 +133,6 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 		return equation.toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -79,5 +79,5 @@ public class AlgoOrdinal extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -127,6 +127,6 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

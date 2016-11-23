@@ -67,5 +67,5 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

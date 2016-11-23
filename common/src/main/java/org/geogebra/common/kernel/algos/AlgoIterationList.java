@@ -608,6 +608,6 @@ public class AlgoIterationList extends AlgoElement {
 		listElement.setValue(value);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

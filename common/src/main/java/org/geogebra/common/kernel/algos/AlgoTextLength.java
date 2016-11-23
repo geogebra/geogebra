@@ -67,6 +67,6 @@ public class AlgoTextLength extends AlgoElement {
 			length.setUndefined();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

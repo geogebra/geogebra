@@ -209,6 +209,6 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 		return isFarAway(coords.getX(), coords.getY(), coords.getZ(), i);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

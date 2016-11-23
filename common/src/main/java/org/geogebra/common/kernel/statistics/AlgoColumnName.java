@@ -81,5 +81,5 @@ public class AlgoColumnName extends AlgoElement {
 			text.setTextString(col);
 	}
 
-	// TODO Consider locusequability
+	
 }

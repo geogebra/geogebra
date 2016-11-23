@@ -64,6 +64,6 @@ public class AlgoLengthLocus extends AlgoElement {
 			length.setUndefined();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

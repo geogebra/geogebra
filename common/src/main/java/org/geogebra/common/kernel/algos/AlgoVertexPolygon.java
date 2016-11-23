@@ -266,6 +266,6 @@ public class AlgoVertexPolygon extends AlgoElement {
 		});
 	}
 
-	// TODO Consider locusequability
+	
 
 }

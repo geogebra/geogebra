@@ -261,5 +261,5 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 }

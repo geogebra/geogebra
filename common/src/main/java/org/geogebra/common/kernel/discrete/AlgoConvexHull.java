@@ -174,6 +174,6 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

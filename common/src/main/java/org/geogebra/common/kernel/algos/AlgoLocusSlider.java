@@ -118,7 +118,7 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 		}
 		return true;
 	}
-	// TODO Consider locusequability
+	
 
 	@Override
 	protected boolean areEqual(GeoPointND A, GeoPointND B) {

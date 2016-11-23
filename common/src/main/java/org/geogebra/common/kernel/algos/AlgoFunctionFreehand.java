@@ -113,6 +113,6 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		return inputList;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

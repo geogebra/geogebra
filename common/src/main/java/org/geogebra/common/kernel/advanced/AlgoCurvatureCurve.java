@@ -126,5 +126,5 @@ public class AlgoCurvatureCurve extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

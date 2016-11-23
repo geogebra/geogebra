@@ -72,6 +72,6 @@ public class AlgoDivision extends AlgoElement {
 		return result;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

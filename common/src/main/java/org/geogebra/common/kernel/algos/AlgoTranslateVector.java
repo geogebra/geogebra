@@ -123,5 +123,5 @@ public class AlgoTranslateVector extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

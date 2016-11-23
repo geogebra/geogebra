@@ -185,6 +185,6 @@ public class AlgoScientificText extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

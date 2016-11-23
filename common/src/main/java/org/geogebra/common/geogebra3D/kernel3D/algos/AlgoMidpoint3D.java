@@ -85,6 +85,6 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 						.mul(0.5));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

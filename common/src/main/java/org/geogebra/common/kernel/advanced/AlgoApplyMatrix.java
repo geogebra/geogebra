@@ -215,6 +215,6 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		return (a * d) - (b * c);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

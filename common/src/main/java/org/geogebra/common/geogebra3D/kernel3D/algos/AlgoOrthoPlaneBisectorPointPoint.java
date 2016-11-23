@@ -58,6 +58,6 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 				.mul(0.5);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

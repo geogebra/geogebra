@@ -210,5 +210,5 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 * quadric).getLabel(),point.getLabel(),pointThrough.getLabel()); }
 	 */
 
-	// TODO Consider locusequability
+	
 }

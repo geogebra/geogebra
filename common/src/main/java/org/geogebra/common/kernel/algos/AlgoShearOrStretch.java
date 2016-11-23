@@ -222,6 +222,6 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

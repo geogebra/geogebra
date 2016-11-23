@@ -104,6 +104,6 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

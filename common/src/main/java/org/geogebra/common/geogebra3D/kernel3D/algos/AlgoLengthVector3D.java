@@ -79,5 +79,5 @@ public class AlgoLengthVector3D extends AlgoElement {
 		return getLoc().getPlain("LengthOfA", ((GeoElement) v).getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

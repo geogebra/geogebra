@@ -201,5 +201,5 @@ public class AlgoVertexConic extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

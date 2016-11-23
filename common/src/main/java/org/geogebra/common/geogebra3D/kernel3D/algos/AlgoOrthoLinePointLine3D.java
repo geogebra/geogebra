@@ -75,6 +75,6 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 				point.getLabel(tpl), inputOrtho.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

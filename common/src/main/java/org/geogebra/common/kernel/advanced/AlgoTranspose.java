@@ -91,6 +91,6 @@ public class AlgoTranspose extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

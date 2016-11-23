@@ -99,5 +99,5 @@ public class AlgoUnitOrthoVectorLine extends AlgoElement {
 		return getLoc().getPlain("UnitVectorPerpendicularToA", g.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

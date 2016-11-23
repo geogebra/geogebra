@@ -69,5 +69,5 @@ public class AlgoAffineRatio extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

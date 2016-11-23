@@ -130,6 +130,6 @@ public class AlgoUniformDF extends AlgoElement {
 		ret.setDefined(true);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

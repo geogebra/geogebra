@@ -641,6 +641,6 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		return kernel.getMacroID(macro)
 				+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 	}
-	// TODO Consider locusequability
+	
 
 }

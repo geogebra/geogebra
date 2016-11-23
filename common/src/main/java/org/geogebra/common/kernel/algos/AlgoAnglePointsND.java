@@ -251,6 +251,6 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

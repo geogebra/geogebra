@@ -220,6 +220,6 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

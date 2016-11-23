@@ -167,6 +167,6 @@ public class AlgoVerticalText extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

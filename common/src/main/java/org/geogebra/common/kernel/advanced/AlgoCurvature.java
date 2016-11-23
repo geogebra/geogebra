@@ -80,6 +80,6 @@ public class AlgoCurvature extends AlgoElement {
 		super.remove();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -67,6 +67,6 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 		return Commands.IntersectPath;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

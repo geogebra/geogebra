@@ -453,6 +453,6 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

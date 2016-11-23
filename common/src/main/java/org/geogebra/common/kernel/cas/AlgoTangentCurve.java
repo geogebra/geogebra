@@ -205,5 +205,5 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 }

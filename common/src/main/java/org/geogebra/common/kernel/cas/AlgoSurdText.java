@@ -2604,6 +2604,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 */
 	}
 
-	// TODO Consider locusequability
+	
 
 }

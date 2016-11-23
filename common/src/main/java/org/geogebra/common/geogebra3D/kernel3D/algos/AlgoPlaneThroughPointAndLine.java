@@ -79,6 +79,6 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

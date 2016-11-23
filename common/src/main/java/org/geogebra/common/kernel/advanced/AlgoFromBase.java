@@ -91,6 +91,6 @@ public class AlgoFromBase extends AlgoElement {
 		return Commands.FromBase;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -135,6 +135,6 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

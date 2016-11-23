@@ -100,6 +100,6 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

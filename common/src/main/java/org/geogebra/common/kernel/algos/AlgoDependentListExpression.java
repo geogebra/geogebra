@@ -355,5 +355,5 @@ public class AlgoDependentListExpression extends AlgoElement implements
 		return list.getDefinition().toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 }

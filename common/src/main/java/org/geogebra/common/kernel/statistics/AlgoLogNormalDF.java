@@ -136,5 +136,5 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

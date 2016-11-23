@@ -307,7 +307,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	}// Test constructor
 
-	// TODO Consider locusequability
+	
 
 	// */ //--- SNIP end ---------------------------------------
 

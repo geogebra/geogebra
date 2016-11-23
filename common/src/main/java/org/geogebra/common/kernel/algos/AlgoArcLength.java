@@ -91,5 +91,5 @@ public class AlgoArcLength extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

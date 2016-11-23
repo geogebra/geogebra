@@ -230,6 +230,6 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		g.replaceChildrenByValues(geo);
 
 	}
-	// TODO Consider locusequability
+	
 
 }

@@ -169,6 +169,6 @@ public class AlgoTriangleCurve extends AlgoElement implements
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

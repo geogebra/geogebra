@@ -314,6 +314,6 @@ public class AlgoSlopeField extends AlgoElement {
 		((GeoElement) func).removeAlgorithm(denAlgo);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

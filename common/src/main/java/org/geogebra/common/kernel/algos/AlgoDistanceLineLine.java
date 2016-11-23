@@ -96,6 +96,6 @@ public class AlgoDistanceLineLine extends AlgoElement {
 				h.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

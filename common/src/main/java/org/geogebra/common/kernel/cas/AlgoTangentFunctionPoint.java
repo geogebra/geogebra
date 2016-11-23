@@ -262,6 +262,6 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -145,6 +145,6 @@ public class AlgoRotateText extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

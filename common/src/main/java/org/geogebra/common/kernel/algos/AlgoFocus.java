@@ -154,5 +154,5 @@ public class AlgoFocus extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

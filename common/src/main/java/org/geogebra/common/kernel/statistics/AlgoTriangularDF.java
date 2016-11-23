@@ -156,6 +156,6 @@ public class AlgoTriangularDF extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

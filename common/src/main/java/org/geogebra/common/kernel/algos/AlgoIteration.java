@@ -247,7 +247,7 @@ public class AlgoIteration extends AlgoElement {
 		return realInput;
 	}
 
-	// TODO Consider locusequability
+	
 
 	private void updateListItems() {
 		if (isEmpty)

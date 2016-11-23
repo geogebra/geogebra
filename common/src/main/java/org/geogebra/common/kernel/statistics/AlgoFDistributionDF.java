@@ -141,6 +141,6 @@ public class AlgoFDistributionDF extends AlgoElement implements
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

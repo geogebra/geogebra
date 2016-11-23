@@ -156,6 +156,6 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		return new MyPoint();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

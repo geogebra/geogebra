@@ -110,6 +110,6 @@ public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBo
 	}
 	
 
-	// TODO Consider locusequability
+	
 
 }

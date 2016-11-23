@@ -99,6 +99,6 @@ public class AlgoTiedRank extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -936,6 +936,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

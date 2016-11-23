@@ -204,6 +204,6 @@ public class AlgoFractionText extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -127,6 +127,6 @@ public class AlgoUnique extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

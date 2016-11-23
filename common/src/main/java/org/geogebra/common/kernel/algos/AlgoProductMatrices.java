@@ -152,6 +152,6 @@ public class AlgoProductMatrices extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

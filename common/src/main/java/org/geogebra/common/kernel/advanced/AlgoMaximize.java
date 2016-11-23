@@ -62,6 +62,6 @@ public class AlgoMaximize extends AlgoOptimize {
 		return Commands.Maximize;
 	}// getClassName()
 
-	// TODO Consider locusequability
+	
 
 }// class AlgoMaximize

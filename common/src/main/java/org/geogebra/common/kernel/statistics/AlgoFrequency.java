@@ -483,6 +483,6 @@ public class AlgoFrequency extends AlgoElement {
 		return s;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

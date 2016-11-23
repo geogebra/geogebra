@@ -57,5 +57,5 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

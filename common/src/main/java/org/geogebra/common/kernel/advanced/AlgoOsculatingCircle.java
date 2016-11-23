@@ -113,5 +113,5 @@ public class AlgoOsculatingCircle extends AlgoElement {
 		cv.remove();
 	}
 
-	// TODO Consider locusequability
+	
 }

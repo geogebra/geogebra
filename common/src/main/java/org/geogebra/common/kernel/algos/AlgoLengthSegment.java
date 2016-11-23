@@ -79,5 +79,5 @@ public class AlgoLengthSegment extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

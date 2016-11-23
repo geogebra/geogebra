@@ -133,6 +133,6 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 		return tangentPoly;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

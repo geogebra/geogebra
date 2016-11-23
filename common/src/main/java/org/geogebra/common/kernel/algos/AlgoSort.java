@@ -203,6 +203,6 @@ public class AlgoSort extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

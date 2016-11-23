@@ -212,6 +212,6 @@ public class AlgoSolveODE2 extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

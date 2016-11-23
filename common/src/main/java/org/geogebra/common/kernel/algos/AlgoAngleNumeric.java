@@ -72,6 +72,6 @@ public class AlgoAngleNumeric extends AlgoElement {
 		angle.setValue(num.value);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

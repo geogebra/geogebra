@@ -93,6 +93,6 @@ public class AlgoPrimeFactors extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

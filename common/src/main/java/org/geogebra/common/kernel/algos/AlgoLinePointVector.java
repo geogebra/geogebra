@@ -107,6 +107,6 @@ public class AlgoLinePointVector extends AlgoElement {
 				v.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -263,5 +263,5 @@ public class AlgoPolyLine extends AlgoElement {
 		return points;
 	}
 
-	// TODO Consider locusequability
+	
 }

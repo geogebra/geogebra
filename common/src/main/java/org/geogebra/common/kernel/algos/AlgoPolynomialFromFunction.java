@@ -94,6 +94,6 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 	}
 
 
-	// TODO Consider locusequability
+	
 
 }

@@ -123,6 +123,6 @@ public class AlgoAreaPoints extends AlgoElement implements
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

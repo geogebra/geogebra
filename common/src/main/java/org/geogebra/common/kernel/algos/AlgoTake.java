@@ -120,6 +120,6 @@ public class AlgoTake extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

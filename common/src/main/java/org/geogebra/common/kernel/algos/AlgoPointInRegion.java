@@ -111,5 +111,5 @@ public class AlgoPointInRegion extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

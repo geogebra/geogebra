@@ -79,5 +79,5 @@ public class AlgoRow extends AlgoElement {
 			num.setUndefined();
 	}
 
-	// TODO Consider locusequability
+	
 }

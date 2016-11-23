@@ -108,6 +108,6 @@ public class AlgoBarycenter extends AlgoElement {
 		point.setCoords(sumCoords.mulInside(1 / sum), false);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

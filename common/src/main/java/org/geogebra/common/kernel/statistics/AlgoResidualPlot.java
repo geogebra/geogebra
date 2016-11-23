@@ -115,6 +115,6 @@ public class AlgoResidualPlot extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -124,7 +124,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 		angle.setValue(value);
 	}
 
-	// TODO Consider locusequability
+	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

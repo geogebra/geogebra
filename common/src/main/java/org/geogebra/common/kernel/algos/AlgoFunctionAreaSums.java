@@ -1874,5 +1874,5 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * treated differently than points.
 	 */
 
-	// TODO Consider locusequability
+	
 }

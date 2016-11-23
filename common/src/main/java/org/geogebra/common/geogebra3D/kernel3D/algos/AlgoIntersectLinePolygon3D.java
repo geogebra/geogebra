@@ -267,6 +267,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// TODO Consider locusequability
+	
 
 }

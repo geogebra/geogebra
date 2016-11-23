@@ -220,6 +220,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 		return new MyPoint3D();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

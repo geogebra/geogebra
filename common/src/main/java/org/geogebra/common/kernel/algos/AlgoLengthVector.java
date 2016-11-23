@@ -88,5 +88,5 @@ public class AlgoLengthVector extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

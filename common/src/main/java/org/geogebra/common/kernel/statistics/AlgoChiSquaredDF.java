@@ -133,6 +133,6 @@ public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF 
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -78,5 +78,5 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 		return (GeoElement) cs;
 	}
 
-	// TODO Consider locusequability
+	
 }

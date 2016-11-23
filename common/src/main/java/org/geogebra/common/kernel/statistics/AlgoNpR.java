@@ -113,6 +113,6 @@ public class AlgoNpR extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

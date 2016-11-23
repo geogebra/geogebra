@@ -189,5 +189,5 @@ public abstract class AlgoTangentLineND extends AlgoElement implements
 				g.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

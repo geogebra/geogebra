@@ -176,6 +176,6 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		f.removeAlgorithm(algoCASfxy);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

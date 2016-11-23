@@ -450,5 +450,5 @@ public class AlgoFinancial extends AlgoElement {
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 }

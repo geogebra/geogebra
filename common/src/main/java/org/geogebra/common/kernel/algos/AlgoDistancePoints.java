@@ -136,5 +136,5 @@ public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo,
 
 	}
 
-	// TODO Consider locusequability
+	
 }

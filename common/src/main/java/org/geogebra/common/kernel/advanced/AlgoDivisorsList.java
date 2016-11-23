@@ -89,6 +89,6 @@ public class AlgoDivisorsList extends AlgoElement {
 		return result;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

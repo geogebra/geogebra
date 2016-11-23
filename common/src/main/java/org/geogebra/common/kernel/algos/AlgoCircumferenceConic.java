@@ -154,5 +154,5 @@ public class AlgoCircumferenceConic extends AlgoElement {
 		return circum;
 	}
 
-	// TODO Consider locusequability
+	
 }

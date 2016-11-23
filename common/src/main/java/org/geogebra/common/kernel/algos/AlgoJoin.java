@@ -95,6 +95,6 @@ public class AlgoJoin extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

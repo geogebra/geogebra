@@ -111,6 +111,6 @@ public class AlgoRandomElement extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

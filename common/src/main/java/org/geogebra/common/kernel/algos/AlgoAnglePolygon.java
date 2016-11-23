@@ -74,5 +74,5 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 		return getInputMaybeXOYPlane(i);
 	}
 
-	// TODO Consider locusequability
+	
 }

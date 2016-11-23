@@ -171,6 +171,6 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 		return node[0];
 	}
 
-	// TODO Consider locusequability
+	
 
 }

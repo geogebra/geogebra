@@ -132,6 +132,6 @@ public class AlgoAreaConic extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

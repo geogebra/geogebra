@@ -846,6 +846,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	protected abstract T[] createQCopyCache();
 
-	// TODO Consider locusequability
+	
 
 }

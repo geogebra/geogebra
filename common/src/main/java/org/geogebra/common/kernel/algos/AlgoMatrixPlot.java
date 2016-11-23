@@ -118,6 +118,6 @@ public class AlgoMatrixPlot extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

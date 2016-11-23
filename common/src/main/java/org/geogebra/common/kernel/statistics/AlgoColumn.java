@@ -71,5 +71,5 @@ public class AlgoColumn extends AlgoElement {
 			num.setUndefined();
 	}
 
-	// TODO Consider locusequability
+	
 }

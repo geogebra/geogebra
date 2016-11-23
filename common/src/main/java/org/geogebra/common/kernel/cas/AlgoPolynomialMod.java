@@ -117,6 +117,6 @@ public class AlgoPolynomialMod extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

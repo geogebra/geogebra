@@ -449,6 +449,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

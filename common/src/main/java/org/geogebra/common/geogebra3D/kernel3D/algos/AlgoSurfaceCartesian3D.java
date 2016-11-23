@@ -214,5 +214,5 @@ surface.getPointExpression(),
 	}
 
 
-	// TODO Consider locusequability
+	
 }

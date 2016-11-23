@@ -389,6 +389,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 		return newRoot;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

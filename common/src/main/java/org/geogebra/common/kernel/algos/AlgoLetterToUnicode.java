@@ -66,5 +66,5 @@ public class AlgoLetterToUnicode extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

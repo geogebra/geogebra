@@ -112,6 +112,6 @@ public class AlgoLast extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

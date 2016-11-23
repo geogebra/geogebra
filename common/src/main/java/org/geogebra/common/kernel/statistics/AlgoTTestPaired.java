@@ -147,6 +147,6 @@ public class AlgoTTestPaired extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -433,6 +433,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		sb.append("}}}");
 	}
 
-	// TODO Consider locusequability
+	
 
 }

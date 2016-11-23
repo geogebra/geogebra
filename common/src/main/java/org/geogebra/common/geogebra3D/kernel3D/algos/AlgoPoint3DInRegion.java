@@ -99,5 +99,5 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 		return sb.toString();
 	}
 
-	// TODO Consider locusequability
+	
 }

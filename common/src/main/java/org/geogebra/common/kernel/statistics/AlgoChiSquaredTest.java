@@ -244,6 +244,6 @@ public class AlgoChiSquaredTest extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

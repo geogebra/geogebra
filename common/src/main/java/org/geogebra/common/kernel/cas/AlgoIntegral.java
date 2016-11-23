@@ -180,6 +180,6 @@ public class AlgoIntegral extends AlgoCasBase {
 		return computedSymbolically;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

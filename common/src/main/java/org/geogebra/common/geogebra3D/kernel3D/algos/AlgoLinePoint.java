@@ -100,5 +100,5 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 	 * treated differently than points.
 	 */
 
-	// TODO Consider locusequability
+	
 }

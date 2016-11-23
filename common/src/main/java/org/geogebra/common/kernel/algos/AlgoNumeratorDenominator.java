@@ -80,6 +80,6 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

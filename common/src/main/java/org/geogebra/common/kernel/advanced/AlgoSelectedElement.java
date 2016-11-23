@@ -104,6 +104,6 @@ public class AlgoSelectedElement extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

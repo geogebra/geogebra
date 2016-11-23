@@ -107,6 +107,6 @@ public class AlgoFractionTextPoint extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

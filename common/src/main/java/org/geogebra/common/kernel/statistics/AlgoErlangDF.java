@@ -127,6 +127,6 @@ public class AlgoErlangDF extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

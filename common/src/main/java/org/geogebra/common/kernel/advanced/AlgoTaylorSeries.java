@@ -211,6 +211,6 @@ public class AlgoTaylorSeries extends AlgoElement {
 		g.setDefined(true);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

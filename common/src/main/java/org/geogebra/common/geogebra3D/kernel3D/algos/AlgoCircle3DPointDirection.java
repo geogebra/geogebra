@@ -171,6 +171,6 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 	 * should be used.
 	 */
 
-	// TODO Consider locusequability
+	
 
 }

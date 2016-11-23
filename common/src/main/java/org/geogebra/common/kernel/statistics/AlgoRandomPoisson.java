@@ -167,5 +167,5 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

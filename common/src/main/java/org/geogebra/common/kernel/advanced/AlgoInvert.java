@@ -88,6 +88,6 @@ public class AlgoInvert extends AlgoElement {
 		matrix.getGeoList(outputList, cons);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

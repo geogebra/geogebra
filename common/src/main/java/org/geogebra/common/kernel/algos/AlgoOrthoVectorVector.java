@@ -101,5 +101,5 @@ public class AlgoOrthoVectorVector extends AlgoElement {
 		return getLoc().getPlain("VectorPerpendicularToA", v.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }
