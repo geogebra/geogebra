@@ -1044,7 +1044,7 @@ public class ProverBotanasMethod {
 
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
-			if (App.singularWS != null && App.singularWS.isAvailable()) {
+			if (App.singularWSisAvailable()) {
 				/* SingularWS will use Cox' method */
 				proverSettings.freePointsNeverCollinear = false;
 			} else {
@@ -1089,7 +1089,7 @@ public class ProverBotanasMethod {
 									 * Giac cannot permute the variables at the
 									 * moment.
 									 */
-			if (App.singularWS != null && App.singularWS.isAvailable()) {
+			if (App.singularWSisAvailable()) {
 				/*
 				 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to
 				 * prevent unneeded computations:

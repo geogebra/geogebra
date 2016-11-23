@@ -222,7 +222,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			script = this.createLocusEquationScriptSingular(translatedRestrictions);
 			Log.info("[LocusEqu] input to singular: "+script);
 			try {
-				result = App.singularWS.directCommand(script);
+				result = App.singularWSdirectCommand(script);
 			} catch (Throwable e) {
 				throw new CASException("Error in SingularWS computation");
 			}

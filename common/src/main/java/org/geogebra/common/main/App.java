@@ -193,7 +193,7 @@ public abstract class App implements UpdateSelection {
 		return strDecimalSpacesAC;
 	}
 	/** Singular web service (CAS) */
-	public static SingularWebService singularWS;
+	private static SingularWebService singularWS;
 
 	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";
@@ -460,7 +460,7 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	public SingularWebService getSingularWS() {
+	public static SingularWebService getSingularWS() {
 		return singularWS;
 	}
 
@@ -4561,6 +4561,24 @@ public abstract class App implements UpdateSelection {
 	 */
 	public int getMaxSpreadsheetColumnsVisible() {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	}
+
+	public static boolean singularWSisAvailable() {
+		return singularWS != null && singularWS.isAvailable();
+	}
+
+	public static String singularWSgetTranslatedCASCommand(String s) {
+		if (singularWS == null) {
+			return null;
+		}
+		return singularWS.getTranslatedCASCommand(s);
+	}
+
+	public static String singularWSdirectCommand(String s) throws Throwable {
+		if (singularWS == null) {
+			return null;
+		}
+		return singularWS.directCommand(s);
 	}
 
 }

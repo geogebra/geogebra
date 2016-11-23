@@ -1010,7 +1010,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(solvableProgram + " -> singular");
 			try {
-				solvableResult = App.singularWS.directCommand(solvableProgram);
+				solvableResult = App.singularWSdirectCommand(solvableProgram);
 				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
 					Log.trace("singular -> " + solvableResult.length()
 							+ " bytes");
@@ -1202,7 +1202,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(elimProgram + " -> singular");
 			try {
-				elimResult = App.singularWS.directCommand(elimProgram);
+				elimResult = App.singularWSdirectCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}
