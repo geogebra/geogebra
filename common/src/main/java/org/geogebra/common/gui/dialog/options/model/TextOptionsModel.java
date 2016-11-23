@@ -128,14 +128,14 @@ public class TextOptionsModel extends OptionsModel {
 		int selItem = -1;
 
 		int decimals = geo0.getPrintDecimals();
-		if (decimals > 0 && decimals < GeoGebraConstants.decimalsLookup.length
+		if (decimals > 0 && decimals < GeoGebraConstants.decimalsLookupLength()
 				&& !geo0.useSignificantFigures())
-			selItem = GeoGebraConstants.decimalsLookup[decimals];
+			selItem = GeoGebraConstants.decimalsLookup(decimals);
 
 		int figures = geo0.getPrintFigures();
-		if (figures > 0 && figures < GeoGebraConstants.figuresLookup.length
+		if (figures > 0 && figures < GeoGebraConstants.figuresLookupLength()
 				&& geo0.useSignificantFigures())
-			selItem = GeoGebraConstants.figuresLookup[figures];
+			selItem = GeoGebraConstants.figuresLookup(figures);
 
 		listener.selectDecimalPlaces(selItem);
 		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));

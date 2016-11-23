@@ -107,12 +107,12 @@ public class SpecialNumberFormat implements ActionListener {
 
 		if (printFigures >= 0) {
 			if (printFigures > 0
-					&& printFigures < GeoGebraConstants.figuresLookup.length)
-				pos = GeoGebraConstants.figuresLookup[printFigures];
+					&& printFigures < GeoGebraConstants.figuresLookupLength())
+				pos = GeoGebraConstants.figuresLookup(printFigures);
 		} else {
 			if (printDecimals > 0
-					&& printDecimals < GeoGebraConstants.decimalsLookup.length)
-				pos = GeoGebraConstants.decimalsLookup[printDecimals];
+					&& printDecimals < GeoGebraConstants.decimalsLookupLength())
+				pos = GeoGebraConstants.decimalsLookup(printDecimals);
 		}
 
 		try {

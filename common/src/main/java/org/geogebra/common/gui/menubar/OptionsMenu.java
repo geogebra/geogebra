@@ -163,14 +163,15 @@ public class OptionsMenu {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < GeoGebraConstants.figuresLookup.length)
-				pos = GeoGebraConstants.figuresLookup[figures];
+			if (figures > 0
+					&& figures < GeoGebraConstants.figuresLookupLength())
+				pos = GeoGebraConstants.figuresLookup(figures);
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
 			if (decimals >= 0
-					&& decimals < GeoGebraConstants.decimalsLookup.length)
-				pos = GeoGebraConstants.decimalsLookup[decimals];
+					&& decimals < GeoGebraConstants.decimalsLookupLength())
+				pos = GeoGebraConstants.decimalsLookup(decimals);
 
 		}
 
