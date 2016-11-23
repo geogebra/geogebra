@@ -18,9 +18,11 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldKbW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
@@ -119,6 +121,9 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		GeoElement selGeo = rbAngle.getValue() ? angle : number;
 		Object [] geos = { selGeo };
 		sliderPanelUpdate(geos);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			app.registerPopup(this);
+		}
 	}
 
 	private void createGUI() {
@@ -158,7 +163,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		nameLabel = new Label(loc.getMenu("Name"));
 		nameWidget.add(nameLabel);
 		
-		tfLabel = new AutoCompleteTextFieldW(-1, app);
+		tfLabel = new AutoCompleteTextFieldKbW(-1, app);
 		updateLabelField(number, false);
 		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
 		tfLabel.requestToShowSymbolButton();

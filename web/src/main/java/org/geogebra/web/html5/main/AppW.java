@@ -92,6 +92,7 @@ import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -2462,6 +2463,18 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	public void addAsAutoHidePartnerForPopups(Element el) {
+		for (int i = 0; i < popups.size(); i++) {
+			Widget popup = popups.get(i);
+			if (popup instanceof GPopupPanel && ((GPopupPanel) popup).isModal()) {
+				((GPopupPanel) popup).addAutoHidePartner(el);
+			}
+		}
+	}
+
+	public boolean hasPopup() {
+		return popups.size() > 0;
+	}
 
 
 	public boolean wasPopupJustClosed() {

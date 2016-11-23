@@ -4074,6 +4074,10 @@ public abstract class App implements UpdateSelection {
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
+			// GGB-1252
+		case KEYBOARD_BEHAVIOUR:
+			return prerelease;
+
 		case WHITEBOARD_APP:
 			return prerelease;
 

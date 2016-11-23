@@ -142,6 +142,10 @@ public enum Feature {
 
 	/** GGB-1263 */
 	AUTOSCROLLING_SPREADSHEET,
+
+	/** GGB-1252 */
+	KEYBOARD_BEHAVIOUR,
+
 	/** MOW */
 	WHITEBOARD_APP,
 

@@ -260,6 +260,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		keyBoard.show();
 		keyBoard.setVisible(false);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
+		}
 		CancelEventTimer.keyboardSetVisible();
 		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.add(keyBoard);

@@ -92,7 +92,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private static final int BOX_ROUND = 8;
 
-	private AppW app;
+	protected AppW app;
 	private Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
