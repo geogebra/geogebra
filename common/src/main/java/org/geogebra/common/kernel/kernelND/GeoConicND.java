@@ -88,11 +88,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	public static final int EQUATION_CONICFORM = 6;
 
 	/** variable strings for default output */
-	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
+	final private static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x",
+			"y" };
 	/** variable strings for LaTeX output */
-	protected static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x", "y" };
+	final private static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x",
+			"y" };
 	/** variable strings for CAS output */
-	protected static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
+	final private static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
 	
 	/** enable negative sign of first coefficient in implicit equations*/
 	protected final static boolean KEEP_LEADING_SIGN = false;

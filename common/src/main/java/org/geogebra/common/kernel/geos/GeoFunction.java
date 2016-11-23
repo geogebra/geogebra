@@ -956,11 +956,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/**
 	 * we don't care about values of these
 	 */
-	public static String[] dummy1 = {"", ""};
+	final private static String[] dummy1 = { "", "" };
 	/**
 	 * we don't care about values of these
 	 */
-	public static char[] dummy2 = {' ', ' '};
+	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
 	
