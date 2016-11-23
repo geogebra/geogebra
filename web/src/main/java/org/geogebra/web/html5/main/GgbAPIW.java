@@ -204,7 +204,7 @@ public class GgbAPIW extends GgbAPI {
 				|| "phone".equals(GWT.getModuleName())) {
 			return "false";
 		}
-		return Browser.webWorkerSupported ? GWT.getModuleBaseURL()
+		return Browser.webWorkerSupported() ? GWT.getModuleBaseURL()
 				+ "js/zipjs/" : "false";
 	}
 
@@ -250,7 +250,7 @@ public class GgbAPIW extends GgbAPI {
 		StoreString storeString = new StoreString();
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 		JavaScriptObject jso = prepareToEntrySet(archiveContent);
-		if (Browser.webWorkerSupported) {
+		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
 		getBase64ZipJs(jso, nativeCallback(storeString), "false", true);
@@ -262,7 +262,7 @@ public class GgbAPIW extends GgbAPI {
 		StoreString storeString = new StoreString();
 		Map<String, String> archiveContent = createMacrosArchive();
 		JavaScriptObject jso = prepareToEntrySet(archiveContent);
-		if (Browser.webWorkerSupported) {
+		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
 		getBase64ZipJs(jso, nativeCallback(storeString), "false", true);

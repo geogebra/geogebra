@@ -23,7 +23,7 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 
 public class GeoGebra {
 
-	public static Frame splashFrame = null;
+	private static Frame splashFrame = null;
 
 	protected GeoGebra() {
 	}
@@ -111,6 +111,12 @@ public class GeoGebra {
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
 		GeoGebraFrame.main(args);
+	}
+
+	public static void hideSplash() {
+		if (splashFrame != null) {
+			splashFrame.setVisible(false);
+		}
 	}
 
 }

@@ -4261,9 +4261,7 @@ ToolbarD.getAllTools(this));
 					Log.printStacktrace("" + msg);
 
 					// make sure splash screen not showing (will be in front)
-					if (GeoGebra.splashFrame != null) {
-						GeoGebra.splashFrame.setVisible(false);
-					}
+					GeoGebra.hideSplash();
 
 					isErrorDialogShowing = true;
 
@@ -4301,9 +4299,7 @@ ToolbarD.getAllTools(this));
 				public void showCommandError(String command, String message) {
 
 						// make sure splash screen not showing (will be in front)
-						if (GeoGebra.splashFrame != null) {
-							GeoGebra.splashFrame.setVisible(false);
-						}
+					GeoGebra.hideSplash();
 
 					Object[] options = { getLocalization().getPlain("OK"),
 							getLocalization().getPlain("ShowOnlineHelp") };

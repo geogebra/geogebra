@@ -7,7 +7,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
-	public static boolean webWorkerSupported = false;
+	private static boolean webWorkerSupported = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -454,5 +454,13 @@ public class Browser {
 		}
 		return false;
 	}-*/;
+
+	public static void setWebWorkerSupported(boolean b) {
+		webWorkerSupported = b;
+	}
+
+	public static boolean webWorkerSupported() {
+		return webWorkerSupported;
+	}
 
 }

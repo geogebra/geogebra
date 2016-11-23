@@ -58,18 +58,18 @@ public class ResourcesInjector {
 
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
-		Browser.webWorkerSupported = Location
+		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
 				&& Browser.checkWorkerSupport(GWT
-		        .getModuleBaseURL());
-		if (!Browser.webWorkerSupported) {
+						.getModuleBaseURL()));
+		if (!Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.arrayBufferJs());
 		// strange, but iPad can blow it away again...
 		if (Browser.checkIfFallbackSetExplicitlyInArrayBufferJs()
-		        && Browser.webWorkerSupported) {
+				&& Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
 		}
