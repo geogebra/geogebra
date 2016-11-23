@@ -1677,7 +1677,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onMouseDown(MouseDownEvent event) {
 		app.closePopups();
 
-		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
 			// keep focus in editor
@@ -1694,13 +1693,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (isSliderItem() && !isWidgetHit(plainTextItem, event)) {
 				enable = false;
 				stopEditing(getText(), null);
+
 			}
 
 			if (enable) {
 				edit(event.isControlKeyDown());
-				return;
 			}
 		}
+		handleAVItem(event);
 		this.updateButtonPanelPosition();
 
 	}

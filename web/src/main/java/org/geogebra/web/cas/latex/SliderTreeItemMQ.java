@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -113,6 +114,10 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 				@Override
 				public void onValueChange(ValueChangeEvent<Double> event) {
+					if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
+						stopEditing(getText(), null);
+					}
+
 					num.setValue(event.getValue());
 					geo.updateCascade();
 
