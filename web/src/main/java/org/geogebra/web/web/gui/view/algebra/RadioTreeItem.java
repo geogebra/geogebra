@@ -257,6 +257,20 @@ public abstract class RadioTreeItem extends AVTreeItem
 			showAnimPanel(true);
 		}
 
+		public void buildGUI() {
+			setFirst(first);
+			clear();
+			if (animPanel == null) {
+				createAnimPanel();
+			}
+
+			add(animPanel);
+			add(getDeleteButton());
+			reset();
+			updateAnimPanel();
+			showAnimPanel(true);
+		}
+
 		public void hideAnimPanel() {
 			showAnimPanel(false);
 		}
@@ -337,8 +351,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		@Override
 		public void setVisible(boolean b) {
 			if (isEditing()) {
-				Log.printStacktrace(
-						"[EDITING]  controls setVisible(" + b + ")");
 				return;
 			}
 			super.setVisible(b);
@@ -1599,7 +1611,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 									}
 								}
 
-								if (controls != null) {
+								if (!app.has(Feature.AV_SINGLE_TAP_EDIT)
+										&& controls != null) {
 									controls.removeAnimPanel();
 								}
 							}
@@ -2260,7 +2273,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (controls != null) {
 			boolean visible = selected || isEditing();
+
+			if (selected && controls.isVisible()) {
+				return;
+			}
+
 			controls.setVisible(visible);
+			if (selected && geo.isAnimatable()) {
+				controls.buildGUI();
+			} else {
+				controls.hideAnimPanel();
+			}
 		}
 
 	}
