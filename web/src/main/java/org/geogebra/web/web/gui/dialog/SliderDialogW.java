@@ -79,7 +79,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 * @param app
 	 *            application
 	 */
-	public SliderDialogW(AppW app, int x, int y) {
+	public SliderDialogW(final AppW app, int x, int y) {
 		super(false, true, null, app.getPanel());
 		//super(app.getFrame(), false);
 		this.app = app;
@@ -106,8 +106,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		number.setSliderLocation(x, y, true);
 		angle.setSliderLocation(x, y, true);
 		
-		
-
 				
 		geoResult = null;
 
@@ -123,6 +121,12 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		sliderPanelUpdate(geos);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
+
+			sliderPanel.getWidget().addDomHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					app.hideKeyboard();
+				}
+			}, ClickEvent.getType());
 		}
 	}
 
