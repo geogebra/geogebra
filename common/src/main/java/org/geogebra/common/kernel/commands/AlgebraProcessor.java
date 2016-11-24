@@ -136,6 +136,11 @@ public class AlgebraProcessor {
 
 	private boolean disableGcd = false;
 
+	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
+			closeBracket = null;
+
+	private boolean vectorsEnabled = true;
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -3089,9 +3094,6 @@ public class AlgebraProcessor {
 		app.showError(key);
 	}
 
-	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
-			closeBracket = null;
-
 	/** @return "x(" */
 	public MyStringBuffer getXBracket() {
 		if (xBracket == null)
@@ -3181,8 +3183,16 @@ public class AlgebraProcessor {
 	 *            whether commands should be enabled
 	 */
 	public void setCommandsEnabled(boolean enable) {
+		this.vectorsEnabled = enable;
 		cmdDispatcher.setEnabled(enable);
 
+	}
+
+	/**
+	 * @return whether vector parsing is enabled
+	 */
+	public boolean enableVectors() {
+		return vectorsEnabled;
 	}
 
 	/**

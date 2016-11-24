@@ -76,6 +76,7 @@ public class Parser implements ParserInterface{
     private boolean GeoGebraCASParsing = false;
     private boolean ExternalCASParsing = false;
   private boolean GiacParsing = false;
+  private boolean enableVectors = true;
   private FunctionParser functionParser;
   private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
     
@@ -101,6 +102,7 @@ public class Parser implements ParserInterface{
       GeoGebraCASParsing = false;
       ExternalCASParsing = false;
       GiacParsing = false;
+      enableVectors = kernel.getAlgebraProcessor().enableVectors();
       undecided.clear();
     }
 
@@ -1741,6 +1743,8 @@ ExpressionValue tuple():
     	|  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
 		)? ")"
     {
+      if(!enableVectors)      {
+        return new MyDouble(kernel, Double.NaN);      }
       if(y == null)      {
          if(GiacParsing)
         {
@@ -1776,7 +1780,11 @@ ExpressionNode cartesianvector_special():
 {   
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR> y = expressionNoFreeVars() ")" )
-        {         
+        {
+          if(!enableVectors)
+      {
+        return new ExpressionNode(kernel, Double.NaN);
+      }        
           ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y)); 
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
@@ -1791,7 +1799,11 @@ ExpressionNode cartesianvector3D_special():
 {   
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR > y = expressionNoFreeVars() <VERTICAL_BAR> z = expressionNoFreeVars() ")" )
-        {         
+        {
+          if(!enableVectors)
+      {
+        return new ExpressionNode(kernel, Double.NaN);
+      }        
           ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z)); 
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
@@ -1809,7 +1821,11 @@ ExpressionNode polarvector_special():
 {   
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  r = expressionNoFreeVars() <POLAR_SEPARATOR>  phi = expressionNoFreeVars() ")" )
-        {         
+        {
+          if(!enableVectors)
+      {
+        return new ExpressionNode(kernel, Double.NaN);
+      }      
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);
           ExpressionNode en =  new ExpressionNode(kernel, v); 
