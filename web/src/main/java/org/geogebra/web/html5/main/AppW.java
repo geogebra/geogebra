@@ -119,6 +119,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.util.debug.GeoGebraProfilerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -129,7 +130,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
@@ -1175,17 +1175,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public double getMillisecondTime() {
-		return getMillisecondTimeNative();
+		return GeoGebraProfilerW.getMillisecondTimeNative();
 	}
 
-	private native double getMillisecondTimeNative() /*-{
-		if ($wnd.performance) {
-			return $wnd.performance.now();
-		}
 
-		// for IE9
-		return new Date().getTime();
-	}-*/;
 
 	@Override
 	public void copyBase64ToClipboard() {
@@ -1723,7 +1716,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// until the canvas is first drawn
 
 		setUndoActive(undoActive);
-		registerFileDropHandlers(getFrameElement());
+		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
 		setViewsEnabled();
 	}
 
@@ -1752,66 +1745,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	/**
-	 * Register file drop handlers for the canvas of this application
-	 * 
-	 * @param ce
-	 *            Element that listens to the drop events
-	 */
-	native void registerFileDropHandlers(Element ce) /*-{
 
-		var appl = this;
-		var frameElement = ce;
-
-		if (frameElement) {
-			frameElement.addEventListener("dragover", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				frameElement.style.borderColor = "#ff0000";
-			}, false);
-			frameElement.addEventListener("dragenter", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			}, false);
-			frameElement
-					.addEventListener(
-							"drop",
-							function(e) {
-								e.preventDefault();
-								e.stopPropagation();
-								frameElement.style.borderColor = "#000000";
-								var dt = e.dataTransfer;
-								if (dt.files.length) {
-									var fileToHandle = dt.files[0];
-
-									//at first this tries to open the fileToHandle as image,
-									//if fileToHandle not an image, this will try to open as ggb or ggt.
-									if (!appl.@org.geogebra.web.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
-										appl.@org.geogebra.web.html5.main.AppW::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
-									}
-
-								} else {
-									// This would raise security exceptions later - see ticket #2301
-									//var gdat = dt.getData("URL");
-									//if (gdat && gdat != " ") {
-									//	var coordx = e.offsetX ? e.offsetX : e.layerX;
-									//	var coordy = e.offsetY ? e.offsetY : e.layerY;
-									//	appl.@org.geogebra.web.html5.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
-									//}
-								}
-							}, false);
-		}
-		$doc.body.addEventListener("dragover", function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if (frameElement)
-				frameElement.style.borderColor = "#000000";
-		}, false);
-		$doc.body.addEventListener("drop", function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}, false);
-	}-*/;
 
 	/**
 	 * @return preferred size
@@ -2584,28 +2518,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 14;
 	}
 
-	public void showStartScreen() {
-		if (showStartScreenNative(getLocalization().getLanguage(), this
-		        .getLoginOperation().getModel().loadLastUser())) {
-			Element fr = this.getFrameElement();
-			if (fr.getParentElement() != null) {
-				fr = fr.getParentElement();
-			}
-			if (fr.getParentElement() != null) {
-				fr = fr.getParentElement();
-			}
-			fr.setId("appletContainer");
-			fr.getStyle().setVisibility(Visibility.HIDDEN);
-		}
-	}
-
-	private native boolean showStartScreenNative(String language, String user) /*-{
-		if ($wnd.showStartScreen) {
-			return $wnd.showStartScreen(language, user);
-		}
-		return false;
-	}-*/;
-
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
 			return;
@@ -3180,8 +3092,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(
-			@SuppressWarnings("unused") MathKeyboardListener field) {
+	public void updateKeyBoardField(MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 
@@ -3253,26 +3164,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return keyboardNeeded;
 	}
 
-	public static native void download(String url, String title) /*-{
-
-		if ($wnd.navigator.msSaveBlob) {
-			//works for chrome and internet explorer
-			var image = document.createElement('img');
-			image.src = image;
-
-			$wnd.navigator.msSaveBlob(image, title);
-		} else {
-			//works for firefox
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = url;
-			a.download = title;
-			a.click();
-		}
-
-	}-*/;
-
+	/**
+	 * @param perspID
+	 *            perspective id
+	 */
 	public void showStartTooltip(int perspID) {
 		// probably needed in full version only
 	}

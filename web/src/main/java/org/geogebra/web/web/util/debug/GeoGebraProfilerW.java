@@ -99,4 +99,16 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 		return (typeof $wnd.console === 'object');
 	}-*/;
 
+	/**
+	 * @return current milliseconds
+	 */
+	public static native double getMillisecondTimeNative() /*-{
+		if ($wnd.performance) {
+			return $wnd.performance.now();
+		}
+
+		// for IE9
+		return new Date().getTime();
+	}-*/;
+
 }
