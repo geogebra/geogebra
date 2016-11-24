@@ -4091,6 +4091,10 @@ public abstract class App implements UpdateSelection {
 			case BIND_ANDROID_TO_EXAM_APP:
 			return true;
 
+			// MOB-873
+			case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
+				return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

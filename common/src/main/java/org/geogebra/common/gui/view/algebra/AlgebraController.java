@@ -118,7 +118,7 @@ public class AlgebraController {
 		return latex;
 	}
 
-	protected void checkGeoTexts(GeoElementND[] newGeos) {
+	public void checkGeoTexts(GeoElementND[] newGeos) {
 		if (newGeos == null) {
 			// no GeoElements were created
 			return;
