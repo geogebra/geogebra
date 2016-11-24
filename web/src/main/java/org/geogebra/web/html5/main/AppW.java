@@ -3181,7 +3181,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            this field
 	 */
 	public void updateKeyBoardField(
-	        @SuppressWarnings("unused") MathKeyboardListener field) {
+			@SuppressWarnings("unused") MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 
@@ -3401,9 +3401,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public boolean allowStylebar() {
 		return (!isApplet()
-				&& enableGraphing())
 				|| getArticleElement().getDataParamShowMenuBar(false)
-				|| getArticleElement().getDataParamAllowStyleBar(false);
+				|| getArticleElement().getDataParamAllowStyleBar(false))
+				&& enableGraphing();
 	}
 
 	public boolean enableGraphing() {

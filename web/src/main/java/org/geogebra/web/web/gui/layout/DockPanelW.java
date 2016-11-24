@@ -561,7 +561,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		buildGUIIfNecessary(false);
 
 		dockPanel.clear();
-
+		Log.debug(app.allowStylebar());
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()

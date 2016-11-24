@@ -24,7 +24,6 @@ import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
-import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -382,24 +381,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		};
 	}
 
-	/**
-	 * @return callback that shows the exam welcom message and prepares Exam
-	 *         (goes fullscreen)
-	 */
-	Runnable getExamCallback() {
-
-		return new Runnable() {
-
-			public void run() {
-				if (app.getLAF().supportsFullscreen()) {
-					ExamUtil.toggleFullscreen(true);
-				}
-				app.setNewExam();
-				((AppWFull) app).examWelcome();
-
-			}
-		};
-	}
 	/**
 	 * @param online wether the application is online
 	 * renders a the online - offline state of the FileMenu

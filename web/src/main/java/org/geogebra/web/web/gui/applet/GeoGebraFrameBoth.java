@@ -467,7 +467,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	public void showKeyboardOnFocus() {
-		this.app.getGuiManager().getOnScreenKeyboard(null, this).showOnFocus();
+		if (app != null) {
+			this.app.getGuiManager().getOnScreenKeyboard(null, this)
+					.showOnFocus();
+		}
 	}
 
 	public void updateKeyboardHeight() {
