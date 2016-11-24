@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.debug;
+package org.geogebra.web.html5.util.debug;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -25,16 +25,16 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 			getInstance : function() {
 				return {
 					profile : function(label) {
-						t.@org.geogebra.web.web.util.debug.GeoGebraProfilerW::profile()();
+						t.@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::profile()();
 					},
 					profileEnd : function() {
-						t.@org.geogebra.web.web.util.debug.GeoGebraProfilerW::profileEnd()();
+						t.@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::profileEnd()();
 					},
 					time : function(label) {
-						t.@org.geogebra.web.web.util.debug.GeoGebraProfilerW::time(Ljava/lang/String;)(label);
+						t.@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::time(Ljava/lang/String;)(label);
 					},
 					timeEnd : function(label) {
-						t.@org.geogebra.web.web.util.debug.GeoGebraProfilerW::timeEnd(Ljava/lang/String;)(label);
+						t.@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::timeEnd(Ljava/lang/String;)(label);
 					}
 				};
 			}
@@ -43,51 +43,51 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 
 	@Override
 	public native void profile() /*-{
-		if (@org.geogebra.web.web.util.debug.GeoGebraProfilerW::isConsoleSupported()()
+		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
 				&& $wnd.console.profile) {
 			$wnd.console.profile();
 		} else {
-			@org.geogebra.web.web.util.debug.GeoGebraProfilerW::showError()();
+			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
 		}
 	}-*/;
 
 	@Override
 	public native void profileEnd() /*-{
-		if (@org.geogebra.web.web.util.debug.GeoGebraProfilerW::isConsoleSupported()()
+		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
 				&& $wnd.console.profileEnd) {
 			$wnd.console.profileEnd();
 		} else {
-			@org.geogebra.web.web.util.debug.GeoGebraProfilerW::showError()();
+			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
 		}
 	}-*/;
 
 	@Override
 	public native void time(String label) /*-{
-		if (@org.geogebra.web.web.util.debug.GeoGebraProfilerW::isConsoleSupported()()
+		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
 				&& $wnd.console.time) {
 			$wnd.console.time(label);
 		} else {
-			@org.geogebra.web.web.util.debug.GeoGebraProfilerW::showError()();
+			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
 		}
 	}-*/;
 
 	@Override
 	public native void timeEnd(String label) /*-{
-		if (@org.geogebra.web.web.util.debug.GeoGebraProfilerW::isConsoleSupported()()
+		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
 				&& $wnd.console.timeEnd) {
 			$wnd.console.timeEnd(label);
 		} else {
-			@org.geogebra.web.web.util.debug.GeoGebraProfilerW::showError()();
+			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
 		}
 	}-*/;
 
 	@Override
 	public native void trace() /*-{
-		if (@org.geogebra.web.web.util.debug.GeoGebraProfilerW::isConsoleSupported()()
+		if (@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::isConsoleSupported()()
 				&& $wnd.console.trace) {
 			$wnd.console.trace();
 		} else {
-			@org.geogebra.web.web.util.debug.GeoGebraProfilerW::showError()();
+			@org.geogebra.web.html5.util.debug.GeoGebraProfilerW::showError()();
 		}
 	}-*/;
 
