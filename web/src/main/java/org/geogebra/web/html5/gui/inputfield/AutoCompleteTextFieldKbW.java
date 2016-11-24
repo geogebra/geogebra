@@ -5,19 +5,22 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AutoCompleteTextFieldKbW extends AutoCompleteTextFieldW implements
-		FocusHandler, AutoCompleteTextFieldKb {
+		FocusHandler, BlurHandler, AutoCompleteTextFieldKb {
 
 	public AutoCompleteTextFieldKbW(int i, App app) {
 		super(i, app);
 		
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			addFocusHandler(this);
+			addBlurHandler(this);
 		}
 	}
 	
@@ -38,5 +41,9 @@ public class AutoCompleteTextFieldKbW extends AutoCompleteTextFieldW implements
 				app.showKeyboard((AutoCompleteTextFieldW) parent, true);
 			}
 		}
+	}
+
+	public void onBlur(BlurEvent event) {
+		app.hideKeyboard();
 	}
 }

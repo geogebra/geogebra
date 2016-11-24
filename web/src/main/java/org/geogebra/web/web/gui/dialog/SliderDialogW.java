@@ -121,12 +121,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		sliderPanelUpdate(geos);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
-
-			sliderPanel.getWidget().addDomHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					app.hideKeyboard();
-				}
-			}, ClickEvent.getType());
 		}
 	}
 
