@@ -389,6 +389,7 @@ public class MathFieldW implements MathField, IsWidget {
 			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '100';
 			hiddenTextArea.style.left = '-1000px';
+			hiddenTextArea.style.top = '-1000px';
 			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
 		}
 		//hiddenTextArea.value = '';
