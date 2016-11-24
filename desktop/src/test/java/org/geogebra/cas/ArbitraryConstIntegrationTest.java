@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -116,10 +117,9 @@ public class ArbitraryConstIntegrationTest {
 				expectedResult, validResults));
 	}
 
+	// 100 seconds max per method tested
 	@Rule
-	public Timeout globalTimeout = new Timeout(1000000); // 10 seconds max
-															// per method
-															// tested
+	public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
 
 	@Test
 	public void SolveODE_0() {

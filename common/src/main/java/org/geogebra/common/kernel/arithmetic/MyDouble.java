@@ -1285,6 +1285,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * http://findbugs.sourceforge.net/bugDescriptions.html#IM_BAD_CHECK_FOR_ODD
 	 * 
 	 * @param i
+	 *            tested number
 	 * @return true if i is odd
 	 */
 	public static boolean isOdd(int i) {

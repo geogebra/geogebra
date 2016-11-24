@@ -87,7 +87,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("a*x^2");
+			MathFormula f = p.parse("(1+(1/(1+(1/(1+1/(1+1/1))))))");
 			mathField.setFormula(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
