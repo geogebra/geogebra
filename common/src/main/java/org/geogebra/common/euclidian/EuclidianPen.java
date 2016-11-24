@@ -400,13 +400,8 @@ public class EuclidianPen {
 			// we need single point only for pen tool
 			// prevent creating points with freehand tool
 			if (!freehand) {
-				// add point from press event to support click
-				penPoints.add(e.getPoint());
-				int lineType = penLineStyle;
-				setPenLineStyle(EuclidianStyleConstants.LINE_TYPE_FULL);
 				// will create the single point for pen tool
 				addPointsToPolyLine(penPoints);
-				setPenLineStyle(lineType);
 			}
 		}
 	}
