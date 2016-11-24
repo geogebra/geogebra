@@ -3003,7 +3003,7 @@ __GGB__keysVar.da.menu = {
     "phone_loading_materials_failed": "We are sorry, but the Materials are currently not available.",
     "phone_loading_materials_offline": "Tjek din forbindelse til internet",
     "phone_no_materials_found": "Ingen materialer fundet",
-    "phone_tour_done": "Done",
+    "phone_tour_done": "F\xe6rdig",
     "phone_try_again_loading": "Pr\xf8v igen",
     "png": "Portable Network Graphics",
     "polar": "pol\xe6r",
