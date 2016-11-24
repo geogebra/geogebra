@@ -1,15 +1,13 @@
 project.setDescription('Parts of GeoGebra related to web platforms')
 
 evaluationDependsOn(':common')
-//evaluationDependsOn(':common-jre')
 evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
-//evaluationDependsOn(':giac-jni')
 
 buildscript {
-        dependencies {
-        	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-		}
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
 }
 
 apply plugin: 'gwt-compiler'
@@ -34,58 +32,56 @@ sourceSets {
 }
 
 dependencies {
-	compile project(':web:dev'), 
-		project(':common'),
-		//project(':common-jre'),
-		project(':renderer-base'),
-		project(':editor-base'),
-		project(':renderer-web'),
-		project(':editor-web'),
-		project(':ggbjdk'),
-		files(project(':common').sourceSets.main.allSource.srcDirs),
-		files(project(':ggbjdk').sourceSets.main.java.srcDirs),
-		files(project(':editor-web').sourceSets.main.allSource.srcDirs),
-		'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
-		'com.googlecode.gwtquery:gwtquery:1.4.3',
-		'com.googlecode:gwtgl:0.9.1',
-		'com.googlecode:gwtgl:0.9.1:sources',
-	    'com.google.gwt:gwt-dev:2.8.0',
-	    'com.asual.lesscss:lesscss-engine:1.3.0'
-	//compile project(path:':apps:android')
+    compile project(':web:dev'), 
+        project(':common'),
+        project(':renderer-base'),
+        project(':editor-base'),
+        project(':renderer-web'),
+        project(':editor-web'),
+        project(':ggbjdk'),
+        files(project(':common').sourceSets.main.allSource.srcDirs),
+        files(project(':ggbjdk').sourceSets.main.java.srcDirs),
+        files(project(':editor-web').sourceSets.main.allSource.srcDirs),
+        'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
+        'com.googlecode.gwtquery:gwtquery:1.4.3',
+        'com.googlecode:gwtgl:0.9.1',
+        'com.googlecode:gwtgl:0.9.1:sources',
+        'com.google.gwt:gwt-dev:2.8.0',
+        'com.asual.lesscss:lesscss-engine:1.3.0'
 }
 
 def devModule = 'org.geogebra.web.SuperWeb'
 
 gwt {
-	gwtVersion = '2.8.0'
+    gwtVersion = '2.8.0'
 
-	if(project.hasProperty("gmodule")){
-		modules = [project.getProperty("gmodule")]
-	}else{
-		modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
- 	    'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
-	}
-	
-	devModules devModule
-	
-	maxHeapSize = '2000M'
+    if (project.hasProperty("gmodule")) {
+        modules = [project.getProperty("gmodule")]
+    } else {
+        modules = ['org.geogebra.web.Web3D', 'org.geogebra.web.WebSimple', 'org.geogebra.web.Web',
+         'org.geogebra.web.Tablet', 'org.geogebra.web.Tablet3D', 'org.geogebra.web.TabletWin']
+    }
+    
+    devModules devModule
+    
+    maxHeapSize = '2000M'
 
-	compiler {
-		// Customize the GWT compiler here
-		strict = true;
+    compiler {
+        // Customize the GWT compiler here
+        strict = true;
         // enableClosureCompiler = true;        
         disableCastChecking = true;        
         //logLevel = 'SPAM';
-        if(project.hasProperty("gdraft")){
-        	draftCompile = true
+        if (project.hasProperty("gdraft")) {
+            draftCompile = true
         }
-        if(project.hasProperty("gdetailed")){
-			style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
-        }else{
-			disableClassMetadata = true;
+        if (project.hasProperty("gdetailed")){
+            style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+        } else {
+            disableClassMetadata = true;
         }
         // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
-	}
+    }
 }
 
 configurations.all {
@@ -97,7 +93,7 @@ configurations.all {
        force 'commons-collections:commons-collections:3.2.2'
        force 'commons-logging:commons-logging:1.2'
        force 'org.ow2.asm:asm:5.0.3'
-       force'org.ow2.asm:asm-commons:5.0.3'
+       force 'org.ow2.asm:asm-commons:5.0.3'
        force 'commons-codec:commons-codec:1.10'
        force 'org.eclipse.jetty:jetty-util:9.2.14.v20151106'
        force 'org.eclipse.jetty:jetty-io:9.2.14.v20151106'
@@ -109,78 +105,80 @@ configurations.all {
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 
-task cleanWar(type: Delete){
-	delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
+task cleanWar(type: Delete) {
+    delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
 }
+
 task copyHtml << {
- String html = file("war/app-release.html").text;
- file("war/app.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
+    String html = file("war/app-release.html").text;
+    file("war/app.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
 }
+
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
-	description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
-	from compileGwt
-	into warDirRel
+    description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
+    from compileGwt
+    into warDirRel
 }
 
 task symlinkIntoWar(dependsOn: ['copyHtml']) {
-	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
-	doLast {
-	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
-			ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
-		}
-	}
+    description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
+    doLast {
+        ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
+            ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
+        }
+    }
 }
 
 task draftSymlinkIntoWar(dependsOn: ['copyHtml']) {
-	description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
-	doLast {
-	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
-			ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
-		}
-	}
+    description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
+    doLast {
+        ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
+            ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
+        }
+    }
 }
 
 task draftDeployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
-	description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
-	from draftCompileGwt
-	into warDirRel
+    description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
+    from draftCompileGwt
+    into warDirRel
 }
 
 def appHtmlRel = 'app.html'
 def appHtmlAbs = file("${warDirAbs}/${appHtmlRel}").toURI()
 
 task run(dependsOn: 'deployIntoWar') {
-	description 'Runs GeoGebraWeb in the default web browser'
-	doLast {
-		java.awt.Desktop.desktop.browse appHtmlAbs
-	}
+    description 'Runs GeoGebraWeb in the default web browser'
+    doLast {
+        java.awt.Desktop.desktop.browse appHtmlAbs
+    }
 }
 
 task draftRun(dependsOn: 'draftDeployIntoWar') {
-	description 'Runs GeoGebraWeb draft in the default web browser'
-	doLast {
-		java.awt.Desktop.desktop.browse appHtmlAbs
-	}
+    description 'Runs GeoGebraWeb draft in the default web browser'
+    doLast {
+        java.awt.Desktop.desktop.browse appHtmlAbs
+    }
 }
 
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
 task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
-	description 'Starts a codeserver, and a simple webserver for development'
-	main 'com.google.gwt.dev.DevMode'
-	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) 
-		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
-		+ (jar.archivePath as String))
-	workingDir file(warDirRel)
-	args '-logLevel', 'INFO',
-		'-codeServerPort', '9997',
-		'-port', '8888',
-		'-superDevMode',
-		'-war', file(warDirRel),
-		devModule
-	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
+    description 'Starts a codeserver, and a simple webserver for development'
+    main 'com.google.gwt.dev.DevMode'
+    maxHeapSize '2048m'
+    classpath ((configurations.compile as Set<String>) 
+        + (sourceSets.main.allSource.srcDirs as Set<String>) 
+        + (jar.archivePath as String))
+    workingDir file(warDirRel)
+    args '-logLevel', 'INFO',
+        '-codeServerPort', '9997',
+        '-port', '8888',
+        '-superDevMode',
+        '-war', file(warDirRel),
+        devModule
+    systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 
 // https://issues.gradle.org/browse/GRADLE-2778
@@ -190,9 +188,9 @@ javadoc {
 }
 
 test {
-     ignoreFailures = true
+    ignoreFailures = true
 }
 
-findbugs{
-     ignoreFailures = true
+findbugs {
+    ignoreFailures = true
 }
