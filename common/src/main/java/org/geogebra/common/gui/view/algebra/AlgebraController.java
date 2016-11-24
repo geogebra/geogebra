@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -127,29 +128,9 @@ public class AlgebraController {
 		// ZoomOut, ...)
 		if (newGeos.length > 0 && newGeos[0] != null
 				&& newGeos[0].isGeoText()) {
-			GeoText text = (GeoText) newGeos[0];
-			if (!text.isTextCommand()
-					&& text.getStartPoint() == null) {
+			InputHelper.centerText((GeoText) newGeos[0], kernel.getApplication()
+					.getActiveEuclidianView());
 
-				Construction cons = text.getConstruction();
-				EuclidianViewInterfaceCommon ev = kernel.getApplication()
-						.getActiveEuclidianView();
-
-				boolean oldSuppressLabelsStatus = cons
-						.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(true);
-				GeoPoint p = new GeoPoint(text.getConstruction(),
-						null, (ev.getXmin() + ev.getXmax()) / 2,
-						(ev.getYmin() + ev.getYmax()) / 2, 1.0);
-				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-				try {
-					text.setStartPoint(p);
-					text.update();
-				} catch (CircularDefinitionException e1) {
-					e1.printStackTrace();
-				}
-			}
 		}
 	}
 

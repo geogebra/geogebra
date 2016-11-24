@@ -81,8 +81,8 @@ public class InputHelper {
 
 	}
 
-	private static void centerText(GeoText text,
-			EuclidianViewInterfaceCommon ev) {
+	public static void centerText(GeoText text,
+								  EuclidianViewInterfaceCommon ev) {
 		text.setAuxiliaryObject(false);
 		Construction cons = text.getConstruction();
 
