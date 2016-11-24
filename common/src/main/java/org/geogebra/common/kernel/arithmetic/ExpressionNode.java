@@ -6393,20 +6393,24 @@ fn
 	}
 
 	/**
-	 * @return whether is a simple fraction like 7/2
+	 * Check whether denominator and numerator are both independent integers
+	 * 
+	 * @return whether is a simple fraction like 7/2 or -1/2
 	 */
 	public boolean isSimpleFraction() {
 		if (operation == Operation.DIVIDE) {
-			ExpressionValue[] fraction = new ExpressionValue[2];
-			getFraction(fraction, false);
-			if (fraction[0] != null && fraction[1] != null
-					&& fraction[0] instanceof ExpressionNode
-					&& fraction[0].isLeaf()
-					&& ((ExpressionNode) fraction[0])
-							.getLeft() instanceof MyDouble
-					&& fraction[1] instanceof MyDouble) {
-				double lt = fraction[0].evaluateDouble();
-				double rt = fraction[1].evaluateDouble();
+			ExpressionValue leftUnsigned = left.unwrap();
+			if (left.isExpressionNode()
+					&& getLeftTree().getOperation() == Operation.MULTIPLY
+					&& ExpressionNode.isConstantDouble(getLeftTree().getLeft(),
+							-1)) {
+				leftUnsigned = getLeftTree().getRight();
+
+			}
+			if (leftUnsigned instanceof MyDouble
+					&& right.unwrap() instanceof MyDouble) {
+				double lt = left.evaluateDouble();
+				double rt = right.evaluateDouble();
 				if (Kernel.isInteger(lt) && Kernel.isInteger(rt)) {
 					return true;
 				}
