@@ -1179,12 +1179,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 	public void setItemWidth(int width) {
-		if (isInputTreeItem()) {
-			getWidget().getElement().getParentElement().getStyle()
-					.setWidth(width, Unit.PX);
-		} else {
-			setWidth(width + "px");
+		if (getOffsetWidth() != width) {
+			if (isInputTreeItem()) {
+				getWidget().getElement().getParentElement().getStyle()
+						.setWidth(width, Unit.PX);
+			} else {
+				setWidth(width + "px");
+			}
+
 		}
+
 		onResize();
 	}
 

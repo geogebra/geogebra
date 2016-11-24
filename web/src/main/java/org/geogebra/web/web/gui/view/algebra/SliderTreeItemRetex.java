@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -154,6 +155,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		if (slider == null) {
 			return;
 		}
+		Log.printStacktrace("SLIDER resize()");
 		Scheduler.get().scheduleDeferred(resizeCmd);
 	}
 

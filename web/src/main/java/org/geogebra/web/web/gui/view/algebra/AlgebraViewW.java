@@ -324,6 +324,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		// repaint sliders as fast as possible
 
 		if (isShowing()) {
+
 			deferredRepaintSliders();
 		}
 
@@ -1945,6 +1946,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void resize() {
 		if (app.has(Feature.AV_SCROLL)) {
 			int resizedWidth = getOffsetWidth();
+			if (maxItemWidth == 0) {
+				maxItemWidth = resizedWidth;
+			}
 			if (resizedWidth > maxItemWidth) {
 				setWidths(resizedWidth);
 			}
