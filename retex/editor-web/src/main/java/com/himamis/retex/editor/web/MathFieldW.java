@@ -41,7 +41,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -49,6 +48,7 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -305,6 +305,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	private Timer focuser;
+	private boolean pasteInstalled = false;
 	public void setFocus(boolean focus) {
 		if (focus) {
 			startBlink();
@@ -320,6 +321,10 @@ public class MathFieldW implements MathField, IsWidget {
 			focuser.schedule(200);
 			startEditing();
 			html.getElement().focus();
+			if (!pasteInstalled) {
+				pasteInstalled = true;
+				installPaste();
+			}
 
 		} else {
 			if (focuser != null) {
@@ -330,6 +335,14 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 		this.focused = focus;
 	}
+
+	private native void installPaste() /*-{
+		var that = this;
+		$doc.body.addEventListener('paste',
+		function(a){that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));}
+		);
+		
+	}-*/;
 
 	public void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
@@ -361,19 +374,12 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public void paste() {
-		insertString(getSystemClipboardChromeWebapp(html.getElement()));
+		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
 
 	}
 
 	private void insertString(String text) {
-		EditorState state = mathFieldInternal.getEditorState();
-
-		int offset = state.getCurrentOffset();
-		for (int i = 0; i < text.length(); i++) {
-
-			mathFieldInternal.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
-
-		}
+		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 
 		mathFieldInternal.selectNextArgument();
 
@@ -389,7 +395,7 @@ public class MathFieldW implements MathField, IsWidget {
 			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '100';
 			hiddenTextArea.style.left = '-1000px';
-			hiddenTextArea.style.top = '-1000px';
+
 			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
 		}
 		//hiddenTextArea.value = '';

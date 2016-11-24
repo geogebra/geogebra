@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.input;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -8,9 +11,6 @@ import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringCharAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class KeyboardInputAdapter {
 
@@ -117,6 +117,28 @@ public class KeyboardInputAdapter {
 
     }
 
+	public static void insertString(MathFieldInternal mMathFieldInternal,
+			String text) {
+
+		boolean oldCreateFrac = mMathFieldInternal.getInputController()
+				.getCreateFrac();
+		mMathFieldInternal.getInputController().setCreateFrac(false);
+		StringBuilder cSB = new StringBuilder(1);
+		for (int i = 0; i < text.length(); i++) {
+			char c = text.charAt(i);
+			// org.geogebra.common.util.debug.Log.debug("char #"+i+">"+c+"<");
+			if (KeyboardInputAdapter.isValidChar(c)) {
+				cSB.setLength(0);
+				cSB.append(c);
+				// org.geogebra.common.util.debug.Log.debug("-- > type: "+
+				// Character.getType(c));
+				KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
+						cSB.toString());
+			}
+		}
+		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
+	}
+
     public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {
         if (input == null) {
             return;
@@ -153,7 +175,7 @@ public class KeyboardInputAdapter {
         // needs check:
         // ENCLOSING_MARK, CURRENCY_SYMBOL, OTHER_SYMBOL, INITIAL_QUOTE_PUNCTUATION, FINAL_QUOTE_PUNCTUATION
 
-        return false;
+		return true;
     }
 
 }

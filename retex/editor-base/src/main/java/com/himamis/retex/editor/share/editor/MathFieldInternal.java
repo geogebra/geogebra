@@ -495,4 +495,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	}
 
+	public void debug(String string) {
+		mathField.debug(string);
+
+	}
+
 }

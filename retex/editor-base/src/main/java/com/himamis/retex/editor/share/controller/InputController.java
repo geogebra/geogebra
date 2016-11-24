@@ -662,7 +662,7 @@ public class InputController {
         } else if (metaModel.isFunctionOpenKey(ch)) {
             newBraces(editorState, ch);
             handled = true;
-        } else if (ch == '^') {
+		} else if (mCreateFrac && ch == '^') {
             newScript(editorState, "^");
             handled = true;
         } else if (ch == '_') {
