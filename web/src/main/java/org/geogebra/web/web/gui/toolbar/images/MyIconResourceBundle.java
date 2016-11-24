@@ -373,4 +373,38 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource mode_orthogonalthreed_32();
 	
 	
+	//Whiteboard
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_line.png")
+	ImageResource mode_shape_line_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_triangle.png")
+	ImageResource mode_shape_triangle_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_square.png")
+	ImageResource mode_shape_square_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle.png")
+	ImageResource mode_shape_rectangle_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle_round_edges.png")
+	ImageResource mode_shape_rectangle_round_edges_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_polygon.png")
+	ImageResource mode_shape_polygon_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_freeform.png")
+	ImageResource mode_shape_freeform_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_circle.png")
+	ImageResource mode_shape_circle_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_ellipse.png")
+	ImageResource mode_shape_ellipse_32();
+	
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_eraser.png")
+	ImageResource mode_eraser_32();
+	
+	// @Source("org/geogebra/common/icons_toolbar/p32/mode_highlighter.png")
+	// ImageResource mode_highlighter_32();
+	
 }

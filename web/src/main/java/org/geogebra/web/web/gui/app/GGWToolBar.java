@@ -1091,8 +1091,41 @@ pr.menu_header_undo(), null, 32);
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return myIconResourceBundle.mode_orthogonalthreed_32();
 			
-		
+		/** WHITEBOARD TOOLS */
+		case EuclidianConstants.MODE_SHAPE_LINE:
+			return myIconResourceBundle.mode_shape_line_32();
 
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return myIconResourceBundle.mode_shape_triangle_32();
+
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+			return myIconResourceBundle.mode_shape_square_32();
+
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+			return myIconResourceBundle.mode_shape_rectangle_32();
+
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
+			return myIconResourceBundle.mode_shape_rectangle_round_edges_32();
+
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+			return myIconResourceBundle.mode_shape_polygon_32();
+
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+			return myIconResourceBundle.mode_shape_freeform_32();
+
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+			return myIconResourceBundle.mode_shape_circle_32();
+
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+			return myIconResourceBundle.mode_shape_ellipse_32();
+
+		case EuclidianConstants.MODE_ERASER:
+			return myIconResourceBundle.mode_eraser_32();
+
+		/*
+		 * case EuclidianConstants.MODE_HIGHLIGHTER: return
+		 * myIconResourceBundle.mode_highlighter_32();
+		 */
 		default:
 			return AppResources.INSTANCE.empty();
 		}

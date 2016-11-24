@@ -373,6 +373,21 @@ public final class EuclidianConstants {
 	/** Maximum */
 	public static final int MODE_SPREADSHEET_MAX = 2044;
 
+	/** WHITEBOARD TOOLS */
+	public static final int MODE_SHAPE_LINE = 6001;
+	public static final int MODE_SHAPE_TRIANGLE = 6002;
+	public static final int MODE_SHAPE_SQUARE = 6003;
+	public static final int MODE_SHAPE_RECTANGLE = 6004;
+	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 6005;
+	public static final int MODE_SHAPE_POLYGON = 6006;
+	public static final int MODE_SHAPE_FREEFORM = 6007;
+	public static final int MODE_SHAPE_CIRCLE = 6008;
+	public static final int MODE_SHAPE_ELLIPSE = 6009;
+
+	public static final int MODE_ERASER = 6010;
+	public static final int MODE_HIGHLIGHTER = 6011;
+	
+	
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
@@ -772,6 +787,31 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_ROOTS:
 			return "Roots";
+			
+			/** WHITEBOARD TOOLS */
+		case EuclidianConstants.MODE_SHAPE_LINE:
+			return "ShapeLine";
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return "ShapeTriangle";
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+			return "ShapeSquare";
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+			return "ShapeRectangle";
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
+			return "ShapeRectangleRoundEdges";
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+			return "ShapePolygon";
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+			return "ShapeFreeform";
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+			return "ShapeCircle";
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+			return "ShapeEllipse";
+
+		case EuclidianConstants.MODE_ERASER:
+			return "Eraser";
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+			return "Highlighter";
 
 		default:
 			Log.error("Unknown mode " + mode);
