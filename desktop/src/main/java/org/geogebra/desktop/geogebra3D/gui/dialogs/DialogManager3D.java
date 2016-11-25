@@ -37,7 +37,7 @@ public class DialogManager3D extends DialogManagerD {
 				|| (view instanceof EuclidianViewForPlaneD)) {
 			// create a circle parallel to plane containing the view
 			showNumberInputDialogCirclePointDirectionRadius(title, geoPoint1,
-					view.getDirection());
+					view.getDirection(), view.getEuclidianController());
 		} else {
 			// create 2D circle
 			super.showNumberInputDialogCirclePointRadius(title, geoPoint1, view);
@@ -52,7 +52,8 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	@Override
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
-			GeoPointND geoPoint, GeoDirectionND forAxis) {
+			GeoPointND geoPoint, GeoDirectionND forAxis,
+			EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogCirclePointDirectionRadius((AppD) app,
@@ -86,7 +87,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	@Override
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogConeTwoPointsRadius((AppD) app, title,
@@ -105,7 +106,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	@Override
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogCylinderTwoPointsRadius((AppD) app,

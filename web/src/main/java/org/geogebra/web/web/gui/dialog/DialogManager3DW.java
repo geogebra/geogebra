@@ -35,7 +35,8 @@ public class DialogManager3DW extends DialogManagerW{
 	 * @param b apex point
 	 */
 	@Override
-    public void showNumberInputDialogConeTwoPointsRadius(String title, GeoPointND a, GeoPointND b){
+	public void showNumberInputDialogConeTwoPointsRadius(String title,
+			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogConeTwoPointsRadiusW((AppW) app, title, handler, a, b, app.getKernel());
 		id.setVisible(true);
@@ -44,7 +45,8 @@ public class DialogManager3DW extends DialogManagerW{
 	
 
 	@Override
-    public void showNumberInputDialogCylinderTwoPointsRadius(String title, GeoPointND a, GeoPointND b) {
+	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
+			GeoPointND a, GeoPointND b, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogCylinderTwoPointsRadiusW((AppW) app, title, handler, a, b, app.getKernel());
 		id.setVisible(true);
@@ -52,7 +54,9 @@ public class DialogManager3DW extends DialogManagerW{
 	
 	
 	@Override
-    public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
+	public void showNumberInputDialogCirclePointDirectionRadius(String title,
+			GeoPointND geoPoint, GeoDirectionND forAxis,
+			EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogCirclePointDirectionRadiusW((AppW) app, title, handler, geoPoint, forAxis, app.getKernel());
 		id.setVisible(true);
