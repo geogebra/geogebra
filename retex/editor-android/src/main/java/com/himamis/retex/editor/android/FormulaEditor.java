@@ -1,7 +1,6 @@
 package com.himamis.retex.editor.android;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -300,6 +299,11 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void paste() {
+
+    }
+
+    @Override
+    public void copy() {
 
     }
 
