@@ -107,6 +107,10 @@ def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d']
 
+outputs.each { output ->
+    addArtifact(output)
+}
+
 task cleanWar(type: Delete) {
     outputs.each { folder ->
         delete warDirRel + "/$folder"
