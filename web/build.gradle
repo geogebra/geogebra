@@ -1,4 +1,4 @@
-project.setDescription('Parts of GeoGebra related to web platforms')
+description 'Parts of GeoGebra related to web platforms'
 
 evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')
