@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -25,7 +26,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 		this(new AnimationSpeedModel(app), app);
 	}
 
-	public AnimationSpeedPanelW(AnimationSpeedModel m, AppW app) {
+	public AnimationSpeedPanelW(AnimationSpeedModel m, final AppW app) {
 		super(app.getLocalization(), app.getLocalization().getMenu(
 				"AnimationSpeed"));
         this.app = app;
@@ -64,11 +65,13 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 
 			@Override
 			protected void wrapFocusGained(){
+				FieldHandler.focusGained(tfAnimSpeed, app);
 			}
 			
 			@Override
 			protected void wrapFocusLost(){
-					doActionPerformed();
+				doActionPerformed();
+				app.hideKeyboard();
 			}	
 		});
         tfAnimSpeed.requestToShowSymbolButton();

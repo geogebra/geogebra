@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 import org.geogebra.web.web.gui.dialog.options.CheckboxPanel;
@@ -61,7 +62,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	
 
-	public SliderPanelW(AppW app,
+	public SliderPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -122,11 +123,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 
 			}});
+		tfMin.addFocusHandler(new FieldHandler(app));
+		
 		tfMin.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMin();
+				app.hideKeyboard();
 			}
 		});
 
