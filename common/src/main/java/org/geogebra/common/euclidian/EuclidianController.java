@@ -5537,6 +5537,12 @@ public abstract class EuclidianController {
 			break;
 
 		// delete selected object
+		case EuclidianConstants.MODE_ERASER:
+			changedKernel = getDeleteMode().process(hits.getTopHits(),
+					isControlDown, selectionPreview);
+			break;
+
+		// delete selected object
 		case EuclidianConstants.MODE_DELETE:
 			changedKernel = getDeleteMode().process(hits.getTopHits(),
 					isControlDown, selectionPreview);
@@ -7804,7 +7810,8 @@ public abstract class EuclidianController {
 			// disappear
 			return;
 		}
-		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
+		if (draggingBeyondThreshold && (mode == EuclidianConstants.MODE_DELETE
+				|| mode == EuclidianConstants.MODE_ERASER)) {
 
 			getDeleteMode().handleMouseDraggedForDelete(event,
 					getDeleteToolSize(), false);
@@ -8966,6 +8973,9 @@ public abstract class EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_DELETE:
+			getDeleteMode().mousePressed(type);
+			break;
+		case EuclidianConstants.MODE_ERASER:
 			getDeleteMode().mousePressed(type);
 
 		default:
