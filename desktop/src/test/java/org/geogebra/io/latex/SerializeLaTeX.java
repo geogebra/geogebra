@@ -45,12 +45,12 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testDiv() {
-		checkCannon("1/2", "(1)/2");
+		checkCannon("1/2", "(1)/(2)");
 		checkCannon("1/2+3", "(1)/(2)+3");
-		checkCannon("1/ ( 2)", "(1)/((2))");
-		checkCannon("1/ ( 2+3)", "(1)/((2+3))");
-		checkCannon("1/ ((2+3)+4)", "(1)/(((2+3)+4))");
-		checkCannon("1/(2/3)", "(1)/(((2)/(3)))");
+		checkCannon("1/ ( 2)", "(1)/(2)");
+		checkCannon("1/ ( 2+3)", "(1)/(2+3)");
+		checkCannon("1/ ((2+3)+4)", "(1)/((2+3)+4)");
+		checkCannon("1/(2/3)", "(1)/((2)/(3))");
 		
 	}
 
@@ -65,7 +65,7 @@ public class SerializeLaTeX {
 		checkCannon("1 + x" + Unicode.Superscript_Minus + Unicode.Superscript_2
 				+ Unicode.Superscript_3, "1+x^(-23)");
 		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
-		checkCannon("e^(-10/x)*sin(x)", "e^((-(10)/x))*sin(x)");
+		checkCannon("e^(-10/x)*sin(x)", "e^(-(10)/(x))*sin(x)");
 
 	}
 
@@ -96,6 +96,7 @@ public class SerializeLaTeX {
 		MathFormula mf = null;
 		try {
 			mf = parser.parse(input);
+			System.out.println(mf.getRootComponent());
 		} catch (ParseException e) {
 			Assert.assertNull(e);
 		}
