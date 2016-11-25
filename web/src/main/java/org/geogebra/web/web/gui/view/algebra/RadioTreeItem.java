@@ -1180,6 +1180,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 	public void setItemWidth(int width) {
 		if (getOffsetWidth() != width) {
+			// Log.debug("setItemWidth: " + width);
 			if (isInputTreeItem()) {
 				getWidget().getElement().getParentElement().getStyle()
 						.setWidth(width, Unit.PX);
@@ -1662,6 +1663,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
+	static boolean isWidgetHit(Widget w, PointerEvent evt) {
+		return isWidgetHit(w, evt.getX(), evt.getY());
+
+	}
+
 	private static boolean isWidgetHit(Widget w, int x, int y) {
 		if (w == null) {
 			return false;
@@ -1706,25 +1712,31 @@ public abstract class RadioTreeItem extends AVTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			boolean enable = true;
-			if (isSliderItem() && !isWidgetHit(plainTextItem, event)) {
-				enable = false;
-				if (active) {
-					stopEditing(getText(), null);
-				}
-
-			}
-
-			if (enable) {
-				edit(event.isControlKeyDown());
-			}
-		}
+		editOnTap(active, wrappedEvent);
 		handleAVItem(event);
 		this.updateButtonPanelPosition();
 
 	}
 
+	private void editOnTap(boolean active, PointerEvent wrappedEvent) {
+		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			return;
+		}
+
+		boolean enable = true;
+		if (isSliderItem() && !isWidgetHit(plainTextItem, wrappedEvent)) {
+			enable = false;
+			if (active) {
+				stopEditing(getText(), null);
+			}
+
+		}
+
+		if (enable) {
+			edit(wrappedEvent.isControlDown());
+		}
+
+	}
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
@@ -1917,6 +1929,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		boolean active = isEditing();
 		handleAVItem(event);
 		// this would propagate the event to
 		// AlgebraView.onBrowserEvent... is this we want?
@@ -1931,6 +1944,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
+		editOnTap(active, (PointerEvent) wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
