@@ -1026,22 +1026,25 @@ public class Construction {
 				? this.corner5Algos
 				: (type == EVProperty.ROTATION ? this.corner11Algos
 						: this.euclidianViewCE);
-		if (toUpdate == null) {
+		if (toUpdate == null || toUpdate.size() == 0) {
 			return false;
 		}
 		int size = toUpdate.size();
 		AlgorithmSet updateSet = null;
 		for (int i = 0; i < size; i++) {
 			didUpdate = true;
-			boolean needsUpdateCascade = toUpdate.get(i).euclidianViewUpdate();
+
+			EuclidianViewCE elem = toUpdate.get(i);
+
+			boolean needsUpdateCascade = elem.euclidianViewUpdate();
 			if (needsUpdateCascade) {
 				if (updateSet == null)
 					updateSet = new AlgorithmSet();
-				if (toUpdate.get(i) instanceof GeoElement) {
-					GeoElement geo = (GeoElement) toUpdate.get(i);
+				if (elem instanceof GeoElement) {
+					GeoElement geo = (GeoElement) elem;
 					updateSet.addAll(geo.getAlgoUpdateSet());
-				} else if (toUpdate.get(i) instanceof AlgoElement) {
-					AlgoElement algo = (AlgoElement) toUpdate.get(i);
+				} else if (elem instanceof AlgoElement) {
+					AlgoElement algo = (AlgoElement) elem;
 					GeoElement[] geos = algo.getOutput();
 					for (GeoElement geo : geos) {
 						updateSet.addAll(geo.getAlgoUpdateSet());
