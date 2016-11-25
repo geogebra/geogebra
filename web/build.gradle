@@ -13,6 +13,7 @@ buildscript {
 apply plugin: 'gwt-compiler'
 apply plugin: 'java'
 apply plugin: 'findbugs'
+apply from: "$rootDir/gradle-scripts/gwt-artifacts.gradle"
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -104,9 +105,12 @@ configurations.all {
 
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
+def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d']
 
 task cleanWar(type: Delete) {
-    delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
+    outputs.each { folder ->
+        delete warDirRel + "/$folder"
+    }
 }
 
 task copyHtml << {
@@ -123,7 +127,7 @@ task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
 task symlinkIntoWar(dependsOn: ['copyHtml']) {
     description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
     doLast {
-        ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
+        outputs.each { folder ->
             ant.symlink(resource: "../build/gwt/out/$folder", link: file("war/$folder"), overwrite: true)
         }
     }
@@ -132,7 +136,7 @@ task symlinkIntoWar(dependsOn: ['copyHtml']) {
 task draftSymlinkIntoWar(dependsOn: ['copyHtml']) {
     description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
     doLast {
-        ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
+        outputs.each { folder ->
             ant.symlink(resource: "../build/gwt/draftOut/$folder", link: file("war/$folder"), overwrite: true)
         }
     }
