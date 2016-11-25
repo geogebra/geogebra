@@ -564,7 +564,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(App.getCASVersionString());
 
 		String v;
-		SingularWebService singularWS = app.getSingularWS();
+		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null
 				&& (v = singularWS.getSingularVersionString()) != null)

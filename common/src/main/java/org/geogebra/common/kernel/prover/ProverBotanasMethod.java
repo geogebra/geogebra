@@ -1036,8 +1036,7 @@ public class ProverBotanasMethod {
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
-		SingularWebService singularWS = statement.getKernel().getApplication()
-				.getSingularWS();
+		SingularWebService singularWS = App.getSingularWS();
 		if (singularWS == null || (!singularWS.isAvailable())) {
 			proverSettings.transcext = false;
 		}

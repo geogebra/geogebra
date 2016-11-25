@@ -215,7 +215,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		CASGenericInterface currentCAS = cas.getCurrentCAS();
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		SingularWebService singularWS = App.getSingularWS();
 		// If SingularWS is available and quick enough, let's use it:
 		if (singularWS != null && singularWS.isAvailable()
 				&& singularWS.isFast()) {

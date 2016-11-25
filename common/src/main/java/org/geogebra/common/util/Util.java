@@ -70,7 +70,8 @@ public class Util extends Object {
 	}
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
-	final public static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32,
+	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
+			32,
 			48 };
 
 	public static int menuFontSizes(int i) {

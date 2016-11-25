@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -354,8 +355,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		script.append("sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 			append("coeffs(coeffs(p,x),y));");
 		Log.trace("Input to singular: " + script);
-		String result = kernel.getApplication().getSingularWS()
-				.directCommand(script.toString());
+		String result = App.getSingularWS().directCommand(script.toString());
 		Log.trace("Output from singular: " + result);
 		// Temporary workaround by creating dummy factor:
 		result = "{{" + result + "},{1," + result + "}}";

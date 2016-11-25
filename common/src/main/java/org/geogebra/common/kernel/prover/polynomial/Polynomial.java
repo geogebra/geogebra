@@ -998,7 +998,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
 		String solvableResult, solvableProgram;
 		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable()) {
 			
@@ -1139,7 +1139,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		SingularWebService singularWS = kernel.getApplication().getSingularWS();
+		SingularWebService singularWS = App.getSingularWS();
 
 		if (singularWS != null && singularWS.isAvailable() && factorized) {
 
