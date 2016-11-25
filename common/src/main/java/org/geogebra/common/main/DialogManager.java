@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -516,7 +515,7 @@ public abstract class DialogManager {
 	 *            apex point
 	 */
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+														 GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -531,7 +530,7 @@ public abstract class DialogManager {
 	 *            top center
 	 */
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+															 GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -543,7 +542,7 @@ public abstract class DialogManager {
 	 * 
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
-			GeoPointND geoPoint, GeoDirectionND forAxis) {
+																GeoPointND geoPoint, GeoDirectionND forAxis, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -564,18 +563,75 @@ public abstract class DialogManager {
 		return false;
 	}
 
-	public interface CreateGeoPointRadius {
-		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num);
+	public interface CreateGeoFromRadius {
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num);
 	}
 
-	static public class CreateSpherePointRadius implements CreateGeoPointRadius {
-		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num) {
+	public class CreateSphereFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+
+		public CreateSphereFromRadius(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getManager3D().Sphere(null, point, num);
 		}
 	}
 
-	static public class CreateCirclePointRadius implements CreateGeoPointRadius {
-		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num) {
+	public class CreateConeFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point1, point2;
+
+		public CreateConeFromRadius(GeoPointND point1, GeoPointND point2) {
+			this.point1 = point1;
+			this.point2 = point2;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().ConeLimited(null, point1, point2, num)[0];
+		}
+	}
+
+	public class CreateCylinderFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point1, point2;
+
+		public CreateCylinderFromRadius(GeoPointND point1, GeoPointND point2) {
+			this.point1 = point1;
+			this.point2 = point2;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().CylinderLimited(null, point1, point2, num)[0];
+		}
+	}
+
+	public class CreateCircleFromDirectionRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+		private GeoDirectionND forAxis;
+
+		public CreateCircleFromDirectionRadius(GeoPointND point, GeoDirectionND forAxis) {
+			this.point = point;
+			this.forAxis = forAxis;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().Circle3D(null, point, num, forAxis);
+		}
+	}
+
+	public class CreateCircleFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+
+		public CreateCircleFromRadius(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
 			return kernel.getAlgoDispatcher()
 					.Circle(null, point, num);
 		}
@@ -583,8 +639,8 @@ public abstract class DialogManager {
 
 	public static void makeGeoPointRadius(final App app,
 										  final EuclidianController ec,
-										  String inputString, final GeoPointND geoPoint,
-										  final CreateGeoPointRadius createGeoPointRadius,
+										  String inputString,
+										  final CreateGeoFromRadius createGeoFromRadius,
 										  final ErrorHandler handler,
 										  final AsyncOperation<Boolean> callback) {
 		if (inputString == null || "".equals(inputString)) {
@@ -623,7 +679,7 @@ public abstract class DialogManager {
 									return;
 								}
 
-								GeoElement geo = createGeoPointRadius.createGeo(kernel, geoPoint,
+								GeoElement geo = createGeoFromRadius.createGeo(kernel,
 												(GeoNumberValue) result[0]);
 
 								GeoElement[] onlypoly = { null };

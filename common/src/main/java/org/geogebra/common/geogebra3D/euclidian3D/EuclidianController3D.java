@@ -954,7 +954,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
 					points[0],
-					points[1]);
+					points[1],
+					this);
 			return true;
 		}
 		return false;
@@ -980,7 +981,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
 					points[0],
-					points[1]);
+					points[1],
+					this);
 			return true;
 		}
 		return false;
@@ -1173,7 +1175,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 							app.getLocalization().getMenu(
 									EuclidianConstants.getModeText(mode)),
 							getSelectedPointsND()[0],
-							getSelectedDirections()[0]);
+							getSelectedDirections()[0],
+							this);
 
 			return true;
 
