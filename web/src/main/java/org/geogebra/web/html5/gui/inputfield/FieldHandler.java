@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -34,7 +35,7 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 	}
 
 	public void onBlur(BlurEvent event) {
-		appl.hideKeyboard();
+		focusLost(appl);
 	}
 
 	public static void focusGained(AutoCompleteTextFieldW field, AppW app) {
@@ -43,7 +44,16 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 				field.setFocus(false);
 				field.startOnscreenKeyboardEditing();
 			}
-			app.showKeyboard((AutoCompleteTextFieldW) field, true);
+			app.showKeyboard(field, true);
+		}
+	}
+
+	public static void focusLost(final AppW app) {
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			if (CancelEventTimer.cancelKeyboardHide()) {
+				return;
+			}
+			app.hideKeyboard();
 		}
 	}
 
