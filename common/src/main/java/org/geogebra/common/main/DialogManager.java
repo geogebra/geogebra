@@ -501,7 +501,7 @@ public abstract class DialogManager {
 	 * @param geoPoint
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title,
-			GeoPointND geoPoint) {
+													   GeoPointND geoPoint, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -564,11 +564,29 @@ public abstract class DialogManager {
 		return false;
 	}
 
-	public static void makeCircleRadius(final App app,
-			final EuclidianController ec,
-			String inputString, final GeoPointND geoPoint,
-			final ErrorHandler handler,
-			final AsyncOperation<Boolean> callback) {
+	public interface CreateGeoPointRadius {
+		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num);
+	}
+
+	static public class CreateSpherePointRadius implements CreateGeoPointRadius {
+		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num) {
+			return kernel.getManager3D().Sphere(null, point, num);
+		}
+	}
+
+	static public class CreateCirclePointRadius implements CreateGeoPointRadius {
+		public GeoElement createGeo(Kernel kernel, GeoPointND point, GeoNumberValue num) {
+			return kernel.getAlgoDispatcher()
+					.Circle(null, point, num);
+		}
+	}
+
+	public static void makeGeoPointRadius(final App app,
+										  final EuclidianController ec,
+										  String inputString, final GeoPointND geoPoint,
+										  final CreateGeoPointRadius createGeoPointRadius,
+										  final ErrorHandler handler,
+										  final AsyncOperation<Boolean> callback) {
 		if (inputString == null || "".equals(inputString)) {
 			if (callback != null) {
 				callback.callback(false);
@@ -586,10 +604,10 @@ public abstract class DialogManager {
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputString, false,
 						handler, true,
-				new AsyncOperation<GeoElementND[]>() {
+						new AsyncOperation<GeoElementND[]>() {
 
 							@Override
-					public void callback(GeoElementND[] result) {
+							public void callback(GeoElementND[] result) {
 								cons.setSuppressLabelCreation(oldVal);
 
 								boolean success = result != null
@@ -605,25 +623,22 @@ public abstract class DialogManager {
 									return;
 								}
 
-								GeoConicND circle = kernel.getAlgoDispatcher()
-										.Circle(null, geoPoint,
+								GeoElement geo = createGeoPointRadius.createGeo(kernel, geoPoint,
 												(GeoNumberValue) result[0]);
 
 								GeoElement[] onlypoly = { null };
-								if (circle != null) {
-									onlypoly[0] = circle;
+								if (geo != null) {
+									onlypoly[0] = geo;
 									app.storeUndoInfoAndStateForModeStarting();
 									ec.memorizeJustCreatedGeos(onlypoly);
+									kernel.notifyRepaint();
 								}
 								if (callback != null) {
-									callback.callback(circle != null);
+									callback.callback(geo != null);
 								}
 
 							}
 						});
-
-
-
 
 	}
 

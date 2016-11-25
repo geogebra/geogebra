@@ -929,7 +929,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			getDialogManager().showNumberInputDialogSpherePointRadius(
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
-					getSelectedPointsND()[0]);
+					getSelectedPointsND()[0], this);
 			return true;
 		}
 		return false;

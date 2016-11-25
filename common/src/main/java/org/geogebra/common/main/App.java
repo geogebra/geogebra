@@ -4095,6 +4095,10 @@ public abstract class App implements UpdateSelection {
 			case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
 				return prerelease;
 
+			// MOB-555
+			case MOBILE_3D_TOOLS_WITH_DIALOGS:
+				return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
