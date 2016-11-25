@@ -106,4 +106,9 @@ public class FunctionVariable extends MyDouble {
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return o == this;
+	}
+
 }
