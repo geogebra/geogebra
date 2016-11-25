@@ -20,7 +20,8 @@ public class DialogManager3DW extends DialogManagerW{
 	 * @param geoPoint
 	 */
 	@Override
-    public void showNumberInputDialogSpherePointRadius(String title, GeoPointND center){
+	public void showNumberInputDialogSpherePointRadius(String title,
+			GeoPointND center, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
 		InputDialogW id = new InputDialogSpherePointW((AppW) app, title, handler, center, app.getKernel());
 		id.setVisible(true);
