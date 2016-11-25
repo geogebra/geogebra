@@ -62,7 +62,7 @@ public class FormulaEditor extends View implements MathField {
 
     private Parser mParser;
 
-    static final private void debug(String message) {
+    public void debug(String message) {
         //System.out.println(message);
     }
 
