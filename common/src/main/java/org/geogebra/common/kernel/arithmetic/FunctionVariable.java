@@ -107,8 +107,11 @@ public class FunctionVariable extends MyDouble {
 	}
 
 	@Override
+	/**
+	 * checks if set to same value, not if it's the same FunctionVariable object
+	 */
 	public boolean equals(Object o) {
-		return o == this;
+		return super.equals(o);
 	}
 
 }
