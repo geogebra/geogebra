@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
 public class CASLaTeXEditor extends SimplePanel
@@ -277,6 +278,10 @@ public class CASLaTeXEditor extends SimplePanel
 	public void onUpKeyPressed() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public String serialize(MathSequence selectionText) {
+		return GeoGebraSerializer.serialize(selectionText);
 	}
 
 }

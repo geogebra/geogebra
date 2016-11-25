@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
@@ -562,5 +563,9 @@ public class LatexTreeItem extends RadioTreeItem
 	protected void updateButtonPanelPosition() {
 		super.updateButtonPanelPosition();
 		getAlgebraDockPanel().scrollToBottom();
+	}
+
+	public String serialize(MathSequence selectionText) {
+		return GeoGebraSerializer.serialize(selectionText);
 	}
 }

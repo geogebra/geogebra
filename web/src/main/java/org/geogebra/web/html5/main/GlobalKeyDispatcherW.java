@@ -217,7 +217,9 @@ public class GlobalKeyDispatcherW extends
 	 * @return parent article element corresponding to applet
 	 */
 	ArticleElement getGGBArticle(Element el) {
-		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
+		// if SVG clicked, getClassName returns non-string
+		if ((el.getClassName() + "")
+				.indexOf("geogebraweb-dummy-invisible") >= 0) {
 			return null;
 		}
 

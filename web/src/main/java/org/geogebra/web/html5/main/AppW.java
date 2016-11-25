@@ -1236,10 +1236,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// This should do nothing in webSimple!
 	}
 
+	/**
+	 * @param title
+	 *            confirmation dialog title
+	 * @param mess
+	 *            message
+	 */
 	public void showConfirmDialog(String title, String mess) {
 		// This should do nothing in webSimple!
 	}
-
 
 
 	/**
@@ -2553,10 +2558,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 0;
 	}
 
-
-	public void doOnResize() {
-	}
-
 	public void loadURL_GGB(String ggb) {
 	}
 
@@ -2602,9 +2603,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		var active = $doc.activeElement;
 		if (active && (active !== $doc.body)) {
 
-			// have jQuery, do the other checks
+			//if SVG clicked, getClassName returns non-string
 
-			if (active.className
+			if (typeof active.className == "string"
 					&& active.className.match(/geogebraweb-dummy-invisible/)) {
 				// actually, ESC focuses this, does not blur!
 				return true;

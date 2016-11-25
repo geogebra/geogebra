@@ -208,4 +208,9 @@ public class MathFieldD extends JLabel implements MathField {
 
 	}
 
+	public void copy() {
+		debug(mathFieldInternal.copy());
+
+	}
+
 }

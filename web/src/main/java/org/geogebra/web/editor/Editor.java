@@ -1,5 +1,6 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.editor.web.xml.XmlResourcesEditor;
@@ -117,6 +119,10 @@ public class Editor implements EntryPoint, MathFieldListener {
 	public void onUpKeyPressed() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public String serialize(MathSequence selectionText) {
+		return GeoGebraSerializer.serialize(selectionText);
 	}
 
 }

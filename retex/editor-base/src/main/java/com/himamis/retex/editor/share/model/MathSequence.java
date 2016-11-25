@@ -50,7 +50,9 @@ public class MathSequence extends MathContainer {
         if (argument != null) {
             argument.setParent(this);
         }
-        arguments.add(i, argument);
+		if (i <= arguments.size()) {
+			arguments.add(i, argument);
+		}
     }
 
 	@Override

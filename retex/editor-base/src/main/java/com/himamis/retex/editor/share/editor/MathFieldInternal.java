@@ -178,6 +178,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				}
 			}
 		}
+		if (keyEvent.getKeyCode() == KeyEvent.VK_CONTROL) {
+			return false;
+		}
 		boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();
@@ -497,6 +500,15 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public void debug(String string) {
 		mathField.debug(string);
+
+	}
+
+	public String copy() {
+		if(listener!=null){
+			return (listener.serialize(
+					getInputController().getSelectionText(getEditorState())));
+		}
+		return "";
 
 	}
 

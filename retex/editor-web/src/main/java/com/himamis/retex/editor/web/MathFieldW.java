@@ -413,4 +413,9 @@ public class MathFieldW implements MathField, IsWidget {
 		return contents;
 	}-*/;
 
+	public void copy() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

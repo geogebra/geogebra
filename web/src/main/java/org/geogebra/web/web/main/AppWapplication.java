@@ -324,11 +324,6 @@ public class AppWapplication extends AppWFull {
 	}
 
 	@Override
-	public void doOnResize() {
-		getAppFrame().onResize();
-	}
-
-	@Override
 	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		// this method is overridden in each subclass of AppW,
 		// in order to override the behaviour in AppWeb

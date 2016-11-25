@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -96,6 +95,18 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	// private Updater updater;
 
 	// Constructor called from AlgoLocusList
+	/**
+	 * @param cons
+	 *            construction
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 * @param min_steps
+	 *            number of steps
+	 * @param registerCE
+	 *            whether to listen to zooming
+	 */
 	public AlgoLocusND(Construction cons, GeoPointND Q, GeoPointND P,
 			int min_steps, boolean registerCE) {
 		super(cons, registerCE);
@@ -141,19 +152,29 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	/**
 	 * create start pos points
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 */
-	abstract protected void createStartPos(Construction cons);
+	abstract protected void createStartPos(Construction cons1);
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new GeoLocus
 	 */
-	abstract protected GeoLocusND<T> newGeoLocus(Construction cons);
+	abstract protected GeoLocusND<T> newGeoLocus(Construction cons1);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param Q
+	 *            locus point
+	 * @param P
+	 *            moving point
+	 */
 	public AlgoLocusND(Construction cons, String label, GeoPointND Q,
 			GeoPointND P) {
 		this(cons, Q, P, PathMover.MIN_STEPS, true);
@@ -181,11 +202,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_LOCUS;
-	}
-
-	public ArrayList getMoveableInputPoints() {
-		// TODO ?
-		return null;
 	}
 
 	/**
