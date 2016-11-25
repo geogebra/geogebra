@@ -218,6 +218,39 @@ public class ToolBar {
 	}
 
 	/**
+	 * @return toolBar definition string for white board
+	 */
+	public static String getWBToolBarDefString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" | ");
+		// write tools + erasers
+		sb.append(EuclidianConstants.MODE_PEN + " ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE + " ");
+		sb.append(EuclidianConstants.MODE_DELETE + " ");
+		sb.append(EuclidianConstants.MODE_ERASER + " | ");
+		// geometry objects
+		sb.append(EuclidianConstants.MODE_JOIN + " ");
+		sb.append(EuclidianConstants.MODE_POLYGON + " ");
+		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON + " ");
+		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS + " ");
+		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS + " | ");
+		// shapes
+		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_POLYGON + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_FREEFORM + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_CIRCLE + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_ELLIPSE + " ");
+		sb.append(EuclidianConstants.MODE_SHAPE_LINE + " | ");
+		sb.append(EuclidianConstants.MODE_TEXT + " ");
+		sb.append(EuclidianConstants.MODE_IMAGE);
+		return sb.toString();
+	}
+
+	/**
 	 * @return The default definition of the general tool bar without macros.
 	 */
 	public static String getAllToolsNoMacrosForPlane() {
