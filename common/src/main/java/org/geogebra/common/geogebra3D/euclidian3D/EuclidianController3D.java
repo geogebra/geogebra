@@ -2930,7 +2930,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement intersection, Drawable3D d) {
 		intersection.setLineThickness(3);
 		intersection.setIsPickable(false);
-		intersection.setObjColor(ConstructionDefaults3D.colIntersectionCurve);
+		intersection.setObjColor(ConstructionDefaults3D.colIntersectionCurve());
 		intersectionCurveList.add(new IntersectionCurve(A, B, intersection,
 				true, d));
 	}

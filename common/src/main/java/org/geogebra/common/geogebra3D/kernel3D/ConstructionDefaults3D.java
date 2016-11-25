@@ -55,13 +55,16 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// curve 3D
 	/** default color for 3D curve */
-	public static final GColor colCurveCartesian3D = colConic;// new Color(255,
+	public static final GColor colCurveCartesian3D = colConic();// new
+																// Color(255,
 																// 128, 0);
 
 	// plane
 	/** default color for 3D planes */
-	private static final GColor colPlane3D = GColor.DARK_CYAN; // new Color(99,
-																// 219, 219);
+	private static final GColor colPlane3D() {
+		return GColor.DARK_CYAN;
+	}
+
 	/** default alpha for 3D planes */
 	public static final float DEFAULT_PLANE3D_ALPHA = 0.5f;
 	/** default grid thickness for 3D planes */
@@ -71,20 +74,30 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// polyhedrons
 	/** default color for polyhedrons */
-	private static final GColor colPolyhedron = colPolygon;// new Color(153, 51,
-															// 0);
-
+	private static final GColor colPolyhedron() {
+		return colPolygon();
+	}
 	/** default alpha for polyhedrons and limited quadrics */
 	public static final float DEFAULT_POLYHEDRON_ALPHA = 0.4f;
 
 	// intersection
 
-	public static final GColor colIntersectionCurve = GColor.ORANGE;
+	public static final GColor colIntersectionCurve() {
+		return GColor.ORANGE;
+	}
 
 	// axes TODO use gui
-	public static final GColor colXAXIS = GColor.RED;
-	public static final GColor colYAXIS = GColor.GREEN;
-	public static final GColor colZAXIS = GColor.BLUE;
+	public static final GColor colXAXIS() {
+		return GColor.RED;
+	}
+
+	public static final GColor colYAXIS() {
+		return GColor.GREEN;
+	}
+
+	public static final GColor colZAXIS() {
+		return GColor.BLUE;
+	}
 
 	/**
 	 * default constructor
@@ -105,7 +118,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// line intersection
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
-		intersectionCurve.setObjColor(colIntersectionCurve);
+		intersectionCurve.setObjColor(colIntersectionCurve());
 		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);		
 		intersectionCurve.setDefaultGeoType(DEFAULT_INTERSECTION_CURVE);
 		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);
@@ -128,7 +141,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// plane
 		GeoPlane3D plane = new GeoPlane3D(cons);
 		plane.setLocalVariableLabel("Plane3D");
-		plane.setObjColor(colPlane3D);
+		plane.setObjColor(colPlane3D());
 		plane.setAlphaValue(DEFAULT_PLANE3D_ALPHA);
 		plane.setLineThickness(DEFAULT_PLANE3D_GRID_THICKNESS);
 		plane.setFading(DEFAULT_PLANE3D_FADING);
@@ -139,7 +152,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// polyhedron
 		GeoPolyhedron polyhedron = new GeoPolyhedron(cons);
 		polyhedron.setLocalVariableLabel("Polyhedron");
-		polyhedron.setObjColor(colPolyhedron);
+		polyhedron.setObjColor(colPolyhedron());
 		polyhedron.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
 		polyhedron.setDefaultGeoType(DEFAULT_POLYHEDRON);
 		defaultGeoElements.put(DEFAULT_POLYHEDRON, polyhedron);
@@ -147,7 +160,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// polyhedron
 		GeoPolyhedronNet polyhedronNet = new GeoPolyhedronNet(cons);
 		polyhedronNet.setLocalVariableLabel("Net");
-		polyhedronNet.setObjColor(colPolyhedron);
+		polyhedronNet.setObjColor(colPolyhedron());
 		polyhedronNet.setAlphaValue(DEFAULT_POLYHEDRON_ALPHA);
 		polyhedronNet.setDefaultGeoType(DEFAULT_NET);
 		defaultGeoElements.put(DEFAULT_NET, polyhedronNet);
@@ -155,7 +168,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// quadric
 		GeoQuadric3D quadric = new GeoQuadric3D(cons);
 		quadric.setLocalVariableLabel("Quadric");
-		quadric.setObjColor(colQuadric);
+		quadric.setObjColor(colQuadric());
 		quadric.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		quadric.setDefaultGeoType(DEFAULT_QUADRIC);
 		defaultGeoElements.put(DEFAULT_QUADRIC, quadric);
@@ -163,7 +176,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		// surface
 		GeoSurfaceCartesian3D surface = new GeoSurfaceCartesian3D(cons);
 		surface.setLocalVariableLabel("surface");
-		surface.setObjColor(colQuadric);
+		surface.setObjColor(colQuadric());
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		surface.setLineThickness(1);
 		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
