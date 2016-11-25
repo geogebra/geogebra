@@ -67,7 +67,7 @@ public class DialogManager3D extends DialogManagerD {
 	 */
 	@Override
 	public void showNumberInputDialogSpherePointRadius(String title,
-			GeoPointND geoPoint) {
+			GeoPointND geoPoint, EuclidianController ec) {
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
 		InputDialogD id = new InputDialogSpherePointRadius((AppD) app, title,
