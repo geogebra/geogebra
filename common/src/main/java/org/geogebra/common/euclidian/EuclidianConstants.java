@@ -374,18 +374,18 @@ public final class EuclidianConstants {
 	public static final int MODE_SPREADSHEET_MAX = 2044;
 
 	/** WHITEBOARD TOOLS */
-	public static final int MODE_SHAPE_LINE = 6001;
-	public static final int MODE_SHAPE_TRIANGLE = 6002;
-	public static final int MODE_SHAPE_SQUARE = 6003;
-	public static final int MODE_SHAPE_RECTANGLE = 6004;
-	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 6005;
-	public static final int MODE_SHAPE_POLYGON = 6006;
-	public static final int MODE_SHAPE_FREEFORM = 6007;
-	public static final int MODE_SHAPE_CIRCLE = 6008;
-	public static final int MODE_SHAPE_ELLIPSE = 6009;
+	public static final int MODE_SHAPE_LINE = 101;
+	public static final int MODE_SHAPE_TRIANGLE = 102;
+	public static final int MODE_SHAPE_SQUARE = 103;
+	public static final int MODE_SHAPE_RECTANGLE = 104;
+	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 105;
+	public static final int MODE_SHAPE_POLYGON = 106;
+	public static final int MODE_SHAPE_FREEFORM = 107;
+	public static final int MODE_SHAPE_CIRCLE = 108;
+	public static final int MODE_SHAPE_ELLIPSE = 109;
 
-	public static final int MODE_ERASER = 6010;
-	public static final int MODE_HIGHLIGHTER = 6011;
+	public static final int MODE_ERASER = 110;
+	public static final int MODE_HIGHLIGHTER = 111;
 	
 	
 	/** macro tools ID offset */
