@@ -71,7 +71,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 			@Override
 			protected void wrapFocusLost(){
 				doActionPerformed();
-				app.hideKeyboard();
+				FieldHandler.focusLost(app);
 			}	
 		});
         tfAnimSpeed.requestToShowSymbolButton();
