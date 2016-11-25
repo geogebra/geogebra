@@ -332,7 +332,7 @@ public class ParserFunctions {
 		if (size > MAX_ARGS)
 			return null;
 		Operation ret = stringToOp.get(size).get(s);
-		if (!this.inverseTrig) {
+		if (!this.inverseTrig || ret == null) {
 			return ret;
 		}
 		switch (ret) {
