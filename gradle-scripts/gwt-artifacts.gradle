@@ -1,0 +1,24 @@
+configurations {
+	gwtModule
+}
+
+def addArtifact_(name, type) {
+    def folder = type == "draft" ? "draftOut" : "out"
+    task("prepare-$name-$type", dependsOn: 'compileGwt', type: Zip) { 
+        from "$buildDir/gwt/$folder/$name"
+        baseName name
+        appendix type
+    }
+
+    artifacts {
+        gwtModule "prepare$name"
+    }
+}
+
+def addDebugArtifact(name) {
+    addArtifact_(name, "draft")
+}
+
+def addArtifact(name) {
+    addArtifact_(name, "release")
+}
