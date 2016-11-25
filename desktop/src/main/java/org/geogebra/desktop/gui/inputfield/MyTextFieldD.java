@@ -77,7 +77,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 	private static GColor COLOR_MATCHED = GeoGebraColorConstants.BALANCED_BRACKET_COLOR;
 
 	// unmatched brackets color = red
-	private static GColor COLOR_UNMATCHED = GeoGebraColorConstants.UNBALANCED_BRACKET_COLOR;
+	private static GColor COLOR_UNMATCHED = GeoGebraColorConstants
+			.getUnbalancedBracketColor();
 
 	// class for distinguishing graphically existing object
 	private ColorProvider ip;
@@ -448,12 +449,12 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 			if (fg == null) {
 				if (textMode || text.charAt(i) == '\"') {
-					fg = GeoGebraColorConstants.INPUT_TEXT_COLOR;
+					fg = GeoGebraColorConstants.getInputTextColor();
 				} else if (ip != null && isColoringLabels) {
 					fg = ip.getColor(i);
 					// g2.setColor(GColorD.getAwtColor(ip.getColor(i)));
 				} else {
-					fg = GeoGebraColorConstants.INPUT_DEFAULT_COLOR;
+					fg = GeoGebraColorConstants.getInputDefaultColor();
 				}
 			}
 			if (fg != null) {

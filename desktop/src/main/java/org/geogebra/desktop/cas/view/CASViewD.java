@@ -90,7 +90,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				GColorD.getAwtColor(GeoGebraColorConstants.getTableGridColor())));
 		p.setBackground(Color.white);
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);
 

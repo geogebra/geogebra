@@ -43,7 +43,7 @@ public class RowHeaderD extends JList implements RowHeader {
 		setFixedCellWidth(ROW_HEADER_WIDTH);
 		setFocusable(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				GColorD.getAwtColor(GeoGebraColorConstants.getTableGridColor())));
 		// renderer
 		renderer = new RowHeaderRenderer(table);
 		setCellRenderer(renderer);

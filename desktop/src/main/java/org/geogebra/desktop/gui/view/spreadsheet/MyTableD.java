@@ -70,7 +70,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public static final Color SELECTED_BACKGROUND_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+			.getAwtColor(GeoGebraColorConstants
+					.getTableSelectedBackgroundColorHeader());
 	public static final Color BACKGROUND_COLOR_HEADER = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 	public static final Color TABLE_GRID_COLOR = GColorD

@@ -87,7 +87,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
 	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
 	private static final Color TABLE_GRID_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+			.getAwtColor(GeoGebraColorConstants.getTableGridColor());
 	// table fields
 	private InspectorTable tableXY, tableInterval;
 	private DefaultTableModel modelXY, modelInterval;

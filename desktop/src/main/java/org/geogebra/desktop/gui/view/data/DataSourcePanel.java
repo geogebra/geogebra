@@ -792,7 +792,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 			if (vColIndex == table.getSelectedColumn()) {
 				setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+						GeoGebraColorConstants
+								.getTableSelectedBackgroundColorHeader()));
 			} else {
 				setBackground(GColorD.getAwtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));

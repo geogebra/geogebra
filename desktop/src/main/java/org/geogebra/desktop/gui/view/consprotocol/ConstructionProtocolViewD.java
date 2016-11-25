@@ -836,7 +836,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							1,
 							1,
  GColorD
-									.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+									.getAwtColor(GeoGebraColorConstants.getTableGridColor())));
 
 		}
 

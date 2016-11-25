@@ -45,7 +45,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	private DataAnalysisStyleBarW stylebar;
 
 	// colors
-	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
+	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.getTableGridColor();
 	public static final GColor TABLE_HEADER_COLOR = new GColorW(240, 240, 240);
 	public static final GColor HISTOGRAM_COLOR = GColor.BLUE;
 	public static final GColor BOXPLOT_COLOR = GeoGebraColorConstants.GGB_RED;

@@ -61,7 +61,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	// colors
 	public static final Color TABLE_GRID_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+			.getAwtColor(GeoGebraColorConstants.getTableGridColor());
 	public static final Color TABLE_HEADER_COLOR = new Color(240, 240, 240);
 	public static final Color HISTOGRAM_COLOR = org.geogebra.desktop.awt.GColorD
 			.getAwtColor(GColor.BLUE);

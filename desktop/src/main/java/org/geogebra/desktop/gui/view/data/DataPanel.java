@@ -69,7 +69,8 @@ public class DataPanel extends JPanel implements ActionListener,
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+			.getAwtColor(GeoGebraColorConstants
+					.getTableSelectedBackgroundColorHeader());
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
 	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
 
@@ -500,7 +501,8 @@ public class DataPanel extends JPanel implements ActionListener,
 				setBorder(BorderFactory.createCompoundBorder(
 						BorderFactory.createMatteBorder(0, 0, 1, 1,
 								GColorD.getAwtColor(
-										GeoGebraColorConstants.TABLE_GRID_COLOR)),
+										GeoGebraColorConstants
+												.getTableGridColor())),
 								BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
 				setHorizontalAlignment(LEFT);

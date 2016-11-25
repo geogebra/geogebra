@@ -586,7 +586,7 @@ public class TextInputDialogD extends InputDialogD
 		recentSymbolTable.setShowGrid(true);
 		recentSymbolTable.setGridColor(
 				GColorD
-				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());
 		recentSymbolTable.setShowSelection(false);
 

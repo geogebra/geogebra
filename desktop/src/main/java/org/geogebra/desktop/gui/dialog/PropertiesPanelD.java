@@ -3279,7 +3279,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				super.setSelectedIndex(0);
 				this.setShowGrid(true);
 				this.setGridColor(GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+						.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
 				this.setBorder(BorderFactory
 						.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 				this.setShowSelection(false);
