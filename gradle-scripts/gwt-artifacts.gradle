@@ -4,21 +4,22 @@ configurations {
 
 def addArtifact_(name, type) {
     def folder = type == "draft" ? "draftOut" : "out"
-    task("prepare-$name-$type", dependsOn: 'compileGwt', type: Zip) { 
+    def depdendency = type == "draft" ? "draftCompileGwt" : "compileGwt"
+    task("prepare-$name-$type", dependsOn: depdendency, type: Zip) { 
         from "$buildDir/gwt/$folder/$name"
         baseName name
         appendix type
     }
 
     artifacts {
-        gwtModule "prepare$name"
+        gwtModule tasks["prepare-$name-$type"]
     }
 }
 
-def addDebugArtifact(name) {
+ext.addDebugArtifact = { name ->
     addArtifact_(name, "draft")
 }
 
-def addArtifact(name) {
+ext.addArtifact = { name ->
     addArtifact_(name, "release")
 }
