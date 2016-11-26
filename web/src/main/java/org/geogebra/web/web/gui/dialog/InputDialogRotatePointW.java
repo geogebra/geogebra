@@ -32,7 +32,9 @@ public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpH
 	protected void processInput(AsyncOperation<String> callback) {
 
 		DialogManager.rotateObject(app, inputPanel.getText(),
-				rbClockWise.getValue(), polys, points, selGeos, ec, this,
+				rbClockWise.getValue(), polys,
+				new DialogManager.CreateGeoForRotatePoint(points[0]), selGeos,
+				ec, this,
 				callback);
 		
 
