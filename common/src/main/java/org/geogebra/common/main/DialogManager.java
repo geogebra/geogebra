@@ -567,7 +567,7 @@ public abstract class DialogManager {
 		public GeoElement createGeo(Kernel kernel, GeoNumberValue num);
 	}
 
-	public class CreateSphereFromRadius implements CreateGeoFromRadius {
+	public static class CreateSphereFromRadius implements CreateGeoFromRadius {
 
 		private GeoPointND point;
 
@@ -580,7 +580,7 @@ public abstract class DialogManager {
 		}
 	}
 
-	public class CreateConeFromRadius implements CreateGeoFromRadius {
+	public static class CreateConeFromRadius implements CreateGeoFromRadius {
 
 		private GeoPointND point1, point2;
 
@@ -594,7 +594,8 @@ public abstract class DialogManager {
 		}
 	}
 
-	public class CreateCylinderFromRadius implements CreateGeoFromRadius {
+	public static class CreateCylinderFromRadius
+			implements CreateGeoFromRadius {
 
 		private GeoPointND point1, point2;
 
@@ -608,7 +609,8 @@ public abstract class DialogManager {
 		}
 	}
 
-	public class CreateCircleFromDirectionRadius implements CreateGeoFromRadius {
+	public static class CreateCircleFromDirectionRadius
+			implements CreateGeoFromRadius {
 
 		private GeoPointND point;
 		private GeoDirectionND forAxis;
@@ -623,7 +625,7 @@ public abstract class DialogManager {
 		}
 	}
 
-	public class CreateCircleFromRadius implements CreateGeoFromRadius {
+	public static class CreateCircleFromRadius implements CreateGeoFromRadius {
 
 		private GeoPointND point;
 

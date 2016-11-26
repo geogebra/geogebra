@@ -1144,7 +1144,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	@Override
 	public int hashCode() {
-		return (int) (val * 1000);
+		return Double.valueOf(val).hashCode();
 	}
 
 	public boolean isDefined() {

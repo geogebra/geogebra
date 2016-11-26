@@ -11,6 +11,14 @@ import org.geogebra.common.util.debug.Log;
 public class Point_dt {
 	double x, y, z;
 
+	@Override
+	public int hashCode() {
+
+		double tempArray[] = { x, y, z };
+
+		return tempArray.hashCode();
+	}
+
 	/**
 	 * Default Constructor. <br />
 	 * constructs a 3D point at (0,0,0).

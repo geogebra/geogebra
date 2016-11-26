@@ -55,9 +55,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// curve 3D
 	/** default color for 3D curve */
-	public static final GColor colCurveCartesian3D = colConic();// new
-																// Color(255,
-																// 128, 0);
+	public static final GColor colCurveCartesian3D = colConic();
 
 	// plane
 	/** default color for 3D planes */
