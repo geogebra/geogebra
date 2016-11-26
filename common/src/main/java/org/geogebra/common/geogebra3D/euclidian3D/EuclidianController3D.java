@@ -2576,7 +2576,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if a curve is created
 	 */
-	private GeoElement[] intersectionCurve(Hits hits, boolean selPreview) {
+	protected GeoElement[] intersectionCurve(Hits hits, boolean selPreview) {
 
 		if (hits == null) {
 			resultedGeo = null;
