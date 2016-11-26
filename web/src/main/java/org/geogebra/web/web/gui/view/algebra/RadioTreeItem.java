@@ -995,13 +995,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		// if (newCreationMode) {
-		// maybe this fixes a bug with not focusing
-		// but in this case, focus is called about
-		// three times, which might cause problems
-		// TouchStart, TouchEnd, long touch so disabled
-		// setFocus(true);
-		// }
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
+			cancelEditing();
+			// return;
+		}
+
 		onRightClick(x, y);
 	}
 
@@ -1732,7 +1730,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		}
 
-		if (enable) {
+		if (enable && !active) {
 			edit(wrappedEvent.isControlDown());
 		}
 
@@ -1749,7 +1747,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void adjustControlsPosition() {
-		if (!app.has(Feature.AV_SCROLL)) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)
+				|| !app.has(Feature.AV_SCROLL)) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1888,6 +1887,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		boolean active = isEditing();
 		event.stopPropagation();
 		// event.preventDefault();
 		if (isInputTreeItem()) {
@@ -1910,6 +1910,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
+		editOnTap(active, wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
@@ -1944,7 +1945,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		editOnTap(active, (PointerEvent) wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
