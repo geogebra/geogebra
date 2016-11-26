@@ -197,7 +197,8 @@ public abstract class DialogManager {
 		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
 				defaultAngle);
 
-		rotateObject(app, inputString, false, selectedPolygons, selectedPoints,
+		rotateObject(app, inputString, false, selectedPolygons,
+				new CreateGeoForRotatePoint(selectedPoints[0]),
 				selGeos, ec, app.getDefaultErrorHandler(),
 				new AsyncOperation<String>() {
 
@@ -236,15 +237,55 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
 
+	public interface CreateGeoForRotate {
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num);
+
+		public GeoElementND getPivot();
+	}
+
+	public static class CreateGeoForRotatePoint implements CreateGeoForRotate {
+
+		private GeoPointND point;
+
+		public CreateGeoForRotatePoint(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num) {
+			return ec.getCompanion().rotateByAngle(geo, num, point);
+		}
+
+		public GeoElementND getPivot() {
+			return point;
+		}
+	}
+
+	public static class CreateGeoForRotateLine implements CreateGeoForRotate {
+
+		private GeoLineND line;
+
+		public CreateGeoForRotateLine(GeoLineND line) {
+			this.line = line;
+		}
+
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num) {
+			return ec.getKernel().getManager3D().Rotate3D(null, geo, num, line);
+		}
+
+		public GeoElementND getPivot() {
+			return line;
+		}
+	}
+
 	public static void rotateObject(final App app, String inputText,
-			boolean clockwise, final GeoPolygon[] polys,
-			final GeoPointND[] points,
-			final GeoElement[] selGeos, final EuclidianController ec,
-			final ErrorHandler eh,
-			final AsyncOperation<String> callback) {
+									boolean clockwise, final GeoPolygon[] polys,
+									final CreateGeoForRotate creator,
+									final GeoElement[] selGeos, final EuclidianController ec,
+									final ErrorHandler eh,
+									final AsyncOperation<String> callback) {
 
 		final String angleText = inputText;
-		Kernel kernel = app.getKernel();
+		final Kernel kernel = app.getKernel();
 
 		// avoid labeling of num
 		final Construction cons = kernel.getConstruction();
@@ -276,12 +317,11 @@ public abstract class DialogManager {
 
 							if (polys.length == 1) {
 
-								GeoElement[] geos = ec
-										.getCompanion()
-										.rotateByAngle(polys[0], num, points[0]);
+								GeoElement[] geos = creator.createGeos(ec, polys[0], num);
 								if (geos != null) {
 									app.storeUndoInfoAndStateForModeStarting();
 									ec.memorizeJustCreatedGeos(geos);
+									kernel.notifyRepaint();
 								}
 								if (callback != null) {
 									callback.callback(defaultRotateAngle);
@@ -290,23 +330,18 @@ public abstract class DialogManager {
 										}
 							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 							for (int i = 0; i < selGeos.length; i++) {
-								if (selGeos[i] != points[0]) {
+								if (selGeos[i] != creator.getPivot()) {
 									if (selGeos[i] instanceof Transformable) {
-										ret.addAll(Arrays.asList(ec
-												.getCompanion().rotateByAngle(
-														selGeos[i], num,
-														points[0])));
+										ret.addAll(Arrays.asList(creator.createGeos(ec, selGeos[i], num)));
 									} else if (selGeos[i].isGeoPolygon()) {
-										ret.addAll(Arrays.asList(ec
-												.getCompanion().rotateByAngle(
-														selGeos[i], num,
-														points[0])));
+										ret.addAll(Arrays.asList(creator.createGeos(ec, selGeos[i], num)));
 									}
-											}
-										}
+								}
+							}
 							if (!ret.isEmpty()) {
 								app.storeUndoInfoAndStateForModeStarting();
 								ec.memorizeJustCreatedGeos(ret);
+								kernel.notifyRepaint();
 							}
 
 						} else {
