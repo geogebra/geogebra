@@ -153,7 +153,7 @@ public final class ArticleElement extends Element {
 	}
 
 	/*
-	 * Retruns true, if there is data-param-enableGraphing attribute, and it is
+	 * Returns true, if there is data-param-enableGraphing attribute, and it is
 	 * not an empty string
 	 */
 	public boolean hasDataParamEnableGraphing() {
