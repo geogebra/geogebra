@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
@@ -267,17 +268,27 @@ public class DataPanel extends JPanel implements ActionListener,
 
 				dataTable.getColumnModel().getColumn(0)
 						.setHeaderValue(loc.getMenu("Column.X"));
+
+				// quick fix for GGB-1392
+				if (dataTable.getColumnModel().getColumnCount() > 1) {
 				dataTable.getColumnModel().getColumn(1)
 						.setHeaderValue(loc.getMenu("Column.Y"));
+				} else {
+					Log.error("problem setting title for 2nd column");
+				}
 			} else {
 				dataTable
 						.getColumnModel()
 						.getColumn(0)
 						.setHeaderValue(loc.getMenu("Column.X") + ": " + titleX);
-				dataTable
-						.getColumnModel()
-						.getColumn(1)
-						.setHeaderValue(loc.getMenu("Column.Y") + ": " + titleY);
+
+				// quick fix for GGB-1392
+				if (dataTable.getColumnModel().getColumnCount() > 1) {
+					dataTable.getColumnModel().getColumn(1).setHeaderValue(
+							loc.getMenu("Column.Y") + ": " + titleY);
+				} else {
+					Log.error("problem setting title for 2nd column");
+				}
 			}
 
 			updateSelectionList(dataArray);
