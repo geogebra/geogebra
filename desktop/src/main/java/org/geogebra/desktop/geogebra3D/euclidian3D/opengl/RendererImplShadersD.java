@@ -135,7 +135,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 			} catch (UnsupportedEncodingException e) {
 				// do nothing
 			}
-			System.exit(1);
+			AppD.exit(1);
 		}
 
 		// Compile the fragmentShader String into a program.
@@ -168,7 +168,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 			} catch (UnsupportedEncodingException e) {
 				// do nothing
 			}
-			System.exit(1);
+			AppD.exit(1);
 		}
 
 

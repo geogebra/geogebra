@@ -217,7 +217,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				dispose();
 
 				if (!app.isApplet()) {
-					System.exit(0);
+					AppD.exit(0);
 				}
 			} else {
 				super.setVisible(false);
@@ -890,7 +890,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					if (slider == null || !slider.isGeoNumeric()
 							|| !((GeoNumeric) slider).isSlider()) {
 						Log.error(sliderName + " is not a slider");
-						System.exit(0);
+						AppD.exit(0);
 					}
 
 					app.getKernel().getAnimatonManager().stopAnimation();
@@ -976,7 +976,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 						Log.debug("animated GIF exported successfully");
 
-						System.exit(0);
+						AppD.exit(0);
 					}
 
 					double printingScale = ev.getPrintingScale();
@@ -1017,7 +1017,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					}
 
-					System.exit(0);
+					AppD.exit(0);
 				}
 			});
 
@@ -1121,7 +1121,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					} catch (Throwable t) {
 						t.printStackTrace();
 					}
-					System.exit(0);
+					AppD.exit(0);
 				}
 
 			});

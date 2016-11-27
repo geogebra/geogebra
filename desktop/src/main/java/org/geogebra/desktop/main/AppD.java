@@ -224,6 +224,8 @@ import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AppD extends App implements KeyEventDispatcher {
 
 	/**
@@ -758,7 +760,7 @@ ToolbarD.getAllTools(this));
 					 */
 					);
 
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("proverhelp")) {
 			ProverSettings proverSettings = ProverSettings.get();
@@ -798,7 +800,7 @@ ToolbarD.getAllTools(this));
 									+ proverSettings.captionAlgebra
 							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("singularWShelp")) {
 			// help message for singularWS
@@ -819,10 +821,10 @@ ToolbarD.getAllTools(this));
 							+ SingularWSSettings.getCachingText()
 							+ "]\n"
 							+ "  Example: singularWS=timeout:3\n");
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("v")) {
-			System.exit(0);
+			AppD.exit(0);
 		}
 	}
 
@@ -1076,7 +1078,7 @@ ToolbarD.getAllTools(this));
 				System.out.println(it.next());
 			}
 
-			System.exit(0);
+			AppD.exit(0);
 
 		}
 
@@ -1086,6 +1088,13 @@ ToolbarD.getAllTools(this));
 		}
 
 		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
+
+	}
+
+	@SuppressFBWarnings({ "DM_EXIT", "" })
+	public static void exit(int i) {
+		System.exit(i);
+		;
 
 	}
 
@@ -1462,7 +1471,7 @@ ToolbarD.getAllTools(this));
 		kernel.updateConstruction();
 		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
 		regressionFileWriter.close();
-		System.exit(0);
+		AppD.exit(0);
 	}
 
 	/**

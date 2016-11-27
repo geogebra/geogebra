@@ -1930,7 +1930,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		boolean active = isEditing();
 		handleAVItem(event);
 		// this would propagate the event to
 		// AlgebraView.onBrowserEvent... is this we want?

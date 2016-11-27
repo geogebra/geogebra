@@ -1,11 +1,8 @@
 // Copyright 2001, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import org.geogebra.common.util.debug.Log;
 
 /**
  * The ASCII85InputStream decodes ASCII base-85 encoded data. The exact
@@ -141,18 +138,19 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
      * @param args filename
      * @throws Exception when file does not exist
      */
-    public static void main(String[] args) throws Exception {
-        if (args.length < 1) {
-			Log.debug("Usage: ASCII85InputStream filename");
-            System.exit(1);
-        }
-        ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(args[0]));
-        int b = in.read();
-        while (b != -1) {
-            System.out.write(b);
-            b = in.read();
-        }
-        in.close();
-        System.out.flush();
-    }
+	// public static void main(String[] args) throws Exception {
+	// if (args.length < 1) {
+	// Log.debug("Usage: ASCII85InputStream filename");
+	// System.exit(1);
+	// }
+	// ASCII85InputStream in = new ASCII85InputStream(new
+	// FileInputStream(args[0]));
+	// int b = in.read();
+	// while (b != -1) {
+	// System.out.write(b);
+	// b = in.read();
+	// }
+	// in.close();
+	// System.out.flush();
+	// }
 }

@@ -16,7 +16,7 @@ public class Point_dt {
 
 		double tempArray[] = { x, y, z };
 
-		return tempArray.hashCode();
+		return java.util.Arrays.hashCode(tempArray);
 	}
 
 	/**

@@ -20,6 +20,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.Util;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
+import org.geogebra.desktop.main.AppD;
 
 public class GeoGebra {
 
@@ -99,7 +100,7 @@ public class GeoGebra {
 		} catch (Throwable e) {
 			e.printStackTrace();
 			System.err.flush();
-			System.exit(10);
+			AppD.exit(10);
 		}
 
 		// Hide splash screen
