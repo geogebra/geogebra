@@ -1084,7 +1084,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(format(width * (xmax - xmin) * xunit
 					/ euclidianView.getWidth() + 1));
 			code.append(" cm}{");
-			addText(new String(sb), isLatex, style);
+			addText(sb.toString(), isLatex, style);
 			code.append("}$\",");
 			addPoint(format(x), format(y), code);
 			code.append(",SE*");
@@ -2829,7 +2829,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 		if (noPlus)
 			return null;
-		return new String(sb);
+		return sb.toString();
 	}
 
 	// Append the linestyle to PSTricks code
@@ -3486,7 +3486,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 */
 	protected String convertUnicodeToText(String s) {
 		// import unicode;
-		String s1 = new String(s);
+		String s1 = s;
 		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		while (it.hasNext()) {
 			char skey = it.next();
@@ -3509,7 +3509,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 */
 	protected String convertUnicodeToLatex(String s) {
 		// import unicode;
-		String s1 = new String(s);
+		String s1 = s;
 		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
@@ -3669,7 +3669,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			renameFunc(sb, "\\" + temps, temps); // upper case
 		}
 
-		return new String(sb);
+		return sb.toString();
 	}
 
 	@Override

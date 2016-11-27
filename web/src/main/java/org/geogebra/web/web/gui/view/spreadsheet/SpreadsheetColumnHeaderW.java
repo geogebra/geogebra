@@ -425,11 +425,11 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 						int column = point.getX();
 						table.setColumnSelectionInterval(column0, column);
 					}
-				} else if (metaDown) {
-					column0 = point.getX();
-					// Note: ctrl-select now handled in
-					// table.changeSelection
-					table.setColumnSelectionInterval(column0, column0);
+					// } else if (metaDown) {
+					// column0 = point.getX();
+					// // Note: ctrl-select now handled in
+					// // table.changeSelection
+					// table.setColumnSelectionInterval(column0, column0);
 				} else {
 					column0 = point.getX();
 					table.setColumnSelectionInterval(column0, column0);

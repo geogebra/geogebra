@@ -80,7 +80,7 @@ public class Pattern implements Serializable
     /** Copy constructor */
     public Pattern(Pattern pattern)
     {
-        this(new String(pattern.getMusicString()));
+		this(pattern.getMusicString());
         Iterator<String> iter = pattern.getProperties().keySet().iterator();
         while (iter.hasNext()) {
             String key = iter.next();

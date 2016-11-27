@@ -120,7 +120,7 @@ public class Point_dt {
 	/** return a String in the [x,y,z] format */
 	@Override
 	public String toString() {
-		return (new String(" Pt[" + x + "," + y + "," + z + "]"));
+		return " Pt[" + x + "," + y + "," + z + "]";
 	}
 
 	/** @return the L2 distanse NOTE: 2D only!!! */

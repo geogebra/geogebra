@@ -369,7 +369,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				label = "";
 			}
 			clicked = false;
-			return new String(label);
+			return label;
 		}
 
 		@Override

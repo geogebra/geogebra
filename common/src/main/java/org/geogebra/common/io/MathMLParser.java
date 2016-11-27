@@ -1145,9 +1145,9 @@ public class MathMLParser {
 	 */
 	int getBlockEnd(String startTag0, String endTag) {
 
-		if (startTag0 != endTag) {
+		if (!startTag0.equals(endTag)) {
 
-			String startTag = new String(startTag0);
+			String startTag = startTag0;
 
 			int pos2 = pos;
 			int subBlocks = 1;

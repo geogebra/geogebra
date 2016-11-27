@@ -34,7 +34,8 @@ public class Circle_dt  {
   }
   
   public String toString() {
-    return(new String(" Circle["+ c.toString() + "|" + r + "|" + (int) Math.round(Math.sqrt(r)) + "]"));
+		return " Circle[" + c.toString() + "|" + r + "|"
+				+ (int) Math.round(Math.sqrt(r)) + "]";
   }
   
   /**
