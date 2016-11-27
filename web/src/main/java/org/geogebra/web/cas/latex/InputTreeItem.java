@@ -185,6 +185,8 @@ public class InputTreeItem extends MathQuillTreeItem
 			}
 		});
 
+		// no "plus" button for Exam Simple
+		if (app.enableGraphing()) {
 		// from now on, we'll check this Feature
 		// by (pButton != null) but that influences
 		// buttonPanel as well, because if both
@@ -232,6 +234,7 @@ public class InputTreeItem extends MathQuillTreeItem
 				}
 			}
 		});
+		}
 		// pButton.addClickHandler(CancelEvents.instance);
 		// pButton.addMouseUpHandler(CancelEvents.instance);
 
@@ -381,7 +384,9 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		try{
 			btnDelete.setFocus(false);
-			plusButton.setFocus(false);
+			if (plusButton != null) {
+				plusButton.setFocus(false);
+			}
 		} catch (Throwable t) {
 			// TRY-CATCH needed for Win8 app //TODO find better solution
 		}
@@ -393,7 +398,9 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		main.add(buttonPanel);// dirty hack of adding it two times!
 
-		this.buttonPanel.add(plusButton);
+		if (plusButton != null) {
+			this.buttonPanel.add(plusButton);
+		}
 
 		this.buttonPanel.add(btnDelete);
 
@@ -640,7 +647,10 @@ public class InputTreeItem extends MathQuillTreeItem
 			}
 			buttonPanel.setVisible(show);
 			setButtonVisible(getDeleteButton(), show);
-			setButtonVisible(plusButton, show);
+
+			if (plusButton != null) {
+				setButtonVisible(plusButton, show);
+			}
 		}
 	}
 
@@ -758,7 +768,9 @@ public class InputTreeItem extends MathQuillTreeItem
 
 			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 				buttonPanel.setVisible(true);
-				this.plusButton.setVisible(true);
+				if (plusButton != null) {
+					this.plusButton.setVisible(true);
+				}
 				updateButtonPanelPosition();
 			}
 		}
@@ -810,8 +822,8 @@ public class InputTreeItem extends MathQuillTreeItem
 			updateLineHeight();
 			app.closePerspectivesPopup();
 		}
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)){
-			if (isEmpty() && plusButton != null) {
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER) && plusButton != null) {
+			if (isEmpty()) {
 				plusButton.setVisible(true);
 			} else {
 				plusButton.setVisible(false);
