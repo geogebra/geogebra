@@ -1336,7 +1336,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (isNDvector(right) && isNDvector(left)) {
 
-				Log.debug(left.getClass() + " " + right.getClass());
 				// eg Evaluate[(1,2,3)+Vector[(10,20,30)]]
 				// eg f: (x, y, z) = (3, 2, 1) + t (5, 1, -3)
 				sb.append("point(");
