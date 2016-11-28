@@ -192,15 +192,15 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		if (R != null)
 			R.setValue(red);
 		if (RSpinner != null)
-			RSpinner.setValue(new Integer(red));
+			RSpinner.setValue(Integer.valueOf(red));
 		if (G != null)
 			G.setValue(green);
 		if (GSpinner != null)
-			GSpinner.setValue(new Integer(green));
+			GSpinner.setValue(Integer.valueOf(green));
 		if (B != null)
 			B.setValue(blue);
 		if (BSpinner != null)
-			BSpinner.setValue(new Integer(blue));
+			BSpinner.setValue(Integer.valueOf(blue));
 
 		internalChange = false;
 		setLabels();

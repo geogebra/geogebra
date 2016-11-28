@@ -18,7 +18,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
@@ -236,7 +236,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboard keyBoard = app.getGuiManager()
+		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
@@ -254,7 +254,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            keyboard listener
 	 */
 	void addKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboard keyBoard = app.getGuiManager()
+		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
 
@@ -297,7 +297,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param keyBoard
 	 *            keyboard
 	 */
-	protected void onKeyboardAdded(final VirtualKeyboard keyBoard) {
+	protected void onKeyboardAdded(final VirtualKeyboardW keyBoard) {
 		keyboardHeight = keyBoard.getOffsetHeight();
 		app.addToHeight(-keyboardHeight);
 		app.updateCenterPanel(true);
@@ -402,7 +402,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
-			final VirtualKeyboard keyBoard = app.getGuiManager()
+			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
 				add(keyBoard);

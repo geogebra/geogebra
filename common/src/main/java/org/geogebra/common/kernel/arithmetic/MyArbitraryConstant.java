@@ -95,7 +95,7 @@ public class MyArbitraryConstant {
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, double index) {
-		Integer indexInt = new Integer((int) Math.round(index));
+		Integer indexInt = Integer.valueOf((int) Math.round(index));
 		GeoNumeric found = map.get(indexInt);
 		if (found != null)
 			return found;

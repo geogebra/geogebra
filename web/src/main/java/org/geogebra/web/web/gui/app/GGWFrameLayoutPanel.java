@@ -11,7 +11,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -281,7 +281,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * Resize dockpanel when keyboard shown/hidden
 	 */
 	public void updateKeyboardHeight() {
-		VirtualKeyboard keyboard = app.getGuiManager().getOnScreenKeyboard(
+		VirtualKeyboardW keyboard = app.getGuiManager().getOnScreenKeyboard(
 				null, this);
 		if (spaceForKeyboard != null
 				&& spaceForKeyboard.getParent() == this.mainPanel) {
@@ -328,7 +328,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		final int pos = textField == null ? 0 : textField.asWidget()
 				.getElement().getScrollLeft();
 
-		VirtualKeyboard keyBoard = app.getGuiManager().getOnScreenKeyboard(
+		VirtualKeyboardW keyBoard = app.getGuiManager().getOnScreenKeyboard(
 				textField, this);
 		if (show && textField != null) {
 			keyBoard.show();

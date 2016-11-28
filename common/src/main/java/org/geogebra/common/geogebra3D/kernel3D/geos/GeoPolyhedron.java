@@ -228,7 +228,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		// Application.debug(polygonsIndexMax);
 
 		// add to index
-		polygonsIndex.put(currentFace, new Integer(polygonsIndexMax));
+		polygonsIndex.put(currentFace, Integer.valueOf(polygonsIndexMax));
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
 
@@ -532,7 +532,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	 */
 	protected void storeSegment(GeoSegment3D segment,
 			ConstructionElementCycle key) {
-		Long index = new Long(segmentsIndexMax);
+		Long index = Long.valueOf(segmentsIndexMax);
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
 		segmentsIndexMax++;

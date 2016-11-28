@@ -61,7 +61,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 @SuppressWarnings("javadoc")
-public class VirtualKeyboard extends JFrame implements ActionListener,
+public class VirtualKeyboardD extends JFrame implements ActionListener,
 		SettingListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
@@ -129,7 +129,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	 * @param windowHeight
 	 * @param opacity
 	 */
-	public VirtualKeyboard(final AppD app, int windowWidth, int windowHeight,
+	public VirtualKeyboardD(final AppD app, int windowWidth, int windowHeight,
 			float opacity) {
 
 		super();
@@ -1148,7 +1148,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private Font getFont(int size, boolean setFont) {
 
-		Integer Size = new Integer(size);
+		Integer Size = Integer.valueOf(size);
 
 		Font ret = fontsHash.get(Size);
 

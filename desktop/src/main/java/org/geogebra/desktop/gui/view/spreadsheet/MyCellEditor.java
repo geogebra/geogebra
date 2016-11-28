@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.KeyNavigation;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -492,7 +492,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 		// VirtualKeyboard gets the focus very briefly when opened
 		// so ignore this!
-		if (arg0.getOppositeComponent() instanceof VirtualKeyboard)
+		if (arg0.getOppositeComponent() instanceof VirtualKeyboardD)
 			return;
 
 		// only needed if eg columns resized

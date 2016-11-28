@@ -34,7 +34,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -247,7 +247,7 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 		if (app.getGuiManager() != null)
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
-					!(e.getOppositeComponent() instanceof VirtualKeyboard));
+					!(e.getOppositeComponent() instanceof VirtualKeyboardD));
 	}
 
 	public void actionPerformed(ActionEvent e) {

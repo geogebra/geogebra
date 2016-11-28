@@ -14,7 +14,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.ConstructionProtocolDockPanel;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -61,7 +61,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
-				VirtualKeyboard vk = ((GuiManagerD) app.getGuiManager())
+				VirtualKeyboardD vk = ((GuiManagerD) app.getGuiManager())
 						.getVirtualKeyboard();
 				vk.setVisible(true);
 			}

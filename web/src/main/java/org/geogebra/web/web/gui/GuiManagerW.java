@@ -1577,7 +1577,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		this.toolbarID = toolbarID;
 
 		if (changed) {
-			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
+			getToolbarPanel().setActiveToolbar(Integer.valueOf(toolbarID));
 			refreshCustomToolsInToolBar();
 			if (toolbarID == App.VIEW_EUCLIDIAN
 					|| toolbarID == App.VIEW_EUCLIDIAN2) {

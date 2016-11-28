@@ -65,7 +65,7 @@ public class Korean {
 			else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
 				if (lastWasVowel && isKoreanLeadChar(c)) {
-					sb.append(koreanLeadToTail.get(new Character(c))
+					sb.append(koreanLeadToTail.get(Character.valueOf(c))
 							.charValue());
 				} else {
 					sb.append(c);

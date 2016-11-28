@@ -194,9 +194,9 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		playDelay = delay;
 		
 		try {
-			spDelay.setValue(new Double(playDelay) + "");
+			spDelay.setValue(playDelay + "");
 		} catch (Exception e) {
-			spDelay.setValue(new Integer((int) Math.round(playDelay))+"");
+			spDelay.setValue(Math.round(playDelay) + "");
 			
 		}
     }

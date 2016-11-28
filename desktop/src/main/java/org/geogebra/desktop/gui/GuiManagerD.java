@@ -138,7 +138,7 @@ import org.geogebra.desktop.gui.view.data.DataAnalysisViewD;
 import org.geogebra.desktop.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DialogManagerMinimal;
@@ -2757,7 +2757,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		}
 	}
 
-	VirtualKeyboard virtualKeyboard = null;
+	VirtualKeyboardD virtualKeyboard = null;
 
 	public void toggleKeyboard(boolean show) {
 		getVirtualKeyboard().setVisible(show);
@@ -2766,10 +2766,10 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	/**
 	 * @return The virtual keyboard (initializes it if necessary)
 	 */
-	public VirtualKeyboard getVirtualKeyboard() {
+	public VirtualKeyboardD getVirtualKeyboard() {
 		if (virtualKeyboard == null) {
 			KeyboardSettings settings = app.getSettings().getKeyboard();
-			virtualKeyboard = new VirtualKeyboard(((AppD) app),
+			virtualKeyboard = new VirtualKeyboardD(((AppD) app),
 					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
 					settings.getKeyboardOpacity());
 			settings.addListener(virtualKeyboard);

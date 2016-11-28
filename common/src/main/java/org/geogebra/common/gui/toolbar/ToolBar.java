@@ -18,7 +18,7 @@ public class ToolBar {
 	/**
 	 * Integer used to indicate a separator in the toolbar.
 	 */
-	public static final Integer SEPARATOR = new Integer(-1);
+	public static final Integer SEPARATOR = Integer.valueOf(-1);
 
 	/**
 	 * Returns with the default definition of the general tool bar without

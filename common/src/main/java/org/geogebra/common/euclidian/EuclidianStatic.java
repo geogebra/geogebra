@@ -200,7 +200,7 @@ public class EuclidianStatic {
 
 				// depth += dim.depth;
 
-				elementHeights.add(new Integer(height));
+				elementHeights.add(Integer.valueOf(height));
 
 				// check if this element is taller than every else in the line
 				if (height > (lineHeights.get(currentLine)).intValue()) {

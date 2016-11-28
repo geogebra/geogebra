@@ -133,9 +133,9 @@ public class ConstructionProtocolNavigationD extends
 		playDelay = delay;
 		
 		try {
-			spDelay.setValue(new Double(playDelay));
+			spDelay.setValue(Double.valueOf(playDelay));
 		} catch (Exception e) {
-			spDelay.setValue(new Integer((int) Math.round(playDelay)));
+			spDelay.setValue(Integer.valueOf((int) Math.round(playDelay)));
 			
 		}
 	}	

@@ -54,7 +54,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -1436,7 +1436,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public void focusLost(FocusEvent e) {
 		// avoid infinite loop!
-		if (e.getOppositeComponent() instanceof VirtualKeyboard)
+		if (e.getOppositeComponent() instanceof VirtualKeyboardD)
 			return;
 		if (AppD.isVirtualKeyboardActive())
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);

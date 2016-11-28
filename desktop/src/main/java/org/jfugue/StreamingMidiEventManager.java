@@ -40,7 +40,7 @@ import javax.sound.midi.Synthesizer;
  *@author David Koelle
  *@version 3.2 
  */
-public class StreamingMidiEventManager
+final public class StreamingMidiEventManager
 {
     private final int CHANNELS = 16;
     private final int LAYERS = 16;
