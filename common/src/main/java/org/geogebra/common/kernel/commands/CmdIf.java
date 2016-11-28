@@ -116,7 +116,7 @@ public class CmdIf extends CommandProcessor {
 			}
 			vars = checkAdd(c, functions, arg[i + 1], vars);
 		}
-		if (n % 2 == 1) {
+		if (MyDouble.isOdd(n)) {
 			vars = checkAdd(c, functions, arg[n - 1], vars);
 		}
 		return new GeoElement[] { If(c.getLabel(), conditions, functions, vars) };

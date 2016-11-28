@@ -1,11 +1,11 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Material POJO
@@ -350,9 +350,17 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int compareTo(Material another) {
-		if (another == null)
+		if (another == null) {
 			return 1;
+		}
 		return this.id - another.id;
+	}
+
+	public boolean equals(Material another) {
+		if (another == null) {
+			return false;
+		}
+		return this.id == another.id;
 	}
 
 	@Override

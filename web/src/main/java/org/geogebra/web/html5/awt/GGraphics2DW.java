@@ -145,7 +145,7 @@ public class GGraphics2DW implements GGraphics2D {
 			}
 		} else {
 			drawStraightDashedLine(x1, y1, x2, y2, jsarrn, context,
-			        width % 2 == 1);
+					MyDouble.isOdd(width));
 		}
 		context.stroke();
 	}

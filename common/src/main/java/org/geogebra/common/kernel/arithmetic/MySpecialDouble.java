@@ -203,4 +203,9 @@ public class MySpecialDouble extends MyDouble {
 		setFromOutside = true;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
 }

@@ -285,9 +285,8 @@ public class StringUtil {
 			// Fix Hebrew 'undefined' problem in Latex text.
 			if (prototype.isRightToLeftChar(c)) {
 				int j = i;
-				while (j < length
-						&& (prototype.isRightToLeftChar(str.charAt(j)) || str
-								.charAt(j) == '\u00a0'))
+				while (j < length && (prototype.isRightToLeftChar(str.charAt(j))
+						|| str.charAt(j) == '\u00a0'))
 					j++;
 				for (int k = j - 1; k >= i; k--)
 					sbReplaceExp.append(str.charAt(k));
@@ -629,11 +628,11 @@ public class StringUtil {
 	}
 
 	public static boolean isNumber(String text) {
-		
+
 		if (text == null || "".equals(text)) {
 			return false;
 		}
-		
+
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
 			if (!isDigit(c) && c != '.' && c != Unicode.ArabicComma && c != '-')
@@ -784,10 +783,10 @@ public class StringUtil {
 				|| (ch >= '\ua8d0' && ch <= '\ua8d9') // not recognized by
 														// Java's version of
 														// Character.isDigit() !
-				// following not handled by GeoGebra's parser
-				// || (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
-				// || (ch >= 0x1946 && ch <= 0x194F) // Limbu
-				// || (ch >= 0xFF10 && ch <= 0xFF19) //"FULL WIDTH" digits
+		// following not handled by GeoGebra's parser
+		// || (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
+		// || (ch >= 0x1946 && ch <= 0x194F) // Limbu
+		// || (ch >= 0xFF10 && ch <= 0xFF19) //"FULL WIDTH" digits
 		) {
 			return true;
 		}
@@ -1009,8 +1008,7 @@ public class StringUtil {
 		// these bars (i. e., we want absolute value, not OR)
 		Set<Character> splitters = new TreeSet<Character>(
 				Arrays.asList(new Character[] { Unicode.SQUARE_ROOT, '+', '-',
-						'*', '/', '^',
-						'=' }));
+						'*', '/', '^', '=' }));
 
 		// first we iterate from left to right, and then backward
 		int topLevelBars = 0;
@@ -1041,12 +1039,10 @@ public class StringUtil {
 			int len = ignoredIndices.length();
 			for (int i = 0; i < len; i++) {
 				Character ch = ignoredIndices.charAt(i);
-				if (!comment
-						&& dir == 0
-						&& sbFix.length() > 0
-						&& ch.equals('.')
-						&& (sbFix.charAt(sbFix.length() - 1) == '.' || sbFix.charAt(sbFix
-								.length() - 1) == Unicode.ellipsis)) {
+				if (!comment && dir == 0 && sbFix.length() > 0 && ch.equals('.')
+						&& (sbFix.charAt(sbFix.length() - 1) == '.'
+								|| sbFix.charAt(sbFix.length()
+										- 1) == Unicode.ellipsis)) {
 					sbFix.setLength(sbFix.length() - 1);
 					sbFix.append(Unicode.ellipsis);
 				} else {
@@ -1058,29 +1054,29 @@ public class StringUtil {
 					}
 				}
 
-				if (StringUtil.isWhitespace(ch) || (comment && !ch.equals('"'))) {
+				if (StringUtil.isWhitespace(ch)
+						|| (comment && !ch.equals('"'))) {
 					continue;
 				}
 
 				if (ch.equals('"')) {
 					comment = !comment;
-				}
- else if (ch.equals('{') || ch.equals('(') || ch.equals('[')) {
+				} else if (ch.equals('{') || ch.equals('(') || ch.equals('[')) {
 					level++;
-				}
- else if (ch.equals('}') || ch.equals(')') || ch.equals(']')) {
+				} else if (ch.equals('}') || ch.equals(')') || ch.equals(']')) {
 					level--;
 				}
 				if (ch.equals('|')) {
 					// We separate bars if the previous symbol was in splitters
-					// or we have ||| and there were an odd number of bars so far
+					// or we have ||| and there were an odd number of bars so
+					// far
 					if (i == 0
-							|| (bars % 2 == 1 && i < len - 2
-									&& ignoredIndices.charAt(i + 1) == '|' && ignoredIndices
-									.charAt(i + 2) == '|')
+							|| (MyDouble.isOdd(bars) && i < len - 2
+									&& ignoredIndices.charAt(i + 1) == '|'
+									&& ignoredIndices.charAt(i + 2) == '|')
 							|| (i < len - 1
-									&& ignoredIndices.charAt(i + 1) == '|' && splitters
-										.contains(lastNonWhitespace))) {
+									&& ignoredIndices.charAt(i + 1) == '|'
+									&& splitters.contains(lastNonWhitespace))) {
 						sbFix.append(' ');
 					}
 					bars++;
@@ -1173,8 +1169,8 @@ public class StringUtil {
 				visibleChars += index ? indexSize : 1;
 			}
 		}
-		return bold ? visibleChars * 0.6 * font.getSize() : visibleChars * 0.5
-				* font.getSize();
+		return bold ? visibleChars * 0.6 * font.getSize()
+				: visibleChars * 0.5 * font.getSize();
 	}
 
 	public double estimateHeight(String string, GFont font) {
@@ -1428,15 +1424,15 @@ public class StringUtil {
 	 */
 	public static boolean isWhitespace(char c) {
 		return c == ' ' || c == '\u0009' || /* , HORIZONTAL TABULATION. */
-		c == '\n' || /* LINE FEED. */
-		c == '\u000B' || /* VERTICAL TABULATION. */
-		c == '\u000C' || /* FORM FEED. */
-		c == '\r' || /* CARRIAGE RETURN. */
-		c == '\u001C' || /* FILE SEPARATOR. */
-		c == '\u001D' || /* GROUP SEPARATOR. */
-		c == '\u001E' || /* RECORD SEPARATOR. */
-		c == '\u001F' || /* UNIT SEPARATOR. */
-		c == '\u1680' || c == '\u180E' || c == '\u2000' || c == '\u2001'
+				c == '\n' || /* LINE FEED. */
+				c == '\u000B' || /* VERTICAL TABULATION. */
+				c == '\u000C' || /* FORM FEED. */
+				c == '\r' || /* CARRIAGE RETURN. */
+				c == '\u001C' || /* FILE SEPARATOR. */
+				c == '\u001D' || /* GROUP SEPARATOR. */
+				c == '\u001E' || /* RECORD SEPARATOR. */
+				c == '\u001F' || /* UNIT SEPARATOR. */
+				c == '\u1680' || c == '\u180E' || c == '\u2000' || c == '\u2001'
 				|| c == '\u2002' || c == '\u2003' || c == '\u2004'
 				|| c == '\u2005' || c == '\u2006' || c == '\u2008'
 				|| c == '\u2009' || c == '\u200A' || c == '\u2028'
@@ -1454,7 +1450,8 @@ public class StringUtil {
 	 * @param currentQuote
 	 *            alternate between open and closed
 	 */
-	public static char processQuotes(StringBuilder sb, String content, char ret) {
+	public static char processQuotes(StringBuilder sb, String content,
+			char ret) {
 		char currentQuote = ret;
 		if (content.indexOf("\"") == -1) {
 			sb.append(content);
@@ -1637,6 +1634,5 @@ public class StringUtil {
 			return loc.getColor("black");
 		}
 	}
-	
 
 }

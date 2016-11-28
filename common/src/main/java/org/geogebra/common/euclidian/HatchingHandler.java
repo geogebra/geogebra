@@ -347,7 +347,7 @@ public class HatchingHandler {
 			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2, yInt * 2
 					+ yInt / 2);
 		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
-			rect.setRect(xInt, yInt / 2,
+			rect.setRect(xInt, yInt / 2.0,
 					xInt, 2 * yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
