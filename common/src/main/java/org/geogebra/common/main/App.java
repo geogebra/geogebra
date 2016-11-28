@@ -4099,6 +4099,14 @@ public abstract class App implements UpdateSelection {
 			case MOBILE_3D_TOOLS_WITH_DIALOGS:
 				return prerelease;
 
+			// MOB-1005
+			case MOBILE_DO_NOT_AUTOSYNC_APPS:
+				return prerelease;
+
+			// related to MOB-1005
+			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
+				return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
