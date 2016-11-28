@@ -961,7 +961,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			case 5:
 				return rowList.get(nRow).getAlgebra();
 			case 7:
-				return rowList.get(nRow).getCPVisible();
+				return Boolean.valueOf(rowList.get(nRow).getCPVisible());
 			case 6:
 				return rowList.get(nRow).getCaption();
 			}
@@ -993,7 +993,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionDefault();
 			case 7:
-				return rowList.get(nRow).getCPVisible().toString();
+				return rowList.get(nRow).getCPVisible() + "";
 			}
 			return "";
 		}
@@ -1067,7 +1067,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								StringTemplate.defaultTemplate);
 
 			case 7:
-				return rowList.get(nRow).getCPVisible().toString();
+				return rowList.get(nRow).getCPVisible() + "";
 
 			}
 

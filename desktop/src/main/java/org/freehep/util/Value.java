@@ -302,15 +302,24 @@ public class Value {
      *
      */
     public Object getObject() {
-        if (obj != null)       return obj;
-        else if (type == TYPE_INTEGER) return new Integer(intValue);
-        else if (type == TYPE_SHORT)   return new Short(shortValue);
-        else if (type == TYPE_LONG)    return new Long(longValue);
-        else if (type == TYPE_FLOAT)   return new Float(floatValue);
-        else if (type == TYPE_DOUBLE)  return new Double(doubleValue);
-        else if (type == TYPE_BOOLEAN) return new Boolean(boolValue);
-        else if (type == TYPE_BYTE)    return new Byte(byteValue);
-        else if (type == TYPE_CHAR)    return new Character(charValue);
+		if (obj != null)
+			return obj;
+		else if (type == TYPE_INTEGER)
+			return Integer.valueOf(intValue);
+		else if (type == TYPE_SHORT)
+			return Short.valueOf(shortValue);
+		else if (type == TYPE_LONG)
+			return Long.valueOf(longValue);
+		else if (type == TYPE_FLOAT)
+			return Float.valueOf(floatValue);
+		else if (type == TYPE_DOUBLE)
+			return Double.valueOf(doubleValue);
+		else if (type == TYPE_BOOLEAN)
+			return Boolean.valueOf(boolValue);
+		else if (type == TYPE_BYTE)
+			return Byte.valueOf(byteValue);
+		else if (type == TYPE_CHAR)
+			return Character.valueOf(charValue);
         else return null;
     }
 
