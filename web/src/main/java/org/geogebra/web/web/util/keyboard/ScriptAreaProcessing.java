@@ -5,6 +5,10 @@ import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.util.ScriptArea;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.Event;
+
 public class ScriptAreaProcessing implements KeyboardListener {
 
 	private ScriptArea field;
@@ -22,18 +26,46 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	public void onEnter() {
-		// TODO Auto-generated method stub
-
+		// TODO: why don't work
+		NativeEvent event2 = Document.get().createKeyDownEvent(false, false,
+				false, false, ENTER);
+		field.onBrowserEvent(Event.as(event2));
 	}
 
 	public void onBackSpace() {
-		// TODO Auto-generated method stub
+		int start = field.getCursorPos();
+		int end = start + field.getSelectionLength();
+
+		if (field.getSelectionLength() < 1) {
+			// nothing selected -> delete character before cursor
+			end = start;
+			start--;
+		}
+
+		if (start > 0) {
+			// cursor not at the beginning of text -> delete something
+			String oldText = field.getText();
+			String newText = oldText.substring(0, start)
+					+ oldText.substring(end);
+			field.setText(newText);
+			field.setCursorPos(start);
+		}
 
 	}
 
 	public void onArrow(ArrowType type) {
-		// TODO Auto-generated method stub
-
+		int cursorPos = field.getCursorPos();
+		switch (type) {
+		case left:
+			if (cursorPos > 0)
+				field.setCursorPos(cursorPos - 1);
+			break;
+		case right:
+			if (cursorPos < field.getText().length()) {
+				field.setCursorPos(cursorPos + 1);
+			}
+			break;
+		}
 	}
 
 	public void insertString(String text) {
@@ -71,7 +103,6 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	public boolean isSVCell() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -80,9 +111,8 @@ public class ScriptAreaProcessing implements KeyboardListener {
 
 	}
 
-	public Object getField() {
-		// TODO Auto-generated method stub
-		return null;
+	public ScriptArea getField() {
+		return field;
 	}
 
 }
