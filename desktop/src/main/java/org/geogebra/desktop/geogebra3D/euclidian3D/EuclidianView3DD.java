@@ -633,4 +633,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return isStereoBuffered;
 	}
 
+	@Override
+	public boolean wantsStereo() {
+		return isStereoBuffered();
+	}
+
 }
