@@ -92,6 +92,7 @@ import org.geogebra.web.web.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
+import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
@@ -112,6 +113,7 @@ import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.web.util.keyboard.GTextBoxProcessing;
+import org.geogebra.web.web.util.keyboard.ScriptAreaProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2111,6 +2113,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		if (textField instanceof EquationEditorListener) {
 			return ((EquationEditorListener) textField).getKeyboardListener();
+		}
+		if (textField instanceof ScriptArea) {
+			return new ScriptAreaProcessing((ScriptArea) textField);
 		}
 
 		return null;
