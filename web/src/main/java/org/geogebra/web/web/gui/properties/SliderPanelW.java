@@ -22,6 +22,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -123,14 +125,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 
 			}});
-		tfMin.addFocusHandler(new FieldHandler(app));
+		tfMin.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfMin, app);
+			}
+		});
 		
 		tfMin.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMin();
-				app.hideKeyboard();
+				FieldHandler.focusLost(tfMin, app);
 			}
 		});
 
