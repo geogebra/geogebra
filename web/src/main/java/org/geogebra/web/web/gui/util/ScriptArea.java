@@ -4,7 +4,6 @@ import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
@@ -19,7 +18,7 @@ import com.google.gwt.user.client.ui.TextArea;
 // Class for future syntax highlighting, line numbering and so on.
 public class ScriptArea extends TextArea
  implements KeyPressHandler,
-		KeyDownHandler, KeyUpHandler, HasKeyboardTF, MathKeyboardListener {
+		KeyDownHandler, KeyUpHandler, HasKeyboardTF {
 
 	private boolean dummyCursor = false;
 
