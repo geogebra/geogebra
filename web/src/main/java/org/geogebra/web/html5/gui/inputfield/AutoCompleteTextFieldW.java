@@ -42,6 +42,7 @@ import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.web.gui.HasKeyboardTF;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
@@ -83,8 +84,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
         AutoCompleteW, MathKeyboardListener,
         org.geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
-        KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
-        SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {
+        KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>,
+		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 
 	public interface InsertHandler {
 		void onInsert(String text);
