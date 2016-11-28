@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.modes;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -169,7 +170,9 @@ public class ModeDelete {
 			GeoElement[] geos = ec.getSelectedGeos();
 			AlgorithmSet as = null;
 			// delete only parts of geoPenStroke, not the whole object
-			if (geos[0] instanceof GeoPenStroke) {
+			// when eraser tool is used
+			if (geos[0] instanceof GeoPenStroke
+					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
 				updatePenDeleteMode(hits);
 				int eventX = ec.getMouseLoc().getX();
 				int eventY = ec.getMouseLoc().getY();
