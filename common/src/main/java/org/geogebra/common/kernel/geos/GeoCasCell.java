@@ -1867,46 +1867,29 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					// newly created GeoElement is undefined, we can set our twin geo undefined
 					twinGeo.setUndefined();
 				} else {
-					// needed for GGB-362
-					if (twinGeo instanceof GeoSurfaceCartesian3D
-							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
-						twinGeo.doRemove();
-						notifyRemove();
-						twinGeo = lastOutputEvaluationGeo;
-						cons.addToConstructionList(twinGeo, true);
-						cons.putLabel(twinGeo);
-						twinGeo.notifyAdd();
-						if (assignmentVar == null) {
-							assignmentVar = twinGeo
-									.getLabel(StringTemplate.defaultTemplate);
-						}
-					} else {
-						// needed for TRAC-2635
-						// list wanted but we get line from giac
-						if (inputVE != null
-								&& inputVE.getTopLevelCommand() != null
-								&& inputVE.getTopLevelCommand().getName()
-										.equals("Tangent")
-								&& twinGeo instanceof GeoList
-								&& !(lastOutputEvaluationGeo instanceof GeoList)) {
-							if (((Command) ((ExpressionNode) inputVE).getLeft())
-									.getArgumentNumber() == 2) {
-								ExpressionNode[] args = ((Command) ((ExpressionNode) inputVE)
-										.getLeft()).getArguments();
-								// Tangent[Point, Conic]
-								if (args[0].getLeft() instanceof GeoPoint
-										&& args[1]
-												.getLeft() instanceof GeoConic) {
-									((GeoList) twinGeo).clear();
-									((GeoList) twinGeo)
-											.add(lastOutputEvaluationGeo);
-								}
+					// different types:
+					// needed for TRAC-2635
+					// list wanted but we get line from giac
+					if (inputVE != null && inputVE.isTopLevelCommand("Tangent")
+							&& twinGeo instanceof GeoList
+							&& !(lastOutputEvaluationGeo instanceof GeoList)
+							&& (((Command) ((ExpressionNode) inputVE).getLeft())
+									.getArgumentNumber() == 2)) {
+							ExpressionNode[] args = ((Command) ((ExpressionNode) inputVE)
+									.getLeft()).getArguments();
+							// Tangent[Point, Conic]
+							if (args[0].getLeft() instanceof GeoPoint
+									&& args[1].getLeft() instanceof GeoConic) {
+								((GeoList) twinGeo).clear();
+								((GeoList) twinGeo)
+										.add(lastOutputEvaluationGeo);
 							}
-						} else {
+						
+					} else {
 						twinGeo = lastOutputEvaluationGeo;
 						cons.replace(twinGeo, lastOutputEvaluationGeo);
-						}
-					}
+								}
+
 				}
 				if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
 					twinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());
