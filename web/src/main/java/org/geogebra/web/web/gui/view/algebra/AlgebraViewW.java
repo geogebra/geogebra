@@ -2072,8 +2072,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void resetItems(boolean unselectAll) {
-
 		MinMaxPanel.closeMinMaxPanel();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			return;
+		}
 
 		updateSelection();
 	}
