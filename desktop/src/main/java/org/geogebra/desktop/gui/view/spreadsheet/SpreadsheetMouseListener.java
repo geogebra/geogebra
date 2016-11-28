@@ -37,7 +37,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 	private Kernel kernel;
 	private MyTableD table;
 	private DefaultTableModel model;
-	private MyCellEditor editor;
+	private MyCellEditorSpreadsheet editor;
 
 	private RelativeCopy relativeCopy;
 

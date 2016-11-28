@@ -2361,8 +2361,7 @@ public class AlgebraProcessor {
 		}
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
-			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(),
- null,
+			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
 					equ);
 			if (c != null) {
 				return new GeoElement[0];
@@ -2374,7 +2373,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
-		if (lhs instanceof MyDouble && lhs.evaluateDouble() == MyMath.DEG) {
+		if (lhs instanceof MyDouble
+				&& MyDouble.exactEqual(lhs.evaluateDouble(), MyMath.DEG)) {
 			equ.getRHS().setLabel("deg");
 			try {
 				return processValidExpression(equ.getRHS());

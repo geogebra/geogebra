@@ -12,6 +12,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.io.layout.DockSplitPaneData;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -275,9 +276,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 				setDividerLocationRecursive(
 						checkLocation(savedDividerLocation, size), size,
 						orientation1);
-			} else if (getResizeWeight() == 0.5) {
-				if (savedSize == 0)
+			} else if (Kernel.isEqual(getResizeWeight(), 0.5)) {
+				if (savedSize == 0) {
 					savedSize = 1;
+				}
 				setDividerLocationRecursive((size * savedDividerLocation)
 						/ savedSize, size, orientation1);
 			} else {

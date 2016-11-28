@@ -382,7 +382,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
 
-		boolean metaDown = e.isControlDown();
 		boolean shiftDown = e.isShiftDown();
 		boolean rightClick = e.isRightClick();
 

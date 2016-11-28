@@ -468,7 +468,8 @@ public class ExpressionNode extends ValidExpression implements
 		switch (operation) {
 		case POWER: // eg e^x
 			if ((left instanceof NumberValue)
-					&& (((NumberValue) left).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) left).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -485,7 +486,8 @@ public class ExpressionNode extends ValidExpression implements
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
 			if ((left instanceof NumberValue)
-					&& (((NumberValue) left).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) left).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -496,7 +498,8 @@ public class ExpressionNode extends ValidExpression implements
 					kernel.getConstruction().removeLabel(geo);
 				}
 			} else if ((right instanceof NumberValue)
-					&& (((NumberValue) right).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) right).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -6372,7 +6375,7 @@ fn
 
 	private String toFractionStringFlat(StringTemplate tpl) {
 		if (operation == Operation.MULTIPLY && right instanceof MyDouble
-				&& right.evaluateDouble() == Math.PI) {
+				&& MyDouble.exactEqual(right.evaluateDouble(), Math.PI)) {
 			return tpl.multiplyString(left, right, left.toValueString(tpl),
 					right.toValueString(tpl), true, loc);
 		}

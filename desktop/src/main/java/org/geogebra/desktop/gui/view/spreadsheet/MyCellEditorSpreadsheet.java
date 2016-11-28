@@ -28,7 +28,7 @@ import org.geogebra.desktop.main.AppD;
  * DefaultCellEditor(JTextField)
  * 
  */
-public class MyCellEditor extends DefaultCellEditor implements FocusListener {
+public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +66,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditor(Kernel kernel, SpreadsheetController controller) {
+	public MyCellEditorSpreadsheet(Kernel kernel, SpreadsheetController controller) {
 
 		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
 				KeyNavigation.IGNORE));
@@ -114,7 +114,11 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	public Component getTableCellEditorComponent(JTable table0, Object value0,
 			boolean isSelected, int row0, int column0) {
 
-		table = (MyTableD) table0;
+		if (table0 instanceof MyTableD) {
+			table = (MyTableD) table0;
+		} else {
+			return null;
+		}
 
 		if (value0 instanceof String) { // clicked to type
 			value = null;

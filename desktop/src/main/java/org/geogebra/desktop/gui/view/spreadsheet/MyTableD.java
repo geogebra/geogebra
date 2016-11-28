@@ -82,7 +82,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	protected Kernel kernel;
 	protected AppD app;
-	protected MyCellEditor editor;
+	protected MyCellEditorSpreadsheet editor;
 	private MyCellEditorBoolean editorBoolean;
 	private MyCellEditorButton editorButton;
 	private MyCellEditorList editorList;
@@ -238,7 +238,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// add cell renderer & editors
 		setDefaultRenderer(Object.class, new MyCellRenderer(this));
-		editor = new MyCellEditor(kernel, getEditorController());
+		editor = new MyCellEditorSpreadsheet(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields

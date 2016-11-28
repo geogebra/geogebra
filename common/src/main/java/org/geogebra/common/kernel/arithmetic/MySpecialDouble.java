@@ -122,7 +122,7 @@ public class MySpecialDouble extends MyDouble {
 	 * @return true if this equals E (no tolerance)
 	 */
 	public boolean isEulerConstant() {
-		return getDouble() == Math.E;
+		return MyDouble.exactEqual(getDouble(), Math.E);
 	}
 
 	@Override

@@ -90,7 +90,6 @@ public class SpreadsheetColumnControllerW implements
 
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
-		boolean metaDown = e.isControlKeyDown();// || e.isMetaKeyDown();//AppW.isControlDown(e);
 		boolean shiftDown = e.isShiftKeyDown();
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);//AppW.isRightClick(e);
 

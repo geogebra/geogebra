@@ -20,7 +20,7 @@ public class SpreadsheetKeyListener implements KeyListener
 	private Kernel kernel;
 	private MyTableD table;
 	private DefaultTableModel model;	
-	private MyCellEditor editor;
+	private MyCellEditorSpreadsheet editor;
 
 	
 	public SpreadsheetKeyListener(AppD app, MyTableD table){
@@ -306,9 +306,9 @@ public class SpreadsheetKeyListener implements KeyListener
 			break;	
 			
 		case KeyEvent.VK_ENTER:	
-			if (MyCellEditor.tabReturnCol > -1) {
-				table.changeSelection(row , MyCellEditor.tabReturnCol, false, false);
-				MyCellEditor.tabReturnCol = -1;
+			if (MyCellEditorSpreadsheet.tabReturnCol > -1) {
+				table.changeSelection(row , MyCellEditorSpreadsheet.tabReturnCol, false, false);
+				MyCellEditorSpreadsheet.tabReturnCol = -1;
 			}
 			
 			// fall through

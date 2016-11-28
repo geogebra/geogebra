@@ -170,7 +170,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		bg.onResize();
 		bg.setVisible(true);
 
-		((MyHeaderPanel) bg).setFrame(this);
+		if (bg instanceof MyHeaderPanel) {
+			((MyHeaderPanel) bg).setFrame(this);
+		}
 		// frameLayout.forceLayout();
 
 	}

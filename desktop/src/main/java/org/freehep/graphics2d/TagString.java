@@ -19,7 +19,10 @@ public class TagString {
         return string.hashCode();
     }
 
-    public boolean equals(Object obj) {
+	final public boolean equals(Object obj) {
+		if (obj == null || string == null) {
+			return false;
+		}
         return string.equals(obj);
     }
 

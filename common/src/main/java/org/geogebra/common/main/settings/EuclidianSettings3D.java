@@ -595,11 +595,13 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
 		getXMLForStereo(sb);
-		if (projectionObliqueAngle != EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT) {
+		if (!Kernel.isEqual(projectionObliqueAngle,
+				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
 			sb.append("\" obliqueAngle=\"");
 			sb.append(projectionObliqueAngle);
 		}
-		if (projectionObliqueFactor != EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT) {
+		if (!Kernel.isEqual(projectionObliqueFactor,
+				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
 			sb.append("\" obliqueFactor=\"");
 			sb.append(projectionObliqueFactor);
 		}
