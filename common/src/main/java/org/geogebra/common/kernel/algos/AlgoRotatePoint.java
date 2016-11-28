@@ -280,8 +280,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 				botanaPolynomials[2] = p4.subtract(p6);
 				return botanaPolynomials;
 			}
-			// rotate by 45 degrees
-			else if (Kernel.isEqual(angleDoubleVal, Math.PI / 4)) {
+			// rotate by -45 degrees
+			else if (Kernel.isEqual(angleDoubleVal, -Math.PI / 4)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
@@ -296,8 +296,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 						t2.multiply(p4));
 				return botanaPolynomials;
 			}
-			// rotate by -45 degrees
-			else if (Kernel.isEqual(angleDoubleVal, -Math.PI / 4)) {
+			// rotate by 45 degrees
+			else if (Kernel.isEqual(angleDoubleVal, Math.PI / 4)) {
 				botanaPolynomials = new Polynomial[3];
 				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
 				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
