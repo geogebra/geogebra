@@ -75,8 +75,8 @@ public class ModeDelete {
 				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
 				GeoPointND[] dataPoints;
 
-				if (geo.getParentAlgorithm() != null
-						&& (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
+				if (geo.getParentAlgorithm() != null && (geo
+						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
 					AlgoElement ae = geo.getParentAlgorithm();
 					for (int i = 0; i < ae.getInput().length; i++) {
 						if (ae.getInput()[i] instanceof GeoPenStroke) {
@@ -99,14 +99,11 @@ public class ModeDelete {
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
 						GeoPoint p = realPoints[i];
-						if (p.isDefined()
-								&& Math.max(
-										Math.abs(eventX
-												- view.toScreenCoordXd(p.inhomX)),
-										Math.abs(eventY
-												- view.toScreenCoordYd(
-														p.inhomY))) <= deleteSize
-																/ 2.0) {
+						if (p.isDefined() && Math.max(
+								Math.abs(eventX
+										- view.toScreenCoordXd(p.inhomX)),
+								Math.abs(eventY - view.toScreenCoordYd(
+										p.inhomY))) <= deleteSize / 2.0) {
 							dataPoints[i].setUndefined();
 							dataPoints[i].resetDefinition();
 							if (as == null) {
@@ -121,7 +118,8 @@ public class ModeDelete {
 						lastWasVisible = dataPoints[i].isDefined();
 					}
 				} else {
-					Log.debug("Can't delete points on stroke. Different number of in and output points.");
+					Log.debug(
+							"Can't delete points on stroke. Different number of in and output points.");
 				}
 				if (hasVisibleLine) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
@@ -139,9 +137,7 @@ public class ModeDelete {
 		ec.deleteAll(h);
 		if (as != null)
 			as.updateAll();
-
-
-	}
+		}
 
 	private void updatePenDeleteMode(Hits h) {
 		// if we switched to pen deletion just now, some geos may still need
@@ -170,9 +166,71 @@ public class ModeDelete {
 
 		ec.addSelectedGeo(hits, 1, false, selPreview);
 		if (ec.selGeos() == 1) {
-			// delete this object
 			GeoElement[] geos = ec.getSelectedGeos();
-			geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+			AlgorithmSet as = null;
+			// delete only parts of geoPenStroke, not the whole object
+			if (geos[0] instanceof GeoPenStroke) {
+				updatePenDeleteMode(hits);
+				int eventX = ec.getMouseLoc().getX();
+				int eventY = ec.getMouseLoc().getY();
+				GeoPenStroke gps = (GeoPenStroke) geos[0];
+				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
+				GeoPointND[] dataPoints;
+
+				if (geos[0].getParentAlgorithm() != null && (geos[0]
+						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
+					AlgoElement ae = geos[0].getParentAlgorithm();
+					for (int i = 0; i < ae.getInput().length; i++) {
+						if (ae.getInput()[i] instanceof GeoPenStroke) {
+							gps = (GeoPenStroke) ae.getInput()[i];
+						}
+					}
+				}
+				if (gps.getParentAlgorithm() != null
+						&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
+					dataPoints = ((AlgoPolyLine) gps.getParentAlgorithm())
+							.getPoints();
+				} else {
+					dataPoints = gps.getPoints();
+				}
+
+				// find out if this stroke is still visible
+				// after removing points
+				boolean hasVisibleLine = false;
+				boolean lastWasVisible = false;
+				if (realPoints.length == dataPoints.length) {
+					for (int i = 0; i < dataPoints.length; i++) {
+						GeoPoint p = realPoints[i];
+						if (p.isDefined() && Math.max(
+								Math.abs(eventX
+										- view.toScreenCoordXd(p.inhomX)),
+								Math.abs(eventY - view.toScreenCoordYd(
+										p.inhomY))) <= ec.getDeleteToolSize()
+												/ 2.0) {
+							dataPoints[i].setUndefined();
+							dataPoints[i].resetDefinition();
+							if (as == null) {
+								as = dataPoints[i].getAlgoUpdateSet();
+							} else {
+								as.addAll(dataPoints[i].getAlgoUpdateSet());
+							}
+						}
+						if (lastWasVisible && dataPoints[i].isDefined()) {
+							hasVisibleLine = true;
+						}
+						lastWasVisible = dataPoints[i].isDefined();
+					}
+				} else {
+					Log.debug(
+							"Can't delete points on stroke. Different number of in and output points.");
+				}
+				if (as != null)
+					as.updateAll();
+			}
+			// delete this object
+			else {
+				geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+			}
 			return true;
 		}
 		return false;
