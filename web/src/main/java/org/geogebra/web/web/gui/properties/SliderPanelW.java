@@ -149,11 +149,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 
+		tfMax.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfMax, app);
+			}
+		});
+
 		tfMax.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMax();
+				FieldHandler.focusLost(tfMax, app);
 			}
 		});
 
@@ -168,11 +175,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 		
+		tfWidth.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfWidth, app);
+			}
+		});
+
 		tfWidth.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyWidth();
+				FieldHandler.focusLost(tfWidth, app);
 			}
 		});
 
