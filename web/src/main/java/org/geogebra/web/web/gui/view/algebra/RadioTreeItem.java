@@ -1123,6 +1123,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected Canvas canvas;
 	private Canvas valCanvas;
 
+	private boolean editTap = false;
+
 	protected abstract void renderLatex(String text0, Widget w,
 			boolean forceMQ);
 
@@ -1696,8 +1698,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		boolean active = isEditing();
 		app.closePopups();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			editTap = true;
+		}
 
 		event.stopPropagation();
 		if (commonEditingCheck()) {
@@ -1710,17 +1714,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		editOnTap(active, wrappedEvent);
 		handleAVItem(event);
 		this.updateButtonPanelPosition();
 
 	}
 
 	private void editOnTap(boolean active, PointerEvent wrappedEvent) {
-		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap)) {
 			return;
 		}
 
+		editTap = false;
 		boolean enable = true;
 		if (isSliderItem() && !isWidgetHit(plainTextItem, wrappedEvent)) {
 			enable = false;
@@ -1739,6 +1743,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap) {
+			PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
+					ZeroOffset.instance);
+			editOnTap(isEditing(), wrappedEvent);
+		}
 	}
 
 
@@ -1917,6 +1926,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			editTap = false;
+		}
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
@@ -1931,6 +1943,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		handleAVItem(event);
+		editTap = true;
 		// this would propagate the event to
 		// AlgebraView.onBrowserEvent... is this we want?
 		// probably no, as there is a stopPropagation
@@ -2781,6 +2794,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			editTap = false;
+		}
+
 		if (app.has(Feature.AV_SCROLL)) {
 			event.preventDefault();
 		}
