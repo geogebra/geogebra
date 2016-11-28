@@ -13,7 +13,6 @@ buildscript {
 apply plugin: 'gwt-compiler'
 apply plugin: 'java'
 apply plugin: 'findbugs'
-apply from: "$rootDir/gradle-scripts/gwt-artifacts.gradle"
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -106,10 +105,6 @@ configurations.all {
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d']
-
-outputs.each { output ->
-    addArtifact(output)
-}
 
 task cleanWar(type: Delete) {
     outputs.each { folder ->
