@@ -570,4 +570,9 @@ public class LatexTreeItem extends RadioTreeItem
 	public String serialize(MathSequence selectionText) {
 		return GeoGebraSerializer.serialize(selectionText);
 	}
+
+	public void onInsertString() {
+		mf.setFormula(GeoGebraSerializer.reparse(mf.getFormula()));
+
+	}
 }

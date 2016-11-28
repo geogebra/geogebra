@@ -125,4 +125,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 		return GeoGebraSerializer.serialize(selectionText);
 	}
 
+	public void onInsertString() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

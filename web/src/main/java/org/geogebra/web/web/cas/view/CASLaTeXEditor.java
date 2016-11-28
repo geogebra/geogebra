@@ -284,4 +284,9 @@ public class CASLaTeXEditor extends SimplePanel
 		return GeoGebraSerializer.serialize(selectionText);
 	}
 
+	public void onInsertString() {
+		mf.setFormula(GeoGebraSerializer.reparse(this.mf.getFormula()));
+
+	}
+
 }
