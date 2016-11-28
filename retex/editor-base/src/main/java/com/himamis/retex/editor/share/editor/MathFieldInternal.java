@@ -354,7 +354,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
-					editorState.getCurrentOffset());
+					editorState.getCurrentOffset(), false);
 			for (int i = 0; i < list2.size() / 2; i++) {
 				int tmp = list2.get(i);
 
@@ -375,7 +375,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
-					editorState.getCurrentOffset());
+					editorState.getCurrentOffset(), false);
 		}
 
 	}
@@ -509,6 +509,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					getInputController().getSelectionText(getEditorState())));
 		}
 		return "";
+
+	}
+
+	public void onInsertString() {
+		if (listener != null) {
+			listener.onInsertString();
+		}
 
 	}
 

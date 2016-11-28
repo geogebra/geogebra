@@ -83,6 +83,12 @@ public class Test {
 			public String serialize(MathSequence selectionText) {
 				return GeoGebraSerializer.serialize(selectionText);
 			}
+
+			public void onInsertString() {
+				mathField.setFormula(
+						GeoGebraSerializer.reparse(mathField.getFormula()));
+
+			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));

@@ -14,7 +14,7 @@ abstract public class Input3D {
 
 	public enum DeviceType {
 		HAND, PEN
-	};
+	}
 
 	public enum OutOfField {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES

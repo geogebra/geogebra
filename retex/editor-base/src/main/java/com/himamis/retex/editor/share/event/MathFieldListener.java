@@ -16,4 +16,6 @@ public interface MathFieldListener {
 	public String alt(int unicodeKeyChar, boolean shift);
 
 	public String serialize(MathSequence selectionText);
+
+	public void onInsertString();
 }

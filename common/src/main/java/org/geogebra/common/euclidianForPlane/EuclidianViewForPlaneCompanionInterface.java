@@ -38,6 +38,6 @@ public interface EuclidianViewForPlaneCompanionInterface {
 	 * @param repaint
 	 *            says if repaint is needed
 	 */
-	public void updateAllDrawables(boolean b);
+	public void updateAllDrawables(boolean repaint);
 
 }

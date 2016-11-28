@@ -1,5 +1,7 @@
 package org.geogebra.common.io.latex;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -8,6 +10,10 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.Serializer;
 
+/**
+ * Serializes internal formulas representation into GeoGebra string
+ *
+ */
 public class GeoGebraSerializer implements Serializer {
 
     @Override
@@ -18,7 +24,7 @@ public class GeoGebraSerializer implements Serializer {
         return stringBuilder.toString();
     }
 
-	private void serialize(MathComponent mathComponent,
+	private static void serialize(MathComponent mathComponent,
 			StringBuilder stringBuilder) {
         if (mathComponent instanceof MathCharacter) {
             serialize((MathCharacter) mathComponent, stringBuilder);
@@ -31,18 +37,24 @@ public class GeoGebraSerializer implements Serializer {
         }
     }
 
+	/**
+	 * @param c
+	 *            math formula fragment
+	 * @return string
+	 */
 	public static String serialize(MathComponent c) {
-		GeoGebraSerializer ser = new GeoGebraSerializer();
 		StringBuilder sb = new StringBuilder();
-		ser.serialize(c, sb);
+		GeoGebraSerializer.serialize(c, sb);
 		return sb.toString();
 	}
 
-    private void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
+	private static void serialize(MathCharacter mathCharacter,
+			StringBuilder stringBuilder) {
         stringBuilder.append(mathCharacter.getUnicode());
     }
 
-    private void serialize(MathFunction mathFunction, StringBuilder stringBuilder) {
+	private static void serialize(MathFunction mathFunction,
+			StringBuilder stringBuilder) {
         String mathFunctionName = mathFunction.getName();
         if ("^".equals(mathFunctionName)) {
             stringBuilder.append(mathFunctionName + '(');
@@ -192,7 +204,8 @@ public class GeoGebraSerializer implements Serializer {
         }
     }
 
-    private void maybeInsertTimes(MathFunction mathFunction, StringBuilder stringBuilder) {
+	private static void maybeInsertTimes(MathFunction mathFunction,
+			StringBuilder stringBuilder) {
         MathSequence mathSequence = mathFunction.getParent();
         if (mathSequence != null && mathFunction.getParentIndex() > 0) {
             MathComponent mathComponent = mathSequence.getArgument(mathFunction.getParentIndex() - 1);
@@ -205,7 +218,8 @@ public class GeoGebraSerializer implements Serializer {
         }
     }
 
-    private void serialize(MathArray mathArray, StringBuilder stringBuilder) {
+	private static void serialize(MathArray mathArray,
+			StringBuilder stringBuilder) {
         String open = mathArray.getOpen().getCasName();
         String close = mathArray.getClose().getCasName();
         String field = mathArray.getField().getCasName();
@@ -229,7 +243,8 @@ public class GeoGebraSerializer implements Serializer {
         }
     }
 
-    private void serialize(MathSequence mathSequence, StringBuilder stringBuilder) {
+	private static void serialize(MathSequence mathSequence,
+			StringBuilder stringBuilder) {
 		if (mathSequence == null) {
 			return;
 		}
@@ -237,4 +252,22 @@ public class GeoGebraSerializer implements Serializer {
             serialize(mathSequence.getArgument(i), stringBuilder);
         }
     }
+
+	/**
+	 * @param formula
+	 *            original formula
+	 * @return formula after stringify + parse
+	 */
+	public static MathFormula reparse(MathFormula formula) {
+		Parser parser = new Parser(formula.getMetaModel());
+		MathFormula formula1 = null;
+		try {
+			formula1 = parser.parse(serialize(formula.getRootComponent()));
+
+		} catch (ParseException e) {
+			Log.warn("Problem parsing: " + formula.getRootComponent());
+			e.printStackTrace();
+		}
+		return formula1 == null ? formula : formula1;
+	}
 }

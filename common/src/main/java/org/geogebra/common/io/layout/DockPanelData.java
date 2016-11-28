@@ -178,6 +178,9 @@ public class DockPanelData implements Cloneable {
 
 	/**
 	 * Set the toolbar string of this view (or an empty string).
+	 * 
+	 * @param toolbar
+	 *            toolbar string
 	 */
 	public void setToolbarString(String toolbar) {
 		toolbarString = toolbar;
@@ -307,10 +310,18 @@ public class DockPanelData implements Cloneable {
 				showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}
 
-	public void setVisible(boolean b) {
-		isVisible = b;
+	/**
+	 * @param visible
+	 *            whether this panel should be visible
+	 */
+	public void setVisible(boolean visible) {
+		isVisible = visible;
 	}
 
+	/**
+	 * @param s
+	 *            comma separated list of left/right/top/bottom a.k.a. 1,2,3,4
+	 */
 	public void setLocation(String s) {
 		this.embeddedDef = s;
 

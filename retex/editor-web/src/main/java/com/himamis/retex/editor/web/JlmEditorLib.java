@@ -50,6 +50,11 @@ public class JlmEditorLib extends JlmLib {
 					public String serialize(MathSequence selectionText) {
 						return selectionText + "";
 					}
+
+					public void onInsertString() {
+						// TODO Auto-generated method stub
+
+					}
 				});
 		fld.requestViewFocus();
 	}
