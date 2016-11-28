@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui;
 
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 

@@ -1,4 +1,5 @@
-package org.geogebra.web.web.gui;
+package org.geogebra.web.html5.gui;
+
 
 /**
  * Interface for textfields, which has keyboard

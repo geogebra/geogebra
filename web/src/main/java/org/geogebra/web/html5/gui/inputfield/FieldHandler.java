@@ -2,10 +2,10 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.HasKeyboardTF;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
