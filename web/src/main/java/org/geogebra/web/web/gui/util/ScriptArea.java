@@ -2,6 +2,9 @@ package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.main.GWTKeycodes;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
+import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
@@ -15,8 +18,10 @@ import com.google.gwt.user.client.ui.TextArea;
 
 // Class for future syntax highlighting, line numbering and so on.
 public class ScriptArea extends TextArea
-		implements KeyPressHandler, KeyDownHandler, KeyUpHandler {
+ implements KeyPressHandler,
+		KeyDownHandler, KeyUpHandler, HasKeyboardTF, MathKeyboardListener {
 
+	private boolean dummyCursor = false;
 
 	public ScriptArea() {
 		setStyleName("scriptArea");
@@ -99,6 +104,67 @@ public class ScriptArea extends TextArea
 			e.stopPropagation();
 			return;
 		}
+	}
+
+	public void startOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(false);
+			addDummyCursor();
+			addStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void endOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(true);
+			removeDummyCursor();
+			removeStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void addDummyCursor() {
+		int caretPos = getCursorPos();
+		addDummyCursor(caretPos);
+	}
+
+	public void removeDummyCursor() {
+		if (!dummyCursor) {
+			return;
+		}
+		String text = getText();
+		int cpos = getCursorPos();
+		text = text.substring(0, cpos) + text.substring(cpos + 1);
+
+		setValue(text);
+		dummyCursor = false;
+	}
+
+	public void addDummyCursor(int caretPos) {
+		String text = getText();
+		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
+
+		setValue(text);
+		setCursorPos(caretPos);
+		dummyCursor = true;
+	}
+
+	public void setFocus(boolean focus, boolean scheduled) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void ensureEditing() {
+		// TODO Auto-generated method stub
+	}
+
+	public void onEnter(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean needsAutofocus() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
