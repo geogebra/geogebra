@@ -137,7 +137,7 @@ public class KeyboardInputAdapter {
 			}
 		}
 		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
-		mMathFieldInternal.onInsertString();
+		// mMathFieldInternal.onInsertString();
 	}
 
     public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {

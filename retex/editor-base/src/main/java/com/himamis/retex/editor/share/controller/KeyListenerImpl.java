@@ -37,6 +37,13 @@ public class KeyListenerImpl {
 				return true;
 			}
 			return false;
+		case KeyEvent.VK_X:
+			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+				inputController.copy();
+				inputController.deleteSelection(editorState);
+				return true;
+			}
+			return false;
 		case KeyEvent.VK_ESCAPE:
 			inputController.escSymbol(editorState);
 			return true;

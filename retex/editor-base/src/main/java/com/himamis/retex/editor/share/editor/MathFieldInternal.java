@@ -513,9 +513,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	public void onInsertString() {
+		ArrayList<Integer> path = new ArrayList<Integer>();
+		getMathFieldController().getSelectedPath(getFormula(), path,
+				getEditorState().getCurrentField(),
+				getEditorState().getCurrentOffset(), true);
+
 		if (listener != null) {
 			listener.onInsertString();
 		}
+		getMathFieldController().setSelectedPath(getFormula(), path,
+				getEditorState());
 
 	}
 

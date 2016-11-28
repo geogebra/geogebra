@@ -36,7 +36,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -177,13 +176,9 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	public void insertString(String text) {
-		ArrayList<Integer> path = new ArrayList<Integer>();
-		mathFieldInternal.getMathFieldController().getSelectedPath(getFormula(),
-				path, mathFieldInternal.getEditorState().getCurrentField(),
-				mathFieldInternal.getEditorState().getCurrentOffset(), true);
+
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
-		mathFieldInternal.getMathFieldController().setSelectedPath(getFormula(),
-				path, mathFieldInternal.getEditorState());
+
 
 		mathFieldInternal.update();
 
