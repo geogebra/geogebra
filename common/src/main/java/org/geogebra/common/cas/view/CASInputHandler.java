@@ -505,7 +505,9 @@ public class CASInputHandler {
 				}
 				vars.clear();
 			} else {
-				cellValue.setNSolveCmdNeeded(true);
+				if (sb.toString().contains("$")) {
+					cellValue.setNSolveCmdNeeded(true);
+				}
 			}
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
