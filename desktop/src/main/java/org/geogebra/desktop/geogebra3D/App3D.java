@@ -748,16 +748,31 @@ public class App3D extends AppD {
 	@Override
 	protected void handleOptionArgsEarly(CommandLineArguments args) {
 		super.handleOptionArgsEarly(args);
+		
+		isStereo3D = false;
+		useShaders = false;
 
-		if (args != null && args.containsArg("testShaders")) {
+		if (args == null) {
+			return;
+		}
+
+		if (args.containsArg("testShaders")) {
 			useShaders = true;
-		} else {
-			useShaders = false;
+		}
+
+		if (args.containsArg("stereo")) {
+			isStereo3D = true;
 		}
 
 	}
 
 	private boolean useShaders;
+
+	private boolean isStereo3D;
+
+	public boolean isStereo3D() {
+		return isStereo3D && !isApplet();
+	}
 
 	@Override
 	public boolean useShaders() {
