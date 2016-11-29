@@ -2600,7 +2600,7 @@ __GGB__keysVar.es_ES.menu = {
     "SignInSuccessful": "Sesi\xf3n iniciada",
     "SignInToGGT": "Abrir sesi\xf3n en GeoGebra",
     "SignOut": "Cerrar sesi\xf3n",
-    "SignedInAsA": "Abrir sesi\xf3n como %0",
+    "SignedInAsA": "Sesi\xf3n abierta como %0",
     "SimpleCalc": "Simple Calc",
     "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmulas simples",
