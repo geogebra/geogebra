@@ -4107,6 +4107,10 @@ public abstract class App implements UpdateSelection {
 			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
 				return false;
 
+			// MOB-1014
+			case MOBILE_KILL_DIALOG_TITLE:
+				return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
