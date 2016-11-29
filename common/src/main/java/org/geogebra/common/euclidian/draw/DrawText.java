@@ -35,9 +35,7 @@ public final class DrawText extends Drawable {
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
-	public static final GColor highlightColor() {
-		return GColor.LIGHT_GRAY;
-	}
+	public static final GColor HIGHLIGHT_COLOR = GColor.LIGHT_GRAY;
 
 	// private static final int SELECTION_DIAMETER_ADD = 4;
 	// private static final int SELECTION_OFFSET = SELECTION_DIAMETER_ADD / 2;
@@ -198,7 +196,7 @@ public final class DrawText extends Drawable {
 			// draw label rectangle
 			if (geo.doHighlighting()) {
 				g2.setStroke(objStroke);
-				g2.setPaint(highlightColor());
+				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
 		}

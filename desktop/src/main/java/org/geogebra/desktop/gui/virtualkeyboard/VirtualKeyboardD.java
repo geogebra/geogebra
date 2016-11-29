@@ -1162,7 +1162,8 @@ public class VirtualKeyboardD extends JFrame implements ActionListener,
 		// interval bisection method to find desired fontsize
 		while (minSize != maxSize - 1) {
 			// Application.debug(minSize+" "+maxSize);
-			int midSize = (minSize + maxSize) / 2;
+			// better than (low+high)/2 for positive numbers
+			int midSize = (minSize + maxSize) >>> 1;
 
 			getDummyButton().setFont(fonts[midSize]);
 			getDummyButton().setText(wideChar + "");

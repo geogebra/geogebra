@@ -3026,8 +3026,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	@Override
 	public GColor getAlgebraColor() {
-		if (twinGeo == null)
+		if (twinGeo == null) {
 			return GColor.BLACK;
+		}
 		return twinGeo.getAlgebraColor();
 	}
 

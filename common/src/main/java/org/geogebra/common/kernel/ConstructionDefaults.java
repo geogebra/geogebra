@@ -127,49 +127,37 @@ public class ConstructionDefaults {
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
-	public static final GColor colPoint() {
-		return GColor.BLUE;
-	}
+	public static final GColor colPoint = GColor.BLUE;
+
 	/** default color for dependent points */
-	public static final GColor colDepPoint() {
-		return GColor.DARK_GRAY;
-	}
+	public static final GColor colDepPoint = GColor.DARK_GRAY;
+
 	/** default color for points on path */
-	public static final GColor colPathPoint() {
-		return GeoGebraColorConstants.LIGHTBLUE;
-	}
+	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE;
 
 	/** default color for points in region */
-	public static final GColor colRegionPoint() {
-		return colPathPoint();
-	}
+	public static final GColor colRegionPoint = colPathPoint;
+
 	/** default color for complex numbers */
-	public static final GColor colComplexPoint() {
-		return colPoint();
-	}
+	public static final GColor colComplexPoint = colPoint;
 
 	// lines
 	/** default color for lines */
-	private static final GColor colLine() {
-		return GColor.BLACK;
-	}
+	private static final GColor colLine = GColor.BLACK;
+
 	/** default color for inequalities */
-	private static final GColor colInequality() {
-		return GColor.BLUE;
-	}
+	private static final GColor colInequality = GColor.BLUE;
 
 	/** Color for conics **/
-	protected static final GColor colConic() {
-		return GColor.BLACK;
-	}
+	protected static final GColor colConic = GColor.BLACK;
+
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
 	// polygons
 	/** default color for polygons */
-	public static final GColor colPolygon() {
-		return GeoGebraColorConstants.GGB_BROWN;
-	}
+	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN;
+
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
@@ -205,19 +193,14 @@ public class ConstructionDefaults {
 	/** default alpha for quadrics */
 	public static final float DEFAULT_QUADRIC_ALPHA = 0.75f;
 	/** default color for quadrics */
-	public static final GColor colQuadric() {
-		return GeoGebraColorConstants.GGB_RED;
-	}
+	public static final GColor colQuadric = GeoGebraColorConstants.GGB_RED;
 
 	/** preview color */
-	public static final GColor colPreview() {
-		return GColor.DARK_GRAY;
-	}
+	public static final GColor colPreview = GColor.DARK_GRAY;
+
 	/** preview fill color */
-	public static final GColor colPreviewFill = GColor
-			.newColor(colPolygon().getRed(), colPolygon().getGreen(),
-					colPolygon().getBlue(),
-					(int) (DEFAULT_POLYGON_ALPHA * 255));
+	public static final GColor colPreviewFill = colPolygon
+			.deriveWithAlpha((int) (DEFAULT_POLYGON_ALPHA * 255));
 
 	// label visibility
 	/** label visible automatic */
@@ -286,7 +269,7 @@ public class ConstructionDefaults {
 		// freePoint.setLocalVariableLabel(app.getPlain("Point") + strFree);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point" + strFree);
-		freePoint.setObjColor(colPoint());
+		freePoint.setObjColor(colPoint);
 		freePoint.setPointSize(pointSize);
 		freePoint.setDefaultGeoType(DEFAULT_POINT_FREE);
 		defaultGeoElements.put(DEFAULT_POINT_FREE, freePoint);
@@ -296,7 +279,7 @@ public class ConstructionDefaults {
 		// depPoint.setLocalVariableLabel(app.getPlain("Point") + strDependent);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
-		depPoint.setObjColor(colDepPoint());
+		depPoint.setObjColor(colDepPoint);
 		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
@@ -306,7 +289,7 @@ public class ConstructionDefaults {
 		// pathPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
-		pathPoint.setObjColor(colPathPoint());
+		pathPoint.setObjColor(colPathPoint);
 		pathPoint.setPointSize(pointSize);
 		pathPoint.setDefaultGeoType(DEFAULT_POINT_ON_PATH);
 		defaultGeoElements.put(DEFAULT_POINT_ON_PATH, pathPoint);
@@ -316,7 +299,7 @@ public class ConstructionDefaults {
 		// regionPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
-		regionPoint.setObjColor(colRegionPoint());
+		regionPoint.setObjColor(colRegionPoint);
 		regionPoint.setPointSize(pointSize);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
 		defaultGeoElements.put(DEFAULT_POINT_IN_REGION, regionPoint);
@@ -325,7 +308,7 @@ public class ConstructionDefaults {
 		GeoPoint complexPoint = new GeoPoint(cons);
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
-		complexPoint.setObjColor(colComplexPoint());
+		complexPoint.setObjColor(colComplexPoint);
 		complexPoint.setPointSize(pointSize);
 		complexPoint.setDefaultGeoType(DEFAULT_POINT_COMPLEX);
 		complexPoint.setMode(Kernel.COORD_COMPLEX);
@@ -335,7 +318,7 @@ public class ConstructionDefaults {
 		GeoLine line = new GeoLine(cons);
 		// line.setLocalVariableLabel(app.getPlain("Line"));
 		line.setLocalVariableLabel("Line");
-		line.setObjColor(colLine());
+		line.setObjColor(colLine);
 		line.setDefaultGeoType(DEFAULT_LINE);
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
 		defaultGeoElements.put(DEFAULT_LINE, line);
@@ -343,20 +326,20 @@ public class ConstructionDefaults {
 		// segment
 		GeoSegment seg = new GeoSegment(cons);
 		seg.setLocalVariableLabel("Segment");
-		seg.setObjColor(colLine());
+		seg.setObjColor(colLine);
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
 
 		// segment
 		GeoRay ray = new GeoRay(cons);
 		ray.setLocalVariableLabel("Segment");
-		ray.setObjColor(colLine());
+		ray.setObjColor(colLine);
 		ray.setDefaultGeoType(DEFAULT_RAY);
 		defaultGeoElements.put(DEFAULT_RAY, ray);
 
 		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
 		// inequality.setLocalVariableLabel("Inequality");
-		inequality.setObjColor(colInequality());
+		inequality.setObjColor(colInequality);
 		inequality.setAlphaValue(DEFAULT_INEQUALITY_ALPHA);
 		inequality.setDefaultGeoType(DEFAULT_INEQUALITY);
 		defaultGeoElements.put(DEFAULT_INEQUALITY, inequality);
@@ -368,7 +351,7 @@ public class ConstructionDefaults {
 		// function n var
 		GeoFunctionNVar functionNV = new GeoFunctionNVar(cons);
 		// functionNV.setLocalVariableLabel("function");
-		functionNV.setObjColor(colQuadric());
+		functionNV.setObjColor(colQuadric);
 		functionNV.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		functionNV.setDefaultGeoType(DEFAULT_FUNCTION_NVAR);
 		defaultGeoElements.put(DEFAULT_FUNCTION_NVAR, functionNV);
@@ -376,7 +359,7 @@ public class ConstructionDefaults {
 		// vector
 		GeoVector vector = new GeoVector(cons);
 		vector.setLocalVariableLabel("Vector");
-		vector.setObjColor(colLine());
+		vector.setObjColor(colLine);
 		vector.setDefaultGeoType(DEFAULT_VECTOR);
 		defaultGeoElements.put(DEFAULT_VECTOR, vector);
 
@@ -384,7 +367,7 @@ public class ConstructionDefaults {
 		GeoPolygon polygon = new GeoPolygon(cons, null);
 		// polygon.setLocalVariableLabel(app.getPlain("Polygon"));
 		polygon.setLocalVariableLabel("Polygon");
-		polygon.setObjColor(colPolygon());
+		polygon.setObjColor(colPolygon);
 		polygon.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
 		defaultGeoElements.put(DEFAULT_POLYGON, polygon);
@@ -392,7 +375,7 @@ public class ConstructionDefaults {
 		// polyline
 		GeoPolyLine polyline = new GeoPolyLine(cons);
 		polyline.setLocalVariableLabel("Polyline");
-		polyline.setObjColor(colLine());
+		polyline.setObjColor(colLine);
 		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
 		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
 
@@ -400,7 +383,7 @@ public class ConstructionDefaults {
 		GeoConic conic = new GeoConic(cons);
 		// conic.setLocalVariableLabel(app.getPlain("Conic"));
 		conic.setLocalVariableLabel("Conic");
-		conic.setObjColor(colConic());
+		conic.setObjColor(colConic);
 		conic.setAlphaValue(DEFAULT_CONIC_ALPHA);
 		conic.setDefaultGeoType(DEFAULT_CONIC);
 		defaultGeoElements.put(DEFAULT_CONIC, conic);
@@ -410,7 +393,7 @@ public class ConstructionDefaults {
 				GeoConicNDConstants.CONIC_PART_SECTOR);
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
-		conicSector.setObjColor(colPolygon());
+		conicSector.setObjColor(colPolygon);
 		conicSector.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		conicSector.setDefaultGeoType(DEFAULT_CONIC_SECTOR);
 		defaultGeoElements.put(DEFAULT_CONIC_SECTOR, conicSector);

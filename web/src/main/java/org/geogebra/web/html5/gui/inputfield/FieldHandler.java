@@ -4,7 +4,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -47,8 +46,8 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 				field.setFocus(false);
 				field.startOnscreenKeyboardEditing();
 			}
-			if (field instanceof MathKeyboardListener) {
-				app.showKeyboard((MathKeyboardListener) field, true);
+			if (field != null) {
+				app.showKeyboard(field, true);
 			}
 		}
 	}

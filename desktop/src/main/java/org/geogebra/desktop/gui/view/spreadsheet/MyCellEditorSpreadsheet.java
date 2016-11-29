@@ -323,7 +323,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 	 * keep track of when <tab> was first pressed so we can return to that
 	 * column when <enter> pressed
 	 */
-	public static int tabReturnCol = -1;
+	public int tabReturnCol = -1;
 
 	public class SpreadsheetCellEditorKeyListener implements KeyListener {
 
@@ -342,8 +342,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 			checkCursorKeys(e);
 			int keyCode = e.getKeyCode();
 
-			switch (keyCode) {
-			case KeyEvent.VK_ESCAPE:
+			if (keyCode == KeyEvent.VK_ESCAPE) {
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
 
@@ -357,7 +356,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 				// update the formula bar after escape
 				table.getView().updateFormulaBar();
 
-				break;
+
 
 			}
 		}
@@ -373,6 +372,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 			int keyCode = e.getKeyCode();
 			// Application.debug(e+"");
 			switch (keyCode) {
+			default:
+				// do nothing
+				break;
 			case KeyEvent.VK_UP:
 				if (isFormulaBarListener)
 					return;

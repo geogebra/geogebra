@@ -104,17 +104,11 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		return GeoGebraColorConstants.DARKBLUE;
 	}
 
-	private static final GColor colorNormalOverlay() {
-		return GColor.RED;
-	}
+	private static final GColor COLOR_NORMAL_OVERLAY = GColor.RED;
 
-	private static final GColor colorPDFFill() {
-		return GColor.BLUE;
-	}
+	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
 
-	private static final GColor colorPoint() {
-		return GColor.BLACK;
-	}
+	private static final GColor COLOR_POINT = GColor.BLACK;
 
 	
 	
@@ -359,7 +353,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		lowPoint = (GeoPoint) algoLow.getOutput(0);
 
-		lowPoint.setObjColor(colorPoint());
+		lowPoint.setObjColor(COLOR_POINT);
 		lowPoint.setPointSize(4);
 		lowPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
 		lowPoint.setLayer(5);
@@ -372,7 +366,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		highPoint = (GeoPoint) algoHigh.getOutput(0);
 
-		highPoint.setObjColor(colorPoint());
+		highPoint.setObjColor(COLOR_POINT);
 		highPoint.setPointSize(4);
 		highPoint
 				.setPointStyle(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH);
@@ -522,10 +516,10 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				discreteIntervalGraph
 						.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 			} else if (graphType == GRAPH_LINE || graphType == GRAPH_STEP) {
-				discreteIntervalGraph.setObjColor(colorPDFFill());
+				discreteIntervalGraph.setObjColor(COLOR_PDF_FILL);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart + 2);
 			} else {
-				discreteIntervalGraph.setObjColor(colorPDFFill());
+				discreteIntervalGraph.setObjColor(COLOR_PDF_FILL);
 				discreteIntervalGraph.setAlphaValue(opacityDiscreteInterval);
 				discreteIntervalGraph.setLineThickness(thicknessBarChart);
 			}
@@ -588,7 +582,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				cons.removeFromConstructionList(algoIntegral);
 
 				integral = algoIntegral.getOutput(0);
-				integral.setObjColor(colorPDFFill());
+				integral.setObjColor(COLOR_PDF_FILL);
 				integral.setAlphaValue(opacityIntegral);
 				integral.setEuclidianVisible(showProbGeos);
 				// make sure doesn't interfere with dragging of point
@@ -615,7 +609,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				cons.removeFromConstructionList(pAlgo);
 
 				curvePoint = (GeoPoint) pAlgo.getOutput(0);
-				curvePoint.setObjColor(colorPoint());
+				curvePoint.setObjColor(COLOR_POINT);
 				curvePoint.setPointSize(4);
 				curvePoint.setLayer(f.getLayer() + 1);
 				curvePoint.setSelectionAllowed(false);
@@ -805,7 +799,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		GeoElement geo = algo.getResult();
 
-		geo.setObjColor(colorNormalOverlay());
+		geo.setObjColor(COLOR_NORMAL_OVERLAY);
 		geo.setLineThickness(thicknessCurve - 1);
 		geo.setEuclidianVisible(true);
 		geo.setFixed(true);

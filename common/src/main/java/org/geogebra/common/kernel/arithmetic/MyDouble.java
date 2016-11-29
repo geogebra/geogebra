@@ -36,6 +36,8 @@ import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * 
  * @author Markus Hohenwarter
@@ -1272,6 +1274,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            second number
 	 * @return whether those are bitwise equal
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	public static boolean exactEqual(double a, double b) {
 		return a == b;
 	}

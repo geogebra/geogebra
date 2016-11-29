@@ -70,21 +70,21 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
-			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
-			atf.setAutoComplete(false);
-		}
-		
-		tfCaption.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfCaption, app);
-			}
-		});
+			tfCaption.setAutoComplete(false);
 
-		tfCaption.addBlurHandler(new BlurHandler() {
-			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(tfCaption, app);
-			}
-		});
+			tfCaption.addFocusHandler(new FocusHandler() {
+				public void onFocus(FocusEvent event) {
+					FieldHandler.focusGained(tfCaption, app);
+				}
+			});
+
+			tfCaption.addBlurHandler(new BlurHandler() {
+				public void onBlur(BlurEvent event) {
+					FieldHandler.focusLost(tfCaption, app);
+				}
+			});
+
+		}
 
 		VerticalPanel captionPanel = new VerticalPanel();
 		captionPanel.add(captionLabel);

@@ -306,9 +306,9 @@ public class SpreadsheetKeyListener implements KeyListener
 			break;	
 			
 		case KeyEvent.VK_ENTER:	
-			if (MyCellEditorSpreadsheet.tabReturnCol > -1) {
-				table.changeSelection(row , MyCellEditorSpreadsheet.tabReturnCol, false, false);
-				MyCellEditorSpreadsheet.tabReturnCol = -1;
+			if (editor.tabReturnCol > -1) {
+				table.changeSelection(row, editor.tabReturnCol, false, false);
+				editor.tabReturnCol = -1;
 			}
 			
 			// fall through
