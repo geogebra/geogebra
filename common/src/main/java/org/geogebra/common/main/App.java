@@ -866,7 +866,7 @@ public abstract class App implements UpdateSelection {
 	 * Store current state of construction for undo/redo purposes, and state of
 	 * construction for mode starting (so undo cancels partial tool preview)
 	 */
-	final public void storeUndoInfoAndStateForModeStarting() {
+	public void storeUndoInfoAndStateForModeStarting() {
 		storeUndoInfoAndStateForModeStarting(true);
 	}
 

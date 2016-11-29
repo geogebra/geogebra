@@ -2707,14 +2707,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	@Override
-	public void storeUndoInfoAndStateForModeStarting() {
-		if (isUndoActive()) {
-			kernel.storeStateForModeStarting();
-			kernel.storeUndoInfo();
-			setUnsaved();
-		}
-	}
 
 	// ========================================================
 	// FILE HANDLING

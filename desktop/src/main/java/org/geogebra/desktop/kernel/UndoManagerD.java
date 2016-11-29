@@ -113,12 +113,9 @@ public class UndoManagerD extends UndoManager {
 	 * Adds construction state to undo info list.
 	 */
 	@Override
-	public void storeUndoInfo(final boolean refresh) {
+	public void storeUndoInfo(final StringBuilder currentUndoXML,
+			final boolean refresh) {
 
-		// this can cause a java.lang.OutOfMemoryError for very large
-		// constructions
-		final StringBuilder currentUndoXML = construction
-				.getCurrentUndoXML(true);
 		// force create event dispatcher before we go to thread
 		app.getEventDispatcher();
 		Thread undoSaverThread = new Thread() {

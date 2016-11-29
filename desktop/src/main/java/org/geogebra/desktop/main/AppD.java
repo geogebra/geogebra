@@ -3830,15 +3830,6 @@ ToolbarD.getAllTools(this));
 		}
 	}
 
-	@Override
-	public void storeUndoInfoAndStateForModeStarting() {
-		if (isUndoActive()) {
-			kernel.storeStateForModeStarting();
-			kernel.storeUndoInfo();
-			setUnsaved();
-		}
-	}
-
 	public void restoreCurrentUndoInfo() {
 		if (isUndoActive()) {
 			kernel.restoreCurrentUndoInfo();
