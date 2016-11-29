@@ -204,8 +204,6 @@ public class Parser implements ParserInterface{
     undecided.clear();    
    }
 
- 
-
    
 }
 PARSER_END(Parser)
@@ -1401,7 +1399,7 @@ ExpressionValue list():
      // empty list
        "}"  
       {   
-           return new MyList(kernel);               
+           return enableVectors ? new MyList(kernel) : new MyDouble(kernel, Double.NaN);               
        }
     )
     |
@@ -1418,7 +1416,7 @@ ExpressionValue list():
           } 
         )*
     "}"
-    {  return myList;  }
+    {  return enableVectors ? myList : new MyDouble(kernel, Double.NaN);  }
    )
  )
   
