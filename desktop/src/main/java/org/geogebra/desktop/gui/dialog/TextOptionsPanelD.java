@@ -37,7 +37,7 @@ import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
  * 
  * @author Markus Hohenwarter
  */
-class TextOptionsPanel extends JPanel implements ActionListener,
+class TextOptionsPanelD extends JPanel implements ActionListener,
 		SetLabels, UpdateFonts, UpdateablePropertiesPanel, FocusListener,
 		ITextOptionsListener {
 	/**
@@ -54,7 +54,7 @@ class TextOptionsPanel extends JPanel implements ActionListener,
 	private boolean secondLineVisible = false;
 	private TextEditPanel editPanel;
 
-	public TextOptionsPanel(PropertiesPanelD propertiesPanelD) {
+	public TextOptionsPanelD(PropertiesPanelD propertiesPanelD) {
 
 		this.propertiesPanelD = propertiesPanelD;
 		model = new TextOptionsModel(this.propertiesPanelD.app);
@@ -139,7 +139,7 @@ class TextOptionsPanel extends JPanel implements ActionListener,
 		secondLine.setVisible(false);
 	}
 
-	class ComboBoxRenderer extends JLabel implements ListCellRenderer {
+	static class ComboBoxRenderer extends JLabel implements ListCellRenderer {
 		/**
 		 * 
 		 */

@@ -409,7 +409,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 * originally chosen color.
 	 * 
 	 */
-	class MyPreviewPanel extends JPanel {
+	static class MyPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		public MyPreviewPanel() {

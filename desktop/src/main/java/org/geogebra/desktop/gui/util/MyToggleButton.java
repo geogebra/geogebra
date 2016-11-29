@@ -23,7 +23,7 @@ public class MyToggleButton extends JButton {
 		initButton(height);
 
 		Dimension d = new Dimension(icon.getIconWidth(), height);
-		setIcon(GeoGebraIcon.ensureIconSize(icon, d));
+		setIcon(GeoGebraIconD.ensureIconSize(icon, d));
 	}
 
 	public MyToggleButton(int height) {

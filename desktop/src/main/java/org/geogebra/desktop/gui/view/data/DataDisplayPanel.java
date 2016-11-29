@@ -51,7 +51,7 @@ import org.geogebra.common.util.Validation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -758,7 +758,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	public void updateStemPlot(String latex) {
-		imageContainer.setIcon(GeoGebraIcon.createLatexIcon(app, latex,
+		imageContainer.setIcon(GeoGebraIconD.createLatexIcon(app, latex,
 				app.getPlainFont(), true, Color.BLACK, null));
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {

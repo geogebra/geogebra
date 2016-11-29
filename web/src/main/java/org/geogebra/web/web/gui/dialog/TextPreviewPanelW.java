@@ -131,7 +131,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * Extension of EuclidianViewD for displaying preview text strings
 	 * 
 	 */
-	private class MyEuclidianView extends EuclidianViewW {
+	private static class MyEuclidianView extends EuclidianViewW {
 
 		public MyEuclidianView(MyEuclidianViewPanelForTextPreviewPanelW panel,
 		        EuclidianController ec, boolean[] showAxes, boolean showGrid,

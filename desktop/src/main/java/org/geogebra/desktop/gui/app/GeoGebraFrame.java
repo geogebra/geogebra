@@ -517,7 +517,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return new AppThread(app);
 	}
 
-	private class AppThread extends Thread {
+	private static class AppThread extends Thread {
 
 		AppD app;
 

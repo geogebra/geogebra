@@ -47,7 +47,7 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class DataPanel extends JPanel implements ActionListener,
+public class DataPanelD extends JPanel implements ActionListener,
 		StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
@@ -78,7 +78,7 @@ public class DataPanel extends JPanel implements ActionListener,
 	/*************************************************
 	 * Construct a DataPanel
 	 */
-	public DataPanel(AppD app, DataAnalysisViewD statDialog) {
+	public DataPanelD(AppD app, DataAnalysisViewD statDialog) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.daView = statDialog;
@@ -342,7 +342,7 @@ public class DataPanel extends JPanel implements ActionListener,
 		// statDialog.handleDataPanelSelectionChange(selectionList);
 	}
 
-	private class Corner extends JPanel {
+	private static class Corner extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -484,9 +484,9 @@ public class DataPanel extends JPanel implements ActionListener,
 
 		// DefaultListModel model;
 		JTable table;
-		DataPanel dataPanel;
+		DataPanelD dataPanel;
 
-		public MyRowHeader(DataPanel dataPanel, JTable table) {
+		public MyRowHeader(DataPanelD dataPanel, JTable table) {
 			super(selectionList);
 			this.table = table;
 			this.dataPanel = dataPanel;

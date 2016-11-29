@@ -32,7 +32,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianView
 				.getPointStyleLength()];
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
-			pointStyleIcons[i] = GeoGebraIcon
+			pointStyleIcons[i] = GeoGebraIconW
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
@@ -111,7 +111,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIcon
+			return GeoGebraIconW
 					.createPointStyleIcon(EuclidianView
 							.getPointStyle(this.getSelectedIndex()));
 		}

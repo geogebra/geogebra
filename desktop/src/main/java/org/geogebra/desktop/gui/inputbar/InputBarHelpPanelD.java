@@ -60,7 +60,7 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -723,7 +723,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		public void update() {
 			setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSE));
 			setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_OPEN));
-			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
+			setLeafIcon(GeoGebraIconD.createEmptyIcon(5, 1));
 
 		}
 
@@ -836,7 +836,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		// TODO Auto-generated method stub
 	}
 
-	private class MyJTree extends JTree {
+	private static class MyJTree extends JTree {
 
 		private static final long serialVersionUID = 1L;
 

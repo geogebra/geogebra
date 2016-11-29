@@ -281,7 +281,7 @@ public class DockBar extends JPanel implements SetLabels,
 	/***********************************************
 	 * Popup class
 	 */
-	class MyPopup extends JPopupMenu {
+	static class MyPopup extends JPopupMenu {
 
 		private static final long serialVersionUID = 1L;
 

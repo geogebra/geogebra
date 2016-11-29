@@ -83,7 +83,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			Color.WHITE };
 
 	// main GUI panels
-	private DataPanel dataPanel;
+	private DataPanelD dataPanel;
 	private StatisticsPanel statisticsPanel;
 	private RegressionPanel regressionPanel;
 	private DataDisplayPanel dataDisplayPanel1, dataDisplayPanel2;
@@ -198,14 +198,14 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
-	protected DataPanel buildDataPanel() {
+	protected DataPanelD buildDataPanel() {
 
 		if (dataPanel != null) {
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
 		if (!model.isMultiVar()) {
-			dataPanel = new DataPanel(app, this);
+			dataPanel = new DataPanelD(app, this);
 			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
 
@@ -220,7 +220,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		dataPanel.loadDataTable(dataArray);
 	}
 
-	protected DataPanel getDataPanel() {
+	protected DataPanelD getDataPanel() {
 		return dataPanel;
 	}
 

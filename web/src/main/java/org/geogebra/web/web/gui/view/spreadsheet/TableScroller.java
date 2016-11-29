@@ -219,7 +219,7 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		        getVerticalScrollPosition());
 	}
 
-	private class Dimension {
+	private static class Dimension {
 		int height;
 		int width;
 

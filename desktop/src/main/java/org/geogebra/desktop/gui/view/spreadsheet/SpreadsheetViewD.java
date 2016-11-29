@@ -64,7 +64,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	private JPanel spreadsheetWrapper;
 	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
-	private SpreadsheetRowHeader rowHeader;
+	private SpreadsheetRowHeaderD rowHeader;
 	private JTableHeader tableHeader;
 
 	// moved to kernel
@@ -151,7 +151,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		table = new MyTableD(this, tableModel.getDefaultTableModel());
 
 		// Create row header
-		rowHeader = new SpreadsheetRowHeader(app, table);
+		rowHeader = new SpreadsheetRowHeaderD(app, table);
 
 		// Set column width
 		table.headerRenderer.setPreferredSize(new Dimension(

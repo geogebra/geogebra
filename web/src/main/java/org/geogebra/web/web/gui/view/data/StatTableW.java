@@ -351,24 +351,6 @@ public class StatTableW extends FlowPanel {
 		
 		
 	}
-	
-	private class MyComboBoxEditor /*use CellTable editor things here*/ {
-
-		public Integer getSelectedIndex() {
-	        // TODO Auto-generated method stub
-	        return null;
-        }
-
-		public void setSelectedIndex(int index) {
-	        // TODO Auto-generated method stub
-	        
-        }
-		
-	}
-	
-	private class MyComBoxRenderer /* use CellTable things here*/ {
-		
-	}
 
 	public void setValueAt(String value, int row, int column) {
 	   myTable.setWidget(row, column, new Label(value));

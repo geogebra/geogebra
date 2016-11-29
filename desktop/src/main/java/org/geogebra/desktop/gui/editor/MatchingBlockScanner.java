@@ -215,7 +215,7 @@ public final class MatchingBlockScanner {
 		return null;
 	}
 
-	public final class MatchingPositions {
+	public final static class MatchingPositions {
 		public int firstB;
 		public int firstE;
 		public int secondB;

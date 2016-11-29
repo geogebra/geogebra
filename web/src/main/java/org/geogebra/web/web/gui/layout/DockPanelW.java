@@ -627,7 +627,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
 	 */
-	public class MyDockLayoutPanel extends DockLayoutPanel {
+	public static class MyDockLayoutPanel extends DockLayoutPanel {
 		public MyDockLayoutPanel(Unit unit) {
 			super(unit);
 			addStyleName("ggbdockpanelhack");

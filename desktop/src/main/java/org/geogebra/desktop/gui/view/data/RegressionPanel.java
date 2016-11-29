@@ -24,7 +24,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -262,7 +262,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		}
 
 		// create an icon with the LaTeX string
-		ImageIcon icon = GeoGebraIcon.createLatexIcon(app, eqn, this.getFont(),
+		ImageIcon icon = GeoGebraIconD.createLatexIcon(app, eqn, this.getFont(),
 				false, Color.RED, null);
 
 		// set the label icon with our equation string

@@ -53,7 +53,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
  ClickHandler,
         ToolManagerDialogListener, MacroChangeListener {
 
-	private class MacroListBox extends ListBox {
+	private static class MacroListBox extends ListBox {
 		List<Macro> macros;
 		public MacroListBox() {
 			macros = new ArrayList<Macro>();

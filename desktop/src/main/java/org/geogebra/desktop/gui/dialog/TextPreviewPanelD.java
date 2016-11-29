@@ -20,7 +20,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -75,7 +75,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			GeoGebraIcon.drawLatexImageIcon((AppD) app, testIcon,
+			GeoGebraIconD.drawLatexImageIcon((AppD) app, testIcon,
 					previewGeo.getTextString(), ((AppD) app).getPlainFont(),
 					true,
 					Color.black, null);
@@ -139,7 +139,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 	 * text editor.
 	 * 
 	 */
-	private class EuclidianViewTextPreview extends EuclidianViewD {
+	private static class EuclidianViewTextPreview extends EuclidianViewD {
 
 		public EuclidianViewTextPreview(EuclidianController ec,
 				boolean[] showAxes, boolean showGrid, int evno,

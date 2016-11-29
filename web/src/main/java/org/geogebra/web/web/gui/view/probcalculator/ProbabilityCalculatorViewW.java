@@ -319,7 +319,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		controlPanel.add(new ClearPanel());
     }
 	
-	private class ClearPanel extends FlowPanel {
+	private static class ClearPanel extends FlowPanel {
 		public ClearPanel() {
 			super();
 			this.setStyleName("clear");

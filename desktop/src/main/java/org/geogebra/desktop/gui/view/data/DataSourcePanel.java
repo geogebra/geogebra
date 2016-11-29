@@ -1013,7 +1013,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		return menu;
 	}
 
-	private class MyButton extends JButton {
+	private static class MyButton extends JButton {
 
 		public MyButton(ImageIcon imageIcon) {
 			super(imageIcon);

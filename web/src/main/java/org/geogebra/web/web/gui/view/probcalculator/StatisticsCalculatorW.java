@@ -498,7 +498,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	   
     }
 	
-	private class LineBreak extends FlowPanel {
+	private static class LineBreak extends FlowPanel {
 		public LineBreak() {
 			this.setStyleName("lineBreak");
 		}

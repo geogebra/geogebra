@@ -608,7 +608,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		zAxisPanel.updateFont();
 	}
 
-	private class AxisPanel3D extends AxisPanel {
+	private static class AxisPanel3D extends AxisPanel {
 		private static final long serialVersionUID = 1L;
 		final static protected int AXIS_Z = 2;
 

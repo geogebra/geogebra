@@ -391,7 +391,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * this should be extedns MyDockLayoutPanel to get out somehow the
 	 * overflow:hidden to show the toolbar.
 	 */
-	class MyDockPanelLayout extends DockLayoutPanel {
+	static class MyDockPanelLayout extends DockLayoutPanel {
 		/**
 		 * @param unit
 		 *            CSS unit

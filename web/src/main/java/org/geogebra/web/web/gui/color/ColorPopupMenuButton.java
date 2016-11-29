@@ -8,7 +8,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 
@@ -87,7 +87,7 @@ public class ColorPopupMenuButton extends PopupMenuButton
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
 		if (icon == null) {
-			icon = GeoGebraIcon.createColorSwatchIcon(getSliderValue() / 100f,
+			icon = GeoGebraIconW.createColorSwatchIcon(getSliderValue() / 100f,
 					defaultColor, null);
 		}
 		return icon;
@@ -134,10 +134,10 @@ public class ColorPopupMenuButton extends PopupMenuButton
 	protected void setDefaultColor(float alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha, gc, null));
+			this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			this.getElement().getStyle().setBorderColor(gc.toString());
 		} else {
-			this.setIcon(GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(),
+			this.setIcon(GeoGebraIconW.createNullSymbolIcon(iconSize.getWidth(),
 					iconSize.getHeight()));
 			this.getElement().getStyle()
 					.setBorderColor(GColor.BLACK.toString());
@@ -162,7 +162,7 @@ public class ColorPopupMenuButton extends PopupMenuButton
 		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++)
 			if (colorArray[i] != null) {
-				a[i] = GeoGebraIcon.createColorSwatchIcon(alpha, colorArray[i],
+				a[i] = GeoGebraIconW.createColorSwatchIcon(alpha, colorArray[i],
 						null);
 			} else {
 				a[i] = new ImageOrText(AppResources.INSTANCE.more());

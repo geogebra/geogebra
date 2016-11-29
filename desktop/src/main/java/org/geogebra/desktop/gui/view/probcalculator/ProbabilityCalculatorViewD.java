@@ -970,7 +970,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	/**
 	 * Custom toggle button
 	 */
-	class MyToggleButton extends JToggleButton {
+	static class MyToggleButton extends JToggleButton {
 
 		private static final long serialVersionUID = 1L;
 

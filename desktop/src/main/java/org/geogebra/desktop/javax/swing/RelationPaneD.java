@@ -305,7 +305,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	}
 
 	/* Text column settings. */
-	private class ClientsTableTextRenderer extends JLabel implements
+	private static class ClientsTableTextRenderer extends JLabel
+			implements
 			TableCellRenderer {
 
 		private static final long serialVersionUID = 5188521324132632032L;

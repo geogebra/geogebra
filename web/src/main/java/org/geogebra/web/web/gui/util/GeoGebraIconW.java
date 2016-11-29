@@ -12,7 +12,7 @@ import org.geogebra.web.web.gui.images.StyleBarResources;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.resources.client.ImageResource;
 
-public class GeoGebraIcon extends BasicIcons{
+public class GeoGebraIconW extends BasicIcons{
 
 
 

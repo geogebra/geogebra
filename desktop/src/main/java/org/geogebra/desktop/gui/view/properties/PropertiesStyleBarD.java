@@ -306,7 +306,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	/**
 	 * Listeners that give the tool tip a custom initial delay = 0
 	 */
-	public class ToolTipMouseAdapter extends MouseAdapter {
+	public static class ToolTipMouseAdapter extends MouseAdapter {
 		private int defaultInitialDelay;
 		private boolean preventToolTipDelay = true;
 

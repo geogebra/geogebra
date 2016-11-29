@@ -43,7 +43,7 @@ import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 public class AutoCompleteTextFieldD extends MathTextField
@@ -180,7 +180,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				}
 			}
 		};
-		setBorderButton(1, GeoGebraIcon.createUpDownTriangleIcon(false, true),
+		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
 				al);
 		this.setBorderButtonVisible(1, false);
 	}

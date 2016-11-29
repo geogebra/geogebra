@@ -204,7 +204,7 @@ public class EuclidianStatic {
 
 				// check if this element is taller than every else in the line
 				if (height > (lineHeights.get(currentLine)).intValue()) {
-					lineHeights.set(currentLine, new Integer(height));
+					lineHeights.set(currentLine, Integer.valueOf(height));
 				}
 			} else {
 				elements[i] = elements[i].replaceAll("\\\\\\$", "\\$");

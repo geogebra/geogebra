@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -366,7 +366,7 @@ kbdIcon, iconHeight);
 
 			@Override
 			public ImageIcon getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColoriconHeight,
 						GColorD.getAwtColor(getSelectedColor()),
 						null);
@@ -378,7 +378,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// use as text button
-		ImageIcon useAsTextIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon useAsTextIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Text").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnUseAsText = new MyToggleButton(useAsTextIcon, iconHeight) {
@@ -397,7 +397,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getMenu("Bold")
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getMenu("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
@@ -422,7 +422,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// italic text button
-		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight) {

@@ -306,7 +306,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	    
     }
 	
-	private class MyMenuBar extends MenuBar {
+	private static class MyMenuBar extends MenuBar {
 		
 		public MyMenuBar() {
 			super();

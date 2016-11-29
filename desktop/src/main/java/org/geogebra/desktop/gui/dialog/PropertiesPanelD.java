@@ -161,7 +161,7 @@ import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
@@ -203,7 +203,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
-	private TextOptionsPanel textOptionsPanel;
+	private TextOptionsPanelD textOptionsPanel;
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
@@ -312,7 +312,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
 		ineqStylePanel = new IneqPanel();
-		textOptionsPanel = new TextOptionsPanel(this);
+		textOptionsPanel = new TextOptionsPanelD(this);
 		arcSizePanel = new ArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		lineStylePanel = new LineStylePanel();
@@ -995,7 +995,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	}
 
-	private class TabPanel extends JPanel {
+	private static class TabPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 
@@ -2886,9 +2886,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imgFileNameList.add(GuiResourcesD.EXIT);
 
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
+			iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(app,
 						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
 			}
 			// ============================================
@@ -3214,7 +3214,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			btInsertUnicode.setKeepVisible(false);
 			btInsertUnicode.setStandardButton(true);
-			btInsertUnicode.setFixedIcon(GeoGebraIcon
+			btInsertUnicode.setFixedIcon(GeoGebraIconD
 					.createDownTriangleIcon(10));
 
 			JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
@@ -5053,7 +5053,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		}
 	}
 
-	class SizeVerify extends InputVerifier {
+	static class SizeVerify extends InputVerifier {
 		public boolean verify(JComponent input) {
 			MyTextFieldD tf = (MyTextFieldD) input;
 			String s = tf.getText();

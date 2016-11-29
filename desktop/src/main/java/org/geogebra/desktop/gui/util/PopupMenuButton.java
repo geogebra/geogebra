@@ -456,7 +456,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 				// the button size can be controlled
 				// regardless of the layout manager.
 
-				icon = GeoGebraIcon.createStringIcon(
+				icon = GeoGebraIconD.createStringIcon(
 						(String) data[getSelectedIndex()], app.getPlainFont(),
 						false, false, true, iconSize, Color.BLACK, null);
 
@@ -495,12 +495,12 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		if (icon == null) {
 			// icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
 		} else {
-			icon = GeoGebraIcon.ensureIconSize((ImageIcon) icon, iconSize);
+			icon = GeoGebraIconD.ensureIconSize((ImageIcon) icon, iconSize);
 		}
 
 		// add a down_triangle image to the left of the icon
 		if (icon != null) {
-			super.setIcon(GeoGebraIcon.joinIcons((ImageIcon) icon,
+			super.setIcon(GeoGebraIconD.joinIcons((ImageIcon) icon,
 					app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN)));
 		} else {
 			super.setIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));

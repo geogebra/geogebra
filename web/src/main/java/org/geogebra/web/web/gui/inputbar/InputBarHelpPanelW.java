@@ -324,7 +324,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
-	private class MyTreeItem extends TreeItem {
+	private static class MyTreeItem extends TreeItem {
 
 		public MyTreeItem() {
 			// TODO Auto-generated constructor stub
@@ -347,7 +347,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * 
 	 * TODO: handle accented characters
 	 */
-	private class LocaleSensitiveComparator implements Comparator<String> {
+	private static class LocaleSensitiveComparator
+			implements Comparator<String> {
 
 		public LocaleSensitiveComparator() {
 			// TODO Auto-generated constructor stub

@@ -26,7 +26,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.MyCJButton;
@@ -345,7 +345,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lineStyle = new Label(loc.getMenu("LineStyle") + ":");
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon
+				iconArray[i] = GeoGebraIconW
 						.createAxesStyleIcon(EuclidianStyleConstants
 								.getLineStyleOptions(i));
 			}

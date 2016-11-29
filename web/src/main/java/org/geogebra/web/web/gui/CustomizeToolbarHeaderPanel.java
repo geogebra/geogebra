@@ -29,7 +29,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private int selectedViewId;
 	private CustomizeToolbarListener listener;
 
-	private class ViewButton extends MyToggleButton2 {
+	private static class ViewButton extends MyToggleButton2 {
 
 		private int id;
 

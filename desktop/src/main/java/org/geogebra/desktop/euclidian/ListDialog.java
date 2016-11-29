@@ -124,7 +124,7 @@ public class ListDialog extends JDialog {
 		list.setSelectedValue(value, true);
 	}
 
-	private class GeoLabel extends JLabel {
+	private static class GeoLabel extends JLabel {
 
 		private static final long serialVersionUID = 1L;
 

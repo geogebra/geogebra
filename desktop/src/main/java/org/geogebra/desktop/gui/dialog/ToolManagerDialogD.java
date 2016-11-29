@@ -52,7 +52,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author Markus Hohenwarter
  */
-public class ToolManagerDialog extends javax.swing.JDialog implements
+public class ToolManagerDialogD extends javax.swing.JDialog implements
 		ToolManagerDialogListener {
 
 	private static final long serialVersionUID = 1L;
@@ -62,7 +62,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 	private DefaultListModel toolsModel;
 	private ToolManagerDialogModel model;
 
-	public ToolManagerDialog(AppD app) {
+	public ToolManagerDialogD(AppD app) {
 		super(app.getFrame());
 		setModal(true);
 
@@ -233,7 +233,7 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 					} else {
 						Macro macro = (Macro) toolsModel
 								.getElementAt(selIndices[0]);
-						namePanel.init(ToolManagerDialog.this, macro);
+						namePanel.init(ToolManagerDialogD.this, macro);
 					}
 				}
 			};

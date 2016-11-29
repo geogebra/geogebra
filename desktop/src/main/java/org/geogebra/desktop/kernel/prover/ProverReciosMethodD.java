@@ -271,7 +271,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 	}
 
-	private final class PointTester implements Runnable {
+	private final static class PointTester implements Runnable {
 		HashMap<Variable, BigInteger> values;
 		Variable[] variables;
 		ProverReciosMethodD prover;

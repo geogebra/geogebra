@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.cas.view.CASTableD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 public class CASDragGestureListener implements DragGestureListener,
@@ -78,7 +78,7 @@ public class CASDragGestureListener implements DragGestureListener,
 		String latex;
 		latex = cell.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
-		ImageIcon ic = GeoGebraIcon.createLatexIcon((AppD) app, latex,
+		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
 				((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
 
 		TransferableCAS transferable = new TransferableCAS(geoLabelList,
@@ -98,7 +98,7 @@ public class CASDragGestureListener implements DragGestureListener,
 	 * latexText (String) for not dynamic functionality, return the content of
 	 * the cas cell as latex string
 	 */
-	class TransferableCAS implements Transferable {
+	static class TransferableCAS implements Transferable {
 
 		private final DataFlavor supportedFlavors[] = {
 				AlgebraViewTransferHandler.algebraViewFlavor,

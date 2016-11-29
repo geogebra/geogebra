@@ -385,7 +385,7 @@ public class SpreadsheetViewDnD implements DragGestureListener, DragSourceListen
 	/**
 	 * 	Extension of Transferable for exporting AlgegraView selections as a list of Geo labels
 	 */
-	class TransferableAlgebraView implements Transferable {
+	static class TransferableAlgebraView implements Transferable {
 
 		public final DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };

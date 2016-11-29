@@ -14,7 +14,7 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
@@ -119,7 +119,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 			@Override
 			public ImageOrText getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconW.createTextSymbolIcon("A",
 						getSelectedColor(), null);
 			}
 		};

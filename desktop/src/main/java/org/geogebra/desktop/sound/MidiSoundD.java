@@ -393,7 +393,7 @@ public class MidiSoundD implements MetaEventListener {
 	/**********************************************************
 	 * Class PlayerThread Thread extension that runs a JFugue MIDI player
 	 */
-	private class PlayerThread extends Thread {
+	private static class PlayerThread extends Thread {
 
 		private final Pattern pattern;
 		private final Player player;

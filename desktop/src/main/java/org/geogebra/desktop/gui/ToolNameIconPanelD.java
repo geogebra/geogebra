@@ -33,7 +33,7 @@ import javax.swing.JTextField;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.desktop.gui.dialog.ToolManagerDialog;
+import org.geogebra.desktop.gui.dialog.ToolManagerDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
@@ -63,7 +63,7 @@ public class ToolNameIconPanelD extends JPanel {
 	private boolean editHappens = false;
 
 	// tool manager updating
-	private ToolManagerDialog managerDialog;
+	private ToolManagerDialogD managerDialog;
 	private Macro macro;
 
 	/**
@@ -265,7 +265,7 @@ public class ToolNameIconPanelD extends JPanel {
 	 * @param managerDialog
 	 *            Manager dialog this tab belongs to
 	 */
-	public void init(ToolManagerDialog managerDialog, Macro macro) {
+	public void init(ToolManagerDialogD managerDialog, Macro macro) {
 		updateMacro(); // update last macro if we already had one
 
 		this.managerDialog = managerDialog;

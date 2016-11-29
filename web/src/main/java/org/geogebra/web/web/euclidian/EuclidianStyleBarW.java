@@ -34,7 +34,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -609,7 +609,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// show grid button
 		ImageOrText[] grids = new ImageOrText[4];
 		for (int i = 0; i < 4; i++)
-			grids[i] = GeoGebraIcon
+			grids[i] = GeoGebraIconW
 					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, ev);
@@ -900,7 +900,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					// if nothing was selected, set the icon to show the
 					// non-standard color
 					if (index == -1) {
-						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
+						this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha,
 						        geoColor, null));
 					}
 
@@ -950,7 +950,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 			@Override
 			public ImageOrText getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconW.createTextSymbolIcon("A",
 				        getSelectedColor(), null);
 			}
 

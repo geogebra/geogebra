@@ -47,7 +47,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener, SetLabels {
 	protected static final String PREFIX = "[Customize] ";
 
-	private class ToolTreeResources implements Tree.Resources {
+	private static class ToolTreeResources implements Tree.Resources {
 
 		public ToolTreeResources() {
 		}

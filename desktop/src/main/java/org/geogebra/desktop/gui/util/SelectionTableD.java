@@ -210,7 +210,7 @@ public class SelectionTableD extends JTable {
 	public ImageIcon[] createLatexIconArray(String[] symbols) {
 		ImageIcon[] iconArray = new ImageIcon[symbols.length];
 		for (int i = 0; i < symbols.length; i++) {
-			iconArray[i] = GeoGebraIcon.createLatexIcon(app, symbols[i],
+			iconArray[i] = GeoGebraIconD.createLatexIcon(app, symbols[i],
 					app.getPlainFont(), true, Color.BLACK, null);
 		}
 		return iconArray;
@@ -335,7 +335,7 @@ public class SelectionTableD extends JTable {
 
 		ImageIcon icon = null;
 		if (value == null)
-			return GeoGebraIcon.createEmptyIcon(1, 1);
+			return GeoGebraIconD.createEmptyIcon(1, 1);
 		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
 		// false, true, iconSize , Color.GRAY, null);
 

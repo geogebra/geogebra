@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
+class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		ITextEditPanel, GeoElementSelectionListener {
 	/**
 		 * 
@@ -64,7 +64,7 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 
 	private boolean mayDetectLaTeX = true;
 
-	public TextOptionsPanel(TextOptionsModel model, AppW app) {
+	public TextOptionsPanelW(TextOptionsModel model, AppW app) {
 		createGUI(model, app);
 	}
 

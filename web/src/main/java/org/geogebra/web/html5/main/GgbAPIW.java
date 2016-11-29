@@ -229,7 +229,7 @@ public class GgbAPIW extends GgbAPI {
 		return prepareToEntrySet(archiveContent);
 	}
 
-	private class StoreString implements StringHandler {
+	private static class StoreString implements StringHandler {
 		private String result = "";
 
 		public StoreString() {

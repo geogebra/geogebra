@@ -12,7 +12,7 @@ public class MsZoomer {
 	private final IsEuclidianController tc;
 	private HasOffsets off;
 
-	private class MsOffset extends ZeroOffset {
+	private static class MsOffset extends ZeroOffset {
 
 		private IsEuclidianController ec;
 

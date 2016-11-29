@@ -31,7 +31,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 
-public class SpreadsheetRowHeader extends JList implements MouseListener,
+public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 		MouseMotionListener, KeyListener, ListSelectionListener
 
 {
@@ -59,7 +59,7 @@ public class SpreadsheetRowHeader extends JList implements MouseListener,
 	/***************************************************
 	 * Constructor
 	 */
-	public SpreadsheetRowHeader(AppD app, MyTableD table) {
+	public SpreadsheetRowHeaderD(AppD app, MyTableD table) {
 
 		this.app = app;
 		this.table = table;

@@ -448,7 +448,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	final static protected float LONG_DELAY = 1500f;
 
-	private class HittedGeo {
+	private static class HittedGeo {
 
 		private GeoElement geo;
 

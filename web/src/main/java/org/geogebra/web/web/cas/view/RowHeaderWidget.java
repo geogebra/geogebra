@@ -62,7 +62,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 
 	}
 
-	protected class MarbleClickHandler implements ClickHandler {
+	protected static class MarbleClickHandler implements ClickHandler {
 		private GeoCasCell cell;
 		private RowHeaderWidget rowHeaderWidget;
 

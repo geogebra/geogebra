@@ -57,7 +57,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
 import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
@@ -318,7 +318,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
-		btnAddColumn.setFixedIcon(GeoGebraIcon.createEmptyIcon(1, 1));
+		btnAddColumn.setFixedIcon(GeoGebraIconD.createEmptyIcon(1, 1));
 		btnAddColumn.setText("\u271A");
 		btnAddColumn.addActionListener(this);
 	}

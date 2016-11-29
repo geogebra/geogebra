@@ -108,7 +108,7 @@ public class ImageManagerW extends ImageManager {
 		return new GBufferedImageW(im);
 	}
 
-	class ImageLoadCallback2 implements ImageLoadCallback {
+	static class ImageLoadCallback2 implements ImageLoadCallback {
 		public GeoImage gi;
 
 		public ImageLoadCallback2(GeoImage gi2) {
@@ -120,7 +120,7 @@ public class ImageManagerW extends ImageManager {
 		}
 	}
 
-	class ImageErrorCallback2 implements ImageLoadCallback {
+	static class ImageErrorCallback2 implements ImageLoadCallback {
 		public GeoImage gi;
 		private AppW app;
 

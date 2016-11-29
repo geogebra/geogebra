@@ -44,12 +44,12 @@ import com.himamis.retex.renderer.share.TeXFormula;
  * @author G. Sturr
  * 
  */
-public class GeoGebraIcon {
+public class GeoGebraIconD {
 
 	private static final int HGRID_MARGIN = 4;
 	private static final int VGRID_MARGIN = 4;
 
-	public GeoGebraIcon() {
+	public GeoGebraIconD() {
 		super();
 	}
 
@@ -641,7 +641,7 @@ public class GeoGebraIcon {
 			Dimension iconSize, Color fgColor, Color bgColor) {
 
 		// TODO: PointStyleIcon as a stand alone class
-		GeoGebraIcon g = new GeoGebraIcon();
+		GeoGebraIconD g = new GeoGebraIconD();
 		PointStyleImage image = g.new PointStyleImage(iconSize, pointStyle,
 				pointSize, fgColor, bgColor);
 

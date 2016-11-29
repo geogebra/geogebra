@@ -12,7 +12,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.StyleBarResources;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
@@ -205,7 +205,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 			
 			// set the color
-			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, null,
+			ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0f, null,
 			        bgCol);
 			data.applyToLabel(btnBgColor.getButtonContent());
 			
@@ -265,7 +265,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		if (color == null) {
 			color = GColor.WHITE;
 		}
-		ImageOrText data = GeoGebraIcon
+		ImageOrText data = GeoGebraIconW
 		        .createColorSwatchIcon(1.0f, null, color);
 		data.applyToLabel(btnBgColor.getButtonContent());
 

@@ -16,7 +16,7 @@ import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -101,14 +101,14 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				iconHeight);
 		btnFormulaBar.addActionListener(this);
 
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight);
 		btnBold.addActionListener(this);
 		btnBold.setPreferredSize(iconDimension);
 
-		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight);
@@ -139,10 +139,10 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			public ImageIcon getButtonIcon() {
 				Color c = GColorD.getAwtColor(getSelectedColor());
 				if (c == null) {
-					return GeoGebraIcon.createNullSymbolIcon(
+					return GeoGebraIconD.createNullSymbolIcon(
 							bgColorIconSize.width, bgColorIconSize.height);
 				}
-				return GeoGebraIcon.createCellGridIcon(Color.DARK_GRAY, c);
+				return GeoGebraIconD.createCellGridIcon(Color.DARK_GRAY, c);
 			}
 		};
 		btnBgColor.setKeepVisible(false);
@@ -180,12 +180,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnRightAlign
 				.setToolTipText(loc.getPlainTooltip("stylebar.AlignRight"));
 
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold.setIcon(boldIcon);
 
-		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic.setIcon(italicIcon);

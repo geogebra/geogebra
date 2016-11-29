@@ -68,7 +68,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	/**
 	 * Input field for MinMaxPanel
 	 */
-	class AVField extends AutoCompleteTextFieldW {
+	static class AVField extends AutoCompleteTextFieldW {
 		private CancelListener listener;
 
 		public AVField(int columns, App app, CancelListener listener) {

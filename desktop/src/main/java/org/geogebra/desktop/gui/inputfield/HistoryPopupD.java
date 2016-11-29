@@ -297,7 +297,8 @@ public class HistoryPopupD implements ListSelectionListener {
 	 * custom cell renderer for the history list, draws grid lines
 	 *
 	 */
-	private class HistoryListCellRenderer extends DefaultListCellRenderer {
+	private static class HistoryListCellRenderer
+			extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -310,10 +311,9 @@ public class HistoryPopupD implements ListSelectionListener {
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory
 				.createCompoundBorder(
-						BorderFactory
-.createMatteBorder(0, 0, 1, 0,
-						GColorD.getAwtColor(
-												GeoGebraColorConstants.TABLE_GRID_COLOR)),
+						BorderFactory.createMatteBorder(0, 0, 1, 0,
+								GColorD.getAwtColor(
+										GeoGebraColorConstants.TABLE_GRID_COLOR)),
 						BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override

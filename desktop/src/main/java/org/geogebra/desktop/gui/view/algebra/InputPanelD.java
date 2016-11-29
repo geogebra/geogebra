@@ -229,7 +229,8 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	 * draws grid lines and roll-over effect
 	 *
 	 */
-	private class HistoryListCellRenderer extends DefaultListCellRenderer {
+	private static class HistoryListCellRenderer
+			extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 		

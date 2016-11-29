@@ -313,7 +313,7 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Selection listener to repaint selection frame when selection changes
 	 */
-	public class SelectionListener implements ListSelectionListener {
+	public static class SelectionListener implements ListSelectionListener {
 		private JTable table;
 
 		/**

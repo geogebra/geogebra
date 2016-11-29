@@ -47,7 +47,7 @@ public class UndoManagerD extends UndoManager {
 	 * @author kondr
 	 * 
 	 */
-	protected class AppStateDesktop implements AppState {
+	protected static class AppStateDesktop implements AppState {
 		private File f;
 
 		/**
