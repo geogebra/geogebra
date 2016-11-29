@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 
 public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 
-	private TraceIndex lastTraceIndex;
-	private ArrayList<TraceIndex> lastTraceIndices;
-	private TraceSettings traceSettingsCurrent;
+	private transient TraceIndex lastTraceIndex;
+	private transient ArrayList<TraceIndex> lastTraceIndices;
+	private transient TraceSettings traceSettingsCurrent;
 
 	public Trace() {
 		traceSettingsCurrent = new TraceSettings();

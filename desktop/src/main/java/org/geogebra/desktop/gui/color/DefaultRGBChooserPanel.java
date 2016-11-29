@@ -150,7 +150,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	private transient JSpinner BSpinner;
 
 	private MyPreviewPanel previewPanel;
-	protected AppD app;
+	protected transient AppD app;
 
 	public JComponent getPreview() {
 		return previewPanel;

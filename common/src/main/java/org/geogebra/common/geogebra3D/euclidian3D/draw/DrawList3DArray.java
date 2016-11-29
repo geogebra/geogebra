@@ -15,7 +15,7 @@ public class DrawList3DArray extends DrawListArray {
 
 	private static final long serialVersionUID = 1L;
 
-	private DrawList3D drawList3D;
+	private transient DrawList3D drawList3D;
 
 	/**
 	 * common constructor

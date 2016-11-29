@@ -2412,10 +2412,9 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selPolygons() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolygon polygon = getSelectedPolygons()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher()
+			GeoElement[] ret = getAlgoDispatcher()
 					.IntersectLinePolygon(new String[] { null }, line, polygon);
 			return ret;
 		}
@@ -2423,10 +2422,10 @@ public abstract class EuclidianController {
 		// polyLine and polyLine
 		else if (selPolyLines() >= 2) {
 			GeoPolyLine[] polylines = getSelectedPolyLines();
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolyLines(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher().IntersectPolyLines(
+					new String[] { null },
 					polylines[0], polylines[1]);
 			return ret;
 		}
@@ -2434,10 +2433,10 @@ public abstract class EuclidianController {
 		// polygon and polygon - both as boundary
 		else if (selPolygons() >= 2) {
 			GeoPolygon[] polygons = getSelectedPolygons();
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolygons(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher().IntersectPolygons(
+					new String[] { null },
 					polygons[0], polygons[1], false);
 			return ret;
 		}

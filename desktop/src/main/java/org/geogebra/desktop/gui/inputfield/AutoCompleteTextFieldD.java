@@ -51,8 +51,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
-	private Localization loc;
+	private transient AppD app;
+	private transient Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
 

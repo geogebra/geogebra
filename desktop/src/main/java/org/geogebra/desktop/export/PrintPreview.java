@@ -78,7 +78,7 @@ public class PrintPreview extends JDialog {
 															// scaling of
 															// graphics view's
 															// print preview
-	protected ActionListener lst;
+	protected transient ActionListener lst;
 
 	protected boolean kernelChanged = false;
 	private static boolean justPreview = true;

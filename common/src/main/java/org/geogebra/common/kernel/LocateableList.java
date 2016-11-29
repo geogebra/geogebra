@@ -19,7 +19,7 @@ public class LocateableList extends ArrayList<Locateable> {
 	 * 
 	 */
 	private static final long serialVersionUID = 9060255316180319972L;
-	private GeoPointND point;
+	private transient GeoPointND point;
 
 	/**
 	 * constructor

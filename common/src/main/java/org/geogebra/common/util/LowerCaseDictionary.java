@@ -19,7 +19,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 
 	private TreeSet<String> treeSet = new TreeSet<String>();
 
-	private NormalizerMinimal normalizer;
+	private transient NormalizerMinimal normalizer;
 
 	/**
 	 * constructor
