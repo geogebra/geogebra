@@ -1699,11 +1699,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		app.closePopups();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			editTap = true;
-		}
-
 		event.stopPropagation();
+
 		if (commonEditingCheck()) {
 			// keep focus in editor
 			event.preventDefault();
@@ -1711,6 +1708,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
+
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			editTap = true;
+			handleAVItem(event);
+			return;
+		}
+
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
@@ -1723,6 +1727,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap)) {
 			return;
 		}
+
+		onPointerDown(wrappedEvent);
 
 		editTap = false;
 		boolean enable = true;
@@ -1757,7 +1763,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void adjustControlsPosition() {
-		if (!app.has(Feature.AV_SCROLL)) {
+		if (!app.has(Feature.AV_SCROLL)
+				|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -2796,7 +2803,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
+			// scroll cancels edit request.
 			editTap = false;
 		}
 
