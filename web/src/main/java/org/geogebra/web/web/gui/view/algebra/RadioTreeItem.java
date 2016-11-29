@@ -1879,7 +1879,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
 
-		if (!selectionCtrl.isSelectHandled()) {
+		if (!selectionCtrl.isSelectHandled()
+				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			selectItem(true);
 		}
 
