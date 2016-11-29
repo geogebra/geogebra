@@ -313,7 +313,7 @@ public class HistoryPopupD implements ListSelectionListener {
 						BorderFactory
 .createMatteBorder(0, 0, 1, 0,
 						GColorD.getAwtColor(
-								GeoGebraColorConstants.getTableGridColor())),
+												GeoGebraColorConstants.TABLE_GRID_COLOR)),
 						BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override

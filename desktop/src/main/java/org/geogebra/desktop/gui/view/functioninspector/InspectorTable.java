@@ -46,7 +46,7 @@ public class InspectorTable extends JTable {
 		setShowGrid(true);
 		setGridColor(
 				GColorD
-				.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		// setSelectionBackground(new Color(255, 130, 171));
 		setSelectionBackground(
 				GColorD

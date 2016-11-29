@@ -33,8 +33,7 @@ public class ColorProvider {
 
 	/** Colors */
 	private static final GColor COLOR_DEFINED = GeoGebraColorConstants.DEFINED_OBJECT_COLOR;
-	private static final GColor COLOR_UNDEFINED = GeoGebraColorConstants
-			.getUndefinedObjectColor();
+	private static final GColor COLOR_UNDEFINED = GeoGebraColorConstants.UNDEFINED_OBJECT_COLOR;
 	private static final GColor COLOR_LOCAL = GeoGebraColorConstants.LOCAL_OBJECT_COLOR;
 	private static final GColor COLOR_DEFAULT = GColor.BLACK;
 

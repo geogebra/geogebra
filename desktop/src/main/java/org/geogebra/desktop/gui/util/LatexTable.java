@@ -44,7 +44,7 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 		this.setShowGrid(true);
 		this.setGridColor(
 				GColorD
-				.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		this.setBorder(BorderFactory
 				.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 		// this.setBorder(BorderFactory.createEmptyBorder());

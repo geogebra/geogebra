@@ -71,7 +71,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static final int LINE_THICKNESS2 = 2;
 	public static final GColor SELECTED_BACKGROUND_COLOR = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
 	public static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants
-			.getTableSelectedBackgroundColorHeader();
+			.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
 	public static final GColor BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.GRAY2;
 	public static final GColor HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;

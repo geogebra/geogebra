@@ -59,7 +59,7 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		table.setShowGrid(true);
 
 		// table row header

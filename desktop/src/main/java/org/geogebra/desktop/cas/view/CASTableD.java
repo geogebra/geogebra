@@ -92,7 +92,7 @@ public class CASTableD extends JTable implements CASTable {
 		setShowGrid(true);
 		setGridColor(
 				GColorD
-				.getAwtColor(GeoGebraColorConstants.getTableGridColor()));
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 
 		tableModel = new CASTableModel();

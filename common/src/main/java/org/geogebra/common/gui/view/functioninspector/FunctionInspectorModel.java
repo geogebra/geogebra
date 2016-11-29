@@ -815,7 +815,7 @@ public class FunctionInspectorModel {
 		// point list
 		pts = new GeoList(cons);
 		pts.setEuclidianVisible(true);
-		pts.setObjColor(GeoGebraColorConstants.getDarkGray());
+		pts.setObjColor(GeoGebraColorConstants.DARK_GRAY);
 		pts.setPointSize(3);
 		pts.setLayer(f.getLayer() + 1);
 		pts.setSelectionAllowed(false);

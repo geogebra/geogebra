@@ -39,9 +39,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	private static final GColor DISABLED_BACKGROUND_COLOR = GColor.LIGHT_GRAY;
 	private static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants
-			.getTableSelectedBackgroundColorHeader();
+			.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
 	private static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants
-			.getTableGridColor();
+			.TABLE_GRID_COLOR;
 //	private static final GColor TABLE_HEADER_COLOR = GeoGebraColorConstants.TABLE_HEADER_COLOR;
 	private StatTableW dataTable;
 

@@ -68,7 +68,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 				GColorD
 						.getAwtColor(
-								GeoGebraColorConstants.getTableGridColor())));
+								GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
 	public void updateIcons() {
@@ -91,7 +91,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		if (isSelected) {
 			setBackground(GColorD
 					.getAwtColor(GeoGebraColorConstants
-							.getTableSelectedBackgroundColorHeader()));
+							.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 		} else {
 			setBackground(GColorD
 					.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));

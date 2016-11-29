@@ -24,16 +24,13 @@ public class GeoGebraColorConstants {
 	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR = GColor
 			.newColor(214, 224, 245);
 	/** background of selected row / column header */
-	public static final GColor getTableSelectedBackgroundColorHeader() {
-		return GColor.LIGHT_GRAY;
-	};
+	public static final GColor TABLE_SELECTED_BACKGROUND_COLOR_HEADER = GColor.LIGHT_GRAY;
+
 	/** background of row / column header */
 	public static final GColor TABLE_BACKGROUND_COLOR_HEADER = GColor
 			.newColor(232, 238, 247);
 	/** grid color for spreadsheet */
-	public static final GColor getTableGridColor() {
-		return GColor.GRAY;
-	}
+	public static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 
 	private static GColor rgb(int r, int g, int b) {
 		return GColor.newColor(r, g, b);
@@ -111,44 +108,35 @@ public class GeoGebraColorConstants {
 	/** 12.5% gray */
 	public static final GColor GRAY1 = grayN(1);
 	/** 87.5% gray */
-	public static final GColor getDarkGray() {
-		return GRAY7;
-	}
+	public static final GColor DARK_GRAY = GRAY7;
+
 	/** 37.5% gray */
-	public static final GColor getLightGray() {
-		return GRAY3;
-	}
+	public static final GColor LIGHT_GRAY = GRAY3;
+
 	/** 75% gray */
-	public static final GColor getSilver() {
-		return GRAY6;
-	}
+	public static final GColor SILVER = GRAY6;
 
 	// input coloring
 	/** defined objects (violet) */
 	public static final GColor DEFINED_OBJECT_COLOR = GColor.newColor(102, 102,
 			255);
 	/** undefined objects */
-	public static final GColor getUndefinedObjectColor() {
-		return GRAY3;
-	}
+	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
+
 	/** local objects (local variables, blue) */
 	public static final GColor LOCAL_OBJECT_COLOR = GColor
 			.newColor(0, 102, 255);
 	/** unbalanced brackets */
-	public static final GColor getUnbalancedBracketColor() {
-		return GColor.RED;
-	}
+	public static final GColor UNBALANCED_BRACKET_COLOR = GColor.RED;
+
 	/** balanced bracket (green) */
 	public static final GColor BALANCED_BRACKET_COLOR = GColor.newColor(0, 127,
 			0);
 	/** text mode */
-	public static final GColor getInputTextColor() {
-		return GRAY4;
-	}
+	public static final GColor INPUT_TEXT_COLOR = GRAY4;
+
 	/** default color */
-	public static final GColor getInputDefaultColor() {
-		return GColor.BLACK;
-	}
+	public static final GColor INPUT_DEFAULT_COLOR = GColor.BLACK;
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
@@ -214,9 +202,9 @@ public class GeoGebraColorConstants {
 					geogebraColor0.put("gray3", GRAY3);
 					geogebraColor0.put("gray2", GRAY2);
 					geogebraColor0.put("gray1", GRAY1);
-					geogebraColor0.put("darkgray", getDarkGray());
-					geogebraColor0.put("lightgray", getLightGray());
-					geogebraColor0.put("silver", getSilver());
+					geogebraColor0.put("darkgray", DARK_GRAY);
+					geogebraColor0.put("lightgray", LIGHT_GRAY);
+					geogebraColor0.put("silver", SILVER);
 
 					geogebraColor = geogebraColor0;
 				}
