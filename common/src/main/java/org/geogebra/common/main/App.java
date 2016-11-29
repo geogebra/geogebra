@@ -4009,7 +4009,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case MOBILE_DIALOG_FORMULA_INPUT:
-				return prerelease;
+				return true; // 5.0.299
 		//MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
