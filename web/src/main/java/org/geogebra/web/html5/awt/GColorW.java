@@ -1,40 +1,54 @@
 package org.geogebra.web.html5.awt;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GColorN;
 
 public class GColorW extends GColorN {
 
-	private final int r;
-	private final int g;
-	private final int b;
-	private final int alpha;
+	private final int value;
 
 
+	/**
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @param alpha
+	 */
 	public GColorW(int r, int g, int b, int alpha) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.alpha = alpha;
+		this.value = GColor.hashRGBA(r & 0xff, g & 0xff, b & 0xff,
+				alpha & 0xff);
 	}
 
+	/**
+	 * @return red (0 - 255)
+	 */
 	@Override
 	public int getRed() {
-		return r;
+		return (value >> 16) & 0xFF;
 	}
 
+	/**
+	 * @return green (0 - 255)
+	 */
 	@Override
 	public int getGreen() {
-		return g;
+		return (value >> 8) & 0xFF;
 	}
 
+	/**
+	 * @return blue (0 - 255)
+	 */
 	@Override
 	public int getBlue() {
-		return b;
+		return (value >> 0) & 0xFF;
 	}
 
+	/**
+	 * @return alpha (0 - 255)
+	 */
 	@Override
 	public int getAlpha() {
-		return alpha;
+		return (value >> 24) & 0xff;
 	}
 
 	@Override
@@ -43,14 +57,12 @@ public class GColorW extends GColorN {
 			return false;
 		}
 		GColorW other = (GColorW) object;
-		return other.r == this.r && other.g == this.g && other.b == this.b
-		        && other.alpha == this.alpha;
+		return other.value == this.value;
 	}
 
 	@Override
 	public int hashCode() {
-		return ((((getRed() * 256) + getGreen()) * 256) + getBlue()) * 256
-				+ getAlpha();
+		return value;
 	}
 
 

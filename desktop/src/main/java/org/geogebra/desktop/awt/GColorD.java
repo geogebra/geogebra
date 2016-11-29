@@ -4,7 +4,6 @@ import java.awt.Color;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GColorN;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class GColorD extends GColorN {
 
@@ -12,9 +11,7 @@ public class GColorD extends GColorN {
 
 	public GColorD(int r, int g, int b, int alpha) {
 
-		adaptedColor = new Color(MyDouble.truncate0to255(r),
-				MyDouble.truncate0to255(g), MyDouble.truncate0to255(b),
-				MyDouble.truncate0to255(alpha));
+		adaptedColor = new Color(r & 0xff, g & 0xff, b & 0xff, alpha & 0xff);
 	}
 
 	@Override

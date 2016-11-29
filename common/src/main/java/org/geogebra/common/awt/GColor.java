@@ -57,7 +57,7 @@ public class GColor implements GPaint {
 	 * @param a
 	 */
 	public GColor(int r, int g, int b, int a) {
-		this.value = hash(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
+		this.value = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
 	}
 
 	/**
@@ -88,28 +88,28 @@ public class GColor implements GPaint {
 	// }
 
 	/**
-	 * @return
+	 * @return red (0 - 255)
 	 */
 	public int getRed() {
 		return (value >> 16) & 0xFF;
 	}
 
 	/**
-	 * @return
+	 * @return green (0 - 255)
 	 */
 	public int getGreen() {
 		return (value >> 8) & 0xFF;
 	}
 
 	/**
-	 * @return
+	 * @return blue (0 - 255)
 	 */
 	public int getBlue() {
 		return (value >> 0) & 0xFF;
 	}
 
 	/**
-	 * @return
+	 * @return alpha (0 - 255)
 	 */
 	public int getAlpha() {
 		return (value >> 24) & 0xff;
@@ -154,7 +154,7 @@ public class GColor implements GPaint {
 		while (it.hasNext()) {
 			GColor col = it.next();
 
-			if (col.value == hash(r, g, b, a)) {
+			if (col.value == hashRGBA(r, g, b, a)) {
 				return col;
 			}
 		}
@@ -376,7 +376,7 @@ public class GColor implements GPaint {
 		return value;
 	}
 
-	private static int hash(int r, int g, int b, int a) {
+	public static int hashRGBA(int r, int g, int b, int a) {
 		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
 				| ((b & 0xFF) << 0);
 	}
