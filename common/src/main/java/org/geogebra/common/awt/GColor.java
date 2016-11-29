@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * @author michael
@@ -132,10 +131,23 @@ public class GColor implements GPaint {
 
 	}
 
+	/**
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @return
+	 */
 	public static GColor newColor(int r, int g, int b) {
 		return newColor(r, g, b, 255);
 	}
 
+	/**
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @param a
+	 * @return
+	 */
 	public static GColor newColor(int r, int g, int b, int a) {
 		Iterator<GColor> it = map.keySet().iterator();
 
@@ -215,34 +227,34 @@ public class GColor implements GPaint {
 		return diff_brightness > 125 && diff_hue > 500;
 	}
 
-	public int compareTo(GColor c) {
-		if (getRed() < c.getRed()) {
-			return -1;
-		}
-		if (getRed() > c.getRed()) {
-			return 1;
-		}
-		if (getGreen() < c.getGreen()) {
-			return -1;
-		}
-		if (getGreen() > c.getGreen()) {
-			return 1;
-		}
-		if (getBlue() < c.getBlue()) {
-			return -1;
-		}
-		if (getBlue() > c.getBlue()) {
-			return 1;
-		}
-		if (getAlpha() < c.getAlpha()) {
-			return -1;
-		}
-		if (getAlpha() > c.getAlpha()) {
-			return 1;
-		}
-
-		return 0;
-	}
+	// public int compareTo(GColor c) {
+	// if (getRed() < c.getRed()) {
+	// return -1;
+	// }
+	// if (getRed() > c.getRed()) {
+	// return 1;
+	// }
+	// if (getGreen() < c.getGreen()) {
+	// return -1;
+	// }
+	// if (getGreen() > c.getGreen()) {
+	// return 1;
+	// }
+	// if (getBlue() < c.getBlue()) {
+	// return -1;
+	// }
+	// if (getBlue() > c.getBlue()) {
+	// return 1;
+	// }
+	// if (getAlpha() < c.getAlpha()) {
+	// return -1;
+	// }
+	// if (getAlpha() > c.getAlpha()) {
+	// return 1;
+	// }
+	//
+	// return 0;
+	// }
 
 	/**
 	 * 
@@ -329,13 +341,10 @@ public class GColor implements GPaint {
 		return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
 	}
 
-	public static String getColorString(GColor fillColor) {
-		String ret = "rgba(" + fillColor.getRed() + "," + fillColor.getGreen()
-				+ ","
-				+ fillColor.getBlue() + "," + (fillColor.getAlpha() / 255d)
-				+ ")";
+	public static String getColorString(GColor color) {
+		String ret = "rgba(" + color.getRed() + "," + color.getGreen() + ","
+				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
 
-		Log.debug("ret = " + ret);
 		return ret;
 	}
 

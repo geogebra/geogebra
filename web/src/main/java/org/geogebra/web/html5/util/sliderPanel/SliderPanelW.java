@@ -119,9 +119,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void updateColor(GColor color) {
-		GColor c = GColor.newColor(color.getRed(), color.getGreen(),
-				color.getBlue(), 102);
-		// c.setAlpha(102);
+		GColor c = color.deriveWithAlpha(102);
 
 		// String sColor = GColor.getColorString(color);
 		// minLabel.getElement().getStyle().setColor(sColor);
@@ -136,9 +134,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	private void setUIStyle(Element elem, GColor color) {
-		GColor c = GColor.newColor(color.getRed(), color.getGreen(),
-				color.getBlue(), 102);
-		// c.setAlpha(102);
+		GColor c = color.deriveWithAlpha(102);
 		Style style = Dom.querySelectorForElement(elem,
 				"ui-state-default").getStyle();
 		style.setBackgroundColor(GColor.getColorString(color));

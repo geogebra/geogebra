@@ -197,7 +197,7 @@ public class MyButton implements Observer {
 
 		// change background color on mouse click
 		if (pressed) {
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				g.setPaint(GColor.LIGHTEST_GRAY);
 			} else {
 				g.setPaint(bg.darker());
@@ -212,7 +212,7 @@ public class MyButton implements Observer {
 		// change border on mouseover
 		if (isSelected()) {
 			// default button design
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				// color for inner border
 				g.setColor(GColor.GRAY);
 				// inner border
@@ -235,7 +235,7 @@ public class MyButton implements Observer {
 			// border color
 		} else {
 			// default button design
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				g.setColor(GColor.BLACK);
 
 				// user adjusted design

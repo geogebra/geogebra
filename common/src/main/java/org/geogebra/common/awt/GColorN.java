@@ -1,5 +1,9 @@
 package org.geogebra.common.awt;
 
+/**
+ * @author micro
+ *
+ */
 public abstract class GColorN {
 
 
@@ -13,13 +17,9 @@ public abstract class GColorN {
 
 	@Override
 	final public String toString() {
-		return getColorString(this);
+		return "rgba(" + getRed() + "," + getGreen() + "," + getBlue() + ","
+				+ (getAlpha() / 255d) + ")";
 	}
 
-	public static String getColorString(GColorN fillColor) {
-		return "rgba(" + fillColor.getRed() + "," + fillColor.getGreen() + ","
-				+ fillColor.getBlue() + "," + (fillColor.getAlpha() / 255d)
-				+ ")";
-	}
 
 }

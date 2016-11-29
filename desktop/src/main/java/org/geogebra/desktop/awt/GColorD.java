@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class GColorD extends GColorN {
 
-	private Color adaptedColor = new Color(0, 0, 0);
+	private final Color adaptedColor;
 
 	public GColorD(int r, int g, int b, int alpha) {
 
