@@ -258,8 +258,9 @@ public class FontManagerD extends FontManager {
 		// no standard fonts worked: try harder and go through all
 		// fonts to find one that can display the testString
 		try {
-			final LinkedList tryFonts = serif ? new LinkedList(
-					Arrays.asList(FONT_NAMES_SERIF)) : new LinkedList(
+			final LinkedList<String> tryFonts = serif
+					? new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF))
+					: new LinkedList<String>(
 					Arrays.asList(FONT_NAMES_SANSSERIF));
 			final String fontName = getFontCanDisplay(tryFonts, testString);
 			return getFont(fontName, fontStyle, fontSize);
@@ -272,7 +273,7 @@ public class FontManagerD extends FontManager {
 	 * Tries to find a font that can display all given unicode characters.
 	 * Starts with tryFontNames first.
 	 */
-	public String getFontCanDisplay(final LinkedList tryFontNames,
+	public String getFontCanDisplay(final LinkedList<String> tryFontNames,
 			final String testCharacters) throws Exception {
 		// System.out.println("expensive test getFontCanDisplay, " +
 		// testCharacters);
@@ -283,10 +284,10 @@ public class FontManagerD extends FontManager {
 
 		// try given fonts
 		if (tryFontNames != null) {
-			final Iterator it = tryFontNames.iterator();
+			final Iterator<String> it = tryFontNames.iterator();
 			while (it.hasNext()) {
 				// create font for name
-				final String fontName = (String) it.next();
+				final String fontName = it.next();
 				final Font font = getFont(fontName, Font.PLAIN, 12);
 
 				// check if creating font worked

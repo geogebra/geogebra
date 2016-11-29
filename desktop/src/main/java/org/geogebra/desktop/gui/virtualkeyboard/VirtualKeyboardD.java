@@ -220,7 +220,8 @@ public class VirtualKeyboardD extends JFrame implements ActionListener,
 
 	private void setFonts() {
 
-		String fName = app.getFontCanDisplay(
+		String fName = app
+				.getFontCanDisplayAwt(
 				"" + Language.getTestChar(app.getLocale().getLanguage()))
 				.getFontName();
 

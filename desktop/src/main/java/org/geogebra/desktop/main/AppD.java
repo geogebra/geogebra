@@ -4697,8 +4697,7 @@ ToolbarD.getAllTools(this));
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
-		return GFontD.getAwtFont(getFontCanDisplay(string, b,
-				plain, i));
+		return getFontManager().getFontCanDisplayAwt(string, b, plain, i);
 	}
 
 	public Font getFontCanDisplayAwt(String string) {

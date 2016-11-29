@@ -5,8 +5,7 @@ import java.awt.Component;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-import org.geogebra.common.main.App;
-import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.main.AppD;
 
 /**
  * 
@@ -19,9 +18,9 @@ public class LanguageRenderer  extends DefaultListCellRenderer {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private App app;
+	private AppD app;
 
-	LanguageRenderer(App app) {
+	LanguageRenderer(AppD app) {
 		super();
 		this.app = app;
 	}
@@ -33,7 +32,7 @@ public class LanguageRenderer  extends DefaultListCellRenderer {
 		
 		if (value instanceof String) {
 			String language = (String) value;
-			ret.setFont(GFontD.getAwtFont(app.getFontCanDisplay(language)));
+			ret.setFont(app.getFontCanDisplayAwt(language));
 		}
 		return ret;
 	

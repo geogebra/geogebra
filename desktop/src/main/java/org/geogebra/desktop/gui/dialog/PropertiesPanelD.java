@@ -149,7 +149,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
@@ -3254,11 +3253,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			sb.append("  ");
 
 			JMenu menu = new JMenu(sb.toString());
-			menu.add(new LatexTableFill(app, this, btInsertUnicode, table,
- rows,
+			menu.add(new LatexTableFill(app, this, btInsertUnicode, table, rows,
 					columns, SelectionTable.MODE_TEXT));
 
-			menu.setFont(GFontD.getAwtFont(app.getFontCanDisplay(sb.toString())));
+			menu.setFont(app.getFontCanDisplayAwt(sb.toString()));
 
 			return menu;
 		}
@@ -3322,8 +3320,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 						Log.debug("processMouseEvent, S: " + s);
 						lblSelectedSymbol.setText(s);
-						lblSelectedSymbol.setFont(GFontD.getAwtFont(app
-								.getFontCanDisplay(s)));
+						lblSelectedSymbol.setFont(app.getFontCanDisplayAwt(s));
 					}
 					Log.debug("handlePopupActionEvent begin");
 					popupButton.handlePopupActionEvent();

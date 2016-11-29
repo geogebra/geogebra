@@ -22,7 +22,11 @@ public enum Language {
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"sq", "sq", "Albanian / Gjuha Shqipe",
 			Country.Albania),
-
+	Amharic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			null, "\u134b\u12ed\u120d",
+			false, "am", "am",
+			"Amharic / \u0041\u006d\u0061\u0072\u0259\u00f1\u00f1\u0061",
+			Country.Ethiopia),
 	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"ar", "ar",
 			Unicode.LeftToRightMark + "Arabic"
