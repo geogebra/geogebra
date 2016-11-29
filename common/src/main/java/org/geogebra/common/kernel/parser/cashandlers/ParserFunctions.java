@@ -83,18 +83,22 @@ public class ParserFunctions {
 
 		put(1, "asind", Operation.ARCSIND);
 		put(1, "arcsind", Operation.ARCSIND);
+		put(1, "arcSind", Operation.ARCSIND);
 		put(1, "ArcSind", Operation.ARCSIND, null);
 
 		put(1, "acosd", Operation.ARCCOSD);
 		put(1, "arccosd", Operation.ARCCOSD);
+		put(1, "arcCosd", Operation.ARCCOSD);
 		put(1, "ArcCosd", Operation.ARCCOSD, null);
 
 		put(1, "atand", Operation.ARCTAND);
 		put(1, "arctand", Operation.ARCTAND);
+		put(1, "arcTand", Operation.ARCTAND);
 		put(1, "ArcTand", Operation.ARCTAND);
 
 		put(2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
 		put(2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
+		put(2, "arcTan2d", Operation.ARCTAN2D, null);
 		put(2, "ArcTan2d", Operation.ARCTAN2D, null);
 
 		put(1, "asin", Operation.ARCSIN);
@@ -167,12 +171,12 @@ public class ParserFunctions {
 		put(2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "Atan2", Operation.ARCTAN2, null);
 		put(2, "artan2", Operation.ARCTAN2, null);
-		put(2, "arctan2", Operation.ARCTAN2, null);
+		put(2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "Arctan2", Operation.ARCTAN2, null);
 		put(2, "aTan2", Operation.ARCTAN2, null);
 		put(2, "ATan2", Operation.ARCTAN2, null);
 		put(2, "arTan2", Operation.ARCTAN2, null);
-		put(2, "arcTan2", Operation.ARCTAN2, "( <y>, <x> )");
+		put(2, "arcTan2", Operation.ARCTAN2, null);
 		put(2, "ArcTan2", Operation.ARCTAN2, null);
 
 		put(1, "erf", Operation.ERF);
@@ -310,11 +314,12 @@ public class ParserFunctions {
 			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
 			"sech", "asin", "acos", "atan", "asinh", "acosh", "atanh", "real",
 			"imaginary", "conjugate", "fractionalPart" };
+	
 	/**
 	 * Updates local names of functions
 	 * 
-	 * @param app
-	 *            application
+	 * @param loc
+	 *            localization
 	 */
 	public void updateLocale(Localization loc) {
 		//reset is expensive, do not do that if we only have intl. function names so far
@@ -407,8 +412,8 @@ public class ParserFunctions {
 	}
 
 	/**
-	 * @param app
-	 *            app
+	 * @param loc
+	 *            localization
 	 * @param string
 	 *            translated function
 	 * @return English function name
@@ -439,8 +444,13 @@ public class ParserFunctions {
 		return "nroot".equals(string);
 	}
 
-	public void setInverseTrig(boolean b) {
-		this.inverseTrig = b;
+	/**
+	 * @param deg
+	 *            whether inverse trig functions should be replaced by deg
+	 *            variants
+	 */
+	public void setInverseTrig(boolean deg) {
+		this.inverseTrig = deg;
 
 	}
 }
