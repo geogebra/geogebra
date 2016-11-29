@@ -117,7 +117,7 @@ public class MathFieldController {
 		if (path.size() <= depth) {
 			return;
 		}
-		int idx = path.get(depth) < 0
+		int idx = path.get(depth) <= 0
 				? path.get(depth) + rootComponent.size()
 				: path.get(depth);
 		if (rootComponent

@@ -530,9 +530,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			field = field.getParent();
 		}
 		reverse(path);
-		debug(getFormula().getRootComponent() + ":"
-				+ getEditorState().getCurrentOffset() + "/"
-				+ getEditorState().getCurrentField().size());
 		for (int i : path) {
 			debug("" + i);
 		}

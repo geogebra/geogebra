@@ -117,7 +117,7 @@ public class KeyboardInputAdapter {
 
     }
 
-	public static void insertString(MathFieldInternal mMathFieldInternal,
+	public static void insertString(final MathFieldInternal mMathFieldInternal,
 			String text) {
 
 		boolean oldCreateFrac = mMathFieldInternal.getInputController()
@@ -138,6 +138,8 @@ public class KeyboardInputAdapter {
 		}
 		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
 		mMathFieldInternal.onInsertString();
+
+
 	}
 
     public static void onKeyboardInput(MathFieldInternal mathFieldInternal, String input) {

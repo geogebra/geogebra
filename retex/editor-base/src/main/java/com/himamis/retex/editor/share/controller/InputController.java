@@ -648,18 +648,16 @@ public class InputController {
 
     public boolean handleChar(EditorState editorState, char ch) {
         boolean handled = false;
-        // debug for non handled chars
-        System.out.println("InputController.handleChar: " + ch + "," + ((int) ch));
         // backspace, delete and escape are handled for key down
         if (ch == 8 || ch == 127 || ch == 27) {
             return true;
         }
         deleteSelection(editorState);
-        MetaModel metaModel = editorState.getMetaModel();
+        MetaModel meta = editorState.getMetaModel();
         if (isArrayCloseKey(ch, editorState) || ch == InputController.FUNCTION_CLOSE_KEY) {
             endField(editorState, ch);
             handled = true;
-        } else if (metaModel.isFunctionOpenKey(ch)) {
+        } else if (meta.isFunctionOpenKey(ch)) {
             newBraces(editorState, ch);
             handled = true;
 		} else if (mCreateFrac && ch == '^') {
@@ -677,7 +675,7 @@ public class InputController {
         } else if (ch == 8730) { // square root char
             newFunction(editorState, "sqrt", 0);
             handled = true;
-        } else if (metaModel.isArrayOpenKey(ch)) {
+        } else if (meta.isArrayOpenKey(ch)) {
             newArray(editorState, 1, ch);
             handled = true;
         } else if (ch == 8226) { // big dot char
@@ -686,13 +684,13 @@ public class InputController {
         } else if (ch == 215) { // multiplication cross char
             newOperator(editorState, '*');
             handled = true;
-        } else if (metaModel.isOperator("" + ch)) {
+        } else if (meta.isOperator("" + ch)) {
             newOperator(editorState, ch);
             handled = true;
-        } else if (metaModel.isSymbol("" + ch)) {
+        } else if (meta.isSymbol("" + ch)) {
             newSymbol(editorState, ch);
             handled = true;
-        } else if (metaModel.isCharacter("" + ch)) {
+        } else if (meta.isCharacter("" + ch)) {
             newCharacter(editorState, ch);
             handled = true;
         }
