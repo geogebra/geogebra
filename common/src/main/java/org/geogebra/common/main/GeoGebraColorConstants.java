@@ -5,11 +5,19 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Color constants for swatches, spreadsheet etc.
  */
 public class GeoGebraColorConstants {
+
+	static {
+		Log.error("*****************************************************");
+		Log.error(
+				"******************GeoGebraColorConstants**********************************");
+		Log.error("*****************************************************");
+	}
 
 	// table colors
 	/** background of selected cell */
@@ -32,7 +40,7 @@ public class GeoGebraColorConstants {
 	};
 
 	private static GColor rgb(int rgb) {
-		return GColor.newColor(rgb);
+		return GColor.newColorRGB(rgb);
 	};
 	// ggb color constants
 

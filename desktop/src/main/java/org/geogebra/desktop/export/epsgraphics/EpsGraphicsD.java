@@ -153,7 +153,7 @@ public class EpsGraphicsD extends EpsGraphics {
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				GColor color = GColor
-						.newColor(pixels[x + width * y]);
+						.newColorRGB(pixels[x + width * y]);
 				if (this.colorMode.equals(ColorMode.BLACK_AND_WHITE)) {
 					if (color.getRed() + color.getGreen()
 							+ color.getBlue() > 255 * 1.5 - 1) {

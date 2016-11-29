@@ -1064,7 +1064,7 @@ public class CellFormat implements CellFormatInterface {
 				// so remove the alpha channel to make it positive
 				int fv = (int) (Long.parseLong(f[i + 1]) & 0x00ffffff);
 
-				formatValue = GColor.newColor(fv);
+				formatValue = GColor.newColorRGB(fv);
 			} else if (formatType == FORMAT_BORDER) {
 				long b = Long.parseLong(f[i + 1]);
 				formatValue = (byte) b;

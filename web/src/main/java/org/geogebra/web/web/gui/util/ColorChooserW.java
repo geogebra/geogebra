@@ -43,7 +43,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private static final int MARGIN_TOP = 20;
 	private static final int MARGIN_X = 5;
 	public static final GColor NO_TILE_COLOR = GColor.newColor(255, 255, 255);
-	public static final GColor NORMAL_TILE_COLOR = GColor.newColor(0);
+	public static final GColor NORMAL_TILE_COLOR = GColor.newColorRGB(0);
 	public static final GColor EMPTY_TILE_COLOR = GColor.newColor(16, 16, 16);
 	public static final GColor SELECTED_TILE_COLOR = GColor.newColor(255, 0, 0);
 	public static final String TITLE_FONT = "14pt "
@@ -114,7 +114,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setSelectedRow(-1);
 			if (data != null) {
 				for (Integer code: data) {
-					palette.add(GColor.newColor(code));
+					palette.add(GColor.newColorRGB(code));
 				}
 			}
 

@@ -4,9 +4,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * @author michael
+ * 
+ *         Thin class to just contain the color (as a single int)
+ * 
+ *         GColorN is then a wrapper for the native color object (eg GColorD
+ *         wraps java.wat.Color)
+ * 
+ *         The corresponding GColorN's are stored in a HashMap so they can be
+ *         recycled
+ *
+ */
 public class GColor implements GPaint {
 
 	public static final GColor WHITE = new GColor(255, 255, 255);
@@ -26,100 +37,94 @@ public class GColor implements GPaint {
 	public static final GColor DARK_GRAY = new GColor(68, 68, 68);
 	public static final GColor PURPLE = new GColor(102, 102, 255);
 
-	// 0 - 255
-	private final int red;
-	private final int green;
-	private final int blue;
-	private final int alpha;
+
+	private final int value;
 
 	private static HashMap<GColor, GColorN> map = new HashMap<GColor, GColorN>();
 
+	/**
+	 * @param r
+	 * @param g
+	 * @param b
+	 */
 	public GColor(int r, int g, int b) {
-		this.red = r;
-		this.green = g;
-		this.blue = b;
-		this.alpha = 255;
+		this(r, g, b, 255);
 	}
 
+	/**
+	 * @param r
+	 * @param g
+	 * @param b
+	 * @param a
+	 */
 	public GColor(int r, int g, int b, int a) {
-		this.red = r;
-		this.green = g;
-		this.blue = b;
-		this.alpha = a;
+		this.value = hash(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
 	}
 
-	/*
+	/**
+	 * @param argb
+	 */
+	public GColor(int argb) {
+		this.value = argb;
+	}
+
+	/**
 	 * Creates an opaque sRGB color with the specified combined RGB value
 	 * consisting of the red component in bits 16-23, the green component in
 	 * bits 8-15, and the blue component in bits 0-7. Alpha is defaulted to 255.
+	 * 
+	 * @param rgb
+	 * @return
 	 */
-	public static GColor newColor(int rgb) {
-		int red = rgb >> 16;
-		int green = (rgb >> 8) & 255;
-		int blue = rgb & 255;
+	public static GColor newColorRGB(int rgb) {
 
-		return newColor(red, green, blue);
+		return new GColor((rgb & 0x00ffffff) | 0xff000000);
 	}
 
-	// public GColorOld getColor(GColor col) {
+	// private void log() {
+	// Log.debug("storing " + getColorString(this));
+	// Log.error("map length = " + map.size());
 	//
-	//
-	// GColorOld ret = map.get(col);
-	//
-	// if (ret != null) {
-	// return ret;
-	// }
-	//
-	// ret = AwtFactory.getPrototype().newColor(col.red, col.green, col.blue,
-	// col.alpha);
-	//
-	// map.put(col, ret);
-	// log(col);
-	//
-	// return ret;
-	//
+	// // Log.printStacktrace("");
 	// }
 
-	private void log() {
-		Log.debug("storing " + getColorString(this));
-		Log.error("map length = " + map.size());
-
-		// Log.printStacktrace("");
-	}
-
-	private static GColor createColor(GColor col) {
-		return new GColor(col.red, col.green, col.blue);
-	}
-
-	private static GColor createColor(int r, int g, int b, int a) {
-		return new GColor(r, g, b, a);
-	}
-
+	/**
+	 * @return
+	 */
 	public int getRed() {
-		return red;
+		return (value >> 16) & 0xFF;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getGreen() {
-		return green;
+		return (value >> 8) & 0xFF;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getBlue() {
-		return blue;
+		return (value >> 0) & 0xFF;
 	}
 
+	/**
+	 * @return
+	 */
 	public int getAlpha() {
-		return alpha;
+		return (value >> 24) & 0xff;
 	}
 
 	public GColorN getColor() {
 
-		GColorN ret = map.get(this);
+		GColorN ret = map.get(this.value);
 
 		if (ret == null) {
 			// color hasn't been used yet, need to create it
-			ret = AwtFactory.getPrototype().newColor(red, green, blue, alpha);
+			ret = AwtFactory.getPrototype().newColor(getRed(), getGreen(),
+					getBlue(), getAlpha());
 			map.put(this, ret);
-			log();
 
 		}
 
@@ -137,8 +142,7 @@ public class GColor implements GPaint {
 		while (it.hasNext()) {
 			GColor col = it.next();
 
-			if (col.red == r && col.green == g && col.blue == b
-					&& col.alpha == a) {
+			if (col.value == hash(r, g, b, a)) {
 				return col;
 			}
 		}
@@ -259,12 +263,7 @@ public class GColor implements GPaint {
 	 * @return int
 	 */
 	public int getRGB() {
-		// must use longs to avoid negative overflow
-		int red = MyDouble.truncate0to255(getRed());
-		int green = MyDouble.truncate0to255(getGreen());
-		int blue = MyDouble.truncate0to255(getBlue());
-		int alpha = MyDouble.truncate0to255(getAlpha());
-		return ((alpha * 256 + red) * 256 + green) * 256 + blue;
+		return value;
 	}
 
 	public static GColor newColor(float r, float g, float b, float a) {
@@ -360,22 +359,30 @@ public class GColor implements GPaint {
 			return false;
 		}
 		GColor other = (GColor) object;
-		return other.red == this.red && other.green == this.green
-				&& other.blue == this.blue && other.alpha == this.alpha;
+		return other.value == this.value;
 	}
 
 	@Override
 	public int hashCode() {
-		return hash(red, green, blue, alpha);
+		return value;
 	}
 
-	private static int hash(int red2, int green2, int blue2, int alpha2) {
-		return ((alpha2 * 256 + red2) * 256 + green2) * 256 + blue2;
+	private static int hash(int r, int g, int b, int a) {
+		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
+				| ((b & 0xFF) << 0);
 	}
 
 	@Override
 	public String toString() {
 		return getColorString(this);
+	}
+
+	public GColor deriveWithAlpha(int alpha) {
+		int newARGB = value & 0x00ffffff;
+		
+		newARGB = newARGB | ((alpha & 0xff) << 24);
+
+		return new GColor(newARGB);
 	}
 
 }
