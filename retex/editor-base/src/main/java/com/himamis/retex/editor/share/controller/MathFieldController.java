@@ -93,7 +93,7 @@ public class MathFieldController {
 
 	public void getSelectedPath(MathFormula mathFormula,
 			ArrayList<Integer> list, MathSequence currentField,
-			int currentOffset, boolean rtl) {
+			int currentOffset) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset);
 
@@ -101,7 +101,7 @@ public class MathFieldController {
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
-		renderer.getBox().getSelectedPath(list, 0, rtl);
+		renderer.getBox().getSelectedPath(list, 0);
 		mathField.setTeXIcon(renderer);
 		renderer.paintIcon(null, FactoryProvider.INSTANCE.getGraphicsFactory()
 				.createImage(100, 100, 1).createGraphics2D(), 0, 0);
@@ -114,11 +114,14 @@ public class MathFieldController {
 
 	private void setSelectedPath(MathContainer rootComponent,
 			ArrayList<Integer> path, EditorState state, int depth) {
+		if (path.size() <= depth) {
+			return;
+		}
 		int idx = path.get(depth) < 0
-				? path.get(depth) + rootComponent.size() + 2
+				? path.get(depth) + rootComponent.size()
 				: path.get(depth);
 		if (rootComponent
-				.getArgument(path.get(depth)) instanceof MathContainer
+				.getArgument(idx) instanceof MathContainer
 				&& path.size() > depth) {
 			setSelectedPath(
 					(MathContainer) rootComponent.getArgument(idx),

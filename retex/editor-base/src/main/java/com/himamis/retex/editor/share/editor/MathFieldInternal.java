@@ -42,6 +42,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -354,13 +355,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
-					editorState.getCurrentOffset(), false);
-			for (int i = 0; i < list2.size() / 2; i++) {
-				int tmp = list2.get(i);
-
-				list2.set(i, list2.get(list2.size() - 1 - i));
-				list2.set(list2.size() - 1 - i, tmp);
-			}
+					editorState.getCurrentOffset());
+			reverse(list2);
 			double currentDist = Math.abs(x - CursorBox.startX)
 					+ Math.abs(y - CursorBox.startY);
 			if (currentDist < dist) {
@@ -375,7 +371,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
-					editorState.getCurrentOffset(), false);
+					editorState.getCurrentOffset());
+		}
+
+	}
+
+	private static void reverse(ArrayList<Integer> list2) {
+		for (int i = 0; i < list2.size() / 2; i++) {
+			int tmp = list2.get(i);
+
+			list2.set(i, list2.get(list2.size() - 1 - i));
+			list2.set(list2.size() - 1 - i, tmp);
 		}
 
 	}
@@ -514,10 +520,22 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public void onInsertString() {
 		ArrayList<Integer> path = new ArrayList<Integer>();
-		getMathFieldController().getSelectedPath(getFormula(), path,
-				getEditorState().getCurrentField(),
-				getEditorState().getCurrentOffset(), true);
-
+		path.add(getEditorState().getCurrentOffset()
+				- getEditorState().getCurrentField().size());
+		MathContainer field = getEditorState().getCurrentField();
+		while (field != null) {
+			if (field.getParent() != null) {
+				path.add(field.getParentIndex() - field.getParent().size());
+			}
+			field = field.getParent();
+		}
+		reverse(path);
+		debug(getFormula().getRootComponent() + ":"
+				+ getEditorState().getCurrentOffset() + "/"
+				+ getEditorState().getCurrentField().size());
+		for (int i : path) {
+			debug("" + i);
+		}
 		if (listener != null) {
 			listener.onInsertString();
 		}

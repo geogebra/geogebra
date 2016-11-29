@@ -344,12 +344,11 @@ public abstract class Box {
 		}
 	}
 
-	public boolean getSelectedPath(ArrayList<Integer> list, int depth,
-			boolean rtl) {
+	public boolean getSelectedPath(ArrayList<Integer> list, int depth) {
 
 		for (int idx = 0; idx < children.size(); idx++) {
-			if (children.get(idx).getSelectedPath(list, depth + 1, rtl)) {
-				list.add(rtl ? -(children.size() - idx) : idx);
+			if (children.get(idx).getSelectedPath(list, depth + 1)) {
+				list.add(idx);
 				return true;
 			}
 		}
