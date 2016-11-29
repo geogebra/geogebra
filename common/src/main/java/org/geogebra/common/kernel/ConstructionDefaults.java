@@ -175,19 +175,13 @@ public class ConstructionDefaults {
 	public static final float DEFAULT_NUMBER_ALPHA = 0.1f;
 
 	// locus lines
-	private static final GColor colLocus() {
-		return GColor.BLACK;
-	}
+	private static final GColor colLocus = GColor.BLACK;
 
 	// functions
-	private static final GColor colFunction() {
-		return GColor.BLACK;
-	}
+	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList() {
-		return GeoGebraColorConstants.GGB_GREEN;
-	}
+	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -452,7 +446,7 @@ public class ConstructionDefaults {
 		GeoFunction function = new GeoFunction(cons);
 		// function.setLocalVariableLabel(app.getPlain("Function"));
 		function.setLocalVariableLabel("Function");
-		function.setObjColor(colFunction());
+		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
 		function.setLineThickness(3);
 		function.remove();
@@ -464,7 +458,7 @@ public class ConstructionDefaults {
 		GeoLocus locus = new GeoLocus(cons);
 		// locus.setLocalVariableLabel(app.getPlain("Locus"));
 		locus.setLocalVariableLabel("Locus");
-		locus.setObjColor(colLocus());
+		locus.setObjColor(colLocus);
 		locus.setLabelVisible(false);
 		locus.setDefaultGeoType(DEFAULT_LOCUS);
 		defaultGeoElements.put(DEFAULT_LOCUS, locus);
@@ -505,7 +499,7 @@ public class ConstructionDefaults {
 		list.setShowAllProperties(true); // show all properties in the defaults
 											// dialog
 		list.setLocalVariableLabel("List");
-		list.setObjColor(colList());
+		list.setObjColor(colList);
 		list.setAlphaValue(-1); // wait until we have an element in the list
 								// then we will use the alphaValue of the first
 								// element in the list
