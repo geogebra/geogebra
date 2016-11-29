@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		DrawInformationAlgo {
 
-	protected GeoPointND An, Bn, Cn; // input
+	protected GeoPointND leg1N, vertexN, leg2N; // input
 	protected GeoAngle angle; // output
 
 	protected AlgoAnglePolygon algoAnglePoly;
@@ -73,9 +73,9 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C,
 			GeoDirectionND orientation) {
 
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		this.leg1N = A;
+		this.vertexN = B;
+		this.leg2N = C;
 	}
 
 	/**
@@ -97,26 +97,26 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	 * @param C
 	 */
 	public void setABC(GeoPointND A, GeoPointND B, GeoPointND C) {
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		this.leg1N = A;
+		this.vertexN = B;
+		this.leg2N = C;
 	}
 
 	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C,
 			Construction cons) {
 		super(cons);
 		this.cons = cons;
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		this.leg1N = A;
+		this.vertexN = B;
+		this.leg2N = C;
 
 	}
 
 	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		this.leg1N = A;
+		this.vertexN = B;
+		this.leg2N = C;
 	}
 
 	protected AlgoAnglePointsND(Construction c, boolean addToConstructionList) {
@@ -131,9 +131,9 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = (GeoElement) An;
-		input[1] = (GeoElement) Bn;
-		input[2] = (GeoElement) Cn;
+		input[0] = (GeoElement) leg1N;
+		input[1] = (GeoElement) vertexN;
+		input[2] = (GeoElement) leg2N;
 
 		setOutputLength(1);
 		setOutput(0, angle);
@@ -163,15 +163,15 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	}
 
 	public GeoPointND getA() {
-		return An;
+		return leg1N;
 	}
 
 	public GeoPointND getB() {
-		return Bn;
+		return vertexN;
 	}
 
 	public GeoPointND getC() {
-		return Cn;
+		return leg2N;
 	}
 
 	@Override
@@ -180,18 +180,18 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (algoAnglePoly != null) {
-			return getLoc().getPlain("AngleBetweenABCofD", An.getLabel(tpl),
-					Bn.getLabel(tpl), Cn.getLabel(tpl),
+			return getLoc().getPlain("AngleBetweenABCofD", leg1N.getLabel(tpl),
+					vertexN.getLabel(tpl), leg2N.getLabel(tpl),
 					algoAnglePoly.getPolygon().getNameDescription());
 		}
-		return getLoc().getPlain("AngleBetweenABC", An.getLabel(tpl),
-				Bn.getLabel(tpl), Cn.getLabel(tpl));
+		return getLoc().getPlain("AngleBetweenABC", leg1N.getLabel(tpl),
+				vertexN.getLabel(tpl), leg2N.getLabel(tpl));
 	}
 
 	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
-		Coords v = drawable.getCoordsInView(Bn);
+		Coords v = drawable.getCoordsInView(vertexN);
 		if (!drawable.inView(v)) {
 			return false;
 		}
@@ -199,11 +199,11 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		m[0] = v.get()[0];
 		m[1] = v.get()[1];
 
-		Coords ptCoords = drawable.getCoordsInView(An);
+		Coords ptCoords = drawable.getCoordsInView(leg1N);
 		if (!drawable.inView(ptCoords)) {
 			return false;
 		}
-		Coords coords2 = drawable.getCoordsInView(Cn);
+		Coords coords2 = drawable.getCoordsInView(leg2N);
 		if (!drawable.inView(coords2)) {
 			return false;
 		}

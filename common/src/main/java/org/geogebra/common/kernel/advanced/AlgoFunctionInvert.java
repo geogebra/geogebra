@@ -286,7 +286,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 							// check if its a rational with small denominator
 							// (eg not over 999)
-							double[] frac = AlgoFractionText.DecimalToFraction(
+							double[] frac = AlgoFractionText.decimalToFraction(
 									index, Kernel.STANDARD_PRECISION);
 
 							// make sure the minus is at the top of the new

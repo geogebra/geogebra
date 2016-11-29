@@ -237,7 +237,8 @@ public abstract class EuclidianView
 	private int fontSize;
 	private GAffineTransform coordTransform = AwtFactory.getPrototype()
 			.newAffineTransform();
-	protected double[] AxesTickInterval; // for axes =
+	/** tick interval for axes */
+	protected double[] axesTickInterval;
 	/** number formats for axes */
 	protected NumberFormatAdapter[] axesNumberFormat;
 	/** Flags for axis visibility */
@@ -448,7 +449,7 @@ public abstract class EuclidianView
 		positiveAxes = new boolean[] { false, false };
 		piAxisUnit = new boolean[] { false, false };
 		gridDistances = new double[] { 2, 2, Math.PI / 6 };
-		AxesTickInterval = new double[] { 1, 1 };
+		axesTickInterval = new double[] { 1, 1 };
 
 	}
 
@@ -1554,7 +1555,7 @@ public abstract class EuclidianView
 
 			}
 		}
-		AxesTickInterval[axis] = axesNumberingDistances[axis] / 2.0;
+		axesTickInterval[axis] = axesNumberingDistances[axis] / 2.0;
 
 		// set axes number format
 

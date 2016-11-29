@@ -196,7 +196,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					final UploadResults results = new UploadResults(
 							output.toString());
 
-					if (results.HasError()) {
+					if (results.hasError()) {
 						statusLabelSetText(loc.getPlain("UploadError",
 								results.getErrorMessage()));
 						setEnabled(false);

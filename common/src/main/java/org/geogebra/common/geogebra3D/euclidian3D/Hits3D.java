@@ -6,7 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D.drawableComparator;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D.DrawableComparator;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,7 +32,7 @@ public class Hits3D extends Hits {
 
 		private static final long serialVersionUID = 1L;
 
-		public TreeSetOfDrawable3D(drawableComparator drawableComparator) {
+		public TreeSetOfDrawable3D(DrawableComparator drawableComparator) {
 			super(drawableComparator);
 		}
 
@@ -59,13 +59,13 @@ public class Hits3D extends Hits {
 	private TreeSetOfDrawable3D[] hitSet = new TreeSetOfDrawable3D[Drawable3D.DRAW_PICK_ORDER_MAX];
 	/** other hits */
 	private TreeSetOfDrawable3D hitsOthers = new TreeSetOfDrawable3D(
-			new Drawable3D.drawableComparator());
+			new Drawable3D.DrawableComparator());
 	/** label hits */
 	private TreeSetOfDrawable3D hitsLabels = new TreeSetOfDrawable3D(
-			new Drawable3D.drawableComparator());
+			new Drawable3D.DrawableComparator());
 	/** set of all the sets */
 	private TreeSet<TreeSetOfDrawable3D> hitSetSet = new TreeSet<TreeSetOfDrawable3D>(
-			new Drawable3D.setComparator());
+			new Drawable3D.SetComparator());
 
 	private Hits topHits = new Hits();
 
@@ -82,7 +82,7 @@ public class Hits3D extends Hits {
 
 		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++)
 			hitSet[i] = new TreeSetOfDrawable3D(
-					new Drawable3D.drawableComparator());
+					new Drawable3D.DrawableComparator());
 
 		// init counters
 		QuadCount = 0;

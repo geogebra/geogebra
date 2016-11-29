@@ -4821,7 +4821,7 @@ kernel, left,
 					// not an integer, convert to x^(a/b)
 					if (!Kernel.isInteger(rightDoub)) {
 
-						double[] fraction = AlgoFractionText.DecimalToFraction(
+						double[] fraction = AlgoFractionText.decimalToFraction(
 								rightDoub, Kernel.STANDARD_PRECISION);
 
 						double a = fraction[0];

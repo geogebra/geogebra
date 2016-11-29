@@ -143,7 +143,7 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 	@Override
 	protected void createStartPos(Construction cons) {
-		this.QstartPos = new GeoPoint(cons);
+		this.startQPos = new GeoPoint(cons);
 	}
 
 	@Override

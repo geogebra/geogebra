@@ -107,7 +107,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
-		CustomColor = new HashMap<GColor, String>();
+		customColor = new HashMap<GColor, String>();
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
 			codePreamble
 					.append("\\documentclass["
@@ -234,7 +234,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		Iterator<MyPoint> it = ll.iterator();
 		startBeamer(code);
 		code.append("\\draw");
-		String s = LineOptionCode(g, true);
+		String s = lineOptionCode(g, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
 		code.append(s);
@@ -280,7 +280,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double max = lf[4];
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw ");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
 		codeFilledObject.append(s);
@@ -334,7 +334,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		for (int i = 0; i < n; i++) {
 
 			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				codeFilledObject.append("[" + s + "] ");
 			writePoint(x[i], 0, codeFilledObject);
@@ -362,7 +362,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < n; i++) {
 			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				codeFilledObject.append("[" + s + "] ");
 			writePoint(x[i], 0, codeFilledObject);
@@ -404,7 +404,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				|| warningFunc(value, "sinh(") || warningFunc(value, "tanh(");
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			codeFilledObject.append("[" + s + "] ");
 		}
@@ -518,7 +518,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 		} else {
 			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				codeFilledObject.append("[");
 				codeFilledObject.append(s);
@@ -581,7 +581,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		float xright = x + slopeTriangleSize;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			codeFilledObject.append("[" + s + "] ");
 		}
@@ -598,7 +598,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						.getYscale());
 		GColor geocolor = geo.getObjectColor();
 		codePoint.append("\\draw[color=");
-		ColorCode(geocolor, codePoint);
+		colorCode(geocolor, codePoint);
 		codePoint.append("] ");
 		writePoint(xLabelHor, yLabelHor, codePoint);
 		codePoint.append(" node[anchor=south west] {");
@@ -724,7 +724,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			x[7] = m[1];
 			startBeamer(codeFilledObject);
 			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				codeFilledObject.append("[" + s + "] ");
 			}
@@ -746,7 +746,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append("\\draw [shift={");
 			writePoint(m[0], m[1], codeFilledObject);
 			codeFilledObject.append("}");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				codeFilledObject.append("," + s + "] ");
 			} else {
@@ -778,7 +778,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				// command: \draw (0,0) circle diameter
 				startBeamer(code);
 				code.append("\\fill");
-				s = LineOptionCode(geo, true);
+				s = lineOptionCode(geo, true);
 				if (s.length() != 0)
 					code.append("[" + s + "] ");
 				writePoint(x1, x2, code);
@@ -810,7 +810,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append(">");
 		else
 			code.append("<");
-		String s = LineOptionCode(geo, false);
+		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
 			code.append("," + s + "] ");
 		} else {
@@ -841,7 +841,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append("\\draw [shift={");
 		writePoint(vertex[0], vertex[1], code);
 		code.append("}");
-		String s = LineOptionCode(geo, false);
+		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
 			code.append("," + s + "] ");
 		} else {
@@ -877,7 +877,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("  ");
 		}
 		code.append("\\draw");
-		String s = LineOptionCode(geo, false);
+		String s = lineOptionCode(geo, false);
 		if (s.length() != 0) {
 			code.append("[" + s + "] ");
 		}
@@ -935,7 +935,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// draw Line or Slider
 		startBeamer(code);
 		code.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "[" + s + "] ";
 			code.append(s);
@@ -960,7 +960,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			return;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\fill");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "[" + s + "] ";
 			codeFilledObject.append(s);
@@ -1017,7 +1017,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			GColor geocolor = geo.getObjectColor();
 			if (!geocolor.equals(GColor.BLACK)) {
 				code.append("[color=");
-				ColorCode(geocolor, code);
+				colorCode(geocolor, code);
 				code.append("]");
 			}
 			writePoint(x, y, code);
@@ -1049,7 +1049,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			GColor geocolor = geo.getObjectColor();
 			if (!geocolor.equals(GColor.BLACK)) {
 				code.append("[color=");
-				ColorCode(geocolor, code);
+				colorCode(geocolor, code);
 				code.append("]");
 			}
 			writePoint(x, y, code);
@@ -1204,7 +1204,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		code.append("\\draw [shift={");
 		writePoint(tx, ty, code);
 		code.append("}");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "," + s + "] ";
 			code.append(s);
@@ -1386,7 +1386,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private void drawPgfStandard(GeoFunction geo, StringBuilder sb,
 			String value, double xrangemax, double xrangemin) {
 		sb.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			sb.append("[");
 			sb.append(s);
@@ -1407,7 +1407,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private void drawGnuPlot(GeoFunction geo, StringBuilder sb, String value,
 			double xrangemax, double xrangemin) {
 		sb.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			sb.append("[");
 			sb.append(s);
@@ -1429,7 +1429,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	private void drawNoLatexFunction(GeoFunction geo, StringBuilder sb,
 			double xrangemax, double xrangemin, boolean integral,
 			GeoNumeric geo1) {
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "[" + s + "]";
 		}
@@ -1439,7 +1439,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (integral) {
 			close = "(" + format(geo.getIntervalMax()) + ",0) -- ("
 					+ format(geo.getIntervalMin()) + ",0) -- ";
-			sb.append("\\draw[" + LineOptionCode(geo1, true) + "]");
+			sb.append("\\draw[" + lineOptionCode(geo1, true) + "]");
 			template = " (%0,%1) -- (%2,%3) --";
 			cycle = "cycle;\n";
 		}
@@ -1480,7 +1480,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("% WARNING: You have to use the special variable t in parametric plot");
 		startBeamer(sb);
 		sb.append("\\draw");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			sb.append("[");
 			sb.append(s);
@@ -1646,7 +1646,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double y2 = coord[1] + y1;
 		startBeamer(code);
 		code.append("\\draw [->");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0) {
 			code.append(",");
 			code.append(s);
@@ -1670,7 +1670,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 			startBeamer(build);
 			build.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				s = " [" + s + "] ";
 			build.append(s);
@@ -1693,7 +1693,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			double r2 = geo.getHalfAxes()[1];
 			startBeamer(build);
 			build.append("\\draw");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				s = " [" + s + "] ";
 			build.append(s);
@@ -1738,7 +1738,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append(":");
 			writePoint(x1, y1, code);
 			code.append("}");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				code.append(",");
 				code.append(s);
@@ -1797,7 +1797,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("cm,yshift=");
 			code.append(format(y1 * yunit));
 			code.append("cm");
-			s = LineOptionCode(geo, true);
+			s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				code.append(",");
 				code.append(s);
@@ -1833,7 +1833,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("cm,yshift=");
 			code.append(format(y1 * yunit));
 			code.append("cm");
-			s = LineOptionCode(geo, true);
+			s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				code.append(",");
 				code.append(s);
@@ -1855,7 +1855,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("cm,yshift=");
 			code.append(format(y1 * yunit));
 			code.append("cm");
-			s = LineOptionCode(geo, true);
+			s = lineOptionCode(geo, true);
 			if (s.length() != 0) {
 				code.append(",");
 				code.append(s);
@@ -1897,7 +1897,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 			if (dotstyle == EuclidianStyleConstants.POINT_STYLE_CIRCLE) {
 				codePoint.append("\\draw [color=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append(" circle (");
@@ -1905,7 +1905,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append("pt);\n");
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_CROSS) {
 				codePoint.append("\\draw [color=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append("-- ++(-");
@@ -1925,7 +1925,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append("pt);\n");
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND) {
 				codePoint.append("\\draw [color=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append(" ++(-");
@@ -1952,7 +1952,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append("pt);\n");
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND) {
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append(" ++(-");
@@ -1979,7 +1979,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				codePoint.append("pt);\n");
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_PLUS) {
 				codePoint.append("\\draw [color=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append("-- ++(-");
@@ -1996,7 +1996,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST) {
 				double radius = 3 * dotsize / 4;
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append(",shift={");
 				writePoint(x, y, codePoint);
 				codePoint.append("},rotate=270] (0,0)");
@@ -2018,7 +2018,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH) {
 				double radius = 3 * dotsize / 4;
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append(",shift={");
 				writePoint(x, y, codePoint);
 				codePoint.append("}] (0,0)");
@@ -2040,7 +2040,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH) {
 				double radius = 3 * dotsize / 4;
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append(",shift={");
 				writePoint(x, y, codePoint);
 				codePoint.append("},rotate=180] (0,0)");
@@ -2062,7 +2062,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			} else if (dotstyle == EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) {
 				double radius = 3 * dotsize / 4;
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append(",shift={");
 				writePoint(x, y, codePoint);
 				codePoint.append("},rotate=90] (0,0)");
@@ -2086,7 +2086,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// default is the circle point style
 			else {
 				codePoint.append("\\draw [fill=");
-				ColorCode(dotcolor, codePoint);
+				colorCode(dotcolor, codePoint);
 				codePoint.append("] ");
 				writePoint(x, y, codePoint);
 				codePoint.append(" circle (");
@@ -2217,7 +2217,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 		if (b != 0) {
 			code.append("\\draw [");
-			String option = LineOptionCode(geo, true);
+			String option = lineOptionCode(geo, true);
 			if (option.length() != 0) {
 				code.append(option);
 				code.append(",");
@@ -2239,7 +2239,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append("});\n");
 		} else if (b == 0) {
 			code.append("\\draw ");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				s = "[" + s + "] ";
 			code.append(s);
@@ -2269,7 +2269,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		pointEnd.getInhomCoords(B);
 		startBeamer(code);
 		code.append("\\draw ");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
 		code.append(s);
@@ -2289,7 +2289,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (isBeamer)
 			code.append("  ");
 		code.append("\\draw ");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
 		code.append(s);
@@ -2319,7 +2319,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		startBeamer(code);
 		if (b != 0) {
 			code.append("\\draw [");
-			String option = LineOptionCode(geo, true);
+			String option = lineOptionCode(geo, true);
 			if (option.length() != 0) {
 				code.append(option);
 				code.append(",");
@@ -2345,7 +2345,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			else
 				sup = ymin;
 			code.append("\\draw ");
-			String s = LineOptionCode(geo, true);
+			String s = lineOptionCode(geo, true);
 			if (s.length() != 0)
 				s = "[" + s + "] ";
 			code.append(s);
@@ -2418,7 +2418,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				translation[1] = euclidianView
 						.toRealWorldCoordY(translation[1]);
 				codePoint.append("\\draw[color=");
-				ColorCode(geocolor, codePoint);
+				colorCode(geocolor, codePoint);
 				codePoint.append("] ");
 				writePoint(xLabel + translation[0], yLabel + translation[1],
 						codePoint);
@@ -2445,7 +2445,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		double[] GridDist = euclidianView.getGridDistances();
 		int gridLine = euclidianView.getGridLineStyle();
 		codeBeginDoc.append("\\draw [color=");
-		ColorCode(gridCol, codeBeginDoc);
+		colorCode(gridCol, codeBeginDoc);
 		codeBeginDoc.append(",");
 		LinestyleCode(gridLine, codeBeginDoc);
 		codeBeginDoc.append(", xstep=");
@@ -2476,7 +2476,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		if (showAxis) {
 
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
-			ColorCode(color, codeBeginDoc);
+			colorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
 			boolean[] positiveOnly = euclidianView.getPositiveAxes();
 			double assignMax = xmin;
@@ -2505,7 +2505,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			buffer.append(tmp);
 			buffer.append("}\n");
 			buffer.append("\\draw[shift={(\\x,0)},color=");
-			ColorCode(color, buffer);
+			colorCode(color, buffer);
 			StringBuilder ticks = new StringBuilder();
 			if (tickStyle != EuclidianStyleConstants.AXES_TICK_STYLE_NONE)
 				ticks.append("] (0pt,2pt) -- (0pt,-2pt)");
@@ -2533,7 +2533,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 								if (i != 0) {
 									codeBeginDoc.append("\\draw[shift={("
 											+ (i * Math.PI) + ",0)},color=");
-									ColorCode(color, codeBeginDoc);
+									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[below] {");
 									if (i == -1) {
@@ -2559,7 +2559,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 											.append("\\draw[shift={("
 													+ (i * Math.PI / 2)
 													+ ",0)},color=");
-									ColorCode(color, codeBeginDoc);
+									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[below] {");
 									if (i == -1) {
@@ -2612,7 +2612,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// Draw Label on X Axis
 			if (null != label[0]) {
 				codeBeginDoc.append("\\draw[color=");
-				ColorCode(color, codeBeginDoc);
+				colorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
 
 				int width = (int) Math.ceil(StringUtil.getPrototype()
@@ -2643,7 +2643,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		tickStyle = resizePt(euclidianView.getAxesTickStyles()[1]);
 		if (showAxis) {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
-			ColorCode(color, codeBeginDoc);
+			colorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
 			boolean[] positiveOnly = euclidianView.getPositiveAxes();
 			double assignMax = ymin;
@@ -2671,7 +2671,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			buffer.append(tmp);
 			buffer.append("}\n");
 			buffer.append("\\draw[shift={(0,\\y)},color=");
-			ColorCode(color, buffer);
+			colorCode(color, buffer);
 			StringBuilder ticks=new StringBuilder();
 			if (tickStyle != EuclidianStyleConstants.AXES_TICK_STYLE_NONE)
 				ticks.append("] (2pt,0pt) -- (-2pt,0pt)");
@@ -2699,7 +2699,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 								if (i != 0) {
 									codeBeginDoc.append("\\draw[shift={(0,"
 											+ (i * Math.PI) + ")},color=");
-									ColorCode(color, codeBeginDoc);
+									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[left] {");
 									if (i == -1) {
@@ -2725,7 +2725,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 											.append("\\draw[shift={(0,"
 													+ (i * Math.PI / 2)
 													+ ")},color=");
-									ColorCode(color, codeBeginDoc);
+									colorCode(color, codeBeginDoc);
 									codeBeginDoc.append(ticks);
 									codeBeginDoc.append(" node[left] {");
 									if (i == -1) {
@@ -2778,7 +2778,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			// Draw Label on Y Axis
 			if (null != label[1]) {
 				codeBeginDoc.append("\\draw[color=");
-				ColorCode(color, codeBeginDoc);
+				colorCode(color, codeBeginDoc);
 				codeBeginDoc.append("] ");
 				int height = (int) Math.ceil(StringUtil.getPrototype()
 						.estimateHeight(
@@ -2805,7 +2805,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						.getShowAxesNumbers()[1])) {
 
 			codeBeginDoc.append("\\draw[color=");
-			ColorCode(color, codeBeginDoc);
+			colorCode(color, codeBeginDoc);
 			// append the origin
 			codeBeginDoc.append("] (0pt,-10pt) node[right] {");
 			codeBeginDoc.append(footnotesize("0"));
@@ -2863,7 +2863,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(")");
 	}
 
-	public String LineOptionCode(GeoElement geo, boolean transparency) {
+	public String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
@@ -2895,7 +2895,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					&& info.getFillType() == FillType.IMAGE)
 				sb.append("pattern ");
 			sb.append("color=");
-			ColorCode(info.getLinecolor(), sb);
+			colorCode(info.getLinecolor(), sb);
 		}
 		if (transparency && geo.isFillable()) {
 			switch (info.getFillType()) {
@@ -2906,7 +2906,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					else
 						coma = true;
 					sb.append("fill=");
-					ColorCode(info.getLinecolor(), sb);
+					colorCode(info.getLinecolor(), sb);
 					sb.append(",fill opacity=");
 					sb.append(info.getAlpha());
 				}
@@ -2924,7 +2924,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				else
 					coma = true;
 				sb.append("fill=");
-				ColorCode(info.getLinecolor(), sb);
+				colorCode(info.getLinecolor(), sb);
 				sb.append(",pattern=");
 				if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 					if (codePreamble.indexOf("usetikzlibrary{patterns}") == -1)
@@ -2949,7 +2949,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						sb.append("horizontal lines");
 				}
 				sb.append(",pattern color=");
-				ColorCode(info.getLinecolor(), sb);
+				colorCode(info.getLinecolor(), sb);
 				break;
 			}
 		}
@@ -3010,7 +3010,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 *            The StringBuilder where the color has to be added
 	 */
 	@Override
-	protected void ColorCode(GColor c0, StringBuilder sb) {
+	protected void colorCode(GColor c0, StringBuilder sb) {
 		if (frame.isGrayscale()) {
 			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
@@ -3023,8 +3023,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			int grayscale = (red + green + blue) / 3;
 			GColor c = AwtFactory.getPrototype().newColor(grayscale, grayscale,
 					grayscale);
-			if (CustomColor.containsKey(c)) {
-				colorname = CustomColor.get(c).toString();
+			if (customColor.containsKey(c)) {
+				colorname = customColor.get(c).toString();
 			} else {
 				if (c.equals(GColor.BLACK)) {
 					sb.append("black");
@@ -3047,13 +3047,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 							+ "}{rgb}{" + format(grayscale / 255d) + ","
 							+ format(grayscale / 255d) + ","
 							+ format(grayscale / 255d) + "}\n");
-					CustomColor.put(c, colorname);
+					customColor.put(c, colorname);
 				} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 					codeBeginDoc.insert(0, "\\definecolor[" + colorname
 							+ "][r=" + format(grayscale / 255d) + ",g="
 							+ format(grayscale / 255d) + ",b="
 							+ format(grayscale / 255d) + "]\n");
-					CustomColor.put(c, colorname);
+					customColor.put(c, colorname);
 
 				}
 			}
@@ -3068,8 +3068,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				return;
 			}
 			String colorname = "";
-			if (CustomColor.containsKey(c0)) {
-				colorname = CustomColor.get(c0).toString();
+			if (customColor.containsKey(c0)) {
+				colorname = customColor.get(c0).toString();
 			} else {
 				int red = c0.getRed();
 				int green = c0.getGreen();
@@ -3082,13 +3082,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 							+ "}{rgb}{" + format(red / 255d) + ","
 							+ format(green / 255d) + "," + format(blue / 255d)
 							+ "}\n");
-					CustomColor.put(c0, colorname);
+					customColor.put(c0, colorname);
 				} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 					codeBeginDoc.insert(0, "\\definecolor[" + colorname
 							+ "][r=" + format(red / 255d) + ",g="
 							+ format(green / 255d) + ",b="
 							+ format(blue / 255d) + "]\n");
-					CustomColor.put(c0, colorname);
+					customColor.put(c0, colorname);
 
 				}
 			}
@@ -3116,7 +3116,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		startBeamer(code);
 		StringBuilder str = new StringBuilder();
 		str.append("\\draw ");
-		String s = LineOptionCode(geo, true);
+		String s = lineOptionCode(geo, true);
 		if (s.length() != 0)
 			s = "[" + s + "] ";
 		str.append(s);
@@ -3166,7 +3166,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		String command = g.getDefinition(StringTemplate.noLocalDefault);
 		if (command.contains("Binomial") && command.contains("true")) {
 			codeFilledObject.append("\\draw");
-			String s = LineOptionCode(g, true);
+			String s = lineOptionCode(g, true);
 			if (s.length() != 0)
 				codeFilledObject.append("[" + s + "] ");
 			writePoint(x[0] + width / 2, 0, codeFilledObject);
@@ -3175,7 +3175,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeFilledObject.append(";\n");
 			for (int i = 0; i < length - 1; i++) {
 				codeFilledObject.append("\\draw");
-				s = LineOptionCode(g, true);
+				s = lineOptionCode(g, true);
 				if (s.length() != 0)
 					codeFilledObject.append("[" + s + "] ");
 				writePoint(x[i] + width / 2, y[i], codeFilledObject);
@@ -3183,7 +3183,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
 				codeFilledObject.append(";\n");
 				codeFilledObject.append("\\draw");
-				s = LineOptionCode(g, true);
+				s = lineOptionCode(g, true);
 				if (s.length() != 0)
 					codeFilledObject.append("[" + s + "] ");
 				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
@@ -3195,7 +3195,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			for (int i = 0; i < length; i++) {
 				barNumber = i + 1;
 				codeFilledObject.append("\\draw");
-				String s = LineOptionCode(g, true);
+				String s = lineOptionCode(g, true);
 				if (s.length() != 0)
 					codeFilledObject.append("[" + s + "] ");
 				writePoint(x[i], 0, codeFilledObject);
@@ -3216,7 +3216,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawNyquist(GeoTransferFunction g) {
 		String la = "<-";
 		String ra = "->";
-		String s = LineOptionCode(g, true);
+		String s = lineOptionCode(g, true);
 		if (s.length() != 0) {
 			la = ",<-";
 			ra = ",->";
@@ -3230,7 +3230,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 	
 	protected boolean fillSpline (GeoCurveCartesian [] curves){
-		String liopco = LineOptionCode(curves[0], true);
+		String liopco = lineOptionCode(curves[0], true);
 		if (!liopco.contains("fill")) {
 			return false;
 		}
@@ -3321,7 +3321,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			GColor c = ((GeoElement) geo).getObjectColor();
 			code.append("\\draw[");
 			;
-			code.append(LineOptionCode((GeoElement) geo, true));
+			code.append(lineOptionCode((GeoElement) geo, true));
 			code.append("]");
 			double precX = Integer.MAX_VALUE;
 			double precY = Integer.MAX_VALUE;
@@ -3330,7 +3330,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				if (coords[0] == precX && coords[1] == precY) {
 					code.delete(code.length() - 2, code.length());
 					code.append(";\n\\draw[");
-					code.append(LineOptionCode((GeoElement) geo, true));
+					code.append(lineOptionCode((GeoElement) geo, true));
 					code.append("]");
 				} else {
 					double x1 = (coords[0] - zeroX) / ds[4];

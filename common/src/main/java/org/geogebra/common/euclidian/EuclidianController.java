@@ -309,7 +309,7 @@ public abstract class EuclidianController {
 	/**
 	 * the mode of the actual multitouch-event
 	 */
-	protected scaleMode multitouchMode = scaleMode.view;
+	protected ScaleMode multitouchMode = ScaleMode.view;
 	/**
 	 * actual scale of the axes (has to be saved during multitouch)
 	 */
@@ -10699,11 +10699,11 @@ public abstract class EuclidianController {
 		view.rememberOrigins();
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
-			multitouchMode = scaleMode.zoomY;
+			multitouchMode = ScaleMode.zoomY;
 			oldDistance = y1 - y2;
 			scale = view.getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
-			multitouchMode = scaleMode.zoomX;
+			multitouchMode = ScaleMode.zoomX;
 			oldDistance = x1 - x2;
 			scale = this.view.getXscale();
 		} else if (hits1.size() > 0 && hits2.size() > 0
@@ -10719,9 +10719,9 @@ public abstract class EuclidianController {
 			// TODO: select scaleConic
 
 			if (hits1.get(0).getFreeInputPoints(this.view).size() >= 3) {
-				multitouchMode = scaleMode.circle3Points;
+				multitouchMode = ScaleMode.circle3Points;
 			} else if (hits1.get(0).getFreeInputPoints(this.view).size() == 2) {
-				multitouchMode = scaleMode.circle2Points;
+				multitouchMode = ScaleMode.circle2Points;
 			} else {
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				if (algo instanceof AlgoCirclePointRadius) {
@@ -10729,7 +10729,7 @@ public abstract class EuclidianController {
 					GeoElement radiusGeo = algoCirclePointRadius.getRadiusGeo();
 					if (radiusGeo instanceof GeoNumeric
 							&& radiusGeo.isIndependent()) {
-						multitouchMode = scaleMode.circleRadius;
+						multitouchMode = ScaleMode.circleRadius;
 						circleRadius = (GeoNumeric) radiusGeo;
 						this.originalRadius = circleRadius.getDouble();
 					}
@@ -10750,7 +10750,7 @@ public abstract class EuclidianController {
 			}
 		} else {
 			clearSelections();
-			multitouchMode = scaleMode.view;
+			multitouchMode = ScaleMode.view;
 			twoTouchStartCommon(x1, y1, x2, y2);
 		}
 	}
@@ -11421,7 +11421,7 @@ public abstract class EuclidianController {
 	/**
 	 * different modes of a multitouch-event
 	 */
-	protected enum scaleMode {
+	protected enum ScaleMode {
 		/**
 		 * scale x-axis (two TouchStartEvents on the x-axis)
 		 */

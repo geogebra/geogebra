@@ -392,7 +392,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		positiveAxes = new boolean[]{false, false, false};
 		piAxisUnit = new boolean[]{false, false, false};
 		gridDistances = new double[]{2, 2, Math.PI / 6};
-		AxesTickInterval = new double[]{ 1, 1, 1};
+		axesTickInterval = new double[]{ 1, 1, 1};
 	}
 
 	public int getAxisTickStyle(int i) {

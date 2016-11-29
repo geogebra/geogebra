@@ -74,7 +74,7 @@ public class AlgoFractionText extends AlgoElement {
 		// StringTemplate.get(app.getFormulaRenderingType());
 		StringTemplate tpl = text.getStringTemplate();
 		if (input[0].isDefined()) {
-			frac = DecimalToFraction(num.getDouble(), Kernel.STANDARD_PRECISION);
+			frac = decimalToFraction(num.getDouble(), Kernel.STANDARD_PRECISION);
 
 			sb.setLength(0);
 			appendFormula(sb, frac, tpl, kernel);
@@ -100,10 +100,10 @@ public class AlgoFractionText extends AlgoElement {
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	 */
-	public static double[] DecimalToFraction(double decimal,
+	public static double[] decimalToFraction(double decimal,
 			double AccuracyFactor) {
-		double FractionNumerator, FractionDenominator;
-		double DecimalSign;
+		double fractionNumerator, fractionDenominator;
+		double decimalSign;
 		double Z;
 		double PreviousDenominator;
 		double ScratchValue;
@@ -124,9 +124,9 @@ public class AlgoFractionText extends AlgoElement {
 		}
 
 		if (decimal < 0.0)
-			DecimalSign = -1.0;
+			decimalSign = -1.0;
 		else
-			DecimalSign = 1.0;
+			decimalSign = 1.0;
 
 		decimal = Math.abs(decimal);
 
@@ -135,48 +135,48 @@ public class AlgoFractionText extends AlgoElement {
 																		// integers
 																		// including
 																		// 0
-			FractionNumerator = decimal * DecimalSign;
-			FractionDenominator = 1.0;
+			fractionNumerator = decimal * decimalSign;
+			fractionDenominator = 1.0;
 
-			ret[0] = FractionNumerator;
-			ret[1] = FractionDenominator;
+			ret[0] = fractionNumerator;
+			ret[1] = fractionDenominator;
 			return ret;
 		}
 		if (decimal < 1.0E-19) { // X = 0 already taken care of
-			FractionNumerator = DecimalSign;
-			FractionDenominator = 9999999999999999999.0;
+			fractionNumerator = decimalSign;
+			fractionDenominator = 9999999999999999999.0;
 
-			ret[0] = FractionNumerator;
-			ret[1] = FractionDenominator;
+			ret[0] = fractionNumerator;
+			ret[1] = fractionDenominator;
 			return ret;
 		}
 		if (decimal > 1.0E19) {
-			FractionNumerator = 9999999999999999999.0 * DecimalSign;
-			FractionDenominator = 1.0;
+			fractionNumerator = 9999999999999999999.0 * decimalSign;
+			fractionDenominator = 1.0;
 
-			ret[0] = FractionNumerator;
-			ret[1] = FractionDenominator;
+			ret[0] = fractionNumerator;
+			ret[1] = fractionDenominator;
 			return ret;
 		}
 
 		Z = decimal;
 		PreviousDenominator = 0.0;
-		FractionDenominator = 1.0;
+		fractionDenominator = 1.0;
 		do {
 			Z = 1.0 / (Z - Math.floor(Z));
-			ScratchValue = FractionDenominator;
-			FractionDenominator = FractionDenominator * Math.floor(Z)
+			ScratchValue = fractionDenominator;
+			fractionDenominator = fractionDenominator * Math.floor(Z)
 					+ PreviousDenominator;
 			PreviousDenominator = ScratchValue;
-			FractionNumerator = Math.floor(decimal * FractionDenominator + 0.5); // Rounding
+			fractionNumerator = Math.floor(decimal * fractionDenominator + 0.5); // Rounding
 																					// Function
 		} while (Math
-				.abs((decimal - (FractionNumerator / FractionDenominator))) > AccuracyFactor
+				.abs((decimal - (fractionNumerator / fractionDenominator))) > AccuracyFactor
 				&& !MyDouble.exactEqual(Z, Math.floor(Z)));
-		FractionNumerator = DecimalSign * FractionNumerator;
+		fractionNumerator = decimalSign * fractionNumerator;
 
-		ret[0] = FractionNumerator;
-		ret[1] = FractionDenominator;
+		ret[0] = fractionNumerator;
+		ret[1] = fractionDenominator;
 		return ret;
 	}
 

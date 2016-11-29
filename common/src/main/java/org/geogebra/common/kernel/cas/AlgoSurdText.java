@@ -252,7 +252,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	private void Fractionappend(StringBuilder sBuilder, int numer0, int denom0,
+	private void fractionAppend(StringBuilder sBuilder, int numer0, int denom0,
 			StringTemplate tpl) {
 		int numer = numer0;
 		int denom = denom0;
@@ -588,7 +588,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				// coeffs[1]: denominator; coeffs[2]: numerator
 				int denom = coeffs[3];
 				int numer = -coeffs[4];
-				Fractionappend(sBuilder, numer, denom, tpl);
+				fractionAppend(sBuilder, numer, denom, tpl);
 
 			} else {
 
@@ -739,7 +739,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// coeffs[1]: denominator; coeffs[2]: numerator
 			int denom = coeffs[1];
 			int numer = -coeffs[2];
-			Fractionappend(sBuilder, numer, denom, tpl);
+			fractionAppend(sBuilder, numer, denom, tpl);
 
 		} else {
 

@@ -104,7 +104,7 @@ public abstract class GeoGebraTubeExport {
 			}
 		}
 
-		public boolean HasError() {
+		public boolean hasError() {
 			return !status.equals("ok");
 		}
 

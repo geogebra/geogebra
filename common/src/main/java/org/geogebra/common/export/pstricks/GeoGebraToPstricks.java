@@ -111,7 +111,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
 		codeBeginPic = new StringBuilder();
-		CustomColor = new HashMap<GColor, String>();
+		customColor = new HashMap<GColor, String>();
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
 			codePreamble.append("\\documentclass[" + frame.getFontSize()
 					+ "pt]{beamer}\n");
@@ -191,7 +191,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		Iterator<MyPoint> it = ll.iterator();
 		startBeamer(code);
 		code.append("\\pscustom");
-		code.append(LineOptionCode(g, true));
+		code.append(lineOptionCode(g, true));
 		code.append("{");
 		boolean first = true;
 		boolean out = false;
@@ -257,7 +257,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		// Rectangle q1-q3
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\psframe");
-		codeFilledObject.append(LineOptionCode(geo, true));
+		codeFilledObject.append(lineOptionCode(geo, true));
 		codeFilledObject.append("(");
 		codeFilledObject.append(format(q1));
 		codeFilledObject.append(",");
@@ -280,7 +280,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < n; i++) {
 			codeFilledObject.append("\\pspolygon");
-			codeFilledObject.append(LineOptionCode(geo, true));
+			codeFilledObject.append(lineOptionCode(geo, true));
 			codeFilledObject.append("(");
 			codeFilledObject.append(format(x[i]));
 			codeFilledObject.append(",0)(");
@@ -311,7 +311,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		startBeamer(codeFilledObject);
 		for (int i = 0; i < n; i++) {
 			codeFilledObject.append("\\psframe");
-			codeFilledObject.append(LineOptionCode(geo, true));
+			codeFilledObject.append(lineOptionCode(geo, true));
 			codeFilledObject.append("(");
 			codeFilledObject.append(format(x[i]));
 			codeFilledObject.append(",0)(");
@@ -352,7 +352,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String gb = format(g.evaluate(b));
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\pscustom");
-		codeFilledObject.append(LineOptionCode(geo, true));
+		codeFilledObject.append(lineOptionCode(geo, true));
 		codeFilledObject.append("{\\psplot{");
 		codeFilledObject.append(sa);
 		codeFilledObject.append("}{");
@@ -443,7 +443,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		} else {
 
 			codeFilledObject.append("\\pscustom");
-			codeFilledObject.append(LineOptionCode(geo, true));
+			codeFilledObject.append(lineOptionCode(geo, true));
 			codeFilledObject.append("{\\psplot{");
 			codeFilledObject.append(a);
 			codeFilledObject.append("}{");
@@ -477,7 +477,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		float xright = x + slopeTriangleSize;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\pspolygon");
-		codeFilledObject.append(LineOptionCode(geo, true));
+		codeFilledObject.append(lineOptionCode(geo, true));
 		codeFilledObject.append("(");
 		codeFilledObject.append(format(x));
 		codeFilledObject.append(",");
@@ -509,7 +509,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codePoint.append("){");
 		if (!geocolor.equals(GColor.BLACK)) {
 			codePoint.append("\\");
-			ColorCode(geocolor, codePoint);
+			colorCode(geocolor, codePoint);
 			codePoint.append("{");
 		}
 		codePoint.append(slopeTriangleSize);
@@ -638,7 +638,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			// command: \pspolygon[par](x0,y0)....(xn,yn)
 			startBeamer(codeFilledObject);
 			codeFilledObject.append("\\pspolygon");
-			codeFilledObject.append(LineOptionCode(geo, true));
+			codeFilledObject.append(lineOptionCode(geo, true));
 			for (int i = 0; i < 4; i++) {
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[2 * i]));
@@ -656,7 +656,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			startBeamer(code);
 			if (!geocolor.equals(GColor.BLACK)) {
 				code.append("\\pscustom");
-				code.append(LineOptionCode(geo, true));
+				code.append(lineOptionCode(geo, true));
 				code.append("{\n");
 			}
 			code.append("\\parametricplot{");
@@ -706,7 +706,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				// command: \psellipse(0,0)(20.81,-10.81)}
 				startBeamer(code);
 				code.append("\\psellipse*");
-				code.append(LineOptionCode(geo, true));
+				code.append(lineOptionCode(geo, true));
 				code.append("(");
 				code.append(format(x1));
 				code.append(",");
@@ -738,7 +738,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		angEnd = angEnd - angle;
 		startBeamer(code);
 		code.append("\\psellipticarc");
-		code.append(LineOptionCode(geo, false));
+		code.append(lineOptionCode(geo, false));
 		if (anticlockwise)
 			code.append("{->}(");
 		else
@@ -764,7 +764,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (isBeamer)
 			code.append("  ");
 		code.append("\\parametricplot");
-		code.append(LineOptionCode(geo, false));
+		code.append(lineOptionCode(geo, false));
 		code.append("{");
 		code.append(angSt);
 		code.append("}{");
@@ -796,7 +796,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (isBeamer)
 			code.append("  ");
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, false));
+		code.append(lineOptionCode(geo, false));
 		code.append("(");
 		code.append(format(x1));
 		code.append(",");
@@ -857,7 +857,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		startBeamer(code);
 		// draw Line for Slider
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		code.append("(");
 		code.append(format(x));
 		code.append(",");
@@ -882,7 +882,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			return;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\pspolygon");
-		codeFilledObject.append(LineOptionCode(geo, true));
+		codeFilledObject.append(lineOptionCode(geo, true));
 		GeoPointND[] points = geo.getPoints();
 		for (int i = 0; i < points.length; i++) {
 			Coords coords = points[i].getCoordsInD2();
@@ -991,11 +991,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		// \pscustom[options]{\parametricplot{startAngle}{endAngle}{x+r*cos(t),y+r*sin(t)}\lineto(x,y)\closepath}
 		if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			code.append("\\pscustom");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("{\\parametricplot{");
 		} else if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC) {
 			code.append("\\parametricplot");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("{");
 		}
 		if (startAngle > endAngle) {
@@ -1059,7 +1059,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (warning)
 			code.append("% WARNING: You have to use the special variable t in parametric plot");
 		code.append("\\parametricplot");
-		code.append(LineOptionCode(geo, trasparency));
+		code.append(lineOptionCode(geo, trasparency));
 		int index = code.lastIndexOf("]");
 		if (index == code.length() - 1) {
 			code.deleteCharAt(index);
@@ -1109,7 +1109,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			line.append("\\psplot");
 			// loc contains style, size etc.
 			// is used in the case of non latex function, to assign lines style
-			String liopco = LineOptionCode(geo, true);
+			String liopco = lineOptionCode(geo, true);
 			int index = liopco.lastIndexOf("]");
 			if (index != -1 && index == liopco.length() - 1) {
 				liopco = liopco.substring(0, liopco.length() - 1);
@@ -1138,7 +1138,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 						xrangemin, 200, template);
 				s = lineBuilder.toString();
 				if (integral) {
-					code.append(LineOptionCode(geo1, true));
+					code.append(lineOptionCode(geo1, true));
 					pre = "{";
 					String end = s.substring(s.lastIndexOf("("));
 					post = "(" + b + "," + f.evaluate(b) + ")(" + b + ",0)\n";
@@ -1216,7 +1216,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				+ kernel.getAlgebraProcessor().evaluateToDouble(y1));
 		startBeamer(code);
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		code.append("{->}(");
 		code.append(x1);
 		code.append(",");
@@ -1239,7 +1239,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double r = geo.getHalfAxes()[0];
 			startBeamer(s);
 			s.append("\\pscircle");
-			s.append(LineOptionCode(geo, true));
+			s.append(lineOptionCode(geo, true));
 			s.append("(");
 			s.append(format(x));
 			s.append(",");
@@ -1261,7 +1261,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double r2 = geo.getHalfAxes()[1];
 			startBeamer(s);
 			s.append("\\psellipse");
-			s.append(LineOptionCode(geo, true));
+			s.append(lineOptionCode(geo, true));
 			s.append("(");
 			s.append(format(x1));
 			s.append(",");
@@ -1306,7 +1306,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(",");
 			code.append(format(y1));
 			code.append("){\\psellipse");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("(0,0)(");
 			code.append(format(r1));
 			code.append(",");
@@ -1356,7 +1356,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(",");
 			code.append(format(y1));
 			code.append("){\\psplot");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("{");
 			code.append(format(-x0));
 			code.append("}{");
@@ -1386,7 +1386,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(",");
 			code.append(format(y1));
 			code.append("){\\parametricplot");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("{-0.99}{0.99}{");
 			code.append(format(r1));
 			code.append("*(1+t^2)/(1-t^2)|");
@@ -1401,7 +1401,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(",");
 			code.append(format(y1));
 			code.append("){\\parametricplot");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 			code.append("{-0.99}{0.99}{");
 			code.append(format(r1));
 			code.append("*(-1-t^2)/(1-t^2)|");
@@ -1527,7 +1527,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("\\psplot");
 		else
 			code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		if (y != 0) {
 			code.append("{");
 			code.append(format(xmin));
@@ -1573,7 +1573,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String y2 = format(B[1]);
 		startBeamer(code);
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		code.append("(");
 		code.append(x1);
 		code.append(",");
@@ -1599,7 +1599,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (isBeamer)
 			code.append("  ");
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		code.append("(");
 		code.append(sx1);
 		code.append(",");
@@ -1627,7 +1627,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("\\psplot");
 		else
 			code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 		double inf = xmin, sup = xmax;
 		if (y > 0) {
 			inf = x1;
@@ -1736,7 +1736,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				codePoint.append("){");
 				if (!geocolor.equals(GColor.BLACK)) {
 					codePoint.append("\\");
-					ColorCode(geocolor, codePoint);
+					colorCode(geocolor, codePoint);
 					codePoint.append("{");
 				}
 				codePoint.append(name);
@@ -1776,7 +1776,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(repy);
 		codeBeginPic
 				.append("}{\\psline[linestyle=dashed,linecap=1,dash=1.5pt 1.5pt,linewidth=0.4pt,linecolor=");
-		ColorCode(GridCol, codeBeginPic);
+		colorCode(GridCol, codeBeginPic);
 		codeBeginPic.append("]{c-c}(");
 		codeBeginPic.append(format(xmin));
 		codeBeginPic.append(",0)(");
@@ -1792,7 +1792,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append(repx);
 		codeBeginPic
 				.append("}{\\psline[linestyle=dashed,linecap=1,dash=1.5pt 1.5pt,linewidth=0.4pt,linecolor=");
-		ColorCode(GridCol, codeBeginPic);
+		colorCode(GridCol, codeBeginPic);
 		codeBeginPic.append("]{c-c}(0,");
 		codeBeginPic.append(format(ymin));
 		codeBeginPic.append(")(0,");
@@ -1977,14 +1977,14 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				codePoint.append("[");
 			bracket = true;
 			codePoint.append("linecolor=");
-			ColorCode(dotcolor, codePoint);
+			colorCode(dotcolor, codePoint);
 		}
 		if (bracket)
 			codePoint.append("]");
 
 	}
 
-	public String LineOptionCode(GeoElement geo, boolean transparency) {
+	public String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 
 		int linethickness = geo.getLineThickness();
@@ -2022,7 +2022,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				sb.append("[");
 			bracket = true;
 			sb.append("linecolor=");
-			ColorCode(info.getLinecolor(), sb);
+			colorCode(info.getLinecolor(), sb);
 		}
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
@@ -2037,7 +2037,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 						sb.append("[");
 					bracket = true;
 					sb.append("fillcolor=");
-					ColorCode(info.getLinecolor(), sb);
+					colorCode(info.getLinecolor(), sb);
 					sb.append(",fillstyle=solid,opacity=");
 					sb.append(info.getAlpha());
 				}
@@ -2078,7 +2078,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			sb.append("[");
 
 		sb.append("hatchcolor=");
-		ColorCode(info.getLinecolor(), sb);
+		colorCode(info.getLinecolor(), sb);
 
 		sb.append(style);
 		sb.append(info.getAngle());
@@ -2134,7 +2134,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	// Append the name color to StringBuilder sb
 	@Override
-	protected void ColorCode(GColor c, StringBuilder sb) {
+	protected void colorCode(GColor c, StringBuilder sb) {
 		if (frame.isGrayscale()) {
 			String colorname = "";
 			int red = c.getRed();
@@ -2142,15 +2142,15 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
 			c = AwtFactory.getPrototype().newColor(grayscale, grayscale, grayscale);
-			if (CustomColor.containsKey(c)) {
-				colorname = CustomColor.get(c).toString();
+			if (customColor.containsKey(c)) {
+				colorname = customColor.get(c).toString();
 			} else {
 				colorname = createCustomColor(grayscale, grayscale, grayscale);
 				codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
 						+ format(grayscale / 255d) + " "
 						+ format(grayscale / 255d) + " "
 						+ format(grayscale / 255d) + "}\n");
-				CustomColor.put(c, colorname);
+				customColor.put(c, colorname);
 			}
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
@@ -2191,8 +2191,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				sb.append("yellow");
 			else {
 				String colorname = "";
-				if (CustomColor.containsKey(c)) {
-					colorname = CustomColor.get(c).toString();
+				if (customColor.containsKey(c)) {
+					colorname = customColor.get(c).toString();
 				} else {
 					int red = c.getRed();
 					int green = c.getGreen();
@@ -2201,7 +2201,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 					codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
 							+ format(red / 255d) + " " + format(green / 255d)
 							+ " " + format(blue / 255d) + "}\n");
-					CustomColor.put(c, colorname);
+					customColor.put(c, colorname);
 				}
 				sb.append(colorname);
 			}
@@ -2299,7 +2299,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		if (!geocolor.equals(GColor.BLACK)) {
 			code.append("\\");
-			ColorCode(geocolor, code);
+			colorCode(geocolor, code);
 			code.append("{");
 		}
 		/*
@@ -2333,7 +2333,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			codePreamble.append("\\usepackage{pst-func}\n");
 		}
 		code.append("\\psplotImp");
-		code.append(LineOptionCode(geo.toGeoElement(), true));
+		code.append(lineOptionCode(geo.toGeoElement(), true));
 		code.append("(");
 		code.append(Math.floor(xmin) - 1);
 		code.append(",");
@@ -2354,7 +2354,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			return;
 		startBeamer(code);
 		code.append("\\psline");
-		code.append(LineOptionCode(geo, true));
+		code.append(lineOptionCode(geo, true));
 
 		for (int i = 0; i < path.length; i++) {
 			Coords coords = path[i].getInhomCoords();
@@ -2362,7 +2362,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			String y1 = format(coords.getY());
 			if (x1.contains("?") || y1.contains("?")) {
 				code.append("\n\\psline");
-				code.append(LineOptionCode(geo, true));
+				code.append(lineOptionCode(geo, true));
 			} else {
 				code.append("(");
 				code.append(x1);
@@ -2382,7 +2382,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		startBeamer(codeFilledObject);
 		if (command.contains("Binomial") && command.contains("true")) {
 			codeFilledObject.append("\\psline");
-			codeFilledObject.append(LineOptionCode(g, true));
+			codeFilledObject.append(lineOptionCode(g, true));
 			codeFilledObject.append("(");
 			codeFilledObject.append(format(x[0] + width / 2));
 			codeFilledObject.append(",0)(");
@@ -2392,7 +2392,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			codeFilledObject.append(")\n");
 			for (int i = 0; i < length - 1; i++) {
 				codeFilledObject.append("\\psline");
-				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append(lineOptionCode(g, true));
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[i] + width / 2));
 				codeFilledObject.append("," + format(y[i]) + ")(");
@@ -2404,7 +2404,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 					codeFilledObject.append("  ");
 
 				codeFilledObject.append("\\psline");
-				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append(lineOptionCode(g, true));
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[i + 1] + width / 2));
 				codeFilledObject.append(",");
@@ -2421,7 +2421,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			for (int i = 0; i < length; i++) {
 				barNumber = i + 1;
 				codeFilledObject.append("\\psframe");
-				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append(lineOptionCode(g, true));
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[i]));
 				codeFilledObject.append(",0)(");
@@ -2443,7 +2443,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawNyquist(GeoTransferFunction g) {
 		startBeamer(code);
-		String liopco = LineOptionCode(g, true);
+		String liopco = lineOptionCode(g, true);
 		String template = "\\psline" + liopco + "" + Unicode.SECTION_SIGN
 				+ "arrows" + Unicode.SECTION_SIGN + "(%0,%1)(%2,%3)\n";
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template, ""
@@ -2458,7 +2458,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	 */
 	@Override
 	protected boolean fillSpline(GeoCurveCartesian[] curves) {
-		String liopco = LineOptionCode(curves[0], true);
+		String liopco = lineOptionCode(curves[0], true);
 		if (!liopco.contains("fill")) {
 			return false;
 		}
@@ -2504,14 +2504,14 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double zeroX = ds[4] * (-ds[0]);
 			GPathIterator path = s.getPathIterator(null);
 			code.append("\\pspolygon");
-			code.append(LineOptionCode((GeoElement) geo, true));
+			code.append(lineOptionCode((GeoElement) geo, true));
 			double precX = Integer.MAX_VALUE;
 			double precY = Integer.MAX_VALUE;
 			while (!path.isDone()) {
 				path.currentSegment(coords);
 				if (coords[0] == precX && coords[1] == precY) {
 					code.append("\\pspolygon");
-					code.append(LineOptionCode((GeoElement) geo, true));
+					code.append(lineOptionCode((GeoElement) geo, true));
 				} else {
 					code.append("(");
 					code.append(format((coords[0] - zeroX) / ds[4]));

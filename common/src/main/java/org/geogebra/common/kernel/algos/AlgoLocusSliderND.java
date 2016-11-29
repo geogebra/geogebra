@@ -67,9 +67,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	protected int pointCount;
 
 	// copies of P and Q in a macro kernel
-	private GeoPointND Qcopy;
-	protected GeoPointND QstartPos;
-	private GeoNumeric Pcopy, PstartPos;
+	private GeoPointND copyQ;
+	protected GeoPointND startQPos;
+	private GeoNumeric copyP, startPPos;
 	protected double lastX, lastY;
 
 	protected double[] maxXdist, maxYdist;
@@ -114,7 +114,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		sliderMover = new SliderMover(P);
 
 		createStartPos(cons);
-		PstartPos = new GeoNumeric(cons);
+		startPPos = new GeoNumeric(cons);
 		this.qcopyCache = createQCopyCache();
 		// we may need locus in init => row order important
 		locus = newGeoLocus(cons);
@@ -310,12 +310,12 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoNumeric) macroKernel.lookupLabel(movingSlider
+			copyP = (GeoNumeric) macroKernel.lookupLabel(movingSlider
 					.getLabelSimple());
-			Pcopy.setFixed(false);
+			copyP.setFixed(false);
 			// Pcopy.setPath(movingSlider.getPath());
 
-			Qcopy = (GeoPointND) macroKernel.lookupLabel(locusPoint
+			copyQ = (GeoPointND) macroKernel.lookupLabel(locusPoint
 					.toGeoElement()
 					.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
@@ -404,9 +404,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// update macro construction with current values of global vars
 		resetMacroConstruction();
 		macroCons.updateConstruction();
-		Pcopy.setValue(movingSlider.getIntervalMin());
+		copyP.setValue(movingSlider.getIntervalMin());
 		// use current position of movingPoint to start Pcopy
-		sliderMover.init(Pcopy);
+		sliderMover.init(copyP);
 
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
@@ -418,7 +418,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		// update Pcopy to compute Qcopy
 		pcopyUpdateCascade();
-		prevQcopyDefined = Qcopy.isDefined() && !Qcopy.isInfinite();
+		prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
 
 		// move Pcopy along the path
 		// do this until Qcopy comes back to its start position
@@ -438,20 +438,20 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 				// lineTo may be false due to a parameter jump
 				// i.e. param in [0,1] gets bigger than 1 and thus jumps to 0
-				boolean parameterJump = !sliderMover.getNext(Pcopy);
+				boolean parameterJump = !sliderMover.getNext(copyP);
 				boolean stepChanged = false;
 
 				// update construction
 				pcopyUpdateCascade();
 
 				// Qcopy DEFINED
-				if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
+				if (copyQ.isDefined() && !copyQ.isInfinite()) {
 					// STANDARD CASE: no parameter jump
 					if (!parameterJump) {
 						// make steps smaller until distance ok to connect with
 						// last point
-						while (Qcopy.isDefined() && !Qcopy.isInfinite()
-								&& !distanceOK(Qcopy) && !maxTimeExceeded) {
+						while (copyQ.isDefined() && !copyQ.isInfinite()
+								&& !distanceOK(copyQ) && !maxTimeExceeded) {
 							// go back and try smaller step
 							boolean smallerStep = sliderMover.smallerStep();
 							if (!smallerStep)
@@ -459,15 +459,15 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 							stepChanged = true;
 							sliderMover.stepBack();
-							sliderMover.getNext(Pcopy);
+							sliderMover.getNext(copyP);
 
 							// update construction
 							pcopyUpdateCascade();
 						}
 
-						if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
+						if (copyQ.isDefined() && !copyQ.isInfinite()) {
 							// draw point
-							insertPoint(Qcopy, distanceSmall(Qcopy, false));
+							insertPoint(copyQ, distanceSmall(copyQ, false));
 							prevQcopyDefined = true;
 						}
 					}
@@ -475,7 +475,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 					// PARAMETER jump: !lineTo
 					else {
 						// draw point
-						insertPoint(Qcopy, false);
+						insertPoint(copyQ, false);
 						prevQcopyDefined = true;
 					}
 				}
@@ -504,9 +504,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 				// end of run: the next step would pass the start position
 				if (!sliderMover.hasNext()) {
-					if (distanceSmall(QstartPos, false)) {
+					if (distanceSmall(startQPos, false)) {
 						// draw line back to first point when it's close enough
-						insertPoint(QstartPos, true);
+						insertPoint(startQPos, true);
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
@@ -530,10 +530,10 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 			// make sure that Pcopy is back at startPos now
 			// look at Qcopy at startPos
-			Pcopy.set(PstartPos);
+			copyP.set(startPPos);
 			pcopyUpdateCascade();
-			if (differentFromLast(Qcopy))
-				insertPoint(Qcopy, distanceSmall(Qcopy, false));
+			if (differentFromLast(copyQ))
+				insertPoint(copyQ, distanceSmall(copyQ, false));
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -545,7 +545,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			// AND if the direction of moving along the path
 			// is positive like in the beginning
 			if (sliderMover.hasPositiveOrientation()) {
-				boolean equal = areEqual(QstartPos, Qcopy);
+				boolean equal = areEqual(startQPos, copyQ);
 				if (equal)
 					break;
 			}
@@ -609,11 +609,11 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			// CONTINOUS construction
 			// don't use caching for continuous constructions:
 			// the same position of Pcopy can have different results for Qcopy
-			Pcopy.updateCascade();
+			copyP.updateCascade();
 		} else {
 			// NON-CONTINOUS construction
 			// check if the path parameter's resulting Qcopy is already in cache
-			double param = Pcopy.getValue();
+			double param = copyP.getValue();
 			GPoint2D cachedPoint = getCachedPoint(param);
 
 			if (cachedPoint == null) {
@@ -621,7 +621,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 				long startTime = System.currentTimeMillis();
 
 				// result not in cache: update Pcopy to compute Qcopy
-				Pcopy.updateCascade();
+				copyP.updateCascade();
 
 				long updateTime = System.currentTimeMillis() - startTime;
 
@@ -633,12 +633,12 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 				}
 
 				// cache value of Qcopy
-				putCachedPoint(param, Qcopy);
+				putCachedPoint(param, copyQ);
 			} else {
 				// use cached result to set Qcopy
-				ExpressionNode qDef = Qcopy.getDefinition();
-				Qcopy.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
-				Qcopy.setDefinition(qDef);
+				ExpressionNode qDef = copyQ.getDefinition();
+				copyQ.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
+				copyQ.setDefinition(qDef);
 			}
 		}
 
@@ -657,14 +657,14 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// }
 
 		// check found defined
-		if (!foundDefined && Qcopy.isDefined() && !Qcopy.isInfinite()) {
-			sliderMover.init(Pcopy);
-			PstartPos.set(Pcopy);
-			QstartPos.toGeoElement().set(Qcopy.toGeoElement());
+		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {
+			sliderMover.init(copyP);
+			startPPos.set(copyP);
+			startQPos.toGeoElement().set(copyQ.toGeoElement());
 			foundDefined = true;
 
 			// insert first point
-			insertPoint(Qcopy, false);
+			insertPoint(copyQ, false);
 		}
 	}
 

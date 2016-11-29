@@ -1000,7 +1000,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/** Comparator for Drawable3Ds */
-	static final public class drawableComparator implements
+	static final public class DrawableComparator implements
 			Comparator<Drawable3D> {
 		@Override
 		public int compare(Drawable3D d1, Drawable3D d2) {
@@ -1011,7 +1011,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/** Comparator for sets of Drawable3Ds */
-	static final public class setComparator implements
+	static final public class SetComparator implements
 			Comparator<TreeSet<Drawable3D>> {
 		@Override
 		public int compare(TreeSet<Drawable3D> set1, TreeSet<Drawable3D> set2) {

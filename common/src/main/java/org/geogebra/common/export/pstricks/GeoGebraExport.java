@@ -81,7 +81,7 @@ public abstract class GeoGebraExport {
 	protected Construction construction;
 	protected EuclidianView euclidianView;
 	protected ExportSettings frame;
-	protected HashMap<GColor, String> CustomColor;
+	protected HashMap<GColor, String> customColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;
@@ -738,7 +738,7 @@ public abstract class GeoGebraExport {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void ColorCode(GColor color,
+	abstract protected void colorCode(GColor color,
 			StringBuilder sb);
 
 	/**

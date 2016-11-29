@@ -65,7 +65,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	protected int pointCount;
 
 	// copies of P and Q in a macro kernel
-	protected GeoPointND Pcopy, Qcopy, PstartPos, QstartPos;
+	protected GeoPointND copyP, copyQ, startPPos, startQPos;
 	protected double lastX, lastY;
 
 	protected double[] maxXdist, maxYdist, xmin = new double[3],
@@ -371,10 +371,10 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoPointND) macroKernel
+			copyP = (GeoPointND) macroKernel
 					.lookupLabel(((GeoElement) movingPoint).getLabelSimple());
-			((GeoElement) Pcopy).setFixed(false);
-			Pcopy.setPath(movingPoint.getPath());
+			((GeoElement) copyP).setFixed(false);
+			copyP.setPath(movingPoint.getPath());
 
 			// alternative way to add the incidence of the path to Pcopy
 			// see init()
@@ -382,7 +382,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// AlgoIntersectLineConic.resetPossibleSpecialCase();//not
 			// implemented
 
-			Qcopy = (GeoPointND) macroKernel
+			copyQ = (GeoPointND) macroKernel
 					.lookupLabel(((GeoElement) locusPoint).getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
@@ -471,8 +471,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		macroCons.updateConstruction();
 
 		// use current position of movingPoint to start Pcopy
-		Pcopy.getPathParameter().setT(path.getMinParameter());
-		pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
+		copyP.getPathParameter().setT(path.getMinParameter());
+		pathMover.init(copyP, MIN_STEPS_INSTANCE);
 
 		if (continuous) {
 			// continous constructions may need several parameter run throughs
@@ -484,7 +484,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// update Pcopy to compute Qcopy
 		pcopyUpdateCascade();
-		prevQcopyDefined = Qcopy.isDefined() && !Qcopy.isInfinite();
+		prevQcopyDefined = copyQ.isDefined() && !copyQ.isInfinite();
 
 		// move Pcopy along the path
 		// do this until Qcopy comes back to its start position
@@ -504,20 +504,20 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 				// lineTo may be false due to a parameter jump
 				// i.e. param in [0,1] gets bigger than 1 and thus jumps to 0
-				boolean parameterJump = !pathMover.getNext(Pcopy);
+				boolean parameterJump = !pathMover.getNext(copyP);
 				boolean stepChanged = false;
 
 				// update construction
 				pcopyUpdateCascade();
 
 				// Qcopy DEFINED
-				if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
+				if (copyQ.isDefined() && !copyQ.isInfinite()) {
 					// STANDARD CASE: no parameter jump
 					if (!parameterJump) {
 						// make steps smaller until distance ok to connect with
 						// last point
-						while (Qcopy.isDefined() && !Qcopy.isInfinite()
-								&& !distanceOK(Qcopy) && !maxTimeExceeded) {
+						while (copyQ.isDefined() && !copyQ.isInfinite()
+								&& !distanceOK(copyQ) && !maxTimeExceeded) {
 							// go back and try smaller step
 							boolean smallerStep = pathMover.smallerStep();
 							if (!smallerStep)
@@ -525,15 +525,15 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 							stepChanged = true;
 							pathMover.stepBack();
-							pathMover.getNext(Pcopy);
+							pathMover.getNext(copyP);
 
 							// update construction
 							pcopyUpdateCascade();
 						}
 
-						if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
+						if (copyQ.isDefined() && !copyQ.isInfinite()) {
 							// draw point
-							insertPoint(Qcopy, distanceSmall(Qcopy, true));
+							insertPoint(copyQ, distanceSmall(copyQ, true));
 							prevQcopyDefined = true;
 						}
 					}
@@ -541,7 +541,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 					// PARAMETER jump: !lineTo
 					else {
 						// draw point
-						insertPoint(Qcopy, distanceSmall(Qcopy, true));
+						insertPoint(copyQ, distanceSmall(copyQ, true));
 						prevQcopyDefined = true;
 					}
 				}
@@ -570,9 +570,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 				// end of run: the next step would pass the start position
 				if (!pathMover.hasNext()) {
-					if (distanceSmall(QstartPos, true)) {
+					if (distanceSmall(startQPos, true)) {
 						// draw line back to first point when it's close enough
-						insertPoint(QstartPos, true);
+						insertPoint(startQPos, true);
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
@@ -593,10 +593,10 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			}
 			// make sure that Pcopy is back at startPos now
 			// look at Qcopy at startPos
-			((GeoElement) Pcopy).set(PstartPos);
+			((GeoElement) copyP).set(startPPos);
 			pcopyUpdateCascade();
-			if (differentFromLast(Qcopy))
-				insertPoint(Qcopy, distanceSmall(Qcopy, true));
+			if (differentFromLast(copyQ))
+				insertPoint(copyQ, distanceSmall(copyQ, true));
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -608,7 +608,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// AND if the direction of moving along the path
 			// is positive like in the beginning
 			if (pathMover.hasPositiveOrientation()) {
-				boolean equal = areEqual(QstartPos, Qcopy);
+				boolean equal = areEqual(startQPos, copyQ);
 				if (equal) {
 					break;
 				}
@@ -667,11 +667,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// CONTINOUS construction
 			// don't use caching for continuous constructions:
 			// the same position of Pcopy can have different results for Qcopy
-			Pcopy.updateCascade();
+			copyP.updateCascade();
 		} else {
 			// NON-CONTINOUS construction
 			// check if the path parameter's resulting Qcopy is already in cache
-			double param = Pcopy.getPathParameter().t;
+			double param = copyP.getPathParameter().t;
 			GPoint2D cachedPoint = getCachedPoint(param);
 
 			if (cachedPoint == null) {
@@ -679,7 +679,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				long startTime = System.currentTimeMillis();
 
 				// result not in cache: update Pcopy to compute Qcopy
-				Pcopy.updateCascade();
+				copyP.updateCascade();
 
 				long updateTime = System.currentTimeMillis() - startTime;
 
@@ -690,12 +690,12 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				}
 
 				// cache value of Qcopy
-				putCachedPoint(param, Qcopy);
+				putCachedPoint(param, copyQ);
 			} else {
 				// use cached result to set Qcopy
-				ExpressionNode qDef = Qcopy.getDefinition();
-				Qcopy.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
-				Qcopy.setDefinition(qDef);
+				ExpressionNode qDef = copyQ.getDefinition();
+				copyQ.setCoords(cachedPoint.getX(), cachedPoint.getY(), 1.0);
+				copyQ.setDefinition(qDef);
 			}
 		}
 
@@ -714,14 +714,14 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// }
 
 		// check found defined
-		if (!foundDefined && Qcopy.isDefined() && !Qcopy.isInfinite()) {
-			pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
-			((GeoElement) PstartPos).set(Pcopy);
-			((GeoElement) QstartPos).set(Qcopy);
+		if (!foundDefined && copyQ.isDefined() && !copyQ.isInfinite()) {
+			pathMover.init(copyP, MIN_STEPS_INSTANCE);
+			((GeoElement) startPPos).set(copyP);
+			((GeoElement) startQPos).set(copyQ);
 			foundDefined = true;
 
 			// insert first point
-			insertPoint(Qcopy, false);
+			insertPoint(copyQ, false);
 		}
 	}
 

@@ -270,16 +270,15 @@ public class AlgebraProcessor {
 				}
 			}
 		} else {
-			if (nowFree) {
-				// dependent -> free, e.g. m := c+2 -> m := 7
-				// algorithm will be removed through redefinition
-				needsRedefinition = true;
-			} else {
-				// dependent -> dependent, e.g. m := c+2 -> m := c+d
-				// we already have an algorithm but need redefinition
-				// in order to move it to the right place in construction list
-				needsRedefinition = true;
-			}
+
+			// dependent -> free, e.g. m := c+2 -> m := 7
+			// algorithm will be removed through redefinition
+			// OR
+			// dependent -> dependent, e.g. m := c+2 -> m := c+d
+			// we already have an algorithm but need redefinition
+			// in order to move it to the right place in construction list
+			needsRedefinition = true;
+
 		}
 
 		if (needsRedefinition) {
