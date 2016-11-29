@@ -38,6 +38,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -1725,7 +1726,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		editTap = false;
 		boolean enable = true;
-		if (isSliderItem() && !isWidgetHit(plainTextItem, wrappedEvent)) {
+		if ((isSliderItem()
+				&& !isWidgetHit(plainTextItem, wrappedEvent))) {
 			enable = false;
 			if (active) {
 				stopEditing(getText(), null);
@@ -1755,8 +1757,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void adjustControlsPosition() {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)
-				|| !app.has(Feature.AV_SCROLL)) {
+		if (!app.has(Feature.AV_SCROLL)) {
 			return;
 		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1768,9 +1769,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 				int scrollPos = algebraPanel.getHorizontalScrollPosition();
 
 				// extra margin if vertical scrollbar is visible.
+				int sw = Browser.isTabletBrowser() ? 0
+						: BROWSER_SCROLLBAR_WIDTH;
 				int margin = getAV().getOffsetHeight()
 						+ getOffsetHeight() > algebraPanel
-						.getOffsetHeight() ? BROWSER_SCROLLBAR_WIDTH : 0;
+								.getOffsetHeight() ? sw : 0;
 
 				int value = margin + getOffsetWidth()
 						- (algebraPanel.getOffsetWidth() + scrollPos);
