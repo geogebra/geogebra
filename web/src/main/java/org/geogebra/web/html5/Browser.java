@@ -455,6 +455,10 @@ public class Browser {
 		return false;
 	}-*/;
 
+	public static boolean isTabletBrowser() {
+		return (isAndroid() || isIPad());
+	}
+
 	public static void setWebWorkerSupported(boolean b) {
 		webWorkerSupported = b;
 	}
