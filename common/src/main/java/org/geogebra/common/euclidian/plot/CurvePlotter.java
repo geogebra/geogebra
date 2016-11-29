@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.Cloner;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to plot x->f(x) functions and 2D/3D parametric curves
@@ -38,7 +39,9 @@ public class CurvePlotter {
 	// // the curve is sampled at least at this many positions to plot it
 	// private static final int MIN_SAMPLE_POINTS = 5;
 
+	@SuppressWarnings("unused")
 	private static int countPoints = 0;
+	@SuppressWarnings("unused")
 	private static long countEvaluations = 0;
 
 	/** ways to overcome discontinuity */
@@ -254,7 +257,7 @@ public class CurvePlotter {
 				// c(t) undefined; c(t-eps) and c(t+eps) both defined
 				if (isUndefined(eval)) {
 					// check if c(t-eps) and c(t+eps) are both defined
-					boolean singularity = isDefinedAround(curve, t,
+					boolean singularity = isContinuousAround(curve, t,
 							divisors[LENGTH - 1]);
 
 					// split interval: f(t+eps) or f(t-eps) not defined
@@ -264,6 +267,7 @@ public class CurvePlotter {
 								intervalDepth, max_param_step, view, gp,
 								calcLabelPos, moveToAllowed, labelPoint);
 					}
+					Log.debug("SINGULARITY AT" + t);
 				}
 
 				eval1 = Cloner.clone(eval);
@@ -453,7 +457,7 @@ public class CurvePlotter {
 	/**
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
-	private static boolean isDefinedAround(CurveEvaluable curve, double t,
+	private static boolean isContinuousAround(CurveEvaluable curve, double t,
 			double eps) {
 		// check if c(t) is undefined
 		double[] eval = curve.newDoubleArray();
@@ -462,12 +466,13 @@ public class CurvePlotter {
 		curve.evaluateCurve(t + eps, eval);
 		countEvaluations++;
 		if (!isUndefined(eval)) {
+			double oldy = eval[1];
 			// c(t - eps)
 			curve.evaluateCurve(t - eps, eval);
 			countEvaluations++;
 			if (!isUndefined(eval)) {
 				// SINGULARITY: c(t) undef, c(t-eps) and c(t+eps) defined
-				return true;
+				return true;// Math.abs(oldy - eval[1]) < 20 * eps;
 			}
 		}
 
@@ -531,10 +536,19 @@ public class CurvePlotter {
 	 * Checks if c is continuous in the interval [t1, t2]. We assume that c(t1)
 	 * and c(t2) are both defined.
 	 * 
+	 * @param c
+	 *            curve
+	 * @param from
+	 *            min parameter
+	 * @param to
+	 *            max parameter
+	 * @param mnaxIterations
+	 *            max number of bisections
+	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
 	public static boolean isContinuous(CurveEvaluable c, double from,
-			double to, int MAX_ITERATIONS) {
+			double to, int mnaxIterations) {
 		double t1 = from;
 		double t2 = to;
 		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
@@ -568,7 +582,7 @@ public class CurvePlotter {
 		int iterations = 0;
 		double[] middle = c.newDoubleArray();
 
-		while (iterations++ < MAX_ITERATIONS && dist > eps) {
+		while (iterations++ < mnaxIterations && dist > eps) {
 			double m = (t1 + t2) / 2;
 			c.evaluateCurve(m, middle);
 			countEvaluations++;
@@ -646,6 +660,8 @@ public class CurvePlotter {
 	 *            path plotter that actually draws the points list
 	 * @param pointList
 	 *            list of points
+	 * @param transformSys
+	 *            coordinte system to be applied on 2D points
 	 * @return last point drawn
 	 */
 	static public double[] draw(PathPlotter gp,

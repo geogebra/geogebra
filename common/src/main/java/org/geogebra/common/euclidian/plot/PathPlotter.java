@@ -41,8 +41,17 @@ public interface PathPlotter {
 	 */
 	public void moveTo(double[] pos);
 
+	/**
+	 * Corner-style lineto to the first point
+	 */
 	public void corner();
 
+	/**
+	 * Like lineto, but avoid corners
+	 * 
+	 * @param pos
+	 *            endpoint of added segment
+	 */
 	public void corner(double[] pos);
 
 	/**
@@ -68,6 +77,8 @@ public interface PathPlotter {
 	 *            point
 	 * @param ret
 	 *            double values
+	 * @param transformSys
+	 *            coordinate system of 2D points
 	 * @return true if coords are on the view
 	 */
 	public boolean copyCoords(MyPoint point, double[] ret,
@@ -78,6 +89,12 @@ public interface PathPlotter {
 	 */
 	public void endPlot();
 
+	/**
+	 * @param transformSys
+	 *            coordinate system of 2D points
+	 * @return whether all of the points in the plane will be visible with this
+	 *         plotter
+	 */
 	public boolean supports(CoordSys transformSys);
 
 }

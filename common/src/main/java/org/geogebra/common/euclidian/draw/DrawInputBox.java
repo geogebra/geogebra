@@ -492,6 +492,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
+	/**
+	 * Get view's textfield and attach to this
+	 */
 	public void attachTextField() {
 
 		updateBoxPosition();
