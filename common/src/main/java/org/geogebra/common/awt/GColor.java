@@ -43,8 +43,11 @@ public class GColor implements GPaint {
 
 	/**
 	 * @param r
+	 *            red (0-255)
 	 * @param g
+	 *            green (0-255)
 	 * @param b
+	 *            blue (0-255)
 	 */
 	public GColor(int r, int g, int b) {
 		this(r, g, b, 255);
@@ -52,9 +55,13 @@ public class GColor implements GPaint {
 
 	/**
 	 * @param r
+	 *            red (0-255)
 	 * @param g
+	 *            green (0-255)
 	 * @param b
+	 *            blue (0-255)
 	 * @param a
+	 *            alpha (0-255)
 	 */
 	public GColor(int r, int g, int b, int a) {
 		this.value = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
@@ -62,6 +69,7 @@ public class GColor implements GPaint {
 
 	/**
 	 * @param argb
+	 *            ARGB
 	 */
 	public GColor(int argb) {
 		this.value = argb;
@@ -73,7 +81,8 @@ public class GColor implements GPaint {
 	 * bits 8-15, and the blue component in bits 0-7. Alpha is defaulted to 255.
 	 * 
 	 * @param rgb
-	 * @return
+	 *            RGB
+	 * @return new color
 	 */
 	public static GColor newColorRGB(int rgb) {
 
@@ -115,6 +124,9 @@ public class GColor implements GPaint {
 		return (value >> 24) & 0xff;
 	}
 
+	/**
+	 * @return native color object (wrapped)
+	 */
 	public GColorN getColor() {
 
 		GColorN ret = map.get(this.value);
@@ -133,9 +145,12 @@ public class GColor implements GPaint {
 
 	/**
 	 * @param r
+	 *            red (0-255)
 	 * @param g
+	 *            green (0-255)
 	 * @param b
-	 * @return
+	 *            blue (0-255)
+	 * @return new color
 	 */
 	public static GColor newColor(int r, int g, int b) {
 		return newColor(r, g, b, 255);
@@ -143,10 +158,14 @@ public class GColor implements GPaint {
 
 	/**
 	 * @param r
+	 *            red (0-255)
 	 * @param g
+	 *            green (0-255)
 	 * @param b
+	 *            blue (0-255)
 	 * @param a
-	 * @return
+	 *            alpha (0-255)
+	 * @return new color
 	 */
 	public static GColor newColor(int r, int g, int b, int a) {
 		Iterator<GColor> it = map.keySet().iterator();
@@ -175,8 +194,6 @@ public class GColor implements GPaint {
 	 *
 	 * @param color
 	 *            the base color
-	 * @param factory
-	 *            used to create the new color
 	 * @return a darker version of the input color that can be read on white
 	 *         background
 	 */
@@ -272,21 +289,45 @@ public class GColor implements GPaint {
 	 * This method could return Long, but it returns Integer for
 	 * backwards-compatibility, even if it's negative
 	 * 
-	 * @return int
+	 * @return int ARBG
 	 */
 	public int getRGB() {
 		return value;
 	}
 
+	/**
+	 * @param r
+	 *            red (0-255)
+	 * @param g
+	 *            green (0-255)
+	 * @param b
+	 *            blue (0-255)
+	 * @param a
+	 *            alpha (0-255)
+	 * @return new color
+	 */
 	public static GColor newColor(float r, float g, float b, float a) {
 		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255),
 				(int) (a * 255));
 	}
 
+	/**
+	 * @param r
+	 *            red (0-1)
+	 * @param g
+	 *            green (0-1)
+	 * @param b
+	 *            blue (0-1)
+	 * @return new color
+	 */
 	public static GColor newColor(float r, float g, float b) {
 		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255), 255);
 	}
 
+	/**
+	 * @param rgb
+	 *            puts rgb values in array
+	 */
 	public void getRGBColorComponents(float[] rgb) {
 		rgb[0] = (float) (getRed() / 255.0);
 		rgb[1] = (float) (getGreen() / 255.0);
@@ -294,7 +335,15 @@ public class GColor implements GPaint {
 
 	}
 
-	// public Color(float r, float g, float b, float alpha);
+	/**
+	 * @param hue
+	 *            (0-1)
+	 * @param saturation
+	 *            (0-1)
+	 * @param brightness
+	 *            (0-1)
+	 * @return new color as ARGB
+	 */
 	public static int HSBtoRGB(float hue, float saturation, float brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
@@ -341,6 +390,11 @@ public class GColor implements GPaint {
 		return 0xff000000 | (r << 16) | (g << 8) | (b << 0);
 	}
 
+	/**
+	 * @param color
+	 *            color
+	 * @return HTML5 color string eg rgba(255,0,0,0.5)
+	 */
 	public static String getColorString(GColor color) {
 		String ret = "rgba(" + color.getRed() + "," + color.getGreen() + ","
 				+ color.getBlue() + "," + (color.getAlpha() / 255d) + ")";
@@ -350,12 +404,18 @@ public class GColor implements GPaint {
 
 	private static final double FACTOR = 0.7;
 
+	/**
+	 * @return darker color
+	 */
 	public GColor darker() {
 		return GColor.newColor(Math.max((int) (getRed() * FACTOR), 0),
 				Math.max((int) (getGreen() * FACTOR), 0),
 				Math.max((int) (getBlue() * FACTOR), 0));
 	}
 
+	/**
+	 * @return brighter color
+	 */
 	public GColor brighter() {
 		return GColor.newColor(Math.min((int) (getRed() / FACTOR), 255),
 				Math.min((int) (getGreen() / FACTOR), 255),
@@ -376,6 +436,17 @@ public class GColor implements GPaint {
 		return value;
 	}
 
+	/**
+	 * @param r
+	 *            red (0-255)
+	 * @param g
+	 *            green (0-255)
+	 * @param b
+	 *            blue (0-255)
+	 * @param a
+	 *            alpha (0-255)
+	 * @return ARGB as an int
+	 */
 	public static int hashRGBA(int r, int g, int b, int a) {
 		return ((a & 0xFF) << 24) | ((r & 0xFF) << 16) | ((g & 0xFF) << 8)
 				| ((b & 0xFF) << 0);
@@ -386,6 +457,11 @@ public class GColor implements GPaint {
 		return getColorString(this);
 	}
 
+	/**
+	 * @param alpha
+	 *            0 - 255
+	 * @return new drived color with alpha set to new value
+	 */
 	public GColor deriveWithAlpha(int alpha) {
 		int newARGB = value & 0x00ffffff;
 		
