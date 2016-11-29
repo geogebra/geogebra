@@ -11176,7 +11176,8 @@ public abstract class EuclidianController {
 
 	void storeUndoInfo() {
 		// store undo info and state if we use the tool once again
-		app.storeUndoInfoAndStateForModeStarting();
+		int m = temporaryMode ? oldMode : mode;
+		app.storeUndoInfoAndStateForModeStarting(m != EuclidianConstants.MODE_MOVE);
 	}
 
 	protected GeoElement[] extremum(Hits hits, boolean selPreview) {

@@ -866,7 +866,20 @@ public abstract class App implements UpdateSelection {
 	 * Store current state of construction for undo/redo purposes, and state of
 	 * construction for mode starting (so undo cancels partial tool preview)
 	 */
-	public abstract void storeUndoInfoAndStateForModeStarting();
+	final public void storeUndoInfoAndStateForModeStarting() {
+		storeUndoInfoAndStateForModeStarting(true);
+	}
+
+	final public void storeUndoInfoAndStateForModeStarting(boolean storeForMode) {
+		if (isUndoActive()) {
+			if (storeForMode) {
+				kernel.storeUndoInfoAndStateForModeStarting();
+			} else {
+				kernel.storeUndoInfo();
+			}
+			setUnsaved();
+		}
+	}
 
 	/**
 	 * store undo info only if view coord system has changed

@@ -4219,6 +4219,17 @@ public class Kernel {
 		getSelectionManager().resetGeoToggled();
 	}
 
+	public void storeUndoInfoAndStateForModeStarting() {
+		if (cons != null) {
+			storeStateForModeStarting();
+			if (cons.isUndoEnabled()) {
+				// reuse cons.getCurrentUndoXML(true)
+				cons.getUndoManager().storeUndoInfo(stateForModeStarting, false);
+			}
+		}
+
+	}
+
 
 
 	private SelectionManager getSelectionManager() {
