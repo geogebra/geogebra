@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.awt;
 
-import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GColorN;
 
-public class GColorW extends GColor {
+public class GColorW extends GColorN {
 
 	private int r;
 	private int g;
@@ -135,36 +135,28 @@ public class GColorW extends GColor {
 				+ getAlpha();
 	}
 
-	@Override
-	public void getRGBColorComponents(float[] rgb) {
-		rgb[0] = (float) (getRed() / 255.0);
-		rgb[1] = (float) (getGreen() / 255.0);
-		rgb[2] = (float) (getBlue() / 255.0);
+	// public int getRGBOnly() {
+	// return (((getRed() * 256) + getGreen()) * 256) + getBlue();
+	// }
 
-	}
-
-	public int getRGBOnly() {
-		return (((getRed() * 256) + getGreen()) * 256) + getBlue();
-	}
-
-	@Override
-	public GColorW darker() {
-		return new GColorW(Math.max((int) (getRed() * FACTOR), 0), Math.max(
-		        (int) (getGreen() * FACTOR), 0), Math.max(
-		        (int) (getBlue() * FACTOR), 0));
-	}
-
-	@Override
-	public GColor brighter() {
-		return new GColorW(Math.min((int) (getRed() / FACTOR), 255), Math.min(
-		        (int) (getGreen() / FACTOR), 255), Math.min(
-		        (int) (getBlue() / FACTOR), 255));
-	}
+	// @Override
+	// public GColorW darker() {
+	// return new GColorW(Math.max((int) (getRed() * FACTOR), 0), Math.max(
+	// (int) (getGreen() * FACTOR), 0), Math.max(
+	// (int) (getBlue() * FACTOR), 0));
+	// }
+	//
+	// @Override
+	// public GColor brighter() {
+	// return new GColorW(Math.min((int) (getRed() / FACTOR), 255), Math.min(
+	// (int) (getGreen() / FACTOR), 255), Math.min(
+	// (int) (getBlue() / FACTOR), 255));
+	// }
 
 	// this could have been in GColor,
 	// but is its default toString needed somewhere?
-	@Override
-	public String toString() {
-		return getColorString(this);
-	}
+	// @Override
+//	public String toString() {
+//		return getColorString(this);
+//	}
 }

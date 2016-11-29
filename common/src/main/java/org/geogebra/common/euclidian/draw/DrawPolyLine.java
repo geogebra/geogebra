@@ -238,7 +238,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				point.getY() + getLineThicknessForPoint());
 		float[] rgb = new float[3];
 		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = AwtFactory.getPrototype().newColor(rgb[0],
+		GColor lineDrawingColor = GColor.newColor(rgb[0],
 				rgb[1],
 				rgb[2], poly.getLineOpacity() / 255.0f);
 		g2D.setPaint(lineDrawingColor);
@@ -256,7 +256,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				getLineThicknessForPoint() * 1.5);
 		float[] rgb = new float[3];
 		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = AwtFactory.getPrototype().newColor(rgb[0],
+		GColor lineDrawingColor = GColor.newColor(rgb[0],
 				rgb[1], rgb[2], poly.getLineOpacity() / 255.0f);
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(rectangle);

@@ -210,10 +210,10 @@ public class HatchingHandler {
 
 		// paint background transparent
 		if (bgColor == null) {
-			g2d.setColor(AwtFactory.getPrototype().newColor(255, 255, 255,
+			g2d.setColor(GColor.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
-			g2d.setColor(AwtFactory.getPrototype().newColor(bgColor.getRed(),
+			g2d.setColor(GColor.newColor(bgColor.getRed(),
 					bgColor.getGreen(), bgColor.getBlue(),
 					(int) (backgroundTransparency * 255f)));
 
@@ -264,7 +264,7 @@ public class HatchingHandler {
 
 			// paint background transparent
 			if (bgColor == null) {
-				g2d.setColor(AwtFactory.getPrototype().newColor(0, 0, 0, 0));
+				g2d.setColor(GColor.newColor(0, 0, 0, 0));
 			} else {
 				g2d.setColor(bgColor);
 			}

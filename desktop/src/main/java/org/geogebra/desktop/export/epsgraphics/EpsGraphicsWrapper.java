@@ -64,7 +64,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 
 	public void setColor(Color color) {
 		if (color instanceof java.awt.Color) {
-			impl.setColor(new GColorD((java.awt.Color) color));
+			impl.setColor(GColorD.newColor((java.awt.Color) color));
 		}
 	}
 

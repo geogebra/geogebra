@@ -993,7 +993,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (attrs.get("key").equals("barColor")) {
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
-						AwtFactory.getPrototype().newColor(
+						GColor.newColor(
 								Integer.parseInt(c[0].substring(5)),
 								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
@@ -3238,7 +3238,7 @@ new GPoint(row, column));
 			String b = attrs.get("b");
 			String g = attrs.get("g");
 			geoCasCell.setFontColor(
-					AwtFactory.getPrototype().newColor(
+					GColor.newColor(
 							Integer.parseInt(r), Integer.parseInt(g),
 							Integer.parseInt(b)));
 		} else
@@ -4073,7 +4073,7 @@ new GPoint(row, column));
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return AwtFactory.getPrototype()
+			return GColor
 					.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -4090,7 +4090,7 @@ new GPoint(row, column));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return AwtFactory.getPrototype()
+			return GColor
 					.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;

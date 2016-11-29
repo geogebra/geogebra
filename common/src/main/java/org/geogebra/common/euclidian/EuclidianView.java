@@ -137,13 +137,13 @@ public abstract class EuclidianView
 	 */
 	protected GGraphics2D bgGraphics;
 	// zoom rectangle colors
-	private static final GColor colZoomRectangle = AwtFactory.getPrototype()
+	private static final GColor colZoomRectangle = GColor
 			.newColor(200, 200, 230);
-	private static final GColor colZoomRectangleFill = AwtFactory.getPrototype()
+	private static final GColor colZoomRectangleFill = GColor
 			.newColor(200, 200, 230, 50);
 
 	// deletion square design
-	protected static final GColor colDeletionSquare = AwtFactory.getPrototype()
+	protected static final GColor colDeletionSquare = GColor
 			.newColor(128, 0, 0);
 	protected static final GBasicStroke strokeDeletionSquare = AwtFactory
 			.getPrototype().newBasicStroke(1.0f);

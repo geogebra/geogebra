@@ -1505,7 +1505,7 @@ public abstract class GeoGebraExport {
 				if (algo.getBarColor(barNumber) != null) {
 					rgb = new float[4];
 					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
-					linecolor = AwtFactory.getPrototype().newColor(rgb[0], rgb[1],
+					linecolor = GColor.newColor(rgb[0], rgb[1],
 							rgb[2], rgb[3]);
 				}
 				if (algo.getBarHatchDistance(barNumber) != -1) {

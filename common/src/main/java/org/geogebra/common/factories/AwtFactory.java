@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GColorN;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -51,16 +52,16 @@ public abstract class AwtFactory {
 		}
 	}
 
-	public abstract GColor newColor(int RGB);
-
-	public abstract GColor newColor(int red, int green, int blue);
-
-	public abstract GColor newColor(int red, int green, int blue, int alpha);
-
-	public abstract GColor newColor(float red, float green, float blue,
-			float alpha);
-
-	public abstract GColor newColor(float red, float green, float blue);
+	// public abstract GColorOld newColor(int RGB);
+	//
+	// public abstract GColorOld newColor(int red, int green, int blue);
+	//
+	public abstract GColorN newColor(int red, int green, int blue, int alpha);
+	//
+	// public abstract GColorOld newColor(float red, float green, float blue,
+	// float alpha);
+	//
+	// public abstract GColorOld newColor(float red, float green, float blue);
 
 	public abstract GAffineTransform newAffineTransform();
 

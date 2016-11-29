@@ -76,7 +76,7 @@ public class ImageOrText {
 			button.setText(text);
 			if (fgColor != null) {
 				button.getElement().getStyle()
-				        .setColor(GColor.getColorString(fgColor));
+						.setColor(GColor.getColorString(fgColor));
 			}
 			button.setWidth("auto");
 			return;
@@ -89,11 +89,12 @@ public class ImageOrText {
 			                        + fgColor.getGreen() + ", "
 			                        + fgColor.getBlue() + ", 1)");
 			button.getElement().addClassName("borderButton");
-			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(fgColor));
+			button.getElement().getStyle()
+					.setBackgroundColor(GColor.getColorString(fgColor));
 		}
 		if (bgColor != null) {
 			button.getElement().getStyle()
-			        .setBackgroundColor(GColor.getColorString(bgColor));
+					.setBackgroundColor(GColor.getColorString(bgColor));
 		}
 	    
     }

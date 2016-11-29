@@ -153,7 +153,7 @@ public class AlgoDensityPlot extends AlgoElement {
 			for (i = offset, vals[0] = minX; i < imagePlusOffset; vals[0] += incX, i += grade) {
 				value = f.evaluate(vals);
 				colors = rgbColor(value);
-				color = AwtFactory.getPrototype().newColor(colors[0], colors[1],
+				color = GColor.newColor(colors[0], colors[1],
 						colors[1]);
 				g.setColor(color);
 				g.fillRect(i, j, grade, grade);

@@ -2141,7 +2141,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			int green = c.getGreen();
 			int blue = c.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.getPrototype().newColor(grayscale, grayscale, grayscale);
+			c = GColor.newColor(grayscale, grayscale, grayscale);
 			if (customColor.containsKey(c)) {
 				colorname = customColor.get(c).toString();
 			} else {

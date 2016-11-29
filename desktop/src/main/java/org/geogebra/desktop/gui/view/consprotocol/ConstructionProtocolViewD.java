@@ -1469,8 +1469,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(StringUtil
-.toHexString(new GColorD(color)));
+							sb.append(
+									StringUtil.toHexString(
+											(byte) color.getRed(),
+											(byte) color.getGreen(),
+											(byte) color.getBlue()));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

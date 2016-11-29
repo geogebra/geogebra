@@ -100,7 +100,7 @@ public class AlgoMatrixPlot extends AlgoElement {
 		for (int row = 0; row < data.length; row += 1) {
 			for (int col = 0; col < data[0].length; col += 1) {
 				int c = (int) (data[row][col] * 256) % 256;
-				g.setColor(AwtFactory.getPrototype().newColor(c, c, c, 150));
+				g.setColor(GColor.newColor(c, c, c, 150));
 				g.fillRect(columnStep * (col), rowStep * (row), columnStep,
 						rowStep);
 			}

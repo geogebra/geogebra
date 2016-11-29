@@ -452,7 +452,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return AwtFactory.getPrototype().newColor(red,
+			return GColor.newColor(red,
 					green, blue);
 		} catch (Exception e) {
 			return null;

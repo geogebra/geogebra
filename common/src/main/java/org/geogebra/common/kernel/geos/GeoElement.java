@@ -34,7 +34,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -1040,7 +1039,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// selColor = getInverseColor(objColor);
 		if (color != null) {
-			selColor = AwtFactory.getPrototype().newColor(
+			selColor = GColor.newColor(
 					color.getRed(), color.getGreen(), color.getBlue(), 100);
 		}
 	}
@@ -1139,7 +1138,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
 			blueD = rgb & 0xFF;
-			return AwtFactory.getPrototype().newColor((int) redD, (int) greenD,
+			return GColor.newColor((int) redD, (int) greenD,
 					(int) blueD, alpha);
 
 		case GeoElement.COLORSPACE_HSL:
@@ -1186,14 +1185,14 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			final double m = L - (.5 * C);
 
-			final GColor c = AwtFactory.getPrototype().newColor(
+			final GColor c = GColor.newColor(
 					(int) ((R1 + m) * 255.0), (int) ((G1 + m) * 255.0),
 					(int) ((B1 + m) * 255.0), alpha);
 			return c;
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
-			return AwtFactory.getPrototype().newColor((int) (redD * 255.0),
+			return GColor.newColor((int) (redD * 255.0),
 					(int) (greenD * 255.0), (int) (blueD * 255.0), alpha);
 
 		}
@@ -1228,7 +1227,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color for algebra view (same as label or black)
 	 */
 	public GColor getAlgebraColor() {
-		return GColor.updateForWhiteBackground(objColor, AwtFactory.getPrototype());
+		return GColor.updateForWhiteBackground(objColor);
 	}
 
 	/**
@@ -1377,7 +1376,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 		alphaValue = alpha;
-		fillColor = AwtFactory.getPrototype().newColor(fillColor.getRed(),
+		fillColor = GColor.newColor(fillColor.getRed(),
 				fillColor.getGreen(), fillColor.getBlue(), (int) (255 * alpha));
 
 	}
@@ -4655,7 +4654,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final GColor colorAdapter = AwtFactory.getPrototype().newColor(
+			final GColor colorAdapter = GColor.newColor(
 					getAlgebraColor().getRed(), getAlgebraColor()
 							.getGreen(), getAlgebraColor().getBlue());
 			sbLongDescHTML.append("<b><font color=\"#");
@@ -4711,7 +4710,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public String getColoredLabel() {
 		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
 		StringBuilder sb = new StringBuilder();
-		final GColor colorAdapter = AwtFactory.getPrototype().newColor(
+		final GColor colorAdapter = GColor.newColor(
 				getAlgebraColor().getRed(), getAlgebraColor().getGreen(), 
 				getAlgebraColor().getBlue());
 		sb.append("<b><font color=\"#");
@@ -5263,11 +5262,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final GColor colorAdapter = AwtFactory.getPrototype().newColor(
-					getAlgebraColor().getRed(), getAlgebraColor().getGreen(),
-					getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
-			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
+			sbNameDescriptionHTML
+					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label1, false));

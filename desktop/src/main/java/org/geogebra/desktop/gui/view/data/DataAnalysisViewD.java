@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.main.AppD;
@@ -779,7 +778,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	public GColor createColor(int idx) {
 		Color c = colors[idx];
-		return new GColorD(c.getRed(), c.getGreen(), c.getBlue());
+		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
 	public void updateOtherDataDisplay(DataDisplayPanel display) {

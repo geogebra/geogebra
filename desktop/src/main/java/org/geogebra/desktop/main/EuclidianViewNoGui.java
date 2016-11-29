@@ -42,7 +42,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 	@Override
 	public final void setBackground(GColor bgColor) {
 		if (bgColor != null)
-			backgroundColor = AwtFactory.getPrototype().newColor(bgColor.getRed(),
+			backgroundColor = GColor.newColor(bgColor.getRed(),
 					bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 	}
 

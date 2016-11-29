@@ -45,10 +45,10 @@ public class GGraphics2DW implements GGraphics2D {
 	private final JLMContext2d context;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = new GColorW(255, 255, 255, 255);
+	private GColor color = GColor.newColor(255, 255, 255, 255);
 	private float[] dash_array = null;
 
-	GPaint currentPaint = new GColorW(255, 255, 255, 255);
+	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 	private JsArrayNumber jsarrn;
 
 	private View view;
@@ -461,7 +461,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		this.color = fillColor;
 		updateCanvasColor();
-		this.currentPaint = new GColorW((GColorW) fillColor);
+		this.currentPaint = fillColor;
 	}
 
 	public void updateCanvasColor() {

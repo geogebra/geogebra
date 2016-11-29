@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -43,14 +42,14 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private static final int PREVIEW_WIDTH = 100;
 	private static final int MARGIN_TOP = 20;
 	private static final int MARGIN_X = 5;
-	public static final GColor NO_TILE_COLOR = new GColorW(255, 255, 255);
-	public static final GColor NORMAL_TILE_COLOR = new GColorW(0);
-	public static final GColor EMPTY_TILE_COLOR = new GColorW(16, 16, 16);
-	public static final GColor SELECTED_TILE_COLOR = new GColorW(255, 0, 0);
+	public static final GColor NO_TILE_COLOR = GColor.newColor(255, 255, 255);
+	public static final GColor NORMAL_TILE_COLOR = GColor.newColor(0);
+	public static final GColor EMPTY_TILE_COLOR = GColor.newColor(16, 16, 16);
+	public static final GColor SELECTED_TILE_COLOR = GColor.newColor(255, 0, 0);
 	public static final String TITLE_FONT = "14pt "
 			+ GFontW.GEOGEBRA_FONT_SANSERIF;
 	public static final int TITLE_HEIGHT = 20;
-	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
+	public static final GColor FOCUS_COLOR = GColor.newColor(0, 0, 255);
 	public static final double BORDER_WIDTH = 2;
 	public static final double PREVIEW_BORDER_WIDTH = 14;
 	Canvas canvas;
@@ -115,7 +114,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setSelectedRow(-1);
 			if (data != null) {
 				for (Integer code: data) {
-					palette.add(new GColorW(code));
+					palette.add(GColor.newColor(code));
 				}
 			}
 

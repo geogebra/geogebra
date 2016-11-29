@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -51,14 +52,14 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 	private JSlider mySlider;
 
-	private Color fgColor;
+	private GColor fgColor;
 	private int fontStyle = 0;
 
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColor fgColor) {
 		this.fgColor = fgColor;
 		if (myTable != null)
 			myTable.setFgColor(fgColor);

@@ -262,7 +262,7 @@ public class EuclidianPen {
 		this.lineOpacity = lineOpacity;
 		float[] rgb = new float[3];
 		penColor.getRGBColorComponents(rgb);
-		setPenColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
+		setPenColor(GColor.newColor(rgb[0], rgb[1], rgb[2],
 				lineOpacity / 255.0f));
 	}
 

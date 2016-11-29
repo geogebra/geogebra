@@ -736,7 +736,7 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			color = AwtFactory.getPrototype().newColor(color.getRed(),
+			color = GColor.newColor(color.getRed(),
 					color.getGreen(), color.getBlue(), geo.getLineOpacity());
 		}
 		return color;

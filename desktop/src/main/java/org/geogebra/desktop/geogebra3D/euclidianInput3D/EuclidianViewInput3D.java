@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
@@ -936,7 +935,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			double grayScale = color.getGrayScale();
 			if (grayScale > GRAY_SCALE_FOR_INPUT3D) {
 				double factor = GRAY_SCALE_FOR_INPUT3D / grayScale;
-				GColor darker = new GColorD((int) (color.getRed() * factor),
+				GColor darker = GColor.newColor(
+						(int) (color.getRed() * factor),
 						(int) (color.getGreen() * factor),
 						(int) (color.getBlue() * factor),
 						255);

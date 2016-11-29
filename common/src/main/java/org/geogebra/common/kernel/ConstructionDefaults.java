@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -215,7 +214,7 @@ public class ConstructionDefaults {
 		return GColor.DARK_GRAY;
 	}
 	/** preview fill color */
-	public static final GColor colPreviewFill = AwtFactory.getPrototype()
+	public static final GColor colPreviewFill = GColor
 			.newColor(colPolygon().getRed(), colPolygon().getGreen(),
 					colPolygon().getBlue(),
 					(int) (DEFAULT_POLYGON_ALPHA * 255));

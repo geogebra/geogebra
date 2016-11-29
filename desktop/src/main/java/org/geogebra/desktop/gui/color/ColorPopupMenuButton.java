@@ -11,7 +11,6 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.gui.color;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +38,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 	private int colorSetType;
 	private GColor[] colorSet;
 	private GColor defaultColor;
-	private HashMap<Color, Integer> lookupMap;
+	private HashMap<GColor, Integer> lookupMap;
 
 	private boolean hasSlider;
 	private Dimension iconSize;
@@ -56,9 +55,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
-		lookupMap = new HashMap<Color, Integer>();
+		lookupMap = new HashMap<GColor, Integer>();
 		for (int i = 0; i < colorSet.length; i++) {
-			lookupMap.put(GColorD.getAwtColor(colorSet[i]), i);
+			lookupMap.put((colorSet[i]), i);
 		}
 
 		setToolTipArray(getToolTipArray());
@@ -100,7 +99,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 		return icon;
 	}
 
-	public int getColorIndex(Color color) {
+	public int getColorIndex(GColor color) {
 		int index = -1;
 
 		if (color == null && colorSetType == COLORSET_BGCOLOR) {

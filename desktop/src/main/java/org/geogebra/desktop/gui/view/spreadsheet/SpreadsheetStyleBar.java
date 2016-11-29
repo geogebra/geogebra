@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
@@ -237,11 +238,13 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		else if (source == btnBgColor) {
 
 			// set color in table (needed as geos can be renamed, deleted etc)
-			Color bgCol = GColorD.getAwtColor(btnBgColor.getSelectedColor());
+			GColor bgCol = btnBgColor.getSelectedColor();
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR,
+					bgCol
+
 
 			// could simply be btnBgColor.getSelectedColor(), not sure...
-					bgCol == null ? null : new GColorD(bgCol)
+			// bgCol == null ? null : bgCol.getColor()
 
 			);
 
@@ -254,7 +257,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 					if (bgCol == null) {
 						geo.setBackgroundColor(null);
 					} else {
-						geo.setBackgroundColor(new GColorD(bgCol));
+						geo.setBackgroundColor(bgCol);
 					}
 					geo.updateRepaint();
 				}

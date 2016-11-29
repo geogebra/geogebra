@@ -635,7 +635,8 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		EuclidianSettings settings = view.getSettings();
 		GColor old = settings == null ? ((EuclidianView3D) view).getBackground()
 				: settings.getBackground();
-		GColorD color = new GColorD(((GuiManagerD) (app.getGuiManager()))
+		GColor color = GColorD.newColor(
+				((GuiManagerD) (app.getGuiManager()))
 				.showColorChooser(old));
 
 		if (settings == null) {

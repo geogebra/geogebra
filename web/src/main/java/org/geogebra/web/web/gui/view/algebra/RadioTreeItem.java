@@ -38,7 +38,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -143,9 +142,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
 	static final String CLEAR_COLOR_STR = GColor
-			.getColorString(new GColorW(255, 255, 255, 0));
+			.getColorString(new GColor(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
-			.getColorString(new GColorW(220, 220, 220));
+			.getColorString(new GColor(220, 220, 220));
 	Boolean stylebarShown;
 	/** Help button */
 	ToggleButton btnHelpToggle;

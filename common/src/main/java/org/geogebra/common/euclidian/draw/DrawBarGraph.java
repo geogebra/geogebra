@@ -135,7 +135,7 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(AwtFactory.getPrototype().newColor(
+							g2.setPaint(GColor.newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), col.getAlpha()));
 						} else {
@@ -249,7 +249,7 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(AwtFactory.getPrototype().newColor(
+							g2.setPaint(GColor.newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), geo.getLineOpacity()));
 						} else {

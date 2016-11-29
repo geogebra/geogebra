@@ -641,8 +641,7 @@ axesIcon, iconHeight);
 
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
-					setFgColor(GColorD.getAwtColor(ec.getPen()
-							.getPenColor()));
+					setFgColor(ec.getPen().getPenColor());
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
 							.getPenLineStyle()));
@@ -667,7 +666,7 @@ axesIcon, iconHeight);
 						// setFgColor(((GeoElement)geos[0]).getObjectColor());
 
 						removeThisActionListenerTo(this);
-						setFgColor(Color.black);
+						setFgColor(GColor.BLACK);
 						getMySlider().setMinimum(maxMinimumThickness);
 						setSliderValue(((GeoElement) geos[0])
 								.getLineThickness());
@@ -745,7 +744,7 @@ axesIcon, iconHeight);
 
 				if (geosOK) {
 					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-					setFgColor(Color.black);
+					setFgColor(GColor.BLACK);
 
 					// if geo is a matrix, this will return a GeoNumeric...
 					geo = ((GeoElement) geos[0])
@@ -1018,9 +1017,7 @@ axesIcon, iconHeight);
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
 
-					setSelectedIndex(getColorIndex(
-							GColorD
-							.getAwtColor(ec.getPen().getPenColor())));
+					setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
 
 					setSliderValue(100);
 					getMySlider().setVisible(false);
@@ -1071,8 +1068,7 @@ axesIcon, iconHeight);
 
 						// find the geoColor in the table and select it
 						int index = this
-								.getColorIndex(GColorD
-								.getAwtColor(geoColor));
+								.getColorIndex(geoColor);
 						setSelectedIndex(index);
 						setDefaultColor(alpha < 0 ? 0 : alpha, geoColor);
 
@@ -1137,8 +1133,7 @@ axesIcon, iconHeight);
 					updateColorTable();
 
 					// find the geoColor in the table and select it
-					int index = getColorIndex(GColorD
-							.getAwtColor(geoColor));
+					int index = getColorIndex(geoColor);
 					setSelectedIndex(index);
 					setDefaultColor(alpha, geoColor);
 
@@ -1191,7 +1186,7 @@ axesIcon, iconHeight);
 
 			private static final long serialVersionUID = 1L;
 
-			private Color geoColor;
+			private GColor geoColor;
 
 			@Override
 			public void update(Object[] geos) {
@@ -1202,8 +1197,7 @@ axesIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = GColorD.getAwtColor(geo
-							.getObjectColor());
+					geoColor = geo.getObjectColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it

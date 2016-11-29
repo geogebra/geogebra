@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -199,7 +200,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
-				((GeoCasCell) geo).setFontColor(new GColorD(color));
+				((GeoCasCell) geo).setFontColor(GColorD.newColor(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -334,7 +335,7 @@ kbdIcon, iconHeight);
 
 			private static final long serialVersionUID = 1L;
 
-			private Color geoColor;
+			private GColor geoColor;
 
 			@Override
 			public void update(Object[] geos) {
@@ -345,8 +346,7 @@ kbdIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = GColorD
-							.getAwtColor(((GeoCasCell) geo).getFontColor());
+					geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it

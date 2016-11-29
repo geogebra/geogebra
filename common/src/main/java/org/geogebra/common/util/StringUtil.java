@@ -71,6 +71,10 @@ public class StringUtil {
 		byte g = (byte) col.getGreen();
 		byte b = (byte) col.getBlue();
 
+		return toHexString(r, g, b);
+	}
+
+	final public static String toHexString(byte r, byte g, byte b) {
 		StringBuilder hexSB = new StringBuilder(8);
 		// RED
 		hexSB.append(hexChar[(r & 0xf0) >>> 4]);

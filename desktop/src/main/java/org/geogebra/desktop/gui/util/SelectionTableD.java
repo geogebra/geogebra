@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.main.AppD;
@@ -69,19 +70,19 @@ public class SelectionTableD extends JTable {
 
 	private SelectionTable mode;
 
-	private Color fgColor, bgColor;
+	private GColor fgColor, bgColor;
 	private float alpha;
 
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
 
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColor fgColor) {
 		this.fgColor = fgColor;
 		repaint();
 	}
 
-	public void setBgColor(Color bgColor) {
+	public void setBgColor(GColor bgColor) {
 		this.bgColor = bgColor;
 	}
 

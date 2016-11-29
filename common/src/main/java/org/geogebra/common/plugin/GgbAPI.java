@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -516,7 +516,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
-		geo.setObjColor(AwtFactory.getPrototype().newColor(red, green, blue));
+		geo.setObjColor(GColor.newColor(red, green, blue));
 		geo.updateRepaint();
 	}
 
@@ -1308,7 +1308,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	final public void setPenColor(int red, int green, int blue) {
 		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenColor(AwtFactory.getPrototype().newColor(red, green, blue));
+				.setPenColor(GColor.newColor(red, green, blue));
 	}
 
 	final public void setPenSize(int size) {

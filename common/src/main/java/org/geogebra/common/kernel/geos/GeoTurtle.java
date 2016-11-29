@@ -357,7 +357,7 @@ public class GeoTurtle extends GeoPoint{
 	 * @param b blue component
 	 */
 	public void setPenColor(int r, int g, int b) {
-		setPenColor(AwtFactory.getPrototype().newColor(r, g, b));
+		setPenColor(GColor.newColor(r, g, b));
 	}
 
 	/**

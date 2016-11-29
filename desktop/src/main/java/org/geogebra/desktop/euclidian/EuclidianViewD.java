@@ -904,7 +904,7 @@ public class EuclidianViewD extends EuclidianView implements
 	}
 
 	public GColor getBackgroundCommon() {
-		return new GColorD(evjpanel.getBackground());
+		return GColorD.newColor(evjpanel.getBackground());
 	}
 
 	@Override

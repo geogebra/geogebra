@@ -152,7 +152,7 @@ public class EpsGraphicsD extends EpsGraphics {
 		StringBuffer line = new StringBuffer();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				GColor color = AwtFactory.getPrototype()
+				GColor color = GColor
 						.newColor(pixels[x + width * y]);
 				if (this.colorMode.equals(ColorMode.BLACK_AND_WHITE)) {
 					if (color.getRed() + color.getGreen()

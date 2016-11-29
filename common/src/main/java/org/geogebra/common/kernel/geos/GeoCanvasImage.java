@@ -142,7 +142,7 @@ public class GeoCanvasImage extends GeoImage {
 
 		// paint background transparent
 		if (bgColor1 == null) {
-			g.setColor(AwtFactory.getPrototype().newColor(255, 255, 255,
+			g.setColor(GColor.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
 			g.setColor(bgColor1);

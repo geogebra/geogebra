@@ -927,8 +927,8 @@ public class GeoGebraIcon {
 		draw.drawMultilineLaTeX(
 				app.getActiveEuclidianView()
 						.getTempGraphics2D(new GFontD(font)),
-				new GFontD(font), new GColorD(fgColor), new GColorD(
-						bgColor));
+				new GFontD(font), GColorD.newColor(fgColor),
+				GColorD.newColor(bgColor));
 		Rectangle d = GRectangleD
 				.getAWTRectangle(draw.getBounds());
 
@@ -944,7 +944,7 @@ public class GeoGebraIcon {
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 
 		draw.drawMultilineLaTeX(new GGraphics2DD(g2image), new GFontD(font),
-				new GColorD(fgColor), new GColorD(
+				GColorD.newColor(fgColor), GColorD.newColor(
 						bgColor));
 
 		latexIcon.setImage(image);

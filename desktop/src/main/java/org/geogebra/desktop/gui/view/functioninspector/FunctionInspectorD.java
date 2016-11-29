@@ -768,7 +768,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			break;
 
 		}
-		return new GColorD(color);
+		return GColorD.newColor(color);
 	}
 
 	public int getSelectedXYRow() {

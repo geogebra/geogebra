@@ -127,8 +127,8 @@ public class DrawEquationD extends DrawEquation {
 
 		GDimension d = new GDimensionD();
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
-				new GFontD(font), serif, new GColorD(fgColor),
-				new GColorD(bgColor), true, false,
+				new GFontD(font), serif, GColorD.newColor(fgColor),
+				GColorD.newColor(bgColor), true, false,
 				null);
 
 		// Now use this size and draw again to get the final image
@@ -141,8 +141,8 @@ public class DrawEquationD extends DrawEquation {
 		GGraphics2DD.setAntialiasing(g2image);
 
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
-				new GFontD(font), serif, new GColorD(fgColor),
-				new GColorD(bgColor), true, false,
+				new GFontD(font), serif, GColorD.newColor(fgColor),
+				GColorD.newColor(bgColor), true, false,
 				null);
 
 		latexIcon.setImage(image);

@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
@@ -34,7 +33,6 @@ public class CustomColorDialog extends DialogBoxW {
 	
 	private FlowPanel mainWidget;
 	private GColor origColor;
-	private GColorW color;
 	private PreviewPanel preview;
 	private Button btnOk;
 	private Button btnCancel;
@@ -154,10 +152,8 @@ public class CustomColorDialog extends DialogBoxW {
 	}
 	
 	public GColor getColor() {
-		color.setRed(red.getValue());
-		color.setGreen(green.getValue());
-		color.setBlue(blue.getValue());
-	    return color;
+		return GColor.newColor(red.getValue(), green.getValue(),
+				blue.getValue());
     }
 
 	protected void createGUI() {
@@ -227,11 +223,10 @@ public class CustomColorDialog extends DialogBoxW {
 		btnReset.setText(loc.getMenu("Reset"));
 	}
 	
-	protected void setOriginalValues(){
+	protected void setOriginalValues() {
 		red.setValue(origColor.getRed());
 		green.setValue(origColor.getGreen());
 		blue.setValue(origColor.getBlue());
-		color = new GColorW(origColor.getRed(), origColor.getGreen(), origColor.getBlue());
 	}
 
 	public void show(GColor color) {

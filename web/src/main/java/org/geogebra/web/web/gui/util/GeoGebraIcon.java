@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.util;
 
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -83,19 +82,17 @@ public class GeoGebraIcon extends BasicIcons{
 	 *            {@link GColor}
 	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createColorSwatchIcon(float alpha,
-	        GColor fgColor, GColor bgColor) {
+	public static ImageOrText createColorSwatchIcon(float alpha, GColor fgColor,
+			GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		float[] rgb = new float[3];
-		if(fgColor!=null){
+		if (fgColor != null) {
 			fgColor.getRGBColorComponents(rgb);
-			ret.setFgColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
-					alpha));
+			ret.setFgColor(GColor.newColor(rgb[0], rgb[1], rgb[2], alpha));
 		}
-		if(bgColor!=null){
+		if (bgColor != null) {
 			bgColor.getRGBColorComponents(rgb);
-			ret.setBgColor(AwtFactory.getPrototype().newColor(rgb[0], rgb[1], rgb[2],
-					alpha));
+			ret.setBgColor(GColor.newColor(rgb[0], rgb[1], rgb[2], alpha));
 		}
 		return ret;
 	}

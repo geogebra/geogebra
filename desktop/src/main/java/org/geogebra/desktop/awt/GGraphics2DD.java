@@ -139,7 +139,7 @@ public class GGraphics2DD implements GGraphics2D {
 	public GPaint getPaint() {
 		Paint paint = impl.getPaint();
 		if (paint instanceof Color) {
-			return new GColorD((Color) paint);
+			return GColorD.newColor((Color) paint);
 		} else if (paint instanceof GradientPaint) {
 			return new GGradientPaintD((GradientPaint) paint);
 		}
@@ -152,7 +152,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GColor getBackground() {
-		return new GColorD(impl.getBackground());
+		return GColorD.newColor(impl.getBackground());
 	}
 
 	public GFontRenderContext getFontRenderContext() {
@@ -160,7 +160,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GColor getColor() {
-		return new GColorD(impl.getColor());
+		return GColorD.newColor(impl.getColor());
 	}
 
 	public GFont getFont() {

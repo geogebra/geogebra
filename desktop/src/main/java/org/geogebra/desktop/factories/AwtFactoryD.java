@@ -17,6 +17,7 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GColorN;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DFloat;
@@ -68,32 +69,11 @@ import org.geogebra.desktop.gui.MyImageD;
 public class AwtFactoryD extends AwtFactory {
 
 	public AwtFactoryD() {
-		GColor.initColors(this);
 	}
 
 	@Override
-	public GColor newColor(int RGB) {
-		return new GColorD(RGB);
-	}
-
-	@Override
-	public GColor newColor(int red, int green, int blue) {
-		return new GColorD(red, green, blue);
-	}
-
-	@Override
-	public GColor newColor(int red, int green, int blue, int alpha) {
+	public GColorN newColor(int red, int green, int blue, int alpha) {
 		return new GColorD(red, green, blue, alpha);
-	}
-
-	@Override
-	public GColor newColor(float red, float green, float blue, float alpha) {
-		return new GColorD(red, green, blue, alpha);
-	}
-
-	@Override
-	public GColor newColor(float red, float green, float blue) {
-		return new GColorD(red, green, blue);
 	}
 
 	@Override

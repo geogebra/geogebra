@@ -120,7 +120,7 @@ public class MiniStyle {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			geo.setObjColor(new GColorD(color));
+			geo.setObjColor(GColorD.newColor(color));
 			geo.updateRepaint();
 		}
 	}
