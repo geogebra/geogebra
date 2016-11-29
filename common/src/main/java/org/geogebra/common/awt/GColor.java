@@ -135,7 +135,9 @@ public class GColor implements GPaint {
 			// color hasn't been used yet, need to create it
 			ret = AwtFactory.getPrototype().newColor(getRed(), getGreen(),
 					getBlue(), getAlpha());
-			map.put(this, ret);
+			synchronized (map) {
+				map.put(this, ret);
+			}
 
 		}
 
@@ -168,13 +170,17 @@ public class GColor implements GPaint {
 	 * @return new color
 	 */
 	public static GColor newColor(int r, int g, int b, int a) {
-		Iterator<GColor> it = map.keySet().iterator();
 
-		while (it.hasNext()) {
-			GColor col = it.next();
+		synchronized (map) {
 
-			if (col.value == hashRGBA(r, g, b, a)) {
-				return col;
+			Iterator<GColor> it = map.keySet().iterator();
+
+			while (it.hasNext()) {
+				GColor col = it.next();
+
+				if (col.value == hashRGBA(r, g, b, a)) {
+					return col;
+				}
 			}
 		}
 
