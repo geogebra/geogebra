@@ -466,7 +466,6 @@ public class CurvePlotter {
 		curve.evaluateCurve(t + eps, eval);
 		countEvaluations++;
 		if (!isUndefined(eval)) {
-			double oldy = eval[1];
 			// c(t - eps)
 			curve.evaluateCurve(t - eps, eval);
 			countEvaluations++;
