@@ -36,7 +36,7 @@ public class CmdLine extends CommandProcessor {
 			// line through two points
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().Line(c.getLabel(),
+				GeoElement[] ret = { getAlgoDispatcher().line(c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1]) };
 				return ret;
 			}

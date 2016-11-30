@@ -156,10 +156,10 @@ public abstract class Transform {
 
 		// build the polygon from the transformed points
 		if (oldPoly instanceof GeoPolygon) {
-			ret = cons.getKernel().PolygonND(wrapLabel(polyLabel),
+			ret = cons.getKernel().polygonND(wrapLabel(polyLabel),
 					transformedPoints);
 		} else {
-			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
+			ret = cons.getKernel().polyLineND(polyLabel, transformedPoints);
 		}
 
 		for (int i = 0; i < ret.length; i++) {

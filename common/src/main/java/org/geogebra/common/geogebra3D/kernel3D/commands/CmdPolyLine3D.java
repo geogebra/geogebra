@@ -47,7 +47,7 @@ public class CmdPolyLine3D extends CmdPolyLine {
 			return kernelA.getManager3D().PolyLine3D(label, points);
 		}
 
-		return kernelA.PolyLine(label, points, penStroke);
+		return kernelA.polyLine(label, points, penStroke);
 	}
 
 }

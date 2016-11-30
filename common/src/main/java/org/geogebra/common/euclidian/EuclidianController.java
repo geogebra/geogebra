@@ -1985,7 +1985,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
 					points[1]);
 		} else {
-			ret[0] = getAlgoDispatcher().Line(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().line(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -2003,7 +2003,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D()
 					.Ray3D(null, points[0], points[1]).toGeoElement();
 		} else {
-			ret[0] = getAlgoDispatcher().Ray(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().ray(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -2132,7 +2132,7 @@ public abstract class EuclidianController {
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernel.RigidPolygon(poly[0], offset,
+				GeoElement[] ret = kernel.rigidPolygon(poly[0], offset,
 						-offset);
 
 				return ret;
@@ -2192,7 +2192,7 @@ public abstract class EuclidianController {
 				// build polygon
 				checkZooming();
 
-				return kernel.PolyLineND(null, getSelectedPointsND());
+				return kernel.polyLineND(null, getSelectedPointsND());
 			}
 		}
 
@@ -2207,7 +2207,7 @@ public abstract class EuclidianController {
 
 		if (polygonMode == POLYGON_RIGID) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.RigidPolygon(null,
+			GeoElement[] ret0 = kernel.rigidPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
@@ -2224,7 +2224,7 @@ public abstract class EuclidianController {
 		} else {
 
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.Polygon(null, getSelectedPointsND());
+			GeoElement[] ret0 = kernel.polygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
 			}
@@ -4177,7 +4177,7 @@ public abstract class EuclidianController {
 		if (selLists() > 0) {
 			list = getSelectedLists()[0];
 			if (list != null) {
-				ret[0] = FitLineY(null, list);
+				ret[0] = fitLineY(null, list);
 				return ret;
 			}
 		} else {
@@ -4188,7 +4188,7 @@ public abstract class EuclidianController {
 				list = CommandProcessor.wrapInList(kernel, points,
 						points.length, GeoClass.POINT);
 				if (list != null) {
-					ret[0] = FitLineY(null, list);
+					ret[0] = fitLineY(null, list);
 					return ret;
 				}
 			}
@@ -4199,7 +4199,7 @@ public abstract class EuclidianController {
 	/**
 	 * FitLineY[list of coords] Michael Borcherds
 	 */
-	final public GeoLine FitLineY(String label, GeoList list) {
+	final public GeoLine fitLineY(String label, GeoList list) {
 		AlgoFitLineY algo = new AlgoFitLineY(kernel.getConstruction(), label,
 				list);
 		GeoLine line = algo.getFitLineY();

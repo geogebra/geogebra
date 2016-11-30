@@ -176,7 +176,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line named label through Points P and Q
 	 */
-	final public GeoLine Line(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoLine line(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPoints algo = new AlgoJoinPoints(cons, label, P, Q);
 		GeoLine g = algo.getLine();
 		return g;
@@ -185,7 +185,7 @@ public class AlgoDispatcher {
 	/**
 	 * Ray named label through Points P and Q
 	 */
-	final public GeoRay Ray(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoRay ray(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPointsRay algo = new AlgoJoinPointsRay(cons, label, P, Q);
 		return algo.getRay();
 	}
@@ -193,7 +193,7 @@ public class AlgoDispatcher {
 	/**
 	 * Ray named label through Point P with direction of vector v
 	 */
-	final public GeoRay Ray(String label, GeoPoint P, GeoVector v) {
+	final public GeoRay ray(String label, GeoPoint P, GeoVector v) {
 		AlgoRayPointVector algo = new AlgoRayPointVector(cons, label, P, v);
 		return algo.getRay();
 	}

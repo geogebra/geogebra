@@ -40,7 +40,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = kernelA.rigidPolygon((GeoPolygon) arg[0],
 						offset, -offset);
 
 				return ret;
@@ -56,7 +56,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue
 					&& arg[2] instanceof GeoNumberValue) {
 
-				GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = kernelA.rigidPolygon((GeoPolygon) arg[0],
 						((GeoNumberValue) arg[1]).getDouble(),
 						((GeoNumberValue) arg[2]).getDouble());
 
@@ -76,7 +76,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			}
 
 			// everything ok
-			return kernelA.RigidPolygon(c.getLabels(), points);
+			return kernelA.rigidPolygon(c.getLabels(), points);
 		}
 	}
 }

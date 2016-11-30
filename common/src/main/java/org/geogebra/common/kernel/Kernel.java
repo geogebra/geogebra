@@ -4834,7 +4834,7 @@ public class Kernel {
 	 * @param offset
 	 * @return
 	 */
-	final public GeoElement[] RigidPolygon(GeoPolygon poly, double offsetX,
+	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
 			double offsetY) {
 
 		GeoPointND[] p = new GeoPointND[poly.getPointsLength()];
@@ -4930,13 +4930,13 @@ public class Kernel {
 		return ret;
 	}
 
-	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle,
+	protected GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
 		return getAlgoDispatcher().Point(null, circle, point1.getInhomX(),
 				point1.getInhomY(), true, false, true);
 	}
 
-	final public GeoElement[] RigidPolygon(String[] labels, GeoPointND[] points) {
+	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
 		cons.setSuppressLabelCreation(true);
@@ -4944,7 +4944,7 @@ public class Kernel {
 				new GeoNumeric(cons, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		GeoPointND p = RigidPolygonPointOnCircle(circle, points[1]);
+		GeoPointND p = rigidPolygonPointOnCircle(circle, points[1]);
 
 		try {
 			(cons).replace((GeoElement) points[1], (GeoElement) p);
@@ -5004,7 +5004,7 @@ public class Kernel {
 			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
-			RigidPolygonAddEndOfCommand(sb, is3D);
+			rigidPolygonAddEndOfCommand(sb, is3D);
 
 			// Application.debug(sb.toString());
 
@@ -5034,7 +5034,7 @@ public class Kernel {
 	 * @param is3D
 	 *            used in 3D
 	 */
-	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
+	protected void rigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
 		sb.append("]]");
 	}
 
@@ -5175,11 +5175,11 @@ public class Kernel {
 		cons.setUpdateConstructionRunning(false);
 	}
 
-	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
+	public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
 		return getAlgoDispatcher().Polygon(labels, P);
 	}
 
-	public GeoElement[] PolyLineND(String label, GeoPointND[] P) {
+	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
 		return getAlgoDispatcher().PolyLine(label, P, false);
 	}
 
@@ -5191,9 +5191,9 @@ public class Kernel {
 	 * @param geoPointND2
 	 * @return
 	 */
-	public GeoRayND RayND(String transformedLabel, GeoPointND geoPointND,
+	public GeoRayND rayND(String transformedLabel, GeoPointND geoPointND,
 			GeoPointND geoPointND2) {
-		return getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) geoPointND,
+		return getAlgoDispatcher().ray(transformedLabel, (GeoPoint) geoPointND,
 				(GeoPoint) geoPointND2);
 	}
 
@@ -5205,7 +5205,7 @@ public class Kernel {
 	 * @param Q
 	 * @return
 	 */
-	public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
+	public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
@@ -5228,19 +5228,19 @@ public class Kernel {
 		return new AlgoDispatcher(cons1);
 	}
 
-	public GeoRayND Ray(String label, GeoPoint p, GeoPoint q) {
-		return getAlgoDispatcher().Ray(label, p, q);
+	public GeoRayND ray(String label, GeoPoint p, GeoPoint q) {
+		return getAlgoDispatcher().ray(label, p, q);
 	}
 
-	public GeoSegmentND Segment(String label, GeoPoint p, GeoPoint q) {
+	public GeoSegmentND segment(String label, GeoPoint p, GeoPoint q) {
 		return getAlgoDispatcher().Segment(label, p, q);
 	}
 
-	public GeoElement[] Polygon(String[] labels, GeoPointND[] p) {
+	public GeoElement[] polygon(String[] labels, GeoPointND[] p) {
 		return getAlgoDispatcher().Polygon(labels, p);
 	}
 
-	public GeoElement[] PolyLine(String label, GeoPointND[] p, boolean b) {
+	public GeoElement[] polyLine(String label, GeoPointND[] p, boolean b) {
 		return getAlgoDispatcher().PolyLine(label, p, b);
 	}
 

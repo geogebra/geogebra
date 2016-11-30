@@ -287,24 +287,24 @@ public class Kernel3D extends Kernel {
 	// //////////////////////////////////
 
 	@Override
-	final public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
+	final public GeoRayND rayND(String label, GeoPointND P, GeoPointND Q) {
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) Q).isGeoElement3D())
 			return getManager3D().Ray3D(label, P, Q);
-		return super.Ray(label, (GeoPoint) P, (GeoPoint) Q);
+		return super.ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	@Override
-	final public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
+	final public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) Q).isGeoElement3D())
 			return getManager3D().Segment3D(label, P, Q);
-		return super.Segment(label, (GeoPoint) P, (GeoPoint) Q);
+		return super.segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
 	@Override
-	final public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
+	final public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
 
 		boolean is3D = false;
 		for (int i = 0; i < P.length && !is3D; i++)
@@ -313,11 +313,11 @@ public class Kernel3D extends Kernel {
 
 		if (is3D)
 			return getManager3D().Polygon3D(labels, P);
-		return super.Polygon(labels, P);
+		return super.polygon(labels, P);
 	}
 
 	@Override
-	public GeoElement[] PolyLineND(String label, GeoPointND[] P) {
+	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
 
 		boolean is3D = false;
 		for (int i = 0; i < P.length && !is3D; i++)
@@ -326,7 +326,7 @@ public class Kernel3D extends Kernel {
 
 		if (is3D)
 			return getManager3D().PolyLine3D(label, P);
-		return super.PolyLine(label, P, false);
+		return super.polyLine(label, P, false);
 
 	}
 
@@ -417,21 +417,21 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle,
+	protected GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
 		if (circle.isGeoElement3D()) {
 			return getManager3D().Point3D(null, circle, point1.getInhomX(),
 					point1.getInhomY(), point1.getInhomZ(), false, true);
 		}
-		return super.RigidPolygonPointOnCircle(circle, point1);
+		return super.rigidPolygonPointOnCircle(circle, point1);
 	}
 
 	@Override
-	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
+	protected void rigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
 		if (is3D) {
 			sb.append("],xOyPlane]");
 		} else {
-			super.RigidPolygonAddEndOfCommand(sb, is3D);
+			super.rigidPolygonAddEndOfCommand(sb, is3D);
 		}
 
 	}

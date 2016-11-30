@@ -112,7 +112,7 @@ public class CmdPolyLine extends CommandProcessor {
 	 */
 	protected GeoElement[] PolyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
-		return kernelA.PolyLine(label, points, penStroke);
+		return kernelA.polyLine(label, points, penStroke);
 	}
 
 }

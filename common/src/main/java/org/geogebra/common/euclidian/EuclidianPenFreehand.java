@@ -186,7 +186,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				// original Polygon will not be deleted
 				polygon.remove();
 				polygon = expected == ShapeType.rigidPolygon ?
-						this.app.getKernel().RigidPolygon(null, list.toArray(new GeoPoint[0]))[0] :
+						this.app.getKernel().rigidPolygon(null, list.toArray(new GeoPoint[0]))[0] :
 						this.app.getKernel().VectorPolygon(null, list.toArray(new GeoPoint[0]))[0];
 			}
 		} else {
