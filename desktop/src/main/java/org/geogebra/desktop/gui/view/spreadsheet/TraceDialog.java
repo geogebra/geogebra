@@ -781,16 +781,14 @@ implements
 	
 	/** Listener for changes in geo selection */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
-		
+
 		if (traceManager.isTraceGeo(geo) == true) {
 			traceGeoList.setSelectedValue(geo, true);
 			updateGUI();
-		}else{
-		app.getKernel().getGeoElementSpreadsheet();
-		if (mode == MODE_ADD 
-				&& geo.isSpreadsheetTraceable()
-				&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo)) {
-			
+		} else {
+			if (mode == MODE_ADD && geo.isSpreadsheetTraceable()
+					&& !GeoElementSpreadsheet.hasSpreadsheetLabel(geo)) {
+
 				addTrace(geo);
 			}
 		}

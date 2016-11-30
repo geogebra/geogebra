@@ -456,8 +456,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 
 		if (m instanceof LanguageRadioButtonMenuItem) {
-			((LanguageRadioButtonMenuItem) m).getFont().deriveFont(
-					font.getSize2D());
+			m.setFont(((LanguageRadioButtonMenuItem) m).getFont()
+					.deriveFont(font.getSize2D()));
 		} else {
 			m.setFont(font);
 		}
@@ -696,7 +696,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("\n\n");
 		sb.append(app.getMacroXML());
 		sb.append("\n\nLibraryJavaScript:\n");
-		app.getKernel().getLibraryJavaScript();
+		sb.append(app.getKernel().getLibraryJavaScript());
 
 		sb.append("\n\nPreferences:\n");
 		sb.append(GeoGebraPreferencesD.getPref().getXMLPreferences());

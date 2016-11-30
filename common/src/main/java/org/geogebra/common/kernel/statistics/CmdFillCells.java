@@ -217,7 +217,6 @@ public class CmdFillCells extends CommandProcessor {
 			// arg[0] not list
 			{
 
-				app.getKernel().getGeoElementSpreadsheet();
 				if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 
 					if (!arg[1].isGeoList()) {

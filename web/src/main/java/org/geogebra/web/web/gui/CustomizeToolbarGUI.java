@@ -930,7 +930,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
-					if (modeInt != ToolBar.SEPARATOR) {
+						if (!ToolBar.SEPARATOR.equals(modeInt)) {
 						usedTools.add(modeInt);
 						tool.addTool(new DraggableTool(modeInt));
 					}

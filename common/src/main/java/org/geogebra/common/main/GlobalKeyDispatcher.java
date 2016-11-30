@@ -1361,8 +1361,6 @@ public abstract class GlobalKeyDispatcher {
 							// round to decimal fraction, e.g. 2.800000000001 to
 							// 2.8
 							if (num.isGeoAngle()) {
-								app.getKernel();
-								app.getKernel();
 								newValue = Kernel.PI_180
 										* Kernel.checkDecimalFraction(newValue
 												* Kernel.CONST_180_PI,

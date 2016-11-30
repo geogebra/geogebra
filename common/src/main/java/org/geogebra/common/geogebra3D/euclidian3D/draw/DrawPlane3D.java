@@ -263,7 +263,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			brush.setColor(getGeoElement().getObjectColor());
 
 			double dx = geo.getGridXd();
-			geo.getGridYd();
 			double dy;
 			if (Double.isNaN(dx)) {
 				dx = getView3D().getNumbersDistance();

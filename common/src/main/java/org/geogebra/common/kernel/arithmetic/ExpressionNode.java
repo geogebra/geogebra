@@ -1268,7 +1268,7 @@ kernel, left,
 	final public boolean hasOperations() {
 		if (leaf) {
 			if (left.isExpressionNode()) {
-				((ExpressionNode) left).hasOperations();
+				return ((ExpressionNode) left).hasOperations();
 			} else if (left instanceof MyVecNDNode) {
 				return true;
 			} else {
