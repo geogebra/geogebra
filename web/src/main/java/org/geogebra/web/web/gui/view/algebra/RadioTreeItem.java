@@ -355,6 +355,27 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			super.setVisible(b);
 		}
+
+		public void show(boolean value) {
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				return;
+			}
+
+			boolean b = value || isEditing();
+
+			if (value && isVisible()) {
+				return;
+			}
+
+			setVisible(b);
+
+			if (value && geo.isAnimatable()) {
+				buildGUI();
+			} else {
+				hideAnimPanel();
+			}
+		}
+
 	}
 
 	protected GeoElement geo;
@@ -1562,6 +1583,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
+	protected boolean isMarbleHit(MouseEvent<?> evt) {
+		if (marblePanel != null
+				&& marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
@@ -1570,8 +1600,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		if (marblePanel != null
-				&& marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
+		if (isMarbleHit(evt)) {
 			return;
 		}
 
@@ -1709,12 +1738,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			editTap = true;
-			handleAVItem(event);
+
+		if (isMarbleHit(event)) {
 			return;
 		}
 
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			editTap = true;
+			getAV().unselectLastGeo();
+			return;
+		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
@@ -1723,12 +1756,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
+	private void editOnTap(boolean active, MouseEvent<?> event) {
+		editOnTap(active,
+				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
+	}
+
 	private void editOnTap(boolean active, PointerEvent wrappedEvent) {
 		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap)) {
 			return;
 		}
-
-		onPointerDown(wrappedEvent);
 
 		editTap = false;
 		boolean enable = true;
@@ -1750,10 +1786,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap) {
-			PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
-					ZeroOffset.instance);
-			editOnTap(isEditing(), wrappedEvent);
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !isMarbleHit(event)) {
+			editOnTap(isEditing(), event);
 		}
 	}
 
@@ -2289,7 +2323,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			setForceControls(false);
 			controls.setVisible(true);
 			return;
-
+			
 		}
 
 		boolean geoInSelection = app.getSelectionManager()
@@ -2306,31 +2340,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void selectOnTap(boolean selected) {
-		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
-
-		if (controls != null) {
-			boolean visible = selected || isEditing();
-
-			if (selected && controls.isVisible()) {
-				return;
-			}
-
-			controls.setVisible(visible);
-			if (selected && geo.isAnimatable()) {
-				controls.buildGUI();
-			} else {
-				controls.hideAnimPanel();
-			}
-		}
-
-	}
 
 	public void selectItem(boolean selected) {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			selectOnTap(selected);
+			if (controls != null) {
+				controls.show(selected);
+			}
 		} else {
 			toggleControls();
 		}

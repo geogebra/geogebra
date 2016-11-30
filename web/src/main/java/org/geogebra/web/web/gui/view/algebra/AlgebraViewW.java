@@ -2061,6 +2061,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	public void unselectLastGeo() {
+		unselect(activeItem.getGeo());
+	}
+
 	private void unselect(GeoElement geo) {
 		if (geo == null) {
 			return;
