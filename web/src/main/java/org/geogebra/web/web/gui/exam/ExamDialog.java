@@ -306,6 +306,8 @@ public class ExamDialog {
 				}
 				// go to full screen
 				updateFullscreenStatusOn();
+				// set wifi off if needed
+				setWifiOffIfNeeded();
 				// all set: start exam
 				ExamEnvironmentW.setJavascriptTargetToNone();
 				// dont go to fullscreen if lock task is available
@@ -471,6 +473,11 @@ public class ExamDialog {
 		}
 		exitAppJs();
 	}
+
+
+	private static native void setWifiOffIfNeeded() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.setWifiOffIfNeeded();
+	}-*/;
 
 	public static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();

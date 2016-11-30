@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
-    private boolean wasAirplaneModeOn;
+    private boolean wasAirplaneModeOn, wasWifiEnabled;
 
     public ExamEnvironmentW(App app) {
         super();
@@ -21,6 +21,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
         super.setStart(time);
         // airplane mode should be on when started
         wasAirplaneModeOn = true;
+        // wifi should be disabled when started
+        wasWifiEnabled = false;
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
             exportGeoGebraAndroidMethods();
@@ -43,13 +45,20 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }-*/;
 
     private native void exportGeoGebraAndroidMethods() /*-{
-		var that = this;
+        var that = this;
         $wnd.examEnvironment_airplaneModeTurnedOn = $entry(function() {
           that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOn()();
         });
         $wnd.examEnvironment_airplaneModeTurnedOff = $entry(function() {
           that.@org.geogebra.web.html5.main.ExamEnvironmentW::airplaneModeTurnedOff()();
         });
+        $wnd.examEnvironment_wifiEnabled = $entry(function() {
+          that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiEnabled()();
+        });
+        $wnd.examEnvironment_wifiDisabled = $entry(function() {
+          that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiDisabled()();
+        });
+
     }-*/;
 
     /**
@@ -80,6 +89,38 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_ON);
                 wasAirplaneModeOn = true;
                 Log.debug("STOPPED CHEATING: airplane mode on");
+            }
+        }
+    }
+
+    /**
+     * this method is called through js (see exportGeoGebraAndroidMethods())
+     */
+    public void wifiEnabled() {
+        Log.debug("ExamEnvironmentW: wifi enabled");
+        if (getStart() > 0) {
+            initLists();
+            if (cheatingEvents.size() == 0 || !wasWifiEnabled) {
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
+                wasWifiEnabled = true;
+                Log.debug("STARTED CHEATING: wifi enabled");
+            }
+        }
+    }
+
+    /**
+     * this method is called through js (see exportGeoGebraAndroidMethods())
+     */
+    public void wifiDisabled() {
+        Log.debug("ExamEnvironmentW: wifi disabled");
+        if (getStart() > 0) {
+            initLists();
+            if (wasWifiEnabled) {
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.WIFI_DISABLED);
+                wasWifiEnabled = false;
+                Log.debug("STOPPED CHEATING: wifi disabled");
             }
         }
     }

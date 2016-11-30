@@ -14,7 +14,7 @@ public class ExamEnvironment {
 	long examStartTime = -1;
 	protected LinkedList<Long> cheatingTimes = null;
 
-	protected enum CheatingEvent {WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON}
+	protected enum CheatingEvent {WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
 	private long closed = -1;
@@ -196,6 +196,10 @@ public class ExamEnvironment {
 				return loc.getMenu("exam_log_airplane_mode_off");
 			case AIRPLANE_MODE_ON:
 				return loc.getMenu("exam_log_airplane_mode_on");
+			case WIFI_DISABLED:
+				return loc.getMenu("exam_log_wifi_disabled");
+			case WIFI_ENABLED:
+				return loc.getMenu("exam_log_wifi_enabled");
 		}
 		return "";
 	}
