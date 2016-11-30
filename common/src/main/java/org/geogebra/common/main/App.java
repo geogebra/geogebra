@@ -4120,6 +4120,10 @@ public abstract class App implements UpdateSelection {
 			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
 				return false;
 
+			// related to MOB-1005
+			case MOBILE_OPEN_IN_RELEVANT_APP:
+				return false;
+
 			// MOB-1014
 			case MOBILE_KILL_DIALOG_TITLE:
 				return prerelease;

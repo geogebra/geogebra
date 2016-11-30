@@ -185,6 +185,11 @@ public enum Feature {
 	MOBILE_ASK_WHICH_APP_SHOULD_OPEN,
 
 	/**
+	 * related to MOB-1005
+	 */
+	MOBILE_OPEN_IN_RELEVANT_APP,
+
+	/**
 	 * MOB-1014
 	 */
 	MOBILE_KILL_DIALOG_TITLE
