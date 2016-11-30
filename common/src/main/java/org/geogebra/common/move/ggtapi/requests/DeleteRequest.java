@@ -8,9 +8,9 @@ import org.geogebra.common.util.debug.Log;
 
 public class DeleteRequest implements Request {
 
-	private final String API = "1.0.0";
-	private final String TASK = "delete";
-	private final String TYPE = "forum";
+	private final static String API = "1.0.0";
+	private final static String TASK = "delete";
+	private final static String TYPE = "forum";
 
 	private Material material;
 

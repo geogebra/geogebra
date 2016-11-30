@@ -660,12 +660,12 @@ public class MathMLParser {
 	 * followig block.<br>
 	 * Syntax: PH_BLOCKSTART + blockNumber + PH_BLOCKEND, e.g. '#BLOCK1#'.
 	 */
-	private final String PH_BLOCK_START = "%BLOCK";
-	private final char PH_BLOCK_END = '%';
+	private final static String PH_BLOCK_START = "%BLOCK";
+	private final static char PH_BLOCK_END = '%';
 
-	private final char[] specialCharacters = { '%', '_', '$' };
-	private final char[] leftBraces = { '(', '{', '[' };
-	private final char[] rightBraces = { ')', '{', ']' };
+	private final static char[] specialCharacters = { '%', '_', '$' };
+	private final static char[] leftBraces = { '(', '{', '[' };
+	private final static char[] rightBraces = { ')', '{', ']' };
 
 	private HashMap<String, String> substitutions;
 	// private StringBuilder result;

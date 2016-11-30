@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.Label;
 public class MaterialListPanel extends FlowPanel implements ResizeListener,
         ShowDetailsListener {
 	
-	private final long MIN_DIFFERNCE_TO_SCROLL = 1000;
+	private final static long MIN_DIFFERNCE_TO_SCROLL = 1000;
 	protected AppW app;
 	/**
 	 * last selected {@link MaterialListElement material}

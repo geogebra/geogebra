@@ -73,7 +73,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
-	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
+	protected final static double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
 			codeBeginDoc;
 	private App app;

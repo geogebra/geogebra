@@ -22,8 +22,8 @@ public class SingularWebService {
 	private final static int GET_REQUEST_MAX_SIZE = 2000;
 
 	private int timeout = SingularWSSettings.getTimeout();
-	private final String testConnectionCommand = "t";
-	private final String singularDirectCommand = "s";
+	private final static String testConnectionCommand = "t";
+	private final static String singularDirectCommand = "s";
 
 	private String wsHost = SingularWSSettings.getSingularWebServiceRemoteURL();
 	private Boolean available;

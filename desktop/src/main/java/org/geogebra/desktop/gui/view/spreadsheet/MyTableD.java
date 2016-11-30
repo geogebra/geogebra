@@ -248,7 +248,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setCellSelectionEnabled(true);
 
 		// add mouse and key listeners
-		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, this);
+		SpreadsheetMouseListenerD ml = new SpreadsheetMouseListenerD(app, this);
 
 		MouseListener[] mouseListeners = getMouseListeners();
 		addMouseListener(ml);

@@ -30,7 +30,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		ResizeListener, BooleanRenderable, EventRenderable {
 
 	/** contains width of the leftHeader and margin of the searchDiv **/
-	private final int WIDTH_HEADER_FIRST = 105;
+	private final static int WIDTH_HEADER_FIRST = 105;
 	/*public interface SearchListener {
 		void onSearch(String query);
 	}*/

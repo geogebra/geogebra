@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public abstract class StyleBarW extends HorizontalPanel implements
         ViewsChangedListener, SetLabels {
 
-	protected final int ICON_HEIGHT = 24;
+	protected final static int ICON_HEIGHT = 24;
 
 	PopupMenuButton viewButton;
 	MyCJButton menuButton;

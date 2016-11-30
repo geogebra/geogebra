@@ -14,9 +14,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class UploadRequest implements Request {
 
-	private final String API = "1.0.0";
-	private final String GGB = "geogebra";
-	private final String TASK = "upload";
+	private final static String API = "1.0.0";
+	private final static String GGB = "geogebra";
+	private final static String TASK = "upload";
 	private final String type;
 	private final String consTitle;
 	private int uniqueID;

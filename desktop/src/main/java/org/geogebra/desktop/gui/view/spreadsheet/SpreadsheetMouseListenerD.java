@@ -26,7 +26,7 @@ import org.geogebra.desktop.main.AppD;
 
 import com.google.gwt.regexp.shared.MatchResult;
 
-public class SpreadsheetMouseListener implements MouseListener,
+public class SpreadsheetMouseListenerD implements MouseListener,
 		MouseMotionListener {
 
 	protected String selectedCellName;
@@ -44,7 +44,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 	/*************************************************
 	 * Constructor
 	 */
-	public SpreadsheetMouseListener(AppD app, MyTableD table) {
+	public SpreadsheetMouseListenerD(AppD app, MyTableD table) {
 
 		this.app = app;
 		this.kernel = app.getKernel();

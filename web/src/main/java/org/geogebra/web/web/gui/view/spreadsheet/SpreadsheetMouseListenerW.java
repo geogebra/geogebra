@@ -58,7 +58,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private boolean pointerIsDown = false;
 	private boolean isRightClick = false;
-	private final boolean editEnabled = true;
+	private final static boolean editEnabled = true;
 
 	private LongTouchManager longTouchManager;
 

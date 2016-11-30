@@ -59,12 +59,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		ChangeHandler, SettingListener {
 
 	/** caption of Tab */
-	private final String SENSORS = "Sensors";
-	private final String DATA_CONNECTION = "DataConnection";
-	private final String DATA_SHARING_CODE = "DataSharingCode";
-	private final String CONNECTION_FAILD = "DataConnectionFailed";
-	private final String CONNECTING = "Connecting";
-	private final String FREQUENCY = "FrequencyHz";
+	private final static String SENSORS = "Sensors";
+	private final static String DATA_CONNECTION = "DataConnection";
+	private final static String DATA_SHARING_CODE = "DataSharingCode";
+	private final static String CONNECTION_FAILD = "DataConnectionFailed";
+	private final static String CONNECTING = "Connecting";
+	private final static String FREQUENCY = "FrequencyHz";
 
 	private AppW app;
 	private TabLayoutPanel tabPanel;
