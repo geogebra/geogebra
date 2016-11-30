@@ -18,7 +18,7 @@ public class GColorD {
 	public static Color getAwtColor(GColor that) {
 		Color ret = map.get(that);
 
-		if (ret == null) {
+		if (ret == null && that != null) {
 			// color hasn't been used yet, need to create it
 			ret = new Color(that.getRed(),
 					that.getGreen(), that.getBlue(), that.getAlpha());
