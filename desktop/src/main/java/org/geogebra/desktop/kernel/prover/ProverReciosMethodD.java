@@ -18,6 +18,8 @@ import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * This class can prove a statement by a bounded number of checks. In this
  * desktop version this is done by multiple threads, if the CPU has multiple
@@ -67,6 +69,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	 * @param result
 	 *            the result of the test point.
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	protected void writeResult(TestPointResult result) {
 		switch (result) {
 		case PASSED:
@@ -74,6 +78,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 			break;
 		case ERROR:
 			errorOccured = true;
+
+			// fall through
 		case FALSE:
 			stop = true;
 			coordinatesQueue.clear();
