@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GColorN;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -44,7 +43,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GCubicCurve2DW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
@@ -70,11 +68,6 @@ import com.google.gwt.core.client.Scheduler;
 public class AwtFactoryW extends AwtFactory {
 
 	public AwtFactoryW() {
-	}
-
-	@Override
-	public GColorN newColor(int red, int green, int blue, int alpha) {
-		return new GColorW(red, green, blue, alpha);
 	}
 
 	@Override

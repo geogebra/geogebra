@@ -1,9 +1,6 @@
 package org.geogebra.common.awt;
 
 import java.util.HashMap;
-import java.util.Iterator;
-
-import org.geogebra.common.factories.AwtFactory;
 
 /**
  * @author michael
@@ -36,10 +33,10 @@ public class GColor implements GPaint {
 	public static final GColor DARK_GRAY = new GColor(68, 68, 68);
 	public static final GColor PURPLE = new GColor(102, 102, 255);
 
+	private static HashMap<Integer, GColor> map = new HashMap<Integer, GColor>();
 
 	private final int value;
 
-	private static HashMap<GColor, GColorN> map = new HashMap<GColor, GColorN>();
 
 	/**
 	 * @param r
@@ -124,26 +121,7 @@ public class GColor implements GPaint {
 		return (value >> 24) & 0xff;
 	}
 
-	/**
-	 * @return native color object (wrapped)
-	 */
-	public GColorN getColor() {
 
-		GColorN ret = map.get(this);
-
-		if (ret == null) {
-			// color hasn't been used yet, need to create it
-			ret = AwtFactory.getPrototype().newColor(getRed(), getGreen(),
-					getBlue(), getAlpha());
-			synchronized (map) {
-				map.put(this, ret);
-			}
-
-		}
-
-		return ret;
-
-	}
 
 	/**
 	 * @param r
@@ -170,24 +148,16 @@ public class GColor implements GPaint {
 	 * @return new color
 	 */
 	public static GColor newColor(int r, int g, int b, int a) {
-
+		GColor ret;
+		int hash = hashRGBA(r, g, b, a);
 		synchronized (map) {
-
-			Iterator<GColor> it = map.keySet().iterator();
-
-			while (it.hasNext()) {
-				GColor col = it.next();
-
-				if (col.value == hashRGBA(r, g, b, a)) {
-					return col;
-				}
+			ret = map.get(hash);
+			if (ret == null) {
+				ret = new GColor(r, g, b, a);
+				map.put(hash, ret);
 			}
 		}
-
-		// don't add this to the map
-		// only create the native color object when necessary
-
-		return new GColor(r, g, b, a);
+		return ret;
 
 	}
 
