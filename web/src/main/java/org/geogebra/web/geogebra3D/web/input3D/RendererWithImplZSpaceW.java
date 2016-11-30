@@ -1,10 +1,10 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 
-import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
@@ -63,12 +63,20 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	@Override
 	public void drawScene() {
 
+		// give canvas position to zSpace
+		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
+		zSpace.setCanvasOffset(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
+
+		// update zSpace
 		zSpace.zspaceUpdate();
+
 		clearColorBuffer();
 		clearDepthBuffer();
 
 		super.drawScene();
 
+		// end zSpace
 		zSpace.zspaceFrameEnd();
 
 	}
@@ -76,15 +84,6 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	@Override
 	final protected void setBufferLeft() {
 		zSpace.zspaceLeftView();
-		JsArrayNumber matrix = zSpace.getLeftViewMatrix();
-		String s = "\n(renderer) left\n";
-		for (int i = 0; i < 16; i++) {
-			if (i % 4 == 0) {
-				s += "\n";
-			}
-			s += " " + matrix.get(i);
-		}
-		Log.debug(s);
 	}
 
 	@Override

@@ -50,4 +50,13 @@ public class ZSpaceGwt {
 				.zspaceFrameEnd();
 	}-*/;
 
+	public native JsArrayNumber getViewportSpaceHeadPose() /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.viewportSpaceHeadPose;
+	}-*/;
+
+	public native void setCanvasOffset(int x, int y) /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+				.setCanvasOffset(x, y);
+	}-*/;
+
 }

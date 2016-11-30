@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JsArrayNumber;
 
@@ -12,7 +11,9 @@ public class InputZSpace3DW extends Input3D {
 
 	private ZSpaceGwt zSpace;
 
-	private static double METERS_TO_PIXELS_FACTOR = -3491;
+	private static double EYE_SEP_HALF = 0.035;
+
+	private double toPixelRatio = 3600;
 
 	public void setZSpace(ZSpaceGwt zSpace) {
 		this.zSpace = zSpace;
@@ -21,33 +22,28 @@ public class InputZSpace3DW extends Input3D {
 	@Override
 	public boolean update() {
 
-		JsArrayNumber matrix = zSpace.getLeftViewMatrix();
-		String s = "\n(input) left\n";
-		for (int i = 0; i < 16; i++) {
-			if (i % 4 == 0) {
-				s += "\n";
-			}
-			s += " " + matrix.get(i);
-		}
-		Log.debug(s);
-		glassesPosition[0].set(
-				matrix.get(12) * METERS_TO_PIXELS_FACTOR - 52.37,
-				matrix.get(13) * METERS_TO_PIXELS_FACTOR + 296.76,
-				matrix.get(14) * METERS_TO_PIXELS_FACTOR + 1410.8
-				);
+		JsArrayNumber pose = zSpace.getViewportSpaceHeadPose();
 
-		matrix = zSpace.getRightViewMatrix();
-		s = "\n(input) right\n";
-		for (int i = 0; i < 16; i++) {
-			if (i % 4 == 0) {
-				s += "\n";
-			}
-			s += " " + matrix.get(i);
-		}
-		Log.debug(s);
-		glassesPosition[1].set(matrix.get(12) * METERS_TO_PIXELS_FACTOR - 52.37,
-				matrix.get(13) * METERS_TO_PIXELS_FACTOR + 296.76,
-				matrix.get(14) * METERS_TO_PIXELS_FACTOR + 1410.8);
+		// String s = "\npose\n";
+		// for (int i = 0; i < 16; i++) {
+		// if (i % 4 == 0) {
+		// s += "\n";
+		// }
+		// s += " " + pose.get(i);
+		// }
+		// Log.debug(s);
+
+		// update eyes
+		double x = pose.get(12);
+		double y = pose.get(13);
+		double z = pose.get(14);
+		double dx = EYE_SEP_HALF * pose.get(0);
+		double dy = EYE_SEP_HALF * pose.get(1);
+		double dz = EYE_SEP_HALF * pose.get(2);
+		glassesPosition[0].set((x - dx) * toPixelRatio, (y - dy) * toPixelRatio,
+				(z - dz) * toPixelRatio);
+		glassesPosition[1].set((x + dx) * toPixelRatio, (y + dy) * toPixelRatio,
+				(z + dz) * toPixelRatio);
 
 		updateHeadTracking();
 
