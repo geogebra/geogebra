@@ -269,7 +269,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		for (int i = 0; i < defaultKeyListeners.length; ++i) {
 			removeKeyListener(defaultKeyListeners[i]);
 		}
-		addKeyListener(new SpreadsheetKeyListener(app, this));
+		addKeyListener(new SpreadsheetKeyListenerD(app, this));
 
 		// setup selection listener
 		// TODO

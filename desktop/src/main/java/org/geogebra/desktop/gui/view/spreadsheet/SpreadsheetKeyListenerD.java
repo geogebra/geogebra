@@ -11,8 +11,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.main.AppD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class SpreadsheetKeyListener implements KeyListener 
+public class SpreadsheetKeyListenerD implements KeyListener 
 {
 	
 	private AppD app;
@@ -23,7 +24,7 @@ public class SpreadsheetKeyListener implements KeyListener
 	private MyCellEditorSpreadsheet editor;
 
 	
-	public SpreadsheetKeyListener(AppD app, MyTableD table){
+	public SpreadsheetKeyListenerD(AppD app, MyTableD table){
 		
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -39,6 +40,8 @@ public class SpreadsheetKeyListener implements KeyListener
 
 	}
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		//Application.debug(keyCode+"");

@@ -481,7 +481,6 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		}
 	}
 
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH", "fall through in switch" })
 	private JPanel createNavigationPanel() {
 		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 		btPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 5));
@@ -522,6 +521,8 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		btBack.addActionListener(ac);
 
 		ChangeListener cl = new ChangeListener() {
+			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+					"missing break is deliberate" })
 			public void stateChanged(ChangeEvent e) {
 				int tab = tabbedPane.getSelectedIndex();
 				btBack.setEnabled(tab > 0);

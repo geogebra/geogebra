@@ -56,6 +56,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AlgoDispatcher {
 
 	protected Construction cons;
@@ -416,6 +418,8 @@ public class AlgoDispatcher {
 	 * angle BAC (for positive orientation) resp. angle CAB (for negative
 	 * orientation). The labels[0] is for the angle, labels[1] for the new point
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	final public GeoElement[] Angle(String[] labels, GeoPoint B, GeoPoint A,
 			GeoNumberValue alpha, boolean posOrientation) {
 		// this is actually a macro
@@ -424,7 +428,7 @@ public class AlgoDispatcher {
 			switch (labels.length) {
 			case 2:
 				pointLabel = labels[1];
-
+				// fall through
 			case 1:
 				angleLabel = labels[0];
 

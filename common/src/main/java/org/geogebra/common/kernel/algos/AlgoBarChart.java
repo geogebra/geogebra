@@ -477,10 +477,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 
 	// for AlgoElement
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	protected void setInputOutput() {
 
-		@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-				"missing break is deliberate" })
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 
 		switch (type) {

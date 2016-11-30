@@ -211,8 +211,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	private void initGUI() {
 		setResizable(false);
 		setTitle(loc.getMenu("ExportAsPicture"));
@@ -224,11 +222,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		JPanel formatPanel = new JPanel(new FlowLayout(5));
 		String[] formats;
 		
-		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
+		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()) {
 			formats = new String[] {
-					loc.getMenu("png") + " ("
-					+ FileExtensions.PNG + ")" };
-		}else{
+					loc.getMenu("png") + " (" + FileExtensions.PNG + ")" };
+		} else {
 			formats = new String[] {
 					loc.getMenu("png") + " (" + FileExtensions.PNG + ")",
 					loc.getMenu("pdf") + " (" + FileExtensions.PDF + ")",
@@ -328,6 +325,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		});
 
 		cbFormat.addActionListener(new ActionListener() {
+			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+					"missing break is deliberate" })
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapesCB.setEnabled(true);
 				switch (selectedFormat()) {
