@@ -129,7 +129,7 @@ public class GColor implements GPaint {
 	 */
 	public GColorN getColor() {
 
-		GColorN ret = map.get(this.value);
+		GColorN ret = map.get(this);
 
 		if (ret == null) {
 			// color hasn't been used yet, need to create it
