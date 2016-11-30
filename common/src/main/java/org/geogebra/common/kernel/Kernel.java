@@ -4451,8 +4451,6 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
 	 * @return E as MySpecialDouble
 	 */
 	public MySpecialDouble getEulerNumber() {

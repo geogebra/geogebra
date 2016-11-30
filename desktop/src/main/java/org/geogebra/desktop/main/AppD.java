@@ -2538,7 +2538,7 @@ ToolbarD.getAllTools(this));
 		// euclidianView.updateRightAngleStyle(locale);
 
 		// make sure digits are updated in all numbers
-		getKernel().updateConstruction();
+		getKernel().updateConstructionLanguage();
 		setUnsaved();
 
 		setLabels(); // update display

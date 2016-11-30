@@ -64,7 +64,8 @@ public class GColorD extends GColorN {
 	}
 
 	public static GColor newColor(Color c) {
-		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
+		return c == null ? null : GColor.newColor(c.getRed(), c.getGreen(),
+				c.getBlue());
 	}
 
 }
