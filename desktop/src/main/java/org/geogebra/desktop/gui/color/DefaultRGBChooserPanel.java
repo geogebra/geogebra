@@ -54,7 +54,6 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -414,9 +413,9 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 
 		public MyPreviewPanel() {
 			this.setPreferredSize(new Dimension(140, 25));
-			Border border = BorderFactory.createCompoundBorder(
-					BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
-					BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+			// Border border = BorderFactory.createCompoundBorder(
+			// BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
+			// BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 			// this.setBorder(border);
 		}
 

@@ -379,6 +379,9 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 		// Application.debug(keyCode);
 		switch (keyCode) {
+		default:
+			// do nothing
+			break;
 
 		case KeyEvent.VK_UP:
 

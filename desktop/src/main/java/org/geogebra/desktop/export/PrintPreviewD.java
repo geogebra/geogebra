@@ -59,7 +59,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class PrintPreview extends JDialog {
+public class PrintPreviewD extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
@@ -92,9 +92,9 @@ public class PrintPreview extends JDialog {
 		tempGraphics = img.getGraphics();
 	}
 
-	public static PrintPreview get(AppD app, int viewID, int orientation) {
+	public static PrintPreviewD get(AppD app, int viewID, int orientation) {
 
-		PrintPreview ret = new PrintPreview(app);
+		PrintPreviewD ret = new PrintPreviewD(app);
 		ret.m_target = getPrintables(viewID, app);
 		ret.m_orientation = orientation;
 		ret.initPrintPreview();
@@ -127,7 +127,7 @@ public class PrintPreview extends JDialog {
 
 	}
 
-	public PrintPreview(AppD app) {
+	public PrintPreviewD(AppD app) {
 		// modal=true: user shouldn't be able to
 		// change anything before actual print
 		// happened.
@@ -248,7 +248,7 @@ public class PrintPreview extends JDialog {
 
 						setOrientation(pageOrientation);
 
-						PrintPreview prev = PrintPreview.this;
+						PrintPreviewD prev = PrintPreviewD.this;
 						int width = prev.getPreferredSize().width;
 						if (width > prev.getWidth())
 							setSize(width, prev.getHeight());
@@ -796,8 +796,8 @@ public class PrintPreview extends JDialog {
 	}
 
 	public static int adjustIndex(int pageIndex0) {
-		if (!PrintPreview.justPreview) {
-			return PrintPreview.computePageIndex(pageIndex0);
+		if (!PrintPreviewD.justPreview) {
+			return PrintPreviewD.computePageIndex(pageIndex0);
 		}
 		return pageIndex0;
 	}

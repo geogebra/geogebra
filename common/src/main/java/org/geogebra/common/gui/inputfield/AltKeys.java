@@ -7,7 +7,7 @@ import org.geogebra.common.util.Unicode;
 
 public class AltKeys {
 
-	public static HashMap<Character, String> lookupLower = null,
+	private static HashMap<Character, String> lookupLower = null,
 			lookupUpper = null;
 
 	private static void init(boolean chromeApp) {

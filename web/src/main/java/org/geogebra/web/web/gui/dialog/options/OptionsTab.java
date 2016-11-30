@@ -1344,7 +1344,7 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	class CornerPointsPanel extends OptionPanel {
+	static class CornerPointsPanel extends OptionPanel {
 
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;

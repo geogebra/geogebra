@@ -36,7 +36,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.export.PrintPreview;
+import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.main.AppD;
 
@@ -464,7 +464,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public void doPrint() {
 		List<Printable> l = new ArrayList<Printable>();
 		l.add(this);
-		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
+		PrintPreviewD.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
 				.setVisible(true);
 	}
 
@@ -644,7 +644,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// =================================================
 
 	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
-		int pageIndex = PrintPreview.adjustIndex(pageIndex0);
+		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 		if (pageIndex > 0)
 			return (NO_SUCH_PAGE);
 

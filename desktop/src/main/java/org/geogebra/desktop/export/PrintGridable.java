@@ -50,7 +50,7 @@ public class PrintGridable implements Printable {
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 		
-		int pageIndex = PrintPreview.adjustIndex(pageIndex0);
+		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 		
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;

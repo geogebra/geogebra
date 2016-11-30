@@ -2899,6 +2899,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		if (transparency && geo.isFillable()) {
 			switch (info.getFillType()) {
+			default:
 			case STANDARD:
 				if (info.getAlpha() > 0.0f) {
 					if (coma)

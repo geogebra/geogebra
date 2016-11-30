@@ -2027,6 +2027,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
 			switch (info.getFillType()) {
+			default:
 			case STANDARD:
 				if (info.getAlpha() > 0.0f) {
 					if (coma)

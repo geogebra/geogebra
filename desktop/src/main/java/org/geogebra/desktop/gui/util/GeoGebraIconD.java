@@ -642,7 +642,7 @@ public class GeoGebraIconD {
 
 		// TODO: PointStyleIcon as a stand alone class
 		GeoGebraIconD g = new GeoGebraIconD();
-		PointStyleImage image = g.new PointStyleImage(iconSize, pointStyle,
+		PointStyleImage image = new PointStyleImage(iconSize, pointStyle,
 				pointSize, fgColor, bgColor);
 
 		ImageIcon ic = new ImageIcon(image);
@@ -651,7 +651,7 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public class PointStyleImage extends BufferedImage {
+	public static class PointStyleImage extends BufferedImage {
 
 		private int pointStyle = -1;
 
@@ -754,6 +754,9 @@ public class GeoGebraIconD {
 			double root3over2 = Math.sqrt(3.0) / 2.0;
 
 			switch (pointStyle) {
+			default: 
+				// do nothing
+				break;
 			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
 
 				double xR = coords[0] + pointSize;

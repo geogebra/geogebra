@@ -230,6 +230,7 @@ public class DataPanelD extends JPanel implements ActionListener,
 
 		switch (daView.getModel().getMode()) {
 
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 
 			dataModel = new DefaultTableModel(dataArray.size(), 1);
