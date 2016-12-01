@@ -204,6 +204,8 @@ public class Parser implements ParserInterface{
     undecided.clear();    
    }
 
+   private ExpressionValue ifVectorsEnabled(ExpressionValue def){     return enableVectors ? def : new MyDouble(kernel,Double.NaN); }
+
    
 }
 PARSER_END(Parser)
@@ -1399,7 +1401,7 @@ ExpressionValue list():
      // empty list
        "}"  
       {   
-           return enableVectors ? new MyList(kernel) : new MyDouble(kernel, Double.NaN);               
+           return ifVectorsEnabled(new MyList(kernel));               
        }
     )
     |
@@ -1416,7 +1418,7 @@ ExpressionValue list():
           } 
         )*
     "}"
-    {  return enableVectors ? myList : new MyDouble(kernel, Double.NaN);  }
+    {  return ifVectorsEnabled(myList);  }
    )
  )
   
@@ -1741,9 +1743,9 @@ ExpressionValue tuple():
     	|  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
 		)? ")"
     {
-      if(!enableVectors)      {
-        return new MyDouble(kernel, Double.NaN);      }
+      
       if(y == null)      {
+        
          if(GiacParsing)
         {
           x = x.unwrap();
@@ -1753,14 +1755,14 @@ ExpressionValue tuple():
           ((ExpressionNode)x).setBrackets(true);
         }
         return x;      }
-      else if(z == null) {	       MyVecNode ret = new MyVecNode(kernel, x, y);
+      else if(z == null) {       	       MyVecNode ret = new MyVecNode(kernel, x, y);
 	       if(sep.kind == POLAR_SEPARATOR){
 	             ret.setPolarCoords(x,y);	       }
-	       return ret;      }      else {          MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
+	       return ifVectorsEnabled(ret);      }      else {                 MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
           if(sep.kind == POLAR_SEPARATOR){
              ret.setSphericalPolarCoords(x,y,z);
            }
-           return ret;
+           return ifVectorsEnabled(ret);
        }
     }       
 }
