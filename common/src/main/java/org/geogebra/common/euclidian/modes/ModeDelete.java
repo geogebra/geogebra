@@ -97,6 +97,7 @@ public class ModeDelete {
 				// after removing points
 				boolean hasVisibleLine = false;
 				boolean lastWasVisible = false;
+				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
 						GeoPoint p = realPoints[i];
@@ -117,12 +118,15 @@ public class ModeDelete {
 							hasVisibleLine = true;
 						}
 						lastWasVisible = dataPoints[i].isDefined();
+						if (!hasVisiblePart && dataPoints[i].isDefined()) {
+							hasVisiblePart = true;
+						}
 					}
 				} else {
 					Log.debug(
 							"Can't delete points on stroke. Different number of in and output points.");
 				}
-				if (hasVisibleLine) { // still something visible, don't delete
+				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
 				}
 			} else {
@@ -161,6 +165,7 @@ public class ModeDelete {
 
 	public final boolean process(Hits hits, boolean control,
 			boolean selPreview) {
+
 		if (hits.isEmpty() || this.penDeleteMode) {
 			return false;
 		}
@@ -174,8 +179,14 @@ public class ModeDelete {
 			if (geos[0] instanceof GeoPenStroke
 					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
 				updatePenDeleteMode(hits);
-				int eventX = ec.getMouseLoc().getX();
-				int eventY = ec.getMouseLoc().getY();
+				int eventX = 0;
+				int eventY = 0;
+				if (ec.getMouseLoc() != null) {
+					eventX = ec.getMouseLoc().getX();
+					eventY = ec.getMouseLoc().getY();
+				} else {
+					return false;
+				}
 				GeoPenStroke gps = (GeoPenStroke) geos[0];
 				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
 				GeoPointND[] dataPoints;
@@ -201,6 +212,7 @@ public class ModeDelete {
 				// after removing points
 				boolean hasVisibleLine = false;
 				boolean lastWasVisible = false;
+				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
 						GeoPoint p = realPoints[i];
@@ -222,10 +234,18 @@ public class ModeDelete {
 							hasVisibleLine = true;
 						}
 						lastWasVisible = dataPoints[i].isDefined();
+						if (!hasVisiblePart && dataPoints[i].isDefined()) {
+							hasVisiblePart = true;
+						}
 					}
 				} else {
 					Log.debug(
 							"Can't delete points on stroke. Different number of in and output points.");
+				}
+				if (!hasVisiblePart) { // still something visible, don't delete
+					geos[0].removeOrSetUndefinedIfHasFixedDescendent(); // remove
+																		// this
+																		// Stroke
 				}
 				if (as != null)
 					as.updateAll();

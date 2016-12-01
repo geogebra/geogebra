@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
@@ -133,7 +134,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			gp.reset();
 		}
 
-
+		pointList.clear();
 
 		// for centroid calculation (needed for label pos)
 		double xsum = 0;
@@ -163,9 +164,17 @@ public class DrawPolyLine extends Drawable implements Previewable {
 											.isDefined())
 							|| (i == 0 && i + 1 < pts.length
 									&& !pts[i + 1].isDefined())) {
-						if (!pointList.contains(pts[i])) {
-							pointList.add(pts[i]);
-							startPointAdded = true;
+						// do not collect points remained after erasing
+						if ((i - 2 >= 0 && pts[i - 2].isDefined())
+								|| (i + 2 < pts.length
+										&& pts[i + 2].isDefined())
+								|| i == 0 || i == pts.length - 1) {
+							if (!pointList.contains(pts[i])
+									|| !pointList.get(pointList.size() - 1)
+											.isEqual((GeoPoint) pts[i])) {
+								pointList.add(pts[i]);
+								startPointAdded = true;
+							}
 						}
 					}
 					gp.moveTo(coords[0], coords[1]);
@@ -348,12 +357,50 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
+
+		GPathIterator it = gp.getGeneralPath().getPathIterator(null);
+		it.currentSegment(coords);
+		it.next();
+		if (it.isDone()) {
+			if (pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					if (rect.contains(p)) {
+						pointList.remove(i);
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
 		if (isVisible) {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
-			return strokedShape.intersects(rect);
+			boolean intersects = strokedShape.intersects(rect);
+			if (!intersects && pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					if (rect.contains(p)) {
+						pointList.remove(i);
+						return true;
+					}
+				}
+			}
+			return intersects;
 		}
+
 		return false;
 	}
 

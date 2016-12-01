@@ -9804,6 +9804,17 @@ public abstract class EuclidianController {
 					endOfWrapMouseReleased(hits2, event);
 				}
 			};
+
+			// get penStroke hit for click
+			if (getMode() == EuclidianConstants.MODE_ERASER) {
+				GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0,
+						100, 100);
+				rect.setBounds(x - getDeleteToolSize() / 2,
+						y - getDeleteToolSize() / 2, getDeleteToolSize(),
+						getDeleteToolSize());
+				view.setIntersectionHits(rect);
+			}
+
 			processMode(hits, control, callback);
 
 		}
