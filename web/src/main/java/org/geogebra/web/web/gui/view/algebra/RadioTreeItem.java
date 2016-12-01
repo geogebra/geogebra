@@ -1334,6 +1334,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
+	public void stopEditing() {
+		stopEditing(getText(), null);
+	}
+
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
 
@@ -1745,9 +1749,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			editTap = true;
-			getAV().unselectLastGeo();
+			getAV().unselectActiveItem();
 			return;
 		}
+
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
@@ -2828,5 +2833,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			event.preventDefault();
 		}
 	}
+
 }
 

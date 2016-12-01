@@ -2061,7 +2061,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
-	public void unselectLastGeo() {
+	/**
+	 * Clears the selection of the last selected item, it also stops editing if
+	 * it is currently edited.
+	 */
+	public void unselectActiveItem() {
+		activeItem.stopEditing();
 		unselect(activeItem.getGeo());
 	}
 
