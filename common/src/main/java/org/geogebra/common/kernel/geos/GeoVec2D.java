@@ -588,6 +588,7 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 * @param b
 	 *            factor
+	 * @return reference to self
 	 */
 	final public GeoVec2D mult(double b) {
 		x = b * x;

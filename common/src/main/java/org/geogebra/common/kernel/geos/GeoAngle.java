@@ -148,18 +148,27 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		"-"+Unicode.INFINITY
 	};
 
+	/**
+	 * @param i
+	 *            index
+	 * @return i-th interval maximum
+	 */
 	public static String getIntervalMinList(int i) {
 		return INTERVAL_MIN[i];
 	}
 
+	/**
+	 * @return number of min/max intervals
+	 */
 	public static int getIntervalMinListLength() {
 		return INTERVAL_MIN.length;
 	}
 
-	public static int getIntervalMaxListLength() {
-		return INTERVAL_MAX.length;
-	}
-
+	/**
+	 * @param i
+	 *            index
+	 * @return i-th interval minimum
+	 */
 	public static String getIntervalMaxList(int i) {
 		return INTERVAL_MAX[i];
 	}
@@ -279,7 +288,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @see #setAngleStyle(int)
 	 */
 	@Override
-	public void setValue(double val, boolean changeAnimationValue) {
+	public synchronized void setValue(double val,
+			boolean changeAnimationValue) {
 		double angVal = calcAngleValue(val);
 		super.setValue(angVal, changeAnimationValue);
 	}
@@ -455,12 +465,13 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		return rawValue;
 	}
 
-	// Michael Borcherds 2007-10-21 END	
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(), tpl, angleStyle == AngleStyle.UNBOUNDED).toString() : 
-			kernel.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED).toString();
+		if(isEuclidianVisible()){
+			return kernel.formatAngle(value, 1 / getAnimationStep(), tpl,
+					angleStyle == AngleStyle.UNBOUNDED).toString();
+		}
+		return kernel.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED).toString();
 	}
 
 	// overwrite
