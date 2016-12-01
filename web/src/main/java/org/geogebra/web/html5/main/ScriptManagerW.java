@@ -878,6 +878,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.exportAsymptote = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
 		};
+		
+		api.setRounding = function(digits) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits+"");
+		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
