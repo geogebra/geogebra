@@ -22,6 +22,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -156,12 +157,17 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				if (skipNextPoint) {
 					skipNextPoint = false;
 					// collect start points
-					if (pts.length == 1 || (i - 1 >= 0 && i + 1 == pts.length
+					// one point
+					if (pts.length == 1 ||
+					// last point
+							(i - 1 >= 0 && i + 1 == pts.length
 									&& !pts[i - 1].isDefined())
+							// between undef points
 							|| (i - 1 >= 0 && i + 1 < pts.length
 									&& !pts[i - 1].isDefined()
 									&& !pts[i + 1]
 											.isDefined())
+							// first point
 							|| (i == 0 && i + 1 < pts.length
 									&& !pts[i + 1].isDefined())) {
 						// do not collect points remained after erasing
@@ -169,9 +175,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 								|| (i + 2 < pts.length
 										&& pts[i + 2].isDefined())
 								|| i == 0 || i == pts.length - 1) {
-							if (!pointList.contains(pts[i])
-									|| !pointList.get(pointList.size() - 1)
-											.isEqual((GeoPoint) pts[i])) {
+							if (!pointList.contains(pts[i])) {
 								pointList.add(pts[i]);
 								startPointAdded = true;
 							}
@@ -182,7 +186,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 					gp.lineTo(coords[0], coords[1]);
 					// if point was added as start of segment
 					// then remove it
-					if (!pointList.isEmpty() && startPointAdded) {
+					if (!pointList.isEmpty()
+							&& startPointAdded && view.getEuclidianController()
+									.getMode() != EuclidianConstants.MODE_ERASER) {
 						pointList.remove(pointList.size() - 1);
 						startPointAdded = false;
 					}
@@ -371,7 +377,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
 					p.setLocation(coords[0], coords[1]);
 					if (rect.contains(p)) {
-						pointList.remove(i);
 						return true;
 					}
 				}
@@ -393,7 +398,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
 					p.setLocation(coords[0], coords[1]);
 					if (rect.contains(p)) {
-						pointList.remove(i);
 						return true;
 					}
 				}
