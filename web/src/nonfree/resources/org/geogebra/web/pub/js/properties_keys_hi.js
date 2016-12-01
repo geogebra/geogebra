@@ -2950,6 +2950,8 @@ __GGB__keysVar.hi.menu = {
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_header": "GeoGebra Exam Log",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Start Exam",

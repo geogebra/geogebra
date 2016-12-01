@@ -2950,6 +2950,8 @@ __GGB__keysVar.fr.menu = {
     "exam_log_airplane_mode_off": "Sortie du mode avion",
     "exam_log_airplane_mode_on": "Entr\xe9e en mode avion",
     "exam_log_header": "GeoGebra Examen",
+    "exam_log_pin": "Appli \xe9pingl\xe9e",
+    "exam_log_unpin": "Appli d\xe9s\xe9pingl\xe9e",
     "exam_log_window_entered": "Rentr\xe9e Examen",
     "exam_log_window_left": "Sortie Examen",
     "exam_menu_enter": "Examen",

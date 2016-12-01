@@ -2950,6 +2950,8 @@ __GGB__keysVar.tr.menu = {
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_header": "GeoGebra S\u0131nav Kayd\u0131",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "S\u0131nav penceresine yeniden girildi",
     "exam_log_window_left": "S\u0131nav penceresi terk edildi",
     "exam_menu_enter": "S\u0131nav\u0131 Ba\u015flat",

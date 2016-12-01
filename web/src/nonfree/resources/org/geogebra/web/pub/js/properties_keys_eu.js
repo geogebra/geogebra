@@ -2950,6 +2950,8 @@ __GGB__keysVar.eu.menu = {
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_header": "GeoGebra-azterketaren Liburua",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Azterketa-leihoan sartu zara berriz",
     "exam_log_window_left": "Azterketa-leihotik irten zara",
     "exam_menu_enter": "Sartu \"Azterketa-moduan\"",

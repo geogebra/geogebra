@@ -2950,6 +2950,8 @@ __GGB__keysVar.de_AT.menu = {
     "exam_log_airplane_mode_off": "Flugmodus deaktiviert",
     "exam_log_airplane_mode_on": "Flugmodus ist aktiviert",
     "exam_log_header": "GeoGebra Pr\xfcfungs-Protokoll",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "R\xfcckkehr zum Pr\xfcfungs-Fenster",
     "exam_log_window_left": "Verlassen des Pr\xfcfungs-Fensters",
     "exam_menu_enter": "Pr\xfcfung starten",

@@ -2950,6 +2950,8 @@ __GGB__keysVar.sv.menu = {
     "exam_log_airplane_mode_off": "Flygplansl\xe4get avst\xe4ngt",
     "exam_log_airplane_mode_on": "Plygplansl\xe4get aktiverat",
     "exam_log_header": "Provdata",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Gick tillbaka till provf\xf6nstret",
     "exam_log_window_left": "L\xe4mnade provf\xf6nstret",
     "exam_menu_enter": "Starta provl\xe4get",

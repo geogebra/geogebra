@@ -2950,6 +2950,8 @@ __GGB__keysVar.hr.menu = {
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_header": "Prijava na Geogebrin ispit",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Ponovni ulazak u ispitni prozor",
     "exam_log_window_left": "Izlaz iz ispitnog prozora",
     "exam_menu_enter": "Ulaz u ispitni na\u010din",

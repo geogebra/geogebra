@@ -2950,6 +2950,8 @@ __GGB__keysVar.no_NN.menu = {
     "exam_log_airplane_mode_off": "Flymodus av",
     "exam_log_airplane_mode_on": "Plymodus p\xe5",
     "exam_log_header": "GeoGebra eksamenslogg",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Du har g\xe5tt inn i pr\xf8vevindauget igjen",
     "exam_log_window_left": "Du har forlate pr\xf8vevindauget",
     "exam_menu_enter": "G\xe5 inn i  pr\xf8vemodulen",

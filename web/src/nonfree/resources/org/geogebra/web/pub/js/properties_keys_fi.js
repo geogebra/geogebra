@@ -2950,6 +2950,8 @@ __GGB__keysVar.fi.menu = {
     "exam_log_airplane_mode_off": "Lentokonetila pois p\xe4\xe4lt\xe4",
     "exam_log_airplane_mode_on": "Lentokonetila p\xe4\xe4ll\xe4",
     "exam_log_header": "GeoGebraKokeen loki",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Koeikkunaan palattiin",
     "exam_log_window_left": "Koeikkunasta poistuttiin",
     "exam_menu_enter": "Siirry koetilaan",

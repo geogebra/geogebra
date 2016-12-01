@@ -2950,6 +2950,8 @@ __GGB__keysVar.es.menu = {
     "exam_log_airplane_mode_off": "Modo avi\xf3n desactivado",
     "exam_log_airplane_mode_on": "Modo avi\xf3n activado",
     "exam_log_header": "Registro Examen GeoGebra",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "Reingreso a la ventana de Examen",
     "exam_log_window_left": "Ventana de examen abandonada",
     "exam_menu_enter": "Iniciar Examen",

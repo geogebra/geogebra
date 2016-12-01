@@ -2950,6 +2950,8 @@ __GGB__keysVar.uk.menu = {
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_header": "GeoGebra \u0406\u0441\u043f\u0438\u0442",
+    "exam_log_pin": "App pinned",
+    "exam_log_unpin": "App unpinned",
     "exam_log_window_entered": "\u041f\u043e\u0432\u0442\u043e\u0440\u043d\u0438\u0439 \u0432\u0445\u0456\u0434 \u0434\u043e \u0432\u0456\u043a\u043d\u0430 \u0406\u0441\u043f\u0438\u0442",
     "exam_log_window_left": "\u0417\u0430\u043b\u0438\u0448\u0435\u043d\u0440 \u0432\u0456\u043a\u043d\u043e \u0406\u0441\u043f\u0438\u0442",
     "exam_menu_enter": "\u0421\u0442\u0430\u0440\u0442 \u0406\u0441\u043f\u0438\u0442",
