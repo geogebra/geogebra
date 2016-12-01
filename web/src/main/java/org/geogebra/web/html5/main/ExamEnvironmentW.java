@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -10,7 +11,7 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
-    private boolean wasAirplaneModeOn, wasWifiEnabled;
+    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked;
 
     public ExamEnvironmentW(App app) {
         super();
@@ -26,14 +27,58 @@ public class ExamEnvironmentW extends ExamEnvironment {
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
             exportGeoGebraAndroidMethods();
+            if (checkLockTaskAvailable()) {
+                // task should locked when started
+                wasTaskLocked = true;
+                watchTaskLock();
+            }
         }
     }
 
+    private GTimer checkTaskLockTimer = null;
+
+    private void watchTaskLock() {
+        Log.debug("watch task lock");
+
+        // set timer to check continuously if task is locked
+        if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
+            checkTaskLockTimer.stop();
+        }
+        checkTaskLockTimer = app.newTimer(new GTimer.GTimerListener() {
+            @Override
+            public void onRun() {
+                if (checkTaskLocked()) {
+                    taskLocked();
+                } else {
+                    taskUnlocked();
+                }
+            }
+        }, 1000);
+        checkTaskLockTimer.startRepeat();
+    }
+
+    public static native boolean checkLockTaskAvailable() /*-{
+        return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
+	}-*/;
+
+    public static native boolean checkTaskLocked() /*-{
+        return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
+	}-*/;
+
+    public static native void startLockTask() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
+	}-*/;
+
+
     public void exit() {
-        super.exit();
         if (app.getVersion().isAndroidWebview()) {
+            // stop timer if necessary
+            if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
+                checkTaskLockTimer.stop();
+            }
             setJavascriptTargetToNone();
         }
+        super.exit();
     }
 
     public static native boolean setJavascriptTargetToNone() /*-{
@@ -68,7 +113,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
         Log.debug("ExamEnvironmentW: airplane mode turned off");
         if (getStart() > 0) {
             initLists();
-            if (cheatingEvents.size() == 0 || wasAirplaneModeOn) {
+            if (wasAirplaneModeOn) {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_OFF);
                 wasAirplaneModeOn = false;
@@ -100,7 +145,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
         Log.debug("ExamEnvironmentW: wifi enabled");
         if (getStart() > 0) {
             initLists();
-            if (cheatingEvents.size() == 0 || !wasWifiEnabled) {
+            if (!wasWifiEnabled) {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
                 wasWifiEnabled = true;
@@ -121,6 +166,32 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingEvents.add(CheatingEvent.WIFI_DISABLED);
                 wasWifiEnabled = false;
                 Log.debug("STOPPED CHEATING: wifi disabled");
+            }
+        }
+    }
+
+
+    public void taskUnlocked() {
+        if (getStart() > 0) {
+            if (wasTaskLocked) {
+                initLists();
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.TASK_UNLOCKED);
+                wasTaskLocked = false;
+                Log.debug("STARTED CHEATING: task unlocked");
+            }
+        }
+    }
+
+
+    public void taskLocked() {
+        if (getStart() > 0) {
+            if (!wasTaskLocked) {
+                initLists();
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.TASK_LOCKED);
+                wasTaskLocked = true;
+                Log.debug("STOPPED CHEATING: task locked");
             }
         }
     }
