@@ -4126,7 +4126,7 @@ public abstract class App implements UpdateSelection {
 
 			// MOB-1014
 			case MOBILE_KILL_DIALOG_TITLE:
-				return true;
+				return true; // 5.0.294
 
 		default:
 			Log.debug("missing case in Feature: " + f);
