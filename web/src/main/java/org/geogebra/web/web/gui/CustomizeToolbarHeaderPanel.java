@@ -26,7 +26,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	protected static final int GENERAL = -1;
 	private AppW app;
 	private FlowPanel buttons;
-	private int selectedViewId;
+	private int selectedViewId = GENERAL;
 	private CustomizeToolbarListener listener;
 
 	private static class ViewButton extends MyToggleButton2 {
@@ -127,6 +127,8 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			if (w instanceof ViewButton) {
 				ViewButton btn = (ViewButton) w;
 				btn.setValue(btn.id == viewId);
+			} else if (w instanceof MyToggleButton2) {
+				((MyToggleButton2) w).setValue(viewId == -1);
 			}
 		}
 	}

@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Localization;
@@ -945,7 +946,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 */
 	public void resetDefaultToolbar() {
 
-		if (dockPanel != null) {
+		if (dockPanel != null && dockPanel.getDefaultToolbarString() != null) {
 			buildUsedTools(dockPanel.getDefaultToolbarString());
 		} else {
 			String toolbarStr = ((GuiManagerW) app.getGuiManager())
@@ -1032,9 +1033,19 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		return toolbarId;
 	}
 
-	public void setToolbarId(int toolbarId) {
-		this.toolbarId = toolbarId;
-		header.setSelectedViewId(toolbarId);
+	public void setToolbarId(int activeToolbar) {
+		int newToolbarId = activeToolbar;
+		// validate toolbar ID: make sure we can customize
+		if (newToolbarId > 0) {
+			DockPanel p = app.getGuiManager().getLayout().getDockManager()
+					.getPanel(newToolbarId);
+			if (p instanceof DockPanelW
+					&& !((DockPanelW) p).canCustomizeToolbar()) {
+				newToolbarId = CustomizeToolbarHeaderPanel.GENERAL;
+			}
+		}
+		this.toolbarId = newToolbarId;
+		header.setSelectedViewId(newToolbarId);
 		updateTools();
 	}
 

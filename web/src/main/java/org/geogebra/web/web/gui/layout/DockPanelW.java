@@ -151,7 +151,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * this panel has no toolbar. This string is specified in the constructor
 	 * and won't change.
 	 */
-	private String defaultToolbarString;
+	private final String defaultToolbarString;
 
 	/**
 	 * The component used for this view.
