@@ -34,13 +34,15 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles pen and freehand tool
  *
  */
-public class EuclidianPen {
+public class EuclidianPen implements GTimerListener {
 
 	/**
 	 * app
@@ -165,6 +167,7 @@ public class EuclidianPen {
 
 	private boolean absoluteScreenPosition;
 
+	private GTimer timer = null;
 
 	private int eraserSize;
 	private int penLineStyle;
@@ -188,6 +191,8 @@ public class EuclidianPen {
 		this.view = view;
 		this.app = app;
 
+		timer = app.newTimer(this, 1000);
+		
 		setDefaults();
 
 		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()) {
@@ -387,6 +392,9 @@ public class EuclidianPen {
 	 */
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 		if (!isErasingEvent(e)) {
+
+			timer.stop();
+
 			penPoints.clear();
 			addPointPenMode(e, hits);
 			// we need single point only for pen tool
@@ -503,6 +511,8 @@ public class EuclidianPen {
 
 			return;
 		}
+
+		timer.start();
 
 		app.setDefaultCursor();
 
@@ -1740,5 +1750,9 @@ public class EuclidianPen {
 			lastAlgo = null;
 		}
 
+	}
+
+	public void onRun() {
+		startNewStroke = true;
 	}
 }
