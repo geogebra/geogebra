@@ -2949,6 +2949,8 @@ __GGB__keysVar.pt_PT.menu = {
     "exam_exit_header": "Sair do GeoGebra Exame?",
     "exam_log_airplane_mode_off": "Modo avi\xe3o desligado",
     "exam_log_airplane_mode_on": "Modo avi\xe3o ligado",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "Entrada no \"modo Exame\"",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

@@ -2949,6 +2949,8 @@ __GGB__keysVar.fi.menu = {
     "exam_exit_header": "Poistu koetilasta?",
     "exam_log_airplane_mode_off": "Lentokonetila pois p\xe4\xe4lt\xe4",
     "exam_log_airplane_mode_on": "Lentokonetila p\xe4\xe4ll\xe4",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebraKokeen loki",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

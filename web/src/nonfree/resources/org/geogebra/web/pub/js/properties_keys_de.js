@@ -2949,6 +2949,8 @@ __GGB__keysVar.de.menu = {
     "exam_exit_header": "Pr\xfcfung beenden?",
     "exam_log_airplane_mode_off": "Flugmodus deaktiviert",
     "exam_log_airplane_mode_on": "Flugmodus ist aktiviert",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra Pr\xfcfungs-Protokoll",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

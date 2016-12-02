@@ -2949,6 +2949,8 @@ __GGB__keysVar.it.menu = {
     "exam_exit_header": "Uscire dall'Esame?",
     "exam_log_airplane_mode_off": "Modalit\xe0 Aereo non attiva",
     "exam_log_airplane_mode_on": "Modalit\xe0 Aereo attiva",
+    "exam_log_bluetooth_disabled": "Bluetooth disattivato",
+    "exam_log_bluetooth_enabled": "Bluetooth attivato",
     "exam_log_header": "Registro di GeoGebra Esame",
     "exam_log_pin": "App bloccata",
     "exam_log_unpin": "App sbloccata",

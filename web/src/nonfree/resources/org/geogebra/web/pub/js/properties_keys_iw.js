@@ -2949,6 +2949,8 @@ __GGB__keysVar.iw.menu = {
     "exam_exit_header": "\u05dc\u05e6\u05d0\u05ea \u05de\u05d4\u05de\u05d1\u05d7\u05df?",
     "exam_log_airplane_mode_off": "\u05de\u05e6\u05d1 \u05d8\u05d9\u05e1\u05d4 \u05db\u05d1\u05d5\u05d9",
     "exam_log_airplane_mode_on": "\u05de\u05e6\u05d1 \u05d8\u05d9\u05e1\u05d4 \u05de\u05d5\u05e4\u05e2\u05dc",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "\u05d9\u05d5\u05de\u05df \u05d1\u05d7\u05d9\u05e0\u05d4",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

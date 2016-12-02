@@ -2949,6 +2949,8 @@ __GGB__keysVar.hu.menu = {
     "exam_exit_header": "Kil\xe9p a vizsga \xfczemm\xf3db\xf3l?",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra vizsga \xfczemm\xf3d napl\xf3",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

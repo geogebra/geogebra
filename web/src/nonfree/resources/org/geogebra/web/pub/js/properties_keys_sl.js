@@ -2949,6 +2949,8 @@ __GGB__keysVar.sl.menu = {
     "exam_exit_header": "Izhod iz na\u010dina GeoGebraPreverjanje?",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "Poro\u010dilo o GeoGebra preverjanjih",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

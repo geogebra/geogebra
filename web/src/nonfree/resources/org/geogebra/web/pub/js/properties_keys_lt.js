@@ -2949,6 +2949,8 @@ __GGB__keysVar.lt.menu = {
     "exam_exit_header": "I\u0161eiti i\u0161 GeoGebra egzaminavimo re\u017eimo?",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra Exam Log",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

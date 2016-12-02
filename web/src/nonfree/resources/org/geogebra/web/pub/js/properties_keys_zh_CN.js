@@ -2949,6 +2949,8 @@ __GGB__keysVar.zh_CN.menu = {
     "exam_exit_header": "\u9000\u51fa\u68c0\u6d4b?",
     "exam_log_airplane_mode_off": "\u98de\u884c\u6a21\u5f0f\u5df2\u5173\u95ed",
     "exam_log_airplane_mode_on": "\u98de\u884c\u6a21\u5f0f\u5df2\u6253\u5f00",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra \u68c0\u6d4b\u65e5\u5fd7",
     "exam_log_pin": "\u5df1\u56fa\u5b9a\u5e94\u7528",
     "exam_log_unpin": "\u672a\u56fa\u5b9a\u5e94\u7528",

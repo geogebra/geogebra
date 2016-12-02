@@ -2949,6 +2949,8 @@ __GGB__keysVar.tr.menu = {
     "exam_exit_header": "S\u0131navdan \xc7\u0131k?",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra S\u0131nav Kayd\u0131",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

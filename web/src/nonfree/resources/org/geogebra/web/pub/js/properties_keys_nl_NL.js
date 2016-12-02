@@ -2949,6 +2949,8 @@ __GGB__keysVar.nl_NL.menu = {
     "exam_exit_header": "Sluit GeoGebraExam af?",
     "exam_log_airplane_mode_off": "Vliegtuigmodus uitgeschakeld",
     "exam_log_airplane_mode_on": "Vliegtuigmodus ingeschakeld",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra Examen logboek",
     "exam_log_pin": "App gepind",
     "exam_log_unpin": "App niet gepind",

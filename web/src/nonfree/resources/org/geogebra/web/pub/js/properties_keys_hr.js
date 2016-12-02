@@ -2949,6 +2949,8 @@ __GGB__keysVar.hr.menu = {
     "exam_exit_header": "\u017delte li napustiti ispitni na\u010din?",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "Prijava na Geogebrin ispit",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

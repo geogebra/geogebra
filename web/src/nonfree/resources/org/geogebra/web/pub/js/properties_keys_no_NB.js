@@ -2949,6 +2949,8 @@ __GGB__keysVar.no_NB.menu = {
     "exam_exit_header": "Vil du avslutte pr\xf8vemodulen?",
     "exam_log_airplane_mode_off": "Flymodus er av",
     "exam_log_airplane_mode_on": "Flymodus p\xe5",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra eksamenslogg",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

@@ -2949,6 +2949,8 @@ __GGB__keysVar.sv.menu = {
     "exam_exit_header": "Avsluta provl\xe4get?",
     "exam_log_airplane_mode_off": "Flygplansl\xe4get avst\xe4ngt",
     "exam_log_airplane_mode_on": "Plygplansl\xe4get aktiverat",
+    "exam_log_bluetooth_disabled": "Bluetooth disabled",
+    "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "Provdata",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",

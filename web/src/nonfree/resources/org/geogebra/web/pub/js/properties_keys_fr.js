@@ -2949,6 +2949,8 @@ __GGB__keysVar.fr.menu = {
     "exam_exit_header": "Quitter Examen ?",
     "exam_log_airplane_mode_off": "Sortie du mode avion",
     "exam_log_airplane_mode_on": "Entr\xe9e en mode avion",
+    "exam_log_bluetooth_disabled": "Bluetooth d\xe9sactiv\xe9",
+    "exam_log_bluetooth_enabled": "Bluetooth activ\xe9",
     "exam_log_header": "GeoGebra Examen",
     "exam_log_pin": "Appli \xe9pingl\xe9e",
     "exam_log_unpin": "Appli d\xe9s\xe9pingl\xe9e",
