@@ -418,6 +418,15 @@ public class AppD extends App implements KeyEventDispatcher {
 				Log.setLogDestination(LogDestination.FILE);
 				Log.setLogFile(args.getStringValue("logFile"));
 			}
+			if (args.containsArg("logShowCaller")) {
+				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
+			}
+			if (args.containsArg("logShowTime")) {
+				Log.setTimeShown(args.getBooleanValue("logShowTime", true));
+			}
+			if (args.containsArg("logShowLevel")) {
+				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
+			}
 		}
 		this.prerelease = args != null
 				&& (args.containsArg("prerelease") || args
