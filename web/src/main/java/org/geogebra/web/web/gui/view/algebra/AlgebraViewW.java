@@ -2066,8 +2066,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * it is currently edited.
 	 */
 	public void unselectActiveItem() {
-		activeItem.stopEditing();
-		unselect(activeItem.getGeo());
+		if (activeItem != null) {
+			activeItem.stopEditing();
+			unselect(activeItem.getGeo());
+		}
 	}
 
 	private void unselect(GeoElement geo) {
