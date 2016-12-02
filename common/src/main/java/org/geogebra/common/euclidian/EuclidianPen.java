@@ -191,7 +191,7 @@ public class EuclidianPen implements GTimerListener {
 		this.view = view;
 		this.app = app;
 
-		timer = app.newTimer(this, 1000);
+		timer = app.newTimer(this, 1500);
 		
 		setDefaults();
 
@@ -525,8 +525,6 @@ public class EuclidianPen implements GTimerListener {
 
 		// Application.debug(penPoints.size()+"");
 
-		// Log.debug("POINTS IN RELEASE!");
-		// penPoints(penPoints);
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
@@ -534,6 +532,9 @@ public class EuclidianPen implements GTimerListener {
 		needsRepaint = false;
 	}
 
+	/**
+	 * start timer to check if polyline is same stroke
+	 */
 	public void startTimer() {
 		timer.start();
 	}
