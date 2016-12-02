@@ -534,6 +534,10 @@ public class EuclidianPen implements GTimerListener {
 		needsRepaint = false;
 	}
 
+	public void startTimer() {
+		timer.start();
+	}
+
 	/**
 	 * @param x
 	 *            x-coord of new point
