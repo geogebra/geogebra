@@ -18,7 +18,8 @@ public class ExamEnvironment {
 		WINDOWS_LEFT, WINDOW_ENTERED,
 		AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON,
 		WIFI_ENABLED, WIFI_DISABLED,
-		TASK_UNLOCKED, TASK_LOCKED
+		TASK_UNLOCKED, TASK_LOCKED,
+		BLUETOOTH_ENABLED, BLUETOOTH_DISABLED
 	}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
@@ -209,6 +210,11 @@ public class ExamEnvironment {
 				return loc.getMenu("exam_log_pin");
 			case TASK_UNLOCKED:
 				return loc.getMenu("exam_log_unpin");
+			case BLUETOOTH_ENABLED:
+				return loc.getMenu("exam_log_bluetooth_enabled");
+			case BLUETOOTH_DISABLED:
+				return loc.getMenu("exam_log_bluetooth_disabled");
+
 		}
 		return "";
 	}

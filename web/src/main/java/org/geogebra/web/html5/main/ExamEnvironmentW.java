@@ -11,7 +11,7 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
-    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked;
+    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled;
 
     public ExamEnvironmentW(App app) {
         super();
@@ -24,6 +24,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
         wasAirplaneModeOn = true;
         // wifi should be disabled when started
         wasWifiEnabled = false;
+        // bluetooth should be disabled when started
+        wasBluetoothEnabled = false;
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
             exportGeoGebraAndroidMethods();
@@ -102,6 +104,12 @@ public class ExamEnvironmentW extends ExamEnvironment {
         });
         $wnd.examEnvironment_wifiDisabled = $entry(function() {
           that.@org.geogebra.web.html5.main.ExamEnvironmentW::wifiDisabled()();
+        });
+        $wnd.examEnvironment_bluetoothEnabled = $entry(function() {
+          that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothEnabled()();
+        });
+        $wnd.examEnvironment_bluetoothDisabled = $entry(function() {
+          that.@org.geogebra.web.html5.main.ExamEnvironmentW::bluetoothDisabled()();
         });
 
     }-*/;
@@ -192,6 +200,39 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingEvents.add(CheatingEvent.TASK_LOCKED);
                 wasTaskLocked = true;
                 Log.debug("STOPPED CHEATING: task locked");
+            }
+        }
+    }
+
+
+    /**
+     * this method is called through js (see exportGeoGebraAndroidMethods())
+     */
+    public void bluetoothEnabled() {
+        Log.debug("ExamEnvironmentW: bluetooth enabled");
+        if (getStart() > 0) {
+            initLists();
+            if (!wasBluetoothEnabled) {
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.BLUETOOTH_ENABLED);
+                wasBluetoothEnabled = true;
+                Log.debug("STARTED CHEATING: bluetooth enabled");
+            }
+        }
+    }
+
+    /**
+     * this method is called through js (see exportGeoGebraAndroidMethods())
+     */
+    public void bluetoothDisabled() {
+        Log.debug("ExamEnvironmentW: bluetooth disabled");
+        if (getStart() > 0) {
+            initLists();
+            if (wasBluetoothEnabled) {
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.BLUETOOTH_DISABLED);
+                wasBluetoothEnabled = false;
+                Log.debug("STOPPED CHEATING: bluetooth disabled");
             }
         }
     }
