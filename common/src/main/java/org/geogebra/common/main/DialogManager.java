@@ -735,4 +735,71 @@ public abstract class DialogManager {
 
 	}
 
+
+	public static void makeGeoFromNumber(final App app,
+										 String inputString,
+										 final AsyncOperation<GeoNumberValue> creator,
+										 final boolean changeSign,
+										 final ErrorHandler handler,
+										 final AsyncOperation<Boolean> callback) {
+		if (inputString == null || "".equals(inputString)) {
+			if (callback != null) {
+				callback.callback(false);
+			}
+			return;
+		}
+
+		final Kernel kernel = app.getKernel();
+		final Construction cons = kernel.getConstruction();
+
+		// avoid labeling of num
+		final boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// handle change sign
+		String inputWithSign;
+		if (changeSign) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("-(");
+			sb.append(inputString);
+			sb.append(")");
+			inputWithSign = sb.toString();
+		} else {
+			inputWithSign = inputString;
+		}
+
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputWithSign, false,
+						handler, true,
+						new AsyncOperation<GeoElementND[]>() {
+
+							@Override
+							public void callback(GeoElementND[] result) {
+
+								cons.setSuppressLabelCreation(oldVal);
+
+								boolean success = result != null
+										&& result[0] instanceof GeoNumberValue;
+								if (!success) {
+									handler.showError(app.getLocalization()
+											.getError(
+													"NumberExpected"));
+									if (callback != null) {
+										callback.callback(false);
+									}
+									return;
+								}
+
+								creator.callback((GeoNumberValue) result[0]);
+
+								if (callback != null) {
+									callback.callback(success);
+								}
+
+							}
+						});
+
+	}
+
+
 }
