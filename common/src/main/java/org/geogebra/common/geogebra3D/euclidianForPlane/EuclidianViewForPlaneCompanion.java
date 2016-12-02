@@ -59,9 +59,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 	private boolean initViewJustCreated = false;
 
-	public void initView(ViewCreator plane) {
+	/**
+	 * @param defPlane
+	 *            planar object
+	 */
+	public void initView(ViewCreator defPlane) {
 
-		setPlane(plane);
+		setPlane(defPlane);
 
 		if (settingsFromLoadFile) {
 			initViewJustCreated = false;
@@ -88,6 +92,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		this.plane = plane;
 	}
 
+	/**
+	 * @return defining plane
+	 */
 	public ViewCreator getPlane() {
 		return plane;
 	}
@@ -397,25 +404,17 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		return coords.projectPlaneWithInverseMatrix(getInverseMatrix());
 	}
 
-	/**
-	 * @param coords
-	 *            in view plane
-	 * @return coords in 3D world
-	 */
-	public Coords getCoordsFromView(Coords coords) {
-		return getMatrix().mul(coords);
-	}
+
 
 	/**
 	 * @param x
 	 *            x coord in view plane
 	 * @param y
 	 *            y coord in view plane
-	 * @return coords in 3D world
 	 */
 	@Override
 	public void getCoordsFromView(double x, double y, Coords c) {
-		c.set(getCoordsFromView(new Coords(x, y, 0, 1)));
+		c.setMul(getMatrix(), new Coords(x, y, 0, 1));
 	}
 
 	@Override
@@ -471,6 +470,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	/**
 	 * 
 	 * @param clockwise
+	 *            input orientation
 	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it
 	 *         in the view
 	 */

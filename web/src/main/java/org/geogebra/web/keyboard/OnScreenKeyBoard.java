@@ -1,6 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.Language;
@@ -246,8 +247,10 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 
 
 		// update e.g. button with sin/cos/tan according to the new language
-		for (KeyBoardButtonBase b : updateButton.keySet()) {
-			String captionPlain = updateButton.get(b);
+		for (Entry<KeyBoardButtonBase, String> entry : updateButton
+				.entrySet()) {
+			KeyBoardButtonBase b = entry.getKey();
+			String captionPlain = entry.getValue();
 			if (captionPlain.endsWith("^-1")) {
 				// e.g. for "sin^-1" only "sin" is translated
 				captionPlain = captionPlain.substring(0,

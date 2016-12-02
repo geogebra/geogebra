@@ -1,7 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -948,10 +948,9 @@ public abstract class KBBase extends PopupPanel {
 			accents = accentGrave;
 		}
 
-		Set<String> keys = accents.keySet();
-		for (String key : keys) {
-			if (accents.get(key).equals(letter)) {
-				return key;
+		for (Entry<String, String> entry : accents.entrySet()) {
+			if (accents.get(entry.getValue()).equals(letter)) {
+				return entry.getKey();
 			}
 		}
 		return letter;

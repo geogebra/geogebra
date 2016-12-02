@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.main.App;
 
 /**
  * A storage container with all information which need to be stored for a
@@ -242,7 +243,7 @@ public class DockPanelData implements Cloneable {
 	 * @return view id for XML
 	 */
 	protected int getViewIdForXML() {
-		return getViewId();
+		return plane == null ? getViewId() : App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
 	/**
@@ -286,6 +287,10 @@ public class DockPanelData implements Cloneable {
 	public String getXml() {
 
 		StringBuilder sb = getStartXml();
+		if (plane != null) {
+			sb.append("\" plane=\"");
+			sb.append(getPlane());
+		}
 		sb.append("\" />\n");
 		return sb.toString();
 
@@ -297,7 +302,7 @@ public class DockPanelData implements Cloneable {
 	 * @return true if will be stored in XML
 	 */
 	public boolean storeXml() {
-		return true;
+		return plane == null || isVisible();
 	}
 
 	/**

@@ -18,7 +18,7 @@ public class Views {
 			.create(ImageFactory.class)).getPerspectiveResources();
 
 
-	public enum ViewType {
+	public static enum ViewType {
 		/**
 		 * 
 		 */
