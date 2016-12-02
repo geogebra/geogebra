@@ -9635,6 +9635,11 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		// make sure we start the timer also for single point
+		if (!isPenDragged) {
+			getPen().startTimer();
+		}
+
 		boolean changedKernel0 = false;
 		if (pastePreviewSelected != null) {
 
