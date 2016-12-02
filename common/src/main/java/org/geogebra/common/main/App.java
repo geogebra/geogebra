@@ -4114,7 +4114,7 @@ public abstract class App implements UpdateSelection {
 
 			// MOB-1005
 			case MOBILE_DO_NOT_AUTOSYNC_APPS:
-				return prerelease;
+				return true; //5.0.299
 
 			// related to MOB-1005
 			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
