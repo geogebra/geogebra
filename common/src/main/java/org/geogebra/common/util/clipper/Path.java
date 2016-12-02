@@ -176,7 +176,7 @@ public class Path extends ArrayList<DoublePoint> {
     /**
 	 * modified to be compatible with double
 	 */
-    public Path TranslatePath( DoublePoint delta ) {
+    public Path translatePath( DoublePoint delta ) {
         final Path outPath = new Path( size() );
         for (int i = 0; i < size(); i++) {
             outPath.add( new DoublePoint( get( i ).getX() + delta.getX(), get( i ).getY() + delta.getY() ) );

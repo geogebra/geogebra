@@ -1127,6 +1127,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * get axis and point create circle with axis and through the point
 	 * 
 	 * @param hits
+	 *            hits
+	 * @param selPreview
+	 *            whether this is just for preview
 	 * @return circle created
 	 * 
 	 */
@@ -2076,6 +2079,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * for some modes, polygons are not to be removed
 	 * 
 	 * @param hits
+	 *            hits
 	 */
 	@Override
 	protected void switchModeForRemovePolygons(Hits hits) {

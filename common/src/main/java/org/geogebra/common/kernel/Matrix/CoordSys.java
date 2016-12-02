@@ -863,7 +863,7 @@ public class CoordSys {
 		if (tempMatrix3x3 == null){
 			tempMatrix3x3 = new CoordMatrix(3,3);
 		}
-		CoordMatrix.Rotation3x3(phi, tempMatrix3x3);
+		CoordMatrix.rotation3x3(phi, tempMatrix3x3);
 
 		Coords o = matrixOrthonormal.getOrigin();
 		
@@ -938,7 +938,7 @@ public class CoordSys {
 		if (tempMatrix3x3 == null){
 			tempMatrix3x3 = new CoordMatrix(3,3);
 		}
-		CoordMatrix.Rotation3x3(direction, phi, tempMatrix3x3);
+		CoordMatrix.rotation3x3(direction, phi, tempMatrix3x3);
 				
 		Coords o = matrixOrthonormal.getOrigin();
 		

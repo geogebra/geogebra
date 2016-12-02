@@ -832,14 +832,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		CoordMatrix m1, m2;
 
 		if (getYAxisVertical()) { // y axis taken for up-down direction
-			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
 					* EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Y_AXIS,
+			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		} else { // z axis taken for up-down direction
-			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b - 90)
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b - 90)
 					* EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS,
+			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		}
 

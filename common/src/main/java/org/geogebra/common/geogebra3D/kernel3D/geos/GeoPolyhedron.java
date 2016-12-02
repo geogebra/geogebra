@@ -460,7 +460,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
-				.SegmentDescription((GeoElement) startPoint,
+				.segmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
 
 		// check if this segment is not already created
@@ -544,7 +544,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
-				.SegmentDescription((GeoElement) startPoint,
+				.segmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
 
 		// check if this segment is already created
@@ -560,7 +560,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	public void addSegmentLinked(GeoSegmentND segment) {
 		ConstructionElementCycle key = ConstructionElementCycle
-				.SegmentDescription(segment.getStartPointAsGeoElement(),
+				.segmentDescription(segment.getStartPointAsGeoElement(),
 						segment.getEndPointAsGeoElement());
 
 		// Log.debug("linked : "+key);
@@ -1381,7 +1381,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		GeoPoint3D startPoint = getCopyPoint(s.getStartPoint());
 		GeoPoint3D endPoint = getCopyPoint(s.getEndPoint());
 		ConstructionElementCycle key = ConstructionElementCycle
-				.SegmentDescription(startPoint, endPoint);
+				.segmentDescription(startPoint, endPoint);
 
 
 		if (index >= segmentsIndexMax) {

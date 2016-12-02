@@ -32,14 +32,14 @@ public class CmdConic extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList())
-				return Conic(c.getLabel(), (GeoList) arg[0]);
+				return conic(c.getLabel(), (GeoList) arg[0]);
 		case 5:
 			for (int i = 0; i < 5; i++) {
 				if (!arg[i].isGeoPoint()) {
 					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
-			GeoElement[] ret = { Conic(c.getLabel(), arg) };
+			GeoElement[] ret = { conic(c.getLabel(), arg) };
 			return ret;
 		default:
 			if (arg[0] instanceof GeoNumberValue) {
@@ -47,7 +47,7 @@ public class CmdConic extends CommandProcessor {
 				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
-					ret = Conic(c.getLabel(), list);
+					ret = conic(c.getLabel(), list);
 					return ret;
 				}
 			}
@@ -61,7 +61,7 @@ public class CmdConic extends CommandProcessor {
 	 * @param coeffList
 	 * @return
 	 */
-	final private GeoElement[] Conic(String label, GeoList coeffList) {
+	final private GeoElement[] conic(String label, GeoList coeffList) {
 		AlgoConicFromCoeffList algo = new AlgoConicFromCoeffList(cons, label,
 				coeffList);
 
@@ -76,7 +76,7 @@ public class CmdConic extends CommandProcessor {
 	 *            points
 	 * @return conic 5 points
 	 */
-	protected GeoElement Conic(String label, GeoElement[] arg) {
+	protected GeoElement conic(String label, GeoElement[] arg) {
 		GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
 				(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
 		return getAlgoDispatcher().Conic(label, points);

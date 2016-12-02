@@ -206,7 +206,11 @@ public class Hits3D extends Hits {
 
 	}
 
-	/** sort all hits in different sets */
+	/**
+	 * sort all hits in different sets
+	 * 
+	 * @return nearest zNear
+	 */
 	public double sort() {
 
 		hitSetSet.clear();

@@ -39,14 +39,14 @@ public class CmdPolar extends CommandProcessor {
 			// polar line to point relative to conic
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { PolarLine(c.getLabel(),
+				GeoElement[] ret = { polarLine(c.getLabel(),
 						(GeoPointND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
 			// pole of a line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { PolarPoint(c.getLabel(),
+				GeoElement[] ret = { polarPoint(c.getLabel(),
 						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
@@ -68,7 +68,7 @@ public class CmdPolar extends CommandProcessor {
 	 *            conic
 	 * @return polar
 	 */
-	protected GeoElement PolarLine(String label, GeoPointND P, GeoConicND c) {
+	protected GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
 		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
 		return (GeoElement) algo.getLine();
 	}
@@ -84,7 +84,7 @@ public class CmdPolar extends CommandProcessor {
 	 *            conic
 	 * @return pole line
 	 */
-	protected GeoElement PolarPoint(String label, GeoLineND line, GeoConicND c) {
+	protected GeoElement polarPoint(String label, GeoLineND line, GeoConicND c) {
 		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
 		return (GeoElement) algo.getPoint();
 	}

@@ -40,9 +40,9 @@ public class MD5EncrypterGWTImpl {
 		int S31 = 4, S32 = 11, S33 = 16, S34 = 23;
 		int S41 = 6, S42 = 10, S43 = 15, S44 = 21;
 
-		string = Utf8Encode(string);
+		string = utf8Encode(string);
 
-		x = ConvertToWordArray(string);
+		x = convertToWordArray(string);
 
 		a = 0x67452301;
 		b = 0xEFCDAB89;
@@ -118,17 +118,17 @@ public class MD5EncrypterGWTImpl {
 			d = II(d, a, b, c, x[k + 11], S42, 0xBD3AF235);
 			c = II(c, d, a, b, x[k + 2], S43, 0x2AD7D2BB);
 			b = II(b, c, d, a, x[k + 9], S44, 0xEB86D391);
-			a = AddUnsigned(a, AA);
-			b = AddUnsigned(b, BB);
-			c = AddUnsigned(c, CC);
-			d = AddUnsigned(d, DD);
+			a = addUnsigned(a, AA);
+			b = addUnsigned(b, BB);
+			c = addUnsigned(c, CC);
+			d = addUnsigned(d, DD);
 		}
 
-		String temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
+		String temp = wordToHex(a) + wordToHex(b) + wordToHex(c) + wordToHex(d);
 		return temp.toLowerCase();
 	}
 
-	public String Utf8Encode(String string) {
+	public String utf8Encode(String string) {
 		string = string.replaceAll("\r\n", "\n");
 		StringBuilder utftext = new StringBuilder();
 
@@ -152,7 +152,7 @@ public class MD5EncrypterGWTImpl {
 		return utftext.toString();
 	}
 
-	private int[] ConvertToWordArray(String string) {
+	private int[] convertToWordArray(String string) {
 		int lWordCount;
 		int lMessageLength = string.length();
 		int lNumberOfWords_temp1 = lMessageLength + 8;
@@ -177,11 +177,11 @@ public class MD5EncrypterGWTImpl {
 		return lWordArray;
 	}
 
-	public int RotateLeft(int lValue, int iShiftBits) {
+	public int rotateLeft(int lValue, int iShiftBits) {
 		return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
 	}
 
-	private int AddUnsigned(int lX, int lY) {
+	private int addUnsigned(int lX, int lY) {
 		int lX4, lY4, lX8, lY8, lResult;
 		lX8 = (lX & 0x80000000);
 		lY8 = (lY & 0x80000000);
@@ -194,12 +194,10 @@ public class MD5EncrypterGWTImpl {
 		if ((lX4 | lY4) != 0) {
 			if ((lResult & 0x40000000) != 0) {
 				return (lResult ^ 0xC0000000 ^ lX8 ^ lY8);
-			} else {
-				return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
 			}
-		} else {
-			return (lResult ^ lX8 ^ lY8);
+			return (lResult ^ 0x40000000 ^ lX8 ^ lY8);
 		}
+		return (lResult ^ lX8 ^ lY8);
 	}
 
 	private int F(int x, int y, int z) {
@@ -219,26 +217,26 @@ public class MD5EncrypterGWTImpl {
 	}
 
 	private int FF(int a, int b, int c, int d, int x, int s, int ac) {
-		a = AddUnsigned(a, AddUnsigned(AddUnsigned(F(b, c, d), x), ac));
-		return AddUnsigned(RotateLeft(a, s), b);
+		a = addUnsigned(a, addUnsigned(addUnsigned(F(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a, s), b);
 	}
 
 	private int GG(int a, int b, int c, int d, int x, int s, int ac) {
-		a = AddUnsigned(a, AddUnsigned(AddUnsigned(G(b, c, d), x), ac));
-		return AddUnsigned(RotateLeft(a, s), b);
+		a = addUnsigned(a, addUnsigned(addUnsigned(G(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a, s), b);
 	}
 
 	private int HH(int a, int b, int c, int d, int x, int s, int ac) {
-		a = AddUnsigned(a, AddUnsigned(AddUnsigned(H(b, c, d), x), ac));
-		return AddUnsigned(RotateLeft(a, s), b);
+		a = addUnsigned(a, addUnsigned(addUnsigned(H(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a, s), b);
 	}
 
 	private int II(int a, int b, int c, int d, int x, int s, int ac) {
-		a = AddUnsigned(a, AddUnsigned(AddUnsigned(I(b, c, d), x), ac));
-		return AddUnsigned(RotateLeft(a, s), b);
+		a = addUnsigned(a, addUnsigned(addUnsigned(I(b, c, d), x), ac));
+		return addUnsigned(rotateLeft(a, s), b);
 	}
 
-	private String WordToHex(int lValue) {
+	private String wordToHex(int lValue) {
 		String WordToHexValue = "", WordToHexValue_temp = "";
 		int lByte, lCount;
 		for (lCount = 0; lCount <= 3; lCount++) {

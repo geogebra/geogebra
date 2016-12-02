@@ -22,25 +22,25 @@ public class CmdPolar3D extends CmdPolar {
 	}
 
 	@Override
-	protected GeoElement PolarLine(String label, GeoPointND P, GeoConicND c) {
+	protected GeoElement polarLine(String label, GeoPointND P, GeoConicND c) {
 
 		if (P.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarLine3D algo = new AlgoPolarLine3D(cons, label, c, P);
 			return (GeoElement) algo.getLine();
 		}
 
-		return super.PolarLine(label, P, c);
+		return super.polarLine(label, P, c);
 	}
 
 	@Override
-	protected GeoElement PolarPoint(String label, GeoLineND line, GeoConicND c) {
+	protected GeoElement polarPoint(String label, GeoLineND line, GeoConicND c) {
 
 		if (line.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarPoint3D algo = new AlgoPolarPoint3D(cons, label, c, line);
 			return (GeoElement) algo.getPoint();
 		}
 
-		return super.PolarPoint(label, line, c);
+		return super.polarPoint(label, line, c);
 	}
 
 }

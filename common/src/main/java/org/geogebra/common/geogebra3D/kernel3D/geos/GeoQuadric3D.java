@@ -2828,7 +2828,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// current symetric matrix
 		CoordMatrix sm = getSymetricMatrix();
 		// transformation matrix
-		CoordMatrix tm = CoordMatrix.Identity(4);
+		CoordMatrix tm = CoordMatrix.identity(4);
 		tm.subToOrigin(v);
 		// set new symetric matrix
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));

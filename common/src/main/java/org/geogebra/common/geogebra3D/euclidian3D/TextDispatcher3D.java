@@ -16,10 +16,20 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.util.StringUtil;
 
+/**
+ * Dispatcher for Area / Length texts
+ *
+ */
 public class TextDispatcher3D extends TextDispatcher {
 
 	private EuclidianView3D view3D;
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param view
+	 *            view
+	 */
 	public TextDispatcher3D(Kernel kernel, EuclidianView3D view) {
 		super(kernel, view);
 		view3D = view;
@@ -77,6 +87,12 @@ public class TextDispatcher3D extends TextDispatcher {
 		}
 	}
 
+	/**
+	 * @param hasVolume
+	 *            element that has volume
+	 * @param loc
+	 *            text location
+	 */
 	public void createVolumeText(GeoElement hasVolume, GPoint loc) {
 		GeoNumeric volume = kernel.getManager3D().Volume(null,
 				(HasVolume) hasVolume);

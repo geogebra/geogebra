@@ -3154,7 +3154,7 @@ new GPoint(row, column));
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell
 				// constructor
-				KernelCAS.DependentCasCell(geoCasCell);
+				KernelCAS.dependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			Log.error("error when processing <cellpair>: " + e.getMessage());

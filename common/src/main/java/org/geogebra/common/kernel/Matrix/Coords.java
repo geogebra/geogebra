@@ -160,14 +160,6 @@ public class Coords {
 		val[2] = z;
 	}
 
-	final static public Coords Coords4DLastEqualTo0(double x, double y, double z) {
-		Coords ret = new Coords(4);
-		ret.val[0] = x;
-		ret.val[1] = y;
-		ret.val[2] = z;
-		return ret;
-	}
-
 	/**
 	 * creates a 3D vector/point with the specified values
 	 * 

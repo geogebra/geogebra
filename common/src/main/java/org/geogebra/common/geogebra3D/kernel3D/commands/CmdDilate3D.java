@@ -25,7 +25,7 @@ public class CmdDilate3D extends CmdDilate {
 	}
 
 	@Override
-	protected GeoElement[] Dilate(String label, GeoElement geoDil,
+	protected GeoElement[] dilate(String label, GeoElement geoDil,
 			GeoNumberValue r, GeoElement point) {
 
 		if (geoDil.isGeoElement3D() || point.isGeoElement3D()) {
@@ -33,7 +33,7 @@ public class CmdDilate3D extends CmdDilate {
 					(GeoPointND) point);
 		}
 
-		return super.Dilate(label, geoDil, r, point);
+		return super.dilate(label, geoDil, r, point);
 
 	}
 

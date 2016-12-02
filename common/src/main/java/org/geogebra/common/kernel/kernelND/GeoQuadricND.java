@@ -230,7 +230,7 @@ Traceable{
 		
 		
 		
-		CoordMatrix diagonalizedMatrix = CoordMatrix.DiagonalMatrix(diagonal);
+		CoordMatrix diagonalizedMatrix = CoordMatrix.diagonalMatrix(diagonal);
 		
 		CoordMatrix eigenMatrixInv = tmpEigenMatrix.inverse();
 

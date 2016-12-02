@@ -65,7 +65,7 @@ public class CmdLocusEquation extends CommandProcessor {
 										|| ae instanceof AlgoPointOnPath)))) {
 					implicitLocus = arg[0];
 					movingPoint = (GeoPoint) arg[1];
-					return new GeoElement[] { LocusEquation(c.getLabel(),
+					return new GeoElement[] { locusEquation(c.getLabel(),
 							implicitLocus, movingPoint).toGeoElement() };
 
 				} // else
@@ -77,14 +77,14 @@ public class CmdLocusEquation extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 
-		return new GeoElement[] { LocusEquation(c.getLabel(), locusPoint,
+		return new GeoElement[] { locusEquation(c.getLabel(), locusPoint,
 				movingPoint).toGeoElement() };
 	}
 
 	/**
 	 * locus equation for Q dependent on P.
 	 */
-	final public GeoImplicit LocusEquation(String label, GeoPoint locusPoint,
+	final public GeoImplicit locusEquation(String label, GeoPoint locusPoint,
 			GeoPoint movingPoint) {
 		if (movingPoint.getPath() == null || locusPoint.getPath() != null
 				|| !movingPoint.isParentOf(locusPoint))
@@ -100,7 +100,7 @@ public class CmdLocusEquation extends CommandProcessor {
 	/**
 	 * locus equation for computing implicit locus
 	 */
-	final public GeoImplicit LocusEquation(String label,
+	final public GeoImplicit locusEquation(String label,
 			GeoElement implicitLocus, GeoPoint movingPoint) {
 		AlgoLocusEquation algo = new AlgoLocusEquation(cons, implicitLocus,
 				movingPoint);

@@ -1716,7 +1716,7 @@ GeoImplicit p1,
 	 */
 	final public GeoLine Tangent(String label, GeoPointND P, GeoFunction f) {
 
-		return KernelCAS.Tangent(cons, label, P, f);
+		return KernelCAS.tangent(cons, label, P, f);
 	}
 
 	/**

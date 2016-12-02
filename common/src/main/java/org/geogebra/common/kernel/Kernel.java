@@ -5043,7 +5043,7 @@ public class Kernel {
 	 */
 	final public GeoLine Tangent(String label, GeoPointND P, GeoCurveCartesian f) {
 
-		return KernelCAS.Tangent(cons, label, P, f);
+		return KernelCAS.tangent(cons, label, P, f);
 	}
 
 	/**

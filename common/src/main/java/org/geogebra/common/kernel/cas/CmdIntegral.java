@@ -53,7 +53,7 @@ public class CmdIntegral extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
 				GeoElement[] ret = {
-						Integral(
+						integral(
 						((GeoFunctionable) arg[0]).getGeoFunction(), null,
 						info) };
 				ret[0].setLabel(c.getLabel());
@@ -66,7 +66,7 @@ public class CmdIntegral extends CommandProcessor {
 			arg = resArgsLocalNumVar(c, 1, 1);
 			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { Integral(
+				GeoElement[] ret = { integral(
 						(CasEvaluableFunction) arg[0], // function
 						(GeoNumeric) arg[1], info) }; // var
 				ret[0].setLabel(c.getLabel());
@@ -164,7 +164,7 @@ public class CmdIntegral extends CommandProcessor {
 	 *            variable
 	 * @return integral of given function wrt given variable
 	 */
-	final public GeoElement Integral(CasEvaluableFunction f,
+	final public GeoElement integral(CasEvaluableFunction f,
 			GeoNumeric var, EvalInfo info) {
 		AlgoIntegral algo = new AlgoIntegral(cons, f, var, true, info,
 				"NIntegral".equals(internalCommandName));

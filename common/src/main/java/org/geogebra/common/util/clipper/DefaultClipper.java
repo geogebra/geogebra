@@ -506,7 +506,7 @@ public class DefaultClipper extends ClipperBase {
             final Paths tmp = minkowski( pattern, paths.get( i ), true, pathIsClosed );
             c.addPaths( tmp, PolyType.SUBJECT, true );
             if (pathIsClosed) {
-                final Path path = paths.get( i ).TranslatePath( pattern.get( 0 ) );
+                final Path path = paths.get( i ).translatePath( pattern.get( 0 ) );
                 c.addPath( path, PolyType.CLIP, true );
             }
         }

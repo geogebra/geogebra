@@ -70,7 +70,7 @@ public class CmdPolyLine extends CommandProcessor {
 				is3D = checkIs3D(is3D, arg[i]);
 			}
 			// everything ok
-			return PolyLine(c.getLabel(), points, penStroke, is3D);
+			return polyLine(c.getLabel(), points, penStroke, is3D);
 
 		}
 	}
@@ -110,7 +110,7 @@ public class CmdPolyLine extends CommandProcessor {
 	 *            whether it's a 3D object
 	 * @return polyline
 	 */
-	protected GeoElement[] PolyLine(String label, GeoPointND[] points,
+	protected GeoElement[] polyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
 		return kernelA.polyLine(label, points, penStroke);
 	}
