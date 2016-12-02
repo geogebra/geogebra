@@ -535,7 +535,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 					if (geos == null) {
 						// inputField.getTextBox().setFocus(true);
-						setFocus(true);
+						getController().setFocus(true);
 						return;
 					}
 
@@ -561,7 +561,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 								public void execute() {
 									scrollIntoView();
 									if (isInputTreeItem() && keepFocus) {
-										setFocus(true);
+										getController().setFocus(true);
 									}
 								}
 							});
@@ -606,7 +606,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 				public void run() {
 					scrollIntoView();
 					if (isInputTreeItem()) {
-						setFocus(true);
+						getController().setFocus(true);
 					}
 				}
 			};

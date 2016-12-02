@@ -16,10 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
@@ -32,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
@@ -40,68 +36,39 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.EventUtil;
-import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -131,11 +98,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 @SuppressWarnings("javadoc")
 public abstract class RadioTreeItem extends AVTreeItem
-		implements DoubleClickHandler, ClickHandler, MouseDownHandler,
-		MouseUpHandler, MouseMoveHandler, MouseOverHandler, MouseOutHandler,
-		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
-		TouchEndHandler,
-		LongTouchHandler,
+		implements MathKeyboardListener, 
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
 	private static final int BROWSER_SCROLLBAR_WIDTH = 17;
@@ -298,7 +261,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				return false;
 			}
 			boolean ret = false;
-			if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
+			if (getController().selectionCtrl.isSingleGeo()
+					|| getController().selectionCtrl.isEmpty()) {
 				setFirst(first);
 				clear();
 				if (geo.isAnimatable()) {
@@ -395,7 +359,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/** Clears input only when editing */
 	protected PushButton btnClearInput;
 
-	private LongTouchManager longTouchManager;
 
 	/**
 	 * this panel contains the marble (radio) button
@@ -415,6 +378,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected FlowPanel outputPanel;
 
 	protected Localization loc;
+
+	private RadioTreeItemController controller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -492,9 +457,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content = new FlowPanel();
 		plainTextItem = new FlowPanel();
 		setWidget(main);
+		setController(createController());
 
-		selectionCtrl = getAV().getSelectionCtrl();
-		setLongTouchManager(LongTouchManager.getInstance());
+		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
 
 	}
@@ -507,7 +472,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	public RadioTreeItem(final GeoElement geo0) {
 		this(geo0.getKernel());
-
 		geo = geo0;
 
 		addMarble();
@@ -523,8 +487,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		updateFont(getPlainTextItem());
 
 		styleContent();
-		
-		addDomHandlers(main);
 
 		addControls();
 
@@ -540,6 +502,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		createAvexWidget();
 		addAVEXWidget(content);
 
+	}
+
+	protected RadioTreeItemController createController() {
+		return new RadioTreeItemController(this);
 	}
 
 	protected void addMarble() {
@@ -1012,18 +978,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// override
 	}
 
-
-
-	@Override
-	public void handleLongTouch(int x, int y) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
-			cancelEditing();
-			// return;
-		}
-
-		onRightClick(x, y);
-	}
-
 	public void repaint() {
 		if (isNeedsUpdate()) {
 			doUpdate();
@@ -1144,7 +1098,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected Canvas canvas;
 	private Canvas valCanvas;
 
-	private boolean editTap = false;
+	private boolean singleTapStarted = false;
 
 	protected abstract void renderLatex(String text0, Widget w,
 			boolean forceMQ);
@@ -1547,7 +1501,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			removeDummy();
 
 			if (isInputTreeItem()) {
-				setFocus(true);
+				getController().setFocus(true);
 			}
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
@@ -1587,39 +1541,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
-	protected boolean isMarbleHit(MouseEvent<?> evt) {
-		if (marblePanel != null
-				&& marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
-			return true;
-		}
 
-		return false;
-	}
 
-	@Override
-	public void onDoubleClick(DoubleClickEvent evt) {
-		evt.stopPropagation();
-
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
-
-		if (isMarbleHit(evt)) {
-			return;
-		}
-
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		if (commonEditingCheck())
-			return;
-
-		edit(evt.isControlKeyDown());
-	}
 
 	protected void edit(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		selectionCtrl.clear();
+		getController().selectionCtrl.clear();
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			if (!isEditing()) {
@@ -1660,7 +1587,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			}
 			showKeyboard();
-			this.setFocus(true);
+			getController().setFocus(true);
 		}
 	}
 
@@ -1691,110 +1618,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return Math.min(maxToExpand, appWidth);
 	}
 
-	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
-		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
 
-	}
-
-	static boolean isWidgetHit(Widget w, PointerEvent evt) {
-		return isWidgetHit(w, evt.getX(), evt.getY());
-
-	}
-
-	private static boolean isWidgetHit(Widget w, int x, int y) {
-		if (w == null) {
-			return false;
-		}
-		int left = w.getAbsoluteLeft();
-		int top = w.getAbsoluteTop();
-		int right = left + w.getOffsetWidth();
-		int bottom = top + w.getOffsetHeight();
-
-		return (x > left && x < right && y > top && y < bottom);
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		if (geo == null) {
-			return;
-		}
-
-		ToolTipManagerW.sharedInstance()
-				.showToolTip(geo.getLongDescriptionHTML(true, true));
-
-	}
-
-	@Override
-	public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);
-	}
-
-	@Override
-	public void onMouseDown(MouseDownEvent event) {
-		app.closePopups();
-		event.stopPropagation();
-
-		if (commonEditingCheck()) {
-			// keep focus in editor
-			event.preventDefault();
-		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-
-
-		if (isMarbleHit(event)) {
-			return;
-		}
-
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			editTap = true;
-			getAV().unselectActiveItem();
-			return;
-		}
-
-		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
-				ZeroOffset.instance);
-		onPointerDown(wrappedEvent);
-		handleAVItem(event);
-		this.updateButtonPanelPosition();
-
-	}
-
-	private void editOnTap(boolean active, MouseEvent<?> event) {
-		editOnTap(active,
-				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
-	}
-
-	private void editOnTap(boolean active, PointerEvent wrappedEvent) {
-		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && editTap)) {
-			return;
-		}
-
-		editTap = false;
-		boolean enable = true;
-		if ((isSliderItem()
-				&& !isWidgetHit(plainTextItem, wrappedEvent))) {
-			enable = false;
-			if (active) {
-				stopEditing(getText(), null);
-			}
-
-		}
-
-		if (enable && !active) {
-			edit(wrappedEvent.isControlDown());
-		}
-
-	}
-	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		SliderWJquery.stopSliders();
-		event.stopPropagation();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !isMarbleHit(event)) {
-			editOnTap(isEditing(), event);
-		}
-	}
 
 
 	public void update() {
@@ -1881,51 +1705,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	@Override
-	public void onClick(ClickEvent evt) {
-		evt.stopPropagation();
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
-		onPointerUp(wrappedEvent);
-	}
 
-	private void handleAVItem(MouseEvent<?> evt) {
-		handleAVItem(evt.getClientX(), evt.getClientY(),
-				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
-	}
-
-	private void handleAVItem(TouchStartEvent evt) {
-		if (evt.getTouches().length() == 0) {
-			return;
-		}
-
-		Touch t = evt.getTouches().get(0);
-		if (handleAVItem(t.getClientX(), t.getClientY(), false)) {
-			evt.preventDefault();
-		}
-	}
-
-	/**
-	 * @param x
-	 *            x-coord
-	 * @param y
-	 *            y-coord
-	 * @param rightClick
-	 *            wheher rght click was used
-	 */
-	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
-		if (!selectionCtrl.isSelectHandled()
-				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			selectItem(true);
-		}
-
-		return false;
-
-	}
 	protected AlgebraViewW getAV() {
 		return (AlgebraViewW) av;
 	}
@@ -1935,166 +1715,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return geo;
 	}
 
-	public long latestTouchEndTime = 0;
 	private boolean selectedItem = false;
-	protected AVSelectionController selectionCtrl;
 
 	// controls must appear on select or not
 	private boolean forceControls = false;
 
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		boolean active = isEditing();
-		event.stopPropagation();
-		// event.preventDefault();
-		if (isInputTreeItem()) {
-			// this might cause strange behaviour
-			setFocus(true);
-		}
-		long time = System.currentTimeMillis();
-		if (time - latestTouchEndTime < 500) {
-			// ctrl key, shift key for TouchEndEvent? interesting...
-			latestTouchEndTime = time;
-			if (!commonEditingCheck()) {
-				edit(false // event.isControlKeyDown(),
-				// event.isShiftKeyDown()
-				);
-			}
-		} else {
-			latestTouchEndTime = time;
-		}
-		getLongTouchManager().cancelTimer();
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
-				ZeroOffset.instance);
-		onPointerUp(wrappedEvent);
-		editOnTap(active, wrappedEvent);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		event.stopPropagation();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			editTap = false;
-		}
-		// event.preventDefault();
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
-		getLongTouchManager().rescheduleTimerIfRunning(this, x, y);
-		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
-				ZeroOffset.instance);
-		onPointerMove(wrappedEvent);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		handleAVItem(event);
-		editTap = true;
-		// this would propagate the event to
-		// AlgebraView.onBrowserEvent... is this we want?
-		// probably no, as there is a stopPropagation
-		// in the onMouseDown method as well...
-		event.stopPropagation();
-		// Do NOT prevent default, kills scrolling on touch
-		// event.preventDefault();
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
-		getLongTouchManager().scheduleTimer(this, x, y);
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
-				ZeroOffset.instance);
-		onPointerDown(wrappedEvent);
-		CancelEventTimer.touchEventOccured();
-	}
-
-	protected void onPointerDown(AbstractEvent event) {
-		if (event.isRightClick()) {
-			onRightClick(event.getX(), event.getY());
-			return;
-		} else if (commonEditingCheck()) {
-			if (!av.isEditing()) {
-				// e.g. Web.html might not be in editing mode
-				// initially (temporary fix)
-				ensureEditing();
-			}
-			app.showKeyboard(this);
-			removeDummy();
-			((PointerEvent) event).getWrappedEvent().stopPropagation();
-			if (isInputTreeItem()) {
-				// put earlier, maybe it freezes afterwards?
-				setFocus(true);
-			}
-
-		}
-		if (app.getActiveEuclidianView()
-				.getMode() == EuclidianConstants.MODE_MOVE
-				|| app.getActiveEuclidianView()
-						.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
-			updateSelection(event.isControlDown(), event.isShiftDown());
-		}
-
-	}
-
-
-	protected void onPointerUp(AbstractEvent event) {
-		selectionCtrl.setSelectHandled(false);
-
-		if (commonEditingCheck()) {
-			if (isInputTreeItem()) {
-				AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
-				if (styleBar != null) {
-					styleBar.update(null);
-				}
-			}
-			return;
-		}
-
-		// Alt click: copy definition to input field
-		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
-			// F3 key: copy definition to input bar
-			if (!commonEditingCheck()) {
-				edit(event.isControlDown());
-				return;
-			}
-		}
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		int mode = ev.getMode();
-		if (mode != EuclidianConstants.MODE_MOVE
-				&& mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
-			// let euclidianView know about the click
-			ev.clickedGeo(geo, app.isControlDown(event));
-		}
-		ev.mouseMovedOver(null);
-
-		// previously av.setFocus, but that scrolls AV and seems not to be
-		// necessary
-		getElement().focus();
-
-		AlgebraStyleBarW styleBar = getAV().getStyleBar(false);
-
-		if (styleBar != null) {
-			styleBar.update(this.getGeo());
-		}
-
-	}
-
-	public void updateSelection(boolean separated, boolean continous) {
-		if (geo == null) {
-			selectionCtrl.clear();
-			getAV().updateSelection();
-		} else {
-			selectionCtrl.select(geo, separated, continous);
-			if (separated && !selectionCtrl.contains(geo)) {
-				selectionCtrl.setSelectHandled(true);
-				getAV().selectRow(geo, false);
-			} else if (continous) {
-				getAV().updateSelection();
-			}
-
-		}
-	}
 
 	/**
 	 * This method shall only be called when we are not doing editing, so this
@@ -2112,65 +1737,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void maybeSetPButtonVisibility(boolean bool) {
 		// only show the delete button, but not the extras
 	}
-
-	/**
-	 * 
-	 * @param event
-	 *            mouse move event
-	 */
-	protected void onPointerMove(AbstractEvent event) {
-		/*
-		 * // tell EuclidianView to handle mouse over
-		 * EuclidianViewInterfaceCommon ev = kernel.getApplication()
-		 * .getActiveEuclidianView(); if (geo != null) { ev.mouseMovedOver(geo);
-		 * }
-		 */
-	}
-
-	private void onRightClick(int x, int y) {
-		if (commonEditingCheck())
-			return;
-
-		SelectionManager selection = app.getSelectionManager();
-		GPoint point = new GPoint(x + Window.getScrollLeft(), y
-				+ Window.getScrollTop());
-		if (geo != null) {
-			if (selection.containsSelectedGeo(geo)) {// popup
-				// menu for
-				// current
-				// selection
-				// (including
-				// selected
-				// object)
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(
-						selection.getSelectedGeos(), av, point);
-			} else {// select only this object and popup menu
-				selection.clearSelectedGeos(false);
-				selection.addSelectedGeo(geo, true, true);
-				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-				temp.add(geo);
-
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av,
-						point);
-			}
-		}
-	}
-
-	/**
-	 * As adding focus handlers to JavaScript code would be too complex, let's
-	 * do it even before they actually get focus, i.e. make a method that
-	 * triggers focus, and then override it if necessary
-	 * 
-	 * @param b
-	 *            focus (false: blur)
-	 */
-	public void setFocus(boolean b) {
-
-		setFocus(b, false);
-	}
-
-
-
 
 
 	public void scrollIntoView() {
@@ -2429,13 +1995,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.needsUpdate = needsUpdate;
 	}
 
-	public LongTouchManager getLongTouchManager() {
-		return longTouchManager;
-	}
-
-	public void setLongTouchManager(LongTouchManager longTouchManager) {
-		this.longTouchManager = longTouchManager;
-	}
 
 	/**
 	 * 
@@ -2769,7 +2328,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					clearInput();
-					RadioTreeItem.this.setFocus(true);
+					getController().setFocus(true);
 					event.stopPropagation();
 				}
 			});
@@ -2778,25 +2337,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return btnClearInput;
 	}
 
-	/**
-	 * Adds the needed event handlers to FlowPanel
-	 * 
-	 * @param panel
-	 *            add events to.
-	 */
-	protected void addDomHandlers(FlowPanel panel) {
-		panel.addDomHandler(this, DoubleClickEvent.getType());
-		panel.addDomHandler(this, ClickEvent.getType());
-		panel.addDomHandler(this, MouseOverEvent.getType());
-		panel.addDomHandler(this, MouseOutEvent.getType());
-		panel.addDomHandler(this, MouseMoveEvent.getType());
-		panel.addDomHandler(this, MouseDownEvent.getType());
-		panel.addDomHandler(this, MouseUpEvent.getType());
-		panel.addDomHandler(this, TouchStartEvent.getType());
-		panel.addDomHandler(this, TouchMoveEvent.getType());
-		panel.addDomHandler(this, TouchEndEvent.getType());
-
-	}
 
 	public boolean isForceControls() {
 		return forceControls;
@@ -2823,16 +2363,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return false;
 	}
 
-	public void onMouseMove(MouseMoveEvent event) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
-			// scroll cancels edit request.
-			editTap = false;
-		}
-
-		if (app.has(Feature.AV_SCROLL)) {
-			event.preventDefault();
-		}
+	public RadioTreeItemController getController() {
+		return controller;
 	}
+
+	public void setController(RadioTreeItemController controller) {
+		this.controller = controller;
+	}
+
 
 }
 

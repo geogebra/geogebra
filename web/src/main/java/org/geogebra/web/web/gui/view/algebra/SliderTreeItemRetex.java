@@ -12,27 +12,16 @@ the Free Software Foundation.
 
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -71,8 +60,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 			resize();
 		}
 	};
-	private MinMaxPanel minMaxPanel;
-	private GeoNumeric num;
+	MinMaxPanel minMaxPanel;
+	GeoNumeric num;
 
 	/**
 	 * Creates a SliderTreeItem for AV sliders
@@ -84,11 +73,18 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		super(geo0);
 		num = (GeoNumeric) geo;
 		createSliderGUI();
-		addDomHandlers(main);
 		addControls();
 		deferredResize();
 	}
 
+	@Override
+	protected RadioTreeItemController createController() {
+		return new SliderTreeItemRetexController(this);
+	}
+
+	private SliderTreeItemRetexController getSliderController() {
+		return (SliderTreeItemRetexController) getController();
+	}
 	private void createSliderGUI() {
 		content.addStyleName("noPadding");
 		if (!num.isEuclidianVisible()) {
@@ -99,41 +95,19 @@ public class SliderTreeItemRetex extends LatexTreeItem
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
 					&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-			slider = new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax(), app.getKernel(), degree);
+			setSlider(new SliderPanelW(num.getIntervalMin(),
+					num.getIntervalMax(), app.getKernel(), degree));
 			updateColor();
 
-			slider.setValue(num.getValue());
+			getSlider().setValue(num.getValue());
 
-			slider.setStep(num.getAnimationStep());
+			getSlider().setStep(num.getAnimationStep());
 
-			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Double> event) {
-					if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
-						stopEditing(getText(), null);
-					}
-
-					num.setValue(event.getValue());
-					geo.updateCascade();
-
-
-					if (!geo.isAnimating()) {
-						if (isAnotherMinMaxOpen()) {
-							MinMaxPanel.closeMinMaxPanel();
-						}
-
-						selectItem(true);
-						updateSelection(false, false);
-					}
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
+			getSlider().addValueChangeHandler(getSliderController());
 
 
 			sliderPanel = new FlowPanel();
-			sliderPanel.add(slider);
+			sliderPanel.add(getSlider());
 
 			createMinMaxPanel();
 
@@ -148,11 +122,12 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	}
 
+
 	/**
 	 * resize slider to fit to the panel in a deferred way.
 	 */
 	public void deferredResize() {
-		if (slider == null) {
+		if (getSlider() == null) {
 			return;
 		}
 		Log.printStacktrace("SLIDER resize()");
@@ -160,13 +135,13 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	}
 
 	private void resize() {
-		if (slider == null) {
+		if (getSlider() == null) {
 			return;
 		}
 
 		int width = getAV().getOffsetWidth() - 2 * marblePanel.getOffsetWidth()
 				+ SLIDER_EXT;
-		slider.setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
+		getSlider().setWidth(width < DEFAULT_SLIDER_WIDTH ? DEFAULT_SLIDER_WIDTH
 				: width);
 	}
 
@@ -175,18 +150,6 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		minMaxPanel.setVisible(false);
 	}
 
-	/**
-	 * @return true if another SliderTreeItem's min/max panel is showing.
-	 */
-	boolean isAnotherMinMaxOpen() {
-		return (MinMaxPanel.openedMinMaxPanel != null
-				&& MinMaxPanel.openedMinMaxPanel != minMaxPanel);
-	}
-
-	private boolean isClickedOutMinMax(int x, int y) {
-		return (MinMaxPanel.openedMinMaxPanel == minMaxPanel
-				&& !isWidgetHit(minMaxPanel, x, y));
-	}
 
 	@Override
 	protected void styleContentPanel() {
@@ -200,7 +163,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	}
 
 	private void updateColor() {
-		slider.updateColor(geo.getAlgebraColor());
+		getSlider().updateColor(geo.getAlgebraColor());
 	}
 
 	@Override
@@ -209,138 +172,40 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		marblePanel.update();
 		controls.updateAnimPanel();
 
-		slider.setScale(app.getArticleElement().getScaleX());
+		getSlider().setScale(app.getArticleElement().getScaleX());
 		double min = num.getIntervalMin();
 		double max = num.getIntervalMax();
 		boolean degree = geo.isGeoAngle()
 				&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-		slider.setMinimum(min, degree);
-		slider.setMaximum(max, degree);
+		getSlider().setMinimum(min, degree);
+		getSlider().setMaximum(max, degree);
 
-		slider.setStep(num.getAnimationStep());
-		slider.setValue(num.value);
+		getSlider().setStep(num.getAnimationStep());
+		getSlider().setValue(num.value);
 		minMaxPanel.update();
 
-		if (!slider.isAttached()) {
-			sliderPanel.add(slider);
+		if (!getSlider().isAttached()) {
+			sliderPanel.add(getSlider());
 			styleContentPanel();
 		}
 		updateTextItems();
 		updateColor();
 	}
 
-	@Override
-	protected void onPointerUp(AbstractEvent event) {
-		selectionCtrl.setSelectHandled(false);
-		if (minMaxPanel.isVisible()) {
-			return;
-		}
-		super.onPointerUp(event);
-	}
+	//
+	// static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
+	// return isWidgetHit(w, evt.getClientX(), evt.getClientY());
+	//
+	// }
 
-	@Override
-	public void onMouseMove(MouseMoveEvent evt) {
-		if (sliderPanel == null) {
-			evt.stopPropagation();
-			return;
-		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
-		onPointerMove(wrappedEvent);
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		return;
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent evt) {
-		evt.stopPropagation();
-
-		if ((isWidgetHit(controls.getAnimPanel(), evt)
-				|| (minMaxPanel != null && minMaxPanel.isVisible())
-				|| isWidgetHit(marblePanel, evt)
-		)) {
-			return;
-		}
-		super.onDoubleClick(evt);
-	}
-
-	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
-		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
-
-	}
-
-	private static boolean isWidgetHit(Widget w, int x, int y) {
-		if (w == null) {
-			return false;
-		}
-		int left = w.getAbsoluteLeft();
-		int top = w.getAbsoluteTop();
-		int right = left + w.getOffsetWidth();
-		int bottom = top + w.getOffsetHeight();
-
-		return (x > left && x < right && y > top && y < bottom);
-	}
-
-	@Override
-	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
-		setForceControls(true);
-
-		boolean minHit = sliderPanel != null
-				&& isWidgetHit(slider.getWidget(0), x, y);
-		boolean maxHit = sliderPanel != null
-				&& isWidgetHit(slider.getWidget(2), x, y);
-		// Min max panel should be closed
-		if (isAnotherMinMaxOpen() || isClickedOutMinMax(x, y)) {
-			MinMaxPanel.closeMinMaxPanel(!(minHit || maxHit));
-		}
-
-		if (isAnotherMinMaxOpen()) {
-			selectItem(false);
-
-		}
-
-		if (minMaxPanel != null && minMaxPanel.isVisible()) {
-			selectItem(true);
-			return false;
-		}
-
-		if (sliderPanel != null && sliderPanel.isVisible() && !rightClick) {
-
-			if (minHit || maxHit) {
-				minMaxPanel.show();
-				if (minHit) {
-					minMaxPanel.setMinFocus();
-				} else if (maxHit) {
-					minMaxPanel.setMaxFocus();
-				}
-
-				return true;
-			}
-		}
-
-		if (!selectionCtrl.isSelectHandled()) {
-			selectItem(true);
-		}
-
-
-		return false;
-
-	}
 
 	protected void addAVEXWidget(Widget w) {
 		if (sliderPanel == null) {
 			return;
 		}
-		sliderPanel.remove(slider);
+		sliderPanel.remove(getSlider());
 		sliderContent.add(w);
-		sliderPanel.add(slider);
+		sliderPanel.add(getSlider());
 	}
 
 
@@ -402,5 +267,13 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	@Override
 	public boolean isSliderItem() {
 		return true;
+	}
+
+	public SliderPanelW getSlider() {
+		return slider;
+	}
+
+	public void setSlider(SliderPanelW slider) {
+		this.slider = slider;
 	}
 }

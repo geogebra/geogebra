@@ -93,7 +93,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		FlowPanel item = new FlowPanel();
 		item.addStyleName("avTextItem");
 
-		addDomHandlers(content);
 		main.add(content);
 
 		content.getElement().appendChild(item.getElement());
@@ -156,7 +155,7 @@ public class InputTreeItem extends MathQuillTreeItem
 			public void onMouseDown(MouseDownEvent event) {
 				MathQuillHelper.stornoFormulaMathQuillGGB(InputTreeItem.this,
 						latexItem);
-				InputTreeItem.this.setFocus(true);
+				InputTreeItem.this.getController().setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
 			}
@@ -168,7 +167,7 @@ public class InputTreeItem extends MathQuillTreeItem
 			public void onTouchStart(TouchStartEvent event) {
 				MathQuillHelper.stornoFormulaMathQuillGGB(InputTreeItem.this,
 						latexItem);
-				InputTreeItem.this.setFocus(true);
+				InputTreeItem.this.getController().setFocus(true);
 				event.stopPropagation();
 				event.preventDefault();
 			}

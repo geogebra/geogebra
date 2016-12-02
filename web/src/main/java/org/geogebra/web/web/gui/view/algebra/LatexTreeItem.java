@@ -68,8 +68,6 @@ public class LatexTreeItem extends RadioTreeItem
 	public LatexTreeItem(Kernel kernel) {
 		super(kernel);
 		this.insertHelpToggle();
-		addDomHandlers(main);
-
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
 			if (isInputTreeItem()) {
@@ -301,7 +299,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 				if (geos == null) {
 					// inputField.getTextBox().setFocus(true);
-					setFocus(true);
+					getController().setFocus(true);
 					return;
 				}
 
@@ -325,7 +323,7 @@ public class LatexTreeItem extends RadioTreeItem
 							public void execute() {
 								scrollIntoView();
 								if (keepFocus) {
-									setFocus(true);
+									getController().setFocus(true);
 								}else{
 									setFocus(false, true);
 								}
@@ -384,7 +382,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	protected void focusAfterHelpClosed() {
-		setFocus(true);
+		getController().setFocus(true);
 	}
 
 	@Override

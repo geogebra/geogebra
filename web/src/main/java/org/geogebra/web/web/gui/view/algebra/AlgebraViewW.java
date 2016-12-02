@@ -2070,6 +2070,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			activeItem.stopEditing();
 			unselect(activeItem.getGeo());
 		}
+		repaintView();
 	}
 
 	private void unselect(GeoElement geo) {
