@@ -308,7 +308,13 @@ public class Polynomial implements Comparable<Polynomial> {
 				sb.append(c);
 			sb.append('+');
 		}
-		return sb.substring(0, sb.length() - 1); // removing closing "+"
+		return sb.substring(0, sb.length() - 1) // removing closing "+"
+				.replaceAll("\\+-", "-"); // use "-" instead of "+-"
+		/*
+		 * The "+-" -> "-" conversion is maybe not efficient here, and not
+		 * actually needed for the internals. Still we do that to beautify the
+		 * logging.
+		 */
 	}
 
 	/**

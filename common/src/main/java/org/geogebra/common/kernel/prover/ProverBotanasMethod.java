@@ -72,11 +72,13 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+			if (!(geo instanceof GeoNumeric)) {
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 					.getBotanaVars(geo);
-			if (vars != null) {
-				List<Variable> varsList = Arrays.asList(vars);
-				botanaVarsInv.put(varsList, geo);
+				if (vars != null) {
+					List<Variable> varsList = Arrays.asList(vars);
+					botanaVarsInv.put(varsList, geo);
+				}
 			}
 		}
 	}
