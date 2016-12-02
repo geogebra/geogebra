@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -32,7 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  */
 public class AlgoQuadricEnds extends AlgoElement3D {
 
-	private GeoQuadric3DLimited quadric; // input
+	private GeoQuadricND quadric; // input
 	private GeoConic3D[] sections; // output
 	private CoordSys coordsys1, coordsys2;
 
@@ -77,12 +76,14 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 *            construction
 	 * @param quadric
 	 *            quadric
+	 * @param helper
+	 *            whether this is just a helper
 	 */
 	public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric,
 			boolean helper) {
 		super(cons, !helper);
 
-		this.quadric = (GeoQuadric3DLimited) quadric;
+		this.quadric = quadric;
 
 		sections = new GeoConic3D[2];
 
