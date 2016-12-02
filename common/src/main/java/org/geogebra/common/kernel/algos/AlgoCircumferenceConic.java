@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
@@ -37,7 +36,6 @@ public class AlgoCircumferenceConic extends AlgoElement {
 	private GeoNumeric circum;
 
 	// Helper to calculate circumference for ellipse
-	private EllipticArcLength ellipticArcLength = null;
 
 	public AlgoCircumferenceConic(Construction cons, String label,
 			GeoConicND conic) {

@@ -191,9 +191,12 @@ public class CmdDerivative extends CommandProcessor {
 		String label = null;
 
 		if (geo.isLabelSet()) {
-			label = geo.getLabel(StringTemplate.defaultTemplate);
-			for (int i = 0; i < order; i++)
-				label = label + "'";
+			StringBuilder labelBuilder = new StringBuilder(
+					geo.getLabel(StringTemplate.defaultTemplate));
+			for (int i = 0; i < order; i++) {
+				labelBuilder.append('\'');
+			}
+			label = labelBuilder.toString();
 		} else {
 			if (geo.getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
 				return getDerivLabel(geo.getParentAlgorithm().getInput(0),

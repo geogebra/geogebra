@@ -14,7 +14,7 @@ public interface GeoGebraConstants {
 	/** complete version string */
 	public static final String VERSION_STRING = "5.0.298.3";
 
-	// proper noun, should NOT be translated / transliterated
+	/** proper noun, should NOT be translated / transliterated */
 	public static final String APPLICATION_NAME = "GeoGebra";
 
 	public enum Versions {

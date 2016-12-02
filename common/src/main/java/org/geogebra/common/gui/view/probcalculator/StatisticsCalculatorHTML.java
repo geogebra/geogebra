@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
@@ -12,9 +11,7 @@ import org.geogebra.common.util.Unicode;
  */
 public class StatisticsCalculatorHTML {
 
-	private App app;
 	private Construction cons;
-	private Kernel kernel;
 	private StatisticsCalculator statCalc;
 	private StatisticsCollection sc;
 
@@ -24,7 +21,6 @@ public class StatisticsCalculatorHTML {
 	private Localization loc;
 
 	private final static String newline = "<br/>";
-	private final static String eq = " = ";
 
 	/*********************************************
 	 * Constructs StatisticsCalculatorHTML
@@ -36,10 +32,8 @@ public class StatisticsCalculatorHTML {
 	public StatisticsCalculatorHTML(App app, StatisticsCalculator statCalc,
 			StatisticsCollection sc) {
 
-		this.app = app;
 		this.loc = app.getLocalization();
 		cons = app.getKernel().getConstruction();
-		kernel = cons.getKernel();
 		this.statCalc = statCalc;
 		this.sc = sc;
 

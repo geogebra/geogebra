@@ -717,7 +717,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().getPenColor();
 	}
 
-	public double getListValue(String objName, int index) {
+	public synchronized double getListValue(String objName, int index) {
 		return getGgbApi().getListValue(objName, index);
 	}
 
@@ -735,7 +735,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	@Override
-	public boolean getVisible(String objName, int view) {
+	public synchronized boolean getVisible(String objName, int view) {
 		return getGgbApi().getVisible(objName, view);
 	}
 
@@ -743,7 +743,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().getCASObjectNumber();
 	}
 	
-	public int getMode(){
+	public synchronized int getMode() {
 		return getGgbApi().getMode();
 	}
 
@@ -755,15 +755,15 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().getCommandString(objName, localize);
 	}
 
-	public boolean getGridVisible(int view) {
+	public synchronized boolean getGridVisible(int view) {
 		return getGgbApi().getGridVisible(view);
 	}
 
-	public boolean getGridVisible() {
+	public synchronized boolean getGridVisible() {
 		return getGgbApi().getGridVisible();
 	}
 
-	public int getLabelStyle(String objName) {
+	public synchronized int getLabelStyle(String objName) {
 		return getGgbApi().getLabelStyle(objName);
 	}
 

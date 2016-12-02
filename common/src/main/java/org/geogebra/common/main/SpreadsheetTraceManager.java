@@ -56,7 +56,6 @@ public class SpreadsheetTraceManager {
 
 	// misc variables
 	private boolean doShiftCellsUp = true;
-	private double[] coords = new double[3];
 
 	public SpreadsheetTraceManager(App app) {
 

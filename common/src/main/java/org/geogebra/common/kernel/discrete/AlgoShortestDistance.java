@@ -121,7 +121,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 				}
 
 				// add edge to graph
-				g.addEdge(new MyLink(seg.getLength(), 1, node1, node2), node1,
+				g.addEdge(new MyLink(seg.getLength(), node1, node2), node1,
 						node2, EdgeType.UNDIRECTED);
 
 			}
@@ -201,14 +201,12 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	class MyLink {
 		protected MyNode n1, n2;
-		double capacity;
 		double weight;
 		int id;
 
-		public MyLink(double weight, double capacity, MyNode n1, MyNode n2) {
+		public MyLink(double weight, MyNode n1, MyNode n2) {
 			this.id = edgeCount++; // This is defined in the outer class.
 			this.weight = weight;
-			this.capacity = capacity;
 			this.n1 = n1;
 			this.n2 = n2;
 		}

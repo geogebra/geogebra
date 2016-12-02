@@ -6,7 +6,6 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.apache.commons.math.distribution.ChiSquaredDistributionImpl;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -34,9 +33,7 @@ import org.geogebra.common.main.App;
  */
 public class StatisticsCalculatorProcessor {
 
-	private App app;
 	private Construction cons;
-	private Kernel kernel;
 	private StatisticsCalculator statCalc;
 	private StatisticsCollection sc;
 
@@ -56,9 +53,7 @@ public class StatisticsCalculatorProcessor {
 	public StatisticsCalculatorProcessor(App app,
 			StatisticsCalculator statCalc, StatisticsCollection sc) {
 
-		this.app = app;
 		cons = app.getKernel().getConstruction();
-		kernel = cons.getKernel();
 		this.statCalc = statCalc;
 		this.sc = sc;
 		createGeos();

@@ -35,9 +35,6 @@ public class TwoVarInferenceModel {
 		void updatePanel();
 	}
 	
-	private static final long serialVersionUID = 1L;
-	private App app;
-	
 	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
 
 	// test type (tail)
@@ -63,7 +60,6 @@ public class TwoVarInferenceModel {
 	 * Construct a TwoVarInference panel
 	 */
 	public TwoVarInferenceModel(App app, TwoVarInferenceListener listener) {
-		this.app = app;
 		this.loc = app.getLocalization();
 		this.listener = listener;
 	}

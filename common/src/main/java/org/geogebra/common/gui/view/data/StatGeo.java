@@ -63,7 +63,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class StatGeo {
 
 	private static final double DEFAULT_BUFFER = 0.01;
-	private App app;
 	private Kernel kernel;
 	private Construction cons;
 
@@ -77,7 +76,6 @@ public class StatGeo {
 	 * Constructs a GeoPlot instance
 	 */
 	public StatGeo(App app, ICreateColor listener) {
-		this.app = app;
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
 		this.listener = listener;

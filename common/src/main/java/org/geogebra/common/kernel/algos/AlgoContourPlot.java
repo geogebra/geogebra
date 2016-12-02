@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -28,7 +27,6 @@ public class AlgoContourPlot extends AlgoElement {
 	private GeoNumeric contourStep;
 	private GeoList list; // output
 	private Equation equ;
-	private Polynomial poly;
 	private ExpressionNode en;
 	private GeoImplicitCurve implicitPoly;
 	private double min, max, step, xstep, ystep;
@@ -135,7 +133,6 @@ public class AlgoContourPlot extends AlgoElement {
 	private void addToList(GeoList list1, double value) {
 		equ = new Equation(kernel, en, new MyDouble(kernel, value));
 		equ.initEquation();
-		poly = equ.getNormalForm();
 		implicitPoly.fromEquation(equ, null);
 		list1.add(new GeoImplicitCurve(implicitPoly));
 	}
