@@ -318,9 +318,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements
 			return botanaPolynomials;
 		}
 
-		Variable[] circle1vars = new Variable[2];
-		Variable[] circle2vars = new Variable[2];
-		Variable[] circle3vars = new Variable[2];
+		Variable[] circle1vars, circle2vars, circle3vars;
 		circle1vars = ((SymbolicParametersBotanaAlgo) input[0])
 				.getBotanaVars(input[0]);
 

@@ -474,9 +474,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		gridLabel3 = new JLabel("\u03B8" + ":"); // Theta
 		gridLabel3.setLabelFor(cbGridTickAngle);
 
-		JPanel tickPanel = LayoutUtil.flowPanel(cbGridManualTick, gridLabel1,
-				ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
-				cbGridTickAngle);
 		typePanel = new JPanel();
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
 		addComboGridType();

@@ -88,8 +88,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars == null) {
-			Variable[] circle1vars = new Variable[2];
-			Variable[] centerVars = new Variable[2];
+			Variable[] circle1vars, centerVars;
 
 			GeoElement P = (GeoElement) getP();
 			GeoElement M = (GeoElement) getM();

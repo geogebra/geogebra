@@ -39,10 +39,10 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 	 *            CAS table
 	 */
 	public RowHeaderPopupMenuD(JList rowHeader, CASTableD table) {
+		super(table.getApplication());
 		rowHeaderPopupMenu = new JPopupMenu();
 		this.rowHeader = rowHeader;
 		this.table = table;
-		app = table.getApplication();
 		initMenu();
 	}
 
@@ -51,14 +51,14 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 	 */
 	protected void initMenu() {
 		// insert above
-		JMenuItem item5 = new JMenuItem(app.getMenu("InsertAbove"));
+		JMenuItem item5 = new JMenuItem(loc.getMenu("InsertAbove"));
 		item5.setIcon(((AppD) app).getEmptyIcon());
 		item5.setActionCommand("insertAbove");
 		item5.addActionListener(this);
 		rowHeaderPopupMenu.add(item5);
 
 		// insert below
-		JMenuItem item6 = new JMenuItem(app.getMenu("InsertBelow"));
+		JMenuItem item6 = new JMenuItem(loc.getMenu("InsertBelow"));
 		item6.setIcon(((AppD) app).getEmptyIcon());
 		item6.setActionCommand("insertBelow");
 		item6.addActionListener(this);
@@ -75,7 +75,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		rowHeaderPopupMenu.add(item7);
 
 		// handle cell as Textcell
-		cbUseAsText = new JCheckBoxMenuItem(app.getMenu("CasCellUseAsText"));
+		cbUseAsText = new JCheckBoxMenuItem(loc.getMenu("CasCellUseAsText"));
 		cbUseAsText.setActionCommand("useAsText");
 		cbUseAsText.setIcon(((AppD) app).getEmptyIcon());
 		int[] selRows2 = rowHeader.getSelectedIndices();
@@ -87,7 +87,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		rowHeaderPopupMenu.add(cbUseAsText);
 
 		// copy selected rows as LaTeX
-		JMenuItem latexItem = new JMenuItem(app.getMenu("CopyAsLaTeX"));
+		JMenuItem latexItem = new JMenuItem(loc.getMenu("CopyAsLaTeX"));
 		latexItem.setIcon(((AppD) app).getEmptyIcon());
 		latexItem.setActionCommand("copyAsLaTeX");
 		latexItem.addActionListener(this);
@@ -119,9 +119,9 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);
 			casCell2.setUseAsText(cbUseAsText.isSelected());
 		} else if (ac.equals("copyAsLaTeX")) {
-			StringSelection data = new StringSelection(table.getCASView()
-					.getLaTeXfromCells(selRows));
-			if (data != null) {
+			String text = table.getCASView().getLaTeXfromCells(selRows);
+			if (text != null) {
+				StringSelection data = new StringSelection(text);
 				Clipboard sysClip = Toolkit.getDefaultToolkit()
 						.getSystemClipboard();
 				sysClip.setContents(data, null);

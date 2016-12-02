@@ -1055,7 +1055,6 @@ public class AlgoDispatcher {
 			GeoPolyLine g, GeoPolyLine p) {
 		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
 				g, p, false, false);
-		GeoElement[] points = algo.getOutput();
 		return algo.getOutput();
 	}
 

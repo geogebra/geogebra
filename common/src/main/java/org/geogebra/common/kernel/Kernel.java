@@ -4843,7 +4843,6 @@ public class Kernel {
 		p[0] = poly.getPoint(0).copy();
 		p[0].setLabel(null);
 
-		GeoSegmentND[] segs = poly.getSegments();
 		GeoPointND[] pts = poly.getPoints();
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();

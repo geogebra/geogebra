@@ -328,8 +328,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
-		ProverBotanasMethod pbm = new ProverBotanasMethod();
-		AlgebraicStatement as = pbm.new AlgebraicStatement(
+		AlgebraicStatement as = new AlgebraicStatement(
 				implicit ? implicitLocus : locusPoint, movingPoint, p);
 		ProofResult proofresult = as.getResult();
 		if (proofresult == ProofResult.PROCESSING

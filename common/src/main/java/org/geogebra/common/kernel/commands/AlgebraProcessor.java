@@ -416,80 +416,78 @@ public class AlgebraProcessor {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 				redefineIndependent);
 
-			app.getCompanion().storeViewCreators();
-			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-			// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-			// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-			/*
-			 * if (geo instanceof GeoFunction && ((GeoFunction)
-			 * geo).isDefined()) { cons.registerFunctionVariable(((GeoFunction)
-			 * geo).getFunction()
-			 * .getVarString(StringTemplate.defaultTemplate)); }
-			 */
-			newLabel = newValue.getLabel();
+		app.getCompanion().storeViewCreators();
+		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
+		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
+		/*
+		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
+		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
+		 * .getVarString(StringTemplate.defaultTemplate)); }
+		 */
+		newLabel = newValue.getLabel();
 
-			if (newLabel == null) {
-				newLabel = oldLabel;
-				newValue.setLabel(newLabel);
-			}
+		if (newLabel == null) {
+			newLabel = oldLabel;
+			newValue.setLabel(newLabel);
+		}
 
-			// make sure that points stay points and vectors stay vectors
-			if (newValue instanceof ExpressionNode) {
-				ExpressionNode n = (ExpressionNode) newValue;
-				if (geo.isGeoPoint())
-					n.setForcePoint();
-				else if (geo.isGeoVector())
-					n.setForceVector();
-				else if (geo.isGeoFunction())
-					n.setForceFunction();
-			}
+		// make sure that points stay points and vectors stay vectors
+		if (newValue instanceof ExpressionNode) {
+			ExpressionNode n = (ExpressionNode) newValue;
+			if (geo.isGeoPoint())
+				n.setForcePoint();
+			else if (geo.isGeoVector())
+				n.setForceVector();
+			else if (geo.isGeoFunction())
+				n.setForceFunction();
+		}
 
-			if (newLabel.equals(oldLabel)) {
-				// try to overwrite
-				final boolean listeners = app.getScriptManager().hasListeners();
-				app.getScriptManager().disableListeners();
+		if (newLabel.equals(oldLabel)) {
+			// try to overwrite
+			final boolean listeners = app.getScriptManager().hasListeners();
+			app.getScriptManager().disableListeners();
 			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
 
-					@Override
+				@Override
 				public void callback(GeoElementND[] obj) {
-						if (listeners) {
-							geo.updateCascade();
+					if (listeners) {
+						geo.updateCascade();
 						}
-						if (obj != null) {
-							app.getCompanion().recallViewCreators();
-							if (storeUndoInfo)
-								app.storeUndoInfo();
-							if (obj.length > 0) {
-								callback.callback(obj[0]);
-							}
+					if (obj != null) {
+						app.getCompanion().recallViewCreators();
+						if (storeUndoInfo)
+							app.storeUndoInfo();
+						if (obj.length > 0) {
+							callback.callback(obj[0]);
 						}
-
 					}
-				};
-				app.getScriptManager().enableListeners();
 
-				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, handler, true, changeCallback,
-					info);
-
-				cons.registerFunctionVariable(null);
-				return;
-			} else if (cons.isFreeLabel(newLabel)) {
-				newValue.setLabel(oldLabel);
-				// rename to oldLabel to enable overwriting
-				result = processAlgebraCommandNoExceptionHandling(newValue,
-					false, handler, true, null, info);
-				result[0].setLabel(newLabel); // now we rename
-				app.getCompanion().recallViewCreators();
-				if (storeUndoInfo)
-					app.storeUndoInfo();
-				if (result.length > 0) {
-					callback.callback(result[0]);
 				}
-			} else {
-				String str[] = { "NameUsed", newLabel };
-				throw new MyError(loc, str);
+			};
+			app.getScriptManager().enableListeners();
+
+			processAlgebraCommandNoExceptionHandling(newValue,
+					false, handler, true, changeCallback, info);
+
+			cons.registerFunctionVariable(null);
+			return;
+		} else if (cons.isFreeLabel(newLabel)) {
+			newValue.setLabel(oldLabel);
+			// rename to oldLabel to enable overwriting
+			result = processAlgebraCommandNoExceptionHandling(newValue, false,
+					handler, true, null, info);
+			result[0].setLabel(newLabel); // now we rename
+			app.getCompanion().recallViewCreators();
+			if (storeUndoInfo)
+				app.storeUndoInfo();
+			if (result.length > 0) {
+				callback.callback(result[0]);
 			}
+		} else {
+			String str[] = { "NameUsed", newLabel };
+			throw new MyError(loc, str);
+				}
 
 		cons.registerFunctionVariable(null);
 

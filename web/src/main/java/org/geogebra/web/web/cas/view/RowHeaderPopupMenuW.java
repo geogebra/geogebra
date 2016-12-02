@@ -2,7 +2,6 @@ package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
@@ -30,9 +29,9 @@ public class RowHeaderPopupMenuW extends
 	 */
 	public RowHeaderPopupMenuW(
 	        CASTableW casTableW, AppW appl) {
+		super(appl);
 		rowHeaderPopupMenu = new GPopupMenuW(appl);
 		table = casTableW;
-		app = appl;
 		initMenu();
 	}
 
@@ -43,7 +42,6 @@ public class RowHeaderPopupMenuW extends
 
 	private void initMenu() {
 		// "Insert Above" menuitem
-		Localization loc = app.getLocalization();
 		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
 		MenuItem miCopyInput = new MenuItem(loc.getMenu("CopyInput"),
 				new ScheduledCommand() {
