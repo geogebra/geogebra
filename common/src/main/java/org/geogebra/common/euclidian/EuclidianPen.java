@@ -96,7 +96,6 @@ public class EuclidianPen {
 	private double score = 0;
 	// segment
 	private int brk[];
-	private int count = 0;
 	private int recognizer_queue_length = 0;
 	private int MAX_POLYGON_SIDES = 4;
 	private double SLANT_TOLERANCE = 5 * Math.PI / 180;
@@ -136,16 +135,10 @@ public class EuclidianPen {
 	 * Grid size. Default is 30.
 	 */
 	private int gridSize = 15;
-	private GPoint startPoint = null;
 	/**
 	 * String representation of gesture.
 	 */
-	private StringBuilder gesture = new StringBuilder();
-	private int deltaX = 0;
-	private int deltaY = 0;
-	private int absDeltaX = 0;
-	private int absDeltaY = 0;
-	private float absTangent = 0;
+
 
 	private final static int PEN_SIZE_FACTOR = 2;
 	private static final double CONIC_AXIS_ERROR_RATIO = 10;
@@ -469,40 +462,7 @@ public class EuclidianPen {
 				penPoints.add(newPoint);
 		}
 		GPoint point = e.getPoint();
-		if (startPoint == null)
-			startPoint = e.getPoint();
-		deltaX = getDeltaX(startPoint, point);
-		deltaY = getDeltaY(startPoint, point);
-		absDeltaX = Math.abs(deltaX);
-		absDeltaY = Math.abs(deltaY);
-		absTangent = ((float) absDeltaX) / absDeltaY;
-		if (!((absDeltaX < gridSize) && (absDeltaY < gridSize))) {
-			if (absTangent < 0.5) {
-				if (deltaY < 0)
-					this.saveMove(UP_MOVE);
-				else
-					this.saveMove(DOWN_MOVE);
-				startPoint = point;
-			}
-			if (absTangent >= 0.5 && absTangent <= 2) {
-				if (deltaX > 0 && deltaY < 0)
-					this.saveMove(LEFT_UP);
-				if (deltaX < 0 && deltaY < 0)
-					this.saveMove(RIGHT_UP);
-				if (deltaX < 0 && deltaY > 0)
-					this.saveMove(RIGHT_DOWN);
-				if (deltaX > 0 && deltaY > 0)
-					this.saveMove(LEFT_DOWN);
-				startPoint = point;
-			}
-			if (absTangent > 2) {
-				if (deltaX < 0)
-					this.saveMove(LEFT_MOVE);
-				else
-					this.saveMove(RIGHT_MOVE);
-				startPoint = point;
-			}
-		}
+
 	}
 
 	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
@@ -587,9 +547,6 @@ public class EuclidianPen {
 	}
 
 	protected void initShapeRecognition(int x, int y) {
-		count = 0;
-		Log.debug(getGesture());
-		this.clearTemporaryInfo();
 		penPoints.add(new GPoint(x, y));
 	}
 
@@ -1374,67 +1331,6 @@ public class EuclidianPen {
 		}
 
 		return conic;
-	}
-
-	/**
-	 * Returns delta x.
-	 *
-	 * @param startPoint2
-	 *            First point
-	 * @param point
-	 *            Second point
-	 * @return Delta x
-	 */
-	private static int getDeltaX(GPoint startPoint2, GPoint point) {
-		return point.x - startPoint2.x;
-	}
-
-	/**
-	 * Returns delta y.
-	 *
-	 * @param startPoint2
-	 *            First point
-	 * @param point
-	 *            Second point
-	 * @return Delta y
-	 */
-	private static int getDeltaY(GPoint startPoint2, GPoint point) {
-		return point.y - startPoint2.y;
-	}
-
-	/**
-	 * Adds movement to buffer.
-	 *
-	 * @param move
-	 *            String representation of recognized movement
-	 */
-	private void saveMove(String move) {
-		if ((gesture.length() == 0)
-				|| (gesture.charAt(gesture.length() - 1) == move.charAt(0))
-				|| count == 1)
-			count++;
-		else
-			count = 1;
-		// should not store two equal moves in succession
-		if ((gesture.length() > 0)
-				&& ((gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count != 2))
-			return;
-		gesture.append(move);
-	}
-
-	/**
-	 * Returns string representation of mouse gesture.
-	 *
-	 * @return String representation of mouse gesture. "L" for left, "R" for
-	 *         right, "U" for up, "D" for down movements. For example: "ULD".
-	 */
-	private String getGesture() {
-		return gesture.toString();
-	}
-
-	private void clearTemporaryInfo() {
-		startPoint = null;
-		gesture.delete(0, gesture.length());
 	}
 
 	private void optimize_polygonal(int nsides) {
