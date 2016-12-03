@@ -51,7 +51,6 @@ public class AlgoConicFivePoints extends AlgoElement {
 	private double[][] A, B, C;
 	private double e1, e2;
 	private GeoVec3D[] line;
-	private int i, j;
 
 	public AlgoConicFivePoints(Construction cons, String label,
 			GeoPointND[] inputP) {
@@ -75,7 +74,7 @@ public class AlgoConicFivePoints extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		line = new GeoVec3D[4];
-		for (i = 0; i < 4; i++) {
+		for (int i = 0; i < 4; i++) {
 			line[i] = new GeoLine(cons);
 		}
 		A = new double[3][3];
@@ -252,13 +251,12 @@ public class AlgoConicFivePoints extends AlgoElement {
 	 */
 	private boolean hugeForMatrix(double e12, double M[][]) {
 		for (int i = 0; i < 3; i++)
-			for (int j = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry
 				if (!Kernel.isZero(M[i][j], Kernel.MIN_PRECISION)
 						&& Math.abs(e12) > 1E10 * M[i][j]) {
 					return true;
 				}
-				;
 			}
 		return false;
 	}
@@ -291,10 +289,11 @@ public class AlgoConicFivePoints extends AlgoElement {
 	}
 
 	// computes the linear combination C = l * A + m * B
-	final private void linComb(double[][] A, double[][] B, double l, double m,
+	final private static void linComb(double[][] A, double[][] B, double l,
+			double m,
 			double[][] C) {
-		for (i = 0; i < 3; i++) {
-			for (j = 0; j < 3; j++) {
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
 				C[i][j] = l * A[i][j] + m * B[i][j];
 			}
 		}
