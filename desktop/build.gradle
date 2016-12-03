@@ -97,6 +97,12 @@ findbugs{
      ignoreFailures = true
 }
 
+tasks.withType(FindBugs) {
+    exclude '**/org/mozilla/**'
+    classes = classes.filter { 
+        !it.path.contains(new File("org/mozilla/").path) 
+    }
+}
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
 gradle.projectsEvaluated {
