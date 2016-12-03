@@ -1058,7 +1058,7 @@ namespace giac {
     gen T1=th.coord.front().value,T2=other.coord.front().value;
     // gen T1=th.coord[c1/2].value,T2=other.coord[c2/2].value;
     int t1=T1.type,t2=T2.type;
-#if 0 // does not work if _ext are embedded inside fractions
+#if 1 // does not work if _ext are embedded inside fractions (check done in unext)
     if (t1==_EXT || t2==_EXT){
       gen minp;
       if (t1==_EXT)
@@ -1584,6 +1584,15 @@ namespace giac {
       res.coord.clear();
       res.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),res.dim));
       return false;
+    }
+    if (th.dim==1 && u>10){
+      modpoly a;
+      polynome2poly1(th,1,a);
+      gen b=pow(gen(a,_POLY1__VECT),u);
+      if (b.type==_VECT){
+	poly12polynome(*b._VECTptr,1,res,1);
+	return true;
+      }
     }
     vector< monomial<gen> >::const_iterator ita = th.coord.begin();
     vector< monomial<gen> >::const_iterator ita_end = th.coord.end();
@@ -6973,6 +6982,42 @@ namespace giac {
       return res;
     }
 #endif
+    return a*b+c*d;
+  }
+
+  gen foisplus(const gen & a,const gen & b,const gen & c,const gen & d){
+    if (a.type==_POLY && b.type<_POLY  &&c.type==_POLY && d.type<_POLY){      
+      polynome res(a._POLYptr->dim);
+      if (b==1){
+	if (d==1)
+	  a._POLYptr->TAdd(*c._POLYptr,res);
+	else {
+	  if (0 && c.ref_count()==1){
+	    *c._POLYptr *= d;
+	    a._POLYptr->TAdd(*c._POLYptr,res);
+	  } else {
+	    polynome cd(*c._POLYptr);
+	    cd *= d;
+	    a._POLYptr->TAdd(cd,res);
+	  }
+	}
+	return res;
+      }
+      if (0 && a.ref_count()==1){
+	*a._POLYptr *= b;
+	return foisplus(a,1,c,d);
+      }
+      polynome ab(*a._POLYptr);
+      ab *= b;
+      if (d==1)
+	ab.TAdd(*c._POLYptr,res);
+      else {
+	polynome cd(*c._POLYptr);
+	cd *= d;
+	ab.TAdd(cd,res);
+      }
+      return res;
+    }
     return a*b+c*d;
   }
 

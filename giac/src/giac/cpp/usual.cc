@@ -4757,6 +4757,14 @@ namespace giac {
 	p=v[2]; m=v[3]; 
       }
     }
+    gen m1=findmod(p);
+    if (!is_zero(m1)){
+      if (is_zero(m))
+	m=m1;
+      else if (m1!=m)
+	return gensizeerr(contextptr);
+    }
+    p=unmod(p);
     if (s>=5)
       var=v[4];
     vecteur lv(1,var);

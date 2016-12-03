@@ -91,7 +91,10 @@ namespace giac {
   // Use operator_times unless you know what you do
   void mulmodpoly(const modpoly & th, const gen & fact, modpoly & new_coord);
   void mulmodpoly(const modpoly & th, const gen & fact, environment * env, modpoly & new_coord);
-  void mulmodpoly_naive(const modpoly & a, const modpoly & b,modpoly & new_coord);
+  void mulmodpoly_naive(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord);
+  void mulmodpoly_kara_naive(const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord,int seuil_kara);
+  // new_coord += a*b in place
+  void add_mulmodpoly(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord);
   // modpoly operator * (const modpoly & th, const gen & fact);
   modpoly operator_times (const modpoly & th, const gen & fact,environment * env);
   // commented otherwise int * gen might be interpreted as
@@ -212,7 +215,10 @@ namespace giac {
   modpoly chinrem(const modpoly & p,const modpoly & q, const modpoly & pmod, const modpoly & qmod,environment * env);
   int ichinrem_inplace(dense_POLY1 &p,const std::vector<int> & q,const gen & pmod,int qmodval); // 0 error, 1 p changed, 2 p unchanged
   void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env);
+  // in-place modification and exact division if divexact==true
+  void divided_differences(const vecteur & x,vecteur & res,environment * env,bool divexact);
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env);
+  void interpolate_inplace(const vecteur & x,modpoly & res,environment * env);
   void mulpoly_interpolate(const polynome & p,const polynome & q,polynome & res,environment * env);
 
   // Fast Fourier Transform, f the poly sum_{j<n} f_j x^j, 

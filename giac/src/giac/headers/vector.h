@@ -219,26 +219,30 @@ namespace std {
     const _Tp & back() const { return *rbegin(); }
     const _Tp & operator [](size_t i) const { return *(begin()+i); }
     void push_back(const _Tp & p0){ 
-      _Tp p(p0); 
-      int abstaille;
-      // create a copy since p0 may be scratched 
-      // if p0 is a vector element and the vector is realloced
       if (_taille<=0){ 
 	if (unsigned(-_taille)<(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp)){
-	  ((_Tp *) _tab)[-_taille]=p;
+	  ((_Tp *) _tab)[-_taille]=p0;
 	  --_taille;
 	  return;
 	}
-	abstaille=-_taille;
-	_realloc(abstaille?2*abstaille:1);
+	// create a copy since p0 may be scratched 
+	// if p0 is a vector element and the vector is realloced
+	_Tp p(p0); 
+	_realloc(_taille?-2*_taille:1);
+	*(_begin_immediate_vect+_taille)=p;
+	++_taille;
+	return;
       }
-      else {
-	abstaille=(_taille==immvector_max)?0:_taille;
+      if (_taille==immvector_max) 
+	_taille=0;
+      if (_endalloc_immediate_vect==_begin_immediate_vect+_taille){
+	_Tp p(p0); 
+	_realloc(_taille?2*_taille:1);
+	*(_begin_immediate_vect+_taille)=p;
       }
-      if (_endalloc_immediate_vect==_begin_immediate_vect+abstaille)
-	_realloc(abstaille?2*abstaille:1);
-      *(_begin_immediate_vect+abstaille)=p;
-      _taille=abstaille+1;
+      else
+	*(_begin_immediate_vect+_taille)=p0;
+      ++_taille;
     }
     _Tp pop_back(){ 
       if (_taille<=0){
@@ -274,7 +278,22 @@ namespace std {
     }
     bool empty() const { return _taille==0 || _taille==immvector_max; }
     void reserve(size_t n){ if (_abs(_taille)<n) _realloc(int(n)); }
-    void resize(size_t n_,const _Tp &value=_Tp()){ 
+    void resize(size_t n_){ 
+      unsigned n=unsigned(n_);
+      if (_taille!=immvector_max && _abs(_taille)>=n) {
+	// clear elements from _begin()+n to _end()
+	_Tp * ptr = begin()+n;
+	for (;ptr!=end();++ptr)
+	  *ptr=_Tp();
+	_taille=_taille>0?(n?n:immvector_max):-int(n);
+      }
+      else {
+	unsigned prev=_taille==immvector_max?0:_abs(_taille);
+	_realloc(n);
+	if (_taille<=0) _taille=-int(n); else _taille=n?n:immvector_max;
+      }
+    }
+    void resize(size_t n_,const _Tp &value){ 
       unsigned n=unsigned(n_);
       if (_taille!=immvector_max && _abs(_taille)>=n) {
 	// clear elements from _begin()+n to _end()

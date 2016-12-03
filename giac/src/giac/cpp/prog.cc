@@ -3167,6 +3167,8 @@ namespace giac {
       return _rand(args._FRACptr->num,contextptr)/args._FRACptr->den;
     if (args.type==_USER)
       return args._USERptr->rand(contextptr);
+    if (args.is_symb_of_sommet(at_rootof))
+      return vranm(1,args,contextptr)[0];
     int nd=is_distribution(args);
     if (nd==1 && args.type==_FUNC)
       return randNorm(contextptr);
@@ -6486,6 +6488,7 @@ namespace giac {
       string s;
       while (!feof(f))
 	s += char(fgetc(f));
+      fclose(f);
       return string2gen(s,false);
     }
     if (args.type!=_STRNG)

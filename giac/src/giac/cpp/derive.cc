@@ -336,7 +336,7 @@ namespace giac {
 	gen tmp1=exp(-v1,contextptr)*pow(v1,v0-1,contextptr)*derive(v1,i,contextptr);
 	return (s.sommet==at_lower_incomplete_gamma)?tmp1:-tmp1;
       }
-      if (vs==3 && (s.sommet==at_lower_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
+      if (vs==3 && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
 	return derive(symbolic(s.sommet,makesequence(v[0],v[1]))/symbolic(at_Gamma,v[0]),i,contextptr);
       }
     }
