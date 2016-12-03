@@ -72,7 +72,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
-				view.startEditing(geo);
+				view.startEditItem(geo);
 			}
 			return true;
 		}
@@ -81,12 +81,12 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 
 	@Override
 	protected boolean viewIsEditing() {
-		return view.isEditing();
+		return view.isEditItem();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		view.cancelEditing();
+		view.cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
 			GPoint mouseCoords = new GPoint(

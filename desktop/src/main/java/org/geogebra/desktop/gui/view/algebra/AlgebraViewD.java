@@ -270,7 +270,7 @@ public class AlgebraViewD extends AlgebraTree
 
 			public void focusLost(FocusEvent e) {
 				if (e.getSource() == editTF)
-					cancelEditing();
+					cancelEditItem();
 			}
 		});
 
@@ -298,7 +298,7 @@ public class AlgebraViewD extends AlgebraTree
 
 		app.showAuxiliaryObjects = flag;
 
-		cancelEditing();
+		cancelEditItem();
 
 		if (flag) {
 			clearView();
@@ -394,7 +394,7 @@ public class AlgebraViewD extends AlgebraTree
 	/**
 	 * Open Editor textfield for geo.
 	 */
-	public void startEditing(GeoElement geo) {
+	public void startEditItem(GeoElement geo) {
 		if (geo == null)
 			return;
 
@@ -429,7 +429,7 @@ public class AlgebraViewD extends AlgebraTree
 		DefaultMutableTreeNode node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditing();
+			cancelEditItem();
 			// select and show node
 			TreePath tp = new TreePath(node.getPath());
 			setSelectionPath(tp); // select
@@ -676,7 +676,7 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	public void reset() {
-		cancelEditing();
+		cancelEditItem();
 		repaint();
 	}
 
@@ -1185,5 +1185,15 @@ public class AlgebraViewD extends AlgebraTree
 	public void resetItems(boolean clear) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void cancelEditItem() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean isEditItem() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 } // AlgebraView
