@@ -85,9 +85,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
 
-	public MyCellEditorW getEditor() {
-		return editor;
-	}
+
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
@@ -155,9 +153,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected boolean isEditing = false;
 
-	public boolean isEditing() {
-		return isEditing;
-	}
+
 
 	protected int editRow = -1;
 	protected int editColumn = -1;
@@ -188,21 +184,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
 
-	/**
-	 * @return Collection of cells that contain geos that can be edited with one
-	 *         click, e.g. booleans, buttons, lists
-	 */
-	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
-		return oneClickEditMap;
-	}
 
-	/**
-	 * @param oneClickEditMap
-	 *            fast editable geos, see {@link #getOneClickEditMap()}
-	 */
-	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
-		this.oneClickEditMap = oneClickEditMap;
-	}
 
 	// cursors
 	// protected Cursor defaultCursor = Cursor.getDefaultCursor();
@@ -216,9 +198,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected Grid ssGrid;
 
-	public Grid getGrid() {
-		return ssGrid;
-	}
+
 
 	protected TableScroller scroller;
 
@@ -228,9 +208,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private FlowPanel rowHeaderContainer;
 
-	public Widget getContainer() {
-		return tableWrapper;
-	}
 
 	// special panels for editing and selection
 	private SimplePanel selectionFrame;
@@ -358,6 +335,50 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		registerListeners();
 		repaintAll();
+	}
+
+	/**
+	 * @return grid
+	 */
+	public Grid getGrid() {
+		return ssGrid;
+	}
+
+	/**
+	 * @return wrapping widget
+	 */
+	public Widget getContainer() {
+		return tableWrapper;
+	}
+
+	/**
+	 * @return editor
+	 */
+	public MyCellEditorW getEditor() {
+		return editor;
+	}
+
+	/**
+	 * @return whether editor is active
+	 */
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	/**
+	 * @return Collection of cells that contain geos that can be edited with one
+	 *         click, e.g. booleans, buttons, lists
+	 */
+	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
+		return oneClickEditMap;
+	}
+
+	/**
+	 * @param oneClickEditMap
+	 *            fast editable geos, see {@link #getOneClickEditMap()}
+	 */
+	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
+		this.oneClickEditMap = oneClickEditMap;
 	}
 
 	private void registerListeners() {

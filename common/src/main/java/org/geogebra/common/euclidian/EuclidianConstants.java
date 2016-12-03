@@ -7,10 +7,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public final class EuclidianConstants {
 
-	// prevent instantiation
-	private EuclidianConstants() {
-	}
-
 	/** Move */
 	public static final int MODE_MOVE = 0;
 
@@ -817,6 +813,10 @@ public final class EuclidianConstants {
 			Log.error("Unknown mode " + mode);
 			return "";
 		}
+	}
+
+	// prevent instantiation
+	private EuclidianConstants() {
 	}
 
 }
