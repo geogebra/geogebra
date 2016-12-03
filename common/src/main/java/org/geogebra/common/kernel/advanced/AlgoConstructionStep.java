@@ -85,5 +85,5 @@ public class AlgoConstructionStep extends AlgoElement {
 		// num.setValue(cons.getStep());
 	}
 
-	// TODO Consider locusequability
+	
 }

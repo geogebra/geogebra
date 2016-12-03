@@ -91,11 +91,6 @@ public class AlgoIntegral extends AlgoCasBase {
 
 				inFun = inFun.getIntegralNoCAS();
 
-				if (inFun == null) {
-					((GeoFunction) g).setDefined(false);
-					return;
-				}
-
 				((GeoFunction) g).setFunction(inFun);
 				((GeoFunction) g).setDefined(true);
 				updateSecret();
@@ -185,6 +180,6 @@ public class AlgoIntegral extends AlgoCasBase {
 		return computedSymbolically;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

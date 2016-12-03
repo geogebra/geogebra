@@ -125,6 +125,6 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

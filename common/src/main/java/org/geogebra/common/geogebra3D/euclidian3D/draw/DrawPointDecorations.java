@@ -2,9 +2,9 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -34,42 +34,51 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 		p1 = new Coords(4);
 		p1.setW(1);
 
-		p2 = p1.copyVector();
+		p2 = new Coords(4);
+		p2.set(p1);
+		p2.set(3, 0);
 
 		planeMatrix = CoordMatrix4x4.Identity();
 		planeMatrix.setVx(Coords.VX.mul(0.2));
 		planeMatrix.setVy(Coords.VY.mul(0.2));
 
-		setWaitForUpdate();
 	}
+
+	private boolean hasBeenUpdated = false;
 
 	@Override
 	protected boolean isVisible() {
-		return true; // no geoelement connected
+		return true; // no geo connected
 	}
 
-	private GeoPoint3D point;
+	/**
+	 * 
+	 * @return true if decorations should be drawn
+	 */
+	public boolean shouldBeDrawn() {
+		return point != null && hasBeenUpdated;
+	}
+
+	private GeoPointND point;
 
 	/**
 	 * set the point for which decorations are made
 	 * 
 	 * @param point0
 	 */
-	public void setPoint(GeoPoint3D point0) {
+	public void setPoint(GeoPointND point0) {
 
 		this.point = point0;
+		hasBeenUpdated = false;
 
-		p1 = point.getCoords();
+	}
 
-		// set origin to projection of the point on xOy plane
-		p2 = new Coords(4);
-		p2.set(p1);
-		p2.set(3, 0);
+	@Override
+	public void setWaitForUpdate() {
 
-		planeMatrix.setOrigin(p2);
-
-		setWaitForUpdate();
-
+		if (point != null) {
+			super.setWaitForUpdate();
+		}
 	}
 
 	@Override
@@ -92,7 +101,20 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	@Override
 	protected boolean updateForItSelf() {
 
+		if (point != null) {
+			p1 = point.getInhomCoordsInD3();
+
+			// set origin to projection of the point on xOy plane
+			p2 = new Coords(4);
+			p2.set(p1);
+			p2.set(3, 0);
+
+			planeMatrix.setOrigin(p2);
+		}
+
 		updateForItSelf(p1, p2);
+
+		hasBeenUpdated = true;
 
 		return true;
 	}

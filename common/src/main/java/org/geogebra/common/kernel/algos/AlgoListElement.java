@@ -296,6 +296,6 @@ public class AlgoListElement extends AlgoElement {
 	 * }
 	 */
 
-	// TODO Consider locusequability
+	
 
 }

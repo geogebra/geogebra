@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates3D;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -1219,21 +1220,34 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (this.hasChangeableCoordParentNumbers()) {
 			return moveMode;
 		}
-		if (!isIndependent() || isFixed()) {
+		if (!isIndependent()) {
+			AlgoElement algo = getParentAlgorithm();
+			if (algo != null && algo instanceof AlgoDynamicCoordinates3D) {
+				return moveMode;
+			}
 			return MOVE_MODE_NONE;
-		} else if (hasPath()) {
+		}
+
+		if (isFixed()) {
+			return MOVE_MODE_NONE;
+		}
+
+		if (hasPath()) {
 			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
 									// not lines
-		} else if (hasRegion()) {
+		}
+
+		if (hasRegion()) {
 			GeoElement geo = (GeoElement) region;
 			if (geo.isGeoQuadric()
 					&& ((GeoQuadric3D) geo).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 				return MOVE_MODE_NONE;
 			}
 			return MOVE_MODE_XY;
-		} else {
-			return moveMode;
 		}
+
+		return moveMode;
+
 	}
 
 	/**

@@ -128,16 +128,16 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			@Override
 			public void setSelectedItem(TreeItem item, boolean fireEvents) {
 				if (item == null) {
-					super.setSelectedItem(item, fireEvents);
+					super.setSelectedItem(null, fireEvents);
 					return;
 				}
 				onSelectionNative(item, fireEvents);
 			}
 
 			private native void onSelectionNative(TreeItem item, boolean fireEvents)/*-{
-																					this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
-																					
-																					}-*/;
+		this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
+
+	}-*/;
 		};
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);
@@ -324,7 +324,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
-	private class MyTreeItem extends TreeItem {
+	private static class MyTreeItem extends TreeItem {
 
 		public MyTreeItem() {
 			// TODO Auto-generated constructor stub
@@ -347,7 +347,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * 
 	 * TODO: handle accented characters
 	 */
-	private class LocaleSensitiveComparator implements Comparator<String> {
+	private static class LocaleSensitiveComparator
+			implements Comparator<String> {
 
 		public LocaleSensitiveComparator() {
 			// TODO Auto-generated constructor stub

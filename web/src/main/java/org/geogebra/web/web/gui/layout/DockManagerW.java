@@ -1897,16 +1897,34 @@ public class DockManagerW extends DockManager {
 		}
 		calculateKeyboardHeight();
 		final boolean portrait = app.getWidth() < app.getHeight();
+		final double landscape = landscapeRatio(app.getWidth());
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
-				adjustViews(portrait);
+				adjustViews(portrait, landscape);
 			}
 		});
 	}
 
-	private void adjustViews(boolean portrait) {
+	private static double landscapeRatio(double width) {
+		if (width < 300) {
+			return 2.0 / 3.0;
+		}
+		if (width < 600) {
+			return 200 / width;
+		}
+
+		return 100 / width + 1 / 6.0;
+	}
+
+	/**
+	 * @param portrait
+	 *            whether the format is portrait
+	 * @param landscapeRatio
+	 *            preferred landscape ratio
+	 */
+	protected void adjustViews(boolean portrait, double landscapeRatio) {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
@@ -1946,7 +1964,7 @@ public class DockManagerW extends DockManager {
 
 		split.clear();
 		setDividerLocation(split,
-				portrait ? 1 - portraitDivider : AV_LANDSCAPE_RATIO);
+				portrait ? 1 - portraitDivider : landscapeRatio);
 
 		split.setOrientation(portrait ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT);

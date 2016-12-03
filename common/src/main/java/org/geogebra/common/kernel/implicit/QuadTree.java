@@ -317,7 +317,7 @@ abstract class QuadTree {
 
 	public abstract void updatePath();
 
-	class PointList {
+	static class PointList {
 		MyPoint start;
 		MyPoint end;
 		LinkedList<MyPoint> pts = new LinkedList<MyPoint>();

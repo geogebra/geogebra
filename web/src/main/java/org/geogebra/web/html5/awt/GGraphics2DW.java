@@ -16,6 +16,7 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
@@ -44,10 +45,10 @@ public class GGraphics2DW implements GGraphics2D {
 	private final JLMContext2d context;
 
 	private GFontW currentFont = new GFontW("normal");
-	private GColor color = new GColorW(255, 255, 255, 255);
+	private GColor color = GColor.newColor(255, 255, 255, 255);
 	private float[] dash_array = null;
 
-	GPaint currentPaint = new GColorW(255, 255, 255, 255);
+	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 	private JsArrayNumber jsarrn;
 
 	private View view;
@@ -135,7 +136,7 @@ public class GGraphics2DW implements GGraphics2D {
 		int width = (int) context.getLineWidth();
 		context.beginPath();
 		if (dash_array == null || nativeDashUsed) {
-			if (width % 2 == 1) {
+			if (MyDouble.isOdd(width)) {
 				context.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
 				context.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
 			} else {
@@ -144,7 +145,7 @@ public class GGraphics2DW implements GGraphics2D {
 			}
 		} else {
 			drawStraightDashedLine(x1, y1, x2, y2, jsarrn, context,
-			        width % 2 == 1);
+					MyDouble.isOdd(width));
 		}
 		context.stroke();
 	}
@@ -450,7 +451,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	public void setColor(GColor fillColor) {
 		// checking for the same color here speeds up axis drawing by 25%
-		if (fillColor != null && fillColor.equals(color)) {
+		if (fillColor.equals(color)) {
 			return;
 		}
 		// but it seems that setColor is not only for setting "color",
@@ -460,7 +461,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		this.color = fillColor;
 		updateCanvasColor();
-		this.currentPaint = new GColorW((GColorW) fillColor);
+		this.currentPaint = fillColor;
 	}
 
 	public void updateCanvasColor() {
@@ -586,7 +587,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		float[] dash_array_save = dash_array;
 		dash_array = null;
-		GShape sh = AwtFactory.prototype.newRectangle(x, y,
+		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
 		setClip(sh);
 		dash_array = dash_array_save;

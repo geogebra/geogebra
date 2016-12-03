@@ -57,7 +57,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	/**
 	 * Component representing this view
 	 */
-	class CASComponent extends JComponent {
+	static class CASComponent extends JComponent {
 		private static final long serialVersionUID = 1L;
 	}
 

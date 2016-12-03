@@ -6522,6 +6522,25 @@ namespace giac {
   } // end modular/padic algorithm
 #endif // GIAC_HAS_STO_38
 
+  // find lvar after doing halftan/tsimplify
+  void alg_lvar_halftan_tsimplify(vecteur & res,vecteur & lv,GIAC_CONTEXT){
+    lv=alg_lvar(res);
+    if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
+      vecteur lw=*halftan(lv.front(),contextptr)._VECTptr;
+      if (lvar(lw).size()<lv.front()._VECTptr->size()){
+	res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
+	lv=alg_lvar(res);
+      }
+      if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
+	lw=*tsimplify(lv.front(),contextptr)._VECTptr;
+	if (lvar(lw).size()<lv.front()._VECTptr->size()){
+	  res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
+	  lv=alg_lvar(res);
+	}
+      }
+    }
+  }
+
   // row reduction from line l and column c to line lmax and column cmax
   // lmax and cmax are not included
   // line are numbered starting from 0
@@ -6617,10 +6636,12 @@ namespace giac {
 	  return 0;
 	res=*makemod(res,modulo)._VECTptr;
 	// keep the permutation without makemod
-	gen last=pivots.back();
-	pivots.pop_back();
-	pivots=*makemod(pivots,modulo)._VECTptr;
-	pivots.push_back(last);
+	if (!pivots.empty()){
+	  gen last=pivots.back();
+	  pivots.pop_back();
+	  pivots=*makemod(pivots,modulo)._VECTptr;
+	  pivots.push_back(last);
+	}
 	det=makemod(det,modulo);
 	return 1;
       }
@@ -6667,21 +6688,7 @@ namespace giac {
       res=a;
     if (convert_internal){
       // convert a to internal form
-      lv=alg_lvar(res);
-      if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
-	vecteur lw=*halftan(lv.front(),contextptr)._VECTptr;
-	if (lvar(lw).size()<lv.front()._VECTptr->size()){
-	  res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
-	  lv=alg_lvar(res);
-	}
-	if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
-	  lw=*tsimplify(lv.front(),contextptr)._VECTptr;
-	  if (lvar(lw).size()<lv.front()._VECTptr->size()){
-	    res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
-	    lv=alg_lvar(res);
-	  }
-	}
-      }
+      alg_lvar_halftan_tsimplify(res,lv,contextptr);
       res = *(e2r(res,lv,contextptr)._VECTptr);
     }
     int lvs=int(lv.size());
@@ -9985,6 +9992,20 @@ namespace giac {
       return;
     }
     if (is_integer(f)){
+      if (f.type==_INT_){
+	int t=f.val;
+	if (t<0){
+	  for (int i=0;i<n;++i)
+	    res.push_back((int) (2*t*(giac_rand(contextptr)/(rand_max2+1.0))-t)	);
+	  return;
+	}
+#if 0
+	int add=(xcas_mode(contextptr)==3 || abs_calc_mode(contextptr)==38);
+	for (int i=0;i<n;++i)
+	  res.push_back(add+(int) t*(giac_rand(contextptr)/(rand_max2+1.0)));
+	return;
+#endif
+      }
       for (int i=0;i<n;++i)
 	res.push_back(_rand(f,contextptr));
       return;
@@ -10265,6 +10286,20 @@ namespace giac {
       for (int i=0;i<n;++i)
 	res.push_back(f(vecteur(0),contextptr));
       return;
+    }
+    if (f.is_symb_of_sommet(at_rootof)){
+      gen ff=f._SYMBptr->feuille;
+      if (ff.type==_VECT && !ff._VECTptr->empty()){
+	ff=ff._VECTptr->back();
+	if (ff.type==_VECT && !ff._VECTptr->empty()){
+	  int d=ff._VECTptr->size()-1;
+	  for (int i=0;i<n;++i){
+	    gen g=vranm(d,0,contextptr);
+	    res.push_back(symb_rootof(g,ff,contextptr));
+	  }
+	  return;
+	}
+      }
     }
     for (int i=0;i<n;++i)
       res.push_back(eval(f,eval_level(contextptr),contextptr));
@@ -12157,9 +12192,9 @@ namespace giac {
     if (!mhessenberg(m,h,p,modulo,maxiter,eps,contextptr))
       return gensizeerr(contextptr);
     if (modulo<0)
-      return makevecteur(_trn(p,contextptr),h); // p,h such that p*h*p^-1=orig
+      return makesequence(_trn(p,contextptr),h); // p,h such that p*h*p^-1=orig
     else
-      return makevecteur(inv(p,contextptr),h); // p,h such that p*h*p^-1=orig
+      return makesequence(inv(p,contextptr),h); // p,h such that p*h*p^-1=orig
   }
   static const char _hessenberg_s []="hessenberg";
   static define_unary_function_eval (__hessenberg,&giac::_hessenberg,_hessenberg_s);
@@ -13213,7 +13248,8 @@ namespace giac {
       }
     } // end if (numeric_matrix)
     int taille=int(m.size());
-    vecteur lv(alg_lvar(m));
+    vecteur lv;
+    alg_lvar_halftan_tsimplify(m,lv,contextptr);
     numeric_matrix=has_num_coeff(m) && is_fully_numeric(evalf(m,1,contextptr));
     matrice mr=*(e2r(numeric_matrix?exact(m,contextptr):m,lv,contextptr)._VECTptr); // convert to internal form
     // vecteur lv;

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoCollector;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -534,6 +535,20 @@ public abstract class Prover {
 		while ((result == ProofResult.UNKNOWN || result == ProofResult.TRUE_NDG_UNREADABLE)
 				&& it.hasNext()) {
 			ProverEngine pe = it.next();
+			if (pe == ProverEngine.OPENGEOPROVER_WU
+					|| pe == ProverEngine.OPENGEOPROVER_AREA) {
+				/*
+				 * Checking if OGP is capable of working on this statement
+				 * properly or not.
+				 */
+				AlgoElement ae = statement.getParentAlgorithm();
+				if (ae instanceof AlgoDependentBoolean) {
+					/* see triangle-midsegment6 */
+					Log.debug(
+							"OGP cannot safely check expressions, OGP will be ignored");
+					continue; /* try the next prover */
+				}
+			}
 			callEngine(pe);
 		}
 	}
@@ -599,15 +614,15 @@ public abstract class Prover {
 	 * 
 	 * @return The result of the proof (true, false or null)
 	 */
-	public Boolean getYesNoAnswer() {
+	public ExtendedBoolean getYesNoAnswer() {
 		if (result != null) {
 			if (result == Prover.ProofResult.TRUE
 					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE)
-				return true;
+				return ExtendedBoolean.TRUE;
 			if (result == Prover.ProofResult.FALSE)
-				return false;
+				return ExtendedBoolean.FALSE;
 		}
-		return null;
+		return ExtendedBoolean.UNKNOWN;
 	}
 
 	/**

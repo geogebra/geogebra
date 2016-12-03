@@ -913,6 +913,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

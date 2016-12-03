@@ -42,7 +42,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -184,16 +184,14 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		updatePreferredSize();
 		// init button-specific fields
 		// TODO: put these in button classes
-		EuclidianStyleBarStatic.pointStyleArray = EuclidianView
-				.getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 
-		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
+		Integer[] lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
+		for (int i = 0; i < lineStyleArray.length; i++)
+			lineStyleMap.put(lineStyleArray[i], i);
 
 		setLabels(); // this will also init the GUI
 
@@ -625,16 +623,16 @@ axesIcon, iconHeight);
 		// create line style icon array
 		final Dimension lineStyleIconSize = new Dimension(Math.max(80,
 				iconHeight * 4), iconHeight);
-		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianStyleBarStatic.lineStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
-					EuclidianStyleBarStatic.lineStyleArray[i], 2,
+		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianView
+				.getLineTypeLength()];
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++)
+			lineStyleIcons[i] = GeoGebraIconD.createLineStyleIcon(
+					EuclidianView.getLineType(i), 2,
 					lineStyleIconSize, Color.BLACK, null);
 
 		// create button
 		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
-				lineStyleIconSize,
- SelectionTable.MODE_ICON) {
+				lineStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -643,8 +641,7 @@ axesIcon, iconHeight);
 
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
-					setFgColor(GColorD.getAwtColor(ec.getPen()
-							.getPenColor()));
+					setFgColor(ec.getPen().getPenColor());
 					setSliderValue(ec.getPen().getPenSize());
 					setSelectedIndex(lineStyleMap.get(ec.getPen()
 							.getPenLineStyle()));
@@ -669,7 +666,7 @@ axesIcon, iconHeight);
 						// setFgColor(((GeoElement)geos[0]).getObjectColor());
 
 						removeThisActionListenerTo(this);
-						setFgColor(Color.black);
+						setFgColor(GColor.BLACK);
 						getMySlider().setMinimum(maxMinimumThickness);
 						setSliderValue(((GeoElement) geos[0])
 								.getLineThickness());
@@ -686,13 +683,12 @@ axesIcon, iconHeight);
 			@Override
 			public ImageIcon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
-					return GeoGebraIcon.createLineStyleIcon(
-							EuclidianStyleBarStatic.lineStyleArray[this
-									.getSelectedIndex()],
+					return GeoGebraIconD.createLineStyleIcon(
+							EuclidianView.getLineType(this.getSelectedIndex()),
 							this.getSliderValue(), lineStyleIconSize,
 							Color.BLACK, null);
 				}
-				return GeoGebraIcon.createEmptyIcon(lineStyleIconSize.width,
+				return GeoGebraIconD.createEmptyIcon(lineStyleIconSize.width,
 						lineStyleIconSize.height);
 			}
 
@@ -717,16 +713,16 @@ axesIcon, iconHeight);
 		// create line style icon array
 		final Dimension pointStyleIconSize = new Dimension(getIconWidth(),
 				iconHeight);
-		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianStyleBarStatic.pointStyleArray.length];
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[i], 4,
+		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianView
+				.getPointStyleLength()];
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleIcons[i] = GeoGebraIconD.createPointStyleIcon(
+					EuclidianView.getPointStyle(i), 4,
 					pointStyleIconSize, Color.BLACK, null);
 
 		// create button
 		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
-				pointStyleIconSize,
- SelectionTable.MODE_ICON) {
+				pointStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -748,7 +744,7 @@ axesIcon, iconHeight);
 
 				if (geosOK) {
 					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-					setFgColor(Color.black);
+					setFgColor(GColor.BLACK);
 
 					// if geo is a matrix, this will return a GeoNumeric...
 					geo = ((GeoElement) geos[0])
@@ -770,13 +766,13 @@ axesIcon, iconHeight);
 			@Override
 			public ImageIcon getButtonIcon() {
 				if (getSelectedIndex() > -1) {
-					return GeoGebraIcon.createPointStyleIcon(
-							EuclidianStyleBarStatic.pointStyleArray[this
-									.getSelectedIndex()],
+					return GeoGebraIconD.createPointStyleIcon(
+							EuclidianView
+									.getPointStyle(this.getSelectedIndex()),
 							this.getSliderValue(), pointStyleIconSize,
 							Color.BLACK, null);
 				}
-				return GeoGebraIcon.createEmptyIcon(pointStyleIconSize.width,
+				return GeoGebraIconD.createEmptyIcon(pointStyleIconSize.width,
 						pointStyleIconSize.height);
 			}
 
@@ -797,17 +793,17 @@ axesIcon, iconHeight);
 		// ========================================
 		// angle interval button
 
-		String[] angleIntervalArray = new String[GeoAngle.INTERVAL_MIN.length - 1];
+		String[] angleIntervalArray = new String[GeoAngle
+				.getIntervalMinListLength() - 1];
 		
-		for (int i = 0; i < GeoAngle.INTERVAL_MIN.length - 1; i++) {
+		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
 			angleIntervalArray[i] = loc.getPlain("AngleBetweenAB.short",
-					GeoAngle.INTERVAL_MIN[i],
-					GeoAngle.INTERVAL_MAX[i]);
+					GeoAngle.getIntervalMinList(i),
+					GeoAngle.getIntervalMaxList(i));
 		}
 
 		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
-				new Dimension(0, iconHeight),
- SelectionTable.MODE_TEXT) {
+				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1021,9 +1017,7 @@ axesIcon, iconHeight);
 				if (EuclidianView.isPenMode(mode)) {
 					this.setVisible(true);
 
-					setSelectedIndex(getColorIndex(
-							GColorD
-							.getAwtColor(ec.getPen().getPenColor())));
+					setSelectedIndex(getColorIndex(ec.getPen().getPenColor()));
 
 					setSliderValue(100);
 					getMySlider().setVisible(false);
@@ -1074,8 +1068,7 @@ axesIcon, iconHeight);
 
 						// find the geoColor in the table and select it
 						int index = this
-								.getColorIndex(GColorD
-								.getAwtColor(geoColor));
+								.getColorIndex(geoColor);
 						setSelectedIndex(index);
 						setDefaultColor(alpha < 0 ? 0 : alpha, geoColor);
 
@@ -1140,15 +1133,14 @@ axesIcon, iconHeight);
 					updateColorTable();
 
 					// find the geoColor in the table and select it
-					int index = getColorIndex(GColorD
-							.getAwtColor(geoColor));
+					int index = getColorIndex(geoColor);
 					setSelectedIndex(index);
 					setDefaultColor(alpha, geoColor);
 
 					// if nothing was selected, set the icon to show the
 					// non-standard color
 					if (index == -1) {
-						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
+						this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha,
 								bgColorIconSize,
  GColorD.getAwtColor(geoColor),
 								null));
@@ -1194,7 +1186,7 @@ axesIcon, iconHeight);
 
 			private static final long serialVersionUID = 1L;
 
-			private Color geoColor;
+			private GColor geoColor;
 
 			@Override
 			public void update(Object[] geos) {
@@ -1205,8 +1197,7 @@ axesIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = GColorD.getAwtColor(geo
-							.getObjectColor());
+					geoColor = geo.getObjectColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it
@@ -1226,7 +1217,7 @@ axesIcon, iconHeight);
 
 			@Override
 			public ImageIcon getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColorIconSize,
 						GColorD.getAwtColor(getSelectedColor()),
 						null);
@@ -1244,7 +1235,7 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getPlain("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
@@ -1275,7 +1266,7 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// italic text button
-		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight) {
@@ -1407,7 +1398,7 @@ axesIcon, iconHeight);
 
 		ImageIcon[] bracketIcons = new ImageIcon[EuclidianStyleBarStatic.bracketArray.length];
 		for (int i = 0; i < bracketIcons.length; i++) {
-			bracketIcons[i] = GeoGebraIcon.createStringIcon(
+			bracketIcons[i] = GeoGebraIconD.createStringIcon(
 					EuclidianStyleBarStatic.bracketArray[i],
 							app.getPlainFont(), true, false, true,
  new Dimension(
@@ -1456,7 +1447,7 @@ axesIcon, iconHeight);
 		// ====================================
 		// vertical grid lines toggle button
 		btnTableTextLinesV = new MyToggleButton(
-				GeoGebraIcon.createVGridIcon(iconDimension), iconHeight) {
+				GeoGebraIconD.createVGridIcon(iconDimension), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1480,7 +1471,7 @@ axesIcon, iconHeight);
 		// ====================================
 		// horizontal grid lines toggle button
 		btnTableTextLinesH = new MyToggleButton(
-				GeoGebraIcon.createHGridIcon(iconDimension), iconHeight) {
+				GeoGebraIconD.createHGridIcon(iconDimension), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -1610,8 +1601,8 @@ axesIcon, iconHeight);
 			if (btnLineStyle.getSelectedValue() != null) {
 				if (EuclidianView.isPenMode(mode)) {
 					ec.getPen().setPenLineStyle(
-							EuclidianStyleBarStatic.lineStyleArray[btnLineStyle
-									.getSelectedIndex()]);
+							EuclidianView.getLineType(
+									btnLineStyle.getSelectedIndex()));
 					ec.getPen().setPenSize(btnLineStyle.getSliderValue());
 				} else {
 					int selectedIndex = btnLineStyle.getSelectedIndex();

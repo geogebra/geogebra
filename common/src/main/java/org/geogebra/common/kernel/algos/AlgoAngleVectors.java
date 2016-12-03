@@ -61,7 +61,7 @@ public class AlgoAngleVectors extends AlgoAngleVectorsND {
 		angle.setValue(value);
 	}
 
-	// TODO Consider locusequability
+	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

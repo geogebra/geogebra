@@ -244,7 +244,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 		});
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.insert(getClearInputButton(), 1);
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				content.insert(getClearInputButton(), 1);
+			}
 			controls.setVisible(false);
 		}
 
@@ -533,7 +535,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 					if (geos == null) {
 						// inputField.getTextBox().setFocus(true);
-						setFocus(true);
+						getController().setFocus(true);
 						return;
 					}
 
@@ -559,7 +561,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 								public void execute() {
 									scrollIntoView();
 									if (isInputTreeItem() && keepFocus) {
-										setFocus(true);
+										getController().setFocus(true);
 									}
 								}
 							});
@@ -604,7 +606,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 				public void run() {
 					scrollIntoView();
 					if (isInputTreeItem()) {
-						setFocus(true);
+						getController().setFocus(true);
 					}
 				}
 			};

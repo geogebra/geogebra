@@ -20,11 +20,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	
 	/** long press timeout in ms **/
-	private final int LONG_PRESS_TIMEOUT = 500;
+	private static final int LONG_PRESS_TIMEOUT = 500;
 	/** **/
-	private final int LONG_PRESS_THRESHOLD = 10;
+	private static final int LONG_PRESS_THRESHOLD = 10;
 	/** **/
-	private final int DUMMY_DRAG_ELEM_OFFSET_Y = 15;
+	private static final int DUMMY_DRAG_ELEM_OFFSET_Y = 15;
 	/** y coordinates of first tap, used to detect longTaps **/
 	int yStart;
 	/** x coordinates of first tap, used to detect longTaps **/

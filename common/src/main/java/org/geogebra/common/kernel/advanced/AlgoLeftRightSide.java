@@ -69,6 +69,6 @@ public class AlgoLeftRightSide extends AlgoElement {
 		return side;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

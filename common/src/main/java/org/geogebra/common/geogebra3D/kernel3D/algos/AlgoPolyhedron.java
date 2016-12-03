@@ -46,54 +46,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		outputPolyhedron.adjustOutputSize(1);
 		polyhedron = getPolyhedron();
 
-		outputPoints = new OutputHandler<GeoPoint3D>(
-				new elementFactory<GeoPoint3D>() {
-					public GeoPoint3D newElement() {
-						GeoPoint3D p = new GeoPoint3D(cons);
-						p.setCoords(0, 0, 0, 1);
-						p.setParentAlgorithm(AlgoPolyhedron.this);
-
-						boolean visible = false;
-						boolean labelVisible = false;
-						int size = outputPoints.size();
-						if (size > 0) { // check if at least one element is
-										// visible
-							for (int i = 0; i < size && !visible
-									&& !labelVisible; i++) {
-								visible = visible
-										|| outputPoints.getElement(i)
-												.isEuclidianVisible();
-								labelVisible = labelVisible
-										|| outputPoints.getElement(i)
-												.getLabelVisible();
-							}
-						} else { // no element yet
-							visible = isFirstInputPointVisible();
-							labelVisible = isFirstInputPointLabelVisible();
-						}
-
-						p.setEuclidianVisible(visible);
-						if (!visible) { // if not visible, we don't want
-										// setParentAlgorithm() to change it
-							p.dontSetEuclidianVisibleBySetParentAlgorithm();
-						}
-						p.setLabelVisible(labelVisible);
-
-						if (getPolyhedron().getShowObjectCondition() != null) {
-							try {
-								p.setShowObjectCondition(getPolyhedron()
-										.getShowObjectCondition());
-							} catch (Exception e) {
-								// circular definition
-							}
-						}
-
-						getPolyhedron().addPointCreated(p);
-
-						return p;
-					}
-				});
-
+		outputPoints = createOutputPointsHandler();
 		createOutputPolygons();
 
 		createOutputSegments();
@@ -233,6 +186,57 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	@Override
 	protected void updateDependentGeos() {
 		getPolyhedron().update();
+	}
+
+	/**
+	 * @return an output handler for points
+	 */
+	protected OutputHandler<GeoPoint3D> createOutputPointsHandler() {
+		return new OutputHandler<GeoPoint3D>(new PointFactory());
+	}
+
+	protected class PointFactory implements elementFactory<GeoPoint3D> {
+		public GeoPoint3D newElement() {
+			GeoPoint3D p = new GeoPoint3D(cons);
+			p.setCoords(0, 0, 0, 1);
+			p.setParentAlgorithm(AlgoPolyhedron.this);
+
+			boolean visible = false;
+			boolean labelVisible = false;
+			int size = outputPoints.size();
+			if (size > 0) { // check if at least one element is
+							// visible
+				for (int i = 0; i < size && !visible && !labelVisible; i++) {
+					visible = visible
+							|| outputPoints.getElement(i).isEuclidianVisible();
+					labelVisible = labelVisible
+							|| outputPoints.getElement(i).getLabelVisible();
+				}
+			} else { // no element yet
+				visible = isFirstInputPointVisible();
+				labelVisible = isFirstInputPointLabelVisible();
+			}
+
+			p.setEuclidianVisible(visible);
+			if (!visible) { // if not visible, we don't want
+							// setParentAlgorithm() to change it
+				p.dontSetEuclidianVisibleBySetParentAlgorithm();
+			}
+			p.setLabelVisible(labelVisible);
+
+			if (getPolyhedron().getShowObjectCondition() != null) {
+				try {
+					p.setShowObjectCondition(
+							getPolyhedron().getShowObjectCondition());
+				} catch (Exception e) {
+					// circular definition
+				}
+			}
+
+			getPolyhedron().addPointCreated(p);
+
+			return p;
+		}
 	}
 
 }

@@ -148,7 +148,7 @@ public class CheckboxCreationDialog extends JDialog implements
 		captionPanel.add(ip);
 
 		// list panel
-		JPanel listPanel = ToolCreationDialog.createInputOutputPanel(loc,
+		JPanel listPanel = ToolCreationDialogD.createInputOutputPanel(loc,
 				listModel, comboModel, false, false, null);
 
 		// buttons

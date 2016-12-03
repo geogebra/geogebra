@@ -12,6 +12,8 @@ import org.geogebra.common.plugin.GeoClass;
 
 /**
  * StemPlot
+ * 
+ * @author Michael Borcherds
  */
 public class CmdStemPlot extends CommandProcessor {
 	/**
@@ -71,9 +73,16 @@ public class CmdStemPlot extends CommandProcessor {
 	}
 
 	/**
-	 * StemPlot[list] Michael Borcherds
+	 * StemPlot[list, number]
+	 * 
+	 * @param label
+	 *            output label
+	 * @param list
+	 *            list
+	 * @param num
+	 *            scale adjustment
 	 */
-	final public GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
+	private GeoText StemPlot(String label, GeoList list, GeoNumeric num) {
 		AlgoStemPlot algo = new AlgoStemPlot(cons, label, list, num);
 		GeoText text = algo.getResult();
 		return text;

@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
@@ -32,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -70,11 +72,13 @@ public class ProverBotanasMethod {
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
+			if (!(geo instanceof GeoNumeric)) {
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 					.getBotanaVars(geo);
-			if (vars != null) {
-				List<Variable> varsList = Arrays.asList(vars);
-				botanaVarsInv.put(varsList, geo);
+				if (vars != null) {
+					List<Variable> varsList = Arrays.asList(vars);
+					botanaVarsInv.put(varsList, geo);
+				}
 			}
 		}
 	}
@@ -287,7 +291,7 @@ public class ProverBotanasMethod {
 	 * basis method (or Wu's characteristic method, but that's not yet
 	 * implemented).
 	 */
-	public class AlgebraicStatement {
+	public static class AlgebraicStatement {
 		/**
 		 * The statement in geometric form, e.g. AreCollinear[D,E,F].
 		 */
@@ -1034,13 +1038,14 @@ public class ProverBotanasMethod {
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
-		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
+		SingularWebService singularWS = App.getSingularWS();
+		if (singularWS == null || (!singularWS.isAvailable())) {
 			proverSettings.transcext = false;
 		}
 
 		/* The NDG conditions (automatically created): */
 		if (proverSettings.freePointsNeverCollinear == null) {
-			if (App.singularWS != null && App.singularWS.isAvailable()) {
+			if (App.singularWSisAvailable()) {
 				/* SingularWS will use Cox' method */
 				proverSettings.freePointsNeverCollinear = false;
 			} else {
@@ -1085,7 +1090,7 @@ public class ProverBotanasMethod {
 									 * Giac cannot permute the variables at the
 									 * moment.
 									 */
-			if (App.singularWS != null && App.singularWS.isAvailable()) {
+			if (App.singularWSisAvailable()) {
 				/*
 				 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to
 				 * prevent unneeded computations:
@@ -1109,10 +1114,10 @@ public class ProverBotanasMethod {
 
 				Iterator<Set<Polynomial>> ndgSet = eliminationIdeal.iterator();
 
-				List<Set<GeoPoint>> xEqualSet = new ArrayList(
-						new HashSet<GeoPoint>());
-				List<Set<GeoPoint>> yEqualSet = new ArrayList(
-						new HashSet<GeoPoint>());
+				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<HashSet<GeoPoint>>();
+				xEqualSet.add(new HashSet<GeoPoint>());
+				List<HashSet<GeoPoint>> yEqualSet = new ArrayList<HashSet<GeoPoint>>();
+				yEqualSet.add(new HashSet<GeoPoint>());
 				boolean xyRewrite = (eliminationIdeal.size() == 2);
 
 				List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
@@ -1174,13 +1179,13 @@ public class ProverBotanasMethod {
 								 */
 								if (xyRewrite) {
 									if (ndgc.getCondition().equals("xAreEqual")) {
-										Set<GeoPoint> points = new HashSet<GeoPoint>();
+										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
 										points.add((GeoPoint) ndgc.getGeos()[0]);
 										points.add((GeoPoint) ndgc.getGeos()[1]);
 										xEqualSet.add(points);
 									}
 									if (ndgc.getCondition().equals("yAreEqual")) {
-										Set<GeoPoint> points = new HashSet<GeoPoint>();
+										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
 										points.add((GeoPoint) ndgc.getGeos()[0]);
 										points.add((GeoPoint) ndgc.getGeos()[1]);
 										yEqualSet.add(points);
@@ -1241,18 +1246,18 @@ public class ProverBotanasMethod {
 
 			/* START OF PROVE. */
 		} else {
-			Boolean solvable = Polynomial.solvable(as.polynomials
+			ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 					.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext);
-			if (solvable == null) {
+			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
 				/*
 				 * Prover returned with no success, search for another prover:
 				 */
 				Log.debug("Unsuccessful run, statement is UNKNOWN at the moment");
 				return ProofResult.UNKNOWN;
 			}
-			if (solvable) {
+			if (solvable.boolVal()) {
 				if (!proverSettings.transcext) {
 					/*
 					 * We cannot reliably tell if the statement is really false:

@@ -110,6 +110,6 @@ public class AlgoInsert extends AlgoElement {
 			}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

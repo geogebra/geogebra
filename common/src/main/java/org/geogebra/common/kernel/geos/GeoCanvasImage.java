@@ -129,7 +129,7 @@ public class GeoCanvasImage extends GeoImage {
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
 			GColor bgColor1, float backgroundTransparency, int xInt, int yInt) {
 
-		bufferedImage = AwtFactory.prototype.newMyImage(xInt, yInt,
+		bufferedImage = AwtFactory.getPrototype().newMyImage(xInt, yInt,
 				GBufferedImage.TYPE_INT_ARGB);
 
 		g = bufferedImage.createGraphics();
@@ -142,7 +142,7 @@ public class GeoCanvasImage extends GeoImage {
 
 		// paint background transparent
 		if (bgColor1 == null) {
-			g.setColor(AwtFactory.prototype.newColor(255, 255, 255,
+			g.setColor(GColor.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
 			g.setColor(bgColor1);

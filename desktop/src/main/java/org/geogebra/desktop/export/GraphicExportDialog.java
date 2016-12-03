@@ -69,6 +69,7 @@ import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author Markus Hohenwarter
@@ -221,11 +222,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		JPanel formatPanel = new JPanel(new FlowLayout(5));
 		String[] formats;
 		
-		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
+		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()) {
 			formats = new String[] {
- loc.getMenu("png") + " ("
-					+ FileExtensions.PNG + ")" };
-		}else{
+					loc.getMenu("png") + " (" + FileExtensions.PNG + ")" };
+		} else {
 			formats = new String[] {
 					loc.getMenu("png") + " (" + FileExtensions.PNG + ")",
 					loc.getMenu("pdf") + " (" + FileExtensions.PDF + ")",
@@ -325,6 +325,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		});
 
 		cbFormat.addActionListener(new ActionListener() {
+			@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+					"missing break is deliberate" })
 			public void actionPerformed(ActionEvent arg0) {
 				textAsShapesCB.setEnabled(true);
 				switch (selectedFormat()) {

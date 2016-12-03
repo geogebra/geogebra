@@ -6,11 +6,11 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
@@ -517,7 +516,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
-		geo.setObjColor(AwtFactory.prototype.newColor(red, green, blue));
+		geo.setObjColor(GColor.newColor(red, green, blue));
 		geo.updateRepaint();
 	}
 
@@ -835,9 +834,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// convert from 0,10,15,20,30
 		// to 0,1,2,3,4
 
-		Integer[] types = EuclidianView.getLineTypes();
-		for (int i = 0; i < types.length; i++) {
-			if (type == types[i].intValue())
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
+			if (type == EuclidianView.getLineType(i))
 				return i;
 		}
 
@@ -845,16 +843,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	public synchronized void setLineStyle(String objName, int style) {
-		Integer[] types = EuclidianView.getLineTypes();
 
-		if (style < 0 || style >= types.length)
+		if (style < 0 || style >= EuclidianView.getLineTypeLength())
 			return;
 
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return;
 
-		geo.setLineType(types[style].intValue());
+		geo.setLineType(EuclidianView.getLineType(style));
 		geo.updateRepaint();
 	}
 
@@ -1311,7 +1308,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	final public void setPenColor(int red, int green, int blue) {
 		app.getActiveEuclidianView().getEuclidianController().getPen()
-				.setPenColor(AwtFactory.prototype.newColor(red, green, blue));
+				.setPenColor(GColor.newColor(red, green, blue));
 	}
 
 	final public void setPenSize(int size) {
@@ -1330,7 +1327,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						.getEuclidianController().getPen().getPenColor());
 	}
 
-	public double getListValue(String objName, int index) {
+	public synchronized double getListValue(String objName, int index) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null || !geo.isGeoList()) {
 			return Double.NaN;
@@ -1559,7 +1556,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return;
 	}
 
-	public boolean getVisible(String label, int view) {
+	public synchronized boolean getVisible(String label, int view) {
 		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}
@@ -1590,10 +1587,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
 	}
 
-	public boolean getGridVisible() {
+	public synchronized boolean getGridVisible() {
 		return getGridVisible(1);
 	}
-	public boolean getGridVisible(int view) {
+
+	public synchronized boolean getGridVisible(int view) {
 		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}

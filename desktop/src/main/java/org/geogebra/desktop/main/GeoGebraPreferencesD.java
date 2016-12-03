@@ -150,11 +150,11 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	// Ulven: changed to make available to subclass GeoGebraPortablePreferences
 	protected String factoryDefaultXml; // see loadPreferences()
 
-	protected final String XML_FACTORY_DEFAULT = "xml_factory_default";
-	protected final String TOOLS_FILE_GGT = "tools_file_ggt";
-	protected final String APP_LOCALE = "app_locale";
-	protected final String APP_CURRENT_IMAGE_PATH = "app_current_image_path";
-	protected final String APP_FILE_ = "app_file_";
+	protected static final String XML_FACTORY_DEFAULT = "xml_factory_default";
+	protected static final String TOOLS_FILE_GGT = "tools_file_ggt";
+	protected static final String APP_LOCALE = "app_locale";
+	protected static final String APP_CURRENT_IMAGE_PATH = "app_current_image_path";
+	protected static final String APP_FILE_ = "app_file_";
 
 	/* Ulven 06.03.10 */
 

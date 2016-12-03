@@ -470,7 +470,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	// */ //--- SNIP end ---------------------------------------
 
-	// TODO Consider locusequability
+	
 
 	/*
 	 * @Override protected void updateDependentGeos() { // update dependent

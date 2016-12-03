@@ -8683,10 +8683,10 @@ public final class JavascriptLexer extends Lexer implements
 			}
 			case 31:
 				break;
-			case 17: {
+			case 17:
 				yypushback(yylength());
 				yybegin(FUNCTION);
-			}
+				break;
 			case 32:
 				break;
 			case 25: {

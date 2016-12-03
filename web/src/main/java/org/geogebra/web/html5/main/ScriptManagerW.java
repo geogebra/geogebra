@@ -87,10 +87,20 @@ public class ScriptManagerW extends ScriptManager {
 
 	}-*/;
 
+	private static String toString(Object o) {
+		return o == null ? null : o.toString();
+	}
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
+			if (args != null && args.length > 2) {
+				callListenerNativeArray(this.api, jsFunction,
+						toString(args[0]),
+						toString(args[1]),
+						toString(args[2]));
+				return;
+			}
 			String singleArg = args != null && args.length > 0
 					? (String) args[0] : null;
 			callListenerNative(this.api, jsFunction, singleArg, null);
@@ -103,9 +113,8 @@ public class ScriptManagerW extends ScriptManager {
 	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
-			String singleArg = arg0 != null ? arg0.toString() : null;
-			callListenerNative(this.api, jsFunction, singleArg,
-					arg1 == null ? null : arg1.toString());
+			callListenerNative(this.api, jsFunction, toString(arg0),
+					toString(arg1));
 			return;
 		}
 		((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
@@ -114,6 +123,12 @@ public class ScriptManagerW extends ScriptManager {
 	private native void callListenerNative(JavaScriptObject api2,
 			String jsFunction, String arg0, String arg1) /*-{
 		api2.listeners[jsFunction * 1](arg0, arg1);
+
+	}-*/;
+
+	private native void callListenerNativeArray(JavaScriptObject api2,
+			String jsFunction, String arg0, String arg1, String arg2) /*-{
+		api2.listeners[jsFunction * 1]([ arg0, arg1, arg2 ]);
 
 	}-*/;
 
@@ -862,6 +877,10 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.exportAsymptote = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportAsymptote()();
+		};
+		
+		api.setRounding = function(digits) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits+"");
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;

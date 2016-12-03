@@ -97,5 +97,5 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		return v.getDefinition();
 	}
 
-	// TODO Consider locusequability
+	
 }

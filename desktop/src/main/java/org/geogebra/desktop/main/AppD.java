@@ -117,7 +117,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -129,7 +128,6 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -181,7 +179,6 @@ import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.euclidian.event.MouseEventND;
@@ -198,6 +195,7 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
+import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -225,6 +223,8 @@ import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
 import org.geogebra.desktop.util.UtilD;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class AppD extends App implements KeyEventDispatcher {
 
@@ -277,7 +277,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	// APPLET fields
 	// ==============================================================
 
-	private static AppletImplementation appletImpl;
+	private static volatile AppletImplementation appletImpl;
+	private static Object lock = new Object();
 	private boolean isApplet = false;
 
 	// ==============================================================
@@ -408,14 +409,23 @@ public class AppD extends App implements KeyEventDispatcher {
 		this.args = args;
 
 		if (args != null && !args.containsArg("silent")) {
-			Log.logger = new LoggerD();
-			Log.logger.setLogDestination(LogDestination.CONSOLE);
+			Log.setLogger(new LoggerD());
+			Log.setLogDestination(LogDestination.CONSOLE);
 			if (args.containsArg("logLevel")) {
-				Log.logger.setLogLevel(args.getStringValue("logLevel"));
+				Log.setLogLevel(args.getStringValue("logLevel"));
 			}
 			if (args.containsArg("logFile")) {
-				Log.logger.setLogDestination(LogDestination.FILE);
-				Log.logger.setLogFile(args.getStringValue("logFile"));
+				Log.setLogDestination(LogDestination.FILE);
+				Log.setLogFile(args.getStringValue("logFile"));
+			}
+			if (args.containsArg("logShowCaller")) {
+				Log.setCallerShown(args.getBooleanValue("logShowCaller", true));
+			}
+			if (args.containsArg("logShowTime")) {
+				Log.setTimeShown(args.getBooleanValue("logShowTime", true));
+			}
+			if (args.containsArg("logShowLevel")) {
+				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
 			}
 		}
 		this.prerelease = args != null
@@ -606,9 +616,11 @@ ToolbarD.getAllTools(this));
 	// INIT
 	// **************************************************************************
 
-	public void setApplet(AppletImplementation appletImpl) {
+	public void setApplet(AppletImplementation appletImpl0) {
 		isApplet = true;
-		AppD.appletImpl = appletImpl;
+		synchronized (lock) {
+			AppD.appletImpl = appletImpl0;
+		}
 		mainComp = appletImpl.getJApplet();
 	}
 
@@ -685,25 +697,25 @@ ToolbarD.getAllTools(this));
 	 */
 	protected void initFactories() {
 
-		AwtFactory.prototype = new AwtFactoryD();
-		FormatFactory.prototype = new FormatFactoryJre();
-		LaTeXFactory.prototype = new LaTeXFactoryD();
+		if (AwtFactory.getPrototype() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryD());
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+		if (FormatFactory.getPrototype() == null) {
+			FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.SwingFactory.prototype = new
-		// SwingFactoryD();
+		if (LaTeXFactory.getPrototype() == null) {
+			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
+		}
 
-		UtilFactory.prototype = new UtilFactoryD();
+		if (UtilFactory.getPrototype() == null) {
+			UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+		}
 
-		// moved to getFactory() so that applets load quicker
-		// geogebra.common.factories.Factory.prototype = new FactoryD();
-
-		StringUtil.prototype = new StringUtilD();
-
-		EuclidianStatic.prototype = new EuclidianStaticD();
+		if (StringUtil.getPrototype() == null) {
+			StringUtil.setPrototypeIfNull(new StringUtilD());
+		}
 
 	}
 
@@ -757,7 +769,7 @@ ToolbarD.getAllTools(this));
 					 */
 					);
 
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("proverhelp")) {
 			ProverSettings proverSettings = ProverSettings.get();
@@ -797,7 +809,7 @@ ToolbarD.getAllTools(this));
 									+ proverSettings.captionAlgebra
 							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("singularWShelp")) {
 			// help message for singularWS
@@ -805,22 +817,23 @@ ToolbarD.getAllTools(this));
 					.println(" --singularWS=OPTIONS\tset options for SingularWS\n"
 							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
-							+ SingularWSSettings.useSingularWebService
+									+ SingularWSSettings.useSingularWebService()
 							+ "]\n"
 							+ "      remoteURL:URL\tset the remote server URL ["
-							+ SingularWSSettings.singularWebServiceRemoteURL
+									+ SingularWSSettings
+											.getSingularWebServiceRemoteURL()
 							+ "]\n"
 							+ "      timeout:SECS\tset the timeout ["
-							+ SingularWSSettings.singularWebServiceTimeout
+									+ SingularWSSettings.getTimeout()
 							+ "]\n"
 							+ "      caching:BOOLEAN\tset server side caching ["
 							+ SingularWSSettings.getCachingText()
 							+ "]\n"
 							+ "  Example: singularWS=timeout:3\n");
-			System.exit(0);
+			AppD.exit(0);
 		}
 		if (args.containsArg("v")) {
-			System.exit(0);
+			AppD.exit(0);
 		}
 	}
 
@@ -1074,7 +1087,7 @@ ToolbarD.getAllTools(this));
 				System.out.println(it.next());
 			}
 
-			System.exit(0);
+			AppD.exit(0);
 
 		}
 
@@ -1084,6 +1097,13 @@ ToolbarD.getAllTools(this));
 		}
 
 		setVersionCheckAllowed(args.getStringValue("versionCheckAllow"));
+
+	}
+
+	@SuppressFBWarnings({ "DM_EXIT", "" })
+	public static void exit(int i) {
+		System.exit(i);
+		;
 
 	}
 
@@ -1193,18 +1213,17 @@ ToolbarD.getAllTools(this));
 	private static void setSingularWSOption(String option) {
 		String[] str = option.split(":", 2);
 		if ("enable".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.useSingularWebService = Boolean.valueOf(str[1])
-					.booleanValue();
+			SingularWSSettings.setUseSingularWebService(
+					Boolean.valueOf(str[1]).booleanValue());
 			return;
 		}
 		if ("remoteURL".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.singularWebServiceRemoteURL = str[1]
-					.toLowerCase();
+			SingularWSSettings
+					.setSingularWebServiceRemoteURL(str[1].toLowerCase());
 			return;
 		}
 		if ("timeout".equalsIgnoreCase(str[0])) {
-			SingularWSSettings.singularWebServiceTimeout = Integer
-					.parseInt(str[1]);
+			SingularWSSettings.setTimeout(Integer.parseInt(str[1]));
 			return;
 		}
 		if ("caching".equalsIgnoreCase(str[0])) {
@@ -1263,6 +1282,8 @@ ToolbarD.getAllTools(this));
 				setLocale(getLocale(language));
 			}
 		}
+		boolean eg = args.getBooleanValue("enableGraphing", true);
+		kernel.getAlgebraProcessor().setCommandsEnabled(eg);
 		if (args.containsArg("regressionFile")) {
 			this.regressionFileName = args.getStringValue("regressionFile");
 		}
@@ -1307,12 +1328,6 @@ ToolbarD.getAllTools(this));
 
 	@Override
 	public boolean freeMemoryIsCritical() {
-
-		if (runtime.freeMemory() > MEMORY_CRITICAL) {
-			return false;
-		}
-
-		System.gc();
 
 		return runtime.freeMemory() < MEMORY_CRITICAL;
 	}
@@ -1467,7 +1482,7 @@ ToolbarD.getAllTools(this));
 		kernel.updateConstruction();
 		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
 		regressionFileWriter.close();
-		System.exit(0);
+		AppD.exit(0);
 	}
 
 	/**
@@ -1482,7 +1497,7 @@ ToolbarD.getAllTools(this));
 		}
 		String fileArgument = args.getStringValue("file0");
 		String lowerCase = StringUtil.toLowerCase(fileArgument);
-		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.ext);
+		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.toString());
 	}
 
 	/**
@@ -2485,13 +2500,16 @@ ToolbarD.getAllTools(this));
 			return -1;
 		}
 		dmd /= 1000;
-		for (int i = 0; i < (MyXMLHandler.tooltipTimeouts.length - 1); i++) {
-			if (Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]) >= dmd) {
-				return Integer.parseInt(MyXMLHandler.tooltipTimeouts[i]);
+		for (int i = 0; i < (OptionsAdvancedD.tooltipTimeoutsLength()
+				- 1); i++) {
+			if (Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i)) >= dmd) {
+				return Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i));
 			}
 		}
 		return Integer
-				.parseInt(MyXMLHandler.tooltipTimeouts[MyXMLHandler.tooltipTimeouts.length - 2]);
+				.parseInt(
+						OptionsAdvancedD.tooltipTimeouts(
+								OptionsAdvancedD.tooltipTimeoutsLength() - 2));
 	}
 
 	@Override
@@ -2531,7 +2549,7 @@ ToolbarD.getAllTools(this));
 		// euclidianView.updateRightAngleStyle(locale);
 
 		// make sure digits are updated in all numbers
-		getKernel().updateConstruction();
+		getKernel().updateConstructionLanguage();
 		setUnsaved();
 
 		setLabels(); // update display
@@ -3823,15 +3841,6 @@ ToolbarD.getAllTools(this));
 		}
 	}
 
-	@Override
-	public void storeUndoInfoAndStateForModeStarting() {
-		if (isUndoActive()) {
-			kernel.storeStateForModeStarting();
-			kernel.storeUndoInfo();
-			setUnsaved();
-		}
-	}
-
 	public void restoreCurrentUndoInfo() {
 		if (isUndoActive()) {
 			kernel.restoreCurrentUndoInfo();
@@ -4224,7 +4233,7 @@ ToolbarD.getAllTools(this));
 
 	@Override
 	public void showError(String key) {
-		showErrorDialog(getLocalization().getError(key));
+		showErrorDialog(key);
 	}
 
 	@Override
@@ -4263,9 +4272,7 @@ ToolbarD.getAllTools(this));
 					Log.printStacktrace("" + msg);
 
 					// make sure splash screen not showing (will be in front)
-					if (GeoGebra.splashFrame != null) {
-						GeoGebra.splashFrame.setVisible(false);
-					}
+					GeoGebra.hideSplash();
 
 					isErrorDialogShowing = true;
 
@@ -4303,9 +4310,7 @@ ToolbarD.getAllTools(this));
 				public void showCommandError(String command, String message) {
 
 						// make sure splash screen not showing (will be in front)
-						if (GeoGebra.splashFrame != null) {
-							GeoGebra.splashFrame.setVisible(false);
-						}
+					GeoGebra.hideSplash();
 
 					Object[] options = { getLocalization().getPlain("OK"),
 							getLocalization().getPlain("ShowOnlineHelp") };
@@ -4408,7 +4413,7 @@ ToolbarD.getAllTools(this));
 	 */
 	private void setUpLogging() {
 		Log.debug("Setting up logging");
-		if (Log.logger.getLogDestination() == LogDestination.FILE) {
+		if (Log.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
 			Log.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
 			return;
@@ -4429,13 +4434,13 @@ ToolbarD.getAllTools(this));
 		logFile.append(".txt");
 
 		Log.debug("Logging is redirected to " + logFile.toString());
-		Log.logger.setTimeShown(false); // do not print the time twice
+		Log.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
 		Handler fileHandler;
 		try {
 			fileHandler = new FileHandler(logFile.toString(),
-					Log.logger.LOGFILE_MAXLENGTH, 1, false);
+					Log.LOGFILE_MAXLENGTH, 1, false);
 		} catch (Exception e) {
 			logFile = null;
 			return;
@@ -4495,8 +4500,8 @@ ToolbarD.getAllTools(this));
 		}
 		logFile.append(".txt");
 
-		Log.logger.setLogDestination(LogDestination.FILE);
-		Log.logger.setLogFile(logFile.toString());
+		Log.setLogDestination(LogDestination.FILE);
+		Log.setLogFile(logFile.toString());
 		Log.debug(logFile.toString());
 	}
 
@@ -4694,8 +4699,7 @@ ToolbarD.getAllTools(this));
 	}
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
-		return GFontD.getAwtFont(getFontCanDisplay(string, b,
-				plain, i));
+		return getFontManager().getFontCanDisplayAwt(string, b, plain, i);
 	}
 
 	public Font getFontCanDisplayAwt(String string) {
@@ -5003,7 +5007,8 @@ ToolbarD.getAllTools(this));
 			} catch (InterruptedException e) {
 				return;
 			}
-			if (((System.currentTimeMillis() - startTime) > SingularWSSettings.singularWebServiceTimeout * 1000L)
+			if (((System.currentTimeMillis() - startTime) > SingularWSSettings
+					.getTimeout() * 1000L)
 					&& t.isAlive()) {
 				Log.debug("SingularWS startup timeout");
 				t.interrupt();
@@ -5414,7 +5419,9 @@ ToolbarD.getAllTools(this));
 		westPanel.revalidate();
 		eastPanel.revalidate();
 		toolBarContainer.buildGui();
-		helpPanel.revalidate();
+		if (helpPanel != null) {
+			helpPanel.revalidate();
+		}
 	}
 
 	public static void initInputBar(AppD app, boolean showInputTop,
@@ -5475,5 +5482,6 @@ ToolbarD.getAllTools(this));
 
 		return copyPaste;
 	}
+
 
 }

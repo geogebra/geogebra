@@ -151,13 +151,18 @@ public abstract class UndoManager {
 	 */
 	public abstract void storeUndoInfoAfterPasteOrAdd();
 
+
+	public abstract void storeUndoInfo(StringBuilder currentUndoXML, boolean refresh);
+
 	/**
 	 * Stores undo info
-	 * 
+	 *
 	 * @param refresh
 	 *            true to restore current
 	 */
-	public abstract void storeUndoInfo(boolean refresh);
+	final public void storeUndoInfo(final boolean refresh) {
+		storeUndoInfo(construction.getCurrentUndoXML(true), refresh);
+	}
 
 	/**
 	 * Loads undo info

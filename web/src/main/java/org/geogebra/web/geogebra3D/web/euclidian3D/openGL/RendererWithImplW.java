@@ -289,7 +289,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 				bimg);
 	}
 
-	private class AlphaTextureCreator implements ImageLoadCallback {
+	private static class AlphaTextureCreator implements ImageLoadCallback {
 
 		private DrawLabel3D label;
 		private ImageElement image;

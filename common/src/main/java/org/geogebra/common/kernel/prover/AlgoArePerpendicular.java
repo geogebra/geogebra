@@ -179,6 +179,6 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -154,7 +154,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		implicitPolyTable = new HashMap<String, Integer>(); // function(x,y)
 															// return value to
 															// function #
-		CustomColor = new HashMap<GColor, String>(); // map
+		customColor = new HashMap<GColor, String>(); // map
 																			// of
 																			// rgb
 																			// ->
@@ -264,7 +264,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (!compact)
 				codeEndDoc.append("\n");
 			codeEndDoc.append("shipout(bbox(");
-			ColorCode(euclidianView.getBackgroundCommon(), codeEndDoc);
+			colorCode(euclidianView.getBackgroundCommon(), codeEndDoc);
 			codeEndDoc.append(",Fill)); ");
 		}
 		// Re-scale
@@ -664,7 +664,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			codePoint.append("labelscalefactor");
 		if (!geocolor.equals(GColor.BLACK)) {
 			codePoint.append(",");
-			ColorCode(geocolor, codePoint);
+			colorCode(geocolor, codePoint);
 		}
 		codePoint.append("); ");
 	}
@@ -858,9 +858,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		code.append(",");
 		code.append(format(Math.toDegrees(angEnd)));
 		code.append(")");
-		if (LineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo, true) != null) {
 			packSpaceAfter(code, ",");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 		} // TODO: resize?
 		if (anticlockwise)
 			code.append(",EndArcArrow(6)");
@@ -1041,7 +1041,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (!geocolor.equals(GColor.BLACK)) { // color
 				code.append(",");
 				comma = true;
-				ColorCode(geocolor, code);
+				colorCode(geocolor, code);
 			}
 			if (size != getApp().getFontSize()) { // fontsize
 				if (!comma)
@@ -1065,12 +1065,13 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			StringBuilder sb = new StringBuilder();
 			GStringTokenizer stk = new GStringTokenizer(st, '\n');
 			int width = 0;
-			GFont font = AwtFactory.prototype.newFont(
+			GFont font = AwtFactory.getPrototype().newFont(
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
 				width = Math.max(width,
-						(int) Math.ceil(StringUtil.prototype.estimateLength(line, font)));
+						(int) Math.ceil(StringUtil.getPrototype()
+								.estimateLength(line, font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");
@@ -1083,7 +1084,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(format(width * (xmax - xmin) * xunit
 					/ euclidianView.getWidth() + 1));
 			code.append(" cm}{");
-			addText(new String(sb), isLatex, style);
+			addText(sb.toString(), isLatex, style);
 			code.append("}$\",");
 			addPoint(format(x), format(y), code);
 			code.append(",SE*");
@@ -1094,7 +1095,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			if (!geocolor.equals(GColor.BLACK)) { // color
 				code.append(",");
 				comma = true;
-				ColorCode(geocolor, code);
+				colorCode(geocolor, code);
 			}
 			if (size != getApp().getFontSize()) { // fontsize
 				if (!comma)
@@ -1318,7 +1319,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 							+ ",0) -- (" + format(geo.getIntervalMin())
 							+ ",0) -- ");
 					StringBuilder color = new StringBuilder();
-					ColorCode(geo1.getObjectColor(), color);
+					colorCode(geo1.getObjectColor(), color);
 					String str = "cycle;\ndraw(p" + functionCount + "," + color;
 					if (!contour) {
 						str = "cycle;\nfill(p" + functionCount + "," + color;
@@ -1328,7 +1329,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					sb.append(lineBuilder);
 					lineBuilder = sb;
 				} else {
-					ColorCode(geo.getObjectColor(), sb);
+					colorCode(geo.getObjectColor(), sb);
 					String template = "draw( (%0,%1) -- (%2,%3)," + sb
 							+ "+linewidth(" + geo.getLineThickness() + "));\n";
 					lineBuilder = drawNoLatexFunction(geo, xrangemax,
@@ -1415,11 +1416,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		addPoint(x1, y1, code);
 		code.append("--");
 		addPoint(x2, y2, code);
-		if (LineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo, true) != null) {
 			code.append(",");
 			if (!compact)
 				code.append(" ");
-			code.append(LineOptionCode(geo, true));
+			code.append(lineOptionCode(geo, true));
 		}
 		code.append(",EndArrow(6)); ");
 	}
@@ -2054,9 +2055,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		endDraw(geo, str);
 		String s = str.toString();
 		StringBuilder sb = new StringBuilder();
-		if (LineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo, true) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(LineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo, true));
 		}
 		sb.append("); ");
 		StringBuilder sa = new StringBuilder();
@@ -2243,7 +2244,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 				// check if label is of point
 				isPointLabel = (geocolor.equals(GColor.BLUE) || ColorEquals(
-						geocolor, AwtFactory.prototype.newColor(124, 124, 255))) // xdxdff
+						geocolor, GColor.newColor(124, 124, 255))) // xdxdff
 						// is of the form "A" or "$A$"
 						&& (((name.length() == 1) && Character.isUpperCase(name
 								.charAt(0))) || (((name.length() == 3)
@@ -2263,7 +2264,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 						codePoint.append(",fp+");
 					else
 						codePoint.append(",");
-					ColorCode(geocolor, codePoint);
+					colorCode(geocolor, codePoint);
 				}
 				codePoint.append("); ");
 			}
@@ -2310,7 +2311,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			else
 				codeBeginPic.append("linewidth(0.7)");
 			codeBeginPic.append(" + ");
-			ColorCode(GridCol, codeBeginPic);
+			colorCode(GridCol, codeBeginPic);
 			if (GridLine != EuclidianStyleConstants.LINE_TYPE_FULL) {
 				codeBeginPic.append(" + ");
 				LinestyleCode(GridLine, codeBeginPic);
@@ -2422,7 +2423,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		else
 			codeBeginPic.append("linewidth(0.7)");
 		codeBeginPic.append("+");
-		ColorCode(GridCol, codeBeginPic);
+		colorCode(GridCol, codeBeginPic);
 		if (GridLine != EuclidianStyleConstants.LINE_TYPE_FULL) {
 			codeBeginPic.append("+");
 			LinestyleCode(GridLine, codeBeginPic);
@@ -2602,7 +2603,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					codeBeginPic.append("pathpen+");
 				else
 					codeBeginPic.append("defaultpen+");
-				ColorCode(axisColor, codeBeginPic);
+				colorCode(axisColor, codeBeginPic);
 				if (axisBold) {
 					codeBeginPic.append("+linewidth(1.2)");
 				}
@@ -2657,7 +2658,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					codeBeginPic.append(",pathpen+");
 				else
 					codeBeginPic.append(",defaultpen+");
-				ColorCode(axisColor, codeBeginPic);
+				colorCode(axisColor, codeBeginPic);
 				if (axisBold) {
 					codeBeginPic.append("+linewidth(1.2)");
 				}
@@ -2758,7 +2759,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append(",");
 			comma = true;
 
-			ColorCode(dotcolor, sb);
+			colorCode(dotcolor, sb);
 		} else if (!frame.getKeepDotColors() && !compactcse5) {
 			if (comma)
 				packSpace(sb, "+");
@@ -2789,7 +2790,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	// Line style code; does not include comma.
-	private String LineOptionCode(GeoElement geo, boolean transparency) {
+	private String lineOptionCode(GeoElement geo, boolean transparency) {
 		StringBuilder sb = new StringBuilder();
 		int linethickness = geo.getLineThickness();
 		int linestyle = geo.getLineType();
@@ -2816,7 +2817,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				packSpace(sb, "+");
 			else
 				noPlus = false;
-			ColorCode(info.getLinecolor(), sb);
+			colorCode(info.getLinecolor(), sb);
 		}
 		if (transparency && geo.isFillable() && info.getAlpha() > 0.0f) {
 			/*
@@ -2828,7 +2829,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 		if (noPlus)
 			return null;
-		return new String(sb);
+		return sb.toString();
 	}
 
 	// Append the linestyle to PSTricks code
@@ -2878,15 +2879,15 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 	// Append the name color to StringBuilder sb
 	@Override
-	protected void ColorCode(GColor c, StringBuilder sb) {
+	protected void colorCode(GColor c, StringBuilder sb) {
 		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
 		if (grayscale) {
 			String colorname = "";
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(
+			c = GColor.newColor(
 					grayscale, grayscale, grayscale);
-			if (CustomColor.containsKey(c)) {
-				colorname = CustomColor.get(c).toString();
+			if (customColor.containsKey(c)) {
+				colorname = customColor.get(c).toString();
 			} else {
 				// Not compact:
 				// "pen XXXXXX = rgb(0,0,0); pen YYYYYY = rgb(1,1,1);"
@@ -2904,7 +2905,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 						+ format(grayscale / 255d) + ")");
 				if (!compact)
 					codeColors.append("; ");
-				CustomColor.put(c, colorname);
+				customColor.put(c, colorname);
 			}
 			if (c.equals(GColor.BLACK))
 				sb.append("black");
@@ -2935,8 +2936,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append("yellow");
 			else {
 				String colorname = "";
-				if (CustomColor.containsKey(c)) {
-					colorname = CustomColor.get(c).toString();
+				if (customColor.containsKey(c)) {
+					colorname = customColor.get(c).toString();
 				} else {
 					colorname = createCustomColor(red, green, blue);
 					if (!compact)
@@ -2950,7 +2951,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 							+ ")");
 					if (!compact)
 						codeColors.append("; ");
-					CustomColor.put(c, colorname);
+					customColor.put(c, colorname);
 				}
 				sb.append(colorname);
 			}
@@ -2968,7 +2969,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 * @param sb
 	 *            StringBuilder to attach code to.
 	 */
-	protected void ColorLightCode(GColor c, double opacity,
+	protected void colorLightCode(GColor c, double opacity,
 			StringBuilder sb) {
 		// new Color object so that c is not overriden.
 		GColor tempc;
@@ -2979,10 +2980,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (grayscale) {
 			String colorname = "";
 			int grayscale = (red + green + blue) / 3;
-			tempc = AwtFactory.prototype.newColor(
+			tempc = GColor.newColor(
 					grayscale, grayscale, grayscale);
-			if (CustomColor.containsKey(tempc)) {
-				colorname = CustomColor.get(tempc).toString();
+			if (customColor.containsKey(tempc)) {
+				colorname = customColor.get(tempc).toString();
 			} else {
 				colorname = createCustomColor(grayscale, grayscale, grayscale);
 				if (!compact)
@@ -2996,7 +2997,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 						+ format(grayscale / 255d) + ")");
 				if (!compact)
 					codeColors.append("; ");
-				CustomColor.put(tempc, colorname);
+				customColor.put(tempc, colorname);
 			}
 			if (tempc.equals(GColor.BLACK))
 				sb.append("black");
@@ -3009,7 +3010,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			else
 				sb.append(colorname);
 		} else {
-			tempc = AwtFactory.prototype.newColor(red, green, blue);
+			tempc = GColor.newColor(red, green, blue);
 			if (tempc.equals(GColor.BLACK))
 				sb.append("black");
 			// else if (tempc.equals(Color.DARK_GRAY)) sb.append("darkgray");
@@ -3028,8 +3029,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				sb.append("yellow");
 			else {
 				String colorname = "";
-				if (CustomColor.containsKey(tempc)) {
-					colorname = CustomColor.get(tempc).toString();
+				if (customColor.containsKey(tempc)) {
+					colorname = customColor.get(tempc).toString();
 				} else {
 					colorname = createCustomColor(red, green, blue);
 					if (!compact)
@@ -3043,59 +3044,14 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 							+ ")");
 					if (!compact)
 						codeColors.append("; ");
-					CustomColor.put(tempc, colorname);
+					customColor.put(tempc, colorname);
 				}
 				sb.append(colorname);
 			}
 		}
 	}
 
-	/**
-	 * Returns the LaTeX color command; \color[rgb](XX,YY,ZZ). Does not create a
-	 * new pen.
-	 * 
-	 * @param c
-	 *            Desired Color object.
-	 * @param sb
-	 *            Code to add the command to.
-	 */
-	// Adds LaTeX:
-	protected void ColorCode2(GColor c, StringBuilder sb) {
-		int red = c.getRed(), green = c.getGreen(), blue = c.getBlue();
-		if (grayscale) {
-			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
-			sb.append("\\color[rgb]{" + format(grayscale / 255d) + ","
-					+ format(grayscale / 255d) + "," + format(grayscale / 255d)
-					+ "}");
-			if (c.equals(GColor.BLACK))
-				sb.append("black");
-			else if (c.equals(GColor.GRAY))
-				sb.append("gray");
-			else if (c.equals(GColor.WHITE))
-				sb.append("white");
-		} else {
-			if (c.equals(GColor.BLACK))
-				sb.append("black");
-			else if (c.equals(GColor.GRAY))
-				sb.append("gray");
-			else if (c.equals(GColor.WHITE))
-				sb.append("white");
-			else if (c.equals(GColor.RED))
-				sb.append("red");
-			else if (c.equals(GColor.GREEN))
-				sb.append("green");
-			else if (c.equals(GColor.BLUE))
-				sb.append("blue");
-			else if (c.equals(GColor.YELLOW))
-				sb.append("yellow");
-			else {
-				sb.append("\\color[rgb]{" + format(red / 255d) + ","
-						+ format(green / 255d) + "," + format(blue / 255d)
-						+ "}");
-			}
-		}
-	}
+
 
 	/*
 	 * // Resize text Keep the ratio between font size and picture height
@@ -3330,9 +3286,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void endDraw(GeoElement geo, StringBuilder sb) {
 		if (fillInequality)
 			return;
-		if (LineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo, true) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(LineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo, true));
 		}
 		sb.append("); ");
 	}
@@ -3369,25 +3325,25 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		if (fillType == ExportSettings.FILL_OPAQUE) {
 			packSpaceAfter(sb, ",");
 			if (info.getAlpha() >= 0.9)
-				ColorCode(info.getLinecolor(), sb);
+				colorCode(info.getLinecolor(), sb);
 			else
 				sb.append("invisible");
 		}
 		// use opacity(alpha value) pen
 		else if (fillType == ExportSettings.FILL_OPACITY_PEN) {
 			packSpaceAfter(sb, ",");
-			ColorCode(info.getLinecolor(), sb);
+			colorCode(info.getLinecolor(), sb);
 			packSpace(sb, "+");
 			sb.append("opacity(");
 			sb.append(info.getAlpha());
 			sb.append(")");
 		} else if (fillType == ExportSettings.FILL_LAYER) {
 			packSpaceAfter(sb, ",");
-			ColorLightCode(info.getLinecolor(), info.getAlpha(), sb);
+			colorLightCode(info.getLinecolor(), info.getAlpha(), sb);
 		}
-		if (LineOptionCode(geo, true) != null) {
+		if (lineOptionCode(geo, true) != null) {
 			packSpaceAfter(sb, ",");
-			sb.append(LineOptionCode(geo, true));
+			sb.append(lineOptionCode(geo, true));
 		}
 		sb.append("); ");
 	}
@@ -3402,7 +3358,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(",");
 			if (!compact)
 				code.append(" ");
-			ColorCode(c, code);
+			colorCode(c, code);
 		}
 		code.append("); ");
 	}
@@ -3485,7 +3441,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 */
 	protected String convertUnicodeToText(String s) {
 		// import unicode;
-		String s1 = new String(s);
+		String s1 = s;
 		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		while (it.hasNext()) {
 			char skey = it.next();
@@ -3508,7 +3464,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	 */
 	protected String convertUnicodeToLatex(String s) {
 		// import unicode;
-		String s1 = new String(s);
+		String s1 = s;
 		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
@@ -3668,7 +3624,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			renameFunc(sb, "\\" + temps, temps); // upper case
 		}
 
-		return new String(sb);
+		return sb.toString();
 	}
 
 	@Override
@@ -3713,7 +3669,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawNyquist(GeoTransferFunction g) {
 		StringBuilder sb = new StringBuilder();
-		ColorCode(g.getObjectColor(), sb);
+		colorCode(g.getObjectColor(), sb);
 		String template = "draw( (%0,%1) -- (%2,%3)," + sb
  + "+linewidth(1)"
 				+ Unicode.SECTION_SIGN + ",arrows" + Unicode.SECTION_SIGN
@@ -3734,7 +3690,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				&& FillType.STANDARD == curves[0].getFillType()) {
 			return false;
 		}
-		String liopco = LineOptionCode(curves[0], true);
+		String liopco = lineOptionCode(curves[0], true);
 		if (liopco == null) {
 			liopco = "";
 		} else {
@@ -3779,10 +3735,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		int lineType = ((GeoElement) geo).getLineType();
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		code.append("\npen border=" + penStyle((GeoElement) geo));
-		ColorCode(c, code);
+		colorCode(c, code);
 		((GeoElement) geo).setLineType(lineType);
 		code.append(";\npen fillstyle=" + penStyle((GeoElement) geo));
-		ColorCode(c, code);
+		colorCode(c, code);
 		if (((GeoElement) geo).getFillType() != FillType.STANDARD) {
 			code.append(";\nadd(\"hatch\",hatch(2mm,NW,fillstyle));\n");
 		} else {

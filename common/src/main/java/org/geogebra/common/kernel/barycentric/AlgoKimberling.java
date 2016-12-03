@@ -118,7 +118,7 @@ public class AlgoKimberling extends AlgoElement {
 
 	@Override
 	public boolean isLocusEquable() {
-		// TODO Consider locusequability
+		
 		// In case this is considered, I would very much like to
 		// use that perl script
 		return false;

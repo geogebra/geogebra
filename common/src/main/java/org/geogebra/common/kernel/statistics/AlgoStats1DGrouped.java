@@ -30,7 +30,7 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 
 	private GeoList geoList; // input
 	private GeoList geoList2; // input
-	public GeoNumeric Truncate; // input
+	public GeoNumeric truncate; // input
 	public GeoNumeric result; // output
 
 	private int stat;
@@ -60,12 +60,12 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 
 	// OK
 	AlgoStats1DGrouped(Construction cons, GeoList geoList, GeoList geoList2,
-			GeoNumeric Truncate, int stat) {
+			GeoNumeric truncate, int stat) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoList2 = geoList2;
 		this.stat = stat;
-		this.Truncate = Truncate;
+		this.truncate = truncate;
 
 		if (geoList.size() > 0 && geoList.get(0).isAngle())
 			result = new GeoAngle(cons);
@@ -87,7 +87,7 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 
 	// OK
 	protected void setInputOutput() {
-		if (Truncate == null) {
+		if (truncate == null) {
 			input = new GeoElement[2];
 			input[0] = geoList;
 			input[1] = geoList2;
@@ -95,7 +95,7 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 			input = new GeoElement[3];
 			input[0] = geoList;
 			input[1] = geoList2;
-			input[2] = Truncate;
+			input[2] = truncate;
 		}
 
 		setOnlyOutput(result);
@@ -116,20 +116,20 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 			return;
 		}
 
-		int truncate;
+		int truncateVal;
 		int size = geoList.size();
 
-		if (Truncate != null) {
-			truncate = (int) Truncate.getDouble();
-			if (truncate == 0) {
+		if (truncate != null) {
+			truncateVal = (int) truncate.getDouble();
+			if (truncateVal == 0) {
 				result.setValue(0);
 				return;
 			}
-			if (truncate < 1 || truncate > size) {
+			if (truncateVal < 1 || truncateVal > size) {
 				result.setUndefined();
 				return;
 			}
-			size = truncate; // truncate the list
+			size = truncateVal; // truncate the list
 		}
 
 		if (size == 0) {

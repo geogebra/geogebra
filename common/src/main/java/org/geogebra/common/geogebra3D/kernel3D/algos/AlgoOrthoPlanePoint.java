@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Compute a plane through a point and orthogonal to ...
  *
- * @author matthieu
+ * @author Mathieu
  */
 public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 
@@ -32,9 +32,13 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param point
+	 *            point
 	 * @param secondInput
+	 *            orthogonal element
 	 */
 	public AlgoOrthoPlanePoint(Construction cons, String label,
 			GeoPointND point, GeoElement secondInput) {

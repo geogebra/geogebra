@@ -109,7 +109,7 @@ public class AlgoAreaPoints extends AlgoElement implements
 			botanaVars = new Variable[points.length * 2];
 			for (int i = 0; i < points.length; i++) {
 				Variable[] currentPointBotanavars = ((GeoPoint) points[i])
-						.getBotanaVars((GeoPoint) points[i]);
+						.getBotanaVars(points[i]);
 				botanaVars[2 * i] = currentPointBotanavars[0];
 				botanaVars[2 * i + 1] = currentPointBotanavars[1];
 			}
@@ -123,6 +123,6 @@ public class AlgoAreaPoints extends AlgoElement implements
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

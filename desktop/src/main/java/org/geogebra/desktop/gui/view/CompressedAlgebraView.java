@@ -80,8 +80,11 @@ public class CompressedAlgebraView extends AlgebraViewD implements
 	final public void update(GeoElement geo) {
 		if (updateTimer.isRunning()) {
 			lock.lock();
-			updateSet.add(geo);
-			lock.unlock();
+			try {
+				updateSet.add(geo);
+			} finally {
+				lock.unlock();
+			}
 		} else {
 			updateTimer.start();
 			updateNow(geo);

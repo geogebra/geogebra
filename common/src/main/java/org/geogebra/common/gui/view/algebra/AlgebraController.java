@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -117,6 +118,22 @@ public class AlgebraController {
 		return latex;
 	}
 
+	public void checkGeoTexts(GeoElementND[] newGeos) {
+		if (newGeos == null) {
+			// no GeoElements were created
+			return;
+		}
+		// create texts in the middle of the visible view
+		// we must check that size of geos is not 0 (ZoomIn,
+		// ZoomOut, ...)
+		if (newGeos.length > 0 && newGeos[0] != null
+				&& newGeos[0].isGeoText()) {
+			InputHelper.centerText((GeoText) newGeos[0], kernel.getApplication()
+					.getActiveEuclidianView());
+
+		}
+	}
+
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
 	 * @param input input string
@@ -128,45 +145,10 @@ public class AlgebraController {
 		try {
 
 			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
-
 				@Override
 				public void callback(GeoElementND[] newGeos) {
-
-					if (newGeos == null) {
-						// no GeoElements were created
-						return;
-					}
-					// create texts in the middle of the visible view
-					// we must check that size of geos is not 0 (ZoomIn,
-					// ZoomOut, ...)
-					if (newGeos.length > 0 && newGeos[0] != null
-							&& newGeos[0].isGeoText()) {
-						GeoText text = (GeoText) newGeos[0];
-						if (!text.isTextCommand()
-								&& text.getStartPoint() == null) {
-
-							Construction cons = text.getConstruction();
-							EuclidianViewInterfaceCommon ev = kernel.getApplication()
-									.getActiveEuclidianView();
-
-							boolean oldSuppressLabelsStatus = cons
-									.isSuppressLabelsActive();
-							cons.setSuppressLabelCreation(true);
-							GeoPoint p = new GeoPoint(text.getConstruction(),
-									null, (ev.getXmin() + ev.getXmax()) / 2,
-									(ev.getYmin() + ev.getYmax()) / 2, 1.0);
-							cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-							try {
-								text.setStartPoint(p);
-								text.update();
-							} catch (CircularDefinitionException e1) {
-								e1.printStackTrace();
-							}
-						}
-					}
+					checkGeoTexts(newGeos);
 				}
-
 			};
 
 			geos = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
@@ -184,30 +166,6 @@ public class AlgebraController {
 			return false;
 		}
 
-		// create texts in the middle of the visible view
-		// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-		if (geos != null && geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
-			GeoText text = (GeoText) geos[0];
-			if (!text.isTextCommand() && text.getStartPoint() == null) {
-
-				Construction cons = text.getConstruction();
-				EuclidianView ev = app.getActiveEuclidianView();
-
-				boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(true);
-				GeoPoint p = new GeoPoint(text.getConstruction(), null,
-						(ev.getXmin() + ev.getXmax()) / 2, (ev.getYmin() + ev.getYmax()) / 2,
-						1.0);
-				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-				try {
-					text.setStartPoint(p);
-					text.update();
-				} catch (CircularDefinitionException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
 		return geos != null;
 	}
 }

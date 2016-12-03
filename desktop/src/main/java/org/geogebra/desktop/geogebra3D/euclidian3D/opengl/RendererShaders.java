@@ -183,7 +183,7 @@ public class RendererShaders extends RendererD implements
 			} catch (UnsupportedEncodingException e) {
 				// do nothing
 			}
-			System.exit(1);
+			AppD.exit(1);
 		}
 
 		// Compile the fragmentShader String into a program.
@@ -207,9 +207,13 @@ public class RendererShaders extends RendererD implements
 			jogl.getGL2ES2().glGetShaderInfoLog(fragShader, logLength[0],
 					(int[]) null, 0, log, 0);
 
-			Log.error("Error compiling the fragment shader: "
-					+ new String(log));
-			System.exit(1);
+			try {
+				Log.error("Error compiling the fragment shader: "
+						+ new String(log, Charsets.UTF_8));
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
+			AppD.exit(1);
 		}
 
 		// Each shaderProgram must have
@@ -415,7 +419,7 @@ public class RendererShaders extends RendererD implements
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
 				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
 
 	}
@@ -590,7 +594,7 @@ public class RendererShaders extends RendererD implements
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
 				((GLBufferIndicesJavaNio) arrayI).getBuffer(),
 				RendererJogl.GL_STREAM_DRAW);
 
@@ -1152,7 +1156,7 @@ public class RendererShaders extends RendererD implements
 										// * perspFocus);
 		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
 										// * perspFocus);
-		projectionMatrix.set(3, 4, getVisibleDepth() / 2);
+		projectionMatrix.set(3, 4, getVisibleDepth() / 2.0);
 		projectionMatrix.set(4, 4, -perspFocus[eye]);
 
 	}

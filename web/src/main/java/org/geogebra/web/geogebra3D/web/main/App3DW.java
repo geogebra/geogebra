@@ -120,7 +120,7 @@ public class App3DW {
 	static final public void ggwGraphicsView3DDimChanged(AppW app, int width,
 			int height) {
 		app.getSettings().getEuclidian(3).setPreferredSize(
-				AwtFactory.prototype.newDimension(width, height));
+				AwtFactory.getPrototype().newDimension(width, height));
 
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
 		view.synCanvasSize();

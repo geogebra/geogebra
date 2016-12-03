@@ -406,6 +406,6 @@ public class AlgoPointsFromList extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
+import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
@@ -103,9 +104,17 @@ public class Kernel {
 	 * Maximal number of spreadsheet columns if these are increased above 32000,
 	 * you need to change traceRow to an int[]
 	 */
-	public static int MAX_SPREADSHEET_COLUMNS_DESKTOP = 9999;
+	final public static int MAX_SPREADSHEET_COLUMNS_DESKTOP = 9999;
 	/** Maximal number of spreadsheet rows */
-	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
+	final public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
+
+	/**
+	 * Maximal number of spreadsheet columns if these are increased above 32000,
+	 * you need to change traceRow to an int[]
+	 */
+	final public static int MAX_SPREADSHEET_COLUMNS_WEB = 200;
+	/** Maximal number of spreadsheet rows */
+	final public static int MAX_SPREADSHEET_ROWS_WEB = 200;
 
 	/** string for +- */
 	final public static String STRING_PLUS_MINUS = "\u00B1 ";
@@ -321,8 +330,8 @@ public class Kernel {
 	 *            factory for new elements
 	 */
 	protected Kernel(GeoFactory factory) {
-		nf = FormatFactory.prototype.getNumberFormat(2);
-		sf = FormatFactory.prototype.getScientificFormat(5, 16, false);
+		nf = FormatFactory.getPrototype().getNumberFormat(2);
+		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
 		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
 		this.deleteList = new ArrayList<GeoElement>();
 		this.geoFactory = factory;
@@ -2706,7 +2715,7 @@ public class Kernel {
 	final public void setPrintDecimals(int decimals) {
 		if (decimals >= 0) {
 			useSignificantFigures = false;
-			nf = FormatFactory.prototype.getNumberFormat(decimals);
+			nf = FormatFactory.getPrototype().getNumberFormat(decimals);
 		}
 	}
 
@@ -3121,7 +3130,7 @@ public class Kernel {
 	 *            (true when called from File -> New, false after loading a file
 	 *            otherwise the GlobalJavascript is wrongly deleted)
 	 */
-	public void clearConstruction(boolean clearScripts) {
+	public synchronized void clearConstruction(boolean clearScripts) {
 
 		if (clearScripts) {
 			resetLibraryJavaScript();
@@ -4210,6 +4219,17 @@ public class Kernel {
 		getSelectionManager().resetGeoToggled();
 	}
 
+	public void storeUndoInfoAndStateForModeStarting() {
+		if (cons != null) {
+			storeStateForModeStarting();
+			if (cons.isUndoEnabled()) {
+				// reuse cons.getCurrentUndoXML(true)
+				cons.getUndoManager().storeUndoInfo(stateForModeStarting, false);
+			}
+		}
+
+	}
+
 
 
 	private SelectionManager getSelectionManager() {
@@ -4431,8 +4451,6 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel
-	 *            kernel
 	 * @return E as MySpecialDouble
 	 */
 	public MySpecialDouble getEulerNumber() {
@@ -4539,7 +4557,8 @@ public class Kernel {
 
 			sb.append("\t<casSettings");
 			sb.append(" timeout=\"");
-			sb.append(MyXMLHandler.getTimeoutOption(app.getSettings()
+			sb.append(OptionsCAS.getTimeoutOption(
+					app.getSettings()
 					.getCasSettings().getTimeoutMilliseconds() / 1000));
 			sb.append("\"");
 			sb.append(" expRoots=\"");
@@ -4815,7 +4834,7 @@ public class Kernel {
 	 * @param offset
 	 * @return
 	 */
-	final public GeoElement[] RigidPolygon(GeoPolygon poly, double offsetX,
+	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
 			double offsetY) {
 
 		GeoPointND[] p = new GeoPointND[poly.getPointsLength()];
@@ -4824,7 +4843,6 @@ public class Kernel {
 		p[0] = poly.getPoint(0).copy();
 		p[0].setLabel(null);
 
-		GeoSegmentND[] segs = poly.getSegments();
 		GeoPointND[] pts = poly.getPoints();
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -4911,13 +4929,13 @@ public class Kernel {
 		return ret;
 	}
 
-	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle,
+	protected GeoPointND rigidPolygonPointOnCircle(GeoConicND circle,
 			GeoPointND point1) {
 		return getAlgoDispatcher().Point(null, circle, point1.getInhomX(),
 				point1.getInhomY(), true, false, true);
 	}
 
-	final public GeoElement[] RigidPolygon(String[] labels, GeoPointND[] points) {
+	final public GeoElement[] rigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
 		cons.setSuppressLabelCreation(true);
@@ -4925,7 +4943,7 @@ public class Kernel {
 				new GeoNumeric(cons, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		GeoPointND p = RigidPolygonPointOnCircle(circle, points[1]);
+		GeoPointND p = rigidPolygonPointOnCircle(circle, points[1]);
 
 		try {
 			(cons).replace((GeoElement) points[1], (GeoElement) p);
@@ -4985,7 +5003,7 @@ public class Kernel {
 			sb.append(points[0].getLabel(tpl));
 			sb.append(',');
 			sb.append(points[1].getLabel(tpl));
-			RigidPolygonAddEndOfCommand(sb, is3D);
+			rigidPolygonAddEndOfCommand(sb, is3D);
 
 			// Application.debug(sb.toString());
 
@@ -5015,7 +5033,7 @@ public class Kernel {
 	 * @param is3D
 	 *            used in 3D
 	 */
-	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
+	protected void rigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
 		sb.append("]]");
 	}
 
@@ -5024,7 +5042,7 @@ public class Kernel {
 	 */
 	final public GeoLine Tangent(String label, GeoPointND P, GeoCurveCartesian f) {
 
-		return KernelCAS.Tangent(cons, label, P, f);
+		return KernelCAS.tangent(cons, label, P, f);
 	}
 
 	/**
@@ -5097,7 +5115,7 @@ public class Kernel {
 	/**
 	 * clear cache (needed in web when CAS loaded)
 	 */
-	public void clearCasCache() {
+	public synchronized void clearCasCache() {
 		if (ggbCasCache != null) {
 			ggbCasCache.clear();
 		}
@@ -5156,11 +5174,11 @@ public class Kernel {
 		cons.setUpdateConstructionRunning(false);
 	}
 
-	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
+	public GeoElement[] polygonND(String[] labels, GeoPointND[] P) {
 		return getAlgoDispatcher().Polygon(labels, P);
 	}
 
-	public GeoElement[] PolyLineND(String label, GeoPointND[] P) {
+	public GeoElement[] polyLineND(String label, GeoPointND[] P) {
 		return getAlgoDispatcher().PolyLine(label, P, false);
 	}
 
@@ -5172,9 +5190,9 @@ public class Kernel {
 	 * @param geoPointND2
 	 * @return
 	 */
-	public GeoRayND RayND(String transformedLabel, GeoPointND geoPointND,
+	public GeoRayND rayND(String transformedLabel, GeoPointND geoPointND,
 			GeoPointND geoPointND2) {
-		return getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) geoPointND,
+		return getAlgoDispatcher().ray(transformedLabel, (GeoPoint) geoPointND,
 				(GeoPoint) geoPointND2);
 	}
 
@@ -5186,7 +5204,7 @@ public class Kernel {
 	 * @param Q
 	 * @return
 	 */
-	public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
+	public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
@@ -5209,19 +5227,19 @@ public class Kernel {
 		return new AlgoDispatcher(cons1);
 	}
 
-	public GeoRayND Ray(String label, GeoPoint p, GeoPoint q) {
-		return getAlgoDispatcher().Ray(label, p, q);
+	public GeoRayND ray(String label, GeoPoint p, GeoPoint q) {
+		return getAlgoDispatcher().ray(label, p, q);
 	}
 
-	public GeoSegmentND Segment(String label, GeoPoint p, GeoPoint q) {
+	public GeoSegmentND segment(String label, GeoPoint p, GeoPoint q) {
 		return getAlgoDispatcher().Segment(label, p, q);
 	}
 
-	public GeoElement[] Polygon(String[] labels, GeoPointND[] p) {
+	public GeoElement[] polygon(String[] labels, GeoPointND[] p) {
 		return getAlgoDispatcher().Polygon(labels, p);
 	}
 
-	public GeoElement[] PolyLine(String label, GeoPointND[] p, boolean b) {
+	public GeoElement[] polyLine(String label, GeoPointND[] p, boolean b) {
 		return getAlgoDispatcher().PolyLine(label, p, b);
 	}
 

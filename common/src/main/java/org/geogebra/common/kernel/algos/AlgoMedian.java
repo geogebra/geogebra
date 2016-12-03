@@ -272,5 +272,5 @@ public class AlgoMedian extends AlgoElement {
 		return obj;
 	}
 
-	// TODO Consider locusequability
+	
 }

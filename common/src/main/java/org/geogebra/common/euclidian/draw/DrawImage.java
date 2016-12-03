@@ -70,11 +70,11 @@ public final class DrawImage extends Drawable {
 		geo = geoImage;
 
 		// temp
-		at = AwtFactory.prototype.newAffineTransform();
-		tempAT = AwtFactory.prototype.newAffineTransform();
-		boundingBox = AwtFactory.prototype.newRectangle();
+		at = AwtFactory.getPrototype().newAffineTransform();
+		tempAT = AwtFactory.getPrototype().newAffineTransform();
+		boundingBox = AwtFactory.getPrototype().newRectangle();
 
-		selStroke = AwtFactory.prototype.newMyBasicStroke(1.5f);
+		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5f);
 
 		update();
 	}
@@ -88,7 +88,7 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
-			alphaComp = AwtFactory.prototype
+			alphaComp = AwtFactory.getPrototype()
 					.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
 		}
 
@@ -253,7 +253,7 @@ public final class DrawImage extends Drawable {
 			GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
-					alphaComp = AwtFactory.prototype
+					alphaComp = AwtFactory.getPrototype()
 							.newAlphaComposite(GAlphaComposite.SRC_OVER,
 									alpha);
 				g3.setComposite(alphaComp);
@@ -288,20 +288,20 @@ public final class DrawImage extends Drawable {
 
 					// draw parallelogram around edge
 					drawHighlighting(at, g3);
-					GPoint2D corner1 = AwtFactory.prototype.newPoint2D(
+					GPoint2D corner1 = AwtFactory.getPrototype().newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMinY());
-					GPoint2D corner2 = AwtFactory.prototype.newPoint2D(
+					GPoint2D corner2 = AwtFactory.getPrototype().newPoint2D(
 							labelRectangle.getMinX(), labelRectangle.getMaxY());
-					GPoint2D corner3 = AwtFactory.prototype.newPoint2D(
+					GPoint2D corner3 = AwtFactory.getPrototype().newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMaxY());
-					GPoint2D corner4 = AwtFactory.prototype.newPoint2D(
+					GPoint2D corner4 = AwtFactory.getPrototype().newPoint2D(
 							labelRectangle.getMaxX(), labelRectangle.getMinY());
 					at.transform(corner1, corner1);
 					at.transform(corner2, corner2);
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
 					if (highlighting == null)
-						highlighting = AwtFactory.prototype.newGeneralPath();
+						highlighting = AwtFactory.getPrototype().newGeneralPath();
 					else
 						highlighting.reset();
 					highlighting.moveTo((float) corner1.getX(),

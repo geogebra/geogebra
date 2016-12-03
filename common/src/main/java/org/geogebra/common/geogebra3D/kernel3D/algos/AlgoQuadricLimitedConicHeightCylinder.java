@@ -75,6 +75,6 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 		return Commands.Cylinder;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

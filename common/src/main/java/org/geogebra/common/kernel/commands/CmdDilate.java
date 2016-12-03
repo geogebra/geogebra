@@ -43,7 +43,7 @@ public class CmdDilate extends CommandProcessor {
 					.isGeoList()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
-				return Dilate(label, arg[0], phi);
+				return dilate(label, arg[0], phi);
 			}
 			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
@@ -57,7 +57,7 @@ public class CmdDilate extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 				GeoNumberValue phi = (GeoNumberValue) arg[1];
-				return Dilate(label, arg[0], phi, arg[2]);
+				return dilate(label, arg[0], phi, arg[2]);
 			}
 			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
@@ -71,7 +71,7 @@ public class CmdDilate extends CommandProcessor {
 	/**
 	 * dilate geoRot by r from origin
 	 */
-	final private GeoElement[] Dilate(String label, GeoElement geoDil,
+	final private GeoElement[] dilate(String label, GeoElement geoDil,
 			GeoNumberValue r) {
 		Transform t = new TransformDilate(cons, r);
 		return t.transform(geoDil, label);
@@ -89,7 +89,7 @@ public class CmdDilate extends CommandProcessor {
 	 *            point
 	 * @return result of dilate of geoDil about r, point
 	 */
-	protected GeoElement[] Dilate(String label, GeoElement geoDil,
+	protected GeoElement[] dilate(String label, GeoElement geoDil,
 			GeoNumberValue r, GeoElement point) {
 
 		return getAlgoDispatcher().Dilate(label, geoDil, r, (GeoPoint) point);

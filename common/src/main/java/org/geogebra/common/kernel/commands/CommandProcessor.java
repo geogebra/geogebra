@@ -193,14 +193,14 @@ public abstract class CommandProcessor {
 		if (arg[i] != null && arg[i].unwrap() instanceof GeoNumeric
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
-			GeoDummyReplacer replacer = new GeoDummyReplacer();
 			// get free variable to replace "x" with
 			String newXVarStr = ((GeoElement) arg[i].getLeft())
 					.getFreeLabel(subst);
 			Variable newVar = new Variable(cons.getKernel(), newXVarStr);
 			GeoNumeric gn = new GeoNumeric(cons);
 			kernelA.getConstruction().addLocalVariable(newXVarStr, gn);
-			replacer = GeoDummyReplacer.getReplacer(var, newVar, true);
+			GeoDummyReplacer replacer = GeoDummyReplacer.getReplacer(var,
+					newVar, true);
 			// replace "x" in expressions
 			for (int j = 0; j < argsToCheck; j++) {
 				arg[j].traverse(replacer);

@@ -93,5 +93,5 @@ public class AlgoAxisFirstLength extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

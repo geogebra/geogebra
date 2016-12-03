@@ -16,7 +16,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.desktop.gui.dialog.LanguageDialog;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -88,7 +88,7 @@ public class PerspectivePanel extends JPopupMenu {
 
 		JMenuItem title = new JMenuItem("<html><font color = black>"
 				+ app.getMenu("CreateYourOwn") + "</font></html>");
-		title.setIcon(GeoGebraIcon.createEmptyIcon(32, 32));
+		title.setIcon(GeoGebraIconD.createEmptyIcon(32, 32));
 		title.setFont(app.getBoldFont());
 		title.setEnabled(false);
 
@@ -139,12 +139,11 @@ public class PerspectivePanel extends JPopupMenu {
 	}
 
 	private void addPerspective(int i, ImageResourceD icon) {
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
-		if (defaultPerspectives[i] == null) {
+		if (Layout.getDefaultPerspectives(i) == null) {
 			return;
 		}
 		JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-		tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
+		tmpItem.setText(app.getMenu(Layout.getDefaultPerspectives(i).getId()));
 		tmpItem.setActionCommand("d" + i);
 
 		Icon ic;
@@ -196,7 +195,7 @@ public class PerspectivePanel extends JPopupMenu {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
 					changed = layout.applyPerspective(
-							Layout.defaultPerspectives[index]);
+							Layout.getDefaultPerspectives(index));
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					changed = layout.applyPerspective(layout

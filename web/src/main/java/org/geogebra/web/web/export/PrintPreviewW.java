@@ -200,7 +200,6 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 	private void addScalePanelOrCreatePreview() {
 		if ((App.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())) {
-			app.getEuclidianView1();
 			scalePanelHolder.add(new PrintScalePanelW(app, app
 					.getEuclidianView1()));
 			btPrint.setEnabled(true);

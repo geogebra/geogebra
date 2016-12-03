@@ -40,15 +40,8 @@ public class ScrollableSuggestBox extends SuggestBox {
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
 	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp) {
-		super(oracle, tb = new GTextBox(), new CustomSuggestionDisplay());
-		
-		 // suggestion from here to disable autocomplete
-		 // https://code.google.com/p/google-web-toolkit/issues/detail?id=6065
-		 // 
-		 // #3878
-		tb.getElement().setAttribute("autocomplete", "off");
-		tb.getElement().setAttribute("autocapitalize", "off");
-		tb.setPopupCallback(hsp);
+		super(oracle, tb = new GTextBox(false, hsp),
+				new CustomSuggestionDisplay());
 	}
 
 	/**

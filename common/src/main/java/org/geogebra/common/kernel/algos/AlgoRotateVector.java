@@ -122,5 +122,5 @@ public class AlgoRotateVector extends AlgoElement {
 				angle.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

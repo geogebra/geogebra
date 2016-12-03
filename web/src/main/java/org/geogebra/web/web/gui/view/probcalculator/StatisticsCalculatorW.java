@@ -3,7 +3,10 @@ package org.geogebra.web.web.gui.view.probcalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -11,8 +14,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -32,7 +33,9 @@ import com.google.gwt.user.client.ui.TextBox;
  * Statistics calculator for web
  *
  */
-public class StatisticsCalculatorW extends StatisticsCalculator implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, FocusHandler, BlurHandler, KeyUpHandler {
+public class StatisticsCalculatorW extends StatisticsCalculator implements
+		ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, BlurHandler,
+		KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;
@@ -495,7 +498,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	   
     }
 	
-	private class LineBreak extends FlowPanel {
+	private static class LineBreak extends FlowPanel {
 		public LineBreak() {
 			this.setStyleName("lineBreak");
 		}
@@ -513,6 +516,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	
 	}
 	private void createGUIElements() {
+		FieldFocusHandler focusHandler = new FieldFocusHandler((AppW) app);
+
 		tabIndex = 1; // 0 as first tabindex does not work.
 	    //resultPane = new RichTextArea();
 		resultPane = new FlowPanel();
@@ -565,14 +570,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addKeyUpHandler(this);
-		fldNullHyp.addFocusHandler(this);
+		fldNullHyp.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldNullHyp);
 		addNextTabIndex(fldNullHyp);
 		
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyUpHandler(this);
-		fldConfLevel.addFocusHandler(this);
+		fldConfLevel.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldConfLevel);
 
 		addNextTabIndex(fldConfLevel);
 		
@@ -580,7 +587,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyUpHandler(this);
-		fldSigma.addFocusHandler(this);
+		fldSigma.addFocusHandler(focusHandler);
+		this.addInsertHandler(fldSigma);
 		
 		addNextTabIndex(fldSigma);
 		
@@ -597,7 +605,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
-			fldSampleStat1[i].addFocusHandler(this);
+			fldSampleStat1[i].addFocusHandler(focusHandler);
+			this.addInsertHandler(fldSampleStat1[i]);
+
 			addNextTabIndex(fldSampleStat1[i]);
 		}
 
@@ -613,7 +623,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
-			fldSampleStat2[i].addFocusHandler(this);
+			fldSampleStat2[i].addFocusHandler(focusHandler);
+			this.addInsertHandler(fldSampleStat2[i]);
+
 			addNextTabIndex(fldSampleStat2[i]);
 
 		}	    
@@ -792,18 +804,27 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
 		char last = value.charAt(value.length() - 1);
-		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) && 
- value != null && !value.equals("") && !value.equals("-")
+		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
+				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
+				&& !"".equals(value) && !"-".equals(value)
 				&& last != '.' && last != '0') {
 			doTextFieldActionPerformed();
 		}
     }
 
-	public void onFocus(FocusEvent event) {
-	   if (event.getSource() instanceof TextBox) {
-		   ((TextBox) event.getSource()).selectAll();
-	   }
-    }
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				public void onInsert(String text) {
+					field.removeDummyCursor();
+					doTextFieldActionPerformed();
+					if (Browser.isAndroid() || Browser.isIPad()) {
+						field.addDummyCursor(field.getCaretPosition());
+					}
+				}
+			});
+		}
+	}
 
 	public void onBlur(BlurEvent event) {
 	    if (event.getSource() instanceof TextBox) {
@@ -812,7 +833,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	    
     }
 
-	private void doTextFieldActionPerformed() {
+	void doTextFieldActionPerformed() {
 		 updateResult();
     }
 

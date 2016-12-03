@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.data;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
@@ -10,7 +11,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -71,7 +71,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		this.daModel = statDialog.getModel();
 		setStyleName("daRegressionPanel");
 		sample = new GeoNumeric(app.getKernel().getConstruction());
-		sample.setObjColor(GColorW.RED);
+		sample.setObjColor(GColor.RED);
 		createRegressionPanel();
 		setLabels();
 		updateRegressionPanel();

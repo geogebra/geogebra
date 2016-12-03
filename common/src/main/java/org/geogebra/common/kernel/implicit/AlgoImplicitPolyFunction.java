@@ -91,6 +91,6 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 		return implicitPoly;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

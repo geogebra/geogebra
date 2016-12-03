@@ -225,13 +225,11 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 			idx = Math.max(0, (int) index.getDouble() - 1);
 		parentOutput = algo.getIntersectionPoints();
 
-		if (point != null) {
-			if (kernel.getLoadingMode() && point.hasUpdatePrevilege) { // for
-																		// backward
-																		// compatability
-				algo.setIntersectionPoint(idx, point);
-				point.hasUpdatePrevilege = false;
-			}
+		if (kernel.getLoadingMode() && point.hasUpdatePrevilege) { // for
+			// backward
+			// compatability
+			algo.setIntersectionPoint(idx, point);
+			point.hasUpdatePrevilege = false;
 		}
 
 		// update index if reference point has been defined

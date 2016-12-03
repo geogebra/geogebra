@@ -292,7 +292,8 @@ public class UserProperties extends Properties {
     }
 
     public boolean isProperty(String key, boolean def) {
-        return new Boolean(getProperty(key, Boolean.toString(def))).booleanValue();
+		return Boolean.valueOf(getProperty(key, Boolean.toString(def)))
+				.booleanValue();
     }
 
 }

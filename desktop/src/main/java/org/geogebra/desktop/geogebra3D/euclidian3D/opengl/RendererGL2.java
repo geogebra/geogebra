@@ -130,18 +130,18 @@ public abstract class RendererGL2 extends RendererD implements
 			if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
 				double f = eyeToScreenDistance[EYE_LEFT]
 						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ());
-				x = dim.width / 2 + f * (x - dim.width / 2);
-				y = dim.height / 2 + f * (y - dim.height / 2);
+				x = dim.width / 2.0 + f * (x - dim.width / 2.0);
+				y = dim.height / 2.0 + f * (y - dim.height / 2.0);
 
 			} else if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 				double f = eyeToScreenDistance[EYE_LEFT]
 						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ() - view3D
 								.getScreenZOffset());
-				x = dim.width / 2 + f
-						* (x + glassesEyeX[EYE_LEFT] - dim.width / 2)
+				x = dim.width / 2.0
+						+ f * (x + glassesEyeX[EYE_LEFT] - dim.width / 2.0)
 						- glassesEyeX[EYE_LEFT];
-				y = dim.height / 2 + f
-						* (y + glassesEyeY[EYE_LEFT] - dim.height / 2)
+				y = dim.height / 2.0
+						+ f * (y + glassesEyeY[EYE_LEFT] - dim.height / 2.0)
 						- glassesEyeY[EYE_LEFT];
 
 			}

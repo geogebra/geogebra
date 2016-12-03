@@ -75,4 +75,8 @@ public interface MathField {
     void fireInputChangedEvent();
 
 	void paste();
+
+	void copy();
+
+	void debug(String string);
 }

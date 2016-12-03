@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.CurveEvaluableForPlane;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
@@ -39,7 +40,8 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion {
+public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
+		implements EuclidianViewForPlaneCompanionInterface {
 
 	private ViewCreator plane;
 
@@ -57,9 +59,13 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 	private boolean initViewJustCreated = false;
 
-	public void initView(ViewCreator plane) {
+	/**
+	 * @param defPlane
+	 *            planar object
+	 */
+	public void initView(ViewCreator defPlane) {
 
-		setPlane(plane);
+		setPlane(defPlane);
 
 		if (settingsFromLoadFile) {
 			initViewJustCreated = false;
@@ -86,6 +92,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		this.plane = plane;
 	}
 
+	/**
+	 * @return defining plane
+	 */
 	public ViewCreator getPlane() {
 		return plane;
 	}
@@ -97,8 +106,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 		double newScale = view.getApplication().getEuclidianView3D()
 				.getXscale();
-		double w = view.getWidth() / 2;
-		double h = view.getHeight() / 2;
+		double w = view.getWidth() / 2.0;
+		double h = view.getHeight() / 2.0;
 		double dx = (w - view.getXZero()) * newScale / view.getXscale();
 		double dy = (h - view.getYZero()) * newScale / view.getYscale();
 
@@ -395,25 +404,17 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		return coords.projectPlaneWithInverseMatrix(getInverseMatrix());
 	}
 
-	/**
-	 * @param coords
-	 *            in view plane
-	 * @return coords in 3D world
-	 */
-	public Coords getCoordsFromView(Coords coords) {
-		return getMatrix().mul(coords);
-	}
+
 
 	/**
 	 * @param x
 	 *            x coord in view plane
 	 * @param y
 	 *            y coord in view plane
-	 * @return coords in 3D world
 	 */
 	@Override
 	public void getCoordsFromView(double x, double y, Coords c) {
-		c.set(getCoordsFromView(new Coords(x, y, 0, 1)));
+		c.setMul(getMatrix(), new Coords(x, y, 0, 1));
 	}
 
 	@Override
@@ -469,6 +470,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	/**
 	 * 
 	 * @param clockwise
+	 *            input orientation
 	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it
 	 *         in the view
 	 */

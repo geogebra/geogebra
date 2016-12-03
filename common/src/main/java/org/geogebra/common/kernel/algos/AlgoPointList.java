@@ -95,6 +95,6 @@ public class AlgoPointList extends AlgoElement {
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

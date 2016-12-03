@@ -660,12 +660,12 @@ public class MathMLParser {
 	 * followig block.<br>
 	 * Syntax: PH_BLOCKSTART + blockNumber + PH_BLOCKEND, e.g. '#BLOCK1#'.
 	 */
-	private final String PH_BLOCK_START = "%BLOCK";
-	private final char PH_BLOCK_END = '%';
+	private final static String PH_BLOCK_START = "%BLOCK";
+	private final static char PH_BLOCK_END = '%';
 
-	private final char[] specialCharacters = { '%', '_', '$' };
-	private final char[] leftBraces = { '(', '{', '[' };
-	private final char[] rightBraces = { ')', '{', ']' };
+	private final static char[] specialCharacters = { '%', '_', '$' };
+	private final static char[] leftBraces = { '(', '{', '[' };
+	private final static char[] rightBraces = { ')', '{', ']' };
 
 	private HashMap<String, String> substitutions;
 	// private StringBuilder result;
@@ -791,30 +791,27 @@ public class MathMLParser {
 		strBuf1 = strBuf1.replaceAll("<mtd.*?>", "<mtd> <mrow>");
 		strBuf1 = strBuf1.replace("</mtd>", "</mrow> </mtd>");
 
-		if (strBuf1 != null) {
-			this.strBuf = strBuf1;
-			this.wrappedEntities = wrappedEntities1;
-			this.skipUnknownEntities = skipUnknownEntities1;
+		this.strBuf = strBuf1;
+		this.wrappedEntities = wrappedEntities1;
+		this.skipUnknownEntities = skipUnknownEntities1;
 
-			// usually the MathML input should have more characters as the
-			// output
-			StringBuilder result = new StringBuilder(strBuf.length());
+		// usually the MathML input should have more characters as the
+		// output
+		StringBuilder result = new StringBuilder(strBuf.length());
 
-			pos = 0;
-			try {
-				while (strBuf.indexOf("<", pos) != -1) {
-					parseBlock(getNextTag(), result, true);
-					skipFollowingTag();
-				}
-				// TODO besser result stutzen? -> return new
-				// StringBuilder(result) o. result.toString()
-				return result.toString();
-			} catch (Exception e) {
-				e.printStackTrace();
+		pos = 0;
+		try {
+			while (strBuf.indexOf("<", pos) != -1) {
+				parseBlock(getNextTag(), result, true);
+				skipFollowingTag();
 			}
-			return null; // TODO statt exception, speter lo(umlaut)schen
+			// TODO besser result stutzen? -> return new
+			// StringBuilder(result) o. result.toString()
+			return result.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+		return null; // TODO statt exception, speter lo(umlaut)schen
 	}
 
 	/**
@@ -1081,11 +1078,7 @@ public class MathMLParser {
 
 				pos = getBlockEnd(startTag, endTag);
 
-				if (endTag != null) {
-					pos = pos + endTag.length();
-				} else {
-					pos = pos + startTag.length();
-				}
+				pos = pos + endTag.length();
 			}
 		} else if (blocksToSkip < 0) {
 
@@ -1152,9 +1145,9 @@ public class MathMLParser {
 	 */
 	int getBlockEnd(String startTag0, String endTag) {
 
-		if (startTag0 != endTag) {
+		if (!startTag0.equals(endTag)) {
 
-			String startTag = new String(startTag0);
+			String startTag = startTag0;
 
 			int pos2 = pos;
 			int subBlocks = 1;

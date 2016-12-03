@@ -85,7 +85,7 @@ public class GeoGebraTubeExportW extends
 						final UploadResults results = new UploadResults(
 						        response.getText());
 
-						if (results.HasError()) {
+						if (results.hasError()) {
 							statusLabelSetText(app.getLocalization().getPlain(
 							        "UploadError", results.getStatus()));
 							setEnabled(false);

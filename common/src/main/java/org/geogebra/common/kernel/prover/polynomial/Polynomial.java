@@ -11,7 +11,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SingularWSSettings;
 import org.geogebra.common.util.debug.Log;
@@ -306,7 +308,14 @@ public class Polynomial implements Comparable<Polynomial> {
 				sb.append(c);
 			sb.append('+');
 		}
-		return sb.substring(0, sb.length() - 1); // removing closing "+"
+		return sb.substring(0, sb.length() - 1) // removing closing "+"
+				.replaceAll("\\+-", "-") // use "-" instead of "+-"
+				.replaceAll("-1\\*", "-");
+		/*
+		 * The "+-" -> "-" conversion is maybe not efficient here, and not
+		 * actually needed for the internals. Still we do that to beautify the
+		 * logging.
+		 */
 	}
 
 	/**
@@ -431,7 +440,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
 		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2}, null, null);
-		if (vars != "")
+		if (!"".equals(vars))
 			return "ring " + ringVariable + "=0,(" 
 				+ vars
 				+ "),dp;" // ring definition in Singular
@@ -926,7 +935,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			vars = vars.substring(0, vars.length() - 1);
 		}
 		
-		if (vars != "") {
+		if (!"".equals(vars)) {
 			ret.append(vars);
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);
@@ -984,7 +993,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param transcext use coefficients from transcendent extension if possible 
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
-	public static Boolean solvable(Polynomial[] polys,
+	public static ExtendedBoolean solvable(Polynomial[] polys,
 			HashMap<Variable, Long> substitutions, Kernel kernel,
 			boolean transcext) {
 		
@@ -996,7 +1005,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
 		String solvableResult, solvableProgram;
 		
-		if (App.singularWS != null && App.singularWS.isAvailable()) {
+		SingularWebService singularWS = App.getSingularWS();
+
+		if (singularWS != null && singularWS.isAvailable()) {
 			
 			solvableProgram = createGroebnerSolvableScript(substitutions, polysAsCommaSeparatedString, 
 					freeVars, dependantVars, transcext);
@@ -1006,21 +1017,23 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(solvableProgram + " -> singular");
 			try {
-				solvableResult = App.singularWS.directCommand(solvableProgram);
+				solvableResult = App.singularWSdirectCommand(solvableProgram);
 				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
 					Log.trace("singular -> " + solvableResult.length()
 							+ " bytes");
 				else
 					Log.trace("singular -> " + solvableResult);
-				if ("0".equals(solvableResult))
-					return false; // no solution
-				if ("".equals(solvableResult))
-					return null; // maybe timeout (no answer)
+				if ("0".equals(solvableResult)) {
+					return ExtendedBoolean.FALSE; // no solution
+				}
+				if ("".equals(solvableResult)) {
+					return ExtendedBoolean.UNKNOWN; // maybe timeout (no answer)
+				}
 			} catch (Throwable e) {
 				Log.debug("Could not compute solvability with SingularWS");
-				return null;
+				return ExtendedBoolean.UNKNOWN;
 			}
-			return true; // at least one solution exists
+			return ExtendedBoolean.TRUE; // at least one solution exists
 		}
 
 		// If SingularWS is not applicable, then we try to use the internal CAS:
@@ -1030,14 +1043,16 @@ public class Polynomial implements Comparable<Polynomial> {
 				freeVars, dependantVars, transcext);
 		if (solvableProgram == null) {
 			Log.info("Not implemented (yet)");
-			return null; // cannot decide
+			return ExtendedBoolean.UNKNOWN; // cannot decide
 		}
 		solvableResult = cas.evaluate(solvableProgram);
-		if ("0".equals(solvableResult) || "false".equals(solvableResult))
-			return false; // no solution
-		if ("1".equals(solvableResult) || "true".equals(solvableResult))
-			return true; // at least one solution exists
-		return null; // cannot decide 
+		if ("0".equals(solvableResult) || "false".equals(solvableResult)) {
+			return ExtendedBoolean.FALSE; // no solution
+		}
+		if ("1".equals(solvableResult) || "true".equals(solvableResult)) {
+			return ExtendedBoolean.TRUE; // at least one solution exists
+		}
+		return ExtendedBoolean.UNKNOWN; // cannot decide
 	}
 	
 	/** Returns the square of the input polynomial
@@ -1131,8 +1146,9 @@ public class Polynomial implements Comparable<Polynomial> {
 		String elimResult, elimProgram;
 		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
-		if (App.singularWS != null && App.singularWS.isAvailable()
-				&& factorized) {
+		SingularWebService singularWS = App.getSingularWS();
+
+		if (singularWS != null && singularWS.isAvailable() && factorized) {
 
 			/*
 			 * In most cases the revlex permutation gives good (readable) result, but not always.
@@ -1193,7 +1209,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			else
 				Log.trace(elimProgram + " -> singular");
 			try {
-				elimResult = App.singularWS.directCommand(elimProgram);
+				elimResult = App.singularWSdirectCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}

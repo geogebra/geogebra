@@ -20,7 +20,7 @@ public class LineStylePopup extends PopupMenuButton  {
 		setLineStyleIcons(new ImageOrText[styleCount]);
 		
 		for (int i = 0; i < styleCount; i++)
-			getLineStyleIcons()[i] = GeoGebraIcon.createLineStyleIcon(i);
+			getLineStyleIcons()[i] = GeoGebraIconW.createLineStyleIcon(i);
 		
 		lineStyleMap = new HashMap<Integer, Integer>();
 		
@@ -57,7 +57,7 @@ public class LineStylePopup extends PopupMenuButton  {
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIcon.createLineStyleIcon(getSelectedIndex());
+			return GeoGebraIconW.createLineStyleIcon(getSelectedIndex());
 
 		}
 

@@ -233,5 +233,5 @@ public class AlgoDistancePointObject extends AlgoElement implements
 		return eq[k];
 	}
 
-	// TODO Consider locusequability
+	
 }

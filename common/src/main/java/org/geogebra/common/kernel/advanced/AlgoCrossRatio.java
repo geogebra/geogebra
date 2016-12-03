@@ -70,5 +70,5 @@ public class AlgoCrossRatio extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -142,7 +142,7 @@ public class GlobalKeyDispatcherW extends
 
 				case Event.ONKEYPRESS:
 				case Event.ONKEYUP:
-					// not ESCAPE and not ENTER
+					// not TAB and not ENTER
 					if (event.getNativeEvent().getKeyCode() != 9
 							&& event.getNativeEvent().getKeyCode() != 13) {
 						if (!appfocused) {
@@ -217,7 +217,9 @@ public class GlobalKeyDispatcherW extends
 	 * @return parent article element corresponding to applet
 	 */
 	ArticleElement getGGBArticle(Element el) {
-		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
+		// if SVG clicked, getClassName returns non-string
+		if ((el.getClassName() + "")
+				.indexOf("geogebraweb-dummy-invisible") >= 0) {
 			return null;
 		}
 

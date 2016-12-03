@@ -42,7 +42,7 @@ class DrawParametricInequality extends Drawable {
 
 	@Override
 	public GArea getShape() {
-		return AwtFactory.prototype.newArea(gp);
+		return AwtFactory.getPrototype().newArea(gp);
 	}
 
 	/**

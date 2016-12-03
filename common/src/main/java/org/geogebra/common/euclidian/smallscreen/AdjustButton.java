@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian.smallscreen;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.util.debug.Log;
 
@@ -8,11 +9,23 @@ public class AdjustButton extends AdjustWidget {
 	private static final int MARGIN_X = 5;
 	static final int MARGIN_Y = 5;
 	private GeoButton button;
+	private int origX;
+	private int origY;
+	private int origWidth;
+	private int origHeight;
+
 	public AdjustButton(GeoButton button, EuclidianView view) {
 		super(view);
 		this.button = button;
 		x = button.getAbsoluteScreenLocX();
 		y = button.getAbsoluteScreenLocY();
+
+		origX = button.getOrigX() == null ? 0 : button.getOrigX();
+		origY = button.getOrigY() == null ? 0 : button.getOrigY();
+		origWidth = button.getOrigWidth() == null ? 0 : button.getOrigWidth();
+		origHeight = button.getOrigHeight() == null ? 0
+				: button.getOrigHeight();
+
 		width = button.getWidth();
 		height = button.getHeight();
 		Log.debug(button.getLabelSimple() + " w: " + width + " h: " + height);
@@ -20,7 +33,8 @@ public class AdjustButton extends AdjustWidget {
 
 	@Override
 	public boolean isOnScreen() {
-		return x >= 0 && y >= 0 && x + width < view.getViewWidth()
+		return Kernel.isEqual(x, origX) && Kernel.isEqual(y, origY)
+				&& x + width < view.getViewWidth()
 				&& y + height < view.getViewHeight();
 	}
 

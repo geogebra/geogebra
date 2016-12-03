@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
@@ -67,8 +68,6 @@ public class LatexTreeItem extends RadioTreeItem
 	public LatexTreeItem(Kernel kernel) {
 		super(kernel);
 		this.insertHelpToggle();
-		addDomHandlers(main);
-
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
 			if (isInputTreeItem()) {
@@ -247,6 +246,7 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 		mf.setFocus(focus);
 		//canvas.setFocus(b);
+		app.adjustViews();
 	}
 
 	@Override
@@ -299,7 +299,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 				if (geos == null) {
 					// inputField.getTextBox().setFocus(true);
-					setFocus(true);
+					getController().setFocus(true);
 					return;
 				}
 
@@ -323,7 +323,7 @@ public class LatexTreeItem extends RadioTreeItem
 							public void execute() {
 								scrollIntoView();
 								if (keepFocus) {
-									setFocus(true);
+									getController().setFocus(true);
 								}else{
 									setFocus(false, true);
 								}
@@ -382,7 +382,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	protected void focusAfterHelpClosed() {
-		setFocus(true);
+		getController().setFocus(true);
 	}
 
 	@Override
@@ -560,6 +560,17 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	protected void updateButtonPanelPosition() {
 		super.updateButtonPanelPosition();
-		getAlgebraDockPanel().scrollToBottom();
+		if (isInputTreeItem() && !isEditing()) {
+			getAlgebraDockPanel().scrollToBottom();
+		}
+	}
+
+	public String serialize(MathSequence selectionText) {
+		return GeoGebraSerializer.serialize(selectionText);
+	}
+
+	public void onInsertString() {
+		mf.setFormula(GeoGebraSerializer.reparse(mf.getFormula()));
+
 	}
 }

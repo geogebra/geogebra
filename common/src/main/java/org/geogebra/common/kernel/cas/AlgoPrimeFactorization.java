@@ -152,6 +152,6 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		listElement.add(exponent);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

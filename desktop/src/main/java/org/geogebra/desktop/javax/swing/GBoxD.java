@@ -2,9 +2,11 @@ package org.geogebra.desktop.javax.swing;
 
 import javax.swing.Box;
 
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
@@ -62,6 +64,12 @@ public class GBoxD extends GBox {
 		impl.revalidate();
 	}
 
+	@Override
+	public void repaint(GGraphics2D g) {
+		g.translate(impl.getBounds().getX(), impl.getBounds().getY());
+		impl.paint(GGraphics2DD.getAwtGraphics(g));
+		g.translate(-impl.getBounds().getX(), -impl.getBounds().getY());
+	}
 
 	// @Override
 	// public geogebra.common.javax.swing.Box createHorizontalBox() {

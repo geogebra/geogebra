@@ -92,6 +92,6 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

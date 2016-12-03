@@ -54,6 +54,11 @@ public abstract class FileManager implements FileManagerI {
 		return sb.toString();
 	}
 
+	/**
+	 * @param mat
+	 *            material
+	 * @return storage key based on id and title
+	 */
 	public static String getFileKey(Material mat) {
 		return createKeyString(mat.getLocalID(), mat.getTitle());
 	}
@@ -119,7 +124,6 @@ public abstract class FileManager implements FileManagerI {
 			Log.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
-		mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
@@ -127,7 +131,10 @@ public abstract class FileManager implements FileManagerI {
 		mat.setThumbnailBase64(((EuclidianViewWInterface) app
 		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
-		mat.setAuthor(app.getLoginOperation().getUserName());
+		if (app.getLoginOperation() != null) {
+			mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
+			mat.setAuthor(app.getLoginOperation().getUserName());
+		}
 		if (app.getActiveMaterial() != null) {
 			mat.setSharingKey(app.getActiveMaterial().getSharingKey());
 			mat.setVisibility(app.getActiveMaterial().getVisibility());
@@ -355,6 +362,16 @@ null,
 
 	}
 
+	/**
+	 * Update loacl copy
+	 * 
+	 * @param title
+	 *            new title
+	 * @param modified
+	 *            timestamp
+	 * @param material
+	 *            material
+	 */
 	protected abstract void updateFile(String title, long modified,
 	        Material material);
 
@@ -400,7 +417,7 @@ null,
 
 					        }
 
-					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
+							refreshMaterial(newMat);
 				        }
 			        }
 
@@ -411,6 +428,23 @@ null,
 		        });
 	}
 
+	/**
+	 * Refresh material in browse view
+	 * 
+	 * @param newMat
+	 *            uploaded material
+	 */
+	protected void refreshMaterial(Material newMat) {
+		app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
+
+	}
+
+	/**
+	 * @param localKey
+	 *            local material key
+	 * @param mat
+	 *            material
+	 */
 	public abstract void setTubeID(String localKey, Material mat);
 
 	public boolean shouldKeep(int id) {
@@ -463,22 +497,22 @@ null,
 		return this.app;
 	}
 
-	public final boolean save(AppW app) {
+	public final boolean save(AppW appw) {
 		if (this.provider == Provider.LOCAL) {
-			((DialogManagerW) app.getDialogManager()).showSaveDialog();
+			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
 		}
 		// not logged in and can't log in
-		else if (!app.getLoginOperation().isLoggedIn()
-		        && (!app.getNetworkOperation().isOnline() || !app
+		else if (!appw.getLoginOperation().isLoggedIn()
+				&& (!appw.getNetworkOperation().isOnline() || !appw
 		                .getLoginOperation().mayLogIn())) {
-			saveLoggedOut(app);
+			saveLoggedOut(appw);
 			// not logged in and possible to log in
-		} else if (!app.getLoginOperation().isLoggedIn()) {
-			app.getGuiManager().listenToLogin();
-			((SignInButton) app.getLAF().getSignInButton(app)).login();
+		} else if (!appw.getLoginOperation().isLoggedIn()) {
+			appw.getGuiManager().listenToLogin();
+			((SignInButton) appw.getLAF().getSignInButton(appw)).login();
 			// logged in
 		} else {
-			((DialogManagerW) app.getDialogManager()).showSaveDialog();
+			((DialogManagerW) appw.getDialogManager()).showSaveDialog();
 		}
 		return true;
 	}

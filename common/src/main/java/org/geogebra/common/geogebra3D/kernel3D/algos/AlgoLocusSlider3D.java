@@ -71,7 +71,7 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
 	@Override
 	protected void createStartPos(Construction cons) {
-		QstartPos = new GeoPoint3D(cons);
+		startQPos = new GeoPoint3D(cons);
 	}
 
 	@Override
@@ -209,6 +209,6 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 		return isFarAway(coords.getX(), coords.getY(), coords.getZ(), i);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

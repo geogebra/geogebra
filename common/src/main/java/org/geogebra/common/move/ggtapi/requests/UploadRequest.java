@@ -14,9 +14,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class UploadRequest implements Request {
 
-	private final String API = "1.0.0";
-	private final String GGB = "geogebra";
-	private final String TASK = "upload";
+	private final static String API = "1.0.0";
+	private final static String GGB = "geogebra";
+	private final static String TASK = "upload";
 	private final String type;
 	private final String consTitle;
 	private int uniqueID;
@@ -170,9 +170,9 @@ public class UploadRequest implements Request {
 
 			// settings
 			JSONObject settings = new JSONObject();
-			settings.put("-toolbar", Boolean.valueOf(false));
-			settings.put("-menubar", Boolean.valueOf(false));
-			settings.put("-inputbar", Boolean.valueOf(false));
+			settings.put("-toolbar", Boolean.FALSE);
+			settings.put("-menubar", Boolean.FALSE);
+			settings.put("-inputbar", Boolean.FALSE);
 			task.put("settings", settings);
 
 			// file

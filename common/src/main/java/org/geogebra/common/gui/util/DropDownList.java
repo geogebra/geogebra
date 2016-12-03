@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.util;
 
-import com.google.j2objc.annotations.Weak;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPolygon;
@@ -11,6 +9,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
 
+import com.google.j2objc.annotations.Weak;
+
 public class DropDownList {
 	public interface DropDownListener {
 		void onClick(int x, int y);
@@ -19,8 +19,6 @@ public class DropDownList {
 	}
 
 	protected static final int BOX_ROUND = 8;
-	protected static final GColor FOCUS_COLOR = GColor.BLUE;
-	protected static final GColor NORMAL_COLOR = GColor.LIGHT_GRAY;
 	protected static final int MAX_WIDTH = 40;
 
 	protected int scrollDelay = 100;
@@ -34,11 +32,9 @@ public class DropDownList {
 	@Weak
 	private DropDownListener listener;
 
-	private App app;
 
 	public DropDownList(App app, DropDownListener listener) {
 		this.listener = listener;
-		this.app = app;
 		clickTimer = app.newTimer(new GTimerListener() {
 
 			public void onRun() {
@@ -68,7 +64,7 @@ public class DropDownList {
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 		// TF Rectangle
-		g2.setPaint(geo.doHighlighting() ? FOCUS_COLOR : NORMAL_COLOR);
+		g2.setPaint(geo.doHighlighting() ? GColor.BLUE : GColor.LIGHT_GRAY);
 		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
 	}
@@ -85,7 +81,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + tH);
 		p.addPoint(midx + tW, midy + tH);
 		p.addPoint(midx, midy + 2 * tW);
@@ -105,7 +101,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + 2 * tW);
 		p.addPoint(midx + tW, midy + 2 * tW);
 		p.addPoint(midx, midy + tH);
@@ -125,7 +121,7 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.prototype.newPolygon();
+		GPolygon p = AwtFactory.getPrototype().newPolygon();
 		p.addPoint(midx - tW, midy + tH);
 		p.addPoint(midx + tW, midy + tH);
 		p.addPoint(midx, midy + 2 * tW);
@@ -140,28 +136,50 @@ public class DropDownList {
 
 	public void startClickTimer(int x, int y) {
 		setMouse(x, y);
-		clickTimer.start();
+
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			clickTimer.start();
+		}
 	}
 
 	public void startScrollTimer(int x, int y) {
 		setMouse(x, y);
-		scrollTimer.startRepeat();
+		if (scrollTimer != null) {
+			scrollTimer.startRepeat();
+		}
 	}
 
 	public void stopClickTimer() {
-		clickTimer.stop();
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			clickTimer.stop();
+		}
 	}
 
 	public void stopScrollTimer() {
-		scrollTimer.stop();
+		// might be null eg Android, iOS
+		if (scrollTimer != null) {
+			scrollTimer.stop();
+		}
 	}
 
 	public boolean isClickTimerRunning() {
-		return clickTimer.isRunning();
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			return clickTimer.isRunning();
+		}
+
+		return false;
 	}
 
 	public boolean isScrollTimerRunning() {
-		return scrollTimer.isRunning();
+		// might be null eg Android, iOS
+		if (scrollTimer != null) {
+			return scrollTimer.isRunning();
+		}
+
+		return false;
 	}
 
 }

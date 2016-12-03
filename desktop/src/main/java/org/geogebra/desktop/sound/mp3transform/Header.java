@@ -168,7 +168,7 @@ public final class Header {
         offset = 36 - 4;
         try {
             System.arraycopy(firstFrame, offset, tmp, 0, 4);
-            if ("VBRI".equals(new String(tmp))) {
+			if ("VBRI".equals(new String(tmp, Charsets.UTF_8))) {
                 vbr = true;
             }
         } catch (ArrayIndexOutOfBoundsException e) {

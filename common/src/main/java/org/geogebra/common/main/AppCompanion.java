@@ -1,7 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewCompanion;
+import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -73,7 +73,7 @@ public class AppCompanion {
 	 *            panel settings
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewCompanion createEuclidianViewForPlane(
+	public EuclidianViewForPlaneCompanionInterface createEuclidianViewForPlane(
 			ViewCreator plane, boolean panelSettings) {
 		return null;
 	}

@@ -11,6 +11,14 @@ import org.geogebra.common.util.debug.Log;
 public class Point_dt {
 	double x, y, z;
 
+	@Override
+	public int hashCode() {
+
+		double tempArray[] = { x, y, z };
+
+		return java.util.Arrays.hashCode(tempArray);
+	}
+
 	/**
 	 * Default Constructor. <br />
 	 * constructs a 3D point at (0,0,0).
@@ -99,13 +107,20 @@ public class Point_dt {
 	 * return true iff this point [x,y] coordinates are the same as p [x,y]
 	 * coordinates. (the z value is ignored).
 	 */
-	public boolean equals(Point_dt p) {
-		return (x == p.x) && (y == p.y);
+	@Override
+	public boolean equals(Object p) {
+
+		if (!(p instanceof Point_dt)) {
+			return false;
+		}
+
+		return (x == ((Point_dt) p).x) && (y == ((Point_dt) p).y);
 	}
 
 	/** return a String in the [x,y,z] format */
+	@Override
 	public String toString() {
-		return (new String(" Pt[" + x + "," + y + "," + z + "]"));
+		return " Pt[" + x + "," + y + "," + z + "]";
 	}
 
 	/** @return the L2 distanse NOTE: 2D only!!! */
@@ -246,6 +261,7 @@ class Compare implements Comparator{
 	}
 
 	/** compare between two points. */
+	@Override
 	public int compare(Object o1, Object o2) {
 		int ans = 0;
 		if (o1 != null && o2 != null && o1 instanceof Point_dt

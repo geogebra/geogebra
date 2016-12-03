@@ -1,7 +1,5 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
  
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 
@@ -141,27 +139,27 @@ public class Socket {
     
 
 
-	public boolean setViewPort(GPoint panelPosition, GDimension panelDimension) {
+	public boolean setViewPort(int width, int height, int x, int y) {
 		
 		boolean viewPortChanged = false;
 		
-		if (viewPortX != panelPosition.x){
-			viewPortX = panelPosition.x;
+		if (viewPortX != x) {
+			viewPortX = x;
 			viewPortChanged = true;
 		}
 		
-		if (viewPortY != panelPosition.y){
-			viewPortY = panelPosition.y;
+		if (viewPortY != y) {
+			viewPortY = y;
 			viewPortChanged = true;
 		}
 		
-		int v = panelDimension.getWidth();
+		int v = width;
 		if (viewPortW != v){
 			viewPortW = v;
 			viewPortChanged = true;
 		}
 		
-		v = panelDimension.getHeight();
+		v = height;
 		if (viewPortH != v){
 			viewPortH = v;
 			viewPortChanged = true;

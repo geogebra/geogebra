@@ -133,6 +133,6 @@ public class AlgoRandomPointInPolygon extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

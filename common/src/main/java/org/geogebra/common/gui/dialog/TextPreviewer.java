@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrError;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -35,8 +36,10 @@ import org.geogebra.common.main.MyError;
  */
 public abstract class TextPreviewer {
 
-	private EuclidianView ev;
+	protected EuclidianView ev;
 	protected Kernel kernel;
+	protected App app;
+
 	private GeoText previewGeoIndependent, previewGeoDependent;
 
 	private AlgoDependentText textAlgo;
@@ -51,7 +54,8 @@ public abstract class TextPreviewer {
 
 		this.kernel = kernel;
 		this.cons = kernel.getConstruction();
-		ev = getEuclidianView();
+		this.ev = getEuclidianView();
+		this.app = kernel.getApplication();
 
 		// set EV display properties
 		removeEVMouseListeners();

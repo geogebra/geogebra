@@ -324,7 +324,7 @@ public class AlgoLocusList extends AlgoElement {
 		locus.insertPoint(x, y, lineTo);
 	}
 
-	// TODO Consider locusequability
+	
 
 	@Override
 	public boolean euclidianViewUpdate() {

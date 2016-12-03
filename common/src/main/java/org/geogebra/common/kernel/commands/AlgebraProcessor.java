@@ -136,6 +136,11 @@ public class AlgebraProcessor {
 
 	private boolean disableGcd = false;
 
+	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
+			closeBracket = null;
+
+	private boolean vectorsEnabled = true;
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -256,7 +261,7 @@ public class AlgebraProcessor {
 				else if (casCell.isOutputEmpty() && !casCell.hasChildren()) {
 					// this is a new casCell
 					cons.removeFromConstructionList(casCell);
-					KernelCAS.DependentCasCell(casCell);
+					KernelCAS.dependentCasCell(casCell);
 					needsRedefinition = false;
 					needsConsUpdate = !isLastRow;
 				} else {
@@ -265,16 +270,15 @@ public class AlgebraProcessor {
 				}
 			}
 		} else {
-			if (nowFree) {
-				// dependent -> free, e.g. m := c+2 -> m := 7
-				// algorithm will be removed through redefinition
-				needsRedefinition = true;
-			} else {
-				// dependent -> dependent, e.g. m := c+2 -> m := c+d
-				// we already have an algorithm but need redefinition
-				// in order to move it to the right place in construction list
-				needsRedefinition = true;
-			}
+
+			// dependent -> free, e.g. m := c+2 -> m := 7
+			// algorithm will be removed through redefinition
+			// OR
+			// dependent -> dependent, e.g. m := c+2 -> m := c+d
+			// we already have an algorithm but need redefinition
+			// in order to move it to the right place in construction list
+			needsRedefinition = true;
+
 		}
 
 		if (needsRedefinition) {
@@ -412,80 +416,78 @@ public class AlgebraProcessor {
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 				redefineIndependent);
 
-			app.getCompanion().storeViewCreators();
-			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
-			// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
-			// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
-			/*
-			 * if (geo instanceof GeoFunction && ((GeoFunction)
-			 * geo).isDefined()) { cons.registerFunctionVariable(((GeoFunction)
-			 * geo).getFunction()
-			 * .getVarString(StringTemplate.defaultTemplate)); }
-			 */
-			newLabel = newValue.getLabel();
+		app.getCompanion().storeViewCreators();
+		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
+		// need to check isDefined() eg redefine FitPoly[{A, B, C, D, E, F,
+		// G, H, I}, 22] to FitPoly[{A, B, C, D, E, F, G, H, I}, 2]
+		/*
+		 * if (geo instanceof GeoFunction && ((GeoFunction) geo).isDefined()) {
+		 * cons.registerFunctionVariable(((GeoFunction) geo).getFunction()
+		 * .getVarString(StringTemplate.defaultTemplate)); }
+		 */
+		newLabel = newValue.getLabel();
 
-			if (newLabel == null) {
-				newLabel = oldLabel;
-				newValue.setLabel(newLabel);
-			}
+		if (newLabel == null) {
+			newLabel = oldLabel;
+			newValue.setLabel(newLabel);
+		}
 
-			// make sure that points stay points and vectors stay vectors
-			if (newValue instanceof ExpressionNode) {
-				ExpressionNode n = (ExpressionNode) newValue;
-				if (geo.isGeoPoint())
-					n.setForcePoint();
-				else if (geo.isGeoVector())
-					n.setForceVector();
-				else if (geo.isGeoFunction())
-					n.setForceFunction();
-			}
+		// make sure that points stay points and vectors stay vectors
+		if (newValue instanceof ExpressionNode) {
+			ExpressionNode n = (ExpressionNode) newValue;
+			if (geo.isGeoPoint())
+				n.setForcePoint();
+			else if (geo.isGeoVector())
+				n.setForceVector();
+			else if (geo.isGeoFunction())
+				n.setForceFunction();
+		}
 
-			if (newLabel.equals(oldLabel)) {
-				// try to overwrite
-				final boolean listeners = app.getScriptManager().hasListeners();
-				app.getScriptManager().disableListeners();
+		if (newLabel.equals(oldLabel)) {
+			// try to overwrite
+			final boolean listeners = app.getScriptManager().hasListeners();
+			app.getScriptManager().disableListeners();
 			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
 
-					@Override
+				@Override
 				public void callback(GeoElementND[] obj) {
-						if (listeners) {
-							geo.updateCascade();
+					if (listeners) {
+						geo.updateCascade();
 						}
-						if (obj != null) {
-							app.getCompanion().recallViewCreators();
-							if (storeUndoInfo)
-								app.storeUndoInfo();
-							if (obj.length > 0) {
-								callback.callback(obj[0]);
-							}
+					if (obj != null) {
+						app.getCompanion().recallViewCreators();
+						if (storeUndoInfo)
+							app.storeUndoInfo();
+						if (obj.length > 0) {
+							callback.callback(obj[0]);
 						}
-
 					}
-				};
-				app.getScriptManager().enableListeners();
 
-				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, handler, true, changeCallback,
-					info);
-
-				cons.registerFunctionVariable(null);
-				return;
-			} else if (cons.isFreeLabel(newLabel)) {
-				newValue.setLabel(oldLabel);
-				// rename to oldLabel to enable overwriting
-				result = processAlgebraCommandNoExceptionHandling(newValue,
-					false, handler, true, null, info);
-				result[0].setLabel(newLabel); // now we rename
-				app.getCompanion().recallViewCreators();
-				if (storeUndoInfo)
-					app.storeUndoInfo();
-				if (result.length > 0) {
-					callback.callback(result[0]);
 				}
-			} else {
-				String str[] = { "NameUsed", newLabel };
-				throw new MyError(loc, str);
+			};
+			app.getScriptManager().enableListeners();
+
+			processAlgebraCommandNoExceptionHandling(newValue,
+					false, handler, true, changeCallback, info);
+
+			cons.registerFunctionVariable(null);
+			return;
+		} else if (cons.isFreeLabel(newLabel)) {
+			newValue.setLabel(oldLabel);
+			// rename to oldLabel to enable overwriting
+			result = processAlgebraCommandNoExceptionHandling(newValue, false,
+					handler, true, null, info);
+			result[0].setLabel(newLabel); // now we rename
+			app.getCompanion().recallViewCreators();
+			if (storeUndoInfo)
+				app.storeUndoInfo();
+			if (result.length > 0) {
+				callback.callback(result[0]);
 			}
+		} else {
+			String str[] = { "NameUsed", newLabel };
+			throw new MyError(loc, str);
+				}
 
 		cons.registerFunctionVariable(null);
 
@@ -853,7 +855,7 @@ public class AlgebraProcessor {
 				return null;
 			}
 			if (app.getGuiManager() != null) {
-				app.getGuiManager().getCasView().cancelEditing();
+				app.getGuiManager().getCasView().cancelEditItem();
 			}
 			GeoCasCell cell = cons.getCasCell(row);
 			if (cell == null) {
@@ -1931,7 +1933,7 @@ public class AlgebraProcessor {
 					if (isIndependent) {
 						f = new GeoInterval(cons, fun);
 					} else {
-						f = DependentInterval(fun);
+						f = dependentInterval(fun);
 					}
 					f.setLabel(label);
 					return array(f);
@@ -1954,7 +1956,7 @@ public class AlgebraProcessor {
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
 					&& right.isNumberValue() && !right.isConstant()
 					&& !isIndependent) {
-				f = (GeoFunction) DependentGeoCopy(
+				f = (GeoFunction) dependentGeoCopy(
 						((GeoFunctionable) left).getGeoFunction());
 				f.setLabel(label);
 				return array(f);
@@ -2254,13 +2256,13 @@ public class AlgebraProcessor {
 	 * Interval dependent on coefficients of arithmetic expressions with
 	 * variables, represented by trees. e.g. x > a && x < b
 	 */
-	final private GeoFunction DependentInterval(Function fun) {
+	final private GeoFunction dependentInterval(Function fun) {
 		AlgoDependentInterval algo = new AlgoDependentInterval(cons, fun);
 		GeoFunction f = algo.getFunction();
 		return f;
 	}
 
-	final private GeoElement DependentGeoCopy(
+	final private GeoElement dependentGeoCopy(
 			GeoElement origGeoNode) {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, 
 				origGeoNode);
@@ -2297,7 +2299,7 @@ public class AlgebraProcessor {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
 			gf.setLabel(label);
 		} else {
-			gf = DependentFunctionNVar(label, fun);
+			gf = dependentFunctionNVar(label, fun);
 		}
 		if (!gf.validate(label == null)) {
 			gf.remove();
@@ -2310,7 +2312,7 @@ public class AlgebraProcessor {
 	 * Multivariate Function depending on coefficients of arithmetic expressions
 	 * with variables, e.g. f(x,y) = a x^2 + b y^2
 	 */
-	final private GeoFunctionNVar DependentFunctionNVar(String label,
+	final private GeoFunctionNVar dependentFunctionNVar(String label,
 			FunctionNVar fun) {
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
 				label, fun);
@@ -2356,8 +2358,7 @@ public class AlgebraProcessor {
 		}
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
-			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(),
- null,
+			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
 					equ);
 			if (c != null) {
 				return new GeoElement[0];
@@ -2369,7 +2370,8 @@ public class AlgebraProcessor {
 				e.printStackTrace();
 			}
 		}
-		if (lhs instanceof MyDouble && lhs.evaluateDouble() == MyMath.DEG) {
+		if (lhs instanceof MyDouble
+				&& MyDouble.exactEqual(lhs.evaluateDouble(), MyMath.DEG)) {
 			equ.getRHS().setLabel("deg");
 			try {
 				return processValidExpression(equ.getRHS());
@@ -2502,7 +2504,7 @@ public class AlgebraProcessor {
 			c = lhs.getCoeffValue("");
 			line = new GeoLine(cons, a, b, c);
 		} else {
-			line = DependentLine(equ);
+			line = dependentLine(equ);
 		}
 		line.setDefinition(def);
 		if (isExplicit) {
@@ -2518,7 +2520,7 @@ public class AlgebraProcessor {
 	 * Line dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. y = k x + d
 	 */
-	final private GeoLine DependentLine(Equation equ) {
+	final private GeoLine dependentLine(Equation equ) {
 		AlgoDependentLine algo = new AlgoDependentLine(cons, equ);
 		GeoLine line = algo.getLine();
 		return line;
@@ -2554,7 +2556,7 @@ public class AlgebraProcessor {
 			conic = new GeoConic(cons, coeffs);
 
 		} else {
-			conic = DependentConic(equ);
+			conic = dependentConic(equ);
 		}
 
 		if (isExplicit) {
@@ -2573,7 +2575,7 @@ public class AlgebraProcessor {
 	 * Conic dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees.
 	 */
-	final private GeoConic DependentConic(Equation equ) {
+	final private GeoConic dependentConic(Equation equ) {
 		AlgoDependentConic algo = new AlgoDependentConic(cons, equ);
 		GeoConic conic = algo.getConic();
 		return conic;
@@ -2742,7 +2744,7 @@ public class AlgebraProcessor {
 			// e.g. B1 = A1 where A1 is a GeoElement and B1 does not exist yet
 			// create a copy of A1
 			if (n.getLabel() != null || dollarLabelFound) {
-				return array(DependentGeoCopy(n.getLabel(), n));
+				return array(dependentGeoCopy(n.getLabel(), n));
 			}
 		}
 
@@ -2790,7 +2792,7 @@ public class AlgebraProcessor {
 			ret.setDefinition(n);
 
 		} else {
-			ret = DependentNumber(n, isAngle, evaluate).toGeoElement();
+			ret = dependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
 		if (n.isForcedFunction()) {
@@ -2809,7 +2811,7 @@ public class AlgebraProcessor {
 	 * Number dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. t = 6z - 2
 	 */
-	final private GeoNumberValue DependentNumber(
+	final private GeoNumberValue dependentNumber(
 			ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
 		AlgoDependentNumber algo = new AlgoDependentNumber(cons, root,
@@ -2863,7 +2865,7 @@ public class AlgebraProcessor {
 		// operations and variables are present
 		// e.g. {3, 2, 1} + {a, b, 2}
 		else {
-			ret = ListExpression(n);
+			ret = listExpression(n);
 			ret.setLabel(label);
 		}
 
@@ -2878,7 +2880,7 @@ public class AlgebraProcessor {
 	 *            expression defining the dependent list
 	 * @return resulting list
 	 */
-	final public GeoList ListExpression(ExpressionNode root) {
+	final public GeoList listExpression(ExpressionNode root) {
 		AlgoDependentListExpression algo = new AlgoDependentListExpression(
 				cons, root);
 		return algo.getList();
@@ -2892,9 +2894,9 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			MyStringBuffer val = ((TextValue) evaluate).getText();
-			ret = Text(val.toValueString(StringTemplate.defaultTemplate));
+			ret = text(val.toValueString(StringTemplate.defaultTemplate));
 		} else {
-			ret = DependentText(n);
+			ret = dependentText(n);
 		}
 		ret.setLabel(label);
 		return array(ret);
@@ -2904,7 +2906,7 @@ public class AlgebraProcessor {
 	 * Text dependent on coefficients of arithmetic expressions with variables,
 	 * represented by trees. e.g. text = "Radius: " + r
 	 */
-	final private GeoText DependentText(ExpressionNode root) {
+	final private GeoText dependentText(ExpressionNode root) {
 		AlgoDependentText algo = new AlgoDependentText(cons, root, true);
 		GeoText t = algo.getGeoText();
 		return t;
@@ -2915,7 +2917,7 @@ public class AlgebraProcessor {
 	 *            content of the text
 	 * @return resulting text
 	 */
-	final public GeoText Text(String text) {
+	final public GeoText text(String text) {
 		GeoText t = new GeoText(cons);
 		t.setTextString(text);
 		return t;
@@ -2994,9 +2996,9 @@ public class AlgebraProcessor {
 			ret[0].setDefinition(n);
 		} else {
 			if (isVector)
-				ret[0] = DependentVector(label, n);
+				ret[0] = dependentVector(label, n);
 			else
-				ret[0] = DependentPoint(label, n, complex);
+				ret[0] = dependentPoint(label, n, complex);
 		}
 		if (polar) {
 			ret[0].setMode(Kernel.COORD_POLAR);
@@ -3035,7 +3037,7 @@ public class AlgebraProcessor {
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s)
 	 */
-	final private GeoPoint DependentPoint(String label, ExpressionNode root,
+	final private GeoPoint dependentPoint(String label, ExpressionNode root,
 			boolean complex) {
 		AlgoDependentPoint algo = new AlgoDependentPoint(cons, label, root,
 				complex);
@@ -3047,7 +3049,7 @@ public class AlgebraProcessor {
 	 * Vector dependent on arithmetic expression with variables, represented by
 	 * a tree. e.g. v = u + 3 w
 	 */
-	final private GeoVector DependentVector(String label, ExpressionNode root) {
+	final private GeoVector dependentVector(String label, ExpressionNode root) {
 		AlgoDependentVector algo = new AlgoDependentVector(cons, label, root);
 		GeoVector v = algo.getVector();
 		return v;
@@ -3071,7 +3073,7 @@ public class AlgebraProcessor {
 	/**
 	 * Creates a dependent copy of origGeo with label
 	 */
-	final private GeoElement DependentGeoCopy(String label,
+	final private GeoElement dependentGeoCopy(String label,
 			ExpressionNode origGeoNode) {
 		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons,
 				origGeoNode);
@@ -3086,11 +3088,8 @@ public class AlgebraProcessor {
 	 *            key for error.properties
 	 */
 	public void showError(String key) {
-		app.showError(loc.getError(key));
+		app.showError(key);
 	}
-
-	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
-			closeBracket = null;
 
 	/** @return "x(" */
 	public MyStringBuffer getXBracket() {
@@ -3181,8 +3180,16 @@ public class AlgebraProcessor {
 	 *            whether commands should be enabled
 	 */
 	public void setCommandsEnabled(boolean enable) {
+		this.vectorsEnabled = enable;
 		cmdDispatcher.setEnabled(enable);
 
+	}
+
+	/**
+	 * @return whether vector parsing is enabled
+	 */
+	public boolean enableVectors() {
+		return vectorsEnabled;
 	}
 
 	/**

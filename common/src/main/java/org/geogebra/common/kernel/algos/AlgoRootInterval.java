@@ -171,5 +171,5 @@ public class AlgoRootInterval extends AlgoElement {
 				aGeo.getLabel(tpl), bGeo.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

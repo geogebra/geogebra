@@ -160,10 +160,10 @@ public class AppCacheLinker extends AbstractLinker {
 					        || pathName.startsWith("js/properties_")) {
 						// skip these resources
 					} else {
-						publicSourcesSb.append("\"https://d2lanadgwinn45.cloudfront.net/"
+						publicSourcesSb.append("\"https://cdn.geogebra.org/"
 								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName.replace("\\", "/") + "\",\n");
 						publicSourcesSbM
-								.append("https://d2lanadgwinn45.cloudfront.net/"
+								.append("https://cdn.geogebra.org/"
 										+ GeoGebraConstants.VERSION_STRING
 										+ "/web3d/"
 										+ pathName.replace("\\", "/") + "\n");
@@ -209,12 +209,13 @@ public class AppCacheLinker extends AbstractLinker {
 		StringBuilder sb = new StringBuilder();
 
 
-		logger.log(
-		        TreeLogger.INFO,
-		        "Make sure you have the following"
-		                + " attribute added to your landing page's <html> tag: <html manifest=\""
-		                + context.getModuleFunctionName() + "/" + MANIFEST
-		                + "\">");
+		// logger.log(
+		// TreeLogger.INFO,
+		// "Make sure you have the following"
+		// + " attribute added to your landing page's <html> tag: <html
+		// manifest=\""
+		// + context.getModuleFunctionName() + "/" + MANIFEST
+		// + "\">");
 
 		// Create the manifest as a new artifact and return it:
 		try {
@@ -231,7 +232,7 @@ public class AppCacheLinker extends AbstractLinker {
 			e.printStackTrace();
 			logger.log(Type.ERROR, e.getMessage());
 		}
-		toReturn.add(emitString(logger, sbM.toString(), MANIFEST));
+		// toReturn.add(emitString(logger, sbM.toString(), MANIFEST));
 		toReturn.add(emitString(logger, sb.toString(), SWORKER));
 	}
 

@@ -20,10 +20,11 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.Util;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
+import org.geogebra.desktop.main.AppD;
 
 public class GeoGebra {
 
-	public static Frame splashFrame = null;
+	private static Frame splashFrame = null;
 
 	protected GeoGebra() {
 	}
@@ -48,14 +49,14 @@ public class GeoGebra {
 
 		int fontSize = (int) Math.round(screenDPI / 8.0);
 
-		GeoGebraPreferencesXML.defaultFontSize = Util
-				.getValidFontSize(fontSize);
+		GeoGebraPreferencesXML
+				.setDefaultFontSize(Util.getValidFontSize(fontSize));
 
 		// 96 corresponds to 100%
 		// 192 to 200%
 		double sf = screenDPI / 96.0;
-		GeoGebraPreferencesXML.defaultWindowX = (int) (800.0 * sf);
-		GeoGebraPreferencesXML.defaultWindowY = (int) (600.0 * sf);
+		GeoGebraPreferencesXML.setDefaultWindowX((int) (800.0 * sf));
+		GeoGebraPreferencesXML.setDefaultWindowY((int) (600.0 * sf));
 	}
 
 	protected void doMain(String[] cmdArgs) {
@@ -99,7 +100,7 @@ public class GeoGebra {
 		} catch (Throwable e) {
 			e.printStackTrace();
 			System.err.flush();
-			System.exit(10);
+			AppD.exit(10);
 		}
 
 		// Hide splash screen
@@ -111,6 +112,12 @@ public class GeoGebra {
 	protected void startGeoGebra(CommandLineArguments args) {
 		// create and open first GeoGebra window
 		GeoGebraFrame.main(args);
+	}
+
+	public static void hideSplash() {
+		if (splashFrame != null) {
+			splashFrame.setVisible(false);
+		}
 	}
 
 }

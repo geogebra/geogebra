@@ -1,11 +1,11 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Material POJO
@@ -104,6 +104,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean funcinsp;
 	private boolean macro;
 	private String sharingKey;
+	private int elemcntApplet;
 
 	public boolean isDeleted() {
 		return deleted;
@@ -349,9 +350,23 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public int compareTo(Material another) {
-		if (another == null)
+		if (another == null) {
 			return 1;
+		}
 		return this.id - another.id;
+	}
+
+	@Override
+	public boolean equals(Object another) {
+		if (another == null || !(another instanceof Material)) {
+			return false;
+		}
+		return this.id == ((Material) another).id;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.id;
 	}
 
 	@Override
@@ -639,4 +654,11 @@ public class Material implements Comparable<Material>, Serializable {
 				: sharingKey;
 	}
 
+	public int getElemcntApplet() {
+		return elemcntApplet;
+	}
+
+	public void setElemcntApplet(int elemcntApplet) {
+		this.elemcntApplet = elemcntApplet;
+	}
 }

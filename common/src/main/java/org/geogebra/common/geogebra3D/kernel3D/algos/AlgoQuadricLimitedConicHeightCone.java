@@ -45,6 +45,6 @@ public class AlgoQuadricLimitedConicHeightCone extends
 		return Commands.Cone;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

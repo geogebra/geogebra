@@ -78,11 +78,6 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 */
 	private EquationType equationType;
 	/**
-	 * output labels
-	 */
-	@SuppressWarnings("unused")
-	private String[] labels;
-	/**
 	 * Solutions of the equations
 	 */
 	private OutputHandler<GeoPoint> outputs;
@@ -91,7 +86,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 */
 	private int outputLen;
 
-	private AlgoIntersectImplicitCurve(Construction cons, String[] labels,
+	private AlgoIntersectImplicitCurve(Construction cons,
 			GeoImplicitCurve curve, GeoElement eqn, EquationType equationType) {
 
 		super(cons);
@@ -99,7 +94,6 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		this.equationType = equationType;
 		this.equation = eqn;
 		this.curve = curve;
-		this.labels = labels;
 
 		setInputOutput();
 		compute();

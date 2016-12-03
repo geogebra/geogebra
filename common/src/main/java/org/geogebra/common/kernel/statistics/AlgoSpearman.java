@@ -155,6 +155,6 @@ public class AlgoSpearman extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

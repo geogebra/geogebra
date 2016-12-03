@@ -118,6 +118,6 @@ public class AlgoRandomPolynomial extends AlgoElement {
 		return polynomial;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

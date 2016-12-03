@@ -25,17 +25,17 @@ public abstract class EquationSymbolicPoint extends EquationPoint {
     /**
      * Identifier for {@link EquationDependentPoint}
      */
-    protected final String DEPENDENT_POINT_ID = "x";
+	protected final static String DEPENDENT_POINT_ID = "x";
     
     /**
      * Identifier for {@link EquationSpecialSymbolicPoint}
      */
-    protected final String SPECIAL_SYMBOLIC_ID = "u";
+	protected final static String SPECIAL_SYMBOLIC_ID = "u";
     
     /**
      * Identifier for {@link EquationAuxiliarSymbolicPoint}
      */
-    protected final String AUXILIAR_SYMBOLIC_ID = "a";
+	protected final static String AUXILIAR_SYMBOLIC_ID = "a";
     
     /**
      * x coordinate.

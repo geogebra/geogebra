@@ -18,6 +18,8 @@ import org.mozilla.javascript.ScriptRuntime;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implements the require() function as defined by
  * <a href="http://wiki.commonjs.org/wiki/Modules/1.1">Common JS modules</a>.
@@ -113,6 +115,8 @@ public class Require extends BaseFunction
      * required, or if this require() instance already has a different main
      * module set.
      */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     public Scriptable requireMain(Context cx, String mainModuleId) {
         if(this.mainModuleId != null) {
             if (!this.mainModuleId.equals(mainModuleId)) {

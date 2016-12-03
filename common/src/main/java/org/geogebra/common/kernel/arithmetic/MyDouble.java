@@ -1144,7 +1144,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	@Override
 	public int hashCode() {
-		return (int) (val * 1000);
+		return Double.valueOf(val).hashCode();
 	}
 
 	public boolean isDefined() {
@@ -1278,5 +1278,17 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			"OK to compare floats, as even tiny differences should trigger update" })
 	public static boolean exactEqual(double a, double b) {
 		return a == b;
+	}
+
+	/**
+	 * works for positive and negative numbers see
+	 * http://findbugs.sourceforge.net/bugDescriptions.html#IM_BAD_CHECK_FOR_ODD
+	 * 
+	 * @param i
+	 *            tested number
+	 * @return true if i is odd
+	 */
+	public static boolean isOdd(int i) {
+		return (i % 2) != 0;
 	}
 }

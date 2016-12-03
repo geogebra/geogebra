@@ -92,6 +92,7 @@ import org.geogebra.web.web.gui.layout.panels.SpreadsheetDockPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
+import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
@@ -112,6 +113,7 @@ import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.web.util.keyboard.GTextBoxProcessing;
+import org.geogebra.web.web.util.keyboard.ScriptAreaProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -446,7 +448,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private void updateFontSizeStyleElement() {
 
 		final String fontsizeString = app.getGUIFontSize() + "px";
-		final int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
+		final int imagesize = (int) Math
+				.round(app.getGUIFontSize() * 4.0 / 3.0);
 		int toolbariconSize = 2 * app.getGUIFontSize();
 
 		// until we have no enough place for the big icons in the toolbar, don't
@@ -678,7 +681,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// update view sizes
 		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
-		app.setPreferredSize(AwtFactory.prototype.newDimension(width, height));
+		app.setPreferredSize(AwtFactory.getPrototype().newDimension(width, height));
 	}
 
 	public ToolBarW getGeneralToolbar() {
@@ -1576,7 +1579,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		this.toolbarID = toolbarID;
 
 		if (changed) {
-			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
+			getToolbarPanel().setActiveToolbar(Integer.valueOf(toolbarID));
 			refreshCustomToolsInToolBar();
 			if (toolbarID == App.VIEW_EUCLIDIAN
 					|| toolbarID == App.VIEW_EUCLIDIAN2) {
@@ -1990,13 +1993,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 					@Override
 					public void callback(String[] obj) {
+						getApp().dispatchEvent(
+								new Event(EventType.EXPORT, null, "[\"ggb\"]"));
 						if (Browser.isXWALK()) {
-							((AppW) app).getGgbApi().getBase64(true,
+							getApp().getGgbApi().getBase64(true,
 									getStringCallback(obj[1]));
 						}
 
 				else if (Integer.parseInt(obj[0]) == 0) {
-							((AppW) app).getGgbApi().getGGB(true,
+							getApp().getGgbApi().getGGB(true,
 									getDownloadCallback(obj[1]));
 						}
 					}
@@ -2004,8 +2009,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 
-
-	private native JavaScriptObject getStringCallback(String title) /*-{
+	/**
+	 * @param title
+	 *            construction title
+	 * @return local file saving callback for base64
+	 */
+	native JavaScriptObject getStringCallback(String title) /*-{
 
 		return function(base64) {
 			var a = $doc.createElement("a");
@@ -2017,7 +2026,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 
 	}-*/;
-	private native JavaScriptObject getDownloadCallback(String title) /*-{
+
+	/**
+	 * @param title
+	 *            construction title
+	 * @return local file saving callback for binary file
+	 */
+	native JavaScriptObject getDownloadCallback(String title) /*-{
 		var _this = this;
 		return function(ggbZip) {
 			var URL = $wnd.URL || $wnd.webkitURL;
@@ -2099,6 +2114,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (textField instanceof EquationEditorListener) {
 			return ((EquationEditorListener) textField).getKeyboardListener();
 		}
+		if (textField instanceof ScriptArea) {
+			return new ScriptAreaProcessing((ScriptArea) textField);
+		}
 
 		return null;
 
@@ -2108,6 +2126,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (onScreenKeyboard != null) {
 			onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
+		}
+	}
+
+	public void onScreenEditingEnded() {
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.endEditing();
 		}
 	}
 
@@ -2218,6 +2242,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	@Override
 	public void replaceInputSelection(String string) {
 		if (app.showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) app.getAlgebraView())

@@ -33,6 +33,9 @@ public class Hitting {
 	 */
 	public Coords directionScreen;
 
+	/**
+	 * View
+	 */
 	protected EuclidianView3D view;
 
 	/**

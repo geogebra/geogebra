@@ -91,6 +91,6 @@ public class AlgoRootMeanSquare extends AlgoElement {
 		result.setValue(Math.sqrt(sum / size));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -787,7 +787,9 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	/**
 	 * @param sb
+	 *            xml builder
 	 * @param string
+	 *            equation style
 	 */
 	public static void appendType(StringBuilder sb, String string) {
 		sb.append("\t<eqnStyle style=\"");

@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -267,7 +269,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		api.exportAnimGif(app, sliderName, timeBetweenFrames, isLoop.getValue());
 		p1.remove();
 		p2.remove();
-
+		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"gif\"]"));
 	}
 
 

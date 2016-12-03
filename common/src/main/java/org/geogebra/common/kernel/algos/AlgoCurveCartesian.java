@@ -210,5 +210,5 @@ public class AlgoCurveCartesian extends AlgoElement {
 		curve.setInterval(from.getDouble(), to.getDouble());
 	}
 
-	// TODO Consider locusequability
+	
 }

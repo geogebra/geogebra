@@ -10,12 +10,13 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.util.SaveCallback;
 
 import com.google.gwt.storage.client.Storage;
@@ -281,22 +282,9 @@ public class FileManagerW extends FileManager {
 		this.offlineIDs.add(material.getId());
 	}
 
-	public final boolean createRemoteAnimGif(AppW app) {
-		// // TODO: Login needed.
-		// // not logged in and can't log in
-		// if (!app.getLoginOperation().isLoggedIn()) {
-		// App.debug("[ANIMGIF] Login needed.");
-		// // app.getGuiManager().listenToLogin();
-		// // ((SignInButton) app.getLAF().getSignInButton(app)).login();
-		// // // logged in
-		// } else {
-			((DialogManagerW) app.getDialogManager()).showAnimGifExportDialog();
-		// }
-		return true;
-	}
 	
 	public void showExportAsPictureDialog(final String url, String filename,
-			AppW app) {
+			final AppW app) {
 		Localization loc = getApp().getLocalization();
 		app.getGuiManager()
 				.getOptionPane()
@@ -312,7 +300,8 @@ public class FileManagerW extends FileManager {
 								}
 
 								exportImage(url, obj[1]);
-
+								getApp().dispatchEvent(new Event(
+										EventType.EXPORT, null, "[\"png\"]"));
 							}
 						}, loc.getMenu("Export"));
 

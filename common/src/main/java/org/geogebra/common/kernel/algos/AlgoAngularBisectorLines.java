@@ -330,9 +330,7 @@ public class AlgoAngularBisectorLines extends AlgoElement implements
 			 * We need to compute this.B symbolically since it is not computed
 			 * automatically in this class.
 			 */
-			Variable[] varsB = new Variable[2];
-			Variable[] varsLg = new Variable[4];
-			Variable[] varsLh = new Variable[4];
+			Variable[] varsB, varsLg, varsLh;
 			varsB = (this.B).getBotanaVars(this.B);
 			varsLg = lg.getBotanaVars(lg);
 			varsLh = lh.getBotanaVars(lh);

@@ -151,5 +151,5 @@ public class AlgoRotate extends AlgoTransformation {
 		return 1;
 	}
 
-	// TODO Consider locusequability
+	
 }

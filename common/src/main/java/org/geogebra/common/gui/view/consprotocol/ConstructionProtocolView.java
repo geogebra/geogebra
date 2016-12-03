@@ -39,7 +39,7 @@ public class ConstructionProtocolView {
 		GImageIcon toolbarIcon;
 		String name, algebra, description, definition, caption;
 		boolean includesIndex;
-		Boolean consProtocolVisible;
+		boolean consProtocolVisible;
 		private boolean wrapHTML;
 
 		public RowData(GeoElement geo, boolean wrapHTML) {
@@ -103,7 +103,7 @@ public class ConstructionProtocolView {
 			return toolbarIcon;
 		}
 		
-		public Boolean getCPVisible(){
+		public boolean getCPVisible() {
 			return consProtocolVisible;
 		}
 		
@@ -167,7 +167,7 @@ public class ConstructionProtocolView {
 			description = geo.getDescriptionHTML(true);
 			definition = geo.getDefinitionHTML(true);
 			updateCaption();
-			consProtocolVisible = new Boolean(geo.isConsProtocolBreakpoint());
+			consProtocolVisible = geo.isConsProtocolBreakpoint();
 
 			// does this line include an index?
 			includesIndex = (name.indexOf("<sub>") >= 0)

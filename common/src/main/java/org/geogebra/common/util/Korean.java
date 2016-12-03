@@ -2,6 +2,8 @@ package org.geogebra.common.util;
 
 import java.util.HashMap;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Korean {
 
 	static StringBuilder sb;
@@ -63,7 +65,7 @@ public class Korean {
 			else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
 				if (lastWasVowel && isKoreanLeadChar(c)) {
-					sb.append(koreanLeadToTail.get(new Character(c))
+					sb.append(koreanLeadToTail.get(Character.valueOf(c))
 							.charValue());
 				} else {
 					sb.append(c);
@@ -240,6 +242,8 @@ public class Korean {
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public static String mergeDoubleCharacters(String str) {
 
 		if (str.length() < 2)

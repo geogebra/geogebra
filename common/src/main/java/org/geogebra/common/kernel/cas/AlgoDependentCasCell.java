@@ -233,6 +233,6 @@ public class AlgoDependentCasCell extends AlgoElement implements
 	// updateConstructionOrder(oldPred);
 	// }
 
-	// TODO Consider locusequability
+	
 
 }

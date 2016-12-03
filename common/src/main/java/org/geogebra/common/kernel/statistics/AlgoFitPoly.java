@@ -157,7 +157,7 @@ public class AlgoFitPoly extends AlgoElement {
 		geofunction.setDefined(true);
 	}// compute()
 
-	// TODO Consider locusequability
+	
 
 }// class AlgoFitPoly
 

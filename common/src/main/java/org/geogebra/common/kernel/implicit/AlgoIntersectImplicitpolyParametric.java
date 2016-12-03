@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to intersect Implicit polynomials with either lines or polynomials
@@ -181,7 +182,7 @@ public class AlgoIntersectImplicitpolyParametric
 		PolynomialFunction zs = null;
 		// Insert x and y (univariat)polynomials via the Horner-scheme
 		double[][] coeff = p.getCoeff();
-		if (coeff != null)
+		if (coeff != null) {
 			for (int i = coeff.length - 1; i >= 0; i--) {
 				zs = new PolynomialFunction(
 						new double[] { coeff[i][coeff[i].length - 1] });
@@ -189,11 +190,18 @@ public class AlgoIntersectImplicitpolyParametric
 					zs = zs.multiply(ty).add(new PolynomialFunction(
 							new double[] { coeff[i][j] }));// y*zs+coeff[i][j];
 				}
-				if (sum == null)
+				if (sum == null) {
 					sum = zs;
-				else
+				} else {
 					sum = sum.multiply(tx).add(zs);// sum*x+zs;
+				}
 			}
+		}
+
+		if (sum == null) {
+			Log.debug("problem in AlgoIntersectImplicitpolyParametric");
+			return;
+		}
 
 		setRootsPolynomialWithinRange(sum, minT, maxT);
 		mergeWithTangentPoints();

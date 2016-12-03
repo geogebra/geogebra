@@ -1054,6 +1054,28 @@ namespace giac {
       res=th.shift(other.coord.front().index,other.coord.front().value);
       return;
     }
+    //int t1=th.coord.front().value.type,t2=other.coord.front().value.type;
+    gen T1=th.coord.front().value,T2=other.coord.front().value;
+    // gen T1=th.coord[c1/2].value,T2=other.coord[c2/2].value;
+    int t1=T1.type,t2=T2.type;
+#if 1 // does not work if _ext are embedded inside fractions (check done in unext)
+    if (t1==_EXT || t2==_EXT){
+      gen minp;
+      if (t1==_EXT)
+	minp=*(T1._EXTptr+1);
+      else
+	minp=*(T2._EXTptr+1);
+      polynome p1m,p2m,pm(th.dim);
+      if (minp.type==_VECT && unext(th,minp,p1m) && unext(other,minp,p2m)){
+	mulpoly(p1m,p2m,pm,0);
+	ext(pm,minp,res);
+	//Mul<gen>(ita,ita_end,itb,itb_end,pm.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+	//if (!(pm-res).coord.empty()) 
+	//CERR << "err" << th << endl << other << endl << pm-res << endl;
+	return;
+      }
+    }
+#endif
 #ifdef NO_TEMPLATE_MULTGCD
     Mul<gen>(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
     // Mul_gen(ita,ita_end,itb,itb_end,res.coord,th.is_strictly_greater,th.m_is_strictly_greater);
@@ -1087,7 +1109,6 @@ namespace giac {
       c1c2 = unsigned(std::sqrt(d1sparness*d2sparness)*c1c2);
       if (c1c2> (1<<24) )
 	c1c2 = 1 << 24;
-      int t1=th.coord.front().value.type,t2=other.coord.front().value.type;
       // Possible improvement for modular product mod p in an array
       // make one of the argument with negative coeffs, the other with positive
       // init array with p^2, then type_operator_plus_times_reduce
@@ -1262,9 +1283,9 @@ namespace giac {
 	if (t1==_MOD || t2==_MOD){
 	  gen modulo;
 	  if (t1==_MOD)
-	    modulo=*(th.coord.front().value._MODptr+1);
+	    modulo=*(T1._MODptr+1);
 	  else
-	    modulo=*(other.coord.front().value._MODptr+1);
+	    modulo=*(T2._MODptr+1);
 	  if (modulo.type==_INT_){
 	    polynome p1m=unmodularize(th),p2m=unmodularize(other);
 	    longlong maxp1,maxp2;
@@ -1563,6 +1584,15 @@ namespace giac {
       res.coord.clear();
       res.coord.push_back(monomial<gen>(gensizeerr(gettext("Stopped by user interruption.")),res.dim));
       return false;
+    }
+    if (th.dim==1 && u>10){
+      modpoly a;
+      polynome2poly1(th,1,a);
+      gen b=pow(gen(a,_POLY1__VECT),u);
+      if (b.type==_VECT){
+	poly12polynome(*b._VECTptr,1,res,1);
+	return true;
+      }
     }
     vector< monomial<gen> >::const_iterator ita = th.coord.begin();
     vector< monomial<gen> >::const_iterator ita_end = th.coord.end();
@@ -3603,7 +3633,52 @@ namespace giac {
     return Tlistmax<gen>(p,n);
   }
 
-  void unmodularize(const polynome p,polynome & res){
+  bool unext(const polynome & p,const gen & pmin,polynome & res){
+    res.dim=p.dim; res.coord.clear();
+    vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    res.coord.reserve(itend-it);
+    for (;it!=itend;++it){
+      gen g=it->value;
+      if (g.type==_FRAC)
+	return false;
+      if (g.type==_EXT){
+	if (*(g._EXTptr+1)!=pmin)
+	  return false;
+	g=*g._EXTptr;
+	if (g.type==_VECT)
+	  g.subtype=_POLY1__VECT;
+	res.coord.push_back(monomial<gen>(g,it->index));
+      }
+      else
+	res.coord.push_back(*it);
+    }
+    return true;
+  }
+
+  bool ext(polynome & res,const gen & pmin){
+    vector< monomial<gen> >::iterator it=res.coord.begin(),itend=res.coord.end();
+    for (;it!=itend;++it){
+      gen g=ext_reduce(it->value,pmin);
+      if (is_zero(g)) return false;
+      it->value=g;
+    }
+    return true;
+  }
+
+  void ext(const polynome & p,const gen & pmin,polynome & res){
+    res.dim=p.dim;
+    res.coord.clear();
+    res.coord.reserve(p.coord.size());
+    vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    for (;it!=itend;++it){
+      gen g=ext_reduce(it->value,pmin);
+      if (is_zero(g)) 
+	continue;
+      res.coord.push_back(monomial<gen>(g,it->index));
+    }
+  }
+
+  void unmodularize(const polynome & p,polynome & res){
     res.dim=p.dim;
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     res.coord.reserve(itend-it);
@@ -6907,6 +6982,42 @@ namespace giac {
       return res;
     }
 #endif
+    return a*b+c*d;
+  }
+
+  gen foisplus(const gen & a,const gen & b,const gen & c,const gen & d){
+    if (a.type==_POLY && b.type<_POLY  &&c.type==_POLY && d.type<_POLY){      
+      polynome res(a._POLYptr->dim);
+      if (b==1){
+	if (d==1)
+	  a._POLYptr->TAdd(*c._POLYptr,res);
+	else {
+	  if (0 && c.ref_count()==1){
+	    *c._POLYptr *= d;
+	    a._POLYptr->TAdd(*c._POLYptr,res);
+	  } else {
+	    polynome cd(*c._POLYptr);
+	    cd *= d;
+	    a._POLYptr->TAdd(cd,res);
+	  }
+	}
+	return res;
+      }
+      if (0 && a.ref_count()==1){
+	*a._POLYptr *= b;
+	return foisplus(a,1,c,d);
+      }
+      polynome ab(*a._POLYptr);
+      ab *= b;
+      if (d==1)
+	ab.TAdd(*c._POLYptr,res);
+      else {
+	polynome cd(*c._POLYptr);
+	cd *= d;
+	ab.TAdd(cd,res);
+      }
+      return res;
+    }
     return a*b+c*d;
   }
 

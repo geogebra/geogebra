@@ -792,7 +792,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 			if (vColIndex == table.getSelectedColumn()) {
 				setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+						GeoGebraColorConstants
+								.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 			} else {
 				setBackground(GColorD.getAwtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
@@ -1012,7 +1013,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		return menu;
 	}
 
-	private class MyButton extends JButton {
+	private static class MyButton extends JButton {
 
 		public MyButton(ImageIcon imageIcon) {
 			super(imageIcon);

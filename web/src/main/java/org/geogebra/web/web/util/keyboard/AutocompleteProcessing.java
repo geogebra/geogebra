@@ -71,7 +71,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 			field.insertString("()");
 			onArrow(ArrowType.left);
 		}
-		}
+	}
 
 	@Override
 	public void onArrow(ArrowType type) {
@@ -103,5 +103,13 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// overridden for RTI
+	}
+
+	public void endEditing() {
+		field.endOnscreenKeyboardEditing();
+	}
+
+	public AutoCompleteTextFieldW getField() {
+		return field;
 	}
 }

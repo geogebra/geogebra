@@ -97,7 +97,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Controller for the 3D view
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public abstract class EuclidianController3D extends EuclidianController {
@@ -107,8 +107,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/** min/max values for moving a point */
 	private double[] xMinMax, yMinMax;
-
-	double[] zMinMax;
+	/** min/max values for moving a point along z */
+	protected double[] zMinMax;
 
 	/** current plane where the movedGeoPoint3D lies */
 	protected CoordMatrix4x4 currentPlane = null;
@@ -148,7 +148,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * Store infos for intersection curve
 	 */
-	public class IntersectionCurve {
+	public static class IntersectionCurve {
 		protected GeoElement geo1, geo2, result;
 		public Drawable3D drawable;
 		protected boolean hitted;
@@ -193,6 +193,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * common constructor
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public EuclidianController3D(App app) {
 		super(app);
@@ -213,6 +214,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * sets the view controlled by this
 	 * 
 	 * @param view
+	 *            euclidian view (3D assumed, not checked)
 	 */
 	public void setView3D(EuclidianView view) {
 		this.view3D = (EuclidianView3D) view;
@@ -236,6 +238,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMovedGeoPoint(GeoElement geo) {
 
 		movedGeoPoint = (GeoPointND) geo;
+		((EuclidianView3D) view).setPointDecorations(movedGeoPoint);
 
 		AlgoElement algo = ((GeoElement) movedGeoPoint).getParentAlgorithm();
 		if (algo instanceof AlgoDynamicCoordinatesInterface) {
@@ -926,7 +929,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			getDialogManager().showNumberInputDialogSpherePointRadius(
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
-					getSelectedPointsND()[0]);
+					getSelectedPointsND()[0], this);
 			return true;
 		}
 		return false;
@@ -951,7 +954,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
 					points[0],
-					points[1]);
+					points[1],
+					this);
 			return true;
 		}
 		return false;
@@ -977,7 +981,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					app.getLocalization().getMenu(
 							EuclidianConstants.getModeText(mode)),
 					points[0],
-					points[1]);
+					points[1],
+					this);
 			return true;
 		}
 		return false;
@@ -1122,6 +1127,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * get axis and point create circle with axis and through the point
 	 * 
 	 * @param hits
+	 *            hits
+	 * @param selPreview
+	 *            whether this is just for preview
 	 * @return circle created
 	 * 
 	 */
@@ -1170,7 +1178,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 							app.getLocalization().getMenu(
 									EuclidianConstants.getModeText(mode)),
 							getSelectedPointsND()[0],
-							getSelectedDirections()[0]);
+							getSelectedDirections()[0],
+							this);
 
 			return true;
 
@@ -1568,7 +1577,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
-		((EuclidianView3D) view).updatePointDecorations(null);
+		((EuclidianView3D) view).setPointDecorations(null);
 
 		if (isModeForMovingPoint(mode)) {
 			if (freePointJustCreated) {
@@ -1919,7 +1928,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected boolean processReleaseForRotate3D(PointerEventType type) {
 
 		if (temporaryMode) {
-			view.setMode(oldMode);
+			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
 			if (dontClearSelection == false) {
 				clearSelections();
@@ -2070,6 +2079,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * for some modes, polygons are not to be removed
 	 * 
 	 * @param hits
+	 *            hits
 	 */
 	@Override
 	protected void switchModeForRemovePolygons(Hits hits) {
@@ -2570,7 +2580,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if a curve is created
 	 */
-	private GeoElement[] intersectionCurve(Hits hits, boolean selPreview) {
+	protected GeoElement[] intersectionCurve(Hits hits, boolean selPreview) {
 
 		if (hits == null) {
 			resultedGeo = null;
@@ -3932,6 +3942,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
+	/**
+	 * @param geoRot
+	 *            rotated object
+	 * @param phi
+	 *            angle
+	 * @param line
+	 *            line
+	 * @return rotated object
+	 */
 	public GeoElement[] rotateAroundLine(GeoElement geoRot, GeoNumberValue phi,
 			GeoLineND line) {
 

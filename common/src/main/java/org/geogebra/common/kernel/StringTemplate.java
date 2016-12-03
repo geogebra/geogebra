@@ -18,6 +18,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * StringTemplate provides a container for all settings we might need when
  * serializing ExpressionValues to screen / XML / CAS input / export.
@@ -87,7 +89,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		prefixedDefault.internationalizeDigits = false;
 		prefixedDefault.forceNF = true;
 		prefixedDefault.usePrefix = true;
-		prefixedDefault.nf = FormatFactory.prototype
+		prefixedDefault.nf = FormatFactory.getPrototype()
 				.getNumberFormat(15);
 	}
 	/**
@@ -186,10 +188,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		latexTemplateMQedit.setType(StringType.LATEX);
 		latexTemplateMQedit.allowMoreDigits = true;
-		latexTemplateMQedit.sf = FormatFactory.prototype
+		latexTemplateMQedit.sf = FormatFactory.getPrototype()
 				.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,
 						20, false);
-		latexTemplateMQedit.nf = FormatFactory.prototype
+		latexTemplateMQedit.nf = FormatFactory.getPrototype()
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 	}
 
@@ -223,7 +225,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplate.forceNF = true;
 		giacTemplate.localizeCmds = false;
 		giacTemplate.setType(StringType.GIAC);
-		giacTemplate.nf = FormatFactory.prototype
+		giacTemplate.nf = FormatFactory.getPrototype()
 				.getNumberFormat(15);
 	}
 
@@ -240,7 +242,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		giacTemplateInternal.forceNF = true;
 		giacTemplateInternal.localizeCmds = false;
 		giacTemplateInternal.setType(StringType.GIAC);
-		giacTemplateInternal.nf = FormatFactory.prototype
+		giacTemplateInternal.nf = FormatFactory.getPrototype()
 				.getNumberFormat(15);
 	}
 
@@ -260,7 +262,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		xmlTemplate.internationalizeDigits = false;
 		xmlTemplate.setType(StringType.GEOGEBRA_XML);
 		xmlTemplate.localizeCmds = false;
-		xmlTemplate.sf = FormatFactory.prototype
+		xmlTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 		xmlTemplate.questionMarkForNaN = false;
 	}
@@ -280,7 +282,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		casCopyTemplate.internationalizeDigits = false;
 		casCopyTemplate.setType(StringType.GEOGEBRA_XML);
 		casCopyTemplate.localizeCmds = false;
-		casCopyTemplate.sf = FormatFactory.prototype
+		casCopyTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 		casCopyTemplate.questionMarkForNaN = true;
 	}
@@ -301,10 +303,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * need more engines in one app
 	 */
 	static {
-		editTemplate.sf = FormatFactory.prototype
+		editTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,
 						20, false);
-		editTemplate.nf = FormatFactory.prototype
+		editTemplate.nf = FormatFactory.getPrototype()
 				.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
@@ -322,9 +324,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate regression = new StringTemplate(
 			"regression");
 	static {
-		regression.sf = FormatFactory.prototype
+		regression.sf = FormatFactory.getPrototype()
 				.getScientificFormat(6, 20, false);
-		regression.nf = FormatFactory.prototype
+		regression.nf = FormatFactory.getPrototype()
 				.getNumberFormat(6);
 		regression.forceSF = true;
 		regression.setType(StringType.GEOGEBRA_XML);
@@ -339,7 +341,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		ogpTemplate.internationalizeDigits = false;
 		ogpTemplate.setType(StringType.OGP);
 		ogpTemplate.localizeCmds = false;
-		ogpTemplate.nf = FormatFactory.prototype
+		ogpTemplate.nf = FormatFactory.getPrototype()
 				.getNumberFormat(0);
 	}
 	/**
@@ -348,7 +350,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate maxPrecision = new StringTemplate(
 			"maxPrecision");
 	static {
-		maxPrecision.sf = FormatFactory.prototype
+		maxPrecision.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 		maxPrecision.allowMoreDigits = true;
 		maxPrecision.forceSF = true;
@@ -362,7 +364,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static final StringTemplate maxPrecision13 = new StringTemplate(
 			"maxPrecision13");
 	static {
-		maxPrecision13.sf = FormatFactory.prototype
+		maxPrecision13.sf = FormatFactory.getPrototype()
 				.getScientificFormat(13, 20, false);
 		maxPrecision13.allowMoreDigits = true;
 		maxPrecision13.forceSF = true;
@@ -413,7 +415,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testTemplate.internationalizeDigits = false;
 		testTemplate.setType(StringType.GEOGEBRA_XML);
 		// testTemplate.localizeCmds = false;
-		testTemplate.sf = FormatFactory.prototype
+		testTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
@@ -421,7 +423,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		testTemplate.internationalizeDigits = false;
 		// testTemplate.localizeCmds = false;
-		testTemplate.sf = FormatFactory.prototype
+		testTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
 	/** Template for CAS tests involving Numeric command */
@@ -432,7 +434,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		testNumeric.setType(StringType.GEOGEBRA_XML);
 		// testNumeric.localizeCmds = false;
 		testNumeric.allowMoreDigits = true;
-		testNumeric.sf = FormatFactory.prototype
+		testNumeric.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 	}
 
@@ -779,7 +781,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceNF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.nf = FormatFactory.prototype
+		tpl.nf = FormatFactory.getPrototype()
 				.getNumberFormat(decimals);
 		return tpl;
 	}
@@ -800,7 +802,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.sf = FormatFactory.prototype
+		tpl.sf = FormatFactory.getPrototype()
 				.getScientificFormat(decimals, 20, false);
 		return tpl;
 	}
@@ -818,7 +820,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.allowMoreDigits = true;
 		tpl.setType(type);
 		// 308 doesn't seem to work for 1E-300, 350 seems OK
-		tpl.sf = FormatFactory.prototype
+		tpl.sf = FormatFactory.getPrototype()
 				.getScientificFormat(16, 350, false);
 		return tpl;
 	}
@@ -841,7 +843,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		tpl.forceSF = true;
 		tpl.allowMoreDigits = allowMore;
 		tpl.setType(type);
-		tpl.sf = FormatFactory.prototype
+		tpl.sf = FormatFactory.getPrototype()
 				.getScientificFormat(decimals, 20, true);
 		return tpl;
 	}
@@ -1334,7 +1336,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (isNDvector(right) && isNDvector(left)) {
 
-				Log.debug(left.getClass() + " " + right.getClass());
 				// eg Evaluate[(1,2,3)+Vector[(10,20,30)]]
 				// eg f: (x, y, z) = (3, 2, 1) + t (5, 1, -3)
 				sb.append("point(");
@@ -2542,6 +2543,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public String powerString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr, boolean valueForm) {
 		StringBuilder sb = new StringBuilder();

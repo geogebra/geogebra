@@ -5,11 +5,11 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.keyboard.KBBase;
 import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -44,7 +44,9 @@ public class ShowKeyboardButton extends SimplePanel {
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
-		((DockPanelW) parent).addSouth(this);
+		if (parent instanceof DockPanelW) {
+			((DockPanelW) parent).addSouth(this);
+		}
 		ClickStartHandler.init(ShowKeyboardButton.this, new ClickStartHandler(
 		        true, true) {
 
@@ -54,8 +56,6 @@ public class ShowKeyboardButton extends SimplePanel {
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);
-
-				KBBase.doHideInSV(false);
 
 				if ((dm.getApp() == null)
 						|| (dm.getApp().getGuiManager() == null)) {
@@ -72,6 +72,13 @@ public class ShowKeyboardButton extends SimplePanel {
 						}
 					}, 0);
 				} else {
+
+					if (dm.getApp().getGuiManager().hasSpreadsheetView()) {
+						((SpreadsheetViewW) dm.getApp().getGuiManager()
+								.getSpreadsheetView())
+								.setKeyboardEnabled(true);
+					}
+
 					// TODO: check why scheduleFixedDelay is needed,
 					// would not scheduleDeferred or something like that better?
 					// but it's probably Okay, as the method returns false

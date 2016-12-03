@@ -9,7 +9,8 @@ import org.geogebra.common.kernel.Kernel;
  * Factory for CAS engine(s)
  */
 public abstract class CASFactory {
-	private static CASFactory prototype;
+	private static final Object lock = new Object();
+	private static volatile CASFactory prototype;
 
 	/**
 	 * @return might return null. Use App.getCASFactory()
@@ -23,7 +24,11 @@ public abstract class CASFactory {
 	 *            prototype; needs to be set before we first call CAS
 	 */
 	public static void setPrototype(CASFactory factory) {
-		prototype = factory;
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = factory;
+			}
+		}
 	}
 
 	/**

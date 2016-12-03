@@ -336,6 +336,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				+ geoElement.getDefinition().toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

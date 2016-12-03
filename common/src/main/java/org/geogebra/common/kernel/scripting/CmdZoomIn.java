@@ -38,8 +38,8 @@ public class CmdZoomIn extends CmdScripting {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
 				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
-				double px = ev.getWidth() / 2; // mouseLoc.x;
-				double py = ev.getHeight() / 2; // mouseLoc.y;
+				double px = ev.getWidth() / 2.0; // mouseLoc.x;
+				double py = ev.getHeight() / 2.0; // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
 				if (Kernel.isZero(factor))

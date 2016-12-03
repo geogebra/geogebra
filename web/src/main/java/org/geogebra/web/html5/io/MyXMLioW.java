@@ -40,7 +40,7 @@ public class MyXMLioW extends MyXMLio {
 		xmlParser.parse(xmlHandler, ((XMLStreamStringW) stream).getString());
 	}
 
-	protected class XMLStreamStringW implements XMLStream {
+	protected static class XMLStreamStringW implements XMLStream {
 
 		private String str;
 

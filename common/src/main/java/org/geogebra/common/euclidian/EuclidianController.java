@@ -34,6 +34,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -128,6 +129,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -308,7 +311,7 @@ public abstract class EuclidianController {
 	/**
 	 * the mode of the actual multitouch-event
 	 */
-	protected scaleMode multitouchMode = scaleMode.view;
+	protected ScaleMode multitouchMode = ScaleMode.view;
 	/**
 	 * actual scale of the axes (has to be saved during multitouch)
 	 */
@@ -1982,7 +1985,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D().Line3D(null, points[0],
 					points[1]);
 		} else {
-			ret[0] = getAlgoDispatcher().Line(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().line(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -2000,7 +2003,7 @@ public abstract class EuclidianController {
 			ret[0] = getKernel().getManager3D()
 					.Ray3D(null, points[0], points[1]).toGeoElement();
 		} else {
-			ret[0] = getAlgoDispatcher().Ray(null, (GeoPoint) points[0],
+			ret[0] = getAlgoDispatcher().ray(null, (GeoPoint) points[0],
 					(GeoPoint) points[1]);
 		}
 		return ret;
@@ -2129,7 +2132,7 @@ public abstract class EuclidianController {
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernel.RigidPolygon(poly[0], offset,
+				GeoElement[] ret = kernel.rigidPolygon(poly[0], offset,
 						-offset);
 
 				return ret;
@@ -2189,7 +2192,7 @@ public abstract class EuclidianController {
 				// build polygon
 				checkZooming();
 
-				return kernel.PolyLineND(null, getSelectedPointsND());
+				return kernel.polyLineND(null, getSelectedPointsND());
 			}
 		}
 
@@ -2204,7 +2207,7 @@ public abstract class EuclidianController {
 
 		if (polygonMode == POLYGON_RIGID) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.RigidPolygon(null,
+			GeoElement[] ret0 = kernel.rigidPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
@@ -2221,7 +2224,7 @@ public abstract class EuclidianController {
 		} else {
 
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.Polygon(null, getSelectedPointsND());
+			GeoElement[] ret0 = kernel.polygon(null, getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
 			}
@@ -2373,10 +2376,9 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selPolyLines() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolyLine polyLine = getSelectedPolyLines()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectLinePolyLine(
+			GeoElement[] ret = getAlgoDispatcher().IntersectLinePolyLine(
 					new String[] { null }, line, polyLine);
 			return ret;
 		}
@@ -2384,17 +2386,17 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selCurves() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoCurveCartesian curve = getSelectedCurves()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectLineCurve(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher()
+					.IntersectLineCurve(new String[] { null },
 					line, curve);
 			return ret;
 		}
 		// curve-curve
 		else if ((selCurves() >= 2)) {
 			GeoCurveCartesian[] curves = getSelectedCurves();
-			GeoElement[] ret = { null };
+			GeoElement[] ret;
 			checkZooming();
 
 			// multiple points disabled in ggb42, Reduce too slow
@@ -2410,10 +2412,9 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selPolygons() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolygon polygon = getSelectedPolygons()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher()
+			GeoElement[] ret = getAlgoDispatcher()
 					.IntersectLinePolygon(new String[] { null }, line, polygon);
 			return ret;
 		}
@@ -2421,10 +2422,10 @@ public abstract class EuclidianController {
 		// polyLine and polyLine
 		else if (selPolyLines() >= 2) {
 			GeoPolyLine[] polylines = getSelectedPolyLines();
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolyLines(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher().IntersectPolyLines(
+					new String[] { null },
 					polylines[0], polylines[1]);
 			return ret;
 		}
@@ -2432,10 +2433,10 @@ public abstract class EuclidianController {
 		// polygon and polygon - both as boundary
 		else if (selPolygons() >= 2) {
 			GeoPolygon[] polygons = getSelectedPolygons();
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectPolygons(new String[] { null },
+			GeoElement[] ret = getAlgoDispatcher().IntersectPolygons(
+					new String[] { null },
 					polygons[0], polygons[1], false);
 			return ret;
 		}
@@ -4176,7 +4177,7 @@ public abstract class EuclidianController {
 		if (selLists() > 0) {
 			list = getSelectedLists()[0];
 			if (list != null) {
-				ret[0] = FitLineY(null, list);
+				ret[0] = fitLineY(null, list);
 				return ret;
 			}
 		} else {
@@ -4187,7 +4188,7 @@ public abstract class EuclidianController {
 				list = CommandProcessor.wrapInList(kernel, points,
 						points.length, GeoClass.POINT);
 				if (list != null) {
-					ret[0] = FitLineY(null, list);
+					ret[0] = fitLineY(null, list);
 					return ret;
 				}
 			}
@@ -4198,7 +4199,7 @@ public abstract class EuclidianController {
 	/**
 	 * FitLineY[list of coords] Michael Borcherds
 	 */
-	final public GeoLine FitLineY(String label, GeoList list) {
+	final public GeoLine fitLineY(String label, GeoList list) {
 		AlgoFitLineY algo = new AlgoFitLineY(kernel.getConstruction(), label,
 				list);
 		GeoLine line = algo.getFitLineY();
@@ -4264,6 +4265,8 @@ public abstract class EuclidianController {
 	 * screen coords -> real world coords ( 1/xscale 0 -xZero/xscale ) T^(-1) =
 	 * ( 0 -1/yscale yZero/yscale ) ( 0 0 1 )
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void transformCoords() {
 		// calc real world coords
 		calcRWcoords();
@@ -5533,6 +5536,12 @@ public abstract class EuclidianController {
 			break;
 
 		// delete selected object
+		case EuclidianConstants.MODE_ERASER:
+			changedKernel = getDeleteMode().process(hits.getTopHits(),
+					isControlDown, selectionPreview);
+			break;
+
+		// delete selected object
 		case EuclidianConstants.MODE_DELETE:
 			changedKernel = getDeleteMode().process(hits.getTopHits(),
 					isControlDown, selectionPreview);
@@ -5867,6 +5876,17 @@ public abstract class EuclidianController {
 	 */
 	protected boolean processReleaseForRotate3D(PointerEventType type) {
 		return false;
+	}
+
+
+	/**
+	 * exit temporary mode (if set) and reset mode to old mode
+	 */
+	public void exitTemporaryMode() {
+		if (temporaryMode) {
+			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
+			temporaryMode = false;
+		}
 	}
 
 	protected final void rotateObject(boolean repaint) {
@@ -7705,7 +7725,7 @@ public abstract class EuclidianController {
 		}
 
 		if (view.getSelectionRectangle() == null) {
-			view.setSelectionRectangle(AwtFactory.prototype.newRectangle(0, 0));
+			view.setSelectionRectangle(AwtFactory.getPrototype().newRectangle(0, 0));
 		}
 
 		int dx = mouseLoc.x - selectionStartPoint.x;
@@ -7789,7 +7809,8 @@ public abstract class EuclidianController {
 			// disappear
 			return;
 		}
-		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
+		if (draggingBeyondThreshold && (mode == EuclidianConstants.MODE_DELETE
+				|| mode == EuclidianConstants.MODE_ERASER)) {
 
 			getDeleteMode().handleMouseDraggedForDelete(event,
 					getDeleteToolSize(), false);
@@ -8952,6 +8973,9 @@ public abstract class EuclidianController {
 
 		case EuclidianConstants.MODE_DELETE:
 			getDeleteMode().mousePressed(type);
+			break;
+		case EuclidianConstants.MODE_ERASER:
+			getDeleteMode().mousePressed(type);
 
 		default:
 			moveMode = MOVE_NONE;
@@ -8977,6 +9001,10 @@ public abstract class EuclidianController {
 
 		setMoveModeForFurnitures();
 
+		AutoCompleteTextField tf = view.getTextField();
+		if (tf != null && tf.hasFocus()) {
+			view.requestFocusInWindow();
+		}
 		altCopy = true;
 
 		DrawList dl = getComboBoxHit();
@@ -9607,6 +9635,11 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		// make sure we start the timer also for single point
+		if (!isPenDragged) {
+			getPen().startTimer();
+		}
+
 		boolean changedKernel0 = false;
 		if (pastePreviewSelected != null) {
 
@@ -9776,6 +9809,17 @@ public abstract class EuclidianController {
 					endOfWrapMouseReleased(hits2, event);
 				}
 			};
+
+			// get penStroke hit for click
+			if (getMode() == EuclidianConstants.MODE_ERASER) {
+				GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0,
+						100, 100);
+				rect.setBounds(x - getDeleteToolSize() / 2,
+						y - getDeleteToolSize() / 2, getDeleteToolSize(),
+						getDeleteToolSize());
+				view.setIntersectionHits(rect);
+			}
+
 			processMode(hits, control, callback);
 
 		}
@@ -10410,8 +10454,8 @@ public abstract class EuclidianController {
 			px = mouseLoc.x;
 			py = mouseLoc.y;
 		} else {
-			px = view.getWidth() / 2;
-			py = view.getHeight() / 2;
+			px = view.getWidth() / 2.0;
+			py = view.getHeight() / 2.0;
 		}
 		zoomInOut(factor, steps, px, py);
 	}
@@ -10674,11 +10718,11 @@ public abstract class EuclidianController {
 		view.rememberOrigins();
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
-			multitouchMode = scaleMode.zoomY;
+			multitouchMode = ScaleMode.zoomY;
 			oldDistance = y1 - y2;
 			scale = view.getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
-			multitouchMode = scaleMode.zoomX;
+			multitouchMode = ScaleMode.zoomX;
 			oldDistance = x1 - x2;
 			scale = this.view.getXscale();
 		} else if (hits1.size() > 0 && hits2.size() > 0
@@ -10694,9 +10738,9 @@ public abstract class EuclidianController {
 			// TODO: select scaleConic
 
 			if (hits1.get(0).getFreeInputPoints(this.view).size() >= 3) {
-				multitouchMode = scaleMode.circle3Points;
+				multitouchMode = ScaleMode.circle3Points;
 			} else if (hits1.get(0).getFreeInputPoints(this.view).size() == 2) {
-				multitouchMode = scaleMode.circle2Points;
+				multitouchMode = ScaleMode.circle2Points;
 			} else {
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				if (algo instanceof AlgoCirclePointRadius) {
@@ -10704,7 +10748,7 @@ public abstract class EuclidianController {
 					GeoElement radiusGeo = algoCirclePointRadius.getRadiusGeo();
 					if (radiusGeo instanceof GeoNumeric
 							&& radiusGeo.isIndependent()) {
-						multitouchMode = scaleMode.circleRadius;
+						multitouchMode = ScaleMode.circleRadius;
 						circleRadius = (GeoNumeric) radiusGeo;
 						this.originalRadius = circleRadius.getDouble();
 					}
@@ -10725,7 +10769,7 @@ public abstract class EuclidianController {
 			}
 		} else {
 			clearSelections();
-			multitouchMode = scaleMode.view;
+			multitouchMode = ScaleMode.view;
 			twoTouchStartCommon(x1, y1, x2, y2);
 		}
 	}
@@ -11148,7 +11192,8 @@ public abstract class EuclidianController {
 
 	void storeUndoInfo() {
 		// store undo info and state if we use the tool once again
-		app.storeUndoInfoAndStateForModeStarting();
+		int m = temporaryMode ? oldMode : mode;
+		app.storeUndoInfoAndStateForModeStarting(m != EuclidianConstants.MODE_MOVE);
 	}
 
 	protected GeoElement[] extremum(Hits hits, boolean selPreview) {
@@ -11396,7 +11441,7 @@ public abstract class EuclidianController {
 	/**
 	 * different modes of a multitouch-event
 	 */
-	protected enum scaleMode {
+	protected enum ScaleMode {
 		/**
 		 * scale x-axis (two TouchStartEvents on the x-axis)
 		 */

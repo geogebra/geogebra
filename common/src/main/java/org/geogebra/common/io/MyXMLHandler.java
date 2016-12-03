@@ -33,6 +33,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.io.layout.DockPanelData;
@@ -116,6 +117,7 @@ import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.xml.sax.SAXException;
 
@@ -168,14 +170,6 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_DEFAULT_GEO = 501;
 
 
-	/** available font sizes (will be reused in OptionsAdvanced) */
-	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
-			48 };
-	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
-	final public static String[] tooltipTimeouts = new String[] { "1", "3", "5",
-			"10", "20", "30", "60", "0" };
-	/** available CAS timeout options (will be reused in OptionsCAS) */
-	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 
 
@@ -241,7 +235,7 @@ public class MyXMLHandler implements DocHandler {
 	/** errors encountered during load */
 	ArrayList<String> errors = new ArrayList<String>();
 
-	private class GeoExpPair {
+	private static class GeoExpPair {
 		private GeoElement geoElement;
 		String exp;
 
@@ -259,7 +253,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private class GeoNumericMinMax {
+	private static class GeoNumericMinMax {
 		private GeoElement geoElement;
 		String min;
 		String max;
@@ -279,7 +273,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private class LocateableExpPair {
+	private static class LocateableExpPair {
 		Locateable locateable;
 		String exp; // String with expression to create point
 		GeoPointND point; // free point
@@ -411,17 +405,6 @@ public class MyXMLHandler implements DocHandler {
 		return consStep;
 	}
 
-	/**
-	 * @param integer
-	 *            option index
-	 * @return timeout in seconds
-	 */
-	public static Integer getTimeoutOption(long integer) {
-		for (int i = 0; i < cbTimeoutOptions.length; i++)
-			if (cbTimeoutOptions[i].intValue() == integer)
-				return cbTimeoutOptions[i];
-		return cbTimeoutOptions[0];
-	}
 
 	// ===============================================
 	// SAX ContentHandler methods
@@ -536,6 +519,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_DATA_ANALYSIS:
 			startDataAnalysisElement(eName, attrs);
+			break;
 
 		case MODE_INVALID:
 			// is this a geogebra file?
@@ -566,8 +550,6 @@ public class MyXMLHandler implements DocHandler {
 						if (!(kernel instanceof MacroKernel))
 							kernel.setContinuous(true);
 
-						// before V3.0 the automaticGridDistanceFactor was 0.5
-						EuclidianStyleConstants.automaticGridDistanceFactor = 0.5;
 					}
 
 				} catch (Exception e) {
@@ -672,6 +654,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("dataAnalysis".equals(eName)) {
 				mode = MODE_GUI;
 			}
+			break;
 		case MODE_GUI_PERSPECTIVES:
 			if ("perspectives".equals(eName))
 				mode = MODE_GUI;
@@ -1010,7 +993,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (attrs.get("key").equals("barColor")) {
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
-						AwtFactory.prototype.newColor(
+						GColor.newColor(
 								Integer.parseInt(c[0].substring(5)),
 								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
@@ -1461,8 +1444,8 @@ public class MyXMLHandler implements DocHandler {
 					height = app.getAppCanvasHeight();
 				}
 				ev.setPreferredSize(
-						AwtFactory.prototype.newDimension(width, height));
-				ev.setSizeFromFile(AwtFactory.prototype.newDimension(
+						AwtFactory.getPrototype().newDimension(width, height));
+				ev.setSizeFromFile(AwtFactory.getPrototype().newDimension(
 						Integer.parseInt(attrs.get("width")),
 						Integer.parseInt(attrs.get("height"))));
 			}
@@ -1480,7 +1463,7 @@ public class MyXMLHandler implements DocHandler {
 			int width = Integer.parseInt(attrs.get("width"));
 			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredSize(
-					AwtFactory.prototype
+					AwtFactory.getPrototype()
 							.newDimension(width, height));
 			return true;
 		} catch (Exception e) {
@@ -1971,7 +1954,7 @@ new GPoint(row, column));
 			int timeout = Integer.parseInt(attrs.get("timeout"));
 			if (timeout > 0)
 				app.getSettings().getCasSettings().setTimeoutMilliseconds(
-						getTimeoutOption(timeout) * 1000);
+						OptionsCAS.getTimeoutOption(timeout) * 1000);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -2027,6 +2010,7 @@ new GPoint(row, column));
 			if ("dataAnalysis".equals(eName)) {
 				ok = handleDataAnalysis(attrs);
 			}
+			break;
 		case 'f':
 			if ("font".equals(eName))
 				ok = handleFont(app, attrs);
@@ -2168,18 +2152,18 @@ new GPoint(row, column));
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
 				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(400, 400),
 						defEV, width),
 				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
 						false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(200, 400),
 						defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2
 								: 200),
 				new DockPanelData(App.VIEW_SPREADSHEET, null,
 						tmp_showSpreadsheet, false, false,
-						AwtFactory.prototype
+						AwtFactory.getPrototype()
 								.newRectangle(400, 400),
 						defSV, ssize) };
 		tmp_perspective.setDockPanelData(dpXml);
@@ -2245,7 +2229,7 @@ new GPoint(row, column));
 
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(AwtFactory.prototype
+		app.setPreferredSize(AwtFactory.getPrototype()
 				.newDimension(width, height));
 		app.setTmpPerspectives(tmp_perspectives);
 	}
@@ -2553,7 +2537,7 @@ new GPoint(row, column));
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			GDimension size = AwtFactory.prototype
+			GDimension size = AwtFactory.getPrototype()
 					.newDimension(Integer.parseInt(attrs.get("width")),
 							Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
@@ -2600,14 +2584,17 @@ new GPoint(row, column));
 			if (guiSize <= 0) {
 				app.setGUIFontSize(-1); // default
 			} else {
-				for (int i = 0; i < menuFontSizes.length; i++) {
-					if (menuFontSizes[i] >= guiSize) {
-						guiSize = menuFontSizes[i];
+				for (int i = 0; i < Util
+						.menuFontSizesLength(); i++) {
+					if (Util.menuFontSizes(i) >= guiSize) {
+						guiSize = Util.menuFontSizes(i);
 						break;
 					}
 				}
-				if (guiSize > menuFontSizes[menuFontSizes.length - 1])
-					guiSize = menuFontSizes[menuFontSizes.length - 1];
+				if (guiSize > Util
+						.menuFontSizes(Util.menuFontSizesLength() - 1))
+					guiSize = Util
+							.menuFontSizes(Util.menuFontSizesLength() - 1);
 				app.setGUIFontSize(guiSize);
 			}
 			return true;
@@ -2830,7 +2817,7 @@ new GPoint(row, column));
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			GRectangle windowRect = AwtFactory.prototype
+			GRectangle windowRect = AwtFactory.getPrototype()
 					.newRectangle(Integer.parseInt(window[0]),
 							Integer.parseInt(window[1]),
 							Integer.parseInt(window[2]),
@@ -3167,7 +3154,7 @@ new GPoint(row, column));
 				// this also creates twinGeo if necessary
 				// output is not computed again, see AlgoDependenCasCell
 				// constructor
-				KernelCAS.DependentCasCell(geoCasCell);
+				KernelCAS.dependentCasCell(geoCasCell);
 			}
 		} catch (Exception e) {
 			Log.error("error when processing <cellpair>: " + e.getMessage());
@@ -3251,7 +3238,7 @@ new GPoint(row, column));
 			String b = attrs.get("b");
 			String g = attrs.get("g");
 			geoCasCell.setFontColor(
-					AwtFactory.prototype.newColor(
+					GColor.newColor(
 							Integer.parseInt(r), Integer.parseInt(g),
 							Integer.parseInt(b)));
 		} else
@@ -4086,7 +4073,7 @@ new GPoint(row, column));
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return AwtFactory.prototype
+			return GColor
 					.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
@@ -4103,7 +4090,7 @@ new GPoint(row, column));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return AwtFactory.prototype
+			return GColor
 					.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;

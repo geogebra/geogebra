@@ -105,6 +105,6 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

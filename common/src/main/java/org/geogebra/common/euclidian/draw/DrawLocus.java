@@ -113,9 +113,9 @@ public class DrawLocus extends Drawable {
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(AwtFactory.prototype
+			setShape(AwtFactory.getPrototype()
 					.newArea(view.getBoundingPath()));
-			getShape().subtract(AwtFactory.prototype.newArea(gp));
+			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 
 	}

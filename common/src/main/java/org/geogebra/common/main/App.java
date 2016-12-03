@@ -181,21 +181,19 @@ public abstract class App implements UpdateSelection {
 	public static final int SPREADSHEET_INI_ROWS = 100;
 	// used by PropertyDialogGeoElement and MenuBarImpl
 	// for the Rounding Menus
-	final public static int roundingMenuLookup[] = {0, 1, 2, 3, 4, 5, 10, 15,
-			-1, 3, 5, 10, 15};
-	final public static int decimalsLookup[] = {0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7};
-	final public static int figuresLookup[] = {-1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12};
 	/**
 	 * Rounding menu options (not internationalized)
 	 */
-	final public static String[] strDecimalSpacesAC = {"0 decimals",
+	final private static String[] strDecimalSpacesAC = { "0 decimals",
 			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
 			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
 			"5 figures", "10 figures", "15 figures"};
+
+	public static String[] getStrDecimalSpacesAC() {
+		return strDecimalSpacesAC;
+	}
 	/** Singular web service (CAS) */
-	public static SingularWebService singularWS;
+	private static SingularWebService singularWS;
 
 	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";
@@ -460,6 +458,10 @@ public abstract class App implements UpdateSelection {
 			Log.info("No SingularWS is available at "
 					+ singularWS.getConnectionSite() + " (yet)");
 		}
+	}
+
+	public static SingularWebService getSingularWS() {
+		return singularWS;
 	}
 
 	/* selection handling */
@@ -864,7 +866,20 @@ public abstract class App implements UpdateSelection {
 	 * Store current state of construction for undo/redo purposes, and state of
 	 * construction for mode starting (so undo cancels partial tool preview)
 	 */
-	public abstract void storeUndoInfoAndStateForModeStarting();
+	public void storeUndoInfoAndStateForModeStarting() {
+		storeUndoInfoAndStateForModeStarting(true);
+	}
+
+	final public void storeUndoInfoAndStateForModeStarting(boolean storeForMode) {
+		if (isUndoActive()) {
+			if (storeForMode) {
+				kernel.storeUndoInfoAndStateForModeStarting();
+			} else {
+				kernel.storeUndoInfo();
+			}
+			setUnsaved();
+		}
+	}
 
 	/**
 	 * store undo info only if view coord system has changed
@@ -1965,7 +1980,7 @@ public abstract class App implements UpdateSelection {
 	 * @return font with given parameters
 	 */
 	public GFont getFontCommon(boolean serif, int style, int size) {
-		return AwtFactory.prototype.newFont(serif ? "Serif" : "SansSerif",
+		return AwtFactory.getPrototype().newFont(serif ? "Serif" : "SansSerif",
 				style, size);
 	}
 
@@ -3930,6 +3945,10 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
+		// GGB-1357
+		case AV_SINGLE_TAP_EDIT:
+			return prerelease;
+
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;
@@ -3975,11 +3994,11 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return prerelease;
+			return false;// prerelease;
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease;
+			return false;// prerelease;
 
 		// GGB-798
 		case AV_SCROLL:
@@ -4003,7 +4022,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case MOBILE_DIALOG_FORMULA_INPUT:
-				return prerelease;
+				return true; // 5.0.299
 		//MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
@@ -4055,19 +4074,21 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_TOOLBAR_FROM_FILE:
 			return true;
 
-		case FOLD_POLYHEDRON_NET_BY_DRAGGING:
-			return true; // 5.0.290
-
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
 			return prerelease;
 
 		case ONSCREEN_KEYBOARD_AT_PROBCALC:
 			return prerelease;
 
+			// GGB-1349
+		case FIX_KEYBOARD_POSITION:
+			return prerelease;
+
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
-		case SPLINE_WEIGHT:
+			// GGB-1252
+		case KEYBOARD_BEHAVIOUR:
 			return prerelease;
 
 		case WHITEBOARD_APP:
@@ -4082,6 +4103,30 @@ public abstract class App implements UpdateSelection {
 			// MOB-961, MOB-962
 			case BIND_ANDROID_TO_EXAM_APP:
 			return true;
+
+			// MOB-873
+			case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
+				return prerelease;
+
+			// MOB-555
+			case MOBILE_3D_TOOLS_WITH_DIALOGS:
+				return prerelease;
+
+			// MOB-1005
+			case MOBILE_DO_NOT_AUTOSYNC_APPS:
+				return true; //5.0.299
+
+			// related to MOB-1005
+			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
+				return false;
+
+			// related to MOB-1005
+			case MOBILE_OPEN_IN_RELEVANT_APP:
+				return false;
+
+			// MOB-1014
+			case MOBILE_KILL_DIALOG_TITLE:
+				return true; // 5.0.294
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4467,13 +4512,13 @@ public abstract class App implements UpdateSelection {
 		// used in android
 	}
 
-	public AdjustScreen adjustScreen() {
+	public void adjustScreen() {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
-			return null;
+			return;
 		}
-		Log.debug("[AS] adjustScreen()");
-		return new AdjustScreen(getActiveEuclidianView());
-
+		Log.printStacktrace("[AS] adjustScreen()");
+		final AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
+		as.apply();
 	}
 
 	/**
@@ -4539,5 +4584,38 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetRowsVisible() {
+		return Kernel.MAX_SPREADSHEET_ROWS_DESKTOP;
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetColumnsVisible() {
+		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
+	}
+
+	public static boolean singularWSisAvailable() {
+		return singularWS != null && singularWS.isAvailable();
+	}
+
+	public static String singularWSgetTranslatedCASCommand(String s) {
+		if (singularWS == null) {
+			return null;
+		}
+		return singularWS.getTranslatedCASCommand(s);
+	}
+
+	public static String singularWSdirectCommand(String s) throws Throwable {
+		if (singularWS == null) {
+			return null;
+		}
+		return singularWS.directCommand(s);
+	}
 
 }

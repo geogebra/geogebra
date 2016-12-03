@@ -151,8 +151,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		ELIMINATE2("eliminate2",
 				"eliminate2(x,y):=eliminate(eliminate(x,y),y);");
 
-		public String functionName;
-		public String definitionString;
+		final public String functionName;
+		final public String definitionString;
 
 		InitFunctions(String functionName, String definitionString) {
 			this.functionName = functionName;
@@ -264,6 +264,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		// and they are still correct (e.g. from eliminateFactorized).
 		// TODO: Find a better way for checking, now we assume that \"[ start is
 		// OK (or \"\").
+
+		Log.debug("input = " + input);
+
 		String rtrimmed = result.trim();
 		if (rtrimmed.startsWith("\"")) {
 			if (!rtrimmed.startsWith("\"[") && !"\"\"".equals(rtrimmed)
@@ -282,6 +285,8 @@ public abstract class CASgiac implements CASGenericInterface {
 																	// right
 			}
 		}
+
+		Log.debug("result = " + result);
 
 		return result;
 	}

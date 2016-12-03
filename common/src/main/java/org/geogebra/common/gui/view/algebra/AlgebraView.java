@@ -26,9 +26,9 @@ public interface AlgebraView extends Editing, SetLabels {
 	 */
 	public boolean isVisible();
 
-	public void startEditing(GeoElement geo);
+	public void startEditItem(GeoElement geo);
 
-	public boolean isEditing();
+	public boolean isEditItem();
 
 	// For WebSimple
 	public GeoElement getDraggedGeo();

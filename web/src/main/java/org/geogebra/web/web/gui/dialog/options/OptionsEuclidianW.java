@@ -26,7 +26,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.MyCJButton;
@@ -345,8 +345,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lineStyle = new Label(loc.getMenu("LineStyle") + ":");
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon
-				        .createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i]);
+				iconArray[i] = GeoGebraIconW
+						.createAxesStyleIcon(EuclidianStyleConstants
+								.getLineStyleOptions(i));
 			}
 			
 			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1,
@@ -355,7 +356,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();
 					
-					model.appyAxesStyle(EuclidianStyleConstants.lineStyleOptions[idx]
+					model.appyAxesStyle(
+							EuclidianStyleConstants.getLineStyleOptions(idx)
 					// make sure bold checkbox doesn't change
 							+ (cbBoldAxes.getValue() ? EuclidianStyleConstants.AXES_BOLD
 									: 0));
@@ -920,7 +922,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
 				public void fireActionPerformed(PopupMenuButton actionButton) {
-					model.appyGridStyle(EuclidianView.getLineTypes()[btnGridStyle.getSelectedIndex()]);
+					model.appyGridStyle(EuclidianView
+							.getLineType(btnGridStyle.getSelectedIndex()));
 
 				}});
 			btnGridStyle.setKeepVisible(false);

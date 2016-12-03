@@ -19,23 +19,24 @@ import org.geogebra.common.util.debug.Log;
  */
 public class SingularWebService {
 
-	private final int GET_REQUEST_MAX_SIZE = 2000;
+	private final static int GET_REQUEST_MAX_SIZE = 2000;
 
-	private int timeout = SingularWSSettings.singularWebServiceTimeout;
-	private final String testConnectionCommand = "t";
-	private final String singularDirectCommand = "s";
+	private int timeout = SingularWSSettings.getTimeout();
+	private final static String testConnectionCommand = "t";
+	private final static String singularDirectCommand = "s";
 
-	private String wsHost = SingularWSSettings.singularWebServiceRemoteURL;
+	private String wsHost = SingularWSSettings.getSingularWebServiceRemoteURL();
 	private Boolean available;
 
 	private static String locusLib = "";
 	private static boolean fastConn;
 
-	private final String[] SINGULAR_LIB_GROBCOVs = { "grobcovG", "grobcovF2m",
+	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcovG",
+			"grobcovF2m",
 			"grobcovC1", "grobcovC0" };
 
-	private final int CONNECTION_SPEED_NO_TESTS = 3;
-	private final int CONNECTION_SPEED_THRESHOLD = 100;
+	private final static int CONNECTION_SPEED_NO_TESTS = 3;
+	private final static int CONNECTION_SPEED_THRESHOLD = 100;
 
 	/**
 	 * Creates a Singular webservice connection handler
@@ -53,10 +54,10 @@ public class SingularWebService {
 		String encodedParameters = "";
 		String caching = cachingString();
 		if (parameters != null) {
-			URLEncoder urle = UtilFactory.prototype.newURLEncoder();
+			URLEncoder urle = UtilFactory.getPrototype().newURLEncoder();
 			encodedParameters = urle.encode(parameters);
 		}
-		HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
+		HttpRequest httpr = UtilFactory.getPrototype().newHttpRequest();
 		httpr.setTimeout(timeout);
 		// Varnish currently cannot do caching for POST requests,
 		// so we prefer GET for the shorter Singular programs:
@@ -87,11 +88,8 @@ public class SingularWebService {
 	}
 
 	private static String cachingString() {
-		if (SingularWSSettings.useCaching == null) {
-			return "";
-		}
 		final String prefix = "&l=";
-		if (SingularWSSettings.useCaching) {
+		if (SingularWSSettings.getUseCaching()) {
 			return prefix + "1";
 		}
 		return prefix + "0";
@@ -229,7 +227,7 @@ public class SingularWebService {
 	 * unless it is disabled by a command line option.
 	 */
 	public void enable() {
-		if (!SingularWSSettings.useSingularWebService) {
+		if (!SingularWSSettings.useSingularWebService()) {
 			Log.debug("SingularWS connection disabled by command line option");
 			this.available = false;
 			return;

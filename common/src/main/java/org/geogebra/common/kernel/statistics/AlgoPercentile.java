@@ -112,6 +112,6 @@ public class AlgoPercentile extends AlgoElement {
 		result.setValue(percentile.evaluate(val));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

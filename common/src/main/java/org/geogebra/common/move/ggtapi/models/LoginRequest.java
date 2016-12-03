@@ -19,7 +19,6 @@ public class LoginRequest implements Request {
 	private String loginType = "forum";
 	private String exptime = "365";
 	private String info = "GeoGebraWeb Application";
-	private JSONObject taskJSON = new JSONObject();
 	
 	/**
 	 * @param userName userName

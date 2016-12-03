@@ -96,5 +96,5 @@ public class AlgoAngleConic extends AlgoAngle {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 }

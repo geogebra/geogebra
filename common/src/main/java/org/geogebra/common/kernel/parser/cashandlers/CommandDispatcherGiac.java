@@ -35,7 +35,7 @@ public class CommandDispatcherGiac {
 	/**
 	 * Enum for special commands that may be returned by Giac.
 	 */
-	public enum commands {
+	public enum GiacCommands {
 		/** when aka If[] */
 		when(Operation.NO_OPERATION),
 		/** gamma regularized */
@@ -201,7 +201,7 @@ public class CommandDispatcherGiac {
 
 		;
 		private Operation op;
-		private commands(Operation op){
+		private GiacCommands(Operation op){
 			this.op = op;
 		}
 		/**
@@ -225,9 +225,9 @@ public class CommandDispatcherGiac {
 	 *            kernel
 	 */
 	public static ExpressionNode processCommand(String cmdName, GetItem args, Kernel kernel) {
-		commands cmd = null;
+		GiacCommands cmd = null;
 		try {
-			cmd = commands.valueOf(cmdName);
+			cmd = GiacCommands.valueOf(cmdName);
 		} catch (Exception Ex) {
 			Log.error("Unknow CAS command " + cmdName + ", arguments: " + args);
 			return null;
@@ -433,7 +433,7 @@ public class CommandDispatcherGiac {
 				} else {
 
 					ret = new ExpressionNode(kernel,
-							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
+							args.getItem(0),GiacCommands.valueOf(cmdName).getOperation(), null);
 				}
 				break;
 			case im:
@@ -567,7 +567,8 @@ public class CommandDispatcherGiac {
 
 			case rootof: // rootof should get removed by evalfa()
 				Log.warn("'rootof()' returned from giac");
-				// fall through
+				ret = new ExpressionNode(kernel, Double.NaN);
+				break;
 			case binomial_cdf:
 			case binomial_icdf:
 			case fisher_cdf:

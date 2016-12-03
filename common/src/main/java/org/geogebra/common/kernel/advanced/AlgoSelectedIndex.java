@@ -88,6 +88,6 @@ public class AlgoSelectedIndex extends AlgoElement {
 		index.setValue(geoList.getSelectedIndex() + 1);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

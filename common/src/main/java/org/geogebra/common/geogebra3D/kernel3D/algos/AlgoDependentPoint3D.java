@@ -112,5 +112,5 @@ public class AlgoDependentPoint3D extends AlgoElement3D implements
 		return P.getDefinition().toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 }

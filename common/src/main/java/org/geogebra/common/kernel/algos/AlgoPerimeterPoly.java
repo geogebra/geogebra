@@ -89,5 +89,5 @@ public class AlgoPerimeterPoly extends AlgoElement {
 		return circum;
 	}
 
-	// TODO Consider locusequability
+	
 }

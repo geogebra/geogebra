@@ -125,8 +125,11 @@ public class AppWapplet extends AppWFull {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		if (this.showMenuBar()) {
-			this.initSignInEventFlow(new LoginOperationW(this),
+			// opening file -> this was inited before
+			if (getLoginOperation() == null) {
+				initSignInEventFlow(new LoginOperationW(this),
 					ae.isEnableUsageStats());
+			}
 		} else {
 			if (Browser.runningLocal() && ae.isEnableUsageStats()) {
 				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
@@ -207,7 +210,9 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-		frame.clear();
+		if (!has(Feature.KEYBOARD_BEHAVIOUR) || !hasPopup()) {
+			frame.clear();	
+		}
 
 		// showMenuBar should come from data-param,
 		// this is just a 'second line of defense'
@@ -272,6 +277,8 @@ public class AppWapplet extends AppWFull {
 
 
 	private void attachSplitLayoutPanel() {
+		boolean oldSLPanelChanged = oldSplitLayoutPanel == getSplitLayoutPanel() ? false
+				: true;
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
@@ -289,6 +296,10 @@ public class AppWapplet extends AppWFull {
 			}
 			Browser.removeDefaultContextMenu(
 					getSplitLayoutPanel().getElement());
+
+			if (has(Feature.FIX_KEYBOARD_POSITION) && !oldSLPanelChanged) {
+				return;
+			}
 
 			ClickStartHandler.init(oldSplitLayoutPanel,
 					new ClickStartHandler() {
@@ -603,6 +614,7 @@ public class AppWapplet extends AppWFull {
 			oldSplitLayoutPanel.getElement().getStyle()
 					.setOverflow(Overflow.HIDDEN);
 			getGuiManager().updateStyleBarPositions(true);
+			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			hideMenu();
 		}

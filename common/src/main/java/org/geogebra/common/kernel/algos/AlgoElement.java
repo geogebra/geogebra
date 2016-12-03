@@ -52,8 +52,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * list of output
 	 * 
-	 * @deprecated (matthieu) use setOutputLength(), setOutput(),
-	 *             getOutputLength(), getOutput() instead
+	 * @deprecated use setOutputLength(), setOutput(), getOutputLength(),
+	 *             getOutput() instead
 	 */
 	@Deprecated
 	private GeoElement[] output;

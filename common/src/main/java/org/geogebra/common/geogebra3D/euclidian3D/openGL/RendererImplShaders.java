@@ -733,41 +733,43 @@ public abstract class RendererImplShaders extends RendererImpl {
 				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
 
 		projectionMatrix.set(1, 3, perspXZ);
-		projectionMatrix
-				.set(2,
-						3,
-						(renderer.perspTop[renderer.eye] + renderer.perspBottom[renderer.eye])
-								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
-		projectionMatrix.set(3, 3, 2 * renderer.perspFocus[renderer.eye]
-				/ renderer.getVisibleDepth());
+		perspYZ = (renderer.perspTop[renderer.eye]
+				+ renderer.perspBottom[renderer.eye])
+				/ (renderer.perspTop[renderer.eye]
+						- renderer.perspBottom[renderer.eye]);
+		projectionMatrix.set(2, 3, perspYZ);
+		projectionMatrix.set(3, 3, -2.0 / renderer.getVisibleDepth());
 		projectionMatrix.set(4, 3, -1);
 
-		projectionMatrix.set(1, 4, 0);// (perspRight+perspLeft)/(perspRight-perspLeft)
-										// * perspFocus);
-		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
-										// * perspFocus);
-		projectionMatrix.set(3, 4, renderer.getVisibleDepth() / 2);
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, 0);
 		projectionMatrix.set(4, 4, -renderer.perspFocus[renderer.eye]);
 
 	}
 
-	protected double perspXZ, glassesXZ;
+	private double perspXZ, perspYZ;
+	private double[] glassesXZ = new double[2], glassesYZ = new double[2];
 
 	@Override
 	public void updateGlassesValues() {
-		glassesXZ = (renderer.perspNear[renderer.eye]
-				* (renderer.glassesEyeX[Renderer.EYE_LEFT] - renderer.glassesEyeX[Renderer.EYE_RIGHT]) / renderer.perspFocus[renderer.eye])
-				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
+		for (int i = 0; i < 2; i++) {
+			glassesXZ[i] = 2 * renderer.perspNear[i]
+					/ (renderer.perspFocus[i]
+							* (renderer.perspRight[i] - renderer.perspLeft[i]))
+					* renderer.glassesEyeX[i];
+			glassesYZ[i] = 2 * renderer.perspNear[i]
+					/ (renderer.perspFocus[i]
+							* (renderer.perspTop[i] - renderer.perspBottom[i]))
+					* renderer.glassesEyeY[i];
+		}
 	}
 
 	@Override
 	public void viewGlasses() {
 
-		if (renderer.eye == Renderer.EYE_LEFT) {
-			projectionMatrix.set(1, 3, perspXZ + glassesXZ);
-		} else {
-			projectionMatrix.set(1, 3, perspXZ - glassesXZ);
-		}
+		projectionMatrix.set(1, 3, perspXZ + glassesXZ[renderer.eye]);
+		projectionMatrix.set(2, 3, perspYZ + glassesYZ[renderer.eye]);
 
 	}
 

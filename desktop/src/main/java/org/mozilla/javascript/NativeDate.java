@@ -6,11 +6,12 @@
 
 package org.mozilla.javascript;
 
-import java.util.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
+import java.util.Date;
 import java.util.TimeZone;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This class implements the Date native object.
@@ -1387,6 +1388,8 @@ final class NativeDate extends IdScriptableObject
         }
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static double makeTime(double date, Object[] args, int methodId)
     {
         if (args.length == 0) {
@@ -1494,6 +1497,8 @@ final class NativeDate extends IdScriptableObject
         return TimeClip(result);
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static double makeDate(double date, Object[] args, int methodId)
     {
         /* see complaint about ECMA in date_MakeTime */

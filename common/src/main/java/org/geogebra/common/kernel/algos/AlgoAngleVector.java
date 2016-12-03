@@ -76,5 +76,5 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 }

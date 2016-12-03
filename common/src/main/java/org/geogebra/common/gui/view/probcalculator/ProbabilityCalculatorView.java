@@ -100,9 +100,14 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected Construction cons;
 
 	// colors
-	private static final GColor COLOR_PDF = GeoGebraColorConstants.DARKBLUE;
-	private static final GColor COLOR_NORMALOVERLAY = GColor.RED;
+	private static final GColor colorPDF() {
+		return GeoGebraColorConstants.DARKBLUE;
+	}
+
+	private static final GColor COLOR_NORMAL_OVERLAY = GColor.RED;
+
 	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
+
 	private static final GColor COLOR_POINT = GColor.BLACK;
 
 	
@@ -414,7 +419,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 			}
 
-			discreteGraph.setObjColor(COLOR_PDF);
+			discreteGraph.setObjColor(colorPDF());
 			discreteGraph.setAlphaValue(opacityDiscrete);
 			discreteGraph.setLineThickness(thicknessBarChart);
 			discreteGraph.setLayer(1);
@@ -547,7 +552,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				pdfCurve = buildDensityCurveExpression(selectedDist ,false);
 				cons.removeFromConstructionList(pdfCurve);
 			}
-			densityCurve.setObjColor(COLOR_PDF);
+			densityCurve.setObjColor(colorPDF());
 			densityCurve.setLineThickness(thicknessCurve);
 			densityCurve.setFixed(true);
 			densityCurve.setSelectionAllowed(false);
@@ -794,7 +799,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		GeoElement geo = algo.getResult();
 
-		geo.setObjColor(COLOR_NORMALOVERLAY);
+		geo.setObjColor(COLOR_NORMAL_OVERLAY);
 		geo.setLineThickness(thicknessCurve - 1);
 		geo.setEuclidianVisible(true);
 		geo.setFixed(true);

@@ -52,6 +52,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Tree node for expressions like "3*a - b/5"
  * 
@@ -466,7 +468,8 @@ public class ExpressionNode extends ValidExpression implements
 		switch (operation) {
 		case POWER: // eg e^x
 			if ((left instanceof NumberValue)
-					&& (((NumberValue) left).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) left).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -483,7 +486,8 @@ public class ExpressionNode extends ValidExpression implements
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
 			if ((left instanceof NumberValue)
-					&& (((NumberValue) left).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) left).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -494,7 +498,8 @@ public class ExpressionNode extends ValidExpression implements
 					kernel.getConstruction().removeLabel(geo);
 				}
 			} else if ((right instanceof NumberValue)
-					&& (((NumberValue) right).getDouble() == Math.E)) {
+					&& MyDouble.exactEqual(((NumberValue) right).getDouble(),
+							Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -1263,7 +1268,7 @@ kernel, left,
 	final public boolean hasOperations() {
 		if (leaf) {
 			if (left.isExpressionNode()) {
-				((ExpressionNode) left).hasOperations();
+				return ((ExpressionNode) left).hasOperations();
 			} else if (left instanceof MyVecNDNode) {
 				return true;
 			} else {
@@ -1724,6 +1729,8 @@ kernel, left,
 	 *            kernel
 	 * @return string representation of a node.
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	final public static String operationToString(ExpressionValue left,
 			ExpressionValue right, Operation operation, String leftStr,
 			String rightStr, boolean valueForm, StringTemplate tpl,
@@ -4063,8 +4070,7 @@ kernel, left,
 
 		}
 
-		Double lc = getLeftTree() == null ? null : getLeftTree()
-				.getCoefficient(fv);
+		Double lc = getLeftTree().getCoefficient(fv);
 		Double rc = getRightTree() == null ? null : getRightTree()
 				.getCoefficient(fv);
 		if ((lc == null) || (rc == null)) {
@@ -4815,7 +4821,7 @@ kernel, left,
 					// not an integer, convert to x^(a/b)
 					if (!Kernel.isInteger(rightDoub)) {
 
-						double[] fraction = AlgoFractionText.DecimalToFraction(
+						double[] fraction = AlgoFractionText.decimalToFraction(
 								rightDoub, Kernel.STANDARD_PRECISION);
 
 						double a = fraction[0];
@@ -6369,7 +6375,7 @@ fn
 
 	private String toFractionStringFlat(StringTemplate tpl) {
 		if (operation == Operation.MULTIPLY && right instanceof MyDouble
-				&& right.evaluateDouble() == Math.PI) {
+				&& MyDouble.exactEqual(right.evaluateDouble(), Math.PI)) {
 			return tpl.multiplyString(left, right, left.toValueString(tpl),
 					right.toValueString(tpl), true, loc);
 		}
@@ -6390,20 +6396,24 @@ fn
 	}
 
 	/**
-	 * @return whether is a simple fraction like 7/2
+	 * Check whether denominator and numerator are both independent integers
+	 * 
+	 * @return whether is a simple fraction like 7/2 or -1/2
 	 */
 	public boolean isSimpleFraction() {
 		if (operation == Operation.DIVIDE) {
-			ExpressionValue[] fraction = new ExpressionValue[2];
-			getFraction(fraction, false);
-			if (fraction[0] != null && fraction[1] != null
-					&& fraction[0] instanceof ExpressionNode
-					&& fraction[0].isLeaf()
-					&& ((ExpressionNode) fraction[0])
-							.getLeft() instanceof MyDouble
-					&& fraction[1] instanceof MyDouble) {
-				double lt = fraction[0].evaluateDouble();
-				double rt = fraction[1].evaluateDouble();
+			ExpressionValue leftUnsigned = left.unwrap();
+			if (left.isExpressionNode()
+					&& getLeftTree().getOperation() == Operation.MULTIPLY
+					&& ExpressionNode.isConstantDouble(getLeftTree().getLeft(),
+							-1)) {
+				leftUnsigned = getLeftTree().getRight();
+
+			}
+			if (leftUnsigned instanceof MyDouble
+					&& right.unwrap() instanceof MyDouble) {
+				double lt = left.evaluateDouble();
+				double rt = right.evaluateDouble();
 				if (Kernel.isInteger(lt) && Kernel.isInteger(rt)) {
 					return true;
 				}

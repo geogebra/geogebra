@@ -17,11 +17,11 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
 /**
- * Abstract class for all "euclidian" panels. 
+ * Abstract class for all "euclidian" panels.
  * 
- * @author matthieu
- * @remark {@link #getEuclidianView()} has to be overridden if {@link #getComponent()}
- * 			does not return the euclidian view directly
+ * @author Mathieu
+ * @remark {@link #getEuclidianView()} has to be overridden if
+ *         {@link #getComponent()} does not return the euclidian view directly
  */
 public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		implements GetViewId {

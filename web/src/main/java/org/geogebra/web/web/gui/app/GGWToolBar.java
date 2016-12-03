@@ -7,8 +7,10 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -43,6 +45,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -72,12 +75,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	//panel which contains the toolbar and undo-redo buttons.
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
-	FlowPanel toolBPanel;
+	ScrollPanel toolBPanel;
 	// ScrollPanel ;
 	// panel for mobile submenu view
 	FlowPanel submenuPanel;
-	FlowPanel submenuScrollPanel;
-	// ScrollPanel submenuScrollPanel;
+	ScrollPanel submenuScrollPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
@@ -132,7 +134,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolbars = new ArrayList<ToolBarW>();
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			submenuScrollPanel = new FlowPanel();
+			submenuScrollPanel = new ScrollPanel();
 			submenuPanel = new FlowPanel();
 			submenuPanel.addStyleName("submenuPanel");
 			submenuScrollPanel.addStyleName("submenuScrollPanel");
@@ -146,7 +148,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 
 		updateClassname(app.getToolbarPosition());
-		toolBPanel = new FlowPanel();
+		toolBPanel = new ScrollPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 
@@ -158,6 +160,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
+		toolBPanel.addStyleName("overflow");
 		
 		//toolBarPanel.setSize("100%", "100%");
 		toolBar.init(app1);
@@ -279,31 +282,27 @@ pr.menu_header_undo(), null, 32);
 		info.setStyleName("examInfo");
 		fp.add(info);
 
+		final Localization loc = app.getLocalization();
+		final Settings settings = app.getSettings();
+		final ExamEnvironment exam = app.getExam();
+
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
 				if (app.getArticleElement().hasDataParamEnableGraphing()) {
-					app.getExam().setHasGraph(true);
-					boolean supportsCAS = app.getSettings().getCasSettings()
-							.isEnabled();
-					boolean supports3D = app.getSettings().getEuclidian(-1)
-							.isEnabled();
+					exam.setHasGraph(true);
+					boolean supportsCAS = settings.getCasSettings().isEnabled();
+					boolean supports3D = settings.getEuclidian(-1).isEnabled();
 					if (!supports3D && supportsCAS) {
-						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
-										app.getSettings()),
-								app.getMenu("ExamCAS"), null, null);
+						app.showMessage(true, exam.getLog(loc, settings),
+								loc.getMenu("ExamCAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
 						if (app.enableGraphing()) {
-							app.showMessage(true,
-									app.getExam().getLog(app.getLocalization(),
-											app.getSettings()),
-									app.getMenu("ExamGraphingCalc.long"), null,
+							app.showMessage(true, exam.getLog(loc, settings),
+									loc.getMenu("ExamGraphingCalc.long"), null,
 									null);
 						} else {
-							app.showMessage(true,
-									app.getExam().getLog(app.getLocalization(),
-											app.getSettings()),
+							app.showMessage(true, exam.getLog(loc, settings),
 									app.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
@@ -313,7 +312,9 @@ pr.menu_header_undo(), null, 32);
 				app.showMessage(true,
 						app.getExam().getLog(app.getLocalization(),
 								app.getSettings()),
-						app.getMenu("exam_log_header"), null, null);
+							app.getMenu("exam_log_header") + " "
+									+ app.getVersionString(),
+							null, null);
 				}
 
 			}
@@ -1090,8 +1091,41 @@ pr.menu_header_undo(), null, 32);
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return myIconResourceBundle.mode_orthogonalthreed_32();
 			
-		
+		/** WHITEBOARD TOOLS */
+		case EuclidianConstants.MODE_SHAPE_LINE:
+			return myIconResourceBundle.mode_shape_line_32();
 
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return myIconResourceBundle.mode_shape_triangle_32();
+
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+			return myIconResourceBundle.mode_shape_square_32();
+
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+			return myIconResourceBundle.mode_shape_rectangle_32();
+
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
+			return myIconResourceBundle.mode_shape_rectangle_round_edges_32();
+
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+			return myIconResourceBundle.mode_shape_polygon_32();
+
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+			return myIconResourceBundle.mode_shape_freeform_32();
+
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+			return myIconResourceBundle.mode_shape_circle_32();
+
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+			return myIconResourceBundle.mode_shape_ellipse_32();
+
+		case EuclidianConstants.MODE_ERASER:
+			return myIconResourceBundle.mode_eraser_32();
+
+		/*
+		 * case EuclidianConstants.MODE_HIGHLIGHTER: return
+		 * myIconResourceBundle.mode_highlighter_32();
+		 */
 		default:
 			return AppResources.INSTANCE.empty();
 		}
@@ -1204,6 +1238,7 @@ pr.menu_header_undo(), null, 32);
 				int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
 				toolBar.setWidth(tbwidth + "px");
 				toolBPanel.setWidth((maxButtons) * 45 + "px");
+				toolBPanel.removeStyleName("overflow");
 				toolBPanel.addStyleName("toolBPanelMobile");
 				rightButtonPanel.addStyleName("rightButtonPanelMobile");
 				setSubmenuDimensions(width);
@@ -1211,6 +1246,7 @@ pr.menu_header_undo(), null, 32);
 				toolBar.setWidth("");
 				toolBPanel.setWidth("");
 				toolBPanel.removeStyleName("toolBPanelMobile");
+				toolBPanel.addStyleName("overflow");
 				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 			}
 		}
@@ -1221,7 +1257,7 @@ pr.menu_header_undo(), null, 32);
 	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
-			extraButtons = 90;
+			extraButtons = 95;
 		 }
 		 if(app.showMenuBar()){
 			extraButtons += 90;

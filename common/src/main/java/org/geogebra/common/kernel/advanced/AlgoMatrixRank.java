@@ -70,6 +70,6 @@ public class AlgoMatrixRank extends AlgoElement {
 		return rank;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

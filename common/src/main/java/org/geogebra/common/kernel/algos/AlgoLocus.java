@@ -32,8 +32,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
 	@Override
 	protected void createStartPos(Construction cons) {
-		QstartPos = new GeoPoint(cons);
-		PstartPos = new GeoPoint(cons);
+		startQPos = new GeoPoint(cons);
+		startPPos = new GeoPoint(cons);
 	}
 
 	@Override
@@ -156,6 +156,6 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		return new MyPoint();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

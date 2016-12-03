@@ -327,6 +327,6 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

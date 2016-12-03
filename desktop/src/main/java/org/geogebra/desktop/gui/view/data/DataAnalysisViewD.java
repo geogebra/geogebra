@@ -36,8 +36,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.export.PrintPreview;
+import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.main.AppD;
 
@@ -84,7 +83,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			Color.WHITE };
 
 	// main GUI panels
-	private DataPanel dataPanel;
+	private DataPanelD dataPanel;
 	private StatisticsPanel statisticsPanel;
 	private RegressionPanel regressionPanel;
 	private DataDisplayPanel dataDisplayPanel1, dataDisplayPanel2;
@@ -199,14 +198,14 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	// Create DataPanel to display the current data set(s) and allow
 	// temporary editing.
-	protected DataPanel buildDataPanel() {
+	protected DataPanelD buildDataPanel() {
 
 		if (dataPanel != null) {
 			// TODO handle any orphaned data panel geos
 			dataPanel = null;
 		}
 		if (!model.isMultiVar()) {
-			dataPanel = new DataPanel(app, this);
+			dataPanel = new DataPanelD(app, this);
 			dataPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		}
 
@@ -221,7 +220,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		dataPanel.loadDataTable(dataArray);
 	}
 
-	protected DataPanel getDataPanel() {
+	protected DataPanelD getDataPanel() {
 		return dataPanel;
 	}
 
@@ -465,7 +464,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public void doPrint() {
 		List<Printable> l = new ArrayList<Printable>();
 		l.add(this);
-		PrintPreview.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
+		PrintPreviewD.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
 				.setVisible(true);
 	}
 
@@ -644,10 +643,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	// Printing
 	// =================================================
 
-	public int print(Graphics g, PageFormat pageFormat, int pageIndex) {
-		if(!PrintPreview.justPreview){
-			pageIndex = PrintPreview.computePageIndex(pageIndex);
-		}
+	public int print(Graphics g, PageFormat pageFormat, int pageIndex0) {
+		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 		if (pageIndex > 0)
 			return (NO_SUCH_PAGE);
 
@@ -781,7 +778,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 
 	public GColor createColor(int idx) {
 		Color c = colors[idx];
-		return new GColorD(c.getRed(), c.getGreen(), c.getBlue());
+		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
 	public void updateOtherDataDisplay(DataDisplayPanel display) {

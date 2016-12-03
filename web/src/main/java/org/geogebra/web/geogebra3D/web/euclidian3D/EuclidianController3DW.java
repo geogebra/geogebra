@@ -59,10 +59,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController {
 
-	private AbstractEvent waitingTouchMove = null;
-	private PointerEvent waitingMouseMove = null;
-
-
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return mtg.getEnvironmentStyle();
@@ -346,11 +342,9 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 
 		if (!shouldCancelDrag()) {
-			// Set capture events only if the mouse is actually down,
-			// because we need to release the capture on mouse up.
-			if (waitingMouseMove == null && waitingTouchMove == null) {
-				Event.setCapture(((PointerEvent) event).getRelativeElement());
-			}
+
+			Event.setCapture(((PointerEvent) event).getRelativeElement());
+
 			super.wrapMouseDragged(event, startCapture);
 		}
 

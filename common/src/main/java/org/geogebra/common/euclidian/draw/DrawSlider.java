@@ -58,10 +58,10 @@ public class DrawSlider extends Drawable {
 			+ 2 * HIGHLIGHT_OFFSET;
 
 	// for dot and selection
-	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble();
-	private GEllipse2DDouble circleOuter = AwtFactory.prototype
+	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
-	private GEllipse2DDouble circleHighlight = AwtFactory.prototype
+	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 
 	private static GBasicStroke borderStroke = EuclidianStatic
@@ -69,7 +69,7 @@ public class DrawSlider extends Drawable {
 
 	private double[] coords = new double[2];
 
-	private GLine2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
 
 

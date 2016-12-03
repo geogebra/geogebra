@@ -200,4 +200,13 @@ public class MathQuillProcessing implements KeyboardListener {
 	public boolean isSVCell() {
 		return false;
 	}
+
+	public void endEditing() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public EquationEditorListener getField() {
+		return field;
+	}
 }

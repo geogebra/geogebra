@@ -355,7 +355,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		script.append("sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 			append("coeffs(coeffs(p,x),y));");
 		Log.trace("Input to singular: " + script);
-		String result = App.singularWS.directCommand(script.toString());
+		String result = App.getSingularWS().directCommand(script.toString());
 		Log.trace("Output from singular: " + result);
 		// Temporary workaround by creating dummy factor:
 		result = "{{" + result + "},{1," + result + "}}";

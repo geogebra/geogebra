@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
@@ -29,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -126,8 +126,20 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// ==================================================
 		// set default background color (adjust later if geo exists)
 
-		bgColor = GColorD.getAwtColor((GColorD) formatHandler
-						.getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR));
+		Object c = formatHandler.getCellFormat(column, row,
+				CellFormat.FORMAT_BGCOLOR);
+
+		if (c instanceof GColor) {
+			GColor col = (GColor) c;
+			bgColor = GColorD.getAwtColor(col);
+		} else {
+			bgColor = null;
+			// Log.error("problem " + ((c == null) ? "null" : "" +
+			// c.getClass()));
+		}
+
+		// bgColor = GColorD.getAwtColor(((GColor) formatHandler
+		// .getCellFormat(column, row, CellFormat.FORMAT_BGCOLOR));
 		if (bgColor == null) {
 			isCustomBGColor = false;
 			bgColor = table.getBackground();

@@ -75,14 +75,14 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
-		this.An = A;
-		this.Bn = B;
-		this.Cn = C;
+		this.leg1N = A;
+		this.vertexN = B;
+		this.leg2N = C;
 	}
 
 	@Override
 	public AlgoAnglePoints copy() {
-		return new AlgoAnglePoints(An.copy(), Bn.copy(), Cn.copy());
+		return new AlgoAnglePoints(leg1N.copy(), vertexN.copy(), leg2N.copy());
 	}
 
 	// calc angle between vectors A-B and C-B
@@ -90,9 +90,9 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	@Override
 	public void compute() {
 
-		GeoPoint A = (GeoPoint) An;
-		GeoPoint B = (GeoPoint) Bn;
-		GeoPoint C = (GeoPoint) Cn;
+		GeoPoint A = (GeoPoint) leg1N;
+		GeoPoint B = (GeoPoint) vertexN;
+		GeoPoint C = (GeoPoint) leg2N;
 
 		if (!A.isFinite() || !B.isFinite() || !C.isFinite()) {
 			angle.setUndefined(); // undefined
@@ -124,7 +124,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 		angle.setValue(value);
 	}
 
-	// TODO Consider locusequability
+	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

@@ -158,6 +158,6 @@ public class AlgoSample extends AlgoElement {
 		
 	}
 
-	// TODO Consider locusequability
+	
 
 }

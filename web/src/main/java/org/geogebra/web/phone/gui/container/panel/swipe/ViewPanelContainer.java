@@ -82,7 +82,6 @@ public class ViewPanelContainer extends SimplePanel implements
 			activeView = null;
 			if (viewOrder.size() > 0) {
 				int lastViewIndex = viewOrder.size() - 1;
-				viewOrder.get(lastViewIndex);
 				content.swipeTo(lastViewIndex);
 			}
 		}

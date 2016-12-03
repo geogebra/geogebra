@@ -191,6 +191,6 @@ public class AlgoTMeanEstimate extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.StringTemplate;
  * @author Markus
  *
  */
-public interface FunctionalNVar extends ExpressionValue, Evaluate2Var {
+public interface FunctionalNVar extends Evaluate2Var {
 	/**
 	 * @param vals
 	 *            values of variables

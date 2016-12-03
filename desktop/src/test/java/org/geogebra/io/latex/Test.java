@@ -30,12 +30,14 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 
 import org.geogebra.common.gui.inputfield.AltKeys;
+import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -77,6 +79,16 @@ public class Test {
 				// TODO Auto-generated method stub
 
 			}
+
+			public String serialize(MathSequence selectionText) {
+				return GeoGebraSerializer.serialize(selectionText);
+			}
+
+			public void onInsertString() {
+				mathField.setFormula(
+						GeoGebraSerializer.reparse(mathField.getFormula()));
+
+			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));
@@ -87,7 +99,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("a*x^2");
+			MathFormula f = p.parse("1+2+3+4+5");
 			mathField.setFormula(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

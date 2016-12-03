@@ -130,6 +130,6 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 
 	}// compute()
 
-	// TODO Consider locusequability
+	
 }// class AlgoSumSquaredErrors
 

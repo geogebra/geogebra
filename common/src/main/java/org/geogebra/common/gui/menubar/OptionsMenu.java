@@ -1,8 +1,8 @@
 package org.geogebra.common.gui.menubar;
 
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Util;
 
 /**
  * This class is not a superclass of OptionsMenu, only common method stack
@@ -162,13 +162,15 @@ public class OptionsMenu {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0 && figures < App.figuresLookup.length)
-				pos = App.figuresLookup[figures];
+			if (figures > 0
+					&& figures < figuresLookupLength())
+				pos = figuresLookup(figures);
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals >= 0 && decimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[decimals];
+			if (decimals >= 0
+					&& decimals < decimalsLookupLength())
+				pos = decimalsLookup(decimals);
 
 		}
 
@@ -188,7 +190,7 @@ public class OptionsMenu {
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener) menu,
-				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
+				strDecimalSpaces, App.getStrDecimalSpacesAC(), 0, false);
 
 		menuFactory.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
 
@@ -227,19 +229,19 @@ public class OptionsMenu {
 		// String[] fsfi = { "12 pt", "14 pt", "16 pt", "18 pt", "20 pt",
 		// "24 pt",
 		// "28 pt", "32 pt" };
-		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
-		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
+		String[] fsfi = new String[Util.menuFontSizesLength()];
+		String[] fontActionCommands = new String[Util.menuFontSizesLength()];
 
 		// find current pos
 		int fontSize = app.getFontSize();
 		int pos = 0;
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
-			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
+		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
+			if (fontSize == Util.menuFontSizes(i)) {
 				pos = i;
 			}
 			fsfi[i] = app.getLocalization().getPlain("Apt",
-					MyXMLHandler.menuFontSizes[i] + "");
-			fontActionCommands[i] = MyXMLHandler.menuFontSizes[i] + " pt";
+					Util.menuFontSizes(i) + "");
+			fontActionCommands[i] = Util.menuFontSizes(i) + " pt";
 		}
 
 		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,
@@ -251,5 +253,32 @@ public class OptionsMenu {
 		updateMenuDecimalPlaces();
 		// updateMenuViewDescription();
 		updateMenuLabeling();
+	}
+
+	final private static int ROUNDING_MENU_LOOKUP[] = { 0, 1, 2, 3, 4, 5, 10,
+			15, -1, 3, 5, 10, 15 };
+	final private static int DECIMALS_LOOKUP[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7 };
+	final private static int FIGURES_LOOKUP[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12 };
+
+	public static int figuresLookup(int i) {
+		return FIGURES_LOOKUP[i];
+	}
+
+	public static int figuresLookupLength() {
+		return FIGURES_LOOKUP.length;
+	}
+
+	public static int decimalsLookup(int i) {
+		return DECIMALS_LOOKUP[i];
+	}
+
+	public static int decimalsLookupLength() {
+		return DECIMALS_LOOKUP.length;
+	}
+
+	public static int roundingMenuLookup(int i) {
+		return ROUNDING_MENU_LOOKUP[i];
 	}
 }

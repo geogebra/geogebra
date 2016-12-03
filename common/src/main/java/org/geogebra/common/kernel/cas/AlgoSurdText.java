@@ -252,7 +252,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	private void Fractionappend(StringBuilder sBuilder, int numer0, int denom0,
+	private void fractionAppend(StringBuilder sBuilder, int numer0, int denom0,
 			StringTemplate tpl) {
 		int numer = numer0;
 		int denom = denom0;
@@ -514,7 +514,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		int numOfAllTerms = vars.length;
 		if (numOfAllTerms - 1 > Math.floor((coeffs.length - 1 - step - offset)
-				/ step)) { // checksum
+				/ (double) step)) { // checksum
 			// appendUndefined();
 			return;
 		}
@@ -577,7 +577,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			temp *= num1;
 		}
 
-		getKernel();
 		int[] coeffs = PSLQ(numPowers, Kernel.STANDARD_PRECISION, 10);
 
 		if (coeffs[0] == 0 && coeffs[1] == 0) {
@@ -588,7 +587,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				// coeffs[1]: denominator; coeffs[2]: numerator
 				int denom = coeffs[3];
 				int numer = -coeffs[4];
-				Fractionappend(sBuilder, numer, denom, tpl);
+				fractionAppend(sBuilder, numer, denom, tpl);
 
 			} else {
 
@@ -739,7 +738,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// coeffs[1]: denominator; coeffs[2]: numerator
 			int denom = coeffs[1];
 			int numer = -coeffs[2];
-			Fractionappend(sBuilder, numer, denom, tpl);
+			fractionAppend(sBuilder, numer, denom, tpl);
 
 		} else {
 
@@ -822,15 +821,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 
 	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
-		return PSLQ(x.length, x, AccuracyFactor, bound, null, null, null);
+		return PSLQ(x.length, x, AccuracyFactor, bound, null, null);
 	}
 
 	/*
 	 * Algorithm PSLQ from Ferguson and Bailey (1992)
 	 */
 	private static int[] PSLQ(int n, double[] x_input, double AccuracyFactor,
-			int bound, int[][] B_mutable, double[] xB_mutable,
-			int[] orthoIndices_mutable) {
+			int bound, int[][] B_mutable, double[] xB_mutable) {
 
 		double[] x = new double[n];
 		for (int i = 0; i < n; i++) { // need a copy of the input
@@ -839,13 +837,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		// returning single solution
 		int[] coeffs = new int[n];
-
-		// mutable outputs
-		int[] orthoIndices;
-		if (orthoIndices_mutable == null)
-			orthoIndices = new int[n];
-		else
-			orthoIndices = orthoIndices_mutable;
 
 		double[] xB;
 		if (xB_mutable == null)
@@ -862,7 +853,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// other working variables
 		double normX;
 		double[] ss;
-		double[][] H, P, newH;
+		double[][] H, newH;
 		int[][] D, E, A, newAorB;
 		double[][][] G;
 		int[][][] R;
@@ -870,7 +861,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		for (int i = 0; i < n; i++) {
 			coeffs[i] = 0;
-			orthoIndices[i] = 0;
 		}
 
 		if (n <= 1)
@@ -969,12 +959,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 */
 
 		// matrix P = In - x.x
-		P = new double[n][n];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < n; j++)
-				P[i][j] = -x[i] * x[j];
-		for (int i = 0; i < n; i++)
-			P[i][i] += 1;
+		// P = new double[n][n];
+		// for (int i = 0; i < n; i++)
+		// for (int j = 0; j < n; j++)
+		// P[i][j] = -x[i] * x[j];
+		// for (int i = 0; i < n; i++)
+		// P[i][i] += 1;
 
 		// debug: |P|^2=|H|^2 = n-1
 		// AbstractApplication.debug("Frobenius Norm Squares: \n"
@@ -1031,7 +1021,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				if (Kernel.isEqual(xB[i], 0, AccuracyFactor / normX)) {
 
 					solutionFound = true;
-					orthoIndices[i] = 1;
 
 					if (!firstSolutionRecorded) {
 						for (int k = 0; k < n; k++)
@@ -1230,7 +1219,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * }
 	 */
 
-	private class IntRelationFinder {
+	private static class IntRelationFinder {
 
 		// constants (defined later)
 		private MyDecimal ZERO;
@@ -1365,7 +1354,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				if (r < n - 2) { // for r=n-2 we don't need to define these.
 									// Also l will be undefined
-					H.getEntry(r, r);
 					b = H.getEntry(r + 1, r);
 					l = H.getEntry(r + 1, r + 1);
 					d = b.multiply(b).add(l.multiply(l)).sqrt();
@@ -1470,7 +1458,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			xNorm = new MyDecimal(lessScale1);
 
 			// normalize x
+			Log.debug("normalizing " + n);
 			for (int i = 0; i < n; i++) {
+				Log.debug(x_full[i]);
 				xNorm = xNorm.add(x_full[i].multiply(x_full[i]));
 			}
 
@@ -1479,8 +1469,11 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// System.out.println(xNorm.toFullString());
 
 			for (int i = 0; i < n; i++) {
+				if (xNorm.getImpl().compareTo(BigDecimal.ZERO) != 0) {
 				x_full[i] = x_full[i].divide(xNorm);
+				}
 				x_double[i] = new MyDecimal(lessScale1, x_full[i].getImpl());
+
 			}
 
 			// partial sums of squares
@@ -1882,8 +1875,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			this.aft = aft;
 			this.tpl = tpl;
 
-			getKernel();
-			getKernel();
 			err = Math.min(Kernel.MAX_PRECISION, Kernel.STANDARD_PRECISION);
 			coeffBound = 100;
 			formalSolution = new StringBuilder();
@@ -2610,6 +2601,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 */
 	}
 
-	// TODO Consider locusequability
+	
 
 }

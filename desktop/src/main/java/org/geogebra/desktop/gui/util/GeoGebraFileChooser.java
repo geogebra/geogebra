@@ -468,10 +468,12 @@ public class GeoGebraFileChooser extends JFileChooser implements
 							imgInfo.append(fileName);
 						}
 
-						imgInfo.append(" : ");
-						imgInfo.append(tmpImage.getWidth());
-						imgInfo.append(" x ");
-						imgInfo.append(tmpImage.getHeight());
+						if (tmpImage != null) {
+							imgInfo.append(" : ");
+							imgInfo.append(tmpImage.getWidth());
+							imgInfo.append(" x ");
+							imgInfo.append(tmpImage.getHeight());
+						}
 						fileLabel.setText(imgInfo.toString());
 					}
 				}

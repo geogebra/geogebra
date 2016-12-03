@@ -20,7 +20,7 @@ public class CmdConic3D extends CmdConic {
 	}
 
 	@Override
-	protected GeoElement Conic(String label, GeoElement[] arg) {
+	protected GeoElement conic(String label, GeoElement[] arg) {
 
 		GeoPointND[] points = new GeoPointND[5];
 
@@ -36,7 +36,7 @@ public class CmdConic3D extends CmdConic {
 			return kernelA.getManager3D().Conic3D(label, points);
 		}
 
-		return super.Conic(label, arg);
+		return super.conic(label, arg);
 	}
 
 }

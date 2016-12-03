@@ -7,6 +7,8 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -1070,7 +1072,8 @@ public class FileManagerT extends FileManager {
 
 	public void showExportAsPictureDialog(String url, String filename, AppW app) {
 		exportImage(url, filename);
-
+		// TODO check if it really happened
+		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));
 	}
 
 	public boolean hasBase64(Material material) {

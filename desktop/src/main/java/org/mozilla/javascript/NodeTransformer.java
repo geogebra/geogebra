@@ -6,14 +6,16 @@
 
 package org.mozilla.javascript;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.mozilla.javascript.ast.AstRoot;
 import org.mozilla.javascript.ast.FunctionNode;
 import org.mozilla.javascript.ast.Jump;
 import org.mozilla.javascript.ast.Scope;
 import org.mozilla.javascript.ast.ScriptNode;
 
-import java.util.ArrayList;
-import java.util.List;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This class transforms a tree to a lower-level representation for codegen.
@@ -59,6 +61,8 @@ public class NodeTransformer
                                    inStrictMode);
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private void transformCompilationUnit_r(final ScriptNode tree,
                                             final Node parent,
                                             Scope scope,

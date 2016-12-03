@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.main.AppD;
@@ -69,19 +70,19 @@ public class SelectionTableD extends JTable {
 
 	private SelectionTable mode;
 
-	private Color fgColor, bgColor;
+	private GColor fgColor, bgColor;
 	private float alpha;
 
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
 
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColor fgColor) {
 		this.fgColor = fgColor;
 		repaint();
 	}
 
-	public void setBgColor(Color bgColor) {
+	public void setBgColor(GColor bgColor) {
 		this.bgColor = bgColor;
 	}
 
@@ -209,7 +210,7 @@ public class SelectionTableD extends JTable {
 	public ImageIcon[] createLatexIconArray(String[] symbols) {
 		ImageIcon[] iconArray = new ImageIcon[symbols.length];
 		for (int i = 0; i < symbols.length; i++) {
-			iconArray[i] = GeoGebraIcon.createLatexIcon(app, symbols[i],
+			iconArray[i] = GeoGebraIconD.createLatexIcon(app, symbols[i],
 					app.getPlainFont(), true, Color.BLACK, null);
 		}
 		return iconArray;
@@ -305,7 +306,7 @@ public class SelectionTableD extends JTable {
 			this.clearSelection();
 			return;
 		}
-		int row = (int) Math.floor(index / getColumnCount());
+		int row = index / getColumnCount();
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column, false, false);
 		rollOverRow = -1;
@@ -334,7 +335,7 @@ public class SelectionTableD extends JTable {
 
 		ImageIcon icon = null;
 		if (value == null)
-			return GeoGebraIcon.createEmptyIcon(1, 1);
+			return GeoGebraIconD.createEmptyIcon(1, 1);
 		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
 		// false, true, iconSize , Color.GRAY, null);
 

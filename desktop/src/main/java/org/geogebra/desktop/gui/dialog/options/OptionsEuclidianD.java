@@ -348,7 +348,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		lblAxisLabelStyle = new JLabel(loc.getMenu("LabelStyle") + ":");
 
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
-		cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
+		cbAxesStyle = EuclidianStyleConstantsD.getLineOptionsCombobox();
 		cbAxesStyle.setRenderer(renderer);
 		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
 		// cbAxesStyle.setBackground(getBackground());
@@ -474,9 +474,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		gridLabel3 = new JLabel("\u03B8" + ":"); // Theta
 		gridLabel3.setLabelFor(cbGridTickAngle);
 
-		JPanel tickPanel = LayoutUtil.flowPanel(cbGridManualTick, gridLabel1,
-				ncbGridTickX, gridLabel2, ncbGridTickY, gridLabel3,
-				cbGridTickAngle);
 		typePanel = new JPanel();
 		typePanel.setLayout(new BoxLayout(typePanel, BoxLayout.Y_AXIS));
 		addComboGridType();
@@ -756,12 +753,12 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			model.applyAxesColor(new GColorD(((GuiManagerD) app
+			model.applyAxesColor(GColorD.newColor(((GuiManagerD) app
 					.getGuiManager()).showColorChooser(view.getAxesColor())));
 
 		} else if (source == btGridColor) {
 			model.applyGridColor(
-					new GColorD(((GuiManagerD) (app
+					GColorD.newColor(((GuiManagerD) (app
 					.getGuiManager())).showColorChooser(view.getGridColor())));
 
 		} else if (source == cbTooltips) {
@@ -1109,7 +1106,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	};
 
 	public GColor getEuclidianBackground(int viewNumber) {
-		return new GColorD(
+		return GColorD.newColor(
 				((GuiManagerD) (app.getGuiManager()))
 						.showColorChooser(app.getSettings()
 								.getEuclidian(viewNumber).getBackground()));

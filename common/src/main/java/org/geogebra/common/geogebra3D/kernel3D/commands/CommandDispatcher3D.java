@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Command dispatcher for 3D
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class CommandDispatcher3D extends CommandDispatcher {

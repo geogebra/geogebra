@@ -277,6 +277,14 @@ namespace giac {
       v.pop_back();
       --s;
     }
+    if (s==2 && v[1].type!=_INT_){
+      vecteur l=lvar(v[1]);
+      if (l.size()!=1)
+	return gensizeerr(contextptr);
+      v.push_back(l.front());
+      primitive=false;
+      ++s;
+    }
     if (s==2){
 #ifdef GIAC_HAS_STO_38
       gen k(identificateur("v")),g(identificateur("g")),K(identificateur("k"));

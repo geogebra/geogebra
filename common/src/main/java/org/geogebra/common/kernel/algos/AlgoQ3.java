@@ -192,5 +192,5 @@ public class AlgoQ3 extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

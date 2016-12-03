@@ -92,7 +92,7 @@ public class CASTableD extends JTable implements CASTable {
 		setShowGrid(true);
 		setGridColor(
 				GColorD
-				.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		setBackground(Color.white);
 
 		tableModel = new CASTableModel();
@@ -313,7 +313,7 @@ public class CASTableD extends JTable implements CASTable {
 	/**
 	 * Selection listener to repaint selection frame when selection changes
 	 */
-	public class SelectionListener implements ListSelectionListener {
+	public static class SelectionListener implements ListSelectionListener {
 		private JTable table;
 
 		/**

@@ -30,9 +30,11 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -77,11 +79,13 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
         AutoCompleteW, MathKeyboardListener,
         org.geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
-        KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
-        SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {
+        KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>,
+		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -89,7 +93,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private static final int BOX_ROUND = 8;
 
-	private AppW app;
+	protected AppW app;
 	private Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
@@ -671,8 +675,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void addFocusListener(FocusListener listener) {
-		textField.getValueBox().addFocusHandler((FocusListenerW) listener);
-		textField.getValueBox().addBlurHandler((FocusListenerW) listener);
+		if (listener instanceof FocusListenerW) {
+			textField.getValueBox().addFocusHandler((FocusListenerW) listener);
+			textField.getValueBox().addBlurHandler((FocusListenerW) listener);
+		}
 	}
 
 	@Override
@@ -720,7 +726,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		dummyCursor = true;
 	}
 
+	public void addDummyCursor() {
+		int caretPos = getCaretPosition();
+		addDummyCursor(caretPos);
+	}
+
 	public void removeDummyCursor() {
+		if (!dummyCursor) {
+			return;
+		}
 		String text = textField.getText();
 		int cpos = getCaretPosition();
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
@@ -1055,6 +1069,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public void onKeyUp(KeyUpEvent e) {
 		int keyCode = e.getNativeKeyCode();
 		// we don't want to trap AltGr
@@ -1165,25 +1181,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		case GWTKeycodes.KEY_F1:
 
 			if (autoComplete) {
-				if (getText().equals("")) {
-
-					Object[] options = { loc.getPlain("OK"),
-							loc.getPlain("ShowOnlineHelp") };
-					/*
-					 * AG not yet... int n =
-					 * JOptionPane.showOptionDialog(app.getMainComponent(),
-					 * app.getPlain("InputFieldHelp"),
-					 * GeoGebraConstants.APPLICATION_NAME) + " - " +
-					 * app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
-					 * JOptionPane.QUESTION_MESSAGE, null, // do not use a
-					 * custom Icon options, // the titles of buttons
-					 * options[0]); // default button title
-					 * 
-					 * if (n == 1)
-					 * app.getGuiManager().openHelp(AbstractApplication
-					 * .WIKI_MANUAL);
-					 */
-				} else {
+				if (!"".equals(getText())) {
 					int pos = getCaretPosition();
 					while (pos > 0 && getText().charAt(pos - 1) == '[') {
 						pos--;
@@ -1363,11 +1361,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// setCaretPosition(pos + text.length());
 		final int newPos = pos + text.length();
 
-		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextFieldW) {
-			AutoCompleteTextFieldW tf = this;
-			tf.updateCurrentWord(false);
-		}
+		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
 
@@ -1696,6 +1690,23 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void ensureEditing() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void endOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(true);
+			removeDummyCursor();
+			removeStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void startOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(false);
+			addDummyCursor();
+			addStyleName("disabledTextfieldEditing");
+		}
 
 	}
 

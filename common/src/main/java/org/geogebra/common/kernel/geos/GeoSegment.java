@@ -484,7 +484,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 			GeoPointND [] points = {getStartPoint(), getEndPoint()};
 			points = t.transformPoints(points);	
 			// create SEGMENT
-			GeoElement segment = (GeoElement) kernel.SegmentND(transformedLabel, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.segmentND(transformedLabel, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement [] geos = {segment, (GeoElement) points[0], (GeoElement) points[1]};	
 			return geos;	
@@ -830,10 +830,9 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 	
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoSegment()
-				&& Kernel
-						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && Kernel
+				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
 

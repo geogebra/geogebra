@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.main.App;
 
 /**
  * A storage container with all information which need to be stored for a
@@ -11,7 +12,7 @@ import org.geogebra.common.factories.AwtFactory;
  * 
  * @author Florian Sonner
  */
-public class DockPanelData {
+public class DockPanelData implements Cloneable {
 	private int viewId;
 	private boolean isVisible;
 	private boolean openInFrame;
@@ -116,7 +117,7 @@ public class DockPanelData {
 			int windowWidth, int windowHeight, String embeddedDef,
 			int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame,
-				showStyleBar, AwtFactory.prototype.newRectangle(windowX,
+				showStyleBar, AwtFactory.getPrototype().newRectangle(windowX,
 						windowY, windowWidth, windowHeight),
 				embeddedDef, embeddedSize, null);
 	}
@@ -146,7 +147,7 @@ public class DockPanelData {
 			boolean inFrame, boolean showStyleBar, GPoint windowLoc,
 			GDimension windowSize, String embeddedDef, int embeddedSize) {
 		this(viewId, toolbar, isVisible, inFrame, showStyleBar,
-				AwtFactory.prototype.newRectangle(
+				AwtFactory.getPrototype().newRectangle(
 						windowLoc.getX(), windowLoc.getY(),
 						windowSize.getWidth(), windowSize.getHeight()),
 				embeddedDef, embeddedSize, null);
@@ -178,6 +179,9 @@ public class DockPanelData {
 
 	/**
 	 * Set the toolbar string of this view (or an empty string).
+	 * 
+	 * @param toolbar
+	 *            toolbar string
 	 */
 	public void setToolbarString(String toolbar) {
 		toolbarString = toolbar;
@@ -239,7 +243,7 @@ public class DockPanelData {
 	 * @return view id for XML
 	 */
 	protected int getViewIdForXML() {
-		return getViewId();
+		return plane == null ? getViewId() : App.VIEW_EUCLIDIAN_FOR_PLANE_START;
 	}
 
 	/**
@@ -283,6 +287,10 @@ public class DockPanelData {
 	public String getXml() {
 
 		StringBuilder sb = getStartXml();
+		if (plane != null) {
+			sb.append("\" plane=\"");
+			sb.append(getPlane());
+		}
 		sb.append("\" />\n");
 		return sb.toString();
 
@@ -294,7 +302,7 @@ public class DockPanelData {
 	 * @return true if will be stored in XML
 	 */
 	public boolean storeXml() {
-		return true;
+		return plane == null || isVisible();
 	}
 
 	/**
@@ -302,15 +310,23 @@ public class DockPanelData {
 	 * perspective automatically otherwise.
 	 */
 	@SuppressWarnings("all")
-	public Object clone() {
+	final public Object clone() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame,
 				showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}
 
-	public void setVisible(boolean b) {
-		isVisible = b;
+	/**
+	 * @param visible
+	 *            whether this panel should be visible
+	 */
+	public void setVisible(boolean visible) {
+		isVisible = visible;
 	}
 
+	/**
+	 * @param s
+	 *            comma separated list of left/right/top/bottom a.k.a. 1,2,3,4
+	 */
 	public void setLocation(String s) {
 		this.embeddedDef = s;
 

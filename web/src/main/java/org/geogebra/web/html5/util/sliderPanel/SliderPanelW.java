@@ -3,7 +3,6 @@ package org.geogebra.web.html5.util.sliderPanel;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -120,8 +119,8 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void updateColor(GColor color) {
-		GColorW c = new GColorW(color.getRGB());
-		c.setAlpha(102);
+		GColor c = color.deriveWithAlpha(102);
+
 		// String sColor = GColor.getColorString(color);
 		// minLabel.getElement().getStyle().setColor(sColor);
 		// maxLabel.getElement().getStyle().setColor(sColor);
@@ -135,8 +134,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	private void setUIStyle(Element elem, GColor color) {
-		GColorW c = new GColorW(color.getRGB());
-		c.setAlpha(102);
+		GColor c = color.deriveWithAlpha(102);
 		Style style = Dom.querySelectorForElement(elem,
 				"ui-state-default").getStyle();
 		style.setBackgroundColor(GColor.getColorString(color));

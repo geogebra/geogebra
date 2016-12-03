@@ -104,6 +104,6 @@ public class AlgoReverse extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

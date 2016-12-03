@@ -60,7 +60,7 @@ import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -75,15 +75,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private InputBarHelpPanelD thisPanel;
 	private Color bgColor = Color.WHITE;
 
-	// TODO remove?
-	private Color titleColor;
-
 	private MyJTree cmdTree;
 	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
 			rootAllCommands;
 	private DefaultTreeModel cmdTreeModel;
 
-	private String selectedCommand, rollOverCommand;
+	private String selectedCommand;
+	String rollOverCommand;
 
 	public String getSelectedCommand() {
 		return selectedCommand;
@@ -103,7 +101,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private JButton btnPaste;
 	private JScrollPane scroller;
 	private LocalizationD loc;
-	private MyRenderer renderer;
 
 	/***************************************************
 	 * Constructor
@@ -115,8 +112,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
-		titleColor = GColorD.getAwtColor(
-				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 		bgColor = this.getBackground().brighter();
 
 		createFunctionPanel();
@@ -330,9 +325,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 	public void updateFonts() {
 
-		if (renderer != null) {
-			renderer.update();
-		}
 		functionTable.updateFonts();
 		if (helpTextPane != null) {
 			helpTextPane.setFont(app.getPlainFont());
@@ -462,9 +454,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	 */
 	private void addNodeInSortedOrder(DefaultMutableTreeNode parent,
 			DefaultMutableTreeNode child) {
-
-		if (child.toString() == null)
-			return;
 
 		int n = parent.getChildCount();
 		if (n == 0) {
@@ -608,16 +597,12 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						Object nodeInfo = node.getUserObject();
 						String cmd = (String) nodeInfo;
 						rollOverCommand = cmd;
-						StringBuilder sb = new StringBuilder();
-						cmd = app.getReverseCommand(cmd); // internal name
+						// StringBuilder sb = new StringBuilder();
+						// cmd = app.getReverseCommand(cmd); // internal name
 						// CommandProcessor.getCommandSyntax(sb, app, cmd, -1);
-						sb.append(app.getLocalization().getCommandSyntax(cmd));
+						// sb.append(app.getLocalization().getCommandSyntax(cmd));
 						// helpTextArea.setText(sb.toString());
 
-					} else {
-						// clear the help text
-						// rollOverCommand = null;
-						// helpTextArea.setText("");
 					}
 				}
 
@@ -738,7 +723,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		public void update() {
 			setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSE));
 			setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_OPEN));
-			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
+			setLeafIcon(GeoGebraIconD.createEmptyIcon(5, 1));
 
 		}
 
@@ -761,7 +746,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 				if (isSelected) {
 					setBackgroundSelectionColor(selectionColor);
-				} else if (row == ((MyJTree) tree).rollOverRow) {
+				} else if ((tree instanceof MyJTree)
+						&& row == ((MyJTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
 				} else {
 					setBackgroundSelectionColor(bgColor);
@@ -850,7 +836,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		// TODO Auto-generated method stub
 	}
 
-	private class MyJTree extends JTree {
+	private static class MyJTree extends JTree {
 
 		private static final long serialVersionUID = 1L;
 

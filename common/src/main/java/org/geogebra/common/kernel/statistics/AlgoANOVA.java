@@ -147,6 +147,6 @@ public class AlgoANOVA extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

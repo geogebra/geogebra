@@ -151,6 +151,6 @@ public class AlgoListMin extends AlgoElement {
 		min.setValue(minVal);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

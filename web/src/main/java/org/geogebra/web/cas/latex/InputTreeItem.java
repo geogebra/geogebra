@@ -57,12 +57,10 @@ import com.google.gwt.user.client.ui.PushButton;
  * File created by Arpad Fekete
  */
 public class InputTreeItem extends MathQuillTreeItem
-		implements
-		HasSymbolPopup, FocusHandler, BlurHandler {
+		implements HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
-
 
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
@@ -78,10 +76,6 @@ public class InputTreeItem extends MathQuillTreeItem
 
 	private FlowPanel buttonPanel;
 	private Label piecewiseLabel, matrixLabel, curveLabel;
-
-
-
-
 
 	/**
 	 * Creates new input tree item
@@ -99,9 +93,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		FlowPanel item = new FlowPanel();
 		item.addStyleName("avTextItem");
 
-		addDomHandlers(content);
 		main.add(content);
-
 
 		content.getElement().appendChild(item.getElement());
 		content.getElement().addClassName("hasCursorPermanent");
@@ -109,7 +101,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
 		}
-
 
 		content.getElement().addClassName("tempHasCursorPermanent");
 
@@ -124,8 +115,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		// if enabled, render with LaTeX
 
 		item.addStyleName("sqrtFontFix");
-		item.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
-				Unit.PX);
+		item.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 		setPlainTextItem(item);
 
@@ -135,8 +125,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		editor = new EquationEditor(app, this);
 
-
-		//should depend on number of previoous elements?
+		// should depend on number of previoous elements?
 		addHistoryPopup(true);
 
 		insertHelpToggle();
@@ -146,11 +135,10 @@ public class InputTreeItem extends MathQuillTreeItem
 		// buttonPanel.addStyleName("MouseDownDoesntExitEditingFeature");
 		buttonPanel.addStyleName("BlurDoesntUpdateGUIFeature");
 
-
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
-		btnDelete = new PushButton(new Image(
-				GuiResources.INSTANCE.algebra_delete()));
+		btnDelete = new PushButton(
+				new Image(GuiResources.INSTANCE.algebra_delete()));
 		btnDelete.getUpHoveringFace().setImage(
 				new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 		String id = DOM.createUniqueId();
@@ -165,9 +153,9 @@ public class InputTreeItem extends MathQuillTreeItem
 			// but maybe it's not that important here
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				MathQuillHelper.stornoFormulaMathQuillGGB(
-						InputTreeItem.this, latexItem);
-				InputTreeItem.this.setFocus(true);
+				MathQuillHelper.stornoFormulaMathQuillGGB(InputTreeItem.this,
+						latexItem);
+				InputTreeItem.this.getController().setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
 			}
@@ -177,61 +165,64 @@ public class InputTreeItem extends MathQuillTreeItem
 			// but maybe it's not that important here
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
-				MathQuillHelper.stornoFormulaMathQuillGGB(
-						InputTreeItem.this, latexItem);
-				InputTreeItem.this.setFocus(true);
+				MathQuillHelper.stornoFormulaMathQuillGGB(InputTreeItem.this,
+						latexItem);
+				InputTreeItem.this.getController().setFocus(true);
 				event.stopPropagation();
 				event.preventDefault();
 			}
 		});
 
-		// from now on, we'll check this Feature
-		// by (pButton != null) but that influences
-		// buttonPanel as well, because if both
-		// pButton and xButton are invisible, then
-		// buttonPanel should show either, e.g.
-		// by adding an additional CSS class to it
-		plusButton = new PushButton(
-				new Image(GuiResources.INSTANCE.algebra_new()));
-		plusButton.getUpHoveringFace()
-				.setImage(new Image(GuiResources.INSTANCE.algebra_new_hover()));
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			plusButton.setVisible(true);
-		} else {
-			plusButton.getElement().setAttribute("data-visible", "false");
-		}
-		plusButton.addStyleName("XButtonNeighbour");
-		plusButton.addMouseDownHandler(new MouseDownHandler() {
-			// ClickHandler changed to MouseDownHandler,
-			// but maybe it's not that important here
-			@Override
-			public void onMouseDown(MouseDownEvent event) {
-				event.stopPropagation();
+		// no "plus" button for Exam Simple
+		if (app.enableGraphing()) {
+			// from now on, we'll check this Feature
+			// by (pButton != null) but that influences
+			// buttonPanel as well, because if both
+			// pButton and xButton are invisible, then
+			// buttonPanel should show either, e.g.
+			// by adding an additional CSS class to it
+			plusButton = new PushButton(
+					new Image(GuiResources.INSTANCE.algebra_new()));
+			plusButton.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.algebra_new_hover()));
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				plusButton.setVisible(true);
+			} else {
+				plusButton.getElement().setAttribute("data-visible", "false");
+			}
+			plusButton.addStyleName("XButtonNeighbour");
+			plusButton.addMouseDownHandler(new MouseDownHandler() {
+				// ClickHandler changed to MouseDownHandler,
+				// but maybe it's not that important here
+				@Override
+				public void onMouseDown(MouseDownEvent event) {
+					event.stopPropagation();
 
-				// although this does not seem to help in itself,
-				// why not prevent default action? maybe the same
-				// bug has two distint causes, both needs to be fixed
-				// but r41773 is undone for problems on emulated tablet
-				// event.preventDefault();
+					// although this does not seem to help in itself,
+					// why not prevent default action? maybe the same
+					// bug has two distint causes, both needs to be fixed
+					// but r41773 is undone for problems on emulated tablet
+					// event.preventDefault();
 
-				if (specialPopup != null) {
-					if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
-							|| !app.wasPopupJustClosed()) {
-						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-							EuclidianStyleBarW.CURRENT_POP_UP.hide();
+					if (specialPopup != null) {
+						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
+								|| !app.wasPopupJustClosed()) {
+							if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+								EuclidianStyleBarW.CURRENT_POP_UP.hide();
+							}
+							EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
+
+							app.registerPopup(specialPopup);
+							specialPopup.showRelativeTo(plusButton);
+							specialPopup.getFocusPanel().getElement().focus();
+						} else {
+							specialPopup.setVisible(false);
+							EuclidianStyleBarW.CURRENT_POP_UP = null;
 						}
-						EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
-
-						app.registerPopup(specialPopup);
-						specialPopup.showRelativeTo(plusButton);
-						specialPopup.getFocusPanel().getElement().focus();
-					} else {
-						specialPopup.setVisible(false);
-						EuclidianStyleBarW.CURRENT_POP_UP = null;
 					}
 				}
-			}
-		});
+			});
+		}
 		// pButton.addClickHandler(CancelEvents.instance);
 		// pButton.addMouseUpHandler(CancelEvents.instance);
 
@@ -284,7 +275,7 @@ public class InputTreeItem extends MathQuillTreeItem
 					Timer tim = new Timer() {
 						@Override
 						public void run() {
-							app.getAlgebraView().startEditing(fun);
+							app.getAlgebraView().startEditItem(fun);
 						}
 					};
 					tim.schedule(500);
@@ -311,7 +302,7 @@ public class InputTreeItem extends MathQuillTreeItem
 				Timer tim2 = new Timer() {
 					@Override
 					public void run() {
-						app.getAlgebraView().startEditing(mat);
+						app.getAlgebraView().startEditItem(mat);
 					}
 				};
 				// on a good machine, 500ms was usually not enough,
@@ -350,7 +341,7 @@ public class InputTreeItem extends MathQuillTreeItem
 					Timer tim = new Timer() {
 						@Override
 						public void run() {
-							app.getAlgebraView().startEditing(curve);
+							app.getAlgebraView().startEditItem(curve);
 						}
 					};
 					tim.schedule(500);
@@ -369,22 +360,23 @@ public class InputTreeItem extends MathQuillTreeItem
 		});
 
 		if (plusButton != null) {
-			ClickStartHandler.init(plusButton, new ClickStartHandler(false,
-					true) {
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					// nothing to do here; just makes sure that
-					// event.stopPropagation is called
-				}
-			});
+			ClickStartHandler.init(plusButton,
+					new ClickStartHandler(false, true) {
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							// nothing to do here; just makes sure that
+							// event.stopPropagation is called
+						}
+					});
 		}
 
-		try{
+		try {
 			btnDelete.setFocus(false);
 			if (plusButton != null) {
 				plusButton.setFocus(false);
 			}
-		}catch(Throwable t){
+		} catch (Throwable t) {
 			// TRY-CATCH needed for Win8 app //TODO find better solution
 		}
 		// add(textField);// done in super()
@@ -432,7 +424,8 @@ public class InputTreeItem extends MathQuillTreeItem
 					// but the following hack fixes it:
 					if (app.getGuiManager() != null
 							&& app.getGuiManager().getLayout() != null
-							&& app.getGuiManager().getLayout().getDockManager() != null
+							&& app.getGuiManager().getLayout()
+									.getDockManager() != null
 							&& app.getGuiManager().getLayout().getDockManager()
 									.getPanel(App.VIEW_ALGEBRA) != null) {
 						// in every case we use NewRadioButtonTreeItem, we use
@@ -476,12 +469,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		createErrorLabel();
 	}
 
-
-
-
-
-
-
 	/**
 	 * Adds + and delete buttons to the button panel
 	 */
@@ -518,8 +505,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 	@Override
 	public void showOrHideSuggestions() {
-		if ((latexItem != null)
-				&& latexItem.getElement().hasParentElement()) {
+		if ((latexItem != null) && latexItem.getElement().hasParentElement()) {
 			MathQuillHelper.showOrHideSuggestions(this, latexItem.getElement());
 		}
 	}
@@ -605,6 +591,7 @@ public class InputTreeItem extends MathQuillTreeItem
 					}
 				}, keepFocus);
 	}
+
 	@Override
 	public List<String> getCompletions() {
 		return editor.getCompletions();
@@ -623,8 +610,8 @@ public class InputTreeItem extends MathQuillTreeItem
 			// really set the focus...
 			boolean setFocusAllowed = app.getGuiManager().focusScheduled(false,
 					false, true);
-			boolean setFocusScheduled = app.getGuiManager().focusScheduled(
-					false, true, false);
+			boolean setFocusScheduled = app.getGuiManager()
+					.focusScheduled(false, true, false);
 
 			if (setFocusAllowed || !setFocusScheduled) {
 				MathQuillHelper.focusEquationMathQuillGGB(latexItem, focus);
@@ -644,7 +631,10 @@ public class InputTreeItem extends MathQuillTreeItem
 			}
 			buttonPanel.setVisible(show);
 			setButtonVisible(getDeleteButton(), show);
-			setButtonVisible(plusButton, show);
+
+			if (plusButton != null) {
+				setButtonVisible(plusButton, show);
+			}
 		}
 	}
 
@@ -664,15 +654,13 @@ public class InputTreeItem extends MathQuillTreeItem
 			return;
 		}
 		Element showSymbolElement = button.getElement();
-		if (showSymbolElement != null
-				&& "true"
-						.equals(showSymbolElement
-								.getAttribute("data-visible"))) {
+		if (showSymbolElement != null && "true"
+				.equals(showSymbolElement.getAttribute("data-visible"))) {
 			if (show) {
 				showSymbolElement.addClassName("shown");
 			} else {
-				if (!"true".equals(showSymbolElement
-						.getAttribute("data-persist"))) {
+				if (!"true".equals(
+						showSymbolElement.getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");
 				}
 			}
@@ -719,7 +707,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
 
-
 	/**
 	 * This method does update the buttonPanel, xButton, pButton visibility
 	 * entirely
@@ -733,9 +720,6 @@ public class InputTreeItem extends MathQuillTreeItem
 	protected void updateGUIfocus(Object source, boolean blurtrue) {
 		updateEditorFocus(source, blurtrue);
 	}
-
-
-
 
 	/**
 	 * This is looking like a GWT BlurHandler method, and really it is, but it
@@ -762,13 +746,13 @@ public class InputTreeItem extends MathQuillTreeItem
 
 			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 				buttonPanel.setVisible(true);
-				this.plusButton.setVisible(true);
+				if (plusButton != null) {
+					this.plusButton.setVisible(true);
+				}
 				updateButtonPanelPosition();
 			}
 		}
 	}
-
-
 
 	@Override
 	public ArrayList<String> getHistory() {
@@ -789,8 +773,6 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		historyPopup.setDownPopup(isDownPopup);
 	}
-
-
 
 	@Override
 	public void addToHistory(String str, String latexValue) {
@@ -814,8 +796,8 @@ public class InputTreeItem extends MathQuillTreeItem
 			updateLineHeight();
 			app.closePerspectivesPopup();
 		}
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)){
-			if (isEmpty() && plusButton != null) {
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER) && plusButton != null) {
+			if (isEmpty()) {
 				plusButton.setVisible(true);
 			} else {
 				plusButton.setVisible(false);
@@ -826,19 +808,14 @@ public class InputTreeItem extends MathQuillTreeItem
 
 	private void updatePreview() {
 		String text = getText();
-		app.getKernel()
-				.getInputPreviewHelper()
-				.updatePreviewFromInputBar(EquationEditor.stopCommon(text),
-						AlgebraInputW.getWarningHandler(this, app));
+		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
+				EquationEditor.stopCommon(text),
+				AlgebraInputW.getWarningHandler(this, app));
 		if (text != null) {
 			this.getEquationEditor().setLaTeX(text, getEditorValue(true));
 		}
 
 	}
-
-
-
-
 
 	/**
 	 * Update localization
@@ -856,8 +833,6 @@ public class InputTreeItem extends MathQuillTreeItem
 		}
 	}
 
-
-
 	@Override
 	public void autocomplete(String s) {
 		editor.autocomplete(s, false);
@@ -867,8 +842,6 @@ public class InputTreeItem extends MathQuillTreeItem
 	public boolean isInputTreeItem() {
 		return true;
 	}
-
-
 
 	/**
 	 * Starts editing of the input.
@@ -903,12 +876,12 @@ public class InputTreeItem extends MathQuillTreeItem
 	@Override
 	public void onResize() {
 		super.onResize();
-			if (helpPopup != null && helpPopup.isShowing()) {
-				InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
-						.getGuiManager().getInputHelpPanel();
-				updateHelpPosition(helpPanel);
+		if (helpPopup != null && helpPopup.isShowing()) {
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+					.getGuiManager().getInputHelpPanel();
+			updateHelpPosition(helpPanel);
 
-			}
+		}
 	}
 
 	@Deprecated

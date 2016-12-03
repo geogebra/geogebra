@@ -99,7 +99,6 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 	public void mousePressed(MouseEvent e) {
 		int x = e.getX();
 		int y = e.getY();
-		boolean metaDown = AppD.isControlDown(e);
 		boolean shiftDown = e.isShiftDown();
 		boolean rightClick = AppD.isRightClick(e);
 		
@@ -152,11 +151,11 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 							int column = point.getX();
 							table.setColumnSelectionInterval(column0, column);
 						}
-					} else if (metaDown) {
-						column0 = point.getX();
-						// Note: ctrl-select now handled in
-						// table.changeSelection
-						table.setColumnSelectionInterval(column0, column0);
+						// } else if (metaDown) {
+						// column0 = point.getX();
+						// // Note: ctrl-select now handled in
+						// // table.changeSelection
+						// table.setColumnSelectionInterval(column0, column0);
 					} else {
 						column0 = point.getX();
 						table.setColumnSelectionInterval(column0, column0);
@@ -231,9 +230,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			int width = table.getColumnModel().getColumn(column).getWidth();
 			int[] selected = table.getSelectedColumns();
-			if (selected == null) {
-				return;
-			}
+
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
 				if (column == selected[i])
@@ -471,19 +468,28 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			layout = (BorderLayout) this.getLayout();
 		}
 
-		public Component getTableCellRendererComponent(JTable table,
+		public Component getTableCellRendererComponent(JTable table0,
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int colIndex) {
+
+			MyTableD table;
+
+			if (table0 instanceof MyTableD) {
+				table = (MyTableD) table0;
+			} else {
+				return null;
+			}
 
 			lblHeader.setFont(app.getPlainFont());
 
 			lblHeader.setText(value.toString());
 
-			if (((MyTableD) table).getSelectionType() == MyTable.ROW_SELECT) {
+			if (table.getSelectionType() == MyTable.ROW_SELECT) {
 				setBackground(defaultBackground);
 			} else {
-				if (((MyTableD) table).selectedColumnSet.contains(colIndex)
-						|| (colIndex >= ((MyTableD) table).minSelectionColumn && colIndex <= ((MyTableD) table).maxSelectionColumn)) {
+				if (table.selectedColumnSet.contains(colIndex)
+						|| (colIndex >= table.minSelectionColumn
+								&& colIndex <= table.maxSelectionColumn)) {
 					setBackground(MyTableD.SELECTED_BACKGROUND_COLOR_HEADER);
 				} else {
 					setBackground(defaultBackground);

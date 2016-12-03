@@ -43,7 +43,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 public class AlgebraControllerD extends AlgebraTreeController implements
@@ -72,7 +72,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 			app.updateSelection(false);
 			ev.resetMode();
 			if (geo != null && !AppD.isControlDown(e)) {
-				view.startEditing(geo);
+				view.startEditItem(geo);
 			}
 			return true;
 		}
@@ -81,12 +81,12 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 
 	@Override
 	protected boolean viewIsEditing() {
-		return view.isEditing();
+		return view.isEditItem();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		view.cancelEditing();
+		view.cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
 			GPoint mouseCoords = new GPoint(
@@ -101,7 +101,9 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	@Override
 	public void setTree(AlgebraTree tree) {
 		super.setTree(tree);
-		this.view = (AlgebraViewD) tree;
+		if (tree instanceof AlgebraViewD) {
+			this.view = (AlgebraViewD) tree;
+		}
 	}
 
 	protected void enableDnD() {
@@ -145,7 +147,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 			return;
 		}
 
-		ImageIcon ic = GeoGebraIcon.createLatexIcon((AppD) app, latex,
+		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
 					((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
 
 		// start drag
@@ -158,7 +160,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	 * Extension of Transferable for exporting AlgegraView selections as a list
 	 * of Geo labels
 	 */
-	class TransferableAlgebraView implements Transferable {
+	static class TransferableAlgebraView implements Transferable {
 
 		public final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");

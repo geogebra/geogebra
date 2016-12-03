@@ -126,6 +126,6 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

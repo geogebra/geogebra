@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
-import org.geogebra.common.euclidian.EuclidianViewCompanion;
-import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
+import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -557,7 +556,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// ////////////////////////////////
 	// 2D VIEW
 
-	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
+	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
 	@Override
 	public int getViewID() {
@@ -566,7 +565,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public void createView2D() {
-		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
+		euclidianViewForPlane = kernel
 				.getApplication().getCompanion()
 				.createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
@@ -615,8 +614,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public void setEuclidianViewForPlane(EuclidianViewCompanion view) {
-		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
+	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view) {
+		euclidianViewForPlane = view;
 	}
 
 	@Override

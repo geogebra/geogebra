@@ -44,16 +44,17 @@ public abstract class ViewTextField {
 	}
 
 	public void focusTo(GeoInputBox inputBox) {
+
 		DrawInputBox d = (DrawInputBox) this.euclidianView
 				.getDrawableFor(inputBox);
 		if (d == null) {
 			Log.debug("[TF] d is null!!!");
 			return;
 		}
-		textField.setDrawTextField(d);
-		d.setFocus(inputBox.getText());
-		textField.setText(inputBox.getText());
-		d.setWidgetVisible(true);
+		Log.debug(
+				"[TF] focusTo " + inputBox.getLabelSimple() + " text: "
+						+ inputBox.getText());
+		d.attachTextField();
 	}
 
 	public GBox getBox() {

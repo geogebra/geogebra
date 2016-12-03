@@ -36,7 +36,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Extending DefaultGuiManager class for 3D
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class GuiManager3D extends GuiManagerD {
@@ -134,16 +134,25 @@ public class GuiManager3D extends GuiManagerD {
 
 	}
 
+	/**
+	 * @return Action for showing axes in 3D
+	 * */
 	public AbstractAction getShowAxes3DAction() {
 		initActions();
 		return showAxes3DAction;
 	}
 
+	/**
+	 * @return Action for showing grid in 3D
+	 * */
 	public AbstractAction getShowGrid3DAction() {
 		initActions();
 		return showGrid3DAction;
 	}
 
+	/**
+	 * @return Action for showing xOyPlane in 3D
+	 * */
 	public AbstractAction getShowPlaneAction() {
 		initActions();
 		return showPlaneAction;
@@ -183,7 +192,7 @@ public class GuiManager3D extends GuiManagerD {
 
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
-				getApp(), p.x, p.y);
+				getApp());
 		popupMenu.getWrappedPopup().show(
 				((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
 	}

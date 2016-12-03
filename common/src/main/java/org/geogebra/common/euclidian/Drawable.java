@@ -84,7 +84,7 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected GRectangle labelRectangle = AwtFactory.prototype.newRectangle(0,
+	protected GRectangle labelRectangle = AwtFactory.getPrototype().newRectangle(0,
 			0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
@@ -226,7 +226,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (oldLabelDesc != labelDesc
+		if (!labelDesc.equals(oldLabelDesc)
 				|| (labelDesc.length() > 0 && labelDesc.charAt(0) == '<')) {
 			boolean italic = false;
 
@@ -253,7 +253,7 @@ public abstract class Drawable extends DrawableND {
 
 		// no index in label: draw it fast
 		int fontSize = g2.getFont().getSize();
-		if (oldLabelDesc == labelDesc && !labelHasIndex
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex
 				&& lastFontSize == fontSize) {
 			g2.drawString(label, xLabel, yLabel);
 			labelRectangle.setLocation(xLabel, yLabel - fontSize);
@@ -289,7 +289,7 @@ public abstract class Drawable extends DrawableND {
 		int heightEstimate = (int) labelRectangle.getHeight();
 		boolean roughEstimate = false;
 
-		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()) {
+		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
 			if (labelDesc.startsWith("$")) {
 				// for LaTeX we need proper repaint
 				drawLabel(view.getTempGraphics2D(font));
@@ -299,10 +299,12 @@ public abstract class Drawable extends DrawableND {
 				// if we use name = value, this may still be called pretty
 				// often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int) (StringUtil.prototype.estimateHeight(labelDesc,
+				heightEstimate = (int) (StringUtil.getPrototype()
+						.estimateHeight(labelDesc,
 						font) * Ymultiplier);
 
-				widthEstimate = (int) (StringUtil.prototype.estimateLengthHTML(labelDesc,
+				widthEstimate = (int) (StringUtil.getPrototype()
+						.estimateLengthHTML(labelDesc,
 						font) * Xmultiplier);
 				roughEstimate = true;
 			}
@@ -372,7 +374,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 
 		// no index in text
-		if (oldLabelDesc == labelDesc && !labelHasIndex) {
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
 
 			labelRectangle.setBounds(EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
@@ -573,15 +575,15 @@ public abstract class Drawable extends DrawableND {
 			lineThickness = fromGeo.getLineThickness();
 
 			float width = lineThickness / 2.0f;
-			objStroke = AwtFactory.prototype.newBasicStroke(width,
+			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							objStroke.getDashArray(), 0.0f);
-			decoStroke = AwtFactory.prototype.newBasicStroke(width,
+			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(),
 							objStroke.getLineJoin(), objStroke.getMiterLimit(),
 							decoStroke.getDashArray(), 0.0f);
-			selStroke = AwtFactory.prototype.newBasicStroke(
+			selStroke = AwtFactory.getPrototype().newBasicStroke(
 					width + EuclidianStyleConstants.SELECTION_ADD,
 							objStroke.getEndCap(), objStroke.getLineJoin(),
 							objStroke.getMiterLimit(),
@@ -641,7 +643,8 @@ public abstract class Drawable extends DrawableND {
 				}
 
 				// take care of filling after the image is loaded
-				EuclidianStatic.fillAfterImageLoaded(fillShape, g2, subImage2,
+				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
+						subImage2,
 						geo.getKernel().getApplication());
 			}
 
@@ -733,7 +736,7 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			color = AwtFactory.prototype.newColor(color.getRed(),
+			color = GColor.newColor(color.getRed(),
 					color.getGreen(), color.getBlue(), geo.getLineOpacity());
 		}
 		return color;
@@ -745,4 +748,5 @@ public abstract class Drawable extends DrawableND {
 	public void updateForView() {
 		update();
 	}
+
 }

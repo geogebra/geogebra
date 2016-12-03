@@ -4,6 +4,7 @@ import java.util.Vector;
 
 import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Localization;
@@ -47,7 +48,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener, SetLabels {
 	protected static final String PREFIX = "[Customize] ";
 
-	private class ToolTreeResources implements Tree.Resources {
+	private static class ToolTreeResources implements Tree.Resources {
 
 		public ToolTreeResources() {
 		}
@@ -884,7 +885,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		// allToolsPanel.add(buildItem());
 
 		for (Integer mode : allTools) {
-			if (!usedTools.contains(mode) && mode != ToolBar.SEPARATOR) {
+			if (!usedTools.contains(mode) && !ToolBar.SEPARATOR.equals(mode)) {
 				DraggableTool tool = new DraggableTool(mode);
 				allToolsPanelContent.add(tool);
 			}
@@ -921,7 +922,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			ToolbarItem element = defTools.get(i);
 			Integer m = element.getMode();
 
-			if (m != ToolBar.SEPARATOR && element.getMenu() != null) {
+			if (!ToolBar.SEPARATOR.equals(m) && element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
 				final DraggableTool tool = new DraggableTool(menu.get(0));
 
@@ -930,7 +931,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
-					if (modeInt != ToolBar.SEPARATOR) {
+						if (!ToolBar.SEPARATOR.equals(modeInt)) {
 						usedTools.add(modeInt);
 						tool.addTool(new DraggableTool(modeInt));
 					}
@@ -945,7 +946,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 */
 	public void resetDefaultToolbar() {
 
-		if (dockPanel != null) {
+		if (dockPanel != null && dockPanel.getDefaultToolbarString() != null) {
 			buildUsedTools(dockPanel.getDefaultToolbarString());
 		} else {
 			String toolbarStr = ((GuiManagerW) app.getGuiManager())
@@ -1032,9 +1033,19 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		return toolbarId;
 	}
 
-	public void setToolbarId(int toolbarId) {
-		this.toolbarId = toolbarId;
-		header.setSelectedViewId(toolbarId);
+	public void setToolbarId(int activeToolbar) {
+		int newToolbarId = activeToolbar;
+		// validate toolbar ID: make sure we can customize
+		if (newToolbarId > 0) {
+			DockPanel p = app.getGuiManager().getLayout().getDockManager()
+					.getPanel(newToolbarId);
+			if (p instanceof DockPanelW
+					&& !((DockPanelW) p).canCustomizeToolbar()) {
+				newToolbarId = CustomizeToolbarHeaderPanel.GENERAL;
+			}
+		}
+		this.toolbarId = newToolbarId;
+		header.setSelectedViewId(newToolbarId);
 		updateTools();
 	}
 

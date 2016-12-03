@@ -71,6 +71,6 @@ public class AlgoIsInRegion extends AlgoElement {
 		return Commands.IsInRegion;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

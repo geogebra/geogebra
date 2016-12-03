@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Class for storing drawables includes in a DrawList
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class DrawListArray extends ArrayList<DrawableND> {
@@ -17,7 +17,7 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	private static final long serialVersionUID = 1L;
 
 	/** view */
-	protected EuclidianViewInterfaceSlim view;
+	protected transient EuclidianViewInterfaceSlim view;
 
 	/**
 	 * common constructor

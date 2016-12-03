@@ -430,8 +430,8 @@ public class GeoLine3D extends GeoCoordSys1D {
 	}
 
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoLine();
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoLine());
 	}
 
 	@Override

@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 /**
  * A modifiable set of name/value mappings. Names are unique, non-null strings.
@@ -97,6 +99,9 @@ public class JSONObject {
 	 * returning true when compared to {@code null}. Its {@link #toString}
 	 * method returns "null".
 	 */
+
+	@SuppressFBWarnings({ "EQ_UNUSUAL",
+			"API specifies this broken equals implementation" })
 	public static final Object NULL = new Object() {
 		@Override
 		public boolean equals(Object o) {

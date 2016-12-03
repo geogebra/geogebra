@@ -256,7 +256,7 @@ public class Polynomial {
 		Polynomial exp = new Polynomial(kernel, this);
 		multiply(exp, eq);
 		power(p / 2, eq);
-		if (p % 2 == 1) {
+		if (MyDouble.isOdd(p)) {
 			multiply(exp, eq);
 		}
 	}

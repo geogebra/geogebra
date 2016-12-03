@@ -14,10 +14,16 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -29,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * 
@@ -42,7 +49,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private GeneralPathClipped gp;
 	private double[] coords = new double[2];
 	private ArrayList<? extends GeoPointND> points;
-
+	// list of single points created by pen
+	private ArrayList<GeoPointND> pointList = new ArrayList<GeoPointND>();
+	private boolean startPointAdded = false;
 
 	/**
 	 * @param view
@@ -126,7 +135,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			gp.reset();
 		}
 
-
+		pointList.clear();
 
 		// for centroid calculation (needed for label pos)
 		double xsum = 0;
@@ -135,6 +144,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		boolean skipNextPoint = true;
 		Coords v;
 		for (int i = 0; i < pts.length; i++) {
+
 			v = getCoords(i);
 			if (pts[i].isDefined() && Kernel.isZero(v.getZ())) {
 				coords[0] = v.getX();
@@ -146,10 +156,42 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				}
 				if (skipNextPoint) {
 					skipNextPoint = false;
+					// collect start points
+					// one point
+					if (pts.length == 1 ||
+					// last point
+							(i - 1 >= 0 && i + 1 == pts.length
+									&& !pts[i - 1].isDefined())
+							// between undef points
+							|| (i - 1 >= 0 && i + 1 < pts.length
+									&& !pts[i - 1].isDefined()
+									&& !pts[i + 1]
+											.isDefined())
+							// first point
+							|| (i == 0 && i + 1 < pts.length
+									&& !pts[i + 1].isDefined())) {
+						// do not collect points remained after erasing
+						if ((i - 2 >= 0 && pts[i - 2].isDefined())
+								|| (i + 2 < pts.length
+										&& pts[i + 2].isDefined())
+								|| i == 0 || i == pts.length - 1) {
+							if (!pointList.contains(pts[i])) {
+								pointList.add(pts[i]);
+								startPointAdded = true;
+							}
+						}
+					}
 					gp.moveTo(coords[0], coords[1]);
-
 				} else {
 					gp.lineTo(coords[0], coords[1]);
+					// if point was added as start of segment
+					// then remove it
+					if (!pointList.isEmpty()
+							&& startPointAdded && view.getEuclidianController()
+									.getMode() != EuclidianConstants.MODE_ERASER) {
+						pointList.remove(pointList.size() - 1);
+						startPointAdded = false;
+					}
 				}
 			} else {
 				// undefined point -> hole in polyline
@@ -167,6 +209,20 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
+		// draw single points
+		for (int i = 0; i < pointList.size(); i++) {
+			Coords v = pointList.get(i).getInhomCoordsInD3();
+			coords[0] = v.getX();
+			coords[1] = v.getY();
+			view.toScreenCoords(coords);
+			GPoint p = new GPoint(Math.round((float) coords[0]),
+					Math.round((float) coords[1]));
+			if (poly.getLineType() == EuclidianStyleConstants.LINE_TYPE_FULL) {
+				drawEllipse(g2, p);
+			} else {
+				drawRectangle(g2, p);
+			}
+		}
 		if (isVisible) {
 
 			g2.setPaint(getObjectColor());
@@ -187,6 +243,46 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
+	// method to draw ellipse for point created by pen tool
+	// for full line type
+	private void drawEllipse(GGraphics2D g2D, GPoint point) {
+		GEllipse2DDouble ellipse = AwtFactory.getPrototype()
+				.newEllipse2DDouble();
+		ellipse.setFrameFromCenter(point.getX(), point.getY(),
+				point.getX() + getLineThicknessForPoint(),
+				point.getY() + getLineThicknessForPoint());
+		float[] rgb = new float[3];
+		getObjectColor().getRGBColorComponents(rgb);
+		GColor lineDrawingColor = GColor.newColor(rgb[0],
+				rgb[1],
+				rgb[2], poly.getLineOpacity() / 255.0f);
+		g2D.setPaint(lineDrawingColor);
+		g2D.fill(ellipse);
+		g2D.setStroke(EuclidianStatic.getDefaultStroke());
+		g2D.draw(AwtFactory.getPrototype().newArea(ellipse));
+	}
+
+	// method to draw rectangle for point created by pen tool
+	// for other line types
+	private void drawRectangle(GGraphics2D g2D, GPoint point) {
+		GRectangle rectangle = AwtFactory.getPrototype().newRectangle();
+		rectangle.setRect(point.getX(), point.getY(),
+				getLineThicknessForPoint() * 1.5,
+				getLineThicknessForPoint() * 1.5);
+		float[] rgb = new float[3];
+		getObjectColor().getRGBColorComponents(rgb);
+		GColor lineDrawingColor = GColor.newColor(rgb[0],
+				rgb[1], rgb[2], poly.getLineOpacity() / 255.0f);
+		g2D.setPaint(lineDrawingColor);
+		g2D.fill(rectangle);
+		g2D.setStroke(EuclidianStatic.getDefaultStroke());
+		g2D.draw(AwtFactory.getPrototype().newArea(rectangle));
+	}
+
+	private float getLineThicknessForPoint() {
+		return poly.getLineThickness() / 4.0f;
+	}
+
 	final public void updatePreview() {
 		int size = points.size();
 		isVisible = size > 0;
@@ -200,7 +296,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -267,12 +363,48 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
+
+		GPathIterator it = gp.getGeneralPath().getPathIterator(null);
+		it.currentSegment(coords);
+		it.next();
+		if (it.isDone()) {
+			if (pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					if (rect.contains(p)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
 		if (isVisible) {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
-			return strokedShape.intersects(rect);
+			boolean intersects = strokedShape.intersects(rect);
+			if (!intersects && pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					if (rect.contains(p)) {
+						return true;
+					}
+				}
+			}
+			return intersects;
 		}
+
 		return false;
 	}
 

@@ -21,16 +21,20 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
- * @author matthieu
+ * @author Matthieu
  */
 public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param point
+	 *            point
 	 * @param vector
+	 *            vector
 	 */
 	public AlgoOrthoPlanePointVector(Construction cons, String label,
 			GeoPointND point, GeoVectorND vector) {
@@ -42,6 +46,6 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 		return ((GeoVectorND) getSecondInput()).getCoordsInD3();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

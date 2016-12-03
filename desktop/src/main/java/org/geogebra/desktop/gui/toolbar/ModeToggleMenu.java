@@ -119,7 +119,7 @@ public class ModeToggleMenu extends JPanel {
 		boolean imageDialog = mi.getActionCommand().equals(
 						Integer.toString(EuclidianConstants.MODE_IMAGE));
 		if (tbutton.isSelected()
-				&& tbutton.getActionCommand() == mi.getActionCommand()
+				&& tbutton.getActionCommand().equals(mi.getActionCommand())
 				&& !imageDialog) {
 			return;
 		}

@@ -8,8 +8,8 @@ import org.geogebra.common.util.debug.Log;
 
 public class AnimGifRequest implements Request {
 
-	private final String API = "1.0.0";
-	private final String TYPE = "convertGGBToGIF";
+	private final static String API = "1.0.0";
+	private final static String TYPE = "convertGGBToGIF";
 
 	private String sliderName;
 	private int timing;

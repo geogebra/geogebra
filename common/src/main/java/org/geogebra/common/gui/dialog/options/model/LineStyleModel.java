@@ -51,12 +51,14 @@ public class LineStyleModel extends OptionsModel {
 
 
 	private static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
+		Integer[] ret = {
+				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_FULL),
+				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
+				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
+				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DOTTED),
+				Integer.valueOf(
+						EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
+				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
 		return ret;
 	}
 

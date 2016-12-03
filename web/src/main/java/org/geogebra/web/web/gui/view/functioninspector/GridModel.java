@@ -24,7 +24,7 @@ public class GridModel {
 		void removeLastRow();
 	}
 	
-	public class DataCell {
+	public static class DataCell {
 		private boolean editable;
 		private Object value;
 

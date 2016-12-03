@@ -22,6 +22,7 @@ import org.apache.commons.math.distribution.PoissonDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -1418,7 +1419,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			// fill in frequencies
 			for (int i = 0; i < NN - 1; i++) {
-				if (i % 2 == 1) {
+				if (MyDouble.isOdd(i)) {
 					// dummy columns, zero height
 					yval[i] = 0;
 				} else {
@@ -1873,5 +1874,5 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * treated differently than points.
 	 */
 
-	// TODO Consider locusequability
+	
 }

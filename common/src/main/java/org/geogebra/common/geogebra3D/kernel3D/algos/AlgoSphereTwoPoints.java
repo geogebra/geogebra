@@ -28,22 +28,40 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
  *
- * @author Matthieu
+ * @author Mathieu
  */
 public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param M
+	 *            center
+	 * @param P
+	 *            point on sphere
+	 */
 	public AlgoSphereTwoPoints(Construction cons, GeoPointND M, GeoPointND P) {
 		super(cons, M, P);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label ffor sphere
+	 * @param M
+	 *            center
+	 * @param P
+	 *            point on sphere
+	 */
 	public AlgoSphereTwoPoints(Construction cons, String label, GeoPointND M,
 			GeoPointND P) {
 		super(cons, label, M, P);
 	}
 
 	@Override
-	protected GeoQuadricND createSphereND(Construction cons) {
-		GeoQuadric3D sphere = new GeoQuadric3D(cons);
+	protected GeoQuadricND createSphereND(Construction cons1) {
+		GeoQuadric3D sphere = new GeoQuadric3D(cons1);
 		// circle.addPointOnConic((GeoPoint) getP()); //TODO do this in
 		// AlgoSphereNDTwoPoints
 		return sphere;
@@ -54,6 +72,9 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 		return Commands.Sphere;
 	}
 
+	/**
+	 * @return resulting sphere
+	 */
 	public GeoQuadric3D getSphere() {
 		return (GeoQuadric3D) getSphereND();
 	}
@@ -67,5 +88,5 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

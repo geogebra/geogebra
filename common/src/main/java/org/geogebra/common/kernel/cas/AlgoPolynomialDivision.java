@@ -142,6 +142,6 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

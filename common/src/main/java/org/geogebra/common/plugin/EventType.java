@@ -46,7 +46,7 @@ public enum EventType {
 	// called when the user uses the Relation Tool
 	// (send the text from the dialog)
 	RELATION_TOOL("relationTool"), SELECT("select"), DESELECT("deselect"), UNDO(
-			"undo"), REDO("redo");
+			"undo"), REDO("redo"), EXPORT("export"), OPEN_DIALOG("openDialog");
 
 	private String eventName;
 

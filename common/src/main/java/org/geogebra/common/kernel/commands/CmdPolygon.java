@@ -120,7 +120,7 @@ public class CmdPolygon extends CommandProcessor {
 	 */
 	protected GeoElement[] polygon(String[] labels, GeoPointND[] points,
 			boolean is3D) {
-		return kernelA.Polygon(labels, points);
+		return kernelA.polygon(labels, points);
 	}
 
 	/**

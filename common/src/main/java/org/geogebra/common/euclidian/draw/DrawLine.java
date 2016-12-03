@@ -272,7 +272,7 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 
 		if (line == null)
-			line = AwtFactory.prototype.newLine2D();
+			line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(x1, y1, x2, y2);
 	}
 
@@ -472,7 +472,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -733,10 +733,10 @@ public class DrawLine extends Drawable implements Previewable {
 
 		}
 		gpc.closePath();
-		GArea gpcArea = AwtFactory.prototype.newArea(gpc);
+		GArea gpcArea = AwtFactory.getPrototype().newArea(gpc);
 		if (!invert)
 			return gpcArea;
-		GArea complement = AwtFactory.prototype
+		GArea complement = AwtFactory.getPrototype()
 				.newArea(view.getBoundingPath());
 		complement.subtract(gpcArea);
 		return complement;
@@ -750,7 +750,7 @@ public class DrawLine extends Drawable implements Previewable {
 		if (line == null || !geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return AwtFactory.prototype.newRectangle(line.getBounds());
+		return AwtFactory.getPrototype().newRectangle(line.getBounds());
 	}
 
 }

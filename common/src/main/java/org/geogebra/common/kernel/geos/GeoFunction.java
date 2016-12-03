@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -64,6 +65,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Explicit function in one variable ("x"). This is actually a wrapper class for
@@ -953,11 +956,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/**
 	 * we don't care about values of these
 	 */
-	public static String[] dummy1 = {"", ""};
+	final private static String[] dummy1 = { "", "" };
 	/**
 	 * we don't care about values of these
 	 */
-	public static char[] dummy2 = {' ', ' '};
+	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
 	
@@ -1025,6 +1028,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/*
 	 * Path interface
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	private void pointChanged(Coords P, boolean closestPoly) {
 
 		if (P.getZ() == 1.0) {
@@ -1526,7 +1531,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return new Function(sum, var.next());
 	}
 
-	private static ExpressionNode toExpr(FunctionalNVar lt,
+	private static ExpressionNode toExpr(Evaluate2Var lt,
 			HashMap<String, FunctionVariable> varMap, Kernel kernel) {
 		if (lt instanceof GeoFunction)
 			return new ExpressionNode(kernel, lt,
@@ -1540,6 +1545,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 			return new ExpressionNode(kernel, lt,
 					Operation.FUNCTION_NVAR, varList);
+		}
+		if (lt instanceof GeoNumeric) {
+			return lt.wrap();
 		}
 		if (lt instanceof FunctionNVar) {
 			ExpressionNode ret = ((FunctionNVar) lt).getExpression();
@@ -1563,7 +1571,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @return resulting function
 	 */
 	public static FunctionNVar applyNumberSymb(Operation op,
-			FunctionalNVar fun1, ExpressionValue ev, boolean right) {
+			Evaluate2Var fun1, ExpressionValue ev, boolean right) {
 		ExpressionValue nv = ev;
 		Kernel kernel = fun1.getFunction().getKernel();
 		TreeSet<String> varNames = new TreeSet<String>();

@@ -203,6 +203,6 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 						((GeoElement) pi).getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

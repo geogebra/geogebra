@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * 
  * TODO FunctionalNVar ?
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public interface Functional2Var {

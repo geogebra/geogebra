@@ -259,6 +259,6 @@ public class AlgoTTest2 extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

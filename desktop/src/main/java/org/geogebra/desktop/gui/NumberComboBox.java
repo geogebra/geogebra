@@ -40,7 +40,7 @@ public class NumberComboBox extends JComboBox {
 		setEditable(true);
 		setSelectedItem(null);
 
-		nf = FormatFactory.prototype.getNumberFormat(MAX_FRAC_DIGITS);
+		nf = FormatFactory.getPrototype().getNumberFormat(MAX_FRAC_DIGITS);
 		// nf.setGroupingUsed(false);
 		// nf.setMaximumFractionDigits(MAX_FRAC_DIGITS);
 

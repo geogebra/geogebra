@@ -415,12 +415,17 @@ namespace giac {
       return fraction(g,tmpmult); // g*tmpmult;
     }
     if (n.type==_POLY) {
-      polynome np(*n._POLYptr);
       gen l;
-      vector< monomial<gen> > :: const_iterator it=np.coord.begin(),itend=np.coord.end();
-      for (;it!=itend;++it)
+      vector< monomial<gen> > :: const_iterator it=n._POLYptr->coord.begin(),itend=n._POLYptr->coord.end();
+      for (;it!=itend;++it){
 	l=gcd(l,it->value,context0);
+	if (is_one(l))
+	  return l;
+      }
       gen g=simplify3(l,d);
+      if (is_one(g))
+	return g;
+      polynome np(*n._POLYptr);
       np=np/g;
       n=np; 
       if (g.type>_DOUBLE_){
@@ -2279,6 +2284,15 @@ namespace giac {
 	return symb_rootof(r2sym(*(pp._EXTptr),lt,ltend,contextptr),r2sym(f,lt,ltend,contextptr),contextptr);
       return symb_horner(*(r2sym(*(pp._EXTptr),lt,ltend,contextptr)._VECTptr),fvalue);
     }
+    if (p.type==_SPOL1){
+      sparse_poly1 s=*p._SPOL1ptr;
+      sparse_poly1::iterator it=s.begin(),itend=s.end();
+      vecteur l(lt,ltend);
+      for (;it!=itend;++it){
+	it->coeff=r2sym(it->coeff,l,contextptr);
+      }
+      return s;
+    }
     if ((p.type!=_POLY) || (lt==ltend))
       return p;
     if (p._POLYptr->coord.empty())
@@ -2371,6 +2385,8 @@ namespace giac {
     }
     if (p.type==_POLY)
       return r2sym(*p._POLYptr,l,contextptr);
+    if (p.type==_SPOL1)
+      return r2sym(p,l.begin(),l.end(),contextptr);
     return p;
   }
 
@@ -3567,11 +3583,13 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_collect(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_collect,contextptr);
-    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2){
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()>=2&& args._VECTptr->front().type!=_VECT){
       vecteur v(args._VECTptr->begin()+1,args._VECTptr->end());
       res=_symb2poly(args,contextptr);
-      res=_poly2symb(gen(mergevecteur(vecteur(1,res),v),_SEQ__VECT),contextptr);
-      return res;
+      if (res.type!=_FRAC){
+	res=_poly2symb(gen(mergevecteur(vecteur(1,res),v),_SEQ__VECT),contextptr);
+	return res;
+      }
     }
     res=factorcollect(args,false,contextptr);
     return res;

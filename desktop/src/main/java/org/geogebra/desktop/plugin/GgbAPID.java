@@ -143,13 +143,14 @@ public class GgbAPID extends GgbAPIJre {
 			String lowerCase = StringUtil.toLowerCase(strURL);
 			URL url = new URL(strURL);
 			((AppD) app).loadXML(url,
-					lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.ext));
+					lowerCase
+							.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private static MessageDigest messageDigestMD5 = null;
+	private static volatile MessageDigest messageDigestMD5 = null;
 
 	/**
 	 * @return reference to MD5 algorithm

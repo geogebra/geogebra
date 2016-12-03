@@ -222,6 +222,6 @@ public class AlgoIsOnPath extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

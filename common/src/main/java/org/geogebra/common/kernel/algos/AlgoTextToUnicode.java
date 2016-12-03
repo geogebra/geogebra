@@ -80,5 +80,5 @@ public class AlgoTextToUnicode extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -378,7 +378,7 @@ public class AxisModel {
 		} else {
 			EuclidianSettings settings = view.getSettings();
 			if (settings != null) {
-				settings.isSelectionAllowed(axis);
+				allowed = settings.isSelectionAllowed(axis);
 			}
 
 		}

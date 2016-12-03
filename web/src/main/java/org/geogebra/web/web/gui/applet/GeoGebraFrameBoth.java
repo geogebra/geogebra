@@ -6,8 +6,10 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -16,7 +18,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
@@ -49,6 +51,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private DockGlassPaneW glass;
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
+	private boolean keyboardVisibilityChanging;
 
 	/**
 	 * @param factory
@@ -167,7 +170,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		bg.onResize();
 		bg.setVisible(true);
 
-		((MyHeaderPanel) bg).setFrame(this);
+		if (bg instanceof MyHeaderPanel) {
+			((MyHeaderPanel) bg).setFrame(this);
+		}
 		// frameLayout.forceLayout();
 
 	}
@@ -190,21 +195,33 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
+
+		if (app.has(Feature.FIX_KEYBOARD_POSITION) && (keyboardVisibilityChanging)) {
+			return;
+		}
 		if (this.keyboardShowing == show) {
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
 
+		GuiManagerInterfaceW gm = app.getGuiManager();
+		if (gm != null) {
+			gm.onScreenEditingEnded();
+		}
+
 		// this.mainPanel.clear();
 
 		if (show) {
+			keyboardVisibilityChanging = true;
 			app.hideMenu();
 			app.persistWidthAndHeight();
 			addKeyboard(textField);
 		} else {
+			keyboardVisibilityChanging = true;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
 			removeKeyboard(textField);
+			keyboardVisibilityChanging = false;
 		}
 
 		// this.mainPanel.add(this.dockPanel);
@@ -221,7 +238,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboard keyBoard = app.getGuiManager()
+		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = false;
 		app.addToHeight(keyboardHeight);
@@ -239,12 +256,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            keyboard listener
 	 */
 	void addKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboard keyBoard = app.getGuiManager()
+		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
 
 		keyBoard.show();
 		keyBoard.setVisible(false);
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
+		}
 		CancelEventTimer.keyboardSetVisible();
 		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.add(keyBoard);
@@ -279,7 +299,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param keyBoard
 	 *            keyboard
 	 */
-	protected void onKeyboardAdded(final VirtualKeyboard keyBoard) {
+	protected void onKeyboardAdded(final VirtualKeyboardW keyBoard) {
 		keyboardHeight = keyBoard.getOffsetHeight();
 		app.addToHeight(-keyboardHeight);
 		app.updateCenterPanel(true);
@@ -290,6 +310,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
 		}
+		keyboardVisibilityChanging = false;
 
 	}
 
@@ -317,6 +338,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
+		if (app.has(Feature.FIX_KEYBOARD_POSITION) && this.keyboardVisibilityChanging) {
+			return;
+		}
 		if (app.getLAF().isTablet()
 				|| keyboardShowing // if keyboard is already
 									// showing, we don't have
@@ -345,9 +369,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
 
-
 		}
-		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+
+		if (showKeyboardButton != null) {
+			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
+		}
 	}
 
 	private boolean appNeedsKeyboard() {
@@ -378,7 +404,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
-			final VirtualKeyboard keyBoard = app.getGuiManager()
+			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
 				add(keyBoard);
@@ -443,7 +469,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	public void showKeyboardOnFocus() {
-		this.app.getGuiManager().getOnScreenKeyboard(null, this).showOnFocus();
+		if (app != null) {
+			this.app.getGuiManager().getOnScreenKeyboard(null, this)
+					.showOnFocus();
+		}
 	}
 
 	public void updateKeyboardHeight() {

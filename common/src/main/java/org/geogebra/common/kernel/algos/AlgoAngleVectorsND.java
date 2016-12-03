@@ -144,6 +144,6 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

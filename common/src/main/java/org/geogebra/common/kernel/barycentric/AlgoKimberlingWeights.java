@@ -18,18 +18,19 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	private double c2, c3, c4, c5, c6, c7, c8, c9, c10;
 	private double Q, R, S, T, U, V, angleA, angleB, angleC;
 
+	/**
+	 * This class is instantiated for only technical reasons i.e. to be able to
+	 * run this part of code async in web
+	 */
 	public AlgoKimberlingWeights() {
-		/**
-		 * This class is instantiated for only technical reasons i.e. to be able
-		 * to run this part of code async in web
-		 */
+
 	}
 
-	private double p(double a, double b) {
+	private static double p(double a, double b) {
 		return Math.pow(a, b);
 	}
 
-	private double u(double a) {
+	private static double u(double a) {
 		return Math.sqrt(a);
 	}
 
@@ -38,6 +39,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 	 * the precision of primitive types may suffer at conversion
 	 * 
 	 * @param kw
+	 *            weight parameters
 	 * @return the same as weight(int,double,double,double)
 	 */
 	public double weight(AlgoKimberlingWeightsParams kw) {
@@ -182,7 +184,9 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 		if (k < 2950) {
 			return weight2900to2949(k, a, b, c);
 		}
-
+		if (k < 3000) {
+			return weight2950to2999(k, a, b, c);
+		}
 		return weight3000plus(k, a, b, c);
 	}
 

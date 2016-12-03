@@ -82,5 +82,5 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

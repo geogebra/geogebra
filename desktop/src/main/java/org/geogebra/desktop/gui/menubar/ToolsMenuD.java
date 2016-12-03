@@ -4,8 +4,8 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
-import org.geogebra.desktop.gui.dialog.ToolManagerDialog;
+import org.geogebra.desktop.gui.dialog.ToolCreationDialogD;
+import org.geogebra.desktop.gui.dialog.ToolManagerDialogD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -72,7 +72,7 @@ class ToolsMenuD extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				ToolCreationDialog tcd = new ToolCreationDialog(app);
+				ToolCreationDialogD tcd = new ToolCreationDialogD(app);
 				tcd.setVisible(true);
 			}
 		};
@@ -82,7 +82,7 @@ class ToolsMenuD extends BaseMenu {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				ToolManagerDialog tmd = new ToolManagerDialog(app);
+				ToolManagerDialogD tmd = new ToolManagerDialogD(app);
 				tmd.setVisible(true);
 			}
 		};

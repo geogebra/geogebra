@@ -459,6 +459,6 @@ public abstract class AlgoDistribution extends AlgoElement {
 		return zipf;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -43,7 +43,7 @@ import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 public class AutoCompleteTextFieldD extends MathTextField
@@ -51,8 +51,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private static final long serialVersionUID = 1L;
 
-	private AppD app;
-	private Localization loc;
+	private transient AppD app;
+	private transient Localization loc;
 	private StringBuilder curWord;
 	private int curWordStart;
 
@@ -180,7 +180,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				}
 			}
 		};
-		setBorderButton(1, GeoGebraIcon.createUpDownTriangleIcon(false, true),
+		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
 				al);
 		this.setBorderButtonVisible(1, false);
 	}
@@ -994,7 +994,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 
 	public void addFocusListener(FocusListener focusListener) {
-		super.addFocusListener((FocusListenerD) focusListener);
+		if (focusListener instanceof FocusListenerD) {
+			super.addFocusListener((FocusListenerD) focusListener);
+		}
 	}
 
 	public void wrapSetText(final String s) {

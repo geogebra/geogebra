@@ -71,7 +71,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 			// creates indices buffer
 			if (curvesIndices == null) {
-				curvesIndices = GLFactory.prototype.newBufferIndices();
+				curvesIndices = GLFactory.getPrototype().newBufferIndices();
 			}
 			curvesIndices.allocate(3 * 2 * size * PlotterBrush.LATITUDES);
 
@@ -117,7 +117,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 			// creates indices buffer
 			if (fanDirectIndices == null) {
-				fanDirectIndices = GLFactory.prototype.newBufferIndices();
+				fanDirectIndices = GLFactory.getPrototype().newBufferIndices();
 			}
 			fanDirectIndices.allocate(3 * (size - 2));
 
@@ -156,7 +156,8 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 			// creates indices buffer
 			if (fanIndirectIndices == null) {
-				fanIndirectIndices = GLFactory.prototype.newBufferIndices();
+				fanIndirectIndices = GLFactory.getPrototype()
+						.newBufferIndices();
 			}
 			fanIndirectIndices.allocate(3 * (size - 2));
 
@@ -248,7 +249,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 					arrayI = null;
 				}
 				if (arrayI == null) {
-					arrayI = GLFactory.prototype.newBufferIndices();
+					arrayI = GLFactory.getPrototype().newBufferIndices();
 				}
 
 				indicesLength = getLength();
@@ -345,7 +346,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 		 */
 		public GLBufferIndices getBufferI(int size) {
 			if (arrayI == null || hasSharedIndexBuffer) {
-				arrayI = GLFactory.prototype.newBufferIndices();
+				arrayI = GLFactory.getPrototype().newBufferIndices();
 			}
 			arrayI.allocate(size);
 			return arrayI;

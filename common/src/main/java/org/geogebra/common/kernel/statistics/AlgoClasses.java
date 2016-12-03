@@ -172,6 +172,6 @@ public class AlgoClasses extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

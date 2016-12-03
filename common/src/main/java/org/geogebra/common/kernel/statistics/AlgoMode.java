@@ -132,6 +132,6 @@ public class AlgoMode extends AlgoElement {
 	}
 
 
-	// TODO Consider locusequability
+	
 
 }

@@ -153,5 +153,5 @@ public class AlgoCubic extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

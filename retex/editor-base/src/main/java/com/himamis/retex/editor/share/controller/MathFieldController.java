@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
@@ -62,8 +63,8 @@ public class MathFieldController {
 				currentField, currentOffset, selectionStart, selectionEnd);
 
 		try {
-        TeXFormula texFormula = new TeXFormula(serializedFormula);
-        TeXIcon renderer = texFormula.new TeXIconBuilder()
+			TeXFormula texFormula = new TeXFormula(serializedFormula);
+			TeXIcon renderer = texFormula.new TeXIconBuilder()
 					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 					.setType(type).build();
 
@@ -104,6 +105,33 @@ public class MathFieldController {
 		mathField.setTeXIcon(renderer);
 		renderer.paintIcon(null, FactoryProvider.INSTANCE.getGraphicsFactory()
 				.createImage(100, 100, 1).createGraphics2D(), 0, 0);
+	}
+
+	public void setSelectedPath(MathFormula mathFormula,
+			ArrayList<Integer> path, EditorState state) {
+		setSelectedPath(mathFormula.getRootComponent(), path, state, 0);
+	}
+
+	private void setSelectedPath(MathContainer rootComponent,
+			ArrayList<Integer> path, EditorState state, int depth) {
+		if (path.size() <= depth) {
+			return;
+		}
+		int idx = path.get(depth) <= 0
+				? path.get(depth) + rootComponent.size()
+				: path.get(depth);
+		if (rootComponent
+				.getArgument(idx) instanceof MathContainer
+				&& path.size() > depth) {
+			setSelectedPath(
+					(MathContainer) rootComponent.getArgument(idx),
+					path,
+					state, depth + 1);
+		} else if (rootComponent instanceof MathSequence) {
+			state.setCurrentOffset(idx);
+			state.setCurrentField((MathSequence) rootComponent);
+		}
+
 	}
 
 }

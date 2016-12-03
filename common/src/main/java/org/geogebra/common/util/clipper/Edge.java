@@ -1,6 +1,8 @@
 package org.geogebra.common.util.clipper;
 
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Clipper.ClipType;
 import org.geogebra.common.util.clipper.Clipper.Direction;
 import org.geogebra.common.util.clipper.Clipper.PolyFillType;
@@ -27,7 +29,8 @@ class Edge {
     }
 
     static boolean slopesEqual( Edge e1, Edge e2 ) {
-        return e1.getDelta().getY() * e2.getDelta().getX() == e1.getDelta().getX() * e2.getDelta().getY();
+		return Kernel.isEqual(e1.getDelta().getY() * e2.getDelta().getX(),
+				e1.getDelta().getX() * e2.getDelta().getY());
 
     }
 
@@ -107,14 +110,15 @@ class Edge {
             while (!e.bot.equals( e.prev.bot ) || e.current.equals( e.top )) {
                 e = e.next;
             }
-            if (e.deltaX != Edge.HORIZONTAL && e.prev.deltaX != Edge.HORIZONTAL) {
+			if (!isEdgeHorizontal(e.deltaX)
+					&& !isEdgeHorizontal(e.prev.deltaX)) {
                 break;
             }
-            while (e.prev.deltaX == Edge.HORIZONTAL) {
+			while (isEdgeHorizontal(e.prev.deltaX)) {
                 e = e.prev;
             }
             e2 = e;
-            while (e.deltaX == Edge.HORIZONTAL) {
+			while (isEdgeHorizontal(e.deltaX)) {
                 e = e.next;
             }
             if (e.top.getY() == e.prev.bot.getY()) {
@@ -357,6 +361,10 @@ class Edge {
         else {
             deltaX = delta.getX() / delta.getY();
         }
+    }
+
+	private boolean isEdgeHorizontal(double d) {
+		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
     }
 
 };

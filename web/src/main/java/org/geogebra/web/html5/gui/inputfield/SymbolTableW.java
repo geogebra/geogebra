@@ -60,8 +60,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	private void buildSymbolTable(App app, GColor[] colors) {
 
 		for (int i = 0; i < symbolStrings.length; i++) {
-			int col = (int) Math.floor(i % rowLength);
-			int row = (int) Math.floor(i / rowLength);
+			int col = i % rowLength;
+			int row = i / rowLength;
 
 			if (isLatex) {
 				this.setWidget(row, col, getLatexHTML(symbolStrings[i], app));

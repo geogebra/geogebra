@@ -110,6 +110,6 @@ public class AlgoFoldFunctions extends AlgoElement {
 		foldComputer.finish();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

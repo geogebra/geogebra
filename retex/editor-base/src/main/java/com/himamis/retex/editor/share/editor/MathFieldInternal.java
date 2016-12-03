@@ -42,6 +42,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -178,6 +179,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				}
 			}
 		}
+		if (keyEvent.getKeyCode() == KeyEvent.VK_CONTROL) {
+			return false;
+		}
 		boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();
@@ -251,9 +255,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             mathFieldController.update(mathFormula, editorState, false);
         }
 
-        mathField.showKeyboard();
-        mathField.requestViewFocus();
-
     }
 
 	private double length(double d, double e) {
@@ -297,8 +298,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
             mathFieldController.update(mathFormula, editorState, false);
 
-            mathField.requestViewFocus();
-        }
+			mathField.showKeyboard();
+			mathField.requestViewFocus();
+		}
 
 		mouseDownPos = null;
 
@@ -310,15 +312,18 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             editorState.selectAll();
         }
         mathFieldController.update(mathFormula, editorState, false);
-        mathField.showCopyPasteButtons();
-    }
+		mathField.showCopyPasteButtons();
+		mathField.showKeyboard();
+		mathField.requestViewFocus();
+	}
 
     public void onScroll(int dx, int dy) {
         if (!selectionMode) {
             mathField.scroll(dx, dy);
             scrollOccured = true;
         }
-    }
+		mathField.requestViewFocus();
+	}
 
     private boolean scrollOccured = false;
 
@@ -351,12 +356,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
-			for (int i = 0; i < list2.size() / 2; i++) {
-				int tmp = list2.get(i);
-
-				list2.set(i, list2.get(list2.size() - 1 - i));
-				list2.set(list2.size() - 1 - i, tmp);
-			}
+			reverse(list2);
 			double currentDist = Math.abs(x - CursorBox.startX)
 					+ Math.abs(y - CursorBox.startY);
 			if (currentDist < dist) {
@@ -372,6 +372,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
 					editorState.getCurrentOffset());
+		}
+
+	}
+
+	private static void reverse(ArrayList<Integer> list2) {
+		for (int i = 0; i < list2.size() / 2; i++) {
+			int tmp = list2.get(i);
+
+			list2.set(i, list2.get(list2.size() - 1 - i));
+			list2.set(list2.size() - 1 - i, tmp);
 		}
 
 	}
@@ -491,6 +501,43 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				}
 			}
 		}
+
+	}
+
+	public void debug(String string) {
+		mathField.debug(string);
+
+	}
+
+	public String copy() {
+		if(listener!=null){
+			return (listener.serialize(
+					getInputController().getSelectionText(getEditorState())));
+		}
+		return "";
+
+	}
+
+	public void onInsertString() {
+		ArrayList<Integer> path = new ArrayList<Integer>();
+		path.add(getEditorState().getCurrentOffset()
+				- getEditorState().getCurrentField().size());
+		MathContainer field = getEditorState().getCurrentField();
+		while (field != null) {
+			if (field.getParent() != null) {
+				path.add(field.getParentIndex() - field.getParent().size());
+			}
+			field = field.getParent();
+		}
+		reverse(path);
+		for (int i : path) {
+			debug("" + i);
+		}
+		if (listener != null) {
+			listener.onInsertString();
+		}
+		getMathFieldController().setSelectedPath(getFormula(), path,
+				getEditorState());
 
 	}
 

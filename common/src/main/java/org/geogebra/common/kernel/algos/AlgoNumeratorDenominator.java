@@ -70,7 +70,7 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		double[] frac = AlgoFractionText.DecimalToFraction(f.getDouble(),
+		double[] frac = AlgoFractionText.decimalToFraction(f.getDouble(),
 				Kernel.STANDARD_PRECISION);
 		if (frac.length < 2) {
 			g.setUndefined();
@@ -80,6 +80,6 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

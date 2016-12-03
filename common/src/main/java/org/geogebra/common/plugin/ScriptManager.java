@@ -86,6 +86,8 @@ public abstract class ScriptManager implements EventListener {
 		case UNDO:
 		case REDO:
 		case OPEN_MENU:
+		case OPEN_DIALOG:
+		case EXPORT:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR

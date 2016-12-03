@@ -416,6 +416,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
+			break;
 
 		case Kernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign

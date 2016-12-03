@@ -1803,8 +1803,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoLine();
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoLine());
 	}
 
 	@Override

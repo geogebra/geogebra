@@ -18,7 +18,7 @@ public class PrintColor extends Color {
 
     public static final int BLACK_AND_WHITE = 2;
 
-    protected static Color[] defaultColors = { Color.RED, Color.GREEN,
+	final private static Color[] defaultColors = { Color.RED, Color.GREEN,
             Color.BLUE, Color.CYAN, Color.MAGENTA, Color.YELLOW, Color.ORANGE,
             Color.PINK, Color.WHITE, Color.LIGHT_GRAY, Color.GRAY,
             Color.DARK_GRAY, Color.BLACK };

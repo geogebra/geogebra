@@ -440,6 +440,6 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -54,7 +54,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -70,7 +70,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public static final Color SELECTED_BACKGROUND_COLOR = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+			.getAwtColor(GeoGebraColorConstants
+					.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
 	public static final Color BACKGROUND_COLOR_HEADER = GColorD
 			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 	public static final Color TABLE_GRID_COLOR = GColorD
@@ -81,7 +82,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	protected Kernel kernel;
 	protected AppD app;
-	protected MyCellEditor editor;
+	protected MyCellEditorSpreadsheet editor;
 	private MyCellEditorBoolean editorBoolean;
 	private MyCellEditorButton editorButton;
 	private MyCellEditorList editorList;
@@ -237,7 +238,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// add cell renderer & editors
 		setDefaultRenderer(Object.class, new MyCellRenderer(this));
-		editor = new MyCellEditor(kernel, getEditorController());
+		editor = new MyCellEditorSpreadsheet(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -247,7 +248,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setCellSelectionEnabled(true);
 
 		// add mouse and key listeners
-		SpreadsheetMouseListener ml = new SpreadsheetMouseListener(app, this);
+		SpreadsheetMouseListenerD ml = new SpreadsheetMouseListenerD(app, this);
 
 		MouseListener[] mouseListeners = getMouseListeners();
 		addMouseListener(ml);
@@ -268,7 +269,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		for (int i = 0; i < defaultKeyListeners.length; ++i) {
 			removeKeyListener(defaultKeyListeners[i]);
 		}
-		addKeyListener(new SpreadsheetKeyListener(app, this));
+		addKeyListener(new SpreadsheetKeyListenerD(app, this));
 
 		// setup selection listener
 		// TODO
@@ -1435,7 +1436,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	public void focusLost(FocusEvent e) {
 		// avoid infinite loop!
-		if (e.getOppositeComponent() instanceof VirtualKeyboard)
+		if (e.getOppositeComponent() instanceof VirtualKeyboardD)
 			return;
 		if (AppD.isVirtualKeyboardActive())
 			((GuiManagerD) app.getGuiManager()).toggleKeyboard(false);

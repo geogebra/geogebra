@@ -2,8 +2,6 @@ package org.geogebra.common.geogebra3D.io;
 
 import java.util.LinkedHashMap;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.main.settings.EuclidianSettingsForPlane;
@@ -33,7 +31,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * See Kernel3D for using the constructor
 	 * 
 	 * @param kernel
+	 *            kernel
 	 * @param cons
+	 *            construction
 	 */
 	public MyXMLHandler3D(Kernel kernel, Construction cons) {
 		super(kernel, cons);
@@ -46,7 +46,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * only used in MyXMLHandler3D
 	 * 
 	 * @param eName
+	 *            element name
 	 * @param attrs
+	 *            attributes
 	 */
 	@Override
 	protected void startEuclidianView3DElement(String eName,
@@ -120,11 +122,8 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 
 		case 'p':
-			if (eName.equals("plate")) {
+			if (eName.equals("plate") || eName.equals("plane")) {
 				ok = handlePlate((EuclidianSettings3D) evSet, attrs);
-				break;
-			} else if (eName.equals("plane")) {
-				ok = handlePlane((EuclidianSettings3D) evSet, attrs);
 				break;
 			} else if (eName.equals("projection")) {
 				ok = handleProjection((EuclidianSettings3D) evSet, attrs);
@@ -241,24 +240,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 
 	/**
-	 * handles plane attributes for EuclidianView3D
-	 * 
-	 * @param evs
-	 * @param attrs
-	 * @return true if all is done ok
-	 * @deprecated
-	 */
-	protected boolean handlePlane(EuclidianSettings3D evs,
-			LinkedHashMap<String, String> attrs) {
-
-		return handlePlate(evs, attrs);
-	}
-
-	/**
 	 * handles plane attributes (show plate) for EuclidianView3D
 	 * 
-	 * @param ev
+	 * @param evs
+	 *            settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handlePlate(EuclidianSettings3D evs,
@@ -281,8 +268,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	/**
 	 * handles plane attributes (show plate) for EuclidianView3D
 	 * 
-	 * @param ev
+	 * @param evs
+	 *            settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handleYAxisIsUp(EuclidianSettings3D evs,
@@ -306,8 +295,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	/**
 	 * handles light attributes for EuclidianView3D
 	 * 
-	 * @param ev
+	 * @param evs
+	 *            settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handleLight(EuclidianSettings3D evs,
@@ -333,6 +324,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	 * @param evs
 	 *            euclidian settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handleGrid(EuclidianSettings evs,
@@ -354,7 +346,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 
 	/**
 	 * @param evs
+	 *            settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handleClipping(EuclidianSettings3D evs,
@@ -385,8 +379,10 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	/**
 	 * handles projection attribute
 	 * 
-	 * @param ev
+	 * @param evs
+	 *            settings
 	 * @param attrs
+	 *            attributes
 	 * @return true if all is done ok
 	 */
 	protected boolean handleProjection(EuclidianSettings3D evs,
@@ -445,18 +441,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			p.setCoords(x, y, z);
 		}
 		return p;
-	}
-
-	private static GColor handleColorAttrs(LinkedHashMap<String, String> attrs) {
-		try {
-			int red = Integer.parseInt(attrs.get("r"));
-			int green = Integer.parseInt(attrs.get("g"));
-			int blue = Integer.parseInt(attrs.get("b"));
-			return AwtFactory.prototype.newColor(red,
-					green, blue);
-		} catch (Exception e) {
-			return null;
-		}
 	}
 
 	@Override
@@ -527,6 +511,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
+	@Override
 	protected boolean handleEigenvectors(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoQuadric())) {
 			return super.handleEigenvectors(attrs);

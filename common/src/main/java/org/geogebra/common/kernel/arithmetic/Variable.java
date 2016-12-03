@@ -180,10 +180,10 @@ public class Variable extends ValidExpression {
 		}
 		int[] exponents = new int[] { 0, 0, 0, 0, 0 };
 		int i;
-		ExpressionValue geo2 = null;
+		GeoElement geo2 = null;
 		String nameNoX = name;
 		int degPower = 0;
-		while (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)
+		while (nameNoX.length() > 0 && (geo2 == null)
 				&& nameNoX.endsWith("deg")) {
 			int length = nameNoX.length();
 			degPower++;
@@ -217,7 +217,7 @@ public class Variable extends ValidExpression {
 				break;
 		}
 		while (nameNoX.length() > 0
-				&& !(geo2 instanceof GeoElement)
+				&& geo2 == null
 				&& (nameNoX.startsWith("pi") || nameNoX.charAt(0) == Unicode.pi)) {
 			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
 			exponents[4]++;
@@ -229,7 +229,7 @@ public class Variable extends ValidExpression {
 				break;
 			}
 		}
-		if (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)) {
+		if (nameNoX.length() > 0 && geo2 == null) {
 			return new Variable(kernel, nameNoX);
 		}
 		ExpressionNode powers = xyzPowers(kernel, exponents);

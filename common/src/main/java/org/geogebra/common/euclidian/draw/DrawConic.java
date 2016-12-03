@@ -111,7 +111,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private double mx, my, radius, yradius, angSt, angEnd;
 
 	/** transform for ellipse, hyperbola, parabola */
-	protected GAffineTransform transform = AwtFactory.prototype
+	protected GAffineTransform transform = AwtFactory.getPrototype()
 			.newAffineTransform();
 	/** shape to be filled (eg. ellipse, space between paralel lines) */
 	protected GShape shape;
@@ -166,15 +166,15 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public GArea getShape() {
 		GArea area = super.getShape() != null ? super
-				.getShape() : (shape == null ? AwtFactory.prototype.newArea()
-				: AwtFactory.prototype.newArea(shape));
+				.getShape() : (shape == null ? AwtFactory.getPrototype().newArea()
+				: AwtFactory.getPrototype().newArea(shape));
 		// Log.debug(conic.isInverseFill() + "," + shape +
 		// ","+super.getShape());
 		if (conic.isInverseFill()) {
-			GArea complement = AwtFactory.prototype.newArea(view
+			GArea complement = AwtFactory.getPrototype().newArea(view
 					.getBoundingPath());
 			if (arcFiller != null) {
-				complement = AwtFactory.prototype.newArea(arcFiller);
+				complement = AwtFactory.getPrototype().newArea(arcFiller);
 			}
 			complement.subtract(area);
 			return complement;
@@ -371,7 +371,7 @@ public class DrawConic extends Drawable implements Previewable {
 			return;
 
 		// shape on screen?
-		GRectangle viewRect = AwtFactory.prototype.newRectangle(0, 0,
+		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
 				view.getWidth(), view.getHeight());
 		switch (type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
@@ -441,9 +441,9 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	protected boolean checkHyperbolaOnScreen(GRectangle viewRect) {
 		// hyperbola wings on screen?
-		hypLeftOnScreen = hypLeft.intersects(AwtFactory.prototype
+		hypLeftOnScreen = hypLeft.intersects(AwtFactory.getPrototype()
 				.newRectangle(viewRect));
-		hypRightOnScreen = hypRight.intersects(AwtFactory.prototype
+		hypRightOnScreen = hypRight.intersects(AwtFactory.getPrototype()
 				.newRectangle(viewRect));
 		if (!hypLeftOnScreen && !hypRightOnScreen) {
 			return false;
@@ -549,7 +549,7 @@ public class DrawConic extends Drawable implements Previewable {
 			// FIXME: buggy when conic(RW(0),RW(0))=0
 
 			if (negativeColored()) {
-				GArea complement = AwtFactory.prototype
+				GArea complement = AwtFactory.getPrototype()
 						.newArea(view.getBoundingPath());
 				complement.subtract((GArea) shape);
 				shape = complement;
@@ -597,9 +597,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 		if (firstCircle) {
 			firstCircle = false;
-			arc = AwtFactory.prototype.newArc2D();
+			arc = AwtFactory.getPrototype().newArc2D();
 			if (ellipse == null)
-				ellipse = AwtFactory.prototype.newEllipse2DDouble();
+				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
 		}
 
 		int i = -1; // bugfix
@@ -725,7 +725,7 @@ public class DrawConic extends Drawable implements Previewable {
 					updateEllipse();
 					return;
 				}
-				shape = circle = AwtFactory.prototype.newRectangle(-1, -1,
+				shape = circle = AwtFactory.getPrototype().newRectangle(-1, -1,
 						view.getWidth() + 2, view.getHeight() + 2);
 
 				arcFiller = null;
@@ -942,7 +942,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (firstEllipse) {
 			firstEllipse = false;
 			if (ellipse == null)
-				ellipse = AwtFactory.prototype.newEllipse2DDouble();
+				ellipse = AwtFactory.getPrototype().newEllipse2DDouble();
 		}
 
 		// set transform
@@ -963,7 +963,7 @@ public class DrawConic extends Drawable implements Previewable {
 			// Rectangle(-1,
 			// -1, view.getWidth() + 2, view.getHeight() + 2));
 			shape = ClipShape.clipToRect(ellipse, transform,
-					AwtFactory.prototype.newRectangle(-1, -1,
+					AwtFactory.getPrototype().newRectangle(-1, -1,
 							view.getWidth() + 2, view.getHeight() + 2));
 
 		}
@@ -1178,10 +1178,10 @@ public class DrawConic extends Drawable implements Previewable {
 	 * set shape for hyperbola
 	 */
 	protected void updateHyperbolaSetShape() {
-		setShape(AwtFactory.prototype.newArea(hypLeft));
+		setShape(AwtFactory.getPrototype().newArea(hypLeft));
 		// geogebra.awt.Area.getAWTArea(super.getShape()).add(new
 		// Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
-		super.getShape().add(AwtFactory.prototype.newArea(hypRight));
+		super.getShape().add(AwtFactory.getPrototype().newArea(hypRight));
 	}
 
 	/**
@@ -1231,7 +1231,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		if (firstParabola) {
 			firstParabola = false;
-			parabola = AwtFactory.prototype.newGeneralPath();
+			parabola = AwtFactory.getPrototype().newGeneralPath();
 		}
 		GAffineTransform conicTransform = view.getCompanion().getTransform(
 				conic, M, ev);
@@ -1476,9 +1476,9 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private void fillHyperbola(GGraphics2D g2) {
 		if (conic.isInverseFill()) {
-			GArea a1 = AwtFactory.prototype.newArea(hypLeft);
-			GArea a2 = AwtFactory.prototype.newArea(hypRight);
-			GArea complement = AwtFactory.prototype
+			GArea a1 = AwtFactory.getPrototype().newArea(hypLeft);
+			GArea a2 = AwtFactory.getPrototype().newArea(hypRight);
+			GArea complement = AwtFactory.getPrototype()
 					.newArea(view.getBoundingPath());
 			complement.subtract(a1);
 			complement.subtract(a2);
@@ -1523,7 +1523,7 @@ public class DrawConic extends Drawable implements Previewable {
 			int ymin = view.toScreenCoordY(midpoint.getY() - focX);
 			int ymax = view.toScreenCoordY(midpoint.getY() + focX);
 
-			return AwtFactory.prototype.newRectangle(xmin, ymax, xmax - xmin,
+			return AwtFactory.getPrototype().newRectangle(xmin, ymax, xmax - xmin,
 					ymin - ymax);
 		default:
 			return null;

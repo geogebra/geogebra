@@ -118,4 +118,13 @@ public class GTextBoxProcessing implements KeyboardListener {
 	public boolean isSVCell() {
 		return false;
 	}
+
+	public void endEditing() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public GTextBox getField() {
+		return field;
+	}
 }

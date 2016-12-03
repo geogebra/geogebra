@@ -3,7 +3,8 @@ package org.geogebra.common.factories;
 import org.geogebra.common.javax.swing.RelationPane;
 
 public abstract class Factory {
-	private static Factory prototype;
+	private static final Object lock = new Object();
+	private static volatile Factory prototype;
 
 	public abstract RelationPane newRelationPane();
 
@@ -14,8 +15,12 @@ public abstract class Factory {
 		return prototype;
 	}
 
-	public static void setPrototype(Factory ret) {
-		prototype = ret;
+	public static void setPrototype(Factory p) {
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
 	}
 
 }

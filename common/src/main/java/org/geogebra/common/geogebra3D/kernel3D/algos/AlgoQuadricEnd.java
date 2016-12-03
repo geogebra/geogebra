@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 /**
  * Compute one end of a limited quadric
  *
- * @author matthieu
+ * @author Mathieu
  */
 public abstract class AlgoQuadricEnd extends AlgoElement3D {
 
@@ -101,10 +101,10 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			Coords d = quadric.getEigenvec3D(1).normalize();
 
-			Coords o1 = quadric.getMidpoint3D().add(
-					d.mul(quadric.getBottomParameter()));
-			Coords o2 = quadric.getMidpoint3D().add(
-					d.mul(quadric.getTopParameter()));
+			Coords o1 = quadric.getMidpoint3D().copy()
+					.addInsideMul(d, quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy()
+					.addInsideMul(d, quadric.getTopParameter());
 			pm.setOrigin(getOrigin(o1, o2));
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
 			v[2] = quadric.getEigenvec3D(2).normalize();
@@ -133,10 +133,10 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		} else {
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			Coords d = quadric.getEigenvec3D(2);
-			Coords o1 = quadric.getMidpoint3D().add(
-					d.mul(quadric.getBottomParameter()));
-			Coords o2 = quadric.getMidpoint3D().add(
-					d.mul(quadric.getTopParameter()));
+			Coords o1 = quadric.getMidpoint3D().copy()
+					.addInsideMul(d, quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy()
+					.addInsideMul(d, quadric.getTopParameter());
 
 			if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
 					|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
@@ -198,9 +198,21 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 			quadric.remove();
 	}
 
+	/**
+	 * @param o1
+	 *            bottom origin
+	 * @param o2
+	 *            top origin
+	 * @return origin of given end
+	 */
 	abstract protected Coords getOrigin(Coords o1, Coords o2);
 
-	// orientation out of the quadric
+	/**
+	 * 
+	 * @param v1
+	 *            orientation out of the quadric
+	 * @return orientation out of the end
+	 */
 	abstract protected Coords getV1(Coords v1);
 
 }

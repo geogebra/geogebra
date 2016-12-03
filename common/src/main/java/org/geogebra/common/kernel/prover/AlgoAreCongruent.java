@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -99,10 +100,10 @@ public class AlgoAreCongruent extends AlgoElement implements
 	@Override
 	public final void compute() {
 
-		Boolean congruent = inputElement1.isCongruent(inputElement2);
-		if (congruent != null) {
+		ExtendedBoolean congruent = inputElement1.isCongruent(inputElement2);
+		if (!ExtendedBoolean.UNKNOWN.equals(congruent)) {
 			outputBoolean.setDefined();
-			outputBoolean.setValue(congruent);
+			outputBoolean.setValue(congruent.boolVal());
 		} else {
 			outputBoolean.setUndefinedProverOnly();
 		}
@@ -421,6 +422,6 @@ public class AlgoAreCongruent extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

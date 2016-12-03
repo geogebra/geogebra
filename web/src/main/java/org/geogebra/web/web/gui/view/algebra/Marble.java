@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -105,10 +104,10 @@ public class Marble extends SimplePanel
 	private void updateMarble(boolean value) {
 		if (value) {
 			// Filling color should be the same color but 30% opacity (77)
-			GColorW fillColor = new GColorW(gc.getGeo().getAlgebraColor()
-					.getRGB());
-			fillColor.setAlpha(77);
-			this.getElement().getStyle().setBorderColor(GColor.getColorString(gc.getGeo().getAlgebraColor()));
+			GColor c = gc.getGeo().getAlgebraColor();
+			GColor fillColor = c.deriveWithAlpha(77);
+			this.getElement().getStyle()
+					.setBorderColor(GColor.getColorString(c));
 			this.getElement().getStyle().setBackgroundColor(GColor.getColorString(fillColor));
 		}
 		else {

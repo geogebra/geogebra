@@ -71,7 +71,7 @@ public class CmdRay extends CommandProcessor {
 	 * @return [ab)
 	 */
 	protected GeoElement ray(String label, GeoPointND a, GeoPointND b) {
-		return getAlgoDispatcher().Ray(label, (GeoPoint) a, (GeoPoint) b);
+		return getAlgoDispatcher().ray(label, (GeoPoint) a, (GeoPoint) b);
 	}
 
 	/**
@@ -84,6 +84,6 @@ public class CmdRay extends CommandProcessor {
 	 * @return [av)
 	 */
 	protected GeoElement ray(String label, GeoPointND a, GeoVectorND v) {
-		return getAlgoDispatcher().Ray(label, (GeoPoint) a, (GeoVector) v);
+		return getAlgoDispatcher().ray(label, (GeoPoint) a, (GeoVector) v);
 	}
 }

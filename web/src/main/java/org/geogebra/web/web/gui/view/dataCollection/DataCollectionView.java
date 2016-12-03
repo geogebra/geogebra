@@ -59,12 +59,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		ChangeHandler, SettingListener {
 
 	/** caption of Tab */
-	private final String SENSORS = "Sensors";
-	private final String DATA_CONNECTION = "DataConnection";
-	private final String DATA_SHARING_CODE = "DataSharingCode";
-	private final String CONNECTION_FAILD = "DataConnectionFailed";
-	private final String CONNECTING = "Connecting";
-	private final String FREQUENCY = "FrequencyHz";
+	private final static String SENSORS = "Sensors";
+	private final static String DATA_CONNECTION = "DataConnection";
+	private final static String DATA_SHARING_CODE = "DataSharingCode";
+	private final static String CONNECTION_FAILD = "DataConnectionFailed";
+	private final static String CONNECTING = "Connecting";
+	private final static String FREQUENCY = "FrequencyHz";
 
 	private AppW app;
 	private TabLayoutPanel tabPanel;
@@ -479,12 +479,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 		if (newSelection == null) {
 
-			if (listBox.getValue(selectedIndex) == DefaultEntries.EMPTY_SELECTION
-					.getText()) {
-				listBox.setSelection(newSelection); // set null, handled in
+			if (DefaultEntries.EMPTY_SELECTION.getText()
+					.equals(listBox.getValue(selectedIndex))) {
+				listBox.setSelection(null); // set null, handled in
 													// GeoListBox
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_NUMBER
-					.getText()) {
+			} else if (DefaultEntries.CREATE_NUMBER.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				GeoNumeric num = new GeoNumeric(
 						this.app.getKernel().getConstruction(), 0);
 				num.setShowExtendedAV(false);
@@ -492,15 +492,15 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				num.setLabel(null);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_DATA_FUNCTION
-					.getText()) {
+			} else if (DefaultEntries.CREATE_DATA_FUNCTION.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				// create new data function
 				newSelection = CmdDataFunction.emptyFunction(app.getKernel(),
 						null)[0];
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
-			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_LIST
-					.getText()) {
+			} else if (DefaultEntries.CREATE_LIST.getText()
+					.equals(listBox.getValue(selectedIndex))) {
 				newSelection = new GeoList(this.app.getKernel()
 						.getConstruction());
 				newSelection.setLabel(null);

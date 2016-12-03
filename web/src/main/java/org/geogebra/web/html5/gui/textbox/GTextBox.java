@@ -31,7 +31,22 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	protected boolean isMetaKeyDown;
 
 	public GTextBox() {
+		this(false, null);
+	}
+
+	public GTextBox(boolean autocomplete, HasSymbolPopup hsp) {
 		Event.addNativePreviewHandler(this);
+
+		if (!autocomplete) {
+			// suggestion from here to disable autocomplete
+			// https://code.google.com/p/google-web-toolkit/issues/detail?id=6065
+			//
+			// #3878
+			getElement().setAttribute("autocomplete", "off");
+			getElement().setAttribute("autocapitalize", "off");
+			setPopupCallback(hsp);
+
+		}
 	}
 
 	@Override

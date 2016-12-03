@@ -34,16 +34,17 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
+import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GAffineTransformD;
 import org.geogebra.desktop.awt.GAlphaCompositeD;
 import org.geogebra.desktop.awt.GArc2DD;
 import org.geogebra.desktop.awt.GAreaD;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GCubicCurve2DD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GEllipse2DDoubleD;
@@ -66,32 +67,6 @@ import org.geogebra.desktop.gui.MyImageD;
 public class AwtFactoryD extends AwtFactory {
 
 	public AwtFactoryD() {
-		GColor.initColors(this);
-	}
-
-	@Override
-	public GColor newColor(int RGB) {
-		return new GColorD(RGB);
-	}
-
-	@Override
-	public GColor newColor(int red, int green, int blue) {
-		return new GColorD(red, green, blue);
-	}
-
-	@Override
-	public GColor newColor(int red, int green, int blue, int alpha) {
-		return new GColorD(red, green, blue, alpha);
-	}
-
-	@Override
-	public GColor newColor(float red, float green, float blue, float alpha) {
-		return new GColorD(red, green, blue, alpha);
-	}
-
-	@Override
-	public GColor newColor(float red, float green, float blue) {
-		return new GColorD(red, green, blue);
 	}
 
 	@Override
@@ -319,6 +294,21 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GPolygon newPolygon() {
 		return new GPolygonD();
+	}
+
+	public BasicStroke getAwtStroke(GBasicStroke s) {
+		if (!(s instanceof GBasicStrokeD)) {
+			if (s != null) {
+				Log.debug("other type: " + s.getClass());
+			}
+			return null;
+		}
+		return ((GBasicStrokeD) s).getImpl();
+	}
+
+	static public java.awt.BasicStroke getDefaultStrokeAwt() {
+		return ((AwtFactoryD) AwtFactory.getPrototype())
+				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}
 
 }

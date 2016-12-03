@@ -133,15 +133,18 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		// start init
 		String glInfo[] = RendererJogl.getGLInfos(drawable);
 
+		String glCard = glInfo[6];
+		String glVersion = glInfo[7];
+
 		Log.debug("Init on " + Thread.currentThread()
 				+ "\nChosen GLCapabilities: " + glInfo[0]
 				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
 				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]
-				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glInfo[6]
-				+ "\nGL_VERSION: " + glInfo[7] + "\nisGL2ES2: " + isGL2ES2);
+				+ "\nGL_VENDOR: " + glInfo[5] + "\nGL_RENDERER: " + glCard
+				+ "\nGL_VERSION: " + glVersion + "\nisGL2ES2: " + isGL2ES2);
 
-		GeoGebraMenuBar.glCard = glInfo[6];
-		GeoGebraMenuBar.glVersion = glInfo[7];
+		GeoGebraMenuBar.setGlCard(glInfo[6]);
+		GeoGebraMenuBar.setGlVersion(glInfo[7]);
 
 		// this is abstract method: don't create old GL / shaders here
 
@@ -150,9 +153,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				try {
 					// retrieving version, which should be first char, e.g.
 					// "4.0 etc."
-					String[] version = GeoGebraMenuBar.glVersion.split("\\.");
+					String[] version = glVersion.split("\\.");
 					int versionInt = Integer.parseInt(version[0]);
-					Log.debug("==== GL version is " + GeoGebraMenuBar.glVersion
+					Log.debug("==== GL version is " + glVersion
 							+ " which means GL>=" + versionInt);
 					if (versionInt < 3) {
 						// GL 1.x: can't use shaders
@@ -665,5 +668,13 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	@Override
 	final public void disableTextures2D() {
 		rendererImpl.glDisable(GL.GL_TEXTURE_2D);
+	}
+
+	@Override
+	public void updateProjectionObliqueValues() {
+		if (type == RendererType.GL2) {
+			updateOrthoValues();
+		}
+		super.updateProjectionObliqueValues();
 	}
 }

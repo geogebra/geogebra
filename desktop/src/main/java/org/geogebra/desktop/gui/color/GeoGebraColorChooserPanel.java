@@ -490,7 +490,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			Color color = getColorForLocation(e.getX(), e.getY());
 			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					new GColorD(color));
+					GColor.newColor(color.getRed(), color.getGreen(),
+							color.getBlue(), color.getAlpha()));
 			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
 					+ color.getBlue();
 			if (name != null) {
@@ -622,7 +623,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			colors = new GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = new GColorD(defaultRecentColor);
+				colors[i] = GColorD.newColor(defaultRecentColor);
 			}
 		}
 
@@ -634,7 +635,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		public void setMostRecentColor(Color c) {
 
 			System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-			colors[0] = new GColorD(c);
+			colors[0] = GColorD.newColor(c);
 			if (swatchCount < swatchSize.width * swatchSize.height)
 				swatchCount++;
 
@@ -670,7 +671,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			colors = new GColor[numColors];
 			for (int i = 0; i < numColors; i++) {
-				colors[i] = new GColorD(defaultRecentColor);
+				colors[i] = GColorD.newColor(defaultRecentColor);
 			}
 		}
 
@@ -682,7 +683,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				repaint();
 			} else {
 				System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-				colors[0] = new GColorD(color);
+				colors[0] = GColorD.newColor(color);
 				myChooser.setSwatchPanelSelection(color);
 				repaint();
 

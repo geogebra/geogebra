@@ -295,5 +295,5 @@ public class AlgoTranslate extends AlgoTransformation implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 }

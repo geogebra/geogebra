@@ -91,6 +91,7 @@ public class KNeighborhoodFilter<V,E> implements Filter<V,E> {
 
 				Collection<E> edges = null;
 				switch (edgeType) {
+				default:
 					case IN_OUT :
 						edges = graph.getIncidentEdges(currentVertex);
 						break;

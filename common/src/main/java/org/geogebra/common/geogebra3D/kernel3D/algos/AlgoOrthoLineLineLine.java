@@ -58,7 +58,7 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 	@Override
 	public String toString(StringTemplate tpl) {

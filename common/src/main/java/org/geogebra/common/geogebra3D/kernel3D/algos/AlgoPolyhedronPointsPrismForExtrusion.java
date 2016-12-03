@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 /**
  * Extension of algo when used for extrusion
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class AlgoPolyhedronPointsPrismForExtrusion extends

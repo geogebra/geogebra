@@ -106,7 +106,7 @@ import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.dialog.InputDialogOpenURL;
-import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
+import org.geogebra.desktop.gui.dialog.ToolCreationDialogD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
 import org.geogebra.desktop.gui.inputbar.InputBarHelpPanelD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
@@ -138,7 +138,7 @@ import org.geogebra.desktop.gui.view.data.DataAnalysisViewD;
 import org.geogebra.desktop.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DialogManagerMinimal;
@@ -449,7 +449,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void startEditing(GeoElement geo) {
-		getAlgebraView().startEditing(geo);
+		getAlgebraView().startEditItem(geo);
 	}
 
 	public void setScrollToShow(boolean scrollToShow) {
@@ -985,10 +985,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public JMenuBar getMenuBar() {
 		return menuBar;
-	}
-
-	public void setMenubar(JMenuBar newMenuBar) {
-		menuBar = (GeoGebraMenuBar) newMenuBar;
 	}
 
 	public void updateMenuBarLayout() {
@@ -1548,11 +1544,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							}
 						}
 
-						if (imageFile == null) {
-							app.setDefaultCursor();
-							return null;
-						}
 					}
+				}
+
+				if (imageFile == null) {
+					app.setDefaultCursor();
+					return null;
 				}
 
 				// get file name
@@ -1800,7 +1797,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				NSSavePanel panel = new NSSavePanel();
 				String result = panel.saveDialog(app.getMenu("Save"),
-						fileExtension.ext);
+						fileExtension.toString());
 				file = new File(result);
 				done = true;
 
@@ -1957,7 +1954,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public static File addExtension(File file, FileExtensions fileExtension) {
-		return addExtension(file, fileExtension.ext);
+		return addExtension(file, fileExtension.toString());
 	}
 
 	public static File addExtension(File file, String fileExtension) {
@@ -2751,6 +2748,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 				try {
 					kb = new WindowsUnicodeKeyboard();
 				} catch (Exception e) {
+					return;
 				}
 			}
 
@@ -2759,7 +2757,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		}
 	}
 
-	VirtualKeyboard virtualKeyboard = null;
+	VirtualKeyboardD virtualKeyboard = null;
 
 	public void toggleKeyboard(boolean show) {
 		getVirtualKeyboard().setVisible(show);
@@ -2768,10 +2766,10 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	/**
 	 * @return The virtual keyboard (initializes it if necessary)
 	 */
-	public VirtualKeyboard getVirtualKeyboard() {
+	public VirtualKeyboardD getVirtualKeyboard() {
 		if (virtualKeyboard == null) {
 			KeyboardSettings settings = app.getSettings().getKeyboard();
-			virtualKeyboard = new VirtualKeyboard(((AppD) app),
+			virtualKeyboard = new VirtualKeyboardD(((AppD) app),
 					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
 					settings.getKeyboardOpacity());
 			settings.addListener(virtualKeyboard);
@@ -3197,7 +3195,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	}
 
 	public boolean belongsToToolCreator(ListCellRenderer renderer) {
-		return ToolCreationDialog.isMyCellRenderer(renderer);
+		return ToolCreationDialogD.isMyCellRenderer(renderer);
 	}
 
 

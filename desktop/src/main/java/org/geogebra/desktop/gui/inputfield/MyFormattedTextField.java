@@ -8,7 +8,7 @@ import javax.swing.JFormattedTextField;
 
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 
 public class MyFormattedTextField extends JFormattedTextField implements
 		FocusListener, VirtualKeyboardListener {
@@ -36,7 +36,7 @@ public class MyFormattedTextField extends JFormattedTextField implements
 
 	public void focusLost(FocusEvent e) {
 		guiManager.setCurrentTextfield(null,
-				!(e.getOppositeComponent() instanceof VirtualKeyboard));
+				!(e.getOppositeComponent() instanceof VirtualKeyboardD));
 
 	}
 

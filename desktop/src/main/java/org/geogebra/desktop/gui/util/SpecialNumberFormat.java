@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JMenu;
 import javax.swing.JRadioButtonMenuItem;
 
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.App;
@@ -89,7 +90,7 @@ public class SpecialNumberFormat implements ActionListener {
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
 		addRadioButtonMenuItems(menuDecimalPlaces, this, strDecimalSpaces,
-				App.strDecimalSpacesAC, 0);
+				App.getStrDecimalSpacesAC(), 0);
 
 		updateMenuDecimalPlaces();
 
@@ -105,11 +106,13 @@ public class SpecialNumberFormat implements ActionListener {
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < App.figuresLookup.length)
-				pos = App.figuresLookup[printFigures];
+			if (printFigures > 0
+					&& printFigures < OptionsMenu.figuresLookupLength())
+				pos = OptionsMenu.figuresLookup(printFigures);
 		} else {
-			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[printDecimals];
+			if (printDecimals > 0
+					&& printDecimals < OptionsMenu.decimalsLookupLength())
+				pos = OptionsMenu.decimalsLookup(printDecimals);
 		}
 
 		try {

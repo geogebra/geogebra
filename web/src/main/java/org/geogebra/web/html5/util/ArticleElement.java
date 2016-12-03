@@ -75,7 +75,7 @@ public final class ArticleElement extends Element {
 	 */
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
-		if ((ret == "") || !ret.matches("[A-Za-z0-9_]+"))
+		if (("".equals(ret)) || !ret.matches("[A-Za-z0-9_]+"))
 			return AppW.DEFAULT_APPLET_ID;
 		return ret;
 	}
@@ -153,7 +153,7 @@ public final class ArticleElement extends Element {
 	}
 
 	/*
-	 * Retruns true, if there is data-param-enableGraphing attribute, and it is
+	 * Returns true, if there is data-param-enableGraphing attribute, and it is
 	 * not an empty string
 	 */
 	public boolean hasDataParamEnableGraphing() {

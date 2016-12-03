@@ -77,11 +77,11 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 			Coords coords = p.getInhomCoords();
 
-			xCoord = AlgoFractionText.DecimalToFraction(coords.getX(),
+			xCoord = AlgoFractionText.decimalToFraction(coords.getX(),
 					Kernel.STANDARD_PRECISION);
-			yCoord = AlgoFractionText.DecimalToFraction(coords.getY(),
+			yCoord = AlgoFractionText.decimalToFraction(coords.getY(),
 					Kernel.STANDARD_PRECISION);
-			zCoord = AlgoFractionText.DecimalToFraction(coords.getZ(),
+			zCoord = AlgoFractionText.decimalToFraction(coords.getZ(),
 					Kernel.STANDARD_PRECISION);
 
 
@@ -107,6 +107,6 @@ public class AlgoFractionTextPoint extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

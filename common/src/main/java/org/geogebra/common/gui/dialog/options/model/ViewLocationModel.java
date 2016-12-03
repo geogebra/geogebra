@@ -95,6 +95,11 @@ public class ViewLocationModel extends OptionsModel {
 	}
 	
 	public void applyToEuclidianView3D(boolean value) {
+
+		if (!app.isEuclidianView3Dinited()) {
+			return;
+		}
+
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			EuclidianView3DInterface ev3D = app.getEuclidianView3D();

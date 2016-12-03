@@ -1137,11 +1137,11 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
    * @param elt The Element on which <code>blur()</code> will be invoked
    */
   private native void blur(Element elt) /*-{
-    // Issue 2390: blurring the body causes IE to disappear to the background
-    if (elt.blur && elt != $doc.body) {
-      elt.blur();
-    }
-  }-*/;
+	// Issue 2390: blurring the body causes IE to disappear to the background
+	if (elt.blur && elt != $doc.body) {
+		elt.blur();
+	}
+}-*/;
 
   /**
    * Does the event target one of the partner elements?
@@ -1321,8 +1321,8 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     setPopupPosition(left, top);
   }
   
-  private final int mouseEvents = Event.MOUSEEVENTS;
-  private final int touchEvents = Event.TOUCHEVENTS;
+	private final static int mouseEvents = Event.MOUSEEVENTS;
+	private final static int touchEvents = Event.TOUCHEVENTS;
 
   /**
    * Preview the {@link NativePreviewEvent}.

@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 
@@ -9,9 +11,11 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 
 // Later this shall inherit from MyTextField instead of TextBox
 
-public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
+public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
+		HasKeyboardTF {
 
 	AppW app;
+	boolean dummyCursor = false;
 
 	public AngleTextFieldW(int columns, AppW app) {
 		super();
@@ -79,6 +83,49 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 
 			// e.consume();
 		}
+	}
+
+	public void startOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(false);
+			addDummyCursor();
+			addStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void endOnscreenKeyboardEditing() {
+		if (Browser.isAndroid() || Browser.isIPad()) {
+			setEnabled(true);
+			removeDummyCursor();
+			removeStyleName("disabledTextfieldEditing");
+		}
+	}
+
+	public void addDummyCursor() {
+		int caretPos = getCursorPos();
+		addDummyCursor(caretPos);
+	}
+
+
+	public void removeDummyCursor() {
+		if (!dummyCursor) {
+			return;
+		}
+		String text = getText();
+		int cpos = getCursorPos();
+		text = text.substring(0, cpos) + text.substring(cpos + 1);
+
+		setValue(text);
+		dummyCursor = false;
+	}
+
+	public void addDummyCursor(int caretPos) {
+		String text = getText();
+		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
+
+		setValue(text);
+		setCursorPos(caretPos);
+		dummyCursor = true;
 	}
 
 }

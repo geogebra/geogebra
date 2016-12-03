@@ -46,12 +46,11 @@ class PerspectivesMenuD extends BaseMenu {
 			return;
 		}
 
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
 
-		for (int i = 0; i < defaultPerspectives.length; ++i) {
+		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
 			tmpItem.setText(app.getMenu("Perspective."
-					+ defaultPerspectives[i].getId()));
+					+ Layout.getDefaultPerspectives(i).getId()));
 			tmpItem.setIcon(app.getEmptyIcon());
 			tmpItem.setActionCommand("d" + i);
 			add(tmpItem);
@@ -92,7 +91,8 @@ class PerspectivesMenuD extends BaseMenu {
 				if (e.getActionCommand().startsWith("d")) {
 					int index = Integer.parseInt(e.getActionCommand()
 							.substring(1));
-					layout.applyPerspective(Layout.defaultPerspectives[index]);
+					layout.applyPerspective(
+							Layout.getDefaultPerspectives(index));
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
 					layout.applyPerspective(layout.getPerspective(index));

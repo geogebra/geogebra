@@ -17,12 +17,13 @@ import org.geogebra.common.main.Feature;
 public abstract class Log {
 
 	/** logger */
-	public static Log logger;
+	private static volatile Log logger;
+	private static Object lock = new Object();
 
 	/**
 	 * Logging level
 	 */
-	public class Level {
+	public static class Level {
 		/**
 		 * Log level priority
 		 */
@@ -84,7 +85,11 @@ public abstract class Log {
 	 * 
 	 * @return the entire log
 	 */
-	public StringBuilder getEntireLog() {
+	final public static StringBuilder getEntireLog() {
+		return logger.getEntireLogImpl();
+	}
+
+	private StringBuilder getEntireLogImpl() {
 		return memoryLog;
 	}
 
@@ -108,6 +113,7 @@ public abstract class Log {
 	private LogDestination logDestination = LogDestination.CONSOLE; // default;
 	private boolean timeShown = true; // default
 	private boolean callerShown = true; // default
+	private boolean levelShown = true; // default
 	/** whether to keep log in memory */
 	protected boolean keepLog = false;
 
@@ -127,7 +133,11 @@ public abstract class Log {
 	 * @param logLevel
 	 *            the logging level to set
 	 */
-	public void setLogLevel(String logLevel) {
+	final public static void setLogLevel(String logLevel) {
+		logger.setLogLevelImpl(logLevel);
+	}
+
+	private void setLogLevelImpl(String logLevel) {
 		if (logLevel == null)
 			return;
 		if ("ALERT".equals(logLevel))
@@ -165,7 +175,11 @@ public abstract class Log {
 	 * @param logDestination
 	 *            the destination
 	 */
-	public void setLogDestination(LogDestination logDestination) {
+	final public static void setLogDestination(LogDestination logDestination) {
+		logger.setLogDestinationImpl(logDestination);
+	}
+
+	protected void setLogDestinationImpl(LogDestination logDestination) {
 		this.logDestination = logDestination;
 	}
 
@@ -174,7 +188,11 @@ public abstract class Log {
 	 * 
 	 * @return the destination
 	 */
-	public LogDestination getLogDestination() {
+	final public static LogDestination getLogDestination() {
+		return logger.getLogDestinationImpl();
+	}
+
+	protected LogDestination getLogDestinationImpl() {
 		return logDestination;
 	}
 
@@ -194,7 +212,11 @@ public abstract class Log {
 	 * @param timeShown
 	 *            if the timestamp should be printed
 	 */
-	public void setTimeShown(boolean timeShown) {
+	final public static void setTimeShown(boolean timeShown) {
+		logger.setTimeShownImpl(timeShown);
+	}
+
+	protected void setTimeShownImpl(boolean timeShown) {
 		this.timeShown = timeShown;
 	}
 
@@ -213,8 +235,23 @@ public abstract class Log {
 	 * @param callerShown
 	 *            if the names should be printed
 	 */
-	public void setCallerShown(boolean callerShown) {
-		this.callerShown = callerShown;
+	public static void setCallerShown(boolean callerShown) {
+		logger.callerShown = callerShown;
+	}
+
+	/**
+	 * @return the levelShown
+	 */
+	public boolean isLevelShown() {
+		return levelShown;
+	}
+
+	/**
+	 * @param levelShown
+	 *            the levelShown to set
+	 */
+	public static void setLevelShown(boolean levelShown) {
+		logger.levelShown = levelShown;
 	}
 
 	/**
@@ -224,23 +261,23 @@ public abstract class Log {
 	 * 
 	 * @param level
 	 *            logging level
-	 * @param message
+	 * @param logMessage
 	 *            the log message
 	 * @param depth
 	 *            depth in stacktrace
 	 */
-	public void log(Level level, String message, int depth) {
-		String logEntry = message;
+	public void log(Level level, String logMessage, int depth) {
+		String message = logMessage;
 		if (message == null) {
-			logEntry = "*null*";
+			message = "*null*";
 		}
 
 		if (logLevel.getPriority() >= level.getPriority()) {
 			String caller = "";
 			if (callerShown) {
 				caller = getCaller(depth);
-				if (logEntry.length() >= 21) {
-					if (logEntry.toLowerCase().substring(0, 21)
+				if (message.length() >= 21) {
+					if (message.toLowerCase().substring(0, 21)
 							.equals("implementation needed")) {
 						if (!reportedImplementationNeeded.contains(caller))
 							reportedImplementationNeeded.add(caller);
@@ -251,11 +288,16 @@ public abstract class Log {
 			String timeInfo = "";
 			if (timeShown) {
 				timeInfo = getTimeInfo();
-				if (timeInfo != "") {
+				if (!"".equals(timeInfo)) {
 					timeInfo += " ";
 				}
 			}
-			logEntry = timeInfo + level.text + ": " + caller + logEntry;
+			// Creating logEntry
+			String logEntry = timeInfo;
+			if (levelShown) {
+				logEntry += level.text + ": ";
+			}
+			logEntry += caller + message;
 			print(logEntry, level);
 			// In desktop logging, preserve the entire log in memory as well:
 			if (keepLog) {
@@ -283,8 +325,13 @@ public abstract class Log {
 	 * @param logFileName
 	 *            the name of the log file
 	 */
-	public void setLogFile(String logFileName) {
-		// Implementation overrides this in some applications.
+	final public static void setLogFile(String logFileName) {
+		logger.setLogFileImpl(logFileName);
+	}
+
+	protected void setLogFileImpl(String logFileName) {
+		// overridden in some implementations
+
 	}
 
 	/**
@@ -292,7 +339,11 @@ public abstract class Log {
 	 * 
 	 * @return the timestamp
 	 */
-	protected String getTimeInfo() {
+	final public static String getTimeInfo() {
+		return logger.getTimeInfoImpl();
+	}
+
+	protected String getTimeInfoImpl() {
 		return "";
 		// Implementation overrides this in some applications.
 	}
@@ -575,5 +626,20 @@ public abstract class Log {
 	 *            message at the top of the trace
 	 */
 	public abstract void doPrintStacktrace(String message);
+
+	/**
+	 * @param log
+	 *            sets the logger to this
+	 */
+	public static void setLogger(Log log) {
+		synchronized (lock) {
+			logger = log;
+		}
+
+	}
+
+	public static Log getLogger() {
+		return logger;
+	}
 
 }

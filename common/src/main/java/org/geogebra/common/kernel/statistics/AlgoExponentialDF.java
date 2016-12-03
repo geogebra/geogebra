@@ -121,6 +121,6 @@ public class AlgoExponentialDF extends AlgoElement implements
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

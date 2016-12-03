@@ -31,7 +31,7 @@ import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.TextLineNumber;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -214,7 +214,7 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	}
 
 	public void focusLost(FocusEvent e) {
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
+		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboardD));
 	}
 	
 	//TODO  Hide/show popup button options
@@ -229,7 +229,8 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 	 * draws grid lines and roll-over effect
 	 *
 	 */
-	private class HistoryListCellRenderer extends DefaultListCellRenderer {
+	private static class HistoryListCellRenderer
+			extends DefaultListCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 		

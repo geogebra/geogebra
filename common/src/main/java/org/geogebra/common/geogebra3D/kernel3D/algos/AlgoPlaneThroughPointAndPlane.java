@@ -24,12 +24,22 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a plane through a point and parallel to another plane (or polygon)
  * 
  *
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 
 	private GeoCoordSys2D cs; // input
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point
+	 * @param cs
+	 *            parallel plane
+	 */
 	public AlgoPlaneThroughPointAndPlane(Construction cons, String label,
 			GeoPointND point, GeoCoordSys2D cs) {
 		super(cons, point);
@@ -78,5 +88,5 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 		return (GeoElement) cs;
 	}
 
-	// TODO Consider locusequability
+	
 }

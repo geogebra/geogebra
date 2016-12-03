@@ -18,6 +18,6 @@ public abstract class AlgoIntersectAbstract extends AlgoElement {
 	 * should be used. Luckily, some are already implemented.
 	 */
 
-	// TODO Consider locusequability
+	
 
 }

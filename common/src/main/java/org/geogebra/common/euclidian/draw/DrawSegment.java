@@ -135,7 +135,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		boolean onscreenB = view.toScreenCoords(coordsB);
 
 		if (line == null)
-			line = AwtFactory.prototype.newLine2D();
+			line = AwtFactory.getPrototype().newLine2D();
 
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -195,7 +195,7 @@ public class DrawSegment extends Drawable implements Previewable {
 				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
 				// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++)
-					decoTicks[i] = AwtFactory.prototype.newLine2D();
+					decoTicks[i] = AwtFactory.getPrototype().newLine2D();
 			}
 
 			// tick spacing and length.
@@ -457,11 +457,11 @@ public class DrawSegment extends Drawable implements Previewable {
 			view.toScreenCoords(coordsA);
 
 			if (line == null)
-				line = AwtFactory.prototype.newLine2D();
+				line = AwtFactory.getPrototype().newLine2D();
 		}
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -551,7 +551,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		if (line == null || !geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return AwtFactory.prototype.newRectangle(line.getBounds());
+		return AwtFactory.getPrototype().newRectangle(line.getBounds());
 	}
 
 	/**

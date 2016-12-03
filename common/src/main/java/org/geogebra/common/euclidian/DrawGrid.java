@@ -64,7 +64,7 @@ public class DrawGrid {
 			// or if it's too close (eg sticky axes)
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-				if (view.axesLabelsPositionsY.contains(new Integer(
+				if (view.axesLabelsPositionsY.contains(Integer.valueOf(
 						(int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
@@ -99,7 +99,7 @@ public class DrawGrid {
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
 				if (view.axesLabelsPositionsY.contains(
-						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
+						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
@@ -141,7 +141,7 @@ public class DrawGrid {
 			// or if it's too close (eg sticky axes)
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-				if (view.axesLabelsPositionsX.contains(new Integer(
+				if (view.axesLabelsPositionsX.contains(Integer.valueOf(
 						(int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
@@ -182,7 +182,7 @@ public class DrawGrid {
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.axesLabelsPositionsX.contains(
-						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
+						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);

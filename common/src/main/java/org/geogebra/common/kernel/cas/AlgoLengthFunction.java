@@ -110,5 +110,5 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		cons.removeFromConstructionList(algoCAS);
 	}
 
-	// TODO Consider locusequability
+	
 }

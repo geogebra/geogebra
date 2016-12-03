@@ -15,6 +15,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGradientPaint;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint2D;
@@ -28,20 +29,27 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.ActionListener;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.main.App;
 
 public abstract class AwtFactory {
-	public static AwtFactory prototype = null;
 
-	public abstract GColor newColor(int RGB);
 
-	public abstract GColor newColor(int red, int green, int blue);
+	private static volatile AwtFactory prototype = null;
 
-	public abstract GColor newColor(int red, int green, int blue, int alpha);
+	private static final Object lock = new Object();
 
-	public abstract GColor newColor(float red, float green, float blue,
-			float alpha);
+	public static AwtFactory getPrototype() {
+		return prototype;
+	}
 
-	public abstract GColor newColor(float red, float green, float blue);
+	public static void setPrototypeIfNull(AwtFactory p) {
+
+		synchronized (lock) {
+			if (prototype == null) {
+				prototype = p;
+			}
+		}
+	}
 
 	public abstract GAffineTransform newAffineTransform();
 
@@ -149,4 +157,11 @@ public abstract class AwtFactory {
 		Tx.setToRotation(theta, x, y);
 		return Tx;
 	}
+
+	public void fillAfterImageLoaded(GShape fillShape, GGraphics2D g2,
+			GBufferedImage subImage2, App application) {
+		// needed in web only
+
+	}
+
 }

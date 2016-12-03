@@ -27,8 +27,13 @@
 		z-index: 100;
 		
 		.toolBPanelMobile {
-			overflow-x: auto;
-			overflow-y: hidden;
+			/*overflow-x: auto !important;
+			overflow-y: hidden !important;*/
+			
+			/* hide scrollbars in ff and ie */
+			overflow: -moz-scrollbars-none !important;
+			-ms-overflow-style: none;
+			
 			height: 46px;
 			}	
 			::-webkit-scrollbar {
@@ -76,7 +81,9 @@
 				
 			}
 			
-			
+		.overflow {
+			overflow: visible !important;
+		}
 		.toolBPanel {
 			.float(left);
 			padding-top: 1px;
@@ -119,6 +126,7 @@
 				}
 				
 			}
+			
 			.touched {
 					border-color: @color-highlight !important;
 				}
@@ -191,7 +199,12 @@
 		.submenuScrollPanel{
 			overflow-x: auto;
 			overflow-y: hidden;
-			position: absolute;
+			
+			/* hide scrollbars in ff and ie */
+			overflow: -moz-scrollbars-none !important;
+			-ms-overflow-style: none;
+			
+			position: absolute !important;
 			top: 6px;
 			left: 50px;
 			height: 46px;

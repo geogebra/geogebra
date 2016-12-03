@@ -52,8 +52,7 @@ public class MySpecialDouble extends MyDouble {
 		originalString = StringUtil.cannonicNumber(str);
 
 		strToString = originalString;
-		if (strToString == null)
-			strToString = "0";
+
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = StringUtil.isLetter(firstChar)
@@ -123,7 +122,7 @@ public class MySpecialDouble extends MyDouble {
 	 * @return true if this equals E (no tolerance)
 	 */
 	public boolean isEulerConstant() {
-		return getDouble() == Math.E;
+		return MyDouble.exactEqual(getDouble(), Math.E);
 	}
 
 	@Override
@@ -202,6 +201,16 @@ public class MySpecialDouble extends MyDouble {
 	public void set(double val) {
 		super.set(val);
 		setFromOutside = true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
 	}
 
 }

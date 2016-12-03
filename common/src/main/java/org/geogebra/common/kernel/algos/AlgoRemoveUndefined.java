@@ -122,6 +122,6 @@ public class AlgoRemoveUndefined extends AlgoElement {
 		return isDefined;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

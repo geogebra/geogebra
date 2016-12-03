@@ -23,6 +23,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
 
 import com.kitfox.svg.SVGException;
@@ -138,7 +139,7 @@ public class GGraphics2DD implements GGraphics2D {
 	public GPaint getPaint() {
 		Paint paint = impl.getPaint();
 		if (paint instanceof Color) {
-			return new GColorD((Color) paint);
+			return GColorD.newColor((Color) paint);
 		} else if (paint instanceof GradientPaint) {
 			return new GGradientPaintD((GradientPaint) paint);
 		}
@@ -151,7 +152,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GColor getBackground() {
-		return new GColorD(impl.getBackground());
+		return GColorD.newColor(impl.getBackground());
 	}
 
 	public GFontRenderContext getFontRenderContext() {
@@ -159,7 +160,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public GColor getColor() {
-		return new GColorD(impl.getColor());
+		return GColorD.newColor(impl.getColor());
 	}
 
 	public GFont getFont() {
@@ -181,7 +182,7 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(GBasicStrokeD.getAwtStroke(s));
+		impl.setStroke(((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
 
 	}
 
@@ -342,7 +343,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	private GLine2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {

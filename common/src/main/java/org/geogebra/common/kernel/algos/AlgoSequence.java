@@ -584,5 +584,5 @@ public class AlgoSequence extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

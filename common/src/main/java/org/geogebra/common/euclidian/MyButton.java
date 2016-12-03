@@ -106,7 +106,7 @@ public class MyButton implements Observer {
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
-				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
+				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -197,7 +197,7 @@ public class MyButton implements Observer {
 
 		// change background color on mouse click
 		if (pressed) {
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				g.setPaint(GColor.LIGHTEST_GRAY);
 			} else {
 				g.setPaint(bg.darker());
@@ -212,7 +212,7 @@ public class MyButton implements Observer {
 		// change border on mouseover
 		if (isSelected()) {
 			// default button design
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				// color for inner border
 				g.setColor(GColor.GRAY);
 				// inner border
@@ -235,7 +235,7 @@ public class MyButton implements Observer {
 			// border color
 		} else {
 			// default button design
-			if (bg.compareTo(GColor.WHITE) == 0) {
+			if (bg.equals(GColor.WHITE)) {
 				g.setColor(GColor.BLACK);
 
 				// user adjusted design
@@ -332,7 +332,7 @@ public class MyButton implements Observer {
 				textWidth = d.getWidth();
 
 			} else {
-				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
+				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -354,7 +354,7 @@ public class MyButton implements Observer {
 				textWidth = d.getWidth();
 
 			} else {
-				t = AwtFactory.prototype.newTextLayout(getCaption(), font,
+				t = AwtFactory.getPrototype().newTextLayout(getCaption(), font,
 								g.getFontRenderContext());
 				textHeight = t.getAscent() + t.getDescent();
 				textWidth = t.getAdvance();
@@ -410,7 +410,7 @@ public class MyButton implements Observer {
 	 * @return bounds of this button
 	 */
 	public GRectangle getBounds() {
-		return AwtFactory.prototype.newRectangle(x,
+		return AwtFactory.getPrototype().newRectangle(x,
 				y, geoButton.getWidth(), geoButton.getHeight());
 	}
 

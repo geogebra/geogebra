@@ -577,19 +577,6 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,
 		return b;
 	}
 
-	private static Box vBox(Component... comp) {
-		Box p = Box.createVerticalBox();
-		for (int i = 0; i < comp.length; i++) {
-			p.add(Box.createVerticalGlue());
-			p.add(comp[i]);
-		}
-		return p;
-	}
-
-	private JPanel blPanel(Component center) {
-		return blPanel(center, null, null, null, null);
-	}
-
 	private JPanel blPanel(Component center, Component north, Component south,
 			Component west, Component east) {
 		JPanel p = new JPanel(new BorderLayout());

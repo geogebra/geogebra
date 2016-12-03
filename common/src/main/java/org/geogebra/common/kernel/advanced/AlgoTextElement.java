@@ -89,6 +89,6 @@ public class AlgoTextElement extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

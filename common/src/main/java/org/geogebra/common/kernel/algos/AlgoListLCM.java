@@ -112,6 +112,6 @@ public class AlgoListLCM extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

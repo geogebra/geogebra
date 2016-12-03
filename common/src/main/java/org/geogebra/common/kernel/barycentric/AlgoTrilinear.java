@@ -102,5 +102,5 @@ public class AlgoTrilinear extends AlgoElement {
 		GeoPoint.setBarycentric(P1, P2, P3, wA, wB, wC, sum, point);
 	}
 
-	// TODO Consider locusequability
+	
 }

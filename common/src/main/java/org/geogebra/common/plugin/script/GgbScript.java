@@ -2,6 +2,7 @@ package org.geogebra.common.plugin.script;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -179,7 +180,7 @@ public class GgbScript extends Script {
 		}
 
 		boolean in_string = false;
-		if ((countapo % 2) == 1) {
+		if (MyDouble.isOdd(countapo)) {
 			in_string = true;
 		}
 
@@ -298,7 +299,7 @@ public class GgbScript extends Script {
 				forLength2 = forLength1.replaceAll("\"", "");// String: "
 				lengthChars = forLength1.length() - forLength2.length();
 
-				if (lengthChars % 2 == 1) {
+				if (MyDouble.isOdd(lengthChars)) {
 					// there is an odd number of living " signs before this
 					// whole-word token, and this means that we're in a
 					// string, so this whole-word token doesn't matter

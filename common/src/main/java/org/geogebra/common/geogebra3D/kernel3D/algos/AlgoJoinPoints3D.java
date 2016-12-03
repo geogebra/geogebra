@@ -307,6 +307,6 @@ public class AlgoJoinPoints3D extends AlgoElement3D implements
 		return poly;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

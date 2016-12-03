@@ -215,6 +215,6 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	// --- SNIP --- ///
 
-	// TODO Consider locusequability
+	
 
 }

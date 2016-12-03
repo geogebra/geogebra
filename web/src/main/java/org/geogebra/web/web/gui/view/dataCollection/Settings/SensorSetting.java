@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Settings for a sensor group
  */
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
-	private final String REAL_FREQUENCY = "ActualFrequency";
+	private final static String REAL_FREQUENCY = "ActualFrequency";
 
 	/** caption */
 	protected String captionString;

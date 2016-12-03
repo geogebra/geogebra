@@ -303,6 +303,6 @@ public abstract class AlgoStats1D extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

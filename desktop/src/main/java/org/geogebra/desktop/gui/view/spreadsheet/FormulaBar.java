@@ -42,7 +42,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 	private AutoCompleteTextFieldD fldCellName;
 	private boolean isIniting;
 
-	private MyCellEditor editor;
+	private MyCellEditorSpreadsheet editor;
 
 	private int row, column;
 

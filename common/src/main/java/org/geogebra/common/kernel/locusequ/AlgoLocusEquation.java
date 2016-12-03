@@ -325,11 +325,10 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	}
 	
 	private String getImplicitPoly(boolean implicit) throws Throwable {
-		Prover p = UtilFactory.prototype.newProver();
+		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
-		ProverBotanasMethod pbm = new ProverBotanasMethod();
-		AlgebraicStatement as = pbm.new AlgebraicStatement(
+		AlgebraicStatement as = new AlgebraicStatement(
 				implicit ? implicitLocus : locusPoint, movingPoint, p);
 		ProofResult proofresult = as.getResult();
 		if (proofresult == ProofResult.PROCESSING
@@ -390,10 +389,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 						.add(a1.multiply(b0).multiply(c1).multiply(yp))
 						.add(a1.multiply(b1).multiply(c0));
 				as.addPolynomial(ph);
+				Log.debug("Extra poly 1 for " + l.getLabelSimple() + ": " + ph);
 				ph = a0.multiply(b1).multiply(c1).multiply(xq)
 						.add(a1.multiply(b0).multiply(c1).multiply(yq))
 						.add(a1.multiply(b1).multiply(c0));
 				as.addPolynomial(ph);
+				Log.debug("Extra poly 2 for " + l.getLabelSimple() + ": " + ph);
 
 				if (a[0] != 0) {
 					/*
@@ -402,7 +403,11 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					 */
 					ph = yp;
 					as.addPolynomial(ph);
+					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
+							+ ph);
 					ph = yq.subtract(new Polynomial(1));
+					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
+							+ ph);
 					as.addPolynomial(ph);
 				} else {
 					/*
@@ -411,8 +416,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					 */
 					ph = xp;
 					as.addPolynomial(ph);
+					Log.debug("Extra poly 3 for " + l.getLabelSimple() + ": "
+							+ ph);
 					ph = xq.subtract(new Polynomial(1));
 					as.addPolynomial(ph);
+					Log.debug("Extra poly 4 for " + l.getLabelSimple() + ": "
+							+ ph);
 				}
 				// These coordinates are no longer free.
 				for (int i = 0; i < 4; i++) {
@@ -465,6 +474,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 							.subtract(new Polynomial(vars[0])
 									.multiply(new Polynomial((int) q[1])));
 					as.addPolynomial(ph);
+					Log.debug("Extra poly 1 for " + freePoint.getLabelSimple()
+							+ ": " + ph);
 				}
 				double y = ((GeoPoint) freePoint).getInhomY();
 				if ((y % 1) == 0) {
@@ -481,6 +492,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 							.subtract(new Polynomial(vars[1])
 									.multiply(new Polynomial((int) q[1])));
 					as.addPolynomial(ph);
+					Log.debug("Extra poly 1 for " + freePoint.getLabelSimple()
+							+ ": " + ph);
 				}
 			} else {
 				condition = true;

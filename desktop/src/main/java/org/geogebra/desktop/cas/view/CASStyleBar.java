@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -19,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -199,7 +200,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
-				((GeoCasCell) geo).setFontColor(new GColorD(color));
+				((GeoCasCell) geo).setFontColor(GColorD.newColor(color));
 				geo.updateRepaint();
 				needUndo = true;
 			}
@@ -334,7 +335,7 @@ kbdIcon, iconHeight);
 
 			private static final long serialVersionUID = 1L;
 
-			private Color geoColor;
+			private GColor geoColor;
 
 			@Override
 			public void update(Object[] geos) {
@@ -345,8 +346,7 @@ kbdIcon, iconHeight);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 							.getGeoElementForPropertiesDialog();
-					geoColor = GColorD
-							.getAwtColor(((GeoCasCell) geo).getFontColor());
+					geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
 
 					// find the geoColor in the table and select it
@@ -366,7 +366,7 @@ kbdIcon, iconHeight);
 
 			@Override
 			public ImageIcon getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColoriconHeight,
 						GColorD.getAwtColor(getSelectedColor()),
 						null);
@@ -378,7 +378,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// use as text button
-		ImageIcon useAsTextIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon useAsTextIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Text").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnUseAsText = new MyToggleButton(useAsTextIcon, iconHeight) {
@@ -397,7 +397,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getMenu("Bold")
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getMenu("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
@@ -422,7 +422,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// italic text button
-		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
+		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight) {

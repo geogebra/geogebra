@@ -91,6 +91,6 @@ public class AlgoRandomPoint extends AlgoElement {
 			M.setUndefined();
 		}
 	}
-	// TODO Consider locusequability
+	
 }
 

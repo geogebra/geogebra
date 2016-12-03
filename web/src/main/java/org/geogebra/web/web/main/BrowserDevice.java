@@ -23,7 +23,7 @@ public class BrowserDevice implements GDevice {
 	 * Button for opening local files
 	 *
 	 */
-	public class FileOpenButton extends FlowPanel {
+	public static class FileOpenButton extends FlowPanel {
 		private Element input;
 
 		/**

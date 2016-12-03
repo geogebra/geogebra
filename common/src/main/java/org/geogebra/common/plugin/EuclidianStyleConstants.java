@@ -81,12 +81,20 @@ public class EuclidianStyleConstants {
 			+ AXES_LEFT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
 
 	// for the options menu
-	public static Integer[] lineStyleOptions = {
+	final protected static Integer[] lineStyleOptions = {
 			EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED };
+
+	public static Integer getLineStyleOptions(int i) {
+		return lineStyleOptions[i];
+	}
+
+	public static Integer getLineStyleOptionsLength() {
+		return lineStyleOptions.length;
+	}
 
 	public static final int POINT_STYLE_DOT = 0;
 	public static final int POINT_STYLE_CROSS = 1;
@@ -119,5 +127,4 @@ public class EuclidianStyleConstants {
 	public static final int TOOLTIPS_OFF = 2;
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
-	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 }

@@ -1,7 +1,5 @@
 package org.geogebra.desktop.geogebra3D.input3D.zspace;
 
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -14,7 +12,7 @@ import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
  * @author mathieu
  *
  */
-public class InputZSpace3D implements Input3D {
+public class InputZSpace3D extends Input3D {
 
 	
 	private Socket socket;
@@ -30,7 +28,7 @@ public class InputZSpace3D implements Input3D {
 	
 	
 	
-	private double[][] glassesPosition;
+	private double[][] socketGlassesPosition;
 	
 	private double eyeSeparation;
 	
@@ -56,9 +54,9 @@ public class InputZSpace3D implements Input3D {
 
 
 		// glasses position
-		glassesPosition = new double[2][];
+		socketGlassesPosition = new double[2][];
 		for (int i = 0 ; i < 2 ; i++){
-			glassesPosition[i] = new double[3];
+			socketGlassesPosition[i] = new double[3];
 		}
 		
 		
@@ -67,10 +65,11 @@ public class InputZSpace3D implements Input3D {
 	}
 	
 	
-	public boolean update(GPoint panelPosition, GDimension panelDimension) {
+	public boolean update() {
 
 		// set view port and check if changed
-		boolean viewPortChanged = socket.setViewPort(panelPosition, panelDimension);
+		boolean viewPortChanged = socket.setViewPort(panelWidth, panelHeight,
+				panelX, panelY);
 		
 		// check if new message
 		if (socket.getData() || viewPortChanged){
@@ -113,12 +112,20 @@ public class InputZSpace3D implements Input3D {
 			eyeSeparation = socket.getEyeSeparation();//(socket.leftEyeX - socket.rightEyeX) * screenHalfWidth;
 
 			// glasses position
-			glassesPosition[0][0] = socket.leftEyeX;//socket.leftEyeX * screenHalfWidth + eyeSeparation/2;
-			glassesPosition[0][1] = socket.leftEyeY;//socket.leftEyeY * screenHalfWidth;
-			glassesPosition[0][2] = socket.leftEyeZ;//socket.leftEyeZ * screenHalfWidth;
-			glassesPosition[1][0] = socket.rightEyeX;//socket.leftEyeX * screenHalfWidth + eyeSeparation/2;
-			glassesPosition[1][1] = socket.rightEyeY;//socket.leftEyeY * screenHalfWidth;
-			glassesPosition[1][2] = socket.rightEyeZ;//socket.leftEyeZ * screenHalfWidth;
+			socketGlassesPosition[0][0] = socket.leftEyeX;// socket.leftEyeX *
+															// screenHalfWidth +
+															// eyeSeparation/2;
+			socketGlassesPosition[0][1] = socket.leftEyeY;// socket.leftEyeY *
+															// screenHalfWidth;
+			socketGlassesPosition[0][2] = socket.leftEyeZ;// socket.leftEyeZ *
+															// screenHalfWidth;
+			socketGlassesPosition[1][0] = socket.rightEyeX;// socket.leftEyeX *
+															// screenHalfWidth +
+															// eyeSeparation/2;
+			socketGlassesPosition[1][1] = socket.rightEyeY;// socket.leftEyeY *
+															// screenHalfWidth;
+			socketGlassesPosition[1][2] = socket.rightEyeZ;// socket.leftEyeZ *
+															// screenHalfWidth;
 
 			
 			return true;
@@ -156,7 +163,7 @@ public class InputZSpace3D implements Input3D {
 	}
 
 	public double[] getGlassesPosition(int i){
-		return glassesPosition[i];
+		return socketGlassesPosition[i];
 	}
 	
 	public double getEyeSeparation(){

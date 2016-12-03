@@ -6,16 +6,17 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.
- * @author matthieu
+ * 
+ * @author Mathieu
  *
  */
 public class ChangeableCoordParent {
@@ -38,11 +39,8 @@ public class ChangeableCoordParent {
 
 		if (v instanceof GeoNumeric) {
 			GeoNumeric geo = (GeoNumeric) v;
-			if (geo.getKernel().getApplication()
-					.has(Feature.FOLD_POLYHEDRON_NET_BY_DRAGGING)) {
-				if (geo.isIndependent()) {
-					return geo;
-				}
+			if (geo.isIndependent()) {
+				return geo;
 			}
 		}
 		return null;
@@ -80,11 +78,10 @@ public class ChangeableCoordParent {
 
 	/**
 	 * constructor
-	 * @param child child
 	 * @param number number
 	 * @param director director
 	 */
-	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
+	public ChangeableCoordParent(GeoNumeric number,
 			GeoElement director) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;
@@ -208,7 +205,11 @@ public class ChangeableCoordParent {
 		if (Kernel.isZero(ld))
 			return false;
 
-		double val = getStartValue() + direction2.dotproduct3(rwTransVec) / ld;
+		double shift = direction2.dotproduct3(rwTransVec) / ld;
+		if (!MyDouble.isFinite(shift)) {
+			return false;
+		}
+		double val = getStartValue() + shift;
 
 		if (!forPolyhedronNet) {
 			switch (view.getPointCapturingMode()) {

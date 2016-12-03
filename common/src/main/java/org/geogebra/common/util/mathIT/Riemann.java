@@ -799,10 +799,10 @@ public class Riemann {
 	 * i / 100.0; //t = 7005.05 + i / 1000.0; t = 6.0 + i / 5.0;
 	 * System.out.println("Z("+t+") = " + Z(t) ); } long zeit =
 	 * System.currentTimeMillis(); System.out.println("Needed running time:"+(
-	 * zeit - start )/1000.0 + " sec" ); System.exit(0); // Ende! } //
-	 * Eingabefeld: javax.swing.JTextField feld1 = new
-	 * javax.swing.JTextField(".5"); javax.swing.JTextField feld2 = new
-	 * javax.swing.JTextField("25"); //javax.swing.JTextField feld2 = new
+	 * zeit - start )/1000.0 + " sec" ); (0); // Ende! } // Eingabefeld:
+	 * javax.swing.JTextField feld1 = new javax.swing.JTextField(".5");
+	 * javax.swing.JTextField feld2 = new javax.swing.JTextField("25");
+	 * //javax.swing.JTextField feld2 = new
 	 * javax.swing.JTextField("49.7738324777");
 	 * 
 	 * Object[] msg = {"Re s:", feld1, "Im s:", feld2}; javax.swing.JOptionPane

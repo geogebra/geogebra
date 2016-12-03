@@ -7,10 +7,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public final class EuclidianConstants {
 
-	// prevent instantiation
-	private EuclidianConstants() {
-	}
-
 	/** Move */
 	public static final int MODE_MOVE = 0;
 
@@ -373,6 +369,21 @@ public final class EuclidianConstants {
 	/** Maximum */
 	public static final int MODE_SPREADSHEET_MAX = 2044;
 
+	/** WHITEBOARD TOOLS */
+	public static final int MODE_SHAPE_LINE = 101;
+	public static final int MODE_SHAPE_TRIANGLE = 102;
+	public static final int MODE_SHAPE_SQUARE = 103;
+	public static final int MODE_SHAPE_RECTANGLE = 104;
+	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 105;
+	public static final int MODE_SHAPE_POLYGON = 106;
+	public static final int MODE_SHAPE_FREEFORM = 107;
+	public static final int MODE_SHAPE_CIRCLE = 108;
+	public static final int MODE_SHAPE_ELLIPSE = 109;
+
+	public static final int MODE_ERASER = 110;
+	public static final int MODE_HIGHLIGHTER = 111;
+	
+	
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
@@ -772,11 +783,40 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_ROOTS:
 			return "Roots";
+			
+			/** WHITEBOARD TOOLS */
+		case EuclidianConstants.MODE_SHAPE_LINE:
+			return "ShapeLine";
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return "ShapeTriangle";
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+			return "ShapeSquare";
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+			return "ShapeRectangle";
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
+			return "ShapeRectangleRoundEdges";
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+			return "ShapePolygon";
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+			return "ShapeFreeform";
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+			return "ShapeCircle";
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+			return "ShapeEllipse";
+
+		case EuclidianConstants.MODE_ERASER:
+			return "Eraser";
+		case EuclidianConstants.MODE_HIGHLIGHTER:
+			return "Highlighter";
 
 		default:
 			Log.error("Unknown mode " + mode);
 			return "";
 		}
+	}
+
+	// prevent instantiation
+	private EuclidianConstants() {
 	}
 
 }

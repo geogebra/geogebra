@@ -33,8 +33,8 @@ import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
-import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
+import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -56,9 +56,9 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 	private SymbolTablePopupD tablePopup;
 	private MyTextFieldD thisField = this;
 
-	private ImageIcon icon = GeoGebraIcon.createSymbolTableIcon(this.getFont(),
+	private ImageIcon icon = GeoGebraIconD.createSymbolTableIcon(this.getFont(),
 			false);
-	private ImageIcon rollOverIcon = GeoGebraIcon.createSymbolTableIcon(
+	private ImageIcon rollOverIcon = GeoGebraIconD.createSymbolTableIcon(
 			this.getFont(), true);
 	private boolean showSymbolTableIcon = false;
 
@@ -246,7 +246,7 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 		if (app.getGuiManager() != null)
 			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
-					!(e.getOppositeComponent() instanceof VirtualKeyboard));
+					!(e.getOppositeComponent() instanceof VirtualKeyboardD));
 	}
 
 	public void actionPerformed(ActionEvent e) {

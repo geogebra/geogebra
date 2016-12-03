@@ -113,5 +113,5 @@ public class AlgoAxisSecond extends AlgoElement {
 		return getLoc().getPlain("SecondAxisOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

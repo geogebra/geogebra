@@ -38,7 +38,8 @@ public class LayoutW extends Layout implements SettingListener {
 	public LayoutW(App app) {
 		initializeDefaultPerspectives(app, 0.2);
 
-		this.perspectives = new ArrayList<Perspective>(defaultPerspectives.length);
+		this.perspectives = new ArrayList<Perspective>(
+				getDefaultPerspectivesLength());
 	}
 
 	/**
@@ -58,12 +59,13 @@ public class LayoutW extends Layout implements SettingListener {
 		this.dockManager = new DockManagerW(this);
 
 		// change inputPosition to default inputPosition
-		for(Perspective p : defaultPerspectives){
-			if(p != null){
+		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); i++) {
+			Perspective p = Layout.getDefaultPerspectives(i);
+			if (p != null) {
 				p.setInputPosition(appw.getInputPosition());
 			}
 		}
-    }
+	}
 
 		
 	/**
@@ -207,9 +209,9 @@ public class LayoutW extends Layout implements SettingListener {
 	 * @return perspective with 'id' as name or null 
 	 */
 	public Perspective getPerspective(String id) {
-		for(int i = 0; i < defaultPerspectives.length; ++i) {
-			if(id.equals(defaultPerspectives[i].getId())) {
-				return defaultPerspectives[i];
+		for (int i = 0; i < getDefaultPerspectivesLength(); ++i) {
+			if (id.equals(getDefaultPerspectives(i).getId())) {
+				return getDefaultPerspectives(i);
 			}
 		}
 		

@@ -266,6 +266,6 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		return 1;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

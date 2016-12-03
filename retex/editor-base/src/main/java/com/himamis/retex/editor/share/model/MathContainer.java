@@ -59,16 +59,20 @@ abstract public class MathContainer extends MathComponent {
     }
 
     /**
-     * Returns i'th argument.
-     */
+	 * Returns i-th argument.
+	 * 
+	 * @param i
+	 *            index
+	 * @return argument
+	 */
     public MathComponent getArgument(int i) {
-		return (arguments != null && arguments.size() != 0 && i >= 0
+		return (arguments != null && arguments.size() > i && i >= 0
 				? arguments.get(i) : null);
     }
 
     /**
-     * Sets i'th argument.
-     */
+	 * Sets i-th argument.
+	 */
     public void setArgument(int i, MathComponent argument) {
         if (arguments == null) {
             arguments = new ArrayList<MathComponent>(i + 1);
@@ -88,6 +92,15 @@ abstract public class MathContainer extends MathComponent {
 		}
 		arguments.remove(i);
 	}
+
+    public void clearArguments() {
+        if (arguments == null) {
+            arguments = new ArrayList<MathComponent>();
+        }
+        for (int i = arguments.size() - 1; i > -1; i--) {
+            removeArgument(i);
+        }
+    }
 
     public void addArgument(MathComponent argument) {
         if (arguments == null) {

@@ -223,10 +223,13 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements
 				botanaVars[0] = new Variable();
 				botanaVars[1] = new Variable();
 			}
+			@SuppressWarnings("unused")
+			Polynomial[] fp = g.getBotanaPolynomials(g);
 			Variable[] fv = g.getBotanaVars(g);
 			botanaPolynomials = new Polynomial[2];
 			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);
+			fp = h.getBotanaPolynomials(h);
 			fv = h.getBotanaVars(h);
 			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2],
 					fv[3], botanaVars[0], botanaVars[1]);

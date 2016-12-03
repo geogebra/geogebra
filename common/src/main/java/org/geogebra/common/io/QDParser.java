@@ -128,7 +128,7 @@ public class QDParser {
 			case TEXT:
 				switch (c) {
 				case '<':
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = START_TAG;
 					if (sb.length() > 0) {
 						doc.text(sb.toString());
@@ -136,7 +136,7 @@ public class QDParser {
 					}
 					break;
 				case '&':
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = ENTITY;
 					etag.setLength(0);
 					break;
@@ -187,7 +187,7 @@ public class QDParser {
 			case PRE:
 				if (c == '<') {
 					mode = TEXT;
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = START_TAG;
 				}
 				break;
@@ -209,14 +209,14 @@ public class QDParser {
 				mode = popMode(stack);
 				switch (c) {
 				case '/':
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = CLOSE_TAG;
 					break;
 				case '?':
 					mode = DOCTYPE;
 					break;
 				default:
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = OPEN_TAG;
 					tagName = null;
 					// attrs = new LinkedHashMap();
@@ -349,7 +349,7 @@ public class QDParser {
 				// Markus Hohenwarter, end
 
 				else if (c == '&') {
-					stack.push(new Integer(mode));
+					stack.push(Integer.valueOf(mode));
 					mode = ENTITY;
 					etag.setLength(0);
 				} else {

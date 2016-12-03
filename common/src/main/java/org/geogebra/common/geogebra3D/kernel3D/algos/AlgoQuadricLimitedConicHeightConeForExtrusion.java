@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 /**
  * Extension used for extrusion
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class AlgoQuadricLimitedConicHeightConeForExtrusion extends

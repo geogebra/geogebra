@@ -1,7 +1,6 @@
 package com.himamis.retex.editor.android;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -62,7 +61,7 @@ public class FormulaEditor extends View implements MathField {
 
     private Parser mParser;
 
-    static final private void debug(String message) {
+    public void debug(String message) {
         //System.out.println(message);
     }
 
@@ -230,16 +229,6 @@ public class FormulaEditor extends View implements MathField {
     }
 
     @Override
-    protected void onConfigurationChanged(Configuration newConfig) {
-        float newFontScale = newConfig.fontScale;
-        if (Math.abs(mScale - newFontScale) > 0.001) {
-            mScale = newConfig.fontScale;
-            mMinHeight = 0;
-            mMathFieldInternal.update();
-        }
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int desiredWidth = mTeXIcon.getIconWidth();
         final int desiredHeight = (int) (Math.max(getMinHeigth(), mTeXIcon.getIconHeight()) + 0.5);
@@ -310,6 +299,11 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void paste() {
+
+    }
+
+    @Override
+    public void copy() {
 
     }
 

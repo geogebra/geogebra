@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -134,7 +135,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	public final void initialCompute() {
 
 		// Create and initialize the prover
-		Prover p = UtilFactory.prototype.newProver();
+		Prover p = UtilFactory.getPrototype().newProver();
 		ProverSettings proverSettings = ProverSettings.get();
 		if ("OpenGeoProver".equalsIgnoreCase(proverSettings.proverEngine)) {
 			if ("Wu".equalsIgnoreCase(proverSettings.proverMethod))
@@ -167,7 +168,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
 		ProofResult proofresult = p.getProofResult();
-		Boolean result = p.getYesNoAnswer();
+		ExtendedBoolean result = p.getYesNoAnswer();
 
 		Log.debug("STATEMENT IS " + proofresult + " (yes/no: " + result + ")");
 
@@ -179,7 +180,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		list.setDefined(true);
 		list.clear();
 
-		if (result != null) {
+		if (!ExtendedBoolean.UNKNOWN.equals(result)) {
 			Boolean unreadable = null;
 
 			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
@@ -190,9 +191,9 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			}
 
 			GeoBoolean answer = new GeoBoolean(cons);
-			answer.setValue(result);
+			answer.setValue(result.boolVal());
 			list.add(answer);
-			if (result) {
+			if (result.boolVal()) {
 				HashSet<NDGCondition> ndgresult = p.getNDGConditions();
 				GeoList ndgConditionsList = new GeoList(cons);
 				ndgConditionsList.clear();

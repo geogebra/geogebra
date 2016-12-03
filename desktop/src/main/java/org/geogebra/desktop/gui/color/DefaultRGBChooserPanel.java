@@ -54,7 +54,6 @@ import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -150,7 +149,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	private transient JSpinner BSpinner;
 
 	private MyPreviewPanel previewPanel;
-	protected AppD app;
+	protected transient AppD app;
 
 	public JComponent getPreview() {
 		return previewPanel;
@@ -192,15 +191,15 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 		if (R != null)
 			R.setValue(red);
 		if (RSpinner != null)
-			RSpinner.setValue(new Integer(red));
+			RSpinner.setValue(Integer.valueOf(red));
 		if (G != null)
 			G.setValue(green);
 		if (GSpinner != null)
-			GSpinner.setValue(new Integer(green));
+			GSpinner.setValue(Integer.valueOf(green));
 		if (B != null)
 			B.setValue(blue);
 		if (BSpinner != null)
-			BSpinner.setValue(new Integer(blue));
+			BSpinner.setValue(Integer.valueOf(blue));
 
 		internalChange = false;
 		setLabels();
@@ -409,14 +408,14 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 * originally chosen color.
 	 * 
 	 */
-	class MyPreviewPanel extends JPanel {
+	static class MyPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		public MyPreviewPanel() {
 			this.setPreferredSize(new Dimension(140, 25));
-			Border border = BorderFactory.createCompoundBorder(
-					BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
-					BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
+			// Border border = BorderFactory.createCompoundBorder(
+			// BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
+			// BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
 			// this.setBorder(border);
 		}
 

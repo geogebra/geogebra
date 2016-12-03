@@ -134,6 +134,6 @@ public class AlgoRemove extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -31,10 +31,15 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
 
 	private GeoPointND point; // input
-	private GeoElement cs; // input
 
 	private GeoPlane3D plane; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param point
+	 *            point
+	 */
 	public AlgoPlaneThroughPoint(Construction cons, GeoPointND point) {
 		super(cons);
 		this.point = point;

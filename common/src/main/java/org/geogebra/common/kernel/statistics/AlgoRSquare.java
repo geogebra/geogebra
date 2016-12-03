@@ -116,6 +116,6 @@ public class AlgoRSquare extends AlgoElement {
 
 	}// compute()
 
-	// TODO Consider locusequability
+	
 }// class AlgoRSquare
 

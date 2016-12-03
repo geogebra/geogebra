@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -46,14 +45,15 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	// colors
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.TABLE_GRID_COLOR;
-	public static final GColor TABLE_HEADER_COLOR = new GColorW(240, 240, 240);
+	public static final GColor TABLE_HEADER_COLOR = GColor.newColor(240, 240,
+			240);
 	public static final GColor HISTOGRAM_COLOR = GColor.BLUE;
 	public static final GColor BOXPLOT_COLOR = GeoGebraColorConstants.GGB_RED;
 	public static final GColor BARCHART_COLOR = GeoGebraColorConstants.GGB_GREEN;
 
 	public static final GColor DOTPLOT_COLOR = GeoGebraColorConstants.GRAY5;
 	public static final GColor NQPLOT_COLOR = GeoGebraColorConstants.GRAY5;
-	public static final GColor REGRESSION_COLOR = GColorW.RED;
+	public static final GColor REGRESSION_COLOR = GColor.RED;
 	public static final GColor OVERLAY_COLOR = GeoGebraColorConstants.DARKBLUE;
 
 	private GColor[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
@@ -628,7 +628,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 			dataDisplayPanel1.resize(w, h/2, true);
 			dataDisplayPanel1.resize(w, h/2, true);
-			comboPanelSplit.addNorth(dataDisplayPanel1,  h/2);
+			comboPanelSplit.addNorth(dataDisplayPanel1, h / 2.0);
 			comboPanelSplit.add(dataDisplayPanel2);
 
 		} else {
@@ -647,8 +647,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public GColor createColor(int idx) {
-		GColor c = colors[idx];
-		return new GColorW(c.getRed(), c.getGreen(), c.getBlue());
+		return colors[idx];
 	}
 
 	public boolean hasFocus() {
@@ -695,9 +694,8 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	public List<Widget> getPrintable() {
 
-		Widget[] printableList = {};
+		Widget[] printableList = { new Label("Data analysis View") };
 
-		printableList[0] = new Label("Data analysis View");
 		return Arrays.asList(printableList);
 	}
 

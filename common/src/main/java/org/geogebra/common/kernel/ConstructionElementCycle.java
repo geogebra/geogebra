@@ -47,7 +47,7 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 	 *            second element
 	 * @return the cycle constituted of P1 and P2
 	 */
-	static final public ConstructionElementCycle SegmentDescription(
+	static final public ConstructionElementCycle segmentDescription(
 			GeoElement P1, GeoElement P2) {
 		ConstructionElementCycle cycle = new ConstructionElementCycle();
 		cycle.add(P1);

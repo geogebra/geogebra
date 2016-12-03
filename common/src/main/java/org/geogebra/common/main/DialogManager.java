@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Transformable;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -198,7 +197,8 @@ public abstract class DialogManager {
 		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
 				defaultAngle);
 
-		rotateObject(app, inputString, false, selectedPolygons, selectedPoints,
+		rotateObject(app, inputString, false, selectedPolygons,
+				new CreateGeoForRotatePoint(selectedPoints[0]),
 				selGeos, ec, app.getDefaultErrorHandler(),
 				new AsyncOperation<String>() {
 
@@ -237,15 +237,55 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
 
+	public interface CreateGeoForRotate {
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num);
+
+		public GeoElementND getPivot();
+	}
+
+	public static class CreateGeoForRotatePoint implements CreateGeoForRotate {
+
+		private GeoPointND point;
+
+		public CreateGeoForRotatePoint(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num) {
+			return ec.getCompanion().rotateByAngle(geo, num, point);
+		}
+
+		public GeoElementND getPivot() {
+			return point;
+		}
+	}
+
+	public static class CreateGeoForRotateLine implements CreateGeoForRotate {
+
+		private GeoLineND line;
+
+		public CreateGeoForRotateLine(GeoLineND line) {
+			this.line = line;
+		}
+
+		public GeoElement[] createGeos(EuclidianController ec, GeoElement geo, GeoNumberValue num) {
+			return ec.getKernel().getManager3D().Rotate3D(null, geo, num, line);
+		}
+
+		public GeoElementND getPivot() {
+			return line;
+		}
+	}
+
 	public static void rotateObject(final App app, String inputText,
-			boolean clockwise, final GeoPolygon[] polys,
-			final GeoPointND[] points,
-			final GeoElement[] selGeos, final EuclidianController ec,
-			final ErrorHandler eh,
-			final AsyncOperation<String> callback) {
+									boolean clockwise, final GeoPolygon[] polys,
+									final CreateGeoForRotate creator,
+									final GeoElement[] selGeos, final EuclidianController ec,
+									final ErrorHandler eh,
+									final AsyncOperation<String> callback) {
 
 		final String angleText = inputText;
-		Kernel kernel = app.getKernel();
+		final Kernel kernel = app.getKernel();
 
 		// avoid labeling of num
 		final Construction cons = kernel.getConstruction();
@@ -277,12 +317,11 @@ public abstract class DialogManager {
 
 							if (polys.length == 1) {
 
-								GeoElement[] geos = ec
-										.getCompanion()
-										.rotateByAngle(polys[0], num, points[0]);
+								GeoElement[] geos = creator.createGeos(ec, polys[0], num);
 								if (geos != null) {
 									app.storeUndoInfoAndStateForModeStarting();
 									ec.memorizeJustCreatedGeos(geos);
+									kernel.notifyRepaint();
 								}
 								if (callback != null) {
 									callback.callback(defaultRotateAngle);
@@ -291,23 +330,18 @@ public abstract class DialogManager {
 										}
 							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 							for (int i = 0; i < selGeos.length; i++) {
-								if (selGeos[i] != points[0]) {
+								if (selGeos[i] != creator.getPivot()) {
 									if (selGeos[i] instanceof Transformable) {
-										ret.addAll(Arrays.asList(ec
-												.getCompanion().rotateByAngle(
-														selGeos[i], num,
-														points[0])));
+										ret.addAll(Arrays.asList(creator.createGeos(ec, selGeos[i], num)));
 									} else if (selGeos[i].isGeoPolygon()) {
-										ret.addAll(Arrays.asList(ec
-												.getCompanion().rotateByAngle(
-														selGeos[i], num,
-														points[0])));
+										ret.addAll(Arrays.asList(creator.createGeos(ec, selGeos[i], num)));
 									}
-											}
-										}
+								}
+							}
 							if (!ret.isEmpty()) {
 								app.storeUndoInfoAndStateForModeStarting();
 								ec.memorizeJustCreatedGeos(ret);
+								kernel.notifyRepaint();
 							}
 
 						} else {
@@ -501,7 +535,7 @@ public abstract class DialogManager {
 	 * @param geoPoint
 	 */
 	public void showNumberInputDialogSpherePointRadius(String title,
-			GeoPointND geoPoint) {
+													   GeoPointND geoPoint, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -516,7 +550,7 @@ public abstract class DialogManager {
 	 *            apex point
 	 */
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+														 GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -531,7 +565,7 @@ public abstract class DialogManager {
 	 *            top center
 	 */
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
-			GeoPointND a, GeoPointND b) {
+															 GeoPointND a, GeoPointND b, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -543,7 +577,7 @@ public abstract class DialogManager {
 	 * 
 	 */
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
-			GeoPointND geoPoint, GeoDirectionND forAxis) {
+																GeoPointND geoPoint, GeoDirectionND forAxis, EuclidianController ec) {
 		// 3D stuff
 
 	}
@@ -564,11 +598,88 @@ public abstract class DialogManager {
 		return false;
 	}
 
-	public static void makeCircleRadius(final App app,
-			final EuclidianController ec,
-			String inputString, final GeoPointND geoPoint,
-			final ErrorHandler handler,
-			final AsyncOperation<Boolean> callback) {
+	public interface CreateGeoFromRadius {
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num);
+	}
+
+	public static class CreateSphereFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+
+		public CreateSphereFromRadius(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().Sphere(null, point, num);
+		}
+	}
+
+	public static class CreateConeFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point1, point2;
+
+		public CreateConeFromRadius(GeoPointND point1, GeoPointND point2) {
+			this.point1 = point1;
+			this.point2 = point2;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().ConeLimited(null, point1, point2, num)[0];
+		}
+	}
+
+	public static class CreateCylinderFromRadius
+			implements CreateGeoFromRadius {
+
+		private GeoPointND point1, point2;
+
+		public CreateCylinderFromRadius(GeoPointND point1, GeoPointND point2) {
+			this.point1 = point1;
+			this.point2 = point2;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().CylinderLimited(null, point1, point2, num)[0];
+		}
+	}
+
+	public static class CreateCircleFromDirectionRadius
+			implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+		private GeoDirectionND forAxis;
+
+		public CreateCircleFromDirectionRadius(GeoPointND point, GeoDirectionND forAxis) {
+			this.point = point;
+			this.forAxis = forAxis;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getManager3D().Circle3D(null, point, num, forAxis);
+		}
+	}
+
+	public static class CreateCircleFromRadius implements CreateGeoFromRadius {
+
+		private GeoPointND point;
+
+		public CreateCircleFromRadius(GeoPointND point) {
+			this.point = point;
+		}
+
+		public GeoElement createGeo(Kernel kernel, GeoNumberValue num) {
+			return kernel.getAlgoDispatcher()
+					.Circle(null, point, num);
+		}
+	}
+
+	public static void makeGeoPointRadius(final App app,
+										  final EuclidianController ec,
+										  String inputString,
+										  final CreateGeoFromRadius createGeoFromRadius,
+										  final ErrorHandler handler,
+										  final AsyncOperation<Boolean> callback) {
 		if (inputString == null || "".equals(inputString)) {
 			if (callback != null) {
 				callback.callback(false);
@@ -586,10 +697,10 @@ public abstract class DialogManager {
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputString, false,
 						handler, true,
-				new AsyncOperation<GeoElementND[]>() {
+						new AsyncOperation<GeoElementND[]>() {
 
 							@Override
-					public void callback(GeoElementND[] result) {
+							public void callback(GeoElementND[] result) {
 								cons.setSuppressLabelCreation(oldVal);
 
 								boolean success = result != null
@@ -605,26 +716,90 @@ public abstract class DialogManager {
 									return;
 								}
 
-								GeoConicND circle = kernel.getAlgoDispatcher()
-										.Circle(null, geoPoint,
+								GeoElement geo = createGeoFromRadius.createGeo(kernel,
 												(GeoNumberValue) result[0]);
 
 								GeoElement[] onlypoly = { null };
-								if (circle != null) {
-									onlypoly[0] = circle;
+								if (geo != null) {
+									onlypoly[0] = geo;
 									app.storeUndoInfoAndStateForModeStarting();
 									ec.memorizeJustCreatedGeos(onlypoly);
+									kernel.notifyRepaint();
 								}
 								if (callback != null) {
-									callback.callback(circle != null);
+									callback.callback(geo != null);
 								}
 
 							}
 						});
 
+	}
 
 
+	public static void makeGeoFromNumber(final App app,
+										 String inputString,
+										 final AsyncOperation<GeoNumberValue> creator,
+										 final boolean changeSign,
+										 final ErrorHandler handler,
+										 final AsyncOperation<Boolean> callback) {
+		if (inputString == null || "".equals(inputString)) {
+			if (callback != null) {
+				callback.callback(false);
+			}
+			return;
+		}
+
+		final Kernel kernel = app.getKernel();
+		final Construction cons = kernel.getConstruction();
+
+		// avoid labeling of num
+		final boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// handle change sign
+		String inputWithSign;
+		if (changeSign) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("-(");
+			sb.append(inputString);
+			sb.append(")");
+			inputWithSign = sb.toString();
+		} else {
+			inputWithSign = inputString;
+		}
+
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputWithSign, false,
+						handler, true,
+						new AsyncOperation<GeoElementND[]>() {
+
+							@Override
+							public void callback(GeoElementND[] result) {
+
+								cons.setSuppressLabelCreation(oldVal);
+
+								boolean success = result != null
+										&& result[0] instanceof GeoNumberValue;
+								if (!success) {
+									handler.showError(app.getLocalization()
+											.getError(
+													"NumberExpected"));
+									if (callback != null) {
+										callback.callback(false);
+									}
+									return;
+								}
+
+								creator.callback((GeoNumberValue) result[0]);
+
+								if (callback != null) {
+									callback.callback(success);
+								}
+
+							}
+						});
 
 	}
+
 
 }

@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -55,7 +54,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	// color constants
 	private static final GColor DISPLAY_GEO_COLOR = GColor.RED;
 	private static final GColor DISPLAY_GEO2_COLOR = GColor.RED;
-	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
+	private static final GColor EVEN_ROW_COLOR = GColor.newColor(241, 245, 250);
 	private static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = { "x", "y(x)" };
@@ -521,8 +520,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		try {
 
 			String inputText = source.getText().trim();
-			if (inputText == null)
-				return;
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
@@ -639,10 +636,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void doCopyToSpreadsheet() {
 		SpreadsheetViewW sp = ((GuiManagerW) getAppW().getGuiManager())
 		        .getSpreadsheetView();
-
-		if (sp == null) {
-			return;
-		}
 
 		if (isIntervalTabSelected()) {
 			getModel().copyIntervalsToSpreadsheet(2, 9);// modelInterval.getColumnCount(),

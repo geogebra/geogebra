@@ -12,8 +12,6 @@
 
 package org.geogebra.common.util;
 
-import org.geogebra.common.GeoGebraConstants;
-
 public class Util extends Object {
 
 	/**
@@ -71,13 +69,25 @@ public class Util extends Object {
 		return nums[nums.length - 1];
 	}
 
+	/** available font sizes (will be reused in OptionsAdvanced) */
+	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
+			32,
+			48 };
+
+	public static int menuFontSizes(int i) {
+		return MENU_FONT_SIZES[i];
+	}
+
+	public static int menuFontSizesLength() {
+		return MENU_FONT_SIZES.length;
+	}
+
 	/**
 	 * @param fontSize
 	 *            desired size
 	 * @return valid, supported fontSize
 	 */
 	public static int getValidFontSize(int fontSize) {
-		return getNextHigestNumberInSortedList(fontSize,
-				GeoGebraConstants.VALID_FONT_SIZES);
+		return getNextHigestNumberInSortedList(fontSize, MENU_FONT_SIZES);
 	}
 }

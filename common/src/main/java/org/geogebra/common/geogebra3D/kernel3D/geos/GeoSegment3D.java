@@ -552,10 +552,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
-		return geo.isGeoSegment()
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment()
 				&& Kernel
-						.isEqual(getLength(), ((GeoSegmentND) geo).getLength());
+						.isEqual(getLength(),
+								((GeoSegmentND) geo).getLength()));
 	}
 
 	public Coords getOrigin() {

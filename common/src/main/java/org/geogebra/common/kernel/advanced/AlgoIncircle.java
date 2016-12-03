@@ -122,7 +122,7 @@ public class AlgoIncircle extends AlgoElement {
 				B.getLabel(tpl), C.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }
 
 // Local Variables:

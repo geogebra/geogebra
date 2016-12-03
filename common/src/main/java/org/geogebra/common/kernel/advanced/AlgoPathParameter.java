@@ -82,5 +82,5 @@ public class AlgoPathParameter extends AlgoElement {
 		return value;
 	}
 
-	// TODO Consider locusequability
+	
 }

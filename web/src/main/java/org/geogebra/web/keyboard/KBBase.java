@@ -1,14 +1,18 @@
 package org.geogebra.web.keyboard;
 
 import java.util.HashMap;
-import java.util.Set;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
@@ -236,8 +240,6 @@ public abstract class KBBase extends PopupPanel {
 
 	private boolean isSmallKeyboard = false;
 
-	static boolean hideInSV;
-
 	protected void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
@@ -422,8 +424,14 @@ public abstract class KBBase extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (KBBase.this.processField.isSVCell()) {
-						hideInSV = true;
+				if ((KBBase.this.processField != null)
+						&& KBBase.this.processField.isSVCell()) {
+					// hideInSV = true;
+
+					((SpreadsheetViewInterface)((AppW) app)
+							.getView(App.VIEW_SPREADSHEET))
+							.setKeyboardEnabled(false);
+
 				}
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
@@ -829,8 +837,26 @@ public abstract class KBBase extends PopupPanel {
 	 * @param processing
 	 *            the text field to be used
 	 */
-	public void setProcessing(KeyboardListener processing) {
+	public void setProcessing(KeyboardListener processing) {		
+		// checking if app is null and instance of AppW needed only avoid
+		// exceptions at checking feature. So at deleting feature check, you can
+		// delete "app != null && app instanceof AppW" too
+		if (app != null && app instanceof AppW
+				&& ((AppW) app).has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			if (processField != null && processField.getField() != null){
+				if (processing == null
+						|| processField.getField() != processing.getField()) {
+					endEditing();
+				}
+			}
+		}
 		this.processField = processing;
+	}
+
+	public void endEditing() {
+		if (processField != null) {
+			processField.endEditing();
+		}
 	}
 
 	protected void processAccent(String accent, KeyBoardButtonBase source) {
@@ -922,10 +948,9 @@ public abstract class KBBase extends PopupPanel {
 			accents = accentGrave;
 		}
 
-		Set<String> keys = accents.keySet();
-		for (String key : keys) {
-			if (accents.get(key).equals(letter)) {
-				return key;
+		for (Entry<String, String> entry : accents.entrySet()) {
+			if (accents.get(entry.getValue()).equals(letter)) {
+				return entry.getKey();
 			}
 		}
 		return letter;
@@ -1112,14 +1137,6 @@ public abstract class KBBase extends PopupPanel {
 	 */
 	public boolean shouldBeShown() {
 		return this.keyboardWanted;
-	}
-
-	public static boolean shouldBeHideInSV() {
-		return hideInSV;
-	}
-
-	public static void doHideInSV(boolean b) {
-		hideInSV = b;
 	}
 
 	public void showOnFocus() {

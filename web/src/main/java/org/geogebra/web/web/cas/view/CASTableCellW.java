@@ -174,14 +174,17 @@ public class CASTableCellW extends VerticalPanel {
 		if (inputPanel != null) {
 			if ((fontStyle & GFont.BOLD) != 0) {
 				inputPanel.addStyleName("bold");
-			} else
+			} else {
 				inputPanel.removeStyleName("bold");
+			}
+
+			if ((fontStyle & GFont.ITALIC) != 0) {
+				inputPanel.addStyleName("italic");
+			} else {
+				inputPanel.removeStyleName("italic");
+			}
 		}
 
-		if ((fontStyle & GFont.ITALIC) != 0) {
-			inputPanel.addStyleName("italic");
-		} else
-			inputPanel.removeStyleName("italic");
 
 	}
 

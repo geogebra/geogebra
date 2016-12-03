@@ -54,7 +54,7 @@ public class AlgebraControllerW extends AlgebraController
 
 
 	private void mousePressed(AbstractEvent e) {
-		view.cancelEditing();
+		view.cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
 		// RIGHT CLICK

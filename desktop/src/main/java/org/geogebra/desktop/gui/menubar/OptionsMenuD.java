@@ -48,7 +48,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 			showOptionsAction,
 			saveSettings, restoreDefaultSettings;
 
-	private JMenu menuPointCapturing, menuLabeling, menuAlgebraStyle;
+	private JMenu menuLabeling, menuAlgebraStyle;
 
 	public OptionsMenuD(AppD app) {
 		super(app, app.getMenu("Options"));
@@ -371,65 +371,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	public void update() {
 		getOptionsMenu().update();
 	}
-
-	/**
-	 * Update algebra style description (switch between value / definition /
-	 * command).
-	 */
-	/*
-	 * private void updateMenuViewDescription() { if (menuAlgebraStyle != null)
-	 * { ((JRadioButtonMenuItem) menuAlgebraStyle.getMenuComponent(kernel
-	 * .getAlgebraStyle())).setSelected(true); } }
-	 */
-
-	/**
-	 * Update the point capturing menu.
-	 */
-	private void updateMenuPointCapturing() {
-		if (menuPointCapturing == null)
-			return;
-
-		String pos = Integer.toString(app.getActiveEuclidianView()
-				.getPointCapturingMode());
-		for (int i = 0; i < 4; i++) {
-			JRadioButtonMenuItem mi = (JRadioButtonMenuItem) menuPointCapturing
-					.getMenuComponent(i);
-			String ac = mi.getActionCommand();
-			if (ac.substring(0, 1).equals(pos)) {
-				mi.setSelected(true);
-				break;
-			}
-		}
-	}
-
-	// /**
-	// * Update the menu with all decimal places.
-	// */
-	// private void updateMenuDecimalPlaces() {
-	// if (menuDecimalPlaces == null)
-	// return;
-	// int pos = -1;
-	//
-	// if (kernel.useSignificantFigures) {
-	// int figures = kernel.getPrintFigures();
-	// if (figures > 0 && figures < App.figuresLookup.length)
-	// pos = App.figuresLookup[figures];
-	// } else {
-	// int decimals = kernel.getPrintDecimals();
-	//
-	// if (decimals > 0 && decimals < App.decimalsLookup.length)
-	// pos = App.decimalsLookup[decimals];
-	//
-	// }
-	//
-	// try {
-	// ((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
-	// .setSelected(true);
-	// } catch (Exception e) {
-	// //
-	// }
-	//
-	// }
 
 	/**
 	 * Execute a performed action.

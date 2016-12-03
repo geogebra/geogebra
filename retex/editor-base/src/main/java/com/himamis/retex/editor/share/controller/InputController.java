@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
@@ -55,20 +57,22 @@ public class InputController {
         int currentOffset = editorState.getCurrentOffset();
         MetaArray meta = metaModel.getArray(arrayOpenKey);
         MathArray array = new MathArray(meta, size);
+		ArrayList<MathComponent> removed = cut(currentField, currentOffset);
         currentField.addArgument(currentOffset, array);
 
         // add sequence
         MathSequence field = new MathSequence();
         array.setArgument(0, field);
-
+		insertReverse(field, -1, removed);
+		System.out.println(field);
         for (int i = 1; i < size; i++) {
             // add sequence
-            array.setArgument(i, new MathSequence());
+			array.setArgument(i, new MathSequence());
         }
 
         // set current
         editorState.setCurrentField(field);
-        editorState.setCurrentOffset(0);
+		editorState.setCurrentOffset(field.size());
     }
 
     /**
@@ -307,7 +311,18 @@ public class InputController {
                 currentOffset = 0;
 
                 // if ']' '}' typed at the end of last field ... move out of array
-            } else if ((ch == parent.getCloseKey() && parent.isArray()) ||
+			} else if (ch == parent.getCloseKey() && parent.isArray()
+					&& currentField.size() > 0) {
+
+				ArrayList<MathComponent> removed = cut(currentField,
+						currentOffset);
+				insertReverse(parent.getParent(), parent.getParentIndex(),
+						removed);
+				
+				
+				currentOffset = parent.getParentIndex() + 1;
+				currentField = (MathSequence) parent.getParent();
+			} else if (
                     (ch == parent.getCloseKey() && parent.isMatrix()) &&
                             parent.size() == currentField.getParentIndex() + 1 &&
                             currentOffset == currentField.size()) {
@@ -359,9 +374,32 @@ public class InputController {
         editorState.setCurrentOffset(currentOffset);
     }
 
-    /**
-     * Insert symbol.
-     */
+	private static void insertReverse(MathContainer parent, int parentIndex,
+			ArrayList<MathComponent> removed) {
+		for (int j = removed.size() - 1; j >= 0; j--) {
+			MathComponent o = removed.get(j);
+			int idx = parentIndex + (removed.size() - j);
+			System.out.println(idx + ":" + o);
+			parent.addArgument(idx, o);
+		}
+
+	}
+
+	private static ArrayList<MathComponent> cut(MathSequence currentField,
+			int currentOffset) {
+		// TODO Auto-generated method stub
+		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
+		for (int i = currentField.size() - 1; i >= currentOffset; i--) {
+			removed.add(currentField.getArgument(i));
+			currentField.removeArgument(i);
+		}
+
+		return removed;
+	}
+
+	/**
+	 * Insert symbol.
+	 */
     public void escSymbol(EditorState editorState) {
         String name = argumentHelper.readCharacters(editorState);
         while (name.length() > 0) {
@@ -418,10 +456,10 @@ public class InputController {
 
             // if parent are empty array
         } else if (currentField.getParent() instanceof MathArray &&
-                currentField.getParent().size() == 1 &&
-                currentField.size() == 0) {
+				currentField.getParent().size() == 1) {
 
             MathArray parent = (MathArray) currentField.getParent();
+			System.out.println(parent.getOpenKey());
             delContaner(editorState, parent, parent.getArgument(0));
 
             // if parent is 1DArray or Vector and cursor is at the beginning of intermediate the field
@@ -648,21 +686,19 @@ public class InputController {
 
     public boolean handleChar(EditorState editorState, char ch) {
         boolean handled = false;
-        // debug for non handled chars
-        System.out.println("InputController.handleChar: " + ch + "," + ((int) ch));
         // backspace, delete and escape are handled for key down
         if (ch == 8 || ch == 127 || ch == 27) {
             return true;
         }
         deleteSelection(editorState);
-        MetaModel metaModel = editorState.getMetaModel();
+        MetaModel meta = editorState.getMetaModel();
         if (isArrayCloseKey(ch, editorState) || ch == InputController.FUNCTION_CLOSE_KEY) {
             endField(editorState, ch);
             handled = true;
-        } else if (metaModel.isFunctionOpenKey(ch)) {
+        } else if (meta.isFunctionOpenKey(ch)) {
             newBraces(editorState, ch);
             handled = true;
-        } else if (ch == '^') {
+		} else if (mCreateFrac && ch == '^') {
             newScript(editorState, "^");
             handled = true;
         } else if (ch == '_') {
@@ -677,7 +713,7 @@ public class InputController {
         } else if (ch == 8730) { // square root char
             newFunction(editorState, "sqrt", 0);
             handled = true;
-        } else if (metaModel.isArrayOpenKey(ch)) {
+        } else if (meta.isArrayOpenKey(ch)) {
             newArray(editorState, 1, ch);
             handled = true;
         } else if (ch == 8226) { // big dot char
@@ -686,13 +722,13 @@ public class InputController {
         } else if (ch == 215) { // multiplication cross char
             newOperator(editorState, '*');
             handled = true;
-        } else if (metaModel.isOperator("" + ch)) {
+        } else if (meta.isOperator("" + ch)) {
             newOperator(editorState, ch);
             handled = true;
-        } else if (metaModel.isSymbol("" + ch)) {
+        } else if (meta.isSymbol("" + ch)) {
             newSymbol(editorState, ch);
             handled = true;
-        } else if (metaModel.isCharacter("" + ch)) {
+        } else if (meta.isCharacter("" + ch)) {
             newCharacter(editorState, ch);
             handled = true;
         }
@@ -726,8 +762,40 @@ public class InputController {
 
 	}
 
+	public void copy() {
+		if (this.mathField != null) {
+			this.mathField.copy();
+		}
+
+	}
+
 	public void setMathField(MathField mathField) {
 		this.mathField = mathField;
 
+	}
+
+	public MathSequence getSelectionText(EditorState editorState) {
+		if (editorState.getSelectionStart() != null) {
+			MathContainer parent = editorState.getSelectionStart().getParent();
+			int end, start;
+			if (parent == null) {
+				// all the formula is selected
+				return editorState.getRootComponent();
+
+			}
+			MathSequence seq = new MathSequence();
+			end = parent.indexOf(editorState.getSelectionEnd());
+			start = parent.indexOf(editorState.getSelectionStart());
+			if (end >= 0 && start >= 0) {
+				for (int i = start; i <= end; i++) {
+					seq.addArgument(parent.getArgument(i).copy());
+				}
+
+				// editorState.setCurrentOffset(start);
+			}
+			return seq;
+		}
+		// editorState.resetSelection();
+		return null;
 	}
 }

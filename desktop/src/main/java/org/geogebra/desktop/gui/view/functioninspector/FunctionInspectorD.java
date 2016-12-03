@@ -52,13 +52,12 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
 import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
@@ -107,8 +106,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 	private int pointCount = 9;
 
 	private SpecialNumberFormat nf;
-
-	private GeoElementSelectionListener sl;
 
 	/***************************************************************
 	 * Constructs a FunctionInspecor
@@ -321,7 +318,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
-		btnAddColumn.setFixedIcon(GeoGebraIcon.createEmptyIcon(1, 1));
+		btnAddColumn.setFixedIcon(GeoGebraIconD.createEmptyIcon(1, 1));
 		btnAddColumn.setText("\u271A");
 		btnAddColumn.addActionListener(this);
 	}
@@ -459,8 +456,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 		try {
 
 			String inputText = source.getText().trim();
-			if (inputText == null)
-				return;
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
@@ -603,10 +598,9 @@ public class FunctionInspectorD extends FunctionInspector implements
 		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
 	}
 
+	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
-		if (!wrappedDialog.isModal()) {
-			getApp().setSelectionListenerMode(sl);
-		}
+		//
 	}
 
 	@Override
@@ -659,10 +653,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 		SpreadsheetViewD sp = ((GuiManagerD) getAppD().getGuiManager())
 				.getSpreadsheetView();
-
-		if (sp == null) {
-			return;
-		}
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
 			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),
@@ -778,7 +768,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			break;
 
 		}
-		return new GColorD(color);
+		return GColorD.newColor(color);
 	}
 
 	public int getSelectedXYRow() {

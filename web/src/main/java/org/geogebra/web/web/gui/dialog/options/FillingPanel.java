@@ -26,7 +26,7 @@ import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.util.BarList;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -57,7 +57,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private FlowPanel opacityPanel, hatchFillPanel, imagePanel, anglePanel,
 			distancePanel;
-	private Label lblFillType;
 	private Label lblSelectedSymbol;
 	private Label lblMsgSelected;
 	private Button btnOpenFile;
@@ -415,7 +414,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		}
 
 		final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
-		iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
+		iconArray[0] = GeoGebraIconW.createNullSymbolIcon(24, 24);
 		for (int i = 1; i < iconArray.length; i++) {
 			iconArray[i] = new ImageOrText(iconList.get(i));
 		}
@@ -557,10 +556,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		if (model.hasGeoButton() || model.hasGeoTurtle()) {
 			fillTypePanel.setVisible(false);
 			opacityPanel.setVisible(false);
-			if (lblFillType != null) {
-				lblFillType.setVisible(false);
-				lbFillType.setVisible(false);
-			}
 			if (model.hasGeoTurtle()) {
 				this.btnImage.setVisible(false);
 				this.btnClearImage.setVisible(true);

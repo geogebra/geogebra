@@ -5,7 +5,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.WindowW;
 import org.geogebra.web.web.move.ggtapi.operations.BASEURL;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
@@ -33,9 +32,11 @@ public class WindowReference implements EventRenderable {
 	/**
 	 * The instance of the opened window. We would like to have only one window opened in a given time
 	 */
-	static WindowReference instance = null;
+	static volatile WindowReference instance = null;
 
-	static LoginOperationW lOW;
+	static volatile LoginOperationW lOW;
+
+	private static Object lock = new Object();
 
 	/**
 	 * protected constructor as superclass of js object
@@ -60,11 +61,15 @@ public class WindowReference implements EventRenderable {
 	 */
 	public static WindowReference createSignInWindow(App app, String callback) {
 		if (instance == null) {
-			instance = new WindowReference();
-			lOW = ((LoginOperationW) app.getLoginOperation());
-			instance.wnd = createWindowReference("GeoGebraTube",
-					lOW.getLoginURL(
-							((AppW) app).getLocalization().getLanguage()),
+			synchronized (lock) {
+				if (instance == null) {
+					instance = new WindowReference();
+					lOW = ((LoginOperationW) app.getLoginOperation());
+				}
+			}
+			instance.wnd = createWindowReference(
+					app.getLocalization().getMenu("GeoGebraMaterials"),
+					lOW.getLoginURL(app.getLocalization().getLanguage()),
 					callback, 900, 500);
 					lOW.getView().add(instance);
 					instance.initClosedCheck();
@@ -122,8 +127,10 @@ public class WindowReference implements EventRenderable {
 
 	void cleanWindowReferences() {
 	    requestAnimationFrame.cancel();
-	    WindowReference.instance = null;
-	    lOW = null;
+		synchronized (lock) {
+			WindowReference.instance = null;
+			lOW = null;
+		}
     }
 
 	private static JavaScriptObject createWindowReference(String name,

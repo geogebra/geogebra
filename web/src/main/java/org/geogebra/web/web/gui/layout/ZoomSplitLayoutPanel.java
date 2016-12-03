@@ -28,6 +28,8 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * A panel that adds user-positioned splitters between each of its child
  * widgets.
@@ -131,6 +133,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
 
     @Override
+		@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+				"missing break is deliberate" })
     public void onBrowserEvent(Event event) {
       if (!impl.shouldHandleEvent(event, mouseDown)) {
         return;
@@ -140,6 +144,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
         case Event.ONTOUCHSTART:
           splitter = impl.getSplitterElement();
           splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+
+				// fall through
         case Event.ONMOUSEDOWN:
           if (splitPanel.hasSplittersFrozen()) {
 					event.preventDefault();

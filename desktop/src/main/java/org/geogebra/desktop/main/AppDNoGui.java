@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
@@ -52,7 +51,6 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
@@ -76,7 +74,7 @@ public class AppDNoGui extends App {
 
 		super(Versions.DESKTOP);
 		if (!silent) {
-			Log.logger = new LoggerD();
+			Log.setLogger(new LoggerD());
 		}
 
 		prerelease = true;
@@ -97,32 +95,35 @@ public class AppDNoGui extends App {
 		return new App3DCompanionD(this);
 	}
 
-	private void initFactories() {
-		AwtFactory.prototype = new AwtFactoryD();
-		FormatFactory.prototype = new FormatFactoryJre();
-		LaTeXFactory.prototype = new LaTeXFactoryD();
+	/**
+	 * init factories
+	 */
+	protected void initFactories() {
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.CASFactory.prototype = new CASFactoryD();
+		if (AwtFactory.getPrototype() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryD());
+		}
 
-		// moved to getCASFactory() so that applets load quicker
-		// geogebra.common.factories.SwingFactory.prototype = new
-		// SwingFactoryD();
+		if (FormatFactory.getPrototype() == null) {
+			FormatFactory.setPrototypeIfNull(new FormatFactoryJre());
+		}
 
-		UtilFactory.prototype = new UtilFactoryD();
+		if (LaTeXFactory.getPrototype() == null) {
+			LaTeXFactory.setPrototypeIfNull(new LaTeXFactoryD());
+		}
 
-		// moved to getFactory() so that applets load quicker
-		// geogebra.common.factories.Factory.prototype = new FactoryD();
+		if (UtilFactory.getPrototype() == null) {
+			UtilFactory.setPrototypeIfNull(new UtilFactoryD());
+		}
 
-		StringUtil.prototype = new StringUtilD();
-
-		EuclidianStatic.prototype = new EuclidianStaticD();
+		if (StringUtil.getPrototype() == null) {
+			StringUtil.setPrototypeIfNull(new StringUtilD());
+		}
 
 	}
 
 	@Override
 	public boolean isApplet() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

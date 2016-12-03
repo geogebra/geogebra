@@ -406,6 +406,6 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 	// return sum;
 	// }
 
-	// TODO Consider locusequability
+	
 
 }

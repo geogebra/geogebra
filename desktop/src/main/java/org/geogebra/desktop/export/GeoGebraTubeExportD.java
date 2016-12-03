@@ -196,7 +196,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					final UploadResults results = new UploadResults(
 							output.toString());
 
-					if (results.HasError()) {
+					if (results.hasError()) {
 						statusLabelSetText(loc.getPlain("UploadError",
 								results.getErrorMessage()));
 						setEnabled(false);
@@ -233,7 +233,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 							+ " - " + responseMessage);
 
 					BufferedReader errors = new BufferedReader(
-							new InputStreamReader(urlConn.getErrorStream()));
+							new InputStreamReader(urlConn.getErrorStream(),
+									Charsets.UTF_8));
 					StringBuffer errorBuffer = new StringBuffer();
 
 					String line;

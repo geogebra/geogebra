@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import org.geogebra.common.main.App;
@@ -40,7 +41,6 @@ public class ProbabilityCalculatorStyleBarW extends
 	private HandlerRegistration btnLineGraphHandler;
 	private HandlerRegistration btnStepGraphHandler;
 	private HandlerRegistration btnBarGraphHandler;
-	private HandlerRegistration btnNormalOverlayHandler;
 
 	/**
 	 * @param app Application
@@ -85,9 +85,6 @@ public class ProbabilityCalculatorStyleBarW extends
 		btnLineGraphHandler.removeHandler();
 		btnStepGraphHandler.removeHandler();
 		btnBarGraphHandler.removeHandler();
-		if(btnNormalOverlayHandler != null){
-			btnNormalOverlayHandler.removeHandler();
-		}
 
 		btnLineGraph
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewW.GRAPH_LINE);
@@ -179,11 +176,13 @@ public class ProbabilityCalculatorStyleBarW extends
 		int pos = -1;
 
 		if (printFigures >= 0) {
-			if (printFigures > 0 && printFigures < App.figuresLookup.length)
-				pos = App.figuresLookup[printFigures];
+			if (printFigures > 0
+					&& printFigures < OptionsMenu.figuresLookupLength())
+				pos = OptionsMenu.figuresLookup(printFigures);
 		} else {
-			if (printDecimals > 0 && printDecimals < App.decimalsLookup.length)
-				pos = App.decimalsLookup[printDecimals];
+			if (printDecimals > 0
+					&& printDecimals < OptionsMenu.decimalsLookupLength())
+				pos = OptionsMenu.decimalsLookup(printDecimals);
 		}
 
 		try {
@@ -199,7 +198,8 @@ public class ProbabilityCalculatorStyleBarW extends
 		MyMenuBar menu = new MyMenuBar();
 		
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
-		addRadioButtonMenuItems(menu, this, strDecimalSpaces, App.strDecimalSpacesAC, 0);
+		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
+				App.getStrDecimalSpacesAC(), 0);
 		
 		return menu;
 	}
@@ -306,7 +306,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	    
     }
 	
-	private class MyMenuBar extends MenuBar {
+	private static class MyMenuBar extends MenuBar {
 		
 		public MyMenuBar() {
 			super();

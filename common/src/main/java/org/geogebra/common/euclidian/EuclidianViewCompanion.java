@@ -313,8 +313,8 @@ public class EuclidianViewCompanion {
 							sw = (int) Math.round(x0 * 2);
 							sh = (int) Math.round(y0 * 2);
 						}
-						x0 += (w - sw) / 2;
-						y0 += (h - sh) / 2;
+						x0 += (w - sw) / 2.0;
+						y0 += (h - sh) / 2.0;
 						evs.setSize(w, h);
 						evs.setOriginNoUpdate(x0, y0);
 					}

@@ -316,5 +316,5 @@ public class AlgoAreEqual extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 }

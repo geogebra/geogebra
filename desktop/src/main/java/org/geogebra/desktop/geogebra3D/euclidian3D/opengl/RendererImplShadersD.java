@@ -135,7 +135,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 			} catch (UnsupportedEncodingException e) {
 				// do nothing
 			}
-			System.exit(1);
+			AppD.exit(1);
 		}
 
 		// Compile the fragmentShader String into a program.
@@ -162,9 +162,13 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0],
 					(int[]) null, 0, log, 0);
 
-			Log.error("Error compiling the fragment shader: "
-					+ new String(log));
-			System.exit(1);
+			try {
+				Log.error("Error compiling the fragment shader: "
+						+ new String(log, Charsets.UTF_8));
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
+			AppD.exit(1);
 		}
 
 
@@ -240,7 +244,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
 				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
 
 	}

@@ -24,7 +24,6 @@ import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
-import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -45,7 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app application
 	 */
 	public FileMenuW(final AppW app) {
-		super(true, "help");
+		super(true, "file");
 	    this.app = app;
 		this.loc = app.getLocalization();
 	    this.newConstruction = new Runnable() {
@@ -83,14 +82,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 */
 	protected void exitAndResetExam() {
 		if (!ExamUtil.toggleFullscreen(false)) {
-			app.getExam().exit();
+
+			ExamEnvironment exam = app.getExam();
+			exam.exit();
 			boolean examFile = app.getArticleElement()
 					.hasDataParamEnableGraphing();
 			String buttonText = null;
 			AsyncOperation<String[]> handler = null;
 
 			if (examFile) {
-				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP) && app.getVersion().isAndroidWebview()) {
+				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP)
+						&& app.getVersion().isAndroidWebview()) {
 					handler = new AsyncOperation<String[]>() {
 						@Override
 						public void callback(String[] dialogResult) {
@@ -109,39 +111,37 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					};
 					buttonText = loc.getPlain("Restart");
 				}
-				app.getExam().setHasGraph(true);
+				exam.setHasGraph(true);
 				boolean supportsCAS = app.getSettings().getCasSettings()
 						.isEnabled();
 				boolean supports3D = app.getSettings().getEuclidian(-1)
 						.isEnabled();
 				if (!supports3D && supportsCAS) {
 					app.showMessage(true,
-							app.getExam().getLog(app.getLocalization(),
+							exam.getLog(app.getLocalization(),
 									app.getSettings()),
 							loc.getMenu("ExamCAS"), buttonText, handler);
 				} else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
 						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
+								exam.getLog(app.getLocalization(),
 										app.getSettings()),
 								loc.getMenu("ExamGraphingCalc.long"),
-								buttonText,
-								handler);
+								buttonText, handler);
 					} else {
 						app.showMessage(true,
-								app.getExam().getLog(app.getLocalization(),
+								exam.getLog(app.getLocalization(),
 										app.getSettings()),
-								loc.getMenu("ExamSimpleCalc.long"),
-								buttonText,
+								loc.getMenu("ExamSimpleCalc.long"), buttonText,
 								handler);
 					}
 				}
 
 			} else {
-				app.showMessage(true,
-						app.getExam().getLog(app.getLocalization(),
-								app.getSettings()),
-						loc.getMenu("exam_log_header"), buttonText, handler);
+				app.showMessage(true, exam.getLog(loc, app.getSettings()),
+						loc.getMenu("exam_log_header") + " "
+								+ app.getVersionString(),
+						buttonText, handler);
 			}
 			app.setExam(null);
 			app.resetViewsEnabled();
@@ -381,24 +381,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		};
 	}
 
-	/**
-	 * @return callback that shows the exam welcom message and prepares Exam
-	 *         (goes fullscreen)
-	 */
-	Runnable getExamCallback() {
-
-		return new Runnable() {
-
-			public void run() {
-				if (app.getLAF().supportsFullscreen()) {
-					ExamUtil.toggleFullscreen(true);
-				}
-				app.setNewExam();
-				((AppWFull) app).examWelcome();
-
-			}
-		};
-	}
 	/**
 	 * @param online wether the application is online
 	 * renders a the online - offline state of the FileMenu

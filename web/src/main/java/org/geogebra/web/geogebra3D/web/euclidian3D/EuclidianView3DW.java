@@ -691,7 +691,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (((AppW) app).getArticleElement().disableHiRes3D()) {
 			return;
 		}
-		if (app == null || Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
+		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
 			return;
 		}
 		int realWidth = g2p.getOffsetWidth();

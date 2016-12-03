@@ -362,5 +362,29 @@ public interface ToolbarResources {
 	
 	
 	ResourcePrototype mode_orthogonalthreed_32();
+	
+	//Whiteboard
+		
+	ResourcePrototype mode_shape_line_32();
+		
+	ResourcePrototype mode_shape_triangle_32();
+		
+	ResourcePrototype mode_shape_square_32();
+		
+	ResourcePrototype mode_shape_rectangle_32();
+		
+	ResourcePrototype mode_shape_rectangle_round_edges_32();
+		
+	ResourcePrototype mode_shape_polygon_32();
+		
+	ResourcePrototype mode_shape_freeform_32();
+		
+	ResourcePrototype mode_shape_circle_32();
+		
+	ResourcePrototype mode_shape_ellipse_32();
+		
+	ResourcePrototype mode_eraser_32();
+		
+	// ResourcePrototype mode_highlighter_32();
 
 }

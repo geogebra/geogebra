@@ -115,5 +115,5 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 		return getLoc().getPlain("AxisOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

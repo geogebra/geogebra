@@ -11,6 +11,8 @@ import org.geogebra.common.main.MyError;
 
 /**
  * Sample
+ * 
+ * @author Michael Borcherds
  */
 public class CmdSample extends CommandProcessor {
 
@@ -60,9 +62,9 @@ public class CmdSample extends CommandProcessor {
 	}
 
 	/**
-	 * Sample[list,n, withReplacement] Michael Borcherds
+	 * Sample[list,n, withReplacement]
 	 */
-	final public GeoElement Sample(String label, GeoList list, GeoNumberValue n,
+	private GeoElement Sample(String label, GeoList list, GeoNumberValue n,
 			GeoBoolean withReplacement) {
 		AlgoSample algo = new AlgoSample(cons, label, list, n, withReplacement);
 		GeoElement ret = algo.getResult();

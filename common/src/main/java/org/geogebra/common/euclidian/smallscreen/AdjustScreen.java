@@ -39,10 +39,14 @@ public class AdjustScreen {
 	private List<GeoButton> buttons = new ArrayList<GeoButton>();
 	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
 
-	private class HSliderComparator implements Comparator {
-		public int compare(Object o1, Object o2) {
-			double y1 = ((GeoNumeric) o1).getSliderY();
-			double y2 = ((GeoNumeric) o2).getSliderY();
+	private static class HSliderComparator implements Comparator<GeoNumeric> {
+		public HSliderComparator() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public int compare(GeoNumeric o1, GeoNumeric o2) {
+			double y1 = o1.getSliderY();
+			double y2 = o2.getSliderY();
 			if (y1 == y2) {
 				return 0;
 			}
@@ -50,10 +54,14 @@ public class AdjustScreen {
 		}
 	}
 
-	private class VSliderComparator implements Comparator {
-		public int compare(Object o1, Object o2) {
-			double x1 = ((GeoNumeric) o1).getSliderX();
-			double x2 = ((GeoNumeric) o2).getSliderX();
+	private static class VSliderComparator implements Comparator<GeoNumeric> {
+		public VSliderComparator() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public int compare(GeoNumeric o1, GeoNumeric o2) {
+			double x1 = o1.getSliderX();
+			double x2 = o2.getSliderX();
 			if (x1 == x2) {
 				return 0;
 			}
@@ -61,10 +69,14 @@ public class AdjustScreen {
 		}
 	}
 
-	private class ButtonComparator implements Comparator {
-		public int compare(Object o1, Object o2) {
-			int y1 = ((GeoButton) o1).getAbsoluteScreenLocY();
-			int y2 = ((GeoButton) o2).getAbsoluteScreenLocY();
+	private static class ButtonComparator implements Comparator<GeoButton> {
+		public ButtonComparator() {
+			// TODO Auto-generated constructor stub
+		}
+
+		public int compare(GeoButton o1, GeoButton o2) {
+			int y1 = o1.getAbsoluteScreenLocY();
+			int y2 = o2.getAbsoluteScreenLocY();
 			if (y1 == y2) {
 				return 0;
 			}
@@ -72,15 +84,21 @@ public class AdjustScreen {
 		}
 	}
 
+	/**
+	 * @param view
+	 *            view
+	 */
 	public AdjustScreen(EuclidianView view) {
 		this.view = view;
 		app = view.getApplication();
 		kernel = app.getKernel();
 		enabled = true;// needsAdjusting();
-		apply();
 	}
 
-	private void apply() {
+	/**
+	 * Collect widgets, ensures they are on the screen and does not overlap.
+	 */
+	public void apply() {
 		if (!enabled) {
 			return;
 		}
@@ -90,8 +108,9 @@ public class AdjustScreen {
 		checkOvelappingVSliders();
 		checkOvelappingButtons();
 		checkOvelappingInputs();
-
+		view.repaintView();
 	}
+
 
 	private void collectWidgets() {
 		hSliders.clear();
@@ -158,7 +177,6 @@ public class AdjustScreen {
 			view.update(geo);
 		}
 	}
-	@SuppressWarnings("unchecked")
 	private void checkOvelappingHSliders() {
 		Collections.sort(hSliders, new HSliderComparator());
 		for (int idx = 0; idx < hSliders.size() - 1; idx++) {
@@ -192,7 +210,6 @@ public class AdjustScreen {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void checkOvelappingVSliders() {
 		Collections.sort(vSliders, new VSliderComparator());
 		for (int idx = 0; idx < vSliders.size() - 1; idx++) {
@@ -200,7 +217,6 @@ public class AdjustScreen {
 			GeoNumeric slider2 = vSliders.get(idx + 1);
 			Log.debug("[AS] VSIDER:" + slider1 + " - " + slider2);
 			double x1 = slider1.getSliderX();
-			double y1 = slider1.getSliderY();
 			double x2 = slider2.getSliderX();
 			double y2 = slider2.getSliderY();
 			if (x2 - x1 < VSLIDER_OVERLAP_THRESOLD) {
@@ -211,7 +227,6 @@ public class AdjustScreen {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void checkOvelappingButtons() {
 		// No buttons at all.
 		if (buttons.size() < 1) {
@@ -224,10 +239,10 @@ public class AdjustScreen {
 		for (int idx = 0; idx < buttons.size() - 1; idx++) {
 			GeoButton btn1 = buttons.get(idx);
 			GeoButton btn2 = buttons.get(idx + 1);
-			GRectangle rect1 = AwtFactory.prototype.newRectangle(btn1.getAbsoluteScreenLocX(),
+			GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
 					btn1.getAbsoluteScreenLocY(),
 					btn1.getWidth(), btn1.getHeight());
-			GRectangle rect2 = AwtFactory.prototype.newRectangle(
+			GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
 					btn2.getAbsoluteScreenLocX(), btn2.getAbsoluteScreenLocY(),
 					btn2.getWidth(), btn2.getHeight());
 			
@@ -249,26 +264,39 @@ public class AdjustScreen {
 			}
 		}
 
+		tileButtons(buttons);
 
-		Collections.sort(buttons, new ButtonComparator());
 
-		GeoButton lastBtn = buttons.get(buttons.size() - 1);
-		int maxY = view.getViewHeight();// - AdjustButton.MARGIN_Y;
-		int bottom = lastBtn.getAbsoluteScreenLocY() + lastBtn.getHeight();
-		Log.debug("lastBtn: " + lastBtn.getLabelSimple() + "bottom: " + bottom
-				+ " maxY: " + maxY);
-		if (bottom > maxY) {
-			double dY = bottom - maxY;
-			for (int idx = 0; idx < buttons.size(); idx++) {
-				GeoButton btn = buttons.get(idx);
+	}
+
+	private void tileButtons(List<? extends GeoButton> buttonList) {
+		if (buttonList.size() < 1) {
+			return;
+		}
+		Collections.sort(buttonList, new ButtonComparator());
+
+		GeoButton last = buttonList.get(buttonList.size() - 1);
+		int lastBottom = last.getAbsoluteScreenLocY() + last.getHeight();
+
+		int maxBottom = view.getViewHeight() - AdjustButton.MARGIN_Y;
+
+		Log.debug("[TILE] last: " + last.getLabelSimple() + " bottom: "
+				+ lastBottom + " maxBottom: " + maxBottom);
+		if (lastBottom >= maxBottom) {
+			double dY = lastBottom - maxBottom;
+			for (int idx = 0; idx < buttonList.size(); idx++) {
+				GeoButton btn = buttonList.get(idx);
 				btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
 						(int) (btn.getAbsoluteScreenLocY() - dY));
 				btn.update();
+				Log.debug("[TILE] " + btn.getLabelSimple() + " updatedt to  ("
+						+ btn.getAbsoluteScreenLocX() + ", "
+						+ btn.getAbsoluteScreenLocY() + ")");
+
 			}
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void checkOvelappingInputs() {
 		Collections.sort(inputBoxes, new ButtonComparator());
 		Log.debug("[AS] inputs:");
@@ -281,11 +309,11 @@ public class AdjustScreen {
 				GDimension t1 = d1.getTotalSize();
 				GDimension t2 = d2.getTotalSize();
 
-				GRectangle rect1 = AwtFactory.prototype.newRectangle(
+				GRectangle rect1 = AwtFactory.getPrototype().newRectangle(
 						input1.getAbsoluteScreenLocX(),
 						input1.getAbsoluteScreenLocY(), t1.getWidth(),
 						t1.getHeight());
-				GRectangle rect2 = AwtFactory.prototype.newRectangle(
+				GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
 						input2.getAbsoluteScreenLocX(),
 						input2.getAbsoluteScreenLocY(), t2.getWidth(),
 						t2.getHeight());
@@ -305,27 +333,29 @@ public class AdjustScreen {
 			}
 		}
 
+		tileButtons(inputBoxes);
+
 	}
 
 	/**
 	 * @return if the original screen was bigger so adjusting is needed.
 	 */
 	protected boolean needsAdjusting() {
-		App app = view.getApplication();
-		int fileWidth = app.getSettings()
+		App viewApp = view.getApplication();
+		int fileWidth = viewApp.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
-		int fileHeight = app.getSettings()
+		int fileHeight = viewApp.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
 		Log.debug("[AS] file: " + fileWidth + "x" + fileHeight);
 
-		if (!app.has(Feature.ADJUST_WIDGETS) || fileWidth == 0
+		if (!viewApp.has(Feature.ADJUST_WIDGETS) || fileWidth == 0
 				|| fileHeight == 0) {
 			return false;
 		}
 
-		double w = app.getWidth();
-		double h = app.getHeight();
+		double w = viewApp.getWidth();
+		double h = viewApp.getHeight();
 		Log.debug("[AS] app: " + w + "x" + h);
 		if ((w == fileWidth && h == fileHeight) || w == 0 || h == 0) {
 			return false;

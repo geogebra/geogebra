@@ -196,7 +196,7 @@ public class ManagerElementForGLList extends Manager {
 		return arrayI;
 	}
 
-	private class GLBufferIndicesForGLList implements GLBufferIndices {
+	private static class GLBufferIndicesForGLList implements GLBufferIndices {
 
 		private ManagerElementForGLList manager;
 

@@ -73,6 +73,6 @@ public class AlgoListLength extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

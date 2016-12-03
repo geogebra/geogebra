@@ -204,6 +204,6 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		return Commands.Function;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

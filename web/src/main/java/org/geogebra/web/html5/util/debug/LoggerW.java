@@ -44,13 +44,13 @@ public class LoggerW extends Log {
 	}-*/;
 
 	@Override
-	protected String getTimeInfo() {
+	protected String getTimeInfoImpl() {
 		Date date = new Date();
 		return DateTimeFormat.getFormat("HH:mm:ss.SSS").format(date);
 	}
 
 	@Override
-	public void setLogFile(String logFileName) {
+	public void setLogFileImpl(String logFileName) {
 		log(WARN,
 		        "FILE logging is not supported in web, falling back to use CONSOLES instead",
 		        1);
@@ -97,9 +97,9 @@ public class LoggerW extends Log {
 
 	public static void startLogger(ArticleElement article) {
 		if (article.getDataParamShowLogging()) {
-			Log.logger = new LoggerW();
-			Log.logger.setLogDestination(LogDestination.CONSOLE);
-			Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
+			Log.setLogger(new LoggerW());
+			Log.setLogDestination(LogDestination.CONSOLE);
+			Log.setLogLevel(Window.Location.getParameter("logLevel"));
 		} else {
 			// make sure $wnd.console works in IE9
 			LoggerW.initConsole();

@@ -8,9 +8,9 @@ import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 
 public class GBasicStrokeW extends DefaultBasicStroke {
 	// Constants
-	public static LineJoin[] gwtJoins = { LineJoin.MITER, LineJoin.ROUND,
+	final private static LineJoin[] gwtJoins = { LineJoin.MITER, LineJoin.ROUND,
 	        LineJoin.BEVEL };
-	public static LineCap[] gwtCaps = { LineCap.BUTT, LineCap.ROUND,
+	final private static LineCap[] gwtCaps = { LineCap.BUTT, LineCap.ROUND,
 	        LineCap.SQUARE };
 
 	// Private fields

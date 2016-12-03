@@ -32,8 +32,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.web.util.debug.GeoGebraProfilerW;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -56,7 +56,7 @@ public class PerformanceTest implements EntryPoint {
 		GeoGebraProfiler.getInstance().profile();
 		NodeList<Element> nodes = Dom
 		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		Log.logger = new LoggerW();
+		Log.setLogger(new LoggerW());
 		ArticleElement ae = ArticleElement.as(nodes.getItem(0));
 		GeoGebraFrameSimple gfs = new GeoGebraFrameSimple();
 		ae.setId("ggbPerfTest");

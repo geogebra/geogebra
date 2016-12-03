@@ -34,7 +34,8 @@ public class TestGraphs {
 	 * connected components, one of 8 nodes, the other of 2.
 	 *  
 	 */
-	public static String[][] pairs = { { "a", "b", "3" }, {
+	final private static String[][] pairs = { { "a", "b", "3" },
+			{
 			"a", "c", "4" }, {
 			"a", "d", "5" }, {
 			"d", "c", "6" }, {

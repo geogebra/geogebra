@@ -212,5 +212,5 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 				P.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

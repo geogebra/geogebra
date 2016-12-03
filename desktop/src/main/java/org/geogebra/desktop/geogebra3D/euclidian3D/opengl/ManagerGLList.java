@@ -119,17 +119,16 @@ public class ManagerGLList extends ManagerD {
 
 		RendererTesselCallBack tessCallback = new RendererTesselCallBack(this);
 
-		tesselator = getGLU().gluNewTess();
+		tesselator = GLU.gluNewTess();
 
-		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX,
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX,
 				tessCallback);// vertexCallback);
-		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN,
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN,
 				tessCallback);// beginCallback);
-		getGLU()
-				.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
-		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_ERROR,
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR,
 				tessCallback);// errorCallback);
-		getGLU().gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE,
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE,
 				tessCallback);// combineCallback);
 
 		newList(ret);
@@ -141,14 +140,14 @@ public class ManagerGLList extends ManagerD {
 	public void drawPolygon(Coords n, Coords[] v) {
 
 		// starts the polygon
-		getGLU().gluTessBeginPolygon(tesselator, null);
-		getGLU().gluTessBeginContour(tesselator);
+		GLU.gluTessBeginPolygon(tesselator, null);
+		GLU.gluTessBeginContour(tesselator);
 
 		// set normal
 		float nx = (float) n.getX();
 		float ny = (float) n.getY();
 		float nz = (float) n.getZ();
-		getGLU().gluTessNormal(tesselator, nx, ny, nz);
+		GLU.gluTessNormal(tesselator, nx, ny, nz);
 		normal(nx, ny, nz);
 
 		// set texture
@@ -157,12 +156,13 @@ public class ManagerGLList extends ManagerD {
 		// set vertices
 		for (int i = 0; i < v.length; i++) {
 			double[] point = v[i].get();
-			getGLU().gluTessVertex(tesselator, point, 0, point);
+			getGLU();
+			GLU.gluTessVertex(tesselator, point, 0, point);
 		}
 
 		// end the polygon
-		getGLU().gluTessEndContour(tesselator);
-		getGLU().gluTessEndPolygon(tesselator);
+		GLU.gluTessEndContour(tesselator);
+		GLU.gluTessEndPolygon(tesselator);
 
 	}
 
@@ -170,7 +170,7 @@ public class ManagerGLList extends ManagerD {
 	public void endPolygons() {
 
 		getJogl().getGL2().glEndList();
-		getGLU().gluDeleteTess(tesselator);
+		GLU.gluDeleteTess(tesselator);
 	}
 
 	/**

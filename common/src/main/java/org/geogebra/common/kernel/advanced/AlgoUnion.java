@@ -99,6 +99,6 @@ public class AlgoUnion extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

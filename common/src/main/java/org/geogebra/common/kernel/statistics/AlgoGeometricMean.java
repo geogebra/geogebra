@@ -90,6 +90,6 @@ public class AlgoGeometricMean extends AlgoElement {
 		result.setValue(Math.exp(resultLog / size));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

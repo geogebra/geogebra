@@ -4,7 +4,6 @@ import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.DistanceFunction;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -19,17 +18,17 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
-import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Abstract class for cartesian curves in any dimension
- * @author matthieu
+ * 
+ * @author Mathieu
  *
  */
 public abstract class GeoCurveCartesianND extends GeoElement implements
-		ParametricCurve, Traceable, Path, VarString, CasEvaluableFunction {
+		ParametricCurve, VarString, CasEvaluableFunction {
 
 	/** samples to find interval with closest parameter position to given point */
 	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
@@ -59,6 +58,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	protected DistanceFunction distFun;
 
 	private ExpressionNode point;
+	/** derivative */
+	protected GeoCurveCartesianND derivGeoFun;
 
 	/**
 	 * common constructor
@@ -67,6 +68,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 *            construction
 	 * @param dimension
 	 *            dimension 2 or 3
+	 * @param point
+	 *            defining expression as point
 	 */
 	public GeoCurveCartesianND(Construction c, int dimension,
 			ExpressionNode point) {
@@ -82,9 +85,15 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	}
 
-	/** constructor with functions
-	 * @param c construction
-	 * @param fun functions of parameter
+	/**
+	 * constructor with functions
+	 * 
+	 * @param c
+	 *            construction
+	 * @param fun
+	 *            functions of parameter
+	 * @param point
+	 *            defining expression as point
 	 */
 	public GeoCurveCartesianND(Construction c, Function[] fun,
 			ExpressionNode point) {
@@ -280,6 +289,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	/**
 	 * @param i
+	 *            dimension index
 	 * @return i-th function
 	 */
 	public Function getFun(int i){
@@ -355,12 +365,23 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		// TODO
 	}
 
+	/**
+	 * @param i
+	 *            dimension index
+	 * @param f
+	 *            new function
+	 */
 	protected void setFun(int i, Function f) {
 		this.fun[i] = f;
 		this.funExpanded[i]=null;
 		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
 	}
 
+	/**
+	 * @param i
+	 *            dimension index
+	 * @return function with expanded function calls
+	 */
 	protected Function getFunExpanded(int i) {
 		if(!this.containsFunctions[i]){
 			return getFun(i);
@@ -402,6 +423,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.distFun = null;
 	}
 
+	/**
+	 * @return dimension
+	 */
 	public int getDimension() {
 		return this.fun.length;
 	}
@@ -426,6 +450,14 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	}
 
+	/**
+	 * 
+	 * @param a
+	 *            point
+	 * @param minParameter
+	 *            minimal parameter
+	 * @return path parameter
+	 */
 	public abstract double getClosestParameter(GeoPointND a, double minParameter);
 
 	public abstract double evaluateCurvature(double t);
@@ -553,9 +585,13 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		return this.derivGeoFun;
 	}
 
-	protected abstract GeoCurveCartesianND newGeoCurveCartesian(Construction cons);
-
-	protected GeoCurveCartesianND derivGeoFun;
+	/**
+	 * @param cons1
+	 *            construction
+	 * @return curve in the same dimension
+	 */
+	protected abstract GeoCurveCartesianND newGeoCurveCartesian(
+			Construction cons1);
 
 	public abstract ExpressionValue evaluateCurve(double double1);
 
@@ -564,6 +600,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		return true;
 	}
 
+	/**
+	 * @return defining expression (null if defined per coords)
+	 */
 	public ExpressionNode getPointExpression() {
 		return point;
 	}
@@ -640,6 +679,11 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.setInterval(0, nonzeroSegments);
 	}
 
+	/**
+	 * @param geoPointND
+	 *            point
+	 * @return inhom coords in current dimension
+	 */
 	protected Coords pointToCoords(GeoPointND geoPointND) {
 		return geoPointND.getInhomCoordsInD2();
 	}

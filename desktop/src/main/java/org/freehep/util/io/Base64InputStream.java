@@ -4,6 +4,8 @@ package org.freehep.util.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * The Base64InputStream decodes binary data according to RFC 2045.
  * 
@@ -88,7 +90,9 @@ public class Base64InputStream extends InputStream {
         return lineNo;
     }
 
-    private int readTuple() throws IOException, EncodingException {
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
+	private int readTuple() throws IOException, EncodingException {
         byte c[] = new byte[4];
         int cIndex = 0;
         int encoding = 0;

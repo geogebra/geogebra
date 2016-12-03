@@ -86,6 +86,6 @@ public class AlgoRootList extends AlgoElement {
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

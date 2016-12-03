@@ -82,7 +82,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
-import org.geogebra.desktop.export.PrintPreview;
+import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -836,7 +836,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							1,
 							1,
  GColorD
-									.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+									.getAwtColor(
+											GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
 
@@ -961,7 +962,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			case 5:
 				return rowList.get(nRow).getAlgebra();
 			case 7:
-				return rowList.get(nRow).getCPVisible();
+				return Boolean.valueOf(rowList.get(nRow).getCPVisible());
 			case 6:
 				return rowList.get(nRow).getCaption();
 			}
@@ -993,7 +994,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionDefault();
 			case 7:
-				return rowList.get(nRow).getCPVisible().toString();
+				return rowList.get(nRow).getCPVisible() + "";
 			}
 			return "";
 		}
@@ -1067,7 +1068,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								StringTemplate.defaultTemplate);
 
 			case 7:
-				return rowList.get(nRow).getCPVisible().toString();
+				return rowList.get(nRow).getCPVisible() + "";
 
 			}
 
@@ -1260,12 +1261,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 ************/
 
 	@Override
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 		
-		if(!PrintPreview.justPreview){
-			pageIndex = PrintPreview.computePageIndex(pageIndex);
-		}
+		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 
 		if (!isViewAttached) {
 			data.clearView();
@@ -1471,8 +1470,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(StringUtil
-.toHexString(new GColorD(color)));
+							sb.append(
+									StringUtil.toHexString(
+											(byte) color.getRed(),
+											(byte) color.getGreen(),
+											(byte) color.getBlue()));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");

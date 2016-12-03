@@ -11,9 +11,9 @@ import org.geogebra.common.util.debug.Log;
  */
 public class SyncRequest implements Request {
 
-	private final String API = "1.0.0";
-	private final String GGB = "geogebra";
-	private final String TASK = "sync";
+	private static final String API = "1.0.0";
+	private static final String GGB = "geogebra";
+	private static final String TASK = "sync";
 	private long timestamp;
 
 	/**

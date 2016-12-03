@@ -45,6 +45,8 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Computes intersection points of two conic sections
  * 
@@ -725,6 +727,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	/**
 	 * Intersect conic with degenerate conic degConic. Write result into points.
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	final static private void intersectWithDegenerate(GeoConic conic,
 			GeoConic degConic, GeoPoint[] points, double eps) {
 		if (degConic.isDefined()) {
@@ -746,6 +750,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				// degConic.setToSpecific();
 				// Application.debug("degConic: " + degConic);
 
+				// fall through
 			case GeoConicNDConstants.CONIC_DOUBLE_LINE:
 				AlgoIntersectLineConic.intersectLineConic(degConic.lines[0],
 						conic, points, eps);

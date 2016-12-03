@@ -2,6 +2,7 @@ package org.geogebra.common.jre.plugin;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.io.MyXMLioJre;
@@ -9,14 +10,34 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.util.Assignment;
+import org.geogebra.common.util.Exercise;
 
+/**
+ * Api for desktop and Android
+ */
 public abstract class GgbAPIJre extends GgbAPI {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GgbAPIJre(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
 	}
+
+	/**
+	 * @param exportScale
+	 *            scale factor
+	 * @param transparent
+	 *            true to make background color of EV transparent
+	 * @param DPI
+	 *            DPI, does not affect bitmap pixel size
+	 * @return base64 encoded PNG
+	 */
 	final public synchronized String getPNGBase64(double exportScale,
 			boolean transparent, double DPI) {
 		return getPNGBase64(exportScale, transparent, DPI, false);
@@ -25,10 +46,10 @@ public abstract class GgbAPIJre extends GgbAPI {
 	/*
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
 	 */
-	final public synchronized String getPNGBase64(double exportScale,
+	final public synchronized String getPNGBase64(double preferredScale,
 			boolean transparent, double DPI, boolean copyToClipboard) {
-
-		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		double exportScale = preferredScale;
+		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (copyToClipboard) {
 
@@ -107,12 +128,63 @@ public abstract class GgbAPIJre extends GgbAPI {
 		}
 	}
 
+	@Override
+	public JSONObject getExerciseResult() {
+		Exercise ex = kernel.getExercise();
+		ex.checkExercise();
+		JSONObject result = new JSONObject();
+		ArrayList<Assignment> parts = ex.getParts();
+		try {
+		for (Assignment part : parts) {
+			JSONObject partresult = new JSONObject();
+			result.put(part.getDisplayName(), partresult);
+			partresult.put("result", part.getResult().name());
+			String hint = part.getHint();
+			hint = hint == null ? "" : hint;
+			partresult.put("hint", hint);
+			partresult.put("fraction", part.getFraction());
+		}
+		} catch (Exception e) {
+			// how?
+		}
+		return result;
+	}
+
+	/**
+	 * @param exportScale
+	 *            scale factor
+	 * @param transparent
+	 *            true to make background color of EV transparent
+	 * @param DPI
+	 *            DPI, does not affect bitmap pixel size
+	 * @param ev
+	 *            view
+	 */
 	abstract protected void exportPNGClipboard(boolean transparent, int DPI,
 			double exportScale, EuclidianView ev);
 
+	/**
+	 * @param exportScale
+	 *            scale factor
+	 * @param transparent
+	 *            true to make background color of EV transparent
+	 * @param ev
+	 *            view
+	 */
 	abstract protected void exportPNGClipboardDPIisNaN(boolean transparent,
 			double exportScale, EuclidianView ev);
 
+	/**
+	 * @param exportScale
+	 *            scale factor
+	 * @param transparent
+	 *            true to make background color of EV transparent
+	 * @param DPI
+	 *            DPI, does not affect bitmap pixel size
+	 * @param ev
+	 *            view
+	 * @return base64 encoded PNG
+	 */
 	abstract protected String base64encodePNG(boolean transparent, double DPI,
 			double exportScale, EuclidianView ev);
 

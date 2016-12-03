@@ -73,7 +73,7 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 	@Override
 	public String toString(StringTemplate tpl) {

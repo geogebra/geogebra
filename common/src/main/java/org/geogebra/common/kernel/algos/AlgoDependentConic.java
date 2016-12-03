@@ -128,7 +128,7 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 		}
 		return equation.toString(tpl);
 	}
-	// TODO Consider locusequability
+	
 
 	public ExpressionNode getExpression() {
 		return equation.wrap();

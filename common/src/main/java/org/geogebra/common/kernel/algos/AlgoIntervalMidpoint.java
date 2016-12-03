@@ -32,6 +32,6 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 		result.setValue(interval.getMidPoint());
 	}
 
-	// TODO Consider locusequability
+	
 
 }

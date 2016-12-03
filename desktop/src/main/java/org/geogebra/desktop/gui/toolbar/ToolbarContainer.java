@@ -209,7 +209,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	}
 
-	private class MyDockPanel extends DockPanelD {
+	private static class MyDockPanel extends DockPanelD {
 
 		private static final long serialVersionUID = 1L;
 
@@ -859,7 +859,7 @@ app.getScaledIcon(
 	 * ToolbarPanel::add(Component, String) to add components, use
 	 * ToolbarPanel::show(String) to show a component.
 	 */
-	private class ToolbarPanel extends JPanel {
+	private static class ToolbarPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 
 		/**

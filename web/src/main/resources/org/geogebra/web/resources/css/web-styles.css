@@ -2682,6 +2682,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .consProtNav img.gwt-Image {
 	vertical-align: middle;
+	draggable: false;
 }
 
 .consProtNav button.gwt-Button {

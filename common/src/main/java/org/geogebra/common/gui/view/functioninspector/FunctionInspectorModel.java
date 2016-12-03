@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -414,15 +415,12 @@ public class FunctionInspectorModel {
 		}
 		StringTemplate highPrecision;
 		// override the default decimal place setting
-		if(getPrintDecimals() >= 0)
+		if (getPrintDecimals() >= 0) {
 			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, getPrintDecimals(),false);
-		else
+		} else {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, getPrintFigures(),false);
-
-		// get the formatted string
-		if (highPrecision == null) {
-			return "";
 		}
+
 		String result = app.getKernel().format(x,highPrecision);
 
 		return result;
@@ -817,7 +815,7 @@ public class FunctionInspectorModel {
 		// point list
 		pts = new GeoList(cons);
 		pts.setEuclidianVisible(true);
-		pts.setObjColor(GeoGebraColorConstants.DARKGRAY);
+		pts.setObjColor(GeoGebraColorConstants.DARK_GRAY);
 		pts.setPointSize(3);
 		pts.setLayer(f.getLayer() + 1);
 		pts.setSelectionAllowed(false);
@@ -1117,12 +1115,12 @@ public class FunctionInspectorModel {
 	public void applyDecimalPlaces(int index) {
 		if (index < 8) // decimal places
 		{
-			printDecimals =	App.roundingMenuLookup[index];
+			printDecimals = OptionsMenu.roundingMenuLookup(index);
 			printFigures = -1;
 		} else // significant figures
 		{
 			printDecimals = -1;
-			printFigures = App.roundingMenuLookup[index];
+			printFigures = OptionsMenu.roundingMenuLookup(index);
 		}
 		listener.changedNumberFormat();
 	}

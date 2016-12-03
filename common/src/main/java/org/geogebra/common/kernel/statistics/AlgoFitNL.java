@@ -199,6 +199,6 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		return ret;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

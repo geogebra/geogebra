@@ -792,7 +792,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		if (c.isCircle()) {
 
-			if (g != null && c != null /* !g.isGeoSegment() && */) {
+			if (g != null /* !g.isGeoSegment() && */) {
 				Variable[] botanaVarsThis = new Variable[2];
 				if (botanaVars == null) {
 					botanaVars = new HashMap<GeoElementND, Variable[]>();
@@ -902,7 +902,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			throw new NoSymbolicParametersException();
 		} else if (c.isParabola() || c.isEllipse() || c.isHyperbola()) {
 
-			if (g != null && c != null) {
+			if (g != null) {
 
 				Variable[] vg = g.getBotanaVars(g);
 

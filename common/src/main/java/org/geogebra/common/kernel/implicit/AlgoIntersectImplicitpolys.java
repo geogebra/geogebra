@@ -440,16 +440,6 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					insert(pair);
 			}
 		}
-		if (hints != null) {
-			for (int i = 0; i < hints.size(); i++) {
-				double[] pair = new double[2];
-				GeoPoint g = hints.get(i);
-				if (g.isDefined() && !Kernel.isZero(g.getZ())) {
-					pair[0] = g.getX() / g.getZ();
-					pair[1] = g.getY() / g.getZ();
-				}
-			}
-		}
 
 		setPoints(valPairs);
 

@@ -435,6 +435,6 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 				((GeoElement) curve2).getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -121,8 +121,8 @@ public class AlgoSpline extends AlgoElement {
 		int j = 0;
 		double parameterValue = 0;
 		double[] lx = getParameterIntervalLimits();
-		for (float p = 0; p <= 1; p = p + 0.01f) {
-			parameterValue = calculate(p, lx);
+		for (int p = 0; p <= 100; p++) {
+			parameterValue = calculate(p * 0.01, lx);
 			if (Arrays.binarySearch(parametersValues, parameterValue) < 0) {
 				if (j < parametersValues.length) {
 					parametersValues[j] = parameterValue;
@@ -133,7 +133,7 @@ public class AlgoSpline extends AlgoElement {
 		parametersValues[length - 1] = 1;
 	}
 
-	private static double calculate(float x, double[] m) {
+	private static double calculate(double x, double[] m) {
 		for (int i = m.length - 1; i > -1; i--) {
 			if (x > m[i]) {
 				return m[i];

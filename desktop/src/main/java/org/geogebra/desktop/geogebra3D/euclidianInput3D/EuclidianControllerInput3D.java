@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Quaternion;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -45,8 +44,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	protected Coords startMouse3DPosition;
 
-	private Coords[] glassesPosition;
-
 	private Quaternion mouse3DOrientation, startMouse3DOrientation;
 	private Coords rotV;
 	private CoordMatrix startOrientationMatrix;
@@ -57,10 +54,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
 	private boolean wasThirdButtonReleased;
-
-	protected double screenHalfWidth, screenHalfHeight;
-	protected Dimension panelDimension;
-	protected Point panelPosition;
 
 	private boolean eyeSepIsNotSet = true;
 
@@ -80,12 +73,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
-
-		// glasses position
-		glassesPosition = new Coords[2];
-		for (int i = 0 ; i < 2 ; i++){
-			glassesPosition[i] = new Coords(3);
-		}
 		
 		// 3D mouse position
 		mouse3DPosition = new Coords(3);
@@ -114,8 +101,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
-		screenHalfWidth = gd.getDisplayMode().getWidth() / 2;
-		screenHalfHeight = gd.getDisplayMode().getHeight() / 2;
+		input3D.setScreenHalfDimensions(gd.getDisplayMode().getWidth() / 2.0,
+				gd.getDisplayMode().getHeight() / 2.0);
 
 		// robot
 		robot = null;
@@ -140,13 +127,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return new EuclidianControllerInput3DCompanion(this);
 	}
 
-	private void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
-
-		input3D.setPositionXYOnPanel(absolutePos, panelPos, screenHalfWidth,
-				screenHalfHeight, panelPosition.x, panelPosition.y,
-				panelDimension.width, panelDimension.height);
-	}
-
 	private void updateOnScreenPosition() {
 		if (input3D.hasMouseDirection()) { // project position on
 			// screen
@@ -164,14 +144,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 
 		// init to center panel
-		onScreenX = (int) (panelPosition.x + panelDimension.getWidth() / 2);
-		onScreenY = (int) (panelPosition.y + panelDimension.getHeight() / 2);
+		onScreenX = input3D.getPanelX() + input3D.getPanelWidth() / 2;
+		onScreenY = input3D.getPanelY() + input3D.getPanelHeight() / 2;
 
 		// check if pointer is on screen
 		int x1 = onScreenX + (int) (inputPositionOnScreen[0]);
 		int y1 = onScreenY - (int) (inputPositionOnScreen[1]);
-		if (x1 >= 0 && x1 <= screenHalfWidth * 2 && y1 >= 0
-				&& y1 <= screenHalfHeight * 2) {
+		if (x1 >= 0 && x1 <= input3D.getScreenHalfWidth() * 2 && y1 >= 0
+				&& y1 <= input3D.getScreenHalfHeight() * 2) {
 			onScreenX = x1;
 			onScreenY = y1;
 			input3D.setPositionOnScreen();
@@ -191,39 +171,22 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public void updateInput3D() {
 		
 		// update panel values
-		panelDimension = ((EuclidianView3DD) view3D).getJPanel().getSize();
-		panelPosition = ((EuclidianView3DD) view3D).getJPanel().getLocationOnScreen();
+		Dimension panelDimension = ((EuclidianView3DD) view3D).getJPanel()
+				.getSize();
+		Point panelPosition = ((EuclidianView3DD) view3D).getJPanel()
+				.getLocationOnScreen();
 
-		if (input3D.update(new GPoint(panelPosition.x, panelPosition.y),
-				new GDimensionD(panelDimension))) {
+		input3D.setPanel(panelDimension.width, panelDimension.height,
+				panelPosition.x, panelPosition.y);
+
+		if (input3D.update()) {
 
 			// ////////////////////
 			// set values
 
 
 			// eyes : set position only if we use glasses
-			if (input3D.useHeadTracking()
-					&& view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-				for (int i = 0 ; i < 2 ; i++){
-					double[] pos = input3D.getGlassesPosition(i);
-					setPositionXYOnPanel(pos, glassesPosition[i]);
-					glassesPosition[i].setZ(pos[2]);
-				}
-
-				//Log.debug("\n"+glassesPosition);
-
-				// Log.debug(input3D.getGlassesPosition()[2]+"");
-				// if (eyeSepIsNotSet){
-				view3D.setEyes(
-						glassesPosition[0].getX(), glassesPosition[0].getY(),
-						glassesPosition[1].getX(),glassesPosition[1].getY());
-				// eyeSepIsNotSet = false;
-				// }
-
-				view3D.setProjectionPerspectiveEyeDistance(
-						glassesPosition[0].getZ(), glassesPosition[1].getZ());
-
-			}
+			input3D.updateHeadTracking();
 
 			// input position
 			inputPosition = input3D.getMouse3DPosition();
@@ -258,7 +221,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			}
 
 			// mouse pos
-			setPositionXYOnPanel(inputPosition, mouse3DPosition);
+			input3D.setPositionXYOnPanel(inputPosition, mouse3DPosition);
 			mouse3DPosition.setZ(inputPosition[2] - view3D.getScreenZOffset());
 
 			// check if the 3D mouse is on 3D view
@@ -684,8 +647,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	private void updateMouse3DEvent() {
 
-		mouse3DLoc = new GPointWithZ(panelDimension.width / 2
-				+ (int) mouse3DPosition.getX(), panelDimension.height / 2
+		mouse3DLoc = new GPointWithZ(
+				input3D.getPanelWidth() / 2
+						+ (int) mouse3DPosition.getX(),
+				input3D.getPanelHeight() / 2
 				- (int) mouse3DPosition.getY(), (int) mouse3DPosition.getZ());
 
 		mouseEvent = new Mouse3DEvent(mouse3DLoc,

@@ -74,6 +74,6 @@ public class AlgoDivisorsSum extends AlgoElement {
 		return Commands.Divisors;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

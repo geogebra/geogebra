@@ -167,5 +167,5 @@ public class AlgoIf extends AlgoElement {
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -73,7 +73,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class GeoGebraExport {
 	protected int beamerSlideNumber = 1;
-	protected final double PRECISION_XRANGE_FUNCTION = 0.00001;
+	protected final static double PRECISION_XRANGE_FUNCTION = 0.00001;
 	protected StringBuilder code, codePoint, codePreamble, codeFilledObject,
 			codeBeginDoc;
 	private App app;
@@ -81,7 +81,7 @@ public abstract class GeoGebraExport {
 	protected Construction construction;
 	protected EuclidianView euclidianView;
 	protected ExportSettings frame;
-	protected HashMap<GColor, String> CustomColor;
+	protected HashMap<GColor, String> customColor;
 	protected double xunit, yunit, xmin, xmax, ymin, ymax;
 	// The exported format: Latex, tex, ConTexT, Beamer
 	protected int format = 0;
@@ -126,7 +126,7 @@ public abstract class GeoGebraExport {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		GRectangle rec = AwtFactory.prototype
+		GRectangle rec = AwtFactory.getPrototype()
 				.newRectangle(x1, y2, x2 - x1, y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
@@ -472,7 +472,7 @@ public abstract class GeoGebraExport {
 	}
 
 	protected int resizePt(int size) {
-		double height_geogebra = euclidianView.getHeight() / 30;
+		double height_geogebra = euclidianView.getHeight() / 30.0;
 		double height_latex = frame.getLatexHeight();
 		double ratio = height_latex / height_geogebra;
 		int tmp = (int) Math.round(ratio * size);
@@ -738,7 +738,7 @@ public abstract class GeoGebraExport {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void ColorCode(GColor color,
+	abstract protected void colorCode(GColor color,
 			StringBuilder sb);
 
 	/**
@@ -1505,7 +1505,7 @@ public abstract class GeoGebraExport {
 				if (algo.getBarColor(barNumber) != null) {
 					rgb = new float[4];
 					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
-					linecolor = AwtFactory.prototype.newColor(rgb[0], rgb[1],
+					linecolor = GColor.newColor(rgb[0], rgb[1],
 							rgb[2], rgb[3]);
 				}
 				if (algo.getBarHatchDistance(barNumber) != -1) {

@@ -43,7 +43,14 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	
 	private Observer observer;
 	
+	// original positions and widths
+	// set once (if null)
+	private Integer origX = null;
+	private Integer origY = null;
+	private Integer origHeight = null;
+	private Integer origWidth = null;
 	
+
 	/**
 	 * Creates new button
 	 * @param c construction
@@ -156,7 +163,14 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	public void setAbsoluteScreenLoc(int x, int y) {		
 		labelOffsetX = x;
-		labelOffsetY = y;		
+		labelOffsetY = y;
+		if (origX == null) {
+			origX = x;
+		}
+
+		if (origY == null) {
+			origY = x;
+		}
 	}
 
 	public int getAbsoluteScreenLocX() {	
@@ -310,6 +324,9 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	 */
 	public void setWidth(int width) {
 		this.width = width;
+		if (origWidth == null) {
+			origWidth = width;
+		}
 	}
 	/**
 	 * 
@@ -323,6 +340,9 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	 */
 	public void setHeight(int height) {
 		this.height = height;
+		if (origHeight == null) {
+			origHeight = height;
+		}
 	}
 	/**
 	 * @param observer object watching size of this button
@@ -357,6 +377,38 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	public ValueType getValueType() {
 		return ValueType.VOID;
+	}
+
+	public Integer getOrigX() {
+		return origX;
+	}
+
+	public void setOrigX(Integer origX) {
+		this.origX = origX;
+	}
+
+	public Integer getOrigY() {
+		return origY;
+	}
+
+	public void setOrigY(Integer origY) {
+		this.origY = origY;
+	}
+
+	public Integer getOrigHeight() {
+		return origHeight;
+	}
+
+	public void setOrigHeight(Integer origHeight) {
+		this.origHeight = origHeight;
+	}
+
+	public Integer getOrigWidth() {
+		return origWidth;
+	}
+
+	public void setOrigWidth(Integer origWidth) {
+		this.origWidth = origWidth;
 	}
 
 }

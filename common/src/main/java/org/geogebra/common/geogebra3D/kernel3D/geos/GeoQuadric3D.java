@@ -40,7 +40,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * class describing quadric for 3D space
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  *         ( A[0] A[4] A[5] A[7]) matrix = ( A[4] A[1] A[6] A[8]) ( A[5] A[6]
  *         A[2] A[9]) ( A[7] A[8] A[9] A[3])
@@ -56,6 +56,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoQuadric3D(Construction c) {
 		super(c, 3);
 
@@ -2824,7 +2828,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// current symetric matrix
 		CoordMatrix sm = getSymetricMatrix();
 		// transformation matrix
-		CoordMatrix tm = CoordMatrix.Identity(4);
+		CoordMatrix tm = CoordMatrix.identity(4);
 		tm.subToOrigin(v);
 		// set new symetric matrix
 		setMatrix((tm.transposeCopy()).mul(sm).mul(tm));
@@ -3280,4 +3284,31 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
+	/**
+	 * 
+	 * @param origin
+	 *            origin
+	 * @param direction
+	 *            direction
+	 * @param eigen
+	 *            first eigen vector
+	 * @param r
+	 *            first radius
+	 * @param r2
+	 *            second radius
+	 */
+	public void set(Coords origin, Coords direction, Coords eigen, double r,
+			double r2) {
+		// implemented in GeoQuadric3DPart
+	}
+
+	/**
+	 * sets the min and max values for limits
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public void setLimits(double min, double max) {
+		// implemented in GeoQuadric3DPart
+	}
 }

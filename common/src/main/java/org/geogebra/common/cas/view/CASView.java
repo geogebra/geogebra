@@ -524,7 +524,7 @@ public abstract class CASView implements Editing, SetLabels {
 		return null;
 	}
 
-	public void cancelEditing() {
+	public void cancelEditItem() {
 		CASTable table = getConsoleTable();
 		table.stopEditing();
 

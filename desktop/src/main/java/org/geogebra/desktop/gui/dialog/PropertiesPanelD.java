@@ -64,6 +64,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
@@ -148,8 +149,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.awt.GFontD;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
@@ -162,7 +161,7 @@ import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
@@ -204,7 +203,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
-	private TextOptionsPanel textOptionsPanel;
+	private TextOptionsPanelD textOptionsPanel;
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
 	private LineStyleHiddenPanel lineStylePanelHidden;
@@ -313,7 +312,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
 		ineqStylePanel = new IneqPanel();
-		textOptionsPanel = new TextOptionsPanel(this);
+		textOptionsPanel = new TextOptionsPanelD(this);
 		arcSizePanel = new ArcSizePanel();
 		slopeTriangleSizePanel = new SlopeTriangleSizePanel();
 		lineStylePanel = new LineStylePanel();
@@ -996,7 +995,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	}
 
-	private class TabPanel extends JPanel {
+	private static class TabPanel extends JPanel {
 
 		private static final long serialVersionUID = 1L;
 
@@ -2299,7 +2298,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			PointStyleListRenderer renderer = new PointStyleListRenderer();
 			renderer.setPreferredSize(new Dimension(18, 18));
-			cbStyle = new JComboBox(EuclidianViewD.getPointStyles());
+			cbStyle = new JComboBox(EuclidianView.getPointStyles());
 			cbStyle.setRenderer(renderer);
 			cbStyle.setMaximumRowCount(EuclidianStyleConstants.MAX_POINT_STYLE + 1);
 			cbStyle.setBackground(getBackground());
@@ -2717,12 +2716,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// Create the label table
 			Hashtable<Integer, JLabel> labelHash = new Hashtable<Integer, JLabel>();
-			labelHash.put(new Integer(0), new JLabel("0" + Unicode.DEGREE));
-			labelHash.put(new Integer(45), new JLabel(
+			labelHash.put(Integer.valueOf(0), new JLabel("0" + Unicode.DEGREE));
+			labelHash.put(Integer.valueOf(45), new JLabel(
 					Unicode.FORTY_FIVE_DEGREES));
-			labelHash.put(new Integer(90), new JLabel("90" + Unicode.DEGREE));
-			labelHash.put(new Integer(135), new JLabel("135" + Unicode.DEGREE));
-			labelHash.put(new Integer(180), new JLabel("180" + Unicode.DEGREE));
+			labelHash.put(Integer.valueOf(90),
+					new JLabel("90" + Unicode.DEGREE));
+			labelHash.put(Integer.valueOf(135),
+					new JLabel("135" + Unicode.DEGREE));
+			labelHash.put(Integer.valueOf(180),
+					new JLabel("180" + Unicode.DEGREE));
 			angleSlider.setLabelTable(labelHash);
 
 			distanceSlider = new JSlider(5, 50);
@@ -2884,9 +2886,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imgFileNameList.add(GuiResourcesD.EXIT);
 
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
-			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
+			iconArray[0] = GeoGebraIconD.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createFileImageIcon(app,
+				iconArray[i] = GeoGebraIconD.createFileImageIcon(app,
 						imgFileNameList.get(i), 1.0f, new Dimension(32, 32));
 			}
 			// ============================================
@@ -3208,12 +3210,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		private void buildInsertUnicodeButton() {
-			if (btInsertUnicode != null)
-				btInsertUnicode.removeAllMenuItems();
+			btInsertUnicode.removeAllMenuItems();
 
 			btInsertUnicode.setKeepVisible(false);
 			btInsertUnicode.setStandardButton(true);
-			btInsertUnicode.setFixedIcon(GeoGebraIcon
+			btInsertUnicode.setFixedIcon(GeoGebraIconD
 					.createDownTriangleIcon(10));
 
 			JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
@@ -3252,11 +3253,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			sb.append("  ");
 
 			JMenu menu = new JMenu(sb.toString());
-			menu.add(new LatexTableFill(app, this, btInsertUnicode, table,
- rows,
+			menu.add(new LatexTableFill(app, this, btInsertUnicode, table, rows,
 					columns, SelectionTable.MODE_TEXT));
 
-			menu.setFont(GFontD.getAwtFont(app.getFontCanDisplay(sb.toString())));
+			menu.setFont(app.getFontCanDisplayAwt(sb.toString()));
 
 			return menu;
 		}
@@ -3320,8 +3320,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 						Log.debug("processMouseEvent, S: " + s);
 						lblSelectedSymbol.setText(s);
-						lblSelectedSymbol.setFont(GFontD.getAwtFont(app
-								.getFontCanDisplay(s)));
+						lblSelectedSymbol.setFont(app.getFontCanDisplayAwt(s));
 					}
 					Log.debug("handlePopupActionEvent begin");
 					popupButton.handlePopupActionEvent();
@@ -3487,7 +3486,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			DashListRenderer renderer = new DashListRenderer();
 			renderer.setPreferredSize(new Dimension(130,
 					app.getGUIFontSize() + 6));
-			dashCB = new JComboBox(EuclidianViewD.getLineTypes());
+			dashCB = new JComboBox(EuclidianView.getLineTypes());
 			dashCB.setRenderer(renderer);
 			dashCB.addActionListener(this);
 
@@ -3679,7 +3678,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * select dash style for hidden parts.
 	 * 
-	 * @author matthieu
+	 * @author Mathieu
 	 * 
 	 */
 	private class LineStyleHiddenPanel extends JPanel implements
@@ -5054,7 +5053,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		}
 	}
 
-	class SizeVerify extends InputVerifier {
+	static class SizeVerify extends InputVerifier {
 		public boolean verify(JComponent input) {
 			MyTextFieldD tf = (MyTextFieldD) input;
 			String s = tf.getText();

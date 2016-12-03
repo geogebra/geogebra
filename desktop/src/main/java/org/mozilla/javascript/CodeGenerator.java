@@ -7,9 +7,11 @@
 package org.mozilla.javascript;
 
 import org.mozilla.javascript.ast.AstRoot;
-import org.mozilla.javascript.ast.ScriptNode;
-import org.mozilla.javascript.ast.Jump;
 import org.mozilla.javascript.ast.FunctionNode;
+import org.mozilla.javascript.ast.Jump;
+import org.mozilla.javascript.ast.ScriptNode;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Generates bytecode for the Interpreter.
@@ -226,6 +228,8 @@ class CodeGenerator extends Icode {
         throw new RuntimeException(node.toString());
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private void visitStatement(Node node, int initialStackDepth)
     {
         int type = node.getType();
@@ -1318,6 +1322,8 @@ class CodeGenerator extends Icode {
         iCodeTop = top + 1 + 2;
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private void addVarOp(int op, int varIndex)
     {
         switch (op) {

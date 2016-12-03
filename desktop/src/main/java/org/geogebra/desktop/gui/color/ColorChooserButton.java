@@ -70,7 +70,7 @@ public class ColorChooserButton extends JButton {
 		super();
 		this.mode = mode;
 
-		myPopup = new ColorChooserPopup();
+		myPopup = new ColorChooserPopup(this);
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
@@ -89,6 +89,11 @@ public class ColorChooserButton extends JButton {
 		setIcon(createIcon(selectedColor));
 	}
 
+	public void swatchClicked(Color color) {
+		selectedColor = color;
+		handlePopupEvent();
+		myPopup.setVisible(false);
+	}
 	public Color getSelectedColor() {
 		return selectedColor;
 	}
@@ -162,18 +167,18 @@ public class ColorChooserButton extends JButton {
 	 * Swatch Panel Popup
 	 ************************************************************/
 
-	public class ColorChooserPopup extends JPopupMenu {
+	public static class ColorChooserPopup extends JPopupMenu {
 
 		private static final long serialVersionUID = 1L;
 
 		private SwatchPanel swatchPanel;
 
-		public ColorChooserPopup() {
+		public ColorChooserPopup(ColorChooserButton button) {
 			super();
 
 			setLayout(new BorderLayout());
 
-			swatchPanel = new SwatchPanel();
+			swatchPanel = new SwatchPanel(button);
 			add(swatchPanel, BorderLayout.CENTER);
 
 			/*
@@ -184,51 +189,20 @@ public class ColorChooserButton extends JButton {
 			 * case the code comments are removed.
 			 */
 
-			/*
-			 * metaPanel = new JPanel(new BorderLayout());
-			 * 
-			 * pickButton = new JButton("?"); pickButton.addActionListener(new
-			 * ActionListener() { public void actionPerformed(ActionEvent e) {
-			 * pickButton.setVisible(false); pickerPanel.setVisible(true);
-			 * pack(); } }); metaPanel.add(pickButton, app.borderWest());
-			 * 
-			 * pickerPanel = new JPanel(new BorderLayout());
-			 * pickerPanel.setBorder(BorderFactory.createEmptyBorder(0, 5, 0,
-			 * 5));
-			 * 
-			 * colorPicker = new ColorPickerPanel();
-			 * colorPicker.setPreferredSize(new Dimension(120, 120));
-			 * colorPicker.setHSB(0.0f, 0.0f, 1.0f);
-			 * colorPicker.addChangeListener(new ChangeListener() { public void
-			 * stateChanged(ChangeEvent e) { selectedColor =
-			 * colorPicker.getColor(); handlePopupEvent(); slider.repaint(); }
-			 * }); pickerPanel.add(colorPicker, BorderLayout.CENTER);
-			 * 
-			 * slider = new JSlider(VERTICAL, 0, 100, 0);
-			 * slider.setPreferredSize(new Dimension(20, 120));
-			 * slider.setValue(100); slider.setUI(new
-			 * ColorPickerSliderUI(slider, colorPicker));
-			 * slider.addChangeListener(new ChangeListener() { public void
-			 * stateChanged(ChangeEvent e) {
-			 * colorPicker.setModeParam(slider.getValue() / 100.0f); } });
-			 * pickerPanel.add(slider, app.borderEast());
-			 * pickerPanel.setVisible(false); metaPanel.add(pickerPanel,
-			 * BorderLayout.CENTER);
-			 * 
-			 * add(metaPanel, app.borderEast());
-			 */
 		}
 
 		/**
 		 * Draw a swatch panel and handle mouse events in the panel.
 		 */
-		class SwatchPanel extends JPanel implements ActionListener {
+		static class SwatchPanel extends JPanel implements ActionListener {
 
 			private static final long serialVersionUID = 1L;
 
 			private Color[] colors;
+			private ColorChooserButton chooserButton;
 
-			public SwatchPanel() {
+			public SwatchPanel(ColorChooserButton button) {
+				chooserButton = button;
 				initColors();
 				setLayout(new FlowLayout(FlowLayout.LEFT));
 				setPreferredSize(new Dimension(150, 120));
@@ -243,9 +217,8 @@ public class ColorChooserButton extends JButton {
 			}
 
 			public void actionPerformed(ActionEvent e) {
-				selectedColor = ((SwatchButton) e.getSource()).getColor();
-				handlePopupEvent();
-				myPopup.setVisible(false);
+				chooserButton.swatchClicked(
+						((SwatchButton) e.getSource()).getColor());
 			}
 
 			/**
@@ -300,7 +273,7 @@ public class ColorChooserButton extends JButton {
 			 * 
 			 * @author Florian Sonner
 			 */
-			class SwatchButton extends JButton {
+			static class SwatchButton extends JButton {
 
 				private static final long serialVersionUID = 1L;
 
@@ -324,7 +297,7 @@ public class ColorChooserButton extends JButton {
 			 * 
 			 * @author Florian Sonner
 			 */
-			class SwatchButtonUI extends BasicButtonUI {
+			static class SwatchButtonUI extends BasicButtonUI {
 				@Override
 				public Dimension getPreferredSize(JComponent c) {
 					return new Dimension(16, 16);

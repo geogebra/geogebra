@@ -562,20 +562,18 @@ public class EuclidianOptionsModel {
 
 		listener.updateBackgroundColor(getBackgroundColor());
 
-		if (view instanceof EuclidianView) {
-			int ind = ((EuclidianView) view).getAllowToolTips();
-			int idx = -1;
+		int ind = view.getAllowToolTips();
+		int idx = -1;
 
-			if (ind == EuclidianStyleConstants.TOOLTIPS_ON) {
-				idx = 0;
-			} else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC) {
-				idx = 1;
-			} else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF) {
-				idx = 2;
-			}
-
-			listener.selectTooltipType(idx);
+		if (ind == EuclidianStyleConstants.TOOLTIPS_ON) {
+			idx = 0;
+		} else if (ind == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC) {
+			idx = 1;
+		} else if (ind == EuclidianStyleConstants.TOOLTIPS_OFF) {
+			idx = 2;
 		}
+
+		listener.selectTooltipType(idx);
 
 		listener.showMouseCoords(view.getAllowShowMouseCoords());
 
@@ -584,8 +582,11 @@ public class EuclidianOptionsModel {
 		listener.updateBounds();
 
 		// need style with bold removed for menu
-		for (int i = 0; i < EuclidianStyleConstants.lineStyleOptions.length; i++) {
-			if (EuclidianView.getBoldAxes(false, view.getAxesLineStyle()) == EuclidianStyleConstants.lineStyleOptions[i]) {
+		for (int i = 0; i < EuclidianStyleConstants
+				.getLineStyleOptionsLength(); i++) {
+			if (EuclidianView.getBoldAxes(false,
+					view.getAxesLineStyle()) == EuclidianStyleConstants
+							.getLineStyleOptions(i)) {
 				listener.selectAxesStyle(i);
 				break;
 			}

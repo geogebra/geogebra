@@ -56,9 +56,9 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 
-			double[] afrac = AlgoFractionText.DecimalToFraction(a.getDouble(),
+			double[] afrac = AlgoFractionText.decimalToFraction(a.getDouble(),
 					Kernel.STANDARD_PRECISION);
-			double[] bfrac = AlgoFractionText.DecimalToFraction(b.getDouble(),
+			double[] bfrac = AlgoFractionText.decimalToFraction(b.getDouble(),
 					Kernel.STANDARD_PRECISION);
 
 			if (afrac.length < 2 || bfrac.length < 2 || Double.isNaN(afrac[1])

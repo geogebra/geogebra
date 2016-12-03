@@ -105,5 +105,5 @@ public class AlgoOrthoVectorLine extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -64,7 +64,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return casParser;
 	}
 
-	public CASGenericInterface getCurrentCAS() {
+	public synchronized CASGenericInterface getCurrentCAS() {
 		if (cas == null) {
 			app.setWaitCursor();
 			initCurrentCAS();
@@ -137,7 +137,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		// success
 		if (result != null) {
-			app.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
@@ -237,7 +236,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			if (tmp.indexOf(variable) >= 0)
 				return null;
 
-			app.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvara" needs to be changed to "a"
 			tmp = Kernel.removeCASVariablePrefix(tmp);
@@ -548,9 +546,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		boolean outsourced = false;
 		// check if there is support in the outsourced CAS (now SingularWS) for
 		// this command:
-		if (allowOutsourcing && App.singularWS != null
-				&& App.singularWS.isAvailable()) {
-			translation = App.singularWS.getTranslatedCASCommand(sbCASCommand
+		if (allowOutsourcing && App.getSingularWS() != null
+				&& App.singularWSisAvailable()) {
+			translation = App.singularWSgetTranslatedCASCommand(sbCASCommand
 					.toString());
 			if (translation != null) {
 				outsourced = true;
@@ -794,7 +792,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		if (outsourced) {
 			try {
-				String retval = App.singularWS.directCommand(sbCASCommand
+				String retval = App
+						.singularWSdirectCommand(sbCASCommand
 						.toString());
 				if (retval == null || retval.equals("")) {
 					// if there was a problem, try again without using Singular:

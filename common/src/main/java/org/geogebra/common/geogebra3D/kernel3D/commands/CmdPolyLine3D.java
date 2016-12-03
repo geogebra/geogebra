@@ -40,14 +40,14 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	}
 
 	@Override
-	protected GeoElement[] PolyLine(String label, GeoPointND[] points,
+	protected GeoElement[] polyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
 
 		if (is3D) {
 			return kernelA.getManager3D().PolyLine3D(label, points);
 		}
 
-		return kernelA.PolyLine(label, points, penStroke);
+		return kernelA.polyLine(label, points, penStroke);
 	}
 
 }

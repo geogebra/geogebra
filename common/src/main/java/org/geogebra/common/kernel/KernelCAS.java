@@ -23,7 +23,7 @@ public class KernelCAS {
 	 * 
 	 * @return resulting casCell created using geoCasCell.copy().
 	 */
-	final public static GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {
+	final public static GeoCasCell dependentCasCell(GeoCasCell geoCasCell) {
 		AlgoDependentCasCell algo = new AlgoDependentCasCell(geoCasCell);
 		return algo.getCasCell();
 	}
@@ -39,7 +39,7 @@ public class KernelCAS {
 	 *            function
 	 * @return tangent to function through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label,
+	public static GeoLine tangent(Construction cons, String label,
 			GeoPointND P, GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
 				label, P, f);
@@ -60,7 +60,7 @@ public class KernelCAS {
 	 *            curve
 	 * @return tangent to curve through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label,
+	public static GeoLine tangent(Construction cons, String label,
 			GeoPointND P, GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);
 		GeoLine t = algo.getTangent();

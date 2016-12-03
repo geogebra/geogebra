@@ -257,7 +257,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 	private CreatePolyhedronCallback callback;
 
-	private class CreatePolyhedronCallback
+	private static class CreatePolyhedronCallback
 			extends AsyncOperation<GeoNumberValue> {
 
 		private GeoElement basis;

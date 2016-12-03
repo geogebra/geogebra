@@ -9,7 +9,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 /**
  * Simple extension of EuclidianView to implement handling of 3D objects
  * 
- * @author matthieu
+ * @author Mathieu
  * 
  */
 public class EuclidianViewFor3DD extends EuclidianViewD {

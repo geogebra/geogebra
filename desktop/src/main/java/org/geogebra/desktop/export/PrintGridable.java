@@ -47,12 +47,10 @@ public class PrintGridable implements Printable {
 		titleOffset = 0;
 	}
 
-	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex)
+	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
 		
-		if(!PrintPreview.justPreview){
-			pageIndex = PrintPreview.computePageIndex(pageIndex);
-		}
+		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 		
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;

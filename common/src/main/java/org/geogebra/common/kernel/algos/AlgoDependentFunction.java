@@ -504,6 +504,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		return expression;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

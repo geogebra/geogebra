@@ -369,7 +369,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * to appear next to a DynamicTextField without destroying the field's
 	 * border.
 	 */
-	class MyCaret extends DefaultCaret {
+	static class MyCaret extends DefaultCaret {
 
 		private static final long serialVersionUID = 1L;
 

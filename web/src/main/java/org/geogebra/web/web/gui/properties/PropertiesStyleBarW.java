@@ -142,7 +142,7 @@ public class PropertiesStyleBarW extends
 
 	private String getMenuHtml(OptionType type) {
 		String typeString = "";//propertiesView.getTypeString(type);
-	    return typeString != null ? MainMenu.getMenuBarHtml(getTypeIcon(type), typeString): null; 
+		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
     }
 	
 	protected void setIcon(OptionType type, PopupMenuButton btn) {

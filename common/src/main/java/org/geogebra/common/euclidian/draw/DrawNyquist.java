@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoTransferFunction;
@@ -93,7 +92,7 @@ public class DrawNyquist extends Drawable {
 			gpN.lineTo(xPN, yN);
 		}
 		GColor geoColor = getObjectColor();
-		GColor color = AwtFactory.prototype.newColor(geoColor.getRed(),
+		GColor color = GColor.newColor(geoColor.getRed(),
 				geoColor.getGreen(), geoColor.getBlue(), 127);
 		g2.setColor(color);
 		g2.draw(gpN);

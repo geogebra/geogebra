@@ -245,6 +245,6 @@ public class AlgoAreConcurrent extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

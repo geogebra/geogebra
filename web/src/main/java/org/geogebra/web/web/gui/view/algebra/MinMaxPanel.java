@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
-	public static MinMaxPanel openedMinMaxPanel = null;
+	public static volatile MinMaxPanel openedMinMaxPanel = null;
 	/**
 	 * Closes min/max/step settings panel of the slider and restores its size if
 	 * needed.
@@ -68,7 +68,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	/**
 	 * Input field for MinMaxPanel
 	 */
-	class AVField extends AutoCompleteTextFieldW {
+	static class AVField extends AutoCompleteTextFieldW {
 		private CancelListener listener;
 
 		public AVField(int columns, App app, CancelListener listener) {
@@ -306,7 +306,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	private boolean selectAllOnFocus(AVField avField, MouseEvent event) {
-		if (RadioTreeItem.isWidgetHit(avField, event)) {
+		if (RadioTreeItemController.isWidgetHit(avField, event)) {
 			avField.selectAll();
 			return true;
 		}

@@ -233,12 +233,12 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E> implements T
     	    outedges = new ArrayList<E>(this.order);
 
     	boolean edge_placed = false;
-    	if (index >= 0)
-    		if (outedges.get(index) != null)
-        		throw new IllegalArgumentException("Parent " + parent + 
-        				" already has a child at index " + index + " in this tree");
-    		else
-    			outedges.set(index, e);
+		if (outedges.get(index) != null)
+			throw new IllegalArgumentException(
+					"Parent " + parent + " already has a child at index "
+							+ index + " in this tree");
+		else
+			outedges.set(index, e);
     	for (int i = 0; i < order; i++)
     	{
     		if (outedges.get(i) == null)

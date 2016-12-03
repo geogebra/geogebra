@@ -51,7 +51,7 @@ public class DrawRay extends Drawable implements Previewable {
 	private boolean isVisible, labelVisible;
 	private ArrayList<GeoPointND> points;
 
-	private GLine2D line = AwtFactory.prototype.newLine2D();
+	private GLine2D line = AwtFactory.getPrototype().newLine2D();
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 
@@ -283,7 +283,7 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;

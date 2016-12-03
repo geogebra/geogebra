@@ -160,8 +160,8 @@ public class DrawParametricCurve extends Drawable {
 		// shape for filling
 
 		if (geo.isInverseFill()) {
-			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
-			getShape().subtract(AwtFactory.prototype.newArea(gp));
+			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 		// draw trace
 		if (curve.getTrace()) {
@@ -185,10 +185,10 @@ public class DrawParametricCurve extends Drawable {
 			points = new ArrayList<GPoint2D>();
 		}
 
-		diag1 = AwtFactory.prototype.newLine2D();
+		diag1 = AwtFactory.getPrototype().newLine2D();
 		int size = geo.getLineThickness();
 		diag1.setLine(-size, -size, size, size);
-		diag2 = AwtFactory.prototype.newLine2D();
+		diag2 = AwtFactory.getPrototype().newLine2D();
 		diag2.setLine(-size, size, size, -size);
 
 		nPoints = 0;
@@ -215,7 +215,7 @@ public class DrawParametricCurve extends Drawable {
 			if (y < 0 || y > view.getHeight()) {
 				continue;
 			}
-			GPoint2D pt = AwtFactory.prototype.newPoint2D(x, y);
+			GPoint2D pt = AwtFactory.getPrototype().newPoint2D(x, y);
 			if (points.size() > nPoints) {
 				points.set(nPoints, pt);
 			} else {
@@ -441,7 +441,7 @@ public class DrawParametricCurve extends Drawable {
 				|| !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return AwtFactory.prototype.newRectangle(gp.getBounds());
+		return AwtFactory.getPrototype().newRectangle(gp.getBounds());
 	}
 
 	final private static boolean filling(CurveEvaluable curve) {

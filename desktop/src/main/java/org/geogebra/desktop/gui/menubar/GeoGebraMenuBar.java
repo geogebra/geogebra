@@ -32,6 +32,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
@@ -44,7 +45,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.export.PrintPreview;
+import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
@@ -57,8 +58,10 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, viewMenu, optionsMenu, toolsMenu,
+	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu,
 			windowMenu, helpMenu, languageMenu;
+
+	ViewMenuApplicationD viewMenu;
 
 	private final AppD app;
 	private LayoutD layout;
@@ -98,7 +101,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
-		return ((ViewMenuD) viewMenu).is3DViewShown();
+		return viewMenu.is3DViewShown();
 	}
 
 	/**
@@ -217,7 +220,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		if (app.isMacOS()) {
 			signInButton = new JMenuItem(signInAction);
-			JMenu m = new BaseMenu(app, loc.getMenu("GeoGebraTube")) {
+			JMenu m = new BaseMenu(app, loc.getMenu("GeoGebraMaterials")) {
 
 				@Override
 				public void update() {
@@ -370,9 +373,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param visible
 	 */
 	public void updateCPView(boolean visible) {
-		if (viewMenu instanceof ViewMenuApplicationD) {
-			((ViewMenuApplicationD) viewMenu).updateCPView(visible);
-		}
+		viewMenu.updateCPView(visible);
 	}
 
 	/**
@@ -455,8 +456,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 
 		if (m instanceof LanguageRadioButtonMenuItem) {
-			((LanguageRadioButtonMenuItem) m).getFont().deriveFont(
-					font.getSize2D());
+			m.setFont(((LanguageRadioButtonMenuItem) m).getFont()
+					.deriveFont(font.getSize2D()));
 		} else {
 			m.setFont(font);
 		}
@@ -506,7 +507,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManagerD dm = gui.getLayout().getDockManager();
 						int viewId = (dm.getFocusedPanel() == null) ? -1 : dm.getFocusedPanel().getViewId();
-						PrintPreview pre = PrintPreview.get(app, viewId,
+						PrintPreviewD pre = PrintPreviewD.get(app, viewId,
 										PageFormat.LANDSCAPE);
 
 						pre.setVisible(true);
@@ -526,8 +527,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 	}
 
-	public static String glVersion = null;
-	public static String glCard = null;
+	private static String glVersion = null;
+	private static String glCard = null;
 
 	/**
 	 * Show the "About" dialog.
@@ -563,8 +564,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append(App.getCASVersionString());
 
 		String v;
-		if (App.singularWS != null
-				&& (v = App.singularWS.getSingularVersionString()) != null)
+		SingularWebService singularWS = App.getSingularWS();
+
+		if (singularWS != null
+				&& (v = singularWS.getSingularVersionString()) != null)
 			sb.append(",<br>" + v);
 		sb.append(")<br>");
 
@@ -659,10 +662,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 		sb.append("\n\n");
 
-		if (Log.logger != null) {
+		if (Log.getLogger() != null) {
 			// copy the entire log to systemInfo (maybe not required at all)
 			sb.append("GeoGebraLogger log:\n");
-			sb.append(Log.logger.getEntireLog());
+			sb.append(Log.getEntireLog());
 			sb.append("\n");
 		}
 
@@ -693,7 +696,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		sb.append("\n\n");
 		sb.append(app.getMacroXML());
 		sb.append("\n\nLibraryJavaScript:\n");
-		app.getKernel().getLibraryJavaScript();
+		sb.append(app.getKernel().getLibraryJavaScript());
 
 		sb.append("\n\nPreferences:\n");
 		sb.append(GeoGebraPreferencesD.getPref().getXMLPreferences());
@@ -701,5 +704,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(sb.toString()), null);
 
+	}
+
+	public static void setGlCard(String s) {
+		glCard = s;
+	}
+
+	public static void setGlVersion(String s) {
+		glVersion = s;
 	}
 }

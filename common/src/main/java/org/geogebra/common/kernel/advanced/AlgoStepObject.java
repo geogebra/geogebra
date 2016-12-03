@@ -81,5 +81,5 @@ public class AlgoStepObject extends AlgoElement {
 		num.setValue(step + 1);
 	}
 
-	// TODO Consider locusequability
+	
 }

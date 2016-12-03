@@ -206,6 +206,6 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		f.removeAlgorithm(algoCAS2);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -13,7 +13,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
@@ -910,7 +909,7 @@ myCell) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			try {
 				if (i <= index) {
-					GColorW color = (GColorW) data.getRow(i).getGeo()
+					GColor color = data.getRow(i).getGeo()
 							.getAlgebraColor();
 					table.getRowElement(i).setAttribute(
 							"style", "color:" + GColor.getColorString(color));

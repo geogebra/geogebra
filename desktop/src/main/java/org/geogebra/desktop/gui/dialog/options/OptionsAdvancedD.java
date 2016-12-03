@@ -31,7 +31,6 @@ import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.main.Feature;
@@ -39,6 +38,7 @@ import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Language;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
@@ -266,9 +266,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		tooltipTimeoutLabel = new JLabel();
 
 		// get tooltipTimeouts from MyXMLHandler
-		tooltipTimeouts = new String[MyXMLHandler.tooltipTimeouts.length];
-		for (int i = 0; i < MyXMLHandler.tooltipTimeouts.length - 1; i++)
-			tooltipTimeouts[i] = MyXMLHandler.tooltipTimeouts[i];
+		tooltipTimeouts = new String[OptionsAdvancedD.tooltipTimeoutsLength()];
+		for (int i = 0; i < OptionsAdvancedD.tooltipTimeoutsLength() - 1; i++)
+			tooltipTimeouts[i] = OptionsAdvancedD.tooltipTimeouts(i);
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
@@ -513,20 +513,22 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	public void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
-		if (cbGUIFont.getItemCount() == MyXMLHandler.menuFontSizes.length + 1) {
+		if (cbGUIFont.getItemCount() == Util.menuFontSizesLength()
+				+ 1) {
 			int gfs = app.getGUIFontSize();
 			if (gfs <= -1) {
 				cbGUIFont.setSelectedIndex(0);
 			} else {
-				for (int j = 0; j < MyXMLHandler.menuFontSizes.length; j++) {
-					if (MyXMLHandler.menuFontSizes[j] >= gfs) {
+				for (int j = 0; j < Util.menuFontSizesLength(); j++) {
+					if (Util.menuFontSizes(j) >= gfs) {
 						cbGUIFont.setSelectedIndex(j + 1);
 						break;
 					}
 				}
-				if (MyXMLHandler.menuFontSizes[MyXMLHandler.menuFontSizes.length - 1] < gfs) {
+				if (Util.menuFontSizes(Util.menuFontSizesLength() - 1) < gfs) {
 					cbGUIFont
-							.setSelectedIndex(MyXMLHandler.menuFontSizes.length);
+							.setSelectedIndex(
+									Util.menuFontSizesLength());
 				}
 			}
 		}
@@ -634,7 +636,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 			if (index == 0)
 				app.setGUIFontSize(-1); // default
 			else
-				app.setGUIFontSize(MyXMLHandler.menuFontSizes[index - 1]);
+				app.setGUIFontSize(Util.menuFontSizes(index - 1));
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
 			if (index == 0)
@@ -849,12 +851,14 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		// "24 pt",
 		// "28 pt", "32 pt" };
 
-		String[] fontSizesStr = new String[MyXMLHandler.menuFontSizes.length + 1];
+		String[] fontSizesStr = new String[Util
+				.menuFontSizesLength()
+				+ 1];
 		fontSizesStr[0] = loc.getPlain("Default");
 
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
+		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
 			fontSizesStr[i + 1] = loc.getPlain("Apt",
-					MyXMLHandler.menuFontSizes[i] + ""); // eg "12 pt"
+					Util.menuFontSizes(i) + ""); // eg "12 pt"
 		}
 
 		int selectedIndex = cbGUIFont.getSelectedIndex();
@@ -999,4 +1003,17 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	public void setSelected(boolean flag) {
 		// see OptionsEuclidianD for possible implementation
 	}
+
+	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
+	final private static String[] TOOLTIP_TIMEOUTS = new String[] { "1", "3",
+			"5", "10", "20", "30", "60", "0" };
+
+	public static String tooltipTimeouts(int i) {
+		return TOOLTIP_TIMEOUTS[i];
+	}
+
+	public static int tooltipTimeoutsLength() {
+		return TOOLTIP_TIMEOUTS.length;
+	}
+
 }

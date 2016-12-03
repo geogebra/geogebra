@@ -148,6 +148,6 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

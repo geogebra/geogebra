@@ -198,10 +198,10 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		if (currentStem == 0 && n < 0) {
 			lines.add(new ArrayList<Integer>());
 			lines.get(lines.size() - 1).add(currentStem);
-			lines.get(lines.size() - 2).add(new Integer(leaf));
+			lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
 
 		} else {
-			lines.get(lines.size() - 1).add(new Integer(leaf));
+			lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
 		}
 
 		// ===========================================
@@ -498,6 +498,6 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

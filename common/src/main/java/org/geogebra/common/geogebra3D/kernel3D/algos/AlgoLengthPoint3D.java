@@ -79,5 +79,5 @@ public class AlgoLengthPoint3D extends AlgoElement {
 		return getLoc().getPlain("LengthOfA", ((GeoElement) p).getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

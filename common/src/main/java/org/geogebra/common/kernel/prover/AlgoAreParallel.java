@@ -178,6 +178,6 @@ public class AlgoAreParallel extends AlgoElement implements
 		return null;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

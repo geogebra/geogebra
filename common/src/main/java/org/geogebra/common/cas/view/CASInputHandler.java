@@ -505,7 +505,9 @@ public class CASInputHandler {
 				}
 				vars.clear();
 			} else {
-				cellValue.setNSolveCmdNeeded(true);
+				if (sb.toString().contains("$")) {
+					cellValue.setNSolveCmdNeeded(true);
+				}
 			}
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block
@@ -705,7 +707,8 @@ public class CASInputHandler {
 				}
 			}
 			String cellText;
-			String assignedVariable = selCellValue.getAssignmentVariable();
+			String assignedVariable = selCellValue != null
+					? selCellValue.getAssignmentVariable() : null;
 			boolean inTheSelectedRow = currentRow == selectedIndices[i];
 			if (assignedVariable != null) {
 				references[i] = assignedVariable;
@@ -727,8 +730,9 @@ public class CASInputHandler {
 
 		StringBuilder cellText = new StringBuilder("{");
 		for (int i = 0; i < nrEquations; i++) {
-			if (i != 0)
+			if (i != 0) {
 				cellText.append(", ");
+			}
 			cellText.append(references[i]);
 		}
 		cellText.append("}");

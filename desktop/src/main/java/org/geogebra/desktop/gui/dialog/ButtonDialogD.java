@@ -59,7 +59,6 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 	private DefaultComboBoxModel comboModel;
 
 	private JButton btOK, btCancel;
-	private InputPanelD tfLabel;
 	private JPanel optionPane;
 
 	private AppD app;
@@ -261,11 +260,6 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 			model.cancel();
 			setVisible(false);
 		}
-	}
-
-	private void setLabelFieldFocus() {
-		tfLabel.getTextComponent().requestFocus();
-		tfLabel.selectText();
 	}
 
 	public void keyPressed(KeyEvent e) {

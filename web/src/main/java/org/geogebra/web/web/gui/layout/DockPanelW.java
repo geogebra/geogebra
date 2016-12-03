@@ -151,7 +151,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * this panel has no toolbar. This string is specified in the constructor
 	 * and won't change.
 	 */
-	private String defaultToolbarString;
+	private final String defaultToolbarString;
 
 	/**
 	 * The component used for this view.
@@ -561,7 +561,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		buildGUIIfNecessary(false);
 
 		dockPanel.clear();
-
+		Log.debug(app.allowStylebar());
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
@@ -627,7 +627,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * TODO: move some code above into this class, e.g. setLayout(), or possibly
 	 * extend DockPanelW itself
 	 */
-	public class MyDockLayoutPanel extends DockLayoutPanel {
+	public static class MyDockLayoutPanel extends DockLayoutPanel {
 		public MyDockLayoutPanel(Unit unit) {
 			super(unit);
 			addStyleName("ggbdockpanelhack");
@@ -896,7 +896,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// gwt does not support reverse() ??
 		// return def.reverse().toString();
 
-		String s = new String();
+		String s = "";
 		for (int i = def.length() - 1; i >= 0; i--) {
 			s += def.charAt(i);
 		}

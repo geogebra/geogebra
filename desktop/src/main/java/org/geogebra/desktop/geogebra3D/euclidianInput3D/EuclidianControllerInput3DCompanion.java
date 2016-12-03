@@ -113,8 +113,7 @@ public class EuclidianControllerInput3DCompanion extends
 					&& !ec.movedGeoPoint.hasPath()
 					&& !ec.movedGeoPoint.hasRegion()) {
 				// update point decorations
-				((EuclidianView3D) ec.view)
-						.updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
+				((EuclidianView3D) ec.view).updatePointDecorations();
 			}
 
 			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {
@@ -133,7 +132,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 	private StationaryQuaternion stationaryQuaternion = new StationaryQuaternion();
 
-	private class StationaryQuaternion {
+	private static class StationaryQuaternion {
 
 		private Quaternion startCoords = new Quaternion();
 		private long startTime;
@@ -191,7 +190,7 @@ public class EuclidianControllerInput3DCompanion extends
 		}
 	}
 
-	private class StickyPoint implements Comparable<StickyPoint> {
+	private static class StickyPoint implements Comparable<StickyPoint> {
 		public GeoPointND point;
 		public double distance;
 
@@ -232,7 +231,8 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
-	private class StickyPointForDirection implements
+	private static class StickyPointForDirection
+			implements
 			Comparable<StickyPointForDirection> {
 		public StickyPoint sp;
 		public double distanceOrtho;

@@ -166,6 +166,6 @@ public class AlgoObject extends AlgoElement {
 		return inputForUpdateSetPropagation;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

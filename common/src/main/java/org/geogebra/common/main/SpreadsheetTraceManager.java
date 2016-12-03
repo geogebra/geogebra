@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.debug.Log;
@@ -57,7 +56,6 @@ public class SpreadsheetTraceManager {
 
 	// misc variables
 	private boolean doShiftCellsUp = true;
-	private double[] coords = new double[3];
 
 	public SpreadsheetTraceManager(App app) {
 
@@ -106,7 +104,7 @@ public class SpreadsheetTraceManager {
 		if (t.doRowLimit) {
 			t.traceRow2 = t.traceRow1 + t.numRows - 1 + t.headerOffset;
 		} else {
-			t.traceRow2 = SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE;
+			t.traceRow2 = app.getMaxSpreadsheetRowsVisible();
 		}
 
 		t.tracingRow = t.traceRow1;
@@ -142,7 +140,7 @@ public class SpreadsheetTraceManager {
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
-				SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE,
+				app.getMaxSpreadsheetRowsVisible(),
 				MyTable.CELL_SELECT);
 
 		addSpreadsheetTraceGeo(geo);
@@ -383,7 +381,7 @@ public class SpreadsheetTraceManager {
 			row1 += t.headerOffset;
 
 		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
-				SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE,
+				app.getMaxSpreadsheetRowsVisible(),
 				MyTable.CELL_SELECT);
 		// t.tracingRow = t.traceRow1;
 		// t.lastTrace.clear();

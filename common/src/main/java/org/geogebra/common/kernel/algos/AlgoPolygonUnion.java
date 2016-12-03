@@ -65,6 +65,6 @@ public class AlgoPolygonUnion extends AlgoPolygonOperation {
 		return Commands.Union;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

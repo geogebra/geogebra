@@ -241,7 +241,7 @@ public class DrawableList {
 	/**
 	 * Linked list of drawables
 	 */
-	public class Link {
+	public static class Link {
 		/** drawable */
 		public Drawable d;
 		/** next element */

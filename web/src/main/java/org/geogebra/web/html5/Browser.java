@@ -7,7 +7,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
-	public static boolean webWorkerSupported = false;
+	private static boolean webWorkerSupported = false;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -438,5 +438,33 @@ public class Browser {
 	public static native boolean isXWALK() /*-{
 		return !!$wnd.ggbExamXWalkExtension;
 	}-*/;
+
+	public native static boolean isAndroid()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("Android") != -1;
+		}
+		return false;
+	}-*/;
+
+	public native static boolean isIPad()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("iPad") != -1;
+		}
+		return false;
+	}-*/;
+
+	public static boolean isTabletBrowser() {
+		return (isAndroid() || isIPad());
+	}
+
+	public static void setWebWorkerSupported(boolean b) {
+		webWorkerSupported = b;
+	}
+
+	public static boolean webWorkerSupported() {
+		return webWorkerSupported;
+	}
 
 }

@@ -1,17 +1,44 @@
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.kernel.StringTemplate;
+
 /**
  * Interface for functions in two variables
  */
-public interface Evaluate2Var {
+public interface Evaluate2Var extends ExpressionValue {
+
 	/**
+	 * Evaluate at given point, be smart about y for f(y)=y^2
+	 * 
 	 * @param x
-	 *            first variable value
+	 *            value of x (or first variable)
 	 * @param y
-	 *            second variable value
-	 * @return evaluation result
+	 *            value of y (or first variable)
+	 * @return function value
 	 */
 	public double evaluate(double x, double y);
+
+	/**
+	 * @return whether this is defined
+	 */
+	public boolean isDefined();
+
+	/**
+	 * @return expression
+	 */
+	public ExpressionNode getFunctionExpression();
+
+	/**
+	 * @return function
+	 */
+	public FunctionNVar getFunction();
+
+	/**
+	 * @param template
+	 *            output template
+	 * @return variable string
+	 */
+	public String getVarString(StringTemplate template);
 
 	/**
 	 * @param x

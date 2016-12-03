@@ -14,7 +14,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
@@ -49,7 +48,6 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -59,7 +57,6 @@ import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.events.NativeEventAttacher;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
@@ -87,7 +84,6 @@ import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.euclidian.EuclidianStaticW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -96,6 +92,7 @@ import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -120,6 +117,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
+import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
 
@@ -132,7 +130,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
@@ -187,16 +184,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private final GLookAndFeelI laf;
 
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
-	private static boolean justClosedPopup = false;
+	private boolean justClosedPopup = false;
 	// protected GeoGebraFrame frame = null;
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
 	// when losing focus, remembering it so that ENTER can give focus back
-	public static Element lastActiveElement = null;
+	private static volatile Element lastActiveElement = null;
 	// but not in case of anything important in any app has focus,
 	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
-	public static boolean anyAppHasFocus = true;
+	private static boolean anyAppHasFocus = true;
 
 	/**
 	 * @param ae
@@ -327,11 +324,26 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * inits factories
 	 */
 	protected void initFactories() {
-		FormatFactory.prototype = new FormatFactoryW();
-		AwtFactory.prototype = new AwtFactoryW();
-		EuclidianStatic.prototype = new EuclidianStaticW();
-		StringUtil.prototype = new StringUtil();
-		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
+
+		if (FormatFactory.getPrototype() == null) {
+			FormatFactory.setPrototypeIfNull(new FormatFactoryW());
+		}
+
+		if (AwtFactory.getPrototype() == null) {
+			AwtFactory.setPrototypeIfNull(new AwtFactoryW());
+		}
+
+		if (StringUtil.getPrototype() == null) {
+			StringUtil.setPrototypeIfNull(new StringUtil());
+		}
+
+		if (CASFactory.getPrototype() == null) {
+			CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
+		}
+
+		if (UtilFactory.getPrototype() == null) {
+			UtilFactory.setPrototypeIfNull(new UtilFactoryW());
+		}
 
 	}
 
@@ -398,7 +410,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			        + ")");
 			JsEval.callNativeJavaScript(fun, args[0].toString());
 		} else {
-			JsArrayString jsStrings = (JsArrayString) JsArrayString
+			JsArrayString jsStrings = (JsArrayString) JavaScriptObject
 			        .createArray();
 			for (Object obj : args) {
 				jsStrings.push(obj.toString());
@@ -411,11 +423,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void callAppletJavaScript(String fun, Object arg0, Object arg1) {
 		if (arg0 == null && arg1 == null) {
 			JsEval.callNativeJavaScript(fun);
-		} else if (arg1 == null) {
-			Log.debug("calling function: " + fun + "(" + arg0.toString()
-					+ ")");
+		} else if (arg0 != null && arg1 == null) {
+			// Log.debug("calling function: " + fun + "(" + arg0.toString()
+			// + ")");
 			JsEval.callNativeJavaScript(fun, arg0.toString());
-		} else {
+		} else if (arg0 != null && arg1 != null) {
 			JsEval.callNativeJavaScriptMultiArg(fun, arg0.toString(),
 					arg1.toString());
 		}
@@ -1163,17 +1175,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public double getMillisecondTime() {
-		return getMillisecondTimeNative();
+		return GeoGebraProfilerW.getMillisecondTimeNative();
 	}
 
-	private native double getMillisecondTimeNative() /*-{
-		if ($wnd.performance) {
-			return $wnd.performance.now();
-		}
 
-		// for IE9
-		return new Date().getTime();
-	}-*/;
 
 	@Override
 	public void copyBase64ToClipboard() {
@@ -1231,10 +1236,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// This should do nothing in webSimple!
 	}
 
+	/**
+	 * @param title
+	 *            confirmation dialog title
+	 * @param mess
+	 *            message
+	 */
 	public void showConfirmDialog(String title, String mess) {
 		// This should do nothing in webSimple!
 	}
-
 
 
 	/**
@@ -1664,9 +1674,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	protected void initCommonObjects() {
 		initFactories();
-		UtilFactory.prototype = new UtilFactoryW();
-		Factory.setPrototype(new FactoryW());
-		// App.initializeSingularWS();
 
 		// Online - Offline event handling begins here
 		initNetworkEventFlow();
@@ -1698,8 +1705,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// if (has(Feature.AV_EXTENSIONS)) {
 		// settings.getAlgebra().setTreeMode(SortMode.ORDER.ordinal());
 		// }
-		SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE = 200;
-		SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE = 200;
 		myXMLio = new MyXMLioW(kernel, kernel.getConstruction());
 
 		fontManager = new FontManagerW();
@@ -1716,7 +1721,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// until the canvas is first drawn
 
 		setUndoActive(undoActive);
-		registerFileDropHandlers(getFrameElement());
+		FileDropHandlerW.registerDropHandler(getFrameElement(), this);
 		setViewsEnabled();
 	}
 
@@ -1745,66 +1750,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	/**
-	 * Register file drop handlers for the canvas of this application
-	 * 
-	 * @param ce
-	 *            Element that listens to the drop events
-	 */
-	native void registerFileDropHandlers(Element ce) /*-{
 
-		var appl = this;
-		var frameElement = ce;
-
-		if (frameElement) {
-			frameElement.addEventListener("dragover", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-				frameElement.style.borderColor = "#ff0000";
-			}, false);
-			frameElement.addEventListener("dragenter", function(e) {
-				e.preventDefault();
-				e.stopPropagation();
-			}, false);
-			frameElement
-					.addEventListener(
-							"drop",
-							function(e) {
-								e.preventDefault();
-								e.stopPropagation();
-								frameElement.style.borderColor = "#000000";
-								var dt = e.dataTransfer;
-								if (dt.files.length) {
-									var fileToHandle = dt.files[0];
-
-									//at first this tries to open the fileToHandle as image,
-									//if fileToHandle not an image, this will try to open as ggb or ggt.
-									if (!appl.@org.geogebra.web.html5.main.AppW::openFileAsImage(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null)) {
-										appl.@org.geogebra.web.html5.main.AppW::openFile(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle, null);
-									}
-
-								} else {
-									// This would raise security exceptions later - see ticket #2301
-									//var gdat = dt.getData("URL");
-									//if (gdat && gdat != " ") {
-									//	var coordx = e.offsetX ? e.offsetX : e.layerX;
-									//	var coordy = e.offsetY ? e.offsetY : e.layerY;
-									//	appl.@org.geogebra.web.html5.main.AppW::urlDropHappened(Ljava/lang/String;II)(gdat, coordx, coordy);
-									//}
-								}
-							}, false);
-		}
-		$doc.body.addEventListener("dragover", function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if (frameElement)
-				frameElement.style.borderColor = "#000000";
-		}, false);
-		$doc.body.addEventListener("drop", function(e) {
-			e.preventDefault();
-			e.stopPropagation();
-		}, false);
-	}-*/;
 
 	/**
 	 * @return preferred size
@@ -2060,7 +2006,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public Factory getFactory() {
-		return Factory.getPrototype();
+		Factory ret = Factory.getPrototype();
+
+		if (ret == null) {
+			ret = new FactoryW();
+			Factory.setPrototype(ret);
+		}
+
+		return ret;
 	}
 
 	public void restoreCurrentUndoInfo() {
@@ -2435,6 +2388,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void closePopups() {
 		Log.debug("close popups");
+		Log.printStacktrace("close popups");
 		justClosedPopup = false;
 		for (Widget widget : popups) {
 			justClosedPopup = true;
@@ -2449,6 +2403,18 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	public void addAsAutoHidePartnerForPopups(Element el) {
+		for (int i = 0; i < popups.size(); i++) {
+			Widget popup = popups.get(i);
+			if (popup instanceof GPopupPanel && ((GPopupPanel) popup).isModal()) {
+				((GPopupPanel) popup).addAutoHidePartner(el);
+			}
+		}
+	}
+
+	public boolean hasPopup() {
+		return popups.size() > 0;
+	}
 
 
 	public boolean wasPopupJustClosed() {
@@ -2558,28 +2524,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 14;
 	}
 
-	public void showStartScreen() {
-		if (showStartScreenNative(getLocalization().getLanguage(), this
-		        .getLoginOperation().getModel().loadLastUser())) {
-			Element fr = this.getFrameElement();
-			if (fr.getParentElement() != null) {
-				fr = fr.getParentElement();
-			}
-			if (fr.getParentElement() != null) {
-				fr = fr.getParentElement();
-			}
-			fr.setId("appletContainer");
-			fr.getStyle().setVisibility(Visibility.HIDDEN);
-		}
-	}
-
-	private native boolean showStartScreenNative(String language, String user) /*-{
-		if ($wnd.showStartScreen) {
-			return $wnd.showStartScreen(language, user);
-		}
-		return false;
-	}-*/;
-
 	public void updateToolBar() {
 		if (!showToolBar || isIniting()) {
 			return;
@@ -2613,10 +2557,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public int getOHeight() {
 		return 0;
-	}
-
-
-	public void doOnResize() {
 	}
 
 	public void loadURL_GGB(String ggb) {
@@ -2664,9 +2604,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		var active = $doc.activeElement;
 		if (active && (active !== $doc.body)) {
 
-			// have jQuery, do the other checks
+			//if SVG clicked, getClassName returns non-string
 
-			if (active.className
+			if (typeof active.className == "string"
 					&& active.className.match(/geogebraweb-dummy-invisible/)) {
 				// actually, ESC focuses this, does not blur!
 				return true;
@@ -2768,14 +2708,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	@Override
-	public void storeUndoInfoAndStateForModeStarting() {
-		if (isUndoActive()) {
-			kernel.storeStateForModeStarting();
-			kernel.storeUndoInfo();
-			setUnsaved();
-		}
-	}
 
 	// ========================================================
 	// FILE HANDLING
@@ -3047,7 +2979,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void ggwGraphicsViewDimChanged(int width, int height) {
 		// Log.debug("dim changed" + getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
+		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.
@@ -3068,7 +3000,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public void ggwGraphicsView2DimChanged(int width, int height) {
 		getSettings().getEuclidian(2).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
+		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.
@@ -3154,8 +3086,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            after the update the input of the keyboard is written into
 	 *            this field
 	 */
-	public void updateKeyBoardField(
-	        @SuppressWarnings("unused") MathKeyboardListener field) {
+	public void updateKeyBoardField(MathKeyboardListener field) {
 		// Overwritten in subclass - nothing to do here
 	}
 
@@ -3227,26 +3158,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return keyboardNeeded;
 	}
 
-	public static native void download(String url, String title) /*-{
-
-		if ($wnd.navigator.msSaveBlob) {
-			//works for chrome and internet explorer
-			var image = document.createElement('img');
-			image.src = image;
-
-			$wnd.navigator.msSaveBlob(image, title);
-		} else {
-			//works for firefox
-			var a = $doc.createElement("a");
-			$doc.body.appendChild(a);
-			a.style = "display: none";
-			a.href = url;
-			a.download = title;
-			a.click();
-		}
-
-	}-*/;
-
+	/**
+	 * @param perspID
+	 *            perspective id
+	 */
 	public void showStartTooltip(int perspID) {
 		// probably needed in full version only
 	}
@@ -3375,9 +3290,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public boolean allowStylebar() {
 		return (!isApplet()
-				&& enableGraphing())
 				|| getArticleElement().getDataParamShowMenuBar(false)
-				|| getArticleElement().getDataParamAllowStyleBar(false);
+				|| getArticleElement().getDataParamAllowStyleBar(false))
+				&& enableGraphing();
 	}
 
 	public boolean enableGraphing() {
@@ -3502,7 +3417,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				height = getAppCanvasHeight();
 			}
 			evSet.setPreferredSize(
-					AwtFactory.prototype.newDimension(width, height));
+					AwtFactory.getPrototype().newDimension(width, height));
 		}
 
 	}
@@ -3510,6 +3425,22 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void setNewExam() {
 		setExam(new ExamEnvironmentW(this));
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetRowsVisible() {
+		return Kernel.MAX_SPREADSHEET_ROWS_WEB;
+	}
+
+	/**
+	 * 
+	 * @return 9999 (or 200 in web)
+	 */
+	public int getMaxSpreadsheetColumnsVisible() {
+		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	}
 
 }

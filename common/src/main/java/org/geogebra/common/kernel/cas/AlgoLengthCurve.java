@@ -96,5 +96,5 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		lengthCurve = new LengthCurve(c1);
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -225,7 +225,7 @@ public class OFFHandler {
 					g = (r >>> 16) & 0xff;
 					r = r >>> 24;
 				}
-				color = AwtFactory.prototype.newColor(r, g, b, a);
+				color = GColor.newColor(r, g, b, a);
 			}
 
 			else if (in.length > offset) {
@@ -241,9 +241,9 @@ public class OFFHandler {
 					s = Math.min(1.0f, s);
 					b = Math.min(1.0f, b);
 					a = Math.min(1.0f, a);
-					color = AwtFactory.prototype.newColor(h, s, b, a);
+					color = GColor.newColor(h, s, b, a);
 				} else
-					color = AwtFactory.prototype.newColor(h, h, h);
+					color = GColor.newColor(h, h, h);
 			}
 		} catch (Exception ex) {
 			Log.debug(ex.getMessage());

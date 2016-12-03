@@ -642,77 +642,77 @@ public class Delaunay_Triangulation {
 			
 			return vertices;
 		}
+		// local friendly alias
+		Triangle_dt halfplane = triangle;
+		// third point of triangle adjacent to this half plane
+		// (the point not shared with the half plane)
+		Point_dt third = null;
+		// triangle adjacent to the half plane
+		Triangle_dt neighbor = null;
 		
-		// handle half plane
-		// in this case, the cell is a single line
-		// which is the perpendicular bisector of the half plane line
-		else {
-			// local friendly alias			
-			Triangle_dt halfplane = triangle;
-			// third point of triangle adjacent to this half plane
-			// (the point not shared with the half plane)
-			Point_dt third = null;
-			// triangle adjacent to the half plane
-			Triangle_dt neighbor = null;
-			
-			// find the neighbor triangle
-			if (!halfplane.next_12().isHalfplane())
-			{
-				neighbor = halfplane.next_12();				
-			}
-			else if (!halfplane.next_23().isHalfplane())
-			{
-				neighbor = halfplane.next_23();				
-			}
-			else if (!halfplane.next_23().isHalfplane())
-			{
-				neighbor = halfplane.next_31();				
-			}
-				
-			// find third point of neighbor triangle
-			// (the one which is not shared with current half plane)
-			// this is used in determining half plane orientation
-			if (!neighbor.p1().equals(halfplane.p1()) && !neighbor.p1().equals(halfplane.p2()) ) 
-				third = neighbor.p1();  
-			if (!neighbor.p2().equals(halfplane.p1()) && !neighbor.p2().equals(halfplane.p2()) ) 
-				third = neighbor.p2();
-			if (!neighbor.p3().equals(halfplane.p1()) && !neighbor.p3().equals(halfplane.p2()) ) 
-				third = neighbor.p3();
-						
-			// delta (slope) of half plane edge
-			double halfplane_delta = (halfplane.p1().y() - halfplane.p2().y()) /
-							(halfplane.p1().x() - halfplane.p2().x());
-			
-			// delta of line perpendicular to current half plane edge
-			double perp_delta = (1.0 / halfplane_delta) * (-1.0);
-		 
-			// determine orientation: find if the third point of the triangle
-			// lies above or below the half plane
-			// works by finding the matching y value on the half plane line equation
-			// for the same x value as the third point
-			double y_orient =  halfplane_delta * (third.x() - halfplane.p1().x()) + halfplane.p1().y();
-			boolean above = true;
-			if (y_orient > third.y())
-				above = false;
-			
-			// based on orientation, determine cell line direction
-			// (towards right or left side of window)
-			double sign = 1.0;
-			if ((perp_delta < 0 && !above) || (perp_delta > 0 && above))
-				sign = -1.0;
-						
-			// the cell line is a line originating from the circumcircle to infinity
-			// x = 500.0 is used as a large enough value
-			Point_dt circumcircle = neighbor.circumcircle().Center();
-			double x_cell_line = (circumcircle.x() + (500.0 * sign));			
-			double y_cell_line = perp_delta * (x_cell_line - circumcircle.x()) + circumcircle.y();
-			
-			Point_dt[] result = new Point_dt[2];
-			result[0] = circumcircle;
-			result[1] = new Point_dt(x_cell_line, y_cell_line);
-						
-			return result;
+		// find the neighbor triangle
+		if (!halfplane.next_12().isHalfplane()) {
+			neighbor = halfplane.next_12();
+		} else if (!halfplane.next_23().isHalfplane()) {
+			neighbor = halfplane.next_23();
+		} else if (!halfplane.next_23().isHalfplane()) {
+			neighbor = halfplane.next_31();
 		}
+			
+		// find third point of neighbor triangle
+		// (the one which is not shared with current half plane)
+		// this is used in determining half plane orientation
+		if (!neighbor.p1().equals(halfplane.p1())
+				&& !neighbor.p1().equals(halfplane.p2())) {
+			third = neighbor.p1();
+		} else if (!neighbor.p2().equals(halfplane.p1())
+				&& !neighbor.p2().equals(halfplane.p2())) {
+			third = neighbor.p2();
+		} else if (!neighbor.p3().equals(halfplane.p1())
+				&& !neighbor.p3().equals(halfplane.p2())) {
+			third = neighbor.p3();
+		} else {
+			Log.debug("problem in Delaunay_Triangulation");
+			// TODO fix added by GeoGebra
+			// should we do something else?
+			return null;
+		}
+
+		// delta (slope) of half plane edge
+		double halfplane_delta = (halfplane.p1().y() - halfplane.p2().y())
+				/ (halfplane.p1().x() - halfplane.p2().x());
+
+		// delta of line perpendicular to current half plane edge
+		double perp_delta = (1.0 / halfplane_delta) * (-1.0);
+
+		// determine orientation: find if the third point of the triangle
+		// lies above or below the half plane
+		// works by finding the matching y value on the half plane line equation
+		// for the same x value as the third point
+		double y_orient = halfplane_delta * (third.x() - halfplane.p1().x())
+				+ halfplane.p1().y();
+		boolean above = true;
+		if (y_orient > third.y())
+			above = false;
+
+		// based on orientation, determine cell line direction
+		// (towards right or left side of window)
+		double sign = 1.0;
+		if ((perp_delta < 0 && !above) || (perp_delta > 0 && above))
+			sign = -1.0;
+
+		// the cell line is a line originating from the circumcircle to infinity
+		// x = 500.0 is used as a large enough value
+		Point_dt circumcircle = neighbor.circumcircle().Center();
+		double x_cell_line = (circumcircle.x() + (500.0 * sign));
+		double y_cell_line = perp_delta * (x_cell_line - circumcircle.x())
+				+ circumcircle.y();
+
+		Point_dt[] result = new Point_dt[2];
+		result[0] = circumcircle;
+		result[1] = new Point_dt(x_cell_line, y_cell_line);
+
+		return result;
 	}
 	
 	/**

@@ -47,14 +47,14 @@ public class CmdEnvelope extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 		
-		return new GeoElement[] { Envelope(c.getLabel(), linear, movingPoint)
+		return new GeoElement[] { envelope(c.getLabel(), linear, movingPoint)
 				.toGeoElement() };
 	}
 	
 	/**
 	 * locus equation for Q dependent on P.
 	 */
-	final public GeoImplicit Envelope(String label, GeoElement linear,
+	final public GeoImplicit envelope(String label, GeoElement linear,
 			GeoPoint movingPoint) {
 		// TODO: add check here if linear is a correct input
 		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear))

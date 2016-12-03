@@ -56,6 +56,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class AlgoDispatcher {
 
 	protected Construction cons;
@@ -176,7 +178,7 @@ public class AlgoDispatcher {
 	/**
 	 * Line named label through Points P and Q
 	 */
-	final public GeoLine Line(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoLine line(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPoints algo = new AlgoJoinPoints(cons, label, P, Q);
 		GeoLine g = algo.getLine();
 		return g;
@@ -185,7 +187,7 @@ public class AlgoDispatcher {
 	/**
 	 * Ray named label through Points P and Q
 	 */
-	final public GeoRay Ray(String label, GeoPoint P, GeoPoint Q) {
+	final public GeoRay ray(String label, GeoPoint P, GeoPoint Q) {
 		AlgoJoinPointsRay algo = new AlgoJoinPointsRay(cons, label, P, Q);
 		return algo.getRay();
 	}
@@ -193,7 +195,7 @@ public class AlgoDispatcher {
 	/**
 	 * Ray named label through Point P with direction of vector v
 	 */
-	final public GeoRay Ray(String label, GeoPoint P, GeoVector v) {
+	final public GeoRay ray(String label, GeoPoint P, GeoVector v) {
 		AlgoRayPointVector algo = new AlgoRayPointVector(cons, label, P, v);
 		return algo.getRay();
 	}
@@ -378,11 +380,12 @@ public class AlgoDispatcher {
 		if (labels != null) {
 			switch (labels.length) {
 			case 2:
+				segmentLabel = labels[0];
 				pointLabel = labels[1];
-
+				break;
 			case 1:
 				segmentLabel = labels[0];
-
+				break;
 			default:
 			}
 		}
@@ -415,6 +418,8 @@ public class AlgoDispatcher {
 	 * angle BAC (for positive orientation) resp. angle CAB (for negative
 	 * orientation). The labels[0] is for the angle, labels[1] for the new point
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	final public GeoElement[] Angle(String[] labels, GeoPoint B, GeoPoint A,
 			GeoNumberValue alpha, boolean posOrientation) {
 		// this is actually a macro
@@ -423,7 +428,7 @@ public class AlgoDispatcher {
 			switch (labels.length) {
 			case 2:
 				pointLabel = labels[1];
-
+				// fall through
 			case 1:
 				angleLabel = labels[0];
 
@@ -1050,7 +1055,6 @@ public class AlgoDispatcher {
 			GeoPolyLine g, GeoPolyLine p) {
 		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
 				g, p, false, false);
-		GeoElement[] points = algo.getOutput();
 		return algo.getOutput();
 	}
 
@@ -1711,7 +1715,7 @@ GeoImplicit p1,
 	 */
 	final public GeoLine Tangent(String label, GeoPointND P, GeoFunction f) {
 
-		return KernelCAS.Tangent(cons, label, P, f);
+		return KernelCAS.tangent(cons, label, P, f);
 	}
 
 	/**

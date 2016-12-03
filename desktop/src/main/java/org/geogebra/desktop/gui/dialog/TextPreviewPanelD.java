@@ -20,7 +20,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
+import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -32,8 +32,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class TextPreviewPanelD extends TextPreviewer {
 
-	private AppD app;
-	private EuclidianViewD ev;
 
 	/**
 	 * @param kernel
@@ -41,15 +39,13 @@ public class TextPreviewPanelD extends TextPreviewer {
 	public TextPreviewPanelD(Kernel kernel) {
 
 		super(kernel);
-		app = (AppD) kernel.getApplication();
-		ev = getEuclidianView();
 	}
 
 	/**
 	 * @return JPanel that encloses the EuclidianView
 	 */
 	public JPanel getJPanel() {
-		return ev.getJPanel();
+		return ((EuclidianViewD) ev).getJPanel();
 	}
 
 	/**
@@ -79,8 +75,9 @@ public class TextPreviewPanelD extends TextPreviewer {
 		if (previewGeo.isLaTeX()) {
 			// LaTex geo, use dummy ImageIcon
 
-			GeoGebraIcon.drawLatexImageIcon(app, testIcon,
-					previewGeo.getTextString(), app.getPlainFont(), true,
+			GeoGebraIconD.drawLatexImageIcon((AppD) app, testIcon,
+					previewGeo.getTextString(), ((AppD) app).getPlainFont(),
+					true,
 					Color.black, null);
 			// System.out.println("=============> " + testIcon.getIconHeight() +
 			// " : " + testIcon.getIconWidth());
@@ -93,7 +90,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 			// Plain text geo, use dummy JTextArea
 
 			// set font and line spacing (guessing at this value)
-			dummyText.setFont(app.getPlainFont());
+			dummyText.setFont(((AppD) app).getPlainFont());
 			MutableAttributeSet set = new SimpleAttributeSet();
 			StyleConstants.setLineSpacing(set, 1);
 			// StyleConstants.setSpaceBelow(set, (float) 0.5);
@@ -108,18 +105,21 @@ public class TextPreviewPanelD extends TextPreviewer {
 		}
 
 		// update this panel
-		ev.setPreferredSize(d);
-		ev.revalidate();
+		((EuclidianViewD) ev).setPreferredSize(d);
+		((EuclidianViewD) ev).revalidate();
 
 	}
 
 	@Override
 	protected void removeEVMouseListeners() {
-		ev.removeMouseListener((EuclidianControllerListeners) ev
+		((EuclidianViewD) ev)
+				.removeMouseListener((EuclidianControllerListeners) ev
 				.getEuclidianController());
-		ev.removeMouseMotionListener((EuclidianControllerListeners) ev
+		((EuclidianViewD) ev)
+				.removeMouseMotionListener((EuclidianControllerListeners) ev
 				.getEuclidianController());
-		ev.removeMouseWheelListener((EuclidianControllerListeners) ev
+		((EuclidianViewD) ev)
+				.removeMouseWheelListener((EuclidianControllerListeners) ev
 				.getEuclidianController());
 	}
 
@@ -131,7 +131,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 			ev = new EuclidianViewTextPreview(new EuclidianControllerD(kernel),
 					showAxes, showGrid, EuclidianView.EVNO_GENERAL, null);
 		}
-		return ev;
+		return (EuclidianViewD) ev;
 	}
 
 	/****************************************************************************
@@ -139,7 +139,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 	 * text editor.
 	 * 
 	 */
-	private class EuclidianViewTextPreview extends EuclidianViewD {
+	private static class EuclidianViewTextPreview extends EuclidianViewD {
 
 		public EuclidianViewTextPreview(EuclidianController ec,
 				boolean[] showAxes, boolean showGrid, int evno,

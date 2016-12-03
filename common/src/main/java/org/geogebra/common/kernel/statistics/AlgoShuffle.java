@@ -92,6 +92,6 @@ public class AlgoShuffle extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

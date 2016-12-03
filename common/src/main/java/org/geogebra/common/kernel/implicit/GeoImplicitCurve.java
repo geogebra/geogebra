@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
-import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -60,8 +59,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Path, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit, Evaluate2Var,
-		EquationValue {
+		Transformable, PointRotateable, GeoImplicit, EquationValue {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
 	 * LEFT_FAR, RIGHT_FAR]
@@ -2226,6 +2224,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return evaluateImplicitCurve(val[0], val[1], factor);
 	}
 
+	/**
+	 * @param x
+	 *            first variable value
+	 * @param y
+	 *            second variable value
+	 * @return evaluation result
+	 */
 	public double evaluate(double x, double y) {
 		return this.evaluateImplicitCurve(x, y);
 	}
@@ -2260,7 +2265,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return ':';
 	}
 
-	public FunctionNVar getFunctionExpression() {
+	public FunctionNVar getFunctionDefinition() {
 		return expression;
 	}
 

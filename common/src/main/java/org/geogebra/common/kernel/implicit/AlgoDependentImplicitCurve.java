@@ -93,6 +93,6 @@ public class AlgoDependentImplicitCurve extends AlgoElement
 		return geoElement.getLabel(tpl) + ": " + equation.toString(tpl);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

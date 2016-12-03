@@ -140,5 +140,5 @@ public class AlgoAsymptote extends AlgoElement {
 		return getLoc().getPlain("AsymptoteToA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -123,9 +123,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		}
 
 		double xmax = -Double.MAX_VALUE;
-		double ymin = Double.MAX_VALUE;
 		double xmin = Double.MAX_VALUE;
-		double ymax = -Double.MAX_VALUE;
 
 		if (!quotient) {
 			// make sure it covers all of EV1 & EV2 if appropriate
@@ -138,10 +136,8 @@ public class AlgoIntegralODE extends AlgoElement {
 			if (view.isVisibleInThisView(locus)) {
 				xmax = Math
 						.max(xmax, view.toRealWorldCoordX((view.getWidth())));
-				ymax = Math.max(ymax, view.toRealWorldCoordY(0));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
-				ymin = Math.min(ymin,
-						view.toRealWorldCoordY((view.getHeight())));
+
 			}
 
 			if (kernel.getApplication().hasEuclidianView2(1)) {
@@ -150,10 +146,8 @@ public class AlgoIntegralODE extends AlgoElement {
 				if (view2.isVisibleInThisView(locus)) {
 					xmax = Math.max(xmax,
 							view2.toRealWorldCoordX((view.getWidth())));
-					ymax = Math.max(ymax, view2.toRealWorldCoordY(0));
 					xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
-					ymin = Math.min(ymin,
-							view2.toRealWorldCoordY((view.getHeight())));
+
 				}
 			}
 
@@ -328,5 +322,5 @@ public class AlgoIntegralODE extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

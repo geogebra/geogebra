@@ -75,5 +75,5 @@ public class AlgoCentroidPolygon extends AlgoElement {
 		return getLoc().getPlain("CentroidOfA", p.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

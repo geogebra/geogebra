@@ -158,7 +158,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	/**
 	 * Key value pairs.
 	 */
-	private class KeyValue {
+	private static class KeyValue {
 		int key;
 		String value;
 

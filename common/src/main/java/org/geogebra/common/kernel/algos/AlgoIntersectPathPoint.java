@@ -159,6 +159,6 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 		return false;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

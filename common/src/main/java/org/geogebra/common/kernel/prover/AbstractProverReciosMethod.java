@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -63,10 +64,9 @@ public abstract class AbstractProverReciosMethod {
 		}
 		if (B) {
 			// use Botana's method if there is no native support
-			p = UtilFactory.prototype.newProver();
+			p = UtilFactory.getPrototype().newProver();
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
-			ProverBotanasMethod pbm = new ProverBotanasMethod();
-			as = pbm.new AlgebraicStatement(statement, null, p);
+			as = new AlgebraicStatement(statement, null, p);
 
 			if (as.getResult() == ProofResult.PROCESSING) {
 				// Don't do further computations until CAS is ready:
@@ -223,12 +223,12 @@ public abstract class AbstractProverReciosMethod {
 				substitutions.put(v, values.get(v).longValue());
 			}
 			ProverSettings proverSettings = ProverSettings.get();
-			Boolean solvable = Polynomial.solvable(as.polynomials
+			ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 					.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, as.geoStatement.getKernel(),
 					proverSettings.transcext);
 			Log.debug("Recio meets Botana:" + substitutions);
-			if (solvable) {
+			if (solvable.boolVal()) {
 				return ProofResult.FALSE;
 			}
 		} else
@@ -259,12 +259,12 @@ public abstract class AbstractProverReciosMethod {
 					substitutions.put(v, values.get(v).longValue());
 				}
 				ProverSettings proverSettings = ProverSettings.get();
-				Boolean solvable = Polynomial.solvable(as.polynomials
+				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						proverSettings.transcext);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
-				if (solvable) {
+				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
 				}
 			} else
@@ -308,13 +308,14 @@ public abstract class AbstractProverReciosMethod {
 						// FIXME: Change Long in Variable to BigInteger
 						substitutions.put(v, values.get(v).longValue());
 					}
-					Boolean solvable = Polynomial.solvable(as.polynomials
+					ExtendedBoolean solvable = Polynomial
+							.solvable(as.polynomials
 							.toArray(new Polynomial[as.polynomials.size()]),
 							substitutions, as.geoStatement.getKernel(),
 							ProverSettings.get().transcext);
 					Log.debug("Recio meets Botana: #" + caseno + " "
 							+ substitutions);
-					if (solvable) {
+					if (solvable.boolVal()) {
 						return ProofResult.FALSE;
 					}
 				} else

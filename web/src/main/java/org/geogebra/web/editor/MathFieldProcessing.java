@@ -88,4 +88,13 @@ public class MathFieldProcessing implements KeyboardListener {
 		return false;
 	}
 
+	public void endEditing() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public MathFieldW getField() {
+		return mf;
+	}
+
 }

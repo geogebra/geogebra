@@ -1,7 +1,5 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.kernel.Kernel;
@@ -11,7 +9,6 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
@@ -22,8 +19,6 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 public class SpreadsheetColumnControllerW implements
 	MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler {
@@ -95,7 +90,6 @@ public class SpreadsheetColumnControllerW implements
 
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
-		boolean metaDown = e.isControlKeyDown();// || e.isMetaKeyDown();//AppW.isControlDown(e);
 		boolean shiftDown = e.isShiftKeyDown();
 		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);//AppW.isRightClick(e);
 
@@ -142,11 +136,11 @@ public class SpreadsheetColumnControllerW implements
 							int column = point.getX();
 							table.setColumnSelectionInterval(column0, column);
 						}
-					} else if (metaDown) {
-						column0 = point.getX();
-						// Note: ctrl-select now handled in
-						// table.changeSelection
-						table.setColumnSelectionInterval(column0, column0);
+						// } else if (metaDown) {
+						// column0 = point.getX();
+						// // Note: ctrl-select now handled in
+						// // table.changeSelection
+						// table.setColumnSelectionInterval(column0, column0);
 					} else {
 						column0 = point.getX();
 						table.setColumnSelectionInterval(column0, column0);
@@ -227,9 +221,7 @@ public class SpreadsheetColumnControllerW implements
 
 			int width = table.getGrid().getColumnFormatter().getElement(column).getOffsetWidth();
 			int[] selected = table.getSelectedColumns();
-			if (selected == null) {
-				return;
-			}
+
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
 				if (column == selected[i])
@@ -432,9 +424,8 @@ public class SpreadsheetColumnControllerW implements
 	// Renderer Class
 	// =========================================================
 
-	protected class ColumnHeaderRenderer {
+	protected static class ColumnHeaderRenderer {
 
-		private GColor defaultBackground;
 		/*private JLabel lblHeader;
 		private JButton btnTrace;
 		private BorderLayout layout;
@@ -454,111 +445,11 @@ public class SpreadsheetColumnControllerW implements
 			btnTrace.setBorderPainted(false);
 
 			setOpaque(true);*/
-			defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER;
 			/*setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1,
 					MyTableD.HEADER_GRID_COLOR));
 
 			layout = (BorderLayout) this.getLayout();*/
 		}
-
-		public Widget changeTableCellRendererWidget(Widget retwidget, MyTableW table,
-				Object value, boolean isSelected, boolean hasFocus,
-				int rowIndex, int colIndex) {
-			String text = (value == null) ? "" : value.toString();
-
-			//lblHeader.setFont(app.getPlainFont());//instead of this:
-			/*GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
-			((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
-			((Label)retwidget).getElement().getStyle().setFontStyle(
-				gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
-			((Label)retwidget).getElement().getStyle().setFontWeight(
-				gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);*/
-
-			//lblHeader.setText(value.toString());
-			((Label)retwidget).setText(text);
-
-			/*if (table.getSelectionType() == MyTable.ROW_SELECT) {
-				((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
-			} else {
-				if (table.selectedColumnSet.contains(colIndex)
-						|| (colIndex >= table.minSelectionColumn && colIndex <= table.maxSelectionColumn)) {
-					((Label)retwidget).getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-				} else {
-					((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
-				}
-			}*/
-
-			/*TODO if (overTraceButtonColumn == colIndex) {
-				btnTrace.setIcon(traceRollOverIcon);
-				setToolTipText(app.getMenuTooltip("TraceToSpreadsheet"));
-			} else
-				btnTrace.setIcon(traceIcon);
-
-			if (app.getTraceManager().isTraceColumn(colIndex)) {
-				this.add(btnTrace, BorderLayout.WEST);
-			} else {
-				if (layout.getLayoutComponent(BorderLayout.WEST) != null) {
-					this.remove(layout.getLayoutComponent(BorderLayout.WEST));
-				}
-			}*/
-
-			//retwidget.getElement().getStyle().setProperty("textAlign", "center");
-			//retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
-			//retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-			return retwidget;
-		}
-
-		public Widget getTableCellRendererWidget(MyTableW table,
-				Object value, boolean isSelected, boolean hasFocus,
-				int rowIndex, int colIndex) {
-
-			Widget retwidget = new Label();
-
-			String text = (value == null) ? "" : value.toString();
-
-			//lblHeader.setFont(app.getPlainFont());//instead of this:
-			GFont gf = app.getFontCanDisplay(text, GFont.PLAIN);
-			((Label)retwidget).getElement().getStyle().setFontSize(gf.getSize(), Style.Unit.PX);
-			((Label)retwidget).getElement().getStyle().setFontStyle(
-				gf.isItalic() ? Style.FontStyle.ITALIC : Style.FontStyle.NORMAL);
-			((Label)retwidget).getElement().getStyle().setFontWeight(
-				gf.isBold() ? Style.FontWeight.BOLD : Style.FontWeight.NORMAL);
-
-			//lblHeader.setText(value.toString());
-			((Label)retwidget).setText(text);
-
-			if (table.getSelectionType() == MyTable.ROW_SELECT) {
-				((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
-			} else {
-				if (table.selectedColumnSet.contains(colIndex)
-						|| (colIndex >= table.minSelectionColumn && colIndex <= table.maxSelectionColumn)) {
-					((Label)retwidget).getElement().getStyle().setBackgroundColor(MyTableW.SELECTED_BACKGROUND_COLOR_HEADER.toString());
-				} else {
-					((Label)retwidget).getElement().getStyle().setBackgroundColor(defaultBackground.toString());
-				}
-			}
-
-			/*TODO if (overTraceButtonColumn == colIndex) {
-				btnTrace.setIcon(traceRollOverIcon);
-				setToolTipText(app.getMenuTooltip("TraceToSpreadsheet"));
-			} else
-				btnTrace.setIcon(traceIcon);
-
-			if (app.getTraceManager().isTraceColumn(colIndex)) {
-				this.add(btnTrace, BorderLayout.WEST);
-			} else {
-				if (layout.getLayoutComponent(BorderLayout.WEST) != null) {
-					this.remove(layout.getLayoutComponent(BorderLayout.WEST));
-				}
-			}*/
-
-			retwidget.getElement().getStyle().setProperty("textAlign", "center");
-			retwidget.getElement().getStyle().setPadding(2, Style.Unit.PX);
-			retwidget.getElement().getStyle().setHeight(100, Style.Unit.PCT);
-			return retwidget;
-		}
-
-		//private Rectangle rect = new Rectangle();
 
 		/**
 		 * Returns true if the given mouse location (in local coordinates of the

@@ -35,14 +35,14 @@ import org.geogebra.desktop.main.AppD;
 
 abstract public class ExportFrame extends JFrame implements ExportSettings {
 	private static final long serialVersionUID = 1L;
-	private final String TEXT_XUNIT = "textxunit";
-	private final String TEXT_YUNIT = "textyunit";
-	private final String TEXT_WIDTH = "textwidth";
-	private final String TEXT_HEIGHT = "textheight";
-	private final String TEXT_XMAX = "textxmax";
-	private final String TEXT_XMIN = "textxmin";
-	private final String TEXT_YMAX = "textymax";
-	private final String TEXT_YMIN = "textymin";
+	private static final String TEXT_XUNIT = "textxunit";
+	private static final String TEXT_YUNIT = "textyunit";
+	private static final String TEXT_WIDTH = "textwidth";
+	private static final String TEXT_HEIGHT = "textheight";
+	private static final String TEXT_XMAX = "textxmax";
+	private static final String TEXT_XMIN = "textxmin";
+	private static final String TEXT_YMAX = "textymax";
+	private static final String TEXT_YMIN = "textymin";
 	protected TextValue textXUnit, textYUnit, textwidth, textheight;
 	protected JLabel labelwidth, labelheight, labelXUnit, labelYUnit,
 			labelFontSize, labelFormat;

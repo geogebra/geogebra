@@ -8,6 +8,8 @@ import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
@@ -286,26 +288,47 @@ public class WinFileManager extends FileManager {
 	public void export(final AppW app) {
 		final String title1 = app.getExportTitle();
 		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
-		final StringHandler onFileDialogClosed = new StringHandler() {
+		final StringHandler onFileDialogCancel = new StringHandler() {
 
 			@Override
 			public void handle(final String path) {
 				app.getGgbApi().showTooltip("");
 				((DialogManagerW) app.getDialogManager()).getSaveDialog()
 						.hide();
+				getApp().dispatchEvent(
+						new Event(EventType.EXPORT, null, "[\"ggb\"]"));
 			}
 		};
+		final StringHandler onFileDialogClosed = new StringHandler() {
+
+			@Override
+			public void handle(final String path) {
+				onFileDialogCancel.handle(path);
+			}
+		};
+
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
 			@Override
 			public void handle(final String data) {
-				saveDialog(data, title1, onFileDialogClosed, onFileDialogClosed);
+				saveDialog(data, title1, onFileDialogClosed,
+						onFileDialogCancel);
 			}
 			});
 	}
 
 
 
+	/**
+	 * @param data
+	 *            base64
+	 * @param title
+	 *            title
+	 * @param onSuccess
+	 *            success handler
+	 * @param onFailure
+	 *            failure handler
+	 */
 	native void saveDialog(String data, String title,
  StringHandler onSuccess,
 			StringHandler onFailure)/*-{
@@ -337,6 +360,8 @@ public class WinFileManager extends FileManager {
 
 	public void showExportAsPictureDialog(String url, String filename, AppW app) {
 		exportImage(url, filename);
+		// TODO check if it really happened
+		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"png\"]"));
 
 	}
 

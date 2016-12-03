@@ -22,7 +22,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -72,7 +71,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private MyToggleButton btnCumulative, btnIntervalLeft, btnIntervalBetween,
 			btnIntervalRight;
 
-	private JSlider[] sliderArray;
+	// private JSlider[] sliderArray;
 	private ListSeparatorRenderer comboRenderer;
 
 	// GUI layout panels
@@ -624,10 +623,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		// set distribution combo box
 		comboDistribution.removeActionListener(this);
-		if (comboDistribution.getSelectedItem() != distributionMap
-				.get(selectedDist))
+		if (!comboDistribution.getSelectedItem()
+				.equals(distributionMap.get(selectedDist))) {
 			comboDistribution
 					.setSelectedItem(distributionMap.get(selectedDist));
+		}
+
 		comboDistribution.addActionListener(this);
 
 		btnIntervalLeft.removeActionListener(this);
@@ -909,15 +910,15 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		if (isIniting)
 			return;
 
-		JSlider source = (JSlider) e.getSource();
-		for (int i = 0; i < maxParameterCount; i++) {
-			if (source == sliderArray[i]) {
-
-				fldParameterArray[i].setText("" + sliderArray[i].getValue());
-				doTextFieldActionPerformed(fldParameterArray[i]);
-
-			}
-		}
+		// JSlider source = (JSlider) e.getSource();
+		// for (int i = 0; i < maxParameterCount; i++) {
+		// if (source == sliderArray[i]) {
+		//
+		// fldParameterArray[i].setText("" + sliderArray[i].getValue());
+		// doTextFieldActionPerformed(fldParameterArray[i]);
+		//
+		// }
+		// }
 
 	}
 
@@ -969,7 +970,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	/**
 	 * Custom toggle button
 	 */
-	class MyToggleButton extends JToggleButton {
+	static class MyToggleButton extends JToggleButton {
 
 		private static final long serialVersionUID = 1L;
 

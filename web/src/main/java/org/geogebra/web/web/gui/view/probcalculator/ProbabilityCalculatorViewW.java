@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -20,7 +21,6 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
-import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -32,8 +32,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -50,7 +48,6 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -58,7 +55,9 @@ import com.google.gwt.user.client.ui.Widget;
  * ProbablityCalculatorView for web
  *
  */
-public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implements ChangeHandler, FocusHandler, ValueChangeHandler<Boolean>, BlurHandler, KeyUpHandler {
+public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
+		implements ChangeHandler, ValueChangeHandler<Boolean>, BlurHandler,
+		KeyUpHandler {
 
 	/**
 	 * separator for list boxes
@@ -320,7 +319,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		controlPanel.add(new ClearPanel());
     }
 	
-	private class ClearPanel extends FlowPanel {
+	private static class ClearPanel extends FlowPanel {
 		public ClearPanel() {
 			super();
 			this.setStyleName("clear");
@@ -328,6 +327,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	}
 
 	private void createGUIElements() {
+		FieldFocusHandler focusHandler = new FieldFocusHandler((AppW) app);
 		setLabelArrays();
 	    comboDistribution = new ListBox();
 	    comboDistribution.addStyleName("comboDistribution");
@@ -362,8 +362,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
 	    	fldParameterArray[i].setColumns(4);
 	    	fldParameterArray[i].addKeyUpHandler(this);
-	    	fldParameterArray[i].addFocusHandler(this);
+			fldParameterArray[i].addFocusHandler(focusHandler);
 	    	fldParameterArray[i].addBlurHandler(this);
+			addInsertHandler(fldParameterArray[i]);
 	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
 	    }
 	    
@@ -379,23 +380,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    fldLow = new AutoCompleteTextFieldW(app);
 	    fldLow.setColumns(4);
 	    fldLow.addKeyUpHandler(this);
-	    fldLow.addFocusHandler(this);
+		fldLow.addFocusHandler(focusHandler);
 	    fldLow.addBlurHandler(this);
+		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
 
 
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
-	    fldHigh.addFocusHandler(this);
+		fldHigh.addFocusHandler(focusHandler);
 	    fldHigh.addBlurHandler(this);
+		addInsertHandler(fldHigh);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
 	    fldResult = new AutoCompleteTextFieldW(app);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
-	    fldResult.addFocusHandler(this);
+		fldResult.addFocusHandler(focusHandler);
 	    fldResult.addBlurHandler(this);
+		addInsertHandler(fldResult);
 	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
 
 	    lblMeanSigma = new Label();
@@ -646,10 +650,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 				// set distribution combo box
 				//comboDistribution.removeActionListener(this);
-				if (comboDistribution.getValue(comboDistribution.getSelectedIndex()) != distributionMap
-						.get(selectedDist))
+		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
+				.equals(distributionMap.get(selectedDist))) {
 					comboDistribution
 							.setSelectedIndex(ListBoxApi.getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+		}
 				//comboDistribution.addActionListener(this);
 
 				//btnIntervalLeft.removeActionListener(this);
@@ -689,38 +694,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			updateProbabilityType();
 		}
     }
-
-	public void onFocus(FocusEvent event) {
-		Object source = event.getSource();
-
-		if (source instanceof TextBox) {
-			TextBox tb = (TextBox) event.getSource();
-			if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-				Widget parent = tb.getParent().getParent();
-				if (parent instanceof AutoCompleteTextFieldW) {
-					if (MyTableW.isAndroid() || MyTableW.isIPad()) {
-						if (MyTableW.isIPad()) {
-							tb.setFocus(false);
-							event.preventDefault();
-						}
-						((AutoCompleteTextFieldW) parent).setEnabled(false);
-						((AutoCompleteTextFieldW) parent)
-								.addDummyCursor(((AutoCompleteTextFieldW) parent)
-										.getCaretPosition());
-						if (MyTableW.isIPad()) {
-							// fldHigh.getTextBox().setFocus(true);
-						}
-					} else {
-						tb.selectAll();
-					}
-					((AppW) app).showKeyboard((AutoCompleteTextFieldW) parent,
-							true);
-				}
-			} else {
-				tb.selectAll();
-			}
-		}
-	}
 
 	private void setProbabilityComboBoxMenu() {
 
@@ -892,7 +865,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	   
     }
 	
-	private void doTextFieldActionPerformed(TextBox source,
+	void doTextFieldActionPerformed(TextBox source,
 	        boolean intervalCheck) {
 		if (isIniting)
 			return;
@@ -1000,6 +973,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	}
 
+	private void addInsertHandler(final AutoCompleteTextFieldW field) {
+		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				public void onInsert(String text) {
+					field.removeDummyCursor();
+					doTextFieldActionPerformed((TextBox) field.getTextBox(),
+							false);
+					if (Browser.isAndroid() || Browser.isIPad()) {
+						field.addDummyCursor(field.getCaretPosition());
+					}
+				}
+			});
+		}
+	}
 
 	@Override
     public void onBlur(BlurEvent event) {

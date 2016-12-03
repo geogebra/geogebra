@@ -15,7 +15,7 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.euclidian.EuclidianStaticD;
+import org.geogebra.desktop.factories.AwtFactoryD;
 
 /**
  * @author George Sturr 2009-9-19 This class defines the ComboBox renderer where
@@ -32,8 +32,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private Ellipse2D.Double circle = new Ellipse2D.Double();
 	private Line2D.Double line1, line2, line3, line4;
 	private GeneralPath gp = null;
-	private static BasicStroke borderStroke = EuclidianStaticD
-			.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];
 
 	public PointStyleListRenderer() {

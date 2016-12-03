@@ -31,6 +31,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -43,14 +44,13 @@ import javax.swing.Timer;
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
 import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
-import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
-import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -176,16 +176,9 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	public void insertString(String text) {
-		EditorState state = mathFieldInternal.getEditorState();
 
-		int offset = state.getCurrentOffset();
-		for (int i = 0; i < text.length(); i++) {
+		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 
-			mathFieldInternal.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
-
-		}
-
-		mathFieldInternal.selectNextArgument();
 
 		mathFieldInternal.update();
 
@@ -209,4 +202,23 @@ public class MathFieldD extends JLabel implements MathField {
 		}
 
 	}
+
+	public void debug(String string) {
+		System.out.println(string);
+
+	}
+
+	public void copy() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		Clipboard clipboard = toolkit.getSystemClipboard();
+		StringSelection stringSelection = new StringSelection(
+				mathFieldInternal.copy());
+		clipboard.setContents(stringSelection, null);
+
+	}
+
+	public MathFormula getFormula(){
+		return mathFieldInternal.getFormula();
+	}
+
 }

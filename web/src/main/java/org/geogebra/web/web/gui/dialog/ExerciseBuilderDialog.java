@@ -1,13 +1,13 @@
 package org.geogebra.web.web.gui.dialog;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -49,8 +49,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		GeoElementSelectionListener, ChangeHandler {
-
-	private AppW app;
+	/** application */
+	protected AppW app;
 	private Exercise exercise;
 
 	private VerticalPanel mainWidget;
@@ -208,7 +208,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		assignmentsTable.setWidget(row, j++, textForSolvedAssignment);
 
-		final ListBox fractions = getFractionsLB(assignment, Result.CORRECT);
+		final TextBox fractions = getFractionsLB(assignment, Result.CORRECT);
 		assignmentsTable.setWidget(row, j++, fractions);
 
 		Image delIcon = getDeleteIcon(assignment);
@@ -248,35 +248,62 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *         defined in {@link Assignment#FRACTIONS} setting the fraction for
 	 *         a result in this assignment when they are changed
 	 */
-	ListBox getFractionsLB(final Assignment assignment, final Result res) {
-		final ListBox fractions = new ListBox();
-		fractions.setMultipleSelect(false);
-		for (int j = 0; j < Assignment.FRACTIONS.length; j++) {
-			fractions.addItem(app.getKernel().format(
-					Assignment.FRACTIONS[j] * 100,
-					StringTemplate.defaultTemplate));
-		}
+	// ListBox getFractionsLB(final Assignment assignment, final Result res) {
+	// final ListBox fractions = new ListBox();
+	// fractions.setMultipleSelect(false);
+	// for (int j = 0; j < Assignment.FRACTIONS.length; j++) {
+	// fractions.addItem(app.getKernel().format(
+	// Assignment.FRACTIONS[j] * 100,
+	// StringTemplate.defaultTemplate));
+	// }
+	//
+	// fractions.addChangeHandler(new ChangeHandler() {
+	//
+	// public void onChange(ChangeEvent event) {
+	// assignment.setFractionForResult(res,
+	// Assignment.FRACTIONS[fractions.getSelectedIndex()]);
+	// }
+	// });
+	//
+	// fractions.addAttachHandler(new Handler() {
+	//
+	// public void onAttachOrDetach(AttachEvent event) {
+	// fractions.setSelectedIndex(Arrays.binarySearch(
+	// Assignment.FRACTIONS,
+	// assignment.getFractionForResult(res)));
+	// }
+	// });
+	//
+	// return fractions;
+	// }
+	TextBox getFractionsLB(final Assignment assignment, final Result res) {
+		final TextBox fractions = new TextBox();
 
 		fractions.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-				assignment.setFractionForResult(res,
-						Assignment.FRACTIONS[fractions.getSelectedIndex()]);
+				GeoNumberValue num = app.getKernel().getAlgebraProcessor()
+						.evaluateToNumeric(fractions.getText(), true);
+				if(num!=null){
+					assignment.setFractionForResult(res,
+							(float) (num.getDouble() * 0.01));
+					fractions.setText(
+							num.toValueString(StringTemplate.defaultTemplate));
+				}
 			}
 		});
 
 		fractions.addAttachHandler(new Handler() {
 
 			public void onAttachOrDetach(AttachEvent event) {
-				fractions.setSelectedIndex(Arrays.binarySearch(
-						Assignment.FRACTIONS,
-						assignment.getFractionForResult(res)));
+				fractions.setValue(app.getKernel().format(
+						assignment.getFractionForResult(res) * 100,
+						StringTemplate.defaultTemplate));
 			}
 		});
 
 		return fractions;
 	}
-
 	/**
 	 * @param assignment
 	 *            the assignment for which the TextBox should set the hint
@@ -548,15 +575,12 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private void newTool() {
 		setVisible(false);
-		ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app,
-				new AsyncOperation() {
+		ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(app,
+				new AsyncOperation<Macro>() {
 					@Override
-					public void callback(Object obj) {
-						if (obj instanceof Macro) {
-							Macro macro = (Macro) obj;
-							if (app.getKernel().getMacroID(macro) >= 0) {
-								addAssignment(macro);
-							}
+					public void callback(Macro macro) {
+						if (app.getKernel().getMacroID(macro) >= 0) {
+							addAssignment(macro);
 						}
 						ExerciseBuilderDialog.this.setVisible(true);
 					}

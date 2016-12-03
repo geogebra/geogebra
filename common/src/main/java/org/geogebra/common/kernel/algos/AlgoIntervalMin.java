@@ -32,6 +32,6 @@ public class AlgoIntervalMin extends AlgoIntervalAbstract {
 		result.setValue(interval.getMin());
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -913,7 +913,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			MyDouble exponent = ((NumberValue) rt).getNumber();
 
 			// special case: e^exponent (Euler number)
-			if (base == Math.E) {
+			if (MyDouble.exactEqual(base, Math.E)) {
 				return exponent.exp();
 			}
 

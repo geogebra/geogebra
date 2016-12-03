@@ -320,7 +320,7 @@ class ColorPanel extends JPanel implements ActionListener,
 	 * @return
 	 */
 	public String getToolTipText(App app, Color color) {
-		return ColorObjectModel.getColorAsString(app, new GColorD(color));
+		return ColorObjectModel.getColorAsString(app, GColorD.newColor(color));
 	}
 
 	// Add tag for color and alpha or remove if selected all bars
@@ -334,13 +334,13 @@ class ColorPanel extends JPanel implements ActionListener,
 			}
 			geo.setAlphaValue(alpha);
 			if (!updateAlphaOnly) {
-				geo.setObjColor(new GColorD(col));
+				geo.setObjColor(GColorD.newColor(col));
 			}
 			algo.setBarAlpha(alpha, selectedBarButton);
 			return;
 		}
 		if (!updateAlphaOnly) {
-			algo.setBarColor(new GColorD(col),
+			algo.setBarColor(GColorD.newColor(col),
 					selectedBarButton);
 		}
 		algo.setBarAlpha(alpha, selectedBarButton);
@@ -399,7 +399,8 @@ class ColorPanel extends JPanel implements ActionListener,
 	public void stateChanged(ChangeEvent e) {
 
 		float alpha = opacitySlider.getValue() / 100.0f;
-		GColor color = new GColorD(this.propertiesPanelD.colChooser.getColor());
+		GColor color = GColorD
+				.newColor(this.propertiesPanelD.colChooser.getColor());
 		if (e.getSource() == opacitySlider)
 			model.applyChanges(color, alpha, true);
 		else

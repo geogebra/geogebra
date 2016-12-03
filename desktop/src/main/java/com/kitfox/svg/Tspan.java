@@ -210,7 +210,8 @@ public class Tspan extends ShapeElement
         Font font = diagram.getUniverse().getFont(fontFamily);
         if (font == null)
         {
-            addShapeSysFont(addShape, font, fontFamily, fontSize, letterSpacing, cursor);
+			addShapeSysFont(addShape, null, fontFamily, fontSize, letterSpacing,
+					cursor);
             return;
         }
 
@@ -275,7 +276,7 @@ public class Tspan extends ShapeElement
         strokeWidthScalar = 1f;
     }
 
-    private void addShapeSysFont(GeneralPath addShape, Font font,
+	private void addShapeSysFont(GeneralPath addShape, Font font,
         String fontFamily, float fontSize, float letterSpacing, Point2D cursor)
     {
 

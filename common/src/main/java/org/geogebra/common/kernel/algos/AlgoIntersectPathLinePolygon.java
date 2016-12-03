@@ -41,7 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  * Algo for intersection of a line with the interior of a polygon
  * 
- * @author matthieu
+ * @author Mathieu
  */
 public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
@@ -449,6 +449,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

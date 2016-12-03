@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicSectionInterface;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.MyMath;
 
@@ -50,7 +49,8 @@ public class GeoConicSection extends GeoConic3D implements
 
 	}
 
-	private class IndexedParameter implements Comparable<IndexedParameter> {
+	private static class IndexedParameter
+			implements Comparable<IndexedParameter> {
 		protected double value;
 		protected int index;
 

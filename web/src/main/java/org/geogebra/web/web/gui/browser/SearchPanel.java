@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -39,7 +38,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 
 //	private FlowPanel searchPanel;
 	private TextBox query;
-	private Label info;
 	private final FastButton searchButton;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
@@ -106,7 +104,6 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.add(this.query);
 		this.add(this.cancelButton);
 		
-		this.info = new Label();
 
 		if (this.op != null) {
 			this.op.getView().add(this);

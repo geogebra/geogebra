@@ -5,7 +5,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 /**
  * Normalizer to get string to lower case (and without accents if Java >= 1.6)
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class Normalizer extends NormalizerMinimal {

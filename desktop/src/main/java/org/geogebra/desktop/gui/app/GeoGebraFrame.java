@@ -97,7 +97,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	private static final int VERSION_TO_LONG_MULTIPLIER = 1000;
 
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<GeoGebraFrame>();
+
 	private static GeoGebraFrame activeInstance;
+	private static Object lock = new Object();
+
 	private static FileDropTargetListener dropTargetListener;
 
 	private static List<NewInstanceListener> instanceListener = new ArrayList<NewInstanceListener>();
@@ -109,7 +112,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	public GeoGebraFrame() {
 		instances.add(this);
-		activeInstance = this;
+		setActiveInstance(this);
 		born = System.currentTimeMillis();
 		this.addComponentListener(this);
 	}
@@ -131,7 +134,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	public void dispose() {
 		instances.remove(this);
 		if (this == activeInstance)
-			activeInstance = null;
+			setActiveInstance(null);
 	}
 
 	public AppD getApplication() {
@@ -151,7 +154,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	}
 
 	public void windowGainedFocus(WindowEvent arg0) {
-		activeInstance = this;
+		setActiveInstance(this);
 		app.updateMenuWindow();
 	}
 
@@ -214,7 +217,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				dispose();
 
 				if (!app.isApplet()) {
-					System.exit(0);
+					AppD.exit(0);
 				}
 			} else {
 				super.setVisible(false);
@@ -346,6 +349,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 	 */
 	public static synchronized GeoGebraFrame getActiveInstance() {
 		return activeInstance;
+	}
+
+	private static void setActiveInstance(GeoGebraFrame frame) {
+		synchronized (lock) {
+			activeInstance = frame;
+		}
 	}
 
 	/**
@@ -508,7 +517,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return new AppThread(app);
 	}
 
-	private class AppThread extends Thread {
+	private static class AppThread extends Thread {
 
 		AppD app;
 
@@ -632,7 +641,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			}
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
-			HttpRequestD httpr = (HttpRequestD) UtilFactory.prototype
+			HttpRequestD httpr = (HttpRequestD) UtilFactory.getPrototype()
 					.newHttpRequest();
 			String newestVersion = null;
 			StringBuilder sb = new StringBuilder();
@@ -881,7 +890,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					if (slider == null || !slider.isGeoNumeric()
 							|| !((GeoNumeric) slider).isSlider()) {
 						Log.error(sliderName + " is not a slider");
-						System.exit(0);
+						AppD.exit(0);
 					}
 
 					app.getKernel().getAnimatonManager().stopAnimation();
@@ -967,7 +976,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 						Log.debug("animated GIF exported successfully");
 
-						System.exit(0);
+						AppD.exit(0);
 					}
 
 					double printingScale = ev.getPrintingScale();
@@ -1008,7 +1017,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					}
 
-					System.exit(0);
+					AppD.exit(0);
 				}
 			});
 
@@ -1112,7 +1121,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					} catch (Throwable t) {
 						t.printStackTrace();
 					}
-					System.exit(0);
+					AppD.exit(0);
 				}
 
 			});

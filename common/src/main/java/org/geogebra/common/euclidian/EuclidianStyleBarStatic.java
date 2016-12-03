@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -34,10 +35,8 @@ public class EuclidianStyleBarStatic {
 
 	public final static String[] bracketArray = { "\u00D8", "{ }", "( )",
 			"[ ]", "| |", "|| ||" };
-	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
+	private final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
 			"[ ]", "||", "||||" };
-	public static Integer[] lineStyleArray;
-	public static Integer[] pointStyleArray;
 
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
@@ -363,7 +362,7 @@ public class EuclidianStyleBarStatic {
 
 	public static boolean applyLineStyle(ArrayList<GeoElement> geos,
 			int lineStyleIndex, int lineSize) {
-		int lineStyle = lineStyleArray[lineStyleIndex];
+		int lineStyle = EuclidianView.getLineType(lineStyleIndex);
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {
@@ -382,7 +381,7 @@ public class EuclidianStyleBarStatic {
 
 	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
 			int pointStyleSelIndex, int pointSize) {
-		int pointStyle = pointStyleArray[pointStyleSelIndex];
+		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -410,14 +409,24 @@ public class EuclidianStyleBarStatic {
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoText)) {
 				if (geo instanceof GeoImage && geo.getAlphaValue() != alpha) {
 					geo.setAlphaValue(alpha);
-				} else if ((geo.getObjectColor() != color || geo.getAlphaValue() != alpha)) {
+				} else if ((geo.getObjectColor() != color
+						|| geo.getAlphaValue() != alpha
+						|| geo instanceof GeoPolyLine && geo.getKernel()
+								.getApplication()
+								.getMode() == EuclidianConstants.MODE_PEN)) {
 					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
 					if (geo.isFillable())
 						geo.setAlphaValue(alpha);
+					if (geo instanceof GeoPolyLine
+							&& geo.getKernel().getApplication()
+									.getMode() == EuclidianConstants.MODE_PEN) {
+						geo.setLineOpacity(Math.round(alpha * 255));
+					}
 				}
 
 				geo.updateVisualStyle(GProperty.COLOR);
+
 				needUndo = true;
 
 			}

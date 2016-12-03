@@ -125,5 +125,5 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return origGeoNode;
 	}
 
-	// TODO Consider locusequability
+	
 }

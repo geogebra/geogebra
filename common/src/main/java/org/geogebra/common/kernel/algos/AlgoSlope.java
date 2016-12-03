@@ -159,5 +159,5 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		return new AlgoSlope((GeoFunction) f.copy());
 	}
 
-	// TODO Consider locusequability
+	
 }

@@ -193,9 +193,17 @@ public class ExamDialog {
 	}
 
 
+	private void startExam(boolean needsFullscreen) {
+		startExam(box, app, needsFullscreen);
+	}
+
 	public static void startExam(DialogBoxW box, AppW app) {
+		startExam(box, app, true);
+	}
+
+	public static void startExam(DialogBoxW box, AppW app, boolean needsFullscreen) {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		if (app.getLAF().supportsFullscreen()) {
+		if (needsFullscreen && app.getLAF().supportsFullscreen()) {
 			ExamUtil.toggleFullscreen(true);
 		}
 		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
@@ -260,7 +268,7 @@ public class ExamDialog {
 		});
 
 		// task locking available?
-		lockTaskIsAvailable = checkLockTaskAvailable();
+		lockTaskIsAvailable = ExamEnvironmentW.checkLockTaskAvailable();
 		Log.debug("Task locking available: " + lockTaskIsAvailable);
 
 		// start airplane mode / lock task check
@@ -292,13 +300,19 @@ public class ExamDialog {
 					return;
 				}
 				// task not locked: ask again
-				if (lockTaskIsAvailable && !checkTaskLocked()) {
+				if (lockTaskIsAvailable && !ExamEnvironmentW.checkTaskLocked()) {
 					setLockTaskDialog();
 					return;
 				}
+				// go to full screen
+				updateFullscreenStatusOn();
+				// set wifi & bluetooth off if needed
+				setWifiOffIfNeeded();
+				setBluetoothOffIfNeeded();
 				// all set: start exam
 				ExamEnvironmentW.setJavascriptTargetToNone();
-				startExam(box, app);
+				// dont go to fullscreen if lock task is available
+				startExam(!lockTaskIsAvailable);
 				break;
 		}
 	}
@@ -318,8 +332,6 @@ public class ExamDialog {
 	}
 
 	private void setAirplaneModeDialog() {
-		updateFullscreenStatusOff();
-
 		instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
 		instruction.setVisible(true);
 
@@ -337,8 +349,6 @@ public class ExamDialog {
 			return;
 		}
 
-		updateFullscreenStatusOff();
-
 		instruction.setText(loc.getMenu("exam_accept_pin"));
 		instruction.setVisible(true);
 
@@ -352,8 +362,6 @@ public class ExamDialog {
 	}
 
 	private void setStartExamDialog() {
-		updateFullscreenStatusOn();
-
 		instruction.setVisible(false);
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
@@ -369,7 +377,7 @@ public class ExamDialog {
 
 	private void askForTaskLock() {
 		Log.debug("ask for task lock");
-		startLockTask();
+		ExamEnvironmentW.startLockTask();
 
 		// set timer to check continuously if task is locked
 		if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
@@ -385,7 +393,7 @@ public class ExamDialog {
 					setAirplaneModeDialog();
 					return;
 				}
-				if (checkTaskLocked()) {
+				if (ExamEnvironmentW.checkTaskLocked()) {
 					Log.debug("(check) task is locked");
 					checkTaskLockTimer.stop();
 					setStartExamDialog();
@@ -401,21 +409,6 @@ public class ExamDialog {
 		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOn();
 	}-*/;
 
-	private static native boolean updateFullscreenStatusOff() /*-{
-		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOff();
-	}-*/;
-
-	private static native boolean checkLockTaskAvailable() /*-{
-		return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
-	}-*/;
-
-	private static native boolean checkTaskLocked() /*-{
-		return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
-	}-*/;
-
-	private static native void startLockTask() /*-{
-		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
-	}-*/;
 
 	private static native void stopLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.stopLockTask();
@@ -465,11 +458,20 @@ public class ExamDialog {
 	}
 
 	public static void exitApp() {
-		if (checkLockTaskAvailable()){
+		if (ExamEnvironmentW.checkLockTaskAvailable()) {
 			stopLockTask();
 		}
 		exitAppJs();
 	}
+
+
+	private static native void setWifiOffIfNeeded() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.setWifiOffIfNeeded();
+	}-*/;
+
+	private static native void setBluetoothOffIfNeeded() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.setBluetoothOffIfNeeded();
+	}-*/;
 
 	public static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();

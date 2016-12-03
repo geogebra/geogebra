@@ -7,30 +7,36 @@ import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ButtonDialogW extends DialogBoxW implements ClickHandler{
+public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 
-	private AutoCompleteTextFieldW tfCaption; 
+	AutoCompleteTextFieldW tfCaption;
 	private FlowPanel btPanel;
 	private ButtonDialogModel model;
 	private Button btOK, btCancel;
 	private FlowPanel optionPane;
-	private AppW app;
+	AppW app;
 	private GeoButton button = null;
-	private ScriptArea tfScript;
+	ScriptArea tfScript;
 	private Localization loc;
 	
 	public ButtonDialogW(AppW app, int x, int y, boolean textField) {
@@ -44,6 +50,9 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		this.setGlassEnabled(true);
 		this.setVisible(true);
 		center();
+		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			app.registerPopup(this);
+		}
 	}
 
 	private void createGUI() {
@@ -60,11 +69,23 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextFieldW) {
-			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
-			atf.setAutoComplete(false);
+		if (tfCaption != null) {
+			tfCaption.setAutoComplete(false);
+
+			tfCaption.addFocusHandler(new FocusHandler() {
+				public void onFocus(FocusEvent event) {
+					FieldHandler.focusGained(tfCaption, app);
+				}
+			});
+
+			tfCaption.addBlurHandler(new BlurHandler() {
+				public void onBlur(BlurEvent event) {
+					FieldHandler.focusLost(tfCaption, app);
+				}
+			});
+
 		}
-		
+
 		VerticalPanel captionPanel = new VerticalPanel();
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
@@ -132,6 +153,18 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 
 		tfScript = new ScriptArea();
 		
+		tfScript.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfScript, app);
+			}
+		});
+
+		tfScript.addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent event) {
+				FieldHandler.focusLost(tfScript, app);
+			}
+		});
+
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
 		scriptPanel.add(tfScript);

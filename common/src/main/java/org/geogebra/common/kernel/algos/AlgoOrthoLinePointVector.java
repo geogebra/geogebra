@@ -130,5 +130,5 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 				P.getLabel(tpl), v.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

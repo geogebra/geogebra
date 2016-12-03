@@ -44,7 +44,7 @@ public class GeneralPathClipped implements GShape {
 		// this.view = (EuclidianView)view;
 		this.view = view;
 		pathPoints = new ArrayList<MyPoint>();
-		gp = AwtFactory.prototype.newGeneralPath();
+		gp = AwtFactory.getPrototype().newGeneralPath();
 		// bounds = new Rectangle();
 		reset();
 	}
@@ -120,7 +120,7 @@ public class GeneralPathClipped implements GShape {
 	 * coordinates. This is especially important for fill the GeneralPath.
 	 */
 	private void addClippedSegments() {
-		GRectangle viewRect = AwtFactory.prototype.newRectangle(0, 0,
+		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
 				view.getWidth(), view.getHeight());
 		MyPoint curP = null, prevP;
 
@@ -208,7 +208,7 @@ public class GeneralPathClipped implements GShape {
 		} else if (y < -border) {
 			y = -border;
 		}
-		return AwtFactory.prototype.newPoint2D(x, y);
+		return AwtFactory.getPrototype().newPoint2D(x, y);
 	}
 
 	private void addToGeneralPath(GPoint2D q, boolean lineTo) {
@@ -304,7 +304,7 @@ public class GeneralPathClipped implements GShape {
 	private void updateBounds(MyPoint p) {
 
 		if (bounds == null) {
-			bounds = AwtFactory.prototype.newRectangle();
+			bounds = AwtFactory.getPrototype().newRectangle();
 			bounds.setBounds((int) p.getX(), (int) p.getY(), 0, 0);
 		}
 
@@ -394,11 +394,11 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	public GRectangle getBounds() {
-		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
+		return bounds == null ? AwtFactory.getPrototype().newRectangle() : bounds;
 	}
 
 	public GRectangle2D getBounds2D() {
-		return bounds == null ? AwtFactory.prototype.newRectangle() : bounds;
+		return bounds == null ? AwtFactory.getPrototype().newRectangle() : bounds;
 	}
 
 	/*

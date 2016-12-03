@@ -101,5 +101,5 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 }

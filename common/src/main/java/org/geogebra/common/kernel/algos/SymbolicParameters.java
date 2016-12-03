@@ -281,8 +281,7 @@ public class SymbolicParameters {
 	 */
 	public static Variable[] addBotanaVarsJoinPoints(GeoElementND[] input) {
 		Variable[] botanaVars = new Variable[4];
-		Variable[] line1vars = new Variable[2];
-		Variable[] line2vars = new Variable[2];
+		Variable[] line1vars, line2vars;
 		line1vars = ((SymbolicParametersBotanaAlgo) input[0])
 				.getBotanaVars(input[0]);
 		line2vars = ((SymbolicParametersBotanaAlgo) input[1])

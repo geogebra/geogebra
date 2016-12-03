@@ -168,6 +168,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 	public ExpressionNode getExpression() {
 		return expression;
 	}
-	// TODO Consider locusequability
+	
 
 }

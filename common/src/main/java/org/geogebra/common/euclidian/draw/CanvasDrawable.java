@@ -20,7 +20,7 @@ public abstract class CanvasDrawable extends Drawable {
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
-	private GRectangle hitRect = AwtFactory.prototype.newRectangle();
+	private GRectangle hitRect = AwtFactory.getPrototype().newRectangle();
 	int boxLeft;
 	int boxTop;
 	int boxWidth;

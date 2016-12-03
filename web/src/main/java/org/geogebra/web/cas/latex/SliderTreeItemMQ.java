@@ -12,26 +12,18 @@ the Free Software Foundation.
 
 package org.geogebra.web.cas.latex;
 
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.web.html5.event.PointerEvent;
-import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItemMQController;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -58,7 +50,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
-	FlowPanel sliderPanel = null;
+	private FlowPanel sliderPanel = null;
 
 	/**
 	 * panel to display animation related controls
@@ -83,56 +75,46 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	public SliderTreeItemMQ(final GeoElement geo0) {
 		super(geo0);
 		content.removeStyleName("mathQuillEditor");
-		num = (GeoNumeric) geo;
+		setNum((GeoNumeric) geo);
 
 		addControls();
 
 		createSliderGUI();
-		addDomHandlers(main);
 		deferredResize();
+	}
+
+	@Override
+	protected RadioTreeItemController createController() {
+		return new SliderTreeItemMQController(this);
+	}
+
+	private SliderTreeItemMQController getSliderController() {
+		return (SliderTreeItemMQController) getController();
 	}
 
 	private void createSliderGUI() {
 		content.addStyleName("noPadding");
-		if (!num.isEuclidianVisible()) {
-			num.initAlgebraSlider();
+		if (!getNum().isEuclidianVisible()) {
+			getNum().initAlgebraSlider();
 		}
 
-		if (num.getIntervalMinObject() != null
-				&& num.getIntervalMaxObject() != null) {
+		if (getNum().getIntervalMinObject() != null
+				&& getNum().getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
 					&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-			slider = new SliderPanelW(num.getIntervalMin(),
-					num.getIntervalMax(), app.getKernel(), degree);
+			slider = new SliderPanelW(getNum().getIntervalMin(),
+					getNum().getIntervalMax(), app.getKernel(), degree);
 			updateColor();
 
-			slider.setValue(num.getValue());
+			slider.setValue(getNum().getValue());
 
-			slider.setStep(num.getAnimationStep());
+			slider.setStep(getNum().getAnimationStep());
 
-			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-				@Override
-				public void onValueChange(ValueChangeEvent<Double> event) {
-					num.setValue(event.getValue());
-					geo.updateCascade();
+			slider.addValueChangeHandler(getSliderController());
 
 
-					if (!geo.isAnimating()) {
-						if (isAnotherMinMaxOpen()) {
-							MinMaxPanel.closeMinMaxPanel();
-						}
-
-						selectItem(true);
-						updateSelection(false, false);
-					}
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
-
-
-			sliderPanel = new FlowPanel();
-			sliderPanel.add(slider);
+			setSliderPanel(new FlowPanel());
+			getSliderPanel().add(slider);
 
 			createMinMaxPanel();
 
@@ -141,7 +123,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 			addAVEXWidget(content);
 
-			sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
+			sliderContent.add(LayoutUtilW.panelRow(getSliderPanel(), getMinMaxPanel()));
 			main.add(sliderContent);
 		}
 
@@ -169,22 +151,10 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	}
 
 	private void createMinMaxPanel() {
-		minMaxPanel = new MinMaxPanel(this);
-		minMaxPanel.setVisible(false);
+		setMinMaxPanel(new MinMaxPanel(this));
+		getMinMaxPanel().setVisible(false);
 	}
 
-	/**
-	 * @return true if another SliderTreeItem's min/max panel is showing.
-	 */
-	boolean isAnotherMinMaxOpen() {
-		return (MinMaxPanel.openedMinMaxPanel != null
-				&& MinMaxPanel.openedMinMaxPanel != minMaxPanel);
-	}
-
-	private boolean isClickedOutMinMax(int x, int y) {
-		return (MinMaxPanel.openedMinMaxPanel == minMaxPanel
-				&& !isWidgetHit(minMaxPanel, x, y));
-	}
 
 	@Override
 	protected void styleContentPanel() {
@@ -192,7 +162,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		sliderContent.removeStyleName("elemPanel");
 		sliderContent.addStyleName("avItemContent");
 
-		sliderPanel.setVisible(true);
+		getSliderPanel().setVisible(true);
 
 		controls.showAnimPanel();
 	}
@@ -208,134 +178,33 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		controls.updateAnimPanel();
 
 		slider.setScale(app.getArticleElement().getScaleX());
-		double min = num.getIntervalMin();
-		double max = num.getIntervalMax();
+		double min = getNum().getIntervalMin();
+		double max = getNum().getIntervalMax();
 		boolean degree = geo.isGeoAngle()
 				&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
 		slider.setMinimum(min, degree);
 		slider.setMaximum(max, degree);
 
-		slider.setStep(num.getAnimationStep());
-		slider.setValue(num.value);
-		minMaxPanel.update();
+		slider.setStep(getNum().getAnimationStep());
+		slider.setValue(getNum().value);
+		getMinMaxPanel().update();
 
 		if (!slider.isAttached()) {
-			sliderPanel.add(slider);
+			getSliderPanel().add(slider);
 			styleContentPanel();
 		}
 		updateTextItems();
 		updateColor();
 	}
 
-	@Override
-	protected void onPointerUp(AbstractEvent event) {
-		selectionCtrl.setSelectHandled(false);
-		if (minMaxPanel.isVisible()) {
-			return;
-		}
-		super.onPointerUp(event);
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-		return;
-	}
-
-	@Override
-	public void onMouseMove(MouseMoveEvent evt) {
-		if (sliderPanel == null) {
-			evt.stopPropagation();
-			return;
-		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
-		onPointerMove(wrappedEvent);
-	}
-
-	@Override
-	public void onDoubleClick(DoubleClickEvent evt) {
-		evt.stopPropagation();
-
-		if ((isWidgetHit(controls.getAnimPanel(), evt)
-				|| (minMaxPanel != null && minMaxPanel.isVisible())
-				|| isWidgetHit(marblePanel, evt)
-		)) {
-			return;
-		}
-		super.onDoubleClick(evt);
-	}
-
-	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
-		return isWidgetHit(w, evt.getClientX(), evt.getClientY());
-
-	}
-
-	private static boolean isWidgetHit(Widget w, int x, int y) {
-		if (w == null) {
-			return false;
-		}
-		int left = w.getAbsoluteLeft();
-		int top = w.getAbsoluteTop();
-		int right = left + w.getOffsetWidth();
-		int bottom = top + w.getOffsetHeight();
-
-		return (x > left && x < right && y > top && y < bottom);
-	}
-
-	@Override
-	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-		setForceControls(true);
-		boolean minHit = sliderPanel != null
-				&& isWidgetHit(slider.getWidget(0), x, y);
-		boolean maxHit = sliderPanel != null
-				&& isWidgetHit(slider.getWidget(2), x, y);
-		// Min max panel should be closed
-		if (isAnotherMinMaxOpen() || isClickedOutMinMax(x, y)) {
-			MinMaxPanel.closeMinMaxPanel(!(minHit || maxHit));
-		}
-
-		if (isAnotherMinMaxOpen()) {
-			selectItem(false);
-
-		}
-
-		if (minMaxPanel != null && minMaxPanel.isVisible()) {
-			selectItem(true);
-			return false;
-		}
-
-		if (sliderPanel != null && sliderPanel.isVisible() && !rightClick) {
-
-			if (minHit || maxHit) {
-				minMaxPanel.show();
-				if (minHit) {
-					minMaxPanel.setMinFocus();
-				} else if (maxHit) {
-					minMaxPanel.setMaxFocus();
-				}
-
-				return true;
-			}
-		}
-
-		if (!selectionCtrl.isSelectHandled()) {
-			selectItem(true);
-		}
-
-		return false;
-
-	}
 
 	void addAVEXWidget(Widget w) {
-		if (sliderPanel == null) {
+		if (getSliderPanel() == null) {
 			return;
 		}
-		sliderPanel.remove(slider);
+		getSliderPanel().remove(slider);
 		sliderContent.add(w);
-		sliderPanel.add(slider);
+		getSliderPanel().add(slider);
 	}
 
 
@@ -378,7 +247,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 
 	public void setSliderVisible(boolean visible) {
-		sliderPanel.setVisible(visible);
+		getSliderPanel().setVisible(visible);
 	}
 
 
@@ -386,5 +255,37 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		controls.showAnimPanel(visible);
 	}
 
+	@Override
+	public boolean isSliderItem() {
+		return true;
+	}
+
+	public MinMaxPanel getMinMaxPanel() {
+		return minMaxPanel;
+	}
+
+	public void setMinMaxPanel(MinMaxPanel minMaxPanel) {
+		this.minMaxPanel = minMaxPanel;
+	}
+
+	public FlowPanel getSliderPanel() {
+		return sliderPanel;
+	}
+
+	public void setSliderPanel(FlowPanel sliderPanel) {
+		this.sliderPanel = sliderPanel;
+	}
+
+	public GeoNumeric getNum() {
+		return num;
+	}
+
+	public void setNum(GeoNumeric num) {
+		this.num = num;
+	}
+
+	public SliderPanelW getSlider() {
+		return slider;
+	}
 
 }

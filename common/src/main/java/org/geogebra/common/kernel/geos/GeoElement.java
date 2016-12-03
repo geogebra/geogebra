@@ -34,7 +34,6 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -103,6 +102,8 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.j2objc.annotations.Weak;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * 
@@ -1038,7 +1039,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// selColor = getInverseColor(objColor);
 		if (color != null) {
-			selColor = AwtFactory.prototype.newColor(
+			selColor = GColor.newColor(
 					color.getRed(), color.getGreen(), color.getBlue(), 100);
 		}
 	}
@@ -1137,7 +1138,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
 			blueD = rgb & 0xFF;
-			return AwtFactory.prototype.newColor((int) redD, (int) greenD,
+			return GColor.newColor((int) redD, (int) greenD,
 					(int) blueD, alpha);
 
 		case GeoElement.COLORSPACE_HSL:
@@ -1184,14 +1185,14 @@ public abstract class GeoElement extends ConstructionElement implements
 
 			final double m = L - (.5 * C);
 
-			final GColor c = AwtFactory.prototype.newColor(
+			final GColor c = GColor.newColor(
 					(int) ((R1 + m) * 255.0), (int) ((G1 + m) * 255.0),
 					(int) ((B1 + m) * 255.0), alpha);
 			return c;
 
 		case GeoElement.COLORSPACE_RGB:
 		default:
-			return AwtFactory.prototype.newColor((int) (redD * 255.0),
+			return GColor.newColor((int) (redD * 255.0),
 					(int) (greenD * 255.0), (int) (blueD * 255.0), alpha);
 
 		}
@@ -1226,7 +1227,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color for algebra view (same as label or black)
 	 */
 	public GColor getAlgebraColor() {
-		return GColor.updateForWhiteBackground(objColor, AwtFactory.prototype);
+		return GColor.updateForWhiteBackground(objColor);
 	}
 
 	/**
@@ -1375,7 +1376,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return;
 		}
 		alphaValue = alpha;
-		fillColor = AwtFactory.prototype.newColor(fillColor.getRed(),
+		fillColor = GColor.newColor(fillColor.getRed(),
 				fillColor.getGreen(), fillColor.getBlue(), (int) (255 * alpha));
 
 	}
@@ -2231,6 +2232,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param view view
 	 * @return whether this geo has only moveable input points
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
 		// allow only moving of certain object types
 		switch (getGeoClassType()) {
@@ -3045,8 +3048,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					e.printStackTrace();
 				}
 				geo = this;
-				if (geo instanceof GeoNumeric
-						&& !((GeoNumeric) geo).isDependentConst()) {
+				if (!((GeoNumeric) geo).isDependentConst()) {
 					((GeoNumeric) geo).setIsDependentConst(true);
 				}
 				addToConstr = false;
@@ -3663,7 +3665,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public LaTeXCache getLaTeXCache() {
 		if (latexCache == null) {
-			latexCache = LaTeXFactory.prototype.newLaTeXCache();
+			latexCache = LaTeXFactory.getPrototype().newLaTeXCache();
 		}
 		return latexCache;
 	}
@@ -4652,7 +4654,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final GColor colorAdapter = AwtFactory.prototype.newColor(
+			final GColor colorAdapter = GColor.newColor(
 					getAlgebraColor().getRed(), getAlgebraColor()
 							.getGreen(), getAlgebraColor().getBlue());
 			sbLongDescHTML.append("<b><font color=\"#");
@@ -4708,7 +4710,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	final public String getColoredLabel() {
 		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
 		StringBuilder sb = new StringBuilder();
-		final GColor colorAdapter = AwtFactory.prototype.newColor(
+		final GColor colorAdapter = GColor.newColor(
 				getAlgebraColor().getRed(), getAlgebraColor().getGreen(), 
 				getAlgebraColor().getBlue());
 		sb.append("<b><font color=\"#");
@@ -5260,11 +5262,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (colored) {
-			final GColor colorAdapter = AwtFactory.prototype.newColor(
-					getAlgebraColor().getRed(), getAlgebraColor().getGreen(),
-					getAlgebraColor().getBlue());
 			sbNameDescriptionHTML.append(" <b><font color=\"#");
-			sbNameDescriptionHTML.append(StringUtil.toHexString(colorAdapter));
+			sbNameDescriptionHTML
+					.append(StringUtil.toHexString(getAlgebraColor()));
 			sbNameDescriptionHTML.append("\">");
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
@@ -5820,7 +5820,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return numberD.toString();
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
-		final NumberFormatAdapter df = FormatFactory.prototype
+		final NumberFormatAdapter df = FormatFactory.getPrototype()
 				.getNumberFormat("#.######", 6);
 		return df.format(number);
 	}
@@ -6660,6 +6660,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				GeoElement[] input = algo.getInput();
 				GeoElement in = input[1];
 				if (in.isGeoVector()) {
+				ArrayList<GeoElement> tempMoveObjectList = kernel
+						.getApplication().getSelectionManager()
+						.getTempMoveGeoList();
+
 					if (in.isIndependent()) {
 						movedGeo = in.moveVector(rwTransVec, endPosition);
 						addParentToUpdateList(in, updateGeos,
@@ -6679,6 +6683,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		
 		else {
+			ArrayList<GeoElement> tempMoveObjectList = kernel.getApplication()
+					.getSelectionManager().getTempMoveGeoList();
+
 			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
 					endPosition, viewDirection, updateGeos, tempMoveObjectList, view);
 		}
@@ -6753,7 +6760,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
-	private ArrayList<GeoElement> tempMoveObjectList;
+	//private ArrayList<GeoElement> tempMoveObjectList;
 
 	/**
 	 * Returns the position of this GeoElement in GeoGebra's spreadsheet view.
@@ -8136,14 +8143,32 @@ public abstract class GeoElement extends ConstructionElement implements
 		this.labelWanted = b;
 	}
 
+	public enum ExtendedBoolean {
+		TRUE, FALSE, UNKNOWN;
+
+		final public boolean boolVal() {
+			switch (this) {
+			case TRUE:
+				return true;
+			default:
+				return false;
+			}
+
+		}
+
+		final public static ExtendedBoolean newExtendedBoolean(boolean b) {
+			return b ? TRUE : FALSE;
+		}
+	}
+
 	/**
 	 * 
 	 * @param geo
 	 *            other geo
 	 * @return whether this and geo are congruent
 	 */
-	public Boolean isCongruent(GeoElement geo) {
-		return isEqual(geo) ? true : null;
+	public ExtendedBoolean isCongruent(GeoElement geo) {
+		return isEqual(geo) ? ExtendedBoolean.TRUE : ExtendedBoolean.UNKNOWN;
 	}
 
 	public void setDefinition(ExpressionNode root) {

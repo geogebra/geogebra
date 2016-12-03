@@ -50,7 +50,9 @@ public class MathSequence extends MathContainer {
         if (argument != null) {
             argument.setParent(this);
         }
-        arguments.add(i, argument);
+		if (i <= arguments.size()) {
+			arguments.add(i, argument);
+		}
     }
 
 	@Override
@@ -114,5 +116,15 @@ public class MathSequence extends MathContainer {
                 getArgument(i) instanceof MathCharacter &&
                 ((MathCharacter) getArgument(i)).isSymbol();
     }
+
+	public void removeBrackets() {
+		if (size() == 1 && getArgument(0) instanceof MathArray) {
+			MathArray arg0 = ((MathArray) getArgument(0));
+			if (arg0.size() == 1 && arg0.getArgument(0) != null
+					&& arg0.getOpenKey() == '(') {
+				this.setArgument(0, arg0.getArgument(0));
+			}
+		}
+	}
 
 }

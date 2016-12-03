@@ -111,5 +111,5 @@ public class AlgoCountIf extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 }

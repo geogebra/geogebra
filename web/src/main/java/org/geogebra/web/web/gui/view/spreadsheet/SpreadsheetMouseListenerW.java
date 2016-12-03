@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -59,7 +58,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private boolean pointerIsDown = false;
 	private boolean isRightClick = false;
-	private final boolean editEnabled = true;
+	private final static boolean editEnabled = true;
 
 	private LongTouchManager longTouchManager;
 
@@ -288,10 +287,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		postfix = text.substring(caretPos, text.length());
 
 		table.isDragging = true;
-		table.minColumn = column;
-		table.maxColumn = column;
-		table.minRow = row;
-		table.maxRow = row;
+
 	}
 
 	private void finishEditing() {
@@ -529,10 +525,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 					name1 = prefix + name1 + postfix;
 					editor.setLabel(name1);
-					table.minColumn = column1;
-					table.maxColumn = column2;
-					table.minRow = row1;
-					table.maxRow = row2;
 					table.repaint();
 				}
 				return;
@@ -562,13 +554,15 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 					// increase size if we're at the bottom of the spreadsheet
 					if (table.dragingToRow + 1 == table.getRowCount()
-							&& table.dragingToRow < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
+							&& table.dragingToRow < app
+									.getMaxSpreadsheetRowsVisible()) {
 						model.setRowCount(table.getRowCount() + 1);
 					}
 
 					// increase size if we go beyond the right edge
 					if (table.dragingToColumn + 1 == table.getColumnCount()
-							&& table.dragingToColumn < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE) {
+							&& table.dragingToColumn < app
+									.getMaxSpreadsheetColumnsVisible()) {
 						model.setColumnCount(table.getColumnCount() + 1);
 						// view.columnHeaderRevalidate();
 						// Java's addColumn method will clear selection, so
@@ -593,7 +587,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							        table.minSelectionRow - 1,
 							        table.minSelectionColumn, true).getHeight())
 								rowOffset = 0;
-						} else if (table.maxSelectionRow < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE
+						} else if (table.maxSelectionRow < app
+								.getMaxSpreadsheetRowsVisible()
 						        && table.dragingToRow > table.maxSelectionRow) {
 							rowOffset = mouseY
 							        - ((int) selRect.getY() + (int) selRect
@@ -613,7 +608,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 							        table.minSelectionColumn - 1, true)
 							        .getWidth())
 								colOffset = 0;
-						} else if (table.maxSelectionColumn < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
+						} else if (table.maxSelectionColumn < app
+								.getMaxSpreadsheetColumnsVisible()
 						        && table.dragingToColumn > table.maxSelectionColumn) {
 							colOffset = mouseX
 							        - ((int) selRect.getX() + (int) selRect
@@ -702,10 +698,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				        4);
 				boolean overDnD = dndRect.contains(getAbsoluteX(event),
 				        getAbsoluteY(event));
-				if (table.isOverDnDRegion != overDnD) {
-					table.isOverDnDRegion = overDnD;
-					// TODO//setTableCursor();
-				}
+
 			}
 		}
 

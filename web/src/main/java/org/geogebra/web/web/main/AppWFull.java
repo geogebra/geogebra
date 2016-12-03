@@ -62,6 +62,7 @@ import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
 import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
+import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -564,15 +565,22 @@ public abstract class AppWFull extends AppW {
 	private PerspectivesPopup perspectivesPopup;
 	@Override
 	public final void openMaterial(final String id, final Runnable onError) {
-		if (((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
+		if (getLoginOperation() != null
+				&& ((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
 				.isCheckDone()) {
 			doOpenMaterial(id, onError);
 		} else {
+			if (getLoginOperation() == null) {
+				this.initSignInEventFlow(new LoginOperationW(this),
+						getArticleElement().isEnableUsageStats());
+			}
 			toOpen = id;
+			Log.debug("created");
 			getLoginOperation().getView().add(new EventRenderable() {
 
 				@Override
 			public void renderEvent(BaseEvent event) {
+					Log.debug("received:" + event);
 				if (event instanceof LoginEvent
 							|| event instanceof StayLoggedOutEvent
 							|| event instanceof TubeAvailabilityCheckEvent) {
@@ -583,6 +591,7 @@ public abstract class AppWFull extends AppW {
 				}
 			}
 		});
+			Log.debug("listening");
 		}
 
 	}

@@ -14,7 +14,11 @@ import com.google.gwt.resources.client.ResourcePrototype;
  */
 public class Views {
 
-	public enum ViewType {
+	final static PerspectiveResources perspectiveResources = ((ImageFactory) GWT
+			.create(ImageFactory.class)).getPerspectiveResources();
+
+
+	public static enum ViewType {
 		/**
 		 * 
 		 */
@@ -88,10 +92,8 @@ public class Views {
 		}
 	}
 
-	static PerspectiveResources perspectiveResources = ((ImageFactory) GWT
-			.create(ImageFactory.class)).getPerspectiveResources();
-	private static ArrayList<ViewType> views = new ArrayList<ViewType>();
-	private static ArrayList<ViewType> extensions = new ArrayList<ViewType>();
+	final private static ArrayList<ViewType> views = new ArrayList<ViewType>();
+	final private static ArrayList<ViewType> extensions = new ArrayList<ViewType>();
 	static {
 		views.add(ViewType.ALGEBRA);
 		views.add(ViewType.CAS);

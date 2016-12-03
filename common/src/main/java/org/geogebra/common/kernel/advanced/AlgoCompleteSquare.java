@@ -91,7 +91,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 			degInt = 2;
 		}
 
-		if (degInt % 2 == 1 || degInt < 2 || !isQuadratic || Kernel.isZero(p)) {
+		if (MyDouble.isOdd(degInt) || degInt < 2 || !isQuadratic
+				|| Kernel.isZero(p)) {
 			square.setUndefined();
 			return;
 		}
@@ -99,11 +100,13 @@ public class AlgoCompleteSquare extends AlgoElement {
 		if (lastDeg != degInt) {
 			ExpressionNode squareE;
 			ExpressionValue fvPower;
-			if (degInt == 2)
+			if (degInt == 2) {
 				fvPower = fv;
-			else
+			} else {
+				int power = degInt / 2;
 				fvPower = new ExpressionNode(kernel, fv, Operation.POWER,
-						new MyDouble(kernel, degInt / 2));
+						new MyDouble(kernel, power));
+			}
 			squareE = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, a, Operation.MULTIPLY,
 							new ExpressionNode(kernel, fvPower,
@@ -142,6 +145,6 @@ public class AlgoCompleteSquare extends AlgoElement {
 		return Commands.CompleteSquare;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -203,7 +203,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// set clipped line
 		if (line == null)
-			line = AwtFactory.prototype.newLine2D();
+			line = AwtFactory.getPrototype().newLine2D();
 		lineVisible = true;
 		if (onscreenA && onscreenB) {
 			// A and B on screen
@@ -241,7 +241,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// add triangle if visible
 		if (gp == null)
-			gp = AwtFactory.prototype.newGeneralPath();
+			gp = AwtFactory.getPrototype().newGeneralPath();
 		else
 			gp.reset();
 
@@ -320,7 +320,7 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	private GPoint2D endPoint = AwtFactory.prototype.newPoint2D();
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {
 		double xRW = xRWmouse;
@@ -420,8 +420,8 @@ public class DrawVector extends Drawable implements Previewable {
 			ret = line.getBounds();
 
 		if (arrowheadVisible)
-			ret = (ret == null) ? AwtFactory.prototype.newRectangle(gp
-					.getBounds()) : AwtFactory.prototype.newRectangle(ret
+			ret = (ret == null) ? AwtFactory.getPrototype().newRectangle(gp
+					.getBounds()) : AwtFactory.getPrototype().newRectangle(ret
 					.union(gp.getBounds()));
 
 		return ret;

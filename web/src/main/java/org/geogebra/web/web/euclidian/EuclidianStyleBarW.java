@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -33,7 +34,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -147,16 +148,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		// init button-specific fields
 		// TODO: put these in button classes
-		EuclidianStyleBarStatic.pointStyleArray = EuclidianView
-		        .getPointStyles();
 		pointStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleMap.put(EuclidianStyleBarStatic.pointStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++)
+			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 
-		EuclidianStyleBarStatic.lineStyleArray = EuclidianView.getLineTypes();
 		lineStyleMap = new HashMap<Integer, Integer>();
-		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
-			lineStyleMap.put(EuclidianStyleBarStatic.lineStyleArray[i], i);
+		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
+			lineStyleMap.put(EuclidianView.getLineType(i), i);
+		}
 
 		initGUI();
 		isIniting = false;
@@ -610,8 +609,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// show grid button
 		ImageOrText[] grids = new ImageOrText[4];
 		for (int i = 0; i < 4; i++)
-			grids[i] = GeoGebraIcon
-			        .createGridStyleIcon(EuclidianStyleBarStatic.pointStyleArray[i]);
+			grids[i] = GeoGebraIconW
+					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, ev);
 		btnShowGrid.addPopupHandler(this);
@@ -707,11 +706,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createAngleIntervalBtn() {
 
-		String[] angleIntervalString = new String[GeoAngle.INTERVAL_MIN.length - 1];
-		for (int i = 0; i < GeoAngle.INTERVAL_MIN.length - 1; i++) {
+		String[] angleIntervalString = new String[GeoAngle
+				.getIntervalMinListLength() - 1];
+		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
 			angleIntervalString[i] = app.getLocalization().getPlain(
-			        "AngleBetweenAB.short", GeoAngle.INTERVAL_MIN[i],
-			        GeoAngle.INTERVAL_MAX[i]);
+					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
+					GeoAngle.getIntervalMaxList(i));
 		}
 
 		ImageOrText[] angleIntervalArray = ImageOrText
@@ -808,22 +808,38 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 								alpha = ((GeoElement) geos[i]).getAlphaValue();
 								break;
 							}
+							if (geos[i] instanceof GeoPolyLine
+									&& EuclidianView.isPenMode(mode)) {
+								hasFillable = true;
+								alpha = ((GeoElement) geos[i]).getLineOpacity();
+
+								break;
+							}
 						}
 
 						if (hasFillable)
 							setTitle(loc.getMenu("stylebar.ColorTransparency"));
 						else
 							setTitle(loc.getMenu("stylebar.Color"));
+
 						setSliderVisible(hasFillable);
 
-						setSliderValue(Math.round(alpha * 100));
+						if (EuclidianView.isPenMode(mode)) {
+							setSliderValue(Math.round((alpha * 100) / 255));
+						} else {
+							setSliderValue(Math.round(alpha * 100));
+						}
 
 						updateColorTable();
 						setEnableTable(!(geos[0] instanceof GeoImage));
 						// find the geoColor in the table and select it
 						int index = this.getColorIndex(geoColor);
 						setSelectedIndex(index);
-						setDefaultColor(alpha, geoColor);
+						if (EuclidianView.isPenMode(mode)) {
+							setDefaultColor(alpha / 255, geoColor);
+						} else {
+							setDefaultColor(alpha, geoColor);
+						}
 
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
@@ -884,7 +900,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					// if nothing was selected, set the icon to show the
 					// non-standard color
 					if (index == -1) {
-						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
+						this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha,
 						        geoColor, null));
 					}
 
@@ -934,7 +950,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 			@Override
 			public ImageOrText getButtonIcon() {
-				return GeoGebraIcon.createTextSymbolIcon("A",
+				return GeoGebraIconW.createTextSymbolIcon("A",
 				        getSelectedColor(), null);
 			}
 
@@ -1346,11 +1362,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						loc.getMenu("Caption") // index 3
 		                }));
 
-		String[] angleIntervalArray = new String[GeoAngle.INTERVAL_MIN.length - 1];
-		for (int i = 0; i < GeoAngle.INTERVAL_MIN.length - 1; i++) {
+		String[] angleIntervalArray = new String[GeoAngle
+				.getIntervalMinListLength() - 1];
+		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
 			angleIntervalArray[i] = app.getLocalization().getPlain(
-			        "AngleBetweenAB.short", GeoAngle.INTERVAL_MIN[i],
-			        GeoAngle.INTERVAL_MAX[i]);
+					"AngleBetweenAB.short", GeoAngle.getIntervalMinList(i),
+					GeoAngle.getIntervalMaxList(i));
 		}
 
 		this.btnAngleInterval.getMyTable().updateText(

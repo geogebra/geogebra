@@ -64,7 +64,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	private JPanel spreadsheetWrapper;
 	private MyTableD table;
 	protected SpreadsheetTableModelD tableModel;
-	private SpreadsheetRowHeader rowHeader;
+	private SpreadsheetRowHeaderD rowHeader;
 	private JTableHeader tableHeader;
 
 	// moved to kernel
@@ -151,7 +151,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		table = new MyTableD(this, tableModel.getDefaultTableModel());
 
 		// Create row header
-		rowHeader = new SpreadsheetRowHeader(app, table);
+		rowHeader = new SpreadsheetRowHeaderD(app, table);
 
 		// Set column width
 		table.headerRenderer.setPreferredSize(new Dimension(
@@ -438,8 +438,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	public void update(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null
-				&& location.x < SpreadsheetSettings.MAX_SPREADSHEET_COLUMNS_VISIBLE
-				&& location.y < SpreadsheetSettings.MAX_SPREADSHEET_ROWS_VISIBLE) {
+				&& location.x < app.getMaxSpreadsheetColumnsVisible()
+				&& location.y < app.getMaxSpreadsheetRowsVisible()) {
 
 			// TODO: rowHeader and column
 			// changes should be handled by a table model listener
@@ -1088,5 +1088,10 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
+	}
+
+	public void setKeyboardEnabled(boolean enable) {
+		// only for web
+
 	}
 }

@@ -98,5 +98,5 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 		return getLoc().getPlain("CenterOfA", c.getLabel(tpl));
 	}
 
-	// TODO Consider locusequability
+	
 }

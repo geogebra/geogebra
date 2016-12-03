@@ -18,8 +18,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of the CAS view
@@ -214,9 +212,9 @@ public class CASViewW extends CASView implements PrintableW {
 	}
 
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
-		Widget[] printableList = {};
+		// Widget[] printableList = {};
 
-		printableList[0] = new Label("CAS View");
+		// printableList[0] = new Label("CAS View");
 	}
 
 }

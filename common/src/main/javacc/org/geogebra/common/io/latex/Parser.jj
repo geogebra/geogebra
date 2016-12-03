@@ -179,7 +179,9 @@ void superscript(MathContainer currentField) :
         mathSequence = new MathSequence();
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
-        for(int i=0;i<t.image.length();i++)        {          
+        for(int i=0;i<t.image.length();i++)
+        {
+          
 	        MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image.charAt(i));
 	        mathSequence.addArgument(mathCharacter);
       	}
@@ -192,6 +194,7 @@ void power(MathContainer currentField) : { }
         MathFunction power = new MathFunction(metaModel.getGeneral("^"));
         MathSequence mathSequence = new MathSequence();
         mathAtom(mathSequence);
+        mathSequence.removeBrackets();
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
      }
@@ -213,6 +216,7 @@ void fraction(MathContainer currentField) :
     	//handle denominator
         MathSequence mathSequence = new MathSequence();
         mathAtom(mathSequence);
+        mathSequence.removeBrackets();
         fraction.setArgument(1, mathSequence);
         currentField.addArgument(fraction);
     } 
@@ -318,7 +322,8 @@ void arrayCurly(MathContainer currentField) :
 {
     MathArray mathArray = null;
     MathSequence mathSequence = null;
-    int matrixWidth = -1;}
+    int matrixWidth = -1;
+}
 {
     <CURLY_BRACKETS_OPEN>
     {
@@ -336,7 +341,8 @@ void arrayCurly(MathContainer currentField) :
     )* mathContainer(mathSequence))
 
     <CURLY_BRACKETS_CLOSE>
-    {		mathArray.checkMatrix(metaModel);
+    {
+		mathArray.checkMatrix(metaModel);
     }
 }
 

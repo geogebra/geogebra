@@ -771,7 +771,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException(); // unhandled expression
 	}
 
-	// TODO Consider locusequability
+	
 
 	/**
 	 * @return input expression

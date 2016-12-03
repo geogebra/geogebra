@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -51,14 +52,14 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 	private JSlider mySlider;
 
-	private Color fgColor;
+	private GColor fgColor;
 	private int fontStyle = 0;
 
 	public void setFontStyle(int fontStyle) {
 		this.fontStyle = fontStyle;
 	}
 
-	public void setFgColor(Color fgColor) {
+	public void setFgColor(GColor fgColor) {
 		this.fgColor = fgColor;
 		if (myTable != null)
 			myTable.setFgColor(fgColor);
@@ -176,8 +177,9 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 					return;
 
 				Point locButton = getLocation();
-				final int clicDownArrowWidth = (int)Math.round(
-						(CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16)));
+				final int clicDownArrowWidth = (int) Math
+						.round((CLICK_DOWN_ARROW_WIDTH
+								* (app.getScaledIconSize() / 16.0)));
 				// trigger popup
 				// default: trigger only when the mouse is over the right side
 				// of the button
@@ -454,7 +456,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 				// the button size can be controlled
 				// regardless of the layout manager.
 
-				icon = GeoGebraIcon.createStringIcon(
+				icon = GeoGebraIconD.createStringIcon(
 						(String) data[getSelectedIndex()], app.getPlainFont(),
 						false, false, true, iconSize, Color.BLACK, null);
 
@@ -493,12 +495,12 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		if (icon == null) {
 			// icon = GeoGebraIcon.createEmptyIcon(1, iconSize.height);
 		} else {
-			icon = GeoGebraIcon.ensureIconSize((ImageIcon) icon, iconSize);
+			icon = GeoGebraIconD.ensureIconSize((ImageIcon) icon, iconSize);
 		}
 
 		// add a down_triangle image to the left of the icon
 		if (icon != null) {
-			super.setIcon(GeoGebraIcon.joinIcons((ImageIcon) icon,
+			super.setIcon(GeoGebraIconD.joinIcons((ImageIcon) icon,
 					app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN)));
 		} else {
 			super.setIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));

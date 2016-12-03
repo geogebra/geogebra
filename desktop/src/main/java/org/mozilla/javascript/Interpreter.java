@@ -6,17 +6,19 @@
 
 package org.mozilla.javascript;
 
+import static org.mozilla.javascript.UniqueTag.DOUBLE_MARK;
+
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
+import org.mozilla.javascript.ScriptRuntime.NoSuchMethodShim;
 import org.mozilla.javascript.ast.FunctionNode;
 import org.mozilla.javascript.ast.ScriptNode;
-import org.mozilla.javascript.ScriptRuntime.NoSuchMethodShim;
 import org.mozilla.javascript.debug.DebugFrame;
 
-import static org.mozilla.javascript.UniqueTag.DOUBLE_MARK;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public final class Interpreter extends Icode implements Evaluator
 {
@@ -875,6 +877,8 @@ public final class Interpreter extends Icode implements Evaluator
         return interpretLoop(cx, null, cjump);
     }
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
     private static Object interpretLoop(Context cx, CallFrame frame,
                                         Object throwable)
     {

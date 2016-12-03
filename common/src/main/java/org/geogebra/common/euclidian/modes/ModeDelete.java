@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.modes;
 import java.util.Iterator;
 
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -33,7 +34,7 @@ public class ModeDelete {
 		this.view = view;
 	}
 
-	GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, 100, 100);
+	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -75,8 +76,8 @@ public class ModeDelete {
 				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
 				GeoPointND[] dataPoints;
 
-				if (geo.getParentAlgorithm() != null
-						&& (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
+				if (geo.getParentAlgorithm() != null && (geo
+						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
 					AlgoElement ae = geo.getParentAlgorithm();
 					for (int i = 0; i < ae.getInput().length; i++) {
 						if (ae.getInput()[i] instanceof GeoPenStroke) {
@@ -96,15 +97,15 @@ public class ModeDelete {
 				// after removing points
 				boolean hasVisibleLine = false;
 				boolean lastWasVisible = false;
+				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
 						GeoPoint p = realPoints[i];
-						if (p.isDefined()
-								&& Math.max(
-										Math.abs(eventX
-												- view.toScreenCoordXd(p.inhomX)),
-										Math.abs(eventY
-												- view.toScreenCoordYd(p.inhomY))) <= deleteSize / 2) {
+						if (p.isDefined() && Math.max(
+								Math.abs(eventX
+										- view.toScreenCoordXd(p.inhomX)),
+								Math.abs(eventY - view.toScreenCoordYd(
+										p.inhomY))) <= deleteSize / 2.0) {
 							dataPoints[i].setUndefined();
 							dataPoints[i].resetDefinition();
 							if (as == null) {
@@ -117,11 +118,15 @@ public class ModeDelete {
 							hasVisibleLine = true;
 						}
 						lastWasVisible = dataPoints[i].isDefined();
+						if (!hasVisiblePart && dataPoints[i].isDefined()) {
+							hasVisiblePart = true;
+						}
 					}
 				} else {
-					Log.debug("Can't delete points on stroke. Different number of in and output points.");
+					Log.debug(
+							"Can't delete points on stroke. Different number of in and output points.");
 				}
-				if (hasVisibleLine) { // still something visible, don't delete
+				if (hasVisiblePart) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits
 				}
 			} else {
@@ -137,9 +142,7 @@ public class ModeDelete {
 		ec.deleteAll(h);
 		if (as != null)
 			as.updateAll();
-
-
-	}
+		}
 
 	private void updatePenDeleteMode(Hits h) {
 		// if we switched to pen deletion just now, some geos may still need
@@ -162,15 +165,95 @@ public class ModeDelete {
 
 	public final boolean process(Hits hits, boolean control,
 			boolean selPreview) {
+
 		if (hits.isEmpty() || this.penDeleteMode) {
 			return false;
 		}
 
 		ec.addSelectedGeo(hits, 1, false, selPreview);
 		if (ec.selGeos() == 1) {
-			// delete this object
 			GeoElement[] geos = ec.getSelectedGeos();
-			geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+			AlgorithmSet as = null;
+			// delete only parts of geoPenStroke, not the whole object
+			// when eraser tool is used
+			if (geos[0] instanceof GeoPenStroke
+					&& ec.getMode() == EuclidianConstants.MODE_ERASER) {
+				updatePenDeleteMode(hits);
+				int eventX = 0;
+				int eventY = 0;
+				if (ec.getMouseLoc() != null) {
+					eventX = ec.getMouseLoc().getX();
+					eventY = ec.getMouseLoc().getY();
+				} else {
+					return false;
+				}
+				GeoPenStroke gps = (GeoPenStroke) geos[0];
+				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
+				GeoPointND[] dataPoints;
+
+				if (geos[0].getParentAlgorithm() != null && (geos[0]
+						.getParentAlgorithm() instanceof AlgoAttachCopyToView)) {
+					AlgoElement ae = geos[0].getParentAlgorithm();
+					for (int i = 0; i < ae.getInput().length; i++) {
+						if (ae.getInput()[i] instanceof GeoPenStroke) {
+							gps = (GeoPenStroke) ae.getInput()[i];
+						}
+					}
+				}
+				if (gps.getParentAlgorithm() != null
+						&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
+					dataPoints = ((AlgoPolyLine) gps.getParentAlgorithm())
+							.getPoints();
+				} else {
+					dataPoints = gps.getPoints();
+				}
+
+				// find out if this stroke is still visible
+				// after removing points
+				boolean hasVisibleLine = false;
+				boolean lastWasVisible = false;
+				boolean hasVisiblePart = false;
+				if (realPoints.length == dataPoints.length) {
+					for (int i = 0; i < dataPoints.length; i++) {
+						GeoPoint p = realPoints[i];
+						if (p.isDefined() && Math.max(
+								Math.abs(eventX
+										- view.toScreenCoordXd(p.inhomX)),
+								Math.abs(eventY - view.toScreenCoordYd(
+										p.inhomY))) <= ec.getDeleteToolSize()
+												/ 2.0) {
+							dataPoints[i].setUndefined();
+							dataPoints[i].resetDefinition();
+							if (as == null) {
+								as = dataPoints[i].getAlgoUpdateSet();
+							} else {
+								as.addAll(dataPoints[i].getAlgoUpdateSet());
+							}
+						}
+						if (lastWasVisible && dataPoints[i].isDefined()) {
+							hasVisibleLine = true;
+						}
+						lastWasVisible = dataPoints[i].isDefined();
+						if (!hasVisiblePart && dataPoints[i].isDefined()) {
+							hasVisiblePart = true;
+						}
+					}
+				} else {
+					Log.debug(
+							"Can't delete points on stroke. Different number of in and output points.");
+				}
+				if (!hasVisiblePart) { // still something visible, don't delete
+					geos[0].removeOrSetUndefinedIfHasFixedDescendent(); // remove
+																		// this
+																		// Stroke
+				}
+				if (as != null)
+					as.updateAll();
+			}
+			// delete this object
+			else {
+				geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+			}
 			return true;
 		}
 		return false;

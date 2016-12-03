@@ -41,6 +41,8 @@ import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
 import org.geogebra.common.util.Cloner;
 import org.geogebra.common.util.debug.Log;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Bar chart algorithm.
  * 
@@ -475,6 +477,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 
 	// for AlgoElement
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	protected void setInputOutput() {
 
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();

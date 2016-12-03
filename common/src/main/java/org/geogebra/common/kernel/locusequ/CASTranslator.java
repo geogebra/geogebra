@@ -215,12 +215,14 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		CASGenericInterface currentCAS = cas.getCurrentCAS();
+		SingularWebService singularWS = App.getSingularWS();
 		// If SingularWS is available and quick enough, let's use it:
-		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
+		if (singularWS != null && singularWS.isAvailable()
+				&& singularWS.isFast()) {
 			script = this.createLocusEquationScriptSingular(translatedRestrictions);
 			Log.info("[LocusEqu] input to singular: "+script);
 			try {
-				result = App.singularWS.directCommand(script);
+				result = App.singularWSdirectCommand(script);
 			} catch (Throwable e) {
 				throw new CASException("Error in SingularWS computation");
 			}

@@ -1544,7 +1544,7 @@ public abstract class Renderer {
 	}
 
 	public double getScreenZFromPickingDepth(double z) {
-		double d = getVisibleDepth() / 2;
+		double d = getVisibleDepth() / 2.0;
 		// return
 		// (perspNear*(z-(perspFar-perspNear)))/((perspFar-perspNear)*(z-eyeToScreenDistance));
 
@@ -1756,7 +1756,7 @@ public abstract class Renderer {
 		double bottom = (getBottom() - o.get(2)) / v.get(2);
 		updateIntervalInFrustum(minmax, top, bottom);
 
-		double halfDepth = getVisibleDepth() / 2;
+		double halfDepth = getVisibleDepth() / 2.0;
 		double front = (-halfDepth - o.get(3)) / v.get(3);
 		double back = (halfDepth - o.get(3)) / v.get(3);
 		updateIntervalInFrustum(minmax, front, back);
@@ -1889,7 +1889,7 @@ public abstract class Renderer {
 	protected void updatePerspValues() {
 
 		for (int i = 0 ; i < 2 ; i++){
-			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2;
+			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2.0;
 			if (perspNear[i] < PERSP_NEAR_MIN) {
 				perspNear[i] = PERSP_NEAR_MIN;
 			}

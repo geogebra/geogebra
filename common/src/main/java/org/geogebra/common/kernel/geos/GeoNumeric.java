@@ -34,9 +34,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -60,7 +62,8 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV,
-		SymbolicParametersBotanaAlgo, HasSymbolicMode, AnimationExportSlider {
+		SymbolicParametersBotanaAlgo, HasSymbolicMode, AnimationExportSlider,
+		Evaluate2Var {
 
 	private Variable[] botanaVars;
 
@@ -330,21 +333,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		TreeSet<GeoElement> numbers = cons
 				.getGeoSetLabelOrder(GeoClass.NUMERIC);
 		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);
-		if (numbers != null) {
-			if (angles != null)
-				numbers.addAll(angles);
-		} else {
-			numbers = angles;
+
+		numbers.addAll(angles);
+
+		Iterator<GeoElement> it = numbers.iterator();
+		while (it.hasNext()) {
+			GeoNumeric num = (GeoNumeric) it.next();
+			if (num.isSlider())
+				count++;
 		}
 
-		if (numbers != null) {
-			Iterator<GeoElement> it = numbers.iterator();
-			while (it.hasNext()) {
-				GeoNumeric num = (GeoNumeric) it.next();
-				if (num.isSlider())
-					count++;
-			}
-		}
 
 		return count;
 	}
@@ -544,7 +542,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 *            if true, value is changed also for animation TODO reduce
 	 *            visibility again
 	 */
-	public void setValue(double x, boolean changeAnimationValue) {
+	public synchronized void setValue(double x, boolean changeAnimationValue) {
 		setDefinition(null);
 		if (Double.isNaN(x))
 			value = Double.NaN;
@@ -1408,7 +1406,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return comparator;
 	}
 
-	private static Comparator<GeoNumberValue> comparator;
+	private static volatile Comparator<GeoNumberValue> comparator;
 
 	// protected void setRandomNumber(boolean flag) {
 	// isRandomNumber = flag;
@@ -1821,5 +1819,21 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	public void setOrigSliderY(Double origSliderY) {
 		this.origSliderY = origSliderY;
+	}
+
+	public double evaluate(double x, double y) {
+		return value;
+	}
+
+	public ExpressionNode getFunctionExpression() {
+		return getGeoFunction().getFunctionExpression();
+	}
+
+	public FunctionNVar getFunction() {
+		return getGeoFunction().getFunction();
+	}
+
+	public String getVarString(StringTemplate defaulttemplate) {
+		return "x";
 	}
 }

@@ -68,7 +68,7 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 		setDependencies();
 	}
 
-	// TODO Consider locusequability
+	
 
 	@Override
 	public GeoConicND getConicPart() {

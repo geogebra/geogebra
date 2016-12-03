@@ -226,6 +226,6 @@ public abstract class AlgoStats2D extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -124,7 +124,7 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @return List of decoration types.
 	 */
 	public static final Integer[] getDecoTypes() {
-		Integer[] ret = { new Integer(GeoElement.DECORATION_NONE),
+		Integer[] ret = { Integer.valueOf(GeoElement.DECORATION_NONE),
 				Integer.valueOf(GeoElement.DECORATION_ANGLE_TWO_ARCS),
 				Integer.valueOf(GeoElement.DECORATION_ANGLE_THREE_ARCS),
 				Integer.valueOf(GeoElement.DECORATION_ANGLE_ONE_TICK),
@@ -141,14 +141,40 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	// INTERVAL
 	//////////////////////////////////////////
 	/** interval minima for different angle styles */
-	public static final String[] INTERVAL_MIN = {
+	private static final String[] INTERVAL_MIN = {
 		"0" + Unicode.DEGREE_CHAR,
 		"0" + Unicode.DEGREE_CHAR,
 		"180" + Unicode.DEGREE_CHAR,
 		"-"+Unicode.INFINITY
 	};
+
+	/**
+	 * @param i
+	 *            index
+	 * @return i-th interval maximum
+	 */
+	public static String getIntervalMinList(int i) {
+		return INTERVAL_MIN[i];
+	}
+
+	/**
+	 * @return number of min/max intervals
+	 */
+	public static int getIntervalMinListLength() {
+		return INTERVAL_MIN.length;
+	}
+
+	/**
+	 * @param i
+	 *            index
+	 * @return i-th interval minimum
+	 */
+	public static String getIntervalMaxList(int i) {
+		return INTERVAL_MAX[i];
+	}
+
 	/** interval maxima for different angle styles */
-	public static final String[] INTERVAL_MAX = {
+	private static final String[] INTERVAL_MAX = {
 		"360" + Unicode.DEGREE_CHAR,
 		"180" + Unicode.DEGREE_CHAR,
 		"360" + Unicode.DEGREE_CHAR,
@@ -262,7 +288,8 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 * @see #setAngleStyle(int)
 	 */
 	@Override
-	public void setValue(double val, boolean changeAnimationValue) {
+	public synchronized void setValue(double val,
+			boolean changeAnimationValue) {
 		double angVal = calcAngleValue(val);
 		super.setValue(angVal, changeAnimationValue);
 	}
@@ -438,12 +465,13 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		return rawValue;
 	}
 
-	// Michael Borcherds 2007-10-21 END	
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
-		return isEuclidianVisible() ? kernel.formatAngle(value, 1/getAnimationStep(), tpl, angleStyle == AngleStyle.UNBOUNDED).toString() : 
-			kernel.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED).toString();
+		if(isEuclidianVisible()){
+			return kernel.formatAngle(value, 1 / getAnimationStep(), tpl,
+					angleStyle == AngleStyle.UNBOUNDED).toString();
+		}
+		return kernel.formatAngle(value, tpl, angleStyle == AngleStyle.UNBOUNDED).toString();
 	}
 
 	// overwrite

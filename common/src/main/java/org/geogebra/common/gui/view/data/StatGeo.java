@@ -52,6 +52,8 @@ import org.geogebra.common.kernel.statistics.AlgoStemPlot;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * 
  * Creates geos for use in plot panels and provides updates to plot panel
@@ -61,7 +63,6 @@ import org.geogebra.common.plugin.Operation;
 public class StatGeo {
 
 	private static final double DEFAULT_BUFFER = 0.01;
-	private App app;
 	private Kernel kernel;
 	private Construction cons;
 
@@ -75,7 +76,6 @@ public class StatGeo {
 	 * Constructs a GeoPlot instance
 	 */
 	public StatGeo(App app, ICreateColor listener) {
-		this.app = app;
 		kernel = app.getKernel();
 		cons = kernel.getConstruction();
 		this.listener = listener;
@@ -542,21 +542,6 @@ public class StatGeo {
 		return w / 2;
 	}
 
-	/**
-	 * @param array
-	 *            sorted array of double
-	 * @return preferred bar width = half of the minimum width between
-	 *         consecutive values in the given array.
-	 */
-	private static double getPreferredBarWidth(double[] array) {
-
-		double w = 1;
-		for (int i = 0; i < array.length - 1; i++) {
-			w = Math.min(Math.abs(array[i + 1] - array[i]), w);
-		}
-		return w / 2;
-	}
-
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
 			PlotType plotType) throws Exception {
 
@@ -872,6 +857,8 @@ public class StatGeo {
 
 
 
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public GeoElement createRegressionPlot(GeoList dataList, Regression reg,
 			int order, boolean residual) {
 

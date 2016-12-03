@@ -86,7 +86,7 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 		paramDeriv.setParametricDerivative(curve);
 	}
 
-	// TODO Consider locusequability
+	
 
 	@Override
 	final public String toString(StringTemplate tpl) {

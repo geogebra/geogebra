@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -39,10 +38,9 @@ public class CmdSetAxesRatio extends CmdScripting {
 
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 				GeoNumeric numGeo2 = (GeoNumeric) arg[1];
-				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-				if (ev instanceof EuclidianView)
-					((EuclidianView) ev).zoomAxesRatio(numGeo.getDouble()
-							/ numGeo2.getDouble(), true);
+				EuclidianView ev = app.getActiveEuclidianView();
+				ev.zoomAxesRatio(numGeo.getDouble() / numGeo2.getDouble(),
+						true);
 
 				return arg;
 

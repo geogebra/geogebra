@@ -11,7 +11,6 @@ import org.apache.commons.math.linear.AnyMatrix;
  * of arbitrary precision
  * 
  */
-
 public class MyMathExact {
 
 	public static class MyDecimal {
@@ -19,7 +18,7 @@ public class MyMathExact {
 		private final int fixedScale;
 		private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
 
-		BigDecimal impl;
+		private final BigDecimal impl;
 
 		public MyDecimal(int significance) {
 			// super(0);
@@ -30,13 +29,18 @@ public class MyMathExact {
 		public MyDecimal(int significance, double val) {
 			// super(val);
 			// super.setScale(significance, roundingMode);
-			impl = (new BigDecimal(val)).setScale(significance);
+			impl = (new BigDecimal(val)).setScale(significance, roundingMode);
 			fixedScale = significance;
 		}
 
 		public MyDecimal(MyDecimal md) {
 			impl = new BigDecimal(md.unscaledValue(), md.scale());
 			fixedScale = md.scale();
+		}
+
+		@Override
+		public String toString() {
+			return impl.toString();
 		}
 
 		private int scale() {
@@ -93,7 +97,7 @@ public class MyMathExact {
 
 		public MyDecimal sqrt() {
 
-			if (impl.equals(BigDecimal.ZERO)) {
+			if (impl.compareTo(BigDecimal.ZERO) == 0) {
 				return new MyDecimal(BigDecimal.ZERO);
 			}
 

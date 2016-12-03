@@ -12,8 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -46,14 +46,14 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
-			setObjColor(AwtFactory.prototype.newColor(255, 0, 0));// will be
+			setObjColor(GColor.newColor(255, 0, 0));// will be
 																	// Color.RED
 			break;
 
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
-			setObjColor(AwtFactory.prototype.newColor(0, 0.5f, 0));
+			setObjColor(GColor.newColor(0, 128, 0));
 			break;
 		}
 		

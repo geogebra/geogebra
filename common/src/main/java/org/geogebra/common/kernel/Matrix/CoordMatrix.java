@@ -129,7 +129,7 @@ public class CoordMatrix {
 	 *            dimension
 	 * @return the identity matrix
 	 */
-	public static final CoordMatrix Identity(int n) {
+	public static final CoordMatrix identity(int n) {
 
 		CoordMatrix m = new CoordMatrix(n, n);
 
@@ -149,7 +149,7 @@ public class CoordMatrix {
 	 *            scaling vector
 	 * @return scale matrix
 	 */
-	public static final CoordMatrix ScaleMatrix(Coords v) {
+	public static final CoordMatrix scaleMatrix(Coords v) {
 
 		int n = v.getLength();
 		CoordMatrix m = new CoordMatrix(n + 1, n + 1);
@@ -170,7 +170,7 @@ public class CoordMatrix {
 	 *            values on diagonal (determines dimension)
 	 * @return diagonal matrix
 	 */
-	public static final CoordMatrix DiagonalMatrix(double vals[]) {
+	public static final CoordMatrix diagonalMatrix(double vals[]) {
 
 		int n = vals.length;
 		CoordMatrix m = new CoordMatrix(n, n);
@@ -191,7 +191,7 @@ public class CoordMatrix {
 	 *            translation vector
 	 * @return traslation matrix
 	 */
-	public static final CoordMatrix TranslationMatrix(Coords v) {
+	public static final CoordMatrix translationMatrix(Coords v) {
 
 		int n = v.getLength();
 		CoordMatrix m = new CoordMatrix(n + 1, n + 1);
@@ -215,7 +215,7 @@ public class CoordMatrix {
 	 *            angle of rotation
 	 * @return rotation matrix
 	 */
-	public static final CoordMatrix Rotation3DMatrix(int axe, double angle) {
+	public static final CoordMatrix rotation3DMatrix(int axe, double angle) {
 
 		CoordMatrix m = new CoordMatrix(4, 4);
 
@@ -260,7 +260,7 @@ public class CoordMatrix {
 	 * @param m
 	 *            output matrix
 	 */	
-	public static final void Rotation3x3(double angle, CoordMatrix m) {
+	public static final void rotation3x3(double angle, CoordMatrix m) {
 		
 		double cos = Math.cos(angle);
 		double sin = Math.sin(angle);
@@ -280,7 +280,7 @@ public class CoordMatrix {
 	 * @param m
 	 *            output matrix
 	 */
-	public static final void Rotation3x3(Coords u, double angle, CoordMatrix m) {
+	public static final void rotation3x3(Coords u, double angle, CoordMatrix m) {
 		
 		double ux = u.getX();
 		double uy = u.getY();

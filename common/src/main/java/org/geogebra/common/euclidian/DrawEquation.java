@@ -176,7 +176,7 @@ public abstract class DrawEquation {
 
 			icon.paintIcon(fg, g2, x, y);
 
-			return AwtFactory.prototype.newDimension(icon.getIconWidth(),
+			return AwtFactory.getPrototype().newDimension(icon.getIconWidth(),
 					icon.getIconHeight());
 
 		}
@@ -229,7 +229,7 @@ public abstract class DrawEquation {
 			height = im.getHeight();
 		}
 
-		return AwtFactory.prototype.newDimension(width, height);
+		return AwtFactory.getPrototype().newDimension(width, height);
 	}
 
 	public TeXIcon createIcon(String text, Color fgColor, GFont font,
@@ -354,7 +354,7 @@ public abstract class DrawEquation {
 		}
 		icon.setInsets(new Insets(1, 1, 1, 1));
 
-		return AwtFactory.prototype.newDimension(icon.getIconWidth(),
+		return AwtFactory.getPrototype().newDimension(icon.getIconWidth(),
 				icon.getIconHeight());
 
 	}

@@ -39,7 +39,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
 
-	private class SegmentInfo {
+	private static class SegmentInfo {
 		int segmentParent1;
 		int segmentParent2;
 		int pointIndex1 = -1;
@@ -47,7 +47,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		boolean userCut = false;
 	}
 
-	private class PolygonInfoElement {
+	private static class PolygonInfoElement {
 		int linkSegNumber;
 		int rank;
 		int segShift;

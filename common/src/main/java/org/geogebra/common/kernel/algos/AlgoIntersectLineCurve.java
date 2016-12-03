@@ -190,6 +190,6 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		return outputPoints;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

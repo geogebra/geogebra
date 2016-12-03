@@ -29,13 +29,13 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
-import org.geogebra.web.keyboard.KBBase;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -55,7 +55,6 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -71,7 +70,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
 	public static final GColor SELECTED_BACKGROUND_COLOR = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
-	public static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
+	public static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants
+			.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
 	public static final GColor BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
 	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.GRAY2;
 	public static final GColor HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;
@@ -85,14 +85,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// private MyCellEditorButton editorButton;
 	// private MyCellEditorList editorList;
 
-	public MyCellEditorW getEditor() {
-		return editor;
-	}
+
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCut copyPasteCut;
-
-	protected SpreadsheetColumnControllerW scc;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
@@ -135,18 +131,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected int leadSelectionRow = -1;
 	protected int leadSelectionColumn = -1;
 
-	public boolean[] selectedColumns;
-
 	// Used for rendering headers with ctrl-select
 	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
 	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
 
 	private int selectionType = MyTable.CELL_SELECT;
 
-	private boolean columnSelectionAllowed;
-	private boolean rowSelectionAllowed;
-
-	private boolean doShowDragHandle = true;
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
 	// Dragging vars
@@ -158,25 +148,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected boolean isOverDot = false;
 	protected boolean isDragging = false;
 
-	protected int minColumn = -1;
-	protected int maxColumn = -1;
-	protected int minRow = -1;
-	protected int maxRow = -1;
-
 	protected boolean showRowHeader = true;
 	protected boolean showColumnHeader = true;
 
-	protected boolean isOverDnDRegion = false;
-
-	public boolean isOverDnDRegion() {
-		return isOverDnDRegion;
-	}
-
 	protected boolean isEditing = false;
 
-	public boolean isEditing() {
-		return isEditing;
-	}
+
 
 	protected int editRow = -1;
 	protected int editColumn = -1;
@@ -207,21 +184,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
 
-	/**
-	 * @return Collection of cells that contain geos that can be edited with one
-	 *         click, e.g. booleans, buttons, lists
-	 */
-	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
-		return oneClickEditMap;
-	}
 
-	/**
-	 * @param oneClickEditMap
-	 *            fast editable geos, see {@link #getOneClickEditMap()}
-	 */
-	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
-		this.oneClickEditMap = oneClickEditMap;
-	}
 
 	// cursors
 	// protected Cursor defaultCursor = Cursor.getDefaultCursor();
@@ -235,9 +198,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected Grid ssGrid;
 
-	public Grid getGrid() {
-		return ssGrid;
-	}
+
 
 	protected TableScroller scroller;
 
@@ -246,11 +207,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected SpreadsheetColumnHeaderW columnHeader;
 
 	private FlowPanel rowHeaderContainer;
-	private HandlerRegistration scrollHandlerRegistration;
 
-	public Widget getContainer() {
-		return tableWrapper;
-	}
 
 	// special panels for editing and selection
 	private SimplePanel selectionFrame;
@@ -323,7 +280,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		selectedCellRanges.add(new CellRange(app));
 
 		selectionType = MyTable.CELL_SELECT;
-		rowSelectionAllowed = columnSelectionAllowed = true;
 
 		// add mouse and key listeners
 		// scc = new SpreadsheetColumnControllerW(app, this);
@@ -379,6 +335,50 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		registerListeners();
 		repaintAll();
+	}
+
+	/**
+	 * @return grid
+	 */
+	public Grid getGrid() {
+		return ssGrid;
+	}
+
+	/**
+	 * @return wrapping widget
+	 */
+	public Widget getContainer() {
+		return tableWrapper;
+	}
+
+	/**
+	 * @return editor
+	 */
+	public MyCellEditorW getEditor() {
+		return editor;
+	}
+
+	/**
+	 * @return whether editor is active
+	 */
+	public boolean isEditing() {
+		return isEditing;
+	}
+
+	/**
+	 * @return Collection of cells that contain geos that can be edited with one
+	 *         click, e.g. booleans, buttons, lists
+	 */
+	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
+		return oneClickEditMap;
+	}
+
+	/**
+	 * @param oneClickEditMap
+	 *            fast editable geos, see {@link #getOneClickEditMap()}
+	 */
+	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
+		this.oneClickEditMap = oneClickEditMap;
 	}
 
 	private void registerListeners() {
@@ -1298,36 +1298,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			selType = MyTable.COLUMN_SELECT;
 		}
 
-		switch (selType) {
-
-		case MyTable.CELL_SELECT:
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(true);
-			break;
-
-		case MyTable.ROW_SELECT:
-			setColumnSelectionAllowed(false);
-			setRowSelectionAllowed(true);
-			break;
-
-		case MyTable.COLUMN_SELECT:
-			setColumnSelectionAllowed(true);
-			setRowSelectionAllowed(false);
-			break;
-
-		}
-
 		// in web, selectionType should do what setSelectionMode do too
 		this.selectionType = selType;
 
-	}
-
-	public void setColumnSelectionAllowed(boolean allow) {
-		columnSelectionAllowed = allow;
-	}
-
-	public void setRowSelectionAllowed(boolean allow) {
-		rowSelectionAllowed = allow;
 	}
 
 	public int getSelectionType() {
@@ -1646,11 +1619,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
-					if (isAndroid() || isIPad()) {
+					if (Browser.isAndroid() || Browser.isIPad()) {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}
-					if (!KBBase.shouldBeHideInSV()) {
+					if (view.isKeyboardEnabled()) {
 						app.showKeyboard(w, true);
 					}
 				}
@@ -1688,22 +1661,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			mce.cancelCellEditing();
 		return false;// TODO: implementation needed
 	}
-
-	public native static boolean isAndroid()/*-{
-		var userAgent = navigator.userAgent;
-		if (userAgent) {
-			return navigator.userAgent.indexOf("Android") != -1;
-		}
-		return false;
-	}-*/;
-
-	public native static boolean isIPad()/*-{
-		var userAgent = navigator.userAgent;
-		if (userAgent) {
-			return navigator.userAgent.indexOf("iPad") != -1;
-		}
-		return false;
-	}-*/;
 
 	private SpreadsheetController getEditorController() {
 		if (controller == null) {

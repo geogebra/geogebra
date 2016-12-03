@@ -41,13 +41,13 @@ public class CmdTableText extends CommandProcessor {
 																	// lists: no
 																	// need to
 																	// wrap
-					GeoElement[] ret = { TableText(c.getLabel(),
+					GeoElement[] ret = { tableText(c.getLabel(),
 							(GeoList) arg[0], null) };
 					return ret;
 				}
 				list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { TableText(c.getLabel(), list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), list, null) };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);
@@ -62,14 +62,14 @@ public class CmdTableText extends CommandProcessor {
 																	// lists: no
 																	// need to
 																	// wrap
-					GeoElement[] ret = { TableText(c.getLabel(),
+					GeoElement[] ret = { tableText(c.getLabel(),
 							(GeoList) arg[0], (GeoText) arg[1]) };
 					return ret;
 				}
 				list = wrapInList(kernelA, arg, arg.length - 1,
 						GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { TableText(c.getLabel(), list,
+					GeoElement[] ret = { tableText(c.getLabel(), list,
 							(GeoText) arg[1]) };
 					return ret;
 				}
@@ -80,7 +80,7 @@ public class CmdTableText extends CommandProcessor {
 				GeoList list = wrapInList(kernelA, arg, arg.length,
 						GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { TableText(c.getLabel(), list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), list, null) };
 					return ret;
 				}
 
@@ -97,14 +97,14 @@ public class CmdTableText extends CommandProcessor {
 				list = wrapInList(kernelA, arg, arg.length - 1,
 						GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { TableText(c.getLabel(), list,
+					GeoElement[] ret = { tableText(c.getLabel(), list,
 							(GeoText) arg[arg.length - 1]) };
 					return ret;
 				}
 			} else {
 				list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { TableText(c.getLabel(), list, null) };
+					GeoElement[] ret = { tableText(c.getLabel(), list, null) };
 					return ret;
 				}
 			}
@@ -123,7 +123,7 @@ public class CmdTableText extends CommandProcessor {
 	 *            matrix parameters
 	 * @return table text
 	 */
-	final public GeoText TableText(String label, GeoList list, GeoText args) {
+	final public GeoText tableText(String label, GeoList list, GeoText args) {
 		AlgoTableText algo = new AlgoTableText(cons, label, list, args);
 		GeoText text = algo.getResult();
 		return text;

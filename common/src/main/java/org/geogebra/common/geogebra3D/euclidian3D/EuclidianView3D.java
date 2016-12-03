@@ -252,7 +252,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private DrawAxis3D[] axisDrawable;
 	// point decorations
 	private DrawPointDecorations pointDecorations;
-	private boolean decorationVisible = false;
 	// preview
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D;
@@ -328,7 +327,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				"******************* 3D View being initialized ********************************");
 		Log.error(
 				"******************************************************************************");
-
+		Log.printStacktrace("");
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 
@@ -393,7 +392,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		positiveAxes = new boolean[]{false, false, false};
 		piAxisUnit = new boolean[]{false, false, false};
 		gridDistances = new double[]{2, 2, Math.PI / 6};
-		AxesTickInterval = new double[]{ 1, 1, 1};
+		axesTickInterval = new double[]{ 1, 1, 1};
 	}
 
 	public int getAxisTickStyle(int i) {
@@ -833,14 +832,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		CoordMatrix m1, m2;
 
 		if (getYAxisVertical()) { // y axis taken for up-down direction
-			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
 					* EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Y_AXIS,
+			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		} else { // z axis taken for up-down direction
-			m1 = CoordMatrix.Rotation3DMatrix(CoordMatrix.X_AXIS, (this.b - 90)
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b - 90)
 					* EuclidianController3D.ANGLE_TO_DEGREES);
-			m2 = CoordMatrix.Rotation3DMatrix(CoordMatrix.Z_AXIS,
+			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		}
 
@@ -2427,13 +2426,13 @@ GRectangle selectionRectangle) {
 	public void updatePreviewable() {
 
 		if (getCursor3DType() != PREVIEW_POINT_NONE) {
-			getPreviewDrawable().updatePreview();
+			previewDrawable.updatePreview();
 		}
 	}
 
 	@Override
 	public void updatePreviewableForProcessMode() {
-		if (getPreviewDrawable() != null) {
+		if (previewDrawable != null) {
 			updatePreviewable();
 		}
 	}
@@ -2804,21 +2803,24 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * update decorations for localizing point in the space if point==null, no
-	 * decoration will be drawn
+	 * update decorations for localizing point in the space
+	 *
+	 */
+	public void updatePointDecorations() {
+
+		pointDecorations.setWaitForUpdate();
+
+	}
+
+	/**
+	 * set point for point decorations for localizing point in the space. If
+	 * point==null, no decoration will be drawn
 	 *
 	 * @param point
 	 */
-	public void updatePointDecorations(GeoPoint3D point) {
+	public void setPointDecorations(GeoPointND point) {
 
-		if (point == null)
-			decorationVisible = false;
-		else {
-			decorationVisible = true;
-			pointDecorations.setPoint(point);
-		}
-
-		// Application.debug("point :\n"+point.getDrawingMatrix()+"\ndecorations :\n"+decorationMatrix);
+		pointDecorations.setPoint(point);
 
 	}
 
@@ -3356,11 +3358,13 @@ GRectangle selectionRectangle) {
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
 		getXMLForStereo(sb);
-		if (projectionObliqueAngle != EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT) {
+		if (!Kernel.isEqual(projectionObliqueAngle,
+				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
 			sb.append("\" obliqueAngle=\"");
 			sb.append(projectionObliqueAngle);
 		}
-		if (projectionObliqueFactor != EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT) {
+		if (!Kernel.isEqual(projectionObliqueFactor,
+				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
 			sb.append("\" obliqueFactor=\"");
 			sb.append(projectionObliqueFactor);
 		}
@@ -3523,7 +3527,7 @@ GRectangle selectionRectangle) {
 	}
 
 	protected boolean decorationVisible() {
-		return decorationVisible;
+		return pointDecorations.shouldBeDrawn();
 	}
 
 	/**
@@ -4500,7 +4504,7 @@ GRectangle selectionRectangle) {
 		setProjectionPerspectiveEyeDistance(
 				evs.getProjectionPerspectiveEyeDistance(),
 				evs.getProjectionPerspectiveEyeDistance());
-		eyeX[0] = -evs.getEyeSep() / 2;
+		eyeX[0] = -evs.getEyeSep() / 2.0;
 		eyeX[1] = -eyeX[0];
 		eyeY[0] = 0;
 		eyeY[1] = 0;

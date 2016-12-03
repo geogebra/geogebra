@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
@@ -84,7 +85,7 @@ public class AlgoSemicircle extends AlgoElement
 		cons.removeFromConstructionList(algo);
 		conic = algo.getCircle();
 
-		conicPart = new GeoConicPart(cons, GeoConicPart.CONIC_PART_ARC);
+		conicPart = new GeoConicPart(cons, GeoConicNDConstants.CONIC_PART_ARC);
 		conicPart.addPointOnConic(A);
 		conicPart.addPointOnConic(B);
 
@@ -211,7 +212,7 @@ public class AlgoSemicircle extends AlgoElement
 		}
 
 		if (botanaVars == null) {
-			Variable[] circle1vars = new Variable[2];
+			Variable[] circle1vars;
 			Variable[] centerVars = new Variable[2];
 
 			circle1vars = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);

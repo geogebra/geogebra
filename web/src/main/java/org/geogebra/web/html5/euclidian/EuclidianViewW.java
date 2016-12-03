@@ -243,7 +243,7 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final void setBackground(GColor bgColor) {
 		if (bgColor != null)
-			backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(),
+			backgroundColor = GColor.newColor(bgColor.getRed(),
 			        bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 	}
 
@@ -283,6 +283,11 @@ public class EuclidianViewW extends EuclidianView implements
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
 		paint(this.g2p);
+		// if we have pen tool in action
+		// repaint the preview line
+		if (getEuclidianController().getPen().needsRepaint()) {
+			getEuclidianController().getPen().doRepaintPreviewLine(this.g2p);
+		}
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);

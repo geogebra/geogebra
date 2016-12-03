@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
-import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
@@ -35,13 +34,15 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles pen and freehand tool
  *
  */
-public class EuclidianPen {
+public class EuclidianPen implements GTimerListener {
 
 	/**
 	 * app
@@ -97,7 +98,6 @@ public class EuclidianPen {
 	private double score = 0;
 	// segment
 	private int brk[];
-	private int count = 0;
 	private int recognizer_queue_length = 0;
 	private int MAX_POLYGON_SIDES = 4;
 	private double SLANT_TOLERANCE = 5 * Math.PI / 180;
@@ -137,16 +137,10 @@ public class EuclidianPen {
 	 * Grid size. Default is 30.
 	 */
 	private int gridSize = 15;
-	private GPoint startPoint = null;
 	/**
 	 * String representation of gesture.
 	 */
-	private StringBuilder gesture = new StringBuilder();
-	private int deltaX = 0;
-	private int deltaY = 0;
-	private int absDeltaX = 0;
-	private int absDeltaY = 0;
-	private float absTangent = 0;
+
 
 	private final static int PEN_SIZE_FACTOR = 2;
 	private static final double CONIC_AXIS_ERROR_RATIO = 10;
@@ -154,9 +148,12 @@ public class EuclidianPen {
 	private boolean startNewStroke = false;
 
 	private int penSize;
+	private int lineOpacity;
 	private int lineThickness;
 	private GColor lineDrawingColor;
 	private int lineDrawingStyle;
+	// true if we need repaint
+	private boolean needsRepaint;
 
 	/**
 	 * start point of the gesture
@@ -170,6 +167,7 @@ public class EuclidianPen {
 
 	private boolean absoluteScreenPosition;
 
+	private GTimer timer = null;
 
 	private int eraserSize;
 	private int penLineStyle;
@@ -193,6 +191,8 @@ public class EuclidianPen {
 		this.view = view;
 		this.app = app;
 
+		timer = app.newTimer(this, 1500);
+		
 		setDefaults();
 
 		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()) {
@@ -213,9 +213,16 @@ public class EuclidianPen {
 				super.setLineType(i);
 				setPenLineStyle(i);
 			}
+
+			@Override
+			public void setLineOpacity(int lineOpacity) {
+				super.setLineOpacity(lineOpacity);
+				setPenOpacity(lineOpacity);
+			}
 		};
-		DEFAULT_PEN_LINE.setObjColor(penColor);
 		DEFAULT_PEN_LINE.setLineThickness(penSize);
+		DEFAULT_PEN_LINE.setLineOpacity(lineOpacity);
+		DEFAULT_PEN_LINE.setObjColor(penColor);
 	}
 
 	// ===========================================
@@ -230,6 +237,7 @@ public class EuclidianPen {
 		eraserSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
+		lineOpacity = 10;
 		setAbsoluteScreenPosition(true);
 	}
 
@@ -238,6 +246,21 @@ public class EuclidianPen {
 	 */
 	public int getPenSize() {
 		return penSize;
+	}
+
+	/**
+	 * @param line
+	 *            Opacity
+	 */
+	public void setPenOpacity(int lineOpacity) {
+		if (this.lineOpacity != lineOpacity) {
+			startNewStroke = true;
+		}
+		this.lineOpacity = lineOpacity;
+		float[] rgb = new float[3];
+		penColor.getRGBColorComponents(rgb);
+		setPenColor(GColor.newColor(rgb[0], rgb[1], rgb[2],
+				lineOpacity / 255.0f));
 	}
 
 	/**
@@ -283,6 +306,13 @@ public class EuclidianPen {
 	 */
 	public GColor getPenColor() {
 		return penColor;
+	}
+
+	/**
+	 * @return true if we need to repaint the preview line
+	 */
+	public boolean needsRepaint() {
+		return needsRepaint;
 	}
 
 	/**
@@ -348,6 +378,8 @@ public class EuclidianPen {
 					.handleMouseDraggedForDelete(e, eraserSize, true);
 			app.getKernel().notifyRepaint();
 		} else {
+			// drawing in progress, so we need repaint
+			needsRepaint = true;
 			addPointPenMode(e, null);
 		}
 	}
@@ -360,8 +392,29 @@ public class EuclidianPen {
 	 */
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 		if (!isErasingEvent(e)) {
+
+			timer.stop();
+
 			penPoints.clear();
 			addPointPenMode(e, hits);
+			// we need single point only for pen tool
+			// prevent creating points with freehand tool
+			if (!freehand) {
+				// will create the single point for pen tool
+				addPointsToPolyLine(penPoints);
+			}
+		}
+	}
+
+	/**
+	 * Method to repaint the whole preview line
+	 * 
+	 * @param g2D
+	 *            graphics for pen
+	 */
+	public void doRepaintPreviewLine(GGraphics2D g2D) {
+		for (int i = 0; i < penPoints.size() - 1; i++) {
+			drawPenPreviewLine(g2D, penPoints.get(i), penPoints.get(i + 1));
 		}
 	}
 
@@ -417,50 +470,13 @@ public class EuclidianPen {
 				penPoints.add(newPoint);
 		}
 		GPoint point = e.getPoint();
-		if (startPoint == null)
-			startPoint = e.getPoint();
-		deltaX = getDeltaX(startPoint, point);
-		deltaY = getDeltaY(startPoint, point);
-		absDeltaX = Math.abs(deltaX);
-		absDeltaY = Math.abs(deltaY);
-		absTangent = ((float) absDeltaX) / absDeltaY;
-		if (!((absDeltaX < gridSize) && (absDeltaY < gridSize))) {
-			if (absTangent < 0.5) {
-				if (deltaY < 0)
-					this.saveMove(UP_MOVE);
-				else
-					this.saveMove(DOWN_MOVE);
-				startPoint = point;
-			}
-			if (absTangent >= 0.5 && absTangent <= 2) {
-				if (deltaX > 0 && deltaY < 0)
-					this.saveMove(LEFT_UP);
-				if (deltaX < 0 && deltaY < 0)
-					this.saveMove(RIGHT_UP);
-				if (deltaX < 0 && deltaY > 0)
-					this.saveMove(RIGHT_DOWN);
-				if (deltaX > 0 && deltaY > 0)
-					this.saveMove(LEFT_DOWN);
-				startPoint = point;
-			}
-			if (absTangent > 2) {
-				if (deltaX < 0)
-					this.saveMove(LEFT_MOVE);
-				else
-					this.saveMove(RIGHT_MOVE);
-				startPoint = point;
-			}
-		}
+
 	}
 
 	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
 										   GPoint point2) {
-		GLine2D line = AwtFactory.prototype.newLine2D();
+		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
-		// use for line the thickness from properties
-		// g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
-		// GBasicStroke.CAP_ROUND,
-		// GBasicStroke.JOIN_ROUND));
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
 				lineDrawingStyle));
 		g2D.setColor(lineDrawingColor);
@@ -496,6 +512,8 @@ public class EuclidianPen {
 			return;
 		}
 
+		timer.start();
+
 		app.setDefaultCursor();
 
 		// if (!erasing && recognizeShapes) {
@@ -510,6 +528,15 @@ public class EuclidianPen {
 		addPointsToPolyLine(penPoints);
 
 		penPoints.clear();
+		// drawing done, so no need for repaint
+		needsRepaint = false;
+	}
+
+	/**
+	 * start timer to check if polyline is same stroke
+	 */
+	public void startTimer() {
+		timer.start();
 	}
 
 	/**
@@ -535,9 +562,6 @@ public class EuclidianPen {
 	}
 
 	protected void initShapeRecognition(int x, int y) {
-		count = 0;
-		Log.debug(getGesture());
-		this.clearTemporaryInfo();
 		penPoints.add(new GPoint(x, y));
 	}
 
@@ -823,6 +847,7 @@ public class EuclidianPen {
 
 		poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		poly.setLineType(penLineStyle);
+		poly.setLineOpacity(lineOpacity);
 		poly.setObjColor(penColor);
 
 		app.getSelectionManager().clearSelectedGeos(false);
@@ -831,6 +856,7 @@ public class EuclidianPen {
 		// app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]",
 		// false);
 
+		poly.setSelected(false);
 		poly.updateRepaint();
 
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
@@ -900,7 +926,7 @@ public class EuclidianPen {
 		for (int i = 0; i < penPoints.size(); i++) {
 			GPoint p = penPoints.get(i);
 			int index = p.x - minX;
-			if (index < freehand1.length && Double.isNaN(freehand1[index])) {
+			if (index >= 0 && index < freehand1.length && Double.isNaN(freehand1[index])) {
 				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
@@ -944,8 +970,6 @@ public class EuclidianPen {
 			list.add(new GeoNumeric(cons, Kernel
 					.checkDecimalFraction(freehand1[i])));
 		}
-
-		new AlgoFunctionFreehand(cons, null, list).getGeoElements();
 
 		// GeoElement fun = algo.getOutput(0);
 
@@ -1324,67 +1348,6 @@ public class EuclidianPen {
 		return conic;
 	}
 
-	/**
-	 * Returns delta x.
-	 *
-	 * @param startPoint2
-	 *            First point
-	 * @param point
-	 *            Second point
-	 * @return Delta x
-	 */
-	private static int getDeltaX(GPoint startPoint2, GPoint point) {
-		return point.x - startPoint2.x;
-	}
-
-	/**
-	 * Returns delta y.
-	 *
-	 * @param startPoint2
-	 *            First point
-	 * @param point
-	 *            Second point
-	 * @return Delta y
-	 */
-	private static int getDeltaY(GPoint startPoint2, GPoint point) {
-		return point.y - startPoint2.y;
-	}
-
-	/**
-	 * Adds movement to buffer.
-	 *
-	 * @param move
-	 *            String representation of recognized movement
-	 */
-	private void saveMove(String move) {
-		if ((gesture.length() == 0)
-				|| (gesture.charAt(gesture.length() - 1) == move.charAt(0))
-				|| count == 1)
-			count++;
-		else
-			count = 1;
-		// should not store two equal moves in succession
-		if ((gesture.length() > 0)
-				&& ((gesture.charAt(gesture.length() - 1) == move.charAt(0)) || count != 2))
-			return;
-		gesture.append(move);
-	}
-
-	/**
-	 * Returns string representation of mouse gesture.
-	 *
-	 * @return String representation of mouse gesture. "L" for left, "R" for
-	 *         right, "U" for up, "D" for down movements. For example: "ULD".
-	 */
-	private String getGesture() {
-		return gesture.toString();
-	}
-
-	private void clearTemporaryInfo() {
-		startPoint = null;
-		gesture.delete(0, gesture.length());
-	}
-
 	private void optimize_polygonal(int nsides) {
 		double cost, newcost;
 		boolean improved;
@@ -1744,7 +1707,7 @@ public class EuclidianPen {
 
 	}
 
-	private class RecoSegment {
+	private static class RecoSegment {
 		public RecoSegment() {
 		}
 
@@ -1755,7 +1718,7 @@ public class EuclidianPen {
 
 	}
 
-	private class Inertia {
+	private static class Inertia {
 		public Inertia() {
 		}
 
@@ -1792,5 +1755,9 @@ public class EuclidianPen {
 			lastAlgo = null;
 		}
 
+	}
+
+	public void onRun() {
+		startNewStroke = true;
 	}
 }

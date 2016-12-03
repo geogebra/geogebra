@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 import org.geogebra.web.web.gui.dialog.options.CheckboxPanel;
@@ -21,6 +22,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -61,7 +64,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	
 
-	public SliderPanelW(AppW app,
+	public SliderPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -122,11 +125,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 
 			}});
+		tfMin.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfMin, app);
+			}
+		});
+		
 		tfMin.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMin();
+				FieldHandler.focusLost(tfMin, app);
 			}
 		});
 
@@ -139,11 +149,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 
+		tfMax.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfMax, app);
+			}
+		});
+
 		tfMax.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMax();
+				FieldHandler.focusLost(tfMax, app);
 			}
 		});
 
@@ -158,11 +175,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 		
+		tfWidth.addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(tfWidth, app);
+			}
+		});
+
 		tfWidth.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyWidth();
+				FieldHandler.focusLost(tfWidth, app);
 			}
 		});
 

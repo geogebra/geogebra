@@ -66,7 +66,7 @@ import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.util.ColorChooserW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
-import org.geogebra.web.web.gui.util.GeoGebraIcon;
+import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.PointStylePopup;
@@ -256,7 +256,7 @@ public class OptionsTab extends FlowPanel {
 			return dsp;
 		}
 		if (m instanceof TextOptionsModel) {
-			return new TextOptionsPanel((TextOptionsModel) m, app);
+			return new TextOptionsPanelW((TextOptionsModel) m, app);
 		}
 		if (m instanceof ScriptEditorModel) {
 			return new ScriptEditPanel((ScriptEditorModel) m, app);
@@ -539,7 +539,7 @@ public class OptionsTab extends FlowPanel {
 			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel
 					.getDecoTypeLength()];
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
+				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 			}
 			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON) {
@@ -611,7 +611,7 @@ public class OptionsTab extends FlowPanel {
 			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel
 					.getDecoTypeLength()];
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
+				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 			}
 			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON) {
@@ -1040,7 +1040,8 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private class IneqPanel extends CheckboxPanel implements IIneqStyleListener {
+	private static class IneqPanel extends CheckboxPanel
+			implements IIneqStyleListener {
 
 		public IneqPanel(IneqStyleModel model, AppW app) {
 			super("ShowOnXAxis", app.getLocalization());
@@ -1299,7 +1300,7 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	private class ImageCornerPanel extends ComboBoxPanel {
+	private static class ImageCornerPanel extends ComboBoxPanel {
 
 		private ImageCornerModel model;
 		private Localization localization;
@@ -1343,7 +1344,7 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
-	class CornerPointsPanel extends OptionPanel {
+	static class CornerPointsPanel extends OptionPanel {
 
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;
@@ -1466,7 +1467,7 @@ public class OptionsTab extends FlowPanel {
 		}
 	} // StartPointPanel
 
-	private class CoordsPanel extends ListBoxPanel {
+	private static class CoordsPanel extends ListBoxPanel {
 
 		public CoordsPanel(CoordsModel model, AppW app) {
 			super(app.getLocalization(), "Coordinates");
@@ -1475,7 +1476,7 @@ public class OptionsTab extends FlowPanel {
 		}
 	} // CoordsPanel
 
-	private class LineEqnPanel extends ListBoxPanel {
+	private static class LineEqnPanel extends ListBoxPanel {
 
 		public LineEqnPanel(LineEqnModel model, AppW app) {
 			super(app.getLocalization(), "Equation");

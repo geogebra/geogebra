@@ -22,7 +22,11 @@ public enum Language {
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"sq", "sq", "Albanian / Gjuha Shqipe",
 			Country.Albania),
-
+	Amharic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			null, "\u134b\u12ed\u120d",
+			false, "am", "am",
+			"Amharic / \u0041\u006d\u0061\u0072\u0259\u00f1\u00f1\u0061",
+			Country.Ethiopia),
 	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"ar", "ar",
 			Unicode.LeftToRightMark + "Arabic"
@@ -343,13 +347,12 @@ public enum Language {
 
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
 			Portuguese_Brazil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-					null, null, true, "pt", "pt",
- "Portuguese / Portugu\u00EAs (Brasil)",
+			null, null, true, "pt", "pt",
+			"Portuguese / Portugu\u00EAs (Brasil)",
 			Country.Brazil),
 
 	Portuguese_Portugal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT",
- "pt",
+			Unicode.CURRENCY_EURO, null, true, "ptPT", "pt_PT", "pt",
 			"Portuguese / Portugu\u00EAs (Portugal)", null,
 			Country.Portugal, Country.Mozambique, Country.Angola,
 			Country.CapeVerde, Country.GuineaBissau, Country.SaoTomePrincipe,
@@ -461,22 +464,22 @@ public enum Language {
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
 	// Country.UnitedStatesofAmerica);
 
-	public String localeGWT;
-	public String locale;
-	public String localeISO6391;
-	public String name;
+	final public String localeGWT;
+	final public String locale;
+	final public String localeISO6391;
+	final public String name;
 	// official counties which speak that language
-	public Country[] countries;
-	public String flagName;
+	final private Country[] countries;
+	final private String flagName;
 	// used to determine whether to put in release versions
-	public boolean fullyTranslated;
+	final public boolean fullyTranslated;
 	/**
 	 * test characters to get a font that can display the correct symbols for
 	 * each language Also used to register the fonts so that JLaTeXMath can
 	 * display other Unicode blocks
 	 */
-	public String testChar;
-	private String currency;
+	final private String testChar;
+	final private String currency;
 
 	// https://en.wikipedia.org/wiki/Right_angle
 	private int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
@@ -509,7 +512,7 @@ public enum Language {
 				name, null, countries);
 	}
 
-	private static String countryFromGeoIP = null;
+	final private static String countryFromGeoIP = null;
 
 	/**
 	 * @param language
@@ -518,7 +521,8 @@ public enum Language {
 	 *            2 letter country, eg GB
 	 * @return
 	 */
-	public static String getCountry(App app, String language, String country) {
+	final public static String getCountry(App app, String language,
+			String country) {
 
 		Language lang = Language.getLanguage(language + country);
 
@@ -552,7 +556,7 @@ public enum Language {
 	 *            ISO code
 	 * @return closest constant
 	 */
-	public static Language getLanguage(String language) {
+	final public static Language getLanguage(String language) {
 		for (Language l : Language.values()) {
 			// language could be "ca" or "caXV"
 			if (l.locale.equals(language)) {
@@ -570,7 +574,7 @@ public enum Language {
 		return null;
 	}
 
-	public static String getDisplayName(String ggbLangCode) {
+	final public static String getDisplayName(String ggbLangCode) {
 
 		// eg change en_GB to enGB
 		ggbLangCode = ggbLangCode.replaceAll("_", "");
@@ -593,7 +597,7 @@ public enum Language {
 	 *            two letter code
 	 * @return
 	 */
-	public static String getTestChar(String language) {
+	final public static String getTestChar(String language) {
 		for (Language l : Language.values()) {
 			if (l.locale.startsWith(language)) {
 				return l.testChar == null ? "a" : l.testChar;
@@ -604,7 +608,8 @@ public enum Language {
 		return "a";
 	}
 
-	public static String getClosestGWTSupportedLanguage(String browserLangCode) {
+	final public static String getClosestGWTSupportedLanguage(
+			String browserLangCode) {
 		String normalizedLanguage = StringUtil
 				.toLowerCase(browserLangCode + "").replace("-", "_");
 
@@ -645,7 +650,7 @@ public enum Language {
 	 * @param language
 	 * @return the currency belonging to the given language (default Dollar)
 	 */
-	public static String getCurrency(String language) {
+	final public static String getCurrency(String language) {
 		for (Language l : Language.values()) {
 			if (l.localeGWT.equals(language)) {
 				return l.currency;
@@ -654,11 +659,11 @@ public enum Language {
 		return Unicode.CURRENCY_DOLLAR;
 	}
 
-	public static int getRightAngleStyle(String language) {
+	final public static int getRightAngleStyle(String language) {
 		return getLanguage(language).getRightAngleStyle();
 	}
 
-	public int getRightAngleStyle() {
+	final public int getRightAngleStyle() {
 		return this.rightAngleStyle;
 	}
 

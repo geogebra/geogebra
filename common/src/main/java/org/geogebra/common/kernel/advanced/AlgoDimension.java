@@ -108,6 +108,6 @@ public class AlgoDimension extends AlgoElement {
 		return Commands.Dimension;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 /**
  * Interface for GeoElements that can be evaluated as a 3D curve
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public interface GeoCurveCartesian3DInterface {

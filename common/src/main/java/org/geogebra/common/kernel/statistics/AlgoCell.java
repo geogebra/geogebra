@@ -168,6 +168,6 @@ public class AlgoCell extends AlgoElement {
 		return inputForUpdateSetPropagation;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

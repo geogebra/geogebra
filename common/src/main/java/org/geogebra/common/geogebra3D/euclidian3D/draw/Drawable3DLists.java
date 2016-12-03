@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class Drawable3DLists {
 
-	protected class Drawable3DList extends ArrayList<Drawable3D> {
+	protected static class Drawable3DList extends ArrayList<Drawable3D> {
 
 		/**
 		 * 

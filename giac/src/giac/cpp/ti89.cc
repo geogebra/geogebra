@@ -474,6 +474,36 @@ namespace giac {
     int vs=int(v.size()),deg=10;
     gen x=vx_var;
     gen f=0;
+    if (vs>=3 && v[2].type==_INT_ && v[1].type==_INT_ && v[0].type==_VECT){
+      // randpoly(variables,total_degree,nterms,[law])
+      gen a=v[0],b=v[1];
+      v[0]=b; v[1]=v[2]; v[2]=a; 
+    }
+    if (vs>=2 && v[1].type==_VECT && v[0].type==_VECT){
+      // randpoly(variables,partial_degrees,[law])
+      vecteur vars=*v[0]._VECTptr;
+      vecteur degs=*v[1]._VECTptr;
+      if (degs.size()!=vars.size() || vars.empty())
+	return gendimerr(contextptr);
+      gen var=vars[0];
+      vars.erase(vars.begin());
+      gen deg=degs[0];
+      degs.erase(degs.begin());
+      if (deg.type!=_INT_ || deg.val<0)
+	return gendimerr(contextptr);
+      if (!vars.empty()){
+	gen res=0;
+	for (int i=deg.val;i>=0;--i){
+	  v[0]=vars;
+	  v[1]=degs;
+	  gen tmp=_randPoly(gen(v,_SEQ__VECT),contextptr);
+	  res += tmp*pow(var,i,contextptr);
+	}
+	return res;
+      }
+      v[0]=var;
+      v[1]=deg;
+    }
     if (vs>=3 && v[0].type==_INT_ && v[1].type==_INT_ && v[2].type==_VECT){
       // randpoly(total_degree,nterms,variables,[law])
       if (vs>=4)

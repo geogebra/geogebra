@@ -84,6 +84,6 @@ public class AlgoDefined extends AlgoElement {
 		outputBoolean.setValue(inputGeo.isDefined());
 	}
 
-	// TODO Consider locusequability
+	
 
 }

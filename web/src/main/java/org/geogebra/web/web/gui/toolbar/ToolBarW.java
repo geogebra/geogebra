@@ -19,7 +19,10 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 
 /**
  * @author gabor
@@ -27,18 +30,11 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Toolbar for GeoGebraWeb
  * 
  */
-public class ToolBarW extends FlowPanel implements ClickHandler,
-        ToolBarInterface {
+public class ToolBarW extends FlowPanel
+ implements ClickHandler, ToolBarInterface, MouseOutHandler {
 
 	private AppW app;
 	private int mode;
-
-	/**
-	 * Dock panel associated to this toolbar or null if this is the general
-	 * toolbar. Just a single toolbar might have no dock panel, otherwise the
-	 * ToolbarContainer logic will not work properly.
-	 */
-	private DockPanel dockPanel;
 
 	// panels for mobile submenu view
 	private FlowPanel submenuPanel;
@@ -48,6 +44,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	protected UnorderedList menuList;
 	private GGWToolBar tb;
 	private boolean isMobileToolbar;
+	private boolean isMouseDown = false;
+	private int mousePosition;
+	private int toolbarPosition;
 
 	/**
 	 * Creates general toolbar. There is no app parameter here, because of
@@ -58,6 +57,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.tb = tb;
 		this.addStyleName("GGWToolbar");
 		this.addDomHandler(this, ClickEvent.getType());
+
 	}
 
 	/**
@@ -72,6 +72,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.addStyleName("GGWToolbar");
 
 		this.addDomHandler(this, ClickEvent.getType());
+		this.addDomHandler(this, MouseOutEvent.getType());
+		submenuPanel.addDomHandler(this, MouseOutEvent.getType());
 	}
 
 	/**
@@ -106,7 +108,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	 *         the general toolbar.
 	 */
 	public DockPanel getDockPanel() {
-		return dockPanel;
+		return null;
 	}
 
 	/**
@@ -288,25 +290,19 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	protected Vector<ToolbarItem> getToolbarVec() {
 		Vector<ToolbarItem> toolbarVec;
 		try {
-			if (dockPanel != null) {
-				toolbarVec = ToolBar.parseToolbarString(
-				        dockPanel.getToolbarString());
-			} else {
-				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-				        .getToolbarDefinition());
-			}
+
+			toolbarVec = ToolBar.parseToolbarString(
+					app.getGuiManager().getToolbarDefinition());
+
 		} catch (Exception e) {
-			if (dockPanel != null) {
-				Log.debug("invalid toolbar string: "
-				        + dockPanel.getToolbarString());
-			} else {
-				Log.debug("invalid toolbar string: "
-				        + app.getGuiManager().getToolbarDefinition());
-			}
+
+			Log.debug("invalid toolbar string: "
+					+ app.getGuiManager().getToolbarDefinition());
+
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
 		return toolbarVec;
-    }
+	}
 
 	public int getToolbarVecSize() {
 		return this.getToolbarVec().size();
@@ -315,9 +311,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	 * @return The default definition of this toolbar with macros.
 	 */
 	public String getDefaultToolbarString() {
-		if (dockPanel != null) {
-			return dockPanel.getDefaultToolbarString();
-		}
+
 		return ToolBar.getAllTools(app);
 	}
 
@@ -451,4 +445,31 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	public GGWToolBar getGGWToolBar() {
 		return tb;
 	}
+
+	public void setPosition(int positionX) {
+		if (isMouseDown) {
+			if (this.isVisible()) {
+				((ScrollPanel) this.getParent())
+						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+			} else {
+				((ScrollPanel) submenuPanel.getParent())
+						.setHorizontalScrollPosition(toolbarPosition + (mousePosition - positionX));
+			}
+		}
+	}
+
+
+	public void onMouseOut(MouseOutEvent event) {
+		setMouseDown(false);
+	}
+
+	public void setMouseDown(boolean down) {
+		isMouseDown = down;
+	}
+
+	public void setStartPositions(int mouse, int tb) {
+		mousePosition = mouse;
+		toolbarPosition = tb;
+	}
+
 }

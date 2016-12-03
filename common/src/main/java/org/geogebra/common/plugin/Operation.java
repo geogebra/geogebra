@@ -99,10 +99,11 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
 					lt, rt);
-			if (b == null) {
-				return ev.illegalComparison(lt, rt,
-						ExpressionNodeConstants.strNOT_EQUAL);
-			}
+			// b can't be null here (findbugs)
+			// if (b == null) {
+			// return ev.illegalComparison(lt, rt,
+			// ExpressionNodeConstants.strNOT_EQUAL);
+			// }
 			b.setValue(!b.getBoolean());
 			return b;
 		}
@@ -208,10 +209,11 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
 					lt, rt);
-			if (b == null) {
-				return ev.illegalComparison(lt, rt,
-						ExpressionNodeConstants.strNOT_EQUAL);
-			}
+			// b can't be null here (findbugs)
+			// if (b == null) {
+			// return ev.illegalComparison(lt, rt,
+			// ExpressionNodeConstants.strNOT_EQUAL);
+			// }
 			return b;
 		}
 	},

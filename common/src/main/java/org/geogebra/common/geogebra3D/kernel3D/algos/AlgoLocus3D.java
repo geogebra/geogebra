@@ -76,12 +76,12 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	@Override
 	protected void createStartPos(Construction cons) {
-		QstartPos = new GeoPoint3D(cons);
+		startQPos = new GeoPoint3D(cons);
 
 		if (movingPoint.isGeoElement3D()) {
-			PstartPos = new GeoPoint3D(cons);
+			startPPos = new GeoPoint3D(cons);
 		} else {
-			PstartPos = new GeoPoint(cons);
+			startPPos = new GeoPoint(cons);
 		}
 	}
 
@@ -220,6 +220,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 		return new MyPoint3D();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -156,6 +156,6 @@ public class AlgoFoldExpression extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

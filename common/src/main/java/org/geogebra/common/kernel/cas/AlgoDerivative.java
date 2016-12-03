@@ -276,6 +276,6 @@ public class AlgoDerivative extends AlgoCasBase {
 		return sb.toString();
 	}
 
-	// TODO Consider locusequability
+	
 
 }

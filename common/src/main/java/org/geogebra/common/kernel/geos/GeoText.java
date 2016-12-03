@@ -978,7 +978,7 @@ public class GeoText extends GeoElement implements Locateable,
 
 		boolean firstTime = boundingBox == null;
 		if (firstTime) {
-			boundingBox = AwtFactory.prototype.newRectangle2D();
+			boundingBox = AwtFactory.getPrototype().newRectangle2D();
 		}
 
 		boundingBox.setRect(x, y, w, h);

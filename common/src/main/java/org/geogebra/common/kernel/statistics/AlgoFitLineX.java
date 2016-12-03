@@ -142,6 +142,6 @@ public class AlgoFitLineX extends AlgoElement {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

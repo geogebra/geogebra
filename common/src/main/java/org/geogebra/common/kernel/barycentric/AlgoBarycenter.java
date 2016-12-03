@@ -95,20 +95,19 @@ public class AlgoBarycenter extends AlgoElement {
 
 		int numberOfVertices = poly.size();
 		double sum = list.get(0).evaluateDouble();
-		Coords sumCoords = ((GeoPointND) poly.get(0)).getInhomCoordsInD3().mul(
-				sum);
+		Coords sumCoords = ((GeoPointND) poly.get(0)).getInhomCoordsInD3()
+				.copy().mulInside(sum);
 		for (int i = 1; i < numberOfVertices; i++) {
 			double w = list.get(i).evaluateDouble();
-			sumCoords.addInside(((GeoPointND) poly.get(i)).getInhomCoordsInD3()
-					.mul(
-					w));
+			sumCoords.addInsideMul(
+					((GeoPointND) poly.get(i)).getInhomCoordsInD3(), w);
 			sum += w;
 
 		}
 
-		point.setCoords(sumCoords.mul(1 / sum), false);
+		point.setCoords(sumCoords.mulInside(1 / sum), false);
 	}
 
-	// TODO Consider locusequability
+	
 
 }

@@ -369,7 +369,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				t0 = Q[0].getPathParameter().getT();
 				t1 = Q[1].getPathParameter().getT();
 				// infinite part is in region if and only if
-				// two interesction points are on different branches
+				// two intersection points are on different branches
 				// namely: truth value of [t0 in (-1,1)] and [t1 in (-1,1)]
 				// should be different
 				currentPartIsInRegion = Kernel.isGreater(1, t0)
@@ -377,13 +377,14 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			}
 			break;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			ex = c.getEigenvec(0);
 			if (numberOfLineParts == 1) {
 				currentPartIsInRegion = true;
 			} else if (numberOfLineParts == 2) {
 				c.pointChanged(Q[0]);
 				t0 = Q[0].getPathParameter().getT();
-				currentPartIsInRegion = (inOpenInterval(t0, 1, 2) || inOpenInterval(
-						t0, -1, 0))
+				currentPartIsInRegion = (inOpenInterval(t0, 1, 2)
+						|| inOpenInterval(t0, -1, 0))
 						^ Kernel.isGreater(g.getCoords().dotproduct(ex), 0);
 			} else if (numberOfLineParts == 3) {
 				c.pointChanged(Q[0]);

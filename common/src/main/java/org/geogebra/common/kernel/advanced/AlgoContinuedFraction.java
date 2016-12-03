@@ -90,7 +90,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		StringTemplate tpl = text.getStringTemplate();
 		if (num.isDefined() && (level == null || level.isDefined())) {
 			int maxSteps = level == null ? 0 : (int) level.getDouble();
-			int steps = DecimalToFraction(num.getDouble(),
+			int steps = decimalToFraction(num.getDouble(),
 					Kernel.STANDARD_PRECISION, denominators, maxSteps);
 			if (steps < 1) {
 				text.setUndefined();
@@ -166,8 +166,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
 	 * http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	 */
-	private int DecimalToFraction(double dec, double AccuracyFactor,
-			long[] denominators, int maxSteps) {
+	private int decimalToFraction(double dec, double AccuracyFactor,
+			long[] denom, int maxSteps) {
 		double FractionNumerator, FractionDenominator;
 		double DecimalSign;
 		double Z;
@@ -188,24 +188,19 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 		double decimal = Math.abs(dec);
 
-		if (Math.abs(decimal - Math.floor(decimal)) < AccuracyFactor) { // handles
-																		// exact
-																		// integers
-																		// including
-																		// 0
-			FractionNumerator = decimal * DecimalSign;
-			FractionDenominator = 1.0;
+		// handles exact integers including 0
+		if (Math.abs(decimal - Math.floor(decimal)) < AccuracyFactor) {
 
-			denominators[0] = (int) Math.floor(decimal);
+			denom[0] = (int) Math.floor(decimal);
 			return 1;
 		}
 		if (decimal < 1.0E-19) { // X = 0 already taken care of
 
-			denominators[0] = 0;
+			denom[0] = 0;
 			return 2;
 		}
 		if (decimal > 1.0E19) {
-			denominators[0] = 999999999;
+			denom[0] = 999999999;
 			return 1;
 		}
 
@@ -215,7 +210,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		int steps = 0;
 		dotsNeeded = true;
 		do {
-			denominators[steps] = (long) Math.floor(Z);
+			denom[steps] = (long) Math.floor(Z);
 			Z = 1.0 / (Z - Math.floor(Z));
 			ScratchValue = FractionDenominator;
 			FractionDenominator = FractionDenominator * Math.floor(Z)
@@ -227,7 +222,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 			// we are too close to integer, next step would be uncertain
 			if (Kernel.isEqual(Z, Math.floor(Z))) {
-				denominators[steps] = (long) Math.floor(Z);
+				denom[steps] = (long) Math.floor(Z);
 				dotsNeeded = false;
 				steps++;
 				break;
@@ -235,14 +230,14 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 			// the approximation is within standard precision
 			if (Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
-				denominators[steps] = (long) Math.floor(Z);
+				denom[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
 			}
 
 		} while ((maxSteps == 0 || steps < maxSteps)
 				&& !Kernel.isEqual(Z, Math.floor(Z))
-				&& steps < denominators.length);
+				&& steps < denom.length);
 		return steps;
 	}
 
@@ -251,6 +246,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 		return true;
 	}
 
-	// TODO Consider locusequability
+	
 
 }

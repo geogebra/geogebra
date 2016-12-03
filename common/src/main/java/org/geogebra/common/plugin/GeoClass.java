@@ -114,10 +114,10 @@ public enum GeoClass {
 	/**
 	 * name MUST be in ggbtrans/properties
 	 */
-	public String name, xmlName;
-	public boolean is3D;
-	public int priority;
-	private int independentPriority;
+	final public String name, xmlName;
+	final public boolean is3D;
+	final private int priority;
+	final private int independentPriority;
 
 	GeoClass(String name, int priority, boolean is3D) {
 		this(name, name, priority, priority, is3D);

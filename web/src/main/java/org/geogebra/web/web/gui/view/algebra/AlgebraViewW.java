@@ -82,7 +82,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/** Input item */
 	RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
-	private boolean editing = false;
+	private boolean editItem = false;
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
@@ -168,7 +168,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
 		algCtrl.setView(this);
-		initGUI((AlgebraControllerW) algCtrl);
+		if (algCtrl instanceof AlgebraControllerW) {
+			initGUI((AlgebraControllerW) algCtrl);
+		}
 
 			app.getSelectionManager()
 					.addSelectionListener(new GeoElementSelectionListener() {
@@ -207,7 +209,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	void onAlgebraScroll() {
 		if (activeItem != null) {
-			activeItem.adjustControlsPosition();
+			activeItem.reposition();
 		}
 
 		if (getInputTreeItem() != null) {
@@ -261,7 +263,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			case KeyCodes.KEY_RIGHT:
 				// this may be enough for Safari too, because it is not
 				// onkeypress
-				if (!editing) {
+				if (!editItem) {
 					app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(
 							event);
 					event.stopPropagation();
@@ -284,7 +286,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// see this.setFocus(true) and this.addKeyDownHandler...
 			app.focusGained(AlgebraViewW.this, this.getElement());
 		}
-		if (!editing) {
+		if (!editItem) {
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// background click
 				if (!CancelEventTimer.cancelKeyboardHide()
@@ -322,6 +324,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		// repaint sliders as fast as possible
 
 		if (isShowing()) {
+
 			deferredRepaintSliders();
 		}
 
@@ -382,7 +385,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			 * not otherwise because editing geos while animation is running
 			 * won't work then (ticket #151).
 			 */
-			if (isEditing()) {
+			if (isEditItem()) {
 				if (item.isEditing()) {
 					item.cancelEditing();
 				}
@@ -614,7 +617,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		isShowingAuxiliaryObjects = flag;
 		app.showAuxiliaryObjects = flag;
 
-		cancelEditing();
+		cancelEditItem();
 
 		if (flag) {
 			clearView();
@@ -693,7 +696,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	/** whether it's attached to kernel */
 	protected boolean attached = false;
-	private TreeItem dummy;
 
 	/**
 	 * Fill this view and attach it to kernel
@@ -1082,15 +1084,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
-		cancelEditing();
+		cancelEditItem();
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 				&& geo.isSetAlgebraVisible()) {
-			if(this.dummy != null){
-				removeItem(this.dummy);
-				this.dummy = null;
-			}
+
 			// don't add auxiliary objects if the tree is categorized by type
 			if (!getTreeMode().equals(SortMode.DEPENDENCY)
 					&& !showAuxiliaryObjects() && geo.isAuxiliaryObject()) {
@@ -1145,9 +1144,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 			if (app.has(Feature.AV_SCROLL)) {
-				if (node != null) {// && getOffsetWidth() < maxItemWidth) {
-					RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
-				}
+				RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
 			}
 
 			boolean wasEmpty = isNodeTableEmpty();
@@ -1203,7 +1200,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * removes a node from the tree
 	 */
 	public void remove(GeoElement geo) {
-		cancelEditing();
+		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
@@ -1389,7 +1386,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void reset() {
-		cancelEditing();
+		cancelEditItem();
 		repaintView();
 		ensureSelectedItemVisible();
 	}
@@ -1638,7 +1635,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			stopCurrentEditor();
 		}
 		if ((this.activeItem != null) && !sameItem
-				&& (!this.activeItem.commonEditingCheck())) {
+				&& (!this.activeItem.commonEditingCheck())
+				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			// removeCloseButton() on this would cause infinite recursion
 			activeItem.removeCloseButton();
 		}
@@ -1739,26 +1737,26 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return isVisible() && isAttached();
 	}
 
-	public void cancelEditing() {
-		editing = false;
+	public void cancelEditItem() {
+		editItem = false;
 		setAnimationEnabled(true);
 	}
 
-	public boolean isEditing() {
-		return editing;
+	public boolean isEditItem() {
+		return editItem;
 	}
 
 	/**
-	 * Open Editor textfield for geo.
+	 * Starts the corresponding editor for geo.
 	 */
-	public void startEditing(GeoElement geo) {
+	public void startEditItem(GeoElement geo) {
 		if (!app.has(Feature.RETEX_EDITOR)
 				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
 			return;
 		}
 		if (geo == null) {
 			if (app.has(Feature.RETEX_EDITOR)) {
-				editing = true;
+				editItem = true;
 			}
 			return;
 		}
@@ -1798,9 +1796,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditing();
+			cancelEditItem();
 			// FIXMEWEB select and show node
-			editing = true;
+			editItem = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				RadioTreeItem.as(node).enterEditMode(
@@ -1817,14 +1815,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditing();
+			cancelEditItem();
 			// FIXMEWEB select and show node
-			editing = true;
+			editItem = true;
 
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				if (!RadioTreeItem.as(node).enterEditMode(false)) {
-					cancelEditing();
+					cancelEditItem();
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
 			}
@@ -1948,6 +1946,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void resize() {
 		if (app.has(Feature.AV_SCROLL)) {
 			int resizedWidth = getOffsetWidth();
+			if (maxItemWidth == 0) {
+				maxItemWidth = resizedWidth;
+			}
 			if (resizedWidth > maxItemWidth) {
 				setWidths(resizedWidth);
 			}
@@ -2000,7 +2001,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 		if (this.getInputTreeItem() != null) {
 			getInputTreeItem().setItemWidth(width);
-			getInputTreeItem().adjustControlsPosition();
+			getInputTreeItem().reposition();
 		}
 
 		for (int i = 0; i < getItemCount(); i++) {
@@ -2060,6 +2061,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	/**
+	 * Clears the selection of the last selected item, it also stops editing if
+	 * it is currently edited.
+	 */
+	public void unselectActiveItem() {
+		if (activeItem != null) {
+			activeItem.stopEditing();
+			unselect(activeItem.getGeo());
+		}
+		repaintView();
+	}
+
 	private void unselect(GeoElement geo) {
 		if (geo == null) {
 			return;
@@ -2071,8 +2084,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void resetItems(boolean unselectAll) {
-
 		MinMaxPanel.closeMinMaxPanel();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			return;
+		}
 
 		updateSelection();
 	}

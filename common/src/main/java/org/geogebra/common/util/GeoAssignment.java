@@ -212,7 +212,8 @@ public class GeoAssignment extends Assignment {
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
-			partRes.add(boolVal(macroOutput.isCongruent(possibleOutput[i])) ? Result.CORRECT
+			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
+					? Result.CORRECT
 					: Result.WRONG);
 		}
 		callsToEqual++;
@@ -239,10 +240,6 @@ public class GeoAssignment extends Assignment {
 		}
 	}
 
-	private static boolean boolVal(Boolean congruent) {
-		return congruent != null && congruent;
-	}
-
 	private boolean doProbabilisticChecking(GeoElement geoToRandomize,
 			GeoElement macroOutput, GeoElement[] possibleOutput, int i,
 			TreeSet<Result> partRes, boolean mayAdjustMoveableOutputs) {
@@ -264,7 +261,8 @@ public class GeoAssignment extends Assignment {
 					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		} else if (checkOp.equals("AreCongruent")) {
-			partRes.add(macroOutput.isCongruent(possibleOutput[i]) ? Result.CORRECT
+			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
+					? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;

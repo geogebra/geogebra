@@ -1299,6 +1299,50 @@ namespace giac {
   }
 #endif
 
+  static string idnt2mathml(const string & sorig){
+    string s0=sorig;
+    int n=int(s0.size()),j;
+    for (j=n-1;j>=2;--j){
+      if (s0[j]>32 && isalpha(s0[j]))
+	break;
+    }
+    string s=s0.substr(0,j+1),sadd;
+    if (j<n-1)
+      sadd=s0.substr(j+1,n-1-j);
+    switch (s.size()){
+    case 2:
+      if (s=="mu" || s=="nu" || s=="pi" || s=="xi" || s=="Xi")
+	return "&"+s+';'+sadd;
+      if (s=="im")
+	return "&Im"+s+';'+sadd;
+      if (s=="re")
+	return "&Re"+sadd;
+      break;
+    case 3:
+      if (s=="chi" || s=="phi" || s=="Phi" || s=="eta" || s=="rho" || s=="tau" || s=="psi" || s=="Psi")
+	return "&"+s+';'+sadd;
+      break;
+    case 4:
+      if (s=="beta" || s=="zeta")
+	return "&"+s+';'+sadd;
+      break;
+    case 5:
+      if (s=="alpha" || s=="delta" || s=="Delta" || s=="gamma" || s=="Gamma" || s=="kappa" || s=="theta" || s=="Theta" || s=="sigma" || s=="Sigma" || s=="Omega" || s=="omega" || s=="aleph")
+	return "&"+s+';'+sadd;      
+      break;
+    case 6:
+      if (s=="lambda" || s=="Lambda" || s=="approx")
+	return "&"+s+';'+sadd;      
+      break;
+    case 7:
+      if (s=="epsilon" || s=="product")
+	return "&"+s+';'+sadd;      
+      break;
+    }
+    return s0;
+  }
+
+
   string gen2mathml(const gen &e, string &svg,GIAC_CONTEXT){
     string part_re="", part_im="<mi>i</mi>";
     if (e.type==_SYMB && e._SYMBptr->sommet==at_sum)
@@ -1347,7 +1391,7 @@ namespace giac {
 	return "<mi>&pi;</mi>";
       if (e==undef)
 	return "<mi>undef</mi>";
-      return  "<mi>"+e.print(contextptr)+"</mi>";
+      return  "<mi>"+idnt2mathml(e.print(contextptr))+"</mi>";
     case _SYMB: {
       gen tmp=aplatir_fois_plus(e);
       if (tmp.type!=_SYMB)

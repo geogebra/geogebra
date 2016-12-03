@@ -106,7 +106,7 @@ public class CmdSetColor extends CmdScripting {
 			int blue = MyDouble.normalize0to255(blueD);
 
 			EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-			view.setBackground(AwtFactory.prototype.newColor(red, green, blue));
+			view.setBackground(GColor.newColor(red, green, blue));
 			view.updateBackground();
 
 			return null;
@@ -199,10 +199,10 @@ public class CmdSetColor extends CmdScripting {
 						.normalize0to255(((NumberValue) arg[3]).getDouble());
 
 				if (background)
-					arg[0].setBackgroundColor(AwtFactory.prototype.newColor(
+					arg[0].setBackgroundColor(GColor.newColor(
 							red, green, blue));
 				else
-					arg[0].setObjColor(AwtFactory.prototype.newColor(red,
+					arg[0].setObjColor(GColor.newColor(red,
 							green, blue));
 
 				arg[0].updateRepaint();

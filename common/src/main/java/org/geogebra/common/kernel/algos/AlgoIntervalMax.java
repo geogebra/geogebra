@@ -32,6 +32,6 @@ public class AlgoIntervalMax extends AlgoIntervalAbstract {
 		result.setValue(interval.getMax());
 	}
 
-	// TODO Consider locusequability
+	
 
 }

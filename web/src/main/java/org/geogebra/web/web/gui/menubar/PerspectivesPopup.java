@@ -2,9 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -108,14 +106,13 @@ public class PerspectivesPopup {
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
-		if (defaultPerspectives[i] == null) {
+		if (Layout.getDefaultPerspectives(i) == null) {
 			return;
 		}
 		final int index = i;
-		final int defID = defaultPerspectives[i].getDefaultID();
+		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
 		HorizontalPanel rowPanel = addPerspectiveRow(icon,
-				defaultPerspectives[i].getId(), index, defID);
+				Layout.getDefaultPerspectives(i).getId(), index, defID);
 		if (activePerspective == index) {
 			Log.debug("activePerspective: " + activePerspective);
 			rowPanel.addStyleName("perspectiveHighlighted");

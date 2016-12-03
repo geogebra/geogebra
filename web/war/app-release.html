@@ -14,6 +14,9 @@ if (!window.console.log) window.console.log = function () { };
 var latestVersion="5.0.282.0";
 var module = "web3d";
 var lookAndFeel = "";
+var prerelease = false;
+var startDelay = 0;
+var analyticsVersion = 'V'+latestVersion;
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>			
@@ -70,30 +73,6 @@ var lookAndFeel = "";
 		var ret = document.createElement("div");
 		ret.className = styleName;
 		return ret;
-	}
-	
-	
-	function checkCookie(value, lang){
-	
-		login = {
-				"request" : {
-					"login" : {
-						"cookie" : value,
-						"getuserinfo" : "false",
-						"image" : "true",
-					},
-					"api" : "1.0.0"
-				}
-			};
-		var xhr = new XMLHttpRequest();
-		xhr.open("POST", loginAPI);
-		xhr.onreadystatechange = function() {
-			if (xhr.readyState == 4 && xhr.response) {
-				//	displayUser(xhr.response, null, lang);
-				}
-			
-		};
-		xhr.send(JSON.stringify(login));
 	}
 
 	function getLocalStorage(key){
@@ -161,6 +140,19 @@ var lookAndFeel = "";
 		}
 		return ret;
 	}
+	
+	function setPickerLabels(dict){
+		button("graphing",1).innerHTML=dict["GraphingCalculator"] || "Graphing Calculator";
+		button("geometry",2).innerHTML=dict["Perspective.Geometry"] || "Geometry";
+		button("cas",4).innerHTML=dict["Perspective.CAS"] || "CAS";
+		button("spreadsheet",3).innerHTML=dict["Perspective.Spreadsheet"] || "Spreadsheet";
+		button("perspective3d",5).innerHTML=dict["GeoGebra3DGrapher.short"] || "3D Grapher";
+		button("probability",6).innerHTML=dict["Perspective.Probability"] || "Probability";
+		button("whiteboard",7).innerHTML=dict["Perspective.Whiteboard"] || "Whiteboard";
+		button("tutorials",0).innerHTML=dict["Tutorials"] || "Tutorials";
+		button("exam","exam").innerHTML=dict["exam_menu_entry"] || "Exam";			
+		e("create").innerHTML=dict["CreateYourOwn"] || "GeoGebra Math Apps";
+	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
 		e("ggbPage").style.display="";
@@ -169,32 +161,14 @@ var lookAndFeel = "";
 			return;
 		}
 		var props = __GGB__keysVar[lang];
-			button("graphing",1).innerHTML=props.menu["GraphingCalculator"];
-			button("geometry",2).innerHTML=props.menu["Perspective.Geometry"];
-			button("cas",4).innerHTML=props.menu["Perspective.CAS"];
-			button("spreadsheet",3).innerHTML=props.menu["Perspective.Spreadsheet"];
-			button("perspective3d",5).innerHTML=props.menu["GeoGebra3DGrapher.short"];
-			button("probability",6).innerHTML=props.menu["Perspective.Probability"];
-			button("tutorials",0).innerHTML=props.menu["Tutorials"];
-			button("exam","exam").innerHTML=props.menu["exam_menu_entry"];
-			//e("search").innerHTML=props.menu["search_geogebra_materials"];
-			e("create").innerHTML=props.menu["CreateYourOwn"];
+		setPickerLabels(props.menu);
 
 			//console.trace();
 	}
 	
 	function showInEnglish(){
 			if(!window.__GGB__keysVar){
-				button("graphing",1).innerHTML="Graphing Calculator";			
-				button("geometry",2).innerHTML="Geometry";
-				button("cas",4).innerHTML="CAS";
-				button("spreadsheet",3).innerHTML="Spreadsheet";
-				button("perspective3d",5).innerHTML="3D Grapher";
-				button("probability",6).innerHTML="Probability";
-				button("tutorials",0).innerHTML="Tutorials";
-				button("exam","exam").innerHTML="Exam";
-				//e("search").innerHTML="Search GeoGebra materials";
-				e("create").innerHTML="GeoGebra Math Apps";
+				setPickerLabels({});
 	
 				e("ggbPage").style.display="";
 			}
@@ -288,7 +262,9 @@ var app = document.createElement("script");
 		
 		app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-		document.head.appendChild(app);	
+		window.setTimeout(function(){
+		document.head.appendChild(app);
+			},startDelay);
 }
 	function isLocalhost(){
 		return location.protocol.match(/(app|file):/) || location.host.match(/^([0-9:.]*|(autotest|deploy).geogebra.org|localhost)$/);
@@ -328,11 +304,25 @@ var app = document.createElement("script");
 		})();
 		window.GGBT_offlineRequestHandler.initServiceWorker();
 	}
-
+	function setPrerelease(prereleaseParam){
+		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
+		e("ggw").setAttribute("data-param-showlogging",true);
+		e("whiteboardRow").style.display="block";		
+	}
+	
+	function getPerspective(){
+		if(getURLparam("perspective")){
+			return getURLparam("perspective");			
+		}
+		if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
+		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
+			return location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
+		}
+	}
 	function checkLogin(){
 		installWorker();
 		var tubeid = getURLparam("id");
-		var codebase = "https://d2lanadgwinn45.cloudfront.net/"+latestVersion+"/";
+		var codebase = "https://cdn.geogebra.org/"+latestVersion+"/";
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}
@@ -348,17 +338,19 @@ var app = document.createElement("script");
 				e("ggw").setAttribute("data-param-laf",lookAndFeel);
 			}
 			if(location.host.indexOf("beta") == 0){
-				e("ggw").setAttribute("data-param-prerelease",true);
-				e("ggw").setAttribute("data-param-showlogging",true);
+				setPrerelease("true");
+				
 			}
 			if(location.host.indexOf("alpha") == 0){
-				e("ggw").setAttribute("data-param-prerelease","canary");
+				setPrerelease("canary");
 				e("ggw").setAttribute("data-param-materialsApi",location.protocol+"//"+location.host+"/api/json.php");
 				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
 				codebase = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
 			}
 			if(isLocalhost()){
-				//e("ggw").setAttribute("data-param-prerelease",true);
+				if(prerelease){
+					setPrerelease(prerelease);
+				}
 				e("ggw").setAttribute("data-param-showlogging",true);
 				codebase = "./";
 			}
@@ -393,14 +385,9 @@ var app = document.createElement("script");
 				return;
 			}
 		}
-		else if(getURLparam("perspective")){
-			perspective(getURLparam("perspective"));
-			insertScript(codebase);
-			return;
-		}if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
-		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
+		else if(getPerspective()){
 			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1,'whiteboard':7};
-			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
+			var pName = getPerspective();
 			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){
 					e("perspectivesBox").style.display = "none";
@@ -410,6 +397,7 @@ var app = document.createElement("script");
 			else{
 				perspective(names[pName],pName);
 			}
+			document.body.className += " "+pName;
 			insertScript(codebase);
 			showStartScreen(codebase);
 			return;
@@ -446,21 +434,17 @@ document.isChromeWebapp = function isChromeWebapp() {
 
     <!-- Google Analytics (Start) -->
 	<script type="text/javascript">
-
-		var _gaq = _gaq || [];
-		_gaq.push(['_setAccount', 'UA-1780044-1']);
-		_gaq.push(['_setDomainName', 'geogebra.org']);
-		_gaq.push(['_setAllowLinker', true]);
-		_gaq.push(['_trackPageview']);
-		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
-
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript';
-			ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(ga, s);
-		})();
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	if(window.installAnalytics){
+		window.installAnalytics('UA-1780044-1');
+	} else {
+		ga('create','UA-1780044-1','auto');
+	}
+	ga('send', 'pageview');
+	ga('send', 'event', 'Startup', analyticsVersion, 'Math Apps');
 	</script> 
  	<!-- Google Analytics (End) -->
     <script>
@@ -706,6 +690,48 @@ background-color:#f8f8f8;
 border:1px solid #dcdcdc
 }
 
+.toolBPanel.cas{
+ display:none;
+}
+
+/** perspective specific */
+.exam-simple .startScreen .toolBPanel, .exam-simple .startScreen.splitter  {
+    display: none;
+}
+
+.exam-simple  .NewRadioButtonTreeItemParent.startScreen  {
+    width: 100%;
+}
+
+.cas  .NewRadioButtonTreeItemParent.startScreen, .exam-cas  .NewRadioButtonTreeItemParent.startScreen  {
+    width: 50%;
+}
+
+.cas .startScreen.splitter, .exam-cas .startScreen.splitter  {
+    left: 50%;
+}
+
+.whiteboard .startScreen.splitter  {
+    display: none;
+}
+
+.cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
+ display:block;
+}
+
+.cas .startScreen .toolBPanel.graphics, .exam-cas .startScreen .toolBPanel.graphics{
+ display:none;
+}
+
+.exam-simple .startScreen .rightButtonPanel img:nth-child(1),
+.exam-cas .startScreen .rightButtonPanel img:nth-child(1),
+.exam-graphing .startScreen .rightButtonPanel img:nth-child(1),
+.exam .startScreen .rightButtonPanel img:nth-child(1){
+    display: none;
+}
+
+
+
 /** OLD STUFF */
 
 
@@ -731,7 +757,7 @@ z-index:501;
 
     <div id="ggbHeader" class="GeoGebraFrame">
         <div class="startScreen toolbarPanel">
-            <div class="toolBPanel">
+            <div class="toolBPanel graphics">
 			<ul>
 			<li class="toolbar_item">
                  <div class="toolbar_button" style="border-width: 1px;">
@@ -786,7 +812,62 @@ z-index:501;
 				 </li>
 				 </ul>
             </div>
-
+			<div class="toolBPanel cas">
+			<ul>
+			<li class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAXklEQVR42u3TwQ3AMAhDUUZjs4zCKIzCKFReAQ5pqx/JR0cvkmN9+RgAAAAAAHg9oKo6M0dRdw0457SZjaLuGqCX6KJJ1GWEa0BEtLuPou73R3j9GzJCAAAAAPg94AHBz0iglw7UuQAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				  <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA00lEQVR42u2UYQ3EIAxGkYAkJEwCEnCAhEmYhEmYBCQgAQld3pLer20sx5LLJW3SLITSPvp1OPmxOQMwAAMwAAP4C4DWmszzLCGEj6eUZF3XyzPE55zHAUop4r0X59ypsxdjlGVZZNu24wsge68AkIQiJKYTWK31WE/TdAkGhMYPAdBmunBn3BxQnNb34r8aQpJqERywuxsST5eGASiimp45MlAIWVQeAF+dAZIxaNxaB411bzifSNEFQNO7Vqr++nvSEc48GUB7CQ3AAAzAAAwA2wEmKUTvSni54gAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAlklEQVR42u3V4Q3AEBCG4RvBKEaykRGMYBQjGMEI1/SHpD8qPRzS5DOA94kciA8vAgAAAABYuXnO+RwghMBExDHG/YAaN8ZwSmkvoCeuDuiNqwJG4iKA955LKUvin4C6sbW2iZiJi07AOddEzMbFM/CG0Ih3DeETcc+FRrz7FlSEVnzoGt4IrfjwOyD5ZPAdAwAAAL8BXBkQeL4dxvmVAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li> <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABd0lEQVR42u2WbRGDMAxAKwEJk4CESZgEnCABCUhAAhKQgAQkdH1wYd2WcBQG+0Pvclu7NXnNV+v8n4e7AFI3dF3n27Z9W2P+KYcA1HXtnXOjxMZlLZafA1RVNSrOskwFSDn1JgBxbVmWJgBCiA7NAQtAPIMURXE+gBiVUK0NyW6AYRhGY3zOSsPv/O80D7DW9/0MdCpA0zSzQYwTCuYCdDgAQ4yK0C9Ob8Wc+DMXrsvoAtgOQAmFjubJ5pXlpOqgG8ai6PoGCHXtKbPbzYcGP8mWm45GhJ5YlOb0DZDnk3HKCeH7/b4dIDkEnDa+UgHaA8Ah0Gn0B7eo4PGYQkBYlMaTBzhEfQOwX0IIiKHHBsD1bMQDigFpyebFg9fYL6dnjs6kMiRrjRyQSwhplJON0DG4kRNOdV2c9QvJhOvNJxglHF9KqwGIlVQBypkThtQh+SP1b3jSqeSSONIPEh+acwgkj0TPqkY0PWte3WvvAGRBz3UZ/R3gCbgS1CUS5NvUAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li> <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABOklEQVR42u1WbQ2EMAytBCQgAQlIQAIScICESUAKEpCABCTsePu4g7ULy+W48WNNCGHrXt/atw7SmY0KgUKgEDh9LYt9BJvnWa/regkIH/iKJuB/CGyb1lWlddeJwYlIT9N0SQA+8BVJABsxEIsRUGr/IiAI6zoDmpoB+HbCRgw2YiAWI9A0dvLAziZmM4AN5hMNvlizBVgGGzEOWORos4kwpcMwJBOAb7RkfqMum3RKTd8z/34fS61/SLoX8EyMQ6ktgXG0g3gH1rZtXFQR86LFWmZBLHqrMyJAAKUKMBQiHmZe7E6k5LZpB4VdRoGuGkxsHWJg3GXnIQR8CQ7n878lyC5CfwyF7vXzYxgI/tyI6vr+RoQYrBHd1IqZbqKt+BGXUcJ1rIRTwkWuvryOs/+QlH/CQqAQyGQvpeC1hynbsGYAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li> <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFUlEQVR42u2XYQ2EMAyFJwEJk4AEJCABCThAAhKQgAQkIAEJSNj1MZZ0EHa5sdEfx5KGQAj79vq6DmWEh3oBvBt1jqp6EGCa/ND6YQA+lsUq0PdCAG1rAdZVCKAojKlroSoYBrv6cRQCgPGggP+sonSs+QGc+eABPkaSoyzL5BDqynwAOadm2JTICjDPdg+4Gl3XmaZpPKjHt2IAtCQVrorkmkLEOQDgg4JciskRd9KiYiaHGd3kLmJV+BlgIXdixUeAWBWi2zHMmEKFW+eBmUqGp0O7/h0KtFgGmuRAwtX4Wpb0bnKATQ1amd5DBMDsvQL7Q1CFnAC8VEUBxFLwAvw5AOofH/8WAM0CcPyrCQUr0/fn9ANm4SCMpNgzKQAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA1klEQVR42u2V4Q2DIBCFbwRGYARGcARHcAQ2cARGcARGcARGYARGoHmktIhV+VFpmtwlFwXNvc/jXaT44yAGYAAGYAAGKBfe+zgMQ8plWTYvGmPSvtb63g5AiIiiECIBIZxzrz3c72Jd2/NZ8/QIxnFMgkqpGEKIUsq0rrvyrkLtOc/XAKVovk7T1NeEue25E92nIHuh9kOXIyhNV/vhY6Boa8KIZwAQgTBErbUbP9zhgx0AZh1i5byXfjichG8A4IsBgLbX7Ybw0TP+FzAAAzAAA/w1wAMBBTL/u/S70AAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li> 
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABIklEQVR42u2VAQ2DMBBFKwEJSEACEpCABBwgAQlIQAISkIAEJNzuX1d2dG0gZMuy5C5pBqXtf/39zRz9uJwBGIABGIAB6Jd1Xamua2njOB4GDsMg/V3XfdcBCDnnqCgKAUIty7L34fmtto2o74kJX43Xoed8tbgfd3YETdOIYFVVvPZGZVnKe+zKXvyd6YjalggO8Tye4BueAYQxeI/WSAJo0fDbYvFcQQQuHM/T75g3IwAAm+frIQy2BydOCzsDJMRgc0JM+gB1BSBkIc5DsiCq7Q72h2MBEJxA3xUAHbo4D9kMxOGcJi8e8gCwRIZc6vwhDNGJF9F5yOYgB3bnGuKuQ0zfd52H7E34BAB2DADYHtsN4dw3+y8wAAMwAAP4a4AHk3IruTXzxwMAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwElEQVR42u2WUQ3EIAyGkYAEJCABCUhAAg6QgAQkIAEJSEACErh0CQ3JloVkjMvl2qQv/A//R1tIWftyMAIggJ8GyDm3lNKRtdZ9AGAshGiMMUylFOqlFDx/BUBrjQYAAuYjgDHmBLUU4OrWPaAVnPNDt9a+C+CcO2nee9RjjPsBxtmYGcxpAJh0MIQcW9DPQA8hoCalXPsKRuOrBB1K3oFmyr+8Atv+gbsZIAACIAAC+A+AvobB5kNbMQEQwNP4AJekAXsQe4W8AAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAxElEQVR42u3XUQ3FIAwFUCQgAQlIQAJScIAEJCABCUhAAhKQ0OWSNOF3by90WSDhm0Pp0jtFwksdwCcAMUay1pJSirz3NMbYBwghzIPXXWvdA+i9zwOBKKWQ1npWYlsFcs4TgCcQ6QEcLApwzr0DkFKSBdzp+r8C0PWigF+++wP4JqC1th+AWzNAZBwfwGsAmP8iAM4CiGAiAM4CTybhLQBiFsptjJm35yyIWLYFsDYdbyC2xXJUAO/NjfckBZ0/owNY1wXJ6zct5Ag+IwAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				  <li  class="toolbar_item">
+                 <div class="toolbar_button" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA1UlEQVR42u2WjQnEIAyFM4IjOIIjOIqbOIKjOIKjOIIjeDyhxSulFw/t/ZDCoxSj+VJjItUPPyQAAiAA70xyzlVr7ZO89/cBENHuFNJat+9bAEopDQB/IaXUZIxpwtgSACwMh4gUzq8EG9hyYVgAiPKV46MwZxpAzrkqpdjOYYs503MAUYUQ9uTrTwCEMW7kwwBwgL3Fe0u+o3qbJQDcLfhPgBgjGwC20wFGjuJIIgrA7wBsTYijkaY0VAk55Rg2y9ox6ntfgs8uJdweIHdCARCArwF4AHngGDLuBbjBAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 </ul>
+            </div>
             <div class="rightButtonPanel startScreen">
             
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABQElEQVR42tVX7Q2EIAx1hBvhRrgRHMER+OPHGG7ACDfCjXAjOIIjMIJnL5A0DaK0FSMJCQn6eG1fS6mquwxjzGMYhhomrIsc2rbtq+/7d9d1bp0LmTPsrYSep1jrD14OTqvmFQBaAScE7jyZJoQA1hGCk5hE5PBPChTcD9+okSBWjcz/LFtw2PLc/7EnWMJEVjiOG304+F4IqQZEFEI4c8QX2DeCumECTq77ahS/mksA44Cm7kPg8hB4Ec6XiZAWE04ei9OQAHwY7v+KCpEPgw0gOaFQKcVbl1HKGtjDlks1tEXiDwoKD9cxrFP9ghYJm9OQRAg58RXthWlDitKWDPZwiBJemVQ6JqhuexVuo3/UI3Egk1KhOp8EFXBxErEsipE4/RGzR0Jy66qQKCLIBImxKjUiJModTrulYo/anPEDuqonFd/0xkEAAAAASUVORK5CYII=" class="gwt-Image" draggable="false" style="width: 32px;">
@@ -802,35 +883,49 @@ z-index:501;
     	<div class=""><table  class=""><tbody>
 <tr class="dialogTop"><td class="dialogTopLeft"><div class="dialogTopLeftInner"></div></td><td class="dialogTopCenter"><div class="dialogTopCenterInner">
 		<div class="Caption perspectivesCaption" id="create">GeoGebra Math Apps</div></div></td><td class="dialogTopRight"><div class="dialogTopRightInner"></div></td></tr>
-		<tr class="dialogMiddle"><td class="dialogMiddleLeft"><div class="dialogMiddleLeftInner"></div></td><td class="dialogMiddleCenter"><div class="dialogMiddleCenterInner dialogContent"><div class="perspectivesMainPanel"><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
-		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABo0lEQVR42tVVO6qDUBB1CS7BJYifwsJgFXiFIqQI6QTxUwZSpXMBAYtUVi4hxVtAluAS7F774G3gvjnihRDuD7sEhgRznXNm5sy5lvWJn7qu+6IobOUh13WdIAgSxAYARtFJD1DSzvd9tt+fWBQljH5PBGibJK+qygUAfRfCA2EYukh+vT7ZMDB2v/8tQLvdV2/IPgdA27biyj3PO6dpvSTnUdcDqngaAnQAkB6gRDnaAuYc4HTqAPAwbNGTACbpASrNieN4acvl8s2Ts+PxOBtW8EvxUEqsLEskHdEWMM+yrFcO7oWcVkEyBvRsRmjaUygHzBUgYqp9ea1eOWB+QLSFeIb/mqYZFe9PGLIKYFIpAMnRQhEBbf85Q9WATFqITZYpIFkBco0MhcNe9T9rN1DngpwppAsJQ8pRFC3Sxgx1G2i0TIfDYcbyYQlhI0mSUiRQmKMr3cgOwBqJuZXcbj/LtsMoNw/4HYC7LQ9UIb07TAf8AjDCcbkhwrNQAS4pWXvOSokJbjtKOIM1TBHJyeaL7R4uBrGRFPeHlPnbDHrrEz//l7VBxK0QYiYAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="graphing">Graphing Calculator</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+		<tr class="dialogMiddle"><td class="dialogMiddleLeft"><div class="dialogMiddleLeftInner"></div></td><td class="dialogMiddleCenter"><div class="dialogMiddleCenterInner dialogContent"><div class="perspectivesMainPanel">
 
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABo0lEQVR42tVVO6qDUBB1CS7BJYifwsJgFXiFIqQI6QTxUwZSpXMBAYtUVi4hxVtAluAS7F774G3gvjnihRDuD7sEhgRznXNm5sy5lvWJn7qu+6IobOUh13WdIAgSxAYARtFJD1DSzvd9tt+fWBQljH5PBGibJK+qygUAfRfCA2EYukh+vT7ZMDB2v/8tQLvdV2/IPgdA27biyj3PO6dpvSTnUdcDqngaAnQAkB6gRDnaAuYc4HTqAPAwbNGTACbpASrNieN4acvl8s2Ts+PxOBtW8EvxUEqsLEskHdEWMM+yrFcO7oWcVkEyBvRsRmjaUygHzBUgYqp9ea1eOWB+QLSFeIb/mqYZFe9PGLIKYFIpAMnRQhEBbf85Q9WATFqITZYpIFkBco0MhcNe9T9rN1DngpwppAsJQ8pRFC3Sxgx1G2i0TIfDYcbyYQlhI0mSUiRQmKMr3cgOwBqJuZXcbj/LtsMoNw/4HYC7LQ9UIb07TAf8AjDCcbkhwrNQAS4pWXvOSokJbjtKOIM1TBHJyeaL7R4uBrGRFPeHlPnbDHrrEz//l7VBxK0QYiYAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="graphing">Graphing Calculator</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
+
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAzUlEQVR42mNgoAeYP/+/wMyZ/9fPmvV/Pxo2oIoFIMOB+D86nj79vwNVLAC5dtSCEWxBWlpaABD/h+L1IPUZGRkOSGINFPsAZDCSgSAL70PZ56kSRAkJCQJAw94jWQLGqamp4IwIpBOAeD8yBsr3kxQHaEGFEjTAIFMABRsyhllOigUFaBasp1oqArkQKYiQgyoAankDluDbT7QF0DAFabyPZtl9UPxQFETIQQOKTCzB1U9pPiiABkEBsh4k8YbRsmgIWEDzKpPmlT4tAQAWDW45MTTrlQAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="cas">CAS</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB6klEQVR42s1VPWvCUBT1J/Qn9CcUBEFwyOAkBARRyCIRMSo4BISA4PBAEAQhgyBkcis4OXQtdOskODsFOhQKBUHofPvOa57NZ2MbhQYuCUneOefed+59udx/vDqdzp1hGOY1CZ44waHX691eHJwDV3lQv28Sv2+uQeCORiuazXYgIJ6FcklwBuWLxTs5DtFwOAfJ7iLguq7foO6MPQhwBIiQBd8TPTNBt9tdDQYjWi4/TgSI8XgNkgME/AoQtYUVUZZ6va63222aTp8D4AgQehvOzq0zQF2kLkNRFMrn86RpjGz7LUIymTzKDb9NLQN+RCmgdj7fk2muBXippIl7sajwb/sICdagP1LBYcHvTTxy9SoVCgo1m0dqNLbiGST45ieAmETbevUmy1oGFhmGI1Sr6j21WiQCJLJc4SywHuVNVC/9/aXoVSgtFtUTuIxymQmScBbStpE5BVY0jf/nWm0oQCoVR6j2B97hG2PbSBaxtgWrv4GwEABpoWka+d0WCjtA4N9clAckSWFZGwHOVZrYv7jASA+MX9gsnG5SSN8HQM5orthOjetciIl1S8ogc9Hytv3yIwFK6dW4+pdj8ACSuExgQW88E2yd5ax15bgAIBSb5sTvDpZ57mO+e+eu620mnu2rnMFZr09ByapPfpTUtAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="geometry">Geometry</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB20lEQVR42uWVP2vCUBTF+xH8CH6E4D8ICAYEBSEQEAJBkWQwKjgEBEFwCAiCEMggCE7OnTq4Ftw6FZw7CR06FYRC59t3Xn0haaPWqlBo4CAZPL/knnNfbm7+zWWaptNut5NXMZckKamqKjWbzdVVAOl0eqXrOtm2DbmXNteYyDAMGo3uOYSNSrnUaBLMfAsAjH3/WUA2LJPE2YBMJuPn8wYJwHxOXP3+DPd3Z5lns1kJxrXaCymKQt3uIADMZu/U6TiAOGcFW6nMSdcfqVgsUq/nBQDI854A2LJmSSebp1IpU5ZVajTeOAAVHQwWEQDkuktA1iflIYKtVldkWUR4C03TuNlXAOQ4I0D8k4ItFGxuDpXLHq/oePwQC5hOX0Ue2k/MlVxO4cEKAGD1ep3PPA4ATSZrnsfRo4SNZo2RCHMINUVF0Zx9AAgZIY9DwToINmwOybIc2YF9wgPs8nD3BovGhM3RIuwA/ngMAGHTY48SZr6Ie3oAS6XStx04pN1Rso1UF+FisQDRtGUAQFWxA8Ph7UFTNAlBo8p4GLxFq9VaxLaIgTYC9LnJemQHMAZUFlBhBuFbgX1gv+bR7cYmAySOaRxuIbPtzsxF9391VIRBlmUFZlf7ZP7p6wNWj03ic68T4QAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="perspective3d">3D Graphics</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABWElEQVR42u2VIY7DMBBFe4TeJagsqCyoKMwkRmVGBZWMiiIVFFQpKVtUKaAH8AV6gaJlSyv1AtN8y47srJPdSE6XrKXRNJ74v9SeGc9m7xjnM82riurTiVTHWDO/D8wrM896YjU0WwAmGqOASbOADocnZRnXHs9mXuI3Y6WOrVaCyvLLrq1bgBUZAnBeUZpm2ncBELcgIa5tfBQA4lgMHwLAENts1HgAFkEAXw8PUBcg5Y3yXHr/cBTA7i08nl0AgBCGuWfkAph52bPjkdK+2HZ7qYUoVShmPoy5WRRMRe+lzuCcy6Io1K/qwE3F9frD26KoAIgvFul0ADen/wHe6MsipCKEQgbxxn8OxNmPdYA8h1DIjPhjIL7/tkWoUpT8ZGeAZoV+gq44CWC3u+tasA0rOgBNa7nM24YVHZAkiXdpxExTfWXigGHYqqiAoUu/bw3y3EvFvxovxBc9s4YlQz4AAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="spreadsheet">Spreadsheet</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABS0lEQVR42uWWvW3DMBCFPUJGyAiBpB1ceQMXbPRjwIVaAS4EeABVNmA3rlNnAI2gEQRkARVBaoZfQAr6cSyRUZUIeABx9/jenXQktFr9mydJkucoinLAelHxMAxflHCz32cSsCa2ZOVNlt3k5SK/wZrYIp2oSss0Pcrz+bM1YE2M3G/FhapUFsV7K25AjBwcJ3EhxBOv4XB4HYkbkIMD19qAadnt0t6rGYIcHLhO1ef524/iBnCsu9Dz3pxOH9WUARy4Vl0ocs2G61WWUwZwdEG11eQw43MN9FmZN1FUEsfxjfVcA7jsmexCEVJTva2B6QKNh/dN92PZGHSHY3RP6bHkw1bduK2BNmGq6t7YcqeQGM6yi4EuturdU7R276C4GHRMps+Fq8HoCYKg8H2/HGK93jabTSQfAc69vWi2Bp7nCRXIlwSaf+Nn4QuFXH9fFe9Y2wAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="probability">Probability</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow" id="whiteboardRow" style="display:none"><tbody><tr><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAArElEQVR42mNgoAdIS0tjTU1NTUpPT98BZB+gBIPMAJkFMhNuAVTgGJB2B9IalGCgBa5AfAhkJtwCqK3u1AoRoFn2IDORgwjkPQ1qWZCRkaEAMnPUglELRi0YdhZkZua/y8oqekUNnJlZ8BbDgokTn/+fOfM/VfDkyW/+j1pAmgWgyqG7+xrVLOjtvfUfpcIBVW9FRd3/e3pugm2nBIMMLy7u+49SZdK80qclAABJLH8ovBt5+AAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="whiteboard">Whiteboard</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
+
+<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABOUlEQVR42r1VOw6CQBDlCB7BI3AEj0ABBLuNpY00BktLY2wJwYbexiNwBCprjkBjP84zbGJQcAY/m7xks/tm5z/rOP9eQRC4jHIkXKkCYhRhGG4lALeVcaVekO/7M6nX4EJGE6aGhWKFghgyGgWIZ6HgI0Slo7XI87zJOy44Wo+dKIqmbdKMwHoDLmS05VrM54bS9Ep5Ti+BO3A04ex60SyX+14FuANHbX23/Far9OlxnGnLeajx6sViTYdDfQf2OBM3lkQBo9psTgbA/isKbIheJdGOh9EhsklmnAe8O49OcmvhYLPZJlOXaV+jHY9kgI8brTsqsoxmXJrVQ5lWOBs9Kuyw40embHHZ12i4A0c97GBRkpzqvoe7AFc7rmm3u5BUAbjiD8d+mRgFbJkIdmyIEv3zT//b6wbWa8kBL/WLbAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="exam">Exam Mode</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow upperBorder"><tbody><tr><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="exam">Exam</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
+<table  class="perspectivesRow upperBorder"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="tutorials">Tutorials</div></td></tr></tbody></table></div></div></td><td class="dialogMiddleRight"><div class="dialogMiddleRightInner"></div></td></tr><tr class="dialogBottom"><td class="dialogBottomLeft"><div class="dialogBottomLeftInner"></div></td><td class="dialogBottomCenter"><div class="dialogBottomCenterInner"></div></td><td class="dialogBottomRight"><div class="dialogBottomRightInner"></div></td></tr></tbody></table></div>
     </div>
@@ -849,7 +944,7 @@ z-index:501;
 </div>
     <article id="ggw"
     data-param-useBrowserForJS="false"
-    data-param-app="true" data-param-showAppsPicker="true"></article>
+    data-param-app="true" data-param-showAppsPicker="true" data-param-showlogging="true" ></article>
 </body>
 </html>
 

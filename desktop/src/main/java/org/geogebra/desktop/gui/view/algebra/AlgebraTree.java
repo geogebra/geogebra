@@ -22,7 +22,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * JTree for objects
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public class AlgebraTree extends JTree {

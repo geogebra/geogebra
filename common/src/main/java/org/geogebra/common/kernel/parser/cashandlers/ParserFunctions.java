@@ -82,89 +82,101 @@ public class ParserFunctions {
 		put(1, "Ctgh", Operation.COTH, null);
 
 		put(1, "asind", Operation.ARCSIND);
+		put(1, "arcsind", Operation.ARCSIND);
+		put(1, "arcSind", Operation.ARCSIND);
+		put(1, "ArcSind", Operation.ARCSIND, null);
+
 		put(1, "acosd", Operation.ARCCOSD);
+		put(1, "arccosd", Operation.ARCCOSD);
+		put(1, "arcCosd", Operation.ARCCOSD);
+		put(1, "ArcCosd", Operation.ARCCOSD, null);
+
 		put(1, "atand", Operation.ARCTAND);
+		put(1, "arctand", Operation.ARCTAND);
+		put(1, "arcTand", Operation.ARCTAND);
+		put(1, "ArcTand", Operation.ARCTAND);
+
 		put(2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
+		put(2, "arctan2d", Operation.ARCTAN2D, "( <y>, <x> )");
+		put(2, "arcTan2d", Operation.ARCTAN2D, null);
+		put(2, "ArcTan2d", Operation.ARCTAN2D, null);
 
 		put(1, "asin", Operation.ARCSIN);
 		put(1, "aSin", Operation.ARCSIN, null);
-		put(1, "acos", Operation.ARCCOS);
-		put(1, "aCos", Operation.ARCCOS, null);
-		put(1, "atan", Operation.ARCTAN);
-		put(1, "aTan", Operation.ARCTAN, null);
-
 		put(1, "Asin", Operation.ARCSIN, null);
 		put(1, "ASin", Operation.ARCSIN, null);
-		put(1, "Acos", Operation.ARCCOS, null);
-		put(1, "ACos", Operation.ARCCOS, null);
-		put(1, "Atan", Operation.ARCTAN, null);
-		put(1, "ATan", Operation.ARCTAN, null);
-
 		put(1, "arcsin", Operation.ARCSIN);
 		put(1, "arcSin", Operation.ARCSIN, null);
-		put(1, "arccos", Operation.ARCCOS);
-		put(1, "arcCos", Operation.ARCCOS, null);
-		put(1, "arctan", Operation.ARCTAN);
-		put(1, "arcTan", Operation.ARCTAN, null);
-
 		put(1, "arsin", Operation.ARCSIN, null);
 		put(1, "arSin", Operation.ARCSIN, null);
-		put(1, "arcos", Operation.ARCCOS, null);
-		put(1, "arCos", Operation.ARCCOS, null);
-		put(1, "artan", Operation.ARCTAN, null);
-		put(1, "arTan", Operation.ARCTAN, null);
-
 		put(1, "Arcsin", Operation.ARCSIN, null);
 		put(1, "ArcSin", Operation.ARCSIN, null);
+
+		put(1, "Acos", Operation.ARCCOS, null);
+		put(1, "ACos", Operation.ARCCOS, null);
+		put(1, "acos", Operation.ARCCOS);
+		put(1, "aCos", Operation.ARCCOS, null);
+		put(1, "arccos", Operation.ARCCOS);
+		put(1, "arcCos", Operation.ARCCOS, null);
+		put(1, "arcos", Operation.ARCCOS, null);
+		put(1, "arCos", Operation.ARCCOS, null);
 		put(1, "Arccos", Operation.ARCCOS, null);
 		put(1, "ArcCos", Operation.ARCCOS, null);
+
+		put(1, "atan", Operation.ARCTAN);
+		put(1, "aTan", Operation.ARCTAN, null);
+		put(1, "Atan", Operation.ARCTAN, null);
+		put(1, "ATan", Operation.ARCTAN, null);
+		put(1, "arctan", Operation.ARCTAN);
+		put(1, "arcTan", Operation.ARCTAN, null);
+		put(1, "artan", Operation.ARCTAN, null);
+		put(1, "arTan", Operation.ARCTAN, null);
 		put(1, "Arctan", Operation.ARCTAN, null);
 		put(1, "ArcTan", Operation.ARCTAN, null);
 
+
 		put(1, "asinh", Operation.ASINH);
 		put(1, "aSinh", Operation.ASINH, null);
-		put(1, "acosh", Operation.ACOSH);
-		put(1, "aCosh", Operation.ACOSH, null);
-		put(1, "atanh", Operation.ATANH);
-		put(1, "aTanh", Operation.ATANH, null);
-
 		put(1, "Asinh", Operation.ASINH, null);
 		put(1, "ASinh", Operation.ASINH, null);
-		put(1, "Acosh", Operation.ACOSH, null);
-		put(1, "ACosh", Operation.ACOSH, null);
-		put(1, "Atanh", Operation.ATANH, null);
-		put(1, "ATanh", Operation.ATANH, null);
-
-		put(1, "arcsinh", Operation.ASINH);
-		put(1, "arcSinh", Operation.ASINH, null);
-		put(1, "arccosh", Operation.ACOSH);
-		put(1, "arcCosh", Operation.ACOSH, null);
-		put(1, "arctanh", Operation.ATANH);
-		put(1, "arcTanh", Operation.ATANH, null);
-
-		put(1, "arsinh", Operation.ASINH, null);
-		put(1, "arSinh", Operation.ASINH, null);
-		put(1, "arcosh", Operation.ACOSH, null);
-		put(1, "arCosh", Operation.ACOSH, null);
-		put(1, "artanh", Operation.ATANH, null);
-		put(1, "arTanh", Operation.ATANH, null);
-
 		put(1, "Arcsinh", Operation.ASINH, null);
 		put(1, "ArcSinh", Operation.ASINH, null);
+		put(1, "arsinh", Operation.ASINH, null);
+		put(1, "arSinh", Operation.ASINH, null);
+		put(1, "arcsinh", Operation.ASINH);
+		put(1, "arcSinh", Operation.ASINH, null);
+
+		put(1, "acosh", Operation.ACOSH);
+		put(1, "aCosh", Operation.ACOSH, null);
+		put(1, "Acosh", Operation.ACOSH, null);
+		put(1, "ACosh", Operation.ACOSH, null);
+		put(1, "arccosh", Operation.ACOSH);
+		put(1, "arcCosh", Operation.ACOSH, null);
+		put(1, "arcosh", Operation.ACOSH, null);
+		put(1, "arCosh", Operation.ACOSH, null);
 		put(1, "Arccosh", Operation.ACOSH, null);
 		put(1, "ArcCosh", Operation.ACOSH, null);
+
+		put(1, "arctanh", Operation.ATANH);
+		put(1, "arcTanh", Operation.ATANH, null);
+		put(1, "atanh", Operation.ATANH);
+		put(1, "aTanh", Operation.ATANH, null);
+		put(1, "Atanh", Operation.ATANH, null);
+		put(1, "ATanh", Operation.ATANH, null);
+		put(1, "artanh", Operation.ATANH, null);
+		put(1, "arTanh", Operation.ATANH, null);
 		put(1, "Arctanh", Operation.ATANH, null);
 		put(1, "ArcTanh", Operation.ATANH, null);
 
 		put(2, "atan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "Atan2", Operation.ARCTAN2, null);
 		put(2, "artan2", Operation.ARCTAN2, null);
-		put(2, "arctan2", Operation.ARCTAN2, null);
+		put(2, "arctan2", Operation.ARCTAN2, "( <y>, <x> )");
 		put(2, "Arctan2", Operation.ARCTAN2, null);
 		put(2, "aTan2", Operation.ARCTAN2, null);
 		put(2, "ATan2", Operation.ARCTAN2, null);
 		put(2, "arTan2", Operation.ARCTAN2, null);
-		put(2, "arcTan2", Operation.ARCTAN2, "( <y>, <x> )");
+		put(2, "arcTan2", Operation.ARCTAN2, null);
 		put(2, "ArcTan2", Operation.ARCTAN2, null);
 
 		put(1, "erf", Operation.ERF);
@@ -302,11 +314,12 @@ public class ParserFunctions {
 			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
 			"sech", "asin", "acos", "atan", "asinh", "acosh", "atanh", "real",
 			"imaginary", "conjugate", "fractionalPart" };
+	
 	/**
 	 * Updates local names of functions
 	 * 
-	 * @param app
-	 *            application
+	 * @param loc
+	 *            localization
 	 */
 	public void updateLocale(Localization loc) {
 		//reset is expensive, do not do that if we only have intl. function names so far
@@ -332,7 +345,7 @@ public class ParserFunctions {
 		if (size > MAX_ARGS)
 			return null;
 		Operation ret = stringToOp.get(size).get(s);
-		if (!this.inverseTrig) {
+		if (!this.inverseTrig || ret == null) {
 			return ret;
 		}
 		switch (ret) {
@@ -399,8 +412,8 @@ public class ParserFunctions {
 	}
 
 	/**
-	 * @param app
-	 *            app
+	 * @param loc
+	 *            localization
 	 * @param string
 	 *            translated function
 	 * @return English function name
@@ -431,8 +444,13 @@ public class ParserFunctions {
 		return "nroot".equals(string);
 	}
 
-	public void setInverseTrig(boolean b) {
-		this.inverseTrig = b;
+	/**
+	 * @param deg
+	 *            whether inverse trig functions should be replaced by deg
+	 *            variants
+	 */
+	public void setInverseTrig(boolean deg) {
+		this.inverseTrig = deg;
 
 	}
 }

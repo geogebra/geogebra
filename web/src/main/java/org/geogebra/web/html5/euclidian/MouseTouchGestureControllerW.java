@@ -106,7 +106,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetWidth() != 0) {
 			return v.getG2P().getCoordinateSpaceWidth()
-			        / v.getG2P().getOffsetWidth();
+					/ (float) v.getG2P().getOffsetWidth();
 		}
 		return 0;
 	}
@@ -115,7 +115,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetHeight() != 0) {
 			return v.getG2P().getCoordinateSpaceHeight()
-			        / v.getG2P().getOffsetHeight();
+					/ (float) v.getG2P().getOffsetHeight();
 		}
 		return 0;
 	}
@@ -123,10 +123,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private int getEnvXoffset() {
 		// return EuclidianViewXOffset;
 		// the former solution doesn't update on scrolling
-		return Math
-.round((((EuclidianViewWInterface) ec.view)
-		        .getAbsoluteLeft() - Window
-		        .getScrollLeft()));
+		return (((EuclidianViewWInterface) ec.view).getAbsoluteLeft()
+				- Window.getScrollLeft());
 
 	}
 
@@ -159,12 +157,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
-			GeoGebraProfiler.moveEventsIgnored--;
+			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onMouseMoveNow(waitingMouseMove, time, false);
 			return;
 		}
 		if (this.waitingTouchMove != null) {
-			GeoGebraProfiler.moveEventsIgnored--;
+			GeoGebraProfiler.decrementMoveEventsIgnored();
 			this.onTouchMoveNow(waitingTouchMove, time, false);
 		}
 
@@ -228,7 +226,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-		GeoGebraProfiler.drags++;
+		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
@@ -243,7 +241,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				        || waitingMouseMove != null;
 				this.waitingTouchMove = e;
 				this.waitingMouseMove = null;
-				GeoGebraProfiler.moveEventsIgnored++;
+				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
 					this.repaintTimer
 					        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
@@ -292,7 +290,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
 		// in SMART we actually get move events even if mouse button is up ...
-		if (!DRAGMODE_MUST_BE_SELECTED) {
+		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
 			ec.wrapMouseDragged(event, startCapture);
@@ -301,7 +299,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingTouchMove = null;
 		this.waitingMouseMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.dragTime += dragTime;
+		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
 			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
@@ -316,7 +314,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
-		DRAGMODE_MUST_BE_SELECTED = false;
+		dragModeMustBeSelected = false;
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();
 		}
@@ -391,10 +389,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		second.release();
 	}
 
-	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
+	private boolean dragModeMustBeSelected = false;
 	private int deltaSum = 0;
 	private int moveCounter = 0;
-	private boolean DRAGMODE_IS_RIGHT_CLICK = false;
+	private boolean dragModeIsRightClick = false;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
@@ -462,7 +460,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		PointerEvent e = PointerEvent.wrapEvent(event, this);
 		event.preventDefault();
-		GeoGebraProfiler.drags++;
+		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 
 		if (time < this.lastMoveEvent
@@ -470,8 +468,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			boolean wasWaiting = waitingTouchMove != null
 			        || waitingMouseMove != null;
 			this.waitingMouseMove = e;
-			this.waitingTouchMove = null;
-			GeoGebraProfiler.moveEventsIgnored++;
+			this.setWaitingTouchMove(null);
+			GeoGebraProfiler.incrementMoveEventsIgnored();
 			if (wasWaiting) {
 				this.repaintTimer
 				        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
@@ -484,20 +482,24 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		onMouseMoveNow(e, time, true);
 	}
 
+	private void setWaitingTouchMove(PointerEvent o) {
+		waitingTouchMove = o;
+	}
+
 	public void onMouseMoveNow(PointerEvent event, long time,
 	        boolean startCapture) {
 		this.lastMoveEvent = time;
-		if (!DRAGMODE_MUST_BE_SELECTED) {
+		if (!dragModeMustBeSelected) {
 			ec.wrapMouseMoved(event);
 		} else {
-			event.setIsRightClick(DRAGMODE_IS_RIGHT_CLICK);
+			event.setIsRightClick(dragModeIsRightClick);
 			ec.wrapMouseDragged(event, startCapture);
 		}
 		event.release();
 		this.waitingMouseMove = null;
 		this.waitingTouchMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
-		GeoGebraProfiler.dragTime += dragTime;
+		GeoGebraProfiler.incrementDragTime(dragTime);
 		if (dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH) {
 			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
 		}
@@ -522,7 +524,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
-		DRAGMODE_MUST_BE_SELECTED = false;
+		dragModeMustBeSelected = false;
 
 		// hide dialogs if they are open
 		// but don't hide context menu if we just opened it via long tap in IE
@@ -563,8 +565,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onPointerEventStart(AbstractEvent event) {
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)
 		        && (!ec.isTextfieldHasFocus())) {
-			DRAGMODE_MUST_BE_SELECTED = true;
-			DRAGMODE_IS_RIGHT_CLICK = event.isRightClick();
+			dragModeMustBeSelected = true;
+			dragModeIsRightClick = event.isRightClick();
 		}
 
 		ec.wrapMousePressed(event);

@@ -132,6 +132,6 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	// TODO Consider locusequability
+	
 
 }

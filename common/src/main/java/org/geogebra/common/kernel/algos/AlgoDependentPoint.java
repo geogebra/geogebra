@@ -136,7 +136,7 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 		}
 		return botanaVars;
 	}
-	// TODO Consider locusequability
+	
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {

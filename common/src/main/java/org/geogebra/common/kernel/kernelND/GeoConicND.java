@@ -57,9 +57,10 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
-/** Class for conic in any dimension.
+/**
+ * Class for conic in any dimension.
  * 
- * @author matthieu
+ * @author Mathieu
  *
  */
 public abstract class GeoConicND extends GeoQuadricND
@@ -88,11 +89,13 @@ public abstract class GeoConicND extends GeoQuadricND
 	public static final int EQUATION_CONICFORM = 6;
 
 	/** variable strings for default output */
-	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
+	final private static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x",
+			"y" };
 	/** variable strings for LaTeX output */
-	protected static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x", "y" };
+	final private static String[] varsLateX = { "x^{2}", "x y", "y^{2}", "x",
+			"y" };
 	/** variable strings for CAS output */
-	protected static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
+	final private static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
 	
 	/** enable negative sign of first coefficient in implicit equations*/
 	protected final static boolean KEEP_LEADING_SIGN = false;
@@ -1937,7 +1940,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	final public GAffineTransform getAffineTransform() {
 		if (transform == null)
-			transform = AwtFactory.prototype.newAffineTransform();
+			transform = AwtFactory.getPrototype().newAffineTransform();
 		return transform;
 	}
 
@@ -2646,7 +2649,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		// path parameters of all points on this conic.		
 		getAffineTransform();
 		if (oldTransform == null)
-			oldTransform = AwtFactory.prototype.newAffineTransform();
+			oldTransform = AwtFactory.getPrototype().newAffineTransform();
 		boolean eigenVectorsSame = 
 				Kernel.isEqual(transform.getScaleX(), oldTransform.getScaleX(), Kernel.MIN_PRECISION) ||
 				Kernel.isEqual(transform.getScaleY(), oldTransform.getScaleY(), Kernel.MIN_PRECISION) ||
@@ -3468,11 +3471,11 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		// implicit or specific mode
 		switch (toStringMode) {
-			case GeoConicND.EQUATION_SPECIFIC :
+		case GeoConicND.EQUATION_SPECIFIC:
 			Equation.appendType(sb, "specific");
 				break;
 
-			case GeoConicND.EQUATION_EXPLICIT :
+		case GeoConicND.EQUATION_EXPLICIT:
 			Equation.appendType(sb, "explicit");
 				break;
 		case GeoConicND.EQUATION_USER:
@@ -3486,7 +3489,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			break;
 				
 			default :
-			Equation.appendType(sb, "parametric");
+			Equation.appendType(sb, "implicit");
 		}
 
 	}
@@ -4125,15 +4128,15 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return true - if input is congruent with this conic false - otherwise
 	 */
 	@Override
-	public Boolean isCongruent(GeoElement geo) {
+	public ExtendedBoolean isCongruent(GeoElement geo) {
 		if (!geo.isGeoConic()) {
-			return false;
+			return ExtendedBoolean.FALSE;
 		}
 		GeoConicND conic = (GeoConicND) geo;
 		// Circles are congruent if their radius are of equal length:
 		if (this.isCircle() && conic.isCircle()) {
-			return (Kernel.isEqual(this.getCircleRadius(),
-					conic.getCircleRadius()));
+			return ExtendedBoolean.newExtendedBoolean((Kernel
+					.isEqual(this.getCircleRadius(), conic.getCircleRadius())));
 		}
 
 		// Two parabolas are congruent if they have the same distance between
@@ -4152,7 +4155,8 @@ public abstract class GeoConicND extends GeoQuadricND
 				d = (GeoLine) ge2[1];
 				double d2 = getKernel().getAlgoDispatcher()
 						.getNewAlgoClosestPoint(cons, d, F).getP().distance(F);
-				return (Kernel.isEqual(d1, d2));
+				return ExtendedBoolean
+						.newExtendedBoolean(Kernel.isEqual(d1, d2));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4178,7 +4182,8 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d1_ = F1.distance(F2);
 				double d2_ = F1.distance(P) + F2.distance(P);
 
-				return ((Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+				return ExtendedBoolean.newExtendedBoolean(
+						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4206,13 +4211,14 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d1_ = F1.distance(F2);
 				double d2_ = Math.abs(F1.distance(P) - F2.distance(P));
 
-				return ((Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+				return ExtendedBoolean.newExtendedBoolean(
+						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
 				// TODO: Consider unifying this case with the ellipse case.
 			}
 			// TODO: Handle the other case(s).
 		}
 
-		return false;
+		return ExtendedBoolean.FALSE;
 	}
 
 	/**

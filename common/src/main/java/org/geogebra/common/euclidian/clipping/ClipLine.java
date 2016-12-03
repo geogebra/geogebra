@@ -122,8 +122,8 @@ public class ClipLine {
 		if ((mask & OUTSIDE) == 0) {
 			// fine. everything's internal
 			GPoint2D[] ret = new GPoint2D[2];
-			ret[0] = AwtFactory.prototype.newPoint2D(x1, y1);
-			ret[1] = AwtFactory.prototype.newPoint2D(x2, y2);
+			ret[0] = AwtFactory.getPrototype().newPoint2D(x1, y1);
+			ret[1] = AwtFactory.getPrototype().newPoint2D(x2, y2);
 			return ret;
 		} else if ((mask & (H_CENTER | LEFT)) == 0 || // everything's right
 				(mask & (H_CENTER | RIGHT)) == 0 || // everything's left
@@ -179,18 +179,18 @@ public class ClipLine {
 
 		if (mask1 == INSIDE) {
 			// point 1 is internal
-			p1 = AwtFactory.prototype.newPoint2D((x1 + xhack), (y1 + yhack));
+			p1 = AwtFactory.getPrototype().newPoint2D((x1 + xhack), (y1 + yhack));
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
 				GPoint2D[] ret = new GPoint2D[2];
 				ret[0] = p1;
-				ret[1] = AwtFactory.prototype
+				ret[1] = AwtFactory.getPrototype()
 						.newPoint2D((x2 + xhack), (y2 + yhack));
 				return ret;
 			}
 		} else if (mask2 == INSIDE) {
 			// point 2 is internal
-			p1 = AwtFactory.prototype.newPoint2D((x2 + xhack), (y2 + yhack));
+			p1 = AwtFactory.getPrototype().newPoint2D((x2 + xhack), (y2 + yhack));
 		} else if (mask == 0) {
 			// shortcut: no point is inside, but both are in the same sector, so
 			// no intersection is possible
@@ -333,7 +333,7 @@ public class ClipLine {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
 			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
-				GPoint2D p = AwtFactory.prototype
+				GPoint2D p = AwtFactory.getPrototype()
 						.newPoint2D((x21 + mu * dx2 + xhack),
 								(y21 + mu * dy2 + yhack));
 				// System.out.println("p = "+p);

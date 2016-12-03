@@ -267,7 +267,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 
 
-	protected class PropertiesButton extends JToggleButton {
+	protected static class PropertiesButton extends JToggleButton {
 
 		// add(Box.createVerticalStrut(2
 		private static final long serialVersionUID = 1L;
@@ -306,7 +306,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	/**
 	 * Listeners that give the tool tip a custom initial delay = 0
 	 */
-	public class ToolTipMouseAdapter extends MouseAdapter {
+	public static class ToolTipMouseAdapter extends MouseAdapter {
 		private int defaultInitialDelay;
 		private boolean preventToolTipDelay = true;
 

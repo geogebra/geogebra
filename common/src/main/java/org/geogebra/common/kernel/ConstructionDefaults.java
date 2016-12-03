@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -123,51 +122,51 @@ public class ConstructionDefaults {
 			GeoGebraColorConstants.GGB_GREEN, GeoGebraColorConstants.GGB_RED,
 			GColor.BLUE, GeoGebraColorConstants.GGB_ORANGE,
 			GeoGebraColorConstants.GGB_PURPLE, GColor.BLACK,
-			GeoGebraColorConstants.GGB_GRAY,
- GeoGebraColorConstants.GGB_BROWN };
+			GeoGebraColorConstants.GGB_GRAY, GeoGebraColorConstants.GGB_BROWN };
 
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
 	public static final GColor colPoint = GColor.BLUE;
+
 	/** default color for dependent points */
 	public static final GColor colDepPoint = GColor.DARK_GRAY;
+
 	/** default color for points on path */
-	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE; // new
-																				// Color(125,
-																				// 125,
-																				// 255);
+	public static final GColor colPathPoint = GeoGebraColorConstants.LIGHTBLUE;
+
 	/** default color for points in region */
 	public static final GColor colRegionPoint = colPathPoint;
+
 	/** default color for complex numbers */
 	public static final GColor colComplexPoint = colPoint;
 
 	// lines
 	/** default color for lines */
 	private static final GColor colLine = GColor.BLACK;
+
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;
 
 	/** Color for conics **/
 	protected static final GColor colConic = GColor.BLACK;
+
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
 	// polygons
 	/** default color for polygons */
-	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN; // new
-																			// Color(153,
-																			// 51,
-																			// 0);
+	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN;
+
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
 	// angles
 	/** default color for angles */
-	private static final GColor colAngle = GeoGebraColorConstants.GGB_GREEN; // new
-																				// Color(0,
-																				// 100,
-																				// 0);
+	private static final GColor colAngle() {
+		return GeoGebraColorConstants.GGB_GREEN;
+	}
+
 	/** default alpha for angles */
 	public static final float DEFAULT_ANGLE_ALPHA = 0.1f;
 
@@ -182,10 +181,7 @@ public class ConstructionDefaults {
 	private static final GColor colFunction = GColor.BLACK;
 
 	// lists
-	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN; // new
-																			// Color(0,
-																			// 110,
-																			// 0);
+	private static final GColor colList = GeoGebraColorConstants.GGB_GREEN;
 
 	// quadrics
 	/** default alpha for quadrics */
@@ -195,10 +191,10 @@ public class ConstructionDefaults {
 
 	/** preview color */
 	public static final GColor colPreview = GColor.DARK_GRAY;
+
 	/** preview fill color */
-	public static final GColor colPreviewFill = AwtFactory.prototype
-			.newColor(colPolygon.getRed(), colPolygon.getGreen(),
-					colPolygon.getBlue(), (int) (DEFAULT_POLYGON_ALPHA * 255));
+	public static final GColor colPreviewFill = colPolygon
+			.deriveWithAlpha((int) (DEFAULT_POLYGON_ALPHA * 255));
 
 	// label visibility
 	/** label visible automatic */
@@ -424,7 +420,7 @@ public class ConstructionDefaults {
 		// angle.setLocalVariableLabel(app.getPlain("Angle"));
 		angle.setLocalVariableLabel("Angle");
 		angle.setSliderFixed(true);
-		angle.setObjColor(colAngle);
+		angle.setObjColor(colAngle());
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
 		angle.setDrawable(true, false);
 		angle.setDrawable(true, false);
@@ -509,8 +505,6 @@ public class ConstructionDefaults {
 								// element in the list
 								// see GeoList.setAlphaValue() and
 								// getAlphaValue()
-		// GGB-22
-		list.setBackgroundColor(GColor.WHITE);
 		list.setDefaultGeoType(DEFAULT_LIST);
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}

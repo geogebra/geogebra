@@ -15,7 +15,6 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.CASSettings;
@@ -76,7 +75,7 @@ public class OptionsCASD extends OptionsCAS
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(10, 1));
 
-		cbTimeout = new JComboBox(MyXMLHandler.cbTimeoutOptions);
+		cbTimeout = new JComboBox(OptionsCAS.cbTimeoutOptions);
 		cbTimeout.addActionListener(this);
 
 		timeoutLabel = new JLabel();
@@ -109,7 +108,8 @@ public class OptionsCASD extends OptionsCAS
 	 */
 	public void updateGUI() {
 		casSettings = app.getSettings().getCasSettings();
-		cbTimeout.setSelectedItem(MyXMLHandler.getTimeoutOption(casSettings
+		cbTimeout.setSelectedItem(OptionsCAS
+				.getTimeoutOption(casSettings
 				.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
 		cbShowNavigation.setSelected(app.showConsProtNavigation(App.VIEW_CAS));

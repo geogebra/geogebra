@@ -111,6 +111,6 @@ public class AlgoTakeString extends AlgoElement {
 
 	}
 
-	// TODO Consider locusequability
+	
 
 }

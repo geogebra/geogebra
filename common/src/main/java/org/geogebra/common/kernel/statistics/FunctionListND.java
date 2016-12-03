@@ -4,8 +4,9 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
+import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+//import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,8 +17,16 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Represents set of functions in linear regression. Collects functions and
+ * builds linear combinations of them.
+ * 
+ * @author Zbynek
+ */
 public interface FunctionListND {
-
+	/**
+	 * Linear combination of functions
+	 */
 	public class XY implements FunctionListND {
 
 		private GeoFunctionable[] array;
@@ -74,16 +83,19 @@ public interface FunctionListND {
 
 	}
 
+	/**
+	 * Linear combination of 2var functions
+	 */
 	public class XYZ implements FunctionListND {
 
-		private FunctionalNVar[] array;
+		private Evaluate2Var[] array;
 
 
 		public boolean set(int i, GeoElement geo) {
-			if (!(geo instanceof FunctionalNVar)) {
+			if (!(geo instanceof Evaluate2Var)) {
 				return false;
 			}
-			array[i] = (FunctionalNVar) geo;
+			array[i] = (Evaluate2Var) geo;
 			return true;
 		}
 
@@ -98,7 +110,7 @@ public interface FunctionListND {
 		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
 				GeoList functionlist, RealMatrix P) {
 			double p;
-			FunctionalNVar gf = null;
+			Evaluate2Var gf = null;
 			GeoFunctionNVar product = new GeoFunctionNVar(
 					template.getConstruction());
 
@@ -123,7 +135,7 @@ public interface FunctionListND {
 			return template;
 		}
 
-		private void add(GeoFunctionNVar res, GeoFunctionNVar lt,
+		private static void add(GeoFunctionNVar res, GeoFunctionNVar lt,
 				GeoFunctionNVar rt, Operation op) {
 			Kernel kernel1 = res.getKernel();
 			FunctionNVar fRes = GeoFunction.operationSymb(op, rt, lt)
@@ -137,10 +149,12 @@ public interface FunctionListND {
 
 		}
 
-		private void mult(GeoFunctionNVar res, double lt, FunctionalNVar rt,
+		private static void mult(GeoFunctionNVar res, double lt,
+				Evaluate2Var rt,
 				Operation op) {
 			Kernel kernel1 = res.getKernel();
-			FunctionNVar fRes = GeoFunction.applyNumberSymb(op, rt,
+			FunctionNVar fRes = GeoFunction
+					.applyNumberSymb(op, rt,
 					new MyDouble(kernel1, lt), false).deepCopy(kernel1);
 			fRes.setExpression(AlgoDependentFunction
 					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
@@ -153,23 +167,66 @@ public interface FunctionListND {
 		}
 
 		public void setSize(int size) {
-			array = new FunctionalNVar[size];
+			array = new Evaluate2Var[size];
 
 		}
 
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @param geo
+	 *            element
+	 * @return whether element has acceptable type
+	 */
 	boolean set(int i, GeoElement geo);
 
-	double evaluate(int c, GeoPointND point);
+	/**
+	 * @param i
+	 *            function index
+	 * @param point
+	 *            point used for evaluation
+	 * @return function value
+	 */
+	double evaluate(int i, GeoPointND point);
 
+	/**
+	 * Pick coord of the point that should be compared with value of the
+	 * regression function
+	 * 
+	 * @param point
+	 *            point
+	 * @return y or z coord of the point
+	 */
 	double extractValueCoord(GeoPointND point);
 
+	/**
+	 * Multiply functions from functionlist by coefficients from matrix p and
+	 * return sum of the results
+	 * 
+	 * @param fitfunction
+	 *            template function
+	 * @param functionlist
+	 *            list of functions
+	 * @param p
+	 *            coefficient matrix
+	 * @return linear combination
+	 */
 	CasEvaluableFunction makeFunction(CasEvaluableFunction fitfunction,
 			GeoList functionlist, RealMatrix p);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @return template function
+	 */
 	CasEvaluableFunction getTemplate(Construction cons);
 
+	/**
+	 * @param functionsize
+	 *            number of functions
+	 */
 	void setSize(int functionsize);
 
 }

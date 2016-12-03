@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Triangular[min,max,mode,value] Triangular[min,max,mode,value,cumulative]
  * Triangular[min,max,mode,x]
@@ -26,6 +28,8 @@ public class CmdTriangular extends CommandProcessor {
 	}
 
 	@Override
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	public GeoElement[] process(Command c2) throws MyError {
 		int n = c2.getArgumentNumber();
 		boolean ok, ok2 = true;

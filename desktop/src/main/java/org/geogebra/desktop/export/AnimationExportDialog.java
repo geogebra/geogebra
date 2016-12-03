@@ -180,7 +180,7 @@ public class AnimationExportDialog extends JDialog {
 
 	private RotOzSlider rotOzSlider;
 
-	private class RotOzSlider implements AnimationExportSlider {
+	private static class RotOzSlider implements AnimationExportSlider {
 
 		private String description;
 

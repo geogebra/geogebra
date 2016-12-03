@@ -137,9 +137,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			@Override
 			public void showStack(int index) {
 				super.showStack(index);
-				app.dispatchEvent(new org.geogebra.common.plugin.Event(
-						EventType.OPEN_MENU, null,
-						menus[index].getMenuTitle()));
+				dispatchOpenEvent();
 				app.getGuiManager().setDraggingViews(
 						isViewDraggingMenu(menus[index]), false);
 			}
@@ -415,5 +413,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	    this.menuPanel.add(this.userMenu, getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
     }
 
+	/**
+	 * Inform client listener about opening the menu
+	 */
+	public void dispatchOpenEvent() {
+		if (menuPanel != null) {
+			int index = menuPanel.getSelectedIndex();
+			app.dispatchEvent(new org.geogebra.common.plugin.Event(
+					EventType.OPEN_MENU, null, menus[index].getMenuTitle()));
+		}
+	}
 
 }

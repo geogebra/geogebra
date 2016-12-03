@@ -8,6 +8,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.geogebra.common.kernel.algos.SymbolicParameters;
+import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
@@ -16,6 +17,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.debug.Log;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * This class can prove a statement by a bounded number of checks. In this
@@ -66,6 +69,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	 * @param result
 	 *            the result of the test point.
 	 */
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
 	protected void writeResult(TestPointResult result) {
 		switch (result) {
 		case PASSED:
@@ -73,6 +78,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 			break;
 		case ERROR:
 			errorOccured = true;
+
+			// fall through
 		case FALSE:
 			stop = true;
 			coordinatesQueue.clear();
@@ -217,12 +224,12 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, values.get(v).longValue());
 				}
-				Boolean solvable = Polynomial.solvable(as.polynomials
+				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana (threaded): " + substitutions);
-				if (solvable) {
+				if (solvable.boolVal()) {
 					wrong = true;
 					break;
 				}
@@ -270,7 +277,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 	}
 
-	private final class PointTester implements Runnable {
+	private final static class PointTester implements Runnable {
 		HashMap<Variable, BigInteger> values;
 		Variable[] variables;
 		ProverReciosMethodD prover;

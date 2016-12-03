@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoIterationList.Type;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -75,7 +74,7 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
 	private GeoList[] over;
-	private boolean expIsFunctionOrCurve, isEmpty;
+	private boolean isEmpty;
 	private AlgoElement expressionParentAlgo;
 	AlgoIterationList.Type type;
 
@@ -93,7 +92,6 @@ public class AlgoIteration extends AlgoElement {
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
-		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
 
 		result = expression.copy();
 		setInputOutput(); // for AlgoElement
@@ -247,7 +245,7 @@ public class AlgoIteration extends AlgoElement {
 		return realInput;
 	}
 
-	// TODO Consider locusequability
+	
 
 	private void updateListItems() {
 		if (isEmpty)
