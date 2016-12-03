@@ -169,7 +169,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private int decimalToFraction(double dec, double AccuracyFactor,
 			long[] denom, int maxSteps) {
 		double FractionNumerator, FractionDenominator;
-		double DecimalSign;
 		double Z;
 		double PreviousDenominator;
 		double ScratchValue;
@@ -180,11 +179,6 @@ public class AlgoContinuedFraction extends AlgoElement {
 		if (dec == Double.POSITIVE_INFINITY || dec == Double.NEGATIVE_INFINITY) {
 			return -1;
 		}
-
-		if (dec < 0.0)
-			DecimalSign = -1.0;
-		else
-			DecimalSign = 1.0;
 
 		double decimal = Math.abs(dec);
 

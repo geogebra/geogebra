@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
@@ -11,7 +10,6 @@ import org.geogebra.common.util.Unicode;
  */
 public class StatisticsCalculatorHTML {
 
-	private Construction cons;
 	private StatisticsCalculator statCalc;
 	private StatisticsCollection sc;
 
@@ -33,7 +31,6 @@ public class StatisticsCalculatorHTML {
 			StatisticsCollection sc) {
 
 		this.loc = app.getLocalization();
-		cons = app.getKernel().getConstruction();
 		this.statCalc = statCalc;
 		this.sc = sc;
 

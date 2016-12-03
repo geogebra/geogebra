@@ -1125,8 +1125,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected Canvas canvas;
 	private Canvas valCanvas;
 
-	private boolean singleTapStarted = false;
-
 	protected abstract void renderLatex(String text0, Widget w,
 			boolean forceMQ);
 

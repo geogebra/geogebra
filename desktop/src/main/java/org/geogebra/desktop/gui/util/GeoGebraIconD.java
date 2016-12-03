@@ -641,7 +641,6 @@ public class GeoGebraIconD {
 			Dimension iconSize, Color fgColor, Color bgColor) {
 
 		// TODO: PointStyleIcon as a stand alone class
-		GeoGebraIconD g = new GeoGebraIconD();
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle,
 				pointSize, fgColor, bgColor);
 

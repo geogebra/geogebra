@@ -110,36 +110,6 @@ public class EuclidianPen implements GTimerListener {
 	private RecoSegment reco_queue_c = new RecoSegment();
 	private RecoSegment reco_queue_d = new RecoSegment();
 	private RecoSegment reco_queue_e = new RecoSegment();
-	/**
-	 * String representation of slant movement.
-	 */
-	private static final String LEFT_UP = "Q";
-	private static final String RIGHT_UP = "W";
-	private static final String RIGHT_DOWN = "E";
-	private static final String LEFT_DOWN = "T";
-	/**
-	 * String representation of left movement.
-	 */
-	private static final String LEFT_MOVE = "L";
-	/**
-	 * String representation of right movement.
-	 */
-	private static final String RIGHT_MOVE = "R";
-	/**
-	 * String representation of up movement.
-	 */
-	private static final String UP_MOVE = "U";
-	/**
-	 * String representation of down movement.
-	 */
-	private static final String DOWN_MOVE = "D";
-	/**
-	 * Grid size. Default is 30.
-	 */
-	private int gridSize = 15;
-	/**
-	 * String representation of gesture.
-	 */
 
 
 	private final static int PEN_SIZE_FACTOR = 2;
@@ -469,7 +439,6 @@ public class EuclidianPen implements GTimerListener {
 			if (lastPoint.distance(newPoint) > 3)
 				penPoints.add(newPoint);
 		}
-		GPoint point = e.getPoint();
 
 	}
 

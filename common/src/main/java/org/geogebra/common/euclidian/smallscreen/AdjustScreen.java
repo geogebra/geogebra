@@ -50,7 +50,7 @@ public class AdjustScreen {
 			if (y1 == y2) {
 				return 0;
 			}
-			return y1 < y2 ? -1 : 1;
+			return Kernel.isGreater(y2, y1) ? -1 : 1;
 		}
 	}
 
@@ -65,7 +65,7 @@ public class AdjustScreen {
 			if (x1 == x2) {
 				return 0;
 			}
-			return x1 < x2 ? -1 : 1;
+			return Kernel.isGreater(x2, x1) ? -1 : 1;
 		}
 	}
 

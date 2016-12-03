@@ -283,7 +283,6 @@ public class PrintPreviewD extends JDialog {
 
 						final String selItem = m_cbView.getSelectedItem()
 								.toString();
-						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						// change view
 						if (selItem.equals(loc.getMenu("AllViews"))) {
 							final List<Printable> l = new ArrayList<Printable>();
