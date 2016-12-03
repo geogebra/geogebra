@@ -36,6 +36,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -79,11 +80,11 @@ public class RadioTreeItemController
 		LongTouchHandler {
 
 	private AppW app;
-	private RadioTreeItem item;
+	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
 
-	private boolean singleTapStarted = false;
+	private boolean markForEdit = false;
 	public long latestTouchEndTime = 0;
 
 	public RadioTreeItemController(RadioTreeItem item) {
@@ -142,11 +143,15 @@ public class RadioTreeItemController
 		if (checkEditing())
 			return;
 
-		item.edit(evt.isControlKeyDown());
+		startEdit(evt.isControlKeyDown());
 	}
 
 	private boolean checkEditing() {
 		return item.commonEditingCheck();
+	}
+
+	private boolean isEditing() {
+		return item.isEditing();
 	}
 
 	@Override
@@ -170,7 +175,8 @@ public class RadioTreeItemController
 		app.closePopups();
 		event.stopPropagation();
 
-		if (singleTapStarted) {
+		if (CancelEventTimer.cancelMouseEvent()
+				|| isMarbleHit(event)) {
 			return;
 		}
 
@@ -178,15 +184,8 @@ public class RadioTreeItemController
 			// keep focus in editor
 			event.preventDefault();
 		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
 
-		if (isMarbleHit(event)) {
-			return;
-		}
-
-		if (startSingleTap()) {
+		if (markForEdit()) {
 			return;
 		}
 
@@ -212,7 +211,7 @@ public class RadioTreeItemController
 	public void onMouseMove(MouseMoveEvent event) {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
 			// scroll cancels edit request.
-			singleTapStarted = false;
+			markForEdit = false;
 		}
 
 		if (app.has(Feature.AV_SCROLL)) {
@@ -243,7 +242,7 @@ public class RadioTreeItemController
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
 			if (!checkEditing()) {
-				item.edit(false // event.isControlKeyDown(),
+				startEdit(false // event.isControlKeyDown(),
 				// event.isShiftKeyDown()
 				);
 			}
@@ -259,7 +258,7 @@ public class RadioTreeItemController
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			singleTapStarted = false;
+			markForEdit = false;
 		}
 		// event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
@@ -275,7 +274,7 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.stopPropagation();
-		if (startSingleTap()) {
+		if (markForEdit()) {
 			return;
 		}
 		// Do NOT prevent default, kills scrolling on touch
@@ -296,13 +295,15 @@ public class RadioTreeItemController
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
 			return;
-		} else if (checkEditing()) {
-			if (!getAV().isEditing()) {
+		}
+
+		if (checkEditing()) {
+			if (!getAV().isEditItem()) {
 				// e.g. Web.html might not be in editing mode
 				// initially (temporary fix)
 				item.ensureEditing();
 			}
-			app.showKeyboard(item);
+			item.showKeyboard();
 			item.removeDummy();
 			((PointerEvent) event).getWrappedEvent().stopPropagation();
 			if (item.isInputTreeItem()) {
@@ -326,12 +327,7 @@ public class RadioTreeItemController
 	 *            mouse move event
 	 */
 	protected void onPointerMove(AbstractEvent event) {
-		/*
-		 * // tell EuclidianView to handle mouse over
-		 * EuclidianViewInterfaceCommon ev = kernel.getApplication()
-		 * .getActiveEuclidianView(); if (geo != null) { ev.mouseMovedOver(geo);
-		 * }
-		 */
+		// used to tell EuclidianView to handle mouse over
 	}
 
 	protected void onPointerUp(AbstractEvent event) {
@@ -353,7 +349,7 @@ public class RadioTreeItemController
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
 			if (!checkEditing()) {
-				item.edit(event.isControlDown());
+				startEdit(event.isControlDown());
 				return;
 			}
 		}
@@ -398,17 +394,56 @@ public class RadioTreeItemController
 
 	}
 
+	/**
+	 * @param ctrl
+	 */
+	protected void startEdit(boolean ctrl) {
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		selectionCtrl.clear();
+		ev.resetMode();
+		if (!item.hasGeo() || ctrl) {
+			return;
+		}
+
+		GeoElement geo = item.geo;
+		if (!isEditing()) {
+			geo.setAnimating(false);
+			getAV().startEditItem(geo);
+
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)
+					&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				item.hideControls();
+			}
+
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+
+					item.adjustStyleBar();
+				}
+			});
+
+			showKeyboard();
+			setFocus(true);
+		}
+
+	}
+
+	protected void showKeyboard() {
+		item.showKeyboard();
+
+	}
+
 	private void editOnTap(boolean active, MouseEvent<?> event) {
 		editOnTap(active,
 				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 
 	private boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
-		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && singleTapStarted)) {
+		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && markForEdit)) {
 			return false;
 		}
 
-		singleTapStarted = false;
+		markForEdit = false;
 		boolean enable = true;
 		if ((item.isSliderItem()
 				&& !isWidgetHit(item.getPlainTextItem(), wrappedEvent))) {
@@ -423,7 +458,7 @@ public class RadioTreeItemController
 			Log.debug("[AVTAP] single tap edit begins");
 			longTouchManager.cancelTimer();
 			item.selectItem(true);
-			item.edit(wrappedEvent.isControlDown());
+			startEdit(wrappedEvent.isControlDown());
 		}
 
 		return true;
@@ -438,9 +473,12 @@ public class RadioTreeItemController
 		this.longTouchManager = longTouchManager;
 	}
 
-	private boolean startSingleTap() {
+	private boolean markForEdit() {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			singleTapStarted = true;
+			if (markForEdit) {
+				return true;
+			}
+			markForEdit = true;
 			Log.debug("[AVTAP] single tap is about to start");
 			// app.getSelectionManager().clearSelectedGeos();
 			// getAV().unselectActiveItem();

@@ -295,7 +295,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 				latexItem);
 
 		if (edit) {
-			av.startEditing(geo);
+			av.startEditItem(geo);
 		}
 	}
 }

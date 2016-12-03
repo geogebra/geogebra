@@ -82,7 +82,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/** Input item */
 	RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
-	private boolean editing = false;
+	private boolean editItem = false;
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
@@ -263,7 +263,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			case KeyCodes.KEY_RIGHT:
 				// this may be enough for Safari too, because it is not
 				// onkeypress
-				if (!editing) {
+				if (!editItem) {
 					app.getGlobalKeyDispatcher().handleSelectedGeosKeysNative(
 							event);
 					event.stopPropagation();
@@ -286,7 +286,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// see this.setFocus(true) and this.addKeyDownHandler...
 			app.focusGained(AlgebraViewW.this, this.getElement());
 		}
-		if (!editing) {
+		if (!editItem) {
 			if (event.getTypeInt() == Event.ONCLICK) {
 				// background click
 				if (!CancelEventTimer.cancelKeyboardHide()
@@ -385,7 +385,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			 * not otherwise because editing geos while animation is running
 			 * won't work then (ticket #151).
 			 */
-			if (isEditing()) {
+			if (isEditItem()) {
 				if (item.isEditing()) {
 					item.cancelEditing();
 				}
@@ -617,7 +617,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		isShowingAuxiliaryObjects = flag;
 		app.showAuxiliaryObjects = flag;
 
-		cancelEditing();
+		cancelEditItem();
 
 		if (flag) {
 			clearView();
@@ -1084,7 +1084,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
-		cancelEditing();
+		cancelEditItem();
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
@@ -1200,7 +1200,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * removes a node from the tree
 	 */
 	public void remove(GeoElement geo) {
-		cancelEditing();
+		cancelEditItem();
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
@@ -1386,7 +1386,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void reset() {
-		cancelEditing();
+		cancelEditItem();
 		repaintView();
 		ensureSelectedItemVisible();
 	}
@@ -1737,26 +1737,26 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return isVisible() && isAttached();
 	}
 
-	public void cancelEditing() {
-		editing = false;
+	public void cancelEditItem() {
+		editItem = false;
 		setAnimationEnabled(true);
 	}
 
-	public boolean isEditing() {
-		return editing;
+	public boolean isEditItem() {
+		return editItem;
 	}
 
 	/**
-	 * Open Editor textfield for geo.
+	 * Starts the corresponding editor for geo.
 	 */
-	public void startEditing(GeoElement geo) {
+	public void startEditItem(GeoElement geo) {
 		if (!app.has(Feature.RETEX_EDITOR)
 				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
 			return;
 		}
 		if (geo == null) {
 			if (app.has(Feature.RETEX_EDITOR)) {
-				editing = true;
+				editItem = true;
 			}
 			return;
 		}
@@ -1796,9 +1796,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditing();
+			cancelEditItem();
 			// FIXMEWEB select and show node
-			editing = true;
+			editItem = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				RadioTreeItem.as(node).enterEditMode(
@@ -1815,14 +1815,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			cancelEditing();
+			cancelEditItem();
 			// FIXMEWEB select and show node
-			editing = true;
+			editItem = true;
 
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				if (!RadioTreeItem.as(node).enterEditMode(false)) {
-					cancelEditing();
+					cancelEditItem();
 					app.getDialogManager().showRedefineDialog(geo, true);
 				}
 			}

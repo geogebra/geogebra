@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
@@ -1023,7 +1022,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean commonEditingCheck() {
-		return av.isEditing() || isEditing() || isInputTreeItem()
+		return av.isEditItem() || isEditing() || isInputTreeItem()
 				|| geo == null;
 	}
 
@@ -1335,7 +1334,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		removeCloseButton();
 
 		editing = false;
-		av.cancelEditing();
+		av.cancelEditItem();
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 				content.remove(btnClearInput);
@@ -1522,7 +1521,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
-			if (!av.isEditing()) {
+			if (!av.isEditItem()) {
 				ensureEditing();
 			}
 
@@ -1567,57 +1566,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.getElement().getElementsByTagName("textarea").getItem(0).focus();
 	}
 
-	protected void edit(boolean ctrl) {
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		getController().selectionCtrl.clear();
-		ev.resetMode();
-		if (geo != null && !ctrl) {
-			if (!isEditing()) {
-				geo.setAnimating(false);
-				av.startEditing(geo);
-				if (app.has(Feature.AV_INPUT_BUTTON_COVER)
-						&& !app.has(Feature.AV_SINGLE_TAP_EDIT)
-						&& controls != null) {
-					controls.setVisible(false);
-				}
-
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-
-							public void execute() {
-								expandSize(getWidthForEdit());
-								if (styleBarCanHide()
-										&& (!getAlgebraDockPanel()
-												.isStyleBarVisible())) {
-									stylebarShown = getAlgebraDockPanel()
-											.isStyleBarPanelShown();
-									getAlgebraDockPanel()
-											.showStyleBarPanel(false);
-									if (controls != null) {
-										controls.getElement().getStyle()
-												.setRight(0, Unit.PX);
-									}
-								}
-
-								if (!app.has(Feature.AV_SINGLE_TAP_EDIT)
-										&& controls != null) {
-									controls.removeAnimPanel();
-								}
-							}
-
-						});
-
-
-			}
-			showKeyboard();
-			getController().setFocus(true);
-		}
-	}
-
-	protected void showKeyboard() {
-		app.showKeyboard(this);
-
-	}
 
 	boolean styleBarCanHide() {
 		if (!getAlgebraDockPanel().isStyleBarPanelShown()) {
@@ -2368,5 +2316,40 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	public boolean hasGeo() {
+		return geo != null;
+	}
+
+	public void hideControls() {
+		if (controls != null) {
+			controls.setVisible(false);
+		}
+	}
+
+	void adjustStyleBar() {
+		// expandSize(getWidthForEdit());
+		if (styleBarCanHide() && (!getAlgebraDockPanel().isStyleBarVisible())) {
+			stylebarShown = getAlgebraDockPanel().isStyleBarPanelShown();
+			getAlgebraDockPanel().showStyleBarPanel(false);
+			if (controls != null) {
+				controls.getElement().getStyle().setRight(0, Unit.PX);
+			}
+		}
+
+		if (!app.has(Feature.AV_SINGLE_TAP_EDIT) && controls != null) {
+			controls.removeAnimPanel();
+		}
+
+	}
+
+	public void showControls() {
+		if (controls != null) {
+			controls.setVisible(true);
+		}
+	}
+
+	protected void showKeyboard() {
+		app.showKeyboard(this);
+	}
 }
 

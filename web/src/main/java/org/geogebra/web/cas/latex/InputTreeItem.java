@@ -275,7 +275,7 @@ public class InputTreeItem extends MathQuillTreeItem
 					Timer tim = new Timer() {
 						@Override
 						public void run() {
-							app.getAlgebraView().startEditing(fun);
+							app.getAlgebraView().startEditItem(fun);
 						}
 					};
 					tim.schedule(500);
@@ -302,7 +302,7 @@ public class InputTreeItem extends MathQuillTreeItem
 				Timer tim2 = new Timer() {
 					@Override
 					public void run() {
-						app.getAlgebraView().startEditing(mat);
+						app.getAlgebraView().startEditItem(mat);
 					}
 				};
 				// on a good machine, 500ms was usually not enough,
@@ -341,7 +341,7 @@ public class InputTreeItem extends MathQuillTreeItem
 					Timer tim = new Timer() {
 						@Override
 						public void run() {
-							app.getAlgebraView().startEditing(curve);
+							app.getAlgebraView().startEditItem(curve);
 						}
 					};
 					tim.schedule(500);
