@@ -40,7 +40,6 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
-import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -340,6 +339,35 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 		}
 
+		public void reposition() {
+			if (!app.has(Feature.AV_SCROLL)
+					|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				return;
+			}
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+				public void execute() {
+					ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
+							.getGuiManager().getLayout().getDockManager()
+							.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
+					int scrollPos = algebraPanel.getHorizontalScrollPosition();
+
+					// extra margin if vertical scrollbar is visible.
+					int sw = Browser.isTabletBrowser() ? 0
+							: BROWSER_SCROLLBAR_WIDTH;
+					int margin = getAV().getOffsetHeight()
+							+ getOffsetHeight() > algebraPanel.getOffsetHeight()
+									? sw : 0;
+
+					int value = margin + getOffsetWidth()
+							- (algebraPanel.getOffsetWidth() + scrollPos);
+
+					getElement().getStyle().setRight(value, Unit.PX);
+
+				}
+			});
+		}
+
 	}
 
 	protected GeoElement geo;
@@ -352,7 +380,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public FlowPanel latexItem;
 	private FlowPanel plainTextItem;
 
-	GTextBox tb;
+	// GTextBox tb;
 	private boolean needsUpdate;
 	protected Label errorLabel;
 
@@ -1539,11 +1567,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		content.getElement().getElementsByTagName("textarea").getItem(0).focus();
 	}
 
-
-
-
-
-
 	protected void edit(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		getController().selectionCtrl.clear();
@@ -1625,37 +1648,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// marblePanel.setBackground();
 	}
 
-	public void adjustControlsPosition() {
-		if (!app.has(Feature.AV_SCROLL)
-				|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
-						.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-				int scrollPos = algebraPanel.getHorizontalScrollPosition();
-
-				// extra margin if vertical scrollbar is visible.
-				int sw = Browser.isTabletBrowser() ? 0
-						: BROWSER_SCROLLBAR_WIDTH;
-				int margin = getAV().getOffsetHeight()
-						+ getOffsetHeight() > algebraPanel
-								.getOffsetHeight() ? sw : 0;
-
-				int value = margin + getOffsetWidth()
-						- (algebraPanel.getOffsetWidth() + scrollPos);
-					 
-				if (controls != null) {
-					controls.getElement().getStyle().setRight(value, Unit.PX);
-				}
-
-			}
-		});
-	}
-
 	protected void updateButtonPanelPosition() {
 		if (controls == null) {
 			return;
@@ -1669,7 +1661,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			
 			if (accurate) { // new code
 				if (app.has(Feature.AV_SCROLL)) {
-					adjustControlsPosition();
+					controls.reposition();
 				} else {
 					int scrollbarWidth = algebraPanel == null ? 0
 							: algebraPanel.getOffsetWidth() - algebraPanel
@@ -1694,7 +1686,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 		} else {
 			if (accurate) {
-				adjustControlsPosition();
+				controls.reposition();
 				// controls.getElement().getStyle().setRight(visibleRight,
 				// Unit.PX);
 			} else {
@@ -2259,9 +2251,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// afterwards, if the popup shall be showing,
 		// then all of our three icons are visible in theory
 		// except pButton, if it is null...
-		if (!blurtrue || !emptyCase) {
-			typing(false);
-		}
+		// if (!blurtrue || !emptyCase) {
+		// typing(false);
+		// }
 
 	}
 
@@ -2270,8 +2262,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            true = user is typing
 	 */
 	public void typing(boolean heuristic) {
-		// to be overridden in InputTreeItem,
-		// to know whether it's empty, whether to show Xbutton
+		// legacy: MathQuillTreeItem uses this.
 	}
 
 	public abstract RadioTreeItem copy();
@@ -2371,6 +2362,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.controller = controller;
 	}
 
+	public void reposition() {
+		if (controls != null) {
+			controls.reposition();
+		}
+	}
 
 }
 

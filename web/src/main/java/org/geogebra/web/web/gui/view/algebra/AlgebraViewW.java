@@ -209,7 +209,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	void onAlgebraScroll() {
 		if (activeItem != null) {
-			activeItem.adjustControlsPosition();
+			activeItem.reposition();
 		}
 
 		if (getInputTreeItem() != null) {
@@ -2001,7 +2001,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 		if (this.getInputTreeItem() != null) {
 			getInputTreeItem().setItemWidth(width);
-			getInputTreeItem().adjustControlsPosition();
+			getInputTreeItem().reposition();
 		}
 
 		for (int i = 0; i < getItemCount(); i++) {
