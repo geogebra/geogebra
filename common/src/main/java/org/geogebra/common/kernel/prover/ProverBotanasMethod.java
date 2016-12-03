@@ -446,15 +446,16 @@ public class ProverBotanasMethod {
 							result = ProofResult.UNKNOWN;
 							return;
 						}
-						Log.debug("/* PROCESSING OBJECT "
-								+ geo.getLabelSimple() + " */");
+						// Log.debug("/* PROCESSING OBJECT " +
+						// geo.getLabelSimple() + " */");
+
 						if (proverSettings.captionAlgebra) {
 							geo.setCaption(null);
 						}
 						String command = geo
 								.getDefinition(StringTemplate.noLocalDefault);
 						if (!("".equals(command))) {
-							Log.debug("/* Command definition */");
+							// Log.debug("/* Command definition */");
 							Log.debug(geo.getLabelSimple()
 									+ " = "
 									+ geo.getDefinition(StringTemplate.noLocalDefault)

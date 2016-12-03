@@ -1247,15 +1247,13 @@ public class Polynomial implements Comparable<Polynomial> {
 
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_")
 					.replace("unicode91u", "[");
-
 			if (!factorized) {
-
 				elimResult = elimResult.replace(".0", "");
 				elimResult = elimResult.substring(1, elimResult.length() - 1);
 				elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult
 						+ " [2]: 1,1";
-				Log.trace("Rewritten: " + elimResult);
 			}
+			Log.trace("Elimination result: " + elimResult);
 		}
 
 		// Singular returns "empty list", Giac "{0}" when the statement is
