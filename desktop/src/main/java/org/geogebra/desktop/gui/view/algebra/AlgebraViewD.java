@@ -1188,12 +1188,10 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	public void cancelEditItem() {
-		// TODO Auto-generated method stub
-
+		cancelEditing();
 	}
 
 	public boolean isEditItem() {
-		// TODO Auto-generated method stub
-		return false;
+		return isEditing();
 	}
 } // AlgebraView

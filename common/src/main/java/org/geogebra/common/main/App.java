@@ -3994,11 +3994,11 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return prerelease;
+			return false;// prerelease;
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease;
+			return false;// prerelease;
 
 		// GGB-798
 		case AV_SCROLL:
@@ -4516,7 +4516,7 @@ public abstract class App implements UpdateSelection {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
 			return;
 		}
-		Log.debug("[AS] adjustScreen()");
+		Log.printStacktrace("[AS] adjustScreen()");
 		final AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
 		as.apply();
 	}

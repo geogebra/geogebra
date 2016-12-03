@@ -855,7 +855,7 @@ public class AlgebraProcessor {
 				return null;
 			}
 			if (app.getGuiManager() != null) {
-				app.getGuiManager().getCasView().cancelEditing();
+				app.getGuiManager().getCasView().cancelEditItem();
 			}
 			GeoCasCell cell = cons.getCasCell(row);
 			if (cell == null) {
