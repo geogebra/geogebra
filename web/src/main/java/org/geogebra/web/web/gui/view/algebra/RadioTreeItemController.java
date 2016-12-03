@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -65,7 +66,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Controller class of a AV item.
  * 
- * @author latzg
+ * @author laszlo
  *
  */
 @SuppressWarnings("javadoc")
@@ -82,7 +83,7 @@ public class RadioTreeItemController
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
 
-	private boolean singleTapStarted;
+	private boolean singleTapStarted = false;
 	public long latestTouchEndTime = 0;
 
 	public RadioTreeItemController(RadioTreeItem item) {
@@ -419,9 +420,10 @@ public class RadioTreeItemController
 		}
 
 		if (enable && !active) {
+			Log.debug("[AVTAP] single tap edit begins");
 			longTouchManager.cancelTimer();
 			item.selectItem(true);
-			// edit(wrappedEvent.isControlDown());
+			item.edit(wrappedEvent.isControlDown());
 		}
 
 		return true;
@@ -439,6 +441,7 @@ public class RadioTreeItemController
 	private boolean startSingleTap() {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			singleTapStarted = true;
+			Log.debug("[AVTAP] single tap is about to start");
 			// app.getSelectionManager().clearSelectedGeos();
 			// getAV().unselectActiveItem();
 
