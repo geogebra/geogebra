@@ -8768,6 +8768,22 @@ namespace giac {
   // 3 for lu without permutation
   // fullreduction=0 or 1, use 2 if the right part of a is idn
   bool modrref(const matrice & a, matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,int fullreduction,int dont_swap_below,const gen & modulo,int rref_or_det_or_lu){
+    if (rref_or_det_or_lu==1 &&!is_probab_prime_p(modulo)){
+      vecteur v=ifactors(modulo,context0);
+      if (v.size()<2 || v[1]!=1 || !modrref(a,res,pivots,det,l,lmax,c,cmax,fullreduction,dont_swap_below,v[0],rref_or_det_or_lu))
+	return false;
+      gen pip=v[0];
+      for (int i=2;i<v.size();i+=2){
+	if (v[i+1]!=1)
+	  return false;
+	gen curdet;
+	if (!modrref(a,res,pivots,curdet,l,lmax,c,cmax,fullreduction,dont_swap_below,v[i],rref_or_det_or_lu))
+	  return false;
+	det=ichinrem(det,curdet,pip,v[i]);
+	pip=pip*v[i];
+      }
+      return true;
+    }
     if (modulo.type==_INT_ && 
 #if 0 // ndef _I386_
 	modulo.val<46340 &&

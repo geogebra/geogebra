@@ -5535,6 +5535,7 @@ namespace giac {
 
   void type_operator_plus_times(const gen & a,const gen & b,gen & c){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
+#ifndef EMCC
     if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       c._DOUBLE_val += a._DOUBLE_val*b._DOUBLE_val;
@@ -5544,6 +5545,7 @@ namespace giac {
 #endif
       return ;
     }
+#endif
     if (c.type==_ZINT && c.ref_count()==1){
       switch (t){
       case _ZINT__ZINT:
@@ -5613,6 +5615,7 @@ namespace giac {
 
   void type_operator_minus_times(const gen & a,const gen & b,gen & c){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
+#ifndef EMCC
     if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       c._DOUBLE_val -= a._DOUBLE_val*b._DOUBLE_val;
@@ -5622,6 +5625,7 @@ namespace giac {
 #endif
       return ;
     }
+#endif
     if (c.type==_ZINT && c.ref_count()==1){
       switch (t){
       case _ZINT__ZINT:
