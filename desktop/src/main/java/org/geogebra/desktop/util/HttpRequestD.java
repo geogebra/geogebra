@@ -22,13 +22,13 @@ public class HttpRequestD extends HttpRequest {
 
 	@Override
 	public void sendRequest(String url) {
+		BufferedReader in = null;
 		try {
 			URL u = new URL(url);
 			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
 			huc.setConnectTimeout(timeout * 1000);
 			huc.setRequestMethod("GET");
 			huc.connect();
-			BufferedReader in;
 			in = new BufferedReader(new InputStreamReader(huc.getInputStream(),
 					Charsets.UTF_8));
 			String s = "";
@@ -44,6 +44,12 @@ public class HttpRequestD extends HttpRequest {
 			success = false;
 			processed = true;
 			Log.error(ex.getMessage());
+		} finally {
+			try {
+				in.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		responseText = answer;
 		success = true;
@@ -89,21 +95,30 @@ public class HttpRequestD extends HttpRequest {
 					huc.getOutputStream(), Charsets.UTF_8);
 			osw.write(post);
 			osw.flush();
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					huc.getInputStream(), Charsets.UTF_8));
-			String s = "";
-			answer = in.readLine(); // the last line will never get a "\n" on
-									// its end
-			while ((s = in.readLine()) != null) {
-				if (!("".equals(answer))) // if the answer starts with "\n"s, we
-											// ignore them
-					answer += "\n";
-				answer += s;
+
+			BufferedReader in = null;
+			try {
+				in = new BufferedReader(new InputStreamReader(
+						huc.getInputStream(), Charsets.UTF_8));
+				String s = "";
+				answer = in.readLine(); // the last line will never get a "\n"
+										// on
+				// its end
+				while ((s = in.readLine()) != null) {
+					if (!("".equals(answer))) // if the answer starts with
+												// "\n"s, we
+						// ignore them
+						answer += "\n";
+					answer += s;
+				}
+			} finally {
+				if (in != null) {
+					in.close();
+				}
 			}
 			osw.close();
 
-			// Convert the answer string to UTF-8
-			responseText = new String(answer.getBytes(), Charsets.UTF_8);
+			responseText = answer;
 			success = true;
 			processed = true;
 			if (callback != null) {

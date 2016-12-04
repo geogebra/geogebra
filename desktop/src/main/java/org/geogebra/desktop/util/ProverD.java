@@ -15,7 +15,6 @@ import com.ogprover.main.OGPConfigurationSettings;
 import com.ogprover.main.OpenGeoProver;
 import com.ogprover.pp.GeoGebraOGPInputProverProtocol;
 import com.ogprover.pp.GeoGebraOGPOutputProverProtocol;
-import com.ogprover.utilities.logger.ILogger;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
@@ -91,17 +90,18 @@ public class ProverD extends Prover {
 		// Log.debug("Statement in the XML should be: " + cd);
 
 		OpenGeoProver.settings = new OGPConfigurationSettings();
-		ILogger logger = OpenGeoProver.settings.getLogger();
 		ProverSettings proverSettings = ProverSettings.get();
 		// Input prover object
 		GeoGebraOGPInputProverProtocol inputObject = new GeoGebraOGPInputProverProtocol();
 		inputObject.setGeometryTheoremText(c);
 		inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU); // default
-		if (pe == ProverEngine.OPENGEOPROVER_WU)
+		if (pe == ProverEngine.OPENGEOPROVER_WU) {
 			inputObject.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_WU);
-		if (pe == ProverEngine.OPENGEOPROVER_AREA)
+		}
+		if (pe == ProverEngine.OPENGEOPROVER_AREA) {
 			inputObject
 					.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
+		}
 		inputObject.setTimeOut(proverSettings.proverTimeout);
 		inputObject.setMaxTerms(proverSettings.maxTerms);
 		if (isReturnExtraNDGs())
