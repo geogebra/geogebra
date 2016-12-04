@@ -2954,6 +2954,8 @@ __GGB__keysVar.sl.menu = {
     "exam_log_header": "Poro\u010dilo o GeoGebra preverjanjih",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Ponoven vnos okna za preverjanje",
     "exam_log_window_left": "Zapustil/a si okno z nalogami",
     "exam_menu_enter": "Vnesi \"Na\u010din preverjanja\"",

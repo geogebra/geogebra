@@ -2954,6 +2954,8 @@ __GGB__keysVar.ko.menu = {
     "exam_log_header": "\ud3c9\uac00\uc6a9 \uc9c0\uc624\uc9c0\ube0c\ub77c \uae30\ub85d",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "\ud3c9\uac00 \ucc3d \uc7ac\uc785\ub825",
     "exam_log_window_left": "\ud3c9\uac00 \ucc3d \ub098\uac00\uae30",
     "exam_menu_enter": "\ud3c9\uac00 \ubaa8\ub4dc \uc2dc\uc791",

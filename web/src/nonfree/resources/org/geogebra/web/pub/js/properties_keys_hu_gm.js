@@ -2954,6 +2954,8 @@ __GGB__keysVar.hu_gm.menu = {
     "exam_log_header": "GeoGebra vizsga \xfczemm\xf3d napl\xf3",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Ism\xe9telt bel\xe9p\xe9s a vizsgaablakba",
     "exam_log_window_left": "A vizsgaablak elhagy\xe1sra ker\xfclt",
     "exam_menu_enter": "Vizsga \xfczemm\xf3d ind\xedt\xe1sa",

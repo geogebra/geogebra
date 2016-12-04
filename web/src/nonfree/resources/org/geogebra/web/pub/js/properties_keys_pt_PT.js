@@ -2954,6 +2954,8 @@ __GGB__keysVar.pt_PT.menu = {
     "exam_log_header": "Entrada no \"modo Exame\"",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Janela de exame reentrada",
     "exam_log_window_left": "Janela Esquerda do Exame",
     "exam_menu_enter": "Entrar \"Modo Exame\"",

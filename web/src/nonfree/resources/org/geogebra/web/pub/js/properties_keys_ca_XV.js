@@ -2954,6 +2954,8 @@ __GGB__keysVar.ca_XV.menu = {
     "exam_log_header": "Acc\xe9s a l'examen de GeoGebra",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "S'ha tornat a la finestra d'examen",
     "exam_log_window_left": "Surt de la finestra d'examen",
     "exam_menu_enter": "Entra en \"Mode examen\"",

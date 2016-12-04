@@ -2954,6 +2954,8 @@ __GGB__keysVar.sr.menu = {
     "exam_log_header": "GeoGebra Exam Log",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Start Exam",

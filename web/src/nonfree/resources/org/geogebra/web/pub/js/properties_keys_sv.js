@@ -2954,6 +2954,8 @@ __GGB__keysVar.sv.menu = {
     "exam_log_header": "Provdata",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Gick tillbaka till provf\xf6nstret",
     "exam_log_window_left": "L\xe4mnade provf\xf6nstret",
     "exam_menu_enter": "Starta provl\xe4get",

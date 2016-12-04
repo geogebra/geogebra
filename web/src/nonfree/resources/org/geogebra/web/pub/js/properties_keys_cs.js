@@ -2954,6 +2954,8 @@ __GGB__keysVar.cs.menu = {
     "exam_log_header": "Z\xe1znam GeoGebra zkou\u0161ky",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Okno se zkou\u0161kou op\u011bt aktivn\xed",
     "exam_log_window_left": "Okno se zkou\u0161kou opu\u0161t\u011bno",
     "exam_menu_enter": "Za\u010d\xedt zkou\u0161ku",

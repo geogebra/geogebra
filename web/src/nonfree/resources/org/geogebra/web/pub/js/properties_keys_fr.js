@@ -2954,6 +2954,8 @@ __GGB__keysVar.fr.menu = {
     "exam_log_header": "GeoGebra Examen",
     "exam_log_pin": "Appli \xe9pingl\xe9e",
     "exam_log_unpin": "Appli d\xe9s\xe9pingl\xe9e",
+    "exam_log_wifi_disabled": "WiFi d\xe9sactiv\xe9",
+    "exam_log_wifi_enabled": "WiFi activ\xe9",
     "exam_log_window_entered": "Rentr\xe9e Examen",
     "exam_log_window_left": "Sortie Examen",
     "exam_menu_enter": "Examen",

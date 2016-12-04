@@ -2954,6 +2954,8 @@ __GGB__keysVar.no_NB.menu = {
     "exam_log_header": "GeoGebra eksamenslogg",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "Du har g\xe5tt inn i pr\xf8vevinduet igjen",
     "exam_log_window_left": "Du har forlatt pr\xf8vevinduet",
     "exam_menu_enter": "G\xe5 inn i  pr\xf8vemodulen",

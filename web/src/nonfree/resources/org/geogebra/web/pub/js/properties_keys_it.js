@@ -2954,6 +2954,8 @@ __GGB__keysVar.it.menu = {
     "exam_log_header": "Registro di GeoGebra Esame",
     "exam_log_pin": "App bloccata",
     "exam_log_unpin": "App sbloccata",
+    "exam_log_wifi_disabled": "WiFi disattivato",
+    "exam_log_wifi_enabled": "WiFi attivato",
     "exam_log_window_entered": "Rientro nella finestra di Esame",
     "exam_log_window_left": "Uscita dalla finestra Esame",
     "exam_menu_enter": "Inizia l'Esame",

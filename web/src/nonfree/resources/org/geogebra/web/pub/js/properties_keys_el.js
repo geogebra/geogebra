@@ -2954,6 +2954,8 @@ __GGB__keysVar.el.menu = {
     "exam_log_header": "GeoGebra Log \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7\u03c2",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_window_entered": "\u03a4\u03bf \u03c0\u03b1\u03c1\u03ac\u03b8\u03c5\u03c1\u03bf \u03c4\u03b7\u03c2 \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7\u03c2 \u03b5\u03c0\u03b1\u03bd\u03ae\u03bb\u03b8\u03b5",
     "exam_log_window_left": "\u03a0\u03b1\u03c1\u03ac\u03b8\u03c5\u03c1\u03bf \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7\u03c2 \u03b1\u03c1\u03b9\u03c3\u03c4\u03b5\u03c1\u03ac",
     "exam_menu_enter": "\u039e\u03b5\u03ba\u03af\u03bd\u03b1 \u03c4\u03b7\u03bd \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7",
