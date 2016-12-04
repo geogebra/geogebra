@@ -964,9 +964,9 @@ public class RelativeCopy {
 	}
 
 	private static void updateOldValue(final Kernel kernel,
-			final GeoElementND oldValue, String name, String text,
+			final GeoElementND oldValue, String name, String text0,
 			final AsyncOperation<GeoElementND> callback) throws Exception {
-		String text0 = text;
+		String text = text0;
 		if (text.charAt(0) == '=') {
 			text = text.substring(1);
 		}
@@ -1098,6 +1098,8 @@ public class RelativeCopy {
 	 *            cell column
 	 * @param row
 	 *            cell row
+	 * @param internal
+	 *            whether to force internal command names
 	 * @return either (1) a new GeoElement for the cell or (2) null
 	 * @throws Exception
 	 */
@@ -1145,21 +1147,16 @@ public class RelativeCopy {
 
 			// else if the target cell is empty, try to create a new GeoElement
 			// for this cell
-		} else if (oldValue == null) {
-			boolean oldFlag = kernel.isUsingInternalCommandNames();
-			try {
-				// this will be a new geo
-				kernel.setUseInternalCommandNames(internal);
+		}
+		boolean oldFlag = kernel.isUsingInternalCommandNames();
+		try {
+			// this will be a new geo
+			kernel.setUseInternalCommandNames(internal);
+			if (oldValue == null) {
 				GeoElementND ret = prepareNewValue(kernel, name, text);
 				kernel.setUseInternalCommandNames(oldFlag);
 				return ret;
-			} catch (Throwable t) {
-				kernel.setUseInternalCommandNames(oldFlag);
-				return prepareNewValue(kernel, name, "");
 			}
-
-			// else the target cell is an existing GeoElement, so redefine it
-		} else {
 			updateOldValue(kernel, oldValue, name, text,
 					new AsyncOperation<GeoElementND>() {
 
@@ -1168,7 +1165,12 @@ public class RelativeCopy {
 							redefinedElement = obj;
 						}
 					});
+			kernel.setUseInternalCommandNames(oldFlag);
 			return redefinedElement;
+
+		} catch (Throwable t) {
+			kernel.setUseInternalCommandNames(oldFlag);
+			return prepareNewValue(kernel, name, "");
 		}
 	}
 
