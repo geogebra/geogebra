@@ -2951,6 +2951,8 @@ __GGB__keysVar.none.menu = {
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_bluetooth_disabled": "Bluetooth disabled",
     "exam_log_bluetooth_enabled": "Bluetooth enabled",
+    "exam_log_wifi_disabled": "WiFi disabled",
+    "exam_log_wifi_enabled": "WiFi enabled",
     "exam_log_header": "GeoGebra Exam Log",
     "exam_log_pin": "App pinned",
     "exam_log_unpin": "App unpinned",
