@@ -374,7 +374,8 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 			case Event.ONMOUSEOVER: {
 				MenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
-					if (item.getElement().getAttribute("hasPopup") == "true") {
+					if ("true".equals(item.getElement()
+							.getAttribute("hasPopup"))) {
 						item.getScheduledCommand().execute();
 					} else
 						removeSubPopup();

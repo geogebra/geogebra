@@ -151,8 +151,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			ctx.scale(1, 1);
 
 			ctx.translate(left, top);
-			int x = padding;
-			int y = tableOffsetY + padding;
 			for (int row = 0; row < maxRow; row++) {
 				for (int col = 0; col < maxCol; col++) {
 					drawColorTile(col, row);

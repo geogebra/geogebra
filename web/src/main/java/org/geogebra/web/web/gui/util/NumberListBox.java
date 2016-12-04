@@ -6,12 +6,10 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListDataModel;
 
 public abstract class NumberListBox extends ComboBoxW {
-	private App app;
 	private ListDataModel model;
 
 	public NumberListBox(App app) {
 		super((AppW) app);
-		this.app = app;
 		model = getModel();
 		model.add("1", "1"); //pi
 		model.add(Unicode.PI_STRING, Unicode.PI_STRING); // pi

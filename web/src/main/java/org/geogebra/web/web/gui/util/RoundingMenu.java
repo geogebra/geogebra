@@ -11,7 +11,6 @@ public class RoundingMenu extends MenuBar {
 		void onChange(int index);
 	}
 	
-	private App app;
 	private IRoundingMenuListener listener;
 	
 	private class RoundingCommand implements Command {
@@ -27,7 +26,6 @@ public class RoundingMenu extends MenuBar {
 
 	public RoundingMenu(App app, final IRoundingMenuListener listener) {
 		super(true);
-		this.app = app;
 		this.listener = listener;
 		String[] items = app.getLocalization().getRoundingMenu();
 		for (int i=0; i < items.length; i++) {

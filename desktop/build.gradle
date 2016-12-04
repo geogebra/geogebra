@@ -98,9 +98,12 @@ findbugs{
 }
 
 tasks.withType(FindBugs) {
-    exclude '**/org/mozilla/**'
+    exclude '**/org/freehep/**', '**/org/jfugue/**', '**/org/mozilla/**', '**/com/kitfox/**'
     classes = classes.filter { 
-        !it.path.contains(new File("org/mozilla/").path) 
+        !it.path.contains(new File("org/freehep/").path)  &&
+        !it.path.contains(new File("org/jfugue/").path) &&
+        !it.path.contains(new File("org/mozilla/").path) &&
+        !it.path.contains(new File("com/kitfox/").path)
     }
 }
 

@@ -26,11 +26,13 @@ public class AlertDialog extends DialogBoxW {
 	private VerticalPanel container;
 	private Label msg;
 	private Button ok;
-	private App app;
 	
+	/**
+	 * @param app
+	 *            application
+	 */
 	public AlertDialog(App app) {
 		super(((AppW) app).getPanel());
-		this.app = app;
 		setWidget(container = new VerticalPanel());
 		HorizontalPanel textPanel = new HorizontalPanel();
 		textPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
