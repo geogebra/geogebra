@@ -68,6 +68,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		this.app = (AppW) app;
 
 		listener = null;
+		macro = null;
 
 		mainWidget = new VerticalPanel();
 		Localization loc = app.getLocalization();

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoPolygonOperation.PolyOperation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -83,17 +84,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 	protected String[] labels;
 
-	/** operation type */
-	public enum PolyOperation {
-		/** intersection */
-		INTERSECTION,
-		/** union */
-		UNION,
-		/** difference */
-		DIFFERENCE,
-		/** xor */
-		XOR
-	}
+
 
 	/**
 	 * special constructor without operation type for CmdDifference. after this
@@ -126,13 +117,13 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * after calling this call setInputOutput() for setting input output
 	 * dependencies
 	 * 
-	 * @param operationType
+	 * @param opType
 	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,
 	 *            XOR
 	 */
-	public void initiatePolyOperation(PolyOperation operationType) {
+	public void initiatePolyOperation(PolyOperation opType) {
 
-		this.operationType = operationType;
+		this.operationType = opType;
 
 		tmpCoord = new Coords(4);
 
@@ -175,28 +166,6 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	}
 
 	/**
-	 * common constructor
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            labels
-	 * @param inPoly0
-	 *            input polygon 1
-	 * @param inPoly1
-	 *            input polygon 2
-	 * @param operationType
-	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,
-	 *            XOR
-	 */
-	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1,
-			PolyOperation operationType) {
-
-		this(cons, labels, inPoly0, inPoly1, operationType, null);
-	}
-
-	/**
 	 * constructor for retrieving saved 3d polygon intersections
 	 * 
 	 * @param cons
@@ -236,6 +205,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		createOutput();
 
+	}
+
+	protected void initialize(int[] outputSizes) {
 		setInputOutput();
 
 		compute();
@@ -283,15 +255,16 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					outputPolygons.setLabels(null);
 					outputSegments.setLabels(null);
 					outputPoints.setLabels(null);
-				}
-			} else if (labels.length == 1
-					&& labels[0] != null && !labels[0].equals("")) {
+					}
+			} else if (labels.length == 1 && labels[0] != null
+					&& !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
+					}
 				}
-			}
 
 		update();
-		}
+
+	}
 
 		@Override
 		protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {

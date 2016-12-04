@@ -6,6 +6,9 @@ import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.user.client.ui.ScrollPanel;
 
+/**
+ * Phone panel for AV
+ */
 public class AlgebraViewPanel extends AbstractViewPanel {
 
 	private AlgebraViewW algebraView;
@@ -23,6 +26,7 @@ public class AlgebraViewPanel extends AbstractViewPanel {
 		this.content = new ScrollPanel(this.algebraView);
 		this.content.setStyleName("algebraView");
 		add(this.content);
+		onResize();
 	}
 
 	@Override

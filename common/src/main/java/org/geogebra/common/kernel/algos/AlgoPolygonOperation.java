@@ -153,27 +153,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	}
 
 	/**
-	 * common constructor
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            labels
-	 * @param inPoly0
-	 *            input polygon 1
-	 * @param inPoly1
-	 *            input polygon 2
-	 * @param operationType
-	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,
-	 *            XOR
-	 */
-	public AlgoPolygonOperation(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType) {
-
-		this(cons, labels, inPoly0, inPoly1, operationType, null);
-	}
-
-	/**
 	 * common constructor with outputsizes
 	 * 
 	 * @param cons
@@ -208,6 +187,13 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		createOutput();
 
+	}
+
+	/**
+	 * @param outputSizes
+	 *            output sizes from XML
+	 */
+	protected void initialize(int[] outputSizes) {
 		setInputOutput();
 		// We do compute() TWICE in the constructor (for some reason)
 		// for this one we don't have the labels set yet, so do it silently
@@ -266,6 +252,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 
 		update();
+
 	}
 
 	@Override

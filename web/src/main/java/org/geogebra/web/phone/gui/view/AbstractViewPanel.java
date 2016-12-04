@@ -13,7 +13,6 @@ public abstract class AbstractViewPanel extends FlowPanel implements ViewPanel {
 	public AbstractViewPanel(AppW app) {
 		this.app = app;
 		setStyleName(getViewPanelStyleName());
-		onResize();
 	}
 
 	public void onResize() {

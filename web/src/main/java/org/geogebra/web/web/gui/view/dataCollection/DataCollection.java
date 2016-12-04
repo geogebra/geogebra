@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.dataCollection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -74,8 +75,9 @@ public class DataCollection implements WebSocketListener {
 	private void start() {
 		HashMap<Types, GeoElement> activeSensors = this.dataView
 				.getActivedSensors();
-		for (Types type : activeSensors.keySet()) {
-			GeoElement argument = activeSensors.get(type);
+		for (Entry<Types, GeoElement> entry : activeSensors.entrySet()) {
+			Types type = entry.getKey();
+			GeoElement argument = entry.getValue();
 
 			if (argument instanceof GeoNumeric || argument instanceof GeoText) {
 				sensorLogger.registerGeo(type.toString(), argument);

@@ -33,7 +33,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 
 	private GeoImplicit p;
 	private GeoPointND R;
-	private GeoLineND g;
+	private GeoLineND g = null;
 
 	private GeoPoint[] ip; // tangent points.
 	private OutputHandler<GeoLine> tangents;
@@ -255,9 +255,15 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 	}
 
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
-		if (geo == p && line == g && R != null && pointOnPath) {
+		if (geo == p && R != null && pointOnPath) {
 			return R;
+
 		}
+		// for (int i = 0; i < this.tangents.size(); i++) {
+		// if (tangents.getElement(i) == line) {
+		// return R;
+		// }
+		// }
 		return null;
 	}
 

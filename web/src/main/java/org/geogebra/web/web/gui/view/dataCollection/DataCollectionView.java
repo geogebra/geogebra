@@ -249,18 +249,15 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel appIDpanel = new FlowPanel();
 		appIDpanel.addStyleName("rowContainer");
 		appIDpanel.addStyleName("sharingCodePanel");
-		this.appID = new Label(loc.getMenu(this.DATA_SHARING_CODE));
+		this.appID = new Label(
+				loc.getMenu(DataCollectionView.DATA_SHARING_CODE));
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addStyleName("appIdTextBox");
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
 		
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-					if (appIDTextBox.getText().length() > 0) {
-						connectButton.setDown(true);
-						appIDTextBox.setFocus(false);
-						handleConnectionClicked();
-					}
+					onAppIdChange();
 				}
 			}
 		});
@@ -285,6 +282,18 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		appIDpanel.add(this.appIDTextBox);
 		appIDpanel.add(this.connectButton);
 		setting.add(appIDpanel);
+	}
+
+	/**
+	 * Triggered by changed app ID
+	 */
+	protected void onAppIdChange() {
+		if (appIDTextBox.getText().length() > 0) {
+			connectButton.setDown(true);
+			appIDTextBox.setFocus(false);
+			handleConnectionClicked();
+		}
+
 	}
 
 	/**
@@ -490,8 +499,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 				num.setShowExtendedAV(false);
 				num.setDrawable(false);
 				num.setLabel(null);
-				listBox.addItem(newSelection);
-				setGeoUsed(newSelection, listBox);
+				listBox.addItem(num);
+				setGeoUsed(num, listBox);
 			} else if (DefaultEntries.CREATE_DATA_FUNCTION.getText()
 					.equals(listBox.getValue(selectedIndex))) {
 				// create new data function
@@ -550,18 +559,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.usedObjects.remove(geo);
 		((AppWFull) this.app).getDataCollection().removeRegisteredGeo(
 				listBox.getType());
-	}
-
-	/**
-	 * updates every ListBox except the given one.
-	 * 
-	 * @param box
-	 */
-	private void updateOtherListBoxes(GeoListBox listbox) {
-		for (SensorSetting setting : this.sensors) {
-			setting.updateOtherBoxes(listbox, this.availableObjects,
-					this.usedObjects);
-		}
 	}
 
 	/**

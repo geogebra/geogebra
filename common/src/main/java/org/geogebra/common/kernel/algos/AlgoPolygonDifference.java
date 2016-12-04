@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 public class AlgoPolygonDifference extends AlgoPolygonOperation {
 
 	// input
-	protected GeoBoolean exclusive = null;
+	private final GeoBoolean exclusive;
 
 	private boolean threeArgs = false;
 
@@ -37,11 +37,8 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 		this.exclusive = exclusive;
 		this.threeArgs = exclusive != null;
 
-		if (threeArgs && this.exclusive.getBoolean()) {
-			this.initiatePolyOperation(PolyOperation.XOR);
-		} else {
-			initiatePolyOperation(PolyOperation.DIFFERENCE);
-		}
+		this.initiatePolyOperation(getOp(exclusive));
+
 	}
 
 
@@ -55,6 +52,8 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	 *            first input polygon
 	 * @param inPoly1
 	 *            second input polygon
+	 * @param exclusive
+	 *            whether this is XOR
 	 * @param outputSizes
 	 *            sizes of the results of the operation. consist of polygon
 	 *            size, point size, and segment size
@@ -63,16 +62,26 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive,
 			int[] outputSizes) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE,
+		super(cons, labels, inPoly0, inPoly1, getOp(exclusive),
 				outputSizes);
+		this.exclusive = exclusive;
+		this.threeArgs = exclusive != null;
+		initialize(outputSizes);
+	}
+
+	/**
+	 * @param exclusive
+	 *            whether XOR should be returned
+	 * @return XOR or DIFFERENCE
+	 */
+	public static PolyOperation getOp(GeoBoolean exclusive) {
+		return (exclusive != null && exclusive.getBoolean()) ? PolyOperation.XOR
+				: PolyOperation.DIFFERENCE;
 	}
 
 	@Override
 	public void compute() {
-		if (this.exclusive != null && this.exclusive.getBoolean())
-			this.operationType = PolyOperation.XOR;
-		else
-			this.operationType = PolyOperation.DIFFERENCE;
+		this.operationType = getOp(exclusive);
 		super.compute();
 	}
 

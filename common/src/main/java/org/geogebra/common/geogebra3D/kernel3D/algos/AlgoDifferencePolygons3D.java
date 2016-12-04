@@ -2,6 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoPolygonDifference;
+import org.geogebra.common.kernel.algos.AlgoPolygonOperation.PolyOperation;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -17,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 
 	// input
-	protected GeoBoolean exclusive = null;
+	private GeoBoolean exclusive = null;
 
 	private boolean threeArgs = false;
 
@@ -41,12 +43,8 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 		this.exclusive = exclusive;
 		this.threeArgs = true;
 
-		if (this.exclusive.getBoolean()) {
-			this.initiatePolyOperation(PolyOperation.XOR);
-		} else {
-			initiatePolyOperation(PolyOperation.DIFFERENCE);
-		}
-		}
+		initiatePolyOperation(AlgoPolygonDifference.getOp(exclusive));
+	}
 
 	/**
 	 * 
@@ -62,7 +60,8 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	public AlgoDifferencePolygons3D(Construction cons, String[] labels,
 			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE, null);
+		initialize(null);
 
 	}
 
@@ -85,14 +84,12 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE,
 				outputSizes);
+		initialize(outputSizes);
 	}
 
 	@Override
 	public void compute() {
-		if (this.exclusive != null && this.exclusive.getBoolean())
-			this.operationType = PolyOperation.XOR;
-		else
-			this.operationType = PolyOperation.DIFFERENCE;
+		this.operationType = AlgoPolygonDifference.getOp(exclusive);
 		super.compute();
 	}
 

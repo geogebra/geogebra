@@ -33,10 +33,12 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Markus Hohenwarter
  */
 public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
-
-	protected GeoPointND[] points; // input
-	protected GeoList geoList; // alternative input
-	protected GeoPolygon poly; // output
+	/** input */
+	protected GeoPointND[] points;
+	/** alternative input */
+	protected GeoList geoList;
+	/** output */
+	protected GeoPolygon poly;
 
 	/** /2D coord sys used for 3D */
 	protected CoordSys cs2D;

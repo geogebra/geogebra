@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoPolygonOperation.PolyOperation;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoPoly;
@@ -29,7 +30,8 @@ public class AlgoIntersectPathPolygons3D extends AlgoPolygonOperations3D {
 	public AlgoIntersectPathPolygons3D(Construction cons, String[] labels,
 			GeoPoly inPoly0, GeoPoly inPoly1) {
 
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
+		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION, null);
+		initialize(null);
 	}
 
 	@Override

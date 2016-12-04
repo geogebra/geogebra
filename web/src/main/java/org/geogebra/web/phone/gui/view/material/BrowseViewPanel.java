@@ -25,6 +25,7 @@ public class BrowseViewPanel extends AbstractViewPanel {
 		materialListPanel = new MaterialListPanelP(app);
 		ScrollPanel scrollPanel = new ScrollPanel(materialListPanel);
 		add(scrollPanel);
+		onResize();
 	}
 
 	@Override

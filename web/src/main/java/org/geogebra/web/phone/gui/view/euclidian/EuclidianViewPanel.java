@@ -67,6 +67,7 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 				TouchEndEvent.getType());
 		addDomHandler(this.euclidianView.getEuclidianController(),
 				TouchMoveEvent.getType());
+		onResize();
 	}
 
 	@Override

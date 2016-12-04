@@ -4,6 +4,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.phone.gui.view.AbstractViewPanel;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 
+/**
+ * Phone panel for menu
+ */
 public class MenuViewPanel extends AbstractViewPanel {
 
 	private MainMenu menu;
@@ -17,6 +20,7 @@ public class MenuViewPanel extends AbstractViewPanel {
 		this.menu = (MainMenu) app.getLAF().getMenuBar(app);
 		this.menu.addStyleName("phoneMenu");
 		this.add(menu);
+		onResize();
 	}
 
 	@Override
