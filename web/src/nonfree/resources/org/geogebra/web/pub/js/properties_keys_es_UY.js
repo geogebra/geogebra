@@ -14,7 +14,7 @@
  *
  * Keys translations for Spanish (Uruguay)
  */
-
+/* globals __GGB__keysVar */
 if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
