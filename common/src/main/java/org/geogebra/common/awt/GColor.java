@@ -16,21 +16,37 @@ import java.util.HashMap;
  */
 public class GColor implements GPaint {
 
+	/** WHITE */
 	public static final GColor WHITE = new GColor(255, 255, 255);
+	/** BLACK */
 	public static final GColor BLACK = new GColor(0, 0, 0);
+	/** RED */
 	public static final GColor RED = new GColor(255, 0, 0);
+	/** ORANGE */
 	public static final GColor ORANGE = new GColor(255, 127, 0);
+	/** YELLOW */
 	public static final GColor YELLOW = new GColor(255, 255, 0);
+	/** GREEN */
 	public static final GColor GREEN = new GColor(0, 255, 0);
+	/** BLUE */
 	public static final GColor BLUE = new GColor(0, 0, 255);
+	/** CYAN */
 	public static final GColor CYAN = new GColor(0, 255, 255);
+	/** DARK_CYAN */
 	public static final GColor DARK_CYAN = new GColor(99, 219, 219);
+	/** DARK_GREEN */
 	public static final GColor DARK_GREEN = new GColor(0, 127, 0);
+	/** MAGENTA */
 	public static final GColor MAGENTA = new GColor(255, 0, 255);
+	/** LIGHTEST_GRAY */
 	public static final GColor LIGHTEST_GRAY = new GColor(230, 230, 230);
+	/** LIGHT_GRAY */
 	public static final GColor LIGHT_GRAY = new GColor(192, 192, 192);
+	/** GRAY */
 	public static final GColor GRAY = new GColor(128, 128, 128);
+	/** DARK_GRAY */
 	public static final GColor DARK_GRAY = new GColor(68, 68, 68);
+	/** PURPLE */
 	public static final GColor PURPLE = new GColor(102, 102, 255);
 
 	private static HashMap<Integer, GColor> map = new HashMap<Integer, GColor>();

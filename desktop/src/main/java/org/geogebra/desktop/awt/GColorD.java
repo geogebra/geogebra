@@ -5,6 +5,10 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 
+/**
+ * Static methods for AWT &lt;-> multiplatform color conversion
+ *
+ */
 public class GColorD {
 
 
@@ -12,18 +16,19 @@ public class GColorD {
 
 
 	/**
-	 * @param color
-	 * @return
+	 * @param gColor
+	 *            multiplatform color
+	 * @return awt color
 	 */
-	public static Color getAwtColor(GColor that) {
-		Color ret = map.get(that);
+	public static Color getAwtColor(GColor gColor) {
+		Color ret = map.get(gColor);
 
-		if (ret == null && that != null) {
+		if (ret == null && gColor != null) {
 			// color hasn't been used yet, need to create it
-			ret = new Color(that.getRed(),
-					that.getGreen(), that.getBlue(), that.getAlpha());
+			ret = new Color(gColor.getRed(), gColor.getGreen(),
+					gColor.getBlue(), gColor.getAlpha());
 			synchronized (map) {
-				map.put(that, ret);
+				map.put(gColor, ret);
 			}
 
 		}
@@ -31,9 +36,15 @@ public class GColorD {
 		return ret;
 	}
 
-	public static GColor newColor(Color c) {
-		return c == null ? null : GColor.newColor(c.getRed(), c.getGreen(),
-				c.getBlue());
+	/**
+	 * @param color
+	 *            awt color
+	 * @return multiplatform color
+	 */
+	public static GColor newColor(Color color) {
+		return color == null ? null
+				: GColor.newColor(color.getRed(), color.getGreen(),
+						color.getBlue());
 	}
 
 }
