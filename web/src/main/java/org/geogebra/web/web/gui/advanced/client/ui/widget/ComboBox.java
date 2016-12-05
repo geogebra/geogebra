@@ -744,7 +744,6 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
                     value.addStyleName("selected-row");
                     if (isChoiceButtonVisible())
                         getChoiceButton().setFocus(true);
-					;
                 }
 
             } else if (sender == null || sender == getListPanel()) { //on drop down list show

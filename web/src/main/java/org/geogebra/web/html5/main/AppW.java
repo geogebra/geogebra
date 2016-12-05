@@ -166,8 +166,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
 
-	public static final String LOCALE_PARAMETER = "locale";
-
 	private FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
 	private SoundManagerW soundManager;

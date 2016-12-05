@@ -24,7 +24,7 @@ public class LayerModel extends MultipleOptionsModel {
 		List<String> choices = new ArrayList<String>();
 		for (int layer = 0; layer <= EuclidianStyleConstants.MAX_LAYERS; ++layer) {
 			choices.add(" " + layer);
-		};
+		}
 		return choices;
 	}
 

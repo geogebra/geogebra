@@ -393,7 +393,7 @@ public class DefaultClipper extends ClipperBase {
                     return false;
                 }
             }
-            ;
+
             op2b = op2.next;
             while (op2b.getPt().equals( op2.getPt() ) && op2b != op2) {
                 op2b = op2b.next;
@@ -424,17 +424,15 @@ public class DefaultClipper extends ClipperBase {
                 j.outPt2 = op1b;
                 return true;
             }
-            else {
-                op1b = op1.duplicate( true );
-                op2b = op2.duplicate( false );
-                op1.next = op2;
-                op2.prev = op1;
-                op1b.prev = op2b;
-                op2b.next = op1b;
-                j.outPt1 = op1;
-                j.outPt2 = op1b;
-                return true;
-            }
+			op1b = op1.duplicate(true);
+			op2b = op2.duplicate(false);
+			op1.next = op2;
+			op2.prev = op1;
+			op1b.prev = op2b;
+			op2b.next = op1b;
+			j.outPt1 = op1;
+			j.outPt2 = op1b;
+			return true;
         }
     }
 

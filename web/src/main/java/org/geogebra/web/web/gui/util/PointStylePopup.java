@@ -124,8 +124,6 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
 	public void setSelectedIndex(int index) {
 	    super.setSelectedIndex(index);		
-;
-	    
     }
 
 	public void addItem(String item) {

@@ -276,7 +276,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			calcRoots(fun, 0);
 		} else {
 			solution.resetRoots();
-			;
 		}
 	}
 

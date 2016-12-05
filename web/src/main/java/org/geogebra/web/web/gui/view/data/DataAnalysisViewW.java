@@ -687,7 +687,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 			dataDisplayPanel2.update();
 		} else {
 			dataDisplayPanel1.update();
-			;
 		}
 
 	}

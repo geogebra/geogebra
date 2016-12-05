@@ -41,7 +41,6 @@ public class ButtonDialogModel {
 	public ButtonDialogModel(App app, int x, int y, boolean textField) {
 		this.app = app;
 		this.textField = textField;
-		;
 		this.x = x;
 		this.y = y;
 

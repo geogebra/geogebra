@@ -3319,9 +3319,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			double zeroY = ds[5] * ds[3];
 			double zeroX = ds[4] * (-ds[0]);
 			GPathIterator path = s.getPathIterator(null);
-			GColor c = ((GeoElement) geo).getObjectColor();
 			code.append("\\draw[");
-			;
 			code.append(lineOptionCode((GeoElement) geo, true));
 			code.append("]");
 			double precX = Integer.MAX_VALUE;

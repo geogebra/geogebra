@@ -625,7 +625,7 @@ public class EuclidianOptionsModel {
 			Unicode.PI_STRING + "/3", Unicode.PI_STRING + "/2", };
 		for (String item: angleOptions) {
 			listener.addAngleOptionItem(item);
-		};
+		}
 	}
 
 	public void applyGridTicks(String str, int idx) {

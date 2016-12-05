@@ -264,6 +264,7 @@ public class OptionsObjectD extends OptionsObject
 	 * rename geo
 	 * 
 	 * @param geo
+	 *            element to be renamed
 	 */
 	public void rename(GeoElement geo) {
 		if (selection != null && selection.size() == 1
@@ -341,7 +342,7 @@ public class OptionsObjectD extends OptionsObject
 	 * @param geo GeoText to be updated
 	 */
 	public void updateTextEditor(GeoElement geo){
-		propPanel.updateTextEditor(geo);;
+		propPanel.updateTextEditor(geo);
 	}
 
 } // PropertiesDialog

@@ -1103,8 +1103,6 @@ ToolbarD.getAllTools(this));
 	@SuppressFBWarnings({ "DM_EXIT", "" })
 	public static void exit(int i) {
 		System.exit(i);
-		;
-
 	}
 
 	private static boolean versionCheckAllowed = true;
@@ -2865,7 +2863,7 @@ ToolbarD.getAllTools(this));
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
 			applicationSplitPane
-					.setRightComponent((Component) (getGuiManager())
+					.setRightComponent((getGuiManager())
 							.getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
 				applicationSplitPane
@@ -3850,34 +3848,30 @@ ToolbarD.getAllTools(this));
 	protected int getWindowWidth() {
 		if ((frame != null) && (frame.getWidth() > 0)) {
 			return frame.getWidth();
-		} else {
-			return 800;
 		}
+		return 800;
 	}
 
 	@Override
 	protected int getWindowHeight() {
 		if ((frame != null) && (frame.getHeight() > 0)) {
 			return frame.getHeight();
-		} else {
-			return 600;
 		}
+		return 600;
 	}
 
 	private int getWindowCenterX() {
 		if (frame != null) {
 			return frame.getX() + frame.getWidth() / 2;
-		} else {
-			return 400;
 		}
+		return 400;
 	}
 
 	private int getWindowCenterY() {
 		if (frame != null) {
 			return frame.getY() + frame.getHeight() / 2;
-		} else {
-			return 300;
 		}
+		return 300;
 	}
 
 

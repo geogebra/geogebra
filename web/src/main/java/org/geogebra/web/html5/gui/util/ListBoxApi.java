@@ -27,7 +27,6 @@ public class ListBoxApi {
 				break;
 			}
 		}
-		;
 		return indexToFind;
 	}
 

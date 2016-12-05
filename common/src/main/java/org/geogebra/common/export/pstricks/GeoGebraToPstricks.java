@@ -1878,7 +1878,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		if ((euclidianView.getAxesLineStyle() & EuclidianStyleConstants.AXES_LEFT_ARROW) == EuclidianStyleConstants.AXES_LEFT_ARROW) {
 			styleAx = "<" + styleAx;
-			;
 		}
 		codeBeginPic.append(styleAx);
 		codeBeginPic.append("}(0,0)(");

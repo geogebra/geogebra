@@ -103,7 +103,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				model.applyRandom(cbRandom.getValue());
 
 			}});
-		;
 		positionPanel.add(cbRandom);
 
 		lbSliderHorizontal = new ListBox();
