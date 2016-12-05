@@ -1395,8 +1395,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 								.contains("tan")) {
 					v[1] = true;
 				}
-				double val = le.evaluateDouble();
-				v[0] = !(((int) (val)) == val);
+				double val1 = le.evaluateDouble();
+				v[0] = !Kernel.isInteger(val1);
 				return v;
 			}
 			op = le.getOperation();

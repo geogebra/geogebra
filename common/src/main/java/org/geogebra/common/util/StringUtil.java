@@ -308,7 +308,7 @@ public class StringUtil {
 			 */
 
 			case '%': // % -> \%
-				if (!(previousChar == '\\')) {
+				if (previousChar != '\\') {
 					sbReplaceExp.append("\\");
 				}
 				sbReplaceExp.append("%");

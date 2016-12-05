@@ -885,9 +885,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 					}
 
 
-				if (!(inputText.charAt(inputText.length() - 1) == '.')
-				        && (dotIndex == -1 || !(inputText.charAt(inputText
-				                .length() - 1) == '0'))
+				if ((inputText.charAt(inputText.length() - 1) != '.')
+						&& (dotIndex == -1 || (inputText
+								.charAt(inputText.length() - 1) != '0'))
 			        && !inputText.equals("-")) {
 			// Double value = Double.parseDouble(source.getText());
 

@@ -462,7 +462,7 @@ public class GeoText extends GeoElement implements Locateable,
 	public boolean isTextCommand() {
 
 		// check for eg If[ a==1 , "hello", "bye"] first
-		if (!(getParentAlgorithm() == null)
+		if ((getParentAlgorithm() != null)
 				&& !(getParentAlgorithm() instanceof AlgoDependentText))
 			return true;
 

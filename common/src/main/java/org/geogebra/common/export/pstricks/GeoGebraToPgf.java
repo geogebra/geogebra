@@ -1369,7 +1369,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					v[1] = true;
 				}
 				double val = le.evaluateDouble();
-				v[0] = !(((int) (val)) == val);
+				v[0] = !Kernel.isInteger(val);
 				return v;
 			}
 			op = le.getOperation();
