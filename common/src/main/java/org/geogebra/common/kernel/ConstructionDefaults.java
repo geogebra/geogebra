@@ -924,8 +924,15 @@ public class ConstructionDefaults {
 			GeoElement geo = it.next();
 
 			// set line thickness
-			if (!geo.isGeoText() && !geo.isGeoImage()) // affects bounding box
-				geo.setLineThickness(this.lineThickness);
+			if (!geo.isGeoText() && !geo.isGeoImage()) { // affects bounding box
+				if (geo.isGeoPlane()) {
+					if (geo.getLineThickness() != 0) {
+						geo.setLineThickness(this.lineThickness);
+					}
+				} else {
+					geo.setLineThickness(this.lineThickness);
+				}
+			}
 
 			switch (geo.getGeoClassType()) {
 
