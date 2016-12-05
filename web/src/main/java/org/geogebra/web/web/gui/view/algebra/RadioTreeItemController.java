@@ -398,6 +398,10 @@ public class RadioTreeItemController
 	 * @param ctrl
 	 */
 	protected void startEdit(boolean ctrl) {
+		if (item.isInputTreeItem()) {
+			((LatexTreeItem) item).startEditing(ctrl);
+			return;
+		}
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selectionCtrl.clear();
 		ev.resetMode();
@@ -454,7 +458,7 @@ public class RadioTreeItemController
 
 		}
 
-		if (enable && !active) {
+		if (enable && (!active || item.isInputTreeItem())) {
 			Log.debug("[AVTAP] single tap edit begins");
 			longTouchManager.cancelTimer();
 			item.selectItem(true);
