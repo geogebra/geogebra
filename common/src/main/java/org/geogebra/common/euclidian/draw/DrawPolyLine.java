@@ -351,12 +351,58 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
+		// hit points of polyline
+		GPathIterator it = gp.getGeneralPath().getPathIterator(null);
+		it.currentSegment(coords);
+		it.next();
+		if (it.isDone()) {
+			if (pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
+							0, 100, 100);
+					rect.setBounds(x - hitThreshold, y - hitThreshold,
+							2 * hitThreshold, 2 * hitThreshold);
+					if (rect.contains(p)) {
+						return true;
+					}
+				}
+				return false;
+			}
+		}
+
 		if (isVisible) {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
-			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
+			boolean intersects = strokedShape.intersects(x - hitThreshold,
+					y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
+			// if no hit of polyline
+			// try single points of polyline
+			if (!intersects && pointList != null) {
+				for (int i = 0; i < pointList.size(); i++) {
+					Coords v = pointList.get(i).getInhomCoordsInD3();
+					coords[0] = v.getX();
+					coords[1] = v.getY();
+					view.toScreenCoords(coords);
+					GPoint2D p = AwtFactory.getPrototype().newPoint2D();
+					p.setLocation(coords[0], coords[1]);
+					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
+							0, 100, 100);
+					rect.setBounds(x - hitThreshold, y - hitThreshold,
+							2 * hitThreshold, 2 * hitThreshold);
+					if (rect.contains(p)) {
+						return true;
+					}
+				}
+			}
+			return intersects;
 		}
 		return false;
 	}
