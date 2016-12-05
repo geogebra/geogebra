@@ -226,7 +226,7 @@ public final class LocalizationW extends Localization {
 
 		}
 
-		String ret = getPropertyNative(localeStr, key, "color");
+		String ret = getPropertyNative(localeStr, key, "colors");
 
 		if (ret == null || "".equals(ret)) {
 			Log.debug("error key not found: " + key);
@@ -367,11 +367,13 @@ public final class LocalizationW extends Localization {
 
 	}
 
+	@Override
 	protected String getLanguage(Locale locale) {
 		// TODO: implement if LocalizationW uses Locale rather than String
 		return "en";
 	}
 
+	@Override
 	protected String getCountry(Locale locale) {
 		// TODO: implement if LocalizationW uses Locale rather than String
 		return "US";
