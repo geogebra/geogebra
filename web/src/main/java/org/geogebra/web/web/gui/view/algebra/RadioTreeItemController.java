@@ -79,7 +79,7 @@ public class RadioTreeItemController
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
 		LongTouchHandler {
 
-	private AppW app;
+	protected AppW app;
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
@@ -150,7 +150,7 @@ public class RadioTreeItemController
 		return item.commonEditingCheck();
 	}
 
-	private boolean isEditing() {
+	protected boolean isEditing() {
 		return item.isEditing();
 	}
 
@@ -398,10 +398,6 @@ public class RadioTreeItemController
 	 * @param ctrl
 	 */
 	protected void startEdit(boolean ctrl) {
-		if (item.isInputTreeItem()) {
-			((LatexTreeItem) item).startEditing(ctrl);
-			return;
-		}
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selectionCtrl.clear();
 		ev.resetMode();
@@ -485,7 +481,7 @@ public class RadioTreeItemController
 			markForEdit = true;
 			Log.debug("[AVTAP] single tap is about to start");
 			// app.getSelectionManager().clearSelectedGeos();
-			// getAV().unselectActiveItem();
+			getAV().unselectActiveItem();
 
 			return true;
 		}

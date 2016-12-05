@@ -4,38 +4,27 @@ package org.geogebra.web.web.gui.view.algebra;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
-import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.renderer.share.CursorBox;
 
@@ -44,13 +33,10 @@ import com.himamis.retex.renderer.share.CursorBox;
  * @author Zbynek
  *
  */
-public class LatexTreeItem extends RadioTreeItem
-		implements MathFieldListener, BlurHandler {
+public class LatexTreeItem extends RadioTreeItem {
+	// implements MathFieldListener {
 
 	private MathFieldW mf;
-	/** Listener for enter */
-	RetexKeyboardListener retexListener;
-	private InputSuggestions sug;
 
 	/**
 	 * @param geo0
@@ -80,42 +66,21 @@ public class LatexTreeItem extends RadioTreeItem
 	}
 
 	@Override
-	protected boolean startEditing(boolean substituteNumbers) {
-		String text = geo == null ? "" : geo.getDefinitionForEditor();
-		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
-			return false;
-		}
-		if (errorLabel != null) {
-			errorLabel.setText("");
-		}
-		removeDummy();
+	protected RadioTreeItemController createController() {
+		return new LatexTreeItemController(this);
+	}
 
-		renderLatex(text, true);
-		mf.setFocus(true);
-		app.getGlobalKeyDispatcher().setFocused(true);
-		canvas.addBlurHandler(this);
-
-		CancelEventTimer.keyboardSetVisible();
-		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
-			@Override
-			public void onClickStart(int x, int y,
-					final PointerEventType type) {
-				app.getGuiManager()
-						.setOnScreenKeyboardTextField(retexListener);
-				// prevent that keyboard is closed on clicks (changing
-				// cursor position)
-				CancelEventTimer.keyboardSetVisible();
-			}
-		});
-
-		updateLineHeight();
-		app.getGuiManager().setOnScreenKeyboardTextField(retexListener);
-		return true;
+	/**
+	 * 
+	 * @return The controller as LatexTreeItemController.
+	 */
+	public LatexTreeItemController getLatexController() {
+		return (LatexTreeItemController) getController();
 	}
 
 	@Override
 	protected void showKeyboard() {
-		app.showKeyboard(retexListener);
+		getLatexController().showKeyboard();
 
 	}
 
@@ -149,11 +114,7 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 
 		setText(text0);
-		retexListener = new RetexKeyboardListener(canvas, mf);
-		if (showKeyboard) {
-		app.getAppletFrame().showKeyBoard(true, retexListener, false);
-		}
-
+		getLatexController().initAndShowKeyboard(showKeyboard);
 
 	}
 
@@ -171,25 +132,18 @@ public class LatexTreeItem extends RadioTreeItem
 		if (canvas == null) {
 			Log.debug("CANVAS IS NULL");
 			canvas = Canvas.createIfSupported();
-			mf = new MathFieldW(canvas, canvas.getContext2d(), this);
+			mf = new MathFieldW(canvas, canvas.getContext2d(),
+					getLatexController());
 			return true;
 		}
 		if (mf == null) {
-			mf = new MathFieldW(canvas, canvas.getContext2d(), this);
+			mf = new MathFieldW(canvas, canvas.getContext2d(),
+					getLatexController());
 		}
 		mf.setPixelRatio(app.getPixelRatio());
 		return false;
 	}
 
-	@Override
-	public void onEnter() {
-		if (isSuggesting()) {
-			sug.needsEnterForSuggestion();
-			return;
-		}
-		onEnter(geo == null);
-		
-	}
 
 	@Override
 	public void setFocus(boolean focus, boolean sv) {
@@ -260,90 +214,10 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void onEnter(final boolean keepFocus) {
-		if (geo == null) {
-			if (StringUtil.empty(getText())) {
-				return;
-			}
-			createGeoFromInput(keepFocus);
-
-			return;
-		}
-		if (!isEditing()) {
-			return;
-		}
-		stopEditing(getText(), new AsyncOperation<GeoElementND>() {
-
-			@Override
-			public void callback(GeoElementND obj) {
-				if (obj != null && !keepFocus) {
-					if (app.has(Feature.AUTOSCROLLING_SPREADSHEET)) {
-						app.setScrollToShow(true);
-					}
-					obj.update();
-				}
-			}
-		});
+		getLatexController().onEnter(keepFocus);
 	}
 
-	private void createGeoFromInput(final boolean keepFocus) {
-		String newValue = getText();
-		final String input = kernel.getInputPreviewHelper().getInput(newValue);
-		final boolean valid = input.equals(newValue);
 
-		app.setScrollToShow(true);
-		
-		AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
-
-			@Override
-			public void callback(GeoElementND[] geos) {
-
-				if (geos == null) {
-					// inputField.getTextBox().setFocus(true);
-					getController().setFocus(true);
-					return;
-				}
-
-				// need label if we type just eg
-				// lnx
-				if (geos.length == 1 && !geos[0].isLabelSet()) {
-					geos[0].setLabel(geos[0].getDefaultLabel());
-				}
-
-				InputHelper.updateProperties(geos, app.getActiveEuclidianView());
-				app.setScrollToShow(false);
-				/**
-				 * if (!valid) { addToHistory(input, null);
-				 * addToHistory(newValueF, latexx); } else { addToHistory(input,
-				 * latexx); }
-				 */
-
-				Scheduler.get()
-						.scheduleDeferred(new Scheduler.ScheduledCommand() {
-							@Override
-							public void execute() {
-								scrollIntoView();
-								if (keepFocus) {
-									getController().setFocus(true);
-								}else{
-									setFocus(false, true);
-								}
-
-							}
-						});
-
-				setText("");
-
-				updateLineHeight();
-			}
-
-		};
-		ErrorHandler err = getErrorHandler(valid);
-		err.resetError();
-		app.getKernel().getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(input, true,
-						err, true, callback);
-
-	}
 	
 	@Override
 	public void setText(String text0) {
@@ -376,8 +250,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void autocomplete(String text) {
-		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
-
+		getLatexController().autocomplete(text);
 	}
 
 	@Override
@@ -385,7 +258,6 @@ public class LatexTreeItem extends RadioTreeItem
 		getController().setFocus(true);
 	}
 
-	@Override
 	public void onKeyTyped() {
 		app.closePerspectivesPopup();
 		updatePreview();
@@ -394,7 +266,6 @@ public class LatexTreeItem extends RadioTreeItem
 		onCursorMove();
 	}
 
-	@Override
 	public void onCursorMove() {
 		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
 				- 10 < CursorBox.startX) {
@@ -411,11 +282,8 @@ public class LatexTreeItem extends RadioTreeItem
 		return getInputSuggestions().popupSuggestions();
 	}
 
-	private InputSuggestions getInputSuggestions() {
-		if (sug == null) {
-			sug = new InputSuggestions(app, this);
-		}
-		return sug;
+	InputSuggestions getInputSuggestions() {
+		return getLatexController().getInputSuggestions();
 	}
 
 	private void updatePreview() {
@@ -424,20 +292,6 @@ public class LatexTreeItem extends RadioTreeItem
 				.getInputPreviewHelper()
 				.updatePreviewFromInputBar(text,
 						AlgebraInputW.getWarningHandler(this, app));
-	}
-
-	@Override
-	public void onBlur(BlurEvent event) {
-
-		if (isEmpty() && isInputTreeItem()) {
-			addDummyLabel();
-		}
-
-		if (((AlgebraViewW) av).isNodeTableEmpty()) {
-			// #5245#comment:8, cases B and C excluded
-			updateGUIfocus(event == null ? this : event.getSource(), true);
-		}
-
 	}
 
 	@Override
@@ -510,7 +364,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public boolean isSuggesting() {
-		return sug != null && sug.isSuggesting();
+		return getLatexController().isSuggesting();
 	}
 
 
@@ -540,22 +394,7 @@ public class LatexTreeItem extends RadioTreeItem
 		return super.isInputTreeItem();
 	}
 
-	public String alt(int unicodeKeyChar, boolean shift) {
-		return retexListener.alt(unicodeKeyChar, shift);
-	}
 
-	public void onUpKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyUp();
-		}
-
-	}
-	public void onDownKeyPressed() {
-		if (isSuggesting()) {
-			sug.onKeyDown();
-		}
-
-	}
 
 	@Override
 	protected void updateButtonPanelPosition() {
@@ -565,12 +404,40 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 	}
 
-	public String serialize(MathSequence selectionText) {
-		return GeoGebraSerializer.serialize(selectionText);
+
+
+
+
+	public MathFieldW getMathField() {
+		return mf;
 	}
 
-	public void onInsertString() {
-		mf.setFormula(GeoGebraSerializer.reparse(mf.getFormula()));
+	@Override
+	public boolean onEditStart(boolean substituteNumbers) {
+		String text = geo == null ? "" : geo.getDefinitionForEditor();
+		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
+			return false;
+		}
+		if (errorLabel != null) {
+			errorLabel.setText("");
+		}
+		removeDummy();
+
+		renderLatex(text, true);
+		getMathField().setFocus(true);
+		app.getGlobalKeyDispatcher().setFocused(true);
+		canvas.addBlurHandler(getLatexController());
+		CancelEventTimer.keyboardSetVisible();
+		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
+			@Override
+			public void onClickStart(int x, int y,
+					final PointerEventType type) {
+				getLatexController().setOnScreenKeyboardTextField();
+			}
+		});
+
+		updateLineHeight();
+		return true;
 
 	}
 }

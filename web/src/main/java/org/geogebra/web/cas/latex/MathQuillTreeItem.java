@@ -212,7 +212,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 * @return
 	 */
 	@Override
-	protected boolean startEditing(boolean substituteNumbers) {
+	public boolean onEditStart(boolean substituteNumbers) {
 		String text = getTextForEditing(substituteNumbers,
 				StringTemplate.latexTemplateMQedit);
 		if (text == null) {

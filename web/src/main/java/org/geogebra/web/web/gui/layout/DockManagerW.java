@@ -1914,8 +1914,10 @@ public class DockManagerW extends DockManager {
 		if (width < 600) {
 			return 200 / width;
 		}
+		
 
 		return 100 / width + 1 / 6.0;
+
 	}
 
 	/**

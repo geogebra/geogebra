@@ -1253,7 +1253,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		editing = true;
-		if (startEditing(substituteNumbers) == false) {
+		if (onEditStart(false) == false) {
 			return false;
 		}
 		if (controls != null) {
@@ -1275,13 +1275,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Starts the equation editor for the item.
-	 * 
-	 * @param substituteNumbers
-	 *            Sets that variables must be substituted or not
-	 * @return
+	 * Starts the equation editor for the item
 	 */
-	protected abstract boolean startEditing(boolean substituteNumbers);
+	public abstract boolean onEditStart(boolean substituteNumbers);
+
 	protected boolean isDefinitionAndValue() {
 		return definitionAndValue && kernel
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;

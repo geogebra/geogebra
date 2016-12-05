@@ -847,7 +847,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	 * Starts editing of the input.
 	 */
 	@Override
-	protected boolean startEditing(boolean b) {
+	public boolean onEditStart(boolean b) {
 		// argument is not used.
 		MathQuillHelper.editEquationMathQuillGGB(this, latexItem, true);
 
