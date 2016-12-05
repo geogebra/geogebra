@@ -35,6 +35,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Area;
 import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
+import org.geogebra.ggbjdk.java.awt.geom.Point2D;
 import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -46,7 +47,6 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGradientPaintW;
-import org.geogebra.web.html5.awt.GPoint2DW;
 import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -102,12 +102,12 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GPoint2D newPoint2D() {
-		return new GPoint2DW();
+		return new Point2D.Double();
 	}
 
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
-		return new GPoint2DW(x, y);
+		return new Point2D.Double(x, y);
 	}
 
 	@Override
