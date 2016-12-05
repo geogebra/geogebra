@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.FDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 

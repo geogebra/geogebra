@@ -236,9 +236,7 @@ public class DefaultClipper extends ClipperBase {
 				op2.setPt(new DoublePoint(Pt));
 				op2b = op2.duplicate(DiscardLeft);
 			}
-			;
         }
-		;
 
 		if (Dir1 == Direction.LEFT_TO_RIGHT == DiscardLeft) {
 			op1.prev = op2;

@@ -14,15 +14,10 @@ package org.geogebra.common.gui.view.algebra;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.kernel.CircularDefinitionException;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;

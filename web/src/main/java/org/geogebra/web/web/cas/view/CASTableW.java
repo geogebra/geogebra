@@ -393,8 +393,8 @@ public class CASTableW extends Grid implements CASTable {
 	/**
 	 * Return value for {@link HTMLTable#getCellForEvent}.
 	 */
-	public class Cell extends com.google.gwt.user.client.ui.HTMLTable.Cell {
-		public Cell(int rowIndex, int cellIndex) {
+	public class MyCell extends HTMLTable.Cell {
+		public MyCell(int rowIndex, int cellIndex) {
 			super(rowIndex, cellIndex);
 		}
 	}
@@ -408,7 +408,7 @@ public class CASTableW extends Grid implements CASTable {
 	 *            A click event of indeterminate origin
 	 * @return The appropriate cell, or null
 	 */
-	public Cell getCellForEvent(HumanInputEvent<?> event) {
+	public MyCell getCellForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {
 			return null;
@@ -417,7 +417,7 @@ public class CASTableW extends Grid implements CASTable {
 		int row = TableRowElement.as(td.getParentElement())
 		        .getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
-		return new Cell(row, column);
+		return new MyCell(row, column);
 	}
 
 	public void setCellInput(int i, String cellInput) {

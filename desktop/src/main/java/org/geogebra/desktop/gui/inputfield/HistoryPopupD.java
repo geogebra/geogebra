@@ -4,8 +4,6 @@ import static java.awt.event.KeyEvent.VK_DOWN;
 import static java.awt.event.KeyEvent.VK_ENTER;
 import static java.awt.event.KeyEvent.VK_ESCAPE;
 import static java.awt.event.KeyEvent.VK_UP;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -282,7 +280,7 @@ public class HistoryPopupD implements ListSelectionListener {
 			index = -1;
 		} else {
 			index += offset;
-			index = max(0, min(end, index));
+			index = Math.max(0, Math.min(end, index));
 		}
 
 		if (-1 == index) {

@@ -49,7 +49,6 @@ package com.himamis.retex.renderer.share;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.share.platform.font.Font;
 
 /**

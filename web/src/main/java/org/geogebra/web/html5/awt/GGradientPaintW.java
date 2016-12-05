@@ -18,8 +18,7 @@ public class GGradientPaintW implements GGradientPaint {
 	}
 
 	public GGradientPaintW(float x1, float y1,
-	        org.geogebra.common.awt.GColor color1, float x2, float y2,
-	        org.geogebra.common.awt.GColor color2) {
+			GColor color1, float x2, float y2, GColor color2) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;

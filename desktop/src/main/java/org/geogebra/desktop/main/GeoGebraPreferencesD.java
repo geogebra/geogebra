@@ -112,7 +112,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs, ggbPrefsSystem;
 
-	{
+	protected GeoGebraPreferencesD() {
 
 		try {
 			if (PROPERTY_FILEPATH == null) {

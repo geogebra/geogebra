@@ -50,7 +50,7 @@ public class FontRenderContextD implements
 
 	public FontRenderContext impl;
 
-	public FontRenderContextD(java.awt.font.FontRenderContext impl) {
+	public FontRenderContextD(FontRenderContext impl) {
 		this.impl = impl;
 	}
 }

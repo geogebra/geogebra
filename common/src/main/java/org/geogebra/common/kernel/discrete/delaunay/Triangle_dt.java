@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.discrete.delaunay;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 

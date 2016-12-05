@@ -65,7 +65,7 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 		return CAP_BUTT;
 	}
 
-	public com.google.gwt.canvas.dom.client.Context2d.LineCap getEndCapString() {
+	public LineCap getEndCapString() {
 		return gwtCaps[getEndCap()];
 	}
 

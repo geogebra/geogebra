@@ -409,7 +409,7 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
 		return handleSelectedGeosKeys(
-		        org.geogebra.common.main.KeyCodes.translateGWTcode(event
+				KeyCodes.translateGWTcode(event
 		                .getKeyCode()), selection.getSelectedGeos(),
 		        event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
 		        false);

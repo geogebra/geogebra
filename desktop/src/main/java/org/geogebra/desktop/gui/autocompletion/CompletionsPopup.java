@@ -7,8 +7,6 @@ import static java.awt.event.KeyEvent.VK_PAGE_DOWN;
 import static java.awt.event.KeyEvent.VK_PAGE_UP;
 import static java.awt.event.KeyEvent.VK_TAB;
 import static java.awt.event.KeyEvent.VK_UP;
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 import java.awt.Font;
 import java.awt.Rectangle;
@@ -284,7 +282,7 @@ public class CompletionsPopup {
 			index = -1;
 		} else {
 			index += offset;
-			index = max(0, min(end, index));
+			index = Math.max(0, Math.min(end, index));
 		}
 
 		if (-1 == index) {

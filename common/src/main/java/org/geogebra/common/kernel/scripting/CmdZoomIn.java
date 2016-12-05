@@ -32,6 +32,9 @@ public class CmdZoomIn extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
+		case 0:
+			app.setStandardView();
+			return new GeoElement[0];
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) {

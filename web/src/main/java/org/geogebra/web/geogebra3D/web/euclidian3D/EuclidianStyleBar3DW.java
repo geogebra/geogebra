@@ -203,8 +203,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		public PopupMenuButtonForView3D() {
 			super(EuclidianStyleBar3DW.this.app, null, -1, -1,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
-			        true);
+					SelectionTable.MODE_ICON, false, true);
 		}
 
 		@Override

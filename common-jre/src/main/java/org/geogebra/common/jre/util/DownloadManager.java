@@ -18,7 +18,6 @@ import java.io.FileOutputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public class DownloadManager {

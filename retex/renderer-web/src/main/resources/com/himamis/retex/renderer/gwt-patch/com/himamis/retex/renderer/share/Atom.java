@@ -48,7 +48,6 @@
 
 
 package com.himamis.retex.renderer.share;
-import com.google.gwt.core.client.impl.Impl;
 
 
 /**

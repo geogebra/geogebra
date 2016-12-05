@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;

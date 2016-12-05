@@ -29,7 +29,7 @@ public class GGradientPaintD implements GGradientPaint {
 				x2, y2, GColorD.getAwtColor(color2));
 	}
 
-	public java.awt.GradientPaint getPaint() {
+	public GradientPaint getPaint() {
 		return impl;
 	}
 }

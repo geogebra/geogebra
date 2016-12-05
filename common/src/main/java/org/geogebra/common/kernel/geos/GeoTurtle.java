@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.kernelND.GeoPointND;

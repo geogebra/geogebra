@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class that manage all geometry objects
