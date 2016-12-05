@@ -652,8 +652,12 @@ public class ZSpaceGeoGebra {
 	 */
 	public double getDisplayAngle() {
 		try{
-		ZSDisplayAngle angle = Sdk3.ZSGetDisplayAngle(displayHandle);
-		return angle.getX();
+			ZSDisplayAngle angle = Sdk3.ZSGetDisplayAngle(displayHandle);
+			float angleX = angle.getX();
+			if (angleX > 80f) {
+				angleX = 45f;
+			}
+			return angleX;
 		} catch (Throwable e) {
 			System.out.println(
 					"ZSpace, problem getting display angle: " + e.getMessage());
