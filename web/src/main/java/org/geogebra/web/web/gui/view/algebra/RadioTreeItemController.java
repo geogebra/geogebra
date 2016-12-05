@@ -197,6 +197,17 @@ public class RadioTreeItemController
 
 	}
 
+	private void updateSelectionByMode(boolean ctrl, boolean shift) {
+		int mode = app.getActiveEuclidianView().getMode();
+
+		if (mode == EuclidianConstants.MODE_MOVE
+				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+
+			updateSelection(ctrl, shift);
+		}
+
+	}
+
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
@@ -459,6 +470,8 @@ public class RadioTreeItemController
 			longTouchManager.cancelTimer();
 			item.selectItem(true);
 			startEdit(wrappedEvent.isControlDown());
+			updateSelectionByMode(wrappedEvent.isControlDown(),
+					wrappedEvent.isShiftDown());
 		}
 
 		return true;
