@@ -655,7 +655,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		// buttons on the right
 		JPanel outputButtonPanel = new JPanel();
 		BoxLayout outputButtonPanelLayout = new BoxLayout(outputButtonPanel,
-				javax.swing.BoxLayout.Y_AXIS);
+				BoxLayout.Y_AXIS);
 		outputButtonPanel.setLayout(outputButtonPanelLayout);
 
 		final JButton btUp = new JButton("\u25b2");

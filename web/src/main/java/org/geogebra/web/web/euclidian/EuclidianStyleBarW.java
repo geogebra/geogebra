@@ -612,7 +612,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			grids[i] = GeoGebraIconW
 					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, ev);
+				SelectionTable.MODE_ICON, ev);
 		btnShowGrid.addPopupHandler(this);
 	}
 
@@ -641,7 +641,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				loc.getMenu("FixedToGrid"), loc.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -677,7 +677,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        });
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -718,7 +718,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        .convert(angleIntervalString);
 
 		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -974,7 +974,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setValue((style & org.geogebra.common.awt.GFont.BOLD) != 0);
+					btnBold.setValue((style & GFont.BOLD) != 0);
 				}
 			}
 		};
@@ -1038,7 +1038,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnItalic
-					        .setValue((style & org.geogebra.common.awt.GFont.ITALIC) != 0);
+							.setValue((style & GFont.ITALIC) != 0);
 				}
 			}
 
@@ -1056,7 +1056,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        .getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT) {
 
 			@Override
 			public void update(Object[] geos) {

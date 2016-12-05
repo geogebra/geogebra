@@ -488,8 +488,7 @@ class ColorPanel extends JPanel implements ActionListener,
 						alpha = 0;
 					}
 				} else {
-					selectedColor = org.geogebra.desktop.awt.GColorD.getAwtColor(geo0
-							.getObjectColor());
+					selectedColor = GColorD.getAwtColor(geo0.getObjectColor());
 				}
 			}
 		}

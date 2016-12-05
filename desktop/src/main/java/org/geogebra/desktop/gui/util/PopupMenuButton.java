@@ -242,7 +242,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 		isIniting = false;
 
-		if (mode == org.geogebra.common.gui.util.SelectionTable.MODE_TEXT
+		if (mode == SelectionTable.MODE_TEXT
 				&& iconSize.width == -1) {
 			iconSize.width = myTable.getColumnWidth() - 4;
 			iconSize.height = myTable.getRowHeight() - 4;

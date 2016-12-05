@@ -582,8 +582,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return "";
 		return "#"
-				+ org.geogebra.common.util.StringUtil.toHexString(geo
-						.getObjectColor());
+				+ StringUtil.toHexString(geo.getObjectColor());
 	}
 
 	public synchronized int getLineThickness(String objName) {

@@ -347,7 +347,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			symTable.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 
-					com.google.gwt.user.client.ui.HTMLTable.Cell clickCell = ((HTMLTable) event
+					HTMLTable.Cell clickCell = ((HTMLTable) event
 							.getSource()).getCellForEvent(event);
 					if (clickCell == null) {
 						return;

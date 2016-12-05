@@ -176,8 +176,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		if(treeModeButton == null){
 			treeModeButton = new PopupMenuButton(app, strTreeMode,
-			        strTreeMode.length, 1,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 	
 			ImageOrText icon = new ImageOrText(
 					StyleBarResources.INSTANCE.sortObjects());

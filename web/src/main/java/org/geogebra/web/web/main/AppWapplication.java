@@ -185,8 +185,7 @@ public class AppWapplication extends AppWFull {
 		// Well, it may cause freeze if we attach this too early
 
 		// allow eg ?command=A=(1,1);B=(2,2) in URL
-		String cmd = com.google.gwt.user.client.Window.Location
-				.getParameter("command");
+		String cmd = Location.getParameter("command");
 
 		if (cmd != null) {
 
@@ -203,8 +202,7 @@ public class AppWapplication extends AppWFull {
 		// allow eg
 		// http://web.geogebra.org/app/?filename=http://test.geogebra.org/~mike/milestones/ggbFiles/Ellipses.ggb
 		// in URL
-		String filename = com.google.gwt.user.client.Window.Location
-				.getParameter("filename");
+		String filename = Location.getParameter("filename");
 
 		if (filename != null) {
 			Log.debug("loading file: " + filename);

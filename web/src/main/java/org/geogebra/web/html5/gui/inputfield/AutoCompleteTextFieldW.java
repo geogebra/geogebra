@@ -38,7 +38,6 @@ import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
@@ -82,8 +81,8 @@ import com.google.gwt.user.client.ui.Widget;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
-        AutoCompleteW, MathKeyboardListener,
-        org.geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
+		AutoCompleteW,
+		AutoCompleteTextField, KeyDownHandler,
         KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>,
 		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 

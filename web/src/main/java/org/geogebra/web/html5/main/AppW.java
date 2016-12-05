@@ -1869,8 +1869,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// (not application mode)
 
 		// allow eg ?command=A=(1,1);B=(2,2) in URL
-		String cmd = com.google.gwt.user.client.Window.Location
-		        .getParameter("command");
+		String cmd = Location.getParameter("command");
 
 		if (cmd != null) {
 
@@ -2977,7 +2976,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void ggwGraphicsViewDimChanged(int width, int height) {
 		// Log.debug("dim changed" + getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
+				AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.
@@ -2998,7 +2997,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public void ggwGraphicsView2DimChanged(int width, int height) {
 		getSettings().getEuclidian(2).setPreferredSize(
-		        org.geogebra.common.factories.AwtFactory.getPrototype().newDimension(
+				AwtFactory.getPrototype().newDimension(
 		                width, height));
 
 		// simple setting temp.

@@ -40,7 +40,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * @param mode
 	 */
 	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
-	        org.geogebra.common.gui.util.SelectionTable mode) {
+			SelectionTable mode) {
 		super();
 		this.mode = mode;
 

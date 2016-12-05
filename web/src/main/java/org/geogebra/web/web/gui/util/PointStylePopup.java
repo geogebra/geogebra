@@ -36,16 +36,14 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
-		        pointStyleIconSize,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
+				pointStyleIconSize, SelectionTable.MODE_ICON, true,
 		        hasSlider, model);
 	}
 
 	public static PointStylePopup create(AppW app, int mode,
 	        PointStyleModel model) {
 		return new PointStylePopup(app, null, 1, -1, null,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_ICON, false, true,
-		        model);
+				SelectionTable.MODE_ICON, false, true, model);
 	}
 
 
