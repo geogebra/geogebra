@@ -51,12 +51,10 @@ package com.himamis.retex.renderer.share;
 public class UnderOverArrowAtom extends Atom {
 
 	private Atom base;
-	private String arrow;
 	private boolean over, left = false, dble = false;
 
 	public UnderOverArrowAtom(Atom base, boolean left, boolean over) {
 		this.base = base;
-		this.arrow = left ? "leftarrow" : "rightarrow";
 		this.left = left;
 		this.over = over;
 	}
@@ -68,8 +66,6 @@ public class UnderOverArrowAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		TeXFont tf = env.getTeXFont();
-		int style = env.getStyle();
 		Box b = base != null ? base.createBox(env) : new StrutBox(0, 0, 0, 0);
 		float sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).createBox(env).getWidth();
 		Box arrow;

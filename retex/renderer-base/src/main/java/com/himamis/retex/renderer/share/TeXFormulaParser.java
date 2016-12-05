@@ -114,10 +114,10 @@ public class TeXFormulaParser {
 			// get required string attribute
 			String name = getAttrValueAndCheckIfNotNull("name", el);
 			// parse arguments
-			NodeList args = el.getElementsByTagName("Argument");
+			//NodeList args = el.getElementsByTagName("Argument");
 			// get argument classes and values
-			Class[] argClasses = getArgumentClasses(args);
-			Object[] argValues = getArgumentValues(args);
+			//Class[] argClasses = getArgumentClasses(args);
+			//Object[] argValues = getArgumentValues(args);
 			// create TeXFormula object
 			// String code = "TeXFormula.predefinedTeXFormulasAsString.put(\"%s\", \"%s\");";
 			// System.out.println(String.format(code, formulaName, argValues[0]));

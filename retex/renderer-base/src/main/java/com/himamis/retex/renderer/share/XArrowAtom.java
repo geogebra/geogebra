@@ -61,8 +61,6 @@ public class XArrowAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		TeXFont tf = env.getTeXFont();
-		int style = env.getStyle();
 		Box O = over != null ? over.createBox(env.supStyle()) : new StrutBox(0, 0, 0, 0);
 		Box U = under != null ? under.createBox(env.subStyle()) : new StrutBox(0, 0, 0, 0);
 		Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).createBox(env.supStyle());
