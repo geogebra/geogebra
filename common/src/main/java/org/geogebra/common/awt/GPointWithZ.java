@@ -1,6 +1,4 @@
-package org.geogebra.desktop.geogebra3D.awt;
-
-import org.geogebra.common.awt.GPoint;
+package org.geogebra.common.awt;
 
 /** Class for integer tuples **/
 public class GPointWithZ extends GPoint {

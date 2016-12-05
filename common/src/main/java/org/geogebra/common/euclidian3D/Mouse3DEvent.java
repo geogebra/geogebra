@@ -1,23 +1,13 @@
-package org.geogebra.desktop.geogebra3D.euclidianInput3D;
-
-import java.awt.Component;
+package org.geogebra.common.euclidian3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.desktop.euclidian.event.MouseEventND;
 
-/**
- * Class for 3D mouse event
- * 
- * @author mathieu
- *
- */
-public class Mouse3DEvent extends AbstractEvent implements MouseEventND {
+public class Mouse3DEvent extends AbstractEvent {
 
 	private GPoint point;
 
-	private Component component;
 
 	/**
 	 * constructor
@@ -25,9 +15,8 @@ public class Mouse3DEvent extends AbstractEvent implements MouseEventND {
 	 * @param point
 	 *            point
 	 */
-	public Mouse3DEvent(GPoint point, Component component) {
+	public Mouse3DEvent(GPoint point) {
 		this.point = point;
-		this.component = component;
 	}
 
 	@Override
@@ -92,9 +81,6 @@ public class Mouse3DEvent extends AbstractEvent implements MouseEventND {
 		return false;
 	}
 
-	public java.awt.Component getComponent() {
-		return component;
-	}
 
 	@Override
 	public PointerEventType getType() {

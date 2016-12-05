@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
@@ -23,6 +24,7 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -327,9 +329,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				"******************* 3D View being initialized ********************************");
 		Log.error(
 				"******************************************************************************");
-		Log.printStacktrace("");
+		// Log.printStacktrace("");
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
+
+		startPos = new Coords(4);
+		startPos.setW(1);
 
 		start();
 
@@ -4855,6 +4860,104 @@ GRectangle selectionRectangle) {
 	@Override
 	protected void setXYMinMaxForSetCoordSystem() {
 		// no need in 3D
+	}
+
+	/**
+	 * set the coord system regarding 3D mouse move
+	 * 
+	 * @param translation
+	 *            translation vector
+	 */
+	public void setCoordSystemFromMouse3DMove(Coords translation) {
+		setXZero(xZeroOld + translation.getX());
+		setYZero(yZeroOld + translation.getY());
+		setZZero(zZeroOld + translation.getZ());
+
+		// update the view
+		updateTranslationMatrix();
+		updateUndoTranslationMatrix();
+		setGlobalMatrices();
+
+		setViewChangedByTranslate();
+		setWaitForUpdate();
+	}
+
+	private Coords startPos;
+
+	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
+
+	// private CoordMatrix4x4 startTranslationScreen =
+	// CoordMatrix4x4.Identity();
+
+	/**
+	 * set mouse start pos
+	 * 
+	 * @param screenStartPos
+	 *            mouse start pos (screen)
+	 */
+	public void setStartPos(Coords screenStartPos) {
+
+		startPos.set(screenStartPos);
+		toSceneCoords3D(startPos);
+		startTranslation.setOrigin(screenStartPos.add(startPos));
+
+	}
+
+	/**
+	 * set the coord system regarding 3D mouse move
+	 * 
+	 * @param startPos1
+	 *            start 3D position (screen)
+	 * @param newPos
+	 *            current 3D position (screen)
+	 * @param rotX
+	 *            relative mouse rotate around x (screen)
+	 * @param rotZ
+	 *            relative mouse rotate around z (view)
+	 */
+	public void setCoordSystemFromMouse3DMove(Coords startPos1, Coords newPos,
+			double rotX, double rotZ) {
+
+		// translation
+		Coords v = new Coords(4);
+		v.set(newPos.sub(startPos1));
+		toSceneCoords3D(v);
+
+		// rotation
+		setRotXYinDegrees(aOld + rotX, bOld + rotZ);
+
+		updateRotationAndScaleMatrices();
+
+		// center rotation on pick point ( + v for translation)
+		CoordMatrix m1 = rotationAndScaleMatrix.inverse().mul(startTranslation)
+				.mul(rotationAndScaleMatrix);
+		Coords t1 = m1.getOrigin();
+		setXZero(t1.getX() - startPos.getX() + v.getX());
+		setYZero(t1.getY() - startPos.getY() + v.getY());
+		setZZero(t1.getZ() - startPos.getZ() + v.getZ());
+		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
+		// update the view
+		updateTranslationMatrix();
+		updateUndoTranslationMatrix();
+		setGlobalMatrices();
+
+		setViewChangedByTranslate();
+		setViewChangedByRotate();
+		setWaitForUpdate();
+
+	}
+
+	public void setMouse3DEvent(GPointWithZ mouse3DLoc) {
+		((EuclidianController3D) euclidianController)
+				.setMouseEvent(createMouse3DEvent(mouse3DLoc));
+	}
+
+	protected Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
+		return new Mouse3DEvent(mouse3DLoc);
+	}
+
+	public void updateStylusBeamForMovedGeo() {
+		// used for some 3D inputs
 	}
 
 }

@@ -138,11 +138,11 @@ public class InputZSpace3D extends Input3D {
 		
 	}
 	
-	public double[] getMouse3DPosition(){
+	public double[] getInputPosition(){
 		return mousePosition;
 	}
 	
-	public double[] getMouse3DOrientation(){
+	public double[] getInputOrientation(){
 		return mouseOrientation;
 	}
 	
@@ -233,7 +233,7 @@ public class InputZSpace3D extends Input3D {
 		return true;
 	}
 
-	public double[] getMouse3DDirection() {
+	public double[] getInputDirection() {
 		return mouseDirection;
 	}
 

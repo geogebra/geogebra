@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JsArrayNumber;
 
@@ -47,6 +48,17 @@ public class InputZSpace3DW extends Input3D {
 
 		updateHeadTracking();
 
+		pose = zSpace.getViewportSpaceStylusPose();
+
+		String s = "\npose\n";
+		for (int i = 0; i < 16; i++) {
+			if (i % 4 == 0) {
+				s += "\n";
+			}
+			s += " " + pose.get(i);
+		}
+		Log.debug(s);
+
 		return false;
 	}
 
@@ -85,13 +97,13 @@ public class InputZSpace3DW extends Input3D {
 	}
 
 	@Override
-	public double[] getMouse3DPosition() {
+	public double[] getInputPosition() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public double[] getMouse3DOrientation() {
+	public double[] getInputOrientation() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -178,7 +190,10 @@ public class InputZSpace3DW extends Input3D {
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos,
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX,
 			int panelPositionY, int panelDimW, int panelDimH) {
-		// TODO Auto-generated method stub
+		// transform has been done before
+		panelPos.setX(absolutePos[0]);
+		panelPos.setY(absolutePos[1]);
+		panelPos.setZ(absolutePos[2]);
 
 	}
 
@@ -190,7 +205,7 @@ public class InputZSpace3DW extends Input3D {
 	}
 
 	@Override
-	public double[] getMouse3DDirection() {
+	public double[] getInputDirection() {
 		// TODO Auto-generated method stub
 		return null;
 	}

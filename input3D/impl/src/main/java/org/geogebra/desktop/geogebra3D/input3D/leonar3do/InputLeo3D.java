@@ -143,11 +143,11 @@ public class InputLeo3D extends Input3D {
 		
 	}
 	
-	public double[] getMouse3DPosition(){
+	public double[] getInputPosition(){
 		return mousePosition;
 	}
 	
-	public double[] getMouse3DOrientation(){
+	public double[] getInputOrientation(){
 		return mouseOrientation;
 	}
 	
@@ -252,7 +252,7 @@ public class InputLeo3D extends Input3D {
 		return false;
 	}
 
-	public double[] getMouse3DDirection() {
+	public double[] getInputDirection() {
 		return null;
 	}
 

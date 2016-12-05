@@ -59,4 +59,8 @@ public class ZSpaceGwt {
 				.setCanvasOffset(x, y);
 	}-*/;
 
+	public native JsArrayNumber getViewportSpaceStylusPose() /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.viewportSpaceStylusPose;
+	}-*/;
+
 }

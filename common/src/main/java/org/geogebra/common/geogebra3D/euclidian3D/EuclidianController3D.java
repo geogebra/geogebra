@@ -4467,4 +4467,28 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursorForTranslateView(hits);
 	}
 
+	public void setViewRotationOccured(boolean flag) {
+		viewRotationOccured = flag;
+	}
+
+	public void setTimeOld(double time) {
+		timeOld = time;
+	}
+
+	public double getTimeOld() {
+		return timeOld;
+	}
+
+	public void setAnimatedRotSpeed(double speed) {
+		animatedRotSpeed = speed;
+	}
+
+	public AbstractEvent getMouseEvent() {
+		return mouseEvent;
+	}
+
+	public void setMouseEvent(AbstractEvent event) {
+		mouseEvent = event;
+	}
+
 }

@@ -30,7 +30,9 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
+import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
@@ -55,6 +57,7 @@ import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
 import org.geogebra.desktop.geogebra3D.euclidian3D.printer3D.ExportToPrinter3DD;
+import org.geogebra.desktop.geogebra3D.euclidianInput3D.Mouse3DEventD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
@@ -636,6 +639,11 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	@Override
 	public boolean wantsStereo() {
 		return isStereoBuffered();
+	}
+
+	@Override
+	protected Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
+		return new Mouse3DEventD(mouse3DLoc, getJPanel());
 	}
 
 }

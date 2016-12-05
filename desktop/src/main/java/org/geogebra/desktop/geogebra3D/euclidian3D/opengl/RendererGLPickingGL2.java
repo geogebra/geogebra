@@ -4,6 +4,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -12,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 public class RendererGLPickingGL2 extends RendererGL2 {

@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidianInput3D;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -16,16 +17,14 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererLogicalPickingGL2;
 
 /**
  * EuclidianView3D with controller using 3D input
@@ -53,8 +52,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		mouse3DScenePosition = new Coords(4);
 		mouse3DScenePosition.setW(1);
 
-		startPos = new Coords(4);
-		startPos.setW(1);
+
 
 		if (input3D.useCompletingDelay()) {
 			completingCursorOrigin = Coords.createInhomCoorsInD3();
@@ -84,8 +82,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 
 		// use a 3D mouse position
-		mouse3DScreenPosition = ((EuclidianControllerInput3D) getEuclidianController())
-				.getMouse3DPosition();
+		mouse3DScreenPosition = input3D.getMouse3DPosition();
 
 		if (((EuclidianControllerInput3D) getEuclidianController())
 				.useInputDepthForHitting()) {
@@ -285,90 +282,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return super.getScreenZOffset();
 	}
 
-	private Coords startPos;
 
-	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
-
-	// private CoordMatrix4x4 startTranslationScreen =
-	// CoordMatrix4x4.Identity();
-
-	/**
-	 * set mouse start pos
-	 * 
-	 * @param screenStartPos
-	 *            mouse start pos (screen)
-	 */
-	public void setStartPos(Coords screenStartPos) {
-
-		startPos.set(screenStartPos);
-		toSceneCoords3D(startPos);
-		startTranslation.setOrigin(screenStartPos.add(startPos));
-
-	}
-
-	/**
-	 * set the coord system regarding 3D mouse move
-	 * 
-	 * @param startPos1
-	 *            start 3D position (screen)
-	 * @param newPos
-	 *            current 3D position (screen)
-	 * @param rotX
-	 *            relative mouse rotate around x (screen)
-	 * @param rotZ
-	 *            relative mouse rotate around z (view)
-	 */
-	public void setCoordSystemFromMouse3DMove(Coords startPos1, Coords newPos,
-			double rotX, double rotZ) {
-
-		// translation
-		Coords v = new Coords(4);
-		v.set(newPos.sub(startPos1));
-		toSceneCoords3D(v);
-
-		// rotation
-		setRotXYinDegrees(aOld + rotX, bOld + rotZ);
-
-		updateRotationAndScaleMatrices();
-
-		// center rotation on pick point ( + v for translation)
-		CoordMatrix m1 = rotationAndScaleMatrix.inverse().mul(startTranslation)
-				.mul(rotationAndScaleMatrix);
-		Coords t1 = m1.getOrigin();
-		setXZero(t1.getX() - startPos.getX() + v.getX());
-		setYZero(t1.getY() - startPos.getY() + v.getY());
-		setZZero(t1.getZ() - startPos.getZ() + v.getZ());
-		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
-		// update the view
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
-		setGlobalMatrices();
-
-		setViewChangedByTranslate();
-		setViewChangedByRotate();
-		setWaitForUpdate();
-
-	}
-
-	/**
-	 * set the coord system regarding 3D mouse move
-	 * 
-	 * @param translation
-	 *            translation vector
-	 */
-	public void setCoordSystemFromMouse3DMove(Coords translation) {
-		setXZero(xZeroOld + translation.getX());
-		setYZero(yZeroOld + translation.getY());
-		setZZero(zZeroOld + translation.getZ());
-
-		// update the view
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
-		setGlobalMatrices();
-
-		setViewChangedByTranslate();
-		setWaitForUpdate();
-	}
 
 	@Override
 	protected void setPickPointFromMouse(GPoint mouse) {
@@ -655,8 +569,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	protected Renderer createRenderer() {
 		RendererJogl.setDefaultProfile();
-		return new RendererLogicalPickingGL2(this, !app.isApplet());
-
+		// return new RendererLogicalPickingGL2(this, !app.isApplet());
+		return new RendererCheckGLVersionD(this, true);
 	}
 
 	@Override
@@ -710,8 +624,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public Coords getHittingDirection() {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			return ((EuclidianControllerInput3D) euclidianController)
-					.getMouse3DDirection();
+			return input3D.getMouse3DDirection();
 		}
 		return super.getHittingDirection();
 	}
@@ -719,8 +632,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public Coords getHittingOrigin(GPoint mouse) {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			return ((EuclidianControllerInput3D) euclidianController)
-					.getMouse3DScenePosition();
+			return input3D.getMouse3DScenePosition();
 		}
 		return super.getHittingOrigin(mouse);
 	}
@@ -776,11 +688,16 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	 * update stylus beam for moved geo
 	 */
 	public void updateStylusBeamForMovedGeo() {
+
+		if (euclidianController
+				.getMoveMode() == EuclidianController.MOVE_NONE) {
+			return;
+		}
+
 		if (euclidianController.getMoveMode() != EuclidianController.MOVE_PLANE) {
 			getCursor3D()
 					.setCoords(
-							((EuclidianControllerInput3D) euclidianController)
-									.getMouse3DScenePosition(),
+							input3D.getMouse3DScenePosition(),
 							false);
 			GeoElement movedGeo = euclidianController.getMovedGeoElement();
 			if (movedGeo != null) {
@@ -795,10 +712,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	private void updateStylusBeam() {
 		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
 			stylusBeam.setCoord(
-					((EuclidianControllerInput3D) euclidianController)
-							.getMouse3DScenePosition(),
-					((EuclidianControllerInput3D) euclidianController)
-							.getMouse3DDirection().mul(zNearest));
+					input3D.getMouse3DScenePosition(),
+					input3D.getMouse3DDirection().mul(zNearest));
 			stylusBeamDrawable.setWaitForUpdate();
 			stylusBeamDrawable.update();
 		}
@@ -814,10 +729,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	 *            length
 	 */
 	public void getStylusBeamEnd(Coords coords, double l){
-		coords.setAdd(((EuclidianControllerInput3D) euclidianController)
-				.getMouse3DScenePosition(), coords.setMul(
-				((EuclidianControllerInput3D) euclidianController)
-						.getMouse3DDirection(), l));
+		coords.setAdd(input3D.getMouse3DScenePosition(),
+				coords.setMul(
+						input3D.getMouse3DDirection(), l));
 	}
 
 	@Override
@@ -1054,8 +968,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 					// let's scale it a bit more
 					tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
 					// show the cursor at mid beam
-					((EuclidianControllerInput3D) euclidianController)
-							.getMouse3DPositionShifted(tmpCoords1);
+					input3D.getMouse3DPositionShifted(tmpCoords1);
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);
 
 					renderer1.setMatrix(tmpMatrix4x4_3);
@@ -1067,8 +980,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 					tmpMatrix4x4_3.setDiagonal3(1.5 / getScale());
 
 					tmpCoords1.setMul(getToSceneMatrix(),
-							((EuclidianControllerInput3D) euclidianController)
-									.getRightDragElevation().val);
+							input3D.getRightDragElevation().val);
 					tmpCoords1.setW(0);
 					tmpCoords1.addInside(getToSceneMatrix().getOrigin());
 					tmpMatrix4x4_3.setOrigin(tmpCoords1);

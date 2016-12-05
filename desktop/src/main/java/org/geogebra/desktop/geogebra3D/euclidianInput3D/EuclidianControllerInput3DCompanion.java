@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -34,6 +35,8 @@ public class EuclidianControllerInput3DCompanion extends
 	static final private int DISTANCE_THRESHOLD = 6;
 	static final private double COS_THRESHOLD = Math.sin(Math.PI * 7.5 / 180);
 
+	private Input3D input3D;
+
 	/**
 	 * constructor
 	 * 
@@ -42,6 +45,10 @@ public class EuclidianControllerInput3DCompanion extends
 	 */
 	public EuclidianControllerInput3DCompanion(EuclidianController ec) {
 		super(ec);
+	}
+
+	public void setInput3D(Input3D input3D) {
+		this.input3D = input3D;
 	}
 
 
@@ -97,8 +104,8 @@ public class EuclidianControllerInput3DCompanion extends
 						v,
 						((EuclidianControllerInput3D) ec).movedGeoPointStartCoords);
 			} else {
-				v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
-						.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+				v.set(input3D.getMouse3DPosition()
+						.sub(input3D.getStartMouse3DPosition()));
 				((EuclidianView3D) ec.view).toSceneCoords3D(v);
 			}
 
@@ -302,8 +309,8 @@ public class EuclidianControllerInput3DCompanion extends
 						v,
 						((EuclidianControllerInput3D) ec).movedGeoPointStartCoords);
 			} else {
-				v.set(((EuclidianControllerInput3D) ec).mouse3DPosition
-						.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+				v.set(input3D.getMouse3DPosition()
+						.sub(input3D.getStartMouse3DPosition()));
 				((EuclidianView3D) ec.view).toSceneCoords3D(v);
 			}
 
@@ -311,9 +318,9 @@ public class EuclidianControllerInput3DCompanion extends
 
 			plane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
 
-			((EuclidianControllerInput3D) ec).calcCurrentRot();
+			input3D.calcCurrentRot();
 			plane.rotate(
-					((EuclidianControllerInput3D) ec).getCurrentRotMatrix(),
+					input3D.getCurrentRotMatrix(),
 					((EuclidianControllerInput3D) ec).movedGeoPointStartCoords);
 
 			plane.translate(v);
