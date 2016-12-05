@@ -624,23 +624,23 @@ public class ProverBotanasMethod {
 					String giacOutput4 = "";
 					try {
 						String giacOutput = cas.getCurrentCAS()
-								.evaluateRaw(strForGiac.toString());
+								.evaluateRaw(strForGiac);
 						// create a poly instead of equation
 						String strForGiac2 = "lhs(" + giacOutput + ")-rhs("
 								+ giacOutput + ")";
 						String giacOutput2 = cas.getCurrentCAS()
-								.evaluateRaw(strForGiac2.toString());
+								.evaluateRaw(strForGiac2);
 						// create a poly with integer coeffs: lcm of
 						// denominators
 						String strForGiac3 = "lcm(denom(coeff(" + giacOutput2
 								+ ")))";
 						String giacOutput3 = cas.getCurrentCAS()
-								.evaluateRaw(strForGiac3.toString());
+								.evaluateRaw(strForGiac3);
 						// multiply with the lcm
 						String strForGiac4 = "expand((" + giacOutput2 + ") * "
 								+ giacOutput3 + ")";
 						giacOutput4 = cas.getCurrentCAS()
-								.evaluateRaw(strForGiac4.toString());
+								.evaluateRaw(strForGiac4);
 					} catch (Throwable t) {
 						Log.debug("Unhandled case (Giac)");
 					}
@@ -721,7 +721,7 @@ public class ProverBotanasMethod {
 					try {
 						/* K: extended polynomial */
 						String output = cas.getCurrentCAS().evaluateRaw(
-								strForGiac.toString());
+								strForGiac);
 						/* F: user's polynomial formula */
 						String userOutput = cas.getCurrentCAS().evaluateRaw(
 								userStrForGiac);

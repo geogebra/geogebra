@@ -149,8 +149,6 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param poly
 	 *            polynomial
 	 */
@@ -509,8 +507,9 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            x
 	 * @param y
 	 *            y
-	 * @param squarefree
-	 *            TODO -- seems it doesn't do anything
+	 * @param coeff1
+	 *            coefficients
+	 * 
 	 * @return value of dthis/dx at (x,y)
 	 */
 	public static double evalDiffXPolyAt(double x, double y,
@@ -545,8 +544,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	 *            x
 	 * @param y
 	 *            y
-	 * @param squarefree
-	 *            TODO -- seems it doesn't do anything
+	 * @param coeff1
+	 *            coefficients
 	 * @return value of dthis/dy at (x,y)
 	 */
 	public static double evalDiffYPolyAt(double x, double y,
@@ -1533,10 +1532,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			}
 			if (w > grid.length || h > grid[w].length || grid[w][h] == null) {
 				if (w > grid.length || h > grid[w].length) {
-					throw new NullPointerException("GRID" + grid.length + ","
+					Log.warn("GRID" + grid.length + ","
 							+ w + "," + h);
 				}
-					throw new NullPointerException("GRID NULL" + grid.length
+				Log.warn("GRID NULL" + grid.length
 							+ "," + w + "," + h
 							+ "," + gridWidth + "," + gridHeight);
 

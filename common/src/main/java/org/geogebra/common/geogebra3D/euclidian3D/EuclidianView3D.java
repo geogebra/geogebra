@@ -4073,7 +4073,6 @@ GRectangle selectionRectangle) {
 		}
 		setProjectionValues(PROJECTION_GLASSES);
 		setCursor(EuclidianCursor.TRANSPARENT);
-		;
 	}
 
 	public void setProjectionEquirectangular() {

@@ -789,7 +789,6 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			dataDisplayPanel2.update();
 		} else {
 			dataDisplayPanel1.update();
-			;
 		}
 
 	}

@@ -102,7 +102,8 @@ public class LoggerD extends Log {
 	@Override
 	public void doPrintStacktrace(String message) {
 		try {
-			throw new Exception(message == null ? "null" : message.toString());
+			// message null check done in caller
+			throw new Exception(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

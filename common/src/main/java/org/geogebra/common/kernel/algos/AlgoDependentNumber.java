@@ -278,7 +278,7 @@ public class AlgoDependentNumber extends AlgoElement
 		
 		try {
 			String giacOutput = cas.getCurrentCAS()
-					.evaluateRaw(strForGiac.toString());
+					.evaluateRaw(strForGiac);
 
 			giacOutput = giacOutput.substring(1, giacOutput.length() - 1);
 

@@ -41,7 +41,7 @@ public class DefaultClipper extends ClipperBase {
             }
 		}
 
-    };
+	}
 
     /**
 	 * modified to be compatible with double
@@ -221,7 +221,6 @@ public class DefaultClipper extends ClipperBase {
 				op2.setPt(new DoublePoint(Pt));
 				op2b = op2.duplicate(!DiscardLeft);
 			}
-			;
 		} else {
 			while (op2.next.getPt().getX() >= Pt.getX()
 					&& op2.next.getPt().getX() <= op2.getPt().getX()
@@ -302,17 +301,15 @@ public class DefaultClipper extends ClipperBase {
                 j.outPt2 = op1b;
                 return true;
             }
-            else {
-                op1b = op1.duplicate( true );
-                op2b = op2.duplicate( false );
-                op1.next = op2;
-                op2.prev = op1;
-                op1b.prev = op2b;
-                op2b.next = op1b;
-                j.outPt1 = op1;
-                j.outPt2 = op1b;
-                return true;
-            }
+			op1b = op1.duplicate(true);
+			op2b = op2.duplicate(false);
+			op1.next = op2;
+			op2.prev = op1;
+			op1b.prev = op2b;
+			op2b.next = op1b;
+			j.outPt1 = op1;
+			j.outPt2 = op1b;
+			return true;
         }
         else if (isHorizontal) {
             //treat horizontal joins differently to non-horizontal joins since with

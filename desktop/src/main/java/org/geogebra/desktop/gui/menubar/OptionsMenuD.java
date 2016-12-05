@@ -152,38 +152,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 	}
 
-	/**
-	 * Create a set of radio buttons automatically.
-	 * 
-	 * @param menu
-	 * @param al
-	 * @param items
-	 * @param actionCommands
-	 * @param selectedPos
-	 */
-	private void addRadioButtonMenuItems(JMenu menu, ActionListener al,
-			String[] items, String[] actionCommands, int selectedPos) {
-		JRadioButtonMenuItem mi;
-		ButtonGroup bg = new ButtonGroup();
-		// String label;
-
-		for (int i = 0; i < items.length; i++) {
-			if (items[i] == "---") {
-				menu.addSeparator();
-			} else {
-				String text = app.getMenu(items[i]);
-				mi = new JRadioButtonMenuItem(text);
-				mi.setFont(app.getFontCanDisplayAwt(text, false, Font.PLAIN,
-						app.getGUIFontSize()));
-				if (i == selectedPos)
-					mi.setSelected(true);
-				mi.setActionCommand(actionCommands[i]);
-				mi.addActionListener(al);
-				bg.add(mi);
-				menu.add(mi);
-			}
-		}
-	}
 
 	/**
 	 * Create a list with all languages which can be selected.

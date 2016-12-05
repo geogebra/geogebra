@@ -209,21 +209,20 @@ public class UtilD extends Util {
 				Log.error("problem loading " + filename);
 	        	return null;
 	        }
-
+			return buffer;
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
-			return null;
 	    } finally {
 	    	try {
-	            if (ios != null)
+				if (ios != null) {
 	                ios.close();
+				}
 	        } catch (IOException e) {
 				Log.error("problem loading " + filename);
-		    	return null;
 	        }
 		}
-	    
-	    return buffer;
+		return null;
+
 	}
 
 	/**

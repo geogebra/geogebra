@@ -125,7 +125,7 @@ public class CommandLineArguments {
 		if (strValue == null || !isBoolean(name)) {
 			return defaultValue;
 		}
-		return strValue.toLowerCase().equals("true");
+		return strValue.equalsIgnoreCase("true");
 	}
 
 	/**

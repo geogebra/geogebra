@@ -629,15 +629,15 @@ public enum Language {
 
 		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
 		for (Language lang : Language.values()) {
-			if (lang.localeGWT.toLowerCase().equals(normalizedLanguage)) {
+			if (lang.localeGWT.equalsIgnoreCase(normalizedLanguage)) {
 				return lang.localeGWT;
 			}
 		}
 		// look for mother language in the hierarchy ie. the first two
 		// characters
 		for (Language lang : Language.values()) {
-			if (lang.localeGWT.toLowerCase().equals(
-					normalizedLanguage.substring(0, 2))) {
+			if (lang.localeGWT
+					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))) {
 				return lang.localeGWT;
 			}
 
