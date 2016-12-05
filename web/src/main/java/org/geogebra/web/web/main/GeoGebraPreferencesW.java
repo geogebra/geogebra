@@ -61,6 +61,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		if (xml != null) {
 			app.setXML(xml, false);
 		} else {
+			if (app.getPreferredSize() != null) {
+				GeoGebraPreferencesXML
+						.setDefaultWindowX(app.getPreferredSize().getWidth());
+				GeoGebraPreferencesXML
+						.setDefaultWindowY(app.getPreferredSize().getHeight());
+			}
 			app.setXML(GeoGebraPreferencesXML.getXML(app), false);
 			if (app.getTmpPerspectives().size() > 0 && p0 == null) {
 				p = app.getTmpPerspectives().get(0);

@@ -203,6 +203,8 @@ public class LoadFilePresenter {
 	 *            perspective
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
+		app.setPreferredSize(
+				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
 		app.loadPreferences(p);
 		// default layout doesn't have a Graphics View 2
 		app.getEuclidianViewpanel().deferredOnResize();
@@ -230,8 +232,7 @@ public class LoadFilePresenter {
 			}
 
 		app.updateRounding();
-		app.setPreferredSize(
-				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
+
 	}
 
 
