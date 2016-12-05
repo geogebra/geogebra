@@ -108,8 +108,8 @@ public class DataCollection implements WebSocketListener {
 	 * @param sensor
 	 *            {@link Types}
 	 * @param flag
-	 *            {@code true} to show the settings for the sensor in the
-	 *            {@link #dataView}
+	 *            {@code true} to show the settings for the sensor in the data
+	 *            view
 	 */
 	@Override
 	public void onSensorActive(Types sensor, boolean flag) {

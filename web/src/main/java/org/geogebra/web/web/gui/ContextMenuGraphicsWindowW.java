@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
@@ -128,7 +127,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	private void addAxesRatioItems(RadioButtonMenuBar menu) {
 
-		double scaleRatio = ((EuclidianView) app.getActiveEuclidianView())
+		double scaleRatio = app.getActiveEuclidianView()
 		        .getScaleRatio();
 
 		String[] items = new String[axesRatios.length + 2];

@@ -217,12 +217,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 
 
-	/**
-	 * Sets the currently open min/max panel of AV.
-	 */
-	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
-		MinMaxPanel.openedMinMaxPanel = panel;
-	}
+
 
 	@Override
 	public void setDraggable() {

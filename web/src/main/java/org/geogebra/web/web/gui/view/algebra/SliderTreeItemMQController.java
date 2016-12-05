@@ -127,12 +127,12 @@ public class SliderTreeItemMQController extends RadioTreeItemController
 	 * @return true if another SliderTreeItem's min/max panel is showing.
 	 */
 	boolean isAnotherMinMaxOpen() {
-		return (MinMaxPanel.openedMinMaxPanel != null
-				&& MinMaxPanel.openedMinMaxPanel != slider.getMinMaxPanel());
+		return (MinMaxPanel.getOpenedPanel() != null
+				&& MinMaxPanel.getOpenedPanel() != slider.getMinMaxPanel());
 	}
 
 	private boolean isClickedOutMinMax(int x, int y) {
-		return (MinMaxPanel.openedMinMaxPanel == slider.getMinMaxPanel()
+		return (MinMaxPanel.getOpenedPanel() == slider.getMinMaxPanel()
 				&& !isWidgetHit(slider.getMinMaxPanel(), x, y));
 	}
 
