@@ -1679,11 +1679,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		if (algoParent == null) {
 			if (botanaVars == null) {
-				botanaVars = new Variable[2];
+				botanaVars = new Variable[1];
 				botanaVars[0] = new Variable(true);
-				botanaVars[1] = new Variable(true);
-				Log.debug("Free point " + geo.getLabelSimple() + "("
-						+ botanaVars[0] + "," + botanaVars[1] + ")");
+				Log.debug("Variable " + geo.getLabelSimple() + "("
+						+ botanaVars[0] + ")");
 			}
 		}
 

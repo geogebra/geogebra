@@ -202,13 +202,6 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 			for (k = 0; k < extraPolys.length; k++) {
 				botanaPolynomials[k] = extraPolys[k];
 			}
-		} else {
-			/* Unsure what this code is for. TODO: check this! */
-			botanaPolynomials[k] = Polynomial
-					.sqrDistance(radiusBotanaVars[0], radiusBotanaVars[1],
-							radiusBotanaVars[2], radiusBotanaVars[3])
-					.subtract(sqrR);
-			k++;
 		}
 
 		// define circle

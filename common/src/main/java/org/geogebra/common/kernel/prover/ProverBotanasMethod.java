@@ -465,8 +465,9 @@ public class ProverBotanasMethod {
 						} else {
 							String description = geo
 									.getAlgebraDescriptionDefault();
-							if (geo instanceof GeoLine
-									&& ((GeoLine) geo).hasFixedSlope()) {
+							if ((geo instanceof GeoLine
+									&& ((GeoLine) geo).hasFixedSlope())
+									|| (geo instanceof GeoNumeric)) {
 								Log.debug(description);
 							} else if (!description.startsWith("xOyPlane")) {
 								/*
