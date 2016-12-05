@@ -51,19 +51,6 @@ public class GColor implements GPaint {
 
 	private final int value;
 
-
-	/**
-	 * @param r
-	 *            red (0-255)
-	 * @param g
-	 *            green (0-255)
-	 * @param b
-	 *            blue (0-255)
-	 */
-	private GColor(int r, int g, int b) {
-		this(r, g, b, 255);
-	}
-
 	/**
 	 * @param r
 	 *            red (0-255)
@@ -76,14 +63,6 @@ public class GColor implements GPaint {
 	 */
 	private GColor(int r, int g, int b, int a) {
 		this.value = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
-	}
-
-	/**
-	 * @param argb
-	 *            ARGB
-	 */
-	private GColor(int argb) {
-		this.value = argb;
 	}
 
 	/**
