@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -177,7 +178,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 															final static public int PROJECTION_OBLIQUE = 3;
 	// DrawList3D();
 	final static public int PROJECTION_EQUIRECTANGULAR = 4;
-	protected static final int CURSOR_DEFAULT = 0;
+	public static final int CURSOR_DEFAULT = 0;
 	/**
 	 * id of z-axis
 	 */
@@ -1380,6 +1381,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// update decorations
 		pointDecorations.update();
+
+		getCompanion().update();
 	}
 
 	public void setWaitForUpdate() {
@@ -1622,12 +1625,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public GeoElement getLabelHit(GPoint p,
+	final public GeoElement getLabelHit(GPoint p,
 								  PointerEventType type) {
-		if (type == PointerEventType.TOUCH) {
-			return null;
-		}
-		return renderer.getLabelHit(p);
+		return getCompanion().getLabelHit(p, type);
 	}
 
 	@Override
@@ -2001,8 +2001,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * rotate to default
 	 */
 	public void setDefaultRotAnimation() {
-		setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-				EuclidianView3D.ANGLE_ROT_XOY, false);
+		getCompanion().setDefaultRotAnimation();
 	}
 
 	/**
@@ -2215,8 +2214,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return false;
 	}
 
-	public int getCapturingThreshold(PointerEventType type) {
-		return app.getCapturingThreshold(type);
+	final public int getCapturingThreshold(PointerEventType type) {
+		return getCompanion().getCapturingThreshold(type);
 	}
 
 	public int getCapturingThresholdForTouch(PointerEventType type) {
@@ -2489,9 +2488,8 @@ GRectangle selectionRectangle) {
 
 	}
 
-	protected boolean moveCursorIsVisible() {
-		return cursorIsTranslateViewCursor()
-				|| getEuclidianController().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;
+	final protected boolean moveCursorIsVisible() {
+		return getCompanion().moveCursorIsVisible();
 	}
 
 	/**
@@ -2880,7 +2878,7 @@ GRectangle selectionRectangle) {
 	 * @param v
 	 *            location
 	 */
-	protected void drawMouseCursor(Renderer renderer1, Coords v) {
+	public void drawMouseCursor(Renderer renderer1, Coords v) {
 
 		CoordMatrix4x4.Identity(tmpMatrix4x4_3);
 
@@ -2891,32 +2889,13 @@ GRectangle selectionRectangle) {
 	}
 
 	protected void drawFreeCursor(Renderer renderer1) {
-		// free point on xOy plane
-		renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+		getCompanion().drawFreeCursor(renderer1);
 	}
 
 	protected void drawTranslateViewCursor(Renderer renderer1) {
 
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			switch (cursor) {
-			case MOVE:
-				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
-				break;
-			case RESIZE_X:
-			case RESIZE_Y:
-			case RESIZE_Z:
-				renderer1.setMatrix(cursorMatrix);
-				renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
-				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
-				break;
-			}
-		} else {
-			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-			drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
-		}
+		getCompanion().drawTranslateViewCursor(renderer1, cursor,
+				cursorOnXOYPlane, cursorMatrix);
 
 	}
 
@@ -3014,10 +2993,10 @@ GRectangle selectionRectangle) {
 	}
 
 	protected void drawPointAlready(GeoPoint3D point) {
-		drawPointAlready(point.getMoveMode());
+		getCompanion().drawPointAlready(point);
 	}
 
-	protected void drawPointAlready(int mode) {
+	public void drawPointAlready(int mode) {
 
 		// Application.debug(mode);
 
@@ -3064,7 +3043,7 @@ GRectangle selectionRectangle) {
 		return cursor;
 	}
 
-	final private boolean cursorIsTranslateViewCursor() {
+	final protected boolean cursorIsTranslateViewCursor() {
 		return cursor == EuclidianCursor.MOVE
 				|| cursor == EuclidianCursor.RESIZE_X
 				|| cursor == EuclidianCursor.RESIZE_Y
@@ -3390,17 +3369,10 @@ GRectangle selectionRectangle) {
 
 	}
 
-	protected void getXMLForStereo(StringBuilder sb) {
+	final protected void getXMLForStereo(StringBuilder sb) {
 		int eyeDistance = (int) projectionPerspectiveEyeDistance[0];
-		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
-			sb.append("\" distance=\"");
-			sb.append(eyeDistance);
-		}
 		int sep = (int) getEyeSep();
-		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT) {
-			sb.append("\" separation=\"");
-			sb.append(sep);
-		}
+		getCompanion().getXMLForStereo(sb, eyeDistance, sep);
 	}
 
 	/**
@@ -3483,6 +3455,8 @@ GRectangle selectionRectangle) {
 		if (xOyPlane.isPlateVisible())
 			xOyPlaneDrawable.drawTransp(renderer1);
 
+		getCompanion().drawTransp(renderer1);
+
 	}
 
 	/**
@@ -3492,6 +3466,7 @@ GRectangle selectionRectangle) {
 	 */
 	public void drawHiding(Renderer renderer1) {
 		xOyPlaneDrawable.drawHiding(renderer1);
+		getCompanion().drawHiding(renderer1);
 	}
 
 	/**
@@ -3505,6 +3480,8 @@ GRectangle selectionRectangle) {
 
 		if (showClippingCube())
 			clippingCubeDrawable.drawOutline(renderer1);
+
+		getCompanion().draw(renderer1);
 
 	}
 
@@ -3528,6 +3505,8 @@ GRectangle selectionRectangle) {
 
 		if (decorationVisible())
 			pointDecorations.drawHidden(renderer1);
+
+		getCompanion().drawHidden(renderer1);
 
 	}
 
@@ -3586,6 +3565,8 @@ GRectangle selectionRectangle) {
 		pointDecorations.setWaitForReset();
 
 		clippingCubeDrawable.setWaitForReset();
+
+		getCompanion().resetOwnDrawables();
 	}
 
 	/**
@@ -3614,6 +3595,8 @@ GRectangle selectionRectangle) {
 
 		// other drawables
 		drawable3DLists.resetAllVisualStyles();
+
+		getCompanion().resetAllVisualStyles();
 
 	}
 
@@ -3973,10 +3956,7 @@ GRectangle selectionRectangle) {
 		return true;
 	}
 
-	@Override
-	public boolean isMoveable(GeoElement geo) {
-		return geo.isMoveable();
-	}
+
 
 	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
@@ -4152,7 +4132,7 @@ GRectangle selectionRectangle) {
 	}
 
 	public double getScreenZOffset() {
-		return 0;
+		return getCompanion().getScreenZOffset();
 	}
 
 	public boolean isGrayScaled() {
@@ -4264,11 +4244,8 @@ GRectangle selectionRectangle) {
 	// SOME LINKS WITH 2D VIEW
 
 	@Override
-	public void setBackground(GColor color) {
-		if (color != null) {
-			setBackground(color, color);
-		}
-
+	final public void setBackground(GColor color) {
+		getCompanion().setBackground(color);
 	}
 
 	public GColor getApplyedBackground() {
@@ -4464,8 +4441,8 @@ GRectangle selectionRectangle) {
 	/**
 	 * @return mouse pick width for openGL picking
 	 */
-	public int getMousePickWidth() {
-		return 3;
+	final public int getMousePickWidth() {
+		return getCompanion().getMousePickWidth();
 	}
 
 	@Override
@@ -4689,9 +4666,10 @@ GRectangle selectionRectangle) {
 	 *
 	 * @param zNear
 	 */
-	public void setZNearest(double zNear) {
-		// used for some input3D
+	final public void setZNearest(double zNear) {
+		getCompanion().setZNearest(zNear);
 	}
+
 
 	/**
 	 *
@@ -4706,7 +4684,7 @@ GRectangle selectionRectangle) {
 	 * @return true if consumes space key hitted
 	 */
 	public boolean handleSpaceKey() {
-		return false;
+		return getCompanion().handleSpaceKey();
 	}
 
 	@Override
@@ -4723,7 +4701,7 @@ GRectangle selectionRectangle) {
 	 *            color actually applyed
 	 * 
 	 */
-	protected void setBackground(GColor updatedColor, GColor applyedColor) {
+	public void setBackground(GColor updatedColor, GColor applyedColor) {
 		this.bgColor = updatedColor;
 		this.bgApplyedColor = applyedColor;
 		if (renderer != null) {
@@ -4956,8 +4934,18 @@ GRectangle selectionRectangle) {
 		return new Mouse3DEvent(mouse3DLoc);
 	}
 
-	public void updateStylusBeamForMovedGeo() {
-		// used for some 3D inputs
+	@Override
+	protected EuclidianViewCompanion newEuclidianViewCompanion() {
+		return new EuclidianView3DCompanion(this);
+	}
+
+	@Override
+	public EuclidianView3DCompanion getCompanion() {
+		return (EuclidianView3DCompanion) super.getCompanion();
+	}
+
+	public DrawClippingCube3D getClippingCubeDrawable() {
+		return clippingCubeDrawable;
 	}
 
 }

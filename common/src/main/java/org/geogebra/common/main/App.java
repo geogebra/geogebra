@@ -25,7 +25,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -4316,7 +4316,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public String getInput3DType() {
-		return Input3D.PREFS_NONE;
+		return Input3DConstants.PREFS_NONE;
 	}
 
 	public abstract void closePopups();

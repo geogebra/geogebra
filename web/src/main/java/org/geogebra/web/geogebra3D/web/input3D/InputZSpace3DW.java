@@ -1,10 +1,12 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
-import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JsArrayNumber;
 
@@ -16,25 +18,79 @@ public class InputZSpace3DW extends Input3D {
 
 	private double toPixelRatio = 3600;
 
+	private double[] inputPosition, inputDirection, inputOrientation;
+
+	public InputZSpace3DW() {
+		super();
+		inputPosition = new double[3];
+		inputDirection = new double[3];
+		inputOrientation = new double[4];
+	}
+
 	public void setZSpace(ZSpaceGwt zSpace) {
 		this.zSpace = zSpace;
+	}
+	
+	static private void updateStylus(double toPixelRatio, double m00,
+			double m10, double m20,
+			double m01, double m11, double m21, double m02, double m12,
+			double m22, double m03, double m13, double m23, double[] position,
+			double[] direction, double[] orientation) {
+
+		// update x, y, z
+		position[0] = m03 * toPixelRatio;
+		position[1] = m13 * toPixelRatio;
+		position[2] = m23 * toPixelRatio;
+		
+		// update direction x, y, z
+		direction[0] = m02;
+		direction[1] = m12;
+		direction[2] = m22;
+		
+		// update quaternion
+		// (from http://www.euclideanspace.com/maths/geometry/rotations/conversions/matrixToQuaternion)
+		
+		double tr = m00 + m11 + m22;
+
+		if (tr > 0) { 
+			double S = Math.sqrt(tr+1.0) * 2; // S=4*qw 
+			orientation[3] = 0.25 * S;
+			orientation[0] = (m21 - m12) / S;
+			orientation[1] = (m02 - m20) / S;
+			orientation[2] = (m10 - m01) / S;
+		} else if ((m00 > m11)&(m00 > m22)) { 
+			double S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx 
+			orientation[3] = (m21 - m12) / S;
+			orientation[0] = 0.25 * S;
+			orientation[1] = (m01 + m10) / S;
+			orientation[2] = (m02 + m20) / S;
+		} else if (m11 > m22) { 
+			double S = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
+			orientation[3] = (m02 - m20) / S;
+			orientation[0] = (m01 + m10) / S;
+			orientation[1] = 0.25 * S;
+			orientation[2] = (m12 + m21) / S;
+		} else { 
+			double S = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
+			orientation[3] = (m10 - m01) / S;
+			orientation[0] = (m02 + m20) / S;
+			orientation[1] = (m12 + m21) / S;
+			orientation[2] = 0.25 * S;
+		}
 	}
 
 	@Override
 	public boolean update() {
 
-		JsArrayNumber pose = zSpace.getViewportSpaceHeadPose();
-
-		// String s = "\npose\n";
-		// for (int i = 0; i < 16; i++) {
-		// if (i % 4 == 0) {
-		// s += "\n";
-		// }
-		// s += " " + pose.get(i);
-		// }
-		// Log.debug(s);
+		// set panel dimensions
+		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
+		setPanel(panel.getWidth(), panel.getHeight(), panel.getAbsoluteLeft(),
+				panel.getAbsoluteTop());
 
 		// update eyes
+		JsArrayNumber pose = zSpace.getViewportSpaceHeadPose();
+
 		double x = pose.get(12);
 		double y = pose.get(13);
 		double z = pose.get(14);
@@ -48,6 +104,8 @@ public class InputZSpace3DW extends Input3D {
 
 		updateHeadTracking();
 
+		// update stylus
+
 		pose = zSpace.getViewportSpaceStylusPose();
 
 		String s = "\npose\n";
@@ -58,6 +116,19 @@ public class InputZSpace3DW extends Input3D {
 			s += " " + pose.get(i);
 		}
 		Log.debug(s);
+		
+		updateStylus(toPixelRatio, pose.get(0), pose.get(1), pose.get(2),
+				pose.get(4), pose.get(5), pose.get(6), pose.get(8), pose.get(9),
+				pose.get(10), pose.get(12), pose.get(13), pose.get(14),
+				inputPosition, inputDirection, inputOrientation);
+
+		updateMousePosition();
+
+		updateMouse3DEvent();
+		// handleButtons();
+
+		Log.debug("\nmouse pos:\n" + getMouse3DPosition() + "\ndir:\n"
+				+ getMouse3DDirection());
 
 		return false;
 	}
@@ -66,28 +137,6 @@ public class InputZSpace3DW extends Input3D {
 	protected void setGlassesPosition() {
 		// transformation has been already done
 	}
-
-	// public void updateHeadTracking() {
-	//
-	// // Log.debug("\n"+glassesPosition);
-	//
-	// // Log.debug(input3D.getGlassesPosition()[2]+"");
-	// // if (eyeSepIsNotSet){
-	// view3D.setEyes(glassesPosition[0].getX(), glassesPosition[0].getY(),
-	// glassesPosition[1].getX(), glassesPosition[1].getY());
-	// // eyeSepIsNotSet = false;
-	// // }
-	//
-	// view3D.setProjectionPerspectiveEyeDistance(glassesPosition[0].getZ(),
-	// glassesPosition[1].getZ());
-	//
-	// Log.debug("\nleft: " + glassesPosition[0].getX() + ","
-	// + glassesPosition[0].getY() + "," + glassesPosition[0].getZ()
-	// + "\nright: " + glassesPosition[1].getX() + ","
-	// + glassesPosition[1].getY() + "," + glassesPosition[1].getZ());
-	//
-	//
-	// }
 
 
 	@Override
@@ -98,14 +147,12 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public double[] getInputPosition() {
-		// TODO Auto-generated method stub
-		return null;
+		return inputPosition;
 	}
 
 	@Override
 	public double[] getInputOrientation() {
-		// TODO Auto-generated method stub
-		return null;
+		return inputOrientation;
 	}
 
 	@Override
@@ -200,14 +247,12 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public boolean hasMouseDirection() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public double[] getInputDirection() {
-		// TODO Auto-generated method stub
-		return null;
+		return inputDirection;
 	}
 
 

@@ -516,6 +516,8 @@ public abstract class EuclidianView
 			setSelectionRectangle(null);
 		}
 		setStyleBarMode(mode);
+
+		getCompanion().setMode(mode, m);
 	}
 
 	/** @return kernel */
@@ -1795,8 +1797,8 @@ public abstract class EuclidianView
 	 * @param type
 	 *            event type
 	 */
-	public void setHits(PointerEventType type) {
-		setHits(euclidianController.getMouseLoc(), type);
+	final public void setHits(PointerEventType type) {
+		getCompanion().setHits(type);
 	}
 
 	public void setHits(GPoint p, PointerEventType type) {
@@ -2884,8 +2886,8 @@ public abstract class EuclidianView
 	/**
 	 * @return whether mouse is hovering over this view
 	 */
-	public boolean hasMouse() {
-		return hasMouse2D();
+	final public boolean hasMouse() {
+		return companion.hasMouse();
 	}
 
 	/**

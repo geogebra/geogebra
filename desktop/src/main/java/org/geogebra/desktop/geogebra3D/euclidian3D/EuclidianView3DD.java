@@ -221,7 +221,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 
 	@Override
-	protected void setBackground(GColor updatedColor, GColor applyedColor) {
+	public void setBackground(GColor updatedColor, GColor applyedColor) {
 		super.setBackground(updatedColor, applyedColor);
 		evjpanel.setBackground(GColorD
 				.getAwtColor(bgApplyedColor));

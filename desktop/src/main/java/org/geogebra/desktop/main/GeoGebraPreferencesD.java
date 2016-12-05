@@ -18,7 +18,7 @@ import java.util.Locale;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;

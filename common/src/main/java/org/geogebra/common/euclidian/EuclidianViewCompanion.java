@@ -6,6 +6,8 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.draw.DrawAngle;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -461,4 +463,26 @@ public class EuclidianViewCompanion {
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
 	}
+
+	/**
+	 * set hits for current mouse loc
+	 * 
+	 * @param type
+	 *            event type
+	 */
+	public void setHits(PointerEventType type) {
+		view.setHits(view.getEuclidianController().getMouseLoc(), type);
+	}
+
+	/**
+	 * @return whether mouse is hovering over this view
+	 */
+	public boolean hasMouse() {
+		return view.hasMouse2D();
+	}
+
+	public void setMode(int mode, ModeSetter m) {
+		// used for some input3D
+	}
+
 }

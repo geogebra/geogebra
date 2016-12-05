@@ -3,8 +3,8 @@ package org.geogebra.desktop.geogebra3D.input3D.leonar3do;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
-import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 

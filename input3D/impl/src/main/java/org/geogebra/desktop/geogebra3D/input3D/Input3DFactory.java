@@ -1,6 +1,6 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
-import org.geogebra.common.euclidian3D.Input3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 import org.geogebra.desktop.geogebra3D.input3D.zspace.InputZSpace3D;

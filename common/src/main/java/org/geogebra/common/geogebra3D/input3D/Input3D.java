@@ -1,8 +1,9 @@
-package org.geogebra.common.euclidian3D;
+package org.geogebra.common.geogebra3D.input3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -17,7 +18,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  * @author mathieu
  *
  */
-abstract public class Input3D {
+abstract public class Input3D implements Input3DConstants {
 
 	public enum DeviceType {
 		HAND, PEN
@@ -27,9 +28,6 @@ abstract public class Input3D {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
-	final static public String PREFS_REALSENSE = "realsense";
-	final static public String PREFS_ZSPACE = "zspace";
-	final static public String PREFS_NONE = "none";
 
 	private Coords mouse3DScenePosition, mouse3DDirection;
 
@@ -890,7 +888,7 @@ abstract public class Input3D {
 			mouse3DScenePosition.set(getMouse3DPosition());
 			view3D.toSceneCoords3D(mouse3DScenePosition);
 
-			view3D.updateStylusBeamForMovedGeo();
+			view3D.getCompanion().updateStylusBeamForMovedGeo();
 
 		}
 

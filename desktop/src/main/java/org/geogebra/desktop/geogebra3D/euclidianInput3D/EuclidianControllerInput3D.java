@@ -14,8 +14,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
@@ -220,7 +220,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		} else {
 			movedGeoPointStartCoords.set(coords);
 			if (input3D.hasMouseDirection()) {
-				startZNearest = ((EuclidianViewInput3D) view3D).getZNearest();
+				startZNearest = ((EuclidianViewInput3D) view3D).getCompanion()
+						.getZNearest();
 			}
 		}
 	}
@@ -393,7 +394,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 * release hand grabbing
 	 */
 	protected void releaseGrabbing() {
-		((EuclidianViewInput3D) view3D).getStationaryCoords()
+		((EuclidianViewInput3D) view3D).getCompanion().getStationaryCoords()
 				.consumeLongDelay();
 		((EuclidianControllerInput3DCompanion) getCompanion())
 				.releaseGrabbing();

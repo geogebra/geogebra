@@ -19,8 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.euclidian3D.Input3D;
-import org.geogebra.common.euclidian3D.Input3D.OutOfField;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
+import org.geogebra.common.geogebra3D.input3D.Input3D.OutOfField;
 import org.geogebra.common.jre.util.DownloadManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;

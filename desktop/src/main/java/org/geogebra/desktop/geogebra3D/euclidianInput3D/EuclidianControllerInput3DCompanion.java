@@ -8,10 +8,11 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.input3D.EuclidianViewInput3DCompanion.StationaryCoords;
+import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
@@ -21,7 +22,6 @@ import org.geogebra.common.kernel.Matrix.Quaternion;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianViewInput3D.StationaryCoords;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -73,7 +73,8 @@ public class EuclidianControllerInput3DCompanion extends
 				beamLength = 400;
 			}
 			beamLength /= ((EuclidianView3D) ec.view).getScale();
-			((EuclidianViewInput3D) ec.view).getStylusBeamEnd(coords,
+			((EuclidianViewInput3D) ec.view).getCompanion()
+					.getStylusBeamEnd(coords,
 					beamLength);
 			((EuclidianViewInput3D) ec.view).setZNearest(-beamLength);
 		} else {
@@ -98,7 +99,8 @@ public class EuclidianControllerInput3DCompanion extends
 		} else {
 			Coords v = new Coords(4);
 			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()) {
-				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
+				((EuclidianViewInput3D) ec.view).getCompanion()
+						.getStylusBeamEnd(v,
 						((EuclidianControllerInput3D) ec).startZNearest);
 				v.setSub(
 						v,
@@ -126,6 +128,7 @@ public class EuclidianControllerInput3DCompanion extends
 			if (((EuclidianControllerInput3D) ec).input3D.hasCompletedGrabbingDelay()) {
 				long time = System.currentTimeMillis();
 				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view)
+						.getCompanion()
 						.getStationaryCoords();
 				stationaryCoords.setCoords(
 						ec.movedGeoPoint.getInhomCoordsInD3(), time);
@@ -303,7 +306,8 @@ public class EuclidianControllerInput3DCompanion extends
 			if (((EuclidianControllerInput3D) ec).input3D.hasMouseDirection()
 					&& !((EuclidianControllerInput3D) ec).input3D
 							.currentlyUseMouse2D()) {
-				((EuclidianViewInput3D) ec.view).getStylusBeamEnd(v,
+				((EuclidianViewInput3D) ec.view).getCompanion()
+						.getStylusBeamEnd(v,
 						((EuclidianControllerInput3D) ec).startZNearest);
 				v.setSub(
 						v,
@@ -443,6 +447,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 				long time = System.currentTimeMillis();
 				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view)
+						.getCompanion()
 						.getStationaryCoords();
 				stationaryCoords
 						.setCoords(
