@@ -7,49 +7,47 @@ import java.util.HashMap;
  * 
  *         Thin class to just contain the color (as a single int)
  * 
- *         GColorN is then a wrapper for the native color object (eg GColorD
- *         wraps java.wat.Color)
- * 
- *         The corresponding GColorN's are stored in a HashMap so they can be
- *         recycled
+ *         a HashMap is used to recycle colors (to avoid extra "new GColor()"s)
  *
  */
 public class GColor implements GPaint {
 
-	/** WHITE */
-	public static final GColor WHITE = new GColor(255, 255, 255);
-	/** BLACK */
-	public static final GColor BLACK = new GColor(0, 0, 0);
-	/** RED */
-	public static final GColor RED = new GColor(255, 0, 0);
-	/** ORANGE */
-	public static final GColor ORANGE = new GColor(255, 127, 0);
-	/** YELLOW */
-	public static final GColor YELLOW = new GColor(255, 255, 0);
-	/** GREEN */
-	public static final GColor GREEN = new GColor(0, 255, 0);
-	/** BLUE */
-	public static final GColor BLUE = new GColor(0, 0, 255);
-	/** CYAN */
-	public static final GColor CYAN = new GColor(0, 255, 255);
-	/** DARK_CYAN */
-	public static final GColor DARK_CYAN = new GColor(99, 219, 219);
-	/** DARK_GREEN */
-	public static final GColor DARK_GREEN = new GColor(0, 127, 0);
-	/** MAGENTA */
-	public static final GColor MAGENTA = new GColor(255, 0, 255);
-	/** LIGHTEST_GRAY */
-	public static final GColor LIGHTEST_GRAY = new GColor(230, 230, 230);
-	/** LIGHT_GRAY */
-	public static final GColor LIGHT_GRAY = new GColor(192, 192, 192);
-	/** GRAY */
-	public static final GColor GRAY = new GColor(128, 128, 128);
-	/** DARK_GRAY */
-	public static final GColor DARK_GRAY = new GColor(68, 68, 68);
-	/** PURPLE */
-	public static final GColor PURPLE = new GColor(102, 102, 255);
-
+	// MUST be first in class
 	private static HashMap<Integer, GColor> map = new HashMap<Integer, GColor>();
+
+	/** WHITE */
+	public static final GColor WHITE = newColor(255, 255, 255);
+	/** BLACK */
+	public static final GColor BLACK = newColor(0, 0, 0);
+	/** RED */
+	public static final GColor RED = newColor(255, 0, 0);
+	/** ORANGE */
+	public static final GColor ORANGE = newColor(255, 127, 0);
+	/** YELLOW */
+	public static final GColor YELLOW = newColor(255, 255, 0);
+	/** GREEN */
+	public static final GColor GREEN = newColor(0, 255, 0);
+	/** BLUE */
+	public static final GColor BLUE = newColor(0, 0, 255);
+	/** CYAN */
+	public static final GColor CYAN = newColor(0, 255, 255);
+	/** DARK_CYAN */
+	public static final GColor DARK_CYAN = newColor(99, 219, 219);
+	/** DARK_GREEN */
+	public static final GColor DARK_GREEN = newColor(0, 127, 0);
+	/** MAGENTA */
+	public static final GColor MAGENTA = newColor(255, 0, 255);
+	/** LIGHTEST_GRAY */
+	public static final GColor LIGHTEST_GRAY = newColor(230, 230, 230);
+	/** LIGHT_GRAY */
+	public static final GColor LIGHT_GRAY = newColor(192, 192, 192);
+	/** GRAY */
+	public static final GColor GRAY = newColor(128, 128, 128);
+	/** DARK_GRAY */
+	public static final GColor DARK_GRAY = newColor(68, 68, 68);
+	/** PURPLE */
+	public static final GColor PURPLE = newColor(102, 102, 255);
+
 
 	private final int value;
 
@@ -62,7 +60,7 @@ public class GColor implements GPaint {
 	 * @param b
 	 *            blue (0-255)
 	 */
-	public GColor(int r, int g, int b) {
+	private GColor(int r, int g, int b) {
 		this(r, g, b, 255);
 	}
 
@@ -76,7 +74,7 @@ public class GColor implements GPaint {
 	 * @param a
 	 *            alpha (0-255)
 	 */
-	public GColor(int r, int g, int b, int a) {
+	private GColor(int r, int g, int b, int a) {
 		this.value = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
 	}
 
@@ -84,7 +82,7 @@ public class GColor implements GPaint {
 	 * @param argb
 	 *            ARGB
 	 */
-	public GColor(int argb) {
+	private GColor(int argb) {
 		this.value = argb;
 	}
 
@@ -99,7 +97,7 @@ public class GColor implements GPaint {
 	 */
 	public static GColor newColorRGB(int rgb) {
 
-		return new GColor((rgb & 0x00ffffff) | 0xff000000);
+		return newColor(getRed(rgb), getGreen(rgb), getBlue(rgb), 255);
 	}
 
 	// private void log() {
@@ -109,32 +107,48 @@ public class GColor implements GPaint {
 	// // Log.printStacktrace("");
 	// }
 
+	private static int getRed(int rgba) {
+		return (rgba >> 16) & 0xFF;
+	}
+
+	private static int getGreen(int rgba) {
+		return (rgba >> 8) & 0xFF;
+	}
+
+	private static int getBlue(int rgba) {
+		return (rgba >> 0) & 0xFF;
+	}
+
+	private static int getAlpha(int rgba) {
+		return (rgba >> 24) & 0xff;
+	}
+
 	/**
 	 * @return red (0 - 255)
 	 */
 	public int getRed() {
-		return (value >> 16) & 0xFF;
+		return getRed(value);
 	}
 
 	/**
 	 * @return green (0 - 255)
 	 */
 	public int getGreen() {
-		return (value >> 8) & 0xFF;
+		return getGreen(value);
 	}
 
 	/**
 	 * @return blue (0 - 255)
 	 */
 	public int getBlue() {
-		return (value >> 0) & 0xFF;
+		return getBlue(value);
 	}
 
 	/**
 	 * @return alpha (0 - 255)
 	 */
 	public int getAlpha() {
-		return (value >> 24) & 0xff;
+		return getAlpha(value);
 	}
 
 
@@ -173,6 +187,7 @@ public class GColor implements GPaint {
 				map.put(hash, ret);
 			}
 		}
+
 		return ret;
 
 	}
@@ -452,14 +467,11 @@ public class GColor implements GPaint {
 	/**
 	 * @param alpha
 	 *            0 - 255
-	 * @return new drived color with alpha set to new value
+	 * @return new derived color with alpha set to new value
 	 */
 	public GColor deriveWithAlpha(int alpha) {
-		int newARGB = value & 0x00ffffff;
-		
-		newARGB = newARGB | ((alpha & 0xff) << 24);
 
-		return new GColor(newARGB);
+		return newColor(getRed(), getGreen(), getBlue(), alpha);
 	}
 
 }

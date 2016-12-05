@@ -104,9 +104,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
 	static final String CLEAR_COLOR_STR = GColor
-			.getColorString(new GColor(255, 255, 255, 0));
+			.getColorString(GColor.newColor(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
-			.getColorString(new GColor(220, 220, 220));
+			.getColorString(GColor.newColor(220, 220, 220));
 	Boolean stylebarShown;
 	/** Help button */
 	ToggleButton btnHelpToggle;
