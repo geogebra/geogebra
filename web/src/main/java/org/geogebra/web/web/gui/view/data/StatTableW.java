@@ -2,10 +2,10 @@ package org.geogebra.web.web.gui.view.data;
 
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GPointW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
@@ -108,7 +108,8 @@ public class StatTableW extends FlowPanel {
 	 * 
 	 * @param cellMap
 	 */
-	public void setComboBoxCells(HashMap<GPointW, String[]> cell, ScheduledCommand al) {
+	public void setComboBoxCells(HashMap<GPoint, String[]> cell,
+			ScheduledCommand al) {
 
 		this.al = al;
 
