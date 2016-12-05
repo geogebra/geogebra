@@ -414,15 +414,16 @@ public class MathFieldW implements MathField, IsWidget {
 	}-*/;
 
 	public void copy() {
-		nativeCopy(mathFieldInternal.copy());
+		nativeCopy(mathFieldInternal.copy(), html.getElement());
 
 	}
 
-	private static native void nativeCopy(String value) /*-{
+	private static native void nativeCopy(String value, Element el) /*-{
 		var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
+		el.focus();
 	}-*/;
 
 }

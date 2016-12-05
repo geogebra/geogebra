@@ -798,4 +798,8 @@ public class InputController {
 		// editorState.resetSelection();
 		return null;
 	}
+
+	public MathField getMathField() {
+		return mathField;
+	}
 }
