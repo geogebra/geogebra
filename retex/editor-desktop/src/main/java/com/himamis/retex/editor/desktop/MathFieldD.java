@@ -221,4 +221,8 @@ public class MathFieldD extends JLabel implements MathField {
 		return mathFieldInternal.getFormula();
 	}
 
+	public boolean useCustomPaste() {
+		return false;
+	}
+
 }

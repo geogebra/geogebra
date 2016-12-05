@@ -39,6 +39,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -76,6 +77,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private boolean focused = false;
 	private TeXIcon lastIcon;
 	private float ratio = 1;
+	private KeyListener keyListener;
 	private static Timer tick;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
@@ -143,7 +145,13 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 	@Override
 	public void setKeyListener(final KeyListener keyListener) {
-		html.addDomHandler(new KeyPressHandler() {
+		this.keyListener = keyListener;
+		setKeyListener(html, keyListener);
+
+	}
+
+	private void setKeyListener(Widget html2, final KeyListener keyListener) {
+		html2.addDomHandler(new KeyPressHandler() {
 
 			public void onKeyPress(KeyPressEvent event) {
 				keyListener.onKeyTyped(
@@ -154,7 +162,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 			}
 		}, KeyPressEvent.getType());
-		html.addDomHandler(new KeyUpHandler() {
+		html2.addDomHandler(new KeyUpHandler() {
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
@@ -168,10 +176,14 @@ public class MathFieldW implements MathField, IsWidget {
 
 			}
 		}, KeyUpEvent.getType());
-		html.addDomHandler(new KeyDownHandler() {
+		html2.addDomHandler(new KeyDownHandler() {
 
 			public void onKeyDown(KeyDownEvent event) {
+				debug("keyDown");
 				int code = event.getNativeEvent().getKeyCode();
+				if (code == KeyEvent.VK_CONTROL) {
+					preparePaste();
+				}
 				code = fixCode(code);
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
@@ -339,7 +351,10 @@ public class MathFieldW implements MathField, IsWidget {
 	private native void installPaste() /*-{
 		var that = this;
 		$doc.body.addEventListener('paste',
-		function(a){that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));}
+		function(a){
+			$wnd.console.log(a.clipboardData);
+			that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));
+			}
 		);
 		
 	}-*/;
@@ -424,6 +439,29 @@ public class MathFieldW implements MathField, IsWidget {
 		copyFrom.select();
 		$doc.execCommand('copy');
 		el.focus();
+	}-*/;
+
+	protected void listenToTextArea() {
+		if (keyListener != null) {
+			this.setKeyListener(HTML.wrap(getHiddenTextArea()), keyListener);
+		}
+	}
+	protected native void preparePaste() /*-{
+		if ($wnd.navigator.userAgent
+				&& $wnd.navigator.userAgent.match(/Firefox/)) {
+			$wnd.console.log("moving focus");
+			var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
+			copyFrom.select();
+			this.@com.himamis.retex.editor.web.MathFieldW::listenToTextArea();
+		}
+	}-*/;
+
+	public native boolean useCustomPaste() /*-{
+		if ($wnd.navigator.userAgent
+				&& $wnd.navigator.userAgent.match(/Firefox/)) {
+			return true;
+		}
+		return false;
 	}-*/;
 
 }
