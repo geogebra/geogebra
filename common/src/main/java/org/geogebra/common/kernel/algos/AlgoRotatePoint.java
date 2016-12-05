@@ -172,9 +172,14 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
-		if (botanaPolynomials != null) {
-			return botanaPolynomials;
-		}
+		/*
+		 * This polynomial cannot be cached, because the polynomial depends on
+		 * the rotation angle. If the user changes the angle, the polynomial
+		 * should be recomputed. Currently we cannot force recomputing a Botana
+		 * polynomial externally, thus here we simply recompute the polynomial
+		 * each time it is used. TODO: Consider caching the angle here (but not
+		 * the poly).
+		 */
 
 		// point to rotate
 		GeoPoint A = (GeoPoint) Q;
