@@ -210,7 +210,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		GRadioButtonMenuItem mi;
 		
 		for (int i = 0; i < items.length; i++) {
-			if (items[i] == "---") {
+			if ("---".equals(items[i])) {
 				//add separator with css
 			} else {
 				String text = app.getLocalization().getMenu(items[i]);

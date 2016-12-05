@@ -1710,10 +1710,9 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 					break;
 				}
 				stepSize /= 2;
-				if (stepSize > MIN_STEP_SIZE * Math.max(scaleX, scaleY))
-					continue;
-				reachedEnd = true;
-				break;
+
+				reachedEnd = reachedEnd
+						|| stepSize <= MIN_STEP_SIZE * Math.max(scaleX, scaleY);
 			}
 			if (!reachedEnd || reachedSingularity) {
 				if (reachedSingularity || ((lx - sx) * (lx - sx)

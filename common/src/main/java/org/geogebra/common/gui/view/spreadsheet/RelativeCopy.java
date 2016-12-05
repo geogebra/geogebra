@@ -1235,9 +1235,9 @@ public class RelativeCopy {
 			}
 			if (c == '.' && decimalCount == 0) {
 				decimalCount++;
-				continue;
+			} else {
+				return false;
 			}
-			return false;
 		}
 		return true;
 	}

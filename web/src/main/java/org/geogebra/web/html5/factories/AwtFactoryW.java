@@ -26,8 +26,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.ActionListener;
-import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.App;
@@ -52,7 +50,6 @@ import org.geogebra.web.html5.awt.GPoint2DW;
 import org.geogebra.web.html5.awt.GTexturePaintW;
 import org.geogebra.web.html5.awt.font.GTextLayoutW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
-import org.geogebra.web.html5.event.ActionListenerW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -235,11 +232,6 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public FocusListener newFocusListener(Object listener) {
 		return new FocusListenerW(listener);
-	}
-
-	@Override
-	public ActionListener newActionListener(ActionListenerI listener) {
-		return new ActionListenerW(listener);
 	}
 
 	@Override

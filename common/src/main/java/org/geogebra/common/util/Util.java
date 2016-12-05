@@ -12,7 +12,7 @@
 
 package org.geogebra.common.util;
 
-public class Util extends Object {
+public class Util {
 
 	/**
 	 * Removes < > " * / ? | \ and replaces them with underscore (_) Michael

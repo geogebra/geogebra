@@ -3771,9 +3771,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			int type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE;
 
-			if (e.getActionCommand() == "dashed") {
+			if ("dashed".equals(e.getActionCommand())) {
 				type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_DASHED;
-			} else if (e.getActionCommand() == "asNotHidden") {
+			} else if ("asNotHidden".equals(e.getActionCommand())) {
 				type = EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN;
 			}
 

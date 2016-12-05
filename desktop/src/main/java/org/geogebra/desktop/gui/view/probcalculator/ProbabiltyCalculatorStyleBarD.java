@@ -311,7 +311,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		// String label;
 
 		for (int i = 0; i < items.length; i++) {
-			if (items[i] == "---") {
+			if ("---".equals(items[i])) {
 				menu.addSeparator();
 			} else {
 				String text = app.getMenu(items[i]);

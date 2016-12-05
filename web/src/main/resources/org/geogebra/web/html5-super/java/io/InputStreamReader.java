@@ -83,14 +83,14 @@ public class InputStreamReader extends Reader {
             throw new NullPointerException();
         }
         this.in = in;
-        try {
-       /*AG     decoder = Charset.forName(enc).newDecoder().onMalformedInput(
-                    CodingErrorAction.REPLACE).onUnmappableCharacter(
-                    CodingErrorAction.REPLACE);*/
-        } catch (IllegalArgumentException e) {
-            throw (UnsupportedEncodingException)
-                    new UnsupportedEncodingException().initCause(e);
-        }
+//        try {
+//            decoder = Charset.forName(enc).newDecoder().onMalformedInput(
+//                    CodingErrorAction.REPLACE).onUnmappableCharacter(
+//                    CodingErrorAction.REPLACE);
+//        } catch (IllegalArgumentException e) {
+//            throw (UnsupportedEncodingException)
+//                    new UnsupportedEncodingException().initCause(e);
+//        }
         //bytes.limit(0);
     }
 

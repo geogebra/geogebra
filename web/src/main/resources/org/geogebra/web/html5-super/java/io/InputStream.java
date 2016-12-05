@@ -35,7 +35,7 @@ package java.io;
  * 
  * @see OutputStream
  */
-public abstract class InputStream extends Object implements Closeable {
+public abstract class InputStream implements Closeable {
 
     private static byte[] skipBuf;
 

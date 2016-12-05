@@ -237,7 +237,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	}
 
 	public int compareTo(Polynomial poly) {
-		if (this==poly){
+		if (this == poly) {
 			return 0;
 		}
 
@@ -931,7 +931,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		for (Variable v : pVariables) {
 			vars += v + ",";
 		}
-		if (vars != "") {
+		if (!"".equals(vars)) {
 			vars = vars.substring(0, vars.length() - 1);
 		}
 		
@@ -967,7 +967,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				vars += "*";
 			}
 		}
-		if (vars != "")
+		if (!"".equals(vars))
 			ret.append(vars);
 		else
 			ret.append(dummyVar);
@@ -1190,7 +1190,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				pVariables[j] = aVariables[indices[j]];
 				debug += aVariables[indices[j]] + ",";
 			}
-			if (debug != "") {
+			if (!"".equals(debug)) {
 				debug = debug.substring(0, debug.length()-1);
 			}
 			Log.debug("Checking variable permutation #" + permutation + ": " + debug);

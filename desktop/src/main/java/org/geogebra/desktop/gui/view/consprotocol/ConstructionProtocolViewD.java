@@ -156,7 +156,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			tableColumns[k].setHeaderRenderer(headerRend);
 			if (data.columns[k].getInitShow())
 				table.addColumn(tableColumns[k]);
-			if (data.columns[k].getTitle() == "Caption") {
+			if ("Caption".equals(data.columns[k].getTitle())) {
 				tableColumns[k]
 						.setCellEditor(new ConstructionTableCellEditor());
 			}

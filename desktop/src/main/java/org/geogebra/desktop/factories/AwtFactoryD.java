@@ -35,7 +35,6 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
@@ -60,7 +59,6 @@ import org.geogebra.desktop.awt.GQuadCurve2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.awt.GTextLayoutD;
 import org.geogebra.desktop.awt.GTexturePaintD;
-import org.geogebra.desktop.euclidian.event.ActionListenerD;
 import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.gui.MyImageD;
 
@@ -267,11 +265,6 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public FocusListener newFocusListener(Object listener) {
 		return new FocusListenerD(listener);
-	}
-
-	@Override
-	public ActionListenerD newActionListener(ActionListenerI listener) {
-		return new ActionListenerD(listener);
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	public void setSelected(int selectedPos) {
 		clearItems();	
 		for (int i = 0; i < texts.length; i++) {
-			if (texts[i] == "---") {
+			if ("---".equals(texts[i])) {
 				addSeparator();
 				radioButtons.add(null);
 				

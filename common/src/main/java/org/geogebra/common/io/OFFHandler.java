@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -322,7 +321,7 @@ public class OFFHandler {
 			return;
 		}
 
-		while (getFaces().size() < faceCount) {
+		if (getFaces().size() < faceCount) {
 			addFaceLine(line);
 			return;
 		}

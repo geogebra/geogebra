@@ -189,7 +189,6 @@ public class UtilD extends Util {
 					ios.close();
 			} catch (IOException e) {
 				Log.error("problem loading " + filename);
-				return null;
 			}
 		}
 

@@ -37,7 +37,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 		// String label;
 
 		for (int i = 0; i < items.length; i++) {
-			if (items[i] == "---") {
+			if ("---".equals(items[i])) {
 				addSeparator();
 			} else {
 				String text = (changeText) ? app.getMenu(items[i]) : items[i];

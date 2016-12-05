@@ -106,7 +106,8 @@ class Edge {
     public Edge findNextLocMin() {
         Edge e = this;
         Edge e2;
-        for (;;) {
+		boolean go = true;
+		while (go) {
             while (!e.bot.equals( e.prev.bot ) || e.current.equals( e.top )) {
                 e = e.next;
             }
@@ -127,7 +128,7 @@ class Edge {
             if (e2.prev.bot.getX() < e.bot.getX()) {
                 e = e2;
             }
-            break;
+			go = false;
         }
         return e;
     }

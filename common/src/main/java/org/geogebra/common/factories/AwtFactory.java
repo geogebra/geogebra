@@ -26,8 +26,6 @@ import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.euclidian.event.ActionListener;
-import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.main.App;
 
@@ -120,9 +118,6 @@ public abstract class AwtFactory {
 			int x2, int i, GColor bg);
 
 	public abstract FocusListener newFocusListener(Object listener);
-
-	public abstract ActionListener newActionListener(ActionListenerI listener);
-
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);
