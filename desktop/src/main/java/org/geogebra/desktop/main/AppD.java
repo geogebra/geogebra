@@ -2081,6 +2081,8 @@ ToolbarD.getAllTools(this));
 
 		if (icon == null) {
 			icon = getToolIcon(borderColor);
+
+			Log.debug("icon missing for mode " + modeText);
 		}
 
 		// scale icon if necessary
@@ -2206,10 +2208,6 @@ ToolbarD.getAllTools(this));
 			String modeText = EuclidianConstants.getModeTextSimple(mode);
 			// bugfix for Turkish locale added Locale.US
 			icon = getToolBarImage(modeText, border);
-			if (icon == null) {
-				Log.debug("icon missing for mode " + modeText + " (" + mode
-						+ ")");
-			}
 		}
 		return icon;
 	}
