@@ -19,8 +19,8 @@ import org.geogebra.desktop.main.AppD;
  * Handles mouse and key events in row headers of the CAS table
  *
  */
-public class RowHeaderListener extends MouseAdapter implements KeyListener,
-		ListSelectionListener, MouseMotionListener {
+public class RowHeaderListener extends MouseAdapter
+		implements KeyListener, ListSelectionListener, MouseMotionListener {
 
 	private final CASTableD table;
 	private final JList rowHeader;
@@ -79,7 +79,8 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener,
 					.getCellRenderer().getListCellRendererComponent(rowHeader,
 							(releasedRow + 1) + "", releasedRow, false, false);
 			boolean marbleVisible = rhr.getComponent(1).isVisible();
-			if (releasedRow == mousePressedRow && marbleVisible && !rightClick) {
+			if (releasedRow == mousePressedRow && marbleVisible
+					&& !rightClick) {
 				int totalHeight = 0;
 				for (int i = 0; i < releasedRow; i++) {
 					totalHeight += table.getRowHeight(i);
@@ -91,8 +92,8 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener,
 				if (e.getY() > marbleTop + totalHeight - 4
 						&& e.getY() < marbleTop + totalHeight
 								+ app.getScaledIconSize()) {
-					GeoCasCell clickedCell = table.getGeoCasCell(table
-							.rowAtPoint(e.getPoint()));
+					GeoCasCell clickedCell = table
+							.getGeoCasCell(table.rowAtPoint(e.getPoint()));
 					if (table.isEditing()) {
 						table.stopEditing();
 					}

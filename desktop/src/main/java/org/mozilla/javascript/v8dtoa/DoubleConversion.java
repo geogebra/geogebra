@@ -31,55 +31,58 @@
 package org.mozilla.javascript.v8dtoa;
 
 public final class DoubleConversion {
-    private static final long kSignMask = 0x8000000000000000L;
-    private static final long kExponentMask = 0x7FF0000000000000L;
-    private static final long kSignificandMask = 0x000FFFFFFFFFFFFFL;
-    private static final long kHiddenBit = 0x0010000000000000L;
-    private static final int kPhysicalSignificandSize = 52; // Excludes the hidden bit.
-    private static final int kSignificandSize = 53;
-    private static final int kExponentBias = 0x3FF + kPhysicalSignificandSize;
-    private static final int kDenormalExponent = -kExponentBias + 1;
+	private static final long kSignMask = 0x8000000000000000L;
+	private static final long kExponentMask = 0x7FF0000000000000L;
+	private static final long kSignificandMask = 0x000FFFFFFFFFFFFFL;
+	private static final long kHiddenBit = 0x0010000000000000L;
+	private static final int kPhysicalSignificandSize = 52; // Excludes the
+															// hidden bit.
+	private static final int kSignificandSize = 53;
+	private static final int kExponentBias = 0x3FF + kPhysicalSignificandSize;
+	private static final int kDenormalExponent = -kExponentBias + 1;
 
-    private DoubleConversion() {
-    }
+	private DoubleConversion() {
+	}
 
-    private static int exponent(long d64) {
-        if (isDenormal(d64))
-            return kDenormalExponent;
+	private static int exponent(long d64) {
+		if (isDenormal(d64))
+			return kDenormalExponent;
 
-        int biased_e = (int) ((d64 & kExponentMask) >> kPhysicalSignificandSize);
-        return biased_e - kExponentBias;
-    }
+		int biased_e = (int) ((d64
+				& kExponentMask) >> kPhysicalSignificandSize);
+		return biased_e - kExponentBias;
+	}
 
-    private static long significand(long d64) {
-        long significand = d64 & kSignificandMask;
-        if (!isDenormal(d64)) {
-            return significand + kHiddenBit;
-        } else {
-            return significand;
-        }
-    }
+	private static long significand(long d64) {
+		long significand = d64 & kSignificandMask;
+		if (!isDenormal(d64)) {
+			return significand + kHiddenBit;
+		} else {
+			return significand;
+		}
+	}
 
-    // Returns true if the double is a denormal.
-    private static boolean isDenormal(long d64) {
-        return (d64 & kExponentMask) == 0;
-    }
+	// Returns true if the double is a denormal.
+	private static boolean isDenormal(long d64) {
+		return (d64 & kExponentMask) == 0;
+	}
 
-    private static int sign(long d64) {
-        return (d64 & kSignMask) == 0 ? 1 : -1;
-    }
+	private static int sign(long d64) {
+		return (d64 & kSignMask) == 0 ? 1 : -1;
+	}
 
-    public static int doubleToInt32(double x) {
-        int i = (int) x;
-        if ((double) i == x) {
-            return i;
-        }
-        long d64 = Double.doubleToLongBits(x);
-        int exponent = exponent(d64);
-        if (exponent <= -kSignificandSize || exponent > 31) {
-            return 0;
-        }
-        long s = significand(d64);
-        return sign(d64) * (int) (exponent < 0 ? s >> -exponent : s << exponent);
-    }
+	public static int doubleToInt32(double x) {
+		int i = (int) x;
+		if ((double) i == x) {
+			return i;
+		}
+		long d64 = Double.doubleToLongBits(x);
+		int exponent = exponent(d64);
+		if (exponent <= -kSignificandSize || exponent > 31) {
+			return 0;
+		}
+		long s = significand(d64);
+		return sign(d64)
+				* (int) (exponent < 0 ? s >> -exponent : s << exponent);
+	}
 }

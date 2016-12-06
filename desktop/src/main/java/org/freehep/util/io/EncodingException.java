@@ -11,17 +11,18 @@ import java.io.IOException;
  */
 public class EncodingException extends IOException {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 8496816190751796701L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8496816190751796701L;
 
-    /**
-     * Creates an Encoding Exception
-     * 
-     * @param msg message
-     */
-    public EncodingException(String msg) {
-        super(msg);
-    }
+	/**
+	 * Creates an Encoding Exception
+	 * 
+	 * @param msg
+	 *            message
+	 */
+	public EncodingException(String msg) {
+		super(msg);
+	}
 }

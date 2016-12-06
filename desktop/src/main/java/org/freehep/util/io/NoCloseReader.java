@@ -14,34 +14,38 @@ import java.io.Reader;
  */
 public class NoCloseReader extends BufferedReader {
 
-    /**
-     * Creates a No Close Reader.
-     * 
-     * @param reader reader to read from
-     */
-    public NoCloseReader(Reader reader) {
-        super(reader);
-    }
+	/**
+	 * Creates a No Close Reader.
+	 * 
+	 * @param reader
+	 *            reader to read from
+	 */
+	public NoCloseReader(Reader reader) {
+		super(reader);
+	}
 
-    /**
-     * Creates a No Close Reader.
-     * 
-     * @param reader reader to read from
-     * @param size buffer size
-     */
-    public NoCloseReader(Reader reader, int size) {
-        super(reader, size);
-    }
+	/**
+	 * Creates a No Close Reader.
+	 * 
+	 * @param reader
+	 *            reader to read from
+	 * @param size
+	 *            buffer size
+	 */
+	public NoCloseReader(Reader reader, int size) {
+		super(reader, size);
+	}
 
-    public void close() throws IOException {
-    }
+	public void close() throws IOException {
+	}
 
-    /**
-     * Closes the reader (close is ignored).
-     * 
-     * @throws IOException if the close fails
-     */
-    public void realClose() throws IOException {
-        super.close();
-    }
+	/**
+	 * Closes the reader (close is ignored).
+	 * 
+	 * @throws IOException
+	 *             if the close fails
+	 */
+	public void realClose() throws IOException {
+		super.close();
+	}
 }

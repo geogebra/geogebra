@@ -46,8 +46,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
-public class AlgebraControllerD extends AlgebraTreeController implements
-		DragGestureListener, DragSourceListener {
+public class AlgebraControllerD extends AlgebraTreeController
+		implements DragGestureListener, DragSourceListener {
 
 	private DragSource ds;
 
@@ -89,8 +89,7 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 		view.cancelEditItem();
 		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
 		if (rightClick) {// RIGHT CLICK
-			GPoint mouseCoords = new GPoint(
-					e.getPoint().x, e.getPoint().y);
+			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
 			rightPress(e, mouseCoords);
 		} else {// LEFT CLICK
 			leftPress(e);
@@ -148,12 +147,12 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 		}
 
 		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-					((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
+				((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
 
 		// start drag
 		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
-					new Point(-5, -30), new TransferableAlgebraView(
-							geoLabelList), this);
+				new Point(-5, -30), new TransferableAlgebraView(geoLabelList),
+				this);
 	}
 
 	/**
@@ -194,7 +193,8 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	protected void euclidianViewClick(EuclidianViewInterfaceCommon ev,
 			GeoElement geo, MouseEvent e) {
 		// let euclidianView know about the click
-		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD.wrapEvent(e);
+		AbstractEvent event = org.geogebra.desktop.euclidian.event.MouseEventD
+				.wrapEvent(e);
 		ev.clickedGeo(geo, app.isControlDown(event));
 		event.release();
 
@@ -221,14 +221,12 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 	}
 
 	@Override
-	protected boolean leftPressCanSelectGeo(MouseEvent e,
-			GeoElement geo) {
+	protected boolean leftPressCanSelectGeo(MouseEvent e, GeoElement geo) {
 
 		int mode = app.getActiveEuclidianView().getMode();
 		if ((mode == EuclidianConstants.MODE_MOVE
 				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER
-				|| geo == null) &&
-		!AppD.isControlDown(e) && !e.isShiftDown()) {
+				|| geo == null) && !AppD.isControlDown(e) && !e.isShiftDown()) {
 			if (!setSelectedGeo(geo))
 				return true;
 

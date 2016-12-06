@@ -41,47 +41,41 @@ package com.kitfox.svg;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Title extends SVGElement
-{
-    public static final String TAG_NAME = "title";
-    
-    StringBuffer text = new StringBuffer();
+public class Title extends SVGElement {
+	public static final String TAG_NAME = "title";
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Title()
-    {
-    }
+	StringBuffer text = new StringBuffer();
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Title() {
+	}
 
-    /**
-     * Called during load process to add text scanned within a tag
-     */
-    public void loaderAddText(SVGLoaderHelper helper, String text)
-    {
-        this.text.append(text);
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    public String getText()
-    {
-        return text.toString();
-    }
+	/**
+	 * Called during load process to add text scanned within a tag
+	 */
+	public void loaderAddText(SVGLoaderHelper helper, String text) {
+		this.text.append(text);
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        //Title does not change
-        return false;
-    }
+	public String getText() {
+		return text.toString();
+	}
+
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// Title does not change
+		return false;
+	}
 }

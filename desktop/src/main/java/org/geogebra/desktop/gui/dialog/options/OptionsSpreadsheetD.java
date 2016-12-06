@@ -43,8 +43,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  */
 public class OptionsSpreadsheetD extends OptionsSpreadsheet
-		implements
-		OptionPanelD, ActionListener, FocusListener, SetLabels {
+		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -277,8 +276,8 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 		else if (source == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_SPREADSHEET);
 		} else if (source == description) {
-			app.getKernel().setAlgebraStyleSpreadsheet(
-					description.getSelectedIndex());
+			app.getKernel()
+					.setAlgebraStyleSpreadsheet(description.getSelectedIndex());
 			app.getKernel().updateConstruction();
 		}
 

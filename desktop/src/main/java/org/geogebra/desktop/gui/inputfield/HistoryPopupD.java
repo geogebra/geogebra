@@ -248,9 +248,8 @@ public class HistoryPopupD implements ListSelectionListener {
 			break;
 
 		case VK_DOWN:
-			if (!isDownPopup
-					&& historyList.getSelectedIndex() == historyList.getModel()
-							.getSize() - 1)
+			if (!isDownPopup && historyList
+					.getSelectedIndex() == historyList.getModel().getSize() - 1)
 				hidePopup();
 			else
 				navigateRelative(+1);
@@ -307,12 +306,11 @@ public class HistoryPopupD implements ListSelectionListener {
 		 */
 
 		// create grid lines with this border
-		private Border gridBorder = BorderFactory
-				.createCompoundBorder(
-						BorderFactory.createMatteBorder(0, 0, 1, 0,
-								GColorD.getAwtColor(
-										GeoGebraColorConstants.TABLE_GRID_COLOR)),
-						BorderFactory.createEmptyBorder(2, 5, 2, 5));
+		private Border gridBorder = BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						GColorD.getAwtColor(
+								GeoGebraColorConstants.TABLE_GRID_COLOR)),
+				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
 		@Override
 		public Component getListCellRendererComponent(JList list, Object value,

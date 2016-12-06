@@ -14,14 +14,14 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class CloseFigure extends EMFTag {
 
-    public CloseFigure() {
-        super(61, 1);
-    }
+	public CloseFigure() {
+		super(61, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 
 }

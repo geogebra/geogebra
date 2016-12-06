@@ -32,8 +32,8 @@ public class GLBufferD implements GLBuffer {
 	public void setEmpty() {
 		isEmpty = true;
 	}
-	
-	public void allocate(int length){
+
+	public void allocate(int length) {
 
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.capacity() < length) {
@@ -41,20 +41,20 @@ public class GLBufferD implements GLBuffer {
 		} else {
 			impl.rewind();
 		}
-		
+
 		impl.limit(length);
-		
+
 	}
-	
-	public void setLimit(int length){
+
+	public void setLimit(int length) {
 		impl.limit(length);
 		currentLength = length;
-		
+
 		impl.rewind();
 		isEmpty = false;
 	}
-	
-	public void put(double value){
+
+	public void put(double value) {
 		impl.put((float) value);
 	}
 
@@ -69,11 +69,11 @@ public class GLBufferD implements GLBuffer {
 	public void set(ArrayList<Double> array, int length) {
 
 		allocate(length);
-		
+
 		for (int i = 0; i < length; i++) {
 			put(array.get(i));
 		}
-		
+
 		setLimit(length);
 	}
 

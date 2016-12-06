@@ -45,35 +45,32 @@ import java.awt.geom.GeneralPath;
  */
 public class Vertical extends PathCommand {
 
-    public float y = 0f;
+	public float y = 0f;
 
-    /** Creates a new instance of MoveTo */
-    public Vertical() {
-    }
+	/** Creates a new instance of MoveTo */
+	public Vertical() {
+	}
 
-    public String toString()
-    {
-        return "V " + y;
-    }
+	public String toString() {
+		return "V " + y;
+	}
 
-    public Vertical(boolean isRelative, float y) {
-        super(isRelative);
-        this.y = y;
-    }
+	public Vertical(boolean isRelative, float y) {
+		super(isRelative);
+		this.y = y;
+	}
 
-//    public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
-    public void appendPath(GeneralPath path, BuildHistory hist)
-    {
-        float offx = hist.lastPoint.x;
-        float offy = isRelative ? hist.lastPoint.y : 0f;
+	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	public void appendPath(GeneralPath path, BuildHistory hist) {
+		float offx = hist.lastPoint.x;
+		float offy = isRelative ? hist.lastPoint.y : 0f;
 
-        path.lineTo(offx, y + offy);
-        hist.setLastPoint(offx, y + offy);
-        hist.setLastKnot(offx, y + offy);
-    }
+		path.lineTo(offx, y + offy);
+		hist.setLastPoint(offx, y + offy);
+		hist.setLastKnot(offx, y + offy);
+	}
 
-    public int getNumKnotsAdded()
-    {
-        return 2;
-    }
+	public int getNumKnotsAdded() {
+		return 2;
+	}
 }

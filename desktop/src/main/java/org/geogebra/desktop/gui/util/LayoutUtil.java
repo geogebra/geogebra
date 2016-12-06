@@ -20,8 +20,8 @@ public class LayoutUtil {
 	private static int defaultVgap = 3;
 
 	public static JPanel flowPanel(Component... comps) {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
-				defaultVgap));
+		JPanel p = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, defaultHgap, defaultVgap));
 		for (Component comp : comps) {
 			p.add(comp);
 		}
@@ -30,8 +30,8 @@ public class LayoutUtil {
 
 	// testing left-right support
 	public static JPanel flowPanel2(App app, Component... comps) {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
-				defaultVgap));
+		JPanel p = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, defaultHgap, defaultVgap));
 
 		if (!app.getLocalization().isRightToLeftReadingOrder()) {
 			for (int i = 0; i < comps.length; i++) {
@@ -46,8 +46,8 @@ public class LayoutUtil {
 	}
 
 	public static JPanel flowPanel(int tab, Component... comps) {
-		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT, defaultHgap,
-				defaultVgap));
+		JPanel p = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, defaultHgap, defaultVgap));
 		p.add(Box.createHorizontalStrut(tab));
 		for (Component comp : comps) {
 			p.add(comp);
@@ -97,8 +97,9 @@ public class LayoutUtil {
 	}
 
 	public static Border titleBorder(String title) {
-		Border lineBorder = BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(0, 0, 1, 0, SystemColor.controlLtHighlight),
+		Border lineBorder = BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						SystemColor.controlLtHighlight),
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
 						SystemColor.controlShadow));
 

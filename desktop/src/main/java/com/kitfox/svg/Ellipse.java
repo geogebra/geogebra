@@ -46,137 +46,116 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Ellipse extends ShapeElement
-{
+public class Ellipse extends ShapeElement {
 
-    public static final String TAG_NAME = "ellipse";
-    float cx = 0.0f;
-    float cy = 0.0f;
-    float rx = 0.0f;
-    float ry = 0.0f;
-    Ellipse2D.Float ellipse = new Ellipse2D.Float();
+	public static final String TAG_NAME = "ellipse";
+	float cx = 0.0f;
+	float cy = 0.0f;
+	float rx = 0.0f;
+	float ry = 0.0f;
+	Ellipse2D.Float ellipse = new Ellipse2D.Float();
 
-    /**
-     * Creates a new instance of Rect
-     */
-    public Ellipse()
-    {
-    }
+	/**
+	 * Creates a new instance of Rect
+	 */
+	public Ellipse() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("cx")))
-        {
-            cx = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("cx"))) {
+			cx = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("cy")))
-        {
-            cy = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("cy"))) {
+			cy = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("rx")))
-        {
-            rx = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("rx"))) {
+			rx = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("ry")))
-        {
-            ry = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("ry"))) {
+			ry = sty.getFloatValueWithUnits();
+		}
 
-        ellipse.setFrame(cx - rx, cy - ry, rx * 2f, ry * 2f);
-    }
+		ellipse.setFrame(cx - rx, cy - ry, rx * 2f, ry * 2f);
+	}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, ellipse);
-        finishLayer(g);
-    }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, ellipse);
+		finishLayer(g);
+	}
 
-    public Shape getShape()
-    {
-        return shapeToParent(ellipse);
-    }
+	public Shape getShape() {
+		return shapeToParent(ellipse);
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(ellipse.getBounds2D()));
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(ellipse.getBounds2D()));
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("cx")))
-        {
-            float newCx = sty.getFloatValueWithUnits();
-            if (newCx != cx)
-            {
-                cx = newCx;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("cx"))) {
+			float newCx = sty.getFloatValueWithUnits();
+			if (newCx != cx) {
+				cx = newCx;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("cy")))
-        {
-            float newCy = sty.getFloatValueWithUnits();
-            if (newCy != cy)
-            {
-                cy = newCy;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("cy"))) {
+			float newCy = sty.getFloatValueWithUnits();
+			if (newCy != cy) {
+				cy = newCy;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("rx")))
-        {
-            float newRx = sty.getFloatValueWithUnits();
-            if (newRx != rx)
-            {
-                rx = newRx;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("rx"))) {
+			float newRx = sty.getFloatValueWithUnits();
+			if (newRx != rx) {
+				rx = newRx;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("ry")))
-        {
-            float newRy = sty.getFloatValueWithUnits();
-            if (newRy != ry)
-            {
-                ry = newRy;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("ry"))) {
+			float newRy = sty.getFloatValueWithUnits();
+			if (newRy != ry) {
+				ry = newRy;
+				shapeChange = true;
+			}
+		}
 
-        if (shapeChange)
-        {
-            build();
-//            ellipse.setFrame(cx - rx, cy - ry, rx * 2f, ry * 2f);
-//            return true;
-        }
+		if (shapeChange) {
+			build();
+			// ellipse.setFrame(cx - rx, cy - ry, rx * 2f, ry * 2f);
+			// return true;
+		}
 
-        return changeState || shapeChange;
-    }
+		return changeState || shapeChange;
+	}
 }

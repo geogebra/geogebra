@@ -87,13 +87,12 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
 			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize, HEIGHT / 2.0
-					+ arrowSize);
+			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize,
+					HEIGHT / 2.0 + arrowSize);
 			g2.draw(tempLine);
 
 			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize,
-					HEIGHT / 2.0
-					- arrowSize);
+					HEIGHT / 2.0 - arrowSize);
 			g2.draw(tempLine);
 
 			// fall through
@@ -103,13 +102,11 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			// right-arrow
 
 			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
-					HEIGHT / 2.0
-					+ arrowSize);
+					HEIGHT / 2.0 + arrowSize);
 			g2.draw(tempLine);
 
 			tempLine.setLine(WIDTH, HEIGHT / 2.0, WIDTH - arrowSize,
-					HEIGHT / 2.0
-					- arrowSize);
+					HEIGHT / 2.0 - arrowSize);
 			g2.draw(tempLine);
 			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:

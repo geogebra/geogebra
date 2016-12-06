@@ -11,28 +11,28 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class AbstractCharTable implements CharTable {
 
-    public int toEncoding(char unicode) {
-        try {
-            String name = toName(unicode);
-            if (name == null)
-                return 0;
-            int enc = toEncoding(name);
-            if (enc > 255) {
-				Log.debug("toEncoding() returned illegal value for '"
-                        + name + "': " + enc);
-                return 0;
-            }
-            return enc;
-        } catch (Exception e) {
-            return 0;
-        }
-    }
+	public int toEncoding(char unicode) {
+		try {
+			String name = toName(unicode);
+			if (name == null)
+				return 0;
+			int enc = toEncoding(name);
+			if (enc > 255) {
+				Log.debug("toEncoding() returned illegal value for '" + name
+						+ "': " + enc);
+				return 0;
+			}
+			return enc;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
 
-    public String toName(char c) {
-        return toName(new Character(c));
-    }
+	public String toName(char c) {
+		return toName(new Character(c));
+	}
 
-    public String toName(Integer enc) {
-        return toName(enc.intValue());
-    }
+	public String toName(Integer enc) {
+		return toName(enc.intValue());
+	}
 }

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
@@ -50,7 +49,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 * @param useCanvas
 	 *            true if we want to use Canvas (instead of JPanel)
 	 */
-	public RendererD(EuclidianView3D view, boolean useCanvas, RendererType type) {
+	public RendererD(EuclidianView3D view, boolean useCanvas,
+			RendererType type) {
 		super(view, type);
 
 		jogl = new RendererJogl();
@@ -95,15 +95,15 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
 	 * each {@link Drawable3D}, it calls:
 	 * <ul>
-	 * <li> {@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
+	 * <li>{@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li> {@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
+	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
 	 * transparent objects for a better alpha-blending</li>
-	 * <li> {@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
+	 * <li>{@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
 	 * hidden parts (dash-less segments, lines, ...)</li>
 	 * </ul>
 	 */
@@ -133,7 +133,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	@Override
 	final protected void exportImage() {
-
 
 		switch (exportType) {
 		case ANIMATEDGIF:
@@ -178,8 +177,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			if (bi == null) {
 				Log.error("image null");
 			} else {
-				ImageSelection imgSel = new ImageSelection(
-						bi);
+				ImageSelection imgSel = new ImageSelection(bi);
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
 			}
@@ -199,13 +197,13 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 			view3D.getApplication().uploadToGeoGebraTube();
 			endNeedExportImage();
-			
+
 			break;
 
 		default:
 			if (needExportImage) {
 				setExportImage();
-				if (!exportImageForThumbnail){
+				if (!exportImageForThumbnail) {
 					// call write to file
 					((EuclidianView3DD) view3D).writeExportImage();
 				}
@@ -222,10 +220,9 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		if (bi == null) {
 			Log.error("image null");
 		} else {
-			ImageSelection imgSel = new ImageSelection(
-					bi);
-			Toolkit.getDefaultToolkit().getSystemClipboard()
-					.setContents(imgSel, null);
+			ImageSelection imgSel = new ImageSelection(bi);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
+					null);
 		}
 		endNeedExportImage();
 	}
@@ -281,15 +278,15 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		final String version = getGL().glGetString(GLlocal.GL_VERSION);
 
 		// Check For VBO support
-		final boolean VBOsupported = getGL().isFunctionAvailable(
-				"glGenBuffersARB")
+		final boolean VBOsupported = getGL()
+				.isFunctionAvailable("glGenBuffersARB")
 				&& getGL().isFunctionAvailable("glBindBufferARB")
 				&& getGL().isFunctionAvailable("glBufferDataARB")
 				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
 
 		Log.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
-		
+
 		initFBO();
 
 		init();
@@ -600,7 +597,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	}
 
-
 	@Override
 	public void setLayer(float l) {
 
@@ -627,8 +623,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	protected FrameCollector gifEncoder;
 
-
-
 	@Override
 	protected void setGIFEncoder(Object gifEncoder) {
 		this.gifEncoder = (FrameCollector) gifEncoder;
@@ -638,54 +632,51 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	// EXPORT IMAGE
 	// ////////////////////////////////////
 
-
-	
-	
-	
 	private int fboID, fboColorTextureID, fboDepthTextureID;
 	private int fboWidth = 1, fboHeight = 1;
 	private int oldRight, oldLeft, oldTop, oldBottom;
-	
+
 	@Override
 	final protected void selectFBO() {
-		
-		if (fboID < 0){
+
+		if (fboID < 0) {
 			view3D.setFontScale(1);
 			return;
 		}
-		
+
 		updateFBOBuffers();
-		
+
 		// bind the buffer
 		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
 
-
 		// store view values
-		oldRight = right; oldLeft = left; oldTop = top; oldBottom = bottom;
-		
+		oldRight = right;
+		oldLeft = left;
+		oldTop = top;
+		oldBottom = bottom;
+
 		// set view values for buffer
 		setView(0, 0, fboWidth, fboHeight);
-		
+
 	}
 
 	@Override
 	final protected void unselectFBO() {
-		
-		if (fboID < 0){
+
+		if (fboID < 0) {
 			return;
 		}
-		
+
 		// set back the view
 		setView(0, 0, oldRight - oldLeft, oldTop - oldBottom);
-		
-		//unbind the framebuffer ...
+
+		// unbind the framebuffer ...
 		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
 	}
-	
-	
+
 	@Override
 	final protected void needExportImage(double scale, int w, int h) {
-		
+
 		view3D.setFontScale(scale);
 		setExportImageDimension(w, h);
 
@@ -693,7 +684,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		display();
 
 	}
-	
+
 	@Override
 	final protected void setExportImageDimension(int w, int h) {
 		fboWidth = w;
@@ -701,14 +692,14 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	}
 
-	private void endNeedExportImage(){
+	private void endNeedExportImage() {
 		setNeedExportImage(false);
 
 		// set no font scale
 		view3D.setFontScale(1);
 	}
-	
-	private void updateFBOBuffers(){
+
+	private void updateFBOBuffers() {
 
 		// image texture
 		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
@@ -721,75 +712,73 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				GLlocal.GL_UNSIGNED_BYTE, null);
 
 		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
-        
-        
-        // depth buffer
+
+		// depth buffer
 		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
 		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
 				GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
-        
+
 		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
-        
-        
+
 	}
-	
+
 	/**
 	 * init frame buffer object for save image
 	 */
 	final protected void initFBO() {
 
-		try{
+		try {
 			int[] result = new int[1];
 
-			//allocate the colour texture ...
+			// allocate the colour texture ...
 			getGL().glGenTextures(1, result, 0);
 			fboColorTextureID = result[0];
 
-			//allocate the depth texture ...
+			// allocate the depth texture ...
 			getGL().glGenRenderbuffers(1, result, 0);
 			fboDepthTextureID = result[0];
 
 			updateFBOBuffers();
 
-
-			//allocate the framebuffer object ...
+			// allocate the framebuffer object ...
 			getGL().glGenFramebuffers(1, result, 0);
 			fboID = result[0];
 			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
 
-			//attach the textures to the framebuffer
+			// attach the textures to the framebuffer
 			getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_COLOR_ATTACHMENT0,GLlocal.GL_TEXTURE_2D,fboColorTextureID,0);
+					GLlocal.GL_COLOR_ATTACHMENT0, GLlocal.GL_TEXTURE_2D,
+					fboColorTextureID, 0);
 			getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_DEPTH_ATTACHMENT,GLlocal.GL_RENDERBUFFER,fboDepthTextureID);
+					GLlocal.GL_DEPTH_ATTACHMENT, GLlocal.GL_RENDERBUFFER,
+					fboDepthTextureID);
 
 			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
-			
+
 			// check if frame buffer is complete
-			if (getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
+			if (getGL().glCheckFramebufferStatus(
+					GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
 				Log.error("Frame buffer is not complete");
 				fboID = -1;
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			Log.error(e.getMessage());
 			fboID = -1;
 		}
-		
 
 	}
 
 	protected BufferedImage bi;
-	
-	static private int getUnsigned(byte x){
+
+	static private int getUnsigned(byte x) {
 		return x & 0x000000FF;
-//		if (x < 0){
-//			return -x + 128;
-//		}
-//		return x;
+		// if (x < 0){
+		// return -x + 128;
+		// }
+		// return x;
 	}
 
-	private BufferedImage[] equirectangularTilesLeft,
-			equirectangularTilesRight;
+	private BufferedImage[] equirectangularTilesLeft, equirectangularTilesRight;
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {
@@ -811,9 +800,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		equirectangularTilesRight[i] = bi;
 	}
 
-
-	static private final int INT_RGB_WHITE = ((255 << 16) | (255 << 8)
-			| 255);
+	static private final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
 
 	private void setRGBFromTile(int i, int x, int y, int xTile, int yTile) {
 		bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
@@ -832,7 +819,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT * 2,
 				BufferedImage.TYPE_INT_RGB);
 
-		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT - EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
+		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+				- EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
 		int shiftAlpha = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT / 2;
 		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
 			int shiftX = i * EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT;
@@ -841,7 +829,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				for (int y = 0; y < shiftY; y++) {
 					setWhite(x + shiftX, y);
 				}
-				
+
 				// first line will be missed by alpha
 				setRGBFromTile(i, x + shiftX, shiftY, x, 0);
 
@@ -850,17 +838,22 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2);
 
 				// angle - tangent match
-				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2; yAlpha++) {
-					double alpha = ((double) (2 * yAlpha * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
+				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+						/ 2; yAlpha++) {
+					double alpha = ((double) (2 * yAlpha
+							* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
 							/ EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT;
 					int y = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
-							* Math.tan(alpha * Math.PI / 180) / (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
+							* Math.tan(alpha * Math.PI / 180)
+							/ (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
 					setRGBFromTile(i, x + shiftX, shiftAlpha + yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 + y);
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+									+ y);
 					setRGBFromTile(i, x + shiftX, shiftAlpha - yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 - y);
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+									- y);
 				}
-				
+
 				// bottom white
 				for (int y = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
 						+ shiftY; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT; y++) {
@@ -919,21 +912,19 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	public void setLineWidth(int width) {
 		getGL().glLineWidth(width);
 	}
-	
 
 	@Override
-	protected void setBufferLeft(){
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
-		//zspace seems to be swapped
-		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
+	protected void setBufferLeft() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
 	}
-	
 
 	@Override
-	protected void setBufferRight(){
-		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
-		//zspace seems to be swapped
-		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
+	protected void setBufferRight() {
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT);
+		// zspace seems to be swapped
+		// jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT);
 	}
 
 }

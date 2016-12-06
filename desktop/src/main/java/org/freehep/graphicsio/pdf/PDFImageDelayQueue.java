@@ -22,106 +22,106 @@ import org.freehep.graphicsio.ImageConstants;
  */
 public class PDFImageDelayQueue {
 
-    private int currentNumber = 0;
+	private int currentNumber = 0;
 
-    private class Entry {
-        private RenderedImage image;
+	private class Entry {
+		private RenderedImage image;
 
-        private String name, maskName;
+		private String name, maskName;
 
-        private Color bkg;
+		private Color bkg;
 
-        private String writeAs;
+		private String writeAs;
 
-        private boolean written;
+		private boolean written;
 
-        private Entry(RenderedImage image, Color bkg, String writeAs) {
-            this.image = image;
-            this.bkg = bkg;
-            this.writeAs = writeAs;
-            this.name = "Img" + (currentNumber++);
-            if (image.getColorModel().hasAlpha() && (bkg == null)) {
-                maskName = name + "Mask";
-            } else {
-                maskName = null;
-            }
-            this.written = false;
-        }
-    }
+		private Entry(RenderedImage image, Color bkg, String writeAs) {
+			this.image = image;
+			this.bkg = bkg;
+			this.writeAs = writeAs;
+			this.name = "Img" + (currentNumber++);
+			if (image.getColorModel().hasAlpha() && (bkg == null)) {
+				maskName = name + "Mask";
+			} else {
+				maskName = null;
+			}
+			this.written = false;
+		}
+	}
 
-    private Map/* <RenderedImage,Entry> */imageMap;
+	private Map/* <RenderedImage,Entry> */ imageMap;
 
-    private List/* <entry> */imageList;
+	private List/* <entry> */ imageList;
 
-    private PDFWriter pdf;
+	private PDFWriter pdf;
 
-    public PDFImageDelayQueue(PDFWriter pdf) {
-        this.pdf = pdf;
-        this.imageMap = new HashMap();
-        this.imageList = new LinkedList();
-    }
+	public PDFImageDelayQueue(PDFWriter pdf) {
+		this.pdf = pdf;
+		this.imageMap = new HashMap();
+		this.imageList = new LinkedList();
+	}
 
-    public PDFName delayImage(RenderedImage image, Color bkg, String writeAs) {
-        Entry entry = (Entry) imageMap.get(image);
-        if (entry == null) {
-            entry = new Entry(image, bkg, writeAs);
-            imageMap.put(image, entry);
-            imageList.add(entry);
-        }
+	public PDFName delayImage(RenderedImage image, Color bkg, String writeAs) {
+		Entry entry = (Entry) imageMap.get(image);
+		if (entry == null) {
+			entry = new Entry(image, bkg, writeAs);
+			imageMap.put(image, entry);
+			imageList.add(entry);
+		}
 
-        return pdf.name(entry.name);
-    }
+		return pdf.name(entry.name);
+	}
 
-    /** Creates a stream for every delayed image that is not written yet. */
-    public void processAll() throws IOException {
-        for (Iterator i = imageList.iterator(); i.hasNext();) {
-            Entry entry = (Entry) i.next();
+	/** Creates a stream for every delayed image that is not written yet. */
+	public void processAll() throws IOException {
+		for (Iterator i = imageList.iterator(); i.hasNext();) {
+			Entry entry = (Entry) i.next();
 
-            if (!entry.written) {
-                entry.written = true;
+			if (!entry.written) {
+				entry.written = true;
 
-                String[] encode;
-                if (entry.writeAs.equals(ImageConstants.ZLIB)
-                        || (entry.maskName != null)) {
-                    encode = new String[] { "Flate", "ASCII85" };
-                } else if (entry.writeAs.equals(ImageConstants.JPG)) {
-                    encode = new String[] { "DCT", "ASCII85" };
-                } else {
-                    encode = new String[] { null, "ASCII85" };
-                }
+				String[] encode;
+				if (entry.writeAs.equals(ImageConstants.ZLIB)
+						|| (entry.maskName != null)) {
+					encode = new String[] { "Flate", "ASCII85" };
+				} else if (entry.writeAs.equals(ImageConstants.JPG)) {
+					encode = new String[] { "DCT", "ASCII85" };
+				} else {
+					encode = new String[] { null, "ASCII85" };
+				}
 
-                PDFStream img = pdf.openStream(entry.name);
-                img.entry("Subtype", pdf.name("Image"));
-                if (entry.maskName != null)
-                    img.entry("SMask", pdf.ref(entry.maskName));
-                img.image(entry.image, entry.bkg, encode);
-                pdf.close(img);
+				PDFStream img = pdf.openStream(entry.name);
+				img.entry("Subtype", pdf.name("Image"));
+				if (entry.maskName != null)
+					img.entry("SMask", pdf.ref(entry.maskName));
+				img.image(entry.image, entry.bkg, encode);
+				pdf.close(img);
 
-                if (entry.maskName != null) {
-                    PDFStream mask = pdf.openStream(entry.maskName);
-                    mask.entry("Subtype", pdf.name("Image"));
-                    mask.imageMask(entry.image, encode);
-                    pdf.close(mask);
-                }
-            }
-        }
-    }
+				if (entry.maskName != null) {
+					PDFStream mask = pdf.openStream(entry.maskName);
+					mask.entry("Subtype", pdf.name("Image"));
+					mask.imageMask(entry.image, encode);
+					pdf.close(mask);
+				}
+			}
+		}
+	}
 
-    /**
-     * Adds all names to the dictionary which should be the value of the
-     * resources dicionrary's /XObject entry.
-     */
-    public int addXObjects() throws IOException {
-        if (imageList.size() > 0) {
-            PDFDictionary xobj = pdf.openDictionary("XObjects");
-            for (Iterator i = imageList.iterator(); i.hasNext();) {
-                Entry entry = (Entry) i.next();
-                xobj.entry(entry.name, pdf.ref(entry.name));
-                if (entry.maskName != null)
-                    xobj.entry(entry.maskName, pdf.ref(entry.maskName));
-            }
-            pdf.close(xobj);
-        }
-        return imageList.size();
-    }
+	/**
+	 * Adds all names to the dictionary which should be the value of the
+	 * resources dicionrary's /XObject entry.
+	 */
+	public int addXObjects() throws IOException {
+		if (imageList.size() > 0) {
+			PDFDictionary xobj = pdf.openDictionary("XObjects");
+			for (Iterator i = imageList.iterator(); i.hasNext();) {
+				Entry entry = (Entry) i.next();
+				xobj.entry(entry.name, pdf.ref(entry.name));
+				if (entry.maskName != null)
+					xobj.entry(entry.maskName, pdf.ref(entry.maskName));
+			}
+			pdf.close(xobj);
+		}
+		return imageList.size();
+	}
 }

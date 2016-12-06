@@ -14,14 +14,14 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class FlattenPath extends EMFTag {
 
-    public FlattenPath() {
-        super(65, 1);
-    }
+	public FlattenPath() {
+		super(65, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 
 }

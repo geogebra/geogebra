@@ -46,135 +46,114 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Line extends ShapeElement
-{
-    public static final String TAG_NAME = "line";
-    
-    float x1 = 0f;
-    float y1 = 0f;
-    float x2 = 0f;
-    float y2 = 0f;
-    Line2D.Float line;
+public class Line extends ShapeElement {
+	public static final String TAG_NAME = "line";
 
-    /**
-     * Creates a new instance of Rect
-     */
-    public Line()
-    {
-    }
+	float x1 = 0f;
+	float y1 = 0f;
+	float x2 = 0f;
+	float y2 = 0f;
+	Line2D.Float line;
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of Rect
+	 */
+	public Line() {
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-        StyleAttribute sty = new StyleAttribute();
+	protected void build() throws SVGException {
+		super.build();
 
-        if (getPres(sty.setName("x1")))
-        {
-            x1 = sty.getFloatValueWithUnits();
-        }
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("y1")))
-        {
-            y1 = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x1"))) {
+			x1 = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("x2")))
-        {
-            x2 = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("y1"))) {
+			y1 = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("y2")))
-        {
-            y2 = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x2"))) {
+			x2 = sty.getFloatValueWithUnits();
+		}
 
-        line = new Line2D.Float(x1, y1, x2, y2);
-    }
+		if (getPres(sty.setName("y2"))) {
+			y2 = sty.getFloatValueWithUnits();
+		}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, line);
-        finishLayer(g);
-    }
+		line = new Line2D.Float(x1, y1, x2, y2);
+	}
 
-    public Shape getShape()
-    {
-        return shapeToParent(line);
-    }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, line);
+		finishLayer(g);
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(line.getBounds2D()));
-    }
+	public Shape getShape() {
+		return shapeToParent(line);
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(line.getBounds2D()));
+	}
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-        if (getPres(sty.setName("x1")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x1)
-            {
-                x1 = newVal;
-                shapeChange = true;
-            }
-        }
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("y1")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y1)
-            {
-                y1 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("x1"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x1) {
+				x1 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("x2")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x2)
-            {
-                x2 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("y1"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y1) {
+				y1 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("y2")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y2)
-            {
-                y2 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("x2"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x2) {
+				x2 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (shapeChange)
-        {
-            build();
-        }
+		if (getPres(sty.setName("y2"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y2) {
+				y2 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        return changeState || shapeChange;
-    }
+		if (shapeChange) {
+			build();
+		}
+
+		return changeState || shapeChange;
+	}
 }

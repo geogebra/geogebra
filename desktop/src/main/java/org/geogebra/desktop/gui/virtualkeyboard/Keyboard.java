@@ -362,8 +362,8 @@ public class Keyboard {
 			doType(KeyEvent.VK_SPACE);
 			break;
 		default:
-			throw new IllegalArgumentException("Cannot type character "
-					+ character);
+			throw new IllegalArgumentException(
+					"Cannot type character " + character);
 		}
 	}
 
@@ -381,17 +381,16 @@ public class Keyboard {
 			} else if (text.equals("<left>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_LEFT);
 			} else if (text.equals("<right>")) {
-				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_RIGHT);
+				doType(altPressed, ctrlPressed, shiftPressed,
+						KeyEvent.VK_RIGHT);
 			} else if (text.equals("<up>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_UP);
 			} else if (text.equals("<down>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_DOWN);
-			}
-			else if (text.equals("<backspace>")) {
+			} else if (text.equals("<backspace>")) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_BACK_SPACE);
-			}
-			else {
+			} else {
 				Log.debug("unknown keycode:" + text);
 			}
 		}

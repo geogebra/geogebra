@@ -22,8 +22,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class BasicStatTable extends JPanel implements StatPanelInterface,
-		StatTableListener {
+public class BasicStatTable extends JPanel
+		implements StatPanelInterface, StatTableListener {
 	private static final long serialVersionUID = 1L;
 	private StatTableModel model;
 
@@ -61,8 +61,9 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	protected void initStatTable() {
 
 		statTable = new StatTable(getApp());
-		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
-				getModel().getColumnCount(), getModel().getColumnNames());
+		statTable.setStatTable(getModel().getRowCount(),
+				getModel().getRowNames(), getModel().getColumnCount(),
+				getModel().getColumnNames());
 		this.removeAll();
 		this.add(statTable, BorderLayout.CENTER);
 	}
@@ -91,9 +92,9 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	 * 
 	 */
 	public void updatePanel() {
-		statTable.setStatTable(getModel().getRowCount(), getModel()
-				.getRowNames(), getModel().getColumnCount(), getModel()
-				.getColumnNames());
+		statTable.setStatTable(getModel().getRowCount(),
+				getModel().getRowNames(), getModel().getColumnCount(),
+				getModel().getColumnNames());
 		getModel().updatePanel();
 	}
 
@@ -123,7 +124,8 @@ public class BasicStatTable extends JPanel implements StatPanelInterface,
 	}
 
 	public void setLabels() {
-		statTable.setLabels(getModel().getRowNames(), getModel().getColumnNames());
+		statTable.setLabels(getModel().getRowNames(),
+				getModel().getColumnNames());
 	}
 
 	public GeoList getDataSelected() {

@@ -69,9 +69,8 @@ public class DataImportD extends DataImport {
 			// contents.isDataFlavorSupported(HTMLflavor));
 
 			if (hasHTMLFlavor(contents)) {
-				transferString = DataImportD
-						.convertHTMLTableToCSV((String) contents
-								.getTransferData(HTMLflavor));
+				transferString = DataImportD.convertHTMLTableToCSV(
+						(String) contents.getTransferData(HTMLflavor));
 				// transferString = (String) contents
 				// .getTransferData(DataFlavor.stringFlavor);
 			}
@@ -126,8 +125,8 @@ public class DataImportD extends DataImport {
 							if (data[i] == ',')
 								containsComma = true;
 
-						if (containsComma
-								&& (data[0] != '"' || data[data.length - 1] != '"'))
+						if (containsComma && (data[0] != '"'
+								|| data[data.length - 1] != '"'))
 							appendQuotes = true;
 
 						if (appendQuotes)

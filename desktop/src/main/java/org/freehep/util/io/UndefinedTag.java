@@ -13,44 +13,46 @@ import java.io.IOException;
  */
 public class UndefinedTag extends Tag {
 
-    private int[] bytes;
+	private int[] bytes;
 
-    /**
-     * Create Undefined Tag with 0 length.
-     */
-    public UndefinedTag() {
-        this(DEFAULT_TAG, new int[0]);
-    }
-    
-    /**
-     * Create Undefined Tag.
-     * 
-     * @param tagID undefined tagID
-     * @param bytes bytes that follow the undefined tag
-     */
-    public UndefinedTag(int tagID, int[] bytes) {
-        super(tagID, 3);
-        this.bytes = bytes;
-    }
+	/**
+	 * Create Undefined Tag with 0 length.
+	 */
+	public UndefinedTag() {
+		this(DEFAULT_TAG, new int[0]);
+	}
 
-    public int getTagType() {
-        return 0;
-    }
+	/**
+	 * Create Undefined Tag.
+	 * 
+	 * @param tagID
+	 *            undefined tagID
+	 * @param bytes
+	 *            bytes that follow the undefined tag
+	 */
+	public UndefinedTag(int tagID, int[] bytes) {
+		super(tagID, 3);
+		this.bytes = bytes;
+	}
 
-    public Tag read(int tagID, TaggedInputStream input, int len)
-            throws IOException {
+	public int getTagType() {
+		return 0;
+	}
 
-        int[] bytes = input.readUnsignedByte(len);
-        UndefinedTag tag = new UndefinedTag(tagID, bytes);
-        return tag;
-    }
+	public Tag read(int tagID, TaggedInputStream input, int len)
+			throws IOException {
 
-    public void write(int tagID, TaggedOutputStream output) throws IOException {
+		int[] bytes = input.readUnsignedByte(len);
+		UndefinedTag tag = new UndefinedTag(tagID, bytes);
+		return tag;
+	}
 
-        output.writeUnsignedByte(bytes);
-    }
+	public void write(int tagID, TaggedOutputStream output) throws IOException {
 
-    public String toString() {
-        return ("UNDEFINED TAG: " + getTag() + " length: " + bytes.length);
-    }
+		output.writeUnsignedByte(bytes);
+	}
+
+	public String toString() {
+		return ("UNDEFINED TAG: " + getTag() + " length: " + bytes.length);
+	}
 }

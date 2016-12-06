@@ -36,7 +36,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		super(ec, settings);
 
 	}
-	
+
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewInput3DCompanion(this);
@@ -48,13 +48,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	@Override
-	protected void start(){
+	protected void start() {
 		input3D = ((EuclidianControllerInput3D) euclidianController).input3D;
 		input3D.init(this);
 		getCompanion().setInput3D(input3D);
 		super.start();
 	}
-
 
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
@@ -62,13 +61,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		getCompanion().drawMouseCursor(renderer1);
 
 	}
-	
 
 	@Override
 	public boolean isPolarized() {
 		return input3D.useInterlacedPolarization();
 	}
-
 
 	@Override
 	protected void setPickPointFromMouse(GPoint mouse) {
@@ -83,15 +80,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 	}
 
-
 	@Override
 	protected Renderer createRenderer() {
 		RendererJogl.setDefaultProfile();
 		// return new RendererLogicalPickingGL2(this, !app.isApplet());
 		return new RendererCheckGLVersionD(this, true);
 	}
-
-	
 
 	@Override
 	public boolean isStereoBuffered() {
@@ -119,7 +113,6 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return super.getHittingOrigin(mouse);
 	}
 
-
 	@Override
 	public void initAxisAndPlane() {
 		super.initAxisAndPlane();
@@ -137,14 +130,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return !input3D.hasMouseDirection() || input3D.currentlyUseMouse2D();
 	}
 
-
-
 	@Override
 	public boolean useHandGrabbing() {
 		return input3D.useHandGrabbing() && !input3D.currentlyUseMouse2D();
 	}
-
-
-
 
 }

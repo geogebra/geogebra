@@ -32,7 +32,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		if (imageFileName.startsWith("/geogebra")) {
 			Image im = ((AppD) app).getImageManager()
 					.getImageResource(findFillImage(imageFileName));
-			if(im == null){
+			if (im == null) {
 				Log.error(imageFileName + " does not exist");
 				return null;
 			}
@@ -54,8 +54,8 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 	private ImageResourceD findFillImage(String fileName) {
 		ImageResourceD res = null;
 		if (imageFileName.startsWith("/geogebra")) {
-			String fn = imageFileName.replace("/geogebra/", "").replace(
-					"gui/images/", "");
+			String fn = imageFileName.replace("/geogebra/", "")
+					.replace("gui/images/", "");
 
 			if ("go-down.png".equals(fn)) {
 				res = GuiResourcesD.GO_DOWN;

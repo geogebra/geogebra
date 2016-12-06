@@ -44,8 +44,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * @author G. Sturr
  * 
  */
-public class OneVarInferencePanel extends JPanel implements ActionListener,
-		FocusListener, StatPanelInterface {
+public class OneVarInferencePanel extends JPanel
+		implements ActionListener, FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private AppD app;
@@ -368,7 +368,8 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		isTest = (selectedPlot == StatisticsModel.INFER_ZTEST || selectedPlot == StatisticsModel.INFER_TTEST);
+		isTest = (selectedPlot == StatisticsModel.INFER_ZTEST
+				|| selectedPlot == StatisticsModel.INFER_TTEST);
 
 		isZProcedure = selectedPlot == StatisticsModel.INFER_ZTEST
 				|| selectedPlot == StatisticsModel.INFER_ZINT;
@@ -388,8 +389,8 @@ public class OneVarInferencePanel extends JPanel implements ActionListener,
 		cbAltHyp.removeAllItems();
 		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
 				+ tail_right + " " + statDialog.format(hypMean));
-		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
-				+ tail_left + " " + statDialog.format(hypMean));
+		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_left
+				+ " " + statDialog.format(hypMean));
 		cbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " " + tail_two
 				+ " " + statDialog.format(hypMean));
 

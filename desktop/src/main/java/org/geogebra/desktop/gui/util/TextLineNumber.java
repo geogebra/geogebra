@@ -46,8 +46,8 @@ import org.geogebra.desktop.awt.GColorD;
  * adapted from code by Rob Camick, http://tips4java.wordpress.com
  * 
  */
-public class TextLineNumber extends JPanel implements CaretListener,
-		DocumentListener, PropertyChangeListener {
+public class TextLineNumber extends JPanel
+		implements CaretListener, DocumentListener, PropertyChangeListener {
 
 	private static final long serialVersionUID = 1L;
 	public final static float LEFT = 0.0f;
@@ -293,7 +293,8 @@ public class TextLineNumber extends JPanel implements CaretListener,
 				}
 
 				// Move to the next row
-				rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
+				rowStartOffset = Utilities.getRowEnd(component, rowStartOffset)
+						+ 1;
 
 			} catch (Exception e) {
 				Log.debug(e.getMessage());

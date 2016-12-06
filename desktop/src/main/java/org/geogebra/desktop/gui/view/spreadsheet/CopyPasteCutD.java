@@ -35,8 +35,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 		 * DataImport.parseExternalData()
 		 * 
 		 * //boolean changeDecimalSeparator = '.' != decimalSeparator; if
-		 * (changeDecimalSeparator) {
-		 * Log.debug("changing decimal separator to: "+decimalSeparator); }
+		 * (changeDecimalSeparator) { Log.debug(
+		 * "changing decimal separator to: "+decimalSeparator); }
 		 */
 
 		// copy tab-delimited geo values into the external buffer

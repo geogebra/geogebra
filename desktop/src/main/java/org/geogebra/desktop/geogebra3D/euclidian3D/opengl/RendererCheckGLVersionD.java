@@ -28,9 +28,8 @@ import org.geogebra.desktop.util.FrameCollector;
  * @author mathieu
  * 
  */
-public class RendererCheckGLVersionD extends RendererWithImpl implements
-		GLEventListener {
-
+public class RendererCheckGLVersionD extends RendererWithImpl
+		implements GLEventListener {
 
 	protected RendererJogl jogl;
 
@@ -112,8 +111,8 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		final String version = getGL().glGetString(GLlocal.GL_VERSION);
 
 		// Check For VBO support
-		final boolean VBOsupported = getGL().isFunctionAvailable(
-				"glGenBuffersARB")
+		final boolean VBOsupported = getGL()
+				.isFunctionAvailable("glGenBuffersARB")
 				&& getGL().isFunctionAvailable("glBindBufferARB")
 				&& getGL().isFunctionAvailable("glBufferDataARB")
 				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
@@ -200,8 +199,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	}
 
-
-
 	@Override
 	public void setLineWidth(double width) {
 
@@ -209,16 +206,10 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	}
 
-
 	protected static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
 			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
 			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
 			GLlocal.GL_CLIP_PLANE5 };
-
-
-
-
-
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
@@ -227,8 +218,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		setGL(drawable);
 		rendererImpl.dispose();
 	}
-
-
 
 	@Override
 	public Component3D getCanvas() {
@@ -252,24 +241,24 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
 	 * each {@link Drawable3D}, it calls:
 	 * <ul>
-	 * <li> {@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
+	 * <li>{@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li> {@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
-	 * <li> {@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
+	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
 	 * transparent objects for a better alpha-blending</li>
-	 * <li> {@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
+	 * <li>{@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
 	 * hidden parts (dash-less segments, lines, ...)</li>
 	 * </ul>
 	 */
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
-	
+
 		// Log.debug(gLDrawable+"");
 		setGL(gLDrawable);
-	
+
 		drawScene();
 
 		if (EuclidianView3DD.EXPORT_TO_PRINTER_3D) {
@@ -279,83 +268,79 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		}
 	}
 
-
-
 	@Override
 	protected final void exportImage() {
-	
-	
+
 		switch (exportType) {
 		case ANIMATEDGIF:
 			Log.debug("Exporting frame: " + export_i);
-	
+
 			setExportImage();
 			if (bi == null) {
 				Log.error("image null");
 			} else {
 				gifEncoder.addFrame(bi);
 			}
-	
+
 			export_val += export_step;
-	
+
 			if (export_val > export_max + 0.00000001
 					|| export_val < export_min - 0.00000001) {
 				export_val -= 2 * export_step;
 				export_step *= -1;
 			}
-	
+
 			export_i++;
-	
+
 			if (export_i >= export_n) {
 				exportType = ExportType.NONE;
 				gifEncoder.finish();
-	
+
 				Log.debug("GIF export finished");
 				rendererImpl.endNeedExportImage();
-	
+
 			} else {
 				export_num.setValue(export_val);
 				export_num.updateRepaint();
 			}
 			break;
-	
+
 		case CLIPBOARD:
 			exportType = ExportType.NONE;
 			Log.debug("Exporting to clipboard");
-	
+
 			setExportImage();
-	
+
 			if (bi == null) {
 				Log.error("image null");
 			} else {
-				ImageSelection imgSel = new ImageSelection(
-						bi);
+				ImageSelection imgSel = new ImageSelection(bi);
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
 			}
 			rendererImpl.endNeedExportImage();
-	
+
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
 			exportType = ExportType.NONE;
 			Log.debug("Uploading to GeoGebraTube");
-	
+
 			setExportImage();
-	
+
 			if (bi == null) {
 				Log.error("image null, uploading with no preview");
 				// TODO: set 2D preview image
 			}
-	
+
 			view3D.getApplication().uploadToGeoGebraTube();
 			rendererImpl.endNeedExportImage();
-			
+
 			break;
-	
+
 		default:
 			if (needExportImage) {
 				setExportImage();
-				if (!exportImageForThumbnail){
+				if (!exportImageForThumbnail) {
 					// call write to file
 					((EuclidianView3DD) view3D).writeExportImage();
 				}
@@ -363,19 +348,18 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			}
 			break;
 		}
-	
+
 	}
 
 	@Override
 	protected void exportImageEquirectangular() {
-	
+
 		if (bi == null) {
 			Log.error("image null");
 		} else {
-			ImageSelection imgSel = new ImageSelection(
-					bi);
-			Toolkit.getDefaultToolkit().getSystemClipboard()
-					.setContents(imgSel, null);
+			ImageSelection imgSel = new ImageSelection(bi);
+			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
+					null);
 		}
 		rendererImpl.endNeedExportImage();
 	}
@@ -406,22 +390,21 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	 * openGL method called when the canvas is reshaped.
 	 */
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int w,
-			int h) {
-			
-				setGL(drawable);
-			
-				setView(x, y, w, h);
-				view3D.reset();
-			
-			}
+	public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
+
+		setGL(drawable);
+
+		setView(x, y, w, h);
+		view3D.reset();
+
+	}
 
 	/**
 	 * openGL method called when the display change. empty method
 	 */
-	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
+	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged,
+			boolean deviceChanged) {
 	}
-
 
 	/**
 	 * remove texture at index
@@ -441,13 +424,13 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	@Override
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
-	
+
 		byte[] buffer = ARGBtoAlpha(label, ((GBufferedImageD) bimg).getData());
-	
+
 		label.setTextureIndex(createAlphaTexture(label.getTextureIndex(),
 				label.waitForReset(), label.getWidthPowerOfTwo(),
 				label.getHeightPowerOfTwo(), buffer));
-	
+
 	}
 
 	/**
@@ -460,32 +443,32 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	 * @param buf
 	 * @return a texture for alpha channel
 	 */
-	private int createAlphaTexture(int textureIndex, boolean waitForReset, int sizeX,
-			int sizeY, byte[] buf) {
-			
-				if (textureIndex != 0 && !waitForReset) {
-					removeTexture(textureIndex);
-				}
-			
-				enableTextures2D();
-			
-				int[] index = new int[1];
-				genTextures2D(1, index);
-			
-				bindTexture(index[0]);
-			
-				textureImage2D(sizeX, sizeY, buf);
-			
-				disableTextures2D();
-			
-				return index[0];
-			}
+	private int createAlphaTexture(int textureIndex, boolean waitForReset,
+			int sizeX, int sizeY, byte[] buf) {
+
+		if (textureIndex != 0 && !waitForReset) {
+			removeTexture(textureIndex);
+		}
+
+		enableTextures2D();
+
+		int[] index = new int[1];
+		genTextures2D(1, index);
+
+		bindTexture(index[0]);
+
+		textureImage2D(sizeX, sizeY, buf);
+
+		disableTextures2D();
+
+		return index[0];
+	}
 
 	@Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
 		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY, 0,
 				GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(buf));
-	
+
 	}
 
 	@Override
@@ -498,7 +481,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
 		getGL().glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T,
 				GL.GL_CLAMP_TO_EDGE); // prevent repeating the texture
-	
+
 	}
 
 	@Override
@@ -527,7 +510,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		jogl.setGL(gLDrawable);
 	}
 
-
 	@Override
 	protected void disableStencilLines() {
 		getGL().glDisable(GLlocal.GL_STENCIL_TEST);
@@ -538,7 +520,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	protected void setGIFEncoder(Object gifEncoder) {
 		this.gifEncoder = (FrameCollector) gifEncoder;
 	}
-
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {
@@ -560,12 +541,11 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		equirectangularTilesRight[i] = bi;
 	}
 
-	private void setRGBFromTile(int i, int x, int y,
-			int xTile, int yTile) {
-				bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
-				bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT,
-						equirectangularTilesRight[i].getRGB(xTile, yTile));
-			}
+	private void setRGBFromTile(int i, int x, int y, int xTile, int yTile) {
+		bi.setRGB(x, y, equirectangularTilesLeft[i].getRGB(xTile, yTile));
+		bi.setRGB(x, y + EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT,
+				equirectangularTilesRight[i].getRGB(xTile, yTile));
+	}
 
 	private void setWhite(int x, int y) {
 		bi.setRGB(x, y, INT_RGB_WHITE);
@@ -577,8 +557,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		bi = new BufferedImage(EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH,
 				EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT * 2,
 				BufferedImage.TYPE_INT_RGB);
-	
-		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT - EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
+
+		int shiftY = (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+				- EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT) / 2;
 		int shiftAlpha = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT / 2;
 		for (int i = 0; i < EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS; i++) {
 			int shiftX = i * EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT;
@@ -587,32 +568,37 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				for (int y = 0; y < shiftY; y++) {
 					setWhite(x + shiftX, y);
 				}
-				
+
 				// first line will be missed by alpha
 				setRGBFromTile(i, x + shiftX, shiftY, x, 0);
-	
+
 				// middle line
 				setRGBFromTile(i, x + shiftX, shiftAlpha, x,
 						EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2);
-	
+
 				// angle - tangent match
-				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2; yAlpha++) {
-					double alpha = ((double) (2 * yAlpha * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
+				for (int yAlpha = 1; yAlpha < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
+						/ 2; yAlpha++) {
+					double alpha = ((double) (2 * yAlpha
+							* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX))
 							/ EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT;
 					int y = (int) (EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
-							* Math.tan(alpha * Math.PI / 180) / (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
+							* Math.tan(alpha * Math.PI / 180)
+							/ (2 * EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN));
 					setRGBFromTile(i, x + shiftX, shiftAlpha + yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 + y);
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+									+ y);
 					setRGBFromTile(i, x + shiftX, shiftAlpha - yAlpha, x,
-							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2 - y);
+							EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT / 2
+									- y);
 				}
-				
+
 				// bottom white
 				for (int y = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT
 						+ shiftY; y < EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT; y++) {
 					setWhite(x + shiftX, y);
 				}
-	
+
 			}
 		}
 	}
@@ -621,7 +607,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	 * creates an export image (and store it in BufferedImage bi)
 	 */
 	protected final void setExportImage() {
-	
+
 		bi = null;
 		try {
 			// will use screen buffer or offscreen buffer, depending
@@ -632,9 +618,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			getGL().glReadPixels(0, 0, width, height, GLlocal.GL_RGB,
 					GLlocal.GL_FLOAT, buffer);
 			float[] pixels = buffer.array();
-	
+
 			bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-	
+
 			int i = 0;
 			for (int y = height - 1; y >= 0; y--)
 				for (int x = 0; x < width; x++) {
@@ -648,15 +634,13 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		} catch (Exception e) {
 			Log.error("setExportImage: " + e.getMessage());
 		}
-	
+
 	}
 
 	@Override
 	public final GBufferedImage getExportImage() {
 		return new GBufferedImageD(bi);
 	}
-
-
 
 	private static final int INT_RGB_WHITE = ((255 << 16) | (255 << 8) | 255);
 

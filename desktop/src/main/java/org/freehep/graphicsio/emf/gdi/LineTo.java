@@ -16,34 +16,34 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class LineTo extends EMFTag {
 
-    private Point point;
+	private Point point;
 
-    public LineTo() {
-        super(54, 1);
-    }
+	public LineTo() {
+		super(54, 1);
+	}
 
-    public LineTo(Point point) {
-        this();
-        this.point = point;
-    }
+	public LineTo(Point point) {
+		this();
+		this.point = point;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        LineTo tag = new LineTo(emf.readPOINTL());
-        return tag;
-    }
+		LineTo tag = new LineTo(emf.readPOINTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writePOINTL(point);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writePOINTL(point);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  point: " + point;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  point: " + point;
+	}
 
-    public Point getPoint() {
-        return point;
-    }
+	public Point getPoint() {
+		return point;
+	}
 
 }

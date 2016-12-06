@@ -92,13 +92,11 @@ public class LocalizationD extends LocalizationJre {
 
 	}
 
-
 	@Override
 	protected ResourceBundle createBundle(String key, Locale locale) {
 		// TODO Auto-generated method stub
 		return MyResourceBundle.createBundle(key, locale);
 	}
-
 
 	@Override
 	protected String getMenuRessourcePath() {

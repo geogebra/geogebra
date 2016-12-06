@@ -56,8 +56,9 @@ public class GuiManager3D extends GuiManagerD {
 																			// the
 																			// 3D
 																			// canvas
-		javax.swing.ToolTipManager.sharedInstance().setLightWeightPopupEnabled(
-				false); // tooltips over the 3D canvas
+		javax.swing.ToolTipManager.sharedInstance()
+				.setLightWeightPopupEnabled(false); // tooltips over the 3D
+													// canvas
 
 		dialogManagerFactory = new DialogManager3D.Factory();
 	}
@@ -136,7 +137,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	/**
 	 * @return Action for showing axes in 3D
-	 * */
+	 */
 	public AbstractAction getShowAxes3DAction() {
 		initActions();
 		return showAxes3DAction;
@@ -144,7 +145,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	/**
 	 * @return Action for showing grid in 3D
-	 * */
+	 */
 	public AbstractAction getShowGrid3DAction() {
 		initActions();
 		return showGrid3DAction;
@@ -152,7 +153,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	/**
 	 * @return Action for showing xOyPlane in 3D
-	 * */
+	 */
 	public AbstractAction getShowPlaneAction() {
 		initActions();
 		return showPlaneAction;
@@ -193,8 +194,8 @@ public class GuiManager3D extends GuiManagerD {
 		// menu for drawing pane context menu
 		ContextMenuGraphicsWindow3DD popupMenu = new ContextMenuGraphicsWindow3DD(
 				getApp());
-		popupMenu.getWrappedPopup().show(
-				((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
+		popupMenu.getWrappedPopup()
+				.show(((EuclidianViewInterfaceD) view).getJPanel(), p.x, p.y);
 	}
 
 	/**
@@ -222,8 +223,8 @@ public class GuiManager3D extends GuiManagerD {
 
 		Component invoker = ((EuclidianViewInterfaceD) view).getJPanel();
 
-		Point screenPos = (invoker == null) ? new Point(0, 0) : invoker
-				.getLocationOnScreen();
+		Point screenPos = (invoker == null) ? new Point(0, 0)
+				: invoker.getLocationOnScreen();
 		screenPos.translate(p.x, p.y);
 
 		ContextMenuGeoElementD popupMenu = new ContextMenuChooseGeoD(getApp(),

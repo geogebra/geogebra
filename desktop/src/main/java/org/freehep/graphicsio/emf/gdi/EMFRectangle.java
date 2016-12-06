@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class EMFRectangle extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    public EMFRectangle() {
-        super(43, 1);
-    }
+	public EMFRectangle() {
+		super(43, 1);
+	}
 
-    public EMFRectangle(Rectangle bounds) {
-        this();
-        this.bounds = bounds;
-    }
+	public EMFRectangle(Rectangle bounds) {
+		this();
+		this.bounds = bounds;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        EMFRectangle tag = new EMFRectangle(emf.readRECTL());
-        return tag;
-    }
+		EMFRectangle tag = new EMFRectangle(emf.readRECTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds;
+	}
 }

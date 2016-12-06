@@ -11,8 +11,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.util.debug.Log;
 
-public class GRectangleD implements GRectangle2DD,
- GRectangle {
+public class GRectangleD implements GRectangle2DD, GRectangle {
 
 	Rectangle impl;
 
@@ -124,7 +123,8 @@ public class GRectangleD implements GRectangle2DD,
 		impl.setFrame(x, y, width, height);
 	}
 
-	public boolean intersects(double x, double y, double lengthX, double lengthY) {
+	public boolean intersects(double x, double y, double lengthX,
+			double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
@@ -154,25 +154,21 @@ public class GRectangleD implements GRectangle2DD,
 	}
 
 	public boolean contains(GRectangleD rectangle) {
-		return impl.contains(GRectangleD
-				.getAWTRectangle(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle(rectangle));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
-		return impl.intersects(GGenericRectangle2DD
-				.getAWTRectangle2D(r));
+		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
 	public Shape getAwtShape() {
@@ -184,14 +180,12 @@ public class GRectangleD implements GRectangle2DD,
 	}
 
 	public GRectangle union(GRectangle bounds) {
-		return new GRectangleD(impl.union(GRectangleD
-				.getAWTRectangle(bounds)));
+		return new GRectangleD(impl.union(GRectangleD.getAWTRectangle(bounds)));
 	}
 
 	public GRectangle2D createIntersection(GRectangle2D r) {
 		return new GGenericRectangle2DD(impl
-				.createIntersection(GGenericRectangle2DD
-						.getAWTRectangle2D(r)));
+				.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
 	}
 
 	public void setSize(int width, int height) {

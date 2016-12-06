@@ -7,19 +7,20 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JComboBox;
 
-public abstract class MyComboBoxListener extends MouseAdapter implements ActionListener {
-		
+public abstract class MyComboBoxListener extends MouseAdapter
+		implements ActionListener {
+
 	@Override
 	public void mousePressed(MouseEvent e) {
 		Object src = e.getSource();
 
-		doActionPerformed(src);	
+		doActionPerformed(src);
 		if (src instanceof JComboBox) {
 			JComboBox cb = (JComboBox) src;
 			cb.setPopupVisible(false);
-		}		
-	}		
-	
+		}
+	}
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Object src = e.getSource();
@@ -27,11 +28,11 @@ public abstract class MyComboBoxListener extends MouseAdapter implements ActionL
 			JComboBox cb = (JComboBox) src;
 			cb.setPopupVisible(false);
 		}
-	}	
-		
+	}
+
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e.getSource());
-	}		
-	
+	}
+
 	public abstract void doActionPerformed(Object source);
 }

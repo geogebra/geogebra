@@ -37,22 +37,20 @@
 package com.kitfox.svg;
 
 /**
- * A convienience singleton for allowing all classes to access a common SVG universe.
+ * A convienience singleton for allowing all classes to access a common SVG
+ * universe.
  *
  * @author kitfox
  */
-public class SVGCache
-{
-    private static final SVGUniverse svgUniverse = new SVGUniverse();
-    
-    /** Creates a new instance of SVGUniverseSingleton */
-    private SVGCache()
-    {
-    }
+public class SVGCache {
+	private static final SVGUniverse svgUniverse = new SVGUniverse();
 
-    public static SVGUniverse getSVGUniverse()
-    {
-        return svgUniverse;
-    }
-    
+	/** Creates a new instance of SVGUniverseSingleton */
+	private SVGCache() {
+	}
+
+	public static SVGUniverse getSVGUniverse() {
+		return svgUniverse;
+	}
+
 }

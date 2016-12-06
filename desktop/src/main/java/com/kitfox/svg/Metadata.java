@@ -41,24 +41,20 @@ package com.kitfox.svg;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Metadata extends SVGElement
-{
-    public static final String TAG_NAME = "metadata";
+public class Metadata extends SVGElement {
+	public static final String TAG_NAME = "metadata";
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Metadata()
-    {
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Metadata() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    public boolean updateTime(double curTime)
-    {
-        return false;
-    }
+	public boolean updateTime(double curTime) {
+		return false;
+	}
 }

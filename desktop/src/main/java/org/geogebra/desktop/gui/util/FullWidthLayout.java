@@ -84,8 +84,8 @@ public class FullWidthLayout implements LayoutManager {
 		}
 
 		Insets insets = parent.getInsets();
-		return new Dimension(minWidth + insets.left + insets.right, minHeight
-				+ insets.top + insets.bottom);
+		return new Dimension(minWidth + insets.left + insets.right,
+				minHeight + insets.top + insets.bottom);
 	}
 
 	/**

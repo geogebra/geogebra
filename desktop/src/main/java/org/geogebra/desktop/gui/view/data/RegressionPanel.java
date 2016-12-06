@@ -34,8 +34,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author G. Sturr
  */
-public class RegressionPanel extends JPanel implements ActionListener,
-		StatPanelInterface {
+public class RegressionPanel extends JPanel
+		implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
@@ -124,8 +124,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 		regressionPanel = new JPanel(new BorderLayout(30, 0));
 		regressionPanel.add(modelPanel, BorderLayout.CENTER);
 		regressionPanel.add(cbPanel, loc.borderWest());
-		regressionPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("RegressionModel")));
+		regressionPanel.setBorder(BorderFactory
+				.createTitledBorder(loc.getMenu("RegressionModel")));
 
 		JPanel mainPanel = new JPanel(new BorderLayout());
 		mainPanel.add(regressionPanel, BorderLayout.CENTER);
@@ -212,8 +212,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		cbRegression.setSelectedIndex(j);
 		cbRegression.addActionListener(al);
-		((TitledBorder) regressionPanel.getBorder()).setTitle(app
-				.getMenu("RegressionModel"));
+		((TitledBorder) regressionPanel.getBorder())
+				.setTitle(app.getMenu("RegressionModel"));
 		lblEqn.setText(app.getMenu("Equation") + ":");
 
 		lblEvaluate.setText(app.getMenu("Evaluate") + ": ");
@@ -248,9 +248,8 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 			// nonlinear
 			else {
-				eqn = "y = "
-						+ statDialog.getRegressionModel().getFormulaString(
-								highPrecision, true);
+				eqn = "y = " + statDialog.getRegressionModel()
+						.getFormulaString(highPrecision, true);
 			}
 
 		}
@@ -284,10 +283,10 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 	private void updateGUI() {
 
-		cbPolyOrder.setVisible(daModel.getRegressionMode().equals(
-				Regression.POLY));
-		predictionPanel.setVisible(!(daModel.getRegressionMode()
-				.equals(Regression.NONE)));
+		cbPolyOrder.setVisible(
+				daModel.getRegressionMode().equals(Regression.POLY));
+		predictionPanel.setVisible(
+				!(daModel.getRegressionMode().equals(Regression.NONE)));
 		repaint();
 
 	}

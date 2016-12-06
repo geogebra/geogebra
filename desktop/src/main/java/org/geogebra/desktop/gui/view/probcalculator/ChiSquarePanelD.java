@@ -41,8 +41,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	private static final long serialVersionUID = 1L;
 
-	
-
 	// ======================================
 	// GUI components
 	// ======================================
@@ -53,8 +51,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	private JLabel lblRows, lblColumns;
 
 	private boolean showColumnMargin;
-
-
 
 	private JPanel wrappedPanel;
 
@@ -86,7 +82,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	private void createGUI() {
-		
+
 		this.wrappedPanel = new JPanel();
 
 		createGUIElements();
@@ -140,10 +136,10 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		pnlControl = new JPanel();
 		pnlControl.setLayout(new BoxLayout(pnlControl, BoxLayout.Y_AXIS));
-		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(lblRows, cbRows, lblColumns,
-				cbColumns)));
-		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(ckRowPercent, ckColPercent,
-				ckExpected, ckChiDiff)));
+		pnlControl.add(wrappedPanel.add(
+				LayoutUtil.flowPanel(lblRows, cbRows, lblColumns, cbColumns)));
+		pnlControl.add(wrappedPanel.add(LayoutUtil.flowPanel(ckRowPercent,
+				ckColPercent, ckExpected, ckChiDiff)));
 	}
 
 	private void createCountPanel() {
@@ -276,16 +272,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 							statCalc.format(sc.diff[r][c]));
 				}
 				if (ckRowPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(
-							3,
-							statCalc.format(100 * sc.observed[r][c]
-									/ sc.rowSum[r]));
+					cell[r + 1][c + 1].setLabelText(3, statCalc
+							.format(100 * sc.observed[r][c] / sc.rowSum[r]));
 				}
 				if (ckColPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(
-							4,
-							statCalc.format(100 * sc.observed[r][c]
-									/ sc.columnSum[c]));
+					cell[r + 1][c + 1].setLabelText(4, statCalc
+							.format(100 * sc.observed[r][c] / sc.columnSum[c]));
 				}
 			}
 		}
@@ -363,16 +355,13 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	 * 
 	 ***************************************************************** 
 	 */
-	public class ChiSquareCellD extends ChiSquareCell implements ActionListener,
-			FocusListener {
+	public class ChiSquareCellD extends ChiSquareCell
+			implements ActionListener, FocusListener {
 
 		private static final long serialVersionUID = 1L;
 
-		
-		
-
 		private JPanel wrappedPanel;
-		
+
 		private MyTextFieldD fldInput;
 		private JLabel[] label;
 
@@ -393,7 +382,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			this.sc = sc;
 			this.wrappedPanel = new JPanel();
 			wrappedPanel.setOpaque(true);
-			wrappedPanel.setLayout(new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
+			wrappedPanel.setLayout(
+					new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
 
 			fldInput = new MyTextFieldD((AppD) app);
 			fldInput.addActionListener(this);
@@ -416,7 +406,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			fldInput.setColumns(columns);
 
 			// force a minimum width for margin cells
-			wrappedPanel.add(Box.createHorizontalStrut(fldInput.getPreferredSize().width));
+			wrappedPanel.add(Box
+					.createHorizontalStrut(fldInput.getPreferredSize().width));
 
 		}
 
@@ -475,20 +466,22 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			fldInput.setVisible(false);
 
 			if (isMarginCell) {
-				wrappedPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+				wrappedPanel
+						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				setLabelVisible(0, true);
 
 			} else if (isHeaderCell) {
-				wrappedPanel.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
+				wrappedPanel
+						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
-				fldInput.setBackground(GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+				fldInput.setBackground(GColorD.getAwtColor(
+						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else {
 				fldInput.setVisible(true);
-				wrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-				fldInput.setBackground(GColorD
-						.getAwtColor(GColor.WHITE));
+				wrappedPanel.setBorder(
+						BorderFactory.createLineBorder(Color.GRAY, 1));
+				fldInput.setBackground(GColorD.getAwtColor(GColor.WHITE));
 			}
 
 		}
@@ -529,17 +522,13 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			statCalc.updateResult();
 
 		}
-		
+
 		public JPanel getWrappedPanel() {
 			return wrappedPanel;
 		}
-		
-		
 
 	}
 
-	
-	
 	/**
 	 * @return the GUI wrapper panel
 	 */

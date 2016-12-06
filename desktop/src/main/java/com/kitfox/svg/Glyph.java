@@ -45,55 +45,48 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Glyph extends MissingGlyph
-{
+public class Glyph extends MissingGlyph {
 
-    public static final String TAG_NAME = "missingglyph";
-    /**
-     * One or more characters indicating the unicode sequence that denotes this
-     * glyph.
-     */
-    String unicode;
+	public static final String TAG_NAME = "missingglyph";
+	/**
+	 * One or more characters indicating the unicode sequence that denotes this
+	 * glyph.
+	 */
+	String unicode;
 
-    /**
-     * Creates a new instance of Font
-     */
-    public Glyph()
-    {
-    }
+	/**
+	 * Creates a new instance of Font
+	 */
+	public Glyph() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("unicode")))
-        {
-            unicode = sty.getStringValue();
-        }
-    }
+		if (getPres(sty.setName("unicode"))) {
+			unicode = sty.getStringValue();
+		}
+	}
 
-    public String getUnicode()
-    {
-        return unicode;
-    }
+	public String getUnicode() {
+		return unicode;
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        //Fonts can't change
-        return false;
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// Fonts can't change
+		return false;
+	}
 }

@@ -54,8 +54,8 @@ public class App3DCompanionD extends App3DCompanion {
 			panel.setVisible(true);
 			panel.toggleStyleBar();
 
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager().show(
-					panel);
+			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+					.show(panel);
 
 		}
 
@@ -96,8 +96,8 @@ public class App3DCompanionD extends App3DCompanion {
 
 		for (EuclidianDockPanelForPlaneD p : panelForPlaneList) {
 			EuclidianViewForPlaneD view = p.getView();
-			GeoElement geo = app.getKernel().lookupLabel(
-					((GeoElement) view.getCompanion().getPlane())
+			GeoElement geo = app.getKernel()
+					.lookupLabel(((GeoElement) view.getCompanion().getPlane())
 							.getLabelSimple());
 			if (geo != null && (geo instanceof ViewCreator)) {
 				ViewCreator plane = (ViewCreator) geo;

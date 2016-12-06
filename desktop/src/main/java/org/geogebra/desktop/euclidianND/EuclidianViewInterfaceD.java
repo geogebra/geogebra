@@ -53,7 +53,7 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @return image
 	 */
 	public GBufferedImage getExportImage(double scale);
-	
+
 	/**
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
@@ -65,14 +65,20 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 */
 	public GBufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError;
-	
+
 	/**
 	 * export the current image
-	 * @param scale scale factor
-	 * @param transparency transparent or not
-	 * @param dpi resolution
-	 * @param file file
-	 * @param exportToClipboard if we want to export to clipboard
+	 * 
+	 * @param scale
+	 *            scale factor
+	 * @param transparency
+	 *            transparent or not
+	 * @param dpi
+	 *            resolution
+	 * @param file
+	 *            file
+	 * @param exportToClipboard
+	 *            if we want to export to clipboard
 	 */
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard);

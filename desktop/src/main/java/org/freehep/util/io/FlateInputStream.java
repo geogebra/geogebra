@@ -16,22 +16,23 @@ import java.util.zip.InflaterInputStream;
  */
 public class FlateInputStream extends InflaterInputStream {
 
-    /**
-     * Create a (De)Flate input stream.
-     * 
-     * @param in stream to read from
-     */
-    public FlateInputStream(InputStream in) {
-        super(in);
-    }
+	/**
+	 * Create a (De)Flate input stream.
+	 * 
+	 * @param in
+	 *            stream to read from
+	 */
+	public FlateInputStream(InputStream in) {
+		super(in);
+	}
 
-    /**
-     * Reads an image FIXME NOT IMPLEMENTED
-     * 
-     * @return null
-     * @throws IOException
-     */
-    public Image readImage() throws IOException {
-        return null;
-    }
+	/**
+	 * Reads an image FIXME NOT IMPLEMENTED
+	 * 
+	 * @return null
+	 * @throws IOException
+	 */
+	public Image readImage() throws IOException {
+		return null;
+	}
 }

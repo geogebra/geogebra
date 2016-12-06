@@ -234,10 +234,10 @@ public class InputDialogD extends InputDialog
 	 * @param showApply
 	 * @param type
 	 */
-	protected void createGUI(String title, String message,
-			boolean autoComplete, int columns, int rows,
-			boolean showSymbolPopupIcon, boolean selectInitText,
-			boolean showProperties, boolean showApply, DialogType type) {
+	protected void createGUI(String title, String message, boolean autoComplete,
+			int columns, int rows, boolean showSymbolPopupIcon,
+			boolean selectInitText, boolean showProperties, boolean showApply,
+			DialogType type) {
 		wrappedDialog.setResizable(true);
 
 		// Create components to be displayed
@@ -357,8 +357,8 @@ public class InputDialogD extends InputDialog
 
 	public void insertGeoElement(GeoElement geo) {
 		if (geo != null)
-			insertString(" " + geo.getLabel(StringTemplate.defaultTemplate)
-					+ " ");
+			insertString(
+					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
 	}
 
 	public void insertString(String str) {
@@ -552,6 +552,7 @@ public class InputDialogD extends InputDialog
 	}
 
 	private boolean showingError = false;
+
 	public void showError(String msg) {
 		if (msg == null) {
 			errorPanel.removeAll();

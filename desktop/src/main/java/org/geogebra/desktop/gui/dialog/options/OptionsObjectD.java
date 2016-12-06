@@ -36,8 +36,7 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus Hohenwarter
  */
 public class OptionsObjectD extends OptionsObject
-		implements
-		OptionPanelD, SetLabels {
+		implements OptionPanelD, SetLabels {
 
 	private PropertiesPanelD propPanel;
 	private GeoGebraColorChooser colChooser;
@@ -230,7 +229,6 @@ public class OptionsObjectD extends OptionsObject
 		propPanel.updateSelection(geos.toArray());
 	}
 
-
 	/**
 	 * @return the tree
 	 */
@@ -250,8 +248,10 @@ public class OptionsObjectD extends OptionsObject
 	 *            geo
 	 */
 	public void updateIfInSelection(GeoElement geo) {
-		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null
+		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected =
+		// "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains =
+		// "+(selection!=null
 		// && selection.contains(geo)));
 		if (selection != null && selection.size() == 1
 				&& selection.contains(geo))
@@ -279,18 +279,18 @@ public class OptionsObjectD extends OptionsObject
 	 *            geo
 	 */
 	public void updateVisualStyle(GeoElement geo) {
-		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected = "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
-		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains = "+(selection!=null
+		// AbstractApplication.printStacktrace("\ngeo = "+geo+"\nselected =
+		// "+geo.isSelected()+"\nhighlighted = "+geo.doHighlighting());
+		// AbstractApplication.debug("\ngeo = "+geo+"\nselection contains =
+		// "+(selection!=null
 		// && selection.contains(geo)));
-		
+
 		/*
-		if (selection != null && selection.contains(geo))
-			propPanel.updateSelection(selection.toArray()); // TODO update only
-															// first tab, set
-															// flag to others
-			*/												 
-															 
-															 
+		 * if (selection != null && selection.contains(geo))
+		 * propPanel.updateSelection(selection.toArray()); // TODO update only
+		 * // first tab, set // flag to others
+		 */
+
 		propPanel.updateVisualStyle(geo);
 
 	}
@@ -320,28 +320,25 @@ public class OptionsObjectD extends OptionsObject
 	public void applyModifications() {
 		propPanel.applyModifications();
 	}
-	
 
 	public void updateFont() {
-		
 
 		tree.updateFonts();
 		propPanel.updateFonts();
-		
+
 	}
-	
-	
 
 	private boolean isSelected = false;
-	
-	public void setSelected(boolean flag){
+
+	public void setSelected(boolean flag) {
 		isSelected = flag;
 	}
-	
+
 	/**
-	 * @param geo GeoText to be updated
+	 * @param geo
+	 *            GeoText to be updated
 	 */
-	public void updateTextEditor(GeoElement geo){
+	public void updateTextEditor(GeoElement geo) {
 		propPanel.updateTextEditor(geo);
 	}
 

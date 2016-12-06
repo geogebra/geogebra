@@ -92,8 +92,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		// TODO Auto-generated method stub
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
@@ -105,11 +104,9 @@ impl.getPathIterator(
 		return impl.intersects(GGenericRectangle2DD.getAWTRectangle2D(r));
 	}
 
-	public GShape createTransformedShape(
-			GAffineTransform affineTransform) {
-		return new GGenericShapeD(
-				impl.createTransformedShape(((GAffineTransformD) affineTransform)
-						.getImpl()));
+	public GShape createTransformedShape(GAffineTransform affineTransform) {
+		return new GGenericShapeD(impl.createTransformedShape(
+				((GAffineTransformD) affineTransform).getImpl()));
 	}
 
 	public GPoint2D getCurrentPoint() {
@@ -117,15 +114,15 @@ impl.getPathIterator(
 			return null;
 		}
 		return new GPoint2DD(impl.getCurrentPoint().getX(),
-				impl
-				.getCurrentPoint().getY());
+				impl.getCurrentPoint().getY());
 	}
 
 	public boolean contains(GRectangle2D p) {
 		return impl.contains(GGenericRectangle2DD.getAWTRectangle2D(p));
 	}
 
-	public boolean contains(double arg0, double arg1, double arg2, double arg3) {
+	public boolean contains(double arg0, double arg1, double arg2,
+			double arg3) {
 		return impl.contains(arg0, arg1, arg2, arg3);
 	}
 

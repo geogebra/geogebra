@@ -96,8 +96,8 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 	 * @author Calixte DENIZET
 	 *
 	 */
-	public static class JavascriptDocument extends PlainDocument implements
-			DocumentListener {
+	public static class JavascriptDocument extends PlainDocument
+			implements DocumentListener {
 
 		private static final long serialVersionUID = 1L;
 
@@ -269,13 +269,13 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 
 			if (tok == JavascriptLexerConstants.LINECOMMENTS) {
 				comment = true;
-				((MutableAttributeSet) elem.getAttributes()).addAttribute(
-						COMMENTLINE, COMMENTLINE);
+				((MutableAttributeSet) elem.getAttributes())
+						.addAttribute(COMMENTLINE, COMMENTLINE);
 			} else if (tok == JavascriptLexerConstants.MULTILINECOMMENTS
 					&& !s.endsWith("*/\n")) {
 				comment = true;
-				((MutableAttributeSet) elem.getAttributes()).addAttribute(
-						COMMENTMULTILINE, COMMENTMULTILINE);
+				((MutableAttributeSet) elem.getAttributes())
+						.addAttribute(COMMENTMULTILINE, COMMENTMULTILINE);
 			} else {
 				((MutableAttributeSet) elem.getAttributes())
 						.removeAttribute(COMMENTLINE);

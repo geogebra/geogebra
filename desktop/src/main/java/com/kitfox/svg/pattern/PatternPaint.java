@@ -49,26 +49,24 @@ import java.awt.image.ColorModel;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class PatternPaint implements Paint
-{
-    BufferedImage source;  //Image we're rendering from
-    AffineTransform xform;
+public class PatternPaint implements Paint {
+	BufferedImage source; // Image we're rendering from
+	AffineTransform xform;
 
-    /** Creates a new instance of PatternPaint */
-    public PatternPaint(BufferedImage source, AffineTransform xform)
-    {
-        this.source = source;
-        this.xform = xform;
-    }
+	/** Creates a new instance of PatternPaint */
+	public PatternPaint(BufferedImage source, AffineTransform xform) {
+		this.source = source;
+		this.xform = xform;
+	}
 
-    public PaintContext createContext(ColorModel cm, Rectangle deviceBounds, Rectangle2D userBounds, AffineTransform xform, RenderingHints hints)
-    {
-        return new PatternPaintContext(source, deviceBounds, xform, this.xform);
-    }
+	public PaintContext createContext(ColorModel cm, Rectangle deviceBounds,
+			Rectangle2D userBounds, AffineTransform xform,
+			RenderingHints hints) {
+		return new PatternPaintContext(source, deviceBounds, xform, this.xform);
+	}
 
-    public int getTransparency()
-    {
-        return source.getColorModel().getTransparency();
-    }
+	public int getTransparency() {
+		return source.getColorModel().getTransparency();
+	}
 
 }

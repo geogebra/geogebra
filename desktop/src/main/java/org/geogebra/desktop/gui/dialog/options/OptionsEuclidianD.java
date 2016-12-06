@@ -74,9 +74,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 public class OptionsEuclidianD extends OptionsEuclidian
-		implements
-		OptionPanelD, ActionListener, FocusListener, ItemListener, SetLabels,
-		IEuclidianOptionsListener {
+		implements OptionPanelD, ActionListener, FocusListener, ItemListener,
+		SetLabels, IEuclidianOptionsListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -136,8 +135,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	protected JTextField tfMinX, tfMaxX, tfMinY, tfMaxY;
 
 	private JLabel[] dimLabel;
-	private JLabel axesRatioLabel, gridLabel1, gridLabel2, gridLabel3,
-			lblColor, tooltips;
+	private JLabel axesRatioLabel, gridLabel1, gridLabel2, gridLabel3, lblColor,
+			tooltips;
 
 	protected JLabel backgroundColor;
 
@@ -300,10 +299,10 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		dimPanel = new JPanel();
 		dimPanel.setLayout(new BoxLayout(dimPanel, BoxLayout.Y_AXIS));
 
-		dimPanel.add(LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1],
-				tfMaxX));
-		dimPanel.add(LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3],
-				tfMaxY));
+		dimPanel.add(
+				LayoutUtil.flowPanel(dimLabel[0], tfMinX, dimLabel[1], tfMaxX));
+		dimPanel.add(
+				LayoutUtil.flowPanel(dimLabel[2], tfMinY, dimLabel[3], tfMaxY));
 
 		dimPanel.add(LayoutUtil.flowPanel(axesRatioLabel));
 		dimPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
@@ -372,8 +371,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		// axes options panel
 		axesOptionsPanel = new JPanel();
-		axesOptionsPanel.setLayout(new BoxLayout(axesOptionsPanel,
-				BoxLayout.Y_AXIS));
+		axesOptionsPanel
+				.setLayout(new BoxLayout(axesOptionsPanel, BoxLayout.Y_AXIS));
 		fillAxesOptionsPanel();
 
 	}
@@ -543,14 +542,14 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		tfMinY.removeActionListener(this);
 		tfMaxY.removeActionListener(this);
 		view.updateBoundObjects();
-		tfMinX.setText(view.getXminObject().getLabel(
-				StringTemplate.editTemplate));
-		tfMaxX.setText(view.getXmaxObject().getLabel(
-				StringTemplate.editTemplate));
-		tfMinY.setText(view.getYminObject().getLabel(
-				StringTemplate.editTemplate));
-		tfMaxY.setText(view.getYmaxObject().getLabel(
-				StringTemplate.editTemplate));
+		tfMinX.setText(
+				view.getXminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxX.setText(
+				view.getXmaxObject().getLabel(StringTemplate.editTemplate));
+		tfMinY.setText(
+				view.getYminObject().getLabel(StringTemplate.editTemplate));
+		tfMaxY.setText(
+				view.getYmaxObject().getLabel(StringTemplate.editTemplate));
 		tfMinX.addActionListener(this);
 		tfMaxX.addActionListener(this);
 		tfMinY.addActionListener(this);
@@ -614,8 +613,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	public void updateGUI() {
 		btBackgroundColor
-				.setForeground(GColorD.getAwtColor(view
-				.getBackgroundCommon()));
+				.setForeground(GColorD.getAwtColor(view.getBackgroundCommon()));
 		cbTooltips.removeActionListener(this);
 		cbAxesStyle.removeActionListener(this);
 		cbGridStyle.removeActionListener(this);
@@ -690,8 +688,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		// construction protocol panel
 		consProtocolPanel.setBorder(LayoutUtil
-				.titleBorder(loc
-				.getPlain("ConstructionProtocolNavigation")));
+				.titleBorder(loc.getPlain("ConstructionProtocolNavigation")));
 		ckShowNavbar.setText(loc.getMenu("Show"));
 		ckNavPlay.setText(loc.getMenu("PlayButton"));
 		ckOpenConsProtocol.setText(loc.getMenu("ConstructionProtocolButton"));
@@ -753,13 +750,14 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			model.applyAxesColor(GColorD.newColor(((GuiManagerD) app
-					.getGuiManager()).showColorChooser(view.getAxesColor())));
+			model.applyAxesColor(
+					GColorD.newColor(((GuiManagerD) app.getGuiManager())
+							.showColorChooser(view.getAxesColor())));
 
 		} else if (source == btGridColor) {
 			model.applyGridColor(
-					GColorD.newColor(((GuiManagerD) (app
-					.getGuiManager())).showColorChooser(view.getGridColor())));
+					GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
+							.showColorChooser(view.getGridColor())));
 
 		} else if (source == cbTooltips) {
 			model.applyTooltipMode(cbTooltips.getSelectedIndex());
@@ -785,11 +783,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		} else if (source == cbAxesStyle) {
 
-			model.appyAxesStyle(((Integer) cbAxesStyle.getSelectedItem())
-					.intValue()
-			// make sure bold checkbox doesn't change
-					+ (cbBoldAxes.isSelected() ? EuclidianStyleConstants.AXES_BOLD
-							: 0));
+			model.appyAxesStyle(
+					((Integer) cbAxesStyle.getSelectedItem()).intValue()
+							// make sure bold checkbox doesn't change
+							+ (cbBoldAxes.isSelected()
+									? EuclidianStyleConstants.AXES_BOLD : 0));
 		} else if (source == cbAxisLabelBold) {
 			model.setAxisFontBold(cbAxisLabelBold.isSelected());
 
@@ -802,8 +800,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		}
 
 		else if (source == cbGridStyle) {
-			model.appyGridStyle(((Integer) cbGridStyle.getSelectedItem())
-					.intValue());
+			model.appyGridStyle(
+					((Integer) cbGridStyle.getSelectedItem()).intValue());
 
 		} else if (source == cbGridManualTick) {
 			model.appyGridManualTick(cbGridManualTick.isSelected());
@@ -1022,7 +1020,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		ckNavPlay.setFont(font);
 		ckOpenConsProtocol.setFont(font);
 
-
 	}
 
 	private boolean isSelected = false;
@@ -1041,8 +1038,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private void initConsProtocolPanel() {
 
 		consProtocolPanel = new JPanel();
-		consProtocolPanel.setLayout(new BoxLayout(consProtocolPanel,
-				BoxLayout.Y_AXIS));
+		consProtocolPanel
+				.setLayout(new BoxLayout(consProtocolPanel, BoxLayout.Y_AXIS));
 
 		ckShowNavbar = new JCheckBox();
 		ckShowNavbar.addActionListener(showConsProtNavigationAction);
@@ -1077,9 +1074,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
 				// cpn.initGUI();
-				SwingUtilities
-						.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn)
-								.getImpl());
+				SwingUtilities.updateComponentTreeUI(
+						((ConstructionProtocolNavigationD) cpn).getImpl());
 			}
 			app.setUnsaved();
 			updateGUI();
@@ -1096,9 +1092,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 			for (ConstructionProtocolNavigation cpn : cpns) {
 				cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
 				// cpn.initGUI();
-				SwingUtilities
-						.updateComponentTreeUI(((ConstructionProtocolNavigationD) cpn)
-								.getImpl());
+				SwingUtilities.updateComponentTreeUI(
+						((ConstructionProtocolNavigationD) cpn).getImpl());
 			}
 			app.setUnsaved();
 			updateGUI();
@@ -1106,22 +1101,21 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	};
 
 	public GColor getEuclidianBackground(int viewNumber) {
-		return GColorD.newColor(
-				((GuiManagerD) (app.getGuiManager()))
-						.showColorChooser(app.getSettings()
-								.getEuclidian(viewNumber).getBackground()));
+		return GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
+				.showColorChooser(app.getSettings().getEuclidian(viewNumber)
+						.getBackground()));
 	}
 
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.setEnabled(value);
 		tfAxesRatioY.setEnabled(value);
-		cbLockRatio.setIcon(app
-				.getScaledIcon(value ? GuiResourcesD.OBJECT_UNFIXED
-						: GuiResourcesD.OBJECT_FIXED));
+		cbLockRatio.setIcon(app.getScaledIcon(value
+				? GuiResourcesD.OBJECT_UNFIXED : GuiResourcesD.OBJECT_FIXED));
 
 	}
 
-	public void setMinMaxText(String minX, String maxX, String minY, String maxY) {
+	public void setMinMaxText(String minX, String maxX, String minY,
+			String maxY) {
 		tfMinX.setText(minX);
 		tfMaxX.setText(maxX);
 		tfMinY.setText(minY);

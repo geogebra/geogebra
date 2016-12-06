@@ -125,11 +125,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		scroller = new JScrollPane(commandPanel);
 
 		// scroller.setBorder(BorderFactory.createEmptyBorder());
-		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroller.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 		JPanel titlePanel = new JPanel();
-		titlePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
+		titlePanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(1, 0, 0, 0,
+						SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		titlePanel.setLayout(new BorderLayout());
 
@@ -179,26 +181,29 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			Log.warn("no syntax panel");
 		}
 
-
 		p.setBorder(BorderFactory.createEmptyBorder());
 		JPanel titlePanel = new JPanel(new BorderLayout());
-		titlePanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(1, 0, 1, 0, SystemColor.controlShadow),
+		titlePanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(1, 0, 1, 0,
+						SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		syntaxLabel = new JLabel();
 		syntaxLabel.setForeground(Color.darkGray);
 		titlePanel.add(syntaxLabel, loc.borderWest());
 
 		syntaxHelpPanel = new JPanel(new BorderLayout());
-		
+
 		syntaxScroller = new JScrollPane(this.helpTextPane);
-		syntaxScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		syntaxScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		syntaxScroller.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		syntaxScroller.setHorizontalScrollBarPolicy(
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		// scroller.setBorder(BorderFactory.createEmptyBorder());
 
 		JPanel corner = new JPanel(new FlowLayout());
 		corner.setBackground(this.getBackground());
-		syntaxScroller.setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER, corner);
+		syntaxScroller.setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER,
+				corner);
 
 		syntaxHelpPanel.add(syntaxScroller, BorderLayout.CENTER);
 		// syntaxHelpPanel.add(titlePanel,BorderLayout.NORTH);
@@ -218,8 +223,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		btnPaste.addActionListener(this);
 		btnPaste.setFocusable(false);
 
-		btnOnlineHelp = new JButton(app.getLocalization().getMenu(
-				"ShowOnlineHelp"));
+		btnOnlineHelp = new JButton(
+				app.getLocalization().getMenu("ShowOnlineHelp"));
 		btnOnlineHelp.setFocusable(false);
 		btnOnlineHelp.addActionListener(this);
 		// btnOnlineHelp.setBorderPainted(false);
@@ -236,8 +241,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		JPanel buttonPanel = new JPanel(new BorderLayout());
 		buttonPanel.add(leftPanel, loc.borderWest());
 		buttonPanel.add(rightPanel, loc.borderEast());
-		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
+		buttonPanel.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(1, 0, 0, 0,
+						SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		// errorLabel = new JLabel();
 		// errorLabel.setForeground(Color.RED);
@@ -249,21 +255,19 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private void createFunctionPanel() {
 
 		functionTable = new SelectionTableD(app,
-				TableSymbols.getTranslatedFunctions(app), -1, 2, new Dimension(
-20, 16), SelectionTable.MODE_TEXT);
+				TableSymbols.getTranslatedFunctions(app), -1, 2,
+				new Dimension(20, 16), SelectionTable.MODE_TEXT);
 		functionTable.setShowGrid(true);
 		functionTable.setHorizontalAlignment(SwingConstants.LEFT);
-		functionTable.setBorder(BorderFactory.createLineBorder(functionTable
-				.getGridColor()));
+		functionTable.setBorder(
+				BorderFactory.createLineBorder(functionTable.getGridColor()));
 		functionTable.addMouseListener(new TableSelectionListener());
 		functionTable.setBackground(bgColor);
 		// functionTable.setVisible(false);
 
-
 		functionTitleNode = new DefaultMutableTreeNode(
 				loc.getMenu("MathematicalFunctions"));
 		functionTitleNode.add(new DefaultMutableTreeNode(""));
-
 
 		/*
 		 * fPanel = new JPanel(new BorderLayout());
@@ -271,7 +275,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		 * loc.borderWest()); fPanel.add(functionTable, BorderLayout.CENTER);
 		 * fPanel.setBackground(bgColor);
 		 */
-		
+
 		tablePanel = new JScrollPane(functionTable);
 		// tablePanel.add(functionTable, BorderLayout.NORTH);
 		// functionTable.setPreferredSize(new Dimension(500, 500));
@@ -347,8 +351,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		this.setMinimumSize(d);
 
 		// adjust scrolling increments to match font size
-		scroller.getVerticalScrollBar().setBlockIncrement(
-				10 * app.getFontSize());
+		scroller.getVerticalScrollBar()
+				.setBlockIncrement(10 * app.getFontSize());
 		scroller.getVerticalScrollBar().setUnitIncrement(3 * app.getFontSize());
 		btnOnlineHelp.setFont(app.getPlainFont());
 		btnPaste.setFont(app.getPlainFont());
@@ -373,8 +377,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		cmdTree.addMouseMotionListener(rollOverListener);
 		cmdTree.addMouseListener(rollOverListener);
 
-		cmdTree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		cmdTree.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		cmdTree.setCellRenderer(new MyRenderer());
 		cmdTree.setLargeModel(true);
 		// tree.putClientProperty("JTree.lineStyle", "none");
@@ -424,8 +428,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			while (it.hasNext()) {
 				String cmdName = subDict[i].get(it.next());
 				if (cmdName != null && cmdName.length() > 0) {
-					addNodeInSortedOrder(child, new DefaultMutableTreeNode(
-							cmdName));
+					addNodeInSortedOrder(child,
+							new DefaultMutableTreeNode(cmdName));
 				}
 			}
 		}
@@ -528,8 +532,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				// item = new JMenuItem((String) node.getUserObject());
 				// contextMenu.add(item);
 				contextMenu.addSeparator();
-				JMenuItem item = new JMenuItem(app.getLocalization().getMenu(
-						"ShowOnlineHelp"));
+				JMenuItem item = new JMenuItem(
+						app.getLocalization().getMenu("ShowOnlineHelp"));
 				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -639,13 +643,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 
 		// define the regular and italic style
-		Style def = StyleContext.getDefaultStyleContext().getStyle(
-				StyleContext.DEFAULT_STYLE);
+		Style def = StyleContext.getDefaultStyleContext()
+				.getStyle(StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
 
 		// changed to use getFontCanDisplayAwt() so that Armenian displays OK
-		StyleConstants.setFontFamily(def, app.getFontCanDisplayAwt(description)
-				.getFamily());
+		StyleConstants.setFontFamily(def,
+				app.getFontCanDisplayAwt(description).getFamily());
 
 		Style s = doc.addStyle("italic", regular);
 		StyleConstants.setItalic(s, true);

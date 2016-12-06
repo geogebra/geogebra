@@ -40,8 +40,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author hohenwarter
  */
-public class ScriptInputDialog extends InputDialogD implements
-		IScriptInputListener, DocumentListener {
+public class ScriptInputDialog extends InputDialogD
+		implements IScriptInputListener, DocumentListener {
 	private ScriptInputModel model;
 	private JComboBox languageSelector;
 
@@ -56,8 +56,8 @@ public class ScriptInputDialog extends InputDialogD implements
 	 * @param updateScript
 	 * @param forceJavaScript
 	 */
-	public ScriptInputDialog(AppD app, String title, GeoButton button,
-			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
+	public ScriptInputDialog(AppD app, String title, GeoButton button, int cols,
+			int rows, boolean updateScript, boolean forceJavaScript) {
 		super(app.getFrame(), false, app.getLocalization());
 		this.app = app;
 		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
@@ -109,8 +109,8 @@ public class ScriptInputDialog extends InputDialogD implements
 		inputPanel.setPreferredSize(dim);
 		inputPanel.setShowLineNumbering(showLineNumbers);
 		// add a small margin
-		inputPanel.getTextComponent().setBorder(
-				BorderFactory.createEmptyBorder(4, 4, 4, 4));
+		inputPanel.getTextComponent()
+				.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
 		return inputPanel;
 

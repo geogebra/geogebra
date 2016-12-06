@@ -1,7 +1,6 @@
 // Copyright 2000, CERN, Geneva, Switzerland and University of Santa Cruz, California, U.S.A.
 package org.freehep.graphics2d;
 
-
 /**
  * 
  * @author Mark Donszelmann
@@ -9,24 +8,24 @@ package org.freehep.graphics2d;
  */
 public class TagString {
 
-    private String string;
+	private String string;
 
-    public TagString(String value) {
-        string = value;
-    }
+	public TagString(String value) {
+		string = value;
+	}
 
-    public int hashCode() {
-        return string.hashCode();
-    }
+	public int hashCode() {
+		return string.hashCode();
+	}
 
 	final public boolean equals(Object obj) {
 		if (obj == null || string == null) {
 			return false;
 		}
-        return string.equals(obj);
-    }
+		return string.equals(obj);
+	}
 
-    public String toString() {
-        return string;
-    }
+	public String toString() {
+		return string;
+	}
 }

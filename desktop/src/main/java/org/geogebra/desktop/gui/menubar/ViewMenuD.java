@@ -73,8 +73,8 @@ public class ViewMenuD extends BaseMenu {
 			}
 		};
 
-		recomputeAllViews = new AbstractAction(
-				app.getMenu("RecomputeAllViews"), app.getEmptyIcon()) {
+		recomputeAllViews = new AbstractAction(app.getMenu("RecomputeAllViews"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

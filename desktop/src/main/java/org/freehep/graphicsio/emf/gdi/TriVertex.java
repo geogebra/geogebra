@@ -15,29 +15,29 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public class TriVertex {
 
-    private int x, y;
+	private int x, y;
 
-    private Color color;
+	private Color color;
 
-    public TriVertex(int x, int y, Color color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-    }
+	public TriVertex(int x, int y, Color color) {
+		this.x = x;
+		this.y = y;
+		this.color = color;
+	}
 
-    public TriVertex(EMFInputStream emf) throws IOException {
-        x = emf.readLONG();
-        y = emf.readLONG();
-        color = emf.readCOLOR16();
-    }
+	public TriVertex(EMFInputStream emf) throws IOException {
+		x = emf.readLONG();
+		y = emf.readLONG();
+		color = emf.readCOLOR16();
+	}
 
-    public void write(EMFOutputStream emf) throws IOException {
-        emf.writeLONG(x);
-        emf.writeLONG(y);
-        emf.writeCOLOR16(color);
-    }
+	public void write(EMFOutputStream emf) throws IOException {
+		emf.writeLONG(x);
+		emf.writeLONG(y);
+		emf.writeCOLOR16(color);
+	}
 
-    public String toString() {
-        return "[" + x + ", " + y + "] " + color;
-    }
+	public String toString() {
+		return "[" + x + ", " + y + "] " + color;
+	}
 }

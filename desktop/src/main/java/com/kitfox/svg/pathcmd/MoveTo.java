@@ -45,40 +45,36 @@ import java.awt.geom.GeneralPath;
  */
 public class MoveTo extends PathCommand {
 
-    public float x = 0f;
-    public float y = 0f;
+	public float x = 0f;
+	public float y = 0f;
 
-    /** Creates a new instance of MoveTo */
-    public MoveTo() {
-    }
+	/** Creates a new instance of MoveTo */
+	public MoveTo() {
+	}
 
-    public MoveTo(boolean isRelative, float x, float y) {
-        super(isRelative);
-        this.x = x;
-        this.y = y;
-    }
+	public MoveTo(boolean isRelative, float x, float y) {
+		super(isRelative);
+		this.x = x;
+		this.y = y;
+	}
 
-//    public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
-    public void appendPath(GeneralPath path, BuildHistory hist)
-    {
-        float offx = isRelative ? hist.lastPoint.x : 0f;
-        float offy = isRelative ? hist.lastPoint.y : 0f;
+	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	public void appendPath(GeneralPath path, BuildHistory hist) {
+		float offx = isRelative ? hist.lastPoint.x : 0f;
+		float offy = isRelative ? hist.lastPoint.y : 0f;
 
-        path.moveTo(x + offx, y + offy);
-        hist.setStartPoint(x + offx, y + offy);
-        hist.setLastPoint(x + offx, y + offy);
-        hist.setLastKnot(x + offx, y + offy);
-    }
+		path.moveTo(x + offx, y + offy);
+		hist.setStartPoint(x + offx, y + offy);
+		hist.setLastPoint(x + offx, y + offy);
+		hist.setLastKnot(x + offx, y + offy);
+	}
 
-    public int getNumKnotsAdded()
-    {
-        return 2;
-    }
+	public int getNumKnotsAdded() {
+		return 2;
+	}
 
-    public String toString()
-    {
-        return "M " + x + " " + y;
-    }
-    
-    
+	public String toString() {
+		return "M " + x + " " + y;
+	}
+
 }

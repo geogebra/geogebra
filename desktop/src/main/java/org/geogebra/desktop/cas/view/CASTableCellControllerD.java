@@ -14,8 +14,7 @@ import org.geogebra.desktop.main.AppD;
  *
  */
 public class CASTableCellControllerD extends CASTableCellController
-		implements KeyListener,
-		MouseListener {
+		implements KeyListener, MouseListener {
 
 	private CASViewD view;
 	private CASTableD table;

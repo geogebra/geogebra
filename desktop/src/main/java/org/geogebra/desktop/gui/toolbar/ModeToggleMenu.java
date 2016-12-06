@@ -67,7 +67,8 @@ public class ModeToggleMenu extends JPanel {
 
 	final static Color bgColor = Color.white;
 
-	public ModeToggleMenu(AppD app, ToolbarD toolbar, ModeToggleButtonGroup bg) {
+	public ModeToggleMenu(AppD app, ToolbarD toolbar,
+			ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -116,8 +117,8 @@ public class ModeToggleMenu extends JPanel {
 
 	private void selectItem(JMenuItem mi, ModeSetter ms) {
 		// check if the menu item is already selected
-		boolean imageDialog = mi.getActionCommand().equals(
-						Integer.toString(EuclidianConstants.MODE_IMAGE));
+		boolean imageDialog = mi.getActionCommand()
+				.equals(Integer.toString(EuclidianConstants.MODE_IMAGE));
 		if (tbutton.isSelected()
 				&& tbutton.getActionCommand().equals(mi.getActionCommand())
 				&& !imageDialog) {
@@ -125,8 +126,8 @@ public class ModeToggleMenu extends JPanel {
 		}
 
 		tbutton.setIcon(mi.getIcon());
-		tbutton.setToolTipText(app.getToolTooltipHTML(Integer.parseInt(mi
-				.getActionCommand())));
+		tbutton.setToolTipText(app
+				.getToolTooltipHTML(Integer.parseInt(mi.getActionCommand())));
 		tbutton.setActionCommand(mi.getActionCommand());
 		tbutton.setSelected(true);
 		if (imageDialog && ms == ModeSetter.TOOLBAR) {
@@ -193,7 +194,7 @@ public class ModeToggleMenu extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
 			if (!(Integer.toString(EuclidianConstants.MODE_IMAGE)
-							.equals(item.getActionCommand()))) {
+					.equals(item.getActionCommand()))) {
 				selectItem(item, ModeSetter.TOOLBAR);
 				tbutton.doClick();
 			} else {
@@ -205,7 +206,6 @@ public class ModeToggleMenu extends JPanel {
 				tbutton.doClick();
 				tbutton.setActionCommand(oldCmd);
 			}
-
 
 		}
 	}
@@ -221,8 +221,7 @@ public class ModeToggleMenu extends JPanel {
 
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = GPopupMenuD.getImpl(bg
-				.getActivePopupMenu());
+		JPopupMenu activeMenu = GPopupMenuD.getImpl(bg.getActivePopupMenu());
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);
 		}
@@ -275,8 +274,8 @@ public class ModeToggleMenu extends JPanel {
 
 }
 
-class MyJToggleButton extends JToggleButton implements MouseListener,
-		MouseMotionListener, ActionListener {
+class MyJToggleButton extends JToggleButton
+		implements MouseListener, MouseMotionListener, ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -336,8 +335,8 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 																	// for 32
 																	// pixel
 																	// icon
-		Dimension dim = new Dimension(iconWidth + 2 * BORDER, iconHeight + 2
-				* BORDER);
+		Dimension dim = new Dimension(iconWidth + 2 * BORDER,
+				iconHeight + 2 * BORDER);
 		setPreferredSize(dim);
 		setMinimumSize(dim);
 		setMaximumSize(dim);
@@ -441,7 +440,8 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	}
 
 	public void mousePressed(MouseEvent e) {
-		if (!menu.isPopupShowing() && popupTriangleClicked(e.getX(), e.getY())) {
+		if (!menu.isPopupShowing()
+				&& popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
 			this.getModel().setArmed(false);
 		}

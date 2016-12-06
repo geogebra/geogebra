@@ -22,64 +22,54 @@
 
 package org.jfugue;
 
+public abstract class EasyAnticipatorListener extends ParserListenerAdapter {
+	private Voice activeVoice;
+	private Instrument activeInstrument;
 
-public abstract class EasyAnticipatorListener extends ParserListenerAdapter
-{
-    private Voice activeVoice;
-    private Instrument activeInstrument;
-    
-    public EasyAnticipatorListener()
-    {
-        activeVoice = new Voice((byte)0);
-        activeInstrument = new Instrument((byte)0);
-    }
-    
-    private int tempo;
-    
-    public void tempoEvent(Tempo tempo)
-    {
-        this.tempo = tempo.getTempo();
-        System.out.println("tempo = "+tempo.getTempo());
-    }
+	public EasyAnticipatorListener() {
+		activeVoice = new Voice((byte) 0);
+		activeInstrument = new Instrument((byte) 0);
+	}
 
-    public void voiceEvent(Voice voice)
-    {
-        this.activeVoice = voice;
-    }
+	private int tempo;
 
-    public void instrumentEvent(Instrument instrument)
-    {
-        this.activeInstrument = instrument;
-    }
+	public void tempoEvent(Tempo tempo) {
+		this.tempo = tempo.getTempo();
+		System.out.println("tempo = " + tempo.getTempo());
+	}
 
-    public void noteEvent(Note note)
-    {
-        extendedNoteEvent(activeVoice, activeInstrument, note);
-    }
-    
-    public void parallelNoteEvent(Note note)
-    {
-        extendedNoteEvent(activeVoice, activeInstrument, note);
-    }
-    
-    public void sequentialNoteEvent(Note note)
-    {
-        extendedNoteEvent(activeVoice, activeInstrument, note);
-//        sleep(note.getDuration());
-    }
+	public void voiceEvent(Voice voice) {
+		this.activeVoice = voice;
+	}
 
-    /** Duration is in PPQ, need to translate that into msec */
-    // TODO: Is duration ALWAYS in PPQ, or does it depend on sequenceTiming?
-    private void sleep(long durationInPPQ)
-    {
-        try {
-            long msec = ((durationInPPQ / 4 ) ); 
-            Thread.sleep(msec);
-        } catch (InterruptedException e)
-        {    
-            throw new JFugueException(JFugueException.ERROR_SLEEP);            
-        }
-    }
-    
-    public abstract void extendedNoteEvent(Voice voice, Instrument instrument, Note note);
+	public void instrumentEvent(Instrument instrument) {
+		this.activeInstrument = instrument;
+	}
+
+	public void noteEvent(Note note) {
+		extendedNoteEvent(activeVoice, activeInstrument, note);
+	}
+
+	public void parallelNoteEvent(Note note) {
+		extendedNoteEvent(activeVoice, activeInstrument, note);
+	}
+
+	public void sequentialNoteEvent(Note note) {
+		extendedNoteEvent(activeVoice, activeInstrument, note);
+		// sleep(note.getDuration());
+	}
+
+	/** Duration is in PPQ, need to translate that into msec */
+	// TODO: Is duration ALWAYS in PPQ, or does it depend on sequenceTiming?
+	private void sleep(long durationInPPQ) {
+		try {
+			long msec = ((durationInPPQ / 4));
+			Thread.sleep(msec);
+		} catch (InterruptedException e) {
+			throw new JFugueException(JFugueException.ERROR_SLEEP);
+		}
+	}
+
+	public abstract void extendedNoteEvent(Voice voice, Instrument instrument,
+			Note note);
 }

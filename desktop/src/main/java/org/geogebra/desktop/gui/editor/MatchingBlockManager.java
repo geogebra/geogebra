@@ -120,8 +120,8 @@ public class MatchingBlockManager {
 	 * contents between the matchings is highlighted.
 	 **/
 	public void setPainterForOpenClose() {
-		Parameters param = new Parameters(Color.decode("#40e0d0"), false,
-				false, true, GeoGebraKeywordsPainter.FILLED, true);
+		Parameters param = new Parameters(Color.decode("#40e0d0"), false, false,
+				true, GeoGebraKeywordsPainter.FILLED, true);
 		if (param.inside) {
 			boolean b = param.type == GeoGebraKeywordsPainter.FILLED;
 			setPainterForOpenClose(b, param.included, param.color);
@@ -307,8 +307,8 @@ public class MatchingBlockManager {
 	/**
 	 * Inner class to highlight matching keywords
 	 */
-	public class GeoGebraKeywordsPainter extends
-			DefaultHighlighter.DefaultHighlightPainter {
+	public class GeoGebraKeywordsPainter
+			extends DefaultHighlighter.DefaultHighlightPainter {
 
 		/**
 		 * FILLED
@@ -370,8 +370,8 @@ public class MatchingBlockManager {
 
 				switch (type) {
 				case UNDERLINED:
-					g.drawLine(r.x, r.y + r.height - 1, r.x + r.width - 1, r.y
-							+ r.height - 1);
+					g.drawLine(r.x, r.y + r.height - 1, r.x + r.width - 1,
+							r.y + r.height - 1);
 					return r;
 				case FRAMED:
 					g.drawRect(r.x, r.y, r.width - 1, r.height - 1);
@@ -405,7 +405,8 @@ public class MatchingBlockManager {
 		 * @param color
 		 *            the color to paint
 		 */
-		protected InsideLinePainter(boolean filled, boolean strict, Color color) {
+		protected InsideLinePainter(boolean filled, boolean strict,
+				Color color) {
 			this.filled = filled;
 			this.strict = strict;
 			this.color = color;
@@ -445,10 +446,10 @@ public class MatchingBlockManager {
 					Element root = doc.getDefaultRootElement();
 					int line0 = root.getElementIndex(pos0);
 					int line1 = root.getElementIndex(pos1);
-					Rectangle r0 = c.modelToView(root.getElement(line0)
-							.getEndOffset());
-					Rectangle r1 = c.modelToView(root.getElement(line1)
-							.getStartOffset());
+					Rectangle r0 = c
+							.modelToView(root.getElement(line0).getEndOffset());
+					Rectangle r1 = c.modelToView(
+							root.getElement(line1).getStartOffset());
 					if (line0 != line1) {
 						if (!strict) {
 							if (filled) {
@@ -465,8 +466,8 @@ public class MatchingBlockManager {
 								g.drawRect(p0.x, p0.y, alloc.width - 1,
 										p0.height - 1);
 								g.drawRect(alloc.x, p0.y + p0.height,
-										alloc.width - 1, r0.y - p0.y
-												- p0.height - 1);
+										alloc.width - 1,
+										r0.y - p0.y - p0.height - 1);
 
 								if (r1.y != p1.y) {
 									g.drawRect(r1.x, r1.y, alloc.width,
@@ -479,8 +480,8 @@ public class MatchingBlockManager {
 						if (filled) {
 							g.fillRect(alloc.x, r0.y, alloc.width, r1.y - r0.y);
 						} else {
-							g.drawRect(alloc.x, r0.y, alloc.width - 1, r1.y
-									- r0.y - 1);
+							g.drawRect(alloc.x, r0.y, alloc.width - 1,
+									r1.y - r0.y - 1);
 						}
 					} else {
 						/*
@@ -500,8 +501,8 @@ public class MatchingBlockManager {
 							g.drawRect(p0.x, p0.y, w - 1, p0.height - 1);
 							if ((p0.y + p0.height) != p1.y) {
 								g.drawRect(alloc.x, p0.y + p0.height,
-										alloc.width - 1, p1.y
-												- (p0.y + p0.height) - 1);
+										alloc.width - 1,
+										p1.y - (p0.y + p0.height) - 1);
 							}
 							g.drawRect(alloc.x, p1.y, (p1.x - alloc.x) - 1,
 									p1.height - 1);

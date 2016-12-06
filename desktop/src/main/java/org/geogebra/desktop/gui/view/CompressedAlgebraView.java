@@ -20,8 +20,8 @@ import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
  * 
  * @author Lucas Binter
  */
-public class CompressedAlgebraView extends AlgebraViewD implements
-		CompressedView {
+public class CompressedAlgebraView extends AlgebraViewD
+		implements CompressedView {
 	private static final long serialVersionUID = 6383245533545749844L;
 
 	private int ups;

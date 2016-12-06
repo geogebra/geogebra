@@ -121,8 +121,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			// content type
 			urlConn.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
-			urlConn.setRequestProperty("Accept-Language", app.getLocalization()
-					.getLocaleStr());
+			urlConn.setRequestProperty("Accept-Language",
+					app.getLocalization().getLocaleStr());
 
 			// send output
 			try {
@@ -251,16 +251,16 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					pack();
 				}
 			} catch (IOException e) {
-				statusLabelSetText(loc.getPlain("UploadError",
-						Integer.toString(500)));
+				statusLabelSetText(
+						loc.getPlain("UploadError", Integer.toString(500)));
 				setEnabled(false);
 				pack();
 
 				Log.debug(e.getMessage());
 			}
 		} catch (IOException e) {
-			statusLabelSetText(loc.getPlain("UploadError",
-					Integer.toString(400)));
+			statusLabelSetText(
+					loc.getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
@@ -285,7 +285,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			}
 		});
 
-		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
+		JPanel buttonPanel = new JPanel(
+				new FlowLayout(FlowLayout.RIGHT, 10, 0));
 		buttonPanel.add(abortButton);
 
 		// main panel
@@ -335,7 +336,8 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	}
 
 	@Override
-	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
+	protected String getBase64Tools(ArrayList<Macro> macros)
+			throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		((AppD) app).getXMLio().writeMacroStream(baos, macros);
 		return Base64.encodeToString(baos.toByteArray(), false);

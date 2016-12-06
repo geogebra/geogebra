@@ -415,8 +415,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 		}
 
 		if (newFolder.exists()) {
-			throw new IOException("Directory already exists:"
-					+ newFolder.getAbsolutePath());
+			throw new IOException(
+					"Directory already exists:" + newFolder.getAbsolutePath());
 		}
 		newFolder.mkdirs();
 

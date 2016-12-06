@@ -50,8 +50,8 @@ public class EpsGraphicsD extends EpsGraphics {
 	@Override
 	public void drawString(String s, float x, float y, GFont font) {
 		if (getAccurateTextMode()) {
-			GTextLayout layout = AwtFactory.getPrototype().newTextLayout(s, font,
-					getFontRenderContext());
+			GTextLayout layout = AwtFactory.getPrototype().newTextLayout(s,
+					font, getFontRenderContext());
 
 			// methodNotSupported();
 			// GShape shape = layout
@@ -113,7 +113,8 @@ public class EpsGraphicsD extends EpsGraphics {
 		} catch (InterruptedException e) {
 			return;
 		}
-		GAffineTransform matrix = AwtFactory.getPrototype().newAffineTransform();
+		GAffineTransform matrix = AwtFactory.getPrototype()
+				.newAffineTransform();
 		matrix.setTransform(_transform);
 		matrix.translate(dx1, dy1);
 		matrix.scale(destWidth / (double) width, destHeight / (double) height);
@@ -152,8 +153,7 @@ public class EpsGraphicsD extends EpsGraphics {
 		StringBuffer line = new StringBuffer();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
-				GColor color = GColor
-						.newColorRGB(pixels[x + width * y]);
+				GColor color = GColor.newColorRGB(pixels[x + width * y]);
 				if (this.colorMode.equals(ColorMode.BLACK_AND_WHITE)) {
 					if (color.getRed() + color.getGreen()
 							+ color.getBlue() > 255 * 1.5 - 1) {

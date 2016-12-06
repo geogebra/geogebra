@@ -24,104 +24,105 @@ import org.freehep.graphicsio.font.FontTable;
  */
 public class PDFFontTable extends FontTable {
 
-    private int currentFontIndex = 1;
+	private int currentFontIndex = 1;
 
-    private PDFWriter pdf;
+	private PDFWriter pdf;
 
-    private PDFRedundanceTracker tracker;
+	private PDFRedundanceTracker tracker;
 
-    public PDFFontTable(PDFWriter pdf) {
-        super();
-        this.pdf = pdf;
-        this.tracker = new PDFRedundanceTracker(pdf);
-    }
+	public PDFFontTable(PDFWriter pdf) {
+		super();
+		this.pdf = pdf;
+		this.tracker = new PDFRedundanceTracker(pdf);
+	}
 
-    /** Adds all fonts to a dictionary named "FontList". */
-    public int addFontDictionary() throws IOException {
-        Collection fonts = getEntries();
-        if (fonts.size() > 0) {
-            PDFDictionary fontList = pdf.openDictionary("FontList");
-            for (Iterator i = fonts.iterator(); i.hasNext();) {
-                Entry e = (Entry) i.next();
-                fontList.entry(e.getReference(), pdf.ref(e.getReference()));
-            }
-            pdf.close(fontList);
-        }
-        return fonts.size();
-    }
+	/** Adds all fonts to a dictionary named "FontList". */
+	public int addFontDictionary() throws IOException {
+		Collection fonts = getEntries();
+		if (fonts.size() > 0) {
+			PDFDictionary fontList = pdf.openDictionary("FontList");
+			for (Iterator i = fonts.iterator(); i.hasNext();) {
+				Entry e = (Entry) i.next();
+				fontList.entry(e.getReference(), pdf.ref(e.getReference()));
+			}
+			pdf.close(fontList);
+		}
+		return fonts.size();
+	}
 
-    /** Embeds all not yet embedded fonts to the file. */
-    public void embedAll(FontRenderContext context, boolean embed,
-            String embedAs) throws IOException {
-        Collection col = getEntries();
-        Iterator i = col.iterator();
-        while (i.hasNext()) {
-            Entry e = (Entry) i.next();
-            if (!e.isWritten()) {
-                e.setWritten(true);
+	/** Embeds all not yet embedded fonts to the file. */
+	public void embedAll(FontRenderContext context, boolean embed,
+			String embedAs) throws IOException {
+		Collection col = getEntries();
+		Iterator i = col.iterator();
+		while (i.hasNext()) {
+			Entry e = (Entry) i.next();
+			if (!e.isWritten()) {
+				e.setWritten(true);
 
-                FontIncluder fontIncluder = null;
-                if (PDFFontIncluder.isStandardFont(e.getFont())) {
-                    embed = false;
-                }
+				FontIncluder fontIncluder = null;
+				if (PDFFontIncluder.isStandardFont(e.getFont())) {
+					embed = false;
+				}
 
-                if (embed) {
-                    if (embedAs.equals(FontConstants.EMBED_FONTS_TYPE3)) {
-                        fontIncluder = new PDFFontEmbedderType3(context, pdf, e
-                                .getReference(), tracker);
-                    } else if (embedAs.equals(FontConstants.EMBED_FONTS_TYPE1)) {
-                        fontIncluder = PDFFontEmbedderType1.create(context,
-                                pdf, e.getReference(), tracker);
-                    } else {
-                        System.out
-                                .println("PDFFontTable: invalid value for embedAs: "
-                                        + embedAs);
-                    }
-                } else {
-                    fontIncluder = new PDFFontIncluder(context, pdf, e
-                            .getReference(), tracker);
-                }
+				if (embed) {
+					if (embedAs.equals(FontConstants.EMBED_FONTS_TYPE3)) {
+						fontIncluder = new PDFFontEmbedderType3(context, pdf,
+								e.getReference(), tracker);
+					} else if (embedAs
+							.equals(FontConstants.EMBED_FONTS_TYPE1)) {
+						fontIncluder = PDFFontEmbedderType1.create(context, pdf,
+								e.getReference(), tracker);
+					} else {
+						System.out.println(
+								"PDFFontTable: invalid value for embedAs: "
+										+ embedAs);
+					}
+				} else {
+					fontIncluder = new PDFFontIncluder(context, pdf,
+							e.getReference(), tracker);
+				}
 
 				if (fontIncluder != null) {
 					fontIncluder.includeFont(e.getFont(), e.getEncoding(),
 							e.getReference());
 				}
-            }
-        }
-        tracker.writeAll();
-    }
+			}
+		}
+		tracker.writeAll();
+	}
 
-    public CharTable getEncodingTable() {
-        return Lookup.getInstance().getTable("PDFLatin");
-    }
+	public CharTable getEncodingTable() {
+		return Lookup.getInstance().getTable("PDFLatin");
+	}
 
-    public void firstRequest(Entry e, boolean embed, String embedAs) {
-    }
+	public void firstRequest(Entry e, boolean embed, String embedAs) {
+	}
 
-    private static final Properties replaceFonts = new Properties();
-    static {
-        replaceFonts.setProperty("Dialog", "Helvetica");
-        replaceFonts.setProperty("DialogInput", "Courier");
-        replaceFonts.setProperty("Serif", "TimesRoman");
-        replaceFonts.setProperty("SansSerif", "Helvetica");
-        replaceFonts.setProperty("Monospaced", "Courier");
-    }
+	private static final Properties replaceFonts = new Properties();
+	static {
+		replaceFonts.setProperty("Dialog", "Helvetica");
+		replaceFonts.setProperty("DialogInput", "Courier");
+		replaceFonts.setProperty("Serif", "TimesRoman");
+		replaceFonts.setProperty("SansSerif", "Helvetica");
+		replaceFonts.setProperty("Monospaced", "Courier");
+	}
 
-    protected Font substituteFont(Font font) {
-        String fontName = replaceFonts.getProperty(font.getName(), null);
-        if (fontName != null) {
-            Font newFont = new Font(fontName, font.getSize(), font.getStyle());
-            font = newFont.deriveFont(font.getSize2D());
-        }
-        return font;
-    }
+	protected Font substituteFont(Font font) {
+		String fontName = replaceFonts.getProperty(font.getName(), null);
+		if (fontName != null) {
+			Font newFont = new Font(fontName, font.getSize(), font.getStyle());
+			font = newFont.deriveFont(font.getSize2D());
+		}
+		return font;
+	}
 
-    /**
-     * Creates the reference by numbering them.
-     * 
-     * @return "F"+currentFontIndex
-     */
-    protected String createFontReference(Font f) {
-        return "F" + (currentFontIndex++);
-    }
+	/**
+	 * Creates the reference by numbering them.
+	 * 
+	 * @return "F"+currentFontIndex
+	 */
+	protected String createFontReference(Font f) {
+		return "F" + (currentFontIndex++);
+	}
 }

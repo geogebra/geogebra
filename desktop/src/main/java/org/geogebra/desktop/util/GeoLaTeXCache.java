@@ -17,12 +17,10 @@ public class GeoLaTeXCache implements LaTeXCache {
 		try {
 
 			newKey = JLaTeXMathCache.getCachedTeXFormula(latex,
-					TeXConstants.STYLE_DISPLAY, style, fontSize, 1 /*
-																	 * inset
-																	 * around
-																	 * the label
-																	 */,
-					(Color) fgColor);
+					TeXConstants.STYLE_DISPLAY, style, fontSize,
+					1 /*
+						 * inset around the label
+						 */, (Color) fgColor);
 		} catch (ParseException e) {
 			if (keyLaTeX != null) {
 				// remove old key from cache

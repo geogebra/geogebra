@@ -40,34 +40,32 @@ package com.kitfox.svg;
  *
  * @author kitfox
  */
-public class SVGParseException extends java.lang.Exception
-{
-    public static final long serialVersionUID = 0;
-    
-    /**
-     * Creates a new instance of <code>SVGException</code> without detail message.
-     */
-    public SVGParseException()
-    {
-    }
-    
-    
-    /**
-     * Constructs an instance of <code>SVGException</code> with the specified detail message.
-     * @param msg the detail message.
-     */
-    public SVGParseException(String msg)
-    {
-        super(msg);
-    }
-    
-    public SVGParseException(String msg, Throwable cause)
-    {
-        super(msg, cause);
-    }
-    
-    public SVGParseException(Throwable cause)
-    {
-        super(cause);
-    }
+public class SVGParseException extends java.lang.Exception {
+	public static final long serialVersionUID = 0;
+
+	/**
+	 * Creates a new instance of <code>SVGException</code> without detail
+	 * message.
+	 */
+	public SVGParseException() {
+	}
+
+	/**
+	 * Constructs an instance of <code>SVGException</code> with the specified
+	 * detail message.
+	 * 
+	 * @param msg
+	 *            the detail message.
+	 */
+	public SVGParseException(String msg) {
+		super(msg);
+	}
+
+	public SVGParseException(String msg, Throwable cause) {
+		super(msg, cause);
+	}
+
+	public SVGParseException(Throwable cause) {
+		super(cause);
+	}
 }

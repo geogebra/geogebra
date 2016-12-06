@@ -30,7 +30,8 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class FormulaBar extends JToolBar implements ActionListener, FocusListener{
+public class FormulaBar extends JToolBar
+		implements ActionListener, FocusListener {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -46,10 +47,7 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 
 	private int row, column;
 
-
-
-
-	public FormulaBar(AppD app, SpreadsheetViewD view){
+	public FormulaBar(AppD app, SpreadsheetViewD view) {
 
 		this.app = app;
 		this.view = view;
@@ -63,13 +61,13 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 				app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnCancelFormula.setFocusable(false);
 		btnCancelFormula.addActionListener(this);
-		btnCancelFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
+		btnCancelFormula.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
 		btnCancelFormula.addMouseListener(new BarButtonListener());
 
 		btnAcceptFormula = new JButton(app.getScaledIcon(GuiResourcesD.APPLY));
 		btnAcceptFormula.addMouseListener(new BarButtonListener());
 		btnAcceptFormula.setFocusable(false);
-		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));	
+		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0, 4, 0, 4));
 
 		fldFormula = new AutoCompleteTextFieldD(-1, app, KeyNavigation.IGNORE);
 		fldFormula.addActionListener(this);
@@ -77,12 +75,11 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		fldFormula.setShowSymbolTableIcon(true);
 		fldCellName = new AutoCompleteTextFieldD(5, app, KeyNavigation.IGNORE);
 		fldCellName.setAutoComplete(false);
-		//fldCellName.setEditable(false);
+		// fldCellName.setEditable(false);
 		Dimension d = fldCellName.getMaximumSize();
 		d.width = fldCellName.getPreferredSize().width;
 		fldCellName.setMaximumSize(d);
 		fldCellName.addActionListener(this);
-
 
 		add(fldCellName);
 		add(btnCancelFormula);
@@ -90,70 +87,71 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		add(fldFormula);
 		setFloatable(false);
 
-		// add document listener to enable updating of the spreadsheet cell editot 
+		// add document listener to enable updating of the spreadsheet cell
+		// editot
 		fldFormula.getDocument().addDocumentListener(documentListener);
 
 		// add an instance of the spreadsheet cell editor listener
 		// to enable auto-update while dragging cell ranges during editing
-		fldFormula.addKeyListener(editor.new SpreadsheetCellEditorKeyListener(true));
-		
-		// prevent the focus system from stealing TAB; this allows tabbing through auto-complete cycles
+		fldFormula.addKeyListener(
+				editor.new SpreadsheetCellEditorKeyListener(true));
+
+		// prevent the focus system from stealing TAB; this allows tabbing
+		// through auto-complete cycles
 		fldFormula.setFocusTraversalKeysEnabled(false);
-		
+
 		setLabels();
 	}
-
-
 
 	private DocumentListener documentListener = new DocumentListener() {
 		public void changedUpdate(DocumentEvent documentEvent) {
 			// do nothing
 		}
+
 		public void insertUpdate(DocumentEvent documentEvent) {
 			updateCellEditor(documentEvent);
 		}
+
 		public void removeUpdate(DocumentEvent documentEvent) {
 			updateCellEditor(documentEvent);
 		}
+
 		private void updateCellEditor(DocumentEvent documentEvent) {
 
 			view.getSpreadsheetTable().updateEditor(fldFormula.getText());
 		}
 	};
 
-
-
-	public void setEditorText(String text){
-		if(!fldFormula.hasFocus() || table.isDragging2)
+	public void setEditorText(String text) {
+		if (!fldFormula.hasFocus() || table.isDragging2)
 			fldFormula.setText(text);
 	}
 
+	public void update() {
 
+		// Application.debug("formula bar update");
 
-	public void update(){
-
-		//Application.debug("formula bar update");
-
-		if(table.isSelectNone()){
+		if (table.isSelectNone()) {
 			fldCellName.setText("");
 			fldFormula.setText("");
-			//Application.debug("nothing selected");
+			// Application.debug("nothing selected");
 			return;
 		}
 
 		row = table.minSelectionRow;
 		column = table.minSelectionColumn;
 
-		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column, row);
+		String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(column,
+				row);
 		fldCellName.removeActionListener(this);
 		fldCellName.setText(cellName);
 		fldCellName.addActionListener(this);
 
-
 		String cellContents = "";
 		GeoElement cellGeo = RelativeCopy.getValue(app, column, row);
-		if(cellGeo != null) {
-			//Application.debug("cell with geo selected at: " + row + " ," + column);
+		if (cellGeo != null) {
+			// Application.debug("cell with geo selected at: " + row + " ," +
+			// column);
 			cellContents = cellGeo.getRedefineString(true, false);
 			int index = cellContents.indexOf("=");
 			if ((!cellGeo.isGeoText())) {
@@ -161,8 +159,9 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 					cellContents = "=" + cellContents;
 				}
 			}
-		}else{
-			//Application.debug("empty cell selected at: " + row + " ," + column);
+		} else {
+			// Application.debug("empty cell selected at: " + row + " ," +
+			// column);
 		}
 
 		fldFormula.removeActionListener(this);
@@ -170,14 +169,13 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		fldFormula.addActionListener(this);
 	}
 
-
-
-
 	public void focusGained(FocusEvent e) {
 
-		// make sure the spreadsheet gets the view focus in case first click is here
-		if(!view.hasViewFocus())
-			((LayoutD) app.getGuiManager().getLayout()).getDockManager().setFocusedPanel(App.VIEW_SPREADSHEET);
+		// make sure the spreadsheet gets the view focus in case first click is
+		// here
+		if (!view.hasViewFocus())
+			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
 		// select the upper left corner cell if nothing is selected
 		if (table.isSelectNone() || table.getSelectedRow() < 0
@@ -185,51 +183,50 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 			table.setSelection(0, 0);
 			update();
 		}
-		
+
 		// start cell editing in the currently selected cell
 		// TODO: should these be an anchor cell?
 		table.setAllowEditing(true);
-		view.getSpreadsheetTable().editCellAt(table.getSelectedRow(), table.getSelectedColumn());
+		view.getSpreadsheetTable().editCellAt(table.getSelectedRow(),
+				table.getSelectedColumn());
 		view.getSpreadsheetTable().repaint();
 
 	}
-
-
 
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
-
 	public void actionPerformed(ActionEvent e) {
-		if(isIniting) return;
+		if (isIniting)
+			return;
 
-		Object source = e.getSource();	
+		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
-			doTextFieldActionPerformed((JTextField)source);
-		}	
+			doTextFieldActionPerformed((JTextField) source);
+		}
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
-		if(isIniting) return;
+		if (isIniting)
+			return;
 
 		String inputText = source.getText().trim();
 		if (source == fldCellName) {
-			if(table.setSelection(inputText))
+			if (table.setSelection(inputText))
 				update();
 		}
 
 	}
 
-
-	private class BarButtonListener extends MouseAdapter{
+	private class BarButtonListener extends MouseAdapter {
 		@Override
-		public void mouseClicked(MouseEvent event){
-			Object source = event.getSource();	
+		public void mouseClicked(MouseEvent event) {
+			Object source = event.getSource();
 
-			if(source == btnCancelFormula){
+			if (source == btnCancelFormula) {
 				Robot robot;
 				try {
 					robot = new Robot();
@@ -237,15 +234,15 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 				} catch (AWTException e) {
 					e.printStackTrace();
 				}
-			} else if(source == btnAcceptFormula) {
-				if(fldFormula.hasFocus()) {
+			} else if (source == btnAcceptFormula) {
+				if (fldFormula.hasFocus()) {
 					editor.stopCellEditing(0, 1);
 				}
 			}
 		}
 	}
 
-	public void updateFonts(Font font){
+	public void updateFonts(Font font) {
 		fldFormula.setFont(font);
 		fldCellName.setFont(font);
 		updateIcons();
@@ -258,14 +255,14 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		btnAcceptFormula.setIcon(app.getScaledIcon(GuiResourcesD.APPLY));
 	}
 
-	public void setLabels(){
+	public void setLabels() {
 		Localization loc = app.getLocalization();
 		btnAcceptFormula.setToolTipText(loc.getPlain("Apply"));
 		btnCancelFormula.setToolTipText(loc.getPlain("Cancel"));
 
 	}
 
-	public boolean editorHasFocus(){
+	public boolean editorHasFocus() {
 		return fldFormula.hasFocus();
 	}
 

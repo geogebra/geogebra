@@ -42,9 +42,8 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 
 	@Override
 	protected void processInputHandler(AsyncOperation<Boolean> callback) {
-		((NumberChangeSignInputHandler) inputHandler).processInput(
-				inputText, changingSign && checkBox.isSelected(), this,
-				callback);
+		((NumberChangeSignInputHandler) inputHandler).processInput(inputText,
+				changingSign && checkBox.isSelected(), this, callback);
 	}
 
 	@Override

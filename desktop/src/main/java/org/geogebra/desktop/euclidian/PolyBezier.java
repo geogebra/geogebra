@@ -154,10 +154,9 @@ public class PolyBezier {
 			p = sig * y2[i - 1] + 2d;
 			y2[i] = (sig - 1d) / p;
 			u[i] = (6d
-					* ((y[i + 1] - y[i]) / (x[i + 1] - x[i]) - (y[i] - y[i - 1])
-							/ (x[i] - x[i - 1])) / (x[i + 1] - x[i - 1]) - sig
-					* u[i - 1])
-					/ p;
+					* ((y[i + 1] - y[i]) / (x[i + 1] - x[i])
+							- (y[i] - y[i - 1]) / (x[i] - x[i - 1]))
+					/ (x[i + 1] - x[i - 1]) - sig * u[i - 1]) / p;
 		}
 
 		if (ypn > 1e30d) {

@@ -57,16 +57,13 @@ public class GLine2DD implements GLine2D, GShapeD {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(
-impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {

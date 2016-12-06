@@ -64,8 +64,9 @@ public class AutoCompletion {
 		// Extract internal text field
 		JTextField textField = getInternalTextField(fileChooser);
 		if (null == textField) {
-			Log.debug("Could not find an instance of JTextField inside the file chooser: "
-					+ fileChooser);
+			Log.debug(
+					"Could not find an instance of JTextField inside the file chooser: "
+							+ fileChooser);
 			return;
 		}
 
@@ -81,8 +82,8 @@ public class AutoCompletion {
 					}
 				};
 				// All visible items in the file chooser are possible options
-				File[] options = fileChooser.getCurrentDirectory().listFiles(
-						fileFilter);
+				File[] options = fileChooser.getCurrentDirectory()
+						.listFiles(fileFilter);
 				// We cannot cache the above steps because the user could change
 				// the directory or file filter
 				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<File>(
@@ -148,9 +149,8 @@ public class AutoCompletion {
 	 *            that is the number of options the user can see without
 	 *            scrolling
 	 */
-	public static void install(JTextField textField,
-			String[] completionOptions, boolean caseInsensitiveCompletion,
-			int maxPopupRowCount) {
+	public static void install(JTextField textField, String[] completionOptions,
+			boolean caseInsensitiveCompletion, int maxPopupRowCount) {
 		// Array will be changed (sorted) - create defensive copy
 		String[] optionsCopy = new String[completionOptions.length];
 		System.arraycopy(completionOptions, 0, optionsCopy, 0,
@@ -180,7 +180,8 @@ public class AutoCompletion {
 	 *            scrolling
 	 */
 	public static void install(JTextField textField,
-			CompletionProvider<String> completionProvider, int maxPopupRowCount) {
+			CompletionProvider<String> completionProvider,
+			int maxPopupRowCount) {
 		install(textField, completionProvider, new DefaultListCellRenderer(),
 				maxPopupRowCount);
 	}

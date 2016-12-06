@@ -47,8 +47,8 @@ import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class DataPanelD extends JPanel implements ActionListener,
-		StatPanelInterface {
+public class DataPanelD extends JPanel
+		implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
@@ -70,8 +70,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
 	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants
-					.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+			.getAwtColor(
+					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
 	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
 
@@ -128,8 +128,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 		dataTable.setRowSelectionAllowed(false);
 
 		// dataTable.setAutoResizeMode(JTable.);
-		dataTable.setPreferredScrollableViewportSize(dataTable
-				.getPreferredSize());
+		dataTable.setPreferredScrollableViewportSize(
+				dataTable.getPreferredSize());
 		dataTable.setMinimumSize(new Dimension(100, 50));
 		// dataTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		dataTable.setAutoCreateColumnsFromModel(false);
@@ -153,9 +153,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 		btnEnableAll.setDisabledIcon(iconChecked);
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
-		btnEnableAll
-.setBackground(GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+		btnEnableAll.setBackground(GColorD.getAwtColor(
+				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		btnEnableAll.setContentAreaFilled(false);
 		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEnableAll.addActionListener(this);
@@ -235,9 +234,11 @@ public class DataPanelD extends JPanel implements ActionListener,
 
 			dataModel = new DefaultTableModel(dataArray.size(), 1);
 			for (int row = 0; row < dataArray.size(); ++row) {
-				dataModel.setValueAt(
-						dataArray.get(row).toDefinedValueString(
-								StringTemplate.defaultTemplate), row, 0);
+				dataModel
+						.setValueAt(
+								dataArray.get(row).toDefinedValueString(
+										StringTemplate.defaultTemplate),
+								row, 0);
 			}
 
 			dataTable.setModel(dataModel);
@@ -272,16 +273,14 @@ public class DataPanelD extends JPanel implements ActionListener,
 
 				// quick fix for GGB-1392
 				if (dataTable.getColumnModel().getColumnCount() > 1) {
-				dataTable.getColumnModel().getColumn(1)
-						.setHeaderValue(loc.getMenu("Column.Y"));
+					dataTable.getColumnModel().getColumn(1)
+							.setHeaderValue(loc.getMenu("Column.Y"));
 				} else {
 					Log.error("problem setting title for 2nd column");
 				}
 			} else {
-				dataTable
-						.getColumnModel()
-						.getColumn(0)
-						.setHeaderValue(loc.getMenu("Column.X") + ": " + titleX);
+				dataTable.getColumnModel().getColumn(0).setHeaderValue(
+						loc.getMenu("Column.X") + ": " + titleX);
 
 				// quick fix for GGB-1392
 				if (dataTable.getColumnModel().getColumnCount() > 1) {
@@ -373,7 +372,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 			if (size < 12)
 				size = 12; // minimum size
 			double multiplier = (size) / 12.0;
-			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH * multiplier);
+			preferredColumnWidth = (int) (SpreadsheetSettings.TABLE_CELL_WIDTH
+					* multiplier);
 
 			// columnHeader.setPreferredSize(new Dimension(preferredColumnWidth,
 			// (int)(MyTable.TABLE_CELL_HEIGHT * multiplier)));
@@ -382,17 +382,15 @@ public class DataPanelD extends JPanel implements ActionListener,
 		}
 
 		if (dataTable != null) {
-			dataTable.setPreferredScrollableViewportSize(dataTable
-					.getPreferredSize());
+			dataTable.setPreferredScrollableViewportSize(
+					dataTable.getPreferredSize());
 		}
 	}
 
 	private void setRowHeight() {
 		// get row height needed to draw an "X" character
-		int h = dataTable
-				.getCellRenderer(0, 0)
-				.getTableCellRendererComponent(dataTable, "X", false, false, 0,
-						0).getPreferredSize().height;
+		int h = dataTable.getCellRenderer(0, 0).getTableCellRendererComponent(
+				dataTable, "X", false, false, 0, 0).getPreferredSize().height;
 
 		// use this height to set the table and row header heights
 		dataTable.setRowHeight(h);
@@ -415,8 +413,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 	// Column Header Renderer
 	// =================================================
 
-	protected class MyColumnHeaderRenderer extends JLabel implements
-			TableCellRenderer {
+	protected class MyColumnHeaderRenderer extends JLabel
+			implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		public MyColumnHeaderRenderer() {
@@ -513,9 +511,8 @@ public class DataPanelD extends JPanel implements ActionListener,
 				setBorder(BorderFactory.createCompoundBorder(
 						BorderFactory.createMatteBorder(0, 0, 1, 1,
 								GColorD.getAwtColor(
-										GeoGebraColorConstants
-												.TABLE_GRID_COLOR)),
-								BorderFactory.createEmptyBorder(0, 5, 0, 2)));
+										GeoGebraColorConstants.TABLE_GRID_COLOR)),
+						BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
 				setHorizontalAlignment(LEFT);
 				setFont(table.getFont());

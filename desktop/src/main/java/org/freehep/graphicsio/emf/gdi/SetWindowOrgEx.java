@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetWindowOrgEx extends EMFTag {
 
-    private Point point;
+	private Point point;
 
-    public SetWindowOrgEx() {
-        super(10, 1);
-    }
+	public SetWindowOrgEx() {
+		super(10, 1);
+	}
 
-    public SetWindowOrgEx(Point point) {
-        this();
-        this.point = point;
-    }
+	public SetWindowOrgEx(Point point) {
+		this();
+		this.point = point;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetWindowOrgEx tag = new SetWindowOrgEx(emf.readPOINTL());
-        return tag;
-    }
+		SetWindowOrgEx tag = new SetWindowOrgEx(emf.readPOINTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writePOINTL(point);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writePOINTL(point);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  point: " + point;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  point: " + point;
+	}
 }

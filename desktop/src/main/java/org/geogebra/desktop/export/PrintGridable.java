@@ -49,9 +49,9 @@ public class PrintGridable implements Printable {
 
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
-		
+
 		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
-		
+
 		double pWidth = pageFormat.getImageableWidth();
 		double pHeight = pageFormat.getImageableHeight() - this.titleOffset;
 
@@ -61,8 +61,12 @@ public class PrintGridable implements Printable {
 		ArrayList<Integer> boundsHor = new ArrayList<Integer>();
 		boundsHor.add(sum);
 		for (int i = 0; i < colWidths.length; i++) {
-			if ((sum + colWidths[i] - boundsHor.get(boundsHor.size() - 1) > pWidth)
-					&& // the next cell won't fit
+			if ((sum + colWidths[i]
+					- boundsHor.get(boundsHor.size() - 1) > pWidth) && // the
+																		// next
+																		// cell
+																		// won't
+																		// fit
 					(sum > boundsHor.get(boundsHor.size() - 1))) { // the size
 																	// increased
 				boundsHor.add(sum);
@@ -75,8 +79,12 @@ public class PrintGridable implements Printable {
 		ArrayList<Integer> boundsVer = new ArrayList<Integer>();
 		boundsVer.add(sum);
 		for (int i = 0; i < rowHeights.length; i++) {
-			if ((sum + rowHeights[i] - boundsVer.get(boundsVer.size() - 1) > pHeight)
-					&& // the next cell won't fit
+			if ((sum + rowHeights[i]
+					- boundsVer.get(boundsVer.size() - 1) > pHeight) && // the
+																		// next
+																		// cell
+																		// won't
+																		// fit
 					(sum > boundsVer.get(boundsVer.size() - 1))) { // the size
 																	// increased
 				boundsVer.add(sum);

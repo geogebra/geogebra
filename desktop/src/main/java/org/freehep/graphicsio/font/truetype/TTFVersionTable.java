@@ -11,17 +11,17 @@ import java.io.IOException;
  */
 public abstract class TTFVersionTable extends TTFTable {
 
-    public int minorVersion;
+	public int minorVersion;
 
-    public int majorVersion;
+	public int majorVersion;
 
-    public void readVersion() throws IOException {
-        majorVersion = ttf.readUShort();
-        minorVersion = ttf.readUShort();
-    }
+	public void readVersion() throws IOException {
+		majorVersion = ttf.readUShort();
+		minorVersion = ttf.readUShort();
+	}
 
-    public String toString() {
-        return super.toString() + " v" + majorVersion + "." + minorVersion;
-    }
+	public String toString() {
+		return super.toString() + " v" + majorVersion + "." + minorVersion;
+	}
 
 }

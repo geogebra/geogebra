@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetICMMode extends EMFTag implements EMFConstants {
 
-    private int mode;
+	private int mode;
 
-    public SetICMMode() {
-        super(98, 1);
-    }
+	public SetICMMode() {
+		super(98, 1);
+	}
 
-    public SetICMMode(int mode) {
-        this();
-        this.mode = mode;
-    }
+	public SetICMMode(int mode) {
+		this();
+		this.mode = mode;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetICMMode tag = new SetICMMode(emf.readDWORD());
-        return tag;
-    }
+		SetICMMode tag = new SetICMMode(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(mode);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(mode);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  mode: " + mode;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  mode: " + mode;
+	}
 }

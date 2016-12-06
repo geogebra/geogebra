@@ -45,8 +45,8 @@ import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
-public class ButtonDialogD extends JDialog implements ActionListener,
-		KeyListener, WindowListener {
+public class ButtonDialogD extends JDialog
+		implements ActionListener, KeyListener, WindowListener {
 
 	/**
 	 * 
@@ -143,8 +143,8 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 			}
 
 			// make sure it's not too wide (eg long GeoList)
-			Dimension size = new Dimension(Math.min(
-					AppD.getScreenSize().width / 2, width),
+			Dimension size = new Dimension(
+					Math.min(AppD.getScreenSize().width / 2, width),
 					cbAdd.getPreferredSize().height);
 			cbAdd.setMaximumSize(size);
 			cbAdd.setPreferredSize(size);
@@ -155,7 +155,8 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 				MyComboBoxListener ac = new MyComboBoxListener() {
 					@Override
 					public void doActionPerformed(Object source) {
-						model.setLinkedGeo((GeoElement) cbAdd.getSelectedItem());
+						model.setLinkedGeo(
+								(GeoElement) cbAdd.getSelectedItem());
 						// cbAdd.removeActionListener(this);
 						//
 						// cbAdd.setSelectedItem(null);
@@ -235,8 +236,8 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 		/*
 		 * 
 		 * inputPanel = new InputPanel("ggbApplet.evalCommand('A=(3,4)');", app,
-		 * 10, 50, false, true, false ); inputPanel2 = new
-		 * InputPanel("function func() {\n}", app, 10, 50, false, true, false );
+		 * 10, 50, false, true, false ); inputPanel2 = new InputPanel(
+		 * "function func() {\n}", app, 10, 50, false, true, false );
 		 * 
 		 * JPanel centerPanel = new JPanel(new BorderLayout());
 		 * 

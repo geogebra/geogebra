@@ -117,7 +117,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			return false;
 		}
 		char ch = event.getKeyChar();
-		if (!event.isMetaDown() && !event.isAltDown() && !event.isControlDown()) {
+		if (!event.isMetaDown() && !event.isAltDown()
+				&& !event.isControlDown()) {
 			return renameStarted(ch);
 		}
 		return false;
@@ -136,8 +137,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		// use event.isAltDown rather than AppD.isControlDown(event)
 		// as we need to distinguish <AltGr>2 and <Ctrl>2
 		// #2390 #908
-		return handleGeneralKeys(
-				KeyCodes.translateJavacode(event.getKeyCode()),
+		return handleGeneralKeys(KeyCodes.translateJavacode(event.getKeyCode()),
 				event.isShiftDown(), AppD.isControlDown(event),
 				event.isAltDown(), event.getSource() instanceof JTable,
 				event.getSource() instanceof EuclidianViewD);
@@ -163,9 +163,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		if (((AppD) app).isUsingFullGui()
 				&& ((GuiManagerD) app.getGuiManager()).noMenusOpen()) {
-			if (app.showAlgebraInput()
-					&& !((GuiManagerD) app.getGuiManager()).getAlgebraInput()
-							.hasFocus()) {
+			if (app.showAlgebraInput() && !((GuiManagerD) app.getGuiManager())
+					.getAlgebraInput().hasFocus()) {
 				// focus this frame (needed for external view windows)
 				if (!app.isApplet() && ((AppD) app).getFrame() != null) {
 					((AppD) app).getFrame().toFront();
@@ -238,7 +237,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		}
 	}
 
-	protected void tryPasteEquation(){
+	protected void tryPasteEquation() {
 		String html = ((GuiManagerD) app.getGuiManager())
 				.getStringFromClipboard();
 		if (html != null && html.indexOf("<m:oMath") > 0) {
@@ -252,13 +251,12 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			}
 			app.getGgbApi().evalCommand(
 
-					((GuiManagerD)app.getGuiManager()).oomlToMathml(html.substring(blockBegin, blockEnd)
+					((GuiManagerD) app.getGuiManager())
+							.oomlToMathml(html.substring(blockBegin, blockEnd)
 									.replace('\n', ' ').replace('\r', ' ')));
 
 		}
 	}
-
-	
 
 	@Override
 	protected boolean handleCtrlShiftN(boolean isAltDown) {
@@ -273,8 +271,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				MyFileFilter fileFilter = new MyFileFilter();
 				fileFilter.addExtension(FileExtensions.GEOGEBRA);
 
-				File[] options = ((AppD) app).getCurrentPath().listFiles(
-						fileFilter);
+				File[] options = ((AppD) app).getCurrentPath()
+						.listFiles(fileFilter);
 
 				if (options == null) {
 					return false;
@@ -284,8 +282,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				// folder
 				if (((AppD) app).getCurrentFile() == null) {
 					if (options.length > 0) {
-						((GuiManagerD) app.getGuiManager()).loadFile(
-								options[0], false);
+						((GuiManagerD) app.getGuiManager()).loadFile(options[0],
+								false);
 						return true;
 					}
 					return false;
@@ -350,8 +348,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
-			sb.append(it.next().getFormulaString(
-					StringTemplate.defaultTemplate, false));
+			sb.append(it.next().getFormulaString(StringTemplate.defaultTemplate,
+					false));
 			if (it.hasNext())
 				sb.append(',');
 		}

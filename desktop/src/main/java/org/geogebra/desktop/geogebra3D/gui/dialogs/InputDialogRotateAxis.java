@@ -26,9 +26,9 @@ public class InputDialogRotateAxis extends InputDialogRotateD {
 
 	protected void processInput(AsyncOperation<String> callback) {
 
-		EuclidianController3D.rotateObject(app,
-				inputPanel.getText(), rbClockWise.isSelected(), polys, lines,
-				selGeos, (EuclidianController3D) ec, this, callback);
+		EuclidianController3D.rotateObject(app, inputPanel.getText(),
+				rbClockWise.isSelected(), polys, lines, selGeos,
+				(EuclidianController3D) ec, this, callback);
 	}
 
 }

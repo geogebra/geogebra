@@ -103,7 +103,6 @@ public class PerspectivePanel extends JPopupMenu {
 		addPerspective(2, GuiResourcesD.MENU_VIEW_SPREADSHEET);
 		addPerspective(5, GuiResourcesD.MENU_VIEW_PROBABILITY);
 
-
 		// user perspectives
 		Perspective[] perspectives = layout.getPerspectives();
 
@@ -182,8 +181,6 @@ public class PerspectivePanel extends JPopupMenu {
 			}
 		};
 
-
-
 		changePerspectiveAction = new AbstractAction() {
 
 			private static final long serialVersionUID = 1L;
@@ -192,14 +189,14 @@ public class PerspectivePanel extends JPopupMenu {
 				// default perspectives start with a "d"
 				boolean changed;
 				if (e.getActionCommand().startsWith("d")) {
-					int index = Integer.parseInt(e.getActionCommand()
-							.substring(1));
+					int index = Integer
+							.parseInt(e.getActionCommand().substring(1));
 					changed = layout.applyPerspective(
 							Layout.getDefaultPerspectives(index));
 				} else {
 					int index = Integer.parseInt(e.getActionCommand());
-					changed = layout.applyPerspective(layout
-							.getPerspective(index));
+					changed = layout
+							.applyPerspective(layout.getPerspective(index));
 				}
 				if (changed) {
 					app.storeUndoInfo();

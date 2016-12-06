@@ -123,7 +123,8 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 * @param targetGeos
 	 *            cells that need updating
 	 */
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+	protected void processSource(Object source,
+			ArrayList<GeoElement> targetGeos) {
 
 		if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
@@ -142,7 +143,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			int i = casView.getConsoleTable().getEditingRow();
 			int pos = ((CASTableCellEditorD) casView.getConsoleTable()
 					.getCellEditor(i, CASTableD.COL_CAS_CELLS))
-					.getCaretPosition();
+							.getCaretPosition();
 			applyUseAsText(targetGeos);
 			casView.getConsoleTable().startEditingRow(i);
 			((CASTableCellEditorD) casView.getConsoleTable().getCellEditor(i,
@@ -160,10 +161,10 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 				} else {
 
-					AppD.setVirtualKeyboardActive(!AppD
-							.isVirtualKeyboardActive());
-					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
-							.isVirtualKeyboardActive());
+					AppD.setVirtualKeyboardActive(
+							!AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager())
+							.toggleKeyboard(AppD.isVirtualKeyboardActive());
 					((GuiManagerD) app.getGuiManager()).getVirtualKeyboard()
 							.toggleNumeric(AppD.isVirtualKeyboardActive());
 				}
@@ -229,8 +230,8 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			Log.debug(((GeoCasCell) geo).getGeoText());
-			if (geo instanceof GeoCasCell
-					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
+			if (geo instanceof GeoCasCell && ((GeoCasCell) geo).getGeoText()
+					.getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
 				geo.updateRepaint();
 				needUndo = true;
@@ -240,14 +241,20 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 	private void applyTextSize(ArrayList<GeoElement> geos) {
 
-		double fontSize = GeoText.getRelativeFontSize(btnTextSize
-				.getSelectedIndex()); // transform indices to the range -4, .. ,
-										// 4
+		double fontSize = GeoText
+				.getRelativeFontSize(btnTextSize.getSelectedIndex()); // transform
+																		// indices
+																		// to
+																		// the
+																		// range
+																		// -4,
+																		// .. ,
+																		// 4
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof GeoCasCell
-					&& ((GeoCasCell) geo).getGeoText().getFontSizeMultiplier() != fontSize) {
+			if (geo instanceof GeoCasCell && ((GeoCasCell) geo).getGeoText()
+					.getFontSizeMultiplier() != fontSize) {
 				((GeoCasCell) geo).setFontSizeMultiplier(fontSize);
 				geo.updateRepaint();
 				needUndo = true;
@@ -272,6 +279,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	public void reinit() {
 		initGUI();
 	}
+
 	private void initGUI() {
 
 		removeAll();
@@ -280,8 +288,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		iconHeight = kbdIcon.getIconHeight();
 		iconDimension = new Dimension(iconHeight, iconHeight);
-		btnShowKeyboard = new MyToggleButton(
-kbdIcon, iconHeight);
+		btnShowKeyboard = new MyToggleButton(kbdIcon, iconHeight);
 
 		createTextButtons();
 
@@ -312,7 +319,8 @@ kbdIcon, iconHeight);
 	static boolean checkGeoText(Object[] geos) {
 		boolean geosOK = (geos.length > 0);
 		for (int i = 0; i < geos.length; i++) {
-			if (!(((GeoElement) geos[i]).getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
+			if (!(((GeoElement) geos[i])
+					.getGeoElementForPropertiesDialog() instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
 			} else if (!((GeoCasCell) geos[i]).isUseAsText()) {
@@ -368,8 +376,7 @@ kbdIcon, iconHeight);
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColoriconHeight,
-						GColorD.getAwtColor(getSelectedColor()),
-						null);
+						GColorD.getAwtColor(getSelectedColor()), null);
 			}
 
 		};
@@ -397,9 +404,9 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getMenu("Bold")
-				.substring(0, 1), app.getPlainFont(), true, false, true,
-				iconDimension, Color.black, null);
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
+				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
+				false, true, iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -465,10 +472,11 @@ kbdIcon, iconHeight);
 
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0]);
-					setSelectedIndex(GeoText
-							.getFontSizeIndex(((GeoCasCell) geo)
-									.getFontSizeMultiplier())); // font size
-																// ranges from
+					setSelectedIndex(GeoText.getFontSizeIndex(
+							((GeoCasCell) geo).getFontSizeMultiplier())); // font
+																			// size
+																			// ranges
+																			// from
 					// -4 to 4, transform
 					// this to 0,1,..,4
 				}

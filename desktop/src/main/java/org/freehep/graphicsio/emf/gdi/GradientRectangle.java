@@ -14,24 +14,24 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public class GradientRectangle extends Gradient {
 
-    private int upperLeft, lowerRight;
+	private int upperLeft, lowerRight;
 
-    public GradientRectangle(int upperLeft, int lowerRight) {
-        this.upperLeft = upperLeft;
-        this.lowerRight = lowerRight;
-    }
+	public GradientRectangle(int upperLeft, int lowerRight) {
+		this.upperLeft = upperLeft;
+		this.lowerRight = lowerRight;
+	}
 
-    public GradientRectangle(EMFInputStream emf) throws IOException {
-        upperLeft = emf.readULONG();
-        lowerRight = emf.readULONG();
-    }
+	public GradientRectangle(EMFInputStream emf) throws IOException {
+		upperLeft = emf.readULONG();
+		lowerRight = emf.readULONG();
+	}
 
-    public void write(EMFOutputStream emf) throws IOException {
-        emf.writeULONG(upperLeft);
-        emf.writeULONG(lowerRight);
-    }
+	public void write(EMFOutputStream emf) throws IOException {
+		emf.writeULONG(upperLeft);
+		emf.writeULONG(lowerRight);
+	}
 
-    public String toString() {
-        return "  GradientRectangle: " + upperLeft + ", " + lowerRight;
-    }
+	public String toString() {
+		return "  GradientRectangle: " + upperLeft + ", " + lowerRight;
+	}
 }

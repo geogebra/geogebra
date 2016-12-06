@@ -26,48 +26,43 @@ import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 
-public final class IntelligentDeviceResolver
-{
-    public static MidiDevice selectReceiverDevice() throws MidiUnavailableException
-    {
-        return selectDevice("midi", "usb", "out");
-    }
-    
-    public static MidiDevice selectTransmitterDevice() throws MidiUnavailableException
-    {
-        return selectDevice("midi", "usb", "in");
-    }
-    
-    public static MidiDevice selectDevice(String... keywords) throws MidiUnavailableException
-    {
-        int bestMatch = 0;
-        int thisMatch = 0;
-        MidiDevice device = null;
-        
-        MidiDevice.Info[] info = MidiSystem.getMidiDeviceInfo();
-        for (int i=0; i < info.length; i++)
-        {
-            String infoString = info[i].toString().toLowerCase();
-            thisMatch = 0;
-            for (int k=0; k < keywords.length; k++)
-            {
-                if (infoString.contains(keywords[k]))
-                {
-                    thisMatch++;
-                }
-            }
-            if (thisMatch > bestMatch)
-            {
-                device = MidiSystem.getMidiDevice(info[i]);
-                bestMatch = thisMatch;
-            }
-        }
-        
-        if (device == null)
-        {
-            throw new JFugueException(JFugueException.INTELLIGENT_RESOLVER_FAILED);
-        }
+public final class IntelligentDeviceResolver {
+	public static MidiDevice selectReceiverDevice()
+			throws MidiUnavailableException {
+		return selectDevice("midi", "usb", "out");
+	}
 
-        return device;
-    }
+	public static MidiDevice selectTransmitterDevice()
+			throws MidiUnavailableException {
+		return selectDevice("midi", "usb", "in");
+	}
+
+	public static MidiDevice selectDevice(String... keywords)
+			throws MidiUnavailableException {
+		int bestMatch = 0;
+		int thisMatch = 0;
+		MidiDevice device = null;
+
+		MidiDevice.Info[] info = MidiSystem.getMidiDeviceInfo();
+		for (int i = 0; i < info.length; i++) {
+			String infoString = info[i].toString().toLowerCase();
+			thisMatch = 0;
+			for (int k = 0; k < keywords.length; k++) {
+				if (infoString.contains(keywords[k])) {
+					thisMatch++;
+				}
+			}
+			if (thisMatch > bestMatch) {
+				device = MidiSystem.getMidiDevice(info[i]);
+				bestMatch = thisMatch;
+			}
+		}
+
+		if (device == null) {
+			throw new JFugueException(
+					JFugueException.INTELLIGENT_RESOLVER_FAILED);
+		}
+
+		return device;
+	}
 }

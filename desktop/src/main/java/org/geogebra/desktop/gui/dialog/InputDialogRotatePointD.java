@@ -25,11 +25,10 @@ public class InputDialogRotatePointD extends InputDialogRotateD {
 
 	protected void processInput(AsyncOperation<String> callback) {
 
-		DialogManager.rotateObject(app,
-				inputPanel.getText(), rbClockWise.isSelected(), polys,
-				new DialogManager.CreateGeoForRotatePoint(points[0]),
-				selGeos, ec, this, callback);
-
+		DialogManager.rotateObject(app, inputPanel.getText(),
+				rbClockWise.isSelected(), polys,
+				new DialogManager.CreateGeoForRotatePoint(points[0]), selGeos,
+				ec, this, callback);
 
 	}
 

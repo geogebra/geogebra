@@ -17,34 +17,34 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetPixelV extends EMFTag {
 
-    private Point point;
+	private Point point;
 
-    private Color color;
+	private Color color;
 
-    public SetPixelV() {
-        super(15, 1);
-    }
+	public SetPixelV() {
+		super(15, 1);
+	}
 
-    public SetPixelV(Point point, Color color) {
-        this();
-        this.point = point;
-        this.color = color;
-    }
+	public SetPixelV(Point point, Color color) {
+		this();
+		this.point = point;
+		this.color = color;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetPixelV tag = new SetPixelV(emf.readPOINTL(), emf.readCOLORREF());
-        return tag;
-    }
+		SetPixelV tag = new SetPixelV(emf.readPOINTL(), emf.readCOLORREF());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writePOINTL(point);
-        emf.writeCOLORREF(color);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writePOINTL(point);
+		emf.writeCOLORREF(color);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  point: " + point + "\n"
-                + "  color: " + color;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  point: " + point + "\n"
+				+ "  color: " + color;
+	}
 }

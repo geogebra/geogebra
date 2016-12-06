@@ -8,8 +8,8 @@ import javax.swing.event.TableModelListener;
 /**
  * List model for row headers
  */
-public class RowHeaderListModel extends AbstractListModel implements
-		TableModelListener {
+public class RowHeaderListModel extends AbstractListModel
+		implements TableModelListener {
 
 	private static final long serialVersionUID = 1L;
 	private JTable table;

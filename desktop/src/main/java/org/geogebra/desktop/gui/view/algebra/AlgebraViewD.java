@@ -192,7 +192,8 @@ public class AlgebraViewD extends AlgebraTree
 			// don't re-init anything
 			if (rootLayer == null) {
 				rootLayer = new DefaultMutableTreeNode();
-				layerNodesMap = new HashMap<Integer, DefaultMutableTreeNode>(10);
+				layerNodesMap = new HashMap<Integer, DefaultMutableTreeNode>(
+						10);
 			}
 
 			checkRemoveAuxiliaryNode();
@@ -258,8 +259,8 @@ public class AlgebraViewD extends AlgebraTree
 		editTF = new MathTextField(app);
 		editTF.enableColoring(true);
 		editTF.setShowSymbolTableIcon(true);
-		editor = new MyDefaultTreeCellEditor(this, renderer, new MyCellEditor(
-				editTF, app));
+		editor = new MyDefaultTreeCellEditor(this, renderer,
+				new MyCellEditor(editTF, app));
 
 		// add focus listener to the editor text field so that editing is
 		// canceled on a focus lost event
@@ -334,7 +335,6 @@ public class AlgebraViewD extends AlgebraTree
 	public SortMode getTreeMode() {
 		return treeMode;
 	}
-
 
 	public void setTreeMode(int mode) {
 		switch (mode) {
@@ -641,7 +641,8 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1, GeoElement geo2) {
+	public ArrayList<GeoElement> getGeosBetween(GeoElement geo1,
+			GeoElement geo2) {
 
 		// specific case for ORDER mode
 		if (getTreeMode() == SortMode.ORDER) {
@@ -816,8 +817,8 @@ public class AlgebraViewD extends AlgebraTree
 
 			Object ob;
 			selectedNode = (DefaultMutableTreeNode) tp.getLastPathComponent();
-			if (selectedNode != null
-					&& (ob = selectedNode.getUserObject()) instanceof GeoElement) {
+			if (selectedNode != null && (ob = selectedNode
+					.getUserObject()) instanceof GeoElement) {
 				selectedGeoElement = (GeoElement) ob;
 			} else {
 				selectedGeoElement = null;
@@ -845,7 +846,8 @@ public class AlgebraViewD extends AlgebraTree
 		 * Extends DefaultTreeCellEditor.EditorContainer to allow full-width
 		 * editor fields.
 		 */
-		class WideEditorContainer extends DefaultTreeCellEditor.EditorContainer {
+		class WideEditorContainer
+				extends DefaultTreeCellEditor.EditorContainer {
 
 			private static final long serialVersionUID = 1L;
 
@@ -969,8 +971,8 @@ public class AlgebraViewD extends AlgebraTree
 	 * 
 	 * public void getXML(StringBuilder sb) {
 	 * 
-	 * sb.append("<algebraView>\n"); sb.append("\t<useLaTeX ");
-	 * sb.append(" value=\""); sb.append(isRenderLaTeX()); sb.append("\"");
+	 * sb.append("<algebraView>\n"); sb.append("\t<useLaTeX "); sb.append(
+	 * " value=\""); sb.append(isRenderLaTeX()); sb.append("\"");
 	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
 	 */
 

@@ -84,8 +84,10 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 
 		// Log.debug("geoToPickSize = "+geoToPickSize);
 		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
-			int bufSize = geoToPickSize * 3 + 1 + 20;   // geoToPickSize * 3 due to pick as outline + surface + label
-			 											// TODO remove "+20" due
+			int bufSize = geoToPickSize * 3 + 1 + 20; // geoToPickSize * 3 due
+														// to pick as outline +
+														// surface + label
+														// TODO remove "+20" due
 														// to intersection curve
 			selectBuffer = createSelectBufferForPicking(bufSize);
 			drawHits = createDrawableListForPicking(bufSize);
@@ -177,9 +179,9 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 				} else { // if for hits array, some checks are done
 							// Log.debug("\n"+drawHits[num].getGeoElement());
 					if (!((EuclidianController3D) view3D
-							.getEuclidianController())
-							.useInputDepthForHitting()// (mouse instanceof
-														// GPointWithZ)
+							.getEuclidianController()).useInputDepthForHitting()// (mouse
+																				// instanceof
+																				// GPointWithZ)
 							|| intersectsMouse3D(zNear, zFar,
 									((GPointWithZ) mouse).getZ())) { // check if
 																		// mouse
@@ -199,12 +201,14 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 							type = PickingType.SURFACE;
 						}
 						hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
-						// Log.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ)
+						// Log.debug("\n"+drawHits[num].getGeoElement()+"\nzFar
+						// = "+zFar+"\nmouse z ="+((GPointWithZ)
 						// mouse).getZ());
 					}
 				}
 
-				// Application.debug(drawHits[num]+"\nzMin="+zMin+", zMax="+zMax);
+				// Application.debug(drawHits[num]+"\nzMin="+zMin+",
+				// zMax="+zMax);
 				ptr++;
 			}
 		}
@@ -216,7 +220,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 	 * 
 	 * @param ptr
 	 *            the integer offset
-	 * */
+	 */
 	private final static float getDepth(int ptr, IntBuffer selectBuffer) {
 
 		return (float) (selectBuffer.get(ptr) & 0xffffffffL) / 0x7fffffff;

@@ -14,7 +14,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class CASgiacD extends CASgiacJre {
 
-
 	/**
 	 * @param casParser
 	 *            casParser
@@ -41,8 +40,9 @@ public class CASgiacD extends CASgiacJre {
 				// Architecture on OSX seems to be x86_64, but let's make sure
 				file = "javagiac";
 			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
-			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to
-			// happen on linux)
+					// System.getenv("PROCESSOR_ARCHITECTURE") can return null
+					// (seems to
+					// happen on linux)
 					|| "amd64".equals(System.getProperty("os.arch"))) {
 				file = "javagiac64";
 			} else {

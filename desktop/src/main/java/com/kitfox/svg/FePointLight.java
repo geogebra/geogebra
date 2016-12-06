@@ -41,102 +41,85 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class FePointLight extends FeLight
-{
+public class FePointLight extends FeLight {
 
-    public static final String TAG_NAME = "fepointlight";
-    float x = 0f;
-    float y = 0f;
-    float z = 0f;
+	public static final String TAG_NAME = "fepointlight";
+	float x = 0f;
+	float y = 0f;
+	float z = 0f;
 
-    /**
-     * Creates a new instance of FillElement
-     */
-    public FePointLight()
-    {
-    }
+	/**
+	 * Creates a new instance of FillElement
+	 */
+	public FePointLight() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
-        String strn;
+		StyleAttribute sty = new StyleAttribute();
+		String strn;
 
-        if (getPres(sty.setName("x")))
-        {
-            x = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x"))) {
+			x = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("y")))
-        {
-            y = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("y"))) {
+			y = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("z")))
-        {
-            z = sty.getFloatValueWithUnits();
-        }
-    }
+		if (getPres(sty.setName("z"))) {
+			z = sty.getFloatValueWithUnits();
+		}
+	}
 
-    public float getX()
-    {
-        return x;
-    }
+	public float getX() {
+		return x;
+	}
 
-    public float getY()
-    {
-        return y;
-    }
+	public float getY() {
+		return y;
+	}
 
-    public float getZ()
-    {
-        return z;
-    }
+	public float getZ() {
+		return z;
+	}
 
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean stateChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean stateChange = false;
 
-        if (getPres(sty.setName("x")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x)
-            {
-                x = newVal;
-                stateChange = true;
-            }
-        }
+		if (getPres(sty.setName("x"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x) {
+				x = newVal;
+				stateChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("y")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y)
-            {
-                y = newVal;
-                stateChange = true;
-            }
-        }
+		if (getPres(sty.setName("y"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y) {
+				y = newVal;
+				stateChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("z")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != z)
-            {
-                z = newVal;
-                stateChange = true;
-            }
-        }
+		if (getPres(sty.setName("z"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != z) {
+				z = newVal;
+				stateChange = true;
+			}
+		}
 
-        return stateChange;
-    }
+		return stateChange;
+	}
 }

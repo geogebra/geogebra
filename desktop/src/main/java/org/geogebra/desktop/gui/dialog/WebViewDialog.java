@@ -183,9 +183,9 @@ public abstract class WebViewDialog extends JDialog {
 		final int height = ((Integer) getWebEngine()
 				.executeScript(heightScript)).intValue();
 
-		setPreferredSize(new Dimension(width
-				+ (getWidth() - getContentPane().getWidth()), height
-				+ (getHeight() - getContentPane().getHeight())));
+		setPreferredSize(new Dimension(
+				width + (getWidth() - getContentPane().getWidth()),
+				height + (getHeight() - getContentPane().getHeight())));
 		pack();
 		setLocationRelativeTo(app.getFrame());
 	}
@@ -214,14 +214,14 @@ public abstract class WebViewDialog extends JDialog {
 						// Make relative urls absolute
 						if (!href.startsWith("http://")
 								&& !href.startsWith("https://")) {
-							domainName = (String) getWebEngine().executeScript(
-									"window.location.origin");
+							domainName = (String) getWebEngine()
+									.executeScript("window.location.origin");
 							absoluteURL = domainName + href;
 						} else {
 							domainName = getDomainNameFromURL(absoluteURL);
 						}
-						WebViewDialog.this.onHyperlinkClicked(href,
-								absoluteURL, domainName, ev);
+						WebViewDialog.this.onHyperlinkClicked(href, absoluteURL,
+								domainName, ev);
 					}
 				}
 
@@ -240,7 +240,8 @@ public abstract class WebViewDialog extends JDialog {
 			}
 			nodeList = doc.getElementsByTagName("input");
 			for (int i = 0; i < nodeList.getLength(); i++) {
-				if (nodeList.item(i).getAttributes().getNamedItem("href") != null) {
+				if (nodeList.item(i).getAttributes()
+						.getNamedItem("href") != null) {
 					((EventTarget) nodeList.item(i)).addEventListener(
 							EVENT_TYPE_CLICK, listener, false);
 				}

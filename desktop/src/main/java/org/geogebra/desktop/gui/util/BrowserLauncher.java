@@ -37,7 +37,6 @@ public class BrowserLauncher {
 				return;
 			}
 
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,25 +48,24 @@ public class BrowserLauncher {
 				Method openURL = fileMgr.getDeclaredMethod("openURL",
 						new Class[] { String.class });
 				openURL.invoke(null, new Object[] { url });
-			} else if (AppD.WINDOWS)
-			{
+			} else if (AppD.WINDOWS) {
 				// replace file:/c:/Program Files/etc
 				// by file:///c:\Program Files\etc
 				String fixedURL = url;
 				if (fixedURL.indexOf("file:") == 0) // local URL
 				{
 					fixedURL = fixedURL.replaceAll("file:///", ""); // remove
-																// file:///
-															// from the start
+					// file:///
+					// from the start
 					fixedURL = fixedURL.replaceAll("file:/", ""); // remove
 																	// file:/
 																	// from
-														// the start
+					// the start
 
 					fixedURL = fixedURL.replaceAll("[/\\\\]+", "\\" + "\\"); // replace
-																	// slashes
-																	// with
-																	// backslashes
+					// slashes
+					// with
+					// backslashes
 
 					fixedURL = "file:///" + url; // put "file:///" back in
 				}
@@ -79,7 +77,8 @@ public class BrowserLauncher {
 						"chromium-browser", "opera", "konqueror", "epiphany",
 						"safari", "mozilla", "netscape", "seamonkey" };
 				String browser = null;
-				for (int count = 0; count < browsers.length && browser == null; count++)
+				for (int count = 0; count < browsers.length
+						&& browser == null; count++)
 					if (Runtime.getRuntime()
 							.exec(new String[] { "which", browsers[count] })
 							.waitFor() == 0)

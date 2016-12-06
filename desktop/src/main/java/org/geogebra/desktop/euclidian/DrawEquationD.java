@@ -39,10 +39,6 @@ public class DrawEquationD extends DrawEquation {
 
 	private Object initJLaTeXMath;
 
-
-
-
-
 	public void checkFirstCall(App app) {
 		if (drawEquationJLaTeXMathFirstCall) { // first call
 
@@ -67,11 +63,11 @@ public class DrawEquationD extends DrawEquation {
 
 	}
 
-	final public GDimension drawEquation(final App app,
-			final GeoElementND geo, final GGraphics2D g2, final int x,
-			final int y, final String text, final GFont font,
-			final boolean serif, final GColor fgColor, final GColor bgColor,
-			final boolean useCache, boolean updateAgain, Runnable callback) {
+	final public GDimension drawEquation(final App app, final GeoElementND geo,
+			final GGraphics2D g2, final int x, final int y, final String text,
+			final GFont font, final boolean serif, final GColor fgColor,
+			final GColor bgColor, final boolean useCache, boolean updateAgain,
+			Runnable callback) {
 
 		// EpsGraphicsD eps = null;
 		//
@@ -83,8 +79,8 @@ public class DrawEquationD extends DrawEquation {
 		} else {
 			g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
 		}
-		GDimension d = drawEquation(app, geo, g, x, y, text,
-				font, serif, ColorD.get(GColorD.getAwtColor(fgColor)),
+		GDimension d = drawEquation(app, geo, g, x, y, text, font, serif,
+				ColorD.get(GColorD.getAwtColor(fgColor)),
 				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);
 		if (callback != null) {
 			callback.run();
@@ -128,8 +124,7 @@ public class DrawEquationD extends DrawEquation {
 		GDimension d = new GDimensionD();
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
 				new GFontD(font), serif, GColorD.newColor(fgColor),
-				GColorD.newColor(bgColor), true, false,
-				null);
+				GColorD.newColor(bgColor), true, false, null);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.getWidth(), d.getHeight(),
@@ -142,8 +137,7 @@ public class DrawEquationD extends DrawEquation {
 
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
 				new GFontD(font), serif, GColorD.newColor(fgColor),
-				GColorD.newColor(bgColor), true, false,
-				null);
+				GColorD.newColor(bgColor), true, false, null);
 
 		latexIcon.setImage(image);
 	}

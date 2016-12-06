@@ -136,8 +136,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasSlider
 	 */
 	public PopupMenuButton(final AppD app, Object[] data, int rows, int columns,
-			Dimension iconSize, SelectionTable mode,
-			final boolean hasTable, boolean hasSlider) {
+			Dimension iconSize, SelectionTable mode, final boolean hasTable,
+			boolean hasSlider) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
@@ -186,19 +186,20 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 				// if isStandardButton: pressing anywhere triggers the popup
 				if (isStandardButton
 						|| e.getX() >= getWidth() - clicDownArrowWidth
-						&& e.getX() <= getWidth()) {
+								&& e.getX() <= getWidth()) {
 					if (hasTable)
 						myTable.updateFonts();
 					if (isDownwardPopup)
 						// popup appears below the button
-						myPopup.show(getParent(), locButton.x, locButton.y
-								+ getHeight());
+						myPopup.show(getParent(), locButton.x,
+								locButton.y + getHeight());
 					else
 						// popup appears above the button
 						myPopup.show(getParent(),
 								locButton.x - myPopup.getPreferredSize().width
-										+ thisButton.getWidth(), locButton.y
-										- myPopup.getPreferredSize().height - 2);
+										+ thisButton.getWidth(),
+								locButton.y - myPopup.getPreferredSize().height
+										- 2);
 				}
 
 				popupIsVisible = myPopup.isShowing();
@@ -242,8 +243,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 		isIniting = false;
 
-		if (mode == SelectionTable.MODE_TEXT
-				&& iconSize.width == -1) {
+		if (mode == SelectionTable.MODE_TEXT && iconSize.width == -1) {
 			iconSize.width = myTable.getColumnWidth() - 4;
 			iconSize.height = myTable.getRowHeight() - 4;
 		}
@@ -290,7 +290,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 			// mouse is over the popup triangle side of the button
 			if (isStandardButton
 					|| e.getX() >= getWidth() - app.getScaledIconSize()
-					&& e.getX() <= getWidth())
+							&& e.getX() <= getWidth())
 				return;
 		}
 

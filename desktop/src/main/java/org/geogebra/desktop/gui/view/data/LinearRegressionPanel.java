@@ -23,7 +23,8 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
-public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
+public class LinearRegressionPanel extends JPanel
+		implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private Kernel kernel;
@@ -31,9 +32,8 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 	private DefaultTableModel model;
 	private DataAnalysisViewD statDialog;
 	private DefaultListModel headerModel;
-	
 
-	public LinearRegressionPanel(AppD app, DataAnalysisViewD statDialog){
+	public LinearRegressionPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		kernel = app.getKernel();
@@ -47,15 +47,15 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 		Box northPanel = Box.createVerticalBox();
 		northPanel.add(new JLabel(" ---- regresion equation ----"));
 		northPanel.add(new JLabel(" ----------------------------"));
-		
+
 		// south panel with additional statistics
 		Box southPanel = Box.createVerticalBox();
 		southPanel.add(new JLabel(" ---- regresion equation ----"));
 		southPanel.add(new JLabel(" ----------------------------"));
-		
+
 		// set up table
 		model = new DefaultTableModel();
-		headerModel = new DefaultListModel();	
+		headerModel = new DefaultListModel();
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setGridColor(
@@ -65,60 +65,50 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 		// table row header
 		JList rowHeader = new JList(headerModel);
 		rowHeader.setFixedCellWidth(50);
-		rowHeader.setFixedCellHeight(table.getRowHeight() + table.getRowMargin()); 
+		rowHeader.setFixedCellHeight(
+				table.getRowHeight() + table.getRowMargin());
 		rowHeader.setCellRenderer(new RowHeaderRenderer(table));
 
 		// add table to scroll pane
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setRowHeaderView(rowHeader);
-		
-		
-		
+
 		this.add(scroll, BorderLayout.CENTER);
 
 	}
 
+	public void updateRegressionPanel() {
 
-	public void updateRegressionPanel(){
-		
-		String[] columnLabels = { 
-				app.getMenu("Coefficient"),
-				app.getMenu("StandardError.short"),
-				app.getMenu("TStatistic"),
-				app.getMenu("Pvalue"),
-		};
-		
-		String[] rowLabels = { 
-				app.getMenu("Intercept"),
-				app.getMenu("Slope"),
-		};
-		
-		
+		String[] columnLabels = { app.getMenu("Coefficient"),
+				app.getMenu("StandardError.short"), app.getMenu("TStatistic"),
+				app.getMenu("Pvalue"), };
+
+		String[] rowLabels = { app.getMenu("Intercept"),
+				app.getMenu("Slope"), };
+
 		model.setColumnCount(0);
-		for(int i=0; i<columnLabels.length; i++)
+		for (int i = 0; i < columnLabels.length; i++)
 			model.addColumn(columnLabels[i]);
 
-		
 		model.setRowCount(rowLabels.length);
 		headerModel.setSize(0);
-		for(int i=0; i<rowLabels.length; i++){
+		for (int i = 0; i < rowLabels.length; i++) {
 			headerModel.addElement(rowLabels[i]);
 		}
 
-
 	}
 
-
-	private double evaluateExpression(String expr){
+	private double evaluateExpression(String expr) {
 
 		NumberValue nv;
-		nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);	
+		nv = kernel.getAlgebraProcessor().evaluateToNumeric(expr, false);
 
 		return nv.getDouble();
 	}
 
 	class RowHeaderRenderer extends JLabel implements ListCellRenderer {
 		private static final long serialVersionUID = 1L;
+
 		RowHeaderRenderer(JTable table) {
 			JTableHeader header = table.getTableHeader();
 			setOpaque(true);
@@ -138,18 +128,16 @@ public class LinearRegressionPanel extends JPanel implements StatPanelInterface{
 
 	public void updateFonts(Font font) {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public void setLabels() {
 		// TODO Auto-generated method stub
-		
-	}
 
+	}
 
 	public void updatePanel() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

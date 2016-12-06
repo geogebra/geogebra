@@ -16,8 +16,8 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public abstract class InputDialogRotateD extends AngleInputDialog implements
-		KeyListener {
+public abstract class InputDialogRotateD extends AngleInputDialog
+		implements KeyListener {
 
 	protected GeoPolygon[] polys;
 	protected GeoElement[] selGeos;
@@ -30,8 +30,7 @@ public abstract class InputDialogRotateD extends AngleInputDialog implements
 	public InputDialogRotateD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
-				defaultRotateAngle, false,
-				handler, false);
+				defaultRotateAngle, false, handler, false);
 
 		this.polys = polys;
 		this.selGeos = selGeos;

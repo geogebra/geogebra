@@ -17,47 +17,47 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class ExtTextOutW extends EMFTag implements EMFConstants {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private int mode;
+	private int mode;
 
-    private float xScale, yScale;
+	private float xScale, yScale;
 
-    private TextW text;
+	private TextW text;
 
-    public ExtTextOutW() {
-        super(84, 1);
-    }
+	public ExtTextOutW() {
+		super(84, 1);
+	}
 
-    public ExtTextOutW(Rectangle bounds, int mode, float xScale, float yScale,
-            TextW text) {
-        this();
-        this.bounds = bounds;
-        this.mode = mode;
-        this.xScale = xScale;
-        this.yScale = yScale;
-        this.text = text;
-    }
+	public ExtTextOutW(Rectangle bounds, int mode, float xScale, float yScale,
+			TextW text) {
+		this();
+		this.bounds = bounds;
+		this.mode = mode;
+		this.xScale = xScale;
+		this.yScale = yScale;
+		this.text = text;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        ExtTextOutW tag = new ExtTextOutW(emf.readRECTL(), emf.readDWORD(), emf
-                .readFLOAT(), emf.readFLOAT(), new TextW(emf));
-        return tag;
-    }
+		ExtTextOutW tag = new ExtTextOutW(emf.readRECTL(), emf.readDWORD(),
+				emf.readFLOAT(), emf.readFLOAT(), new TextW(emf));
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writeDWORD(mode);
-        emf.writeFLOAT(xScale);
-        emf.writeFLOAT(yScale);
-        text.write(emf);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writeDWORD(mode);
+		emf.writeFLOAT(xScale);
+		emf.writeFLOAT(yScale);
+		text.write(emf);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  mode: " + mode + "\n" + "  xScale: " + xScale + "\n"
-                + "  yScale: " + yScale + "\n" + text.toString();
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  mode: " + mode + "\n" + "  xScale: " + xScale + "\n"
+				+ "  yScale: " + yScale + "\n" + text.toString();
+	}
 }

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.algebra;
 
-
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -18,36 +17,36 @@ import org.geogebra.desktop.util.AlgebraViewTransferHandler;
 
 /**
  * Transfer handler for InputBar
+ * 
  * @author gsturr
  *
  */
-public class AlgebraInputTransferHandler extends TransferHandler implements Transferable {
+public class AlgebraInputTransferHandler extends TransferHandler
+		implements Transferable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
 	private JTextComponent ta;
 
 	// supported data flavors
-	private static final DataFlavor supportedFlavors[] = { 
-		DataFlavor.javaFileListFlavor,
-		DataFlavor.stringFlavor,
-		AlgebraViewTransferHandler.algebraViewFlavor };
+	private static final DataFlavor supportedFlavors[] = {
+			DataFlavor.javaFileListFlavor, DataFlavor.stringFlavor,
+			AlgebraViewTransferHandler.algebraViewFlavor };
 
-	private boolean debug  = false;
+	private boolean debug = false;
 
 	private String text;
 
-
 	/****************************************
 	 * Constructor
+	 * 
 	 * @param ev
 	 */
-	public AlgebraInputTransferHandler(AppD app, JTextComponent ta){
+	public AlgebraInputTransferHandler(AppD app, JTextComponent ta) {
 		this.ta = ta;
 		this.app = app;
 	}
-
 
 	/**
 	 * Ensures that transfers are done in COPY mode
@@ -58,7 +57,8 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	}
 
 	/**
-	 * Returns true if any element of the DataFlavor parameter array is a supported flavor.
+	 * Returns true if any element of the DataFlavor parameter array is a
+	 * supported flavor.
 	 */
 	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
@@ -73,8 +73,6 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 		return false;
 	}
 
-
-
 	/**
 	 * Handles data import.
 	 */
@@ -83,33 +81,38 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 
 		// handle text
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
-				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+				|| t.isDataFlavorSupported(
+						AlgebraViewTransferHandler.algebraViewFlavor)) {
 			try {
 
 				// handle plain text flavor
-				if(t.isDataFlavorSupported(DataFlavor.stringFlavor)){
+				if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 					text = (String) t.getTransferData(DataFlavor.stringFlavor);
 				}
 
 				// handle algebraView flavor
-				else if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)){
-					
-					// get list of selected geo labels 
+				else if (t.isDataFlavorSupported(
+						AlgebraViewTransferHandler.algebraViewFlavor)) {
+
+					// get list of selected geo labels
 					ArrayList<String> list = (ArrayList<String>) t
-					.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
-					
+							.getTransferData(
+									AlgebraViewTransferHandler.algebraViewFlavor);
+
 					// exit if empty list
-					if(list.size()==0) return false;
-					
-					// if only one geo, get definition string 
-					if(list.size()==1){
-						GeoElement geo = app.getKernel().lookupLabel(list.get(0));
-						if(geo != null)
+					if (list.size() == 0)
+						return false;
+
+					// if only one geo, get definition string
+					if (list.size() == 1) {
+						GeoElement geo = app.getKernel()
+								.lookupLabel(list.get(0));
+						if (geo != null)
 							text = geo.getDefinitionForInputBar();
 					}
-					
+
 					// if more than one geo, create list string
-					else{
+					else {
 						text = list.toString();
 						text = text.replace("]", "}");
 						text = text.replace("[", "{");
@@ -125,11 +128,10 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 		}
 
 		// handle potential ggb file drop
-		((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
+		((GuiManagerD) app.getGuiManager()).handleGGBFileDrop(t);
 
 		return false;
 	}
-
 
 	@Override
 	public Transferable createTransferable(JComponent comp) {
@@ -145,14 +147,10 @@ public class AlgebraInputTransferHandler extends TransferHandler implements Tran
 	}
 
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for(int i = 0; i < supportedFlavors.length; i++){
+		for (int i = 0; i < supportedFlavors.length; i++) {
 			if (supportedFlavors[i].equals(flavor))
 				return true;
 		}
 		return false;
 	}
 }
-
-
-
-

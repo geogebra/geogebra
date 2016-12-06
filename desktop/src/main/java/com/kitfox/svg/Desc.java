@@ -41,39 +41,33 @@ package com.kitfox.svg;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Desc extends SVGElement
-{
+public class Desc extends SVGElement {
 
-    public static final String TAG_NAME = "desc";
-    StringBuffer text = new StringBuffer();
+	public static final String TAG_NAME = "desc";
+	StringBuffer text = new StringBuffer();
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Desc()
-    {
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Desc() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    /**
-     * Called during load process to add text scanned within a tag
-     */
-    public void loaderAddText(SVGLoaderHelper helper, String text)
-    {
-        this.text.append(text);
-    }
+	/**
+	 * Called during load process to add text scanned within a tag
+	 */
+	public void loaderAddText(SVGLoaderHelper helper, String text) {
+		this.text.append(text);
+	}
 
-    public String getText()
-    {
-        return text.toString();
-    }
+	public String getText() {
+		return text.toString();
+	}
 
-    public boolean updateTime(double curTime)
-    {
-        return false;
-    }
+	public boolean updateTime(double curTime) {
+		return false;
+	}
 }

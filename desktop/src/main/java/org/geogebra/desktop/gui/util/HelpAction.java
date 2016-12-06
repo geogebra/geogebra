@@ -30,7 +30,8 @@ public class HelpAction extends AbstractAction {
 	private AppD app;
 	private String articleName;
 
-	public HelpAction(AppD app, ImageIcon icon, String name, String articleName) {
+	public HelpAction(AppD app, ImageIcon icon, String name,
+			String articleName) {
 		super(name, icon);
 		this.app = app;
 		this.articleName = articleName;

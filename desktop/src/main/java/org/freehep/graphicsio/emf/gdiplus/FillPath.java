@@ -8,17 +8,17 @@ import org.freehep.graphicsio.emf.EMFInputStream;
 import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
- * The FillPath metafile record represents a call to Graphics.FillPath, 
- * which fills the interior of a GraphicsPath object.
+ * The FillPath metafile record represents a call to Graphics.FillPath, which
+ * fills the interior of a GraphicsPath object.
  * 
  * @author Mark Donszelmann
  * @version $Id: FillPath.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
 public class FillPath extends EMFPlusTag {
-	
+
 	private Color brushColor = null;
 	private int brushIndex;
-	
+
 	public FillPath() {
 		super(20, 1);
 	}
@@ -28,7 +28,7 @@ public class FillPath extends EMFPlusTag {
 		flags = pathIndex;
 		this.brushIndex = brushIndex;
 	}
-		
+
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		FillPath tag = new FillPath();
@@ -41,15 +41,17 @@ public class FillPath extends EMFPlusTag {
 		return tag;
 	}
 
-	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf)
+			throws IOException {
 		if (brushColor != null) {
 			emf.writeCOLOR(brushColor);
 		} else {
 			emf.writeUINT(brushIndex);
 		}
 	}
-    
-    public String toString() {
-        return super.toString() + "\n  " + (brushColor != null ? "brushColor: "+brushColor : "brushIndex: "+brushIndex);
-    }
+
+	public String toString() {
+		return super.toString() + "\n  " + (brushColor != null
+				? "brushColor: " + brushColor : "brushIndex: " + brushIndex);
+	}
 }

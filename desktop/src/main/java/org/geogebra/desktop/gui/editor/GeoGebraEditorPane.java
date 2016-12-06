@@ -266,8 +266,8 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 			int rtok = lexer.getKeyword(pos, true);
 			if (matchingEnable) {
 				matchLR.searchMatchingBlock(ltok, start);
-				matchRL.searchMatchingBlock(rtok, lexer.start + lexer.yychar()
-						+ lexer.yylength());
+				matchRL.searchMatchingBlock(rtok,
+						lexer.start + lexer.yychar() + lexer.yylength());
 			}
 
 			if (type == GEOGEBRA && rtok == GeoGebraLexerConstants.OPENCLOSE) {
@@ -276,8 +276,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 				if (rtok == GeoGebraLexerConstants.COMMAND) {
 					try {
 						HelpOnKeywordPanel panel = HelpOnKeywordPanel
-								.getInstance(
-										app,
+								.getInstance(app,
 										getDocument().getText(
 												lexer.start + lexer.yychar(),
 												lexer.yylength()));
@@ -377,11 +376,11 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	 *            of the event : KeywordListener.ONMOUSECLICKED or
 	 *            KeywordListener.ONMOUSEOVER
 	 */
-	protected void preventConcernedKeywordListener(int position,
-			EventObject ev, int type1) {
+	protected void preventConcernedKeywordListener(int position, EventObject ev,
+			int type1) {
 		int tok = lexer.getKeyword(position, true);
-		KeywordEvent kev = new KeywordEvent(this, ev, tok, lexer.start
-				+ lexer.yychar(), lexer.yylength());
+		KeywordEvent kev = new KeywordEvent(this, ev, tok,
+				lexer.start + lexer.yychar(), lexer.yylength());
 		for (KeywordListener listener : kwListeners) {
 			if (type1 == listener.getType()) {
 				listener.caughtKeyword(kev);

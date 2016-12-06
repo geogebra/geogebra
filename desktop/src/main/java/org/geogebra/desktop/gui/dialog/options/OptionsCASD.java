@@ -97,7 +97,7 @@ public class OptionsCASD extends OptionsCAS
 		panel.add(cbShowNavigation);
 
 		wrappedPanel.add(panel, BorderLayout.CENTER);
-		
+
 		app.setComponentOrientation(panel);
 	}
 
@@ -109,8 +109,7 @@ public class OptionsCASD extends OptionsCAS
 	public void updateGUI() {
 		casSettings = app.getSettings().getCasSettings();
 		cbTimeout.setSelectedItem(OptionsCAS
-				.getTimeoutOption(casSettings
-				.getTimeoutMilliseconds() / 1000));
+				.getTimeoutOption(casSettings.getTimeoutMilliseconds() / 1000));
 		cbShowRoots.setSelected(casSettings.getShowExpAsRoots());
 		cbShowNavigation.setSelected(app.showConsProtNavigation(App.VIEW_CAS));
 	}
@@ -121,8 +120,8 @@ public class OptionsCASD extends OptionsCAS
 	public void actionPerformed(ActionEvent e) {
 		// change timeout
 		if (e.getSource() == cbTimeout) {
-			casSettings.setTimeoutMilliseconds(((Integer) cbTimeout
-					.getSelectedItem()) * 1000);
+			casSettings.setTimeoutMilliseconds(
+					((Integer) cbTimeout.getSelectedItem()) * 1000);
 		}
 		if (e.getSource() == cbShowNavigation) {
 			app.toggleShowConstructionProtocolNavigation(App.VIEW_CAS);
@@ -161,19 +160,17 @@ public class OptionsCASD extends OptionsCAS
 	public void setBorder(Border border) {
 		wrappedPanel.setBorder(border);
 	}
-	
 
 	public void updateFont() {
 		Font font = app.getPlainFont();
-		
+
 		timeoutLabel.setFont(font);
 		cbShowRoots.setFont(font);
 		cbTimeout.setFont(font);
 		cbShowNavigation.setFont(font);
 	}
-	
 
-	public void setSelected(boolean flag){
-		//see OptionsEuclidianD for possible implementation
+	public void setSelected(boolean flag) {
+		// see OptionsEuclidianD for possible implementation
 	}
 }

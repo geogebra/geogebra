@@ -85,8 +85,8 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
 			float pixelRatio) {
-		return new GBufferedImageD(pixelWidth,
-				pixelHeight, GBufferedImage.TYPE_INT_ARGB);
+		return new GBufferedImageD(pixelWidth, pixelHeight,
+				GBufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override
@@ -99,10 +99,9 @@ public class AwtFactoryD extends AwtFactory {
 		GraphicsDevice gs = ge.getDefaultScreenDevice();
 
 		GraphicsConfiguration gc = gs.getDefaultConfiguration();
-		BufferedImage bufImg = gc
-				.createCompatibleImage(width, height,
-						(transparency ? Transparency.TRANSLUCENT
-								: Transparency.BITMASK));
+		BufferedImage bufImg = gc.createCompatibleImage(width, height,
+				(transparency ? Transparency.TRANSLUCENT
+						: Transparency.BITMASK));
 
 		// Graphics2D g = (Graphics2D)bufImg.getGraphics();
 
@@ -115,7 +114,8 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
+	public MyImage newMyImage(int pixelWidth, int pixelHeight,
+			int typeIntArgb) {
 		return new MyImageD(
 				new BufferedImage(pixelWidth, pixelHeight, typeIntArgb));
 	}
@@ -161,8 +161,8 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 			float miterLimit, float[] dash, float f) {
-		BasicStroke s = new BasicStroke(width, endCap, lineJoin,
-				miterLimit, dash, f);
+		BasicStroke s = new BasicStroke(width, endCap, lineJoin, miterLimit,
+				dash, f);
 		return new GBasicStrokeD(s);
 	}
 

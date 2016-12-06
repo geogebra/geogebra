@@ -473,9 +473,9 @@ public class AnimatedGifEncoder {
 		writeShort(height);
 		// packed fields
 		out.write((0x80 | // 1 : global color table flag = 1 (gct used)
-		0x70 | // 2-4 : color resolution = 7
-		0x00 | // 5 : gct sort flag = 0
-		palSize)); // 6-8 : gct size
+				0x70 | // 2-4 : color resolution = 7
+				0x00 | // 5 : gct sort flag = 0
+				palSize)); // 6-8 : gct size
 
 		out.write(0); // background color index
 		out.write(0); // pixel aspect ratio - assume 1:1
@@ -614,25 +614,29 @@ class NeuQuant {
 
 	protected static final int betashift = 10;
 
-	protected static final int beta = (intbias >> betashift); /* beta = 1/1024 */
+	protected static final int beta = (intbias >> betashift); /*
+																 * beta = 1/1024
+																 */
 
-	protected static final int betagamma = (intbias << (gammashift - betashift));
+	protected static final int betagamma = (intbias << (gammashift
+			- betashift));
 
 	/* defs for decreasing radius factor */
 	protected static final int initrad = (netsize >> 3); /*
-														 * for 256 cols, radius
-														 * starts
-														 */
+															 * for 256 cols,
+															 * radius starts
+															 */
 
-	protected static final int radiusbiasshift = 6; /* at 32.0 biased by 6 bits */
+	protected static final int radiusbiasshift = 6; /*
+													 * at 32.0 biased by 6 bits
+													 */
 
 	protected static final int radiusbias = (1 << radiusbiasshift);
 
-	protected static final int initradius = (initrad * radiusbias); /*
-																	 * and
-																	 * decreases
-																	 * by a
-																	 */
+	protected static final int initradius = (initrad
+			* radiusbias); /*
+							 * and decreases by a
+							 */
 
 	protected static final int radiusdec = 30; /* factor of 1/30 each cycle */
 

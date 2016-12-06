@@ -204,8 +204,8 @@ public class WorksheetExportDialog extends JDialog {
 		});
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(loc.getMenu("Title") + ": "), app.getLocalization()
-				.borderWest());
+		p.add(new JLabel(loc.getMenu("Title") + ": "),
+				app.getLocalization().borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		panel.add(p, BorderLayout.NORTH);
 

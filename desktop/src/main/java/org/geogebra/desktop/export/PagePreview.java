@@ -77,8 +77,8 @@ class PagePreview extends JPanel {
 	@Override
 	public Dimension getPreferredSize() {
 		Insets ins = getInsets();
-		return new Dimension(m_w + ins.left + ins.right, m_h + ins.top
-				+ ins.bottom);
+		return new Dimension(m_w + ins.left + ins.right,
+				m_h + ins.top + ins.bottom);
 	}
 
 	@Override

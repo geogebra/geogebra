@@ -27,7 +27,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		implements GetViewId {
 	/** */
 	private static final long serialVersionUID = 1L;
-	
+
 	private boolean hasEuclidianFocus;
 	private JPanel panel;
 	/**
@@ -38,6 +38,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 
 	/**
 	 * default constructor
+	 * 
 	 * @param id
 	 * @param title
 	 * @param toolbar
@@ -54,61 +55,62 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 		super.mousePressed(arg0);
 		dockManager.setFocusedPanel(this);
 	}
-	
+
 	/**
 	 * @return The euclidian view associated with this dock panel.
-	 * @remark This method has to be overridden if the component of the 
-	 * 			dock panel is not the euclidian view itself
+	 * @remark This method has to be overridden if the component of the dock
+	 *         panel is not the euclidian view itself
 	 */
 	abstract public EuclidianView getEuclidianView();
-	
+
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"
+	 * 
 	 * @param hasFocus
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;
 	}
-	
+
 	@Override
-	protected boolean titleIsBold(){
+	protected boolean titleIsBold() {
 		return super.titleIsBold() || hasEuclidianFocus;
 	}
-	
+
 	/**
-	 * create the focus panel (composed of titleLabel, and, for EuclidianDockPanels, focus icon)
+	 * create the focus panel (composed of titleLabel, and, for
+	 * EuclidianDockPanels, focus icon)
+	 * 
 	 * @return the focus panel
 	 */
 	@Override
-	protected JComponent createFocusPanel(){
+	protected JComponent createFocusPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new BorderLayout());
-		
-		//add title label
+
+		// add title label
 		panel.add(super.createFocusPanel(), app.getLocalization().borderWest());
-		
+
 		return panel;
 	}
-	
+
 	@Override
-	public boolean updateResizeWeight(){
+	public boolean updateResizeWeight() {
 		return true;
 	}
-	
 
 	@Override
 	protected void setStyleBar() {
 		super.setStyleBar();
 		((EuclidianStyleBar) styleBar).resetFirstPaint();
 	}
-	
+
 	protected final JComponent loadComponent() {
 		if (panel == null) {
 			panel = new JPanel(new BorderLayout());
 
 			panel.add(
-((EuclidianViewInterfaceD) getEuclidianView())
-					.getJPanel(),
+					((EuclidianViewInterfaceD) getEuclidianView()).getJPanel(),
 					BorderLayout.CENTER);
 
 			consProtNav = (ConstructionProtocolNavigationD) app.getGuiManager()
@@ -123,9 +125,8 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 				app.setShowConstructionProtocolNavigation(
 						app.showConsProtNavigation(id), id);
 			}
-			consProtNav.getImpl().setBorder(
-					BorderFactory
-							.createMatteBorder(1, 0, 0, 0, Color.lightGray));
+			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1,
+					0, 0, 0, Color.lightGray));
 			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be

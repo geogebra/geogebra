@@ -17,5 +17,4 @@ public class GPUBufferD implements GPUBuffer {
 		return impl;
 	}
 
-
 }

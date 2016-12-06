@@ -31,8 +31,8 @@ import org.geogebra.common.util.Charsets;
  * 1.4.3 on 3/28/15 7:47 PM from the specification file
  * <tt>javascript.jflex</tt>
  */
-public final class JavascriptLexer extends Lexer implements
-		JavascriptLexerConstants {
+public final class JavascriptLexer extends Lexer
+		implements JavascriptLexerConstants {
 
 	/** This character denotes the end of file */
 	public static final int YYEOF = -1;
@@ -109,7 +109,6 @@ public final class JavascriptLexer extends Lexer implements
 		}
 		return j;
 	}
-
 
 	/* error codes */
 	private static final int ZZ_UNKNOWN_ERROR = 0;
@@ -248,7 +247,6 @@ public final class JavascriptLexer extends Lexer implements
 		}
 	}
 
-
 	/**
 	 * Creates a new scanner There is also a java.io.InputStream version of this
 	 * constructor.
@@ -294,7 +292,6 @@ public final class JavascriptLexer extends Lexer implements
 		return map;
 	}
 
-
 	/**
 	 * Refills the input buffer.
 	 *
@@ -307,8 +304,8 @@ public final class JavascriptLexer extends Lexer implements
 
 		/* first: make room (if you can) */
 		if (zzStartRead > 0) {
-			System.arraycopy(zzBuffer, zzStartRead, zzBuffer, 0, zzEndRead
-					- zzStartRead);
+			System.arraycopy(zzBuffer, zzStartRead, zzBuffer, 0,
+					zzEndRead - zzStartRead);
 
 			/* translate stored positions */
 			zzEndRead -= zzStartRead;
@@ -326,8 +323,8 @@ public final class JavascriptLexer extends Lexer implements
 		}
 
 		/* finally: fill the buffer with new input */
-		int numRead = zzReader.read(zzBuffer, zzEndRead, zzBuffer.length
-				- zzEndRead);
+		int numRead = zzReader.read(zzBuffer, zzEndRead,
+				zzBuffer.length - zzEndRead);
 
 		if (numRead > 0) {
 			zzEndRead += numRead;
@@ -360,7 +357,6 @@ public final class JavascriptLexer extends Lexer implements
 			zzReader.close();
 	}
 
-
 	/**
 	 * Resets the scanner to read from a new input stream. Does not close the
 	 * old reader.
@@ -383,14 +379,12 @@ public final class JavascriptLexer extends Lexer implements
 		zzLexicalState = YYINITIAL;
 	}
 
-
 	/**
 	 * Returns the current lexical state.
 	 */
 	public final int yystate() {
 		return zzLexicalState;
 	}
-
 
 	/**
 	 * Enters a new lexical state
@@ -402,14 +396,12 @@ public final class JavascriptLexer extends Lexer implements
 		zzLexicalState = newState;
 	}
 
-
 	/**
 	 * Returns the text matched by the current regular expression.
 	 */
 	public final String yytext() {
 		return new String(zzBuffer, zzStartRead, zzMarkedPos - zzStartRead);
 	}
-
 
 	/**
 	 * Returns the character at position <tt>pos</tt> from the matched text.
@@ -426,14 +418,12 @@ public final class JavascriptLexer extends Lexer implements
 		return zzBuffer[zzStartRead + pos];
 	}
 
-
 	/**
 	 * Returns the length of the matched text region.
 	 */
 	public final int yylength() {
 		return zzMarkedPos - zzStartRead;
 	}
-
 
 	/**
 	 * Reports an error that occured while scanning.
@@ -460,8 +450,7 @@ public final class JavascriptLexer extends Lexer implements
 		throw new Error(message);
 	}
 
-
-  /**
+	/**
 	 * Pushes the specified amount of characters back into the input stream.
 	 *
 	 * They will be read again by then next call of the scanning method
@@ -476,7 +465,6 @@ public final class JavascriptLexer extends Lexer implements
 
 		zzMarkedPos -= number;
 	}
-
 
 	/**
 	 * Resumes scanning until the next regular expression is matched, the end of
@@ -497,7 +485,6 @@ public final class JavascriptLexer extends Lexer implements
 		char[] zzBufferL = zzBuffer;
 		char[] zzCMapL = ZZ_CMAP;
 
-
 		while (true) {
 			zzMarkedPosL = zzMarkedPos;
 
@@ -508,7 +495,6 @@ public final class JavascriptLexer extends Lexer implements
 			zzCurrentPosL = zzCurrentPos = zzStartRead = zzMarkedPosL;
 
 			zzState = ZZ_LEXSTATE[zzLexicalState];
-
 
 			zzForAction: {
 				while (true) {
@@ -8855,6 +8841,5 @@ public final class JavascriptLexer extends Lexer implements
 			}
 		}
 	}
-
 
 }

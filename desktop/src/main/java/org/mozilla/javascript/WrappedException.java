@@ -14,49 +14,45 @@ package org.mozilla.javascript;
  *
  * @author Norris Boyd
  */
-public class WrappedException extends EvaluatorException
-{
-    static final long serialVersionUID = -1551979216966520648L;
+public class WrappedException extends EvaluatorException {
+	static final long serialVersionUID = -1551979216966520648L;
 
-    /**
-     * @see Context#throwAsScriptRuntimeEx(Throwable e)
-     */
-    public WrappedException(Throwable exception)
-    {
-        super("Wrapped "+exception.toString());
-        this.exception = exception;
-        Kit.initCause(this, exception);
+	/**
+	 * @see Context#throwAsScriptRuntimeEx(Throwable e)
+	 */
+	public WrappedException(Throwable exception) {
+		super("Wrapped " + exception.toString());
+		this.exception = exception;
+		Kit.initCause(this, exception);
 
-        int[] linep = { 0 };
-        String sourceName = Context.getSourcePositionFromStack(linep);
-        int lineNumber = linep[0];
-        if (sourceName != null) {
-            initSourceName(sourceName);
-        }
-        if (lineNumber != 0) {
-            initLineNumber(lineNumber);
-        }
-    }
+		int[] linep = { 0 };
+		String sourceName = Context.getSourcePositionFromStack(linep);
+		int lineNumber = linep[0];
+		if (sourceName != null) {
+			initSourceName(sourceName);
+		}
+		if (lineNumber != 0) {
+			initLineNumber(lineNumber);
+		}
+	}
 
-    /**
-     * Get the wrapped exception.
-     *
-     * @return the exception that was presented as a argument to the
-     *         constructor when this object was created
-     */
-    public Throwable getWrappedException()
-    {
-        return exception;
-    }
+	/**
+	 * Get the wrapped exception.
+	 *
+	 * @return the exception that was presented as a argument to the constructor
+	 *         when this object was created
+	 */
+	public Throwable getWrappedException() {
+		return exception;
+	}
 
-    /**
-     * @deprecated Use {@link #getWrappedException()} instead.
-     */
-    @Deprecated
-    public Object unwrap()
-    {
-        return getWrappedException();
-    }
+	/**
+	 * @deprecated Use {@link #getWrappedException()} instead.
+	 */
+	@Deprecated
+	public Object unwrap() {
+		return getWrappedException();
+	}
 
-    private Throwable exception;
+	private Throwable exception;
 }

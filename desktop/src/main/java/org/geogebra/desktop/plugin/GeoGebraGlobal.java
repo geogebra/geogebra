@@ -70,13 +70,13 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			case Id_alert: {
 
 				if (args.length > 1) {
-					String error = argNumError(args.length, "alert( <String> )");
+					String error = argNumError(args.length,
+							"alert( <String> )");
 					app.showError(error);
 					throw new Error(error);
 				}
 
-				Object value = (args.length != 0) ? args[0]
-						: "";
+				Object value = (args.length != 0) ? args[0] : "";
 
 				((GgbAPID) app.getGgbApi()).alert(value.toString());
 

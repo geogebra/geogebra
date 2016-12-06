@@ -11,15 +11,15 @@ import java.io.IOException;
  */
 public class PDFOutlineList extends PDFDictionary {
 
-    PDFOutlineList(PDF pdf, PDFByteWriter writer, PDFObject object,
-            PDFRef first, PDFRef last) throws IOException {
-        super(pdf, writer, object);
-        entry("Type", pdf.name("Outlines"));
-        entry("First", first);
-        entry("Last", last);
-    }
+	PDFOutlineList(PDF pdf, PDFByteWriter writer, PDFObject object,
+			PDFRef first, PDFRef last) throws IOException {
+		super(pdf, writer, object);
+		entry("Type", pdf.name("Outlines"));
+		entry("First", first);
+		entry("Last", last);
+	}
 
-    public void setCount(int count) throws IOException {
-        entry("Count", count);
-    }
+	public void setCount(int count) throws IOException {
+		entry("Count", count);
+	}
 }

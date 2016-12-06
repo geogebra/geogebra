@@ -90,8 +90,9 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		initViewActions();
 
 		// display the layout options dialog
-		showLayoutOptionsAction = new AbstractAction(app.getMenu("Layout")
-				+ " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
+		showLayoutOptionsAction = new AbstractAction(
+				app.getMenu("Layout") + " ...",
+				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
@@ -101,8 +102,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			}
 		};
 
-		showKeyboardAction = new AbstractAction(loc.getMenu(
-				"Keyboard")) {
+		showKeyboardAction = new AbstractAction(loc.getMenu("Keyboard")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -117,10 +117,10 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 				} else {
 
-					AppD.setVirtualKeyboardActive(!AppD
-							.isVirtualKeyboardActive());
-					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
-							.isVirtualKeyboardActive());
+					AppD.setVirtualKeyboardActive(
+							!AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager())
+							.toggleKeyboard(AppD.isVirtualKeyboardActive());
 					update();
 				}
 
@@ -296,7 +296,8 @@ public class ViewMenuApplicationD extends ViewMenuD {
 				cb.setIcon(panel.getIcon());
 
 				if (panel.hasMenuShortcut()) {
-					setMenuShortCutShiftAccelerator(cb, panel.getMenuShortcut());
+					setMenuShortCutShiftAccelerator(cb,
+							panel.getMenuShortcut());
 				}
 
 				menu.add(cb);

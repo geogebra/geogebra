@@ -15,12 +15,12 @@ import org.freehep.graphicsio.emf.EMFTag;
 public class AbortPath extends EMFTag {
 
 	public AbortPath() {
-        super(68, 1);
-    }
+		super(68, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 }

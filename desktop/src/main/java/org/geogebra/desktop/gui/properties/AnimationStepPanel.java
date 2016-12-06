@@ -26,9 +26,9 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class AnimationStepPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-		ITextFieldListener {
+public class AnimationStepPanel extends JPanel
+		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
+		SetLabels, UpdateFonts, ITextFieldListener {
 
 	private static final long serialVersionUID = 1L;
 

@@ -13,22 +13,25 @@ package org.mozilla.javascript;
  */
 public interface GeneratedClassLoader {
 
-    /**
-     * Define a new Java class.
-     * Classes created via this method should have the same class loader.
-     *
-     * @param name fully qualified class name
-     * @param data class byte code
-     * @return new class object
-     */
-    public Class<?> defineClass(String name, byte[] data);
+	/**
+	 * Define a new Java class. Classes created via this method should have the
+	 * same class loader.
+	 *
+	 * @param name
+	 *            fully qualified class name
+	 * @param data
+	 *            class byte code
+	 * @return new class object
+	 */
+	public Class<?> defineClass(String name, byte[] data);
 
-    /**
-     * Link the given class.
-     *
-     * @param cl Class instance returned from the previous call to
-     *        {@link #defineClass(String, byte[])}
-     * @see java.lang.ClassLoader
-     */
-    public void linkClass(Class<?> cl);
+	/**
+	 * Link the given class.
+	 *
+	 * @param cl
+	 *            Class instance returned from the previous call to
+	 *            {@link #defineClass(String, byte[])}
+	 * @see java.lang.ClassLoader
+	 */
+	public void linkClass(Class<?> cl);
 }

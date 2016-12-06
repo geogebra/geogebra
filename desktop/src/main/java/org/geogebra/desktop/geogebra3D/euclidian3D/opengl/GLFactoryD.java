@@ -27,7 +27,7 @@ public class GLFactoryD extends GLFactory {
 	}
 
 	@Override
-	final public GPUBuffer newGPUBuffer(){
+	final public GPUBuffer newGPUBuffer() {
 		return new GPUBufferD();
 	}
 

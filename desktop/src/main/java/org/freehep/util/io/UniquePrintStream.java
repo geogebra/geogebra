@@ -18,31 +18,32 @@ import java.util.TreeSet;
  * @author Mark Donszelmann
  * @version $Id: UniquePrintStream.java,v 1.3 2008-05-04 12:21:08 murkle Exp $
  */
-public class UniquePrintStream extends PrintStream implements
-        FinishableOutputStream {
+public class UniquePrintStream extends PrintStream
+		implements FinishableOutputStream {
 
-    private SortedSet msg = new TreeSet();
+	private SortedSet msg = new TreeSet();
 
-    /**
-     * Create a Unique Print Stream.
-     * 
-     * @param out stream to write
-     */
-    public UniquePrintStream(OutputStream out) {
-        super(out);
-    }
+	/**
+	 * Create a Unique Print Stream.
+	 * 
+	 * @param out
+	 *            stream to write
+	 */
+	public UniquePrintStream(OutputStream out) {
+		super(out);
+	}
 
-    public void println(String s) {
-        synchronized (this) {
-            msg.add(s);
-        }
-    }
+	public void println(String s) {
+		synchronized (this) {
+			msg.add(s);
+		}
+	}
 
-    public void finish() {
-        for (Iterator i = msg.iterator(); i.hasNext();) {
-            String s = (String) i.next();
-            super.println(s);
-        }
-        msg = new TreeSet();
-    }
+	public void finish() {
+		for (Iterator i = msg.iterator(); i.hasNext();) {
+			String s = (String) i.next();
+			super.println(s);
+		}
+		msg = new TreeSet();
+	}
 }

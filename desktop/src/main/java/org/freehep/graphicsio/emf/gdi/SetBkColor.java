@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetBkColor extends EMFTag {
 
-    private Color color;
+	private Color color;
 
-    public SetBkColor() {
-        super(25, 1);
-    }
+	public SetBkColor() {
+		super(25, 1);
+	}
 
-    public SetBkColor(Color color) {
-        this();
-        this.color = color;
-    }
+	public SetBkColor(Color color) {
+		this();
+		this.color = color;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetBkColor tag = new SetBkColor(emf.readCOLORREF());
-        return tag;
-    }
+		SetBkColor tag = new SetBkColor(emf.readCOLORREF());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeCOLORREF(color);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeCOLORREF(color);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  color: " + color;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  color: " + color;
+	}
 }

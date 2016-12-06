@@ -54,8 +54,6 @@ public class MyXMLioD extends MyXMLioJre {
 		super(kernel, cons);
 	}
 
-
-
 	@Override
 	protected final void readZip(ZipInputStream zip, boolean isGGTfile)
 			throws Exception {
@@ -129,7 +127,7 @@ public class MyXMLioD extends MyXMLioJre {
 			}
 
 			// get next entry
-			try{
+			try {
 				zip.closeEntry();
 			} catch (Exception e) {
 				Log.error(e.getMessage());
@@ -157,8 +155,7 @@ public class MyXMLioD extends MyXMLioJre {
 			processXMLBuffer(xmlFileBuffer, !macroXMLfound, isGGTfile);
 			kernel.getConstruction().setFileLoading(false);
 		}
-		
-		
+
 		// process defaults (after construction for labeling styles)
 		if (defaults2dXmlFileBuffer != null) {
 			kernel.getConstruction().setFileLoading(true);
@@ -171,13 +168,11 @@ public class MyXMLioD extends MyXMLioJre {
 			kernel.getConstruction().setFileLoading(false);
 		}
 
-		
 		if (!javaScriptFound && !isGGTfile)
 			kernel.resetLibraryJavaScript();
 		if (!(macroXMLfound || xmlFound))
 			throw new Exception("No XML data found in file.");
 	}
-
 
 	@Override
 	final protected MyImageJre getExportImage(double width, double height) {

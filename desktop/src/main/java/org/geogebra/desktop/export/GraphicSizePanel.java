@@ -36,12 +36,12 @@ import org.geogebra.desktop.main.AppD;
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
-public class GraphicSizePanel extends JPanel implements ActionListener,
-		FocusListener {
+public class GraphicSizePanel extends JPanel
+		implements ActionListener, FocusListener {
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
 	private static final int MIN = 10;
@@ -60,7 +60,8 @@ public class GraphicSizePanel extends JPanel implements ActionListener,
 		this(app, width, height, true);
 	}
 
-	public GraphicSizePanel(AppD app, int width, int height, boolean keepRatio) {
+	public GraphicSizePanel(AppD app, int width, int height,
+			boolean keepRatio) {
 		// this.app = app;
 
 		setLayout(new FlowLayout(5));

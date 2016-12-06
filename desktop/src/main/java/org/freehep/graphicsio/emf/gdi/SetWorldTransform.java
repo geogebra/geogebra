@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetWorldTransform extends EMFTag {
 
-    private AffineTransform transform;
+	private AffineTransform transform;
 
-    public SetWorldTransform() {
-        super(35, 1);
-    }
+	public SetWorldTransform() {
+		super(35, 1);
+	}
 
-    public SetWorldTransform(AffineTransform transform) {
-        this();
-        this.transform = transform;
-    }
+	public SetWorldTransform(AffineTransform transform) {
+		this();
+		this.transform = transform;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetWorldTransform tag = new SetWorldTransform(emf.readXFORM());
-        return tag;
-    }
+		SetWorldTransform tag = new SetWorldTransform(emf.readXFORM());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeXFORM(transform);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeXFORM(transform);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  transform: " + transform;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  transform: " + transform;
+	}
 }

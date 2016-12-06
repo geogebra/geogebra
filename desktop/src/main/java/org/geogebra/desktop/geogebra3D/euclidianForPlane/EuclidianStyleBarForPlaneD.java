@@ -54,7 +54,8 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	}
 
 	@Override
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+	protected void processSource(Object source,
+			ArrayList<GeoElement> targetGeos) {
 
 		if (source.equals(btnCenterAndOrientation)) {
 			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ((EuclidianView) ev)
@@ -90,8 +91,8 @@ public class EuclidianStyleBarForPlaneD extends EuclidianStyleBarD {
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		btnCenterAndOrientation.setToolTipText(loc
-				.getPlainTooltip("stylebar.ViewDefault"));
+		btnCenterAndOrientation
+				.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
 
 	}
 

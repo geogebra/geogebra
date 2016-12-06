@@ -108,7 +108,8 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public void addMenuItem(final String cmdString, String text, boolean enabled) {
+	public void addMenuItem(final String cmdString, String text,
+			boolean enabled) {
 		JMenuItem item = new JMenuItem(text);
 		item.setIcon(getIcon(cmdString));
 		item.addActionListener(new ActionListener() {
@@ -145,8 +146,8 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public void addSubMenuItem(Object menu, final String cmdString,
-			String text, boolean enabled) {
+	public void addSubMenuItem(Object menu, final String cmdString, String text,
+			boolean enabled) {
 		JMenuItem item = new JMenuItem(text, getIcon(cmdString));
 		item.addActionListener(new ActionListener() {
 			@Override

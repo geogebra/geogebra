@@ -212,8 +212,8 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	public String getDescription() {
 		if (fullDescription == null) {
 			if (description == null || isExtensionListInDescription()) {
-				fullDescription = description == null ? "(" : description
-						+ " (";
+				fullDescription = description == null ? "("
+						: description + " (";
 				// build the description from the extension list
 
 				if (filters.size() > 0)

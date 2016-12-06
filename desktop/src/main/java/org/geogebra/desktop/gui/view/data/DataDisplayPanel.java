@@ -154,16 +154,16 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
 		btnOptions.setSelected(false);
-		btnOptions.setSelectedIcon(app
-				.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
+		btnOptions.setSelectedIcon(
+				app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 
 	}
 
 	public void updateIcons() {
-		btnOptions.setIcon(app
-				.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
-		btnOptions.setSelectedIcon(app
-				.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
+		btnOptions
+				.setIcon(app.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
+		btnOptions.setSelectedIcon(
+				app.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 
 		btnExport.setIcon(app.getScaledIcon(GuiResourcesD.EXPORT16));
 
@@ -225,8 +225,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		Color bgColor = org.geogebra.desktop.awt.GColorD.getAwtColor(plotPanel
-				.getBackgroundCommon());
+		Color bgColor = org.geogebra.desktop.awt.GColorD
+				.getAwtColor(plotPanel.getBackgroundCommon());
 		plotPanelNorth.setBackground(bgColor);
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
@@ -254,7 +254,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));
 
 		// create options panel
-		optionsPanel = new OptionsPanelD(app, daModel, getModel().getSettings());
+		optionsPanel = new OptionsPanelD(app, daModel,
+				getModel().getSettings());
 		optionsPanel.addPropertyChangeListener("settings",
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent evt) {
@@ -391,8 +392,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			public void stateChanged(ChangeEvent evt) {
 				JSlider slider = (JSlider) evt.getSource();
 				getModel().getSettings().setNumClasses(slider.getValue());
-				fldNumClasses.setText(("" + getModel().getSettings()
-						.getNumClasses()));
+				fldNumClasses.setText(
+						("" + getModel().getSettings().getNumClasses()));
 				getModel().updatePlot(true);
 			}
 		});
@@ -481,8 +482,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	// ==============================================
 
 	public void showControlPanel() {
-		((CardLayout) controlCards.getLayout())
-				.show(controlCards, "blankPanel");
+		((CardLayout) controlCards.getLayout()).show(controlCards,
+				"blankPanel");
 	}
 
 	public void setOptionsButtonVisible() {
@@ -555,13 +556,12 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private void doTextFieldActionPerformed(Object source) {
 
 		if (source == fldStart) {
-			getModel().getSettings().setClassStart(
-					Validation.validateDouble(fldStart, getModel()
-							.getSettings().getClassStart()));
+			getModel().getSettings().setClassStart(Validation.validateDouble(
+					fldStart, getModel().getSettings().getClassStart()));
 		} else if (source == fldWidth) {
-			getModel().getSettings().setClassWidth(
-					Validation.validateDoublePositive(fldWidth, getModel()
-							.getSettings().getClassWidth()));
+			getModel().getSettings()
+					.setClassWidth(Validation.validateDoublePositive(fldWidth,
+							getModel().getSettings().getClassWidth()));
 		}
 		getModel().updatePlot(true);
 	}
@@ -683,9 +683,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = AppD.getShiftDown() ? app
-						.getEuclidianView2(1).getViewID() : app
-						.getEuclidianView1().getViewID();
+				euclidianViewID = AppD.getShiftDown()
+						? app.getEuclidianView2(1).getViewID()
+						: app.getEuclidianView1().getViewID();
 			}
 
 			// do the export
@@ -737,8 +737,8 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	}
 
 	public void updatePlotPanelSettings() {
-		plotPanel.commonFields.updateSettings(plotPanel, getModel()
-				.getSettings());
+		plotPanel.commonFields.updateSettings(plotPanel,
+				getModel().getSettings());
 	}
 
 	private void showCardPanel(JPanel panel, String id) {

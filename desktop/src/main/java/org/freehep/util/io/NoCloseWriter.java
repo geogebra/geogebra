@@ -14,35 +14,39 @@ import java.io.Writer;
  */
 public class NoCloseWriter extends BufferedWriter {
 
-    /**
-     * Creates a No Close Writer
-     * 
-     * @param writer writer to write to
-     */
-    public NoCloseWriter(Writer writer) {
-        super(writer);
-    }
+	/**
+	 * Creates a No Close Writer
+	 * 
+	 * @param writer
+	 *            writer to write to
+	 */
+	public NoCloseWriter(Writer writer) {
+		super(writer);
+	}
 
-    /**
-     * Creates a No Close Writer
-     * 
-     * @param writer writer to write to
-     * @param size buffer size
-     */
-    public NoCloseWriter(Writer writer, int size) {
-        super(writer, size);
-    }
+	/**
+	 * Creates a No Close Writer
+	 * 
+	 * @param writer
+	 *            writer to write to
+	 * @param size
+	 *            buffer size
+	 */
+	public NoCloseWriter(Writer writer, int size) {
+		super(writer, size);
+	}
 
-    public void close() throws IOException {
-        flush();
-    }
+	public void close() throws IOException {
+		flush();
+	}
 
-    /**
-     * Closes the writer (close is ignored).
-     * 
-     * @throws IOException if the close fails
-     */
-    public void realClose() throws IOException {
-        super.close();
-    }
+	/**
+	 * Closes the writer (close is ignored).
+	 * 
+	 * @throws IOException
+	 *             if the close fails
+	 */
+	public void realClose() throws IOException {
+		super.close();
+	}
 }

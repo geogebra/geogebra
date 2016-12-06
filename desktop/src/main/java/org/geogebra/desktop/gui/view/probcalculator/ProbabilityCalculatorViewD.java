@@ -202,26 +202,25 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					exportToEVAction);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseEnabled(true, true);
 			((PlotPanelEuclidianViewD) plotPanel).setMouseMotionEnabled(true);
-			((EuclidianViewInterfaceD) plotPanel).setBorder(BorderFactory
-					.createEmptyBorder());
+			((EuclidianViewInterfaceD) plotPanel)
+					.setBorder(BorderFactory.createEmptyBorder());
 
 			// plot label panel
 			JPanel plotLabelPanel = LayoutUtil.flowPanelRight(0, 0, 0,
 					lblMeanSigma, Box.createHorizontalStrut(10));
-			plotLabelPanel.setBorder(BorderFactory
-					.createEmptyBorder(4, 0, 4, 0));
+			plotLabelPanel
+					.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
 			plotLabelPanel.setBackground(Color.white);
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
-			plotPanelPlus.add(
-					((EuclidianViewInterfaceD) plotPanel).getJPanel(),
+			plotPanelPlus.add(((EuclidianViewInterfaceD) plotPanel).getJPanel(),
 					BorderLayout.CENTER);
 			plotPanelPlus.add(plotLabelPanel, BorderLayout.SOUTH);
 
 			// table panel
 			table = new ProbabilityTableD((AppD) app, this);
-			((ProbabilityTableD) table).getWrappedPanel().setBorder(
-					BorderFactory.createMatteBorder(0, 1, 0, 0,
+			((ProbabilityTableD) table).getWrappedPanel()
+					.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
 							SystemColor.controlShadow));
 			tablePanel = new JPanel(new BorderLayout());
 			tablePanel.add(((ProbabilityTableD) table).getWrappedPanel(),
@@ -246,8 +245,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		JScrollPane scroller = new JScrollPane(controlPanel);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
 
-		mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-				plotSplitPane, scroller);
+		mainSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, plotSplitPane,
+				scroller);
 		mainSplitPane.setResizeWeight(1);
 		mainSplitPane.setBorder(BorderFactory.createEmptyBorder());
 
@@ -279,15 +278,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		setLabelArrays();
 		comboDistribution = new JComboBox();
 		comboDistribution.setRenderer(getComboRenderer());
-		comboDistribution
-				.setMaximumRowCount(ProbabilityCalculatorSettings.distCount + 1);
+		comboDistribution.setMaximumRowCount(
+				ProbabilityCalculatorSettings.distCount + 1);
 		// setComboDistribution();
 		comboDistribution.addActionListener(this);
 		lblDist = new JLabel();
 
-		btnCumulative = new MyToggleButton(
-				((AppD) app)
-						.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
+		btnCumulative = new MyToggleButton(((AppD) app)
+				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
 
 		btnIntervalLeft = new MyToggleButton(
 				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
@@ -409,13 +407,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		btnCumulative.setIcon(((AppD) app)
 				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
 
-		btnIntervalLeft
-.setIcon(((AppD) app)
-				.getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
-		btnIntervalBetween.setIcon(((AppD) app)
-				.getScaledIcon(GuiResourcesD.INTERVAL_BETWEEN));
-		btnIntervalRight.setIcon(((AppD) app)
-				.getScaledIcon(GuiResourcesD.INTERVAL_RIGHT));
+		btnIntervalLeft.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
+		btnIntervalBetween.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_BETWEEN));
+		btnIntervalRight.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_RIGHT));
 
 		btnExport.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.EXPORT16));
 		if (styleBar != null) {
@@ -435,17 +432,17 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		if (source == comboDistribution) {
 
 			if (comboDistribution.getSelectedItem() != null)
-				if (comboDistribution.getSelectedItem().equals(
-						ListSeparatorRenderer.SEPARATOR)) {
+				if (comboDistribution.getSelectedItem()
+						.equals(ListSeparatorRenderer.SEPARATOR)) {
 					comboDistribution.removeActionListener(this);
-					comboDistribution.setSelectedItem(distributionMap
-							.get(selectedDist));
+					comboDistribution
+							.setSelectedItem(distributionMap.get(selectedDist));
 					comboDistribution.addActionListener(this);
 				} else if (!selectedDist.equals(this.reverseDistributionMap
 						.get(comboDistribution.getSelectedItem()))) {
 
-					selectedDist = reverseDistributionMap.get(comboDistribution
-							.getSelectedItem());
+					selectedDist = reverseDistributionMap
+							.get(comboDistribution.getSelectedItem());
 					parameters = ProbabilityManager
 							.getDefaultParameters(selectedDist);
 					this.setProbabilityCalculator(selectedDist, parameters,
@@ -537,14 +534,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			else
 				// handle parameter entry
 				for (int i = 0; i < parameters.length; ++i)
-					if (source == fldParameterArray[i]) {
+				if (source == fldParameterArray[i]) {
 
-						if (isValidParameter(value, i)) {
-							parameters[i] = value;
-							updateAll();
-						}
+				if (isValidParameter(value, i)) {
+				parameters[i] = value;
+				updateAll();
+				}
 
-					}
+				}
 
 			updateIntervalProbability();
 			updateGUI();
@@ -603,8 +600,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			if (hasParm) {
 				// set label
 				lblParameterArray[i].setVisible(true);
-				lblParameterArray[i].setText(parameterLabels[selectedDist
-						.ordinal()][i]);
+				lblParameterArray[i]
+						.setText(parameterLabels[selectedDist.ordinal()][i]);
 				// set field
 				fldParameterArray[i].removeActionListener(this);
 				fldParameterArray[i].setText("" + format(parameters[i]));
@@ -674,10 +671,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			fldHigh.setVisible(true);
 			lblBetween.setText(loc.getMenu("XBetween"));
 
-			setLow(plotSettings.xMin + 0.4
-					* (plotSettings.xMax - plotSettings.xMin));
-			setHigh(plotSettings.xMin + 0.6
-					* (plotSettings.xMax - plotSettings.xMin));
+			setLow(plotSettings.xMin
+					+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
+			setHigh(plotSettings.xMin
+					+ 0.6 * (plotSettings.xMax - plotSettings.xMin));
 
 		}
 
@@ -712,10 +709,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			}
 
 			if (isDiscrete)
-				setHigh(((GeoNumeric) discreteValueList.get(discreteValueList
-						.size() - 1)).getDouble());
+				setHigh(((GeoNumeric) discreteValueList
+						.get(discreteValueList.size() - 1)).getDouble());
 			else
-				setHigh(plotSettings.xMax + 1); // move offscreen so the integral
+				setHigh(plotSettings.xMax + 1); // move offscreen so the
+												// integral
 												// looks complete
 
 		}
@@ -823,7 +821,6 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		setLabelArrays();
 
-
 		lblDist.setText(loc.getMenu("Distribution") + ": ");
 		lblProb.setText(loc.getMenu("Probability") + ": ");
 
@@ -846,7 +843,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
 
-		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
+		for (int i = 0; i < ProbabilityManager
+				.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
 					.setText(parameterLabels[selectedDist.ordinal()][i]);
 		}
@@ -899,7 +897,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// ============================================================
 
 	private void setSliderDefaults() {
-		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
+		for (int i = 0; i < ProbabilityManager
+				.getParmCount(selectedDist); i++) {
 			// TODO: this is breaking the discrete distributions
 			// sliderArray[i].setValue((int)
 			// probManager.getDefaultParameterMap().get(selectedDist)[i]);
@@ -950,9 +949,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = ((AppD) app).getShiftDown() ? app
-						.getEuclidianView2(1).getViewID() : app
-						.getEuclidianView1().getViewID();
+				euclidianViewID = ((AppD) app).getShiftDown()
+						? app.getEuclidianView2(1).getViewID()
+						: app.getEuclidianView1().getViewID();
 			}
 
 			// do the export

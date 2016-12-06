@@ -27,8 +27,8 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
  * @author mathieu
  * 
  */
-public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider {
-
+public class RendererImplGL2 extends RendererImpl
+		implements JoglAndGluProvider {
 
 	private RendererJogl jogl;
 
@@ -48,7 +48,8 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public RendererImplGL2(Renderer renderer, EuclidianView3D view,
 			RendererJogl jogl) {
 		super(renderer, view);
-		Log.debug("============== Renderer with old GL created (shaders failed)");
+		Log.debug(
+				"============== Renderer with old GL created (shaders failed)");
 		this.jogl = jogl;
 	}
 
@@ -56,18 +57,18 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public void setClipPlanes(double[][] minMax) {
 
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
-		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]))
-				.get());
-		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]))
-				.get());
-		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]))
-				.get());
-		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]))
-				.get());
-		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]))
-				.get());
-		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]))
-				.get());
+		setClipPlane(0,
+				mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
+		setClipPlane(1,
+				mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
+		setClipPlane(2,
+				mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
+		setClipPlane(3,
+				mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
+		setClipPlane(4,
+				mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
+		setClipPlane(5,
+				mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
 	}
 
 	private void setClipPlane(int n, double[] equation) {
@@ -109,7 +110,6 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public void resetMatrix() {
 		jogl.getGL2().glPopMatrix();
 	}
-
 
 	public void pushSceneMatrix() {
 		// set the scene matrix
@@ -194,7 +194,6 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 
 		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 	}
-	
 
 	public void setStencilLines() {
 
@@ -253,10 +252,10 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 		// seems to be sensible to canvas location on screen and to parent
 		// relative location
 		// (try docked with neighboors / undocked or docked alone)
-		
+
 		int y0 = ((Component) renderer.getCanvas()).getParent().getLocation().y
 				+ (((Component) renderer.getCanvas()).getLocationOnScreen().y)
-				% 2;
+						% 2;
 
 		// Log.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		// Log.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
@@ -284,8 +283,11 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	private int orthoLeft, orthoRight, orthoBottom, orthoTop, orthoNear,
 			orthoFar;
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererImpl#updateOrthoValues()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererImpl#
+	 * updateOrthoValues()
 	 */
 	@Override
 	final public void updateOrthoValues() {
@@ -311,8 +313,8 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 				renderer.perspTop[Renderer.EYE_LEFT],
 				renderer.perspNear[Renderer.EYE_LEFT],
 				renderer.perspFar[Renderer.EYE_LEFT]);
-		jogl.getGL2()
-				.glTranslated(0, 0, renderer.perspFocus[Renderer.EYE_LEFT]);
+		jogl.getGL2().glTranslated(0, 0,
+				renderer.perspFocus[Renderer.EYE_LEFT]);
 	}
 
 	public void viewGlasses() {
@@ -336,10 +338,10 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public void viewOblique() {
 		viewOrtho();
 
-		jogl.getGL2().glMultMatrixd(
-				new double[] { 1, 0, 0, 0, 0, 1, 0, 0, renderer.obliqueX,
-						renderer.obliqueY, 1,
-						0, 0, 0, 0, 1 }, 0);
+		jogl.getGL2()
+				.glMultMatrixd(new double[] { 1, 0, 0, 0, 0, 1, 0, 0,
+						renderer.obliqueX, renderer.obliqueY, 1, 0, 0, 0, 0,
+						1 }, 0);
 	}
 
 	public Manager createManager() {
@@ -443,18 +445,17 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 
 	@Override
 	public void enableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			getGL().glEnable(GLlocal.GL_LIGHTING);
 		}
 	}
 
 	@Override
 	public void disableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			getGL().glDisable(GLlocal.GL_LIGHTING);
 		}
 	}
-
 
 	@Override
 	public void initLighting() {
@@ -469,7 +470,7 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public boolean useShaders() {
 		return false;
 	}
-	
+
 	public void useShaderProgram() {
 		// no shaders here
 	}
@@ -543,7 +544,6 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	public void disableCulling() {
 		glDisable(getGL_CULL_FACE());
 	}
-
 
 	public void setCullFaceFront() {
 		getGL().glCullFace(GLlocal.GL_FRONT);
@@ -761,7 +761,6 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 		glDisable(GLlocal.GL_ALPHA_TEST);
 	}
 
-
 	@Override
 	public final void enableMultisample() {
 		glEnable(GLlocal.GL_MULTISAMPLE);
@@ -857,7 +856,8 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	}
 
 	protected boolean checkFramebufferStatus() {
-		return getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
+		return getGL().glCheckFramebufferStatus(
+				GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
 	}
 
 }

@@ -60,8 +60,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * @param acc
 	 */
 	protected void setMenuShortCutAccelerator(JMenuItem mi, char acc) {
-		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
-				.getMenuShortcutKeyMask());
+		KeyStroke ks = KeyStroke.getKeyStroke(acc,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
 		mi.setAccelerator(ks);
 	}
 
@@ -73,8 +73,9 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * @param acc
 	 */
 	protected void setMenuShortCutShiftAccelerator(JMenuItem mi, char acc) {
-		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
-				.getMenuShortcutKeyMask() + Event.SHIFT_MASK);
+		KeyStroke ks = KeyStroke.getKeyStroke(acc,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+						+ Event.SHIFT_MASK);
 		mi.setAccelerator(ks);
 	}
 
@@ -86,8 +87,9 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * @param acc
 	 */
 	protected void setMenuShortCutShiftAltAccelerator(JMenuItem mi, char acc) {
-		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
-				.getMenuShortcutKeyMask() + Event.SHIFT_MASK + Event.ALT_MASK);
+		KeyStroke ks = KeyStroke.getKeyStroke(acc,
+				Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()
+						+ Event.SHIFT_MASK + Event.ALT_MASK);
 		mi.setAccelerator(ks);
 	}
 

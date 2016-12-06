@@ -23,40 +23,37 @@
 package org.jfugue;
 
 /**
- * Represents a measure marker.  This has no bearing on the audio produced,
- * but is useful for making music strings more readable, and for listening
- * to progress as a song is played.
+ * Represents a measure marker. This has no bearing on the audio produced, but
+ * is useful for making music strings more readable, and for listening to
+ * progress as a song is played.
  *
- *@author David Koelle
- *@version 3.0
+ * @author David Koelle
+ * @version 3.0
  */
-public final class Measure implements JFugueElement
-{
-    /**
-     * Creates a new Measure object, which is simply an indicator
-     * that a measure line has been parsed in a MusicString
-     */
-    public Measure()
-    {
-    }
+public final class Measure implements JFugueElement {
+	/**
+	 * Creates a new Measure object, which is simply an indicator that a measure
+	 * line has been parsed in a MusicString
+	 */
+	public Measure() {
+	}
 
-    /**
-     * Returns the Music String representing this element.
-     * For a Measure object, the Music String is <code>|</code>
-     * @return the Music String for this element
-     */
-    public String getMusicString()
-    {
-        return "|";
-    }
+	/**
+	 * Returns the Music String representing this element. For a Measure object,
+	 * the Music String is <code>|</code>
+	 * 
+	 * @return the Music String for this element
+	 */
+	public String getMusicString() {
+		return "|";
+	}
 
-    /**
-     * Returns verification string in this format:
-     * Measure
-     * @version 4.0
-     */
-    public String getVerifyString()
-    {
-        return "Measure";
-    }
+	/**
+	 * Returns verification string in this format: Measure
+	 * 
+	 * @version 4.0
+	 */
+	public String getVerifyString() {
+		return "Measure";
+	}
 }

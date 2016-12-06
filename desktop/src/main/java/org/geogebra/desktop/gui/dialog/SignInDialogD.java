@@ -40,8 +40,8 @@ public class SignInDialogD extends WebViewDialog {
 		setResizable(true);
 		getContentPane().setPreferredSize(new Dimension(500, 270));
 
-		JFXPanel fxPanel1 = createWebView(app.getLoginOperation().getLoginURL(
-				app.getLocale().getLanguage()));
+		JFXPanel fxPanel1 = createWebView(app.getLoginOperation()
+				.getLoginURL(app.getLocale().getLanguage()));
 		add(fxPanel1);
 
 		pack();
@@ -85,9 +85,9 @@ public class SignInDialogD extends WebViewDialog {
 		Log.debug("Link clicked: " + href);
 
 		// Check if the clicked link should be opened in an external browser
-		if ((domainName.contains("geogebra.org") && (href
-				.contains("mode=register") || href
-				.contains("mode=sendpassword")))
+		if ((domainName.contains("geogebra.org")
+				&& (href.contains("mode=register")
+						|| href.contains("mode=sendpassword")))
 				|| domainName.contains("google.com")
 				|| domainName.contains("facebook.com")) {
 
@@ -119,9 +119,9 @@ public class SignInDialogD extends WebViewDialog {
 					// Close the dialog
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							SignInDialogD.this.dispatchEvent(new WindowEvent(
-									SignInDialogD.this,
-									WindowEvent.WINDOW_CLOSING));
+							SignInDialogD.this.dispatchEvent(
+									new WindowEvent(SignInDialogD.this,
+											WindowEvent.WINDOW_CLOSING));
 						}
 					});
 				}

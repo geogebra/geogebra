@@ -40,43 +40,41 @@ package com.kitfox.svg;
  *
  * @author kitfox
  */
-public class SVGElementException extends SVGException
-{
-    public static final long serialVersionUID = 0;
-    
-    private final SVGElement element;
-    
-    /**
-     * Creates a new instance of <code>SVGException</code> without detail message.
-     */
-    public SVGElementException(SVGElement element)
-    {
-        this(element, null, null);
-    }
-    
-    
-    /**
-     * Constructs an instance of <code>SVGException</code> with the specified detail message.
-     * @param msg the detail message.
-     */
-    public SVGElementException(SVGElement element, String msg)
-    {
-        this(element, msg, null);
-    }
-    
-    public SVGElementException(SVGElement element, String msg, Throwable cause)
-    {
-        super(msg, cause);
-        this.element = element;
-    }
-    
-    public SVGElementException(SVGElement element, Throwable cause)
-    {
-        this(element, null, cause);
-    }
+public class SVGElementException extends SVGException {
+	public static final long serialVersionUID = 0;
 
-    public SVGElement getElement()
-    {
-        return element;
-    }
+	private final SVGElement element;
+
+	/**
+	 * Creates a new instance of <code>SVGException</code> without detail
+	 * message.
+	 */
+	public SVGElementException(SVGElement element) {
+		this(element, null, null);
+	}
+
+	/**
+	 * Constructs an instance of <code>SVGException</code> with the specified
+	 * detail message.
+	 * 
+	 * @param msg
+	 *            the detail message.
+	 */
+	public SVGElementException(SVGElement element, String msg) {
+		this(element, msg, null);
+	}
+
+	public SVGElementException(SVGElement element, String msg,
+			Throwable cause) {
+		super(msg, cause);
+		this.element = element;
+	}
+
+	public SVGElementException(SVGElement element, Throwable cause) {
+		this(element, null, cause);
+	}
+
+	public SVGElement getElement() {
+		return element;
+	}
 }

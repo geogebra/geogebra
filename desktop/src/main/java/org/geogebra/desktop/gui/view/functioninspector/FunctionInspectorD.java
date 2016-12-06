@@ -73,8 +73,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 
-public class FunctionInspectorD extends FunctionInspector implements
-		MouseListener, ListSelectionListener, KeyListener,
+public class FunctionInspectorD extends FunctionInspector
+		implements MouseListener, ListSelectionListener, KeyListener,
 		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
 		FocusListener {
 
@@ -225,7 +225,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 		// create XY table
 		final AppD app = getAppD();
-		tableXY = new InspectorTable(app, this, minRows, InspectorTable.TYPE_XY);
+		tableXY = new InspectorTable(app, this, minRows,
+				InspectorTable.TYPE_XY);
 		modelXY = new DefaultTableModel();
 		modelXY.addColumn("x");
 		modelXY.addColumn("y(x)");
@@ -244,8 +245,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 		modelInterval.setColumnCount(2);
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
-		tableInterval.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
+		tableInterval.getSelectionModel()
+				.addListSelectionListener(new ListSelectionListener() {
 					public void valueChanged(ListSelectionEvent e) {
 						getModel().updateIntervalGeoVisiblity();
 					}
@@ -313,8 +314,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 	private void createBtnAddColumn() {
 
-		btnAddColumn = new PopupMenuButton(getAppD(), getModel()
-.getColumnNames(), -1, 1, new Dimension(0, 18),
+		btnAddColumn = new PopupMenuButton(getAppD(),
+				getModel().getColumnNames(), -1, 1, new Dimension(0, 18),
 				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setStandardButton(true);
@@ -339,17 +340,17 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 		// tool tips
 		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
-		btnOscCircle.setToolTipText(loc
-				.getPlainTooltip("fncInspector.showOscCircle"));
-		btnXYSegments.setToolTipText(loc
-				.getPlainTooltip("fncInspector.showXYLines"));
+		btnOscCircle.setToolTipText(
+				loc.getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setToolTipText(
+				loc.getPlainTooltip("fncInspector.showXYLines"));
 		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
-		btnTangent.setToolTipText(loc
-				.getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn.setToolTipText(loc
-				.getPlainTooltip("fncInspector.addColumn"));
-		btnRemoveColumn.setToolTipText(loc
-				.getPlainTooltip("fncInspector.removeColumn"));
+		btnTangent.setToolTipText(
+				loc.getPlainTooltip("fncInspector.showTangent"));
+		btnAddColumn
+				.setToolTipText(loc.getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setToolTipText(
+				loc.getPlainTooltip("fncInspector.removeColumn"));
 		fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 		lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
 
@@ -643,8 +644,8 @@ public class FunctionInspectorD extends FunctionInspector implements
 		btnOptions.addPopupMenuItem(mi);
 
 		// rounding
-		btnOptions.addPopupMenuItem(getMyNumberFormat()
-				.createMenuDecimalPlaces());
+		btnOptions.addPopupMenuItem(
+				getMyNumberFormat().createMenuDecimalPlaces());
 
 	}
 
@@ -658,9 +659,9 @@ public class FunctionInspectorD extends FunctionInspector implements
 			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),
 					tableXY.getRowCount());
 		} else {
-			getModel()
-					.copyIntervalsToSpreadsheet(tableInterval.getColumnCount(),
-							tableInterval.getRowCount());
+			getModel().copyIntervalsToSpreadsheet(
+					tableInterval.getColumnCount(),
+					tableInterval.getRowCount());
 		}
 	}
 

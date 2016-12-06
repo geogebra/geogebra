@@ -22,7 +22,8 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 		return impl.contains(xTry, yTry);
 	}
 
-	public boolean intersects(double x, double y, double lengthX, double lengthY) {
+	public boolean intersects(double x, double y, double lengthX,
+			double lengthY) {
 		return impl.intersects(x, y, lengthX, lengthY);
 	}
 
@@ -48,14 +49,12 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {

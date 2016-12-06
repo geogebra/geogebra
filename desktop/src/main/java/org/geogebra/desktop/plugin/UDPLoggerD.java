@@ -135,7 +135,8 @@ public class UDPLoggerD extends SensorLogger {
 			// we could even spare the ; and , but still left
 
 			boolean atleast = true;
-			for (int bp = 5; bp < length; bp += 11, atleast = (bp + 11 < length)) {
+			for (int bp = 5; bp < length; bp += 11, atleast = (bp
+					+ 11 < length)) {
 				// "{sensor1},{doublebits8};"
 				// ,,23456789
 
@@ -144,7 +145,8 @@ public class UDPLoggerD extends SensorLogger {
 				}
 
 				long gotit = 0;
-				for (int place = bp + 2, shift = 56; place < bp + 10; place++, shift -= 8) {
+				for (int place = bp + 2, shift = 56; place < bp
+						+ 10; place++, shift -= 8) {
 					gotit |= ((buffer[place] & 0xFFL) << shift);
 				}
 
@@ -155,18 +157,15 @@ public class UDPLoggerD extends SensorLogger {
 				switch (buffer[bp]) {
 				case 0:
 					log(Types.EDAQ0, timestamp, Double.longBitsToDouble(gotit),
-							false,
-							!quicker, atleast);
+							false, !quicker, atleast);
 					break;
 				case 1:
 					log(Types.EDAQ1, timestamp, Double.longBitsToDouble(gotit),
-							false,
-							!quicker, atleast);
+							false, !quicker, atleast);
 					break;
 				case 2:
 					log(Types.EDAQ2, timestamp, Double.longBitsToDouble(gotit),
-							false,
-							!quicker, atleast);
+							false, !quicker, atleast);
 					break;
 
 				default:
@@ -335,9 +334,7 @@ public class UDPLoggerD extends SensorLogger {
 		 * false; }
 		 */
 
-
 		thread = new Thread() {
-
 
 			@Override
 			public void run() {
@@ -359,8 +356,9 @@ public class UDPLoggerD extends SensorLogger {
 						// error message if
 						// stoplogging called
 						if (e instanceof SocketTimeoutException) {
-							kernel.getApplication().showError(
-									kernel.getApplication().getLocalization()
+							kernel.getApplication()
+									.showError(kernel.getApplication()
+											.getLocalization()
 											.getMenu("LoggingError"));
 						}
 

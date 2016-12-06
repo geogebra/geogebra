@@ -86,8 +86,8 @@ import org.geogebra.desktop.util.UtilD;
 /**
  * GeoGebra's main window.
  */
-public class GeoGebraFrame extends JFrame implements WindowFocusListener,
-		Printable, ComponentListener {
+public class GeoGebraFrame extends JFrame
+		implements WindowFocusListener, Printable, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -304,12 +304,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// check java version
 		double javaVersion = UtilD.getJavaVersion();
 		if (javaVersion < 1.5) {
-			JOptionPane
-					.showMessageDialog(
-							null,
-							"Sorry, GeoGebra cannot be used with your Java version "
-									+ javaVersion
-									+ "\nPlease visit http://www.java.com to get a newer version of Java.");
+			JOptionPane.showMessageDialog(null,
+					"Sorry, GeoGebra cannot be used with your Java version "
+							+ javaVersion
+							+ "\nPlease visit http://www.java.com to get a newer version of Java.");
 			return;
 		}
 
@@ -410,8 +408,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		return new AppD(args, frame, true);
 	}
 
-	public synchronized GeoGebraFrame createNewWindow(
-			CommandLineArguments args, Macro macro) {
+	public synchronized GeoGebraFrame createNewWindow(CommandLineArguments args,
+			Macro macro) {
 		return createNewWindow(args, copy());
 	}
 
@@ -453,15 +451,15 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		// handle application args visible
 		if (args != null) {
 			if (args.containsArg("showAlgebraWindow")) {
-				boolean showAlgebraWindow = args.getBooleanValue(
-						"showAlgebraWindow", true);
+				boolean showAlgebraWindow = args
+						.getBooleanValue("showAlgebraWindow", true);
 				app.getGuiManager().setShowView(showAlgebraWindow,
 						App.VIEW_ALGEBRA);
 			}
 
 			if (args.containsArg("showSpreadsheet")) {
-				boolean showSpreadsheet = args.getBooleanValue(
-						"showSpreadsheet", true);
+				boolean showSpreadsheet = args
+						.getBooleanValue("showSpreadsheet", true);
 				app.getGuiManager().setShowView(showSpreadsheet,
 						App.VIEW_SPREADSHEET);
 			}
@@ -585,8 +583,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				while ((ze = zis.getNextEntry()) != null) {
 					// get file name
 					String name = ze.getName();
-					FileOutputStream fos = new FileOutputStream(updateDir
-							+ File.separator + name);
+					FileOutputStream fos = new FileOutputStream(
+							updateDir + File.separator + name);
 					Log.debug("Extracting " + name);
 					int l = 0;
 					// write buffer to file
@@ -614,9 +612,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 				return;
 			}
 
-			String lastVersionCheck = GeoGebraPreferencesD
-					.getPref()
-					.loadPreference(GeoGebraPreferencesD.VERSION_LAST_CHECK, "");
+			String lastVersionCheck = GeoGebraPreferencesD.getPref()
+					.loadPreference(GeoGebraPreferencesD.VERSION_LAST_CHECK,
+							"");
 			Long nowL = new Date().getTime();
 			String nowLS = nowL.toString();
 
@@ -629,8 +627,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			else {
 				Long lastVersionCheckL = Long.valueOf(lastVersionCheck);
-				if (lastVersionCheckL + 1000L * 60 * 60 * 24
-						* VERSION_CHECK_DAYS < nowL) {
+				if (lastVersionCheckL
+						+ 1000L * 60 * 60 * 24 * VERSION_CHECK_DAYS < nowL) {
 					checkNeeded = true;
 					Log.debug("major version check needed: lastVersionCheckL="
 							+ lastVersionCheckL + " nowL=" + nowL);
@@ -668,9 +666,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					sb.append("&java=");
 					AppD.appendJavaVersion(sb);
 
-					newestVersion = httpr.sendRequestGetResponseSync(sb
-							.toString());
-
+					newestVersion = httpr
+							.sendRequestGetResponseSync(sb.toString());
 
 					if (newestVersion == null) {
 						// probably not online
@@ -684,8 +681,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
 						Localization loc = app.getLocalization();
-						String q = loc.getMenu("NewerVersionA").replaceAll(
-								"%0", newestVersion);
+						String q = loc.getMenu("NewerVersionA").replaceAll("%0",
+								newestVersion);
 						String dl = loc.getMenu("GoToDownloadPage");
 						Object[] options = { loc.getMenu("Cancel"), dl };
 						Component comp = app.getMainComponent();
@@ -940,12 +937,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						// "true" (default) or "false"
 						String loop = args.getStringValue("loop");
 
-
 						// time between frames in ms
 						String delayStr = args.getStringValue("delay");
 
-						final int delay = Integer.parseInt(delayStr.equals("") ? "10"
-								: delayStr);
+						final int delay = Integer.parseInt(
+								delayStr.equals("") ? "10" : delayStr);
 
 						final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
 						gifEncoder.setQuality(1);
@@ -971,8 +967,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						};
 
 						app.exportAnimatedGIF(ev, collector, num, n, val, min,
-								max,
-								step);
+								max, step);
 
 						Log.debug("animated GIF exported successfully");
 
@@ -986,10 +981,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					boolean transparent = true;
 					boolean useEMFplus = true;
 
-					int pixelWidth = (int) Math.floor(ev.getExportWidth()
-							* exportScale);
-					int pixelHeight = (int) Math.floor(ev.getExportHeight()
-							* exportScale);
+					int pixelWidth = (int) Math
+							.floor(ev.getExportWidth() * exportScale);
+					int pixelHeight = (int) Math
+							.floor(ev.getExportHeight() * exportScale);
 
 					for (int i = 0; i < n; i++) {
 
@@ -1004,9 +999,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						File file = new File(filename + i + "." + extension);
 
 						GraphicExportDialog.export(extension,
-								(EuclidianViewInterfaceD) ev, file,
-								transparent, dpi, exportScale, textAsShapes,
-								useEMFplus, pixelWidth, pixelHeight, app);
+								(EuclidianViewInterfaceD) ev, file, transparent,
+								dpi, exportScale, textAsShapes, useEMFplus,
+								pixelWidth, pixelHeight, app);
 
 						val += step;
 
@@ -1033,7 +1028,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			Log.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
-
 
 			// wait for EuclidianView etc to initialize before export
 			SwingUtilities.invokeLater(new Runnable() {
@@ -1066,10 +1060,10 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						final boolean transparent = true;
 						final boolean textAsShapes = true;
 						final boolean useEMFplus = true;
-						int pixelWidth = (int) Math.floor(ev.getExportWidth()
-								* exportScale);
-						int pixelHeight = (int) Math.floor(ev.getExportHeight()
-								* exportScale);
+						int pixelWidth = (int) Math
+								.floor(ev.getExportWidth() * exportScale);
+						int pixelHeight = (int) Math
+								.floor(ev.getExportHeight() * exportScale);
 
 						int dpi2 = dpi;
 

@@ -47,18 +47,19 @@ public class CommandLineArguments {
 				int equalSignIndex = cmdArgs[i].lastIndexOf('=');
 
 				if (equalSignIndex != -1) {
-					args.put(cmdArgs[i].substring(2, equalSignIndex)
-							.toLowerCase(Locale.US), cmdArgs[i]
-							.substring(equalSignIndex + 1));
+					args.put(
+							cmdArgs[i].substring(2, equalSignIndex)
+									.toLowerCase(Locale.US),
+							cmdArgs[i].substring(equalSignIndex + 1));
 				} else {
-					args.put(cmdArgs[i].substring(2).toLowerCase(Locale.US), "");
+					args.put(cmdArgs[i].substring(2).toLowerCase(Locale.US),
+							"");
 				}
 			} else if (!cmdArgs[i].startsWith("-")) { // make sure we don't
 														// process -open from eg
 				// javaws -open "file1.ggb,file2.ggb"
 				// http://jars.geogebra.org/webstart/4.2/jnlp/geogebra-42.jnlp
 				// no -- or - prefix, therefore a filename
-
 
 				cmdArgs[i] = cmdArgs[i].replaceAll("%20", " ");
 				addFile(cmdArgs[i]);

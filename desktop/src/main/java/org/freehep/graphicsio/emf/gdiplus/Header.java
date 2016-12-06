@@ -7,7 +7,7 @@ import org.freehep.graphicsio.emf.EMFInputStream;
 import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
- * The Header metafile record marks the beginning of EMF+ data within the 
+ * The Header metafile record marks the beginning of EMF+ data within the
  * metafile, and contains general information about the metafile itself.
  * 
  * @author Mark Donszelmann
@@ -15,44 +15,45 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public class Header extends EMFPlusTag {
 
-    public final static int EMF_PLUS_ONLY = 0x00;
-    public final static int EMF_PLUS_DUAL = 0x01;
-    
+	public final static int EMF_PLUS_ONLY = 0x00;
+	public final static int EMF_PLUS_DUAL = 0x01;
+
 	private int hDpi = 120;
 	private int vDpi = 120;
-	
+
 	public Header() {
-		super(1,1);
+		super(1, 1);
 	}
-    
-    public Header(int type) {
-        this();
-        this.flags = type;
-    }
-	
+
+	public Header(int type) {
+		this();
+		this.flags = type;
+	}
+
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		Header tag = new Header();
 		tag.flags = flags;
-        emf.readUINT();
+		emf.readUINT();
 		emf.readUINT();
 		tag.hDpi = emf.readUINT();
 		tag.vDpi = emf.readUINT();
 		return tag;
 	}
 
-	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf)
+			throws IOException {
 		emf.writeUINT(0xDBC01001);
 		emf.writeUINT(0x00000001);
 		emf.writeUINT(hDpi);
 		emf.writeUINT(vDpi);
 	}
 
-    public String toString() {
-        StringBuffer sb = new StringBuffer(super.toString());
-        sb.append("\n");
-        sb.append("  hDPI: "+hDpi+"\n");
-        sb.append("  vDPI: "+vDpi);
-        return sb.toString();
-    }
+	public String toString() {
+		StringBuffer sb = new StringBuffer(super.toString());
+		sb.append("\n");
+		sb.append("  hDPI: " + hDpi + "\n");
+		sb.append("  vDPI: " + vDpi);
+		return sb.toString();
+	}
 }

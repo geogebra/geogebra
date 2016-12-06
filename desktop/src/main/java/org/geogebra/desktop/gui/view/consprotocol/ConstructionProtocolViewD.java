@@ -113,7 +113,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	private int dropIndex = -1;
 
 	// public ConstructionProtocolNavigationD protNavBar; // navigation bar of
-														// protocol window
+	// protocol window
 	private ConstructionProtocolViewD view = this;
 	public JScrollPane scrollPane;
 	private ConstructionProtocolStyleBar helperBar;
@@ -230,7 +230,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		if (!isViewAttached)
 			((ConstructionTableDataD) data).initView();
 	}
-
 
 	protected void repaintScrollpane() {
 		scrollPane.repaint();
@@ -398,8 +397,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							getTable().print(JTable.PrintMode.FIT_WIDTH,
 									new MessageFormat(tableHeader(cons)),
 									new MessageFormat("{0}"), // page numbering
-									/* showPrintDialog */true,
-									/* attr */null,
+									/* showPrintDialog */true, /* attr */null,
 									/* interactive */true /* , */
 							/* service *//* null */);
 							// service must be omitted for Java version 1.5.0
@@ -444,8 +442,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			int keyCode = event.getKeyCode();
 			switch (keyCode) {
 			case KeyEvent.VK_DELETE:
-				ConstructionElement ce = kernel.getConstructionElement(kernel
-						.getConstructionStep());
+				ConstructionElement ce = kernel
+						.getConstructionElement(kernel.getConstructionStep());
 				if (ce != null) {
 					ce.remove();
 					app.storeUndoInfo();
@@ -479,8 +477,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 	}
 
-	class ConstructionMouseListener implements MouseListener,
-			MouseMotionListener {
+	class ConstructionMouseListener
+			implements MouseListener, MouseMotionListener {
 
 		// smallest and larges possible construction index for dragging
 		private int minIndex, maxIndex;
@@ -547,7 +545,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						table.repaint();
 					}
 				}
-			} else if (ob == table.getTableHeader() && (e.getClickCount() == 2)) {
+			} else if (ob == table.getTableHeader()
+					&& (e.getClickCount() == 2)) {
 				setConstructionStep(-1);
 				table.repaint();
 			} else if ((e.getClickCount() == 1) && (AppD.isRightClick(e))
@@ -680,8 +679,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// setSize(getWidth() - column.getWidth(), getHeight());
 				// setSize(view.getWidth(), getHeight());
 			}
-			table.tableChanged(new TableModelEvent(((GAbstractTableModelD) data
-					.getImpl()).getImpl()));
+			table.tableChanged(new TableModelEvent(
+					((GAbstractTableModelD) data.getImpl()).getImpl()));
 
 			// reinit view to update possible breakpoint changes
 			((ConstructionTableDataD) data).initView();
@@ -689,8 +688,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		}
 	}
 
-	class ConstructionTableCellEditor extends AbstractCellEditor implements
-			TableCellEditor {
+	class ConstructionTableCellEditor extends AbstractCellEditor
+			implements TableCellEditor {
 
 		private static final long serialVersionUID = 1L;
 
@@ -711,7 +710,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public Component getTableCellEditorComponent(JTable table1,
-				Object value, boolean isSelected, int rowIndex, int columnIndex) {
+				Object value, boolean isSelected, int rowIndex,
+				int columnIndex) {
 
 			geo = ((ConstructionTableDataD) data).getGeoElement(rowIndex);
 			String val = geo
@@ -764,8 +764,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors)
 				comp.setForeground(
-						GColorD.getAwtColor(rd.getGeo()
-						.getAlgebraColor()));
+						GColorD.getAwtColor(rd.getGeo().getAlgebraColor()));
 			else
 				comp.setForeground(Color.black);
 
@@ -826,18 +825,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 			// better for Macs?
 			setForeground(Color.black);
-			setBackground(GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+			setBackground(GColorD.getAwtColor(
+					GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			// setBorder(BorderFactory.createBevelBorder(0));
-			setBorder(BorderFactory
-					.createMatteBorder(
-							0,
-							0,
-							1,
-							1,
- GColorD
-									.getAwtColor(
-											GeoGebraColorConstants.TABLE_GRID_COLOR)));
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, GColorD
+					.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
 
@@ -853,13 +845,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				int width_numbers = 25;
 
 				if (data.getRowCount() > 0) {
-					TableCellRenderer r = table.getCellRenderer(
-							data.getRowCount() - 1, 0);
-					Component c = r.getTableCellRendererComponent(
-							table,
-							((ConstructionTableDataD) data).getValueAt(
-									data.getRowCount() - 1, 0), false, false,
-							data.getRowCount() - 1, 0);
+					TableCellRenderer r = table
+							.getCellRenderer(data.getRowCount() - 1, 0);
+					Component c = r.getTableCellRendererComponent(table,
+							((ConstructionTableDataD) data)
+									.getValueAt(data.getRowCount() - 1, 0),
+							false, false, data.getRowCount() - 1, 0);
 					// width = Math.max(width, c.getPreferredSize().width +2);
 					width_numbers = Math.max(width_numbers,
 							c.getPreferredSize().width + 2);
@@ -867,8 +858,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 				// tableColumns[0].setMaxWidth(width);
 				tableColumns[0].setMinWidth(width_numbers);
-				tableColumns[0].setMaxWidth(Math.max(width_numbers,
-						width_header));
+				tableColumns[0]
+						.setMaxWidth(Math.max(width_numbers, width_header));
 				// tableColumns[0].setPreferredWidth(width);
 			}
 
@@ -935,8 +926,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			try {
 				if (useColors)
 					return GColorD.getAwtColor(
-							rowList.get(nRow)
-							.getGeo().getAlgebraColor());
+							rowList.get(nRow).getGeo().getAlgebraColor());
 				return Color.black;
 			} catch (Exception e) {
 				return Color.black;
@@ -975,18 +965,15 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return "";
 			switch (nCol) {
 			case 0:
-				return ""
-						+ (rowList.get(nRow).getGeo().getConstructionIndex() + 1);
+				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
+						+ 1);
 			case 1:
 				return "";
 			case 2:
 				return rowList.get(nRow).getGeo().getNameDescription();
 			case 3:
-				return rowList
-						.get(nRow)
-						.getGeo()
-						.getDefinitionDescription(
-								StringTemplate.defaultTemplate);
+				return rowList.get(nRow).getGeo().getDefinitionDescription(
+						StringTemplate.defaultTemplate);
 			case 4:
 				return rowList.get(nRow).getGeo()
 						.getDefinition(StringTemplate.defaultTemplate);
@@ -1018,11 +1005,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return "";
 			switch (nCol) {
 			case 0:
-				return ""
-						+ (rowList.get(nRow).getGeo().getConstructionIndex() + 1);
+				return "" + (rowList.get(nRow).getGeo().getConstructionIndex()
+						+ 1);
 			case 1:
-				return rowList.get(nRow).getGeo()
-						.getNameDescriptionHTML(false, false);
+				return rowList.get(nRow).getGeo().getNameDescriptionHTML(false,
+						false);
 
 			case 2: { // Displaying toolbar icons in the list on demand.
 
@@ -1051,21 +1038,16 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				return "<img src=\"data:image/png;base64," + base64 + "\">";
 			}
 			case 3:
-				return rowList.get(nRow).getGeo()
-						.getDescriptionHTML(false);
+				return rowList.get(nRow).getGeo().getDescriptionHTML(false);
 			case 4:
-				return rowList.get(nRow).getGeo()
-						.getDefinitionHTML(false);
+				return rowList.get(nRow).getGeo().getDefinitionHTML(false);
 			case 5:
 				return rowList.get(nRow).getGeo()
 						.getAlgebraDescriptionHTMLDefault();
 
 			case 6:
-				return rowList
-						.get(nRow)
-						.getGeo()
-						.getCaptionDescriptionHTML(false,
-								StringTemplate.defaultTemplate);
+				return rowList.get(nRow).getGeo().getCaptionDescriptionHTML(
+						false, StringTemplate.defaultTemplate);
 
 			case 7:
 				return rowList.get(nRow).getCPVisible() + "";
@@ -1130,13 +1112,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// so we use the most frequent option, 2 lines of text in a row
 				// (this is still better than 1 lines of text in a row)
 				if (row.getIncludesIndex()) {
-					table.setRowHeight(i, Math.max(
-							(table.getFont().getSize() * 2 + 16),
-							toolbarIconHeight));
+					table.setRowHeight(i,
+							Math.max((table.getFont().getSize() * 2 + 16),
+									toolbarIconHeight));
 				} else {
-					table.setRowHeight(i, Math.max(
-							(table.getFont().getSize() * 2 + 12),
-							toolbarIconHeight));
+					table.setRowHeight(i,
+							Math.max((table.getFont().getSize() * 2 + 12),
+									toolbarIconHeight));
 				}
 			}
 			ctDataImpl.fireTableRowsUpdated(0, size - 1);
@@ -1157,8 +1139,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// update(geo);
 		}
 
-		private class ColumnMovementListener implements
-				TableColumnModelListener {
+		private class ColumnMovementListener
+				implements TableColumnModelListener {
 
 			@Override
 			public void columnAdded(TableColumnModelEvent e) {
@@ -1263,7 +1245,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	@Override
 	public int print(Graphics graphics, PageFormat pageFormat, int pageIndex0)
 			throws PrinterException {
-		
+
 		int pageIndex = PrintPreviewD.adjustIndex(pageIndex0);
 
 		if (!isViewAttached) {
@@ -1274,8 +1256,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			tempFrame.add(this.scrollPane);
 			tempFrame.pack();
 		}
-		int r = table.getPrintable(PrintMode.FIT_WIDTH, null, null).print(
-				graphics, pageFormat, pageIndex);
+		int r = table.getPrintable(PrintMode.FIT_WIDTH, null, null)
+				.print(graphics, pageFormat, pageIndex);
 
 		return r;
 	}
@@ -1363,9 +1345,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		boolean icon_column;
 
 		// Let's be W3C compliant:
-		sb.append("<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
+		sb.append(
+				"<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\n");
 		sb.append("\"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n");
-		sb.append("<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
+		sb.append(
+				"<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">");
 		sb.append("<head>\n");
 		sb.append("<title>");
 		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
@@ -1376,9 +1360,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 		sb.append(" export\">");
 
-		sb.append("<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
+		sb.append(
+				"<style type=\"text/css\"><!--body { font-family:Arial,Helvetica,sans-serif; margin-left:40px }--></style>");
 
-		sb.append("<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
+		sb.append(
+				"<meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\">");
 		sb.append("</head>\n");
 
 		sb.append("<body>\n");
@@ -1459,9 +1445,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				if ((icon_column && addIcons) || !icon_column) {
 					int col = table.getColumnModel().getColumn(nCol)
 							.getModelIndex();
-					String str = StringUtil.toHTMLString(
-							((ConstructionTableDataD) data).getPlainHTMLAt(nRow,
-									col), false);
+					String str = StringUtil
+							.toHTMLString(((ConstructionTableDataD) data)
+									.getPlainHTMLAt(nRow, col), false);
 					sb.append("<td>");
 					if (str.equals(""))
 						sb.append("&nbsp;"); // space
@@ -1470,11 +1456,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 								.getColorAt(nRow, col);
 						if (color != Color.black) {
 							sb.append("<span style=\"color:#");
-							sb.append(
-									StringUtil.toHexString(
-											(byte) color.getRed(),
-											(byte) color.getGreen(),
-											(byte) color.getBlue()));
+							sb.append(StringUtil.toHexString(
+									(byte) color.getRed(),
+									(byte) color.getGreen(),
+									(byte) color.getBlue()));
 							sb.append("\">");
 							sb.append(str);
 							sb.append("</span>");
@@ -1491,10 +1476,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		sb.append("</table>\n");
 
 		// footer
-		sb.append(((GuiManagerD) app.getGuiManager()).getCreatedWithHTML(false));
+		sb.append(
+				((GuiManagerD) app.getGuiManager()).getCreatedWithHTML(false));
 
 		// append base64 string so that file can be reloaded with File -> Open
-		sb.append("\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
+		sb.append(
+				"\n<!-- Base64 string so that this file can be opened in GeoGebra with File -> Open -->");
 		sb.append("\n<applet style=\"display:none\">");
 		sb.append("\n<param name=\"ggbBase64\" value=\"");
 		appendBase64((AppD) app, sb);

@@ -24,8 +24,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class DataSourceDialog extends JDialog implements ActionListener,
-		WindowFocusListener {
+public class DataSourceDialog extends JDialog
+		implements ActionListener, WindowFocusListener {
 
 	private static final long serialVersionUID = 1L;
 

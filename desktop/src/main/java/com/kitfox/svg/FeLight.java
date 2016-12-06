@@ -39,20 +39,17 @@ package com.kitfox.svg;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-abstract public class FeLight extends FilterEffects
-{
+abstract public class FeLight extends FilterEffects {
 
-    public static final String TAG_NAME = "feLight";
+	public static final String TAG_NAME = "feLight";
 
-    /**
-     * Creates a new instance of FillElement
-     */
-    public FeLight()
-    {
-    }
+	/**
+	 * Creates a new instance of FillElement
+	 */
+	public FeLight() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 }

@@ -21,8 +21,8 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Cell editor; handles keystrokes
  */
-public class CASTableCellEditorD extends CASTableCell implements
-		TableCellEditor, KeyListener, CASTableCellEditor {
+public class CASTableCellEditorD extends CASTableCell
+		implements TableCellEditor, KeyListener, CASTableCellEditor {
 
 	private static final long serialVersionUID = 1L;
 
@@ -272,8 +272,8 @@ public class CASTableCellEditorD extends CASTableCell implements
 			return;
 		}
 
-		GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
-				editingRow - 1);
+		GeoCasCell selCellValue = view.getConsoleTable()
+				.getGeoCasCell(editingRow - 1);
 
 		if (!selCellValue.isError()) {
 			switch (ch) {
@@ -296,8 +296,8 @@ public class CASTableCellEditorD extends CASTableCell implements
 		// insert input of previous row
 		// should work on errors also
 		if ('=' == ch) {
-			inputArea.setText(selCellValue
-					.getInput(StringTemplate.defaultTemplate));
+			inputArea.setText(
+					selCellValue.getInput(StringTemplate.defaultTemplate));
 			e.consume();
 		}
 	}

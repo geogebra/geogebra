@@ -85,7 +85,6 @@ public class GeoGebraIconD {
 		ImageIcon ic = im == null ? null
 				: new ImageIcon(ImageManagerD.toBufferedImage(im));
 
-
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -280,7 +279,8 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public static ImageIcon createSymbolTableIcon(Font font, boolean isRollOver) {
+	public static ImageIcon createSymbolTableIcon(Font font,
+			boolean isRollOver) {
 
 		int s = 14;
 		String alpha = Unicode.alpha + "";
@@ -465,8 +465,7 @@ public class GeoGebraIconD {
 		// draw dashed line
 		g2.setPaint(fgColor);
 		g2.setStroke(((AwtFactoryD) AwtFactory.getPrototype())
-				.getAwtStroke(EuclidianStatic
-				.getStroke(thickness, dashStyle)));
+				.getAwtStroke(EuclidianStatic.getStroke(thickness, dashStyle)));
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
@@ -620,10 +619,9 @@ public class GeoGebraIconD {
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
 			boolean serif, Color fgColor, Color bgColor) {
 		app.getDrawEquation().checkFirstCall(app);
-		return new ImageIcon(
-				(BufferedImage) TeXFormula.createBufferedImage(latex,
-						TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
-						ColorD.get(fgColor), ColorD.get(bgColor)));
+		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
+				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
+				ColorD.get(fgColor), ColorD.get(bgColor)));
 	}
 
 	public static ImageIcon createLatexIcon(AppD app, String latex,
@@ -753,7 +751,7 @@ public class GeoGebraIconD {
 			double root3over2 = Math.sqrt(3.0) / 2.0;
 
 			switch (pointStyle) {
-			default: 
+			default:
 				// do nothing
 				break;
 			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
@@ -784,14 +782,14 @@ public class GeoGebraIconD {
 				if (gp == null) {
 					gp = new GeneralPath();
 				}
-				gp.moveTo((float) coords[0], (float) (coords[1] + direction
-						* pointSize));
+				gp.moveTo((float) coords[0],
+						(float) (coords[1] + direction * pointSize));
 				gp.lineTo((float) (coords[0] + pointSize * root3over2),
 						(float) (coords[1] - direction * pointSize / 2));
 				gp.lineTo((float) (coords[0] - pointSize * root3over2),
 						(float) (coords[1] - direction * pointSize / 2));
-				gp.lineTo((float) coords[0], (float) (coords[1] + direction
-						* pointSize));
+				gp.lineTo((float) coords[0],
+						(float) (coords[1] + direction * pointSize));
 				gp.closePath();
 
 				if (crossStrokes[pointSize] == null)
@@ -920,7 +918,8 @@ public class GeoGebraIconD {
 	 * with the correct dimensions.
 	 */
 	public static final void drawLatexImageIcon(AppD app, ImageIcon latexIcon,
-			String latex, Font font, boolean serif, Color fgColor, Color bgColor) {
+			String latex, Font font, boolean serif, Color fgColor,
+			Color bgColor) {
 		// Create image with dummy size, then draw into it to get the correct
 		// size
 		GeoText geo = new GeoText(app.getKernel().getConstruction(), latex);
@@ -931,8 +930,7 @@ public class GeoGebraIconD {
 						.getTempGraphics2D(new GFontD(font)),
 				new GFontD(font), GColorD.newColor(fgColor),
 				GColorD.newColor(bgColor));
-		Rectangle d = GRectangleD
-				.getAWTRectangle(draw.getBounds());
+		Rectangle d = GRectangleD.getAWTRectangle(draw.getBounds());
 
 		// Now use this size and draw again to get the final image
 		if (d == null || d.width == -1 || d.height == -1)
@@ -946,8 +944,7 @@ public class GeoGebraIconD {
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 
 		draw.drawMultilineLaTeX(new GGraphics2DD(g2image), new GFontD(font),
-				GColorD.newColor(fgColor), GColorD.newColor(
-						bgColor));
+				GColorD.newColor(fgColor), GColorD.newColor(bgColor));
 
 		latexIcon.setImage(image);
 	}

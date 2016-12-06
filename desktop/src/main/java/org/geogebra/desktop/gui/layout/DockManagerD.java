@@ -36,8 +36,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Florian Sonner
  */
-public class DockManagerD extends DockManager
-		implements AWTEventListener {
+public class DockManagerD extends DockManager implements AWTEventListener {
 	private AppD app;
 	private LayoutD layout;
 
@@ -229,7 +228,7 @@ public class DockManagerD extends DockManager
 
 				// skip panels which will not be drawn in the main window
 				if (!dpData[i].isVisible()
-				// eg run "no 3D" with 3D View open in saved settings
+						// eg run "no 3D" with 3D View open in saved settings
 						|| panel == null)
 					continue;
 
@@ -255,7 +254,8 @@ public class DockManagerD extends DockManager
 				 * corrupted.
 				 */
 				for (int j = 0; j < directions.length - 1; ++j) {
-					if (directions[j].equals("0") || directions[j].equals("3")) {
+					if (directions[j].equals("0")
+							|| directions[j].equals("3")) {
 						currentParent = (DockSplitPane) currentParent
 								.getLeftComponent();
 					} else {
@@ -278,8 +278,8 @@ public class DockManagerD extends DockManager
 				// move toolbar to main container
 				if (panel.hasToolbar()) {
 					ToolbarContainer mainContainer = getToolbarPanel();
-					mainContainer.addToolbar(getPanel(dpData[i].getViewId())
-							.getToolbar());
+					mainContainer.addToolbar(
+							getPanel(dpData[i].getViewId()).getToolbar());
 				}
 			}
 
@@ -293,11 +293,13 @@ public class DockManagerD extends DockManager
 			// set the dividers of the split panes
 			for (int i = 0; i < spData.length; ++i) {
 				if (spData[i].getOrientation() == JSplitPane.VERTICAL_SPLIT)
-					splitPanes[i].setDividerLocation((int) (spData[i]
-							.getDividerLocation() * windowHeight));
+					splitPanes[i].setDividerLocation(
+							(int) (spData[i].getDividerLocation()
+									* windowHeight));
 				else
-					splitPanes[i].setDividerLocation((int) (spData[i]
-							.getDividerLocation() * windowWidth));
+					splitPanes[i].setDividerLocation(
+							(int) (spData[i].getDividerLocation()
+									* windowWidth));
 
 				splitPanes[i].updateUI();
 			}
@@ -318,12 +320,13 @@ public class DockManagerD extends DockManager
 								&& !panel.isInFrame()) {
 							setFocusedPanel(panel);
 							// don't like algebra view as focused view
-							if (panel.getViewId() != App.VIEW_ALGEBRA && panel.getViewId() != App.VIEW_PROPERTIES) {
+							if (panel.getViewId() != App.VIEW_ALGEBRA && panel
+									.getViewId() != App.VIEW_PROPERTIES) {
 								focusDone = true;
 							}
 						}
 					}
-				}			
+				}
 			}
 		}
 
@@ -404,11 +407,12 @@ public class DockManagerD extends DockManager
 			if (targetParent == rootPane) {
 				rootPane = newSplitPane;
 			} else {
-				((DockSplitPane) targetParent.getParent()).replaceComponent(
-						targetParent, newSplitPane);
+				((DockSplitPane) targetParent.getParent())
+						.replaceComponent(targetParent, newSplitPane);
 			}
 
-			if (dndRegion == DnDState.LEFT_OUT || dndRegion == DnDState.TOP_OUT) {
+			if (dndRegion == DnDState.LEFT_OUT
+					|| dndRegion == DnDState.TOP_OUT) {
 				newSplitPane.setRightComponent(targetParent);
 				newSplitPane.setLeftComponent(source);
 			} else {
@@ -590,7 +594,8 @@ public class DockManagerD extends DockManager
 				if (currentPane.getOrientation() == JSplitPane.HORIZONTAL_SPLIT
 						&& (locations[i] == 0 || locations[i] == 2)) {
 					continue;
-				} else if (currentPane.getOrientation() == JSplitPane.VERTICAL_SPLIT
+				} else if (currentPane
+						.getOrientation() == JSplitPane.VERTICAL_SPLIT
 						&& (locations[i] == 1 || locations[i] == 3)) {
 					continue;
 				}
@@ -640,7 +645,8 @@ public class DockManagerD extends DockManager
 								.getRightComponent();
 					}
 				} else {
-					if (((DockSplitPane) opposite).getRightComponent() == null) {
+					if (((DockSplitPane) opposite)
+							.getRightComponent() == null) {
 						opposite = ((DockSplitPane) opposite)
 								.getLeftComponent();
 					}
@@ -698,7 +704,8 @@ public class DockManagerD extends DockManager
 				newSplitPane.setDividerLocation(newSplitPaneSize - size);
 			}
 
-			// AbstractApplication.debug("\nnewSplitPaneSize = "+newSplitPaneSize+"\nsize = "+size);
+			// AbstractApplication.debug("\nnewSplitPaneSize =
+			// "+newSplitPaneSize+"\nsize = "+size);
 			// Application.debug("\n======\n"+((DockComponent)
 			// opposite).toString(""));
 			// re dispatch divider locations to prevent not visible views
@@ -915,15 +922,16 @@ public class DockManagerD extends DockManager
 		// determine ancestor element of the event source which is of type
 		// dock panel
 		Component source = (Component) event.getSource();
-		// System.out.println("    source: " + source);
-		DockPanelD dp = (DockPanelD) SwingUtilities.getAncestorOfClass(
-				DockPanelD.class, source);
+		// System.out.println(" source: " + source);
+		DockPanelD dp = (DockPanelD) SwingUtilities
+				.getAncestorOfClass(DockPanelD.class, source);
 
 		// ignore this if we didn't hit a dock panel at all or if we hit the
 		// euclidian
 		// view, they are always handled by their own mouse event (see doc
 		// comment above)
-		if (dp != null && !(dp.getComponent() instanceof EuclidianViewJPanelD)) {
+		if (dp != null
+				&& !(dp.getComponent() instanceof EuclidianViewJPanelD)) {
 			// updates the properties view only if source is not the euclidian
 			// style bar
 			boolean updatePropertiesView = true;
@@ -954,7 +962,8 @@ public class DockManagerD extends DockManager
 	 * @param updatePropertiesView
 	 *            update the properties view
 	 */
-	public void setFocusedPanel(DockPanelD panel, boolean updatePropertiesView) {
+	public void setFocusedPanel(DockPanelD panel,
+			boolean updatePropertiesView) {
 		if (focusedDockPanel == panel) {
 			return;
 		}
@@ -1151,7 +1160,8 @@ public class DockManagerD extends DockManager
 		if (rootPane.getLeftComponent() == null) {
 			Component rightComponent = rootPane.getRightComponent();
 
-			if (rightComponent != null && rightComponent instanceof DockPanelD) {
+			if (rightComponent != null
+					&& rightComponent instanceof DockPanelD) {
 				singlePanel = (DockPanelD) rightComponent;
 			}
 		}
@@ -1298,10 +1308,9 @@ public class DockManagerD extends DockManager
 	}
 
 	private void scale(float scaleX, float scaleY, DockSplitPane splitPane) {
-		splitPane
-				.setDividerLocation((int) (splitPane.getDividerLocation() * (splitPane
-						.getOrientation() == JSplitPane.VERTICAL_SPLIT ? scaleX
-						: scaleY)));
+		splitPane.setDividerLocation((int) (splitPane.getDividerLocation()
+				* (splitPane.getOrientation() == JSplitPane.VERTICAL_SPLIT
+						? scaleX : scaleY)));
 
 		if (splitPane.getLeftComponent() != null
 				&& splitPane.getLeftComponent() instanceof DockSplitPane) {
@@ -1310,7 +1319,8 @@ public class DockManagerD extends DockManager
 
 		if (splitPane.getRightComponent() != null
 				&& splitPane.getRightComponent() instanceof DockSplitPane) {
-			scale(scaleX, scaleY, (DockSplitPane) splitPane.getRightComponent());
+			scale(scaleX, scaleY,
+					(DockSplitPane) splitPane.getRightComponent());
 		}
 	}
 

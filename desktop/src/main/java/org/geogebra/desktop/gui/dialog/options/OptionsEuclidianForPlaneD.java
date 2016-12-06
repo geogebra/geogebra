@@ -23,5 +23,4 @@ public class OptionsEuclidianForPlaneD extends OptionsEuclidianD {
 		super(app, view);
 	}
 
-
 }

@@ -11,103 +11,105 @@ import java.io.OutputStream;
  * Reference (3rd ed.) chapter 3.13.3.
  * 
  * @author Mark Donszelmann
- * @version $Id: RunLengthOutputStream.java,v 1.3 2008-05-04 12:21:35 murkle Exp $
+ * @version $Id: RunLengthOutputStream.java,v 1.3 2008-05-04 12:21:35 murkle Exp
+ *          $
  */
-public class RunLengthOutputStream extends FilterOutputStream implements
-        RunLength, FinishableOutputStream {
+public class RunLengthOutputStream extends FilterOutputStream
+		implements RunLength, FinishableOutputStream {
 
-    private boolean end;
+	private boolean end;
 
-    private int[] buffer = new int[LENGTH];
+	private int[] buffer = new int[LENGTH];
 
-    private int index;
+	private int index;
 
-    private int last;
+	private int last;
 
-    private int count;
+	private int count;
 
-    /**
-     * Create a Run Length output stream
-     * 
-     * @param out stream to write
-     */
-    public RunLengthOutputStream(OutputStream out) {
-        super(out);
-        end = false;
-        index = 0;
-        last = -1;
-        count = 1;
-    }
+	/**
+	 * Create a Run Length output stream
+	 * 
+	 * @param out
+	 *            stream to write
+	 */
+	public RunLengthOutputStream(OutputStream out) {
+		super(out);
+		end = false;
+		index = 0;
+		last = -1;
+		count = 1;
+	}
 
-    public void write(int a) throws IOException {
-        a &= 0x00FF;
-        if (last > 0) {
-            if (a == last) {
-                // counting
-                writeBuffer();
-                count++;
-                if (count >= LENGTH) {
-                    writeCount();
-                }
-            } else {
-                // buffering
-                if (count > 1) {
-                    writeCount();
-                } else {
-                    buffer[index] = last;
-                    index++;
-                    if (index >= LENGTH) {
-                        writeBuffer();
-                    }
-                }
-            }
-        }
+	public void write(int a) throws IOException {
+		a &= 0x00FF;
+		if (last > 0) {
+			if (a == last) {
+				// counting
+				writeBuffer();
+				count++;
+				if (count >= LENGTH) {
+					writeCount();
+				}
+			} else {
+				// buffering
+				if (count > 1) {
+					writeCount();
+				} else {
+					buffer[index] = last;
+					index++;
+					if (index >= LENGTH) {
+						writeBuffer();
+					}
+				}
+			}
+		}
 
-        last = a;
-    }
+		last = a;
+	}
 
-    public void finish() throws IOException {
-        if (!end) {
-            end = true;
-            writeCount();
-            writeBuffer();
-            
-            // we may have one character left in "last" (FREEHEP-578)
-            if (last >= 0) {
-                super.write(0);
-                super.write(last);
-            }
-            super.write(EOD);
-            flush();
-            if (out instanceof FinishableOutputStream) {
-                ((FinishableOutputStream) out).finish();
-            }
-        }
-    }
+	public void finish() throws IOException {
+		if (!end) {
+			end = true;
+			writeCount();
+			writeBuffer();
 
-    public void close() throws IOException {
-        finish();
-        super.close();
-    }
+			// we may have one character left in "last" (FREEHEP-578)
+			if (last >= 0) {
+				super.write(0);
+				super.write(last);
+			}
+			super.write(EOD);
+			flush();
+			if (out instanceof FinishableOutputStream) {
+				((FinishableOutputStream) out).finish();
+			}
+		}
+	}
 
-    private void writeBuffer() throws IOException {
-        if (index > 0) {
-            super.write(index - 1);
-            for (int i = 0; i < index; i++) {
-                super.write((byte) buffer[i]);
-            }
-        }
+	public void close() throws IOException {
+		finish();
+		super.close();
+	}
 
-        index = 0;
-    }
+	private void writeBuffer() throws IOException {
+		if (index > 0) {
+			super.write(index - 1);
+			for (int i = 0; i < index; i++) {
+				super.write((byte) buffer[i]);
+			}
+		}
 
-    private void writeCount() throws IOException {
-        if (count > 1) {
-            super.write(257 - count);
-            super.write(last);
-            last = -1;
-        }
+		index = 0;
+	}
 
-        count = 1;
-    }
+	private void writeCount() throws IOException {
+		if (count > 1) {
+			super.write(257 - count);
+			super.write(last);
+			last = -1;
+		}
+
+		count = 1;
+	}
 }

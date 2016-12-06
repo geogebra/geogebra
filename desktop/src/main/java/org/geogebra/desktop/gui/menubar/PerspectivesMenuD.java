@@ -46,11 +46,10 @@ class PerspectivesMenuD extends BaseMenu {
 			return;
 		}
 
-
 		for (int i = 0; i < Layout.getDefaultPerspectivesLength(); ++i) {
 			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-			tmpItem.setText(app.getMenu("Perspective."
-					+ Layout.getDefaultPerspectives(i).getId()));
+			tmpItem.setText(app.getMenu(
+					"Perspective." + Layout.getDefaultPerspectives(i).getId()));
 			tmpItem.setIcon(app.getEmptyIcon());
 			tmpItem.setActionCommand("d" + i);
 			add(tmpItem);
@@ -72,7 +71,6 @@ class PerspectivesMenuD extends BaseMenu {
 			addSeparator();
 		}
 
-
 	}
 
 	/**
@@ -81,7 +79,6 @@ class PerspectivesMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 
-
 		changePerspectiveAction = new AbstractAction() {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
@@ -89,8 +86,8 @@ class PerspectivesMenuD extends BaseMenu {
 			public void actionPerformed(ActionEvent e) {
 				// default perspectives start with a "d"
 				if (e.getActionCommand().startsWith("d")) {
-					int index = Integer.parseInt(e.getActionCommand()
-							.substring(1));
+					int index = Integer
+							.parseInt(e.getActionCommand().substring(1));
 					layout.applyPerspective(
 							Layout.getDefaultPerspectives(index));
 				} else {

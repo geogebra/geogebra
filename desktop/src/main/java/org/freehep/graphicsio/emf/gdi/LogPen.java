@@ -16,46 +16,46 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public class LogPen implements EMFConstants {
 
-    private int penStyle;
+	private int penStyle;
 
-    private int width;
+	private int width;
 
-    private Color color;
+	private Color color;
 
-    public LogPen(int penStyle, int width, Color color) {
-        this.penStyle = penStyle;
-        this.width = width;
-        this.color = color;
-    }
+	public LogPen(int penStyle, int width, Color color) {
+		this.penStyle = penStyle;
+		this.width = width;
+		this.color = color;
+	}
 
-    public LogPen(EMFInputStream emf) throws IOException {
-        penStyle = emf.readDWORD();
-        width = emf.readDWORD();
-        /* int y = */ emf.readDWORD();
-        color = emf.readCOLORREF();
-    }
+	public LogPen(EMFInputStream emf) throws IOException {
+		penStyle = emf.readDWORD();
+		width = emf.readDWORD();
+		/* int y = */ emf.readDWORD();
+		color = emf.readCOLORREF();
+	}
 
-    public void write(EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(penStyle);
-        emf.writeDWORD(width);
-        emf.writeDWORD(0);
-        emf.writeCOLORREF(color);
-    }
+	public void write(EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(penStyle);
+		emf.writeDWORD(width);
+		emf.writeDWORD(0);
+		emf.writeCOLORREF(color);
+	}
 
-    public String toString() {
-        return "  LogPen\n" + "    penstyle: " + penStyle + "\n"
-                + "    width: " + width + "\n" + "    color: " + color;
-    }
+	public String toString() {
+		return "  LogPen\n" + "    penstyle: " + penStyle + "\n" + "    width: "
+				+ width + "\n" + "    color: " + color;
+	}
 
-    public int getPenStyle() {
-        return penStyle;
-    }
+	public int getPenStyle() {
+		return penStyle;
+	}
 
-    public int getWidth() {
-        return width;
-    }
+	public int getWidth() {
+		return width;
+	}
 
-    public Color getColor() {
-        return color;
-    }
+	public Color getColor() {
+		return color;
+	}
 }

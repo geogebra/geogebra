@@ -164,14 +164,14 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			if (gp == null) {
 				gp = new GeneralPath();
 			}
-			gp.moveTo((float) coords[0], (float) (coords[1] + direction
-					* pointSize));
+			gp.moveTo((float) coords[0],
+					(float) (coords[1] + direction * pointSize));
 			gp.lineTo((float) (coords[0] + pointSize * root3over2),
 					(float) (coords[1] - direction * pointSize / 2));
 			gp.lineTo((float) (coords[0] - pointSize * root3over2),
 					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) coords[0], (float) (coords[1] + direction
-					* pointSize));
+			gp.lineTo((float) coords[0],
+					(float) (coords[1] + direction * pointSize));
 			gp.closePath();
 
 			if (crossStrokes[pointSize] == null)

@@ -39,8 +39,8 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  *
  */
-public class RendererShaders extends RendererD implements
-		RendererShadersInterface {
+public class RendererShaders extends RendererD
+		implements RendererShadersInterface {
 
 	final static public int GLSL_ATTRIB_POSITION = 0;
 	final static public int GLSL_ATTRIB_COLOR = 1;
@@ -103,9 +103,9 @@ public class RendererShaders extends RendererD implements
 
 	private String loadTextFile(String file) {
 
-		return ((AppD) view3D.getApplication())
-				.loadTextFile("/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/" + file
-						+ ".txt");
+		return ((AppD) view3D.getApplication()).loadTextFile(
+				"/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/"
+						+ file + ".txt");
 	}
 
 	@Override
@@ -141,7 +141,8 @@ public class RendererShaders extends RendererD implements
 		// This allows the shaders to compile using the latest
 		// desktop OpenGL 3 and 4 drivers.
 		if (jogl.getGL2ES2().isGL3core()) {
-			Log.debug("GL3 core detected: explicit add #version 130 to shaders");
+			Log.debug(
+					"GL3 core detected: explicit add #version 130 to shaders");
 			vertexShaderString = "#version 130\n" + vertexShaderString;
 			fragmentShaderString = "#version 130\n" + fragmentShaderString;
 		}
@@ -228,8 +229,8 @@ public class RendererShaders extends RendererD implements
 				GLSL_ATTRIB_POSITION, "attribute_Position");
 		jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_COLOR,
 				"attribute_Color");
-		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
-				GLSL_ATTRIB_NORMAL, "attribute_Normal");
+		jogl.getGL2ES2().glBindAttribLocation(shaderProgram, GLSL_ATTRIB_NORMAL,
+				"attribute_Normal");
 		jogl.getGL2ES2().glBindAttribLocation(shaderProgram,
 				GLSL_ATTRIB_TEXTURE, "attribute_Texture");
 
@@ -242,24 +243,24 @@ public class RendererShaders extends RendererD implements
 
 		// normalMatrixLocation =
 		// jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "normalMatrix");
-		lightPositionLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "lightPosition");
-		ambiantDiffuseLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "ambiantDiffuse");
-		eyePositionLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "eyePosition");
-		enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "enableLight");
+		lightPositionLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "lightPosition");
+		ambiantDiffuseLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "ambiantDiffuse");
+		eyePositionLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "eyePosition");
+		enableLightLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "enableLight");
 
 		cullingLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram,
 				"culling");
 
-		dashValuesLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "dashValues");
+		dashValuesLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "dashValues");
 
 		// texture
-		textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "textureType");
+		textureTypeLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "textureType");
 
 		// color
 		colorLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram,
@@ -274,18 +275,18 @@ public class RendererShaders extends RendererD implements
 				"center");
 
 		// clip planes
-		enableClipPlanesLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "enableClipPlanes");
-		clipPlanesMinLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "clipPlanesMin");
-		clipPlanesMaxLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "clipPlanesMax");
+		enableClipPlanesLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "enableClipPlanes");
+		clipPlanesMinLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "clipPlanesMin");
+		clipPlanesMaxLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "clipPlanesMax");
 
 		// label rendering
-		labelRenderingLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "labelRendering");
-		labelOriginLocation = jogl.getGL2ES2().glGetUniformLocation(
-				shaderProgram, "labelOrigin");
+		labelRenderingLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "labelRendering");
+		labelOriginLocation = jogl.getGL2ES2()
+				.glGetUniformLocation(shaderProgram, "labelOrigin");
 
 		/*
 		 * GL2ES2 also includes the intersection of GL3 core GL3 core and later
@@ -399,8 +400,8 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffer, int attrib) {
+	public void storeBuffer(GLBuffer fb, int length, int size, GPUBuffer buffer,
+			int attrib) {
 		// Select the VBO, GPU memory data
 		bindBuffer(buffer);
 
@@ -412,8 +413,7 @@ public class RendererShaders extends RendererD implements
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length,
-			GPUBuffer buffers) {
+	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
 		// Select the VBO, GPU memory data
 		bindBufferForIndices(buffers);
 
@@ -427,8 +427,7 @@ public class RendererShaders extends RendererD implements
 	@Override
 	public void bindBufferForIndices(GPUBuffer buffer) {
 		// Select the VBO, GPU memory data
-		jogl.getGL2ES2().glBindBuffer(
-				GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
+		jogl.getGL2ES2().glBindBuffer(GL2ES2.GL_ELEMENT_ARRAY_BUFFER,
 				((GPUBufferD) buffer).get());
 	}
 
@@ -557,9 +556,6 @@ public class RendererShaders extends RendererD implements
 		enableAttrib(GLSL_ATTRIB_TEXTURE);
 	}
 
-
-
-
 	@Override
 	public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 
@@ -588,9 +584,7 @@ public class RendererShaders extends RendererD implements
 		// VBO - indices
 
 		// Select the VBO, GPU memory data, to use for indices
-		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER,
-				vboIndices);
-
+		jogl.getGL2ES2().glBindBuffer(GL.GL_ELEMENT_ARRAY_BUFFER, vboIndices);
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
@@ -678,7 +672,6 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
-
 
 		if (fbColors == null || fbColors.isEmpty()) {
 			return;
@@ -931,7 +924,6 @@ public class RendererShaders extends RendererD implements
 		setModelViewIdentity();
 	}
 
-
 	@Override
 	protected void setColor(float r, float g, float b, float a) {
 		jogl.getGL2ES2().glUniform4f(colorLocation, r, g, b, a);
@@ -964,7 +956,6 @@ public class RendererShaders extends RendererD implements
 	public void resetMatrix() {
 		setMatrixView();
 	}
-
 
 	@Override
 	protected void setGLForPicking() {
@@ -1019,15 +1010,14 @@ public class RendererShaders extends RendererD implements
 
 	}
 
-
 	private float[] eyeOrDirection = new float[4];
 
 	@Override
 	public void setLightPosition(float[] values) {
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
 		view3D.getEyePosition().get4ForGL(eyeOrDirection);
-		jogl.getGL2ES2()
-				.glUniform4fv(eyePositionLocation, 1, eyeOrDirection, 0);
+		jogl.getGL2ES2().glUniform4fv(eyePositionLocation, 1, eyeOrDirection,
+				0);
 	}
 
 	private float[][] ambiantDiffuse;
@@ -1085,7 +1075,6 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glViewport(0, 0, getWidth(), getHeight());
 
 	}
-	
 
 	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 
@@ -1134,17 +1123,20 @@ public class RendererShaders extends RendererD implements
 
 		super.updatePerspValues();
 
-		projectionMatrix.set(1, 1, 2 * perspNear[eye] / (perspRight[eye] - perspLeft[eye]));
+		projectionMatrix.set(1, 1,
+				2 * perspNear[eye] / (perspRight[eye] - perspLeft[eye]));
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2 * perspNear[eye] / (perspTop[eye] - perspBottom[eye]));
+		projectionMatrix.set(2, 2,
+				2 * perspNear[eye] / (perspTop[eye] - perspBottom[eye]));
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		perspXZ = (perspRight[eye] + perspLeft[eye]) / (perspRight[eye] - perspLeft[eye]);
+		perspXZ = (perspRight[eye] + perspLeft[eye])
+				/ (perspRight[eye] - perspLeft[eye]);
 
 		projectionMatrix.set(1, 3, perspXZ);
 		projectionMatrix.set(2, 3, (perspTop[eye] + perspBottom[eye])
@@ -1166,8 +1158,9 @@ public class RendererShaders extends RendererD implements
 	@Override
 	public void updateGlassesValues() {
 		super.updateGlassesValues();
-		glassesXZ = (perspNear[eye] * (glassesEyeX[EYE_LEFT] - glassesEyeX[EYE_RIGHT]) / perspFocus[eye])
-				/ (perspRight[eye] - perspLeft[eye]);
+		glassesXZ = (perspNear[eye]
+				* (glassesEyeX[EYE_LEFT] - glassesEyeX[EYE_RIGHT])
+				/ perspFocus[eye]) / (perspRight[eye] - perspLeft[eye]);
 	}
 
 	@Override
@@ -1382,7 +1375,7 @@ public class RendererShaders extends RendererD implements
 		super.drawFaceToScreen();
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
-	
+
 	@Override
 	protected void drawFaceToScreenEnd() {
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 1);
@@ -1421,11 +1414,11 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void enableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			jogl.getGL2ES2().glUniform1i(enableLightLocation, 1);
 		}
 	}
-	
+
 	@Override
 	public void initLighting() {
 		if (view3D.getUseLight()) {
@@ -1437,7 +1430,7 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void disableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
 		}
 	}
@@ -1458,8 +1451,8 @@ public class RendererShaders extends RendererD implements
 	final public void setCenter(Coords center) {
 		center.get4ForGL(pointCenter);
 		// set radius info
-		pointCenter[3] = view3D.unscale(pointCenter[3]
-				* DrawPoint3D.DRAW_POINT_FACTOR);
+		pointCenter[3] = view3D
+				.unscale(pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR);
 		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, pointCenter, 0);
 	}
 

@@ -112,7 +112,8 @@ public class CASDropTargetListener implements DropTargetListener {
 				newcell.setProcessingInformation(cell.getPrefix(), subCmd,
 						cell.getPostfix());
 				newcell.setEvalCommand("Substitute");
-				if (substitution.startsWith("{") && substitution.endsWith("}")) {
+				if (substitution.startsWith("{")
+						&& substitution.endsWith("}")) {
 					substitution = substitution.substring(1,
 							substitution.length() - 1);
 				}
@@ -130,11 +131,12 @@ public class CASDropTargetListener implements DropTargetListener {
 			 * value of the geo eg: Drop Element g: Line[A,B] -> CAS Cell: a*x +
 			 * b*y = c without any assignment
 			 */
-			if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+			if (t.isDataFlavorSupported(
+					AlgebraViewTransferHandler.algebraViewFlavor)) {
 				String textImport;
 				// get list of selected geo labels
-				ArrayList<String> list = (ArrayList<String>) t
-						.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+				ArrayList<String> list = (ArrayList<String>) t.getTransferData(
+						AlgebraViewTransferHandler.algebraViewFlavor);
 
 				// exit if empty list
 				if (list.size() == 0) {

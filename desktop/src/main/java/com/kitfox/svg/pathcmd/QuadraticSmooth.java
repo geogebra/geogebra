@@ -45,45 +45,42 @@ import java.awt.geom.GeneralPath;
  */
 public class QuadraticSmooth extends PathCommand {
 
-    public float x = 0f;
-    public float y = 0f;
+	public float x = 0f;
+	public float y = 0f;
 
-    /** Creates a new instance of MoveTo */
-    public QuadraticSmooth() {
-    }
+	/** Creates a new instance of MoveTo */
+	public QuadraticSmooth() {
+	}
 
-    public String toString()
-    {
-        return "T " + x + " " + y;
-    }
+	public String toString() {
+		return "T " + x + " " + y;
+	}
 
-    public QuadraticSmooth(boolean isRelative, float x, float y) {
-        super(isRelative);
-        this.x = x;
-        this.y = y;
-    }
+	public QuadraticSmooth(boolean isRelative, float x, float y) {
+		super(isRelative);
+		this.x = x;
+		this.y = y;
+	}
 
-//    public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
-    public void appendPath(GeneralPath path, BuildHistory hist)
-    {
-        float offx = isRelative ? hist.lastPoint.x : 0f;
-        float offy = isRelative ? hist.lastPoint.y : 0f;
+	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	public void appendPath(GeneralPath path, BuildHistory hist) {
+		float offx = isRelative ? hist.lastPoint.x : 0f;
+		float offy = isRelative ? hist.lastPoint.y : 0f;
 
-        float oldKx = hist.lastKnot.x;
-        float oldKy = hist.lastKnot.y;
-        float oldX = hist.lastPoint.x;
-        float oldY = hist.lastPoint.y;
-        //Calc knot as reflection of old knot
-        float kx = oldX * 2f - oldKx;
-        float ky = oldY * 2f - oldKy;
+		float oldKx = hist.lastKnot.x;
+		float oldKy = hist.lastKnot.y;
+		float oldX = hist.lastPoint.x;
+		float oldY = hist.lastPoint.y;
+		// Calc knot as reflection of old knot
+		float kx = oldX * 2f - oldKx;
+		float ky = oldY * 2f - oldKy;
 
-        path.quadTo(kx, ky, x + offx, y + offy);
-        hist.setLastPoint(x + offx, y + offy);
-        hist.setLastKnot(kx, ky);
-    }
+		path.quadTo(kx, ky, x + offx, y + offy);
+		hist.setLastPoint(x + offx, y + offy);
+		hist.setLastKnot(kx, ky);
+	}
 
-    public int getNumKnotsAdded()
-    {
-        return 4;
-    }
+	public int getNumKnotsAdded() {
+		return 4;
+	}
 }

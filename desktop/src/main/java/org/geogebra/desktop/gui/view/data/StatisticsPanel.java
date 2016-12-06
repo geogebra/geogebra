@@ -249,8 +249,8 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		if (source == cbInferenceMode
 				&& cbInferenceMode.getSelectedItem() != null) {
 
-			model.selectInferenceMode(cbInferenceMode.getSelectedItem()
-					.toString());
+			model.selectInferenceMode(
+					cbInferenceMode.getSelectedItem().toString());
 			setInferencePanel();
 			updatePanel();
 		}

@@ -47,103 +47,90 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Symbol extends Group
-{
+public class Symbol extends Group {
 
-    public static final String TAG_NAME = "symbol";
-    AffineTransform viewXform;
-    Rectangle2D viewBox;
+	public static final String TAG_NAME = "symbol";
+	AffineTransform viewXform;
+	Rectangle2D viewBox;
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Symbol()
-    {
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Symbol() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-//        sty = getPres("unicode");
-//        if (sty != null) unicode = sty.getStringValue();
+		// sty = getPres("unicode");
+		// if (sty != null) unicode = sty.getStringValue();
 
+		if (getPres(sty.setName("viewBox"))) {
+			float[] dim = sty.getFloatList();
+			viewBox = new Rectangle2D.Float(dim[0], dim[1], dim[2], dim[3]);
+		}
 
-        if (getPres(sty.setName("viewBox")))
-        {
-            float[] dim = sty.getFloatList();
-            viewBox = new Rectangle2D.Float(dim[0], dim[1], dim[2], dim[3]);
-        }
+		if (viewBox == null) {
+			// viewBox = super.getBoundingBox();
+			viewBox = new Rectangle(0, 0, 1, 1);
+		}
 
-        if (viewBox == null)
-        {
-//            viewBox = super.getBoundingBox();
-            viewBox = new Rectangle(0, 0, 1, 1);
-        }
+		// Transform pattern onto unit square
+		viewXform = new AffineTransform();
+		viewXform.scale(1.0 / viewBox.getWidth(), 1.0 / viewBox.getHeight());
+		viewXform.translate(-viewBox.getX(), -viewBox.getY());
+	}
 
-        //Transform pattern onto unit square
-        viewXform = new AffineTransform();
-        viewXform.scale(1.0 / viewBox.getWidth(), 1.0 / viewBox.getHeight());
-        viewXform.translate(-viewBox.getX(), -viewBox.getY());
-    }
+	protected boolean outsideClip(Graphics2D g) throws SVGException {
+		Shape clip = g.getClip();
+		// g.getClipBounds(clipBounds);
+		Rectangle2D rect = super.getBoundingBox();
+		if (clip == null || clip.intersects(rect)) {
+			return false;
+		}
 
-    protected boolean outsideClip(Graphics2D g) throws SVGException
-    {
-        Shape clip = g.getClip();
-//        g.getClipBounds(clipBounds);
-        Rectangle2D rect = super.getBoundingBox();
-        if (clip == null || clip.intersects(rect))
-        {
-            return false;
-        }
+		return true;
 
-        return true;
+	}
 
-    }
+	public void render(Graphics2D g) throws SVGException {
+		AffineTransform oldXform = g.getTransform();
+		g.transform(viewXform);
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        AffineTransform oldXform = g.getTransform();
-        g.transform(viewXform);
+		super.render(g);
 
-        super.render(g);
+		g.setTransform(oldXform);
+	}
 
-        g.setTransform(oldXform);
-    }
+	public Shape getShape() {
+		Shape shape = super.getShape();
+		return viewXform.createTransformedShape(shape);
+	}
 
-    public Shape getShape()
-    {
-        Shape shape = super.getShape();
-        return viewXform.createTransformedShape(shape);
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		Rectangle2D rect = super.getBoundingBox();
+		return viewXform.createTransformedShape(rect).getBounds2D();
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        Rectangle2D rect = super.getBoundingBox();
-        return viewXform.createTransformedShape(rect).getBounds2D();
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+		// View box properties do not change
 
-        //View box properties do not change
-
-        return changeState;
-    }
+		return changeState;
+	}
 }

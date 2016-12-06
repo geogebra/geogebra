@@ -15,29 +15,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetMapperFlags extends EMFTag {
 
-    private int flags;
+	private int flags;
 
-    public SetMapperFlags() {
-        super(16, 1);
-    }
+	public SetMapperFlags() {
+		super(16, 1);
+	}
 
-    public SetMapperFlags(int flags) {
-        this();
-        this.flags = flags;
-    }
+	public SetMapperFlags(int flags) {
+		this();
+		this.flags = flags;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetMapperFlags tag = new SetMapperFlags(emf.readDWORD());
-        return tag;
-    }
+		SetMapperFlags tag = new SetMapperFlags(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(flags);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(flags);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  flags: " + flags;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  flags: " + flags;
+	}
 }

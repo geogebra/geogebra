@@ -47,7 +47,8 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	protected boolean confirm(String string) {
-		return JOptionPane.showConfirmDialog(null, string) == JOptionPane.OK_CANCEL_OPTION;
+		return JOptionPane.showConfirmDialog(null,
+				string) == JOptionPane.OK_CANCEL_OPTION;
 	}
 
 	@Override
@@ -63,7 +64,8 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
+	public void showPropertiesDialog(OptionType type,
+			ArrayList<GeoElement> geos) {
 		// TODO Auto-generated method stub
 
 	}
@@ -180,7 +182,8 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String menu,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2) {
+			EuclidianController ec, GeoPointND geoPoint1,
+			GeoPointND geoPoint2) {
 		String inputString = prompt(menu + " " + loc.getPlain("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
@@ -196,11 +199,10 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new TextInputDialogD(app,
- loc.getMenu("Text"),
-				text, startPoint, rw, 30, 6,
-				app.getMode() == EuclidianConstants.MODE_TEXT);
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
+			boolean rw) {
+		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
 	@Override

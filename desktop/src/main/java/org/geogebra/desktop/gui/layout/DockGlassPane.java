@@ -332,7 +332,8 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	public void eventDispatched(AWTEvent event) {
 		if (event instanceof MouseEvent) {
 			if (event.getID() == MouseEvent.MOUSE_DRAGGED
-					&& ((MouseEvent) event).getModifiers() == InputEvent.BUTTON1_MASK)
+					&& ((MouseEvent) event)
+							.getModifiers() == InputEvent.BUTTON1_MASK)
 				mouseDragged((MouseEvent) event);
 			else if (event.getID() == MouseEvent.MOUSE_RELEASED)
 				stopDrag();

@@ -14,12 +14,15 @@ import org.mozilla.javascript.Token;
 
 /**
  * AST node for an Object literal (also called an Object initialiser in
- * Ecma-262).  The elements list will always be non-{@code null}, although
- * the list will have no elements if the Object literal is empty.<p>
+ * Ecma-262). The elements list will always be non-{@code null}, although the
+ * list will have no elements if the Object literal is empty.
+ * <p>
  *
- * Node type is {@link Token#OBJECTLIT}.<p>
+ * Node type is {@link Token#OBJECTLIT}.
+ * <p>
  *
- * <pre><i>ObjectLiteral</i> :
+ * <pre>
+ * <i>ObjectLiteral</i> :
  *       <b>{}</b>
  *       <b>{</b> PropertyNameAndValueList <b>}</b>
  * <i>PropertyNameAndValueList</i> :
@@ -28,109 +31,115 @@ import org.mozilla.javascript.Token;
  * <i>PropertyName</i> :
  *       Identifier
  *       StringLiteral
- *       NumericLiteral</pre>
+ *       NumericLiteral
+ * </pre>
  */
 public class ObjectLiteral extends AstNode implements DestructuringForm {
 
-    private static final List<ObjectProperty> NO_ELEMS =
-        Collections.unmodifiableList(new ArrayList<ObjectProperty>());
+	private static final List<ObjectProperty> NO_ELEMS = Collections
+			.unmodifiableList(new ArrayList<ObjectProperty>());
 
-    private List<ObjectProperty> elements;
-    boolean isDestructuring;
+	private List<ObjectProperty> elements;
+	boolean isDestructuring;
 
-    {
-        type = Token.OBJECTLIT;
-    }
+	{
+		type = Token.OBJECTLIT;
+	}
 
-    public ObjectLiteral() {
-    }
+	public ObjectLiteral() {
+	}
 
-    public ObjectLiteral(int pos) {
-        super(pos);
-    }
+	public ObjectLiteral(int pos) {
+		super(pos);
+	}
 
-    public ObjectLiteral(int pos, int len) {
-        super(pos, len);
-    }
+	public ObjectLiteral(int pos, int len) {
+		super(pos, len);
+	}
 
-    /**
-     * Returns the element list.  Returns an immutable empty list if there are
-     * no elements.
-     */
-    public List<ObjectProperty> getElements() {
-        return elements != null ? elements : NO_ELEMS;
-    }
+	/**
+	 * Returns the element list. Returns an immutable empty list if there are no
+	 * elements.
+	 */
+	public List<ObjectProperty> getElements() {
+		return elements != null ? elements : NO_ELEMS;
+	}
 
-    /**
-     * Sets the element list, and updates the parent of each element.
-     * Replaces any existing elements.
-     * @param elements the element list.  Can be {@code null}.
-     */
-    public void setElements(List<ObjectProperty> elements) {
-        if (elements == null) {
-            this.elements = null;
-        } else {
-            if (this.elements != null)
-                this.elements.clear();
-            for (ObjectProperty o : elements)
-                addElement(o);
-        }
-    }
+	/**
+	 * Sets the element list, and updates the parent of each element. Replaces
+	 * any existing elements.
+	 * 
+	 * @param elements
+	 *            the element list. Can be {@code null}.
+	 */
+	public void setElements(List<ObjectProperty> elements) {
+		if (elements == null) {
+			this.elements = null;
+		} else {
+			if (this.elements != null)
+				this.elements.clear();
+			for (ObjectProperty o : elements)
+				addElement(o);
+		}
+	}
 
-    /**
-     * Adds an element to the list, and sets its parent to this node.
-     * @param element the property node to append to the end of the list
-     * @throws IllegalArgumentException} if element is {@code null}
-     */
-    public void addElement(ObjectProperty element) {
-        assertNotNull(element);
-        if (elements == null) {
-            elements = new ArrayList<ObjectProperty>();
-        }
-        elements.add(element);
-        element.setParent(this);
-    }
+	/**
+	 * Adds an element to the list, and sets its parent to this node.
+	 * 
+	 * @param element
+	 *            the property node to append to the end of the list
+	 * @throws IllegalArgumentException}
+	 *             if element is {@code null}
+	 */
+	public void addElement(ObjectProperty element) {
+		assertNotNull(element);
+		if (elements == null) {
+			elements = new ArrayList<ObjectProperty>();
+		}
+		elements.add(element);
+		element.setParent(this);
+	}
 
-    /**
-     * Marks this node as being a destructuring form - that is, appearing
-     * in a context such as {@code for ([a, b] in ...)} where it's the
-     * target of a destructuring assignment.
-     */
-    public void setIsDestructuring(boolean destructuring) {
-        isDestructuring = destructuring;
-    }
+	/**
+	 * Marks this node as being a destructuring form - that is, appearing in a
+	 * context such as {@code for ([a, b] in ...)} where it's the target of a
+	 * destructuring assignment.
+	 */
+	public void setIsDestructuring(boolean destructuring) {
+		isDestructuring = destructuring;
+	}
 
-    /**
-     * Returns true if this node is in a destructuring position:
-     * a function parameter, the target of a variable initializer, the
-     * iterator of a for..in loop, etc.
-     */
-    public boolean isDestructuring() {
-        return isDestructuring;
-    }
+	/**
+	 * Returns true if this node is in a destructuring position: a function
+	 * parameter, the target of a variable initializer, the iterator of a
+	 * for..in loop, etc.
+	 */
+	public boolean isDestructuring() {
+		return isDestructuring;
+	}
 
-    @Override
-    public String toSource(int depth) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(makeIndent(depth));
-        sb.append("{");
-        if (elements != null) {
-            printList(elements, sb);
-        }
-        sb.append("}");
-        return sb.toString();
-    }
+	@Override
+	public String toSource(int depth) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(makeIndent(depth));
+		sb.append("{");
+		if (elements != null) {
+			printList(elements, sb);
+		}
+		sb.append("}");
+		return sb.toString();
+	}
 
-    /**
-     * Visits this node, then visits each child property node, in lexical
-     * (source) order.
-     */
-    @Override
-    public void visit(NodeVisitor v) {
-        if (v.visit(this)) {
-            for (ObjectProperty prop : getElements()) {
-                prop.visit(v);
-            }
-        }
-    }
+	/**
+	 * Visits this node, then visits each child property node, in lexical
+	 * (source) order.
+	 */
+	@Override
+	public void visit(NodeVisitor v) {
+		if (v.visit(this)) {
+			for (ObjectProperty prop : getElements()) {
+				prop.visit(v);
+			}
+		}
+	}
 }

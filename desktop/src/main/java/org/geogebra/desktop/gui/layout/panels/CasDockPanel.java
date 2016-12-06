@@ -14,51 +14,52 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 public class CasDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD appCas;
-	
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public CasDockPanel(AppD app) {
-		super(
-			App.VIEW_CAS, 	// view id
-			"CAS", 					// view title phrase 
-			getDefaultToolbar(),	// toolbar string
-			true,					// style bar?
-			3,						// menu order
-			'K' // ctrl-shift-K
+		super(App.VIEW_CAS, // view id
+				"CAS", // view title phrase
+				getDefaultToolbar(), // toolbar string
+				true, // style bar?
+				3, // menu order
+				'K' // ctrl-shift-K
 		);
-		
+
 		this.appCas = app;
 	}
-	
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD)appCas.getGuiManager()).getCasView().getCASStyleBar();
+		return ((GuiManagerD) appCas.getGuiManager()).getCasView()
+				.getCASStyleBar();
 	}
-	
+
 	@Override
 	protected JComponent getViewPanel() {
-		return ((GuiManagerD)appCas.getGuiManager()).getCasView().getCASViewComponent();
+		return ((GuiManagerD) appCas.getGuiManager()).getCasView()
+				.getCASViewComponent();
 	}
-	
+
 	private static String getDefaultToolbar() {
-		return CASView.TOOLBAR_DEFINITION_D;		
+		return CASView.TOOLBAR_DEFINITION_D;
 	}
-	
+
 	/**
-	 * Sets the active toolbar and tells the CAS view about this so it
-	 * can ignore mode changes which would otherwise result in cell computations.
+	 * Sets the active toolbar and tells the CAS view about this so it can
+	 * ignore mode changes which would otherwise result in cell computations.
 	 */
 	@Override
-	protected void setActiveToolBar(){		
+	protected void setActiveToolBar() {
 		super.setActiveToolBar();
 	}
-	
+
 	@Override
-	public ImageIcon getIcon() { 
+	public ImageIcon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CAS);
 	}
 }

@@ -170,8 +170,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	private int width, height;
 
 	/*
-	 * ==========================================================================
-	 * ====== | 1. Constructors & Factory Methods
+	 * =========================================================================
+	 * = ====== | 1. Constructors & Factory Methods
 	 * ================================
 	 * ================================================
 	 */
@@ -208,7 +208,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		this.clipNumber = new Value().set(0);
 	}
 
-	protected SVGGraphics2D(SVGGraphics2D graphics, boolean doRestoreOnDispose) {
+	protected SVGGraphics2D(SVGGraphics2D graphics,
+			boolean doRestoreOnDispose) {
 		super(graphics, doRestoreOnDispose);
 		// Now initialize the new object.
 		filename = graphics.filename;
@@ -224,8 +225,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 2. Document Settings
+	 * =========================================================================
+	 * = ====== | 2. Document Settings
 	 * ============================================
 	 * ====================================
 	 */
@@ -243,8 +244,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 3. Header, Trailer, Multipage & Comments
+	 * =========================================================================
+	 * = ====== | 3. Header, Trailer, Multipage & Comments
 	 * ========================
 	 * ========================================================
 	 */
@@ -272,7 +273,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		// Michael Borcherds 2008-06-06
 		// bugfix: added encoding="ISO-8859-1"
 		// as the date can contain accented characters in some languages
-		os.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
+		os.println(
+				"<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"no\"?>");
 		if (getProperty(VERSION).equals(VERSION_1_1)) {
 			// no DTD anymore
 		} else {
@@ -301,34 +303,26 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		os.println(XMLWriter.normalizeText(getProperty(TITLE)));
 		os.println("</title>");
 
-		
 		/*
 		 * removed this section otherwise SVG fails validation test
 		 * http://validator.w3.org/check
 		 * 
-		 
-		String producer = getClass().getName();
-		if (!isDeviceIndependent()) {
-			producer += " " + version.substring(1, version.length() - 1);
-		}
-
-		os.println("<desc>");
-		os.println("<Title>" + XMLWriter.normalizeText(getProperty(TITLE))
-				+ "</Title>");
-		os.println("<Creator>" + XMLWriter.normalizeText(getCreator())
-				+ "</Creator>");
-		os.println("<Producer>" + XMLWriter.normalizeText(producer)
-				+ "</Producer>");
-		os.println("<Source>" + XMLWriter.normalizeText(getProperty(FOR))
-				+ "</Source>");
-		if (!isDeviceIndependent()) {
-			os.println("<Date>"
-					+ DateFormat.getDateTimeInstance(DateFormat.FULL,
-							DateFormat.FULL).format(new Date()) + "</Date>");
-		}
-		os.println("</desc>");
-		
-		*/
+		 * 
+		 * String producer = getClass().getName(); if (!isDeviceIndependent()) {
+		 * producer += " " + version.substring(1, version.length() - 1); }
+		 * 
+		 * os.println("<desc>"); os.println("<Title>" +
+		 * XMLWriter.normalizeText(getProperty(TITLE)) + "</Title>");
+		 * os.println("<Creator>" + XMLWriter.normalizeText(getCreator()) +
+		 * "</Creator>"); os.println("<Producer>" +
+		 * XMLWriter.normalizeText(producer) + "</Producer>");
+		 * os.println("<Source>" + XMLWriter.normalizeText(getProperty(FOR)) +
+		 * "</Source>"); if (!isDeviceIndependent()) { os.println("<Date>" +
+		 * DateFormat.getDateTimeInstance(DateFormat.FULL,
+		 * DateFormat.FULL).format(new Date()) + "</Date>"); }
+		 * os.println("</desc>");
+		 * 
+		 */
 
 		// write default stroke
 		os.print("<g ");
@@ -370,8 +364,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			setBackground(getPropertyColor(BACKGROUND_COLOR));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
-			setBackground(getComponent() != null ? getComponent()
-					.getBackground() : Color.WHITE);
+			setBackground(getComponent() != null
+					? getComponent().getBackground() : Color.WHITE);
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}
@@ -401,8 +395,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 4. Create
+	 * =========================================================================
+	 * = ====== | 4. Create
 	 * ========================================================
 	 * ========================
 	 */
@@ -427,9 +421,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		SVGGraphics2D graphics = new SVGGraphics2D(this, true);
 		// FIXME: All other drivers have a translate(x,y), clip(0,0,w,h) here
 		os.println("<svg x=\"" + fixedPrecision(x) + "\" " + "y=\""
-				+ fixedPrecision(y) + "\" " + "width=\""
-				+ fixedPrecision(width) + "\" " + "height=\""
-				+ fixedPrecision(height) + "\" " + ">");
+				+ fixedPrecision(y) + "\" " + "width=\"" + fixedPrecision(width)
+				+ "\" " + "height=\"" + fixedPrecision(height) + "\" " + ">");
 		graphics.closeTags.push("</svg> <!-- graphics context -->");
 
 		// write default stroke
@@ -456,8 +449,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 5. Drawing Methods
+	 * =========================================================================
+	 * = ====== | 5. Drawing Methods
 	 * ==============================================
 	 * ==================================
 	 */
@@ -588,8 +581,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		byte[] jpgBytes = null;
-		if ((writeAs.equals(ImageConstants.JPG) || writeAs
-				.equals(ImageConstants.SMALLEST)) && !isTransparent) {
+		if ((writeAs.equals(ImageConstants.JPG)
+				|| writeAs.equals(ImageConstants.SMALLEST)) && !isTransparent) {
 			ByteArrayOutputStream jpg = new ByteArrayOutputStream();
 			ImageGraphics2D.writeImage(image, "jpg", new Properties(), jpg);
 			jpg.close();
@@ -615,22 +608,24 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 			// create filenames
 			if (filename == null) {
-				writeWarning("SVG: cannot write embedded images, since SVGGraphics2D");
-				writeWarning("     was created from an OutputStream rather than a File.");
+				writeWarning(
+						"SVG: cannot write embedded images, since SVGGraphics2D");
+				writeWarning(
+						"     was created from an OutputStream rather than a File.");
 				return;
 			}
 			int pos = filename.lastIndexOf(File.separatorChar);
 			String dirName = (pos < 0) ? "" : filename.substring(0, pos + 1);
-			String imageName = (pos < 0) ? filename : filename
-					.substring(pos + 1);
+			String imageName = (pos < 0) ? filename
+					: filename.substring(pos + 1);
 			imageName += "." + getProperty(EXPORT_SUFFIX) + "-" + imageNumber
 					+ "." + encode;
 
 			result.append(imageName);
 
 			// write the image separately
-			FileOutputStream imageStream = new FileOutputStream(dirName
-					+ imageName);
+			FileOutputStream imageStream = new FileOutputStream(
+					dirName + imageName);
 
 			imageStream.write(imageBytes);
 			imageStream.close();
@@ -652,9 +647,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		appendElementTitleAndDescription(result);
 		result.append("</image>");
 
-		os.println(getTransformedString(
-				getTransform(),
-				getClippedString(getTransformedString(xform, result.toString()))));
+		os.println(getTransformedString(getTransform(), getClippedString(
+				getTransformedString(xform, result.toString()))));
 	}
 
 	protected void appendElementTitleAndDescription(StringBuffer ap) {
@@ -698,16 +692,17 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		os.println(getTransformedString(
-		// general transformation
+				// general transformation
 				getTransform(),
 				// general clip
 				getClippedString(getTransformedString(
 						// text offset
 						new AffineTransform(1, 0, 0, 1, x, y),
 						getTransformedString(
-						// font transformation and text
-								getFont().getTransform(), "<text "
-								// style
+								// font transformation and text
+								getFont().getTransform(),
+								"<text "
+										// style
 										+ style(style)
 										// coordiantes
 										+ " x=\"0\" y=\"0\">"
@@ -727,7 +722,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		Properties result = new Properties();
 
 		// attribute for font properties
-		Map /* <TextAttribute, ?> */attributes = font.getAttributes();
+		Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
 
 		// dialog.bold -> Helvetica with TextAttribute.WEIGHT_BOLD
 		SVGFontTable.normalize(attributes);
@@ -736,16 +731,16 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		result.put("font-family", attributes.get(TextAttribute.FAMILY));
 
 		// weight
-		if (TextAttribute.WEIGHT_BOLD.equals(attributes
-				.get(TextAttribute.WEIGHT))) {
+		if (TextAttribute.WEIGHT_BOLD
+				.equals(attributes.get(TextAttribute.WEIGHT))) {
 			result.put("font-weight", "bold");
 		} else {
 			result.put("font-weight", "normal");
 		}
 
 		// posture
-		if (TextAttribute.POSTURE_OBLIQUE.equals(attributes
-				.get(TextAttribute.POSTURE))) {
+		if (TextAttribute.POSTURE_OBLIQUE
+				.equals(attributes.get(TextAttribute.POSTURE))) {
 			result.put("font-style", "italic");
 		} else {
 			result.put("font-style", "normal");
@@ -788,13 +783,14 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 6. Transformations
+	 * =========================================================================
+	 * = ====== | 6. Transformations
 	 * ==============================================
 	 * ==================================
 	 */
 	@Override
-	protected void writeTransform(AffineTransform transform) throws IOException {
+	protected void writeTransform(AffineTransform transform)
+			throws IOException {
 		// written when needed
 	}
 
@@ -805,8 +801,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 7. Clipping
+	 * =========================================================================
+	 * = ====== | 7. Clipping
 	 * ======================================================
 	 * ==========================
 	 */
@@ -821,8 +817,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 8. Graphics State
+	 * =========================================================================
+	 * = ====== | 8. Graphics State
 	 * ================================================
 	 * ================================
 	 */
@@ -890,9 +886,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		// append dasharray
-		if (all
-				|| !Arrays.equals(stroke.getDashArray(),
-						defaultStroke.getDashArray())) {
+		if (all || !Arrays.equals(stroke.getDashArray(),
+				defaultStroke.getDashArray())) {
 			if ((stroke.getDashArray() != null)
 					&& (stroke.getDashArray().length > 0)) {
 				StringBuffer array = new StringBuffer();
@@ -1024,8 +1019,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			os.print("patternTransform=\"matrix("
 					+ fixedPrecision(rect.getWidth() / image.getWidth()) + ","
 					+ "0.0,0.0,"
-					+ fixedPrecision(rect.getHeight() / image.getHeight())
-					+ "," + fixedPrecision(rect.getX()) + ","
+					+ fixedPrecision(rect.getHeight() / image.getHeight()) + ","
+					+ fixedPrecision(rect.getX()) + ","
 					+ fixedPrecision(rect.getY()) + ")\" ");
 			os.println(">");
 			writeImage(image, null, null);
@@ -1057,14 +1052,15 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 9. Auxiliary
+	 * =========================================================================
+	 * = ====== | 9. Auxiliary
 	 * ====================================================
 	 * ============================
 	 */
 	@Override
 	public GraphicsConfiguration getDeviceConfiguration() {
-		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
+		writeWarning(
+				getClass() + ": getDeviceConfiguration() not implemented.");
 		return null;
 	}
 
@@ -1086,8 +1082,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	/*
-	 * ==========================================================================
-	 * ====== | 10. Private/Utility Methos
+	 * =========================================================================
+	 * = ====== | 10. Private/Utility Methos
 	 * ======================================
 	 * ==========================================
 	 */

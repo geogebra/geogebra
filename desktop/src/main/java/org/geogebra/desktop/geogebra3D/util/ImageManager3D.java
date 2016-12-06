@@ -29,10 +29,10 @@ public class ImageManager3D extends ImageManagerD {
 
 	@Override
 	public Image getImageResourceGeoGebra(ImageResourceD name) {
-		
+
 		Image img = getImageResource(
 				"/org/geogebra/desktop/geogebra3D" + name.getFilename());
-		
+
 		if (img == null) {
 			return super.getImageResourceGeoGebra(name);
 		}

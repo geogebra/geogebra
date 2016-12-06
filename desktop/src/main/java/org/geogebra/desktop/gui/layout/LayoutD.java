@@ -85,8 +85,8 @@ public class LayoutD extends Layout implements SettingListener {
 
 		// ignore axes & grid settings for the document perspective
 
-		app.getGuiManager().setToolBarDefinition(
-				perspective.getToolbarDefinition());
+		app.getGuiManager()
+				.setToolBarDefinition(perspective.getToolbarDefinition());
 
 		app.setShowToolBarNoUpdate(perspective.getShowToolBar());
 		app.setShowToolBarHelpNoUpdate(perspective.getShowToolBarHelp());
@@ -171,7 +171,8 @@ public class LayoutD extends Layout implements SettingListener {
 			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 				DockSplitPane parent = panels[i].getParentSplitPane();
 				if (parent != null) {
-					if (parent.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
+					if (parent
+							.getOrientation() == JSplitPane.HORIZONTAL_SPLIT) {
 						panels[i].setEmbeddedSize(panels[i].getWidth());
 					} else {
 						panels[i].setEmbeddedSize(panels[i].getHeight());
@@ -195,8 +196,8 @@ public class LayoutD extends Layout implements SettingListener {
 
 		perspective.setDockPanelData(dockPanelInfo);
 
-		perspective.setToolbarDefinition(((GuiManagerD) app.getGuiManager())
-				.getToolbarDefinition());
+		perspective.setToolbarDefinition(
+				((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());
@@ -286,8 +287,6 @@ public class LayoutD extends Layout implements SettingListener {
 			Log.debug("Invalid perspective index: " + index);
 		}
 	}
-
-
 
 	/**
 	 * Checks if the given component is in an external window. Used for key

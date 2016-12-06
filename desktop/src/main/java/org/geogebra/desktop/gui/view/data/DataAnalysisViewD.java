@@ -46,8 +46,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class DataAnalysisViewD extends JPanel implements View, Printable,
-		SetLabels, IDataAnalysisListener {
+public class DataAnalysisViewD extends JPanel
+		implements View, Printable, SetLabels, IDataAnalysisListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -424,14 +424,14 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 				if (displayPanel.getLeftComponent() == null) {
 					displayPanel.setLeftComponent(statDataPanel);
 					// displayPanel.resetToPreferredSizes();
-					displayPanel.setDividerLocation(displayPanel
-							.getLastDividerLocation());
+					displayPanel.setDividerLocation(
+							displayPanel.getLastDividerLocation());
 					displayPanel.setDividerSize(defaultDividerSize);
 				}
 
 			} else { // statData panel is empty, so hide it
-				displayPanel.setLastDividerLocation(displayPanel
-						.getDividerLocation());
+				displayPanel.setLastDividerLocation(
+						displayPanel.getDividerLocation());
 				displayPanel.setLeftComponent(null);
 				displayPanel.setDividerSize(0);
 			}
@@ -442,13 +442,13 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 				if (displayPanel.getBottomComponent() == null) {
 					displayPanel.setBottomComponent(statDataPanel);
 					// displayPanel.resetToPreferredSizes();
-					displayPanel.setDividerLocation(displayPanel
-							.getLastDividerLocation());
+					displayPanel.setDividerLocation(
+							displayPanel.getLastDividerLocation());
 					displayPanel.setDividerSize(defaultDividerSize);
 				}
 			} else {
-				displayPanel.setLastDividerLocation(displayPanel
-						.getDividerLocation());
+				displayPanel.setLastDividerLocation(
+						displayPanel.getDividerLocation());
 				displayPanel.setBottomComponent(null);
 				displayPanel.setDividerSize(0);
 
@@ -764,8 +764,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			comboPanelSplit.setDividerSize(4);
 		} else {
 			comboPanelSplit.setBottomComponent(null);
-			comboPanelSplit.setLastDividerLocation(comboPanelSplit
-					.getDividerLocation());
+			comboPanelSplit.setLastDividerLocation(
+					comboPanelSplit.getDividerLocation());
 			comboPanelSplit.setDividerLocation(0);
 			comboPanelSplit.setDividerSize(0);
 		}

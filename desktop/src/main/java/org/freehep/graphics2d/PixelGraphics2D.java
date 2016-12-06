@@ -75,7 +75,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	// fast symbol handling, FIXME: does not work for fillAndDraw
 	private static final int MAX_BLIT_SIZE = 32;
 
-	private static Map /* <color, Image[fill][symbol][size]> */symbols;
+	private static Map /* <color, Image[fill][symbol][size]> */ symbols;
 
 	private WebColor webColor;
 
@@ -127,7 +127,7 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	}
 
 	/**
-     */
+	 */
 	protected PixelGraphics2D(PixelGraphics2D graphics) {
 		super(graphics);
 		setHostGraphics(graphics.hostGraphics.create());
@@ -401,11 +401,13 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 		hostGraphics.drawImage(img, op, x, y);
 	}
 
-	public boolean drawImage(Image img, AffineTransform xform, ImageObserver obs) {
+	public boolean drawImage(Image img, AffineTransform xform,
+			ImageObserver obs) {
 		return hostGraphics.drawImage(img, xform, obs);
 	}
 
-	public void drawRenderableImage(RenderableImage img, AffineTransform xform) {
+	public void drawRenderableImage(RenderableImage img,
+			AffineTransform xform) {
 		hostGraphics.drawRenderableImage(img, xform);
 	}
 
@@ -550,8 +552,8 @@ public class PixelGraphics2D extends AbstractVectorGraphics {
 	 * Implementation of createShape makes sure that the points are different by
 	 * at least one pixel.
 	 */
-	protected Shape createShape(double[] xPoints, double[] yPoints,
-			int nPoints, boolean close) {
+	protected Shape createShape(double[] xPoints, double[] yPoints, int nPoints,
+			boolean close) {
 		return new ArrayPath(xPoints, yPoints, nPoints, close, resolution);
 	}
 	/*

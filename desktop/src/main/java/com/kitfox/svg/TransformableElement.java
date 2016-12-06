@@ -47,97 +47,79 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-abstract public class TransformableElement extends SVGElement
-{
-    AffineTransform xform = null;
+abstract public class TransformableElement extends SVGElement {
+	AffineTransform xform = null;
 
-    /**
-     * Creates a new instance of BoundedElement
-     */
-    public TransformableElement()
-    {
-    }
+	/**
+	 * Creates a new instance of BoundedElement
+	 */
+	public TransformableElement() {
+	}
 
-    public TransformableElement(String id, SVGElement parent)
-    {
-        super(id, parent);
-    }
+	public TransformableElement(String id, SVGElement parent) {
+		super(id, parent);
+	}
 
-    /**
-     * Fetches a copy of the cached AffineTransform. Note that this value will
-     * only be valid after the node has been updated.
-     *
-     * @return
-     */
-    public AffineTransform getXForm()
-    {
-        return xform == null ? null : new AffineTransform(xform);
-    }
-    /*
-     public void loaderStartElement(SVGLoaderHelper helper, Attributes attrs, SVGElement parent)
-     {
-     //Load style string
-     super.loaderStartElement(helper, attrs, parent);
+	/**
+	 * Fetches a copy of the cached AffineTransform. Note that this value will
+	 * only be valid after the node has been updated.
+	 *
+	 * @return
+	 */
+	public AffineTransform getXForm() {
+		return xform == null ? null : new AffineTransform(xform);
+	}
+	/*
+	 * public void loaderStartElement(SVGLoaderHelper helper, Attributes attrs,
+	 * SVGElement parent) { //Load style string super.loaderStartElement(helper,
+	 * attrs, parent);
+	 * 
+	 * String transform = attrs.getValue("transform"); if (transform != null) {
+	 * xform = parseTransform(transform); } }
+	 */
 
-     String transform = attrs.getValue("transform");
-     if (transform != null)
-     {
-     xform = parseTransform(transform);
-     }
-     }
-     */
+	protected void build() throws SVGException {
+		super.build();
 
-    protected void build() throws SVGException
-    {
-        super.build();
+		StyleAttribute sty = new StyleAttribute();
 
-        StyleAttribute sty = new StyleAttribute();
+		if (getPres(sty.setName("transform"))) {
+			xform = parseTransform(sty.getStringValue());
+		}
+	}
 
-        if (getPres(sty.setName("transform")))
-        {
-            xform = parseTransform(sty.getStringValue());
-        }
-    }
+	protected Shape shapeToParent(Shape shape) {
+		if (xform == null) {
+			return shape;
+		}
+		return xform.createTransformedShape(shape);
+	}
 
-    protected Shape shapeToParent(Shape shape)
-    {
-        if (xform == null)
-        {
-            return shape;
-        }
-        return xform.createTransformedShape(shape);
-    }
+	protected Rectangle2D boundsToParent(Rectangle2D rect) {
+		if (xform == null) {
+			return rect;
+		}
+		return xform.createTransformedShape(rect).getBounds2D();
+	}
 
-    protected Rectangle2D boundsToParent(Rectangle2D rect)
-    {
-        if (xform == null)
-        {
-            return rect;
-        }
-        return xform.createTransformedShape(rect).getBounds2D();
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		StyleAttribute sty = new StyleAttribute();
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        StyleAttribute sty = new StyleAttribute();
+		if (getPres(sty.setName("transform"))) {
+			AffineTransform newXform = parseTransform(sty.getStringValue());
+			if (!newXform.equals(xform)) {
+				xform = newXform;
+				return true;
+			}
+		}
 
-        if (getPres(sty.setName("transform")))
-        {
-            AffineTransform newXform = parseTransform(sty.getStringValue());
-            if (!newXform.equals(xform))
-            {
-                xform = newXform;
-                return true;
-            }
-        }
-
-        return false;
-    }
+		return false;
+	}
 }

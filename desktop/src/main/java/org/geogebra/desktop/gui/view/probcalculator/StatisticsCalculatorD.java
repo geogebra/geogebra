@@ -40,17 +40,13 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 public class StatisticsCalculatorD extends StatisticsCalculator
-		implements ActionListener,
-		FocusListener, SetLabels {
+		implements ActionListener, FocusListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
 	// =========================================
 	// support classes
 	// =========================================
-
-	
-	
 
 	// =========================================
 	// GUI components
@@ -82,8 +78,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	private JPanel wrappedPanel;
 
-	
-
 	/******************************************************************
 	 * 
 	 * Construct StatisticsCalculator
@@ -95,16 +89,12 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		createGUI();
 	}
 
-	
-
-	
-
 	// =========================================
 	// GUI
 	// =========================================
 
 	private void createGUI() {
-		
+
 		this.wrappedPanel = new JPanel();
 
 		createGUIElements();
@@ -133,8 +123,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		// wrapper for procedure panel
 		JPanel procedureWrapper = new JPanel(new BorderLayout());
 		procedureWrapper.add(procedurePanel, BorderLayout.NORTH);
-		procedureWrapper.setBorder(BorderFactory.createEmptyBorder(10, 20, 10,
-				20));
+		procedureWrapper
+				.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 		scroller = new JScrollPane(procedureWrapper);
 		scroller.getVerticalScrollBar().setUnitIncrement(30);
 
@@ -153,7 +143,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private void createControlPanel() {
 
 		panelControl = new JPanel(new BorderLayout());
-		panelControl.add(LayoutUtil.flowPanel(cbProcedure), ((AppD) app).getLocalization().borderWest());
+		panelControl.add(LayoutUtil.flowPanel(cbProcedure),
+				((AppD) app).getLocalization().borderWest());
 		// panelControl.add(LayoutUtil.flowPanel(btnCalculate),
 		// BorderLayout.CENTER);
 		panelControl.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
@@ -184,8 +175,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 		if (panelTestAndCI == null) {
 			panelTestAndCI = new JPanel();
-			panelTestAndCI.setLayout(new BoxLayout(panelTestAndCI,
-					BoxLayout.Y_AXIS));
+			panelTestAndCI
+					.setLayout(new BoxLayout(panelTestAndCI, BoxLayout.Y_AXIS));
 			panelTestAndCI.setAlignmentY(Component.TOP_ALIGNMENT);
 		}
 
@@ -220,11 +211,13 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			if (app.getLocalization().isRightToLeftReadingOrder()) {
 				// eg 1.1 = mu
 				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-					Box.createHorizontalStrut(5), fldNullHyp, lblHypParameter));
+						Box.createHorizontalStrut(5), fldNullHyp,
+						lblHypParameter));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
-						Box.createHorizontalStrut(5), lblHypParameter, fldNullHyp ));				
+						Box.createHorizontalStrut(5), lblHypParameter,
+						fldNullHyp));
 			}
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
 					btnLeft, btnRight, btnTwo));
@@ -238,8 +231,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		case ZPROP_CI:
 		case ZPROP2_CI:
 
-			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
-					fldConfLevel));
+			panelTestAndCI.add(
+					LayoutUtil.flowPanel(4, 2, 0, lblConfLevel, fldConfLevel));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
 			break;
 		}
@@ -404,22 +397,24 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
-			lblHypParameter.setText(app.getMenu("HypothesizedMean.short") + " = ");
+			lblHypParameter
+					.setText(app.getMenu("HypothesizedMean.short") + " = ");
 			break;
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
-			lblHypParameter.setText(app.getMenu("DifferenceOfMeans.short")+ " = ");
+			lblHypParameter
+					.setText(app.getMenu("DifferenceOfMeans.short") + " = ");
 			break;
 
 		case ZPROP_TEST:
-			lblHypParameter
-					.setText(app.getMenu("HypothesizedProportion.short")+ " = ");
+			lblHypParameter.setText(
+					app.getMenu("HypothesizedProportion.short") + " = ");
 			break;
 
 		case ZPROP2_TEST:
-			lblHypParameter.setText(app
-					.getMenu("DifferenceOfProportions.short")+ " = ");
+			lblHypParameter.setText(
+					app.getMenu("DifferenceOfProportions.short") + " = ");
 			break;
 
 		default:
@@ -458,10 +453,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		// .get(Procedure.CHISQ_TEST));
 
 	}
-
-
-
-
 
 	private void setSampleFieldLabels() {
 
@@ -648,11 +639,11 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
-			selectedProcedure = mapNameToProcedure.get(cbProcedure
-					.getSelectedItem());
+			selectedProcedure = mapNameToProcedure
+					.get(cbProcedure.getSelectedItem());
 			updateGUI();
 			updateResult();
-			//setLabels();
+			// setLabels();
 
 			// reset the scrollpane to the top
 			javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -785,8 +776,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
-	
-
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof MyTextFieldD) {
 			((MyTextFieldD) e.getSource()).selectAll();
@@ -817,12 +806,12 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private static void setStyleSheets(HTMLEditorKit kit) {
 		// add some styles to the html
 		StyleSheet styleSheet = kit.getStyleSheet();
-		styleSheet
-				.addRule("body {color:#00008B; font : 9pt verdana; margin: 4px;  }");
+		styleSheet.addRule(
+				"body {color:#00008B; font : 9pt verdana; margin: 4px;  }");
 
 		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
-		styleSheet
-				.addRule("td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
+		styleSheet.addRule(
+				"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
 						+ padding + "}");
 
 	}
@@ -834,7 +823,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		resultPane.setText(htmlString);
 
 	}
-	
+
 	/**
 	 * @return the wrapped panel
 	 */

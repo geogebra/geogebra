@@ -16,33 +16,33 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class FillPath extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    public FillPath() {
-        super(62, 1);
-    }
+	public FillPath() {
+		super(62, 1);
+	}
 
-    public FillPath(Rectangle bounds) {
-        this();
-        this.bounds = bounds;
-    }
+	public FillPath(Rectangle bounds) {
+		this();
+		this.bounds = bounds;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        FillPath tag = new FillPath(emf.readRECTL());
-        return tag;
-    }
+		FillPath tag = new FillPath(emf.readRECTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds;
+	}
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
+	public Rectangle getBounds() {
+		return bounds;
+	}
 }

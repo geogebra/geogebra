@@ -25,13 +25,12 @@ package org.jfugue;
 import javax.sound.midi.MidiMessage;
 
 /**
- * Used in conjunction with TimeFactor.sortAndDeliverMidiMessages;
- * handles MIDI messages when they are delivered. 
+ * Used in conjunction with TimeFactor.sortAndDeliverMidiMessages; handles MIDI
+ * messages when they are delivered.
  * 
  * @author David Koelle
  *
  */
-public interface MidiMessageRecipient
-{
-    public void messageReady(MidiMessage message, long timestamp);
+public interface MidiMessageRecipient {
+	public void messageReady(MidiMessage message, long timestamp);
 }

@@ -82,8 +82,10 @@ public class ProverD extends Prover {
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
 		Log.debug("OGP is about to run...");
-		String c = simplifiedXML(construction, statement)
-				.replace("command name=\"ProveDetails\"", "command name=\"Prove\""); // dirty hack, FIXME
+		String c = simplifiedXML(construction, statement).replace(
+				"command name=\"ProveDetails\"", "command name=\"Prove\""); // dirty
+																			// hack,
+																			// FIXME
 		Log.trace("Construction: " + c);
 		// String cd =
 		// statement.getCommandDescription(StringTemplate.ogpTemplate);
@@ -105,11 +107,11 @@ public class ProverD extends Prover {
 		inputObject.setTimeOut(proverSettings.proverTimeout);
 		inputObject.setMaxTerms(proverSettings.maxTerms);
 		if (isReturnExtraNDGs())
-			inputObject
-					.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
+			inputObject.setReportFormat(
+					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);
 		else
-			inputObject
-					.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
+			inputObject.setReportFormat(
+					GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_NONE);
 
 		// OGP API
 		GeoGebraOGPInterface ogpInterface = new GeoGebraOGPInterface();
@@ -117,30 +119,24 @@ public class ProverD extends Prover {
 				.prove(inputObject); // safe cast
 
 		Log.debug("Prover results");
-		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS + ": "
+				+ outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
-		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
+				+ ": " + outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_FAILURE_MSG));
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER + ": "
+				+ outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER));
 		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
-		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
-		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS
-				+ ": "
-				+ outputObject
-						.getOutputResult(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
+				+ ": " + outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER_MSG));
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME + ": "
+				+ outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_TIME));
+		Log.debug(GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS + ": "
+				+ outputObject.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_NUMTERMS));
 
 		// Obtaining NDG conditions:
 		if (isReturnExtraNDGs()) {
@@ -180,15 +176,18 @@ public class ProverD extends Prover {
 		// This would be faster if we could simply get the objects back from OGP
 		// as they are.
 
-		if (outputObject.getOutputResult(
-				GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS).equals(
-				"true")) {
-			if (outputObject.getOutputResult(
-					GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
+		if (outputObject
+				.getOutputResult(
+						GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_SUCCESS)
+				.equals("true")) {
+			if (outputObject
+					.getOutputResult(
+							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
 					.equals("true"))
 				return ProofResult.TRUE;
-			if (outputObject.getOutputResult(
-					GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
+			if (outputObject
+					.getOutputResult(
+							GeoGebraOGPOutputProverProtocol.OGP_OUTPUT_RES_PROVER)
 					.equals("false"))
 				return ProofResult.FALSE;
 		}

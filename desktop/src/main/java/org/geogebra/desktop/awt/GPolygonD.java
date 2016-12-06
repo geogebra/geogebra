@@ -20,6 +20,7 @@ public class GPolygonD implements GPolygon {
 	public Polygon getPolygon() {
 		return polygon;
 	}
+
 	public boolean intersects(int i, int j, int k, int l) {
 		return polygon.intersects(i, j, k, l);
 	}
@@ -40,7 +41,7 @@ public class GPolygonD implements GPolygon {
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		if (affineTransform instanceof AffineTransform) {
 			return new GPathIteratorD(
-				polygon.getPathIterator((AffineTransform) affineTransform));
+					polygon.getPathIterator((AffineTransform) affineTransform));
 		}
 		return new GPathIteratorD(polygon.getPathIterator(null));
 	}

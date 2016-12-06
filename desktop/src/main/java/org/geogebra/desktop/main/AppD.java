@@ -319,7 +319,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	/** Default icon size */
 	public static final int DEFAULT_ICON_SIZE = 32;
 
-
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
 	 */
@@ -399,8 +398,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param undoActive
 	 */
 	public AppD(CommandLineArguments args, JFrame frame,
-			AppletImplementation appletImpl, Container comp,
-			boolean undoActive, LocalizationD loc) {
+			AppletImplementation appletImpl, Container comp, boolean undoActive,
+			LocalizationD loc) {
 
 		super(Versions.DESKTOP);
 
@@ -428,9 +427,8 @@ public class AppD extends App implements KeyEventDispatcher {
 				Log.setLevelShown(args.getBooleanValue("logShowLevel", true));
 			}
 		}
-		this.prerelease = args != null
-				&& (args.containsArg("prerelease") || args
-						.containsArg("canary"));
+		this.prerelease = args != null && (args.containsArg("prerelease")
+				|| args.containsArg("canary"));
 		this.canary = args != null && args.containsArg("canary");
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
@@ -565,10 +563,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
-			getGuiManager().getLayout().setPerspectives(
-					tmpPerspectives,
-					PerspectiveDecoder.decode(this.perspectiveParam,
-							getKernel().getParser(),
+			getGuiManager().getLayout()
+					.setPerspectives(tmpPerspectives, PerspectiveDecoder.decode(
+							this.perspectiveParam, getKernel().getParser(),
 							ToolBar.getAllToolsNoMacros(false, false, this)));
 		}
 
@@ -578,8 +575,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (isUsingFullGui() && ggtloading) {
-			getGuiManager().setToolBarDefinition(
-ToolbarD.getAllTools(this));
+			getGuiManager().setToolBarDefinition(ToolbarD.getAllTools(this));
 		}
 
 		setUndoActive(undoActive);
@@ -674,11 +670,11 @@ ToolbarD.getAllTools(this));
 	public static void setLAF(boolean isSystemLAF) {
 		try {
 			if (isSystemLAF) {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
+				UIManager.setLookAndFeel(
+						UIManager.getSystemLookAndFeelClassName());
 			} else {
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
+				UIManager.setLookAndFeel(
+						UIManager.getCrossPlatformLookAndFeelClassName());
 			}
 		} catch (Exception e) {
 			Log.debug(e + "");
@@ -727,67 +723,64 @@ ToolbarD.getAllTools(this));
 
 		if (args.containsArg("help")) {
 			// help message
-			System.out
-					.println("Usage: java -jar geogebra.jar [OPTION] [FILE]\n"
-							+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
-							+ "  --help\t\tprint this message\n"
-							+ "  --v\t\tprint version\n"
-							+ "  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...\n" // here
-																															// "auto"
-																															// is
-																															// also
-																															// accepted
-							+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
-							+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
-							+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
-							+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
+			System.out.println("Usage: java -jar geogebra.jar [OPTION] [FILE]\n"
+					+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
+					+ "  --help\t\tprint this message\n"
+					+ "  --v\t\tprint version\n"
+					+ "  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...\n" // here
+																													// "auto"
+																													// is
+																													// also
+																													// accepted
+					+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
+					+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
+					+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
+					+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
 					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n" // here
 																	// "disable"
 																	// is also
 																	// accepted
-							+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here
-																			// "disable"
-																			// is
-																			// also
-																			// accepted
-							+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
-							+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
-							+ "  --fontSize=NUMBER\tset default font size\n"
-							+ "  --showAxes=BOOLEAN\tshow/hide coordinate axes\n"
-							+ "  --showGrid=BOOLEAN\tshow/hide grid\n"
-							+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
-							+ "  --resetSettings\treset current settings\n"
-							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
-							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
-							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
-							+ "  --logFile=FILENAME\tset log file\n"
-							+ "  --silent\tCompletely mute logging\n"
-							+ "  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)\n"
-					/*
-					 * +
-					 * "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n"
-					 */
-					);
+					+ "  --show3D=BOOLEAN\tshow/hide 3D window\n" // here
+																	// "disable"
+																	// is
+																	// also
+																	// accepted
+					+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
+					+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
+					+ "  --fontSize=NUMBER\tset default font size\n"
+					+ "  --showAxes=BOOLEAN\tshow/hide coordinate axes\n"
+					+ "  --showGrid=BOOLEAN\tshow/hide grid\n"
+					+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
+					+ "  --resetSettings\treset current settings\n"
+					+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
+					+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
+					+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
+					+ "  --logFile=FILENAME\tset log file\n"
+					+ "  --silent\tCompletely mute logging\n"
+					+ "  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)\n"
+			/*
+			 * +
+			 * "  --singularWS=OPTIONS\tSet options for SingularWS (use --singularWShelp for more information)\n"
+			 */
+			);
 
 			AppD.exit(0);
 		}
 		if (args.containsArg("proverhelp")) {
 			ProverSettings proverSettings = ProverSettings.get();
 			// help message for the prover
-			System.out
-					.println("  --prover=OPTIONS\tset options for the prover subsystem\n"
+			System.out.println(
+					"  --prover=OPTIONS\tset options for the prover subsystem\n"
 							+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
-									+ proverSettings.proverEngine
-							+ "]\n"
+							+ proverSettings.proverEngine + "]\n"
 							+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) ["
-									+ proverSettings.proverTimeout
-							+ "]\n"
+							+ proverSettings.proverTimeout + "]\n"
 							+ "      maxterms:NUMBER\tset the maximal number of terms ["
-									+ proverSettings.maxTerms
+							+ proverSettings.maxTerms
 							+ "] (OpenGeoProver only)\n"
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
-									+ proverSettings.proverMethod
+							+ proverSettings.proverMethod
 							+ "] (OpenGeoProver/Recio only)\n"
 							/*
 							 * +
@@ -796,8 +789,8 @@ ToolbarD.getAllTools(this));
 							 * "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
 							 */
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
-									+ proverSettings.useFixCoordinatesProve
-									+ proverSettings.useFixCoordinatesProveDetails
+							+ proverSettings.useFixCoordinatesProve
+							+ proverSettings.useFixCoordinatesProveDetails
 							+ "] (Botana only)\n"
 							/*
 							 * +
@@ -806,29 +799,25 @@ ToolbarD.getAllTools(this));
 							 * "] (Botana only, needs SingularWS)\n"
 							 */
 							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
-									+ proverSettings.captionAlgebra
+							+ proverSettings.captionAlgebra
 							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
 			AppD.exit(0);
 		}
 		if (args.containsArg("singularWShelp")) {
 			// help message for singularWS
-			System.out
-					.println(" --singularWS=OPTIONS\tset options for SingularWS\n"
+			System.out.println(
+					" --singularWS=OPTIONS\tset options for SingularWS\n"
 							+ "   where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      enable:BOOLEAN\tuse Singular WebService when possible ["
-									+ SingularWSSettings.useSingularWebService()
-							+ "]\n"
+							+ SingularWSSettings.useSingularWebService() + "]\n"
 							+ "      remoteURL:URL\tset the remote server URL ["
-									+ SingularWSSettings
-											.getSingularWebServiceRemoteURL()
-							+ "]\n"
-							+ "      timeout:SECS\tset the timeout ["
-									+ SingularWSSettings.getTimeout()
-							+ "]\n"
+							+ SingularWSSettings
+									.getSingularWebServiceRemoteURL()
+							+ "]\n" + "      timeout:SECS\tset the timeout ["
+							+ SingularWSSettings.getTimeout() + "]\n"
 							+ "      caching:BOOLEAN\tset server side caching ["
-							+ SingularWSSettings.getCachingText()
-							+ "]\n"
+							+ SingularWSSettings.getCachingText() + "]\n"
 							+ "  Example: singularWS=timeout:3\n");
 			AppD.exit(0);
 		}
@@ -908,8 +897,8 @@ ToolbarD.getAllTools(this));
 		}
 
 		if (args.containsArg("showAlgebraInputTop")) {
-			boolean showAlgebraInputTop = args.getBooleanValue(
-					"showAlgebraInputTop", true);
+			boolean showAlgebraInputTop = args
+					.getBooleanValue("showAlgebraInputTop", true);
 			if (showAlgebraInputTop) {
 				setInputPosition(InputPosition.top, false);
 			}
@@ -917,7 +906,8 @@ ToolbarD.getAllTools(this));
 
 		String fontSize = args.getStringValue("fontSize");
 		if (fontSize.length() > 0) {
-			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)), true);
+			setFontSize(Util.getValidFontSize(Integer.parseInt(fontSize)),
+					true);
 		}
 
 		boolean enableUndo = args.getBooleanValue("enableUndo", true);
@@ -929,10 +919,10 @@ ToolbarD.getAllTools(this));
 			boolean showAxesParam = args.getBooleanValue("showAxes", true);
 			this.showAxes[0] = showAxesParam;
 			this.showAxes[1] = showAxesParam;
-			this.getSettings().getEuclidian(1)
-					.setShowAxes(showAxesParam, showAxesParam);
-			this.getSettings().getEuclidian(2)
-					.setShowAxes(showAxesParam, showAxesParam);
+			this.getSettings().getEuclidian(1).setShowAxes(showAxesParam,
+					showAxesParam);
+			this.getSettings().getEuclidian(2).setShowAxes(showAxesParam,
+					showAxesParam);
 		}
 
 		if (args.containsArg("showGrid")) {
@@ -958,8 +948,8 @@ ToolbarD.getAllTools(this));
 			FileInputStream fstream;
 			try {
 				fstream = new FileInputStream(filename);
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-						fstream, Charsets.UTF_8));
+				BufferedReader br = new BufferedReader(
+						new InputStreamReader(fstream, Charsets.UTF_8));
 
 				String strLine;
 
@@ -967,9 +957,8 @@ ToolbarD.getAllTools(this));
 				while ((strLine = br.readLine()) != null
 						&& (strLine.indexOf("JSONSTART") == -1)) {
 					// Print the content on the console
-					//System.out.println("IGNORE " + strLine);
+					// System.out.println("IGNORE " + strLine);
 				}
-				
 
 				while ((strLine = br.readLine()) != null
 						&& (strLine.indexOf("JSONEND") == -1)) {
@@ -983,7 +972,7 @@ ToolbarD.getAllTools(this));
 					// System.out.println(strLine);
 
 					if (strLine.startsWith("{")) {
-						
+
 						count++;
 
 						JSONTokener tokener = new JSONTokener(strLine);
@@ -998,8 +987,9 @@ ToolbarD.getAllTools(this));
 						// System.out.println("response = " + response);
 						// System.out.println("result = " + result);
 
-						//command = "Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]";
-						//result = "{-ln(55)/ln(13/5)}|OR|{x=(-ln(11)-ln(5))/(ln(13)-ln(5))}";
+						// command = "Solve[13^(x+1)-2*13^x=(1/5)*5^x,x]";
+						// result =
+						// "{-ln(55)/ln(13/5)}|OR|{x=(-ln(11)-ln(5))/(ln(13)-ln(5))}";
 
 						String casResult = getGgbApi().evalGeoGebraCAS(command);
 
@@ -1013,16 +1003,14 @@ ToolbarD.getAllTools(this));
 						result = result.replaceAll("n_[0-9]*", "n_0");
 						result = result.replaceAll("c_[0-9]*", "c_0");
 
-						casResult = casResult.replaceAll(
-								"arbconst\\([+0-9]*\\)",
-								"c_0");
+						casResult = casResult
+								.replaceAll("arbconst\\([+0-9]*\\)", "c_0");
 
-						casResult = casResult.replaceAll(
-								"arbint\\(([+0-9]*)\\)",
-								"n_0");
+						casResult = casResult
+								.replaceAll("arbint\\(([+0-9]*)\\)", "n_0");
 
-						String[] results = {result};
-						
+						String[] results = { result };
+
 						if (result.indexOf("|OR|") > -1) {
 							results = result.split("\\|OR\\|");
 						}
@@ -1045,10 +1033,9 @@ ToolbarD.getAllTools(this));
 							String error = "\n\nnot OK " + count + "\ncmd = "
 									+ command + "\ndesired result= "
 									+ StringUtil.toJavaString(result)
-									+ "\nactual result = "
-									+ StringUtil
+									+ "\nactual result = " + StringUtil
 											.toJavaString(casResultOriginal);
-							
+
 							// to auto-fill answers for new test-cases
 							// error = "{ cat:\"Integral\", cmd:\"";
 							// error += StringUtil.toJavaString(command);
@@ -1059,17 +1046,10 @@ ToolbarD.getAllTools(this));
 
 							Log.error(error);
 							errors.add(error);
-							
-							
 
 						}
 
 					}
-					
-					
-
-					
-
 
 				}
 
@@ -1186,12 +1166,14 @@ ToolbarD.getAllTools(this));
 			int fixcoordsPD = Integer.parseInt(str[1].substring(1, 2));
 
 			if (fixcoordsP < 0 || fixcoordsP > 4)
-				Log.error("Improper value for usefixcoords for Prove, using default instead");
+				Log.error(
+						"Improper value for usefixcoords for Prove, using default instead");
 			else
 				proverSettings.useFixCoordinatesProve = fixcoordsP;
 
 			if (fixcoordsPD < 0 || fixcoordsPD > 4)
-				Log.error("Improper value for usefixcoords for ProveDetails, using default instead");
+				Log.error(
+						"Improper value for usefixcoords for ProveDetails, using default instead");
 			else
 				proverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
 
@@ -1520,8 +1502,8 @@ ToolbarD.getAllTools(this));
 					@Override
 					public void run() {
 
-						GeoGebraFrame.createNewWindow(args
-								.getGlobalArguments().add(key, fileArgument));
+						GeoGebraFrame.createNewWindow(args.getGlobalArguments()
+								.add(key, fileArgument));
 					}
 				});
 			} else {
@@ -1529,8 +1511,7 @@ ToolbarD.getAllTools(this));
 				try {
 					boolean success;
 					String lowerCase = StringUtil.toLowerCase(fileArgument);
-					FileExtensions ext = StringUtil
-							.getFileExtension(lowerCase);
+					FileExtensions ext = StringUtil.getFileExtension(lowerCase);
 
 					boolean isMacroFile = ext
 							.equals(FileExtensions.GEOGEBRA_TOOL);
@@ -1601,8 +1582,9 @@ ToolbarD.getAllTools(this));
 	public boolean loadBase64File(final File file) {
 		if (!file.exists()) {
 			// show file not found message
-			JOptionPane.showConfirmDialog(getMainComponent(), getLocalization()
-					.getError("FileNotFound") + ":\n" + file.getAbsolutePath(),
+			JOptionPane.showConfirmDialog(getMainComponent(),
+					getLocalization().getError("FileNotFound") + ":\n"
+							+ file.getAbsolutePath(),
 					getLocalization().getError("Error"),
 					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			return false;
@@ -1636,15 +1618,13 @@ ToolbarD.getAllTools(this));
 	/**
 	 * Tries to load a construction from the following sources in order:
 	 * <ol>
-	 * <li>
-	 * From embedded base64 string
+	 * <li>From embedded base64 string
 	 * <ol type="a">
 	 * <li><code>&lt;article ... data-param-ggbbase64="..." /&gt;</code></li>
 	 * <li><code>&lt;param name="ggbBase64" value="..." /&gt;</code></li>
 	 * </ol>
 	 * </li>
-	 * <li>
-	 * From relative referenced *.ggb file
+	 * <li>From relative referenced *.ggb file
 	 * <ol type="a">
 	 * <li><code>&lt;article ... data-param-filename="..." /&gt;</code></li>
 	 * <li><code>&lt;param name="filename" value="..." /&gt;</code></li>
@@ -1760,8 +1740,7 @@ ToolbarD.getAllTools(this));
 
 		return end == page.length() || end == begin ? // attribute value not
 		// terminated or empty
-		null
-				: page.substring(begin, end);
+				null : page.substring(begin, end);
 	}
 
 	private static boolean isMarker(char[] markers, char character) {
@@ -1830,7 +1809,8 @@ ToolbarD.getAllTools(this));
 		boolean justEuclidianVisible = false;
 
 		for (DockPanelData panel : docPerspective.getDockPanelData()) {
-			if ((panel.getViewId() == App.VIEW_EUCLIDIAN) && panel.isVisible()) {
+			if ((panel.getViewId() == App.VIEW_EUCLIDIAN)
+					&& panel.isVisible()) {
 				justEuclidianVisible = true;
 			} else if (panel.isVisible()) {
 				justEuclidianVisible = false;
@@ -1907,8 +1887,6 @@ ToolbarD.getAllTools(this));
 		return imageManager;
 	}
 
-
-
 	@Override
 	public void setGUIFontSize(int size) {
 
@@ -1931,8 +1909,6 @@ ToolbarD.getAllTools(this));
 
 		super.setFontSize(points, update);
 	}
-
-	
 
 	public ImageIcon getImageIcon(ImageResourceD res) {
 		return imageManager.getImageIcon(res, null);
@@ -1994,21 +1970,17 @@ ToolbarD.getAllTools(this));
 	}
 
 	public ImageIcon getScaledIcon(ImageResourceD res, Color borderColor) {
-		ImageIcon icon = imageManager.getImageIcon(
-				res,
-				borderColor);
+		ImageIcon icon = imageManager.getImageIcon(res, borderColor);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIconCommon(ImageResourceD res) {
-		ImageIcon icon = imageManager
-				.getImageIcon(res, null);
+		ImageIcon icon = imageManager.getImageIcon(res, null);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIcon(ImageResourceD res, int iconSize) {
-		ImageIcon icon = imageManager.getImageIcon(
-				res, null);
+		ImageIcon icon = imageManager.getImageIcon(res, null);
 		return scaleIcon(icon, iconSize);
 	}
 
@@ -2023,12 +1995,11 @@ ToolbarD.getAllTools(this));
 	}
 
 	public Image getScaledInternalImage(ImageResourceD fileName) {
-		MyImageD img = imageManager
-				.getInternalImage(fileName);
+		MyImageD img = imageManager.getInternalImage(fileName);
 		int iconSize = getScaledIconSize();
 		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
 	}
-	
+
 	/**
 	 * Attempt to return a flag to represent the current language
 	 * 
@@ -2053,8 +2024,6 @@ ToolbarD.getAllTools(this));
 		return flag;
 	}
 
-
-
 	public ImageIcon getScaledFlagIcon(String filename) {
 		ImageIcon icon = imageManager.getFlagIcon(filename);
 		if (isMacOS()) {
@@ -2063,18 +2032,17 @@ ToolbarD.getAllTools(this));
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
-
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
-						imageManager.getToolImageResource(modeText, false),
+				imageManager.getToolImageResource(modeText, false),
 				borderColor);
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
 		 * (icon == null) { // load3DJar(); // try to find this image in 3D
-		 * extension path = "org/geogebra/desktop/geogebra3D/images/" + filename; icon =
-		 * imageManager.getImageIcon(path, borderColor); }
+		 * extension path = "org/geogebra/desktop/geogebra3D/images/" +
+		 * filename; icon = imageManager.getImageIcon(path, borderColor); }
 		 */
 
 		if (icon == null) {
@@ -2107,8 +2075,7 @@ ToolbarD.getAllTools(this));
 	}
 
 	public Image getInternalImage(ImageResourceD filename) {
-		return imageManager.getInternalImage(filename)
-				.getImage();
+		return imageManager.getInternalImage(filename).getImage();
 	}
 
 	public Image getRefreshViewImage() {
@@ -2123,29 +2090,26 @@ ToolbarD.getAllTools(this));
 
 	public Image getPlayImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(
-				GuiResourcesD.NAV_PLAY_CIRCLE)
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_CIRCLE)
 				.getImage();
 	}
 
 	public Image getPlayImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(
-				GuiResourcesD.NAV_PLAY_HOVER)
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY_HOVER)
 				.getImage();
 	}
 
 	public Image getPauseImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(
-				GuiResourcesD.NAV_PAUSE_CIRCLE)
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE)
 				.getImage();
 	}
 
 	public Image getPauseImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(
-				GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER)
+		return imageManager
+				.getInternalImage(GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER)
 				.getImage();
 	}
 
@@ -2269,8 +2233,8 @@ ToolbarD.getAllTools(this));
 					int pos = fileName.lastIndexOf('.');
 					String firstPart = pos > 0 ? fileName.substring(0, pos)
 							: "";
-					String extension = pos < fileName.length() ? fileName
-							.substring(pos) : "";
+					String extension = pos < fileName.length()
+							? fileName.substring(pos) : "";
 					fileName = firstPart + n + extension;
 				} while (ImageManagerD.getExternalImage(fileName) != null);
 			}
@@ -2313,8 +2277,8 @@ ToolbarD.getAllTools(this));
 		StringBuilder sb = new StringBuilder();
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
-			BufferedReader br = new BufferedReader(new InputStreamReader(is,
-					Charsets.UTF_8));
+			BufferedReader br = new BufferedReader(
+					new InputStreamReader(is, Charsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -2332,23 +2296,19 @@ ToolbarD.getAllTools(this));
 		copyGraphicsViewToClipboard(getGuiManager().getActiveEuclidianView());
 	}
 
-
 	@Override
 	public void copyBase64ToClipboard() {
 
 		// don't include preview bitmap
-		Toolkit.getDefaultToolkit()
-				.getSystemClipboard()
-				.setContents(new StringSelection(getGgbApi().getBase64(false)),
-						null);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+				new StringSelection(getGgbApi().getBase64(false)), null);
 	}
 
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
 
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(new StringSelection(getFullHTML5ExportString()),
-						null);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
+				new StringSelection(getFullHTML5ExportString()), null);
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView euclidianView) {
@@ -2399,12 +2359,11 @@ ToolbarD.getAllTools(this));
 		double scale = getMaxScaleForClipBoard(ev);
 
 		// copy drawing pad to the system clipboard
-		Image img = GBufferedImageD.getAwtBufferedImage(((EuclidianViewD) ev)
-				.getExportImage(scale));
-		ImageSelection imgSel = new ImageSelection(
-				img);
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(imgSel, null);
+		Image img = GBufferedImageD.getAwtBufferedImage(
+				((EuclidianViewD) ev).getExportImage(scale));
+		ImageSelection imgSel = new ImageSelection(img);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
+				null);
 	}
 
 	private static Rectangle screenSize = null;
@@ -2435,9 +2394,8 @@ ToolbarD.getAllTools(this));
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
-		return GBufferedImageD
-				.getAwtBufferedImage(getActiveEuclidianViewExportImage(maxX,
-						maxY));
+		return GBufferedImageD.getAwtBufferedImage(
+				getActiveEuclidianViewExportImage(maxX, maxY));
 	}
 
 	// **************************************************************************
@@ -2502,10 +2460,8 @@ ToolbarD.getAllTools(this));
 				return Integer.parseInt(OptionsAdvancedD.tooltipTimeouts(i));
 			}
 		}
-		return Integer
-				.parseInt(
-						OptionsAdvancedD.tooltipTimeouts(
-								OptionsAdvancedD.tooltipTimeoutsLength() - 2));
+		return Integer.parseInt(OptionsAdvancedD
+				.tooltipTimeouts(OptionsAdvancedD.tooltipTimeoutsLength() - 2));
 	}
 
 	@Override
@@ -2523,6 +2479,7 @@ ToolbarD.getAllTools(this));
 		}
 		setLocale(loc);
 	}
+
 	/**
 	 * set language via iso language string
 	 */
@@ -2590,8 +2547,8 @@ ToolbarD.getAllTools(this));
 	final public String getEnglishCommand(String key) {
 
 		if (rbcommandEnglish == null) {
-			rbcommandEnglish = MyResourceBundle.createBundle(
-					LocalizationD.RB_COMMAND, Locale.ENGLISH);
+			rbcommandEnglish = MyResourceBundle
+					.createBundle(LocalizationD.RB_COMMAND, Locale.ENGLISH);
 		}
 
 		try {
@@ -2604,8 +2561,8 @@ ToolbarD.getAllTools(this));
 	final public String getEnglishMenu(String key) {
 
 		if (rbmenuEnglish == null) {
-			rbmenuEnglish = MyResourceBundle.createBundle(
-					LocalizationD.RB_MENU, Locale.ENGLISH);
+			rbmenuEnglish = MyResourceBundle.createBundle(LocalizationD.RB_MENU,
+					Locale.ENGLISH);
 		}
 		try {
 			return rbmenuEnglish.getString(key);
@@ -2798,8 +2755,8 @@ ToolbarD.getAllTools(this));
 			if (applicationSplitPane == null) {
 				applicationSplitPane = new JSplitPane(
 						JSplitPane.HORIZONTAL_SPLIT, centerPanel, null);
-				applicationSplitPane.setBorder(BorderFactory
-						.createEmptyBorder());
+				applicationSplitPane
+						.setBorder(BorderFactory.createEmptyBorder());
 				// set all resize weight to the left pane
 				applicationSplitPane.setResizeWeight(1.0);
 				applicationSplitPane.setDividerSize(0);
@@ -2822,11 +2779,11 @@ ToolbarD.getAllTools(this));
 
 			if (showDockBar && !isApplet()) {
 				if (dockBar.isEastOrientation())
-					applicationPanel.add((Component) dockBar, getLocalization()
-							.borderEast());
+					applicationPanel.add((Component) dockBar,
+							getLocalization().borderEast());
 				else {
-					applicationPanel.add((Component) dockBar, getLocalization()
-							.borderWest());
+					applicationPanel.add((Component) dockBar,
+							getLocalization().borderWest());
 				}
 			}
 
@@ -2863,21 +2820,19 @@ ToolbarD.getAllTools(this));
 	public void setShowInputHelpPanel(boolean isVisible) {
 		if (isVisible) {
 			applicationSplitPane
-					.setRightComponent((getGuiManager())
-							.getInputHelpPanel());
+					.setRightComponent((getGuiManager()).getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
-				applicationSplitPane
-						.setLastDividerLocation(applicationSplitPane.getWidth()
-								- (getGuiManager())
-										.getInputHelpPanelMinimumWidth());
+				applicationSplitPane.setLastDividerLocation(
+						applicationSplitPane.getWidth() - (getGuiManager())
+								.getInputHelpPanelMinimumWidth());
 			}
-			applicationSplitPane.setDividerLocation(applicationSplitPane
-					.getLastDividerLocation());
+			applicationSplitPane.setDividerLocation(
+					applicationSplitPane.getLastDividerLocation());
 			applicationSplitPane.setDividerSize(8);
 
 		} else {
-			applicationSplitPane.setLastDividerLocation(applicationSplitPane
-					.getDividerLocation());
+			applicationSplitPane.setLastDividerLocation(
+					applicationSplitPane.getDividerLocation());
 			applicationSplitPane.setRightComponent(null);
 			applicationSplitPane.setDividerSize(0);
 		}
@@ -2903,13 +2858,12 @@ ToolbarD.getAllTools(this));
 		// handle input bar
 		if (showAlgebraInput) {
 			initInputBar(this, getInputPosition() == InputPosition.top,
-					northPanel,
-					southPanel);
+					northPanel, southPanel);
 		}
 
 		if (showToolBar) {
-			initToolbar(this, getToolbarPosition(), showToolBarHelp,
-					northPanel, eastPanel, southPanel, westPanel);
+			initToolbar(this, getToolbarPosition(), showToolBarHelp, northPanel,
+					eastPanel, southPanel, westPanel);
 		}
 
 		if (frame != null && frame.getContentPane() != null) {
@@ -3235,7 +3189,6 @@ ToolbarD.getAllTools(this));
 	// CURSORS
 	// **************************************************************************
 
-
 	@Override
 	public void setWaitCursor() {
 		Cursor waitCursor = Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR);
@@ -3275,8 +3228,8 @@ ToolbarD.getAllTools(this));
 
 		if (transparentCursor == null) {
 			int[] pixels = new int[16 * 16];
-			Image image = Toolkit.getDefaultToolkit().createImage(
-					new MemoryImageSource(16, 16, pixels, 0, 16));
+			Image image = Toolkit.getDefaultToolkit()
+					.createImage(new MemoryImageSource(16, 16, pixels, 0, 16));
 
 			transparentCursor = Toolkit.getDefaultToolkit().createCustomCursor(
 					image, new Point(0, 0), "invisibleCursor");
@@ -3457,6 +3410,7 @@ ToolbarD.getAllTools(this));
 	}
 
 	private OFFHandler offHandler;
+
 	public boolean loadOffFile(File file) {
 		if (!checkFileExistsAndShowFileNotFound(file)) {
 			return false;
@@ -3492,12 +3446,11 @@ ToolbarD.getAllTools(this));
 			 * missing file was loaded through the command line, which causes
 			 * some nasty rendering problems.
 			 */
-			JOptionPane.showConfirmDialog(
-					null,
+			JOptionPane.showConfirmDialog(null,
 					getLocalization().getError("FileNotFound") + ":\n"
-							+ file.getAbsolutePath(), getLocalization()
-							.getError("Error"), JOptionPane.DEFAULT_OPTION,
-					JOptionPane.WARNING_MESSAGE);
+							+ file.getAbsolutePath(),
+					getLocalization().getError("Error"),
+					JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE);
 			return false;
 		}
 
@@ -3874,7 +3827,6 @@ ToolbarD.getAllTools(this));
 		return 300;
 	}
 
-
 	/*
 	 * final public void clearAll() { // load preferences
 	 * GeoGebraPreferences.loadXMLPreferences(this); updateContentPane(); //
@@ -3924,8 +3876,8 @@ ToolbarD.getAllTools(this));
 			for (int i = 0; i < GEOGEBRA_JAR_ALT.length; ++i) {
 				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
 					runningFromJar = true;
-					path = path.substring(0, path.length()
-							- GEOGEBRA_JAR_ALT[i].length());
+					path = path.substring(0,
+							path.length() - GEOGEBRA_JAR_ALT[i].length());
 				}
 			}
 
@@ -4123,8 +4075,8 @@ ToolbarD.getAllTools(this));
 
 		/*
 		 * debug("isMetaDown = "+e.isMetaDown()); debug("isControlDown =
-		 * "+e.isControlDown()); debug("isShiftDown = "+e.isShiftDown());
-		 * debug("isAltDown = "+e.isAltDown()); debug("isAltGrDown =
+		 * "+e.isControlDown()); debug("isShiftDown = "+e.isShiftDown()); debug(
+		 * "isAltDown = "+e.isAltDown()); debug("isAltGrDown =
 		 * "+e.isAltGraphDown()); debug("fakeRightClick = "+fakeRightClick);
 		 */
 
@@ -4166,12 +4118,10 @@ ToolbarD.getAllTools(this));
 
 		/*
 		 * debug("MAC_OS = "+MAC_OS); debug("isMetaDown = "+e.isMetaDown());
-		 * debug("isControlDown ="+e.isControlDown());
-		 * debug("isShiftDown = "+e.isShiftDown());
-		 * debug("isAltDown = "+e.isAltDown());
-		 * debug("isAltGrDown ="+e.isAltGraphDown());
-		 * debug("isPopupTrigger = "+e.isPopupTrigger());
-		 * debug("fakeRightClick = "+fakeRightClick);
+		 * debug("isControlDown ="+e.isControlDown()); debug("isShiftDown = "
+		 * +e.isShiftDown()); debug("isAltDown = "+e.isAltDown()); debug(
+		 * "isAltGrDown ="+e.isAltGraphDown()); debug("isPopupTrigger = "
+		 * +e.isPopupTrigger()); debug("fakeRightClick = "+fakeRightClick);
 		 */
 
 		if (fakeRightClick) {
@@ -4179,9 +4129,10 @@ ToolbarD.getAllTools(this));
 		}
 
 		boolean ret =
-		// e.isPopupTrigger() ||
-		(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-				|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click = meta
+				// e.isPopupTrigger() ||
+				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
+						|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click
+														// = meta
 		// click
 
 		// debug("ret = " + ret);
@@ -4193,9 +4144,9 @@ ToolbarD.getAllTools(this));
 	public static boolean isRightClickForceMetaDown(MouseEvent e) {
 
 		boolean ret =
-		// e.isPopupTrigger() ||
-		(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-				|| (e.isMetaDown()); // non-Mac: right click = meta
+				// e.isPopupTrigger() ||
+				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
+						|| (e.isMetaDown()); // non-Mac: right click = meta
 		// click
 
 		// debug("ret = " + ret);
@@ -4205,8 +4156,8 @@ ToolbarD.getAllTools(this));
 	}
 
 	public void removeTraversableKeys(JPanel p) {
-		Set<AWTKeyStroke> set = p
-				.getFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS);
+		Set<AWTKeyStroke> set = p.getFocusTraversalKeys(
+				KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS);
 		set.clear();
 		p.setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS,
 				set);
@@ -4298,38 +4249,35 @@ ToolbarD.getAllTools(this));
 							callback);
 				}
 
-				
 				public void showCommandError(String command, String message) {
 
-						// make sure splash screen not showing (will be in front)
+					// make sure splash screen not showing (will be in front)
 					GeoGebra.hideSplash();
 
 					Object[] options = { getLocalization().getPlain("OK"),
 							getLocalization().getPlain("ShowOnlineHelp") };
-						int n = JOptionPane.showOptionDialog(mainComp, message,
-								GeoGebraConstants.APPLICATION_NAME + " - "
-										+ getLocalization().getError("Error"),
-								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, // do
-																								// not
-																								// use
-																								// a
-																								// custom
-																								// Icon
-								options, // the titles of buttons
-								options[0]); // default button title
+					int n = JOptionPane.showOptionDialog(mainComp, message,
+							GeoGebraConstants.APPLICATION_NAME + " - "
+									+ getLocalization().getError("Error"),
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.QUESTION_MESSAGE, null, // do
+																// not
+																// use
+																// a
+																// custom
+																// Icon
+							options, // the titles of buttons
+							options[0]); // default button title
 
-						if (n == 1) {
-							getGuiManager().openCommandHelp(command);
-						}
-
+					if (n == 1) {
+						getGuiManager().openCommandHelp(command);
 					}
+
+				}
 
 				public String getCurrentCommand() {
 					return null;
 				}
-					
-
-
 
 			};
 		}
@@ -4351,7 +4299,8 @@ ToolbarD.getAllTools(this));
 			public void run() {
 				JOptionPane.showConfirmDialog(mainComp, message,
 						GeoGebraConstants.APPLICATION_NAME + " - "
-								+ getMenu("Info"), JOptionPane.DEFAULT_OPTION,
+								+ getMenu("Info"),
+						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
@@ -4407,7 +4356,8 @@ ToolbarD.getAllTools(this));
 		Log.debug("Setting up logging");
 		if (Log.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
-			Log.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
+			Log.debug(
+					"Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
 			return;
 		}
 
@@ -4541,8 +4491,8 @@ ToolbarD.getAllTools(this));
 	 * Enumeration<String> e = rbcommand.getKeys(); while (e.hasMoreElements())
 	 * { String s = e.nextElement(); if (!s.contains(syntaxStr) && (map.get(s)
 	 * == null)) { boolean write = true; try { rbcommand.getString(s +
-	 * syntaxStr); } catch (Exception ex) { write = false; } if (write) {
-	 * debug("checkCommands: " + s); } } } }
+	 * syntaxStr); } catch (Exception ex) { write = false; } if (write) { debug(
+	 * "checkCommands: " + s); } } } }
 	 */
 
 	@Override
@@ -4609,8 +4559,8 @@ ToolbarD.getAllTools(this));
 		if (ttt > 0) {
 			ToolTipManager.sharedInstance().setDismissDelay(ttt * 1000);
 			// make it fit into tooltipTimeouts array:
-			ToolTipManager.sharedInstance().setDismissDelay(
-					getTooltipTimeout() * 1000);
+			ToolTipManager.sharedInstance()
+					.setDismissDelay(getTooltipTimeout() * 1000);
 		} else {
 			ToolTipManager.sharedInstance().setDismissDelay(Integer.MAX_VALUE);
 		}
@@ -4664,8 +4614,6 @@ ToolbarD.getAllTools(this));
 		return new GeoElementGraphicsAdapterD(this);
 	}
 
-
-
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
 		if (tableModel == null) {
@@ -4690,7 +4638,8 @@ ToolbarD.getAllTools(this));
 		return isMiddleClick((MouseEventND) e);
 	}
 
-	public Font getFontCanDisplayAwt(String string, boolean b, int plain, int i) {
+	public Font getFontCanDisplayAwt(String string, boolean b, int plain,
+			int i) {
 		return getFontManager().getFontCanDisplayAwt(string, b, plain, i);
 	}
 
@@ -4732,8 +4681,8 @@ ToolbarD.getAllTools(this));
 	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
 	 * Windows Vista Windows XP
 	 */
-	private static String OS = System.getProperty("os.name").toLowerCase(
-			Locale.US);
+	private static String OS = System.getProperty("os.name")
+			.toLowerCase(Locale.US);
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");
@@ -4743,8 +4692,9 @@ ToolbarD.getAllTools(this));
 	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
 	private static final boolean WINDOWS_XP_OR_EARLIER = OS
 			.startsWith("windows 2000") || OS.startsWith("windows 95")
-			|| OS.startsWith("windows 98") || OS.startsWith("windows nt") || OS.startsWith("windows xp");
-	
+			|| OS.startsWith("windows 98") || OS.startsWith("windows nt")
+			|| OS.startsWith("windows xp");
+
 	public static final boolean WINDOWS_VISTA_OR_LATER = WINDOWS
 			&& !WINDOWS_XP_OR_EARLIER;
 
@@ -4832,6 +4782,7 @@ ToolbarD.getAllTools(this));
 		getEuclidianView2(1).dispatchEvent(event);
 
 	}
+
 	/**
 	 * 
 	 * @return eg Java 1.7.0_03-64bit
@@ -4913,13 +4864,15 @@ ToolbarD.getAllTools(this));
 	// **************************************************************************
 
 	public ComponentOrientation getComponentOrientation() {
-		return getLocalization().isRightToLeftReadingOrder() ? ComponentOrientation.RIGHT_TO_LEFT
+		return getLocalization().isRightToLeftReadingOrder()
+				? ComponentOrientation.RIGHT_TO_LEFT
 				: ComponentOrientation.LEFT_TO_RIGHT;
 	}
 
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
-		ComponentOrientation orientation = rtl ? ComponentOrientation.RIGHT_TO_LEFT
+		ComponentOrientation orientation = rtl
+				? ComponentOrientation.RIGHT_TO_LEFT
 				: ComponentOrientation.LEFT_TO_RIGHT;
 		c.setComponentOrientation(orientation);
 		// c.applyComponentOrientation(orientation);
@@ -4931,13 +4884,14 @@ ToolbarD.getAllTools(this));
 				setComponentOrientation(menu.getMenuComponent(i));
 			}
 		} else if (c instanceof JTextField) {
-			((JTextField) c).setHorizontalAlignment(rtl ? SwingConstants.RIGHT
-					: SwingConstants.LEFT);
+			((JTextField) c).setHorizontalAlignment(
+					rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
 		} else if (c instanceof JComboBox) {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
 			if (!(renderer instanceof DashListRenderer
-					|| renderer instanceof AxesStyleListRenderer || renderer instanceof PointStyleListRenderer)) {
+					|| renderer instanceof AxesStyleListRenderer
+					|| renderer instanceof PointStyleListRenderer)) {
 				// if we didn't load GUI yet, assume there is no tool creation
 				// dialog
 				if (getGuiManager() == null
@@ -4945,9 +4899,8 @@ ToolbarD.getAllTools(this));
 					renderer = new DefaultListCellRenderer();
 					cb.setRenderer(renderer);
 				}
-				((JLabel) renderer)
-						.setHorizontalAlignment(rtl ? SwingConstants.RIGHT
-								: SwingConstants.LEFT);
+				((JLabel) renderer).setHorizontalAlignment(
+						rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
 			}
 		} else if (c instanceof Container) {
 			Container container = (Container) c;
@@ -5000,8 +4953,7 @@ ToolbarD.getAllTools(this));
 				return;
 			}
 			if (((System.currentTimeMillis() - startTime) > SingularWSSettings
-					.getTimeout() * 1000L)
-					&& t.isAlive()) {
+					.getTimeout() * 1000L) && t.isAlive()) {
 				Log.debug("SingularWS startup timeout");
 				t.interrupt();
 				// t.join(); //
@@ -5016,8 +4968,8 @@ ToolbarD.getAllTools(this));
 	// **************************************************************************
 
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			AnimationExportSlider num,
-			int n, double val, double min, double max, double step) {
+			AnimationExportSlider num, int n, double val, double min,
+			double max, double step) {
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
@@ -5026,9 +4978,8 @@ ToolbarD.getAllTools(this));
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = GBufferedImageD
-					.getAwtBufferedImage(((EuclidianViewD) ev)
-							.getExportImage(1));
+			Image img = GBufferedImageD.getAwtBufferedImage(
+					((EuclidianViewD) ev).getExportImage(1));
 			if (img == null) {
 				Log.error("image null");
 			} else {
@@ -5153,7 +5104,7 @@ ToolbarD.getAllTools(this));
 		// using code from newWindowAction, combined with
 		// Michael's suggestion
 		AppD ad = newAppForTemplateOrInsertFile();
-		
+
 		// now, we have to load the file into AppD
 		ad.getGuiManager().loadFile(file, false);
 
@@ -5175,9 +5126,9 @@ ToolbarD.getAllTools(this));
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste().copyToXML(ad, new ArrayList<GeoElement>(ad
-				.getKernel().getConstruction()
-				.getGeoSetWithCasCellsConstructionOrder()), true);
+		getCopyPaste().copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
+				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+				true);
 
 		// and paste
 		getCopyPaste().pasteFromXML(this, true);
@@ -5190,8 +5141,8 @@ ToolbarD.getAllTools(this));
 		ad.getFrame().dispose();
 
 	}
-	
-	protected AppD newAppForTemplateOrInsertFile(){
+
+	protected AppD newAppForTemplateOrInsertFile() {
 		return new AppD(new CommandLineArguments(null), new JPanel(), true);
 	}
 
@@ -5204,7 +5155,7 @@ ToolbarD.getAllTools(this));
 
 		// now, we have to load the file into AppD
 		ad.getGuiManager().loadFile(file, false);
-		
+
 		setLabelingStyle(ad.getLabelingStyle());
 		getKernel().setConstructionDefaults(ad.getKernel());
 		getKernel().setVisualStyles(ad.getKernel());
@@ -5220,8 +5171,6 @@ ToolbarD.getAllTools(this));
 	}
 
 	private boolean popupsDone = false;
-
-	
 
 	@Override
 	public void showPopUps() {
@@ -5265,8 +5214,8 @@ ToolbarD.getAllTools(this));
 
 		boolean showDockPopup = true;
 
-		String skipLogin = GeoGebraPreferencesD.getPref().loadPreference(
-				GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
+		String skipLogin = GeoGebraPreferencesD.getPref()
+				.loadPreference(GeoGebraPreferencesD.USER_LOGIN_SKIP, "false");
 
 		if (!"true".equals(skipLogin)) {
 			showDockPopup = false;
@@ -5309,7 +5258,6 @@ ToolbarD.getAllTools(this));
 		return getScaledIcon(res, null);
 	}
 
-
 	public Image getMenuInternalImage(ImageResourceD name) {
 		if (isMacOS()) {
 			// no scaling for mac menu
@@ -5318,7 +5266,6 @@ ToolbarD.getAllTools(this));
 
 		return getScaledInternalImage(name);
 	}
-
 
 	public void needThumbnailFor3D() {
 		// nothing to do here
@@ -5352,12 +5299,11 @@ ToolbarD.getAllTools(this));
 	private ScheduledFuture<?> handler;
 
 	public void schedulePreview(Runnable scheduledPreview) {
-		
+
 		cancelPreview();
 
 		handler = scheduler.schedule(scheduledPreview,
-				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS,
-				TimeUnit.MILLISECONDS);
+				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
 
 	public void cancelPreview() {
@@ -5474,6 +5420,5 @@ ToolbarD.getAllTools(this));
 
 		return copyPaste;
 	}
-
 
 }

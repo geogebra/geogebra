@@ -32,8 +32,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	private AxisModel model;
 
-	protected JCheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
- cbPositiveAxis,
+	protected JCheckBox cbShowAxis, cbAxisNumber, cbManualTicks, cbPositiveAxis,
 			cbDrawAtBorder, cbAllowSelection;
 	protected NumberComboBox ncbTickDist;
 	protected JComboBox cbTickStyle, cbAxisLabel, cbUnitLabel;
@@ -148,13 +147,13 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		updatePanel();
 	}
-	
+
 	public void updateView(EuclidianView view) {
 		this.view = view;
 		model.setView(view);
 	}
-	
-	protected void addCrossPanel(JPanel crossPanel){
+
+	protected void addCrossPanel(JPanel crossPanel) {
 		add(crossPanel);
 	}
 

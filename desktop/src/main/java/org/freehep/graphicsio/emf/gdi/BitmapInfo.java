@@ -14,23 +14,23 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public class BitmapInfo {
 
-    private BitmapInfoHeader header;
+	private BitmapInfoHeader header;
 
-    public BitmapInfo(BitmapInfoHeader header) {
-        this.header = header;
-    }
+	public BitmapInfo(BitmapInfoHeader header) {
+		this.header = header;
+	}
 
-    public BitmapInfo(EMFInputStream emf) throws IOException {
-        header = new BitmapInfoHeader(emf);
-        // colormap not necessary for true color image
-    }
+	public BitmapInfo(EMFInputStream emf) throws IOException {
+		header = new BitmapInfoHeader(emf);
+		// colormap not necessary for true color image
+	}
 
-    public void write(EMFOutputStream emf) throws IOException {
-        header.write(emf);
-        // colormap not necessary for true color image
-    }
+	public void write(EMFOutputStream emf) throws IOException {
+		header.write(emf);
+		// colormap not necessary for true color image
+	}
 
-    public String toString() {
-        return "  BitmapInfo\n" + header.toString();
-    }
+	public String toString() {
+		return "  BitmapInfo\n" + header.toString();
+	}
 }

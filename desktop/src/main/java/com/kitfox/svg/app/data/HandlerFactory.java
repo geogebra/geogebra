@@ -41,16 +41,13 @@ import java.net.URLStreamHandlerFactory;
  *
  * @author kitfox
  */
-public class HandlerFactory implements URLStreamHandlerFactory
-{
-    static Handler handler = new Handler();
+public class HandlerFactory implements URLStreamHandlerFactory {
+	static Handler handler = new Handler();
 
-    public URLStreamHandler createURLStreamHandler(String protocol)
-    {
-        if ("data".equals(protocol))
-        {
-            return handler;
-        }
-        return null;
-    }
+	public URLStreamHandler createURLStreamHandler(String protocol) {
+		if ("data".equals(protocol)) {
+			return handler;
+		}
+		return null;
+	}
 }

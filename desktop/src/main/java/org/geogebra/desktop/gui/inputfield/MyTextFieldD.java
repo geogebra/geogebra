@@ -44,9 +44,9 @@ import org.geogebra.desktop.main.AppD;
  * press.
  * 
  */
-public class MyTextFieldD extends JTextField implements ActionListener,
-		FocusListener, VirtualKeyboardListener, CaretListener, SetLabels,
-		TextObject {
+public class MyTextFieldD extends JTextField
+		implements ActionListener, FocusListener, VirtualKeyboardListener,
+		CaretListener, SetLabels, TextObject {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,8 +58,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 	private ImageIcon icon = GeoGebraIconD.createSymbolTableIcon(this.getFont(),
 			false);
-	private ImageIcon rollOverIcon = GeoGebraIconD.createSymbolTableIcon(
-			this.getFont(), true);
+	private ImageIcon rollOverIcon = GeoGebraIconD
+			.createSymbolTableIcon(this.getFont(), true);
 	private boolean showSymbolTableIcon = false;
 
 	// colored character rendering fields
@@ -178,11 +178,12 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 	}
 
 	private void setDefaultBorder() {
-		super.setBorder(BorderFactory.createCompoundBorder(defaultBorder,
-				borderBtn));
+		super.setBorder(
+				BorderFactory.createCompoundBorder(defaultBorder, borderBtn));
 	}
 
-	protected void setBorderButton(int index, ImageIcon icon, ActionListener al) {
+	protected void setBorderButton(int index, ImageIcon icon,
+			ActionListener al) {
 		borderBtn.setBorderButton(index, icon, al);
 		setDefaultBorder();
 	}
@@ -234,8 +235,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 		thisField.repaint();
 
 		if (app.getGuiManager() != null)
-			((GuiManagerD) app.getGuiManager())
-					.setCurrentTextfield(this, false);
+			((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this,
+					false);
 	}
 
 	public void focusLost(FocusEvent e) {
@@ -326,7 +327,7 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 	/**
 	 * Overrides processKeyEvents so that the symbol table popup can be
 	 * triggered by ctrl-up.
-	 * */
+	 */
 	@Override
 	public void processKeyEvent(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -391,8 +392,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 		scrollOffset = getScrollOffset();
 		pos = 0; // text start position (not in pixels)
 		if (getHorizontalAlignment() == SwingConstants.RIGHT) {
-			pos = Math.max(0, getHorizontalVisibility().getExtent()
-					- getLength(text));
+			pos = Math.max(0,
+					getHorizontalVisibility().getExtent() - getLength(text));
 		}
 		int selStart = getSelectionStart();
 		int selEnd = getSelectionEnd();
@@ -475,8 +476,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 		if (caretShowing && caretPos > -1 && hasFocus()) {
 			g2.setColor(Color.black);
-			g2.fillRect((int) caretPos - scrollOffset + insets.left, textBottom
-					- fontHeight + 4, 1, fontHeight);
+			g2.fillRect((int) caretPos - scrollOffset + insets.left,
+					textBottom - fontHeight + 4, 1, fontHeight);
 			g2.setPaintMode();
 		}
 
@@ -499,8 +500,8 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 
 		if (selected) {
 			g2.setColor(getSelectionColor());
-			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
-					- fontHeight + 4, (int) advance, fontHeight);
+			g2.fillRect((int) pos - scrollOffset + insets.left,
+					textBottom - fontHeight + 4, (int) advance, fontHeight);
 			g2.setColor(getSelectedTextColor());
 		}
 		// there is no background coloring now

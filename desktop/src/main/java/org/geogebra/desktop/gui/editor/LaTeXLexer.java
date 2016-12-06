@@ -278,8 +278,8 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
 
 		/* first: make room (if you can) */
 		if (zzStartRead > 0) {
-			System.arraycopy(zzBuffer, zzStartRead, zzBuffer, 0, zzEndRead
-					- zzStartRead);
+			System.arraycopy(zzBuffer, zzStartRead, zzBuffer, 0,
+					zzEndRead - zzStartRead);
 
 			/* translate stored positions */
 			zzEndRead -= zzStartRead;
@@ -297,8 +297,8 @@ public final class LaTeXLexer extends Lexer implements LaTeXLexerConstants {
 		}
 
 		/* finally: fill the buffer with new input */
-		int numRead = zzReader.read(zzBuffer, zzEndRead, zzBuffer.length
-				- zzEndRead);
+		int numRead = zzReader.read(zzBuffer, zzEndRead,
+				zzBuffer.length - zzEndRead);
 
 		if (numRead > 0) {
 			zzEndRead += numRead;

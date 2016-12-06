@@ -235,14 +235,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		setOptionPanelRegardingFocus(false);
 	}
 
-
-
-
-
-
-
-
-
 	/**
 	 * acts when mouse has been pressed in euclidian controller
 	 */
@@ -250,9 +242,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void mousePressedForPropertiesView() {
 		objectPanel.forgetGeoAdded();
 	}
-
-
-
 
 	/**
 	 * apply current panel modifications
@@ -276,7 +265,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			((OptionPanelD) selectedOptionPanel).setSelected(isVisible);
 
 	}
-
 
 	@Override
 	protected void setObjectsToolTip() {
@@ -460,9 +448,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		case OBJECTS:
 			if (objectPanel == null) {
 				objectPanel = new OptionsObjectD((AppD) app);
-				((OptionsObjectD) objectPanel)
-						.setMinimumSize(((OptionsObjectD) objectPanel)
-								.getPreferredSize());
+				((OptionsObjectD) objectPanel).setMinimumSize(
+						((OptionsObjectD) objectPanel).getPreferredSize());
 			}
 			return (OptionPanelD) objectPanel;
 		case ALGEBRA:
@@ -670,10 +657,12 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 			boolean outside = (panelRectangle.x > mainWindowRectangle.x
 					+ mainWindowRectangle.width)
-					|| (panelRectangle.x + panelRectangle.width < mainWindowRectangle.x)
+					|| (panelRectangle.x
+							+ panelRectangle.width < mainWindowRectangle.x)
 					|| (panelRectangle.y > mainWindowRectangle.y
 							+ mainWindowRectangle.height)
-					|| (panelRectangle.y + panelRectangle.height < mainWindowRectangle.y);
+					|| (panelRectangle.y
+							+ panelRectangle.height < mainWindowRectangle.y);
 
 			if (!outside)
 				manager.closePanel(panel, false);
@@ -718,10 +707,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	}
 
-
-
-
-
 	private void setObjectPanel(ArrayList<GeoElement> geos) {
 
 		if (geos.size() == 0) {
@@ -733,8 +718,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 				// if no first geo, close properties view if object panel
 				// visible
 				if (selectedOptionType == OptionType.OBJECTS)
-					((LayoutD) app.getGuiManager().getLayout())
-							.getDockManager().closePanel(getViewID(), false);
+					((LayoutD) app.getGuiManager().getLayout()).getDockManager()
+							.closePanel(getViewID(), false);
 
 			} else if (selectedOptionType != OptionType.OBJECTS)
 				setOptionPanel(OptionType.OBJECTS);
@@ -765,9 +750,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			break;
 		}
 	}
-
-
-
 
 	// //////////////////////////////////////////////////////
 	// FOR DOCK/UNDOCK PANEL
@@ -920,7 +902,5 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		return false;
 		// only for web
 	}
-
-
 
 }

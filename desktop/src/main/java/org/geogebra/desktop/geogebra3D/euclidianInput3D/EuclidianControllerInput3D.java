@@ -51,12 +51,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
-		
+
 		((EuclidianControllerInput3DCompanion) companion).setInput3D(input3d);
-
-
-
-
 
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -75,8 +71,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			}
 		}
 
-
-
 	}
 
 	@Override
@@ -84,14 +78,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return new EuclidianControllerInput3DCompanion(this);
 	}
 
-
 	private boolean isNotMovingObjectOrView() {
 		return moveMode == MOVE_NONE && isNotMovingView;
 	}
 
 	@Override
 	public void updateInput3D() {
-		
+
 		// update panel values
 		Dimension panelDimension = ((EuclidianView3DD) view3D).getJPanel()
 				.getSize();
@@ -106,15 +99,13 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			// ////////////////////
 			// set values
 
-
 			// eyes : set position only if we use glasses
 			input3D.updateHeadTracking();
 
 			// update on screen position to check if we allow to use regular
 			// mouse
-			if (robot != null
-					&& (isNotMovingObjectOrView() || !input3D
-							.hasMouseDirection())) {
+			if (robot != null && (isNotMovingObjectOrView()
+					|| !input3D.hasMouseDirection())) {
 				input3D.updateOnScreenPosition();
 			}
 
@@ -122,7 +113,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			if (input3D.currentlyUseMouse2D()) {
 				return;
 			}
-
 
 			// 2D cursor pos
 			if (robot != null) {
@@ -147,11 +137,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			if (input3D.hasMouse()) {
 				if (!input3D.useInputDepthForHitting()
 						|| input3D.getMouse3DPosition().getZ() < view3D
-								.getRenderer()
-								.getEyeToScreenDistance()) {
+								.getRenderer().getEyeToScreenDistance()) {
 
 					input3D.updateMouse3DEvent();
-
 
 					input3D.handleButtons();
 				}
@@ -187,20 +175,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			}
 		}
 
-
 	}
 
-
 	private boolean isNotMovingView = true;
-
-
 
 	private void processRightRelease() {
 		((EuclidianView3D) view).setRotContinueAnimation(
 				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
-
-
 
 	@Override
 	protected void setMouseLocation(AbstractEvent event) {
@@ -226,8 +208,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 	}
 
-
-
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (input3D.currentlyUseMouse2D()) {
@@ -237,8 +217,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			super.mousePressed(e);
 		}
 	}
-
-
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -309,8 +287,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 		movedGeoStartPosition.set(input3D.getMouse3DPosition());
 
-		updateMovedGeoPointStartValues(view3D.getCursor3D()
-				.getInhomCoordsInD(3));
+		updateMovedGeoPointStartValues(
+				view3D.getCursor3D().getInhomCoordsInD(3));
 
 		view3D.setDragCursor();
 
@@ -340,8 +318,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
-		if (mode == EuclidianConstants.MODE_MOVE
-				&& !input3D.hasMouseDirection()
+		if (mode == EuclidianConstants.MODE_MOVE && !input3D.hasMouseDirection()
 				&& !input3D.currentlyUseMouse2D()) {
 			return false;
 		}

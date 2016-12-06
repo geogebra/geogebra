@@ -204,7 +204,7 @@ public class UndoManagerD extends UndoManager {
 
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
-			
+
 			// needed for GGB-517
 			// keep information form listSelectionModel
 			CASViewD casView = null;
@@ -212,9 +212,8 @@ public class UndoManagerD extends UndoManager {
 			if (app.getGuiManager() != null && app.getGuiManager().hasCasView()
 					&& app.getView(App.VIEW_CAS) instanceof CASViewD)
 				casView = (CASViewD) app.getView(App.VIEW_CAS);
-			if (casView != null
-					&& casView.getListSelModel() != null
-					&& casView.getListSelModel() instanceof DefaultListSelectionModel)
+			if (casView != null && casView.getListSelModel() != null && casView
+					.getListSelModel() instanceof DefaultListSelectionModel)
 				listSelModel = (DefaultListSelectionModel) casView
 						.getListSelModel();
 
@@ -234,8 +233,7 @@ public class UndoManagerD extends UndoManager {
 
 			// load undo info
 			((AppD) app).getScriptManager().disableListeners();
-			((MyXMLioD) construction.getXMLio())
-					.readZipFromMemory(is);
+			((MyXMLioD) construction.getXMLio()).readZipFromMemory(is);
 			if (changed) {
 				listSelModel.setAnchorSelectionIndex(anchorIndex);
 				listSelModel.setLeadSelectionIndex(leadIndex);
@@ -261,8 +259,8 @@ public class UndoManagerD extends UndoManager {
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
 		construction.setCasCellUpdate(true);
-		((MyXMLioD) construction.getXMLio()).processXMLString(
-				strXML, true, false, true, true);
+		((MyXMLioD) construction.getXMLio()).processXMLString(strXML, true,
+				false, true, true);
 		construction.setFileLoading(false);
 		construction.setCasCellUpdate(false);
 	}

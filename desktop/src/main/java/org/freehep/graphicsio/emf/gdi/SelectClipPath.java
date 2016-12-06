@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SelectClipPath extends EMFTag implements EMFConstants {
 
-    private int mode;
+	private int mode;
 
-    public SelectClipPath() {
-        super(67, 1);
-    }
+	public SelectClipPath() {
+		super(67, 1);
+	}
 
-    public SelectClipPath(int mode) {
-        this();
-        this.mode = mode;
-    }
+	public SelectClipPath(int mode) {
+		this();
+		this.mode = mode;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SelectClipPath tag = new SelectClipPath(emf.readDWORD());
-        return tag;
-    }
+		SelectClipPath tag = new SelectClipPath(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(mode);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(mode);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  mode: " + mode;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  mode: " + mode;
+	}
 }

@@ -134,11 +134,9 @@ public class TitlePanel extends JPanel {
 
 			// in form 23 September 2012 (some languages don't want eg 25e, 25a
 			// so omit "th" for all)
-			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
-					+ Unicode.LeftToRightMark
-					+ "\\F"
-					+ Unicode.LeftToRightMark
-					+ " \\j"
+			String format = app.getLocalization().isRightToLeftReadingOrder()
+					? "\\Y " + Unicode.LeftToRightMark + "\\F"
+							+ Unicode.LeftToRightMark + " \\j"
 					: "\\j \\F \\Y";
 
 			return CmdGetTime.buildLocalizedDate(format, new Date(),
@@ -152,8 +150,8 @@ public class TitlePanel extends JPanel {
 	public String loadAuthor() {
 		String author = cons.getAuthor();
 		if ("".equals(author)) {
-			author = GeoGebraPreferencesD.getPref().loadPreference(
-					GeoGebraPreferencesD.AUTHOR, "");
+			author = GeoGebraPreferencesD.getPref()
+					.loadPreference(GeoGebraPreferencesD.AUTHOR, "");
 			cons.setAuthor(author);
 		}
 		return author;
@@ -163,8 +161,8 @@ public class TitlePanel extends JPanel {
 		boolean kernelChanged = !author.equals(cons.getAuthor());
 		if (kernelChanged) {
 			cons.setAuthor(author);
-			GeoGebraPreferencesD.getPref().savePreference(
-					GeoGebraPreferencesD.AUTHOR, author);
+			GeoGebraPreferencesD.getPref()
+					.savePreference(GeoGebraPreferencesD.AUTHOR, author);
 		}
 		return kernelChanged;
 	}
@@ -202,9 +200,8 @@ public class TitlePanel extends JPanel {
 	private void notifyListeners() {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++) {
-			listeners.get(i).actionPerformed(
-					new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-							"TitleChanged"));
+			listeners.get(i).actionPerformed(new ActionEvent(this,
+					ActionEvent.ACTION_PERFORMED, "TitleChanged"));
 		}
 	}
 

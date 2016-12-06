@@ -54,8 +54,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	private StatPanelSettings settings;
 
 	// histogram panel GUI
-	private JCheckBox ckCumulative, ckManual, ckOverlayNormal,
-			ckOverlayPolygon, ckShowFrequencyTable, ckShowHistogram;
+	private JCheckBox ckCumulative, ckManual, ckOverlayNormal, ckOverlayPolygon,
+			ckShowFrequencyTable, ckShowHistogram;
 	private JRadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
 			rbRightRule;
 	private JLabel lblFreqType, lblOverlay, lblClassRule;
@@ -67,8 +67,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 			lblYInterval;
 	private MyTextFieldD fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval,
 			fldYInterval;
-	private JRadioButton rbStandToStand, rbLogToStand, rbStandToLog,
-			rbLogToLog; // coordinate option
+	private JRadioButton rbStandToStand, rbLogToStand, rbStandToLog, rbLogToLog; // coordinate
+																					// option
 	private JPanel coordPanel;
 	private boolean showYAxisSettings = true;
 
@@ -297,8 +297,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 		// create classes panel
 		classesPanel = new JPanel(new GridBagLayout());
-		classesPanel.setBorder(BorderFactory.createTitledBorder(app
-				.getMenu("FrequencyType")));
+		classesPanel.setBorder(
+				BorderFactory.createTitledBorder(app.getMenu("FrequencyType")));
 		classesPanel.add(ckManual, c);
 		c.insets.top += 8; // vertical gap
 		classesPanel.add(lblClassRule, c);
@@ -354,11 +354,11 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 		// barChartWidthPanel
 		barChartWidthPanel = new JPanel();
-		barChartWidthPanel.setLayout(new BoxLayout(barChartWidthPanel,
-				BoxLayout.Y_AXIS));
+		barChartWidthPanel
+				.setLayout(new BoxLayout(barChartWidthPanel, BoxLayout.Y_AXIS));
 		barChartWidthPanel.add(LayoutUtil.flowPanel(ckAutoBarWidth));
-		barChartWidthPanel.add(LayoutUtil.flowPanel(tab, lblBarWidth,
-				fldBarWidth));
+		barChartWidthPanel
+				.add(LayoutUtil.flowPanel(tab, lblBarWidth, fldBarWidth));
 
 		layoutBarChartPanel();
 
@@ -552,14 +552,14 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	public void setLabels() {
 
 		// titled borders
-		classesPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("Classes")));
-		showPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("Show")));
-		freqPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("FrequencyType")));
-		dimPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getPlain("Dimensions")));
+		classesPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("Classes")));
+		showPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("Show")));
+		freqPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("FrequencyType")));
+		dimPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getPlain("Dimensions")));
 		coordPanel.setBorder(BorderFactory
 				.createTitledBorder(loc.getMenu("Coordinate Mode")));
 
@@ -618,11 +618,12 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 		// histogram/barchart
 		ckManual.setSelected(settings.isUseManualClasses());
-		rbFreq.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
-		rbRelative
-				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
-		rbNormalized
-				.setSelected(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		rbFreq.setSelected(
+				settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
+		rbRelative.setSelected(
+				settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
+		rbNormalized.setSelected(settings
+				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 		rbLeftRule.setSelected(settings.isLeftRule());
 		ckCumulative.setSelected(settings.isCumulative());
 		ckOverlayNormal.setSelected(settings.isHasOverlayNormal());
@@ -633,13 +634,14 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		ckShowHistogram.setSelected(settings.isShowHistogram());
 
 		if (settings.dataSource != null) {
-			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
-			freqPanel
-					.setVisible(settings.getDataSource().getGroupType() == GroupType.RAWDATA);
+			ckManual.setVisible(
+					settings.getDataSource().getGroupType() != GroupType.CLASS);
+			freqPanel.setVisible(settings.getDataSource()
+					.getGroupType() == GroupType.RAWDATA);
 		}
 		// normal overlay
-		ckOverlayNormal
-				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		ckOverlayNormal.setEnabled(settings
+				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 
 		// bar chart width
 		ckAutoBarWidth.setSelected(settings.isAutomaticBarWidth());
@@ -670,14 +672,14 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		lblYInterval.setEnabled(!ckAutoWindow.isSelected());
 
 		// coordinate mode
-		rbStandToStand
-				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.STANDTOSTAND);
-		rbLogToStand
-				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.LOGTOSTAND);
-		rbStandToLog
-				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.STANDTOLOG);
-		rbLogToLog
-				.setSelected(settings.getCoordMode() == StatPanelSettings.CoordMode.LOGTOLOG);
+		rbStandToStand.setSelected(settings
+				.getCoordMode() == StatPanelSettings.CoordMode.STANDTOSTAND);
+		rbLogToStand.setSelected(settings
+				.getCoordMode() == StatPanelSettings.CoordMode.LOGTOSTAND);
+		rbStandToLog.setSelected(settings
+				.getCoordMode() == StatPanelSettings.CoordMode.STANDTOLOG);
+		rbLogToLog.setSelected(settings
+				.getCoordMode() == StatPanelSettings.CoordMode.LOGTOLOG);
 
 		// update automatic dimensions
 		fldXMin.setText("" + daModel.format(settings.xMin));

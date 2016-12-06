@@ -54,268 +54,245 @@ import com.kitfox.svg.SVGConst;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class StyleAttribute implements Serializable
-{
-    public static final long serialVersionUID = 0;
+public class StyleAttribute implements Serializable {
+	public static final long serialVersionUID = 0;
 
-    static final Pattern patternUrl = Pattern.compile("\\s*url\\((.*)\\)\\s*");
-    static final Matcher matchFpNumUnits = Pattern.compile("\\s*([-+]?((\\d*\\.\\d+)|(\\d+))([-+]?[eE]\\d+)?)\\s*(px|cm|mm|in|pc|pt|em|ex)\\s*").matcher("");
-    
-    String name;
-    String stringValue;
+	static final Pattern patternUrl = Pattern.compile("\\s*url\\((.*)\\)\\s*");
+	static final Matcher matchFpNumUnits = Pattern
+			.compile(
+					"\\s*([-+]?((\\d*\\.\\d+)|(\\d+))([-+]?[eE]\\d+)?)\\s*(px|cm|mm|in|pc|pt|em|ex)\\s*")
+			.matcher("");
 
-    boolean colorCompatable = false;
-    boolean urlCompatable = false;
+	String name;
+	String stringValue;
 
-    /** Creates a new instance of StyleAttribute */
-    public StyleAttribute()
-    {
-        this(null, null);
-    }
-    
-    public StyleAttribute(String name) 
-    {
-        this.name = name;
-        stringValue = null;
-    }
+	boolean colorCompatable = false;
+	boolean urlCompatable = false;
 
-    public StyleAttribute(String name, String stringValue) 
-    {
-        this.name = name;
-        this.stringValue = stringValue;
-    }
+	/** Creates a new instance of StyleAttribute */
+	public StyleAttribute() {
+		this(null, null);
+	}
 
-    public String getName() {
-        return name;
-    }
-    
-    public StyleAttribute setName(String name)
-    {
-        this.name = name;
-        return this;
-    }
-    
-    public String getStringValue()
-    {
-        return stringValue; 
-    }
+	public StyleAttribute(String name) {
+		this.name = name;
+		stringValue = null;
+	}
 
-    public String[] getStringList() 
-    { 
-        return XMLParseUtil.parseStringList(stringValue);
-    }
+	public StyleAttribute(String name, String stringValue) {
+		this.name = name;
+		this.stringValue = stringValue;
+	}
 
-    public void setStringValue(String value)
-    {
-        stringValue = value;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public boolean getBooleanValue() {
-        return stringValue.toLowerCase().equals("true");
-    }
+	public StyleAttribute setName(String name) {
+		this.name = name;
+		return this;
+	}
 
-    public int getIntValue() {
-        return XMLParseUtil.findInt(stringValue);
-    }
+	public String getStringValue() {
+		return stringValue;
+	}
 
-    public int[] getIntList() {
-        return XMLParseUtil.parseIntList(stringValue);
-    }
+	public String[] getStringList() {
+		return XMLParseUtil.parseStringList(stringValue);
+	}
 
-    public double getDoubleValue() {
-        return XMLParseUtil.findDouble(stringValue);
-    }
+	public void setStringValue(String value) {
+		stringValue = value;
+	}
 
-    public double[] getDoubleList() {
-        return XMLParseUtil.parseDoubleList(stringValue);
-    }
+	public boolean getBooleanValue() {
+		return stringValue.toLowerCase().equals("true");
+	}
 
-    public float getFloatValue() {
-        return XMLParseUtil.findFloat(stringValue);
-    }
+	public int getIntValue() {
+		return XMLParseUtil.findInt(stringValue);
+	}
 
-    public float[] getFloatList() {
-        return XMLParseUtil.parseFloatList(stringValue);
-    }
+	public int[] getIntList() {
+		return XMLParseUtil.parseIntList(stringValue);
+	}
 
-    public float getRatioValue() {
-        return (float)XMLParseUtil.parseRatio(stringValue);
-//        try { return Float.parseFloat(stringValue); }
-//        catch (Exception e) {}
-//        return 0f;
-    }
+	public double getDoubleValue() {
+		return XMLParseUtil.findDouble(stringValue);
+	}
 
-    public String getUnits() {
-        matchFpNumUnits.reset(stringValue);
-        if (!matchFpNumUnits.matches()) return null;
-        return matchFpNumUnits.group(6);
-    }
+	public double[] getDoubleList() {
+		return XMLParseUtil.parseDoubleList(stringValue);
+	}
 
-    public NumberWithUnits getNumberWithUnits() {
-        return XMLParseUtil.parseNumberWithUnits(stringValue);
-    }
+	public float getFloatValue() {
+		return XMLParseUtil.findFloat(stringValue);
+	}
 
-    public float getFloatValueWithUnits()
-    {
-        NumberWithUnits number = getNumberWithUnits();
-        return convertUnitsToPixels(number.getUnits(), number.getValue());
-    }
-    
-    static public float convertUnitsToPixels(int unitType, float value)
-    {
-        if (unitType == NumberWithUnits.UT_UNITLESS || unitType == NumberWithUnits.UT_PERCENT)
-        {
-            return value;
-        }
-        
-        float pixPerInch;
-        try 
-        {
-            pixPerInch = (float)Toolkit.getDefaultToolkit().getScreenResolution();
-        }
-        catch (HeadlessException ex)
-        {
-            //default to 72 dpi
-            pixPerInch = 72;
-        }
-        final float inchesPerCm = .3936f;
+	public float[] getFloatList() {
+		return XMLParseUtil.parseFloatList(stringValue);
+	}
 
-        switch (unitType)
-        {
-            case NumberWithUnits.UT_IN:
-                return value * pixPerInch;
-            case NumberWithUnits.UT_CM:
-                return value * inchesPerCm * pixPerInch;
-            case NumberWithUnits.UT_MM:
-                return value * .1f * inchesPerCm * pixPerInch;
-            case NumberWithUnits.UT_PT:
-                return value * (1f / 72f) * pixPerInch;
-            case NumberWithUnits.UT_PC:
-                return value *  (1f / 6f) * pixPerInch;
-        }
+	public float getRatioValue() {
+		return (float) XMLParseUtil.parseRatio(stringValue);
+		// try { return Float.parseFloat(stringValue); }
+		// catch (Exception e) {}
+		// return 0f;
+	}
 
-        return value;
-    }
+	public String getUnits() {
+		matchFpNumUnits.reset(stringValue);
+		if (!matchFpNumUnits.matches())
+			return null;
+		return matchFpNumUnits.group(6);
+	}
 
-    public Color getColorValue()
-    {
-        return ColorTable.parseColor(stringValue);
-    }
+	public NumberWithUnits getNumberWithUnits() {
+		return XMLParseUtil.parseNumberWithUnits(stringValue);
+	}
 
-    public String parseURLFn()
-    {
-        Matcher matchUrl = patternUrl.matcher(stringValue);
-        if (!matchUrl.matches()) 
-        {
-            return null;
-        }
-        return matchUrl.group(1);
-    }
+	public float getFloatValueWithUnits() {
+		NumberWithUnits number = getNumberWithUnits();
+		return convertUnitsToPixels(number.getUnits(), number.getValue());
+	}
 
-    public URL getURLValue(URL docRoot)
-    {
-        String fragment = parseURLFn();
-        if (fragment == null) return null;
-        try {
-            return new URL(docRoot, fragment);
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-            return null;
-        }
-    }
+	static public float convertUnitsToPixels(int unitType, float value) {
+		if (unitType == NumberWithUnits.UT_UNITLESS
+				|| unitType == NumberWithUnits.UT_PERCENT) {
+			return value;
+		}
 
-    public URL getURLValue(URI docRoot)
-    {
-        String fragment = parseURLFn();
-        if (fragment == null) return null;
-        try {
-            URI ref = docRoot.resolve(fragment);
-            return ref.toURL();
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-            return null;
-        }
-    }
+		float pixPerInch;
+		try {
+			pixPerInch = (float) Toolkit.getDefaultToolkit()
+					.getScreenResolution();
+		} catch (HeadlessException ex) {
+			// default to 72 dpi
+			pixPerInch = 72;
+		}
+		final float inchesPerCm = .3936f;
 
-    public URI getURIValue()
-    {
-        return getURIValue(null);
-    }
-    
-    /**
-     * Parse this sytle attribute as a URL and return it in URI form resolved
-     * against the passed base.
-     *
-     * @param base - URI to resolve against.  If null, will return value without
-     * attempting to resolve it.
-     */
-    public URI getURIValue(URI base)
-    {
-        try {
-            String fragment = parseURLFn();
-            if (fragment == null) fragment = stringValue.replaceAll("\\s+", "");
-            if (fragment == null) return null;
-            
-            //======================
-            //This gets around a bug in the 1.5.0 JDK
-            if (Pattern.matches("[a-zA-Z]:!\\\\.*", fragment))
-            {
-                File file = new File(fragment);
-                return file.toURI();
-            }
-            //======================
+		switch (unitType) {
+		case NumberWithUnits.UT_IN:
+			return value * pixPerInch;
+		case NumberWithUnits.UT_CM:
+			return value * inchesPerCm * pixPerInch;
+		case NumberWithUnits.UT_MM:
+			return value * .1f * inchesPerCm * pixPerInch;
+		case NumberWithUnits.UT_PT:
+			return value * (1f / 72f) * pixPerInch;
+		case NumberWithUnits.UT_PC:
+			return value * (1f / 6f) * pixPerInch;
+		}
 
-            //[scheme:]scheme-specific-part[#fragment]
-            
-            URI uriFrag = new URI(fragment);
-            if (uriFrag.isAbsolute())
-            {
-                //Has scheme
-                return uriFrag;
-            }
-        
-            if (base == null) return uriFrag;
-        
-            URI relBase = new URI(null, base.getSchemeSpecificPart(), null);
-            URI relUri;
-            if (relBase.isOpaque())
-            {
-                relUri = new URI(null, base.getSchemeSpecificPart(), uriFrag.getFragment());
-            }
-            else
-            {
-                relUri = relBase.resolve(uriFrag);
-            }
-            return new URI(base.getScheme() + ":" + relUri);
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-            return null;
-        }
-    }
-    
-    public static void main(String[] args)
-    {
-        try
-        {
-            URI uri = new URI("jar:http://www.kitfox.com/jackal/jackal.jar!/res/doc/about.svg");
-            uri = uri.resolve("#myFragment");
-            
-            System.err.println(uri.toString());
-            
-            uri = new URI("http://www.kitfox.com/jackal/jackal.html");
-            uri = uri.resolve("#myFragment");
-            
-            System.err.println(uri.toString());
-        }
-        catch (Exception e)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-        }
-    }
+		return value;
+	}
+
+	public Color getColorValue() {
+		return ColorTable.parseColor(stringValue);
+	}
+
+	public String parseURLFn() {
+		Matcher matchUrl = patternUrl.matcher(stringValue);
+		if (!matchUrl.matches()) {
+			return null;
+		}
+		return matchUrl.group(1);
+	}
+
+	public URL getURLValue(URL docRoot) {
+		String fragment = parseURLFn();
+		if (fragment == null)
+			return null;
+		try {
+			return new URL(docRoot, fragment);
+		} catch (Exception e) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
+			return null;
+		}
+	}
+
+	public URL getURLValue(URI docRoot) {
+		String fragment = parseURLFn();
+		if (fragment == null)
+			return null;
+		try {
+			URI ref = docRoot.resolve(fragment);
+			return ref.toURL();
+		} catch (Exception e) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
+			return null;
+		}
+	}
+
+	public URI getURIValue() {
+		return getURIValue(null);
+	}
+
+	/**
+	 * Parse this sytle attribute as a URL and return it in URI form resolved
+	 * against the passed base.
+	 *
+	 * @param base
+	 *            - URI to resolve against. If null, will return value without
+	 *            attempting to resolve it.
+	 */
+	public URI getURIValue(URI base) {
+		try {
+			String fragment = parseURLFn();
+			if (fragment == null)
+				fragment = stringValue.replaceAll("\\s+", "");
+			if (fragment == null)
+				return null;
+
+			// ======================
+			// This gets around a bug in the 1.5.0 JDK
+			if (Pattern.matches("[a-zA-Z]:!\\\\.*", fragment)) {
+				File file = new File(fragment);
+				return file.toURI();
+			}
+			// ======================
+
+			// [scheme:]scheme-specific-part[#fragment]
+
+			URI uriFrag = new URI(fragment);
+			if (uriFrag.isAbsolute()) {
+				// Has scheme
+				return uriFrag;
+			}
+
+			if (base == null)
+				return uriFrag;
+
+			URI relBase = new URI(null, base.getSchemeSpecificPart(), null);
+			URI relUri;
+			if (relBase.isOpaque()) {
+				relUri = new URI(null, base.getSchemeSpecificPart(),
+						uriFrag.getFragment());
+			} else {
+				relUri = relBase.resolve(uriFrag);
+			}
+			return new URI(base.getScheme() + ":" + relUri);
+		} catch (Exception e) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
+			return null;
+		}
+	}
+
+	public static void main(String[] args) {
+		try {
+			URI uri = new URI(
+					"jar:http://www.kitfox.com/jackal/jackal.jar!/res/doc/about.svg");
+			uri = uri.resolve("#myFragment");
+
+			System.err.println(uri.toString());
+
+			uri = new URI("http://www.kitfox.com/jackal/jackal.html");
+			uri = uri.resolve("#myFragment");
+
+			System.err.println(uri.toString());
+		} catch (Exception e) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
+		}
+	}
 }

@@ -49,37 +49,37 @@ import com.kitfox.svg.SVGConst;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class AdobeComposite implements Composite
-{
-    public static final int CT_NORMAL = 0;
-    public static final int CT_MULTIPLY = 1;
-    public static final int CT_LAST = 2;
+public class AdobeComposite implements Composite {
+	public static final int CT_NORMAL = 0;
+	public static final int CT_MULTIPLY = 1;
+	public static final int CT_LAST = 2;
 
-    final int compositeType;
-    final float extraAlpha;
+	final int compositeType;
+	final float extraAlpha;
 
-    /** Creates a new instance of AdobeComposite */
-    public AdobeComposite(int compositeType, float extraAlpha)
-    {
-        this.compositeType = compositeType;
-        this.extraAlpha = extraAlpha;
+	/** Creates a new instance of AdobeComposite */
+	public AdobeComposite(int compositeType, float extraAlpha) {
+		this.compositeType = compositeType;
+		this.extraAlpha = extraAlpha;
 
-        if (compositeType < 0 || compositeType >= CT_LAST)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, "Invalid composite type");
-        }
+		if (compositeType < 0 || compositeType >= CT_LAST) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
+					"Invalid composite type");
+		}
 
-        if (extraAlpha < 0f || extraAlpha > 1f)
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, "Invalid alpha");
-        }
-    }
+		if (extraAlpha < 0f || extraAlpha > 1f) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
+					"Invalid alpha");
+		}
+	}
 
-    public int getCompositeType() { return compositeType; }
+	public int getCompositeType() {
+		return compositeType;
+	}
 
-    public CompositeContext createContext(ColorModel srcColorModel, ColorModel dstColorModel, RenderingHints hints)
-    {
-        return new AdobeCompositeContext(compositeType, extraAlpha);
-    }
+	public CompositeContext createContext(ColorModel srcColorModel,
+			ColorModel dstColorModel, RenderingHints hints) {
+		return new AdobeCompositeContext(compositeType, extraAlpha);
+	}
 
 }

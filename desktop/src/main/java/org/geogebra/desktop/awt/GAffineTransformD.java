@@ -68,8 +68,7 @@ public class GAffineTransformD implements GAffineTransform {
 
 	public GShape createTransformedShape(GShape shape) {
 		Shape ret = null;
-		ret = at.createTransformedShape(GGenericShapeD
-				.getAwtShape(shape));
+		ret = at.createTransformedShape(GGenericShapeD.getAwtShape(shape));
 		return new GGenericShapeD(ret);
 	}
 
@@ -85,8 +84,7 @@ public class GAffineTransformD implements GAffineTransform {
 
 	}
 
-	public GAffineTransform createInverse()
-			throws Exception {
+	public GAffineTransform createInverse() throws Exception {
 		return new GAffineTransformD(at.createInverse());
 	}
 

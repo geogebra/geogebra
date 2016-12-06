@@ -106,12 +106,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						setAutoInput(null);
 						inputField.setBackground(Color.WHITE);
 						app.getKernel().getInputPreviewHelper()
-								.updatePreviewFromInputBar(
-										inputField.getText(),
+								.updatePreviewFromInputBar(inputField.getText(),
 										new ErrorHandler() {
 											public void resetError() {
 												showError(null);
 											}
+
 											public void showError(String msg) {
 												updateIcons(msg != null);
 												btnHelpToggle.setToolTipText(
@@ -132,13 +132,14 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 													InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
 															.getGuiManager())
 																	.getInputHelpPanel();
-													helpPanel.focusCommand(
-															app.getLocalization()
-																	.getCommand(
-																			command));
-													btnHelpToggle.setToolTipText(
-															loc.getError(
-																	"InvalidInput"));
+													helpPanel.focusCommand(app
+															.getLocalization()
+															.getCommand(
+																	command));
+													btnHelpToggle
+															.setToolTipText(
+																	loc.getError(
+																			"InvalidInput"));
 												}
 											}
 
@@ -191,7 +192,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			}
 		};
 
-
 		updateIcons(false);
 
 		btnHelpToggle.addActionListener(this);
@@ -228,9 +228,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		}
 
-		btnHelpToggle.setIcon(app.getScaledIconCommon(
-				warning ? GuiResourcesD.DIALOG_ERROR
-						: GuiResourcesD.MENU_HELP));
+		btnHelpToggle.setIcon(app.getScaledIconCommon(warning
+				? GuiResourcesD.DIALOG_ERROR : GuiResourcesD.MENU_HELP));
 	}
 
 	@Override
@@ -387,16 +386,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		case KeyEvent.VK_ENTER:
 			onEnterPressed(true);
 
-
 			break;
 		default:
 			app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg
 																// ctrl-tab
 		}
 	}
-
-
-
 
 	private void onEnterPressed(boolean explicit) {
 		if (!explicit && autoInput != null
@@ -418,14 +413,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		app.setScrollToShow(true);
 		try {
 
-			app.getKernel()
-					.getAlgebraProcessor()
+			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
 							getErrorHandler(valid, explicit), true,
 							new InputBarCallback(app, inputField, input));
-
-
-
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
@@ -447,6 +438,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputField.addToHistory(getTextField().getText());
 		autoInput = getTextField().getText();
 	}
+
 	private ErrorHandler getErrorHandler(final boolean valid,
 			final boolean explicit) {
 		return new ErrorHandler() {
@@ -482,8 +474,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					if (valid) {
 						return app.getGuiManager()
 								.checkAutoCreateSliders(string, callback);
-					}
-					else if (loc
+					} else if (loc
 							.getReverseCommand(getCurrentCommand()) != null) {
 						ErrorHelper.handleCommandError(loc, getCurrentCommand(),
 								app.getDefaultErrorHandler());

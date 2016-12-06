@@ -9,18 +9,21 @@ import java.io.IOException;
  */
 public interface TaggedOutput {
 
-    /**
-     * Write a tag.
-     * 
-     * @param tag tag to write
-     * @throws IOException if write fails
-     */
-    public void writeTag(Tag tag) throws IOException;
+	/**
+	 * Write a tag.
+	 * 
+	 * @param tag
+	 *            tag to write
+	 * @throws IOException
+	 *             if write fails
+	 */
+	public void writeTag(Tag tag) throws IOException;
 
-    /**
-     * Close the stream
-     * 
-     * @throws IOException if close fails
-     */
-    public void close() throws IOException;
+	/**
+	 * Close the stream
+	 * 
+	 * @throws IOException
+	 *             if close fails
+	 */
+	public void close() throws IOException;
 }

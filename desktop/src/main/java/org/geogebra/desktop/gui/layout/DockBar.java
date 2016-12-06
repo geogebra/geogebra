@@ -29,8 +29,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements SetLabels,
-		DockBarInterface {
+public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 
 	private static final long serialVersionUID = 1L;
 
@@ -43,8 +42,6 @@ public class DockBar extends JPanel implements SetLabels,
 
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
-
-
 
 	private AbstractAction showKeyboardAction;
 
@@ -68,8 +65,6 @@ public class DockBar extends JPanel implements SetLabels,
 
 	private void initGUI() {
 
-
-
 		// buildButtonPanel();
 		buildSlimSidebarPanel();
 		slimSidebarPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0,
@@ -87,7 +82,6 @@ public class DockBar extends JPanel implements SetLabels,
 		slimSidebarPanel.addMouseListener(l);
 	}
 
-
 	/**
 	 * 
 	 * @return a new perspective panel
@@ -95,8 +89,6 @@ public class DockBar extends JPanel implements SetLabels,
 	PerspectivePanel newPerspectivePanel() {
 		return new PerspectivePanel(app, this);
 	}
-
-
 
 	/**
 	 * Creates sidebarButtonPanel, a slim vertical bar that acts a button to
@@ -169,7 +161,8 @@ public class DockBar extends JPanel implements SetLabels,
 		else
 			horizontal = slimSidebarPanel.getPreferredSize().width;
 
-		int y = (slimSidebarPanel.getHeight() - popup.getPreferredSize().height) / 2;
+		int y = (slimSidebarPanel.getHeight() - popup.getPreferredSize().height)
+				/ 2;
 
 		popup.show(this, horizontal, y);
 
@@ -191,10 +184,6 @@ public class DockBar extends JPanel implements SetLabels,
 			popup.superSetVisible(false);
 
 	}
-
-
-
-
 
 	public void setLabels() {
 
@@ -301,7 +290,6 @@ public class DockBar extends JPanel implements SetLabels,
 		}
 
 	}
-
 
 	// ==============================================================
 	// Full screen button

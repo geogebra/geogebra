@@ -117,7 +117,8 @@ public class CheckboxCreationDialog extends JDialog implements
 		};
 
 		// add all selected geos to list
-		for (int i = 0; i < app.getSelectionManager().getSelectedGeos().size(); i++) {
+		for (int i = 0; i < app.getSelectionManager().getSelectedGeos()
+				.size(); i++) {
 			GeoElement geo = app.getSelectionManager().getSelectedGeos().get(i);
 			listModel.addElement(geo);
 		}
@@ -133,8 +134,8 @@ public class CheckboxCreationDialog extends JDialog implements
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
-		String initString = geoBoolean == null ? "" : geoBoolean
-				.getCaption(StringTemplate.defaultTemplate);
+		String initString = geoBoolean == null ? ""
+				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelD ip = new InputPanelD(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {

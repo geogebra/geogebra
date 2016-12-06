@@ -29,9 +29,9 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author adapted from AnimationStepPanel
  */
-public class AnimationSpeedPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-		IAnimationSpeedListener {
+public class AnimationSpeedPanel extends JPanel
+		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
+		SetLabels, UpdateFonts, IAnimationSpeedListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -95,6 +95,7 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 	public JPanel updatePanel(Object[] geos) {
 		return update(geos);
 	}
+
 	public JPanel update(Object[] geos) {
 		model.setGeos(geos);
 		if (!model.checkGeos()) { // geos,partOfSliderPanel))
@@ -121,8 +122,7 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 
 	private void doActionPerformed() {
 		GeoNumberValue animSpeed = kernel.getAlgebraProcessor()
-				.evaluateToNumeric(
-				tfAnimSpeed.getText(), false);
+				.evaluateToNumeric(tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);
 		}

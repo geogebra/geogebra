@@ -71,14 +71,13 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
 				int viewId = panel.getViewId();
-				switcher.addItem(new KeyValue(viewId, loc
-						.getPlain(panel.getViewTitle())));
+				switcher.addItem(new KeyValue(viewId,
+						loc.getPlain(panel.getViewTitle())));
 				if (viewId == toolbarId) {
 					selIdx = switcher.getItemCount() - 1;
 				}
 			}
 		}
-
 
 		switcher.addActionListener(this); // add at the end to not be notified
 											// about items being added

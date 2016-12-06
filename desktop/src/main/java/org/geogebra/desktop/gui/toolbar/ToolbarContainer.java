@@ -201,8 +201,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			add(getGridButtonPanel(), BorderLayout.SOUTH);
 		}
 
-		if (showHelp
-				&& (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH)) {
+		if (showHelp && (orientation == SwingConstants.NORTH
+				|| orientation == SwingConstants.SOUTH)) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
 		}
@@ -244,8 +244,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		myToolbar.buildGui();
 
 		showHelpBar = !showHelpBar;
-		this.remove(((BorderLayout) getLayout()).getLayoutComponent(loc
-				.borderWest()));
+		this.remove(((BorderLayout) getLayout())
+				.getLayoutComponent(loc.borderWest()));
 		if (((BorderLayout) getLayout())
 				.getLayoutComponent(BorderLayout.CENTER) != null)
 			this.remove(((BorderLayout) getLayout())
@@ -274,8 +274,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// put into panel to
 		if (toolbarHelpPanel == null) {
 			toolbarHelpPanel = new JPanel();
-			toolbarHelpPanel.setLayout(new BoxLayout(toolbarHelpPanel,
-					BoxLayout.Y_AXIS));
+			toolbarHelpPanel.setLayout(
+					new BoxLayout(toolbarHelpPanel, BoxLayout.Y_AXIS));
 		} else {
 			toolbarHelpPanel.removeAll();
 		}
@@ -301,8 +301,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
 		Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0,
 				SystemColor.controlShadow);
-		toolbarHelpPanel.setBorder(BorderFactory.createCompoundBorder(
-				outsideBorder, insideBorder));
+		toolbarHelpPanel.setBorder(BorderFactory
+				.createCompoundBorder(outsideBorder, insideBorder));
 
 		return toolbarHelpPanel;
 	}
@@ -324,7 +324,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		int iconSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 
 		// magnify size for some 3D inputs
-		if (iconSize < AppD.HUGE_UNDO_BUTTON_SIZE && app.useHugeGuiForInput3D()) {
+		if (iconSize < AppD.HUGE_UNDO_BUTTON_SIZE
+				&& app.useHugeGuiForInput3D()) {
 			iconSize = AppD.HUGE_UNDO_BUTTON_SIZE;
 		}
 
@@ -356,8 +357,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		// properties button
 
 		final JButton btnProperties = new JButton(
-app.getScaledIcon(
-						GuiResourcesD.MENU_OPTIONS, iconSize));
+				app.getScaledIcon(GuiResourcesD.MENU_OPTIONS, iconSize));
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -367,14 +367,16 @@ app.getScaledIcon(
 			public void actionPerformed(ActionEvent arg0) {
 				PropertiesMenu pm = new PropertiesMenu();
 				if (orientation == SwingConstants.NORTH) {
-					pm.show(btnProperties, -pm.getPreferredSize().width
-							+ btnProperties.getWidth(),
+					pm.show(btnProperties,
+							-pm.getPreferredSize().width
+									+ btnProperties.getWidth(),
 							btnProperties.getHeight());
 				} else if (orientation == SwingConstants.WEST) {
 					pm.show(btnProperties, 0, -pm.getPreferredSize().height);
 				} else {
-					pm.show(btnProperties, -pm.getPreferredSize().width
-							+ btnProperties.getWidth(),
+					pm.show(btnProperties,
+							-pm.getPreferredSize().width
+									+ btnProperties.getWidth(),
 							-pm.getPreferredSize().height);
 				}
 			}
@@ -383,8 +385,7 @@ app.getScaledIcon(
 
 		// help button
 		JButton btnHelp = new JButton(
-				app.getScaledIcon(GuiResourcesD.MENU_HELP,
-				iconSize));
+				app.getScaledIcon(GuiResourcesD.MENU_HELP, iconSize));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
@@ -449,11 +450,11 @@ app.getScaledIcon(
 
 		}
 
-
 		// add small bottom margin when toolbar is vertical
 		if (orientation == SwingConstants.EAST
 				|| orientation == SwingConstants.WEST) {
-			gridButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+			gridButtonPanel
+					.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 		}
 
 		return gridButtonPanel;
@@ -556,7 +557,6 @@ app.getScaledIcon(
 			toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 		}
 
-
 		toolbarPanel.show(Integer.toString(activeToolbar));
 		// updateGridButtonPanel();
 	}
@@ -622,8 +622,8 @@ app.getScaledIcon(
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolbarD toolbar) {
-		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel()
-				.getViewId() : -1);
+		return (toolbar.getDockPanel() != null
+				? toolbar.getDockPanel().getViewId() : -1);
 	}
 
 	/**
@@ -646,6 +646,7 @@ app.getScaledIcon(
 	}
 
 	private MouseAdapter helpMouseAdapter;
+
 	/**
 	 * Update the help text.
 	 */
@@ -753,8 +754,8 @@ app.getScaledIcon(
 		int len = 0;
 		while (end != BreakIterator.DONE) {
 			String word = modeName.substring(start, end);
-			int spaceForDots = nextEnd == BreakIterator.DONE ? 0 : fm
-					.stringWidth(" ...");
+			int spaceForDots = nextEnd == BreakIterator.DONE ? 0
+					: fm.stringWidth(" ...");
 			if (len + fm.stringWidth(word)
 					+ (line != maxLines ? 0 : spaceForDots) > panelWidth) {
 				if (++line > maxLines
@@ -939,8 +940,8 @@ app.getScaledIcon(
 				});
 				add(item);
 
-				item.setVisible(PropertiesView
-						.isOptionPanelAvailable(app, type));
+				item.setVisible(
+						PropertiesView.isOptionPanelAvailable(app, type));
 			}
 
 		}
@@ -949,8 +950,8 @@ app.getScaledIcon(
 			int viewId = App.VIEW_PROPERTIES;
 			((PropertiesView) ((GuiManagerD) app.getGuiManager())
 					.getPropertiesView()).setOptionPanel(type);
-			((GuiManagerD) app.getGuiManager())
-					.setShowView(true, viewId, false);
+			((GuiManagerD) app.getGuiManager()).setShowView(true, viewId,
+					false);
 		}
 
 	}

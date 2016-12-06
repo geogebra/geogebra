@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class OffsetClipRgn extends EMFTag {
 
-    private Point offset;
+	private Point offset;
 
-    public OffsetClipRgn() {
-        super(26, 1);
-    }
+	public OffsetClipRgn() {
+		super(26, 1);
+	}
 
-    public OffsetClipRgn(Point offset) {
-        this();
-        this.offset = offset;
-    }
+	public OffsetClipRgn(Point offset) {
+		this();
+		this.offset = offset;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        OffsetClipRgn tag = new OffsetClipRgn(emf.readPOINTL());
-        return tag;
-    }
+		OffsetClipRgn tag = new OffsetClipRgn(emf.readPOINTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writePOINTL(offset);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writePOINTL(offset);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  offset: " + offset;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  offset: " + offset;
+	}
 }

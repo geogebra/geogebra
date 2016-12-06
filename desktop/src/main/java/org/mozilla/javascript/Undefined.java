@@ -11,18 +11,15 @@ import java.io.Serializable;
 /**
  * This class implements the Undefined value in JavaScript.
  */
-public class Undefined implements Serializable
-{
-    static final long serialVersionUID = 9195680630202616767L;
+public class Undefined implements Serializable {
+	static final long serialVersionUID = 9195680630202616767L;
 
-    public static final Object instance = new Undefined();
+	public static final Object instance = new Undefined();
 
-    private Undefined()
-    {
-    }
+	private Undefined() {
+	}
 
-    public Object readResolve()
-    {
-        return instance;
-    }
+	public Object readResolve() {
+		return instance;
+	}
 }

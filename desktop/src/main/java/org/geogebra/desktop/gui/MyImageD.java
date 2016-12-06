@@ -115,9 +115,8 @@ public class MyImageD implements MyImageJre {
 		if (imageFile.getName().toLowerCase(Locale.US).endsWith(".svg")) {
 
 			svg = new StringBuilder((int) imageFile.length());
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(new FileInputStream(imageFile),
-							Charsets.UTF_8));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(imageFile), Charsets.UTF_8));
 			for (String line = reader.readLine(); line != null; line = reader
 					.readLine()) {
 				svg.append(line);
@@ -172,9 +171,9 @@ public class MyImageD implements MyImageJre {
 
 	public void drawSubimage(int startX, int startY, int imgWidth,
 			int imgHeight, GGraphics2D g, int posX, int posY) {
-		GGraphics2DD.getAwtGraphics(g).drawImage( 
-				((BufferedImage) img).getSubimage(startX, startY, imgWidth,
-						imgHeight),null,posX,posY);
+		GGraphics2DD.getAwtGraphics(g).drawImage(((BufferedImage) img)
+				.getSubimage(startX, startY, imgWidth, imgHeight), null, posX,
+				posY);
 	}
 
 	public GGraphics2D createGraphics() {

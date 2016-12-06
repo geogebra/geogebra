@@ -43,16 +43,15 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 
 			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
 				IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
-				geo.addLabelTextOrHTML(
-						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-						builder);
+				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
+						StringTemplate.defaultTemplate), builder);
 				text = builder.toString();
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				builder = new IndexHTMLBuilder(true);
-				geo.addLabelTextOrHTML(geo
-						.getDefinition(StringTemplate.defaultTemplate),
+				geo.addLabelTextOrHTML(
+						geo.getDefinition(StringTemplate.defaultTemplate),
 						builder);
 				text = builder.toString();
 				break;

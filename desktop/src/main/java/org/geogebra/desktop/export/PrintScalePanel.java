@@ -47,11 +47,11 @@ public class PrintScalePanel extends JPanel {
 	private JComboBox exportMode;
 	private JPanel pxModePanel, cmModePanel;
 	private JPanel fixedSizeModePanel;
-	
+
 	public enum PrintScaleModes {
 		SIZEINCM, SIZEINPX, FIXED_SIZE
 	};
-	
+
 	private PrintScaleModes mode = PrintScaleModes.SIZEINCM;
 
 	private boolean pixelSizeEnabled = true;
@@ -73,7 +73,6 @@ public class PrintScalePanel extends JPanel {
 		nf = NumberFormat.getInstance(Locale.ENGLISH);
 		nf.setMaximumFractionDigits(maxFracDigits);
 		nf.setGroupingUsed(false);
-
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
@@ -135,9 +134,8 @@ public class PrintScalePanel extends JPanel {
 
 		fixedSizeModePanel = new JPanel();
 		fixedSizeModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		fixedSizeModePanel.add(new JLabel(" "
-				+ loc.getPlain("APixelsOnScreen", "100")
-				+ " = "));
+		fixedSizeModePanel.add(new JLabel(
+				" " + loc.getPlain("APixelsOnScreen", "100") + " = "));
 		fixedSizeModePanel.add(tfScaleFixed);
 		fixedSizeModePanel.add(new JLabel(" cm"));
 
@@ -151,8 +149,8 @@ public class PrintScalePanel extends JPanel {
 		pxModePanel = new JPanel();
 		pxModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		pxModePanel.add(tfSize1);
-		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short") + " "
-				+ Unicode.MULTIPLY + " "));
+		pxModePanel.add(new JLabel(
+				loc.getMenu("Pixels.short") + " " + Unicode.MULTIPLY + " "));
 		pxModePanel.add(tfSize2);
 		pxModePanel.add(new JLabel(loc.getMenu("Pixels.short")));
 
@@ -160,7 +158,6 @@ public class PrintScalePanel extends JPanel {
 
 		updateScaleTextFields();
 	}
-
 
 	/**
 	 * @param b
@@ -183,13 +180,13 @@ public class PrintScalePanel extends JPanel {
 		// this.add(cmModePanel);
 	}
 
-
 	/**
 	 * Switch to the correct mode (pixel vs cm vs fixed size)
 	 */
 	void switchMode() {
 
-		if (exportMode.getSelectedItem().toString().equals(jcbItemSizeInPixels)) {
+		if (exportMode.getSelectedItem().toString()
+				.equals(jcbItemSizeInPixels)) {
 			mode = PrintScaleModes.SIZEINPX;
 		} else if (exportMode.getSelectedItem().toString()
 				.equals(jcbItemFixedSize)) {
@@ -225,7 +222,6 @@ public class PrintScalePanel extends JPanel {
 		notifyListeners();
 	}
 
-
 	private static JTextField getNumberField(AppD app, final Runnable run) {
 		JTextField ret = new MyTextFieldD(app);
 		ret.setColumns(maxFracDigits);
@@ -234,6 +230,7 @@ public class PrintScalePanel extends JPanel {
 			public void focusLost(FocusEvent e) {
 				run.run();
 			}
+
 			public void focusGained(FocusEvent e) {
 				//
 			}
@@ -267,7 +264,6 @@ public class PrintScalePanel extends JPanel {
 		setTextNoListener(tfScaleFixed, nf.format(relScale));
 	}
 
-
 	private void updateScaleTextFields() {
 
 		double scale = ev.getPrintingScale();
@@ -280,7 +276,6 @@ public class PrintScalePanel extends JPanel {
 		}
 	}
 
-
 	private static void setTextNoListener(JTextField field, String s) {
 		ActionListener ret = field.getActionListeners()[0];
 		field.removeActionListener(ret);
@@ -288,7 +283,6 @@ public class PrintScalePanel extends JPanel {
 		field.addActionListener(ret);
 
 	}
-
 
 	/**
 	 * Validate the texts in scale input, if OK, change export scale of EV and
@@ -360,7 +354,6 @@ public class PrintScalePanel extends JPanel {
 		}
 	}
 
-
 	/**
 	 * @param lst
 	 *            listens to changes of scale / size
@@ -372,12 +365,10 @@ public class PrintScalePanel extends JPanel {
 	private void notifyListeners() {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++) {
-			listeners.get(i).actionPerformed(
-					new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-							"ViewChanged"));
+			listeners.get(i).actionPerformed(new ActionEvent(this,
+					ActionEvent.ACTION_PERFORMED, "ViewChanged"));
 		}
 	}
-
 
 	/**
 	 * @return width in pixels
@@ -400,6 +391,7 @@ public class PrintScalePanel extends JPanel {
 			return -1;
 		}
 	}
+
 	/**
 	 * @return whether we export using pixels rather than cm
 	 */

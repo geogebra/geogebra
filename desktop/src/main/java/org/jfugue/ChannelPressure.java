@@ -25,65 +25,68 @@ package org.jfugue;
 /**
  * Represents channel pressure changes.
  *
- *@author David Koelle
- *@version 3.0
+ * @author David Koelle
+ * @version 3.0
  */
-public final class ChannelPressure implements JFugueElement
-{
-    private byte pressure;
+public final class ChannelPressure implements JFugueElement {
+	private byte pressure;
 
-    /**
-     * Creates a new channel pressure object, with the specified key and pressure values.
-     * @param key the key to apply pressure to
-     * @param pressure the pressure to apply
-     */
-    public ChannelPressure(byte pressure)
-    {
-        setPressure(pressure);
-    }
+	/**
+	 * Creates a new channel pressure object, with the specified key and
+	 * pressure values.
+	 * 
+	 * @param key
+	 *            the key to apply pressure to
+	 * @param pressure
+	 *            the pressure to apply
+	 */
+	public ChannelPressure(byte pressure) {
+		setPressure(pressure);
+	}
 
-    /**
-     * Sets the pressure value of this object.
-     * @param pressure the pressure for this object
-     */
-    public void setPressure(byte pressure)
-    {
-        this.pressure = pressure;
-    }
+	/**
+	 * Sets the pressure value of this object.
+	 * 
+	 * @param pressure
+	 *            the pressure for this object
+	 */
+	public void setPressure(byte pressure) {
+		this.pressure = pressure;
+	}
 
-    /**
-     * Returns the pressure for this object.
-     * @return the pressure for this object
-     */
-    public byte getPressure()
-    {
-        return this.pressure;
-    }
+	/**
+	 * Returns the pressure for this object.
+	 * 
+	 * @return the pressure for this object
+	 */
+	public byte getPressure() {
+		return this.pressure;
+	}
 
-    /**
-     * Returns the Music String representing this element and all of its settings.
-     * For a channel pressure object, the Music String is <code>+</code><i>key,pressure</i>
-     * @return the Music String for this element
-     */
-    public String getMusicString()
-    {
-        StringBuffer buffy = new StringBuffer();
-        buffy.append("+");
-        buffy.append(getPressure());
-        return buffy.toString();
-    }
+	/**
+	 * Returns the Music String representing this element and all of its
+	 * settings. For a channel pressure object, the Music String is
+	 * <code>+</code><i>key,pressure</i>
+	 * 
+	 * @return the Music String for this element
+	 */
+	public String getMusicString() {
+		StringBuffer buffy = new StringBuffer();
+		buffy.append("+");
+		buffy.append(getPressure());
+		return buffy.toString();
+	}
 
-    /**
-     * Returns verification string in this format:
-     * ChannelPressure: pressure={#}
-     * @version 4.0
-     */
-    public String getVerifyString()
-    {
-        StringBuffer buffy = new StringBuffer();
-        buffy.append("ChannelPressure: pressure=");
-        buffy.append(getPressure());
-        return buffy.toString();
-    }
+	/**
+	 * Returns verification string in this format: ChannelPressure: pressure={#}
+	 * 
+	 * @version 4.0
+	 */
+	public String getVerifyString() {
+		StringBuffer buffy = new StringBuffer();
+		buffy.append("ChannelPressure: pressure=");
+		buffy.append(getPressure());
+		return buffy.toString();
+	}
 
 }

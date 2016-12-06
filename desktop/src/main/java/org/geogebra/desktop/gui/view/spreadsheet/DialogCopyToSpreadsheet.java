@@ -17,7 +17,6 @@ import javax.swing.JRadioButton;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
-
 /**
  * Dialog for selecting copy to spreadsheet options.
  * 
@@ -31,20 +30,18 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 
 	private JButton btnCancel, btnCopy;
 	private JRadioButton rbFree, rbDependent;
-	
+
 	private JPanel optionsPanel;
 
 	private String title;
 	private JCheckBox ckTranspose;
-	
-
 
 	public DialogCopyToSpreadsheet(AppD app, SpreadsheetViewDnD dndHandler) {
 
 		super(app.getFrame(),
 				app.getLocalization().getMenu("CopyToSpreadsheet"), true); // modal
-																		// dialog
-		this.app = app;	
+																			// dialog
+		this.app = app;
 		this.dndHandler = dndHandler;
 
 		createGUI();
@@ -57,7 +54,6 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		dndHandler.setAllowDrop(false);
 	}
 
-
 	private void createGUI() {
 
 		createGUIElements();
@@ -67,8 +63,8 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		copyTypePanel.add(rbDependent);
 
 		JPanel orderTypePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		//orderTypePanel.add(rbOrderRow);
-		//orderTypePanel.add(rbOrderCol);
+		// orderTypePanel.add(rbOrderRow);
+		// orderTypePanel.add(rbOrderCol);
 		orderTypePanel.add(ckTranspose);
 
 		JPanel cancelOKPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -79,7 +75,8 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		vBox.add(copyTypePanel);
 		vBox.add(orderTypePanel);
 		Localization loc = app.getLocalization();
-		vBox.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 2, 5, 2), 
+		vBox.setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEmptyBorder(5, 2, 5, 2),
 				BorderFactory.createTitledBorder(loc.getMenu("Options"))));
 
 		getContentPane().setLayout(new BorderLayout());
@@ -89,9 +86,7 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		setLabels();
 	}
 
-
-
-	private void createGUIElements(){
+	private void createGUIElements() {
 
 		btnCopy = new JButton();
 		btnCopy.addActionListener(this);
@@ -109,9 +104,7 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		ckTranspose = new JCheckBox();
 		ckTranspose.setSelected(dndHandler.isTranspose());
 
-
 	}
-
 
 	public void setLabels() {
 		Localization loc = app.getLocalization();
@@ -124,16 +117,13 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		ckTranspose.setText(loc.getMenu("Transpose"));
 	}
 
-
-
-
 	/**
 	 * Handles button clicks for dialog.
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		if (source == btnCancel) 
+		if (source == btnCancel)
 			setVisible(false);
 
 		else if (source == btnCopy) {
@@ -141,29 +131,15 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 			dndHandler.setTranspose(ckTranspose.isSelected());
 			dndHandler.setAllowDrop(true);
 			setVisible(false);
-		} 
+		}
 	}
 
 	@Override
-	public void setVisible(boolean isVisible) {	
-		if(!isVisible){
+	public void setVisible(boolean isVisible) {
+		if (!isVisible) {
 
 		}
 		super.setVisible(isVisible);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

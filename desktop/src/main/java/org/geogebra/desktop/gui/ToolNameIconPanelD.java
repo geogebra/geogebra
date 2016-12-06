@@ -92,23 +92,26 @@ public class ToolNameIconPanelD extends JPanel {
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		{
 			JLabel labelToolName = new JLabel();
-			add(labelToolName, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.NONE,
-					new Insets(0, 0, 0, 10), 0, 0));
+			add(labelToolName,
+					new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.NONE,
+							new Insets(0, 0, 0, 10), 0, 0));
 			labelToolName.setText(app.getMenu("ToolName"));
 		}
 		{
 			JLabel labelCmdName = new JLabel();
-			add(labelCmdName, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.NONE,
-					new Insets(0, 0, 0, 10), 0, 0));
+			add(labelCmdName,
+					new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.NONE,
+							new Insets(0, 0, 0, 10), 0, 0));
 			labelCmdName.setText(app.getMenu("CommandName"));
 		}
 		{
 			JLabel labelToolHelp = new JLabel();
-			add(labelToolHelp, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
-					GridBagConstraints.EAST, GridBagConstraints.NONE,
-					new Insets(0, 0, 0, 10), 0, 0));
+			add(labelToolHelp,
+					new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.NONE,
+							new Insets(0, 0, 0, 10), 0, 0));
 			labelToolHelp.setText(app.getMenu("ToolHelp"));
 		}
 		KeyListener kl = new KeyListener() {
@@ -157,15 +160,17 @@ public class ToolNameIconPanelD extends JPanel {
 		{
 			labelIcon = new JLabel();
 			labelIcon.setIcon(app.getToolIcon(null));
-			add(labelIcon, new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.NONE,
-					new Insets(0, 0, 0, 0), 0, 0));
+			add(labelIcon,
+					new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0,
+							GridBagConstraints.CENTER, GridBagConstraints.NONE,
+							new Insets(0, 0, 0, 0), 0, 0));
 		}
 
 		btIconFile = new JButton();
-		add(btIconFile, new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(
-						0, 0, 0, 0), 0, 0));
+		add(btIconFile,
+				new GridBagConstraints(0, 4, 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 0), 0, 0));
 		btIconFile.setText(app.getMenu("Icon") + " ...");
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,9 +185,10 @@ public class ToolNameIconPanelD extends JPanel {
 		btIconFile.addActionListener(ac);
 
 		cbShowInToolBar = new JCheckBox();
-		add(cbShowInToolBar, new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets(0,
-						0, 0, 0), 0, 0));
+		add(cbShowInToolBar,
+				new GridBagConstraints(1, 3, 1, 1, 0.0, 0.0,
+						GridBagConstraints.WEST, GridBagConstraints.NONE,
+						new Insets(0, 0, 0, 0), 0, 0));
 		cbShowInToolBar.setText(app.getMenu("ShowInToolBar"));
 		cbShowInToolBar.setSelected(true);
 		ActionListener ac2 = new ActionListener() {
@@ -193,7 +199,8 @@ public class ToolNameIconPanelD extends JPanel {
 				updateMacro();
 
 				if (editHappens) {
-					int macroId = (macro.getKernel().getMacroID(macro) + EuclidianConstants.MACRO_MODE_ID_OFFSET);
+					int macroId = (macro.getKernel().getMacroID(macro)
+							+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
 					if (active) {
 						((GuiManagerD) app.getGuiManager())
 								.refreshCustomToolsInToolBar();

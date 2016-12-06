@@ -15,6 +15,7 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
 public abstract class NavigableDockPanel extends DockPanelD {
 	private JPanel panel = null;
 	private ConstructionProtocolNavigationD consProtNav;
+
 	public NavigableDockPanel(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder) {
 		super(id, title, toolbar, hasStyleBar, menuOrder);
@@ -44,9 +45,8 @@ public abstract class NavigableDockPanel extends DockPanelD {
 				app.setShowConstructionProtocolNavigation(
 						app.showConsProtNavigation(id), id);
 			}
-			consProtNav.getImpl().setBorder(
-					BorderFactory
-							.createMatteBorder(1, 0, 0, 0, Color.lightGray));
+			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1,
+					0, 0, 0, Color.lightGray));
 			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be

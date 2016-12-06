@@ -47,108 +47,94 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Path extends ShapeElement
-{
+public class Path extends ShapeElement {
 
-    public static final String TAG_NAME = "path";
-//    PathCommand[] commands = null;
-    int fillRule = GeneralPath.WIND_NON_ZERO;
-    String d = "";
-//    ExtendedGeneralPath path;
-    GeneralPath path;
+	public static final String TAG_NAME = "path";
+	// PathCommand[] commands = null;
+	int fillRule = GeneralPath.WIND_NON_ZERO;
+	String d = "";
+	// ExtendedGeneralPath path;
+	GeneralPath path;
 
-    /**
-     * Creates a new instance of Rect
-     */
-    public Path()
-    {
-    }
+	/**
+	 * Creates a new instance of Rect
+	 */
+	public Path() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
+		String fillRuleStrn = (getStyle(sty.setName("fill-rule")))
+				? sty.getStringValue() : "nonzero";
+		fillRule = fillRuleStrn.equals("evenodd") ? GeneralPath.WIND_EVEN_ODD
+				: GeneralPath.WIND_NON_ZERO;
 
-        String fillRuleStrn = (getStyle(sty.setName("fill-rule"))) ? sty.getStringValue() : "nonzero";
-        fillRule = fillRuleStrn.equals("evenodd") ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO;
+		if (getPres(sty.setName("d"))) {
+			d = sty.getStringValue();
+		}
 
-        if (getPres(sty.setName("d")))
-        {
-            d = sty.getStringValue();
-        }
+		path = buildPath(d, fillRule);
+	}
 
-        path = buildPath(d, fillRule);
-    }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, path);
+		finishLayer(g);
+	}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, path);
-        finishLayer(g);
-    }
+	public Shape getShape() {
+		return shapeToParent(path);
+	}
 
-    public Shape getShape()
-    {
-        return shapeToParent(path);
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		if (getStyle(sty.setName("fill-rule"))) {
+			int newVal = sty.getStringValue().equals("evenodd")
+					? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO;
+			if (newVal != fillRule) {
+				fillRule = newVal;
+				changeState = true;
+			}
+		}
 
-        if (getStyle(sty.setName("fill-rule")))
-        {
-            int newVal = sty.getStringValue().equals("evenodd")
-                ? GeneralPath.WIND_EVEN_ODD
-                : GeneralPath.WIND_NON_ZERO;
-            if (newVal != fillRule)
-            {
-                fillRule = newVal;
-                changeState = true;
-            }
-        }
+		if (getPres(sty.setName("d"))) {
+			String newVal = sty.getStringValue();
+			if (!newVal.equals(d)) {
+				d = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("d")))
-        {
-            String newVal = sty.getStringValue();
-            if (!newVal.equals(d))
-            {
-                d = newVal;
-                shapeChange = true;
-            }
-        }
+		if (shapeChange) {
+			build();
+			// path = buildPath(d, fillRule);
+			// return true;
+		}
 
-        if (shapeChange)
-        {
-            build();
-//            path = buildPath(d, fillRule);
-//            return true;
-        }
-
-        return changeState || shapeChange;
-    }
+		return changeState || shapeChange;
+	}
 }

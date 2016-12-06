@@ -17,49 +17,49 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class ArcTo extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private Point start, end;
+	private Point start, end;
 
-    public ArcTo() {
-        super(55, 1);
-    }
+	public ArcTo() {
+		super(55, 1);
+	}
 
-    public ArcTo(Rectangle bounds, Point start, Point end) {
-        this();
-        this.bounds = bounds;
-        this.start = start;
-        this.end = end;
-    }
+	public ArcTo(Rectangle bounds, Point start, Point end) {
+		this();
+		this.bounds = bounds;
+		this.start = start;
+		this.end = end;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        ArcTo tag = new ArcTo(emf.readRECTL(), emf.readPOINTL(), emf
-                .readPOINTL());
-        return tag;
-    }
+		ArcTo tag = new ArcTo(emf.readRECTL(), emf.readPOINTL(),
+				emf.readPOINTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writePOINTL(start);
-        emf.writePOINTL(end);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writePOINTL(start);
+		emf.writePOINTL(end);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  start: " + start + "\n" + "  end: " + end;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  start: " + start + "\n" + "  end: " + end;
+	}
 
-    public Rectangle getBounds() {
-        return bounds;
-    }
+	public Rectangle getBounds() {
+		return bounds;
+	}
 
-    public Point getStart() {
-        return start;
-    }
+	public Point getStart() {
+		return start;
+	}
 
-    public Point getEnd() {
-        return end;
-    }
+	public Point getEnd() {
+		return end;
+	}
 }

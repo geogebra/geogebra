@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetMapMode extends EMFTag implements EMFConstants {
 
-    private int mode;
+	private int mode;
 
-    public SetMapMode() {
-        super(17, 1);
-    }
+	public SetMapMode() {
+		super(17, 1);
+	}
 
-    public SetMapMode(int mode) {
-        this();
-        this.mode = mode;
-    }
+	public SetMapMode(int mode) {
+		this();
+		this.mode = mode;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetMapMode tag = new SetMapMode(emf.readDWORD());
-        return tag;
-    }
+		SetMapMode tag = new SetMapMode(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(mode);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(mode);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  mode: " + mode;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  mode: " + mode;
+	}
 }

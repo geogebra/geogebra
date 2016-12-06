@@ -48,18 +48,19 @@ import java.awt.geom.GeneralPath;
  */
 abstract public class PathCommand {
 
-    public boolean isRelative = false;
+	public boolean isRelative = false;
 
-    /** Creates a new instance of PathCommand */
-    public PathCommand() {
-    }
+	/** Creates a new instance of PathCommand */
+	public PathCommand() {
+	}
 
-    public PathCommand(boolean isRelative) {
-        this.isRelative = isRelative;
-    }
+	public PathCommand(boolean isRelative) {
+		this.isRelative = isRelative;
+	}
 
-//    abstract public void appendPath(ExtendedGeneralPath path, BuildHistory hist);
-    abstract public void appendPath(GeneralPath path, BuildHistory hist);
+	// abstract public void appendPath(ExtendedGeneralPath path, BuildHistory
+	// hist);
+	abstract public void appendPath(GeneralPath path, BuildHistory hist);
 
-    abstract public int getNumKnotsAdded();
+	abstract public int getNumKnotsAdded();
 }

@@ -99,8 +99,7 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(GRectangle2D r) {
@@ -113,8 +112,7 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 
 	public GRectangle2D createIntersection(GRectangle2D r) {
 		return new GGenericRectangle2DD(impl
-				.createIntersection(GGenericRectangle2DD
-						.getAWTRectangle2D(r)));
+				.createIntersection(GGenericRectangle2DD.getAWTRectangle2D(r)));
 	}
 
 	@Override

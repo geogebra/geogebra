@@ -5,34 +5,34 @@ import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
 
 /**
- * Represents an attached MIDI device, such as a keyboard.  This class
- * uses javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
+ * Represents an attached MIDI device, such as a keyboard. This class uses
+ * javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
  * 
  * @author David Koelle
  * @version 3.0
  */
-public class ReceiverDevice 
-{
+public class ReceiverDevice {
 	// private Receiver receiver;
-    
-    public ReceiverDevice(MidiDevice.Info info) throws MidiUnavailableException
-    {
-        MidiDevice device = null;
 
-        device = MidiSystem.getMidiDevice(info);
-        if (!(device.isOpen())) {
-          device.open();
-        }
+	public ReceiverDevice(MidiDevice.Info info)
+			throws MidiUnavailableException {
+		MidiDevice device = null;
+
+		device = MidiSystem.getMidiDevice(info);
+		if (!(device.isOpen())) {
+			device.open();
+		}
 
 		// this.receiver = device.getReceiver();
-    }
-    
-    /**
-     * Send the given sequence to the MIDI device - use this to send MIDI files
-     * to your keyboard!
-     *  
-     * @param sequence The sequence to send to the MIDI device
-     */
+	}
+
+	/**
+	 * Send the given sequence to the MIDI device - use this to send MIDI files
+	 * to your keyboard!
+	 * 
+	 * @param sequence
+	 *            The sequence to send to the MIDI device
+	 */
 	// public void sendSequence(Sequence sequence)
 	// {
 	// TimeEventManager tem = new TimeEventManager();

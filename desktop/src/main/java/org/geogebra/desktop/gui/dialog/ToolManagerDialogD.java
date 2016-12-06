@@ -52,8 +52,8 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author Markus Hohenwarter
  */
-public class ToolManagerDialogD extends javax.swing.JDialog implements
-		ToolManagerDialogListener {
+public class ToolManagerDialogD extends javax.swing.JDialog
+		implements ToolManagerDialogListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -119,8 +119,6 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 			listModel.removeElement(macro);
 		}
 
-
-
 	}
 
 	private void initGUI() {
@@ -132,8 +130,8 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 			panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 			JPanel toolListPanel = new JPanel(new BorderLayout(5, 5));
-			toolListPanel.setBorder(BorderFactory.createTitledBorder(loc
-					.getMenu("Tools")));
+			toolListPanel.setBorder(
+					BorderFactory.createTitledBorder(loc.getMenu("Tools")));
 			getContentPane().add(toolListPanel, BorderLayout.NORTH);
 
 			toolsModel = new DefaultListModel();
@@ -152,7 +150,8 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 			// toolListPanel.add(jScrollPane1, BorderLayout.CENTER);
 			toolListPanel.add(centerPanel, BorderLayout.CENTER);
 
-			JPanel toolButtonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+			JPanel toolButtonPanel = new JPanel(
+					new FlowLayout(FlowLayout.LEFT));
 			toolListPanel.add(toolButtonPanel, BorderLayout.SOUTH);
 
 			final JButton btDelete = new JButton();
@@ -172,9 +171,10 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 			btShare.setText(loc.getMenu("Share") + " ...");
 
 			// name & icon
-			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app, true);
-			namePanel.setBorder(BorderFactory.createTitledBorder(app
-					.getMenu("NameIcon")));
+			final ToolNameIconPanelD namePanel = new ToolNameIconPanelD(app,
+					true);
+			namePanel.setBorder(
+					BorderFactory.createTitledBorder(app.getMenu("NameIcon")));
 			panel.add(namePanel, BorderLayout.CENTER);
 
 			JPanel closePanel = new JPanel();
@@ -377,12 +377,10 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 		if (sel == null || sel.length == 0)
 			return;
 
-		File file = app.getGuiManager()
-				.showSaveDialog(
-				FileExtensions.GEOGEBRA_TOOL,
-						null,
-						GeoGebraConstants.APPLICATION_NAME + " "
-								+ loc.getMenu("Tools"), true, false);
+		File file = app.getGuiManager().showSaveDialog(
+				FileExtensions.GEOGEBRA_TOOL, null,
+				GeoGebraConstants.APPLICATION_NAME + " " + loc.getMenu("Tools"),
+				true, false);
 		if (file == null)
 			return;
 
@@ -401,8 +399,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog implements
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		// create new exporter
-		GeoGebraTubeExportD exporter = new GeoGebraTubeExportD(
-				app);
+		GeoGebraTubeExportD exporter = new GeoGebraTubeExportD(app);
 
 		exporter.uploadWorksheet(macros);
 

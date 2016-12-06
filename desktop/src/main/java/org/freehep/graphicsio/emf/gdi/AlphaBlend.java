@@ -24,138 +24,140 @@ import org.freehep.util.io.NoCloseOutputStream;
  */
 public class AlphaBlend extends EMFTag implements EMFConstants {
 
-    public final static int size = 108;
+	public final static int size = 108;
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private int x, y, width, height;
+	private int x, y, width, height;
 
-    private BlendFunction dwROP;
+	private BlendFunction dwROP;
 
-    private int xSrc, ySrc;
+	private int xSrc, ySrc;
 
-    private AffineTransform transform;
+	private AffineTransform transform;
 
-    private Color bkg;
+	private Color bkg;
 
-    private int usage;
+	private int usage;
 
-    private BitmapInfo bmi;
+	private BitmapInfo bmi;
 
-    private RenderedImage image;
+	private RenderedImage image;
 
-    public AlphaBlend() {
-        super(114, 1);
-    }
+	public AlphaBlend() {
+		super(114, 1);
+	}
 
-    public AlphaBlend(Rectangle bounds, int x, int y, int width, int height,
-            AffineTransform transform, RenderedImage image, Color bkg) {
-        this();
-        this.bounds = bounds;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.dwROP = new BlendFunction(AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA);
-        this.xSrc = 0;
-        this.ySrc = 0;
-        this.transform = transform;
-        this.bkg = (bkg == null) ? new Color(0, 0, 0, 0) : bkg;
-        this.usage = DIB_RGB_COLORS;
-        this.image = image;
-        this.bmi = null;
-    }
+	public AlphaBlend(Rectangle bounds, int x, int y, int width, int height,
+			AffineTransform transform, RenderedImage image, Color bkg) {
+		this();
+		this.bounds = bounds;
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.dwROP = new BlendFunction(AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA);
+		this.xSrc = 0;
+		this.ySrc = 0;
+		this.transform = transform;
+		this.bkg = (bkg == null) ? new Color(0, 0, 0, 0) : bkg;
+		this.usage = DIB_RGB_COLORS;
+		this.image = image;
+		this.bmi = null;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        AlphaBlend tag = new AlphaBlend();
-        tag.bounds = emf.readRECTL(); // 16
-        tag.x = emf.readLONG(); // 20
-        tag.y = emf.readLONG(); // 24
-        tag.width = emf.readLONG(); // 28
-        tag.height = emf.readLONG(); // 32
-        tag.dwROP = new BlendFunction(emf); // 36
-        tag.xSrc = emf.readLONG(); // 40
-        tag.ySrc = emf.readLONG(); // 44
-        tag.transform = emf.readXFORM(); // 68
-        tag.bkg = emf.readCOLORREF(); // 72
-        tag.usage = emf.readDWORD(); // 76
+		AlphaBlend tag = new AlphaBlend();
+		tag.bounds = emf.readRECTL(); // 16
+		tag.x = emf.readLONG(); // 20
+		tag.y = emf.readLONG(); // 24
+		tag.width = emf.readLONG(); // 28
+		tag.height = emf.readLONG(); // 32
+		tag.dwROP = new BlendFunction(emf); // 36
+		tag.xSrc = emf.readLONG(); // 40
+		tag.ySrc = emf.readLONG(); // 44
+		tag.transform = emf.readXFORM(); // 68
+		tag.bkg = emf.readCOLORREF(); // 72
+		tag.usage = emf.readDWORD(); // 76
 
-        // ignored
-        /* int bmiOffset = */ emf.readDWORD(); // 80
-        int bmiSize = emf.readDWORD(); // 84
-        /* int bitmapOffset = */ emf.readDWORD(); // 88
-        int bitmapSize = emf.readDWORD(); // 92
+		// ignored
+		/* int bmiOffset = */ emf.readDWORD(); // 80
+		int bmiSize = emf.readDWORD();
+		// 84
+		/* int bitmapOffset = */ emf.readDWORD(); // 88
+		int bitmapSize = emf.readDWORD(); // 92
 
-        /* int width = */ emf.readLONG(); // 96
-        /* int height = */ emf.readLONG(); // 100
+		/* int width = */ emf.readLONG();
+		// 96
+		/* int height = */ emf.readLONG(); // 100
 
-        // FIXME: this size can differ and can be placed somewhere else
-        bmi = (bmiSize > 0) ? new BitmapInfo(emf) : null;
+		// FIXME: this size can differ and can be placed somewhere else
+		bmi = (bmiSize > 0) ? new BitmapInfo(emf) : null;
 
-        // FIXME: need to decode image into java Image.
-        /* int[] bytes = */ emf.readUnsignedByte(bitmapSize);
-        return tag;
-    }
+		// FIXME: need to decode image into java Image.
+		/* int[] bytes = */ emf.readUnsignedByte(bitmapSize);
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writeLONG(x);
-        emf.writeLONG(y);
-        emf.writeLONG(width);
-        emf.writeLONG(height);
-        dwROP.write(emf);
-        emf.writeLONG(xSrc);
-        emf.writeLONG(ySrc);
-        emf.writeXFORM(transform);
-        emf.writeCOLORREF(bkg);
-        emf.writeDWORD(usage);
-        emf.writeDWORD(size); // bmi follows this record immediately
-        emf.writeDWORD(BitmapInfoHeader.size);
-        emf.writeDWORD(size + BitmapInfoHeader.size); // bitmap follows bmi
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writeLONG(x);
+		emf.writeLONG(y);
+		emf.writeLONG(width);
+		emf.writeLONG(height);
+		dwROP.write(emf);
+		emf.writeLONG(xSrc);
+		emf.writeLONG(ySrc);
+		emf.writeXFORM(transform);
+		emf.writeCOLORREF(bkg);
+		emf.writeDWORD(usage);
+		emf.writeDWORD(size); // bmi follows this record immediately
+		emf.writeDWORD(BitmapInfoHeader.size);
+		emf.writeDWORD(size + BitmapInfoHeader.size); // bitmap follows bmi
 
-        emf.pushBuffer();
+		emf.pushBuffer();
 
-        int encode;
-        // plain
-        encode = BI_RGB;
-        UserProperties properties = new UserProperties();
-        properties.setProperty(RawImageWriteParam.BACKGROUND, bkg);
-        properties.setProperty(RawImageWriteParam.CODE, "*BGRA");
-        properties.setProperty(RawImageWriteParam.PAD, 1);
-        ImageGraphics2D.writeImage(image, "raw", properties,
-                new NoCloseOutputStream(emf));
+		int encode;
+		// plain
+		encode = BI_RGB;
+		UserProperties properties = new UserProperties();
+		properties.setProperty(RawImageWriteParam.BACKGROUND, bkg);
+		properties.setProperty(RawImageWriteParam.CODE, "*BGRA");
+		properties.setProperty(RawImageWriteParam.PAD, 1);
+		ImageGraphics2D.writeImage(image, "raw", properties,
+				new NoCloseOutputStream(emf));
 
-        // emf.writeImage(image, bkg, "*BGRA", 1);
-        // png
-        // encode = BI_PNG;
-        // ImageGraphics2D.writeImage(image, "png", new Properties(), new
-        // NoCloseOutputStream(emf));
-        // jpg
-        // encode = BI_JPEG;
-        // ImageGraphics2D.writeImage(image, "jpg", new Properties(), new
-        // NoCloseOutputStream(emf));
-        int length = emf.popBuffer();
+		// emf.writeImage(image, bkg, "*BGRA", 1);
+		// png
+		// encode = BI_PNG;
+		// ImageGraphics2D.writeImage(image, "png", new Properties(), new
+		// NoCloseOutputStream(emf));
+		// jpg
+		// encode = BI_JPEG;
+		// ImageGraphics2D.writeImage(image, "jpg", new Properties(), new
+		// NoCloseOutputStream(emf));
+		int length = emf.popBuffer();
 
-        emf.writeDWORD(length);
-        emf.writeLONG(image.getWidth());
-        emf.writeLONG(image.getHeight());
+		emf.writeDWORD(length);
+		emf.writeLONG(image.getWidth());
+		emf.writeLONG(image.getHeight());
 
-        BitmapInfoHeader header = new BitmapInfoHeader(image.getWidth(), image
-                .getHeight(), 32, encode, length, 0, 0, 0, 0);
-        bmi = new BitmapInfo(header);
-        bmi.write(emf);
+		BitmapInfoHeader header = new BitmapInfoHeader(image.getWidth(),
+				image.getHeight(), 32, encode, length, 0, 0, 0, 0);
+		bmi = new BitmapInfo(header);
+		bmi.write(emf);
 
-        emf.append();
-    }
+		emf.append();
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  x, y, w, h: " + x + " " + y + " " + width + " " + height
-                + "\n" + "  dwROP: " + dwROP + "\n" + "  xSrc, ySrc: " + xSrc
-                + " " + ySrc + "\n" + "  transform: " + transform + "\n"
-                + "  bkg: " + bkg + "\n" + "  usage: " + usage + "\n"
-                + ((bmi != null) ? bmi.toString() : "  bitmap: null");
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  x, y, w, h: " + x + " " + y + " " + width + " " + height
+				+ "\n" + "  dwROP: " + dwROP + "\n" + "  xSrc, ySrc: " + xSrc
+				+ " " + ySrc + "\n" + "  transform: " + transform + "\n"
+				+ "  bkg: " + bkg + "\n" + "  usage: " + usage + "\n"
+				+ ((bmi != null) ? bmi.toString() : "  bitmap: null");
+	}
 }

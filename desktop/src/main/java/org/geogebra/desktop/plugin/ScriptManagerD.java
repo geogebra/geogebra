@@ -113,7 +113,7 @@ public class ScriptManagerD extends ScriptManager {
 			setGlobalScript();
 		}
 
-			CallJavaScript.evalScript(app, script, arg);
+		CallJavaScript.evalScript(app, script, arg);
 
 	}
 

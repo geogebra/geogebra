@@ -13,8 +13,8 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.desktop.main.AppD;
 
-public class TurtleDriverPanel extends JPanel implements ActionListener,
-		SetLabels {
+public class TurtleDriverPanel extends JPanel
+		implements ActionListener, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 

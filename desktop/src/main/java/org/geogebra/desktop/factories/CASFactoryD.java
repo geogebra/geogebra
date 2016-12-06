@@ -10,7 +10,8 @@ import org.geogebra.desktop.cas.giac.CASgiacD;
 public class CASFactoryD extends CASFactory {
 
 	@Override
-	public CASGenericInterface newGiac(CASparser p, CasParserTools t, Kernel k) {
+	public CASGenericInterface newGiac(CASparser p, CasParserTools t,
+			Kernel k) {
 		return new CASgiacD(p, t, k);
 	}
 

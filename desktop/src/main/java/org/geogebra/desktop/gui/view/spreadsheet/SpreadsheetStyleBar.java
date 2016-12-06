@@ -97,13 +97,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		iconHeight = app.getScaledIconSize();
 		iconDimension = new Dimension(iconHeight, iconHeight);
 		btnFormulaBar = new MyToggleButton(
-				app.getScaledIcon(GuiResourcesD.FORMULA_BAR),
-				iconHeight);
+				app.getScaledIcon(GuiResourcesD.FORMULA_BAR), iconHeight);
 		btnFormulaBar.addActionListener(this);
 
-		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getPlain("Bold")
-				.substring(0, 1), app.getPlainFont(), true, false, true,
-				iconDimension, Color.black, null);
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
+				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
+				false, true, iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight);
 		btnBold.addActionListener(this);
 		btnBold.setPreferredSize(iconDimension);
@@ -175,14 +174,14 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBorderStyle.setToolTipText(loc.getPlainTooltip("stylebar.Border"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
 		btnLeftAlign.setToolTipText(loc.getPlainTooltip("stylebar.AlignLeft"));
-		btnCenterAlign.setToolTipText(loc
-				.getPlainTooltip("stylebar.AlignCenter"));
+		btnCenterAlign
+				.setToolTipText(loc.getPlainTooltip("stylebar.AlignCenter"));
 		btnRightAlign
 				.setToolTipText(loc.getPlainTooltip("stylebar.AlignRight"));
 
-		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(loc.getPlain("Bold")
-				.substring(0, 1), app.getPlainFont(), true, false, true,
-				iconDimension, Color.black, null);
+		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
+				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
+				false, true, iconDimension, Color.black, null);
 		btnBold.setIcon(boldIcon);
 
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
@@ -241,7 +240,6 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			GColor bgCol = btnBgColor.getSelectedColor();
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR,
 					bgCol
-
 
 			// could simply be btnBgColor.getSelectedColor(), not sure...
 			// bgCol == null ? null : bgCol.getColor()

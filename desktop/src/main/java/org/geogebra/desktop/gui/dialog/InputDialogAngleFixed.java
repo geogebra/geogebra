@@ -22,8 +22,8 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogAngleFixed extends AngleInputDialog implements
-		KeyListener {
+public class InputDialogAngleFixed extends AngleInputDialog
+		implements KeyListener {
 
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
@@ -39,8 +39,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
 			Kernel kernel, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
-				defaultRotateAngle, false,
-				handler, false);
+				defaultRotateAngle, false, handler, false);
 
 		this.segments = segments;
 		this.points = points;
@@ -91,30 +90,28 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		inputHandler.processInput(inputText, this,
 				new AsyncOperation<Boolean>() {
 
-			@Override
-			public void callback(Boolean ok) {
-				cons.setSuppressLabelCreation(oldVal);
+					@Override
+					public void callback(Boolean ok) {
+						cons.setSuppressLabelCreation(oldVal);
 
-				if (ok) {
-					String angleText = getText();
-					// keep angle entered if it ends with 'degrees'
-					if (angleText.endsWith(Unicode.DEGREE)) {
-						defaultRotateAngle = angleText;
-					} else {
-						defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+						if (ok) {
+							String angleText = getText();
+							// keep angle entered if it ends with 'degrees'
+							if (angleText.endsWith(Unicode.DEGREE)) {
+								defaultRotateAngle = angleText;
+							} else {
+								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+							}
+							DialogManager.doAngleFixed(kernel, segments, points,
+									selGeos,
+									((NumberInputHandler) inputHandler)
+											.getNum(),
+									rbClockWise.isSelected(), ec);
+
+						}
+						setVisibleForTools(!ok);
 					}
-					DialogManager.doAngleFixed(kernel, segments, points,
-							selGeos,
-							((NumberInputHandler) inputHandler).getNum(),
-							rbClockWise.isSelected(), ec);
-
-				}
-				setVisibleForTools(!ok);
-			}
-		});
-
-
-
+				});
 
 	}
 

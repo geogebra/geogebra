@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetROP2 extends EMFTag implements EMFConstants {
 
-    private int mode;
+	private int mode;
 
-    public SetROP2() {
-        super(20, 1);
-    }
+	public SetROP2() {
+		super(20, 1);
+	}
 
-    public SetROP2(int mode) {
-        this();
-        this.mode = mode;
-    }
+	public SetROP2(int mode) {
+		this();
+		this.mode = mode;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetROP2 tag = new SetROP2(emf.readDWORD());
-        return tag;
-    }
+		SetROP2 tag = new SetROP2(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(mode);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(mode);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  mode: " + mode;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  mode: " + mode;
+	}
 }

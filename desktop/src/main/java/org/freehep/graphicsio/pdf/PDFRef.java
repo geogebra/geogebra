@@ -12,31 +12,31 @@ package org.freehep.graphicsio.pdf;
  */
 public class PDFRef implements PDFConstants {
 
-    private String name;
+	private String name;
 
-    private int objectNumber;
+	private int objectNumber;
 
-    private int generationNumber;
+	private int generationNumber;
 
-    PDFRef(String name, int objectNumber, int generationNumber) {
-        this.name = name;
-        this.objectNumber = objectNumber;
-        this.generationNumber = generationNumber;
-    }
+	PDFRef(String name, int objectNumber, int generationNumber) {
+		this.name = name;
+		this.objectNumber = objectNumber;
+		this.generationNumber = generationNumber;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public int getObjectNumber() {
-        return objectNumber;
-    }
+	public int getObjectNumber() {
+		return objectNumber;
+	}
 
-    public int getGenerationNumber() {
-        return generationNumber;
-    }
+	public int getGenerationNumber() {
+		return generationNumber;
+	}
 
-    public String toString() {
-        return objectNumber + " " + generationNumber + " R";
-    }
+	public String toString() {
+		return objectNumber + " " + generationNumber + " R";
+	}
 }

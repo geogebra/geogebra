@@ -90,8 +90,8 @@ import org.geogebra.desktop.util.ImageResourceD;
  * 
  * @author Markus Hohenwarter
  */
-public class EuclidianViewD extends EuclidianView implements
-		EuclidianViewInterfaceD, Printable {
+public class EuclidianViewD extends EuclidianView
+		implements EuclidianViewInterfaceD, Printable {
 
 	// temp
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
@@ -280,10 +280,10 @@ public class EuclidianViewD extends EuclidianView implements
 
 	protected Cursor getCursorForImage(ImageResourceD name) {
 
-		return getCursorForImage(getApplication()
-				.getInternalImage(name));
-		
+		return getCursorForImage(getApplication().getInternalImage(name));
+
 	}
+
 	/**
 	 * @param image
 	 *            image file
@@ -302,8 +302,7 @@ public class EuclidianViewD extends EuclidianView implements
 			// load cursor image
 			try {
 				// Create custom cursor from the image
-				Cursor cursor = tk.createCustomCursor(image,
- new Point(16, 16),
+				Cursor cursor = tk.createCustomCursor(image, new Point(16, 16),
 						"custom cursor");
 				return cursor;
 			} catch (Exception exc) {
@@ -409,14 +408,14 @@ public class EuclidianViewD extends EuclidianView implements
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
 	 */
-	public void exportPaint(Graphics2D g2d, double scale, ExportType exportType) {
+	public void exportPaint(Graphics2D g2d, double scale,
+			ExportType exportType) {
 		exportPaint(new GGraphics2DD(g2d), scale, false, exportType);
 	}
 
-	
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard) {
-		
+
 		try {
 			GBufferedImage img = getExportImage(scale, transparency);
 			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png",
@@ -427,17 +426,15 @@ public class EuclidianViewD extends EuclidianView implements
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		
-	}
 
+	}
 
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
 		// need to use getApplet().width rather than width so that
 		// it works with applet rescaling
-		int w = getApplication().onlyGraphicsViewShowing() ? getApplication()
-				.getApplet().width : getWidth() + 2;
+		int w = getApplication().onlyGraphicsViewShowing()
+				? getApplication().getApplet().width : getWidth() + 2;
 		GGraphics2DD.getAwtGraphics(g).drawImage(getResetImage(), w - 18, 2,
 				null);
 	}
@@ -485,7 +482,8 @@ public class EuclidianViewD extends EuclidianView implements
 		 * 
 		 * // draw pause or play button g2.drawRect(x - 2, y - 2, 18, 18);
 		 */
-		Image img = kernel.isAnimationRunning() ? getPauseImage(highlightAnimationButtons)
+		Image img = kernel.isAnimationRunning()
+				? getPauseImage(highlightAnimationButtons)
 				: getPlayImage(highlightAnimationButtons);
 		GGraphics2DD.getAwtGraphics(g2).drawImage(img, x, y, null);
 	}
@@ -537,8 +535,9 @@ public class EuclidianViewD extends EuclidianView implements
 
 		g2d.setStroke(((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
-				(penPoints2.size() <= 2) ? EuclidianStyleConstants.LINE_TYPE_FULL
-						: penLineStyle)));
+						(penPoints2.size() <= 2)
+								? EuclidianStyleConstants.LINE_TYPE_FULL
+								: penLineStyle)));
 		g2d.setColor(GColorD.getAwtColor(penColor));
 
 		g2d.draw(pb.gp);
@@ -576,9 +575,9 @@ public class EuclidianViewD extends EuclidianView implements
 
 			// need 3 corner points if axes ratio isn't 1:1
 			if (!Kernel.isEqual(ev.getXscale(), ev.getYscale())) {
-				GeoPoint corner4 = (new GeoPoint(app.getKernel()
-						.getConstruction(), null, ev.toRealWorldCoordX(0),
-						ev.toRealWorldCoordY(0), 1.0));
+				GeoPoint corner4 = (new GeoPoint(
+						app.getKernel().getConstruction(), null,
+						ev.toRealWorldCoordX(0), ev.toRealWorldCoordY(0), 1.0));
 				corner4.setLabelVisible(false);
 				corner4.update();
 				geoImage.setCorner(corner4, 2);
@@ -703,8 +702,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		evjpanel.setPreferredSize(GDimensionD
-				.getAWTDimension(preferredSize));
+		evjpanel.setPreferredSize(GDimensionD.getAWTDimension(preferredSize));
 	}
 
 	/**
@@ -900,7 +898,8 @@ public class EuclidianViewD extends EuclidianView implements
 		resetLists();
 		removeTextField();
 		updateBackgroundImage(); // clear traces and images
-		// We call this on file loading, so we don't want to mess up the settings we have just loaded using initView
+		// We call this on file loading, so we don't want to mess up the
+		// settings we have just loaded using initView
 	}
 
 	public GColor getBackgroundCommon() {
@@ -931,7 +930,6 @@ public class EuclidianViewD extends EuclidianView implements
 
 		return new GGraphics2DD(g2Dtemp);
 	}
-
 
 	@Override
 	final protected void setHeight(int height) {
@@ -975,8 +973,7 @@ public class EuclidianViewD extends EuclidianView implements
 		if (isPrintScaleString()) {
 			Localization loc = getApplication().getLocalization();
 			StringBuilder sb = new StringBuilder(
-					loc.getMenu(
-					"ScaleInCentimeter"));
+					loc.getMenu("ScaleInCentimeter"));
 			if (printingScale <= 1) {
 				sb.append(": 1:");
 				sb.append(printScaleNF.format(1 / printingScale));

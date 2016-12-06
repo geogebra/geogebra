@@ -15,22 +15,22 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class EOF extends EMFTag {
 
-    public EOF() {
-        super(14, 1);
-    }
+	public EOF() {
+		super(14, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        /* int[] bytes = */ emf.readUnsignedByte(len);
-        EOF tag = new EOF();
-        return tag;
-    }
+		/* int[] bytes = */ emf.readUnsignedByte(len);
+		EOF tag = new EOF();
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(0); // # of palette entries
-        emf.writeDWORD(0x10); // offset for palette
-        // ... palette
-        emf.writeDWORD(0x14); // offset to start of record
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(0); // # of palette entries
+		emf.writeDWORD(0x10); // offset for palette
+		// ... palette
+		emf.writeDWORD(0x14); // offset to start of record
+	}
 }

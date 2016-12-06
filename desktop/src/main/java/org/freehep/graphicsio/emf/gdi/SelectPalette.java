@@ -15,30 +15,30 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SelectPalette extends EMFTag {
 
-    private int index;
+	private int index;
 
-    public SelectPalette() {
-        super(48, 1);
-    }
+	public SelectPalette() {
+		super(48, 1);
+	}
 
-    public SelectPalette(int index) {
-        this();
-        this.index = index;
-    }
+	public SelectPalette(int index) {
+		this();
+		this.index = index;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SelectPalette tag = new SelectPalette(emf.readDWORD());
-        return tag;
-    }
+		SelectPalette tag = new SelectPalette(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(index);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(index);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  index: 0x"
-                + Integer.toHexString(index);
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  index: 0x"
+				+ Integer.toHexString(index);
+	}
 }

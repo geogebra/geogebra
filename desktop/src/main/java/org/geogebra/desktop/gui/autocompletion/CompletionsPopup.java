@@ -181,8 +181,9 @@ public class CompletionsPopup {
 		// Try to show popup just beneath the word to be completed
 		popup.show(textField, startRect.x, startRect.y + startRect.height);
 		// If it overlaps the word, then show the popup above the word
-		if (popup.getLocationOnScreen().y - textField.getLocationOnScreen().y < startRect.y
-				+ startRect.height) {
+		if (popup.getLocationOnScreen().y
+				- textField.getLocationOnScreen().y < startRect.y
+						+ startRect.height) {
 			popup.show(textField, startRect.x, startRect.y - popup.getHeight());
 		}
 	}

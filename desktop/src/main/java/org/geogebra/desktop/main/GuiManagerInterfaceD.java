@@ -15,8 +15,7 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	String getToolbarDefinition();
 
 	File showSaveDialog(FileExtensions fileExtension, File currentFile,
-			String string,
-			boolean b, boolean c);
+			String string, boolean b, boolean c);
 
 	void removeFromToolbarDefinition(int i);
 

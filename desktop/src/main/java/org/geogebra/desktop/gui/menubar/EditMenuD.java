@@ -131,11 +131,11 @@ public class EditMenuD extends BaseMenu {
 			deleteItem = add(deleteAction);
 
 			if (AppD.MAC_OS) {
-				deleteItem.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_BACK_SPACE, 0));
+				deleteItem.setAccelerator(
+						KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0));
 			} else {
-				deleteItem.setAccelerator(KeyStroke.getKeyStroke(
-						KeyEvent.VK_DELETE, 0));
+				deleteItem.setAccelerator(
+						KeyStroke.getKeyStroke(KeyEvent.VK_DELETE, 0));
 			}
 		}
 
@@ -149,8 +149,9 @@ public class EditMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		propertiesAction = new AbstractAction(loc.getMenu("Properties")
-				+ " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
+		propertiesAction = new AbstractAction(
+				loc.getMenu("Properties") + " ...",
+				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -212,8 +213,8 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		showhideLabelsAction = new AbstractAction(
-				loc.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
+		showhideLabelsAction = new AbstractAction(loc.getMenu("ShowHideLabels"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -222,7 +223,8 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		copyAction = new AbstractAction(loc.getMenu("Copy"), app.getEmptyIcon()) {
+		copyAction = new AbstractAction(loc.getMenu("Copy"),
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

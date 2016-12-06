@@ -18,41 +18,41 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class PolyDraw16 extends EMFTag implements EMFConstants {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private Point[] points;
+	private Point[] points;
 
-    private byte[] types;
+	private byte[] types;
 
-    public PolyDraw16() {
-        super(92, 1);
-    }
+	public PolyDraw16() {
+		super(92, 1);
+	}
 
-    public PolyDraw16(Rectangle bounds, Point[] points, byte[] types) {
-        this();
-        this.bounds = bounds;
-        this.points = points;
-        this.types = types;
-    }
+	public PolyDraw16(Rectangle bounds, Point[] points, byte[] types) {
+		this();
+		this.bounds = bounds;
+		this.points = points;
+		this.types = types;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        int n;
-        PolyDraw16 tag = new PolyDraw16(emf.readRECTL(), emf.readPOINTS(n = emf
-                .readDWORD()), emf.readBYTE(n));
-        return tag;
-    }
+		int n;
+		PolyDraw16 tag = new PolyDraw16(emf.readRECTL(),
+				emf.readPOINTS(n = emf.readDWORD()), emf.readBYTE(n));
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writeDWORD(points.length);
-        emf.writePOINTS(points);
-        emf.writeBYTE(types);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writeDWORD(points.length);
+		emf.writePOINTS(points);
+		emf.writeBYTE(types);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  #points: " + points.length;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  #points: " + points.length;
+	}
 }

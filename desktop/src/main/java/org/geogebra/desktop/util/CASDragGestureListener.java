@@ -26,8 +26,8 @@ import org.geogebra.desktop.cas.view.CASTableD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
-public class CASDragGestureListener implements DragGestureListener,
-		DragSourceListener {
+public class CASDragGestureListener
+		implements DragGestureListener, DragSourceListener {
 
 	private Kernel kernel;
 	private App app;
@@ -86,8 +86,8 @@ public class CASDragGestureListener implements DragGestureListener,
 		transferable.setIsAssignment(cell.isAssignmentVariableDefined());
 
 		// start drag
-		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(), new Point(
-				-5, -30), transferable, this);
+		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
+				new Point(-5, -30), transferable, this);
 	}
 
 	/**

@@ -49,7 +49,8 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		public void propertyChange(PropertyChangeEvent changeEvent) {
 			JSplitPane splitPane = (JSplitPane) changeEvent.getSource();
 			String propertyName = changeEvent.getPropertyName();
-			if (propertyName.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
+			if (propertyName
+					.equals(JSplitPane.LAST_DIVIDER_LOCATION_PROPERTY)) {
 				splitPane.requestFocus();
 			}
 		}
@@ -210,7 +211,8 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 		 * @param parentLocation
 		 * @param parent
 		 */
-		private void saveSplitPane(String parentLocation, DockSplitPane parent) {
+		private void saveSplitPane(String parentLocation,
+				DockSplitPane parent) {
 			double dividerLocation = 0.2;
 
 			// get relative divider location depending on the current
@@ -265,10 +267,10 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	public void updateDividerLocation(int size, int orientation1) {
 
 		/*
-		 * AbstractApplication.debug("\nresizeW= "+getResizeWeight()
-		 * +"\nsize= "+size +"\nsavedSize= "+savedSize
-		 * +"\nsavedDividerLocation= "+savedDividerLocation
-		 * +"\nleft= "+getLeftComponent() +"\nright= "+getRightComponent());
+		 * AbstractApplication.debug("\nresizeW= "+getResizeWeight() +"\nsize= "
+		 * +size +"\nsavedSize= "+savedSize +"\nsavedDividerLocation= "
+		 * +savedDividerLocation +"\nleft= "+getLeftComponent() +"\nright= "
+		 * +getRightComponent());
 		 */
 
 		if (orientation1 == getOrientation()) {
@@ -280,14 +282,13 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 				if (savedSize == 0) {
 					savedSize = 1;
 				}
-				setDividerLocationRecursive((size * savedDividerLocation)
-						/ savedSize, size, orientation1);
-			} else {
 				setDividerLocationRecursive(
-						size
-								- checkLocation(savedSize
-										- savedDividerLocation, size), size,
+						(size * savedDividerLocation) / savedSize, size,
 						orientation1);
+			} else {
+				setDividerLocationRecursive(size
+						- checkLocation(savedSize - savedDividerLocation, size),
+						size, orientation1);
 			}
 		} else
 			propagateDividerLocation(size, size, orientation1);
@@ -319,11 +320,11 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	private void propagateDividerLocation(int sizeLeft, int sizeRight,
 			int orientation1) {
 		if (getLeftComponent() != null)
-			((DockComponent) getLeftComponent()).updateDividerLocation(
-					sizeLeft, orientation1);
+			((DockComponent) getLeftComponent()).updateDividerLocation(sizeLeft,
+					orientation1);
 		if (getRightComponent() != null)
-			((DockComponent) getRightComponent()).updateDividerLocation(
-					sizeRight, orientation1);
+			((DockComponent) getRightComponent())
+					.updateDividerLocation(sizeRight, orientation1);
 	}
 
 	public String toString(String prefix) {

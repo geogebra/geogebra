@@ -75,34 +75,34 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private void initMenu() {
 		switch (clickedPanel) {
 		case OUTPUT:
-			JMenuItem copyItem = new JMenuItem(table.getApplication().getMenu(
-					"Copy"));
+			JMenuItem copyItem = new JMenuItem(
+					table.getApplication().getMenu("Copy"));
 			copyItem.setActionCommand("copy");
 			copyItem.addActionListener(this);
 			add(copyItem);
 			addSeparator();
 
-			JMenuItem copyToLatexItem = new JMenuItem(table.getApplication()
-					.getMenu("CopyAsLaTeX"));
+			JMenuItem copyToLatexItem = new JMenuItem(
+					table.getApplication().getMenu("CopyAsLaTeX"));
 			copyToLatexItem.setActionCommand("copyAsLatex");
 			copyToLatexItem.addActionListener(this);
 			add(copyToLatexItem);
 
-			JMenuItem copyToLibreOfficeItem = new JMenuItem(table
-					.getApplication().getMenu("CopyAsLibreOfficeFormula"));
+			JMenuItem copyToLibreOfficeItem = new JMenuItem(
+					table.getApplication().getMenu("CopyAsLibreOfficeFormula"));
 			copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 			copyToLibreOfficeItem.addActionListener(this);
 			add(copyToLibreOfficeItem);
 
-			JMenuItem copyToImageItem = new JMenuItem(table.getApplication()
-					.getMenu("CopyAsImage"));
+			JMenuItem copyToImageItem = new JMenuItem(
+					table.getApplication().getMenu("CopyAsImage"));
 			copyToImageItem.setActionCommand("copyAsImage");
 			copyToImageItem.addActionListener(this);
 			add(copyToImageItem);
 			break;
 		case INPUT:
-			JMenuItem pasteItem = new JMenuItem(table.getApplication().getMenu(
-					"Paste"));
+			JMenuItem pasteItem = new JMenuItem(
+					table.getApplication().getMenu("Paste"));
 			pasteItem.setActionCommand("paste");
 			pasteItem.addActionListener(this);
 			add(pasteItem);
@@ -126,14 +126,14 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		if (ac.equals("copy")) {
 			data = new StringSelection(
-			// use xml template so that sin(2x) -> sin(2*x)
-				// so that it can be pasted into other software
+					// use xml template so that sin(2x) -> sin(2*x)
+					// so that it can be pasted into other software
 					value.getOutput(StringTemplate.casCopyTemplate));
 
 		} else if (ac.equals("copyAsLatex")) {
 			String latexOutput = value.getLaTeXOutput();
-			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
-					true));
+			data = new StringSelection(
+					StringUtil.toLaTeXString(latexOutput, true));
 
 		} else if (ac.equals("copyAsLibreOfficeMath")) {
 			String libreofficeOutput = value
@@ -143,8 +143,8 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		} else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
 			AppD app = (AppD) table.getApplication();
-			Font latexFont = new Font(app.getPlainFont().getName(), app
-					.getPlainFont().getStyle(),
+			Font latexFont = new Font(app.getPlainFont().getName(),
+					app.getPlainFont().getStyle(),
 					app.getPlainFont().getSize() - 1);
 
 			app.getDrawEquation().drawLatexImageIcon(app, latexIcon,

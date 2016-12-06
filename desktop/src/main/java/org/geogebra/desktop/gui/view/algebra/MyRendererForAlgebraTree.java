@@ -83,8 +83,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
-			setForeground(GColorD.getAwtColor(geo
-					.getAlgebraColor()));
+			setForeground(GColorD.getAwtColor(geo.getAlgebraColor()));
 
 			String text = getDescription(geo);
 
@@ -108,8 +107,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			if (view.isRenderLaTeX()
 					&& kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 					&& geo.isDefined()) {
-				latexFont = new Font(app.getBoldFont().getName(), app
-						.getBoldFont().getStyle(), app.getFontSize() - 1);
+				latexFont = new Font(app.getBoldFont().getName(),
+						app.getBoldFont().getStyle(), app.getFontSize() - 1);
 				latexStr = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
 				if (latexStr != null && geo.isLaTeXDrawableGeo()) {
@@ -149,16 +148,16 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			else {
 				// align all elements, therefore add the space the icon would
 				// normally take as a padding
-				setBorder(BorderFactory.createEmptyBorder(0, getOpenIcon()
-						.getIconWidth() + getIconTextGap(), 0, 0));
+				setBorder(BorderFactory.createEmptyBorder(0,
+						getOpenIcon().getIconWidth() + getIconTextGap(), 0, 0));
 				setIcon(null);
 			}
 
 			setForeground(Color.black);
 			setBackground(getBackgroundNonSelectionColor());
 
-			String str = (view.getTreeMode() == SortMode.LAYER) ? app
-					.getLocalization().getPlain("LayerA", value.toString())
+			String str = (view.getTreeMode() == SortMode.LAYER)
+					? app.getLocalization().getPlain("LayerA", value.toString())
 					: value.toString();
 
 			setText(str);
@@ -175,8 +174,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * @return algebra description of the geo
 	 */
 	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
-		return geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
-				true));
+		return geo.getAlgebraDescriptionTextOrHTMLDefault(
+				new IndexHTMLBuilder(true));
 	}
 
 	/**
@@ -186,7 +185,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * @param rightIcon
 	 * @return
 	 */
-	private static ImageIcon joinIcons(ImageIcon leftIcon, ImageIcon rightIcon) {
+	private static ImageIcon joinIcons(ImageIcon leftIcon,
+			ImageIcon rightIcon) {
 
 		int w1 = leftIcon.getIconWidth();
 		int w2 = rightIcon.getIconWidth();

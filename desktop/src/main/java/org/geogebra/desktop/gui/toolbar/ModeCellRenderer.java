@@ -27,8 +27,8 @@ import org.geogebra.desktop.main.AppD;
  * Renderer for tools tree
  *
  */
-public class ModeCellRenderer extends DefaultTreeCellRenderer implements
-		ListCellRenderer {
+public class ModeCellRenderer extends DefaultTreeCellRenderer
+		implements ListCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 

@@ -16,31 +16,32 @@ public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 	 * @param app
 	 */
 	public ConstructionProtocolDockPanel(AppD app) {
-		super(
-			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
-			"ConstructionProtocol", 					// view title phrase 
-			null,	// toolbar string
-			true,					// style bar?
-			7,						// menu order
-			'L' // ctrl-shift-L
+		super(App.VIEW_CONSTRUCTION_PROTOCOL, // view id
+				"ConstructionProtocol", // view title phrase
+				null, // toolbar string
+				true, // style bar?
+				7, // menu order
+				'L' // ctrl-shift-L
 		);
-		
+
 		setApp(app);
 		this.setShowStyleBar(true);
 	}
 
 	@Override
 	protected JComponent getViewPanel() {
-		return ((ConstructionProtocolViewD)(app.getGuiManager().getConstructionProtocolView())).getCpPanel();
+		return ((ConstructionProtocolViewD) (app.getGuiManager()
+				.getConstructionProtocolView())).getCpPanel();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((ConstructionProtocolViewD)app.getGuiManager().getConstructionProtocolView()).getStyleBar();
+		return ((ConstructionProtocolViewD) app.getGuiManager()
+				.getConstructionProtocolView()).getStyleBar();
 	}
-	
+
 	@Override
-	public ImageIcon getIcon() { 
+	public ImageIcon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL);
 	}
 }

@@ -21,8 +21,7 @@ class HelpMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
 	private AbstractAction helpAction, tutorialAction, input3DTutorialAction,
-			forumAction, infoAction,
-			reportBugAction;
+			forumAction, infoAction, reportBugAction;
 
 	/**
 	 * Creates new help menu
@@ -60,7 +59,6 @@ class HelpMenuD extends BaseMenu {
 
 		addSeparator();
 
-
 		add(infoAction);
 
 		// support for right-to-left languages
@@ -75,11 +73,11 @@ class HelpMenuD extends BaseMenu {
 	protected void initActions() {
 		if (helpAction == null) {
 			helpAction = new HelpAction(app,
-					app.getMenuIcon(GuiResourcesD.HELP),
-					app.getMenu("Manual"), App.WIKI_MANUAL);
+					app.getMenuIcon(GuiResourcesD.HELP), app.getMenu("Manual"),
+					App.WIKI_MANUAL);
 
-			tutorialAction = new HelpAction(app, null,
-					app.getMenu("Tutorials"), App.WIKI_TUTORIAL);
+			tutorialAction = new HelpAction(app, null, app.getMenu("Tutorials"),
+					App.WIKI_TUTORIAL);
 
 			if (app.getInput3DType().equals(Input3D.PREFS_REALSENSE)) {
 				input3DTutorialAction = new AbstractAction(
@@ -87,8 +85,8 @@ class HelpMenuD extends BaseMenu {
 					private static final long serialVersionUID = 1L;
 
 					public void actionPerformed(ActionEvent e) {
-						app.getGuiManager().showURLinBrowser(
-								App.REALSENSE_TUTORIAL);
+						app.getGuiManager()
+								.showURLinBrowser(App.REALSENSE_TUTORIAL);
 					}
 				};
 			} else {
@@ -111,8 +109,8 @@ class HelpMenuD extends BaseMenu {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					app.getGuiManager().showURLinBrowser(
-							GeoGebraConstants.FORUM_URL);
+					app.getGuiManager()
+							.showURLinBrowser(GeoGebraConstants.FORUM_URL);
 				}
 			};
 

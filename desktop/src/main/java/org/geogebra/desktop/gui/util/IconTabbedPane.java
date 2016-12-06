@@ -158,11 +158,8 @@ public class IconTabbedPane extends JTabbedPane {
 				int selectedIndex) {
 			g.setColor(Color.white);
 
-			g.fillRect(
-					0,
-					0,
-					tabPane.getBounds().width,
-					calculateTabAreaHeight(tabPlacement, runCount, maxTabHeight));
+			g.fillRect(0, 0, tabPane.getBounds().width, calculateTabAreaHeight(
+					tabPlacement, runCount, maxTabHeight));
 
 			super.paintTabArea(g, tabPlacement, selectedIndex);
 		}
@@ -225,7 +222,8 @@ public class IconTabbedPane extends JTabbedPane {
 			if (!isEnabledAt(tabIndex))
 				return 0;
 
-			return super.calculateTabWidth(tabPlacement, tabIndex, metrics) - 32;
+			return super.calculateTabWidth(tabPlacement, tabIndex, metrics)
+					- 32;
 		}
 
 		/**
@@ -257,8 +255,8 @@ public class IconTabbedPane extends JTabbedPane {
 		}
 
 		@Override
-		protected void paintContentBorderRightEdge(Graphics g,
-				int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+		protected void paintContentBorderRightEdge(Graphics g, int tabPlacement,
+				int selectedIndex, int x, int y, int w, int h) {
 			/* paint nothing */
 		}
 
@@ -270,7 +268,8 @@ public class IconTabbedPane extends JTabbedPane {
 
 		@Override
 		protected void paintContentBorderBottomEdge(Graphics g,
-				int tabPlacement, int selectedIndex, int x, int y, int w, int h) {
+				int tabPlacement, int selectedIndex, int x, int y, int w,
+				int h) {
 			/* paint nothing */
 		}
 	}

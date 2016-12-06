@@ -6,8 +6,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public class MacApplicationListener implements
-		com.apple.eawt.ApplicationListener {
+public class MacApplicationListener
+		implements com.apple.eawt.ApplicationListener {
 
 	public static void initMacApplicationListener() {
 		com.apple.eawt.Application app = new com.apple.eawt.Application();
@@ -41,13 +41,15 @@ public class MacApplicationListener implements
 		app.exitAll();
 	}
 
-	public synchronized void handleAbout(com.apple.eawt.ApplicationEvent event) {
+	public synchronized void handleAbout(
+			com.apple.eawt.ApplicationEvent event) {
 		event.setHandled(true);
 		AppD app = getGGBInstance().getApplication();
 		((GuiManagerD) app.getGuiManager()).showAboutDialog();
 	}
 
-	public synchronized void handleOpenFile(com.apple.eawt.ApplicationEvent ev) {
+	public synchronized void handleOpenFile(
+			com.apple.eawt.ApplicationEvent ev) {
 		Log.debug("handleOpenFile event, filename: " + ev.getFilename());
 
 		// open file

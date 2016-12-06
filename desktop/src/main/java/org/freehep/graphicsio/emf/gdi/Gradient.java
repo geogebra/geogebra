@@ -13,8 +13,8 @@ import org.freehep.graphicsio.emf.EMFOutputStream;
  */
 public abstract class Gradient {
 
-    public Gradient() {
-    }
+	public Gradient() {
+	}
 
-    public abstract void write(EMFOutputStream emf) throws IOException;
+	public abstract void write(EMFOutputStream emf) throws IOException;
 }

@@ -13,29 +13,29 @@ import org.geogebra.desktop.main.AppD;
  */
 public class AssignmentDockPanel extends DockPanelD {
 	private static final long serialVersionUID = 1L;
+
 	public AssignmentDockPanel(AppD app) {
-		super(
-			App.VIEW_ASSIGNMENT, 	// view id
-			"Assignment", 					// view title phrase 
-			null,	// toolbar string
-			true,					// style bar?
-			8,						// menu order
-			'Q' // ctrl-shift-Q
+		super(App.VIEW_ASSIGNMENT, // view id
+				"Assignment", // view title phrase
+				null, // toolbar string
+				true, // style bar?
+				8, // menu order
+				'Q' // ctrl-shift-Q
 		);
-		
+
 		setApp(app);
 		this.setOpenInFrame(false);
 	}
 
 	@Override
 	protected JComponent loadComponent() {
-		return ((GuiManagerD)app.getGuiManager()).getAssignmentView();
+		return ((GuiManagerD) app.getGuiManager()).getAssignmentView();
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((GuiManagerD)app.getGuiManager()).getAssignmentView().getStyleBar();
+		return ((GuiManagerD) app.getGuiManager()).getAssignmentView()
+				.getStyleBar();
 	}
-
 
 }

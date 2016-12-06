@@ -65,8 +65,8 @@ public class AppletSplashScreen implements ImageObserver {
 				// load splash image and animated progress image
 				splashImage = parentApplet.getImage(AppletSplashScreen.class
 						.getResource(GeoGebraConstants.SPLASH_STRING));
-				progressImage = parentApplet.getImage(AppletSplashScreen.class
-						.getResource("spinner.gif"));
+				progressImage = parentApplet.getImage(
+						AppletSplashScreen.class.getResource("spinner.gif"));
 			} else {
 				// we couldn't get splashScreenImageGraphics
 				return;
@@ -116,7 +116,8 @@ public class AppletSplashScreen implements ImageObserver {
 	 * Updates the progress image (animated gif) in the SplashScreen loading.
 	 * Implements ImageObserver.
 	 */
-	public boolean imageUpdate(Image img, int flags, int x, int y, int w, int h) {
+	public boolean imageUpdate(Image img, int flags, int x, int y, int w,
+			int h) {
 		// stop after dispose() was called
 		if (dispose)
 			return false;

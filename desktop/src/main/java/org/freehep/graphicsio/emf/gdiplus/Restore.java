@@ -7,16 +7,16 @@ import org.freehep.graphicsio.emf.EMFInputStream;
 import org.freehep.graphicsio.emf.EMFOutputStream;
 
 /**
- * The Restore metafile record represents a call to Graphics.Restore, 
- * which ends a graphics container.
+ * The Restore metafile record represents a call to Graphics.Restore, which ends
+ * a graphics container.
  * 
  * @author Mark Donszelmann
  * @version $Id: Restore.java,v 1.1 2009-08-17 21:44:44 murkle Exp $
  */
 public class Restore extends EMFPlusTag {
-	
+
 	private int containerIndex;
-	
+
 	public Restore() {
 		super(38, 1);
 	}
@@ -26,7 +26,7 @@ public class Restore extends EMFPlusTag {
 		flags = 0;
 		this.containerIndex = containerIndex;
 	}
-		
+
 	public EMFPlusTag read(int tagID, int flags, EMFInputStream emf, int len)
 			throws IOException {
 		Restore tag = new Restore();
@@ -35,11 +35,12 @@ public class Restore extends EMFPlusTag {
 		return tag;
 	}
 
-	public void write(int tagID, int flags, EMFOutputStream emf) throws IOException {
+	public void write(int tagID, int flags, EMFOutputStream emf)
+			throws IOException {
 		emf.writeUINT(containerIndex);
 	}
-    
-    public String toString() {
-        return super.toString() + "\n  index: "+containerIndex;
-    }
+
+	public String toString() {
+		return super.toString() + "\n  index: " + containerIndex;
+	}
 }

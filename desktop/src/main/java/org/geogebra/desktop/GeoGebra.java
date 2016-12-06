@@ -33,7 +33,6 @@ public class GeoGebra {
 		(new GeoGebra()).doMain(cmdArgs);
 	}
 
-
 	/**
 	 * calculate the default font size and according to some heuristics
 	 * 
@@ -45,7 +44,8 @@ public class GeoGebra {
 	 * @param screenResY
 	 *            vertical screen size
 	 */
-	public static void setDefaults(int screenDPI, int screenResX, int screenResY) {
+	public static void setDefaults(int screenDPI, int screenResX,
+			int screenResY) {
 
 		int fontSize = (int) Math.round(screenDPI / 8.0);
 
@@ -78,17 +78,18 @@ public class GeoGebra {
 		}
 
 		if (args.containsArg("help") || args.containsArg("proverhelp")
-				|| args.containsArg("v") || args.containsArg("regressionFile")) {
+				|| args.containsArg("v")
+				|| args.containsArg("regressionFile")) {
 			showSplash = false;
 		}
 
 		if (showSplash) {
 			// Show splash screen
-			URL imageURL = GeoGebra.class.getResource("/org/geogebra/desktop/"
-					+ GeoGebraConstants.SPLASH_STRING);
+			URL imageURL = GeoGebra.class.getResource(
+					"/org/geogebra/desktop/" + GeoGebraConstants.SPLASH_STRING);
 			if (imageURL != null) {
-				splashFrame = SplashWindow.splash(Toolkit.getDefaultToolkit()
-						.createImage(imageURL));
+				splashFrame = SplashWindow.splash(
+						Toolkit.getDefaultToolkit().createImage(imageURL));
 			} else {
 				System.err.println("Splash image not found");
 			}

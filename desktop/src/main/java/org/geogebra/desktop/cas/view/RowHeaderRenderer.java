@@ -26,8 +26,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Renders row headers
  */
-public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
-		MarbleRenderer {
+public class RowHeaderRenderer extends JPanel
+		implements ListCellRenderer, MarbleRenderer {
 
 	private static final long serialVersionUID = 1L;
 	private CASTableD casTable;
@@ -66,9 +66,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 
 		setOpaque(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				GColorD
-						.getAwtColor(
-								GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
 	public void updateIcons() {
@@ -89,12 +87,11 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		CASInputHandler.handleMarble(ctr, this);
 
 		if (isSelected) {
-			setBackground(GColorD
-					.getAwtColor(GeoGebraColorConstants
-							.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+			setBackground(GColorD.getAwtColor(
+					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 		} else {
-			setBackground(GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
+			setBackground(GColorD.getAwtColor(
+					GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		}
 
 		// update height

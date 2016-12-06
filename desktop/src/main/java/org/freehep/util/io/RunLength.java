@@ -9,14 +9,14 @@ package org.freehep.util.io;
  */
 public interface RunLength {
 
-    /**
-     * Maximum run length
-     */
-    public static final int LENGTH = 128;
+	/**
+	 * Maximum run length
+	 */
+	public static final int LENGTH = 128;
 
-    /**
-     * End of data code
-     */
-    public static final int EOD = 128;
+	/**
+	 * End of data code
+	 */
+	public static final int EOD = 128;
 
 }

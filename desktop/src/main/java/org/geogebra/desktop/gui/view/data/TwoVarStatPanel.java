@@ -20,8 +20,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class TwoVarStatPanel extends StatTable implements ActionListener,
-		TwoVarStatListener {
+public class TwoVarStatPanel extends StatTable
+		implements ActionListener, TwoVarStatListener {
 	private static final long serialVersionUID = 1L;
 	protected AppD app;
 	private Kernel kernel;

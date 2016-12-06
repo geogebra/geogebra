@@ -25,252 +25,252 @@ import org.freehep.util.io.TaggedOutputStream;
  */
 public class EMFOutputStream extends TaggedOutputStream {
 
-    private String application;
+	private String application;
 
-    private String name;
+	private String name;
 
-    private int recordCount;
+	private int recordCount;
 
-    private Rectangle imageBounds;
+	private Rectangle imageBounds;
 
-    private int version;
+	private int version;
 
-    private EMFHandleManager handles;
+	private EMFHandleManager handles;
 
-    private Dimension device;
+	private Dimension device;
 
-    public EMFOutputStream(OutputStream os, Rectangle imageBounds,
-            EMFHandleManager handles, String application, String name,
-            Dimension device, int version) throws IOException {
+	public EMFOutputStream(OutputStream os, Rectangle imageBounds,
+			EMFHandleManager handles, String application, String name,
+			Dimension device, int version) throws IOException {
 
-        // EMF is little-endian
-        super(os, new EMFTagSet(version), null, true);
-        this.recordCount = 0;
-        this.version = version;
-        this.imageBounds = imageBounds;
-        this.handles = handles;
-        this.application = application;
-        this.name = name;
-        this.device = device;
+		// EMF is little-endian
+		super(os, new EMFTagSet(version), null, true);
+		this.recordCount = 0;
+		this.version = version;
+		this.imageBounds = imageBounds;
+		this.handles = handles;
+		this.application = application;
+		this.name = name;
+		this.device = device;
 
-        // will be popped by close()
-        pushBuffer();
-    }
+		// will be popped by close()
+		pushBuffer();
+	}
 
-    public EMFOutputStream(OutputStream os, Rectangle imageBounds,
-            EMFHandleManager handles, String application, String name,
-            Dimension device) throws IOException {
+	public EMFOutputStream(OutputStream os, Rectangle imageBounds,
+			EMFHandleManager handles, String application, String name,
+			Dimension device) throws IOException {
 
-        this(os, imageBounds, handles, application, name, device, 1);
-    }
+		this(os, imageBounds, handles, application, name, device, 1);
+	}
 
-    public void close() throws IOException {
-        int len = popBuffer();
-        recordCount++;
-        // FIXME check this
-        EMFHeader header = new EMFHeader(EMFHeader.TYPE_WMF, imageBounds, getVersion(), 0, len,
-                recordCount, handles.maxHandlesUsed(), application, name,
-                device);
-        writeHeader(header);
-        append();
+	public void close() throws IOException {
+		int len = popBuffer();
+		recordCount++;
+		// FIXME check this
+		EMFHeader header = new EMFHeader(EMFHeader.TYPE_WMF, imageBounds,
+				getVersion(), 0, len, recordCount, handles.maxHandlesUsed(),
+				application, name, device);
+		writeHeader(header);
+		append();
 
-        super.close();
-    }
+		super.close();
+	}
 
-    // DWORD
-    public void writeDWORD(int i) throws IOException {
-        writeUnsignedInt(i);
-    }
+	// DWORD
+	public void writeDWORD(int i) throws IOException {
+		writeUnsignedInt(i);
+	}
 
-    // DWORD []
-    public void writeDWORD(int[] w) throws IOException {
-        for (int i = 0; i < w.length; i++) {
-            writeDWORD(w[i]);
-        }
-    }
+	// DWORD []
+	public void writeDWORD(int[] w) throws IOException {
+		for (int i = 0; i < w.length; i++) {
+			writeDWORD(w[i]);
+		}
+	}
 
-    // WORD
-    public void writeWORD(int s) throws IOException {
-        writeUnsignedShort(s);
-    }
+	// WORD
+	public void writeWORD(int s) throws IOException {
+		writeUnsignedShort(s);
+	}
 
-    public void writeFLOAT(float f) throws IOException {
-        writeFloat(f);
-    }
+	public void writeFLOAT(float f) throws IOException {
+		writeFloat(f);
+	}
 
-    public void writeCOLORREF(Color c) throws IOException {
-        writeByte(c.getRed());
-        writeByte(c.getGreen());
-        writeByte(c.getBlue());
-        // NOTE: if not 0x00 EMF does not display correctly in full screen mode.
-        writeByte(0x00);
-    }
+	public void writeCOLORREF(Color c) throws IOException {
+		writeByte(c.getRed());
+		writeByte(c.getGreen());
+		writeByte(c.getBlue());
+		// NOTE: if not 0x00 EMF does not display correctly in full screen mode.
+		writeByte(0x00);
+	}
 
-    // COLOR16
-    public void writeCOLOR16(Color c) throws IOException {
-        writeShort(c.getRed() << 8);
-        writeShort(c.getGreen() << 8);
-        writeShort(c.getBlue() << 8);
-        writeShort(c.getAlpha() << 8);
-    }
+	// COLOR16
+	public void writeCOLOR16(Color c) throws IOException {
+		writeShort(c.getRed() << 8);
+		writeShort(c.getGreen() << 8);
+		writeShort(c.getBlue() << 8);
+		writeShort(c.getAlpha() << 8);
+	}
 
 	public void writeCOLOR(Color c) throws IOException {
-        writeByte(c.getBlue());
-        writeByte(c.getGreen());
-        writeByte(c.getRed());
-        writeByte(c.getAlpha());
+		writeByte(c.getBlue());
+		writeByte(c.getGreen());
+		writeByte(c.getRed());
+		writeByte(c.getAlpha());
 	}
-	
-    public void writeXFORM(AffineTransform t) throws IOException {
-        writeFLOAT((float) t.getScaleX());
-        writeFLOAT((float) t.getShearY());
-        writeFLOAT((float) t.getShearX());
-        writeFLOAT((float) t.getScaleY());
-        writeFLOAT((float) t.getTranslateX());
-        writeFLOAT((float) t.getTranslateY());
-    }
 
-    // POINTS []
-    public void writePOINTS(Point[] p) throws IOException {
-        writePOINTS(p.length, p);
-    }
+	public void writeXFORM(AffineTransform t) throws IOException {
+		writeFLOAT((float) t.getScaleX());
+		writeFLOAT((float) t.getShearY());
+		writeFLOAT((float) t.getShearX());
+		writeFLOAT((float) t.getScaleY());
+		writeFLOAT((float) t.getTranslateX());
+		writeFLOAT((float) t.getTranslateY());
+	}
 
-    public void writePOINTS(int n, Point[] p) throws IOException {
-        for (int i = 0; i < n; i++) {
-            writePOINTS(p[i]);
-        }
-    }
+	// POINTS []
+	public void writePOINTS(Point[] p) throws IOException {
+		writePOINTS(p.length, p);
+	}
 
-    public void writePOINTS(Point p) throws IOException {
-        writeSHORT((short) p.x);
-        writeSHORT((short) p.y);
-    }
+	public void writePOINTS(int n, Point[] p) throws IOException {
+		for (int i = 0; i < n; i++) {
+			writePOINTS(p[i]);
+		}
+	}
 
-    // POINTL []
-    public void writePOINTL(Point[] p) throws IOException {
-        writePOINTL(p.length, p);
-    }
+	public void writePOINTS(Point p) throws IOException {
+		writeSHORT((short) p.x);
+		writeSHORT((short) p.y);
+	}
 
-    public void writePOINTL(int n, Point[] p) throws IOException {
-        for (int i = 0; i < n; i++) {
-            writePOINTL(p[i]);
-        }
-    }
+	// POINTL []
+	public void writePOINTL(Point[] p) throws IOException {
+		writePOINTL(p.length, p);
+	}
 
-    // POINTL
-    public void writePOINTL(Point p) throws IOException {
-        writeLONG(p.x);
-        writeLONG(p.y);
-    }
+	public void writePOINTL(int n, Point[] p) throws IOException {
+		for (int i = 0; i < n; i++) {
+			writePOINTL(p[i]);
+		}
+	}
 
-    // RECTL
-    public void writeRECTL(Rectangle r) throws IOException {
-        writeLONG(r.x);
-        writeLONG(r.y);
-        writeLONG(r.x + r.width);
-        writeLONG(r.y + r.height);
-    }
+	// POINTL
+	public void writePOINTL(Point p) throws IOException {
+		writeLONG(p.x);
+		writeLONG(p.y);
+	}
 
-    // SIZEL
-    public void writeSIZEL(Dimension d) throws IOException {
-        writeLONG(d.width);
-        writeLONG(d.height);
-    }
+	// RECTL
+	public void writeRECTL(Rectangle r) throws IOException {
+		writeLONG(r.x);
+		writeLONG(r.y);
+		writeLONG(r.x + r.width);
+		writeLONG(r.y + r.height);
+	}
 
-    // UINT
-    public void writeUINT(int i) throws IOException {
-        writeUnsignedInt(i);
-    }
+	// SIZEL
+	public void writeSIZEL(Dimension d) throws IOException {
+		writeLONG(d.width);
+		writeLONG(d.height);
+	}
 
-    // ULONG
-    public void writeULONG(int i) throws IOException {
-        writeUnsignedInt(i);
-    }
+	// UINT
+	public void writeUINT(int i) throws IOException {
+		writeUnsignedInt(i);
+	}
 
-    // LONG
-    public void writeLONG(int i) throws IOException {
-        writeInt(i);
-    }
+	// ULONG
+	public void writeULONG(int i) throws IOException {
+		writeUnsignedInt(i);
+	}
 
-    public void writeSHORT(short i) throws IOException {
-        writeShort(i);
-    }
+	// LONG
+	public void writeLONG(int i) throws IOException {
+		writeInt(i);
+	}
 
-    // BYTE []
-    public void writeBYTE(byte[] b) throws IOException {
-        writeByte(b);
-    }
+	public void writeSHORT(short i) throws IOException {
+		writeShort(i);
+	}
 
-    // BYTE
-    public void writeBYTE(byte b) throws IOException {
-        writeByte(b);
-    }
+	// BYTE []
+	public void writeBYTE(byte[] b) throws IOException {
+		writeByte(b);
+	}
 
-    // BYTE
-    public void writeBYTE(int b) throws IOException {
-        writeByte(b);
-    }
+	// BYTE
+	public void writeBYTE(byte b) throws IOException {
+		writeByte(b);
+	}
 
-    public void writeBYTE(boolean b) throws IOException {
-        writeBYTE((b) ? 1 : 0);
-    }
+	// BYTE
+	public void writeBYTE(int b) throws IOException {
+		writeByte(b);
+	}
 
-    public void writeWORD(boolean b) throws IOException {
-        writeWORD((b) ? 1 : 0);
-    }
+	public void writeBYTE(boolean b) throws IOException {
+		writeBYTE((b) ? 1 : 0);
+	}
 
-    public void writeDWORD(boolean b) throws IOException {
-        writeDWORD((b) ? 1 : 0);
-    }
+	public void writeWORD(boolean b) throws IOException {
+		writeWORD((b) ? 1 : 0);
+	}
 
-    public void writeWCHAR(String s) throws IOException {
-        writeByte(s.getBytes("UTF-16LE"));
-    }
+	public void writeDWORD(boolean b) throws IOException {
+		writeDWORD((b) ? 1 : 0);
+	}
 
-    public void writeWCHAR(String s, int size) throws IOException {
-        writeWCHAR(s);
-        for (int i = size - s.length(); i > 0; i--) {
-            writeWORD(0);
-        }
-    }
+	public void writeWCHAR(String s) throws IOException {
+		writeByte(s.getBytes("UTF-16LE"));
+	}
 
-    protected int getTagAlignment() {
-        return 4;
-    }
+	public void writeWCHAR(String s, int size) throws IOException {
+		writeWCHAR(s);
+		for (int i = size - s.length(); i > 0; i--) {
+			writeWORD(0);
+		}
+	}
 
-    protected TagHeader createTagHeader(Tag tag, long len) {
-        EMFTag emfTag = (EMFTag)tag;
-        return new EMFTagHeader(tag.getTag(), len, emfTag.getFlags());
-    }
-    
-    protected void writeTagHeader(TagHeader header) throws IOException {
-        EMFTagHeader tagHeader = (EMFTagHeader)header;
-        writeUnsignedInt(tagHeader.getTag() | (tagHeader.getFlags() << 16));
-        writeUnsignedInt(tagHeader.getLength() + 8);
-    }
+	protected int getTagAlignment() {
+		return 4;
+	}
 
-    public void writeTag(Tag tag) throws IOException {
-        // nest EMFPlusTags in GDIComments
-        if (tag instanceof EMFPlusTag) {
-            tag = new GDIComment((EMFPlusTag)tag);
-        }
-        writeTag(tag, true);
-    }
+	protected TagHeader createTagHeader(Tag tag, long len) {
+		EMFTag emfTag = (EMFTag) tag;
+		return new EMFTagHeader(tag.getTag(), len, emfTag.getFlags());
+	}
 
-    public void writeTag(Tag tag, boolean doNotEmbed) throws IOException {
-        recordCount++;
-        super.writeTag(tag);      
-    }
-    
-    protected void writeActionHeader(ActionHeader header) throws IOException {
-        // empty
-    }
+	protected void writeTagHeader(TagHeader header) throws IOException {
+		EMFTagHeader tagHeader = (EMFTagHeader) header;
+		writeUnsignedInt(tagHeader.getTag() | (tagHeader.getFlags() << 16));
+		writeUnsignedInt(tagHeader.getLength() + 8);
+	}
 
-    public void writeHeader(EMFHeader header) throws IOException {
-        header.write(this);
-    }
+	public void writeTag(Tag tag) throws IOException {
+		// nest EMFPlusTags in GDIComments
+		if (tag instanceof EMFPlusTag) {
+			tag = new GDIComment((EMFPlusTag) tag);
+		}
+		writeTag(tag, true);
+	}
 
-    public int getVersion() {
-        return version;
-    }
+	public void writeTag(Tag tag, boolean doNotEmbed) throws IOException {
+		recordCount++;
+		super.writeTag(tag);
+	}
+
+	protected void writeActionHeader(ActionHeader header) throws IOException {
+		// empty
+	}
+
+	public void writeHeader(EMFHeader header) throws IOException {
+		header.write(this);
+	}
+
+	public int getVersion() {
+		return version;
+	}
 }

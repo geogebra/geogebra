@@ -21,8 +21,8 @@ import org.geogebra.desktop.main.AppD;
  * @author gsturr
  * 
  */
-public class AlgebraViewTransferHandler extends TransferHandler implements
-		Transferable {
+public class AlgebraViewTransferHandler extends TransferHandler
+		implements Transferable {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	/** for transfering geos into AV */

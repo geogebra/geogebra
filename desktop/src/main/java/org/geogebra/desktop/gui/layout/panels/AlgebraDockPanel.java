@@ -20,51 +20,55 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class AlgebraDockPanel extends NavigableDockPanel {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
-	
+
 	/**
 	 * @param app
 	 */
 	public AlgebraDockPanel(AppD app) {
-		super(
-			App.VIEW_ALGEBRA,	// view id 
-			"AlgebraWindow", 			// view title phrase
-			null,						// toolbar string
-			true,						// style bar?
-			1, 							// menu order
-			'A'							// menu shortcut
+		super(App.VIEW_ALGEBRA, // view id
+				"AlgebraWindow", // view title phrase
+				null, // toolbar string
+				true, // style bar?
+				1, // menu order
+				'A' // menu shortcut
 		);
-		
+
 		this.app = app;
 	}
 
 	@Override
 	protected JComponent loadStyleBar() {
-		return ((AlgebraViewD) app.getGuiManager().getAlgebraView()).getHelperBar();
+		return ((AlgebraViewD) app.getGuiManager().getAlgebraView())
+				.getHelperBar();
 	}
-	
-	@Override
-	protected JComponent getViewPanel() {
-		JScrollPane scrollPane = new JScrollPane((Component) app.getGuiManager().getAlgebraView());
-		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		scrollPane.setBackground(Color.white);
-		
-		return scrollPane;
-	}
-	
 
 	@Override
-	protected void setActiveToolBar(){
-		//use the focused euclidian view for active toolbar
-		if(dockManager.getFocusedEuclidianPanel()==null || !dockManager.getFocusedEuclidianPanel().hasToolbar()) {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel().setActiveToolbar(-1);
+	protected JComponent getViewPanel() {
+		JScrollPane scrollPane = new JScrollPane(
+				(Component) app.getGuiManager().getAlgebraView());
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		scrollPane.setBackground(Color.white);
+
+		return scrollPane;
+	}
+
+	@Override
+	protected void setActiveToolBar() {
+		// use the focused euclidian view for active toolbar
+		if (dockManager.getFocusedEuclidianPanel() == null
+				|| !dockManager.getFocusedEuclidianPanel().hasToolbar()) {
+			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+					.setActiveToolbar(-1);
 		} else {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel().setActiveToolbar(dockManager.getFocusedEuclidianPanel().getToolbar());
+			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+					.setActiveToolbar(dockManager.getFocusedEuclidianPanel()
+							.getToolbar());
 		}
 	}
-	
+
 	@Override
-	public ImageIcon getIcon() { 
+	public ImageIcon getIcon() {
 		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
 	}
-	
+
 }

@@ -41,43 +41,38 @@ import java.util.Iterator;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Defs extends TransformableElement
-{
+public class Defs extends TransformableElement {
 
-    public static final String TAG_NAME = "defs";
+	public static final String TAG_NAME = "defs";
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Defs()
-    {
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Defs() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    /**
-     * Called after the start element but before the end element to indicate
-     * each child tag that has been processed
-     */
-    public void loaderAddChild(SVGLoaderHelper helper, SVGElement child) throws SVGElementException
-    {
-        super.loaderAddChild(helper, child);
+	/**
+	 * Called after the start element but before the end element to indicate
+	 * each child tag that has been processed
+	 */
+	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
+			throws SVGElementException {
+		super.loaderAddChild(helper, child);
 
-//        members.add(child);
-    }
+		// members.add(child);
+	}
 
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        boolean stateChange = false;
-        for (Iterator it = children.iterator(); it.hasNext();)
-        {
-            SVGElement ele = (SVGElement) it.next();
-            stateChange = stateChange || ele.updateTime(curTime);
-        }
+	public boolean updateTime(double curTime) throws SVGException {
+		boolean stateChange = false;
+		for (Iterator it = children.iterator(); it.hasNext();) {
+			SVGElement ele = (SVGElement) it.next();
+			stateChange = stateChange || ele.updateTime(curTime);
+		}
 
-        return super.updateTime(curTime) || stateChange;
-    }
+		return super.updateTime(curTime) || stateChange;
+	}
 }

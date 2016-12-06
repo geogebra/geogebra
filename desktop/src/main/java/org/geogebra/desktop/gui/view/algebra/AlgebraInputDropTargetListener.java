@@ -24,22 +24,19 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 	private JTextComponent textComp;
 
 	// supported data flavors
-	private static final DataFlavor supportedFlavors[] = { 
-		DataFlavor.javaFileListFlavor,
-		DataFlavor.stringFlavor,
-		AlgebraViewTransferHandler.algebraViewFlavor };
+	private static final DataFlavor supportedFlavors[] = {
+			DataFlavor.javaFileListFlavor, DataFlavor.stringFlavor,
+			AlgebraViewTransferHandler.algebraViewFlavor };
 
-	private boolean debug  = false;
+	private boolean debug = false;
 
 	private String textImport;
 	private String textExport;
 
-
-	public AlgebraInputDropTargetListener(AppD app, JTextComponent textComp){
+	public AlgebraInputDropTargetListener(AppD app, JTextComponent textComp) {
 		this.app = app;
 		this.textComp = textComp;
 	}
-
 
 	public void dragEnter(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub
@@ -65,46 +62,44 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 
 			// handle text
 			if (t.isDataFlavorSupported(DataFlavor.stringFlavor)) {
-				textImport = (String) t.getTransferData(DataFlavor.stringFlavor);
+				textImport = (String) t
+						.getTransferData(DataFlavor.stringFlavor);
 
 				// set the text and complete the drop
-				
+
 				textComp.replaceSelection(textImport);
-				
-				
+
 				dropEvent.dropComplete(textImport != null);
-				
-				
-				
+
 			}
 
-
 			// handle algebraView flavor
-			else if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)){
+			else if (t.isDataFlavorSupported(
+					AlgebraViewTransferHandler.algebraViewFlavor)) {
 
-				// get list of selected geo labels 
-				ArrayList<String> list = (ArrayList<String>) t
-				.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+				// get list of selected geo labels
+				ArrayList<String> list = (ArrayList<String>) t.getTransferData(
+						AlgebraViewTransferHandler.algebraViewFlavor);
 
 				// exit if empty list
-				if(list.size()==0) {
+				if (list.size() == 0) {
 					dropEvent.dropComplete(false);
 					return;
 				}
 
-				// if only one geo, get definition string 
-				if(list.size()==1){
+				// if only one geo, get definition string
+				if (list.size() == 1) {
 					GeoElement geo = app.getKernel().lookupLabel(list.get(0));
-					if(geo != null)
+					if (geo != null)
 						textImport = geo.getDefinitionForInputBar();
-					else{
+					else {
 						dropEvent.dropComplete(false);
 						return;
 					}
 				}
 
 				// if more than one geo, create list string
-				else{
+				else {
 					textImport = list.toString();
 					textImport = textImport.replace("]", "}");
 					textImport = textImport.replace("[", "{");
@@ -115,18 +110,15 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 				dropEvent.dropComplete(true);
 			}
 
-
 			// handle ggb file drop
 			else if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
-				((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
+				((GuiManagerD) app.getGuiManager()).handleGGBFileDrop(t);
 			}
 
 		} catch (UnsupportedFlavorException ignored) {
 		} catch (IOException ignored) {
 		}
 	}
-
-
 
 	public void dropActionChanged(DropTargetDragEvent dtde) {
 		// TODO Auto-generated method stub

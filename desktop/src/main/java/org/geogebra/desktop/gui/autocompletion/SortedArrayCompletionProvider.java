@@ -39,8 +39,8 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 
 	public List<T> getCompletionOptions(String prefix) {
 		// Proper case for prefix
-		final String prefixWithProperCase = caseInsensitiveCompletion ? prefix
-				.toLowerCase() : prefix;
+		final String prefixWithProperCase = caseInsensitiveCompletion
+				? prefix.toLowerCase() : prefix;
 
 		List<T> options = new ArrayList<T>();
 		for (T option : sortedCompletionOptions) {

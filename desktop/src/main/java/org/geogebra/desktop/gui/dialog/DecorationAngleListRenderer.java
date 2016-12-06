@@ -22,10 +22,10 @@ import org.geogebra.desktop.awt.GGraphics2DD;
  * 
  * 
  * 
- * */
+ */
 
-public class DecorationAngleListRenderer extends JPanel implements
-		ListCellRenderer {
+public class DecorationAngleListRenderer extends JPanel
+		implements ListCellRenderer {
 	private static final long serialVersionUID = 1L;
 	private Line2D.Double tick = new Line2D.Double();
 	private Arc2D.Double arc = new Arc2D.Double();

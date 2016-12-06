@@ -41,81 +41,68 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class FeDistantLight extends FeLight
-{
+public class FeDistantLight extends FeLight {
 
-    public static final String TAG_NAME = "fedistantlight";
-    float azimuth = 0f;
-    float elevation = 0f;
+	public static final String TAG_NAME = "fedistantlight";
+	float azimuth = 0f;
+	float elevation = 0f;
 
-    /**
-     * Creates a new instance of FillElement
-     */
-    public FeDistantLight()
-    {
-    }
+	/**
+	 * Creates a new instance of FillElement
+	 */
+	public FeDistantLight() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
-        String strn;
+		StyleAttribute sty = new StyleAttribute();
+		String strn;
 
-        if (getPres(sty.setName("azimuth")))
-        {
-            azimuth = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("azimuth"))) {
+			azimuth = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("elevation")))
-        {
-            elevation = sty.getFloatValueWithUnits();
-        }
-    }
+		if (getPres(sty.setName("elevation"))) {
+			elevation = sty.getFloatValueWithUnits();
+		}
+	}
 
-    public float getAzimuth()
-    {
-        return azimuth;
-    }
+	public float getAzimuth() {
+		return azimuth;
+	}
 
-    public float getElevation()
-    {
-        return elevation;
-    }
+	public float getElevation() {
+		return elevation;
+	}
 
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean stateChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean stateChange = false;
 
-        if (getPres(sty.setName("azimuth")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != azimuth)
-            {
-                azimuth = newVal;
-                stateChange = true;
-            }
-        }
+		if (getPres(sty.setName("azimuth"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != azimuth) {
+				azimuth = newVal;
+				stateChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("elevation")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != elevation)
-            {
-                elevation = newVal;
-                stateChange = true;
-            }
-        }
+		if (getPres(sty.setName("elevation"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != elevation) {
+				elevation = newVal;
+				stateChange = true;
+			}
+		}
 
-        return stateChange;
-    }
+		return stateChange;
+	}
 }

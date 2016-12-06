@@ -54,192 +54,162 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class MissingGlyph extends ShapeElement
-{
-    public static final String TAG_NAME = "missingglyph";
-    
-    //We may define a path
-    Shape path = null;
-    //Alternately, we may have child graphical elements
-    int horizAdvX = -1;  //Inherits font's value if not set
-    int vertOriginX = -1;  //Inherits font's value if not set
-    int vertOriginY = -1;  //Inherits font's value if not set
-    int vertAdvY = -1;  //Inherits font's value if not set
+public class MissingGlyph extends ShapeElement {
+	public static final String TAG_NAME = "missingglyph";
 
-    /**
-     * Creates a new instance of Font
-     */
-    public MissingGlyph()
-    {
-    }
+	// We may define a path
+	Shape path = null;
+	// Alternately, we may have child graphical elements
+	int horizAdvX = -1; // Inherits font's value if not set
+	int vertOriginX = -1; // Inherits font's value if not set
+	int vertOriginY = -1; // Inherits font's value if not set
+	int vertAdvY = -1; // Inherits font's value if not set
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of Font
+	 */
+	public MissingGlyph() {
+	}
 
-    /**
-     * Called after the start element but before the end element to indicate
-     * each child tag that has been processed
-     */
-    public void loaderAddChild(SVGLoaderHelper helper, SVGElement child) throws SVGElementException
-    {
-        super.loaderAddChild(helper, child);
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	/**
+	 * Called after the start element but before the end element to indicate
+	 * each child tag that has been processed
+	 */
+	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
+			throws SVGElementException {
+		super.loaderAddChild(helper, child);
+	}
 
-        StyleAttribute sty = new StyleAttribute();
+	protected void build() throws SVGException {
+		super.build();
 
-        String commandList = "";
-        if (getPres(sty.setName("d")))
-        {
-            commandList = sty.getStringValue();
-        }
+		StyleAttribute sty = new StyleAttribute();
 
+		String commandList = "";
+		if (getPres(sty.setName("d"))) {
+			commandList = sty.getStringValue();
+		}
 
-        //If glyph path was specified, calculate it
-        if (commandList != null)
-        {
-            String fillRule = getStyle(sty.setName("fill-rule")) ? sty.getStringValue() : "nonzero";
+		// If glyph path was specified, calculate it
+		if (commandList != null) {
+			String fillRule = getStyle(sty.setName("fill-rule"))
+					? sty.getStringValue() : "nonzero";
 
-            PathCommand[] commands = parsePathList(commandList);
+			PathCommand[] commands = parsePathList(commandList);
 
-            GeneralPath buildPath = new GeneralPath(
-                fillRule.equals("evenodd") ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO,
-                commands.length);
+			GeneralPath buildPath = new GeneralPath(fillRule.equals("evenodd")
+					? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO,
+					commands.length);
 
-            BuildHistory hist = new BuildHistory();
+			BuildHistory hist = new BuildHistory();
 
-            for (int i = 0; i < commands.length; i++)
-            {
-                PathCommand cmd = commands[i];
-                cmd.appendPath(buildPath, hist);
-            }
+			for (int i = 0; i < commands.length; i++) {
+				PathCommand cmd = commands[i];
+				cmd.appendPath(buildPath, hist);
+			}
 
-            //Reflect glyph path to put it in user coordinate system
-            AffineTransform at = new AffineTransform();
-            at.scale(1, -1);
-            path = at.createTransformedShape(buildPath);
-        }
+			// Reflect glyph path to put it in user coordinate system
+			AffineTransform at = new AffineTransform();
+			at.scale(1, -1);
+			path = at.createTransformedShape(buildPath);
+		}
 
+		// Read glyph spacing info
+		if (getPres(sty.setName("horiz-adv-x"))) {
+			horizAdvX = sty.getIntValue();
+		}
 
-        //Read glyph spacing info
-        if (getPres(sty.setName("horiz-adv-x")))
-        {
-            horizAdvX = sty.getIntValue();
-        }
+		if (getPres(sty.setName("vert-origin-x"))) {
+			vertOriginX = sty.getIntValue();
+		}
 
-        if (getPres(sty.setName("vert-origin-x")))
-        {
-            vertOriginX = sty.getIntValue();
-        }
+		if (getPres(sty.setName("vert-origin-y"))) {
+			vertOriginY = sty.getIntValue();
+		}
 
-        if (getPres(sty.setName("vert-origin-y")))
-        {
-            vertOriginY = sty.getIntValue();
-        }
+		if (getPres(sty.setName("vert-adv-y"))) {
+			vertAdvY = sty.getIntValue();
+		}
+	}
 
-        if (getPres(sty.setName("vert-adv-y")))
-        {
-            vertAdvY = sty.getIntValue();
-        }
-    }
+	public Shape getPath() {
+		return path;
+	}
 
-    public Shape getPath()
-    {
-        return path;
-    }
+	public void render(Graphics2D g) throws SVGException {
+		// Do not push or pop stack
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        //Do not push or pop stack
+		if (path != null) {
+			renderShape(g, path);
+		}
 
-        if (path != null)
-        {
-            renderShape(g, path);
-        }
+		Iterator it = children.iterator();
+		while (it.hasNext()) {
+			SVGElement ele = (SVGElement) it.next();
+			if (ele instanceof RenderableElement) {
+				((RenderableElement) ele).render(g);
+			}
+		}
 
-        Iterator it = children.iterator();
-        while (it.hasNext())
-        {
-            SVGElement ele = (SVGElement) it.next();
-            if (ele instanceof RenderableElement)
-            {
-                ((RenderableElement) ele).render(g);
-            }
-        }
+		// Do not push or pop stack
+	}
 
-        //Do not push or pop stack
-    }
+	public int getHorizAdvX() {
+		if (horizAdvX == -1) {
+			horizAdvX = ((Font) parent).getHorizAdvX();
+		}
+		return horizAdvX;
+	}
 
-    public int getHorizAdvX()
-    {
-        if (horizAdvX == -1)
-        {
-            horizAdvX = ((Font) parent).getHorizAdvX();
-        }
-        return horizAdvX;
-    }
+	public int getVertOriginX() {
+		if (vertOriginX == -1) {
+			vertOriginX = getHorizAdvX() / 2;
+		}
+		return vertOriginX;
+	}
 
-    public int getVertOriginX()
-    {
-        if (vertOriginX == -1)
-        {
-            vertOriginX = getHorizAdvX() / 2;
-        }
-        return vertOriginX;
-    }
+	public int getVertOriginY() {
+		if (vertOriginY == -1) {
+			vertOriginY = ((Font) parent).getFontFace().getAscent();
+		}
+		return vertOriginY;
+	}
 
-    public int getVertOriginY()
-    {
-        if (vertOriginY == -1)
-        {
-            vertOriginY = ((Font) parent).getFontFace().getAscent();
-        }
-        return vertOriginY;
-    }
+	public int getVertAdvY() {
+		if (vertAdvY == -1) {
+			vertAdvY = ((Font) parent).getFontFace().getUnitsPerEm();
+		}
+		return vertAdvY;
 
-    public int getVertAdvY()
-    {
-        if (vertAdvY == -1)
-        {
-            vertAdvY = ((Font) parent).getFontFace().getUnitsPerEm();
-        }
-        return vertAdvY;
+	}
 
-    }
+	public Shape getShape() {
+		if (path != null) {
+			return shapeToParent(path);
+		}
+		return null;
+	}
 
-    public Shape getShape()
-    {
-        if (path != null)
-        {
-            return shapeToParent(path);
-        }
-        return null;
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		if (path != null) {
+			return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
+		}
+		return null;
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        if (path != null)
-        {
-            return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
-        }
-        return null;
-    }
-
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        //Fonts can't change
-        return false;
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// Fonts can't change
+		return false;
+	}
 }

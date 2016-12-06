@@ -77,8 +77,9 @@ class ToolsMenuD extends BaseMenu {
 			}
 		};
 
-		showManageToolsAction = new AbstractAction(app.getMenu("Tool.Manage")
-				+ " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_PROPERTIES)) {
+		showManageToolsAction = new AbstractAction(
+				app.getMenu("Tool.Manage") + " ...",
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_PROPERTIES)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

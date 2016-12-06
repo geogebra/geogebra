@@ -36,8 +36,8 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 	public void keyReleased(KeyEvent e) {
 
-		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e
-				.isAltDown();
+		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown()
+				: e.isAltDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales

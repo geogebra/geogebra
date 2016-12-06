@@ -28,7 +28,8 @@ import org.geogebra.desktop.main.AppletImplementation;
 /**
  * GeoGebra applet
  * 
- * @see org.geogebra.desktop.main.AppletImplementation for the actual implementation
+ * @see org.geogebra.desktop.main.AppletImplementation for the actual
+ *      implementation
  * @author Markus Hohenwarter
  * @date 2008-10-24
  */
@@ -122,8 +123,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void stop() {
 		// stop animation and remember that it needs to be restarted later
 		if (appletImplementation != null) {
-			animationRunningAtLastStop = getGgbApi()
-					.isAnimationRunning();
+			animationRunningAtLastStop = getGgbApi().isAnimationRunning();
 			if (animationRunningAtLastStop) {
 				getGgbApi().stopAnimation();
 			}
@@ -445,14 +445,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized void registerObjectUpdateListener(String objName,
 			String JSFunctionName) {
-		getGgbApi().registerObjectUpdateListener(objName,
-				JSFunctionName);
+		getGgbApi().registerObjectUpdateListener(objName, JSFunctionName);
 	}
 
 	public synchronized void registerObjectClickListener(String objName,
 			String JSFunctionName) {
-		getGgbApi().registerObjectClickListener(objName,
-				JSFunctionName);
+		getGgbApi().registerObjectClickListener(objName, JSFunctionName);
 	}
 
 	public synchronized void registerRemoveListener(String JSFunctionName) {
@@ -493,8 +491,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		getGgbApi()
-				.hideCursorWhenDragging(hideCursorWhenDragging);
+		getGgbApi().hideCursorWhenDragging(hideCursorWhenDragging);
 	}
 
 	public synchronized boolean isAnimationRunning() {
@@ -505,14 +502,14 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().reset();
 	}
 
-	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {
+	public synchronized void setAxesVisible(boolean xVisible,
+			boolean yVisible) {
 		getGgbApi().setAxesVisible(xVisible, yVisible);
 	}
 
 	public synchronized void setAxesVisible(int view, boolean xVisible,
 			boolean yVisible, boolean zVisible) {
-		getGgbApi().setAxesVisible(view, xVisible, yVisible,
-				zVisible);
+		getGgbApi().setAxesVisible(view, xVisible, yVisible, zVisible);
 	}
 
 	public synchronized void setColor(String objName, int red, int green,
@@ -742,7 +739,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public int getCASObjectNumber() {
 		return getGgbApi().getCASObjectNumber();
 	}
-	
+
 	public synchronized int getMode() {
 		return getGgbApi().getMode();
 	}

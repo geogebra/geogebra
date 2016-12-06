@@ -30,7 +30,7 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 	public EuclidianDockPanelForPlaneD(AppD app, EuclidianViewForPlaneD view) {
 		super(viewId, // view id
 				"GraphicsViewForPlaneA", // view title
-				ToolBar.getAllToolsNoMacrosForPlane(),// toolbar string
+				ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
 				true, // style bar?
 				-1, // menu order
 				'P');
@@ -80,10 +80,9 @@ public class EuclidianDockPanelForPlaneD extends EuclidianDockPanelAbstract {
 
 	@Override
 	public DockPanelData createInfo() {
-		return new DockPanelData(id, toolbarString, visible,
-				openInFrame, showStyleBar, new GRectangleD(
-						frameBounds), embeddedDef, embeddedSize,
-				view.getFromPlaneString());
+		return new DockPanelData(id, toolbarString, visible, openInFrame,
+				showStyleBar, new GRectangleD(frameBounds), embeddedDef,
+				embeddedSize, view.getFromPlaneString());
 	}
 
 	public static void resetIds() {

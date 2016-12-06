@@ -59,8 +59,8 @@ public class AngleInputDialog extends InputDialogD {
 		rbPanel.add(rbClockWise, BorderLayout.SOUTH);
 		rbPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 0));
 
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true,
-				false, false, false, DialogType.GeoGebraEditor);
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
+				false, false, DialogType.GeoGebraEditor);
 		JPanel centerPanel = new JPanel(new BorderLayout());
 		centerPanel.add(inputPanel, BorderLayout.CENTER);
 		centerPanel.add(rbPanel, BorderLayout.SOUTH);

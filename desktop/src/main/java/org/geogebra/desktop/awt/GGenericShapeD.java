@@ -23,9 +23,8 @@ public class GGenericShapeD implements GShapeD {
 		if (s instanceof GShapeD)
 			return ((GShapeD) s).getAwtShape();
 		if (s instanceof GeneralPathClipped)
-			return GGeneralPathD
-					.getAwtGeneralPath(((GeneralPathClipped) s)
-							.getGeneralPath());
+			return GGeneralPathD.getAwtGeneralPath(
+					((GeneralPathClipped) s).getGeneralPath());
 		if (s != null) {
 			Log.error("other type " + s);
 		}
@@ -50,8 +49,7 @@ public class GGenericShapeD implements GShapeD {
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {
@@ -67,17 +65,13 @@ public class GGenericShapeD implements GShapeD {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(
-impl.getPathIterator(
-				GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(
-				impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+		return new GPathIteratorD(impl.getPathIterator(
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {

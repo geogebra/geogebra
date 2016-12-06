@@ -10,8 +10,8 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 
-public class MyFormattedTextField extends JFormattedTextField implements
-		FocusListener, VirtualKeyboardListener {
+public class MyFormattedTextField extends JFormattedTextField
+		implements FocusListener, VirtualKeyboardListener {
 
 	private static final long serialVersionUID = 1L;
 

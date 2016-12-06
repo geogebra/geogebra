@@ -10,7 +10,6 @@ the Free Software Foundation.
 
  */
 
-
 package org.geogebra.desktop.gui;
 
 import java.awt.event.ActionEvent;
@@ -133,8 +132,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		};
 		JCheckBoxMenuItem cbShowConstructionStep = new JCheckBoxMenuItem(
 				showConstructionStep);
-		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
-				.getActiveEuclidianView().getViewID()));
+		cbShowConstructionStep.setSelected(app.showConsProtNavigation(
+				app.getActiveEuclidianView().getViewID()));
 		cbShowConstructionStep.setBackground(wrappedPopup.getBackground());
 		wrappedPopup.add(cbShowConstructionStep);
 
@@ -173,17 +172,15 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	void toggleShowConstructionProtocolNavigation() {
-		((AppD) app).toggleShowConstructionProtocolNavigation(app
-				.getActiveEuclidianView().getViewID());
+		((AppD) app).toggleShowConstructionProtocolNavigation(
+				app.getActiveEuclidianView().getViewID());
 	}
 
 	protected void addMiProperties() {
 		JMenuItem miProperties = new JMenuItem(
-				loc.getMenu("DrawingPad")
-				+ " ...");
-		miProperties
-.setIcon(((AppD) app)
-				.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
+				loc.getMenu("DrawingPad") + " ...");
+		miProperties.setIcon(
+				((AppD) app).getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		miProperties.setActionCommand("properties");
 		miProperties.addActionListener(this);
 		miProperties.setBackground(bgColor);
@@ -229,8 +226,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 	protected void showOptionsDialog() {
 		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-		((GuiManagerD) app.getGuiManager()).setFocusedPanel(app
-				.getActiveEuclidianView().getViewID(), true);
+		((GuiManagerD) app.getGuiManager()).setFocusedPanel(
+				app.getActiveEuclidianView().getViewID(), true);
 		// app.getDialogManager().showOptionsDialog(OptionsDialog.TAB_EUCLIDIAN);
 		// app.getGuiManager().showDrawingPadPropertiesDialog();
 	}

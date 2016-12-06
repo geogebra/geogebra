@@ -6,7 +6,6 @@ import java.util.Date;
 import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 
-
 /**
  * Utility functions for the PDFWriter. This class handles escaping of strings,
  * formatting of dates, ...
@@ -17,29 +16,29 @@ import org.geogebra.common.kernel.commands.CmdGetTime;
  */
 public class PDFUtil implements PDFConstants {
 
-    // static class
-    private PDFUtil() {
-    }
+	// static class
+	private PDFUtil() {
+	}
 
-    public static String escape(String string) {
-        StringBuffer escape = new StringBuffer();
+	public static String escape(String string) {
+		StringBuffer escape = new StringBuffer();
 
-        for (int i = 0; i < string.length(); i++) {
-            char c = string.charAt(i);
-            switch (c) {
-            case '(':
-            case ')':
-            case '\\':
-                escape.append('\\');
-                escape.append(c);
-                break;
-            default:
-                escape.append(c);
-                break;
-            }
-        }
-        return escape.toString();
-    }
+		for (int i = 0; i < string.length(); i++) {
+			char c = string.charAt(i);
+			switch (c) {
+			case '(':
+			case ')':
+			case '\\':
+				escape.append('\\');
+				escape.append(c);
+				break;
+			default:
+				escape.append(c);
+				break;
+			}
+		}
+		return escape.toString();
+	}
 
 	public static String date(Date date) {
 
@@ -76,13 +75,13 @@ public class PDFUtil implements PDFConstants {
 
 		// return "(D:" + dateFormat.format(date.getTime()) + tz + ")";
 		return "(D:" + now + tz + ")";
-    }
+	}
 
-    private static final ScientificFormat scientific = new ScientificFormat(5,
-            100, false);
+	private static final ScientificFormat scientific = new ScientificFormat(5,
+			100, false);
 
-    public static String fixedPrecision(double v) {
-        return scientific.format(v);
-    }
+	public static String fixedPrecision(double v) {
+		return scientific.format(v);
+	}
 
 }

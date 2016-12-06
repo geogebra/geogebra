@@ -52,84 +52,79 @@ import com.kitfox.svg.SVGConst;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class PatternPaintContext implements PaintContext
-{
-    BufferedImage source;  //Image we're rendering from
-    Rectangle deviceBounds;  //int size of rectangle we're rendering to
-//    AffineTransform userXform;  //xform from user space to device space
-//    AffineTransform distortXform;  //distortion applied to this pattern
+public class PatternPaintContext implements PaintContext {
+	BufferedImage source; // Image we're rendering from
+	Rectangle deviceBounds; // int size of rectangle we're rendering to
+	// AffineTransform userXform; //xform from user space to device space
+	// AffineTransform distortXform; //distortion applied to this pattern
 
-    AffineTransform xform;  //distortion applied to this pattern
+	AffineTransform xform; // distortion applied to this pattern
 
-    int sourceWidth;
-    int sourceHeight;
+	int sourceWidth;
+	int sourceHeight;
 
-    //Raster we use to build tile
-    BufferedImage buf;
+	// Raster we use to build tile
+	BufferedImage buf;
 
-    /** Creates a new instance of PatternPaintContext */
-    public PatternPaintContext(BufferedImage source, Rectangle deviceBounds, AffineTransform userXform, AffineTransform distortXform)
-    {
-//System.err.println("Bounds " + deviceBounds);
-        this.source = source;
-        this.deviceBounds = deviceBounds;
-        try {
-//            this.distortXform = distortXform.createInverse();
-//            this.userXform = userXform.createInverse();
+	/** Creates a new instance of PatternPaintContext */
+	public PatternPaintContext(BufferedImage source, Rectangle deviceBounds,
+			AffineTransform userXform, AffineTransform distortXform) {
+		// System.err.println("Bounds " + deviceBounds);
+		this.source = source;
+		this.deviceBounds = deviceBounds;
+		try {
+			// this.distortXform = distortXform.createInverse();
+			// this.userXform = userXform.createInverse();
 
-//            xform = userXform.createInverse();
-//            xform.concatenate(distortXform.createInverse());
-            xform = distortXform.createInverse();
-            xform.concatenate(userXform.createInverse());
-        }
-        catch (Exception e) 
-        {
-            Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-        }
+			// xform = userXform.createInverse();
+			// xform.concatenate(distortXform.createInverse());
+			xform = distortXform.createInverse();
+			xform.concatenate(userXform.createInverse());
+		} catch (Exception e) {
+			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
+		}
 
-        sourceWidth = source.getWidth();
-        sourceHeight = source.getHeight();
-    }
+		sourceWidth = source.getWidth();
+		sourceHeight = source.getHeight();
+	}
 
-    public void dispose() {
-    }
+	public void dispose() {
+	}
 
-    public ColorModel getColorModel() {
-        return source.getColorModel();
-    }
+	public ColorModel getColorModel() {
+		return source.getColorModel();
+	}
 
-    public Raster getRaster(int x, int y, int w, int h)
-    {
-//System.err.println("" + x + ", " + y + ", " + w + ", " + h);
-        if (buf == null || buf.getWidth() != w || buf.getHeight() != h)
-        {
-            buf = new BufferedImage(w, h, source.getType());
-        }
+	public Raster getRaster(int x, int y, int w, int h) {
+		// System.err.println("" + x + ", " + y + ", " + w + ", " + h);
+		if (buf == null || buf.getWidth() != w || buf.getHeight() != h) {
+			buf = new BufferedImage(w, h, source.getType());
+		}
 
-//        Point2D.Float srcPt = new Point2D.Float(), srcPt2 = new Point2D.Float(), destPt = new Point2D.Float();
-        Point2D.Float srcPt = new Point2D.Float(), destPt = new Point2D.Float();
-        for (int j = 0; j < h; j++)
-        {
-            for (int i = 0; i < w; i++)
-            {
-                destPt.setLocation(i + x, j + y);
+		// Point2D.Float srcPt = new Point2D.Float(), srcPt2 = new
+		// Point2D.Float(), destPt = new Point2D.Float();
+		Point2D.Float srcPt = new Point2D.Float(), destPt = new Point2D.Float();
+		for (int j = 0; j < h; j++) {
+			for (int i = 0; i < w; i++) {
+				destPt.setLocation(i + x, j + y);
 
-                xform.transform(destPt, srcPt);
+				xform.transform(destPt, srcPt);
 
-//                userXform.transform(destPt, srcPt2);
-//                distortXform.transform(srcPt2, srcPt);
+				// userXform.transform(destPt, srcPt2);
+				// distortXform.transform(srcPt2, srcPt);
 
-                int ii = ((int)srcPt.x) % sourceWidth;
-                if (ii < 0) ii += sourceWidth;
-                int jj = ((int)srcPt.y) % sourceHeight;
-                if (jj < 0) jj += sourceHeight;
+				int ii = ((int) srcPt.x) % sourceWidth;
+				if (ii < 0)
+					ii += sourceWidth;
+				int jj = ((int) srcPt.y) % sourceHeight;
+				if (jj < 0)
+					jj += sourceHeight;
 
-                buf.setRGB(i, j, source.getRGB(ii, jj));
-            }
-        }
+				buf.setRGB(i, j, source.getRGB(ii, jj));
+			}
+		}
 
-        return buf.getData();
-    }
-
+		return buf.getData();
+	}
 
 }

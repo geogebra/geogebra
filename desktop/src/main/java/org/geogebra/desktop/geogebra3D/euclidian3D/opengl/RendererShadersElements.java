@@ -63,5 +63,4 @@ public class RendererShadersElements extends RendererShaders {
 		return 0;
 	}
 
-
 }

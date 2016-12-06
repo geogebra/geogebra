@@ -26,8 +26,8 @@ import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 
-public class ColorPopupMenuButton extends PopupMenuButton implements
-		ActionListener {
+public class ColorPopupMenuButton extends PopupMenuButton
+		implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -75,9 +75,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 	}
 
 	public void updateColorTable() {
-		getMyTable().populateModel(
-				getColorSwatchIcons(colorSet, getSliderValue() / 100f,
-						iconSize, colorSetType));
+		getMyTable().populateModel(getColorSwatchIcons(colorSet,
+				getSliderValue() / 100f, iconSize, colorSetType));
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -146,16 +145,15 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 			if (colorSet[i] == null) {
 				toolTipArray[i] = app.getMenu("Transparent");
 			} else {
-				toolTipArray[i] = GeoGebraColorConstants.getGeogebraColorName(
-						app, colorSet[i]);
+				toolTipArray[i] = GeoGebraColorConstants
+						.getGeogebraColorName(app, colorSet[i]);
 			}
 		}
 		return toolTipArray;
 	}
 
 	private static ImageIcon[] getColorSwatchIcons(GColor[] colorArray,
-			float alpha,
-			Dimension iconSize, int colorSetType) {
+			float alpha, Dimension iconSize, int colorSetType) {
 		ImageIcon[] a = new ImageIcon[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++)
 			if (colorArray[i] != null) {
@@ -172,8 +170,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements
 
 		ImageIcon[] a = new ImageIcon[27];
 		for (int i = 0; i < 27; i++) {
-			a[i] = GeoGebraIconD
-					.createEmptyIcon(iconSize.width, iconSize.height);
+			a[i] = GeoGebraIconD.createEmptyIcon(iconSize.width,
+					iconSize.height);
 		}
 		return a;
 	}

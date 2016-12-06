@@ -47,119 +47,103 @@ import com.kitfox.svg.xml.XMLParseUtil;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Polygon extends ShapeElement
-{
-    public static final String TAG_NAME = "polygon";
+public class Polygon extends ShapeElement {
+	public static final String TAG_NAME = "polygon";
 
-    int fillRule = GeneralPath.WIND_NON_ZERO;
-    String pointsStrn = "";
-    GeneralPath path;
+	int fillRule = GeneralPath.WIND_NON_ZERO;
+	String pointsStrn = "";
+	GeneralPath path;
 
-    /**
-     * Creates a new instance of Rect
-     */
-    public Polygon()
-    {
-    }
+	/**
+	 * Creates a new instance of Rect
+	 */
+	public Polygon() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("points")))
-        {
-            pointsStrn = sty.getStringValue();
-        }
+		if (getPres(sty.setName("points"))) {
+			pointsStrn = sty.getStringValue();
+		}
 
-        String fillRuleStrn = getStyle(sty.setName("fill-rule")) ? sty.getStringValue() : "nonzero";
-        fillRule = fillRuleStrn.equals("evenodd") ? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO;
+		String fillRuleStrn = getStyle(sty.setName("fill-rule"))
+				? sty.getStringValue() : "nonzero";
+		fillRule = fillRuleStrn.equals("evenodd") ? GeneralPath.WIND_EVEN_ODD
+				: GeneralPath.WIND_NON_ZERO;
 
-        buildPath();
-    }
+		buildPath();
+	}
 
-    protected void buildPath()
-    {
-        float[] points = XMLParseUtil.parseFloatList(pointsStrn);
-        path = new GeneralPath(fillRule, points.length / 2);
+	protected void buildPath() {
+		float[] points = XMLParseUtil.parseFloatList(pointsStrn);
+		path = new GeneralPath(fillRule, points.length / 2);
 
-        path.moveTo(points[0], points[1]);
-        for (int i = 2; i < points.length; i += 2)
-        {
-            path.lineTo(points[i], points[i + 1]);
-        }
-        path.closePath();
-    }
+		path.moveTo(points[0], points[1]);
+		for (int i = 2; i < points.length; i += 2) {
+			path.lineTo(points[i], points[i + 1]);
+		}
+		path.closePath();
+	}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, path);
-        finishLayer(g);
-    }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, path);
+		finishLayer(g);
+	}
 
-    public Shape getShape()
-    {
-        return shapeToParent(path);
-    }
+	public Shape getShape() {
+		return shapeToParent(path);
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(path.getBounds2D()));
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getStyle(sty.setName("fill-rule")))
-        {
-            int newVal = sty.getStringValue().equals("evenodd")
-                ? GeneralPath.WIND_EVEN_ODD
-                : GeneralPath.WIND_NON_ZERO;
-            if (newVal != fillRule)
-            {
-                fillRule = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getStyle(sty.setName("fill-rule"))) {
+			int newVal = sty.getStringValue().equals("evenodd")
+					? GeneralPath.WIND_EVEN_ODD : GeneralPath.WIND_NON_ZERO;
+			if (newVal != fillRule) {
+				fillRule = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("points")))
-        {
-            String newVal = sty.getStringValue();
-            if (!newVal.equals(pointsStrn))
-            {
-                pointsStrn = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("points"))) {
+			String newVal = sty.getStringValue();
+			if (!newVal.equals(pointsStrn)) {
+				pointsStrn = newVal;
+				shapeChange = true;
+			}
+		}
 
+		if (shapeChange) {
+			build();
+			// buildPath();
+			// return true;
+		}
 
-        if (shapeChange)
-        {
-            build();
-//            buildPath();
-//            return true;
-        }
-
-        return changeState || shapeChange;
-    }
+		return changeState || shapeChange;
+	}
 }

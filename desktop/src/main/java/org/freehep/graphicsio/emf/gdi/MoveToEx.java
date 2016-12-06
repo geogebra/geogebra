@@ -16,34 +16,34 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class MoveToEx extends EMFTag {
 
-    private Point point;
+	private Point point;
 
-    public MoveToEx() {
-        super(27, 1);
-    }
+	public MoveToEx() {
+		super(27, 1);
+	}
 
-    public MoveToEx(Point point) {
-        this();
-        this.point = point;
-    }
+	public MoveToEx(Point point) {
+		this();
+		this.point = point;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        MoveToEx tag = new MoveToEx(emf.readPOINTL());
-        return tag;
-    }
+		MoveToEx tag = new MoveToEx(emf.readPOINTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writePOINTL(point);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writePOINTL(point);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  point: " + point;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  point: " + point;
+	}
 
-    public Point getPoint() {
-        return point;
-    }
+	public Point getPoint() {
+		return point;
+	}
 
 }

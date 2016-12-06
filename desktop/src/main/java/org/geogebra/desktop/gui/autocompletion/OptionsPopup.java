@@ -187,8 +187,8 @@ public class OptionsPopup<T> {
 
 	private void updateText() {
 		T option = (T) list.getSelectedValue();
-		String text = option == null ? userInput : completionProvider
-				.toString(option);
+		String text = option == null ? userInput
+				: completionProvider.toString(option);
 		Document d = textField.getDocument();
 		d.removeDocumentListener(documentListener);
 		textField.setText(text);

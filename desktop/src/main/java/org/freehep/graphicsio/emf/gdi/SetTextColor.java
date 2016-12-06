@@ -16,33 +16,33 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetTextColor extends EMFTag {
 
-    private Color color;
+	private Color color;
 
-    public SetTextColor() {
-        super(24, 1);
-    }
+	public SetTextColor() {
+		super(24, 1);
+	}
 
-    public SetTextColor(Color color) {
-        this();
-        this.color = color;
-    }
+	public SetTextColor(Color color) {
+		this();
+		this.color = color;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetTextColor tag = new SetTextColor(emf.readCOLORREF());
-        return tag;
-    }
+		SetTextColor tag = new SetTextColor(emf.readCOLORREF());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeCOLORREF(color);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeCOLORREF(color);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  color: " + color;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  color: " + color;
+	}
 
-    public Color getColor() {
-        return color;
-    }
+	public Color getColor() {
+		return color;
+	}
 }

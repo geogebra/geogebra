@@ -82,8 +82,7 @@ public class GAreaD implements GArea, GShapeD {
 	}
 
 	public boolean contains(GRectangle2D rectangle) {
-		return impl.contains(GRectangleD
-				.getAWTRectangle2D(rectangle));
+		return impl.contains(GRectangleD.getAWTRectangle2D(rectangle));
 	}
 
 	public boolean contains(double xTry, double yTry) {
@@ -96,14 +95,12 @@ public class GAreaD implements GArea, GShapeD {
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD
-						.getAwtAffineTransform(affineTransform)));
+				GAffineTransformD.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
 		return new GPathIteratorD(impl.getPathIterator(
-				GAffineTransformD.getAwtAffineTransform(at),
-				flatness));
+				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 
 	public boolean intersects(double x, double y, double w, double h) {

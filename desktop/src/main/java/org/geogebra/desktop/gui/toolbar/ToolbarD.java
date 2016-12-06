@@ -186,11 +186,11 @@ public class ToolbarD extends JToolBar {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
-				toolbarVec = ToolBar.parseToolbarString(dockPanel
-						.getToolbarString());
+				toolbarVec = ToolBar
+						.parseToolbarString(dockPanel.getToolbarString());
 			} else {
-				toolbarVec = ToolBar.parseToolbarString(app.getGuiManager()
-						.getToolbarDefinition());
+				toolbarVec = ToolBar.parseToolbarString(
+						app.getGuiManager().getToolbarDefinition());
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
@@ -207,8 +207,8 @@ public class ToolbarD extends JToolBar {
 		boolean firstButton = true;
 
 		// make the loop go backwards for eg Hebrew / Arabic
-		int first = app.getLocalization().isRightToLeftReadingOrder() ? toolbarVec
-				.size() - 1 : 0;
+		int first = app.getLocalization().isRightToLeftReadingOrder()
+				? toolbarVec.size() - 1 : 0;
 		int increment = app.getLocalization().isRightToLeftReadingOrder() ? -1
 				: 1;
 

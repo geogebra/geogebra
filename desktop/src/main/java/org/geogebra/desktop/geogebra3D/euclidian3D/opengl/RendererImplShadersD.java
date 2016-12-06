@@ -44,12 +44,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 	 * @param jogl
 	 *            java openGL implementation
 	 */
-	public RendererImplShadersD(Renderer renderer,
-			EuclidianView3D view,
+	public RendererImplShadersD(Renderer renderer, EuclidianView3D view,
 			RendererJogl jogl) {
 		super(renderer, view);
 		this.jogl = jogl;
-		Log.debug("============== RendererImplShadersD: Renderer with shaders created (shaders checked ok)");
+		Log.debug(
+				"============== RendererImplShadersD: Renderer with shaders created (shaders checked ok)");
 
 	}
 
@@ -58,33 +58,27 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return jogl.getGL2ES2();
 	}
 
-
 	// private int normalMatrixLocation;
-
 
 	private int[] vboHandles;
 
-
 	private String loadTextFile(String file) {
 
-		return ((AppD) view3D.getApplication())
-				.loadTextFile("/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/" + file
-						+ ".txt");
+		return ((AppD) view3D.getApplication()).loadTextFile(
+				"/org/geogebra/desktop/geogebra3D/euclidian3D/opengl/shaders/"
+						+ file + ".txt");
 	}
 
 	@Override
 	final protected void compileShadersProgram() {
 
-
 		String vertexShaderString, fragmentShaderString;
 
 		vertexShaderString = VertexShader.getVertexShaderShiny(false);
-			// vertexShaderString = loadTextFile("vertexShaderSpecular");
+		// vertexShaderString = loadTextFile("vertexShaderSpecular");
 		fragmentShaderString = FragmentShader.getFragmentShaderShiny(0.2f,
-					false);
-			// fragmentShaderString = loadTextFile("fragmentShaderSpecular");
-
-
+				false);
+		// fragmentShaderString = loadTextFile("fragmentShaderSpecular");
 
 		if (jogl.getGL2ES2().isGL3core()) {
 			Log.debug(
@@ -95,10 +89,10 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		// Create GPU shader handles
 		// OpenGL ES returns an index id to be stored for future reference.
-		vertShader = jogl.getGL2ES2().glCreateShader(
-				javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
-		fragShader = jogl.getGL2ES2().glCreateShader(
-				javax.media.opengl.GL2ES2.GL_FRAGMENT_SHADER);
+		vertShader = jogl.getGL2ES2()
+				.glCreateShader(javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
+		fragShader = jogl.getGL2ES2()
+				.glCreateShader(javax.media.opengl.GL2ES2.GL_FRAGMENT_SHADER);
 
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
@@ -108,15 +102,13 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		int[] vlengths = new int[] { vlines[0].length() };
 		jogl.getGL2ES2().glShaderSource((Integer) vertShader, vlines.length,
-				vlines,
-				vlengths, 0);
+				vlines, vlengths, 0);
 		jogl.getGL2ES2().glCompileShader((Integer) vertShader);
 
 		// Check compile status.
 		int[] compiled = new int[1];
 		jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
-				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
-				compiled, 0);
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
@@ -126,8 +118,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog((Integer) vertShader,
-					logLength[0],
-					(int[]) null, 0, log, 0);
+					logLength[0], (int[]) null, 0, log, 0);
 
 			try {
 				Log.error("Error compiling the vertex shader: "
@@ -142,14 +133,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 		String[] flines = new String[] { fragmentShaderString };
 		int[] flengths = new int[] { flines[0].length() };
 		jogl.getGL2ES2().glShaderSource((Integer) fragShader, flines.length,
-				flines,
-				flengths, 0);
+				flines, flengths, 0);
 		jogl.getGL2ES2().glCompileShader((Integer) fragShader);
 
 		// Check compile status.
 		jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
-				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
-				compiled, 0);
+				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Fragment shader compiled");
 		} else {
@@ -159,8 +148,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog((Integer) fragShader,
-					logLength[0],
-					(int[]) null, 0, log, 0);
+					logLength[0], (int[]) null, 0, log, 0);
 
 			try {
 				Log.error("Error compiling the fragment shader: "
@@ -170,8 +158,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 			}
 			AppD.exit(1);
 		}
-
-
 
 	}
 
@@ -203,8 +189,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 				name);
 	}
 
-
-
 	@Override
 	final protected void createVBOs() {
 		vboHandles = new int[5];
@@ -222,7 +206,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		vboIndices.set(vboHandles[GLSL_ATTRIB_INDEX]);
 	}
 
-
 	@Override
 	final protected void createBufferFor(GPUBuffer buffer) {
 		int[] b = new int[1];
@@ -230,15 +213,13 @@ public class RendererImplShadersD extends RendererImplShaders {
 		buffer.set(b[0]);
 	}
 
-
 	@Override
 	final protected int getStoreBufferNumBytes(int length, int size) {
 		return length * size * 4; // 4 bytes per float
 	}
 
 	@Override
-	public void storeElementBuffer(short[] fb, int length,
-			GPUBuffer buffers) {
+	public void storeElementBuffer(short[] fb, int length, GPUBuffer buffers) {
 		// Select the VBO, GPU memory data
 		bindBufferForIndices(buffers);
 
@@ -248,7 +229,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
 
 	}
-
 
 	@Override
 	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
@@ -265,11 +245,10 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return GL.GL_ARRAY_BUFFER;
 	}
 
-
 	@Override
 	protected void vertexAttribPointer(int attrib, int size) {
-		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL.GL_FLOAT,
-				false, 0, 0);
+		jogl.getGL2ES2().glVertexAttribPointer(attrib, size, GL.GL_FLOAT, false,
+				0, 0);
 	}
 
 	@Override
@@ -278,21 +257,14 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	protected void glUniform3f(Object location, float x, float y,
-			float z){
+	protected void glUniform3f(Object location, float x, float y, float z) {
 		jogl.getGL2ES2().glUniform3f((Integer) location, x, y, z);
 	}
-
-
-
-
 
 	@Override
 	protected void glEnableVertexAttribArray(int attrib) {
 		jogl.getGL2ES2().glEnableVertexAttribArray(attrib);
 	}
-
-
 
 	@Override
 	protected void glBufferData(int numBytes, GLBuffer fb) {
@@ -308,7 +280,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 				RendererJogl.GL_STREAM_DRAW);
 
 	}
-
 
 	@Override
 	public void draw(Manager.Type type, int length) {
@@ -335,13 +306,11 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return 0;
 	}
 
-
 	@Override
 	protected final void glUniformMatrix4fv(Object location, float[] values) {
 		jogl.getGL2ES2().glUniformMatrix4fv((Integer) location, 1, false,
 				values, 0);
 	}
-
 
 	@Override
 	final protected void glUseProgram(Object program) {
@@ -390,7 +359,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void glDetachAndDeleteShader(Object program, Object shader) {
+	final protected void glDetachAndDeleteShader(Object program,
+			Object shader) {
 		jogl.getGL2ES2().glDetachShader((Integer) program, (Integer) shader);
 		jogl.getGL2ES2().glDeleteShader((Integer) shader);
 	}
@@ -401,12 +371,10 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	@Override
-	final protected void glUniform4f(Object location, float a, float b,
-			float c,
+	final protected void glUniform4f(Object location, float a, float b, float c,
 			float d) {
 		jogl.getGL2ES2().glUniform4f((Integer) location, a, b, c, d);
 	}
-
 
 	@Override
 	final protected void glUniform4fv(Object location, float[] values) {
@@ -423,7 +391,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 		getGL().glEnable(GLLightingFunc.GL_COLOR_MATERIAL);
 
 	}
-	
+
 	@Override
 	protected void glViewPort(int width, int height) {
 		jogl.getGL2ES2().glViewport(0, 0, width, height);
@@ -433,7 +401,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	public Manager createManager() {
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
-
 
 	@Override
 	protected void glUniform1i(Object location, int value) {
@@ -450,7 +417,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 		return Renderer.LIGHT_POSITION_D;
 	}
 
-
 	@Override
 	final protected void glCullFace(int flag) {
 		getGL().glCullFace(flag);
@@ -465,7 +431,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	final protected int getGL_BACK() {
 		return GLlocal.GL_BACK;
 	}
-
 
 	@Override
 	public void setBufferLeft() {
@@ -490,7 +455,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	final protected void glDepthMask(boolean flag) {
 		getGL().glDepthMask(flag);
 	}
-
 
 	@Override
 	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
@@ -536,7 +500,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	public final void disableMultisample() {
 		glDisable(GLlocal.GL_MULTISAMPLE);
 	}
-
 
 	@Override
 	public int getGL_BLEND() {
@@ -623,8 +586,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 	protected boolean checkFramebufferStatus() {
-		return getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
+		return getGL().glCheckFramebufferStatus(
+				GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
 	}
-
 
 }

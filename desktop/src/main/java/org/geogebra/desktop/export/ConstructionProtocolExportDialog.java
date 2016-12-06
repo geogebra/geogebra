@@ -48,8 +48,8 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.UtilD;
 
-public class ConstructionProtocolExportDialog extends JDialog implements
-		KeyListener {
+public class ConstructionProtocolExportDialog extends JDialog
+		implements KeyListener {
 
 	private static final long serialVersionUID = -2626950140196416416L;
 
@@ -240,8 +240,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		//
 	}
 
-	/* *******************
-	 * HTML export *******
+	/*
+	 * ******************* HTML export *******
 	 */
 
 	/**
@@ -256,13 +256,13 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	 *            exported with the html output file
 	 */
 	private void exportHTML(boolean includePicture,
-			boolean includeAlgebraPicture, boolean useColors, boolean addIcons) {
+			boolean includeAlgebraPicture, boolean useColors,
+			boolean addIcons) {
 		File file;
 		prot.setUseColors(useColors);
 		file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
 				FileExtensions.HTML, null,
- app.getLocalization()
-						.getMenu("HTML"), true, false);
+				app.getLocalization().getMenu("HTML"), true, false);
 
 		try {
 
@@ -270,8 +270,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 
 			if (includePicture) {
 				// picture of drawing pad
-				img = GBufferedImageD.getAwtBufferedImage(app
-						.getEuclidianView1().getExportImage(1d));
+				img = GBufferedImageD.getAwtBufferedImage(
+						app.getEuclidianView1().getExportImage(1d));
 			} else if (includeAlgebraPicture) {
 				// picture of drawing pad
 				img = getCenterPanelImage();
@@ -280,10 +280,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			String export = prot.getHTML(imgBase64);
 			Log.debug(export);
 
-
-			BufferedWriter fw = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream(file),
-							"UTF-8"));
+			BufferedWriter fw = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(file), "UTF-8"));
 			fw.write(export);
 			fw.close();
 

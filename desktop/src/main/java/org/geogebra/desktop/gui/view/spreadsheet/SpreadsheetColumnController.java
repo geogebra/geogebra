@@ -33,8 +33,8 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class SpreadsheetColumnController implements KeyListener, MouseListener,
-		MouseMotionListener {
+public class SpreadsheetColumnController
+		implements KeyListener, MouseListener, MouseMotionListener {
 
 	private AppD app;
 	private SpreadsheetViewD view;
@@ -101,17 +101,14 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		int y = e.getY();
 		boolean shiftDown = e.isShiftDown();
 		boolean rightClick = AppD.isRightClick(e);
-		
-		
-		if (!view.hasViewFocus()){
+
+		if (!view.hasViewFocus()) {
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 		}
-		
+
 		// ensure that table header keeps the focus
 		table.getTableHeader().requestFocus();
-			
-					
 
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
@@ -119,8 +116,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 				// check if the cursor is within the resizing region (i.e.
 				// border +- 3pixels)
-				GPoint point2 = table
-						.getPixel(point.getX(), point.getY(), true);
+				GPoint point2 = table.getPixel(point.getX(), point.getY(),
+						true);
 				GPoint point3 = table.getPixel(point.getX(), point.getY(),
 						false);
 				int x2 = point2.getX();
@@ -244,7 +241,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 						.setPreferredWidth(width);
 			}
 		}
-		
+
 		// ensure that table header keeps the focus
 		table.getTableHeader().requestFocus();
 
@@ -297,9 +294,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 				// MouseInfo.getPointerInfo().getLocation();
 				isOver = ((ColumnHeaderRenderer) table.getColumnModel()
 						.getColumn(column).getHeaderRenderer())
-						.isOverTraceButton(column, mouseLoc, table
-								.getColumnModel().getColumn(column)
-								.getHeaderValue());
+								.isOverTraceButton(column, mouseLoc,
+										table.getColumnModel().getColumn(column)
+												.getHeaderValue());
 			}
 		}
 
@@ -432,8 +429,8 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 	// Renderer Class
 	// =========================================================
 
-	protected class ColumnHeaderRenderer extends JPanel implements
-			TableCellRenderer {
+	protected class ColumnHeaderRenderer extends JPanel
+			implements TableCellRenderer {
 		private static final long serialVersionUID = 1L;
 
 		private Color defaultBackground;
@@ -461,8 +458,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			setOpaque(true);
 			defaultBackground = MyTableD.BACKGROUND_COLOR_HEADER;
 
-			setBorder(BorderFactory.createCompoundBorder(BorderFactory
-					.createMatteBorder(0, 0, 1, 1, MyTableD.HEADER_GRID_COLOR),
+			setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createMatteBorder(0, 0, 1, 1,
+							MyTableD.HEADER_GRID_COLOR),
 					BorderFactory.createEmptyBorder(0, 5, 0, 0)));
 
 			layout = (BorderLayout) this.getLayout();
@@ -502,18 +500,20 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 						.getTraceSettings(colIndex);
 				if (t == null) { // no geo traced in this column
 					if (layout.getLayoutComponent(loc.borderWest()) != null) {
-						this.remove(layout.getLayoutComponent(loc.borderWest()));
+						this.remove(
+								layout.getLayoutComponent(loc.borderWest()));
 					}
 				} else {
 					this.add(btnTrace, loc.borderWest());
 					// set icon
 					if (t.pause) {
 						btnTrace.setIcon(pauseIcon);
-						setToolTipText(loc.getMenuTooltip("TraceToSpreadsheet")); // button
-																					// switches
-																					// back
-																					// to
-																					// record
+						setToolTipText(
+								loc.getMenuTooltip("TraceToSpreadsheet")); // button
+																			// switches
+																			// back
+																			// to
+																			// record
 					} else {
 						btnTrace.setIcon(recordIcon);
 						setToolTipText(loc.getMenuTooltip("Pause")); // button
@@ -547,13 +547,13 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 			}
 
 			try {
-				Component c = getTableCellRendererComponent(table, value,
-						false, false, -1, colIndex);
+				Component c = getTableCellRendererComponent(table, value, false,
+						false, -1, colIndex);
 
 				// layout.getLayoutComponent(app.borderWest()).getBounds(rect);
 				btnTrace.getBounds(rect);
 
-				// System.out.println(loc.toString() + "  :  " +
+				// System.out.println(loc.toString() + " : " +
 				// rect.toString());
 				return rect.contains(loc);
 			} catch (Exception e) {

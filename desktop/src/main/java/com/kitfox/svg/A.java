@@ -44,64 +44,56 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class A extends Group
-{
-    public static final String TAG_NAME = "a";
+public class A extends Group {
+	public static final String TAG_NAME = "a";
 
-    URI href;
-    String title;
+	URI href;
+	String title;
 
-    /** Creates a new instance of Stop */
-    public A()
-    {
-    }
+	/** Creates a new instance of Stop */
+	public A() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
-    
-    protected void build() throws SVGException
-    {
-        super.build();
-        
-        StyleAttribute sty = new StyleAttribute();
-        
-        if (getPres(sty.setName("xlink:href")))
-        {
-            href = sty.getURIValue(getXMLBase());
-        }
-        
-        if (getPres(sty.setName("xlink:title")))
-        {
-            title = sty.getStringValue();
-        }
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event.
-     * Ie, all attributes with track information.
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        boolean changeState = super.updateTime(curTime);
-//        if (trackManager.getNumTracks() == 0) return false;
+	protected void build() throws SVGException {
+		super.build();
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        
-        if (getPres(sty.setName("xlink:href")))
-        {
-            href = sty.getURIValue(getXMLBase());
-        }
-        
-        if (getPres(sty.setName("xlink:title")))
-        {
-            title = sty.getStringValue();
-        }
-        
-        return changeState;
-    }
+		StyleAttribute sty = new StyleAttribute();
+
+		if (getPres(sty.setName("xlink:href"))) {
+			href = sty.getURIValue(getXMLBase());
+		}
+
+		if (getPres(sty.setName("xlink:title"))) {
+			title = sty.getStringValue();
+		}
+	}
+
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 * 
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		boolean changeState = super.updateTime(curTime);
+		// if (trackManager.getNumTracks() == 0) return false;
+
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+
+		if (getPres(sty.setName("xlink:href"))) {
+			href = sty.getURIValue(getXMLBase());
+		}
+
+		if (getPres(sty.setName("xlink:title"))) {
+			title = sty.getStringValue();
+		}
+
+		return changeState;
+	}
 }

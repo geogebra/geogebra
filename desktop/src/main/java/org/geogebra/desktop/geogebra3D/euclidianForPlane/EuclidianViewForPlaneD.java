@@ -15,8 +15,8 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
  * @author Mathieu
  *
  */
-public class EuclidianViewForPlaneD extends EuclidianViewD implements
-		EuclidianViewForPlaneInterface {
+public class EuclidianViewForPlaneD extends EuclidianViewD
+		implements EuclidianViewForPlaneInterface {
 
 	/**
 	 * 
@@ -29,9 +29,10 @@ public class EuclidianViewForPlaneD extends EuclidianViewD implements
 	 */
 	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane,
 			EuclidianSettings settings) {
-		super(ec, new boolean[] { false, false }, false, EVNO_GENERAL, settings); // TODO
-																					// euclidian
-																					// settings
+		super(ec, new boolean[] { false, false }, false, EVNO_GENERAL,
+				settings); // TODO
+							// euclidian
+							// settings
 
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}

@@ -23,8 +23,8 @@ public class AuthenticationModelD extends AuthenticationModel {
 
 	@Override
 	public void storeLoginToken(String token) {
-		GeoGebraPreferencesD.getPref().savePreference(
-				GeoGebraPreferencesD.USER_LOGIN_TOKEN, token);
+		GeoGebraPreferencesD.getPref()
+				.savePreference(GeoGebraPreferencesD.USER_LOGIN_TOKEN, token);
 	}
 
 	@Override

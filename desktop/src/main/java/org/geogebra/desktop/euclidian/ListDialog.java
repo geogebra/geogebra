@@ -56,7 +56,8 @@ public class ListDialog extends JDialog {
 	 *            list of GeoElement objects
 	 * @param title
 	 */
-	public ListDialog(JComponent comp, ArrayList<GeoElement> data, String title) {
+	public ListDialog(JComponent comp, ArrayList<GeoElement> data,
+			String title) {
 		super(JOptionPane.getFrameForComponent(comp), title, true);
 
 		// list
@@ -74,7 +75,8 @@ public class ListDialog extends JDialog {
 			@Override
 			public void mouseMoved(MouseEvent e) {
 				int size = listModel.getSize();
-				list.setSelectedIndex(Math.min(e.getY() / lineHeight, size - 1));
+				list.setSelectedIndex(
+						Math.min(e.getY() / lineHeight, size - 1));
 			}
 		};
 		list.addMouseMotionListener(mml);

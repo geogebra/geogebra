@@ -12,23 +12,23 @@ import java.util.Vector;
  */
 public class PDFPageTree extends PDFPageBase {
 
-    Vector pages = new Vector();
+	Vector pages = new Vector();
 
-    PDFPageTree(PDF pdf, PDFByteWriter writer, PDFObject object, PDFRef parent)
-            throws IOException {
-        super(pdf, writer, object, parent);
-        entry("Type", pdf.name("Pages"));
-    }
+	PDFPageTree(PDF pdf, PDFByteWriter writer, PDFObject object, PDFRef parent)
+			throws IOException {
+		super(pdf, writer, object, parent);
+		entry("Type", pdf.name("Pages"));
+	}
 
-    public void addPage(String name) {
-        pages.add(pdf.ref(name));
-    }
+	public void addPage(String name) {
+		pages.add(pdf.ref(name));
+	}
 
-    void close() throws IOException {
-        Object[] kids = new Object[pages.size()];
-        pages.copyInto(kids);
-        entry("Kids", kids);
-        entry("Count", kids.length);
-        super.close();
-    }
+	void close() throws IOException {
+		Object[] kids = new Object[pages.size()];
+		pages.copyInto(kids);
+		entry("Kids", kids);
+		entry("Count", kids.length);
+		super.close();
+	}
 }

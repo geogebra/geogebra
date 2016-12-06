@@ -44,8 +44,8 @@ public class LoggerD extends Log {
 
 	@Override
 	public String getMemoryInfo() {
-		long usedK = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
-				.freeMemory()) / 1024;
+		long usedK = (Runtime.getRuntime().totalMemory()
+				- Runtime.getRuntime().freeMemory()) / 1024;
 		return ("\n free memory: ") + Runtime.getRuntime().freeMemory()
 				+ " total memory: " + Runtime.getRuntime().totalMemory()
 				+ " max memory: " + Runtime.getRuntime().maxMemory()

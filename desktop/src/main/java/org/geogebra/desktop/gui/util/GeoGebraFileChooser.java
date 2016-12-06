@@ -46,8 +46,8 @@ import org.geogebra.desktop.util.UtilD;
  * @author Florian Sonner
  * @version 1.0
  */
-public class GeoGebraFileChooser extends JFileChooser implements
-		ComponentListener {
+public class GeoGebraFileChooser extends JFileChooser
+		implements ComponentListener {
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -120,8 +120,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 	 */
 	public GeoGebraFileChooser(AppD app, File currentDirectory,
 			boolean restricted) {
-		super(currentDirectory, (restricted ? new RestrictedFileSystemView()
-				: null));
+		super(currentDirectory,
+				(restricted ? new RestrictedFileSystemView() : null));
 
 		this.app = app;
 
@@ -159,7 +159,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 		// invalid mode?
 		if (mode != MODE_IMAGES && mode != MODE_GEOGEBRA
 				&& mode != MODE_GEOGEBRA_SAVE && mode != MODE_DATA) {
-			Log.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
+			Log.debug(
+					"Invalid file chooser mode, MODE_GEOGEBRA used as default.");
 			mode = MODE_GEOGEBRA;
 		}
 
@@ -230,7 +231,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 	 * @author Florian Sonner
 	 */
 
-	private class PreviewPanel extends JPanel implements PropertyChangeListener {
+	private class PreviewPanel extends JPanel
+			implements PropertyChangeListener {
 		private static final long serialVersionUID = 1L;
 
 		/**
@@ -304,11 +306,13 @@ public class GeoGebraFileChooser extends JFileChooser implements
 			dataPreviewPanel.setLineWrap(false);
 			dataPreviewPanel.setPreferredSize(imagePanel.getPreferredSize());
 			dataPreviewPanel.setMargin(new Insets(5, 5, 5, 5));
-			dataPreviewPanel.setText(app.getLocalization().getMenu(
-					"PreviewUnavailable"));
+			dataPreviewPanel.setText(
+					app.getLocalization().getMenu("PreviewUnavailable"));
 			JScrollPane scroller = new JScrollPane(dataPreviewPanel);
-			scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-			scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+			scroller.setHorizontalScrollBarPolicy(
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+			scroller.setVerticalScrollBarPolicy(
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 
 			return scroller;
 		}
@@ -352,8 +356,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				int lineCount = 0;
 				// read at most 20 lines
 				while ((text = reader.readLine()) != null && lineCount < 20) {
-					contents.append(text).append(
-							System.getProperty("line.separator"));
+					contents.append(text)
+							.append(System.getProperty("line.separator"));
 					lineCount++;
 				}
 
@@ -369,8 +373,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				fileLabel.setText(fileInfo.toString());
 
 				if (contents.length() == 0)
-					contents.append(app.getLocalization().getMenu(
-							"PreviewUnavailable"));
+					contents.append(app.getLocalization()
+							.getMenu("PreviewUnavailable"));
 
 				dataPreviewPanel.setText(contents.toString());
 				dataPreviewPanel.setCaretPosition(0);
@@ -406,7 +410,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				String fileName = file.getName();
 
 				// Update preview for opening ggb files
-				if (fileChooser.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA) {
+				if (fileChooser
+						.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA) {
 
 					if (fileName.endsWith(".ggb")) {
 						tmpImage = new MyImageD(MyXMLioD.getPreviewImage(file)); // load
@@ -431,10 +436,11 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				}
 
 				// Update preview for saving a ggb file
-				else if (fileChooser.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA_SAVE) {
-					tmpImage = new MyImageD(app.getExportImage(
-							MyXMLio.THUMBNAIL_PIXELS_X,
-							MyXMLio.THUMBNAIL_PIXELS_Y));
+				else if (fileChooser
+						.getMode() == GeoGebraFileChooser.MODE_GEOGEBRA_SAVE) {
+					tmpImage = new MyImageD(
+							app.getExportImage(MyXMLio.THUMBNAIL_PIXELS_X,
+									MyXMLio.THUMBNAIL_PIXELS_Y));
 					// TODO: show file size info?
 					fileLabel.setText(null);
 				}
@@ -501,9 +507,9 @@ public class GeoGebraFileChooser extends JFileChooser implements
 						if (tmpImage.isSVG()) {
 							// Create a new image for the scaled preview image
 
-							MyImageD bigImage = new MyImageD(new BufferedImage(
-									oldWidth, oldHeight,
-									BufferedImage.TYPE_INT_ARGB));
+							MyImageD bigImage = new MyImageD(
+									new BufferedImage(oldWidth, oldHeight,
+											BufferedImage.TYPE_INT_ARGB));
 
 							// draw SVG at full size
 							GGraphics2DD graphics2D = (GGraphics2DD) bigImage
@@ -605,8 +611,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 
 				// draw "no preview" message
 				else {
-					String message = app.getLocalization().getMenu(
-							"PreviewUnavailable");
+					String message = app.getLocalization()
+							.getMenu("PreviewUnavailable");
 
 					FontMetrics fm = g2.getFontMetrics();
 					Rectangle2D bounds = fm.getStringBounds(message, g2);

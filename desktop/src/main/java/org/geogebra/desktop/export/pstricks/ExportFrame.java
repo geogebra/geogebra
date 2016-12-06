@@ -59,7 +59,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	protected JPanel panel;
 	protected JButton button, button_copy;
 	protected JCheckBox jcbPointSymbol, jcbGrayscale,
-	// Andy Zhu - for use in Asymptote Frame
+			// Andy Zhu - for use in Asymptote Frame
 			jcbShowAxes, jcbAsyCompact, jcbAsyCse5, jcbDotColors, jcbPairName;
 	// end changes
 	protected JScrollPane js;
@@ -204,8 +204,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					/*
 					 * java.util.Enumeration en=System.getProperties().keys();
 					 * while(en.hasMoreElements()){ String
-					 * s=en.nextElement().toString();
-					 * System.out.println(s+" "+System.getProperty(s)); }
+					 * s=en.nextElement().toString(); System.out.println(s+" "
+					 * +System.getProperty(s)); }
 					 */
 					OutputStreamWriter osw = new OutputStreamWriter(b,
 							Charsets.UTF_8);
@@ -232,7 +232,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 			}
 		});
 	}
-
 
 	protected void centerOnScreen() {
 		// center on screen
@@ -335,7 +334,6 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	public int textYminValue() {
 		return (int) this.textYmin.getValue();
 	}
-
 
 	protected abstract boolean isLaTeX();
 

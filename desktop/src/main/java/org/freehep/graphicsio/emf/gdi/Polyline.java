@@ -17,40 +17,40 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class Polyline extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private int numberOfPoints;
+	private int numberOfPoints;
 
-    private Point[] points;
+	private Point[] points;
 
-    public Polyline() {
-        super(4, 1);
-    }
+	public Polyline() {
+		super(4, 1);
+	}
 
-    public Polyline(Rectangle bounds, int numberOfPoints, Point[] points) {
-        this();
-        this.bounds = bounds;
-        this.numberOfPoints = numberOfPoints;
-        this.points = points;
-    }
+	public Polyline(Rectangle bounds, int numberOfPoints, Point[] points) {
+		this();
+		this.bounds = bounds;
+		this.numberOfPoints = numberOfPoints;
+		this.points = points;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        Rectangle r = emf.readRECTL();
-        int n = emf.readDWORD();
-        Polyline tag = new Polyline(r, n, emf.readPOINTL(n));
-        return tag;
-    }
+		Rectangle r = emf.readRECTL();
+		int n = emf.readDWORD();
+		Polyline tag = new Polyline(r, n, emf.readPOINTL(n));
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writeDWORD(numberOfPoints);
-        emf.writePOINTL(numberOfPoints, points);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writeDWORD(numberOfPoints);
+		emf.writePOINTL(numberOfPoints, points);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  #points: " + numberOfPoints;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  #points: " + numberOfPoints;
+	}
 }

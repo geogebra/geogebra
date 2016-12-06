@@ -142,7 +142,8 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Displays the properties dialog
 	 */
 	@Override
-	public void showPropertiesDialog(OptionType type, ArrayList<GeoElement> geos) {
+	public void showPropertiesDialog(OptionType type,
+			ArrayList<GeoElement> geos) {
 
 		if (!((AppD) app).letShowPropertiesDialog()) {
 			return;
@@ -168,8 +169,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 		// show the view
 		((GuiManagerD) app.getGuiManager()).setShowView(true,
 				App.VIEW_PROPERTIES);
-		if (geos != null && geos.size() == 1
-				&& geos.get(0).isEuclidianVisible()
+		if (geos != null && geos.size() == 1 && geos.get(0).isEuclidianVisible()
 				&& geos.get(0) instanceof GeoNumeric) {
 			// AbstractApplication.debug("TODO : propPanel.showSliderTab()");
 			((GuiManagerD) app.getGuiManager()).showPropertiesViewSliderTab();
@@ -203,15 +203,16 @@ public class DialogManagerD extends DialogManagerMinimal {
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		// a Chinese friendly version
-		InputDialogD id = new InputDialogD(((AppD) app), "<html>"
-				+ app.getLocalization().getPlain("NewNameForA",
+		InputDialogD id = new InputDialogD(((AppD) app),
+				"<html>" + app.getLocalization().getPlain("NewNameForA",
 						"<b>" + geo.getNameDescription() + "</b>") + // eg New
 																		// name
 																		// for
 																		// <b>Segment
 																		// a</b>
-				"</html>", loc.getMenu("Rename"), initText, false, handler,
-				false, selectInitText, null);
+						"</html>",
+				loc.getMenu("Rename"), initText, false, handler, false,
+				selectInitText, null);
 
 		/*
 		 * InputDialog id = new InputDialog( this, "<html>" +
@@ -289,8 +290,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	 * Creates a new checkbox at given startPoint
 	 */
 	@Override
-	public void showBooleanCheckboxCreationDialog(
-GPoint loc, GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
 		Point location = new Point(loc.x, loc.y);
 		CheckboxCreationDialog d = new CheckboxCreationDialog(((AppD) app),
 				location, bool);
@@ -308,8 +308,8 @@ GPoint loc, GeoBoolean bool) {
 		oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor(), callback, app, oldVal);
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
 		InputDialogD id = new InputDialogD(((AppD) app), message, title,
 				initText, false, handler, true, false, null) {
 			@Override
@@ -346,10 +346,11 @@ GPoint loc, GeoBoolean bool) {
 
 	@Override
 	public void showNumberInputDialogRegularPolygon(String title,
-			EuclidianController ec, GeoPointND geoPoint1, GeoPointND geoPoint2) {
+			EuclidianController ec, GeoPointND geoPoint1,
+			GeoPointND geoPoint2) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogRegularPolygonD(((AppD) app), ec,
 				title, handler, geoPoint1, geoPoint2);
 		id.setVisible(true);
@@ -360,8 +361,8 @@ GPoint loc, GeoBoolean bool) {
 	public void showNumberInputDialogCirclePointRadius(String title,
 			GeoPointND geoPoint1, EuclidianView view) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogCirclePointRadius(((AppD) app), title,
 				handler, (GeoPoint) geoPoint1, app.getKernel());
 		id.setVisible(true);
@@ -372,8 +373,8 @@ GPoint loc, GeoBoolean bool) {
 	public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogRotatePointD(((AppD) app), title,
 				handler, polys, points, selGeos, ec);
 		id.setVisible(true);
@@ -385,8 +386,8 @@ GPoint loc, GeoBoolean bool) {
 			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
 			EuclidianController ec) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogAngleFixed(((AppD) app), title,
 				handler, segments, points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
@@ -397,8 +398,8 @@ GPoint loc, GeoBoolean bool) {
 	public void showNumberInputDialogDilate(String title, GeoPolygon[] polys,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogDilateD(((AppD) app), title, handler,
 				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
@@ -409,8 +410,8 @@ GPoint loc, GeoBoolean bool) {
 	public void showNumberInputDialogSegmentFixed(String title,
 			GeoPointND geoPoint1) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogSegmentFixedD(((AppD) app), title,
 				handler, geoPoint1, app.getKernel());
 		id.setVisible(true);
@@ -430,10 +431,10 @@ GPoint loc, GeoBoolean bool) {
 		oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor(), callback, app, oldVal);
-		AngleInputDialog id = new AngleInputDialog(((AppD) app), message,
-				title, initText, false, handler, true);
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
+		AngleInputDialog id = new AngleInputDialog(((AppD) app), message, title,
+				initText, false, handler, true);
 		id.setVisible(true);
 	}
 
@@ -473,8 +474,6 @@ GPoint loc, GeoBoolean bool) {
 		SignInDialogD dialog = new SignInDialogD((AppD) app);
 		app.isShowingLogInDialog();
 		dialog.setVisible(true);
-
-
 
 		app.setDefaultCursor();
 	}
@@ -528,7 +527,8 @@ GPoint loc, GeoBoolean bool) {
 				// list
 				// Java bug
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				Log.debug("Error creating GeoGebraFileChooser - using fallback option");
+				Log.debug(
+						"Error creating GeoGebraFileChooser - using fallback option");
 				setFileChooser(new GeoGebraFileChooser(((AppD) app),
 						((AppD) app).getCurrentImagePath(), true)); // restricted
 																	// version
@@ -633,9 +633,8 @@ GPoint loc, GeoBoolean bool) {
 							+ ((MyFileFilter) getFileChooser().getFileFilter())
 									.getExtension();
 
-					getFileChooser().setSelectedFile(
-							new File(getFileChooser().getCurrentDirectory(),
-									fileName));
+					getFileChooser().setSelectedFile(new File(
+							getFileChooser().getCurrentDirectory(), fileName));
 				}
 			}
 		}
@@ -675,10 +674,10 @@ GPoint loc, GeoBoolean bool) {
 	}
 
 	@Override
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new TextInputDialogD(app,
-				loc.getMenu("Text"), text, startPoint, rw, 30, 6,
-				app.getMode() == EuclidianConstants.MODE_TEXT);
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint,
+			boolean rw) {
+		return new TextInputDialogD(app, loc.getMenu("Text"), text, startPoint,
+				rw, 30, 6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 
 	@Override

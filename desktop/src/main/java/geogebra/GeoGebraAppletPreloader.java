@@ -89,8 +89,8 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_properties.jar... ");
 				System.out.flush();
 				try {
-					Object url = GeoGebraAppletPreloader.class
-							.getResource("/org/geogebra/desktop/properties/plain.properties");
+					Object url = GeoGebraAppletPreloader.class.getResource(
+							"/org/geogebra/desktop/properties/plain.properties");
 					if (url != null)
 						System.out.println("done");
 					else
@@ -106,7 +106,8 @@ public class GeoGebraAppletPreloader extends JApplet {
 				System.out.print("loading geogebra_export.jar... ");
 				System.out.flush();
 				try {
-					org.geogebra.desktop.export.WorksheetExportDialog.class.getClass();
+					org.geogebra.desktop.export.WorksheetExportDialog.class
+							.getClass();
 					System.out.println("done");
 				} catch (Exception e) {
 					System.out.println("failed");

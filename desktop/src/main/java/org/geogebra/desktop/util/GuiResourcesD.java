@@ -8,8 +8,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	NAV_PLAY("/main/nav_play.png"),
 
-	NAV_PLAY_CIRCLE(
-			"/org/geogebra/common/icons_play/p24/nav_play_circle.png"),
+	NAV_PLAY_CIRCLE("/org/geogebra/common/icons_play/p24/nav_play_circle.png"),
 
 	NAV_PLAY_HOVER(
 			"/org/geogebra/common/icons_play/p24/nav_play_circle_hover.png"),
@@ -29,14 +28,11 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	DIALOG_ERROR("/org/geogebra/common/icons/png/web/dialog-error.png"),
 
-	MENU_HELP(
-							"/org/geogebra/common/menu_icons/p20/menu-help.png"),
+	MENU_HELP("/org/geogebra/common/menu_icons/p20/menu-help.png"),
 
-	CURSOR_GRAB(
-"/gui/images/cursor_grab.gif"),
+	CURSOR_GRAB("/gui/images/cursor_grab.gif"),
 
-	CURSOR_ZOOMOUT(
-					"/gui/images/cursor_zoomout.gif"),
+	CURSOR_ZOOMOUT("/gui/images/cursor_zoomout.gif"),
 
 	CURSOR_ZOOMIN("/gui/images/cursor_zoomin.gif"),
 
@@ -44,8 +40,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	MENU_EDIT_UNDO("/gui/images/64px/menu-edit-undo.png"),
 
-	MENU_EDIT_REDO(
-							"/gui/images/64px/menu-edit-redo.png"),
+	MENU_EDIT_REDO("/gui/images/64px/menu-edit-redo.png"),
 
 	MENU_OPTIONS("/gui/images/64px/menu-options.png"),
 
@@ -130,8 +125,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	KEYBOARD("/gui/images/64px/keyboard.png"),
 
-	VIEW_PROPERTIES_16(
-			"/gui/images/64px/view-properties16.png"),
+	VIEW_PROPERTIES_16("/gui/images/64px/view-properties16.png"),
 
 	MENU_EDIT_COPY("/gui/images/64px/menu-edit-copy.png"),
 
@@ -182,9 +176,8 @@ public enum GuiResourcesD implements ImageResourceD {
 	ALGEBRA_SHOWN("/gui/images/64px/algebra_shown.png"),
 
 	ALGEBRA_HIDDEN(
-			"/gui/images/64px/algebra_hidden.png"),
- STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS(
-			"/gui/images/64px/stylingbar_algebraview_auxiliary_objects.png"),
+			"/gui/images/64px/algebra_hidden.png"), STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS(
+					"/gui/images/64px/stylingbar_algebraview_auxiliary_objects.png"),
 
 	STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY(
 			"/gui/images/64px/stylingbar_algebraview_sort_objects_by.png"),
@@ -240,8 +233,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	TANGENT_LINE("/gui/images/64px/tangent_line.png"),
 
-	XY_SEGMENTS(
-			"/gui/images/64px/xy_segments.png"),
+	XY_SEGMENTS("/gui/images/64px/xy_segments.png"),
 
 	XY_TABLE("/gui/images/64px/xy_table.png"),
 
@@ -257,8 +249,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	FORMAT_JUSTIFY_LEFT("/gui/images/64px/format-justify-left.png"),
 
-	FORMAT_JUSTIFY_CENTER(
-			"/gui/images/64px/format-justify-center.png"),
+	FORMAT_JUSTIFY_CENTER("/gui/images/64px/format-justify-center.png"),
 
 	FORMAT_JUSTIFY_RIGHT("/gui/images/64px/format-justify-right.png"),
 
@@ -272,8 +263,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	INTERVAL_RIGHT("/gui/images/64px/interval-right.png"),
 
-	INTERVAL_BETWEEN(
-			"/gui/images/64px/interval-between.png"),
+	INTERVAL_BETWEEN("/gui/images/64px/interval-between.png"),
 
 	VIEW_UNWINDOW("/gui/images/64px/view_unwindow.png"),
 

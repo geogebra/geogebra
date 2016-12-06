@@ -65,7 +65,8 @@ public class FontManagerD extends FontManager {
 		final String testChar = Language.getTestChar(lang);
 		if (testChar != null) {
 			testCharacters.append(testChar);
-			// Application.debug("Using test char:"+Util.toHexString(testChar.charValue()));
+			// Application.debug("Using test
+			// char:"+Util.toHexString(testChar.charValue()));
 		} // else Application.debug("No language specific test char");
 
 		// CHINESE
@@ -146,10 +147,10 @@ public class FontManagerD extends FontManager {
 	@Override
 	public void setFontSize(final int size) {
 		// current sans and sansserif font names
-		final String sans = plainFont == null ? "SansSerif" : plainFont
-				.getFontName();
-		final String serif = serifFont == null ? "Serif" : serifFont
-				.getFontName();
+		final String sans = plainFont == null ? "SansSerif"
+				: plainFont.getFontName();
+		final String serif = serifFont == null ? "Serif"
+				: serifFont.getFontName();
 
 		// update size
 		updateDefaultFonts(size, sans, serif);
@@ -236,7 +237,8 @@ public class FontManagerD extends FontManager {
 		}
 
 		// check if default font is ok
-		if ((testString == null) || (appFont.canDisplayUpTo(testString) == -1)) {
+		if ((testString == null)
+				|| (appFont.canDisplayUpTo(testString) == -1)) {
 			if (appFont.getSize() == fontSize) {
 				if (appFont.getStyle() == fontStyle) {
 					return appFont;
@@ -261,7 +263,7 @@ public class FontManagerD extends FontManager {
 			final LinkedList<String> tryFonts = serif
 					? new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF))
 					: new LinkedList<String>(
-					Arrays.asList(FONT_NAMES_SANSSERIF));
+							Arrays.asList(FONT_NAMES_SANSSERIF));
 			final String fontName = getFontCanDisplay(tryFonts, testString);
 			return getFont(fontName, fontStyle, fontSize);
 		} catch (final Exception e) {
@@ -321,7 +323,8 @@ public class FontManagerD extends FontManager {
 			if (charsDisplayed > maxDisplayedChars) {
 				bestFont = j;
 				maxDisplayedChars = charsDisplayed;
-				// Application.debug(allfonts[bestFont].getFontName()+" matched "+charsDisplayed);
+				// Application.debug(allfonts[bestFont].getFontName()+" matched
+				// "+charsDisplayed);
 			}
 
 		}
@@ -404,8 +407,8 @@ public class FontManagerD extends FontManager {
 	}
 
 	@Override
-	public GFont getFontCanDisplay(final String testString,
-			final boolean serif, final int fontStyle, final int fontSize) {
+	public GFont getFontCanDisplay(final String testString, final boolean serif,
+			final int fontStyle, final int fontSize) {
 		return new GFontD(
 				getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
 	}
@@ -416,6 +419,5 @@ public class FontManagerD extends FontManager {
 	public int getFontSize() {
 		return fontSize;
 	}
-
 
 }

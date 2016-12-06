@@ -9,15 +9,16 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * 
- * Make sure eg Malayalam is displayed in the correct font (characters not in default Java font)
+ * Make sure eg Malayalam is displayed in the correct font (characters not in
+ * default Java font)
  * 
  * @author michael
  *
  */
-public class LanguageRenderer  extends DefaultListCellRenderer {
-	
+public class LanguageRenderer extends DefaultListCellRenderer {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
 
 	LanguageRenderer(AppD app) {
@@ -28,14 +29,15 @@ public class LanguageRenderer  extends DefaultListCellRenderer {
 	@Override
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
-		Component ret = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		
+		Component ret = super.getListCellRendererComponent(list, value, index,
+				isSelected, cellHasFocus);
+
 		if (value instanceof String) {
 			String language = (String) value;
 			ret.setFont(app.getFontCanDisplayAwt(language));
 		}
 		return ret;
-	
+
 	}
 
 }

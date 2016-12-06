@@ -58,8 +58,8 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu,
-			windowMenu, helpMenu, languageMenu;
+	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu, windowMenu,
+			helpMenu, languageMenu;
 
 	ViewMenuApplicationD viewMenu;
 
@@ -88,8 +88,9 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		 * border set via setBorder() is empty. By drawing an one pixel border
 		 * with the color of the background we can prevent this.
 		 */
-		setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(0, 0, 1, 0, SystemColor.control),
+		setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						SystemColor.control),
 				BorderFactory.createEmptyBorder(1, 1, 0, 1)));
 
 		this.app = app;
@@ -293,7 +294,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			onTubeAvailable(checkEvent.isAvailable());
 		}
 
-		
 	}
 
 	private void onTubeAvailable(boolean available) {
@@ -506,9 +506,10 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						 */
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						DockManagerD dm = gui.getLayout().getDockManager();
-						int viewId = (dm.getFocusedPanel() == null) ? -1 : dm.getFocusedPanel().getViewId();
+						int viewId = (dm.getFocusedPanel() == null) ? -1
+								: dm.getFocusedPanel().getViewId();
 						PrintPreviewD pre = PrintPreviewD.get(app, viewId,
-										PageFormat.LANDSCAPE);
+								PageFormat.LANDSCAPE);
 
 						pre.setVisible(true);
 					} catch (Exception e) {
@@ -590,7 +591,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		JPanel systemInfoPanel = new JPanel(new BorderLayout(5, 5));
 		systemInfoPanel.add(new JLabel(sb.toString()), BorderLayout.CENTER);
 
-
 		// copy system information to clipboard
 
 		systemInfoPanel.add(new JButton(
@@ -607,14 +607,12 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 					}
 				}), loc.borderEast());
 
-
-
 		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.add(systemInfoPanel, BorderLayout.NORTH);
 		panel.add(scrollPane, BorderLayout.SOUTH);
 
-		JOptionPane infoPane = new JOptionPane(panel,
-				JOptionPane.PLAIN_MESSAGE, JOptionPane.DEFAULT_OPTION);
+		JOptionPane infoPane = new JOptionPane(panel, JOptionPane.PLAIN_MESSAGE,
+				JOptionPane.DEFAULT_OPTION);
 
 		final JDialog dialog = infoPane.createDialog(app.getMainComponent(),
 				loc.getMenu("AboutLicense"));

@@ -84,8 +84,7 @@ public class LaTeXPanel extends JPanel {
 				new GGraphics2DD(g2image), 0, 0, latex,
 				app.getPlainFontCommon(), false,
 				GColorD.newColor(getForeground()),
-				GColorD.newColor(getBackground()),
-						true, false, null);
+				GColorD.newColor(getBackground()), true, false, null);
 
 		return new Dimension(fd.getWidth(), fd.getHeight());
 	}
@@ -118,8 +117,7 @@ public class LaTeXPanel extends JPanel {
 					new GGraphics2DD((Graphics2D) g), 0, 0, latex,
 					app.getPlainFontCommon(), false,
 					GColorD.newColor(getForeground()),
-					GColorD.newColor(getBackground()),
-					true, false, null);
+					GColorD.newColor(getBackground()), true, false, null);
 		} else {
 			// draw part of image that contains equation
 			if (image != null && equSize != null) {

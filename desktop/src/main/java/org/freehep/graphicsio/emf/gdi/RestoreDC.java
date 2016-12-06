@@ -15,29 +15,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class RestoreDC extends EMFTag {
 
-    private int savedDC = -1;
+	private int savedDC = -1;
 
-    public RestoreDC() {
-        super(34, 1);
-    }
+	public RestoreDC() {
+		super(34, 1);
+	}
 
-    public RestoreDC(int savedDC) {
-        this();
-        this.savedDC = savedDC;
-    }
+	public RestoreDC(int savedDC) {
+		this();
+		this.savedDC = savedDC;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        RestoreDC tag = new RestoreDC(emf.readDWORD());
-        return tag;
-    }
+		RestoreDC tag = new RestoreDC(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(savedDC);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(savedDC);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  savedDC: " + savedDC;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  savedDC: " + savedDC;
+	}
 }

@@ -14,13 +14,13 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SaveDC extends EMFTag {
 
-    public SaveDC() {
-        super(33, 1);
-    }
+	public SaveDC() {
+		super(33, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 }

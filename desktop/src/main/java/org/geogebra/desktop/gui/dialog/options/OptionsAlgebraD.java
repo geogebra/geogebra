@@ -26,8 +26,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * Advanced options for the options dialog.
  */
 public class OptionsAlgebraD extends OptionsAlgebra
-		implements
-		SetLabels, OptionPanelD {
+		implements SetLabels, OptionPanelD {
 
 	/**
 	 * Application object.
@@ -39,7 +38,6 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	 * Settings for all kind of application components.
 	 */
 	private Settings settings;
-
 
 	private JPanel wrappedPanel;
 	private JCheckBox auxiliary;
@@ -74,8 +72,8 @@ public class OptionsAlgebraD extends OptionsAlgebra
 					return;
 				}
 				if (description.getSelectedIndex() >= 0) {
-					app.getKernel().setAlgebraStyle(
-							description.getSelectedIndex());
+					app.getKernel()
+							.setAlgebraStyle(description.getSelectedIndex());
 					app.getKernel().updateConstruction();
 				}
 			}
@@ -128,7 +126,6 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 		panel.add(auxiliary);
 
-
 		JPanel sortPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		sortLabel = new JLabel();
 		sortLabel.setLabelFor(sortMode);
@@ -144,9 +141,6 @@ public class OptionsAlgebraD extends OptionsAlgebra
 		panel.add(descriptionPanel);
 		setLabels();
 		wrappedPanel.add(panel);
-
-
-
 
 	}
 

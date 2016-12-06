@@ -45,8 +45,8 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Dialog for slider creation
  */
-public class SliderDialogD extends JDialog implements ActionListener,
-		KeyListener, WindowListener {
+public class SliderDialogD extends JDialog
+		implements ActionListener, KeyListener, WindowListener {
 
 	/**
 	 *  
@@ -204,8 +204,8 @@ public class SliderDialogD extends JDialog implements ActionListener,
 					&& text.indexOf('=') == text.lastIndexOf('=')) {
 
 				try {
-					double val = Double.parseDouble(text.substring(text
-							.indexOf('=') + 1));
+					double val = Double
+							.parseDouble(text.substring(text.indexOf('=') + 1));
 
 					GeoNumeric geoNum = ((GeoNumeric) geoResult);
 

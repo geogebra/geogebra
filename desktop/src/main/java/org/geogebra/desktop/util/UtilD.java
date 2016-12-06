@@ -194,32 +194,31 @@ public class UtilD extends Util {
 
 		return null;
 
-
 	}
 
 	public static byte[] loadFileIntoByteArray(String filename) {
-		
+
 		File file = new File(filename);
-		
-	    byte[] buffer = new byte[(int) file.length()];
-	    InputStream ios = null;
-	    try {
-	        ios = new FileInputStream(file);
-	        if (ios.read(buffer) == -1) {
+
+		byte[] buffer = new byte[(int) file.length()];
+		InputStream ios = null;
+		try {
+			ios = new FileInputStream(file);
+			if (ios.read(buffer) == -1) {
 				Log.error("problem loading " + filename);
-	        	return null;
-	        }
+				return null;
+			}
 			return buffer;
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
-	    } finally {
-	    	try {
+		} finally {
+			try {
 				if (ios != null) {
-	                ios.close();
+					ios.close();
 				}
-	        } catch (IOException e) {
+			} catch (IOException e) {
 				Log.error("problem loading " + filename);
-	        }
+			}
 		}
 		return null;
 
@@ -229,8 +228,8 @@ public class UtilD extends Util {
 	 * Writes all contents of the given InputStream to a String
 	 */
 	public static String loadIntoString(InputStream is) throws IOException {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-				Charsets.UTF_8));
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader(is, Charsets.UTF_8));
 		StringBuilder sb = new StringBuilder();
 
 		String line = null;
@@ -263,8 +262,8 @@ public class UtilD extends Util {
 	public static void registerForDisposeOnEscape(JDialog dialog) {
 		JRootPane root = dialog.getRootPane();
 
-		root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke("ESCAPE"), "dispose-on-escape");
+		root.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke("ESCAPE"), "dispose-on-escape");
 		root.getActionMap().put("dispose-on-escape",
 				new DisposeDialogAction(dialog));
 	}
@@ -279,8 +278,7 @@ public class UtilD extends Util {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			char c = name.charAt(i);
-			if (Character.isLetterOrDigit(c) || c == '.' ||
-					c == '_') // underscore
+			if (Character.isLetterOrDigit(c) || c == '.' || c == '_') // underscore
 			{
 				sb.append(c);
 			} else {
@@ -342,7 +340,6 @@ public class UtilD extends Util {
 			}
 		});
 	}
-
 
 	/**
 	 * 

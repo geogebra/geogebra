@@ -13,39 +13,40 @@ import org.freehep.graphicsio.emf.EMFTag;
  * ModifyWorldTransform TAG.
  * 
  * @author Mark Donszelmann
- * @version $Id: ModifyWorldTransform.java,v 1.5 2009-08-17 21:44:44 murkle Exp $
+ * @version $Id: ModifyWorldTransform.java,v 1.5 2009-08-17 21:44:44 murkle Exp
+ *          $
  */
 public class ModifyWorldTransform extends EMFTag implements EMFConstants {
 
-    private AffineTransform transform;
+	private AffineTransform transform;
 
-    private int mode;
+	private int mode;
 
-    public ModifyWorldTransform() {
-        super(36, 1);
-    }
+	public ModifyWorldTransform() {
+		super(36, 1);
+	}
 
-    public ModifyWorldTransform(AffineTransform transform, int mode) {
-        this();
-        this.transform = transform;
-        this.mode = mode;
-    }
+	public ModifyWorldTransform(AffineTransform transform, int mode) {
+		this();
+		this.transform = transform;
+		this.mode = mode;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        ModifyWorldTransform tag = new ModifyWorldTransform(emf.readXFORM(),
-                emf.readDWORD());
-        return tag;
-    }
+		ModifyWorldTransform tag = new ModifyWorldTransform(emf.readXFORM(),
+				emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeXFORM(transform);
-        emf.writeDWORD(mode);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeXFORM(transform);
+		emf.writeDWORD(mode);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  transform: " + transform + "\n"
-                + "  mode: " + mode;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  transform: " + transform + "\n"
+				+ "  mode: " + mode;
+	}
 }

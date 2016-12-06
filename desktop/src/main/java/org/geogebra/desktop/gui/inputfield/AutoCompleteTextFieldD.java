@@ -87,7 +87,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * information of a command.
 	 */
 	// private static Pattern syntaxArgPattern =
-	// Pattern.compile("[,\\[] *(?:<[\\(\\) \\-\\p{L}]*>|\\.\\.\\.) *(?=[,\\]])");
+	// Pattern.compile("[,\\[] *(?:<[\\(\\) \\-\\p{L}]*>|\\.\\.\\.)
+	// *(?=[,\\]])");
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
 	private static Pattern syntaxArgPattern = Pattern
@@ -144,7 +145,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// setDictionary(app.getAllCommandsDictionary());
 	}
 
-	public AutoCompleteTextFieldD(int columns, App app, Drawable drawTextField) {
+	public AutoCompleteTextFieldD(int columns, App app,
+			Drawable drawTextField) {
 		this(columns, app);
 		this.drawTextField = (DrawInputBox) drawTextField;
 	}
@@ -186,8 +188,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	public void showPopupSymbolButton(boolean showPopupSymbolButton) {
-		((MyTextFieldD) this).setShowSymbolTableIcon(showPopupSymbolButton
-				&& !popupSymbolDisabled);
+		((MyTextFieldD) this).setShowSymbolTableIcon(
+				showPopupSymbolButton && !popupSymbolDisabled);
 	}
 
 	public void removeSymbolTable() {
@@ -221,8 +223,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 */
 	public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
-			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app
-					.getCommandDictionary();
+			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
+					: app.getCommandDictionary();
 		}
 		return this.dict;
 	}
@@ -266,8 +268,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	public void geoElementSelected(GeoElement geo, boolean add) {
 		if (geo != null) {
-			replaceSelection(" " + geo.getLabel(StringTemplate.defaultTemplate)
-					+ " ");
+			replaceSelection(
+					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
 			requestFocusInWindow();
 		}
 	}
@@ -291,7 +293,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private GeoInputBox geoUsedForInputBox;
 
 	private boolean previewActive;
-
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -420,8 +421,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				Log.debug("next is " + next);
 				if (next instanceof GeoInputBox) {
 					GeoInputBox input = (GeoInputBox) next;
-					app.getActiveEuclidianView()
-							.focusTextField(input);
+					app.getActiveEuclidianView().focusTextField(input);
 				} else {
 					// app.getActiveEuclidianView().requestFocus();
 				}
@@ -454,8 +454,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				if (!commandFound) {
 					Object[] options = { loc.getPlain("OK"),
 							loc.getPlain("ShowOnlineHelp") };
-					int n = JOptionPane.showOptionDialog(
-							app.getMainComponent(),
+					int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 							loc.getMenu(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
 							GeoGebraConstants.APPLICATION_NAME + " - "
@@ -503,8 +502,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// ctrl pressed on Mac
 		// or alt on Windows
-		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e
-				.isAltDown();
+		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown()
+				: e.isAltDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
@@ -514,7 +513,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		char charPressed = e.getKeyChar();
 
-		if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
+		if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed)
+				|| modifierKeyPressed)
 				&& !(ctrlC && (AppD.MAC_OS || AppD.LINUX))
 				&& !(e.getKeyCode() == KeyEvent.VK_A && AppD.MAC_OS)) {
 			clearSelection();
@@ -603,7 +603,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 			}
 		}
 
-		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
+		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
+				|| ch == ']')) {
 			super.keyTyped(e);
 			return;
 		}
@@ -642,8 +643,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		}
 
 		// auto-close parentheses
-		if (!e.isAltDown()
-				&& (caretPos == text.length() || org.geogebra.common.gui.inputfield.MyTextField
+		if (!e.isAltDown() && (caretPos == text.length()
+				|| org.geogebra.common.gui.inputfield.MyTextField
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
@@ -679,8 +680,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = InputHelper.updateCurrentWord(searchRight,
-				this.curWord,
+		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
 				getText(), getCaretPosition(), true);
 		if (next > -1) {
 			this.curWordStart = next;
@@ -691,9 +691,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public static String getWordAtPos(String text, int pos) {
 		// search to the left
 		int wordStart = pos - 1;
-		while (wordStart >= 0
-				&& StringUtil.isLetterOrDigitOrUnderscore(text
-						.charAt(wordStart)))
+		while (wordStart >= 0 && StringUtil
+				.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
 			--wordStart;
 		wordStart++;
 
@@ -940,13 +939,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private void showCommandHelp(String cmd, boolean cas) {
 		// show help for current command (current word)
 		Localization loc = app.getLocalization();
-		String help = cas ? loc.getCommandSyntaxCAS(cmd) : loc
-				.getCommandSyntax(cmd);
+		String help = cas ? loc.getCommandSyntaxCAS(cmd)
+				: loc.getCommandSyntax(cmd);
 
 		// show help if available
 		if (help != null) {
-			app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n"
-					+ help, cmd, null));
+			app.showError(new MyError(loc,
+					loc.getPlain("Syntax") + ":\n" + help, cmd, null));
 		} else {
 			app.getGuiManager().openCommandHelp(null);
 		}
@@ -991,7 +990,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		super.setBackground(GColorD.getAwtColor(color));
 
 	}
-
 
 	public void addFocusListener(FocusListener focusListener) {
 		if (focusListener instanceof FocusListenerD) {
@@ -1053,8 +1051,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
-			int width,
-			int height) {
+			int width, int height) {
 
 		g2.setPaint(bgColor);
 		g2.fillRect(left - 1, top - 1, width - 1, height - 4);

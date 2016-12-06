@@ -124,11 +124,10 @@ public class ANOVATable extends BasicStatTable implements StatTableListener {
 		// check if each category has enough data and all is double[]
 		for (double[] array : categoryData) {
 			if (array.length <= 1) {
-				throw MathRuntimeException
-						.createIllegalArgumentException(
-								// LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
-								"two or more values required in each category, one has {0}",
-								array.length);
+				throw MathRuntimeException.createIllegalArgumentException(
+						// LocalizedFormats.TWO_OR_MORE_VALUES_IN_CATEGORY_REQUIRED,
+						"two or more values required in each category, one has {0}",
+						array.length);
 			}
 		}
 
@@ -158,12 +157,12 @@ public class ANOVATable extends BasicStatTable implements StatTableListener {
 				totsumsq.increment(val);
 			}
 			dfwg += num - 1;
-			double ss = sumsq.getResult() - sum.getResult() * sum.getResult()
-					/ num;
+			double ss = sumsq.getResult()
+					- sum.getResult() * sum.getResult() / num;
 			sswg += ss;
 		}
-		double sst = totsumsq.getResult() - totsum.getResult()
-				* totsum.getResult() / totnum;
+		double sst = totsumsq.getResult()
+				- totsum.getResult() * totsum.getResult() / totnum;
 		double ssbg = sst - sswg;
 		int dfbg = categoryData.size() - 1;
 		double msbg = ssbg / dfbg;

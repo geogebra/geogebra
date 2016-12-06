@@ -46,8 +46,8 @@ import org.geogebra.common.util.debug.Log;
  * behaves like a kind of "singleton factory".
  * 
  * This class implements all the commands of GeoGebraPreferences, but stores in
- * propertyfile given on the commandline: --settingsFile=<path>\<filename>
- * (prefs.properties)
+ * propertyfile given on the commandline: --settingsFile=<path>\
+ * <filename> (prefs.properties)
  * 
  * Options/ToDo: Might as well store: xml in user.xml ggt in macro.bin to avoid
  * escaping "=", b64 encode/decoding and save some time... Also useful to have
@@ -90,13 +90,14 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		if (singleton == null) {
 			singleton = new GeoGebraPortablePreferences();
 			singleton.loadPreferences();
-		}// if
+		} // if
 		return singleton;
 	}// getPref()
 
 	private void loadPreferences() {
 		try { // debug("path: "+GeoGebraPreferences.PROPERTY_FILEPATH);
-			File propertyfile = new File(GeoGebraPreferencesD.PROPERTY_FILEPATH);
+			File propertyfile = new File(
+					GeoGebraPreferencesD.PROPERTY_FILEPATH);
 			if (propertyfile.exists()) {
 				// path=propertyfile.getCanonicalPath();
 				BufferedInputStream fis = new BufferedInputStream(
@@ -106,11 +107,11 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			} else {
 				// debug("Found no settings file...");
 				clearPreferences(); // clean and store a blank one.
-			}// if
+			} // if
 		} catch (Exception e) {
 			Log.debug("Problem loading settings file...");
 			e.printStackTrace();
-		}// try-catch
+		} // try-catch
 	}// loadPreferences
 
 	private void storePreferences() {
@@ -119,21 +120,29 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				BufferedOutputStream os = new BufferedOutputStream(
 						new FileOutputStream(new File(
 								GeoGebraPreferencesD.PROPERTY_FILEPATH)));
-				properties.store(os, COMMENT); // Application.debug("storePreferences(): ");properties.list(System.out);
+				properties.store(os, COMMENT); // Application.debug("storePreferences():
+												// ");properties.list(System.out);
 				os.close();
 			} catch (Exception e) {
 				Log.debug("Problem with storing of preferences.properties..."
 						+ e.toString());
-			}// try-catch
-		}// if not read-only. (else do nothing...)
+			} // try-catch
+		} // if not read-only. (else do nothing...)
 	}// storePreferences()
 
 	// / --- GeoGebraPreferences interface --- ///
-	public String loadPreference(String key, String defaultValue) { // debug("loadPreferene() called with: "+key+",  "+defaultValue);
+	public String loadPreference(String key, String defaultValue) { // debug("loadPreferene()
+																	// called
+																	// with:
+																	// "+key+",
+																	// "+defaultValue);
 		return get(key, defaultValue);
 	}// loadPreference(key,def)
 
-	public void savePreference(String key, String value) { // debug("savePreferneces() called with: "+key+",  "+value);
+	public void savePreference(String key, String value) { // debug("savePreferneces()
+															// called with:
+															// "+key+",
+															// "+value);
 		set(key, value);
 	}// savePreferences(key,val)
 
@@ -141,7 +150,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	 * Returns the path of the first file in the file list
 	 */
 	public File getDefaultFilePath() {
-		File file = new File(properties.getProperty(APP_FILE_ + "1", "")); // debug("getDeafultFilepath(): "+file.toString());
+		File file = new File(properties.getProperty(APP_FILE_ + "1", "")); // debug("getDeafultFilepath():
+																			// "+file.toString());
 		if (file.exists())
 			return file.getParentFile();
 		else
@@ -199,7 +209,9 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	public void loadFileList() {
 		// load last four files
 		for (int i = AppD.MAX_RECENT_FILES; i >= 1; i--) {
-			File file = new File(get(APP_FILE_ + i, "")); // debug("loadFileList() called: "+file.toString());
+			File file = new File(get(APP_FILE_ + i, "")); // debug("loadFileList()
+															// called:
+															// "+file.toString());
 			AppD.addToFileList(file);
 		}
 	}// loadFileList()
@@ -214,7 +226,8 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			for (int i = 1; i <= AppD.MAX_RECENT_FILES; i++) {
 				File file = AppD.getFromFileList(i - 1);
 				if (file != null) {
-					path = file.getCanonicalPath(); // debug("saveFilelist(): "+path.toString());
+					path = file.getCanonicalPath(); // debug("saveFilelist():
+													// "+path.toString());
 					set(APP_FILE_ + i, path);
 				} else
 					set(APP_FILE_ + i, "");
@@ -281,7 +294,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			} else {
 				byte[] ggtFile = Base64.decode(ggtString);
 				app.loadMacroFileFromByteArray(ggtFile, true);
-			}// if error
+			} // if error
 
 			// load preferences xml
 			initDefaultXML(app); // This might not have been called before!
@@ -301,9 +314,10 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}// try-catch
+		} // try-catch
 
-		app.setDefaultCursor(); // debug("loadXMLPreferences() called");properties.list(System.out);
+		app.setDefaultCursor(); // debug("loadXMLPreferences()
+								// called");properties.list(System.out);
 	}// loadXMLPreferences(Application)
 
 	/**
@@ -326,7 +340,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			return properties.getProperty(key, def);
 		} else {
 			return ERROR;
-		}// if
+		} // if
 	}// get()
 
 	public final void set(String key, String val) {

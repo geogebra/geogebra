@@ -32,84 +32,83 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 
 /**
- * Represents an attached MIDI device, such as a keyboard - use this class
- * to send MIDI from your JFugue program to a keyboard or sythesizer.
- * This class uses javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
+ * Represents an attached MIDI device, such as a keyboard - use this class to
+ * send MIDI from your JFugue program to a keyboard or sythesizer. This class
+ * uses javax.sound.MidiDevice, but is not derived from javax.sound.MidiDevice.
  * 
  * @author David Koelle
  * @version 3.0
  */
-public class DeviceThatWillReceiveMidi 
-{
-    private MidiDevice device;
-    private Receiver receiver;
-    
-    /**
-     * Creates a new DeviceThatWillReceiveMidi using JFugue's Intelligent Device Resolver to pick the 
-     * most likely device to open.
-     * @throws MidiUnavailableException
-     */
-    public DeviceThatWillReceiveMidi() throws MidiUnavailableException
-    {
-        this.device = IntelligentDeviceResolver.selectReceiverDevice();
-        init();
-    }
-    
-    public DeviceThatWillReceiveMidi(MidiDevice.Info info) throws MidiUnavailableException
-    {
-        this.device = MidiSystem.getMidiDevice(info);
-        init();
-    }
-    
-    private void init() throws MidiUnavailableException
-    {
-        if (!(device.isOpen())) {
-          device.open();
-        }
+public class DeviceThatWillReceiveMidi {
+	private MidiDevice device;
+	private Receiver receiver;
 
-        this.receiver = device.getReceiver();
-    }
-    
-    /**
-     * Send the given sequence to the MIDI device - use this to send MIDI files
-     * to your keyboard!
-     *  
-     * @param sequence The sequence to send to the MIDI device
-     */
-    public void sendSequence(Sequence sequence)
-    {
-        TimeFactor.sortAndDeliverMidiMessages(sequence, new MidiMessageRecipient() {
-            public void messageReady(MidiMessage message, long timestamp)
-            {
-                receiver.send(message, -1);
-            }
-        } );
-        
-        // Send messages to turn all controllers and all notes off for all tracks (channels)
-        ShortMessage allControllersOff = new ShortMessage();
-        ShortMessage allNotesOff = new ShortMessage();
-        for (byte track=0; track < 16; track++)
-        {
-            try {
-                allControllersOff.setMessage(ShortMessage.CONTROL_CHANGE, track, (byte)121, (byte)0);
-                receiver.send(allControllersOff, -1);
-                allNotesOff.setMessage(ShortMessage.CONTROL_CHANGE, track, (byte)123, (byte)0);
-                receiver.send(allNotesOff, -1);
-            } catch (InvalidMidiDataException e)
-            {
-                throw new JFugueException(JFugueException.ERROR_PLAYING_MUSIC + e);
-            }
-        }
-    }
-    
-    public void close()
-    {
-        receiver.close();
-        device.close();
-    }
-    
-    public Receiver getReceiver()
-    {
-        return this.receiver;
-    }
+	/**
+	 * Creates a new DeviceThatWillReceiveMidi using JFugue's Intelligent Device
+	 * Resolver to pick the most likely device to open.
+	 * 
+	 * @throws MidiUnavailableException
+	 */
+	public DeviceThatWillReceiveMidi() throws MidiUnavailableException {
+		this.device = IntelligentDeviceResolver.selectReceiverDevice();
+		init();
+	}
+
+	public DeviceThatWillReceiveMidi(MidiDevice.Info info)
+			throws MidiUnavailableException {
+		this.device = MidiSystem.getMidiDevice(info);
+		init();
+	}
+
+	private void init() throws MidiUnavailableException {
+		if (!(device.isOpen())) {
+			device.open();
+		}
+
+		this.receiver = device.getReceiver();
+	}
+
+	/**
+	 * Send the given sequence to the MIDI device - use this to send MIDI files
+	 * to your keyboard!
+	 * 
+	 * @param sequence
+	 *            The sequence to send to the MIDI device
+	 */
+	public void sendSequence(Sequence sequence) {
+		TimeFactor.sortAndDeliverMidiMessages(sequence,
+				new MidiMessageRecipient() {
+					public void messageReady(MidiMessage message,
+							long timestamp) {
+						receiver.send(message, -1);
+					}
+				});
+
+		// Send messages to turn all controllers and all notes off for all
+		// tracks (channels)
+		ShortMessage allControllersOff = new ShortMessage();
+		ShortMessage allNotesOff = new ShortMessage();
+		for (byte track = 0; track < 16; track++) {
+			try {
+				allControllersOff.setMessage(ShortMessage.CONTROL_CHANGE, track,
+						(byte) 121, (byte) 0);
+				receiver.send(allControllersOff, -1);
+				allNotesOff.setMessage(ShortMessage.CONTROL_CHANGE, track,
+						(byte) 123, (byte) 0);
+				receiver.send(allNotesOff, -1);
+			} catch (InvalidMidiDataException e) {
+				throw new JFugueException(
+						JFugueException.ERROR_PLAYING_MUSIC + e);
+			}
+		}
+	}
+
+	public void close() {
+		receiver.close();
+		device.close();
+	}
+
+	public Receiver getReceiver() {
+		return this.receiver;
+	}
 }

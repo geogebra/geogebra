@@ -47,174 +47,142 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class LinearGradient extends Gradient
-{
-    public static final String TAG_NAME = "lineargradient";
-    
-    float x1 = 0f;
-    float y1 = 0f;
-    float x2 = 1f;
-    float y2 = 0f;
+public class LinearGradient extends Gradient {
+	public static final String TAG_NAME = "lineargradient";
 
-    /**
-     * Creates a new instance of LinearGradient
-     */
-    public LinearGradient()
-    {
-    }
+	float x1 = 0f;
+	float y1 = 0f;
+	float x2 = 1f;
+	float y2 = 0f;
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of LinearGradient
+	 */
+	public LinearGradient() {
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-        StyleAttribute sty = new StyleAttribute();
+	protected void build() throws SVGException {
+		super.build();
 
-        if (getPres(sty.setName("x1")))
-        {
-            x1 = sty.getFloatValueWithUnits();
-        }
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("y1")))
-        {
-            y1 = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x1"))) {
+			x1 = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("x2")))
-        {
-            x2 = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("y1"))) {
+			y1 = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("y2")))
-        {
-            y2 = sty.getFloatValueWithUnits();
-        }
-    }
+		if (getPres(sty.setName("x2"))) {
+			x2 = sty.getFloatValueWithUnits();
+		}
 
-    public Paint getPaint(Rectangle2D bounds, AffineTransform xform)
-    {
-        com.kitfox.svg.batik.MultipleGradientPaint.CycleMethodEnum method;
-        switch (spreadMethod)
-        {
-            default:
-            case SM_PAD:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.NO_CYCLE;
-                break;
-            case SM_REPEAT:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.REPEAT;
-                break;
-            case SM_REFLECT:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.REFLECT;
-                break;
-        }
+		if (getPres(sty.setName("y2"))) {
+			y2 = sty.getFloatValueWithUnits();
+		}
+	}
 
-        Paint paint;
-        Point2D.Float pt1 = new Point2D.Float(x1, y1);
-        Point2D.Float pt2 = new Point2D.Float(x2, y2);
-        if (pt1.equals(pt2))
-        {
-            Color[] colors = getStopColors();
-            paint = colors.length > 0 ? colors[0] : Color.black;
-        } else if (gradientUnits == GU_USER_SPACE_ON_USE)
-        {
-            paint = new com.kitfox.svg.batik.LinearGradientPaint(
-                pt1,
-                pt2,
-                getStopFractions(),
-                getStopColors(),
-                method,
-                com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
-                gradientTransform == null
-                ? new AffineTransform()
-                : gradientTransform);
-        } else
-        {
-            AffineTransform viewXform = new AffineTransform();
-            viewXform.translate(bounds.getX(), bounds.getY());
+	public Paint getPaint(Rectangle2D bounds, AffineTransform xform) {
+		com.kitfox.svg.batik.MultipleGradientPaint.CycleMethodEnum method;
+		switch (spreadMethod) {
+		default:
+		case SM_PAD:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.NO_CYCLE;
+			break;
+		case SM_REPEAT:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.REPEAT;
+			break;
+		case SM_REFLECT:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.REFLECT;
+			break;
+		}
 
-            //This is a hack to get around shapes that have a width or height of 0.  Should be close enough to the true answer.
-            double width = Math.max(1, bounds.getWidth());
-            double height = Math.max(1, bounds.getHeight());
-            viewXform.scale(width, height);
+		Paint paint;
+		Point2D.Float pt1 = new Point2D.Float(x1, y1);
+		Point2D.Float pt2 = new Point2D.Float(x2, y2);
+		if (pt1.equals(pt2)) {
+			Color[] colors = getStopColors();
+			paint = colors.length > 0 ? colors[0] : Color.black;
+		} else if (gradientUnits == GU_USER_SPACE_ON_USE) {
+			paint = new com.kitfox.svg.batik.LinearGradientPaint(pt1, pt2,
+					getStopFractions(), getStopColors(), method,
+					com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
+					gradientTransform == null ? new AffineTransform()
+							: gradientTransform);
+		} else {
+			AffineTransform viewXform = new AffineTransform();
+			viewXform.translate(bounds.getX(), bounds.getY());
 
-            if (gradientTransform != null)
-            {
-                viewXform.concatenate(gradientTransform);
-            }
+			// This is a hack to get around shapes that have a width or height
+			// of 0. Should be close enough to the true answer.
+			double width = Math.max(1, bounds.getWidth());
+			double height = Math.max(1, bounds.getHeight());
+			viewXform.scale(width, height);
 
-            paint = new com.kitfox.svg.batik.LinearGradientPaint(
-                pt1,
-                pt2,
-                getStopFractions(),
-                getStopColors(),
-                method,
-                com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
-                viewXform);
-        }
+			if (gradientTransform != null) {
+				viewXform.concatenate(gradientTransform);
+			}
 
-        return paint;
-    }
+			paint = new com.kitfox.svg.batik.LinearGradientPaint(pt1, pt2,
+					getStopFractions(), getStopColors(), method,
+					com.kitfox.svg.batik.MultipleGradientPaint.SRGB, viewXform);
+		}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return stopChange;
-        boolean changeState = super.updateTime(curTime);
+		return paint;
+	}
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return stopChange;
+		boolean changeState = super.updateTime(curTime);
 
-        if (getPres(sty.setName("x1")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x1)
-            {
-                x1 = newVal;
-                shapeChange = true;
-            }
-        }
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("y1")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y1)
-            {
-                y1 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("x1"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x1) {
+				x1 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("x2")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x2)
-            {
-                x2 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("y1"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y1) {
+				y1 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("y2")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y2)
-            {
-                y2 = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("x2"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x2) {
+				x2 = newVal;
+				shapeChange = true;
+			}
+		}
 
-        return changeState || shapeChange;
-    }
+		if (getPres(sty.setName("y2"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y2) {
+				y2 = newVal;
+				shapeChange = true;
+			}
+		}
+
+		return changeState || shapeChange;
+	}
 }

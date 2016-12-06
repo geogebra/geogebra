@@ -131,8 +131,6 @@ public class SoundManagerD implements SoundManager {
 	 */
 	public void playFile(final String fileName) {
 
-
-
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 
@@ -149,8 +147,7 @@ public class SoundManagerD implements SoundManager {
 							String url = app.getURLforID(id);
 
 							// #5094
-							is = new URL(url)
-									.openStream();
+							is = new URL(url).openStream();
 
 						} else if (fileName.startsWith("http:")
 								|| fileName.startsWith("https:")) {
@@ -189,10 +186,6 @@ public class SoundManagerD implements SoundManager {
 			}
 		});
 
-
-
-
-
 	}
 
 	// http://stackoverflow.com/questions/13789063/get-sound-from-a-url-with-java
@@ -212,20 +205,17 @@ public class SoundManagerD implements SoundManager {
 				}
 			});
 
-
-
 			if (true)
 				return;
 
 			AudioInputStream in = AudioSystem.getAudioInputStream(new URL(url));
 			AudioFormat baseFormat = in.getFormat();
 			AudioFormat decodedFormat = new AudioFormat(
-					AudioFormat.Encoding.PCM_SIGNED,
-					baseFormat.getSampleRate(), 16, baseFormat.getChannels(),
-					baseFormat.getChannels() * 2, baseFormat.getSampleRate(),
-					false);
-			AudioInputStream din = AudioSystem.getAudioInputStream(
-					decodedFormat, in);
+					AudioFormat.Encoding.PCM_SIGNED, baseFormat.getSampleRate(),
+					16, baseFormat.getChannels(), baseFormat.getChannels() * 2,
+					baseFormat.getSampleRate(), false);
+			AudioInputStream din = AudioSystem
+					.getAudioInputStream(decodedFormat, in);
 			DataLine.Info info = new DataLine.Info(SourceDataLine.class,
 					decodedFormat);
 			SourceDataLine line = (SourceDataLine) AudioSystem.getLine(info);

@@ -49,8 +49,8 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
-public class OptionsAdvancedD extends OptionsAdvanced implements
-		OptionPanelD, ActionListener, ChangeListener, FocusListener, SetLabels {
+public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
+		ActionListener, ChangeListener, FocusListener, SetLabels {
 
 	/**
 	 * Application object.
@@ -105,8 +105,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * to be translated) This is just an example, it will be overwritten by
 	 * tooltipTimeouts in MyXMLHandler, plus "-" instead of "0"
 	 */
-	private String[] tooltipTimeouts = new String[] { "1", "3", "5", "10",
-			"20", "30", "60", "-" };
+	private String[] tooltipTimeouts = new String[] { "1", "3", "5", "10", "20",
+			"30", "60", "-" };
 
 	private JPanel wrappedPanel;
 
@@ -177,15 +177,15 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 */
 	private void initVirtualKeyboardPanel() {
 		virtualKeyboardPanel = new JPanel();
-		virtualKeyboardPanel.setLayout(new BoxLayout(virtualKeyboardPanel,
-				BoxLayout.Y_AXIS));
+		virtualKeyboardPanel.setLayout(
+				new BoxLayout(virtualKeyboardPanel, BoxLayout.Y_AXIS));
 
 		keyboardLanguageLabel = new JLabel();
 		virtualKeyboardPanel.add(LayoutUtil.flowPanel(keyboardLanguageLabel));
 		cbKeyboardLanguage = new JComboBox();
 		// listener to this combo box is added in setLabels()
-		virtualKeyboardPanel.add(LayoutUtil.flowPanel(
-				Box.createHorizontalStrut(20), cbKeyboardLanguage));
+		virtualKeyboardPanel.add(LayoutUtil
+				.flowPanel(Box.createHorizontalStrut(20), cbKeyboardLanguage));
 
 		widthLabel = new JLabel();
 		tfKeyboardWidth = new JTextField(3);
@@ -203,8 +203,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 		opacityLabel = new JLabel();
 		slOpacity = new JSlider(25, 100);
-		slOpacity.setPreferredSize(new Dimension(100, (int) slOpacity
-				.getPreferredSize().getHeight()));
+		slOpacity.setPreferredSize(new Dimension(100,
+				(int) slOpacity.getPreferredSize().getHeight()));
 		// listener added in updateGUI()
 		opacityLabel.setLabelFor(slOpacity);
 		virtualKeyboardPanel.add(LayoutUtil.flowPanel(cbKeyboardShowAutomatic,
@@ -217,8 +217,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 */
 	private void initGUIFontSizePanel() {
 		guiFontsizePanel = new JPanel();
-		guiFontsizePanel.setLayout(new BoxLayout(guiFontsizePanel,
-				BoxLayout.Y_AXIS));
+		guiFontsizePanel
+				.setLayout(new BoxLayout(guiFontsizePanel, BoxLayout.Y_AXIS));
 
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
 
@@ -273,8 +273,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
 
-		tooltipPanel.add(LayoutUtil.flowPanel(tooltipTimeoutLabel,
-				cbTooltipTimeout));
+		tooltipPanel.add(
+				LayoutUtil.flowPanel(tooltipTimeoutLabel, cbTooltipTimeout));
 	}
 
 	/**
@@ -337,8 +337,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * Initialize the use of path/region parameters panel
 	 */
 	private void initUsePathAndRegionParametersPanel() {
-		usePathAndRegionParametersPanel = new JPanel(new FlowLayout(
-				FlowLayout.LEFT));
+		usePathAndRegionParametersPanel = new JPanel(
+				new FlowLayout(FlowLayout.LEFT));
 
 		usePathAndRegionParametersButtonGroup = new ButtonGroup();
 
@@ -419,27 +419,27 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		cbUseLocalDigits.setSelected(loc.isUsingLocalizedDigits());
 		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
-		angleUnitRadioDegree
-				.setSelected(app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
-		angleUnitRadioRadian
-				.setSelected(app.getKernel().getAngleUnit() != Kernel.ANGLE_DEGREE);
+		angleUnitRadioDegree.setSelected(
+				app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
+		angleUnitRadioRadian.setSelected(
+				app.getKernel().getAngleUnit() != Kernel.ANGLE_DEGREE);
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
 
-		usePathAndRegionParametersRadioOn
-				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.ON);
-		usePathAndRegionParametersRadioOff
-				.setSelected(app.getKernel().usePathAndRegionParameters == PathRegionHandling.OFF);
+		usePathAndRegionParametersRadioOn.setSelected(app
+				.getKernel().usePathAndRegionParameters == PathRegionHandling.ON);
+		usePathAndRegionParametersRadioOff.setSelected(app
+				.getKernel().usePathAndRegionParameters == PathRegionHandling.OFF);
 
-		rightAngleRadio1.setSelected(app.getEuclidianView1()
-				.getRightAngleStyle() == 0);
-		rightAngleRadio2.setSelected(app.getEuclidianView1()
-				.getRightAngleStyle() == 1);
-		rightAngleRadio3.setSelected(app.getEuclidianView1()
-				.getRightAngleStyle() == 2);
-		rightAngleRadio4.setSelected(app.getEuclidianView1()
-				.getRightAngleStyle() == 3);
+		rightAngleRadio1
+				.setSelected(app.getEuclidianView1().getRightAngleStyle() == 0);
+		rightAngleRadio2
+				.setSelected(app.getEuclidianView1().getRightAngleStyle() == 1);
+		rightAngleRadio3
+				.setSelected(app.getEuclidianView1().getRightAngleStyle() == 2);
+		rightAngleRadio4
+				.setSelected(app.getEuclidianView1().getRightAngleStyle() == 3);
 
 		coordinatesRadio1.setSelected(app.getKernel().getCoordStyle() == 0);
 		coordinatesRadio2.setSelected(app.getKernel().getCoordStyle() == 1);
@@ -513,8 +513,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	public void updateGUIFont() {
 		cbGUIFont.removeActionListener(this);
 
-		if (cbGUIFont.getItemCount() == Util.menuFontSizesLength()
-				+ 1) {
+		if (cbGUIFont.getItemCount() == Util.menuFontSizesLength() + 1) {
 			int gfs = app.getGUIFontSize();
 			if (gfs <= -1) {
 				cbGUIFont.setSelectedIndex(0);
@@ -526,9 +525,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 					}
 				}
 				if (Util.menuFontSizes(Util.menuFontSizesLength() - 1) < gfs) {
-					cbGUIFont
-							.setSelectedIndex(
-									Util.menuFontSizesLength());
+					cbGUIFont.setSelectedIndex(Util.menuFontSizesLength());
 				}
 			}
 		}
@@ -538,16 +535,14 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 	public void updateTooltipLanguages() {
 		ArrayList<Locale> locales = getSupportedLocales();
-		if (cbTooltipLanguage.getItemCount() == locales.size()
-				+ 1) {
+		if (cbTooltipLanguage.getItemCount() == locales.size() + 1) {
 			Locale ttl = app.getLocalization().getTooltipLocale();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
 				for (int i = 0; i < locales.size(); i++) {
-					if (locales.get(i).toString()
-							.equals(ttl.toString())) {
+					if (locales.get(i).toString().equals(ttl.toString())) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
 						break;
@@ -582,8 +577,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 				app.setTooltipLanguage(null);
 			else
 				app.setTooltipLanguage(
-						getSupportedLocales()
-						.get(index).toString());
+						getSupportedLocales().get(index).toString());
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
 		} else if (source == cbUseLocalLabels) {
@@ -618,8 +612,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == usePathAndRegionParametersRadioOff) {
-			app.getKernel().setUsePathAndRegionParameters(
-					PathRegionHandling.OFF);
+			app.getKernel()
+					.setUsePathAndRegionParameters(PathRegionHandling.OFF);
 			// app.getKernel().updateConstruction();
 			app.setUnsaved();
 		} else if (source == coordinatesRadio1) {
@@ -640,8 +634,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		} else if (source == cbKeyboardLanguage) {
 			int index = cbKeyboardLanguage.getSelectedIndex();
 			if (index == 0)
-				settings.getKeyboard().setKeyboardLocale(
-						app.getLocale().toString());
+				settings.getKeyboard()
+						.setKeyboardLocale(app.getLocale().toString());
 			else
 				settings.getKeyboard().setKeyboardLocale(
 						KeyboardSettings.supportedLocales.get(index - 1));
@@ -657,31 +651,33 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 				app.getEuclidianView2(1).updateAllDrawables(true);
 			}
 			if (app.hasEuclidianView3D()) {
-				app.getEuclidianView3D().updateAllDrawables();		
+				app.getEuclidianView3D().updateAllDrawables();
 			}
 		}
 	}
-	
-	private void handleEVOption(Object source){
+
+	private void handleEVOption(Object source) {
 		if (source == rightAngleRadio1) {
-			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
+			app.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
 		} else if (source == rightAngleRadio2) {
-			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
+			app.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
 		} else if (source == rightAngleRadio3) {
-			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
+			app.setRightAngleStyle(
+					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 		} else if (source == rightAngleRadio4) {
 			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
 		}
 	}
-
 
 	/**
 	 * Slider changed.
 	 */
 	public void stateChanged(ChangeEvent e) {
 		if (e.getSource() == slOpacity) {
-			settings.getKeyboard().setKeyboardOpacity(
-					slOpacity.getValue() / 100.0f);
+			settings.getKeyboard()
+					.setKeyboardOpacity(slOpacity.getValue() / 100.0f);
 		}
 	}
 
@@ -708,8 +704,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 				kbs.setKeyboardHeight(windowHeight);
 			} catch (NumberFormatException ex) {
 				app.showError("InvalidInput", tfKeyboardHeight.getText());
-				tfKeyboardHeight.setText(Integer.toString(kbs
-						.getKeyboardHeight()));
+				tfKeyboardHeight
+						.setText(Integer.toString(kbs.getKeyboardHeight()));
 			}
 		} else if (source == tfKeyboardWidth) {
 			try {
@@ -729,21 +725,19 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 */
 	public void setLabels() {
 		virtualKeyboardPanel.setBorder(
-				LayoutUtil.titleBorder(loc
-				.getPlain("VirtualKeyboard")));
-		keyboardLanguageLabel.setText(loc.getMenu("VirtualKeyboardLanguage")
-				+ ":");
+				LayoutUtil.titleBorder(loc.getPlain("VirtualKeyboard")));
+		keyboardLanguageLabel
+				.setText(loc.getMenu("VirtualKeyboardLanguage") + ":");
 		widthLabel.setText(loc.getMenu("Width") + ":");
 		heightLabel.setText(loc.getMenu("Height") + ":");
 		cbKeyboardShowAutomatic.setText(loc.getMenu("ShowAutomatically"));
 		opacityLabel.setText(loc.getMenu("Opacity") + ":");
 
-		guiFontsizePanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("FontSize")));
+		guiFontsizePanel
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("FontSize")));
 		guiFontSizeLabel.setText(loc.getMenu("GUIFontSize") + ":");
 
-		tooltipPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Tooltips")));
+		tooltipPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Tooltips")));
 		tooltipLanguageLabel.setText(loc.getMenu("TooltipLanguage") + ":");
 		tooltipTimeoutLabel.setText(loc.getMenu("TooltipTimeout") + ":");
 
@@ -752,23 +746,23 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		cbUseLocalDigits.setText(loc.getMenu("LocalizedDigits"));
 		cbUseLocalLabels.setText(loc.getMenu("LocalizedLabels"));
 
-		angleUnitPanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("AngleUnit")));
+		angleUnitPanel
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("AngleUnit")));
 		angleUnitRadioDegree.setText(loc.getMenu("Degree"));
 		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
 
-		continuityPanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("Continuity")));
+		continuityPanel
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("Continuity")));
 		continuityRadioOn.setText(loc.getMenu("on"));
 		continuityRadioOff.setText(loc.getMenu("off"));
 
-		usePathAndRegionParametersPanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("UsePathAndRegionParameters")));
+		usePathAndRegionParametersPanel.setBorder(LayoutUtil
+				.titleBorder(app.getMenu("UsePathAndRegionParameters")));
 		usePathAndRegionParametersRadioOn.setText(loc.getMenu("on"));
 		usePathAndRegionParametersRadioOff.setText(loc.getMenu("off"));
 
-		rightAnglePanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("RightAngleStyle")));
+		rightAnglePanel.setBorder(
+				LayoutUtil.titleBorder(app.getMenu("RightAngleStyle")));
 		rightAngleRadio1.setText(loc.getMenu(loc.getMenu("off")));
 		rightAngleRadio2.setText("\u25a1");
 		rightAngleRadio3.setText("\u2219");
@@ -776,8 +770,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
 		coordinatesPanel
-				.setBorder(LayoutUtil.titleBorder(loc
-				.getPlain("Coordinates")));
+				.setBorder(LayoutUtil.titleBorder(loc.getPlain("Coordinates")));
 		coordinatesRadio1.setText(loc.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(loc.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(loc.getMenu("A: (x, y)"));
@@ -807,8 +800,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * first item in the list.
 	 */
 	private void setLabelsKeyboardLanguage() {
-		String[] languages = new String[KeyboardSettings.supportedLocales
-				.size() + 1];
+		String[] languages = new String[KeyboardSettings.supportedLocales.size()
+				+ 1];
 		languages[0] = loc.getPlain("Default");
 
 		for (int i = 0; i < KeyboardSettings.supportedLocales.size(); i++) {
@@ -831,7 +824,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 			} else {
 				// look for index in locale list and add 1 to compensate default
 				// entry
-				selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc) + 1;
+				selectedIndex = KeyboardSettings.supportedLocales.indexOf(loc)
+						+ 1;
 			}
 		}
 
@@ -851,9 +845,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		// "24 pt",
 		// "28 pt", "32 pt" };
 
-		String[] fontSizesStr = new String[Util
-				.menuFontSizesLength()
-				+ 1];
+		String[] fontSizesStr = new String[Util.menuFontSizesLength() + 1];
 		fontSizesStr[0] = loc.getPlain("Default");
 
 		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
@@ -877,8 +869,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 */
 	private void setLabelsTooltipLanguages() {
 		ArrayList<Locale> locales = getSupportedLocales();
-		String[] languages = new String[locales
-				.size() + 1];
+		String[] languages = new String[locales.size() + 1];
 		languages[0] = loc.getPlain("Default");
 		String ggbLangCode;
 

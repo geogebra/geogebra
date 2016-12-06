@@ -1,7 +1,6 @@
 // Copyright 2003, FreeHEP.
 package org.freehep.graphicsio;
 
-
 import java.util.Properties;
 
 import javax.imageio.ImageWriteParam;
@@ -15,9 +14,9 @@ import javax.imageio.ImageWriteParam;
  */
 public interface ImageParamConverter {
 
-    /**
-     * Returns a subclass of ImageWriteParam with all the instance variable set
-     * according to the properties
-     */
-    public ImageWriteParam getWriteParam(Properties properties);
+	/**
+	 * Returns a subclass of ImageWriteParam with all the instance variable set
+	 * according to the properties
+	 */
+	public ImageWriteParam getWriteParam(Properties properties);
 }

@@ -9,80 +9,84 @@ package org.mozilla.javascript.ast;
 import org.mozilla.javascript.Token;
 
 /**
- * Throw statement.  Node type is {@link Token#THROW}.<p>
+ * Throw statement. Node type is {@link Token#THROW}.
+ * <p>
  *
- * <pre><i>ThrowStatement</i> :
- *      <b>throw</b> [<i>no LineTerminator here</i>] Expression ;</pre>
+ * <pre>
+ * <i>ThrowStatement</i> :
+ *      <b>throw</b> [<i>no LineTerminator here</i>] Expression ;
+ * </pre>
  */
 public class ThrowStatement extends AstNode {
 
-    private AstNode expression;
+	private AstNode expression;
 
-    {
-        type = Token.THROW;
-    }
+	{
+		type = Token.THROW;
+	}
 
-    public ThrowStatement() {
-    }
+	public ThrowStatement() {
+	}
 
-    public ThrowStatement(int pos) {
-        super(pos);
-    }
+	public ThrowStatement(int pos) {
+		super(pos);
+	}
 
-    public ThrowStatement(int pos, int len) {
-        super(pos, len);
-    }
+	public ThrowStatement(int pos, int len) {
+		super(pos, len);
+	}
 
-    public ThrowStatement(AstNode expr) {
-        setExpression(expr);
-    }
+	public ThrowStatement(AstNode expr) {
+		setExpression(expr);
+	}
 
-    public ThrowStatement(int pos, AstNode expr) {
-        super(pos, expr.getLength());
-        setExpression(expr);
-    }
+	public ThrowStatement(int pos, AstNode expr) {
+		super(pos, expr.getLength());
+		setExpression(expr);
+	}
 
-    public ThrowStatement(int pos, int len, AstNode expr) {
-        super(pos, len);
-        setExpression(expr);
-    }
+	public ThrowStatement(int pos, int len, AstNode expr) {
+		super(pos, len);
+		setExpression(expr);
+	}
 
-    /**
-     * Returns the expression being thrown
-     */
-    public AstNode getExpression() {
-        return expression;
-    }
+	/**
+	 * Returns the expression being thrown
+	 */
+	public AstNode getExpression() {
+		return expression;
+	}
 
-    /**
-     * Sets the expression being thrown, and sets its parent
-     * to this node.
-     * @throws IllegalArgumentException} if expression is {@code null}
-     */
-    public void setExpression(AstNode expression) {
-        assertNotNull(expression);
-        this.expression = expression;
-        expression.setParent(this);
-    }
+	/**
+	 * Sets the expression being thrown, and sets its parent to this node.
+	 * 
+	 * @throws IllegalArgumentException}
+	 *             if expression is {@code null}
+	 */
+	public void setExpression(AstNode expression) {
+		assertNotNull(expression);
+		this.expression = expression;
+		expression.setParent(this);
+	}
 
-    @Override
-    public String toSource(int depth) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(makeIndent(depth));
-        sb.append("throw");
-        sb.append(" ");
-        sb.append(expression.toSource(0));
-        sb.append(";\n");
-        return sb.toString();
-    }
+	@Override
+	public String toSource(int depth) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(makeIndent(depth));
+		sb.append("throw");
+		sb.append(" ");
+		sb.append(expression.toSource(0));
+		sb.append(";\n");
+		return sb.toString();
+	}
 
-    /**
-     * Visits this node, then the thrown expression.
-     */
-    @Override
-    public void visit(NodeVisitor v) {
-        if (v.visit(this)) {
-            expression.visit(v);
-        }
-    }
+	/**
+	 * Visits this node, then the thrown expression.
+	 */
+	@Override
+	public void visit(NodeVisitor v) {
+		if (v.visit(this)) {
+			expression.visit(v);
+		}
+	}
 }

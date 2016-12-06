@@ -14,24 +14,25 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Just adding 3D view for properties
+ * 
  * @author mathieu
  *
  */
 public class PropertiesView3DD extends PropertiesViewD {
-	
+
 	private OptionsEuclidianD euclidianPanel3D;
 	private OptionsEuclidianForPlaneD euclidianForPlanePanel;
 
 	/**
 	 * Constructor
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public PropertiesView3DD(AppD app) {
 		super(app);
 	}
-	
-	
-	
+
 	@Override
 	public OptionPanelD getOptionPanel(OptionType type) {
 
@@ -61,16 +62,15 @@ public class PropertiesView3DD extends PropertiesViewD {
 
 			return euclidianForPlanePanel;
 		}
-		
+
 		return super.getOptionPanel(type);
 	}
-	
-	
+
 	@Override
 	public void setLabels() {
-		
+
 		super.setLabels();
-		
+
 		if (euclidianPanel3D != null) {
 			euclidianPanel3D.setLabels();
 		}
@@ -80,16 +80,16 @@ public class PropertiesView3DD extends PropertiesViewD {
 		}
 
 	}
-	
+
 	@Override
 	public void updateFonts() {
-		
+
 		if (isIniting) {
 			return;
 		}
 
 		super.updateFonts();
-		
+
 		if (euclidianPanel3D != null) {
 			euclidianPanel3D.updateFont();
 		}
@@ -97,9 +97,9 @@ public class PropertiesView3DD extends PropertiesViewD {
 		if (euclidianForPlanePanel != null) {
 			euclidianForPlanePanel.updateFont();
 		}
-		
+
 	}
-	
+
 	@Override
 	protected PropertiesStyleBarD newPropertiesStyleBar() {
 		return new PropertiesStyleBar3DD(this, (AppD) app);

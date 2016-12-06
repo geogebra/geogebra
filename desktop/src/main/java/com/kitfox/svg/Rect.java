@@ -50,263 +50,218 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Rect extends ShapeElement
-{
-    public static final String TAG_NAME = "rect";
+public class Rect extends ShapeElement {
+	public static final String TAG_NAME = "rect";
 
-    float x = 0f;
-    float y = 0f;
-    float width = 0f;
-    float height = 0f;
-    float rx = 0f;
-    float ry = 0f;
-    RectangularShape rect;
+	float x = 0f;
+	float y = 0f;
+	float width = 0f;
+	float height = 0f;
+	float rx = 0f;
+	float ry = 0f;
+	RectangularShape rect;
 
-    /**
-     * Creates a new instance of Rect
-     */
-    public Rect()
-    {
-    }
+	/**
+	 * Creates a new instance of Rect
+	 */
+	public Rect() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    private void writeObject(ObjectOutputStream out) throws IOException
-    {
-        out.writeFloat(x);
-        out.writeFloat(y);
-        out.writeFloat(width);
-        out.writeFloat(height);
-        out.writeFloat(rx);
-        out.writeFloat(ry);
-    }
+	private void writeObject(ObjectOutputStream out) throws IOException {
+		out.writeFloat(x);
+		out.writeFloat(y);
+		out.writeFloat(width);
+		out.writeFloat(height);
+		out.writeFloat(rx);
+		out.writeFloat(ry);
+	}
 
-    private void readObject(ObjectInputStream in) throws IOException
-    {
-        x = in.readFloat();
-        y = in.readFloat();
-        width = in.readFloat();
-        height = in.readFloat();
-        rx = in.readFloat();
-        ry = in.readFloat();
+	private void readObject(ObjectInputStream in) throws IOException {
+		x = in.readFloat();
+		y = in.readFloat();
+		width = in.readFloat();
+		height = in.readFloat();
+		rx = in.readFloat();
+		ry = in.readFloat();
 
-        if (rx == 0f && ry == 0f)
-        {
-            rect = new Rectangle2D.Float(x, y, width, height);
-        } else
-        {
-            rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2, ry * 2);
-        }
-    }
+		if (rx == 0f && ry == 0f) {
+			rect = new Rectangle2D.Float(x, y, width, height);
+		} else {
+			rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2,
+					ry * 2);
+		}
+	}
 
-    /*
-     public void loaderStartElement(SVGLoaderHelper helper, Attributes attrs, SVGElement parent)
-     {
-     //Load style string
-     super.loaderStartElement(helper, attrs, parent);
+	/*
+	 * public void loaderStartElement(SVGLoaderHelper helper, Attributes attrs,
+	 * SVGElement parent) { //Load style string super.loaderStartElement(helper,
+	 * attrs, parent);
+	 * 
+	 * String x = attrs.getValue("x"); String y = attrs.getValue("y"); String
+	 * width = attrs.getValue("width"); String height =
+	 * attrs.getValue("height"); String rx = attrs.getValue("rx"); String ry =
+	 * attrs.getValue("ry");
+	 * 
+	 * if (rx == null) rx = ry; if (ry == null) ry = rx;
+	 * 
+	 * this.x = XMLParseUtil.parseFloat(x); this.y = XMLParseUtil.parseFloat(y);
+	 * this.width = XMLParseUtil.parseFloat(width); this.height =
+	 * XMLParseUtil.parseFloat(height); if (rx != null) { this.rx =
+	 * XMLParseUtil.parseFloat(rx); this.ry = XMLParseUtil.parseFloat(ry); }
+	 * 
+	 * build(); // setBounds(this.x, this.y, this.width, this.height); }
+	 */
+	protected void build() throws SVGException {
+		super.build();
 
-     String x = attrs.getValue("x");
-     String y = attrs.getValue("y");
-     String width = attrs.getValue("width");
-     String height = attrs.getValue("height");
-     String rx = attrs.getValue("rx");
-     String ry = attrs.getValue("ry");
+		StyleAttribute sty = new StyleAttribute();
 
-     if (rx == null) rx = ry;
-     if (ry == null) ry = rx;
+		// SVGElement parent = this.getParent();
+		// if (parent instanceof RenderableElement)
+		// {
+		// RenderableElement re = (RenderableElement)parent;
+		// Rectangle2D bounds = re.getBoundingBox();
+		// bounds = null;
+		// }
 
-     this.x = XMLParseUtil.parseFloat(x);
-     this.y = XMLParseUtil.parseFloat(y);
-     this.width = XMLParseUtil.parseFloat(width);
-     this.height = XMLParseUtil.parseFloat(height);
-     if (rx != null)
-     {
-     this.rx = XMLParseUtil.parseFloat(rx);
-     this.ry = XMLParseUtil.parseFloat(ry);
-     }
+		if (getPres(sty.setName("x"))) {
+			x = sty.getFloatValueWithUnits();
+		}
 
-     build();
-     //        setBounds(this.x, this.y, this.width, this.height);
-     }
-     */
-    protected void build() throws SVGException
-    {
-        super.build();
+		if (getPres(sty.setName("y"))) {
+			y = sty.getFloatValueWithUnits();
+		}
 
-        StyleAttribute sty = new StyleAttribute();
+		if (getPres(sty.setName("width"))) {
+			width = sty.getFloatValueWithUnits();
+		}
 
-//        SVGElement parent = this.getParent();
-//        if (parent instanceof RenderableElement)
-//        {
-//            RenderableElement re = (RenderableElement)parent;
-//            Rectangle2D bounds = re.getBoundingBox();
-//            bounds = null;
-//        }
+		if (getPres(sty.setName("height"))) {
+			height = sty.getFloatValueWithUnits();
+		}
 
+		boolean rxSet = false;
+		if (getPres(sty.setName("rx"))) {
+			rx = sty.getFloatValueWithUnits();
+			rxSet = true;
+		}
 
-        if (getPres(sty.setName("x")))
-        {
-            x = sty.getFloatValueWithUnits();
-        }
+		boolean rySet = false;
+		if (getPres(sty.setName("ry"))) {
+			ry = sty.getFloatValueWithUnits();
+			rySet = true;
+		}
 
-        if (getPres(sty.setName("y")))
-        {
-            y = sty.getFloatValueWithUnits();
-        }
+		if (!rxSet) {
+			rx = ry;
+		}
+		if (!rySet) {
+			ry = rx;
+		}
 
-        if (getPres(sty.setName("width")))
-        {
-            width = sty.getFloatValueWithUnits();
-        }
+		if (rx == 0f && ry == 0f) {
+			rect = new Rectangle2D.Float(x, y, width, height);
+		} else {
+			rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2,
+					ry * 2);
+		}
+	}
 
-        if (getPres(sty.setName("height")))
-        {
-            height = sty.getFloatValueWithUnits();
-        }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, rect);
+		finishLayer(g);
+	}
 
-        boolean rxSet = false;
-        if (getPres(sty.setName("rx")))
-        {
-            rx = sty.getFloatValueWithUnits();
-            rxSet = true;
-        }
+	public Shape getShape() {
+		return shapeToParent(rect);
+	}
 
-        boolean rySet = false;
-        if (getPres(sty.setName("ry")))
-        {
-            ry = sty.getFloatValueWithUnits();
-            rySet = true;
-        }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(rect.getBounds2D()));
+	}
 
-        if (!rxSet)
-        {
-            rx = ry;
-        }
-        if (!rySet)
-        {
-            ry = rx;
-        }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (rx == 0f && ry == 0f)
-        {
-            rect = new Rectangle2D.Float(x, y, width, height);
-        } else
-        {
-            rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2, ry * 2);
-        }
-    }
+		if (getPres(sty.setName("x"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x) {
+				x = newVal;
+				shapeChange = true;
+			}
+		}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, rect);
-        finishLayer(g);
-    }
+		if (getPres(sty.setName("y"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y) {
+				y = newVal;
+				shapeChange = true;
+			}
+		}
 
-    public Shape getShape()
-    {
-        return shapeToParent(rect);
-    }
+		if (getPres(sty.setName("width"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != width) {
+				width = newVal;
+				shapeChange = true;
+			}
+		}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(rect.getBounds2D()));
-    }
+		if (getPres(sty.setName("height"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != height) {
+				height = newVal;
+				shapeChange = true;
+			}
+		}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+		if (getPres(sty.setName("rx"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != rx) {
+				rx = newVal;
+				shapeChange = true;
+			}
+		}
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		if (getPres(sty.setName("ry"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != ry) {
+				ry = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("x")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x)
-            {
-                x = newVal;
-                shapeChange = true;
-            }
-        }
+		if (shapeChange) {
+			build();
+			// if (rx == 0f && ry == 0f)
+			// {
+			// rect = new Rectangle2D.Float(x, y, width, height);
+			// }
+			// else
+			// {
+			// rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2, ry
+			// * 2);
+			// }
+			// return true;
+		}
 
-        if (getPres(sty.setName("y")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y)
-            {
-                y = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (getPres(sty.setName("width")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != width)
-            {
-                width = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (getPres(sty.setName("height")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != height)
-            {
-                height = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (getPres(sty.setName("rx")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != rx)
-            {
-                rx = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (getPres(sty.setName("ry")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != ry)
-            {
-                ry = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (shapeChange)
-        {
-            build();
-//            if (rx == 0f && ry == 0f)
-//            {
-//                rect = new Rectangle2D.Float(x, y, width, height);
-//            }
-//            else
-//            {
-//                rect = new RoundRectangle2D.Float(x, y, width, height, rx * 2, ry * 2);
-//            }
-//            return true;
-        }
-
-        return changeState || shapeChange;
-    }
+		return changeState || shapeChange;
+	}
 }

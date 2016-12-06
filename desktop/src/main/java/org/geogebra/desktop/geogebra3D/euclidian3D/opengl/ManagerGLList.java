@@ -121,15 +121,11 @@ public class ManagerGLList extends ManagerD {
 
 		tesselator = GLU.gluNewTess();
 
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX,
-				tessCallback);// vertexCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN,
-				tessCallback);// beginCallback);
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX, tessCallback);// vertexCallback);
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN, tessCallback);// beginCallback);
 		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR,
-				tessCallback);// errorCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE,
-				tessCallback);// combineCallback);
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR, tessCallback);// errorCallback);
+		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE, tessCallback);// combineCallback);
 
 		newList(ret);
 
@@ -224,7 +220,7 @@ public class ManagerGLList extends ManagerD {
 	protected void vertexInt(double x, double y, double z) {
 
 		// getJogl().getGL2().glVertex3i(x, y, z);
-		vertex(x,y,z);
+		vertex(x, y, z);
 	}
 
 	@Override
@@ -248,7 +244,8 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	public void rectangleGeometry(double x, double y, double z, double width, double height) {
+	public void rectangleGeometry(double x, double y, double z, double width,
+			double height) {
 		getText().rectangle(x, y, z, width, height);
 	}
 

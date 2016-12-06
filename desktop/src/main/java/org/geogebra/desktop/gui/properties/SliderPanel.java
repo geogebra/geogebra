@@ -38,9 +38,9 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanel extends JPanel implements ActionListener,
-		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-		ISliderOptionsListener {
+public class SliderPanel extends JPanel
+		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
+		SetLabels, UpdateFonts, ISliderOptionsListener {
 	/**
 	 * 
 	 */
@@ -150,13 +150,12 @@ public class SliderPanel extends JPanel implements ActionListener,
 			add(tabbedPane);
 		} else { // no tabs
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			intervalPanel.setBorder(BorderFactory.createTitledBorder(loc
-					.getPlain("Interval")));
-			sliderPanel.setBorder(BorderFactory.createTitledBorder(loc
-					.getPlain("Slider")));
+			intervalPanel.setBorder(
+					BorderFactory.createTitledBorder(loc.getPlain("Interval")));
+			sliderPanel.setBorder(
+					BorderFactory.createTitledBorder(loc.getPlain("Slider")));
 			animationPanel.setBorder(BorderFactory
-					.createTitledBorder(loc
-					.getPlain("Animation")));
+					.createTitledBorder(loc.getPlain("Animation")));
 			add(intervalPanel);
 			add(Box.createVerticalStrut(5));
 			add(sliderPanel);

@@ -72,10 +72,6 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 					}
 				});
 
-
-
-
-
 	}
 
 	@Override

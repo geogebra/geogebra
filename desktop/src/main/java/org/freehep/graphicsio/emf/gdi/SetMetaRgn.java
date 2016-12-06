@@ -14,14 +14,14 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetMetaRgn extends EMFTag {
 
-    public SetMetaRgn() {
-        super(28, 1);
-    }
+	public SetMetaRgn() {
+		super(28, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 
 }

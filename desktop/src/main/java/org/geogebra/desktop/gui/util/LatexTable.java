@@ -43,10 +43,9 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 		// this.setUseColorSwatchBorder(true);
 		this.setShowGrid(true);
 		this.setGridColor(
-				GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
-		this.setBorder(BorderFactory
-				.createLineBorder(MyTableD.TABLE_GRID_COLOR));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		this.setBorder(
+				BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 		// this.setBorder(BorderFactory.createEmptyBorder());
 		this.setShowSelection(false);
 	}

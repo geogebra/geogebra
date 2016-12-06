@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class ExcludeClipRect extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    public ExcludeClipRect() {
-        super(29, 1);
-    }
+	public ExcludeClipRect() {
+		super(29, 1);
+	}
 
-    public ExcludeClipRect(Rectangle bounds) {
-        this();
-        this.bounds = bounds;
-    }
+	public ExcludeClipRect(Rectangle bounds) {
+		this();
+		this.bounds = bounds;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        ExcludeClipRect tag = new ExcludeClipRect(emf.readRECTL());
-        return tag;
-    }
+		ExcludeClipRect tag = new ExcludeClipRect(emf.readRECTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds;
+	}
 }

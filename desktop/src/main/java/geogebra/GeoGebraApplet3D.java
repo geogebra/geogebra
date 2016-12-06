@@ -17,7 +17,8 @@ import org.geogebra.desktop.main.AppletImplementation3D;
 /**
  * GeoGebra applet
  * 
- * @see org.geogebra.desktop.main.AppletImplementation for the actual implementation
+ * @see org.geogebra.desktop.main.AppletImplementation for the actual
+ *      implementation
  * @author Markus Hohenwarter
  * @date 2008-10-24
  */

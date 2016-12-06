@@ -59,16 +59,16 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 	// Borders (not implemented yet)
 	private Border cellPadding = BorderFactory.createEmptyBorder(2, 5, 2, 5);
-	private Border bTop = BorderFactory
-			.createMatteBorder(1, 0, 0, 0, Color.RED);
+	private Border bTop = BorderFactory.createMatteBorder(1, 0, 0, 0,
+			Color.RED);
 	private Border bLeft = BorderFactory.createMatteBorder(0, 1, 0, 0,
 			Color.RED);
 	private Border bBottom = BorderFactory.createMatteBorder(0, 0, 1, 0,
 			Color.RED);
 	private Border bRight = BorderFactory.createMatteBorder(0, 0, 0, 1,
 			Color.RED);
-	private Border bAll = BorderFactory
-			.createMatteBorder(1, 1, 1, 1, Color.RED);
+	private Border bAll = BorderFactory.createMatteBorder(1, 1, 1, 1,
+			Color.RED);
 
 	// Rendering objects for lists, buttons and booleans
 	private JCheckBox checkBox;
@@ -160,8 +160,8 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 		// use special rendering for buttons, booleans and lists
 		// =======================================================
 
-		if (myTable.allowSpecialEditor()
-				&& kernel.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
+		if (myTable.allowSpecialEditor() && kernel
+				.getAlgebraStyleSpreadsheet() == Kernel.ALGEBRA_STYLE_VALUE) {
 
 			if (geo.isGeoBoolean()) {
 				checkBox.setBackground(table.getBackground());
@@ -180,8 +180,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 				// button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-				button.setForeground(GColorD.getAwtColor(geo
-						.getObjectColor()));
+				button.setForeground(GColorD.getAwtColor(geo.getObjectColor()));
 				return button;
 			}
 
@@ -217,17 +216,17 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
 					GeoElement
 							.convertIndicesToHTML(
-									geo.getDefinitionDescription(StringTemplate.defaultTemplate),
+									geo.getDefinitionDescription(
+											StringTemplate.defaultTemplate),
 									builder);
 					text = builder.toString();
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
 					builder = new IndexHTMLBuilder(true);
-					GeoElement
-							.convertIndicesToHTML(
-									geo.getDefinition(StringTemplate.defaultTemplate),
-									builder);
+					GeoElement.convertIndicesToHTML(
+							geo.getDefinition(StringTemplate.defaultTemplate),
+							builder);
 					text = builder.toString();
 
 					break;
@@ -251,8 +250,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = GColorD
-					.getAwtColor(geo.getBackgroundColor());
+			bgColor = GColorD.getAwtColor(geo.getBackgroundColor());
 			isCustomBGColor = true;
 		}
 
@@ -316,14 +314,10 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 						if (geo.isGeoText())
 							isSerif = ((GeoText) geo).isSerifFont();
 						// System.out.println(latexStr);
-						app.getDrawEquation().drawLatexImageIcon(
-								app,
-								latexIcon,
-								latexStr,
-								getFont(),
-								isSerif,
-								GColorD.getAwtColor(geo
-										.getAlgebraColor()), bgColor);
+						app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
+								latexStr, getFont(), isSerif,
+								GColorD.getAwtColor(geo.getAlgebraColor()),
+								bgColor);
 						setIcon(latexIcon);
 						setText("");
 

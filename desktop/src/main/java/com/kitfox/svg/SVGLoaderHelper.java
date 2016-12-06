@@ -62,7 +62,8 @@ public class SVGLoaderHelper {
 	// StringReader(""));
 
 	/** Creates a new instance of SVGLoaderHelper */
-	public SVGLoaderHelper(URI xmlBase, SVGUniverse universe, SVGDiagram diagram) {
+	public SVGLoaderHelper(URI xmlBase, SVGUniverse universe,
+			SVGDiagram diagram) {
 		this.xmlBase = xmlBase;
 		this.universe = universe;
 		this.diagram = diagram;

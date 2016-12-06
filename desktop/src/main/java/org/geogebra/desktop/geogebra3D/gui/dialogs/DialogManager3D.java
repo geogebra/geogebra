@@ -40,7 +40,8 @@ public class DialogManager3D extends DialogManagerD {
 					view.getDirection(), view.getEuclidianController());
 		} else {
 			// create 2D circle
-			super.showNumberInputDialogCirclePointRadius(title, geoPoint1, view);
+			super.showNumberInputDialogCirclePointRadius(title, geoPoint1,
+					view);
 		}
 	}
 
@@ -54,8 +55,8 @@ public class DialogManager3D extends DialogManagerD {
 	public void showNumberInputDialogCirclePointDirectionRadius(String title,
 			GeoPointND geoPoint, GeoDirectionND forAxis,
 			EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogCirclePointDirectionRadius((AppD) app,
 				title, handler, geoPoint, forAxis, app.getKernel());
 		id.setVisible(true);
@@ -69,8 +70,8 @@ public class DialogManager3D extends DialogManagerD {
 	@Override
 	public void showNumberInputDialogSpherePointRadius(String title,
 			GeoPointND geoPoint, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogSpherePointRadius((AppD) app, title,
 				handler, geoPoint, app.getKernel());
 		id.setVisible(true);
@@ -88,8 +89,8 @@ public class DialogManager3D extends DialogManagerD {
 	@Override
 	public void showNumberInputDialogConeTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogConeTwoPointsRadius((AppD) app, title,
 				handler, a, b, app.getKernel());
 		id.setVisible(true);
@@ -107,8 +108,8 @@ public class DialogManager3D extends DialogManagerD {
 	@Override
 	public void showNumberInputDialogCylinderTwoPointsRadius(String title,
 			GeoPointND a, GeoPointND b, EuclidianController ec) {
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogCylinderTwoPointsRadius((AppD) app,
 				title, handler, a, b, app.getKernel());
 		id.setVisible(true);
@@ -119,8 +120,8 @@ public class DialogManager3D extends DialogManagerD {
 			GeoLineND[] selectedLines, GeoElement[] selGeos,
 			EuclidianController ec) {
 
-		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
-				.getAlgebraProcessor());
+		NumberInputHandler handler = new NumberInputHandler(
+				app.getKernel().getAlgebraProcessor());
 		InputDialogD id = new InputDialogRotateAxis(((AppD) app), title,
 				handler, polys, selectedLines, selGeos, ec);
 		id.setVisible(true);

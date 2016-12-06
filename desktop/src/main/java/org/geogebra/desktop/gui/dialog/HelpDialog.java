@@ -59,8 +59,8 @@ public class HelpDialog {
 		Localization loc = app.getLocalization();
 		Object[] options = { loc.getMenu("ShowOnlineHelp"),
 				loc.getMenu("Cancel") };
-		int n = JOptionPane.showOptionDialog(app.getMainComponent(),
-				helpText, app.getMenu("ToolHelp") + " - " + toolName,
+		int n = JOptionPane.showOptionDialog(app.getMainComponent(), helpText,
+				app.getMenu("ToolHelp") + " - " + toolName,
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon,
 				options, // the titles of buttons
 				options[0]); // default button title

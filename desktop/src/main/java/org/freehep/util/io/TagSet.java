@@ -17,58 +17,63 @@ import java.util.Map;
  */
 public class TagSet {
 
-    /**
-     * This holds the individual tags.
-     */
-    protected Map tags;
+	/**
+	 * This holds the individual tags.
+	 */
+	protected Map tags;
 
-    /**
-     * The default tag handler.
-     */
-    protected Tag defaultTag;
+	/**
+	 * The default tag handler.
+	 */
+	protected Tag defaultTag;
 
-    /**
-     * Creates a Tag Set.
-     */
-    public TagSet() {
-        // Initialize the tag classes.
-        defaultTag = new UndefinedTag();
-        tags = new HashMap();
-    }
+	/**
+	 * Creates a Tag Set.
+	 */
+	public TagSet() {
+		// Initialize the tag classes.
+		defaultTag = new UndefinedTag();
+		tags = new HashMap();
+	}
 
-    /**
-     * Add a new tag to this set. If the tagID returned is the DEFAULT_TAG, then
-     * the default handler is set to the given handler.
-     * @param tag tag to be added to set
-     */
-    public void addTag(Tag tag) {
-        int id = tag.getTag();
-        if (id != Tag.DEFAULT_TAG) {
-            tags.put(new Integer(id), tag);
-        } else {
-            defaultTag = tag;
-        }
-    }
+	/**
+	 * Add a new tag to this set. If the tagID returned is the DEFAULT_TAG, then
+	 * the default handler is set to the given handler.
+	 * 
+	 * @param tag
+	 *            tag to be added to set
+	 */
+	public void addTag(Tag tag) {
+		int id = tag.getTag();
+		if (id != Tag.DEFAULT_TAG) {
+			tags.put(new Integer(id), tag);
+		} else {
+			defaultTag = tag;
+		}
+	}
 
-    /**
-     * Find tag for tagID.
-     * @param tagID tagID to find
-     * @return correspoding tag or UndefinedTag if tagID is not found.
-     */
-    public Tag get(int tagID) {
-        Tag tag = (Tag) tags.get(new Integer(tagID));
-        if (tag == null)
-            tag = defaultTag;
-        return tag;
-    }
+	/**
+	 * Find tag for tagID.
+	 * 
+	 * @param tagID
+	 *            tagID to find
+	 * @return correspoding tag or UndefinedTag if tagID is not found.
+	 */
+	public Tag get(int tagID) {
+		Tag tag = (Tag) tags.get(new Integer(tagID));
+		if (tag == null)
+			tag = defaultTag;
+		return tag;
+	}
 
-    /**
-     * Finds out if Tag for TagID exists.
-     * 
-     * @param tagID tagID to find
-     * @return true if corresponding Tag for TagID exists
-     */
-    public boolean exists(int tagID) {
-        return (tags.get(new Integer(tagID)) != null);
-    }
+	/**
+	 * Finds out if Tag for TagID exists.
+	 * 
+	 * @param tagID
+	 *            tagID to find
+	 * @return true if corresponding Tag for TagID exists
+	 */
+	public boolean exists(int tagID) {
+		return (tags.get(new Integer(tagID)) != null);
+	}
 }

@@ -47,213 +47,183 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Use extends ShapeElement
-{
-    public static final String TAG_NAME = "use";
-    
-    float x = 0f;
-    float y = 0f;
-    float width = 1f;
-    float height = 1f;
-//    SVGElement href = null;
-    URI href = null;
-    AffineTransform refXform;
+public class Use extends ShapeElement {
+	public static final String TAG_NAME = "use";
 
-    /**
-     * Creates a new instance of LinearGradient
-     */
-    public Use()
-    {
-    }
+	float x = 0f;
+	float y = 0f;
+	float width = 1f;
+	float height = 1f;
+	// SVGElement href = null;
+	URI href = null;
+	AffineTransform refXform;
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of LinearGradient
+	 */
+	public Use() {
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-        StyleAttribute sty = new StyleAttribute();
+	protected void build() throws SVGException {
+		super.build();
 
-        if (getPres(sty.setName("x")))
-        {
-            x = sty.getFloatValueWithUnits();
-        }
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("y")))
-        {
-            y = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x"))) {
+			x = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("width")))
-        {
-            width = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("y"))) {
+			y = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("height")))
-        {
-            height = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("width"))) {
+			width = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("xlink:href")))
-        {
-            URI src = sty.getURIValue(getXMLBase());
-            href = src;
-//            href = diagram.getUniverse().getElement(src);
-        }
+		if (getPres(sty.setName("height"))) {
+			height = sty.getFloatValueWithUnits();
+		}
 
-        //Determine use offset/scale
-        refXform = new AffineTransform();
-        refXform.translate(this.x, this.y);
-    }
+		if (getPres(sty.setName("xlink:href"))) {
+			URI src = sty.getURIValue(getXMLBase());
+			href = src;
+			// href = diagram.getUniverse().getElement(src);
+		}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
+		// Determine use offset/scale
+		refXform = new AffineTransform();
+		refXform.translate(this.x, this.y);
+	}
 
-        //AffineTransform oldXform = g.getTransform();
-        AffineTransform oldXform = g.getTransform();
-        g.transform(refXform);
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
 
-        SVGElement ref = diagram.getUniverse().getElement(href);
+		// AffineTransform oldXform = g.getTransform();
+		AffineTransform oldXform = g.getTransform();
+		g.transform(refXform);
 
-        if (ref == null || !(ref instanceof RenderableElement))
-        {
-            return;
-        }
+		SVGElement ref = diagram.getUniverse().getElement(href);
 
-        RenderableElement rendEle = (RenderableElement)ref;
-        rendEle.pushParentContext(this);
-        rendEle.render(g);
-        rendEle.popParentContext();
+		if (ref == null || !(ref instanceof RenderableElement)) {
+			return;
+		}
 
-        g.setTransform(oldXform);
+		RenderableElement rendEle = (RenderableElement) ref;
+		rendEle.pushParentContext(this);
+		rendEle.render(g);
+		rendEle.popParentContext();
 
-        finishLayer(g);
-    }
+		g.setTransform(oldXform);
 
-    public Shape getShape()
-    {
-        SVGElement ref = diagram.getUniverse().getElement(href);
-        if (ref instanceof ShapeElement)
-        {
-            Shape shape = ((ShapeElement) ref).getShape();
-            shape = refXform.createTransformedShape(shape);
-            shape = shapeToParent(shape);
-            return shape;
-        }
+		finishLayer(g);
+	}
 
-        return null;
-    }
+	public Shape getShape() {
+		SVGElement ref = diagram.getUniverse().getElement(href);
+		if (ref instanceof ShapeElement) {
+			Shape shape = ((ShapeElement) ref).getShape();
+			shape = refXform.createTransformedShape(shape);
+			shape = shapeToParent(shape);
+			return shape;
+		}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        SVGElement ref = diagram.getUniverse().getElement(href);
-        if (ref instanceof ShapeElement)
-        {
-            ShapeElement shapeEle = (ShapeElement) ref;
-            shapeEle.pushParentContext(this);
-            Rectangle2D bounds = shapeEle.getBoundingBox();
-            shapeEle.popParentContext();
+		return null;
+	}
 
-            bounds = refXform.createTransformedShape(bounds).getBounds2D();
-            bounds = boundsToParent(bounds);
+	public Rectangle2D getBoundingBox() throws SVGException {
+		SVGElement ref = diagram.getUniverse().getElement(href);
+		if (ref instanceof ShapeElement) {
+			ShapeElement shapeEle = (ShapeElement) ref;
+			shapeEle.pushParentContext(this);
+			Rectangle2D bounds = shapeEle.getBoundingBox();
+			shapeEle.popParentContext();
 
-            return bounds;
-        }
+			bounds = refXform.createTransformedShape(bounds).getBounds2D();
+			bounds = boundsToParent(bounds);
 
-        return null;
-    }
+			return bounds;
+		}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+		return null;
+	}
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-        if (getPres(sty.setName("x")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x)
-            {
-                x = newVal;
-                shapeChange = true;
-            }
-        }
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("y")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y)
-            {
-                y = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("x"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x) {
+				x = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("width")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != width)
-            {
-                width = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("y"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y) {
+				y = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("height")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != height)
-            {
-                height = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("width"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != width) {
+				width = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("xlink:href")))
-        {
-            URI src = sty.getURIValue(getXMLBase());
-//            SVGElement newVal = diagram.getUniverse().getElement(src);
-            if (!src.equals(href))
-            {
-                href = src;
-                shapeChange = true;
-            }
-        }
-        /*
-         if (getPres(sty.setName("xlink:href")))
-         {
-         URI src = sty.getURIValue(getXMLBase());
-         href = diagram.getUniverse().getElement(src);
-         }
-        
-         //Determine use offset/scale
-         refXform = new AffineTransform();
-         refXform.translate(this.x, this.y);
-         refXform.scale(this.width, this.height);
-         */
-        if (shapeChange)
-        {
-            build();
-            //Determine use offset/scale
-//            refXform.setToTranslation(this.x, this.y);
-//            refXform.scale(this.width, this.height);
-//            return true;
-        }
+		if (getPres(sty.setName("height"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != height) {
+				height = newVal;
+				shapeChange = true;
+			}
+		}
 
-        return changeState || shapeChange;
-    }
+		if (getPres(sty.setName("xlink:href"))) {
+			URI src = sty.getURIValue(getXMLBase());
+			// SVGElement newVal = diagram.getUniverse().getElement(src);
+			if (!src.equals(href)) {
+				href = src;
+				shapeChange = true;
+			}
+		}
+		/*
+		 * if (getPres(sty.setName("xlink:href"))) { URI src =
+		 * sty.getURIValue(getXMLBase()); href =
+		 * diagram.getUniverse().getElement(src); }
+		 * 
+		 * //Determine use offset/scale refXform = new AffineTransform();
+		 * refXform.translate(this.x, this.y); refXform.scale(this.width,
+		 * this.height);
+		 */
+		if (shapeChange) {
+			build();
+			// Determine use offset/scale
+			// refXform.setToTranslation(this.x, this.y);
+			// refXform.scale(this.width, this.height);
+			// return true;
+		}
+
+		return changeState || shapeChange;
+	}
 }

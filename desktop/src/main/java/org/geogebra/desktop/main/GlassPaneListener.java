@@ -26,8 +26,8 @@ import javax.swing.SwingUtilities;
 /**
  * Dispatches all mouse and key events from the glass pane to a given component.
  */
-public class GlassPaneListener implements MouseListener, MouseMotionListener,
-		KeyEventDispatcher {
+public class GlassPaneListener
+		implements MouseListener, MouseMotionListener, KeyEventDispatcher {
 
 	private Component glassPane, destComp;
 	private Container contentPane;
@@ -89,8 +89,8 @@ public class GlassPaneListener implements MouseListener, MouseMotionListener,
 			// Forward events to the destination comp
 			Point componentPoint = SwingUtilities.convertPoint(glassPane,
 					glassPanePoint, component);
-			component.dispatchEvent(new MouseEvent(component, e.getID(), e
-					.getWhen(), e.getModifiers(), componentPoint.x,
+			component.dispatchEvent(new MouseEvent(component, e.getID(),
+					e.getWhen(), e.getModifiers(), componentPoint.x,
 					componentPoint.y, e.getClickCount(), AppD.isRightClick(e)));
 		}
 	}

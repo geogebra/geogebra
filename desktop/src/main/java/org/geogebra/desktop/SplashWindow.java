@@ -54,8 +54,10 @@ import java.awt.event.MouseEvent;
  * To use the splash window as an about dialog write this:
  * 
  * <pre>
- * new SplashWindow(this, getToolkit().createImage(
- * 		getClass().getResource(GeoGebra.SPLASH_STRING))).show();
+ * new SplashWindow(this,
+ * 		getToolkit()
+ * 				.createImage(getClass().getResource(GeoGebra.SPLASH_STRING)))
+ * 						.show();
  * </pre>
  * 
  * The splash window disposes itself when the user clicks on it.

@@ -25,34 +25,31 @@ package org.jfugue;
 import java.io.Serializable;
 
 /**
- * This is the base class for the JFugue elements, including
- * Voice, Instrument, Note, Controller, and Tempo.  It requires that
- * elements be able to return a Music String representation of
- * their settings.
+ * This is the base class for the JFugue elements, including Voice, Instrument,
+ * Note, Controller, and Tempo. It requires that elements be able to return a
+ * Music String representation of their settings.
  *
- *@author David Koelle
- *@version 2.0
- *@version 4.0 - Added getVerifyString()
- *@version 4.0.3 - Now extends Serializable
+ * @author David Koelle
+ * @version 2.0
+ * @version 4.0 - Added getVerifyString()
+ * @version 4.0.3 - Now extends Serializable
  */
-public interface JFugueElement extends Serializable
-{
-    /**
-     * Returns the Music String representing this element and all of its settings.
-     * @return the Music String for this element
-     */
-    public String getMusicString();
+public interface JFugueElement extends Serializable {
+	/**
+	 * Returns the Music String representing this element and all of its
+	 * settings.
+	 * 
+	 * @return the Music String for this element
+	 */
+	public String getMusicString();
 
-    /**
-     * Returns a verification string, which should contain a String representation
-     * of all of the aspects of the given element.  This should be in the
-     * following form:
-     *     Thing: key=value, key=value, key=value,...
-     * For example:
-     *     Note: value=60, duration=0.25
-     *
-     * @version 4.0
-     */
-    public String getVerifyString();
+	/**
+	 * Returns a verification string, which should contain a String
+	 * representation of all of the aspects of the given element. This should be
+	 * in the following form: Thing: key=value, key=value, key=value,... For
+	 * example: Note: value=60, duration=0.25
+	 *
+	 * @version 4.0
+	 */
+	public String getVerifyString();
 }
-

@@ -54,521 +54,450 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Text extends ShapeElement
-{
-    public static final String TAG_NAME = "text";
-    
-    float x = 0;
-    float y = 0;
-    AffineTransform transform = null;
-    String fontFamily;
-    float fontSize;
-    //List of strings and tspans containing the content of this node
-    LinkedList content = new LinkedList();
-    Shape textShape;
-    public static final int TXAN_START = 0;
-    public static final int TXAN_MIDDLE = 1;
-    public static final int TXAN_END = 2;
-    int textAnchor = TXAN_START;
-    public static final int TXST_NORMAL = 0;
-    public static final int TXST_ITALIC = 1;
-    public static final int TXST_OBLIQUE = 2;
-    int fontStyle;
-    public static final int TXWE_NORMAL = 0;
-    public static final int TXWE_BOLD = 1;
-    public static final int TXWE_BOLDER = 2;
-    public static final int TXWE_LIGHTER = 3;
-    public static final int TXWE_100 = 4;
-    public static final int TXWE_200 = 5;
-    public static final int TXWE_300 = 6;
-    public static final int TXWE_400 = 7;
-    public static final int TXWE_500 = 8;
-    public static final int TXWE_600 = 9;
-    public static final int TXWE_700 = 10;
-    public static final int TXWE_800 = 11;
-    public static final int TXWE_900 = 12;
-    int fontWeight;
+public class Text extends ShapeElement {
+	public static final String TAG_NAME = "text";
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Text()
-    {
-    }
+	float x = 0;
+	float y = 0;
+	AffineTransform transform = null;
+	String fontFamily;
+	float fontSize;
+	// List of strings and tspans containing the content of this node
+	LinkedList content = new LinkedList();
+	Shape textShape;
+	public static final int TXAN_START = 0;
+	public static final int TXAN_MIDDLE = 1;
+	public static final int TXAN_END = 2;
+	int textAnchor = TXAN_START;
+	public static final int TXST_NORMAL = 0;
+	public static final int TXST_ITALIC = 1;
+	public static final int TXST_OBLIQUE = 2;
+	int fontStyle;
+	public static final int TXWE_NORMAL = 0;
+	public static final int TXWE_BOLD = 1;
+	public static final int TXWE_BOLDER = 2;
+	public static final int TXWE_LIGHTER = 3;
+	public static final int TXWE_100 = 4;
+	public static final int TXWE_200 = 5;
+	public static final int TXWE_300 = 6;
+	public static final int TXWE_400 = 7;
+	public static final int TXWE_500 = 8;
+	public static final int TXWE_600 = 9;
+	public static final int TXWE_700 = 10;
+	public static final int TXWE_800 = 11;
+	public static final int TXWE_900 = 12;
+	int fontWeight;
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Text() {
+	}
 
-    public void appendText(String text)
-    {
-        content.addLast(text);
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    public void appendTspan(Tspan tspan) throws SVGElementException
-    {
-        super.loaderAddChild(null, tspan);
-        content.addLast(tspan);
-    }
+	public void appendText(String text) {
+		content.addLast(text);
+	}
 
-    /**
-     * Discard cached information
-     */
-    public void rebuild() throws SVGException
-    {
-        build();
-    }
+	public void appendTspan(Tspan tspan) throws SVGElementException {
+		super.loaderAddChild(null, tspan);
+		content.addLast(tspan);
+	}
 
-    public java.util.List getContent()
-    {
-        return content;
-    }
+	/**
+	 * Discard cached information
+	 */
+	public void rebuild() throws SVGException {
+		build();
+	}
 
-    /**
-     * Called after the start element but before the end element to indicate
-     * each child tag that has been processed
-     */
-    public void loaderAddChild(SVGLoaderHelper helper, SVGElement child) throws SVGElementException
-    {
-        super.loaderAddChild(helper, child);
+	public java.util.List getContent() {
+		return content;
+	}
 
-        content.addLast(child);
-    }
+	/**
+	 * Called after the start element but before the end element to indicate
+	 * each child tag that has been processed
+	 */
+	public void loaderAddChild(SVGLoaderHelper helper, SVGElement child)
+			throws SVGElementException {
+		super.loaderAddChild(helper, child);
 
-    /**
-     * Called during load process to add text scanned within a tag
-     */
-    public void loaderAddText(SVGLoaderHelper helper, String text)
-    {
-        Matcher matchWs = Pattern.compile("\\s*").matcher(text);
-        if (!matchWs.matches())
-        {
-            content.addLast(text);
-        }
-    }
+		content.addLast(child);
+	}
 
-    public void build() throws SVGException
-    {
-        super.build();
+	/**
+	 * Called during load process to add text scanned within a tag
+	 */
+	public void loaderAddText(SVGLoaderHelper helper, String text) {
+		Matcher matchWs = Pattern.compile("\\s*").matcher(text);
+		if (!matchWs.matches()) {
+			content.addLast(text);
+		}
+	}
 
-        StyleAttribute sty = new StyleAttribute();
+	public void build() throws SVGException {
+		super.build();
 
-        if (getPres(sty.setName("x")))
-        {
-            x = sty.getFloatValueWithUnits();
-        }
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("y")))
-        {
-            y = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("x"))) {
+			x = sty.getFloatValueWithUnits();
+		}
 
-        if (getStyle(sty.setName("font-family")))
-        {
-            fontFamily = sty.getStringValue();
-        } else
-        {
-            fontFamily = "Sans Serif";
-        }
+		if (getPres(sty.setName("y"))) {
+			y = sty.getFloatValueWithUnits();
+		}
 
-        if (getStyle(sty.setName("font-size")))
-        {
-            fontSize = sty.getFloatValueWithUnits();
-        } else
-        {
-            fontSize = 12f;
-        }
+		if (getStyle(sty.setName("font-family"))) {
+			fontFamily = sty.getStringValue();
+		} else {
+			fontFamily = "Sans Serif";
+		}
 
-        if (getStyle(sty.setName("font-style")))
-        {
-            String s = sty.getStringValue();
-            if ("normal".equals(s))
-            {
-                fontStyle = TXST_NORMAL;
-            } else if ("italic".equals(s))
-            {
-                fontStyle = TXST_ITALIC;
-            } else if ("oblique".equals(s))
-            {
-                fontStyle = TXST_OBLIQUE;
-            }
-        } else
-        {
-            fontStyle = TXST_NORMAL;
-        }
+		if (getStyle(sty.setName("font-size"))) {
+			fontSize = sty.getFloatValueWithUnits();
+		} else {
+			fontSize = 12f;
+		}
 
-        if (getStyle(sty.setName("font-weight")))
-        {
-            String s = sty.getStringValue();
-            if ("normal".equals(s))
-            {
-                fontWeight = TXWE_NORMAL;
-            } else if ("bold".equals(s))
-            {
-                fontWeight = TXWE_BOLD;
-            }
-        } else
-        {
-            fontWeight = TXWE_NORMAL;
-        }
+		if (getStyle(sty.setName("font-style"))) {
+			String s = sty.getStringValue();
+			if ("normal".equals(s)) {
+				fontStyle = TXST_NORMAL;
+			} else if ("italic".equals(s)) {
+				fontStyle = TXST_ITALIC;
+			} else if ("oblique".equals(s)) {
+				fontStyle = TXST_OBLIQUE;
+			}
+		} else {
+			fontStyle = TXST_NORMAL;
+		}
 
-        if (getStyle(sty.setName("text-anchor")))
-        {
-            String s = sty.getStringValue();
-            if (s.equals("middle"))
-            {
-                textAnchor = TXAN_MIDDLE;
-            } else if (s.equals("end"))
-            {
-                textAnchor = TXAN_END;
-            } else
-            {
-                textAnchor = TXAN_START;
-            }
-        } else
-        {
-            textAnchor = TXAN_START;
-        }
+		if (getStyle(sty.setName("font-weight"))) {
+			String s = sty.getStringValue();
+			if ("normal".equals(s)) {
+				fontWeight = TXWE_NORMAL;
+			} else if ("bold".equals(s)) {
+				fontWeight = TXWE_BOLD;
+			}
+		} else {
+			fontWeight = TXWE_NORMAL;
+		}
 
-        //text anchor
-        //text-decoration
-        //text-rendering
+		if (getStyle(sty.setName("text-anchor"))) {
+			String s = sty.getStringValue();
+			if (s.equals("middle")) {
+				textAnchor = TXAN_MIDDLE;
+			} else if (s.equals("end")) {
+				textAnchor = TXAN_END;
+			} else {
+				textAnchor = TXAN_START;
+			}
+		} else {
+			textAnchor = TXAN_START;
+		}
 
-        buildFont();
-    }
+		// text anchor
+		// text-decoration
+		// text-rendering
 
-    protected void buildFont() throws SVGException
-    {
-        int style;
-        switch (fontStyle)
-        {
-            case TXST_ITALIC:
-                style = java.awt.Font.ITALIC;
-                break;
-            default:
-                style = java.awt.Font.PLAIN;
-                break;
-        }
+		buildFont();
+	}
 
-        int weight;
-        switch (fontWeight)
-        {
-            case TXWE_BOLD:
-            case TXWE_BOLDER:
-                weight = java.awt.Font.BOLD;
-                break;
-            default:
-                weight = java.awt.Font.PLAIN;
-                break;
-        }
+	protected void buildFont() throws SVGException {
+		int style;
+		switch (fontStyle) {
+		case TXST_ITALIC:
+			style = java.awt.Font.ITALIC;
+			break;
+		default:
+			style = java.awt.Font.PLAIN;
+			break;
+		}
 
-        //Get font
-        Font font = diagram.getUniverse().getFont(fontFamily);
-        if (font == null)
-        {
-//            System.err.println("Could not load font");
+		int weight;
+		switch (fontWeight) {
+		case TXWE_BOLD:
+		case TXWE_BOLDER:
+			weight = java.awt.Font.BOLD;
+			break;
+		default:
+			weight = java.awt.Font.PLAIN;
+			break;
+		}
 
-            java.awt.Font sysFont = new java.awt.Font(fontFamily, style | weight, (int) fontSize);
-            buildSysFont(sysFont);
-            return;
-        }
+		// Get font
+		Font font = diagram.getUniverse().getFont(fontFamily);
+		if (font == null) {
+			// System.err.println("Could not load font");
 
-//        font = new java.awt.Font(font.getFamily(), style | weight, font.getSize());
+			java.awt.Font sysFont = new java.awt.Font(fontFamily,
+					style | weight, (int) fontSize);
+			buildSysFont(sysFont);
+			return;
+		}
 
-//        Area textArea = new Area();
-        GeneralPath textPath = new GeneralPath();
-        textShape = textPath;
+		// font = new java.awt.Font(font.getFamily(), style | weight,
+		// font.getSize());
 
-        float cursorX = x, cursorY = y;
+		// Area textArea = new Area();
+		GeneralPath textPath = new GeneralPath();
+		textShape = textPath;
 
-        FontFace fontFace = font.getFontFace();
-        //int unitsPerEm = fontFace.getUnitsPerEm();
-        int ascent = fontFace.getAscent();
-        float fontScale = fontSize / (float) ascent;
+		float cursorX = x, cursorY = y;
 
-//        AffineTransform oldXform = g.getTransform();
-        AffineTransform xform = new AffineTransform();
+		FontFace fontFace = font.getFontFace();
+		// int unitsPerEm = fontFace.getUnitsPerEm();
+		int ascent = fontFace.getAscent();
+		float fontScale = fontSize / (float) ascent;
 
-        for (Iterator it = content.iterator(); it.hasNext();)
-        {
-            Object obj = it.next();
+		// AffineTransform oldXform = g.getTransform();
+		AffineTransform xform = new AffineTransform();
 
-            if (obj instanceof String)
-            {
-                String text = (String) obj;
-                if (text != null)
-                {
-                    text = text.trim();
-                }
+		for (Iterator it = content.iterator(); it.hasNext();) {
+			Object obj = it.next();
 
-                strokeWidthScalar = 1f / fontScale;
+			if (obj instanceof String) {
+				String text = (String) obj;
+				if (text != null) {
+					text = text.trim();
+				}
 
-                for (int i = 0; i < text.length(); i++)
-                {
-                    xform.setToIdentity();
-                    xform.setToTranslation(cursorX, cursorY);
-                    xform.scale(fontScale, fontScale);
-//                    g.transform(xform);
+				strokeWidthScalar = 1f / fontScale;
 
-                    String unicode = text.substring(i, i + 1);
-                    MissingGlyph glyph = font.getGlyph(unicode);
+				for (int i = 0; i < text.length(); i++) {
+					xform.setToIdentity();
+					xform.setToTranslation(cursorX, cursorY);
+					xform.scale(fontScale, fontScale);
+					// g.transform(xform);
 
-                    Shape path = glyph.getPath();
-                    if (path != null)
-                    {
-                        path = xform.createTransformedShape(path);
-                        textPath.append(path, false);
-                    }
-//                    else glyph.render(g);
+					String unicode = text.substring(i, i + 1);
+					MissingGlyph glyph = font.getGlyph(unicode);
 
-                    cursorX += fontScale * glyph.getHorizAdvX();
+					Shape path = glyph.getPath();
+					if (path != null) {
+						path = xform.createTransformedShape(path);
+						textPath.append(path, false);
+					}
+					// else glyph.render(g);
 
-//                    g.setTransform(oldXform);
-                }
+					cursorX += fontScale * glyph.getHorizAdvX();
 
-                strokeWidthScalar = 1f;
-            } else if (obj instanceof Tspan)
-            {
-                Tspan tspan = (Tspan) obj;
+					// g.setTransform(oldXform);
+				}
 
-                xform.setToIdentity();
-                xform.setToTranslation(cursorX, cursorY);
-                xform.scale(fontScale, fontScale);
-//                tspan.setCursorX(cursorX);
-//                tspan.setCursorY(cursorY);
+				strokeWidthScalar = 1f;
+			} else if (obj instanceof Tspan) {
+				Tspan tspan = (Tspan) obj;
 
-                Shape tspanShape = tspan.getShape();
-                tspanShape = xform.createTransformedShape(tspanShape);
-                textPath.append(tspanShape, false);
-//                tspan.render(g);
-//                cursorX = tspan.getCursorX();
-//                cursorY = tspan.getCursorY();
-            }
+				xform.setToIdentity();
+				xform.setToTranslation(cursorX, cursorY);
+				xform.scale(fontScale, fontScale);
+				// tspan.setCursorX(cursorX);
+				// tspan.setCursorY(cursorY);
 
-        }
+				Shape tspanShape = tspan.getShape();
+				tspanShape = xform.createTransformedShape(tspanShape);
+				textPath.append(tspanShape, false);
+				// tspan.render(g);
+				// cursorX = tspan.getCursorX();
+				// cursorY = tspan.getCursorY();
+			}
 
-        switch (textAnchor)
-        {
-            case TXAN_MIDDLE:
-            {
-                AffineTransform at = new AffineTransform();
-                at.translate(-textPath.getBounds().getWidth() / 2, 0);
-                textPath.transform(at);
-                break;
-            }
-            case TXAN_END:
-            {
-                AffineTransform at = new AffineTransform();
-                at.translate(-textPath.getBounds().getWidth(), 0);
-                textPath.transform(at);
-                break;
-            }
-        }
-    }
+		}
 
-    private void buildSysFont(java.awt.Font font) throws SVGException
-    {
-        GeneralPath textPath = new GeneralPath();
-        textShape = textPath;
+		switch (textAnchor) {
+		case TXAN_MIDDLE: {
+			AffineTransform at = new AffineTransform();
+			at.translate(-textPath.getBounds().getWidth() / 2, 0);
+			textPath.transform(at);
+			break;
+		}
+		case TXAN_END: {
+			AffineTransform at = new AffineTransform();
+			at.translate(-textPath.getBounds().getWidth(), 0);
+			textPath.transform(at);
+			break;
+		}
+		}
+	}
 
-        float cursorX = x, cursorY = y;
+	private void buildSysFont(java.awt.Font font) throws SVGException {
+		GeneralPath textPath = new GeneralPath();
+		textShape = textPath;
 
-//        FontMetrics fm = g.getFontMetrics(font);
-        FontRenderContext frc = new FontRenderContext(null, true, true);
+		float cursorX = x, cursorY = y;
 
-//        FontFace fontFace = font.getFontFace();
-        //int unitsPerEm = fontFace.getUnitsPerEm();
-//        int ascent = fm.getAscent();
-//        float fontScale = fontSize / (float)ascent;
+		// FontMetrics fm = g.getFontMetrics(font);
+		FontRenderContext frc = new FontRenderContext(null, true, true);
 
-//        AffineTransform oldXform = g.getTransform();
+		// FontFace fontFace = font.getFontFace();
+		// int unitsPerEm = fontFace.getUnitsPerEm();
+		// int ascent = fm.getAscent();
+		// float fontScale = fontSize / (float)ascent;
+
+		// AffineTransform oldXform = g.getTransform();
 		// AffineTransform xform = new AffineTransform();
 
-        for (Iterator it = content.iterator(); it.hasNext();)
-        {
-            Object obj = it.next();
+		for (Iterator it = content.iterator(); it.hasNext();) {
+			Object obj = it.next();
 
-            if (obj instanceof String)
-            {
-                String text = (String)obj;
-                text = text.trim();
+			if (obj instanceof String) {
+				String text = (String) obj;
+				text = text.trim();
 
-                Shape textShape = font.createGlyphVector(frc, text).getOutline(cursorX, cursorY);
-                textPath.append(textShape, false);
-//                renderShape(g, textShape);
-//                g.drawString(text, cursorX, cursorY);
+				Shape textShape = font.createGlyphVector(frc, text)
+						.getOutline(cursorX, cursorY);
+				textPath.append(textShape, false);
+				// renderShape(g, textShape);
+				// g.drawString(text, cursorX, cursorY);
 
-                Rectangle2D rect = font.getStringBounds(text, frc);
-                cursorX += (float) rect.getWidth();
-            } else if (obj instanceof Tspan)
-            {
-                /*
-                 Tspan tspan = (Tspan)obj;
-                 
-                 xform.setToIdentity();
-                 xform.setToTranslation(cursorX, cursorY);
-                 
-                 Shape tspanShape = tspan.getShape();
-                 tspanShape = xform.createTransformedShape(tspanShape);
-                 textArea.add(new Area(tspanShape));
-                 
-                 cursorX += tspanShape.getBounds2D().getWidth();
-                 */
+				Rectangle2D rect = font.getStringBounds(text, frc);
+				cursorX += (float) rect.getWidth();
+			} else if (obj instanceof Tspan) {
+				/*
+				 * Tspan tspan = (Tspan)obj;
+				 * 
+				 * xform.setToIdentity(); xform.setToTranslation(cursorX,
+				 * cursorY);
+				 * 
+				 * Shape tspanShape = tspan.getShape(); tspanShape =
+				 * xform.createTransformedShape(tspanShape); textArea.add(new
+				 * Area(tspanShape));
+				 * 
+				 * cursorX += tspanShape.getBounds2D().getWidth();
+				 */
 
+				Tspan tspan = (Tspan) obj;
+				Point2D cursor = new Point2D.Float(cursorX, cursorY);
+				// tspan.setCursorX(cursorX);
+				// tspan.setCursorY(cursorY);
+				tspan.appendToShape(textPath, cursor);
+				// cursorX = tspan.getCursorX();
+				// cursorY = tspan.getCursorY();
+				cursorX = (float) cursor.getX();
+				cursorY = (float) cursor.getY();
 
-                Tspan tspan = (Tspan)obj;
-                Point2D cursor = new Point2D.Float(cursorX, cursorY);
-//                tspan.setCursorX(cursorX);
-//                tspan.setCursorY(cursorY);
-                tspan.appendToShape(textPath, cursor);
-//                cursorX = tspan.getCursorX();
-//                cursorY = tspan.getCursorY();
-                cursorX = (float)cursor.getX();
-                cursorY = (float)cursor.getY();
+			}
+		}
 
-            }
-        }
+		switch (textAnchor) {
+		case TXAN_MIDDLE: {
+			AffineTransform at = new AffineTransform();
+			at.translate(-textPath.getBounds().getWidth() / 2, 0);
+			textPath.transform(at);
+			break;
+		}
+		case TXAN_END: {
+			AffineTransform at = new AffineTransform();
+			at.translate(-Math.ceil(textPath.getBounds().getWidth()), 0);
+			textPath.transform(at);
+			break;
+		}
+		}
+	}
 
-        switch (textAnchor)
-        {
-            case TXAN_MIDDLE:
-            {
-                AffineTransform at = new AffineTransform();
-                at.translate(-textPath.getBounds().getWidth() / 2, 0);
-                textPath.transform(at);
-                break;
-            }
-            case TXAN_END:
-            {
-                AffineTransform at = new AffineTransform();
-                at.translate(-Math.ceil(textPath.getBounds().getWidth()), 0);
-                textPath.transform(at);
-                break;
-            }
-        }
-    }
+	public void render(Graphics2D g) throws SVGException {
+		beginLayer(g);
+		renderShape(g, textShape);
+		finishLayer(g);
+	}
 
-    public void render(Graphics2D g) throws SVGException
-    {
-        beginLayer(g);
-        renderShape(g, textShape);
-        finishLayer(g);
-    }
+	public Shape getShape() {
+		return shapeToParent(textShape);
+	}
 
-    public Shape getShape()
-    {
-        return shapeToParent(textShape);
-    }
+	public Rectangle2D getBoundingBox() throws SVGException {
+		return boundsToParent(includeStrokeInBounds(textShape.getBounds2D()));
+	}
 
-    public Rectangle2D getBoundingBox() throws SVGException
-    {
-        return boundsToParent(includeStrokeInBounds(textShape.getBounds2D()));
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		if (getPres(sty.setName("x"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != x) {
+				x = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("x")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != x)
-            {
-                x = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("y"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != y) {
+				y = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("y")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != y)
-            {
-                y = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("font-family"))) {
+			String newVal = sty.getStringValue();
+			if (!newVal.equals(fontFamily)) {
+				fontFamily = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("font-family")))
-        {
-            String newVal = sty.getStringValue();
-            if (!newVal.equals(fontFamily))
-            {
-                fontFamily = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("font-size"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != fontSize) {
+				fontSize = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("font-size")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != fontSize)
-            {
-                fontSize = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getStyle(sty.setName("font-style"))) {
+			String s = sty.getStringValue();
+			int newVal = fontStyle;
+			if ("normal".equals(s)) {
+				newVal = TXST_NORMAL;
+			} else if ("italic".equals(s)) {
+				newVal = TXST_ITALIC;
+			} else if ("oblique".equals(s)) {
+				newVal = TXST_OBLIQUE;
+			}
+			if (newVal != fontStyle) {
+				fontStyle = newVal;
+				shapeChange = true;
+			}
+		}
 
+		if (getStyle(sty.setName("font-weight"))) {
+			String s = sty.getStringValue();
+			int newVal = fontWeight;
+			if ("normal".equals(s)) {
+				newVal = TXWE_NORMAL;
+			} else if ("bold".equals(s)) {
+				newVal = TXWE_BOLD;
+			}
+			if (newVal != fontWeight) {
+				fontWeight = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getStyle(sty.setName("font-style")))
-        {
-            String s = sty.getStringValue();
-            int newVal = fontStyle;
-            if ("normal".equals(s))
-            {
-                newVal = TXST_NORMAL;
-            } else if ("italic".equals(s))
-            {
-                newVal = TXST_ITALIC;
-            } else if ("oblique".equals(s))
-            {
-                newVal = TXST_OBLIQUE;
-            }
-            if (newVal != fontStyle)
-            {
-                fontStyle = newVal;
-                shapeChange = true;
-            }
-        }
+		if (shapeChange) {
+			build();
+			// buildFont();
+			// return true;
+		}
 
-        if (getStyle(sty.setName("font-weight")))
-        {
-            String s = sty.getStringValue();
-            int newVal = fontWeight;
-            if ("normal".equals(s))
-            {
-                newVal = TXWE_NORMAL;
-            } else if ("bold".equals(s))
-            {
-                newVal = TXWE_BOLD;
-            }
-            if (newVal != fontWeight)
-            {
-                fontWeight = newVal;
-                shapeChange = true;
-            }
-        }
-
-        if (shapeChange)
-        {
-            build();
-//            buildFont();
-//            return true;
-        }
-
-        return changeState || shapeChange;
-    }
+		return changeState || shapeChange;
+	}
 }

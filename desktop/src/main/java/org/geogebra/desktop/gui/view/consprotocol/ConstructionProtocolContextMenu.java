@@ -30,33 +30,35 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
+
 /**
  * Context menu for construction protocol
  * 
  *
  */
 public class ConstructionProtocolContextMenu extends JPopupMenu {
-	
+
 	private static final long serialVersionUID = 1L;
 	/** Application */
 	AppD app;
 	private Construction cons;
 	/** Construction protocol view associated with this menu */
 	ConstructionProtocolViewD constprotView;
-	
+
 	/**
 	 * Creates new context menu
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
-	public ConstructionProtocolContextMenu(AppD app){
+	public ConstructionProtocolContextMenu(AppD app) {
 		this.app = app;
 		this.cons = app.getKernel().getConstruction();
-		constprotView = (ConstructionProtocolViewD) app.getGuiManager().getConstructionProtocolView();
+		constprotView = (ConstructionProtocolViewD) app.getGuiManager()
+				.getConstructionProtocolView();
 		initItems();
 	}
 
-
-	
 	/**
 	 * Initialize the menu items.
 	 */
@@ -64,48 +66,47 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		Localization loc = app.getLocalization();
 		// title for menu
 		JLabel title = new JLabel(loc.getMenu("ConstructionProtocol"));
-		
+
 		JMenu colMenu = new JMenu(loc.getMenu("Columns"));
 		JMenu optionsMenu = new JMenu(loc.getMenu("Options"));
-		
-        title.setFont(app.getBoldFont());                      
-        title.setBackground(Color.white);
-        title.setForeground(Color.black);
-                
+
+		title.setFont(app.getBoldFont());
+		title.setBackground(Color.white);
+		title.setForeground(Color.black);
+
 		title.setIcon(app.getEmptyIcon());
-        title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));      
-        add(title);
-        addSeparator();
-        
-        title.addMouseListener(new MouseAdapter() {
-        	@Override
+		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));
+		add(title);
+		addSeparator();
+
+		title.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-        		setVisible(false);
-        	}
-        });
-		
-        // menu items	
-		
-        
-        //"Columns" menu
+				setVisible(false);
+			}
+		});
+
+		// menu items
+
+		// "Columns" menu
 		for (int k = 1; k < constprotView.getTableColumns().length; k++) {
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
 					constprotView.getData().columns[k].getTranslatedTitle());
 			TableColumn column = constprotView.getTableColumns()[k];
 			item.setSelected(constprotView.isColumnInModel(column));
-			ColumnKeeper colKeeper = constprotView.new ColumnKeeper(column, constprotView.getData().columns[k]);
+			ColumnKeeper colKeeper = constprotView.new ColumnKeeper(column,
+					constprotView.getData().columns[k]);
 			item.addActionListener(colKeeper);
 			colMenu.add(item);
-			
+
 		}
 		add(colMenu);
-		
-		
-		//"Options" menu
+
+		// "Options" menu
 		JCheckBoxMenuItem cbShowOnlyBreakpoints = new JCheckBoxMenuItem(
 				loc.getMenu("ShowOnlyBreakpoints"));
 		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
-		
+
 		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -120,17 +121,17 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		cbUseColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				constprotView.setUseColors(!constprotView.getUseColors());
-				//constprotView.getData().updateAll();
+				// constprotView.getData().updateAll();
 			}
 		});
 		optionsMenu.add(cbUseColors);
 		add(optionsMenu);
-		
-		//Export and Print menu		
+
+		// Export and Print menu
 		add(constprotView.getExportHtmlAction());
 		add(constprotView.getPrintPreviewAction());
-		
-		//Help menu
+
+		// Help menu
 		JMenuItem mi = new JMenuItem(loc.getMenu("FastHelp"),
 				app.getScaledIcon(GuiResourcesD.HELP));
 		ActionListener lstHelp = new ActionListener() {
@@ -141,11 +142,9 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		};
 		mi.addActionListener(lstHelp);
 		add(mi);
-		
+
 		app.setComponentOrientation(this);
 
-		
 	}
-	
-	
+
 }

@@ -32,10 +32,9 @@ public class CallJavaScript {
 
 		// Evaluate the global string
 		try {
-			Object result = cx.evaluateString(scope, app.getKernel()
-					.getLibraryJavaScript(),
-					app.getLocalization().getMenu("ErrorAtLine"), 1,
-					null);
+			Object result = cx.evaluateString(scope,
+					app.getKernel().getLibraryJavaScript(),
+					app.getLocalization().getMenu("ErrorAtLine"), 1, null);
 		} catch (Throwable t) {
 
 		}

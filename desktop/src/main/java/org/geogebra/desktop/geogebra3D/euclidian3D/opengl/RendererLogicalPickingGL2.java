@@ -96,7 +96,6 @@ public class RendererLogicalPickingGL2 extends RendererGL2 {
 		return true;
 	}
 
-
 	// private int background;
 	//
 	// private void createBackground() {

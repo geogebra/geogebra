@@ -20,7 +20,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-
 public class InputDialogDilateD extends InputDialogD {
 
 	GeoPointND[] points;
@@ -97,12 +96,6 @@ public class InputDialogDilateD extends InputDialogD {
 
 					}
 				});
-
-
-
-
-
-
 
 	}
 

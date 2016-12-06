@@ -11,8 +11,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class MinimalMultiVarStatPanel extends BasicStatTable implements
-		MultiVarStatTableListener {
+public class MinimalMultiVarStatPanel extends BasicStatTable
+		implements MultiVarStatTableListener {
 	private static final long serialVersionUID = 1L;
 
 	public MinimalMultiVarStatPanel(AppD app, DataAnalysisViewD statDialog) {

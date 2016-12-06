@@ -92,8 +92,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 	@Override
 	protected final ProofResult computeNd(HashSet<Variable> freeVariables,
-			HashMap<Variable, BigInteger> values, int deg,
-			SymbolicParameters s, AlgebraicStatement as) {
+			HashMap<Variable, BigInteger> values, int deg, SymbolicParameters s,
+			AlgebraicStatement as) {
 		int n = freeVariables.size();
 		Variable[] variables = new Variable[n];
 		Iterator<Variable> it = freeVariables.iterator();
@@ -149,7 +149,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 				for (int j = changedIndex; j >= 0; j--) {
 					result = result.multiply((BigInteger.valueOf(n)
 							.multiply(BigInteger.valueOf(indices[j])))
-							.subtract(BigInteger.valueOf(i)));
+									.subtract(BigInteger.valueOf(i)));
 					cache[i][j] = result;
 				}
 				coordinates[i] = result;
@@ -224,8 +224,9 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 					// FIXME: Change Long in Variable to BigInteger
 					substitutions.put(v, values.get(v).longValue());
 				}
-				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
-						.toArray(new Polynomial[as.polynomials.size()]),
+				ExtendedBoolean solvable = Polynomial.solvable(
+						as.polynomials
+								.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana (threaded): " + substitutions);
@@ -235,20 +236,21 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 				}
 			} else
 				try {
-				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
+					BigInteger[] exactCoordinates = s
+							.getExactCoordinates(values);
 
-				wrong = false;
-				for (BigInteger result : exactCoordinates) {
-					nrOfChecks++;
-					if (!result.equals(BigInteger.ZERO)) {
-						wrong = true;
-						break;
+					wrong = false;
+					for (BigInteger result : exactCoordinates) {
+						nrOfChecks++;
+						if (!result.equals(BigInteger.ZERO)) {
+							wrong = true;
+							break;
+						}
 					}
+				} catch (NoSymbolicParametersException e) {
+					writeResult(TestPointResult.ERROR);
+					continue;
 				}
-			} catch (NoSymbolicParametersException e) {
-				writeResult(TestPointResult.ERROR);
-				continue;
-			}
 			if (wrong) {
 				writeResult(TestPointResult.FALSE);
 			} else {

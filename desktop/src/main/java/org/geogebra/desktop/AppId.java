@@ -41,8 +41,9 @@ public class AppId {
 			final String appID) {
 		if (SetCurrentProcessExplicitAppUserModelID(new WString(appID))
 				.longValue() != 0)
-			Log.error("unable to set current process explicit AppUserModelID to: "
-					+ appID);
+			Log.error(
+					"unable to set current process explicit AppUserModelID to: "
+							+ appID);
 	}
 
 	private static native NativeLong GetCurrentProcessExplicitAppUserModelID(

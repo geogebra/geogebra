@@ -64,8 +64,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Markus Hohenwarter
  * @version 2010-06-14 Last change: Zbynek Konecny
  */
-public class ToolCreationDialogD extends javax.swing.JDialog implements
-		GeoElementSelectionListener {
+public class ToolCreationDialogD extends javax.swing.JDialog
+		implements GeoElementSelectionListener {
 	private static final long serialVersionUID = 1L;
 	private final AppD app;
 	private final LocalizationD loc;
@@ -180,7 +180,8 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 			super.addElement(geo);
 
 			// remove listener from input add combobox before removing geo
-			JComboBox cbListener = removeListeningJComboBox(this.cbInputAddList);
+			JComboBox cbListener = removeListeningJComboBox(
+					this.cbInputAddList);
 			this.cbInputAddList.removeElement(geo);
 			this.cbInputAddList.addListDataListener(cbListener);
 		}
@@ -269,19 +270,18 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 				loc.getMenu("Tool.DontReplace") };
 		int returnVal = JOptionPane.showOptionDialog(this,
 				app.getLocalization().getPlain("Tool.ReplaceQuestion",
-						macro.getToolName()), loc.getMenu("Question"),
-				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-				options, options[1]);
+						macro.getToolName()),
+				loc.getMenu("Question"), JOptionPane.DEFAULT_OPTION,
+				JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 		if (returnVal == 1)
 			return;
 		Kernel kernel = macro.getKernel();
 		AppD appToSave = (AppD) kernel.getApplication();
-		boolean compatible = newTool.getNeededTypesString().equals(
-				macro.getNeededTypesString());
+		boolean compatible = newTool.getNeededTypesString()
+				.equals(macro.getNeededTypesString());
 		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
-			compatible = compatible
-					&& macro.getMacroOutput()[i].getClass().equals(
-							newTool.getMacroOutput()[i].getClass());
+			compatible = compatible && macro.getMacroOutput()[i].getClass()
+					.equals(newTool.getMacroOutput()[i].getClass());
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
@@ -305,8 +305,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		} else {
 			Log.debug("not compatible");
 			JOptionPane.showMessageDialog(this,
-					app.getLocalization().getPlain("Tool.NotCompatible")
-							+ ":\n"
+					app.getLocalization().getPlain("Tool.NotCompatible") + ":\n"
 							+ macro.toString());
 		}
 	}
@@ -466,15 +465,14 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 		namePanel.setToolName(macro.getToolName());
 		namePanel.setIconFileName(macro.getIconFileName());
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
-			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroInput()[i]
-							.getLabel(StringTemplate.defaultTemplate));
+			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]
+					.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.inputList.add(0, el);
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
-			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroOutput()[i]
+			GeoElement el = app.getKernel()
+					.lookupLabel(macro.getMacroOutput()[i]
 							.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.outputList.add(0, el);
@@ -540,8 +538,8 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 				case 2: // name panel (finish)
 					if (createTool()) {
 						btNext.setText(loc.getMenu("Finish"));
-						btNext.setEnabled(inputList.size() > 0
-								&& outputList.size() > 0);
+						btNext.setEnabled(
+								inputList.size() > 0 && outputList.size() > 0);
 						namePanel.requestFocus();
 					}
 					break;
@@ -645,8 +643,8 @@ public class ToolCreationDialogD extends javax.swing.JDialog implements
 
 		JPanel listPanel = new JPanel(new BorderLayout(5, 3));
 		JScrollPane scrollPane = new JScrollPane(list);
-		scrollPane.setBorder(BorderFactory
-				.createBevelBorder(BevelBorder.LOWERED));
+		scrollPane.setBorder(
+				BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 		if (cbAdd != null)
 			listPanel.add(cbAdd, BorderLayout.NORTH);
 		listPanel.add(scrollPane, BorderLayout.CENTER);

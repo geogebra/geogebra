@@ -35,8 +35,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  * Created on 16. October 2001, 15:41
  */
-public class EuclidianController3DD extends EuclidianController3D implements
-		EuclidianControllerListeners {
+public class EuclidianController3DD extends EuclidianController3D
+		implements EuclidianControllerListeners {
 
 	// protected GeoVec2D b;
 

@@ -55,8 +55,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G.Sturr 2010-6-30
  * 
  */
-public class PlotPanelEuclidianViewD extends EuclidianViewD implements
-		ComponentListener, DragGestureListener, DragSourceListener,
+public class PlotPanelEuclidianViewD extends EuclidianViewD
+		implements ComponentListener, DragGestureListener, DragSourceListener,
 		PlotPanelEuclidianViewInterface {
 
 	private EuclidianController ec;
@@ -78,13 +78,14 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/**
 	 * Action method export of GeoElements to EuclidianView. Since the action is
 	 * specific to the parent container, it is injected in the constructor.
-	 * */
+	 */
 	private AbstractAction exportToEVAction;
 
 	/** DataFlavor for plotPanel drags */
 	public final static DataFlavor plotPanelFlavor = new DataFlavor(
 			DataFlavor.javaJVMLocalObjectMimeType
-					+ ";class=javax.swing.AbstractAction", "plotPanelFlavor");
+					+ ";class=javax.swing.AbstractAction",
+			"plotPanelFlavor");
 
 	/*************************************************
 	 * Construct the panel
@@ -143,8 +144,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 	public void setViewId(Kernel kernel) {
 		// get viewID from GuiManager
-		commonFields.setViewID(((GuiManagerD) kernel.getApplication()
-				.getGuiManager()).assignPlotPanelID(this));
+		commonFields.setViewID(
+				((GuiManagerD) kernel.getApplication().getGuiManager())
+						.assignPlotPanelID(this));
 	}
 
 	/*********** End Constructor **********************/
@@ -390,10 +392,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 			actionList = new ArrayList<AbstractAction>();
 
 			if (exportToEVAction != null) {
-				exportToEVAction.putValue(Action.NAME, getApplication()
-						.getMenu("CopyToGraphics"));
-				exportToEVAction.putValue(Action.SMALL_ICON, getApplication()
-						.getEmptyIcon());
+				exportToEVAction.putValue(Action.NAME,
+						getApplication().getMenu("CopyToGraphics"));
+				exportToEVAction.putValue(Action.SMALL_ICON,
+						getApplication().getEmptyIcon());
 				actionList.add(exportToEVAction);
 			}
 			if (!app.isMacOS() || !((AppD) app).isJava7()) {
@@ -417,10 +419,10 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	/**
 	 * Action to export an image of the view as a file.
 	 */
-	AbstractAction exportGraphicAction = new AbstractAction(getApplication()
-			.getLocalization().getMenu("ExportAsPicture") + "...",
-			getApplication()
-			.getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
+	AbstractAction exportGraphicAction = new AbstractAction(
+			getApplication().getLocalization().getMenu("ExportAsPicture")
+					+ "...",
+			getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
@@ -459,8 +461,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * Action to export an image of the view to the clipboard.
 	 */
 	AbstractAction drawingPadToClipboardAction = new AbstractAction(
-			getApplication().getMenu("CopyToClipboard"), getApplication()
-					.getEmptyIcon()) {
+			getApplication().getMenu("CopyToClipboard"),
+			getApplication().getEmptyIcon()) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {
@@ -486,8 +488,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 
 	protected void enableDnD() {
 		ds = new DragSource();
-		ds.createDefaultDragGestureRecognizer(
-				this.getJPanel(), DnDConstants.ACTION_COPY, this);
+		ds.createDefaultDragGestureRecognizer(this.getJPanel(),
+				DnDConstants.ACTION_COPY, this);
 	}
 
 	public void dragDropEnd(DragSourceDropEvent e) {
@@ -517,8 +519,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		if (commonFields.isOverDragRegion()) {
 			plotPanelEV.setSelectionRectangle(null);
 			// start drag
-			ds.startDrag(dge, DragSource.DefaultCopyDrop, null,
-					new Point(0, 0), new TransferablePlotPanel(), this);
+			ds.startDrag(dge, DragSource.DefaultCopyDrop, null, new Point(0, 0),
+					new TransferablePlotPanel(), this);
 		}
 
 	}
@@ -536,8 +538,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		// private final Action act;
 
 		public TransferablePlotPanel() {
-			image = GBufferedImageD.getAwtBufferedImage(plotPanelEV
-					.getExportImage(1d));
+			image = GBufferedImageD
+					.getAwtBufferedImage(plotPanelEV.getExportImage(1d));
 			// act = sampleAction;
 		}
 

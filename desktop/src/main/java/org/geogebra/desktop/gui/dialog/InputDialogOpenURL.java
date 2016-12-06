@@ -17,15 +17,14 @@ public class InputDialogOpenURL extends InputDialogD {
 		// check if there's a string starting http:// already on the clipboard
 		// (quite likely!!)
 		String clipboardString = app.getStringFromClipboard();
-		if (clipboardString != null
-				&& (clipboardString.startsWith("http://")
-						|| clipboardString.startsWith("https://") || clipboardString
-							.startsWith("www")))
+		if (clipboardString != null && (clipboardString.startsWith("http://")
+				|| clipboardString.startsWith("https://")
+				|| clipboardString.startsWith("www")))
 			initString = clipboardString;
 
-		createGUI(loc.getMenu("OpenWebpage"),
-				loc.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1,
-				false, true, false, false, DialogType.TextArea);
+		createGUI(loc.getMenu("OpenWebpage"), loc.getMenu("EnterAppletAddress"),
+				false, DEFAULT_COLUMNS, 1, false, true, false, false,
+				DialogType.TextArea);
 		optionPane.add(inputPanel, BorderLayout.CENTER);
 		centerOnScreen();
 

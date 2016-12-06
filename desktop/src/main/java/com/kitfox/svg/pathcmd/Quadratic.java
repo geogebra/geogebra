@@ -45,42 +45,38 @@ import java.awt.geom.GeneralPath;
  */
 public class Quadratic extends PathCommand {
 
-    public float kx = 0f;
-    public float ky = 0f;
-    public float x = 0f;
-    public float y = 0f;
+	public float kx = 0f;
+	public float ky = 0f;
+	public float x = 0f;
+	public float y = 0f;
 
-    /** Creates a new instance of MoveTo */
-    public Quadratic() {
-    }
+	/** Creates a new instance of MoveTo */
+	public Quadratic() {
+	}
 
-    public String toString()
-    {
-        return "Q " + kx + " " + ky
-             + " " + x + " " + y;
-    }
+	public String toString() {
+		return "Q " + kx + " " + ky + " " + x + " " + y;
+	}
 
-    public Quadratic(boolean isRelative, float kx, float ky, float x, float y) {
-        super(isRelative);
-        this.kx = kx;
-        this.ky = ky;
-        this.x = x;
-        this.y = y;
-    }
+	public Quadratic(boolean isRelative, float kx, float ky, float x, float y) {
+		super(isRelative);
+		this.kx = kx;
+		this.ky = ky;
+		this.x = x;
+		this.y = y;
+	}
 
-//    public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
-    public void appendPath(GeneralPath path, BuildHistory hist)
-    {
-        float offx = isRelative ? hist.lastPoint.x : 0f;
-        float offy = isRelative ? hist.lastPoint.y : 0f;
+	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	public void appendPath(GeneralPath path, BuildHistory hist) {
+		float offx = isRelative ? hist.lastPoint.x : 0f;
+		float offy = isRelative ? hist.lastPoint.y : 0f;
 
-        path.quadTo(kx + offx, ky + offy, x + offx, y + offy);
-        hist.setLastPoint(x + offx, y + offy);
-        hist.setLastKnot(kx + offx, ky + offy);
-    }
+		path.quadTo(kx + offx, ky + offy, x + offx, y + offy);
+		hist.setLastPoint(x + offx, y + offy);
+		hist.setLastKnot(kx + offx, ky + offy);
+	}
 
-    public int getNumKnotsAdded()
-    {
-        return 4;
-    }
+	public int getNumKnotsAdded() {
+		return 4;
+	}
 }

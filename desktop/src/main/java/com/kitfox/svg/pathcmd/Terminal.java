@@ -47,26 +47,22 @@ import java.awt.geom.GeneralPath;
  */
 public class Terminal extends PathCommand {
 
-    /** Creates a new instance of MoveTo */
-    public Terminal() {
-    }
+	/** Creates a new instance of MoveTo */
+	public Terminal() {
+	}
 
-    public String toString()
-    {
-        return "Z";
-    }
+	public String toString() {
+		return "Z";
+	}
 
+	// public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
+	public void appendPath(GeneralPath path, BuildHistory hist) {
+		path.closePath();
+		hist.setLastPoint(hist.startPoint.x, hist.startPoint.y);
+		hist.setLastKnot(hist.startPoint.x, hist.startPoint.y);
+	}
 
-//    public void appendPath(ExtendedGeneralPath path, BuildHistory hist)
-    public void appendPath(GeneralPath path, BuildHistory hist)
-    {
-        path.closePath();
-        hist.setLastPoint(hist.startPoint.x, hist.startPoint.y);
-        hist.setLastKnot(hist.startPoint.x, hist.startPoint.y);
-    }
-    
-    public int getNumKnotsAdded()
-    {
-        return 0;
-    }
+	public int getNumKnotsAdded() {
+		return 0;
+	}
 }

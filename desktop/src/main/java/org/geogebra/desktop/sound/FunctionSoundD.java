@@ -18,7 +18,8 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  *
  */
-public final class FunctionSoundD extends FunctionSound implements LineListener {
+public final class FunctionSoundD extends FunctionSound
+		implements LineListener {
 
 	private AppD app;
 
@@ -56,7 +57,7 @@ public final class FunctionSoundD extends FunctionSound implements LineListener 
 		if (super.initStreamingAudio(sampleRate, bitDepth) == false) {
 			return false;
 		}
-		
+
 		boolean success = true;
 
 		af = new AudioFormat(sampleRate, bitDepth, 1, true, true);
@@ -146,7 +147,6 @@ public final class FunctionSoundD extends FunctionSound implements LineListener 
 
 		private volatile boolean stopped = false;
 
-
 		public SoundThread() {
 		}
 
@@ -224,6 +224,7 @@ public final class FunctionSoundD extends FunctionSound implements LineListener 
 			}
 
 		}
+
 		/**
 		 * Shapes ends of waveform to fade sound data TODO: is this actually
 		 * working?

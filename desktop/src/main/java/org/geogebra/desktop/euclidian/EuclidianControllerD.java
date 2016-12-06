@@ -33,8 +33,7 @@ import org.geogebra.desktop.main.AppD;
  * Created on 16. October 2001, 15:41
  */
 public class EuclidianControllerD extends EuclidianController
-		implements
-		EuclidianControllerListeners {
+		implements EuclidianControllerListeners {
 
 	// protected GeoVec2D b;
 

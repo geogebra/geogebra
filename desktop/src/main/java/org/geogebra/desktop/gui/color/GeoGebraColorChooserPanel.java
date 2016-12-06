@@ -457,7 +457,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 								g2d.drawImage(
 										app.getImageIcon(
 												GuiResourcesD.COLOR_CHOOSER_CHECK)
-												.getImage(), x + 3, y + 3, null);
+												.getImage(),
+										x + 3, y + 3, null);
 						}
 
 						if (hoverSwatch != null && row == hoverSwatch.height

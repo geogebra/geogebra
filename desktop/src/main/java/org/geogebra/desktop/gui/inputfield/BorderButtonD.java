@@ -21,8 +21,8 @@ import javax.swing.border.AbstractBorder;
  * @author G. Sturr
  *
  */
-public class BorderButtonD extends AbstractBorder implements MouseListener,
-		MouseMotionListener {
+public class BorderButtonD extends AbstractBorder
+		implements MouseListener, MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -78,7 +78,8 @@ public class BorderButtonD extends AbstractBorder implements MouseListener,
 	}
 
 	@Override
-	public void paintBorder(Component c, Graphics g, int x, int y, int w, int h) {
+	public void paintBorder(Component c, Graphics g, int x, int y, int w,
+			int h) {
 
 		int offset = hGap;
 		int xStart = x + w - getTotalInsetWidth();

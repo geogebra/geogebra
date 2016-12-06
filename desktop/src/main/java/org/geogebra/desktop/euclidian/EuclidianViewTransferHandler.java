@@ -34,8 +34,8 @@ import org.geogebra.desktop.util.CASTransferHandler;
  * @author G. Sturr
  * 
  */
-public class EuclidianViewTransferHandler extends TransferHandler implements
-		Transferable {
+public class EuclidianViewTransferHandler extends TransferHandler
+		implements Transferable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,8 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	static {
 
 		try {
-			textReaderFlavor = new DataFlavor("text/plain;class=java.io.Reader");
+			textReaderFlavor = new DataFlavor(
+					"text/plain;class=java.io.Reader");
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}
@@ -131,8 +132,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		// give the drop target (this EV) the view focus
 		requestViewFocus();
 
-		Point mousePos = ((EuclidianViewInterfaceD) ev)
-				.getMousePosition();
+		Point mousePos = ((EuclidianViewInterfaceD) ev).getMousePosition();
 
 		// ------------------------------------------
 		// Import handling is done in this order:
@@ -147,8 +147,8 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		if (t.isDataFlavorSupported(PlotPanelEuclidianViewD.plotPanelFlavor)) {
 
 			try {
-				AbstractAction act = (AbstractAction) t
-						.getTransferData(PlotPanelEuclidianViewD.plotPanelFlavor);
+				AbstractAction act = (AbstractAction) t.getTransferData(
+						PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
 			} catch (UnsupportedFlavorException e) {
@@ -188,9 +188,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				// tableRef = "$" + (cellnumber+1);
 
 				// create a GeoText on the specific mouse position
-				GeoElementND[] ret = ev
-						.getApplication()
-						.getKernel()
+				GeoElementND[] ret = ev.getApplication().getKernel()
 						.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionsOrErrors(
 								sb.toString(), false);
@@ -224,20 +222,23 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 		// handle all text flavors
 		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
-				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+				|| t.isDataFlavorSupported(
+						AlgebraViewTransferHandler.algebraViewFlavor)) {
 			try {
 
 				String text = null; // expression to be converted into GeoText
 				boolean isLaTeX = false;
 
 				// get text from AlgebraView flavor
-				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+				if (t.isDataFlavorSupported(
+						AlgebraViewTransferHandler.algebraViewFlavor)) {
 
 					isLaTeX = true;
 
 					// get list of selected geo labels
 					ArrayList<String> list = (ArrayList<String>) t
-							.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+							.getTransferData(
+									AlgebraViewTransferHandler.algebraViewFlavor);
 
 					text = EuclidianView.getDraggedLabels(list);
 

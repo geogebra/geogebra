@@ -175,7 +175,8 @@ public class ImageManagerD extends ImageManager {
 	 */
 
 	/**
-	 * get image for icons and other automatically add "/org/geogebra/desktop" prefix
+	 * get image for icons and other automatically add "/org/geogebra/desktop"
+	 * prefix
 	 * 
 	 * @param name
 	 *            name of the image (without "/org/geogebra/desktop" prefix)
@@ -198,6 +199,7 @@ public class ImageManagerD extends ImageManager {
 	public Image getImageResource(ImageResourceD name) {
 		return getImageResource(name.getFilename());
 	}
+
 	/**
 	 * return image from the full path name
 	 * 
@@ -315,7 +317,8 @@ public class ImageManagerD extends ImageManager {
 		return cm.hasAlpha();
 	}
 
-	public static ImageIcon getScaledIcon(ImageIcon icon, int width, int height) {
+	public static ImageIcon getScaledIcon(ImageIcon icon, int width,
+			int height) {
 		if (icon.getIconWidth() == width && icon.getIconHeight() == height) {
 			return icon;
 		} else {
@@ -344,15 +347,17 @@ public class ImageManagerD extends ImageManager {
 		return fileName;
 	}
 
-	public ImageResourceD getToolImageResource(String modeText, boolean force64) {
+	public ImageResourceD getToolImageResource(String modeText,
+			boolean force64) {
 		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
 		String path = getToolbarIconPath(force64) + filename;
 		return new ImageResourceDImpl(path);
 	}
 
 	public ImageIcon getFlagIcon(String filename) {
-		return getImageIcon(new ImageResourceDImpl("/gui/menubar/images/"
-				+ filename), null);
+		return getImageIcon(
+				new ImageResourceDImpl("/gui/menubar/images/" + filename),
+				null);
 	}
 
 	public String getToolbarIconPath(boolean forse64) {

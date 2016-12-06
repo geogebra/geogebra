@@ -49,7 +49,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GFontRenderContextD;
 
-
 /**
  * EpsGraphics is suitable for creating high quality EPS graphics for use in
  * documents and papers, and can be used just like a standard Graphics2D object.
@@ -108,7 +107,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	public EpsGraphics(String title, StringBuilder outputStream, int minX,
 			int minY, int maxX, int maxY, ColorMode colorMode, GColor bgColor) {
-		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
+		_document = new EpsDocument(title, outputStream, minX, minY, maxX,
+				maxY);
 		this.colorMode = colorMode;
 		_backgroundColor = bgColor == null ? GColor.WHITE : bgColor;
 		_clip = null;
@@ -350,9 +350,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws a BufferedImage on the EPS document.
 	 */
 	@Override
-	public void drawImage(GBufferedImage img, int x,
-			int y) {
-		GAffineTransform transform = AwtFactory.getPrototype().newAffineTransform();
+	public void drawImage(GBufferedImage img, int x, int y) {
+		GAffineTransform transform = AwtFactory.getPrototype()
+				.newAffineTransform();
 		transform.setTransform(1f, 0f, 0f, 1f, x, y);
 		// drawImage(op.filter(img, null), transform, null);
 		drawImage(img, transform);
@@ -658,8 +658,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 		return _stroke;
 	}
 
-
-
 	/**
 	 * Returns the FontRenderContext.
 	 */
@@ -865,8 +863,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 			t.concatenate(_clipTransform);
 			return t.createTransformedShape(_clip);
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to get inverse of matrix: "
-					+ _transform);
+			throw new RuntimeException(
+					"Unable to get inverse of matrix: " + _transform);
 		}
 	}
 
@@ -922,7 +920,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
-		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width,
+				height);
 		draw(shape, "fill", false);
 	}
 
@@ -931,7 +930,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void drawRect(int x, int y, int width, int height) {
-		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width,
+				height);
 		draw(shape);
 	}
 
@@ -943,7 +943,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void clearRect(int x, int y, int width, int height) {
 		GColor originalColor = getColor();
 		setColor(getBackground());
-		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width, height);
+		GShape shape = AwtFactory.getPrototype().newRectangle(x, y, width,
+				height);
 		draw(shape, "fill", false);
 		setColor(originalColor);
 	}
@@ -967,8 +968,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		drawLine(x + width, y + radius, x + width, y + height - radius);
 
 		arc.setCurve(x + width, y + height - radius, x + width, y + height,
-				x + width - radius,
-				y + height);
+				x + width - radius, y + height);
 		draw(arc);
 
 		drawLine(x + width - radius, y + height, x + radius, y + height);
@@ -993,7 +993,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 		appendStroke();
 		append("newpath");
-		
+
 		GLine2D line = AwtFactory.getPrototype().newLine2D();
 		line.setLine(x + radius, y, x + width - radius, y);
 		draw(line, null, true);
@@ -1022,7 +1022,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 		arc.setCurve(x, y + radius, x, y, x + radius, y);
 		draw(arc, null, true);
-		
+
 		append("fill");
 		append("newpath");
 
@@ -1135,7 +1135,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// drawString(string, x, y);
 	// }
 
-
 	/**
 	 * Draws an image.
 	 */
@@ -1157,8 +1156,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws an image.
 	 */
 	public void drawImage(GBufferedImage img, int x, int y, int width,
-			int height,
-			GColor bgcolor) {
+			int height, GColor bgcolor) {
 		drawImage(img, x, y, x + width, y + height, 0, 0, width, height,
 				bgcolor);
 	}
@@ -1167,10 +1165,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws an image.
 	 */
 	public void drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
-			int dy2,
-			int sx1, int sy1, int sx2, int sy2) {
-		drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-				GColor.WHITE);
+			int dy2, int sx1, int sy1, int sx2, int sy2) {
+		drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2, GColor.WHITE);
 	}
 
 	/**

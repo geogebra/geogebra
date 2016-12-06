@@ -13,36 +13,37 @@ import java.io.Writer;
  */
 public class WriterOutputStream extends OutputStream {
 
-    private Writer writer;
+	private Writer writer;
 
-    /**
-     * Create an Output Stream from given Writer.
-     * 
-     * @param writer writer to write to
-     */
-    public WriterOutputStream(Writer writer) {
-        this.writer = writer;
-    }
+	/**
+	 * Create an Output Stream from given Writer.
+	 * 
+	 * @param writer
+	 *            writer to write to
+	 */
+	public WriterOutputStream(Writer writer) {
+		this.writer = writer;
+	}
 
-    public void write(int b) throws IOException {
-        writer.write(b & 0xFF);
-    }
+	public void write(int b) throws IOException {
+		writer.write(b & 0xFF);
+	}
 
-    public void write(byte[] b) throws IOException {
-        write(b, 0, b.length);
-    }
+	public void write(byte[] b) throws IOException {
+		write(b, 0, b.length);
+	}
 
-    public void write(byte[] b, int off, int len) throws IOException {
-        for (int i = 0; i < len; i++) {
-            writer.write(b[off + i]);
-        }
-    }
+	public void write(byte[] b, int off, int len) throws IOException {
+		for (int i = 0; i < len; i++) {
+			writer.write(b[off + i]);
+		}
+	}
 
-    public void close() throws IOException {
-        writer.close();
-    }
+	public void close() throws IOException {
+		writer.close();
+	}
 
-    public void flush() throws IOException {
-        writer.flush();
-    }
+	public void flush() throws IOException {
+		writer.flush();
+	}
 }

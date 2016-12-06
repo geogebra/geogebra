@@ -36,8 +36,8 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Options with the default settings of objects.
  */
-public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
-		TreeSelectionListener, SetLabels {
+public class OptionsDefaultsD extends OptionsDefaults
+		implements OptionPanelD, TreeSelectionListener, SetLabels {
 
 	/**
 	 * An instance of the GeoGebra application.
@@ -54,7 +54,7 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 * values can be assigned.
 	 */
 	private JTree tree;
-	
+
 	private DefaultTreeCellRenderer treeCellRenderer;
 
 	/**
@@ -73,17 +73,17 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	private DefaultMutableTreeNode pointsNode, pointsFreeNode, pointsDepNode,
 			pointsPathNode, pointsInRegionNode, pointsComplexNode;
 
-	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode,
-			conicNode, conicSectorNode, rayNode;
+	private DefaultMutableTreeNode lineNode, segmentNode, vectorNode, conicNode,
+			conicSectorNode, rayNode;
 
 	private DefaultMutableTreeNode numberNode, angleNode;
 
-	private DefaultMutableTreeNode functionNode, polygonNode, polylineNode, locusNode;
+	private DefaultMutableTreeNode functionNode, polygonNode, polylineNode,
+			locusNode;
 
 	private DefaultMutableTreeNode textNode, imageNode, booleanNode;
 
-	private DefaultMutableTreeNode listNode, inequalitiesNode,
-			functionNVarNode;
+	private DefaultMutableTreeNode listNode, inequalitiesNode, functionNVarNode;
 
 	private JButton defaultsButton;
 
@@ -183,8 +183,8 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		wrappedPanel.add(splitPane, BorderLayout.CENTER);
 		wrappedPanel.add(LayoutUtil.flowPanel(0, 0, 20, defaultsButton),
 				BorderLayout.SOUTH);
-		
-		app.setComponentOrientation(wrappedPanel); 
+
+		app.setComponentOrientation(wrappedPanel);
 	}
 
 	/**
@@ -370,15 +370,15 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 				Object[] selection = new Object[pointsNode.getChildCount()];
 
 				for (int i = 0; i < pointsNode.getChildCount(); ++i) {
-					selection[i] = defaults.getDefaultGeo(typeToNode
-							.get(pointsNode.getChildAt(i)));
+					selection[i] = defaults.getDefaultGeo(
+							typeToNode.get(pointsNode.getChildAt(i)));
 				}
 
 				propPanel.updateSelection(selection);
 			} else {
 				if (typeToNode.containsKey(node)) {
-					propPanel.updateSelection(new Object[] { defaults
-							.getDefaultGeo(typeToNode.get(node)) });
+					propPanel.updateSelection(new Object[] {
+							defaults.getDefaultGeo(typeToNode.get(node)) });
 				}
 			}
 		}
@@ -410,15 +410,13 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 * TODO Does not work with lists (F.S.)
 	 */
 	private void applyDefaults() {
-		
+
 		for (GeoElement geo : app.getSelectionManager().getSelectedGeos()) {
 			defaults.setDefaultVisualStyles(geo, true);
 			geo.updateRepaint();
 		}
 
 	}
-	
-
 
 	public void updateFont() {
 		Font font = app.getPlainFont();
@@ -426,15 +424,12 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 		tree.setFont(font);
 		treeCellRenderer.setFont(font);
 
-		
 		defaultsButton.setFont(font);
 
-		//propPanel.setFont(font);
+		// propPanel.setFont(font);
 	}
-	
-	
 
-	public void setSelected(boolean flag){
-		//see OptionsEuclidianD for possible implementation
+	public void setSelected(boolean flag) {
+		// see OptionsEuclidianD for possible implementation
 	}
 }

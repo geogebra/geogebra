@@ -299,9 +299,11 @@ abstract public class SVGElement implements Serializable {
 	public void addAttribute(String name, int attribType, String value)
 			throws SVGElementException {
 		if (hasAttribute(name, attribType)) {
-			throw new SVGElementException(this, "Attribute " + name + "("
-					+ AnimationElement.animationElementToString(attribType)
-					+ ") already exists");
+			throw new SVGElementException(this,
+					"Attribute "
+							+ name + "(" + AnimationElement
+									.animationElementToString(attribType)
+							+ ") already exists");
 		}
 
 		// Alter layout for id attribute
@@ -322,8 +324,8 @@ abstract public class SVGElement implements Serializable {
 			return;
 		}
 
-		throw new SVGElementException(this, "Invalid attribute type "
-				+ attribType);
+		throw new SVGElementException(this,
+				"Invalid attribute type " + attribType);
 	}
 
 	public boolean hasAttribute(String name, int attribType)
@@ -338,8 +340,8 @@ abstract public class SVGElement implements Serializable {
 					|| presAttribs.containsKey(name);
 		}
 
-		throw new SVGElementException(this, "Invalid attribute type "
-				+ attribType);
+		throw new SVGElementException(this,
+				"Invalid attribute type " + attribType);
 	}
 
 	/**
@@ -442,8 +444,8 @@ abstract public class SVGElement implements Serializable {
 	}
 
 	public URI getXMLBase() {
-		return xmlBase != null ? xmlBase : (parent != null ? parent
-				.getXMLBase() : diagram.getXMLBase());
+		return xmlBase != null ? xmlBase
+				: (parent != null ? parent.getXMLBase() : diagram.getXMLBase());
 	}
 
 	/**
@@ -512,8 +514,8 @@ abstract public class SVGElement implements Serializable {
 			break;
 		}
 		default:
-			throw new SVGElementException(this, "Invalid attribute type "
-					+ attribType);
+			throw new SVGElementException(this,
+					"Invalid attribute type " + attribType);
 		}
 
 		if (styAttr == null) {
@@ -576,7 +578,8 @@ abstract public class SVGElement implements Serializable {
 		// Check for presentation attribute
 		StyleAttribute presAttr = (StyleAttribute) presAttribs.get(styName);
 
-		attrib.setStringValue(presAttr == null ? "" : presAttr.getStringValue());
+		attrib.setStringValue(
+				presAttr == null ? "" : presAttr.getStringValue());
 		/*
 		 * //Evalutate coresponding track, if one exists if (evalAnimation) {
 		 * TrackBase track = trackManager.getTrack(styName,
@@ -634,7 +637,8 @@ abstract public class SVGElement implements Serializable {
 		StyleAttribute presAttr = (StyleAttribute) presAttribs.get(presName);
 
 		// Copy presentation value directly
-		attrib.setStringValue(presAttr == null ? "" : presAttr.getStringValue());
+		attrib.setStringValue(
+				presAttr == null ? "" : presAttr.getStringValue());
 		/*
 		 * //Evalutate coresponding track, if one exists TrackBase track =
 		 * trackManager.getTrack(presName, AnimationElement.AT_XML); if (track
@@ -807,8 +811,8 @@ abstract public class SVGElement implements Serializable {
 						nextFloat(tokens));
 				break;
 			case 'Q':
-				cmd = new Quadratic(false, nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens));
+				cmd = new Quadratic(false, nextFloat(tokens), nextFloat(tokens),
+						nextFloat(tokens), nextFloat(tokens));
 				break;
 			case 'q':
 				cmd = new Quadratic(true, nextFloat(tokens), nextFloat(tokens),
@@ -824,21 +828,23 @@ abstract public class SVGElement implements Serializable {
 				break;
 			case 'C':
 				cmd = new Cubic(false, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens));
+						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
+						nextFloat(tokens));
 				break;
 			case 'c':
 				cmd = new Cubic(true, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens));
+						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
+						nextFloat(tokens));
 				break;
 			case 'S':
 				cmd = new CubicSmooth(false, nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens));
+						nextFloat(tokens), nextFloat(tokens),
+						nextFloat(tokens));
 				break;
 			case 's':
 				cmd = new CubicSmooth(true, nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens));
+						nextFloat(tokens), nextFloat(tokens),
+						nextFloat(tokens));
 				break;
 			case 'Z':
 			case 'z':

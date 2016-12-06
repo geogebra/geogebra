@@ -70,8 +70,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author Florian Sonner
  */
 public abstract class DockPanelD extends JPanel implements ActionListener,
-		WindowListener, MouseListener, DockPanel,
-		DockComponent {
+		WindowListener, MouseListener, DockPanel, DockComponent {
 	private static final long serialVersionUID = 1L;
 
 	protected DockManagerD dockManager;
@@ -473,8 +472,9 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		}
 
 		// Custom border for the major panels (title, stylebar and toolbar)
-		Border panelBorder = BorderFactory.createCompoundBorder(BorderFactory
-				.createMatteBorder(0, 0, 1, 0, SystemColor.controlShadow),
+		Border panelBorder = BorderFactory.createCompoundBorder(
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
 		// create style bar panel
@@ -538,8 +538,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		toggleStyleBarButton.setFocusPainted(false);
 		toggleStyleBarButton.setBorderPainted(false);
 		toggleStyleBarButton.setContentAreaFilled(false);
-		toggleStyleBarButton.setPreferredSize(new Dimension(toggleSize,
-				toggleSize));
+		toggleStyleBarButton
+				.setPreferredSize(new Dimension(toggleSize, toggleSize));
 		toggleStyleBarButton.setRolloverEnabled(true);
 
 		// button to show/hide styling bar if the title panel is invisible
@@ -547,8 +547,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		toggleStyleBarButton2.setFocusPainted(false);
 		toggleStyleBarButton2.setBorderPainted(false);
 		toggleStyleBarButton2.setContentAreaFilled(false);
-		toggleStyleBarButton2.setPreferredSize(new Dimension(toggleSize,
-				toggleSize));
+		toggleStyleBarButton2
+				.setPreferredSize(new Dimension(toggleSize, toggleSize));
 		toggleStyleBarButton2.addActionListener(this);
 		toggleStyleBarButton2.setRolloverEnabled(true);
 
@@ -573,7 +573,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to display the view in a separate window
-		windowButton = new JButton(app.getScaledIcon(GuiResourcesD.VIEW_WINDOW));
+		windowButton = new JButton(
+				app.getScaledIcon(GuiResourcesD.VIEW_WINDOW));
 		windowButton.addActionListener(this);
 		windowButton.setFocusPainted(false);
 		windowButton.setContentAreaFilled(false);
@@ -627,8 +628,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		} else {
 			frame = new JFrame(getPlainTitle());
 			// needs the higher res as used by Windows 7 for the Toolbar
-			((JFrame) frame).setIconImage(app
-					.getInternalImage(GuiResourcesD.GEOGEBRA64));
+			((JFrame) frame).setIconImage(
+					app.getInternalImage(GuiResourcesD.GEOGEBRA64));
 		}
 
 		frame.addWindowListener(this);
@@ -656,8 +657,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		}
 
 		// TODO multimonitor supported?
-		Rectangle screenSize = GraphicsEnvironment
-				.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		Rectangle screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getMaximumWindowBounds();
 
 		// Use the previous dimension of this view
 		Rectangle windowBounds = getFrameBounds();
@@ -726,11 +727,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		}
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app
-					.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
+			maximizeButton
+					.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
 		} else {
-			maximizeButton.setIcon(app
-					.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
+			maximizeButton
+					.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
 		}
 
 		updateLabels();
@@ -899,14 +900,14 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	public void updateLabels() {
 		closeButton.setToolTipText(loc.getMenuTooltip("Close"));
 		windowButton.setToolTipText(loc.getPlainTooltip("ViewOpenExtraWindow"));
-		unwindowButton.setToolTipText(loc
-				.getPlainTooltip("ViewCloseExtraWindow"));
-		unwindowButton2.setToolTipText(loc
-				.getPlainTooltip("ViewCloseExtraWindow"));
-		toggleStyleBarButton.setToolTipText(loc
-				.getPlainTooltip("ToggleStyleBar"));
-		toggleStyleBarButton2.setToolTipText(loc
-				.getPlainTooltip("ToggleStyleBar"));
+		unwindowButton
+				.setToolTipText(loc.getPlainTooltip("ViewCloseExtraWindow"));
+		unwindowButton2
+				.setToolTipText(loc.getPlainTooltip("ViewCloseExtraWindow"));
+		toggleStyleBarButton
+				.setToolTipText(loc.getPlainTooltip("ToggleStyleBar"));
+		toggleStyleBarButton2
+				.setToolTipText(loc.getPlainTooltip("ToggleStyleBar"));
 
 		if (frame == null) {
 			titleLabel.setText(getPlainTitle());
@@ -1173,8 +1174,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, toolbarString, visible, openInFrame,
-				showStyleBar, new GRectangleD(frameBounds),
-				embeddedDef, embeddedSize);
+				showStyleBar, new GRectangleD(frameBounds), embeddedDef,
+				embeddedSize);
 	}
 
 	/**
@@ -1212,11 +1213,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	private void updateToggleStyleBarButtons() {
 		if (toggleStyleBarButton != null) {
 			if (showStyleBar) {
-				toggleStyleBarButton.setIcon(app
-						.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
+				toggleStyleBarButton.setIcon(
+						app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 			} else {
-				toggleStyleBarButton.setIcon(app
-						.getScaledIcon(GuiResourcesD.TRIANGLE_RIGHT));
+				toggleStyleBarButton.setIcon(
+						app.getScaledIcon(GuiResourcesD.TRIANGLE_RIGHT));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
@@ -1653,12 +1654,12 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 		int toggleSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 		// button to show/hide styling bar and the title panel buttons
-		toggleStyleBarButton.setPreferredSize(new Dimension(toggleSize,
-				toggleSize));
+		toggleStyleBarButton
+				.setPreferredSize(new Dimension(toggleSize, toggleSize));
 
 		// button to show/hide styling bar if the title panel is invisible
-		toggleStyleBarButton2.setPreferredSize(new Dimension(toggleSize,
-				toggleSize));
+		toggleStyleBarButton2
+				.setPreferredSize(new Dimension(toggleSize, toggleSize));
 
 		// button to insert the view in the main window
 		unwindowButton.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_UNWINDOW));
@@ -1680,11 +1681,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app
-					.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
+			maximizeButton
+					.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
 		} else {
-			maximizeButton.setIcon(app
-					.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
+			maximizeButton
+					.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
 		}
 		updateToggleStyleBarButtons();
 	}

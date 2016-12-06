@@ -12,8 +12,8 @@ import org.geogebra.desktop.awt.GColorD;
 /**
  * CAS cell renderer
  */
-public class CASTableCellRenderer extends CASTableCell implements
-		TableCellRenderer {
+public class CASTableCellRenderer extends CASTableCell
+		implements TableCellRenderer {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,12 +36,12 @@ public class CASTableCellRenderer extends CASTableCell implements
 			// update font and row height
 			if (cell.isUseAsText()) {
 				setFont(casFont.deriveFont(cell.getFontStyle(),
-						(float) (casFont.getSize() * (cell
-								.getFontSizeMultiplier()))));
+						(float) (casFont.getSize()
+								* (cell.getFontSizeMultiplier()))));
 
 				setForeground(GColorD.getAwtColor(cell.getFontColor()));
-				dummyField.setForeground(GColorD.getAwtColor(cell
-						.getFontColor()));
+				dummyField.setForeground(
+						GColorD.getAwtColor(cell.getFontColor()));
 				this.getInputArea().setForeground(
 						GColorD.getAwtColor(cell.getFontColor()));
 			} else

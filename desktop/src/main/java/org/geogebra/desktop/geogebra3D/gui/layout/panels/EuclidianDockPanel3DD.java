@@ -28,7 +28,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	public EuclidianDockPanel3DD(AppD app) {
 		super(App.VIEW_EUCLIDIAN3D, // view id
 				"GraphicsView3D", // view title
-				ToolBar.getAllToolsNoMacros3D(),// toolbar string
+				ToolBar.getAllToolsNoMacros3D(), // toolbar string
 				true, // style bar?
 				6, // menu order
 				'3' // ctrl-shift-3

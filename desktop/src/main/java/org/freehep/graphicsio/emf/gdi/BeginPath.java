@@ -14,13 +14,13 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class BeginPath extends EMFTag {
 
-    public BeginPath() {
-        super(59, 1);
-    }
+	public BeginPath() {
+		super(59, 1);
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        return this;
-    }
+		return this;
+	}
 }

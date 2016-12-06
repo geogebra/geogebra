@@ -48,7 +48,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	protected PopupMenuButton toggleTypeTreeMode;
 	protected PopupMenuButton toggleDescriptionMode;
 
-
 	private JPopupMenu treeModeMenu, descriptionMenu;
 
 	private LocalizationD loc;
@@ -81,8 +80,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 */
 	protected void addButtons() {
 
-		toggleAuxiliary = new JButton(
-				app.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
+		toggleAuxiliary = new JButton(app.getScaledIcon(
+				GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
 		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
@@ -95,8 +94,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setKeepVisible(true);
 		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
 													// button region
-		toggleTypeTreeMode.setIcon(app
-						.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
+		toggleTypeTreeMode.setIcon(app.getScaledIcon(
+				GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
 		add(toggleTypeTreeMode);
 
 		toggleDescriptionMode = new PopupMenuButton(app);
@@ -106,8 +105,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleDescriptionMode.setStandardButton(true); // mouse clicks over
 														// total
 														// button region
-		toggleDescriptionMode.setIcon(app
-				.getScaledIcon(GuiResourcesD.FORMULA_BAR));
+		toggleDescriptionMode
+				.setIcon(app.getScaledIcon(GuiResourcesD.FORMULA_BAR));
 		add(toggleDescriptionMode);
 
 	}
@@ -121,7 +120,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	public void updateStates() {
 
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
-		//toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
+		// toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
 		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());
 	}
 
@@ -187,10 +186,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			treeModeMenu.add(mi);
 		}
 
-		
-
 		app.setComponentOrientation(treeModeMenu);
-
 
 	}
 
@@ -227,8 +223,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setSelected(algebraView.getTreeMode() == SortMode.DEPENDENCY);
 			descriptionMenu.add(mi);
 		}
-
-
 
 		app.setComponentOrientation(treeModeMenu);
 

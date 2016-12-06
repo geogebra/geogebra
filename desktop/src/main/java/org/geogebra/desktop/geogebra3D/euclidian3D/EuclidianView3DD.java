@@ -68,8 +68,8 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  * 
  */
-public class EuclidianView3DD extends EuclidianView3D implements
-		EuclidianViewInterfaceD {
+public class EuclidianView3DD extends EuclidianView3D
+		implements EuclidianViewInterfaceD {
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
@@ -82,7 +82,8 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianView3DD(EuclidianController3D ec, EuclidianSettings settings) {
+	public EuclidianView3DD(EuclidianController3D ec,
+			EuclidianSettings settings) {
 
 		super(ec, settings);
 
@@ -204,7 +205,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		}
 	}
 
-
 	private boolean canUseCanvas() {
 		if (app.isApplet()) {
 			return false;
@@ -219,12 +219,10 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return true;
 	}
 
-
 	@Override
 	public void setBackground(GColor updatedColor, GColor applyedColor) {
 		super.setBackground(updatedColor, applyedColor);
-		evjpanel.setBackground(GColorD
-				.getAwtColor(bgApplyedColor));
+		evjpanel.setBackground(GColorD.getAwtColor(bgApplyedColor));
 	}
 
 	public void setTransparentCursor() {
@@ -256,7 +254,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		this.updateBackgroundIfNecessary();
 		evjpanel.repaint();
 	}
-
 
 	@Override
 	public void add(GBox box) {
@@ -331,8 +328,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		evjpanel.setPreferredSize(GDimensionD
-				.getAWTDimension(preferredSize));
+		evjpanel.setPreferredSize(GDimensionD.getAWTDimension(preferredSize));
 	}
 
 	/**

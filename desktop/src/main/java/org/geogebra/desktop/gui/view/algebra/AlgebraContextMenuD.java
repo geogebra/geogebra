@@ -18,8 +18,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Context menu for the algebra view
  * 
- * This menu is displayed if the user right-clicked on an empty region
- * of the algebra view.
+ * This menu is displayed if the user right-clicked on an empty region of the
+ * algebra view.
  * 
  * @author Florian Sonner
  */
@@ -32,11 +32,11 @@ public class AlgebraContextMenuD extends JPopupMenu {
 	 * @param app
 	 *            application
 	 */
-	public AlgebraContextMenuD(AppD app){
+	public AlgebraContextMenuD(AppD app) {
 		this.app = app;
 		initItems();
 	}
-	
+
 	/**
 	 * Initialize the menu items.
 	 */
@@ -52,29 +52,30 @@ public class AlgebraContextMenuD extends JPopupMenu {
 				app.setShowAuxiliaryObjects(!app.showAuxiliaryObjects());
 			}
 		};
-		
+
 		// title for menu
 		JLabel title = new JLabel(loc.getMenu("AlgebraWindow"));
-        title.setFont(app.getBoldFont());                      
-        title.setBackground(Color.white);
-        title.setForeground(Color.black);
-                
+		title.setFont(app.getBoldFont());
+		title.setBackground(Color.white);
+		title.setForeground(Color.black);
+
 		title.setIcon(app.getEmptyIcon());
-        title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));      
-        add(title);
-        addSeparator();
-        
-        title.addMouseListener(new MouseAdapter() {
-        	@Override
+		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));
+		add(title);
+		addSeparator();
+
+		title.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
-        		setVisible(false);
-        	}
-        });
-		
-        // menu items
-		JCheckBoxMenuItem cbShowAuxiliary = new JCheckBoxMenuItem(showAuxiliaryAction);
+				setVisible(false);
+			}
+		});
+
+		// menu items
+		JCheckBoxMenuItem cbShowAuxiliary = new JCheckBoxMenuItem(
+				showAuxiliaryAction);
 		cbShowAuxiliary.setSelected(app.showAuxiliaryObjects());
-		
+
 		add(cbShowAuxiliary);
 	}
 }

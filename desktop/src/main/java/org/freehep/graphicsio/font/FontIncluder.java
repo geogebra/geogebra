@@ -26,129 +26,131 @@ import org.freehep.graphics2d.font.CharTable;
  */
 public abstract class FontIncluder {
 
-    public static final double FONT_SIZE = 1000;
+	public static final double FONT_SIZE = 1000;
 
-    // -------------------- abstract methods --------------------
+	// -------------------- abstract methods --------------------
 
-    /**
-     * Writes the given information about the font into the file. When this
-     * method is called all <tt>getXXX()</tt> are guaranteed to return
-     * reasonable values.
-     */
-    protected abstract void openIncludeFont() throws IOException;
+	/**
+	 * Writes the given information about the font into the file. When this
+	 * method is called all <tt>getXXX()</tt> are guaranteed to return
+	 * reasonable values.
+	 */
+	protected abstract void openIncludeFont() throws IOException;
 
-    /** Writes the encoding table to the file. */
-    protected abstract void writeEncoding(CharTable charTable)
-            throws IOException;
+	/** Writes the encoding table to the file. */
+	protected abstract void writeEncoding(CharTable charTable)
+			throws IOException;
 
-    /** Does nothing, but can be implemented by subclasses if necessary. */
-    protected void closeIncludeFont() throws IOException {
-    }
+	/** Does nothing, but can be implemented by subclasses if necessary. */
+	protected void closeIncludeFont() throws IOException {
+	}
 
-    // -----------------------------------------------------------
+	// -----------------------------------------------------------
 
-    private FontRenderContext context;
+	private FontRenderContext context;
 
-    private Rectangle2D fontBBox;
+	private Rectangle2D fontBBox;
 
-    private Font font;
+	private Font font;
 
-    private String fontName;
+	private String fontName;
 
-    private CharTable charTable;
+	private CharTable charTable;
 
-    private char[] unicode;
+	private char[] unicode;
 
-    private String[] charName;
+	private String[] charName;
 
-    private int noDefinedChars;
+	private int noDefinedChars;
 
-    public FontIncluder(FontRenderContext context) {
-        this.context = context;
-        this.noDefinedChars = -1;
-    }
+	public FontIncluder(FontRenderContext context) {
+		this.context = context;
+		this.noDefinedChars = -1;
+	}
 
-    // -----------------------------------------------------------
+	// -----------------------------------------------------------
 
-    protected FontRenderContext getContext() {
-        return context;
-    }
+	protected FontRenderContext getContext() {
+		return context;
+	}
 
-    protected String getFontName() {
-        return fontName;
-    }
+	protected String getFontName() {
+		return fontName;
+	}
 
-    protected Font getFont() {
-        return font;
-    }
+	protected Font getFont() {
+		return font;
+	}
 
-    protected CharTable getEncodingTable() {
-        return charTable;
-    }
+	protected CharTable getEncodingTable() {
+		return charTable;
+	}
 
-    protected Rectangle2D getFontBBox() {
-        return fontBBox;
-    }
+	protected Rectangle2D getFontBBox() {
+		return fontBBox;
+	}
 
-    protected String getCharName(int i) {
-        return charName[i];
-    }
+	protected String getCharName(int i) {
+		return charName[i];
+	}
 
-    protected char getUnicode(int i) {
-        return unicode[i];
-    }
+	protected char getUnicode(int i) {
+		return unicode[i];
+	}
 
-    protected char[] getUnicode() {
-        return unicode;
-    }
+	protected char[] getUnicode() {
+		return unicode;
+	}
 
-    protected int getNODefinedChars() {
-        return noDefinedChars;
-    }
+	protected int getNODefinedChars() {
+		return noDefinedChars;
+	}
 
-    // -----------------------------------------------------------
+	// -----------------------------------------------------------
 
-    /**
-     * Embed this font to the file.
-     * 
-     * @param font The font to include
-     * @param name The name under which this font is addressed within the
-     *        document (can be retrieved by <tt>getFontName()</tt>)
-     */
-    public void includeFont(Font font, CharTable charTable, String name)
-            throws IOException {
+	/**
+	 * Embed this font to the file.
+	 * 
+	 * @param font
+	 *            The font to include
+	 * @param name
+	 *            The name under which this font is addressed within the
+	 *            document (can be retrieved by <tt>getFontName()</tt>)
+	 */
+	public void includeFont(Font font, CharTable charTable, String name)
+			throws IOException {
 
-        unicode = null;
-        charName = null;
+		unicode = null;
+		charName = null;
 
-        this.font = font;
-        this.charTable = charTable;
-        this.fontName = name;
+		this.font = font;
+		this.charTable = charTable;
+		this.fontName = name;
 
-        // figure out the maximum bounding box for all characters
-        this.fontBBox = font.getMaxCharBounds(context);
+		// figure out the maximum bounding box for all characters
+		this.fontBBox = font.getMaxCharBounds(context);
 
-        // figure out the unicodes and character names and
-        // create a glyph vector containing the 256 glyphs of the font
-        this.noDefinedChars = 0;
-        this.unicode = new char[256];
-        this.charName = new String[256];
-        for (int i = 0; i < unicode.length; i++) {
-            charName[i] = charTable.toName(i);
-            if (charName[i] != null) {
-                unicode[i] = charTable.toUnicode(charName[i]);
-                noDefinedChars++;
-            } else {
-                unicode[i] = 0;
-            }
-        }
+		// figure out the unicodes and character names and
+		// create a glyph vector containing the 256 glyphs of the font
+		this.noDefinedChars = 0;
+		this.unicode = new char[256];
+		this.charName = new String[256];
+		for (int i = 0; i < unicode.length; i++) {
+			charName[i] = charTable.toName(i);
+			if (charName[i] != null) {
+				unicode[i] = charTable.toUnicode(charName[i]);
+				noDefinedChars++;
+			} else {
+				unicode[i] = 0;
+			}
+		}
 
-        openIncludeFont();
-        writeEncoding(charTable);
-        closeIncludeFont();
-    }
+		openIncludeFont();
+		writeEncoding(charTable);
+		closeIncludeFont();
+	}
 
-    protected double getUndefinedWidth() {
-        return FONT_SIZE;
-    }
+	protected double getUndefinedWidth() {
+		return FONT_SIZE;
+	}
 }

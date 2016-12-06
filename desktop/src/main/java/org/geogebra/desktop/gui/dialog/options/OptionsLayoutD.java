@@ -35,8 +35,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * Layout options for the options dialog.
  */
 public class OptionsLayoutD extends OptionsLayout
-		implements
-		OptionPanelD, ActionListener, FocusListener, SetLabels {
+		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
 	private Settings settings;
@@ -52,10 +51,9 @@ public class OptionsLayoutD extends OptionsLayout
 
 	private JToggleButton rbToolbarNorth, rbToolbarSouth, rbToolbarEast,
 			rbToolbarWest, rbSidebarWest, rbSidebarEast;
-	
-	private JRadioButton rbPespectiveSidebar,
-	rbButtonSidebar;
-	
+
+	private JRadioButton rbPespectiveSidebar, rbButtonSidebar;
+
 	private JToggleButton rbInputBarSouth, rbInputBarNorth;
 
 	private JLabel lblInputBarPosition, lblSidebarPosition;
@@ -91,6 +89,7 @@ public class OptionsLayoutD extends OptionsLayout
 		setLabels();
 
 	}
+
 	/**
 	 * Initialize the user interface.
 	 * 
@@ -111,7 +110,7 @@ public class OptionsLayoutD extends OptionsLayout
 		panel.add(inputBarPanel);
 		panel.add(toolbarPanel);
 		panel.add(perspectivesPanel);
-		//panel.add(menuBarPanel);
+		// panel.add(menuBarPanel);
 		panel.add(sideBarPanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -130,8 +129,8 @@ public class OptionsLayoutD extends OptionsLayout
 	private void initPerspectivesPanel() {
 
 		perspectivesPanel = new JPanel();
-		perspectivesPanel.setLayout(new BoxLayout(perspectivesPanel,
-				BoxLayout.Y_AXIS));
+		perspectivesPanel
+				.setLayout(new BoxLayout(perspectivesPanel, BoxLayout.Y_AXIS));
 
 		ckShowTitleBar = new JCheckBox();
 		ckShowTitleBar.addActionListener(this);
@@ -142,7 +141,6 @@ public class OptionsLayoutD extends OptionsLayout
 		perspectivesPanel.add(LayoutUtil.flowPanel(ckAllowStyleBar));
 
 	}
-
 
 	/**
 	 * Initialize the input bar panel.
@@ -171,10 +169,9 @@ public class OptionsLayoutD extends OptionsLayout
 
 		lblInputBarPosition = new JLabel();
 
-		inputBarPanel
-				.add(LayoutUtil.flowPanel(ckShowInputBar,
-						Box.createHorizontalStrut(5), rbInputBarNorth,
-						rbInputBarSouth));
+		inputBarPanel.add(LayoutUtil.flowPanel(ckShowInputBar,
+				Box.createHorizontalStrut(5), rbInputBarNorth,
+				rbInputBarSouth));
 
 		ckShowInputHelp = new JCheckBox();
 		ckShowInputHelp.addActionListener(this);
@@ -219,10 +216,10 @@ public class OptionsLayoutD extends OptionsLayout
 
 		sideBarPanel.add(LayoutUtil.flowPanel(ckShowSideBar,
 				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
-	
+
 		// Don't show perspective/viewButton option (saved for 5.0 development)
-		//sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
-			//	rbButtonSidebar));
+		// sideBarPanel.add(OptionsUtil.flowPanel(tab, rbPespectiveSidebar,
+		// rbButtonSidebar));
 	}
 
 	/**
@@ -295,13 +292,14 @@ public class OptionsLayoutD extends OptionsLayout
 		rbToolbarEast.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
 		rbToolbarWest.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
 		if (this.rbInputBarNorth != null) {
-			rbInputBarNorth.setIcon(app
-					.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
-			rbInputBarNorth.setIcon(app
-					.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
+			rbInputBarNorth
+					.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
+			rbInputBarNorth
+					.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
 		}
 
 	}
+
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
@@ -335,7 +333,6 @@ public class OptionsLayoutD extends OptionsLayout
 		rbInputBarNorth.setEnabled(ckShowInputBar.isSelected());
 		rbInputBarSouth.setEnabled(ckShowInputBar.isSelected());
 
-
 		// ckIgnoreDocumentLayout.setSelected(settings.getLayout()
 		// .isIgnoringDocumentLayout());
 		ckShowTitleBar.setSelected(settings.getLayout().showTitleBar());
@@ -351,7 +348,7 @@ public class OptionsLayoutD extends OptionsLayout
 		rbSidebarWest.removeActionListener(this);
 		rbButtonSidebar.removeActionListener(this);
 		rbPespectiveSidebar.removeActionListener(this);
-		
+
 		rbSidebarEast.setSelected(app.getDockBar().isEastOrientation());
 		rbButtonSidebar.setSelected(app.getDockBar().isShowButtonBar());
 
@@ -362,7 +359,6 @@ public class OptionsLayoutD extends OptionsLayout
 		revalidate();
 
 	}
-
 
 	// needed updating things on the reset defaults button
 	public void updateAfterReset() {
@@ -422,16 +418,12 @@ public class OptionsLayoutD extends OptionsLayout
 		// sidebar settings
 		else if (source == ckShowSideBar) {
 			app.setShowDockBar(ckShowSideBar.isSelected());
-		}
-		else if (source == rbButtonSidebar || source == rbPespectiveSidebar) {
+		} else if (source == rbButtonSidebar || source == rbPespectiveSidebar) {
 			app.getDockBar().setShowButtonBar(rbButtonSidebar.isSelected());
-		}
-		else if (source == rbSidebarEast || source == rbSidebarWest) {
+		} else if (source == rbSidebarEast || source == rbSidebarWest) {
 			app.setDockBarEast(rbSidebarEast.isSelected());
 			app.setShowDockBar(ckShowSideBar.isSelected());
 		}
-		
-		
 
 		wrappedPanel.requestFocus();
 		updateGUI();
@@ -457,8 +449,8 @@ public class OptionsLayoutD extends OptionsLayout
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		// input bar panel
-		inputBarPanel.setBorder(LayoutUtil.titleBorder(app
-				.getMenu("InputField")));
+		inputBarPanel
+				.setBorder(LayoutUtil.titleBorder(app.getMenu("InputField")));
 		ckShowInputBar.setText(loc.getMenu("Show"));
 		ckShowInputHelp.setText(loc.getMenu("CmdList"));
 		lblInputBarPosition.setText(loc.getMenu("Position"));
@@ -475,14 +467,12 @@ public class OptionsLayoutD extends OptionsLayout
 		ckShowTitleBar.setText(loc.getMenu("ShowTitleBar"));
 		ckAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
 
-
 		// menu bar panel
 		menuBarPanel.setTitle(loc.getMenu("Miscellaneous"));
 		ckShowMenuBar.setText(loc.getMenu("ShowMenuBar"));
 
 		// side bar panel
-		sideBarPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Sidebar")));
+		sideBarPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Sidebar")));
 		ckShowSideBar.setText(loc.getMenu("ShowSidebar"));
 		rbPespectiveSidebar.setText(loc.getMenu("PerspectivePanel"));
 		rbButtonSidebar.setText(loc.getMenu("ViewPanel"));
@@ -526,7 +516,6 @@ public class OptionsLayoutD extends OptionsLayout
 		perspectivesPanel.setFont(font);
 		ckShowTitleBar.setFont(font);
 		ckAllowStyleBar.setFont(font);
-
 
 		// menu bar panel
 		menuBarPanel.setFont(font);

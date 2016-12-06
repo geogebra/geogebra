@@ -11,8 +11,6 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 
 	private BufferedWriter objBufferedWriter;
 
-
-
 	/**
 	 * start file
 	 * 
@@ -28,8 +26,6 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 		objBufferedWriter = writer;
 		set(view, manager);
 	}
-
-
 
 	protected void printToFile(String s) {
 		// System.out.print(s);

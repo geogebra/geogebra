@@ -28,8 +28,7 @@ public class SpreadsheetBorders {
 	 */
 	public static void drawFormatBorders(Graphics2D g2, MyTableD table) {
 
-		g2.setColor(GColorD
-.getAwtColor(GColor.BLACK));
+		g2.setColor(GColorD.getAwtColor(GColor.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
 		HashMap<GPoint, Object> map = table.getCellFormatHandler()
@@ -80,7 +79,8 @@ public class SpreadsheetBorders {
 				// if no row borders are given then this must be an inside
 				// border
 				// so inside row lines need to be drawn
-				if (!CellFormat.isZeroBit(v, 1) || !CellFormat.isZeroBit(v, 3)) {
+				if (!CellFormat.isZeroBit(v, 1)
+						|| !CellFormat.isZeroBit(v, 3)) {
 					// how?
 				}
 

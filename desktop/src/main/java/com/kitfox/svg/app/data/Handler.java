@@ -51,64 +51,53 @@ import com.kitfox.svg.SVGConst;
  *
  * @author kitfox
  */
-public class Handler extends URLStreamHandler
-{
-    class Connection extends URLConnection
-    {
-        String mime;
-        byte[] buf;
+public class Handler extends URLStreamHandler {
+	class Connection extends URLConnection {
+		String mime;
+		byte[] buf;
 
-        public Connection(URL url)
-        {
-            super(url);
+		public Connection(URL url) {
+			super(url);
 
-            String path = url.getPath();
-            int idx = path.indexOf(';');
-            mime = path.substring(0, idx);
-            String content = path.substring(idx + 1);
+			String path = url.getPath();
+			int idx = path.indexOf(';');
+			mime = path.substring(0, idx);
+			String content = path.substring(idx + 1);
 
-            if (content.startsWith("base64,"))
-            {
-                content = content.substring(7);
-                try
-                {
+			if (content.startsWith("base64,")) {
+				content = content.substring(7);
+				try {
 					buf = Base64.decode(content);
-                }
-				catch (Exception e)
-                {
-                    Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
-                }
-            }
-        }
-        
-        public void connect() throws IOException
-        {
-        }
+				} catch (Exception e) {
+					Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
+							null, e);
+				}
+			}
+		}
 
-        public String getHeaderField(String name)
-        {
-            if ("content-type".equals(name))
-            {
-                return mime;
-            }
+		public void connect() throws IOException {
+		}
 
-            return super.getHeaderField(name);
-        }
+		public String getHeaderField(String name) {
+			if ("content-type".equals(name)) {
+				return mime;
+			}
 
-        public InputStream getInputStream() throws IOException
-        {
-            return new ByteArrayInputStream(buf);
-        }
+			return super.getHeaderField(name);
+		}
 
-//        public Object getContent() throws IOException
-//        {
-//            BufferedImage img = ImageIO.read(getInputStream());
-//        }
-    }
+		public InputStream getInputStream() throws IOException {
+			return new ByteArrayInputStream(buf);
+		}
 
-    protected URLConnection openConnection(URL u) throws IOException
-    {
-        return new Connection(u);
-    }
+		// public Object getContent() throws IOException
+		// {
+		// BufferedImage img = ImageIO.read(getInputStream());
+		// }
+	}
+
+	protected URLConnection openConnection(URL u) throws IOException {
+		return new Connection(u);
+	}
 
 }

@@ -51,8 +51,8 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 
 		if (useClasses) {
 			for (int row = 0; row < strValue.length - 1; row++) {
-				model.setValueAt(strValue[row] + " - " + strValue[row + 1],
-						row, 0);
+				model.setValueAt(strValue[row] + " - " + strValue[row + 1], row,
+						0);
 				model.setValueAt(strFrequency[row], row, 1);
 			}
 		} else {

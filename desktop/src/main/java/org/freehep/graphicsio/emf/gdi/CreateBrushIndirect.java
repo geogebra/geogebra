@@ -15,43 +15,43 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class CreateBrushIndirect extends EMFTag {
 
-    private int index;
+	private int index;
 
-    private LogBrush32 brush;
+	private LogBrush32 brush;
 
-    public CreateBrushIndirect() {
-        super(39, 1);
-    }
+	public CreateBrushIndirect() {
+		super(39, 1);
+	}
 
-    public CreateBrushIndirect(int index, LogBrush32 brush) {
-        this();
-        this.index = index;
-        this.brush = brush;
-    }
+	public CreateBrushIndirect(int index, LogBrush32 brush) {
+		this();
+		this.index = index;
+		this.brush = brush;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        CreateBrushIndirect tag = new CreateBrushIndirect(emf.readDWORD(),
-                new LogBrush32(emf));
-        return tag;
-    }
+		CreateBrushIndirect tag = new CreateBrushIndirect(emf.readDWORD(),
+				new LogBrush32(emf));
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(index);
-        brush.write(emf);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(index);
+		brush.write(emf);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  index: 0x"
-                + Integer.toHexString(index) + "\n" + brush.toString();
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  index: 0x"
+				+ Integer.toHexString(index) + "\n" + brush.toString();
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    public LogBrush32 getBrush() {
-        return brush;
-    }
+	public LogBrush32 getBrush() {
+		return brush;
+	}
 }

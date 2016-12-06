@@ -103,7 +103,8 @@ public class App3D extends AppD {
 		runThreadForCheckInput3D();
 	}
 
-	public App3D(CommandLineArguments args, Container comp, boolean undoActive) {
+	public App3D(CommandLineArguments args, Container comp,
+			boolean undoActive) {
 		super(args, null, null, comp, undoActive, new LocalizationD(3));
 
 		runThreadForCheckInput3D();
@@ -125,7 +126,6 @@ public class App3D extends AppD {
 			}
 
 			boolean realsenseInited = initRealsense();
-
 
 			if (!realsenseInited) {
 				initZspace();
@@ -186,7 +186,7 @@ public class App3D extends AppD {
 			t.start();
 		}
 	}
-	
+
 	/**
 	 * shows congratulations message for using realsense
 	 */
@@ -222,10 +222,8 @@ public class App3D extends AppD {
 		showInput3DMessage(message, getMenu("OpenTutorial"), tutorialURL);
 	}
 
-
 	private void showInput3DMessage(final String message,
-			final String messageForURL,
-			final String URL) {
+			final String messageForURL, final String URL) {
 		// popup help dialog
 		input3DPopupShowing = true;
 		final JFrame frame = new JFrame();
@@ -245,8 +243,7 @@ public class App3D extends AppD {
 
 		JLabel website = new JLabel();
 		// String tutorialText = "Click here to get a tutorial";
-		website.setText("<html><a href=\"\">" + messageForURL
-				+ "</a></html>");
+		website.setText("<html><a href=\"\">" + messageForURL + "</a></html>");
 		website.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		website.addMouseListener(new MouseAdapter() {
 			@Override
@@ -370,7 +367,6 @@ public class App3D extends AppD {
 		imageManager = new ImageManager3D(component, this);
 	}
 
-
 	private void initEuclidianController3D() {
 
 		Input3D input3D;
@@ -413,8 +409,8 @@ public class App3D extends AppD {
 			}
 
 			// set specific settings
-			input3D.setSpecificSettings((EuclidianSettings3D) getSettings()
-					.getEuclidian(3));
+			input3D.setSpecificSettings(
+					(EuclidianSettings3D) getSettings().getEuclidian(3));
 
 		} else {
 			euclidianController3D = new EuclidianController3DD(kernel);
@@ -515,7 +511,6 @@ public class App3D extends AppD {
 		}
 	}
 
-
 	// ///////////////////////////////
 	// GUI
 	// ///////////////////////////////
@@ -525,8 +520,7 @@ public class App3D extends AppD {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().reset();
 			DockManagerD dockManager = (DockManagerD) getGuiManager()
-					.getLayout()
-					.getDockManager();
+					.getLayout().getDockManager();
 			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
 					.refresh(dockManager);
 
@@ -600,8 +594,6 @@ public class App3D extends AppD {
 	 * if there's a Command.Syntax3D key. If not, return Command.Syntax key
 	 */
 
-
-
 	@Override
 	public void updateStyleBars() {
 		super.updateStyleBars();
@@ -643,17 +635,18 @@ public class App3D extends AppD {
 
 	@Override
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			AnimationExportSlider num,
-			int n, double val, double min, double max, double step) {
+			AnimationExportSlider num, int n, double val, double min,
+			double max, double step) {
 
 		if (!(ev instanceof EuclidianView3D)) {
 			// regular 2D export
-			super.exportAnimatedGIF(ev, gifEncoder, num, n, val, min, max, step);
+			super.exportAnimatedGIF(ev, gifEncoder, num, n, val, min, max,
+					step);
 			return;
 		}
 
-		getEuclidianView3D().getRenderer()
-				.startAnimatedGIFExport(gifEncoder, num, n, val, min, max, step);
+		getEuclidianView3D().getRenderer().startAnimatedGIFExport(gifEncoder,
+				num, n, val, min, max, step);
 	}
 
 	@Override
@@ -748,7 +741,7 @@ public class App3D extends AppD {
 	@Override
 	protected void handleOptionArgsEarly(CommandLineArguments args) {
 		super.handleOptionArgsEarly(args);
-		
+
 		isStereo3D = false;
 		useShaders = false;
 
@@ -779,9 +772,8 @@ public class App3D extends AppD {
 		return useShaders && !isApplet();
 	}
 
-	
 	@Override
-	protected AppD newAppForTemplateOrInsertFile(){
+	protected AppD newAppForTemplateOrInsertFile() {
 		return new App3D(new CommandLineArguments(null), new JPanel(), true);
 	}
 
@@ -811,8 +803,6 @@ public class App3D extends AppD {
 
 		return super.getToolbarPosition();
 	}
-
-
 
 	@Override
 	public int getGUIFontSize() {

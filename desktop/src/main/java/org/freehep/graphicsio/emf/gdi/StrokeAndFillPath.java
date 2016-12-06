@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class StrokeAndFillPath extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    public StrokeAndFillPath() {
-        super(63, 1);
-    }
+	public StrokeAndFillPath() {
+		super(63, 1);
+	}
 
-    public StrokeAndFillPath(Rectangle bounds) {
-        this();
-        this.bounds = bounds;
-    }
+	public StrokeAndFillPath(Rectangle bounds) {
+		this();
+		this.bounds = bounds;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        StrokeAndFillPath tag = new StrokeAndFillPath(emf.readRECTL());
-        return tag;
-    }
+		StrokeAndFillPath tag = new StrokeAndFillPath(emf.readRECTL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds;
+	}
 }

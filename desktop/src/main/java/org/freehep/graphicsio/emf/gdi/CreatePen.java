@@ -15,43 +15,43 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class CreatePen extends EMFTag {
 
-    private int index;
+	private int index;
 
-    private LogPen pen;
+	private LogPen pen;
 
-    public CreatePen() {
-        super(38, 1);
-    }
+	public CreatePen() {
+		super(38, 1);
+	}
 
-    public CreatePen(int index, LogPen pen) {
-        this();
-        this.index = index;
-        this.pen = pen;
-    }
+	public CreatePen(int index, LogPen pen) {
+		this();
+		this.index = index;
+		this.pen = pen;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        CreatePen tag = new CreatePen(emf.readDWORD(), new LogPen(emf));
-        return tag;
-    }
+		CreatePen tag = new CreatePen(emf.readDWORD(), new LogPen(emf));
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(index);
-        pen.write(emf);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(index);
+		pen.write(emf);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  index: 0x"
-                + Integer.toHexString(index) + "\n" + pen.toString();
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  index: 0x"
+				+ Integer.toHexString(index) + "\n" + pen.toString();
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 
-    public LogPen getPen() {
-        return pen;
-    }
+	public LogPen getPen() {
+		return pen;
+	}
 
 }

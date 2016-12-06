@@ -30,7 +30,7 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 				+ "</html>");
 
 		addAxesAndGridCheckBoxes();
-		
+
 		addNavigationBar();
 		addZoomMenu(app.getActiveEuclidianView());
 		// getWrappedPopup().addSeparator();
@@ -78,8 +78,8 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 	@Override
 	protected void showOptionsDialog() {
 		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-		((GuiManagerD) app.getGuiManager()).setFocusedPanel(((App3D) app)
-				.getEuclidianView3D().getViewID(), true);
+		((GuiManagerD) app.getGuiManager()).setFocusedPanel(
+				((App3D) app).getEuclidianView3D().getViewID(), true);
 
 	}
 

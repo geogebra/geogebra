@@ -20,143 +20,159 @@ import java.io.InputStream;
  */
 public abstract class TaggedInputStream extends ByteCountInputStream {
 
-    /**
-     * Set of tags that can be used by this Stream
-     */
-    protected TagSet tagSet;
+	/**
+	 * Set of tags that can be used by this Stream
+	 */
+	protected TagSet tagSet;
 
-    /**
-     * Set of actions that can be used by this Stream
-     */
-    protected ActionSet actionSet;
+	/**
+	 * Set of actions that can be used by this Stream
+	 */
+	protected ActionSet actionSet;
 
-    /**
-     * Currently read tagHeader, valid during readTag call.
-     */
-    private TagHeader tagHeader;
-    
-    /**
-     * Creates a Tagged Input Stream
-     * 
-     * @param in stream to read from
-     * @param tagSet available tag set
-     * @param actionSet available action set
-     */
-    public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet) {
-        this(in, tagSet, actionSet, false);
-    }
+	/**
+	 * Currently read tagHeader, valid during readTag call.
+	 */
+	private TagHeader tagHeader;
 
-    /**
-     * Creates a Tagged Input Stream
-     * 
-     * @param in stream to read from
-     * @param tagSet available tag set
-     * @param actionSet available action set
-     * @param littleEndian true if stream is little endian
-     */
-    public TaggedInputStream(InputStream in, TagSet tagSet,
-            ActionSet actionSet, boolean littleEndian) {
-        super(in, littleEndian, 8);
+	/**
+	 * Creates a Tagged Input Stream
+	 * 
+	 * @param in
+	 *            stream to read from
+	 * @param tagSet
+	 *            available tag set
+	 * @param actionSet
+	 *            available action set
+	 */
+	public TaggedInputStream(InputStream in, TagSet tagSet,
+			ActionSet actionSet) {
+		this(in, tagSet, actionSet, false);
+	}
 
-        this.tagSet = tagSet;
-        this.actionSet = actionSet;
-    }
+	/**
+	 * Creates a Tagged Input Stream
+	 * 
+	 * @param in
+	 *            stream to read from
+	 * @param tagSet
+	 *            available tag set
+	 * @param actionSet
+	 *            available action set
+	 * @param littleEndian
+	 *            true if stream is little endian
+	 */
+	public TaggedInputStream(InputStream in, TagSet tagSet, ActionSet actionSet,
+			boolean littleEndian) {
+		super(in, littleEndian, 8);
 
-    /**
-     * Add tag to tagset
-     * 
-     * @param tag new tag
-     */
-    public void addTag(Tag tag) {
-        tagSet.addTag(tag);
-    }
+		this.tagSet = tagSet;
+		this.actionSet = actionSet;
+	}
 
-    /**
-     * Decodes and returns the TagHeader, which includes a TagID and a length.
-     * 
-     * @return Decoded TagHeader
-     * @throws IOException if read fails
-     */
-    protected abstract TagHeader readTagHeader() throws IOException;
+	/**
+	 * Add tag to tagset
+	 * 
+	 * @param tag
+	 *            new tag
+	 */
+	public void addTag(Tag tag) {
+		tagSet.addTag(tag);
+	}
 
-    /**
-     * Read a tag.
-     * @return read tag
-     * @throws IOException if read fails
-     */
-    public Tag readTag() throws IOException {
+	/**
+	 * Decodes and returns the TagHeader, which includes a TagID and a length.
+	 * 
+	 * @return Decoded TagHeader
+	 * @throws IOException
+	 *             if read fails
+	 */
+	protected abstract TagHeader readTagHeader() throws IOException;
 
-        tagHeader = readTagHeader();
-        if (tagHeader == null)
-            return null;
+	/**
+	 * Read a tag.
+	 * 
+	 * @return read tag
+	 * @throws IOException
+	 *             if read fails
+	 */
+	public Tag readTag() throws IOException {
 
-        int size = (int) tagHeader.getLength();
+		tagHeader = readTagHeader();
+		if (tagHeader == null)
+			return null;
 
-        // Look up the proper tag.
-        Tag tag = tagSet.get(tagHeader.getTag());
+		int size = (int) tagHeader.getLength();
 
-        // set max tag length and read tag
-        pushBuffer(size);
-        tag = tag.read(tagHeader.getTag(), this, size);
-        byte[] rest = popBuffer();
+		// Look up the proper tag.
+		Tag tag = tagSet.get(tagHeader.getTag());
 
-        // read non-read part of tag
-        if (rest != null) {
-            throw new IncompleteTagException(tag, rest);
-        }
-        return tag;
-    }
+		// set max tag length and read tag
+		pushBuffer(size);
+		tag = tag.read(tagHeader.getTag(), this, size);
+		byte[] rest = popBuffer();
 
-    /**
-     * Returns the currently valid TagHeader. Can be called durring the tag.read() method.
-     */
-    public TagHeader getTagHeader() {
-        return tagHeader;
-    }
-    
-    /**
-     * Add action to action set.
-     * 
-     * @param action new action
-     */
-    public void addAction(Action action) {
-        actionSet.addAction(action);
-    }
+		// read non-read part of tag
+		if (rest != null) {
+			throw new IncompleteTagException(tag, rest);
+		}
+		return tag;
+	}
 
-    /**
-     * Decodes and returns the ActionHeader, which includes an actionCode and a
-     * length.
-     * 
-     * @return decoded ActionHeader 
-     * @throws IOException if read fails
-     */
-    protected abstract ActionHeader readActionHeader() throws IOException;
+	/**
+	 * Returns the currently valid TagHeader. Can be called durring the
+	 * tag.read() method.
+	 */
+	public TagHeader getTagHeader() {
+		return tagHeader;
+	}
 
-    /**
-     * Reads action.
-     * 
-     * @return read action
-     * @throws IOException if read fails
-     */
-    public Action readAction() throws IOException {
+	/**
+	 * Add action to action set.
+	 * 
+	 * @param action
+	 *            new action
+	 */
+	public void addAction(Action action) {
+		actionSet.addAction(action);
+	}
 
-        ActionHeader header = readActionHeader();
-        if (header == null)
-            return null;
+	/**
+	 * Decodes and returns the ActionHeader, which includes an actionCode and a
+	 * length.
+	 * 
+	 * @return decoded ActionHeader
+	 * @throws IOException
+	 *             if read fails
+	 */
+	protected abstract ActionHeader readActionHeader() throws IOException;
 
-        int size = (int) header.getLength();
+	/**
+	 * Reads action.
+	 * 
+	 * @return read action
+	 * @throws IOException
+	 *             if read fails
+	 */
+	public Action readAction() throws IOException {
 
-        // Look up the proper action.
-        Action action = actionSet.get(header.getAction());
+		ActionHeader header = readActionHeader();
+		if (header == null)
+			return null;
 
-        pushBuffer(size);
-        action = action.read(header.getAction(), this, size);
-        byte[] rest = popBuffer();
+		int size = (int) header.getLength();
 
-        if (rest != null) {
-            throw new IncompleteActionException(action, rest);
-        }
-        return action;
-    }
+		// Look up the proper action.
+		Action action = actionSet.get(header.getAction());
+
+		pushBuffer(size);
+		action = action.read(header.getAction(), this, size);
+		byte[] rest = popBuffer();
+
+		if (rest != null) {
+			throw new IncompleteActionException(action, rest);
+		}
+		return action;
+	}
 
 }

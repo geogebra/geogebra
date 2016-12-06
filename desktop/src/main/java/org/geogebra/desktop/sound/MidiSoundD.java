@@ -95,7 +95,7 @@ public class MidiSoundD implements MetaEventListener {
 
 	/**
 	 * Generates a list of available instruments in String form
-	 * */
+	 */
 	public String getInstrumentNames() {
 
 		int size = Math.min(128, instruments.length);
@@ -198,7 +198,7 @@ public class MidiSoundD implements MetaEventListener {
 	/**
 	 * Uses the Sequencer to play a single note in channel[0]
 	 * 
-	 * */
+	 */
 	public void playSequenceNote(final int note, final double duration,
 			final int instrument, final int velocity) {
 
@@ -279,8 +279,8 @@ public class MidiSoundD implements MetaEventListener {
 
 				f = new File(filePath);
 				if (!f.exists()) {
-					f = new File(app.getCurrentPath() + File.separator
-							+ filePath);
+					f = new File(
+							app.getCurrentPath() + File.separator + filePath);
 				}
 			}
 
@@ -297,8 +297,8 @@ public class MidiSoundD implements MetaEventListener {
 				// Load new sequence from .mid file
 				tickPosition = 0;
 
-				sequence = f == null ? MidiSystem.getSequence(url) : MidiSystem
-						.getSequence(f);
+				sequence = f == null ? MidiSystem.getSequence(url)
+						: MidiSystem.getSequence(f);
 				playSequence(sequence, tickPosition);
 			}
 
@@ -315,9 +315,9 @@ public class MidiSoundD implements MetaEventListener {
 		try {
 
 			synthesizer.close();
-			Soundbank sb = soundbankFile == null ? MidiSystem
-					.getSoundbank(soundbankURL) : MidiSystem
-					.getSoundbank(soundbankFile);
+			Soundbank sb = soundbankFile == null
+					? MidiSystem.getSoundbank(soundbankURL)
+					: MidiSystem.getSoundbank(soundbankFile);
 			synthesizer = MidiSystem.getSynthesizer();
 			synthesizer.open();
 
@@ -339,7 +339,8 @@ public class MidiSoundD implements MetaEventListener {
 		}
 	}
 
-	public void playSequenceFromJFugueString(String noteString, int instrument) {
+	public void playSequenceFromJFugueString(String noteString,
+			int instrument) {
 
 		initialize();
 		try {
@@ -362,11 +363,11 @@ public class MidiSoundD implements MetaEventListener {
 		BufferedReader reader = null;
 
 		try {
-			reader = file == null ? new BufferedReader(new InputStreamReader(
-					url.openStream(), Charsets.UTF_8))
-					: new BufferedReader(
-							new InputStreamReader(new FileInputStream(file),
-									Charsets.UTF_8));
+			reader = file == null
+					? new BufferedReader(new InputStreamReader(url.openStream(),
+							Charsets.UTF_8))
+					: new BufferedReader(new InputStreamReader(
+							new FileInputStream(file), Charsets.UTF_8));
 			String text = null;
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);

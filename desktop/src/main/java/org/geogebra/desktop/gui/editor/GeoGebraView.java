@@ -161,8 +161,8 @@ public class GeoGebraView extends WrappedPlainView {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Shape modelToView(int p0, Position.Bias b0, int p1,
-			Position.Bias b1, Shape a) throws BadLocationException {
+	public Shape modelToView(int p0, Position.Bias b0, int p1, Position.Bias b1,
+			Shape a) throws BadLocationException {
 		Rectangle r = (Rectangle) super.modelToView(p0, b0, p1, b1, a);
 		r.width = ((Rectangle) a).width;
 		return r;
@@ -326,8 +326,8 @@ public class GeoGebraView extends WrappedPlainView {
 					if (isWhiteViewable) {
 						w = Utilities.getTabbedTextWidth(text,
 								g.getFontMetrics(), x, this, mark);
-						g.drawLine(x + (w - 1) / 2, y - whiteHeight, x
-								+ (w + 1) / 2, y - whiteHeight);
+						g.drawLine(x + (w - 1) / 2, y - whiteHeight,
+								x + (w + 1) / 2, y - whiteHeight);
 					}
 					break;
 				case LexerConstants.TAB:

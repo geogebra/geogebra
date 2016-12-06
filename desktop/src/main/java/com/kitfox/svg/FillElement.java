@@ -43,22 +43,22 @@ import java.awt.geom.Rectangle2D;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-abstract public class FillElement extends SVGElement
-{
-    /**
-     * Creates a new instance of FillElement
-     */
-    public FillElement()
-    {
-    }
+abstract public class FillElement extends SVGElement {
+	/**
+	 * Creates a new instance of FillElement
+	 */
+	public FillElement() {
+	}
 
-    /**
-     * Requests the paint defined by this element. Passes in information to
-     * allow paint to be customized
-     *
-     * @param bounds - bounding box of shape being rendered
-     * @param xform - The current transformation that the shape is being
-     * rendered under.
-     */
-    abstract public Paint getPaint(Rectangle2D bounds, AffineTransform xform);
+	/**
+	 * Requests the paint defined by this element. Passes in information to
+	 * allow paint to be customized
+	 *
+	 * @param bounds
+	 *            - bounding box of shape being rendered
+	 * @param xform
+	 *            - The current transformation that the shape is being rendered
+	 *            under.
+	 */
+	abstract public Paint getPaint(Rectangle2D bounds, AffineTransform xform);
 }

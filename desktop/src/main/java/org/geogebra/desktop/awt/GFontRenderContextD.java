@@ -18,5 +18,4 @@ public class GFontRenderContextD extends GFontRenderContext {
 		return ((GFontRenderContextD) frc).impl;
 	}
 
-
 }

@@ -101,10 +101,10 @@ public class ToolbarConfigPanel extends JPanel
 				((GuiManagerD) app.getGuiManager()).getToolbarDefinition());
 
 		configScrollPane = new JScrollPane(tree);
-		configScrollPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		configScrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		configScrollPane.setHorizontalScrollBarPolicy(
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		configScrollPane.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		// configScrollPane.setSize(150, 150);
 		JPanel scrollSpacePanel = new JPanel();
 		scrollSpacePanel.setLayout(new BorderLayout(0, 0));
@@ -115,8 +115,8 @@ public class ToolbarConfigPanel extends JPanel
 		scrollPanel.setBorder(new TitledBorder(loc.getMenu("Toolbar")));
 		scrollPanel.add(scrollSpacePanel, BorderLayout.CENTER);
 
-		scrollPanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH,
-				SCROLL_PANEL_HEIGHT));
+		scrollPanel.setPreferredSize(
+				new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		//
 		selectionPanel.add(scrollPanel, loc.borderWest());
 		//
@@ -145,8 +145,7 @@ public class ToolbarConfigPanel extends JPanel
 		moveUpButton.addActionListener(this);
 		upDownPanel.add(moveUpButton);
 		//
-		moveDownButton = new JButton("\u25bc "
-				+ loc.getPlain("Down"));
+		moveDownButton = new JButton("\u25bc " + loc.getPlain("Down"));
 		moveDownButton.addActionListener(this);
 		upDownPanel.add(moveDownButton);
 
@@ -171,10 +170,10 @@ public class ToolbarConfigPanel extends JPanel
 		lsm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		toolList.setBackground(SystemColor.text);
 		modeScrollPane = new JScrollPane(toolList);
-		modeScrollPane
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		modeScrollPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setHorizontalScrollBarPolicy(
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		modeScrollPane.setVerticalScrollBarPolicy(
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		toolList.setCellRenderer(new ModeCellRenderer(app));
 		toolList.setSelectedIndex(0);
 		//
@@ -185,8 +184,8 @@ public class ToolbarConfigPanel extends JPanel
 		modeSpacePanel.add("Center", modeScrollPane);
 
 		modePanel.add("Center", modeSpacePanel);
-		modePanel.setPreferredSize(new Dimension(SCROLL_PANEL_WIDTH,
-				SCROLL_PANEL_HEIGHT));
+		modePanel.setPreferredSize(
+				new Dimension(SCROLL_PANEL_WIDTH, SCROLL_PANEL_HEIGHT));
 		selectionPanel.add("East", modePanel);
 		add("Center", selectionPanel);
 
@@ -377,13 +376,14 @@ public class ToolbarConfigPanel extends JPanel
 		} catch (Exception e) {
 			return;
 		}
-		DefaultTreeModel model = new DefaultTreeModel(generateRootNode(toolVec));
+		DefaultTreeModel model = new DefaultTreeModel(
+				generateRootNode(toolVec));
 		tree.setModel(model);
 		collapseAllRows();
 		tree.setRowHeight(-1);
 
-		Vector<Integer> allTools = generateToolsVector(ToolbarD
-				.getAllTools(app));
+		Vector<Integer> allTools = generateToolsVector(
+				ToolbarD.getAllTools(app));
 		Vector<Integer> usedTools = generateToolsVector(toolbarDefinition);
 
 		toolListModel.clear();
@@ -420,9 +420,8 @@ public class ToolbarConfigPanel extends JPanel
 		if (dockPanel != null) {
 			setToolbar(dockPanel, dockPanel.getDefaultToolbarString());
 		} else {
-			setToolbar(null,
-					((GuiManagerD) app.getGuiManager())
-							.getDefaultToolbarString());
+			setToolbar(null, ((GuiManagerD) app.getGuiManager())
+					.getDefaultToolbarString());
 		}
 	}
 
@@ -530,8 +529,8 @@ public class ToolbarConfigPanel extends JPanel
 		};
 
 		jTree.setCellRenderer(new ModeCellRenderer(app));
-		jTree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
+		jTree.getSelectionModel()
+				.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		jTree.putClientProperty("JTree.lineStyle", "Angled");
 		jTree.addTreeExpansionListener(this);
 

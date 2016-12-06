@@ -43,8 +43,8 @@ final class EpsDocument {
 	 * Constructs an empty EpsDevice that writes directly to a file. Bounds must
 	 * be set before use.
 	 */
-	EpsDocument(String title, StringBuilder sb, int minX, int minY,
-			int maxX, int maxY) {
+	EpsDocument(String title, StringBuilder sb, int minX, int minY, int maxX,
+			int maxY) {
 		this.title = title;
 		this.minX = minX;
 		this.minY = minY;
@@ -146,7 +146,6 @@ final class EpsDocument {
 		writer.append("\n");
 		writer.append("%%EOF");
 	}
-
 
 	public synchronized void close() {
 		writeFooter(epsContent);

@@ -170,7 +170,8 @@ public class FileDropTargetListener implements DropTargetListener {
 				StringTokenizer st = new StringTokenizer(uris, "\r\n");
 				while (st.hasMoreTokens()) {
 					String uriString = st.nextToken();
-					if (uriString.startsWith("http://") && isGGBFile(uriString)) {
+					if (uriString.startsWith("http://")
+							&& isGGBFile(uriString)) {
 						((GuiManagerD) app.getGuiManager()).loadURL(uriString,
 								true);
 					} else {

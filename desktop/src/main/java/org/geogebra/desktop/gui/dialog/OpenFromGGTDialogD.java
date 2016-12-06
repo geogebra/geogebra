@@ -40,8 +40,8 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 		setResizable(true);
 		getContentPane().setPreferredSize(new Dimension(700, 700));
 
-		String url = app.getOpenFromGGTOperation().generateOpenFromGGTURL(
-				OpenFromGGTOperation.APP_TYPE.DESKTOP);
+		String url = app.getOpenFromGGTOperation()
+				.generateOpenFromGGTURL(OpenFromGGTOperation.APP_TYPE.DESKTOP);
 
 		JFXPanel fxPanel = createWebView(url);
 		add(fxPanel);

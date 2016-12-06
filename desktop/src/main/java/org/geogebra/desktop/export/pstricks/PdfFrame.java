@@ -151,8 +151,6 @@ public class PdfFrame extends ExportFrame {
 		setVisible(true);
 	}
 
-
-
 	@Override
 	protected boolean isBeamer() {
 		return false;

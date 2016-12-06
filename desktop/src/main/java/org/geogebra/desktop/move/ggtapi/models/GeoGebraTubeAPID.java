@@ -17,7 +17,6 @@ import org.geogebra.desktop.util.HttpRequestD;
  */
 public class GeoGebraTubeAPID extends GeoGebraTubeAPI {
 
-
 	@Override
 	protected HttpRequest createHttpRequest() {
 		return new HttpRequestD();

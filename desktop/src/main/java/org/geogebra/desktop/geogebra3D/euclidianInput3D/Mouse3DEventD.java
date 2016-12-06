@@ -27,10 +27,8 @@ public class Mouse3DEventD extends Mouse3DEvent implements MouseEventND {
 		this.component = component;
 	}
 
-
 	public java.awt.Component getComponent() {
 		return component;
 	}
-
 
 }

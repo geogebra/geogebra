@@ -27,8 +27,8 @@ import org.geogebra.common.util.debug.Log;
  * used with an applet.
  */
 
-public class MyResourceBundle extends PropertyResourceBundle implements
-		ResourceBundleAdapter {
+public class MyResourceBundle extends PropertyResourceBundle
+		implements ResourceBundleAdapter {
 
 	/**
 	 * Creates new bundle from a stream
@@ -51,7 +51,8 @@ public class MyResourceBundle extends PropertyResourceBundle implements
 	 *            language locale
 	 * @return created bundle
 	 */
-	final public static ResourceBundle createBundle(String name, Locale locale) {
+	final public static ResourceBundle createBundle(String name,
+			Locale locale) {
 		MyResourceBundle bundle, temp = null;
 
 		// base properties file

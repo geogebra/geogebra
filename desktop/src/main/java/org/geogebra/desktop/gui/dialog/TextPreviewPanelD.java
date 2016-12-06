@@ -32,7 +32,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class TextPreviewPanelD extends TextPreviewer {
 
-
 	/**
 	 * @param kernel
 	 */
@@ -77,8 +76,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 			GeoGebraIconD.drawLatexImageIcon((AppD) app, testIcon,
 					previewGeo.getTextString(), ((AppD) app).getPlainFont(),
-					true,
-					Color.black, null);
+					true, Color.black, null);
 			// System.out.println("=============> " + testIcon.getIconHeight() +
 			// " : " + testIcon.getIconWidth());
 
@@ -112,15 +110,12 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 	@Override
 	protected void removeEVMouseListeners() {
-		((EuclidianViewD) ev)
-				.removeMouseListener((EuclidianControllerListeners) ev
-				.getEuclidianController());
-		((EuclidianViewD) ev)
-				.removeMouseMotionListener((EuclidianControllerListeners) ev
-				.getEuclidianController());
-		((EuclidianViewD) ev)
-				.removeMouseWheelListener((EuclidianControllerListeners) ev
-				.getEuclidianController());
+		((EuclidianViewD) ev).removeMouseListener(
+				(EuclidianControllerListeners) ev.getEuclidianController());
+		((EuclidianViewD) ev).removeMouseMotionListener(
+				(EuclidianControllerListeners) ev.getEuclidianController());
+		((EuclidianViewD) ev).removeMouseWheelListener(
+				(EuclidianControllerListeners) ev.getEuclidianController());
 	}
 
 	@Override

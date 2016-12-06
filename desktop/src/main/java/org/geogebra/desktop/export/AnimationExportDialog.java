@@ -122,7 +122,8 @@ public class AnimationExportDialog extends JDialog {
 
 		// options
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Options")));
+		panel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("Options")));
 
 		panel.add(new JLabel(loc.getMenu("TimeBetweenFrames") + ":"));
 
@@ -246,12 +247,12 @@ public class AnimationExportDialog extends JDialog {
 
 	}
 
-	private void addRotOzSlider(DefaultComboBoxModel comboModel){
-		if (rotOzSlider == null){
+	private void addRotOzSlider(DefaultComboBoxModel comboModel) {
+		if (rotOzSlider == null) {
 			rotOzSlider = new RotOzSlider(app.getEuclidianView3D());
 		}
-		rotOzSlider.setDescription(app.getLocalization().getMenu(
-				"RotationAroundVerticalAxis"));
+		rotOzSlider.setDescription(
+				app.getLocalization().getMenu("RotationAroundVerticalAxis"));
 		comboModel.addElement(rotOzSlider);
 	}
 
@@ -277,10 +278,8 @@ public class AnimationExportDialog extends JDialog {
 		app.getKernel().getAnimatonManager().stopAnimation();
 
 		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
-				FileExtensions.GIF,
- null,
-				loc.getMenu("gif") + " " + loc.getMenu("Files"), true,
-				false);
+				FileExtensions.GIF, null,
+				loc.getMenu("gif") + " " + loc.getMenu("Files"), true, false);
 
 		AnimationExportSlider num = (AnimationExportSlider) cbSliders
 				.getSelectedItem();

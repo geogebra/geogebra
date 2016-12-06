@@ -44,63 +44,54 @@ import com.kitfox.svg.xml.StyleSheet;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Style extends SVGElement
-{
+public class Style extends SVGElement {
 
-    public static final String TAG_NAME = "style";
-    //Should be set to "text/css"
-    String type;
-    StringBuffer text = new StringBuffer();
+	public static final String TAG_NAME = "style";
+	// Should be set to "text/css"
+	String type;
+	StringBuffer text = new StringBuffer();
 
-    StyleSheet styleSheet;
-    
-    /**
-     * Creates a new instance of Stop
-     */
-    public Style()
-    {
-    }
+	StyleSheet styleSheet;
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Style() {
+	}
 
-    /**
-     * Called during load process to add text scanned within a tag
-     */
-    public void loaderAddText(SVGLoaderHelper helper, String text)
-    {
-        this.text.append(text);
-        
-        //Invalidate style sheet
-        styleSheet = null;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	/**
+	 * Called during load process to add text scanned within a tag
+	 */
+	public void loaderAddText(SVGLoaderHelper helper, String text) {
+		this.text.append(text);
 
-        StyleAttribute sty = new StyleAttribute();
+		// Invalidate style sheet
+		styleSheet = null;
+	}
 
-        if (getPres(sty.setName("type")))
-        {
-            type = sty.getStringValue();
-        }
-    }
+	protected void build() throws SVGException {
+		super.build();
 
-    public boolean updateTime(double curTime) throws SVGException
-    {
-        //Style sheet doesn't change
-        return false;
-    }
+		StyleAttribute sty = new StyleAttribute();
 
-    public StyleSheet getStyleSheet()
-    {
-        if (styleSheet == null && text.length() > 0)
-        {
-            styleSheet = StyleSheet.parseSheet(text.toString());
-        }
-        return styleSheet;
-    }
+		if (getPres(sty.setName("type"))) {
+			type = sty.getStringValue();
+		}
+	}
+
+	public boolean updateTime(double curTime) throws SVGException {
+		// Style sheet doesn't change
+		return false;
+	}
+
+	public StyleSheet getStyleSheet() {
+		if (styleSheet == null && text.length() > 0) {
+			styleSheet = StyleSheet.parseSheet(text.toString());
+		}
+		return styleSheet;
+	}
 }

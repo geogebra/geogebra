@@ -32,8 +32,8 @@ public class Normalizer6 extends Normalizer {
 	public String transform(String s) {
 		String ret = StringUtil.toLowerCase(s);
 		try {
-			return ((String) normalize.invoke(null, ret, NFD)).replaceAll(
-					"[\u0300-\u036F]", "");
+			return ((String) normalize.invoke(null, ret, NFD))
+					.replaceAll("[\u0300-\u036F]", "");
 		} catch (Exception e) {
 			// should work, if not
 			return ret;

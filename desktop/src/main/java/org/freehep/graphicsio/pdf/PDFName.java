@@ -9,13 +9,13 @@ package org.freehep.graphicsio.pdf;
  */
 public class PDFName implements PDFConstants {
 
-    private String name;
+	private String name;
 
-    PDFName(String name) {
-        this.name = name;
-    }
+	PDFName(String name) {
+		this.name = name;
+	}
 
-    public String toString() {
-        return "/" + name;
-    }
+	public String toString() {
+		return "/" + name;
+	}
 }

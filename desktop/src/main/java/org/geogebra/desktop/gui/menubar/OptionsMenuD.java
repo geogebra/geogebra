@@ -38,15 +38,14 @@ import org.geogebra.desktop.util.ImageResourceD;
 /**
  * The "Options" menu.
  */
-public class OptionsMenuD extends BaseMenu implements ActionListener,
-		MyActionListener, MenuInterface {
+public class OptionsMenuD extends BaseMenu
+		implements ActionListener, MyActionListener, MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
 	Kernel kernel;
 	private AbstractAction
 	// drawingPadPropAction,
-			showOptionsAction,
-			saveSettings, restoreDefaultSettings;
+	showOptionsAction, saveSettings, restoreDefaultSettings;
 
 	private JMenu menuLabeling, menuAlgebraStyle;
 
@@ -152,7 +151,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 	}
 
-
 	/**
 	 * Create a list with all languages which can be selected.
 	 * 
@@ -187,7 +185,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 			char ch = text.charAt(0);
 
-			if (ch == Unicode.LeftToRightMark || ch == Unicode.RightToLeftMark) {
+			if (ch == Unicode.LeftToRightMark
+					|| ch == Unicode.RightToLeftMark) {
 				ch = text.charAt(1);
 			} else {
 				// make sure brackets are correct in Arabic, ie not )US)
@@ -229,15 +228,14 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	@Override
 	protected void initActions() {
 		// display the options dialog
-		showOptionsAction = new AbstractAction(
-				app.getMenu("Advanced") + " ...",
+		showOptionsAction = new AbstractAction(app.getMenu("Advanced") + " ...",
 				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(
-						OptionType.ADVANCED, null);
+				app.getDialogManager().showPropertiesDialog(OptionType.ADVANCED,
+						null);
 			}
 		};
 
@@ -301,8 +299,8 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// for geoelement defaults, this will do nothing, so it is
 					// OK here
 					GeoGebraPreferencesD.getPref().loadXMLPreferences(app);
-					app.getSettings().getEuclidian(1)
-							.setShowAxes(oldAxisX, oldAxisY);
+					app.getSettings().getEuclidian(1).setShowAxes(oldAxisX,
+							oldAxisY);
 					// reset default line thickness etc
 					app.getKernel().getConstruction().getConstructionDefaults()
 							.resetDefaults();

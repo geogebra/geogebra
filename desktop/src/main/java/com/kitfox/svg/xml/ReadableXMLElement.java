@@ -46,11 +46,14 @@ import org.w3c.dom.Element;
  */
 public interface ReadableXMLElement {
 
-    /**
-     * Initializes this element from the passed DOM tree.
-     * @param root - DOM tree to build from
-     * @param docRoot - URL of the document this DOM tree was created from
-     */
-    public void read(Element root, URL docRoot);
+	/**
+	 * Initializes this element from the passed DOM tree.
+	 * 
+	 * @param root
+	 *            - DOM tree to build from
+	 * @param docRoot
+	 *            - URL of the document this DOM tree was created from
+	 */
+	public void read(Element root, URL docRoot);
 
 }

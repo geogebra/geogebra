@@ -50,8 +50,8 @@ public class NumberComboBox extends JComboBox {
 	}
 
 	public void setValue(final double val) {
-		setSelectedItem(kernel.formatPiE(val, nf,
-				StringTemplate.defaultTemplate));
+		setSelectedItem(
+				kernel.formatPiE(val, nf, StringTemplate.defaultTemplate));
 	}
 
 	public String getValue() {

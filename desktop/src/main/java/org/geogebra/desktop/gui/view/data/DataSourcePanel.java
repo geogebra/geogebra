@@ -67,8 +67,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * 
  */
 
-public class DataSourcePanel extends JPanel implements ActionListener,
-		FocusListener {
+public class DataSourcePanel extends JPanel
+		implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -296,8 +296,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		sourceTable.setStatTable(rowCount, null, columnCount, columnDataTitles);
 		sourceTable.getTable().setColumnSelectionAllowed(false);
 		sourceTable.getTable().setRowSelectionAllowed(false);
-		sourceTable.getTable().setSelectionMode(
-				ListSelectionModel.SINGLE_SELECTION);
+		sourceTable.getTable()
+				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		sourceTable.setAllowCellEdit(false);
 		sourceTable.getTable().getTableHeader().setReorderingAllowed(false);
 
@@ -570,8 +570,6 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		updateIcons();
 	}
 
-
-
 	public void applySettings() {
 
 		if (dataView == null) {
@@ -598,7 +596,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	}
 
-	public class ColumnHeaderMouseMotionListener implements MouseMotionListener {
+	public class ColumnHeaderMouseMotionListener
+			implements MouseMotionListener {
 
 		JTableHeader header = table().getTableHeader();
 
@@ -618,8 +617,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 			isOver = ((MyTableHeaderRenderer) table().getColumnModel()
 					.getColumn(column).getHeaderRenderer()).isOverTraceButton(
-					column, mouseLoc, table().getColumnModel()
-							.getColumn(column).getHeaderValue());
+							column, mouseLoc, table().getColumnModel()
+									.getColumn(column).getHeaderValue());
 
 			if (isOver && (btnHoverColumn != column)) {
 				btnHoverColumn = column;
@@ -653,8 +652,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			table.convertColumnIndexToModel(vColIndex);
 
 			// Determine if mouse was clicked between column heads
-			Rectangle headerRect = table.getTableHeader().getHeaderRect(
-					vColIndex);
+			Rectangle headerRect = table.getTableHeader()
+					.getHeaderRect(vColIndex);
 			if (vColIndex == 0) {
 				headerRect.width -= 3; // Hard-coded constant
 			} else {
@@ -674,7 +673,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			if (vColIndex == btnHoverColumn) {
 				int selectedColumn = table.getSelectedColumn();
 				addDataToColumn(vColIndex);
-				table.setColumnSelectionInterval(selectedColumn, selectedColumn);
+				table.setColumnSelectionInterval(selectedColumn,
+						selectedColumn);
 				btnHoverColumn = -1;
 			}
 
@@ -703,8 +703,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	 * button for a selected column.
 	 * 
 	 */
-	public class MyTableHeaderRenderer extends JPanel implements
-			TableCellRenderer {
+	public class MyTableHeaderRenderer extends JPanel
+			implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
 
@@ -725,8 +725,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			lblDataDescription.setForeground(Color.WHITE);
 			lblDataDescription.setBackground(Color.LIGHT_GRAY);
 			lblDataDescription.setOpaque(true);
-			lblDataDescription.setBorder(BorderFactory.createEmptyBorder(2, 0,
-					2, 2));
+			lblDataDescription
+					.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
 
 			lblImportBtn = new JLabel("", SwingConstants.LEFT);
 			lblImportBtn.setForeground(Color.WHITE);
@@ -741,8 +741,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			lblDataTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 			importIcon = app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING);
-			importIconRollover = app
-					.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING_ROLLOVER);
+			importIconRollover = app.getScaledIcon(
+					GuiResourcesD.ARROW_CURSOR_GRABBING_ROLLOVER);
 
 		}
 
@@ -770,8 +770,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			{
 				if (btnHoverColumn == vColIndex) {
 					lblImportBtn.setIcon(importIconRollover);
-					setToolTipText(app.getLocalization().getMenuTooltip(
-							"AddSelection"));
+					setToolTipText(app.getLocalization()
+							.getMenuTooltip("AddSelection"));
 				} else {
 					lblImportBtn.setIcon(importIcon);
 					setToolTipText(null);
@@ -792,8 +792,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 			if (vColIndex == table.getSelectedColumn()) {
 				setBackground(GColorD.getAwtColor(
-						GeoGebraColorConstants
-								.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
+						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 			} else {
 				setBackground(GColorD.getAwtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
@@ -813,7 +812,8 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		 * @param value
 		 * @return
 		 */
-		public boolean isOverTraceButton(int colIndex, Point loc, Object value) {
+		public boolean isOverTraceButton(int colIndex, Point loc,
+				Object value) {
 
 			try {
 				return loc.x < 24;

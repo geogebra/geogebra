@@ -174,8 +174,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 				}
 
 				// load all jar files in background
-				GeoGebraAppletPreloader.loadAllJarFiles(!app
-						.useBrowserForJavaScript());
+				GeoGebraAppletPreloader
+						.loadAllJarFiles(!app.useBrowserForJavaScript());
 
 			}
 		};
@@ -193,8 +193,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// get parameters
 		// filename of construction
 		fileStr = applet.getParameter("filename");
-		if ((fileStr != null)
-				&& !(fileStr.startsWith("http") || fileStr.startsWith("file"))) {
+		if ((fileStr != null) && !(fileStr.startsWith("http")
+				|| fileStr.startsWith("file"))) {
 			// add document base to file name
 			URL base = applet.getDocumentBase();
 			String documentBase = base.toString();
@@ -246,38 +246,38 @@ public class AppletImplementation implements AppletImplementationInterface {
 		showResetIcon = "true".equals(applet.getParameter("showResetIcon"));
 
 		// showAlgebraInput = "true" or parameter is not available
-		showAlgebraInput = "true".equals(applet
-				.getParameter("showAlgebraInput"));
+		showAlgebraInput = "true"
+				.equals(applet.getParameter("showAlgebraInput"));
 
 		// default is true
-		useBrowserForJavaScript = !"false".equals(applet
-				.getParameter("useBrowserForJS"));
+		useBrowserForJavaScript = !"false"
+				.equals(applet.getParameter("useBrowserForJS"));
 
 		// show style bar of views, default is false
 		allowStyleBar = "true".equals(applet.getParameter("allowStyleBar"));
 
 		// rightClickActive, default is "true"
-		enableRightClick = !"false".equals(applet
-				.getParameter("enableRightClick"));
+		enableRightClick = !"false"
+				.equals(applet.getParameter("enableRightClick"));
 
 		// enableChooserPopups, default is "true"
-		enableChooserPopups = !"false".equals(applet
-				.getParameter("enableChooserPopups"));
+		enableChooserPopups = !"false"
+				.equals(applet.getParameter("enableChooserPopups"));
 
 		// errorDialogsActive, default is "true"
-		errorDialogsActive = !"false".equals(applet
-				.getParameter("errorDialogsActive"));
+		errorDialogsActive = !"false"
+				.equals(applet.getParameter("errorDialogsActive"));
 
 		// enableLabelDrags, default is "true"
-		enableLabelDrags = !"false".equals(applet
-				.getParameter("enableLabelDrags"));
+		enableLabelDrags = !"false"
+				.equals(applet.getParameter("enableLabelDrags"));
 
 		// paramter for JavaScript ggbOnInit() call
 		ggbOnInitParam = applet.getParameter("ggbOnInitParam");
 
 		// enableShiftDragZoom, default is "true"
-		enableShiftDragZoom = !"false".equals(applet
-				.getParameter("enableShiftDragZoom"));
+		enableShiftDragZoom = !"false"
+				.equals(applet.getParameter("enableShiftDragZoom"));
 
 		// allowRescaling, default is "false"
 		allowRescaling = "true".equals(applet.getParameter("allowRescaling"));
@@ -374,7 +374,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		Container cp = applet.getContentPane();
 
 		Log.debug("Initial size = " + cp.getWidth() + ", " + cp.getHeight());
-		// Application.debug("EuclidianView size = "+app.getEuclidianView().getPreferredSize().getWidth()+", "+app.getEuclidianView().getPreferredSize().getHeight());
+		// Application.debug("EuclidianView size =
+		// "+app.getEuclidianView().getPreferredSize().getWidth()+",
+		// "+app.getEuclidianView().getPreferredSize().getHeight());
 
 		width = cp.getWidth();
 		height = cp.getHeight();
@@ -467,7 +469,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 				app.runningInFrame = true;
 
-				applet.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				applet.setCursor(
+						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 				doShowFrame();
 
@@ -486,8 +489,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.white);
 		JLabel label = new JLabel("GeoGebra "
-				+ app.getLocalization().getMenu("WindowOpened")
-				+ "...");
+				+ app.getLocalization().getMenu("WindowOpened") + "...");
 		label.setFont(app.getPlainFont());
 		p.add(label, BorderLayout.CENTER);
 		cp.add(p);
@@ -531,7 +533,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		Thread worker = new Thread() {
 			@Override
 			public void run() {
-				applet.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+				applet.setCursor(
+						Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
 				wnd.setVisible(false); // hide frame
 
@@ -569,8 +572,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * Rewritten by Ulven 29.05.08: Moved method contents to GgbAPI and put in
 	 * redirections to GgbApi. (Oneliners left as they are, nothing to gain...)
 	 */
-
-
 
 	/**
 	 * Opens construction given in XML format. May be used for loading
@@ -615,7 +616,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setXML(sb.toString(), false);
 	}
 
-
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
 	 * text field.
@@ -645,10 +645,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		});
 	}
 
-
-	
-
-
 	/**
 	 * Resets the initial construction (given in filename parameter) of this
 	 * applet.
@@ -676,9 +672,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 					app.setWaitCursor();
 					try {
 						URL ggbURL = new URL(fileStr);
-						app.loadXML(ggbURL,
-								StringUtil.getFileExtension(fileStr)
-										.equals(FileExtensions.GEOGEBRA_TOOL));
+						app.loadXML(ggbURL, StringUtil.getFileExtension(fileStr)
+								.equals(FileExtensions.GEOGEBRA_TOOL));
 						reinitGUI();
 						applet.validate();
 					} catch (Exception e) {
@@ -703,7 +698,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	}
 
-
 	/**
 	 * Loads a construction from a file (given URL).
 	 */
@@ -717,14 +711,13 @@ public class AppletImplementation implements AppletImplementationInterface {
 				try {
 					String myStrURL = strURL;
 					String lowerCase = StringUtil.toLowerCase(strURL);
-					if (!(lowerCase.startsWith("http") || lowerCase
-							.startsWith("file"))) {
+					if (!(lowerCase.startsWith("http")
+							|| lowerCase.startsWith("file"))) {
 						myStrURL = applet.getCodeBase() + myStrURL;
 					}
 					URL ggbURL = new URL(myStrURL);
-					app.loadXML(ggbURL,
-							StringUtil.getFileExtension(lowerCase)
-									.equals(FileExtensions.GEOGEBRA_TOOL));
+					app.loadXML(ggbURL, StringUtil.getFileExtension(lowerCase)
+							.equals(FileExtensions.GEOGEBRA_TOOL));
 					reinitGUI();
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -743,14 +736,9 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return borderColor;
 	}
 
-
 	/*
 	 * Methods to change the geometry window's properties
 	 */
-
-
-
-
 
 	/**
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
@@ -786,8 +774,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		return b.booleanValue();
 	}
-
-
 
 	public synchronized void initJavaScript() {
 

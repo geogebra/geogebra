@@ -22,54 +22,50 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 	private Kernel kernel;
 	private AppD app;
 	private GeoBoolean editGeo;
-	private JCheckBox checkBox;	
+	private JCheckBox checkBox;
 	boolean editing = false;
-	
 
 	public MyCellEditorBoolean(Kernel kernel) {
-		
+
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;
-		app = (AppD)kernel.getApplication();
+		app = (AppD) kernel.getApplication();
 	}
 
-	
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value,
 			boolean isSelected, int row, int column) {
 
-		editGeo = (GeoBoolean)value;
+		editGeo = (GeoBoolean) value;
 		delegate.setValue(editGeo.getBoolean());
 		editing = true;
 		checkBox.setBackground(table.getBackground());
 		checkBox.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		//enabled == isIndependent
+
+		// enabled == isIndependent
 		checkBox.setEnabled(editGeo.isIndependent());
-		
-		if(editGeo.isLabelVisible()){
-			//checkBox.setText(editGeo.getCaption());
+
+		if (editGeo.isLabelVisible()) {
+			// checkBox.setText(editGeo.getCaption());
 		}
 		return editorComponent;
 	}
 
-	
 	@Override
 	public Object getCellEditorValue() {
-		
+
 		return editGeo;
 	}
-		
-	
+
 	@Override
 	public boolean stopCellEditing() {
 
 		try {
-			if(editGeo.isIndependent()){
+			if (editGeo.isIndependent()) {
 				editGeo.setValue(checkBox.isSelected());
 				editGeo.updateCascade();
 			}
-			//app.storeUndoInfo();
+			// app.storeUndoInfo();
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -81,10 +77,9 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 		editing = false;
 		return super.stopCellEditing();
 	}
-	
-	public boolean isEditing(){
+
+	public boolean isEditing() {
 		return false;
 	}
-	
 
 }

@@ -89,9 +89,9 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	 */
 	protected void createGUI() {
 		// do not dock the substitution dialog to the main frame: ticket 1832
-		dialog = new JDialog((JFrame) ((LayoutD) app.getGuiManager()
-				.getLayout()).getDockManager().getPanel(App.VIEW_CAS)
-				.getFrame());
+		dialog = new JDialog(
+				(JFrame) ((LayoutD) app.getGuiManager().getLayout())
+						.getDockManager().getPanel(App.VIEW_CAS).getFrame());
 		dialog.setModal(false);
 		Localization loc = getApp().getLocalization();
 		dialog.setTitle(loc.getPlain("Substitute") + " - "
@@ -108,24 +108,24 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		replaceTable = new JTable(data, header);
 		replaceTable.setDefaultEditor(Object.class, new MathTextCellEditor());
 		replaceTable.getTableHeader().setReorderingAllowed(false);
-		double fontFactor = Math.max(1, getApp().getGUIFontSize()
-				/ DEFAULT_FONT_SIZE);
+		double fontFactor = Math.max(1,
+				getApp().getGUIFontSize() / DEFAULT_FONT_SIZE);
 		replaceTable
 				.setRowHeight((int) (DEFAULT_TABLE_CELL_HEIGHT * fontFactor));
 
-		replaceTable.setPreferredScrollableViewportSize(new Dimension(
-				(int) (DEFAULT_TABLE_WIDTH * fontFactor),
-				(int) (DEFAULT_TABLE_HEIGHT * fontFactor)));
+		replaceTable.setPreferredScrollableViewportSize(
+				new Dimension((int) (DEFAULT_TABLE_WIDTH * fontFactor),
+						(int) (DEFAULT_TABLE_HEIGHT * fontFactor)));
 		scrollPane = new JScrollPane(replaceTable);
 
 		captionPanel = new JPanel(new BorderLayout(5, 0));
 
 		captionPanel.add(scrollPane, BorderLayout.CENTER);
 
-		replaceTable.getSelectionModel().setSelectionMode(
-				ListSelectionModel.SINGLE_SELECTION);
-		replaceTable.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
+		replaceTable.getSelectionModel()
+				.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		replaceTable.getSelectionModel()
+				.addListSelectionListener(new ListSelectionListener() {
 
 					public void valueChanged(ListSelectionEvent e) {
 						addRow(false);
@@ -199,8 +199,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 					data.get(row).set(col,
 							editor.getCellEditorValue().toString());
 				}
-				data.add(new Vector<String>(Arrays
-						.asList(new String[] { "", "" })));
+				data.add(new Vector<String>(
+						Arrays.asList(new String[] { "", "" })));
 				replaceTable.revalidate();
 				dialog.pack();
 				Rectangle r = replaceTable.getCellRect(
@@ -269,8 +269,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		return app;
 	}
 
-	private class MathTextCellEditor extends AbstractCellEditor implements
-			TableCellEditor {
+	private class MathTextCellEditor extends AbstractCellEditor
+			implements TableCellEditor {
 
 		private static final long serialVersionUID = 1L;
 		boolean editing;
@@ -308,8 +308,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 			editing = false;
 		}
 
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table, Object value,
+				boolean isSelected, int row, int column) {
 			delegate.setText(value.toString());
 			delegate.setFont(getApp().getPlainFont());
 			editing = true;

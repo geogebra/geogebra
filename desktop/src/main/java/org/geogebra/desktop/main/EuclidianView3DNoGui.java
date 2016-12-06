@@ -20,7 +20,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		super(ec, settings);
 	}
 
-
 	public void repaint() {
 		// TODO Auto-generated method stub
 
@@ -162,7 +161,5 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
 
 }

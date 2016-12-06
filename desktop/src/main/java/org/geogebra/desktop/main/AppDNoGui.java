@@ -295,8 +295,8 @@ public class AppDNoGui extends App {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
-		return new EuclidianViewNoGui(euclidianController, 1, this
-				.getSettings().getEuclidian(1));
+		return new EuclidianViewNoGui(euclidianController, 1,
+				this.getSettings().getEuclidian(1));
 	}
 
 	@Override

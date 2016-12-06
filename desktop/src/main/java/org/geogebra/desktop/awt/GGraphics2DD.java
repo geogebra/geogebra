@@ -121,7 +121,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-
 	public void scale(double sx, double sy) {
 		impl.scale(sx, sy);
 
@@ -182,7 +181,8 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void setStroke(GBasicStroke s) {
-		impl.setStroke(((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
+		impl.setStroke(
+				((AwtFactoryD) AwtFactory.getPrototype()).getAwtStroke(s));
 
 	}
 
@@ -197,8 +197,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawImage(GBufferedImage img, int x, int y) {
-		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y,
-				null);
+		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
 	}
 
 	public void drawImage(MyImage img, int x, int y) {
@@ -217,7 +216,6 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 
 	}
-
 
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
@@ -263,14 +261,14 @@ public class GGraphics2DD implements GGraphics2D {
 		impl = g;
 	}
 
-	public void drawRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight) {
+	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
+			int arcHeight) {
 		impl.drawRoundRect(x, y, width, height, arcWidth, arcHeight);
 
 	}
 
-	public void fillRoundRect(int x, int y, int width, int height,
-			int arcWidth, int arcHeight) {
+	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
+			int arcHeight) {
 		impl.fillRoundRect(x, y, width, height, arcWidth, arcHeight);
 
 	}
@@ -314,7 +312,8 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
+	public Object setInterpolationHint(
+			boolean needsInterpolationRenderingHint) {
 		Graphics2D g2 = impl;
 		Object oldInterpolationHint = g2
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);

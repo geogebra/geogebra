@@ -21,9 +21,8 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
  * @author mathieu
  * 
  */
-public abstract class RendererGL2 extends RendererD implements
-		JoglAndGluProvider {
-
+public abstract class RendererGL2 extends RendererD
+		implements JoglAndGluProvider {
 
 	protected IntBuffer selectBuffer;
 
@@ -43,18 +42,18 @@ public abstract class RendererGL2 extends RendererD implements
 	public void setClipPlanes(double[][] minMax) {
 
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
-		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]))
-				.get());
-		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]))
-				.get());
-		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]))
-				.get());
-		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]))
-				.get());
-		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]))
-				.get());
-		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]))
-				.get());
+		setClipPlane(0,
+				mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
+		setClipPlane(1,
+				mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
+		setClipPlane(2,
+				mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
+		setClipPlane(3,
+				mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
+		setClipPlane(4,
+				mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
+		setClipPlane(5,
+				mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
 	}
 
 	private void setClipPlane(int n, double[] equation) {
@@ -97,8 +96,6 @@ public abstract class RendererGL2 extends RendererD implements
 		jogl.getGL2().glPopMatrix();
 	}
 
-
-
 	@Override
 	protected void setGLForPicking() {
 
@@ -127,16 +124,20 @@ public abstract class RendererGL2 extends RendererD implements
 		// if we use an input3D, scale x & y values
 		if (mouse instanceof GPointWithZ) {
 
-			if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
+			if (view3D
+					.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
 				double f = eyeToScreenDistance[EYE_LEFT]
-						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ());
+						/ (eyeToScreenDistance[EYE_LEFT]
+								- ((GPointWithZ) mouse).getZ());
 				x = dim.width / 2.0 + f * (x - dim.width / 2.0);
 				y = dim.height / 2.0 + f * (y - dim.height / 2.0);
 
-			} else if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+			} else if (view3D
+					.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 				double f = eyeToScreenDistance[EYE_LEFT]
-						/ (eyeToScreenDistance[EYE_LEFT] - ((GPointWithZ) mouse).getZ() - view3D
-								.getScreenZOffset());
+						/ (eyeToScreenDistance[EYE_LEFT]
+								- ((GPointWithZ) mouse).getZ()
+								- view3D.getScreenZOffset());
 				x = dim.width / 2.0
 						+ f * (x + glassesEyeX[EYE_LEFT] - dim.width / 2.0)
 						- glassesEyeX[EYE_LEFT];
@@ -244,7 +245,6 @@ public abstract class RendererGL2 extends RendererD implements
 
 		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 	}
-	
 
 	@Override
 	protected void setStencilLines() {
@@ -304,8 +304,8 @@ public abstract class RendererGL2 extends RendererD implements
 		// seems to be sensible to canvas location on screen and to parent
 		// relative location
 		// (try docked with neighboors / undocked or docked alone)
-		int y0 = (canvas.getParent().getLocation().y + canvas
-				.getLocationOnScreen().y) % 2;
+		int y0 = (canvas.getParent().getLocation().y
+				+ canvas.getLocationOnScreen().y) % 2;
 
 		// Log.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		// Log.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
@@ -353,8 +353,9 @@ public abstract class RendererGL2 extends RendererD implements
 	@Override
 	protected void viewPersp() {
 
-		jogl.getGL2().glFrustum(perspLeft[EYE_LEFT], perspRight[EYE_LEFT], perspBottom[EYE_LEFT], perspTop[EYE_LEFT],
-				perspNear[EYE_LEFT], perspFar[EYE_LEFT]);
+		jogl.getGL2().glFrustum(perspLeft[EYE_LEFT], perspRight[EYE_LEFT],
+				perspBottom[EYE_LEFT], perspTop[EYE_LEFT], perspNear[EYE_LEFT],
+				perspFar[EYE_LEFT]);
 		jogl.getGL2().glTranslated(0, 0, perspFocus[EYE_LEFT]);
 	}
 
@@ -364,10 +365,9 @@ public abstract class RendererGL2 extends RendererD implements
 		jogl.getGL2().glFrustum(perspLeft[eye] - glassesEyeX1[eye],
 				perspRight[eye] - glassesEyeX1[eye],
 				perspBottom[eye] - glassesEyeY1[eye],
-				perspTop[eye] - glassesEyeY1[eye], 
-				perspNear[eye], perspFar[eye]);
-		jogl.getGL2().glTranslated(-glassesEyeX[eye],
-				-glassesEyeY[eye], 
+				perspTop[eye] - glassesEyeY1[eye], perspNear[eye],
+				perspFar[eye]);
+		jogl.getGL2().glTranslated(-glassesEyeX[eye], -glassesEyeY[eye],
 				perspFocus[eye]);
 	}
 
@@ -375,9 +375,8 @@ public abstract class RendererGL2 extends RendererD implements
 	protected void viewOblique() {
 		viewOrtho();
 
-		jogl.getGL2().glMultMatrixd(
-				new double[] { 1, 0, 0, 0, 0, 1, 0, 0, obliqueX, obliqueY, 1,
-						0, 0, 0, 0, 1 }, 0);
+		jogl.getGL2().glMultMatrixd(new double[] { 1, 0, 0, 0, 0, 1, 0, 0,
+				obliqueX, obliqueY, 1, 0, 0, 0, 0, 1 }, 0);
 	}
 
 	@Override
@@ -491,18 +490,17 @@ public abstract class RendererGL2 extends RendererD implements
 
 	@Override
 	public void enableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			getGL().glEnable(GLlocal.GL_LIGHTING);
 		}
 	}
 
 	@Override
 	public void disableLighting() {
-		if (view3D.getUseLight()){
+		if (view3D.getUseLight()) {
 			getGL().glDisable(GLlocal.GL_LIGHTING);
 		}
 	}
-
 
 	@Override
 	public void initLighting() {
@@ -512,36 +510,36 @@ public abstract class RendererGL2 extends RendererD implements
 			getGL().glDisable(GLlocal.GL_LIGHTING);
 		}
 	}
-	
-//	@Override
-//	protected void setDrawLeft(){
-//		
-//		setBufferLeft();
-//		if (view3D.isPolarized()) {
-//			// draw where stencil's value is 0
-//			setStencilFunc(0);
-//		}
-//
-//		eye = EYE_LEFT;
-//		setColorMask();
-//		clearDepthBuffer(); 
-//		clearColorBuffer();
-//	}
-//
-//	@Override
-//	protected void setDrawRight(){
-//		
-//		setBufferRight();
-//		if (view3D.isPolarized()) {
-//			// draw where stencil's value is 1
-//			setStencilFunc(1);
-//		}
-//
-//		eye = EYE_RIGHT;
-//		setColorMask();
-//		clearDepthBuffer(); 
-//		clearColorBuffer();
-//	}
+
+	// @Override
+	// protected void setDrawLeft(){
+	//
+	// setBufferLeft();
+	// if (view3D.isPolarized()) {
+	// // draw where stencil's value is 0
+	// setStencilFunc(0);
+	// }
+	//
+	// eye = EYE_LEFT;
+	// setColorMask();
+	// clearDepthBuffer();
+	// clearColorBuffer();
+	// }
+	//
+	// @Override
+	// protected void setDrawRight(){
+	//
+	// setBufferRight();
+	// if (view3D.isPolarized()) {
+	// // draw where stencil's value is 1
+	// setStencilFunc(1);
+	// }
+	//
+	// eye = EYE_RIGHT;
+	// setColorMask();
+	// clearDepthBuffer();
+	// clearColorBuffer();
+	// }
 
 	@Override
 	public boolean useShaders() {

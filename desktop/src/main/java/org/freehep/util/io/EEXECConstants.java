@@ -9,29 +9,29 @@ package org.freehep.util.io;
  */
 public interface EEXECConstants {
 
-    /**
-     * Constant for EEXEC
-     */
-    public static final char N = 4;
+	/**
+	 * Constant for EEXEC
+	 */
+	public static final char N = 4;
 
-    /**
-     * Constant for EEXEC
-     */
-    public static final char C1 = 52845;
+	/**
+	 * Constant for EEXEC
+	 */
+	public static final char C1 = 52845;
 
-    /**
-     * Constant for EEXEC
-     */
-    public static final char C2 = 22719;
+	/**
+	 * Constant for EEXEC
+	 */
+	public static final char C2 = 22719;
 
-    /**
-     * Constant for EEXEC
-     */
-    public static final char EEXEC_R = 55665;
+	/**
+	 * Constant for EEXEC
+	 */
+	public static final char EEXEC_R = 55665;
 
-    /**
-     * Constant for EEXEC
-     */
-    public static final char CHARSTRING_R = 4330;
+	/**
+	 * Constant for EEXEC
+	 */
+	public static final char CHARSTRING_R = 4330;
 
 }

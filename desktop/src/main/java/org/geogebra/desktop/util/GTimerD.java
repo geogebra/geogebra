@@ -15,6 +15,7 @@ public class GTimerD implements GTimer, ActionListener {
 		this.listener = listener;
 		timer = new Timer(delay, this);
 	}
+
 	public void start() {
 		timer.start();
 	}

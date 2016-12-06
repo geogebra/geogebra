@@ -79,8 +79,8 @@ public class ColorChooserButton extends JButton {
 				// trigger popup if the mouse is over the right side of the
 				// button
 				if (e.getX() >= 20 && e.getX() <= 38) {
-					myPopup.show(getParent(), locButton.x, locButton.y
-							+ getHeight());
+					myPopup.show(getParent(), locButton.x,
+							locButton.y + getHeight());
 				}
 			}
 		});
@@ -94,6 +94,7 @@ public class ColorChooserButton extends JButton {
 		handlePopupEvent();
 		myPopup.setVisible(false);
 	}
+
 	public Color getSelectedColor() {
 		return selectedColor;
 	}

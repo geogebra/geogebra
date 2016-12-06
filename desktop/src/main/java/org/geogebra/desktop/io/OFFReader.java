@@ -27,10 +27,6 @@ import org.geogebra.common.util.opencsv.CSVException;
  */
 public class OFFReader {
 
-
-
-
-
 	/**
 	 * 
 	 * @param stream
@@ -39,7 +35,6 @@ public class OFFReader {
 	 *             input output exception
 	 */
 	public OFFReader() {
-
 
 	}
 
@@ -55,7 +50,6 @@ public class OFFReader {
 		}
 		handler.updateAfterParsing();
 	}
-
 
 	/**
 	 * 
@@ -77,8 +71,7 @@ public class OFFReader {
 			throw new RuntimeException(e);
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
- catch (CSVException e) {
+		} catch (CSVException e) {
 			e.printStackTrace();
 		}
 	}

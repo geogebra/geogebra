@@ -24,89 +24,73 @@ package org.jfugue;
 
 /**
  * This implementation of a ParserListener listens for all events, and funnels
- * them all to the abstract jfugueEvent() method.  Therefore, you can extend
- * this class if you want to create a ParserListener that will handle all
- * JFugue elements in the same way.  For example, this is used by the
- * MusicStringParser to verify the results of a parse.  In this case, all
- * JFugue events are handled in the same way: they're all asked for their
- * verification string.
+ * them all to the abstract jfugueEvent() method. Therefore, you can extend this
+ * class if you want to create a ParserListener that will handle all JFugue
+ * elements in the same way. For example, this is used by the MusicStringParser
+ * to verify the results of a parse. In this case, all JFugue events are handled
+ * in the same way: they're all asked for their verification string.
  *
  * @author David Koelle
  * @version 4.0
  */
-public abstract class CollatedParserListener implements ParserListener
-{
+public abstract class CollatedParserListener implements ParserListener {
 
-    public void channelPressureEvent(ChannelPressure channelPressure)
-    {
-        jfugueEvent(channelPressure);
-    }
+	public void channelPressureEvent(ChannelPressure channelPressure) {
+		jfugueEvent(channelPressure);
+	}
 
-    public void controllerEvent(Controller controller)
-    {
-        jfugueEvent(controller);
-    }
+	public void controllerEvent(Controller controller) {
+		jfugueEvent(controller);
+	}
 
-    public void instrumentEvent(Instrument instrument)
-    {
-        jfugueEvent(instrument);
-    }
+	public void instrumentEvent(Instrument instrument) {
+		jfugueEvent(instrument);
+	}
 
-    public void keySignatureEvent(KeySignature keySig)
-    {
-        jfugueEvent(keySig);
-    }
+	public void keySignatureEvent(KeySignature keySig) {
+		jfugueEvent(keySig);
+	}
 
-    public void layerEvent(Layer layer)
-    {
-        jfugueEvent(layer);
-    }
+	public void layerEvent(Layer layer) {
+		jfugueEvent(layer);
+	}
 
-    public void measureEvent(Measure measure)
-    {
-        jfugueEvent(measure);
-    }
+	public void measureEvent(Measure measure) {
+		jfugueEvent(measure);
+	}
 
-    public void noteEvent(Note note)
-    {
-        jfugueEvent(note);
-    }
+	public void noteEvent(Note note) {
+		jfugueEvent(note);
+	}
 
-    public void parallelNoteEvent(Note note)
-    {
-        jfugueEvent(note);
-    }
+	public void parallelNoteEvent(Note note) {
+		jfugueEvent(note);
+	}
 
-    public void pitchBendEvent(PitchBend pitchBend)
-    {
-        jfugueEvent(pitchBend);
-    }
+	public void pitchBendEvent(PitchBend pitchBend) {
+		jfugueEvent(pitchBend);
+	}
 
-    public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure)
-    {
-        jfugueEvent(polyphonicPressure);
-    }
+	public void polyphonicPressureEvent(PolyphonicPressure polyphonicPressure) {
+		jfugueEvent(polyphonicPressure);
+	}
 
-    public void sequentialNoteEvent(Note note)
-    {
-        jfugueEvent(note);
-    }
+	public void sequentialNoteEvent(Note note) {
+		jfugueEvent(note);
+	}
 
-    public void tempoEvent(Tempo tempo)
-    {
-        jfugueEvent(tempo);
-    }
+	public void tempoEvent(Tempo tempo) {
+		jfugueEvent(tempo);
+	}
 
-    public void timeEvent(Time time)
-    {
-        jfugueEvent(time);
-    }
+	public void timeEvent(Time time) {
+		jfugueEvent(time);
+	}
 
-    public void voiceEvent(Voice voice)
-    {
-        jfugueEvent(voice);
-    }
+	public void voiceEvent(Voice voice) {
+		jfugueEvent(voice);
+	}
 
-    public abstract void jfugueEvent(JFugueElement element);
+	public abstract void jfugueEvent(JFugueElement element);
 
 }

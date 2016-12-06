@@ -26,8 +26,8 @@ import org.geogebra.desktop.main.AppD;
 
 import com.google.gwt.regexp.shared.MatchResult;
 
-public class SpreadsheetMouseListenerD implements MouseListener,
-		MouseMotionListener {
+public class SpreadsheetMouseListenerD
+		implements MouseListener, MouseMotionListener {
 
 	protected String selectedCellName;
 	protected String prefix0, postfix0;
@@ -63,7 +63,6 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (point != null) {
 
-
 			if (doubleClick) {
 
 				// auto-fill down if dragging dot is double-clicked
@@ -75,8 +74,8 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 				// otherwise, doubleClick edits cell
 
 				if (!table.isEditing()
-						&& !(table.getOneClickEditMap().containsKey(point) && view
-								.allowSpecialEditor())) {
+						&& !(table.getOneClickEditMap().containsKey(point)
+								&& view.allowSpecialEditor())) {
 					table.setAllowEditing(true);
 					table.editCellAt(table.getSelectedRow(),
 							table.getSelectedColumn());
@@ -112,7 +111,8 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 			prefix0 = null;
 			table.isDragging2 = false;
 			table.repaint();
-		} else if (app.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		} else if (app
+				.getMode() != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
@@ -160,12 +160,11 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 
 			// now fill down
 			if (rowCount != 0) {
-				boolean succ = relativeCopy.doDragCopy(
-						table.minSelectionColumn, table.minSelectionRow,
-						table.maxSelectionColumn, table.maxSelectionRow,
-						table.minSelectionColumn, table.maxSelectionRow + 1,
-						table.maxSelectionColumn, table.maxSelectionRow
-								+ rowCount);
+				boolean succ = relativeCopy.doDragCopy(table.minSelectionColumn,
+						table.minSelectionRow, table.maxSelectionColumn,
+						table.maxSelectionRow, table.minSelectionColumn,
+						table.maxSelectionRow + 1, table.maxSelectionColumn,
+						table.maxSelectionRow + rowCount);
 				if (succ)
 					app.storeUndoInfo();
 			}
@@ -187,10 +186,9 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
-
 		// tell selection listener about click on GeoElement
-		if (!rightClick
-				&& app.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
+		if (!rightClick && app
+				.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			int row = table.rowAtPoint(e.getPoint());
 			int col = table.columnAtPoint(e.getPoint());
 			GeoElement geo = (GeoElement) model.getValueAt(row, col);
@@ -248,8 +246,8 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 						int column = point.getX();
 						int row = point.getY();
 
-						GeoElement geo = RelativeCopy
-								.getValue(app, column, row);
+						GeoElement geo = RelativeCopy.getValue(app, column,
+								row);
 						if (geo != null) {
 							GeoClass geoType = geo.getGeoClassType();
 							if (geoType == GeoClass.BUTTON
@@ -366,10 +364,9 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 				}
 
 				// copy the cells
-				boolean succ = relativeCopy.doDragCopy(
-						table.minSelectionColumn, table.minSelectionRow,
-						table.maxSelectionColumn, table.maxSelectionRow, x1,
-						y1, x2, y2);
+				boolean succ = relativeCopy.doDragCopy(table.minSelectionColumn,
+						table.minSelectionRow, table.maxSelectionColumn,
+						table.maxSelectionRow, x1, y1, x2, y2);
 				if (succ) {
 					app.storeUndoInfo();
 				}
@@ -403,8 +400,8 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 
 			if (geo != null) {
 				// F3 key: copy definition to input bar
-				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(
-						3, geo);
+				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
+						geo);
 				return;
 			}
 		}
@@ -471,10 +468,10 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 					row1 = row2;
 					row2 = temp;
 				}
-				String name1 = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column1, row1);
-				String name2 = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column2, row2);
+				String name1 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column1, row1);
+				String name2 = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column2, row2);
 				if (!name1.equals(name2)) {
 					name1 += ":" + name2;
 				}
@@ -531,8 +528,8 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 				}
 
 				// scroll to show "highest" selected cell
-				table.scrollRectToVisible(table.getCellRect(mouseCell.y,
-						mouseCell.x, true));
+				table.scrollRectToVisible(
+						table.getCellRect(mouseCell.y, mouseCell.x, true));
 
 				if (!selRect.contains(e.getPoint())) {
 
@@ -542,17 +539,17 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 					if (table.minSelectionRow > 0
 							&& table.dragingToRow < table.minSelectionRow) {
 						rowOffset = mouseY - selRect.y;
-						if (-rowOffset < 0.5 * table.getCellRect(
-								table.minSelectionRow - 1,
-								table.minSelectionColumn, true).height)
+						if (-rowOffset < 0.5
+								* table.getCellRect(table.minSelectionRow - 1,
+										table.minSelectionColumn, true).height)
 							rowOffset = 0;
 					} else if (table.maxSelectionRow < app
 							.getMaxSpreadsheetRowsVisible()
 							&& table.dragingToRow > table.maxSelectionRow) {
 						rowOffset = mouseY - (selRect.y + selRect.height);
-						if (rowOffset < 0.5 * table.getCellRect(
-								table.maxSelectionRow + 1,
-								table.maxSelectionColumn, true).height)
+						if (rowOffset < 0.5
+								* table.getCellRect(table.maxSelectionRow + 1,
+										table.maxSelectionColumn, true).height)
 							rowOffset = 0;
 					}
 
@@ -560,17 +557,19 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 					if (table.minSelectionColumn > 0
 							&& table.dragingToColumn < table.minSelectionColumn) {
 						colOffset = mouseX - selRect.x;
-						if (-colOffset < 0.5 * table.getCellRect(
-								table.minSelectionRow,
-								table.minSelectionColumn - 1, true).width)
+						if (-colOffset < 0.5
+								* table.getCellRect(table.minSelectionRow,
+										table.minSelectionColumn - 1,
+										true).width)
 							colOffset = 0;
 					} else if (table.maxSelectionColumn < app
 							.getMaxSpreadsheetColumnsVisible()
 							&& table.dragingToColumn > table.maxSelectionColumn) {
 						colOffset = mouseX - (selRect.x + selRect.width);
-						if (colOffset < 0.5 * table.getCellRect(
-								table.maxSelectionRow,
-								table.maxSelectionColumn + 1, true).width)
+						if (colOffset < 0.5
+								* table.getCellRect(table.maxSelectionRow,
+										table.maxSelectionColumn + 1,
+										true).width)
 							colOffset = 0;
 					}
 
@@ -579,12 +578,13 @@ public class SpreadsheetMouseListenerD implements MouseListener,
 						table.dragingToRow = -1;
 					} else if (Math.abs(rowOffset) > Math.abs(colOffset)) {
 						table.dragingToRow = mouseCell.y;
-						table.dragingToColumn = (colOffset > 0) ? table.maxSelectionColumn
+						table.dragingToColumn = (colOffset > 0)
+								? table.maxSelectionColumn
 								: table.minSelectionColumn;
 					} else {
 						table.dragingToColumn = mouseCell.x;
-						table.dragingToRow = (rowOffset > 0) ? table.maxSelectionRow
-								: table.minSelectionRow;
+						table.dragingToRow = (rowOffset > 0)
+								? table.maxSelectionRow : table.minSelectionRow;
 					}
 					table.repaint();
 				}

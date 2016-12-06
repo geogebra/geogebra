@@ -43,106 +43,89 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class Stop extends SVGElement
-{
+public class Stop extends SVGElement {
 
-    public static final String TAG_NAME = "stop";
-    float offset = 0f;
-    float opacity = 1f;
-    Color color = Color.black;
+	public static final String TAG_NAME = "stop";
+	float offset = 0f;
+	float opacity = 1f;
+	Color color = Color.black;
 
-    /**
-     * Creates a new instance of Stop
-     */
-    public Stop()
-    {
-    }
+	/**
+	 * Creates a new instance of Stop
+	 */
+	public Stop() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("offset")))
-        {
-            offset = sty.getFloatValue();
-            String units = sty.getUnits();
-            if (units != null && units.equals("%"))
-            {
-                offset /= 100f;
-            }
-            if (offset > 1)
-            {
-                offset = 1;
-            }
-            if (offset < 0)
-            {
-                offset = 0;
-            }
-        }
+		if (getPres(sty.setName("offset"))) {
+			offset = sty.getFloatValue();
+			String units = sty.getUnits();
+			if (units != null && units.equals("%")) {
+				offset /= 100f;
+			}
+			if (offset > 1) {
+				offset = 1;
+			}
+			if (offset < 0) {
+				offset = 0;
+			}
+		}
 
-        if (getStyle(sty.setName("stop-color")))
-        {
-            color = sty.getColorValue();
-        }
+		if (getStyle(sty.setName("stop-color"))) {
+			color = sty.getColorValue();
+		}
 
-        if (getStyle(sty.setName("stop-opacity")))
-        {
-            opacity = sty.getRatioValue();
-        }
-    }
+		if (getStyle(sty.setName("stop-opacity"))) {
+			opacity = sty.getRatioValue();
+		}
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("offset")))
-        {
-            float newVal = sty.getFloatValue();
-            if (newVal != offset)
-            {
-                offset = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("offset"))) {
+			float newVal = sty.getFloatValue();
+			if (newVal != offset) {
+				offset = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getStyle(sty.setName("stop-color")))
-        {
-            Color newVal = sty.getColorValue();
-            if (newVal != color)
-            {
-                color = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getStyle(sty.setName("stop-color"))) {
+			Color newVal = sty.getColorValue();
+			if (newVal != color) {
+				color = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getStyle(sty.setName("stop-opacity")))
-        {
-            float newVal = sty.getFloatValue();
-            if (newVal != opacity)
-            {
-                opacity = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getStyle(sty.setName("stop-opacity"))) {
+			float newVal = sty.getFloatValue();
+			if (newVal != opacity) {
+				opacity = newVal;
+				shapeChange = true;
+			}
+		}
 
-        return shapeChange;
-    }
+		return shapeChange;
+	}
 }

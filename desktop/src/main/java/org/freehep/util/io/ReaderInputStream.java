@@ -17,63 +17,64 @@ import java.io.Reader;
  */
 public class ReaderInputStream extends InputStream {
 
-    private Reader reader;
+	private Reader reader;
 
-    /**
-     * Creates an InputStream from given Reader.
-     * 
-     * @param reader reader to read from.
-     */
-    public ReaderInputStream(Reader reader) {
-        this.reader = reader;
-    }
+	/**
+	 * Creates an InputStream from given Reader.
+	 * 
+	 * @param reader
+	 *            reader to read from.
+	 */
+	public ReaderInputStream(Reader reader) {
+		this.reader = reader;
+	}
 
-    // Note: here we may loose Unicode data.
-    public int read() throws IOException {
-        return reader.read() & 0xFF;
-    }
+	// Note: here we may loose Unicode data.
+	public int read() throws IOException {
+		return reader.read() & 0xFF;
+	}
 
-    // Note: here we may loose Unicode data.
-    public int read(byte[] b) throws IOException {
-        return read(b, 0, b.length);
-    }
+	// Note: here we may loose Unicode data.
+	public int read(byte[] b) throws IOException {
+		return read(b, 0, b.length);
+	}
 
-    // Note: here we may loose Unicode data.
-    public int read(byte[] b, int off, int len) throws IOException {
-        char c[] = new char[len];
-        int result = reader.read(c, 0, len);
-        for (int i = 0; i < len; i++) {
-            b[off + i] = (byte) (c[i] & 0xFF);
-        }
-        return result;
-    }
+	// Note: here we may loose Unicode data.
+	public int read(byte[] b, int off, int len) throws IOException {
+		char c[] = new char[len];
+		int result = reader.read(c, 0, len);
+		for (int i = 0; i < len; i++) {
+			b[off + i] = (byte) (c[i] & 0xFF);
+		}
+		return result;
+	}
 
-    public int available() throws IOException {
-        return 0;
-    }
+	public int available() throws IOException {
+		return 0;
+	}
 
-    public void close() throws IOException {
-        reader.close();
-    }
+	public void close() throws IOException {
+		reader.close();
+	}
 
-    public void mark(int readAheadLimit) {
-        // Note: IOException ignored
-        try {
-            reader.mark(readAheadLimit);
-        } catch (IOException ioe) {
-            // ignored
-        }
-    }
+	public void mark(int readAheadLimit) {
+		// Note: IOException ignored
+		try {
+			reader.mark(readAheadLimit);
+		} catch (IOException ioe) {
+			// ignored
+		}
+	}
 
-    public boolean markSupported() {
-        return reader.markSupported();
-    }
+	public boolean markSupported() {
+		return reader.markSupported();
+	}
 
-    public void reset() throws IOException {
-        reader.reset();
-    }
+	public void reset() throws IOException {
+		reader.reset();
+	}
 
-    public long skip(long n) throws IOException {
-        return reader.skip(n);
-    }
+	public long skip(long n) throws IOException {
+		return reader.skip(n);
+	}
 }

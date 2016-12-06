@@ -15,29 +15,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetMiterLimit extends EMFTag {
 
-    private int limit;
+	private int limit;
 
-    public SetMiterLimit() {
-        super(58, 1);
-    }
+	public SetMiterLimit() {
+		super(58, 1);
+	}
 
-    public SetMiterLimit(int limit) {
-        this();
-        this.limit = limit;
-    }
+	public SetMiterLimit(int limit) {
+		this();
+		this.limit = limit;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetMiterLimit tag = new SetMiterLimit(emf.readDWORD());
-        return tag;
-    }
+		SetMiterLimit tag = new SetMiterLimit(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(limit);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(limit);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  limit: " + limit;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  limit: " + limit;
+	}
 }

@@ -20,30 +20,32 @@ import javax.imageio.ImageIO;
  */
 public class DCTInputStream extends FilterInputStream {
 
-    /**
-     * Creates a DCT input stream from the given input stream
-     * 
-     * @param input stream to read from
-     */
-    public DCTInputStream(InputStream input) {
-        super(input);
-    }
+	/**
+	 * Creates a DCT input stream from the given input stream
+	 * 
+	 * @param input
+	 *            stream to read from
+	 */
+	public DCTInputStream(InputStream input) {
+		super(input);
+	}
 
-    /**
-     * Read is not supported, only readImage.
-     * 
-     * @see java.io.FilterInputStream#read()
-     */
-    public int read() throws IOException {
-        throw new IOException(getClass()
-                + ": read() not implemented, use readImage().");
-    }
+	/**
+	 * Read is not supported, only readImage.
+	 * 
+	 * @see java.io.FilterInputStream#read()
+	 */
+	public int read() throws IOException {
+		throw new IOException(
+				getClass() + ": read() not implemented, use readImage().");
+	}
 
-    /**
-     * @return image read
-     * @throws IOException if read fails
-     */
-    public Image readImage() throws IOException {
-        return ImageIO.read(new NoCloseInputStream(this));
-    }
+	/**
+	 * @return image read
+	 * @throws IOException
+	 *             if read fails
+	 */
+	public Image readImage() throws IOException {
+		return ImageIO.read(new NoCloseInputStream(this));
+	}
 }

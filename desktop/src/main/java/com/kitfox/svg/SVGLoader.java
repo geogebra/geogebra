@@ -159,9 +159,8 @@ public class SVGLoader extends DefaultHandler {
 		}
 		indent++;
 
-		if (skipNonSVGTagDepth != 0
-				|| (!namespaceURI.equals("") && !namespaceURI
-						.equals(SVGElement.SVG_NS))) {
+		if (skipNonSVGTagDepth != 0 || (!namespaceURI.equals("")
+				&& !namespaceURI.equals(SVGElement.SVG_NS))) {
 			skipNonSVGTagDepth++;
 			return;
 		}
@@ -207,8 +206,8 @@ public class SVGLoader extends DefaultHandler {
 			throws SAXException {
 		indent--;
 		if (verbose) {
-			System.err.println(printIndent(indent, " ")
-					+ "Ending parse of tag " + sName + ": " + namespaceURI);
+			System.err.println(printIndent(indent, " ") + "Ending parse of tag "
+					+ sName + ": " + namespaceURI);
 		}
 
 		if (skipNonSVGTagDepth != 0) {
@@ -250,7 +249,8 @@ public class SVGLoader extends DefaultHandler {
 		}
 	}
 
-	public void characters(char buf[], int offset, int len) throws SAXException {
+	public void characters(char buf[], int offset, int len)
+			throws SAXException {
 		if (skipNonSVGTagDepth != 0) {
 			return;
 		}

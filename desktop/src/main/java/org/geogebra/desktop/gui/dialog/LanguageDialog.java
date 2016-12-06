@@ -138,7 +138,8 @@ public class LanguageDialog extends JDialog {
 
 			char ch = text.charAt(0);
 
-			if (ch == Unicode.LeftToRightMark || ch == Unicode.RightToLeftMark) {
+			if (ch == Unicode.LeftToRightMark
+					|| ch == Unicode.RightToLeftMark) {
 				ch = text.charAt(1);
 			} else {
 				// make sure brackets are correct in Arabic, ie not )US)
@@ -233,8 +234,8 @@ public class LanguageDialog extends JDialog {
 
 			if (ic != null && loc.locale.equals(currentLocale)) {
 
-				lblList.get(loc).setIcon(
-						app.getScaledFlagIcon(app.getFlagName()));
+				lblList.get(loc)
+						.setIcon(app.getScaledFlagIcon(app.getFlagName()));
 			} else {
 				lblList.get(loc).setIcon(app.getEmptyIcon());
 			}

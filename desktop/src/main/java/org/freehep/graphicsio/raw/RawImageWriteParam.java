@@ -14,59 +14,59 @@ import org.freehep.util.UserProperties;
  * 
  * @version $Id: RawImageWriteParam.java,v 1.4 2009-08-17 21:44:46 murkle Exp $
  */
-public class RawImageWriteParam extends ImageWriteParam implements
-        ImageParamConverter {
+public class RawImageWriteParam extends ImageWriteParam
+		implements ImageParamConverter {
 
-    private final static String rootKey = RawImageWriteParam.class.getName();
+	private final static String rootKey = RawImageWriteParam.class.getName();
 
-    public final static String BACKGROUND = rootKey + ".Background";
+	public final static String BACKGROUND = rootKey + ".Background";
 
-    public final static String CODE = rootKey + ".Code";
+	public final static String CODE = rootKey + ".Code";
 
-    public final static String PAD = rootKey + ".Pad";
+	public final static String PAD = rootKey + ".Pad";
 
-    private Color bkg;
+	private Color bkg;
 
-    private String code;
+	private String code;
 
-    private int pad;
+	private int pad;
 
-    public RawImageWriteParam(Locale locale) {
-        super(locale);
-        bkg = null;
-        code = "ARGB";
-        pad = 1;
-    }
+	public RawImageWriteParam(Locale locale) {
+		super(locale);
+		bkg = null;
+		code = "ARGB";
+		pad = 1;
+	}
 
-    public ImageWriteParam getWriteParam(Properties properties) {
-        UserProperties p = new UserProperties(properties);
-        setBackground(p.getPropertyColor(BACKGROUND, bkg));
-        setCode(p.getProperty(CODE, code));
-        setPad(p.getPropertyInt(PAD, pad));
-        return this;
-    }
+	public ImageWriteParam getWriteParam(Properties properties) {
+		UserProperties p = new UserProperties(properties);
+		setBackground(p.getPropertyColor(BACKGROUND, bkg));
+		setCode(p.getProperty(CODE, code));
+		setPad(p.getPropertyInt(PAD, pad));
+		return this;
+	}
 
-    public Color getBackground() {
-        return bkg;
-    }
+	public Color getBackground() {
+		return bkg;
+	}
 
-    public void setBackground(Color bkg) {
-        this.bkg = bkg;
-    }
+	public void setBackground(Color bkg) {
+		this.bkg = bkg;
+	}
 
-    public String getCode() {
-        return code;
-    }
+	public String getCode() {
+		return code;
+	}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+	public void setCode(String code) {
+		this.code = code;
+	}
 
-    public int getPad() {
-        return pad;
-    }
+	public int getPad() {
+		return pad;
+	}
 
-    public void setPad(int pad) {
-        this.pad = pad;
-    }
+	public void setPad(int pad) {
+		this.pad = pad;
+	}
 }

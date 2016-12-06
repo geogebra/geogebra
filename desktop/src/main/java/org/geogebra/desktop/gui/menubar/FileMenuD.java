@@ -39,11 +39,10 @@ import org.geogebra.desktop.util.GuiResourcesD;
 class FileMenuD extends BaseMenu implements EventRenderable {
 	private static final long serialVersionUID = -5154067739481481835L;
 
-	private AbstractAction newWindowAction, deleteAll, saveAction,
-			saveAsAction, loadAction, loadURLAction, exportWorksheet,
-			shareAction, exportGraphicAction, exportAnimationAction,
-			exportPgfAction, exportPSTricksAction, exportAsymptoteAction,
-			exportPDFaction;
+	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
+			loadAction, loadURLAction, exportWorksheet, shareAction,
+			exportGraphicAction, exportAnimationAction, exportPgfAction,
+			exportPSTricksAction, exportAsymptoteAction, exportPDFaction;
 
 	JMenuItem loadURLMenuItem;
 
@@ -170,7 +169,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi.setIcon(app.getMenuIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		setMenuShortCutAccelerator(mi, 'P');
 
-
 		// End Export SubMenu
 
 		// DONE HERE WHEN APPLET
@@ -270,14 +268,12 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		 * constProtocol.initProtocol();
 		 * 
 		 * try { new PrintPreview(app, constProtocol, PageFormat.PORTRAIT); }
-		 * catch (Exception e) {
-		 * Application.debug("Print preview not available"); } } };
-		 * runner.start(); } };
+		 * catch (Exception e) { Application.debug("Print preview not available"
+		 * ); } } }; runner.start(); } };
 		 */
 
 		printEuclidianViewAction = new AbstractAction(
-loc.getMenu("DrawingPad")
-				+ " ...") {
+				loc.getMenu("DrawingPad") + " ...") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -312,8 +308,9 @@ loc.getMenu("DrawingPad")
 			}
 		};
 
-		loadURLAction = new AbstractAction(loc.getMenu("OpenFromGeoGebraTube")
-				+ " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
+		loadURLAction = new AbstractAction(
+				loc.getMenu("OpenFromGeoGebraTube") + " ...",
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -389,7 +386,8 @@ loc.getMenu("DrawingPad")
 								app.getGuiManager().showGraphicExport();
 
 							} catch (Exception e1) {
-								Log.debug("GraphicExportDialog not available for 3D view yet");
+								Log.debug(
+										"GraphicExportDialog not available for 3D view yet");
 								// for 3D View
 								app.copyGraphicsViewToClipboard();
 							}
@@ -443,8 +441,8 @@ loc.getMenu("DrawingPad")
 			}
 		};
 		// Added By Loic Le Coq
-		exportPgfAction = new AbstractAction(loc.getMenu("DrawingPagAsPGF")
-				+ " ...", app.getEmptyIcon()) {
+		exportPgfAction = new AbstractAction(
+				loc.getMenu("DrawingPagAsPGF") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			@SuppressWarnings("unused")
@@ -492,8 +490,7 @@ loc.getMenu("DrawingPad")
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(
-							app);
+					GeoGebraToAsymptote export = new GeoGebraToAsymptoteD(app);
 					new AsymptoteFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToAsymptote not available");
@@ -521,15 +518,16 @@ loc.getMenu("DrawingPad")
 
 							app.setWaitCursor();
 							try {
-								app.getSelectionManager().clearSelectedGeos(
-										true, false);
+								app.getSelectionManager()
+										.clearSelectedGeos(true, false);
 								app.updateSelection(false);
 								WorksheetExportDialog d = new WorksheetExportDialog(
 										app);
 
 								d.setVisible(true);
 							} catch (Exception e1) {
-								Log.debug("WorksheetExportDialog not available");
+								Log.debug(
+										"WorksheetExportDialog not available");
 								e1.printStackTrace();
 							}
 							app.setDefaultCursor();
@@ -546,7 +544,8 @@ loc.getMenu("DrawingPad")
 		};
 
 		exportGeoGebraTubeAction = new AbstractAction(
-				loc.getMenu("UploadGeoGebraTube") + " ...", app.getEmptyIcon()) {
+				loc.getMenu("UploadGeoGebraTube") + " ...",
+				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -558,8 +557,8 @@ loc.getMenu("DrawingPad")
 
 							app.setWaitCursor();
 							try {
-								app.getSelectionManager().clearSelectedGeos(
-										true, false);
+								app.getSelectionManager()
+										.clearSelectedGeos(true, false);
 								app.updateSelection(false);
 
 								// callback for 3D

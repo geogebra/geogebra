@@ -100,8 +100,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 		component.setBackground(Color.white);
 
-		getConsoleTable().getSelectionModel().addListSelectionListener(
-				selectionListener());
+		getConsoleTable().getSelectionModel()
+				.addListSelectionListener(selectionListener());
 
 		// listen to clicks below last row in consoleTable: create new row
 		scrollPane.addMouseListener(scrollPaneListener());
@@ -178,8 +178,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 						// undoNeeded = true;
 					} else {
 						getConsoleTable().stopEditing();
-						GeoCasCell cellValue = getConsoleTable().getGeoCasCell(
-								rows - 1);
+						GeoCasCell cellValue = getConsoleTable()
+								.getGeoCasCell(rows - 1);
 						if (!cellValue.isInputEmpty()
 								&& cellValue.isOutputEmpty()) {
 							getConsoleTable().startEditingRow(rows - 1);
@@ -203,8 +203,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	}
 
 	@Override
-	public void showSubstituteDialog(final String prefix,
-			final String evalText, final String postfix, final int selRow) {
+	public void showSubstituteDialog(final String prefix, final String evalText,
+			final String postfix, final int selRow) {
 		if (subDialog != null && subDialog.isShowing())
 			return;
 		SwingUtilities.invokeLater(new Runnable() {
@@ -249,7 +249,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	private void createCASTable() {
 		consoleTable = new CASTableD(this);
 
-		CASTableCellControllerD inputListener = new CASTableCellControllerD(this);
+		CASTableCellControllerD inputListener = new CASTableCellControllerD(
+				this);
 		getConsoleTable().getEditor().getInputArea()
 				.addKeyListener(inputListener);
 		getConsoleTable().getEditor().getInputArea()
@@ -294,7 +295,8 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	}
 
 	public int[] getGridColwidths() {
-		return new int[] { rowHeader.getWidth() + getConsoleTable().getWidth() };
+		return new int[] {
+				rowHeader.getWidth() + getConsoleTable().getWidth() };
 	}
 
 	public int[] getGridRowHeights() {

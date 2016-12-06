@@ -46,179 +46,144 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class RadialGradient extends Gradient
-{
-    public static final String TAG_NAME = "radialgradient";
+public class RadialGradient extends Gradient {
+	public static final String TAG_NAME = "radialgradient";
 
-    float cx = 0.5f;
-    float cy = 0.5f;
-    float fx = 0.5f;
-    float fy = 0.5f;
-    float r = 0.5f;
+	float cx = 0.5f;
+	float cy = 0.5f;
+	float fx = 0.5f;
+	float fy = 0.5f;
+	float r = 0.5f;
 
-    /**
-     * Creates a new instance of RadialGradient
-     */
-    public RadialGradient()
-    {
-    }
+	/**
+	 * Creates a new instance of RadialGradient
+	 */
+	public RadialGradient() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("cx")))
-        {
-            cx = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("cx"))) {
+			cx = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("cy")))
-        {
-            cy = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("cy"))) {
+			cy = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("fx")))
-        {
-            fx = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("fx"))) {
+			fx = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("fy")))
-        {
-            fy = sty.getFloatValueWithUnits();
-        }
+		if (getPres(sty.setName("fy"))) {
+			fy = sty.getFloatValueWithUnits();
+		}
 
-        if (getPres(sty.setName("r")))
-        {
-            r = sty.getFloatValueWithUnits();
-        }
-    }
+		if (getPres(sty.setName("r"))) {
+			r = sty.getFloatValueWithUnits();
+		}
+	}
 
-    public Paint getPaint(Rectangle2D bounds, AffineTransform xform)
-    {
-        com.kitfox.svg.batik.MultipleGradientPaint.CycleMethodEnum method;
-        switch (spreadMethod)
-        {
-            default:
-            case SM_PAD:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.NO_CYCLE;
-                break;
-            case SM_REPEAT:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.REPEAT;
-                break;
-            case SM_REFLECT:
-                method = com.kitfox.svg.batik.MultipleGradientPaint.REFLECT;
-                break;
-        }
+	public Paint getPaint(Rectangle2D bounds, AffineTransform xform) {
+		com.kitfox.svg.batik.MultipleGradientPaint.CycleMethodEnum method;
+		switch (spreadMethod) {
+		default:
+		case SM_PAD:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.NO_CYCLE;
+			break;
+		case SM_REPEAT:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.REPEAT;
+			break;
+		case SM_REFLECT:
+			method = com.kitfox.svg.batik.MultipleGradientPaint.REFLECT;
+			break;
+		}
 
-        Paint paint;
-        Point2D.Float pt1 = new Point2D.Float(cx, cy);
-        Point2D.Float pt2 = new Point2D.Float(fx, fy);
-        if (gradientUnits == GU_USER_SPACE_ON_USE)
-        {
-            paint = new com.kitfox.svg.batik.RadialGradientPaint(
-                pt1,
-                r,
-                pt2,
-                getStopFractions(),
-                getStopColors(),
-                method,
-                com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
-                gradientTransform);
-        } else
-        {
-            AffineTransform viewXform = new AffineTransform();
-            viewXform.translate(bounds.getX(), bounds.getY());
-            viewXform.scale(bounds.getWidth(), bounds.getHeight());
+		Paint paint;
+		Point2D.Float pt1 = new Point2D.Float(cx, cy);
+		Point2D.Float pt2 = new Point2D.Float(fx, fy);
+		if (gradientUnits == GU_USER_SPACE_ON_USE) {
+			paint = new com.kitfox.svg.batik.RadialGradientPaint(pt1, r, pt2,
+					getStopFractions(), getStopColors(), method,
+					com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
+					gradientTransform);
+		} else {
+			AffineTransform viewXform = new AffineTransform();
+			viewXform.translate(bounds.getX(), bounds.getY());
+			viewXform.scale(bounds.getWidth(), bounds.getHeight());
 
-            viewXform.concatenate(gradientTransform);
+			viewXform.concatenate(gradientTransform);
 
-            paint = new com.kitfox.svg.batik.RadialGradientPaint(
-                pt1,
-                r,
-                pt2,
-                getStopFractions(),
-                getStopColors(),
-                method,
-                com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
-                viewXform);
-        }
+			paint = new com.kitfox.svg.batik.RadialGradientPaint(pt1, r, pt2,
+					getStopFractions(), getStopColors(), method,
+					com.kitfox.svg.batik.MultipleGradientPaint.SRGB, viewXform);
+		}
 
-        return paint;
-    }
+		return paint;
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime) throws SVGException
-    {
-//        if (trackManager.getNumTracks() == 0) return false;
-        boolean changeState = super.updateTime(curTime);
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) throws SVGException {
+		// if (trackManager.getNumTracks() == 0) return false;
+		boolean changeState = super.updateTime(curTime);
 
-        //Get current values for parameters
-        StyleAttribute sty = new StyleAttribute();
-        boolean shapeChange = false;
+		// Get current values for parameters
+		StyleAttribute sty = new StyleAttribute();
+		boolean shapeChange = false;
 
-        if (getPres(sty.setName("cx")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != cx)
-            {
-                cx = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("cx"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != cx) {
+				cx = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("cy")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != cy)
-            {
-                cy = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("cy"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != cy) {
+				cy = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("fx")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != fx)
-            {
-                fx = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("fx"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != fx) {
+				fx = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("fy")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != fy)
-            {
-                fy = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("fy"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != fy) {
+				fy = newVal;
+				shapeChange = true;
+			}
+		}
 
-        if (getPres(sty.setName("r")))
-        {
-            float newVal = sty.getFloatValueWithUnits();
-            if (newVal != r)
-            {
-                r = newVal;
-                shapeChange = true;
-            }
-        }
+		if (getPres(sty.setName("r"))) {
+			float newVal = sty.getFloatValueWithUnits();
+			if (newVal != r) {
+				r = newVal;
+				shapeChange = true;
+			}
+		}
 
-        return changeState;
-    }
+		return changeState;
+	}
 }

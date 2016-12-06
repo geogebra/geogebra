@@ -45,12 +45,10 @@ public class InspectorTable extends JTable {
 		// set visual appearance
 		setShowGrid(true);
 		setGridColor(
-				GColorD
-						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		// setSelectionBackground(new Color(255, 130, 171));
 		setSelectionBackground(
-				GColorD
-				.getAwtColor(GeoGebraColorConstants.PINK));
+				GColorD.getAwtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 
 		// set resizing fields
@@ -115,9 +113,8 @@ public class InspectorTable extends JTable {
 		// System.out.println(table.getParent().getPreferredSize().width);
 		if (gap > 0) {
 			w = table.getColumnCount() - 1;
-			int newWidth = gap
-					+ table.getColumnModel()
-							.getColumn(table.getColumnCount() - 1).getWidth();
+			int newWidth = gap + table.getColumnModel()
+					.getColumn(table.getColumnCount() - 1).getWidth();
 			table.getColumnModel().getColumn(w).setPreferredWidth(newWidth);
 		}
 	}
@@ -134,11 +131,11 @@ public class InspectorTable extends JTable {
 		int colPrefWidth = 0;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
-				colPrefWidth = (int) table
-						.getCellRenderer(row, column)
+				colPrefWidth = (int) table.getCellRenderer(row, column)
 						.getTableCellRendererComponent(table,
 								table.getValueAt(row, column), false, false,
-								row, column).getPreferredSize().getWidth();
+								row, column)
+						.getPreferredSize().getWidth();
 				maxPrefWidth = Math.max(maxPrefWidth, colPrefWidth);
 			}
 		}
@@ -242,8 +239,8 @@ public class InspectorTable extends JTable {
 		}
 
 		@Override
-		public Component getTableCellEditorComponent(JTable table,
-				Object value, boolean isSelected, int row, int column) {
+		public Component getTableCellEditorComponent(JTable table, Object value,
+				boolean isSelected, int row, int column) {
 			JTextField editor = (JTextField) super.getTableCellEditorComponent(
 					table, value, isSelected, row, column);
 			editor.setForeground(Color.RED);
@@ -257,8 +254,8 @@ public class InspectorTable extends JTable {
 
 			try {
 				if (isStopped) {
-					double val = Double.parseDouble((String) this
-							.getCellEditorValue());
+					double val = Double
+							.parseDouble((String) this.getCellEditorValue());
 					// change
 					inspector.changeStart(val);
 				}

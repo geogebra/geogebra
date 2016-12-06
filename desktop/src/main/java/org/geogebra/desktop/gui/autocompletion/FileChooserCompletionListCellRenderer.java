@@ -23,12 +23,13 @@ import org.geogebra.desktop.util.ImageResourceD;
  * 
  * @author Julian Lettner
  */
-public class FileChooserCompletionListCellRenderer extends
-		DefaultListCellRenderer {
+public class FileChooserCompletionListCellRenderer
+		extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	private static final Icon DIRECTORY_ICON = loadIcon(GuiResourcesD.FOLDER);
-	private static final Icon UNKNOWN_FILE_ICON = loadIcon(GuiResourcesD.TEXT_X_GENERIC);
+	private static final Icon UNKNOWN_FILE_ICON = loadIcon(
+			GuiResourcesD.TEXT_X_GENERIC);
 
 	// Most of these Icons are from the the tango! icon set:
 	// http://tango.freedesktop.org/

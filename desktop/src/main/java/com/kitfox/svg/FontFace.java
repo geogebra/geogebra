@@ -45,192 +45,156 @@ import com.kitfox.svg.xml.StyleAttribute;
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
  */
-public class FontFace extends SVGElement
-{
+public class FontFace extends SVGElement {
 
-    public static final String TAG_NAME = "fontface";
-    String fontFamily;
-    /**
-     * Em size of coordinate system font is defined in
-     */
-    int unitsPerEm = 1000;
-    int ascent = -1;
-    int descent = -1;
-    int accentHeight = -1;
-    int underlinePosition = -1;
-    int underlineThickness = -1;
-    int strikethroughPosition = -1;
-    int strikethroughThickness = -1;
-    int overlinePosition = -1;
-    int overlineThickness = -1;
+	public static final String TAG_NAME = "fontface";
+	String fontFamily;
+	/**
+	 * Em size of coordinate system font is defined in
+	 */
+	int unitsPerEm = 1000;
+	int ascent = -1;
+	int descent = -1;
+	int accentHeight = -1;
+	int underlinePosition = -1;
+	int underlineThickness = -1;
+	int strikethroughPosition = -1;
+	int strikethroughThickness = -1;
+	int overlinePosition = -1;
+	int overlineThickness = -1;
 
-    /**
-     * Creates a new instance of Font
-     */
-    public FontFace()
-    {
-    }
+	/**
+	 * Creates a new instance of Font
+	 */
+	public FontFace() {
+	}
 
-    public String getTagName()
-    {
-        return TAG_NAME;
-    }
+	public String getTagName() {
+		return TAG_NAME;
+	}
 
-    protected void build() throws SVGException
-    {
-        super.build();
+	protected void build() throws SVGException {
+		super.build();
 
-        StyleAttribute sty = new StyleAttribute();
+		StyleAttribute sty = new StyleAttribute();
 
-        if (getPres(sty.setName("font-family")))
-        {
-            fontFamily = sty.getStringValue();
-        }
+		if (getPres(sty.setName("font-family"))) {
+			fontFamily = sty.getStringValue();
+		}
 
-        if (getPres(sty.setName("units-per-em")))
-        {
-            unitsPerEm = sty.getIntValue();
-        }
-        if (getPres(sty.setName("ascent")))
-        {
-            ascent = sty.getIntValue();
-        }
-        if (getPres(sty.setName("descent")))
-        {
-            descent = sty.getIntValue();
-        }
-        if (getPres(sty.setName("accent-height")))
-        {
-            accentHeight = sty.getIntValue();
-        }
+		if (getPres(sty.setName("units-per-em"))) {
+			unitsPerEm = sty.getIntValue();
+		}
+		if (getPres(sty.setName("ascent"))) {
+			ascent = sty.getIntValue();
+		}
+		if (getPres(sty.setName("descent"))) {
+			descent = sty.getIntValue();
+		}
+		if (getPres(sty.setName("accent-height"))) {
+			accentHeight = sty.getIntValue();
+		}
 
-        if (getPres(sty.setName("underline-position")))
-        {
-            underlinePosition = sty.getIntValue();
-        }
-        if (getPres(sty.setName("underline-thickness")))
-        {
-            underlineThickness = sty.getIntValue();
-        }
-        if (getPres(sty.setName("strikethrough-position")))
-        {
-            strikethroughPosition = sty.getIntValue();
-        }
-        if (getPres(sty.setName("strikethrough-thickenss")))
-        {
-            strikethroughThickness = sty.getIntValue();
-        }
-        if (getPres(sty.setName("overline-position")))
-        {
-            overlinePosition = sty.getIntValue();
-        }
-        if (getPres(sty.setName("overline-thickness")))
-        {
-            overlineThickness = sty.getIntValue();
-        }
-    }
+		if (getPres(sty.setName("underline-position"))) {
+			underlinePosition = sty.getIntValue();
+		}
+		if (getPres(sty.setName("underline-thickness"))) {
+			underlineThickness = sty.getIntValue();
+		}
+		if (getPres(sty.setName("strikethrough-position"))) {
+			strikethroughPosition = sty.getIntValue();
+		}
+		if (getPres(sty.setName("strikethrough-thickenss"))) {
+			strikethroughThickness = sty.getIntValue();
+		}
+		if (getPres(sty.setName("overline-position"))) {
+			overlinePosition = sty.getIntValue();
+		}
+		if (getPres(sty.setName("overline-thickness"))) {
+			overlineThickness = sty.getIntValue();
+		}
+	}
 
-    public String getFontFamily()
-    {
-        return fontFamily;
-    }
+	public String getFontFamily() {
+		return fontFamily;
+	}
 
-    public int getUnitsPerEm()
-    {
-        return unitsPerEm;
-    }
+	public int getUnitsPerEm() {
+		return unitsPerEm;
+	}
 
-    public int getAscent()
-    {
-        if (ascent == -1)
-        {
-            ascent = unitsPerEm - ((Font) parent).getVertOriginY();
-        }
-        return ascent;
-    }
+	public int getAscent() {
+		if (ascent == -1) {
+			ascent = unitsPerEm - ((Font) parent).getVertOriginY();
+		}
+		return ascent;
+	}
 
-    public int getDescent()
-    {
-        if (descent == -1)
-        {
-            descent = ((Font) parent).getVertOriginY();
-        }
-        return descent;
-    }
+	public int getDescent() {
+		if (descent == -1) {
+			descent = ((Font) parent).getVertOriginY();
+		}
+		return descent;
+	}
 
-    public int getAccentHeight()
-    {
-        if (accentHeight == -1)
-        {
-            accentHeight = getAscent();
-        }
-        return accentHeight;
-    }
+	public int getAccentHeight() {
+		if (accentHeight == -1) {
+			accentHeight = getAscent();
+		}
+		return accentHeight;
+	}
 
-    public int getUnderlinePosition()
-    {
-        if (underlinePosition == -1)
-        {
-            underlinePosition = unitsPerEm * 5 / 6;
-        }
-        return underlinePosition;
-    }
+	public int getUnderlinePosition() {
+		if (underlinePosition == -1) {
+			underlinePosition = unitsPerEm * 5 / 6;
+		}
+		return underlinePosition;
+	}
 
-    public int getUnderlineThickness()
-    {
-        if (underlineThickness == -1)
-        {
-            underlineThickness = unitsPerEm / 20;
-        }
-        return underlineThickness;
-    }
+	public int getUnderlineThickness() {
+		if (underlineThickness == -1) {
+			underlineThickness = unitsPerEm / 20;
+		}
+		return underlineThickness;
+	}
 
-    public int getStrikethroughPosition()
-    {
-        if (strikethroughPosition == -1)
-        {
-            strikethroughPosition = unitsPerEm * 3 / 6;
-        }
-        return strikethroughPosition;
-    }
+	public int getStrikethroughPosition() {
+		if (strikethroughPosition == -1) {
+			strikethroughPosition = unitsPerEm * 3 / 6;
+		}
+		return strikethroughPosition;
+	}
 
-    public int getStrikethroughThickness()
-    {
-        if (strikethroughThickness == -1)
-        {
-            strikethroughThickness = unitsPerEm / 20;
-        }
-        return strikethroughThickness;
-    }
+	public int getStrikethroughThickness() {
+		if (strikethroughThickness == -1) {
+			strikethroughThickness = unitsPerEm / 20;
+		}
+		return strikethroughThickness;
+	}
 
-    public int getOverlinePosition()
-    {
-        if (overlinePosition == -1)
-        {
-            overlinePosition = unitsPerEm * 5 / 6;
-        }
-        return overlinePosition;
-    }
+	public int getOverlinePosition() {
+		if (overlinePosition == -1) {
+			overlinePosition = unitsPerEm * 5 / 6;
+		}
+		return overlinePosition;
+	}
 
-    public int getOverlineThickness()
-    {
-        if (overlineThickness == -1)
-        {
-            overlineThickness = unitsPerEm / 20;
-        }
-        return overlineThickness;
-    }
+	public int getOverlineThickness() {
+		if (overlineThickness == -1) {
+			overlineThickness = unitsPerEm / 20;
+		}
+		return overlineThickness;
+	}
 
-    /**
-     * Updates all attributes in this diagram associated with a time event. Ie,
-     * all attributes with track information.
-     *
-     * @return - true if this node has changed state as a result of the time
-     * update
-     */
-    public boolean updateTime(double curTime)
-    {
-        //Fonts can't change
-        return false;
-    }
+	/**
+	 * Updates all attributes in this diagram associated with a time event. Ie,
+	 * all attributes with track information.
+	 *
+	 * @return - true if this node has changed state as a result of the time
+	 *         update
+	 */
+	public boolean updateTime(double curTime) {
+		// Fonts can't change
+		return false;
+	}
 }

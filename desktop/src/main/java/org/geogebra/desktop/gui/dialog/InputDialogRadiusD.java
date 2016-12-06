@@ -88,8 +88,6 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 					}
 				});
 
-
-
 	}
 
 	/**

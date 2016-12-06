@@ -175,7 +175,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		mainPanel.removeAll();
 
-
 		// constraints
 		GridBagConstraints c = new GridBagConstraints();
 		c.gridy = GridBagConstraints.RELATIVE;
@@ -204,8 +203,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 		// mainPanel.add(ckEqualVariances,c);
 		mainPanel.add(resultPanel, tab);
 
-		resultTable.getTable().setRowHeight(
-				twoStatPanel.getTable().getRowHeight());
+		resultTable.getTable()
+				.setRowHeight(twoStatPanel.getTable().getRowHeight());
 
 	}
 
@@ -346,7 +345,6 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 			model.setPooled(ckPooled.isSelected());
 		}
 
-
 	}
 
 	private void doTextFieldActionPerformed(JTextField source) {
@@ -392,8 +390,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	public void setStatTable(int row, String[] rowNames, int length,
 			String[] columnNames) {
-		resultTable
-				.setStatTable(row, rowNames, columnNames.length, columnNames);
+		resultTable.setStatTable(row, rowNames, columnNames.length,
+				columnNames);
 	}
 
 	public void setFormattedValueAt(double value, int row, int col) {

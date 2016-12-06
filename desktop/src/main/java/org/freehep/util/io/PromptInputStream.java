@@ -18,28 +18,31 @@ import java.io.InputStream;
  */
 public class PromptInputStream extends RoutedInputStream {
 
-    /**
-     * Craete a Prompt input stream.
-     * 
-     * @param input stream to read
-     */
-    public PromptInputStream(InputStream input) {
-        super(input);
-    }
+	/**
+	 * Craete a Prompt input stream.
+	 * 
+	 * @param input
+	 *            stream to read
+	 */
+	public PromptInputStream(InputStream input) {
+		super(input);
+	}
 
-    /**
-     * Add a prompt listener for given prompt.
-     * 
-     * @param prompt prompt to listen for
-     * @param listener listener to be informed
-     */
-    public void addPromptListener(String prompt, PromptListener listener) {
-        final PromptListener promptListener = listener;
-        addRoute(prompt, prompt, new RouteListener() {
-            public void routeFound(RoutedInputStream.Route input)
-                    throws IOException {
-                promptListener.promptFound(input);
-            }
-        });
-    }
+	/**
+	 * Add a prompt listener for given prompt.
+	 * 
+	 * @param prompt
+	 *            prompt to listen for
+	 * @param listener
+	 *            listener to be informed
+	 */
+	public void addPromptListener(String prompt, PromptListener listener) {
+		final PromptListener promptListener = listener;
+		addRoute(prompt, prompt, new RouteListener() {
+			public void routeFound(RoutedInputStream.Route input)
+					throws IOException {
+				promptListener.promptFound(input);
+			}
+		});
+	}
 }

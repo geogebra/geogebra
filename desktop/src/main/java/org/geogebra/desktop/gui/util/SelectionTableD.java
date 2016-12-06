@@ -194,8 +194,8 @@ public class SelectionTableD extends JTable {
 		int r = 0;
 		int c = 0;
 
-		for (int i = 0; i < Math.min(data.length, this.numRows
-				* this.numColumns); i++) {
+		for (int i = 0; i < Math.min(data.length,
+				this.numRows * this.numColumns); i++) {
 			model.setValueAt(data[i], r, c);
 			++c;
 			if (c == this.numColumns) {
@@ -368,8 +368,8 @@ public class SelectionTableD extends JTable {
 			// TODO --- selection color should be centralized, not from
 			// spreadsheet
 
-			selectionColor = org.geogebra.desktop.awt.GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+			selectionColor = org.geogebra.desktop.awt.GColorD.getAwtColor(
+					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			rollOverColor = Color.LIGHT_GRAY;
 
 			paddingBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
@@ -442,11 +442,11 @@ public class SelectionTableD extends JTable {
 		int colPrefWidth = 0;
 		for (int row = 0; row < table.getRowCount(); row++) {
 			if (table.getValueAt(row, column) != null) {
-				colPrefWidth = (int) table
-						.getCellRenderer(row, column)
+				colPrefWidth = (int) table.getCellRenderer(row, column)
 						.getTableCellRendererComponent(table,
 								table.getValueAt(row, column), false, false,
-								row, column).getPreferredSize().getWidth();
+								row, column)
+						.getPreferredSize().getWidth();
 				maxPrefWidth = Math.max(maxPrefWidth, colPrefWidth);
 			}
 		}
@@ -468,8 +468,7 @@ public class SelectionTableD extends JTable {
 			for (int c = 0; c < table.getColumnCount(); c++) {
 				tableColumn = table.getColumnModel().getColumn(c);
 				if (table.getValueAt(r, c) != null) {
-					cellPrefHeight = (int) table
-							.getCellRenderer(r, c)
+					cellPrefHeight = (int) table.getCellRenderer(r, c)
 							.getTableCellRendererComponent(table,
 									table.getValueAt(r, c), false, false, r, c)
 							.getPreferredSize().getHeight();

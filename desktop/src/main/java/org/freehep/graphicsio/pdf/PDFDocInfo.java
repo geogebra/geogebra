@@ -12,44 +12,44 @@ import java.util.Date;
  */
 public class PDFDocInfo extends PDFDictionary {
 
-    PDFDocInfo(PDF pdf, PDFByteWriter writer, PDFObject parent)
-            throws IOException {
-        super(pdf, writer, parent);
-    }
+	PDFDocInfo(PDF pdf, PDFByteWriter writer, PDFObject parent)
+			throws IOException {
+		super(pdf, writer, parent);
+	}
 
-    public void setTitle(String title) throws IOException {
-        entry("Title", title);
-    }
+	public void setTitle(String title) throws IOException {
+		entry("Title", title);
+	}
 
-    public void setAuthor(String author) throws IOException {
-        entry("Author", author);
-    }
+	public void setAuthor(String author) throws IOException {
+		entry("Author", author);
+	}
 
-    public void setSubject(String subject) throws IOException {
-        entry("Subject", subject);
-    }
+	public void setSubject(String subject) throws IOException {
+		entry("Subject", subject);
+	}
 
-    public void setKeywords(String keywords) throws IOException {
-        entry("Keywords", keywords);
-    }
+	public void setKeywords(String keywords) throws IOException {
+		entry("Keywords", keywords);
+	}
 
-    public void setCreator(String creator) throws IOException {
-        entry("Creator", creator);
-    }
+	public void setCreator(String creator) throws IOException {
+		entry("Creator", creator);
+	}
 
-    public void setProducer(String producer) throws IOException {
-        entry("Producer", producer);
-    }
+	public void setProducer(String producer) throws IOException {
+		entry("Producer", producer);
+	}
 
 	public void setCreationDate(Date now) throws IOException {
 		entry("CreationDate", now);
-    }
+	}
 
 	public void setModificationDate(Date now) throws IOException {
 		entry("ModDate", now);
-    }
+	}
 
-    public void setTrapped(String name) throws IOException {
-        entry("Trapped", pdf.name(name));
-    }
+	public void setTrapped(String name) throws IOException {
+		entry("Trapped", pdf.name(name));
+	}
 }

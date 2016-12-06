@@ -17,8 +17,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Dock panel for the algebra view.
  */
-public class PropertiesDockPanel extends DockPanelD implements
-		WindowFocusListener {
+public class PropertiesDockPanel extends DockPanelD
+		implements WindowFocusListener {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private PropertiesViewD view;

@@ -8,7 +8,6 @@ package com.kitfox.svg;
  *
  * @author kitfox
  */
-public interface SVGConst
-{
-    public static final String SVG_LOGGER = "svgSalamandeLogger";
+public interface SVGConst {
+	public static final String SVG_LOGGER = "svgSalamandeLogger";
 }

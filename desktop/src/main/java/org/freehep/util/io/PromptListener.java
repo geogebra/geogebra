@@ -11,11 +11,13 @@ import java.io.IOException;
  */
 public interface PromptListener {
 
-    /**
-     * Prompt was found, and can now be read.
-     * 
-     * @param route stream for reading prompt (and more)
-     * @throws IOException if read fails
-     */
-    public void promptFound(RoutedInputStream.Route route) throws IOException;
+	/**
+	 * Prompt was found, and can now be read.
+	 * 
+	 * @param route
+	 *            stream for reading prompt (and more)
+	 * @throws IOException
+	 *             if read fails
+	 */
+	public void promptFound(RoutedInputStream.Route route) throws IOException;
 }

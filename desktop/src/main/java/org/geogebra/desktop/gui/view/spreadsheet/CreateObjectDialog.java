@@ -43,8 +43,8 @@ import org.geogebra.desktop.main.AppD;
  * 
  */
 @SuppressWarnings({ "javadoc", "rawtypes" })
-public class CreateObjectDialog extends InputDialogD implements
-		ListSelectionListener, FocusListener, ICreateObjectListener {
+public class CreateObjectDialog extends InputDialogD
+		implements ListSelectionListener, FocusListener, ICreateObjectListener {
 
 	private MyTableD table;
 	private CreateObjectModel coModel;
@@ -171,8 +171,8 @@ public class CreateObjectDialog extends InputDialogD implements
 		op.add(p, loc.borderWest());
 		op.add(previewPanel, BorderLayout.CENTER);
 
-		previewPanel.setPreferredSize(new Dimension(200,
-				p.getPreferredSize().height));
+		previewPanel.setPreferredSize(
+				new Dimension(200, p.getPreferredSize().height));
 
 		optionPane.add(op, BorderLayout.CENTER);
 
@@ -273,11 +273,11 @@ public class CreateObjectDialog extends InputDialogD implements
 		namePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("Name")),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		previewPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("Preview")));
+		previewPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("Preview")));
 
-		optionsPanel.setBorder(BorderFactory.createTitledBorder(loc
-				.getMenu("Options")));
+		optionsPanel.setBorder(
+				BorderFactory.createTitledBorder(loc.getMenu("Options")));
 
 		wrappedDialog.setTitle(coModel.getTitle());
 
@@ -291,13 +291,13 @@ public class CreateObjectDialog extends InputDialogD implements
 		CardLayout cl = (CardLayout) (cards.getLayout());
 		cl.show(cards, "c" + idx);
 
-
 	}
 
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		ImageIcon latexIcon = new ImageIcon();
-		Font latexFont = new Font(app.getPlainFont().getName(), app
-				.getPlainFont().getStyle(), app.getPlainFont().getSize() - 1);
+		Font latexFont = new Font(app.getPlainFont().getName(),
+				app.getPlainFont().getStyle(),
+				app.getPlainFont().getSize() - 1);
 
 		if (latexStr != null && isLatexDrawable) {
 			app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr,
@@ -407,7 +407,8 @@ public class CreateObjectDialog extends InputDialogD implements
 	public void windowLostFocus(WindowEvent e) {
 		// close the window and set the geo when focus is lost
 		if (wrappedDialog.isVisible()
-		// workaround for IE applets: focus is lost immediately -> dialog closes
+				// workaround for IE applets: focus is lost immediately ->
+				// dialog closes
 				&& !app.isApplet()) {
 			setVisible(false);
 		}

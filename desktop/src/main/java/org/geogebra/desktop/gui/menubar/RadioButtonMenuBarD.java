@@ -20,7 +20,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	
+
 	private ButtonGroup buttonGroup;
 
 	public RadioButtonMenuBarD(App application) {
@@ -64,20 +64,20 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 			}
 		}
 	}
-	
 
 	public void setSelected(int pos) {
-		
-		if (pos == -1){ // unselect all
+
+		if (pos == -1) { // unselect all
 			buttonGroup.clearSelection();
-		}else{
+		} else {
 			Component item = getMenuComponent(pos);
 			if (item instanceof JRadioButtonMenuItem) {
 				((JRadioButtonMenuItem) item).setSelected(true);
 			} else {
-				Log.debug("Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
+				Log.debug(
+						"Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
 			}
 		}
 	}
-	
+
 }

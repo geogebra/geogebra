@@ -139,8 +139,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		String s;
 
 		if (text.endsWith("]")) {
-			if (text.startsWith(s = app.getLocalization().getCommand("LaTeX")
-					+ "[")) {
+			if (text.startsWith(
+					s = app.getLocalization().getCommand("LaTeX") + "[")) {
 
 				// strip off outer command
 				String temp = text.substring(s.length(), text.length() - 1);
@@ -160,9 +160,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					mode = DynamicTextField.MODE_FORMULATEXT;
 				}
 
-			} else if (text.startsWith(s = app.getLocalization().getCommand(
-					"Name")
-					+ "[")) {
+			} else if (text.startsWith(
+					s = app.getLocalization().getCommand("Name") + "[")) {
 
 				// strip off outer command
 				text = text.substring(s.length(), text.length() - 1);
@@ -209,8 +208,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 						sb.append(tf.getText());
 						sb.append(']');
 						sb.append("+\"");
-					} else if (latex
-							|| tf.getMode() == DynamicTextField.MODE_FORMULATEXT) {
+					} else if (latex || tf
+							.getMode() == DynamicTextField.MODE_FORMULATEXT) {
 						sb.append("\"+");
 						sb.append("LaTeX["); // internal name for FormulaText[ ]
 						sb.append(tf.getText());
@@ -524,8 +523,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		void createContextMenu() {
 			contextMenu = new JPopupMenu();
 
-			JCheckBoxMenuItem item = new JCheckBoxMenuItem(app
-					.getLocalization().getMenu("Value"));
+			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
+					app.getLocalization().getMenu("Value"));
 			item.setSelected(mode == MODE_VALUE);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -536,8 +535,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			});
 			contextMenu.add(item);
 
-			item = new JCheckBoxMenuItem(app.getLocalization().getMenu(
-					"Definition"));
+			item = new JCheckBoxMenuItem(
+					app.getLocalization().getMenu("Definition"));
 			item.setSelected(mode == MODE_DEFINITION);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {

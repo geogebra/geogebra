@@ -91,8 +91,8 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 					Log.error("No icon for" + type);
 				}
 				btn.setIcon(icon);
-				btn.setPreferredSize(new Dimension(icon.getIconWidth(), icon
-						.getIconHeight()));
+				btn.setPreferredSize(new Dimension(icon.getIconWidth(),
+						icon.getIconHeight()));
 				btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
@@ -120,9 +120,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		// this.add(titlePanel, BorderLayout.SOUTH);
 		this.wrappedPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 0, 0,
-						SystemColor.controlShadow), BorderFactory
-						.createMatteBorder(0, 0, 1, 0,
-								SystemColor.controlLtHighlight)));
+						SystemColor.controlShadow),
+				BorderFactory.createMatteBorder(0, 0, 1, 0,
+						SystemColor.controlLtHighlight)));
 		// this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
 
@@ -154,24 +154,23 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 		OptionType seltype = propertiesView.getSelectedOptionType();
 		btnOption.setFixedIcon(PropertiesViewD.getTypeIcon(app,
-				propertiesView
-				.getSelectedOptionType()));
-		btnOption.setText(propertiesView.getTypeString(propertiesView
-				.getSelectedOptionType()) + downTriangle);
+				propertiesView.getSelectedOptionType()));
+		btnOption.setText(propertiesView.getTypeString(
+				propertiesView.getSelectedOptionType()) + downTriangle);
 
 		buttonMap.get(seltype).setSelected(true);
 
-		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
-				app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
+		buttonMap.get(OptionType.EUCLIDIAN)
+				.setVisible(app.getGuiManager().showView(App.VIEW_EUCLIDIAN));
 
-		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
-				app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
+		buttonMap.get(OptionType.EUCLIDIAN2)
+				.setVisible(app.getGuiManager().showView(App.VIEW_EUCLIDIAN2));
 
-		buttonMap.get(OptionType.SPREADSHEET).setVisible(
-				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
+		buttonMap.get(OptionType.SPREADSHEET)
+				.setVisible(app.getGuiManager().showView(App.VIEW_SPREADSHEET));
 
-		buttonMap.get(OptionType.CAS).setVisible(
-				app.getGuiManager().showView(App.VIEW_CAS));
+		buttonMap.get(OptionType.CAS)
+				.setVisible(app.getGuiManager().showView(App.VIEW_CAS));
 	}
 
 	/**
@@ -250,8 +249,8 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	 */
 	public void setObjectsToolTip() {
 
-		objectButton.setToolTipText(propertiesView
-				.getTypeString(OptionType.OBJECTS));
+		objectButton.setToolTipText(
+				propertiesView.getTypeString(OptionType.OBJECTS));
 
 	}
 
@@ -264,8 +263,6 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	public void setObjectButtonEnable(boolean flag) {
 		objectButton.setEnabled(flag);
 	}
-
-
 
 	protected static class PropertiesButton extends JToggleButton {
 

@@ -16,29 +16,29 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SetViewportExtEx extends EMFTag {
 
-    private Dimension size;
+	private Dimension size;
 
-    public SetViewportExtEx() {
-        super(11, 1);
-    }
+	public SetViewportExtEx() {
+		super(11, 1);
+	}
 
-    public SetViewportExtEx(Dimension size) {
-        this();
-        this.size = size;
-    }
+	public SetViewportExtEx(Dimension size) {
+		this();
+		this.size = size;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SetViewportExtEx tag = new SetViewportExtEx(emf.readSIZEL());
-        return tag;
-    }
+		SetViewportExtEx tag = new SetViewportExtEx(emf.readSIZEL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeSIZEL(size);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeSIZEL(size);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  size: " + size;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  size: " + size;
+	}
 }

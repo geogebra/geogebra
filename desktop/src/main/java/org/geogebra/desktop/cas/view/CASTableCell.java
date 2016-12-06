@@ -141,11 +141,9 @@ public abstract class CASTableCell extends JPanel {
 		inputPanel.setInput(input);
 		if (cellValue.isUseAsText()) {
 			inputPanel.setCommentColor(
-					GColorD
-					.getAwtColor(cellValue.getObjectColor()));
+					GColorD.getAwtColor(cellValue.getObjectColor()));
 		} else {
-			inputPanel.setCommentColor(GColorD
-					.getAwtColor(GColor.BLACK));
+			inputPanel.setCommentColor(GColorD.getAwtColor(GColor.BLACK));
 		}
 		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());
@@ -159,11 +157,11 @@ public abstract class CASTableCell extends JPanel {
 			String evalCmdLocal = cellValue.getCommandAndComment();
 
 			// #5119
-			outputPanel.setOutput(cellValue
-					.getOutput(StringTemplate.numericDefault), cellValue
-					.getLaTeXOutput(), evalCmdLocal, cellValue.isError(),
-					cellValue.getAlgebraColor(), cellValue.getKernel()
-							.getApplication());
+			outputPanel.setOutput(
+					cellValue.getOutput(StringTemplate.numericDefault),
+					cellValue.getLaTeXOutput(), evalCmdLocal,
+					cellValue.isError(), cellValue.getAlgebraColor(),
+					cellValue.getKernel().getApplication());
 		}
 	}
 

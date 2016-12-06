@@ -15,34 +15,34 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class SelectObject extends EMFTag {
 
-    private int index;
+	private int index;
 
-    public SelectObject() {
-        super(37, 1);
-    }
+	public SelectObject() {
+		super(37, 1);
+	}
 
-    public SelectObject(int index) {
-        this();
-        this.index = index;
-    }
+	public SelectObject(int index) {
+		this();
+		this.index = index;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        SelectObject tag = new SelectObject(emf.readDWORD());
-        return tag;
-    }
+		SelectObject tag = new SelectObject(emf.readDWORD());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeDWORD(index);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeDWORD(index);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  index: 0x"
-                + Integer.toHexString(index);
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  index: 0x"
+				+ Integer.toHexString(index);
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public int getIndex() {
+		return index;
+	}
 }

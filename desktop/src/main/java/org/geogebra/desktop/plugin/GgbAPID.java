@@ -108,7 +108,6 @@ public class GgbAPID extends GgbAPIJre {
 		}
 	}
 
-
 	/**
 	 * Turns showing of error dialogs on (true) or (off). Note: this is
 	 * especially useful together with evalCommand().
@@ -142,9 +141,8 @@ public class GgbAPID extends GgbAPIJre {
 		try {
 			String lowerCase = StringUtil.toLowerCase(strURL);
 			URL url = new URL(strURL);
-			((AppD) app).loadXML(url,
-					lowerCase
-							.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
+			((AppD) app).loadXML(url, lowerCase
+					.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -190,8 +188,8 @@ public class GgbAPID extends GgbAPIJre {
 						try {
 							// draw graphics view into image
 							GBufferedImage img = ((AppD) getApplication())
-									.getEuclidianView1().getExportImage(
-											exportScale, transparent);
+									.getEuclidianView1()
+									.getExportImage(exportScale, transparent);
 
 							// write image to file
 							MyImageIO.write(
@@ -212,14 +210,12 @@ public class GgbAPID extends GgbAPIJre {
 
 	}
 
-
-
 	@Override
 	protected void exportPNGClipboard(boolean transparent, int DPI,
 			double exportScale, EuclidianView ev) {
 		// more control but doesn't paste into eg Paint, Google Docs
-		GraphicExportDialog.exportPNGClipboard(transparent, DPI,
-				exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
+		GraphicExportDialog.exportPNGClipboard(transparent, DPI, exportScale,
+				(AppD) app, (EuclidianViewInterfaceD) ev);
 	}
 
 	@Override
@@ -230,16 +226,15 @@ public class GgbAPID extends GgbAPIJre {
 
 		ImageSelection imgSel = new ImageSelection(
 				GBufferedImageD.getAwtBufferedImage(img));
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(imgSel, null);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel,
+				null);
 	}
 
 	@Override
 	protected String base64encodePNG(boolean transparent, double DPI,
-			double exportScale,
-			EuclidianView ev) {
-		GBufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
-				exportScale, transparent);
+			double exportScale, EuclidianView ev) {
+		GBufferedImage img = ((EuclidianViewInterfaceD) ev)
+				.getExportImage(exportScale, transparent);
 		return base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
 	}
 
@@ -274,8 +269,6 @@ public class GgbAPID extends GgbAPIJre {
 			return null;
 		}
 	}
-
-
 
 	@Override
 	public void clearImage(String label) {
@@ -324,7 +317,6 @@ public class GgbAPID extends GgbAPIJre {
 
 	}
 
-
 	/**
 	 * Returns the dimensions of the real world coordinate system in the
 	 * graphics view as [xmin, ymin, width, height]
@@ -333,9 +325,8 @@ public class GgbAPID extends GgbAPIJre {
 	 */
 	public synchronized Rectangle2D.Double getCoordSystemRectangle() {
 		EuclidianView ev = app.getEuclidianView1();
-		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(), ev.getXmax()
-				- ev.getXmin(), ev.getYmax() - ev.getYmin());
+		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(),
+				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}
 
 }// class GgbAPI
-

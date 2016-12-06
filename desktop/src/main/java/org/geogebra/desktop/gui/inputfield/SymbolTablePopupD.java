@@ -59,8 +59,8 @@ public class SymbolTablePopupD {
 
 		popup = new JPopupMenu();
 		popup.setFocusable(false);
-		popup.setBorder(BorderFactory
-				.createLineBorder(SystemColor.controlShadow));
+		popup.setBorder(
+				BorderFactory.createLineBorder(SystemColor.controlShadow));
 
 		// created in setLabels(), not needed here
 		// createSymbolTable();
@@ -75,7 +75,6 @@ public class SymbolTablePopupD {
 		LocalizationD loc = app.getLocalization();
 
 		String[][] map = TableSymbols.basicSymbolsMap(loc);
-
 
 		symbolTable = new SelectionTableD(app,
 				TableSymbols.basicSymbols(loc, map), -1, 10,
@@ -147,7 +146,7 @@ public class SymbolTablePopupD {
 
 	/**
 	 * Gets the pixel location of the caret. Used to locate the popup.
-	 * */
+	 */
 	private Point getCaretPixelPosition() {
 		int position = textField.getCaretPosition();
 		Rectangle r;
@@ -170,11 +169,13 @@ public class SymbolTablePopupD {
 		if (locateAtFieldEnd) {
 			Dimension d = popup.getPreferredSize();
 			if (openUpwards) {
-				popup.show(textField, textField.getX() + textField.getWidth()
-						- d.width, -d.height);
+				popup.show(textField,
+						textField.getX() + textField.getWidth() - d.width,
+						-d.height);
 			} else {
-				popup.show(textField, textField.getX() + textField.getWidth()
-						- d.width, textField.getY() + textField.getHeight());
+				popup.show(textField,
+						textField.getX() + textField.getWidth() - d.width,
+						textField.getY() + textField.getHeight());
 			}
 		} else {
 			if (openUpwards) {

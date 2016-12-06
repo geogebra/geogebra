@@ -17,34 +17,34 @@ import org.freehep.graphicsio.emf.EMFTag;
  */
 public class RoundRect extends EMFTag {
 
-    private Rectangle bounds;
+	private Rectangle bounds;
 
-    private Dimension corner;
+	private Dimension corner;
 
-    public RoundRect() {
-        super(44, 1);
-    }
+	public RoundRect() {
+		super(44, 1);
+	}
 
-    public RoundRect(Rectangle bounds, Dimension corner) {
-        this();
-        this.bounds = bounds;
-        this.corner = corner;
-    }
+	public RoundRect(Rectangle bounds, Dimension corner) {
+		this();
+		this.bounds = bounds;
+		this.corner = corner;
+	}
 
-    public EMFTag read(int tagID, EMFInputStream emf, int len)
-            throws IOException {
+	public EMFTag read(int tagID, EMFInputStream emf, int len)
+			throws IOException {
 
-        RoundRect tag = new RoundRect(emf.readRECTL(), emf.readSIZEL());
-        return tag;
-    }
+		RoundRect tag = new RoundRect(emf.readRECTL(), emf.readSIZEL());
+		return tag;
+	}
 
-    public void write(int tagID, EMFOutputStream emf) throws IOException {
-        emf.writeRECTL(bounds);
-        emf.writeSIZEL(corner);
-    }
+	public void write(int tagID, EMFOutputStream emf) throws IOException {
+		emf.writeRECTL(bounds);
+		emf.writeSIZEL(corner);
+	}
 
-    public String toString() {
-        return super.toString() + "\n" + "  bounds: " + bounds + "\n"
-                + "  corner: " + corner;
-    }
+	public String toString() {
+		return super.toString() + "\n" + "  bounds: " + bounds + "\n"
+				+ "  corner: " + corner;
+	}
 }

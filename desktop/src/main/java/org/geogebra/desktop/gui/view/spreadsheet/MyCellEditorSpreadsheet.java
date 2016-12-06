@@ -28,7 +28,8 @@ import org.geogebra.desktop.main.AppD;
  * DefaultCellEditor(JTextField)
  * 
  */
-public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusListener {
+public class MyCellEditorSpreadsheet extends DefaultCellEditor
+		implements FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +67,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditorSpreadsheet(Kernel kernel, SpreadsheetController controller) {
+	public MyCellEditorSpreadsheet(Kernel kernel,
+			SpreadsheetController controller) {
 
 		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
 				KeyNavigation.IGNORE));
@@ -76,8 +78,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 		textField = (AutoCompleteTextFieldD) editorComponent;
 		textField.setAutoComplete(enableAutoComplete);
 
-		editorComponent.addKeyListener(new SpreadsheetCellEditorKeyListener(
-				false));
+		editorComponent
+				.addKeyListener(new SpreadsheetCellEditorKeyListener(false));
 		editorComponent.addFocusListener(this);
 
 		DocumentListener documentListener = new DocumentListener() {
@@ -96,8 +98,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 			private void updateFormulaBar(DocumentEvent documentEvent) {
 				if (table.view.getShowFormulaBar()
 						&& (textField.hasFocus() || table.isDragging2))
-					table.view.getFormulaBar().setEditorText(
-							textField.getText());
+					table.view.getFormulaBar()
+							.setEditorText(textField.getText());
 			}
 		};
 		textField.getDocument().addDocumentListener(documentListener);
@@ -178,8 +180,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 	// =======================================================
 	// In-cell Editing Methods
 	// =======================================================
-
-
 
 	public boolean isEditing() {
 		return editing;
@@ -355,8 +355,6 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor implements FocusL
 
 				// update the formula bar after escape
 				table.getView().updateFormulaBar();
-
-
 
 			}
 		}

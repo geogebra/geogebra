@@ -42,11 +42,14 @@ package com.kitfox.svg.xml;
  */
 public interface WritableXMLElement {
 
-    /**
-     * Initializes this element from the passed DOM tree.
-     * @param root - DOM tree to build from
-     * @param docRoot - URL of the document this DOM tree was created from
-     */
-//    public void write(Element root, URL docRoot);
+	/**
+	 * Initializes this element from the passed DOM tree.
+	 * 
+	 * @param root
+	 *            - DOM tree to build from
+	 * @param docRoot
+	 *            - URL of the document this DOM tree was created from
+	 */
+	// public void write(Element root, URL docRoot);
 
 }
