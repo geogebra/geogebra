@@ -240,9 +240,12 @@ public class RadioTreeItemController
 			setFocus(true);
 		}
 
+		JsArray<Touch> touches = event.getTargetTouches().length() == 0
+				? event.getChangedTouches() : event.getTargetTouches();
+
 		boolean active = item.isEditing();
 
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
 		if (editOnTap(active, wrappedEvent)) {
 			return;
