@@ -5,7 +5,6 @@ import java.math.BigInteger;
 import java.math.MathContext;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public class BigPolynomial implements Cloneable {

@@ -12,16 +12,24 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 
+/** no GUI implementation of EV */
 public class EuclidianViewNoGui extends EuclidianView {
 
 	private GColor backgroundColor = GColor.WHITE;
 
+	/**
+	 * @param ec
+	 *            controller
+	 * @param viewNo
+	 *            view number
+	 * @param settings
+	 *            settings
+	 */
 	public EuclidianViewNoGui(EuclidianController ec, int viewNo,
 			EuclidianSettings settings) {
 		super(ec, viewNo, settings);

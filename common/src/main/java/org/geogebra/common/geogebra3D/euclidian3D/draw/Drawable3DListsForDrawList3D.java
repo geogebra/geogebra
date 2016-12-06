@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 /**
  * list of drawables stored by lists
