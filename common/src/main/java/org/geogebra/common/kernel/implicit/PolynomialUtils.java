@@ -276,7 +276,14 @@ public class PolynomialUtils {
 		return err < Kernel.STANDARD_PRECISION;
 	}
 
-	public static void checkNumericCoeff(ExpressionValue[][] coeff,
+	/**
+	 * @param coeff
+	 *            coefficients of implicit poly
+	 * @param simplify
+	 *            whether to replace by evaluation
+	 * @return whether all values are numeric
+	 */
+	public static boolean checkNumericCoeff(ExpressionValue[][] coeff,
 			boolean simplify) {
 		for (int i = 0; i < coeff.length; i++) {
 			for (int j = 0; j < coeff[i].length; j++) {
@@ -295,13 +302,12 @@ public class PolynomialUtils {
 
 					// needed for GWT (ClassCastException not thrown)
 					if (!(eval instanceof NumberValue)) {
-						throw new RuntimeException("not a NumberValue");
+						return false;
 					}
-
-					((NumberValue) eval).getDouble();
 				}
 			}
 		}
+		return true;
 
 	}
 

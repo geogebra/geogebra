@@ -1059,7 +1059,7 @@ public class AlgebraProcessor {
 
 				// if forGeo is a slider, the value might be out of range
 				// in which case we mustn't set the definition
-				if (forGeo.getDouble() == nv.getDouble()) {
+				if (Kernel.isEqual(forGeo.getDouble(), nv.getDouble())) {
 					forGeo.setDefinition(en);
 				}
 			}

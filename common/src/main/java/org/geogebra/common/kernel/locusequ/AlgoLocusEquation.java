@@ -346,7 +346,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			 * Don't do further computations until CAS is ready or there were
 			 * unimplemented algos or some other issues:
 			 */
-			throw new Exception();
+			Log.debug("Cannot compute implicit curve: " + proofresult);
+			return null;
 		}
 		Set<Set<Polynomial>> eliminationIdeal;
 

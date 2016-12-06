@@ -44,8 +44,8 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		FunctionSoundW.INSTANCE.playFunction(geoFunction, min, max);
 	}
 
-	public void playFile(String url) {
-
+	public void playFile(String url0) {
+		String url = url0;
 		// eg PlaySound["#12345"] to play material 12345 from GeoGebraTube
 		boolean fmtMp3 = url.startsWith("#");
 		boolean fmtMidi = url.startsWith("@");

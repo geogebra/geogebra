@@ -1248,7 +1248,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			char charPressed = Character.valueOf((char) e.getNativeKeyCode());
 
 			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
-			        && !(ctrlC) && !(e.getNativeKeyCode() == GWTKeycodes.KEY_A)) {
+					&& !(ctrlC)
+					&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
 				clearSelection();
 			}
 

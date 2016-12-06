@@ -188,10 +188,13 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 						break;
 					int l = 0;
 					if (PolynomialUtils.getDegree(pk) < 0) {
-						if (r == Integer.MAX_VALUE) // if highest degree
-													// polynomial is zero,
-													// something is wrong.
-							throw new Error("Zero Polynomial");
+						// if highest degree
+						// polynomial is zero,
+						// something is wrong.
+						if (r == Integer.MAX_VALUE) {
+							g.setUndefined();
+							return;
+						}
 						l = r - k;
 					} else {
 						while (Kernel.isZero(rk)) {
