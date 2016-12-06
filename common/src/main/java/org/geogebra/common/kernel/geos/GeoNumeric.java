@@ -533,6 +533,30 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setValue(x, true);
 	}
 
+	final public double restrictToSliderValues(double val) {
+		double min = getIntervalMin();
+		double max = getIntervalMax();
+
+		if (val > max) {
+			val = max;
+		} else {
+			if (val < min) {
+				val = min;
+			}
+		}
+
+		// round to animation step scale
+		val = Kernel.roundToScale(val - min, getAnimationStep()) + min;
+
+		if (getAnimationStep() > Kernel.MIN_PRECISION) {
+			// round to decimal fraction, e.g. 2.800000000001 to 2.8
+			val = Kernel.checkDecimalFraction(val);
+		}
+
+		return val;
+
+	}
+
 	/**
 	 * Sets value of the number
 	 * 

@@ -458,13 +458,29 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			// only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
+
+				GeoNumeric num = (GeoNumeric) xvar;
+
 				double newXval = xvar.getDouble() - inhomX + endPosition.getX();
-				((GeoNumeric) xvar).setValue(newXval);
+
+				if (num.isSlider()) {
+					newXval = num.restrictToSliderValues(newXval);
+				}
+
+				num.setValue(newXval);
 			}
 
 			if (xvar != yvar && yvar instanceof GeoNumeric) {
+
+				GeoNumeric num = (GeoNumeric) yvar;
+
 				double newYval = yvar.getDouble() - inhomY + endPosition.getY();
-				((GeoNumeric) yvar).setValue(newYval);
+
+				if (num.isSlider()) {
+					newYval = num.restrictToSliderValues(newYval);
+				}
+
+				num.setValue(newYval);
 			}
 		}
 
