@@ -16,7 +16,6 @@
  */
 package org.apache.commons.collections15.collection;
 
-import java.io.IOException;
 //import java.io.ObjectInputStream;
 //import java.io.ObjectOutputStream;
 import java.io.Serializable;

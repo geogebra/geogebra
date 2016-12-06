@@ -17,9 +17,9 @@
 
 package org.apache.commons.math.optimization;
 
-import org.geogebra.common.util.Cloner;
-
 import java.io.Serializable;
+
+import org.geogebra.common.util.Cloner;
 
 /**
  * This class holds a point and the vectorial value of an objective function at this point.

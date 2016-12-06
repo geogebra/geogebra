@@ -17,9 +17,17 @@
 package org.apache.commons.collections15;
 
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
 
-import org.apache.commons.collections15.collection.AbstractCollectionDecorator;
 import org.apache.commons.collections15.collection.UnmodifiableCollection;
 
 

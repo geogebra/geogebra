@@ -17,11 +17,8 @@
 
 package org.apache.commons.math.ode.sampling;
 
-import org.geogebra.common.util.Cloner;
-
-import java.io.IOException;
-
 import org.apache.commons.math.ode.DerivativeException;
+import org.geogebra.common.util.Cloner;
 
 /** This abstract class represents an interpolator over the last step
  * during an ODE integration.

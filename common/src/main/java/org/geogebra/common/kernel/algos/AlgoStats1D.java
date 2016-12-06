@@ -17,10 +17,10 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 
 /**
  * Mean, variance, sum, sum of squares, standard deviation of a list adapted

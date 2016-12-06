@@ -17,11 +17,10 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-import org.geogebra.common.util.Cloner;
-
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.DerivativeException;
 import org.apache.commons.math.ode.sampling.StepInterpolator;
+import org.geogebra.common.util.Cloner;
 
 /**
  * This class represents an interpolator over the last step during an

@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.linear;
 
-import org.geogebra.common.util.Cloner;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -30,6 +28,7 @@ import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.MathUnsupportedOperationException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.geogebra.common.util.Cloner;
 
 /**
  * This class provides default basic implementations for many methods in the

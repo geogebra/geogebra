@@ -16,13 +16,12 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-import org.geogebra.common.util.Cloner;
-
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.DimensionMismatchException;
 import org.apache.commons.math.exception.NotPositiveException;
 import org.apache.commons.math.exception.NullArgumentException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.geogebra.common.util.Cloner;
 
 /**
  * Abstract base class for all implementations of the

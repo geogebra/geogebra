@@ -17,13 +17,12 @@
 
 package org.apache.commons.math.linear;
 
-import org.geogebra.common.util.Cloner;
-
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.MaxIterationsExceededException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
+import org.geogebra.common.util.Cloner;
 
 /**
  * Calculates the eigen decomposition of a real <strong>symmetric</strong>

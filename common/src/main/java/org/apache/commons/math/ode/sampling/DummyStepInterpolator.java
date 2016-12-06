@@ -19,8 +19,6 @@ package org.apache.commons.math.ode.sampling;
 
 import org.geogebra.common.util.Cloner;
 
-import java.io.IOException;
-
 /** This class is a step interpolator that does nothing.
  *
  * <p>This class is used when the {@link StepHandler "step handler"}

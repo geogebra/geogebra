@@ -1,5 +1,7 @@
 package org.geogebra.web.web.cas.view;
 
+import java.awt.event.ActionEvent;
+
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;

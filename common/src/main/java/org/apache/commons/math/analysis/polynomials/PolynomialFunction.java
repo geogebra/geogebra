@@ -16,8 +16,6 @@
  */
 package org.apache.commons.math.analysis.polynomials;
 
-import org.geogebra.common.util.Cloner;
-
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -26,6 +24,7 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.NoDataException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.geogebra.common.util.Cloner;
 
 /**
  * Immutable representation of a real polynomial function with real coefficients.

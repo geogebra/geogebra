@@ -1,14 +1,14 @@
 package org.geogebra.common.gui.inputbar;
 
-import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.LowerCaseDictionary;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.LowerCaseDictionary;
 
 public class InputBarHelpPanel {
 

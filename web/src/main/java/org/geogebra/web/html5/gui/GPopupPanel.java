@@ -18,6 +18,8 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.web.web.gui.util.PopupPanel;
+
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;

@@ -17,9 +17,6 @@
 
 package org.apache.commons.math;
 
-import org.apache.commons.math.ConvergenceException;
-
-
 /**
  * Error thrown when a numerical computation exceeds its allowed
  * number of functions evaluations.

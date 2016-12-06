@@ -17,13 +17,12 @@
 
 package org.apache.commons.math.linear;
 
-import org.geogebra.common.util.Cloner;
-
 import java.util.Arrays;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
+import org.geogebra.common.util.Cloner;
 
 
 /**

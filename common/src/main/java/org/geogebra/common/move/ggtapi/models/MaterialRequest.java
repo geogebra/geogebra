@@ -1,12 +1,12 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.util.debug.Log;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeSet;
+
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests

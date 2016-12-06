@@ -17,8 +17,6 @@
 
 package org.apache.commons.math.optimization.general;
 
-import org.geogebra.common.util.Cloner;
-
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MaxEvaluationsExceededException;
 import org.apache.commons.math.MaxIterationsExceededException;
@@ -35,6 +33,7 @@ import org.apache.commons.math.optimization.SimpleVectorialValueChecker;
 import org.apache.commons.math.optimization.VectorialConvergenceChecker;
 import org.apache.commons.math.optimization.VectorialPointValuePair;
 import org.apache.commons.math.util.FastMath;
+import org.geogebra.common.util.Cloner;
 
 /**
  * Base class for implementing least squares optimizers.
