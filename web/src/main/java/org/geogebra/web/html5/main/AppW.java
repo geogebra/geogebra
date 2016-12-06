@@ -2384,7 +2384,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void closePopups() {
-		Log.debug("close popups");
 		justClosedPopup = false;
 		for (Widget widget : popups) {
 			justClosedPopup = true;
