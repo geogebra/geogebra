@@ -3,11 +3,11 @@ package org.geogebra.common.kernel.scripting;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.main.error.ErrorHelper;
 
 /**
  * ParseToNumber
@@ -25,7 +25,10 @@ public class CmdParseToNumber extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
+		if (!info.isScripting()) {
+			return new GeoElement[0];
+		}
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
@@ -40,9 +43,8 @@ public class CmdParseToNumber extends CommandProcessor {
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
-					num.setValue(kernelA.getAlgebraProcessor()
-							.evaluateToNumeric(str, ErrorHelper.silent())
-							.getDouble());
+					kernelA.getAlgebraProcessor().evaluateToDouble(str, true,
+							num);
 					num.updateCascade();
 				} catch (Exception e) {
 					num.setUndefined();
