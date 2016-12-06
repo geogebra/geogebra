@@ -60,7 +60,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 	// Use the default (non-validating) parser
 	// private static XMLReaderFactory factory;
 
-
 	private QDParser xmlParser;
 
 	public MyXMLioJre(Kernel kernel, Construction cons) {
@@ -71,8 +70,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 	final protected void createXMLParser() {
 		xmlParser = new QDParser();
 	}
-
-
 
 	/**
 	 * Reads zipped file from input stream that includes the construction saved
@@ -90,8 +87,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 	@Override
 	public final void readZipFromString(byte[] zipFile) throws Exception {
 
-		ZipInputStream zip = new ZipInputStream(new ByteArrayInputStream(
-				zipFile));
+		ZipInputStream zip = new ZipInputStream(
+				new ByteArrayInputStream(zipFile));
 
 		readZip(zip, false);
 	}
@@ -102,7 +99,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 */
 	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
 			throws Exception;
-
 
 	/**
 	 * Handles the XML file stored in buffer.
@@ -121,9 +117,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		bs.close();
 	}
 
-
-
-
 	/**
 	 * Reads from a zipped input stream that includes only the construction
 	 * saved in xml format.
@@ -136,8 +129,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 		if (entry != null && entry.getName().equals(XML_FILE)) {
 			// process xml file
 			kernel.getConstruction().setFileLoading(true);
-			doParseXML(new XMLStreamInputStream(zip), true, false, true,
-					true, false);
+			doParseXML(new XMLStreamInputStream(zip), true, false, true, true,
+					false);
 			kernel.getConstruction().setFileLoading(false);
 			zip.close();
 		} else {
@@ -146,8 +139,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 
 	}
-
-
 
 	/**
 	 * Creates a zipped file containing the construction and all settings saved
@@ -169,8 +160,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 	 * Creates a zipped file containing the construction and all settings saved
 	 * in xml format plus all external images. GeoGebra File Format.
 	 */
-	final public void writeGeoGebraFile(OutputStream os, boolean includeThumbail)
-			throws IOException {
+	final public void writeGeoGebraFile(OutputStream os,
+			boolean includeThumbail) throws IOException {
 		boolean isSaving = kernel.isSaving();
 		kernel.setSaving(true);
 
@@ -208,7 +199,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			osw.write(kernel.getLibraryJavaScript());
 			osw.flush();
 			zip.closeEntry();
-			
+
 			// write XML file for defaults
 			StringBuilder sb2d = new StringBuilder();
 			StringBuilder sb3d = null;
@@ -227,7 +218,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 				osw.flush();
 				zip.closeEntry();
 			}
-
 
 			// write XML file for construction
 			zip.putNextEntry(new ZipEntry(XML_FILE));
@@ -287,12 +277,13 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Writes all images used in construction to zip.
 	 */
-	private void writeConstructionImages(Construction cons, ZipOutputStream zip) {
+	private void writeConstructionImages(Construction cons,
+			ZipOutputStream zip) {
 		writeConstructionImages(cons, zip, "");
 	}
 
-	private void writeConstructionImages(Construction cons,
-			ZipOutputStream zip, String filePath) {
+	private void writeConstructionImages(Construction cons, ZipOutputStream zip,
+			String filePath) {
 		// save all GeoImage images
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
@@ -336,8 +327,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 				for (int i = 0; i < num; i++) {
 					k = i + 1;
 					if (((AlgoBarChart) algo).getBarImage(k) != null) {
-						geo.setImageFileName(((AlgoBarChart) algo)
-								.getBarImage(k));
+						geo.setImageFileName(
+								((AlgoBarChart) algo).getBarImage(k));
 						writeImageToZip(zip,
 								((AlgoBarChart) algo).getBarImage(k),
 								(MyImageJre) geo.getFillImage());
@@ -377,7 +368,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 	/**
 	 * Writes all images used in the given macros to zip.
 	 */
-	private void writeMacroImages(ArrayList<Macro> macros, ZipOutputStream zip) {
+	private void writeMacroImages(ArrayList<Macro> macros,
+			ZipOutputStream zip) {
 		writeMacroImages(macros, zip, "");
 	}
 
@@ -389,7 +381,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			writeConstructionImages(macro.getMacroConstruction(), zip, filePath);
+			writeConstructionImages(macro.getMacroConstruction(), zip,
+					filePath);
 
 			// save macro icon
 			String fileName = macro.getIconFileName();
@@ -415,7 +408,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 		writeImageToStream(zip, fileName, img);
 	}
-
 
 	final public void writeImageToStream(OutputStream os, String fileName,
 			MyImageJre img) {

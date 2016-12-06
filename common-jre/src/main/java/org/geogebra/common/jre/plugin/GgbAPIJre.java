@@ -135,15 +135,15 @@ public abstract class GgbAPIJre extends GgbAPI {
 		JSONObject result = new JSONObject();
 		ArrayList<Assignment> parts = ex.getParts();
 		try {
-		for (Assignment part : parts) {
-			JSONObject partresult = new JSONObject();
-			result.put(part.getDisplayName(), partresult);
-			partresult.put("result", part.getResult().name());
-			String hint = part.getHint();
-			hint = hint == null ? "" : hint;
-			partresult.put("hint", hint);
-			partresult.put("fraction", part.getFraction());
-		}
+			for (Assignment part : parts) {
+				JSONObject partresult = new JSONObject();
+				result.put(part.getDisplayName(), partresult);
+				partresult.put("result", part.getResult().name());
+				String hint = part.getHint();
+				hint = hint == null ? "" : hint;
+				partresult.put("hint", hint);
+				partresult.put("fraction", part.getFraction());
+			}
 		} catch (Exception e) {
 			// how?
 		}

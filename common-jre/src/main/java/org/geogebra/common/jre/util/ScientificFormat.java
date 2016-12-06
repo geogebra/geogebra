@@ -26,7 +26,8 @@ import org.geogebra.common.util.ScientificFormatAdapter;
  *          $
  */
 
-public class ScientificFormat extends Format implements ScientificFormatAdapter {
+public class ScientificFormat extends Format
+		implements ScientificFormatAdapter {
 	/**
 	 * The number of significant digits the number is formatted to is recorded
 	 * by sigDigit. The maximum width allowed for the returned String is
@@ -191,8 +192,8 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 		for (int i = 1; i < sigDig; i++)
 			buffer.append('0');
 		buffer.append("E0");
-		return new DecimalFormat(buffer.toString(), new DecimalFormatSymbols(
-				Locale.US));
+		return new DecimalFormat(buffer.toString(),
+				new DecimalFormatSymbols(Locale.US));
 	}
 
 	/**
@@ -214,7 +215,8 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 			return preliminaryResult;
 
 		int ePos = preliminaryResult.indexOf('E');
-		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1)) + 1;
+		int exponent = Integer.parseInt(preliminaryResult.substring(ePos + 1))
+				+ 1;
 		if (exponent > maxWidth)
 			return preliminaryResult;
 		if (exponent < -maxWidth + sigDig + 1)
@@ -223,8 +225,9 @@ public class ScientificFormat extends Format implements ScientificFormatAdapter 
 		// We need to fix up the result
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
-		StringBuffer result = new StringBuffer(preliminaryResult.substring(
-				sign, sign + 1) + preliminaryResult.substring(sign + 2, ePos));
+		StringBuffer result = new StringBuffer(
+				preliminaryResult.substring(sign, sign + 1)
+						+ preliminaryResult.substring(sign + 2, ePos));
 
 		if (exponent >= sigDig) {
 			for (int i = sigDig; i < exponent; i++)

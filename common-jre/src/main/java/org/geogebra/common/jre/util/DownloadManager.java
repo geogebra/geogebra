@@ -28,8 +28,7 @@ public class DownloadManager {
 	/**
 	 * Copies or downloads url to destination file.
 	 */
-	public static void copyURLToFile(URL src, File dest)
-			throws Exception {
+	public static void copyURLToFile(URL src, File dest) throws Exception {
 		BufferedInputStream in = null;
 		FileOutputStream out = null;
 		try {
@@ -92,6 +91,5 @@ public class DownloadManager {
 			throw e;
 		}
 	}
-
 
 }

@@ -28,7 +28,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	public LocalizationJre(int dimension, int maxFigures) {
-		super(dimension,maxFigures);
+		super(dimension, maxFigures);
 	}
 
 	/**
@@ -179,7 +179,6 @@ public abstract class LocalizationJre extends Localization {
 		return ret;
 	}
 
-
 	private void initSymbolResourceBundle() {
 		rbsymbol = createBundle(getSymbolRessourcePath(), currentLocale);
 	}
@@ -214,8 +213,6 @@ public abstract class LocalizationJre extends Localization {
 			rbsymbol = createBundle(getSymbolRessourcePath(), currentLocale);
 		}
 	}
-
-
 
 	/**
 	 * @return whether properties bundles were initiated (at least plain)
@@ -302,8 +299,8 @@ public abstract class LocalizationJre extends Localization {
 			Enumeration<String> enumer = rbcolors.getKeys();
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
-				if (str.equals(StringUtil.removeSpaces(StringUtil
-						.toLowerCase(rbcolors.getString(key))))) {
+				if (str.equals(StringUtil.removeSpaces(
+						StringUtil.toLowerCase(rbcolors.getString(key))))) {
 					return key;
 				}
 			}

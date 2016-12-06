@@ -31,8 +31,8 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 	public void setEmpty() {
 		isEmpty = true;
 	}
-	
-	public void allocate(int length){
+
+	public void allocate(int length) {
 
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.capacity() < length) {
@@ -40,19 +40,19 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 		} else {
 			impl.rewind();
 		}
-		
+
 		impl.limit(length);
-		
+
 	}
-	
-	public void setLimit(int length){
+
+	public void setLimit(int length) {
 		impl.limit(length);
 		currentLength = length;
-		
+
 		impl.rewind();
 		isEmpty = false;
 	}
-	
+
 	public void put(short value) {
 		impl.put(value);
 	}

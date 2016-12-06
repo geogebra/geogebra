@@ -109,8 +109,6 @@ public abstract class CASgiacJre extends CASgiac {
 			// function.definitionString);
 		}
 
-
-
 		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
 		giac._eval(g, C);
 
@@ -157,7 +155,8 @@ public abstract class CASgiacJre extends CASgiac {
 	abstract protected boolean useThread();
 
 	@Override
-	protected String evaluate(String exp, long timeoutMillis0) throws Throwable {
+	protected String evaluate(String exp, long timeoutMillis0)
+			throws Throwable {
 
 		String ret;
 		// Log.debug("giac input: " + exp);
@@ -246,8 +245,8 @@ public abstract class CASgiacJre extends CASgiac {
 									// take kernel from cmd, in case macro
 									// kernel matters (?)
 									cmd.getKernel());
-							CASAsyncFinished(inVE, result, null, command,
-									input, cell);
+							CASAsyncFinished(inVE, result, null, command, input,
+									cell);
 						} catch (Throwable exception) {
 							Log.debug("exception handling ...");
 							exception.printStackTrace();
@@ -297,6 +296,5 @@ public abstract class CASgiacJre extends CASgiac {
 			}
 		}
 	}
-
 
 }
