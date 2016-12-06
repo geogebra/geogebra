@@ -2,6 +2,7 @@ package org.geogebra.desktop.awt;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
@@ -73,8 +74,11 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	public GPoint2D transform(GPoint2D p, GPoint2D p2) {
-		at.transform(((GPoint2DD) p).getAwtPoint2D(),
-				((GPoint2DD) p2).getAwtPoint2D());
+		Point2D point = GPoint2DD.getAwtPoint2D(p);
+		Point2D point2 = GPoint2DD.getAwtPoint2D(p2);
+		at.transform(point, point2);
+		p2.setX(point2.getX());
+		p2.setY(point2.getY());
 		return p2;
 	}
 
