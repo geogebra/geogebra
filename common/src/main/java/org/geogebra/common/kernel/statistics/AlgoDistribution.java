@@ -305,7 +305,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 *            parameter alpha
 	 * @return gamma distribution
 	 */
-	protected GammaDistribution getGammaDistribution(double param, double param2) {
+	protected GammaDistribution getGammaDistribution(double param,
+			double param2) {
 		if (gamma == null || gamma.getBeta() != param2
 				|| gamma.getAlpha() != param)
 			gamma = new GammaDistributionImpl(param, param2);
@@ -380,7 +381,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 *            prob. of success
 	 * @return Pascal distribution
 	 */
-	protected PascalDistribution getPascalDistribution(int param, double param2) {
+	protected PascalDistribution getPascalDistribution(int param,
+			double param2) {
 		if (pascal == null || pascal.getNumberOfSuccesses() != param
 				|| pascal.getProbabilityOfSuccess() != param2)
 			pascal = new PascalDistributionImpl(param, param2);
@@ -458,7 +460,5 @@ public abstract class AlgoDistribution extends AlgoElement {
 			zipf = new ZipfDistributionImpl(param, param2);
 		return zipf;
 	}
-
-	
 
 }

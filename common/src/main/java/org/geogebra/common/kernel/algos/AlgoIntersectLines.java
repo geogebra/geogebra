@@ -43,8 +43,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoIntersectLines extends AlgoIntersectAbstract implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
+public class AlgoIntersectLines extends AlgoIntersectAbstract
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
 		RestrictionAlgoForLocusEquation {
 
 	private GeoLine g, h; // input
@@ -124,8 +124,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements
 		// test the intersection point
 		// this is needed for the intersection of segments
 		if (S.isDefined()) {
-			if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION) && h
-					.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)))
+			if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)
+					&& h.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)))
 				S.setUndefined();
 		}
 	}
@@ -217,7 +217,8 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements
 		 * 
 		 * See also AlgoIntersectLineConic.
 		 */
-		if (g != null && h != null /* && !g.isGeoSegment() && !h.isGeoSegment() */) {
+		if (g != null
+				&& h != null /* && !g.isGeoSegment() && !h.isGeoSegment() */) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[2];
 				botanaVars[0] = new Variable();

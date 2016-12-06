@@ -109,18 +109,19 @@ public class AlgoKeepIf extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
 				if (geo.isGeoNumeric()) {
-					if (boolFun.evaluateBoolean(((GeoNumeric) geo).getValue())) {
+					if (boolFun
+							.evaluateBoolean(((GeoNumeric) geo).getValue())) {
 						outputList.add(geo.copyInternal(cons));
 					}
 				} else {
-					ExpressionNode ex = boolFun.getFunction()
-							.getExpression().deepCopy(kernel);
+					ExpressionNode ex = boolFun.getFunction().getExpression()
+							.deepCopy(kernel);
 					ex = ex.replace(var,
 							geo.evaluate(StringTemplate.defaultTemplate))
 							.wrap();
 					if (((MyBoolean) ex
 							.evaluate(StringTemplate.defaultTemplate))
-							.getBoolean()) {
+									.getBoolean()) {
 						outputList.add(geo.copyInternal(cons));
 					}
 				}

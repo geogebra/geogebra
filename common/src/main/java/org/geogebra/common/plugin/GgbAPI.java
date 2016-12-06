@@ -163,7 +163,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			boolean includesNumericCommand = false;
 			HashSet<Command> commands = new HashSet<Command>();
-			
+
 			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
 			if (!commands.isEmpty()) {
@@ -171,15 +171,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					String cmdName = cmd.getName();
 					// Numeric used
 					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName) && cmd
-									.getArgumentNumber() > 1);
+							|| ("Numeric".equals(cmdName)
+									&& cmd.getArgumentNumber() > 1);
 				}
 			}
 
-			ret = f.getOutputValidExpression() != null ? f
-					.getOutputValidExpression().toString(
-							StringTemplate.numericDefault) : f
-					.getOutput(StringTemplate.testTemplate);
+			ret = f.getOutputValidExpression() != null
+					? f.getOutputValidExpression()
+							.toString(StringTemplate.numericDefault)
+					: f.getOutput(StringTemplate.testTemplate);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -222,8 +222,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		StringBuilder ret = new StringBuilder();
 
 		if (cmdString.indexOf('\n') == -1) {
-			result = kernel.getAlgebraProcessor().processAlgebraCommand(
-					cmdString, false);
+			result = kernel.getAlgebraProcessor()
+					.processAlgebraCommand(cmdString, false);
 			// return success
 			if (result == null) {
 				kernel.setUseInternalCommandNames(oldVal);
@@ -537,7 +537,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			EuclidianView ev = app.getEuclidianView1();
 			if (geo.isVisibleInView(ev.getViewID())
 					&& app.hasEuclidianView2EitherShowingOrNot(1)
-					&& geo.isVisibleInView(app.getEuclidianView2(1).getViewID())) {
+					&& geo.isVisibleInView(
+							app.getEuclidianView2(1).getViewID())) {
 				Log.debug("EV2");
 				// ev = app.getEuclidianView2();
 			}
@@ -581,8 +582,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return "";
-		return "#"
-				+ StringUtil.toHexString(geo.getObjectColor());
+		return "#" + StringUtil.toHexString(geo.getObjectColor());
 	}
 
 	public synchronized int getLineThickness(String objName) {
@@ -592,7 +592,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.getLineThickness();
 	}
 
-	public synchronized void setLineThickness(String objName, int lineThickness) {
+	public synchronized void setLineThickness(String objName,
+			int lineThickness) {
 		int thickness = lineThickness;
 		if (thickness == -1)
 			thickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
@@ -685,7 +686,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// kernel.getGeoGebraCAS().getCurrentCAS().initCAS();
 			kernel.refreshCASCommands();
 
-			// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+			// Don't remove this. It is needed for testing the web platform.
+			// (String match is assumed.)
 			Log.debug("all CAS up");
 
 			kernel.notifyRepaint();
@@ -705,8 +707,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		kernel.getApplication().setUseTransparentCursorWhenDragging(
-				hideCursorWhenDragging);
+		kernel.getApplication()
+				.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
 	}
 
 	public boolean isAnimationRunning() {
@@ -922,9 +924,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo.isGeoText()) {
 			return ((GeoText) geo).getTextString();
 		}
-		
+
 		if (geo.isGeoCasCell()) {
-			return ((GeoCasCell)geo).getOutput(StringTemplate.numericDefault);
+			return ((GeoCasCell) geo).getOutput(StringTemplate.numericDefault);
 		}
 
 		return geo.getAlgebraDescriptionDefault();
@@ -966,7 +968,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return getCommandString(objName, true);
 	}
 
-	public synchronized String getCommandString(String objName, boolean localize) {
+	public synchronized String getCommandString(String objName,
+			boolean localize) {
 
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
@@ -976,12 +979,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					localize ? StringTemplate.defaultTemplate
 							: StringTemplate.noLocalDefault);
 		}
-		return geo
-				.getDefinition(localize ? StringTemplate.defaultTemplate
-						: StringTemplate.noLocalDefault);
+		return geo.getDefinition(localize ? StringTemplate.defaultTemplate
+				: StringTemplate.noLocalDefault);
 	}
 
-	public synchronized String getCaption(String objName, boolean substituteVars) {
+	public synchronized String getCaption(String objName,
+			boolean substituteVars) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return "";
@@ -1070,8 +1073,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * does not have a value.
 	 */
 	public synchronized double getValue(String objName) {
-		GeoNumberValue geo = kernel.getAlgebraProcessor().evaluateToNumeric(
-				objName, ErrorHelper.silent());
+		GeoNumberValue geo = kernel.getAlgebraProcessor()
+				.evaluateToNumeric(objName, ErrorHelper.silent());
 		if (geo == null)
 			return 0;
 
@@ -1090,8 +1093,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 
-
-		CmdSetValue.setValue2(geo,new GeoNumeric(kernel.getConstruction(), x));
+		CmdSetValue.setValue2(geo, new GeoNumeric(kernel.getConstruction(), x));
 
 		/*
 		 * if (geo.isGeoNumeric()) { ((GeoNumeric) geo).setValue(x);
@@ -1121,8 +1123,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		Construction cons = kernel.getConstruction();
 
-		CmdSetValue.setValue3(kernel, (GeoList) geo, (int) x, new GeoNumeric(
-				cons, y));
+		CmdSetValue.setValue3(kernel, (GeoList) geo, (int) x,
+				new GeoNumeric(cons, y));
 
 	}
 
@@ -1177,11 +1179,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * Shows or hides the x- and y-axis of the coordinate system in the graphics
 	 * window.
 	 */
-	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {
-		app.getEuclidianView1().setShowAxis(
-				EuclidianViewInterfaceCommon.AXIS_X, xVisible, false);
-		app.getEuclidianView1().setShowAxis(
-				EuclidianViewInterfaceCommon.AXIS_Y, yVisible, false);
+	public synchronized void setAxesVisible(boolean xVisible,
+			boolean yVisible) {
+		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_X,
+				xVisible, false);
+		app.getEuclidianView1().setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
+				yVisible, false);
 		kernel.notifyRepaint();
 	}
 
@@ -1199,6 +1202,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		evs.endBatch();
 		kernel.notifyRepaint();
 	}
+
 	/**
 	 * If the origin is off screen and the axes are visible, GeoGebra shows
 	 * coordinates of the upper-left and bottom-right screen corner. This method
@@ -1212,8 +1216,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.getEuclidianView1()
 				.setAxesCornerCoordsVisible(showAxesCornerCoords);
 		if (app.hasEuclidianView2(1)) {
-			app.getEuclidianView2(1).setAxesCornerCoordsVisible(
-					showAxesCornerCoords);
+			app.getEuclidianView2(1)
+					.setAxesCornerCoordsVisible(showAxesCornerCoords);
 		}
 	}
 
@@ -1321,9 +1325,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	public String getPenColor() {
-		return "#"
-				+ StringUtil.toHexString(app.getActiveEuclidianView()
-						.getEuclidianController().getPen().getPenColor());
+		return "#" + StringUtil.toHexString(app.getActiveEuclidianView()
+				.getEuclidianController().getPen().getPenColor());
 	}
 
 	public synchronized double getListValue(String objName, int index) {
@@ -1390,8 +1393,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return JSON string describing the view
 	 */
 	public String getViewProperties(int view) {
-		EuclidianView ev = view == 2 ? app.getEuclidianView2(1) : app
-				.getEuclidianView1();
+		EuclidianView ev = view == 2 ? app.getEuclidianView2(1)
+				: app.getEuclidianView1();
 		StringBuilder sb = new StringBuilder(100);
 		sb.append("{\"invXscale\":");
 		sb.append(ev.getInvXscale());
@@ -1476,12 +1479,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 					StringTemplate.numericDefault, kernel);
 		} catch (Throwable t) {
 			Log.debug(t.toString());
-		}// try-catch
+		} // try-catch
 
 		// useful for debugging JavaScript
 		if (debugOutput)
-			Log.debug("evalGeoGebraCAS\n input:" + cmdString + "\n"
-					+ "output: " + ret);
+			Log.debug("evalGeoGebraCAS\n input:" + cmdString + "\n" + "output: "
+					+ ret);
 		return ret;
 	}
 
@@ -1527,10 +1530,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// the exam setting is certainly false
 		if (code.startsWith("<")) {
 			try {
-				app.getXMLio()
-						.parsePerspectiveXML(
-						"<geogebra format=\"5.0\"><gui><perspectives>"
-										+ code
+				app.getXMLio().parsePerspectiveXML(
+						"<geogebra format=\"5.0\"><gui><perspectives>" + code
 								+ "</perspectives></gui></geogebra>");
 				app.getGuiManager().updateGUIafterLoadFile(true, false);
 			} catch (Exception e) {
@@ -1561,8 +1562,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		GeoElement geo = kernel.lookupLabel(label);
 		if (geo instanceof GeoAxisND) {
-			EuclidianSettings evs = app.getSettings().getEuclidian(
-					view < 0 ? 3 : view);
+			EuclidianSettings evs = app.getSettings()
+					.getEuclidian(view < 0 ? 3 : view);
 			int type = ((GeoAxisND) geo).getType();
 			if (type == 2 && view > 0) {
 				return false;
@@ -1594,14 +1595,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (view < -1 || view > 2 || view == 0) {
 			return false;
 		}
-		EuclidianSettings evs = app.getSettings().getEuclidian(
-				view < 0 ? 3 : view);
+		EuclidianSettings evs = app.getSettings()
+				.getEuclidian(view < 0 ? 3 : view);
 		return evs.getShowGrid();
 	}
 
-	public int getCASObjectNumber(){
+	public int getCASObjectNumber() {
 		return kernel.getConstruction().getCASObjectNumber();
-		
+
 	}
 
 	/**
@@ -1737,7 +1738,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		}
 
-
 	}
 
 	public void enableCAS(boolean enable) {
@@ -1783,16 +1783,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
-		evs.setAxisNumberingDistance(0,
-				this.algebraprocessor.evaluateToNumeric(xStep,
-						ErrorHelper.silent()));
-		evs.setAxisNumberingDistance(1,
-				this.algebraprocessor.evaluateToNumeric(yStep,
-						ErrorHelper.silent()));
+		evs.setAxisNumberingDistance(0, this.algebraprocessor
+				.evaluateToNumeric(xStep, ErrorHelper.silent()));
+		evs.setAxisNumberingDistance(1, this.algebraprocessor
+				.evaluateToNumeric(yStep, ErrorHelper.silent()));
 		if (evs.is3D()) {
-			evs.setAxisNumberingDistance(2,
-					this.algebraprocessor.evaluateToNumeric(zStep,
-							ErrorHelper.silent()));
+			evs.setAxisNumberingDistance(2, this.algebraprocessor
+					.evaluateToNumeric(zStep, ErrorHelper.silent()));
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();

@@ -79,5 +79,4 @@ public class AlgoRow extends AlgoElement {
 			num.setUndefined();
 	}
 
-	
 }

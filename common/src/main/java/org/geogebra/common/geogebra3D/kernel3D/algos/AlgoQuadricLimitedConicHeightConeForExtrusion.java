@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
  * @author Mathieu
  *
  */
-public class AlgoQuadricLimitedConicHeightConeForExtrusion extends
-		AlgoQuadricLimitedConicHeightCone implements AlgoForExtrusion {
+public class AlgoQuadricLimitedConicHeightConeForExtrusion
+		extends AlgoQuadricLimitedConicHeightCone implements AlgoForExtrusion {
 
 	/**
 	 * 

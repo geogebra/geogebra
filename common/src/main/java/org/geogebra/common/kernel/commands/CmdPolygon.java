@@ -63,8 +63,7 @@ public class CmdPolygon extends CommandProcessor {
 			if (arg[0].isGeoPoint()) {
 				ArrayList<GeoElement> els = new ArrayList<GeoElement>(1);
 				els.add(arg[0]);
-				AlgoDependentList adl = new AlgoDependentList(cons, els,
-						false);
+				AlgoDependentList adl = new AlgoDependentList(cons, els, false);
 				l = adl.getGeoList();
 			}
 			if (l != null) {

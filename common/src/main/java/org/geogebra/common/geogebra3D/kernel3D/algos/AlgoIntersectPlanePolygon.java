@@ -35,9 +35,9 @@ public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
 	@Override
 	protected void setIntersectionLine() {
 
-		Coords[] intersection = CoordMatrixUtil.intersectPlanes(plane
-				.getCoordSys().getMatrixOrthonormal(), ((GeoPolygon) p)
-				.getCoordSys().getMatrixOrthonormal());
+		Coords[] intersection = CoordMatrixUtil.intersectPlanes(
+				plane.getCoordSys().getMatrixOrthonormal(),
+				((GeoPolygon) p).getCoordSys().getMatrixOrthonormal());
 
 		o1 = intersection[0];
 		d1 = intersection[1];

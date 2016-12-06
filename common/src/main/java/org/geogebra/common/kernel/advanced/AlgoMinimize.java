@@ -65,6 +65,4 @@ public class AlgoMinimize extends AlgoOptimize {
 		return Commands.Minimize;
 	}// getClassName()
 
-	
-
 }// class AlgoMinimize

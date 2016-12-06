@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael Borcherds
  */
-public class AlgoRandomBinomial extends AlgoTwoNumFunction implements
-		SetRandomValue {
+public class AlgoRandomBinomial extends AlgoTwoNumFunction
+		implements SetRandomValue {
 
 	public AlgoRandomBinomial(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
@@ -55,7 +55,8 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements
 				// http://www.geogebra.org/forum/viewtopic.php?f=8&t=18685
 				// num.setValue(randomBinomialTRS((int)a.getDouble(),
 				// b.getDouble()));
-				num.setValue(randomBinomial((int) a.getDouble(), b.getDouble()));
+				num.setValue(
+						randomBinomial((int) a.getDouble(), b.getDouble()));
 			}
 
 		} else
@@ -84,9 +85,9 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction implements
 
 	}
 
-	//private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
+	// private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
 
-	//private static double logtable[] = new double[10];
+	// private static double logtable[] = new double[10];
 
 	// private int[] DecimalToFraction(double Decimal, double AccuracyFactor) {
 	// double FractionNumerator, FractionDenominator;

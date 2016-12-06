@@ -9,20 +9,25 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 
 /**
- * @author sergio
- * Restriction coming from an {@link AlgoMidpoint}.
+ * @author sergio Restriction coming from an {@link AlgoMidpoint}.
  */
-public class EquationMidpointRestriction extends EquationGenericMidpointRestriction {
+public class EquationMidpointRestriction
+		extends EquationGenericMidpointRestriction {
 
 	/**
 	 * General constructor.
-	 * @param geo a point.
-	 * @param algo an {@link AlgoElement}
-	 * @param scope an {@link EquationScope}
+	 * 
+	 * @param geo
+	 *            a point.
+	 * @param algo
+	 *            an {@link AlgoElement}
+	 * @param scope
+	 *            an {@link EquationScope}
 	 */
-	public EquationMidpointRestriction(final GeoElement geo, final AlgoMidpoint algo, final EquationScope scope) {
+	public EquationMidpointRestriction(final GeoElement geo,
+			final AlgoMidpoint algo, final EquationScope scope) {
 		super(geo, algo, scope);
-        this.setEnds(algo.getP(), algo.getQ());
-        this.setMidpoint(algo.getPoint());
+		this.setEnds(algo.getP(), algo.getQ());
+		this.setMidpoint(algo.getPoint());
 	}
 }

@@ -134,8 +134,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		this(c, label, coeff, true);
 	}
 
-	private GeoImplicitPoly(Construction c, Polynomial poly,
-			boolean calcPath) {
+	private GeoImplicitPoly(Construction c, Polynomial poly, boolean calcPath) {
 		this(c);
 
 		this.calcPath = calcPath;
@@ -195,7 +194,6 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
 	 */
-
 
 	@Override
 	public GeoElement copy() {
@@ -350,17 +348,13 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		return true;
 	}
 
-
-
 	@Override
 	protected String toRawValueString(StringTemplate tpl) {
 		if (coeff == null)
 			return "";
 		return GeoImplicitCurve.toRawValueString(coeff, kernel, tpl);
 
-
 	}
-
 
 	/**
 	 * @param c
@@ -488,8 +482,6 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	public double evalPolyAt(double x, double y, boolean squarefree) {
 		return GeoImplicitCurve.evalPolyCoeffAt(x, y, getCoeff(squarefree));
 	}
-
-
 
 	/**
 	 * @param x
@@ -668,8 +660,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 						tmpCoeff[0][0] += coeff[x][y];
 				} else {
 					GeoImplicitCurve.polyMult(ratYCoeff, qY, ratYCoeffDegX,
-							ratYCoeffDegY,
-							degXqY, degYqY); // y^N-i
+							ratYCoeffDegY, degXqY, degYqY); // y^N-i
 					ratYCoeffDegX += degXqY;
 					ratYCoeffDegY += degYqY;
 					if (coeff[x].length > y)
@@ -686,21 +677,18 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 				}
 				if (y > 0) {
 					GeoImplicitCurve.polyMult(tmpCoeff, pY, tmpCoeffDegX,
-							tmpCoeffDegY, degXpY,
-							degYpY);
+							tmpCoeffDegY, degXpY, degYpY);
 					tmpCoeffDegX += degXpY;
 					tmpCoeffDegY += degYpY;
 				}
 			}
 			if (qX != null && x != coeff.length - 1 && !sameDenom) {
 				GeoImplicitCurve.polyMult(ratXCoeff, qX, ratXCoeffDegX,
-						ratXCoeffDegY, degXqX,
-						degYqX);
+						ratXCoeffDegY, degXqX, degYqX);
 				ratXCoeffDegX += degXqX;
 				ratXCoeffDegY += degYqX;
 				GeoImplicitCurve.polyMult(tmpCoeff, ratXCoeff, tmpCoeffDegX,
-						tmpCoeffDegY,
-						ratXCoeffDegX, ratXCoeffDegY);
+						tmpCoeffDegY, ratXCoeffDegX, ratXCoeffDegY);
 				tmpCoeffDegX += ratXCoeffDegX;
 				tmpCoeffDegY += ratXCoeffDegY;
 			}
@@ -716,8 +704,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			tmpCoeffDegY = 0;
 			if (x > 0) {
 				GeoImplicitCurve.polyMult(newCoeff, pX, newCoeffDegX,
-						newCoeffDegY, degXpX,
-						degYpX);
+						newCoeffDegY, degXpX, degYpX);
 				newCoeffDegX += degXpX;
 				newCoeffDegY += degYpX;
 			}
@@ -810,8 +797,6 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	public void plugInPoly(double[][] polyX, double[][] polyY) {
 		plugInRatPoly(polyX, polyY, null, null);
 	}
-
-
 
 	@Override
 	public boolean isConstant() {
@@ -1532,12 +1517,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 			}
 			if (w > grid.length || h > grid[w].length || grid[w][h] == null) {
 				if (w > grid.length || h > grid[w].length) {
-					Log.warn("GRID" + grid.length + ","
-							+ w + "," + h);
+					Log.warn("GRID" + grid.length + "," + w + "," + h);
 				}
-				Log.warn("GRID NULL" + grid.length
-							+ "," + w + "," + h
-							+ "," + gridWidth + "," + gridHeight);
+				Log.warn("GRID NULL" + grid.length + "," + w + "," + h + ","
+						+ gridWidth + "," + gridHeight);
 
 			}
 			while (sx < grid[w][h].x) {
@@ -1831,10 +1814,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 
 	public FunctionNVar getExpression() {
 		Equation eq = (Equation) getDefinition().unwrap();
-		FunctionNVar fun = new FunctionNVar(eq.getLHS().wrap()
-				.subtract(eq.getRHS()), new FunctionVariable[] {
-				new FunctionVariable(kernel, "x"),
-				new FunctionVariable(kernel, "y") });
+		FunctionNVar fun = new FunctionNVar(
+				eq.getLHS().wrap().subtract(eq.getRHS()),
+				new FunctionVariable[] { new FunctionVariable(kernel, "x"),
+						new FunctionVariable(kernel, "y") });
 		fun.initFunction();
 		return fun;
 	}

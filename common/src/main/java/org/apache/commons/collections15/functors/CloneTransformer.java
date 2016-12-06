@@ -21,11 +21,11 @@ import java.io.Serializable;
 import org.apache.commons.collections15.Transformer;
 import org.apache.commons.collections15.util.GWTCloneable;
 
-
 /**
  * Transformer implementation that returns a clone of the input object.
  * <p>
- * Clone is performed using <code>PrototypeFactory.getInstance(input).create()</code>.
+ * Clone is performed using
+ * <code>PrototypeFactory.getInstance(input).create()</code>.
  *
  * @since Commons Collections 3.0
  * @version $Revision$ $Date$
@@ -34,50 +34,50 @@ import org.apache.commons.collections15.util.GWTCloneable;
  */
 public class CloneTransformer<T> implements Transformer<T, T>, Serializable {
 
-    /** Serial version UID */
-    private static final long serialVersionUID = -8188742709499652567L;
+	/** Serial version UID */
+	private static final long serialVersionUID = -8188742709499652567L;
 
-    /** Singleton predicate instance */
-    public static final Transformer<Object, Object> INSTANCE = new CloneTransformer<Object>();
+	/** Singleton predicate instance */
+	public static final Transformer<Object, Object> INSTANCE = new CloneTransformer<Object>();
 
-    /**
-     * Factory returning the singleton instance.
-     * 
-     * @return the singleton instance
-     * @since Commons Collections 3.1
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> Transformer<T, T> getInstance() {
-        return (Transformer<T, T>) INSTANCE;
-    }
+	/**
+	 * Factory returning the singleton instance.
+	 * 
+	 * @return the singleton instance
+	 * @since Commons Collections 3.1
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> Transformer<T, T> getInstance() {
+		return (Transformer<T, T>) INSTANCE;
+	}
 
-    /**
-     * Constructor
-     */
-    private CloneTransformer() {
-        super();
-    }
+	/**
+	 * Constructor
+	 */
+	private CloneTransformer() {
+		super();
+	}
 
-    /**
-     * Transforms the input to result by cloning it.
-     * 
-     * @param input  the input object to transform
-     * @return the transformed result
-     */
-    public T transform(T input) {
-        if (input == null) {
-            return null;
-        }
-        if (input instanceof GWTCloneable)
-        {
-        	return (T) ((GWTCloneable) input).duplicate();
-        } else {
-        	throw new RuntimeException("Cloning is not supported for:" + input);
-        }
-    }
+	/**
+	 * Transforms the input to result by cloning it.
+	 * 
+	 * @param input
+	 *            the input object to transform
+	 * @return the transformed result
+	 */
+	public T transform(T input) {
+		if (input == null) {
+			return null;
+		}
+		if (input instanceof GWTCloneable) {
+			return (T) ((GWTCloneable) input).duplicate();
+		} else {
+			throw new RuntimeException("Cloning is not supported for:" + input);
+		}
+	}
 
-    private Object readResolve() {
-        return INSTANCE;
-    }
+	private Object readResolve() {
+		return INSTANCE;
+	}
 
 }

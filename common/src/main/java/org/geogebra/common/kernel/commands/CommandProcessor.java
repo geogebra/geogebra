@@ -119,7 +119,7 @@ public abstract class CommandProcessor {
 	protected final GeoElement[] resArgs(Command c) throws MyError {
 		return resArgs(c, new EvalInfo(false));
 	}
-	
+
 	/**
 	 * Resolves arguments. When argument produces mor geos, only first is taken.
 	 * 
@@ -192,7 +192,8 @@ public abstract class CommandProcessor {
 			String subst, int argsToCheck) {
 		if (arg[i] != null && arg[i].unwrap() instanceof GeoNumeric
 				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple() != null
-				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple().equals(var)) {
+				&& ((GeoNumeric) arg[i].getLeft()).getLabelSimple()
+						.equals(var)) {
 			// get free variable to replace "x" with
 			String newXVarStr = ((GeoElement) arg[i].getLeft())
 					.getFreeLabel(subst);
@@ -225,8 +226,7 @@ public abstract class CommandProcessor {
 	 *             node
 	 */
 	protected final GeoElement[] resArgs(Command c, boolean keepCAScells,
-			EvalInfo info)
-			throws MyError {
+			EvalInfo info) throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -302,8 +302,8 @@ public abstract class CommandProcessor {
 			// variable "i"object
 			localVarName = "i";
 			Variable localVar = new Variable(kernelA, localVarName);
-			c.traverse(Replacer.getReplacer(kernelA.getImaginaryUnit(),
-					localVar));
+			c.traverse(
+					Replacer.getReplacer(kernelA.getImaginaryUnit(), localVar));
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
@@ -311,8 +311,8 @@ public abstract class CommandProcessor {
 			// variable "i"object
 			localVarName = "e";
 			Variable localVar = new Variable(kernelA, localVarName);
-			c.traverse(Replacer.getReplacer(
-kernelA.getEulerNumber(), localVar));
+			c.traverse(
+					Replacer.getReplacer(kernelA.getEulerNumber(), localVar));
 		}
 
 		// add local variable name to construction
@@ -342,18 +342,16 @@ kernelA.getEulerNumber(), localVar));
 		return arg;
 	}
 
-	private void replaceZvarIfNeeded(String name, Command c, int argsToReplace) {
+	private void replaceZvarIfNeeded(String name, Command c,
+			int argsToReplace) {
 		if (name.equals("z")) {
 			// parse again to undo z*z -> Function
 			try {
 				for (int i = 0; i < argsToReplace; i++) {
-					c.setArgument(
-							i,
-						kernelA.getParser()
-								.parseGeoGebraExpression(
-											c.getArgument(i).toString(
-												StringTemplate.xmlTemplate))
-								.wrap());
+					c.setArgument(i, kernelA.getParser()
+							.parseGeoGebraExpression(c.getArgument(i)
+									.toString(StringTemplate.xmlTemplate))
+							.wrap());
 				}
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
@@ -402,8 +400,7 @@ kernelA.getEulerNumber(), localVar));
 
 			GeoList gl = null;
 			if (c.getArgumentNumber() > varPos + 1) {
-				gl = (GeoList) resArg(c.getArgument(varPos + 1),
-						argInfo)[0];
+				gl = (GeoList) resArg(c.getArgument(varPos + 1), argInfo)[0];
 			}
 
 			if (gl == null) {
@@ -426,11 +423,8 @@ kernelA.getEulerNumber(), localVar));
 			// remove local variable name from kernel again
 
 		}
-		GeoElement[] arg = resArg(
-				c.getArgument(0)
-						.traverse(CommandReplacer.getReplacer(kernelA,
-								false))
-						.wrap(),
+		GeoElement[] arg = resArg(c.getArgument(0)
+				.traverse(CommandReplacer.getReplacer(kernelA, false)).wrap(),
 				argInfo);
 
 		return arg[0];
@@ -449,8 +443,8 @@ kernelA.getEulerNumber(), localVar));
 	 *            number of iterations
 	 * @return arguments for Iteration(List)
 	 */
-	protected final GeoElement resArgsForIteration(Command c,
-			GeoElement[] vars, GeoList[] over, GeoNumeric[] number) {
+	protected final GeoElement resArgsForIteration(Command c, GeoElement[] vars,
+			GeoList[] over, GeoNumeric[] number) {
 		// check if there is a local variable in arguments
 		int numArgs = c.getArgumentNumber();
 
@@ -491,12 +485,7 @@ kernelA.getEulerNumber(), localVar));
 
 			// add local variable name to construction
 
-
-
 			// initialize first value of local numeric variable from initPos
-
-
-
 
 			cmdCons.addLocalVariable(localVarName, num);
 			replaceZvarIfNeeded(localVarName, c, 1);
@@ -505,10 +494,8 @@ kernelA.getEulerNumber(), localVar));
 			vars[varPos - 1] = num.toGeoElement();
 			// replace for Iteration[f(1/(1-x)),f,{x},21]
 			if (!isCmdName(localVarName)) {
-				c.getArgument(0)
-					.traverse(
-							CommandFunctionReplacer.getReplacer(app,
-									localVarName, num));
+				c.getArgument(0).traverse(CommandFunctionReplacer
+						.getReplacer(app, localVarName, num));
 			}
 			if (varPos < numArgs - 3) {
 				num = num.copy();
@@ -520,15 +507,12 @@ kernelA.getEulerNumber(), localVar));
 
 		}
 
-
-
 		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1), argInfo)[0];
 
 		GeoElement[] arg = resArg(c.getArgument(0), argInfo);
 
 		return arg[0];
 	}
-
 
 	/**
 	 * @param cmdName
@@ -603,8 +587,8 @@ kernelA.getEulerNumber(), localVar));
 			if (initPos[i] != varPos[i]) {
 				boolean oldval = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
-				NumberValue initValue = (NumberValue) resArg(c
-						.getArgument(initPos[i]), argInfo)[0];
+				NumberValue initValue = (NumberValue) resArg(
+						c.getArgument(initPos[i]), argInfo)[0];
 				cons.setSuppressLabelCreation(oldval);
 				num[i].setValue(initValue.getDouble());
 			}
@@ -883,7 +867,8 @@ kernelA.getEulerNumber(), localVar));
 	 * @param j
 	 *            index of independent argument
 	 */
-	protected void checkDependency(GeoElement[] arg, String name, int i, int j) {
+	protected void checkDependency(GeoElement[] arg, String name, int i,
+			int j) {
 		if (arg[i].isChildOrEqual(arg[j])) {
 			if (kernelA.getConstruction().isFileLoading()) {
 				// make sure old files can be loaded (and fixed)

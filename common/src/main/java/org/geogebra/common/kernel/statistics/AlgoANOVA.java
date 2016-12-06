@@ -146,6 +146,4 @@ public class AlgoANOVA extends AlgoElement {
 
 	}
 
-	
-
 }

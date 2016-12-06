@@ -28,8 +28,7 @@ public class CmdRename extends CmdScripting {
 	}
 
 	@Override
-	protected final GeoElement[] perform(Command c)
-			throws MyError {
+	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
 		switch (n) {
@@ -56,8 +55,7 @@ public class CmdRename extends CmdScripting {
 				if (args[1].unwrap() instanceof Command) {
 					val = ((Command) args[1].unwrap()).getName();
 				}
-				arg[1] = new GeoText(cons,
-						val);
+				arg[1] = new GeoText(cons, val);
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
 

@@ -26,8 +26,8 @@ import org.geogebra.common.main.Feature;
  *         Drawable for GeoConic3D
  *
  */
-public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
-		Previewable {
+public class DrawConic3D extends Drawable3DCurves
+		implements Functional2Var, Previewable {
 
 	/**
 	 * @param view3d
@@ -163,8 +163,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 				brush.setAffineTexture(0f, 0f);
 				switch (conic.getType()) {
 				case GeoConicNDConstants.CONIC_CIRCLE:
-					if (getView3D().getApplication().has(
-							Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					if (getView3D().getApplication()
+							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 						updateEllipse(brush);
 					} else {
 						updateCircle(brush);
@@ -236,9 +236,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	 */
 	protected double[] getLineMinMax(int i) {
 
-		return getView3D().getIntervalClippedLarge(
-				new double[] { Double.NEGATIVE_INFINITY,
-						Double.POSITIVE_INFINITY }, m, d);
+		return getView3D().getIntervalClippedLarge(new double[] {
+				Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY }, m, d);
 	}
 
 	/**
@@ -306,7 +305,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	 */
 	protected void updateHyperbola(PlotterBrush brush) {
 
-		double[] minmax1 = { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY };
+		double[] minmax1 = { Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY };
 
 		getView3D().getMinIntervalOutsideClipping(minmax1, m, ev1.mul(e1));
 
@@ -317,7 +317,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		minmax[2] = -minmax[3];
 
 		brush.hyperbolaBranch(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
-		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
+		brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, minmax[2],
+				minmax[3]);
 
 	}
 
@@ -349,7 +350,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	 */
 	protected double[] getParabolaMinMax() {
 
-		double[] minmax1 = { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY };
+		double[] minmax1 = { Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY };
 
 		getView3D().getMinIntervalOutsideClipping(minmax1, m, ev1);
 		double tMax = Math.sqrt(2 * minmax1[1] / conic.p);
@@ -364,7 +366,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	 */
 	protected void updateHyperbola(PlotterSurface surface) {
 		surface.hyperbolaPart(m, ev1, ev2, e1, e2, minmax[0], minmax[1]);
-		surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, minmax[2], minmax[3]);
+		surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, minmax[2],
+				minmax[3]);
 	}
 
 	/**
@@ -439,12 +442,12 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	protected void updateCircle(PlotterBrush brush) {
 
 		if (visible == Visible.CENTER_OUTSIDE) {
-			longitude = brush.calcArcLongitudesNeeded(e1, alpha, getView3D()
-					.getScale());
+			longitude = brush.calcArcLongitudesNeeded(e1, alpha,
+					getView3D().getScale());
 			brush.arc(m, ev1, ev2, e1, beta - alpha, 2 * alpha, longitude);
 		} else {
-			longitude = brush.calcArcLongitudesNeeded(e1, Math.PI, getView3D()
-					.getScale());
+			longitude = brush.calcArcLongitudesNeeded(e1, Math.PI,
+					getView3D().getScale());
 			brush.circle(m, ev1, ev2, e1, longitude);
 		}
 
@@ -485,10 +488,15 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			case GeoConicNDConstants.CONIC_ELLIPSE:
 				if (getView3D().viewChangedByZoom() // update only if zoom
 													// occurred
-						|| (visible != Visible.TOTALLY_INSIDE && getView3D()
-								.viewChangedByTranslate())) // or if translate
-															// with not totally
-															// visible ellipse
+						|| (visible != Visible.TOTALLY_INSIDE
+								&& getView3D().viewChangedByTranslate())) // or
+																			// if
+																			// translate
+																			// with
+																			// not
+																			// totally
+																			// visible
+																			// ellipse
 					updateForItSelf();
 				break;
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
@@ -718,16 +726,16 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		if (horizontalDistance > frustumRadius) {
 			alpha = Math.asin(frustumRadius / horizontalDistance);
 			beta = Math.atan2(y * e1, x * e2);
-			// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
+			// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta =
+			// "+(beta*180/Math.PI)+"degrees");
 			return Visible.CENTER_OUTSIDE; // center outside
 		}
 
 		return Visible.CENTER_INSIDE; // do as if center inside
 	}
-	
-	
+
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-	
+
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		switch (conic.getType()) {
@@ -739,8 +747,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		}
 	}
 
-	
-	final private void setBoundsEllipse(){
+	final private void setBoundsEllipse() {
 		boundsMin.set(Double.POSITIVE_INFINITY);
 		boundsMax.set(Double.NEGATIVE_INFINITY);
 		enlargeBoundsToDiagonal(boundsMin, boundsMax, m, ev1, ev2, e1, e2);
@@ -757,14 +764,14 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		switch (conic.getType()) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			m = conic.getMidpoint3D();
-			
+
 			boundsMin.setValues(m, 3);
 			boundsMax.setValues(m, 3);
 			double radius = conic.getLineThickness() / getView3D().getScale()
 					* DrawPoint3D.DRAW_POINT_FACTOR;
 			boundsMin.addInside(-radius);
 			boundsMax.addInside(radius);
-			
+
 			double frustumRadius = getView3D().getFrustumRadius();
 			Coords origin = getView3D().getCenter();
 			Coords v = origin.sub(m);
@@ -782,9 +789,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			ev2 = conic.getEigenvec3D(1);
 			e1 = conic.getHalfAxis(0);
 			e2 = e1;
-			
-			setBoundsEllipse();			
-			
+
+			setBoundsEllipse();
+
 			checkEllipseVisible(m, e1, e2);
 			break;
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -793,9 +800,8 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			ev2 = conic.getEigenvec3D(1);
 			e1 = conic.getHalfAxis(0);
 			e2 = conic.getHalfAxis(1);
-			setBoundsEllipse();		
-			double eMin,
-			eMax;
+			setBoundsEllipse();
+			double eMin, eMax;
 			if (e1 > e2) {
 				eMax = e1;
 				eMin = e2;
@@ -899,12 +905,13 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 				globalCoords = new Coords(4);
 				inPlaneCoords = new Coords(4);
 			}
-			hitting.origin.projectPlaneThruVIfPossible(conic.getCoordSys()
-					.getMatrixOrthonormal(), hitting.direction, globalCoords,
-					inPlaneCoords);
+			hitting.origin.projectPlaneThruVIfPossible(
+					conic.getCoordSys().getMatrixOrthonormal(),
+					hitting.direction, globalCoords, inPlaneCoords);
 
 			// try conic surface
-			if (getGeoElement().getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
+			if (getGeoElement()
+					.getAlphaValue() > EuclidianController.MIN_VISIBLE_ALPHA_VALUE
 					&& hitting.isInsideClipping(globalCoords)
 					&& conic.isInRegion(inPlaneCoords.getX(),
 							inPlaneCoords.getY())) {
@@ -933,8 +940,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 				p3d.projectLine(hitting.origin, hitting.direction, project,
 						parameters); // check distance to hitting line
 				double d = getView3D().getScaledDistance(p3d, project);
-				if (d <= conic.getLineThickness()
-						+ hitting.getThreshold()) {
+				if (d <= conic.getLineThickness() + hitting.getThreshold()) {
 					double z = -parameters[0];
 					double dz = conic.getLineThickness()
 							/ getView3D().getScale();

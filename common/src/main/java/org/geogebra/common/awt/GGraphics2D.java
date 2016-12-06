@@ -55,14 +55,13 @@ public interface GGraphics2D {
 	/**
 	 * Renders the text specified by the specified <code>String</code>, using
 	 * the current text attribute state in the <code>Graphics2D</code> context.
-	 * The baseline of the first character is at position
-	 * (<i>x</i>,&nbsp;<i>y</i>) in the User Space. The rendering attributes
-	 * applied include the <code>Clip</code>, <code>Transform</code>,
-	 * <code>Paint</code>, <code>Font</code> and <code>Composite</code>
-	 * attributes. For characters in script systems such as Hebrew and Arabic,
-	 * the glyphs can be rendered from right to left, in which case the
-	 * coordinate supplied is the location of the leftmost character on the
-	 * baseline.
+	 * The baseline of the first character is at position (<i>x</i>,&nbsp;
+	 * <i>y</i>) in the User Space. The rendering attributes applied include the
+	 * <code>Clip</code>, <code>Transform</code>, <code>Paint</code>,
+	 * <code>Font</code> and <code>Composite</code> attributes. For characters
+	 * in script systems such as Hebrew and Arabic, the glyphs can be rendered
+	 * from right to left, in which case the coordinate supplied is the location
+	 * of the leftmost character on the baseline.
 	 * 
 	 * @param str
 	 *            the <code>String</code> to be rendered
@@ -331,7 +330,8 @@ public interface GGraphics2D {
 
 	public abstract void drawRect(int x, int y, int width, int height);
 
-	public abstract void setClip(int xAxisStart, int i, int width, int yAxisEnd);
+	public abstract void setClip(int xAxisStart, int i, int width,
+			int yAxisEnd);
 
 	public abstract void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);

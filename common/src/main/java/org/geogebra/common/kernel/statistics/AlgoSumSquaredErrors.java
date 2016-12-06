@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
- * Command: SumSquaredErrors[<list>,<function>] Calculates
- * Sum[(y(<list>)-f(x(<list>))^2] for a function f(x) fitted to the list.
+ * Command: SumSquaredErrors[<list>,<function>] Calculates Sum[(y(<list>)-f(x(
+ * <list>))^2] for a function f(x) fitted to the list.
  * 
  * @author Hans-Petter Ulven
  * @version 2010-02-21
@@ -123,13 +123,11 @@ public class AlgoSumSquaredErrors extends AlgoElement {
 			} else {
 				sse.setUndefined();
 				return;
-			}// if calculation is possible
-		}// for all points
+			} // if calculation is possible
+		} // for all points
 
 		sse.setValue(errorsum);
 
 	}// compute()
 
-	
 }// class AlgoSumSquaredErrors
-

@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCylinder extends
-		AlgoQuadricLimitedConicHeight {
+public class AlgoQuadricLimitedConicHeightCylinder
+		extends AlgoQuadricLimitedConicHeight {
 
 	/**
 	 * 
@@ -30,17 +30,12 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 	 */
 	public AlgoQuadricLimitedConicHeightCylinder(Construction c,
 			String[] labels, GeoConicND bottom, NumberValue height) {
-		super(
-				c,
-				labels,
-				bottom,
-				height,
- getExtrusionType(bottom));
+		super(c, labels, bottom, height, getExtrusionType(bottom));
 	}
 
 	private static int getExtrusionType(GeoConicND type) {
-		switch(type.getType()){
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
+		switch (type.getType()) {
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			return GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER;
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			return GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER;
@@ -54,8 +49,7 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
-			double r, double r2,
-			double min, double max) {
+			double r, double r2, double min, double max) {
 		switch (getExtrusionType(getBottomFace())) {
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			getQuadric().setCylinder(o1, d, r, min, max);
@@ -74,7 +68,5 @@ public class AlgoQuadricLimitedConicHeightCylinder extends
 	public Commands getClassName() {
 		return Commands.Cylinder;
 	}
-
-	
 
 }

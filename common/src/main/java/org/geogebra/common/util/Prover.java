@@ -49,25 +49,29 @@ public abstract class Prover {
 		/**
 		 * Tomas Recio's method
 		 */
-		RECIOS_PROVER, /**
+		RECIOS_PROVER,
+		/**
 		 * Francisco Botana's method
 		 */
-		BOTANAS_PROVER, /**
-		 * OpenGeoProver
-		 * (http://code.google.com/p/open-geo-prover/), Wu's method
+		BOTANAS_PROVER,
+		/**
+		 * OpenGeoProver (http://code.google.com/p/open-geo-prover/), Wu's
+		 * method
 		 */
-		OPENGEOPROVER_WU, /**
+		OPENGEOPROVER_WU,
+		/**
 		 * OpenGeoProver, Area method
 		 */
-		OPENGEOPROVER_AREA, /**
-		 * pure symbolic prover (every object is calculated
-		 * symbolically, also the statements)
+		OPENGEOPROVER_AREA,
+		/**
+		 * pure symbolic prover (every object is calculated symbolically, also
+		 * the statements)
 		 */
 		PURE_SYMBOLIC_PROVER,
 		/**
 		 * default prover (GeoGebra decides internally)
 		 */
-		AUTO, 
+		AUTO,
 		/**
 		 * 
 		 * not a theorem prover, but an implicit locus calculator
@@ -101,8 +105,8 @@ public abstract class Prover {
 		 */
 		FALSE,
 		/**
-		 * The statement cannot be proved by using the current backend within the
-		 * given timeout
+		 * The statement cannot be proved by using the current backend within
+		 * the given timeout
 		 */
 		UNKNOWN,
 		/**
@@ -257,7 +261,8 @@ public abstract class Prover {
 			return this.hashCode() == obj.hashCode();
 		}
 
-		private static GeoLine line(GeoPoint P1, GeoPoint P2, Construction cons) {
+		private static GeoLine line(GeoPoint P1, GeoPoint P2,
+				Construction cons) {
 			TreeSet<GeoElement> ges = cons.getGeoSetConstructionOrder();
 			Iterator<GeoElement> it = ges.iterator();
 			// TODO: Maybe there is a better way here to lookup the appropriate
@@ -269,8 +274,8 @@ public abstract class Prover {
 					GeoPoint Q1 = ((GeoLine) ge).getStartPoint();
 					GeoPoint Q2 = ((GeoLine) ge).getEndPoint();
 					if ((Q1 != null && Q2 != null)
-							&& ((Q1.equals(P1) && Q2.equals(P2)) || (Q1
-									.equals(P2) && Q2.equals(P1)))) {
+							&& ((Q1.equals(P1) && Q2.equals(P2))
+									|| (Q1.equals(P2) && Q2.equals(P1)))) {
 						return (GeoLine) ge;
 					}
 				}
@@ -302,8 +307,8 @@ public abstract class Prover {
 					GeoPoint Q1 = ((GeoSegment) ge).getStartPoint();
 					GeoPoint Q2 = ((GeoSegment) ge).getEndPoint();
 					if ((Q1 != null && Q2 != null)
-							&& ((Q1.equals(P1) && Q2.equals(P2)) || (Q1
-									.equals(P2) && Q2.equals(P1)))) {
+							&& ((Q1.equals(P1) && Q2.equals(P2))
+									|| (Q1.equals(P2) && Q2.equals(P1)))) {
 						return (GeoSegment) ge;
 					}
 				}
@@ -342,7 +347,8 @@ public abstract class Prover {
 			String cond = this.getCondition();
 			if ("AreCollinear".equals(cond)) {
 				sortGeos();
-			} else if ("ArePerpendicular".equals(cond) && this.geos.length == 3) {
+			} else if ("ArePerpendicular".equals(cond)
+					&& this.geos.length == 3) {
 				// ArePerpendicular[Line[P1,P3],Line[P3,P2]].
 				GeoPoint P1 = (GeoPoint) this.geos[0];
 				GeoPoint P2 = (GeoPoint) this.geos[1];
@@ -356,8 +362,8 @@ public abstract class Prover {
 					sortGeos();
 				}
 			} else if (("AreEqual".equals(cond)
-					|| "ArePerpendicular".equals(cond) || "AreParallel"
-						.equals(cond))) {
+					|| "ArePerpendicular".equals(cond)
+					|| "AreParallel".equals(cond))) {
 				if (this.geos.length == 4) {
 					// This is an AreEqual[P1,P2,P3,P4]-like condition.
 					// We should try to rewrite it to
@@ -532,8 +538,8 @@ public abstract class Prover {
 		else
 			it = proveAutoOrder.iterator();
 		result = ProofResult.UNKNOWN;
-		while ((result == ProofResult.UNKNOWN || result == ProofResult.TRUE_NDG_UNREADABLE)
-				&& it.hasNext()) {
+		while ((result == ProofResult.UNKNOWN
+				|| result == ProofResult.TRUE_NDG_UNREADABLE) && it.hasNext()) {
 			ProverEngine pe = it.next();
 			if (pe == ProverEngine.OPENGEOPROVER_WU
 					|| pe == ProverEngine.OPENGEOPROVER_AREA) {
@@ -727,7 +733,7 @@ public abstract class Prover {
 		if (l > 0) {
 			freePointsText.deleteCharAt(l - 1);
 			theoremText.append(loc.getPlain("LetABeArbitraryPoints",
-				freePointsText.toString())).append(".\n");
+					freePointsText.toString())).append(".\n");
 		}
 
 		theoremText.append(hypotheses);
@@ -747,10 +753,9 @@ public abstract class Prover {
 				"Hyperbola" };
 
 		static final String[] obj_types = { "Point", "Circle", "Line",
-				"Segment",
-				"Triangle", "Numeric", "Pentagon", "Angle", "Triangle",
-				"Parabola", "Ray", "Ellipse", "Hyperbola", "Quadrilateral",
-				"Vector" };
+				"Segment", "Triangle", "Numeric", "Pentagon", "Angle",
+				"Triangle", "Parabola", "Ray", "Ellipse", "Hyperbola",
+				"Quadrilateral", "Vector" };
 
 		private static String csv_header = "", csv_data = "";
 
@@ -883,8 +888,8 @@ public abstract class Prover {
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
 			/*
-			 * -((3/7)*log(3/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7
-			 * ;A)+(1/7)*log(1/7;A))
+			 * -((3/7)*log(3/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/7;A)+(1/7)*log(1/
+			 * 7 ;A)+(1/7)*log(1/7;A))
 			 */
 			entropy = 0;
 			Iterator<Object> it2 = frequencies.keySet().iterator();
@@ -966,7 +971,8 @@ public abstract class Prover {
 			geos.add(statement);
 			Iterator<GeoElement> it = geos.iterator();
 
-			List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg, types, objs;
+			List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg,
+					types, objs;
 			geo_nodes = new ArrayList<Object>();
 			nodes_in_deg = new ArrayList<Object>();
 			nodes_out_deg = new ArrayList<Object>();
@@ -1035,16 +1041,18 @@ public abstract class Prover {
 			csvAdd("number of nodes", number_of_nodes);
 			csvAdd("number of nodes with in-degree 0", free);
 			csvAdd("number of edges", edges);
-			csvAdd("num of nodes/num of edges", (double) number_of_nodes
-					/ edges);
-			csvAdd("num of edges/num of nodes", (double) edges
-					/ number_of_nodes);
-			csvAdd("max path length/num of nodes", (double) longestPath
-					/ number_of_nodes);
-			csvAdd("num of nodes/max path length", (double) number_of_nodes
-					/ longestPath);
-			csvAdd("max path length/num of edges", (double) longestPath / edges);
-			csvAdd("num of edges/max path length", (double) edges / longestPath);
+			csvAdd("num of nodes/num of edges",
+					(double) number_of_nodes / edges);
+			csvAdd("num of edges/num of nodes",
+					(double) edges / number_of_nodes);
+			csvAdd("max path length/num of nodes",
+					(double) longestPath / number_of_nodes);
+			csvAdd("num of nodes/max path length",
+					(double) number_of_nodes / longestPath);
+			csvAdd("max path length/num of edges",
+					(double) longestPath / edges);
+			csvAdd("num of edges/max path length",
+					(double) edges / longestPath);
 			csvAdd("statement complexity", nodeComplexity.get(statement));
 			csvAdd("statement dominant predicate",
 					statement.getParentAlgorithm().getClassName().toString());
@@ -1055,8 +1063,8 @@ public abstract class Prover {
 			generateStatistics("node out-degree", nodes_out_deg, null);
 			generateStatistics("node degree", nodes_deg, null);
 			/*
-			 * csvAdd("num of nodes not labeled by A or B or C with in-degree 0",
-			 * 0);
+			 * csvAdd("num of nodes not labeled by A or B or C with in-degree 0"
+			 * , 0);
 			 */
 			generateStatistics("Wi", geo_nodes, rules);
 			generateStatistics("types", types, obj_types);
@@ -1065,7 +1073,7 @@ public abstract class Prover {
 
 			Log.debug("portfolio csv_header:" + csv_header);
 			Log.debug("portfolio csv_data:" + csv_data);
-			
+
 			String digraph = "digraph dependencies { ";
 			Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
 			digraph += statement.getLabelSimple() + "_"

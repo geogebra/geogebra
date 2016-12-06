@@ -215,16 +215,17 @@ public class DrawRay extends Drawable implements Previewable {
 
 		if (onscreenA) {
 			// A on screen
-			line.setLine(a[0], a[1], a[0] + lambda * v[0], a[1] + lambda * v[1]);
+			line.setLine(a[0], a[1], a[0] + lambda * v[0],
+					a[1] + lambda * v[1]);
 		} else {
 			// A off screen
 			// clip ray at screen, that's important for huge coordinates of A
-			GPoint2D[] clippedPoints = ClipLine.getClipped(
-					a[0], a[1], a[0] + lambda * v[0], a[1] + lambda * v[1],
-					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
-							+ EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
-							+ EuclidianStatic.CLIP_DISTANCE);
+			GPoint2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
+					a[0] + lambda * v[0], a[1] + lambda * v[1],
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {
@@ -276,8 +277,8 @@ public class DrawRay extends Drawable implements Previewable {
 			// start point
 			// Coords coords = ((GeoPointND)
 			// points.get(0)).getInhomCoordsInD2();
-			Coords coords = view.getCoordsForView(points.get(0)
-					.getInhomCoordsInD3());
+			Coords coords = view
+					.getCoordsForView(points.get(0).getInhomCoordsInD3());
 			coords.get(a);
 			view.toScreenCoords(a);
 		}
@@ -296,15 +297,16 @@ public class DrawRay extends Drawable implements Previewable {
 			double yy = view.toScreenCoordY(yRW);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
+			if (points.size() == 1
+					&& view.getEuclidianController().isAltDown()) {
 				// double xRW = view.toRealWorldCoordX(x);
 				// double yRW = view.toRealWorldCoordY(y);
 				GeoPoint p = (GeoPoint) points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW)
-						* (px - xRW));
+				double radius = Math.sqrt(
+						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
 				angle = Math.round(angle / 15) * 15;

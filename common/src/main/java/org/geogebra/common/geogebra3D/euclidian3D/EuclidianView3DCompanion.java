@@ -61,8 +61,9 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 			// if mouse is over an object, use its depth and mouse coords
 			Coords eye = renderer1.getPerspEye();
 			double z = getView().getToScreenMatrix()
-					.mul(getView().getCursor3D().getCoords()).getZ()
-					+ 20; // to be over
+					.mul(getView().getCursor3D().getCoords()).getZ() + 20; // to
+																			// be
+																			// over
 			double eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
 
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();

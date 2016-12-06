@@ -54,9 +54,10 @@ public class CmdClosestPoint extends CommandProcessor {
 
 			else if ((ok[1] = (arg[1] instanceof GeoLine))
 					&& (ok[0] = (arg[0] instanceof GeoLine))) {
-				GeoElement[] ret = { new AlgoClosestPointLines(
-						kernelA.getConstruction(), c.getLabel(),
-						(GeoLine) arg[1], (GeoLine) arg[0]).getOutput(0) };
+				GeoElement[] ret = {
+						new AlgoClosestPointLines(kernelA.getConstruction(),
+								c.getLabel(), (GeoLine) arg[1],
+								(GeoLine) arg[0]).getOutput(0) };
 				return ret;
 			}
 

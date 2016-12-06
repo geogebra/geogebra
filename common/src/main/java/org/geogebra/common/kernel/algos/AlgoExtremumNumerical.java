@@ -127,7 +127,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 				|| (right.getDouble() <= left.getDouble())) {
 			E.setUndefined();
 			return;
-		}// if input is ok?
+		} // if input is ok?
 
 		// / --- Algorithm --- ///
 
@@ -143,9 +143,10 @@ public class AlgoExtremumNumerical extends AlgoElement {
 			isgoingup = true;
 		} else {
 			isgoingup = false;
-		}// if
+		} // if
 
-		// if(isgoingup){debug("Finding maximum...");}else{debug("Finding minimum...");}
+		// if(isgoingup){debug("Finding maximum...");}else{debug("Finding
+		// minimum...");}
 
 		while ((diff > epsilon) && (iterations < MAXITERATIONS)) {
 			iterations++; // debug(info(iterations,l,max,r));
@@ -188,7 +189,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 					l = max;
 					didslice = true;
 				}
-			}// if direction
+			} // if direction
 
 			if (!didslice) {
 				l = newleft;
@@ -197,7 +198,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 
 			max = (l + r) / 2;
 			diff = Math.abs(r - l);
-		}// while not finished
+		} // while not finished
 		xres = max; // use middle value in last interval
 
 		// Save some repetitive calculations:
@@ -230,14 +231,15 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		if (isgoingup) {
 			if ((y < fl) || (y < fr)) {
 				E.setUndefined();
-			}// if not really a maximum
+			} // if not really a maximum
 		} else {
 			if ((y > fl) || (y > fr)) {
 				E.setUndefined();
-			}// if not really a minimum
-		}// if not extremum
+			} // if not really a minimum
+		} // if not extremum
 
-		// debug("iterations: "+iterations+"point: ("+max+","+y+")"+"in intervall: <"+left.getDouble()+","+right.getDouble()+">");
+		// debug("iterations: "+iterations+"point: ("+max+","+y+")"+"in
+		// intervall: <"+left.getDouble()+","+right.getDouble()+">");
 	}// compute()
 
 	// * //--- SNIP (after debugging and testing) -------------------------
@@ -248,10 +250,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		return xres;
 	}// getX()
 
-
-	
-
 	// */ //--- SNIP end ---------------------------------------
 
 }// class AlgoExtremumNumerical
-

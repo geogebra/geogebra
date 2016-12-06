@@ -28,9 +28,10 @@ public class AlgoLeftRightSide extends AlgoElement {
 					new FunctionVariable(kernel, "z") };
 		} else {
 			fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
-				new FunctionVariable(kernel, "y") };
+					new FunctionVariable(kernel, "y") };
 		}
-		FunctionNVar f = new FunctionNVar(new ExpressionNode(kernel, fv[0]), fv);
+		FunctionNVar f = new FunctionNVar(new ExpressionNode(kernel, fv[0]),
+				fv);
 		side = new GeoFunctionNVar(cons, f);
 
 		setInputOutput();
@@ -68,7 +69,5 @@ public class AlgoLeftRightSide extends AlgoElement {
 	public GeoFunctionNVar getResult() {
 		return side;
 	}
-
-	
 
 }

@@ -10,14 +10,13 @@ import org.geogebra.common.main.Localization;
 
 public class LineEqnModel extends MultipleOptionsModel {
 
-
 	private List<Integer> eqnValues;
 
 	public LineEqnModel(App app) {
 		super(app);
 
 		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
-					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
+				GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
 				GeoLine.EQUATION_GENERAL, GeoLine.EQUATION_USER);
 
 	}
@@ -29,18 +28,17 @@ public class LineEqnModel extends MultipleOptionsModel {
 		}
 		boolean valid = true;
 		Object geo = getObjectAt(index);
-		if (!(geo instanceof GeoLine)
-				|| geo instanceof GeoSegment) {
+		if (!(geo instanceof GeoLine) || geo instanceof GeoSegment) {
 			valid = false;
 		}
-	
+
 		return valid;
 	}
-	
+
 	private GeoLine getLineAt(int index) {
-		return (GeoLine)getObjectAt(index);
+		return (GeoLine) getObjectAt(index);
 	}
-	
+
 	@Override
 	public void updateProperties() {
 		int value0 = getValueAt(0);
@@ -50,11 +48,12 @@ public class LineEqnModel extends MultipleOptionsModel {
 				equalMode = false;
 			}
 		}
-		
-		getListener().setSelectedIndex(equalMode ? 
-				eqnValues.indexOf(value0): -1);
-		
+
+		getListener()
+				.setSelectedIndex(equalMode ? eqnValues.indexOf(value0) : -1);
+
 	}
+
 	@Override
 	public List<String> getChoiches(Localization loc) {
 
@@ -62,8 +61,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 				loc.getPlain("ExplicitLineEquation"), // index 1
 				loc.getPlain("ParametricForm"), // index 2
 				loc.getPlain("GeneralLineEquation"), // index 3
-				loc.getPlain("InputForm")
-				);
+				loc.getPlain("InputForm"));
 
 	}
 
@@ -71,7 +69,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		getLineAt(index).setMode(eqnValues.get(value));
 		getGeoAt(index).updateRepaint();
-	
+
 	}
 
 	@Override

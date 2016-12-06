@@ -202,7 +202,8 @@ public class CellFormat implements CellFormatInterface {
 
 	}
 
-	private void shiftRowsUp(MyHashMap formatMap, int rowStart, int shiftAmount) {
+	private void shiftRowsUp(MyHashMap formatMap, int rowStart,
+			int shiftAmount) {
 
 		if (formatMap == null || formatMap.isEmpty()) {
 			return;
@@ -304,8 +305,8 @@ public class CellFormat implements CellFormatInterface {
 		GPoint shiftKey = null;
 
 		// clear first column to be shifted into
-		clearColumns(formatMap, columnStart - shiftAmount, columnStart
-				- shiftAmount);
+		clearColumns(formatMap, columnStart - shiftAmount,
+				columnStart - shiftAmount);
 
 		// shift column formats
 		for (int c = columnStart; c <= highestIndexColumn; c++) {
@@ -676,24 +677,20 @@ public class CellFormat implements CellFormatInterface {
 				break;
 
 			case BORDER_STYLE_INSIDE:
-				setFormat(
-						new CellRange(app, -1, cr.getMinRow(), -1,
-								cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
+				setFormat(new CellRange(app, -1, cr.getMinRow(), -1,
+						cr.getMinRow()), FORMAT_BORDER, BORDER_LEFT);
 				if (cr.getMinRow() < cr.getMaxRow()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(
-							new CellRange(app, -1, cr.getMinRow() + 1, -1,
-									cr.getMaxRow()), FORMAT_BORDER, b);
+					setFormat(new CellRange(app, -1, cr.getMinRow() + 1, -1,
+							cr.getMaxRow()), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
-				setFormat(
-						new CellRange(app, -1, cr.getMinRow(), -1,
-								cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
-				setFormat(
-						new CellRange(app, -1, cr.getMaxRow(), -1,
-								cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
+				setFormat(new CellRange(app, -1, cr.getMinRow(), -1,
+						cr.getMinRow()), FORMAT_BORDER, BORDER_TOP);
+				setFormat(new CellRange(app, -1, cr.getMaxRow(), -1,
+						cr.getMaxRow()), FORMAT_BORDER, BORDER_BOTTOM);
 				break;
 			}
 
@@ -729,25 +726,24 @@ public class CellFormat implements CellFormatInterface {
 			case BORDER_STYLE_INSIDE:
 				setFormat(
 						new CellRange(app, cr.getMinColumn(), -1,
-								cr.getMinColumn(), -1), FORMAT_BORDER,
-						BORDER_TOP);
+								cr.getMinColumn(), -1),
+						FORMAT_BORDER, BORDER_TOP);
 				if (cr.getMinColumn() < cr.getMaxColumn()) {
 					byte b = BORDER_LEFT + BORDER_TOP;
-					setFormat(
-							new CellRange(app, cr.getMinColumn() + 1, -1,
-									cr.getMaxColumn(), -1), FORMAT_BORDER, b);
+					setFormat(new CellRange(app, cr.getMinColumn() + 1, -1,
+							cr.getMaxColumn(), -1), FORMAT_BORDER, b);
 				}
 				break;
 
 			case BORDER_STYLE_FRAME:
 				setFormat(
 						new CellRange(app, cr.getMinColumn(), -1,
-								cr.getMinColumn(), -1), FORMAT_BORDER,
-						BORDER_LEFT);
+								cr.getMinColumn(), -1),
+						FORMAT_BORDER, BORDER_LEFT);
 				setFormat(
 						new CellRange(app, cr.getMaxColumn(), -1,
-								cr.getMaxColumn(), -1), FORMAT_BORDER,
-						BORDER_RIGHT);
+								cr.getMaxColumn(), -1),
+						FORMAT_BORDER, BORDER_RIGHT);
 				break;
 
 			}
@@ -1027,7 +1023,7 @@ public class CellFormat implements CellFormatInterface {
 			return;
 
 		String[] cellGroup = xml.split(cellDelimiter);
-		// System.out.println("cellGroup:  " +
+		// System.out.println("cellGroup: " +
 		// java.util.Arrays.toString(cellGroup));
 		for (int i = 0; i < cellGroup.length; i++) {
 			if (cellGroup.length > 0) {
@@ -1049,9 +1045,10 @@ public class CellFormat implements CellFormatInterface {
 		if (formatStr.equals("null")) {
 			return;
 		}
-		// System.out.println("cellFormat:  " + formatStr);
+		// System.out.println("cellFormat: " + formatStr);
 		String[] f = formatStr.split(formatDelimiter);
-		GPoint cell = new GPoint(Integer.parseInt(f[0]), Integer.parseInt(f[1]));
+		GPoint cell = new GPoint(Integer.parseInt(f[0]),
+				Integer.parseInt(f[1]));
 		int formatType;
 		Object formatValue;
 		for (int i = 2; i < f.length; i = i + 2) {

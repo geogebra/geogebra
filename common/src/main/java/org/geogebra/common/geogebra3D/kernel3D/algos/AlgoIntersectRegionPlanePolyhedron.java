@@ -44,8 +44,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * 
  * @author matthieu
  */
-public class AlgoIntersectRegionPlanePolyhedron extends
-		AlgoIntersectPathPlanePolygon3D {
+public class AlgoIntersectRegionPlanePolyhedron
+		extends AlgoIntersectPathPlanePolygon3D {
 
 	private GeoPolyhedron polyhedron;
 
@@ -60,14 +60,15 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * class extending Coords with reference to parent geo
 	 *
 	 */
-	private static class CoordsWithParent extends Coords implements
-			Comparable<CoordsWithParent> {
+	private static class CoordsWithParent extends Coords
+			implements Comparable<CoordsWithParent> {
 
 		protected GeoElementND parent;
 
 		private Double parameter;
 
-		public CoordsWithParent(Double parameter, Coords v, GeoElementND parent) {
+		public CoordsWithParent(Double parameter, Coords v,
+				GeoElementND parent) {
 			super(v);
 			this.parent = parent;
 			this.parameter = parameter;
@@ -127,8 +128,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * @author mathieu
 	 *
 	 */
-	private static class Vertices extends ArrayList<Coords> implements
-			Comparable<Vertices> {
+	private static class Vertices extends ArrayList<Coords>
+			implements Comparable<Vertices> {
 
 		// index for the lowest vertex
 		private int lowest = -1;
@@ -248,8 +249,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		this(c, plane, p, false);
 	}
 
-	private AlgoIntersectRegionPlanePolyhedron(Construction c,
-			GeoPlane3D plane, GeoPolyhedron p, boolean hasLabels) {
+	private AlgoIntersectRegionPlanePolyhedron(Construction c, GeoPlane3D plane,
+			GeoPolyhedron p, boolean hasLabels) {
 
 		super(c);
 
@@ -288,12 +289,14 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		} else {
 			int labelsLength = labels.length;
 			if (labelsLength > 1) {
-				// Log.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+				// Log.debug("\nici :
+				// "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
 				if (outputSizes != null) {
 					// set output sizes
 					outputPolygons.adjustOutputSize(outputSizes[0], false);
 					outputPoints.adjustOutputSize(outputSizes[1], false);
-					outputSegmentsPolyhedron.adjustOutputSize(outputSizes[2], false);
+					outputSegmentsPolyhedron.adjustOutputSize(outputSizes[2],
+							false);
 
 					// set labels
 					int i1 = 0;
@@ -314,7 +317,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 
 					i1 = 0;
 					while (i1 < outputSizes[2]) {
-						outputSegmentsPolyhedron.getElement(i1).setLabel(labels[i2]);
+						outputSegmentsPolyhedron.getElement(i1)
+								.setLabel(labels[i2]);
 						i1++;
 						i2++;
 					}
@@ -447,8 +451,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			 * p1.getInhomCoordsInD3(), p1), new CoordsWithParent((double) i+1,
 			 * p2.getInhomCoordsInD3(), p2)));
 			 * 
-			 * newCoordsList.put(p, segmentCoords);
-			 * //Log.debug("\npoly (included):"
+			 * newCoordsList.put(p, segmentCoords); //Log.debug(
+			 * "\npoly (included):"
 			 * +p+"\nsegmentCoords.size():"+segmentCoords.size()); }
 			 */
 
@@ -584,7 +588,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		CoordsWithParent a;
 		CoordsWithParent b = null;
 
-		// Log.debug("\nstart parent:"+startPoint.parent+"\nold parent:"+oldPoint.parent);
+		// Log.debug("\nstart parent:"+startPoint.parent+"\nold
+		// parent:"+oldPoint.parent);
 
 		// check if for a segment, one of the vertex as same parent as starting
 		// vertex
@@ -668,7 +673,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 					pFirstPoint = p;
 					indexFirstPoint = removeSegmentCoordsIndex;
 				} else {
-					// Log.debug("same: "+startPoint.parent+" -- "+oldParent+" : "+b);
+					// Log.debug("same: "+startPoint.parent+" -- "+oldParent+" :
+					// "+b);
 					removeSegmentCoords();
 					return b;
 				}
@@ -767,18 +773,19 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	 * @param indexSegment
 	 *            start index for segments
 	 */
-	private void addPolyhedronVerticesToOutput(int indexPolygon,
-			int indexPoint, int indexSegment) {
+	private void addPolyhedronVerticesToOutput(int indexPolygon, int indexPoint,
+			int indexSegment) {
 		for (Coords coords : polyhedronVertices) {
 			GeoPolygon outputPoly = outputPolygons.getElement(indexPolygon);
 			GeoPoint3D point = outputPoints.getElement(indexPoint);
 			point.setCoords(coords);
-			GeoSegment3D seg = outputSegmentsPolyhedron.getElement(indexSegment);
+			GeoSegment3D seg = outputSegmentsPolyhedron
+					.getElement(indexSegment);
 			seg.modifyInputPolyAndPoints(outputPoly, point, point);
-			outputPoly
-					.setPoints(new GeoPoint3D[] { point, point }, null, false); // don't
-																				// create
-																				// segments
+			outputPoly.setPoints(new GeoPoint3D[] { point, point }, null,
+					false); // don't
+							// create
+							// segments
 			outputPoly.setSegments(new GeoSegment3D[] { seg, seg });
 			outputPoly.calcArea();
 			indexPolygon++;
@@ -831,9 +838,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		// Log.debug("\noriginalEdges:"+originalEdges);
 
 		/*
-		 * for (GeoElementND parent : parentToPolygons.keySet()){
-		 * Log.debug("\nparent: "
-		 * +parent+"\npolygons: "+parentToPolygons.get(parent)); }
+		 * for (GeoElementND parent : parentToPolygons.keySet()){ Log.debug(
+		 * "\nparent: " +parent+"\npolygons: "+parentToPolygons.get(parent)); }
 		 */
 
 		// Log.debug(polyhedronVertices);
@@ -848,7 +854,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			// polyhedron vertices
 			outputPolygons.adjustOutputSize(polyhedronVertices.size(), false);
 			outputPoints.adjustOutputSize(polyhedronVertices.size(), false);
-			outputSegmentsPolyhedron.adjustOutputSize(polyhedronVertices.size(), false);
+			outputSegmentsPolyhedron.adjustOutputSize(polyhedronVertices.size(),
+					false);
 			addPolyhedronVerticesToOutput(0, 0, 0);
 
 		} else {
@@ -878,8 +885,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			// Log.debug(newCoordsList.keySet());
 
 			// set output points
-			outputPoints.adjustOutputSize(verticesList.cumulateSize
-					+ polyhedronVertices.size(), false);
+			outputPoints.adjustOutputSize(
+					verticesList.cumulateSize + polyhedronVertices.size(),
+					false);
 			updateLabels(outputPoints);
 			int segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList) {
@@ -892,8 +900,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			}
 
 			// adjust output polygons size
-			outputPolygons.adjustOutputSize(verticesList.size()
-					+ polyhedronVertices.size(), false);
+			outputPolygons.adjustOutputSize(
+					verticesList.size() + polyhedronVertices.size(), false);
 			updateLabels(outputPolygons);
 
 			// get points list
@@ -901,8 +909,9 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			points = outputPoints.getOutput(points);
 
 			// set output segments and polygons
-			outputSegmentsPolyhedron.adjustOutputSize(verticesList.cumulateSize
-					+ polyhedronVertices.size(), false);
+			outputSegmentsPolyhedron.adjustOutputSize(
+					verticesList.cumulateSize + polyhedronVertices.size(),
+					false);
 			updateLabels(outputSegmentsPolyhedron);
 			int pointIndex = 0;
 			int polygonIndex = 0;
@@ -920,7 +929,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 									points[pointIndex + i],
 									points[pointIndex + (i + 1) % length]);
 					polyPoints[i] = points[pointIndex + i];
-					polySegments[i] = outputSegmentsPolyhedron.getElement(segmentIndex);
+					polySegments[i] = outputSegmentsPolyhedron
+							.getElement(segmentIndex);
 					segmentIndex++;
 				}
 
@@ -957,7 +967,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				new elementFactory<GeoPolygon3D>() {
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons, true);
-						p.setParentAlgorithm(AlgoIntersectRegionPlanePolyhedron.this);
+						p.setParentAlgorithm(
+								AlgoIntersectRegionPlanePolyhedron.this);
 						if (outputPolygons.size() > 0)
 							p.setAllVisualProperties(
 									outputPolygons.getElement(0), false);
@@ -980,7 +991,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
 						newPoint.setCoords(0, 0, 0, 1);
-						newPoint.setParentAlgorithm(AlgoIntersectRegionPlanePolyhedron.this);
+						newPoint.setParentAlgorithm(
+								AlgoIntersectRegionPlanePolyhedron.this);
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setViewFlags(getFirstInput().getViewSet());
 						newPoint.setVisibleInView3D(getFirstInput());
@@ -993,12 +1005,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 							boolean labelVisible = false;
 							for (int i = 0; i < size && !visible
 									&& !labelVisible; i++) {
-								visible = visible
-										|| outputPoints.getElement(i)
-												.isEuclidianVisible();
-								labelVisible = labelVisible
-										|| outputPoints.getElement(i)
-												.getLabelVisible();
+								visible = visible || outputPoints.getElement(i)
+										.isEuclidianVisible();
+								labelVisible = labelVisible || outputPoints
+										.getElement(i).getLabelVisible();
 							}
 							newPoint.setEuclidianVisible(visible);
 							if (!visible) { // if not visible, we don't want
@@ -1012,8 +1022,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 							GeoPolygon polygon = outputPolygons.getElement(0);
 							if (polygon.getShowObjectCondition() != null) {
 								try {
-									newPoint.setShowObjectCondition(polygon
-											.getShowObjectCondition());
+									newPoint.setShowObjectCondition(
+											polygon.getShowObjectCondition());
 								} catch (Exception e) {
 									// circular definition
 								}
@@ -1027,20 +1037,24 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegmentsPolyhedron = // createOutputSegments();
-		new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
-			public GeoSegment3D newElement() {
-				GeoSegment3D segment = (GeoSegment3D) outputPolygons
-						.getElement(0).createSegment(
-								outputPoints.getElement(0),
-								outputPoints.getElement(0), true);
-				segment.setAuxiliaryObject(true);
-				// segment.setLabelVisible(showNewSegmentsLabels);
-				segment.setViewFlags(getFirstInput().getViewSet());
-				segment.setVisibleInView3D(getFirstInput());
-				segment.setVisibleInViewForPlane(getFirstInput());
-				return segment;
-			}
-		});
+				new OutputHandler<GeoSegment3D>(
+						new elementFactory<GeoSegment3D>() {
+							public GeoSegment3D newElement() {
+								GeoSegment3D segment = (GeoSegment3D) outputPolygons
+										.getElement(0).createSegment(
+												outputPoints.getElement(0),
+												outputPoints.getElement(0),
+												true);
+								segment.setAuxiliaryObject(true);
+								// segment.setLabelVisible(showNewSegmentsLabels);
+								segment.setViewFlags(
+										getFirstInput().getViewSet());
+								segment.setVisibleInView3D(getFirstInput());
+								segment.setVisibleInViewForPlane(
+										getFirstInput());
+								return segment;
+							}
+						});
 
 	}
 

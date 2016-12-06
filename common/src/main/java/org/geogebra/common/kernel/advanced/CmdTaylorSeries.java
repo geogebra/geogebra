@@ -36,8 +36,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
-				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons,
-						c.getLabel(),
+				AlgoTaylorSeries algo = new AlgoTaylorSeries(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 

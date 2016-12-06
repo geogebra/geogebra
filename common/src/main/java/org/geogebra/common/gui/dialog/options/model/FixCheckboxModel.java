@@ -8,17 +8,18 @@ public class FixCheckboxModel extends BooleanOptionModel {
 	public FixCheckboxModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
-	
+
 	private GeoBoolean getBooleanAt(int index) {
 		return (GeoBoolean) getObjectAt(index);
-					
+
 	}
+
 	@Override
 	public boolean getValueAt(int index) {
 		return getBooleanAt(index).isCheckboxFixed();
 
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		Object geo = getObjectAt(index);
@@ -30,7 +31,7 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		} else {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -41,4 +42,3 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		bool.updateRepaint();
 	}
 }
-

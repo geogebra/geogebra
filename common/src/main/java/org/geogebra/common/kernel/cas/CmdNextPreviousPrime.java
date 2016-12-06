@@ -29,8 +29,8 @@ public class CmdNextPreviousPrime extends CmdOneNumber {
 	@Override
 	protected GeoElement getResult(GeoNumberValue num, String label) {
 
-		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons, label,
-				num, next);
+		AlgoNextPreviousPrime algo = new AlgoNextPreviousPrime(cons, label, num,
+				next);
 		return algo.getResult();
 	}
 

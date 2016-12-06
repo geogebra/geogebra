@@ -137,14 +137,14 @@ public abstract class EuclidianView
 	 */
 	protected GGraphics2D bgGraphics;
 	// zoom rectangle colors
-	private static final GColor colZoomRectangle = GColor
-			.newColor(200, 200, 230);
-	private static final GColor colZoomRectangleFill = GColor
-			.newColor(200, 200, 230, 50);
+	private static final GColor colZoomRectangle = GColor.newColor(200, 200,
+			230);
+	private static final GColor colZoomRectangleFill = GColor.newColor(200, 200,
+			230, 50);
 
 	// deletion square design
-	protected static final GColor colDeletionSquare = GColor
-			.newColor(128, 0, 0);
+	protected static final GColor colDeletionSquare = GColor.newColor(128, 0,
+			0);
 	protected static final GBasicStroke strokeDeletionSquare = AwtFactory
 			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
@@ -1774,8 +1774,7 @@ public abstract class EuclidianView
 						Log.debug("TF geo: "
 								+ getTextField().getDrawTextField()
 										.getGeoElement()
-								+ " tf text "
-								+ getTextField().getText());
+								+ " tf text " + getTextField().getText());
 
 					}
 					focusTextField((GeoInputBox) geo);
@@ -3398,8 +3397,9 @@ public abstract class EuclidianView
 				GTextLayout layout = AwtFactory.getPrototype().newTextLayout(
 						sb.toString(), getFontAxes(),
 						g2.getFontRenderContext());
-				layout.draw(g2, (int) (getWidth() - 5 - EuclidianView
-						.estimateTextWidth(sb.toString(), getFontAxes())),
+				layout.draw(g2,
+						(int) (getWidth() - 5 - EuclidianView.estimateTextWidth(
+								sb.toString(), getFontAxes())),
 						getHeight() - 5);
 			}
 		}

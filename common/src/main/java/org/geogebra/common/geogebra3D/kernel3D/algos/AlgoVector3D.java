@@ -44,9 +44,8 @@ public class AlgoVector3D extends AlgoVector {
 
 	@Override
 	protected void setCoords() {
-		getVector().setCoords(
-				getQ().getInhomCoordsInD3().sub(getP().getInhomCoordsInD3())
-						.get());
+		getVector().setCoords(getQ().getInhomCoordsInD3()
+				.sub(getP().getInhomCoordsInD3()).get());
 	}
 
 }

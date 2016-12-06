@@ -100,6 +100,4 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 
 	}
 
-	
-
 }

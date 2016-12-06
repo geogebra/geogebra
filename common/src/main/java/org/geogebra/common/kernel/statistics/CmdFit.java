@@ -46,8 +46,8 @@ public class CmdFit extends CommandProcessor {
 		case 2:
 			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
 
-				AlgoFit algo = new AlgoFit(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]);
+				AlgoFit algo = new AlgoFit(cons, c.getLabel(), (GeoList) arg[0],
+						(GeoList) arg[1]);
 
 				GeoElement[] ret = { algo.getFit().toGeoElement() };
 				return ret;
@@ -60,7 +60,7 @@ public class CmdFit extends CommandProcessor {
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
-			}// if arg[0] is GeoList
+			} // if arg[0] is GeoList
 
 		default:
 

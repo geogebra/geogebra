@@ -37,8 +37,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Michael
  */
-public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
-		UsesCAS {
+public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
+		implements UsesCAS {
 
 	private GeoCurveCartesian curve2;
 	private GeoNumberValue t1, t2;
@@ -368,7 +368,8 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 						// Log.debug(p1+" "+
 						// curve.getMinParameter()+" "+curve.getMaxParameter());
 						// Log.debug(p2+" "+
-						// curve2.getMinParameter()+" "+curve2.getMaxParameter());
+						// curve2.getMinParameter()+"
+						// "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
 
@@ -380,9 +381,11 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 								s2.substring(fv1.length() + 1), true, null);
 
 						// Log.debug(t1+" "+
-						// curve1.getMinParameter()+" "+curve1.getMaxParameter());
+						// curve1.getMinParameter()+"
+						// "+curve1.getMaxParameter());
 						// Log.debug(t2+" "+
-						// curve2.getMinParameter()+" "+curve2.getMaxParameter());
+						// curve2.getMinParameter()+"
+						// "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
 
@@ -434,7 +437,5 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 				((GeoElement) curve).getLabel(tpl),
 				((GeoElement) curve2).getLabel(tpl));
 	}
-
-	
 
 }

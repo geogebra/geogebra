@@ -121,8 +121,8 @@ public class AlgoCubic extends AlgoElement {
 		String Cstr = "(" + (x2 - x1) / det + "*y  + " + (y1 - y2) / det
 				+ "*x - " + ((x2 - x1) * y2 + (y1 - y2) * x2) / det + ")";
 
-		equation = kernel.getApplication().cubicSwitch(
-				new AlgoCubicSwitchParams(n.getDouble(), a, b, c));
+		equation = kernel.getApplication()
+				.cubicSwitch(new AlgoCubicSwitchParams(n.getDouble(), a, b, c));
 
 		if (equation == null) {
 			poly.setUndefined();
@@ -153,5 +153,4 @@ public class AlgoCubic extends AlgoElement {
 		}
 	}
 
-	
 }

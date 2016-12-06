@@ -25,7 +25,8 @@ package org.apache.commons.collections15;
  * Standard implementations of common closures are provided by
  * {@link ClosureUtils}. These include method invokation and for/while loops.
  *
- * @param <T> the type that the closure acts on
+ * @param <T>
+ *            the type that the closure acts on
  * @since Commons Collections 1.0
  * @version $Revision$ $Date$
  *
@@ -35,14 +36,18 @@ package org.apache.commons.collections15;
  */
 public interface Closure<T> {
 
-    /**
-     * Performs an action on the specified input object.
-     *
-     * @param input  the input to execute on
-     * @throws ClassCastException (runtime) if the input is the wrong class
-     * @throws IllegalArgumentException (runtime) if the input is invalid
-     * @throws FunctorException (runtime) if any other error occurs
-     */
-    public void execute(T input);
+	/**
+	 * Performs an action on the specified input object.
+	 *
+	 * @param input
+	 *            the input to execute on
+	 * @throws ClassCastException
+	 *             (runtime) if the input is the wrong class
+	 * @throws IllegalArgumentException
+	 *             (runtime) if the input is invalid
+	 * @throws FunctorException
+	 *             (runtime) if any other error occurs
+	 */
+	public void execute(T input);
 
 }

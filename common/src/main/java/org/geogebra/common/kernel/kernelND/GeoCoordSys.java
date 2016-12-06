@@ -9,13 +9,18 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
  *
  */
 public interface GeoCoordSys extends GeoDirectionND {
-	
-	/** set the coordinate system
-	 * @param cs the coordinate system
+
+	/**
+	 * set the coordinate system
+	 * 
+	 * @param cs
+	 *            the coordinate system
 	 */
-	 //public void setCoordSys(CoordSys cs);
-	 
-	/** return the coordinate system
+	// public void setCoordSys(CoordSys cs);
+
+	/**
+	 * return the coordinate system
+	 * 
 	 * @return the coordinate system
 	 */
 	public CoordSys getCoordSys();

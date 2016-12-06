@@ -73,7 +73,7 @@ public class Exercise {
 		app.getScriptManager().disableListeners();
 		for (Assignment assignment : assignments) {
 			// if (assignment.isValid()) {
-				assignment.checkAssignment();
+			assignment.checkAssignment();
 			// }
 		}
 		app.getScriptManager().enableListeners();
@@ -229,12 +229,13 @@ public class Exercise {
 		}
 		for (int i = 0; i < assignments.size() && res; i++) {
 			if (assignments.get(i) instanceof GeoAssignment) {
-				res = ((GeoAssignment) assignments.get(i)).getTool().equals(
-						app.getKernel().getAllMacros().get(i))
+				res = ((GeoAssignment) assignments.get(i)).getTool()
+						.equals(app.getKernel().getAllMacros().get(i))
 						&& !(assignments.get(i).hasHint()
-								|| assignments.get(i).hasFraction() || !((GeoAssignment) assignments
-									.get(i)).getCheckOperation().equals(
-								"AreEqual"));
+								|| assignments.get(i).hasFraction()
+								|| !((GeoAssignment) assignments.get(i))
+										.getCheckOperation()
+										.equals("AreEqual"));
 			} else {
 				res = false;
 			}
@@ -260,7 +261,7 @@ public class Exercise {
 	 * 		<result name="UNKNOWN" hint="Something went wrong - ask your teacher!" />
 	 * 	</assignment>
 	 * }
-	 * </pre>
+	 *         </pre>
 	 */
 	public String getExerciseXML() {
 		StringBuilder sb = new StringBuilder();

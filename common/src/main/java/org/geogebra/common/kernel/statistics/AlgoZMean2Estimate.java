@@ -61,9 +61,9 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param n_2
 	 * @param level
 	 */
-	public AlgoZMean2Estimate(Construction cons, GeoNumeric mean,
-			GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2,
-			GeoNumeric n_2, GeoNumeric level) {
+	public AlgoZMean2Estimate(Construction cons, GeoNumeric mean, GeoNumeric sd,
+			GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2,
+			GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;

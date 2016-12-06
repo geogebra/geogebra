@@ -298,18 +298,20 @@ public class EuclidianViewCompanion {
 			// use the double values instead
 			double x0 = evs.getXZero();
 			double y0 = evs.getYZero();
-			if (view.getApplication().has(Feature.MOBILE_NEW_EV_CENTERING)){
-//				Log.debug("view.isShowing() : "+view.isShowing()+" -- "+view);
+			if (view.getApplication().has(Feature.MOBILE_NEW_EV_CENTERING)) {
+				// Log.debug("view.isShowing() : "+view.isShowing()+" --
+				// "+view);
 				if (view.getKeepCenter() && view.isShowing()) {
-					// we may need to shift center if windows/settings sizes don't match
+					// we may need to shift center if windows/settings sizes
+					// don't match
 					int w = view.getWidth();
 					int h = view.getHeight();
 					if (w > EuclidianView.MIN_WIDTH
 							&& h > EuclidianView.MIN_HEIGHT) {
 						int sw = evs.getWidth();
 						int sh = evs.getHeight();
-//						Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
-//								+ sh + ", view: " + w + "x" + h);
+						// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
+						// + sh + ", view: " + w + "x" + h);
 						if (sw == 0) {
 							// no dimension from file: center the view
 							sw = (int) Math.round(x0 * 2);
@@ -320,7 +322,7 @@ public class EuclidianViewCompanion {
 						evs.setSize(w, h);
 						evs.setOriginNoUpdate(x0, y0);
 					}
-//					Log.debug(">> x0:" + x0 + ", y0:" + y0);
+					// Log.debug(">> x0:" + x0 + ", y0:" + y0);
 				}
 			}
 			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
@@ -421,8 +423,8 @@ public class EuclidianViewCompanion {
 	 *            eigenvectors
 	 * @return affine transform of the conic for this view
 	 */
-	public GAffineTransform getTransform(GeoConicND conic,
-			Coords M, Coords[] ev) {
+	public GAffineTransform getTransform(GeoConicND conic, Coords M,
+			Coords[] ev) {
 		return conic.getAffineTransform();
 	}
 
@@ -436,7 +438,7 @@ public class EuclidianViewCompanion {
 	public Coords getCoordsForView(GeoPointND point) {
 		return point.getInhomCoords();
 	}
-	
+
 	/**
 	 * Size changed, make sure our settings reflect that but do not update
 	 * drawables

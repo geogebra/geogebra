@@ -23,7 +23,7 @@ public abstract class DataAnalysisController {
 	private App app;
 	private Kernel kernel;
 	private Construction cons;
-//	private DataAnalysisModel view;
+	// private DataAnalysisModel view;
 	private StatGeo statGeo;
 
 	private DataSource dataSource;
@@ -50,7 +50,6 @@ public abstract class DataAnalysisController {
 		this.cons = kernel.getConstruction();
 	}
 
-	
 	// ==========================================
 	// Getters/Setters
 	// ==========================================
@@ -178,7 +177,7 @@ public abstract class DataAnalysisController {
 
 		// check for empty lists
 		for (int i = 0; i < list.size(); i++) {
-			// System.out.println("data list " + i + "  size: "
+			// System.out.println("data list " + i + " size: "
 			// + list.get(i).size());
 			if (list.get(i).size() < 1) {
 				// System.out.println("invalid data list");
@@ -251,7 +250,7 @@ public abstract class DataAnalysisController {
 	}
 
 	protected abstract void updateRegressionPanel();
-	
+
 	private void debugDataSelected() {
 		if (dataSelected == null) {
 			return;
@@ -259,8 +258,8 @@ public abstract class DataAnalysisController {
 		Log.debug("==========================");
 		Log.debug("dataSelected: ");
 		for (int i = 0; i < dataSelected.size(); i++) {
-			Log.debug(dataSelected.get(i).toString(
-					StringTemplate.defaultTemplate));
+			Log.debug(dataSelected.get(i)
+					.toString(StringTemplate.defaultTemplate));
 		}
 		Log.debug("==========================");
 
@@ -328,7 +327,6 @@ public abstract class DataAnalysisController {
 	 */
 	public abstract void updateAllPanels(boolean doRedefine);
 
-
 	protected void handleRemovedDataGeo(GeoElement geo) {
 
 		// System.out.println("removed: " + geo.toString());
@@ -347,8 +345,8 @@ public abstract class DataAnalysisController {
 		removeRegressionGeo();
 
 		geoRegression = statGeo.createRegressionPlot(dataSelected,
- getModel()
-				.getRegressionMode(), getModel().getRegressionOrder(), false);
+				getModel().getRegressionMode(), getModel().getRegressionOrder(),
+				false);
 	}
 
 	public void removeRegressionGeo() {
@@ -378,7 +376,7 @@ public abstract class DataAnalysisController {
 	}
 
 	protected abstract void removeGeos();
-	
+
 	public double[] getValueArray(GeoList dataList) {
 		ArrayList<Double> list = new ArrayList<Double>();
 		for (int i = 0; i < dataList.size(); i++) {

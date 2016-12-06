@@ -9,23 +9,25 @@
  */
 package edu.uci.ics.jung.algorithms.generators;
 
-
-
 /**
  * An interface for algorithms that generate graphs that evolve iteratively.
+ * 
  * @author Scott White
  */
-public interface EvolvingGraphGenerator<V, E> extends GraphGenerator<V,E> {
+public interface EvolvingGraphGenerator<V, E> extends GraphGenerator<V, E> {
 
-    /**
-     * Instructs the algorithm to evolve the graph N steps.
-     * @param numSteps number of steps to iterate from the current state
-     */
-    void evolveGraph(int numSteps);
+	/**
+	 * Instructs the algorithm to evolve the graph N steps.
+	 * 
+	 * @param numSteps
+	 *            number of steps to iterate from the current state
+	 */
+	void evolveGraph(int numSteps);
 
-    /**
-     * Retrieves the total number of steps elapsed.
-     * @return number of elapsed steps
-     */
-    int numIterations();
+	/**
+	 * Retrieves the total number of steps elapsed.
+	 * 
+	 * @return number of elapsed steps
+	 */
+	int numIterations();
 }

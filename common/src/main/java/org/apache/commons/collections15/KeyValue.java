@@ -23,8 +23,10 @@ package org.apache.commons.collections15;
  * key-value pair. This interface defines the minimum key value, with just the
  * two get methods.
  *
- * @param <K> the type of the key
- * @param <V> the type of the value
+ * @param <K>
+ *            the type of the key
+ * @param <V>
+ *            the type of the value
  * @since Commons Collections 3.0
  * @version $Revision$ $Date$
  *
@@ -32,18 +34,18 @@ package org.apache.commons.collections15;
  */
 public interface KeyValue<K, V> {
 
-    /**
-     * Gets the key from the pair.
-     *
-     * @return the key 
-     */
-    K getKey();
+	/**
+	 * Gets the key from the pair.
+	 *
+	 * @return the key
+	 */
+	K getKey();
 
-    /**
-     * Gets the value from the pair.
-     *
-     * @return the value
-     */
-    V getValue();
+	/**
+	 * Gets the value from the pair.
+	 *
+	 * @return the value
+	 */
+	V getValue();
 
 }

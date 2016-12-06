@@ -32,8 +32,6 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
 
-
-
 	public AlgoLocusSlider3D(Construction cons, String label, GeoPointND Q,
 			GeoNumeric P) {
 		super(cons, label, Q, P);
@@ -47,27 +45,28 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 		farZmax = new double[3];
 	}
 
-	@Override protected void setMaxDistances(int i) {
+	@Override
+	protected void setMaxDistances(int i) {
 		super.setMaxDistances(i);
 		if (i == 2) { // 3D view
 			maxZdist[i] = MAX_Z_PIXEL_DIST / kernel.getZscale(i);
 			double zmin = kernel.getZmin(i);
 			double zmax = kernel.getZmax(i);
-	  
+
 			double widthRW = zmax - zmin;
-	  
+
 			farZmin[i] = zmin - widthRW / 2;
 			farZmax[i] = zmax + widthRW / 2;
-	  
+
 		} else {
 			maxZdist[i] = Double.POSITIVE_INFINITY;
-	  // we don't check z for 2D // views
-	  
+			// we don't check z for 2D // views
+
 			farZmin[i] = Double.NEGATIVE_INFINITY;
 			farZmax[i] = Double.POSITIVE_INFINITY;
 		}
-	  
-	  }
+
+	}
 
 	@Override
 	protected void createStartPos(Construction cons) {
@@ -78,10 +77,6 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 	protected GeoLocus3D newGeoLocus(Construction cons) {
 		return new GeoLocus3D(cons);
 	}
-
-
-
-
 
 	@Override
 	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle) {
@@ -208,7 +203,5 @@ public class AlgoLocusSlider3D extends AlgoLocusSliderND<MyPoint3D> {
 		Coords coords = point.getInhomCoordsInD3();
 		return isFarAway(coords.getX(), coords.getY(), coords.getZ(), i);
 	}
-
-	
 
 }

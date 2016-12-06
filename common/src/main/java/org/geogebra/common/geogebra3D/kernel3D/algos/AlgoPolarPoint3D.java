@@ -63,8 +63,8 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 	public final void compute() {
 
 		// check if line lies on conic coord sys
-		equation2D = line.getCartesianEquationVector(c.getCoordSys()
-				.getMatrixOrthonormal());
+		equation2D = line.getCartesianEquationVector(
+				c.getCoordSys().getMatrixOrthonormal());
 		if (equation2D == null) {
 			polar.setUndefined();
 			return;

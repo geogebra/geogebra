@@ -24,8 +24,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Simon Weitzhofer 27th of April 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoAreConcyclic extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
+public class AlgoAreConcyclic extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoPoint inputPoint1; // input
 	private GeoPoint inputPoint2; // input
@@ -52,9 +52,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	 * @param inputPoint4
 	 *            the forth point
 	 */
-	public AlgoAreConcyclic(Construction cons,
-			GeoPoint inputPoint1, GeoPoint inputPoint2, GeoPoint inputPoint3,
-			GeoPoint inputPoint4) {
+	public AlgoAreConcyclic(Construction cons, GeoPoint inputPoint1,
+			GeoPoint inputPoint2, GeoPoint inputPoint3, GeoPoint inputPoint4) {
 		super(cons);
 		this.inputPoint1 = inputPoint1;
 		this.inputPoint2 = inputPoint2;
@@ -105,45 +104,42 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	@Override
 	public final void compute() {
 
-		double ax = inputPoint1.getX(), ay = inputPoint1.getY(), az = inputPoint1
-				.getZ(), bx = inputPoint2.getX(), by = inputPoint2.getY(), bz = inputPoint2
-				.getZ(), cx = inputPoint3.getX(), cy = inputPoint3.getY(), cz = inputPoint3
-				.getZ(), dx = inputPoint4.getX(), dy = inputPoint4.getY(), dz = inputPoint4
-				.getZ();
+		double ax = inputPoint1.getX(), ay = inputPoint1.getY(),
+				az = inputPoint1.getZ(), bx = inputPoint2.getX(),
+				by = inputPoint2.getY(), bz = inputPoint2.getZ(),
+				cx = inputPoint3.getX(), cy = inputPoint3.getY(),
+				cz = inputPoint3.getZ(), dx = inputPoint4.getX(),
+				dy = inputPoint4.getY(), dz = inputPoint4.getZ();
 
 		// Using Ptolomy's theorem
 
-		double ab = cz
-				* dz
+		double ab = cz * dz
 				* Math.sqrt((bx * az - ax * bz) * (bx * az - ax * bz)
 						+ (by * az - ay * bz) * (by * az - ay * bz));
-		double ac = bz
-				* dz
+		double ac = bz * dz
 				* Math.sqrt((cx * az - ax * cz) * (cx * az - ax * cz)
 						+ (cy * az - ay * cz) * (cy * az - ay * cz));
-		double ad = bz
-				* cz
+		double ad = bz * cz
 				* Math.sqrt((dx * az - ax * dz) * (dx * az - ax * dz)
 						+ (dy * az - ay * dz) * (dy * az - ay * dz));
-		double bc = az
-				* dz
+		double bc = az * dz
 				* Math.sqrt((cx * bz - bx * cz) * (cx * bz - bx * cz)
 						+ (cy * bz - by * cz) * (cy * bz - by * cz));
-		double bd = az
-				* cz
+		double bd = az * cz
 				* Math.sqrt((dx * bz - bx * dz) * (dx * bz - bx * dz)
 						+ (dy * bz - by * dz) * (dy * bz - by * dz));
-		double cd = az
-				* bz
+		double cd = az * bz
 				* Math.sqrt((dx * cz - cx * dz) * (dx * cz - cx * dz)
 						+ (dy * cz - cy * dz) * (dy * cz - cy * dz));
 
 		if (Kernel.isZero((ab * cd + bc * ad - ac * bd) / (az * bz * cz * dz),
 				Kernel.MIN_PRECISION)
-				|| Kernel.isZero((ab * cd + ac * bd - bc * ad)
-						/ (az * bz * cz * dz), Kernel.MIN_PRECISION)
-				|| Kernel.isZero((bc * ad + ac * bd - ab * cd)
-						/ (az * bz * cz * dz), Kernel.MIN_PRECISION)) {
+				|| Kernel.isZero(
+						(ab * cd + ac * bd - bc * ad) / (az * bz * cz * dz),
+						Kernel.MIN_PRECISION)
+				|| Kernel.isZero(
+						(bc * ad + ac * bd - ab * cd) / (az * bz * cz * dz),
+						Kernel.MIN_PRECISION)) {
 			outputBoolean.setValue(true);
 		} else {
 			outputBoolean.setValue(false);
@@ -208,14 +204,14 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			int[] degree = new int[1];
 
 			int[] list = {
-					degree1[1] + degree1[2] + degree2[0] + degree2[2] + 2
-							* degree3[0],
-					degree1[0] + degree1[2] + degree2[1] + degree2[2] + 2
-							* degree3[0],
-					degree1[1] + degree1[2] + degree2[0] + degree2[2] + 2
-							* degree3[1],
-					degree1[0] + degree1[2] + degree2[1] + degree2[2] + 2
-							* degree3[1],
+					degree1[1] + degree1[2] + degree2[0] + degree2[2]
+							+ 2 * degree3[0],
+					degree1[0] + degree1[2] + degree2[1] + degree2[2]
+							+ 2 * degree3[0],
+					degree1[1] + degree1[2] + degree2[0] + degree2[2]
+							+ 2 * degree3[1],
+					degree1[0] + degree1[2] + degree2[1] + degree2[2]
+							+ 2 * degree3[1],
 					degree1[1] + degree1[2] + 2 * degree2[0] + degree3[0]
 							+ degree3[2],
 					degree1[1] + degree1[2] + 2 * degree2[1] + degree3[0]
@@ -240,10 +236,10 @@ public class AlgoAreConcyclic extends AlgoElement implements
 							+ degree3[2],
 					degree1[0] + degree1[2] + 2 * degree2[2] + degree3[1]
 							+ degree3[2],
-					degree1[1] + degree1[2] + degree2[0] + degree2[2] + 2
-							* degree3[2],
-					degree1[0] + degree1[2] + degree2[1] + degree2[2] + 2
-							* degree3[2],
+					degree1[1] + degree1[2] + degree2[0] + degree2[2]
+							+ 2 * degree3[2],
+					degree1[0] + degree1[2] + degree2[1] + degree2[2]
+							+ 2 * degree3[2],
 					2 * degree4[0],
 					2 * degree1[2] + degree2[1] + degree2[2] + 2 * degree3[0]
 							+ degree4[0],
@@ -293,7 +289,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 					2 * degree1[0] + degree2[0] + degree2[2] + 2 * degree3[2]
 							+ degree4[1],
 					2 * degree1[1] + degree2[0] + degree2[2] + 2 * degree3[2]
-							+ degree4[1], degree4[2], 2 * degree4[2] };
+							+ degree4[1],
+					degree4[2], 2 * degree4[2] };
 
 			// find max of list
 			int max = list[0];
@@ -310,7 +307,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
@@ -323,26 +321,26 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			BigInteger[][] matrix = new BigInteger[4][4];
 			matrix[0][0] = coords1[0].multiply(coords1[2]);
 			matrix[0][1] = coords1[1].multiply(coords1[2]);
-			matrix[0][2] = coords1[0].multiply(coords1[0]).add(
-					coords1[1].multiply(coords1[1]));
+			matrix[0][2] = coords1[0].multiply(coords1[0])
+					.add(coords1[1].multiply(coords1[1]));
 			matrix[0][3] = coords1[2].multiply(coords1[2]);
 
 			matrix[1][0] = coords2[0].multiply(coords2[2]);
 			matrix[1][1] = coords2[1].multiply(coords2[2]);
-			matrix[1][2] = coords2[0].multiply(coords2[0]).add(
-					coords2[1].multiply(coords2[1]));
+			matrix[1][2] = coords2[0].multiply(coords2[0])
+					.add(coords2[1].multiply(coords2[1]));
 			matrix[1][3] = coords2[2].multiply(coords2[2]);
 
 			matrix[2][0] = coords3[0].multiply(coords3[2]);
 			matrix[2][1] = coords3[1].multiply(coords3[2]);
-			matrix[2][2] = coords3[0].multiply(coords3[0]).add(
-					coords3[1].multiply(coords3[1]));
+			matrix[2][2] = coords3[0].multiply(coords3[0])
+					.add(coords3[1].multiply(coords3[1]));
 			matrix[2][3] = coords3[2].multiply(coords3[2]);
 
 			matrix[3][0] = coords4[0].multiply(coords4[2]);
 			matrix[3][1] = coords4[1].multiply(coords4[2]);
-			matrix[3][2] = coords4[0].multiply(coords4[0]).add(
-					coords4[1].multiply(coords4[1]));
+			matrix[3][2] = coords4[0].multiply(coords4[0])
+					.add(coords4[1].multiply(coords4[1]));
 			matrix[3][3] = coords4[2].multiply(coords4[2]);
 
 			coords[0] = SymbolicParameters.det4(matrix);
@@ -366,26 +364,26 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			Polynomial[][] matrix = new Polynomial[4][4];
 			matrix[0][0] = coords1[0].multiply(coords1[2]);
 			matrix[0][1] = coords1[1].multiply(coords1[2]);
-			matrix[0][2] = coords1[0].multiply(coords1[0]).add(
-					coords1[1].multiply(coords1[1]));
+			matrix[0][2] = coords1[0].multiply(coords1[0])
+					.add(coords1[1].multiply(coords1[1]));
 			matrix[0][3] = coords1[2].multiply(coords1[2]);
 
 			matrix[1][0] = coords2[0].multiply(coords2[2]);
 			matrix[1][1] = coords2[1].multiply(coords2[2]);
-			matrix[1][2] = coords2[0].multiply(coords2[0]).add(
-					coords2[1].multiply(coords2[1]));
+			matrix[1][2] = coords2[0].multiply(coords2[0])
+					.add(coords2[1].multiply(coords2[1]));
 			matrix[1][3] = coords2[2].multiply(coords2[2]);
 
 			matrix[2][0] = coords3[0].multiply(coords3[2]);
 			matrix[2][1] = coords3[1].multiply(coords3[2]);
-			matrix[2][2] = coords3[0].multiply(coords3[0]).add(
-					coords3[1].multiply(coords3[1]));
+			matrix[2][2] = coords3[0].multiply(coords3[0])
+					.add(coords3[1].multiply(coords3[1]));
 			matrix[2][3] = coords3[2].multiply(coords3[2]);
 
 			matrix[3][0] = coords4[0].multiply(coords4[2]);
 			matrix[3][1] = coords4[1].multiply(coords4[2]);
-			matrix[3][2] = coords4[0].multiply(coords4[0]).add(
-					coords4[1].multiply(coords4[1]));
+			matrix[3][2] = coords4[0].multiply(coords4[0])
+					.add(coords4[1].multiply(coords4[1]));
 			matrix[3][3] = coords4[2].multiply(coords4[2]);
 
 			polynomials[0] = Polynomial.det4(matrix);
@@ -411,26 +409,26 @@ public class AlgoAreConcyclic extends AlgoElement implements
 
 			matrix[0][0] = new Polynomial(coords1[0]);
 			matrix[0][1] = new Polynomial(coords1[1]);
-			matrix[0][2] = matrix[0][0].multiply(matrix[0][0]).add(
-					matrix[0][1].multiply(matrix[0][1]));
+			matrix[0][2] = matrix[0][0].multiply(matrix[0][0])
+					.add(matrix[0][1].multiply(matrix[0][1]));
 			matrix[0][3] = new Polynomial(1);
 
 			matrix[1][0] = new Polynomial(coords2[0]);
 			matrix[1][1] = new Polynomial(coords2[1]);
-			matrix[1][2] = matrix[1][0].multiply(matrix[1][0]).add(
-					matrix[1][1].multiply(matrix[1][1]));
+			matrix[1][2] = matrix[1][0].multiply(matrix[1][0])
+					.add(matrix[1][1].multiply(matrix[1][1]));
 			matrix[1][3] = new Polynomial(1);
 
 			matrix[2][0] = new Polynomial(coords3[0]);
 			matrix[2][1] = new Polynomial(coords3[1]);
-			matrix[2][2] = matrix[2][0].multiply(matrix[2][0]).add(
-					matrix[2][1].multiply(matrix[2][1]));
+			matrix[2][2] = matrix[2][0].multiply(matrix[2][0])
+					.add(matrix[2][1].multiply(matrix[2][1]));
 			matrix[2][3] = new Polynomial(1);
 
 			matrix[3][0] = new Polynomial(coords4[0]);
 			matrix[3][1] = new Polynomial(coords4[1]);
-			matrix[3][2] = matrix[3][0].multiply(matrix[3][0]).add(
-					matrix[3][1].multiply(matrix[3][1]));
+			matrix[3][2] = matrix[3][0].multiply(matrix[3][0])
+					.add(matrix[3][1].multiply(matrix[3][1]));
 			matrix[3][3] = new Polynomial(1);
 
 			botanaPolynomials[0][0] = Polynomial.det4(matrix);
@@ -439,7 +437,5 @@ public class AlgoAreConcyclic extends AlgoElement implements
 		}
 		throw new NoSymbolicParametersException();
 	}
-
-	
 
 }

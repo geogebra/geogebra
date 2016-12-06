@@ -20,8 +20,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author mathieu
  *
  */
-public abstract class RendererWithImpl extends Renderer implements
-		RendererShadersInterface {
+public abstract class RendererWithImpl extends Renderer
+		implements RendererShadersInterface {
 
 	protected RendererImpl rendererImpl;
 
@@ -181,7 +181,6 @@ public abstract class RendererWithImpl extends Renderer implements
 		rendererImpl.disableTextures();
 
 	}
-
 
 	@Override
 	final protected void doPick() {
@@ -537,7 +536,6 @@ public abstract class RendererWithImpl extends Renderer implements
 		// getGL().glPolygonOffset(-l, 0);
 	}
 
-
 	@Override
 	final public void genTextures2D(int number, int[] index) {
 		rendererImpl.genTextures2D(number, index);
@@ -582,7 +580,6 @@ public abstract class RendererWithImpl extends Renderer implements
 	final public boolean useShaders() {
 		return rendererImpl.useShaders();
 	}
-
 
 	@Override
 	final public void enableFading() {
@@ -674,11 +671,12 @@ public abstract class RendererWithImpl extends Renderer implements
 	 * @param pix
 	 * @return the alpha channel of the array ARGB description
 	 */
- 	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
+	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
 		return ARGBtoAlpha(label, label.getWidth(), label.getHeight(), pix);
 	}
 
-	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int labelWidthRes, int labelHeightRes, int[] pix) {
+	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int labelWidthRes,
+			int labelHeightRes, int[] pix) {
 
 		// calculates 2^n dimensions
 		int w = firstPowerOfTwoGreaterThan(labelWidthRes);
@@ -725,7 +723,6 @@ public abstract class RendererWithImpl extends Renderer implements
 
 		return bytes;
 	}
-
 
 	@Override
 	protected void enableNormalNormalized() {

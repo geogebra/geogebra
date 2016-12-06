@@ -238,8 +238,8 @@ public class PolyFunction implements RealRootDerivFunction {
 
 		if (degree == 0) {
 			// constant
-			ExpressionNode en = new ExpressionNode(kernel, new MyDouble(kernel,
-					coeffs[0]));
+			ExpressionNode en = new ExpressionNode(kernel,
+					new MyDouble(kernel, coeffs[0]));
 			return new Function(en, fv);
 		} else if (degree == 1) {
 			// linear
@@ -257,7 +257,7 @@ public class PolyFunction implements RealRootDerivFunction {
 				if (coeffs[i] != 0) {
 					ExpressionNode term = new ExpressionNode(kernel, fv,
 							Operation.POWER, new MyDouble(kernel, i))
-							.multiplyR(coeffs[i]);
+									.multiplyR(coeffs[i]);
 					en = en.plus(term);
 				}
 			}
@@ -312,9 +312,9 @@ public class PolyFunction implements RealRootDerivFunction {
 
 	/*
 	 * public String toString() { StringBuilder sb = new StringBuilder();
-	 * sb.append(coeffs[0]); for (int i=1; i<coeffs.length; i++) {
-	 * sb.append(" + "); sb.append(coeffs[i]); sb.append(" x^"); sb.append(i); }
-	 * return sb.toString(); }
+	 * sb.append(coeffs[0]); for (int i=1; i<coeffs.length; i++) { sb.append(
+	 * " + "); sb.append(coeffs[i]); sb.append(" x^"); sb.append(i); } return
+	 * sb.toString(); }
 	 */
 
 }

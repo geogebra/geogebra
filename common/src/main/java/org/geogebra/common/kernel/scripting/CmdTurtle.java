@@ -27,8 +27,8 @@ public class CmdTurtle extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		if (n > 0) {
 			throw argNumErr(app, c.getName(), n);

@@ -57,8 +57,8 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 
 	public AlgoSumUpper copy() {
 		return new AlgoSumUpper((GeoNumberValue) this.getA().deepCopy(kernel),
-				(GeoNumberValue) this.getB().deepCopy(kernel), this.getN()
-						.copy(), Cloner.clone(getValues()),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				this.getN().copy(), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), cons);
 	}
 

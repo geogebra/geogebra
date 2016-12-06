@@ -9,18 +9,20 @@ import org.geogebra.common.main.App;
 public class ViewLocationModel extends OptionsModel {
 	public interface IGraphicsViewLocationListener extends PropertyListener {
 		public void selectView(int index, boolean isSelected);
+
 		public void setCheckBox3DVisible(boolean flag);
 
 		public void setCheckBoxForPlaneVisible(boolean flag);
 
 		// public void setCheckBoxAlgebraVisible(boolean flag);
 	}
-	
+
 	private IGraphicsViewLocationListener listener;
+
 	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {
 		super(app);
 		this.listener = listener;
-		
+
 	}
 
 	@Override
@@ -61,7 +63,7 @@ public class ViewLocationModel extends OptionsModel {
 		listener.selectView(1, isInEV2);
 		listener.selectView(2, isInEV3D);
 		listener.selectView(3, isInEVForPlane);
-		
+
 		listener.selectView(4, isInAV);
 
 	}
@@ -76,7 +78,7 @@ public class ViewLocationModel extends OptionsModel {
 			}
 		}
 	}
-	
+
 	public void applyToEuclidianView2(boolean value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
@@ -93,7 +95,7 @@ public class ViewLocationModel extends OptionsModel {
 		}
 		storeUndoInfo();
 	}
-	
+
 	public void applyToEuclidianView3D(boolean value) {
 
 		if (!app.isEuclidianView3Dinited()) {
@@ -151,13 +153,13 @@ public class ViewLocationModel extends OptionsModel {
 
 	@Override
 	public boolean checkGeos() {
-		
+
 		if (listener == null) {
 			return false;
 		}
 
 		listener.setCheckBox3DVisible(true);
-		
+
 		if (app.hasEuclidianViewForPlane()) {
 			listener.setCheckBoxForPlaneVisible(true);
 		} else {

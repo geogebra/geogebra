@@ -63,8 +63,8 @@ public class CmdMax extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1]
-					.isGeoList()))) {
+			} else if (((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoList()))) {
 
 				// value and frequency list
 				AlgoListMax algo = new AlgoListMax(cons, c.getLabel(),
@@ -84,7 +84,8 @@ public class CmdMax extends CommandProcessor {
 
 				AlgoFunctionMinMax algo = new AlgoFunctionMinMax(cons,
 						c.getLabel(), (GeoFunction) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], false);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						false);
 
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;

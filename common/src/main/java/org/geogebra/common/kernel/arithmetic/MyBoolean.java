@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @see ExpressionNode#evaluate(StringTemplate)
  * @author Markus Hohenwarter
  */
-public class MyBoolean extends ValidExpression implements BooleanValue,
-		NumberValue {
+public class MyBoolean extends ValidExpression
+		implements BooleanValue, NumberValue {
 
 	private boolean value;
 	private Kernel kernel;

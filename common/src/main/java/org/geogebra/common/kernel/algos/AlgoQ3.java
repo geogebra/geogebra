@@ -118,10 +118,12 @@ public class AlgoQ3 extends AlgoElement {
 
 			switch (size % 4) {
 			case 0:
-				Q3.setValue((sortList[(3 * size) / 4 - 1] + sortList[(3 * size + 4) / 4 - 1]) / 2);
+				Q3.setValue((sortList[(3 * size) / 4 - 1]
+						+ sortList[(3 * size + 4) / 4 - 1]) / 2);
 				break;
 			case 1:
-				Q3.setValue((sortList[(3 * size + 1) / 4 - 1] + sortList[(3 * size + 5) / 4 - 1]) / 2);
+				Q3.setValue((sortList[(3 * size + 1) / 4 - 1]
+						+ sortList[(3 * size + 5) / 4 - 1]) / 2);
 				break;
 			case 2:
 				Q3.setValue(sortList[(3 * size + 2) / 4 - 1]);
@@ -138,7 +140,8 @@ public class AlgoQ3 extends AlgoElement {
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
-			if (!freqList.isDefined() || (inputList.size() != freqList.size())) {
+			if (!freqList.isDefined()
+					|| (inputList.size() != freqList.size())) {
 				Q3.setUndefined();
 				return;
 			}
@@ -173,12 +176,14 @@ public class AlgoQ3 extends AlgoElement {
 
 			switch (n % 4) {
 			case 0:
-				Q3.setValue((AlgoMedian.getValueAt(3 * n / 4 - 1, v, f) + AlgoMedian
-						.getValueAt((3 * n + 4) / 4 - 1, v, f)) / 2);
+				Q3.setValue((AlgoMedian.getValueAt(3 * n / 4 - 1, v, f)
+						+ AlgoMedian.getValueAt((3 * n + 4) / 4 - 1, v, f))
+						/ 2);
 				break;
 			case 1:
-				Q3.setValue((AlgoMedian.getValueAt((3 * n + 1) / 4 - 1, v, f) + AlgoMedian
-						.getValueAt((3 * n + 5) / 4 - 1, v, f)) / 2);
+				Q3.setValue((AlgoMedian.getValueAt((3 * n + 1) / 4 - 1, v, f)
+						+ AlgoMedian.getValueAt((3 * n + 5) / 4 - 1, v, f))
+						/ 2);
 				break;
 			case 2:
 				Q3.setValue(AlgoMedian.getValueAt((3 * n + 2) / 4 - 1, v, f));
@@ -192,5 +197,4 @@ public class AlgoQ3 extends AlgoElement {
 
 	}
 
-	
 }

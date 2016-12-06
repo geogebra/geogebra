@@ -91,6 +91,4 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 		return implicitPoly;
 	}
 
-	
-
 }

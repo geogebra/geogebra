@@ -36,8 +36,7 @@ public class CmdLocus extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof FunctionalNVar)
-					|| arg[0].isGeoLocus())
-					&& (ok[1] = arg[1].isGeoPoint())) {
+					|| arg[0].isGeoLocus()) && (ok[1] = arg[1].isGeoPoint())) {
 
 				AlgoIntegralODE algo = new AlgoIntegralODE(cons, c.getLabel(),
 						arg[0], (GeoPoint) arg[1]);
@@ -63,12 +62,11 @@ public class CmdLocus extends CommandProcessor {
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = arg[1].isGeoNumeric()
 							&& AlgoDispatcher.LocusCheck((GeoPointND) arg[0],
-							(GeoNumeric) arg[1]))) {
+									(GeoNumeric) arg[1]))) {
 				GeoPointND p1 = (GeoPointND) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 
-				GeoElement[] ret = { locus(c.getLabel(),
-						p1, p2) };
+				GeoElement[] ret = { locus(c.getLabel(), p1, p2) };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -79,7 +77,6 @@ public class CmdLocus extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-
 
 	/**
 	 * @param label
@@ -103,7 +100,7 @@ public class CmdLocus extends CommandProcessor {
 	 *            slider
 	 * @return locus
 	 */
-	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider){
+	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider) {
 		return getAlgoDispatcher().Locus(label, p, slider);
 	}
 

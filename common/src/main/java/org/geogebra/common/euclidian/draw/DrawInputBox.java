@@ -12,7 +12,6 @@
 
 package org.geogebra.common.euclidian.draw;
 
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -310,7 +309,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setOpaque(true);
 		tf.setFont(textFont);
-		
+
 		GColor fgCol = GColor.BLACK;
 		GColor bgCol = view.getBackgroundCommon();
 
@@ -356,8 +355,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			public int getWidth() {
 				return (int) Math
 						.round(((getView().getApplication().getFontSize()
- * geoInputBox
-								.getFontSizeMultiplier()))
+								* geoInputBox.getFontSizeMultiplier()))
 								* geoInputBox.getLength() * TF_WIDTH_FACTOR);
 			}
 
@@ -365,9 +363,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			public int getHeight() {
 				return (int) Math
 						.round(((getView().getApplication().getFontSize()
- * geoInputBox
-								.getFontSizeMultiplier()))
-						* TF_HEIGHT_FACTOR) + TF_MARGIN;
+								* geoInputBox.getFontSizeMultiplier()))
+								* TF_HEIGHT_FACTOR)
+						+ TF_MARGIN;
 
 			}
 		};
@@ -379,7 +377,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			drawOnCanvas(g2, geoInputBox.getText());
 		}
 	}
-
 
 	@Override
 	protected void drawWidget(GGraphics2D g2) {
@@ -400,8 +397,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
-		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop,
-				boxWidth, boxHeight);
+		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop, boxWidth,
+				boxHeight);
 
 		highlightLabel(g2, latexLabel);
 
@@ -417,14 +414,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 				text.substring(0, getTruncIndex(text, g2)), textLeft,
-				textBottom, false,
-				false);
+				textBottom, false, false);
 		g2.setFont(font);
 		if (isSelectedForInput()) {
-		getBox().repaint(g2);
+			getBox().repaint(g2);
 		}
 	}
-
 
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
@@ -437,8 +432,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 		return idx;
 	}
-
-
 
 	/**
 	 * Removes button from view again
@@ -560,6 +553,5 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	public void apply() {
 		geoInputBox.setText(getTextField().getText());
 	}
-
 
 }

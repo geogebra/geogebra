@@ -30,34 +30,35 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.TemporaryLogE
  */
 public class JarvisPointsCheckEvent extends TemporaryLogEvent {
 
-    Point2D referencePoint;
-    Point2D p1;
-    Double polarAngle;
-    boolean rightChain;
+	Point2D referencePoint;
+	Point2D p1;
+	Double polarAngle;
+	boolean rightChain;
 
-    public JarvisPointsCheckEvent(Point2D p0, Point2D p1, Double polarAngle, boolean rightChain) {
+	public JarvisPointsCheckEvent(Point2D p0, Point2D p1, Double polarAngle,
+			boolean rightChain) {
 
-        this.referencePoint = p0;
-        this.p1 = p1;
-        this.polarAngle = polarAngle==null ? null : new Double(polarAngle);
-        this.rightChain = rightChain;
+		this.referencePoint = p0;
+		this.p1 = p1;
+		this.polarAngle = polarAngle == null ? null : new Double(polarAngle);
+		this.rightChain = rightChain;
 
-    }
+	}
 
-    public Point2D getReferencePoint(){
-        return this.referencePoint;
-    }
+	public Point2D getReferencePoint() {
+		return this.referencePoint;
+	}
 
-    public Point2D getPoint(){
-        return this.p1;
-    }
+	public Point2D getPoint() {
+		return this.p1;
+	}
 
-    public Double getPolarAngle(){
-        return this.polarAngle;
-    }
+	public Double getPolarAngle() {
+		return this.polarAngle;
+	}
 
-    public boolean isRightChainEvent(){
-        return this.rightChain;
-    }
+	public boolean isRightChainEvent() {
+		return this.rightChain;
+	}
 
 }

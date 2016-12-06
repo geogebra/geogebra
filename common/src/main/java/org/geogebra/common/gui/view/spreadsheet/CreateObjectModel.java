@@ -23,17 +23,26 @@ import org.geogebra.common.util.debug.Log;
  */
 @SuppressWarnings({ "javadoc" })
 public class CreateObjectModel {
-	public interface  ICreateObjectListener {
+	public interface ICreateObjectListener {
 		void setName(String name);
+
 		boolean isVisible();
+
 		void setVisible(boolean value);
+
 		void setSortVisible(boolean isVisible);
+
 		boolean isCopiedByValue();
+
 		boolean isScannedByColumn();
+
 		boolean isLeftToRight();
+
 		boolean isTranspose();
+
 		void updatePreview(String latexStr, boolean isLatexDrawable);
 	}
+
 	private CellRangeProcessor cp;
 	private ArrayList<CellRange> selectedCellRanges;
 
@@ -57,18 +66,12 @@ public class CreateObjectModel {
 		this.objectType = objectType;
 		this.listener = listener;
 
-
-
 	}
 
-
-
 	public List<String> getObjectTypeNames() {
-		return Arrays.asList( 
-loc.getMenu("List.Create"), loc.getMenu("Matrix"),
+		return Arrays.asList(loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 				loc.getMenu("ListOfPoints"), loc.getMenu("Table"),
-				loc.getMenu("PolyLine")
-				);
+				loc.getMenu("PolyLine"));
 	}
 
 	public String getTitle() {
@@ -110,14 +113,13 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 
 	}
 
-
 	public void cancel() {
 		if (newGeo != null) {
 			newGeo.remove();
 			if (newGeo instanceof GeoList
 					&& getObjectType() == TYPE_LISTOFPOINTS) {
 				for (int i = 0; i < ((GeoList) newGeo).size(); i++) {
-					((GeoList)newGeo).get(i).remove();
+					((GeoList) newGeo).get(i).remove();
 				}
 			}
 		}
@@ -126,14 +128,13 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 
 	public void apply() {
 		// processInput();
-	} 
+	}
 
 	public void ok() {
 		keepNewGeo = true;
 		listener.setVisible(false);
 
-
-	} 
+	}
 
 	public void close() {
 		// either remove our geo or keep it and make it visible
@@ -141,14 +142,15 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 			addNewGeoToConstruction();
 		} else {
 			newGeo.remove();
-		}	
+		}
 	}
 
 	private void addNewGeoToConstruction() {
 
-		if (getObjectType() == TYPE_LISTOFPOINTS || getObjectType() == TYPE_POLYLINE) {
+		if (getObjectType() == TYPE_LISTOFPOINTS
+				|| getObjectType() == TYPE_POLYLINE) {
 			app.getKernel().getConstruction()
-			.addToConstructionList(newGeo.getParentAlgorithm(), true);
+					.addToConstructionList(newGeo.getParentAlgorithm(), true);
 		}
 
 		newGeo.setEuclidianVisible(true);
@@ -219,8 +221,9 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 				break;
 
 			case TYPE_LISTOFPOINTS:
-				newGeo = cp.createPointGeoList(getSelectedCellRanges(), copyByValue,
-						leftToRight, isSorted, doStoreUndo, doCreateFreePoints);
+				newGeo = cp.createPointGeoList(getSelectedCellRanges(),
+						copyByValue, leftToRight, isSorted, doStoreUndo,
+						doCreateFreePoints);
 				newGeo.setLabel(null);
 				for (int i = 0; i < ((GeoList) newGeo).size(); i++) {
 					((GeoList) newGeo).get(i).setAuxiliaryObject(true);
@@ -259,15 +262,15 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 
 			// String latexStr = newGeo.getLaTeXAlgebraDescription(true);
 
-			listener.updatePreview(newGeo.getFormulaString(
-					StringTemplate.latexTemplate, true), newGeo.isLaTeXDrawableGeo());
+			listener.updatePreview(
+					newGeo.getFormulaString(StringTemplate.latexTemplate, true),
+					newGeo.isLaTeXDrawableGeo());
 
 			if (!nullGeo) {
 				newGeo.setLabel(name);
 				newGeo.setAuxiliaryObject(true);
 				newGeo.setEuclidianVisible(false);
 			}
-
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -285,49 +288,36 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 			newGeo.remove();
 		}
 	}
-	
+
 	public String getNonLatexText() {
 		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(
-				true));
+				new IndexHTMLBuilder(true));
 	}
 
 	public CellRangeProcessor getCellRangeProcessor() {
 		return cp;
 	}
 
-
-
 	public void setCellRangeProcessor(CellRangeProcessor cp) {
 		this.cp = cp;
 	}
-
-
 
 	public ArrayList<CellRange> getSelectedCellRanges() {
 		return selectedCellRanges;
 	}
 
-
-
 	public void setSelectedCellRanges(ArrayList<CellRange> selectedCellRanges) {
 		this.selectedCellRanges = selectedCellRanges;
 	}
-
-
 
 	public int getObjectType() {
 		return objectType;
 	}
 
-
-
 	public void setObjectType(int objectType) {
 		this.objectType = objectType;
 
 	}
-
-
 
 	public void setListType() {
 		objectType = TYPE_LIST;
@@ -359,7 +349,6 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 
 		return idx;
 	}
-
 
 	public GeoElementND getGeo() {
 		return newGeo;

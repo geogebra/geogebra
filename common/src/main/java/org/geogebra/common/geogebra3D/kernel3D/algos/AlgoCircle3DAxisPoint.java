@@ -125,5 +125,4 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 				((GeoElement) axis).getLabel(tpl), point.getLabel(tpl));
 	}
 
-	
 }

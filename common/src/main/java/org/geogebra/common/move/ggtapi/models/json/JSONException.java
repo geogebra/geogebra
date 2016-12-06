@@ -45,5 +45,5 @@ package org.geogebra.common.move.ggtapi.models.json;
 public class JSONException extends Exception {
 	public JSONException(String s) {
 		super(s);
-    }
+	}
 }

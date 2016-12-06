@@ -71,8 +71,7 @@ public class Util {
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
 	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
-			32,
-			48 };
+			32, 48 };
 
 	public static int menuFontSizes(int i) {
 		return MENU_FONT_SIZES[i];

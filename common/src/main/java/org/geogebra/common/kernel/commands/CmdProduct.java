@@ -36,7 +36,6 @@ public class CmdProduct extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 
-
 		// needed for Sum[]
 		if (c.getArgumentNumber() == 0) {
 			throw argNumErr(app, c.getName(), n);
@@ -70,10 +69,11 @@ public class CmdProduct extends CommandProcessor {
 			}
 			// Product[<List of Numbers>, <Frequency>]
 			else if (arg[1].isGeoList()) {
-				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
+				if (((GeoList) arg[0])
+						.getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),
-							list, (GeoList) arg[1]);
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list,
+							(GeoList) arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
@@ -87,8 +87,8 @@ public class CmdProduct extends CommandProcessor {
 		}
 	}
 
-	private GeoElement[] productGeneric(GeoElement geoElement,
-			GeoNumeric limit, Command c) {
+	private GeoElement[] productGeneric(GeoElement geoElement, GeoNumeric limit,
+			Command c) {
 		GeoList list = (GeoList) geoElement;
 		FoldComputer computer = CmdSum.getComputer(list);
 

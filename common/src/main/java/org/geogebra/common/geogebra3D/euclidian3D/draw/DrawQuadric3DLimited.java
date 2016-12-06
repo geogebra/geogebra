@@ -27,7 +27,8 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	 * @param geo
 	 *            limited quadric
 	 */
-	public DrawQuadric3DLimited(EuclidianView3D view3d, GeoQuadric3DLimited geo) {
+	public DrawQuadric3DLimited(EuclidianView3D view3d,
+			GeoQuadric3DLimited geo) {
 		super(view3d, geo);
 
 		drawBottom = new DrawConic3D(view3d, geo.getBottom());
@@ -225,7 +226,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 			}
 		}
 
-
 		if (pickingType == PickingType.POINT_OR_CURVE) {
 			// TODO opaque side
 			setZPick(d, d);
@@ -242,7 +242,6 @@ public class DrawQuadric3DLimited extends Drawable3D {
 			setPickingType(PickingType.SURFACE);
 			return true;
 		}
-
 
 		return false;
 	}

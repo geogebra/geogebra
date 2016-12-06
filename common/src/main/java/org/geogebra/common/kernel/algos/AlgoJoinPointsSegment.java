@@ -42,8 +42,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoJoinPointsSegment extends AlgoElement implements
-		AlgoJoinPointsSegmentInterface, SymbolicParametersBotanaAlgo,
+public class AlgoJoinPointsSegment extends AlgoElement
+		implements AlgoJoinPointsSegmentInterface, SymbolicParametersBotanaAlgo,
 		SymbolicParametersAlgo {
 
 	private GeoPoint P, Q; // input

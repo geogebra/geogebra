@@ -86,8 +86,6 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		super(c);
 	}
 
-
-
 	/**
 	 * 
 	 * @return handler for output points
@@ -149,18 +147,18 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 
 		} else {
 			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-			enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX()
-					/ coeffs.getZ()), Operation.MULTIPLY, xFun);
-			eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY()
-					/ coeffs.getZ()), Operation.MULTIPLY, yFun);
+			enx = new ExpressionNode(kernel,
+					new MyDouble(kernel, coeffs.getX() / coeffs.getZ()),
+					Operation.MULTIPLY, xFun);
+			eny = new ExpressionNode(kernel,
+					new MyDouble(kernel, coeffs.getY() / coeffs.getZ()),
+					Operation.MULTIPLY, yFun);
 			enx = enx.plus(eny).plus(1);
 
 		}
 
 		findIntersections(enx, fv);
 	}
-
-
 
 	@Override
 	protected void updatePoint(GeoPointND point, double paramVal,
@@ -189,7 +187,5 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	protected OutputHandler<GeoElement> getOutputPoints() {
 		return outputPoints;
 	}
-
-	
 
 }

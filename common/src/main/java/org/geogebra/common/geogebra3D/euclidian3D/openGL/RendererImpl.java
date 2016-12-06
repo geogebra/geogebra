@@ -29,7 +29,7 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	 *            GL flag
 	 */
 	public abstract void glDisable(int flag);
-	
+
 	/**
 	 * clear buffers corresponding to flag
 	 * 
@@ -38,12 +38,11 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	 */
 	abstract public void glClear(int flag);
 
-
 	// GL flags getters
 	abstract public int getGL_BLEND();
-	
+
 	abstract public int getGL_CULL_FACE();
-	
+
 	abstract public int getGL_COLOR_BUFFER_BIT();
 
 	abstract public int getGL_DEPTH_BUFFER_BIT();
@@ -173,7 +172,8 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	abstract public void disableDepthMask();
 
-	abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
+	abstract public void setColorMask(boolean r, boolean g, boolean b,
+			boolean a);
 
 	abstract public void setClearColor(float r, float g, float b, float a);
 
@@ -219,7 +219,6 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	private int oldBottom;
 
-
 	final public void setExportImageDimension(int w, int h) {
 		fboWidth = w;
 		fboHeight = h;
@@ -232,7 +231,7 @@ public abstract class RendererImpl implements RendererShadersInterface {
 		// set no font scale
 		view3D.setFontScale(1);
 	}
-	
+
 	public final void selectFBO() {
 
 		if (fboID == null) {
@@ -327,7 +326,7 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	protected abstract void bindFramebuffer(Object id);
 
 	protected abstract void bindRenderbuffer(Object id);
-	
+
 	protected abstract void unbindFramebuffer();
 
 	protected abstract void unbindRenderbuffer();
@@ -345,6 +344,5 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	protected abstract void framebuffer(Object colorId, Object depthId);
 
 	protected abstract boolean checkFramebufferStatus();
-
 
 }

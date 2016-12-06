@@ -26,17 +26,17 @@ import edu.uci.ics.jung.algorithms.util.IterativeProcess;
 import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
-
 /**
- * Implements the Edmonds-Karp maximum flow algorithm for solving the maximum flow problem. 
- * After the algorithm is executed,
- * the input {@code Map} is populated with a {@code Number} for each edge that indicates 
- * the flow along that edge.
+ * Implements the Edmonds-Karp maximum flow algorithm for solving the maximum
+ * flow problem. After the algorithm is executed, the input {@code Map} is
+ * populated with a {@code Number} for each edge that indicates the flow along
+ * that edge.
  * <p>
  * An example of using this algorithm is as follows:
+ * 
  * <pre>
- * EdmondsKarpMaxFlow ek = new EdmondsKarpMaxFlow(graph, source, sink, edge_capacities, edge_flows, 
- * edge_factory);
+ * EdmondsKarpMaxFlow ek = new EdmondsKarpMaxFlow(graph, source, sink,
+ * 		edge_capacities, edge_flows, edge_factory);
  * ek.evaluate(); // This instructs the class to compute the max flow
  * </pre>
  *
@@ -45,268 +45,294 @@ import edu.uci.ics.jung.graph.util.EdgeType;
  * @see "Theoretical improvements in algorithmic efficiency for network flow problems by Edmonds and Karp, 1972."
  * @author Scott White, adapted to jung2 by Tom Nelson
  */
-public class EdmondsKarpMaxFlow<V,E> extends IterativeProcess {
+public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 
-    private DirectedGraph<V,E> mFlowGraph;
-    private DirectedGraph<V,E> mOriginalGraph;
-    private V source;
-    private V target;
-    private int mMaxFlow;
-    private Set<V> mSourcePartitionNodes;
-    private Set<V> mSinkPartitionNodes;
-    private Set<E> mMinCutEdges;
-    
-    private Map<E,Number> residualCapacityMap = new HashMap<E,Number>();
-    private Map<V,V> parentMap = new HashMap<V,V>();
-    private Map<V,Number> parentCapacityMap = new HashMap<V,Number>();
-    private Transformer<E,Number> edgeCapacityTransformer;
-    private Map<E,Number> edgeFlowMap;
-    private Factory<E> edgeFactory;
+	private DirectedGraph<V, E> mFlowGraph;
+	private DirectedGraph<V, E> mOriginalGraph;
+	private V source;
+	private V target;
+	private int mMaxFlow;
+	private Set<V> mSourcePartitionNodes;
+	private Set<V> mSinkPartitionNodes;
+	private Set<E> mMinCutEdges;
 
-    /**
-     * Constructs a new instance of the algorithm solver for a given graph, source, and sink.
-     * Source and sink vertices must be elements of the specified graph, and must be 
-     * distinct.
-     * @param directedGraph the flow graph
-     * @param source the source vertex
-     * @param sink the sink vertex
-     * @param edgeCapacityTransformer the transformer that gets the capacity for each edge.
-     * @param edgeFlowMap the map where the solver will place the value of the flow for each edge
-     * @param edgeFactory used to create new edge instances for backEdges
-     */
-    @SuppressWarnings("unchecked")
-    public EdmondsKarpMaxFlow(DirectedGraph<V,E> directedGraph, V source, V sink, 
-    		Transformer<E,Number> edgeCapacityTransformer, Map<E,Number> edgeFlowMap,
-    		Factory<E> edgeFactory) {
-    	
-    	if(directedGraph.getVertices().contains(source) == false ||
-    			directedGraph.getVertices().contains(sink) == false) {
-            throw new IllegalArgumentException("source and sink vertices must be elements of the specified graph");
-    	}
-        if (source.equals(sink)) {
-            throw new IllegalArgumentException("source and sink vertices must be distinct");
-        }
-        mOriginalGraph = directedGraph;
+	private Map<E, Number> residualCapacityMap = new HashMap<E, Number>();
+	private Map<V, V> parentMap = new HashMap<V, V>();
+	private Map<V, Number> parentCapacityMap = new HashMap<V, Number>();
+	private Transformer<E, Number> edgeCapacityTransformer;
+	private Map<E, Number> edgeFlowMap;
+	private Factory<E> edgeFactory;
 
-        this.source = source;
-        this.target = sink;
-        this.edgeFlowMap = edgeFlowMap;
-        this.edgeCapacityTransformer = edgeCapacityTransformer;
-        this.edgeFactory = edgeFactory;
-        try {
+	/**
+	 * Constructs a new instance of the algorithm solver for a given graph,
+	 * source, and sink. Source and sink vertices must be elements of the
+	 * specified graph, and must be distinct.
+	 * 
+	 * @param directedGraph
+	 *            the flow graph
+	 * @param source
+	 *            the source vertex
+	 * @param sink
+	 *            the sink vertex
+	 * @param edgeCapacityTransformer
+	 *            the transformer that gets the capacity for each edge.
+	 * @param edgeFlowMap
+	 *            the map where the solver will place the value of the flow for
+	 *            each edge
+	 * @param edgeFactory
+	 *            used to create new edge instances for backEdges
+	 */
+	@SuppressWarnings("unchecked")
+	public EdmondsKarpMaxFlow(DirectedGraph<V, E> directedGraph, V source,
+			V sink, Transformer<E, Number> edgeCapacityTransformer,
+			Map<E, Number> edgeFlowMap, Factory<E> edgeFactory) {
+
+		if (directedGraph.getVertices().contains(source) == false
+				|| directedGraph.getVertices().contains(sink) == false) {
+			throw new IllegalArgumentException(
+					"source and sink vertices must be elements of the specified graph");
+		}
+		if (source.equals(sink)) {
+			throw new IllegalArgumentException(
+					"source and sink vertices must be distinct");
+		}
+		mOriginalGraph = directedGraph;
+
+		this.source = source;
+		this.target = sink;
+		this.edgeFlowMap = edgeFlowMap;
+		this.edgeCapacityTransformer = edgeCapacityTransformer;
+		this.edgeFactory = edgeFactory;
+		try {
 			mFlowGraph = (DirectedGraph<V, E>) directedGraph.newInstance();
-			for(E e : mOriginalGraph.getEdges()) {
-				mFlowGraph.addEdge(e, mOriginalGraph.getSource(e), 
+			for (E e : mOriginalGraph.getEdges()) {
+				mFlowGraph.addEdge(e, mOriginalGraph.getSource(e),
 						mOriginalGraph.getDest(e), EdgeType.DIRECTED);
 			}
-			for(V v : mOriginalGraph.getVertices()) {
+			for (V v : mOriginalGraph.getVertices()) {
 				mFlowGraph.addVertex(v);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-        mMaxFlow = 0;
-        mSinkPartitionNodes = new HashSet<V>();
-        mSourcePartitionNodes = new HashSet<V>();
-        mMinCutEdges = new HashSet<E>();
-    }
+		mMaxFlow = 0;
+		mSinkPartitionNodes = new HashSet<V>();
+		mSourcePartitionNodes = new HashSet<V>();
+		mMinCutEdges = new HashSet<E>();
+	}
 
-    private void clearParentValues() {
-    	parentMap.clear();
-    	parentCapacityMap.clear();
-        parentCapacityMap.put(source, Integer.MAX_VALUE);
-        parentMap.put(source, source);
-    }
+	private void clearParentValues() {
+		parentMap.clear();
+		parentCapacityMap.clear();
+		parentCapacityMap.put(source, Integer.MAX_VALUE);
+		parentMap.put(source, source);
+	}
 
-    protected boolean hasAugmentingPath() {
+	protected boolean hasAugmentingPath() {
 
-        mSinkPartitionNodes.clear();
-        mSourcePartitionNodes.clear();
-        mSinkPartitionNodes.addAll(mFlowGraph.getVertices());
+		mSinkPartitionNodes.clear();
+		mSourcePartitionNodes.clear();
+		mSinkPartitionNodes.addAll(mFlowGraph.getVertices());
 
-        Set<E> visitedEdgesMap = new HashSet<E>();
-        Buffer<V> queue = new UnboundedFifoBuffer<V>();
-        queue.add(source);
+		Set<E> visitedEdgesMap = new HashSet<E>();
+		Buffer<V> queue = new UnboundedFifoBuffer<V>();
+		queue.add(source);
 
-        while (!queue.isEmpty()) {
-            V currentVertex = queue.remove();
-            mSinkPartitionNodes.remove(currentVertex);
-            mSourcePartitionNodes.add(currentVertex);
-            Number currentCapacity = parentCapacityMap.get(currentVertex);
+		while (!queue.isEmpty()) {
+			V currentVertex = queue.remove();
+			mSinkPartitionNodes.remove(currentVertex);
+			mSourcePartitionNodes.add(currentVertex);
+			Number currentCapacity = parentCapacityMap.get(currentVertex);
 
-            Collection<E> neighboringEdges = mFlowGraph.getOutEdges(currentVertex);
-            
-            for (E neighboringEdge : neighboringEdges) {
+			Collection<E> neighboringEdges = mFlowGraph
+					.getOutEdges(currentVertex);
 
-                V neighboringVertex = mFlowGraph.getDest(neighboringEdge);
+			for (E neighboringEdge : neighboringEdges) {
 
-                Number residualCapacity = residualCapacityMap.get(neighboringEdge);
-                if (residualCapacity.intValue() <= 0 || visitedEdgesMap.contains(neighboringEdge))
-                    continue;
+				V neighboringVertex = mFlowGraph.getDest(neighboringEdge);
 
-                V neighborsParent = parentMap.get(neighboringVertex);
-                Number neighborCapacity = parentCapacityMap.get(neighboringVertex);
-                int newCapacity = Math.min(residualCapacity.intValue(),currentCapacity.intValue());
+				Number residualCapacity = residualCapacityMap
+						.get(neighboringEdge);
+				if (residualCapacity.intValue() <= 0
+						|| visitedEdgesMap.contains(neighboringEdge))
+					continue;
 
-                if ((neighborsParent == null) || newCapacity > neighborCapacity.intValue()) {
-                    parentMap.put(neighboringVertex, currentVertex);
-                    parentCapacityMap.put(neighboringVertex, new Integer(newCapacity));
-                    visitedEdgesMap.add(neighboringEdge);
-                    if (neighboringVertex != target) {
-                       queue.add(neighboringVertex);
-                    }
-                }
-            }
-        }
+				V neighborsParent = parentMap.get(neighboringVertex);
+				Number neighborCapacity = parentCapacityMap
+						.get(neighboringVertex);
+				int newCapacity = Math.min(residualCapacity.intValue(),
+						currentCapacity.intValue());
 
-        boolean hasAugmentingPath = false;
-        Number targetsParentCapacity = parentCapacityMap.get(target);
-        if (targetsParentCapacity != null && targetsParentCapacity.intValue() > 0) {
-            updateResidualCapacities();
-            hasAugmentingPath = true;
-        }
-        clearParentValues();
-        return hasAugmentingPath;
-    }
+				if ((neighborsParent == null)
+						|| newCapacity > neighborCapacity.intValue()) {
+					parentMap.put(neighboringVertex, currentVertex);
+					parentCapacityMap.put(neighboringVertex,
+							new Integer(newCapacity));
+					visitedEdgesMap.add(neighboringEdge);
+					if (neighboringVertex != target) {
+						queue.add(neighboringVertex);
+					}
+				}
+			}
+		}
 
-     @Override
-    public void step() {
-        while (hasAugmentingPath()) {
-        }
-        computeMinCut();
-//        return 0;
-    }
+		boolean hasAugmentingPath = false;
+		Number targetsParentCapacity = parentCapacityMap.get(target);
+		if (targetsParentCapacity != null
+				&& targetsParentCapacity.intValue() > 0) {
+			updateResidualCapacities();
+			hasAugmentingPath = true;
+		}
+		clearParentValues();
+		return hasAugmentingPath;
+	}
 
-    private void computeMinCut() {
+	@Override
+	public void step() {
+		while (hasAugmentingPath()) {
+		}
+		computeMinCut();
+		// return 0;
+	}
 
-        for (E e : mOriginalGraph.getEdges()) {
+	private void computeMinCut() {
 
-        	V source = mOriginalGraph.getSource(e);
-        	V destination = mOriginalGraph.getDest(e);
-            if (mSinkPartitionNodes.contains(source) && mSinkPartitionNodes.contains(destination)) {
-                continue;
-            }
-            if (mSourcePartitionNodes.contains(source) && mSourcePartitionNodes.contains(destination)) {
-                continue;
-            }
-            if (mSinkPartitionNodes.contains(source) && mSourcePartitionNodes.contains(destination)) {
-                continue;
-            }
-            mMinCutEdges.add(e);
-        }
-    }
+		for (E e : mOriginalGraph.getEdges()) {
 
-    /**
-     * Returns the value of the maximum flow from the source to the sink.
-     */
-    public int getMaxFlow() {
-        return mMaxFlow;
-    }
+			V source = mOriginalGraph.getSource(e);
+			V destination = mOriginalGraph.getDest(e);
+			if (mSinkPartitionNodes.contains(source)
+					&& mSinkPartitionNodes.contains(destination)) {
+				continue;
+			}
+			if (mSourcePartitionNodes.contains(source)
+					&& mSourcePartitionNodes.contains(destination)) {
+				continue;
+			}
+			if (mSinkPartitionNodes.contains(source)
+					&& mSourcePartitionNodes.contains(destination)) {
+				continue;
+			}
+			mMinCutEdges.add(e);
+		}
+	}
 
-    /**
-     * Returns the nodes which share the same partition (as defined by the min-cut edges)
-     * as the sink node.
-     */
-    public Set<V> getNodesInSinkPartition() {
-        return mSinkPartitionNodes;
-    }
+	/**
+	 * Returns the value of the maximum flow from the source to the sink.
+	 */
+	public int getMaxFlow() {
+		return mMaxFlow;
+	}
 
-    /**
-     * Returns the nodes which share the same partition (as defined by the min-cut edges)
-     * as the source node.
-     */
-    public Set<V> getNodesInSourcePartition() {
-        return mSourcePartitionNodes;
-    }
+	/**
+	 * Returns the nodes which share the same partition (as defined by the
+	 * min-cut edges) as the sink node.
+	 */
+	public Set<V> getNodesInSinkPartition() {
+		return mSinkPartitionNodes;
+	}
 
-    /**
-     * Returns the edges in the minimum cut.
-     */
-    public Set<E> getMinCutEdges() {
-        return mMinCutEdges;
-    }
+	/**
+	 * Returns the nodes which share the same partition (as defined by the
+	 * min-cut edges) as the source node.
+	 */
+	public Set<V> getNodesInSourcePartition() {
+		return mSourcePartitionNodes;
+	}
 
-    /**
-     * Returns the graph for which the maximum flow is calculated.
-     */
-    public DirectedGraph<V,E> getFlowGraph() {
-        return mFlowGraph;
-    }
+	/**
+	 * Returns the edges in the minimum cut.
+	 */
+	public Set<E> getMinCutEdges() {
+		return mMinCutEdges;
+	}
 
-    @Override
-    protected void initializeIterations() {
-        parentCapacityMap.put(source, Integer.MAX_VALUE);
-        parentMap.put(source, source);
+	/**
+	 * Returns the graph for which the maximum flow is calculated.
+	 */
+	public DirectedGraph<V, E> getFlowGraph() {
+		return mFlowGraph;
+	}
 
-        List<E> edgeList = new ArrayList<E>(mFlowGraph.getEdges());
+	@Override
+	protected void initializeIterations() {
+		parentCapacityMap.put(source, Integer.MAX_VALUE);
+		parentMap.put(source, source);
 
-        for (int eIdx=0;eIdx< edgeList.size();eIdx++) {
-            E edge = edgeList.get(eIdx);
-            Number capacity = edgeCapacityTransformer.transform(edge);
+		List<E> edgeList = new ArrayList<E>(mFlowGraph.getEdges());
 
-            if (capacity == null) {
-                throw new IllegalArgumentException("Edge capacities must be provided in Transformer passed to constructor");
-            }
-            residualCapacityMap.put(edge, capacity);
+		for (int eIdx = 0; eIdx < edgeList.size(); eIdx++) {
+			E edge = edgeList.get(eIdx);
+			Number capacity = edgeCapacityTransformer.transform(edge);
 
-            V source = mFlowGraph.getSource(edge);
-            V destination = mFlowGraph.getDest(edge);
+			if (capacity == null) {
+				throw new IllegalArgumentException(
+						"Edge capacities must be provided in Transformer passed to constructor");
+			}
+			residualCapacityMap.put(edge, capacity);
 
-            if(mFlowGraph.isPredecessor(source, destination) == false) {
-            	E backEdge = edgeFactory.create();
-            	mFlowGraph.addEdge(backEdge, destination, source, EdgeType.DIRECTED);
-                residualCapacityMap.put(backEdge, 0);
-            }
-        }
-    }
-    
-    @Override
-    protected void finalizeIterations() {
+			V source = mFlowGraph.getSource(edge);
+			V destination = mFlowGraph.getDest(edge);
 
-        for (E currentEdge : mFlowGraph.getEdges()) {
-            Number capacity = edgeCapacityTransformer.transform(currentEdge);
-            
-            Number residualCapacity = residualCapacityMap.get(currentEdge);
-            if (capacity != null) {
-                Integer flowValue = new Integer(capacity.intValue()-residualCapacity.intValue());
-                this.edgeFlowMap.put(currentEdge, flowValue);
-            }
-        }
+			if (mFlowGraph.isPredecessor(source, destination) == false) {
+				E backEdge = edgeFactory.create();
+				mFlowGraph.addEdge(backEdge, destination, source,
+						EdgeType.DIRECTED);
+				residualCapacityMap.put(backEdge, 0);
+			}
+		}
+	}
 
-        Set<E> backEdges = new HashSet<E>();
-        for (E currentEdge: mFlowGraph.getEdges()) {
-        	
-            if (edgeCapacityTransformer.transform(currentEdge) == null) {
-                backEdges.add(currentEdge);
-            } else {
-                residualCapacityMap.remove(currentEdge);
-            }
-        }
-        for(E e : backEdges) {
-        	mFlowGraph.removeEdge(e);
-        }
-    }
+	@Override
+	protected void finalizeIterations() {
 
-    private void updateResidualCapacities() {
+		for (E currentEdge : mFlowGraph.getEdges()) {
+			Number capacity = edgeCapacityTransformer.transform(currentEdge);
 
-        Number augmentingPathCapacity = parentCapacityMap.get(target);
-        mMaxFlow += augmentingPathCapacity.intValue();
-        V currentVertex = target;
-        V parentVertex = null;
-        while ((parentVertex = parentMap.get(currentVertex)) != currentVertex) {
-            E currentEdge = mFlowGraph.findEdge(parentVertex, currentVertex);
+			Number residualCapacity = residualCapacityMap.get(currentEdge);
+			if (capacity != null) {
+				Integer flowValue = new Integer(
+						capacity.intValue() - residualCapacity.intValue());
+				this.edgeFlowMap.put(currentEdge, flowValue);
+			}
+		}
 
-            Number residualCapacity = residualCapacityMap.get(currentEdge);
+		Set<E> backEdges = new HashSet<E>();
+		for (E currentEdge : mFlowGraph.getEdges()) {
 
-            residualCapacity = residualCapacity.intValue() - augmentingPathCapacity.intValue();
-            residualCapacityMap.put(currentEdge, residualCapacity);
+			if (edgeCapacityTransformer.transform(currentEdge) == null) {
+				backEdges.add(currentEdge);
+			} else {
+				residualCapacityMap.remove(currentEdge);
+			}
+		}
+		for (E e : backEdges) {
+			mFlowGraph.removeEdge(e);
+		}
+	}
 
-            E backEdge = mFlowGraph.findEdge(currentVertex, parentVertex);
-            residualCapacity = residualCapacityMap.get(backEdge);
-            residualCapacity = residualCapacity.intValue() + augmentingPathCapacity.intValue();
-            residualCapacityMap.put(backEdge, residualCapacity);
-            currentVertex = parentVertex;
-        }
-    }
+	private void updateResidualCapacities() {
+
+		Number augmentingPathCapacity = parentCapacityMap.get(target);
+		mMaxFlow += augmentingPathCapacity.intValue();
+		V currentVertex = target;
+		V parentVertex = null;
+		while ((parentVertex = parentMap.get(currentVertex)) != currentVertex) {
+			E currentEdge = mFlowGraph.findEdge(parentVertex, currentVertex);
+
+			Number residualCapacity = residualCapacityMap.get(currentEdge);
+
+			residualCapacity = residualCapacity.intValue()
+					- augmentingPathCapacity.intValue();
+			residualCapacityMap.put(currentEdge, residualCapacity);
+
+			E backEdge = mFlowGraph.findEdge(currentVertex, parentVertex);
+			residualCapacity = residualCapacityMap.get(backEdge);
+			residualCapacity = residualCapacity.intValue()
+					+ augmentingPathCapacity.intValue();
+			residualCapacityMap.put(backEdge, residualCapacity);
+			currentVertex = parentVertex;
+		}
+	}
 }

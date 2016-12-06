@@ -79,5 +79,4 @@ public class AlgoOrdinal extends AlgoElement {
 
 	}
 
-	
 }

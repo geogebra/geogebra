@@ -59,7 +59,8 @@ public class AlgoZProportion2Test extends AlgoElement {
 	 * @param tail
 	 */
 	public AlgoZProportion2Test(Construction cons, GeoNumeric proportion,
-			GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2, GeoText tail) {
+			GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2,
+			GeoText tail) {
 		super(cons);
 		this.tail = tail;
 		this.proportion = proportion;

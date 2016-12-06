@@ -26,9 +26,8 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 	private AngleProperties getAnglePropertiesAt(int index) {
 		return (AngleProperties) getObjectAt(index);
-		};
-	
-	
+	};
+
 	@Override
 	public void updateProperties() {
 		AngleProperties temp, geo0 = getAnglePropertiesAt(0);
@@ -52,14 +51,14 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 		}
 
-		if (hasOrientation != hasOrientationOld || isDrawableOld != isDrawable) {
-			((IReflexAngleListener)getListener()).setComboLabels();
+		if (hasOrientation != hasOrientationOld
+				|| isDrawableOld != isDrawable) {
+			((IReflexAngleListener) getListener()).setComboLabels();
 		}
 
 		if (equalangleStyle) {
 			getListener().setSelectedIndex(geo0.getAngleStyle().getXmlVal());
 		}
-
 
 	}
 
@@ -72,33 +71,30 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 			if (isDrawable) {
 				// don't want to allow (-inf, +inf)
-				length --;
+				length--;
 			}
 
 			for (int i = 0; i < length; i++) {
-				result.add(loc.getPlain("AandB",
-						GeoAngle.getIntervalMinList(i),
+				result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(i),
 						GeoAngle.getIntervalMaxList(i)));
 			}
 		} else {// only 180degree wide interval are possible
-			result.add(loc.getPlain("AandB",
-					GeoAngle.getIntervalMinList(1),
+			result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(1),
 					GeoAngle.getIntervalMaxList(1)));
-			result.add(loc.getPlain("AandB",
-					GeoAngle.getIntervalMinList(2),
+			result.add(loc.getPlain("AandB", GeoAngle.getIntervalMinList(2),
 					GeoAngle.getIntervalMaxList(2)));
 		}
 		return result;
 	}
 
 	@Override
-	protected boolean isValidAt(int index){
+	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-	
+
 		return (!((geo.isIndependent() && !isDefaults))
-				&& (geo instanceof AngleProperties) 
-				&& !geo.isGeoList()) || isAngleList(geo);
-		
+				&& (geo instanceof AngleProperties) && !geo.isGeoList())
+				|| isAngleList(geo);
+
 	}
 
 	@Override
@@ -117,6 +113,5 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 }

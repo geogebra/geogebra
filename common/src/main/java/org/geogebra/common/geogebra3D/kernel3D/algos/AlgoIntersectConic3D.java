@@ -188,8 +188,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			if (!Kernel.isZero(op.getZ())) {// line not included
 				setPointsUndefined(); // TODO infinite points ?
 			} else {// line included
-				g2d.setCoords(dp.getY(), -dp.getX(), -dp.getY() * op.getX()
-						+ dp.getX() * op.getY());
+				g2d.setCoords(dp.getY(), -dp.getX(),
+						-dp.getY() * op.getX() + dp.getX() * op.getY());
 				intersectLineIncluded(c, P, cs, g2d);
 			}
 		}
@@ -223,7 +223,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
 	private Coords tmpCoords;
 
-	private void checkIsOnConicPart(GeoConicND c, GeoPoint point, GeoPoint3D p3d) {
+	private void checkIsOnConicPart(GeoConicND c, GeoPoint point,
+			GeoPoint3D p3d) {
 		if (c.isGeoConicPart()) {
 			if (!p3d.isDefined())
 				return;

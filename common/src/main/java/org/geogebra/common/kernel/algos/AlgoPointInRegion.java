@@ -111,5 +111,4 @@ public class AlgoPointInRegion extends AlgoElement {
 
 	}
 
-	
 }

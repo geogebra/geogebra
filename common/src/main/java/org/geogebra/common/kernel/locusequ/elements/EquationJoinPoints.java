@@ -17,36 +17,42 @@ import org.geogebra.common.kernel.locusequ.SymbolicVector;
  */
 public class EquationJoinPoints extends EquationGenericLine {
 
+	private GeoPoint q;
+	private EquationPoint qequ;
 
-    private GeoPoint q;
-    private EquationPoint qequ;
-    
-    /**
-     * @param line {@link GeoLine} from the construction.
-     * @param scope where the {@link EquationPoint}s are.
-     */
-    public EquationJoinPoints(GeoElement line, EquationScope scope) {
-        super(line, scope);
-        AlgoJoinPoints algo = (AlgoJoinPoints) line.getParentAlgorithm();
+	/**
+	 * @param line
+	 *            {@link GeoLine} from the construction.
+	 * @param scope
+	 *            where the {@link EquationPoint}s are.
+	 */
+	public EquationJoinPoints(GeoElement line, EquationScope scope) {
+		super(line, scope);
+		AlgoJoinPoints algo = (AlgoJoinPoints) line.getParentAlgorithm();
 
-        this.q = algo.getQ();
-        this.qequ = this.getScope().getPoint(this.q);
-        
-        this.setPoint(algo.getP());
-        this.setVector(new SymbolicVector(this.getEquationPoint(), this.qequ));
-    }
-    
-    /**
-     * Auxiliary constructor when no {@link GeoLine} is involved.
-     * @param startPoint first point.
-     * @param anotherPoint second point.
-     * @param scope scope.
-     */
-    public EquationJoinPoints(final EquationPoint startPoint, final EquationPoint anotherPoint, final EquationScope scope) {
-        super();
-        this.setScope(scope);
-        
-        this.setPoint(startPoint);
-        this.setVector(new SymbolicVector(startPoint, anotherPoint));
-    }
+		this.q = algo.getQ();
+		this.qequ = this.getScope().getPoint(this.q);
+
+		this.setPoint(algo.getP());
+		this.setVector(new SymbolicVector(this.getEquationPoint(), this.qequ));
+	}
+
+	/**
+	 * Auxiliary constructor when no {@link GeoLine} is involved.
+	 * 
+	 * @param startPoint
+	 *            first point.
+	 * @param anotherPoint
+	 *            second point.
+	 * @param scope
+	 *            scope.
+	 */
+	public EquationJoinPoints(final EquationPoint startPoint,
+			final EquationPoint anotherPoint, final EquationScope scope) {
+		super();
+		this.setScope(scope);
+
+		this.setPoint(startPoint);
+		this.setVector(new SymbolicVector(startPoint, anotherPoint));
+	}
 }

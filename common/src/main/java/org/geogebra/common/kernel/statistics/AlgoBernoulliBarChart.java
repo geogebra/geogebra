@@ -62,9 +62,8 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 		}
 
 		return new AlgoBernoulliBarChart(
-				(GeoNumberValue) this.getP1().deepCopy(
-						kernel),
-				b, (GeoNumberValue) this.getA().deepCopy(kernel),
+				(GeoNumberValue) this.getP1().deepCopy(kernel), b,
+				(GeoNumberValue) this.getA().deepCopy(kernel),
 				(GeoNumberValue) this.getB().deepCopy(kernel),
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 				getIntervals(), kernel.getConstruction());

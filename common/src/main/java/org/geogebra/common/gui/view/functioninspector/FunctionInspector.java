@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.gui.view.functioninspector;
 
-
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.IFunctionInspectorListener;
@@ -26,7 +25,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.debug.Log;
 
-
 /**
  * View for inspecting selected GeoFunctions
  * 
@@ -34,14 +32,14 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 
-public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
-		IFunctionInspectorListener {
+public abstract class FunctionInspector
+		implements View, UpdateFonts, SetLabels, IFunctionInspectorListener {
 
 	private FunctionInspectorModel model;
 	// ggb fields
 	private Kernel kernel;
 
-		private boolean isIniting;
+	private boolean isIniting;
 
 	private boolean isChangingValue;
 
@@ -82,20 +80,21 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 		createGUIElements();
 		createHeaderPanel();
 		createTabPanel();
-		
+
 	}
 
-	
 	protected void createTabPanel() {
 
 		createTabPointPanel();
 		createTabIntervalPanel();
 		buildTabPanel();
-		
+
 	}
 
 	protected abstract void buildTabPanel();
+
 	protected abstract void buildHelpPanel();
+
 	protected abstract void buildHeaderPanel();
 
 	protected void createHeaderPanel() {
@@ -111,15 +110,18 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	}
 
 	protected abstract void createTabIntervalPanel();
+
 	protected abstract void createTabPointPanel();
+
 	protected abstract void createGUIElements();
+
 	protected void updateIntervalTab() {
 		updateIntervalTable();
 		getModel().updateIntervalGeoVisiblity();
 	}
-	
+
 	protected abstract void updatePointsTab();
-	
+
 	protected abstract boolean isIntervalTabSelected();
 	// =====================================
 	// Update
@@ -129,11 +131,11 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 		if (isIntervalTabSelected()) {
 			updateIntervalTab();
-	
+
 		} else {
 			updatePointsTab();
 		}
-		
+
 		setLabels();
 	}
 
@@ -154,7 +156,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	}
 
 	protected abstract void updateIntervalFields();
-	
+
 	/**
 	 * Updates the interval table. The max, min, roots, area etc. for the
 	 * current interval are calculated and put into the IntervalTable model.
@@ -172,13 +174,14 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	 * any related values (e.g. derivative, difference)
 	 */
 	protected abstract void updateXYTable();
+
 	protected abstract void removeColumn();
-	
+
 	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
 			Log.debug("setInspectorVisible(true)");
-				getApp().getKernel().attach(this);
-			} else {
+			getApp().getKernel().attach(this);
+		} else {
 			Log.debug("setInspectorVisible(false)");
 			getApp().getKernel().detach(this);
 			getApp().getSelectionManager().removeSelectionListener(sl);
@@ -223,7 +226,6 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	public void repaintView() {
 	}
 
-	
 	public void clearView() {
 	}
 
@@ -275,7 +277,6 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 	}
 
-
 	protected void setStart(double x) {
 		try {
 			getModel().setStart(x);
@@ -283,14 +284,13 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 			updateXYTable();
 			updateTestPoint();
 		} catch (Exception e1) {
-				e1.printStackTrace();
+			e1.printStackTrace();
 		}
-		
+
 	}
-	
+
 	protected abstract void changeStart(double x);
-	
-	
+
 	public void changedNumberFormat() {
 		this.updateGUI();
 		this.updateIntervalFields();
@@ -299,7 +299,9 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	}
 
 	protected abstract void createOptionsButton();
+
 	protected abstract void doCopyToSpreadsheet();
+
 	public int getViewID() {
 		return App.VIEW_FUNCTION_INSPECTOR;
 	}

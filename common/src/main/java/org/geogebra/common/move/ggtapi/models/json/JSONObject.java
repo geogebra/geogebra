@@ -83,7 +83,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  */
 public class JSONObject {
 	private static final Double NEGATIVE_ZERO = -0d;
-    /**
+	/**
 	 * A sentinel value used to explicitly define a name with no value. Unlike
 	 * {@code null}, names with this value:
 	 * <ul>
@@ -107,22 +107,22 @@ public class JSONObject {
 		public boolean equals(Object o) {
 			return o == this || o == null; // API specifies this broken equals
 											// implementation
-        }
+		}
 
 		@Override
 		public String toString() {
-            return "null";
-        }
+			return "null";
+		}
 	};
 	private final LinkedHashMap<String, Object> nameValuePairs;
-    
+
 	/**
 	 * Creates a {@code JSONObject} with no name/value mappings.
 	 */
-    public JSONObject() {
+	public JSONObject() {
 		nameValuePairs = new LinkedHashMap<String, Object>();
-    }
-    
+	}
+
 	/**
 	 * Creates a new {@code JSONObject} by copying all name/value mappings from
 	 * the given map.
@@ -135,7 +135,7 @@ public class JSONObject {
 	 */
 	/* (accept a raw type for API compatibility) */
 	public JSONObject(Map copyFrom) {
-        this();
+		this();
 		Map<?, ?> contentsTyped = (Map<?, ?>) copyFrom;
 		for (Map.Entry<?, ?> entry : contentsTyped.entrySet()) {
 			/*
@@ -145,11 +145,11 @@ public class JSONObject {
 			String key = (String) entry.getKey();
 			if (key == null) {
 				throw new NullPointerException("key == null");
-            }
+			}
 			nameValuePairs.put(key, wrap(entry.getValue()));
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Creates a new {@code JSONObject} with name/value mappings from the next
 	 * object in the tokener.
@@ -170,9 +170,9 @@ public class JSONObject {
 			this.nameValuePairs = ((JSONObject) object).nameValuePairs;
 		} else {
 			throw JSON.typeMismatch(object, "JSONObject");
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Creates a new {@code JSONObject} with name/value mappings from the JSON
 	 * string.
@@ -185,8 +185,8 @@ public class JSONObject {
 	 */
 	public JSONObject(String json) throws JSONException {
 		this(new JSONTokener(json));
-    }
-    
+	}
+
 	/**
 	 * Creates a new {@code JSONObject} by copying mappings for the listed names
 	 * from the given object. Names that aren't present in {@code copyFrom} will
@@ -194,22 +194,22 @@ public class JSONObject {
 	 */
 	public JSONObject(JSONObject copyFrom, String[] names)
 			throws JSONException {
-        this();
+		this();
 		for (String name : names) {
 			Object value = copyFrom.opt(name);
 			if (value != null) {
 				nameValuePairs.put(name, value);
-            }
-        }
-    }
-    
+			}
+		}
+	}
+
 	/**
 	 * Returns the number of name/value mappings in this object.
 	 */
 	public int length() {
 		return nameValuePairs.size();
-    }
-    
+	}
+
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
@@ -219,8 +219,8 @@ public class JSONObject {
 	public JSONObject put(String name, boolean value) throws JSONException {
 		nameValuePairs.put(checkName(name), value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
@@ -232,9 +232,9 @@ public class JSONObject {
 	 */
 	public JSONObject put(String name, double value) throws JSONException {
 		nameValuePairs.put(checkName(name), JSON.checkDouble(value));
-        return this;
-    }
-    
+		return this;
+	}
+
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
@@ -243,9 +243,9 @@ public class JSONObject {
 	 */
 	public JSONObject put(String name, int value) throws JSONException {
 		nameValuePairs.put(checkName(name), value);
-        return this;
-    }
-    
+		return this;
+	}
+
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name.
@@ -255,8 +255,8 @@ public class JSONObject {
 	public JSONObject put(String name, long value) throws JSONException {
 		nameValuePairs.put(checkName(name), value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Maps {@code name} to {@code value}, clobbering any existing name/value
 	 * mapping with the same name. If the value is {@code null}, any existing
@@ -273,16 +273,16 @@ public class JSONObject {
 		if (value == null) {
 			nameValuePairs.remove(name);
 			return this;
-        }
+		}
 		if (value instanceof Number) {
 			// deviate from the original by checking all Numbers, not just
 			// floats & doubles
 			JSON.checkDouble(((Number) value).doubleValue());
-        }
+		}
 		nameValuePairs.put(checkName(name), value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Equivalent to {@code put(name, value)} when both parameters are non-null;
 	 * does nothing otherwise.
@@ -290,10 +290,10 @@ public class JSONObject {
 	public JSONObject putOpt(String name, Object value) throws JSONException {
 		if (name == null || value == null) {
 			return this;
-        }
+		}
 		return put(name, value);
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the array already mapped to {@code name}. If
 	 * this object has no mapping for {@code name}, this inserts a new mapping.
@@ -322,7 +322,7 @@ public class JSONObject {
 		Object current = nameValuePairs.get(checkName(name));
 		if (current == null) {
 			return put(name, value);
-        }
+		}
 		if (current instanceof JSONArray) {
 			JSONArray array = (JSONArray) current;
 			array.checkedPut(value);
@@ -331,10 +331,10 @@ public class JSONObject {
 			array.checkedPut(current);
 			array.checkedPut(value);
 			nameValuePairs.put(name, array);
-        }
+		}
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Appends values to the array mapped to {@code name}. A new
 	 * {@link JSONArray} mapping for {@code name} will be inserted if no mapping
@@ -358,18 +358,18 @@ public class JSONObject {
 			array = newArray;
 		} else {
 			throw new JSONException("Key " + name + " is not a JSONArray");
-        }
+		}
 		array.checkedPut(value);
 		return this;
-    }
+	}
 
 	String checkName(String name) throws JSONException {
 		if (name == null) {
 			throw new JSONException("Names must be non-null");
-        }
+		}
 		return name;
-    }
-    
+	}
+
 	/**
 	 * Removes the named mapping if it exists; does nothing otherwise.
 	 *
@@ -378,8 +378,8 @@ public class JSONObject {
 	 */
 	public Object remove(String name) {
 		return nameValuePairs.remove(name);
-    }
-    
+	}
+
 	/**
 	 * Returns true if this object has no mapping for {@code name} or if it has
 	 * a mapping whose value is {@link #NULL}.
@@ -387,16 +387,16 @@ public class JSONObject {
 	public boolean isNull(String name) {
 		Object value = nameValuePairs.get(name);
 		return value == null || value == NULL;
-    }
-    
+	}
+
 	/**
 	 * Returns true if this object has a mapping for {@code name}. The mapping
 	 * may be {@link #NULL}.
 	 */
 	public boolean has(String name) {
 		return nameValuePairs.containsKey(name);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name}, or throws if no such mapping
 	 * exists.
@@ -408,18 +408,18 @@ public class JSONObject {
 		Object result = nameValuePairs.get(name);
 		if (result == null) {
 			throw new JSONException("No value for " + name);
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name}, or null if no such mapping
 	 * exists.
 	 */
 	public Object opt(String name) {
 		return nameValuePairs.get(name);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or throws otherwise.
@@ -435,16 +435,16 @@ public class JSONObject {
 			throw JSON.typeMismatch(name, object, "boolean");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or false otherwise.
 	 */
 	public boolean optBoolean(String name) {
 		return optBoolean(name, false);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a boolean or
 	 * can be coerced to a boolean, or {@code fallback} otherwise.
@@ -453,8 +453,8 @@ public class JSONObject {
 		Object object = opt(name);
 		Boolean result = JSON.toBoolean(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or throws otherwise.
@@ -468,18 +468,18 @@ public class JSONObject {
 		Double result = JSON.toDouble(object);
 		if (result == null) {
 			throw JSON.typeMismatch(name, object, "double");
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or {@code NaN} otherwise.
 	 */
 	public double optDouble(String name) {
 		return optDouble(name, Double.NaN);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a double or
 	 * can be coerced to a double, or {@code fallback} otherwise.
@@ -488,8 +488,8 @@ public class JSONObject {
 		Object object = opt(name);
 		Double result = JSON.toDouble(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or throws otherwise.
@@ -502,18 +502,18 @@ public class JSONObject {
 		Integer result = JSON.toInteger(object);
 		if (result == null) {
 			throw JSON.typeMismatch(name, object, "int");
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or 0 otherwise.
 	 */
 	public int optInt(String name) {
 		return optInt(name, 0);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is an int or
 	 * can be coerced to an int, or {@code fallback} otherwise.
@@ -522,8 +522,8 @@ public class JSONObject {
 		Object object = opt(name);
 		Integer result = JSON.toInteger(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a long or
 	 * can be coerced to a long, or throws otherwise. Note that JSON represents
@@ -538,10 +538,10 @@ public class JSONObject {
 		Long result = JSON.toLong(object);
 		if (result == null) {
 			throw JSON.typeMismatch(name, object, "long");
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a long or
 	 * can be coerced to a long, or 0 otherwise. Note that JSON represents
@@ -550,8 +550,8 @@ public class JSONObject {
 	 */
 	public long optLong(String name) {
 		return optLong(name, 0L);
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a long or
 	 * can be coerced to a long, or {@code fallback} otherwise. Note that JSON
@@ -562,8 +562,8 @@ public class JSONObject {
 		Object object = opt(name);
 		Long result = JSON.toLong(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or throws if no such mapping exists.
@@ -578,16 +578,16 @@ public class JSONObject {
 			throw JSON.typeMismatch(name, object, "String");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or the empty string if no such mapping exists.
 	 */
 	public String optString(String name) {
 		return optString(name, "");
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists, coercing it if
 	 * necessary, or {@code fallback} if no such mapping exists.
@@ -596,8 +596,8 @@ public class JSONObject {
 		Object object = opt(name);
 		String result = JSON.toString(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONArray}, or throws otherwise.
@@ -612,9 +612,9 @@ public class JSONObject {
 			return (JSONArray) object;
 		} else {
 			throw JSON.typeMismatch(name, object, "JSONArray");
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONArray}, or null otherwise.
@@ -622,8 +622,8 @@ public class JSONObject {
 	public JSONArray optJSONArray(String name) {
 		Object object = opt(name);
 		return object instanceof JSONArray ? (JSONArray) object : null;
-    }
-    
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONObject}, or throws otherwise.
@@ -636,11 +636,11 @@ public class JSONObject {
 		Object object = get(name);
 		if (object instanceof JSONObject) {
 			return (JSONObject) object;
-        } else {
+		} else {
 			throw JSON.typeMismatch(name, object, "JSONObject");
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Returns the value mapped by {@code name} if it exists and is a {@code
 	 * JSONObject}, or null otherwise.
@@ -648,8 +648,8 @@ public class JSONObject {
 	public JSONObject optJSONObject(String name) {
 		Object object = opt(name);
 		return object instanceof JSONObject ? (JSONObject) object : null;
-    }
-    
+	}
+
 	/**
 	 * Returns an array with the values corresponding to {@code names}. The
 	 * array contains null for names that aren't mapped. This method returns
@@ -659,18 +659,18 @@ public class JSONObject {
 		JSONArray result = new JSONArray();
 		if (names == null) {
 			return null;
-        }
+		}
 		int length = names.length();
 		if (length == 0) {
 			return null;
-        }
+		}
 		for (int i = 0; i < length; i++) {
 			String name = JSON.toString(names.opt(i));
 			result.put(opt(name));
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns an iterator of the {@code String} names in this object. The
 	 * returned iterator supports {@link Iterator#remove() remove}, which will
@@ -680,8 +680,8 @@ public class JSONObject {
 	 */
 	public Iterator<String> keys() {
 		return nameValuePairs.keySet().iterator();
-    }
-    
+	}
+
 	/**
 	 * Returns the set of {@code String} names in this object. The returned set
 	 * is a view of the keys in this object. {@link Set#remove(Object)} will
@@ -694,8 +694,8 @@ public class JSONObject {
 	 */
 	public Set<String> keySet() {
 		return nameValuePairs.keySet();
-    }
-    
+	}
+
 	/**
 	 * Returns an array containing the string names in this object. This method
 	 * returns null if this object contains no mappings.
@@ -703,8 +703,8 @@ public class JSONObject {
 	public JSONArray names() {
 		return nameValuePairs.isEmpty() ? null
 				: new JSONArray(new ArrayList<String>(nameValuePairs.keySet()));
-    }
-    
+	}
+
 	/**
 	 * Encodes this object as a compact JSON string, such as:
 	 * 
@@ -714,15 +714,15 @@ public class JSONObject {
 	 */
 	@Override
 	public String toString() {
-        try {
+		try {
 			JSONStringer stringer = new JSONStringer();
 			writeTo(stringer);
 			return stringer.toString();
 		} catch (JSONException e) {
-            return null;
-        }
-    }
-    
+			return null;
+		}
+	}
+
 	/**
 	 * Encodes this object as a human readable JSON string for debugging, such
 	 * as:
@@ -750,10 +750,10 @@ public class JSONObject {
 		stringer.object();
 		for (Map.Entry<String, Object> entry : nameValuePairs.entrySet()) {
 			stringer.key(entry.getKey()).value(entry.getValue());
-        }
+		}
 		stringer.endObject();
-    }
-    
+	}
+
 	/**
 	 * Encodes the number as a JSON string.
 	 *
@@ -764,20 +764,20 @@ public class JSONObject {
 	public static String numberToString(Number number) throws JSONException {
 		if (number == null) {
 			throw new JSONException("Number must be non-null");
-        }
+		}
 		double doubleValue = number.doubleValue();
 		JSON.checkDouble(doubleValue);
 		// the original returns "-0" instead of "-0.0" for negative zero
 		if (number.equals(NEGATIVE_ZERO)) {
 			return "-0";
-        }
+		}
 		long longValue = number.longValue();
 		if (doubleValue == (double) longValue) {
 			return Long.toString(longValue);
-        }
+		}
 		return number.toString();
-    }
-    
+	}
+
 	/**
 	 * Encodes {@code data} as a JSON string. This applies quotes and any
 	 * necessary character escaping.
@@ -790,7 +790,7 @@ public class JSONObject {
 		if (data == null) {
 			return "\"\"";
 		}
-        try {
+		try {
 			JSONStringer stringer = new JSONStringer();
 			stringer.open(JSONStringer.Scope.NULL, "");
 			stringer.value(data);
@@ -799,9 +799,9 @@ public class JSONObject {
 			return stringer.toString();
 		} catch (JSONException e) {
 			throw new AssertionError();
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Wraps the given object if necessary.
 	 *
@@ -821,11 +821,11 @@ public class JSONObject {
 		}
 		if (o instanceof JSONArray || o instanceof JSONObject) {
 			return o;
-        }
+		}
 		if (o.equals(NULL)) {
 			return o;
-        }
-        try {
+		}
+		try {
 			if (o instanceof Collection) {
 				return new JSONArray((Collection) o);
 			} else if (o.getClass().isArray()) {
@@ -845,12 +845,12 @@ public class JSONObject {
 			}
 			// removed so that it will compile in GeoGebra/common
 			// if (o.getClass().getPackage().getName().startsWith("java.")) {
-				return o.toString();
+			return o.toString();
 			// }
 		} catch (Exception ignored) {
-        }
+		}
 		return null;
-    }
+	}
 
 	@Override
 	public int hashCode() {

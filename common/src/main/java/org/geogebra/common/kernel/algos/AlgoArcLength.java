@@ -91,5 +91,4 @@ public class AlgoArcLength extends AlgoElement {
 
 	}
 
-	
 }

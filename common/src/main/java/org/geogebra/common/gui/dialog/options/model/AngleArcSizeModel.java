@@ -15,7 +15,8 @@ public class AngleArcSizeModel extends OptionsModel {
 	public void setListener(ISliderListener listener) {
 		this.listener = listener;
 	}
-	private AngleProperties getAngleAt(int index) { 
+
+	private AngleProperties getAngleAt(int index) {
 		return (AngleProperties) getObjectAt(index);
 	}
 
@@ -24,8 +25,9 @@ public class AngleArcSizeModel extends OptionsModel {
 			AngleProperties angle = getAngleAt(i);
 			// addded by Loic BEGIN
 			// check if decoration could be drawn
-			if (size < 20
-					&& (angle.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS || angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
+			if (size < 20 && (angle
+					.getDecorationType() == GeoElement.DECORATION_ANGLE_THREE_ARCS
+					|| angle.getDecorationType() == GeoElement.DECORATION_ANGLE_TWO_ARCS)) {
 				angle.setArcSize(20);
 				int selected = getAngleAt(0).getDecorationType();
 				if (selected == GeoElement.DECORATION_ANGLE_THREE_ARCS

@@ -215,8 +215,8 @@ public class AlgoTTest2 extends AlgoElement {
 		} else {
 
 			// check for valid stand. deviation and sample size
-			if (sd0.getDouble() < 0 || sd1.getDouble() < 0
-					|| n0.getDouble() < 2 || n1.getDouble() < 2) {
+			if (sd0.getDouble() < 0 || sd1.getDouble() < 0 || n0.getDouble() < 2
+					|| n1.getDouble() < 2) {
 				result.setUndefined();
 				return;
 			}
@@ -258,7 +258,5 @@ public class AlgoTTest2 extends AlgoElement {
 		}
 
 	}
-
-	
 
 }

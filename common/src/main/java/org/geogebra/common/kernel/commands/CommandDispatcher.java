@@ -36,7 +36,6 @@ public abstract class CommandDispatcher {
 	private Construction cons;
 	private App app;
 
-
 	/**
 	 * stores public (String name, CommandProcessor cmdProc) pairs
 	 * 
@@ -100,7 +99,7 @@ public abstract class CommandDispatcher {
 			return loc.getMenu("Type.3D");
 		case CommandsConstants.TABLE_FINANCIAL:
 			return loc.getMenu("Type.Financial");
-			// Commands.TABLE_ENGLISH:
+		// Commands.TABLE_ENGLISH:
 		default:
 			return null;
 		}
@@ -145,8 +144,7 @@ public abstract class CommandDispatcher {
 	 *             in case command execution fails
 	 * @return Geos created by the command
 	 */
-	final public GeoElement[] processCommand(Command c,
-			EvalInfo info)
+	final public GeoElement[] processCommand(Command c, EvalInfo info)
 			throws MyError {
 
 		CommandProcessor cmdProc = getProcessor(c);
@@ -157,10 +155,9 @@ public abstract class CommandDispatcher {
 	private GeoElement[] process(CommandProcessor cmdProc, Command c,
 			EvalInfo info) {
 		if (cmdProc == null)
-			throw new MyError(app.getLocalization(), app.getLocalization()
-					.getError("UnknownCommand")
-					+ " : "
-					+ app.getLocalization().getCommand(c.getName()));
+			throw new MyError(app.getLocalization(),
+					app.getLocalization().getError("UnknownCommand") + " : "
+							+ app.getLocalization().getCommand(c.getName()));
 
 		// switch on macro mode to avoid labeling of output if desired
 		// Solve[{e^-(x*x/2)=1,x>0},x]
@@ -247,8 +244,6 @@ public abstract class CommandDispatcher {
 
 	}
 
-
-
 	/**
 	 * This method returns a CommandProcessor Object for a corresponding command
 	 * name. This should be called only if that CommandProcessor object is not
@@ -334,7 +329,7 @@ public abstract class CommandDispatcher {
 				// case DensityPlot:
 				return getScriptingDispatcher().dispatch(command, kernel);
 
-				// advanced
+			// advanced
 			case ContourPlot:
 			case IntersectPath:
 			case IntersectRegion:
@@ -453,7 +448,7 @@ public abstract class CommandDispatcher {
 			case SVD:
 				return getAdvancedDispatcher().dispatch(command, kernel);
 
-				// basic
+			// basic
 
 			case Tangent:
 			case Length:
@@ -535,7 +530,6 @@ public abstract class CommandDispatcher {
 			case Element:
 			case Sequence:
 
-
 			case Reflect:
 			case Mirror:
 
@@ -615,7 +609,7 @@ public abstract class CommandDispatcher {
 			case ToExponential:
 				return new CAScmdProcessor(kernel);
 
-				// ************** STATS ***************
+			// ************** STATS ***************
 
 			case ANOVA:
 			case Bernoulli:

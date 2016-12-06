@@ -169,10 +169,6 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_DEFAULTS = 500;
 	private static final int MODE_DEFAULT_GEO = 501;
 
-
-
-
-
 	/**
 	 * we used minimal text size of 4px until 4.0 for texts, because the font
 	 * size setting was additive. Not needed with current multiplicative
@@ -383,7 +379,7 @@ public class MyXMLHandler implements DocHandler {
 		lineStyleTagProcessed = false;
 		symbolicTagProcessed = false;
 		tmp_spHorizontal = true;
-		
+
 		initKernelVars();
 
 		xmin.clear();
@@ -404,7 +400,6 @@ public class MyXMLHandler implements DocHandler {
 	public int getConsStep() {
 		return consStep;
 	}
-
 
 	// ===============================================
 	// SAX ContentHandler methods
@@ -439,7 +434,7 @@ public class MyXMLHandler implements DocHandler {
 		// throws SAXException {
 		// String eName = qName;
 
-		if (kernel.userStopsLoading()){
+		if (kernel.userStopsLoading()) {
 			kernel.setUserStopsLoading(false);
 			throw new SAXException("User has cancelled loading");
 		}
@@ -711,8 +706,8 @@ public class MyXMLHandler implements DocHandler {
 				if (hasGuiElement) {
 					if (ggbFileFormat < 3.3) {
 						createCompabilityLayout();
-					} else
-						if (!isPreferencesXML && tmp_perspectives.isEmpty()) {
+					} else if (!isPreferencesXML
+							&& tmp_perspectives.isEmpty()) {
 						// a specific 4.2 ggb file needed this
 						createCompabilityLayout();
 					}
@@ -993,8 +988,7 @@ public class MyXMLHandler implements DocHandler {
 			} else if (attrs.get("key").equals("barColor")) {
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
-						GColor.newColor(
-								Integer.parseInt(c[0].substring(5)),
+						GColor.newColor(Integer.parseInt(c[0].substring(5)),
 								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
@@ -1402,7 +1396,8 @@ public class MyXMLHandler implements DocHandler {
 				// before v3.0 the default was a dot to show a right angle
 				// ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
 				if (!ev.is3D()) {
-					app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
+					app.setRightAngleStyle(
+							EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 				} else {
 					app.setRightAngleStyle(
 							app.getLocalization().getRightAngleStyle());
@@ -1410,7 +1405,8 @@ public class MyXMLHandler implements DocHandler {
 			} else {
 				if (!ev.isViewForPlane()) {
 					// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
-					app.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
+					app.setRightAngleStyle(
+							Integer.parseInt(strRightAngleStyle));
 				}
 			}
 
@@ -1463,8 +1459,7 @@ public class MyXMLHandler implements DocHandler {
 			int width = Integer.parseInt(attrs.get("width"));
 			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().setPreferredSize(
-					AwtFactory.getPrototype()
-							.newDimension(width, height));
+					AwtFactory.getPrototype().newDimension(width, height));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1562,13 +1557,11 @@ public class MyXMLHandler implements DocHandler {
 
 			int hScroll = Integer.parseInt(attrs.get("hScroll"));
 			int vScroll = Integer.parseInt(attrs.get("vScroll"));
-			settings.setScrollPosition(
-new GPoint(hScroll, vScroll));
+			settings.setScrollPosition(new GPoint(hScroll, vScroll));
 
 			int row = Integer.parseInt(attrs.get("row"));
 			int column = Integer.parseInt(attrs.get("column"));
-			settings.setScrollPosition(
-new GPoint(row, column));
+			settings.setScrollPosition(new GPoint(row, column));
 
 			return true;
 
@@ -1744,7 +1737,7 @@ new GPoint(row, column));
 
 			// check if tickDistance is given
 			String tickExpr = attrs.get("tickExpression");
-			if(tickExpr!=null){
+			if (tickExpr != null) {
 				if (axis == 0) {
 					xtick.put(evSet, tickExpr);
 				} else if (axis == 1) {
@@ -1770,10 +1763,8 @@ new GPoint(row, column));
 					}
 					distNum.setDefinition(def);
 				}
-				ev.setAxesNumberingDistance(distNum,
-						axis);
+				ev.setAxesNumberingDistance(distNum, axis);
 			}
-
 
 			// tick style
 			String strTickStyle = attrs.get("tickStyle");
@@ -1875,12 +1866,12 @@ new GPoint(row, column));
 		try {
 			kernel.setAlgebraStyle(Integer.parseInt(attrs.get("val")));
 			if (attrs.containsKey("spreadsheet")) {
-				kernel.setAlgebraStyleSpreadsheet(Integer.parseInt(attrs
-						.get("spreadsheet")));
+				kernel.setAlgebraStyleSpreadsheet(
+						Integer.parseInt(attrs.get("spreadsheet")));
 			} else {
 				// old files only have val, use that for spreadsheet too
-				kernel.setAlgebraStyleSpreadsheet(Integer.parseInt(attrs
-						.get("val")));
+				kernel.setAlgebraStyleSpreadsheet(
+						Integer.parseInt(attrs.get("val")));
 			}
 			return true;
 		} catch (Exception e) {
@@ -2123,8 +2114,8 @@ new GPoint(row, column));
 			}
 		}
 
-		GDimension evSize = app.getSettings()
-				.getEuclidian(1).getPreferredSize();
+		GDimension evSize = app.getSettings().getEuclidian(1)
+				.getPreferredSize();
 
 		// calculate window dimensions
 		int width = evSize.getWidth();
@@ -2152,20 +2143,16 @@ new GPoint(row, column));
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
 				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.getPrototype()
-								.newRectangle(400, 400),
-						defEV, width),
+						AwtFactory.getPrototype().newRectangle(400, 400), defEV,
+						width),
 				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
 						false, false,
-						AwtFactory.getPrototype()
-								.newRectangle(200, 400),
-						defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2
-								: 200),
+						AwtFactory.getPrototype().newRectangle(200, 400), defAV,
+						(tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2 : 200),
 				new DockPanelData(App.VIEW_SPREADSHEET, null,
 						tmp_showSpreadsheet, false, false,
-						AwtFactory.getPrototype()
-								.newRectangle(400, 400),
-						defSV, ssize) };
+						AwtFactory.getPrototype().newRectangle(400, 400), defSV,
+						ssize) };
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
 
@@ -2191,8 +2178,7 @@ new GPoint(row, column));
 		// use two split panes in case all three views are visible
 		if (tmp_showSpreadsheet && tmp_showAlgebra) {
 			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width
-					: height);
+					? width : height);
 			float relative1 = (float) tmp_sp2 / total;
 			float relative2 = (float) tmp_sp1 / (total - tmp_sp2);
 			spXml = new DockSplitPaneData[] {
@@ -2203,8 +2189,7 @@ new GPoint(row, column));
 							relative2, splitOrientation) };
 		} else {
 			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width
-					: height);
+					? width : height);
 			float relative;
 			if (tmp_showSpreadsheet) {
 				relative = (float) tmp_sp1 / total;
@@ -2229,8 +2214,8 @@ new GPoint(row, column));
 
 		tmp_perspectives = new ArrayList<Perspective>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(AwtFactory.getPrototype()
-				.newDimension(width, height));
+		app.setPreferredSize(
+				AwtFactory.getPrototype().newDimension(width, height));
 		app.setTmpPerspectives(tmp_perspectives);
 	}
 
@@ -2537,9 +2522,9 @@ new GPoint(row, column));
 	private static boolean handleWindowSize(App app,
 			LinkedHashMap<String, String> attrs) {
 		try {
-			GDimension size = AwtFactory.getPrototype()
-					.newDimension(Integer.parseInt(attrs.get("width")),
-							Integer.parseInt(attrs.get("height")));
+			GDimension size = AwtFactory.getPrototype().newDimension(
+					Integer.parseInt(attrs.get("width")),
+					Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
 			return true;
 		} catch (Exception e) {
@@ -2584,8 +2569,7 @@ new GPoint(row, column));
 			if (guiSize <= 0) {
 				app.setGUIFontSize(-1); // default
 			} else {
-				for (int i = 0; i < Util
-						.menuFontSizesLength(); i++) {
+				for (int i = 0; i < Util.menuFontSizesLength(); i++) {
 					if (Util.menuFontSizes(i) >= guiSize) {
 						guiSize = Util.menuFontSizes(i);
 						break;
@@ -2749,7 +2733,8 @@ new GPoint(row, column));
 					.setShowInputPanel(!attrs.get("show").equals("false"));
 			tmp_perspective.setShowInputPanelCommands(
 					!attrs.get("cmd").equals("false"));
-			InputPosition ip = attrs.get("top").equals("true") ? InputPosition.top
+			InputPosition ip = attrs.get("top").equals("true")
+					? InputPosition.top
 					: ("false".equals(attrs.get("top")) ? InputPosition.bottom
 							: InputPosition.algebraView);
 			tmp_perspective.setInputPosition(ip);
@@ -2817,11 +2802,9 @@ new GPoint(row, column));
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
-			GRectangle windowRect = AwtFactory.getPrototype()
-					.newRectangle(Integer.parseInt(window[0]),
-							Integer.parseInt(window[1]),
-							Integer.parseInt(window[2]),
-							Integer.parseInt(window[3]));
+			GRectangle windowRect = AwtFactory.getPrototype().newRectangle(
+					Integer.parseInt(window[0]), Integer.parseInt(window[1]),
+					Integer.parseInt(window[2]), Integer.parseInt(window[3]));
 
 			String embeddedDef = attrs.get("location");
 			int embeddedSize = Integer.parseInt(attrs.get("size"));
@@ -3237,10 +3220,8 @@ new GPoint(row, column));
 			String r = attrs.get("r");
 			String b = attrs.get("b");
 			String g = attrs.get("g");
-			geoCasCell.setFontColor(
-					GColor.newColor(
-							Integer.parseInt(r), Integer.parseInt(g),
-							Integer.parseInt(b)));
+			geoCasCell.setFontColor(GColor.newColor(Integer.parseInt(r),
+					Integer.parseInt(g), Integer.parseInt(b)));
 		} else
 			Log.error("unknown tag in <useAsText>: " + eName);
 
@@ -3374,13 +3355,13 @@ new GPoint(row, column));
 			if ("element".equals(eName)) {
 				if (!sliderTagProcessed && geo.isGeoNumeric()) {
 					((GeoNumeric) geo).setShowExtendedAV(false);
-				}else if (!fontTagProcessed && geo.isGeoText()) {
+				} else if (!fontTagProcessed && geo.isGeoText()) {
 					((TextProperties) geo).setFontSizeMultiplier(1);
 					((TextProperties) geo).setSerifFont(false);
 					((TextProperties) geo).setFontStyle(GFont.PLAIN);
-				} else if (!lineStyleTagProcessed
-						&& ((geo.isGeoFunctionNVar() && ((GeoFunctionNVar) geo)
-								.isFun2Var()) || geo.isGeoSurfaceCartesian())) {
+				} else if (!lineStyleTagProcessed && ((geo.isGeoFunctionNVar()
+						&& ((GeoFunctionNVar) geo).isFun2Var())
+						|| geo.isGeoSurfaceCartesian())) {
 					geo.setLineThickness(0);
 				}
 				if (!symbolicTagProcessed && geo.isGeoText()) {
@@ -3456,8 +3437,7 @@ new GPoint(row, column));
 				ev.setXminObject(null, true);
 			} else {
 				NumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						xmin.get(ev), handler);
+						.evaluateToNumeric(xmin.get(ev), handler);
 				ev.setXminObject(n, true);
 			}
 		}
@@ -3466,8 +3446,7 @@ new GPoint(row, column));
 				ev.setXmaxObject(null, true);
 			} else {
 				NumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						xmax.get(ev), handler);
+						.evaluateToNumeric(xmax.get(ev), handler);
 				ev.setXmaxObject(n, true);
 			}
 		}
@@ -3476,8 +3455,7 @@ new GPoint(row, column));
 				ev.setYminObject(null, true);
 			} else {
 				NumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						ymin.get(ev), handler);
+						.evaluateToNumeric(ymin.get(ev), handler);
 				ev.setYminObject(n, true);
 			}
 		}
@@ -3486,8 +3464,7 @@ new GPoint(row, column));
 				ev.setYmaxObject(null, true);
 			} else {
 				NumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						ymax.get(ev), handler);
+						.evaluateToNumeric(ymax.get(ev), handler);
 				ev.setYmaxObject(n, true);
 			}
 			// ev.updateBounds();
@@ -3496,8 +3473,7 @@ new GPoint(row, column));
 			if (!StringUtil.empty(xtick.get(ev))) {
 
 				GeoNumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						xtick.get(ev), handler);
+						.evaluateToNumeric(xtick.get(ev), handler);
 				ev.setAxisNumberingDistance(0, n);
 			}
 			// ev.updateBounds();
@@ -3506,8 +3482,7 @@ new GPoint(row, column));
 			if (!StringUtil.empty(ytick.get(ev))) {
 
 				GeoNumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						ytick.get(ev), handler);
+						.evaluateToNumeric(ytick.get(ev), handler);
 				ev.setAxisNumberingDistance(1, n);
 			}
 			// ev.updateBounds();
@@ -3516,8 +3491,7 @@ new GPoint(row, column));
 			if (!StringUtil.empty(ztick.get(ev))) {
 
 				GeoNumberValue n = getAlgProcessor()
-.evaluateToNumeric(
-						ztick.get(ev), handler);
+						.evaluateToNumeric(ztick.get(ev), handler);
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
@@ -3819,7 +3793,7 @@ new GPoint(row, column));
 				} else if ("slider".equals(eName)) {
 					ok = handleSlider(attrs);
 					break;
-				}else if ("symbolic".equals(eName)) {
+				} else if ("symbolic".equals(eName)) {
 					ok = handleSymbolic(attrs);
 					break;
 				} else if ("slopeTriangleSize".equals(eName)) {
@@ -4073,8 +4047,7 @@ new GPoint(row, column));
 			int red = Integer.parseInt(attrs.get("r"));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
-			return GColor
-					.newColor(red, green, blue);
+			return GColor.newColor(red, green, blue);
 		} catch (Exception e) {
 			return null;
 		}
@@ -4090,8 +4063,7 @@ new GPoint(row, column));
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
-			return GColor
-					.newColor(red, green, blue, alpha);
+			return GColor.newColor(red, green, blue, alpha);
 		} catch (Exception e) {
 			return null;
 		}
@@ -4536,7 +4508,7 @@ new GPoint(row, column));
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
-			
+
 			num.setSliderHorizontal(parseBoolean(attrs.get("horizontal")));
 
 			return true;
@@ -5003,11 +4975,10 @@ new GPoint(row, column));
 			return false;
 		}
 	}
-	private boolean handleSymbolic(
-			LinkedHashMap<String, String> attrs) {
+
+	private boolean handleSymbolic(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof HasSymbolicMode)) {
-			Log.error("wrong element type for <symbolic>: "
-					+ geo.getClass());
+			Log.error("wrong element type for <symbolic>: " + geo.getClass());
 			return false;
 		}
 		symbolicTagProcessed = true;
@@ -5019,6 +4990,7 @@ new GPoint(row, column));
 			return false;
 		}
 	}
+
 	private boolean handleSlopeTriangleSize(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoNumeric())) {
@@ -5129,8 +5101,8 @@ new GPoint(row, column));
 			while (it.hasNext()) {
 				LocateableExpPair pair = it.next();
 				GeoPointND P = pair.point != null ? pair.point
- : algProc
-						.evaluateToPoint(pair.exp, ErrorHelper.silent(), true);
+						: algProc.evaluateToPoint(pair.exp,
+								ErrorHelper.silent(), true);
 				pair.locateable.setStartPoint(P, pair.number);
 
 			}
@@ -5547,8 +5519,8 @@ new GPoint(row, column));
 					ValidExpression ve = parser.parseGeoGebraExpression(value);
 					geo.setDefinition(ve.wrap());
 					if (ve.unwrap() instanceof Equation) {
-						((GeoImplicit) geo).fromEquation(
-								(Equation) ve.unwrap(), null);
+						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(),
+								null);
 					}
 
 				}
@@ -5844,8 +5816,8 @@ new GPoint(row, column));
 			if (type != null) {
 				if (type.equals("point") && ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForcePoint();
-				} else
-					if (type.equals("vector") && ve instanceof ExpressionNode) {
+				} else if (type.equals("vector")
+						&& ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForceVector();
 					// we must check that we have Equation here as xAxis
 					// has also type "line" but is parsed as ExpressionNode

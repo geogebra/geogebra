@@ -46,6 +46,4 @@ public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
 		return ((GeoLineND) getSecondInput()).getDirectionForEquation();
 	}
 
-	
-
 }

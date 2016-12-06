@@ -42,8 +42,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * 
  * @author Markus
  */
-public class AlgoTranslate extends AlgoTransformation implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+public class AlgoTranslate extends AlgoTransformation
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private Translateable out;
 	protected GeoElement inGeo;
@@ -134,7 +134,7 @@ public class AlgoTranslate extends AlgoTransformation implements
 		if (!out.isDefined()) {
 			return;
 		}
-		
+
 		out.translate(getVectorCoords());
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
@@ -191,10 +191,10 @@ public class AlgoTranslate extends AlgoTransformation implements
 			int[] degree2 = ((SymbolicParametersAlgo) v).getDegrees();
 			int[] result = new int[3];
 
-			result[0] = Math.max(degree1[0] + degree2[2], degree2[0]
-					+ degree1[2]);
-			result[1] = Math.max(degree1[1] + degree2[2], degree2[1]
-					+ degree1[2]);
+			result[0] = Math.max(degree1[0] + degree2[2],
+					degree2[0] + degree1[2]);
+			result[1] = Math.max(degree1[1] + degree2[2],
+					degree2[1] + degree1[2]);
 			result[2] = degree2[2] + degree1[2];
 
 			return result;
@@ -211,10 +211,10 @@ public class AlgoTranslate extends AlgoTransformation implements
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) v)
 					.getExactCoordinates(values);
 			BigInteger[] result = new BigInteger[3];
-			result[0] = coords1[0].multiply(coords2[2]).add(
-					coords2[0].multiply(coords1[2]));
-			result[1] = coords1[1].multiply(coords2[2]).add(
-					coords2[1].multiply(coords1[2]));
+			result[0] = coords1[0].multiply(coords2[2])
+					.add(coords2[0].multiply(coords1[2]));
+			result[1] = coords1[1].multiply(coords2[2])
+					.add(coords2[1].multiply(coords1[2]));
 			result[2] = coords1[2].multiply(coords2[2]);
 			return SymbolicParameters.reduce(result);
 		}
@@ -231,10 +231,10 @@ public class AlgoTranslate extends AlgoTransformation implements
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) v)
 					.getPolynomials();
 			polynomials = new Polynomial[3];
-			polynomials[0] = coords1[0].multiply(coords2[2]).add(
-					coords2[0].multiply(coords1[2]));
-			polynomials[1] = coords1[1].multiply(coords2[2]).add(
-					coords2[1].multiply(coords1[2]));
+			polynomials[0] = coords1[0].multiply(coords2[2])
+					.add(coords2[0].multiply(coords1[2]));
+			polynomials[1] = coords1[1].multiply(coords2[2])
+					.add(coords2[1].multiply(coords1[2]));
 			polynomials[2] = coords1[2].multiply(coords2[2]);
 			return polynomials;
 		}
@@ -252,30 +252,30 @@ public class AlgoTranslate extends AlgoTransformation implements
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		
+
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
 
 		GeoPoint P = (GeoPoint) inGeo;
 		GeoVector u = (GeoVector) v;
-		
+
 		if (P != null && v != null) {
 
 			Variable[] vP = P.getBotanaVars(P);
 			Variable[] vv = u.getBotanaVars(u);
 
 			if (botanaVars == null) {
-			botanaVars = new Variable[6];
-			// A'
-			botanaVars[0] = new Variable();
-			botanaVars[1] = new Variable();
-			// P
-			botanaVars[2] = vP[0];
-			botanaVars[3] = vP[1];
-			// v
-			botanaVars[4] = vv[0];
-			botanaVars[5] = vv[1];
+				botanaVars = new Variable[6];
+				// A'
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
+				// P
+				botanaVars[2] = vP[0];
+				botanaVars[3] = vP[1];
+				// v
+				botanaVars[4] = vv[0];
+				botanaVars[5] = vv[1];
 			}
 
 			botanaPolynomials = new Polynomial[2];
@@ -295,5 +295,4 @@ public class AlgoTranslate extends AlgoTransformation implements
 		throw new NoSymbolicParametersException();
 	}
 
-	
 }

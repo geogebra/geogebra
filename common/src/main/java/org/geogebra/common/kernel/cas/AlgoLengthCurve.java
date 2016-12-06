@@ -81,8 +81,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		double a = t0.getValue();
 		double b = t1.getValue();
 
-		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
-				lengthCurve, a, b));
+		double lenVal = Math.abs(
+				AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
 		length.setValue(lenVal);
 	}
 
@@ -96,5 +96,4 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		lengthCurve = new LengthCurve(c1);
 	}
 
-	
 }

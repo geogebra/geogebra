@@ -2,7 +2,6 @@ package org.geogebra.common.gui.view.data;
 
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 
-
 /**
  * @author G. Sturr
  * 
@@ -43,6 +42,7 @@ public class StatPanelSettings extends PlotSettings {
 	private boolean isAutomaticWindow = true;
 
 	private CoordMode coordMode = CoordMode.STANDTOSTAND;
+
 	public enum CoordMode {
 		STANDTOSTAND(0), LOGTOSTAND(1), STANDTOLOG(2), LOGTOLOG(3);
 		private int mode;
@@ -58,7 +58,6 @@ public class StatPanelSettings extends PlotSettings {
 
 	// stemplot options
 	private int stemAdjust = 0;
-	
 
 	/**************************************************
 	 * Construct StatPanelSettings
@@ -86,7 +85,7 @@ public class StatPanelSettings extends PlotSettings {
 	public boolean isNumericData() {
 		return dataSource.isNumericData();
 	}
-	
+
 	public boolean isPointList() {
 		return dataSource.isPointData();
 	}

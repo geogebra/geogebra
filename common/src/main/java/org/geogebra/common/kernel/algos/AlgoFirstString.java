@@ -97,6 +97,4 @@ public class AlgoFirstString extends AlgoElement {
 			outputText.setTextString(str.substring(0, outsize));
 	}
 
-	
-
 }

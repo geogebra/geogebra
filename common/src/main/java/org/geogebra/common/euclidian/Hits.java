@@ -225,8 +225,8 @@ public class Hits extends ArrayList<GeoElement> {
 		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
 			if (geo == null
-					|| geo.isRegion()
-					&& (geo.getAlphaValue() < 0.1f || geo.getLineThickness() < 0.5f)
+					|| geo.isRegion() && (geo.getAlphaValue() < 0.1f
+							|| geo.getLineThickness() < 0.5f)
 					|| geo.isPath() && geo.getLineThickness() < 0.5f)
 				remove(i);
 		}
@@ -623,7 +623,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * 
 	 * @return
 	 *
-	 *         final public ArrayList getPolygons(ArrayList hits, int n,
+	 * 		final public ArrayList getPolygons(ArrayList hits, int n,
 	 *         ArrayList polygons) { // search for polygons in hits that exactly
 	 *         have the needed number of // points polygons.clear();
 	 *         getHits(hits, GeoPolygon.class, polygons); for (int k =

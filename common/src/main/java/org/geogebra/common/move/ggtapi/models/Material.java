@@ -93,7 +93,7 @@ public class Material implements Comparable<Material>, Serializable {
 	private boolean deleted;
 	private boolean fromAnotherDevice;
 	private boolean favorite;
-	
+
 	private boolean is3d;
 	private boolean spreadsheet;
 	private boolean cas;
@@ -250,7 +250,8 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public void setTimestampFromJava(long timestamp) {
-		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES SECONDS
+		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES
+										// SECONDS
 	}
 
 	public void resetTimestamp() {
@@ -263,7 +264,9 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public void setAutosaveTimestampFromJava(long autoSaveTimestamp) {
-		setAutosaveTimestamp(autoSaveTimestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES SECONDS
+		setAutosaveTimestamp(autoSaveTimestamp / 1000); // JAVA USES
+														// MILLISECONDS, UNIX
+														// USES SECONDS
 	}
 
 	public long getAutosaveTimestamp() {
@@ -293,11 +296,11 @@ public class Material implements Comparable<Material>, Serializable {
 
 	private String preview_url;
 
-	public void setPreviewURL(String preview_url){
+	public void setPreviewURL(String preview_url) {
 		this.preview_url = preview_url;
 	}
 
-	public String getPreviewURL(){
+	public String getPreviewURL() {
 		return preview_url;
 	}
 
@@ -317,11 +320,11 @@ public class Material implements Comparable<Material>, Serializable {
 		setThumbnailIsBase64(true);
 	}
 
-	public boolean thumbnailIsBase64(){
+	public boolean thumbnailIsBase64() {
 		return thumbnailIsBase64;
 	}
 
-	public void setThumbnailIsBase64(boolean flag){
+	public void setThumbnailIsBase64(boolean flag) {
 		thumbnailIsBase64 = flag;
 	}
 
@@ -372,7 +375,8 @@ public class Material implements Comparable<Material>, Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("ID: " + this.id + ": (" + this.type + ") (local " + localID + ") ");
+		sb.append("ID: " + this.id + ": (" + this.type + ") (local " + localID
+				+ ") ");
 		sb.append("Title: " + this.title + " ");
 		sb.append("by " + this.author + " (" + this.getAuthorURL() + "), ");
 		sb.append("Date: " + this.getDate() + "\n");
@@ -631,7 +635,6 @@ public class Material implements Comparable<Material>, Serializable {
 	public void setFuncinsp(boolean funcinsp) {
 		this.funcinsp = funcinsp;
 	}
-
 
 	public boolean hasMacro() {
 		return macro;

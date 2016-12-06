@@ -170,8 +170,8 @@ public class AlgoDerivative extends AlgoCasBase {
 		boolean secret = getClassName() == Commands.NDerivative;
 		if (f instanceof GeoFunction) {
 
-			Function funDeriv = ((GeoFunction) f).getFunction().getDerivative(
-					orderInt, fast);
+			Function funDeriv = ((GeoFunction) f).getFunction()
+					.getDerivative(orderInt, fast);
 			if (secret) {
 				funDeriv.setSecret(this);
 			}
@@ -248,8 +248,8 @@ public class AlgoDerivative extends AlgoCasBase {
 				char firstCh = orderStr.charAt(0);
 				if (firstCh >= '0' && firstCh <= '9') {
 					// numeric, convert 3 -> 3rd (in current locale)
-					orderStr = getLoc().getOrdinalNumber(
-							(int) order.getDouble());
+					orderStr = getLoc()
+							.getOrdinalNumber((int) order.getDouble());
 				} else {
 					// symbolic, convert n -> nth (in current locale)
 					orderStr = getLoc().getPlain("Ath", orderStr);
@@ -264,7 +264,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		}
 
 		if (!fast && !f.toGeoElement().isIndependent()) { // show the symbolic
-													// representation too
+			// representation too
 			sb.append(": ");
 			sb.append(g.toGeoElement().getLabel(tpl));
 			sb.append('(');
@@ -275,7 +275,5 @@ public class AlgoDerivative extends AlgoCasBase {
 
 		return sb.toString();
 	}
-
-	
 
 }

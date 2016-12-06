@@ -47,8 +47,7 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	@SuppressWarnings("javadoc")
 	public AlgoLogNormalDF(Construction cons, GeoNumberValue mean,
-			GeoNumberValue sd,
-			BooleanValue cumulative) {
+			GeoNumberValue sd, BooleanValue cumulative) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -113,7 +112,8 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 			// old hack:
 			// processAlgebraCommand(
-			// "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2]",
+			// "If[x<0,0,1/2 erf((ln(x)-("+mean+"))/(sqrt(2)*abs("+sd+"))) +
+			// 1/2]",
 			// true );
 
 		} else {
@@ -128,7 +128,8 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 			// old hack:
 			// processAlgebraCommand(
-			// "If[x<0,0,1/(x sqrt(2 * pi) * abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]",
+			// "If[x<0,0,1/(x sqrt(2 * pi) *
+			// abs("+sd+"))*exp(-((ln(x)-("+mean+"))^2/(2*("+sd+")^2)))]",
 			// true );
 		}
 
@@ -136,5 +137,4 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	
 }

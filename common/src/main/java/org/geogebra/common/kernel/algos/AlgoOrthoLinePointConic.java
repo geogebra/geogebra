@@ -153,5 +153,4 @@ public class AlgoOrthoLinePointConic extends AlgoElement {
 				P.getLabel(tpl), l.toGeoElement().getLabel(tpl));
 	}
 
-	
 }

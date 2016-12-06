@@ -131,8 +131,9 @@ public class Kernel3D extends Kernel {
 		return (GeoSpace) cons.getSpace();
 	}
 
-	/* *******************************************
-	 * Methods for 3D manager *******************************************
+	/*
+	 * ******************************************* Methods for 3D manager
+	 * *******************************************
 	 */
 
 	@Override
@@ -152,8 +153,9 @@ public class Kernel3D extends Kernel {
 		return false;
 	}
 
-	/* *******************************************
-	 * Methods for MyXMLHandler *******************************************
+	/*
+	 * ******************************************* Methods for MyXMLHandler
+	 * *******************************************
 	 */
 
 	/**
@@ -165,7 +167,8 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction construction) {
+	public MyXMLHandler newMyXMLHandler(Kernel kernel,
+			Construction construction) {
 		return new MyXMLHandler3D(kernel, construction);
 	}
 
@@ -188,8 +191,8 @@ public class Kernel3D extends Kernel {
 	/** return all points of the current construction */
 	@Override
 	public TreeSet<GeoElement> getPointSet() {
-		TreeSet<GeoElement> t3d = getConstruction().getGeoSetLabelOrder(
-				GeoClass.POINT3D);
+		TreeSet<GeoElement> t3d = getConstruction()
+				.getGeoSetLabelOrder(GeoClass.POINT3D);
 		TreeSet<GeoElement> t = super.getPointSet();
 
 		t.addAll(t3d);
@@ -197,10 +200,9 @@ public class Kernel3D extends Kernel {
 		return t;
 	}
 
-
-
-	/* *******************************************
-	 * Methods for MyXMLHandler *******************************************
+	/*
+	 * ******************************************* Methods for MyXMLHandler
+	 * *******************************************
 	 */
 	@Override
 	public boolean handleCoords(GeoElement geo,
@@ -268,7 +270,8 @@ public class Kernel3D extends Kernel {
 			double z = Double.parseDouble(attrs.get("z"));
 			double w = Double.parseDouble(attrs.get("w"));
 			((GeoCoords4D) geo).setCoords(x, y, z, w);
-			// Application.debug(geo.getLabel()+": x="+x+", y="+y+", z="+z+", w="+w);
+			// Application.debug(geo.getLabel()+": x="+x+", y="+y+", z="+z+",
+			// w="+w);
 			return true;
 		} catch (Exception e) {
 			// Application.debug("erreur : "+e);
@@ -280,7 +283,6 @@ public class Kernel3D extends Kernel {
 	public GeoPlane3D getDefaultPlane() {
 		return getXOYPlane();
 	}
-
 
 	// //////////////////////////////////
 	// 2D FACTORY EXTENSION
@@ -295,7 +297,8 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	final public GeoSegmentND segmentND(String label, GeoPointND P, GeoPointND Q) {
+	final public GeoSegmentND segmentND(String label, GeoPointND P,
+			GeoPointND Q) {
 
 		if (((GeoElement) P).isGeoElement3D()
 				|| ((GeoElement) Q).isGeoElement3D())
@@ -467,7 +470,8 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public ConstructionCompanion createConstructionCompanion(Construction cons) {
+	public ConstructionCompanion createConstructionCompanion(
+			Construction cons) {
 		return new ConstructionCompanion3D(cons);
 	}
 }

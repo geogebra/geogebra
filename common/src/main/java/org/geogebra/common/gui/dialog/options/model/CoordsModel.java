@@ -11,15 +11,12 @@ import org.geogebra.common.main.Localization;
 
 public class CoordsModel extends MultipleOptionsModel {
 
-
 	private List<Integer> coordValues;
 
 	public CoordsModel(App app) {
 		super(app);
-		coordValues = Arrays.asList(Kernel.COORD_CARTESIAN,
-				Kernel.COORD_POLAR,
-				Kernel.COORD_COMPLEX,
-				Kernel.COORD_CARTESIAN_3D,
+		coordValues = Arrays.asList(Kernel.COORD_CARTESIAN, Kernel.COORD_POLAR,
+				Kernel.COORD_COMPLEX, Kernel.COORD_CARTESIAN_3D,
 				Kernel.COORD_SPHERICAL);
 	}
 
@@ -37,16 +34,18 @@ public class CoordsModel extends MultipleOptionsModel {
 		}
 		return valid;
 	}
-	
+
 	private CoordStyle getCoordStyleAt(int index) {
-		return (CoordStyle)getObjectAt(index);
+		return (CoordStyle) getObjectAt(index);
 	}
+
 	@Override
 	public void updateProperties() {
 		CoordStyle geo0 = getCoordStyleAt(0);
 		getListener().setSelectedIndex(coordValues.indexOf(geo0.getMode()));
-		
+
 	}
+
 	@Override
 	public List<String> getChoiches(Localization loc) {
 		return Arrays.asList(loc.getPlain("CartesianCoords"), // index 0
@@ -59,17 +58,17 @@ public class CoordsModel extends MultipleOptionsModel {
 	@Override
 	protected void apply(int index, int value) {
 		getCoordStyleAt(index).setMode(coordValues.get(value));
-	
+
 	}
-	
-	
+
 	@Override
 	public boolean applyChanges(int value) {
-		if(super.applyChanges(value)){
-			// e.g. u*v can create number (dot product) or complex number (complex product)
+		if (super.applyChanges(value)) {
+			// e.g. u*v can create number (dot product) or complex number
+			// (complex product)
 			return true;
 		}
-		
+
 		return false;
 	}
 

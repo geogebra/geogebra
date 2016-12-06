@@ -40,7 +40,8 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 
 				// GeoElement[] ret =
 				// kernelA.getManager3D().ArchimedeanSolid(c.getLabels(),
@@ -49,8 +50,8 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 				// name) ;
 
 				GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(
-						c.getLabels(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1], name);
+						c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1],
+						name);
 				return ret;
 
 			}
@@ -61,7 +62,8 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			break;
 		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())) {
+			if ((ok[0] = arg[0].isGeoPoint())
+					&& (ok[1] = arg[1].isGeoPoint())) {
 
 				if (arg[2] instanceof GeoDirectionND) {
 

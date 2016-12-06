@@ -31,7 +31,8 @@ public class AlgoFractionText extends AlgoElement {
 
 	private StringBuilder sb = new StringBuilder();
 
-	public AlgoFractionText(Construction cons, String label, GeoNumberValue num) {
+	public AlgoFractionText(Construction cons, String label,
+			GeoNumberValue num) {
 		this(cons, num);
 		text.setLabel(label);
 	}
@@ -74,7 +75,8 @@ public class AlgoFractionText extends AlgoElement {
 		// StringTemplate.get(app.getFormulaRenderingType());
 		StringTemplate tpl = text.getStringTemplate();
 		if (input[0].isDefined()) {
-			frac = decimalToFraction(num.getDouble(), Kernel.STANDARD_PRECISION);
+			frac = decimalToFraction(num.getDouble(),
+					Kernel.STANDARD_PRECISION);
 
 			sb.setLength(0);
 			appendFormula(sb, frac, tpl, kernel);
@@ -171,7 +173,8 @@ public class AlgoFractionText extends AlgoElement {
 			fractionNumerator = Math.floor(decimal * fractionDenominator + 0.5); // Rounding
 																					// Function
 		} while (Math
-				.abs((decimal - (fractionNumerator / fractionDenominator))) > AccuracyFactor
+				.abs((decimal - (fractionNumerator
+						/ fractionDenominator))) > AccuracyFactor
 				&& !MyDouble.exactEqual(Z, Math.floor(Z)));
 		fractionNumerator = decimalSign * fractionNumerator;
 
@@ -203,7 +206,5 @@ public class AlgoFractionText extends AlgoElement {
 			DrawEquation.appendFractionEnd(sb, tpl);
 		}
 	}
-
-	
 
 }

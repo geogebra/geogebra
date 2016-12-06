@@ -40,9 +40,8 @@ public class CmdTDistribution extends CommandProcessor {
 		BooleanValue cumulative = null; // default for n=2 (false)
 		switch (n) {
 		case 3:
-			if (!arg[1].isGeoFunction()
-					|| !((GeoFunction) arg[1]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
@@ -54,9 +53,8 @@ public class CmdTDistribution extends CommandProcessor {
 			// fall through
 		case 2:
 			if (arg[0] instanceof GeoNumberValue) {
-				if (arg[1].isGeoFunction()
-						&& ((GeoFunction) arg[1]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[1].isGeoFunction() && ((GeoFunction) arg[1])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoTDistributionDF algo = new AlgoTDistributionDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);

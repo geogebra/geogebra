@@ -132,6 +132,4 @@ public class AlgoAreaConic extends AlgoElement {
 		}
 	}
 
-	
-
 }

@@ -38,8 +38,6 @@ public class AlgoFitPoly extends AlgoElement {
 	private GeoFunction geofunction; // output
 	private final RegressionMath regMath;
 
-
-
 	/**
 	 * @param cons
 	 *            construction
@@ -103,7 +101,7 @@ public class AlgoFitPoly extends AlgoElement {
 				cof = new double[2];
 				cof[0] = regMath.getP1();
 				cof[1] = regMath.getP2();
-			}// else: ->
+			} // else: ->
 			break;
 		case RegressionMath.QUAD:
 			regok = regMath.doQuad(geolist);
@@ -112,7 +110,7 @@ public class AlgoFitPoly extends AlgoElement {
 				cof[0] = regMath.getP1();
 				cof[1] = regMath.getP2();
 				cof[2] = regMath.getP3();
-			}// else: ->
+			} // else: ->
 			break;
 		case RegressionMath.CUBIC:
 			regok = regMath.doCubic(geolist);
@@ -122,7 +120,7 @@ public class AlgoFitPoly extends AlgoElement {
 				cof[1] = regMath.getP2();
 				cof[2] = regMath.getP3();
 				cof[3] = regMath.getP4();
-			}// else: ->
+			} // else: ->
 			break;
 		case RegressionMath.QUART:
 			regok = regMath.doQuart(geolist);
@@ -133,7 +131,7 @@ public class AlgoFitPoly extends AlgoElement {
 				cof[2] = regMath.getP3();
 				cof[3] = regMath.getP4();
 				cof[4] = regMath.getP5();
-			}// else: ->
+			} // else: ->
 			break;
 		default:
 			if ((par > 4) && (par < 300)) { // ToDo: test speed for max limit!
@@ -141,10 +139,10 @@ public class AlgoFitPoly extends AlgoElement {
 				if (regok) {
 					cof = new double[par + 1];
 					cof = regMath.getPar();
-				}// else: ->
+				} // else: ->
 			} else {
 				regok = false; // 24.04.08: Only 1<=degree
-			}// if
+			} // if
 		}// switch
 			// System.out.println("Used: "+(System.currentTimeMillis()-ms));
 		if (!regok) {
@@ -157,7 +155,4 @@ public class AlgoFitPoly extends AlgoElement {
 		geofunction.setDefined(true);
 	}// compute()
 
-	
-
 }// class AlgoFitPoly
-

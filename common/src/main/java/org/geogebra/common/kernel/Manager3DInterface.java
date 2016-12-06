@@ -171,7 +171,8 @@ public interface Manager3DInterface {
 			GeoDirectionND direction);
 
 	/** Vector3D unit orthogonal to plane */
-	public GeoVectorND UnitOrthogonalVector3D(String label, GeoCoordSys2D plane);
+	public GeoVectorND UnitOrthogonalVector3D(String label,
+			GeoCoordSys2D plane);
 
 	/**
 	 * Polygon3D linking points P1, P2, ...
@@ -276,8 +277,7 @@ public interface Manager3DInterface {
 			GeoNumberValue height);
 
 	/** Plane a x + b y + c z + d = 0 */
-	public GeoPlaneND Plane3D(double a, double b, double c,
-			double d);
+	public GeoPlaneND Plane3D(double a, double b, double c, double d);
 
 	/**
 	 * Plane dependent on coefficients of arithmetic expressions with variables,
@@ -382,8 +382,7 @@ public interface Manager3DInterface {
 	 * circle with point, radius, axis
 	 */
 	public GeoConicND Circle3D(String label, GeoPointND A,
-			GeoNumberValue radius,
-			GeoDirectionND axis);
+			GeoNumberValue radius, GeoDirectionND axis);
 
 	/**
 	 * circle with point, radius, axis orthogonal to xOy plane
@@ -418,10 +417,8 @@ public interface Manager3DInterface {
 	// //////////////////////////////////////////////
 	// INTERSECTION (POINTS)
 
-
 	public GeoElement Intersect(String label, GeoLineND cs1, GeoCoordSys2D cs2,
 			boolean swapInputs);
-
 
 	/**
 	 * Calculate the intersection of two lines
@@ -443,7 +440,6 @@ public interface Manager3DInterface {
 	public GeoElement[] IntersectionPoint(String[] labels, GeoLineND g,
 			GeoSurfaceFinite s);
 
-
 	public GeoElement[] IntersectPath(String[] labels, GeoLineND g,
 			GeoSurfaceFinite s);
 
@@ -451,8 +447,7 @@ public interface Manager3DInterface {
 			GeoElement s);
 
 	public GeoElement[] IntersectPlaneFunctionNVar(String label,
-			GeoPlaneND plane,
-			GeoFunctionNVar fun);
+			GeoPlaneND plane, GeoFunctionNVar fun);
 
 	public GeoElement[] IntersectPlaneFunctionNVar(GeoPlaneND plane,
 			GeoFunctionNVar fun);
@@ -559,12 +554,9 @@ public interface Manager3DInterface {
 	 * @return surface of revolution
 	 */
 	public GeoElement SurfaceOfRevolution(String label,
-			ParametricCurve function,
- GeoNumberValue angle);
+			ParametricCurve function, GeoNumberValue angle);
 
-
-	public GeoElement SurfaceOfRevolution(String label,
- Path function,
+	public GeoElement SurfaceOfRevolution(String label, Path function,
 			GeoNumberValue angle, GeoLineND line);
 
 	// //////////////////////////////////////////////
@@ -680,8 +672,8 @@ public interface Manager3DInterface {
 	/**
 	 * intersect polygons (region)
 	 */
-	public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1);
+	public GeoElement[] IntersectPolygons(String[] labels, GeoPoly inPoly0,
+			GeoPoly inPoly1);
 
 	/**
 	 * Difference polygons (region)
@@ -698,8 +690,8 @@ public interface Manager3DInterface {
 	/**
 	 * Union polygons (region)
 	 */
-	public GeoElement[] UnionPolygons(String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1);
+	public GeoElement[] UnionPolygons(String[] labels, GeoPoly inPoly0,
+			GeoPoly inPoly1);
 
 	public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
 
@@ -711,7 +703,8 @@ public interface Manager3DInterface {
 
 	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h);
 
-	public GeoNumeric Distance(String label, GeoPointND point, GeoPlaneND plane);
+	public GeoNumeric Distance(String label, GeoPointND point,
+			GeoPlaneND plane);
 
 	public GeoNumeric Distance(String label, GeoPlaneND a, GeoPlaneND b);
 
@@ -840,7 +833,8 @@ public interface Manager3DInterface {
 	public GeoElement[] Translate3D(String label, GeoElement geoTrans,
 			GeoVectorND v);
 
-	public Geo3DVecInterface newGeo3DVec(double double1, double double2, double double3);
+	public Geo3DVecInterface newGeo3DVec(double double1, double double2,
+			double double3);
 
 	/**
 	 * rotate about a point + direction
@@ -918,7 +912,8 @@ public interface Manager3DInterface {
 	public GeoElement[] PolyhedronNet(String[] labels, GeoElement p,
 			NumberValue v, GeoPolygon bottomFace, GeoSegmentND[] pivotSegments);
 
-	public GeoElement[] PolyhedronConvex(String[] labels, GeoElement[] pointList);
+	public GeoElement[] PolyhedronConvex(String[] labels,
+			GeoElement[] pointList);
 
 	/**
 	 * circle arc from three points
@@ -968,8 +963,8 @@ public interface Manager3DInterface {
 	/**
 	 * semicircle joining A and B, oriented
 	 */
-	public GeoConicPartND Semicircle3D(String label, GeoPointND A,
-			GeoPointND B, GeoDirectionND orientation);
+	public GeoConicPartND Semicircle3D(String label, GeoPointND A, GeoPointND B,
+			GeoDirectionND orientation);
 
 	/**
 	 * tangents to c through P

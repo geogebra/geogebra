@@ -143,8 +143,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 				outputSegments.setLabels(null);
 				outputPoints.setLabels(null);
 
-			} else if (labels.length == 1
-					&& labels[0] != null && !labels[0].equals("")) {
+			} else if (labels.length == 1 && labels[0] != null
+					&& !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
 			}
 		}
@@ -169,8 +169,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperation(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1,
-			PolyOperation operationType, int[] outputSizes) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType,
+			int[] outputSizes) {
 
 		super(cons);
 
@@ -208,7 +208,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			int labelsLength = labels.length;
 
 			if (labelsLength > 1) {
-				// Log.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+				// Log.debug("\nici :
+				// "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
 				if (outputSizes != null) {
 					// set output sizes
 					outputPolygons.adjustOutputSize(outputSizes[0], false);
@@ -245,8 +246,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 					outputSegments.setLabels(null);
 					outputPoints.setLabels(null);
 				}
-			} else if (labels.length == 1
-					&& labels[0] != null && !labels[0].equals("")) {
+			} else if (labels.length == 1 && labels[0] != null
+					&& !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
 			}
 		}
@@ -283,9 +284,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 					public GeoPolygon newElement() {
 						GeoPolygon p = new GeoPolygon(cons, true);
 						p.setParentAlgorithm(AlgoPolygonOperation.this);
-						 if (outputPolygons.size() > 0)
-						 p.setAllVisualProperties(
-						 outputPolygons.getElement(0), false);
+						if (outputPolygons.size() > 0)
+							p.setAllVisualProperties(
+									outputPolygons.getElement(0), false);
 						p.setViewFlags(inPoly0.getViewSet());
 						p.setNotFixedPointsLength(true);
 						return p;
@@ -300,8 +301,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 						GeoPoint newPoint = new GeoPoint(cons);
 						newPoint.setCoords(0, 0, 1);
 						newPoint.setParentAlgorithm(AlgoPolygonOperation.this);
-						 newPoint.setAuxiliaryObject(true);
-						 newPoint.setViewFlags(inPoly0.getViewSet());
+						newPoint.setAuxiliaryObject(true);
+						newPoint.setViewFlags(inPoly0.getViewSet());
 
 						return newPoint;
 					}
@@ -311,19 +312,18 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputSegments = new OutputHandler<GeoSegment>(
 				new elementFactory<GeoSegment>() {
-			public GeoSegment newElement() {
-				GeoSegment segment = (GeoSegment) outputPolygons.getElement(0)
-						.createSegment(
-								outputPoints.getElement(0),
-								outputPoints.getElement(0), true);
-				segment.setAuxiliaryObject(true);
-				segment.setViewFlags(inPoly0.getViewSet());
-				return segment;
-			}
-		});
+					public GeoSegment newElement() {
+						GeoSegment segment = (GeoSegment) outputPolygons
+								.getElement(0)
+								.createSegment(outputPoints.getElement(0),
+										outputPoints.getElement(0), true);
+						segment.setAuxiliaryObject(true);
+						segment.setViewFlags(inPoly0.getViewSet());
+						return segment;
+					}
+				});
 
 	}
-
 
 	@Override
 	protected void setInputOutput() {
@@ -340,7 +340,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		setDependencies();
 	}
-
 
 	@Override
 	public void compute() {
@@ -469,11 +468,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			}
 
 		}
-		for(int i=0;i<outputPolygons.size();i++){
+		for (int i = 0; i < outputPolygons.size(); i++) {
 			outputPolygons.getElement(i).updateRegionCS();
 		}
-			
-
 
 	}
 

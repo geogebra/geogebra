@@ -34,8 +34,7 @@ import org.geogebra.common.main.SpreadsheetTraceManager;
 public abstract class ContextMenuGeoElement {
 
 	protected static final double[] zoomFactors = { 4.0, 2.0, 1.5, 1.25,
-			1.0 / 1.25,
-			1.0 / 1.5, 0.5, 0.25 };
+			1.0 / 1.25, 1.0 / 1.5, 0.5, 0.25 };
 	protected static final double[] axesRatios = { 1.0 / 1000.0, 1.0 / 500.0,
 			1.0 / 200.0, 1.0 / 100.0, 1.0 / 50.0, 1.0 / 20.0, 1.0 / 10.0,
 			1.0 / 5.0, 1.0 / 2.0, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000 };
@@ -358,22 +357,21 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-		public boolean isLabelShown() {
-				return isLabelShown(checkOneGeo());
-			}
-		
-			public boolean isLabelShown(ArrayList<GeoElement> geos2) {
-				boolean show = true;
-				for (int i = geos2.size() - 1; i >= 0; i--) {
-					show = show && geos2.get(i).isLabelVisible();
-				}
-				return show;
-			}
-		
+	public boolean isLabelShown() {
+		return isLabelShown(checkOneGeo());
+	}
+
+	public boolean isLabelShown(ArrayList<GeoElement> geos2) {
+		boolean show = true;
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			show = show && geos2.get(i).isLabelVisible();
+		}
+		return show;
+	}
 
 	public void showLabelCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
-		boolean show = isLabelShown(geos2); 
+		boolean show = isLabelShown(geos2);
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			geo1.setLabelVisible(!show);
@@ -435,15 +433,14 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-
 	public void animationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.isAnimatable()) {
-				geo1.setAnimating(!(geo1.isAnimating() && app.getKernel()
-						.getAnimatonManager().isRunning()));
+				geo1.setAnimating(!(geo1.isAnimating()
+						&& app.getKernel().getAnimatonManager().isRunning()));
 				geo1.updateRepaint();
 			}
 
@@ -466,17 +463,17 @@ public abstract class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					int x = app.getActiveEuclidianView().toScreenCoordX(
-							geoText.getRealWorldLocX());
-					int y = app.getActiveEuclidianView().toScreenCoordY(
-							geoText.getRealWorldLocY());
+					int x = app.getActiveEuclidianView()
+							.toScreenCoordX(geoText.getRealWorldLocX());
+					int y = app.getActiveEuclidianView()
+							.toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
 				} else {
 					// convert screen coords to real world
-					double x = app.getActiveEuclidianView().toRealWorldCoordX(
-							geoText.getAbsoluteScreenLocX());
-					double y = app.getActiveEuclidianView().toRealWorldCoordY(
-							geoText.getAbsoluteScreenLocY());
+					double x = app.getActiveEuclidianView()
+							.toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+					double y = app.getActiveEuclidianView()
+							.toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
 					geoText.setRealWorldLoc(x, y);
 				}
 				geoText.setAbsoluteScreenLocActive(flag);

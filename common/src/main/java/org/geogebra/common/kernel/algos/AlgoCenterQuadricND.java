@@ -34,7 +34,8 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	protected GeoQuadricND c; // input
 	protected GeoPointND midpoint; // output
 
-	public AlgoCenterQuadricND(Construction cons, String label, GeoQuadricND c) {
+	public AlgoCenterQuadricND(Construction cons, String label,
+			GeoQuadricND c) {
 		super(cons);
 		this.c = c;
 		midpoint = newGeoPoint(cons);
@@ -98,5 +99,4 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 		return getLoc().getPlain("CenterOfA", c.getLabel(tpl));
 	}
 
-	
 }

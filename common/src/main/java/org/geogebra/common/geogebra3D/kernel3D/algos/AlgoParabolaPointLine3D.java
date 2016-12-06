@@ -42,7 +42,8 @@ public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
 		super(cons, label, F, l);
 	}
 
-	public AlgoParabolaPointLine3D(Construction cons, GeoPointND F, GeoLineND l) {
+	public AlgoParabolaPointLine3D(Construction cons, GeoPointND F,
+			GeoLineND l) {
 		super(cons, F, l);
 	}
 

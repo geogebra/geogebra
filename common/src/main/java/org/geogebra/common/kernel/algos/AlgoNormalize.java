@@ -88,8 +88,11 @@ public class AlgoNormalize extends AlgoElement {
 		normalList.setDefined(true);
 		normalList.clear();
 
-		double normalXVal = 0, normalYVal = 0, xMinVal = Double.POSITIVE_INFINITY, xMaxVal = Double.NEGATIVE_INFINITY;
-		double yMinVal = Double.POSITIVE_INFINITY, yMaxVal = Double.NEGATIVE_INFINITY, xVal, yVal;
+		double normalXVal = 0, normalYVal = 0,
+				xMinVal = Double.POSITIVE_INFINITY,
+				xMaxVal = Double.NEGATIVE_INFINITY;
+		double yMinVal = Double.POSITIVE_INFINITY,
+				yMaxVal = Double.NEGATIVE_INFINITY, xVal, yVal;
 
 		// get Min and Max values for the list of numbers/points
 		GeoElement geo0 = geoList.get(0);

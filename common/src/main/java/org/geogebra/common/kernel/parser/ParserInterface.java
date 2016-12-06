@@ -6,43 +6,54 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 
 /**
- * Interface for parser 
+ * Interface for parser
  *
  */
 public interface ParserInterface {
 	/**
-	 * @param parseString string to parse
+	 * @param parseString
+	 *            string to parse
 	 * @return expression
-	 * @throws ParseException if parsing  fails
+	 * @throws ParseException
+	 *             if parsing fails
 	 */
-	public ExpressionNode parseExpression(String parseString) throws ParseException;
+	public ExpressionNode parseExpression(String parseString)
+			throws ParseException;
 
 	/**
-	 * @param string string to parse
+	 * @param string
+	 *            string to parse
 	 * @return function
-	 * @throws ParseException if parsing  fails
+	 * @throws ParseException
+	 *             if parsing fails
 	 */
 	public Function parseFunction(String string) throws ParseException;
 
 	/**
-	 * @param string string to parse
+	 * @param string
+	 *            string to parse
 	 * @return multivariate function
-	 * @throws ParseException if parsing fails
+	 * @throws ParseException
+	 *             if parsing fails
 	 */
-	public FunctionNVar parseFunctionNVar(String string)
+	public FunctionNVar parseFunctionNVar(String string) throws ParseException;
+
+	/**
+	 * @param str
+	 *            string to parse
+	 * @return expression
+	 * @throws ParseException
+	 *             if parsing fails
+	 */
+	public ValidExpression parseGeoGebraExpression(String str)
 			throws ParseException;
 
 	/**
-	 * @param str string to parse
-	 * @return expression
-	 * @throws ParseException if parsing fails
-	 */
-	public ValidExpression parseGeoGebraExpression(String str) throws ParseException;
-
-	/**
-	 * @param label potential label
+	 * @param label
+	 *            potential label
 	 * @return valid label
-	 * @throws ParseException if parsing fails
+	 * @throws ParseException
+	 *             if parsing fails
 	 */
 	public String parseLabel(String label) throws ParseException;
 }

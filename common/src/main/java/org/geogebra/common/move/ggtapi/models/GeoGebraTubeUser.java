@@ -3,10 +3,10 @@ package org.geogebra.common.move.ggtapi.models;
 import org.geogebra.common.move.models.BaseModel;
 
 /**
- * Represents a user in GeoGebraTube.
- * Each user is identified by a user name.
+ * Represents a user in GeoGebraTube. Each user is identified by a user name.
  * 
- * The login token is used for the authorization of the user via the GeoGebraTube API. 
+ * The login token is used for the authorization of the user via the
+ * GeoGebraTube API.
  * 
  * @author stefan
  *
@@ -22,81 +22,84 @@ public class GeoGebraTubeUser extends BaseModel {
 	private String image;
 	private String language;
 	private String gender;
-	
+
 	/**
 	 * Creates a new user with the specified login token
 	 * 
-	 * @param token The login token of the user
+	 * @param token
+	 *            The login token of the user
 	 */
 	public GeoGebraTubeUser(String token) {
 		this.token = token;
 	}
-	
+
 	public GeoGebraTubeUser(String token, String cookie) {
 		this.token = token;
 		this.cookie = cookie;
 	}
-	
-	
+
 	/**
 	 * @return The Login token of the user
 	 */
 	public String getLoginToken() {
 		return token;
 	}
-	
+
 	/**
 	 * Token needs to be set on cookie authentication
-	 * @param token new token
+	 * 
+	 * @param token
+	 *            new token
 	 */
-	public void setToken(String token){
+	public void setToken(String token) {
 		this.token = token;
 	}
-	
+
 	/**
 	 * @return The user name of the user
 	 */
 	public String getUserName() {
 		return userName;
 	}
-	
+
 	/**
-	 * Sets the user name for the user. Usually this is done after the user was authorized via the 
-	 * GeoGebraTube API and the user name is received as response.
+	 * Sets the user name for the user. Usually this is done after the user was
+	 * authorized via the GeoGebraTube API and the user name is received as
+	 * response.
 	 * 
-	 * @param userName The new user name to set.
+	 * @param userName
+	 *            The new user name to set.
 	 */
 	public void setUserName(String userName) {
-		this.userName = userName; 
+		this.userName = userName;
 	}
-
 
 	/**
 	 * Sets the userid from GeoGeoGebraTube
 	 * 
-	 * @param userId The new userId
+	 * @param userId
+	 *            The new userId
 	 */
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 
-
 	/**
 	 * Sets the real name from GeoGeoGebraTube
 	 * 
-	 * @param realName The new real name of the user
+	 * @param realName
+	 *            The new real name of the user
 	 */
 	public void setRealName(String realName) {
 		this.realName = realName;
 	}
-	
+
 	/**
 	 * @return the userid
 	 */
 	public int getUserId() {
 		return userId;
 	}
-
 
 	/**
 	 * @return the real name
@@ -113,15 +116,17 @@ public class GeoGebraTubeUser extends BaseModel {
 	}
 
 	/**
-	 * @param URL of the profile page
+	 * @param URL
+	 *            of the profile page
 	 */
 	public void setProfileURL(String URL) {
 		this.profileURL = URL;
 	}
 
-
 	/**
-	 * @param gender {@code F} for female {@code M} for male {@code O} for not specified
+	 * @param gender
+	 *            {@code F} for female {@code M} for male {@code O} for not
+	 *            specified
 	 */
 	public void setGender(String gender) {
 		this.gender = gender;
@@ -142,19 +147,18 @@ public class GeoGebraTubeUser extends BaseModel {
 		return identifier;
 	}
 
-
 	/**
-	 * @param identifier The login identifier of this user
+	 * @param identifier
+	 *            The login identifier of this user
 	 */
 	public void setIdentifier(String identifier) {
 		this.identifier = identifier;
 	}
 
-
 	public boolean hasGoogleDrive() {
 		return this.identifier.startsWith("google:");
 	}
-	
+
 	public boolean hasOneDrive() {
 		// TODO Auto-generated method stub
 		return false;
@@ -166,7 +170,7 @@ public class GeoGebraTubeUser extends BaseModel {
 
 	public void setImageURL(String url) {
 		this.image = url;
-		
+
 	}
 
 	public String getImageURL() {
@@ -176,8 +180,8 @@ public class GeoGebraTubeUser extends BaseModel {
 	public String getLanguage() {
 		return this.language;
 	}
-	
-	public void setLanguage(String language){
+
+	public void setLanguage(String language) {
 		this.language = language;
 	}
 }

@@ -28,8 +28,8 @@ public class CmdImplicitSurface extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		if (n == 1) {

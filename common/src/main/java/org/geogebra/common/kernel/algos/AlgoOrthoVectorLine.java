@@ -105,5 +105,4 @@ public class AlgoOrthoVectorLine extends AlgoElement {
 
 	}
 
-	
 }

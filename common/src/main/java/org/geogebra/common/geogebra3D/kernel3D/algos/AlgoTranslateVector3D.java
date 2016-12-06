@@ -26,8 +26,8 @@ public class AlgoTranslateVector3D extends AlgoTranslateVector {
 	 * @param A
 	 *            starting point
 	 */
-	public AlgoTranslateVector3D(Construction cons, String label,
-			GeoVectorND v, GeoPointND A) {
+	public AlgoTranslateVector3D(Construction cons, String label, GeoVectorND v,
+			GeoPointND A) {
 		super(cons, label, v, A);
 	}
 

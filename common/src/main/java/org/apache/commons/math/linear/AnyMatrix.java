@@ -17,32 +17,34 @@
 
 package org.apache.commons.math.linear;
 
-
 /**
  * Interface defining very basic matrix operations.
- * @version $Revision: 772119 $ $Date: 2009-05-06 11:43:28 +0200 (mer. 06 mai 2009) $
+ * 
+ * @version $Revision: 772119 $ $Date: 2009-05-06 11:43:28 +0200 (mer. 06 mai
+ *          2009) $
  * @since 2.0
  */
 public interface AnyMatrix {
 
-    /**
-     * Is this a square matrix?
-     * @return true if the matrix is square (rowDimension = columnDimension)
-     */
-    boolean isSquare();
+	/**
+	 * Is this a square matrix?
+	 * 
+	 * @return true if the matrix is square (rowDimension = columnDimension)
+	 */
+	boolean isSquare();
 
-    /**
-     * Returns the number of rows in the matrix.
-     *
-     * @return rowDimension
-     */
-    int getRowDimension();
+	/**
+	 * Returns the number of rows in the matrix.
+	 *
+	 * @return rowDimension
+	 */
+	int getRowDimension();
 
-    /**
-     * Returns the number of columns in the matrix.
-     *
-     * @return columnDimension
-     */
-    int getColumnDimension();
+	/**
+	 * Returns the number of columns in the matrix.
+	 *
+	 * @return columnDimension
+	 */
+	int getColumnDimension();
 
 }

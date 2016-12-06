@@ -41,8 +41,8 @@ public class CmdTableText extends CommandProcessor {
 																	// lists: no
 																	// need to
 																	// wrap
-					GeoElement[] ret = { tableText(c.getLabel(),
-							(GeoList) arg[0], null) };
+					GeoElement[] ret = {
+							tableText(c.getLabel(), (GeoList) arg[0], null) };
 					return ret;
 				}
 				list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
@@ -69,8 +69,8 @@ public class CmdTableText extends CommandProcessor {
 				list = wrapInList(kernelA, arg, arg.length - 1,
 						GeoClass.DEFAULT);
 				if (list != null) {
-					GeoElement[] ret = { tableText(c.getLabel(), list,
-							(GeoText) arg[1]) };
+					GeoElement[] ret = {
+							tableText(c.getLabel(), list, (GeoText) arg[1]) };
 					return ret;
 				}
 				throw argErr(app, c.getName(), arg[0]);

@@ -34,12 +34,12 @@ import org.geogebra.common.plugin.GeoClass;
  *
  * @author ggb3D
  * 
- *          Joins two GeoPoint3Ds in a GeoSegment3D, GeoLine3D, ... regarding to
- *          geoClassType
+ *         Joins two GeoPoint3Ds in a GeoSegment3D, GeoLine3D, ... regarding to
+ *         geoClassType
  * 
  */
-public class AlgoJoinPoints3D extends AlgoElement3D implements
-		AlgoJoinPointsSegmentInterface {
+public class AlgoJoinPoints3D extends AlgoElement3D
+		implements AlgoJoinPointsSegmentInterface {
 
 	// inputs
 	/** first point */
@@ -150,8 +150,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D implements
 			setInputOutput(new GeoElement[] { (GeoElement) P, (GeoElement) Q },
 					new GeoElement[] { cs });
 		} else {
-			setInputOutput(new GeoElement[] { (GeoElement) P, (GeoElement) Q,
-					poly },
+			setInputOutput(
+					new GeoElement[] { (GeoElement) P, (GeoElement) Q, poly },
 					new GeoElement[] { (GeoElement) P, (GeoElement) Q },
 					new GeoElement[] { cs });
 		}
@@ -306,7 +306,5 @@ public class AlgoJoinPoints3D extends AlgoElement3D implements
 	public GeoElement getPoly() {
 		return poly;
 	}
-
-	
 
 }

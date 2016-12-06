@@ -272,7 +272,6 @@ public class PlotterSurface {
 		manager.color(1f, 0f, 0f, 0.25f);
 	}
 
-
 	public void startTrianglesWireFrameSurfaceBoundary() {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
@@ -289,7 +288,6 @@ public class PlotterSurface {
 		manager.setDummyTexture();
 
 	}
-	
 
 	/**
 	 * 
@@ -320,7 +318,9 @@ public class PlotterSurface {
 
 	/**
 	 * start triangles
-	 * @param size vertices size
+	 * 
+	 * @param size
+	 *            vertices size
 	 */
 	public void startTriangles(int size) {
 
@@ -368,8 +368,6 @@ public class PlotterSurface {
 		// Log.debug("sphere ==== longitude="+longitude);
 		return longitude;
 	}
-	
-	
 
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
@@ -407,12 +405,12 @@ public class PlotterSurface {
 	 * @param longitude
 	 *            longitude length for rendering
 	 */
-	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, double r2, int longitude) {
+	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1, Coords ev2,
+			double r0, double r1, double r2, int longitude) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -456,8 +454,8 @@ public class PlotterSurface {
 			double min, double max, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -497,8 +495,8 @@ public class PlotterSurface {
 			double min, double max, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -532,17 +530,17 @@ public class PlotterSurface {
 	 * 
 	 */
 	public void drawParaboloid(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r0, double r1, int longitude,
-			double min, double max, boolean fading) {
+			Coords ev2, double r0, double r1, int longitude, double min,
+			double max, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
-		plotterElements.drawParaboloid(center, ev0, ev1, ev2, r0, r1,
-				longitude, min, max, fading);
+		plotterElements.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude,
+				min, max, fading);
 	}
 
 	/**
@@ -577,8 +575,8 @@ public class PlotterSurface {
 			double min1, double max1, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -612,12 +610,12 @@ public class PlotterSurface {
 	 * 
 	 */
 	public void drawParabolicCylinder(Coords center, Coords ev0, Coords ev1,
-			Coords ev2, double r, double min, double max,
-			double lineMin, double lineMax, boolean fading) {
+			Coords ev2, double r, double min, double max, double lineMin,
+			double lineMax, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -657,8 +655,8 @@ public class PlotterSurface {
 			double lineMin, double lineMax, boolean fading) {
 
 		if (managerElements == null) {
-			managerElements = new ManagerElementForGLList(
-					manager.getRenderer(), manager.getView3D(), manager);
+			managerElements = new ManagerElementForGLList(manager.getRenderer(),
+					manager.getView3D(), manager);
 			plotterElements = new PlotterSurfaceElements(managerElements);
 		}
 
@@ -667,7 +665,6 @@ public class PlotterSurface {
 	}
 
 	private Coords[] coordsArray = new Coords[0];
-
 
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
@@ -743,8 +740,8 @@ public class PlotterSurface {
 			}
 		}
 
-		Coords norm1 = new Coords(4), norm2 = new Coords(4), n1b = new Coords(4), n2b = new Coords(
-				4);
+		Coords norm1 = new Coords(4), norm2 = new Coords(4),
+				n1b = new Coords(4), n2b = new Coords(4);
 
 		double[] cosSinV = new double[2];
 
@@ -836,7 +833,8 @@ public class PlotterSurface {
 					}
 				} else { // no jump : draw two triangles
 
-					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n2b);
+					sphericalCoords(ui, longitude, longitudeStart, cosSinV,
+							n2b);
 
 					if (vi < latitudeMaxTop) {// top triangles
 						drawNCr(norm1, center, radius);
@@ -982,7 +980,6 @@ public class PlotterSurface {
 	// n.setZ(Math.sin(v));
 	//
 	// }
-
 
 	/**
 	 * draws a disc
@@ -1240,7 +1237,7 @@ public class PlotterSurface {
 		}
 
 		manager.endGeometry();
-		
+
 		return center2;
 
 	}
@@ -1252,9 +1249,8 @@ public class PlotterSurface {
 				minFading, maxFading);
 	}
 
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz,
-			double r1, double r2, double start, double extent, double min,
-			double max,
+	public void cone(Coords center, Coords vx, Coords vy, Coords vz, double r1,
+			double r2, double start, double extent, double min, double max,
 			boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
@@ -1268,7 +1264,7 @@ public class PlotterSurface {
 		center1.set(vz);
 		center1.mulInside3(min);
 		center1.addInside(center);
-		
+
 		center2.set(vz);
 		center2.mulInside3(max);
 		center2.addInside(center);
@@ -1297,7 +1293,8 @@ public class PlotterSurface {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
-			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v * ratio));
+			m.setAdd(tmpCoords2.setMul(vx, u),
+					tmpCoords3.setMul(vy, v * ratio));
 
 			n.setMul(vx, r2 * u);
 			tmpCoords.setMul(vy, r1 * v);
@@ -1305,7 +1302,6 @@ public class PlotterSurface {
 			tmpCoords.setMul(vz, rr);
 			n.addInside(tmpCoords);
 			n.normalize();
-
 
 			// point on top circle
 			if (fading) {
@@ -1316,8 +1312,8 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertexToScale(tmpCoords2.setAdd(center2,
-					tmpCoords3.setMul(m, rmax)));
+			manager.vertexToScale(
+					tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
 
 			// point on bottom circle
 			if (fading) {
@@ -1328,8 +1324,8 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertexToScale(tmpCoords2.setAdd(center1,
-					tmpCoords3.setMul(m, rmin)));
+			manager.vertexToScale(
+					tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
 
 		}
 
@@ -1347,10 +1343,8 @@ public class PlotterSurface {
 
 	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
 			double r1, double r2, double start, double extent, double min,
-			double max,
-			boolean minFading, boolean maxFading, int longitude) {
+			double max, boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
-
 
 		float c, s;
 
@@ -1360,7 +1354,7 @@ public class PlotterSurface {
 		center1.set(vz);
 		center1.mulInside3(min);
 		center1.addInside(center);
-		
+
 		center2.set(vz);
 		center2.mulInside3(max);
 		center2.addInside(center);
@@ -1406,7 +1400,7 @@ public class PlotterSurface {
 		}
 
 		manager.endGeometry();
-		
+
 		return center2;
 
 	}
@@ -1453,8 +1447,8 @@ public class PlotterSurface {
 		// center of the fan is midpoint of branch ends
 		u = (float) Math.cosh(tMax);
 		v = (float) Math.sinh(tMax);
-		manager.triangleFanApex(center.add((m.add(v1.mul(a * u).add(
-				v2.mul(b * v)))).mul(0.5)));
+		manager.triangleFanApex(
+				center.add((m.add(v1.mul(a * u).add(v2.mul(b * v)))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m));
@@ -1514,8 +1508,8 @@ public class PlotterSurface {
 		t = tMax;
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
-		manager.triangleFanApex(center.add((m.add(v1.mul(u).add(v2.mul(v))))
-				.mul(0.5)));
+		manager.triangleFanApex(
+				center.add((m.add(v1.mul(u).add(v2.mul(v)))).mul(0.5)));
 
 		// first point
 		manager.triangleFanVertex(center.add(m));
@@ -1540,7 +1534,6 @@ public class PlotterSurface {
 
 		return v1.sub(v0).crossProduct(v2.sub(v0)).normalized();
 	}
-
 
 	private void drawQuad(int ui, int vi) {
 

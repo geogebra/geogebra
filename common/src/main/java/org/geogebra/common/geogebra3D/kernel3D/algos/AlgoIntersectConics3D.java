@@ -186,8 +186,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 			intersectConics3D(A, (GeoConicND) B, P);
 		} else {
 			if (algoPlane == null) {
-				algoPlane = new AlgoIntersectPlaneQuadric(
-					cons, A, B, false);
+				algoPlane = new AlgoIntersectPlaneQuadric(cons, A, B, false);
 				algoPlane.compute();
 			}
 
@@ -217,9 +216,9 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		// check if coord sys are incident
 		Coords cross = csA.getNormal().crossProduct(csB.getNormal());
 		if (!cross.equalsForKernel(0, Kernel.MIN_PRECISION)) { // not same plane
-			Coords[] intersection = CoordMatrixUtil.intersectPlanes(A
-					.getCoordSys().getMatrixOrthonormal(), B.getCoordSys()
-					.getMatrixOrthonormal());
+			Coords[] intersection = CoordMatrixUtil.intersectPlanes(
+					A.getCoordSys().getMatrixOrthonormal(),
+					B.getCoordSys().getMatrixOrthonormal());
 			Coords op = csA.getNormalProjection(intersection[0])[1];
 			Coords dp = csA.getNormalProjection(intersection[1])[1];
 			l2d.setCoords(dp.getY(), -dp.getX(),
@@ -255,14 +254,14 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
 	}
 
-	private void intersectSamePlane(GeoConicND A, GeoConicND B, GeoPoint3D[] P) {
+	private void intersectSamePlane(GeoConicND A, GeoConicND B,
+			GeoPoint3D[] P) {
 		CoordSys csA = A.getCoordSys();
 		CoordSys csB = B.getCoordSys();
 		setPointsUndefined(P);
 
-		CoordMatrix BtoA = REDUCE_DIM.mul(
-				csB.getMatrixOrthonormal().inverse()
-						.mul(csA.getMatrixOrthonormal())).mul(AUGMENT_DIM);
+		CoordMatrix BtoA = REDUCE_DIM.mul(csB.getMatrixOrthonormal().inverse()
+				.mul(csA.getMatrixOrthonormal())).mul(AUGMENT_DIM);
 		// Log.debug("\nBtoA=\n"+BtoA);
 
 		CoordMatrix sB = B.getSymetricMatrix();

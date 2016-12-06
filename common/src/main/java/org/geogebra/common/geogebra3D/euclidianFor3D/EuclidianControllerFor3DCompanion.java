@@ -22,8 +22,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
-public class EuclidianControllerFor3DCompanion extends
-		EuclidianControllerCompanion {
+public class EuclidianControllerFor3DCompanion
+		extends EuclidianControllerCompanion {
 
 	public EuclidianControllerFor3DCompanion(EuclidianController ec) {
 		super(ec);
@@ -298,8 +298,8 @@ public class EuclidianControllerFor3DCompanion extends
 
 		// check if the path is 3D geo or contains a 3D geo
 		GeoElement geo = path.toGeoElement();
-		if (geo.isGeoElement3D()
-				|| (geo.isGeoList() && ((GeoList) geo).containsGeoElement3D())) {
+		if (geo.isGeoElement3D() || (geo.isGeoList()
+				&& ((GeoList) geo).containsGeoElement3D())) {
 			ec.checkZooming(forPreviewable);
 
 			GeoPointND point = ec.kernel.getManager3D().Point3D(label, path, x,
@@ -317,8 +317,8 @@ public class EuclidianControllerFor3DCompanion extends
 	protected GeoElement midpoint(GeoSegmentND segment) {
 
 		if (((GeoElement) segment).isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D()
-					.Midpoint(null, segment);
+			return (GeoElement) ec.kernel.getManager3D().Midpoint(null,
+					segment);
 		}
 
 		return super.midpoint(segment);
@@ -465,8 +465,8 @@ public class EuclidianControllerFor3DCompanion extends
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D().CircumcircleArc3D(
-					null, p1, p2, p3);
+			return (GeoElement) ec.kernel.getManager3D().CircumcircleArc3D(null,
+					p1, p2, p3);
 		}
 
 		return super.circumcircleArc(p1, p2, p3);
@@ -476,8 +476,8 @@ public class EuclidianControllerFor3DCompanion extends
 	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
-			return (GeoElement) ec.kernel.getManager3D().CircumcircleSector3D(
-					null, p1, p2, p3);
+			return (GeoElement) ec.kernel.getManager3D()
+					.CircumcircleSector3D(null, p1, p2, p3);
 		}
 
 		return super.circumcircleSector(p1, p2, p3);

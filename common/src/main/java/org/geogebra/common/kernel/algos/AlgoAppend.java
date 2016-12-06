@@ -114,6 +114,4 @@ public class AlgoAppend extends AlgoElement {
 		}
 	}
 
-	
-
 }

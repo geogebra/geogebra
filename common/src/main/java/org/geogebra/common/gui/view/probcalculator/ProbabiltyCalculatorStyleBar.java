@@ -5,11 +5,11 @@ import org.geogebra.common.main.App;
 /**
  * @author gabor
  * 
- * Superclass for probability calculator stylebar
+ *         Superclass for probability calculator stylebar
  *
  */
 public abstract class ProbabiltyCalculatorStyleBar {
-	
+
 	protected App app;
 
 	/** probabililty calculator */

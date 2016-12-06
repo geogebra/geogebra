@@ -21,8 +21,8 @@ import org.geogebra.common.util.debug.Log;
  * @author matthieu
  *
  */
-public abstract class DrawJoinPoints extends Drawable3DCurves implements
-		Previewable {
+public abstract class DrawJoinPoints extends Drawable3DCurves
+		implements Previewable {
 
 	private double[] drawMinMax = new double[2];
 
@@ -132,8 +132,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 			setGeometryIndex(brush.end());
 			return;
 		}
-
-
 
 		setArrowTypeBefore(brush);
 		brush.start(getReusableGeometryIndex());
@@ -253,7 +251,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 			// setWaitForUpdate();
 		}
 
-		// Application.debug("selectedPoints : "+selectedPoints+" -- isEuclidianVisible : "+getGeoElement().isEuclidianVisible());
+		// Application.debug("selectedPoints : "+selectedPoints+" --
+		// isEuclidianVisible : "+getGeoElement().isEuclidianVisible());
 
 		setWaitForUpdate();
 	}
@@ -307,8 +306,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 			}
 
 			double d = getView3D().getScaledDistance(project1, hitting.origin);
-			if (d <= getGeoElement()
-					.getLineThickness() + hitting.getThreshold()) {
+			if (d <= getGeoElement().getLineThickness()
+					+ hitting.getThreshold()) {
 				setZPick(d, d);
 				return true;
 			}
@@ -347,8 +346,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 			}
 
 			double d = getView3D().getScaledDistance(project1, project2);
-			if (d <= getGeoElement()
-					.getLineThickness() + 2) {
+			if (d <= getGeoElement().getLineThickness() + 2) {
 				double z = -parameterOnHitting;
 				double dz = getGeoElement().getLineThickness()
 						/ getView3D().getScale();

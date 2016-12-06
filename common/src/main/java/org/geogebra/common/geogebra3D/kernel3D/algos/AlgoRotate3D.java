@@ -57,8 +57,8 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 	}
 
 	/**
- 	 * 
- 	 */
+	 * 
+	 */
 	protected void setOutput() {
 
 		setOutputLength(1);

@@ -57,7 +57,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		transformCoordSys.set(sys);
 	}
 
-
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
@@ -116,7 +115,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		return valueSb.toString();
 	}
 
-
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
@@ -129,7 +127,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	protected void locusPointChanged(GeoPointND PI) {
 
 		Coords willingCoords = null, willingDirection = null;
-			GeoPoint3D p3d = (GeoPoint3D) PI;
+		GeoPoint3D p3d = (GeoPoint3D) PI;
 		if (p3d.hasWillingCoords()) {
 			willingCoords = p3d.getWillingCoords();
 		} else {
@@ -144,8 +142,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 		willingCoords.projectPlaneInPlaneCoords(transformCoordSys.getVx(),
 				transformCoordSys.getVy(), willingDirection,
-				transformCoordSys.getOrigin(),
-				tmpCoords);
+				transformCoordSys.getOrigin(), tmpCoords);
 		locus.pointChanged(tmpCoords, PI.getPathParameter());
 		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
 		PI.setCoords(tmpCoords3d, false);
@@ -175,8 +172,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		CoordSys.translateEquationVector(planeEquation, v);
 		euclidianViewUpdate();
 	}
-
-
 
 	/**
 	 * @param expression

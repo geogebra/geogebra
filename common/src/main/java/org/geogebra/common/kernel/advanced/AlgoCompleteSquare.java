@@ -78,9 +78,8 @@ public class AlgoCompleteSquare extends AlgoElement {
 			degInt = coefs.size() - 1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();
 			for (int i = 1; i < degInt; i++) {
-				if (2 * i != degInt
-						&& !Kernel.isZero(((GeoNumeric) coefs.get(i))
-								.getDouble())) {
+				if (2 * i != degInt && !Kernel
+						.isZero(((GeoNumeric) coefs.get(i)).getDouble())) {
 					isQuadratic = false;
 				}
 				p = ((GeoNumeric) coefs.get(0)).getDouble();
@@ -109,9 +108,9 @@ public class AlgoCompleteSquare extends AlgoElement {
 			}
 			squareE = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, a, Operation.MULTIPLY,
-							new ExpressionNode(kernel, fvPower,
-									Operation.MINUS, h).power(new MyDouble(
-									kernel, 2))), Operation.PLUS, k);
+							new ExpressionNode(kernel, fvPower, Operation.MINUS,
+									h).power(new MyDouble(kernel, 2))),
+					Operation.PLUS, k);
 
 			square.getFunction().setExpression(squareE);
 		}
@@ -144,7 +143,5 @@ public class AlgoCompleteSquare extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.CompleteSquare;
 	}
-
-	
 
 }

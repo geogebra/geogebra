@@ -103,18 +103,12 @@ public class Hitting {
 		minmax[0] = Double.NEGATIVE_INFINITY;
 		minmax[1] = Double.POSITIVE_INFINITY;
 		view.getIntervalClipped(minmax, origin, direction);
-		x0 = origin.getX() + direction.getX()
-				* minmax[0];
-		y0 = origin.getY() + direction.getY()
-				* minmax[0];
-		z0 = origin.getZ() + direction.getZ()
-				* minmax[0];
-		x1 = origin.getX() + direction.getX()
-				* minmax[1];
-		y1 = origin.getY() + direction.getY()
-				* minmax[1];
-		z1 = origin.getZ() + direction.getZ()
-				* minmax[1];
+		x0 = origin.getX() + direction.getX() * minmax[0];
+		y0 = origin.getY() + direction.getY() * minmax[0];
+		z0 = origin.getZ() + direction.getZ() * minmax[0];
+		x1 = origin.getX() + direction.getX() * minmax[1];
+		y1 = origin.getY() + direction.getY() * minmax[1];
+		z1 = origin.getZ() + direction.getZ() * minmax[1];
 
 		vx = x1 - x0;
 		vy = y1 - y0;
@@ -184,7 +178,7 @@ public class Hitting {
 	public GeoElement getLabelHit(GPoint mouseLoc) {
 		if (view.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC) {
 			return view.getDrawList3D().getLabelHit(originScreen.getX(),
-				originScreen.getY());
+					originScreen.getY());
 		}
 
 		return view.getDrawList3D().getLabelHit(originScreen, directionScreen);

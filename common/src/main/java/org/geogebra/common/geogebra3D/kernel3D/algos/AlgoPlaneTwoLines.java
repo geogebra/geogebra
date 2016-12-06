@@ -125,6 +125,4 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 
 	}
 
-	
-
 }

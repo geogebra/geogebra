@@ -90,13 +90,14 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			gpt[0].update();
 			gpt[0].setUndefined();
 			gpt[0].update();
-		}// if list not defined
+		} // if list not defined
 
 	}// constructor
 
 	public AlgoExtremumMulti(Construction cons, String[] labels,
-							 GeoFunction function, EuclidianViewInterfaceCommon view) {
-		this(cons, labels, function, view.getXminObject(), view.getXmaxObject());
+			GeoFunction function, EuclidianViewInterfaceCommon view) {
+		this(cons, labels, function, view.getXminObject(),
+				view.getXmaxObject());
 
 		// updates the area that is visible
 		cons.registerEuclidianViewCE(this);
@@ -132,7 +133,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	@Override
 	public final void compute() {
 
-		if(intervalDefinedByEV){
+		if (intervalDefinedByEV) {
 			updateInterval();
 		}
 
@@ -144,8 +145,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 		if (!f1.toGeoElement().isDefined() || !left.isDefined()
 				|| !right.isDefined() // ||
-											// (right.getDouble()<=left.getDouble()
-											// )
+										// (right.getDouble()<=left.getDouble()
+										// )
 		) {
 			setPoints(new double[1], 0); // 0 flags it
 		} else {
@@ -176,13 +177,13 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					Log.debug("We have probably lost some extremums...");
 			} catch (Exception e) {
 				Log.debug("Exception in compute() " + e.toString());
-			}// try-catch
+			} // try-catch
 			if (numberOfExtremums == 0) {
 				setPoints(new double[1], 0);
 			} else {
 				setPoints(extremums, numberOfExtremums);
-			}// if null
-		}// if input is ok?
+			} // if null
+		} // if input is ok?
 
 	}// compute()
 
@@ -213,9 +214,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					grad[i - 1] = true;
 				} else { // grad negative
 					grad[i - 1] = false;
-				}// if gradient >=0 or <0
+				} // if gradient >=0 or <0
 					// debug("grad "+(i-1)+": "+grad[i-1]);
-			}// if gradients can be calculated
+			} // if gradients can be calculated
 
 			if (i > 1) {
 				double xval = 0.0;
@@ -224,30 +225,32 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 				if ((grad[i - 2]) && (!grad[i - 1])) { // max
 					// if( ((y[i-1]-y[i-2])/deltax)<MAX_GRADIENT) {
 					xval = extrfinder.findMaximum(curleft, curright, rrfunc,
-							3.0E-8); // debug("Gradient for "+xval+": "+gradient(rrfunc,xval,curleft,curright));
+							3.0E-8); // debug("Gradient for "+xval+":
+										// "+gradient(rrfunc,xval,curleft,curright));
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(new Double(xval));
-					}// If not too large gradient
+					} // If not too large gradient
 				} else if ((!grad[i - 2]) && (grad[i - 1])) { // min
 					// if( ((y[i-2]-y[i-1])/deltax) < MAX_GRADIENT ) {
 					xval = extrfinder.findMinimum(curleft, curright, rrfunc,
-							3.0E-8); // debug("Gradient for "+xval+": "+gradient(rrfunc,xval,curleft,curright));
+							3.0E-8); // debug("Gradient for "+xval+":
+										// "+gradient(rrfunc,xval,curleft,curright));
 					if (gradientChangesSign(rrfunc, xval, curleft, curright)) {
 						xlist.add(new Double(xval));
 
-					}// if not too large gradient
+					} // if not too large gradient
 
 				} else {
 					// debug("did nothing");
-				}// if possible extremum between x[i-2] and x[i]
-			}// if grad analysis possible
+				} // if possible extremum between x[i-2] and x[i]
+			} // if grad analysis possible
 
-		}// for all n sample points
+		} // for all n sample points
 
 		double[] result = new double[xlist.size()];
 		for (int i = 0; i < xlist.size(); i++) {
 			result[i] = xlist.get(i);
-		}// for all x
+		} // for all x
 		return result;
 	}// findExtremums(rrfunc,l,r)
 
@@ -267,11 +270,11 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);
 		// debug("Pixels in interval: "+pixsininterval);
-		int n = Math.max(
-				Math.min(
-						(int) Math.round(pixsininterval
-								/ PIXELS_BETWEEN_SAMPLES), MAX_SAMPLES),
-				MIN_SAMPLES);
+		int n = Math
+				.max(Math.min(
+						(int) Math
+								.round(pixsininterval / PIXELS_BETWEEN_SAMPLES),
+						MAX_SAMPLES), MIN_SAMPLES);
 
 		// debug("Samples: "+n);
 		return n;
@@ -279,8 +282,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	}// findNumberOfSamples()
 
 	private final static boolean gradientChangesSign(RealRootFunction rrf,
-			double x,
-			double l, double r) {
+			double x, double l, double r) {
 		double dx = (r - l) / 1E8;
 		double vx = rrf.evaluate(x);
 		double vxRight = rrf.evaluate(x + dx);
@@ -307,8 +309,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	}// Test constructor
 
-	
-
 	// */ //--- SNIP end ---------------------------------------
 
 	public boolean euclidianViewUpdate() {
@@ -316,38 +316,38 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		return true;
 	}
 
-    @Override
-    protected void initPoints(int number) {
-        super.initPoints(number);
+	@Override
+	protected void initPoints(int number) {
+		super.initPoints(number);
 
-        if (points.length > number) {
+		if (points.length > number) {
 
 			// count points with dependent elements
 			boolean foundDependency = false;
 
 			for (int i = Math.max(number, 1); i < points.length; i++) {
-				if (!points[i].getAlgoUpdateSet().isEmpty()){
+				if (!points[i].getAlgoUpdateSet().isEmpty()) {
 					points[i].setCoords(0, 0, 1); // init as defined
 					foundDependency = true;
-				} else{
+				} else {
 					points[i].setParentAlgorithm(null);
 					points[i].remove();
 				}
-            }
+			}
 
-			// at least one point is kept for its dependent elements -> no need to keep the first point
-			if(number == 0 && foundDependency){
-				if (!points[0].getAlgoUpdateSet().isEmpty()){
+			// at least one point is kept for its dependent elements -> no need
+			// to keep the first point
+			if (number == 0 && foundDependency) {
+				if (!points[0].getAlgoUpdateSet().isEmpty()) {
 					points[0].setCoords(0, 0, 1); // init as defined
-				} else{
+				} else {
 					points[0].setParentAlgorithm(null);
 					points[0].remove();
 				}
 			}
 
 			super.setOutput(points);
-        }
-    }
+		}
+	}
 
 }// class AlgoExtremumNumerical
-

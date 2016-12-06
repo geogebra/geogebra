@@ -52,8 +52,7 @@ public class AlgoInverseGamma extends AlgoDistribution {
 	 *            variable value
 	 */
 	public AlgoInverseGamma(Construction cons, GeoNumberValue a,
-			GeoNumberValue b,
-			GeoNumberValue c) {
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

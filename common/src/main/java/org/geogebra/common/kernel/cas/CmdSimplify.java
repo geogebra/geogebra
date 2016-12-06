@@ -37,28 +37,24 @@ public class CmdSimplify extends CommandProcessor {
 		case 1:
 			if ((arg[0] instanceof CasEvaluableFunction)) {
 
-				algo = new AlgoCasBaseSingleArgument(
-						cons, c.getLabel(), (CasEvaluableFunction) arg[0],
-						Commands.Simplify, info);
-
+				algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
+						(CasEvaluableFunction) arg[0], Commands.Simplify, info);
 
 			} else if (arg[0] instanceof GeoFunctionable) {
-				algo = new AlgoCasBaseSingleArgument(
-						cons, c.getLabel(),
+				algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						Commands.Simplify, info);
 
-
 			} else if ((arg[0].isGeoText())) {
-				algo = new AlgoSimplifyText(cons,
-						c.getLabel(), (GeoText) arg[0]);
+				algo = new AlgoSimplifyText(cons, c.getLabel(),
+						(GeoText) arg[0]);
 
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			GeoElement[] ret = { algo.getOutput(0) };
 			return ret;
-			// more than one argument
+		// more than one argument
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -133,8 +133,8 @@ public class AlgoIndexOf extends AlgoElement {
 				index.setUndefined();
 				return;
 			}
-			int pos = ((GeoText) hayStack).getTextString().indexOf(
-					((GeoText) needle).getTextString(), startAt);
+			int pos = ((GeoText) hayStack).getTextString()
+					.indexOf(((GeoText) needle).getTextString(), startAt);
 			if (pos > -1) {
 				index.setValue(pos + 1);
 			}

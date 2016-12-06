@@ -84,11 +84,11 @@ public class AlgoSolveODE extends AlgoElement {
 
 			num = (FunctionalNVar) numAlgo.getGeoElements()[0];
 			den = (FunctionalNVar) denAlgo.getGeoElements()[0];
-			ExpressionValue denVal= den.getFunctionExpression();
+			ExpressionValue denVal = den.getFunctionExpression();
 			boolean constDen = denVal == null
 					|| denVal.unwrap() instanceof GeoNumberValue
-					|| (denVal.unwrap() instanceof MyDouble && denVal
-							.isConstant());
+					|| (denVal.unwrap() instanceof MyDouble
+							&& denVal.isConstant());
 			quotient = num.isDefined() && den.isDefined() && !constDen;
 
 			if (!quotient) {
@@ -271,14 +271,16 @@ public class AlgoSolveODE extends AlgoElement {
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
-			if (y1 instanceof GeoFunction && ((GeoFunction) y1).isFunctionOfY()) {
+			if (y1 instanceof GeoFunction
+					&& ((GeoFunction) y1).isFunctionOfY()) {
 				yDot[0] = ((GeoFunction) y1).evaluate(y[1]);
 			} else
 				yDot[0] = y1.evaluate(input);
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
-			if (y0 instanceof GeoFunction && ((GeoFunction) y0).isFunctionOfY()) {
+			if (y0 instanceof GeoFunction
+					&& ((GeoFunction) y0).isFunctionOfY()) {
 				yDot[1] = ((GeoFunction) y0).evaluate(y[1]);
 			} else
 				yDot[1] = y0.evaluate(input);
@@ -299,5 +301,4 @@ public class AlgoSolveODE extends AlgoElement {
 		}
 	}
 
-	
 }

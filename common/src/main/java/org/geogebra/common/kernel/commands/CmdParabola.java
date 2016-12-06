@@ -33,8 +33,8 @@ public class CmdParabola extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { parabola(c.getLabel(),
-						(GeoPointND) arg[0], (GeoLineND) arg[1]) };
+				GeoElement[] ret = { parabola(c.getLabel(), (GeoPointND) arg[0],
+						(GeoLineND) arg[1]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

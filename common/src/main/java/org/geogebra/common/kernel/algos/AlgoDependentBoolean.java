@@ -81,8 +81,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	 * @param root
 	 *            defining expression
 	 */
-	public AlgoDependentBoolean(Construction cons,
-			ExpressionNode root) {
+	public AlgoDependentBoolean(Construction cons, ExpressionNode root) {
 		super(cons);
 
 		bool = new GeoBoolean(cons);
@@ -156,15 +155,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-					left, right);
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
+					right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons,
- left, right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
 			algo.getFreeVariables(variables);
 			algo.remove();
 			return;
@@ -188,15 +186,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-					left, right);
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
+					right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
 		}
 		if (root.getOperation().equals(Operation.PARALLEL)) {
-			AlgoAreParallel algo = new AlgoAreParallel(cons,
- left, right);
+			AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
 			int[] ret = algo.getDegrees();
 			algo.remove();
 			return ret;
@@ -211,7 +208,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		ExpressionNode root = bool.getDefinition();
 		if (!root.getLeft().isGeoElement() || !root.getRight().isGeoElement())
@@ -221,8 +219,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-					left, right);
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
+					right);
 			BigInteger[] ret = algo.getExactCoordinates(values);
 			algo.remove();
 			return ret;
@@ -252,8 +250,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		GeoElement right = (GeoElement) root.getRight();
 
 		if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-					left, right);
+			AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
+					right);
 			Polynomial[] ret = algo.getPolynomials();
 			algo.remove();
 			return ret;
@@ -320,12 +318,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (expNode.getLeft().isExpressionNode()
 				&& polyNode.getLeft().getPoly() == null) {
 			expressionNodeToPolynomial((ExpressionNode) expNode.getLeft(),
-				polyNode.getLeft());
+					polyNode.getLeft());
 		}
 		if (expNode.getRight().isExpressionNode()
 				&& polyNode.getRight().getPoly() == null) {
-		expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
-				polyNode.getRight());
+			expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
+					polyNode.getRight());
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
@@ -340,8 +338,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
 			int coeff = (int) expNode.getLeft().evaluateDouble();
-			Variable v = getVariable(expNode.getRight().toString(
-					StringTemplate.defaultTemplate));
+			Variable v = getVariable(expNode.getRight()
+					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {
 				Term t = new Term(v);
 				polyNode.setPoly(new Polynomial(coeff, t));
@@ -420,16 +418,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			polyNode.setLeft(new PolynomialNode());
 			if (expNode.getLeft().isExpressionNode()) {
 				buildPolynomialTree((ExpressionNode) expNode.getLeft(),
-					polyNode.getLeft());
+						polyNode.getLeft());
 			} else {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
 					polyNode.getLeft()
-							.setPoly(
-									new Polynomial(
-											getBotanaVar(expNode
-													.getLeft()
-													.toString(
-															StringTemplate.defaultTemplate))));
+							.setPoly(new Polynomial(
+									getBotanaVar(expNode.getLeft().toString(
+											StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
 					Double d = expNode.getLeft().evaluateDouble();
@@ -441,8 +436,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					// than multiply the coefficient with 10^n
 					if (nrOfMaxDecimals != 0) {
 						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
-					}
-					else {
+					} else {
 						i = d.intValue();
 					}
 					polyNode.getLeft().setPoly(new Polynomial(i));
@@ -454,16 +448,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			polyNode.setRight(new PolynomialNode());
 			if (expNode.getRight().isExpressionNode()) {
 				buildPolynomialTree((ExpressionNode) expNode.getRight(),
-					polyNode.getRight());
+						polyNode.getRight());
 			} else {
 				if (expNode.getRight() instanceof GeoDummyVariable) {
 					try {
-					polyNode.getRight().setPoly(
-									new Polynomial(
-											getBotanaVar(expNode
-													.getRight()
-													.toString(
-															StringTemplate.defaultTemplate))));
+						polyNode.getRight().setPoly(new Polynomial(
+								getBotanaVar(expNode.getRight().toString(
+										StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
 						throw new NoSymbolicParametersException();
 					}
@@ -497,8 +488,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					if (nrOfMaxDecimals != 0
 							&& expNode.getOperation() != Operation.POWER) {
 						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
-					}
-					else {
+					} else {
 						i = d.intValue();
 					}
 					polyNode.getRight().setPoly(new Polynomial(i));
@@ -524,8 +514,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
-				((GeoSegment) node.getLeft()).setLabel(new Variable()
-						.toString());
+				((GeoSegment) node.getLeft())
+						.setLabel(new Variable().toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
@@ -534,8 +524,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
-				((GeoSegment) node.getRight()).setLabel(new Variable()
-						.toString());
+				((GeoSegment) node.getRight())
+						.setLabel(new Variable().toString());
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
@@ -553,8 +543,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// case number with segment, eg. 2*a^2
 		if (node.getLeft() instanceof MyDouble
 				&& node.getRight().isExpressionNode()
-				&& (node.getOperation() == Operation.DIVIDE || node
-						.getOperation() == Operation.MULTIPLY)) {
+				&& (node.getOperation() == Operation.DIVIDE
+						|| node.getOperation() == Operation.MULTIPLY)) {
 			return;
 		}
 		// case segment with number, eg. a^2*1,5
@@ -622,15 +612,14 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			GeoElement right = (GeoElement) root.getRight();
 
 			if (root.getOperation().equals(Operation.PERPENDICULAR)) {
-				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons,
-						left, right);
+				AlgoArePerpendicular algo = new AlgoArePerpendicular(cons, left,
+						right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.PARALLEL)) {
-				AlgoAreParallel algo = new AlgoAreParallel(cons, left,
-						right);
+				AlgoAreParallel algo = new AlgoAreParallel(cons, left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
 				return ret;
@@ -682,7 +671,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		// handle special case, when left expression is given by another algo
 		if (!(root.getLeft().isExpressionNode())
 				&& !(root.getLeft() instanceof MyDouble)) {
-			AlgoElement algo = ((GeoElement) root.getLeft()).getParentAlgorithm();
+			AlgoElement algo = ((GeoElement) root.getLeft())
+					.getParentAlgorithm();
 			if (algo instanceof AlgoDependentNumber) {
 				root.setLeft(((AlgoDependentNumber) algo).getExpression());
 			}
@@ -696,14 +686,15 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				root.setRight(((AlgoDependentNumber) algo).getExpression());
 			}
 		}
-		
+
 		// More difficult cases: sides are expressions:
-		if (((root.getLeft().isExpressionNode() || root.getRight()
-				.isExpressionNode()) && root.getOperation().equals(
-				Operation.EQUAL_BOOLEAN))
+		if (((root.getLeft().isExpressionNode()
+				|| root.getRight().isExpressionNode())
+				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))
 				|| (root.getLeft() instanceof GeoElement
 						&& root.getRight() instanceof MyDouble
-				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))){
+						&& root.getOperation()
+								.equals(Operation.EQUAL_BOOLEAN))) {
 			traverseExpression(root);
 			// try to check substituted and expanded expression
 
@@ -771,8 +762,6 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		throw new NoSymbolicParametersException(); // unhandled expression
 	}
 
-	
-
 	/**
 	 * @return input expression
 	 */
@@ -828,8 +817,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			Variable[] thisSegBotanaVars = segment.getBotanaVars(segment);
 			Polynomial s = new Polynomial(botanaVars[index]);
-			Polynomial currPoly = s.multiply(s).subtract(
-					Polynomial.sqrDistance(thisSegBotanaVars[0],
+			Polynomial currPoly = s.multiply(s)
+					.subtract(Polynomial.sqrDistance(thisSegBotanaVars[0],
 							thisSegBotanaVars[1], thisSegBotanaVars[2],
 							thisSegBotanaVars[3]));
 			extraPolys.add(currPoly);
@@ -842,8 +831,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
 			Set<String> setOfGeoNumLabels = new TreeSet<String>();
-			rootCopy.traverse(GeoNumericLabelCollector
-					.getCollector(setOfGeoNumLabels));
+			rootCopy.traverse(
+					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();
 			while (it.hasNext()) {
 				String varStr = it.next();
@@ -898,8 +887,8 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
 			Set<String> setOfGeoNumLabels = new TreeSet<String>();
-			rootCopy.traverse(GeoNumericLabelCollector
-					.getCollector(setOfGeoNumLabels));
+			rootCopy.traverse(
+					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();
 			while (it.hasNext()) {
 				String varStr = it.next();

@@ -26,7 +26,6 @@ public class InputBarHelpPanel {
 		this.mApp = app;
 		updateDictionaries();
 
-
 	}
 
 	/**
@@ -38,8 +37,7 @@ public class InputBarHelpPanel {
 	 * @return commands tree map
 	 */
 	final static public TreeMap<String, TreeSet<String>> getCommandTreeMap(
-			App app,
-			Comparator<String> comparator) {
+			App app, Comparator<String> comparator) {
 
 		TreeMap<String, TreeSet<String>> cmdTreeMap = new TreeMap<String, TreeSet<String>>(
 				comparator);
@@ -95,15 +93,16 @@ public class InputBarHelpPanel {
 	public void updateDictionaries() {
 
 		// math functions
-		String[] translatedFunctions = TableSymbols.getTranslatedFunctions(mApp);
+		String[] translatedFunctions = TableSymbols
+				.getTranslatedFunctions(mApp);
 		mMathFuncDict = mApp.newLowerCaseDictionary();
-		for (String function : translatedFunctions){
-			//remove start space char
+		for (String function : translatedFunctions) {
+			// remove start space char
 			int index = function.indexOf(' ');
 			String insert;
-			if (index == -1){
+			if (index == -1) {
 				insert = function;
-			}else{
+			} else {
 				insert = function.substring(index + 1);
 			}
 			mMathFuncDict.addEntry(insert);
@@ -132,7 +131,6 @@ public class InputBarHelpPanel {
 				mCommands[i] = list;
 			}
 		}
-
 
 	}
 
@@ -169,8 +167,7 @@ public class InputBarHelpPanel {
 	}
 
 	public String getCategoryName(int i) {
-		return mApp.getKernel().getAlgebraProcessor()
-				.getSubCommandSetName(i);
+		return mApp.getKernel().getAlgebraProcessor().getSubCommandSetName(i);
 	}
 
 	public int getCategoriesCount() {

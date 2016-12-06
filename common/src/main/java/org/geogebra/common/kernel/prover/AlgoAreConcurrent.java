@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Simon Weitzhofer 18th April 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoAreConcurrent extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
+public class AlgoAreConcurrent extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoLine inputLine1, inputLine2, inputLine3; // input
 
@@ -48,9 +48,8 @@ public class AlgoAreConcurrent extends AlgoElement implements
 	 * @param inputLine3
 	 *            the third line
 	 */
-	public AlgoAreConcurrent(final Construction cons,
-			final GeoLine inputLine1, final GeoLine inputLine2,
-			final GeoLine inputLine3) {
+	public AlgoAreConcurrent(final Construction cons, final GeoLine inputLine1,
+			final GeoLine inputLine2, final GeoLine inputLine3) {
 		super(cons);
 		this.inputLine1 = inputLine1;
 		this.inputLine2 = inputLine2;
@@ -138,14 +137,12 @@ public class AlgoAreConcurrent extends AlgoElement implements
 			int[] degree2 = inputLine2.getDegrees();
 			int[] degree3 = inputLine3.getDegrees();
 			int[] result = new int[1];
-			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2], Math
-					.max(degree2[0] + degree3[1] + degree1[2], Math.max(
-							degree3[0] + degree1[1] + degree2[2],
-							Math.max(
-									degree3[0] + degree2[1] + degree1[2],
-									Math.max(degree2[0] + degree1[1]
-											+ degree3[2], degree1[0]
-											+ degree3[1] + degree2[2])))));
+			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2], Math.max(
+					degree2[0] + degree3[1] + degree1[2],
+					Math.max(degree3[0] + degree1[1] + degree2[2], Math.max(
+							degree3[0] + degree2[1] + degree1[2], Math.max(
+									degree2[0] + degree1[1] + degree3[2],
+									degree1[0] + degree3[1] + degree2[2])))));
 			return result;
 		}
 		throw new NoSymbolicParametersException();
@@ -164,16 +161,12 @@ public class AlgoAreConcurrent extends AlgoElement implements
 			BigInteger[] coords2 = inputLine2.getExactCoordinates(values);
 			BigInteger[] coords3 = inputLine3.getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
-			coords[0] = coords1[0]
-					.multiply(coords2[1])
-					.multiply(coords3[2])
+			coords[0] = coords1[0].multiply(coords2[1]).multiply(coords3[2])
 					.add(coords2[0].multiply(coords3[1]).multiply(coords1[2]))
 					.add(coords3[0].multiply(coords1[1]).multiply(coords2[2]))
 					.subtract(
 
-							coords3[0]
-									.multiply(coords2[1])
-									.multiply(coords1[2])
+							coords3[0].multiply(coords2[1]).multiply(coords1[2])
 									.add(coords2[0].multiply(coords1[1])
 											.multiply(coords3[2]))
 									.add(coords1[0].multiply(coords3[1])
@@ -197,16 +190,13 @@ public class AlgoAreConcurrent extends AlgoElement implements
 			Polynomial[] coords2 = inputLine2.getPolynomials();
 			Polynomial[] coords3 = inputLine3.getPolynomials();
 			polynomials = new Polynomial[1];
-			polynomials[0] = coords1[0]
-					.multiply(coords2[1])
+			polynomials[0] = coords1[0].multiply(coords2[1])
 					.multiply(coords3[2])
 					.add(coords2[0].multiply(coords3[1]).multiply(coords1[2]))
 					.add(coords3[0].multiply(coords1[1]).multiply(coords2[2]))
 					.subtract(
 
-							coords3[0]
-									.multiply(coords2[1])
-									.multiply(coords1[2])
+							coords3[0].multiply(coords2[1]).multiply(coords1[2])
 									.add(coords2[0].multiply(coords1[1])
 											.multiply(coords3[2]))
 									.add(coords1[0].multiply(coords3[1])
@@ -236,15 +226,13 @@ public class AlgoAreConcurrent extends AlgoElement implements
 			// We need three collinearities with an extra point.
 			botanaPolynomials = new Polynomial[1][3];
 			for (int i = 0; i < 3; ++i)
-				botanaPolynomials[0][i] = Polynomial.collinear(v[i][0],
-						v[i][1], v[i][2], v[i][3], nv[0], nv[1]);
+				botanaPolynomials[0][i] = Polynomial.collinear(v[i][0], v[i][1],
+						v[i][2], v[i][3], nv[0], nv[1]);
 
 			return botanaPolynomials;
 
 		}
 		throw new NoSymbolicParametersException();
 	}
-
-	
 
 }

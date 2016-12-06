@@ -6,34 +6,33 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
-public class ShowLabelModel extends OptionsModel{
+public class ShowLabelModel extends OptionsModel {
 	public interface IShowLabelListener extends PropertyListener {
 		void update(boolean isEqualVal, boolean isEqualMode);
 
-
 	}
-	
+
 	private Kernel kernel;
 
 	private static final long serialVersionUID = 1L;
 	private boolean showNameValue;
 	private IShowLabelListener listener;
-	
+
 	public ShowLabelModel(App app, IShowLabelListener listener) {
 		super(app);
 		kernel = app.getKernel();
 		this.listener = listener;
 	}
 
-	
 	@Override
 	public void updateProperties() {
-	
+
 		// check if properties have same values
 		GeoElement temp, geo0 = getGeoAt(0);
 		boolean equalLabelVal = true;
 		boolean equalLabelMode = true;
-		showNameValue = geo0.isLabelValueShowable() && !isDropDownList(geo0) && !geo0.isGeoInputBox();
+		showNameValue = geo0.isLabelValueShowable() && !isDropDownList(geo0)
+				&& !geo0.isGeoInputBox();
 
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
@@ -44,52 +43,51 @@ public class ShowLabelModel extends OptionsModel{
 			if (geo0.getLabelMode() != temp.getLabelMode())
 				equalLabelMode = false;
 
-			showNameValue = showNameValue
-					&& temp.isLabelValueShowable() && !isDropDownList(temp) && !temp.isGeoInputBox();
+			showNameValue = showNameValue && temp.isLabelValueShowable()
+					&& !isDropDownList(temp) && !temp.isGeoInputBox();
 		}
 
 		// change "Show Label:" to "Show Label" if there's no menu
 		// Michael Borcherds 2008-02-18
 		listener.update(equalLabelVal, equalLabelMode);
-		}
-
+	}
 
 	private boolean isDropDownList(GeoElement geo) {
-		return (geo.isGeoList() && ((GeoList)geo).drawAsComboBox());
-		
+		return (geo.isGeoList() && ((GeoList) geo).drawAsComboBox());
+
 	}
-	
+
 	public void applyShowChanges(boolean value) {
 		for (int i = 0; i < getGeosLength(); i++) {
-				GeoElement geo = getGeoAt(i);
-				geo.setLabelVisible(value);
-				geo.updateRepaint();
-			}
-			updateProperties();
+			GeoElement geo = getGeoAt(i);
+			geo.setLabelVisible(value);
+			geo.updateRepaint();
+		}
+		updateProperties();
 		storeUndoInfo();
 	}
-	
+
 	public void applyModeChanges(int mode, boolean visible) {
-			GeoElement geo;
-			for (int i = 0; i < getGeosLength(); i++) {
-				geo = getGeoAt(i);
+		GeoElement geo;
+		for (int i = 0; i < getGeosLength(); i++) {
+			geo = getGeoAt(i);
 			geo.setLabelVisible(visible);
-				geo.setLabelMode(mode);
+			geo.setLabelMode(mode);
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
-			}
-			kernel.notifyRepaint();
-		storeUndoInfo();
 		}
-	
+		kernel.notifyRepaint();
+		storeUndoInfo();
+	}
+
 	public boolean isNameValueShown() {
 		return showNameValue;
 	}
 
-
 	@Override
 	protected boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		return geo.isLabelShowable() || isDropDownList(geo) || geo.isGeoInputBox();
+		return geo.isLabelShowable() || isDropDownList(geo)
+				|| geo.isGeoInputBox();
 	}
 
 	@Override

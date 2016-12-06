@@ -107,7 +107,6 @@ public class AlgoSVD extends AlgoElement {
 			t.printStackTrace();
 		}
 
-
 	}
 
 	// convert list into matrix

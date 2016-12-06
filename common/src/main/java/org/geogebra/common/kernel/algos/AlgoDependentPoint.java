@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
-		SymbolicParametersBotanaAlgo {
+public class AlgoDependentPoint extends AlgoElement
+		implements DependentAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P; // output
 
@@ -102,9 +102,8 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) P.getDefinition().evaluate(
-					StringTemplate.defaultTemplate))
-					.getVector();
+			temp = ((VectorValue) P.getDefinition()
+					.evaluate(StringTemplate.defaultTemplate)).getVector();
 			if (Double.isInfinite(temp.getX())
 					|| Double.isInfinite(temp.getY())) {
 				P.setUndefined();
@@ -136,7 +135,6 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 		}
 		return botanaVars;
 	}
-	
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {

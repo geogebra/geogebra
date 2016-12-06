@@ -77,8 +77,8 @@ public abstract class PropertiesView implements View {
 	 */
 	final public void setOptionPanel(OptionType type) {
 
-		ArrayList<GeoElement> geos = removeAllConstants(app
-				.getSelectionManager().getSelectedGeos());
+		ArrayList<GeoElement> geos = removeAllConstants(
+				app.getSelectionManager().getSelectedGeos());
 
 		if (type == OptionType.OBJECTS) {// ensure that at least one geo is
 											// selected
@@ -178,7 +178,8 @@ public abstract class PropertiesView implements View {
 		case EUCLIDIAN_FOR_PLANE:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("ExtraViews"));
 		case EUCLIDIAN3D:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("GraphicsView3D"));
+			return loc.getPlain("PreferencesOfA",
+					loc.getPlain("GraphicsView3D"));
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getPlain("CAS"));
 		case ADVANCED:
@@ -199,7 +200,8 @@ public abstract class PropertiesView implements View {
 	 * @param type
 	 * @return short version of Option type string
 	 */
-	final public static String getTypeStringSimple(Localization loc, OptionType type) {
+	final public static String getTypeStringSimple(Localization loc,
+			OptionType type) {
 		switch (type) {
 		case DEFAULTS:
 			return loc.getPlain("Defaults");
@@ -215,7 +217,7 @@ public abstract class PropertiesView implements View {
 			return loc.getMenu("Advanced");
 		case OBJECTS:
 			return loc.getMenu("Objects");
-			// return objectPanel.getSelectionDescription();
+		// return objectPanel.getSelectionDescription();
 		case LAYOUT:
 			return loc.getMenu("Layout");
 		case EUCLIDIAN3D:
@@ -244,7 +246,7 @@ public abstract class PropertiesView implements View {
 	}
 
 	/**
-	 * @param app 
+	 * @param app
 	 * @param type
 	 *            Option panel type
 	 * @return true if given Option panel is showing (or is instantiated but
@@ -279,17 +281,17 @@ public abstract class PropertiesView implements View {
 		}
 		return isAvailable;
 	}
-	
+
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
@@ -309,8 +311,8 @@ public abstract class PropertiesView implements View {
 
 		if (app.getSelectionManager().selectedGeosSize() > 0) {
 			// selected geo is the most important
-			updatePropertiesViewCheckConstants(app.getSelectionManager()
-					.getSelectedGeos());
+			updatePropertiesViewCheckConstants(
+					app.getSelectionManager().getSelectedGeos());
 		} else if (geo != null) { // last created geo
 			if (creatorMode) { // if euclidian view is e.g. in move mode, then
 				// geo was created by a script, so just show
@@ -327,7 +329,7 @@ public abstract class PropertiesView implements View {
 			// updatePropertiesView();
 		}
 	}
-	
+
 	/**
 	 * Updates properties view panel. If geos are not empty then the Objects
 	 * panel will be shown. If not, then an option pane for the current focused
@@ -344,7 +346,7 @@ public abstract class PropertiesView implements View {
 
 		updatePropertiesView(geos);
 	}
-	
+
 	private void updatePropertiesView(ArrayList<GeoElement> geos) {
 
 		if (geos.size() > 0) {
@@ -361,18 +363,18 @@ public abstract class PropertiesView implements View {
 	 *
 	 * @return currently focused view type
 	 */
-	protected OptionType getFocusedViewType(){
+	protected OptionType getFocusedViewType() {
 		int focusedViewId = app.getGuiManager().getLayout().getDockManager()
 				.getFocusedViewId();
 
 		return getTypeFromFocusedViewId(focusedViewId);
 	}
 
-	final protected void setOptionPanelRegardingFocus(boolean updateEuclidianTab) {
+	final protected void setOptionPanelRegardingFocus(
+			boolean updateEuclidianTab) {
 
 		if (stayInCurrentPanelWithObjects())
 			return;
-
 
 		OptionType type = getFocusedViewType();
 
@@ -395,8 +397,8 @@ public abstract class PropertiesView implements View {
 				setOptionPanel(type);
 
 			// here necessary no object is selected
-			updateObjectPanelSelection(app.getSelectionManager()
-					.getSelectedGeos());
+			updateObjectPanelSelection(
+					app.getSelectionManager().getSelectedGeos());
 		}
 
 	}
@@ -421,7 +423,6 @@ public abstract class PropertiesView implements View {
 	}
 
 	abstract protected void setOptionPanelWithoutCheck(OptionType type);
-
 
 	protected OptionType getTypeFromFocusedViewId(int id) {
 		switch (id) {
@@ -448,9 +449,8 @@ public abstract class PropertiesView implements View {
 
 	protected boolean stayInCurrentPanelWithObjects() {
 
-		return stayInCurrentPanel()
-				|| (selectedOptionType == OptionType.OBJECTS && app
-						.getSelectionManager().getSelectedGeos().size() > 0);
+		return stayInCurrentPanel() || (selectedOptionType == OptionType.OBJECTS
+				&& app.getSelectionManager().getSelectedGeos().size() > 0);
 	}
 
 	/**
@@ -472,6 +472,5 @@ public abstract class PropertiesView implements View {
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
-
 
 }

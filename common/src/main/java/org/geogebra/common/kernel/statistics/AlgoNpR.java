@@ -108,11 +108,9 @@ public class AlgoNpR extends AlgoElement {
 		// also if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg NpR2(38,19) is wrong
 
-		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d)
-				- MyMath2.logGamma(n - r + 1)));
+		return Math.floor(0.5 + Math
+				.exp(MyMath2.logGamma(n + 1d) - MyMath2.logGamma(n - r + 1)));
 
 	}
-
-	
 
 }

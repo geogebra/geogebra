@@ -15,11 +15,7 @@ public class ExamEnvironment {
 	protected LinkedList<Long> cheatingTimes = null;
 
 	protected enum CheatingEvent {
-		WINDOWS_LEFT, WINDOW_ENTERED,
-		AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON,
-		WIFI_ENABLED, WIFI_DISABLED,
-		TASK_UNLOCKED, TASK_LOCKED,
-		BLUETOOTH_ENABLED, BLUETOOTH_DISABLED
+		WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED, TASK_UNLOCKED, TASK_LOCKED, BLUETOOTH_ENABLED, BLUETOOTH_DISABLED
 	}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
@@ -45,11 +41,11 @@ public class ExamEnvironment {
 	}
 
 	public void checkCheating(String os) {
-		
+
 		boolean delay;
 		// needed for GGB-1211
 		if (os.contains("iOS")) {
-			if (maybeCheating < System.currentTimeMillis()-100){
+			if (maybeCheating < System.currentTimeMillis() - 100) {
 				delay = true;
 			} else {
 				delay = false;
@@ -65,7 +61,8 @@ public class ExamEnvironment {
 			maybeCheating = -1;
 			if (getStart() > 0) {
 				initLists();
-				if (cheatingEvents.size() == 0 || !lastCheatingEventWindowWasLeft) {
+				if (cheatingEvents.size() == 0
+						|| !lastCheatingEventWindowWasLeft) {
 					cheatingTimes.add(System.currentTimeMillis());
 					cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
 					lastCheatingEventWindowWasLeft = true;
@@ -102,8 +99,6 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
-
-
 	private String getLocalizedTimeOnly(Localization loc, long time) {
 		// eg "14:08:48"
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", new Date(time),
@@ -113,11 +108,9 @@ public class ExamEnvironment {
 	private String getLocalizedDateOnly(Localization loc, long time) {
 		// eg "Fri 23 October 2015"
 		// don't use \\S for 23rd (not used in eg French)
-		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y",
-				new Date(time), loc);
+		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y", new Date(time),
+				loc);
 	}
-
-
 
 	/**
 	 * NEW LOG DIALOG
@@ -192,28 +185,29 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 
-	static private String getCheatingString(CheatingEvent cheatingEvent, Localization loc) {
+	static private String getCheatingString(CheatingEvent cheatingEvent,
+			Localization loc) {
 		switch (cheatingEvent) {
-			case WINDOWS_LEFT: // CHEATING ALERT: exam left
-				return loc.getMenu("exam_log_window_left");
-			case WINDOW_ENTERED: // exam active again
-				return loc.getMenu("exam_log_window_entered");
-			case AIRPLANE_MODE_OFF:
-				return loc.getMenu("exam_log_airplane_mode_off");
-			case AIRPLANE_MODE_ON:
-				return loc.getMenu("exam_log_airplane_mode_on");
-			case WIFI_DISABLED:
-				return loc.getMenu("exam_log_wifi_disabled");
-			case WIFI_ENABLED:
-				return loc.getMenu("exam_log_wifi_enabled");
-			case TASK_LOCKED:
-				return loc.getMenu("exam_log_pin");
-			case TASK_UNLOCKED:
-				return loc.getMenu("exam_log_unpin");
-			case BLUETOOTH_ENABLED:
-				return loc.getMenu("exam_log_bluetooth_enabled");
-			case BLUETOOTH_DISABLED:
-				return loc.getMenu("exam_log_bluetooth_disabled");
+		case WINDOWS_LEFT: // CHEATING ALERT: exam left
+			return loc.getMenu("exam_log_window_left");
+		case WINDOW_ENTERED: // exam active again
+			return loc.getMenu("exam_log_window_entered");
+		case AIRPLANE_MODE_OFF:
+			return loc.getMenu("exam_log_airplane_mode_off");
+		case AIRPLANE_MODE_ON:
+			return loc.getMenu("exam_log_airplane_mode_on");
+		case WIFI_DISABLED:
+			return loc.getMenu("exam_log_wifi_disabled");
+		case WIFI_ENABLED:
+			return loc.getMenu("exam_log_wifi_enabled");
+		case TASK_LOCKED:
+			return loc.getMenu("exam_log_pin");
+		case TASK_UNLOCKED:
+			return loc.getMenu("exam_log_unpin");
+		case BLUETOOTH_ENABLED:
+			return loc.getMenu("exam_log_bluetooth_enabled");
+		case BLUETOOTH_DISABLED:
+			return loc.getMenu("exam_log_bluetooth_disabled");
 
 		}
 		return "";

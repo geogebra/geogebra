@@ -52,6 +52,4 @@ public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 		return Commands.Top;
 	}
 
-	
-
 }

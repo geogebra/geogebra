@@ -92,9 +92,9 @@ public class AlgoRandomPolynomial extends AlgoElement {
 		double maxD = max.getDouble();
 
 		if (acceptZero
-		// either both positive, both negative
-		// or both zero (which shouldn't happen)
-		// eg RandomPolynomial[3,0,0] returns undefined
+				// either both positive, both negative
+				// or both zero (which shouldn't happen)
+				// eg RandomPolynomial[3,0,0] returns undefined
 				|| Math.signum(maxD) == Math.signum(minD)) {
 			return new ExpressionNode(kernel, kernel.getApplication()
 					.getRandomIntegerBetween(minD, maxD));
@@ -117,7 +117,5 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	public GeoFunction getResult() {
 		return polynomial;
 	}
-
-	
 
 }

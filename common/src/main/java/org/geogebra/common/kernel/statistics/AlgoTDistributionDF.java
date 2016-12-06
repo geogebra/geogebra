@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael
  */
-public class AlgoTDistributionDF extends AlgoElement implements
-		AlgoDistributionDF {
+public class AlgoTDistributionDF extends AlgoElement
+		implements AlgoDistributionDF {
 
 	private GeoNumberValue v; // input
 	private BooleanValue cumulative; // optional input
@@ -110,8 +110,8 @@ public class AlgoTDistributionDF extends AlgoElement implements
 			ExpressionValue half = new MyDouble(kernel, 0.5);
 			ExpressionNode halfV = vEn.divide(2);
 
-			ExpressionNode beta1 = halfV.betaRegularized(half, new MyDouble(
-					kernel, 1));
+			ExpressionNode beta1 = halfV.betaRegularized(half,
+					new MyDouble(kernel, 1));
 			ExpressionNode beta2 = halfV.betaRegularized(half,
 					vEn.divide(vEn.plus(xEn.square())));
 
@@ -145,7 +145,5 @@ public class AlgoTDistributionDF extends AlgoElement implements
 		ret.setFunction(tempFun);
 
 	}
-
-	
 
 }

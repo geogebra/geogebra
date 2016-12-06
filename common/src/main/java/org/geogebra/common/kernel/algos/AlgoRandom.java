@@ -47,8 +47,8 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 		if (input[0].isDefined() && input[1].isDefined()
 				&& !Double.isInfinite(aNum) && !Double.isInfinite(bNum)
 				&& !Double.isNaN(aNum) && !Double.isNaN(bNum)) {
-			num.setValue(cons.getApplication().getRandomIntegerBetween(aNum,
-					bNum));
+			num.setValue(
+					cons.getApplication().getRandomIntegerBetween(aNum, bNum));
 		} else
 			num.setUndefined();
 

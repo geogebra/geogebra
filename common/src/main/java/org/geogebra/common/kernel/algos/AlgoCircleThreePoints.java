@@ -43,8 +43,8 @@ import org.geogebra.common.util.MyMath;
  * 
  * @author Markus
  */
-public class AlgoCircleThreePoints extends AlgoElement implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoCircleThreePoints extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPointND A, B, C; // input
 	// protected GeoConicND circle; // output
@@ -195,7 +195,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements
 			if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)) { // A = B = C
 				circle.setCircle(getA(), 0.0); // single point
 				return;
-			}// else{ // A = B <> C
+			} // else{ // A = B <> C
 			ACx = cx - ax;
 			ACy = cy - ay;
 			center.setCoords(-ACy, ACx, 0.0d);

@@ -43,8 +43,8 @@ public class AlgoCircle3DCenterPointPoint extends AlgoCircle3DPointDirection {
 	protected final double getRadius() {
 
 		GeoPointND pointThrough = (GeoPointND) getSecondInput();
-		Coords radius = pointThrough.getInhomCoordsInD3().sub(
-				getCenter().getInhomCoordsInD3());
+		Coords radius = pointThrough.getInhomCoordsInD3()
+				.sub(getCenter().getInhomCoordsInD3());
 
 		radius.calcNorm();
 

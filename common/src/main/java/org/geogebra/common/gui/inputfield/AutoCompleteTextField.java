@@ -13,8 +13,8 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.CommandInputField;
 import org.geogebra.common.util.TextObject;
 
-public interface AutoCompleteTextField extends GeoElementSelectionListener,
-		TextObject, CommandInputField {
+public interface AutoCompleteTextField
+		extends GeoElementSelectionListener, TextObject, CommandInputField {
 
 	void showPopupSymbolButton(boolean b);
 
@@ -65,11 +65,9 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
-
 	boolean hasFocus();
 
 	boolean usedForInputBox();
-
 
 	// GGB-986
 	GeoInputBox getInputBox();
@@ -77,6 +75,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 	DrawInputBox getDrawTextField();
 
 	void setDrawTextField(DrawInputBox df);
+
 	/**
 	 * Removes the "alpha" button forever
 	 */

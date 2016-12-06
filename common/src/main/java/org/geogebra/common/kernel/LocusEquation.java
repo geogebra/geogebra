@@ -267,8 +267,8 @@ public class LocusEquation {
 	 *            scope
 	 * @return equation element
 	 */
-	public static EquationElementInterface eqnHyperbolaFociPoint(
-			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+	public static EquationElementInterface eqnHyperbolaFociPoint(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
 		return new EquationHyperbolaFociPoint(geo, (EquationScope) scope);
 
 	}
@@ -298,8 +298,8 @@ public class LocusEquation {
 	 *            scope
 	 * @return equation element
 	 */
-	public static EquationElementInterface eqnIntersectLineConic(
-			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+	public static EquationElementInterface eqnIntersectLineConic(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
 		return new EquationIntersectLineConicRestriction(geo,
 				(AlgoIntersectLineConic) algo, (EquationScope) scope);
 
@@ -484,8 +484,8 @@ public class LocusEquation {
 	 *            scope
 	 * @return equation element
 	 */
-	public static EquationElementInterface eqnOrthoLinePointLine(
-			GeoElement geo, AlgoElement algo, EquationScopeInterface scope) {
+	public static EquationElementInterface eqnOrthoLinePointLine(GeoElement geo,
+			AlgoElement algo, EquationScopeInterface scope) {
 		return new EquationOrthoLinePointLine(geo, (EquationScope) scope);
 
 	}

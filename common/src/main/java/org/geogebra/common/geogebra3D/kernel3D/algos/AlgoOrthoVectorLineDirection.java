@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  *
  * @author ggb3D
  * 
- *          Calculate the ortho vector of a plane (or polygon, ...)
+ *         Calculate the ortho vector of a plane (or polygon, ...)
  * 
  */
 public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
@@ -61,8 +61,9 @@ public class AlgoOrthoVectorLineDirection extends AlgoElement3D {
 
 		vector = new GeoVector3D(cons);
 
-		setInputOutput(new GeoElement[] { (GeoElement) line,
-				(GeoElement) direction }, new GeoElement[] { vector });
+		setInputOutput(
+				new GeoElement[] { (GeoElement) line, (GeoElement) direction },
+				new GeoElement[] { vector });
 
 		vector.setLabel(label);
 

@@ -52,10 +52,12 @@ public class CmdLength extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoVector()) {
-				GeoElement[] ret = { length(c.getLabel(), (GeoVectorND) arg[0]) };
+				GeoElement[] ret = {
+						length(c.getLabel(), (GeoVectorND) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { length(c.getLabel(), (GeoPointND) arg[0]) };
+				GeoElement[] ret = {
+						length(c.getLabel(), (GeoPointND) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoList()) {
 				GeoElement[] ret = { getAlgoDispatcher().Length(c.getLabel(),
@@ -101,8 +103,8 @@ public class CmdLength extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 
 				AlgoLengthFunction algo = new AlgoLengthFunction(cons,
-						c.getLabel(), (GeoFunction) arg[0],
-						(GeoNumeric) arg[1], (GeoNumeric) arg[2]);
+						c.getLabel(), (GeoFunction) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2]);
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;

@@ -64,6 +64,4 @@ public class AlgoLengthLocus extends AlgoElement {
 			length.setUndefined();
 	}
 
-	
-
 }

@@ -77,9 +77,8 @@ public class CmdGetTime extends CommandProcessor {
 
 		case 1:
 
-			String date = buildLocalizedDate(
-					c.getArgument(0).toValueString(
-							StringTemplate.defaultTemplate), new Date(), loc);
+			String date = buildLocalizedDate(c.getArgument(0).toValueString(
+					StringTemplate.defaultTemplate), new Date(), loc);
 
 			GeoText retText = new GeoText(cons, date);
 			retText.setLabel(c.getLabel());

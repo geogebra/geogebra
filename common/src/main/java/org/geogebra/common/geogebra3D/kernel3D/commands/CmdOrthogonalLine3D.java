@@ -42,24 +42,24 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 						.OrthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoCoordSys2D) arg[1]) };
 				return ret;
-			} else if (((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1] instanceof GeoLineND)))) {
+			} else if (((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1] instanceof GeoLineND)))) {
 
 				// check if there is an active view with orientation
 				GeoDirectionND orientation = CommandProcessor3D
 						.getCurrentViewOrientation(kernelA, app);
 				if (orientation != null) {
 					GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
-							.OrthogonalLine3D(c.getLabel(),
-									(GeoPointND) arg[0], (GeoLineND) arg[1],
-									orientation) };
+							.OrthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
+									(GeoLineND) arg[1], orientation) };
 					return ret;
 				}
 
 				// check if there is a 3D geo: then use 3D algo
 				if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 					GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
-							.OrthogonalLine3D(c.getLabel(),
-									(GeoPointND) arg[0], (GeoLineND) arg[1]) };
+							.OrthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
+									(GeoLineND) arg[1]) };
 					return ret;
 				}
 
@@ -68,8 +68,8 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 						c.getLabel(), (GeoPoint) arg[0], (GeoLine) arg[1]) };
 				return ret;
 
-			} else if (((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1]
-					.isGeoVector())))) {
+			} else if (((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoVector())))) {
 
 				// check if there is an active view with orientation
 				GeoDirectionND orientation = CommandProcessor3D
@@ -81,9 +81,8 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 				if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()
 						|| orientation != kernelA.getXOYPlane()) {
 					GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
-							.OrthogonalLine3D(c.getLabel(),
-									(GeoPointND) arg[0], (GeoVectorND) arg[1],
-									orientation) };
+							.OrthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
+									(GeoVectorND) arg[1], orientation) };
 					return ret;
 				}
 
@@ -92,7 +91,8 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 						c.getLabel(), (GeoPoint) arg[0], (GeoVector) arg[1]) };
 				return ret;
 
-			} else if (((ok[0] = (arg[0] instanceof GeoLineND)) && (ok[1] = (arg[1] instanceof GeoLineND)))) {
+			} else if (((ok[0] = (arg[0] instanceof GeoLineND))
+					&& (ok[1] = (arg[1] instanceof GeoLineND)))) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.OrthogonalLine3D(c.getLabel(), (GeoLineND) arg[0],
 								(GeoLineND) arg[1]) };
@@ -105,10 +105,12 @@ public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoDirectionND))
 					&& (ok[2] = (arg[2] instanceof GeoDirectionND)
-					// "space" not allowed as 2nd arg
+							// "space" not allowed as 2nd arg
 							&& !(arg[1] instanceof GeoSpace)
 							// check if it's not 2 planes (or plane-"space")
-							&& !((arg[1] instanceof GeoCoordSys2D) && (arg[2] instanceof GeoCoordSys2D || arg[2] instanceof GeoSpace)))) {
+							&& !((arg[1] instanceof GeoCoordSys2D)
+									&& (arg[2] instanceof GeoCoordSys2D
+											|| arg[2] instanceof GeoSpace)))) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.OrthogonalLine3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoDirectionND) arg[1],

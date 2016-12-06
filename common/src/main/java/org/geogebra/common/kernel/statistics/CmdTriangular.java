@@ -50,9 +50,8 @@ public class CmdTriangular extends CommandProcessor {
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& (ok2 = arg[1] instanceof GeoNumberValue)
 					&& (arg[2] instanceof GeoNumberValue)) {
-				if (arg[3].isGeoFunction()
-						&& ((GeoFunction) arg[3]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[3].isGeoFunction() && ((GeoFunction) arg[3])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoTriangularDF algo = new AlgoTriangularDF(cons,
 							c2.getLabel(), (GeoNumberValue) arg[0],
@@ -70,8 +69,8 @@ public class CmdTriangular extends CommandProcessor {
 				} else
 					throw argErr(app, c2.getName(), arg[2]);
 			}
-			throw argErr(app, c2.getName(), !ok ? arg[0] : (ok2 ? arg[2]
-					: arg[0]));
+			throw argErr(app, c2.getName(),
+					!ok ? arg[0] : (ok2 ? arg[2] : arg[0]));
 
 		default:
 			throw argNumErr(app, c2.getName(), n);

@@ -190,7 +190,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	// Iterator it = geos.iterator();
 	// while (it.hasNext()) {
 	// GeoElement geo = (GeoElement) it.next();
-	// System.out.println("  " + geo);
+	// System.out.println(" " + geo);
 	// }
 	// }
 
@@ -253,15 +253,14 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// Note: we have to undo this at the end of this method !!!
 		boolean isLabeledP = movingPoint.isLabelSet();
 		if (!isLabeledP) {
-			((GeoElement) movingPoint)
-					.setLabelSimple(((GeoElement) movingPoint)
-							.getDefaultLabel());
+			((GeoElement) movingPoint).setLabelSimple(
+					((GeoElement) movingPoint).getDefaultLabel());
 			((GeoElement) movingPoint).setLabelSet(true);
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
-			((GeoElement) locusPoint).setLabelSimple(((GeoElement) locusPoint)
-					.getDefaultLabel());
+			((GeoElement) locusPoint).setLabelSimple(
+					((GeoElement) locusPoint).getDefaultLabel());
 			((GeoElement) locusPoint).setLabelSet(true);
 		}
 
@@ -359,15 +358,15 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			ConstructionElement ce = it.next();
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
-				macroKernel.addReservedLabel(geo
-						.getLabel(StringTemplate.defaultTemplate));
+				macroKernel.addReservedLabel(
+						geo.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
 
 		try {
 			// get XML for macro construction of P -> Q
-			String locusConsXML = Macro
-					.buildMacroXML(kernel, locusConsElements).toString();
+			String locusConsXML = Macro.buildMacroXML(kernel, locusConsElements)
+					.toString();
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
@@ -424,8 +423,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				// do not copy functions, their expressions already
 				// include references to the correct other geos
 				if (!geoOrig.isGeoFunction()) {
-					GeoElement geoCopy = macroCons.lookupLabel(geoOrig
-							.getLabelSimple());
+					GeoElement geoCopy = macroCons
+							.lookupLabel(geoOrig.getLabelSimple());
 					if (geoCopy != null) {
 						try {
 							ExpressionNode en = geoCopy.getDefinition();
@@ -433,8 +432,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 							geoCopy.setDefinition(en);
 							geoCopy.update();
 						} catch (Exception e) {
-							Log.debug("AlgoLocus: error in resetMacroConstruction(): "
-									+ e.getMessage());
+							Log.debug(
+									"AlgoLocus: error in resetMacroConstruction(): "
+											+ e.getMessage());
 						}
 					}
 				}
@@ -576,7 +576,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
-						while (!pathMover.hasNext() && pathMover.smallerStep()) {
+						while (!pathMover.hasNext()
+								&& pathMover.smallerStep()) {
 							// do nothing
 						}
 						// no smaller step possible: run finished
@@ -600,8 +601,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
-			// Application.debug("  startPos: " + QstartPos);
-			// Application.debug("  Qcopy: " + Qcopy);
+			// Application.debug(" startPos: " + QstartPos);
+			// Application.debug(" Qcopy: " + Qcopy);
 
 			// we are finished with all runs
 			// if we got back to the start position of Qcopy
@@ -621,13 +622,13 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// set defined/undefined
 		locus.setDefined(foundDefined);
 
-		// System.out.println("  first point: " +
+		// System.out.println(" first point: " +
 		// locus.getMyPointList().get(0));
 		// ArrayList list = locus.getMyPointList();
 		// for (int i=list.size()-10; i < list.size()-1; i++) {
-		// System.out.println("      point: " + list.get(i));
+		// System.out.println(" point: " + list.get(i));
 		// }
-		// System.out.println("  last  point: " +
+		// System.out.println(" last point: " +
 		// locus.getMyPointList().get(pointCount-1));
 
 		// Application.debug("LOCUS COMPUTE updateCascades: " + countUpdates +
@@ -894,10 +895,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		setMaxDistances(i);
 
 		// near to screen rectangle
-		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i]
-				- farXmin[i], farYmax[i] - farYmin[i]);
+		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i],
+				farXmax[i] - farXmin[i], farYmax[i] - farYmin[i]);
 		return changed;
-		// Log.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
+		// Log.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" --
+		// "+xmax[i]+","+ymax[i]);
 	}
 
 	protected void setMaxDistances(int i) {
@@ -934,7 +936,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			views++;
 		}
 		boolean changed = false;
-		for (int i = 0; i < visibleEV.length && i < kernel.getXmaxLength(); i++) {
+		for (int i = 0; i < visibleEV.length
+				&& i < kernel.getXmaxLength(); i++) {
 			if (visibleEV[i]) {
 				changed = changed || updateScreenBorders(i);
 			}
@@ -951,7 +954,5 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		}
 		return false;
 	}
-
-	
 
 }

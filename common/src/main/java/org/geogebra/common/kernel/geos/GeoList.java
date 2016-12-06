@@ -56,15 +56,14 @@ import org.geogebra.common.util.debug.Log;
 /**
  * List of GeoElements
  */
-public class GeoList extends GeoElement implements ListValue,
-PointProperties, TextProperties, Traceable, Path, Transformable,
-SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
-		AngleProperties, HasSymbolicMode {
+public class GeoList extends GeoElement
+		implements ListValue, PointProperties, TextProperties, Traceable, Path,
+		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable,
+		Furniture, InequalityProperties, AngleProperties, HasSymbolicMode {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
 	private boolean trace;
-
 
 	// GeoElement list members
 	private final ArrayList<GeoElement> geoList;
@@ -90,7 +89,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * Creates new GeoList, size defaults to 20
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoList(final Construction c) {
 		this(c, 20);
@@ -116,9 +117,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		super.setParentAlgorithm(algo);
 		setEuclidianVisible(true);
 	}
+
 	/**
 	 * Copy constructor
-	 * @param list list to copy
+	 * 
+	 * @param list
+	 *            list to copy
 	 */
 	public GeoList(final GeoList list) {
 		this(list.cons, list.size());
@@ -133,7 +137,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	/**
 	 * Returns the element type of this list.
 	 * 
-	 * @return ELEMENT_TYPE_MIXED == GeoClass.DEFAULT or GeoClass.NUMERIC, GeoClass.POINT etc constant
+	 * @return ELEMENT_TYPE_MIXED == GeoClass.DEFAULT or GeoClass.NUMERIC,
+	 *         GeoClass.POINT etc constant
 	 */
 	public GeoClass getElementType() {
 		return elementType;
@@ -147,11 +152,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	@Override
 	public GeoList deepCopyGeo() {
 		GeoList ret = new GeoList(cons);
-		
-		for (int i = 0 ; i < geoList.size() ; i++) {
+
+		for (int i = 0; i < geoList.size(); i++) {
 			ret.add(geoList.get(i).deepCopyGeo());
 		}
-		
+
 		return ret;
 	}
 
@@ -191,7 +196,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 * Set if the list should show all properties in the properties dialog. This
 	 * is just recommended for the default list.
 	 * 
-	 * @param showAllProperties true to show all properties
+	 * @param showAllProperties
+	 *            true to show all properties
 	 */
 	public void setShowAllProperties(final boolean showAllProperties) {
 		this.showAllProperties = showAllProperties;
@@ -209,9 +215,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			// try to reuse cached GeoElement
 			if (i < cacheList.size()) {
 				final GeoElementND cachedGeo = cacheList.get(i);
-				if (!cachedGeo.isLabelSet()
-						&& (cachedGeo.getGeoClassType() == otherElement
-						.getGeoClassType())) {
+				if (!cachedGeo.isLabelSet() && (cachedGeo
+						.getGeoClassType() == otherElement.getGeoClassType())) {
 					// cached geo is unlabeled and has needed object type: use
 					// it
 					cachedGeo.set(otherElement);
@@ -264,7 +269,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			}
 
 			if (geo instanceof TextProperties) {
-				((TextProperties) geo).setFontSizeMultiplier(getFontSizeMultiplier());
+				((TextProperties) geo)
+						.setFontSizeMultiplier(getFontSizeMultiplier());
 				((TextProperties) geo).setFontStyle(getFontStyle());
 				((TextProperties) geo).setSerifFont(isSerifFont());
 				if (useSignificantFigures) {
@@ -280,7 +286,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			geo.setFillType(fillType);
 			geo.setHatchingAngle(hatchingAngle);
 			geo.setHatchingDistance(hatchingDistance);
-			if(!geo.getGeoElementForPropertiesDialog().isGeoImage())
+			if (!geo.getGeoElementForPropertiesDialog().isGeoImage())
 				geo.setImageFileName(getGraphicsAdapter().getImageFileName());
 			geo.setAlphaValue(getAlphaValue());
 
@@ -291,7 +297,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			try {
 				geo.setShowObjectCondition(getShowObjectCondition());
 			} catch (final Exception e) {
-				//Circular definition -- do nothing
+				// Circular definition -- do nothing
 			}
 
 			setElementEuclidianVisible(geo, isSetEuclidianVisible());
@@ -539,14 +545,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * @param flag true to make this list defined
+	 * @param flag
+	 *            true to make this list defined
 	 */
 	public void setDefined(final boolean flag) {
 
 		isDefined = flag;
 
 		if (!isDefined) {
-			
+
 			final int size = geoList.size();
 			for (int i = 0; i < size; i++) {
 				final GeoElement geo = geoList.get(i);
@@ -554,15 +561,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 					geo.setUndefined();
 				}
 			}
-			
-			//set also cached geos to undefined (for lists of lists)
+
+			// set also cached geos to undefined (for lists of lists)
 			for (int i = size; i < cacheList.size(); i++) {
 				final GeoElementND geo = cacheList.get(i);
 				if (!geo.isLabelSet()) {
 					geo.setUndefined();
 				}
 			}
-		
+
 		}
 	}
 
@@ -609,14 +616,17 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		clear();
 		setUndefined();
 	}
+
 	/**
 	 * Adds a geo to this list
-	 * @param geo geo to be added
+	 * 
+	 * @param geo
+	 *            geo to be added
 	 */
 	public final void add(final GeoElementND geo) {
 		// add geo to end of list
 		geoList.add(geo.toGeoElement());
-		
+
 		if (geoList.size() == 1) {
 			setTypeStringForXML(geo.getXMLtypeString());
 		}
@@ -645,18 +655,16 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 		// check element type
 		else if (elementType != geo.getGeoClassType()) {
-			if ((elementType == GeoClass.POINT3D || elementType == GeoClass.POINT)
-					&& geo.isGeoPoint()) {
+			if ((elementType == GeoClass.POINT3D
+					|| elementType == GeoClass.POINT) && geo.isGeoPoint()) {
 				elementType = GeoClass.POINT3D;
 			} else {
 				elementType = ELEMENT_TYPE_MIXED;
 			}
 		}
-		isDrawable = isDrawable
-				&& geo.isDrawable()
-				&& !geo.isGeoButton()
-				&& !(geo instanceof GeoBoolean)
-				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
+		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoButton()
+				&& !(geo instanceof GeoBoolean) && !(geo instanceof GeoNumeric
+						&& ((GeoNumeric) geo).isSlider());
 
 		// set visual style of this list
 		applyVisualStyle(geo.toGeoElement());
@@ -664,7 +672,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			geo.setViewFlags(getViewSet());
 			geo.setVisibleInView3D(this);
 			geo.setVisibleInViewForPlane(this);
-		}		
+		}
 	}
 
 	/**
@@ -676,14 +684,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 */
 	public final void remove(final GeoElement geo) {
 		geoList.remove(geo);
-		
+
 	}
 
 	/**
-	 * Removes the first geo from the beginning of this list,
-	 * and adds a new geo to its end (useful for indefinite appending)
+	 * Removes the first geo from the beginning of this list, and adds a new geo
+	 * to its end (useful for indefinite appending)
 	 * 
-	 * @param geo element to be added
+	 * @param geo
+	 *            element to be added
 	 */
 	public final void addQueue(final GeoElement geo) {
 		GeoElement first = get(0);
@@ -749,7 +758,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * Increases capcity of this list if necessary
-	 * @param size capcity to ensure
+	 * 
+	 * @param size
+	 *            capcity to ensure
 	 */
 	final public void ensureCapacity(final int size) {
 		geoList.ensureCapacity(size);
@@ -760,6 +771,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	final public int size() {
 		return geoList.size();
 	}
+
 	/**
 	 * @return number of elements in this list's cache
 	 */
@@ -804,7 +816,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				final GeoElement geo = geoList.get(i);
 
 				sbBuildValueString
-				.append(geo.getAlgebraDescriptionRegrOut(tpl));
+						.append(geo.getAlgebraDescriptionRegrOut(tpl));
 				sbBuildValueString.append(" ");
 			}
 
@@ -815,8 +827,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		return sbBuildValueString.toString();
 	}
-
-
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -846,7 +856,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			final GeoElement geo = geoList.get(lastIndex);
 			sbBuildValueString.append(geo.toOutputValueString(tpl));
 		}
-		
+
 		tpl.rightCurlyBracket(sbBuildValueString);
 
 		return sbBuildValueString;
@@ -882,8 +892,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				StringUtil.encodeXML(sb,
 						getDefinition().toString(StringTemplate.xmlTemplate));
 			} else {
-				StringUtil
-					.encodeXML(sb, toValueString(StringTemplate.xmlTemplate));
+				StringUtil.encodeXML(sb,
+						toValueString(StringTemplate.xmlTemplate));
 			}
 			sb.append("\"/>\n");
 		}
@@ -898,7 +908,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 		sb.append("\">\n");
 		getXMLtags(sb);
-		
+
 		if (size() == 0 && getTypeStringForXML() != null) {
 			sb.append("<listType val=\"");
 			sb.append(getTypeStringForXML());
@@ -912,7 +922,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 
 		if (drawAsComboBox == true) {
-			sb.append("\t<comboBox val=\"true\"/>\n");			
+			sb.append("\t<comboBox val=\"true\"/>\n");
 		}
 
 		// point style
@@ -924,7 +934,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		sb.append(pointStyle);
 		sb.append("\"/>\n");
 
-		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false, kernel.getApplication());
+		GeoText.appendFontTag(sb, serifFont, fontSizeD, fontStyle, false,
+				kernel.getApplication());
 
 		// print decimals
 		if ((printDecimals >= 0) && !useSignificantFigures) {
@@ -939,7 +950,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sb.append(printFigures);
 			sb.append("\"/>\n");
 		}
-				
+
 		// AngleProperties
 		if (angleStyle != AngleStyle.ANTICLOCKWISE) {
 			sb.append("\t<allowReflexAngle val=\"");
@@ -952,33 +963,35 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sb.append("\"/>\n");
 		}
 
-		if (!emphasizeRightAngle) { 		
+		if (!emphasizeRightAngle) {
 			// only store emphasizeRightAngle if "false"
 			sb.append("\t<emphasizeRightAngle val=\"");
 			sb.append(emphasizeRightAngle);
-			sb.append("\"/>\n");		
+			sb.append("\"/>\n");
 		}
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
 		// AngleProperties end
 
-
 		// for ComboBoxes (and comments)
 		getCaptionXML(sb);
-		if (getListenersToo) getListenerTagsXML(sb);
+		if (getListenersToo)
+			getListenerTagsXML(sb);
 
 		sb.append("</element>\n");
 
 	}
-	
+
 	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
-	// The Element command needs to know in advance what type of geo the list will hold
+	// The Element command needs to know in advance what type of geo the list
+	// will hold
 	private String typeStringForXML = null;
 
 	/**
 	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
-	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 * The Element/Cell/Object command needs to know in advance what type of geo
+	 * the list will hold
 	 * 
 	 * @return type, eg "point"
 	 */
@@ -988,9 +1001,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
-	 * The Element/Cell/Object command needs to know in advance what type of geo the list will hold
+	 * The Element/Cell/Object command needs to know in advance what type of geo
+	 * the list will hold
 	 *
-	 * @param type eg "point"
+	 * @param type
+	 *            eg "point"
 	 */
 	public void setTypeStringForXML(String type) {
 		typeStringForXML = type;
@@ -1000,7 +1015,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 * Registers geo as a listener for updates of this boolean object. If this
 	 * object is updated it calls geo.updateConditions()
 	 * 
-	 * @param geo element which should use this list as dynamic color
+	 * @param geo
+	 *            element which should use this list as dynamic color
 	 */
 	public void registerColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener == null) {
@@ -1008,10 +1024,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 		colorFunctionListener.add(geo);
 	}
+
 	/**
 	 * Unregisters geo as a listener for updates of this boolean object.
 	 * 
-	 * @param geo element which uses this list as dynamic color
+	 * @param geo
+	 *            element which uses this list as dynamic color
 	 */
 	public void unregisterColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener != null) {
@@ -1030,19 +1048,20 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		// update information on whether this path is fit for AlgoLocus
 		// or it can only support AlgoLocusList (call this method here again
-		// because the GeoList might change - code will run only if locus used it)
+		// because the GeoList might change - code will run only if locus used
+		// it)
 		shouldUseAlgoLocusList(false);
 
 		// update all registered locatables (they have this point as start
 		// point)
 		if (colorFunctionListener != null) {
-			//AbstractApplication.debug("GeoList update listeners");
+			// AbstractApplication.debug("GeoList update listeners");
 			for (int i = 0; i < colorFunctionListener.size(); i++) {
 				final GeoElement geo = colorFunctionListener.get(i);
 				// kernel.notifyUpdate(geo);
 				// geo.toGeoElement().updateCascade();
 				geo.updateVisualStyle(GProperty.COLOR);
-				//AbstractApplication.debug(geo);
+				// AbstractApplication.debug(geo);
 			}
 			// kernel.notifyRepaint();
 		}
@@ -1050,7 +1069,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * Tells condition listeners that their condition is removed and calls
-	 * super.remove() 
+	 * super.remove()
 	 */
 	@Override
 	public void doRemove() {
@@ -1331,10 +1350,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 					for (int j = 0; j < ((GeoList) geoi).size(); j++) {
 						final GeoElement geoij = ((GeoList) geoi).get(j);
 						if (!geoij.getGeoClassType().equals(GeoClass.NUMERIC)
-								&& !geoij.getGeoClassType().equals(
-										GeoClass.FUNCTION)
-										&& !geoij.getGeoClassType().equals(
-												GeoClass.FUNCTION_NVAR)) {
+								&& !geoij.getGeoClassType()
+										.equals(GeoClass.FUNCTION)
+								&& !geoij.getGeoClassType()
+										.equals(GeoClass.FUNCTION_NVAR)) {
 							return false;
 						}
 					}
@@ -1406,7 +1425,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	@Override
-	public void setPrintDecimals(final int printDecimals, final boolean update) {
+	public void setPrintDecimals(final int printDecimals,
+			final boolean update) {
 		this.printDecimals = printDecimals;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -1507,6 +1527,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the line properties
+	 * 
 	 * @return true if all elements have line properties
 	 */
 	@Override
@@ -1528,6 +1549,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	/**
 	 * for a list like this: {Circle[B, A], (x(A), y(A)), "text"} we want to be
 	 * able to set the point properties
+	 * 
 	 * @return true if all elements have point properties
 	 */
 	public boolean showPointProperties() {
@@ -1605,7 +1627,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	}
 
-
 	// Selection index for lists used in comboBoxes
 	private int selectedIndex = 0;
 
@@ -1624,26 +1645,26 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * @param selectedIndex0 new selected index
-	 * @param update t
+	 * @param selectedIndex0
+	 *            new selected index
+	 * @param update
+	 *            t
 	 */
 	public void setSelectedIndex(final int selectedIndex0, boolean update) {
 		selectedIndex = selectedIndex0;
-		
-		if (selectedIndex < 0 || selectedIndex > size() - 1) { 
-			selectedIndex = 0; 
+
+		if (selectedIndex < 0 || selectedIndex > size() - 1) {
+			selectedIndex = 0;
 		}
 
 		if (update) {
 			updateCascade();
-			getKernel().notifyRepaint(); 
+			getKernel().notifyRepaint();
 			getKernel().storeUndoInfo();
 
 		}
 
-
 	}
-
 
 	/*
 	 * mathieu : for drawing 3D elements of the list
@@ -1656,6 +1677,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	/**
 	 * when list is visible (as a combobox) this returns the element selected by
 	 * the user or null if there's a problem
+	 * 
 	 * @return selected element
 	 */
 	public GeoElement getSelectedElement() {
@@ -1701,8 +1723,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		// update closestPointIndex
 		getNearestPoint(P);
-		if(geoList.size()==0){
-			if(P.isDefined())
+		if (geoList.size() == 0) {
+			if (P.isDefined())
 				P.setUndefined();
 			return;
 		}
@@ -1713,20 +1735,21 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			return;
 		}
 		final PathOrPoint path = (PathOrPoint) get(closestPointIndex);
-		
+
 		int type = P.getPathParameter().getPathType();
 
 		path.pointChanged(P);
 
 		final PathParameter pp = P.getPathParameter();
-		
+
 		pp.setPathType(type);
 
 		// update path param
 		// 0-1 for first obj
 		// 1-2 for second
 		// etc
-		// Application.debug(pp.t+" "+path.getMinParameter()+" "+path.getMaxParameter());
+		// Application.debug(pp.t+" "+path.getMinParameter()+"
+		// "+path.getMaxParameter());
 
 		int closestPointIndexBack = closestPointIndex;
 		if (directionInfoOrdering != null)
@@ -1737,34 +1760,37 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				}
 			}
 
-		if ((directionInfoArray == null) || directionInfoArray[closestPointIndex])
+		if ((directionInfoArray == null)
+				|| directionInfoArray[closestPointIndex])
 			pp.t = closestPointIndexBack
-				+ PathNormalizer.toNormalizedPathParameter(pp.t,
-						path.getMinParameter(), path.getMaxParameter());
+					+ PathNormalizer.toNormalizedPathParameter(pp.t,
+							path.getMinParameter(), path.getMaxParameter());
 		else
-			pp.t = closestPointIndexBack
-				+ 1 - PathNormalizer.toNormalizedPathParameter(pp.t,
-						path.getMinParameter(), path.getMaxParameter());
+			pp.t = closestPointIndexBack + 1
+					- PathNormalizer.toNormalizedPathParameter(pp.t,
+							path.getMinParameter(), path.getMaxParameter());
 
 		// Application.debug(pp.t);
 	}
 
 	/**
 	 * Nearest point to p
-	 * @param p point
+	 * 
+	 * @param p
+	 *            point
 	 */
 	public void getNearestPoint(final GeoPointND p) {
 		// Application.printStacktrace(p.inhomX+" "+p.inhomY);
 		double distance = Double.POSITIVE_INFINITY;
 		closestPointIndex = 0; // default - first object
-		
+
 		// double closestIndex = -1;
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
-			if (geo instanceof PathOrPoint){
+			if (geo instanceof PathOrPoint) {
 				final double d = p.distanceToPath((PathOrPoint) geo);
 
-				//Log.debug(i+" "+d+" "+distance+" "+geo);
+				// Log.debug(i+" "+d+" "+distance+" "+geo);
 				if (d < distance) {
 					distance = d;
 					closestPointIndex = i;
@@ -1790,7 +1816,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		return distance;
 	}
-	
+
 	@Override
 	public double distance(final GeoPointND p) {
 		double distance = Double.POSITIVE_INFINITY;
@@ -1804,12 +1830,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		return distance;
 	}
-	
-	
 
 	@Override
 	public void pathChanged(final GeoPointND PI) {
-		if(size()==0){
+		if (size() == 0) {
 			PI.setUndefined();
 			return;
 		}
@@ -1836,9 +1860,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		if (directionInfoOrdering != null)
 			n = directionInfoOrdering[n];
-		
+
 		GeoElement elementN = get(n);
-		
+
 		if (!(elementN instanceof PathOrPoint)) {
 			Log.debug("not path or point");
 			return;
@@ -1848,19 +1872,21 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		int pt = pp.getPathType();
 		if (path instanceof GeoQuadricND) {
-			pp.setPathType(((GeoQuadricND)path).getType());
+			pp.setPathType(((GeoQuadricND) path).getType());
 		}
-		
-		// check direction of the path, as it is not sure that the main list path
-		// has the same direction for minParameter and maxParameter as the subpathes
+
+		// check direction of the path, as it is not sure that the main list
+		// path
+		// has the same direction for minParameter and maxParameter as the
+		// subpathes
 		if ((directionInfoArray == null) || directionInfoArray[n]) {
 			pp.setT(PathNormalizer.toParentPathParameter(t - n1,
-				path.getMinParameter(), path.getMaxParameter()));
+					path.getMinParameter(), path.getMaxParameter()));
 		} else {
 			pp.setT(PathNormalizer.toParentPathParameter(n1 - t + 1,
-				path.getMinParameter(), path.getMaxParameter()));
+					path.getMinParameter(), path.getMaxParameter()));
 		}
-		
+
 		// Application.debug("pathChanged "+n);
 
 		path.pathChanged(PI);
@@ -1871,12 +1897,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		if ((directionInfoArray == null) || directionInfoArray[n])
 			pp.setT(PathNormalizer.toNormalizedPathParameter(t,
-				path.getMinParameter(), path.getMaxParameter())
-				+ n1);
+					path.getMinParameter(), path.getMaxParameter()) + n1);
 		else
-			pp.setT(1-PathNormalizer.toNormalizedPathParameter(t,
-				path.getMinParameter(), path.getMaxParameter())
-				+ n1);
+			pp.setT(1
+					- PathNormalizer.toNormalizedPathParameter(t,
+							path.getMinParameter(), path.getMaxParameter())
+					+ n1);
 
 		pp.setPathType(pt);
 	}
@@ -1919,9 +1945,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	@Override
-	public boolean hasMoveableInputPoints(final EuclidianViewInterfaceSlim view) {
+	public boolean hasMoveableInputPoints(
+			final EuclidianViewInterfaceSlim view) {
 		// we don't want e.g. DotPlots to be dragged
-		if (!((getParentAlgorithm() == null) || (getParentAlgorithm() instanceof AlgoDependentList))) {
+		if (!((getParentAlgorithm() == null)
+				|| (getParentAlgorithm() instanceof AlgoDependentList))) {
 			return false;
 		}
 		for (int i = 0; i < geoList.size(); i++) {
@@ -2033,9 +2061,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * Returns true if this list contains given geo
-	 * (check based on ==, not value equality)
-	 * @param geo geo to check
+	 * Returns true if this list contains given geo (check based on ==, not
+	 * value equality)
+	 * 
+	 * @param geo
+	 *            geo to check
 	 * @return true if the list contains given geo
 	 */
 	public boolean listContains(final GeoElement geo) {
@@ -2047,14 +2077,15 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		if(size()==0){
+		if (size() == 0) {
 			return false;
 		}
 		// check for matrix
 		if (getElementType().equals(GeoClass.LIST)) {
-			GeoClass geoClass =((GeoList)get(0)).getElementType();
-			return geoClass.equals(GeoClass.NUMERIC) || geoClass.equals(GeoClass.FUNCTION)
-					||geoClass.equals(GeoClass.NUMERIC);
+			GeoClass geoClass = ((GeoList) get(0)).getElementType();
+			return geoClass.equals(GeoClass.NUMERIC)
+					|| geoClass.equals(GeoClass.FUNCTION)
+					|| geoClass.equals(GeoClass.NUMERIC);
 		}
 
 		// don't check getGeoElementForPropertiesDialog
@@ -2063,9 +2094,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			return false;
 		}
 		boolean ret = true;
-		for (int i = 0 ; i < geoList.size() ; i++) {
+		for (int i = 0; i < geoList.size(); i++) {
 			GeoElement geo1 = geoList.get(i);
-			if (!geo1.isLaTeXDrawableGeo()){
+			if (!geo1.isLaTeXDrawableGeo()) {
 				return false;
 			}
 		}
@@ -2073,7 +2104,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 
 		resetSpreadsheetColumnHeadings();
 
@@ -2086,52 +2117,51 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				}
 			}
 		}
-		
 
 	}
-	
-	
+
 	private TraceModesEnum traceModes = null;
 
 	private boolean showOnAxis;
-	
-	
-	/**
-	 * @param geos list of geos
-	 * @return available trace to spreadsheet mode (values/copy) for the geos list
-	 */
-	final static public TraceModesEnum getTraceModes(ArrayList<GeoElement> geos){
-		
-		TraceModesEnum traceModes = null;
-		
 
-		for (GeoElement geo: geos){
-			
-			if (!geo.isSpreadsheetTraceable()){
+	/**
+	 * @param geos
+	 *            list of geos
+	 * @return available trace to spreadsheet mode (values/copy) for the geos
+	 *         list
+	 */
+	final static public TraceModesEnum getTraceModes(
+			ArrayList<GeoElement> geos) {
+
+		TraceModesEnum traceModes = null;
+
+		for (GeoElement geo : geos) {
+
+			if (!geo.isSpreadsheetTraceable()) {
 				traceModes = TraceModesEnum.NOT_TRACEABLE;
 				return traceModes;
 			}
-			
+
 			TraceModesEnum geoMode = geo.getTraceModes();
-			if (traceModes == null){
+			if (traceModes == null) {
 				traceModes = geoMode;
-				if (geoMode==TraceModesEnum.NOT_TRACEABLE)
+				if (geoMode == TraceModesEnum.NOT_TRACEABLE)
 					return traceModes;
-			}else{
-				switch(geoMode){
+			} else {
+				switch (geoMode) {
 				case NOT_TRACEABLE:
 					traceModes = TraceModesEnum.NOT_TRACEABLE;
 					return traceModes;
 				case ONE_VALUE_ONLY:
 				case SEVERAL_VALUES_ONLY:
-					if (traceModes == TraceModesEnum.ONLY_COPY){
+					if (traceModes == TraceModesEnum.ONLY_COPY) {
 						traceModes = TraceModesEnum.NOT_TRACEABLE;
 						return traceModes;
 					}
 
 					traceModes = TraceModesEnum.SEVERAL_VALUES_ONLY;
 					break;
-					
+
 				case ONE_VALUE_OR_COPY:
 				case SEVERAL_VALUES_OR_COPY:
 					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY)
@@ -2139,66 +2169,64 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 					else if (traceModes == TraceModesEnum.ONE_VALUE_OR_COPY)
 						traceModes = TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 					break;
-				
+
 				case ONLY_COPY:
-					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY 
-					|| traceModes == TraceModesEnum.SEVERAL_VALUES_ONLY){
+					if (traceModes == TraceModesEnum.ONE_VALUE_ONLY
+							|| traceModes == TraceModesEnum.SEVERAL_VALUES_ONLY) {
 						traceModes = TraceModesEnum.NOT_TRACEABLE;
 						return traceModes;
 					}
 
 					traceModes = TraceModesEnum.ONLY_COPY;
 					break;
-					
+
 				}
 			}
 		}
-		
-		
+
 		return traceModes;
-		
+
 	}
 
 	@Override
-	public TraceModesEnum getTraceModes(){
-		
+	public TraceModesEnum getTraceModes() {
+
 		if (traceModes != null)
 			return traceModes;
-		
-		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+
+		if (getParentAlgorithm() != null
+				&& (getParentAlgorithm() instanceof AlgoDependentList)) {
 			// list = {A, B} : traceModes is computed from A, B
 			traceModes = getTraceModes(geoList);
-		}else{
+		} else {
 			// e.g. Sequence[...] is only copied
 			traceModes = TraceModesEnum.ONLY_COPY;
 		}
-		
-		
-		
+
 		return traceModes;
 	}
-	
+
 	@Override
-	public boolean hasSpreadsheetTraceModeTraceable(){
-		return getTraceModes()!=TraceModesEnum.NOT_TRACEABLE;
+	public boolean hasSpreadsheetTraceModeTraceable() {
+		return getTraceModes() != TraceModesEnum.NOT_TRACEABLE;
 	}
 
-
 	@Override
-	public String getTraceDialogAsValues(){
+	public String getTraceDialogAsValues() {
 
 		StringBuilder sb = new StringBuilder();
-		
-		if(getParentAlgorithm()!=null && (getParentAlgorithm() instanceof AlgoDependentList)){
+
+		if (getParentAlgorithm() != null
+				&& (getParentAlgorithm() instanceof AlgoDependentList)) {
 			// list = {A, B} : names for A, B
 			boolean notFirst = false;
-			for (GeoElement geo: geoList){
+			for (GeoElement geo : geoList) {
 				if (notFirst)
 					sb.append(", ");
 				sb.append(geo.getTraceDialogAsValues());
 				notFirst = true;
 			}
-		}else{
+		} else {
 			// e.g. Sequence[...] : name of the list
 			sb.append(super.getTraceDialogAsValues());
 		}
@@ -2206,13 +2234,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		return sb.toString();
 	}
 
-
 	/*
 	 * default for elements implementing NumberValue interface eg GeoSegment,
 	 * GeoPolygon
 	 */
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
@@ -2248,20 +2276,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * Returns position of needle in this list or -1 when not found
-	 * @param needle geo to be found
+	 * 
+	 * @param needle
+	 *            geo to be found
 	 * @return position of needle in this list or -1 when not found
 	 */
 	public int find(GeoElement needle) {
 		return geoList.indexOf(needle);
 	}
+
 	/**
 	 * @return whether this list should be drawn as combobox
 	 */
 	public boolean drawAsComboBox() {
 		return drawAsComboBox;
 	}
+
 	/**
-	 * @param b whether this list should be drawn as combobox
+	 * @param b
+	 *            whether this list should be drawn as combobox
 	 */
 	public void setDrawAsComboBox(boolean b) {
 		drawAsComboBox = b;
@@ -2278,35 +2311,35 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	@Override
-	public boolean isAbsoluteScreenLocActive() {		
+	public boolean isAbsoluteScreenLocActive() {
 		return true;
 	}
 
 	@Override
-	public void setAbsoluteScreenLoc(int x, int y) {		
+	public void setAbsoluteScreenLoc(int x, int y) {
 
 		labelOffsetX = x;
-		labelOffsetY = y;		
+		labelOffsetY = y;
 	}
 
 	@Override
-	public int getAbsoluteScreenLocX() {	
+	public int getAbsoluteScreenLocX() {
 		return labelOffsetX;
 	}
 
 	@Override
-	public int getAbsoluteScreenLocY() {		
+	public int getAbsoluteScreenLocY() {
 		return labelOffsetY;
 	}
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -2330,49 +2363,55 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * attempts to calculate mean of the list
-	 * if any non-numeric elements are found, Double.NAN will be returned
+	 * attempts to calculate mean of the list if any non-numeric elements are
+	 * found, Double.NAN will be returned
+	 * 
 	 * @return mean or Double.NAN
 	 */
 	public double mean() {
-		
+
 		if (size() == 0) {
 			return Double.NaN;
 		}
-		
+
 		double sum = 0;
-		for (int i = 0 ; i < size() ; i++) {
+		for (int i = 0; i < size(); i++) {
 			GeoElement geo = get(i);
 			if (geo instanceof NumberValue) {
-				sum += ((NumberValue)geo).getDouble();
+				sum += ((NumberValue) geo).getDouble();
 			} else {
 				return Double.NaN;
 			}
 		}
-		
+
 		return sum / size();
-		
-		
+
 	}
 
-	private boolean [] directionInfoArray = null; // true if minParameter is for start
-	private int [] directionInfoOrdering = null; // simple map to the ordered indexes
-	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not enough
-	private boolean locusCalledAlgoLocusList = false;// if a locus ever used this list as a path
+	private boolean[] directionInfoArray = null; // true if minParameter is for
+													// start
+	private int[] directionInfoOrdering = null; // simple map to the ordered
+												// indexes
+	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not
+													// enough
+	private boolean locusCalledAlgoLocusList = false;// if a locus ever used
+														// this list as a path
 
 	/**
-	 * Before creating a locus based on this GeoList as a path,
-	 * this method decides whether the locus algo should be AlgoLocus or AlgoLocusList.
-	 * @param locusCalling whether this method was called by locus
+	 * Before creating a locus based on this GeoList as a path, this method
+	 * decides whether the locus algo should be AlgoLocus or AlgoLocusList.
+	 * 
+	 * @param locusCalling
+	 *            whether this method was called by locus
 	 * 
 	 * @return boolean true if AlgoLocusList should be used.
 	 */
 	public boolean shouldUseAlgoLocusList(boolean locusCalling) {
 
-		GeoPoint [] minParArray = new GeoPoint[this.size()];
-		GeoPoint [] maxParArray = new GeoPoint[this.size()];
-		GeoPoint [] minParStatic = new GeoPoint[this.size()];
-		GeoPoint [] maxParStatic = new GeoPoint[this.size()];
+		GeoPoint[] minParArray = new GeoPoint[this.size()];
+		GeoPoint[] maxParArray = new GeoPoint[this.size()];
+		GeoPoint[] minParStatic = new GeoPoint[this.size()];
+		GeoPoint[] maxParStatic = new GeoPoint[this.size()];
 
 		// if there is no locus using this, the answer is not important
 		if (!locusCalledAlgoLocusList && !locusCalling) {
@@ -2389,43 +2428,41 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		locusCalledAlgoLocusList = true;
 
 		int i = 0;
-		for (; i < this.size(); i++)
-		{
-			directionInfoArray[i] = true;// at first this is used as helper array
+		for (; i < this.size(); i++) {
+			directionInfoArray[i] = true;// at first this is used as helper
+											// array
 			directionInfoOrdering[i] = i;
 
-			if ((Path)get(i) instanceof GeoSegment) {
-				minParArray[i] = ((GeoSegment)get(i)).getStartPoint();
-				maxParArray[i] = ((GeoSegment)get(i)).getEndPoint();
-			} else if ((Path)get(i) instanceof GeoLine) {
-				minParArray[i] = ((GeoLine)get(i)).getStartPoint();
-				maxParArray[i] = ((GeoLine)get(i)).getEndPoint();
-			} else if ((Path)get(i) instanceof GeoConicPart) {
-				if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
-					minParArray[i] =
-						(GeoPoint) ((AlgoConicPartConicPoints)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getStartPoint();
-					maxParArray[i] = 
-						(GeoPoint) ((AlgoConicPartConicPoints)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getEndPoint();
-				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
-					minParArray[i] = (GeoPoint)
-						((AlgoConicPartCircumcircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
-					maxParArray[i] = (GeoPoint)
-						((AlgoConicPartCircumcircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[2];
-				} else if (((GeoConicPart)get(i)).getParentAlgorithm() instanceof AlgoSemicircle) {
-					// AlgoSemiCircle's endpoints counted in reverse order in GeoConicPart
-					minParArray[i] = (GeoPoint)
-						((AlgoSemicircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[1];
-					maxParArray[i] = (GeoPoint)
-						((AlgoSemicircle)
-							((GeoConicPart)get(i)).getParentAlgorithm()).getInput()[0];
+			if ((Path) get(i) instanceof GeoSegment) {
+				minParArray[i] = ((GeoSegment) get(i)).getStartPoint();
+				maxParArray[i] = ((GeoSegment) get(i)).getEndPoint();
+			} else if ((Path) get(i) instanceof GeoLine) {
+				minParArray[i] = ((GeoLine) get(i)).getStartPoint();
+				maxParArray[i] = ((GeoLine) get(i)).getEndPoint();
+			} else if ((Path) get(i) instanceof GeoConicPart) {
+				if (((GeoConicPart) get(i))
+						.getParentAlgorithm() instanceof AlgoConicPartConicPoints) {
+					minParArray[i] = (GeoPoint) ((AlgoConicPartConicPoints) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getStartPoint();
+					maxParArray[i] = (GeoPoint) ((AlgoConicPartConicPoints) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getEndPoint();
+				} else if (((GeoConicPart) get(i))
+						.getParentAlgorithm() instanceof AlgoConicPartCircumcircle) {
+					minParArray[i] = (GeoPoint) ((AlgoConicPartCircumcircle) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getInput()[0];
+					maxParArray[i] = (GeoPoint) ((AlgoConicPartCircumcircle) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getInput()[2];
+				} else if (((GeoConicPart) get(i))
+						.getParentAlgorithm() instanceof AlgoSemicircle) {
+					// AlgoSemiCircle's endpoints counted in reverse order in
+					// GeoConicPart
+					minParArray[i] = (GeoPoint) ((AlgoSemicircle) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getInput()[1];
+					maxParArray[i] = (GeoPoint) ((AlgoSemicircle) ((GeoConicPart) get(
+							i)).getParentAlgorithm()).getInput()[0];
 				} else {
-					minParArray[i] = ((GeoConicPart)get(i)).getPointParam(0);
-					maxParArray[i] = ((GeoConicPart)get(i)).getPointParam(1);
+					minParArray[i] = ((GeoConicPart) get(i)).getPointParam(0);
+					maxParArray[i] = ((GeoConicPart) get(i)).getPointParam(1);
 				}
 			} else {
 				minParArray[i] = null;
@@ -2442,27 +2479,31 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			return true;
 		}
 
-		// this algorithm is just for deciding if this is a "directed graph circle"
+		// this algorithm is just for deciding if this is a "directed graph
+		// circle"
 
 		for (int j = 0; j < this.size(); j++) {
 			// to get this data, at first the subpaths should be joined,
 			// to have compatible directions, and then the joined thing
 			// should be made compatible with the main path too
 
-			for (i = j + 1; i < this.size(); i++) {//search, join
+			for (i = j + 1; i < this.size(); i++) {// search, join
 				if (GeoPoint.samePosition(minParArray[j], minParArray[i])) {
 					minParArray[i] = maxParArray[j];
 					i = 0;
 					break;
-				} else if (GeoPoint.samePosition(minParArray[j], maxParArray[i])) {
+				} else if (GeoPoint.samePosition(minParArray[j],
+						maxParArray[i])) {
 					maxParArray[i] = maxParArray[j];
 					i = 0;
 					break;
-				} else if (GeoPoint.samePosition(maxParArray[j], minParArray[i])) {
+				} else if (GeoPoint.samePosition(maxParArray[j],
+						minParArray[i])) {
 					minParArray[i] = minParArray[j];
 					i = 0;
 					break;
-				} else if (GeoPoint.samePosition(maxParArray[j], maxParArray[i])) {
+				} else if (GeoPoint.samePosition(maxParArray[j],
+						maxParArray[i])) {
 					maxParArray[i] = minParArray[j];
 					i = 0;
 					break;
@@ -2473,15 +2514,16 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				// there was no match, so this path is not a circle graph
 				directionInfoArray = null;
 				directionInfoOrdering = null;
-				return true;//AlgoLocusList
+				return true;// AlgoLocusList
 			}
 		}
 		// otherwise everything has been reduced to one
-		if (!GeoPoint.samePosition(minParArray[this.size() - 1], maxParArray[this.size() - 1])) {
+		if (!GeoPoint.samePosition(minParArray[this.size() - 1],
+				maxParArray[this.size() - 1])) {
 			// this path is not a circle graph, but a line graph
 			directionInfoArray = null;
 			directionInfoOrdering = null;
-			return true;//AlgoLocusList
+			return true;// AlgoLocusList
 		}
 
 		// otherwise use AlgoLocus
@@ -2491,40 +2533,47 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		// directionInfoOrdering: which index is the next
 		// at first search for a minimum index to start from
 		int ii = 0;
-		boolean direction = true;//min-max direction is true in theory... (why false in testing?)
+		boolean direction = true;// min-max direction is true in theory... (why
+									// false in testing?)
 
 		// starting from ii, determine the ordering
 		// here we use the information that this is a "directed graph circle"
 		for (int j = 0; j < this.size(); j++) {
 			directionInfoOrdering[j] = ii;
-			directionInfoArray[ii] = direction;//direction of ii
+			directionInfoArray[ii] = direction;// direction of ii
 
 			// search for the thing after ii with the help of the ref tree
 			for (i = 0; i < this.size(); i++) {
-				if (i == ii) continue;// it is not the same as itself
+				if (i == ii)
+					continue;// it is not the same as itself
 
-				if (j > 0)// it is not the same as the previous (or other direction)
-					if (directionInfoOrdering[j-1] == i)
+				if (j > 0)// it is not the same as the previous (or other
+							// direction)
+					if (directionInfoOrdering[j - 1] == i)
 						continue;
 
 				if (direction) {
 					// if direction of ii is true, then use its maxParStatic
 					// end to match with i
-					if (GeoPoint.samePosition(maxParStatic[ii], minParStatic[i])) {
+					if (GeoPoint.samePosition(maxParStatic[ii],
+							minParStatic[i])) {
 						ii = i;
 						direction = true;
 						break;
-					} else if (GeoPoint.samePosition(maxParStatic[ii], maxParStatic[i])) {
+					} else if (GeoPoint.samePosition(maxParStatic[ii],
+							maxParStatic[i])) {
 						ii = i;
 						direction = false;
 						break;
 					}
 				} else {
-					if (GeoPoint.samePosition(minParStatic[ii], minParStatic[i])) {
+					if (GeoPoint.samePosition(minParStatic[ii],
+							minParStatic[i])) {
 						ii = i;
 						direction = true;
 						break;
-					} else if (GeoPoint.samePosition(minParStatic[ii], maxParStatic[i])) {
+					} else if (GeoPoint.samePosition(minParStatic[ii],
+							maxParStatic[i])) {
 						ii = i;
 						direction = false;
 						break;
@@ -2551,7 +2600,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	@Override
 	public void setShowOnAxis(boolean showOnAxis) {
 		this.showOnAxis = showOnAxis;
-		
+
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);
 			if (!geo.isLabelSet() && (geo instanceof InequalityProperties)) {
@@ -2559,27 +2608,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * @return true if this list contains a 3D geo
 	 */
-	public boolean containsGeoElement3D(){
-		for (GeoElement geo : geoList){
+	public boolean containsGeoElement3D() {
+		for (GeoElement geo : geoList) {
 			boolean contains = false;
-			if (geo.isGeoList()){
+			if (geo.isGeoList()) {
 				contains = ((GeoList) geo).containsGeoElement3D();
-			}else{
+			} else {
 				contains = geo.isGeoElement3D();
 			}
 			if (contains)
 				return true;
 		}
-		
+
 		return false;
 	}
-	
-	
+
 	@Override
 	final public Coords getMainDirection() {
 		if (geoList.size() <= closestPointIndex) {
@@ -2603,9 +2650,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * Changes angle style and recomputes the value from raw.
-	 * See GeoAngle.ANGLE_*
-	 * @param angleStyle clockwise, anticlockwise, (force) reflex or (force) not reflex
+	 * Changes angle style and recomputes the value from raw. See
+	 * GeoAngle.ANGLE_*
+	 * 
+	 * @param angleStyle
+	 *            clockwise, anticlockwise, (force) reflex or (force) not reflex
 	 */
 	@Override
 	public void setAngleStyle(AngleStyle angleStyle) {
@@ -2615,9 +2664,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		this.angleStyle = newAngleStyle;
 		switch (newAngleStyle) {
-		//case GeoAngle.ANGLE_ISCLOCKWISE:
-		//	newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
-		//	break;
+		// case GeoAngle.ANGLE_ISCLOCKWISE:
+		// newAngleStyle = GeoAngle.ANGLE_ISCLOCKWISE;
+		// break;
 
 		case NOTREFLEX:
 			newAngleStyle = AngleStyle.NOTREFLEX;
@@ -2631,13 +2680,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			newAngleStyle = AngleStyle.ANTICLOCKWISE;
 		}
 
-		for (GeoElement geo: geoList) {
+		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
 				((AngleProperties) geo).setAngleStyle(angleStyle);
 			}
 		}
 	}
-
 
 	@Override
 	public AngleStyle getAngleStyle() {
@@ -2652,7 +2700,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	/**
 	 * Depending upon angleStyle, some values > pi will be changed to (2pi -
 	 * value). raw_value contains the original value.
-	 * @param allowReflexAngle If true, angle is allowed to be> 180 degrees
+	 * 
+	 * @param allowReflexAngle
+	 *            If true, angle is allowed to be> 180 degrees
 	 * 
 	 */
 	@Override
@@ -2675,59 +2725,63 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			setAngleStyle(AngleStyle.ANTICLOCKWISE);
 		else
 			setAngleStyle(AngleStyle.NOTREFLEX);
-	
-		for (GeoElement geo: geoList) {
+
+		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
 				((AngleProperties) geo).setAllowReflexAngle(allowReflexAngle);
 			}
 		}
-		
+
 	}
 
 	/**
 	 * Sets this angle shuld be drawn differently when right
-	 * @param emphasizeRightAngle true iff this angle shuld be drawn differently when right
+	 * 
+	 * @param emphasizeRightAngle
+	 *            true iff this angle shuld be drawn differently when right
 	 */
 	@Override
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {
 		this.emphasizeRightAngle = emphasizeRightAngle;
-	
-		for (GeoElement geo: geoList) {
+
+		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
-				((AngleProperties) geo).setEmphasizeRightAngle(emphasizeRightAngle);
+				((AngleProperties) geo)
+						.setEmphasizeRightAngle(emphasizeRightAngle);
 			}
 		}
-		
+
 	}
 
 	/**
 	 * Forces angle to be reflex or switches it to anticlockwise
-	 * @param forceReflexAngle switch to reflex for true
+	 * 
+	 * @param forceReflexAngle
+	 *            switch to reflex for true
 	 */
 	@Override
 	final public void setForceReflexAngle(boolean forceReflexAngle) {
 
-		if (forceReflexAngle){
+		if (forceReflexAngle) {
 			setAngleStyle(AngleStyle.ISREFLEX);
-		}
-		else if(angleStyle == AngleStyle.ISREFLEX){
+		} else if (angleStyle == AngleStyle.ISREFLEX) {
 			setAngleStyle(AngleStyle.ANTICLOCKWISE);
-		}		
-	
-		for (GeoElement geo: geoList) {
+		}
+
+		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
 				((AngleProperties) geo).setForceReflexAngle(forceReflexAngle);
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public void setDecorationType(int type) {
 		setDecorationType(type, GeoAngle.getDecoTypes().length);
-		
+
 		if (geoList != null) {
-			for (GeoElement geo: geoList) {
+			for (GeoElement geo : geoList) {
 				if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
 					((AngleProperties) geo).setDecorationType(type);
 				}
@@ -2736,25 +2790,27 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	}
 
-
-	/** 
-	 * Change the size of the arc in pixels, 
-	 * @param i arc size, should be in <10,100>
+	/**
+	 * Change the size of the arc in pixels,
+	 * 
+	 * @param i
+	 *            arc size, should be in <10,100>
 	 */
 	@Override
 	public void setArcSize(int i) {
 		arcSize = i;
-	
-		for (GeoElement geo: geoList) {
+
+		for (GeoElement geo : geoList) {
 			if (!geo.isLabelSet() && (geo instanceof AngleProperties)) {
 				((AngleProperties) geo).setArcSize(i);
 			}
 		}
-		
+
 	}
 
-	/** 
+	/**
 	 * returns size of the arc in pixels
+	 * 
 	 * @return arc size in pixels
 	 */
 	@Override
@@ -2772,50 +2828,49 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	/**
-	 * @param vars sequence variable that should be replaced by its free copy
+	 * @param vars
+	 *            sequence variable that should be replaced by its free copy
 	 */
 	public void replaceChildrenByValues(GeoElement vars) {
-		if(this.elementType != GeoClass.FUNCTION &&
-				this.elementType != GeoClass.CURVE_CARTESIAN &&
-				this.elementType != GeoClass.CURVE_CARTESIAN3D
-				&&
-				this.elementType != GeoClass.FUNCTION_NVAR &&
-				this.elementType != GeoClass.SURFACECARTESIAN3D &&
-				this.elementType != GeoClass.LIST &&
-				this.elementType != ELEMENT_TYPE_MIXED){
+		if (this.elementType != GeoClass.FUNCTION
+				&& this.elementType != GeoClass.CURVE_CARTESIAN
+				&& this.elementType != GeoClass.CURVE_CARTESIAN3D
+				&& this.elementType != GeoClass.FUNCTION_NVAR
+				&& this.elementType != GeoClass.SURFACECARTESIAN3D
+				&& this.elementType != GeoClass.LIST
+				&& this.elementType != ELEMENT_TYPE_MIXED) {
 			return;
 		}
-		for(GeoElement listElement:this.geoList){
+		for (GeoElement listElement : this.geoList) {
 			if (listElement instanceof CasEvaluableFunction) {
 				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
 				f.replaceChildrenByValues(vars);
 			}
 
-			else if(listElement.isGeoList()){
-				((GeoList)listElement).replaceChildrenByValues(vars);
+			else if (listElement.isGeoList()) {
+				((GeoList) listElement).replaceChildrenByValues(vars);
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public String getLabelDescription() {
 		if (labelMode == LABEL_CAPTION) {
 			return getCaption(StringTemplate.defaultTemplate);
 		}
-		
+
 		// return label;
 		// Mathieu Blossier - 2009-06-30
 		return getLabel(StringTemplate.defaultTemplate);
 	}
-	
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		// TODO check elements
 		return HitType.ON_FILLING;
 	}
-	
+
 	/**
 	 * Add number to the end, use cache if possible. Assume all cached elements
 	 * are GeoNumerics.
@@ -2855,8 +2910,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 * @param parent
 	 *            parent algorithm of the new point
 	 */
-	public void addPoint(double x, double y, double z,
-			AlgoElement parent) {
+	public void addPoint(double x, double y, double z, AlgoElement parent) {
 		GeoPoint listElement;
 		if (size() < getCacheSize()) {
 			// use existing list element

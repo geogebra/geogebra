@@ -60,8 +60,8 @@ public class CmdToolImage extends CommandProcessor {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = StringUtil.toLowerCase(EuclidianConstants
-						.getModeText(mode));
+				String modeStr = StringUtil
+						.toLowerCase(EuclidianConstants.getModeText(mode));
 
 				if ("".equals(modeStr)) {
 					throw argErr(app, c.getName(), arg[0]);
@@ -69,8 +69,8 @@ public class CmdToolImage extends CommandProcessor {
 
 				// TODO Fix me
 
-				GeoImage geoImage = new GeoImage(app.getKernel()
-						.getConstruction());
+				GeoImage geoImage = new GeoImage(
+						app.getKernel().getConstruction());
 				if (app.getGuiManager() != null) {
 
 					String fileName = app.getGuiManager().getToolImageURL(mode,

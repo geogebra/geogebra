@@ -66,6 +66,4 @@ public class AlgoIsInteger extends AlgoElement {
 		outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
 	}
 
-	
-
 }

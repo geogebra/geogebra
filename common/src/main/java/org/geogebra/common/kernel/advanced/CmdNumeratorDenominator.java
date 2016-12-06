@@ -42,18 +42,15 @@ public class CmdNumeratorDenominator extends CommandProcessor {
 
 			if (arg[0] instanceof FunctionalNVar) {
 
-				AlgoNumeratorDenominatorFun algo = new AlgoNumeratorDenominatorFun(cons, c.getLabel(),
- (FunctionalNVar) arg[0],
- type);
+				AlgoNumeratorDenominatorFun algo = new AlgoNumeratorDenominatorFun(
+						cons, c.getLabel(), (FunctionalNVar) arg[0], type);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (arg[0] instanceof GeoNumeric) {
 				AlgoNumeratorDenominator algo = new AlgoNumeratorDenominator(
-						cons,
- c.getLabel(), (GeoNumeric) arg[0],
- type);
+						cons, c.getLabel(), (GeoNumeric) arg[0], type);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

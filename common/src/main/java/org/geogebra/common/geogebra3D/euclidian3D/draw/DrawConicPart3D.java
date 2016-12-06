@@ -48,16 +48,13 @@ public class DrawConicPart3D extends DrawConic3D {
 			double end) {
 
 		// if sector draws segments
-		if (((GeoConicPartND) getGeoElement()).getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+		if (((GeoConicPartND) getGeoElement())
+				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			brush.setAffineTexture(0.5f, 0.25f);
-			brush.segment(
-					m,
-					m.add(ev1.mul(e1 * Math.cos(start))).add(
-							ev2.mul(e2 * Math.sin(start))));
-			brush.segment(
-					m,
-					m.add(ev1.mul(e1 * Math.cos(end))).add(
-							ev2.mul(e2 * Math.sin(end))));
+			brush.segment(m, m.add(ev1.mul(e1 * Math.cos(start)))
+					.add(ev2.mul(e2 * Math.sin(start))));
+			brush.segment(m, m.add(ev1.mul(e1 * Math.cos(end)))
+					.add(ev2.mul(e2 * Math.sin(end))));
 		}
 	}
 
@@ -92,7 +89,8 @@ public class DrawConicPart3D extends DrawConic3D {
 
 	@Override
 	protected boolean isSector() {
-		return ((GeoConicPartND) conic).getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
+		return ((GeoConicPartND) conic)
+				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
 	}
 
 }

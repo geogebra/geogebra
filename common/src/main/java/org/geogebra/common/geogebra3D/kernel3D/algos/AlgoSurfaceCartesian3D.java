@@ -48,9 +48,8 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoSurfaceCartesian3D(Construction cons, String label,
-			ExpressionNode point,
-			GeoNumberValue[] coords, GeoNumeric[] localVar,
-			GeoNumberValue[] from, GeoNumberValue[] to) {
+			ExpressionNode point, GeoNumberValue[] coords,
+			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {
 		super(cons);
 
 		this.coords = coords;
@@ -64,22 +63,21 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		FunctionVariable[] funVar = new FunctionVariable[localVar.length];
 		for (int i = 0; i < localVar.length; i++) {
 			funVar[i] = new FunctionVariable(kernel);
-			funVar[i].setVarString(localVar[i]
-					.getLabel(StringTemplate.defaultTemplate));
+			funVar[i].setVarString(
+					localVar[i].getLabel(StringTemplate.defaultTemplate));
 		}
 
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		FunctionNVar[] fun = new FunctionNVar[coords.length];
 
 		for (int i = 0; i < coords.length; i++) {
-			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i]
-					.toGeoElement());
+			exp[i] = kernel.convertNumberValueToExpressionNode(
+					coords[i].toGeoElement());
 			for (int j = 0; j < localVar.length; j++) {
 				exp[i] = exp[i].replace(localVar[j], funVar[j]).wrap();
 			}
 			fun[i] = new FunctionNVar(exp[i], funVar);
 		}
-
 
 		// create the curve
 		surface = createCurve(cons, point, fun);
@@ -115,10 +113,10 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		if (surface.getPointExpression() != null) {
 			input = new GeoElement[1 + 3 * localVar.length];
 			offset = 1;
-			input[0] = new AlgoDependentFunction(cons, new Function(
-surface.getPointExpression(),
-							new FunctionVariable(kernel)), false)
-.getFunction();
+			input[0] = new AlgoDependentFunction(cons,
+					new Function(surface.getPointExpression(),
+							new FunctionVariable(kernel)),
+					false).getFunction();
 			for (int i = 0; i < offset; i++) {
 				coords[i].toGeoElement().addAlgorithm(this);
 			}
@@ -127,7 +125,6 @@ surface.getPointExpression(),
 			for (int i = 0; i < coords.length; i++)
 				input[i] = coords[i].toGeoElement();
 		}
-
 
 		for (int i = 0; i < localVar.length; i++) {
 			input[offset + 3 * i] = localVar[i];
@@ -210,9 +207,6 @@ surface.getPointExpression(),
 		// so we only set the interval
 		surface.setIntervals(min, max);
 
-
 	}
 
-
-	
 }

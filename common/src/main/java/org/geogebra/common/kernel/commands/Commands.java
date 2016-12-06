@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 @SuppressWarnings("javadoc")
 public enum Commands implements CommandsConstants,
 
-	GetCommand {
+		GetCommand {
 
 	// Subtables are separated by comment lines here.
 

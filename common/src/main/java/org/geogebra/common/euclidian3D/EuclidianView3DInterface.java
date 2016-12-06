@@ -28,7 +28,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public void setRotAnimation(Coords vn, boolean checkSameValues,
 			boolean animated);
-	
+
 	/**
 	 * start a rotation animation to set angle around Oz axis
 	 * 
@@ -173,7 +173,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * update all drawables
 	 */
 	public void updateAllDrawables();
-	
+
 	/**
 	 * 
 	 * @return eye position

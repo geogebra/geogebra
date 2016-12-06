@@ -406,6 +406,4 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 	// return sum;
 	// }
 
-	
-
 }

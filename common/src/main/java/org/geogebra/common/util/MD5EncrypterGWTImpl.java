@@ -156,7 +156,8 @@ public class MD5EncrypterGWTImpl {
 		int lWordCount;
 		int lMessageLength = string.length();
 		int lNumberOfWords_temp1 = lMessageLength + 8;
-		int lNumberOfWords_temp2 = (lNumberOfWords_temp1 - (lNumberOfWords_temp1 % 64)) / 64;
+		int lNumberOfWords_temp2 = (lNumberOfWords_temp1
+				- (lNumberOfWords_temp1 % 64)) / 64;
 		int lNumberOfWords = (lNumberOfWords_temp2 + 1) * 16;
 		int[] lWordArray = new int[lNumberOfWords];
 		int lBytePosition = 0;
@@ -164,8 +165,8 @@ public class MD5EncrypterGWTImpl {
 		while (lByteCount < lMessageLength) {
 			lWordCount = (lByteCount - (lByteCount % 4)) / 4;
 			lBytePosition = (lByteCount % 4) * 8;
-			lWordArray[lWordCount] = (lWordArray[lWordCount] | (string
-					.charAt(lByteCount) << lBytePosition));
+			lWordArray[lWordCount] = (lWordArray[lWordCount]
+					| (string.charAt(lByteCount) << lBytePosition));
 			lByteCount++;
 		}
 		lWordCount = (lByteCount - (lByteCount % 4)) / 4;
@@ -242,9 +243,8 @@ public class MD5EncrypterGWTImpl {
 		for (lCount = 0; lCount <= 3; lCount++) {
 			lByte = (lValue >>> (lCount * 8)) & 255;
 			WordToHexValue_temp = "0" + Integer.toHexString(lByte);
-			WordToHexValue = WordToHexValue
-					+ WordToHexValue_temp.substring(WordToHexValue_temp
-							.length() - 2);
+			WordToHexValue = WordToHexValue + WordToHexValue_temp
+					.substring(WordToHexValue_temp.length() - 2);
 		}
 		return WordToHexValue;
 	}

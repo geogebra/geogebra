@@ -9,10 +9,9 @@ import org.geogebra.common.main.Localization;
 
 public class ConicEqnModel extends MultipleOptionsModel {
 
-
 	private Localization loc;
-	int implicitIndex, explicitIndex, specificIndex, parametricIndex,
-			userIndex, vertexformIndex, conicformIndex;
+	int implicitIndex, explicitIndex, specificIndex, parametricIndex, userIndex,
+			vertexformIndex, conicformIndex;
 
 	public ConicEqnModel(App app) {
 		super(app);
@@ -82,23 +81,19 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		int counter = -1;
 		getListener().clearItems();
 		if (specificPossible) {
-			getListener().addItem(geo0
-					.getSpecificEquation());
+			getListener().addItem(geo0.getSpecificEquation());
 			specificIndex = ++counter;
 		}
 		if (explicitPossible) {
-			getListener().addItem(loc
-					.getPlain("ExplicitConicEquation"));
+			getListener().addItem(loc.getPlain("ExplicitConicEquation"));
 			explicitIndex = ++counter;
 		}
 		if (userPossible) {
-			getListener().addItem(loc
-					.getPlain("InputForm"));
+			getListener().addItem(loc.getPlain("InputForm"));
 			userIndex = ++counter;
 		}
 		implicitIndex = ++counter;
-		getListener().addItem(loc
-				.getPlain("ImplicitConicEquation"));
+		getListener().addItem(loc.getPlain("ImplicitConicEquation"));
 		if (vertexformPossible) {
 			getListener().addItem(loc.getPlain("ParabolaVertexForm"));
 			vertexformIndex = ++counter;
@@ -146,7 +141,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			getListener().setSelectedIndex(-1);
 		}
 	}
-	
+
 	@Override
 	public List<String> getChoiches(Localization loc) {
 		// Not used

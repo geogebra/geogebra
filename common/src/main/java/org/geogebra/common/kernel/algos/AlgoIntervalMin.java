@@ -32,6 +32,4 @@ public class AlgoIntervalMin extends AlgoIntervalAbstract {
 		result.setValue(interval.getMin());
 	}
 
-	
-
 }

@@ -129,8 +129,8 @@ public abstract class GeoGebraTubeExport {
 		// build post query
 		StringBuilder sb = new StringBuilder();
 		sb.append("data=");
-		sb.append(encode(isConstruction ? getBase64String()
-				: getBase64Tools(macros)));
+		sb.append(encode(
+				isConstruction ? getBase64String() : getBase64Tools(macros)));
 
 		sb.append("&type=");
 		sb.append(isConstruction ? "ggb" : "ggt");

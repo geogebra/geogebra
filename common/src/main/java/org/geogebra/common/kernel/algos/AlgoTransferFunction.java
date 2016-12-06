@@ -21,7 +21,6 @@ public class AlgoTransferFunction extends AlgoElement {
 	private GeoList num;
 	private GeoList den;
 
-
 	/**
 	 * @param c
 	 *            construction

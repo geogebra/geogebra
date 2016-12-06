@@ -67,8 +67,8 @@ public class ShareRequest implements Request {
 	 *            Material
 	 * @return DeleteRequest
 	 */
-	public static ShareRequest getRequestElement(Material mat,
-			String recipient, String message) {
+	public static ShareRequest getRequestElement(Material mat, String recipient,
+			String message) {
 		return new ShareRequest(mat, recipient, message);
 	}
 }

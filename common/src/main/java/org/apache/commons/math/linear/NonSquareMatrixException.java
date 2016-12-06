@@ -17,25 +17,30 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.linear;
 
-
 /**
- * Thrown when an operation defined only for square matrices is applied to non-square ones.
- * @version $Revision: 799857 $ $Date: 2009-08-01 09:07:12 -0400 (Sat, 01 Aug 2009) $
+ * Thrown when an operation defined only for square matrices is applied to
+ * non-square ones.
+ * 
+ * @version $Revision: 799857 $ $Date: 2009-08-01 09:07:12 -0400 (Sat, 01 Aug
+ *          2009) $
  * @since 2.0
  */
 public class NonSquareMatrixException extends InvalidMatrixException {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 8996207526636673730L;
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = 8996207526636673730L;
 
-    /**
-     * Construct an exception with the given message.
-     * @param rows number of rows of the faulty matrix
-     * @param columns number of columns of the faulty matrix
-     */
-    public NonSquareMatrixException(final int rows, final int columns) {
-        super("a {0}x{1} matrix was provided instead of a square matrix",
-              rows, columns);
-    }
+	/**
+	 * Construct an exception with the given message.
+	 * 
+	 * @param rows
+	 *            number of rows of the faulty matrix
+	 * @param columns
+	 *            number of columns of the faulty matrix
+	 */
+	public NonSquareMatrixException(final int rows, final int columns) {
+		super("a {0}x{1} matrix was provided instead of a square matrix", rows,
+				columns);
+	}
 
 }

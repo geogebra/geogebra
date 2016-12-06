@@ -47,8 +47,7 @@ public class Textures {
 	/** number of dash styles */
 	static private int DASH_NUMBER = 10;
 	/** description of the dash styles */
-	static private boolean[][] DASH_DESCRIPTION = {
-			{ true }, // DASH_NONE
+	static private boolean[][] DASH_DESCRIPTION = { { true }, // DASH_NONE
 			{ true, false, true, false }, // DASH_SHORT
 			{ true, false, false, false }, // DASH_LONG_HIDDEN
 			{ true, false, true, false, true, false, true, false }, // DASH_DOTTED
@@ -58,8 +57,8 @@ public class Textures {
 			{ true, true, false, false }, // DASH_LONG
 			{ true, true, true, true, true, true, true, false, false, false,
 					false, true, false, false, false, false }, // DASH_DOTTED_DASHED
-			{ false, false, true, true, true, false, false, false, false,
-					false, false, true, false, false, false, false } // DASH_DOTTED_DASHED_HIDDEN
+			{ false, false, true, true, true, false, false, false, false, false,
+					false, true, false, false, false, false } // DASH_DOTTED_DASHED_HIDDEN
 
 	};
 

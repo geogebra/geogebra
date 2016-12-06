@@ -47,238 +47,228 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.convex_hull.j
  */
 public class ConvexHull {
 
-    static class PointComparator implements Comparator<Point2D> {
+	static class PointComparator implements Comparator<Point2D> {
 
-        /*
-         * Sorts the points so that the lowest - leftmost one is the first.
-         * Used by both Graham's and Jarvis's algorithms.
-         */
-        public int compare(Point2D o1, Point2D o2) {
-            double y1 = o1.getY();
-            double y2 = o2.getY();
-            double yDiff = y1 - y2;
-            double errorTolerance = LineAndPointUtils.getErrorTolerance();
-            if (yDiff < -errorTolerance) {
-                return -1;
-            } else if (yDiff>errorTolerance) {
-                return 1;
-            } else{
-                double x1 = o1.getX();
-                double x2 = o2.getX();
-                double xDiff = x1 - x2;
+		/*
+		 * Sorts the points so that the lowest - leftmost one is the first. Used
+		 * by both Graham's and Jarvis's algorithms.
+		 */
+		public int compare(Point2D o1, Point2D o2) {
+			double y1 = o1.getY();
+			double y2 = o2.getY();
+			double yDiff = y1 - y2;
+			double errorTolerance = LineAndPointUtils.getErrorTolerance();
+			if (yDiff < -errorTolerance) {
+				return -1;
+			} else if (yDiff > errorTolerance) {
+				return 1;
+			} else {
+				double x1 = o1.getX();
+				double x2 = o2.getX();
+				double xDiff = x1 - x2;
 
-                if (xDiff < -errorTolerance) {
-                    return -1;
-                } else if (xDiff > errorTolerance) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }
-        }
-    }
+				if (xDiff < -errorTolerance) {
+					return -1;
+				} else if (xDiff > errorTolerance) {
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		}
+	}
 
-    /*static class PointComparator implements Comparator<Point2D> {
+	/*
+	 * static class PointComparator implements Comparator<Point2D> {
+	 * 
+	 * public int compare(Point2D o1, Point2D o2) { double y1 = o1.getY();
+	 * double y2 = o2.getY(); if (y1 < y2) { return -1; } else if (y1 == y2) {
+	 * double x1 = o1.getX(); double x2 = o2.getX();
+	 * 
+	 * if (x1 < x2) { return -1; } else if (x1 == x2) { return 0; } else {
+	 * return 1; } } else { return 1; } } }
+	 */
 
-        public int compare(Point2D o1, Point2D o2) {
-            double y1 = o1.getY();
-            double y2 = o2.getY();
-            if (y1 < y2) {
-                return -1;
-            } else if (y1 == y2) {
-                double x1 = o1.getX();
-                double x2 = o2.getX();
+	static class PolarAngleComparator implements Comparator<Point2D> {
 
-                if (x1 < x2) {
-                    return -1;
-                } else if (x1 == x2) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-            } else {
-                return 1;
-            }
-        }
-    }*/
+		private Point2D p0;
 
-    static class PolarAngleComparator implements Comparator<Point2D> {
+		public PolarAngleComparator(Point2D p0) {
+			this.p0 = p0;
+		}
 
-        private Point2D p0;
+		/*
+		 * Sorts the points so that the lowest - leftmost one is the first. Used
+		 * by both Graham's and Jarvis's algorithms.
+		 */
+		public int compare(Point2D p1, Point2D p2) {
 
-        public PolarAngleComparator(Point2D p0) {
-            this.p0 = p0;
-        }
+			Double theta1 = polarAngle(p0, p1);
+			Double theta2 = polarAngle(p0, p2);
 
-        /*
-         * Sorts the points so that the lowest - leftmost one is the first.
-         * Used by both Graham's and Jarvis's algorithms.
-         */
-        public int compare(Point2D p1, Point2D p2) {
+			if (theta1 == null) {
+				theta1 = new Double(0);
+			}
 
-            Double theta1 = polarAngle(p0, p1);
-            Double theta2 = polarAngle(p0, p2);
+			if (theta2 == null) {
+				theta2 = new Double(0);
+			}
 
-            if (theta1 == null) {
-                theta1 = new Double(0);
-            }
+			if (p1.equals(p0)) {
+				theta1 = -500.0;
+			}
 
-            if (theta2 == null) {
-                theta2 = new Double(0);
-            }
+			if (p2.equals(p0)) {
+				theta2 = -500.0;
+			}
 
-            if(p1.equals(p0)){
-                theta1 = -500.0;
-            }
-
-            if(p2.equals(p0)){
-                theta2 = -500.0;
-            }
-
-            if (theta1 < theta2) {
-                return -1;
+			if (theta1 < theta2) {
+				return -1;
 			} else if (Math.abs(
 					theta1.doubleValue() - theta2.doubleValue()) < 10E-15) {
-                double errorTolerance = LineAndPointUtils.getErrorTolerance();
-                double x1 = p1.getX();
-                double x2 = p2.getX();
-                double xDiff = x1 - x2;
+				double errorTolerance = LineAndPointUtils.getErrorTolerance();
+				double x1 = p1.getX();
+				double x2 = p2.getX();
+				double xDiff = x1 - x2;
 
-                if (xDiff < -errorTolerance) {
-                    return -1;
-                } else if (xDiff > errorTolerance) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            } else {
-                return 1;
-            }
-        }
-    }
+				if (xDiff < -errorTolerance) {
+					return -1;
+				} else if (xDiff > errorTolerance) {
+					return 1;
+				} else {
+					return 0;
+				}
+			} else {
+				return 1;
+			}
+		}
+	}
 
+	private static Double polarAngle(Point2D p0, Point2D p1) {
+		if (p0.equals(p1)) {
+			return null;
+		}
+		double dy = p1.getY() - p0.getY();
+		double dx = p1.getX() - p0.getX();
+		double result = Math.toDegrees(Math.atan(dy / dx));
+		if (dx < 0) {
+			result = 180 + result;
+		} else {
+			if (dy < 0) {
+				result = 270 + result;
+			}
+		}
+		return result;
+	}
 
-    private static Double polarAngle(Point2D p0, Point2D p1) {
-        if (p0.equals(p1)) {
-            return null;
-        }
-        double dy = p1.getY() - p0.getY();
-        double dx = p1.getX() - p0.getX();
-        double result = Math.toDegrees(Math.atan(dy / dx));
-        if (dx < 0) {
-            result = 180 + result;
-        } else {
-            if (dy < 0) {
-                result = 270 + result;
-            }
-        }
-        return result;
-    }
+	private static Double polarAngleNegAxis(Point2D p0, Point2D p1) {
+		if (p0.equals(p1)) {
+			return null;
+		}
+		double dy = p1.getY() - p0.getY();
+		double dx = p1.getX() - p0.getX();
+		double result = Math.toDegrees(Math.atan(dy / dx));
+		if (dx < 0) {
+			result = 180 + result;
+		}
+		result = (result + 180) % 360;
+		return result;
+	}
 
-    private static Double polarAngleNegAxis(Point2D p0, Point2D p1) {
-        if (p0.equals(p1)) {
-            return null;
-        }
-        double dy = p1.getY() - p0.getY();
-        double dx = p1.getX() - p0.getX();
-        double result = Math.toDegrees(Math.atan(dy / dx));
-        if (dx < 0) {
-            result = 180 + result;
-        }
-        result = (result + 180) % 360;
-        return result;
-    }
+	private static int jarvisFindSmallestPolarAngle(List<Point2D> points,
+			Point2D p0, boolean rightChain, List<LogEvent> events) {
+		/*
+		 * Returns the index of the point with the smallest polar angle relative
+		 * to p0 The rightChain parameter defines whether we are looking for the
+		 * smallest polar angle in the left or the right chain of the hull.
+		 */
 
-    private static int jarvisFindSmallestPolarAngle(List<Point2D> points, Point2D p0, boolean rightChain, List<LogEvent> events) {
-        /*
-         * Returns the index of the point with the smallest polar angle relative to p0
-         * The rightChain parameter defines whether we are looking for the smallest polar angle
-         * in the left or the right chain of the hull.
-         */
+		int i = 0;
+		int index = 0;
+		double minAngle = 500;
+		Double polarAngle;
 
-        int i = 0;
-        int index = 0;
-        double minAngle = 500;
-        Double polarAngle;
+		for (Iterator<Point2D> it = points.iterator(); it.hasNext();) {
+			Point2D point = it.next();
+			if (rightChain) {
+				polarAngle = polarAngle(p0, point);
+			} else {
+				polarAngle = polarAngleNegAxis(p0, point);
+			}
 
+			if (polarAngle != null) {
+				events.add(new JarvisPointsCheckEvent(p0, point, polarAngle,
+						rightChain));
+			}
 
-        for (Iterator<Point2D> it = points.iterator(); it.hasNext();) {
-            Point2D point = it.next();
-            if (rightChain) {
-                polarAngle = polarAngle(p0, point);
-            } else {
-                polarAngle = polarAngleNegAxis(p0, point);
-            }
+			if ((polarAngle != null) && (polarAngle < minAngle)) {
+				index = i;
+				minAngle = polarAngle;
+			}
+			i++;
+		}
 
-            if (polarAngle != null) {
-                events.add(new JarvisPointsCheckEvent(p0, point, polarAngle, rightChain));
-            }
+		events.add(new JarvisPointSelectedEvent(p0, points.get(index), minAngle,
+				rightChain));
 
-            if ((polarAngle != null) && (polarAngle < minAngle)) {
-                index = i;
-                minAngle = polarAngle;
-            }
-            i++;
-        }
+		return index;
+	}
 
-        events.add(new JarvisPointSelectedEvent(p0, points.get(index), minAngle, rightChain));
+	public static List<Point2D> jarvisMarch(List<Point2D> points,
+			List<LogEvent> events) {
 
-        return index;
-    }
+		events.clear();
 
-    public static List<Point2D> jarvisMarch(List<Point2D> points, List<LogEvent> events) {
+		List<Point2D> result = new ArrayList<Point2D>();
 
-        events.clear();
+		if (points.size() > 2) {
 
-        List<Point2D> result = new ArrayList<Point2D>();
+			Collections.sort(points, new PointComparator());
 
-        if (points.size() > 2) {
+			Point2D lowestPoint = points.get(0);
+			Point2D highestPoint = points.get(points.size() - 1);
 
-            Collections.sort(points, new PointComparator());
+			events.add(
+					new JarvisChainsDetectedEvent(lowestPoint, highestPoint));
 
-            Point2D lowestPoint = points.get(0);
-            Point2D highestPoint = points.get(points.size() - 1);
+			result.add(lowestPoint);
+			events.add(new JarvisAddSegmentEvent(lowestPoint, lowestPoint));
 
-            events.add(new JarvisChainsDetectedEvent(lowestPoint, highestPoint));
+			int i = 1;
 
-            result.add(lowestPoint);
-            events.add(new JarvisAddSegmentEvent(lowestPoint, lowestPoint));
+			Point2D p = lowestPoint;
+			Point2D p1;
+			int index = 1;
+			while (p.equals(highestPoint) == false) {
+				index = jarvisFindSmallestPolarAngle(points, p, true, events);
+				result.add(points.get(index));
+				p1 = points.get(index);
+				events.add(new JarvisAddSegmentEvent(p, p1));
+				p = p1;
+			}
 
-            int i = 1;
+			while (p.equals(lowestPoint) == false) {
+				index = jarvisFindSmallestPolarAngle(points, p, false, events);
+				result.add(points.get(index));
+				p1 = points.get(index);
+				events.add(new JarvisAddSegmentEvent(p, p1));
+				p = p1;
+			}
+		}
 
-            Point2D p = lowestPoint;
-            Point2D p1;
-            int index = 1;
-            while (p.equals(highestPoint) == false) {
-                index = jarvisFindSmallestPolarAngle(points, p, true, events);
-                result.add(points.get(index));
-                p1 = points.get(index);
-                events.add(new JarvisAddSegmentEvent(p, p1));
-                p = p1;
-            }
+		return result;
 
-            while (p.equals(lowestPoint) == false) {
-                index = jarvisFindSmallestPolarAngle(points, p, false, events);
-                result.add(points.get(index));
-                p1 = points.get(index);
-                events.add(new JarvisAddSegmentEvent(p, p1));
-                p = p1;
-            }
-        }
+	}
 
-        return result;
-
-
-    }
-
-    private static double ccw(Point2D p1, Point2D p2, Point2D p3) {
-        /* Three points are a counter-clockwise turn if ccw > 0, clockwise if
-         * ccw < 0, and collinear if ccw = 0 because ccw is a determinant that
-         * gives the signed area of the triangle formed by p1, p2, and p3.
-         */
-        return (p2.getX() - p1.getX()) * (p3.getY() - p1.getY()) - (p2.getY() - p1.getY()) * (p3.getX() - p1.getX());
-    }
-    
+	private static double ccw(Point2D p1, Point2D p2, Point2D p3) {
+		/*
+		 * Three points are a counter-clockwise turn if ccw > 0, clockwise if
+		 * ccw < 0, and collinear if ccw = 0 because ccw is a determinant that
+		 * gives the signed area of the triangle formed by p1, p2, and p3.
+		 */
+		return (p2.getX() - p1.getX()) * (p3.getY() - p1.getY())
+				- (p2.getY() - p1.getY()) * (p3.getX() - p1.getX());
+	}
 
 	// public static List<Point2D> grahamsScan(List<Point2D> points,
 	// List<LogEvent> events) {
@@ -373,129 +363,131 @@ public class ConvexHull {
 	//
 	// }
 
+	private static Point2D peekNTop(Deque<Point2D> s) {
+		Point2D top = s.pop();
+		Point2D result = s.peekFirst();
+		s.push(top);
+		return result;
+	}
 
-    private static Point2D peekNTop(Deque<Point2D> s){
-        Point2D top = s.pop();
-        Point2D result = s.peekFirst();
-        s.push(top);
-        return result;
-    }
+	public static List<Point2D> grahamsScan2(List<Point2D> points,
+			List<LogEvent> events) {
 
+		events.clear();
 
-    
-     public static List<Point2D> grahamsScan2(List<Point2D> points, List<LogEvent> events) {
+		List<Point2D> result = new ArrayList<Point2D>();
 
-        events.clear();
+		if (points.size() > 2) {
 
-        List<Point2D> result = new ArrayList<Point2D>();
+			// ----------------- Start of Graham's Scan
 
-        if (points.size() > 2) {
+			Collections.sort(points, new PointComparator());
+			Point2D startingPoint = points.get(0);
 
-            //----------------- Start of Graham's Scan
+			for (int i = 0; i < 30; i++) {
+				System.out.println();
+			}
 
-            Collections.sort(points, new PointComparator());
-            Point2D startingPoint = points.get(0);
+			int j = 0;
+			boolean stop = false;
+			while (j < points.size() && !stop) {
+				Point2D p = points.get(j);
+				if (p.getY() > startingPoint.getY()) {
+					break;
+				}
+				System.out.println(p.toString());
+				j++;
+			}
 
-            for (int i = 0; i < 30; i++) {
-                System.out.println();
-            }
+			Collections.sort(points, new PolarAngleComparator(startingPoint));
 
-            int j=0;
-            boolean stop=false;
-            while(j<points.size() && !stop){
-                Point2D p = points.get(j);
-                if(p.getY()>startingPoint.getY()){
-                    break;
-                }
-                System.out.println(p.toString());
-                j++;
-            }
+			Point2D endPoint = points.get(points.size() - 1);
 
-            Collections.sort(points, new PolarAngleComparator(startingPoint));
+			// System.out.println("PUSH: "+points.get(0));
+			// System.out.println("PUSH: "+points.get(1));
+			// System.out.println("ADD :"+points.get(0)+" -> "+points.get(1));
+			events.add(new GrahamsScanSegmentAddEvent(
+					new Segment2D(points.get(0), points.get(1))));
+			int n = points.size();
+			int m = 1;
+			for (int i = 2; i < n; i++) {
+				// System.out.println("CHECK :"+points.get(m - 1)+",
+				// "+points.get(m)+" , "+points.get(i));
+				events.add(new GrahamsScanSegmentCheckEvent(
+						new Segment2D(points.get(m - 1), points.get(m)),
+						new Segment2D(points.get(m), points.get(i))));
+				while ((m > 0) && ccw(points.get(m - 1), points.get(m),
+						points.get(i)) <= 0) {
 
+					// System.out.println("POP: "+points.get(m));
+					// System.out.println("REMOVE :"+points.get(m-1)+" ->
+					// "+points.get(m));
+					events.add(new GrahamsScanSegmentRemoveEvent(
+							new Segment2D(points.get(m - 1), points.get(m))));
+					m--;
+					// System.out.println("CHECK :"+points.get(m - 1)+",
+					// "+points.get(m)+" , "+points.get(i));
+					if (m > 0) {
+						events.add(new GrahamsScanSegmentCheckEvent(
+								new Segment2D(points.get(m - 1), points.get(m)),
+								new Segment2D(points.get(m), points.get(i))));
+					}
+				}
 
-            Point2D endPoint = points.get(points.size() - 1);
+				m++;
 
+				// swap(points, m, i);
+				Collections.swap(points, m, i);
 
-            //System.out.println("PUSH: "+points.get(0));
-            //System.out.println("PUSH: "+points.get(1));
-            //System.out.println("ADD    :"+points.get(0)+" -> "+points.get(1));
-            events.add(new GrahamsScanSegmentAddEvent(new Segment2D(points.get(0), points.get(1))));
-            int n = points.size();
-            int m = 1;
-            for (int i = 2; i < n; i++) {
-                //System.out.println("CHECK  :"+points.get(m - 1)+", "+points.get(m)+" , "+points.get(i));
-                events.add(new GrahamsScanSegmentCheckEvent(new Segment2D(points.get(m-1), points.get(m)), new Segment2D(points.get(m), points.get(i))));
-                while ((m>0)&&ccw(points.get(m - 1), points.get(m), points.get(i)) <= 0) {
+				// System.out.println("PUSH: "+points.get(m));
+				// System.out.println("ADD :"+points.get(m-1)+" ->
+				// "+points.get(m));
+				events.add(new GrahamsScanSegmentAddEvent(
+						new Segment2D(points.get(m - 1), points.get(m))));
 
-                    //System.out.println("POP: "+points.get(m));
-                    //System.out.println("REMOVE :"+points.get(m-1)+" -> "+points.get(m));
-                    events.add(new GrahamsScanSegmentRemoveEvent(new Segment2D(points.get(m-1), points.get(m))));
-                    m--;
-                    //System.out.println("CHECK  :"+points.get(m - 1)+", "+points.get(m)+" , "+points.get(i));
-                    if(m>0){
-                        events.add(new GrahamsScanSegmentCheckEvent(new Segment2D(points.get(m-1), points.get(m)), new Segment2D(points.get(m), points.get(i))));
-                    }
-                }
+			}
 
-                m++;
+			// System.out.println("PUSH: "+points.get(0));
+			// System.out.println("ADD :"+points.get(m)+" -> "+points.get(0));
+			events.add(new GrahamsScanSegmentAddEvent(
+					new Segment2D(points.get(m), points.get(0))));
+			events.add(new GrahamsScanCompleteEvent());
 
-                //swap(points, m, i);
-                Collections.swap(points, m, i);
+			// ----------------- End of Graham's Scan
 
+			int i = 0;
+			Point2D p = null;
+			int max = points.size();
+			while ((i < max) && (p != endPoint)) {
+				p = points.get(i);
+				result.add(p);
+				i++;
+			}
 
-                //System.out.println("PUSH: "+points.get(m));
-                //System.out.println("ADD    :"+points.get(m-1)+" -> "+points.get(m));
-                events.add(new GrahamsScanSegmentAddEvent(new Segment2D(points.get(m-1), points.get(m))));
+			result.add(startingPoint);
 
-            }
+		}
+		return result;
 
-            //System.out.println("PUSH: "+points.get(0));
-            //System.out.println("ADD    :"+points.get(m)+" -> "+points.get(0));
-            events.add(new GrahamsScanSegmentAddEvent(new Segment2D(points.get(m), points.get(0))));
-            events.add(new GrahamsScanCompleteEvent());
+	}
 
-            //----------------- End of Graham's Scan
-
-
-            int i = 0;
-            Point2D p = null;
-            int max = points.size();
-            while ((i < max) && (p != endPoint)) {
-                p = points.get(i);
-                result.add(p);
-                i++;
-            }
-
-            result.add(startingPoint);
-
-
-        }
-        return result;
-
-    }
-
-    /*public static void main(String[] args) {
-        List<Point2D> points = new ArrayList();
-        points.add(new Point(7, 6));
-        points.add(new Point(3, 7));
-        points.add(new Point(2, 3));
-        //points.add(new Point(8, 8));
-        //points.add(new Point(6, 5));
-        points.add(new Point(11, 4));
-        points.add(new Point(5, 1));
-        //points.add(new Point(1, 4));
-        points.add(new Point(8, 3));
-        points.add(new Point(5, 2));
-
-        List<Point2D> jarvisResult = ConvexHull.jarvisMarch(points, new ArrayList<LogEvent>());
-        List<Point2D> grahamsResult = ConvexHull.grahamsScan(points, new ArrayList<LogEvent>());
-
-        System.out.print("Jarvis' March:\t");
-        LineAndPointUtils.printPointsList(jarvisResult, System.out);
-        System.out.println();
-        System.out.print("Graham's Scan:\t");
-        LineAndPointUtils.printPointsList(grahamsResult, System.out);
-
-    }*/
+	/*
+	 * public static void main(String[] args) { List<Point2D> points = new
+	 * ArrayList(); points.add(new Point(7, 6)); points.add(new Point(3, 7));
+	 * points.add(new Point(2, 3)); //points.add(new Point(8, 8));
+	 * //points.add(new Point(6, 5)); points.add(new Point(11, 4));
+	 * points.add(new Point(5, 1)); //points.add(new Point(1, 4));
+	 * points.add(new Point(8, 3)); points.add(new Point(5, 2));
+	 * 
+	 * List<Point2D> jarvisResult = ConvexHull.jarvisMarch(points, new
+	 * ArrayList<LogEvent>()); List<Point2D> grahamsResult =
+	 * ConvexHull.grahamsScan(points, new ArrayList<LogEvent>());
+	 * 
+	 * System.out.print("Jarvis' March:\t");
+	 * LineAndPointUtils.printPointsList(jarvisResult, System.out);
+	 * System.out.println(); System.out.print("Graham's Scan:\t");
+	 * LineAndPointUtils.printPointsList(grahamsResult, System.out);
+	 * 
+	 * }
+	 */
 }

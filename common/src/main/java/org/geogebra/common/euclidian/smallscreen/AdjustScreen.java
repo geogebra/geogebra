@@ -111,7 +111,6 @@ public class AdjustScreen {
 		view.repaintView();
 	}
 
-
 	private void collectWidgets() {
 		hSliders.clear();
 		vSliders.clear();
@@ -177,6 +176,7 @@ public class AdjustScreen {
 			view.update(geo);
 		}
 	}
+
 	private void checkOvelappingHSliders() {
 		Collections.sort(hSliders, new HSliderComparator());
 		for (int idx = 0; idx < hSliders.size() - 1; idx++) {
@@ -206,7 +206,7 @@ public class AdjustScreen {
 				GeoNumeric slider = hSliders.get(idx);
 				slider.setSliderLocation(slider.getSliderX(),
 						slider.getSliderY() - dY, true);
-			}		
+			}
 		}
 	}
 
@@ -239,16 +239,16 @@ public class AdjustScreen {
 		for (int idx = 0; idx < buttons.size() - 1; idx++) {
 			GeoButton btn1 = buttons.get(idx);
 			GeoButton btn2 = buttons.get(idx + 1);
-			GRectangle rect1 = AwtFactory.getPrototype().newRectangle(btn1.getAbsoluteScreenLocX(),
-					btn1.getAbsoluteScreenLocY(),
+			GRectangle rect1 = AwtFactory.getPrototype().newRectangle(
+					btn1.getAbsoluteScreenLocX(), btn1.getAbsoluteScreenLocY(),
 					btn1.getWidth(), btn1.getHeight());
 			GRectangle rect2 = AwtFactory.getPrototype().newRectangle(
 					btn2.getAbsoluteScreenLocX(), btn2.getAbsoluteScreenLocY(),
 					btn2.getWidth(), btn2.getHeight());
-			
+
 			boolean overlap = rect1.intersects(rect2)
 					|| rect2.intersects(rect1);
-			
+
 			Log.debug("[AS] " + btn1);// + " - " + btn2 + " overlaps: " +
 										// overlap);
 
@@ -256,8 +256,7 @@ public class AdjustScreen {
 				overlapCount++;
 				btn2.setAbsoluteScreenLoc(btn2.getAbsoluteScreenLocX(),
 						btn1.getAbsoluteScreenLocY()
-								+ overlapCount * btn1.getHeight()
-								+ BUTTON_GAP);
+								+ overlapCount * btn1.getHeight() + BUTTON_GAP);
 
 				buttons.set(idx + 1, btn2);
 				btn2.update();
@@ -265,7 +264,6 @@ public class AdjustScreen {
 		}
 
 		tileButtons(buttons);
-
 
 	}
 

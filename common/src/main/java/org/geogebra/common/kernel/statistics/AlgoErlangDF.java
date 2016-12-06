@@ -106,8 +106,8 @@ public class AlgoErlangDF extends AlgoElement {
 
 		if (cumulative != null && cumulative.getBoolean()) {
 
-			en = kEn.gammaIncomplete(fvEn.multiply(lEn)).divide(
-					kEn.subtract(1).factorial());
+			en = kEn.gammaIncomplete(fvEn.multiply(lEn))
+					.divide(kEn.subtract(1).factorial());
 
 			// old hack:
 			// command = "If[x<0,0,gamma("+k+",("+l+")x)/("+k+"-1)!]";
@@ -126,7 +126,5 @@ public class AlgoErlangDF extends AlgoElement {
 		ret.getFunctionExpression().setRight(en);
 
 	}
-
-	
 
 }

@@ -100,9 +100,8 @@ public class DrawList3D extends Drawable3D {
 		 * // check if a new update is needed in a next loop for (int i = 0; i <
 		 * drawables.size(); i++) { Drawable3D d = (Drawable3D)
 		 * drawables.get(i); if (!d.getGeoElement().isLabelSet()) {
-		 * //Log.debug("\n"
-		 * +geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate()); if
-		 * (d.waitForUpdate()){ return false; } } }
+		 * //Log.debug("\n" +geoList+"\n -- "+d.getGeoElement()+" -- "
+		 * +d.waitForUpdate()); if (d.waitForUpdate()){ return false; } } }
 		 */
 
 		return true;
@@ -232,9 +231,7 @@ public class DrawList3D extends Drawable3D {
 	public boolean isTransparent() {
 		return false;
 	}
-	
-	
-	
+
 	@Override
 	protected boolean isLabelVisible() {
 		return isVisible(); // as for texts
@@ -243,18 +240,18 @@ public class DrawList3D extends Drawable3D {
 	@Override
 	protected void updateLabel() {
 		for (DrawableND d : drawables) {
-			if (d instanceof DrawList3D || d instanceof DrawText3D){
+			if (d instanceof DrawList3D || d instanceof DrawText3D) {
 				((Drawable3D) d).updateLabel();
-			}			
+			}
 		}
 	}
 
 	@Override
 	protected void updateLabelPosition() {
 		for (DrawableND d : drawables) {
-			if (d instanceof DrawList3D || d instanceof DrawText3D){
+			if (d instanceof DrawList3D || d instanceof DrawText3D) {
 				((Drawable3D) d).updateLabelPosition();
-			}			
+			}
 		}
 
 	}
@@ -358,7 +355,6 @@ public class DrawList3D extends Drawable3D {
 		}
 	}
 
-	
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		for (DrawableND d : drawables) {

@@ -144,6 +144,4 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 		return true;
 	}
 
-	
-
 }

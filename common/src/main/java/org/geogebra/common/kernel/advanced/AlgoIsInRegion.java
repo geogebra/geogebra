@@ -71,6 +71,4 @@ public class AlgoIsInRegion extends AlgoElement {
 		return Commands.IsInRegion;
 	}
 
-	
-
 }

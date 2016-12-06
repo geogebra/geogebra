@@ -16,14 +16,14 @@ public class RightAngleModel extends BooleanOptionModel {
 		getListener().updateCheckbox(geo0.isEmphasizeRightAngle());
 	}
 
-
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index);
-		
-		return geo instanceof AngleProperties && !geo.isGeoList() || isAngleList(geo);
+
+		return geo instanceof AngleProperties && !geo.isGeoList()
+				|| isAngleList(geo);
 	}
-	
+
 	@Override
 	public boolean getValueAt(int index) {
 		// not used here, as updateProperties is overridden.

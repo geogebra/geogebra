@@ -164,11 +164,11 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		tranOut.translate(new Coords(qx, qy, 0));
 
 		if (shear) {
-			out.matrixTransform(1 - c * s * n, c * c * n, -s * s * n, 1 + s * c
-					* n);
+			out.matrixTransform(1 - c * s * n, c * c * n, -s * s * n,
+					1 + s * c * n);
 		} else {
-			out.matrixTransform(c * c + s * s * n, c * s * (1 - n), c * s
-					* (1 - n), s * s + c * c * n);
+			out.matrixTransform(c * c + s * s * n, c * s * (1 - n),
+					c * s * (1 - n), s * s + c * c * n);
 		}
 		tranOut.translate(new Coords(-qx, -qy, 0));
 		if (inGeo.isLimitedPath()) {
@@ -221,7 +221,5 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 		return n;
 
 	}
-
-	
 
 }

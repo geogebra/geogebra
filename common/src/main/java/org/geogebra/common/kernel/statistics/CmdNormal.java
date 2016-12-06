@@ -51,9 +51,8 @@ public class CmdNormal extends CommandProcessor {
 		case 3:
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction()
-						&& ((GeoFunction) arg[2]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoNormalDF algo = new AlgoNormalDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],

@@ -71,7 +71,8 @@ public class PlotterBrushSection {
 		return point.equalsForKernel(center, Kernel.STANDARD_PRECISION);
 	}
 
-	public void set(Coords point, float thickness, Coords clockU, Coords clockV) {
+	public void set(Coords point, float thickness, Coords clockU,
+			Coords clockV) {
 		setCenter(point);
 		this.thickness = thickness;
 		this.clockU.set(clockU);
@@ -161,7 +162,8 @@ public class PlotterBrushSection {
 	 * @param pos
 	 *            position
 	 */
-	public void getNormalAndPosition(double u, double v, Coords vn, Coords pos) {
+	public void getNormalAndPosition(double u, double v, Coords vn,
+			Coords pos) {
 
 		vn.setAdd(vn.setMul(clockU, u), tmpCoords.setMul(clockV, v));
 		pos.setAdd(pos.setMul(vn, thickness), center);

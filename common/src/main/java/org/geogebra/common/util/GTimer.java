@@ -13,6 +13,5 @@ public interface GTimer {
 
 	boolean isRunning();
 
-
 	void setDelay(int delay);
 }

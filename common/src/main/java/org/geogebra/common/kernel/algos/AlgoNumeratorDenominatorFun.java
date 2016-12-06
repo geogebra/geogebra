@@ -103,12 +103,12 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 
 			if (g instanceof GeoFunction) {
 
-				Function fun = new Function((ExpressionNode) ev, f
-						.getFunction().getFunctionVariables()[0]);
+				Function fun = new Function((ExpressionNode) ev,
+						f.getFunction().getFunctionVariables()[0]);
 				((GeoFunction) g).setFunction(fun);
 			} else {
-				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev, f
-						.getFunction().getFunctionVariables());
+				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev,
+						f.getFunction().getFunctionVariables());
 				((GeoFunctionNVar) g).setFunction(fun);
 			}
 		} else if (ev instanceof FunctionVariable) {
@@ -137,8 +137,8 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			if (f instanceof GeoFunction) {
 				// construct function f(x) = 1
 				FunctionVariable fv = new FunctionVariable(kernel);
-				ExpressionNode en = new ExpressionNode(kernel, new MyDouble(
-						kernel, ((NumberValue) ev).getDouble()));
+				ExpressionNode en = new ExpressionNode(kernel,
+						new MyDouble(kernel, ((NumberValue) ev).getDouble()));
 				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
 				((GeoFunction) g).setFunction(tempFun);
@@ -159,7 +159,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		
+
 		((FunctionalNVar) g).setDefined(true);
 
 	}
@@ -170,7 +170,5 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 	protected ExpressionValue getPart(ExpressionValue[] node) {
 		return node[0];
 	}
-
-	
 
 }

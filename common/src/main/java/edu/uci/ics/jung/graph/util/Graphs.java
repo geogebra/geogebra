@@ -8,135 +8,192 @@ import edu.uci.ics.jung.graph.Forest;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.graph.Tree;
 import edu.uci.ics.jung.graph.UndirectedGraph;
+
 /**
- * Provides specialized implementations of <code>GraphDecorator</code>.  Currently these 
- * wrapper types include "synchronized" and "unmodifiable".
+ * Provides specialized implementations of <code>GraphDecorator</code>.
+ * Currently these wrapper types include "synchronized" and "unmodifiable".
  *
- * <p>The methods of this class may each throw a <code>NullPointerException</code>
+ * <p>
+ * The methods of this class may each throw a <code>NullPointerException</code>
  * if the graphs or class objects provided to them are null.
  *
  * @author Tom Nelson
  */
 
 public class Graphs {
-	
+
 	/**
 	 * Returns a synchronized graph backed by the passed argument graph.
-	 * @param <V> the vertex type
-	 * @param <E> the edge type
-	 * @param graph the graph for which a synchronized wrapper is to be created
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which a synchronized wrapper is to be created
 	 * @return a synchronized graph backed by the passed argument graph
 	 */
-	public static <V,E> Graph<V,E> synchronizedGraph(Graph<V,E> graph) {
-		return new SynchronizedGraph<V,E>(graph);
+	public static <V, E> Graph<V, E> synchronizedGraph(Graph<V, E> graph) {
+		return new SynchronizedGraph<V, E>(graph);
 	}
-	
+
 	/**
 	 * Returns a synchronized DirectedGraph backed by the passed DirectedGraph.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param graph the graph for which a synchronized wrapper is to be created
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which a synchronized wrapper is to be created
 	 * @return a synchronized DirectedGraph backed by the passed DirectedGraph
 	 */
-	public static <V,E> DirectedGraph<V,E> synchronizedDirectedGraph(DirectedGraph<V,E> graph) {
-		return new SynchronizedDirectedGraph<V,E>(graph);
+	public static <V, E> DirectedGraph<V, E> synchronizedDirectedGraph(
+			DirectedGraph<V, E> graph) {
+		return new SynchronizedDirectedGraph<V, E>(graph);
 	}
-	
+
 	/**
-	 * Returns a synchronized UndirectedGraph backed by the passed UndirectedGraph.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param graph the graph for which a synchronized wrapper is to be created
-	 * @return a synchronized UndirectedGraph backed by the passed UndirectedGraph
+	 * Returns a synchronized UndirectedGraph backed by the passed
+	 * UndirectedGraph.
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which a synchronized wrapper is to be created
+	 * @return a synchronized UndirectedGraph backed by the passed
+	 *         UndirectedGraph
 	 */
-	public static <V,E> UndirectedGraph<V,E> synchronizedUndirectedGraph(UndirectedGraph<V,E> graph) {
-		return new SynchronizedUndirectedGraph<V,E>(graph);
+	public static <V, E> UndirectedGraph<V, E> synchronizedUndirectedGraph(
+			UndirectedGraph<V, E> graph) {
+		return new SynchronizedUndirectedGraph<V, E>(graph);
 	}
-	
+
 	/**
 	 * Returns a synchronized Forest backed by the passed Forest.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param forest the forest for which a synchronized wrapper is to be created
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param forest
+	 *            the forest for which a synchronized wrapper is to be created
 	 * @return a synchronized Forest backed by the passed Forest
 	 */
-	public static <V,E> SynchronizedForest<V,E> synchronizedForest(Forest<V,E> forest) {
-		return new SynchronizedForest<V,E>(forest);
+	public static <V, E> SynchronizedForest<V, E> synchronizedForest(
+			Forest<V, E> forest) {
+		return new SynchronizedForest<V, E>(forest);
 	}
-	
+
 	/**
 	 * Returns a synchronized Tree backed by the passed Tree.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param tree the tree for which a synchronized wrapper is to be created
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param tree
+	 *            the tree for which a synchronized wrapper is to be created
 	 * @return a synchronized Tree backed by the passed Tree
 	 */
-	public static <V,E> SynchronizedTree<V,E> synchronizedTree(Tree<V,E> tree) {
-		return new SynchronizedTree<V,E>(tree);
+	public static <V, E> SynchronizedTree<V, E> synchronizedTree(
+			Tree<V, E> tree) {
+		return new SynchronizedTree<V, E>(tree);
 	}
-	
+
 	/**
 	 * Returns an unmodifiable Graph backed by the passed Graph.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param graph the graph for which the unmodifiable wrapper is to be returned
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which the unmodifiable wrapper is to be returned
 	 * @return an unmodifiable Graph backed by the passed Graph
 	 */
-	public static <V,E> Graph<V,E> unmodifiableGraph(Graph<V,E> graph) {
-		return new UnmodifiableGraph<V,E>(graph);
+	public static <V, E> Graph<V, E> unmodifiableGraph(Graph<V, E> graph) {
+		return new UnmodifiableGraph<V, E>(graph);
 	}
-	
+
 	/**
-	 * Returns an unmodifiable <code>DirectedGraph</code> backed by the passed graph.
-	 * @param <V> the vertex type
-	 * @param <E> the edge type
-	 * @param graph the graph for which the unmodifiable wrapper is to be returned
-	 * @return an unmodifiable <code>DirectedGraph</code> backed by the passed graph
+	 * Returns an unmodifiable <code>DirectedGraph</code> backed by the passed
+	 * graph.
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which the unmodifiable wrapper is to be returned
+	 * @return an unmodifiable <code>DirectedGraph</code> backed by the passed
+	 *         graph
 	 */
-	public static <V,E> DirectedGraph<V,E> unmodifiableDirectedGraph(DirectedGraph<V,E> graph) {
-		return new UnmodifiableDirectedGraph<V,E>(graph);
+	public static <V, E> DirectedGraph<V, E> unmodifiableDirectedGraph(
+			DirectedGraph<V, E> graph) {
+		return new UnmodifiableDirectedGraph<V, E>(graph);
 	}
-	
+
 	/**
-	 * Returns an unmodifiable <code>UndirectedGraph</code> backed by the passed graph.
-	 * @param <V> the vertex type
-	 * @param <E> the edge type
-	 * @param graph the graph for which the unmodifiable wrapper is to be returned
-	 * @return an unmodifiable <code>UndirectedGraph</code> backed by the passed graph
+	 * Returns an unmodifiable <code>UndirectedGraph</code> backed by the passed
+	 * graph.
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param graph
+	 *            the graph for which the unmodifiable wrapper is to be returned
+	 * @return an unmodifiable <code>UndirectedGraph</code> backed by the passed
+	 *         graph
 	 */
-	public static <V,E> UndirectedGraph<V,E> unmodifiableUndirectedGraph(UndirectedGraph<V,E> graph) {
-		return new UnmodifiableUndirectedGraph<V,E>(graph);
+	public static <V, E> UndirectedGraph<V, E> unmodifiableUndirectedGraph(
+			UndirectedGraph<V, E> graph) {
+		return new UnmodifiableUndirectedGraph<V, E>(graph);
 	}
-	
+
 	/**
-     * Returns an unmodifiable <code>Tree</code> backed by the passed tree.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param tree the tree for which the unmodifiable wrapper is to be returned
-     * @return an unmodifiable <code>Tree</code> backed by the passed tree
+	 * Returns an unmodifiable <code>Tree</code> backed by the passed tree.
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param tree
+	 *            the tree for which the unmodifiable wrapper is to be returned
+	 * @return an unmodifiable <code>Tree</code> backed by the passed tree
 	 */
-	public static <V,E> UnmodifiableTree<V,E> unmodifiableTree(Tree<V,E> tree) {
-		return new UnmodifiableTree<V,E>(tree);
+	public static <V, E> UnmodifiableTree<V, E> unmodifiableTree(
+			Tree<V, E> tree) {
+		return new UnmodifiableTree<V, E>(tree);
 	}
-	
-    /**
-     * Returns an unmodifiable <code>Forest</code> backed by the passed forest.
-     * @param <V> the vertex type
-     * @param <E> the edge type
-     * @param forest the forest for which the unmodifiable wrapper is to be returned
-     * @return an unmodifiable <code>Forest</code> backed by the passed forest
-     */
-	public static <V,E> UnmodifiableForest<V,E> unmodifiableForest(Forest<V,E> forest) {
-		return new UnmodifiableForest<V,E>(forest);
+
+	/**
+	 * Returns an unmodifiable <code>Forest</code> backed by the passed forest.
+	 * 
+	 * @param <V>
+	 *            the vertex type
+	 * @param <E>
+	 *            the edge type
+	 * @param forest
+	 *            the forest for which the unmodifiable wrapper is to be
+	 *            returned
+	 * @return an unmodifiable <code>Forest</code> backed by the passed forest
+	 */
+	public static <V, E> UnmodifiableForest<V, E> unmodifiableForest(
+			Forest<V, E> forest) {
+		return new UnmodifiableForest<V, E>(forest);
 	}
-	
-	
+
 	@SuppressWarnings("serial")
-	static abstract class SynchronizedAbstractGraph<V,E> implements Graph<V,E>, Serializable {
-		protected Graph<V,E> delegate;
+	static abstract class SynchronizedAbstractGraph<V, E>
+			implements Graph<V, E>, Serializable {
+		protected Graph<V, E> delegate;
 
 		private SynchronizedAbstractGraph(Graph<V, E> delegate) {
-			if(delegate == null) {
+			if (delegate == null) {
 				throw new NullPointerException();
 			}
 			this.delegate = delegate;
@@ -145,27 +202,28 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDefaultEdgeType()
 		 */
-		public EdgeType getDefaultEdgeType()
-		{
+		public EdgeType getDefaultEdgeType() {
 			return delegate.getDefaultEdgeType();
 		}
-		
+
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object, EdgeType)
+		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object,
+		 *      EdgeType)
 		 */
-		public synchronized boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
+		public synchronized boolean addEdge(E e, V v1, V v2,
+				EdgeType edgeType) {
 			return delegate.addEdge(e, v1, v2, edgeType);
 		}
 
-        /**
-         * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(Object, Collection, EdgeType)
-         */
-		public synchronized boolean addEdge(E e, Collection<? extends V> 
-			vertices, EdgeType edgeType) 
-		{
+		/**
+		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(Object, Collection,
+		 *      EdgeType)
+		 */
+		public synchronized boolean addEdge(E e,
+				Collection<? extends V> vertices, EdgeType edgeType) {
 			return delegate.addEdge(e, vertices, edgeType);
 		}
-		
+
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object)
 		 */
@@ -181,14 +239,16 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isIncident(V vertex, E edge) {
 			return delegate.isIncident(vertex, edge);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isNeighbor(V v1, V v2) {
 			return delegate.isNeighbor(v1, v2);
@@ -202,20 +262,21 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized E findEdge(V v1, V v2) {
 			return delegate.findEdge(v1, v2);
 		}
 
-        /**
-         * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object, java.lang.Object)
-         */
-        public synchronized Collection<E> findEdgeSet(V v1, V v2)
-        {
-            return delegate.findEdgeSet(v1, v2);
-        }
-        
+		/**
+		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object,
+		 *      java.lang.Object)
+		 */
+		public synchronized Collection<E> findEdgeSet(V v1, V v2) {
+			return delegate.findEdgeSet(v1, v2);
+		}
+
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdges()
 		 */
@@ -266,7 +327,8 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized V getOpposite(V vertex, E edge) {
 			return delegate.getOpposite(vertex, edge);
@@ -310,11 +372,10 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
 		 */
-		public synchronized int getEdgeCount(EdgeType edge_type) 
-		{
-		    return delegate.getEdgeCount(edge_type);
+		public synchronized int getEdgeCount(EdgeType edge_type) {
+			return delegate.getEdgeCount(edge_type);
 		}
-		
+
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertexCount()
 		 */
@@ -337,14 +398,16 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isPredecessor(V v1, V v2) {
 			return delegate.isPredecessor(v1, v2);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isSuccessor(V v1, V v2) {
 			return delegate.isSuccessor(v1, v2);
@@ -407,31 +470,34 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isDest(V vertex, E edge) {
 			return delegate.isDest(vertex, edge);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public synchronized boolean isSource(V vertex, E edge) {
 			return delegate.isSource(vertex, edge);
 		}
-		
+
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentCount(Object)
 		 */
-        public synchronized int getIncidentCount(E edge)
-        {
-            return delegate.getIncidentCount(edge);
-        }
+		public synchronized int getIncidentCount(E edge) {
+			return delegate.getIncidentCount(edge);
+		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object, java.util.Collection)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object,
+		 *      java.util.Collection)
 		 */
-		public synchronized boolean addEdge(E hyperedge, Collection<? extends V> vertices) {
+		public synchronized boolean addEdge(E hyperedge,
+				Collection<? extends V> vertices) {
 			return delegate.addEdge(hyperedge, vertices);
 		}
 
@@ -448,64 +514,68 @@ public class Graphs {
 		public synchronized boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
-		
+
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
 
-        
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class SynchronizedGraph<V,E> extends SynchronizedAbstractGraph<V,E> implements Serializable {
-		
-		private SynchronizedGraph(Graph<V,E> delegate) {
+	static class SynchronizedGraph<V, E> extends SynchronizedAbstractGraph<V, E>
+			implements Serializable {
+
+		private SynchronizedGraph(Graph<V, E> delegate) {
 			super(delegate);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class SynchronizedUndirectedGraph<V,E> extends SynchronizedAbstractGraph<V,E> 
-		implements UndirectedGraph<V,E>, Serializable {
-		private SynchronizedUndirectedGraph(UndirectedGraph<V,E> delegate) {
+	static class SynchronizedUndirectedGraph<V, E>
+			extends SynchronizedAbstractGraph<V, E>
+			implements UndirectedGraph<V, E>, Serializable {
+		private SynchronizedUndirectedGraph(UndirectedGraph<V, E> delegate) {
 			super(delegate);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class SynchronizedDirectedGraph<V,E> extends SynchronizedAbstractGraph<V,E> 
-		implements DirectedGraph<V,E>, Serializable {
-		
-		private SynchronizedDirectedGraph(DirectedGraph<V,E> delegate) {
+	static class SynchronizedDirectedGraph<V, E>
+			extends SynchronizedAbstractGraph<V, E>
+			implements DirectedGraph<V, E>, Serializable {
+
+		private SynchronizedDirectedGraph(DirectedGraph<V, E> delegate) {
 			super(delegate);
 		}
 
 		@Override
-	    public synchronized V getDest(E directed_edge) {
-			return ((DirectedGraph<V,E>)delegate).getDest(directed_edge);
+		public synchronized V getDest(E directed_edge) {
+			return ((DirectedGraph<V, E>) delegate).getDest(directed_edge);
 		}
 
 		@Override
-    	public synchronized V getSource(E directed_edge) {
-			return ((DirectedGraph<V,E>)delegate).getSource(directed_edge);
+		public synchronized V getSource(E directed_edge) {
+			return ((DirectedGraph<V, E>) delegate).getSource(directed_edge);
 		}
 
 		@Override
-	    public synchronized boolean isDest(V vertex, E edge) {
-			return ((DirectedGraph<V,E>)delegate).isDest(vertex, edge);
+		public synchronized boolean isDest(V vertex, E edge) {
+			return ((DirectedGraph<V, E>) delegate).isDest(vertex, edge);
 		}
 
 		@Override
-    	public synchronized boolean isSource(V vertex, E edge) {
-			return ((DirectedGraph<V,E>)delegate).isSource(vertex, edge);
+		public synchronized boolean isSource(V vertex, E edge) {
+			return ((DirectedGraph<V, E>) delegate).isSource(vertex, edge);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class SynchronizedTree<V,E> extends SynchronizedForest<V,E> implements Tree<V,E> {
+	static class SynchronizedTree<V, E> extends SynchronizedForest<V, E>
+			implements Tree<V, E> {
 
 		/**
 		 * Creates a new instance based on the provided {@code delegate}.
+		 * 
 		 * @param delegate
 		 */
 		public SynchronizedTree(Tree<V, E> delegate) {
@@ -513,66 +583,63 @@ public class Graphs {
 		}
 
 		public synchronized int getDepth(V vertex) {
-			return ((Tree<V,E>)delegate).getDepth(vertex);
+			return ((Tree<V, E>) delegate).getDepth(vertex);
 		}
 
 		public synchronized int getHeight() {
-			return ((Tree<V,E>)delegate).getHeight();
+			return ((Tree<V, E>) delegate).getHeight();
 		}
 
 		public synchronized V getRoot() {
-			return ((Tree<V,E>)delegate).getRoot();
+			return ((Tree<V, E>) delegate).getRoot();
 		}
 	}
-	
-	@SuppressWarnings("serial")
-    static class SynchronizedForest<V,E> extends SynchronizedDirectedGraph<V,E> implements Forest<V,E> {
 
-        /**
-         * Creates a new instance based on the provided {@code delegate}.
-         * @param delegate
-         */
+	@SuppressWarnings("serial")
+	static class SynchronizedForest<V, E>
+			extends SynchronizedDirectedGraph<V, E> implements Forest<V, E> {
+
+		/**
+		 * Creates a new instance based on the provided {@code delegate}.
+		 * 
+		 * @param delegate
+		 */
 		public SynchronizedForest(Forest<V, E> delegate) {
 			super(delegate);
 		}
 
 		public synchronized Collection<Tree<V, E>> getTrees() {
-			return ((Forest<V,E>)delegate).getTrees();
+			return ((Forest<V, E>) delegate).getTrees();
 		}
 
-        public int getChildCount(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildCount(vertex);
-        }
+		public int getChildCount(V vertex) {
+			return ((Forest<V, E>) delegate).getChildCount(vertex);
+		}
 
-        public Collection<E> getChildEdges(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildEdges(vertex);
-        }
+		public Collection<E> getChildEdges(V vertex) {
+			return ((Forest<V, E>) delegate).getChildEdges(vertex);
+		}
 
-        public Collection<V> getChildren(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildren(vertex);
-        }
+		public Collection<V> getChildren(V vertex) {
+			return ((Forest<V, E>) delegate).getChildren(vertex);
+		}
 
-        public V getParent(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getParent(vertex);
-        }
+		public V getParent(V vertex) {
+			return ((Forest<V, E>) delegate).getParent(vertex);
+		}
 
-        public E getParentEdge(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getParentEdge(vertex);
-        }
+		public E getParentEdge(V vertex) {
+			return ((Forest<V, E>) delegate).getParentEdge(vertex);
+		}
 	}
-	
-	@SuppressWarnings("serial")
-	static abstract class UnmodifiableAbstractGraph<V,E> implements Graph<V,E>, Serializable {
-		protected Graph<V,E> delegate;
 
+	@SuppressWarnings("serial")
+	static abstract class UnmodifiableAbstractGraph<V, E>
+			implements Graph<V, E>, Serializable {
+		protected Graph<V, E> delegate;
 
 		private UnmodifiableAbstractGraph(Graph<V, E> delegate) {
-			if(delegate == null) {
+			if (delegate == null) {
 				throw new NullPointerException();
 			}
 			this.delegate = delegate;
@@ -581,30 +648,30 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDefaultEdgeType()
 		 */
-		public EdgeType getDefaultEdgeType()
-		{
+		public EdgeType getDefaultEdgeType() {
 			return delegate.getDefaultEdgeType();
 		}
-		
+
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object, EdgeType)
+		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object,
+		 *      EdgeType)
 		 */
 		public boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
 			throw new UnsupportedOperationException();
 		}
 
-        /**
-         * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Collection, EdgeType)
-         */
-		public boolean addEdge(E e, Collection<? extends V> vertices, 
-			EdgeType edgeType) 
-		{
+		/**
+		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Collection,
+		 *      EdgeType)
+		 */
+		public boolean addEdge(E e, Collection<? extends V> vertices,
+				EdgeType edgeType) {
 			throw new UnsupportedOperationException();
 		}
-		
-        /**
-         * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object)
-         */
+
+		/**
+		 * @see edu.uci.ics.jung.graph.Graph#addEdge(Object, Object, Object)
+		 */
 		public boolean addEdge(E e, V v1, V v2) {
 			throw new UnsupportedOperationException();
 		}
@@ -617,14 +684,16 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isIncident(V vertex, E edge) {
 			return delegate.isIncident(vertex, edge);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isNeighbor(V v1, V v2) {
 			return delegate.isNeighbor(v1, v2);
@@ -638,19 +707,20 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public E findEdge(V v1, V v2) {
 			return delegate.findEdge(v1, v2);
 		}
-        
-        /**
-         * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object, java.lang.Object)
-         */
-        public Collection<E> findEdgeSet(V v1, V v2)
-        {
-            return delegate.findEdgeSet(v1, v2);
-        }
+
+		/**
+		 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object,
+		 *      java.lang.Object)
+		 */
+		public Collection<E> findEdgeSet(V v1, V v2) {
+			return delegate.findEdgeSet(v1, v2);
+		}
 
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdges()
@@ -666,13 +736,12 @@ public class Graphs {
 			return delegate.getEdgeCount();
 		}
 
-        /**
-         * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
-         */
-        public int getEdgeCount(EdgeType edge_type) 
-        {
-            return delegate.getEdgeCount(edge_type);
-        }
+		/**
+		 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
+		 */
+		public int getEdgeCount(EdgeType edge_type) {
+			return delegate.getEdgeCount(edge_type);
+		}
 
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getVertexCount()
@@ -724,7 +793,8 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public V getOpposite(V vertex, E edge) {
 			return delegate.getOpposite(vertex, edge);
@@ -773,14 +843,16 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isPredecessor(V v1, V v2) {
 			return delegate.isPredecessor(v1, v2);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isSuccessor(V v1, V v2) {
 			return delegate.isSuccessor(v1, v2);
@@ -827,7 +899,7 @@ public class Graphs {
 		public boolean removeVertex(V vertex) {
 			throw new UnsupportedOperationException();
 		}
-		
+
 		/**
 		 * @see edu.uci.ics.jung.graph.Graph#getDest(java.lang.Object)
 		 */
@@ -843,14 +915,16 @@ public class Graphs {
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isDest(V vertex, E edge) {
 			return delegate.isDest(vertex, edge);
 		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object, java.lang.Object)
+		 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object,
+		 *      java.lang.Object)
 		 */
 		public boolean isSource(V vertex, E edge) {
 			return delegate.isSource(vertex, edge);
@@ -859,13 +933,13 @@ public class Graphs {
 		/**
 		 * @see edu.uci.ics.jung.graph.Hypergraph#getIncidentCount(Object)
 		 */
-        public int getIncidentCount(E edge)
-        {
-            return delegate.getIncidentCount(edge);
-        }
+		public int getIncidentCount(E edge) {
+			return delegate.getIncidentCount(edge);
+		}
 
 		/**
-		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object, java.util.Collection)
+		 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object,
+		 *      java.util.Collection)
 		 */
 		public boolean addEdge(E hyperedge, Collection<? extends V> vertices) {
 			return delegate.addEdge(hyperedge, vertices);
@@ -884,115 +958,113 @@ public class Graphs {
 		public boolean containsVertex(V vertex) {
 			return delegate.containsVertex(vertex);
 		}
-		
+
 		public Graph<V, E> newInstance() {
 			return delegate.newInstance();
 		}
 
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class UnmodifiableGraph<V,E> extends UnmodifiableAbstractGraph<V,E> implements Serializable {
-		private UnmodifiableGraph(Graph<V,E> delegate) {
+	static class UnmodifiableGraph<V, E> extends UnmodifiableAbstractGraph<V, E>
+			implements Serializable {
+		private UnmodifiableGraph(Graph<V, E> delegate) {
 			super(delegate);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class UnmodifiableDirectedGraph<V,E> extends UnmodifiableAbstractGraph<V,E> 
-		implements DirectedGraph<V,E>, Serializable {
-		private UnmodifiableDirectedGraph(DirectedGraph<V,E> delegate) {
+	static class UnmodifiableDirectedGraph<V, E>
+			extends UnmodifiableAbstractGraph<V, E>
+			implements DirectedGraph<V, E>, Serializable {
+		private UnmodifiableDirectedGraph(DirectedGraph<V, E> delegate) {
 			super(delegate);
 		}
 
 		@Override
-	    public V getDest(E directed_edge) {
-			return ((DirectedGraph<V,E>)delegate).getDest(directed_edge);
+		public V getDest(E directed_edge) {
+			return ((DirectedGraph<V, E>) delegate).getDest(directed_edge);
 		}
 
 		@Override
-    	public V getSource(E directed_edge) {
-			return ((DirectedGraph<V,E>)delegate).getSource(directed_edge);
+		public V getSource(E directed_edge) {
+			return ((DirectedGraph<V, E>) delegate).getSource(directed_edge);
 		}
 
 		@Override
-    	public boolean isDest(V vertex, E edge) {
-			return ((DirectedGraph<V,E>)delegate).isDest(vertex, edge);
+		public boolean isDest(V vertex, E edge) {
+			return ((DirectedGraph<V, E>) delegate).isDest(vertex, edge);
 		}
 
 		@Override
-    	public boolean isSource(V vertex, E edge) {
-			return ((DirectedGraph<V,E>)delegate).isSource(vertex, edge);
+		public boolean isSource(V vertex, E edge) {
+			return ((DirectedGraph<V, E>) delegate).isSource(vertex, edge);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class UnmodifiableUndirectedGraph<V,E> extends UnmodifiableAbstractGraph<V,E> 
-		implements UndirectedGraph<V,E>, Serializable {
-		private UnmodifiableUndirectedGraph(UndirectedGraph<V,E> delegate) {
+	static class UnmodifiableUndirectedGraph<V, E>
+			extends UnmodifiableAbstractGraph<V, E>
+			implements UndirectedGraph<V, E>, Serializable {
+		private UnmodifiableUndirectedGraph(UndirectedGraph<V, E> delegate) {
 			super(delegate);
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class UnmodifiableForest<V,E> extends UnmodifiableGraph<V,E>
-		implements Forest<V,E>, Serializable {
-		private UnmodifiableForest(Forest<V,E> delegate) {
+	static class UnmodifiableForest<V, E> extends UnmodifiableGraph<V, E>
+			implements Forest<V, E>, Serializable {
+		private UnmodifiableForest(Forest<V, E> delegate) {
 			super(delegate);
 		}
 
 		public Collection<Tree<V, E>> getTrees() {
-			return ((Forest<V,E>)delegate).getTrees();
+			return ((Forest<V, E>) delegate).getTrees();
 		}
 
-        public int getChildCount(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildCount(vertex);
-        }
+		public int getChildCount(V vertex) {
+			return ((Forest<V, E>) delegate).getChildCount(vertex);
+		}
 
-        public Collection<E> getChildEdges(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildEdges(vertex);
-        }
+		public Collection<E> getChildEdges(V vertex) {
+			return ((Forest<V, E>) delegate).getChildEdges(vertex);
+		}
 
-        public Collection<V> getChildren(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getChildren(vertex);
-        }
+		public Collection<V> getChildren(V vertex) {
+			return ((Forest<V, E>) delegate).getChildren(vertex);
+		}
 
-        public V getParent(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getParent(vertex);
-        }
+		public V getParent(V vertex) {
+			return ((Forest<V, E>) delegate).getParent(vertex);
+		}
 
-        public E getParentEdge(V vertex)
-        {
-            return ((Forest<V,E>)delegate).getParentEdge(vertex);
-        }
+		public E getParentEdge(V vertex) {
+			return ((Forest<V, E>) delegate).getParentEdge(vertex);
+		}
 	}
-	
+
 	@SuppressWarnings("serial")
-    static class UnmodifiableTree<V,E> extends UnmodifiableForest<V,E>
-	     implements Tree<V,E>, Serializable {
-		private UnmodifiableTree(Tree<V,E> delegate) {
+	static class UnmodifiableTree<V, E> extends UnmodifiableForest<V, E>
+			implements Tree<V, E>, Serializable {
+		private UnmodifiableTree(Tree<V, E> delegate) {
 			super(delegate);
 		}
 
 		public int getDepth(V vertex) {
-			return ((Tree<V,E>)delegate).getDepth(vertex);
+			return ((Tree<V, E>) delegate).getDepth(vertex);
 		}
 
 		public int getHeight() {
-			return ((Tree<V,E>)delegate).getHeight();
+			return ((Tree<V, E>) delegate).getHeight();
 		}
 
 		public V getRoot() {
-			return ((Tree<V,E>)delegate).getRoot();
+			return ((Tree<V, E>) delegate).getRoot();
 		}
 
 		@Override
-    	public Collection<Tree<V, E>> getTrees() {
-			return ((Tree<V,E>)delegate).getTrees();
+		public Collection<Tree<V, E>> getTrees() {
+			return ((Tree<V, E>) delegate).getTrees();
 		}
 	}
 

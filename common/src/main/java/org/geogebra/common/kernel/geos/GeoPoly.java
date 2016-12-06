@@ -4,46 +4,55 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Common interface for polygons and polylines
+ * 
  * @author Zbynek & Michael
  */
 public interface GeoPoly extends Path {
 	/**
 	 * Returns true iff all vertices are labeled
+	 * 
 	 * @return true iff all vertices are labeled
 	 */
-	public boolean isAllVertexLabelsSet() ;
+	public boolean isAllVertexLabelsSet();
 
 	/**
 	 * Returns true iff number of vertices is not volatile
+	 * 
 	 * @return true iff number of vertices is not volatile
 	 */
-	public boolean isVertexCountFixed() ;
-	
+	public boolean isVertexCountFixed();
+
 	/**
 	 * Returns array of all vertices
+	 * 
 	 * @return array of all vertices
 	 */
-	public GeoPointND[] getPoints(); 
-	
+	public GeoPointND[] getPoints();
+
 	/**
 	 * Returns i-th vertex
-	 * @param i index
+	 * 
+	 * @param i
+	 *            index
 	 * @return i-th vertex
 	 */
 	public GeoPoint getPoint(int i);
-	
+
 	/**
 	 * Converts polyline to cartesian curve
-	 * @param outGeo curve to store result
+	 * 
+	 * @param outGeo
+	 *            curve to store result
 	 */
 	public void toGeoCurveCartesian(GeoCurveCartesianND outGeo);
+
 	/**
 	 * @return boundary as Path
 	 */
 	public Path getBoundary();
+
 	/**
 	 * @return array of all vertices
 	 */

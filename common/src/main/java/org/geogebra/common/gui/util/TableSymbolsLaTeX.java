@@ -10,14 +10,14 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] miscSymbols = {
 
-	"\\#", "\\&", "\\prime", "\\backprime",
+			"\\#", "\\&", "\\prime", "\\backprime",
 
-	"\\angle", "\\measuredangle", "\\sphericalangle",
+			"\\angle", "\\measuredangle", "\\sphericalangle",
 
-	"\\nabla", "\\neg", "\\nexists",
+			"\\nabla", "\\neg", "\\nexists",
 
-	"\\varnothing", "\\emptyset", "\\exists", "\\forall", "\\infty", "\\surd",
-			"\\top", "\\bot", "\\diagdown", "\\diagup",
+			"\\varnothing", "\\emptyset", "\\exists", "\\forall", "\\infty",
+			"\\surd", "\\top", "\\bot", "\\diagdown", "\\diagup",
 
 			"\\bigstar", "\\lozenge", "\\blacklozenge", "\\square",
 			"\\blacksquare", "\\triangle", "\\triangledown", "\\blacktriangle",
@@ -30,21 +30,21 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] roots_fractions = {
 
-	"\\frac{a}{b}", "x^{a}", "x_{a}", "\\sqrt{x}", "\\sqrt[n]{x}",
+			"\\frac{a}{b}", "x^{a}", "x_{a}", "\\sqrt{x}", "\\sqrt[n]{x}",
 			"\\binom{a}{b}",
 
 	};
 
 	public final static String[] sums = {
 
-	"\\sum{ }", "\\sum_{a}^{b}{ }", "\\int{ }", "\\int_{a}^{b}{ }",
+			"\\sum{ }", "\\sum_{a}^{b}{ }", "\\int{ }", "\\int_{a}^{b}{ }",
 			"\\oint{ }", "\\oint_{a}^{b}{ }", "\\lim_{ x \\to \\infty }"
 
 	};
 
 	public final static String[] accents = {
 
-	"\\acute{x}", "\\grave{x}", "\\tilde{x}", "\\bar{x}", "\\breve{x}",
+			"\\acute{x}", "\\grave{x}", "\\tilde{x}", "\\bar{x}", "\\breve{x}",
 			"\\check{x}", "\\hat{x}", "\\vec{x}", "\\dot{x}", "\\ddot{x}",
 			"\\dddot{x}", "\\mathring{x}",
 
@@ -52,8 +52,8 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] accentsExtended = {
 
-	"\\overline{xx}", "\\underline{xx}", "\\overbrace{xx}", "\\underbrace{xx}",
-			"\\overleftarrow{xx}", "\\underleftarrow{xx}",
+			"\\overline{xx}", "\\underline{xx}", "\\overbrace{xx}",
+			"\\underbrace{xx}", "\\overleftarrow{xx}", "\\underleftarrow{xx}",
 			"\\overrightarrow{xx}", "\\underrightarrow{xx}",
 			"\\overleftrightarrow{xx}", "\\underleftrightarrow{xx}",
 
@@ -63,19 +63,19 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] brackets = {
 
-	"\\left(   \\right) ", "\\left [  \\right ] ", "\\left\\{  \\right\\} ",
-			"\\left|  \\right| ",
-	// not suported in MathQuillGGB
-	// "\\left\\Vert  \\right\\Vert ",
-	// "\\left\\langle  \\right\\rangle ",
-	// "\\left\\lceil   \\right\\rceil  ",
-	// "\\left\\lfloor  \\right\\rfloor ",
-	// "\\left\\lgroup  \\right\\rgroup ",
-	// "\\left\\lmoustache  \\right\\rmoustache ",
-	// "\\shadowbox{xx}",
-	// "\\fbox{xx}",
-	// "\\doublebox{xx}",
-	// "\\ovalbox{xx}"
+			"\\left(   \\right) ", "\\left [  \\right ] ",
+			"\\left\\{  \\right\\} ", "\\left|  \\right| ",
+			// not suported in MathQuillGGB
+			// "\\left\\Vert \\right\\Vert ",
+			// "\\left\\langle \\right\\rangle ",
+			// "\\left\\lceil \\right\\rceil ",
+			// "\\left\\lfloor \\right\\rfloor ",
+			// "\\left\\lgroup \\right\\rgroup ",
+			// "\\left\\lmoustache \\right\\rmoustache ",
+			// "\\shadowbox{xx}",
+			// "\\fbox{xx}",
+			// "\\doublebox{xx}",
+			// "\\ovalbox{xx}"
 	};
 
 	public final static String[] matrices = {
@@ -92,7 +92,7 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] operators = {
 
-	"\\pm", "\\mp", "\\times", "\\div", "\\cdot", "\\ast", "\\star",
+			"\\pm", "\\mp", "\\times", "\\div", "\\cdot", "\\ast", "\\star",
 			"\\dagger", "\\ddagger", "\\amalg", "\\cap", "\\cup", "\\uplus",
 			"\\sqcap", "\\sqcup", "\\vee", "\\wedge", "\\oplus", "\\ominus",
 			"\\otimes", "\\circ", "\\bullet", "\\diamond", "\\lhd", "\\rhd",
@@ -105,12 +105,12 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] relations = {
 
-	"\\le", "\\ge", "\\neq", "\\sim", "\\ll", "\\gg", "\\doteq", "\\simeq",
-			"\\subset", "\\supset", "\\approx", "\\asymp", "\\subseteq",
-			"\\supseteq", "\\cong", "\\smile", "\\sqsubset", "\\sqsupset",
-			"\\equiv", "\\frown", "\\sqsubseteq", "\\sqsupseteq", "\\propto",
-			"\\bowtie", "\\in", "\\ni", "\\prec", "\\succ", "\\vdash",
-			"\\dashv", "\\preceq", "\\succeq", "\\models", "\\perp",
+			"\\le", "\\ge", "\\neq", "\\sim", "\\ll", "\\gg", "\\doteq",
+			"\\simeq", "\\subset", "\\supset", "\\approx", "\\asymp",
+			"\\subseteq", "\\supseteq", "\\cong", "\\smile", "\\sqsubset",
+			"\\sqsupset", "\\equiv", "\\frown", "\\sqsubseteq", "\\sqsupseteq",
+			"\\propto", "\\bowtie", "\\in", "\\ni", "\\prec", "\\succ",
+			"\\vdash", "\\dashv", "\\preceq", "\\succeq", "\\models", "\\perp",
 			"\\parallel", "\\|", "\\mid"
 
 	};
@@ -125,21 +125,21 @@ public class TableSymbolsLaTeX {
 
 	public final static String[] arrows = {
 
-	"\\xleftarrow{xx}", "\\xrightarrow{xx}",
+			"\\xleftarrow{xx}", "\\xrightarrow{xx}",
 
-	"\\leftarrow", "\\rightarrow", "\\leftrightarrow",
+			"\\leftarrow", "\\rightarrow", "\\leftrightarrow",
 
-	"\\Leftarrow", "\\Rightarrow", "\\Leftrightarrow",
+			"\\Leftarrow", "\\Rightarrow", "\\Leftrightarrow",
 
-	"\\longleftarrow", "\\longrightarrow", "\\longleftrightarrow",
+			"\\longleftarrow", "\\longrightarrow", "\\longleftrightarrow",
 
-	"\\Longleftarrow", "\\Longrightarrow", "\\Longleftrightarrow",
+			"\\Longleftarrow", "\\Longrightarrow", "\\Longleftrightarrow",
 
-	"\\mapsto", "\\longmapsto",
+			"\\mapsto", "\\longmapsto",
 
-	"\\hookleftarrow", "\\hookrightarrow",
+			"\\hookleftarrow", "\\hookrightarrow",
 
-	"\\leftharpoonup", "\\leftharpoondown", "\\rightharpoonup",
+			"\\leftharpoonup", "\\leftharpoondown", "\\rightharpoonup",
 			"\\rightharpoondown", "\\rightleftharpoons",
 
 			"\\leadsto", "\\uparrow", "\\downarrow", "\\updownarrow",

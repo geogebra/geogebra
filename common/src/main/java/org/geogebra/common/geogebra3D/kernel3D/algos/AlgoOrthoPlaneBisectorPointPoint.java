@@ -44,8 +44,9 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 		this.point1 = point1;
 		this.point2 = point2;
 
-		setInputOutput(new GeoElement[] { (GeoElement) point1,
-				(GeoElement) point2 }, new GeoElement[] { getPlane() });
+		setInputOutput(
+				new GeoElement[] { (GeoElement) point1, (GeoElement) point2 },
+				new GeoElement[] { getPlane() });
 
 		// compute plane
 		compute();
@@ -67,7 +68,5 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 		return point1.getInhomCoordsInD3().add(point2.getInhomCoordsInD3())
 				.mul(0.5);
 	}
-
-	
 
 }

@@ -73,6 +73,4 @@ public class AlgoListLength extends AlgoElement {
 		}
 	}
 
-	
-
 }

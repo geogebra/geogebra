@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Markus
  */
-public abstract class AlgoAngleLinesND extends AlgoAngle implements
-		DrawInformationAlgo {
+public abstract class AlgoAngleLinesND extends AlgoAngle
+		implements DrawInformationAlgo {
 
 	protected GeoLineND g, h; // input
 	protected GeoAngle angle; // output
@@ -75,7 +75,8 @@ public abstract class AlgoAngleLinesND extends AlgoAngle implements
 	 * @param orientation
 	 *            orientation
 	 */
-	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
+	protected void setInput(GeoLineND g, GeoLineND h,
+			GeoDirectionND orientation) {
 		this.g = g;
 		this.h = h;
 	}

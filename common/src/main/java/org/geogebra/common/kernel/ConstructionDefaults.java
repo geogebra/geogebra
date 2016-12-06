@@ -251,7 +251,6 @@ public class ConstructionDefaults {
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
 
-
 	/**
 	 * Fills the list of default geos
 	 */
@@ -439,7 +438,8 @@ public class ConstructionDefaults {
 		// see GeoNumeric.setSliderFromDefault()
 		// angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE);
-		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
+		angle.setLineTypeHidden(
+				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 
 		// function
@@ -590,7 +590,8 @@ public class ConstructionDefaults {
 
 		case CONICPART:
 			GeoConicPartND conicPart = (GeoConicPartND) geo;
-			if (conicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
+			if (conicPart
+					.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 				type = DEFAULT_CONIC_SECTOR;
 			} else {
 				type = DEFAULT_CONIC;
@@ -655,7 +656,6 @@ public class ConstructionDefaults {
 			// should get the default values of a line
 			type = DEFAULT_LINE;
 		}
-		
 
 		return type;
 	}
@@ -731,7 +731,7 @@ public class ConstructionDefaults {
 		App app = cons.getApplication();
 
 		boolean defaultLabelMode = true;
-		
+
 		if (defaultGeo != null) {
 			if (!setEuclidianVisible || geo.isGeoNumeric()) { // don't affect
 																// euclidianVisible
@@ -749,14 +749,15 @@ public class ConstructionDefaults {
 				// set to highest used layer
 				setMaxLayerUsed(geo, app);
 			}
-			
-			defaultLabelMode = defaultGeo.getLabelMode() == GeoElement.LABEL_DEFAULT;
+
+			defaultLabelMode = defaultGeo
+					.getLabelMode() == GeoElement.LABEL_DEFAULT;
 		}
 
-		if (defaultLabelMode){
+		if (defaultLabelMode) {
 			// label visibility
-			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS : app
-					.getCurrentLabelingStyle();
+			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS
+					: app.getCurrentLabelingStyle();
 
 			// automatic labelling:
 			// if algebra window open -> all labels
@@ -958,13 +959,13 @@ public class ConstructionDefaults {
 			geo.setAlphaValue(filling0);
 		}
 	}
-	
+
 	/**
-	 * reset label mode to default for all default geos
-	 * (and label visibility to true)
+	 * reset label mode to default for all default geos (and label visibility to
+	 * true)
 	 */
-	public void resetLabelModeDefaultGeos(){
-		for (GeoElement geo : defaultGeoElements.values()){
+	public void resetLabelModeDefaultGeos() {
+		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.labelMode = GeoElement.LABEL_DEFAULT;
 			geo.setLabelVisible(true);
 		}
@@ -990,7 +991,7 @@ public class ConstructionDefaults {
 			sb3d.append("<defaults>\n");
 		}
 
-		for (GeoElement geo : defaultGeoElements.values()){
+		for (GeoElement geo : defaultGeoElements.values()) {
 			if (geo.isGeoElement3D()) {
 				if (sb3d != null) {
 					geo.getXML(false, sb3d);
@@ -1004,13 +1005,14 @@ public class ConstructionDefaults {
 		if (sb3d != null) {
 			sb3d.append("</defaults>\n</geogebra>");
 		}
-		
+
 	}
-	
-	public void setConstructionDefaults(ConstructionDefaults otherDefaults){
-		for (GeoElement geo : defaultGeoElements.values()){
-			GeoElement otherGeo = otherDefaults.getDefaultGeo(geo.getDefaultGeoType());
-			if (otherGeo != null){
+
+	public void setConstructionDefaults(ConstructionDefaults otherDefaults) {
+		for (GeoElement geo : defaultGeoElements.values()) {
+			GeoElement otherGeo = otherDefaults
+					.getDefaultGeo(geo.getDefaultGeoType());
+			if (otherGeo != null) {
 				geo.setVisualStyle(otherGeo);
 			}
 		}
@@ -1021,7 +1023,7 @@ public class ConstructionDefaults {
 	public GColor getNextColor() {
 		GColor color = colorSequence[colorIndex];
 		if (!cons.getKernel().isSilentMode()) {
-		colorIndex = (colorIndex + 1) % colorSequence.length;
+			colorIndex = (colorIndex + 1) % colorSequence.length;
 		}
 		return color;
 	}

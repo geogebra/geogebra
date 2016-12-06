@@ -25,8 +25,8 @@ import org.geogebra.common.plugin.Operation;
  * 
  */
 
-public class AlgoTriangleCurve extends AlgoElement implements
-		ExpressionNodeConstants {
+public class AlgoTriangleCurve extends AlgoElement
+		implements ExpressionNodeConstants {
 
 	private GeoPoint A, B, C; // input
 	private GeoImplicit n; // number of curve
@@ -56,8 +56,8 @@ public class AlgoTriangleCurve extends AlgoElement implements
 	 *            variable "C"
 	 */
 	public AlgoTriangleCurve(Construction cons, String label, GeoPoint A,
-			GeoPoint B, GeoPoint C, GeoImplicit e, GeoNumeric a,
-			GeoNumeric b, GeoNumeric c) {
+			GeoPoint B, GeoPoint C, GeoImplicit e, GeoNumeric a, GeoNumeric b,
+			GeoNumeric c) {
 		super(cons);
 		this.A = A;
 		this.B = B;
@@ -66,11 +66,9 @@ public class AlgoTriangleCurve extends AlgoElement implements
 
 		AlgoElement d = n.getParentAlgorithm();
 		cons.removeFromConstructionList(d);
-		ExpressionNode lhs = ((AlgoDependentImplicit) d)
-				.getEquation().getLHS()
+		ExpressionNode lhs = ((AlgoDependentImplicit) d).getEquation().getLHS()
 				.deepCopy(kernel);
-		ExpressionNode rhs = ((AlgoDependentImplicit) d)
-				.getEquation().getRHS()
+		ExpressionNode rhs = ((AlgoDependentImplicit) d).getEquation().getRHS()
 				.deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
 		FunctionVariable x = new FunctionVariable(kernel, "x");
@@ -85,12 +83,11 @@ public class AlgoTriangleCurve extends AlgoElement implements
 			ycoef[i] = new GeoNumeric(cons);
 			constant[i] = new GeoNumeric(cons);
 
-			abcExp[i] = new ExpressionNode(kernel,
-					new ExpressionNode(kernel, new ExpressionNode(kernel,
-							xcoef[i], Operation.MULTIPLY, x), Operation.PLUS,
-							new ExpressionNode(kernel, ycoef[i],
-									Operation.MULTIPLY, y)), Operation.PLUS,
-					constant[i]);
+			abcExp[i] = new ExpressionNode(kernel, new ExpressionNode(kernel,
+					new ExpressionNode(kernel, xcoef[i], Operation.MULTIPLY, x),
+					Operation.PLUS, new ExpressionNode(kernel, ycoef[i],
+							Operation.MULTIPLY, y)),
+					Operation.PLUS, constant[i]);
 		}
 
 		eq = new Equation(kernel, lhs, rhs);
@@ -168,7 +165,5 @@ public class AlgoTriangleCurve extends AlgoElement implements
 		}
 
 	}
-
-	
 
 }

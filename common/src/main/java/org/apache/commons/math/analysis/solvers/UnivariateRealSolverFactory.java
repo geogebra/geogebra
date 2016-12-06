@@ -25,66 +25,76 @@ package org.apache.commons.math.analysis.solvers;
  * <li>Brent's method</li>
  * <li>Secant method</li>
  * </ul>
- * Concrete factories extending this class also specify a default solver, instances of which
- * are returned by <code>newDefaultSolver()</code>.</p>
+ * Concrete factories extending this class also specify a default solver,
+ * instances of which are returned by <code>newDefaultSolver()</code>.
+ * </p>
  * <p>
- * Common usage:<pre>
+ * Common usage:
+ * 
+ * <pre>
  * SolverFactory factory = UnivariateRealSolverFactory.newInstance();</p>
  *
  * // create a Brent solver to use
  * BrentSolver solver = factory.newBrentSolver();
  * </pre>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  */
 public abstract class UnivariateRealSolverFactory {
-    /**
-     * Default constructor.
-     */
-    protected UnivariateRealSolverFactory() {
-    }
+	/**
+	 * Default constructor.
+	 */
+	protected UnivariateRealSolverFactory() {
+	}
 
-    /**
-     * Create a new factory.
-     * @return a new factory.
-     */
-    public static UnivariateRealSolverFactory newInstance() {
-        return new UnivariateRealSolverFactoryImpl();
-    }
+	/**
+	 * Create a new factory.
+	 * 
+	 * @return a new factory.
+	 */
+	public static UnivariateRealSolverFactory newInstance() {
+		return new UnivariateRealSolverFactoryImpl();
+	}
 
-    /**
-     * Create a new {@link UnivariateRealSolver}.  The
-     * actual solver returned is determined by the underlying factory.
-     * @return the new solver.
-     */
-    public abstract UnivariateRealSolver newDefaultSolver();
+	/**
+	 * Create a new {@link UnivariateRealSolver}. The actual solver returned is
+	 * determined by the underlying factory.
+	 * 
+	 * @return the new solver.
+	 */
+	public abstract UnivariateRealSolver newDefaultSolver();
 
-    /**
-     * Create a new {@link UnivariateRealSolver}.  The
-     * solver is an implementation of the bisection method.
-     * @return the new solver.
-     */
-    //public abstract UnivariateRealSolver newBisectionSolver();
+	/**
+	 * Create a new {@link UnivariateRealSolver}. The solver is an
+	 * implementation of the bisection method.
+	 * 
+	 * @return the new solver.
+	 */
+	// public abstract UnivariateRealSolver newBisectionSolver();
 
-    /**
-     * Create a new {@link UnivariateRealSolver}.  The
-     * solver is an implementation of the Brent method.
-     * @return the new solver.
-     */
-    public abstract UnivariateRealSolver newBrentSolver();
+	/**
+	 * Create a new {@link UnivariateRealSolver}. The solver is an
+	 * implementation of the Brent method.
+	 * 
+	 * @return the new solver.
+	 */
+	public abstract UnivariateRealSolver newBrentSolver();
 
-    /**
-     * Create a new {@link UnivariateRealSolver}.  The
-     * solver is an implementation of Newton's Method.
-     * @return the new solver.
-     */
-    public abstract UnivariateRealSolver newNewtonSolver();
+	/**
+	 * Create a new {@link UnivariateRealSolver}. The solver is an
+	 * implementation of Newton's Method.
+	 * 
+	 * @return the new solver.
+	 */
+	public abstract UnivariateRealSolver newNewtonSolver();
 
-    /**
-     * Create a new {@link UnivariateRealSolver}.  The
-     * solver is an implementation of the secant method.
-     * @return the new solver.
-     */
-    public abstract UnivariateRealSolver newSecantSolver();
+	/**
+	 * Create a new {@link UnivariateRealSolver}. The solver is an
+	 * implementation of the secant method.
+	 * 
+	 * @return the new solver.
+	 */
+	public abstract UnivariateRealSolver newSecantSolver();
 
 }

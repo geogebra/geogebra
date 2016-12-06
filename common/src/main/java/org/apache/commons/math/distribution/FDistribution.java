@@ -22,39 +22,46 @@ package org.apache.commons.math.distribution;
  * <p>
  * References:
  * <ul>
- * <li><a href="http://mathworld.wolfram.com/F-Distribution.html">
- * F-Distribution</a></li>
+ * <li><a href="http://mathworld.wolfram.com/F-Distribution.html"> F-
+ * Distribution</a></li>
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface FDistribution extends ContinuousDistribution {
-    /**
-     * Modify the numerator degrees of freedom.
-     * @param degreesOfFreedom the new numerator degrees of freedom.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumeratorDegreesOfFreedom(double degreesOfFreedom);
+	/**
+	 * Modify the numerator degrees of freedom.
+	 * 
+	 * @param degreesOfFreedom
+	 *            the new numerator degrees of freedom.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setNumeratorDegreesOfFreedom(double degreesOfFreedom);
 
-    /**
-     * Access the numerator degrees of freedom.
-     * @return the numerator degrees of freedom.
-     */
-    double getNumeratorDegreesOfFreedom();
+	/**
+	 * Access the numerator degrees of freedom.
+	 * 
+	 * @return the numerator degrees of freedom.
+	 */
+	double getNumeratorDegreesOfFreedom();
 
-    /**
-     * Modify the denominator degrees of freedom.
-     * @param degreesOfFreedom the new denominator degrees of freedom.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setDenominatorDegreesOfFreedom(double degreesOfFreedom);
+	/**
+	 * Modify the denominator degrees of freedom.
+	 * 
+	 * @param degreesOfFreedom
+	 *            the new denominator degrees of freedom.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setDenominatorDegreesOfFreedom(double degreesOfFreedom);
 
-    /**
-     * Access the denominator degrees of freedom.
-     * @return the denominator degrees of freedom.
-     */
-    double getDenominatorDegreesOfFreedom();
+	/**
+	 * Access the denominator degrees of freedom.
+	 * 
+	 * @return the denominator degrees of freedom.
+	 */
+	double getDenominatorDegreesOfFreedom();
 }

@@ -61,7 +61,8 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 			else
 				toScreenCoords = mat.mul(P[i].getCoords().getCoordsLast1())
 						.getInhomCoords();
-			// Application.debug("\nScreen coords of point "+i+" is:\n"+toScreenCoords);
+			// Application.debug("\nScreen coords of point "+i+"
+			// is:\n"+toScreenCoords);
 			x = (toScreenCoords.getX() - xRW);
 			y = (toScreenCoords.getY() - yRW);
 			// comment: the z dimension is the "height", which will not be used

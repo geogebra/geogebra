@@ -108,17 +108,16 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 				corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
 
 				break;
-				
+
 			case 11: // return view direction
 				Coords eye = ev.getEyePosition();
 				corner.setCoords(eye.getX(), eye.getY(), eye.getZ(), 1.0);
 				break;
-				
+
 			default:
 				corner.setUndefined();
 				break;
 			}
-			
 
 		} else { // ev1 or ev2
 			super.compute();
@@ -129,8 +128,8 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 	@Override
 	public Commands getClassName() {
 		if (corner.isGeoElement3D()
-				&& (kernel.isSaving() || kernel.isGettingUndo() || getConstruction()
-						.isGettingXMLForReplace())) {
+				&& (kernel.isSaving() || kernel.isGettingUndo()
+						|| getConstruction().isGettingXMLForReplace())) {
 			return Commands.CornerThreeD; // save in XML (and undo XML) this
 											// specific token to distinguish
 											// from 2D corner command

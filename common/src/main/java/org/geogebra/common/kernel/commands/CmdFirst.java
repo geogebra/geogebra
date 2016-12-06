@@ -36,10 +36,12 @@ public class CmdFirst extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { First(c.getLabel(), (GeoList) arg[0], null) };
+				GeoElement[] ret = {
+						First(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { First(c.getLabel(), (GeoText) arg[0], null) };
+				GeoElement[] ret = {
+						First(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -63,8 +65,8 @@ public class CmdFirst extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), (list && string) ? arg[1]
-						: arg[0]);
+				throw argErr(app, c.getName(),
+						(list && string) ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

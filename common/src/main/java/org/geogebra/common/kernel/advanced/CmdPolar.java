@@ -84,7 +84,8 @@ public class CmdPolar extends CommandProcessor {
 	 *            conic
 	 * @return pole line
 	 */
-	protected GeoElement polarPoint(String label, GeoLineND line, GeoConicND c) {
+	protected GeoElement polarPoint(String label, GeoLineND line,
+			GeoConicND c) {
 		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
 		return (GeoElement) algo.getPoint();
 	}

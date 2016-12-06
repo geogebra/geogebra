@@ -28,40 +28,40 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  *
  * @author cyberpython
  */
-public class ScanlineIntersection extends Intersection{
-    private Segment2DEx segment;
+public class ScanlineIntersection extends Intersection {
+	private Segment2DEx segment;
 
-    public ScanlineIntersection(Segment2DEx segment, Point2D p0){
-        super(p0);
-        this.segment = segment;
-    }
+	public ScanlineIntersection(Segment2DEx segment, Point2D p0) {
+		super(p0);
+		this.segment = segment;
+	}
 
-    public Segment2DEx getSegment(){
-        return this.segment;
-    }
+	public Segment2DEx getSegment() {
+		return this.segment;
+	}
 
-    @Override
-    public String toString(){
-        return segment.toString() + ", "+getPoint().toString();
-    }
+	@Override
+	public String toString() {
+		return segment.toString() + ", " + getPoint().toString();
+	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ScanlineIntersection) {
+			if (this.hashCode() == o.hashCode()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
-    @Override
-    public boolean equals(Object o){
-        if(o instanceof ScanlineIntersection){
-            if(this.hashCode()==o.hashCode()){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + (this.segment != null ? this.segment.hashCode() : 0);
-        hash = 83 * hash + (this.getPoint() != null ? this.getPoint().hashCode() : 0);
-        return hash;
-    }
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 83 * hash + (this.segment != null ? this.segment.hashCode() : 0);
+		hash = 83 * hash
+				+ (this.getPoint() != null ? this.getPoint().hashCode() : 0);
+		return hash;
+	}
 
 }

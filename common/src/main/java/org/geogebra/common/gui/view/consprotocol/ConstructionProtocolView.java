@@ -21,15 +21,15 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 
 public class ConstructionProtocolView {
-	
+
 	public App app;
 	public Kernel kernel;
 	public ConstructionTableData data;
 	protected boolean isViewAttached;
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
-	
+
 	protected boolean useColors, addIcons;
-	
+
 	public class RowData {
 		int rowNumber = -1;
 		int index; // construction index of line: may be different
@@ -54,8 +54,8 @@ public class ConstructionProtocolView {
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
 			else
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
-						true));
+				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
+						new IndexHTMLBuilder(true));
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = geo.getNameDescriptionTextOrHTML();
@@ -66,59 +66,59 @@ public class ConstructionProtocolView {
 			caption = geo.getCaptionDescriptionHTML(wrapHTML,
 					StringTemplate.defaultTemplate);
 		}
-		
-		public GeoElement getGeo(){
+
+		public GeoElement getGeo() {
 			return geo;
 		}
-		
-		public int getIndex(){
+
+		public int getIndex() {
 			return index;
 		}
-		
-		public void setIndex(int i){
+
+		public void setIndex(int i) {
 			index = i;
 		}
-		
-		public String getName(){
+
+		public String getName() {
 			return name;
 		}
-		
+
 		public String getDescription() {
 			return description;
 		}
-		
+
 		public String getDefinition() {
 			return definition;
 		}
 
-		public String getAlgebra(){
+		public String getAlgebra() {
 			return algebra;
 		}
-		
-		public String getCaption(){
+
+		public String getCaption() {
 			return caption;
 		}
-		
-		public GImageIcon getToolbarIcon(){
+
+		public GImageIcon getToolbarIcon() {
 			return toolbarIcon;
 		}
-		
+
 		public boolean getCPVisible() {
 			return consProtocolVisible;
 		}
-		
-		public int getRowNumber(){
+
+		public int getRowNumber() {
 			return rowNumber;
 		}
-		
-		public void setRowNumber(int num){
+
+		public void setRowNumber(int num) {
 			rowNumber = num;
 		}
-		
-		public boolean getIncludesIndex(){
+
+		public boolean getIncludesIndex() {
 			return includesIndex;
 		}
-		
+
 		public void updateAll() {
 
 			/*
@@ -130,8 +130,9 @@ public class ConstructionProtocolView {
 			int index;
 			int prevIndex;
 
-			index = (rowNumber < 0) ? -1 : /*data.*/getConstructionIndex(rowNumber);
-			prevIndex = (rowNumber < 1) ? -1 : /*data.*/
+			index = (rowNumber < 0) ? -1
+					: /* data. */getConstructionIndex(rowNumber);
+			prevIndex = (rowNumber < 1) ? -1 : /* data. */
 					getConstructionIndex(rowNumber - 1);
 
 			// TODO: This logic could be merged with the HTML export logic.
@@ -148,7 +149,7 @@ public class ConstructionProtocolView {
 				m = geo.getRelatedModeID();
 
 			if (m != -1 && index != prevIndex) {
-				toolbarIcon = getModeIcon(m); //app.wrapGetModeIcon(m);
+				toolbarIcon = getModeIcon(m); // app.wrapGetModeIcon(m);
 			} else {
 				toolbarIcon = null;
 			}
@@ -162,8 +163,8 @@ public class ConstructionProtocolView {
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
 			else
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
-						true));
+				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(
+						new IndexHTMLBuilder(true));
 			description = geo.getDescriptionHTML(true);
 			definition = geo.getDefinitionHTML(true);
 			updateCaption();
@@ -193,7 +194,7 @@ public class ConstructionProtocolView {
 		private int prefWidth, minWidth;
 		private int alignment;
 		private boolean initShow; // should be shown from the beginning
-	
+
 		public ColumnData(String title, int prefWidth, int minWidth,
 				int alignment, boolean initShow) {
 			this.title = title;
@@ -201,30 +202,30 @@ public class ConstructionProtocolView {
 			this.minWidth = minWidth;
 			this.alignment = alignment;
 			this.initShow = initShow;
-	
+
 			isVisible = initShow;
 		}
-	
+
 		public String getTitle() {
 			return title;
 		}
-	
+
 		public String getTranslatedTitle() {
 			return app.getLocalization().getMenu(title);
 		}
-	
+
 		public int getPreferredWidth() {
 			return prefWidth;
 		}
-	
+
 		public int getMinWidth() {
 			return minWidth;
 		}
-	
+
 		public int getAlignment() {
 			return alignment;
 		}
-	
+
 		public boolean getInitShow() {
 			// algebra column should only be shown at startup if algebraview is
 			// shown
@@ -232,18 +233,18 @@ public class ConstructionProtocolView {
 			if (title.equals("Value")
 					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA))
 				return false;
-	
+
 			return initShow;
 		}
-		
-		public void setVisible(boolean isVisible){
+
+		public void setVisible(boolean isVisible) {
 			this.isVisible = isVisible;
 		}
-		
-		public boolean isVisible(){
+
+		public boolean isVisible() {
 			return isVisible;
 		}
-		
+
 	}
 
 	public final void updateNavBarsAndRepaint() {
@@ -262,7 +263,7 @@ public class ConstructionProtocolView {
 	public int getCurrentStepNumber() {
 		return data.getCurrentStepNumber();
 	}
-	
+
 	/**
 	 * Returns the number of the last construction step shown in the
 	 * construction protocol's table.
@@ -317,7 +318,6 @@ public class ConstructionProtocolView {
 		updateNavBarsAndRepaint();
 	}
 
-
 	public ConstructionProtocolView.ConstructionTableData getData() {
 		return data;
 	}
@@ -329,28 +329,28 @@ public class ConstructionProtocolView {
 		}
 	}
 
-	public void scrollToConstructionStep(){
-		//TODO Log.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
+	public void scrollToConstructionStep() {
+		// TODO Log.debug("ConstructionProtocolView.scrollToConstructionStep -
+		// unimplemented in common");
 	}
-	
-	public class ConstructionTableData implements View, SetLabels{
+
+	public class ConstructionTableData implements View, SetLabels {
 
 		protected ConstructionTableData ctData = this;
 
 		public final ColumnData columns[] = {
-						new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
-						new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
-						new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
-								false),
-				new ColumnData("Description", 150,
-						50, SwingConstants.LEFT, true),
-				new ColumnData("Definition", 150, 50,
-						SwingConstants.LEFT, false),
-						new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
-						new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
-						new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,
-								false)
-						 };
+				new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
+				new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
+				new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
+						false),
+				new ColumnData("Description", 150, 50, SwingConstants.LEFT,
+						true),
+				new ColumnData("Definition", 150, 50, SwingConstants.LEFT,
+						false),
+				new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
+				new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),
+				new ColumnData("Breakpoint", 70, 35, SwingConstants.CENTER,
+						false) };
 		protected ArrayList<RowData> rowList;
 		protected HashMap<GeoElement, RowData> geoMap;
 		protected int columnsCount = columns.length;
@@ -358,43 +358,43 @@ public class ConstructionProtocolView {
 		private SetLabels gui;
 
 		public ConstructionTableData(SetLabels gui) {
-//			ctDataImpl = new MyGAbstractTableModel();
+			// ctDataImpl = new MyGAbstractTableModel();
 			rowList = new ArrayList<RowData>();
 			geoMap = new HashMap<GeoElement, RowData>();
 			this.gui = gui;
 		}
-		
-		public void setLabels(){
-	    	this.gui.setLabels();
-	    }
-		
+
+		public void setLabels() {
+			this.gui.setLabels();
+		}
+
 		@Override
 		public void startBatchUpdate() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void endBatchUpdate() {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
-		public boolean suggestRepaint(){
+
+		public boolean suggestRepaint() {
 			return false;
 			// not used for this view
 		}
-		
+
 		public void notifyClear() {
 			// TODO Auto-generated method stub
 
 		}
 
-		public ArrayList<RowData> getrowList(){
+		public ArrayList<RowData> getrowList() {
 			return rowList;
 		}
-		
-		public GAbstractTableModel getImpl(){
+
+		public GAbstractTableModel getImpl() {
 			Log.debug("ConstructionTableData.getImpl() must be overriden");
 			return null;
 		}
@@ -421,7 +421,7 @@ public class ConstructionProtocolView {
 		 */
 		public int getCurrentStepNumber() {
 			int step = kernel.getConstructionStep();
-			
+
 			// search the current construction step in the rowList
 			int size = rowList.size();
 			for (int i = 0; i < size; i++) {
@@ -494,21 +494,20 @@ public class ConstructionProtocolView {
 		}
 
 		public boolean isCellEditable(int nRow, int nCol) {
-			
-			if((this.columns[nCol].getTitle()).equals("Caption")){ 
+
+			if ((this.columns[nCol].getTitle()).equals("Caption")) {
 				return true;
 			}
 			return false;
 		}
-
 
 		/***********************
 		 * View Implementation *
 		 ***********************/
 		public void add(GeoElement geo) {
 			if ((!geo.isLabelSet() && !geo.isGeoCasCell())
-					|| (kernel.getConstruction().showOnlyBreakpoints() && !geo
-							.isConsProtocolBreakpoint()))
+					|| (kernel.getConstruction().showOnlyBreakpoints()
+							&& !geo.isConsProtocolBreakpoint()))
 				return;
 			// if we already have twin geo, ignore CAS cell
 			if (geo.isGeoCasCell() && ((GeoCasCell) geo).getTwinGeo() != null
@@ -521,9 +520,8 @@ public class ConstructionProtocolView {
 				remove(geo.getCorrespondingCasCell());
 				// remove also twinGeo of geoCasCell
 				// needed for GGB-810
-				if (geo.getCorrespondingCasCell().getTwinGeo() != null
-						&& geo.getCorrespondingCasCell().getTwinGeo()
-								.equals(geo)) {
+				if (geo.getCorrespondingCasCell().getTwinGeo() != null && geo
+						.getCorrespondingCasCell().getTwinGeo().equals(geo)) {
 					remove(geo);
 				}
 			}
@@ -532,8 +530,8 @@ public class ConstructionProtocolView {
 				int index = geo.getConstructionIndex();
 				// use index of geo instead of corresponding geoCasCell
 				// needed for GGB-810
-				if (geo.getParentAlgorithm() != null
-						&& geo.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+				if (geo.getParentAlgorithm() != null && geo
+						.getParentAlgorithm() instanceof AlgoDependentCasCell) {
 					int geoIndex = geo.getAlgoDepCasCellGeoConstIndex();
 					if (index < geoIndex) {
 						index = geoIndex;
@@ -541,11 +539,10 @@ public class ConstructionProtocolView {
 				}
 				int pos = 0; // there may be more rows with same index
 				int size = rowList.size();
-				while (pos < size
-						&& index >= rowList.get(pos).getGeo()
-								.getConstructionIndex())
+				while (pos < size && index >= rowList.get(pos).getGeo()
+						.getConstructionIndex())
 					pos++;
-		
+
 				row = new RowData(geo, !app.isHTML5Applet());
 				if (pos < size) {
 					rowList.add(pos, row);
@@ -553,7 +550,7 @@ public class ConstructionProtocolView {
 					pos = size;
 					rowList.add(row);
 				}
-		
+
 				// insert new row
 				geoMap.put(geo, row); // insert (geo, row) pair in map
 				updateRowNumbers(pos);
@@ -593,13 +590,12 @@ public class ConstructionProtocolView {
 			// overridden in subclasses
 		}
 
-
 		public void rename(GeoElement geo) {
 			// renaming may affect multiple rows
 			// so let's update whole table
 			updateAll();
 		}
-		
+
 		public final void update(GeoElement geo) {
 			RowData row = geoMap.get(geo);
 			if (row != null) {
@@ -623,7 +619,7 @@ public class ConstructionProtocolView {
 						&& geo.isConsProtocolBreakpoint())
 					add(geo);
 			}
-			
+
 		}
 
 		protected void fireTableRowsUpdated(int rowNumber, int rowNumber2) {
@@ -633,17 +629,17 @@ public class ConstructionProtocolView {
 
 		public void updateVisualStyle(GeoElement geo, GProperty prop) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void updateAuxiliaryObject(GeoElement geo) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public void reset() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		public int getViewID() {
@@ -663,13 +659,12 @@ public class ConstructionProtocolView {
 
 		/* End of View Implementation */
 
-		
 		private void updateRowNumbers(int row) {
 			if (row < 0)
 				return;
 			int size = rowList.size();
 			for (int i = row; i < size; ++i) {
-				//rowList.get(i).rowNumber = i;
+				// rowList.get(i).rowNumber = i;
 				rowList.get(i).setRowNumber(i);
 			}
 		}
@@ -678,7 +673,7 @@ public class ConstructionProtocolView {
 			int size = rowList.size();
 			if (size == 0)
 				return;
-		
+
 			int lastIndex = -1;
 			int count = 0;
 			RowData row;
@@ -693,15 +688,14 @@ public class ConstructionProtocolView {
 			}
 		}
 
-		
-		protected void fireTableRowsDeleted(int firstRow, int lastRow){
+		protected void fireTableRowsDeleted(int firstRow, int lastRow) {
 			Log.debug("fireTableRowsDeleted - must be overridden");
 		}
 
-		protected void fireTableRowsInserted(int firstRow, int lastRow){
+		protected void fireTableRowsInserted(int firstRow, int lastRow) {
 			Log.debug("fireTableRowsInserted - must be overriden");
 		}
-		
+
 		public final void initView() {
 			// init view
 			rowList.clear();
@@ -716,10 +710,10 @@ public class ConstructionProtocolView {
 
 		public void notifyAddAll(int lastConstructionStep) {
 			notifyUpdateCalled = true;
-			kernel.notifyAddAll(this,kernel.getLastConstructionStep());
+			kernel.notifyAddAll(this, kernel.getLastConstructionStep());
 			notifyUpdateCalled = false;
 			updateAll();
-			
+
 		}
 
 		public void attachView() {
@@ -728,14 +722,14 @@ public class ConstructionProtocolView {
 				initView();
 				isViewAttached = true;
 			}
-		
+
 			scrollToConstructionStep();
 		}
 
 	}
 
 	public final void getXML(StringBuilder sb) {
-		
+
 		// COLUMNS
 		sb.append("\t<consProtColumns ");
 		for (int i = 0; i < data.columns.length; i++) {
@@ -746,7 +740,7 @@ public class ConstructionProtocolView {
 			sb.append("\"");
 		}
 		sb.append("/>\n");
-	
+
 		// consProtocol
 		sb.append("\t<consProtocol ");
 		sb.append("useColors=\"");
@@ -759,22 +753,17 @@ public class ConstructionProtocolView {
 		sb.append(kernel.getConstruction().showOnlyBreakpoints());
 		sb.append("\"");
 		sb.append("/>\n");
-	
-	}
-	
 
+	}
 
 	public void showOnlyBreakpointsAction() {
-		app.getKernel()
-				.getConstruction()
-				.setShowOnlyBreakpoints(
-						!app.getKernel().getConstruction()
-								.showOnlyBreakpoints());
+		app.getKernel().getConstruction().setShowOnlyBreakpoints(
+				!app.getKernel().getConstruction().showOnlyBreakpoints());
 		getData().initView();
 		getData().repaintView();
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().updateNavBars();
 		}
 	}
-	
+
 }

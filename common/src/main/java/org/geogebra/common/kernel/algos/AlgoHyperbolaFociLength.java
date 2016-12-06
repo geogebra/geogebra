@@ -83,7 +83,8 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 	final public String toString(StringTemplate tpl) {
 
 		return getLoc().getPlain(
-						conic.isEllipse() || conic.isCircle() ? "EllipseWithFociABandFirstAxisLengthC"
+				conic.isEllipse() || conic.isCircle()
+						? "EllipseWithFociABandFirstAxisLengthC"
 						: "HyperbolaWithFociABandFirstAxisLengthC",
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl));

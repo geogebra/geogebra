@@ -33,7 +33,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 		// Iterator it = f.getVariables().iterator();
 		// while (it.hasNext()) {
 		// GeoElement var = (GeoElement) it.next();
-		// Application.debug("  " + var + ", " + var.cons );
+		// Application.debug(" " + var + ", " + var.cons );
 		// }
 	}
 

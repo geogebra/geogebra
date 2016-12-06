@@ -59,6 +59,4 @@ public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 
 	}
 
-	
-
 }

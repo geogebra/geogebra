@@ -44,8 +44,8 @@ public class CmdUnion extends CommandProcessor {
 			} else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {
 				if (arg[0] instanceof GeoPolygon3DInterface
 						&& arg[1] instanceof GeoPolygon3DInterface) {
-					return union3D(c.getLabels(),
-							(GeoPoly) arg[0], (GeoPoly) arg[1]);
+					return union3D(c.getLabels(), (GeoPoly) arg[0],
+							(GeoPoly) arg[1]);
 				}
 				return union(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);

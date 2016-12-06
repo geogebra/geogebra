@@ -64,7 +64,8 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 	public final void compute() {
 
 		// check if point lies on conic coord sys
-		coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD3())[1];
+		coords2D = c.getCoordSys()
+				.getNormalProjection(P.getInhomCoordsInD3())[1];
 		if (!Kernel.isZero(coords2D.getZ())) {
 			polar.setUndefined();
 			return;
@@ -84,8 +85,8 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 			polarOrigin = c.getCoordSys().getPoint(0,
 					-polarCoords[2] / polarCoords[1]);
 		} else {
-			polarOrigin = c.getCoordSys().getPoint(
-					-polarCoords[2] / polarCoords[0], 0);
+			polarOrigin = c.getCoordSys()
+					.getPoint(-polarCoords[2] / polarCoords[0], 0);
 		}
 
 		((GeoLine3D) polar).setCoord(polarOrigin, polarDirection);

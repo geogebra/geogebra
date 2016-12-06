@@ -10,15 +10,15 @@ public interface MyTableInterface {
 	public static final int COLUMN_SELECT = 2;
 
 	public App getApplication();
-	
+
 	public boolean editCellAt(int selectedRow, int selectedColumn);
 
 	public CellFormatInterface getCellFormatHandler();
 
 	public void updateCellFormat(String s);
-	
+
 	public void repaint();
-	
+
 	public void repaintAll();
 
 	public void updateEditor(String text);
@@ -36,10 +36,9 @@ public interface MyTableInterface {
 	public int getColumnCount();
 
 	public int getRowCount();
-	
+
 	public boolean allowSpecialEditor();
 
 	public CellRangeProcessor getCellRangeProcessor();
-	
-	
+
 }

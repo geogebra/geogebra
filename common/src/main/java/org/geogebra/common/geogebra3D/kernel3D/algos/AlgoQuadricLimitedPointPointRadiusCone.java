@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedPointPointRadiusCone extends
-		AlgoQuadricLimitedPointPointRadius {
+public class AlgoQuadricLimitedPointPointRadiusCone
+		extends AlgoQuadricLimitedPointPointRadius {
 
 	/**
 	 * 
@@ -68,8 +68,8 @@ public class AlgoQuadricLimitedPointPointRadiusCone extends
 	@Override
 	protected AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1,
 			GeoPointND p2, GeoNumeric r) {
-		return new AlgoQuadricLimitedPointPointRadiusCone(this.cons, labels,
-				p1, p2, r);
+		return new AlgoQuadricLimitedPointPointRadiusCone(this.cons, labels, p1,
+				p2, r);
 	}
 
 }

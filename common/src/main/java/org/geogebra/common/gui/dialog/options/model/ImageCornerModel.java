@@ -19,7 +19,7 @@ public class ImageCornerModel extends MultipleGeosModel {
 	public ImageCornerModel(App app) {
 		super(app);
 		kernel = app.getKernel();
-		choices = new ArrayList<String>();	
+		choices = new ArrayList<String>();
 	}
 
 	@Override
@@ -34,28 +34,26 @@ public class ImageCornerModel extends MultipleGeosModel {
 			}
 
 		}
-	
+
 		if (isEqual && p0 != null) {
-			getListener().setSelectedItem(p0.getLabel(StringTemplate.defaultTemplate));
+			getListener().setSelectedItem(
+					p0.getLabel(StringTemplate.defaultTemplate));
 		} else {
 			getListener().setSelectedIndex(-1);
 		}
-
-
-
 
 	}
 
 	private int indexOf(final String item) {
 		return choices.indexOf(item);
 	}
-	
+
 	public int getCornerNumber() {
 		return cornerIdx < 2 ? (cornerIdx + 1) : (cornerIdx + 2);
 	}
 
 	private GeoImage getGeoImageAt(int index) {
-		return (GeoImage)getObjectAt(index);
+		return (GeoImage) getObjectAt(index);
 	}
 
 	@Override
@@ -63,7 +61,7 @@ public class ImageCornerModel extends MultipleGeosModel {
 		// Not used
 
 	}
-	
+
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 		handler.resetError();
@@ -76,14 +74,13 @@ public class ImageCornerModel extends MultipleGeosModel {
 		if (newLoc == null) {
 			return;
 		}
-		for (int i=0; i < getGeosLength(); i++) {
+		for (int i = 0; i < getGeosLength(); i++) {
 			GeoImage im = getGeoImageAt(i);
 			im.setCorner(newLoc, cornerIdx);
 			im.updateRepaint();
 		}
 		storeUndoInfo();
 	}
-
 
 	protected GeoPoint getPointAt(int index) {
 		return getGeoImageAt(index).getCorner(cornerIdx);
@@ -97,11 +94,11 @@ public class ImageCornerModel extends MultipleGeosModel {
 			if (img.isAbsoluteScreenLocActive() || !img.isIndependent()) {
 				return false;
 			}
-			
+
 			return true;
-			
+
 		}
-		
+
 		return false;
 	}
 

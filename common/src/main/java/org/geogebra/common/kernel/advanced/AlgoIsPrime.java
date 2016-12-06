@@ -59,6 +59,4 @@ public class AlgoIsPrime extends AlgoElement {
 		return result;
 	}
 
-	
-
 }

@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  * 
  * @author Markus
  */
-public class AlgoTangentFunctionNumber extends AlgoElement implements
-		TangentAlgo {
+public class AlgoTangentFunctionNumber extends AlgoElement
+		implements TangentAlgo {
 
 	private GeoNumberValue n; // input
 	private GeoElement ngeo;
@@ -147,5 +147,4 @@ public class AlgoTangentFunctionNumber extends AlgoElement implements
 		return null;
 	}
 
-	
 }

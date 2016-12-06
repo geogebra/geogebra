@@ -37,7 +37,8 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = {
+						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -49,7 +50,8 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 						(GeoList) arg[1]) };
 				return ret;
 
-			} else if (!(arg[0] instanceof VectorValue && arg[1] instanceof VectorValue))
+			} else if (!(arg[0] instanceof VectorValue
+					&& arg[1] instanceof VectorValue))
 				throw argErr(app, c.getName(), arg[0]);
 
 		default:

@@ -20,21 +20,15 @@ public class MaterialRequest implements Request {
 	}
 
 	public enum Fields {
-		id, title, type, description, timestamp, author, author_id, url,
-		url_direct, language, thumbnail, featured, likes, width, height,
-		instructions_pre, instructions_post, ggbBase64, toolbar, menubar,
-		inputbar, modified, visibility, favorite, is3d, spreadsheet, cas,
-		graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key, preview_url, elemcnt_applet;
+		id, title, type, description, timestamp, author, author_id, url, url_direct, language, thumbnail, featured, likes, width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar, modified, visibility, favorite, is3d, spreadsheet, cas, graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key, preview_url, elemcnt_applet;
 	}
 
 	public enum Filters {
-		id, title, search, type, description, timestamp, author, author_url,
-		language, featured, likes, inbook, inws, author_id;
+		id, title, search, type, description, timestamp, author, author_url, language, featured, likes, inbook, inws, author_id;
 	}
 
 	public enum Order {
-		id, title, type, description, timestamp, author, language, featured,
-		likes, relevance;
+		id, title, type, description, timestamp, author, language, featured, likes, relevance;
 	}
 
 	public enum Type {
@@ -128,8 +122,7 @@ public class MaterialRequest implements Request {
 
 			for (int i = 0; i < this.filters.length; i++) {
 				JSONObject current = new JSONObject();
-				current.put("-name",
-						this.filters[i].toString());
+				current.put("-name", this.filters[i].toString());
 				if (this.negFilters.contains(filters[i])) {
 					current.put("-comp", "neq");
 				}
@@ -144,8 +137,7 @@ public class MaterialRequest implements Request {
 
 			this.orderJSON.put("-by", this.by.toString());
 			this.orderJSON.put("-type", this.type.toString());
-			this.limitJSON.put("-num",
-					String.valueOf(this.limit));
+			this.limitJSON.put("-num", String.valueOf(this.limit));
 
 			this.taskJSON.put("fields", this.fieldsJSON);
 			this.taskJSON.put("filters", this.filtersJSON);
@@ -252,7 +244,7 @@ public class MaterialRequest implements Request {
 		return req;
 	}
 
-	public int getUserId(){
+	public int getUserId() {
 		return model.getUserId();
 	}
 }

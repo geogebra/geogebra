@@ -351,8 +351,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			ex = c.getEigenvec(0);
 			if (numberOfLineParts == 2) {
 
-				currentPartIsInRegion = Kernel.isGreater(0, g.getCoords()
-						.dotproduct(ex));
+				currentPartIsInRegion = Kernel.isGreater(0,
+						g.getCoords().dotproduct(ex));
 			}
 			break;
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
@@ -391,12 +391,14 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				c.pointChanged(Q[1]);
 				t0 = Q[0].getPathParameter().getT();
 				t1 = Q[1].getPathParameter().getT();
-				currentPartIsInRegion = (inOpenInterval(t0, -1, 0) && inOpenInterval(
-						t1, 1, 2))
-						|| (inOpenInterval(t1, -1, 0) && inOpenInterval(t0, 1,
-								2))
-						|| (inOpenInterval(t0, 0, 1) && inOpenInterval(t1, 2, 3))
-						|| (inOpenInterval(t1, 0, 1) && inOpenInterval(t0, 2, 3));
+				currentPartIsInRegion = (inOpenInterval(t0, -1, 0)
+						&& inOpenInterval(t1, 1, 2))
+						|| (inOpenInterval(t1, -1, 0)
+								&& inOpenInterval(t0, 1, 2))
+						|| (inOpenInterval(t0, 0, 1)
+								&& inOpenInterval(t1, 2, 3))
+						|| (inOpenInterval(t1, 0, 1)
+								&& inOpenInterval(t0, 2, 3));
 			}
 			break;
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:

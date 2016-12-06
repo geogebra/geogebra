@@ -45,7 +45,8 @@ public class AlgoScientificText extends AlgoElement {
 	}
 
 	@SuppressWarnings("javadoc")
-	AlgoScientificText(Construction cons, GeoNumeric num, GeoNumeric precision) {
+	AlgoScientificText(Construction cons, GeoNumeric num,
+			GeoNumeric precision) {
 		super(cons);
 		this.num = num;
 		this.precision = precision;
@@ -108,8 +109,8 @@ public class AlgoScientificText extends AlgoElement {
 				return;
 			}
 
-			StringTemplate stl = StringTemplate.printScientific(
-					StringType.GEOGEBRA, prec, false);
+			StringTemplate stl = StringTemplate
+					.printScientific(StringType.GEOGEBRA, prec, false);
 
 			// returns string like 3456E-7
 			String str = kernel.format(decimal, stl);
@@ -167,9 +168,9 @@ public class AlgoScientificText extends AlgoElement {
 			 * sb.append(Unicode.Superscript_9); break; case '-' :
 			 * sb.append(Unicode.Superscript_Minus); break;
 			 * 
-			 * default:
-			 * AbstractApplication.warn("Unexpected character in ScientificText[]"
-			 * ); text.setUndefined(); return; } }
+			 * default: AbstractApplication.warn(
+			 * "Unexpected character in ScientificText[]" );
+			 * text.setUndefined(); return; } }
 			 */
 
 			text.setTextString(sb.toString());
@@ -184,7 +185,5 @@ public class AlgoScientificText extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

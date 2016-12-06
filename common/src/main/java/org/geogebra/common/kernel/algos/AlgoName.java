@@ -105,10 +105,9 @@ public class AlgoName extends AlgoElement {
 			text.setTextString(returnLabel);
 		} else {
 			// eg Name[a+3]
-			text.setTextString(geo.getFormulaString(
-					StringTemplate.realTemplate, false));
+			text.setTextString(
+					geo.getFormulaString(StringTemplate.realTemplate, false));
 		}
 	}
 
-	
 }

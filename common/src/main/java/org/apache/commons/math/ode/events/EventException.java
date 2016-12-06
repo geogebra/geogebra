@@ -20,35 +20,42 @@ package org.apache.commons.math.ode.events;
 import org.apache.commons.math.MathException;
 
 /**
- * This exception is made available to users to report
- * the error conditions that are triggered by {@link EventHandler}
- * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 aout 2010) $
+ * This exception is made available to users to report the error conditions that
+ * are triggered by {@link EventHandler}
+ * 
+ * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 aout
+ *          2010) $
  * @since 2.0
  */
 public class EventException extends MathException {
 
-    /** Serialization UID. */
-    private static final long serialVersionUID = -898215297400035290L;
+	/** Serialization UID. */
+	private static final long serialVersionUID = -898215297400035290L;
 
-    /** Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
-     * @deprecated as of 2.2 replaced by {@link #EventException(Localizable, Object...)}
-     */
-     @Deprecated
-    public EventException(final String specifier, final Object ... parts) {
-        super(specifier, parts);
-    }
+	/**
+	 * Simple constructor. Build an exception by translating and formating a
+	 * message
+	 * 
+	 * @param specifier
+	 *            format specifier (to be translated)
+	 * @param parts
+	 *            to insert in the format (no translation)
+	 * @deprecated as of 2.2 replaced by
+	 *             {@link #EventException(Localizable, Object...)}
+	 */
+	@Deprecated
+	public EventException(final String specifier, final Object... parts) {
+		super(specifier, parts);
+	}
 
-    
-
-    /**
-     * Create an exception with a given root cause.
-     * @param cause  the exception or error that caused this exception to be thrown
-     */
-    public EventException(final Throwable cause) {
-        super(cause);
-    }
+	/**
+	 * Create an exception with a given root cause.
+	 * 
+	 * @param cause
+	 *            the exception or error that caused this exception to be thrown
+	 */
+	public EventException(final Throwable cause) {
+		super(cause);
+	}
 
 }

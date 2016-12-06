@@ -21,8 +21,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoClosestPointToRegion3D extends AlgoElement3D implements
-		FixedPathRegionAlgo {
+public class AlgoClosestPointToRegion3D extends AlgoElement3D
+		implements FixedPathRegionAlgo {
 
 	private Region r;
 	private GeoPointND P;

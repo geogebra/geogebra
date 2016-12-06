@@ -201,5 +201,4 @@ public class AlgoVertexConic extends AlgoElement {
 
 	}
 
-	
 }

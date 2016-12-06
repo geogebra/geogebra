@@ -35,9 +35,9 @@ public class CmdSlopeField extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0] instanceof Evaluate2Var) {
-				GeoElement[] ret = { SlopeField(c.getLabel(),
-						(Evaluate2Var) arg[0], null, null, null, null, null,
-						null) };
+				GeoElement[] ret = {
+						SlopeField(c.getLabel(), (Evaluate2Var) arg[0], null,
+								null, null, null, null, null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -46,8 +46,8 @@ public class CmdSlopeField extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { SlopeField(c.getLabel(),
-						(Evaluate2Var) arg[0], (GeoNumeric) arg[1], null,
-						null, null, null, null) };
+						(Evaluate2Var) arg[0], (GeoNumeric) arg[1], null, null,
+						null, null, null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -71,11 +71,11 @@ public class CmdSlopeField extends CommandProcessor {
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())) {
-				GeoElement[] ret = { SlopeField(c.getLabel(),
-						(FunctionalNVar) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
-						(GeoNumeric) arg[6]) };
+				GeoElement[] ret = {
+						SlopeField(c.getLabel(), (FunctionalNVar) arg[0],
+								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
+								(GeoNumeric) arg[3], (GeoNumeric) arg[4],
+								(GeoNumeric) arg[5], (GeoNumeric) arg[6]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

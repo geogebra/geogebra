@@ -11,8 +11,8 @@ public class StatisticsCollection {
 
 	private Construction cons;
 
-	public double mean, mean2, sd, sd2, nullHyp, me, lower, upper, se,
-			testStat, P, df, level, n, n2, count, count2, total;
+	public double mean, mean2, sd, sd2, nullHyp, me, lower, upper, se, testStat,
+			P, df, level, n, n2, count, count2, total;
 
 	public String tail;
 	public boolean pooled;

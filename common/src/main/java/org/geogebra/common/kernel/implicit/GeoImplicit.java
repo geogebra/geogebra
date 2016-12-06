@@ -89,4 +89,3 @@ public interface GeoImplicit extends GeoElementND {
 	public double getTranslateZ();
 
 }
-

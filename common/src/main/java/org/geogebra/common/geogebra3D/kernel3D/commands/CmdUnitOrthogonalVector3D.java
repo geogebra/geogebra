@@ -28,8 +28,8 @@ public class CmdUnitOrthogonalVector3D extends CmdUnitOrthogonalVector {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoCoordSys2D) {
-				GeoElement[] ret = { (GeoElement) kernelA
-						.getManager3D().UnitOrthogonalVector3D(c.getLabel(),
+				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
+						.UnitOrthogonalVector3D(c.getLabel(),
 								(GeoCoordSys2D) arg[0]) };
 				return ret;
 			}

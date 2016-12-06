@@ -5,7 +5,7 @@ package org.geogebra.common.plugin;
  *
  */
 public enum GeoClass {
-	
+
 	ANGLE("Angle", "Angle", 80, 130, false),
 
 	AXIS("Axis", 10, false),
@@ -20,8 +20,7 @@ public enum GeoClass {
 
 	CONICPART("ConicPart", 70, false),
 
-	FUNCTION("Function", 90, false), INTERVAL("Interval", 90,
-			false),
+	FUNCTION("Function", 90, false), INTERVAL("Interval", 90, false),
 
 	IMAGE("Image", 20, false), LINE("Line", 100, false),
 
@@ -106,9 +105,9 @@ public enum GeoClass {
 			true),
 
 	CLIPPINGCUBE3D("ClippingCube3D", 160, true),
-	
+
 	SPACE("Space", 160, true),
-	
+
 	DEFAULT("Default", 160, false);
 
 	/**
@@ -132,7 +131,7 @@ public enum GeoClass {
 		this.is3D = is3D;
 	}
 
-	GeoClass(String name,  String xmlName, int priority, boolean is3D) {
+	GeoClass(String name, String xmlName, int priority, boolean is3D) {
 		this(name, xmlName, priority, priority, is3D);
 
 	}

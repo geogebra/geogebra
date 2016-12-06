@@ -47,8 +47,8 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 
 		geo.setGridCorners(xMinMax[0], yMinMax[0], xMinMax[1], yMinMax[1]);
 
-		geo.setGridDistances(getView3D().getGridDistances(0), getView3D()
-				.getGridDistances(1));
+		geo.setGridDistances(getView3D().getGridDistances(0),
+				getView3D().getGridDistances(1));
 
 		if (getView3D().getShowPlane() || getView3D().getShowGrid()) {
 			super.updateGeometry();

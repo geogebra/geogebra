@@ -87,7 +87,6 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		compute();
 	}
 
-
 	private void cas() {
 		EvalInfo info = new EvalInfo(false);
 		// First derivative of curve f
@@ -205,7 +204,5 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 		((GeoElement) A).removeAlgorithm(algoCAS2);
 		f.removeAlgorithm(algoCAS2);
 	}
-
-	
 
 }

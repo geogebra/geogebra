@@ -33,8 +33,8 @@ public class CmdPrimeFactors extends CommandProcessor {
 
 			if (arg[0].isGeoNumeric()) {
 
-				AlgoPrimeFactors algo = new AlgoPrimeFactors(cons,
-						c.getLabel(), (GeoNumeric) arg[0]);
+				AlgoPrimeFactors algo = new AlgoPrimeFactors(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

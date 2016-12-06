@@ -29,8 +29,8 @@ import org.geogebra.common.main.error.ErrorHelper;
  * 
  * @author Michael Borcherds
  */
-public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
-		UsesCAS {
+public class AlgoLimit extends AlgoElement
+		implements AsynchronousCommand, UsesCAS {
 	/** function whose limit we are finding */
 	protected GeoFunction f;
 	/** input number */
@@ -147,7 +147,5 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 	public boolean useCacheing() {
 		return true;
 	}
-
-	
 
 }

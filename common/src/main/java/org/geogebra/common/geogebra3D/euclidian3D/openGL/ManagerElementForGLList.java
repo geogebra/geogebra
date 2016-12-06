@@ -180,8 +180,8 @@ public class ManagerElementForGLList extends Manager {
 	}
 
 	@Override
-	protected void rectangleGeometry(double x, double y, double z,
-			double width, double height) {
+	protected void rectangleGeometry(double x, double y, double z, double width,
+			double height) {
 		// TODO Auto-generated method stub
 
 	}
@@ -251,16 +251,13 @@ public class ManagerElementForGLList extends Manager {
 
 	}
 
-
 	public void put(short value) {
 		// Log.debug("" + value);
-		managerOriginal.normal(nx.get(value), ny.get(value),
-				nz.get(value));
+		managerOriginal.normal(nx.get(value), ny.get(value), nz.get(value));
 		if (hasTexture) {
 			managerOriginal.texture(tx.get(value), ty.get(value));
 		}
-		managerOriginal.vertex(vx.get(value), vy.get(value),
-				vz.get(value));
+		managerOriginal.vertex(vx.get(value), vy.get(value), vz.get(value));
 
 	}
 

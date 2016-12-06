@@ -39,9 +39,8 @@ public class CmdUniform extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction()
-					|| !((GeoFunction) arg[2]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
@@ -54,9 +53,8 @@ public class CmdUniform extends CommandProcessor {
 		case 3:
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction()
-						&& ((GeoFunction) arg[2]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],

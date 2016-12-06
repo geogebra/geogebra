@@ -36,14 +36,14 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoPolygon basis, GeoNumeric height) {
-		return new AlgoPolyhedronPointsPyramidForExtrusion(getView3D()
-				.getKernel().getConstruction(), null, basis, height);
+		return new AlgoPolyhedronPointsPyramidForExtrusion(
+				getView3D().getKernel().getConstruction(), null, basis, height);
 	}
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoConicND basis, GeoNumeric height) {
-		return new AlgoQuadricLimitedConicHeightConeForExtrusion(getView3D()
-				.getKernel().getConstruction(), null, basis, height);
+		return new AlgoQuadricLimitedConicHeightConeForExtrusion(
+				getView3D().getKernel().getConstruction(), null, basis, height);
 	}
 
 }

@@ -435,7 +435,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public boolean isAllDefaults() {
 		return (isDefaultPreferredSize() && isSelectionDefaults()
-				&& isLayoutDefaults() && !hasCellFormat() && isRowColumnSizeDefaults());
+				&& isLayoutDefaults() && !hasCellFormat()
+				&& isRowColumnSizeDefaults());
 	}
 
 	public boolean isRowColumnSizeDefaults() {
@@ -454,8 +455,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 				&& isDefaultShowRowHeader() && isDefaultShowColumnHeader()
 				&& isDefaultVScrollBar() && isDefaultHScrollBar()
 				&& isDefaultColumnSelect() && isDefaultSpecialEditorAllowed()
-				&& isDefaultToolTipsAllowed()
-				&& isDefaultSpecialEditorAllowed() && !equalsRequired() && !isEnableAutoComplete());
+				&& isDefaultToolTipsAllowed() && isDefaultSpecialEditorAllowed()
+				&& !equalsRequired() && !isEnableAutoComplete());
 	}
 
 	public boolean isDefaultToolTipsAllowed() {
@@ -564,8 +565,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 			for (Integer col : widthMap.keySet()) {
 				int colWidth = widthMap.get(col);
 				if (colWidth != preferredColumnWidth()) {
-					sb.append("\t<spreadsheetColumn id=\"" + col
-							+ "\" width=\"" + colWidth + "\"/>\n");
+					sb.append("\t<spreadsheetColumn id=\"" + col + "\" width=\""
+							+ colWidth + "\"/>\n");
 				}
 			}
 
@@ -609,7 +610,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 					sb.append(selectedCell.getY());
 					// sb.append(table.getSelectionModel().getAnchorSelectionIndex());
 					sb.append("\"");
-
 
 				}
 				sb.append("/>\n");

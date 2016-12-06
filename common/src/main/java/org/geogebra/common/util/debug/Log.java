@@ -101,7 +101,8 @@ public abstract class Log {
 		 * Send logging to file. A file name must also be set by using the
 		 * setLogFile() method.
 		 */
-		FILE, /**
+		FILE,
+		/**
 		 * Sends logging to console. Messages <= ERROR will be written to
 		 * STDERR, others to STDOUT in desktop mode; sends log messages via
 		 * GWT.log to the Eclipse console in web development mode.
@@ -412,8 +413,8 @@ public abstract class Log {
 			// do nothing here; we are probably running Web in Opera
 			return "?";
 		}
-		return callerClassName + "." + callerMethodName + "["
-				+ callerLineNumber + "]";
+		return callerClassName + "." + callerMethodName + "[" + callerLineNumber
+				+ "]";
 	}
 
 	/**

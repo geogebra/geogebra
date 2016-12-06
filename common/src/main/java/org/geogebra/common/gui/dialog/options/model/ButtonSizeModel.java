@@ -3,16 +3,14 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.main.App;
 
-
-
 public class ButtonSizeModel extends OptionsModel {
 	public interface IButtonSizeListener extends PropertyListener {
 		void updateSizes(int width, int height, boolean isFixed);
 
 	}
-	
+
 	private IButtonSizeListener listener;
-	
+
 	public ButtonSizeModel(App app) {
 		super(app);
 	}
@@ -20,6 +18,7 @@ public class ButtonSizeModel extends OptionsModel {
 	public void setListener(IButtonSizeListener listener) {
 		this.listener = listener;
 	}
+
 	private GeoButton getButtonAt(int index) {
 		Object geo = getObjectAt(index);
 		if (geo instanceof GeoButton) {
@@ -28,26 +27,28 @@ public class ButtonSizeModel extends OptionsModel {
 
 		return null;
 	}
-	
+
 	@Override
 	public void updateProperties() {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
-			
+
 			if (geo != null) {
 				listener.updateSizes(geo.getWidth(), geo.getHeight(),
 						geo.isFixedSize());
 			}
 		}
-	
+
 	}
-   
+
 	@Override
 	public boolean isValidAt(int index) {
-		return getGeoAt(index).isGeoButton() && !getGeoAt(index).isGeoInputBox();
+		return getGeoAt(index).isGeoButton()
+				&& !getGeoAt(index).isGeoInputBox();
 	}
-	
-	public void setSizesFromString(String strWidth, String strHeight, boolean isFixed) {
+
+	public void setSizesFromString(String strWidth, String strHeight,
+			boolean isFixed) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);
 
@@ -60,9 +61,9 @@ public class ButtonSizeModel extends OptionsModel {
 					geo.setFixedSize(false);
 				}
 			}
-		}		
+		}
 	}
-	
+
 	public void applyChanges(boolean isFixed) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoButton geo = getButtonAt(i);

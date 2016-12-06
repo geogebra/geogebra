@@ -43,7 +43,8 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 		parabola.setLabel(label);
 	}
 
-	public AlgoParabolaPointLineND(Construction cons, GeoPointND F, GeoLineND l) {
+	public AlgoParabolaPointLineND(Construction cons, GeoPointND F,
+			GeoLineND l) {
 		super(cons);
 		this.F = F;
 		this.l = l;

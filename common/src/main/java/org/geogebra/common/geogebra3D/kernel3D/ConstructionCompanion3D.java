@@ -24,8 +24,7 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 	private GeoSpace space;
 	private GeoClippingCube3D clippingCube;
 	private String // xAxis3DLocalName, yAxis3DLocalName,
-			zAxis3DLocalName,
-			xOyPlaneLocalName, spaceLocalName;
+	zAxis3DLocalName, xOyPlaneLocalName, spaceLocalName;
 
 	/**
 	 * default constructor

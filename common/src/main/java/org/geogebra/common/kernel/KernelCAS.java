@@ -39,8 +39,8 @@ public class KernelCAS {
 	 *            function
 	 * @return tangent to function through point
 	 */
-	public static GeoLine tangent(Construction cons, String label,
-			GeoPointND P, GeoFunction f) {
+	public static GeoLine tangent(Construction cons, String label, GeoPointND P,
+			GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
 				label, P, f);
 		GeoLine t = algo.getTangent();
@@ -60,8 +60,8 @@ public class KernelCAS {
 	 *            curve
 	 * @return tangent to curve through point
 	 */
-	public static GeoLine tangent(Construction cons, String label,
-			GeoPointND P, GeoCurveCartesian f) {
+	public static GeoLine tangent(Construction cons, String label, GeoPointND P,
+			GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();

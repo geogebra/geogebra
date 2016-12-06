@@ -25,7 +25,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListCovariance extends AlgoStats2D {
 
-	public AlgoListCovariance(Construction cons, String label, GeoList geoListx) {
+	public AlgoListCovariance(Construction cons, String label,
+			GeoList geoListx) {
 		super(cons, label, geoListx, AlgoStats2D.STATS_COVARIANCE);
 	}
 

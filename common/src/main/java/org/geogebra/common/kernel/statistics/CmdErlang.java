@@ -40,9 +40,8 @@ public class CmdErlang extends CommandProcessor {
 		BooleanValue cumulative = null; // default for n=3
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction()
-					|| !((GeoFunction) arg[2]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
@@ -55,9 +54,8 @@ public class CmdErlang extends CommandProcessor {
 		case 3:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction()
-						&& ((GeoFunction) arg[2]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoErlangDF algo = new AlgoErlangDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],

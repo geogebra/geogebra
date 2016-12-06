@@ -107,8 +107,8 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 		wx = C.inhomX - bx;
 		wy = C.inhomY - by;
 
-		if (Kernel.isZero(vx) && Kernel.isZero(vy) || Kernel.isZero(wx)
-				&& Kernel.isZero(wy)) {
+		if (Kernel.isZero(vx) && Kernel.isZero(vy)
+				|| Kernel.isZero(wx) && Kernel.isZero(wy)) {
 			angle.setUndefined();
 			return;
 		}
@@ -123,8 +123,6 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 
 		angle.setValue(value);
 	}
-
-	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

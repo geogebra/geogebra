@@ -14,7 +14,6 @@ public class PlotterMouseCursor {
 
 	private int index;
 
-
 	/**
 	 * common constructor
 	 * 
@@ -22,7 +21,6 @@ public class PlotterMouseCursor {
 	 *            geometry manager
 	 */
 	public PlotterMouseCursor(Manager manager) {
-
 
 		Coords n = new Coords(0, 0, 1);
 
@@ -35,22 +33,22 @@ public class PlotterMouseCursor {
 		a[4] = new Coords(0.21 * coeff, -0.60 * coeff, 0);
 		a[5] = new Coords(0.13 * coeff, -0.42 * coeff, 0);
 		a[6] = new Coords(0, -0.55 * coeff, 0);
-		
+
 		// outline vertices
 		Coords[] b = new Coords[7];
 		b[0] = new Coords(-0.028 * coeff, 0.068859231 * coeff, 0);
-		b[1] = new Coords(0.450461328556841 * coeff,
-				-0.422193185106047 * coeff, 0);
-		b[2] = new Coords(0.254264077762676 * coeff,
-				-0.410652170353449 * coeff, 0);
-		b[3] = new Coords(0.326453438653662 * coeff,
-				-0.573078232358169 * coeff, 0);
-		b[4] = new Coords(0.196313798935428 * coeff,
-				-0.638148052217286 * coeff, 0);
-		b[5] = new Coords(0.120971069271961 * coeff,
-				-0.468626910474487 * coeff, 0);
-		b[6] = new Coords(-0.0280000000000002 * coeff, -0.617597979746448
-				* coeff, 0);
+		b[1] = new Coords(0.450461328556841 * coeff, -0.422193185106047 * coeff,
+				0);
+		b[2] = new Coords(0.254264077762676 * coeff, -0.410652170353449 * coeff,
+				0);
+		b[3] = new Coords(0.326453438653662 * coeff, -0.573078232358169 * coeff,
+				0);
+		b[4] = new Coords(0.196313798935428 * coeff, -0.638148052217286 * coeff,
+				0);
+		b[5] = new Coords(0.120971069271961 * coeff, -0.468626910474487 * coeff,
+				0);
+		b[6] = new Coords(-0.0280000000000002 * coeff,
+				-0.617597979746448 * coeff, 0);
 
 		// create geometry with color
 
@@ -107,7 +105,6 @@ public class PlotterMouseCursor {
 		vertexBlack(manager, b[0]);
 		vertexBlack(manager, a[0]);
 
-
 		// polygon
 		vertexWhite(manager, a[0]);
 		vertexWhite(manager, a[1]);
@@ -127,10 +124,7 @@ public class PlotterMouseCursor {
 		manager.endGeometry();
 		manager.endList();
 
-
-
 	}
-
 
 	private static void vertexWhite(Manager manager, Coords v) {
 		manager.color(1, 1, 1, 1);
@@ -142,12 +136,9 @@ public class PlotterMouseCursor {
 		manager.vertex(v);
 	}
 
-
-
 	// ////////////////////////////////
 	// INDEX
 	// ////////////////////////////////
-
 
 	/**
 	 * 

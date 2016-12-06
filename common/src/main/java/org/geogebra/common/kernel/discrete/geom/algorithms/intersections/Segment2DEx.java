@@ -30,31 +30,31 @@ import org.geogebra.common.kernel.discrete.geom.Segment2D;
  */
 public class Segment2DEx extends Segment2D {
 
-    public Segment2DEx(Point2D p0, Point2D p1) {
-        super(p0, p1);
-    }
+	public Segment2DEx(Point2D p0, Point2D p1) {
+		super(p0, p1);
+	}
 
-    public Point2D getLeftEndPoint() {
-        Point2D p0 = getStart();
-        Point2D p1 = getEnd();
-        double x0 = p0.getX();
-        double x1 = p1.getX();
-        if (x0 < x1) {
-            return new LeftEndPoint(p0.getX(), p0.getY(), this);
-        } else {
-            return new LeftEndPoint(p1.getX(), p1.getY(), this);
-        }
-    }
+	public Point2D getLeftEndPoint() {
+		Point2D p0 = getStart();
+		Point2D p1 = getEnd();
+		double x0 = p0.getX();
+		double x1 = p1.getX();
+		if (x0 < x1) {
+			return new LeftEndPoint(p0.getX(), p0.getY(), this);
+		} else {
+			return new LeftEndPoint(p1.getX(), p1.getY(), this);
+		}
+	}
 
-    public Point2D getRightEndPoint() {
-        Point2D p0 = getStart();
-        Point2D p1 = getEnd();
-        double x0 = p0.getX();
-        double x1 = p1.getX();
-        if (x0 >= x1) {
-            return new RightEndPoint(p0.getX(), p0.getY(), this);
-        } else {
-            return new RightEndPoint(p1.getX(), p1.getY(), this);
-        }
-    }
+	public Point2D getRightEndPoint() {
+		Point2D p0 = getStart();
+		Point2D p1 = getEnd();
+		double x0 = p0.getX();
+		double x1 = p1.getX();
+		if (x0 >= x1) {
+			return new RightEndPoint(p0.getX(), p0.getY(), this);
+		} else {
+			return new RightEndPoint(p1.getX(), p1.getY(), this);
+		}
+	}
 }

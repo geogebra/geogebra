@@ -10,25 +10,24 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
  * @author ggb3D
  *
  */
-public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode,
-		VectorNDValue {
+public interface GeoVectorND
+		extends GeoDirectionND, Locateable, HasCoordsMode, VectorNDValue {
 
 	/**
-	 * @param c coordinates as array
+	 * @param c
+	 *            coordinates as array
 	 */
 	public void setCoords(double[] c);
-	
+
 	/**
 	 * @return the coords of the vector in 2D
 	 */
 	public Coords getCoordsInD2();
-	
+
 	/**
 	 * @return the coords of the vector in 3D
 	 */
 	public Coords getCoordsInD3();
-	
-	
 
 	/**
 	 * UPdates start point
@@ -41,7 +40,8 @@ public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode,
 	boolean isFinite();
 
 	/**
-	 * @param coords array to store inhomogeneous coords
+	 * @param coords
+	 *            array to store inhomogeneous coords
 	 */
 	void getInhomCoords(double[] coords);
 
@@ -65,5 +65,4 @@ public interface GeoVectorND extends GeoDirectionND, Locateable, HasCoordsMode,
 
 	public void setCoords(double x, double y, double z, double w);
 
-	
 }

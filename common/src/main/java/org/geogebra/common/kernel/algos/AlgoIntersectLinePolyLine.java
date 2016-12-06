@@ -95,8 +95,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		} else {
 
 			outputPoints.setLabels(labels);
-			outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(
-					StringTemplate.defaultTemplate));
+			outputPoints.setIndexLabels(outputPoints.getElement(0)
+					.getLabel(StringTemplate.defaultTemplate));
 		}
 	}
 
@@ -178,8 +178,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		intersectionsCoords(g, p, newCoords);
 
 		// update and/or create points
-		outputPoints.adjustOutputSize(newCoords.size() > 0 ? newCoords.size()
-				: 1);
+		outputPoints
+				.adjustOutputSize(newCoords.size() > 0 ? newCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;
@@ -197,12 +197,9 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc()
-				.getPlain("IntersectionPointOfAB",
-						((GeoElement) g).getLabel(tpl),
-						((GeoElement) pi).getLabel(tpl));
+		return getLoc().getPlain("IntersectionPointOfAB",
+				((GeoElement) g).getLabel(tpl),
+				((GeoElement) pi).getLabel(tpl));
 	}
-
-	
 
 }

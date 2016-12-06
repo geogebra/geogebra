@@ -74,10 +74,9 @@ public class CmdBernoulli extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[2] = arg[3].isGeoBoolean())) {
-				AlgoBinomialDist algo = new AlgoBinomialDist(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoBoolean) arg[3]);
+				AlgoBinomialDist algo = new AlgoBinomialDist(cons, c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

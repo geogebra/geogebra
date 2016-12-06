@@ -63,8 +63,7 @@ public class DrawLabel3D {
 
 	/** temp graphics used for calculate bounds */
 	protected GGraphics2D tempGraphics = AwtFactory.getPrototype()
-			.newBufferedImage(1, 1, 1)
-			.createGraphics();
+			.newBufferedImage(1, 1, 1).createGraphics();
 
 	protected Drawable3D drawable;
 
@@ -123,8 +122,8 @@ public class DrawLabel3D {
 			return;
 
 		this.color = new Coords((double) color.getRed() / 255,
-				(double) color.getGreen() / 255,
-				(double) color.getBlue() / 255, 1);
+				(double) color.getGreen() / 255, (double) color.getBlue() / 255,
+				1);
 
 		if (backgroundColor != null)
 			this.backgroundColor = new Coords(
@@ -163,7 +162,8 @@ public class DrawLabel3D {
 			int yMin = (int) rectangle.getMinY() - 1;
 			int yMax = (int) rectangle.getMaxY() + 1;
 
-			// Application.debug(text+"\nxMin="+xMin+", xMax="+xMax+", advance="+textLayout.getAdvance());
+			// Application.debug(text+"\nxMin="+xMin+", xMax="+xMax+",
+			// advance="+textLayout.getAdvance());
 
 			width = xMax - xMin;
 			height = yMax - yMin;
@@ -195,10 +195,10 @@ public class DrawLabel3D {
 	protected GGraphics2D createGraphics2D(GBufferedImage bimg) {
 		GGraphics2D g2d = bimg.createGraphics();
 
-		GAffineTransform gt = AwtFactory.getPrototype()
-				.newAffineTransform();
+		GAffineTransform gt = AwtFactory.getPrototype().newAffineTransform();
 		gt.scale(1, -1d);
-		gt.translate(-xOffset2, yOffset2);// put the baseline on the label anchor
+		gt.translate(-xOffset2, yOffset2);// put the baseline on the label
+											// anchor
 		g2d.transform(gt);
 
 		g2d.setColor(GColor.BLACK);
@@ -226,9 +226,8 @@ public class DrawLabel3D {
 				view.getApplication(), text, 0, 0, tempGraphics, false, font);
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
-			GPoint p = EuclidianStatic.drawIndexedString(
-					view.getApplication(), tempGraphics, text, 0, 0, false,
-					false);
+			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
+					tempGraphics, text, 0, 0, false, false);
 			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(),
 					rectangle.getWidth(), rectangle.getHeight() + p.y);
 		} else {
@@ -262,11 +261,10 @@ public class DrawLabel3D {
 
 			App app = view.getApplication();
 			// GDimension dim =
-			app.getDrawEquation().drawEquation(
-					geo.getKernel().getApplication(), geo, g2d, 0, -offsetY,
-					text.substring(1, text.length() - 1), g2d.getFont(), serif,
-					g2d.getColor(), g2d.getBackground(), true, false,
-					getCallBack());
+			app.getDrawEquation().drawEquation(geo.getKernel().getApplication(),
+					geo, g2d, 0, -offsetY, text.substring(1, text.length() - 1),
+					g2d.getFont(), serif, g2d.getColor(), g2d.getBackground(),
+					true, false, getCallBack());
 			return bimg;
 		}
 
@@ -429,10 +427,10 @@ public class DrawLabel3D {
 	 * @return true if mouse hits the label
 	 */
 	public boolean hit(Coords o, Coords direction) {
-		double x = o.getX() + (drawZ - o.getZ()) * direction.getX()
-				/ direction.getZ();
-		double y = o.getY() + (drawZ - o.getZ()) * direction.getY()
-				/ direction.getZ();
+		double x = o.getX()
+				+ (drawZ - o.getZ()) * direction.getX() / direction.getZ();
+		double y = o.getY()
+				+ (drawZ - o.getZ()) * direction.getY() / direction.getZ();
 		return hit(x, y);
 	}
 
@@ -459,7 +457,7 @@ public class DrawLabel3D {
 			// pickingY, drawZ, pickingW, pickingH);
 			if (backgroundColor != null) {
 				renderer.getGeometryManager().draw(backgroundIndex);
-			}else{
+			} else {
 				renderer.getGeometryManager().draw(pickingIndex);
 			}
 		} else {
@@ -586,7 +584,7 @@ public class DrawLabel3D {
 		height2 = h;
 	}
 
-	public void scaleRenderingDimensions(float scale){
+	public void scaleRenderingDimensions(float scale) {
 		width2 *= scale;
 		height2 *= scale;
 		pickingX *= scale;
@@ -626,24 +624,26 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-		textIndex = drawRectangle(renderer, drawX, drawY, drawZ, width2
-				/ getFontScale(), height2 / getFontScale(), textIndex);
+		textIndex = drawRectangle(renderer, drawX, drawY, drawZ,
+				width2 / getFontScale(), height2 / getFontScale(), textIndex);
 		renderer.getGeometryManager().remove(old);
 
 		old = pickingIndex;
-		pickingIndex = drawRectangle(renderer, drawX + pickingX
-				/ getFontScale(), drawY + pickingY / getFontScale(), drawZ,
+		pickingIndex = drawRectangle(renderer,
+				drawX + pickingX / getFontScale(),
+				drawY + pickingY / getFontScale(), drawZ,
 				pickingW / getFontScale(), pickingH / getFontScale(),
 				pickingIndex);
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		backgroundIndex = drawRectangle(renderer, 
-				drawX, drawY, drawZ, 
-				width / getFontScale(), height / getFontScale(), backgroundIndex);
+		backgroundIndex = drawRectangle(renderer, drawX, drawY, drawZ,
+				width / getFontScale(), height / getFontScale(),
+				backgroundIndex);
 		renderer.getGeometryManager().remove(old);
 
-		// Log.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+", backgroundIndex: "+backgroundIndex);
+		// Log.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+",
+		// backgroundIndex: "+backgroundIndex);
 	}
 
 	private static final int drawRectangle(Renderer renderer, double x,

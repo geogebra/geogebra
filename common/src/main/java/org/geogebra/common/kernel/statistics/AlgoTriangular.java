@@ -80,7 +80,10 @@ public class AlgoTriangular extends AlgoDistribution {
 
 			// old hack
 			// processAlgebraCommand(
-			// "If["+x+" < "+a+", 0, If["+x+" < "+c+", ("+x+" - ("+a+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If["+x+" < "+b+", 1 + ("+x+" - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 1]]]",
+			// "If["+x+" < "+a+", 0, If["+x+" < "+c+", ("+x+" - ("+a+"))^2 /
+			// ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If["+x+" < "+b+", 1 +
+			// ("+x+" - ("+b+"))^2 / ("+b+" - ("+a+")) / ("+c+" - ("+b+")),
+			// 1]]]",
 			// true );
 
 		} else

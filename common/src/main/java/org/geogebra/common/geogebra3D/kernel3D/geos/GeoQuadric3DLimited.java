@@ -38,9 +38,9 @@ import org.geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND implements
-		GeoNumberValue, HasVolume, HasHeight, RotateableND, Translateable,
-		MirrorableAtPlane, Transformable, Dilateable,
+public class GeoQuadric3DLimited extends GeoQuadricND
+		implements GeoNumberValue, HasVolume, HasHeight, RotateableND,
+		Translateable, MirrorableAtPlane, Transformable, Dilateable,
 		GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart {
 
 	/** side of the quadric */
@@ -244,8 +244,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 
 	}
 
-	public void setHyperbolicCylinder(Coords origin, Coords direction,
-			double r, double bottomParameter, double topParameter) {
+	public void setHyperbolicCylinder(Coords origin, Coords direction, double r,
+			double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
@@ -558,15 +558,13 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 			volume = Double.NaN;
 			return;
 		}
-		double pih =  Math.PI
-				* Math.abs(topParameter - bottomParameter);
+		double pih = Math.PI * Math.abs(topParameter - bottomParameter);
 		switch (type) {
 		case QUADRIC_CYLINDER:
 			if (bottom.halfAxes == null) {
 				volume = radius * radius * pih;
 			} else {
-				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1)
-						* pih ;
+				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih;
 			}
 			break;
 		case QUADRIC_CONE:
@@ -576,7 +574,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 				double r = radius * h; // "radius" is the radius value for h = 1
 				volume = r * r * pih / 3;
 			} else {
-				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih / 3;
+				volume = bottom.getHalfAxis(0) * bottom.getHalfAxis(1) * pih
+						/ 3;
 			}
 			break;
 		// default:
@@ -706,7 +705,8 @@ public class GeoQuadric3DLimited extends GeoQuadricND implements
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+	public void rotate(NumberValue r, GeoPointND S,
+			GeoDirectionND orientation) {
 
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);

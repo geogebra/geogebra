@@ -55,8 +55,8 @@ public class AdjustSlider extends AdjustWidget {
 		if (Kernel.isEqual(x, origX) && origX + origWidth < view.getWidth()
 				&& Kernel.isEqual(origWidth, width) && Kernel.isEqual(y, origY)
 				&& origY < view.getHeight()) {
-				return true;
-			}
+			return true;
+		}
 		return false;
 	}
 
@@ -69,8 +69,7 @@ public class AdjustSlider extends AdjustWidget {
 		if (Kernel.isEqual(x, origX) && origX < view.getViewWidth() - MARGIN_X
 				&& Kernel.isEqual(y, origY)
 				&& origY < view.getViewHeight() - MARGIN_Y
-				&& origY - origWidth > 0 
-				&& Kernel.isEqual(origWidth, width)) {
+				&& origY - origWidth > 0 && Kernel.isEqual(origWidth, width)) {
 			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
 		}
@@ -98,7 +97,6 @@ public class AdjustSlider extends AdjustWidget {
 			adjustToTop();
 		}
 
-
 		if (width > view.getViewWidth() || width != origWidth) {
 			width = Math.round(origWidth * ratio);
 			number.setSliderWidth(width);
@@ -110,6 +108,7 @@ public class AdjustSlider extends AdjustWidget {
 		ratioX = 1;
 		ratioY = 1;
 	}
+
 	private void adjustToRight() {
 		if (x + width > view.getViewWidth()) {
 			x = view.getViewWidth() - width - MARGIN_X;
@@ -121,8 +120,7 @@ public class AdjustSlider extends AdjustWidget {
 			y = maxY;
 		}
 		Log.debug("[AS] slider " + number.getAlgebraDescriptionDefault()
-				+ " y: " + y
-				+ " maxY: " + maxY);
+				+ " y: " + y + " maxY: " + maxY);
 	}
 
 	private void adjustToTop() {
@@ -136,6 +134,7 @@ public class AdjustSlider extends AdjustWidget {
 		}
 
 	}
+
 	/**
 	 * Makes a slider onScreen with no scaling enabled.
 	 * 
@@ -148,6 +147,6 @@ public class AdjustSlider extends AdjustWidget {
 		AdjustSlider adjust = new AdjustSlider(num, view);
 		adjust.setDefaultRatio();
 		adjust.apply();
-		
+
 	}
 }

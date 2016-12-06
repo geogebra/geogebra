@@ -50,8 +50,8 @@ public class StatisticsCalculatorProcessor {
 	 * @param statCalc
 	 * @param sc
 	 */
-	public StatisticsCalculatorProcessor(App app,
-			StatisticsCalculator statCalc, StatisticsCollection sc) {
+	public StatisticsCalculatorProcessor(App app, StatisticsCalculator statCalc,
+			StatisticsCollection sc) {
 
 		cons = app.getKernel().getConstruction();
 		this.statCalc = statCalc;
@@ -511,7 +511,7 @@ public class StatisticsCalculatorProcessor {
 		if (result.isDefined() && ((GeoList) result).size() > 0) {
 			sc.lower = ((GeoNumeric) ((GeoList) result).get(0)).getDouble();
 			sc.upper = ((GeoNumeric) ((GeoList) result).get(1)).getDouble();
-			sc.me = (sc.upper - sc.lower)/2;
+			sc.me = (sc.upper - sc.lower) / 2;
 
 		} else {
 			sc.lower = Double.NaN;

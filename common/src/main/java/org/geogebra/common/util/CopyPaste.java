@@ -124,31 +124,23 @@ public class CopyPaste {
 			geo = geos.get(i);
 			ancestors.clear();
 			geo.addPredecessorsToSet(ancestors, true);
-			if (ancestors.contains(
-					app.getKernel().getXAxis())) {
+			if (ancestors.contains(app.getKernel().getXAxis())) {
 				geos.remove(i);
-			} else if (ancestors.contains(
-					app.getKernel().getYAxis())) {
+			} else if (ancestors.contains(app.getKernel().getYAxis())) {
 				geos.remove(i);
 			} else if (app.is3D()) {
-				if (ancestors.contains(
-						app.getKernel().getXAxis3D())) {
+				if (ancestors.contains(app.getKernel().getXAxis3D())) {
 					geos.remove(i);
-				} else if (ancestors.contains(
-						app.getKernel().getYAxis3D())) {
+				} else if (ancestors.contains(app.getKernel().getYAxis3D())) {
 					geos.remove(i);
-				} else if (ancestors.contains(
-						app.getKernel().getZAxis3D())) {
+				} else if (ancestors.contains(app.getKernel().getZAxis3D())) {
 					geos.remove(i);
-				} else if (ancestors.contains(
-						app.getKernel().getXOYPlane())) {
+				} else if (ancestors.contains(app.getKernel().getXOYPlane())) {
 					geos.remove(i);
 				} else if (ancestors
-						.contains(
-						app.getKernel().getClippingCube())) {
+						.contains(app.getKernel().getClippingCube())) {
 					geos.remove(i);
-				} else if (ancestors.contains(
-						app.getKernel().getSpace())) {
+				} else if (ancestors.contains(app.getKernel().getSpace())) {
 					geos.remove(i);
 				}
 			}
@@ -170,8 +162,9 @@ public class CopyPaste {
 							.equals(Algos.AlgoMacro)) {
 						found = true;
 						if (copymacro) {
-							copiedMacros.add(((AlgoMacro) geo
-									.getParentAlgorithm()).getMacro());
+							copiedMacros
+									.add(((AlgoMacro) geo.getParentAlgorithm())
+											.getMacro());
 						}
 					}
 				}
@@ -214,15 +207,21 @@ public class CopyPaste {
 				continue;
 
 			if (!geo.isGeoElement3D()) {
-				if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints)
-						|| (geo.isGeoSegment() && geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
-						|| (geo.isGeoRay() && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
-						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector)) {
+				if ((geo.isGeoLine()
+						&& geo.getParentAlgorithm() instanceof AlgoJoinPoints)
+						|| (geo.isGeoSegment()
+								&& geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
+						|| (geo.isGeoRay()
+								&& geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
+						|| (geo.isGeoVector() && geo
+								.getParentAlgorithm() instanceof AlgoVector)) {
 
-					if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
+					if (!geos
+							.contains(geo.getParentAlgorithm().getInput()[0])) {
 						geos.add(geo.getParentAlgorithm().getInput()[0]);
 					}
-					if (!geos.contains(geo.getParentAlgorithm().getInput()[1])) {
+					if (!geos
+							.contains(geo.getParentAlgorithm().getInput()[1])) {
 						geos.add(geo.getParentAlgorithm().getInput()[1]);
 					}
 				} else if (geo.isGeoPolygon()) {
@@ -242,7 +241,8 @@ public class CopyPaste {
 								geos.add(ogeos[j]);
 							}
 						}
-					} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 						GeoElement[] pgeos = ((geo.getParentAlgorithm()))
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
@@ -255,8 +255,8 @@ public class CopyPaste {
 								.getOutput();
 						for (int j = 0; j < ogeos.length; j++) {
 							if (!geos.contains(ogeos[j])
-									&& (ogeos[j].isGeoSegment() || ogeos[j]
-											.isGeoPoint())) {
+									&& (ogeos[j].isGeoSegment()
+											|| ogeos[j].isGeoPoint())) {
 								geos.add(ogeos[j]);
 							}
 						}
@@ -279,7 +279,8 @@ public class CopyPaste {
 							geos.add(pgeos[0]);
 						if (!geos.contains(pgeos[1]))
 							geos.add(pgeos[1]);
-					} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoCircleThreePoints
 							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
@@ -289,14 +290,16 @@ public class CopyPaste {
 							geos.add(pgeos[1]);
 						if (!geos.contains(pgeos[2]))
 							geos.add(pgeos[2]);
-					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoConicFivePoints) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j]))
 								geos.add(pgeos[j]);
 						}
-					} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						if (!geos.contains(pgeos[0]))
@@ -319,7 +322,8 @@ public class CopyPaste {
 							if (!geos.contains(pgeos[0]))
 								geos.add(pgeos[0]);
 						}
-					} else if (geo.getParentAlgorithm() instanceof AlgoDependentList) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoDependentList) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
@@ -499,8 +503,8 @@ public class CopyPaste {
 					((GeoElement) geo).setLabelSimple(labelPrefix + label);
 
 					if (samewindow)
-						copiedXMLlabelsforSameWindow.add(((GeoElement) geo)
-								.getLabelSimple());
+						copiedXMLlabelsforSameWindow
+								.add(((GeoElement) geo).getLabelSimple());
 					else
 						copiedXMLlabels
 								.add(((GeoElement) geo).getLabelSimple());
@@ -547,11 +551,11 @@ public class CopyPaste {
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.length() >= labelPrefix.length()) {
-					if (label.substring(0, labelPrefix.length()).equals(
-							labelPrefix)) {
+					if (label.substring(0, labelPrefix.length())
+							.equals(labelPrefix)) {
 						try {
-							((GeoElement) geo).setLabelSimple(label
-									.substring(labelPrefix.length()));
+							((GeoElement) geo).setLabelSimple(
+									label.substring(labelPrefix.length()));
 
 							if (putdown) {
 								geo.getKernel().renameLabelInScripts(label,
@@ -583,7 +587,8 @@ public class CopyPaste {
 	 * @param putdown
 	 *            boolean which means the InsertFile case
 	 */
-	public void copyToXML(App app, ArrayList<GeoElement> geos, boolean putdown) {
+	public void copyToXML(App app, ArrayList<GeoElement> geos,
+			boolean putdown) {
 
 		boolean copyMacrosPresume = true;
 
@@ -638,7 +643,8 @@ public class CopyPaste {
 			return;
 		}
 
-		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(geoslocal);
+		ArrayList<ConstructionElement> geostohide = addPredecessorGeos(
+				geoslocal);
 
 		// what about a GeoElement which is the result of an algo with no input?
 		// this is especially important if the GeoElement cannot be shown,
@@ -764,8 +770,7 @@ public class CopyPaste {
 					if (app.isEuclidianView3Dinited()) {
 						app.removeFromViews3D(geo);
 					}
-				} else if (app
-						.getActiveEuclidianView()
+				} else if (app.getActiveEuclidianView()
 						.getViewID() == App.VIEW_EUCLIDIAN3D) {
 					app.removeFromEuclidianView(geo);
 					if (app.isEuclidianView3Dinited()) {
@@ -785,8 +790,8 @@ public class CopyPaste {
 				}
 
 				oldLabel = geo.getLabelSimple();
-				geo.setLabel(geo.getIndexLabel(geo.getLabelSimple().substring(
-						labelPrefix.length())));
+				geo.setLabel(geo.getIndexLabel(
+						geo.getLabelSimple().substring(labelPrefix.length())));
 				// geo.getLabelSimple() is now not the oldLabel, ideally
 				if (putdown) {
 					geo.getKernel().renameLabelInScripts(oldLabel,
@@ -805,14 +810,13 @@ public class CopyPaste {
 						// part of the construction anyway
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
-						if (pgeos.length > 1
-								&& pgeos[1].getLabelSimple().length() > labelPrefix
-										.length())
+						if (pgeos.length > 1 && pgeos[1].getLabelSimple()
+								.length() > labelPrefix.length())
 							if (pgeos[1].getLabelSimple()
 									.substring(0, labelPrefix.length())
 									.equals(labelPrefix))
-								pgeos[1].setLabelSimple(pgeos[1]
-										.getLabelSimple().substring(
+								pgeos[1].setLabelSimple(
+										pgeos[1].getLabelSimple().substring(
 												labelPrefix.length()));
 					}
 				}
@@ -905,12 +909,12 @@ public class CopyPaste {
 					// false, true);
 
 					// alternative solution
-					app.addMacroXML(copySource
-							.getApplication()
-							.getXMLio()
-							.getFullMacroXML(new ArrayList<Macro>(copiedMacros)));
+					app.addMacroXML(copySource.getApplication().getXMLio()
+							.getFullMacroXML(
+									new ArrayList<Macro>(copiedMacros)));
 				} catch (Exception ex) {
-					Log.debug("Could not load any macros at \"Paste from XML\"");
+					Log.debug(
+							"Could not load any macros at \"Paste from XML\"");
 					ex.printStackTrace();
 				}
 			}

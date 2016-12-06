@@ -32,7 +32,6 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	private GeoNumberValue num; // input
 	private GeoList outputList; // output
 
-
 	/**
 	 * Creates new factorization algo
 	 * 
@@ -151,7 +150,5 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		listElement.add(prime);
 		listElement.add(exponent);
 	}
-
-	
 
 }

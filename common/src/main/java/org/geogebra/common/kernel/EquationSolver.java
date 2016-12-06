@@ -305,7 +305,8 @@ public class EquationSolver implements EquationSolverInterface {
 										// |D(root)| |2a+3|/sqrt(9q)
 										// *kernel.STANDARD_PRECISION
 
-		// Application.debug("Q = "+Q+" R = "+R+" Q3 = "+Q3+" R2 = "+R2+" CR2 = "+CR2+" CQ3 = "+CQ3);
+		// Application.debug("Q = "+Q+" R = "+R+" Q3 = "+Q3+" R2 = "+R2+" CR2 =
+		// "+CR2+" CQ3 = "+CQ3);
 
 		// Application.debug(Math.abs(CR2 - CQ3)+"");
 
@@ -477,8 +478,8 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			if (delta * origdelta < 0) {
 				// We have reversed our path.
-				int tag = (origt < t ? getTag(target, origt, t) : getTag(
-						target, t, origt));
+				int tag = (origt < t ? getTag(target, origt, t)
+						: getTag(target, t, origt));
 				if (tag != INSIDE)
 					// Local minima found away from target - return the middle
 					return (origt + t) / 2;
@@ -530,9 +531,8 @@ public class EquationSolver implements EquationSolverInterface {
 		/*
 		 * double estx = 0; try { estx = rootPolisher.newtonRaphson(polyFunc,
 		 * LAGUERRE_START); Application.debug("newton estx: " + estx); if
-		 * (Double.isNaN(estx)) { estx = LAGUERRE_START;
-		 * Application.debug("corrected estx: " + estx); } } catch (Exception e)
-		 * {}
+		 * (Double.isNaN(estx)) { estx = LAGUERRE_START; Application.debug(
+		 * "corrected estx: " + estx); } } catch (Exception e) {}
 		 */
 
 		// calc roots with Laguerre method
@@ -628,13 +628,13 @@ public class EquationSolver implements EquationSolverInterface {
 						rootFinderBrent = fact.newBrentSolver();
 					}
 
-					double brentRoot = rootFinderBrent.solve(
-							new RealRootAdapter(derivFunc), left, right);
+					double brentRoot = rootFinderBrent
+							.solve(new RealRootAdapter(derivFunc), left, right);
 					if (Math.abs(polyFunc.evaluate(brentRoot)) < Math
 							.abs(polyFunc.evaluate(root))) {
 						root = brentRoot;
 					}
-					// System.out.println("    find extremum successfull: " +
+					// System.out.println(" find extremum successfull: " +
 					// root);
 				} catch (Exception ex) {
 					Log.debug(ex.getMessage());
@@ -737,8 +737,8 @@ public class EquationSolver implements EquationSolverInterface {
 		if (Math.abs(eqn[4]) < 0)
 			return solveCubic(eqn, res, Kernel.STANDARD_PRECISION);
 
-		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4], d = eqn[0]
-				/ eqn[4];
+		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
+				d = eqn[0] / eqn[4];
 
 		/*
 		 * This code is based on a simplification of the algorithm from

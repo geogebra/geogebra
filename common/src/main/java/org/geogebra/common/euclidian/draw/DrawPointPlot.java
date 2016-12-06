@@ -92,7 +92,8 @@ public class DrawPointPlot extends Drawable {
 
 		if (isVisible) {
 
-			for (int i = 0; i < drawPoints.size() && i < pointList.size(); i++) {
+			for (int i = 0; i < drawPoints.size()
+					&& i < pointList.size(); i++) {
 				pointList.get(i).setHighlighted(geo.doHighlighting());
 				drawPoints.get(i).draw(g2);
 			}
@@ -298,8 +299,8 @@ public class DrawPointPlot extends Drawable {
 	 */
 	public void setToolTipForPoint(int index) {
 		double x = getDotPlotX(index);
-		String text = view.getKernel()
-				.format(x, StringTemplate.defaultTemplate);
+		String text = view.getKernel().format(x,
+				StringTemplate.defaultTemplate);
 		((AlgoDotPlot) geo.getParentAlgorithm()).setToolTipPointText(text);
 
 		// force automatic tool tip update

@@ -95,8 +95,8 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
-		//v1 = getA().getInhomCoordsInD3().sub(center);
-		//v2 = getC().getInhomCoordsInD3().sub(center);
+		// v1 = getA().getInhomCoordsInD3().sub(center);
+		// v2 = getC().getInhomCoordsInD3().sub(center);
 		drawCoords[0].set(center);
 		drawCoords[1].set(v1);
 		drawCoords[2].set(v2);
@@ -169,9 +169,9 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 	@Override
 	public AlgoAnglePoints3D copy() {
-		return new AlgoAnglePoints3D(getA().copy(), getB().copy(), getC()
-				.copy(), center.copyVector(), v1.copyVector(), v2.copyVector(),
-				vn.copyVector());
+		return new AlgoAnglePoints3D(getA().copy(), getB().copy(),
+				getC().copy(), center.copyVector(), v1.copyVector(),
+				v2.copyVector(), vn.copyVector());
 	}
 
 }

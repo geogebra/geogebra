@@ -72,6 +72,4 @@ public class AlgoDivision extends AlgoElement {
 		return result;
 	}
 
-	
-
 }

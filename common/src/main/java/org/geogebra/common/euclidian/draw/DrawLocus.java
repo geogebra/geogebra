@@ -113,8 +113,7 @@ public class DrawLocus extends Drawable {
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(AwtFactory.getPrototype()
-					.newArea(view.getBoundingPath()));
+			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 
@@ -136,8 +135,7 @@ public class DrawLocus extends Drawable {
 			gp.reset();
 
 		// Use the last plotted point for positioning the label:
-		labelPosition = CurvePlotter.draw(gp, pointList,
-				transformSys);
+		labelPosition = CurvePlotter.draw(gp, pointList, transformSys);
 		/*
 		 * Due to numerical instability of the curve plotter algorithm this
 		 * position may be changing too quickly which results in an annoying
@@ -171,15 +169,14 @@ public class DrawLocus extends Drawable {
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 
-			if (geo.isFillable()
-					&& geo.isFilled()) {
+			if (geo.isFillable() && geo.isFilled()) {
 				try {
 
 					fill(g2, (geo.isInverseFill() ? getShape() : gp)); // fill
-																				// using
-																				// default/hatching/image
-																				// as
-																				// appropriate
+																		// using
+																		// default/hatching/image
+																		// as
+																		// appropriate
 
 				} catch (Exception e) {
 					Log.error(e.getMessage());
@@ -205,7 +202,6 @@ public class DrawLocus extends Drawable {
 		if (t == null) {
 			return false; // hasn't been drawn yet (hidden)
 		}
-
 
 		if (geo.isFilled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,

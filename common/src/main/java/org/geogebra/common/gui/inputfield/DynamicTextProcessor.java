@@ -95,19 +95,19 @@ public class DynamicTextProcessor {
 		if (en.isLeaf()) {
 
 			if (left.isGeoElement()) {
-				DynamicTextElement d = createDynamicTextElement(((GeoElement) left)
-						.getLabel(tpl));
+				DynamicTextElement d = createDynamicTextElement(
+						((GeoElement) left).getLabel(tpl));
 				// add at end
 				dList.add(d);
 			} else if (left.isExpressionNode())
 				splitString((ExpressionNode) left, dList);
 			else if (left instanceof MyStringBuffer) {
-				DynamicTextElement d = createDynamicTextElement(left.toString(
-						tpl).replaceAll("\"", ""));
+				DynamicTextElement d = createDynamicTextElement(
+						left.toString(tpl).replaceAll("\"", ""));
 				dList.add(d);
 			} else {
-				DynamicTextElement d = createDynamicTextElement(left
-						.toString(tpl));
+				DynamicTextElement d = createDynamicTextElement(
+						left.toString(tpl));
 				dList.add(d);
 			}
 		}
@@ -125,31 +125,33 @@ public class DynamicTextProcessor {
 
 			// expression node
 			if (left.isGeoElement()) {
-				dList.add(createDynamicTextElement(((GeoElement) left)
-						.getLabel(tpl)));
+				dList.add(createDynamicTextElement(
+						((GeoElement) left).getLabel(tpl)));
 
 			} else if (left.isExpressionNode())
 				this.splitString((ExpressionNode) left, dList);
 
 			else if (left instanceof MyStringBuffer) {
-				dList.add(new DynamicTextElement(left.toString(tpl).replaceAll(
-						"\"", ""), DynamicTextType.STATIC));
+				dList.add(new DynamicTextElement(
+						left.toString(tpl).replaceAll("\"", ""),
+						DynamicTextType.STATIC));
 			} else {
 				dList.add(createDynamicTextElement(left.toString(tpl)));
 			}
 
 			if (right != null) {
 				if (right.isGeoElement()) {
-					dList.add(createDynamicTextElement(((GeoElement) right)
-							.getLabel(tpl)));
+					dList.add(createDynamicTextElement(
+							((GeoElement) right).getLabel(tpl)));
 
 				} else if (right.isExpressionNode())
 					this.splitString((ExpressionNode) right, dList);
 
 				else if (right instanceof MyStringBuffer) {
 
-					dList.add(new DynamicTextElement(right.toString(tpl)
-							.replaceAll("\"", ""), DynamicTextType.STATIC));
+					dList.add(new DynamicTextElement(
+							right.toString(tpl).replaceAll("\"", ""),
+							DynamicTextType.STATIC));
 				} else {
 					dList.add(createDynamicTextElement(right.toString(tpl)));
 				}
@@ -175,8 +177,8 @@ public class DynamicTextProcessor {
 		String prefix;
 
 		if (contentString.endsWith("]")) {
-			if (contentString.startsWith(prefix = app.getLocalization()
-					.getCommand("LaTeX") + "[")) {
+			if (contentString.startsWith(
+					prefix = app.getLocalization().getCommand("LaTeX") + "[")) {
 
 				// strip off outer command
 				contentString = contentString.substring(prefix.length(),
@@ -196,8 +198,8 @@ public class DynamicTextProcessor {
 					type = DynamicTextType.FORMULA_TEXT;
 				}
 
-			} else if (contentString.startsWith(prefix = app.getLocalization()
-					.getCommand("Name") + "[")) {
+			} else if (contentString.startsWith(
+					prefix = app.getLocalization().getCommand("Name") + "[")) {
 
 				// strip off outer command
 				contentString = contentString.substring(prefix.length(),
@@ -234,8 +236,7 @@ public class DynamicTextProcessor {
 			if (mode == DynamicTextType.STATIC) {
 				for (int k = 0; k < text.length(); k++) {
 					currentQuote = StringUtil.processQuotes(sb,
-							text.substring(k, k + 1),
-							currentQuote);
+							text.substring(k, k + 1), currentQuote);
 				}
 
 			} else {

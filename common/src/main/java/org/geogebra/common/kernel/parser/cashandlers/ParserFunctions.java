@@ -134,7 +134,6 @@ public class ParserFunctions {
 		put(1, "Arctan", Operation.ARCTAN, null);
 		put(1, "ArcTan", Operation.ARCTAN, null);
 
-
 		put(1, "asinh", Operation.ASINH);
 		put(1, "aSinh", Operation.ASINH, null);
 		put(1, "Asinh", Operation.ASINH, null);
@@ -234,7 +233,7 @@ public class ParserFunctions {
 
 		put(1, "expIntegral", Operation.EI);
 		put(1, "ExpIntegral", Operation.EI, null);
-		//functions that come from Reduce
+		// functions that come from Reduce
 		put(2, "gGbInTeGrAl", Operation.INTEGRAL, null);
 		put(2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION, null);
 		put(4, "gGbSuM", Operation.SUM, null);
@@ -268,7 +267,7 @@ public class ParserFunctions {
 
 		put(1, "round", Operation.ROUND);
 		put(1, "Round", Operation.ROUND, null);
-		
+
 		put(2, "round", Operation.ROUND2, "( <x>, <y> )");
 		put(2, "Round", Operation.ROUND2, null);
 
@@ -277,7 +276,7 @@ public class ParserFunctions {
 
 		put(1, "arg", Operation.ARG);
 		put(1, "Arg", Operation.ARG, null);
-		
+
 		put(1, "alt", Operation.ALT);
 		put(1, "Alt", Operation.ALT, null);
 
@@ -301,7 +300,7 @@ public class ParserFunctions {
 
 		put(2, "ggbdiff", Operation.DIFF, null);
 		put(3, "ggbdiff", Operation.DIFF, null);
-		
+
 		put(1, "vectorize", Operation.MATRIXTOVECTOR, null);
 
 		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
@@ -314,7 +313,7 @@ public class ParserFunctions {
 			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
 			"sech", "asin", "acos", "atan", "asinh", "acosh", "atanh", "real",
 			"imaginary", "conjugate", "fractionalPart" };
-	
+
 	/**
 	 * Updates local names of functions
 	 * 
@@ -322,8 +321,9 @@ public class ParserFunctions {
 	 *            localization
 	 */
 	public void updateLocale(Localization loc) {
-		//reset is expensive, do not do that if we only have intl. function names so far
-		if(this.localeLoaded){
+		// reset is expensive, do not do that if we only have intl. function
+		// names so far
+		if (this.localeLoaded) {
 			reset();
 		}
 		this.localeLoaded = true;
@@ -362,12 +362,14 @@ public class ParserFunctions {
 
 		}
 	}
+
 	private void put(int size, String name, Operation op) {
 		put(size, name, op, "( <x> )");
 	}
+
 	private void put(int size, String name, Operation op, String arg) {
 		RESERVED_FUNCTION_NAMES.add(name);
-		if(arg!=null){
+		if (arg != null) {
 			syntaxes.add(name + arg);
 		}
 		if (size > MAX_ARGS)
@@ -399,8 +401,7 @@ public class ParserFunctions {
 	 */
 	public ArrayList<String> getCompletions(String prefix) {
 		ArrayList<String> completions = new ArrayList<String>();
-		Iterator<String> candidates = syntaxes.tailSet(prefix)
-				.iterator();
+		Iterator<String> candidates = syntaxes.tailSet(prefix).iterator();
 		while (candidates.hasNext()) {
 			String candidate = candidates.next();
 			if (!candidate.startsWith(prefix)) {

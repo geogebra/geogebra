@@ -38,15 +38,16 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoMidpoint extends AlgoMidpointND implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
+public class AlgoMidpoint extends AlgoMidpointND
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
 		RestrictionAlgoForLocusEquation {
 
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 
-	public AlgoMidpoint(Construction cons, String label, GeoPoint P, GeoPoint Q) {
+	public AlgoMidpoint(Construction cons, String label, GeoPoint P,
+			GeoPoint Q) {
 		this(cons, P, Q);
 		getPoint().setLabel(label);
 	}
@@ -117,17 +118,18 @@ public class AlgoMidpoint extends AlgoMidpointND implements
 			int[] degreeQ = Q.getDegrees();
 
 			int[] result = new int[3];
-			result[0] = Math.max(degreeP[0] + degreeQ[2], degreeQ[0]
-					+ degreeP[2]);
-			result[1] = Math.max(degreeP[1] + degreeQ[2], degreeQ[1]
-					+ degreeP[2]);
+			result[0] = Math.max(degreeP[0] + degreeQ[2],
+					degreeQ[0] + degreeP[2]);
+			result[1] = Math.max(degreeP[1] + degreeQ[2],
+					degreeQ[1] + degreeP[2]);
 			result[2] = degreeP[2] + degreeQ[2];
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		GeoPoint P = getP();
 		GeoPoint Q = getQ();

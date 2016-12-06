@@ -48,7 +48,8 @@ public class AlgoWeibull extends AlgoDistribution {
 			double param2 = b.getDouble();
 			double val = c.getDouble();
 			try {
-				WeibullDistribution dist = getWeibullDistribution(param, param2);
+				WeibullDistribution dist = getWeibullDistribution(param,
+						param2);
 				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
 
 			} catch (Exception e) {

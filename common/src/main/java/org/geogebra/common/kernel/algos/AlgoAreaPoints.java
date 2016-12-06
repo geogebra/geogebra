@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class AlgoAreaPoints extends AlgoElement implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoAreaPoints extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	protected GeoPointND[] P; // input
 	protected GeoNumeric area; // output
@@ -122,7 +122,5 @@ public class AlgoAreaPoints extends AlgoElement implements
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	
 
 }

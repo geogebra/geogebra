@@ -31,67 +31,72 @@ import org.apache.commons.collections15.iterators.UnmodifiableIterator;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:20 $
  * @since Commons Collections 3.0
  */
-public final class UnmodifiableCollection <E> extends AbstractSerializableCollectionDecorator<E> implements Unmodifiable {
+public final class UnmodifiableCollection<E> extends
+		AbstractSerializableCollectionDecorator<E> implements Unmodifiable {
 
-    /**
-     * Serialization version
-     */
-    private static final long serialVersionUID = -239892006883819945L;
+	/**
+	 * Serialization version
+	 */
+	private static final long serialVersionUID = -239892006883819945L;
 
-    /**
-     * Factory method to create an unmodifiable collection.
-     * <p/>
-     * If the collection passed in is already unmodifiable, it is returned.
-     *
-     * @param coll the collection to decorate, must not be null
-     * @return an unmodifiable collection
-     * @throws IllegalArgumentException if collection is null
-     */
-    public static <E> Collection<E> decorate(Collection<E> coll) {
-        if (coll instanceof Unmodifiable) {
-            return coll;
-        }
-        return new UnmodifiableCollection<E>(coll);
-    }
-    
-    //-----------------------------------------------------------------------
-    /**
-     * Constructor that wraps (not copies).
-     *
-     * @param coll the collection to decorate, must not be null
-     * @throws IllegalArgumentException if collection is null
-     */
-    private UnmodifiableCollection(Collection<E> coll) {
-        super(coll);
-    }
+	/**
+	 * Factory method to create an unmodifiable collection.
+	 * <p/>
+	 * If the collection passed in is already unmodifiable, it is returned.
+	 *
+	 * @param coll
+	 *            the collection to decorate, must not be null
+	 * @return an unmodifiable collection
+	 * @throws IllegalArgumentException
+	 *             if collection is null
+	 */
+	public static <E> Collection<E> decorate(Collection<E> coll) {
+		if (coll instanceof Unmodifiable) {
+			return coll;
+		}
+		return new UnmodifiableCollection<E>(coll);
+	}
 
-    //-----------------------------------------------------------------------
-    public Iterator<E> iterator() {
-        return UnmodifiableIterator.decorate(getCollection().iterator());
-    }
+	// -----------------------------------------------------------------------
+	/**
+	 * Constructor that wraps (not copies).
+	 *
+	 * @param coll
+	 *            the collection to decorate, must not be null
+	 * @throws IllegalArgumentException
+	 *             if collection is null
+	 */
+	private UnmodifiableCollection(Collection<E> coll) {
+		super(coll);
+	}
 
-    public boolean add(E object) {
-        throw new UnsupportedOperationException();
-    }
+	// -----------------------------------------------------------------------
+	public Iterator<E> iterator() {
+		return UnmodifiableIterator.decorate(getCollection().iterator());
+	}
 
-    public boolean addAll(Collection<? extends E> coll) {
-        throw new UnsupportedOperationException();
-    }
+	public boolean add(E object) {
+		throw new UnsupportedOperationException();
+	}
 
-    public void clear() {
-        throw new UnsupportedOperationException();
-    }
+	public boolean addAll(Collection<? extends E> coll) {
+		throw new UnsupportedOperationException();
+	}
 
-    public boolean remove(Object object) {
-        throw new UnsupportedOperationException();
-    }
+	public void clear() {
+		throw new UnsupportedOperationException();
+	}
 
-    public boolean removeAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
-    }
+	public boolean remove(Object object) {
+		throw new UnsupportedOperationException();
+	}
 
-    public boolean retainAll(Collection<?> coll) {
-        throw new UnsupportedOperationException();
-    }
+	public boolean removeAll(Collection<?> coll) {
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean retainAll(Collection<?> coll) {
+		throw new UnsupportedOperationException();
+	}
 
 }

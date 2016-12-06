@@ -41,7 +41,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		return new GeoLocus(cons);
 	}
 
-	public AlgoLocus(Construction cons, String label, GeoPointND Q, GeoPointND P) {
+	public AlgoLocus(Construction cons, String label, GeoPointND Q,
+			GeoPointND P) {
 		super(cons, label, Q, P);
 	}
 
@@ -125,7 +126,8 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	private boolean isFarAway(double x, double y, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i]);
+		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i]);
 		return farAway;
 	}
 
@@ -155,7 +157,5 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	protected MyPoint newCache() {
 		return new MyPoint();
 	}
-
-	
 
 }

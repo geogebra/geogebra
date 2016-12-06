@@ -48,7 +48,7 @@ public interface Inspecting {
 			return v instanceof Command;
 		}
 	}
-	
+
 	/** Checks presence of complex number */
 	public enum ComplexChecker implements Inspecting {
 		/** singleton instance */
@@ -102,15 +102,17 @@ public interface Inspecting {
 			// Command
 			case 1:
 				return false;
-				// Equation
+			// Equation
 			case 2:
 				if (v instanceof MyVec3DNode) {
 					nrOfPoints++;
 				} else if (v.isExpressionNode()
-						&& ((ExpressionNode) v).getLeft() instanceof GeoDummyVariable
-						&& ((ExpressionNode) v).getRight() instanceof MyVec3DNode) {
-					String str = ((ExpressionNode) v).getLeft().toString(
-							StringTemplate.defaultTemplate);
+						&& ((ExpressionNode) v)
+								.getLeft() instanceof GeoDummyVariable
+						&& ((ExpressionNode) v)
+								.getRight() instanceof MyVec3DNode) {
+					String str = ((ExpressionNode) v).getLeft()
+							.toString(StringTemplate.defaultTemplate);
 					if (str.equals("\u03BB")) {
 						nrOfPoints++;
 					}
@@ -143,7 +145,7 @@ public interface Inspecting {
 
 				}
 				return false;
-				// Function, FunctionNVar
+			// Function, FunctionNVar
 			case 3:
 			case 10:
 				if (v instanceof GeoDummyVariable) {
@@ -159,7 +161,7 @@ public interface Inspecting {
 					return true;
 				}
 				return false;
-				// MyBoolean
+			// MyBoolean
 			case 4:
 				// MyDouble
 			case 5:
@@ -167,12 +169,12 @@ public interface Inspecting {
 			case 6:
 				return false;
 
-				// ExpressionNode
+			// ExpressionNode
 			case 11:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
-					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
-							"x")
+					if (!gdv.toString(StringTemplate.defaultTemplate)
+							.equals("x")
 							&& !gdv.toString(StringTemplate.defaultTemplate)
 									.equals("y")) {
 						return true;
@@ -261,8 +263,7 @@ public interface Inspecting {
 			GeoElement geo = (GeoElement) v;
 			return (!geo.isIndependent() || geo.isLabelSet()
 					|| geo.isLocalVariable() || v instanceof GeoDummyVariable
-					|| geo.isGeoCasCell() || geo
-					.isRandomGeo());
+					|| geo.isGeoCasCell() || geo.isRandomGeo());
 		}
 	};
 
@@ -276,7 +277,7 @@ public interface Inspecting {
 			return (v instanceof GeoText || v instanceof MyStringBuffer);
 		}
 	};
-	
+
 	/**
 	 * @author csilla check whether the expression contains only "+" (needed for
 	 *         Theorem proving)

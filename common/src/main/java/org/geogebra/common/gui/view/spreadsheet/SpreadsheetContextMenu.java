@@ -74,7 +74,7 @@ public class SpreadsheetContextMenu {
 		updateFields();
 		createGUI();
 	}
-	
+
 	/**
 	 * Update private fields.
 	 */
@@ -311,9 +311,8 @@ public class SpreadsheetContextMenu {
 		String title = GeoElementSpreadsheet.getSpreadsheetCellName(column1,
 				row1);
 		if (column1 != column2 || row1 != row2) {
-			title += ":"
-					+ GeoElementSpreadsheet.getSpreadsheetCellName(column2,
-							row2);
+			title += ":" + GeoElementSpreadsheet.getSpreadsheetCellName(column2,
+					row2);
 		}
 		// title = geo description if single geo in cell
 		else if (geos != null && geos.size() == 1) {
@@ -616,7 +615,8 @@ public class SpreadsheetContextMenu {
 	 * @param enabled
 	 *            Flag to enable/disable the menu item
 	 */
-	public void addMenuItem(final String cmdString, String text, boolean enabled) {
+	public void addMenuItem(final String cmdString, String text,
+			boolean enabled) {
 		// to be overridden
 	}
 
@@ -655,8 +655,8 @@ public class SpreadsheetContextMenu {
 	 * @param enabled
 	 *            Flag to enable/disable the menu item
 	 */
-	public void addSubMenuItem(Object menu, final String cmdString,
-			String text, boolean enabled) {
+	public void addSubMenuItem(Object menu, final String cmdString, String text,
+			boolean enabled) {
 		// to be overridden
 	}
 

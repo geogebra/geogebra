@@ -38,9 +38,9 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
-		RestrictionAlgoForLocusEquation {
+public class AlgoPointOnPath extends AlgoElement
+		implements FixedPathRegionAlgo, SymbolicParametersAlgo,
+		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 
 	private Path path; // input
 	protected GeoPointND P; // output
@@ -50,15 +50,15 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 	private Variable variable;
 	private Variable[] botanaVars;
 
-	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y) {
+	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+			double y) {
 
 		this(cons, label, path, x, y, 0);
 
 	}
 
-	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y, double z) {
+	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+			double y, double z) {
 
 		this(cons, path, x, y, z, true);
 
@@ -75,15 +75,15 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 
 	}
 
-	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y, GeoNumberValue param) {
+	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+			double y, GeoNumberValue param) {
 
 		this(cons, label, path, x, y, 0, param);
 
 	}
 
-	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y, double z, GeoNumberValue param) {
+	public AlgoPointOnPath(Construction cons, String label, Path path, double x,
+			double y, double z, GeoNumberValue param) {
 
 		this(cons, path, x, y, z, param);
 		P.setLabel(label);
@@ -179,7 +179,8 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 	public final void compute() {
 		if (param != null) {
 			PathParameter pp = P.getPathParameter();
-			// Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());
+			// Application.debug(param.getDouble()+" "+path.getMinParameter()+"
+			// "+path.getMaxParameter());
 			pp.setT(PathNormalizer.toParentPathParameter(param.getDouble(),
 					path.getMinParameter(), path.getMaxParameter()));
 			// Application.debug(pp.t);
@@ -240,7 +241,8 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
@@ -251,7 +253,9 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 					.getExactCoordinates(values);
 
 			if (line[2].equals(BigInteger.ZERO)) {
-				/* this line is going through the origin, we simply substitute */
+				/*
+				 * this line is going through the origin, we simply substitute
+				 */
 				exactCoordinates[0] = line[1].multiply(values.get(variable));
 				exactCoordinates[1] = line[0].multiply(values.get(variable));
 				exactCoordinates[2] = BigInteger.ONE;
@@ -261,12 +265,12 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 				 * handle the previous case properly
 				 */
 				exactCoordinates[0] = line[2].multiply(values.get(variable));
-				exactCoordinates[1] = line[2].multiply(BigInteger.ONE
-					.subtract(values.get(variable)));
-				exactCoordinates[2] = line[0].multiply(
-					values.get(variable).negate()).add(
-					line[1].multiply(values.get(variable).subtract(
-								BigInteger.ONE)));
+				exactCoordinates[1] = line[2].multiply(
+						BigInteger.ONE.subtract(values.get(variable)));
+				exactCoordinates[2] = line[0]
+						.multiply(values.get(variable).negate())
+						.add(line[1].multiply(
+								values.get(variable).subtract(BigInteger.ONE)));
 				/* maybe there is a way to unify the two cases, TODO */
 			}
 
@@ -290,11 +294,11 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 			Polynomial[] line = ((SymbolicParametersAlgo) input[0])
 					.getPolynomials();
 			polynomials[0] = line[2].multiply(new Polynomial(variable));
-			polynomials[1] = line[2].multiply((new Polynomial(1))
-					.subtract(new Polynomial(variable)));
-			polynomials[2] = line[0].multiply(
-					(new Polynomial(variable)).negate()).add(
-					line[1].multiply((new Polynomial(variable))
+			polynomials[1] = line[2].multiply(
+					(new Polynomial(1)).subtract(new Polynomial(variable)));
+			polynomials[2] = line[0]
+					.multiply((new Polynomial(variable)).negate())
+					.add(line[1].multiply((new Polynomial(variable))
 							.subtract(new Polynomial(1))));
 			return polynomials;
 
@@ -392,19 +396,19 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 				Polynomial e_2 = new Polynomial(botanaVars[3]);
 				Polynomial d1 = new Polynomial(vellipse[2]);
 				Polynomial d2 = new Polynomial(vellipse[3]);
-				
+
 				// d1+d2 = e1'+e2'
 				botanaPolynomials[0] = d1.add(d2).subtract(e_1).subtract(e_2);
 
 				// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
 				botanaPolynomials[1] = Polynomial.sqrDistance(botanaVars[0],
-						botanaVars[1], vellipse[6], vellipse[7]).subtract(
-						e_1.multiply(e_1));
+						botanaVars[1], vellipse[6], vellipse[7])
+						.subtract(e_1.multiply(e_1));
 
 				// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
 				botanaPolynomials[2] = Polynomial.sqrDistance(botanaVars[0],
-						botanaVars[1], vellipse[8], vellipse[9]).subtract(
-						e_2.multiply(e_2));
+						botanaVars[1], vellipse[8], vellipse[9])
+						.subtract(e_2.multiply(e_2));
 
 				return botanaPolynomials;
 

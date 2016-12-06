@@ -129,11 +129,11 @@ public class CmdDerivative extends CommandProcessor {
 			if (arg[0] instanceof CasEvaluableFunction
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
-				var.setLocalVariableLabel(arg[1]
-						.toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { derivative(label,
-						(CasEvaluableFunction) arg[0], // function
-						var, null, info) }; // var
+				var.setLocalVariableLabel(
+						arg[1].toString(StringTemplate.defaultTemplate));
+				GeoElement[] ret = {
+						derivative(label, (CasEvaluableFunction) arg[0], // function
+								var, null, info) }; // var
 				return ret;
 			}
 
@@ -147,10 +147,10 @@ public class CmdDerivative extends CommandProcessor {
 				if (arg[0] instanceof CasEvaluableFunction
 						&& arg[1].isGeoNumeric()
 						&& arg[2] instanceof GeoNumberValue) {
-					GeoElement[] ret = { derivative(label,
-							(CasEvaluableFunction) arg[0], // function
-							(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
-							info) }; // var
+					GeoElement[] ret = {
+							derivative(label, (CasEvaluableFunction) arg[0], // function
+									(GeoNumeric) arg[1],
+									(GeoNumberValue) arg[2], info) }; // var
 					return ret;
 				}
 			} catch (Throwable t) {
@@ -162,10 +162,9 @@ public class CmdDerivative extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
 					&& arg[2] instanceof GeoNumberValue) {
 				GeoNumeric var = new GeoNumeric(cons);
-				var.setLocalVariableLabel(arg[1]
-						.toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { derivative(label,
-						(GeoFunctionNVar) arg[0], // function
+				var.setLocalVariableLabel(
+						arg[1].toString(StringTemplate.defaultTemplate));
+				GeoElement[] ret = { derivative(label, (GeoFunctionNVar) arg[0], // function
 						var, (GeoNumberValue) arg[2], info) }; // var
 				return ret;
 			}
@@ -224,8 +223,7 @@ public class CmdDerivative extends CommandProcessor {
 	 */
 	public GeoElement derivative(String label, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue n, EvalInfo info) {
-		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n,
-				info);
+		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, info);
 		return algo.getResult();
 	}
 

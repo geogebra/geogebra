@@ -63,29 +63,31 @@ public class DataDisplayModel {
 
 		void resize();
 
-//		void updatePlot(boolean b);
+		// void updatePlot(boolean b);
 
 	};
 
 	private static final long serialVersionUID = 1L;
 	//
-	//	// ggb fields
+	// // ggb fields
 	private App app;
 	private Localization loc;
 	private DataAnalysisModel daModel;
 	private StatGeo statGeo;
+
 	//
-	//	// data view mode
-	//	private int mode;
+	// // data view mode
+	// private int mode;
 	//
 	@SuppressWarnings("javadoc")
 	// keys for these need to be in "menu" category of ggbtrans
 	public enum PlotType {
-		HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT("DotPlot"), NORMALQUANTILE(
-				"NormalQuantilePlot"), STEMPLOT("StemPlot"), BARCHART(
-						"BarChart"), SCATTERPLOT("Scatterplot"), RESIDUAL(
-				"ResidualPlot"), MULTIBOXPLOT(
-				"StackedBoxPlots");
+		HISTOGRAM("Histogram"), BOXPLOT("Boxplot"), DOTPLOT(
+				"DotPlot"), NORMALQUANTILE("NormalQuantilePlot"), STEMPLOT(
+						"StemPlot"), BARCHART("BarChart"), SCATTERPLOT(
+								"Scatterplot"), RESIDUAL(
+										"ResidualPlot"), MULTIBOXPLOT(
+												"StackedBoxPlots");
 
 		/**
 		 * the associated key from menu.properties app.getMenu(key) gives the
@@ -123,10 +125,8 @@ public class DataDisplayModel {
 
 	private GeoElement[] boxPlotTitles;
 	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
-	private GeoElement dotPlot, normalCurve,
-			scatterPlot, residualPlot, logarithmicPlot,
-			nqPlot, boxPlot,
-			freqTableGeo;
+	private GeoElement dotPlot, normalCurve, scatterPlot, residualPlot,
+			logarithmicPlot, nqPlot, boxPlot, freqTableGeo;
 
 	private boolean hasControlPanel = true;
 	private IDataDisplayListener listener;
@@ -137,7 +137,8 @@ public class DataDisplayModel {
 	 * @param daModel
 	 *            daModel
 	 */
-	public DataDisplayModel(DataAnalysisModel daModel, IDataDisplayListener listener) {
+	public DataDisplayModel(DataAnalysisModel daModel,
+			IDataDisplayListener listener) {
 
 		this.daModel = daModel;
 		this.app = daModel.getApp();
@@ -206,7 +207,6 @@ public class DataDisplayModel {
 	 */
 	public void updatePlotPanelLayout() {
 
-
 		if (getSelectedPlot() == PlotType.SCATTERPLOT) {
 			listener.updateScatterPlot();
 		}
@@ -231,285 +231,285 @@ public class DataDisplayModel {
 	 * @param doCreate
 	 *            if true then the plot GeoElements are redefined
 	 */
-		public void updatePlot(boolean doCreate) {
-	
-			GeoList dataListSelected = daModel.getController().getDataSelected();
-			if(dataListSelected == null){
-				Log.debug("[DDMODEL] dataListSelected is null!");
-				return;
-			}
+	public void updatePlot(boolean doCreate) {
 
-			if (hasControlPanel) {
-				listener.showControlPanel();
-			}
-				
-			if (doCreate) {
-				clearPlotGeoList();
-			}
-	
-			listener.setOptionsButtonVisible();
+		GeoList dataListSelected = daModel.getController().getDataSelected();
+		if (dataListSelected == null) {
+			Log.debug("[DDMODEL] dataListSelected is null!");
+			return;
+		}
 
-			updatePlotPanelLayout();
-	
-			// if invalid data, show blank plot and exit
-			if (!daModel.getController().isValidData()) {
-				listener.showInvalidDataDisplay();
-				return;
-			}
-	
-			try {
-				switch (selectedPlot) {
+		if (hasControlPanel) {
+			listener.showControlPanel();
+		}
 
-				case HISTOGRAM:
+		if (doCreate) {
+			clearPlotGeoList();
+		}
 
-					if (doCreate) {
-						if (histogram != null) {
-							histogram.remove();
-						}
+		listener.setOptionsButtonVisible();
 
-						histogram = statGeo.createHistogram(dataListSelected,
-								settings, false);
+		updatePlotPanelLayout();
+
+		// if invalid data, show blank plot and exit
+		if (!daModel.getController().isValidData()) {
+			listener.showInvalidDataDisplay();
+			return;
+		}
+
+		try {
+			switch (selectedPlot) {
+
+			case HISTOGRAM:
+
+				if (doCreate) {
+					if (histogram != null) {
+						histogram.remove();
+					}
+
+					histogram = statGeo.createHistogram(dataListSelected,
+							settings, false);
 					plotGeoList.add(histogram);
 
-						if (frequencyPolygon != null) {
-							frequencyPolygon.remove();
-						}
-						if (settings.isHasOverlayPolygon()) {
-							frequencyPolygon = statGeo.createHistogram(
-									dataListSelected, settings, true);
-							plotGeoList.add(frequencyPolygon);
-						}
-
-						if (normalCurve != null) {
-							normalCurve.remove();
-						}
-						if (settings.isHasOverlayNormal()) {
-							normalCurve = statGeo
-									.createNormalCurveOverlay(dataListSelected);
-							plotGeoList.add(normalCurve);
-						}
-
-						if (freqTableGeo != null) {
-							freqTableGeo.remove();
-						}
-						if (settings.isShowFrequencyTable()) {
-							freqTableGeo = statGeo.createFrequencyTableGeo(
-									(GeoNumeric) histogram, selectedPlot);
-							plotGeoList.add(freqTableGeo);
-						}
+					if (frequencyPolygon != null) {
+						frequencyPolygon.remove();
+					}
+					if (settings.isHasOverlayPolygon()) {
+						frequencyPolygon = statGeo.createHistogram(
+								dataListSelected, settings, true);
+						plotGeoList.add(frequencyPolygon);
 					}
 
-					// update the frequency table
+					if (normalCurve != null) {
+						normalCurve.remove();
+					}
+					if (settings.isHasOverlayNormal()) {
+						normalCurve = statGeo
+								.createNormalCurveOverlay(dataListSelected);
+						plotGeoList.add(normalCurve);
+					}
+
+					if (freqTableGeo != null) {
+						freqTableGeo.remove();
+					}
 					if (settings.isShowFrequencyTable()) {
-						listener.setTableFromGeoFrequencyTable(
-								(AlgoFrequencyTable) freqTableGeo
+						freqTableGeo = statGeo.createFrequencyTableGeo(
+								(GeoNumeric) histogram, selectedPlot);
+						plotGeoList.add(freqTableGeo);
+					}
+				}
+
+				// update the frequency table
+				if (settings.isShowFrequencyTable()) {
+					listener.setTableFromGeoFrequencyTable(
+							(AlgoFrequencyTable) freqTableGeo
 									.getParentAlgorithm(),
 							true);
-					} else {
-						listener.removeFrequencyTable();
-					}
+				} else {
+					listener.removeFrequencyTable();
+				}
 
-					// update settings
+				// update settings
 				statGeo.getHistogramSettings(dataListSelected, histogram,
 						settings);
 
-					listener.updatePlotPanelSettings();
+				listener.updatePlotPanelSettings();
 
-					if (hasControlPanel
-							&& settings.getDataSource().getGroupType() != GroupType.CLASS)
-						if (settings.isUseManualClasses()) {
-							listener.showManualClassesPanel();
-						} else {
-							listener.showNumClassesPanel();
+				if (hasControlPanel && settings.getDataSource()
+						.getGroupType() != GroupType.CLASS)
+					if (settings.isUseManualClasses()) {
+						listener.showManualClassesPanel();
+					} else {
+						listener.showNumClassesPanel();
 
-						}
+					}
 
-					listener.showPlotPanel();
-					break;
-	
-				case BOXPLOT:
-					if (doCreate) {
-						if (boxPlot != null)
-							boxPlot.remove();
-						boxPlot = statGeo.createBoxPlot(dataListSelected, settings);
-						plotGeoList.add(boxPlot);
-					}
-					statGeo.getBoxPlotSettings(dataListSelected, settings);
-					listener.updatePlotPanelSettings();
-					listener.showPlotPanel();
-					break;
-	
-				case BARCHART:
-					if (doCreate) {
-						if (barChart != null) {
-							barChart.remove();
-						}
-						if (settings.isNumericData()) {
-							barChart = statGeo.createBarChartNumeric(
-									dataListSelected, settings);
-							plotGeoList.add(barChart);
-						} else {
-							barChart = statGeo.createBarChartText(dataListSelected,
-									settings);
-						}
-						plotGeoList.add(barChart);
-	
-						if (freqTableGeo != null) {
-							freqTableGeo.remove();
-						}
-						if (settings.isShowFrequencyTable()) {
-							freqTableGeo = statGeo.createFrequencyTableGeo(
-									(GeoNumeric) barChart, selectedPlot);
-							plotGeoList.add(freqTableGeo);
-						}
-						listener.resize();
-					}
-	
-					// update the frequency table
-					if (settings.isShowFrequencyTable()) {
-						listener.setTableFromGeoFrequencyTable(
-								(AlgoFrequencyTable) freqTableGeo
-										.getParentAlgorithm(), false);
-					}
-	
-					// update settings
-					statGeo.getBarChartSettings(dataListSelected, settings,
-							barChart);
-					listener.updatePlotPanelSettings();
-					listener.showPlotPanel();
-					break;
-	
-				case DOTPLOT:
-					if (doCreate) {
-						if (dotPlot != null)
-							dotPlot.remove();
-						dotPlot = statGeo.createDotPlot(dataListSelected);
-						plotGeoList.add(dotPlot);
-					}
-	
-					statGeo.updateDotPlot(dataListSelected, dotPlot, settings);
-					listener.updatePlotPanelSettings();
-					listener.showPlotPanel();
-					break;
-	
-				case STEMPLOT:
-					String latex = statGeo.getStemPlotLatex(dataListSelected,
-							settings.getStemAdjust());
-					listener.updateStemPlot(latex);
-					break;
-	
-				case NORMALQUANTILE:
-					if (doCreate) {
-						if (nqPlot != null)
-							nqPlot.remove();
-						nqPlot = statGeo.createNormalQuantilePlot(dataListSelected);
-						plotGeoList.add(nqPlot);
-					}
-					statGeo.updateNormalQuantilePlot(dataListSelected, settings);
-					listener.updatePlotPanelSettings();
-					listener.showPlotPanel();
-					break;
-	
-				case SCATTERPLOT:
+				listener.showPlotPanel();
+				break;
 
-					if (doCreate) {
-						Log.debug("[DDMODEL]  UPDATE SCATTERPLOT");
-					scatterPlot = statGeo.createScatterPlot(dataListSelected);
-						plotGeoList.add(scatterPlot);
-	
-						if (daModel.getRegressionModel() != null
-								&& !daModel.getRegressionMode().equals(
-										Regression.NONE)) {
-							plotGeoList.add(daModel.getRegressionModel());
-						}
-	
-						if (settings.isShowScatterplotLine()) {
-							scatterPlotLine = statGeo
-									.createScatterPlotLine((GeoList) scatterPlot);
-							plotGeoList.add(scatterPlotLine);
-						}
-					}
-	
-					// update xy title fields
-					listener.updateXYTitles(settings.isPointList(),
-							daModel.getDaCtrl().isLeftToRight());
-	
-					// update settings
-				statGeo.getScatterPlotSettings(dataListSelected, settings);
-					listener.updatePlotPanelSettings();
-					listener.showPlotPanel();
+			case BOXPLOT:
+				if (doCreate) {
+					if (boxPlot != null)
+						boxPlot.remove();
+					boxPlot = statGeo.createBoxPlot(dataListSelected, settings);
+					plotGeoList.add(boxPlot);
+				}
+				statGeo.getBoxPlotSettings(dataListSelected, settings);
+				listener.updatePlotPanelSettings();
+				listener.showPlotPanel();
+				break;
 
-					break;
-	
-				case RESIDUAL:
-					if (doCreate) {
-						if (!daModel.getRegressionMode().equals(Regression.NONE)) {
-							residualPlot = statGeo.createRegressionPlot(
-									dataListSelected, daModel.getRegressionMode(),
-									daModel.getRegressionOrder(), true);
-							plotGeoList.add(residualPlot);
-							statGeo.getResidualPlotSettings(dataListSelected,
-									residualPlot, settings);
-							listener.updatePlotPanelSettings();
-							} else if (residualPlot != null) {
-							residualPlot.remove();
-							residualPlot = null;
-						}
+			case BARCHART:
+				if (doCreate) {
+					if (barChart != null) {
+						barChart.remove();
 					}
-					listener.showPlotPanel();
-					break;
-	
-				case MULTIBOXPLOT:
-					if (doCreate) {
-						GeoElement[] boxPlots = statGeo.createMultipleBoxPlot(
+					if (settings.isNumericData()) {
+						barChart = statGeo.createBarChartNumeric(
 								dataListSelected, settings);
-						for (int i = 0; i < boxPlots.length; i++)
-							plotGeoList.add(boxPlots[i]);
+						plotGeoList.add(barChart);
+					} else {
+						barChart = statGeo.createBarChartText(dataListSelected,
+								settings);
 					}
-	
-					statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
-					listener.updatePlotPanelSettings();
-					boxPlotTitles = statGeo.createBoxPlotTitles(daModel, settings);
-					for (int i = 0; i < boxPlotTitles.length; i++)
-						plotGeoList.add(boxPlotTitles[i]);
-	
-					listener.showPlotPanel();
-					break;
-	
-				default:
-	
+					plotGeoList.add(barChart);
+
+					if (freqTableGeo != null) {
+						freqTableGeo.remove();
+					}
+					if (settings.isShowFrequencyTable()) {
+						freqTableGeo = statGeo.createFrequencyTableGeo(
+								(GeoNumeric) barChart, selectedPlot);
+						plotGeoList.add(freqTableGeo);
+					}
+					listener.resize();
 				}
-	
-				// ==============================================
-				// Prepare Geos for plot panel view
-				// ==============================================
-	
-				if (doCreate && statGeo.removeFromConstruction()) {
-				for (GeoElementND listGeo : plotGeoList) {
-						// add the geo to our view and remove it from EV
-					listener.geoToPlotPanel(listGeo.toGeoElement());
-					
+
+				// update the frequency table
+				if (settings.isShowFrequencyTable()) {
+					listener.setTableFromGeoFrequencyTable(
+							(AlgoFrequencyTable) freqTableGeo
+									.getParentAlgorithm(),
+							false);
+				}
+
+				// update settings
+				statGeo.getBarChartSettings(dataListSelected, settings,
+						barChart);
+				listener.updatePlotPanelSettings();
+				listener.showPlotPanel();
+				break;
+
+			case DOTPLOT:
+				if (doCreate) {
+					if (dotPlot != null)
+						dotPlot.remove();
+					dotPlot = statGeo.createDotPlot(dataListSelected);
+					plotGeoList.add(dotPlot);
+				}
+
+				statGeo.updateDotPlot(dataListSelected, dotPlot, settings);
+				listener.updatePlotPanelSettings();
+				listener.showPlotPanel();
+				break;
+
+			case STEMPLOT:
+				String latex = statGeo.getStemPlotLatex(dataListSelected,
+						settings.getStemAdjust());
+				listener.updateStemPlot(latex);
+				break;
+
+			case NORMALQUANTILE:
+				if (doCreate) {
+					if (nqPlot != null)
+						nqPlot.remove();
+					nqPlot = statGeo.createNormalQuantilePlot(dataListSelected);
+					plotGeoList.add(nqPlot);
+				}
+				statGeo.updateNormalQuantilePlot(dataListSelected, settings);
+				listener.updatePlotPanelSettings();
+				listener.showPlotPanel();
+				break;
+
+			case SCATTERPLOT:
+
+				if (doCreate) {
+					Log.debug("[DDMODEL]  UPDATE SCATTERPLOT");
+					scatterPlot = statGeo.createScatterPlot(dataListSelected);
+					plotGeoList.add(scatterPlot);
+
+					if (daModel.getRegressionModel() != null && !daModel
+							.getRegressionMode().equals(Regression.NONE)) {
+						plotGeoList.add(daModel.getRegressionModel());
+					}
+
+					if (settings.isShowScatterplotLine()) {
+						scatterPlotLine = statGeo
+								.createScatterPlotLine((GeoList) scatterPlot);
+						plotGeoList.add(scatterPlotLine);
 					}
 				}
-	
-				if (freqTableGeo != null) {
-					freqTableGeo.setEuclidianVisible(false);
-					freqTableGeo.updateRepaint();
+
+				// update xy title fields
+				listener.updateXYTitles(settings.isPointList(),
+						daModel.getDaCtrl().isLeftToRight());
+
+				// update settings
+				statGeo.getScatterPlotSettings(dataListSelected, settings);
+				listener.updatePlotPanelSettings();
+				listener.showPlotPanel();
+
+				break;
+
+			case RESIDUAL:
+				if (doCreate) {
+					if (!daModel.getRegressionMode().equals(Regression.NONE)) {
+						residualPlot = statGeo.createRegressionPlot(
+								dataListSelected, daModel.getRegressionMode(),
+								daModel.getRegressionOrder(), true);
+						plotGeoList.add(residualPlot);
+						statGeo.getResidualPlotSettings(dataListSelected,
+								residualPlot, settings);
+						listener.updatePlotPanelSettings();
+					} else if (residualPlot != null) {
+						residualPlot.remove();
+						residualPlot = null;
+					}
 				}
-	
-				if (histogram != null) {
-					histogram.setEuclidianVisible(settings.isShowHistogram() && selectedPlot == PlotType.HISTOGRAM);
-					histogram.updateRepaint();
+				listener.showPlotPanel();
+				break;
+
+			case MULTIBOXPLOT:
+				if (doCreate) {
+					GeoElement[] boxPlots = statGeo
+							.createMultipleBoxPlot(dataListSelected, settings);
+					for (int i = 0; i < boxPlots.length; i++)
+						plotGeoList.add(boxPlots[i]);
 				}
-	
-			} catch (Exception e) {
-				daModel.getDaCtrl().setValidData(false);
-				listener.showInvalidDataDisplay();
-				e.printStackTrace();
+
+				statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
+				listener.updatePlotPanelSettings();
+				boxPlotTitles = statGeo.createBoxPlotTitles(daModel, settings);
+				for (int i = 0; i < boxPlotTitles.length; i++)
+					plotGeoList.add(boxPlotTitles[i]);
+
+				listener.showPlotPanel();
+				break;
+
+			default:
+
 			}
-	
+
+			// ==============================================
+			// Prepare Geos for plot panel view
+			// ==============================================
+
+			if (doCreate && statGeo.removeFromConstruction()) {
+				for (GeoElementND listGeo : plotGeoList) {
+					// add the geo to our view and remove it from EV
+					listener.geoToPlotPanel(listGeo.toGeoElement());
+
+				}
+			}
+
+			if (freqTableGeo != null) {
+				freqTableGeo.setEuclidianVisible(false);
+				freqTableGeo.updateRepaint();
+			}
+
+			if (histogram != null) {
+				histogram.setEuclidianVisible(settings.isShowHistogram()
+						&& selectedPlot == PlotType.HISTOGRAM);
+				histogram.updateRepaint();
+			}
+
+		} catch (Exception e) {
+			daModel.getDaCtrl().setValidData(false);
+			listener.showInvalidDataDisplay();
+			e.printStackTrace();
 		}
-	
+
+	}
 
 	public void clearPlotGeoList() {
 		for (GeoElementND geo : plotGeoList) {
@@ -593,12 +593,12 @@ public class DataDisplayModel {
 					settings.yAxesIntervalAuto, 1);
 			Construction cons = app.getKernel().getConstruction();
 			if (!settings.xAxesIntervalAuto) {
-				targetEV.setAxesNumberingDistance(new GeoNumeric(cons,
-						settings.xAxesInterval), 0);
+				targetEV.setAxesNumberingDistance(
+						new GeoNumeric(cons, settings.xAxesInterval), 0);
 			}
 			if (!settings.yAxesIntervalAuto) {
-				targetEV.setAxesNumberingDistance(new GeoNumeric(cons,
-						settings.yAxesInterval), 1);
+				targetEV.setAxesNumberingDistance(
+						new GeoNumeric(cons, settings.yAxesInterval), 1);
 			}
 			targetEV.updateBackground();
 
@@ -672,7 +672,6 @@ public class DataDisplayModel {
 
 	}
 
-
 	public void removeGeos() {
 		clearPlotGeoList();
 	}
@@ -685,10 +684,8 @@ public class DataDisplayModel {
 		return selectedPlot;
 	}
 
-	
 	public void setSelectedPlot(PlotType selectedPlot) {
 		this.selectedPlot = selectedPlot;
 	}
-
 
 }

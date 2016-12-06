@@ -48,7 +48,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/**
 	 * Creates new locus
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoLocusND(Construction c) {
 		super(c);
@@ -67,8 +69,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		ret.set(this);
 		return ret;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return new GeoLocus of same type
@@ -100,7 +101,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		myPointList.clear();
 	}
 
-	
 	/**
 	 * @return list of points that define this locus
 	 */
@@ -144,7 +144,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
-	 * @param flag true to make this locus defined
+	 * @param flag
+	 *            true to make this locus defined
 	 */
 	public void setDefined(boolean flag) {
 		defined = flag;
@@ -196,16 +197,19 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 		return false;
 	}
-	
+
 	/**
 	 * set infos for current changing point
-	 * @param P point
+	 * 
+	 * @param P
+	 *            point
 	 */
 	abstract protected void setChangingPoint(GeoPointND P);
-	
+
 	/**
 	 * 
-	 * @param segment segment
+	 * @param segment
+	 *            segment
 	 * @return closest parameter on the segment from the changing point
 	 */
 	abstract protected double getChangingPointParameter(GeoSegmentND segment);
@@ -214,7 +218,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * @return closest point to changing point
 	 */
 	protected MyPoint getClosestPoint() {
-		
+
 		getClosestLine();
 
 		boolean temp = cons.isSuppressLabelsActive();
@@ -239,16 +243,17 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 		return locusPoint.barycenter(closestPointParameter, locusPoint2);
 	}
-	
+
 	/**
 	 * 
 	 * @return new GeoSegment
 	 */
 	abstract protected GeoSegmentND newGeoSegment();
-	
+
 	/**
 	 * 
-	 * @param segment segment
+	 * @param segment
+	 *            segment
 	 * @return distance from current point infos to segment
 	 */
 	abstract protected double changingPointDistance(GeoSegmentND segment);
@@ -261,7 +266,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		if (size == 0)
 			return;
 
-		
 		// search for closest point on path
 		// MyPoint closestPoint = null;
 		closestPointDist = Double.MAX_VALUE;
@@ -288,7 +292,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				closestPointIndex = i;
 			}
 		}
-		
+
 	}
 
 	private double closestPointDist;
@@ -309,7 +313,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		// its coords
 		// #4405 if segment number changed during file loading (EV viewport)
 		// also don't use the new path update method
-		if (!getKernel().usePathAndRegionParameters(P) || cons.isFileLoading()) {
+		if (!getKernel().usePathAndRegionParameters(P)
+				|| cons.isFileLoading()) {
 			pointChanged(P);
 			return;
 		}
@@ -338,10 +343,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		MyPoint locusPoint = myPointList.get(n);
 		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
 
-		P.set(1-t, t, locusPoint, locusPoint2);
+		P.set(1 - t, t, locusPoint, locusPoint2);
 
 	}
-	
+
 	public void pathChanged(Coords P, PathParameter pp) {
 		int n = (int) Math.floor(pp.t);
 
@@ -358,8 +363,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 		P.set(1 - t, t, locusPoint, locusPoint2);
 	}
-	
-
 
 	@Override
 	public boolean isPath() {
@@ -390,14 +393,13 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
-	 * @param al list of points that definr this locus
+	 * @param al
+	 *            list of points that definr this locus
 	 */
 	public void setPoints(ArrayList<T> al) {
 		myPointList = al;
 
 	}
-
-	
 
 	@Override
 	final public boolean isAuxiliaryObjectByDefault() {
@@ -431,7 +433,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	final public PathMover createPathMover() {
 		return new PathMoverLocus<T>(this);
 	}
-	
+
 	@Override
 	public boolean hasDrawable3D() {
 		return true;

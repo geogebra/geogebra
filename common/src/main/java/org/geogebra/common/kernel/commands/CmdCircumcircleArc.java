@@ -33,8 +33,8 @@ public class CmdCircumcircleArc extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { getArc(c.getLabel(), arg[0], arg[1],
-						arg[2]) };
+				GeoElement[] ret = {
+						getArc(c.getLabel(), arg[0], arg[1], arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

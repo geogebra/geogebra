@@ -59,4 +59,3 @@ public class CmdMinimize extends CommandProcessor {
 	}// process(command)
 
 }// CmdMinimze(kernel)
-

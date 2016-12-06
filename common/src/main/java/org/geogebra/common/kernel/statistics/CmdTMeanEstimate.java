@@ -32,7 +32,8 @@ public class CmdTMeanEstimate extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 
 				AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons,
 						c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1]);

@@ -70,6 +70,4 @@ public class AlgoMatrixRank extends AlgoElement {
 		return rank;
 	}
 
-	
-
 }

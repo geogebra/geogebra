@@ -48,17 +48,17 @@ public class CmdParseToFunction extends CommandProcessor {
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
-					GeoElement parsed = arg[0].isGeoFunction() ? kernelA
-							.getAlgebraProcessor()
-							.evaluateToFunction(str, true) : kernelA
-							.getAlgebraProcessor().evaluateToFunctionNVar(str,
-									true);
+					GeoElement parsed = arg[0].isGeoFunction()
+							? kernelA.getAlgebraProcessor()
+									.evaluateToFunction(str, true)
+							: kernelA.getAlgebraProcessor()
+									.evaluateToFunctionNVar(str, true);
 					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {
 					// eg ParseToFunction[f, "hello"]
-					fun.set(kernelA.getAlgebraProcessor().evaluateToFunction(
-							"?", true));
+					fun.set(kernelA.getAlgebraProcessor()
+							.evaluateToFunction("?", true));
 					fun.updateCascade();
 				}
 

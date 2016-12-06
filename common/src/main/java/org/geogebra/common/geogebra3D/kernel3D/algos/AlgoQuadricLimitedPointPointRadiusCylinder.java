@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedPointPointRadiusCylinder extends
-		AlgoQuadricLimitedPointPointRadius {
+public class AlgoQuadricLimitedPointPointRadiusCylinder
+		extends AlgoQuadricLimitedPointPointRadius {
 
 	/**
 	 * 
@@ -35,7 +35,6 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends
 
 	}
 
-
 	@Override
 	protected AlgoQuadricEnds createEnds() {
 		AlgoQuadricEnds algo2 = new AlgoQuadricEnds(cons, getQuadric(), true);
@@ -43,7 +42,6 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends
 		top = algo2.getSection2();
 		return algo2;
 	}
-
 
 	@Override
 	protected void setOutput() {
@@ -69,8 +67,8 @@ public class AlgoQuadricLimitedPointPointRadiusCylinder extends
 	@Override
 	protected AlgoElement getTransformedAlgo(String[] labels, GeoPointND p1,
 			GeoPointND p2, GeoNumeric r) {
-		return new AlgoQuadricLimitedPointPointRadiusCylinder(this.cons,
-				labels, p1, p2, r);
+		return new AlgoQuadricLimitedPointPointRadiusCylinder(this.cons, labels,
+				p1, p2, r);
 	}
 
 }

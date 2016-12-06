@@ -122,8 +122,8 @@ public class AlgoFocus extends AlgoElement {
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			temp1 = c.p / 2;
-			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(), b.getY()
-					+ temp1 * eigenvec[0].getY());
+			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(),
+					b.getY() + temp1 * eigenvec[0].getY());
 			// second focus undefined
 			focus[1].setUndefined();
 			break;
@@ -154,5 +154,4 @@ public class AlgoFocus extends AlgoElement {
 
 	}
 
-	
 }

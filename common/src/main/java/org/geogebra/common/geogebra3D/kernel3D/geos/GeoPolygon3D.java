@@ -266,7 +266,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setCoordSys(GeoPolygon poly) {
-		
+
 		// set coord sys
 		if (coordSys == null) {
 			coordSys = new CoordSys(2);
@@ -380,8 +380,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			}
 
 			// set the 2D points
-			points2D[i].setCoords(matrix.getVx().dotproduct3(d2), matrix
-					.getVy().dotproduct3(d2), 1);
+			points2D[i].setCoords(matrix.getVx().dotproduct3(d2),
+					matrix.getVy().dotproduct3(d2), 1);
 
 		}
 
@@ -400,6 +400,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		}
 
 	}
+
 	@Override
 	public void setPointsAndSegments(GeoPointND[] geos) {
 		updatePointsND(geos);
@@ -407,6 +408,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		updateSegments();
 
 	}
+
 	/**
 	 * @return true if it has worked
 	 */
@@ -431,7 +433,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	static final public boolean updateCoordSys(CoordSys coordSys,
 			GeoPointND[] points, GeoPoint[] points2D, double[] tmpCoords) {
 		coordSys.resetCoordSys();
-		for (int i = 0; (!coordSys.isMadeCoordSys()) && (i < points.length); i++) {
+		for (int i = 0; (!coordSys.isMadeCoordSys())
+				&& (i < points.length); i++) {
 			// Application.debug(points[i].getLabel()+"=\n"+points[i].getCoordsInD3());
 
 			// check if the vertex is defined and finite
@@ -459,8 +462,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 * set cs for region as simplest orthonormal coord sys
 	 */
 	final public void setOrthoNormalRegionCS() {
-		updateRegionCS(new GeoPoint(cons, 0, 0, 1),
-				new GeoPoint(cons, 1, 0, 1), new GeoPoint(cons, 0, 1, 1));
+		updateRegionCS(new GeoPoint(cons, 0, 0, 1), new GeoPoint(cons, 1, 0, 1),
+				new GeoPoint(cons, 0, 1, 1));
 	}
 
 	/**
@@ -589,8 +592,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			if (segment == null) {
 				segments[i].pointChanged(P);
 			} else {
-				segment.setCoordFromPoints(getPoint3D(i), getPoint3D((i + 1)
-						% getPointsLength()));
+				segment.setCoordFromPoints(getPoint3D(i),
+						getPoint3D((i + 1) % getPointsLength()));
 				segment.pointChanged(P);
 			}
 
@@ -631,7 +634,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public boolean isInRegion(GeoPointND PI) {
-		
+
 		Coords coords = PI.getCoordsInD2IfInPlane(getCoordSys());
 
 		if (coords == null) { // point is not in plane containing the polygon
@@ -674,14 +677,14 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		euclidianViewForPlane.doRemove();
 	}
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view) {
+	public void setEuclidianViewForPlane(
+			EuclidianViewForPlaneCompanionInterface view) {
 		euclidianViewForPlane = view;
 	}
 
 	public boolean hasView2DVisible() {
-		return euclidianViewForPlane != null
-				&& kernel.getApplication().getGuiManager()
-						.showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane != null && kernel.getApplication()
+				.getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 
 	public void setView2DVisible(boolean flag) {
@@ -692,8 +695,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			return;
 		}
 
-		kernel.getApplication().getGuiManager()
-				.setShowView(flag, euclidianViewForPlane.getId());
+		kernel.getApplication().getGuiManager().setShowView(flag,
+				euclidianViewForPlane.getId());
 
 	}
 
@@ -714,7 +717,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a10, double a11) {
+	public void matrixTransform(double a00, double a01, double a10,
+			double a11) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = CoordMatrix4x4.Identity();
@@ -867,8 +871,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	final private void rotate(NumberValue phiVal, Coords center,
 			Coords direction) {
-		getCoordSys()
-				.rotate(phiVal.getDouble(), center, direction.normalized());
+		getCoordSys().rotate(phiVal.getDouble(), center,
+				direction.normalized());
 	}
 
 	// ////////////////////////////////////////////
@@ -1050,7 +1054,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						int j = iFirstPoint + step;
 						if (j < 0)
 							j = gLength - 1;
-						if (this.getPoint3D(1).equalsForKernel(g.getPoint3D(j))) {
+						if (this.getPoint3D(1)
+								.equalsForKernel(g.getPoint3D(j))) {
 							sPointFound = true;
 						}
 					}
@@ -1066,8 +1071,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						boolean pointOK = true;
 						while ((pointOK) && (i < gLength)) {
 							// Log.debug("Recherche pour : "+i+"="+j);
-							pointOK = (this.getPoint3D(i).equalsForKernel(g
-									.getPoint3D(j)));
+							pointOK = (this.getPoint3D(i)
+									.equalsForKernel(g.getPoint3D(j)));
 							/*
 							 * if (pointOK){ Log.debug("Point suivant : "+j);
 							 * }else { Log.debug("Arret : "+j); }
@@ -1092,27 +1097,27 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		// face orientation is created by the points
 		return reverseNormal;
 	}
-	
+
 	private double[] tmp3;
 
 	@Override
 	public void calcCentroid(GeoPointND p) {
-		
+
 		// just do long method
 		// could improve by transforming original centroid, but not worth doing
 		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]
 		// test-case Centroid[Polygon[(0,0),(1,1),(1,0)]]
-		if (tmp3 == null){
+		if (tmp3 == null) {
 			tmp3 = new double[3];
 		}
 		AlgoPolygon.calcCentroid(tmp3, area, getPoints());
-		if (Double.isNaN(tmp3[0])){
+		if (Double.isNaN(tmp3[0])) {
 			p.setUndefined();
-		}else{
+		} else {
 			Coords c = getCoordSys().getPoint(tmp3[0], tmp3[1], tmp3[2]);
 			p.setCoords(c, false);
 		}
-		
+
 	}
 
 	@Override

@@ -144,6 +144,4 @@ public class AlgoListMax extends AlgoElement {
 		max.setValue(maxVal);
 	}
 
-	
-
 }

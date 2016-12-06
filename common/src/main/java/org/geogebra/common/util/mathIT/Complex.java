@@ -1530,7 +1530,6 @@ public class Complex {
 		return output;
 	}
 
-
 	/** for test purposes ... */
 	/*
 	 * public static void main ( String args[] ) { // Eingabefeld:

@@ -124,6 +124,4 @@ public class AlgoRayPointVector extends AlgoElement {
 				v.getLabel(tpl));
 	}
 
-	
-
 }

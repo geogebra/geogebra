@@ -117,7 +117,8 @@ public class CellRange implements Cloneable {
 	 * Set a cell range using diagonal corner cells. Can be any two diagonal
 	 * corners in either order.
 	 */
-	public void setCellRange(int anchorColumn, int anchorRow, int col2, int row2) {
+	public void setCellRange(int anchorColumn, int anchorRow, int col2,
+			int row2) {
 
 		minColumn = Math.min(anchorColumn, col2);
 		maxColumn = Math.max(anchorColumn, col2);
@@ -214,7 +215,8 @@ public class CellRange implements Cloneable {
 
 	/** isEmptyRange = the range contains no cells */
 	public boolean isEmptyRange() {
-		return (minColumn == -1 && maxColumn == -1 && minRow == -1 && maxRow == -1);
+		return (minColumn == -1 && maxColumn == -1 && minRow == -1
+				&& maxRow == -1);
 	}
 
 	/**
@@ -343,6 +345,7 @@ public class CellRange implements Cloneable {
 				+ ":" + GeoElementSpreadsheet.getSpreadsheetCellName(maxColumn,
 						maxRow);
 	}
+
 	/**
 	 * ArrayList of geo value string for each geo found in the given cell range
 	 */
@@ -500,9 +503,12 @@ public class CellRange implements Cloneable {
 	 */
 	public boolean isValid() {
 		return (minRow >= -1 && minRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
-				&& (maxRow >= -1 && maxRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
-				&& (minColumn >= -1 && minColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
-				&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
+				&& (maxRow >= -1
+						&& maxRow < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
+				&& (minColumn >= -1
+						&& minColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP)
+				&& (maxColumn >= -1
+						&& maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
 	}
 
 	final public CellRange clone() {
@@ -523,7 +529,8 @@ public class CellRange implements Cloneable {
 			cr = (CellRange) obj;
 			return (cr.minColumn == minColumn && cr.minRow == minRow
 					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow
-					&& cr.anchorColumn == anchorColumn && cr.anchorRow == anchorRow);
+					&& cr.anchorColumn == anchorColumn
+					&& cr.anchorRow == anchorRow);
 		}
 		return false;
 	}

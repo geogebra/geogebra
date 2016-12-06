@@ -108,7 +108,8 @@ public class Variable extends ValidExpression {
 
 		// lookup variable name, create missing variables automatically if
 		// allowed
-		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement, kernel.isResolveUnkownVarsAsDummyGeos());
+		GeoElement geo = kernel.lookupLabel(name, allowAutoCreateGeoElement,
+				kernel.isResolveUnkownVarsAsDummyGeos());
 		if (geo != null || !throwError)
 			return geo;
 
@@ -216,9 +217,8 @@ public class Variable extends ValidExpression {
 			if (geo2 != null)
 				break;
 		}
-		while (nameNoX.length() > 0
-				&& geo2 == null
-				&& (nameNoX.startsWith("pi") || nameNoX.charAt(0) == Unicode.pi)) {
+		while (nameNoX.length() > 0 && geo2 == null && (nameNoX.startsWith("pi")
+				|| nameNoX.charAt(0) == Unicode.pi)) {
 			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
 			exponents[4]++;
 			nameNoX = nameNoX.substring(chop);
@@ -238,12 +238,12 @@ public class Variable extends ValidExpression {
 					: powers.multiply(piDegTo(exponents[4], degPower, kernel));
 		}
 		return exponents[4] == 0 && degPower == 0 ? powers.multiply(geo2)
-				: powers
-				.multiply(geo2)
+				: powers.multiply(geo2)
 						.multiply(piDegTo(exponents[4], degPower, kernel));
 	}
 
-	private static ExpressionValue asDerivative(Kernel kernel, String funcName) {
+	private static ExpressionValue asDerivative(Kernel kernel,
+			String funcName) {
 		int index = funcName.length() - 1;
 		int order = 0;
 		while (index >= 0 && funcName.charAt(index) == '\'') {
@@ -266,37 +266,35 @@ public class Variable extends ValidExpression {
 
 		if (geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
 			return FunctionParser.derivativeNode(kernel, geo, order,
-					geo.isGeoCurveCartesian(),
-					new FunctionVariable(kernel));
+					geo.isGeoCurveCartesian(), new FunctionVariable(kernel));
 		}
 		return null;
 	}
 
 	private static ExpressionNode xyzPowers(Kernel kernel, int[] exponents) {
-		return new ExpressionNode(kernel,
-				new FunctionVariable(kernel, "x"))
+		return new ExpressionNode(kernel, new FunctionVariable(kernel, "x"))
 				.power(new MyDouble(kernel, exponents[0]))
-				.multiplyR(
-						new ExpressionNode(kernel, new FunctionVariable(kernel,
-								"y")).power(new MyDouble(kernel, exponents[1])))
-				.multiplyR(
-						new ExpressionNode(kernel, new FunctionVariable(kernel,
-								"z")).power(new MyDouble(kernel, exponents[2])))
-				.multiplyR(
-						new ExpressionNode(kernel, new FunctionVariable(kernel,
-								Unicode.thetaStr)).power(new MyDouble(kernel,
-								exponents[3])));
+				.multiplyR(new ExpressionNode(kernel,
+						new FunctionVariable(kernel, "y"))
+								.power(new MyDouble(kernel, exponents[1])))
+				.multiplyR(new ExpressionNode(kernel,
+						new FunctionVariable(kernel, "z"))
+								.power(new MyDouble(kernel, exponents[2])))
+				.multiplyR(new ExpressionNode(kernel,
+						new FunctionVariable(kernel, Unicode.thetaStr))
+								.power(new MyDouble(kernel, exponents[3])));
 	}
 
 	private static ExpressionNode piDegTo(int piPower, int degPower,
 			Kernel kernel2) {
-		ExpressionNode piExp = piPower > 0 ? new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING).wrap()
-		.power(piPower) : null;
-		ExpressionNode degExp = degPower > 0 ? new MyDouble(kernel2, MyMath.DEG)
-				.setAngle().wrap().power(degPower)
+		ExpressionNode piExp = piPower > 0
+				? new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING)
+						.wrap().power(piPower)
 				: null;
-		return degExp == null ? piExp : (piExp == null ? degExp : piExp
-				.multiply(degExp));
+		ExpressionNode degExp = degPower > 0 ? new MyDouble(kernel2, MyMath.DEG)
+				.setAngle().wrap().power(degPower) : null;
+		return degExp == null ? piExp
+				: (piExp == null ? degExp : piExp.multiply(degExp));
 	}
 
 	public HashSet<GeoElement> getVariables() {
@@ -352,7 +350,7 @@ public class Variable extends ValidExpression {
 		GeoElement ge = kernel.lookupLabel(name, false, true);
 		if (ge != null && !(ge instanceof GeoDummyVariable))
 			return ge.hasCoords();
-		
+
 		return false;
 	}
 

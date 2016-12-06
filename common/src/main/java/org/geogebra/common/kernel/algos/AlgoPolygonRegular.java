@@ -80,8 +80,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 
 		// center point of regular polygon
 		double tanBetaHalf = Math.tan(beta) / 2;
-		centerPoint
-				.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny, 1.0);
+		centerPoint.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny,
+				1.0);
 		centerPointCoords = centerPoint.getInhomCoords();
 	}
 

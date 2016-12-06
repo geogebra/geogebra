@@ -48,8 +48,9 @@ public class CmdContinuedFraction extends CommandProcessor {
 			}
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], null) };
+				GeoElement[] ret = {
+						ContinuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1], null) };
 				return ret;
 			}
 
@@ -59,9 +60,9 @@ public class CmdContinuedFraction extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoBoolean) arg[2]) };
+				GeoElement[] ret = {
+						ContinuedFraction(c.getLabel(), (GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -73,8 +74,8 @@ public class CmdContinuedFraction extends CommandProcessor {
 
 	final private GeoText ContinuedFraction(String label, GeoNumberValue num,
 			GeoNumberValue level, GeoBoolean shortHand) {
-		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label,
-				num, level, shortHand);
+		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num,
+				level, shortHand);
 		GeoText text = algo.getResult();
 		return text;
 	}

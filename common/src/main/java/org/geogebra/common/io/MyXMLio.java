@@ -173,7 +173,7 @@ public abstract class MyXMLio {
 			boolean isGgtFile) throws Exception {
 		processXMLString(xml, clearConstruction, isGgtFile, true);
 	}
-	
+
 	/**
 	 * @param xml
 	 *            XML string
@@ -196,8 +196,6 @@ public abstract class MyXMLio {
 			cons.setFileLoading(false);
 		}
 	}
-
-
 
 	/**
 	 * Appends the &lt;geogebra> tag to given builder, including XSD link and
@@ -233,7 +231,8 @@ public abstract class MyXMLio {
 			sb.append(GeoGebraConstants.GGT_XSD_FILENAME); // eg ggt.xsd
 		else
 			sb.append(GeoGebraConstants.GGB_XSD_FILENAME); // eg ggb.xsd
-		sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
+		sb.append(
+				"\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
 	}
 
 	/**
@@ -257,9 +256,11 @@ public abstract class MyXMLio {
 		addGeoGebraHeader(sb, false, app.getUniqueId());
 		// sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n");
 		// sb.append("<geogebra format=\"" + GeoGebra.XML_FILE_FORMAT + "\"");
-		// sb.append(" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
+		// sb.append("
+		// xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/");
 		// sb.append(GeoGebra.GGB_XSD_FILENAME); //eg ggb.xsd
-		// sb.append("\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
+		// sb.append("\" xmlns=\"\"
+		// xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >\n");
 
 		// save gui settings
 		sb.append(app.getCompleteUserInterfaceXML(false));
@@ -322,7 +323,6 @@ public abstract class MyXMLio {
 		cons.getConstructionRegressionOut(sb);
 		return sb.toString();
 	}
-	
 
 	/**
 	 * @param str
@@ -344,7 +344,7 @@ public abstract class MyXMLio {
 		doParseXML(createXMLStreamString(str), clearAll, isGGTOrDefaults,
 				clearAll, settingsBatch, randomize);
 	}
-	
+
 	/**
 	 * @param stream
 	 *            xml stream
@@ -361,11 +361,9 @@ public abstract class MyXMLio {
 	 * @throws Exception
 	 *             if a problem occurs
 	 */
-	final protected void doParseXML(XMLStream stream,
-			boolean clearConstruction,
+	final protected void doParseXML(XMLStream stream, boolean clearConstruction,
 			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch,
-			boolean randomize)
-			throws Exception {
+			boolean randomize) throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
 		kernel.setUseInternalCommandNames(true);
@@ -468,9 +466,10 @@ public abstract class MyXMLio {
 		}
 
 	}
-	
+
 	/**
 	 * class for XML content streams (zip, buffers, String, etc.)
+	 * 
 	 * @author mathieu
 	 *
 	 */
@@ -495,6 +494,5 @@ public abstract class MyXMLio {
 	 * @throws Exception
 	 *             when problem occurs
 	 */
-	abstract public void readZipFromString(byte[] zipFile)
-			throws Exception;
+	abstract public void readZipFromString(byte[] zipFile) throws Exception;
 }

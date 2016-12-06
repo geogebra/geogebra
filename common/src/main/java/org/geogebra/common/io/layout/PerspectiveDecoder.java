@@ -26,63 +26,82 @@ import org.geogebra.common.util.debug.Log;
 public class PerspectiveDecoder {
 	private static Map<String, DockPanelData> viewCodes = new HashMap<String, DockPanelData>();
 	static {
-		viewCodes.put("G",
-				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-						"1", 500));
-		viewCodes.put("A",
-				new DockPanelData(App.VIEW_ALGEBRA, null, false, false, false,
-						AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-						"3,3", 200));
-		viewCodes.put(
-				"S",
-				new DockPanelData(App.VIEW_SPREADSHEET, null, true, false,
-						false, AwtFactory.getPrototype().newRectangle(100, 100, 600,
-								400), "3", 300));
-		viewCodes.put("C", new DockPanelData(App.VIEW_CAS, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"3,1", 300));
-		viewCodes.put(
-				"P",
-				new DockPanelData(App.VIEW_PROPERTIES, null, false, false,
-						true, AwtFactory.getPrototype().newRectangle(100, 100, 700,
-								550), "1,1", 400));
+		viewCodes
+				.put("G",
+						new DockPanelData(App.VIEW_EUCLIDIAN, null, true,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 600, 400),
+								"1", 500));
+		viewCodes
+				.put("A",
+						new DockPanelData(App.VIEW_ALGEBRA, null, false,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 250, 400),
+								"3,3", 200));
+		viewCodes
+				.put("S",
+						new DockPanelData(App.VIEW_SPREADSHEET, null, true,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 600, 400),
+								"3", 300));
+		viewCodes
+				.put("C",
+						new DockPanelData(App.VIEW_CAS, null, false,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 600, 400),
+								"3,1", 300));
+		viewCodes
+				.put("P",
+						new DockPanelData(App.VIEW_PROPERTIES, null, false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
 
-		viewCodes.put(
-				"L",
-				new DockPanelData(App.VIEW_CONSTRUCTION_PROTOCOL, null, false,
-						false, true, AwtFactory.getPrototype().newRectangle(100,
-								100, 700, 550), "1,1", 400));
-		viewCodes.put(
-				"D",
-				new DockPanelData(App.VIEW_EUCLIDIAN2, null, false, false,
-						true, AwtFactory.getPrototype().newRectangle(100, 100, 700,
-								550), "1,1", 400));
-		viewCodes.put(
-				"T",
-				new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
-						true, AwtFactory.getPrototype().newRectangle(100, 100, 700,
-								550), "1,1", 400));
-		viewCodes.put(
-				"B",
-				new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null, false,
-						false, true, AwtFactory.getPrototype().newRectangle(100,
-								100, 700, 550), "1,1", 400));
-		viewCodes.put(
-				"R",
-				new DockPanelData(App.VIEW_DATA_ANALYSIS, null, false, false,
-						true, AwtFactory.getPrototype().newRectangle(100, 100, 700,
-								550), "1,1", 400));
-		viewCodes.put(
-				"F",
-				new DockPanelData(App.VIEW_FUNCTION_INSPECTOR, null, false,
-						false, true, AwtFactory.getPrototype().newRectangle(100,
-								100, 700, 550), "1,1", 400));
-		viewCodes.put(
-				"M",
-				new DockPanelData(App.VIEW_DATA_COLLECTION, null, true, false,
-						false, AwtFactory.getPrototype().newRectangle(100, 100, 600,
-								400), "3", 300));
+		viewCodes
+				.put("L",
+						new DockPanelData(App.VIEW_CONSTRUCTION_PROTOCOL, null,
+								false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("D",
+						new DockPanelData(App.VIEW_EUCLIDIAN2, null, false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("T",
+						new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("B",
+						new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null,
+								false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("R",
+						new DockPanelData(App.VIEW_DATA_ANALYSIS, null, false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("F",
+						new DockPanelData(App.VIEW_FUNCTION_INSPECTOR, null,
+								false,
+								false, true, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 700, 550),
+								"1,1", 400));
+		viewCodes
+				.put("M",
+						new DockPanelData(App.VIEW_DATA_COLLECTION, null, true,
+								false, false, AwtFactory.getPrototype()
+										.newRectangle(100, 100, 600, 400),
+								"3", 300));
 	}
 
 	/**
@@ -129,13 +148,12 @@ public class PerspectiveDecoder {
 		DockPanelData[] dpData = new DockPanelData[panelList.size()];
 		panelList.toArray(dpData);
 
-		return new Perspective(0, spData, dpData, defToolbar, true,
-				false, true, true, true, InputPosition.algebraView);
+		return new Perspective(0, spData, dpData, defToolbar, true, false, true,
+				true, true, InputPosition.algebraView);
 	}
 
-	private static void buildPerspective(ExpressionValue expr,
-			String panelPath, String splitPath,
-			ArrayList<DockPanelData> panelList,
+	private static void buildPerspective(ExpressionValue expr, String panelPath,
+			String splitPath, ArrayList<DockPanelData> panelList,
 			ArrayList<DockSplitPaneData> splitList, double totalWidth,
 			double totalHeight) {
 
@@ -150,7 +168,8 @@ public class PerspectiveDecoder {
 			}
 		} else if (expr instanceof ExpressionNode) {
 			ExpressionNode en = (ExpressionNode) expr;
-			boolean horizontal = ((ExpressionNode) expr).getOperation() == Operation.MULTIPLY;
+			boolean horizontal = ((ExpressionNode) expr)
+					.getOperation() == Operation.MULTIPLY;
 
 			double ratio = size(en.getLeft(), horizontal)
 					/ size(en, horizontal);
@@ -169,12 +188,12 @@ public class PerspectiveDecoder {
 			splitList.add(new DockSplitPaneData(
 					splitPath.length() > 0 ? splitPath.substring(1) : "",
 					horizontal ? width1 : height1, horizontal ? 1 : 0));
-			buildPerspective(en.getRight().unwrap(), panelPath
-					+ (horizontal ? ",1" : ",2"), splitPath + ",1", panelList,
-					splitList, width2, height2);
-			buildPerspective(en.getLeft().unwrap(), panelPath
-					+ (horizontal ? ",3" : ",0"), splitPath + ",0", panelList,
-					splitList, width1, height1);
+			buildPerspective(en.getRight().unwrap(),
+					panelPath + (horizontal ? ",1" : ",2"), splitPath + ",1",
+					panelList, splitList, width2, height2);
+			buildPerspective(en.getLeft().unwrap(),
+					panelPath + (horizontal ? ",3" : ",0"), splitPath + ",0",
+					panelList, splitList, width1, height1);
 		} else {
 			Log.error("Wrong type" + expr.getValueType());
 		}

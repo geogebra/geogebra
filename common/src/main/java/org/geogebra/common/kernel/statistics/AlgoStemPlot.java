@@ -143,7 +143,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			Q3 = (data[(3 * size) / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
 			break;
 		case 1:
-			Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1]) / 2;
+			Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1])
+					/ 2;
 			break;
 		case 2:
 			Q3 = data[(3 * size + 2) / 4 - 1];
@@ -355,8 +356,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			// add the stem and handle the case of -0
 			stem = currentLine.get(0);
-			if (stem == 0
-					&& (r < stemLines.size() - 2 && stemLines.get(r + 1).get(0) == 0))
+			if (stem == 0 && (r < stemLines.size() - 2
+					&& stemLines.get(r + 1).get(0) == 0))
 				body.append("-" + stem + "");
 			else
 				body.append(stem + "");
@@ -364,8 +365,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 			// add the leaf values
 			for (int c = 1; c < maxSize; c++) {
-				body.append(currentLine.size() > c ? currentLine.get(c) + ""
-						: " ");
+				body.append(
+						currentLine.size() > c ? currentLine.get(c) + "" : " ");
 				if (c < maxSize - 1)
 					body.append("&"); // column separator
 			}
@@ -381,8 +382,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		key.append("\\fbox{\\text{");
 
 		// calculate the key string, avoid eg 31.0
-		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit : "" + 31.0
-				* multUnit;
+		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
+				: "" + 31.0 * multUnit;
 		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
 		key.append("}}");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
@@ -443,8 +444,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			stem = currentLine.get(0);
 
 			body.append(" \\ggbtdlrR{ ");
-			if (stem == 0
-					&& (r < stemLines.size() - 2 && stemLines.get(r + 1).get(0) == 0))
+			if (stem == 0 && (r < stemLines.size() - 2
+					&& stemLines.get(r + 1).get(0) == 0))
 				body.append("-" + stem + "");
 			else
 				body.append(stem + "");
@@ -453,8 +454,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			// add the leaf values
 			for (int c = 1; c < maxSize; c++) {
 				body.append(" \\ggbtdL{ ");
-				body.append(currentLine.size() > c ? currentLine.get(c) + ""
-						: " ");
+				body.append(
+						currentLine.size() > c ? currentLine.get(c) + "" : " ");
 				body.append(" } ");
 			}
 			body.append(" } ");
@@ -471,8 +472,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		key.append(" \\ggbtable{ \\ggbtrl{ \\ggbtdl{ \\text{ ");
 
 		// calculate the key string, avoid eg 31.0
-		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit : "" + 31.0
-				* multUnit;
+		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
+				: "" + 31.0 * multUnit;
 		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
 		key.append(" } } } } ");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
@@ -497,7 +498,5 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

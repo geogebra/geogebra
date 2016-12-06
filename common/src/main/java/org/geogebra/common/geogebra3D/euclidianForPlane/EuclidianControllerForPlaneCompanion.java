@@ -21,8 +21,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public class EuclidianControllerForPlaneCompanion extends
-		EuclidianControllerFor3DCompanion {
+public class EuclidianControllerForPlaneCompanion
+		extends EuclidianControllerFor3DCompanion {
 
 	/**
 	 * @param ec
@@ -78,7 +78,8 @@ public class EuclidianControllerForPlaneCompanion extends
 	}
 
 	@Override
-	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
+	protected GeoPointND createNewPoint(boolean forPreviewable,
+			boolean complex) {
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 
@@ -120,7 +121,8 @@ public class EuclidianControllerForPlaneCompanion extends
 	}
 
 	@Override
-	public ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
+	public ArrayList<GeoElement> removeParentsOfView(
+			ArrayList<GeoElement> list) {
 		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 		for (GeoElement geo : list)
 			if (ec.view.isMoveable(geo))

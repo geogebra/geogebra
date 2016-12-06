@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -29,13 +28,14 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public abstract class DrawEquation {
 
-
-	public static void appendFractionStart(StringBuilder sb, StringTemplate tpl) {
-			sb.append(" \\frac{ ");
+	public static void appendFractionStart(StringBuilder sb,
+			StringTemplate tpl) {
+		sb.append(" \\frac{ ");
 	}
 
-	public static void appendFractionMiddle(StringBuilder sb, StringTemplate tpl) {
-			sb.append(" }{ ");
+	public static void appendFractionMiddle(StringBuilder sb,
+			StringTemplate tpl) {
+		sb.append(" }{ ");
 	}
 
 	public static void appendFractionEnd(StringBuilder sb, StringTemplate tpl) {
@@ -43,15 +43,16 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendInfinity(StringBuilder sb, StringTemplate tpl) {
-			sb.append(" \\infty ");
+		sb.append(" \\infty ");
 	}
 
-	public static void appendMinusInfinity(StringBuilder sb, StringTemplate tpl) {
-			sb.append(" - \\infty ");
+	public static void appendMinusInfinity(StringBuilder sb,
+			StringTemplate tpl) {
+		sb.append(" - \\infty ");
 	}
 
 	public static void appendNegation(StringBuilder sb, StringTemplate tpl) {
-			sb.append("-");
+		sb.append("-");
 	}
 
 	/**
@@ -81,9 +82,8 @@ public abstract class DrawEquation {
 	 */
 	public abstract GDimension drawEquation(App app, GeoElementND geo,
 			GGraphics2D g2, int x, int y, String text, GFont font,
-			boolean serif, GColor fgColor,
-			GColor bgColor, boolean useCache, boolean updateAgain,
-			Runnable callback);
+			boolean serif, GColor fgColor, GColor bgColor, boolean useCache,
+			boolean updateAgain, Runnable callback);
 
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();
@@ -106,7 +106,8 @@ public abstract class DrawEquation {
 				GColor col = ggbCols.get(colStr);
 
 				// eg
-				// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");
+				// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}}
+				// ");
 				initJLM.append("\\newcommand{\\");
 				initJLM.append(colStr);
 				initJLM.append("}[1]{\\textcolor{");
@@ -118,13 +119,14 @@ public abstract class DrawEquation {
 				initJLM.append("}{#1}} ");
 
 				// generate JavaScript code for MathQuillGGB
-				// System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
+				// System.out.println("LatexCmds."+colStr+" = bind(Style,
+				// '\\\\"+colStr+"', '<span
+				// style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
 
 			}
 		}
 		return initJLM;
 	}
-
 
 	/**
 	 * Renders LaTeX equation using JLaTeXMath
@@ -142,8 +144,7 @@ public abstract class DrawEquation {
 	 */
 	final public GDimension drawEquation(final App app, final GeoElementND geo,
 			final Graphics2DInterface g2, final int x, final int y,
-			final String text,
-			final GFont font, final boolean serif,
+			final String text, final GFont font, final boolean serif,
 			final com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
 			final com.himamis.retex.renderer.share.platform.graphics.Color bgColor,
 			final boolean useCache, final Integer maxWidth,
@@ -155,16 +156,14 @@ public abstract class DrawEquation {
 		int height = -1;
 		// int depth = 0;
 
-
-
 		int style = font.getLaTeXStyle(serif);
 
 		// if we're exporting, we want to draw it full resolution
 		if (app.isExporting() || !useCache) {
 
 			// Application.debug("creating new icon for: "+text);
-			TeXIcon icon = createIcon(text, fgColor, font, style,
-					maxWidth, lineSpace, app);
+			TeXIcon icon = createIcon(text, fgColor, font, style, maxWidth,
+					lineSpace, app);
 
 			HasForegroundColor fg = new HasForegroundColor() {
 
@@ -180,7 +179,6 @@ public abstract class DrawEquation {
 					icon.getIconHeight());
 
 		}
-
 
 		Image im = null;
 		try {
@@ -232,9 +230,8 @@ public abstract class DrawEquation {
 		return AwtFactory.getPrototype().newDimension(width, height);
 	}
 
-	public TeXIcon createIcon(String text, Color fgColor, GFont font,
-			int style, Integer maxWidth,
-			Float lineSpace, App app) {
+	public TeXIcon createIcon(String text, Color fgColor, GFont font, int style,
+			Integer maxWidth, Float lineSpace, App app) {
 		checkFirstCall(app);
 		TeXFormula formula;
 		TeXIcon icon;
@@ -281,9 +278,9 @@ public abstract class DrawEquation {
 				formula = TeXFormula
 						.getPartialTeXFormula(
 								"\\text{"
-								+ app.getLocalization().getError(
-										"CAS.GeneralErrorMessage")
-								+ "}");
+										+ app.getLocalization().getError(
+												"CAS.GeneralErrorMessage")
+										+ "}");
 				icon = formula.createTeXIcon(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, style, fgColor);
 			}
@@ -300,8 +297,7 @@ public abstract class DrawEquation {
 	public abstract Color convertColor(GColor color);
 
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
-			int minValue,
-			int minValue2, String text, GFont font, boolean b);
+			int minValue, int minValue2, String text, GFont font, boolean b);
 
 	final public GDimension measureEquationJLaTeXMath(final App app,
 			final GeoElement geo, final int x, final int y, final String text,

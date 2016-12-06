@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * 
  *
  */
-public class DrawPoint3D extends Drawable3DCurves implements Previewable,
-		Functional2Var {
+public class DrawPoint3D extends Drawable3DCurves
+		implements Previewable, Functional2Var {
 
 	/** factor for drawing points */
 	public static final float DRAW_POINT_FACTOR = 1.5f;
@@ -89,12 +89,9 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 											// coord
 
 		// warning: plotter will scale center coords
-		setGeometryIndex(getView3D()
-				.getRenderer()
-				.getGeometryManager()
+		setGeometryIndex(getView3D().getRenderer().getGeometryManager()
 				.drawPoint(point.getPointSize(), center,
 						getReusableGeometryIndex()));
-
 
 		// bounds
 		double radius = point.getPointSize() / getView3D().getScale()
@@ -219,8 +216,8 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 	@Override
 	protected float getLabelOffsetY() {
 		// consistent with DrawPoint
-		return super.getLabelOffsetY() - 2
-				* ((GeoPointND) getGeoElement()).getPointSize();
+		return super.getLabelOffsetY()
+				- 2 * ((GeoPointND) getGeoElement()).getPointSize();
 	}
 
 	@Override
@@ -276,8 +273,8 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 			boolean checkRealPointSize) {
 
 		if (hitting.isSphere()) {
-			double d = drawable.getView3D()
-					.getScaledDistance(p, hitting.origin);
+			double d = drawable.getView3D().getScaledDistance(p,
+					hitting.origin);
 			if (d <= pointSize + hitting.getThreshold()) {
 				// double z = -parameters[0];
 				// double dz = pointSize/scale;
@@ -297,8 +294,8 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 			if (checkRealPointSize) {
 				hitted = d <= pointSize + 2;
 			} else {
-				hitted = d <= DrawPoint.getSelectionThreshold(hitting
-						.getThreshold());
+				hitted = d <= DrawPoint
+						.getSelectionThreshold(hitting.getThreshold());
 			}
 			if (hitted) {
 				double z = -parameters[0];

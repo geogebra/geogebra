@@ -96,12 +96,12 @@ public class AlgoFitPow extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		}// if error in regression
+		} // if error in regression
 	}
-	
+
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = {regMath.getP1(), regMath.getP2()};
+		double[] ret = { regMath.getP1(), regMath.getP2() };
 		return ret;
 	}
 

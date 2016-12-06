@@ -212,7 +212,6 @@ public class MacroKernel extends Kernel {
 		return parentKernel.hasCasCache();
 	}
 
-
 	@Override
 	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {
 		return this.parentKernel.newAlgoDispatcher(cons1);

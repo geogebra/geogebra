@@ -19,7 +19,8 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	 * @param view3d
 	 *            3D view
 	 */
-	public ManagerShadersWithTemplates(Renderer renderer, EuclidianView3D view3d) {
+	public ManagerShadersWithTemplates(Renderer renderer,
+			EuclidianView3D view3d) {
 		super(renderer, view3d);
 
 		// points geometry templates
@@ -61,6 +62,5 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		((RendererShadersInterface) renderer).setCenter(center);
 		super.draw(index);
 	}
-
 
 }

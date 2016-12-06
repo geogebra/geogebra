@@ -80,9 +80,8 @@ public class AlgoSequence extends AlgoElement {
 	 *            step
 	 */
 	public AlgoSequence(Construction cons, String label,
-			GeoElementND expression,
-			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
-			GeoNumberValue var_step) {
+			GeoElementND expression, GeoNumeric var, GeoNumberValue var_from,
+			GeoNumberValue var_to, GeoNumberValue var_step) {
 
 		this(cons, expression, var, var_from, var_to, var_step);
 		list.setLabel(label);
@@ -123,12 +122,12 @@ public class AlgoSequence extends AlgoElement {
 		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
 		type = SequenceType.FULL;
 		// Application.debug("expression: " + expression);
-		// Application.debug("  parent algo: " +
+		// Application.debug(" parent algo: " +
 		// expression.getParentAlgorithm());
-		// // Application.debug("  parent algo input is var?: " +
+		// // Application.debug(" parent algo input is var?: " +
 		// (expression.getParentAlgorithm().getInput()[0] == var));
-		// Application.debug("  variable: " + var);
-		// Application.debug("  expIsGeoFunction: " + expIsGeoFunction);
+		// Application.debug(" variable: " + var);
+		// Application.debug(" expIsGeoFunction: " + expIsGeoFunction);
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
@@ -206,8 +205,8 @@ public class AlgoSequence extends AlgoElement {
 			input = new GeoElement[2];
 			input[0] = var_from_geo;
 			input[1] = var_to_geo;
-			list.setTypeStringForXML(StringUtil.toLowerCase(var_to_geo
-					.getGeoClassType().xmlName));
+			list.setTypeStringForXML(StringUtil
+					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
 			break;
 		default:
 			// make sure that x(Element[list,1]) will work even if the output
@@ -312,7 +311,8 @@ public class AlgoSequence extends AlgoElement {
 		// changed:
 		// in this case it is much more efficient not to create all objects
 		// for the list again, but just to set their new values
-		boolean setValuesOnly = (from == last_from && to == last_to && step == last_step);
+		boolean setValuesOnly = (from == last_from && to == last_to
+				&& step == last_step);
 
 		// setValues does not work for functions
 		setValuesOnly = setValuesOnly && !expIsFunctionOrCurve;
@@ -413,8 +413,8 @@ public class AlgoSequence extends AlgoElement {
 					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					Log.debug("AlgoSequence aborted: free memory reached "
-							+ mem);
+					Log.debug(
+							"AlgoSequence aborted: free memory reached " + mem);
 					return;
 				}
 
@@ -584,5 +584,4 @@ public class AlgoSequence extends AlgoElement {
 		}
 	}
 
-	
 }

@@ -209,7 +209,6 @@ public class AlgoConicFivePoints extends AlgoElement {
 		e1 = evalMatrix(B, P[4]);
 		e2 = -evalMatrix(A, P[4]);
 
-
 		// try to avoid tiny/huge value for matrix
 		if (shouldInvert(e1) && shouldInvert(e2)) {
 			if (hugeForMatrix(e1, A) && hugeForMatrix(e2, A)) {
@@ -284,14 +283,14 @@ public class AlgoConicFivePoints extends AlgoElement {
 	// computes P.A.P, where A is a (possibly not symmetric) 3x3 matrix
 	final private static double evalMatrix(double[][] A, GeoPoint P) {
 		return A[0][0] * P.x * P.x + A[1][1] * P.y * P.y + A[2][2] * P.z * P.z
-				+ (A[0][1] + A[1][0]) * P.x * P.y + (A[0][2] + A[2][0]) * P.x
-				* P.z + (A[1][2] + A[2][1]) * P.y * P.z;
+				+ (A[0][1] + A[1][0]) * P.x * P.y
+				+ (A[0][2] + A[2][0]) * P.x * P.z
+				+ (A[1][2] + A[2][1]) * P.y * P.z;
 	}
 
 	// computes the linear combination C = l * A + m * B
 	final private static void linComb(double[][] A, double[][] B, double l,
-			double m,
-			double[][] C) {
+			double m, double[][] C) {
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				C[i][j] = l * A[i][j] + m * B[i][j];

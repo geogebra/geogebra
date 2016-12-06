@@ -41,15 +41,13 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
-
-
 /**
  * Geometrical element for holding text
  *
  */
-public class GeoText extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, TextValue, TextProperties,
-		SpreadsheetTraceable, HasSymbolicMode {
+public class GeoText extends GeoElement
+		implements Locateable, AbsoluteScreenLocateable, TextValue,
+		TextProperties, SpreadsheetTraceable, HasSymbolicMode {
 
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
@@ -63,28 +61,29 @@ public class GeoText extends GeoElement implements Locateable,
 	// font options
 	private boolean serifFont;
 	private int fontStyle;
-	//private int fontSize = 0; // must be zero, as that is the value NOT saved to
-	//							// XML
-	
+	// private int fontSize = 0; // must be zero, as that is the value NOT saved
+	// to
+	// // XML
+
 	// changed to a multiplier from ggb42
-	private double fontSizeD = 1; 
+	private double fontSizeD = 1;
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
-	
-	/** index of exra small  modifier */
+
+	/** index of exra small modifier */
 	final public static int FONTSIZE_EXTRA_SMALL = 0;
-	/** index of very small  modifier */
+	/** index of very small modifier */
 	final public static int FONTSIZE_VERY_SMALL = 1;
-	/** index of small  modifier */
+	/** index of small modifier */
 	final public static int FONTSIZE_SMALL = 2;
-	/** index of medium  modifier */
+	/** index of medium modifier */
 	final public static int FONTSIZE_MEDIUM = 3;
-	/** index of large  modifier */
+	/** index of large modifier */
 	final public static int FONTSIZE_LARGE = 4;
-	/** index of very large  modifier */
+	/** index of very large modifier */
 	final public static int FONTSIZE_VERY_LARGE = 5;
-	/** index of exra large  modifier */
+	/** index of exra large modifier */
 	final public static int FONTSIZE_EXTRA_LARGE = 6;
 
 	// for absolute screen location
@@ -110,8 +109,11 @@ public class GeoText extends GeoElement implements Locateable,
 
 	/**
 	 * Creates new GeoText
-	 * @param c construction
-	 * @param value text
+	 * 
+	 * @param c
+	 *            construction
+	 * @param value
+	 *            text
 	 */
 	public GeoText(Construction c, String value) {
 		this(c);
@@ -120,7 +122,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 	/**
 	 * Copy constructor
-	 * @param text text to copy
+	 * 
+	 * @param text
+	 *            text to copy
 	 */
 	public GeoText(GeoText text) {
 		this(text.cons);
@@ -134,20 +138,18 @@ public class GeoText extends GeoElement implements Locateable,
 
 	@Override
 	public void set(GeoElementND geo) {
-		if(!geo.isGeoText())
+		if (!geo.isGeoText())
 			return;
 		GeoText gt = (GeoText) geo;
 		// macro output: don't set start point
 		// but update to desired number format
 		if (cons != geo.getConstruction() && isAlgoMacroOutput()) {
 			if (!useSignificantFigures)
-				gt.setPrintDecimals(
-						printDecimals > -1 ? printDecimals : kernel
-								.getPrintDecimals(), true);
+				gt.setPrintDecimals(printDecimals > -1 ? printDecimals
+						: kernel.getPrintDecimals(), true);
 			else
-				gt.setPrintFigures(
-						printFigures > -1 ? printFigures : kernel
-								.getPrintFigures(), true);
+				gt.setPrintFigures(printFigures > -1 ? printFigures
+						: kernel.getPrintFigures(), true);
 			str = gt.str;
 			isLaTeX = gt.isLaTeX;
 			updateTemplate();
@@ -164,7 +166,7 @@ public class GeoText extends GeoElement implements Locateable,
 			if (gt.startPoint != null) {
 				if (gt.hasAbsoluteLocation()) {
 					if (this.startPoint != null && this.hasAbsoluteLocation()) {
-						//just use the value
+						// just use the value
 						this.startPoint.set(gt.startPoint);
 					} else {
 						// create new location point
@@ -199,7 +201,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 	/**
 	 * Sets the text contained in this object
-	 * @param text2 text
+	 * 
+	 * @param text2
+	 *            text
 	 */
 	final public void setTextString(String text2) {
 		String text = text2 == null ? "" : text2;
@@ -219,8 +223,10 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 
 	}
+
 	/**
 	 * Returns the string wrapped in this text
+	 * 
 	 * @return the string wrapped in this text
 	 */
 	final public String getTextString() {
@@ -245,7 +251,7 @@ public class GeoText extends GeoElement implements Locateable,
 			try {
 				setStartPoint(null);
 			} catch (Exception e) {
-				//cannot happen
+				// cannot happen
 			}
 		}
 	}
@@ -319,7 +325,8 @@ public class GeoText extends GeoElement implements Locateable,
 	public void update(boolean drag) {
 
 		super.update(drag);
-		if (getLabelSimple() != null && getLabelSimple().startsWith("altText")) {
+		if (getLabelSimple() != null
+				&& getLabelSimple().startsWith("altText")) {
 			kernel.getApplication().setAltText();
 		}
 		// if (needsUpdatedBoundingBox) {
@@ -491,13 +498,15 @@ public class GeoText extends GeoElement implements Locateable,
 	boolean alwaysFixed = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
 	private GeoText linkedText;
-	
+
 	/**
 	 * For Text[Text[a]] the inner text must use template of the outer
-	 * @param text descendant whose string template may be used
+	 * 
+	 * @param text
+	 *            descendant whose string template may be used
 	 */
-	public void addTextDescendant(GeoText text){
-		if(isLabelSet())
+	public void addTextDescendant(GeoText text) {
+		if (isLabelSet())
 			return;
 		linkedText = text;
 	}
@@ -556,8 +565,8 @@ public class GeoText extends GeoElement implements Locateable,
 			sb.append(" label=\"");
 			StringUtil.encodeXML(sb, label);
 			sb.append("\" exp=\"");
-			StringUtil
-					.encodeXML(sb, toOutputValueString(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb,
+					toOutputValueString(StringTemplate.xmlTemplate));
 			// expression
 			sb.append("\"/>\n");
 		}
@@ -577,7 +586,8 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 
 		getXMLtags(sb);
-		if (getListenersToo) getListenerTagsXML(sb);
+		if (getListenersToo)
+			getListenerTagsXML(sb);
 		sb.append("</element>\n");
 
 	}
@@ -658,7 +668,8 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
+			boolean keepAdvanced) {
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		// start point of text
@@ -679,7 +690,7 @@ public class GeoText extends GeoElement implements Locateable,
 				try {
 					setStartPoint(text.startPoint);
 				} catch (Exception e) {
-					//Circular definition, do nothing
+					// Circular definition, do nothing
 				}
 			}
 		}
@@ -755,7 +766,7 @@ public class GeoText extends GeoElement implements Locateable,
 			try {
 				setStartPoint(locPoint);
 			} catch (Exception e) {
-				//circular definition, do nothing
+				// circular definition, do nothing
 			}
 		}
 		locPoint.setCoords(x, y, 1.0);
@@ -789,17 +800,18 @@ public class GeoText extends GeoElement implements Locateable,
 		return true;
 	}
 
-	//public int getFontSize() {
-	//	return fontSize;
-	//}
-	
+	// public int getFontSize() {
+	// return fontSize;
+	// }
+
 	public double getFontSizeMultiplier() {
 		return fontSizeD;
 	}
-	
+
 	/**
 	 * 
-	 * @param index index of size in the settings
+	 * @param index
+	 *            index of size in the settings
 	 * @return additive size modifier
 	 */
 	public static double getRelativeFontSize(int index) {
@@ -824,7 +836,8 @@ public class GeoText extends GeoElement implements Locateable,
 
 	/**
 	 * 
-	 * @param d font size  modifier 
+	 * @param d
+	 *            font size modifier
 	 * @return corresponding index
 	 */
 	public static int getFontSizeIndex(double d) {
@@ -850,9 +863,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 	}
 
-	//public void setFontSize(int size) {
-	//	fontSize = size;
-	//}
+	// public void setFontSize(int size) {
+	// fontSize = size;
+	// }
 
 	public void setFontSizeMultiplier(double d) {
 		fontSizeD = d;
@@ -867,7 +880,8 @@ public class GeoText extends GeoElement implements Locateable,
 
 		// needed for eg \sqrt in latex
 		if ((fontStyle & GFont.BOLD) != 0)
-			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2);
+			setLineThickness(
+					EuclidianStyleConstants.DEFAULT_LINE_THICKNESS * 2);
 		else
 			setLineThickness(EuclidianStyleConstants.DEFAULT_LINE_THICKNESS);
 
@@ -904,14 +918,15 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	private void updateTemplateAlgos(AlgoElement algo) {
-		if(algo==null)
+		if (algo == null)
 			return;
-		for(int i = 0; i<algo.getInput().length;i++)
-			if(algo.getInput()[i].isGeoText())
+		for (int i = 0; i < algo.getInput().length; i++)
+			if (algo.getInput()[i].isGeoText())
 				updateTemplateAlgos(algo.getInput()[i].getParentAlgorithm());
 		algo.update();
-		
+
 	}
+
 	public boolean useSignificantFigures() {
 		return useSignificantFigures;
 
@@ -926,8 +941,10 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * @param result point for storing result
-	 * @param n index of corner (1 for lower left, then anticlockwise)
+	 * @param result
+	 *            point for storing result
+	 * @param n
+	 *            index of corner (1 for lower left, then anticlockwise)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
 		// adapted from GeoImage by Michael Borcherds 2007-11-26
@@ -952,8 +969,8 @@ public class GeoText extends GeoElement implements Locateable,
 			break;
 
 		case 1: // bottom left
-			result.setCoords(boundingBox.getX(), boundingBox.getY()
-					+ boundingBox.getHeight(), 1.0);
+			result.setCoords(boundingBox.getX(),
+					boundingBox.getY() + boundingBox.getHeight(), 1.0);
 			break;
 
 		default:
@@ -969,10 +986,14 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * @param x x coord
-	 * @param y y coord
-	 * @param w width
-	 * @param h height
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
 	 */
 	public void setBoundingBox(double x, double y, double w, double h) {
 
@@ -985,16 +1006,18 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * @return tue if bounding box is not  correct anymore
+	 * @return tue if bounding box is not correct anymore
 	 */
 	public final boolean isNeedsUpdatedBoundingBox() {
 		return needsUpdatedBoundingBox;
 	}
 
 	/**
-	 * @param needsUpdatedBoundingBox true to make sure this object upates itself
+	 * @param needsUpdatedBoundingBox
+	 *            true to make sure this object upates itself
 	 */
-	public final void setNeedsUpdatedBoundingBox(boolean needsUpdatedBoundingBox) {
+	public final void setNeedsUpdatedBoundingBox(
+			boolean needsUpdatedBoundingBox) {
 		this.needsUpdatedBoundingBox = needsUpdatedBoundingBox;
 	}
 
@@ -1017,25 +1040,28 @@ public class GeoText extends GeoElement implements Locateable,
 	/**
 	 * Returns a comparator for GeoText objects. If equal, doesn't return zero
 	 * (otherwise TreeSet deletes duplicates)
+	 * 
 	 * @return comparator
 	 */
 	public static Comparator<GeoText> getComparator() {
 		if (comparator == null) {
 			comparator = new Comparator<GeoText>() {
 				public int compare(GeoText itemA, GeoText itemB) {
-					
-					NormalizerMinimal noramlizer = itemA.getKernel().getApplication().getNormalizer();
-					
+
+					NormalizerMinimal noramlizer = itemA.getKernel()
+							.getApplication().getNormalizer();
+
 					// remove accents etc
 					String strA = noramlizer.transform(itemA.getTextString());
 					String strB = noramlizer.transform(itemB.getTextString());
 
 					// do comparison without accents etc
 					int comp = strA.compareTo(strB);
-					
+
 					if (comp == 0) {
 						// try compare with accents
-						comp = itemA.getTextString().compareTo(itemB.getTextString());
+						comp = itemA.getTextString()
+								.compareTo(itemB.getTextString());
 					}
 
 					if (comp == 0)
@@ -1082,8 +1108,8 @@ public class GeoText extends GeoElement implements Locateable,
 	@Override
 	public boolean isLaTeXDrawableGeo() {
 
-		return isLaTeX()
-				|| (getTextString() != null && getTextString().indexOf('_') != -1);
+		return isLaTeX() || (getTextString() != null
+				&& getTextString().indexOf('_') != -1);
 	}
 
 	@Override
@@ -1102,66 +1128,67 @@ public class GeoText extends GeoElement implements Locateable,
 	 * @return template
 	 */
 	public StringTemplate getStringTemplate() {
-		if(linkedText==null)
+		if (linkedText == null)
 			return tpl;
 		return linkedText.getStringTemplate();
 	}
-	
-	
+
 	private static enum SpreadsheetTraceableCase {
-		SPREADSHEET_TRACEABLE_NOT_TESTED,
-		SPREADSHEET_TRACEABLE_TRUE,
-		SPREADSHEET_TRACEABLE_FALSE
+		SPREADSHEET_TRACEABLE_NOT_TESTED, SPREADSHEET_TRACEABLE_TRUE, SPREADSHEET_TRACEABLE_FALSE
 	}
-	
-	
+
 	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
 	private ExpressionValue spreadsheetTraceableValue;
 	private ExpressionNode spreadsheetTraceableLeftTree;
-	
+
 	/**
 	 * set objects for trace to spreadsheet
-	 * @param leftTree tree for column heading
-	 * @param value value to trace
+	 * 
+	 * @param leftTree
+	 *            tree for column heading
+	 * @param value
+	 *            value to trace
 	 */
-	public void setSpreadsheetTraceable(ExpressionNode leftTree, ExpressionValue value){
+	public void setSpreadsheetTraceable(ExpressionNode leftTree,
+			ExpressionValue value) {
 		this.spreadsheetTraceableLeftTree = leftTree;
 		this.spreadsheetTraceableValue = value;
 	}
-	
+
 	/**
 	 * init case for spreadsheet traceable case
 	 */
-	public void initSpreadsheetTraceableCase(){
+	public void initSpreadsheetTraceableCase() {
 		spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
 	}
-	
+
 	@Override
 	public boolean isSpreadsheetTraceable() {
-		
-		//App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
-		
-		switch(spreadsheetTraceableCase){
+
+		// App.printStacktrace("\n"+this+"\n"+spreadsheetTraceableCase);
+
+		switch (spreadsheetTraceableCase) {
 		case SPREADSHEET_TRACEABLE_TRUE:
 			return true;
 		case SPREADSHEET_TRACEABLE_FALSE:
 			return false;
 		case SPREADSHEET_TRACEABLE_NOT_TESTED:
 			AlgoElement algo = getParentAlgorithm();
-			if (algo!=null && (algo instanceof AlgoDependentText)){
+			if (algo != null && (algo instanceof AlgoDependentText)) {
 				((AlgoDependentText) algo).setSpreadsheetTraceableText();
-				if (spreadsheetTraceableLeftTree!=null){
+				if (spreadsheetTraceableLeftTree != null) {
 					spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
-					//if no traceable value, only copy possible
-					if (spreadsheetTraceableValue==null)
+					// if no traceable value, only copy possible
+					if (spreadsheetTraceableValue == null)
 						traceModes = TraceModesEnum.ONLY_COPY;
 					else
 						traceModes = TraceModesEnum.ONE_VALUE_OR_COPY;
 					return true;
 				}
 			}
-			//spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
-			//return false;
+			// spreadsheetTraceableCase =
+			// SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_FALSE;
+			// return false;
 			spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_TRUE;
 			traceModes = TraceModesEnum.ONLY_COPY;
 			return true;
@@ -1169,43 +1196,48 @@ public class GeoText extends GeoElement implements Locateable,
 			return false;
 		}
 	}
-	
 
-	
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
-		
+	public void updateColumnHeadingsForTraceValues() {
+
 		resetSpreadsheetColumnHeadings();
-		
+
 		GeoText text = getColumnHeadingText(spreadsheetTraceableLeftTree);
 		text.setLaTeX(this.isLaTeX, false);
 		spreadsheetColumnHeadings.add(text);
-		
+
 	}
 
-
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
-		GeoNumeric numeric = new GeoNumeric(cons, spreadsheetTraceableValue.evaluateDouble());
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
+		GeoNumeric numeric = new GeoNumeric(cons,
+				spreadsheetTraceableValue.evaluateDouble());
 		spreadsheetTraceList.add(numeric);
 
 	}
-	
+
 	private TraceModesEnum traceModes;
 	private boolean symbolicMode;
 
 	@Override
-	public TraceModesEnum getTraceModes(){
+	public TraceModesEnum getTraceModes() {
 		return traceModes;
 	}
-	
+
 	/**
-	 * @param sb string builder for appending the tag
-	 * @param serifFont serif flag
-	 * @param fontSizeD font size
-	 * @param fontStyle font style
-	 * @param isLaTeX latex flag
-	 * @param app application
+	 * @param sb
+	 *            string builder for appending the tag
+	 * @param serifFont
+	 *            serif flag
+	 * @param fontSizeD
+	 *            font size
+	 * @param fontStyle
+	 *            font style
+	 * @param isLaTeX
+	 *            latex flag
+	 * @param app
+	 *            application
 	 */
 	public static void appendFontTag(StringBuilder sb, boolean serifFont,
 			double fontSizeD, int fontStyle, boolean isLaTeX, App app) {
@@ -1213,31 +1245,31 @@ public class GeoText extends GeoElement implements Locateable,
 		if (serifFont || fontSizeD != 1 || fontStyle != 0 || isLaTeX) {
 			sb.append("\t<font serif=\"");
 			sb.append(serifFont);
-			
+
 			// multiplier
 			sb.append("\" sizeM=\"");
 			sb.append(fontSizeD);
-			
+
 			// work out an estimate (can't guarantee exact)
-			double oldFontSize = app.getFontSize() * fontSizeD - app.getFontSize();
-			
+			double oldFontSize = app.getFontSize() * fontSizeD
+					- app.getFontSize();
+
 			if (oldFontSize > 0) {
 				oldFontSize = Math.ceil(oldFontSize);
 			} else {
-				oldFontSize = Math.floor(oldFontSize);				
+				oldFontSize = Math.floor(oldFontSize);
 			}
 			// still write this (for ggb40 compatibility)
 			sb.append("\" size=\"");
-			sb.append((int)oldFontSize);
-			
+			sb.append((int) oldFontSize);
+
 			sb.append("\" style=\"");
 			sb.append(fontStyle);
 			sb.append("\"/>\n");
 		}
 
-		
 	}
-	
+
 	@Override
 	public boolean isPinnable() {
 		return true;
@@ -1245,9 +1277,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 	public void updateLocation() {
 		updateGeo(false);
-		kernel.notifyUpdateLocation(this);	
+		kernel.notifyUpdateLocation(this);
 	}
-	
+
 	@Override
 	public void updateVisualStyle(GProperty prop) {
 		super.updateVisualStyle(prop);
@@ -1261,10 +1293,8 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 	}
 
-
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

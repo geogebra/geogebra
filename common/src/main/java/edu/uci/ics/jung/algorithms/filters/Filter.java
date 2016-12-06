@@ -13,14 +13,13 @@ import org.apache.commons.collections15.Transformer;
 
 import edu.uci.ics.jung.graph.Graph;
 
-
-
 /**
  * An interface for classes that return a subset of the input <code>Graph</code>
- * as a <code>Graph</code>.  The <code>Graph</code> returned may be either a
- * new graph or a view into an existing graph; the documentation for the filter
- * must specify which.
+ * as a <code>Graph</code>. The <code>Graph</code> returned may be either a new
+ * graph or a view into an existing graph; the documentation for the filter must
+ * specify which.
  * 
  * @author danyelf
  */
-public interface Filter<V,E> extends Transformer<Graph<V,E>, Graph<V,E>>{ }
+public interface Filter<V, E> extends Transformer<Graph<V, E>, Graph<V, E>> {
+}

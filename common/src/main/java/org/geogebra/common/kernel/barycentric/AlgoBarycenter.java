@@ -33,7 +33,8 @@ public class AlgoBarycenter extends AlgoElement {
 	 * @param B
 	 *            list of weights
 	 */
-	public AlgoBarycenter(Construction cons, String label, GeoList A, GeoList B) {
+	public AlgoBarycenter(Construction cons, String label, GeoList A,
+			GeoList B) {
 		super(cons);
 		this.poly = A;
 		this.list = B;
@@ -107,7 +108,5 @@ public class AlgoBarycenter extends AlgoElement {
 
 		point.setCoords(sumCoords.mulInside(1 / sum), false);
 	}
-
-	
 
 }

@@ -16,8 +16,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @author G. Sturr
  * 
  */
-public class AlgoRandomUniformList extends AlgoElement implements
-		SetRandomValue {
+public class AlgoRandomUniformList extends AlgoElement
+		implements SetRandomValue {
 
 	protected GeoNumberValue a, b, length; // input
 	protected GeoList list; // output
@@ -28,7 +28,6 @@ public class AlgoRandomUniformList extends AlgoElement implements
 		this.a = a;
 		this.b = b;
 		this.length = length;
-
 
 		// output is a list of random numbers
 		list = new GeoList(cons);
@@ -96,8 +95,7 @@ public class AlgoRandomUniformList extends AlgoElement implements
 
 		for (int i = 0; i < list.size(); i++) {
 			((GeoNumeric) list.get(i)).setValue(cons.getApplication()
-					.randomUniform(
-					a.getDouble(), b.getDouble()));
+					.randomUniform(a.getDouble(), b.getDouble()));
 		}
 
 	}

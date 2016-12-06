@@ -77,8 +77,8 @@ public class AlgoDiameterLine3D extends AlgoDiameterLineND {
 			diameterOrigin = c.getCoordSys().getPoint(0,
 					-diameterCoords[2] / diameterCoords[1]);
 		} else {
-			diameterOrigin = c.getCoordSys().getPoint(
-					-diameterCoords[2] / diameterCoords[0], 0);
+			diameterOrigin = c.getCoordSys()
+					.getPoint(-diameterCoords[2] / diameterCoords[0], 0);
 		}
 
 		((GeoLine3D) diameter).setCoord(diameterOrigin, diameterDirection);

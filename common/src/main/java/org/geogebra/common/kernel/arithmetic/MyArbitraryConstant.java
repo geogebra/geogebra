@@ -41,7 +41,6 @@ public class MyArbitraryConstant {
 		this.ce = ce;
 	}
 
-
 	private int position = 0;
 
 	/**
@@ -219,8 +218,8 @@ public class MyArbitraryConstant {
 			this.constant = constant;
 			this.outCE = outCE;
 			/**
-			 * if(outCE instanceof AlgoElement){ updateList = new
-			 * ArrayList<AlgoElement>(); updateList.add((AlgoElement)outCE); }
+			 * if(outCE instanceof AlgoElement){ updateList = new ArrayList
+			 * <AlgoElement>(); updateList.add((AlgoElement)outCE); }
 			 */
 
 			setInputOutput();
@@ -257,13 +256,12 @@ public class MyArbitraryConstant {
 		 */
 		public void replaceOutCE() {
 			if (outCE instanceof GeoCasCell) {
-				this.outCE = cons.getCasCell(((GeoCasCell) outCE)
-						.getRowNumber());
+				this.outCE = cons
+						.getCasCell(((GeoCasCell) outCE).getRowNumber());
 			}
 		}
 
 	}
-
 
 	/**
 	 * @return whether this handler is bound with CAS cell

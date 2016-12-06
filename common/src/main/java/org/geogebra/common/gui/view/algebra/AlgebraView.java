@@ -16,12 +16,13 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
- * Algebra view -- shows algebraic representation of the objects either as value,
- * definition or command
+ * Algebra view -- shows algebraic representation of the objects either as
+ * value, definition or command
  */
 public interface AlgebraView extends Editing, SetLabels {
 	/**
 	 * Returns whether this view is currently visible
+	 * 
 	 * @return whether this view is currently visible
 	 */
 	public boolean isVisible();
@@ -32,20 +33,16 @@ public interface AlgebraView extends Editing, SetLabels {
 
 	// For WebSimple
 	public GeoElement getDraggedGeo();
-	
-	/**DEPENDENCY:
-	 * Tree mode where the objects are categorized by their dependency (free,
-	 * dependent, auxiliary) -- default value
-	 * TYPE:
-	 * Tree mode where the objects are categorized by their type (points,
-	 * circles, ..)
-	 * VIEW:
-	 * Tree mode where the objects are categorized by the view on which their
-	 * value is computed (xOyPlane, space, ...)
-	 * ORDER:
-	 * Construction Protocol order
+
+	/**
+	 * DEPENDENCY: Tree mode where the objects are categorized by their
+	 * dependency (free, dependent, auxiliary) -- default value TYPE: Tree mode
+	 * where the objects are categorized by their type (points, circles, ..)
+	 * VIEW: Tree mode where the objects are categorized by the view on which
+	 * their value is computed (xOyPlane, space, ...) ORDER: Construction
+	 * Protocol order
 	 */
-	public static enum SortMode { 
+	public static enum SortMode {
 		DEPENDENCY {
 			@Override
 			public String toString() {
@@ -76,7 +73,7 @@ public interface AlgebraView extends Editing, SetLabels {
 				return "Layer";
 			}
 		};
-		
+
 		public static SortMode fromInt(int mode) {
 			switch (mode) {
 			case 0:
@@ -106,7 +103,6 @@ public interface AlgebraView extends Editing, SetLabels {
 		}
 
 	}
-	
 
 	public void setFocus(boolean b);
 

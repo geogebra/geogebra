@@ -113,5 +113,4 @@ public class AlgoAxisFirst extends AlgoElement {
 		return getLoc().getPlain("FirstAxisOfA", c.getLabel(tpl));
 	}
 
-	
 }

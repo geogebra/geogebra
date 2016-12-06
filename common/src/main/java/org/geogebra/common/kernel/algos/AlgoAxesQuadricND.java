@@ -34,8 +34,8 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected GeoQuadricND c; // input
 	protected GeoLineND[] axes; // output
 
-
-	protected AlgoAxesQuadricND(Construction cons, String label, GeoQuadricND c) {
+	protected AlgoAxesQuadricND(Construction cons, String label,
+			GeoQuadricND c) {
 		this(cons, c);
 		GeoElement.setLabels(label, (GeoElement[]) axes);
 	}
@@ -115,5 +115,4 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 		return getLoc().getPlain("AxisOfA", c.getLabel(tpl));
 	}
 
-	
 }

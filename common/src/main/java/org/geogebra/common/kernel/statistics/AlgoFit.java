@@ -116,8 +116,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		Y = new Array2DRowRealMatrix(datasize, 1);
 		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
-		if (!pointlist.isDefined()
-				|| // Lot of things can go wrong...
+		if (!pointlist.isDefined() || // Lot of things can go wrong...
 				!functionlist.isDefined() || (functionsize > datasize)
 				|| (functionsize < 1) || (datasize < 1) // Perhaps a max
 														// restriction of
@@ -133,7 +132,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		if (!geo2.isGeoPoint()) {
 			fitfunction.setUndefined();
 			return;
-		}// if wrong contents in lists
+		} // if wrong contents in lists
 		try {
 
 			// Get functions, x and y from lists
@@ -178,7 +177,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			if (!functionarray.set(i, geo)) {
 				return false;
 			}
-		}// for all functions
+		} // for all functions
 			// Make matrixes with the right values: M*P=Y
 		M = new Array2DRowRealMatrix(datasize, functionsize);
 		Y = new Array2DRowRealMatrix(datasize, 1);
@@ -187,21 +186,19 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			if (!geo.isGeoPoint()) {
 				// throw (new Exception("Not points in function list..."));
 				return false;
-			}// if not point
+			} // if not point
 			point = (GeoPointND) geo;
 			Y.setEntry(r, 0, functionarray.extractValueCoord(point));
 			for (int c = 0; c < functionsize; c++) {
 				M.setEntry(r, c, functionarray.evaluate(c, point));
 			}
-		}// for rows (=datapoints)
+		} // for rows (=datapoints)
 			// mprint("M:",M);
 			// mprint(Y:",Y);
 
 		return true;
 
 	}
-
-
 
 	public double[] getCoeffs() {
 		double[] ret = new double[functionsize];
@@ -214,7 +211,5 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	}
 
 	// --- SNIP --- ///
-
-	
 
 }

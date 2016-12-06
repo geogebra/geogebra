@@ -45,8 +45,7 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 		super(cons, point);
 		this.cs = cs;
 
-		setInputOutput(
-				new GeoElement[] { (GeoElement) point, (GeoElement) cs },
+		setInputOutput(new GeoElement[] { (GeoElement) point, (GeoElement) cs },
 				new GeoElement[] { getPlane() });
 
 		// compute plane
@@ -88,5 +87,4 @@ public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 		return (GeoElement) cs;
 	}
 
-	
 }

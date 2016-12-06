@@ -15,41 +15,47 @@ import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.bidimap.DualHashBidiMap;
 
 /**
- * A class providing static methods useful for improving the
- * performance of graph algorithms.
+ * A class providing static methods useful for improving the performance of
+ * graph algorithms.
  * 
  * @author Tom Nelson
  *
  */
 public class Indexer {
-	
+
 	/**
-	 * Returns a <code>BidiMap</code> mapping each element of the collection to its
-	 * index as encountered while iterating over the collection. The purpose
+	 * Returns a <code>BidiMap</code> mapping each element of the collection to
+	 * its index as encountered while iterating over the collection. The purpose
 	 * of the index operation is to supply an O(1) replacement operation for the
 	 * O(n) <code>indexOf(element)</code> method of a <code>List</code>
+	 * 
 	 * @param <T>
 	 * @param collection
 	 * @return a bidirectional map from collection elements to 0-based indices
 	 */
-	public static <T> BidiMap<T,Integer> create(Collection<T> collection) {
-	    return create(collection, 0);
+	public static <T> BidiMap<T, Integer> create(Collection<T> collection) {
+		return create(collection, 0);
 	}
+
 	/**
-	 * Returns a <code>BidiMap</code> mapping each element of the collection to its
-	 * index as encountered while iterating over the collection. The purpose
+	 * Returns a <code>BidiMap</code> mapping each element of the collection to
+	 * its index as encountered while iterating over the collection. The purpose
 	 * of the index operation is to supply an O(1) replacement operation for the
 	 * O(n) <code>indexOf(element)</code> method of a <code>List</code>
+	 * 
 	 * @param <T>
 	 * @param collection
-	 * @param start start index
-	 * @return a bidirectional map from collection elements to start-based indices
+	 * @param start
+	 *            start index
+	 * @return a bidirectional map from collection elements to start-based
+	 *         indices
 	 */
-	public static <T> BidiMap<T,Integer> create(Collection<T> collection, int start) {
-		BidiMap<T,Integer> map = new DualHashBidiMap<T,Integer>();
-		int i=start;
-		for(T t : collection) {
-			map.put(t,i++);
+	public static <T> BidiMap<T, Integer> create(Collection<T> collection,
+			int start) {
+		BidiMap<T, Integer> map = new DualHashBidiMap<T, Integer>();
+		int i = start;
+		for (T t : collection) {
+			map.put(t, i++);
 		}
 		return map;
 	}

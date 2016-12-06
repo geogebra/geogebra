@@ -28,8 +28,9 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  *
  * @author cyberpython
  */
-public class JarvisPointSelectedEvent extends JarvisPointsCheckEvent{
-    public JarvisPointSelectedEvent (Point2D p0, Point2D p1, Double polarAngle, boolean rightChain) {
-        super(p0, p1, polarAngle, rightChain);
-    }
+public class JarvisPointSelectedEvent extends JarvisPointsCheckEvent {
+	public JarvisPointSelectedEvent(Point2D p0, Point2D p1, Double polarAngle,
+			boolean rightChain) {
+		super(p0, p1, polarAngle, rightChain);
+	}
 }

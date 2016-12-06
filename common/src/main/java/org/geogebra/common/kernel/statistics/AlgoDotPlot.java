@@ -175,7 +175,6 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		// ========================================
 		// create dot plot points
 
-
 		int index = 0;
 		for (int i = 0; i < list1.size(); i++) {
 			double x;
@@ -243,7 +242,5 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	public double getScaleFactor() {
 		return scaleFactor;
 	}
-
-	
 
 }

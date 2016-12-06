@@ -17,50 +17,63 @@
 
 package org.apache.commons.math.ode;
 
-
-
-/** This interface represents a first order differential equations set.
+/**
+ * This interface represents a first order differential equations set.
  *
- * <p>This interface should be implemented by all real first order
- * differential equation problems before they can be handled by the
- * integrators {@link FirstOrderIntegrator#integrate} method.</p>
+ * <p>
+ * This interface should be implemented by all real first order differential
+ * equation problems before they can be handled by the integrators
+ * {@link FirstOrderIntegrator#integrate} method.
+ * </p>
  *
- * <p>A first order differential equations problem, as seen by an
- * integrator is the time derivative <code>dY/dt</code> of a state
- * vector <code>Y</code>, both being one dimensional arrays. From the
- * integrator point of view, this derivative depends only on the
- * current time <code>t</code> and on the state vector
- * <code>Y</code>.</p>
+ * <p>
+ * A first order differential equations problem, as seen by an integrator is the
+ * time derivative <code>dY/dt</code> of a state vector <code>Y</code>, both
+ * being one dimensional arrays. From the integrator point of view, this
+ * derivative depends only on the current time <code>t</code> and on the state
+ * vector <code>Y</code>.
+ * </p>
  *
- * <p>For real problems, the derivative depends also on parameters
- * that do not belong to the state vector (dynamical model constants
- * for example). These constants are completely outside of the scope
- * of this interface, the classes that implement it are allowed to
- * handle them as they want.</p>
+ * <p>
+ * For real problems, the derivative depends also on parameters that do not
+ * belong to the state vector (dynamical model constants for example). These
+ * constants are completely outside of the scope of this interface, the classes
+ * that implement it are allowed to handle them as they want.
+ * </p>
  *
  * @see FirstOrderIntegrator
  * @see FirstOrderConverter
  * @see SecondOrderDifferentialEquations
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr.
+ *          2011) $
  * @since 1.2
  */
 
 public interface FirstOrderDifferentialEquations {
 
-    /** Get the dimension of the problem.
-     * @return dimension of the problem
-     */
-    int getDimension();
+	/**
+	 * Get the dimension of the problem.
+	 * 
+	 * @return dimension of the problem
+	 */
+	int getDimension();
 
-    /** Get the current time derivative of the state vector.
-     * @param t current value of the independent <I>time</I> variable
-     * @param y array containing the current value of the state vector
-     * @param yDot placeholder array where to put the time derivative of the state vector
-     * @throws DerivativeException this user-defined exception should be used if an error is
-     * is triggered by user code
-     */
-    void computeDerivatives(double t, double[] y, double[] yDot)
-        throws DerivativeException;
+	/**
+	 * Get the current time derivative of the state vector.
+	 * 
+	 * @param t
+	 *            current value of the independent <I>time</I> variable
+	 * @param y
+	 *            array containing the current value of the state vector
+	 * @param yDot
+	 *            placeholder array where to put the time derivative of the
+	 *            state vector
+	 * @throws DerivativeException
+	 *             this user-defined exception should be used if an error is is
+	 *             triggered by user code
+	 */
+	void computeDerivatives(double t, double[] y, double[] yDot)
+			throws DerivativeException;
 
 }

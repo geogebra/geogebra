@@ -43,14 +43,13 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	 * @param origGeoNode
 	 *            original expression
 	 */
-	public AlgoDependentGeoCopy(Construction cons,
-			ExpressionNode origGeoNode) {
+	public AlgoDependentGeoCopy(Construction cons, ExpressionNode origGeoNode) {
 		this(cons, (GeoElement) origGeoNode
 				.evaluate(StringTemplate.defaultTemplate), origGeoNode);
 	}
 
-	private AlgoDependentGeoCopy(Construction cons,
-			GeoElement origGeo, ExpressionNode origGeoNode) {
+	private AlgoDependentGeoCopy(Construction cons, GeoElement origGeo,
+			ExpressionNode origGeoNode) {
 		super(cons);
 		this.origGeo = origGeo;
 
@@ -125,5 +124,4 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		return origGeoNode;
 	}
 
-	
 }

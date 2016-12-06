@@ -21,7 +21,7 @@ public class RedefineInputHandler implements InputHandler {
 		this.app = app;
 		this.oldString = oldString;
 	}
-	
+
 	/**
 	 * @param geo
 	 */
@@ -29,7 +29,7 @@ public class RedefineInputHandler implements InputHandler {
 		this.geo = geo;
 		oldString = geo.getRedefineString(false, true);
 	}
-	
+
 	/**
 	 * 
 	 * @return current geo
@@ -55,16 +55,17 @@ public class RedefineInputHandler implements InputHandler {
 				// string like f(x,y)=x^2
 				// or f(\theta) = \theta
 				inputValue = geo.getLabel(StringTemplate.defaultTemplate) + "("
-						+ ((FunctionalNVar) geo).getVarString(StringTemplate.defaultTemplate)
+						+ ((FunctionalNVar) geo)
+								.getVarString(StringTemplate.defaultTemplate)
 						+ ")=" + inputValue;
 			}
 			final String input = inputValue;
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
 					inputValue, true, true, handler,
-							new AsyncOperation<GeoElementND>() {
+					new AsyncOperation<GeoElementND>() {
 
 						@Override
-								public void callback(GeoElementND newGeo) {
+						public void callback(GeoElementND newGeo) {
 							app.getKernel().clearJustCreatedGeosInViews();
 
 							if (newGeo != null) {
@@ -86,10 +87,10 @@ public class RedefineInputHandler implements InputHandler {
 
 			return;
 		} catch (Exception e) {
-			app.showError("ReplaceFailed");			
+			app.showError("ReplaceFailed");
 		} catch (MyError err) {
-			app.showError(err);			
-		} 
+			app.showError(err);
+		}
 		callback.callback(false);
 	}
 }

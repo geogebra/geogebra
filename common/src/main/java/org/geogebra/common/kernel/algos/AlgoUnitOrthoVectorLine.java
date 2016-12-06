@@ -99,5 +99,4 @@ public class AlgoUnitOrthoVectorLine extends AlgoElement {
 		return getLoc().getPlain("UnitVectorPerpendicularToA", g.getLabel(tpl));
 	}
 
-	
 }

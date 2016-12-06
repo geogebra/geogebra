@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  *
  * @author ggb3D
  * 
- *          Calculate the GeoPoint3D intersection of two coord sys (eg line and
- *          plane).
+ *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
+ *         plane).
  * 
  */
 public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
@@ -74,8 +74,8 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 		Coords d2 = line2.getPointInD(3, 1).getInhomCoordsInSameDimension()
 				.sub(o2);
 
-		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1,
-				o2, d2);
+		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2,
+				d2);
 
 		GeoPoint3D p = (GeoPoint3D) getIntersection();
 

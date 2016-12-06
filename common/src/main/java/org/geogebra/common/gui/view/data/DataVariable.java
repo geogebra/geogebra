@@ -111,7 +111,7 @@ public class DataVariable {
 		case RAWDATA:
 			frequency = null;
 			classes = null;
-			if(values.size() == 0){
+			if (values.size() == 0) {
 				values.add(new DataItem());
 			}
 			break;
@@ -332,7 +332,8 @@ public class DataVariable {
 			list.add(getPointList(leftToRight, doCopy));
 		} else {
 			for (DataItem item : values) {
-				list.add(item.toGeoList(app, enableHeader, leftToRight, doCopy));
+				list.add(
+						item.toGeoList(app, enableHeader, leftToRight, doCopy));
 			}
 		}
 
@@ -341,8 +342,8 @@ public class DataVariable {
 		}
 
 		if (frequency != null) {
-			list.add(frequency
-					.toGeoList(app, enableHeader, leftToRight, doCopy));
+			list.add(frequency.toGeoList(app, enableHeader, leftToRight,
+					doCopy));
 		}
 
 		return list;
@@ -400,8 +401,8 @@ public class DataVariable {
 				} else {
 
 					MyVecNode vec = new MyVecNode(app.getKernel(),
-							leftToRight ? xCoord : yCoord, leftToRight ? yCoord
-									: xCoord);
+							leftToRight ? xCoord : yCoord,
+							leftToRight ? yCoord : xCoord);
 					ExpressionNode point = new ExpressionNode(app.getKernel(),
 							vec, Operation.NO_OPERATION, null);
 					point.setForcePoint();
@@ -424,8 +425,9 @@ public class DataVariable {
 		}
 
 		catch (Exception ex) {
-			Log.debug("Creating list of points expression failed with exception "
-					+ ex);
+			Log.debug(
+					"Creating list of points expression failed with exception "
+							+ ex);
 		}
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
@@ -536,7 +538,8 @@ public class DataVariable {
 		// CASE 2: spreadsheet cell
 		GPoint location = geo.getSpreadsheetCoords();
 		boolean isCell = (location != null
-				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP && location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP);
+				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP
+				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_DESKTOP);
 
 		if (isCell) {
 			for (DataItem dataItem : itemList) {

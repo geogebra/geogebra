@@ -16,31 +16,31 @@ package org.geogebra.common.kernel.kernelND;
  *
  */
 public interface GeoQuadricNDConstants {
-	/** type: single point*/
+	/** type: single point */
 	public static final int QUADRIC_SINGLE_POINT = 1;
-	/** type: intersecting lines*/
+	/** type: intersecting lines */
 	public static final int QUADRIC_INTERSECTING_LINES = 2;
-	/** type: ellipsoid*/
+	/** type: ellipsoid */
 	public static final int QUADRIC_ELLIPSOID = 3;
-	/** type: sphere*/
+	/** type: sphere */
 	public static final int QUADRIC_SPHERE = 4;
-	/** type: hyperboloid*/
+	/** type: hyperboloid */
 	public static final int QUADRIC_HYPERBOLOID = 5;
-	/** type: empty quadric*/
+	/** type: empty quadric */
 	public static final int QUADRIC_EMPTY = 6;
-	/** type: double line*/
+	/** type: double line */
 	public static final int QUADRIC_DOUBLE_LINE = 7;
 	/** type: parallel lines */
 	public static final int QUADRIC_PARALLEL_LINES = 8;
-	/** type: paraboloid*/
+	/** type: paraboloid */
 	public static final int QUADRIC_PARABOLOID = 9;
-	/** type: line*/
+	/** type: line */
 	public static final int QUADRIC_LINE = 10;
-	/** type: cone*/
+	/** type: cone */
 	public static final int QUADRIC_CONE = 30;
-	/** type: cylinder*/
+	/** type: cylinder */
 	public static final int QUADRIC_CYLINDER = 31;
-	/** temporary type: not classified*/
+	/** temporary type: not classified */
 	public static final int QUADRIC_NOT_CLASSIFIED = 32;
 	/** type : one plane */
 	public static final int QUADRIC_PLANE = 33;
@@ -58,6 +58,5 @@ public interface GeoQuadricNDConstants {
 	public static final int QUADRIC_HYPERBOLIC_CYLINDER = 39;
 	/** type: hyperbolic paraboloid */
 	public static final int QUADRIC_HYPERBOLIC_PARABOLOID = 40;
-
 
 }

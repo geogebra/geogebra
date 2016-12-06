@@ -36,8 +36,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * 
  * @author Markus
  */
-public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
+		implements SymbolicParametersBotanaAlgo {
 
 	private Variable[] botanaVars;
 

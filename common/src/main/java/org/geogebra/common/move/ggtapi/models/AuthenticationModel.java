@@ -6,8 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.models.BaseModel;
 
 /**
- * @author gabor
- * Base class for login logout operations
+ * @author gabor Base class for login logout operations
  *
  */
 public abstract class AuthenticationModel extends BaseModel {
@@ -43,24 +42,27 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 
 	/**
-	 * @param token The token to store
-	 * Stores the token in localStorage or with any other client side method.
+	 * @param token
+	 *            The token to store Stores the token in localStorage or with
+	 *            any other client side method.
 	 */
 	public abstract void storeLoginToken(String token);
-	
+
 	/**
 	 * @return The stored Token or null if not token stored
 	 */
 	public abstract String getLoginToken();
 
 	/**
-	 * Clears the login token from localStorage, or from other storage place used
+	 * Clears the login token from localStorage, or from other storage place
+	 * used
 	 */
 	public abstract void clearLoginToken();
-	
+
 	/**
-	 * @param response from GGT
-	 * Parses the response, and sets model dependent things (localStorage, etc).
+	 * @param response
+	 *            from GGT Parses the response, and sets model dependent things
+	 *            (localStorage, etc).
 	 */
 	public void onLoginSuccess(GeoGebraTubeUser user, String json) {
 		this.stayLoggedOut = false;
@@ -76,8 +78,8 @@ public abstract class AuthenticationModel extends BaseModel {
 	protected abstract void storeLastUser(String s);
 
 	/**
-	 * @param response from GGT
-	 * error happened, cleanup, etc
+	 * @param response
+	 *            from GGT error happened, cleanup, etc
 	 */
 	public void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
@@ -87,7 +89,8 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 
 	/**
-	 * @return the Username of the currently logged in user or null if no user is logged in
+	 * @return the Username of the currently logged in user or null if no user
+	 *         is logged in
 	 */
 	public String getUserName() {
 		if (loggedInUser != null) {
@@ -95,9 +98,10 @@ public abstract class AuthenticationModel extends BaseModel {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * @return the Username of the currently logged in user or null if no user is logged in
+	 * @return the Username of the currently logged in user or null if no user
+	 *         is logged in
 	 */
 	public int getUserId() {
 		if (loggedInUser != null) {
@@ -105,14 +109,14 @@ public abstract class AuthenticationModel extends BaseModel {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * @return The currently logged in user or null if no user is logged in
 	 */
 	public GeoGebraTubeUser getLoggedInUser() {
 		return loggedInUser;
 	}
-	
+
 	/**
 	 * @return true, if a user is currently logged in or false otherwise.
 	 */
@@ -124,13 +128,13 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 
 	public void startOffline(GeoGebraTubeAPI api) {
-		if(this.loadLastUser()!= null){
+		if (this.loadLastUser() != null) {
 			GeoGebraTubeUser offline = new GeoGebraTubeUser(null);
-			if(api.parseUserDataFromResponse(offline, this.loadLastUser())){
+			if (api.parseUserDataFromResponse(offline, this.loadLastUser())) {
 				this.loggedInUser = offline;
 			}
 		}
-		
+
 	}
 
 	public abstract String loadLastUser();
@@ -138,9 +142,9 @@ public abstract class AuthenticationModel extends BaseModel {
 	public void stayLoggedOut() {
 		this.stayLoggedOut = true;
 	}
-	
-	public boolean mayLogIn(){
+
+	public boolean mayLogIn() {
 		return !stayLoggedOut;
 	}
-	
+
 }

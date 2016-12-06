@@ -22,7 +22,8 @@ public class CmdTangent3D extends CmdTangent {
 	}
 
 	@Override
-	protected GeoElement[] tangent(String[] labels, GeoPointND a, GeoConicND c) {
+	protected GeoElement[] tangent(String[] labels, GeoPointND a,
+			GeoConicND c) {
 		return kernelA.getManager3D().Tangent3D(labels, a, c);
 	}
 
@@ -32,7 +33,8 @@ public class CmdTangent3D extends CmdTangent {
 	}
 
 	@Override
-	protected GeoElement[] tangent(String[] labels, GeoConicND c1, GeoConicND c2) {
+	protected GeoElement[] tangent(String[] labels, GeoConicND c1,
+			GeoConicND c2) {
 		return kernelA.getManager3D().CommonTangents3D(labels, c1, c2);
 	}
 

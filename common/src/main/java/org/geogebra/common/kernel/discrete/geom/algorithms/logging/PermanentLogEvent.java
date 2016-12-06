@@ -26,6 +26,6 @@ package org.geogebra.common.kernel.discrete.geom.algorithms.logging;
  *
  * @author cyberpython
  */
-public abstract class PermanentLogEvent extends LogEvent{
+public abstract class PermanentLogEvent extends LogEvent {
 
 }

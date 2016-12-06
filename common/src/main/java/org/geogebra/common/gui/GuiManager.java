@@ -110,6 +110,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 					.getXML(sb);
 		}
 	}
+
 	public final void getConsProtocolXML(StringBuilder sb) {
 		if (this.isUsingConstructionProtocol()) {
 			getConstructionProtocolView().getXML(sb);
@@ -120,7 +121,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			app.getConsProtNavigationIds(sb);
 			sb.append('\"');
 			sb.append(" playButton=\"");
-			sb.append(getConstructionProtocolNavigation().isPlayButtonVisible());
+			sb.append(
+					getConstructionProtocolNavigation().isPlayButtonVisible());
 			sb.append('\"');
 			sb.append(" playDelay=\"");
 			sb.append(getConstructionProtocolNavigation().getPlayDelay());
@@ -175,8 +177,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		try {
 			// check first for ggb/ggt file
-			if ((processedUrlString.endsWith(".ggb") || processedUrlString
-					.endsWith(".ggt"))
+			if ((processedUrlString.endsWith(".ggb")
+					|| processedUrlString.endsWith(".ggt"))
 					&& (processedUrlString.indexOf("?") == -1)) { // This isn't
 																	// a ggb
 																	// file,
@@ -257,7 +259,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 				// special case: urlString is actually a base64 encoded ggb file
 			} else if (processedUrlString.startsWith("UEs")) {
-				success = loadURL_base64(processedUrlString.replace("\\/", "/"));
+				success = loadURL_base64(
+						processedUrlString.replace("\\/", "/"));
 
 				// special case: urlString is actually a GeoGebra XML file
 			} else if (processedUrlString.startsWith("<?xml ")
@@ -276,8 +279,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		if (!success && !suppressErrorMsg) {
 			getApp().showError(
-					getApp().getLocalization().getError("LoadFileFailed")
-							+ "\n" + processedUrlString);
+					getApp().getLocalization().getError("LoadFileFailed") + "\n"
+							+ processedUrlString);
 		}
 
 		updateGUIafterLoadFile(success, isMacroFile);
@@ -346,13 +349,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
 		App app = getApp();
 		if (app.getEuclidianView1() == ev) {
-			app.getSettings().getEuclidian(1)
-					.setShowAxes(!bothAxesShown, !bothAxesShown);
+			app.getSettings().getEuclidian(1).setShowAxes(!bothAxesShown,
+					!bothAxesShown);
 
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == ev) {
-			app.getSettings().getEuclidian(2)
-					.setShowAxes(!bothAxesShown, !bothAxesShown);
+			app.getSettings().getEuclidian(2).setShowAxes(!bothAxesShown,
+					!bothAxesShown);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
 			app.getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
 
@@ -391,8 +394,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// if a tracing geo has been redefined, then put it back into the
 		// traceGeoCollection
 		if (geo.getSpreadsheetTrace()) {
-			getApp().getTraceManager().addSpreadsheetTraceGeo(
-					geo.toGeoElement());
+			getApp().getTraceManager()
+					.addSpreadsheetTraceGeo(geo.toGeoElement());
 		}
 	}
 
@@ -477,8 +480,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		getConstructionProtocolNavigation().setPlayButtonVisible(playButton);
 		getConstructionProtocolNavigation().setPlayDelay(playDelay);
-		getConstructionProtocolNavigation().setConsProtButtonVisible(
-					showProtButton);
+		getConstructionProtocolNavigation()
+				.setConsProtButtonVisible(showProtButton);
 	}
 
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
@@ -519,7 +522,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		return constProtocolNavigation;
 	}
-
 
 	final public Collection<ConstructionProtocolNavigation> getAllConstructionProtocolNavigations() {
 		if (constProtocolNavigationMap == null) {
@@ -584,8 +586,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		for (ConstructionProtocolNavigation constProtocolNavigation : constProtocolNavigationMap
 				.values()) {
-			constProtocolNavigation.setConsProtButtonVisible(cps
-					.showConsProtButton());
+			constProtocolNavigation
+					.setConsProtButtonVisible(cps.showConsProtButton());
 			constProtocolNavigation.setPlayDelay(cps.getPlayDelay());
 			constProtocolNavigation.setPlayButtonVisible(cps.showPlayButton());
 		}
@@ -677,7 +679,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		if ((mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
-				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) && m == ModeSetter.TOOLBAR) {
+				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)
+				&& m == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 			if (app.getSelectionManager().getSelectedGeos() != null) {
@@ -770,8 +773,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public abstract void setToolBarDefinition(String toolBarDefinition);
 
 	public void refreshCustomToolsInToolBar() {
-		String oldToolbar = getToolbarDefinition() == null ? ToolBar
-				.getAllTools(app) : getToolbarDefinition();
+		String oldToolbar = getToolbarDefinition() == null
+				? ToolBar.getAllTools(app) : getToolbarDefinition();
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
@@ -781,6 +784,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 		return viewId == App.VIEW_EUCLIDIAN || viewId == App.VIEW_EUCLIDIAN2;
 	}
+
 	public String refreshCustomToolsInToolBar(String initial) {
 		int macroCount = kernel.getMacroNumber();
 
@@ -791,7 +795,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 		String oldToolbar = initial;
 		String toolbar3D = "";
 		if (app.hasEuclidianView3D()) {
-			DockPanel dockPanel = getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
+			DockPanel dockPanel = getLayout().getDockManager()
+					.getPanel(App.VIEW_EUCLIDIAN3D);
 			toolbar3D = dockPanel.getToolbarString();
 			if (toolbar3D == null) {
 				toolbar3D = getToolbarDefinition();
@@ -810,14 +815,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 			// || toolbar3D.contains(String.valueOf(macroMode));
 			// Log.debug(
 			// "[CT] macro: " + macro.getToolName() + " is 3D: " + tool3d);
-			Log.debug("[CT] macroViewId: " + macroViewId
-					+ " activeViewId: "
+			Log.debug("[CT] macroViewId: " + macroViewId + " activeViewId: "
 					+ activeViewId);
 
 			if (macro.isShowInToolBar()
 					&& !(oldToolbar.contains(String.valueOf(macroMode)))
-					&& (macroViewId == activeViewId)
-			) {
+					&& (macroViewId == activeViewId)) {
 				customToolBar.append(" " + macroMode);
 			}
 		}

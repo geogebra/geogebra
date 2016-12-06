@@ -27,27 +27,27 @@ public class DeleteRequest implements Request {
 	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
-		JSONObject request = new JSONObject();
-		JSONObject api = new JSONObject();
+			JSONObject request = new JSONObject();
+			JSONObject api = new JSONObject();
 			api.put("-api", this.API);
 
-		// login
-		JSONObject login = new JSONObject();
-		login.put("-type", this.TYPE);
-		login.put("-token", client.getModel()
-					.getLoggedInUser().getLoginToken());
-		api.put("login", login);
+			// login
+			JSONObject login = new JSONObject();
+			login.put("-type", this.TYPE);
+			login.put("-token",
+					client.getModel().getLoggedInUser().getLoginToken());
+			api.put("login", login);
 
-		// task
-		JSONObject task = new JSONObject();
-		task.put("-type", this.TASK);
+			// task
+			JSONObject task = new JSONObject();
+			task.put("-type", this.TASK);
 
-		// ID
-		task.put("id", Integer.toString(this.material.getId()));
+			// ID
+			task.put("id", Integer.toString(this.material.getId()));
 
-		api.put("task", task);
-		request.put("request", api);
-		return request.toString();
+			api.put("task", task);
+			request.put("request", api);
+			return request.toString();
 		} catch (Exception e) {
 			Log.debug("problem building request: " + e.getMessage());
 			return null;

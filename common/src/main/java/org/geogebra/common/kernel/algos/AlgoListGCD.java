@@ -108,6 +108,4 @@ public class AlgoListGCD extends AlgoElement {
 		num.setValue(result);
 	}
 
-	
-
 }

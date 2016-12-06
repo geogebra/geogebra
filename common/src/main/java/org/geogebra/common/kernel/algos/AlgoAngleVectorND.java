@@ -73,5 +73,4 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 		return vec.isDefined();
 	}
 
-	
 }

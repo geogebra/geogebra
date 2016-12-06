@@ -29,8 +29,8 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>, <GeoElement>
- * ]
+ * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>,
+ * <GeoElement> ]
  */
 public class CmdIf extends CommandProcessor {
 
@@ -105,8 +105,9 @@ public class CmdIf extends CommandProcessor {
 			if (arg[i] instanceof FunctionalNVar
 					&& ((FunctionalNVar) arg[i]).isBooleanFunction()) {
 				conditions.add((FunctionalNVar) arg[i]);
-				vars = vars > 1 ? vars : ((FunctionalNVar) arg[i])
-						.getFunctionVariables().length;
+				vars = vars > 1 ? vars
+						: ((FunctionalNVar) arg[i])
+								.getFunctionVariables().length;
 				if ("y".equals(((FunctionalNVar) arg[i])
 						.getVarString(StringTemplate.defaultTemplate))) {
 					vars = Math.max(vars, 2);
@@ -119,7 +120,8 @@ public class CmdIf extends CommandProcessor {
 		if (MyDouble.isOdd(n)) {
 			vars = checkAdd(c, functions, arg[n - 1], vars);
 		}
-		return new GeoElement[] { If(c.getLabel(), conditions, functions, vars) };
+		return new GeoElement[] {
+				If(c.getLabel(), conditions, functions, vars) };
 
 	}
 
@@ -169,16 +171,19 @@ public class CmdIf extends CommandProcessor {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo), vars);
+					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo),
+					vars);
 		}
 		if (MyDouble.isOdd(n)) {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo), vars);
+					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo),
+					vars);
 		}
 		kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
-		return new GeoElement[] { If(c.getLabel(), conditions, functions, vars) };
+		return new GeoElement[] {
+				If(c.getLabel(), conditions, functions, vars) };
 	}
 
 	private FunctionalNVar resolveFunction(Command c, int i,
@@ -192,8 +197,8 @@ public class CmdIf extends CommandProcessor {
 		}
 		EvalInfo info = new EvalInfo(false);
 		if (vars < 2) {
-			return (GeoFunction) kernelA.getAlgebraProcessor().processFunction(
-					new Function(arg, fv[0]), info)[0];
+			return (GeoFunction) kernelA.getAlgebraProcessor()
+					.processFunction(new Function(arg, fv[0]), info)[0];
 		}
 		return (GeoFunctionNVar) kernelA.getAlgebraProcessor()
 				.processFunctionNVar(new FunctionNVar(arg, fv), info)[0];
@@ -235,15 +240,17 @@ public class CmdIf extends CommandProcessor {
 		}
 
 		if (functions.size() == 1) {
-			expr = new ExpressionNode(kernelA, wrap(conditions.get(0), fv,
-					mayUseIndependent), Operation.IF, wrap(functions.get(0),
-					fv, mayUseIndependent));
+			expr = new ExpressionNode(kernelA,
+					wrap(conditions.get(0), fv, mayUseIndependent),
+					Operation.IF,
+					wrap(functions.get(0), fv, mayUseIndependent));
 		} else if (functions.size() == 2 && conditions.size() == 1) {
-			expr = new ExpressionNode(kernelA, new MyNumberPair(kernelA, wrap(
-					conditions.get(0), fv, mayUseIndependent), wrap(
-					functions.get(0), fv, mayUseIndependent)),
-					Operation.IF_ELSE, wrap(functions.get(1), fv,
-							mayUseIndependent));
+			expr = new ExpressionNode(kernelA,
+					new MyNumberPair(kernelA,
+							wrap(conditions.get(0), fv, mayUseIndependent),
+							wrap(functions.get(0), fv, mayUseIndependent)),
+					Operation.IF_ELSE,
+					wrap(functions.get(1), fv, mayUseIndependent));
 		} else {
 			MyList cond = new MyList(kernelA), funs = new MyList(kernelA);
 			for (FunctionalNVar f : conditions) {
@@ -294,8 +301,8 @@ public class CmdIf extends CommandProcessor {
 			for (int i = 0; i < fv.length; i++) {
 				arg.addListElement(fv[i]);
 			}
-			return new ExpressionNode(kernelA, boolFun,
-					Operation.FUNCTION_NVAR, arg);
+			return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION_NVAR,
+					arg);
 		}
 		ExpressionValue exp = boolFun.getFunctionExpression().deepCopy(kernelA);
 		for (int i = 0; i < fv.length; i++) {

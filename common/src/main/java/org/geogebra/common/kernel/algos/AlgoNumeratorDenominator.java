@@ -80,6 +80,4 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 
 	}
 
-	
-
 }

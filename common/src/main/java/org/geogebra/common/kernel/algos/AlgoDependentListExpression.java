@@ -45,8 +45,8 @@ import org.geogebra.common.util.debug.Log;
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7} such an expression
  * could be L1 + L2
  */
-public class AlgoDependentListExpression extends AlgoElement implements
-		DependentAlgo {
+public class AlgoDependentListExpression extends AlgoElement
+		implements DependentAlgo {
 
 	private GeoList list; // output
 
@@ -107,8 +107,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 	@Override
 	public final void compute() {
 		// get resulting list of ExpressionNodes
-		ExpressionValue evlist = list.getDefinition().evaluate(
-				StringTemplate.defaultTemplate);
+		ExpressionValue evlist = list.getDefinition()
+				.evaluate(StringTemplate.defaultTemplate);
 		MyList myList = (evlist instanceof MyList) ? (MyList) evlist
 				: ((GeoList) evlist).getMyList();
 
@@ -125,8 +125,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 		list.clear();
 
 		for (int i = 0; i < evalListSize; i++) {
-			ExpressionValue element = myList.getListElement(i).evaluate(
-					StringTemplate.defaultTemplate);
+			ExpressionValue element = myList.getListElement(i)
+					.evaluate(StringTemplate.defaultTemplate);
 			GeoElement cached = null;
 			if (i < cachedListSize) {
 				cached = list.getCached(i);
@@ -144,8 +144,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 
 		// number result
 		if (element instanceof NumberValue) {
-			ExpressionNode definition = element.isGeoElement() ? ((GeoElement) element)
-					.getDefinition() : null;
+			ExpressionNode definition = element.isGeoElement()
+					? ((GeoElement) element).getDefinition() : null;
 			double val = ((NumberValue) element).getDouble();
 
 			// try to use cached element of same type
@@ -252,8 +252,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 
 				// the cached element is a point: set value
 				if (cachedGeo.isGeoText()) {
-					((GeoText) cachedGeo).setTextString(str
-							.toValueString(StringTemplate.defaultTemplate));
+					((GeoText) cachedGeo).setTextString(
+							str.toValueString(StringTemplate.defaultTemplate));
 					geo = cachedGeo;
 				}
 			}
@@ -261,8 +261,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 			// no cached point: create new one
 			if (geo == null) {
 				GeoText text = new GeoText(cons);
-				text.setTextString(str
-						.toValueString(StringTemplate.defaultTemplate));
+				text.setTextString(
+						str.toValueString(StringTemplate.defaultTemplate));
 				geo = text;
 			}
 
@@ -331,7 +331,8 @@ public class AlgoDependentListExpression extends AlgoElement implements
 			if (cachedGeo != null) {
 
 				// the cached element is the same type: set value
-				if (cachedGeo.getGeoClassType().equals(geo0.getGeoClassType())) {
+				if (cachedGeo.getGeoClassType()
+						.equals(geo0.getGeoClassType())) {
 					cachedGeo.set(geo0);
 					geo = cachedGeo;
 				}
@@ -355,5 +356,4 @@ public class AlgoDependentListExpression extends AlgoElement implements
 		return list.getDefinition().toString(tpl);
 	}
 
-	
 }

@@ -44,9 +44,8 @@ public class CmdCommonDenominator extends CommandProcessor {
 
 			} else if ((ok[0] = (arg[0].isGeoFunction()))
 					&& (ok[1] = (arg[1].isGeoFunction()))) {
-				AlgoPolynomialCD algo = new AlgoPolynomialCD(cons,
-						c.getLabel(), (GeoFunction) arg[0],
-						(GeoFunction) arg[1]);
+				AlgoPolynomialCD algo = new AlgoPolynomialCD(cons, c.getLabel(),
+						(GeoFunction) arg[0], (GeoFunction) arg[1]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {

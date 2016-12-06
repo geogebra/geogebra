@@ -69,9 +69,9 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 *            screen point corresponding to corner3
 	 */
 	public AlgoAttachCopyToView(Construction cons, String label,
-			GeoElementND in,
-			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
-			GeoPointND screenCorner1, GeoPointND screenCorner3) {
+			GeoElementND in, GeoNumberValue viewID, GeoPointND corner1,
+			GeoPointND corner3, GeoPointND screenCorner1,
+			GeoPointND screenCorner3) {
 		this(cons, in, viewID, corner1, corner3, screenCorner1, screenCorner3);
 		outGeo.setLabel(label);
 	}
@@ -158,14 +158,14 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	@Override
 	public final void compute() {
 		int view = (int) viewID.getDouble();
-		
+
 		// #5014
 		// use Settings so we don't need to initialise EV2
 		EuclidianSettings ev = null;
 		if (view == 1 || view == 2) {
 			ev = kernel.getApplication().getSettings().getEuclidian(view);
 		}
-		
+
 		if (ev == null && view != 0) {
 			outGeo.setUndefined();
 			return;
@@ -208,18 +208,18 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 			outGeo.updateCascade();
 		} else {
-			transformFunction(m[0][0] / m[2][2], m[0][2] / m[2][2], m[1][1]
-					/ m[2][2], m[1][2] / m[2][2]);
+			transformFunction(m[0][0] / m[2][2], m[0][2] / m[2][2],
+					m[1][1] / m[2][2], m[1][2] / m[2][2]);
 		}
 	}
 
 	private void transformFunction(double d, double e, double f, double g) {
 		Function fun = ((GeoFunction) inGeo).getFunction();
 		ExpressionNode expr = fun.getExpression().getCopy(kernel);
-		expr = expr.replace(
-				fun.getFunctionVariable(),
-				new ExpressionNode(kernel, fun.getFunctionVariable()).multiply(
-						1 / d).plus(-e / d)).wrap();
+		expr = expr.replace(fun.getFunctionVariable(),
+				new ExpressionNode(kernel, fun.getFunctionVariable())
+						.multiply(1 / d).plus(-e / d))
+				.wrap();
 		Function fun2 = new Function(expr.multiply(f).plus(g),
 				fun.getFunctionVariable());
 		((GeoFunction) outGeo).setFunction(fun2);
@@ -265,7 +265,5 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	public double getAreaScaleFactor() {
 		return 1;
 	}
-
-	
 
 }

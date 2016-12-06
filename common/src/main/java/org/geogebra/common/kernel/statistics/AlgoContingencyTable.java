@@ -107,7 +107,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	 * @param args
 	 */
 	public AlgoContingencyTable(Construction cons, String label,
-			GeoList rowList, GeoList colList, GeoList freqMatrix, GeoText args) {
+			GeoList rowList, GeoList colList, GeoList freqMatrix,
+			GeoText args) {
 
 		super(cons);
 
@@ -315,7 +316,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
 				expected[rowIndex][colIndex] = 1.0 * rowSum[rowIndex]
 						* colSum[colIndex] / totalSum;
-				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex] - expected[rowIndex][colIndex]);
+				chiCont[rowIndex][colIndex] = (freqValues[rowIndex][colIndex]
+						- expected[rowIndex][colIndex]);
 				chiCont[rowIndex][colIndex] = chiCont[rowIndex][colIndex]
 						* chiCont[rowIndex][colIndex]
 						/ expected[rowIndex][colIndex];
@@ -347,13 +349,14 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		beginTable();
 
 		// table header
-		addTableRow(tableSb, -1, handleSpecialChar(getLoc()
-				.getMenu("Frequency")), "colValue", lastRow == 0);
+		addTableRow(tableSb, -1,
+				handleSpecialChar(getLoc().getMenu("Frequency")), "colValue",
+				lastRow == 0);
 
 		if (showRowPercent)
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getPlain("RowPercent")),
-					"blank", lastRow == 1);
+					handleSpecialChar(getLoc().getPlain("RowPercent")), "blank",
+					lastRow == 1);
 		if (showColPercent)
 			addTableRow(tableSb, 0,
 					handleSpecialChar(getLoc().getPlain("ColumnPercent")),
@@ -367,11 +370,10 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 					handleSpecialChar(getLoc().getPlain("ExpectedCount")),
 					"blank", lastRow == 4);
 		if (showChi)
-			addTableRow(
-					tableSb,
-					0,
-					handleSpecialChar(getLoc().getPlain(
-							"ChiSquaredContribution")), "blank", lastRow == 5);
+			addTableRow(tableSb, 0,
+					handleSpecialChar(
+							getLoc().getPlain("ChiSquaredContribution")),
+					"blank", lastRow == 5);
 
 		// remaining rows
 		for (int rowIndex = 0; rowIndex < rowValues.length; rowIndex++) {
@@ -426,14 +428,14 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		cons.removeFromConstructionList(test);
 		GeoList result = test.getResult();
 
-		String split = !useJLaTeXMath() ? "}\\ggbtdl{"
-				: "&";
+		String split = !useJLaTeXMath() ? "}\\ggbtdl{" : "&";
 
 		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split
 				+ Unicode.chi + Unicode.Superscript_2 + split
 				+ getLoc().getMenu("PValue");
-		String degFreedom = kernel.format((rowValues.length - 1)
-				* (colValues.length - 1), StringTemplate.numericDefault);
+		String degFreedom = kernel.format(
+				(rowValues.length - 1) * (colValues.length - 1),
+				StringTemplate.numericDefault);
 		String secondRow = degFreedom + split
 				+ result.get(1).toValueString(StringTemplate.numericDefault)
 				+ split
@@ -554,7 +556,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		endRow(sb, lineBelow);
 	}
 
-	private void startRow(StringBuilder sb, boolean lineBelow, boolean lineAbove) {
+	private void startRow(StringBuilder sb, boolean lineBelow,
+			boolean lineAbove) {
 		if (!useJLaTeXMath()) {
 			sb.append(lineBelow ? (lineAbove ? "\\ggbtrl{" : "\\ggbtrlb{")
 					: (lineAbove ? "\\ggbtrlt{" : "\\ggbtr{"));

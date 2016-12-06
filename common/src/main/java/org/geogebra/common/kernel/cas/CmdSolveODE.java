@@ -63,10 +63,10 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())) {
-				GeoElement[] ret = { SolveODE(c.getLabel(),
-						(FunctionalNVar) arg[0], null, (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4]) };
+				GeoElement[] ret = {
+						SolveODE(c.getLabel(), (FunctionalNVar) arg[0], null,
+								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
+								(GeoNumeric) arg[3], (GeoNumeric) arg[4]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -115,7 +115,8 @@ public class CmdSolveODE extends CommandProcessor {
 	final private GeoLocus SolveODE(String label, FunctionalNVar f,
 			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,
 			GeoNumeric step) {
-		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end, step);
+		AlgoSolveODE algo = new AlgoSolveODE(cons, label, f, g, x, y, end,
+				step);
 		return algo.getResult();
 	}
 

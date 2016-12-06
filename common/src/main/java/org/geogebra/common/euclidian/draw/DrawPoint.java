@@ -225,14 +225,14 @@ public final class DrawPoint extends Drawable {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo((float) coords[0], (float) (coords[1] + direction
-					* pointSize));
+			gp.moveTo((float) coords[0],
+					(float) (coords[1] + direction * pointSize));
 			gp.lineTo((float) (coords[0] + pointSize * root3over2),
 					(float) (coords[1] - direction * pointSize / 2));
 			gp.lineTo((float) (coords[0] - pointSize * root3over2),
 					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) coords[0], (float) (coords[1] + direction
-					* pointSize));
+			gp.lineTo((float) coords[0],
+					(float) (coords[1] + direction * pointSize));
 			gp.closePath();
 			break;
 
@@ -263,16 +263,12 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.getPrototype()
-						.newLine2D();
-				line2 = AwtFactory.getPrototype()
-						.newLine2D();
+				line1 = AwtFactory.getPrototype().newLine2D();
+				line2 = AwtFactory.getPrototype().newLine2D();
 			}
 			if (line3 == null) {
-				line3 = AwtFactory.getPrototype()
-						.newLine2D();
-				line4 = AwtFactory.getPrototype()
-						.newLine2D();
+				line3 = AwtFactory.getPrototype().newLine2D();
+				line4 = AwtFactory.getPrototype().newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
 			line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
@@ -285,10 +281,8 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.getPrototype()
-						.newLine2D();
-				line2 = AwtFactory.getPrototype()
-						.newLine2D();
+				line1 = AwtFactory.getPrototype().newLine2D();
+				line2 = AwtFactory.getPrototype().newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
 			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
@@ -299,10 +293,8 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = AwtFactory.getPrototype()
-						.newLine2D();
-				line2 = AwtFactory.getPrototype()
-						.newLine2D();
+				line1 = AwtFactory.getPrototype().newLine2D();
+				line2 = AwtFactory.getPrototype().newLine2D();
 			}
 			line1.setLine(xUL, yUL, xR, yB);
 			line2.setLine(xUL, yB, xR, yUL);
@@ -319,8 +311,8 @@ public final class DrawPoint extends Drawable {
 		circle.setFrame(xUL, yUL, diameter, diameter);
 
 		// selection area
-		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET,
-				yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
+		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
+				hightlightDiameter, hightlightDiameter);
 
 		// draw trace
 		if (P.getTrace()) {
@@ -353,8 +345,7 @@ public final class DrawPoint extends Drawable {
 
 	private Drawable drawable;
 
-	private void drawClippedSection(GeoElement geo2,
- GGraphics2D g2) {
+	private void drawClippedSection(GeoElement geo2, GGraphics2D g2) {
 
 		switch (geo2.getGeoClassType()) {
 		case LINE:
@@ -541,14 +532,14 @@ public final class DrawPoint extends Drawable {
 
 		int selRadius = pointSize + HIGHLIGHT_OFFSET;
 		int minRadius = view.getApplication().getCapturingThreshold(
-				PointerEventType.MOUSE)
-				+ SELECTION_RADIUS_MIN;
+				PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
 		if (selRadius < minRadius) {
 			selRadius = minRadius;
 		}
 
-		return AwtFactory.getPrototype().newRectangle((int) coords[0] - selRadius,
-				(int) coords[1] - selRadius, 2 * selRadius, 2 * selRadius);
+		return AwtFactory.getPrototype().newRectangle(
+				(int) coords[0] - selRadius, (int) coords[1] - selRadius,
+				2 * selRadius, 2 * selRadius);
 	}
 
 	@Override
@@ -567,7 +558,8 @@ public final class DrawPoint extends Drawable {
 	 */
 	final private static GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9)
-			return AwtFactory.getPrototype().newBasicStrokeJoinMitre(pointSize / 2f);
+			return AwtFactory.getPrototype()
+					.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		if (emptyStrokes[pointSize] == null)
 			emptyStrokes[pointSize] = AwtFactory.getPrototype()

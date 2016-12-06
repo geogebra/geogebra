@@ -34,7 +34,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 		case 4:
 			boolean[] ok = new boolean[n];
 			arg2 = resArgs(c);
-			
+
 			if ((ok[1] = arg2[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg2[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg2[3] instanceof GeoNumberValue)) {

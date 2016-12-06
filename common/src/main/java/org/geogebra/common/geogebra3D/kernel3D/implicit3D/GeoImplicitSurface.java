@@ -32,8 +32,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * 
  */
-public class GeoImplicitSurface extends GeoElement3D implements
-		GeoImplicitSurfaceND, EquationValue {
+public class GeoImplicitSurface extends GeoElement3D
+		implements GeoImplicitSurfaceND, EquationValue {
 	private static final boolean DEBUG = false;
 	private static final Coords3 DUMMY_NORMAL = new CoordsDouble3(0, 0, 1.0);
 	private boolean defined;
@@ -86,7 +86,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 		this.surface3D = new GeoTriangulatedSurface3D(cons);
 		fromEquation(eqn);
 	}
-	
+
 	/**
 	 * Copy Constructor
 	 * 
@@ -95,7 +95,8 @@ public class GeoImplicitSurface extends GeoElement3D implements
 	 * @param geoSurface
 	 *            {@link GeoImplicitSurface}
 	 */
-	public GeoImplicitSurface(Construction cons, GeoImplicitSurface geoSurface) {
+	public GeoImplicitSurface(Construction cons,
+			GeoImplicitSurface geoSurface) {
 		this(cons);
 		this.set(geoSurface);
 	}
@@ -341,6 +342,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 	public FunctionNVar getExpression() {
 		return expression.getFunction();
 	}
+
 	@Override
 	public boolean isDefined() {
 		return defined;
@@ -414,6 +416,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 	public void mirror(GeoCoordSys2D plane) {
 		// TODO implement mirror at plane
 	}
+
 	/**
 	 * 
 	 * @param debug
@@ -445,7 +448,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 			return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for(int i = 0; i < coords.length; i++) {
+		for (int i = 0; i < coords.length; i++) {
 			sb.append(coords[i]);
 		}
 		sb.append("}");
@@ -823,7 +826,6 @@ public class GeoImplicitSurface extends GeoElement3D implements
 		private int sizeY = 20;
 		private int sizeZ = 20;
 
-
 		public MarchingCube() {
 		}
 
@@ -868,7 +870,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 					grid2d[i][j] = evaluateAt(xcoords[j], ycoords[i], z1);
 				}
 			}
-			
+
 			for (int k = 1; k <= sizeZ; k++) {
 				for (int i = 0; i <= sizeX; i++) {
 					grid1d[i] = evaluateAt(xcoords[i], y1, zcoords[k]);
@@ -952,8 +954,8 @@ public class GeoImplicitSurface extends GeoElement3D implements
 				{ 5, 6 }, { 6, 7 }, { 7, 4 } };
 
 		private static final int[][] VERTICES = { { 0, 4, 5 }, { 3, 4, 5 },
-				{ 3, 4, 2 }, { 0, 4, 2 }, { 0, 1, 5 }, { 3, 1, 5 },
-				{ 3, 1, 2 }, { 0, 1, 2 } };
+				{ 3, 4, 2 }, { 0, 4, 2 }, { 0, 1, 5 }, { 3, 1, 5 }, { 3, 1, 2 },
+				{ 0, 1, 2 } };
 
 		/**
 		 * Coordinates of the cube (x1, y1, z1) (x2, y2, z2)
@@ -967,6 +969,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 		public Cube() {
 
 		}
+
 		/**
 		 * Fill point array with point of intersection of edge e with the plane.
 		 * Caveat: It does not check if the given edge intersect with the
@@ -1045,7 +1048,8 @@ public class GeoImplicitSurface extends GeoElement3D implements
 			int[] vv2 = VERTICES[v2];
 			if (vv1[0] == vv2[0]) {
 				if (vv1[1] == vv2[4]) {
-					return interpolate(eval(v1), eval(v2), coords[2], coords[5]);
+					return interpolate(eval(v1), eval(v2), coords[2],
+							coords[5]);
 				}
 				return interpolate(eval(v1), eval(v2), coords[1], coords[4]);
 			}

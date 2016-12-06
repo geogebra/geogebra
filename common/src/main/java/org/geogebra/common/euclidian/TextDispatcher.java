@@ -51,16 +51,16 @@ public class TextDispatcher {
 	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area,
 			GPoint loc) {
 		// text
-		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area, loc);
+		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area,
+				loc);
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
 				area.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n
-						.getCommand("Area")) + conic.getLabelSimple()));
+						StringUtil.toLowerCase(l10n.getCommand("Area"))
+								+ conic.getLabelSimple()));
 			}
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text")
-					+ conic.getLabelSimple()));
+					l10n.getPlain("Text") + conic.getLabelSimple()));
 		}
 		return new GeoElement[] { text };
 	}
@@ -81,8 +81,7 @@ public class TextDispatcher {
 			for (int i = 0; i < points.length; i++) {
 				if (points[i].isLabelSet()) {
 					descText.append(" + Name["
-							+ points[i]
-									.getLabel(StringTemplate.defaultTemplate)
+							+ points[i].getLabel(StringTemplate.defaultTemplate)
 							+ "]");
 				} else {
 					allLabelsSet = false;
@@ -97,18 +96,14 @@ public class TextDispatcher {
 					points[i].updateRepaint();
 				}
 			} else {
-				return l10n.getPlain(
-						type,
+				return l10n.getPlain(type,
 						"\" + Name["
 								+ poly.getLabel(StringTemplate.defaultTemplate)
 								+ "] + \"");
 			}
 		} else {
-			return l10n.getPlain(
-					type,
-					"\" + Name["
-							+ poly.getLabel(StringTemplate.defaultTemplate)
-							+ "] + \"");
+			return l10n.getPlain(type, "\" + Name["
+					+ poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 		}
 
 		return l10n.getPlain(type, descText.toString());
@@ -129,12 +124,11 @@ public class TextDispatcher {
 			if (object.isGeoPolygon()) {
 				descText = descriptionPoints(type, (GeoPolygon) object);
 			} else {
-				descText = l10n
-						.getPlain(
-								type,
-								"\" + Name["
-										+ object.getLabel(StringTemplate.defaultTemplate)
-										+ "] + \"");
+				descText = l10n.getPlain(type,
+						"\" + Name["
+								+ object.getLabel(
+										StringTemplate.defaultTemplate)
+								+ "] + \"");
 			}
 
 			// create dynamic text
@@ -218,14 +212,11 @@ public class TextDispatcher {
 
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc) {
 
-		return view
-				.getEuclidianController()
-				.getCompanion()
-				.createNewPoint(
+		return view.getEuclidianController().getCompanion().createNewPoint(
 				removeUnderscoresAndBraces(l10n.getPlain("Point")
-								+ object.getLabel(StringTemplate.defaultTemplate)),
-						false, object, view.toRealWorldCoordX(loc.x),
-						view.toRealWorldCoordY(loc.y), 0, false, false);
+						+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, object, view.toRealWorldCoordX(loc.x),
+				view.toRealWorldCoordY(loc.y), 0, false, false);
 	}
 
 	protected GeoPointND getPointForDynamicText(GPoint loc) {
@@ -246,10 +237,9 @@ public class TextDispatcher {
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n
-						.getCommand("Distance"))
-				// .toLowerCase(Locale.US)
-						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
+						StringUtil.toLowerCase(l10n.getCommand("Distance"))
+								// .toLowerCase(Locale.US)
+								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 				// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
 				// + "] + Name["+ geoB.getLabel() + "] + \"} \\, = \\, \" + "
 				// + length.getLabel();
@@ -267,8 +257,7 @@ public class TextDispatcher {
 				geoB.updateRepaint();
 			} else {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n
-						.getCommand("Distance"))));
+						StringUtil.toLowerCase(l10n.getCommand("Distance"))));
 				// .toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel(tpl);
 			}
@@ -318,8 +307,7 @@ public class TextDispatcher {
 			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic,
 					arcLength, loc);
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text")
-					+ conic.getLabelSimple()));
+					l10n.getPlain("Text") + conic.getLabelSimple()));
 			GeoElement[] ret = { text };
 			return ret;
 
@@ -328,17 +316,16 @@ public class TextDispatcher {
 		// standard case: conic
 		// checkZooming();
 
-		GeoNumeric circumFerence = kernel.getAlgoDispatcher().Circumference(
-				null, conic);
+		GeoNumeric circumFerence = kernel.getAlgoDispatcher()
+				.Circumference(null, conic);
 
 		// text
 		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
 				circumFerence, loc);
 		if (conic.isLabelSet()) {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
-					StringUtil
-					.toLowerCase(l10n.getCommand("Circumference"))
-					+ conic.getLabel(StringTemplate.defaultTemplate)));
+					StringUtil.toLowerCase(l10n.getCommand("Circumference"))
+							+ conic.getLabel(StringTemplate.defaultTemplate)));
 			text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
 		}
@@ -355,11 +342,10 @@ public class TextDispatcher {
 
 		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(l10n
-					.getCommand("Perimeter")) + poly.getLabelSimple()));
+					StringUtil.toLowerCase(l10n.getCommand("Perimeter"))
+							+ poly.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text")
-					+ poly.getLabelSimple()));
+					l10n.getPlain("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };
@@ -394,8 +380,8 @@ public class TextDispatcher {
 		// etc
 		if (kernel.lookupLabel(label) != null) {
 			int i = 1;
-			while (kernel.lookupLabel(i > 9 ? label + "_{" + i + "}" : label
-					+ "_" + i) != null) {
+			while (kernel.lookupLabel(
+					i > 9 ? label + "_{" + i + "}" : label + "_" + i) != null) {
 				i++;
 			}
 			label = i > 9 ? label + "_{" + i + "}" : label + "_" + i;

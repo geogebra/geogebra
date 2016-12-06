@@ -112,7 +112,9 @@ public class Coords3D {
 
 	/**
 	 * sets the "val[0]-coord"
-	 * @param v new value of "val[0]-coord"
+	 * 
+	 * @param v
+	 *            new value of "val[0]-coord"
 	 */
 	public void setX(double v) {
 		val[0] = v;
@@ -121,7 +123,9 @@ public class Coords3D {
 
 	/**
 	 * sets the "val[1]-coord"
-	 * @param v new value of "val[1]-coord"
+	 * 
+	 * @param v
+	 *            new value of "val[1]-coord"
 	 */
 	public void setY(double v) {
 		val[1] = v;
@@ -131,7 +135,8 @@ public class Coords3D {
 	/**
 	 * sets the "val[2]-coord"
 	 * 
-	 * @param v new value of "val[2]-coord"
+	 * @param v
+	 *            new value of "val[2]-coord"
 	 */
 	public void setZ(double v) {
 		val[2] = v;
@@ -141,7 +146,8 @@ public class Coords3D {
 	/**
 	 * sets the "val[3]-coord"
 	 * 
-	 * @param v new value of "val[3]-coord"
+	 * @param v
+	 *            new value of "val[3]-coord"
 	 */
 	public void setW(double v) {
 		val[3] = v;
@@ -177,9 +183,9 @@ public class Coords3D {
 	 * @return vector resulting of the cross product
 	 */
 	public Coords3D crossProduct(Coords3D a) {
-		return new Coords3D(val[1] * a.val[2] - val[2] * a.val[1], val[2]
-				* a.val[0] - val[0] * a.val[2], val[0] * a.val[1] - val[1]
-				* a.val[0], 0);
+		return new Coords3D(val[1] * a.val[2] - val[2] * a.val[1],
+				val[2] * a.val[0] - val[0] * a.val[2],
+				val[0] * a.val[1] - val[1] * a.val[0], 0);
 	}
 
 	/**
@@ -192,8 +198,8 @@ public class Coords3D {
 	 */
 	public double norm() {
 		if (calcNorm) {
-			norm = Math.sqrt(val[0] * val[0] + val[1] * val[1] + val[2]
-					* val[2]);
+			norm = Math
+					.sqrt(val[0] * val[0] + val[1] * val[1] + val[2] * val[2]);
 			calcNorm = false;
 		}
 		return norm;
@@ -224,20 +230,20 @@ public class Coords3D {
 
 		double inv;
 		if (calcNorm)
-			inv = 1 / Math.sqrt(val[0] * val[0] + val[1] * val[1] + val[2]
-					* val[2]);
+			inv = 1 / Math
+					.sqrt(val[0] * val[0] + val[1] * val[1] + val[2] * val[2]);
 		else
 			inv = 1 / norm;
-		return new Coords3D(val[0] * inv, val[1] * inv, val[2] * inv, val[3]
-				* inv);
+		return new Coords3D(val[0] * inv, val[1] * inv, val[2] * inv,
+				val[3] * inv);
 	}
 
 	/** normalize this */
 	public Coords3D normalize() {
 		double inv;
 		if (calcNorm)
-			inv = 1 / Math.sqrt(val[0] * val[0] + val[1] * val[1] + val[2]
-					* val[2]);
+			inv = 1 / Math
+					.sqrt(val[0] * val[0] + val[1] * val[1] + val[2] * val[2]);
 		else
 			inv = 1 / norm;
 		val[0] *= inv;
@@ -255,8 +261,8 @@ public class Coords3D {
 	 * @return this-v
 	 */
 	public Coords3D sub(Coords3D v) {
-		return new Coords3D(val[0] - v.val[0], val[1] - v.val[1], val[2]
-				- v.val[2], 0);
+		return new Coords3D(val[0] - v.val[0], val[1] - v.val[1],
+				val[2] - v.val[2], 0);
 	}
 
 	/**
@@ -267,8 +273,8 @@ public class Coords3D {
 	 * @return this-v
 	 */
 	public Coords3D add(Coords3D v) {
-		return new Coords3D(val[0] + v.val[0], val[1] + v.val[1], val[2]
-				+ v.val[2], 0);
+		return new Coords3D(val[0] + v.val[0], val[1] + v.val[1],
+				val[2] + v.val[2], 0);
 	}
 
 	/**
@@ -293,7 +299,8 @@ public class Coords3D {
 				|| (val[0] == Double.NEGATIVE_INFINITY)
 				|| (val[1] == Double.POSITIVE_INFINITY)
 				|| (val[1] == Double.NEGATIVE_INFINITY)
-				|| (val[2] == Double.POSITIVE_INFINITY) || (val[2] == Double.NEGATIVE_INFINITY));
+				|| (val[2] == Double.POSITIVE_INFINITY)
+				|| (val[2] == Double.NEGATIVE_INFINITY));
 	}
 }
 

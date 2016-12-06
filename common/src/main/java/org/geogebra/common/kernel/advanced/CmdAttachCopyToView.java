@@ -87,15 +87,14 @@ public class CmdAttachCopyToView extends CommandProcessor {
 						|| arg[0].isGeoList()) {
 
 					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,
-							c.getLabel(),
-							arg[0], (GeoNumberValue) arg[1], corner1, corner3,
-							screenCorner1, screenCorner3);
+							c.getLabel(), arg[0], (GeoNumberValue) arg[1],
+							corner1, corner3, screenCorner1, screenCorner3);
 
 					ret = new GeoElement[] { algo.getResult() };
 					if (n == 2 && ev != app.getActiveEuclidianView()) {
 						ret[0].addView(ev.getViewID());
-						ret[0].removeView(app.getActiveEuclidianView()
-								.getViewID());
+						ret[0].removeView(
+								app.getActiveEuclidianView().getViewID());
 						app.getActiveEuclidianView().remove(ret[0]);
 						ev.add(ret[0]);
 					}

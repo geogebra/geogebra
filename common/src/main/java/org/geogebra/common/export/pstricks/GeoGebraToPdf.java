@@ -67,7 +67,6 @@ import org.geogebra.common.util.GStringTokenizer;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
-
 /**
  * @author Hoszu Henrietta
  *
@@ -154,7 +153,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					+ "\\usepackage{animate}\n\\usepackage{graphicx}\n\\usepackage{pgf,tikz}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append("\\begin{filecontents}{timeline.txt}\n");
 			// if new frames would be >100, then we generate a new step
-			
+
 			// calculate frame number
 			i = min;
 			j = 0;
@@ -165,7 +164,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			if (j > 100) {
 				step = (max - min) / 100;
 			}
-			
+
 			// counting the new frame number
 			i = min;
 			j = 0;
@@ -173,7 +172,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				i = i + step;
 				j++;
 			}
-			
 
 			for (it = 0; it < j + 2; it++) {
 				if (it == 0) {
@@ -203,8 +201,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			codeBeginDoc.append(";\n");
 			codeBeginDoc.append("},\n");
 			codeBeginDoc.append("end={\\end{tikzpicture}},\n");
-			codeBeginDoc
-					.append("controls,timeline=timeline.txt]{1}\n");
+			codeBeginDoc.append("controls,timeline=timeline.txt]{1}\n");
 		}
 
 		// draw elements, and generate code
@@ -1071,9 +1068,8 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
 			while (stk.hasMoreTokens()) {
 				String line = stk.nextToken();
-				width = Math.max(width, (int) Math
-						.ceil(StringUtil.getPrototype().estimateLength(line,
-								font)));
+				width = Math.max(width, (int) Math.ceil(
+						StringUtil.getPrototype().estimateLength(line, font)));
 				sb.append(line);
 				if (stk.hasMoreTokens())
 					sb.append(" \\\\ ");
@@ -1160,54 +1156,53 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 			if (isLatex && !st.endsWith("$"))
 				code.append("$");
-		} 
-			switch (style) {
-			case 1:
-				code.append("{\\bf ");
-				break;
-			case 2:
-				code.append("{\\em ");
-				break;
-			case 3:
-				code.append("{\\em \\bf");
-				break;
-			}
-			code.append(st);
-			switch (style) {
-			case 1:
-			case 2:
-			case 3:
-				code.append("}");
-				break;
-			}
-			if (isLatex && !st.endsWith("$"))
-				code.append("$");
-
-			switch (style) {
-			case 1:
-				code.append("\\bf{");
-				break;
-			case 2:
-				code.append("\\it{ ");
-				break;
-			case 3:
-				code.append("\\it{\\bf{");
-				break;
-			}
-			code.append(st);
-			switch (style) {
-			case 1:
-			case 2:
-				code.append("}");
-			break;
-			case 3:
-				code.append("}}");
-				break;
-			}
-			if (isLatex && !st.endsWith("$"))
-				code.append("$");
 		}
+		switch (style) {
+		case 1:
+			code.append("{\\bf ");
+			break;
+		case 2:
+			code.append("{\\em ");
+			break;
+		case 3:
+			code.append("{\\em \\bf");
+			break;
+		}
+		code.append(st);
+		switch (style) {
+		case 1:
+		case 2:
+		case 3:
+			code.append("}");
+			break;
+		}
+		if (isLatex && !st.endsWith("$"))
+			code.append("$");
 
+		switch (style) {
+		case 1:
+			code.append("\\bf{");
+			break;
+		case 2:
+			code.append("\\it{ ");
+			break;
+		case 3:
+			code.append("\\it{\\bf{");
+			break;
+		}
+		code.append(st);
+		switch (style) {
+		case 1:
+		case 2:
+			code.append("}");
+			break;
+		case 3:
+			code.append("}}");
+			break;
+		}
+		if (isLatex && !st.endsWith("$"))
+			code.append("$");
+	}
 
 	@Override
 	protected void drawGeoConicPart(GeoConicPart geo) {
@@ -2406,15 +2401,15 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				GColor geocolor = geo.getObjectColor();
 				startBeamer(codePoint);
 				int width = (int) Math
-						.ceil(StringUtil.getPrototype().estimateLength(
-								StringUtil.toLaTeXString(
+						.ceil(StringUtil.getPrototype()
+								.estimateLength(StringUtil.toLaTeXString(
 										geo.getLabelDescription(), true),
-								euclidianView.getFont()));
+										euclidianView.getFont()));
 				int height = (int) Math
-						.ceil(StringUtil.getPrototype().estimateHeight(
-								StringUtil.toLaTeXString(
+						.ceil(StringUtil.getPrototype()
+								.estimateHeight(StringUtil.toLaTeXString(
 										geo.getLabelDescription(), true),
-								euclidianView.getFont()));
+										euclidianView.getFont()));
 				double translation[] = new double[2];
 				translation[0] = euclidianView.getXZero() + width / 2.0;
 				translation[1] = euclidianView.getYZero() - height / 2.0;
@@ -3075,8 +3070,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 */
 	@Override
 	protected void drawImplicitPoly(GeoImplicit geo) {
-		code.append(
-				"\n%WARNING: PGF/Tikz doesn't support implicit curves\n");
+		code.append("\n%WARNING: PGF/Tikz doesn't support implicit curves\n");
 		code.append("%Rather try PSTricks export\n");
 		code.append("%Cannot draw ");
 		code.append(getImplicitExpr(geo));

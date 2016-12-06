@@ -99,7 +99,6 @@ public class CmdPlane extends CommandProcessor {
 								algo.getVector3D()) };
 			}
 
-
 			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])

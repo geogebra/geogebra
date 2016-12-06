@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
  *
  * @author ggb3D
  * 
- *          Calculate the GeoPoint3D intersection of two coord sys (eg line and
- *          plane).
+ *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
+ *         plane).
  * 
  */
 public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
@@ -51,8 +51,8 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 	 * @param cs2
 	 *            second coord sys
 	 */
-	public AlgoIntersectPlanes(Construction cons, String label,
-			GeoPlaneND cs1, GeoPlaneND cs2) {
+	public AlgoIntersectPlanes(Construction cons, String label, GeoPlaneND cs1,
+			GeoPlaneND cs2) {
 
 		super(cons, label, cs1, cs2, false);
 
@@ -64,7 +64,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 		super(cons, cs1, cs2, false);
 
 	}
-	
+
 	private Coords o, vn, vn1, vn2;
 
 	@Override
@@ -73,7 +73,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 		GeoLine3D ret = new GeoLine3D(cons, true);
 		o = new Coords(0, 0, 0, 1);
 		vn = new Coords(0, 0, 0, 0);
-		
+
 		vn1 = new Coords(0, 0, 0, 0);
 		vn2 = new Coords(0, 0, 0, 0);
 
@@ -89,30 +89,26 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 
 		GeoPlane3D p1 = (GeoPlane3D) getCS1();
 		GeoPlane3D p2 = (GeoPlane3D) getCS2();
-		
+
 		Coords v1 = ((GeoPlane3D) getCS1()).getCoordSys().getEquationVector();
 		Coords v2 = ((GeoPlane3D) getCS2()).getCoordSys().getEquationVector();
-				
+
 		vn.setCrossProduct(v1, v2);
-		
-		if (vn.isZero()){
+
+		if (vn.isZero()) {
 			getIntersection().setUndefined();
 			return;
 		}
-		
-		
+
 		Coords o1 = ((GeoPlane3D) getCS1()).getCoordSys().getOrigin();
 		Coords o2 = ((GeoPlane3D) getCS2()).getCoordSys().getOrigin();
 		vn1.setCrossProduct(v1, vn);
 		vn2.setCrossProduct(v2, vn);
 		o2.projectPlane(vn, vn1, vn2, o1, o);
-		
-
-		
 
 		// update line
 		GeoLine3D l = (GeoLine3D) getIntersection();
-		
+
 		l.setCoord(o, vn);
 
 	}

@@ -100,8 +100,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		polyhedron.setReverseNormals();
 		setOutput();
 
-
-
 		setLabels(labels);
 
 		update();

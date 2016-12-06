@@ -20,7 +20,8 @@ public class EuclidianStyleBarStatic3D {
 	 * @param defaultGeoMap
 	 *            map already filled for 2D
 	 */
-	public static void addToDefaultMap(HashMap<Integer, Integer> defaultGeoMap) {
+	public static void addToDefaultMap(
+			HashMap<Integer, Integer> defaultGeoMap) {
 
 		// lines
 		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
@@ -29,8 +30,7 @@ public class EuclidianStyleBarStatic3D {
 		// conics
 		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
 				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(
-				EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
+		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
 				ConstructionDefaults.DEFAULT_CONIC);
 
 		// intersection curve

@@ -65,9 +65,7 @@ public final class DrawText extends Drawable {
 		this.text = text;
 		geo = text;
 
-		textFont = view
-				.getApplication()
-				.getPlainFontCommon()
+		textFont = view.getApplication().getPlainFontCommon()
 				.deriveFont(GFont.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
@@ -138,10 +136,9 @@ public final class DrawText extends Drawable {
 
 		// We need check for null bounding box because of
 		// SetValue[text,Text["a",(1,1)]] makes it null
-		if (text.isNeedsUpdatedBoundingBox()
-				&& (textChanged || positionChanged || fontChanged
-						|| text.getKernel().getForceUpdatingBoundingBox() || text
-						.getBoundingBox() == null)) {
+		if (text.isNeedsUpdatedBoundingBox() && (textChanged || positionChanged
+				|| fontChanged || text.getKernel().getForceUpdatingBoundingBox()
+				|| text.getBoundingBox() == null)) {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX)
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,

@@ -17,22 +17,23 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math.linear;
 
-
 /**
  * Thrown when a matrix is singular.
- * @version $Revision: 799857 $ $Date: 2009-08-01 09:07:12 -0400 (Sat, 01 Aug 2009) $
+ * 
+ * @version $Revision: 799857 $ $Date: 2009-08-01 09:07:12 -0400 (Sat, 01 Aug
+ *          2009) $
  * @since 2.0
  */
 public class SingularMatrixException extends InvalidMatrixException {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -7379143356784298432L;
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = -7379143356784298432L;
 
-    /**
-     * Construct an exception with a default message.
-     */
-    public SingularMatrixException() {
-        super("matrix is singular");
-    }
+	/**
+	 * Construct an exception with a default message.
+	 */
+	public SingularMatrixException() {
+		super("matrix is singular");
+	}
 
 }

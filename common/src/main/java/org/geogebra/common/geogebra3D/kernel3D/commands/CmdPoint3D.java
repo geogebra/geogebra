@@ -38,9 +38,8 @@ public class CmdPoint3D extends CmdPoint {
 			arg = resArgs(c);
 			GeoElement geo0 = arg[0];
 
-			if (geo0.isGeoElement3D()
-					|| (geo0.isGeoList() && ((GeoList) geo0)
-							.containsGeoElement3D())) {
+			if (geo0.isGeoElement3D() || (geo0.isGeoList()
+					&& ((GeoList) geo0).containsGeoElement3D())) {
 				if (geo0.isPath()) {
 					GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 							.Point3D(c.getLabel(), (Path) geo0, false) };
@@ -59,13 +58,13 @@ public class CmdPoint3D extends CmdPoint {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.Point3DIn(c.getLabel(), (Region) arg[0], false) };
 				return ret;
-			} else if (arg[0].isGeoList()
-					&& ((GeoList) arg[0]).getGeoElementForPropertiesDialog()
-							.isGeoNumeric()) {
-				if ((((GeoList) arg[0]).get(0).isGeoNumeric() && ((GeoList) arg[0])
-						.size() == 3)
-						|| (((GeoList) arg[0]).get(0).isGeoList() && ((GeoList) ((GeoList) arg[0])
-								.get(0)).size() == 3)) {
+			} else if (arg[0].isGeoList() && ((GeoList) arg[0])
+					.getGeoElementForPropertiesDialog().isGeoNumeric()) {
+				if ((((GeoList) arg[0]).get(0).isGeoNumeric()
+						&& ((GeoList) arg[0]).size() == 3)
+						|| (((GeoList) arg[0]).get(0).isGeoList()
+								&& ((GeoList) ((GeoList) arg[0]).get(0))
+										.size() == 3)) {
 
 					AlgoPointsFromList algo = new AlgoPointsFromList(cons,
 							c.getLabels(), !cons.isSuppressLabelsActive(),
@@ -85,9 +84,8 @@ public class CmdPoint3D extends CmdPoint {
 	@Override
 	protected GeoElement point(String label, Path path, GeoNumberValue value) {
 
-		if (path.isGeoElement3D()
-				|| (((GeoElement) path).isGeoList() && ((GeoList) path)
-						.containsGeoElement3D())) {
+		if (path.isGeoElement3D() || (((GeoElement) path).isGeoList()
+				&& ((GeoList) path).containsGeoElement3D())) {
 			return (GeoElement) kernelA.getManager3D().Point3D(label, path,
 					value);
 		}
@@ -100,8 +98,7 @@ public class CmdPoint3D extends CmdPoint {
 			GeoVectorND vector) {
 
 		if (point.isGeoElement3D() || vector.isGeoElement3D()) {
-			AlgoPointVector3D algo = new AlgoPointVector3D(cons, point,
-					vector);
+			AlgoPointVector3D algo = new AlgoPointVector3D(cons, point, vector);
 			algo.getQ().setLabel(label);
 			return algo.getQ();
 		}

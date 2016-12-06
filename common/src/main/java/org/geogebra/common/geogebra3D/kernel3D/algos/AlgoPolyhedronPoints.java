@@ -91,7 +91,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 	}
 
-
 	@Override
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
 		return new OutputSegmentsHandler();
@@ -261,7 +260,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		// Application.debug("n="+n+",length="+length);
 
 		if (n > outputSegmentsSide.size()) {
-			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+			if (getBottom()
+					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
 						.getParentAlgorithm();
 				// if no sufficient bottom points, force augment outputs for
@@ -336,7 +336,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		input[1] = (GeoElement) height;
 		addAlgoToInput();
 
-
 		updateOutputPoints();
 		createFaces();
 		setOutput();
@@ -387,7 +386,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		if (bottomPoints1 == null) {
 			// force polygon regular to have at least 3 points
-			if (getBottom().getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+			if (getBottom()
+					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
 				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
 						.getParentAlgorithm();
 				algo.compute(3);
@@ -475,7 +475,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			if (height == null && !getBottom().wasInitLabelsCalled()) {
 				updateOutputSegmentsAndPolygonsParentAlgorithms();
 			}
-		}// else updateOutputPoints();
+		} // else updateOutputPoints();
 
 		// update height and volume
 		double h;
@@ -554,8 +554,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			outputPolygonsBottom.getElement(i).setEuclidianVisible(visible,
 					false);
 		for (int i = 0; i < outputPolygonsSide.size(); i++)
-			outputPolygonsSide.getElement(i)
-					.setEuclidianVisible(visible, false);
+			outputPolygonsSide.getElement(i).setEuclidianVisible(visible,
+					false);
 		for (int i = 0; i < outputPolygonsTop.size(); i++)
 			outputPolygonsTop.getElement(i).setEuclidianVisible(visible, false);
 	}

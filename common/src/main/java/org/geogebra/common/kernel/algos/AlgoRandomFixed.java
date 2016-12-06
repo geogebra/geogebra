@@ -79,8 +79,8 @@ public class AlgoRandomFixed extends AlgoElement {
 				// change random number only if a or b has changed
 				aLast = a.getDouble();
 				bLast = b.getDouble();
-				random = cons.getApplication().getRandomIntegerBetween(
-						a.getDouble(), b.getDouble());
+				random = cons.getApplication()
+						.getRandomIntegerBetween(a.getDouble(), b.getDouble());
 				num.setValue(random);
 
 			} else {
@@ -92,7 +92,5 @@ public class AlgoRandomFixed extends AlgoElement {
 		}
 
 	}
-
-	
 
 }

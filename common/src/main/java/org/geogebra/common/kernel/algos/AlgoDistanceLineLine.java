@@ -96,6 +96,4 @@ public class AlgoDistanceLineLine extends AlgoElement {
 				h.getLabel(tpl));
 	}
 
-	
-
 }

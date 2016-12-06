@@ -84,8 +84,8 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected GRectangle labelRectangle = AwtFactory.getPrototype().newRectangle(0,
-			0);
+	protected GRectangle labelRectangle = AwtFactory.getPrototype()
+			.newRectangle(0, 0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
 	 */
@@ -245,8 +245,8 @@ public abstract class Drawable extends DrawableND {
 			if (label.startsWith("<b>") && label.endsWith("</b>")) {
 				oldFont = g2.getFont();
 
-				g2.setFont(g2.getFont().deriveFont(
-						GFont.BOLD + (italic ? GFont.ITALIC : 0)));
+				g2.setFont(g2.getFont()
+						.deriveFont(GFont.BOLD + (italic ? GFont.ITALIC : 0)));
 				label = label.substring(3, label.length() - 4);
 			}
 		}
@@ -264,8 +264,8 @@ public abstract class Drawable extends DrawableND {
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
 					g2, label, xLabel, yLabel, isSerif(), false);
 			labelHasIndex = p.y > 0;
-			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x, fontSize
-					+ p.y);
+			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x,
+					fontSize + p.y);
 			lastFontSize = fontSize;
 		}
 
@@ -300,12 +300,10 @@ public abstract class Drawable extends DrawableND {
 				// often.
 				// Hence use heuristic here instead of measurement
 				heightEstimate = (int) (StringUtil.getPrototype()
-						.estimateHeight(labelDesc,
-						font) * Ymultiplier);
+						.estimateHeight(labelDesc, font) * Ymultiplier);
 
 				widthEstimate = (int) (StringUtil.getPrototype()
-						.estimateLengthHTML(labelDesc,
-						font) * Xmultiplier);
+						.estimateLengthHTML(labelDesc, font) * Xmultiplier);
 				roughEstimate = true;
 			}
 		}
@@ -329,8 +327,7 @@ public abstract class Drawable extends DrawableND {
 			}
 			yLabel = Math.max(yLabel, heightEstimate);
 
-		}
-		else
+		} else
 			yLabel = Math.min(yLabel, view.getHeight() - 3);
 
 		// update label rectangle position
@@ -349,10 +346,10 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
-		labelRectangle.setBounds(EuclidianStatic.drawMultilineLaTeX(
-				view.getApplication(), view.getTempGraphics2D(font), geo, g2,
-				font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif(),
-				null));
+		labelRectangle.setBounds(
+				EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
+						view.getTempGraphics2D(font), geo, g2, font, fgColor,
+						bgColor, labelDesc, xLabel, yLabel, isSerif(), null));
 	}
 
 	/**
@@ -402,8 +399,8 @@ public abstract class Drawable extends DrawableND {
 					g2.setFont(textFont);
 					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
-							labelDesc.substring(lineBegin, i), xLabel, yLabel
-									+ lines * lineSpread, isSerif(), true);
+							labelDesc.substring(lineBegin, i), xLabel,
+							yLabel + lines * lineSpread, isSerif(), true);
 					if (p.x > xoffset)
 						xoffset = p.x;
 					if (p.y > yoffset)
@@ -418,8 +415,8 @@ public abstract class Drawable extends DrawableND {
 			// iOS (bug?) - bold text needs font setting for each line
 			g2.setFont(textFont);
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, labelDesc.substring(lineBegin), xLabel, ypos,
-					isSerif(), true);
+					g2, labelDesc.substring(lineBegin), xLabel, ypos, isSerif(),
+					true);
 			if (p.x > xoffset)
 				xoffset = p.x;
 			if (p.y > yoffset)
@@ -548,8 +545,8 @@ public abstract class Drawable extends DrawableND {
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 			decoStroke = EuclidianStatic.getStroke(width,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
-			selStroke = EuclidianStatic.getStroke(width
-					+ EuclidianStyleConstants.SELECTION_ADD,
+			selStroke = EuclidianStatic.getStroke(
+					width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType)
@@ -576,18 +573,15 @@ public abstract class Drawable extends DrawableND {
 
 			float width = lineThickness / 2.0f;
 			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
-					objStroke.getEndCap(),
-							objStroke.getLineJoin(), objStroke.getMiterLimit(),
-							objStroke.getDashArray(), 0.0f);
+					objStroke.getEndCap(), objStroke.getLineJoin(),
+					objStroke.getMiterLimit(), objStroke.getDashArray(), 0.0f);
 			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
-					objStroke.getEndCap(),
-							objStroke.getLineJoin(), objStroke.getMiterLimit(),
-							decoStroke.getDashArray(), 0.0f);
+					objStroke.getEndCap(), objStroke.getLineJoin(),
+					objStroke.getMiterLimit(), decoStroke.getDashArray(), 0.0f);
 			selStroke = AwtFactory.getPrototype().newBasicStroke(
 					width + EuclidianStyleConstants.SELECTION_ADD,
-							objStroke.getEndCap(), objStroke.getLineJoin(),
-							objStroke.getMiterLimit(),
-							selStroke.getDashArray(), 0.0f);
+					objStroke.getEndCap(), objStroke.getLineJoin(),
+					objStroke.getMiterLimit(), selStroke.getDashArray(), 0.0f);
 
 		}
 	}
@@ -644,8 +638,7 @@ public abstract class Drawable extends DrawableND {
 
 				// take care of filling after the image is loaded
 				AwtFactory.getPrototype().fillAfterImageLoaded(fillShape, g2,
-						subImage2,
-						geo.getKernel().getApplication());
+						subImage2, geo.getKernel().getApplication());
 			}
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
@@ -712,8 +705,6 @@ public abstract class Drawable extends DrawableND {
 		// do nothing, overridden where needed
 	}
 
-
-
 	/**
 	 * @return view in which this is drawn
 	 */
@@ -736,8 +727,8 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			color = GColor.newColor(color.getRed(),
-					color.getGreen(), color.getBlue(), geo.getLineOpacity());
+			color = GColor.newColor(color.getRed(), color.getGreen(),
+					color.getBlue(), geo.getLineOpacity());
 		}
 		return color;
 	}

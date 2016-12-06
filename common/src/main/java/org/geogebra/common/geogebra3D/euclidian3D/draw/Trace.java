@@ -59,5 +59,4 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		setNext(indices, d);
 	}
 
-
 }

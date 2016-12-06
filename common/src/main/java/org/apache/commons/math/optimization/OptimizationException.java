@@ -19,39 +19,44 @@ package org.apache.commons.math.optimization;
 
 import org.apache.commons.math.ConvergenceException;
 
-
 /**
  * This class represents exceptions thrown by optimizers.
  *
- * @version $Revision: 1044015 $ $Date: 2010-12-09 17:06:26 +0100 (jeu. 09 dec. 2010) $
+ * @version $Revision: 1044015 $ $Date: 2010-12-09 17:06:26 +0100 (jeu. 09 dec.
+ *          2010) $
  * @since 1.2
  * @deprecated in 2.2 (to be removed in 3.0).
  */
 
 public class OptimizationException extends ConvergenceException {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -4605887730798282127L;
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = -4605887730798282127L;
 
-    /**
-     * Simple constructor.
-     * Build an exception by translating and formating a message
-     * @param specifier format specifier (to be translated)
-     * @param parts to insert in the format (no translation)
-     * @deprecated as of 2.2 replaced by {@link #OptimizationException(Localizable, Object...)}
-     */
-    @Deprecated
-    public OptimizationException(String specifier, Object ... parts) {
-        super(specifier, parts);
-    }
+	/**
+	 * Simple constructor. Build an exception by translating and formating a
+	 * message
+	 * 
+	 * @param specifier
+	 *            format specifier (to be translated)
+	 * @param parts
+	 *            to insert in the format (no translation)
+	 * @deprecated as of 2.2 replaced by
+	 *             {@link #OptimizationException(Localizable, Object...)}
+	 */
+	@Deprecated
+	public OptimizationException(String specifier, Object... parts) {
+		super(specifier, parts);
+	}
 
-    
-    /**
-     * Create an exception with a given root cause.
-     * @param cause  the exception or error that caused this exception to be thrown
-     */
-    public OptimizationException(Throwable cause) {
-        super(cause);
-    }
+	/**
+	 * Create an exception with a given root cause.
+	 * 
+	 * @param cause
+	 *            the exception or error that caused this exception to be thrown
+	 */
+	public OptimizationException(Throwable cause) {
+		super(cause);
+	}
 
 }

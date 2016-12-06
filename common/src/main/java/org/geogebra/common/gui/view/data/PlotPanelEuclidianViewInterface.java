@@ -5,14 +5,15 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
 
 /**
- * @author gabor
- * common interface for plotpaneleuclidianviews
+ * @author gabor common interface for plotpaneleuclidianviews
  *
  */
-public interface PlotPanelEuclidianViewInterface extends View, EuclidianViewInterfaceCommon {
-	
+public interface PlotPanelEuclidianViewInterface
+		extends View, EuclidianViewInterfaceCommon {
+
 	/**
-	 * @param kernel sets the View id
+	 * @param kernel
+	 *            sets the View id
 	 */
 	public void setViewId(Kernel kernel);
 

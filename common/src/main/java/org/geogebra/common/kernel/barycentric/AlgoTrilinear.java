@@ -96,11 +96,10 @@ public class AlgoTrilinear extends AlgoElement {
 		double p2 = P1.distance(P3);
 		double p3 = P1.distance(P2);
 
-		double wA = v1.getDouble() * p1, wB = v2.getDouble() * p2, wC = v3
-				.getDouble() * p3;
+		double wA = v1.getDouble() * p1, wB = v2.getDouble() * p2,
+				wC = v3.getDouble() * p3;
 		double sum = wA + wB + wC;
 		GeoPoint.setBarycentric(P1, P2, P3, wA, wB, wC, sum, point);
 	}
 
-	
 }

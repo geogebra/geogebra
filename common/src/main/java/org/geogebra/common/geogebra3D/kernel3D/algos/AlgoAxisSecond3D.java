@@ -12,6 +12,7 @@ public class AlgoAxisSecond3D extends AlgoAxisSecond {
 
 	private GeoVec2D[] eigenvec;
 	private GeoVec2D b;
+
 	public AlgoAxisSecond3D(Construction cons, String label, GeoConicND c) {
 		super(cons, c);
 		eigenvec = c.eigenvec;

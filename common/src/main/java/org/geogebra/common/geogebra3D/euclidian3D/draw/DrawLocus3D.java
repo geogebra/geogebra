@@ -90,7 +90,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 	}
-	
+
 	@Override
 	protected boolean isLabelVisible() {
 		return false;

@@ -74,7 +74,7 @@ public class ProverBotanasMethod {
 			GeoElement geo = it.next();
 			if (!(geo instanceof GeoNumeric)) {
 				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
-					.getBotanaVars(geo);
+						.getBotanaVars(geo);
 				if (vars != null) {
 					List<Variable> varsList = Arrays.asList(vars);
 					botanaVarsInv.put(varsList, geo);
@@ -123,8 +123,8 @@ public class ProverBotanasMethod {
 					Variable[] center = new Variable[2];
 					center[0] = vars[0];
 					center[1] = vars[1];
-					GeoElement centerGeo = botanaVarsInv.get(Arrays
-							.asList(center));
+					GeoElement centerGeo = botanaVarsInv
+							.get(Arrays.asList(center));
 					if (centerGeo != null)
 						/*
 						 * it may be a virtual center (TODO: handle somehow)
@@ -203,17 +203,16 @@ public class ProverBotanasMethod {
 								Polynomial p = Polynomial.collinear(fv1[0],
 										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
 								Log.info("Forcing non-collinearity for points "
-										+ geo1.getLabelSimple()
-										+ ", "
-										+ geo2.getLabelSimple()
-										+ " and "
+										+ geo1.getLabelSimple() + ", "
+										+ geo2.getLabelSimple() + " and "
 										+ geo3.getLabelSimple());
 								/*
 								 * Rabinowitsch trick for prohibiting
 								 * collinearity:
 								 */
-								ret[i] = p.multiply(
-										new Polynomial(new Variable()))
+								ret[i] = p
+										.multiply(
+												new Polynomial(new Variable()))
 										.subtract(new Polynomial(1));
 								/*
 								 * FIXME: this always introduces an extra
@@ -283,7 +282,6 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 
-
 	/**
 	 * Translation of a geometric statement into an algebraic one. We use
 	 * polynomials and integer coefficients. The computations assume that a
@@ -313,7 +311,7 @@ public class ProverBotanasMethod {
 		 * Should the "true" result be interpreted as undefined?
 		 */
 		boolean interpretTrueAsUndefined = false;
-		
+
 		private boolean disallowFixSecondPoint = false;
 
 		/**
@@ -439,8 +437,10 @@ public class ProverBotanasMethod {
 					try {
 						if (geo instanceof GeoLine
 								&& ((GeoLine) geo).hasFixedSlope()
-								&& !(geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT || geoProver
-										.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
+								&& !(geoProver
+										.getProverEngine() == ProverEngine.LOCUS_EXPLICIT
+										|| geoProver
+												.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
 							Log.info(
 									"Statements containing axes or fixed slope lines are unsupported");
 							result = ProofResult.UNKNOWN;
@@ -456,11 +456,12 @@ public class ProverBotanasMethod {
 								.getDefinition(StringTemplate.noLocalDefault);
 						if (!("".equals(command))) {
 							// Log.debug("/* Command definition */");
-							Log.debug(geo.getLabelSimple()
-									+ " = "
-									+ geo.getDefinition(StringTemplate.noLocalDefault)
+							Log.debug(geo.getLabelSimple() + " = "
+									+ geo.getDefinition(
+											StringTemplate.noLocalDefault)
 									+ " /* "
-									+ geo.getDefinitionDescription(StringTemplate.noLocalDefault)
+									+ geo.getDefinitionDescription(
+											StringTemplate.noLocalDefault)
 									+ " */");
 						} else {
 							String description = geo
@@ -482,9 +483,9 @@ public class ProverBotanasMethod {
 											+ "," + v[1].toTeX() + ")");
 								}
 								if (v != null) {
-								Log.debug("// Free point "
-										+ geo.getLabelSimple() + "(" + v[0]
-										+ "," + v[1] + ")");
+									Log.debug("// Free point "
+											+ geo.getLabelSimple() + "(" + v[0]
+											+ "," + v[1] + ")");
 								}
 							}
 						}
@@ -505,13 +506,14 @@ public class ProverBotanasMethod {
 						AlgoElement algo = geo.getParentAlgorithm();
 						if (algo instanceof AlgoAngularBisectorPoints
 								|| algo instanceof AlgoEllipseHyperbolaFociPoint
-								|| (algo instanceof AlgoIntersectConics && ((AlgoIntersectConics) algo)
-										.existingIntersections() != 1)
-								|| (algo instanceof AlgoIntersectLineConic && ((AlgoIntersectLineConic) algo)
-										.existingIntersections() != 1)) {
+								|| (algo instanceof AlgoIntersectConics
+										&& ((AlgoIntersectConics) algo)
+												.existingIntersections() != 1)
+								|| (algo instanceof AlgoIntersectLineConic
+										&& ((AlgoIntersectLineConic) algo)
+												.existingIntersections() != 1)) {
 							interpretFalseAsUndefined = true;
-							Log.info("Due to "
-									+ algo
+							Log.info("Due to " + algo
 									+ " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
 						}
 
@@ -561,10 +563,13 @@ public class ProverBotanasMethod {
 							}
 							boolean useThisPoly = true;
 							if (algo != null && algo instanceof AlgoPointOnPath
-									&& geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
-								/* Skip this object for now: it is a point on a path.
-								 * Its coordinates will be used directly (with substitution)
-								 * or---for the moving point---the numerical poly will be used.
+									&& geoProver
+											.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+								/*
+								 * Skip this object for now: it is a point on a
+								 * path. Its coordinates will be used directly
+								 * (with substitution) or---for the moving
+								 * point---the numerical poly will be used.
 								 */
 								useThisPoly = false;
 							}
@@ -720,11 +725,11 @@ public class ProverBotanasMethod {
 							.getGeoGebraCAS();
 					try {
 						/* K: extended polynomial */
-						String output = cas.getCurrentCAS().evaluateRaw(
-								strForGiac);
+						String output = cas.getCurrentCAS()
+								.evaluateRaw(strForGiac);
 						/* F: user's polynomial formula */
-						String userOutput = cas.getCurrentCAS().evaluateRaw(
-								userStrForGiac);
+						String userOutput = cas.getCurrentCAS()
+								.evaluateRaw(userStrForGiac);
 						/*
 						 * T = K/F: the factor between user's formula and the
 						 * extended one
@@ -743,7 +748,8 @@ public class ProverBotanasMethod {
 						 * we simply parse the Giac output. This code is ugly,
 						 * TODO: use a more elegant way.
 						 */
-						if (geoProver.getProverEngine() != ProverEngine.LOCUS_IMPLICIT
+						if (geoProver
+								.getProverEngine() != ProverEngine.LOCUS_IMPLICIT
 								&& !(casResult.equals("{}"))) {
 							// skip { and }
 							casResult = casResult.substring(1,
@@ -752,8 +758,8 @@ public class ProverBotanasMethod {
 							String factResult = cas.getCurrentCAS()
 									.evaluateRaw("factor(" + casResult + ")");
 							// removing leading - from a product (if any)
-							if (factResult.length() > 1
-									&& factResult.substring(0, 2).equals("-(")) {
+							if (factResult.length() > 1 && factResult
+									.substring(0, 2).equals("-(")) {
 								factResult = factResult.substring(1);
 							}
 							// split regarding to )*(
@@ -762,14 +768,16 @@ public class ProverBotanasMethod {
 							// still contain ( and ), trim them
 							if (factors.length > 1) {
 								factors[0] = factors[0].substring(1);
-								factors[factors.length - 1] = factors[factors.length - 1]
-										.substring(0,
-												factors[factors.length - 1]
-														.length() - 1);
+								factors[factors.length
+										- 1] = factors[factors.length - 1]
+												.substring(0,
+														factors[factors.length
+																- 1].length()
+																- 1);
 							}
 							boolean polyIsConst = false;
-							if (factors.length == 1
-									&& factors[0].matches("[-+]?\\d*\\.?\\d+")) {
+							if (factors.length == 1 && factors[0]
+									.matches("[-+]?\\d*\\.?\\d+")) {
 								polyIsConst = true; // poly is a number
 							}
 							// list of polynomial factors
@@ -779,11 +787,12 @@ public class ProverBotanasMethod {
 									// parse factors into expression
 									ValidExpression resultVE = (geoStatement
 											.getKernel().getGeoGebraCAS())
-											.getCASparser()
-											.parseGeoGebraCASInputAndResolveDummyVars(
-													factors[i],
-													geoStatement.getKernel(),
-													null);
+													.getCASparser()
+													.parseGeoGebraCASInputAndResolveDummyVars(
+															factors[i],
+															geoStatement
+																	.getKernel(),
+															null);
 									PolynomialNode polyRoot = new PolynomialNode();
 									// build polynomial to parsed expression
 									((AlgoDependentBoolean) algo)
@@ -826,10 +835,11 @@ public class ProverBotanasMethod {
 							// Log.debug(output);
 							ValidExpression validExpression = (geoStatement
 									.getKernel().getGeoGebraCAS())
-									.getCASparser()
-									.parseGeoGebraCASInputAndResolveDummyVars(
-											output, geoStatement.getKernel(),
-											null);
+											.getCASparser()
+											.parseGeoGebraCASInputAndResolveDummyVars(
+													output,
+													geoStatement.getKernel(),
+													null);
 							// Log.debug(validExpression
 							// .toString(StringTemplate.defaultTemplate));
 							PolynomialNode polyRoot = new PolynomialNode();
@@ -846,8 +856,8 @@ public class ProverBotanasMethod {
 								root = (ExpressionNode) list.getListElement(0);
 							}
 
-							((AlgoDependentBoolean) algo).buildPolynomialTree(
-									root, polyRoot);
+							((AlgoDependentBoolean) algo)
+									.buildPolynomialTree(root, polyRoot);
 							((AlgoDependentBoolean) algo)
 									.expressionNodeToPolynomial(root, polyRoot);
 							while (polyRoot.getPoly() == null) {
@@ -858,7 +868,8 @@ public class ProverBotanasMethod {
 							/* get distance polynomials */
 							ArrayList<Polynomial> extraPolys = ((AlgoDependentBoolean) algo)
 									.getExtraPolys();
-							statements = new Polynomial[1][extraPolys.size() + 1];
+							statements = new Polynomial[1][extraPolys.size()
+									+ 1];
 							int index = 0;
 							for (Polynomial p : extraPolys) {
 								statements[0][index] = p;
@@ -900,16 +911,19 @@ public class ProverBotanasMethod {
 							.getOperation();
 					if (operation == Operation.IS_ELEMENT_OF) {
 						if (algo.input[0] instanceof GeoConic
-								&& (((GeoConic) algo.input[0]).isEllipse() || ((GeoConic) algo.input[0])
-										.isHyperbola())) {
+								&& (((GeoConic) algo.input[0]).isEllipse()
+										|| ((GeoConic) algo.input[0])
+												.isHyperbola())) {
 							interpretTrueAsUndefined = true;
 						} else if (algo.input[1] instanceof GeoConic
-								&& (((GeoConic) algo.input[1]).isEllipse() || ((GeoConic) algo.input[1])
-										.isHyperbola())) {
+								&& (((GeoConic) algo.input[1]).isEllipse()
+										|| ((GeoConic) algo.input[1])
+												.isHyperbola())) {
 							interpretTrueAsUndefined = true;
 						}
 					} else if (operation == Operation.EQUAL_BOOLEAN) {
-						if ((algo.input[0] instanceof GeoAngle && algo.input[1] instanceof GeoAngle)) {
+						if ((algo.input[0] instanceof GeoAngle
+								&& algo.input[1] instanceof GeoAngle)) {
 							interpretTrueAsUndefined = true;
 						}
 					}
@@ -918,7 +932,8 @@ public class ProverBotanasMethod {
 				int k = polynomials.size();
 
 				int minus = 1;
-				if (geoProver.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
+				if (geoProver
+						.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
 					minus = 0;
 				}
 				ProverSettings proverSettings = ProverSettings.get();
@@ -928,13 +943,15 @@ public class ProverBotanasMethod {
 						Log.debug((k + 1) + ". " + statements[i][j]);
 						polynomials.add(statements[i][j]);
 						if (proverSettings.captionAlgebra) {
-							geoStatement.addCaptionBotanaPolynomial(statements[i][j].toTeX());
+							geoStatement.addCaptionBotanaPolynomial(
+									statements[i][j].toTeX());
 						}
 						k++;
 					}
 				}
 
-				if (geoProver.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
+				if (geoProver
+						.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
 					Log.debug("Not using refutation");
 					return;
 				}
@@ -945,7 +962,8 @@ public class ProverBotanasMethod {
 				 * A) or (NOT b) or (NOT c), and disjunctions can be algebraized
 				 * by using products.
 				 */
-				Log.debug("Thesis reductio ad absurdum (denied statement), product of factors:");
+				Log.debug(
+						"Thesis reductio ad absurdum (denied statement), product of factors:");
 				Polynomial spoly = new Polynomial(1);
 				Variable z = new Variable();
 				/*
@@ -958,10 +976,11 @@ public class ProverBotanasMethod {
 				 * do.
 				 */
 				for (int i = 0; i < statements.length; ++i) {
-					Polynomial factor = (statements[i][statements[i].length - 1]);
+					Polynomial factor = (statements[i][statements[i].length
+							- 1]);
 					Log.debug("(" + factor + ")*" + z + "-1");
-					factor = factor.multiply(new Polynomial(z)).subtract(
-							new Polynomial(1));
+					factor = factor.multiply(new Polynomial(z))
+							.subtract(new Polynomial(1));
 					spoly = spoly.multiply(factor);
 				}
 				polynomials.add(spoly);
@@ -972,7 +991,8 @@ public class ProverBotanasMethod {
 				}
 
 			} catch (NoSymbolicParametersException e) {
-				Log.debug("Unsuccessful run, statement is UNKNOWN at the moment");
+				Log.debug(
+						"Unsuccessful run, statement is UNKNOWN at the moment");
 				result = ProofResult.UNKNOWN;
 				return;
 			}
@@ -1011,7 +1031,8 @@ public class ProverBotanasMethod {
 					&& proverSettings.freePointsNeverCollinear != null
 					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
-				for (Polynomial p : create3FreePointsNeverCollinearNDG(prover)) {
+				for (Polynomial p : create3FreePointsNeverCollinearNDG(
+						prover)) {
 					polynomials.add(p);
 				}
 			}
@@ -1033,10 +1054,13 @@ public class ProverBotanasMethod {
 		 * Decide quickly if proving this kind of statement is already
 		 * implemented at all:
 		 */
-		if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
+		if (!(statement
+				.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
 			Log.info(statement.getParentAlgorithm() + " unimplemented");
 			return ProofResult.UNKNOWN;
-			/* If not, let's not spend any time here, but give up immediately. */
+			/*
+			 * If not, let's not spend any time here, but give up immediately.
+			 */
 		}
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
@@ -1089,25 +1113,26 @@ public class ProverBotanasMethod {
 			boolean found = false;
 			int permutation = 0;
 			int MAX_PERMUTATIONS = 1; /*
-									 * Giac cannot permute the variables at the
-									 * moment.
-									 */
+										 * Giac cannot permute the variables at
+										 * the moment.
+										 */
 			if (App.singularWSisAvailable()) {
 				/*
 				 * TODO: Limit MAX_PERMUTATIONS to (#freevars-#substitutes)! to
 				 * prevent unneeded computations:
 				 */
 				MAX_PERMUTATIONS = 8; /*
-									 * intuitively set, see Polynomial.java for
-									 * more on info (Pappus6 will work with 7,
-									 * too)
-									 */
+										 * intuitively set, see Polynomial.java
+										 * for more on info (Pappus6 will work
+										 * with 7, too)
+										 */
 				/* Pappus6 is at http://www.tube.geogebra.org/student/m57255 */
 			}
 			while (!found && permutation < MAX_PERMUTATIONS) {
 
-				eliminationIdeal = Polynomial.eliminate(as.polynomials
-						.toArray(new Polynomial[as.polynomials.size()]),
+				eliminationIdeal = Polynomial.eliminate(
+						as.polynomials
+								.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, statement.getKernel(), permutation++,
 						true, false);
 				if (eliminationIdeal == null) {
@@ -1170,7 +1195,8 @@ public class ProverBotanasMethod {
 								 * Check if this elimination ideal equals to
 								 * {xM-xN,yM-yN}:
 								 */
-								xyRewrite = (xyRewrite && thisNdgSet.size() == 1);
+								xyRewrite = (xyRewrite
+										&& thisNdgSet.size() == 1);
 								/*
 								 * Note that in some cases the CAS may return
 								 * (xM-xN)*(-1) which consists of two factors,
@@ -1180,16 +1206,22 @@ public class ProverBotanasMethod {
 								 * is OK.
 								 */
 								if (xyRewrite) {
-									if (ndgc.getCondition().equals("xAreEqual")) {
+									if (ndgc.getCondition()
+											.equals("xAreEqual")) {
 										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
-										points.add((GeoPoint) ndgc.getGeos()[0]);
-										points.add((GeoPoint) ndgc.getGeos()[1]);
+										points.add(
+												(GeoPoint) ndgc.getGeos()[0]);
+										points.add(
+												(GeoPoint) ndgc.getGeos()[1]);
 										xEqualSet.add(points);
 									}
-									if (ndgc.getCondition().equals("yAreEqual")) {
+									if (ndgc.getCondition()
+											.equals("yAreEqual")) {
 										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
-										points.add((GeoPoint) ndgc.getGeos()[0]);
-										points.add((GeoPoint) ndgc.getGeos()[1]);
+										points.add(
+												(GeoPoint) ndgc.getGeos()[0]);
+										points.add(
+												(GeoPoint) ndgc.getGeos()[1]);
 										yEqualSet.add(points);
 									}
 									if (xEqualSet.size() == 1
@@ -1248,15 +1280,17 @@ public class ProverBotanasMethod {
 
 			/* START OF PROVE. */
 		} else {
-			ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
-					.toArray(new Polynomial[as.polynomials.size()]),
+			ExtendedBoolean solvable = Polynomial.solvable(
+					as.polynomials
+							.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext);
 			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
 				/*
 				 * Prover returned with no success, search for another prover:
 				 */
-				Log.debug("Unsuccessful run, statement is UNKNOWN at the moment");
+				Log.debug(
+						"Unsuccessful run, statement is UNKNOWN at the moment");
 				return ProofResult.UNKNOWN;
 			}
 			if (solvable.boolVal()) {
@@ -1264,7 +1298,8 @@ public class ProverBotanasMethod {
 					/*
 					 * We cannot reliably tell if the statement is really false:
 					 */
-					Log.debug("No transcext support, system is solvable, statement is UNKNOWN");
+					Log.debug(
+							"No transcext support, system is solvable, statement is UNKNOWN");
 					return ProofResult.UNKNOWN;
 				}
 				/* Here we know that the statement is not generally true. */

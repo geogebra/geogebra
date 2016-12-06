@@ -69,7 +69,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 	 *            independent number
 	 * @param type
 	 *            maximize or minimize
-	 * */
+	 */
 	public AlgoOptimize(Construction cons, String label, GeoNumberValue dep,
 			Optimizer indep, OptimizationType type) {
 		super(cons);
@@ -120,10 +120,16 @@ public abstract class AlgoOptimize extends AlgoElement {
 		}
 		if (type == OptimizationType.MINIMIZE) {
 			res = extrFinder.findMinimum(indep.getIntervalMin(),
-					indep.getIntervalMax(), i_am_not_a_real_function, 5.0E-8); // debug("Minimize ("+counter+") found "+res);
+					indep.getIntervalMax(), i_am_not_a_real_function, 5.0E-8); // debug("Minimize
+																				// ("+counter+")
+																				// found
+																				// "+res);
 		} else {
 			res = extrFinder.findMaximum(indep.getIntervalMin(),
-					indep.getIntervalMax(), i_am_not_a_real_function, 5.0E-8); // debug("Maximize ("+counter+") found "+res);
+					indep.getIntervalMax(), i_am_not_a_real_function, 5.0E-8); // debug("Maximize
+																				// ("+counter+")
+																				// found
+																				// "+res);
 		}
 		indep.setValue(res);
 		result.set(indep.getGeo());
@@ -143,6 +149,5 @@ public abstract class AlgoOptimize extends AlgoElement {
 		return result;
 
 	}// getMinimized()
-
 
 }// abstract class AlgoOptimize

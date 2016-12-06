@@ -34,8 +34,8 @@ public class CmdEccentricity extends CommandProcessor {
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
 
-				AlgoEccentricity algo = new AlgoEccentricity(cons,
-						c.getLabel(), (GeoConicND) arg[0]);
+				AlgoEccentricity algo = new AlgoEccentricity(cons, c.getLabel(),
+						(GeoConicND) arg[0]);
 
 				GeoElement[] ret = { algo.getEccentricity() };
 				return ret;

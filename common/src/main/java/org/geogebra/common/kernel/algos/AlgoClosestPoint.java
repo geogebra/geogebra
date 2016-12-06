@@ -24,7 +24,8 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoClosestPoint extends AlgoElement implements FixedPathRegionAlgo {
+public class AlgoClosestPoint extends AlgoElement
+		implements FixedPathRegionAlgo {
 
 	private Path path; // input
 	protected GeoPointND point; // input
@@ -131,7 +132,5 @@ public class AlgoClosestPoint extends AlgoElement implements FixedPathRegionAlgo
 	public boolean isChangeable(GeoElement out) {
 		return false;
 	}
-
-	
 
 }

@@ -27,29 +27,30 @@ import org.geogebra.common.util.debug.Log;
  * @author Mathieu
  *
  */
-public abstract class GeoCurveCartesianND extends GeoElement implements
-		ParametricCurve, VarString, CasEvaluableFunction {
+public abstract class GeoCurveCartesianND extends GeoElement
+		implements ParametricCurve, VarString, CasEvaluableFunction {
 
-	/** samples to find interval with closest parameter position to given point */
+	/**
+	 * samples to find interval with closest parameter position to given point
+	 */
 	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
 
-
-	/** coordinates  functions */
+	/** coordinates functions */
 	protected final Function[] fun;
 	/** coordinates with expanded function references */
 	protected final Function[] funExpanded;
 	/** flag for each coordinate whether it depends on a function */
 	protected final boolean[] containsFunctions;
-	/** derivative  functions */
+	/** derivative functions */
 	protected Function[] funD1;
-	/** second derivative  functions */
+	/** second derivative functions */
 	protected Function[] funD2;
 	/** start parameter */
 	protected double startParam;
-	/**end parameter*/
+	/** end parameter */
 	protected double endParam;
 
-	/** flag for isDefined()*/
+	/** flag for isDefined() */
 	protected boolean isDefined = true;
 	/**
 	 * distFun(t) evaluates distance this(t) to a distant point (attribute of
@@ -80,7 +81,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.point = point;
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
-		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
+		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
 	}
@@ -104,14 +105,16 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.containsFunctions = new boolean[fun.length];
 		this.point = point;
 		setConstructionDefaults();
-	}	
+	}
 
 	/**
 	 * set functions
-	 * @param fun functions
+	 * 
+	 * @param fun
+	 *            functions
 	 */
-	public void setFun(Function[] fun){
-		for(int i=0; i<fun.length;i++){
+	public void setFun(Function[] fun) {
+		for (int i = 0; i < fun.length; i++) {
 			this.fun[i] = fun[i];
 		}
 	}
@@ -119,40 +122,44 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	@Override
 	public boolean isGeoCurveCartesian() {
 		return true;
-	}	
+	}
 
 	/**
-	 * Replaces geo and all its dependent geos in this function's
-	 * expression by copies of their values.
-	 * @param geo Element to be replaced
+	 * Replaces geo and all its dependent geos in this function's expression by
+	 * copies of their values.
+	 * 
+	 * @param geo
+	 *            Element to be replaced
 	 */
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 
-		for (int i=0; i<fun.length; i++)
+		for (int i = 0; i < fun.length; i++)
 			if (fun[i] != null) {
 				fun[i].replaceChildrenByValues(geo);
 			}
 	}
 
-	/** 
+	/**
 	 * Sets the start and end parameter value of this curve.
-	 * @param startParam start parameter
-	 * @param endParam end parameter
+	 * 
+	 * @param startParam
+	 *            start parameter
+	 * @param endParam
+	 *            end parameter
 	 */
 	public void setInterval(double startParam, double endParam) {
 
 		this.startParam = startParam;
 		this.endParam = endParam;
 
-		isDefined = startParam <= endParam;	
+		isDefined = startParam <= endParam;
 	}
 
-
-
 	/**
-	 * Returns the start parameter value for this
-	 * path (may be Double.NEGATIVE_INFINITY)
+	 * Returns the start parameter value for this path (may be
+	 * Double.NEGATIVE_INFINITY)
+	 * 
 	 * @return start parameter
 	 */
 	@Override
@@ -161,19 +168,15 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	}
 
 	/**
-	 * Returns the largest possible parameter value for this
-	 * path (may be Double.POSITIVE_INFINITY)
+	 * Returns the largest possible parameter value for this path (may be
+	 * Double.POSITIVE_INFINITY)
+	 * 
 	 * @return end parameter
 	 */
 	@Override
 	public double getMaxParameter() {
 		return endParam;
 	}
-
-
-
-
-
 
 	/**
 	 * returns all class-specific xml tags for getXML
@@ -182,18 +185,15 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
-		//	line thickness and type  
+		// line thickness and type
 		getLineStyleXML(sb);
 
 	}
-
 
 	@Override
 	public boolean isPath() {
 		return true;
 	}
-
-
 
 	@Override
 	final public boolean isDefined() {
@@ -201,7 +201,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	}
 
 	/**
-	 * @param defined new value of defined flag
+	 * @param defined
+	 *            new value of defined flag
 	 */
 	public void setDefined(boolean defined) {
 		isDefined = defined;
@@ -211,8 +212,6 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	public void setUndefined() {
 		isDefined = false;
 	}
-
-
 
 	@Override
 	public String toString(StringTemplate tpl) {
@@ -230,11 +229,6 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-
-
-
-
-
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -263,7 +257,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	}
 
 	/**
-	 * @param tpl string template
+	 * @param tpl
+	 *            string template
 	 * @return symbolic string representation
 	 */
 	@Override
@@ -275,15 +270,15 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 
-			for (int i=0; i< fun.length;i++){
+			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toString(tpl));
-				if (i<fun.length-1)
+				if (i < fun.length - 1)
 					sbTemp.append(", ");
 			}
 
 			sbTemp.append(')');
 			return sbTemp.toString();
-		} 
+		}
 		return "?";
 	}
 
@@ -292,7 +287,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 *            dimension index
 	 * @return i-th function
 	 */
-	public Function getFun(int i){
+	public Function getFun(int i) {
 		if (i >= fun.length) {
 			return new Function(new ExpressionNode(kernel, 0),
 					fun[0].getFunctionVariable());
@@ -303,8 +298,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	@Override
 	public final void update(boolean drag) {
 		super.update(drag);
-		for(int i=0; i< this.funExpanded.length; i++){
-			this.funExpanded[i]=null;
+		for (int i = 0; i < this.funExpanded.length; i++) {
+			this.funExpanded[i] = null;
 		}
 	}
 
@@ -323,19 +318,24 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 */
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic,MyArbitraryConstant arbconst) {
+			boolean symbolic, MyArbitraryConstant arbconst) {
 		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
 
 		if (c.isDefined()) {
-			//register the variable name to make sure parsing of CAS output runs OK, see #3006
+			// register the variable name to make sure parsing of CAS output
+			// runs OK, see #3006
 			GeoNumeric geo = new GeoNumeric(this.cons);
-			this.cons.addLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate), geo);
+			this.cons.addLocalVariable(
+					getFun(0).getVarString(StringTemplate.defaultTemplate),
+					geo);
 			this.isDefined = true;
-			for(int k = 0; k < getDimension(); k++){
-				setFun(k, (Function) c.getFunExpanded(k).evalCasCommand(ggbCasCmd, symbolic,arbconst));
+			for (int k = 0; k < getDimension(); k++) {
+				setFun(k, (Function) c.getFunExpanded(k)
+						.evalCasCommand(ggbCasCmd, symbolic, arbconst));
 				this.isDefined = this.isDefined && getFun(k) != null;
 			}
-			this.cons.removeLocalVariable(getFun(0).getVarString(StringTemplate.defaultTemplate));
+			this.cons.removeLocalVariable(
+					getFun(0).getVarString(StringTemplate.defaultTemplate));
 			if (this.isDefined)
 				setInterval(c.startParam, c.endParam);
 		} else {
@@ -346,11 +346,11 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	@Override
 	public void clearCasEvalMap(String key) {
-		for(int k = 0; k < getDimension(); k++){
+		for (int k = 0; k < getDimension(); k++) {
 			if (getFun(k) != null) {
 				getFun(k).clearCasEvalMap(key);
 			}
-		}		
+		}
 	}
 
 	@Override
@@ -373,8 +373,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 */
 	protected void setFun(int i, Function f) {
 		this.fun[i] = f;
-		this.funExpanded[i]=null;
-		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
+		this.funExpanded[i] = null;
+		this.containsFunctions[i] = AlgoDependentFunction
+				.containsFunctions(this.fun[i].getExpression());
 	}
 
 	/**
@@ -383,11 +384,11 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 * @return function with expanded function calls
 	 */
 	protected Function getFunExpanded(int i) {
-		if(!this.containsFunctions[i]){
+		if (!this.containsFunctions[i]) {
 			return getFun(i);
 		}
-		if(this.funExpanded[i] == null){
-			this.funExpanded[i] = new Function(getFun(i),this.kernel);
+		if (this.funExpanded[i] == null) {
+			this.funExpanded[i] = new Function(getFun(i), this.kernel);
 			ExpressionNode expr = AlgoDependentFunction
 					.expandFunctionDerivativeNodes(
 							getFun(i).getExpression().deepCopy(this.kernel),
@@ -400,7 +401,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	/**
 	 * Set this curve to the n-th derivative of c
-	 * @param curve curve whose derivative we want
+	 * 
+	 * @param curve
+	 *            curve whose derivative we want
 	 * 
 	 * @param n
 	 *            order of derivative
@@ -408,7 +411,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	public void setDerivative(GeoCurveCartesianND curve, int n) {
 		if (curve.isDefined()) {
 			this.isDefined = true;
-			for(int k = 0; k < getDimension(); k++) {
+			for (int k = 0; k < getDimension(); k++) {
 				// changed from getFunExpanded() (didn't work)
 				// now handled in ExpressionNode.derivative() case FUNCTION:
 				setFun(k, curve.getFun(k).getDerivative(n, true));
@@ -432,19 +435,23 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	/**
 	 * 
-	 * @param n n
+	 * @param n
+	 *            n
 	 * @return x, y, z, for n = 0, 1, 2
 	 */
 	protected String getVariable(int n) {
 		if (n < getDimension() && n >= 0) {
 
 			switch (n) {
-			case 0: return "x";
-			case 1: return "y";
-			case 2: return "z";
+			case 0:
+				return "x";
+			case 1:
+				return "y";
+			case 2:
+				return "z";
 
 			}
-		}		
+		}
 		Log.debug("problem with variable number");
 		return "";
 
@@ -458,7 +465,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 *            minimal parameter
 	 * @return path parameter
 	 */
-	public abstract double getClosestParameter(GeoPointND a, double minParameter);
+	public abstract double getClosestParameter(GeoPointND a,
+			double minParameter);
 
 	public abstract double evaluateCurvature(double t);
 
@@ -467,14 +475,16 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	/**
 	 * @return whether range is hidden in algebra
 	 */
-	public boolean isHiddenRange(){
+	public boolean isHiddenRange() {
 		return this.hideRangeInFormula;
 	}
 
 	/**
-	 * Hide range in formula -- needed when the curve is infinite and 
-	 * range is used for drawing only (e.g. rotated functions)
-	 * @param b true to hide
+	 * Hide range in formula -- needed when the curve is infinite and range is
+	 * used for drawing only (e.g. rotated functions)
+	 * 
+	 * @param b
+	 *            true to hide
 	 */
 	public void setHideRangeInFormula(boolean b) {
 		this.hideRangeInFormula = b;
@@ -488,8 +498,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (this.isDefined) {
-			StringBuilder sbTemp =
-					new StringBuilder(80);
+			StringBuilder sbTemp = new StringBuilder(80);
 
 			String param = getVarString(tpl);
 
@@ -573,7 +582,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	}
 
 	/**
-	 * @param order order of derivative
+	 * @param order
+	 *            order of derivative
 	 * @return derivative as curve
 	 */
 	public GeoCurveCartesianND getGeoDerivative(int order) {

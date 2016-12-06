@@ -60,8 +60,8 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 		sb.append(init.toValueString(StringTemplate.maxPrecision));
 		sb.append(")");
 		try {
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(
-					sb.toString(), arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+					arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				result.setUndefined();
 			} else {

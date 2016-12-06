@@ -107,7 +107,8 @@ public class CellRangeProcessor {
 	 *            ranges
 	 * @return whether operation table is possible
 	 */
-	public boolean isCreateOperationTablePossible(ArrayList<CellRange> rangeList) {
+	public boolean isCreateOperationTablePossible(
+			ArrayList<CellRange> rangeList) {
 
 		if (rangeList.size() != 1)
 			return false;
@@ -199,9 +200,8 @@ public class CellRangeProcessor {
 				return false;
 
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-				if (!containsMinimumGeoNumeric(
-						new CellRange(app, col, cr.getMinRow(), col,
-								cr.getMaxRow()), 3))
+				if (!containsMinimumGeoNumeric(new CellRange(app, col,
+						cr.getMinRow(), col, cr.getMaxRow()), 3))
 					return false;
 			}
 			return true;
@@ -234,7 +234,8 @@ public class CellRangeProcessor {
 		int count = 0;
 		for (int col = cellRange.getMinColumn(); col <= cellRange
 				.getMaxColumn(); ++col) {
-			for (int row = cellRange.getMinRow(); row <= cellRange.getMaxRow(); ++row) {
+			for (int row = cellRange.getMinRow(); row <= cellRange
+					.getMaxRow(); ++row) {
 				GeoElement geo = RelativeCopy.getValue(app, col, row);
 				if (geo != null && geo.isGeoNumeric())
 					++count;
@@ -297,7 +298,8 @@ public class CellRangeProcessor {
 	 * each column or row spanned by the given range list
 	 */
 	public GeoList createCollectionList(ArrayList<CellRange> rangeList,
-			boolean copyByValue, boolean addToConstruction, boolean scanByColumn) {
+			boolean copyByValue, boolean addToConstruction,
+			boolean scanByColumn) {
 
 		GeoList tempGeo = new GeoList(cons);
 		boolean oldSuppress = cons.isSuppressLabelsActive();
@@ -307,14 +309,15 @@ public class CellRangeProcessor {
 
 		for (CellRange cr : rangeList) {
 			if (scanByColumn) {
-				for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+				for (int col = cr.getMinColumn(); col <= cr
+						.getMaxColumn(); col++) {
 
 					if (cr.isColumn()) {
 						tempRange = new CellRange(app, col, -1);
 						tempRange.setActualRange();
 					} else {
-						tempRange = new CellRange(app, col, cr.getMinRow(),
-								col, cr.getMaxRow());
+						tempRange = new CellRange(app, col, cr.getMinRow(), col,
+								cr.getMaxRow());
 					}
 					ArrayList<CellRange> tempList = new ArrayList<CellRange>();
 					tempList.add(tempRange);
@@ -390,7 +393,6 @@ public class CellRangeProcessor {
 		// line
 		// cons.removeFromConstructionList(al);
 
-
 		return ret;
 	}
 
@@ -428,8 +430,7 @@ public class CellRangeProcessor {
 			pd.r1 = rangeList.get(0).getMinRow();
 			pd.r2 = rangeList.get(0).getMaxRow();
 
-			if (rangeList.get(0).getWidth() == 3
-					&& pd.doHorizontalPairs) {
+			if (rangeList.get(0).getWidth() == 3 && pd.doHorizontalPairs) {
 				pd.c2 = pd.c1 + 1;
 				pd.c3 = pd.c1 + 2;
 			} else if (rangeList.get(0).getHeight() == 3
@@ -437,8 +438,6 @@ public class CellRangeProcessor {
 				pd.r2 = pd.r1 + 1;
 				pd.r3 = pd.r1 + 2;
 			}
-
-
 
 			// CASE 2: non-contiguous with two ranges (either single row or
 			// single column)
@@ -449,30 +448,30 @@ public class CellRangeProcessor {
 				pd.doHorizontalPairs = true;
 				// we are traversing down columns. so get min and max column
 				// indices
-				pd.c1 = Math.min(rangeList.get(0).getMinColumn(), rangeList
-						.get(1).getMinColumn());
-				pd.c2 = Math.max(rangeList.get(0).getMaxColumn(), rangeList
-						.get(1).getMaxColumn());
+				pd.c1 = Math.min(rangeList.get(0).getMinColumn(),
+						rangeList.get(1).getMinColumn());
+				pd.c2 = Math.max(rangeList.get(0).getMaxColumn(),
+						rangeList.get(1).getMaxColumn());
 				// but get the max-min and min-max row indices in case the
 				// columns don't line up
-				pd.r1 = Math.max(rangeList.get(0).getMinRow(), rangeList.get(1)
-						.getMinRow());
-				pd.r2 = Math.min(rangeList.get(0).getMaxRow(), rangeList.get(1)
-						.getMaxRow());
+				pd.r1 = Math.max(rangeList.get(0).getMinRow(),
+						rangeList.get(1).getMinRow());
+				pd.r2 = Math.min(rangeList.get(0).getMaxRow(),
+						rangeList.get(1).getMaxRow());
 
 			} else {
 				pd.doHorizontalPairs = true;
 				// we are traversing across rows. so get min and max row indices
-				pd.r1 = Math.min(rangeList.get(0).getMinRow(), rangeList.get(1)
-						.getMinRow());
-				pd.r2 = Math.max(rangeList.get(0).getMaxRow(), rangeList.get(1)
-						.getMaxRow());
+				pd.r1 = Math.min(rangeList.get(0).getMinRow(),
+						rangeList.get(1).getMinRow());
+				pd.r2 = Math.max(rangeList.get(0).getMaxRow(),
+						rangeList.get(1).getMaxRow());
 				// but get the max-min and min-max column indices in case the
 				// rows don't line up
-				pd.c1 = Math.max(rangeList.get(0).getMinColumn(), rangeList
-						.get(1).getMinColumn());
-				pd.c2 = Math.min(rangeList.get(0).getMaxColumn(), rangeList
-						.get(1).getMaxColumn());
+				pd.c1 = Math.max(rangeList.get(0).getMinColumn(),
+						rangeList.get(1).getMinColumn());
+				pd.c2 = Math.min(rangeList.get(0).getMaxColumn(),
+						rangeList.get(1).getMaxColumn());
 
 			}
 		}
@@ -502,8 +501,6 @@ public class CellRangeProcessor {
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
 
-
-
 		// build the string
 		ArrayList<GeoElementND> list = new ArrayList<GeoElementND>();
 
@@ -517,7 +514,7 @@ public class CellRangeProcessor {
 					yCoord = RelativeCopy.getValue(app, pd.c2, i);
 					if (pd.c3 < 0) {
 						createPoint(xCoord, yCoord, byValue, leftToRight,
-							doCreateFreePoints, list);
+								doCreateFreePoints, list);
 					} else {
 						zCoord = RelativeCopy.getValue(app, pd.c3, i);
 						createPoint3D(xCoord, yCoord, zCoord, byValue,
@@ -531,8 +528,8 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(app, i, pd.r1);
 					yCoord = RelativeCopy.getValue(app, i, pd.r2);
 					if (pd.r3 < 0) {
-					createPoint(xCoord, yCoord, byValue, leftToRight,
-							doCreateFreePoints, list);
+						createPoint(xCoord, yCoord, byValue, leftToRight,
+								doCreateFreePoints, list);
 					} else {
 						zCoord = RelativeCopy.getValue(app, pd.r3, i);
 						createPoint3D(xCoord, yCoord, zCoord, byValue,
@@ -547,7 +544,7 @@ public class CellRangeProcessor {
 		catch (Exception ex) {
 			Log.debug(
 					"Creating list of points expression failed with exception "
-					+ ex);
+							+ ex);
 		}
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
@@ -556,8 +553,8 @@ public class CellRangeProcessor {
 
 	}
 
-	private void createPoint(GeoElement x, GeoElement y,
-			boolean byValue, boolean leftToRight, boolean doCreateFreePoints,
+	private void createPoint(GeoElement x, GeoElement y, boolean byValue,
+			boolean leftToRight, boolean doCreateFreePoints,
 			ArrayList<GeoElementND> list) {
 		Kernel kernel = cons.getKernel();
 		GeoElement xCoord = leftToRight ? x : y;
@@ -603,9 +600,9 @@ public class CellRangeProcessor {
 
 	}
 
-	private void createPoint3D(GeoElement x, GeoElement y,
-			GeoElement zCoord, boolean byValue, boolean leftToRight,
-			boolean doCreateFreePoints, ArrayList<GeoElementND> list) {
+	private void createPoint3D(GeoElement x, GeoElement y, GeoElement zCoord,
+			boolean byValue, boolean leftToRight, boolean doCreateFreePoints,
+			ArrayList<GeoElementND> list) {
 		Kernel kernel = cons.getKernel();
 		GeoElement xCoord = leftToRight ? x : y;
 		GeoElement yCoord = leftToRight ? y : x;
@@ -634,7 +631,6 @@ public class CellRangeProcessor {
 
 			geoPoint = kernel.getManager3D().DependentPoint3D(point,
 					doCreateFreePoints);
-
 
 		}
 
@@ -672,12 +668,12 @@ public class CellRangeProcessor {
 						.getTextString();
 			} else if (pd.r1 == 0) {
 				// column name
-				title[0] = getCellRangeString(new CellRange(app, pd.c1, -1,
-						pd.c1, -1));
+				title[0] = getCellRangeString(
+						new CellRange(app, pd.c1, -1, pd.c1, -1));
 			} else {
 				// cell range
-				title[0] = getCellRangeString(new CellRange(app, pd.c1, pd.r1,
-						pd.c1, pd.r2));
+				title[0] = getCellRangeString(
+						new CellRange(app, pd.c1, pd.r1, pd.c1, pd.r2));
 			}
 
 			// handle second title
@@ -687,12 +683,12 @@ public class CellRangeProcessor {
 						.getTextString();
 			} else if (pd.r1 == 0) {
 				// column name
-				title[1] = getCellRangeString(new CellRange(app, pd.c2, -1,
-						pd.c2, -1));
+				title[1] = getCellRangeString(
+						new CellRange(app, pd.c2, -1, pd.c2, -1));
 			} else {
 				// cell range
-				title[1] = getCellRangeString(new CellRange(app, pd.c2, pd.r1,
-						pd.c2, pd.r2));
+				title[1] = getCellRangeString(
+						new CellRange(app, pd.c2, pd.r1, pd.c2, pd.r2));
 			}
 
 		} else { // vertical pairs
@@ -704,12 +700,12 @@ public class CellRangeProcessor {
 						.getTextString();
 			} else if (pd.c1 == 0) {
 				// row name
-				title[0] = getCellRangeString(new CellRange(app, -1, pd.r1, -1,
-						pd.r1));
+				title[0] = getCellRangeString(
+						new CellRange(app, -1, pd.r1, -1, pd.r1));
 			} else {
 				// cell range
-				title[0] = getCellRangeString(new CellRange(app, pd.c1, pd.r1,
-						pd.c2, pd.r1));
+				title[0] = getCellRangeString(
+						new CellRange(app, pd.c1, pd.r1, pd.c2, pd.r1));
 			}
 
 			// handle second title
@@ -719,12 +715,12 @@ public class CellRangeProcessor {
 						.getTextString();
 			} else if (pd.c1 == 0) {
 				// row name
-				title[1] = getCellRangeString(new CellRange(app, -1, pd.r2, -1,
-						pd.r2));
+				title[1] = getCellRangeString(
+						new CellRange(app, -1, pd.r2, -1, pd.r2));
 			} else {
 				// cell range
-				title[1] = getCellRangeString(new CellRange(app, pd.c1, pd.r2,
-						pd.c2, pd.r2));
+				title[1] = getCellRangeString(
+						new CellRange(app, pd.c1, pd.r2, pd.c2, pd.r2));
 			}
 
 		}
@@ -748,13 +744,12 @@ public class CellRangeProcessor {
 				if (RelativeCopy.getValue(app, col, 0) != null
 						&& RelativeCopy.getValue(app, col, 0).isGeoText()) {
 					// use header cell text
-					titleList
-							.add(((GeoText) RelativeCopy.getValue(app, col, 0))
-									.getTextString());
+					titleList.add(((GeoText) RelativeCopy.getValue(app, col, 0))
+							.getTextString());
 				} else {
 					// use column name
-					titleList.add(getCellRangeString(new CellRange(app, col,
-							-1, col, -1)));
+					titleList.add(getCellRangeString(
+							new CellRange(app, col, -1, col, -1)));
 				}
 			}
 		}
@@ -809,8 +804,8 @@ public class CellRangeProcessor {
 			for (GPoint cell : cellList) {
 				if (!usedCells.contains(cell)) {
 					GeoElement geo = RelativeCopy.getValue(app, cell.x, cell.y);
-					if (geo != null
-							&& (geoTypeFilter == null || geo.getGeoClassType() == geoTypeFilter)) {
+					if (geo != null && (geoTypeFilter == null
+							|| geo.getGeoClassType() == geoTypeFilter)) {
 						if (copyByValue)
 							geoList.add(geo.copy());
 						else
@@ -865,8 +860,8 @@ public class CellRangeProcessor {
 		cr.setActualRange();
 		rangeList.add(cr);
 
-		return createList(rangeList, true, copyByValue, isSorted,
-				storeUndoInfo, geoTypeFilter, addToConstruction);
+		return createList(rangeList, true, copyByValue, isSorted, storeUndoInfo,
+				geoTypeFilter, addToConstruction);
 	}
 
 	/** Returns true if all cell ranges in the list are columns */
@@ -893,8 +888,8 @@ public class CellRangeProcessor {
 			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
 				tempGeo = createListFromColumn(col, copyByValue, false, false,
 						GeoClass.NUMERIC, addToConstruction);
-				sb.append(tempGeo
-						.getDefinition(StringTemplate.defaultTemplate));
+				sb.append(
+						tempGeo.getDefinition(StringTemplate.defaultTemplate));
 				sb.append(",");
 				tempGeo.remove();
 			}
@@ -1132,8 +1127,8 @@ public class CellRangeProcessor {
 				if (geo == null)
 					continue;
 
-				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column + 1, row);
+				String newLabel = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column + 1, row);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1157,8 +1152,8 @@ public class CellRangeProcessor {
 				if (geo == null)
 					continue;
 
-				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column - shiftAmount, row);
+				String newLabel = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column - shiftAmount, row);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1218,8 +1213,8 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
-				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row + 1);
+				String newLabel = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column, row + 1);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1240,8 +1235,8 @@ public class CellRangeProcessor {
 				GeoElement geo = RelativeCopy.getValue(app, column, row);
 				if (geo == null)
 					continue;
-				String newLabel = GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row - shiftAmount);
+				String newLabel = GeoElementSpreadsheet
+						.getSpreadsheetCellName(column, row - shiftAmount);
 				geo.setLabel(newLabel);
 				succ = true;
 			}
@@ -1334,21 +1329,18 @@ public class CellRangeProcessor {
 		return getCellRangeString(range, true);
 	}
 
-	public String getCellRangeString(CellRange range, boolean onlyFirstRowColumn) {
+	public String getCellRangeString(CellRange range,
+			boolean onlyFirstRowColumn) {
 
 		String s = "";
 
 		if (range.isColumn()) {
-			s = loc.getCommand("Column")
-					+ " "
-					+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
-							.getMinColumn());
+			s = loc.getCommand("Column") + " " + GeoElementSpreadsheet
+					.getSpreadsheetColumnName(range.getMinColumn());
 			if (!onlyFirstRowColumn && !range.is1D()) {
-				s += " : "
-						+ loc.getCommand("Column")
-						+ " "
-						+ GeoElementSpreadsheet.getSpreadsheetColumnName(range
-								.getMaxColumn());
+				s += " : " + loc.getCommand("Column") + " "
+						+ GeoElementSpreadsheet
+								.getSpreadsheetColumnName(range.getMaxColumn());
 			}
 
 		} else if (range.isRow()) {

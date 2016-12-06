@@ -73,8 +73,8 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 		coords2D[index].setY(y);
 		coords2D[index].setZ(0);
 
-		((GeoPoint3D) P[index]).setCoords(c[index].getCoordSys()
-				.getVector(x, y));
+		((GeoPoint3D) P[index])
+				.setCoords(c[index].getCoordSys().getVector(x, y));
 
 	}
 
@@ -107,8 +107,8 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	 */
 	@Override
 	public void initForNearToRelationship() {
-		AlgoTangentPoint3D.initForNearToRelationship(tangentPoints,
-				tangents[0], algoIntersect);
+		AlgoTangentPoint3D.initForNearToRelationship(tangentPoints, tangents[0],
+				algoIntersect);
 		AlgoTangentPoint3D.initForNearToRelationship(tangentPoints2,
 				tangents[2], algoIntersect2);
 	}

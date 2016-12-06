@@ -56,19 +56,25 @@ public class DrawConicSection3D extends DrawConic3D {
 
 			if (!Double.isNaN(start1)) { // there is two holes
 				brush.setAffineTexture(0.5f, 0.25f);
-				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1,
-						e2, start0 + extent0), DrawConicSection.ellipsePoint(m,
-						ev1, ev2, e1, e2, start1));
+				brush.segment(
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0 + extent0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start1));
 				brush.arcEllipse(m, ev1, ev2, e1, e2, start1, extent1);
 				brush.setAffineTexture(0.5f, 0.25f);
-				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1,
-						e2, start1 + extent1), DrawConicSection.ellipsePoint(m,
-						ev1, ev2, e1, e2, start0));
+				brush.segment(
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start1 + extent1),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0));
 			} else {
 				brush.setAffineTexture(0.5f, 0.25f);
-				brush.segment(DrawConicSection.ellipsePoint(m, ev1, ev2, e1,
-						e2, start0 + extent0), DrawConicSection.ellipsePoint(m,
-						ev1, ev2, e1, e2, start0));
+				brush.segment(
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0 + extent0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0));
 			}
 
 		} else { // no hole
@@ -92,11 +98,15 @@ public class DrawConicSection3D extends DrawConic3D {
 			surface.ellipsePart(m, ev1, ev2, e1, e2, start0, extent0, false);
 
 			if (!Double.isNaN(start1)) { // there is two holes
-				surface.ellipsePart(m, ev1, ev2, e1, e2, start1, extent1, false);
-				surface.drawQuad(DrawConicSection.ellipsePoint(m, ev1, ev2, e1,
-						e2, start0), DrawConicSection.ellipsePoint(m, ev1, ev2,
-						e1, e2, start0 + extent0), DrawConicSection
-						.ellipsePoint(m, ev1, ev2, e1, e2, start1),
+				surface.ellipsePart(m, ev1, ev2, e1, e2, start1, extent1,
+						false);
+				surface.drawQuad(
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start0 + extent0),
+						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
+								start1),
 						DrawConicSection.ellipsePoint(m, ev1, ev2, e1, e2,
 								start1 + extent1));
 			}
@@ -132,10 +142,10 @@ public class DrawConicSection3D extends DrawConic3D {
 			brush.hyperbolaBranch(m, ev1, ev2, e1, e2, start, end);
 			brush.setAffineTexture(0.5f, 0.25f);
 			brush.segment(
-					m.add(ev1.mul(e1 * Math.cosh(start))).add(
-							ev2.mul(e2 * Math.sinh(start))),
-					m.add(ev1.mul(e1 * Math.cosh(end))).add(
-							ev2.mul(e2 * Math.sinh(end))));
+					m.add(ev1.mul(e1 * Math.cosh(start)))
+							.add(ev2.mul(e2 * Math.sinh(start))),
+					m.add(ev1.mul(e1 * Math.cosh(end)))
+							.add(ev2.mul(e2 * Math.sinh(end))));
 		}
 
 		// second branch
@@ -145,10 +155,10 @@ public class DrawConicSection3D extends DrawConic3D {
 			brush.hyperbolaBranch(m, ev1.mul(-1), ev2, e1, e2, start, end);
 			brush.setAffineTexture(0.5f, 0.25f);
 			brush.segment(
-					m.add(ev1.mul(-e1 * Math.cosh(start))).add(
-							ev2.mul(e2 * Math.sinh(start))),
-					m.add(ev1.mul(-e1 * Math.cosh(end))).add(
-							ev2.mul(e2 * Math.sinh(end))));
+					m.add(ev1.mul(-e1 * Math.cosh(start)))
+							.add(ev2.mul(e2 * Math.sinh(start))),
+					m.add(ev1.mul(-e1 * Math.cosh(end)))
+							.add(ev2.mul(e2 * Math.sinh(end))));
 		}
 
 	}
@@ -165,7 +175,8 @@ public class DrawConicSection3D extends DrawConic3D {
 		// second branch
 		start = getStart(1);
 		if (!Double.isNaN(start)) {
-			surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, start, getEnd(1));
+			surface.hyperbolaPart(m, ev1.mul(-1), ev2, e1, e2, start,
+					getEnd(1));
 		}
 
 	}

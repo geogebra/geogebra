@@ -88,5 +88,4 @@ public class AlgoLengthVector extends AlgoElement {
 
 	}
 
-	
 }

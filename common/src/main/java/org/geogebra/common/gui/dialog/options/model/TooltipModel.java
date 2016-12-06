@@ -18,15 +18,14 @@ public class TooltipModel extends MultipleOptionsModel {
 				loc.getMenu("on"), // index 1
 				loc.getMenu("off"), // index 2
 				loc.getPlain("Caption"), // index 3
-				loc.getPlain("NextCell") // index 4 
-				);
-		
-		
+				loc.getPlain("NextCell") // index 4
+		);
+
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
-			return getGeoAt(index).isDrawable();
+		return getGeoAt(index).isDrawable();
 	}
 
 	@Override
@@ -38,6 +37,5 @@ public class TooltipModel extends MultipleOptionsModel {
 	public int getValueAt(int index) {
 		return getGeoAt(index).getTooltipMode();
 	}
-
 
 }

@@ -10,7 +10,9 @@ import org.geogebra.common.main.App;
  */
 public abstract class UndoManager {
 
-	/** maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps */
+	/**
+	 * maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps
+	 */
 	private static final int MAX_CAPACITY = 100;
 
 	/**
@@ -151,8 +153,8 @@ public abstract class UndoManager {
 	 */
 	public abstract void storeUndoInfoAfterPasteOrAdd();
 
-
-	public abstract void storeUndoInfo(StringBuilder currentUndoXML, boolean refresh);
+	public abstract void storeUndoInfo(StringBuilder currentUndoXML,
+			boolean refresh);
 
 	/**
 	 * Stores undo info

@@ -40,9 +40,9 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				return new GeoElement[] { ellipseHyperbola(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoNumberValue) arg[2]) };
+				return new GeoElement[] {
+						ellipseHyperbola(c.getLabel(), (GeoPointND) arg[0],
+								(GeoPointND) arg[1], (GeoNumberValue) arg[2]) };
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {

@@ -46,6 +46,4 @@ public class AlgoOrthoPlanePointVector extends AlgoOrthoPlanePoint {
 		return ((GeoVectorND) getSecondInput()).getCoordsInD3();
 	}
 
-	
-
 }

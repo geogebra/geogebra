@@ -63,11 +63,12 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  *
- * @author  Markus
+ * @author Markus
  */
-final public class GeoVector extends GeoVec3D
-implements Path, VectorValue, Translateable, PointRotateable, Mirrorable, Dilateable, MatrixTransformable, 
-Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+final public class GeoVector extends GeoVec3D implements Path, VectorValue,
+		Translateable, PointRotateable, Mirrorable, Dilateable,
+		MatrixTransformable, Transformable, GeoVectorND, SpreadsheetTraceable,
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPointND startPoint;
 
@@ -77,45 +78,59 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
-	/** Creates new GeoVector 
-	 * @param c construction
+	/**
+	 * Creates new GeoVector
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoVector(Construction c) {
-		super(c); 
+		super(c);
 		setConstructionDefaults();
 	}
 
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.VECTOR;
-	}   
+	}
 
 	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
 
-	/** Creates new GeoVector 
-	 * @param c construction
-	 * @param label label
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param z z-coord*/
-	public GeoVector(Construction c, String label, double x, double y, double z) {
-		super(c, x, y, z); // GeoVec3D constructor 
+	/**
+	 * Creates new GeoVector
+	 * 
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 */
+	public GeoVector(Construction c, String label, double x, double y,
+			double z) {
+		super(c, x, y, z); // GeoVec3D constructor
 		setConstructionDefaults();
-		setLabel(label); 
-		//setEuclidianVisible(false);
+		setLabel(label);
+		// setEuclidianVisible(false);
 	}
 
 	/**
 	 * Copy constructor
-	 * @param vector vector to copy
+	 * 
+	 * @param vector
+	 *            vector to copy
 	 */
 	public GeoVector(GeoVector vector) {
 		this(vector.cons);
 		set(vector);
-		//setEuclidianVisible(false);
+		// setEuclidianVisible(false);
 	}
 
 	@Override
@@ -124,11 +139,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		this.y = y;
 		this.z = z;
 		setDefinition(null);
-	}     
+	}
 
 	final public void setCoords(double[] c) {
-		setCoords(c[0],c[1],c[2]);
-	}  
+		setCoords(c[0], c[1], c[2]);
+	}
 
 	@Override
 	final public void setCoords(GeoVec3D v) {
@@ -136,11 +151,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		y = v.y;
 		z = v.z;
 		setDefinition(null);
-	} 
+	}
 
 	@Override
 	public void set(GeoElementND geo) {
-		if(geo.isGeoPoint()){
+		if (geo.isGeoPoint()) {
 			GeoPointND p = (GeoPointND) geo;
 			double[] coords = p.getCoordsInD3().get();
 			if (Kernel.isZero(coords[2])) {
@@ -148,13 +163,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			} else {
 				setUndefined();
 			}
-		}else{
+		} else {
 			super.set(geo);
 		}
-		
-		if (!geo.isGeoVector()) return;
 
-		GeoVector vec = (GeoVector) geo;		
+		if (!geo.isGeoVector())
+			return;
+
+		GeoVector vec = (GeoVector) geo;
 
 		// don't set start point for macro output
 		// see AlgoMacro.initRay()
@@ -164,47 +180,52 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		try {
 			if (vec.startPoint != null) {
 				if (vec.hasAbsoluteLocation()) {
-					//	create new location point	
+					// create new location point
 					setStartPoint(vec.startPoint.copy());
 				} else {
-					//	take existing location point	
+					// take existing location point
 					setStartPoint(vec.startPoint);
 				}
 			}
-		}
-		catch (CircularDefinitionException e) {
+		} catch (CircularDefinitionException e) {
 			Log.debug("set GeoVector: CircularDefinitionException");
-		}		
+		}
 	}
 
 	@Override
 	public GeoElement copy() {
-		return new GeoVector(this);        
-	} 
+		return new GeoVector(this);
+	}
 
 	/**
-	 * @param r radius
-	 * @param phi phase
+	 * @param r
+	 *            radius
+	 * @param phi
+	 *            phase
 	 */
 	final public void setPolarCoords(double r, double phi) {
-		// convert angle to radiant              
-		x = r * Math.cos( phi );
-		y = r * Math.sin( phi );        
-		z = 0.0d;        
+		// convert angle to radiant
+		x = r * Math.cos(phi);
+		y = r * Math.sin(phi);
+		z = 0.0d;
 	}
+
 	/**
 	 * Sets coords to (x,y,0)
-	 * @param v vector (x,y)
+	 * 
+	 * @param v
+	 *            vector (x,y)
 	 */
 	final public void setCoords(GeoVec2D v) {
 		x = v.getX();
 		y = v.getY();
 		z = 0.0d;
-	}      
+	}
 
-	/** Converts the homogeneous coordinates (x,y,z)
-	 * of this GeoVec3D to the inhomogeneous coordinates (x/z, y/z)
-	 * of a new GeoVec2D.
+	/**
+	 * Converts the homogeneous coordinates (x,y,z) of this GeoVec3D to the
+	 * inhomogeneous coordinates (x/z, y/z) of a new GeoVec2D.
+	 * 
 	 * @return vector containing inhomogeneous coords
 	 */
 	final public GeoVec2D getInhomVec() {
@@ -216,66 +237,69 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 */
 	final public GeoPointND getStartPoint() {
 		return startPoint;
-	}   
+	}
 
-	public GeoPointND [] getStartPoints() {
+	public GeoPointND[] getStartPoints() {
 		if (startPoint == null)
 			return null;
 
-		GeoPointND [] ret = new GeoPointND[1];
+		GeoPointND[] ret = new GeoPointND[1];
 		ret[0] = startPoint;
-		return ret;			
+		return ret;
 	}
 
 	public boolean hasAbsoluteLocation() {
 		return startPoint == null || startPoint.isAbsoluteStartPoint();
 	}
 
-	public void setStartPoint(GeoPointND p, int number)  throws CircularDefinitionException {
+	public void setStartPoint(GeoPointND p, int number)
+			throws CircularDefinitionException {
 		setStartPoint(p);
 	}
 
 	/**
-	 * Sets the startpoint without performing any checks.
-	 * This is needed for macros.	 
+	 * Sets the startpoint without performing any checks. This is needed for
+	 * macros.
 	 */
 	public void initStartPoint(GeoPointND p, int number) {
 		startPoint = p;
 	}
 
-	public void removeStartPoint(GeoPointND p) {    
+	public void removeStartPoint(GeoPointND p) {
 		if (startPoint == p) {
 			try {
 				setStartPoint(null);
-			} catch(Exception e) {
-				//ignore circular definition here
+			} catch (Exception e) {
+				// ignore circular definition here
 			}
 		}
 	}
 
+	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
 
-
-	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {  
-
-		if (startPoint == p) return;
+		if (startPoint == p)
+			return;
 
 		// macro output uses initStartPoint() only
-		if (isAlgoMacroOutput()) return; 				
+		if (isAlgoMacroOutput())
+			return;
 
 		// check for circular definition
-		if (isParentOf(p)){
+		if (isParentOf(p)) {
 			Log.debug(this + " startpoint " + p);
-			//throw new CircularDefinitionException();
+			// throw new CircularDefinitionException();
 		}
 
 		// remove old dependencies
-		if (startPoint != null) startPoint.getLocateableList().unregisterLocateable(this);	
+		if (startPoint != null)
+			startPoint.getLocateableList().unregisterLocateable(this);
 
-		// set new location	
-		startPoint = p;		
+		// set new location
+		startPoint = p;
 
-		//	add new dependencies
-		if (startPoint != null) startPoint.getLocateableList().registerLocateable(this);	
+		// add new dependencies
+		if (startPoint != null)
+			startPoint.getLocateableList().registerLocateable(this);
 
 		// reinit path
 		if (pathSegment != null) {
@@ -293,9 +317,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 				Iterator<GeoPointND> it = waitingPointSet.iterator();
 				while (it.hasNext()) {
 					P = (GeoPoint) it.next();
-					pathSegment.pointChanged(P);					
+					pathSegment.pointChanged(P);
 					P.updateCoords();
-				}	
+				}
 			}
 			waitingPointSet = null;
 		}
@@ -305,7 +329,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		// the startpoint should not be used as long
 		// as waitingForStartPoint is true
 		// This is important for points on this vector:
-		// their coords should not be changed until 
+		// their coords should not be changed until
 		// the startPoint was finally set
 		waitingForStartPoint = true;
 	}
@@ -313,8 +337,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	@Override
 	public void doRemove() {
 		super.doRemove();
-		// tell startPoint	
-		if (startPoint != null) startPoint.getLocateableList().unregisterLocateable(this);
+		// tell startPoint
+		if (startPoint != null)
+			startPoint.getLocateableList().unregisterLocateable(this);
 	}
 
 	final public boolean isFinite() {
@@ -323,37 +348,38 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	@Override
 	final public boolean isInfinite() {
-		return Double.isInfinite(x) || Double.isInfinite(y);  
+		return Double.isInfinite(x) || Double.isInfinite(y);
 	}
 
 	@Override
-	final protected boolean showInEuclidianView() {               
+	final protected boolean showInEuclidianView() {
 		return isDefined() && !isInfinite();
-	}    
+	}
 
 	@Override
 	public final boolean showInAlgebraView() {
 		// independent or defined
 		// return isIndependent() || isDefined();
 		return true;
-	}    
+	}
 
-	/** 
-	 * Yields true if the coordinates of this vector are equal to
-	 * those of vector v. Infinite points are checked for linear dependency.
+	/**
+	 * Yields true if the coordinates of this vector are equal to those of
+	 * vector v. Infinite points are checked for linear dependency.
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElement geo) {        
+	final public boolean isEqual(GeoElement geo) {
 
-		if (!geo.isGeoVector()) return false;
+		if (!geo.isGeoVector())
+			return false;
 
-		GeoVector v = (GeoVector)geo;
+		GeoVector v = (GeoVector) geo;
 
-		if (!(isFinite() && v.isFinite())) return false;
-		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);                                            
+		if (!(isFinite() && v.isFinite()))
+			return false;
+		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);
 	}
-
 
 	/***********************************************************
 	 * MOVEMENTS
@@ -361,16 +387,16 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	/**
 	 * rotate this vector by angle phi around (0,0)
 	 */
-	final public void rotate(NumberValue phi) {    	
-		rotateXY(phi);  
+	final public void rotate(NumberValue phi) {
+		rotateXY(phi);
 
-	}            
+	}
 
-	/** 
+	/**
 	 * Called when transforming Ray[point,direction] -- doesn't do anything.
 	 */
 	public void translate(Coords v) {
-		//do nothing
+		// do nothing
 	}
 
 	public void rotate(NumberValue r, GeoPointND S) {
@@ -379,7 +405,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	public void mirror(Coords Q) {
 
-		setCoords(- x,- y, z );
+		setCoords(-x, -y, z);
 
 	}
 
@@ -390,25 +416,24 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	public void dilate(NumberValue rval, Coords S) {
-		double r = rval.getDouble();	
+		double r = rval.getDouble();
 		setCoords(r * x, r * y, z);
 
 	}
 
-	public void matrixTransform(double a,double b,double c,double d) {
+	public void matrixTransform(double a, double b, double c, double d) {
 
-		Double x1 = a*x + b*y;
-		Double y1 = c*x + d*y;
+		Double x1 = a * x + b * y;
+		Double y1 = c * x + d * y;
 
 		setCoords(x1, y1, z);
 
 	}
 
-
-	/*********************************************************************/   
+	/*********************************************************************/
 
 	@Override
-	final public String toString(StringTemplate tpl) {            
+	final public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
@@ -422,7 +447,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			// no equal sign
 			break;
 
-		default: 
+		default:
 			sbToString.append(" = ");
 		}
 
@@ -434,14 +459,13 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {            
+	final public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(x) + " " + regrFormat(y));
 		return sbToString.toString();
 	}
 
-	
-	private StringBuilder sbToString = new StringBuilder(50); 
+	private StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
 	final public String toValueString(StringTemplate tpl) {
@@ -463,60 +487,65 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		default: // continue below
 		}
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:                	
-			sbBuildValueString.append("(");		
-			sbBuildValueString.append(kernel.format(MyMath.length(x, y),tpl));
+		case Kernel.COORD_POLAR:
+			sbBuildValueString.append("(");
+			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
+			sbBuildValueString
+					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(")");
 			break;
 
-		case Kernel.COORD_COMPLEX:              	
-			sbBuildValueString.append(kernel.format(x,tpl));
+		case Kernel.COORD_COMPLEX:
+			sbBuildValueString.append(kernel.format(x, tpl));
 			sbBuildValueString.append(" ");
-			kernel.formatSigned(y,sbBuildValueString,tpl);
+			kernel.formatSigned(y, sbBuildValueString, tpl);
 			sbBuildValueString.append(Unicode.IMAGINARY);
-			break;   
-			
-		case Kernel.COORD_CARTESIAN_3D:
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sbBuildValueString);
 			break;
-			
+
+		case Kernel.COORD_CARTESIAN_3D:
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0,
+					sbBuildValueString);
+			break;
+
 		case Kernel.COORD_SPHERICAL:
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sbBuildValueString);
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0,
+					sbBuildValueString);
 			break;
 
 		default: // CARTESIAN
-			sbBuildValueString.append("(");		
-			sbBuildValueString.append(kernel.format(x,tpl));
+			sbBuildValueString.append("(");
+			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				sbBuildValueString.append(" | ");
 				break;
 
 			default:
-				sbBuildValueString.append(", ");												
+				sbBuildValueString.append(", ");
 			}
-			sbBuildValueString.append(kernel.format(y,tpl));
+			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(")");
-			break;       
+			break;
 		}
 		return sbBuildValueString;
 	}
-	private StringBuilder sbBuildValueString = new StringBuilder(50); 
+
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	/**
 	 * interface VectorValue implementation
-	 */    
-	public GeoVec2D getVector() {        
+	 */
+	public GeoVec2D getVector() {
 		GeoVec2D ret = new GeoVec2D(kernel, x, y);
 		ret.setMode(toStringMode);
 		return ret;
-	}        
+	}
 
 	public double[] getPointAsDouble() {
 		return new double[] { x, y, 0 };
 	}
+
 	/** POLAR or CARTESIAN */
 
 	/**
@@ -525,11 +554,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	@Override
 	protected void getXMLtags(StringBuilder xmlsb) {
 		super.getXMLtags(xmlsb);
-		//	line thickness and type  
+		// line thickness and type
 		getLineStyleXML(xmlsb);
 
 		// polar or cartesian coords
-		switch(toStringMode) {
+		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
 			xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
 			break;
@@ -537,7 +566,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		case Kernel.COORD_COMPLEX:
 			xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
 			break;
-			
+
 		case Kernel.COORD_CARTESIAN_3D:
 			xmlsb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
 			break;
@@ -550,12 +579,12 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
-		//	startPoint of vector
+		// startPoint of vector
 		if (startPoint != null) {
 			xmlsb.append(startPoint.getStartPointXML());
 		}
 
-	}   
+	}
 
 	@Override
 	public boolean isNumberValue() {
@@ -572,9 +601,9 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		return this.getMode() != Kernel.COORD_COMPLEX;
 	}
 
-	/* 
+	/*
 	 * Path interface
-	 */	 
+	 */
 
 	public boolean isClosedPath() {
 		return false;
@@ -583,23 +612,26 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public void pointChanged(GeoPointND P) {
 		if (startPoint == null && waitingForStartPoint) {
 			// remember waiting points
-			if (waitingPointSet == null) waitingPointSet = new HashSet<GeoPointND>();
+			if (waitingPointSet == null)
+				waitingPointSet = new HashSet<GeoPointND>();
 			waitingPointSet.add(P);
 			return;
 		}
 
-		if (pathSegment == null) updatePathSegment();
+		if (pathSegment == null)
+			updatePathSegment();
 		pathSegment.pointChanged(P);
 	}
 
-	public void pathChanged(GeoPointND P) {	
-		
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(P)){
+	public void pathChanged(GeoPointND P) {
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(P)) {
 			pointChanged(P);
 			return;
 		}
-		
+
 		updatePathSegment();
 		pathSegment.pathChanged(P);
 	}
@@ -627,7 +659,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	private void initPathSegment() {
-		if (startPoint != null  && ! startPoint.isGeoElement3D()) { //TODO 3D case
+		if (startPoint != null && !startPoint.isGeoElement3D()) { // TODO 3D
+																	// case
 			pathStartPoint = (GeoPoint) startPoint;
 		} else {
 			pathStartPoint = new GeoPoint(cons);
@@ -639,16 +672,17 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}
 
 	private void updatePathSegment() {
-		if (pathSegment == null) initPathSegment();
+		if (pathSegment == null)
+			initPathSegment();
 
 		// update segment
 		pathEndPoint.setCoords(pathStartPoint.inhomX + x,
-				pathStartPoint.inhomY + y, 
-				1.0);
+				pathStartPoint.inhomY + y, 1.0);
 
 		GeoVec3D.lineThroughPoints(pathStartPoint, pathEndPoint, pathSegment);
-		// length is used in GeoSement.pointChanged() and GeoSegment.pathChanged()
-		pathSegment.calcLength(); 
+		// length is used in GeoSement.pointChanged() and
+		// GeoSegment.pathChanged()
+		pathSegment.calcLength();
 	}
 
 	@Override
@@ -664,18 +698,28 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public boolean isMatrixTransformable() {
 		return true;
 	}
-	
+
 	/**
-	 * @param kernel kernel
-	 * @param tpl string template
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param z z-coord
-	 * @param sb string builder
-	 * @param vector the vector
-	 * @param symbolic if symbolic
+	 * @param kernel
+	 *            kernel
+	 * @param tpl
+	 *            string template
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 * @param sb
+	 *            string builder
+	 * @param vector
+	 *            the vector
+	 * @param symbolic
+	 *            if symbolic
 	 */
-	public static final void buildLatexValueStringCoordCartesian3D(Kernel kernel, StringTemplate tpl, double x, double y, double z, StringBuilder sb, GeoVectorND vector, boolean symbolic) {
+	public static final void buildLatexValueStringCoordCartesian3D(
+			Kernel kernel, StringTemplate tpl, double x, double y, double z,
+			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
 		String[] inputs;
 		if (symbolic && vector.getParentAlgorithm() instanceof DependentAlgo) {
 			AlgoElement algo = vector.getParentAlgorithm();
@@ -686,8 +730,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			int lastIndex = symbolicStr.lastIndexOf("\\right)");
 
 			if (firstIndex > -1 && lastIndex > -1) {
-			inputs = symbolicStr.substring(firstIndex + 6, lastIndex).split(
-					",");
+				inputs = symbolicStr.substring(firstIndex + 6, lastIndex)
+						.split(",");
 			} else {
 				inputs = new String[3];
 				inputs[0] = kernel.format(x, tpl);
@@ -696,19 +740,19 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			}
 		} else {
 			inputs = new String[3];
-			inputs[0] = kernel.format(x,tpl);
-			inputs[1] = kernel.format(y,tpl);
-			inputs[2] = kernel.format(z,tpl);
+			inputs[0] = kernel.format(x, tpl);
+			inputs[1] = kernel.format(y, tpl);
+			inputs[2] = kernel.format(z, tpl);
 		}
 
 		if (inputs.length == 3
 				&& kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 			sb.append("\\vectorize{\\ggbtable{\\ggbtr{\\ggbtd{");
-			sb.append(inputs[0]); 
-			sb.append("}}\\ggbtr{\\ggbtd{"); 
-			sb.append(inputs[1]); 
-			sb.append("}}\\ggbtr{\\ggbtd{"); 
-			sb.append(inputs[2]); 
+			sb.append(inputs[0]);
+			sb.append("}}\\ggbtr{\\ggbtd{");
+			sb.append(inputs[1]);
+			sb.append("}}\\ggbtr{\\ggbtd{");
+			sb.append(inputs[2]);
 			sb.append("}}}}");
 			return;
 		}
@@ -740,18 +784,20 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		}
 
 		sb.append("\\end{tabular}\\hspace{-0.4em} \\right)");
-		
-	}
 
+	}
 
 	private StringBuilder sb;
 
 	@Override
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
-		if (sb == null) sb = new StringBuilder();
-		else sb.setLength(0);
-		
-		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y, this);
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+		if (sb == null)
+			sb = new StringBuilder();
+		else
+			sb.setLength(0);
+
+		return buildLatexString(kernel, sb, symbolic, tpl, toStringMode, x, y,
+				this);
 	}
 
 	/**
@@ -773,60 +819,65 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	 *            vector coresponding to x,y (result depends on parent algo)
 	 * @return content of string builder
 	 */
-	static final public String buildLatexString(Kernel kernel, StringBuilder sb, boolean symbolic, StringTemplate tpl, int toStringMode, double x, double y, GeoVectorND vector){
+	static final public String buildLatexString(Kernel kernel, StringBuilder sb,
+			boolean symbolic, StringTemplate tpl, int toStringMode, double x,
+			double y, GeoVectorND vector) {
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:                	
-			sb.append("(");		
-			sb.append(kernel.format(MyMath.length(x, y),tpl));
+		case Kernel.COORD_POLAR:
+			sb.append("(");
+			sb.append(kernel.format(MyMath.length(x, y), tpl));
 			sb.append("; ");
 			sb.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sb.append(")");
 			break;
 
-		case Kernel.COORD_COMPLEX:              	
-			sb.append(kernel.format(x,tpl));
+		case Kernel.COORD_COMPLEX:
+			sb.append(kernel.format(x, tpl));
 			sb.append(" ");
-			kernel.formatSigned(y,sb,tpl);
+			kernel.formatSigned(y, sb, tpl);
 			sb.append(Unicode.IMAGINARY);
-			break;     
+			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
-			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb, vector, symbolic);
+			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb,
+					vector, symbolic);
 			break;
-			
+
 		case Kernel.COORD_SPHERICAL:
 			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
 			break;
 
-
 		default: // CARTESIAN
 
 			String[] inputs;
-			if (symbolic && vector.getParentAlgorithm() instanceof AlgoDependentVector) {
-				AlgoDependentVector algo = (AlgoDependentVector) vector.getParentAlgorithm();
-				
+			if (symbolic && vector
+					.getParentAlgorithm() instanceof AlgoDependentVector) {
+				AlgoDependentVector algo = (AlgoDependentVector) vector
+						.getParentAlgorithm();
+
 				// need to do something different for (xx,yy) and a (1,2) + c
-				
+
 				ExpressionNode en = algo.getExpression();
 				ExpressionValue ev = en.unwrap();
-				
+
 				if (ev instanceof MyVecNode) {
 					MyVecNode vn = (MyVecNode) ev;
-					
+
 					inputs = new String[2];
 					inputs[0] = vn.getX().toString(tpl);
 					inputs[1] = vn.getY().toString(tpl);
 				} else {
 					return algo.toString(tpl);
 				}
-				
+
 			} else {
 				inputs = new String[2];
-				inputs[0] = kernel.format(x,tpl);
-				inputs[1] = kernel.format(y,tpl);
+				inputs[0] = kernel.format(x, tpl);
+				inputs[1] = kernel.format(y, tpl);
 			}
-			
-			// MathQuillGGB can't render v = \left( \begin{tabular}{r}-10 \\ 0 \\ \end{tabular} \right)
+
+			// MathQuillGGB can't render v = \left( \begin{tabular}{r}-10 \\ 0
+			// \\ \end{tabular} \right)
 			// so use eg \binom{ -10 }{ 0 } in web
 			// see #1987
 			if (inputs.length == 2
@@ -836,9 +887,8 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 				sb.append("}}\\ggbtr{\\ggbtd{");
 				sb.append(inputs[1]);
 				sb.append("}}}}");
-				
+
 			} else {
-			
 
 				buildTabular(inputs, sb);
 			}
@@ -846,40 +896,36 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		}
 
 		return sb.toString();
-	}     
+	}
 
-
-	
-	public Coords getCoordsInD2(){
+	public Coords getCoordsInD2() {
 		Coords ret = new Coords(3);
 		ret.setX(getX());
 		ret.setY(getY());
 		ret.setZ(getZ());
 		return ret;
 	}
-	public Coords getCoordsInD3(){
+
+	public Coords getCoordsInD3() {
 		Coords ret = new Coords(4);
 		ret.setX(getX());
 		ret.setY(getY());
 		ret.setZ(getZ());
 		return ret;
-		
+
 	}
 
-
 	@Override
-	public boolean hasDrawable3D(){
+	public boolean hasDrawable3D() {
 		return true;
 	}
 
-
-	//only used for 3D
+	// only used for 3D
 	public void updateStartPointPosition() {
-		//3D only
+		// 3D only
 	}
 
-
-	public Coords getDirectionInD3(){
+	public Coords getDirectionInD3() {
 		return getCoordsInD3();
 	}
 
@@ -887,75 +933,63 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			double a11, double a12, double a20, double a21, double a22) {
 		double x1 = a00 * x + a01 * y + a02 * 1;
 		double y1 = a10 * x + a11 * y + a12 * 1;
-		double z1 = a20 * x + a21 * y + a22 * 1;			
-		setCoords(x1/z1,y1/z1,0);
+		double z1 = a20 * x + a21 * y + a22 * 1;
+		setCoords(x1 / z1, y1 / z1, 0);
 
 	}
-	
+
 	@Override
-	public  boolean isLaTeXDrawableGeo() {
+	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
-	
+
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 		resetSpreadsheetColumnHeadings();
 
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText( 
-						new ExpressionNode(kernel,
- kernel.getAlgebraProcessor().getXBracket(), // "x("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
- kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(  
-						new ExpressionNode(kernel,
- kernel.getAlgebraProcessor().getYBracket(), // "y("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
- kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
-		
-		
-	}
-	
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 
+	}
 
 	@Override
-	public TraceModesEnum getTraceModes(){
+	public TraceModesEnum getTraceModes() {
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
-	
+
 	@Override
-	public String getTraceDialogAsValues(){
+	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
-	
+
 		StringBuilder sbTrace = new StringBuilder();
 		sbTrace.append("x(");
 		sbTrace.append(name);
 		sbTrace.append("), y(");
 		sbTrace.append(name);
 		sbTrace.append(")");
-				
+
 		return sbTrace.toString();
 	}
 
-		
-	
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, getInhomVec().getX());
 		spreadsheetTraceList.add(xx);
 		GeoNumeric yy = new GeoNumeric(cons, getInhomVec().getY());
 		spreadsheetTraceList.add(yy);
 	}
-	
+
 	public SymbolicParameters getSymbolicParameters() {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
@@ -968,33 +1002,34 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
-			((SymbolicParametersAlgo) algoParent)
-					.getFreeVariables(variables);
+			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
-	public int[] getDegrees()
-			throws NoSymbolicParametersException {
+
+	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (algoParent != null
 				&& (algoParent instanceof SymbolicParametersAlgo)) {
-			return ((SymbolicParametersAlgo) algoParent)
-					.getDegrees();
+			return ((SymbolicParametersAlgo) algoParent).getDegrees();
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException{
+	public BigInteger[] getExactCoordinates(
+			final HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
 		if (algoParent != null
-	&& (algoParent instanceof SymbolicParametersAlgo)) {
-			return ((SymbolicParametersAlgo) algoParent).getExactCoordinates(values);
+				&& (algoParent instanceof SymbolicParametersAlgo)) {
+			return ((SymbolicParametersAlgo) algoParent)
+					.getExactCoordinates(values);
 		}
 		throw new NoSymbolicParametersException();
 	}
 
 	public Polynomial[] getPolynomials() throws NoSymbolicParametersException {
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
 		}
 		throw new NoSymbolicParametersException();
@@ -1003,17 +1038,20 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent != null
 				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
-			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaVars(this);
 		}
 		return null;
 	}
-	
+
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		if (algoParent != null && algoParent instanceof SymbolicParametersBotanaAlgo) {
-		return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaPolynomials(this);
+		if (algoParent != null
+				&& algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaPolynomials(this);
 		}
-	throw new NoSymbolicParametersException();
+		throw new NoSymbolicParametersException();
 	}
 
 	public double[] getInhomCoords() {
@@ -1022,16 +1060,14 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		ret[1] = getY();
 		return ret;
 	}
-	
+
 	public void updateLocation() {
 		updateGeo(false);
-		kernel.notifyUpdateLocation(this);	
+		kernel.notifyUpdateLocation(this);
 	}
-	
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 
@@ -1057,6 +1093,5 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	public ValidExpression toValidExpression() {
 		return getVector();
 	}
-
 
 }

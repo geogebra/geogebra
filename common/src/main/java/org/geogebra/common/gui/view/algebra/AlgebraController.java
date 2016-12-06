@@ -32,13 +32,13 @@ public class AlgebraController {
 	protected SelectionManager selection;
 	protected AlgebraView view;
 
-	//private GeoVector tempVec;
-	//private boolean kernelChanged;
+	// private GeoVector tempVec;
+	// private boolean kernelChanged;
 
 	/** Creates new CommandProcessor */
 	public AlgebraController(Kernel kernel) {
 		this.kernel = kernel;
-		app = kernel.getApplication();	
+		app = kernel.getApplication();
 		selection = app.getSelectionManager();
 	}
 
@@ -60,6 +60,7 @@ public class AlgebraController {
 	public String getDragText() {
 		return getDragText(new ArrayList<String>());
 	}
+
 	public String getDragText(ArrayList<String> geoLabelList) {
 
 		String latex = null;
@@ -70,7 +71,6 @@ public class AlgebraController {
 
 		// if we have something ... do the drag!
 		if (geoLabelList.size() > 0) {
-
 
 			boolean showJustFirstGeoInDrag = false;
 
@@ -89,9 +89,7 @@ public class AlgebraController {
 			}
 
 			if (showJustFirstGeoInDrag) {
-				latex = selection
-						.getSelectedGeos()
-						.get(0)
+				latex = selection.getSelectedGeos().get(0)
 						.getLaTeXAlgebraDescription(true,
 								StringTemplate.latexTemplate);
 			} else {
@@ -108,7 +106,6 @@ public class AlgebraController {
 				latex = sb.toString();
 			}
 
-
 		}
 		return latex;
 	}
@@ -123,18 +120,21 @@ public class AlgebraController {
 		// ZoomOut, ...)
 		if (newGeos.length > 0 && newGeos[0] != null
 				&& newGeos[0].isGeoText()) {
-			InputHelper.centerText((GeoText) newGeos[0], kernel.getApplication()
-					.getActiveEuclidianView());
+			InputHelper.centerText((GeoText) newGeos[0],
+					kernel.getApplication().getActiveEuclidianView());
 
 		}
 	}
 
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
-	 * @param input input string
-	 * @param errorHandler interface to handle errors from evaluating the input
+	 * 
+	 * @param input
+	 *            input string
+	 * @param errorHandler
+	 *            interface to handle errors from evaluating the input
 	 * @return evaluation was successful
-     */
+	 */
 	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
 		GeoElementND[] geos;
 		try {
@@ -146,15 +146,17 @@ public class AlgebraController {
 				}
 			};
 
-			geos = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-					input, true, errorHandler, true, callback);
+			geos = kernel.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(input, true,
+							errorHandler, true, callback);
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
 			}
 
 		} catch (Exception ee) {
-			errorHandler.showError(app.getLocalization().getError("InvalidInput"));
+			errorHandler
+					.showError(app.getLocalization().getError("InvalidInput"));
 			return false;
 		} catch (Error ee) {
 			errorHandler.showError(ee.getLocalizedMessage());

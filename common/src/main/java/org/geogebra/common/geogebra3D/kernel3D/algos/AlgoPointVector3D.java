@@ -20,8 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoPointVector3D extends AlgoPointVectorND {
 
-	public AlgoPointVector3D(Construction cons, GeoPointND P,
-			GeoVectorND v) {
+	public AlgoPointVector3D(Construction cons, GeoPointND P, GeoVectorND v) {
 		super(cons, P, v);
 	}
 

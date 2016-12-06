@@ -43,8 +43,8 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 	private AlgoPascalBarChart(GeoNumberValue n, GeoNumberValue p,
 			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
 			double[] vals, double[] borders, int N) {
-		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL, a,
-				b, vals, borders, N);
+		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL, a, b,
+				vals, borders, N);
 	}
 
 	@Override
@@ -61,9 +61,9 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
 				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
-				(GeoNumberValue) this
-						.getB().deepCopy(kernel), Cloner.clone(getValues()),
-				Cloner.clone(getLeftBorder()), getIntervals());
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+				getIntervals());
 
 	}
 

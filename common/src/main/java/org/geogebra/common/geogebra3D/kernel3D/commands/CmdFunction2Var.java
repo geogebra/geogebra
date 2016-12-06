@@ -36,7 +36,8 @@ public class CmdFunction2Var extends CmdFunction {
 			// create local variable at position 3 and resolve arguments
 			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
 
-			if ((ok[0] = (arg[0] instanceof GeoNumberValue || arg[0] instanceof GeoFunctionNVar)) // function
+			if ((ok[0] = (arg[0] instanceof GeoNumberValue
+					|| arg[0] instanceof GeoFunctionNVar)) // function
 					&& (ok[1] = arg[1].isGeoNumeric()) // first var
 					&& (ok[2] = arg[2] instanceof GeoNumberValue) // from
 					&& (ok[3] = arg[3] instanceof GeoNumberValue) // to
@@ -47,11 +48,13 @@ public class CmdFunction2Var extends CmdFunction {
 			) {
 				if (arg[0] instanceof GeoFunctionNVar) {
 					if ("x".equals(arg[1].getLabelSimple())) {
-						GeoElement[] ret = { kernelA.getManager3D()
-								.Function2Var(
-							c.getLabel(), (GeoFunctionNVar) arg[0],
-							(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
-							(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
+						GeoElement[] ret = {
+								kernelA.getManager3D().Function2Var(
+										c.getLabel(), (GeoFunctionNVar) arg[0],
+										(GeoNumberValue) arg[2],
+										(GeoNumberValue) arg[3],
+										(GeoNumberValue) arg[5],
+										(GeoNumberValue) arg[6]) };
 						return ret;
 					}
 					GeoElement[] ret = { kernelA.getManager3D().Function2Var(
@@ -68,18 +71,19 @@ public class CmdFunction2Var extends CmdFunction {
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]) };
 				return ret;
 			} /*
-			 * else if ( (ok[0] = (arg[0] instanceof GeoFunctionNVar))
-			 * //function && (ok[1] = arg[1].isGeoNumeric()) //first var &&
-			 * (ok[2] = arg[2].isNumberValue()) //from && (ok[3] =
-			 * arg[3].isNumberValue()) //to && (ok[4] = arg[4].isGeoNumeric())
-			 * //second var && (ok[5] = arg[5].isNumberValue()) //from && (ok[6]
-			 * = arg[6].isNumberValue()) //to
-			 * 
-			 * ) { GeoElement[] ret = { kernel3D.Function2Var( c.getLabel(),
-			 * (GeoFunctionNVar) arg[0], (NumberValue) arg[2], (NumberValue)
-			 * arg[3], (NumberValue) arg[5], (NumberValue) arg[6] ) }; return
-			 * ret; }
-			 */
+				 * else if ( (ok[0] = (arg[0] instanceof GeoFunctionNVar))
+				 * //function && (ok[1] = arg[1].isGeoNumeric()) //first var &&
+				 * (ok[2] = arg[2].isNumberValue()) //from && (ok[3] =
+				 * arg[3].isNumberValue()) //to && (ok[4] =
+				 * arg[4].isGeoNumeric()) //second var && (ok[5] =
+				 * arg[5].isNumberValue()) //from && (ok[6] =
+				 * arg[6].isNumberValue()) //to
+				 * 
+				 * ) { GeoElement[] ret = { kernel3D.Function2Var( c.getLabel(),
+				 * (GeoFunctionNVar) arg[0], (NumberValue) arg[2], (NumberValue)
+				 * arg[3], (NumberValue) arg[5], (NumberValue) arg[6] ) };
+				 * return ret; }
+				 */
 
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 

@@ -132,7 +132,8 @@ public abstract class AlgoStats2D extends AlgoElement {
 			for (int i = 0; i < sizex; i++) {
 				GeoElement geox = geoListx.get(i);
 				GeoElement geoy = geoListy.get(i);
-				if (geox instanceof NumberValue && geoy instanceof NumberValue) {
+				if (geox instanceof NumberValue
+						&& geoy instanceof NumberValue) {
 					NumberValue numx = (NumberValue) geox;
 					NumberValue numy = (NumberValue) geoy;
 					valx = numx.getDouble();
@@ -225,7 +226,5 @@ public abstract class AlgoStats2D extends AlgoElement {
 			break;
 		}
 	}
-
-	
 
 }

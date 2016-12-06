@@ -287,7 +287,8 @@ public class PlotterBrush implements PathPlotter {
 	 * draws a section point
 	 * 
 	 */
-	protected void draw(PlotterBrushSection s, double u, double v, int texture) {
+	protected void draw(PlotterBrushSection s, double u, double v,
+			int texture) {
 
 		s.getNormalAndPosition(u, v, drawNormal, drawPos);
 
@@ -314,7 +315,8 @@ public class PlotterBrush implements PathPlotter {
 			} else {
 				factor = TEXTURE_AFFINE_FACTOR * length * scale;
 			}
-			manager.texture(factor * (pos - texturePosZero) + textureValZero, 0);
+			manager.texture(factor * (pos - texturePosZero) + textureValZero,
+					0);
 			break;
 		case TEXTURE_LINEAR:
 			if (manager.getView3D().getApplication()
@@ -411,7 +413,7 @@ public class PlotterBrush implements PathPlotter {
 
 					float i = ticksOffset
 							- ((int) (ticksOffset / ticksDistanceNormed))
-							* ticksDistanceNormed;
+									* ticksDistanceNormed;
 					float ticksDelta = thicknessOld;
 					if (manager.getView3D().getApplication()
 							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
@@ -428,8 +430,8 @@ public class PlotterBrush implements PathPlotter {
 						tmpCoords2.setAdd(p1,
 								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
-						drawTick(tmpCoords, tmpCoords2, i,
-								ticksThickness, thicknessOld);
+						drawTick(tmpCoords, tmpCoords2, i, ticksThickness,
+								thicknessOld);
 					}
 					break;
 				case MAJOR_AND_MINOR:
@@ -440,7 +442,7 @@ public class PlotterBrush implements PathPlotter {
 
 					i = ticksOffset
 							- ((int) (ticksOffset / ticksDistanceNormed))
-							* ticksDistanceNormed;
+									* ticksDistanceNormed;
 					if (i < 0) {
 						i += ticksDistanceNormed;
 					}
@@ -452,8 +454,8 @@ public class PlotterBrush implements PathPlotter {
 					ticksThickness = 4 * thicknessOld;
 					float ticksMinorThickness = 2.5f * thicknessOld;
 					boolean minor = false;
-					if (i > ticksDistanceNormed / 2 + ticksDelta
-							/ lengthInScene) {
+					if (i > ticksDistanceNormed / 2
+							+ ticksDelta / lengthInScene) {
 						minor = true;
 						i -= ticksDistanceNormed / 2;
 					} else if (i * lengthInScene <= ticksDelta) {
@@ -469,8 +471,8 @@ public class PlotterBrush implements PathPlotter {
 								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
 						drawTick(tmpCoords, tmpCoords2, i,
-								minor ? ticksMinorThickness
-								: ticksThickness, thicknessOld);
+								minor ? ticksMinorThickness : ticksThickness,
+								thicknessOld);
 
 						minor = !minor;
 					}
@@ -648,21 +650,21 @@ public class PlotterBrush implements PathPlotter {
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 		float u, v;
-		
+
 		// start arrow
 		u = (float) Math.cos(start);
 		v = (float) Math.sin(start);
-		
+
 		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
-	
+
 		tmpCoords.setAdd(center, tmpCoords.setMul(vn1, radius));
-		
+
 		tmpCoords3.setCrossProduct(vn2, vn1);
 		tmpCoords2.setAdd(tmpCoords, tmpCoords3.mulInside(arrowLength));
 		setThickness(0);
 		setTextureX(0, 0);
 		down(tmpCoords2, vn1, vn2);
-		
+
 		setThickness(2 * oldThickness);
 		setTextureX(0, 0);
 		moveTo(tmpCoords, vn1, vn2);
@@ -698,7 +700,6 @@ public class PlotterBrush implements PathPlotter {
 
 	}
 
-
 	private Coords m = new Coords(3), vn1 = new Coords(3);
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
 			tmpCoords3 = new Coords(3), tmpCoords4 = new Coords(3);
@@ -717,7 +718,7 @@ public class PlotterBrush implements PathPlotter {
 	 *            1st eigenvalue
 	 * @param b
 	 *            2nd eigenvalue
-	 * */
+	 */
 	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
 			double b, double start, double extent) {
 
@@ -784,7 +785,6 @@ public class PlotterBrush implements PathPlotter {
 		coords.calcNorm();
 		return (float) coords.getNorm();
 	}
-
 
 	/**
 	 * draws quarter of an hyperbola
@@ -888,7 +888,6 @@ public class PlotterBrush implements PathPlotter {
 		length = 1;
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f / (TEXTURE_AFFINE_FACTOR * scale));
-
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -1229,6 +1228,5 @@ public class PlotterBrush implements PathPlotter {
 	public boolean supports(CoordSys transformSys) {
 		return true;
 	}
-
 
 }

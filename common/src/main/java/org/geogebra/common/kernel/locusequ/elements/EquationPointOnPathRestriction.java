@@ -12,30 +12,34 @@ import org.geogebra.common.kernel.locusequ.EquationRestriction;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 
 /**
- * @author sergio
- * Restriction for {@link AlgoPointOnPath}.
+ * @author sergio Restriction for {@link AlgoPointOnPath}.
  */
 public class EquationPointOnPathRestriction extends EquationRestriction {
 
 	/**
 	 * General constructor.
-	 * @param geo point.
-	 * @param algo {@link AlgoPointOnPath}
-	 * @param scope {@link EquationScope}
+	 * 
+	 * @param geo
+	 *            point.
+	 * @param algo
+	 *            {@link AlgoPointOnPath}
+	 * @param scope
+	 *            {@link EquationScope}
 	 */
-	public EquationPointOnPathRestriction(final GeoElement geo, final AlgoElement algo, final EquationScope scope) {
+	public EquationPointOnPathRestriction(final GeoElement geo,
+			final AlgoElement algo, final EquationScope scope) {
 		super(geo, algo, scope);
 	}
 
 	@Override
 	protected EquationList forPointImpl(EquationPoint p) {
 		AlgoPointOnPath algo = (AlgoPointOnPath) this.getAlgo();
-        
-        EquationList elist = new EquationList(1);
-        elist.addAll(this.getScope().getElement(algo.getPath().toGeoElement())
-                  .forPoint(p));
-        
-        return elist;
+
+		EquationList elist = new EquationList(1);
+		elist.addAll(this.getScope().getElement(algo.getPath().toGeoElement())
+				.forPoint(p));
+
+		return elist;
 	}
 
 	@Override

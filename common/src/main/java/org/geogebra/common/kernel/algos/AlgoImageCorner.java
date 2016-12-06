@@ -80,6 +80,5 @@ public class AlgoImageCorner extends AlgoElement {
 
 		return true; // update cascade of dependent objects done in Construction
 	}
-	
 
 }

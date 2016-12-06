@@ -109,16 +109,14 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 		// cos(alpha) = v . w / (|v| * |w|)
 		// tan(alpha) = sin(alpha) / cos(alpha)
 		// => tan(alpha) = det(v, w) / v . w
-		double det = ((GeoLine) g).x * ((GeoLine) h).y - ((GeoLine) g).y
-				* ((GeoLine) h).x;
-		double prod = ((GeoLine) g).x * ((GeoLine) h).x + ((GeoLine) g).y
-				* ((GeoLine) h).y;
+		double det = ((GeoLine) g).x * ((GeoLine) h).y
+				- ((GeoLine) g).y * ((GeoLine) h).x;
+		double prod = ((GeoLine) g).x * ((GeoLine) h).x
+				+ ((GeoLine) g).y * ((GeoLine) h).y;
 		double value = Math.atan2(det, prod);
 
 		angle.setValue(value);
 	}
-
-	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

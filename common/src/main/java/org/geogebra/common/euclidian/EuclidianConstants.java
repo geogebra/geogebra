@@ -228,7 +228,6 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
-
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
 
@@ -264,7 +263,9 @@ public final class EuclidianConstants {
 	/** creates a sphere with midpoint through another point */
 	public static final int MODE_SPHERE_TWO_POINTS = 521;
 
-	/** creates a cone with center of basis, apex point and radius of the basis */
+	/**
+	 * creates a cone with center of basis, apex point and radius of the basis
+	 */
 	public static final int MODE_CONE_TWO_POINTS_RADIUS = 522;
 
 	/**
@@ -273,7 +274,9 @@ public final class EuclidianConstants {
 	 */
 	public static final int MODE_CYLINDER_TWO_POINTS_RADIUS = 523;
 
-	/** creates a prism with basis and first vertex of the second parallel face */
+	/**
+	 * creates a prism with basis and first vertex of the second parallel face
+	 */
 	public static final int MODE_PRISM = 531;
 
 	/** creates a prism/cylinder with basis and height */
@@ -382,8 +385,7 @@ public final class EuclidianConstants {
 
 	public static final int MODE_ERASER = 110;
 	public static final int MODE_HIGHLIGHTER = 111;
-	
-	
+
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
 	/** max delay between taps of a doublecklick */
@@ -406,6 +408,7 @@ public final class EuclidianConstants {
 	public static String getModeTextSimple(int mode) {
 		return getModeText(mode).replace(".Tool", "");
 	}
+
 	/**
 	 * @param mode
 	 *            mode number
@@ -562,7 +565,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
 			return "Hyperbola3";
 
-			// Michael Borcherds 2008-03-13
+		// Michael Borcherds 2008-03-13
 		case EuclidianConstants.MODE_COMPASSES:
 			return "Compasses";
 
@@ -683,15 +686,14 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_PEN:
 			return "Pen";
 
-			// case EuclidianConstants.MODE_PENCIL:
-			// return "Pencil";
+		// case EuclidianConstants.MODE_PENCIL:
+		// return "Pencil";
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return "FreehandShape";
 
-			// case EuclidianConstants.MODE_VISUAL_STYLE:
-			// return "VisualStyle";
-
+		// case EuclidianConstants.MODE_VISUAL_STYLE:
+		// return "VisualStyle";
 
 		case EuclidianConstants.MODE_FITLINE:
 			return "FitLine";
@@ -705,7 +707,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
 			return "FunctionInspector";
 
-			// CAS
+		// CAS
 		case EuclidianConstants.MODE_CAS_EVALUATE:
 			return "Evaluate";
 
@@ -738,7 +740,7 @@ public final class EuclidianConstants {
 		case EuclidianConstants.MODE_ATTACH_DETACH:
 			return "AttachDetachPoint";
 
-			// Spreadsheet
+		// Spreadsheet
 		case EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS:
 			return "OneVarStats";
 
@@ -783,8 +785,8 @@ public final class EuclidianConstants {
 
 		case EuclidianConstants.MODE_ROOTS:
 			return "Roots";
-			
-			/** WHITEBOARD TOOLS */
+
+		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return "ShapeLine";
 		case EuclidianConstants.MODE_SHAPE_TRIANGLE:

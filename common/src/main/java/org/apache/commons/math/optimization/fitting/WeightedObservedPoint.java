@@ -19,57 +19,73 @@ package org.apache.commons.math.optimization.fitting;
 
 import java.io.Serializable;
 
-/** This class is a simple container for weighted observed point in
+/**
+ * This class is a simple container for weighted observed point in
  * {@link CurveFitter curve fitting}.
- * <p>Instances of this class are guaranteed to be immutable.</p>
- * @version $Revision: 786479 $ $Date: 2009-06-19 14:36:16 +0200 (ven. 19 juin 2009) $
+ * <p>
+ * Instances of this class are guaranteed to be immutable.
+ * </p>
+ * 
+ * @version $Revision: 786479 $ $Date: 2009-06-19 14:36:16 +0200 (ven. 19 juin
+ *          2009) $
  * @since 2.0
  */
 public class WeightedObservedPoint implements Serializable {
 
-    /** Serializable version id. */
-    private static final long serialVersionUID = 5306874947404636157L;
+	/** Serializable version id. */
+	private static final long serialVersionUID = 5306874947404636157L;
 
-    /** Weight of the measurement in the fitting process. */
-    private final double weight;
+	/** Weight of the measurement in the fitting process. */
+	private final double weight;
 
-    /** Abscissa of the point. */
-    private final double x;
+	/** Abscissa of the point. */
+	private final double x;
 
-    /** Observed value of the function at x. */
-    private final double y;
+	/** Observed value of the function at x. */
+	private final double y;
 
-    /** Simple constructor.
-     * @param weight weight of the measurement in the fitting process
-     * @param x abscissa of the measurement
-     * @param y ordinate of the measurement
-     */
-    public WeightedObservedPoint(final double weight, final double x, final double y) {
-        this.weight = weight;
-        this.x      = x;
-        this.y      = y;
-    }
+	/**
+	 * Simple constructor.
+	 * 
+	 * @param weight
+	 *            weight of the measurement in the fitting process
+	 * @param x
+	 *            abscissa of the measurement
+	 * @param y
+	 *            ordinate of the measurement
+	 */
+	public WeightedObservedPoint(final double weight, final double x,
+			final double y) {
+		this.weight = weight;
+		this.x = x;
+		this.y = y;
+	}
 
-    /** Get the weight of the measurement in the fitting process.
-     * @return weight of the measurement in the fitting process
-     */
-    public double getWeight() {
-        return weight;
-    }
+	/**
+	 * Get the weight of the measurement in the fitting process.
+	 * 
+	 * @return weight of the measurement in the fitting process
+	 */
+	public double getWeight() {
+		return weight;
+	}
 
-    /** Get the abscissa of the point.
-     * @return abscissa of the point
-     */
-    public double getX() {
-        return x;
-    }
+	/**
+	 * Get the abscissa of the point.
+	 * 
+	 * @return abscissa of the point
+	 */
+	public double getX() {
+		return x;
+	}
 
-    /** Get the observed value of the function at x.
-     * @return observed value of the function at x
-     */
-    public double getY() {
-        return y;
-    }
+	/**
+	 * Get the observed value of the function at x.
+	 * 
+	 * @return observed value of the function at x
+	 */
+	public double getY() {
+		return y;
+	}
 
 }
-

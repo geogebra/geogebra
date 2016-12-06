@@ -229,7 +229,8 @@ public class AlgorithmSet {
 	 * 
 	 * @param collection
 	 */
-	final public void removeAllFromCollection(Collection<AlgoElement> collection) {
+	final public void removeAllFromCollection(
+			Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.remove(cur.algo);

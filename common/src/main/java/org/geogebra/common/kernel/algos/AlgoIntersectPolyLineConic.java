@@ -144,10 +144,10 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 
 	private void addIncidence() {
 		for (int i = 0; i < intersectingPoints.size(); i++) {
-			((GeoPoint) intersectingPoints.getElement(i)).addIncidence(
-					(GeoElement) this.poly, false);
-			((GeoPoint) intersectingPoints.getElement(i)).addIncidence(
-					this.conic, false);
+			((GeoPoint) intersectingPoints.getElement(i))
+					.addIncidence((GeoElement) this.poly, false);
+			((GeoPoint) intersectingPoints.getElement(i))
+					.addIncidence(this.conic, false);
 		}
 	}
 
@@ -188,14 +188,14 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 
 	@Override
 	public void compute() {
-		
+
 		// calculate intersecting coordinates
 		this.intersectingCoords(this.conic, this.poly, this.intersectingCoords);
 
 		// update and/or create points
 		this.intersectingPoints
-				.adjustOutputSize(this.intersectingCoords.size() > 0 ? this.intersectingCoords
-						.size() : 1);
+				.adjustOutputSize(this.intersectingCoords.size() > 0
+						? this.intersectingCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;

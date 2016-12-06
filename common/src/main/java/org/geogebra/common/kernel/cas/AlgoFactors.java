@@ -113,7 +113,8 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 
 				// force first element in each row to be a function, even if
 				// constant
-				for (int i = 0; i < g.size() && g.get(i) instanceof GeoList; i++) {
+				for (int i = 0; i < g.size()
+						&& g.get(i) instanceof GeoList; i++) {
 					GeoList factor = (GeoList) g.get(i);
 					if (factor.get(0) instanceof GeoNumeric) {
 						GeoElement constant = factor.get(0);
@@ -131,7 +132,5 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			g.setUndefined();
 		}
 	}
-
-	
 
 }

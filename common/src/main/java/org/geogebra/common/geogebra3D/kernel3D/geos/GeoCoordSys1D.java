@@ -28,10 +28,10 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 
-public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
-		GeoLineND, GeoCoordSys, GeoCoordSys1DInterface, Translateable,
-		MatrixTransformable, Traceable, RotateableND, MirrorableAtPlane,
-		Transformable, Dilateable {
+public abstract class GeoCoordSys1D extends GeoElement3D
+		implements Path, GeoLineND, GeoCoordSys, GeoCoordSys1DInterface,
+		Translateable, MatrixTransformable, Traceable, RotateableND,
+		MirrorableAtPlane, Transformable, Dilateable {
 
 	protected CoordSys coordsys;
 
@@ -211,7 +211,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	 * @param dimension
 	 * @param lambda
 	 * @return the point at position lambda on the coord sys
-	 * */
+	 */
 	public Coords getPointInD(int dimension, double lambda) {
 
 		Coords v = getPoint(lambda);
@@ -291,7 +291,9 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 					done = true;
 				} else {
 					// project current point coordinates
-					// Application.debug("ici\n getWillingCoords=\n"+P.getWillingCoords()+"\n matrix=\n"+getMatrix().toString());
+					// Application.debug("ici\n
+					// getWillingCoords=\n"+P.getWillingCoords()+"\n
+					// matrix=\n"+getMatrix().toString());
 					Coords preDirection = ((GeoPoint3D) P).getWillingCoords()
 							.sub(coordsys.getOrigin())
 							.crossProduct(coordsys.getVx());
@@ -302,12 +304,11 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 					if (tmpCoords1 == null) {
 						tmpCoords1 = Coords.createInhomCoorsInD3();
 					}
-					t = ((GeoPoint3D) P)
-							.getWillingCoords()
+					t = ((GeoPoint3D) P).getWillingCoords()
 							.projectedParameterOnLineWithDirection(
 									coordsys.getOrigin(),
-									coordsys.getVx(),
-									preDirection.crossProduct4(coordsys.getVx()),
+									coordsys.getVx(), preDirection
+											.crossProduct4(coordsys.getVx()),
 									tmpCoords1);
 
 					done = true;
@@ -418,8 +419,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	public Coords getCartesianEquationVector(CoordMatrix m) {
 
 		if (m == null) {
-			return CoordMatrixUtil.lineEquationVector(
-					getCoordSys().getOrigin(), getCoordSys().getVx());
+			return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),
+					getCoordSys().getVx());
 		}
 
 		return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),
@@ -523,8 +524,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 	final public double distance(GeoLineND g) {
 
 		double dist;
-		Coords cVector = this.getDirectionInD3().crossProduct(
-				g.getDirectionInD3());
+		Coords cVector = this.getDirectionInD3()
+				.crossProduct(g.getDirectionInD3());
 		Coords diffPoints = this.getPointInD(3, 0)
 				.getInhomCoordsInSameDimension()
 				.sub(g.getPointInD(3, 0).getInhomCoordsInSameDimension());
@@ -564,7 +565,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 		return true;
 	}
 
-	public void matrixTransform(double a00, double a01, double a10, double a11) {
+	public void matrixTransform(double a00, double a01, double a10,
+			double a11) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = CoordMatrix4x4.Identity();
@@ -718,8 +720,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 		double qx = w * Q.getX();
 		double qy = w * Q.getY();
 
-		Coords oRot = new Coords((x - qx) * cos + (qy - y) * sin + qx, (x - qx)
-				* sin + (y - qy) * cos + qy, z, w);
+		Coords oRot = new Coords((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy, z, w);
 
 		double vx = v.getX();
 		double vy = v.getY();
@@ -819,9 +821,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 
 		double l = vn.getNorm();
 		Coords v = getCoordSys().getVx();
-		setCoord(point,
-				vn.copy().mulInside(2 * v.dotproduct(vn) / (l * l))
-						.addInsideMul(v, -1));
+		setCoord(point, vn.copy().mulInside(2 * v.dotproduct(vn) / (l * l))
+				.addInsideMul(v, -1));
 
 	}
 
@@ -842,10 +843,8 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 		if (tmpCoords2 == null) {
 			tmpCoords2 = new Coords(4);
 		}
-		setCoord(
-				point,
-				tmpCoords1.setAdd(v,
-						tmpCoords2.setMul(vn, -2 * v.dotproduct(vn))));
+		setCoord(point, tmpCoords1.setAdd(v,
+				tmpCoords2.setMul(vn, -2 * v.dotproduct(vn))));
 
 	}
 

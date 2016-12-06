@@ -16,7 +16,6 @@
  */
 package org.apache.commons.collections15;
 
-
 /**
  * The BufferUnderflowException is used when the buffer is already empty.
  * <p/>
@@ -32,46 +31,49 @@ package org.apache.commons.collections15;
  */
 public class BufferUnderflowException extends NoSuchElementException {
 
-    /**
-     * The root cause throwable
-     */
-    private final Throwable throwable;
+	/**
+	 * The root cause throwable
+	 */
+	private final Throwable throwable;
 
-    /**
-     * Constructs a new <code>BufferUnderflowException</code>.
-     */
-    public BufferUnderflowException() {
-        super();
-        throwable = null;
-    }
+	/**
+	 * Constructs a new <code>BufferUnderflowException</code>.
+	 */
+	public BufferUnderflowException() {
+		super();
+		throwable = null;
+	}
 
-    /**
-     * Construct a new <code>BufferUnderflowException</code>.
-     *
-     * @param message the detail message for this exception
-     */
-    public BufferUnderflowException(String message) {
-        this(message, null);
-    }
+	/**
+	 * Construct a new <code>BufferUnderflowException</code>.
+	 *
+	 * @param message
+	 *            the detail message for this exception
+	 */
+	public BufferUnderflowException(String message) {
+		this(message, null);
+	}
 
-    /**
-     * Construct a new <code>BufferUnderflowException</code>.
-     *
-     * @param message   the detail message for this exception
-     * @param exception the root cause of the exception
-     */
-    public BufferUnderflowException(String message, Throwable exception) {
-        super(message);
-        throwable = exception;
-    }
+	/**
+	 * Construct a new <code>BufferUnderflowException</code>.
+	 *
+	 * @param message
+	 *            the detail message for this exception
+	 * @param exception
+	 *            the root cause of the exception
+	 */
+	public BufferUnderflowException(String message, Throwable exception) {
+		super(message);
+		throwable = exception;
+	}
 
-    /**
-     * Gets the root cause of the exception.
-     *
-     * @return the root cause
-     */
-    public final Throwable getCause() {
-        return throwable;
-    }
+	/**
+	 * Gets the root cause of the exception.
+	 *
+	 * @return the root cause
+	 */
+	public final Throwable getCause() {
+		return throwable;
+	}
 
 }

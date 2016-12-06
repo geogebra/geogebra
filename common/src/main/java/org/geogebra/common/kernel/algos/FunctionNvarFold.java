@@ -19,10 +19,12 @@ public class FunctionNvarFold implements FoldComputer {
 	}
 
 	public void add(GeoElement geoElement, Operation op) {
-		FunctionNVar fn = GeoFunction.operationSymb(op, result,
-				(FunctionalNVar) geoElement).deepCopy(geoElement.getKernel());
-		fn.setExpression(AlgoDependentFunction.expandFunctionDerivativeNodes(
-				fn.getExpression(), true).wrap());
+		FunctionNVar fn = GeoFunction
+				.operationSymb(op, result, (FunctionalNVar) geoElement)
+				.deepCopy(geoElement.getKernel());
+		fn.setExpression(AlgoDependentFunction
+				.expandFunctionDerivativeNodes(fn.getExpression(), true)
+				.wrap());
 		result.setFunction(fn);
 		this.result.setDefined(true);
 

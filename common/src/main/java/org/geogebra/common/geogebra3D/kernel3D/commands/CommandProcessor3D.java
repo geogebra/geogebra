@@ -26,8 +26,8 @@ public class CommandProcessor3D {
 	 *            application
 	 * @return current view orientation
 	 */
-	static final public GeoDirectionND getCurrentViewOrientation(
-			Kernel kernelA, App app) {
+	static final public GeoDirectionND getCurrentViewOrientation(Kernel kernelA,
+			App app) {
 
 		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
 

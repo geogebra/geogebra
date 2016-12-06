@@ -145,5 +145,4 @@ public class AlgoDirectrix extends AlgoElement {
 		return getLoc().getPlain("DirectrixOfA", c.getLabel(tpl));
 	}
 
-	
 }

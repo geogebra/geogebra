@@ -59,9 +59,8 @@ public class Relation {
 		// Creating Relation popup window:
 		RelationPane tablePane = app.getFactory().newRelationPane();
 		// Computing numerical results and collecting them alphabetically:
-		SortedSet<Report> relInfosAll = RelationNumerical
-				.sortAlphabetically(new RelationNumerical(app.getKernel())
-						.relation(ra, rb));
+		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
+				new RelationNumerical(app.getKernel()).relation(ra, rb));
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
@@ -133,7 +132,8 @@ public class Relation {
 								// ProveDetails=={true}
 								rel.info += loc.getMenu("AlwaysTrue");
 							} else { // "0"
-								Log.error("Internal error in prover: Prove==true <-> ProveDetails==false");
+								Log.error(
+										"Internal error in prover: Prove==true <-> ProveDetails==false");
 								rel.info += loc.getMenu("ButNotGenerallyTrue");
 							}
 							rel.info += "</b>";
@@ -142,8 +142,8 @@ public class Relation {
 							if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
 								// UnderCertainConditionsA
 								rel.info += loc.getPlain(
-										"UnderCertainConditionsA", "<ul><li "
-												+ liStyle + ">" + relInfo
+										"UnderCertainConditionsA",
+										"<ul><li " + liStyle + ">" + relInfo
 												+ "</ul>");
 
 							} else {
@@ -157,9 +157,11 @@ public class Relation {
 									}
 								}
 								conds += "</ul>";
-								rel.info += loc.getPlain("GenerallyTrueAcondB",
-										"<ul><li " + liStyle + ">" + relInfo
-												+ "</ul>", conds);
+								rel.info += loc
+										.getPlain("GenerallyTrueAcondB",
+												"<ul><li " + liStyle + ">"
+														+ relInfo + "</ul>",
+												conds);
 							}
 						}
 					}

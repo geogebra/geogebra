@@ -61,8 +61,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue[] coefY = new ExpressionValue[5];
 			ExpressionValue[] coefZ = new ExpressionValue[5];
 
-			if (ap.getTrigCoeffs(cx, coefX,
-							new ExpressionNode(kernel, 1.0), loc)
+			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0),
+					loc)
 					&& ap.getTrigCoeffs(cy, coefY,
 							new ExpressionNode(kernel, 1.0), loc)
 					&& ap.getTrigCoeffs(cz, coefZ,
@@ -83,7 +83,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					conic.setDefinition(buildParamEq(exp));
 					conic.setLabel(label);
 
-				return new GeoElement[] { conic };
+					return new GeoElement[] { conic };
 				}
 				return dependentConic(cons, exp, coefX, coefY, coefZ, label,
 						fv[0]);
@@ -94,14 +94,11 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				coefZ[i] = new ExpressionNode(kernel, 0);
 			}
 			int degX = ap.getPolyCoeffs(cx, coefX,
-					new ExpressionNode(kernel, 1),
-					loc);
+					new ExpressionNode(kernel, 1), loc);
 			int degY = ap.getPolyCoeffs(cy, coefY,
-					new ExpressionNode(kernel, 1),
-					loc);
+					new ExpressionNode(kernel, 1), loc);
 			int degZ = ap.getPolyCoeffs(cz, coefZ,
-					new ExpressionNode(kernel, 1),
-					loc);
+					new ExpressionNode(kernel, 1), loc);
 
 			if ((degX >= 0 && degY >= 0 && degZ >= 0)
 					&& (degX < 2 && degY < 2 && degZ < 2)) {
@@ -120,14 +117,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 						&& coefY[1].isConstant() && coefZ[1].isConstant()) {
 					line = new GeoLine3D(cons);
 					line.showUndefinedInAlgebraView(true);
-					Coords start = new Coords(new double[] {
-							coefX[0].evaluateDouble(),
-							coefY[0].evaluateDouble(),
-							coefZ[0].evaluateDouble() });
-					Coords v = new Coords(new double[] {
-							coefX[1].evaluateDouble(),
-							coefY[1].evaluateDouble(),
-							coefZ[1].evaluateDouble() });
+					Coords start = new Coords(
+							new double[] { coefX[0].evaluateDouble(),
+									coefY[0].evaluateDouble(),
+									coefZ[0].evaluateDouble() });
+					Coords v = new Coords(
+							new double[] { coefX[1].evaluateDouble(),
+									coefY[1].evaluateDouble(),
+									coefZ[1].evaluateDouble() });
 					line.setCoord(start, v);
 					line.setToParametric(fv[0].getSetVarString());
 					if (info.isLabelOutput()) {
@@ -177,7 +174,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			GeoNumeric to = new GeoNumeric(cons, 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, exp,
 					new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
-							nz.getNumber() }, loc, from, to);
+							nz.getNumber() },
+					loc, from, to);
 			ac.getCurve().setLabel(label);
 			return ac.getOutput();
 		}
@@ -206,8 +204,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 	 *            coefficients for (sin,cos,1) of z coord
 	 */
 	public static void updateTrigConic(GeoConic3D conic,
-			ExpressionValue[] coefX,
-			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
+			ExpressionValue[] coefX, ExpressionValue[] coefY,
+			ExpressionValue[] coefZ) {
 		CoordSys cs = new CoordSys(2);
 
 		double mx = eval(coefX[0]), my = eval(coefY[0]), mz = eval(coefZ[0]);
@@ -215,9 +213,11 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		double xx = 0, xy = 0, yy = 0, det = 0;
 
 		if (coefX[1] != null || coefX[2] != null) {
-			double vx = eval(coefX[1]), vy = eval(coefY[1]), vz = eval(coefZ[1]);
+			double vx = eval(coefX[1]), vy = eval(coefY[1]),
+					vz = eval(coefZ[1]);
 
-			double wx = eval(coefX[2]), wy = eval(coefY[2]), wz = eval(coefZ[2]);
+			double wx = eval(coefX[2]), wy = eval(coefY[2]),
+					wz = eval(coefZ[2]);
 			cs.resetCoordSys();
 			cs.addPoint(new Coords(mx, my, mz, 1));
 			cs.addVector(new Coords(vx, vy, vz));
@@ -232,9 +232,11 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			det = v.getX() * w.getY() - w.getX() * v.getY();
 
 		} else if (coefX[3] != null || coefX[4] != null) {
-			double vx = eval(coefX[3]), vy = eval(coefY[3]), vz = eval(coefZ[3]);
+			double vx = eval(coefX[3]), vy = eval(coefY[3]),
+					vz = eval(coefZ[3]);
 
-			double wx = eval(coefX[4]), wy = eval(coefY[4]), wz = eval(coefZ[4]);
+			double wx = eval(coefX[4]), wy = eval(coefY[4]),
+					wz = eval(coefZ[4]);
 			cs.resetCoordSys();
 			cs.addPoint(new Coords(mx, my, mz, 1));
 			cs.addVector(new Coords(vx, vy, vz));
@@ -273,8 +275,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 	 * @param coefZ
 	 *            coefficients of z as t-polynomial
 	 */
-	public static void updateParabola(GeoConic3D conic,
-			ExpressionValue[] coefX,
+	public static void updateParabola(GeoConic3D conic, ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
 		Kernel kernel = conic.getKernel();
 		double mx = eval(coefX[0]), my = eval(coefY[0]), mz = eval(coefZ[0]);
@@ -300,12 +301,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		Equation eq;
 
 		// Numerically unstable
-		eq = new Equation(kernel, px.wrap().multiply(d * d * w.getX())
-				.plus(py.wrap().multiply(d * d * w.getY())), t.power(2)
-				.multiply(w.getX() * w.getX() + w.getY() * w.getY())
-				.plus(t.multiply(
+		eq = new Equation(kernel,
+				px.wrap().multiply(d * d * w.getX())
+						.plus(py.wrap().multiply(d * d * w.getY())),
+				t.power(2).multiply(w.getX() * w.getX() + w.getY() * w.getY())
+						.plus(t.multiply(
 
-				w.getY() * v.getY() + v.getX() * w.getX()).multiply(d))
+								w.getY() * v.getY() + v.getX() * w.getX())
+								.multiply(d))
 
 		);
 		eq.setForceConic();
@@ -345,12 +348,12 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
 		cons.removeFromConstructionList(nz);
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
-				exp, new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
-						nz.getNumber() }, new GeoNumeric[] { loc0,
-						loc1 },
+				exp,
+				new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
+						nz.getNumber() },
+				new GeoNumeric[] { loc0, loc1 },
 				new GeoNumberValue[] { num(-10), num(-10) },
-				new GeoNumberValue[] { num(10),
-						num(10) });
+				new GeoNumberValue[] { num(10), num(10) });
 		return algo.getOutput();
 	}
 

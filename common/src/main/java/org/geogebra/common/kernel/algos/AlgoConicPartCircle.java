@@ -36,8 +36,8 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	 * Creates a new arc or sector algorithm. The type is either
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
-	public AlgoConicPartCircle(Construction cons, String label,
-			GeoPoint center, GeoPoint startPoint, GeoPoint endPoint, int type) {
+	public AlgoConicPartCircle(Construction cons, String label, GeoPoint center,
+			GeoPoint startPoint, GeoPoint endPoint, int type) {
 		this(cons, center, startPoint, endPoint, type);
 		conicPart.setLabel(label);
 	}

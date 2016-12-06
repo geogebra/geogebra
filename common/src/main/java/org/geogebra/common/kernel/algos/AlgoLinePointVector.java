@@ -107,6 +107,4 @@ public class AlgoLinePointVector extends AlgoElement {
 				v.getLabel(tpl));
 	}
 
-	
-
 }

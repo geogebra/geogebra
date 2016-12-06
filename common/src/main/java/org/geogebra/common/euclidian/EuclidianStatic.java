@@ -32,8 +32,8 @@ public class EuclidianStatic {
 	public static final int CLIP_DISTANCE = 5;
 
 	/** standardstroke */
-	protected static final GBasicStroke standardStroke = AwtFactory.getPrototype()
-			.newMyBasicStroke(1.0f);
+	protected static final GBasicStroke standardStroke = AwtFactory
+			.getPrototype().newMyBasicStroke(1.0f);
 	/** stroke for selected geos */
 	protected static final GBasicStroke selStroke = AwtFactory.getPrototype()
 			.newMyBasicStroke(1.0f + EuclidianStyleConstants.SELECTION_ADD);
@@ -66,8 +66,8 @@ public class EuclidianStatic {
 			GFontRenderContext frc) {
 		if (str.equals(""))
 			return 0f;
-		GTextLayout layout = AwtFactory.getPrototype()
-				.newTextLayout(str, font, frc);
+		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(str, font,
+				frc);
 		return layout.getAdvance();
 
 	}
@@ -117,19 +117,18 @@ public class EuclidianStatic {
 			dash = null;
 		}
 
-		int endCap = dash != null ? GBasicStroke.CAP_BUTT : standardStroke
-				.getEndCap();
+		int endCap = dash != null ? GBasicStroke.CAP_BUTT
+				: standardStroke.getEndCap();
 
-		return AwtFactory.getPrototype().newBasicStroke(
-				width, endCap, standardStroke.getLineJoin(),
-				standardStroke.getMiterLimit(), dash, 0.0f);
+		return AwtFactory.getPrototype().newBasicStroke(width, endCap,
+				standardStroke.getLineJoin(), standardStroke.getMiterLimit(),
+				dash, 0.0f);
 	}
 
 	/*
 	 * public abstract float textWidth(String str, Font font, FontRenderContext
 	 * frc);
 	 */
-
 
 	/**
 	 * Draw a multiline LaTeX label.
@@ -183,18 +182,16 @@ public class EuclidianStatic {
 		// use latex by default just if there is just a single element
 		boolean isLaTeX = (elements.length == 1);
 
-
 		// calculate the required space of every element
 		for (int i = 0, currentLine = 0; i < elements.length; ++i) {
 
 			if (isLaTeX) {
 				// save the height of this element by drawing it to a temporary
 				// buffer
-				GDimension dim = AwtFactory.getPrototype().newDimension(0,0);
-				dim = app.getDrawEquation().drawEquation(app, geo,
-						tempGraphics, 0, 0, elements[i], font,
-						((GeoText) geo).isSerifFont(), fgColor, bgColor, false,
-						false, callback);
+				GDimension dim = AwtFactory.getPrototype().newDimension(0, 0);
+				dim = app.getDrawEquation().drawEquation(app, geo, tempGraphics,
+						0, 0, elements[i], font, ((GeoText) geo).isSerifFont(),
+						fgColor, bgColor, false, false, callback);
 
 				int height = dim.getHeight();
 
@@ -242,8 +239,9 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// calculate the y offset of this element by: (lineHeight -
 				// elementHeight) / 2
-				yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
-						.get(currentElement))).intValue()) / 2;
+				yOffset = (((lineHeights.get(currentLine))).intValue()
+						- ((elementHeights.get(currentElement))).intValue())
+						/ 2;
 
 				DrawEquation de = app.getDrawEquation();
 				// draw the equation and save the x offset
@@ -258,14 +256,16 @@ public class EuclidianStatic {
 
 				for (int j = 0; j < lines.length; ++j) {
 					// calculate the y offset like done with the element
-					yOffset = (((lineHeights.get(currentLine))).intValue() - ((elementHeights
-							.get(currentElement))).intValue()) / 2;
+					yOffset = (((lineHeights.get(currentLine))).intValue()
+							- ((elementHeights.get(currentElement))).intValue())
+							/ 2;
 
 					// draw the string
 					g2.setFont(font); // JLaTeXMath changes g2's fontsize
-					xOffset += drawIndexedString(app, g2, lines[j], xLabel
-							+ xOffset, yLabel + height + yOffset + lineSpread,
-							serif, true).x;
+					xOffset += drawIndexedString(app, g2, lines[j],
+							xLabel + xOffset,
+							yLabel + height + yOffset + lineSpread, serif,
+							true).x;
 
 					// add the height of this line if more lines follow
 					if (j + 1 < lines.length) {
@@ -310,7 +310,7 @@ public class EuclidianStatic {
 	 * @return str split on $ but not \$
 	 */
 	private static String[] blockSplit(String str) {
-		
+
 		// http://stackoverflow.com/questions/2709839/how-do-i-express-but-not-preceded-by-in-a-java-regular-expression
 		// negative lookbehind
 		// return str.split("(?<!\\\\)$");
@@ -344,7 +344,7 @@ public class EuclidianStatic {
 		}
 
 		return normal;
-		
+
 	}
 
 	private static GFont getIndexFont(GFont f) {
@@ -374,10 +374,10 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			float xPos,
-			float yPos, boolean serif, boolean precise) {
+			float xPos, float yPos, boolean serif, boolean precise) {
 
-		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise, true);
+		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise,
+				true);
 	}
 
 	/**
@@ -412,8 +412,7 @@ public class EuclidianStatic {
 		GFont indexFont = getIndexFont(g2font);
 		GFont font = g2font;
 		// GTextLayout layout;
-		GFontRenderContext frc = g3
-				.getFontRenderContext();
+		GFontRenderContext frc = g3.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
 		float maxY = 0;
@@ -502,10 +501,10 @@ public class EuclidianStatic {
 		if (doDraw) {
 			g3.setFont(g2font);
 		}
-		return new GPoint(Math.round(x - xPos),
-				Math.round(maxY - yPos));
+		return new GPoint(Math.round(x - xPos), Math.round(maxY - yPos));
 
 	}
+
 	private static double measureString(String tempStr, GFont font,
 			GFontRenderContext frc) {
 		if (frc != null)
@@ -554,8 +553,8 @@ public class EuclidianStatic {
 				g2.setFont(font);
 
 				// end of line reached: draw this line
-				g2.drawString(labelDesc.substring(lineBegin, i), xLabel, yLabel
-						+ lines * lineSpread);
+				g2.drawString(labelDesc.substring(lineBegin, i), xLabel,
+						yLabel + lines * lineSpread);
 
 				int width = (int) textWidth(labelDesc.substring(lineBegin, i),
 						font, frc);
@@ -584,8 +583,8 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return AwtFactory.getPrototype().newRectangle(xLabel - 3, yLabel - fontSize
-				- 3, xoffset + 6, height + 6);
+		return AwtFactory.getPrototype().newRectangle(xLabel - 3,
+				yLabel - fontSize - 3, xoffset + 6, height + 6);
 	}
 
 }

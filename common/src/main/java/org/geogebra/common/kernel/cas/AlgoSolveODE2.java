@@ -111,10 +111,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (!b.isDefined() || !c.isDefined() || !f.isDefined()
-				|| !x.isDefined() || !y.isDefined() || !yDot.isDefined()
-				|| !step.isDefined() || !end.isDefined()
-				|| Kernel.isZero(step.getDouble())) {
+		if (!b.isDefined() || !c.isDefined() || !f.isDefined() || !x.isDefined()
+				|| !y.isDefined() || !yDot.isDefined() || !step.isDefined()
+				|| !end.isDefined() || Kernel.isZero(step.getDouble())) {
 			locus.setUndefined();
 			return;
 		}
@@ -207,11 +206,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
 			yDot[0] = y[1]; // (1)
-			yDot[1] = f.evaluate(t) - b.evaluate(t) * y[1] - c.evaluate(t)
-					* y[0]; // (2)
+			yDot[1] = f.evaluate(t) - b.evaluate(t) * y[1]
+					- c.evaluate(t) * y[0]; // (2)
 		}
 	}
-
-	
 
 }

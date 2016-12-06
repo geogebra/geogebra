@@ -40,9 +40,8 @@ public class CmdExponential extends CommandProcessor {
 		BooleanValue cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
-			if (!arg[1].isGeoFunction()
-					|| !((GeoFunction) arg[1]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
@@ -55,9 +54,8 @@ public class CmdExponential extends CommandProcessor {
 		case 2:
 			ok[0] = arg[0] instanceof GeoNumberValue;
 			if (ok[0]) {
-				if (arg[1].isGeoFunction()
-						&& ((GeoFunction) arg[1]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[1].isGeoFunction() && ((GeoFunction) arg[1])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoExponentialDF algo = new AlgoExponentialDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);

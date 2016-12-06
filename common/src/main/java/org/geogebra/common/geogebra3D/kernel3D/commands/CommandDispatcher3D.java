@@ -187,9 +187,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Net:
 				return new CmdPolyhedronNet(kernel);
 
-				/*
-				 * case Polyhedron: return new CmdPolyhedronConvex(kernel);
-				 */
+			/*
+			 * case Polyhedron: return new CmdPolyhedronConvex(kernel);
+			 */
 
 			case PointIn:
 				return new CmdPointIn3D(kernel);
@@ -276,14 +276,14 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Axes:
 				return new CmdAxes3D(kernel);
 
-				// scripting : 3D
+			// scripting : 3D
 			case SetViewDirection:
 				return new CmdSetViewDirection(kernel);
 
 			case SetSpinSpeed:
 				return new CmdSetSpinSpeed(kernel);
 
-				// polygon operations
+			// polygon operations
 			case Difference:
 				return new CmdDifference3D(kernel);
 

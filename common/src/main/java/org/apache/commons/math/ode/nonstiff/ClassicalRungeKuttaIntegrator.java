@@ -17,14 +17,15 @@
 
 package org.apache.commons.math.ode.nonstiff;
 
-
 /**
- * This class implements the classical fourth order Runge-Kutta
- * integrator for Ordinary Differential Equations (it is the most
- * often used Runge-Kutta method).
+ * This class implements the classical fourth order Runge-Kutta integrator for
+ * Ordinary Differential Equations (it is the most often used Runge-Kutta
+ * method).
  *
- * <p>This method is an explicit Runge-Kutta method, its Butcher-array
- * is the following one :
+ * <p>
+ * This method is an explicit Runge-Kutta method, its Butcher-array is the
+ * following one :
+ * 
  * <pre>
  *    0  |  0    0    0    0
  *   1/2 | 1/2   0    0    0
@@ -39,37 +40,34 @@ package org.apache.commons.math.ode.nonstiff;
  * @see GillIntegrator
  * @see MidpointIntegrator
  * @see ThreeEighthesIntegrator
- * @version $Revision: 810196 $ $Date: 2009-09-01 21:47:46 +0200 (mar. 01 sept. 2009) $
+ * @version $Revision: 810196 $ $Date: 2009-09-01 21:47:46 +0200 (mar. 01 sept.
+ *          2009) $
  * @since 1.2
  */
 
 public class ClassicalRungeKuttaIntegrator extends RungeKuttaIntegrator {
 
-  /** Time steps Butcher array. */
-  private static final double[] STATIC_C = {
-    1.0 / 2.0, 1.0 / 2.0, 1.0
-  };
+	/** Time steps Butcher array. */
+	private static final double[] STATIC_C = { 1.0 / 2.0, 1.0 / 2.0, 1.0 };
 
-  /** Internal weights Butcher array. */
-  private static final double[][] STATIC_A = {
-    { 1.0 / 2.0 },
-    { 0.0, 1.0 / 2.0 },
-    { 0.0, 0.0, 1.0 }
-  };
+	/** Internal weights Butcher array. */
+	private static final double[][] STATIC_A = { { 1.0 / 2.0 },
+			{ 0.0, 1.0 / 2.0 }, { 0.0, 0.0, 1.0 } };
 
-  /** Propagation weights Butcher array. */
-  private static final double[] STATIC_B = {
-    1.0 / 6.0, 1.0 / 3.0, 1.0 / 3.0, 1.0 / 6.0
-  };
+	/** Propagation weights Butcher array. */
+	private static final double[] STATIC_B = { 1.0 / 6.0, 1.0 / 3.0, 1.0 / 3.0,
+			1.0 / 6.0 };
 
-  /** Simple constructor.
-   * Build a fourth-order Runge-Kutta integrator with the given
-   * step.
-   * @param step integration step
-   */
-  public ClassicalRungeKuttaIntegrator(final double step) {
-    super("classical Runge-Kutta", STATIC_C, STATIC_A, STATIC_B,
-          new ClassicalRungeKuttaStepInterpolator(), step);
-  }
+	/**
+	 * Simple constructor. Build a fourth-order Runge-Kutta integrator with the
+	 * given step.
+	 * 
+	 * @param step
+	 *            integration step
+	 */
+	public ClassicalRungeKuttaIntegrator(final double step) {
+		super("classical Runge-Kutta", STATIC_C, STATIC_A, STATIC_B,
+				new ClassicalRungeKuttaStepInterpolator(), step);
+	}
 
 }

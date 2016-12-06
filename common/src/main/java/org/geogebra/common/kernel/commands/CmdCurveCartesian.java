@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
- * Curve[ <x-coord expression>, <y-coord expression>, <number-var>, <from>, <to>
- * ]
+ * Curve[ <x-coord expression>, <y-coord expression>, <number-var>, <from>,
+ * <to> ]
  */
 public class CmdCurveCartesian extends CommandProcessor {
 	/**
@@ -44,13 +44,13 @@ public class CmdCurveCartesian extends CommandProcessor {
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 				ExpressionNode exp = kernelA
 						.convertNumberValueToExpressionNode(arg[0]);
-				int dim = ((VectorNDValue)arg[0]).getDimension();
+				int dim = ((VectorNDValue) arg[0]).getDimension();
 				GeoNumberValue[] coords = new GeoNumberValue[dim];
 				for (int i = 0; i < dim; i++) {
 					ExpressionNode cx = kernelA.getAlgebraProcessor()
 							.computeCoord(exp, i);
 					AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx,
-						false);
+							false);
 					cons.removeFromConstructionList(nx);
 					coords[i] = nx.getNumber();
 				}
@@ -76,10 +76,10 @@ public class CmdCurveCartesian extends CommandProcessor {
 				checkDependency(arg, c.getName(), 4, 2);
 
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, null,
-						new GeoNumberValue[] {
-								(GeoNumberValue) arg[0],
-								(GeoNumberValue) arg[1] }, (GeoNumeric) arg[2],
-						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
+						new GeoNumberValue[] { (GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1] },
+						(GeoNumeric) arg[2], (GeoNumberValue) arg[3],
+						(GeoNumberValue) arg[4]);
 				algo.getCurve().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getCurve() };
 
@@ -105,8 +105,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 	 * @return curve algo
 	 */
 	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
-			GeoNumberValue[] coords,
-			GeoElement[] arg) {
+			GeoNumberValue[] coords, GeoElement[] arg) {
 		return new AlgoCurveCartesian(cons, point, coords, (GeoNumeric) arg[1],
 				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 	}

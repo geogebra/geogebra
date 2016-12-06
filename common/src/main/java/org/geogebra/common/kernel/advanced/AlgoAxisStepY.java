@@ -78,5 +78,4 @@ public class AlgoAxisStepY extends AlgoElement {
 		num.setValue(axisSteps[1]);
 	}
 
-	
 }

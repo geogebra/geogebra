@@ -43,7 +43,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	// output
 	/** intersection */
 	protected GeoConic3D conic;
-	
+
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -142,8 +142,8 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 			parametricMatrix = new CoordMatrix(4, 3);
 		}
 		CoordMatrix qm = inputQuad.getSymetricMatrix();
-		CoordMatrix pm = inputPlane.getCoordSys().getParametricMatrix(
-				parametricMatrix);
+		CoordMatrix pm = inputPlane.getCoordSys()
+				.getParametricMatrix(parametricMatrix);
 
 		// sets the conic matrix from plane and quadric matrix
 		cm.setMul(tmpMatrix.setMulT1(pm, qm), pm);

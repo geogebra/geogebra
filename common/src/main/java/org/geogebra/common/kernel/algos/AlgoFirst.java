@@ -56,8 +56,8 @@ public class AlgoFirst extends AlgoElement {
 		// make sure that x(Element[list,1]) will work even if the output list's
 		// length is zero
 		if (inputList.isGeoList()) {
-			outputList.setTypeStringForXML(((GeoList) inputList)
-					.getTypeStringForXML());
+			outputList.setTypeStringForXML(
+					((GeoList) inputList).getTypeStringForXML());
 		} else {
 			// inputList is a Locusm see AlgoFirstLocus
 			outputList.setTypeStringForXML("point");
@@ -102,7 +102,5 @@ public class AlgoFirst extends AlgoElement {
 		for (int i = 0; i < outsize; i++)
 			outputList.add(((GeoList) inputList).get(i).copyInternal(cons));
 	}
-
-	
 
 }

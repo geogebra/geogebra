@@ -4,86 +4,77 @@ import org.geogebra.common.kernel.Kernel;
 
 /**
  * class for 3 floats (x, y, z)
+ * 
  * @author mathieu
  *
  */
-public class CoordsFloat3 extends Coords3{
-	
-	
-	
+public class CoordsFloat3 extends Coords3 {
+
 	public float x, y, z;
-	
+
 	/**
 	 * constructor
 	 */
-	public CoordsFloat3(){
+	public CoordsFloat3() {
 	}
-	
+
 	/**
 	 * constructor
-	 * @param x x coord
-	 * @param y y coord
-	 * @param z z coord
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord
 	 */
-	public CoordsFloat3(float x, float y, float z){
+	public CoordsFloat3(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	
-
-	
 	@Override
 	final public boolean isDefined() {
-		return !Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(z) ;
+		return !Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(z);
 	}
-	
 
-	
-	
 	@Override
 	final public CoordsFloat3 copyVector() {
 
 		return new CoordsFloat3(x, y, z);
 
 	}
-	
-	
-	
+
 	@Override
-	final public void addInside(Coords3 v){
+	final public void addInside(Coords3 v) {
 		x += v.getXf();
 		y += v.getYf();
 		z += v.getZf();
 	}
-	
-	
-	
-	
-	
+
 	@Override
-	final public void mulInside(float v){
+	final public void mulInside(float v) {
 		x *= v;
 		y *= v;
 		z *= v;
 	}
-	
+
 	@Override
-	final public void mulInside(double v){
+	final public void mulInside(double v) {
 		mulInside((float) v);
-	}	
-	
+	}
+
 	@Override
-	public void normalizeIfPossible(){
-		double l = Math.sqrt(x*x + y*y + z*z);
-		if (!Kernel.isZero(l)){
-			mulInside(1/l);
+	public void normalizeIfPossible() {
+		double l = Math.sqrt(x * x + y * y + z * z);
+		if (!Kernel.isZero(l)) {
+			mulInside(1 / l);
 		}
 	}
 
 	@Override
-	final public void set(float x, float y, float z){
+	final public void set(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -92,7 +83,7 @@ public class CoordsFloat3 extends Coords3{
 	@Override
 	final public void set(double x, double y, double z) {
 		set((float) x, (float) y, (float) z);
-		
+
 	}
 
 	@Override
@@ -109,7 +100,6 @@ public class CoordsFloat3 extends Coords3{
 	final public double getZd() {
 		return z;
 	}
-
 
 	@Override
 	final public float getXf() {
@@ -137,6 +127,4 @@ public class CoordsFloat3 extends Coords3{
 		return ret.toString();
 	}
 
-	
-	
 }

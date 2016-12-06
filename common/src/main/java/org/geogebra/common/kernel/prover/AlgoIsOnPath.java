@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoIsOnPath extends AlgoElement implements
-		SymbolicParametersBotanaAlgoAre {
+public class AlgoIsOnPath extends AlgoElement
+		implements SymbolicParametersBotanaAlgoAre {
 
 	private GeoPoint inputPoint;
 	private Path inputPath;
@@ -45,8 +45,8 @@ public class AlgoIsOnPath extends AlgoElement implements
 	 * @param inputLine
 	 *            the line
 	 */
-	public AlgoIsOnPath(final Construction cons,
-			final GeoPoint inputPoint, final Path inputPath) {
+	public AlgoIsOnPath(final Construction cons, final GeoPoint inputPoint,
+			final Path inputPath) {
 		super(cons);
 		this.inputPoint = inputPoint;
 		this.inputPath = inputPath;
@@ -161,12 +161,12 @@ public class AlgoIsOnPath extends AlgoElement implements
 				if (((GeoConic) inputPath).isEllipse()
 						|| ((GeoConic) inputPath).isHyperbola()) {
 
-					if (botanaVars == null
-							&& ((GeoElement) inputPoint).getParentAlgorithm() != null) {
+					if (botanaVars == null && ((GeoElement) inputPoint)
+							.getParentAlgorithm() != null) {
 						botanaVars = new Variable[4];
 						botanaVars = ((SymbolicParametersBotanaAlgo) ((GeoElement) inputPoint)
 								.getParentAlgorithm())
-								.getBotanaVars(inputPoint);
+										.getBotanaVars(inputPoint);
 					}
 
 					Variable[] fv1 = new Variable[4];
@@ -178,7 +178,7 @@ public class AlgoIsOnPath extends AlgoElement implements
 							.getBotanaVars((GeoConic) inputPath);
 
 					botanaPolynomials = new Polynomial[1][3];
-					
+
 					Polynomial e_1 = new Polynomial();
 					Polynomial e_2 = new Polynomial();
 					AlgoElement algoParent = ((GeoElement) inputPoint)
@@ -186,8 +186,9 @@ public class AlgoIsOnPath extends AlgoElement implements
 					// case input point is point on ellipse/hyperbola
 					if (algoParent instanceof AlgoPointOnPath
 							&& (((GeoConic) ((AlgoPointOnPath) algoParent)
-									.getPath()).isEllipse() || ((GeoConic) ((AlgoPointOnPath) algoParent)
-									.getPath()).isHyperbola())) {
+									.getPath()).isEllipse()
+									|| ((GeoConic) ((AlgoPointOnPath) algoParent)
+											.getPath()).isHyperbola())) {
 						e_1 = new Polynomial(botanaVars[2]);
 						e_2 = new Polynomial(botanaVars[3]);
 					}
@@ -207,12 +208,14 @@ public class AlgoIsOnPath extends AlgoElement implements
 							.subtract(e_2);
 
 					// e1'^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-					botanaPolynomials[0][1] = Polynomial.sqrDistance(fv2[6],
-							fv2[7], fv1[0], fv1[1]).subtract(e_1.multiply(e_1));
+					botanaPolynomials[0][1] = Polynomial
+							.sqrDistance(fv2[6], fv2[7], fv1[0], fv1[1])
+							.subtract(e_1.multiply(e_1));
 
 					// e2'^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-					botanaPolynomials[0][2] = Polynomial.sqrDistance(fv2[8],
-							fv2[9], fv1[0], fv1[1]).subtract(e_2.multiply(e_2));
+					botanaPolynomials[0][2] = Polynomial
+							.sqrDistance(fv2[8], fv2[9], fv1[0], fv1[1])
+							.subtract(e_2.multiply(e_2));
 
 					return botanaPolynomials;
 				}
@@ -221,7 +224,5 @@ public class AlgoIsOnPath extends AlgoElement implements
 		}
 		throw new NoSymbolicParametersException();
 	}
-
-	
 
 }

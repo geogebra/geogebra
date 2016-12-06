@@ -65,12 +65,12 @@ public class DataCollectionSettings extends AbstractSettings {
 	 * @return GeoElement (can be null)
 	 */
 	public GeoElement getGeoMappedToSensor(Types type, Construction cons) {
-		Object geoObj =  mapper.get(type);
-		
+		Object geoObj = mapper.get(type);
+
 		GeoElement geo = null;
-		
+
 		if (geoObj instanceof String) {
-			geo = cons.lookupLabel((String)geoObj);
+			geo = cons.lookupLabel((String) geoObj);
 			// faster lookup next time
 			if (geo != null) {
 				mapper.put(type, geo);
@@ -78,9 +78,10 @@ public class DataCollectionSettings extends AbstractSettings {
 		} else if (geoObj instanceof GeoElement) {
 			geo = (GeoElement) geoObj;
 		}
-		
+
 		return geo;
 	}
+
 	// ============================================
 	// PreferredSize Settings
 	// ============================================
@@ -110,14 +111,14 @@ public class DataCollectionSettings extends AbstractSettings {
 	/**
 	 * returns settings in XML format
 	 */
-	public void getXML(StringBuilder sb, boolean asPreference, Construction cons) {
+	public void getXML(StringBuilder sb, boolean asPreference,
+			Construction cons) {
 
 		sb.append("<dataCollectionView>\n");
 
 		GDimension size = preferredSize();
 		int width = size.getWidth();
 		int height = size.getHeight();
-
 
 		// sb.append("\t<size ");
 		// if (width != 0) {
@@ -132,7 +133,6 @@ public class DataCollectionSettings extends AbstractSettings {
 		// sb.append("\"");
 		// }
 		// sb.append("/>\n");
-
 
 		// if (timeout != Defaults.TIMEOUT) {
 		// sb.append("\t<timeout ");

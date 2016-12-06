@@ -186,7 +186,6 @@ public class PlotterCompletingCursor {
 		// draw it
 		manager.draw(index);
 
-
 	}
 
 }

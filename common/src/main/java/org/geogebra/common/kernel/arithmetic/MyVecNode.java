@@ -32,8 +32,8 @@ import org.geogebra.common.main.MyParseError;
  * 
  * @author Markus
  */
-public class MyVecNode extends ValidExpression implements VectorValue,
-		MyVecNDNode {
+public class MyVecNode extends ValidExpression
+		implements VectorValue, MyVecNDNode {
 
 	/**
 	 * x coordinate
@@ -375,8 +375,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 			ListValue yEval = (ListValue) y.evaluate(tpl);
 			for (int idx = 0; idx < xEval.size() && idx < yEval.size(); idx++) {
 				result.addListElement(new MyVecNode(kernel,
-						xEval.getListElement(idx),
-						yEval.getListElement(idx)));
+						xEval.getListElement(idx), yEval.getListElement(idx)));
 			}
 			return result;
 		}

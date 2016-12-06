@@ -20,30 +20,30 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
 
 /**
  * All conditions checks that fail due to a {@code null} argument must throw
- * this exception.
- * This class is meant to signal a precondition violation ("null is an illegal
- * argument") and so does not extend the standard {@code NullPointerException}.
- * Proagation of {@code NullPointerException} from within Commons-Math is
- * construed to be a bug.
+ * this exception. This class is meant to signal a precondition violation ("null
+ * is an illegal argument") and so does not extend the standard
+ * {@code NullPointerException}. Proagation of {@code NullPointerException} from
+ * within Commons-Math is construed to be a bug.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
 public class NullArgumentException extends MathIllegalArgumentException {
-    /** Serializable version Id. */
-    private static final long serialVersionUID = -6024911025449780478L;
+	/** Serializable version Id. */
+	private static final long serialVersionUID = -6024911025449780478L;
 
-    /**
-     * Default constructor.
-     */
-    public NullArgumentException() {
-        super(LocalizedFormats.NULL_NOT_ALLOWED);
-    }
-    /**
-     * @param specific Message pattern providing the specific context of
-     * the error.
-     */
-    public NullArgumentException(String specific) {
-        super(specific);
-    }
+	/**
+	 * Default constructor.
+	 */
+	public NullArgumentException() {
+		super(LocalizedFormats.NULL_NOT_ALLOWED);
+	}
+
+	/**
+	 * @param specific
+	 *            Message pattern providing the specific context of the error.
+	 */
+	public NullArgumentException(String specific) {
+		super(specific);
+	}
 }

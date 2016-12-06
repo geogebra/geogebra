@@ -126,13 +126,12 @@ public class AlgoGammaDF extends AlgoElement implements AlgoDistributionDF {
 
 			// old hack:
 			// command =
-			// "If[x<0,0,x^("+k+"-1) exp(-x/("+t+"))/(gamma("+k+")("+t+")^("+k+"))]";
+			// "If[x<0,0,x^("+k+"-1)
+			// exp(-x/("+t+"))/(gamma("+k+")("+t+")^("+k+"))]";
 		}
 
 		ret.getFunctionExpression().setRight(en);
 
 	}
-
-	
 
 }

@@ -51,7 +51,6 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 		this.coeffZ = coeffZ;
 		this.trig = trig;
 
-
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -108,5 +107,4 @@ public class AlgoDependentConic3D extends AlgoElement3D {
 		return conic.getDefinition().toString(tpl);
 	}
 
-	
 }

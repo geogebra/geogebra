@@ -39,7 +39,8 @@ public class ProverPureSymbolicMethod {
 			} catch (NoSymbolicParametersException e) {
 				return ProofResult.UNKNOWN;
 			}
-		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
+		} else if (statement
+				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement
 					.getParentAlgorithm();
 			try {

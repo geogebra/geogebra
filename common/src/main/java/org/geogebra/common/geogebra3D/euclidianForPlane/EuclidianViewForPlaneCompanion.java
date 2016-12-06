@@ -357,7 +357,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		view.updateAllDrawables(true);
 	}
 
-
 	@Override
 	public boolean isVisibleInThisView(GeoElement geo) {
 
@@ -404,8 +403,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		return coords.projectPlaneWithInverseMatrix(getInverseMatrix());
 	}
 
-
-
 	/**
 	 * @param x
 	 *            x coord in view plane
@@ -430,21 +427,12 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 			return "";
 
 		if (plane instanceof GeoPlaneND) {
-			return view
-					.getApplication()
-					.getLocalization()
-					.getPlain(
-							"PlaneA",
-							((GeoElement) plane)
-									.getLabel(StringTemplate.defaultTemplate));
+			return view.getApplication().getLocalization().getPlain("PlaneA",
+					((GeoElement) plane)
+							.getLabel(StringTemplate.defaultTemplate));
 		}
-		return view
-				.getApplication()
-				.getLocalization()
-				.getPlain(
-						"PlaneFromA",
-						((GeoElement) plane)
-								.getLabel(StringTemplate.defaultTemplate));
+		return view.getApplication().getLocalization().getPlain("PlaneFromA",
+				((GeoElement) plane).getLabel(StringTemplate.defaultTemplate));
 	}
 
 	@Override
@@ -610,17 +598,16 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 	}
 
-
 	@Override
 	protected DrawableND newDrawParametricCurve(GeoCurveCartesian3D geo) {
-		return new DrawParametricCurve(view, new CurveEvaluableForPlane(geo,
-				this));
+		return new DrawParametricCurve(view,
+				new CurveEvaluableForPlane(geo, this));
 	}
 
-	 @Override
-	 public boolean isInPlane(CoordSys sys) {
+	@Override
+	public boolean isInPlane(CoordSys sys) {
 		return sys == null || sys.getEquationVector()
 				.isEqual(plane.getCoordSys().getEquationVector());
-	 }
+	}
 
 }

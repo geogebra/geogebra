@@ -71,7 +71,6 @@ public class PlotterBrushElements extends PlotterBrush {
 		endCurve();
 	}
 
-
 	/**
 	 * say we'll start a curve
 	 * 
@@ -100,13 +99,11 @@ public class PlotterBrushElements extends PlotterBrush {
 			draw(end, SINUS[i], COSINUS[i], 1);
 		}
 
-
 		((ManagerShaders) manager).endGeometry(sectionSize, TypeElement.CURVE);
 
 		sectionSize = -1;
 
 	}
-
 
 	private int sectionSize = -1;
 
@@ -127,7 +124,6 @@ public class PlotterBrushElements extends PlotterBrush {
 		super.segment(p1, p2);
 		endCurve();
 	}
-
 
 	@Override
 	public void firstPoint(double[] pos, Gap moveToAllowed) {
@@ -194,7 +190,7 @@ public class PlotterBrushElements extends PlotterBrush {
 		setTextureX(i); //
 		moveTo(p2b); //
 	}
-	
+
 	@Override
 	protected void drawArrowBase(float arrowPos, Coords arrowBase) {
 		setTextureX(1 - arrowPos);
@@ -202,6 +198,5 @@ public class PlotterBrushElements extends PlotterBrush {
 		setTextureX(0);
 		moveTo(arrowBase);
 	}
-
 
 }

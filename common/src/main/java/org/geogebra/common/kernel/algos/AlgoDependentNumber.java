@@ -57,7 +57,6 @@ import org.geogebra.common.plugin.Operation;
 public class AlgoDependentNumber extends AlgoElement
 		implements DependentAlgo, SymbolicParametersBotanaAlgo {
 
-
 	private GeoNumberValue number; // output
 
 	private Variable[] botanaVars;
@@ -241,13 +240,14 @@ public class AlgoDependentNumber extends AlgoElement
 
 		ExpressionNode definition = this.getExpression();
 		traverseExpression(definition);
-		
+
 		if (botanaVars == null) {
-			botanaVars = new Variable[segVarPairs.size()+1];
+			botanaVars = new Variable[segVarPairs.size() + 1];
 			// variable for the expression
 			botanaVars[0] = new Variable();
 			if (!segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = segVarPairs.iterator();
+				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+						.iterator();
 				int k = 1;
 				while (it.hasNext()) {
 					Entry<GeoElement, Variable> curr = it.next();
@@ -261,24 +261,22 @@ public class AlgoDependentNumber extends AlgoElement
 
 		PolynomialNode polyNode = new PolynomialNode();
 		buildPolynomialTree(definition, polyNode);
-		
-		GeoGebraCAS cas = (GeoGebraCAS) getKernel()
-				.getGeoGebraCAS();
-		
+
+		GeoGebraCAS cas = (GeoGebraCAS) getKernel().getGeoGebraCAS();
+
 		String exprGiacStr = "";
 		// expand(lcm(denom(coeff(gg)))*gg);
 		// see also CASgiac.createEliminateScript()
 		String gg = definition.toString(StringTemplate.giacTemplate)
 				+ "-ggbtmpvar" + botanaVars[0];
 		exprGiacStr = "expand(lcm(denom(coeff(" + gg + ")))*(" + gg + "))";
-		
+
 		nrOfMaxDecimals = 0;
 
 		String strForGiac = getStrForGiac(exprGiacStr);
-		
+
 		try {
-			String giacOutput = cas.getCurrentCAS()
-					.evaluateRaw(strForGiac);
+			String giacOutput = cas.getCurrentCAS().evaluateRaw(strForGiac);
 
 			giacOutput = giacOutput.substring(1, giacOutput.length() - 1);
 
@@ -288,24 +286,23 @@ public class AlgoDependentNumber extends AlgoElement
 
 			polyNode = new PolynomialNode();
 			buildPolynomialTree((ExpressionNode) resultVE, polyNode);
-			
-			expressionNodeToPolynomial((ExpressionNode) resultVE,
-					polyNode);
+
+			expressionNodeToPolynomial((ExpressionNode) resultVE, polyNode);
 			while (polyNode.getPoly() == null) {
-				expressionNodeToPolynomial(
-						(ExpressionNode) resultVE,
-						polyNode);
+				expressionNodeToPolynomial((ExpressionNode) resultVE, polyNode);
 			}
-			
+
 			botanaPolynomials = new Polynomial[botanaVars.length];
 			botanaPolynomials[0] = polyNode.getPoly();
-			
+
 			if (!segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = segVarPairs.iterator();
+				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+						.iterator();
 				int k = 1;
 				while (it.hasNext()) {
 					Entry<GeoElement, Variable> curr = it.next();
-					Variable[] currBotVars = ((GeoSegment) curr.getKey()).getBotanaVars(geo);
+					Variable[] currBotVars = ((GeoSegment) curr.getKey())
+							.getBotanaVars(geo);
 					Polynomial seg = new Polynomial(curr.getValue());
 					botanaPolynomials[k] = seg.multiply(seg)
 							.subtract(Polynomial.sqrDistance(currBotVars[0],
@@ -363,7 +360,7 @@ public class AlgoDependentNumber extends AlgoElement
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
 					(GeoSegment) node.getLeft(), currentVar);
 			searchSegVarPair(pair);
-			 allSegmentsFromExpression.add((GeoSegment) node.getLeft());
+			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
 		if (node.getRight() != null && node.getRight().isGeoElement()
 				&& node.getRight() instanceof GeoSegment) {
@@ -584,11 +581,9 @@ public class AlgoDependentNumber extends AlgoElement
 						polyNode.getLeft());
 			} else {
 				if (expNode.getLeft() instanceof GeoDummyVariable) {
-					polyNode.getLeft()
-							.setPoly(new Polynomial(
-									getVarOfGeoDummy(((GeoDummyVariable) expNode
-											.getLeft()).toString(
-													StringTemplate.defaultTemplate))));
+					polyNode.getLeft().setPoly(new Polynomial(getVarOfGeoDummy(
+							((GeoDummyVariable) expNode.getLeft()).toString(
+									StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
 					Double d = expNode.getLeft().evaluateDouble();
@@ -617,10 +612,9 @@ public class AlgoDependentNumber extends AlgoElement
 				if (expNode.getRight() instanceof GeoDummyVariable) {
 					try {
 						polyNode.getRight().setPoly(new Polynomial(
-								getVarOfGeoDummy(
-										((GeoDummyVariable) expNode.getRight())
-												.toString(
-														StringTemplate.defaultTemplate))));
+								getVarOfGeoDummy(((GeoDummyVariable) expNode
+										.getRight()).toString(
+												StringTemplate.defaultTemplate))));
 					} catch (Exception e) {
 						throw new NoSymbolicParametersException();
 					}
@@ -667,8 +661,8 @@ public class AlgoDependentNumber extends AlgoElement
 		for (Variable variable : botanaVars) {
 			if (variable.getName().equals(str)) {
 				return variable;
-				}
 			}
+		}
 		return null;
 	}
 
@@ -683,9 +677,8 @@ public class AlgoDependentNumber extends AlgoElement
 		while (it.hasNext()) {
 			GeoSegment currSeg = it.next();
 			labelsStr.append(",ggbtmpvar" + currSeg.getLabelSimple());
-			strForGiac.append(
-					"," + "ggbtmpvar" + currSeg.getLabelSimple() + "="
-							+ currSeg.getLabelSimple());
+			strForGiac.append("," + "ggbtmpvar" + currSeg.getLabelSimple() + "="
+					+ currSeg.getLabelSimple());
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr + "])");

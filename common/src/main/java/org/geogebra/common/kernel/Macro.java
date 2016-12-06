@@ -199,8 +199,8 @@ public class Macro {
 
 			if (!dependsOnInput) {
 				throw new Exception(kernel.getApplication().getLocalization()
-						.getError("Tool.OutputNotDependent")
-						+ ": " + output[i].getNameDescription());
+						.getError("Tool.OutputNotDependent") + ": "
+						+ output[i].getNameDescription());
 			}
 		}
 
@@ -226,8 +226,8 @@ public class Macro {
 				if (points != null) {
 					for (int k = 0; k < points.length; k++) {
 						outputParents.add((GeoElement) points[k]);
-						((GeoElement) points[k]).addPredecessorsToSet(
-								outputParents, false);
+						((GeoElement) points[k])
+								.addPredecessorsToSet(outputParents, false);
 					}
 				}
 			}
@@ -241,8 +241,8 @@ public class Macro {
 			if (outputParent.isLabelSet()) {
 				for (int i = 0; i < input.length; i++) {
 					if (outputParent.isChildOf(input[i])) {
-						addDependentElement(outputParent,
-								macroConsOrigElements, usedAlgoIds);
+						addDependentElement(outputParent, macroConsOrigElements,
+								usedAlgoIds);
 						// add parent only once: get out of loop
 						i = input.length;
 					}
@@ -330,8 +330,8 @@ public class Macro {
 		}
 		Log.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
-		Construction macroCons2 = createMacroConstruction(macroConsXML
-				.toString());
+		Construction macroCons2 = createMacroConstruction(
+				macroConsXML.toString());
 
 		// init macro
 		initMacro(macroCons2, inputLabels, outputLabels);
@@ -375,21 +375,20 @@ public class Macro {
 	public static void addDependentAlgo(AlgoElement algo,
 			Set<ConstructionElement> consElementSet, Set<Long> usedAlgoIds) {
 
-			// STANDARD case
-			// add algorithm
-			Long algoID = Long.valueOf(algo.getID());
-			if (!usedAlgoIds.contains(algoID))
-				consElementSet.add(algo);
-			usedAlgoIds.add(algoID);
+		// STANDARD case
+		// add algorithm
+		Long algoID = Long.valueOf(algo.getID());
+		if (!usedAlgoIds.contains(algoID))
+			consElementSet.add(algo);
+		usedAlgoIds.add(algoID);
 
-			// add all output elements including geo
-			GeoElement[] algoOutput = algo.getOutput();
-			for (int i = 0; i < algoOutput.length; i++) {
-				consElementSet.add(algoOutput[i]);
-			}
+		// add all output elements including geo
+		GeoElement[] algoOutput = algo.getOutput();
+		for (int i = 0; i < algoOutput.length; i++) {
+			consElementSet.add(algoOutput[i]);
+		}
 
 	}
-
 
 	/**
 	 * Adds the geo, its parent algorithm and all input of the parent algorithm

@@ -45,8 +45,8 @@ public abstract class Drawable3DCurves extends Drawable3D {
 
 			setHighlightingColor();
 
-			renderer.getTextures().setDashFromLineType(
-					getGeoElement().getLineType());
+			renderer.getTextures()
+					.setDashFromLineType(getGeoElement().getLineType());
 			drawGeometry(renderer);
 		}
 

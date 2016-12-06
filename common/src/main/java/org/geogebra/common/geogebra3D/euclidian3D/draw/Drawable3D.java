@@ -50,7 +50,8 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
          }
          </code></li>
  * <li><b> NOTE: </b> a Drawable3D uses the
- * {@link GeoElement3D#getDrawingMatrix()} method to know where to draw itself</li>
+ * {@link GeoElement3D#getDrawingMatrix()} method to know where to draw itself
+ * </li>
  * <li>Eclipse will add auto-generated methods :
  * <ul>
  * <li>getPickOrder() : for picking objects order ; use
@@ -103,7 +104,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  * 
  * <h3>See</h3>
  * <ul>
- * <li> {@link EuclidianView3D#createDrawable(GeoElement)} to make the drawable
+ * <li>{@link EuclidianView3D#createDrawable(GeoElement)} to make the drawable
  * be created when the GeoElement is created</li>
  * </ul>
  * 
@@ -120,7 +121,9 @@ public abstract class Drawable3D extends DrawableND {
 	private static final boolean DEBUG = false;
 
 	// constants for rendering
-	/** objects that are picked are drawn with a thickness * PICKED_DILATATION */
+	/**
+	 * objects that are picked are drawn with a thickness * PICKED_DILATATION
+	 */
 	protected static final float PICKED_DILATATION = 1.3f;
 	/** default radius for drawing 3D points */
 	// protected static final float POINT3D_RADIUS = 1.2f;
@@ -163,15 +166,17 @@ public abstract class Drawable3D extends DrawableND {
 
 	// picking
 	// private boolean m_isPicked = false;
-	/** most far picking value, used for ordering elements with openGL picking */
+	/**
+	 * most far picking value, used for ordering elements with openGL picking
+	 */
 	private double zPickFar;
 	/** nearest picking value, used for ordering elements with openGL picking */
 	private double zPickNear;
 
 	/** (r,g,b,a) vector */
 	protected Coords color = new Coords(4), colorHighlighted = new Coords(4),
-			surfaceColor = new Coords(4), surfaceColorHighlighted = new Coords(
-					4);
+			surfaceColor = new Coords(4),
+			surfaceColorHighlighted = new Coords(4);
 
 	private static final float EPSILON_Z = 0.0001f;// 0.0001f;//10000000;
 													// //limit to consider two
@@ -203,11 +208,14 @@ public abstract class Drawable3D extends DrawableND {
 	/** type for drawing planes, polygons, etc. */
 	public static final int DRAW_TYPE_SURFACES = DRAW_TYPE_CLIPPED_CURVES + 1;
 	/** type for drawing polyhedrons, etc. */
-	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES + 1;
+	public static final int DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED = DRAW_TYPE_SURFACES
+			+ 1;
 	/** type for drawing quadrics, etc. */
-	public static final int DRAW_TYPE_CLOSED_SURFACES_CURVED = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED + 1;
+	public static final int DRAW_TYPE_CLOSED_SURFACES_CURVED = DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED
+			+ 1;
 	/** type for drawing parametric surfaces, etc., that need clipping */
-	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES_CURVED + 1;
+	public static final int DRAW_TYPE_CLIPPED_SURFACES = DRAW_TYPE_CLOSED_SURFACES_CURVED
+			+ 1;
 	/** type for drawing texts */
 	public static final int DRAW_TYPE_TEXTS = DRAW_TYPE_CLIPPED_SURFACES + 1;
 	/** type for drawing lists */
@@ -347,8 +355,8 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void updateLabel() {
 
-		label.update(getGeoElement().getLabelDescription(), getView3D()
-				.getFontPoint(), getGeoElement().getObjectColor(),
+		label.update(getGeoElement().getLabelDescription(),
+				getView3D().getFontPoint(), getGeoElement().getObjectColor(),
 				getLabelPosition(), getLabelOffsetX(), -getLabelOffsetY());
 
 	}
@@ -624,8 +632,8 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	public void drawHidden(Renderer renderer) {
 
-		if (isVisible()
-				&& getGeoElement().getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
+		if (isVisible() && getGeoElement()
+				.getLineTypeHidden() != EuclidianStyleConstants.LINE_TYPE_HIDDEN_NONE) {
 
 			setHighlightingColor();
 
@@ -654,12 +662,13 @@ public abstract class Drawable3D extends DrawableND {
 	 *            renderer
 	 */
 	protected void setLineTextureHidden(Renderer renderer) {
-		if (getGeoElement().getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN) {
-			renderer.getTextures().setDashFromLineType(
-					getGeoElement().getLineType());
+		if (getGeoElement()
+				.getLineTypeHidden() == EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN) {
+			renderer.getTextures()
+					.setDashFromLineType(getGeoElement().getLineType());
 		} else {
-			renderer.getTextures().setDashFromLineTypeHidden(
-					getGeoElement().getLineType());
+			renderer.getTextures()
+					.setDashFromLineTypeHidden(getGeoElement().getLineType());
 		}
 
 	}
@@ -767,7 +776,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param renderer
 	 *            3D renderer
-	 * */
+	 */
 	public void drawLabel(Renderer renderer) {
 		drawLabel(renderer, false);
 	}
@@ -777,7 +786,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @param renderer
 	 *            3D renderer
-	 * */
+	 */
 	public boolean drawLabelForPicking(Renderer renderer) {
 		return drawLabel(renderer, true);
 	}
@@ -843,10 +852,10 @@ public abstract class Drawable3D extends DrawableND {
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
 
 		/*
-		 * Log.debug("\ncheckPickOrder="+checkPickOrder+"\n"
-		 * +"zPickNear= "+(this.zPickNear) +" | zPickFar= "+(this.zPickFar)
-		 * +" ("+this.getGeoElement()+") "+this+"\n" +"zPickFar= "+(d.zPickNear)
-		 * +" | zPickFar= "+(d.zPickFar) +" ("+d.getGeoElement()+") "+d+"\n");
+		 * Log.debug("\ncheckPickOrder="+checkPickOrder+"\n" +"zPickNear= "
+		 * +(this.zPickNear) +" | zPickFar= "+(this.zPickFar) +" ("
+		 * +this.getGeoElement()+") "+this+"\n" +"zPickFar= "+(d.zPickNear) +
+		 * " | zPickFar= "+(d.zPickFar) +" ("+d.getGeoElement()+") "+d+"\n");
 		 */
 
 		// check if one is transparent and the other not -- ONLY FOR DIFFERENT
@@ -965,9 +974,8 @@ public abstract class Drawable3D extends DrawableND {
 			// default measure = 0
 			// so that they are not affected by this comparison.
 			/*
-			 * if
-			 * (Kernel.isGreater(d.getGeoElement().getMeasure(),this.getGeoElement
-			 * ().getMeasure())) return -1; if
+			 * if (Kernel.isGreater(d.getGeoElement().getMeasure(),this.
+			 * getGeoElement ().getMeasure())) return -1; if
 			 * (Kernel.isGreater(this.getGeoElement
 			 * ().getMeasure(),d.getGeoElement().getMeasure())) return 1;
 			 */
@@ -987,12 +995,11 @@ public abstract class Drawable3D extends DrawableND {
 		// says that the two objects are equal for the comparator
 		/*
 		 * if (DEBUG){ DecimalFormat df = new DecimalFormat("0.000000000");
-		 * Log.debug("equality :\n" +"zMin= "+df.format(this.zPickNear)
-		 * +" | zMax= "+df.format(this.zPickFar)
-		 * +" ("+this.getGeoElement().getLabel
-		 * (StringTemplate.defaultTemplate)+")\n"
-		 * +"zMin= "+df.format(d.zPickNear) +" | zMax= "+df.format(d.zPickFar)
-		 * +" ("
+		 * Log.debug("equality :\n" +"zMin= "+df.format(this.zPickNear) +
+		 * " | zMax= "+df.format(this.zPickFar) +" ("
+		 * +this.getGeoElement().getLabel (StringTemplate.defaultTemplate)+")\n"
+		 * +"zMin= "+df.format(d.zPickNear) +" | zMax= "+df.format(d.zPickFar) +
+		 * " ("
 		 * +d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"); }
 		 */
 		return 0;
@@ -1000,8 +1007,8 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/** Comparator for Drawable3Ds */
-	static final public class DrawableComparator implements
-			Comparator<Drawable3D> {
+	static final public class DrawableComparator
+			implements Comparator<Drawable3D> {
 		@Override
 		public int compare(Drawable3D d1, Drawable3D d2) {
 
@@ -1011,8 +1018,8 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/** Comparator for sets of Drawable3Ds */
-	static final public class SetComparator implements
-			Comparator<TreeSet<Drawable3D>> {
+	static final public class SetComparator
+			implements Comparator<TreeSet<Drawable3D>> {
 		@Override
 		public int compare(TreeSet<Drawable3D> set1, TreeSet<Drawable3D> set2) {
 
@@ -1041,7 +1048,8 @@ public abstract class Drawable3D extends DrawableND {
 	public boolean doHighlighting() {
 
 		// no highlighting if we're moving something
-		if (getView3D().getEuclidianController().getMoveMode() != EuclidianController.MOVE_NONE) {
+		if (getView3D().getEuclidianController()
+				.getMoveMode() != EuclidianController.MOVE_NONE) {
 			return false;
 		}
 
@@ -1102,10 +1110,12 @@ public abstract class Drawable3D extends DrawableND {
 
 	private Coords tmpColor2 = new Coords(4), tmpCoords1 = new Coords(4);
 
-	protected void setColors(double alpha, Coords color, Coords colorHighlighted) {
+	protected void setColors(double alpha, Coords color,
+			Coords colorHighlighted) {
 		GColor c = getGeoElement().getObjectColor();
 		color.set(new Coords((double) c.getRed() / 255,
-				(double) c.getGreen() / 255, (double) c.getBlue() / 255, alpha));
+				(double) c.getGreen() / 255, (double) c.getBlue() / 255,
+				alpha));
 
 		if (getView3D().isGrayScaled())
 			color.convertToGrayScale();
@@ -1135,7 +1145,7 @@ public abstract class Drawable3D extends DrawableND {
 		double s = getColorShift() / distance;
 		colorHighlighted.set(tmpCoords1.setAdd(tmpCoords1.setMul(color, 1 - s),
 				tmpColor2.setMul(tmpColor2, s)));
-				//color.mul(1 - s).add(color2.mul(s)));
+		// color.mul(1 - s).add(color2.mul(s)));
 
 		// sufficient alpha to be seen
 		if (colorHighlighted.getW() < ALPHA_MIN_HIGHLIGHTING)
@@ -1156,8 +1166,8 @@ public abstract class Drawable3D extends DrawableND {
 	protected void updateAlpha() {
 		// only used by surfaces
 		// use 1-(1-alpha)^(1/3) because transparent parts are drawn twice
-		setAlpha((float) (1 - Math.pow(1 - getGeoElement().getAlphaValue(),
-				1. / 3.)));
+		setAlpha((float) (1
+				- Math.pow(1 - getGeoElement().getAlphaValue(), 1. / 3.)));
 		// setAlpha(getGeoElement().getAlphaValue());
 	}
 
@@ -1280,8 +1290,6 @@ public abstract class Drawable3D extends DrawableND {
 
 	protected Trace trace;
 
-
-
 	protected Trace getTrace() {
 		if (trace == null) {
 			trace = new Trace();
@@ -1301,7 +1309,6 @@ public abstract class Drawable3D extends DrawableND {
 		getTrace().record(this);
 
 	}
-
 
 	/**
 	 * 
@@ -1328,8 +1335,8 @@ public abstract class Drawable3D extends DrawableND {
 		if (hidden) {
 			setLineTextureHidden(renderer);
 		} else {
-			renderer.getTextures().setDashFromLineType(
-					getGeoElement().getLineType());
+			renderer.getTextures()
+					.setDashFromLineType(getGeoElement().getLineType());
 		}
 
 		for (TraceSettings settings : trace.keySet()) {
@@ -1504,7 +1511,6 @@ public abstract class Drawable3D extends DrawableND {
 		return zPickFar;
 	}
 
-
 	/**
 	 * says if the drawable is hit by the hitting (e.g. ray)
 	 * 
@@ -1618,7 +1624,7 @@ public abstract class Drawable3D extends DrawableND {
 			}
 		}
 	}
-	
+
 	/**
 	 * enlarge min and max to boundsMin and boundsMax
 	 * 
@@ -1629,8 +1635,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param coords
 	 *            (x,y,z) object coords
 	 */
-	static protected void enlargeBounds(Coords min, Coords max,
-			Coords coords) {
+	static protected void enlargeBounds(Coords min, Coords max, Coords coords) {
 		for (int i = 0; i < 3; i++) {
 			if (min.val[i] > coords.val[i]) {
 				min.val[i] = coords.val[i];
@@ -1640,26 +1645,32 @@ public abstract class Drawable3D extends DrawableND {
 			}
 		}
 	}
-	
+
 	/**
 	 * add and sub v1+v2 or v1-v2 max values to bounds
+	 * 
 	 * @param min
 	 *            (x,y,z) min
 	 * @param max
 	 *            (x,y,z) max
-	 * @param center center coords
-	 * @param v1 first direction vector
-	 * @param v2 second direction vector
-	 * @param r1 first direction radius
-	 * @param r2 second direction radius
+	 * @param center
+	 *            center coords
+	 * @param v1
+	 *            first direction vector
+	 * @param v2
+	 *            second direction vector
+	 * @param r1
+	 *            first direction radius
+	 * @param r2
+	 *            second direction radius
 	 * 
 	 */
-	static protected void enlargeBoundsToDiagonal(Coords min, Coords max, Coords center,
-			Coords v1, Coords v2, double r1, double r2) {
+	static protected void enlargeBoundsToDiagonal(Coords min, Coords max,
+			Coords center, Coords v1, Coords v2, double r1, double r2) {
 		for (int i = 0; i < 3; i++) {
 			double add = Math.abs(v1.val[i] * r1 + v2.val[i] * r2);
 			double sub = Math.abs(v1.val[i] * r1 - v2.val[i] * r2);
-			double v = Math.max(add,  sub);
+			double v = Math.max(add, sub);
 			double cMin = center.val[i] - v;
 			double cMax = center.val[i] + v;
 			if (min.val[i] > cMin) {
@@ -1670,9 +1681,6 @@ public abstract class Drawable3D extends DrawableND {
 			}
 		}
 	}
-	
-	
-	
 
 	public boolean isTracing() {
 		return false;

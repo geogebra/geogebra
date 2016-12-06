@@ -29,22 +29,22 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.TemporaryLogE
  *
  * @author cyberpython
  */
-public class SegmentsIntersectionCheckEvent extends TemporaryLogEvent{
+public class SegmentsIntersectionCheckEvent extends TemporaryLogEvent {
 
-    private Segment2D s1;
-    private Segment2D s2;
+	private Segment2D s1;
+	private Segment2D s2;
 
-    public SegmentsIntersectionCheckEvent(Segment2D s1, Segment2D s2){
-        this.s1 = s1;
-        this.s2 = s2;
-    }
+	public SegmentsIntersectionCheckEvent(Segment2D s1, Segment2D s2) {
+		this.s1 = s1;
+		this.s2 = s2;
+	}
 
-    public Segment2D getSegment1(){
-        return this.s1;
-    }
+	public Segment2D getSegment1() {
+		return this.s1;
+	}
 
-    public Segment2D getSegment2(){
-        return this.s2;
-    }
+	public Segment2D getSegment2() {
+		return this.s2;
+	}
 
 }

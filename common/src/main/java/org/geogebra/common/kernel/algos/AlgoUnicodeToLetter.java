@@ -65,5 +65,4 @@ public class AlgoUnicodeToLetter extends AlgoElement {
 		text.setTextString(ss + "");
 	}
 
-	
 }

@@ -14,7 +14,6 @@ public abstract class GBox {
 
 	public abstract GRectangle getBounds();
 
-
 	public abstract void revalidate();
 
 	public void repaint(GGraphics2D g2) {

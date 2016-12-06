@@ -98,8 +98,8 @@ public class AlgoClasses extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
-				.getElementType().equals(GeoClass.NUMERIC))) {
+		if (!(dataList.getElementType().equals(GeoClass.TEXT)
+				|| dataList.getElementType().equals(GeoClass.NUMERIC))) {
 			classList.setUndefined();
 			return;
 		}
@@ -171,7 +171,5 @@ public class AlgoClasses extends AlgoElement {
 				classList.setUndefined();
 		}
 	}
-
-	
 
 }

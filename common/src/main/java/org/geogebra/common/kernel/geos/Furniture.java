@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+
 /**
  * Interface for action objects (buttons, textfields, comboboxes)
  *
@@ -12,6 +13,7 @@ public interface Furniture extends GeoElementND {
 	 * @return screen x-coord in pixels
 	 */
 	int getAbsoluteScreenLocX();
+
 	/**
 	 * 
 	 * @return screen y-coord in pixels
@@ -19,8 +21,10 @@ public interface Furniture extends GeoElementND {
 	int getAbsoluteScreenLocY();
 
 	/**
-	 * @param screenCoordX screen x-coord in pixels
-	 * @param screenCoordY screen y-coord in pixels
+	 * @param screenCoordX
+	 *            screen x-coord in pixels
+	 * @param screenCoordY
+	 *            screen y-coord in pixels
 	 */
 	void setAbsoluteScreenLoc(int screenCoordX, int screenCoordY);
 

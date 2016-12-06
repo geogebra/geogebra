@@ -4,8 +4,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author gabor
- * Handles LoginRequests to GGTApi
+ * @author gabor Handles LoginRequests to GGTApi
  *
  */
 public class LoginRequest implements Request {
@@ -19,20 +18,22 @@ public class LoginRequest implements Request {
 	private String loginType = "forum";
 	private String exptime = "365";
 	private String info = "GeoGebraWeb Application";
-	
+
 	/**
-	 * @param userName userName
-	 * @param password pwd
+	 * @param userName
+	 *            userName
+	 * @param password
+	 *            pwd
 	 */
 	public LoginRequest(String userName, String password) {
 		this.userName = userName;
-		this.password = password;   
+		this.password = password;
 	}
 
 	public String toJSONString(ClientInfo app) {
-		
+
 		try {
-		
+
 			this.loginJSON.put("-type", loginType);
 			this.loginJSON.put("-username", userName);
 			this.loginJSON.put("-password", password);
@@ -44,9 +45,8 @@ public class LoginRequest implements Request {
 		} catch (Exception e) {
 			Log.debug("problem building request: " + e.getMessage());
 		}
-		
-		
+
 		return this.requestJSON.toString();
-    }
+	}
 
 }

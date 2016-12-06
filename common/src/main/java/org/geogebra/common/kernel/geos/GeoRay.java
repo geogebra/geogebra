@@ -32,28 +32,32 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
-
 /**
  * @author Markus Hohenwarter
  */
 final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
-	
+
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true;
-	
+
 	/**
 	 * Creates ray with start point A.
-	 * @param c construction
-	 * @param A start point
+	 * 
+	 * @param c
+	 *            construction
+	 * @param A
+	 *            start point
 	 */
 	public GeoRay(Construction c, GeoPoint A) {
 		this(c);
 		setStartPoint(A);
 	}
-	
+
 	/**
 	 * Creates new ray
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoRay(Construction c) {
 		super(c);
@@ -76,321 +80,341 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		return GeoClass.RAY;
 	}
 
-	 
 	@Override
 	public GeoLine copy() {
 		return new GeoRay(this);
 	}
-	 
-	
+
 	@Override
 	public GeoElement copyInternal(Construction cons1) {
-		GeoRay ray = new GeoRay(cons1, (GeoPoint) startPoint.copyInternal(cons1));
+		GeoRay ray = new GeoRay(cons1,
+				(GeoPoint) startPoint.copyInternal(cons1));
 		ray.set(this);
 		return ray;
 	}
-	
+
 	@Override
 	public void set(GeoElementND geo) {
-		super.set(geo);	
-		if (!geo.isGeoRay()) return;
-		
-		GeoRay ray = (GeoRay) geo;		
-		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform; 
-										
+		super.set(geo);
+		if (!geo.isGeoRay())
+			return;
+
+		GeoRay ray = (GeoRay) geo;
+		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform;
+
 		startPoint = (GeoPoint) GeoLine.updatePoint(cons, startPoint,
 				ray.startPoint);
-		
-		//Need to adjust the second defining object too, see #3770
-		if(getParentAlgorithm() instanceof AlgoJoinPointsRay && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay){
-			((AlgoJoinPointsRay) getParentAlgorithm()).getQ().set(
-					((AlgoJoinPointsRay) geo.getParentAlgorithm()).getQ());
-		}
-		else if(getParentAlgorithm() instanceof AlgoRayPointVector && geo.getParentAlgorithm() instanceof AlgoRayPointVector){
+
+		// Need to adjust the second defining object too, see #3770
+		if (getParentAlgorithm() instanceof AlgoJoinPointsRay
+				&& geo.getParentAlgorithm() instanceof AlgoJoinPointsRay) {
+			((AlgoJoinPointsRay) getParentAlgorithm()).getQ()
+					.set(((AlgoJoinPointsRay) geo.getParentAlgorithm()).getQ());
+		} else if (getParentAlgorithm() instanceof AlgoRayPointVector
+				&& geo.getParentAlgorithm() instanceof AlgoRayPointVector) {
 			((AlgoRayPointVector) getParentAlgorithm()).getv().set(
 					((AlgoRayPointVector) geo.getParentAlgorithm()).getv());
 		}
 	}
-	
+
 	/**
 	 * Sets this ray using direction line and start point
-	 * @param s start point
-	 * @param direction line
+	 * 
+	 * @param s
+	 *            start point
+	 * @param direction
+	 *            line
 	 */
 	public void set(GeoPoint s, GeoVec3D direction) {
 		super.set(direction);
 		setStartPoint(s);
 	}
-	
+
 	@Override
 	public void setVisualStyle(GeoElement geo) {
 		super.setVisualStyle(geo);
-		
-		if (geo.isGeoRay()) { 
+
+		if (geo.isGeoRay()) {
 			GeoRay ray = (GeoRay) geo;
 			allowOutlyingIntersections = ray.allowOutlyingIntersections;
 		}
 	}
-	
-	/* 
+
+	/*
 	 * Path interface
-	 */	 
+	 */
 	@Override
 	public void pointChanged(GeoPointND P) {
 		super.pointChanged(P);
-		
+
 		// ensure that the point doesn't get outside the ray
-		// i.e. ensure 0 <= t 
+		// i.e. ensure 0 <= t
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < 0.0) {
-			P.setCoords2D(startPoint.x, startPoint.y,startPoint.z);
-			P.updateCoordsFrom2D(false,null);
+			P.setCoords2D(startPoint.x, startPoint.y, startPoint.z);
+			P.updateCoordsFrom2D(false, null);
 			pp.t = 0.0;
-		} 
+		}
 	}
 
 	@Override
 	public void pathChanged(GeoPointND PI) {
-		
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(PI)){
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(PI)) {
 			pointChanged(PI);
 			return;
 		}
-		
+
 		GeoPoint P = (GeoPoint) PI;
-		
+
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < 0.0) {
 			pp.t = 0;
-		} 		
-		
+		}
+
 		// calc point for given parameter
 		P.x = startPoint.inhomX + pp.t * y;
 		P.y = startPoint.inhomY - pp.t * x;
-		P.z = 1.0;		
+		P.z = 1.0;
 	}
-	
+
 	public boolean allowOutlyingIntersections() {
 		return allowOutlyingIntersections;
 	}
-	
+
 	public void setAllowOutlyingIntersections(boolean flag) {
-		allowOutlyingIntersections = flag;		
+		allowOutlyingIntersections = flag;
 	}
-	
-	public boolean keepsTypeOnGeometricTransform() {		
+
+	public boolean keepsTypeOnGeometricTransform() {
 		return keepTypeOnGeometricTransform;
 	}
 
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
-	
+
 	@Override
 	final public boolean isLimitedPath() {
 		return true;
 	}
-	
-    @Override
+
+	@Override
 	public boolean isIntersectionPointIncident(GeoPoint p, double eps) {
-    	if (allowOutlyingIntersections)
+		if (allowOutlyingIntersections)
 			return isOnFullLine(p, eps);
 		return isOnPath(p, eps);
-    }
-      	
+	}
+
 	/**
-	 * Returns the smallest possible parameter value for this
-	 * path (may be Double.NEGATIVE_INFINITY)
+	 * Returns the smallest possible parameter value for this path (may be
+	 * Double.NEGATIVE_INFINITY)
+	 * 
 	 * @return smallest possible parameter
 	 */
 	@Override
 	public double getMinParameter() {
 		return 0;
 	}
-	
+
 	/**
-	 * Returns the largest possible parameter value for this
-	 * path (may be Double.POSITIVE_INFINITY)
+	 * Returns the largest possible parameter value for this path (may be
+	 * Double.POSITIVE_INFINITY)
+	 * 
 	 * @return largest possible parameter
 	 */
 	@Override
 	public double getMaxParameter() {
 		return Double.POSITIVE_INFINITY;
 	}
-	
+
 	@Override
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
-	
+
 	/**
-     * returns all class-specific xml tags for saveXML
-     */
+	 * returns all class-specific xml tags for saveXML
+	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-        super.getXMLtags(sb);
-		
-        // allowOutlyingIntersections
-        sb.append("\t<outlyingIntersections val=\"");
-        sb.append(allowOutlyingIntersections);
-        sb.append("\"/>\n");
-        
-        // keepTypeOnGeometricTransform
-        sb.append("\t<keepTypeOnTransform val=\"");
-        sb.append(keepTypeOnGeometricTransform);
-        sb.append("\"/>\n");
- 
-    }
+		super.getXMLtags(sb);
 
-   
-    /**
-     * Creates a new ray using a geometric transform.
-     * @param t transform
-     */
+		// allowOutlyingIntersections
+		sb.append("\t<outlyingIntersections val=\"");
+		sb.append(allowOutlyingIntersections);
+		sb.append("\"/>\n");
 
-	public GeoElement [] createTransformedObject(Transform t,String transformedLabel) {	
-		AlgoElement parent = keepTypeOnGeometricTransform ?
-				getParentAlgorithm() : null;				
-		
+		// keepTypeOnGeometricTransform
+		sb.append("\t<keepTypeOnTransform val=\"");
+		sb.append(keepTypeOnGeometricTransform);
+		sb.append("\"/>\n");
+
+	}
+
+	/**
+	 * Creates a new ray using a geometric transform.
+	 * 
+	 * @param t
+	 *            transform
+	 */
+
+	public GeoElement[] createTransformedObject(Transform t,
+			String transformedLabel) {
+		AlgoElement parent = keepTypeOnGeometricTransform ? getParentAlgorithm()
+				: null;
+
 		// CREATE RAY
-		if (parent instanceof AlgoJoinPointsRay) {	
-			//	transform points
+		if (parent instanceof AlgoJoinPointsRay) {
+			// transform points
 			AlgoJoinPointsRay algo = (AlgoJoinPointsRay) parent;
-			GeoPointND [] points = {algo.getP(), algo.getQ()};
-			points = t.transformPoints(points);	
-			if(t.isAffine()){
-				GeoElement ray = (GeoElement) kernel.rayND(transformedLabel, points[0], points[1]);
+			GeoPointND[] points = { algo.getP(), algo.getQ() };
+			points = t.transformPoints(points);
+			if (t.isAffine()) {
+				GeoElement ray = (GeoElement) kernel.rayND(transformedLabel,
+						points[0], points[1]);
 				ray.setVisualStyleForTransformations(this);
-				GeoElement [] geos = {ray, (GeoElement) points[0], (GeoElement) points[1]};
-			return geos;
+				GeoElement[] geos = { ray, (GeoElement) points[0],
+						(GeoElement) points[1] };
+				return geos;
 			}
 			GeoPoint inf = new GeoPoint(cons);
-			inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-			inf = (GeoPoint)t.doTransform(inf);
-			AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle( cons, Transform.transformedGeoLabel(this),
-					(GeoPoint) points[0], (GeoPoint) points[1],inf,GeoConicNDConstants.CONIC_PART_ARC);
+			inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+					1);
+			inf = (GeoPoint) t.doTransform(inf);
+			AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons,
+					Transform.transformedGeoLabel(this), (GeoPoint) points[0],
+					(GeoPoint) points[1], inf,
+					GeoConicNDConstants.CONIC_PART_ARC);
 			cons.removeFromAlgorithmList(ae);
-			GeoElement arc = ae.getConicPart();//GeoConicPart 				
+			GeoElement arc = ae.getConicPart();// GeoConicPart
 			arc.setVisualStyleForTransformations(this);
-			GeoElement [] geos = {arc, (GeoElement) points[0], (GeoElement) points[1]};
+			GeoElement[] geos = { arc, (GeoElement) points[0],
+					(GeoElement) points[1] };
 			return geos;
-		}
-		else if (parent instanceof AlgoRayPointVector) {			
+		} else if (parent instanceof AlgoRayPointVector) {
 			// transform startpoint
-			GeoPointND [] points = {getStartPoint()};
-			points = t.transformPoints(points);					
-						
+			GeoPointND[] points = { getStartPoint() };
+			points = t.transformPoints(points);
+
 			boolean oldSuppressLabelCreation = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			AlgoUnitVectorLine ad = new AlgoUnitVectorLine(cons, this, false);
 			cons.removeFromAlgorithmList(ad);
 			GeoVectorND direction = ad.getVector();
-			if(t.isAffine()) {
-				
-				direction = (GeoVector)t.doTransform(direction);
+			if (t.isAffine()) {
+
+				direction = (GeoVector) t.doTransform(direction);
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
-				
-				// ray through transformed point with direction of transformed line
+
+				// ray through transformed point with direction of transformed
+				// line
 				GeoElement ray = kernel.getAlgoDispatcher().ray(
 						transformedLabel, (GeoPoint) points[0],
 						(GeoVector) direction);
 				ray.setVisualStyleForTransformations(this);
-				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
+				GeoElement[] geos = new GeoElement[] { ray,
+						(GeoElement) points[0] };
 				return geos;
 			}
 			AlgoTranslate at = new AlgoTranslate(cons, getStartPoint(),
 					(GeoVector) direction);
-				cons.removeFromAlgorithmList(at);
-				GeoPoint thirdPoint = (GeoPoint) at.getResult();
-				GeoPoint inf = new GeoPoint(cons);
-				inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, 1);
-						
-				GeoPointND [] points2 = new GeoPointND[] {thirdPoint,inf};
-				points2 = t.transformPoints(points2);
-				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
-				AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons, Transform.transformedGeoLabel(this),
-			    		(GeoPoint) points[0], (GeoPoint) points2[0], (GeoPoint) points2[1],GeoConicNDConstants.CONIC_PART_ARC);
-				GeoElement arc = ae.getConicPart();//GeoConicPart 				
-				arc.setVisualStyleForTransformations(this);
-				GeoElement [] geos = {arc, (GeoElement) points[0]};
-				return geos;		
-						
-			
-			
-							
-			
+			cons.removeFromAlgorithmList(at);
+			GeoPoint thirdPoint = (GeoPoint) at.getResult();
+			GeoPoint inf = new GeoPoint(cons);
+			inf.setCoords(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY,
+					1);
+
+			GeoPointND[] points2 = new GeoPointND[] { thirdPoint, inf };
+			points2 = t.transformPoints(points2);
+			cons.setSuppressLabelCreation(oldSuppressLabelCreation);
+			AlgoConicPartCircumcircle ae = new AlgoConicPartCircumcircle(cons,
+					Transform.transformedGeoLabel(this), (GeoPoint) points[0],
+					(GeoPoint) points2[0], (GeoPoint) points2[1],
+					GeoConicNDConstants.CONIC_PART_ARC);
+			GeoElement arc = ae.getConicPart();// GeoConicPart
+			arc.setVisualStyleForTransformations(this);
+			GeoElement[] geos = { arc, (GeoElement) points[0] };
+			return geos;
+
 		} else {
-			//	create LINE	
+			// create LINE
 			GeoElement transformedLine = t.getTransformedLine(this);
 			transformedLine.setLabel(transformedLabel);
-			GeoElement [] ret = { transformedLine };
+			GeoElement[] ret = { transformedLine };
 			return ret;
-		}	
-	}		
-	
+		}
+	}
+
 	@Override
 	public boolean isGeoRay() {
 		return true;
 	}
-    // Michael Borcherds 2008-04-30
+
+	// Michael Borcherds 2008-04-30
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		// return false if it's a different type, otherwise check direction and start point
-		if (!geo.isGeoRay()) return false;
-		
-		return isSameDirection((GeoLine)geo) && ((GeoRay)geo).getStartPoint().isEqual(getStartPoint());
+		// return false if it's a different type, otherwise check direction and
+		// start point
+		if (!geo.isGeoRay())
+			return false;
+
+		return isSameDirection((GeoLine) geo)
+				&& ((GeoRay) geo).getStartPoint().isEqual(getStartPoint());
 
 	}
-	
-	
+
 	private Coords pnt2D;
-    @Override
+
+	@Override
 	public boolean isOnPath(Coords Pnd, double eps) {
 		if (pnt2D == null) {
 			pnt2D = new Coords(3);
 		}
 		pnt2D.setCoordsIn2DView(Pnd);
 		if (!isOnFullLine2D(pnt2D, eps))
-    		return false;
-    	
+			return false;
+
 		return respectLimitedPath(pnt2D, eps);
-	   	
-    }
-    
-    @Override
+
+	}
+
+	@Override
 	public boolean respectLimitedPath(Coords Pnd, double eps) {
 		if (pnt2D == null) {
 			pnt2D = new Coords(3);
 		}
 		pnt2D.setCoordsIn2DView(Pnd);
-    	PathParameter pp = getTempPathParameter();
+		PathParameter pp = getTempPathParameter();
 		doPointChanged(pnt2D, pp);
-    	double t = pp.getT();
+		double t = pp.getT();
 
-    	return  t >= -eps;   	
-    }
-    
-    public boolean isAllEndpointsLabelsSet() {
-		return startPoint.isLabelSet();		
-	} 
-    
-    @Override
-	public boolean respectLimitedPath(double parameter){
+		return t >= -eps;
+	}
+
+	public boolean isAllEndpointsLabelsSet() {
+		return startPoint.isLabelSet();
+	}
+
+	@Override
+	public boolean respectLimitedPath(double parameter) {
 		return Kernel.isGreaterEqual(parameter, 0);
 	}
 
 	public GeoElement copyFreeRay() {
 		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
-		
+
 		double[] direction = new double[3];
 		getDirection(direction);
-		
+
 		GeoVector directionVec = new GeoVector(cons);
 		directionVec.setCoords(direction);
-		
-		AlgoRayPointVector algo = new AlgoRayPointVector(cons, null, startPoint1, directionVec);
-		
+
+		AlgoRayPointVector algo = new AlgoRayPointVector(cons, null,
+				startPoint1, directionVec);
+
 		return algo.getRay();
 	}
 

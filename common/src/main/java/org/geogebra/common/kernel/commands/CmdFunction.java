@@ -73,9 +73,8 @@ public class CmdFunction extends CommandProcessor {
 			// file might be saved with old Function[sin(x),1,2]
 			if (!cons.isFileLoading()) {
 				fv = null;
-				if (varName != null
-						|| kernelA.getConstruction()
-								.getRegisteredFunctionVariable() != null) {
+				if (varName != null || kernelA.getConstruction()
+						.getRegisteredFunctionVariable() != null) {
 					if (varName == null)
 						varName = kernelA.getConstruction()
 								.getRegisteredFunctionVariable();
@@ -122,9 +121,9 @@ public class CmdFunction extends CommandProcessor {
 
 					// copied from CmdIf from here
 
-					expr = new ExpressionNode(kernelA, wrap(conditions.get(0),
-							fv, mayUseIndependent), Operation.IF, wrap(geoFun,
-							fv, mayUseIndependent));
+					expr = new ExpressionNode(kernelA,
+							wrap(conditions.get(0), fv, mayUseIndependent),
+							Operation.IF, wrap(geoFun, fv, mayUseIndependent));
 
 					Function fun = new Function(expr, fv);
 					GeoFunction gf;
@@ -147,9 +146,8 @@ public class CmdFunction extends CommandProcessor {
 
 			// old code, just for when file loading
 
-			if (varName != null
-					|| kernelA.getConstruction()
-							.getRegisteredFunctionVariable() != null) {
+			if (varName != null || kernelA.getConstruction()
+					.getRegisteredFunctionVariable() != null) {
 				if (varName == null)
 					varName = kernelA.getConstruction()
 							.getRegisteredFunctionVariable();

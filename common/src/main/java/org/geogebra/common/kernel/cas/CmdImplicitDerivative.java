@@ -22,8 +22,8 @@ public class CmdImplicitDerivative extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1)
 			throw argNumErr(app, c.getName(), args.length);

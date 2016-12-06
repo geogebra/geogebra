@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Michael
  */
-public class AlgoDynamicCoordinates extends AlgoElement implements
-		AlgoDynamicCoordinatesInterface {
+public class AlgoDynamicCoordinates extends AlgoElement
+		implements AlgoDynamicCoordinatesInterface {
 
 	private GeoNumberValue x, y; // input
 	private GeoPoint P; // input

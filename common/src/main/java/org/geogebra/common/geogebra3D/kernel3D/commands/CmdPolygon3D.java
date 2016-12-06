@@ -80,8 +80,8 @@ public class CmdPolygon3D extends CmdPolygon {
 	private GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
 
-		return kernelA.getManager3D()
-				.RegularPolygon(labels, A, B, n, direction);
+		return kernelA.getManager3D().RegularPolygon(labels, A, B, n,
+				direction);
 
 	}
 }

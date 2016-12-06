@@ -104,6 +104,4 @@ public class AlgoReverse extends AlgoElement {
 		}
 	}
 
-	
-
 }

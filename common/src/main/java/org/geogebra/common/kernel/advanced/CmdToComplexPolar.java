@@ -29,15 +29,15 @@ public class CmdToComplexPolar extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		if (c.getArgumentNumber() != 1)
 			throw argNumErr(app, c.getName(), c.getArgumentNumber());
 		GeoElement[] arg = resArgs(c);
 		AlgoToComplexPolar algo = null;
 		if (arg[0] instanceof GeoPoint)
-			algo = new AlgoToComplexPolar(cons, c.getLabel(),
-					(GeoPoint) arg[0], coordStyle);
+			algo = new AlgoToComplexPolar(cons, c.getLabel(), (GeoPoint) arg[0],
+					coordStyle);
 		if (arg[0] instanceof GeoVector)
 			algo = new AlgoToComplexPolar(cons, c.getLabel(),
 					(GeoVector) arg[0], coordStyle);

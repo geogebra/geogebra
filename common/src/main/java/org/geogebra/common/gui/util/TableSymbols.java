@@ -35,7 +35,7 @@ public class TableSymbols {
 						app.getPlain("GreekCharacterA", Unicode.eta + "") }, // lowercaseGreekETA
 				{ Unicode.theta + "",
 						app.getPlain("GreekCharacterA", Unicode.theta + "") }, // lowercaseGreekTHETA
-				// { "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03B9"}, //lowercaseGreekIOTA
 				{ Unicode.kappa + "",
 						app.getPlain("GreekCharacterA", Unicode.kappa + "") }, // lowercaseGreekKAPPA
@@ -43,23 +43,23 @@ public class TableSymbols {
 						app.getPlain("GreekCharacterA", Unicode.lambda + "") }, // lowercaseGreekLAMDA
 				{ Unicode.mu + "",
 						app.getPlain("GreekCharacterA", Unicode.mu + "") }, // lowercaseGreekMU
-				// { "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03BD"}, //lowercaseGreekNU
 				{ Unicode.xi + "",
 						app.getPlain("GreekCharacterA", Unicode.xi + "") }, // lowercaseGreekXI
-				// { "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03BF"}, //lowercaseGreekOMICRON
-				// { "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C0"}, //lowercaseGreekPI
 				{ Unicode.rho + "",
 						app.getPlain("GreekCharacterA", Unicode.rho + "") }, // lowercaseGreekRHO
-				// { "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C2"}, //lowercaseGreekFINALSIGMA
 				{ Unicode.sigma + "",
 						app.getPlain("GreekCharacterA", Unicode.sigma + "") }, // lowercaseGreekSIGMA
 				{ Unicode.tau + "",
 						app.getPlain("GreekCharacterA", Unicode.tau + "") }, // lowercaseGreekTAU
-				// { "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ":  " +
+				// { "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
 				// "\u03C5"}, //lowercaseGreekUPSILON
 				{ Unicode.phi + "",
 						app.getPlain("GreekCharacterA", Unicode.phi + "") }, // lowercaseGreekPHI
@@ -67,13 +67,13 @@ public class TableSymbols {
 																				// the
 																				// "loopy"
 																				// phi)
-				{
-						Unicode.phi_symbol + "",
-						app.getPlain("GreekCharacterA", Unicode.phi_symbol + "") }, // lowercaseGreekPHI
-																					// \phi
-																					// the
-																					// "straight"
-																					// phi
+				{ Unicode.phi_symbol + "",
+						app.getPlain("GreekCharacterA",
+								Unicode.phi_symbol + "") }, // lowercaseGreekPHI
+															// \phi
+															// the
+															// "straight"
+															// phi
 				{ Unicode.chi + "",
 						app.getPlain("GreekCharacterA", Unicode.chi + "") }, // lowercaseGreekCHI
 				{ Unicode.psi + "",
@@ -157,8 +157,7 @@ public class TableSymbols {
 		}
 
 		// build the array from the basic symbol array and the extra symbol list
-		String[] array = new String[map.length
-				+ extraSymbols.size()];
+		String[] array = new String[map.length + extraSymbols.size()];
 		for (int i = 0; i < map.length; i++) {
 			array[i] = map[i][0];
 		}
@@ -279,8 +278,7 @@ public class TableSymbols {
 			" expIntegral(x) ", " random() ", " zeta(x) ", };
 
 	// spaces either side (for multiply when inserted into the input bar)
-	private final static String[][] functionsGrouped = {
-			{ " random() " },
+	private final static String[][] functionsGrouped = { { " random() " },
 			{ " sqrt(x) ", " cbrt(x) ", " nroot(x, n) " },
 
 			{ " abs(x) ", " sgn(x) " },
@@ -292,8 +290,7 @@ public class TableSymbols {
 
 			{ " sin(x) ", " cos(x) ", " tan(x) " },
 			{ " sec(x) ", " cosec(x) ", " cot(x) " },
-			{ " asin(x) ", " acos(x) ", " atan(x) " },
-			{ " atan2(y, x) " },
+			{ " asin(x) ", " acos(x) ", " atan(x) " }, { " atan2(y, x) " },
 
 			{ " sinh(x) ", " cosh(x) ", " tanh(x) " },
 			{ " sech(x) ", " cosech(x) ", " coth(x) " },
@@ -330,7 +327,7 @@ public class TableSymbols {
 
 	public final static String[] analysis = {
 
-	"\u2211", // N-ARY SUMMATION
+			"\u2211", // N-ARY SUMMATION
 			"\u2202", // PARTIAL DIFFERENTIAL
 			"\u2207", // NABLA
 			"\u0394", // INCREMENT (Greek Delta)
@@ -346,7 +343,7 @@ public class TableSymbols {
 
 	public final static String[] logical = {
 
-	"\u2200", // FOR ALL
+			"\u2200", // FOR ALL
 			"\u2203", // THERE EXISTS
 			"\u2204", // THERE DOES NOT EXIST
 
@@ -377,7 +374,7 @@ public class TableSymbols {
 
 	public final static String[] sets = {
 
-	"\u2205", // EMPTY SET
+			"\u2205", // EMPTY SET
 			"\u2229", // INTERSECTION
 			"\u222A", // UNION
 
@@ -409,7 +406,7 @@ public class TableSymbols {
 
 	public final static String[] operators = {
 
-	"\u00D7", // \\times
+			"\u00D7", // \\times
 			"\u00F7", // \\div
 			"\u2212", // \\minus
 			"\u00B7", // \\centerdot
@@ -497,7 +494,7 @@ public class TableSymbols {
 
 	public final static String[] basic_arrows = {
 
-	"\u2190", // \\leftarrow
+			"\u2190", // \\leftarrow
 			"\u2191", // \\uparrow
 			"\u2192", // \\rightarrow
 			"\u2193", // \\downarrow
@@ -518,7 +515,7 @@ public class TableSymbols {
 
 	public final static String[] otherArrows = {
 
-	"\u21A9", // \\hookleftarrow
+			"\u21A9", // \\hookleftarrow
 			"\u21AA", // \\hookrightarrow
 			"\u21AB", // \\looparrowleft
 			"\u21AC", // \\looparrowright
@@ -559,18 +556,19 @@ public class TableSymbols {
 			"\u21DA", // \\Lleftarrow
 			"\u21DB", // \\Rrightarrow
 
-	/*
-	 * not supported in win7 "\u27F5", // \\longleftarrow "\u27F6", //
-	 * \\longrightarrow "\u27F7", // \\longleftrightarrow "\u27F8", //
-	 * \\Longleftarrow "\u27F9", // \\Longrightarrow "\u27FA", //
-	 * \\Longleftrightarrow "\u27FC", // \\longmapsto "\u27FF", // \\leadsto
-	 */
+			/*
+			 * not supported in win7 "\u27F5", // \\longleftarrow "\u27F6", //
+			 * \\longrightarrow "\u27F7", // \\longleftrightarrow "\u27F8", //
+			 * \\Longleftarrow "\u27F9", // \\Longrightarrow "\u27FA", //
+			 * \\Longleftrightarrow "\u27FC", // \\longmapsto "\u27FF", //
+			 * \\leadsto
+			 */
 
 	};
 
 	public final static String[] geometricShapes = {
 
-	"\u25EF", // \\bigcirc
+			"\u25EF", // \\bigcirc
 			"\u2605", // \\bigstar
 
 			"\u25B3", // \\bigtriangleup
@@ -597,7 +595,7 @@ public class TableSymbols {
 
 	public final static String[] games_music = {
 
-	"\u2660", // \\spadesuit
+			"\u2660", // \\spadesuit
 			"\u2661", // \\heartsuit
 			"\u2662", // \\diamondsuit
 			"\u2663", // \\clubsuit
@@ -608,7 +606,7 @@ public class TableSymbols {
 
 	public final static String[] handPointers = {
 
-	"\u261A", // BLACK LEFT POINTING INDEX
+			"\u261A", // BLACK LEFT POINTING INDEX
 			"\u261B", // BLACK RIGHT POINTING INDEX
 			"\u261C", // WHITE LEFT POINTING INDEX
 			"\u261D", // WHITE UP POINTING INDEX
@@ -621,7 +619,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEotherarrows = {
 
-	"\u00D7", "\u219A", // LEFTWARDS ARROW WITH STROKE
+			"\u00D7", "\u219A", // LEFTWARDS ARROW WITH STROKE
 			"\u219B", // RIGHTWARDS ARROW WITH STROKE
 			"\u219C", // LEFTWARDS WAVE ARROW
 			"\u219D", // RIGHTWARDS WAVE ARROW
@@ -711,7 +709,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEmisc = {
 
-	"\u2639", // WHITE FROWNING FACE
+			"\u2639", // WHITE FROWNING FACE
 			"\u263A", // WHITE SMILING FACE
 			"\u263B", // BLACK SMILING FACE
 
@@ -758,7 +756,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEweather_astrology = {
 
-	"\u263C", // WHITE SUN WITH RAYS
+			"\u263C", // WHITE SUN WITH RAYS
 			"\u2600", // BLACK SUN WITH RAYS
 			"\u2601", // CLOUD
 			"\u2602", // UMBRELLA
@@ -802,7 +800,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEgames_music = {
 
-	"\u2654", // WHITE CHESS KING
+			"\u2654", // WHITE CHESS KING
 			"\u2655", // WHITE CHESS QUEEN
 			"\u2656", // WHITE CHESS ROOK
 			"\u2657", // WHITE CHESS BISHOP
@@ -835,7 +833,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEwriting = {
 
-	"\u2701", // UPPER BLADE SCISSORS
+			"\u2701", // UPPER BLADE SCISSORS
 			"\u2702", // BLACK SCISSORS
 			"\u2703", // LOWER BLADE SCISSORS
 			"\u2704", // WHITE SCISSORS
@@ -919,7 +917,7 @@ public class TableSymbols {
 
 	public final static String[] otherdingbats = {
 
-	"\u2758", // LIGHT VERTICAL BAR
+			"\u2758", // LIGHT VERTICAL BAR
 			"\u2759", // MEDIUM VERTICAL BAR
 			"\u275A", // HEAVY VERTICAL BAR
 			"\u275B", // HEAVY SINGLE TURNED COMMA QUOTATION MARK ORNAMENT
@@ -1007,7 +1005,7 @@ public class TableSymbols {
 
 	public final static String[] UNICODEgeometricShapes = {
 
-	"\u25A0", // BLACK SQUARE
+			"\u25A0", // BLACK SQUARE
 			"\u25A1", // WHITE SQUARE
 			"\u25A2", // WHITE SQUARE WITH ROUNDED CORNERS
 			"\u25A3", // WHITE SQUARE CONTAINING BLACK SMALL SQUARE
@@ -1079,27 +1077,28 @@ public class TableSymbols {
 			"\u25E5", // BLACK UPPER RIGHT TRIANGLE
 			"\u25E6", // WHITE BULLET
 
-	/*
-	 * "\u25E7" , //SQUARE WITH LEFT HALF BLACK "\u25E8" , //SQUARE WITH RIGHT
-	 * HALF BLACK "\u25E9" , //SQUARE WITH UPPER LEFT DIAGONAL HALF BLACK
-	 * "\u25EA" , //SQUARE WITH LOWER RIGHT DIAGONAL HALF BLACK "\u25EB" ,
-	 * //WHITE SQUARE WITH VERTICAL BISECTING LINE "\u25EC" , //WHITE
-	 * UP-POINTING TRIANGLE WITH DOT "\u25ED" , //UP-POINTING TRIANGLE WITH LEFT
-	 * HALF BLACK "\u25EE" , //UP-POINTING TRIANGLE WITH RIGHT HALF BLACK
-	 * "\u25EF" , //LARGE CIRCLE "\u25F0" , //WHITE SQUARE WITH UPPER LEFT
-	 * QUADRANT "\u25F1" , //WHITE SQUARE WITH LOWER LEFT QUADRANT "\u25F2" ,
-	 * //WHITE SQUARE WITH LOWER RIGHT QUADRANT "\u25F3" , //WHITE SQUARE WITH
-	 * UPPER RIGHT QUADRANT "\u25F4" , //WHITE CIRCLE WITH UPPER LEFT QUADRANT
-	 * "\u25F5" , //WHITE CIRCLE WITH LOWER LEFT QUADRANT "\u25F6" , //WHITE
-	 * CIRCLE WITH LOWER RIGHT QUADRANT "\u25F7" , //WHITE CIRCLE WITH UPPER
-	 * RIGHT QUADRANT
-	 */
+			/*
+			 * "\u25E7" , //SQUARE WITH LEFT HALF BLACK "\u25E8" , //SQUARE WITH
+			 * RIGHT HALF BLACK "\u25E9" , //SQUARE WITH UPPER LEFT DIAGONAL
+			 * HALF BLACK "\u25EA" , //SQUARE WITH LOWER RIGHT DIAGONAL HALF
+			 * BLACK "\u25EB" , //WHITE SQUARE WITH VERTICAL BISECTING LINE
+			 * "\u25EC" , //WHITE UP-POINTING TRIANGLE WITH DOT "\u25ED" ,
+			 * //UP-POINTING TRIANGLE WITH LEFT HALF BLACK "\u25EE" ,
+			 * //UP-POINTING TRIANGLE WITH RIGHT HALF BLACK "\u25EF" , //LARGE
+			 * CIRCLE "\u25F0" , //WHITE SQUARE WITH UPPER LEFT QUADRANT
+			 * "\u25F1" , //WHITE SQUARE WITH LOWER LEFT QUADRANT "\u25F2" ,
+			 * //WHITE SQUARE WITH LOWER RIGHT QUADRANT "\u25F3" , //WHITE
+			 * SQUARE WITH UPPER RIGHT QUADRANT "\u25F4" , //WHITE CIRCLE WITH
+			 * UPPER LEFT QUADRANT "\u25F5" , //WHITE CIRCLE WITH LOWER LEFT
+			 * QUADRANT "\u25F6" , //WHITE CIRCLE WITH LOWER RIGHT QUADRANT
+			 * "\u25F7" , //WHITE CIRCLE WITH UPPER RIGHT QUADRANT
+			 */
 
 	};
 
 	public final static String[] letterLikeSymbols = {
 
-	"\u20D7", // \\vec
+			"\u20D7", // \\vec
 			"\u210F", // \\hbar
 			"\u2111", // \\Im
 			"\u2113", // \\ell
@@ -1114,56 +1113,59 @@ public class TableSymbols {
 			"\u2138", // \\daleth
 			"\u2141", // \\Game
 
-	/*
-	 * 
-	 * "\u2103" , //DEGREE CELSIUS "\u2109" , //DEGREE FAHRENHEIT "\u212A" ,
-	 * //KELVIN SIGN "\u212B" , //ANGSTROM SIGN
-	 * 
-	 * "\u2107" , //EULER CONSTANT "\u210E" , //PLANCK CONSTANT "\u210F" ,
-	 * //PLANCK CONSTANT OVER TWO PI
-	 * 
-	 * "\u2125" , //OUNCE SIGN "\u2126" , //OHM SIGN "\u2127" , //INVERTED OHM
-	 * SIGN
-	 * 
-	 * "\u2102" , //DOUBLE-STRUCK CAPITAL C "\u210D" , //DOUBLE-STRUCK CAPITAL H
-	 * "\u2115" , //DOUBLE-STRUCK CAPITAL N "\u2119" , //DOUBLE-STRUCK CAPITAL P
-	 * "\u211A" , //DOUBLE-STRUCK CAPITAL Q "\u211D" , //DOUBLE-STRUCK CAPITAL R
-	 * "\u2124" , //DOUBLE-STRUCK CAPITAL Z
-	 * 
-	 * "\u212D" , //BLACK-LETTER CAPITAL C "\u210C" , //BLACK-LETTER CAPITAL H
-	 * "\u2111" , //BLACK-LETTER CAPITAL I "\u211C" , //BLACK-LETTER CAPITAL R
-	 * "\u2128" , //BLACK-LETTER CAPITAL Z
-	 * 
-	 * "\u212F" , //SCRIPT SMALL E "\u2113" , //SCRIPT SMALL L "\u2134" ,
-	 * //SCRIPT SMALL O "\u210A" , //SCRIPT SMALL G
-	 * 
-	 * "\u212C" , //SCRIPT CAPITAL B "\u2130" , //SCRIPT CAPITAL E "\u2131" ,
-	 * //SCRIPT CAPITAL F "\u210B" , //SCRIPT CAPITAL H "\u2110" , //SCRIPT
-	 * CAPITAL I "\u2112" , //SCRIPT CAPITAL L "\u2133" , //SCRIPT CAPITAL M
-	 * "\u2118" , //SCRIPT CAPITAL P "\u211B" , //SCRIPT CAPITAL R
-	 * 
-	 * "\u2132" , //TURNED CAPITAL F "\u2129" , //TURNED GREEK SMALL LETTER IOTA
-	 * "\u213A" , //ROTATED CAPITAL Q
-	 * 
-	 * /* "\u2114" , //L B BAR SYMBOL "\u2116" , //NUMERO SIGN "\u2117" ,
-	 * //SOUND RECORDING COPYRIGHT "\u211E" , //PRESCRIPTION TAKE "\u211F" ,
-	 * //RESPONSE "\u2120" , //SERVICE MARK "\u2121" , //TELEPHONE SIGN "\u2122"
-	 * , //TRADE MARK SIGN "\u2123" , //VERSICLE "\u2100" , //ACCOUNT OF
-	 * "\u2101" , //ADDRESSED TO THE SUBJECT "\u2104" , //CENTRE LINE SYMBOL
-	 * "\u2105" , //CARE OF "\u2106" , //CADA UNA "\u2108" , //SCRUPLE
-	 */
+			/*
+			 * 
+			 * "\u2103" , //DEGREE CELSIUS "\u2109" , //DEGREE FAHRENHEIT
+			 * "\u212A" , //KELVIN SIGN "\u212B" , //ANGSTROM SIGN
+			 * 
+			 * "\u2107" , //EULER CONSTANT "\u210E" , //PLANCK CONSTANT "\u210F"
+			 * , //PLANCK CONSTANT OVER TWO PI
+			 * 
+			 * "\u2125" , //OUNCE SIGN "\u2126" , //OHM SIGN "\u2127" ,
+			 * //INVERTED OHM SIGN
+			 * 
+			 * "\u2102" , //DOUBLE-STRUCK CAPITAL C "\u210D" , //DOUBLE-STRUCK
+			 * CAPITAL H "\u2115" , //DOUBLE-STRUCK CAPITAL N "\u2119" ,
+			 * //DOUBLE-STRUCK CAPITAL P "\u211A" , //DOUBLE-STRUCK CAPITAL Q
+			 * "\u211D" , //DOUBLE-STRUCK CAPITAL R "\u2124" , //DOUBLE-STRUCK
+			 * CAPITAL Z
+			 * 
+			 * "\u212D" , //BLACK-LETTER CAPITAL C "\u210C" , //BLACK-LETTER
+			 * CAPITAL H "\u2111" , //BLACK-LETTER CAPITAL I "\u211C" ,
+			 * //BLACK-LETTER CAPITAL R "\u2128" , //BLACK-LETTER CAPITAL Z
+			 * 
+			 * "\u212F" , //SCRIPT SMALL E "\u2113" , //SCRIPT SMALL L "\u2134"
+			 * , //SCRIPT SMALL O "\u210A" , //SCRIPT SMALL G
+			 * 
+			 * "\u212C" , //SCRIPT CAPITAL B "\u2130" , //SCRIPT CAPITAL E
+			 * "\u2131" , //SCRIPT CAPITAL F "\u210B" , //SCRIPT CAPITAL H
+			 * "\u2110" , //SCRIPT CAPITAL I "\u2112" , //SCRIPT CAPITAL L
+			 * "\u2133" , //SCRIPT CAPITAL M "\u2118" , //SCRIPT CAPITAL P
+			 * "\u211B" , //SCRIPT CAPITAL R
+			 * 
+			 * "\u2132" , //TURNED CAPITAL F "\u2129" , //TURNED GREEK SMALL
+			 * LETTER IOTA "\u213A" , //ROTATED CAPITAL Q
+			 * 
+			 * /* "\u2114" , //L B BAR SYMBOL "\u2116" , //NUMERO SIGN "\u2117"
+			 * , //SOUND RECORDING COPYRIGHT "\u211E" , //PRESCRIPTION TAKE
+			 * "\u211F" , //RESPONSE "\u2120" , //SERVICE MARK "\u2121" ,
+			 * //TELEPHONE SIGN "\u2122" , //TRADE MARK SIGN "\u2123" ,
+			 * //VERSICLE "\u2100" , //ACCOUNT OF "\u2101" , //ADDRESSED TO THE
+			 * SUBJECT "\u2104" , //CENTRE LINE SYMBOL "\u2105" , //CARE OF
+			 * "\u2106" , //CADA UNA "\u2108" , //SCRUPLE
+			 */
 
-	/*
-	 * "\u2135" , //ALEF SYMBOL "\u2136" , //BET SYMBOL "\u2137" , //GIMEL
-	 * SYMBOL "\u2138" , //DALET SYMBOL "\u2139" , //INFORMATION SOURCE "\u212E"
-	 * , //ESTIMATED SYMBOL
-	 */
+			/*
+			 * "\u2135" , //ALEF SYMBOL "\u2136" , //BET SYMBOL "\u2137" ,
+			 * //GIMEL SYMBOL "\u2138" , //DALET SYMBOL "\u2139" , //INFORMATION
+			 * SOURCE "\u212E" , //ESTIMATED SYMBOL
+			 */
 
 	};
 
 	public final static String[] currency = {
 
-	"\u20A0", // EURO-CURRENCY SIGN
+			"\u20A0", // EURO-CURRENCY SIGN
 			"\u20A1", // COLON SIGN
 			"\u20A2", // CRUZEIRO SIGN
 			"\u20A3", // FRENCH FRANC SIGN
@@ -1184,7 +1186,7 @@ public class TableSymbols {
 
 	public final static String[] JLatex = {
 
-	"\u007D", // \\rbrace
+			"\u007D", // \\rbrace
 			"\u00AC", // \\lnot
 			"\u00B1", // \\pm
 			"\u2213", // \\mp
@@ -1448,8 +1450,7 @@ public class TableSymbols {
 			"\u2206" // triangle
 	};
 
-	public final static String[] specialChars = {
-			"\u00b2", // exponents ^2
+	public final static String[] specialChars = { "\u00b2", // exponents ^2
 			"\u00b3", // exponents ^3
 			Unicode.DEGREE, // degree
 			"\u03c0", // pi
@@ -1458,11 +1459,11 @@ public class TableSymbols {
 			ExpressionNodeConstants.strVECTORPRODUCT, // "\u2297", // vector
 														// product (circled
 														// times)
-			"sqrt(x)", "cbrt(x)", "abs(x)", "sgn(x)", "ln(x)", "lg(x)",
-			"ld(x)", "sin(x)", "cos(x)", "tan(x)", "asin(x)", "acos(x)",
-			"atan(x)", "sinh(x)", "cosh(x)", "tanh(x)", "asinh(x)", "acosh(x)",
-			"atanh(x)", "floor(x)", "ceil(x)", "round(x)", "gamma(x)",
-			"random()", ExpressionNodeConstants.strEQUAL_BOOLEAN,
+			"sqrt(x)", "cbrt(x)", "abs(x)", "sgn(x)", "ln(x)", "lg(x)", "ld(x)",
+			"sin(x)", "cos(x)", "tan(x)", "asin(x)", "acos(x)", "atan(x)",
+			"sinh(x)", "cosh(x)", "tanh(x)", "asinh(x)", "acosh(x)", "atanh(x)",
+			"floor(x)", "ceil(x)", "round(x)", "gamma(x)", "random()",
+			ExpressionNodeConstants.strEQUAL_BOOLEAN,
 			ExpressionNodeConstants.strNOT_EQUAL,
 			ExpressionNodeConstants.strLESS_EQUAL,
 			ExpressionNodeConstants.strGREATER_EQUAL,

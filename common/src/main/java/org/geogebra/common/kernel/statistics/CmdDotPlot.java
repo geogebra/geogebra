@@ -34,13 +34,15 @@ public class CmdDotPlot extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = {
+						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);
 				GeoElement[] ret = { algo.getResult() };

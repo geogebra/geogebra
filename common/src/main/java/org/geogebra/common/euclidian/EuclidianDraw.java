@@ -161,7 +161,8 @@ public class EuclidianDraw {
 					geo.setEuclidianVisible(true);
 					geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 					if (!geo.isColorSet()) {
-						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						geo.setLineThickness(
+								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 						geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 					}
 				}
@@ -170,8 +171,7 @@ public class EuclidianDraw {
 				d = ev.getCompanion().newDrawAngle((GeoAngle) geo);
 				if (geo.isDrawable()) {
 					if (!geo.isColorSet()) {
-						GColor col = geo
-								.getConstruction()
+						GColor col = geo.getConstruction()
 								.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_ANGLE)
@@ -231,15 +231,16 @@ public class EuclidianDraw {
 					if (geo.isIndependent()) {
 						GColor col = consDef
 								.getDefaultGeo(
-								ConstructionDefaults.DEFAULT_NUMBER)
+										ConstructionDefaults.DEFAULT_NUMBER)
 								.getObjectColor();
 						geo.setObjColor(col);
-						geo.setLineThickness(GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+						geo.setLineThickness(
+								GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 						geo.setLineType(EuclidianStyleConstants.LINE_TYPE_FULL);
 					} else {
 						GColor col = consDef
 								.getDefaultGeo(
-								ConstructionDefaults.DEFAULT_POLYGON)
+										ConstructionDefaults.DEFAULT_POLYGON)
 								.getObjectColor();
 						geo.setObjColor(col);
 					}

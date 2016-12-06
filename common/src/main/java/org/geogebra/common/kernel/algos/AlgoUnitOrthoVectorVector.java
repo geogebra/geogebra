@@ -101,5 +101,4 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 
 	}
 
-	
 }

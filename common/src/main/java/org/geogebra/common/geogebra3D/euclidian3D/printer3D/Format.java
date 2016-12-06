@@ -106,5 +106,4 @@ public interface Format {
 	 */
 	public void getFacesEnd(StringBuilder sb);
 
-
 }

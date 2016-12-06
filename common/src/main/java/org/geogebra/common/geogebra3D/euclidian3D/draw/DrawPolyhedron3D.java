@@ -26,7 +26,8 @@ import org.geogebra.common.main.Feature;
  * @author matthieu
  *
  */
-public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable {
+public class DrawPolyhedron3D extends Drawable3DSurfaces
+		implements Previewable {
 
 	/**
 	 * Common constructor
@@ -85,8 +86,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 
 			setHighlightingColor();
 
-			renderer.getTextures().setDashFromLineType(
-					getGeoElement().getLineType());
+			renderer.getTextures()
+					.setDashFromLineType(getGeoElement().getLineType());
 			drawGeometry(renderer);
 		}
 
@@ -183,8 +184,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(poly.getLineThickness(), (float) getView3D()
-				.getScale());
+		brush.setThickness(poly.getLineThickness(),
+				(float) getView3D().getScale());
 
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
 				.getPolygonsLinked()) {
@@ -202,8 +203,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		setGeometryIndex(brush.end());
 
 	}
-	
-	
 
 	private static void drawSegment(PlotterBrush brush, GeoSegmentND seg) {
 
@@ -216,7 +215,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		brush.segment(seg.getStartInhomCoords(), seg.getEndInhomCoords());
 
 	}
-
 
 	private void drawPolygon(Renderer renderer, GeoPolygon polygon) {
 
@@ -257,8 +255,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 			// outline
 			updateOutline(renderer);
 
-			if (getView3D().getApplication().has(
-					Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			if (getView3D().getApplication()
+					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 				// surface
 				updateSurface(renderer);
 			}
@@ -426,20 +424,18 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 	}
 
 	static private double hitPolygon(double currentDistance, Hitting hitting,
-			GeoPolygon polygon,
-			Coords globalCoords, Coords inPlaneCoords) {
+			GeoPolygon polygon, Coords globalCoords, Coords inPlaneCoords) {
 		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()) {
 			return currentDistance;
 		}
 
-		hitting.origin.projectPlaneThruVIfPossible(polygon.getCoordSys()
-				.getMatrixOrthonormal(), hitting.direction, globalCoords,
-				inPlaneCoords);
+		hitting.origin.projectPlaneThruVIfPossible(
+				polygon.getCoordSys().getMatrixOrthonormal(), hitting.direction,
+				globalCoords, inPlaneCoords);
 
 		if (!hitting.isInsideClipping(globalCoords)) {
 			return currentDistance;
 		}
-
 
 		// check if hitting projection hits the polygon
 		if (polygon.isInRegion(inPlaneCoords.getX(), inPlaneCoords.getY())) {

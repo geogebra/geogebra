@@ -43,8 +43,8 @@ import org.geogebra.common.util.debug.Log;
  *
  * @author Markus
  */
-public class AlgoOrthoLinePointLine extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+public class AlgoOrthoLinePointLine extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	protected GeoPoint P; // input
 	protected GeoLine l; // input
@@ -158,14 +158,15 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements
 			int[] result = new int[3];
 			result[0] = degreeL[1] + degreeP[2];
 			result[1] = degreeL[0] + degreeP[2];
-			result[2] = Math.max(degreeL[0] + degreeP[1], degreeL[1]
-					+ degreeP[0]);
+			result[2] = Math.max(degreeL[0] + degreeP[1],
+					degreeL[1] + degreeP[0]);
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && l != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);

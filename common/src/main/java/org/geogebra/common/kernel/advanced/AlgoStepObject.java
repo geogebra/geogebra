@@ -36,7 +36,8 @@ public class AlgoStepObject extends AlgoElement {
 
 	// private Construction cons;
 
-	public AlgoStepObject(Construction cons, String label, GeoElement inputGeo) {
+	public AlgoStepObject(Construction cons, String label,
+			GeoElement inputGeo) {
 		super(cons);
 		// this.cons=cons;
 		this.inputGeo = inputGeo;
@@ -81,5 +82,4 @@ public class AlgoStepObject extends AlgoElement {
 		num.setValue(step + 1);
 	}
 
-	
 }

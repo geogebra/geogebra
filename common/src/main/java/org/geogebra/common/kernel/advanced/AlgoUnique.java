@@ -86,8 +86,8 @@ public class AlgoUnique extends AlgoElement {
 		uniqueList.setDefined(true);
 		uniqueList.clear();
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
-				.getElementType().equals(GeoClass.NUMERIC))) {
+		if (!(dataList.getElementType().equals(GeoClass.TEXT)
+				|| dataList.getElementType().equals(GeoClass.NUMERIC))) {
 			for (int i = 0; i < dataList.size(); i++) {
 				AlgoUnion.addToOutputList(uniqueList, dataList.get(i));
 			}
@@ -103,8 +103,8 @@ public class AlgoUnique extends AlgoElement {
 				f.addValue(((GeoText) dataList.get(i))
 						.toValueString(StringTemplate.defaultTemplate));
 			if (dataList.getElementType().equals(GeoClass.NUMERIC))
-				f.addValue(new MyDouble(kernel, ((GeoNumeric) dataList.get(i))
-						.getDouble()));
+				f.addValue(new MyDouble(kernel,
+						((GeoNumeric) dataList.get(i)).getDouble()));
 		}
 
 		// Get the unique value list
@@ -126,7 +126,5 @@ public class AlgoUnique extends AlgoElement {
 			}
 		}
 	}
-
-	
 
 }

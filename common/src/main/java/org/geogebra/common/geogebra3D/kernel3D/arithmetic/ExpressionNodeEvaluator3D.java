@@ -58,7 +58,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 					Geo3DVec.add(vec3D, ((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
+			} else if (lt instanceof VectorValue
+					&& rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).getVector();
 				Geo3DVec.add(((VectorValue) lt).getVector(), vec3D, vec3D);
 				return vec3D;
@@ -80,7 +81,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 					Geo3DVec.sub(vec3D, ((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
-			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
+			} else if (lt instanceof VectorValue
+					&& rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).getVector();
 				Geo3DVec.sub(((VectorValue) lt).getVector(), vec3D, vec3D);
 				return vec3D;
@@ -131,8 +133,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	}
 
 	@Override
-	protected ExpressionValue innerProduct(VectorNDValue ev1,
-			VectorNDValue ev2, Kernel kernel1) {
+	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2,
+			Kernel kernel1) {
 
 		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) {
 			MyDouble num = new MyDouble(kernel1);
@@ -159,7 +161,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	}
 
 	@Override
-	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2) {
+	protected ExpressionValue vectorProduct(VectorNDValue v1,
+			VectorNDValue v2) {
 
 		if (v1.getMode() == Kernel.COORD_CARTESIAN_3D
 				|| v1.getMode() == Kernel.COORD_SPHERICAL

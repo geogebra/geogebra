@@ -156,17 +156,16 @@ public class DrawVector extends Drawable implements Previewable {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param lineThickness
 	 *            vector thickness
 	 * @return arrow size
 	 */
-	static final public double getFactor(double lineThickness){
-		
+	static final public double getFactor(double lineThickness) {
+
 		// changed to make arrow-heads a bit bigger for line thickness 8-13
-		return lineThickness < 8 ? 12.0 + lineThickness
-				: 3 * lineThickness;
+		return lineThickness < 8 ? 12.0 + lineThickness : 3 * lineThickness;
 	}
 
 	/**
@@ -181,13 +180,10 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// calculate endpoint F at base of arrow
 
-
-
 		double factor = getFactor(lineThickness);
 
 		double length = MyMath.length(coordsV[0], coordsV[1]);
 
-		
 		// decrease arrowhead size if it's longer than the vector
 		if (length < factor) {
 			factor = length;
@@ -212,12 +208,12 @@ public class DrawVector extends Drawable implements Previewable {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			// check if any of vector is on-screen
-			GPoint2D[] clippedPoints = ClipLine.getClipped(
-					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
-					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
-							+ EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
-							+ EuclidianStatic.CLIP_DISTANCE);
+			GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
+					coordsA[1], coordsB[0], coordsB[1],
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
 				lineVisible = false;
@@ -228,8 +224,8 @@ public class DrawVector extends Drawable implements Previewable {
 				clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
 						coordsF[0], coordsF[1], -EuclidianStatic.CLIP_DISTANCE,
 						view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-						-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
-								+ EuclidianStatic.CLIP_DISTANCE);
+						-EuclidianStatic.CLIP_DISTANCE,
+						view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
 				if (clippedPoints != null)
 					line.setLine(clippedPoints[0].getX(),
 							clippedPoints[0].getY(), clippedPoints[1].getX(),
@@ -269,8 +265,7 @@ public class DrawVector extends Drawable implements Previewable {
 		if (isVisible) {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
-				GGraphics2D g2d = view
-						.getBackgroundGraphics();
+				GGraphics2D g2d = view.getBackgroundGraphics();
 				if (g2d != null)
 					drawTrace(g2d);
 			}
@@ -330,13 +325,14 @@ public class DrawVector extends Drawable implements Previewable {
 			// double yRW = view.toRealWorldCoordY(y);
 
 			// round angle to nearest 15 degrees if alt pressed
-			if (points.size() == 1 && view.getEuclidianController().isAltDown()) {
+			if (points.size() == 1
+					&& view.getEuclidianController().isAltDown()) {
 				GeoPoint p = (GeoPoint) points.get(0);
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW)
-						* (px - xRW));
+				double radius = Math.sqrt(
+						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
 				angle = Math.round(angle / 15) * 15;
@@ -354,8 +350,8 @@ public class DrawVector extends Drawable implements Previewable {
 			// GeoPoint P = (GeoPoint) points.get(0);
 			// P.getInhomCoords(coordsA);
 			if (points.size() > 0) {
-				view.getCoordsForView(
-						points.get(0).getInhomCoordsInD3()).get(coordsA);
+				view.getCoordsForView(points.get(0).getInhomCoordsInD3())
+						.get(coordsA);
 			}
 
 			coordsB[0] = xRW;
@@ -420,9 +416,10 @@ public class DrawVector extends Drawable implements Previewable {
 			ret = line.getBounds();
 
 		if (arrowheadVisible)
-			ret = (ret == null) ? AwtFactory.getPrototype().newRectangle(gp
-					.getBounds()) : AwtFactory.getPrototype().newRectangle(ret
-					.union(gp.getBounds()));
+			ret = (ret == null)
+					? AwtFactory.getPrototype().newRectangle(gp.getBounds())
+					: AwtFactory.getPrototype()
+							.newRectangle(ret.union(gp.getBounds()));
 
 		return ret;
 	}

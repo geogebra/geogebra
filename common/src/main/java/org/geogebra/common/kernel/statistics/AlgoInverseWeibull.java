@@ -70,7 +70,8 @@ public class AlgoInverseWeibull extends AlgoDistribution {
 			double param2 = b.getDouble();
 			double val = c.getDouble();
 			try {
-				WeibullDistribution dist = getWeibullDistribution(param, param2);
+				WeibullDistribution dist = getWeibullDistribution(param,
+						param2);
 				num.setValue(dist.inverseCumulativeProbability(val));
 
 			} catch (Exception e) {

@@ -105,6 +105,4 @@ public class AlgoPlaneThreePoints extends AlgoElement3D {
 
 	}
 
-	
-
 }

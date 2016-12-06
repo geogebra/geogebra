@@ -134,6 +134,4 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 
 	private ExpressionNode lhs0z = null;
 
-	
-
 }

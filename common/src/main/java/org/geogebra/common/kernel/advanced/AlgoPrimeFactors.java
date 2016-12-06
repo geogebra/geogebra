@@ -93,6 +93,4 @@ public class AlgoPrimeFactors extends AlgoElement {
 		}
 	}
 
-	
-
 }

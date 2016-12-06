@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoEllipseHyperbolaFociPoint3D extends
-		AlgoEllipseHyperbolaFociPointND {
+public class AlgoEllipseHyperbolaFociPoint3D
+		extends AlgoEllipseHyperbolaFociPointND {
 
 	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C,
@@ -70,7 +70,8 @@ public class AlgoEllipseHyperbolaFociPoint3D extends
 	 *            point on ellipse coords
 	 * @return true if coord sys is possible
 	 */
-	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc, Coords Cc) {
+	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc,
+			Coords Cc) {
 
 		// set the coord sys
 		cs.addPoint(Ac);

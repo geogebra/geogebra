@@ -24,7 +24,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	protected GeoPoly poly;
 	protected boolean polyClosed;
 	protected boolean hasLabels;
-	
+
 	protected OutputHandler<GeoPoint> outputPoints;
 
 	protected int numOfOutputPoints, polyPointCount, segCountOfPoly;
@@ -36,8 +36,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	protected Function yValFunction;
 	protected EquationSolverInterface eqnSolver;
 	private final Solution solution = new Solution();
-
-
 
 	private Function diffFunction;
 	private GeoPoint tempPoint;
@@ -139,10 +137,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				tempPoint.setCoords(solution.curRoots[i],
-						func.evaluate(solution.curRoots[i]),
-						1.0);
-				if (seg.isOnPath(tempPoint,
-						Kernel.MIN_PRECISION)) {
+						func.evaluate(solution.curRoots[i]), 1.0);
+				if (seg.isOnPath(tempPoint, Kernel.MIN_PRECISION)) {
 					intrsctCrds.add(tempPoint.getCoords());
 					numOfOutputPoints++;
 				}
@@ -155,9 +151,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 
 	// add first number of doubles in roots to current roots
 
-
-
-
 	/**
 	 * Calculates the roots of the given function resp. its derivative, stores
 	 * them in solution.curRoots and sets solution.curRealRoots to the number of
@@ -167,8 +160,8 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 *            degree of derivative to compute roots from
 	 */
 	public final void calcRoots(Function fun, int derivDegree) {
-		RealRootFunction evalFunction = AlgoRootsPolynomial.calcRootsMultiple(
-				fun, derivDegree, solution, eqnSolver);
+		RealRootFunction evalFunction = AlgoRootsPolynomial
+				.calcRootsMultiple(fun, derivDegree, solution, eqnSolver);
 
 		if (solution.curRealRoots > 1) {
 			// sort roots and eliminate duplicate ones
@@ -198,7 +191,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	// remove roots where the sign of the function's values did not change
-
 
 	/**
 	 * 
@@ -246,10 +238,10 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			solution.resetRoots();
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
-			tempSegEndPoints[1] = getPoly().getPoint(
-					(index + 1) % polyPointCount);
-			GeoVec3D.lineThroughPoints(tempSegEndPoints[0],
-					tempSegEndPoints[1], tempSeg);
+			tempSegEndPoints[1] = getPoly()
+					.getPoint((index + 1) % polyPointCount);
+			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1],
+					tempSeg);
 			tempSeg.setPoints(tempSegEndPoints[0], tempSegEndPoints[1]);
 			tempSeg.calcLength();
 

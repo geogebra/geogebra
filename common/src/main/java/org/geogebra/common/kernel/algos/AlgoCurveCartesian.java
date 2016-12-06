@@ -83,11 +83,12 @@ public class AlgoCurveCartesian extends AlgoElement {
 		containsFunctions = new boolean[coords.length];
 
 		for (int i = 0; i < coords.length; i++) {
-			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i]
-					.toGeoElement());
+			exp[i] = kernel.convertNumberValueToExpressionNode(
+					coords[i].toGeoElement());
 			exp[i] = exp[i].replace(localVar, funVar).wrap();
 			fun[i] = new Function(exp[i], funVar);
-			containsFunctions[i] = AlgoDependentFunction.containsFunctions(exp[i]);
+			containsFunctions[i] = AlgoDependentFunction
+					.containsFunctions(exp[i]);
 		}
 
 		// create the curve
@@ -128,8 +129,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 		if (curve.getPointExpression() != null) {
 			input = new GeoElement[4];
 			offset = 1;
-			input[0] = new AlgoDependentFunction(cons, new Function(
-					curve.getPointExpression(), new FunctionVariable(kernel)),
+			input[0] = new AlgoDependentFunction(cons,
+					new Function(curve.getPointExpression(),
+							new FunctionVariable(kernel)),
 					false).getFunction();
 			for (int i = 0; i < offset; i++) {
 				coords[i].toGeoElement().addAlgorithm(this);
@@ -148,8 +150,6 @@ public class AlgoCurveCartesian extends AlgoElement {
 		super.setOutput(0, curve);
 		setDependencies(); // done by AlgoElement
 	}
-
-
 
 	/**
 	 * @return resulting curve
@@ -171,14 +171,15 @@ public class AlgoCurveCartesian extends AlgoElement {
 				curve.setUndefined();
 				return;
 			}
-			if(containsFunctions[i]){
+			if (containsFunctions[i]) {
 				ExpressionValue ev = null;
 				try { // needed for eg f(x)=floor(x) f'(x)
 
 					// boolean internationalizeDigits =
 					// Kernel.internationalizeDigits;
 					// Kernel.internationalizeDigits = false;
-					// TODO: seems that we never read internationalize digits flag
+					// TODO: seems that we never read internationalize digits
+					// flag
 					// here ...
 					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
 							exp[i].deepCopy(kernel), false);
@@ -198,8 +199,8 @@ public class AlgoCurveCartesian extends AlgoElement {
 				else
 					node = new ExpressionNode(kernel, ev);
 
-				//expandedFun.setExpression(node);
-				
+				// expandedFun.setExpression(node);
+
 				curve.getFun(i).setExpression(node);
 			}
 		}
@@ -210,5 +211,4 @@ public class AlgoCurveCartesian extends AlgoElement {
 		curve.setInterval(from.getDouble(), to.getDouble());
 	}
 
-	
 }

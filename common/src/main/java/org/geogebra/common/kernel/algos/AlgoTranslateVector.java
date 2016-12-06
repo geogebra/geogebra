@@ -123,5 +123,4 @@ public class AlgoTranslateVector extends AlgoElement {
 
 	}
 
-	
 }

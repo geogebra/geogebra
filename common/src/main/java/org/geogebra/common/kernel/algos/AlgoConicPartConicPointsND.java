@@ -135,6 +135,4 @@ public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
 	 */
 	abstract protected double getEndParameter();
 
-	
-
 }

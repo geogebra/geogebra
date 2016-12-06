@@ -19,55 +19,59 @@ import org.apache.commons.collections15.buffer.UnboundedFifoBuffer;
 
 import edu.uci.ics.jung.graph.Graph;
 
-
-
 /**
- * Finds all weak components in a graph as sets of vertex sets.  A weak component is defined as
- * a maximal subgraph in which all pairs of vertices in the subgraph are reachable from one
- * another in the underlying undirected subgraph.
- * <p>This implementation identifies components as sets of vertex sets.  
- * To create the induced graphs from any or all of these vertex sets, 
- * see <code>algorithms.filters.FilterUtils</code>.
+ * Finds all weak components in a graph as sets of vertex sets. A weak component
+ * is defined as a maximal subgraph in which all pairs of vertices in the
+ * subgraph are reachable from one another in the underlying undirected
+ * subgraph.
  * <p>
- * Running time: O(|V| + |E|) where |V| is the number of vertices and |E| is the number of edges.
+ * This implementation identifies components as sets of vertex sets. To create
+ * the induced graphs from any or all of these vertex sets, see
+ * <code>algorithms.filters.FilterUtils</code>.
+ * <p>
+ * Running time: O(|V| + |E|) where |V| is the number of vertices and |E| is the
+ * number of edges.
+ * 
  * @author Scott White
  */
-public class WeakComponentClusterer<V,E> implements Transformer<Graph<V,E>, Set<Set<V>>> 
-{
+public class WeakComponentClusterer<V, E>
+		implements Transformer<Graph<V, E>, Set<Set<V>>> {
 	/**
-     * Extracts the weak components from a graph.
-     * @param graph the graph whose weak components are to be extracted
-     * @return the list of weak components
-     */
-    public Set<Set<V>> transform(Graph<V,E> graph) {
+	 * Extracts the weak components from a graph.
+	 * 
+	 * @param graph
+	 *            the graph whose weak components are to be extracted
+	 * @return the list of weak components
+	 */
+	public Set<Set<V>> transform(Graph<V, E> graph) {
 
-        Set<Set<V>> clusterSet = new HashSet<Set<V>>();
+		Set<Set<V>> clusterSet = new HashSet<Set<V>>();
 
-        HashSet<V> unvisitedVertices = new HashSet<V>(graph.getVertices());
+		HashSet<V> unvisitedVertices = new HashSet<V>(graph.getVertices());
 
-        while (!unvisitedVertices.isEmpty()) {
-        	Set<V> cluster = new HashSet<V>();
-            V root = unvisitedVertices.iterator().next();
-            unvisitedVertices.remove(root);
-            cluster.add(root);
+		while (!unvisitedVertices.isEmpty()) {
+			Set<V> cluster = new HashSet<V>();
+			V root = unvisitedVertices.iterator().next();
+			unvisitedVertices.remove(root);
+			cluster.add(root);
 
-            Buffer<V> queue = new UnboundedFifoBuffer<V>();
-            queue.add(root);
+			Buffer<V> queue = new UnboundedFifoBuffer<V>();
+			queue.add(root);
 
-            while (!queue.isEmpty()) {
-                V currentVertex = queue.remove();
-                Collection<V> neighbors = graph.getNeighbors(currentVertex);
+			while (!queue.isEmpty()) {
+				V currentVertex = queue.remove();
+				Collection<V> neighbors = graph.getNeighbors(currentVertex);
 
-                for(V neighbor : neighbors) {
-                    if (unvisitedVertices.contains(neighbor)) {
-                        queue.add(neighbor);
-                        unvisitedVertices.remove(neighbor);
-                        cluster.add(neighbor);
-                    }
-                }
-            }
-            clusterSet.add(cluster);
-        }
-        return clusterSet;
-    }
+				for (V neighbor : neighbors) {
+					if (unvisitedVertices.contains(neighbor)) {
+						queue.add(neighbor);
+						unvisitedVertices.remove(neighbor);
+						cluster.add(neighbor);
+					}
+				}
+			}
+			clusterSet.add(cluster);
+		}
+		return clusterSet;
+	}
 }

@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * @author matthieu
  *
  */
-public class AlgoCylinderInfinitePointVectorNumber extends
-		AlgoQuadricPointVectorNumber {
+public class AlgoCylinderInfinitePointVectorNumber
+		extends AlgoQuadricPointVectorNumber {
 
 	/**
 	 * @param c

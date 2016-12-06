@@ -32,31 +32,27 @@ public class GeoGebraPreferencesXML {
 				+ "<window width=\""
 
 				// dynamic bit!
-				+ defaultWindowX
-				+ "\" height=\""
+				+ defaultWindowX + "\" height=\""
 
 				// dynamic bit!
 				+ defaultWindowY
 
 				+ "\" />"
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
-				+ "<labelingStyle  val=\"0\"/>"
-				+ "<font  size=\""
+				+ "<labelingStyle  val=\"0\"/>" + "<font  size=\""
 
 				// dynamic bit!
 				+ defaultFontSize
 
-				+ "\"/>"
-				+ "<menuFont size=\"-1\"/>"
-				+ "<tooltipSettings language=\"\" timeout=\"0\"/>"
-				+ "</gui>"
+				+ "\"/>" + "<menuFont size=\"-1\"/>"
+				+ "<tooltipSettings language=\"\" timeout=\"0\"/>" + "</gui>"
 				+ "<euclidianView>"
 
 				+ "<size width=\"640\" height=\"480\"/>"
 				+ "<coordSystem xZero=\"215.0\" yZero=\"315.0\" scale=\"50.0\" yscale=\"50.0\"/>"
 				+ "<evSettings axes=\"true\" grid=\"false\" gridIsBold=\"false\" pointCapturing=\"3\" rightAngleStyle=\""
 
-		// dynamic
+				// dynamic
 				+ rightAngleStyle
 
 				+ "\" checkboxSize=\"26\" gridType=\"0\"/>"
@@ -70,15 +66,13 @@ public class GeoGebraPreferencesXML {
 				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "</euclidianView>"
 
-				+ "<kernel>"
-				+ "<continuous val=\"false\"/>"
+				+ "<kernel>" + "<continuous val=\"false\"/>"
 
-				+ "<decimals val=\"2\"/>"
-				+ "<angleUnit val=\"degree\"/>"
+				+ "<decimals val=\"2\"/>" + "<angleUnit val=\"degree\"/>"
 
 				+ "<algebraStyle val=\""
 
-		// dynamic bit!
+				// dynamic bit!
 				+ (app.has(Feature.AV_DEFINITION_AND_VALUE)
 						? Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
 						: Kernel.ALGEBRA_STYLE_VALUE)
@@ -92,8 +86,7 @@ public class GeoGebraPreferencesXML {
 
 				+ "</kernel>"
 
-				+ "<scripting blocked=\"false\"/>"
-				+ "</geogebra>";
+				+ "<scripting blocked=\"false\"/>" + "</geogebra>";
 	}
 
 	public static void setDefaultFontSize(int i) {

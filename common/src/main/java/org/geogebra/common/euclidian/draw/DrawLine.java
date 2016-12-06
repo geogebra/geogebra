@@ -201,9 +201,9 @@ public class DrawLine extends Drawable implements Previewable {
 
 			// line on screen?
 			if (!line.intersects(-EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
-							+ EuclidianStatic.CLIP_DISTANCE, view.getHeight()
-							+ EuclidianStatic.CLIP_DISTANCE)) {
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
+					view.getHeight() + EuclidianStatic.CLIP_DISTANCE)) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -212,8 +212,7 @@ public class DrawLine extends Drawable implements Previewable {
 			// draw trace
 			if (g.getTrace()) {
 				isTracing = true;
-				GGraphics2D g2 = view
-						.getBackgroundGraphics();
+				GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -242,8 +241,8 @@ public class DrawLine extends Drawable implements Previewable {
 		if (Math.abs(gx) * view.getScaleRatio() < Math.abs(gy)) {
 			// calc points on line in screen coords
 			k = gx / gy * view.getScaleRatio();
-			d = view.getYZero() + gz / gy * view.getYscale() - k
-					* view.getXZero();
+			d = view.getYZero() + gz / gy * view.getYscale()
+					- k * view.getXZero();
 
 			x1 = -EuclidianStatic.CLIP_DISTANCE;
 			y1 = k * x1 + d;
@@ -259,8 +258,8 @@ public class DrawLine extends Drawable implements Previewable {
 		else {
 			// calc points on line in screen coords
 			k = gy / (gx * view.getScaleRatio());
-			d = view.getXZero() - gz / gx * view.getXscale() - k
-					* view.getYZero();
+			d = view.getXZero() - gz / gx * view.getXscale()
+					- k * view.getYZero();
 
 			y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
 			x1 = k * y1 + d;
@@ -363,9 +362,9 @@ public class DrawLine extends Drawable implements Previewable {
 		// choose smallest position change
 		// 1-Norm distance between old label position
 		// and point 1, point 2
-		if (Math.abs(xLabel - x1) + Math.abs(yLabel - y1) > Math.abs(xLabel
-				- x2)
-				+ Math.abs(yLabel - y2)) {
+		if (Math.abs(xLabel - x1)
+				+ Math.abs(yLabel - y1) > Math.abs(xLabel - x2)
+						+ Math.abs(yLabel - y2)) {
 			x = (int) x2;
 			y = (int) y2;
 			labelPos = p2Pos;
@@ -474,13 +473,13 @@ public class DrawLine extends Drawable implements Previewable {
 
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 	private final Coords coordsForMousePos = new Coords(4);
+
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
 		double yRW = mouseRWy;
 		isPreviewVisible = false;
 
 		if (isVisible) {
-
 
 			switch (previewMode) {
 			case LINE:
@@ -493,8 +492,8 @@ public class DrawLine extends Drawable implements Previewable {
 					double py = p.inhomY;
 					double angle = Math.atan2(yRW - py, xRW - px) * 180
 							/ Math.PI;
-					double radius = Math.sqrt((py - yRW) * (py - yRW)
-							+ (px - xRW) * (px - xRW));
+					double radius = Math.sqrt(
+							(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 					// round angle to nearest 15 degrees
 					angle = Math.round(angle / 15) * 15;
@@ -513,7 +512,8 @@ public class DrawLine extends Drawable implements Previewable {
 				// Coords(xRW, yRW, 1));
 				this.coordsForMousePos.setCrossProduct(
 						view.getCoordsForView(startPoint.getInhomCoordsInD3())
-								.projectInfDim(), new Coords(xRW, yRW, 1));
+								.projectInfDim(),
+						new Coords(xRW, yRW, 1));
 
 				((GeoLine) g).setCoords(coordsForMousePos.getX(),
 						coordsForMousePos.getY(), coordsForMousePos.getZ());
@@ -524,10 +524,10 @@ public class DrawLine extends Drawable implements Previewable {
 			case PARALLEL:
 				// calc the line g through (xRW,yRW) and parallel to l
 				GeoLineND lND = lines.get(0);
-				Coords equation = lND.getCartesianEquationVector(view
-						.getMatrix());
-				GeoVec3D.cross(xRW, yRW, 1.0, equation.getY(),
-						-equation.getX(), 0.0, ((GeoLine) g));
+				Coords equation = lND
+						.getCartesianEquationVector(view.getMatrix());
+				GeoVec3D.cross(xRW, yRW, 1.0, equation.getY(), -equation.getX(),
+						0.0, ((GeoLine) g));
 				break;
 			case PERPENDICULAR:
 				// calc the line g through (xRW,yRW) and perpendicular to l
@@ -552,13 +552,11 @@ public class DrawLine extends Drawable implements Previewable {
 				// GeoVec3D.cross(previewPoint2, startPoint, g1);
 				// GeoVec3D.cross(previewPoint2, xRW, yRW, 1.0, h);
 
-				coordsForMousePos.setCrossProduct(
-						previewPoint2.getCoordsInD2(),
+				coordsForMousePos.setCrossProduct(previewPoint2.getCoordsInD2(),
 						startPoint.getCoordsInD2());
-				g1.setCoords(coordsForMousePos.getX(),
-						coordsForMousePos.getY(), coordsForMousePos.getZ());
-				coordsForMousePos.setCrossProduct(
-						previewPoint2.getCoordsInD2(),
+				g1.setCoords(coordsForMousePos.getX(), coordsForMousePos.getY(),
+						coordsForMousePos.getZ());
+				coordsForMousePos.setCrossProduct(previewPoint2.getCoordsInD2(),
 						new Coords(xRW, yRW, 1));
 				h.setCoords(coordsForMousePos.getX(), coordsForMousePos.getY(),
 						coordsForMousePos.getZ());
@@ -578,8 +576,7 @@ public class DrawLine extends Drawable implements Previewable {
 				hy /= lenH;
 
 				// set direction vector of bisector: (wx, wy)
-				double wx,
-				wy;
+				double wx, wy;
 
 				// calc direction vector (wx, wy) of angular bisector
 				// check if angle between vectors is > 90 degrees
@@ -613,8 +610,8 @@ public class DrawLine extends Drawable implements Previewable {
 				this.coordsForMousePos.set(previewPoint2.getInhomCoordsInD2());
 				((GeoLine) g).x = -wy;
 				((GeoLine) g).y = wx;
-				((GeoLine) g).z = -(coordsForMousePos.getX() * ((GeoLine) g).x + coordsForMousePos
-						.getY() * ((GeoLine) g).y);
+				((GeoLine) g).z = -(coordsForMousePos.getX() * ((GeoLine) g).x
+						+ coordsForMousePos.getY() * ((GeoLine) g).y);
 
 				break;
 			}
@@ -655,9 +652,8 @@ public class DrawLine extends Drawable implements Previewable {
 	 */
 	@Override
 	final public boolean hit(int screenx, int screeny, int hitThreshold) {
-		return isVisible
-				&& line.intersects(screenx - hitThreshold, screeny
-						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		return isVisible && line.intersects(screenx - hitThreshold,
+				screeny - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 	}
 
 	@Override

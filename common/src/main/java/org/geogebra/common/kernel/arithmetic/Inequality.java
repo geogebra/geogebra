@@ -97,7 +97,8 @@ public class Inequality {
 		this.kernel = kernel;
 		this.fv = fv;
 
-		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)) {
+		if (op.equals(Operation.GREATER)
+				|| op.equals(Operation.GREATER_EQUAL)) {
 			normal = new ExpressionNode(kernel, lhs, Operation.MINUS, rhs);
 
 		} else {
@@ -107,14 +108,13 @@ public class Inequality {
 		if (normal.getLeftTree().getOperation() == Operation.ABS
 				&& !normal.getRightTree().containsFreeFunctionVariable(null)) {
 			normal.setLeft(normal.getLeftTree().getLeftTree().power(2));
-			normal.setRight(normal.getRightTree().multiply(
-					normal.getRightTree().abs()));
-		}
- else if (normal.getRightTree().getOperation() == Operation.ABS
+			normal.setRight(normal.getRightTree()
+					.multiply(normal.getRightTree().abs()));
+		} else if (normal.getRightTree().getOperation() == Operation.ABS
 				&& !normal.getLeftTree().containsFreeFunctionVariable(null)) {
 			normal.setRight(normal.getRightTree().getLeftTree().power(2));
-			normal.setLeft(normal.getLeftTree().multiply(
-					normal.getLeftTree().abs()));
+			normal.setLeft(
+					normal.getLeftTree().multiply(normal.getLeftTree().abs()));
 		} else if (normal.getRightTree().getOperation() == Operation.ABS
 				&& normal.getLeftTree().getOperation() == Operation.ABS) {
 			normal.setRight(normal.getRightTree().getLeftTree().power(2));
@@ -128,8 +128,8 @@ public class Inequality {
 			init1varFunction(0);
 			if (!funBorder.isPolynomialFunction(false)) {
 				type = IneqType.INEQUALITY_INVALID;
-			} else if (fv[0].toString(StringTemplate.defaultTemplate).equals(
-					"y")) {
+			} else if (fv[0].toString(StringTemplate.defaultTemplate)
+					.equals("y")) {
 				type = IneqType.INEQUALITY_1VAR_Y;
 			} else
 				type = IneqType.INEQUALITY_1VAR_X;
@@ -147,9 +147,9 @@ public class Inequality {
 				&& coefX == null) {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
-			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, Operation.DIVIDE, coef), Operation.PLUS,
-					fv[1]);
+			ExpressionNode m = new ExpressionNode(kernel,
+					new ExpressionNode(kernel, normal, Operation.DIVIDE, coef),
+					Operation.PLUS, fv[1]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = IneqType.INEQUALITY_PARAMETRIC_Y;
@@ -157,9 +157,9 @@ public class Inequality {
 				&& !Double.isNaN(coefX) && coefY == null) {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
-			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, Operation.DIVIDE, coef), Operation.PLUS,
-					fv[0]);
+			ExpressionNode m = new ExpressionNode(kernel,
+					new ExpressionNode(kernel, normal, Operation.DIVIDE, coef),
+					Operation.PLUS, fv[0]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = IneqType.INEQUALITY_PARAMETRIC_X;
@@ -167,21 +167,21 @@ public class Inequality {
 			zeroDummy0 = new MyDouble(kernel, 0);
 			normal.replace(fv[0], zeroDummy0).wrap();
 			init1varFunction(1);
-			type = funBorder.isPolynomialFunction(false) ? IneqType.INEQUALITY_1VAR_Y
-					: IneqType.INEQUALITY_INVALID;
+			type = funBorder.isPolynomialFunction(false)
+					? IneqType.INEQUALITY_1VAR_Y : IneqType.INEQUALITY_INVALID;
 		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
 			normal.replace(fv[1], zeroDummy1).wrap();
 			init1varFunction(0);
-			type = funBorder.isPolynomialFunction(false) ? IneqType.INEQUALITY_1VAR_X
-					: IneqType.INEQUALITY_INVALID;
+			type = funBorder.isPolynomialFunction(false)
+					? IneqType.INEQUALITY_1VAR_X : IneqType.INEQUALITY_INVALID;
 		} else {
 			FunctionVariable xVar = new FunctionVariable(kernel, "x");
 			FunctionVariable yVar = new FunctionVariable(kernel, "y");
 			ExpressionNode replaced = normal.deepCopy(kernel)
 					.replace(fv[0], xVar).wrap().replace(fv[1], yVar).wrap();
-			Equation equ = new Equation(kernel, replaced, new MyDouble(kernel,
-					0));
+			Equation equ = new Equation(kernel, replaced,
+					new MyDouble(kernel, 0));
 
 			equ.initEquation();
 
@@ -240,7 +240,8 @@ public class Inequality {
 
 	private void setAboveBorderFromConic() {
 		if (conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY
-				|| conicBorder.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT) {
+				|| conicBorder
+						.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT) {
 			isAboveBorder = conicBorder.evaluateInSignificantPoint() >= 0;
 			return;
 		}

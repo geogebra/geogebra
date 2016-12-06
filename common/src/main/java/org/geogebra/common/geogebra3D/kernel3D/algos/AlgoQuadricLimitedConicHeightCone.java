@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
  * @author mathieu
  *
  */
-public class AlgoQuadricLimitedConicHeightCone extends
-		AlgoQuadricLimitedConicHeight {
+public class AlgoQuadricLimitedConicHeightCone
+		extends AlgoQuadricLimitedConicHeight {
 
 	/**
 	 * 
@@ -34,8 +34,7 @@ public class AlgoQuadricLimitedConicHeightCone extends
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
-			double r, double r2,
-			double min, double max) {
+			double r, double r2, double min, double max) {
 		// getQuadric().setCone(o1,d,r, min, max);
 		getQuadric().setCone(o2, d, r / max, -max, 0);
 	}
@@ -44,7 +43,5 @@ public class AlgoQuadricLimitedConicHeightCone extends
 	public Commands getClassName() {
 		return Commands.Cone;
 	}
-
-	
 
 }

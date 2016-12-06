@@ -17,34 +17,38 @@
 package org.apache.commons.collections15;
 
 /**
- * Defines a functor interface implemented by classes that transform one
- * object into another.
+ * Defines a functor interface implemented by classes that transform one object
+ * into another.
  * <p/>
  * A <code>Transformer</code> converts the input object to the output object.
- * The input object should be left unchanged.
- * Transformers are typically used for type conversions, or extracting data
- * from an object.
+ * The input object should be left unchanged. Transformers are typically used
+ * for type conversions, or extracting data from an object.
  * <p/>
  * Standard implementations of common transformers are provided by
- * {@link TransformerUtils}. These include method invokation, returning a constant,
- * cloning and returning the string value.
+ * {@link TransformerUtils}. These include method invokation, returning a
+ * constant, cloning and returning the string value.
  *
  * @author James Strachan
  * @author Matt Hall, John Watkinson, Stephen Colebourne
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:19 $
  * @since Commons Collections 1.0
  */
-public interface Transformer <I,O> {
+public interface Transformer<I, O> {
 
-    /**
-     * Transforms the input object (leaving it unchanged) into some output object.
-     *
-     * @param input the object to be transformed, should be left unchanged
-     * @return a transformed object
-     * @throws ClassCastException       (runtime) if the input is the wrong class
-     * @throws IllegalArgumentException (runtime) if the input is invalid
-     * @throws FunctorException         (runtime) if the transform cannot be completed
-     */
-    public O transform(I input);
+	/**
+	 * Transforms the input object (leaving it unchanged) into some output
+	 * object.
+	 *
+	 * @param input
+	 *            the object to be transformed, should be left unchanged
+	 * @return a transformed object
+	 * @throws ClassCastException
+	 *             (runtime) if the input is the wrong class
+	 * @throws IllegalArgumentException
+	 *             (runtime) if the input is invalid
+	 * @throws FunctorException
+	 *             (runtime) if the transform cannot be completed
+	 */
+	public O transform(I input);
 
 }

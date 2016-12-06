@@ -39,8 +39,8 @@ public class CmdZMean2Test extends CommandProcessor {
 					&& (ok[4] = arg[4].isGeoText())) {
 
 				AlgoZMean2Test algo = new AlgoZMean2Test(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoList) arg[2], (GeoNumeric) arg[3], (GeoText) arg[4]);
+						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoList) arg[2],
+						(GeoNumeric) arg[3], (GeoText) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

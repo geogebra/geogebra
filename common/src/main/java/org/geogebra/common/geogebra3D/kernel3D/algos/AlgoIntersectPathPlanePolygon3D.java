@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author matthieu
  */
-public class AlgoIntersectPathPlanePolygon3D extends
-		AlgoIntersectPathLinePolygon3D {
+public class AlgoIntersectPathPlanePolygon3D
+		extends AlgoIntersectPathLinePolygon3D {
 	/** plane */
 	protected GeoPlane3D plane;
 
@@ -96,9 +96,9 @@ public class AlgoIntersectPathPlanePolygon3D extends
 	@Override
 	protected void setIntersectionLine() {
 
-		Coords[] intersection = CoordMatrixUtil.intersectPlanes(plane
-				.getCoordSys().getMatrixOrthonormal(), p.getCoordSys()
-				.getMatrixOrthonormal());
+		Coords[] intersection = CoordMatrixUtil.intersectPlanes(
+				plane.getCoordSys().getMatrixOrthonormal(),
+				p.getCoordSys().getMatrixOrthonormal());
 
 		o1 = intersection[0];
 		d1 = intersection[1];

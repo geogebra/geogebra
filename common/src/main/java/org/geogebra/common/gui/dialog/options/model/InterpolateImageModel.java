@@ -11,8 +11,9 @@ public class InterpolateImageModel extends BooleanOptionModel {
 	}
 
 	private GeoImage getGeoImageAt(int index) {
-		return (GeoImage)getObjectAt(index);
+		return (GeoImage) getObjectAt(index);
 	}
+
 	@Override
 	public boolean getValueAt(int index) {
 		return getGeoImageAt(index).isInterpolate();

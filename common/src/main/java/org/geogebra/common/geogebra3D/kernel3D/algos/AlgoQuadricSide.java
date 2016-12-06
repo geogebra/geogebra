@@ -62,19 +62,19 @@ public class AlgoQuadricSide extends AlgoQuadric {
 		if (bottom == null) {
 			r2 = r1;
 		} else {
-			r2 = bottom.getType() == GeoConicNDConstants.CONIC_PARABOLA ? bottom.p
-					: r1
-					* bottom.getHalfAxis(1) / bottom.getHalfAxis(0);
+			r2 = bottom.getType() == GeoConicNDConstants.CONIC_PARABOLA
+					? bottom.p
+					: r1 * bottom.getHalfAxis(1) / bottom.getHalfAxis(0);
 			eigen = bottom.getEigenvec3D(0).normalize();
 		}
 		// compute the quadric
 		getQuadric().setDefined();
 		getQuadric().setType(getInputQuadric().getType());
-		getComputer()
-				.setQuadric(getQuadric(), getInputQuadric().getOrigin(),
+		getComputer().setQuadric(getQuadric(), getInputQuadric().getOrigin(),
 				getInputQuadric().getDirection(), eigen, r1, r2);
-		((GeoQuadric3DPart) getQuadric()).setLimits(getInputQuadric()
-				.getBottomParameter(), getInputQuadric().getTopParameter());
+		((GeoQuadric3DPart) getQuadric()).setLimits(
+				getInputQuadric().getBottomParameter(),
+				getInputQuadric().getTopParameter());
 
 		((GeoQuadric3DPart) getQuadric()).calcArea();
 

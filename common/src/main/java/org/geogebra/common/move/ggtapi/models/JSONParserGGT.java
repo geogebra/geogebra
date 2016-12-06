@@ -156,29 +156,29 @@ public class JSONParserGGT {
 
 	public void addEvent(JSONObject object, ArrayList<SyncEvent> events) {
 
-		SyncEvent se = new SyncEvent(
-				getInt(object, "id", 0), getLong(object, "ts", 0));
+		SyncEvent se = new SyncEvent(getInt(object, "id", 0),
+				getLong(object, "ts", 0));
 		try {
 			if (object.has("deleted")
-				&& object.get("deleted") instanceof String) {
-			se.setDelete(true);
-		}
+					&& object.get("deleted") instanceof String) {
+				se.setDelete(true);
+			}
 		} catch (Exception e) {
 			Log.debug("error parsing deletion");
 		}
 		try {
 			if (object.has("favorite")
-				&& getBoolean(object, "favorite", false)) {
-			se.setFavorite(true);
-		}
+					&& getBoolean(object, "favorite", false)) {
+				se.setFavorite(true);
+			}
 		} catch (Exception e) {
 			Log.debug("error parsing favorite");
 		}
 		try {
 			if (object.has("unfavorited")
-				&& object.get("unfavorited") instanceof String) {
-			se.setUnfavorite(true);
-		}
+					&& object.get("unfavorited") instanceof String) {
+				se.setUnfavorite(true);
+			}
 		} catch (Exception e) {
 			Log.debug("error parsing unfavorite");
 		}
@@ -275,7 +275,6 @@ public class JSONParserGGT {
 		}
 		result.add(toMaterial(((JSONObject) obj)));
 	}
-
 
 	public static Material parseMaterial(String item) {
 		return parseMaterial(item, false);

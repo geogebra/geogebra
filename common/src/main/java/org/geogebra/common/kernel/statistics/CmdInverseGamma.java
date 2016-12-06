@@ -35,9 +35,9 @@ public class CmdInverseGamma extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 
-				AlgoInverseGamma algo = new AlgoInverseGamma(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+				AlgoInverseGamma algo = new AlgoInverseGamma(cons, c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

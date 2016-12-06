@@ -106,8 +106,8 @@ public class AlgoRSquare extends AlgoElement {
 			} else {
 				r2.setUndefined();
 				return;
-			}// if calculation is possible
-		}// for all points
+			} // if calculation is possible
+		} // for all points
 
 		syy = sumyy - sumy * sumy / size;
 
@@ -116,6 +116,4 @@ public class AlgoRSquare extends AlgoElement {
 
 	}// compute()
 
-	
 }// class AlgoRSquare
-

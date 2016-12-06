@@ -114,47 +114,51 @@ public class ManagerShaders extends Manager {
 			this.t.setEmpty();
 			this.c.setEmpty();
 		}
-		
+
 		/**
 		 * allocate memory for buffers (for direct write)
-		 * @param size vertices size
+		 * 
+		 * @param size
+		 *            vertices size
 		 */
-		public void allocateBuffers(int size){
+		public void allocateBuffers(int size) {
 			// Log.debug("allocateBuffers: "+size);
 			v.allocate(size * 3);
 			n.allocate(size * 3);
 			length = 0;
 		}
-		
+
 		/**
 		 * put vertex values into buffer
+		 * 
 		 * @param x
 		 * @param y
 		 * @param z
 		 */
-		public void vertexDirect(double x, double y, double z){
+		public void vertexDirect(double x, double y, double z) {
 			v.put(x);
 			v.put(y);
 			v.put(z);
 			length++;
 		}
-		
+
 		/**
 		 * put normal values into buffer
+		 * 
 		 * @param x
 		 * @param y
 		 * @param z
 		 */
-		public void normalDirect(double x, double y, double z){
+		public void normalDirect(double x, double y, double z) {
 			n.put(x);
 			n.put(y);
 			n.put(z);
 		}
-		
+
 		/**
 		 * ends geometry
 		 */
-		public void end(){
+		public void end() {
 			v.setLimit(length * 3);
 			n.setLimit(length * 3);
 		}
@@ -219,7 +223,7 @@ public class ManagerShaders extends Manager {
 		public void setTextures(ArrayList<Double> array, int length) {
 			this.t.set(array, length);
 		}
-		
+
 		/**
 		 * set textures to empty
 		 */
@@ -280,15 +284,11 @@ public class ManagerShaders extends Manager {
 		 *            renderer to draw into
 		 */
 		public void draw(RendererShadersInterface r) {
-			r.loadVertexBuffer(
-					getVertices(), getLength());
-			r.loadNormalBuffer(
-					getNormals(), getLength());
-			r.loadColorBuffer(getColors(),
-					getLength());
+			r.loadVertexBuffer(getVertices(), getLength());
+			r.loadNormalBuffer(getNormals(), getLength());
+			r.loadColorBuffer(getColors(), getLength());
 			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(
-						getTextures(), getLength());
+				r.loadTextureBuffer(getTextures(), getLength());
 			}
 			r.draw(getType(), getLength());
 		}
@@ -361,7 +361,7 @@ public class ManagerShaders extends Manager {
 			currentGeometryIndex++;
 			geometriesLength++;
 		}
-		
+
 		/**
 		 * 
 		 * @param type
@@ -374,36 +374,40 @@ public class ManagerShaders extends Manager {
 
 		/**
 		 * allocate buffers of current geometry
-		 * @param size memory size
+		 * 
+		 * @param size
+		 *            memory size
 		 */
-		public void allocate(int size){
+		public void allocate(int size) {
 			currentGeometry.allocateBuffers(size);
 		}
-		
+
 		/**
 		 * put vertex values into buffer
+		 * 
 		 * @param x
 		 * @param y
 		 * @param z
 		 */
-		public void vertexDirect(double x, double y, double z){
+		public void vertexDirect(double x, double y, double z) {
 			currentGeometry.vertexDirect(x, y, z);
 		}
 
 		/**
 		 * put normal values into buffer
+		 * 
 		 * @param x
 		 * @param y
 		 * @param z
 		 */
-		public void normalDirect(double x, double y, double z){
+		public void normalDirect(double x, double y, double z) {
 			currentGeometry.normalDirect(x, y, z);
 		}
-		
+
 		/**
 		 * ends current geometry
 		 */
-		public void endGeometry(){
+		public void endGeometry() {
 			currentGeometry.end();
 		}
 
@@ -443,7 +447,7 @@ public class ManagerShaders extends Manager {
 		public void setTextures(ArrayList<Double> textures, int length) {
 			if (length == 2 * currentGeometry.getLength()) {
 				currentGeometry.setTextures(textures, length);
-			}else{
+			} else {
 				currentGeometry.setTexturesEmpty();
 			}
 		}
@@ -609,9 +613,10 @@ public class ManagerShaders extends Manager {
 
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null) {
-			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
-				currentGeometriesSet.get(i).draw(
-						(RendererShadersInterface) renderer);
+			for (int i = 0; i < currentGeometriesSet
+					.getGeometriesLength(); i++) {
+				currentGeometriesSet.get(i)
+						.draw((RendererShadersInterface) renderer);
 			}
 		}
 	}
@@ -629,9 +634,10 @@ public class ManagerShaders extends Manager {
 
 		currentGeometriesSet = geometriesSetList.get(index);
 		if (currentGeometriesSet != null) {
-			for (int i = 0; i < currentGeometriesSet.getGeometriesLength(); i++) {
-				currentGeometriesSet.get(i).drawLabel(
-						(RendererShadersInterface) renderer);
+			for (int i = 0; i < currentGeometriesSet
+					.getGeometriesLength(); i++) {
+				currentGeometriesSet.get(i)
+						.drawLabel((RendererShadersInterface) renderer);
 			}
 		}
 	}
@@ -751,25 +757,25 @@ public class ManagerShaders extends Manager {
 	 * @Override public void rectangleBounds(int x, int y, int z, int width, int
 	 * height){ getText().rectangleBounds(x, y, z, width, height); }
 	 */
-	
+
 	@Override
-	public void startGeometryDirect(Type type, int size){
+	public void startGeometryDirect(Type type, int size) {
 		startGeometry(type);
 		currentGeometriesSet.allocate(size);
 	}
-	
+
 	@Override
-	protected void vertexDirect(double x, double y, double z){
+	protected void vertexDirect(double x, double y, double z) {
 		currentGeometriesSet.vertexDirect(x, y, z);
 	}
-	
+
 	@Override
-	protected void normalDirect(double x, double y, double z){
+	protected void normalDirect(double x, double y, double z) {
 		currentGeometriesSet.normalDirect(x, y, z);
 	}
-	
+
 	@Override
-	public void endGeometryDirect(){
+	public void endGeometryDirect() {
 		currentGeometriesSet.endGeometry();
 	}
 

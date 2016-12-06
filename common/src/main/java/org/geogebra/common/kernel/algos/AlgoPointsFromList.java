@@ -46,7 +46,8 @@ public class AlgoPointsFromList extends AlgoElement {
 		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 2)) {
 			points = new GeoPoint[0];
 			initPoints(number);
 			initLabels = true;
@@ -63,11 +64,12 @@ public class AlgoPointsFromList extends AlgoElement {
 				points[0].update();
 			}
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 3)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 3)) {
 			points3D = new GeoPoint3D[0];
 			initPoints3D(number);
 			initLabels = true;
-			
+
 			setInputOutput();
 			compute();
 			// show at least one root point in algebra view
@@ -108,14 +110,16 @@ public class AlgoPointsFromList extends AlgoElement {
 		input = new GeoElement[1];
 		input[0] = list;
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
-		super.setOutput(points);
-		for (int i = 1; i < points.length; i++) {
-			points[i].showUndefinedInAlgebraView(false);
-		}
-		setDependencies();
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 2)) {
+			super.setOutput(points);
+			for (int i = 1; i < points.length; i++) {
+				points[i].showUndefinedInAlgebraView(false);
+			}
+			setDependencies();
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 3)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 3)) {
 			super.setOutput(points3D);
 			for (int i = 1; i < points3D.length; i++) {
 				points3D[i].showUndefinedInAlgebraView(false);
@@ -169,7 +173,8 @@ public class AlgoPointsFromList extends AlgoElement {
 		}
 
 		if (length == -1) {
-			if  (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2) {
+			if (list.get(0).isGeoList()
+					&& ((GeoList) list.get(0)).size() == 2) {
 				// handle Point[ { {1,2}, {3,4} } ] case
 				for (int i = 0; i < n; i++) {
 					GeoElement geo = list.get(i);
@@ -214,13 +219,15 @@ public class AlgoPointsFromList extends AlgoElement {
 		}
 
 		if (length > 0) {
-			if ((list.get(0).isGeoNumeric() && list.size() == 2) || (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
+			if ((list.get(0).isGeoNumeric() && list.size() == 2)
+					|| (list.get(0).isGeoList()
+							&& ((GeoList) list.get(0)).size() == 2)) {
 				setPoints(x, y, length);
 			} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-					|| (list.get(0).isGeoList() && ((GeoList) list.get(0))
-							.size() == 3)) {
+					|| (list.get(0).isGeoList()
+							&& ((GeoList) list.get(0)).size() == 3)) {
 				setPoints3D(x, y, z, length);
-			} 
+			}
 		}
 	}
 
@@ -263,12 +270,13 @@ public class AlgoPointsFromList extends AlgoElement {
 
 	// number is the number of current roots
 	private void updateLabels(int number) {
-		if(list == null || list.size() == 0){
+		if (list == null || list.size() == 0) {
 			return;
 		}
 
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 2)) {
 			if (initLabels) {
 				GeoElement.setLabels(labels, points);
 				initLabels = false;
@@ -277,8 +285,8 @@ public class AlgoPointsFromList extends AlgoElement {
 					// check labeling
 					if (!points[i].isLabelSet()) {
 						// use user specified label if we have one
-						String newLabel = (labels != null && i < labels.length) ? labels[i]
-								: null;
+						String newLabel = (labels != null && i < labels.length)
+								? labels[i] : null;
 						points[i].setLabel(newLabel);
 					}
 				}
@@ -289,7 +297,8 @@ public class AlgoPointsFromList extends AlgoElement {
 				points[i].setUndefined();
 			}
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 3)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 3)) {
 			if (initLabels) {
 				GeoElement.setLabels(labels, points3D);
 				initLabels = false;
@@ -298,8 +307,8 @@ public class AlgoPointsFromList extends AlgoElement {
 					// check labeling
 					if (!points3D[i].isLabelSet()) {
 						// use user specified label if we have one
-						String newLabel = (labels != null && i < labels.length) ? labels[i]
-							: null;
+						String newLabel = (labels != null && i < labels.length)
+								? labels[i] : null;
 						points3D[i].setLabel(newLabel);
 					}
 				}
@@ -320,7 +329,8 @@ public class AlgoPointsFromList extends AlgoElement {
 	public void remove(GeoElement output) {
 		// only single undefined points may be removed
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 2)) {
 			for (int i = 0; i < points.length; i++) {
 				if (points[i] == output && !points[i].isDefined()) {
 					removeRootPoint(i);
@@ -328,7 +338,8 @@ public class AlgoPointsFromList extends AlgoElement {
 				}
 			}
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 3)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 3)) {
 			for (int i = 0; i < points3D.length; i++) {
 				if (points3D[i] == output && !points3D[i].isDefined()) {
 					removeRootPoint(i);
@@ -380,7 +391,8 @@ public class AlgoPointsFromList extends AlgoElement {
 
 	private void removeRootPoint(int pos) {
 		if ((list.get(0).isGeoNumeric() && list.size() == 2)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 2)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 2)) {
 			points[pos].doRemove();
 
 			// build new rootPoints array without the removed point
@@ -392,7 +404,8 @@ public class AlgoPointsFromList extends AlgoElement {
 				temp[i - 1] = points[i];
 			points = temp;
 		} else if ((list.get(0).isGeoNumeric() && list.size() == 3)
-				|| (list.get(0).isGeoList() && ((GeoList) list.get(0)).size() == 3)) {
+				|| (list.get(0).isGeoList()
+						&& ((GeoList) list.get(0)).size() == 3)) {
 			points3D[pos].doRemove();
 
 			// build new rootPoints array without the removed point
@@ -405,7 +418,5 @@ public class AlgoPointsFromList extends AlgoElement {
 			points3D = temp;
 		}
 	}
-
-	
 
 }

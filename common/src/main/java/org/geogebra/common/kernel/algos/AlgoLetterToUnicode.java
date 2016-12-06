@@ -66,5 +66,4 @@ public class AlgoLetterToUnicode extends AlgoElement {
 
 	}
 
-	
 }

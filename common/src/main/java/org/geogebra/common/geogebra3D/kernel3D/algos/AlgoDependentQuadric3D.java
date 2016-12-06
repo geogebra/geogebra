@@ -115,14 +115,14 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 
 		// try {
 
-			for (int i = 0; i < 4; i++) {
-				coeffs[i] = ev[i].evaluateDouble();
-			}
-			for (int i = 4; i < 10; i++) {
-				coeffs[i] = ev[i].evaluateDouble() / 2;
-			}
+		for (int i = 0; i < 4; i++) {
+			coeffs[i] = ev[i].evaluateDouble();
+		}
+		for (int i = 4; i < 10; i++) {
+			coeffs[i] = ev[i].evaluateDouble() / 2;
+		}
 
-			quadric.setMatrix(coeffs);
+		quadric.setMatrix(coeffs);
 		// } catch (Throwable e) {
 		// quadric.setUndefined();
 		// }
@@ -132,7 +132,5 @@ public class AlgoDependentQuadric3D extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) {
 		return equation.toString(tpl);
 	}
-
-	
 
 }

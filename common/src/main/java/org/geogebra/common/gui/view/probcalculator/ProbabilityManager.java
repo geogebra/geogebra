@@ -137,16 +137,16 @@ public class ProbabilityManager {
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = loc
-				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][1] = loc
-				.getMenu("StandardDeviation.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL
+				.ordinal()][0] = loc.getMenu("Mean.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL
+				.ordinal()][1] = loc.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT.ordinal()][0] = loc
-				.getMenu("DegreesOfFreedom.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT
+				.ordinal()][0] = loc.getMenu("DegreesOfFreedom.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CHISQUARE.ordinal()][0] = loc
-				.getMenu("DegreesOfFreedom.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CHISQUARE
+				.ordinal()][0] = loc.getMenu("DegreesOfFreedom.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][0] = loc
 				.getMenu("DegreesOfFreedom1.short");
@@ -154,45 +154,45 @@ public class ProbabilityManager {
 				.getMenu("DegreesOfFreedom2.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL
-				.ordinal()][0] = Unicode.lambda+"";
+				.ordinal()][0] = Unicode.lambda + "";
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = loc
-				.getMenu("Median");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][1] = loc
-				.getMenu("Distribution.Scale");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY
+				.ordinal()][0] = loc.getMenu("Median");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][0] = loc
-				.getMenu("Distribution.Shape");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][1] = loc
-				.getMenu("Distribution.Scale");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL
+				.ordinal()][0] = loc.getMenu("Distribution.Shape");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = loc
-				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = loc
-				.getMenu("Distribution.Scale");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC
+				.ordinal()][0] = loc.getMenu("Mean.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC
+				.ordinal()][1] = loc.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = loc
-				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][1] = loc
-				.getMenu("StandardDeviation.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL
+				.ordinal()][0] = loc.getMenu("Mean.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL
+				.ordinal()][1] = loc.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][0] = loc
-				.getMenu("Alpha.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][1] = loc
-				.getMenu("Beta.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA
+				.ordinal()][0] = loc.getMenu("Alpha.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA
+				.ordinal()][1] = loc.getMenu("Beta.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][0] = loc
-				.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][1] = loc
-				.getMenu("Binomial.probability");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL
+				.ordinal()][0] = loc.getMenu("Binomial.number");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL
+				.ordinal()][1] = loc.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][0] = loc
-				.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][1] = loc
-				.getMenu("Binomial.probability");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL
+				.ordinal()][0] = loc.getMenu("Binomial.number");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL
+				.ordinal()][1] = loc.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = loc
-				.getMenu("Mean.short");
+		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON
+				.ordinal()][0] = loc.getMenu("Mean.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC
 				.ordinal()][0] = loc.getMenu("Hypergeometric.population");
@@ -308,16 +308,16 @@ public class ProbabilityManager {
 			ret = new AlgoWeibull(cons, param1, param2, x);
 			break;
 		case BINOMIAL:
-			ret = new AlgoBinomialDist(cons, param1, param2, x, new GeoBoolean(
-					cons, isCumulative));
+			ret = new AlgoBinomialDist(cons, param1, param2, x,
+					new GeoBoolean(cons, isCumulative));
 			break;
 		case PASCAL:
-			ret = new AlgoPascal(cons, param1, param2, x, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoPascal(cons, param1, param2, x,
+					new GeoBoolean(cons, isCumulative));
 			break;
 		case POISSON:
-			ret = new AlgoPoisson(cons, param1, x, new GeoBoolean(cons,
-					isCumulative));
+			ret = new AlgoPoisson(cons, param1, x,
+					new GeoBoolean(cons, isCumulative));
 			break;
 		case HYPERGEOMETRIC:
 			ret = new AlgoHyperGeometric(cons, param1, param2, param3, x,
@@ -488,8 +488,8 @@ public class ProbabilityManager {
 
 			xMin = 0;
 
-			xMax = getContXMax((GeoFunction) densityCurve, 1,.2,-1);
-			
+			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
+
 			yMin = 0;
 			if (v > 2) {
 				yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(mode);
@@ -515,8 +515,8 @@ public class ProbabilityManager {
 		case EXPONENTIAL:
 			double lambda = parms[0];
 			xMin = 0;
-			//xMax = 4 * (1 / lambda); // st dev = 1/lambda
-			xMax = getContXMax((GeoFunction) densityCurve, 1,.2,-1);
+			// xMax = 4 * (1 / lambda); // st dev = 1/lambda
+			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
 			yMin = 0;
 			yMax = 1.2 * lambda;
 			break;
@@ -584,7 +584,7 @@ public class ProbabilityManager {
 
 		case POISSON:
 			// mode = mean = parms[0];
-			mode = Math.floor(parms[0]); 
+			mode = Math.floor(parms[0]);
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
@@ -592,7 +592,7 @@ public class ProbabilityManager {
 			xMin -= 1;
 
 			break;
-			
+
 		case PASCAL:
 			// r = parms[0]
 			// p = parms[1]
@@ -601,21 +601,21 @@ public class ProbabilityManager {
 			if (parms[0] > 1) {
 				mode = Math.floor(parms[1] * (parms[0] - 1) / (1 - parms[1]));
 			}
-			
+
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
-			yMax = 1.2 *probability(mode, parms, DIST.PASCAL, false);			
+			yMax = 1.2 * probability(mode, parms, DIST.PASCAL, false);
 			xMin -= 1;
 
 			break;
 
-		case BINOMIAL:			
+		case BINOMIAL:
 			// n = parms[0]
 			// p = parms[1]
 			// mode = np
-			mode = Math.floor((parms[0]+1) * parms[1]);
-			
+			mode = Math.floor((parms[0] + 1) * parms[1]);
+
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
@@ -629,8 +629,8 @@ public class ProbabilityManager {
 			// k = parms[1];
 			// n = parms[2];
 			// mode = floor(n+1)(k+1)/(N+2);
-			mode = Math.floor((parms[1]+1)*(parms[2]+1)/(parms[0]+2));
-			
+			mode = Math.floor((parms[1] + 1) * (parms[2] + 1) / (parms[0] + 2));
+
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
@@ -651,11 +651,11 @@ public class ProbabilityManager {
 
 	private static double getContXMax(GeoFunction densityCurve, double startX,
 			double stepX, double yMinimum) {
-		
+
 		double defaultYMin = 0.005;
-		
-		double yMin = (yMinimum < 0)? defaultYMin: yMinimum;
-		
+
+		double yMin = (yMinimum < 0) ? defaultYMin : yMinimum;
+
 		double x = startX;
 		double test = densityCurve.evaluate(x);
 		while (test > yMin) {
@@ -698,7 +698,7 @@ public class ProbabilityManager {
 			v = parms[0];
 			if (v > 2) {
 				sigma = Math.sqrt(v / (v - 2));
-			} 
+			}
 
 			break;
 
@@ -746,8 +746,8 @@ public class ProbabilityManager {
 			scale = parms[1];
 
 			mean = scale * MyMath2.gamma(1 + 1 / shape);
-			variance = scale * scale * MyMath2.gamma(1 + 2 / shape) - mean
-					* mean;
+			variance = scale * scale * MyMath2.gamma(1 + 2 / shape)
+					- mean * mean;
 			sigma = Math.sqrt(variance);
 
 			break;
@@ -809,8 +809,6 @@ public class ProbabilityManager {
 		Double[] d = { mean, sigma };
 		return d;
 	}
-
-	
 
 	/**
 	 * If isCumulative = true, returns P(X <= value) for the given distribution

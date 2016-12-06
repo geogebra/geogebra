@@ -127,6 +127,4 @@ public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	
-
 }

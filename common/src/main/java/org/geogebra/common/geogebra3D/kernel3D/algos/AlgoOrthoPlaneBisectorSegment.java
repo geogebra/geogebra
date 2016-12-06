@@ -63,6 +63,4 @@ public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 		return segment.getPointInD(3, 0.5).getInhomCoordsInSameDimension();
 	}
 
-	
-
 }

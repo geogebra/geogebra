@@ -190,8 +190,7 @@ public final class DrawImage extends Drawable {
 
 			// calculate bounding box for isInside
 			boundingBox.setBounds(0, 0, width, height);
-			GShape shape = at
-					.createTransformedShape(boundingBox);
+			GShape shape = at.createTransformedShape(boundingBox);
 			boundingBox = shape.getBounds();
 
 			try {
@@ -206,8 +205,7 @@ public final class DrawImage extends Drawable {
 			// don't need this)
 			// turns false if the image doen't want interpolation
 			needsInterpolationRenderingHint = (geoImage.isInterpolate())
-					&& (!isTranslation(at)
-							|| view.getPixelRatio() != 1);
+					&& (!isTranslation(at) || view.getPixelRatio() != 1);
 		}
 
 		if (isInBackground != geoImage.isInBackground()) {
@@ -254,8 +252,7 @@ public final class DrawImage extends Drawable {
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
 					alphaComp = AwtFactory.getPrototype()
-							.newAlphaComposite(GAlphaComposite.SRC_OVER,
-									alpha);
+							.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
 				g3.setComposite(alphaComp);
 			}
 
@@ -301,7 +298,8 @@ public final class DrawImage extends Drawable {
 					at.transform(corner3, corner3);
 					at.transform(corner4, corner4);
 					if (highlighting == null)
-						highlighting = AwtFactory.getPrototype().newGeneralPath();
+						highlighting = AwtFactory.getPrototype()
+								.newGeneralPath();
 					else
 						highlighting.reset();
 					highlighting.moveTo((float) corner1.getX(),

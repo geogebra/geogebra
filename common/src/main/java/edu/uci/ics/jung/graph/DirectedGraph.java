@@ -12,15 +12,17 @@
 package edu.uci.ics.jung.graph;
 
 /**
- * A tagging interface for implementations of <code>Graph</code> 
- * that accept only directed edges.
+ * A tagging interface for implementations of <code>Graph</code> that accept
+ * only directed edges.
  * 
  * @author Tom Nelson - tomnelson@dev.java.net
  *
- * @param <V>   type specification for vertices
- * @param <E>   type specification for edges
+ * @param <V>
+ *            type specification for vertices
+ * @param <E>
+ *            type specification for edges
  */
-public interface DirectedGraph<V,E> extends Graph<V,E> {
+public interface DirectedGraph<V, E> extends Graph<V, E> {
 	public Graph<V, E> newInstance();
 
 }

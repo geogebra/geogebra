@@ -25,8 +25,8 @@ import org.geogebra.common.util.debug.Log;
  * @author Simon Weitzhofer 17th of May 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoArePerpendicular extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
+public class AlgoArePerpendicular extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre {
 
 	private GeoLine inputLine1; // input
 	private GeoLine inputLine2; // input
@@ -47,8 +47,8 @@ public class AlgoArePerpendicular extends AlgoElement implements
 	 * @param inputLine2
 	 *            the second line
 	 */
-	public AlgoArePerpendicular(Construction cons,
-			GeoElement inputLine1, GeoElement inputLine2) {
+	public AlgoArePerpendicular(Construction cons, GeoElement inputLine1,
+			GeoElement inputLine2) {
 		super(cons);
 		this.inputLine1 = (GeoLine) inputLine1;
 		this.inputLine2 = (GeoLine) inputLine2;
@@ -116,14 +116,15 @@ public class AlgoArePerpendicular extends AlgoElement implements
 			int[] degree1 = inputLine1.getDegrees();
 			int[] degree2 = inputLine2.getDegrees();
 			int[] degree = new int[1];
-			degree[0] = Math.max(degree1[0] + degree2[0], degree1[1]
-					+ degree2[1]);
+			degree[0] = Math.max(degree1[0] + degree2[0],
+					degree1[1] + degree2[1]);
 			return degree;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
@@ -131,8 +132,8 @@ public class AlgoArePerpendicular extends AlgoElement implements
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getExactCoordinates(values);
 			BigInteger[] coords = new BigInteger[1];
-			coords[0] = coords1[0].multiply(coords2[0]).add(
-					coords1[1].multiply(coords2[1]));
+			coords[0] = coords1[0].multiply(coords2[0])
+					.add(coords1[1].multiply(coords2[1]));
 
 			return coords;
 		}
@@ -150,8 +151,8 @@ public class AlgoArePerpendicular extends AlgoElement implements
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) input[1])
 					.getPolynomials();
 			polynomials = new Polynomial[1];
-			polynomials[0] = coords1[0].multiply(coords2[0]).add(
-					coords1[1].multiply(coords2[1]));
+			polynomials[0] = coords1[0].multiply(coords2[0])
+					.add(coords1[1].multiply(coords2[1]));
 
 			return polynomials;
 		}
@@ -178,7 +179,5 @@ public class AlgoArePerpendicular extends AlgoElement implements
 		}
 		return null;
 	}
-
-	
 
 }

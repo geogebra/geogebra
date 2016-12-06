@@ -120,8 +120,8 @@ public class DrawRay3D extends DrawCoordSys1D {
 	@SuppressWarnings("unchecked")
 	public DrawRay3D(EuclidianView3D a_view3D, ArrayList selectedPoints) {
 
-		super(a_view3D, selectedPoints, new GeoRay3D(a_view3D.getKernel()
-				.getConstruction()));
+		super(a_view3D, selectedPoints,
+				new GeoRay3D(a_view3D.getKernel().getConstruction()));
 
 	}
 

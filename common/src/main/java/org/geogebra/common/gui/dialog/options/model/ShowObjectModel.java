@@ -8,12 +8,11 @@ public class ShowObjectModel extends BooleanOptionModel {
 		void updateCheckbox(boolean value, boolean isEnabled);
 
 	}
-	
+
 	public ShowObjectModel(IShowObjectListener listener, App app) {
 		super(listener, app);
 	}
-	
-	
+
 	@Override
 	public void updateProperties() {
 		// check if properties have same values
@@ -24,8 +23,7 @@ public class ShowObjectModel extends BooleanOptionModel {
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
 			// same object visible value
-			if (geo0.isSetEuclidianVisible() != temp
-					.isSetEuclidianVisible()) {
+			if (geo0.isSetEuclidianVisible() != temp.isSetEuclidianVisible()) {
 				equalObjectVal = false;
 				break;
 			}
@@ -34,8 +32,9 @@ public class ShowObjectModel extends BooleanOptionModel {
 				showObjectCondition = true;
 			}
 		}
-		
-		((IShowObjectListener)getListener()).updateCheckbox(equalObjectVal ? geo0.isSetEuclidianVisible():false,
+
+		((IShowObjectListener) getListener()).updateCheckbox(
+				equalObjectVal ? geo0.isSetEuclidianVisible() : false,
 				!showObjectCondition);
 
 	}
@@ -58,7 +57,7 @@ public class ShowObjectModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		// not used 
+		// not used
 		return false;
 	}
 

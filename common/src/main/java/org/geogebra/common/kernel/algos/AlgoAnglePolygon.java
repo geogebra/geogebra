@@ -23,12 +23,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 
-	public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly) {
+	public AlgoAnglePolygon(Construction cons, String[] labels,
+			GeoPolygon poly) {
 		this(cons, labels, poly, null);
 	}
 
-	public AlgoAnglePolygon(Construction cons, String[] labels,
-			GeoPolygon poly, GeoDirectionND orientation) {
+	public AlgoAnglePolygon(Construction cons, String[] labels, GeoPolygon poly,
+			GeoDirectionND orientation) {
 		this(cons, poly, orientation);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
@@ -74,5 +75,4 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 		return getInputMaybeXOYPlane(i);
 	}
 
-	
 }

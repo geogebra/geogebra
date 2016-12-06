@@ -13,19 +13,18 @@ public class MultiVarStatTableModel extends StatTableModel {
 		String[] getDataTitles();
 
 		boolean isMinimalTable();
-		
+
 	}
-	
+
 	protected MultiVarStatTableListener getMultiVarListener() {
-		return (MultiVarStatTableListener)getListener();
+		return (MultiVarStatTableListener) getListener();
 	}
-	
+
 	public MultiVarStatTableModel(App app, MultiVarStatTableListener listener) {
 		super(app, listener);
 	}
-	
-	
- 	@Override
+
+	@Override
 	public String[] getRowNames() {
 		return getMultiVarListener().getDataTitles();
 	}
@@ -50,7 +49,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 	public int getColumnCount() {
 		return getColumnNames().length;
 	}
-	
+
 	public ArrayList<Stat> getStatList() {
 
 		ArrayList<Stat> list = new ArrayList<Stat>();
@@ -63,9 +62,9 @@ public class MultiVarStatTableModel extends StatTableModel {
 			list.add(Stat.LENGTH);
 			list.add(Stat.MEAN);
 			list.add(Stat.SAMPLE_SD);
-			
+
 		} else {
-			
+
 			list.add(Stat.LENGTH);
 			list.add(Stat.MEAN);
 			list.add(Stat.SD);
@@ -84,7 +83,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 	@Override
 	public void updatePanel() {
 		GeoList dataList = getMultiVarListener().getDataSelected();
-		
+
 		String[] titles = getMultiVarListener().getDataTitles();
 
 		ArrayList<Stat> list = getStatList();
@@ -99,8 +98,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 					AlgoElement algo = getAlgo(stat,
 							(GeoList) dataList.get(row), null);
 					if (algo != null) {
-						getConstruction()
-								.removeFromConstructionList(algo);
+						getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
 						getMultiVarListener().setValueAt(value, row, col);

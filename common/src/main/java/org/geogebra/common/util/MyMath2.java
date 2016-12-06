@@ -289,8 +289,8 @@ public class MyMath2 {
 			// h = (cos(t)-isin(t))*h
 			h = h.multiply(new Complex(Math.cos(t), -Math.sin(t)));
 
-			return new Complex(-h.getReal(), Math.signum(a2)
-					* (Kernel.PI_HALF + h.getImaginary()));
+			return new Complex(-h.getReal(),
+					Math.signum(a2) * (Kernel.PI_HALF + h.getImaginary()));
 		}
 		if (t < Math.sqrt(Kernel.STANDARD_PRECISION)) {
 			sumc = 0.0;
@@ -320,8 +320,8 @@ public class MyMath2 {
 				return new Complex(Double.NaN, Double.NaN);
 		}
 
-		return new Complex(sumc + Math.log(t) + MyMath.EULER, Math.signum(a2)
-				* sums);
+		return new Complex(sumc + Math.log(t) + MyMath.EULER,
+				Math.signum(a2) * sums);
 
 	}
 

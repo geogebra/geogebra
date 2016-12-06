@@ -93,7 +93,6 @@ abstract public class Manager {
 
 	}
 
-
 	/**
 	 * set the 3D view
 	 * 
@@ -187,22 +186,25 @@ abstract public class Manager {
 	abstract public void endList();
 
 	abstract public void startGeometry(Type type);
-	
+
 	/**
 	 * direct write in buffer mode
-	 * @param type geometry type
-	 * @param size number of vertices
+	 * 
+	 * @param type
+	 *            geometry type
+	 * @param size
+	 *            number of vertices
 	 */
-	public void startGeometryDirect(Type type, int size){
+	public void startGeometryDirect(Type type, int size) {
 		startGeometry(type);
 	}
 
 	abstract public void endGeometry();
-	
+
 	/**
 	 * end current geometry (direct buffer mode)
 	 */
-	public void endGeometryDirect(){
+	public void endGeometryDirect() {
 		endGeometry();
 	}
 
@@ -288,7 +290,8 @@ abstract public class Manager {
 	 * @param triFan
 	 *            indices
 	 */
-	final private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
+	final private void drawTriangleFan(Coords n, Coords[] v,
+			TriangleFan triFan) {
 		startGeometry(Type.TRIANGLE_FAN);
 
 		// set texture
@@ -345,7 +348,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	protected void vertexDirect(double x, double y, double z){
+	protected void vertexDirect(double x, double y, double z) {
 		vertex(x, y, z);
 	}
 
@@ -369,7 +372,7 @@ abstract public class Manager {
 	final protected void vertex(Coords v) {
 		vertex(v.getX(), v.getY(), v.getZ());
 	}
-	
+
 	/**
 	 * scale vertex and draw it
 	 * 
@@ -468,7 +471,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	protected void normalDirect(double x, double y, double z){
+	protected void normalDirect(double x, double y, double z) {
 		normal(x, y, z);
 	}
 
@@ -647,8 +650,7 @@ abstract public class Manager {
 			double width, double height);
 
 	public int rectangleBounds(double x, double y, double z, double width,
-			double height,
-			int old) {
+			double height, int old) {
 		int index = startNewList(old);
 		getText().rectangleBounds(x, y, z, width, height);
 		endList();
@@ -670,20 +672,24 @@ abstract public class Manager {
 	public int getLongitudeDefault() {
 		return 64;
 	}
-	
+
 	/**
 	 * 
-	 * @param radius circle radius
-	 * @param viewScale view scale
+	 * @param radius
+	 *            circle radius
+	 * @param viewScale
+	 *            view scale
 	 * @return correct longitudes size regarding radius * viewScale
 	 */
-	public int getLongitude(double radius, double viewScale){
+	public int getLongitude(double radius, double viewScale) {
 		int longitude = 8;
 		double size = radius * viewScale;
 		// App.error(""+size);
-		while (longitude < 2 * size
-				&& longitude < getLongitudeDefault()) {// find the correct
-															// longitude size
+		while (longitude < 2 * size && longitude < getLongitudeDefault()) {// find
+																			// the
+																			// correct
+																			// longitude
+																			// size
 			longitude *= 2;
 		}
 
@@ -702,8 +708,8 @@ abstract public class Manager {
 	 */
 	public int drawPoint(int size, Coords center, int index) {
 
-		double radius = getView3D().unscale(size
-				* DrawPoint3D.DRAW_POINT_FACTOR);
+		double radius = getView3D()
+				.unscale(size * DrawPoint3D.DRAW_POINT_FACTOR);
 		scaleXYZ(center);
 		center.setW(1); // changed for shaders (point size)
 
@@ -744,7 +750,6 @@ abstract public class Manager {
 	public void draw(int index, Coords center) {
 		draw(index);
 	}
-
 
 	/**
 	 * draw all triangles fans
@@ -804,7 +809,7 @@ abstract public class Manager {
 		 */
 		public double getZscale();
 	}
-	
+
 	/**
 	 * identity scaler
 	 */
@@ -825,7 +830,7 @@ abstract public class Manager {
 			return 1;
 		}
 	};
-	
+
 	/**
 	 * current scaler (identity/3D view)
 	 */

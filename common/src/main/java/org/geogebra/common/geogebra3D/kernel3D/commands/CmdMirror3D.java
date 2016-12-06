@@ -27,7 +27,8 @@ public class CmdMirror3D extends CmdMirror {
 	}
 
 	@Override
-	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok) {
+	protected GeoElement[] process2(String label, GeoElement[] arg,
+			boolean[] ok) {
 
 		GeoElement[] ret = new GeoElement[1];
 

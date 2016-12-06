@@ -41,8 +41,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoRotatePoint extends AlgoTransformation implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoRotatePoint extends AlgoTransformation
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPointND Q;
 	private PointRotateable out;
@@ -65,8 +65,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 	 * Creates new unlabeled point rotation algo
 	 */
 	public AlgoRotatePoint(Construction cons, GeoElement A,
-			GeoNumberValue angle,
-			GeoPointND Q) {
+			GeoNumberValue angle, GeoPointND Q) {
 		super(cons);
 		this.angle = angle;
 		this.Q = Q;
@@ -327,30 +326,29 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 			// rotate by -45 or 135 degrees
 			else if (angleValDeg == 315 || angleValDeg == 135) {
 				botanaPolynomials = new Polynomial[3];
-				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
-				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
-						new Polynomial(2).multiply(a1));
+				botanaPolynomials[0] = t2.multiply(t2)
+						.subtract(new Polynomial(2));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1));
 				Polynomial p2 = b1.subtract(a1).add(b2).subtract(a2);
-				botanaPolynomials[1] = p1.subtract(
-						t2.multiply(p2));
-				Polynomial p3 = new Polynomial(2).multiply(a_2).subtract(
-						new Polynomial(2).multiply(a2));
+				botanaPolynomials[1] = p1.subtract(t2.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2));
 				Polynomial p4 = b2.subtract(a2).subtract(b1).add(a1);
-				botanaPolynomials[2] = p3.subtract(
-						t2.multiply(p4));
+				botanaPolynomials[2] = p3.subtract(t2.multiply(p4));
 				return botanaPolynomials;
 			}
 			// rotate by 45 or -135 degrees
 			else if (angleValDeg == 45 || angleValDeg == 225) {
 				botanaPolynomials = new Polynomial[3];
-				botanaPolynomials[0] = t2.multiply(t2).subtract(new Polynomial(2));
-				Polynomial p1 = new Polynomial(2).multiply(a_1).subtract(
-						new Polynomial(2).multiply(a1));
+				botanaPolynomials[0] = t2.multiply(t2)
+						.subtract(new Polynomial(2));
+				Polynomial p1 = new Polynomial(2).multiply(a_1)
+						.subtract(new Polynomial(2).multiply(a1));
 				Polynomial p2 = b1.subtract(a1).subtract(b2).add(a2);
-				botanaPolynomials[1] = p1.subtract(
-						t2.multiply(p2));
-				Polynomial p3 = new Polynomial(2).multiply(a_2).subtract(
-						new Polynomial(2).multiply(a2));
+				botanaPolynomials[1] = p1.subtract(t2.multiply(p2));
+				Polynomial p3 = new Polynomial(2).multiply(a_2)
+						.subtract(new Polynomial(2).multiply(a2));
 				Polynomial p4 = b1.subtract(a1).add(b2).subtract(a2);
 				botanaPolynomials[2] = p3.subtract(t2.multiply(p4));
 				return botanaPolynomials;
@@ -358,8 +356,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 			// rotate by +-60 degrees
 			else if (angleValDeg == 60 || angleValDeg == 300) {
 				botanaPolynomials = new Polynomial[3];
-				botanaPolynomials[0] = t1.multiply(t1).subtract(
-						new Polynomial(3));
+				botanaPolynomials[0] = t1.multiply(t1)
+						.subtract(new Polynomial(3));
 				Polynomial p1 = new Polynomial(2).multiply(a_1)
 						.subtract(new Polynomial(2).multiply(a1)).subtract(b1)
 						.add(a1);

@@ -287,8 +287,8 @@ public abstract class TextPreviewer {
 
 		// set error message style
 		if (isErrorMessage) {
-			geo.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
-					ConstructionDefaults.DEFAULT_TEXT));
+			geo.setVisualStyle(cons.getConstructionDefaults()
+					.getDefaultGeo(ConstructionDefaults.DEFAULT_TEXT));
 			geo.setObjColor(GColor.RED);
 			geo.setBackgroundColor(GColor.WHITE);
 			// geo.setFontSize(app.geGFontSize());
@@ -326,8 +326,8 @@ public abstract class TextPreviewer {
 	 */
 	private static void locateTextGeo(GeoText geo) {
 		int xInset = 4;
-		int yInset = (int) (geo.isLaTeX() ? 4 : 18 + 12 * (geo
-				.getFontSizeMultiplier() - 1));
+		int yInset = (int) (geo.isLaTeX() ? 4
+				: 18 + 12 * (geo.getFontSizeMultiplier() - 1));
 
 		geo.setAbsoluteScreenLocActive(true);
 		geo.setAbsoluteScreenLoc(xInset, yInset);
@@ -343,7 +343,8 @@ public abstract class TextPreviewer {
 			// System.out.println("=== null input === ");
 			if (previewGeoIndependent.isIndependent()) {
 				inputValue = previewGeoIndependent.getTextString();
-				if (previewGeoIndependent.getKernel().lookupLabel(inputValue) != null) {
+				if (previewGeoIndependent.getKernel()
+						.lookupLabel(inputValue) != null) {
 					inputValue = "\"" + inputValue + "\"";
 				}
 			} else {

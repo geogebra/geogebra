@@ -22,57 +22,67 @@ import java.io.Serializable;
 import org.apache.commons.math.Field;
 
 /**
- * Representation of the fractional numbers  without any overflow field.
+ * Representation of the fractional numbers without any overflow field.
  * <p>
  * This class is a singleton.
  * </p>
+ * 
  * @see Fraction
- * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept. 2009) $
+ * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept.
+ *          2009) $
  * @since 2.0
  */
-public class BigFractionField implements Field<BigFraction>, Serializable  {
+public class BigFractionField implements Field<BigFraction>, Serializable {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = -1699294557189741703L;
+	/** Serializable version identifier */
+	private static final long serialVersionUID = -1699294557189741703L;
 
-    /** Private constructor for the singleton.
-     */
-    private BigFractionField() {
-    }
+	/**
+	 * Private constructor for the singleton.
+	 */
+	private BigFractionField() {
+	}
 
-    /** Get the unique instance.
-     * @return the unique instance
-     */
-    public static BigFractionField getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+	/**
+	 * Get the unique instance.
+	 * 
+	 * @return the unique instance
+	 */
+	public static BigFractionField getInstance() {
+		return LazyHolder.INSTANCE;
+	}
 
-    /** {@inheritDoc} */
-    public BigFraction getOne() {
-        return BigFraction.ONE;
-    }
+	/** {@inheritDoc} */
+	public BigFraction getOne() {
+		return BigFraction.ONE;
+	}
 
-    /** {@inheritDoc} */
-    public BigFraction getZero() {
-        return BigFraction.ZERO;
-    }
+	/** {@inheritDoc} */
+	public BigFraction getZero() {
+		return BigFraction.ZERO;
+	}
 
-    // CHECKSTYLE: stop HideUtilityClassConstructor
-    /** Holder for the instance.
-     * <p>We use here the Initialization On Demand Holder Idiom.</p>
-     */
-    private static class LazyHolder {
-        /** Cached field instance. */
-        private static final BigFractionField INSTANCE = new BigFractionField();
-    }
-    // CHECKSTYLE: resume HideUtilityClassConstructor
+	// CHECKSTYLE: stop HideUtilityClassConstructor
+	/**
+	 * Holder for the instance.
+	 * <p>
+	 * We use here the Initialization On Demand Holder Idiom.
+	 * </p>
+	 */
+	private static class LazyHolder {
+		/** Cached field instance. */
+		private static final BigFractionField INSTANCE = new BigFractionField();
+	}
+	// CHECKSTYLE: resume HideUtilityClassConstructor
 
-    /** Handle deserialization of the singleton.
-     * @return the singleton instance
-     */
-    private Object readResolve() {
-        // return the singleton instance
-        return LazyHolder.INSTANCE;
-    }
+	/**
+	 * Handle deserialization of the singleton.
+	 * 
+	 * @return the singleton instance
+	 */
+	private Object readResolve() {
+		// return the singleton instance
+		return LazyHolder.INSTANCE;
+	}
 
 }

@@ -33,8 +33,8 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	protected double x, y;
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVector2D(Construction cons,
-			GeoElement inputGeo, boolean normalize) {
+	public AlgoUnitVector2D(Construction cons, GeoElement inputGeo,
+			boolean normalize) {
 		super(cons, inputGeo, normalize);
 	}
 

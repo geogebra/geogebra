@@ -30,12 +30,11 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  *
  * @author ggb3D
  * 
- *          Calculate the GeoPoint3D intersection of two coord sys (eg line and
- *          plane).
+ *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
+ *         plane).
  * 
  */
 public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
-
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -58,7 +57,6 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 		super(cons, label, cs1, cs2, swapInputs);
 
 	}
-
 
 	// /////////////////////////////////////////////
 	// COMPUTE
@@ -85,7 +83,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 				- Kernel.MAX_PRECISION
 				&& -inPlaneCoords.get(3) < line.getMaxParameter()
 						+ Kernel.MAX_PRECISION
-				&& cs2D.isInRegion(inPlaneCoords.get(1), inPlaneCoords.get(2))) {
+				&& cs2D.isInRegion(inPlaneCoords.get(1),
+						inPlaneCoords.get(2))) {
 			p.setCoords(globalCoords);
 		} else
 			p.setUndefined();
@@ -115,12 +114,12 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	 */
 	public static ConfigLinePlane getConfigLinePlane(GeoLineND line,
 			GeoCoordSys2D plane) {
-		if (Kernel.isZero(line.getDirectionInD3().dotproduct(
-				plane.getDirectionInD3()))) {
-			if (Kernel.isZero(line.getPointInD(3, 0)
-					.getInhomCoordsInSameDimension()
-					.sub(plane.getCoordSys().getOrigin())
-					.dotproduct(plane.getDirectionInD3()))) {
+		if (Kernel.isZero(
+				line.getDirectionInD3().dotproduct(plane.getDirectionInD3()))) {
+			if (Kernel.isZero(
+					line.getPointInD(3, 0).getInhomCoordsInSameDimension()
+							.sub(plane.getCoordSys().getOrigin())
+							.dotproduct(plane.getDirectionInD3()))) {
 				return ConfigLinePlane.CONTAINED;
 			}
 			return ConfigLinePlane.PARALLEL;
@@ -146,8 +145,8 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 
 		// check if the point is in the line (segment or half-line)
 		// and if the point is in the region (polygon, ...)
-		if (line.respectLimitedPath(-inPlaneCoords.get(3))
-				&& cs2D.isInRegion(inPlaneCoords.get(1), inPlaneCoords.get(2))) {
+		if (line.respectLimitedPath(-inPlaneCoords.get(3)) && cs2D
+				.isInRegion(inPlaneCoords.get(1), inPlaneCoords.get(2))) {
 			return globalCoords;
 		}
 		return null;

@@ -147,15 +147,15 @@ public class AlgoText extends AlgoElement {
 		}
 
 		// standard case: set text
-		boolean bool = substituteVars == null ? true : substituteVars
-				.getBoolean();
+		boolean bool = substituteVars == null ? true
+				: substituteVars.getBoolean();
 		boolean formula = latex == null ? false : latex.getBoolean();
 		if (geo.isGeoText()) {
 			// needed for eg Text commands eg Text[Text[
 			text.setTextString(((GeoText) geo).getTextString());
 		} else {
-			text.setTextString(geo.getFormulaString(text.getStringTemplate(),
-					bool));
+			text.setTextString(
+					geo.getFormulaString(text.getStringTemplate(), bool));
 		}
 		text.setLaTeX(formula, false);
 		text.update();
@@ -166,5 +166,4 @@ public class AlgoText extends AlgoElement {
 		}
 	}
 
-	
 }

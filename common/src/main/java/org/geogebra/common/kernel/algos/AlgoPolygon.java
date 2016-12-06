@@ -53,7 +53,8 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		this(cons, labels, null, geoList);
 	}
 
-	public AlgoPolygon(Construction cons, String[] labels, GeoPointND[] points) {
+	public AlgoPolygon(Construction cons, String[] labels,
+			GeoPointND[] points) {
 		this(cons, labels, points, null);
 	}
 
@@ -127,7 +128,8 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			boolean createSegments, GeoElement polyhedron,
 			GeoDirectionND direction) {
 
-		this(cons, points, geoList, cs2D, createSegments, polyhedron, direction);
+		this(cons, points, geoList, cs2D, createSegments, polyhedron,
+				direction);
 
 		// G.Sturr 2010-3-14: Do not label segments or points for polygons
 		// formed by a geolist.
@@ -383,7 +385,15 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 */
 	public static void calcCentroid(double[] centroid, double signedArea,
 			GeoPointND[] points2) {
-		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea)) { // || points2 == null || points2.length == 0) {
+		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea)) { // ||
+																			// points2
+																			// ==
+																			// null
+																			// ||
+																			// points2.length
+																			// ==
+																			// 0)
+																			// {
 			centroid[0] = Double.NaN;
 			return;
 		}
@@ -483,19 +493,19 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		// compute area
 		poly.setArea(calcAreaWithSign(points2d));
 	}
-	
+
 	private double[] tmp3;
 
 	public void calcCentroid(GeoPoint p) {
 		GeoPointND[] points2d = poly.getPoints();
 
-		if (tmp3 == null){
+		if (tmp3 == null) {
 			tmp3 = new double[3];
 		}
 		calcCentroid(tmp3, poly.getAreaWithSign(), points2d);
-		if (Double.isNaN(tmp3[0])){
+		if (Double.isNaN(tmp3[0])) {
 			p.setUndefined();
-		}else{
+		} else {
 			p.setCoords(tmp3[0], tmp3[1], tmp3[2]);
 		}
 

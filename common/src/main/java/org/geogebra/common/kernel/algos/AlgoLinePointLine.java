@@ -42,8 +42,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoLinePointLine extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+public class AlgoLinePointLine extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P; // input
 	private GeoLine l; // input
@@ -156,15 +156,16 @@ public class AlgoLinePointLine extends AlgoElement implements
 			int[] degrees = new int[3];
 			degrees[0] = degreeL[0] + degreeP[2];
 			degrees[1] = degreeL[1] + degreeP[2];
-			degrees[2] = Math.max(degreeL[0] + degreeP[0], degreeL[1]
-					+ degreeP[1]);
+			degrees[2] = Math.max(degreeL[0] + degreeP[0],
+					degreeL[1] + degreeP[1]);
 			return degrees;
 		}
 
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 
 		if (P != null && l != null) {

@@ -92,6 +92,4 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 		matrix.getGeoList(outputList, cons);
 	}
 
-	
-
 }

@@ -25,7 +25,8 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 	private Region region; // input
 	private GeoPoint3D P; // output
 
-	public AlgoPoint3DInRegion(Construction cons, Region region, Coords coords) {
+	public AlgoPoint3DInRegion(Construction cons, Region region,
+			Coords coords) {
 		super(cons);
 		this.region = region;
 		P = new GeoPoint3D(cons, region);
@@ -99,5 +100,4 @@ public class AlgoPoint3DInRegion extends AlgoElement3D {
 		return sb.toString();
 	}
 
-	
 }

@@ -22,31 +22,33 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Locus of points
+ * 
  * @author Markus
  */
 public class GeoLocus extends GeoLocusND<MyPoint> {
 
-
 	/**
 	 * Creates new locus
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoLocus(Construction c) {
 		super(c);
 	}
 
-	
 	@Override
-	protected GeoLocus newGeoLocus(){
+	protected GeoLocus newGeoLocus() {
 		return new GeoLocus(cons);
 	}
-
 
 	/**
 	 * Adds a new point (x,y) to the end of the point list of this locus.
 	 * 
-	 * @param x x-coord
-	 * @param y y-coord
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
 	 * @param lineTo
 	 *            true to draw a line to (x,y); false to only move to (x,y)
 	 */
@@ -88,42 +90,43 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		P.updateCoords();
 	}
 
-
 	@Override
-	protected GeoSegmentND newGeoSegment(){
+	protected GeoSegmentND newGeoSegment() {
 		GeoSegment segment = new GeoSegment(cons);
 		GeoPoint p1 = new GeoPoint(cons);
 		GeoPoint p2 = new GeoPoint(cons);
 		segment.setStartPoint(p1);
 		segment.setEndPoint(p2);
-		
+
 		return segment;
 	}
-	
+
 	private Coords changingPoint;
-	
+
 	@Override
-	protected void setChangingPoint(GeoPointND P){
+	protected void setChangingPoint(GeoPointND P) {
 		changingPoint = P.getCoordsInD2().getInhomCoordsInSameDimension();
-	}
-	
-	@Override
-	protected double changingPointDistance(GeoSegmentND segment){
-		return ((GeoSegment) segment).distance(changingPoint.getX(), changingPoint.getY());
 	}
 
 	@Override
-	protected double getChangingPointParameter(GeoSegmentND segment){
-		return ((GeoSegment) segment).getParameter(changingPoint.getX(), changingPoint.getY());
+	protected double changingPointDistance(GeoSegmentND segment) {
+		return ((GeoSegment) segment).distance(changingPoint.getX(),
+				changingPoint.getY());
 	}
-	
+
+	@Override
+	protected double getChangingPointParameter(GeoSegmentND segment) {
+		return ((GeoSegment) segment).getParameter(changingPoint.getX(),
+				changingPoint.getY());
+	}
+
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 

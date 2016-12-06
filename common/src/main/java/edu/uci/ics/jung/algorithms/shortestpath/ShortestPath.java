@@ -13,17 +13,15 @@ package edu.uci.ics.jung.algorithms.shortestpath;
 
 import java.util.Map;
 
-
 /**
  * An interface for algorithms that calculate shortest paths.
  */
-public interface ShortestPath<V, E>
-{
-    /**
-     * <p>Returns a <code>Map</code> which maps each vertex 
-     * in the graph (including the <code>source</code> vertex) 
-     * to the last edge on the shortest path from the 
-     * <code>source</code> vertex.
-     */ 
-     Map<V,E> getIncomingEdgeMap(V source);
+public interface ShortestPath<V, E> {
+	/**
+	 * <p>
+	 * Returns a <code>Map</code> which maps each vertex in the graph (including
+	 * the <code>source</code> vertex) to the last edge on the shortest path
+	 * from the <code>source</code> vertex.
+	 */
+	Map<V, E> getIncomingEdgeMap(V source);
 }

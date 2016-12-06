@@ -77,8 +77,9 @@ public class CmdLocusEquation extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 
-		return new GeoElement[] { locusEquation(c.getLabel(), locusPoint,
-				movingPoint).toGeoElement() };
+		return new GeoElement[] {
+				locusEquation(c.getLabel(), locusPoint, movingPoint)
+						.toGeoElement() };
 	}
 
 	/**

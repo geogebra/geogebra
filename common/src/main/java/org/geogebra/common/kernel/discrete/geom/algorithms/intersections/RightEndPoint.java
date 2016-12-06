@@ -26,10 +26,10 @@ package org.geogebra.common.kernel.discrete.geom.algorithms.intersections;
  *
  * @author cyberpython
  */
-public class RightEndPoint extends EndPoint{
+public class RightEndPoint extends EndPoint {
 
-    public RightEndPoint(double x, double y, Segment2DEx segment){
-        super(x, y, segment);
-    }
+	public RightEndPoint(double x, double y, Segment2DEx segment) {
+		super(x, y, segment);
+	}
 
 }

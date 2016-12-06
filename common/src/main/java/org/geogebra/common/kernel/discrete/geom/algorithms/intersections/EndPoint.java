@@ -30,19 +30,19 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  */
 public abstract class EndPoint extends Point2D {
 
-    private Segment2DEx segment;
+	private Segment2DEx segment;
 
-    public EndPoint(double x, double y, Segment2DEx segment){
-        super(x, y);
-        this.segment = segment;
-    }
+	public EndPoint(double x, double y, Segment2DEx segment) {
+		super(x, y);
+		this.segment = segment;
+	}
 
-    public Segment2DEx getSegment(){
-        return this.segment;
-    }
+	public Segment2DEx getSegment() {
+		return this.segment;
+	}
 
-    public void setSegment(Segment2DEx segment){
-        this.segment = segment;
-    }
+	public void setSegment(Segment2DEx segment) {
+		this.segment = segment;
+	}
 
 }

@@ -22,16 +22,16 @@ public class CmdSampleSD extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
-				cons, a, b);
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(cons,
+				a, b);
 		return algo.getResult();
 	}
 
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq) {
-		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(
-				cons, a, list, freq);
+		AlgoSampleStandardDeviation algo = new AlgoSampleStandardDeviation(cons,
+				a, list, freq);
 		return algo.getResult();
 	}
 

@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.geos;
 
-
 /**
  * Interface for sliders usable for e.g. animated gif export
  *

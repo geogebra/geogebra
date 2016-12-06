@@ -27,8 +27,8 @@ public class CmdDifference extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int argumentNo = c.getArgumentNumber();
 		boolean[] ok = { false, false, false };
 		GeoElement[] arg = resArgs(c);
@@ -43,7 +43,7 @@ public class CmdDifference extends CommandProcessor {
 							(GeoPolygon3D) arg[1]);
 				}
 				return difference(c.getLabels(), (GeoPolygon) arg[0],
-								(GeoPolygon) arg[1]);
+						(GeoPolygon) arg[1]);
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 3:

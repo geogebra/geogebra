@@ -32,8 +32,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public abstract class AlgoCommonTangentsND extends AlgoElement implements
-		TangentAlgo {
+public abstract class AlgoCommonTangentsND extends AlgoElement
+		implements TangentAlgo {
 
 	protected GeoPointND[] P; // tmp
 	protected GeoConicND[] c; // input
@@ -240,19 +240,20 @@ public abstract class AlgoCommonTangentsND extends AlgoElement implements
 
 		// outer
 		if (Math.abs(r2 - r) > Kernel.MIN_PRECISION) {
-			setCoordsAsPoint(0, (getMidpointX(0, 0) * r2 - getMidpointX(0, 1)
-					* r)
-					/ (r2 - r), (getMidpointY(0, 0) * r2 - getMidpointY(0, 1)
-					* r)
-					/ (r2 - r));
+			setCoordsAsPoint(0,
+					(getMidpointX(0, 0) * r2 - getMidpointX(0, 1) * r)
+							/ (r2 - r),
+					(getMidpointY(0, 0) * r2 - getMidpointY(0, 1) * r)
+							/ (r2 - r));
 		} else {
-			setCoordsAsVector(0, (getMidpointX(0, 0) * r2 - getMidpointX(0, 1)
-					* r), (getMidpointY(0, 0) * r2 - getMidpointY(0, 1) * r));
+			setCoordsAsVector(0,
+					(getMidpointX(0, 0) * r2 - getMidpointX(0, 1) * r),
+					(getMidpointY(0, 0) * r2 - getMidpointY(0, 1) * r));
 		}
 		// inner
-		setCoordsAsPoint(1, (getMidpointX(1, 0) * r2 + getMidpointX(1, 1) * r)
-				/ (r2 + r), (getMidpointY(1, 0) * r2 + getMidpointY(1, 1) * r)
-				/ (r2 + r));
+		setCoordsAsPoint(1,
+				(getMidpointX(1, 0) * r2 + getMidpointX(1, 1) * r) / (r2 + r),
+				(getMidpointY(1, 0) * r2 + getMidpointY(1, 1) * r) / (r2 + r));
 
 		// update polar lines
 		updatePolarLines();
@@ -321,7 +322,8 @@ public abstract class AlgoCommonTangentsND extends AlgoElement implements
 	 * @param index
 	 *            first/second tangents
 	 */
-	abstract protected void updateTangents(GeoPointND[] tangentPoints, int index);
+	abstract protected void updateTangents(GeoPointND[] tangentPoints,
+			int index);
 
 	/**
 	 * set tangent equal to polar
@@ -376,7 +378,6 @@ public abstract class AlgoCommonTangentsND extends AlgoElement implements
 				c[0].getLabel(tpl), c[1].getLabel(tpl));
 	}
 
-	
 }
 
 // Local Variables:

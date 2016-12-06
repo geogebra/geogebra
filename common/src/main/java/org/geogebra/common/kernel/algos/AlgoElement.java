@@ -45,8 +45,8 @@ import org.geogebra.common.util.StringUtil;
  * 
  * @author Markus
  */
-public abstract class AlgoElement extends ConstructionElement implements
-		EuclidianViewCE {
+public abstract class AlgoElement extends ConstructionElement
+		implements EuclidianViewCE {
 	/** input elements */
 	public GeoElement[] input;
 	/**
@@ -191,7 +191,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/**
 	 * OutputHandler can manage several different output types, each with
 	 * increasing length. For each occurring type, you need one OutputHandler in
-	 * the Subclass (or OutputHandler<GeoElement> if the type doesn't matter).<br />
+	 * the Subclass (or OutputHandler<GeoElement> if the type doesn't matter).
+	 * <br />
 	 * Don't use this if you are accessing output directly, or use setOutput or
 	 * setOutputLength, because the OutputHandler changes output on it's own and
 	 * will 'overwrite' any direct changes.
@@ -321,7 +322,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		 * @param refresh
 		 *            if true, output array is recomputed using outputhandler
 		 */
-		public void addOutput(T[] geos, boolean setDependencies, boolean refresh) {
+		public void addOutput(T[] geos, boolean setDependencies,
+				boolean refresh) {
 			for (int i = 0; i < geos.length; i++) {
 				addOutput(geos[i], setDependencies);
 			}
@@ -466,7 +468,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		 * @return content of this OutputHandler as array
 		 */
 		public T[] getOutput(T[] a) {
-			// Application.debug("getOutput: "+Arrays.deepToString(outputList.toArray())+" length:"+outputList.toArray().length);
+			// Application.debug("getOutput:
+			// "+Arrays.deepToString(outputList.toArray())+"
+			// length:"+outputList.toArray().length);
 			return outputList.toArray(a);
 		}
 
@@ -1038,8 +1042,6 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return min - 1;
 	}
 
-
-
 	/**
 	 * adds all predecessors of this object to the given list the set is kept
 	 * topologically sorted
@@ -1078,7 +1080,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		}
 	}
 
-	public final void addRandomizablePredecessorsToSet(TreeSet<GeoElement> set) {
+	public final void addRandomizablePredecessorsToSet(
+			TreeSet<GeoElement> set) {
 		for (int i = 0; i < input.length; i++) {
 			GeoElement parent = input[i];
 
@@ -1390,8 +1393,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Expressions should be shown as out = expression e.g. <expression
-	 * label="u" exp="a + 7 b"/>
+	 * Expressions should be shown as out = expression e.g.
+	 * <expression label="u" exp="a + 7 b"/>
 	 * 
 	 * @param tpl
 	 *            string template
@@ -1453,10 +1456,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 		else
 			sb.append(cmdname);
 		sb.append("\"");
-		if (!"".equals(cmdname)
-				&& (this instanceof AlgoListElement
-						|| this.getClassName().equals(Commands.Cell) || this
-						.getClassName().equals(Commands.Object))) {
+		if (!"".equals(cmdname) && (this instanceof AlgoListElement
+				|| this.getClassName().equals(Commands.Cell)
+				|| this.getClassName().equals(Commands.Object))) {
 			// need to write the geo type in the XML if it's undefined
 			// so that it's the same type when the file is loaded again
 			sb.append(" type=\"");
@@ -1475,8 +1477,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			}
 		}
 		sb.append(">\n");
-		if (getInputLength() > 0
-				&& getInput(0) instanceof CasEvaluableFunction
+		if (getInputLength() > 0 && getInput(0) instanceof CasEvaluableFunction
 				&& !getInput(0).isLabelSet()) {
 
 			((CasEvaluableFunction) getInput(0)).printCASEvalMapXML(sb);

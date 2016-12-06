@@ -34,8 +34,8 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 
 	private GeoLine3D line; // output
 
-	public AlgoOrthoLinePointDirectionDirection(Construction cons,
-			String label, GeoPointND point, GeoDirectionND direction1,
+	public AlgoOrthoLinePointDirectionDirection(Construction cons, String label,
+			GeoPointND point, GeoDirectionND direction1,
 			GeoDirectionND direction2) {
 		super(cons);
 		this.point = point;
@@ -43,8 +43,9 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 		this.direction2 = direction2;
 		line = new GeoLine3D(cons);
 
-		setInputOutput(new GeoElement[] { (GeoElement) point,
-				(GeoElement) direction1, (GeoElement) direction2 },
+		setInputOutput(
+				new GeoElement[] { (GeoElement) point, (GeoElement) direction1,
+						(GeoElement) direction2 },
 				new GeoElement[] { getLine() });
 
 		// compute line
@@ -64,16 +65,14 @@ public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 	@Override
 	public void compute() {
 
-		Coords direction = direction1.getDirectionInD3().crossProduct(
-				direction2.getDirectionInD3());
+		Coords direction = direction1.getDirectionInD3()
+				.crossProduct(direction2.getDirectionInD3());
 		if (direction.isZero())
 			line.setUndefined();
 		else
 			line.setCoord(point.getInhomCoordsInD3(), direction);
 
 	}
-
-	
 
 	@Override
 	public String toString(StringTemplate tpl) {

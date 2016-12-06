@@ -15,6 +15,8 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * An interface for algorithms that generate graphs.
+ * 
  * @author Scott White
  */
-public interface GraphGenerator<V, E> extends Factory<Graph<V,E>>{ }
+public interface GraphGenerator<V, E> extends Factory<Graph<V, E>> {
+}

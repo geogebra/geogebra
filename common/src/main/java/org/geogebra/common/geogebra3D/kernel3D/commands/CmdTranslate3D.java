@@ -29,8 +29,8 @@ public class CmdTranslate3D extends CmdTranslate {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

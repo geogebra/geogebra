@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.View;
  * @author Christoph
  *
  */
-public abstract class AssignmentView implements View{
+public abstract class AssignmentView implements View {
 
-	
-	
 }

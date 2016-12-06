@@ -66,7 +66,8 @@ public class DrawUpperLowerSum extends Drawable {
 		this.trapeziums = algo.useTrapeziums();
 		this.histogram = algo.isHistogram();
 		this.barchartFreqs = algo.getType() == SumType.BARCHART_FREQUENCY_TABLE;
-		this.barchartFreqsWidth = algo.getType() == SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
+		this.barchartFreqsWidth = algo
+				.getType() == SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
 		a = algo.getA();
 		b = algo.getB();
 	}
@@ -196,8 +197,8 @@ public class DrawUpperLowerSum extends Drawable {
 		}
 
 		if (labelVisible) {
-			xLabel = (view.toScreenCoordX(leftBorder[0]) + view
-					.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
+			xLabel = (view.toScreenCoordX(leftBorder[0])
+					+ view.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
 			yLabel = (int) view.getYZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
@@ -220,7 +221,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 			try {
 				fill(g2, gp); // fill using default/hatching/image as
-										// appropriate
+								// appropriate
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

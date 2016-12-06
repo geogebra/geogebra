@@ -120,7 +120,7 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		
+
 		GeoPoint P = (GeoPoint) this.getInput(0);
 
 		/* SPECIAL CASE 1: radius is a segment */
@@ -169,20 +169,20 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		if (P == null || num == null) {
 			throw new NoSymbolicParametersException();
 		}
-		
+
 		if (botanaVars == null) {
-				Variable[] centerBotanaVars = P.getBotanaVars(P);
-				botanaVars = new Variable[5];
-				// center
-				botanaVars[0] = centerBotanaVars[0];
-				botanaVars[1] = centerBotanaVars[1];
-				// point on circle
-				botanaVars[2] = new Variable();
-				botanaVars[3] = new Variable();				
-				// radius
-				botanaVars[4] = new Variable();
+			Variable[] centerBotanaVars = P.getBotanaVars(P);
+			botanaVars = new Variable[5];
+			// center
+			botanaVars[0] = centerBotanaVars[0];
+			botanaVars[1] = centerBotanaVars[1];
+			// point on circle
+			botanaVars[2] = new Variable();
+			botanaVars[3] = new Variable();
+			// radius
+			botanaVars[4] = new Variable();
 		}
-		
+
 		botanaPolynomials = new Polynomial[2];
 		Polynomial[] extraPolys = null;
 		if (num.getParentAlgorithm() instanceof AlgoDependentNumber) {
@@ -207,9 +207,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		// define circle
 		botanaPolynomials[k] = Polynomial.sqrDistance(botanaVars[0],
 				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
-		
+
 		return botanaPolynomials;
 
-		
 	}
 }

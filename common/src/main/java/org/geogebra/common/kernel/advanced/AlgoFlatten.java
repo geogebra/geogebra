@@ -92,6 +92,4 @@ public class AlgoFlatten extends AlgoElement {
 		}
 	}
 
-	
-
 }

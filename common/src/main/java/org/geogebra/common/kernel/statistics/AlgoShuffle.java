@@ -84,14 +84,12 @@ public class AlgoShuffle extends AlgoElement {
 		outputList.setDefined(true);
 		outputList.clear();
 		for (int i = 0; i < size; i++) {
-			int pos = (int) Math.floor(cons.getApplication().getRandomNumber()
-					* (size - i));
+			int pos = (int) Math.floor(
+					cons.getApplication().getRandomNumber() * (size - i));
 			outputList.add(list.get(pos));
 			list.remove(pos);
 		}
 
 	}
-
-	
 
 }

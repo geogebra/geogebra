@@ -77,8 +77,9 @@ public class CmdPlaySound extends CmdScripting {
 			else if ((ok[0] = arg[0].isGeoText())
 					&& (ok[1] = arg[1].isGeoNumeric())) {
 				// play a sequence string
-				sm.playSequenceFromString((((GeoText) arg[0])
-						.toValueString(StringTemplate.defaultTemplate)),
+				sm.playSequenceFromString(
+						(((GeoText) arg[0])
+								.toValueString(StringTemplate.defaultTemplate)),
 						(int) ((GeoNumeric) arg[1]).getDouble());
 				return arg;
 			}

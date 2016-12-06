@@ -17,8 +17,8 @@ public interface CASGenericInterface extends SettingListener {
 
 	/**
 	 * Translates a variable/constant assignment like "x := 3" into the format
-	 * expected by the CAS. Function-Assignments have to be translated using @see
-	 * translateFunctionDeclaration().
+	 * expected by the CAS. Function-Assignments have to be translated
+	 * using @see translateFunctionDeclaration().
 	 * 
 	 * @param label
 	 *            the label of the assignment, e.g. x
@@ -47,8 +47,8 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
-			throws CASException;
+			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell,
+			Kernel kernel) throws CASException;
 
 	/**
 	 * Evaluates an expression in the syntax of the currently active CAS (Giac).
@@ -96,8 +96,8 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return evaluated input
 	 */
 	public ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression,
-			MyArbitraryConstant arbconst, Kernel kernel);
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
+			Kernel kernel);
 
 	/**
 	 * @param exp
@@ -127,7 +127,8 @@ public interface CASGenericInterface extends SettingListener {
 	 *            variables to eliminate (comma separated strings)
 	 * @return factors in the same form as Singular gives
 	 */
-	public String createEliminateFactorizedScript(String polys, String elimVars);
+	public String createEliminateFactorizedScript(String polys,
+			String elimVars);
 
 	/**
 	 * Creates a program to return the elimination ideal in non-factorized form.

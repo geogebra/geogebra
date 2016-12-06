@@ -157,13 +157,12 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 			Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension()
 					.sub(o2);
 
-			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1,
-					d1, o2, d2);
+			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1,
+					o2, d2);
 
 			// check if projection is intersection point
-			if (project != null
-					&& project[0].equalsForKernel(project[1],
-							Kernel.STANDARD_PRECISION)) {
+			if (project != null && project[0].equalsForKernel(project[1],
+					Kernel.STANDARD_PRECISION)) {
 
 				double t1 = project[2].get(1); // parameter on line
 				double t2 = project[2].get(2); // parameter on segment
@@ -266,7 +265,5 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		setDependencies(); // done by AlgoElement
 	}
-
-	
 
 }

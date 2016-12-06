@@ -114,8 +114,8 @@ public class AlgoFunctionInterval extends AlgoElement {
 	}
 
 	private ExpressionNode exp; // current expression of f
-												// (needed to notice change of
-												// f)
+								// (needed to notice change of
+								// f)
 
 	@Override
 	final public String toString(StringTemplate tpl) {
@@ -125,7 +125,5 @@ public class AlgoFunctionInterval extends AlgoElement {
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 
 	}
-
-	
 
 }

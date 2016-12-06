@@ -28,8 +28,8 @@ public class AlgoDependentImplicitCurve extends AlgoElement
 	 * @param equ
 	 *            equation
 	 */
-	public AlgoDependentImplicitCurve(Construction c,
-			Equation equ, boolean simplify) {
+	public AlgoDependentImplicitCurve(Construction c, Equation equ,
+			boolean simplify) {
 		super(c, false);
 		c.addToConstructionList(this, false);
 		this.geoElement = new GeoImplicitCurve(c, equ);
@@ -92,7 +92,5 @@ public class AlgoDependentImplicitCurve extends AlgoElement
 	protected String toExpString(StringTemplate tpl) {
 		return geoElement.getLabel(tpl) + ": " + equation.toString(tpl);
 	}
-
-	
 
 }

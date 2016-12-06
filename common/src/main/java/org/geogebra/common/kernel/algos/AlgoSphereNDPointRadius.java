@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * @author Markus + Mathieu
  * 
  * 
- *          Generalization of algo for circle/sphere
+ *         Generalization of algo for circle/sphere
  */
 public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 

@@ -70,8 +70,8 @@ public class AlgoBinomialDist extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined() && input[3].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()
+				&& input[3].isDefined()) {
 			int param = (int) Math.round(a.getDouble());
 			double param2 = b.getDouble();
 			double val = c.getDouble();

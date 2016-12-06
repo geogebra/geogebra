@@ -50,7 +50,8 @@ public class CmdSort extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (!(arg[0] instanceof VectorValue && arg[1] instanceof VectorValue))
+			} else if (!(arg[0] instanceof VectorValue
+					&& arg[1] instanceof VectorValue))
 				throw argErr(app, c.getName(), arg[0]);
 
 		default:

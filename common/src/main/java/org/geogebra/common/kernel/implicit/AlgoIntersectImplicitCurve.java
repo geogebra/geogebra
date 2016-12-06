@@ -61,7 +61,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	private static final double ACCURACY = Kernel.STANDARD_PRECISION;
 
 	private static final double DECAY_RATE = 0.9;
-	
+
 	private static final double MOMENT_RATE = 0.92;
 
 	private static final double MIN_LAMBDA = 0.0001;
@@ -335,7 +335,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            List that would have the final solution
 	 */
 	public static void findIntersections(GeoImplicitCurve c1,
-			GeoImplicitCurve c2, int samples, int outputs, List<double[]> vals) {
+			GeoImplicitCurve c2, int samples, int outputs,
+			List<double[]> vals) {
 
 		double[] b1 = c1.getKernel().getViewBoundsForGeo(c1);
 		double[] b2 = c2.getKernel().getViewBoundsForGeo(c2);
@@ -392,9 +393,9 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 	 *            bounded above by parameter samples.
 	 * 
 	 */
-	public static void findIntersections(FunctionNVar fun1,
-			FunctionNVar fun2, double xMin, double yMin, double xMax,
-			double yMax, int samples, int outputs, List<double[]> vals) {
+	public static void findIntersections(FunctionNVar fun1, FunctionNVar fun2,
+			double xMin, double yMin, double xMax, double yMax, int samples,
+			int outputs, List<double[]> vals) {
 
 		double[] params = new double[] { xMin, yMin, xMax, yMax };
 
@@ -445,7 +446,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		// double[][] out = new double[outputs][2];
 
 		double f1, f2, jx1, jx2, jy1, jy2, det, x, y;
-		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0, evals[], moment;
+		double delta1, delta2, lambda = 1.0, dx = 0.0, dy = 0.0, evals[],
+				moment;
 		boolean add = true;
 
 		// papers suggest that Newton's method converges in at most 2n
@@ -517,7 +519,7 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
 			// check if we have already calculated the same root
-			if(add) {
+			if (add) {
 				insert(new double[] { evals[0], evals[1] }, vals);
 			}
 		}

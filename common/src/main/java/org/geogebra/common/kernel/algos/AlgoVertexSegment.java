@@ -37,7 +37,6 @@ public class AlgoVertexSegment extends AlgoElement {
 	private GeoPointND P;
 	private GeoPointND Q; // endpoints of segment
 
-
 	/** Creates new AlgoVector */
 	public AlgoVertexSegment(Construction cons, String label,
 			GeoSegmentND segment, GeoNumberValue index) {
@@ -45,7 +44,8 @@ public class AlgoVertexSegment extends AlgoElement {
 		M.setLabel(label);
 	}
 
-	AlgoVertexSegment(Construction cons, GeoSegmentND segment, GeoNumberValue index) {
+	AlgoVertexSegment(Construction cons, GeoSegmentND segment,
+			GeoNumberValue index) {
 		super(cons);
 		this.segment = segment;
 		this.index = index;
@@ -60,7 +60,6 @@ public class AlgoVertexSegment extends AlgoElement {
 			M = (GeoPointND) P.copy();
 		}
 		setInputOutput();
-
 
 		// compute M = (P + Q)/2
 		compute();
@@ -100,21 +99,21 @@ public class AlgoVertexSegment extends AlgoElement {
 	// calc midpoint
 	@Override
 	public final void compute() {
-		
+
 		if (!index.isDefined()) {
 			M.setUndefined();
 			return;
 		}
-		
+
 		int indexd = (int) Math.round(index.evaluateDouble());
-		
+
 		if (indexd == 1) {
 			M.set(P);
 		} else if (indexd == 2) {
 			M.set(Q);
 		} else {
 			M.setUndefined();
-			return;		
+			return;
 		}
 
 	}

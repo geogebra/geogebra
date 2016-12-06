@@ -327,6 +327,4 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 	}
 
-	
-
 }

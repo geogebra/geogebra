@@ -71,7 +71,8 @@ public class AlgoLengthPoint3D extends AlgoElement {
 	@Override
 	public final void compute() {
 		Coords coords = p.getInhomCoordsInD3();
-		num.setValue(MyMath.length(coords.getX(), coords.getY(), coords.getZ()));
+		num.setValue(
+				MyMath.length(coords.getX(), coords.getY(), coords.getZ()));
 	}
 
 	@Override
@@ -79,5 +80,4 @@ public class AlgoLengthPoint3D extends AlgoElement {
 		return getLoc().getPlain("LengthOfA", ((GeoElement) p).getLabel(tpl));
 	}
 
-	
 }

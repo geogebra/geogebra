@@ -39,8 +39,8 @@ import org.geogebra.common.util.debug.Log;
  * Superclass for lower/upper sum of function f in interval [a, b] with n
  * intervals
  */
-public abstract class AlgoFunctionAreaSums extends AlgoElement implements
-		DrawInformationAlgo {
+public abstract class AlgoFunctionAreaSums extends AlgoElement
+		implements DrawInformationAlgo {
 
 	// largest possible number of rectangles
 	private static final int MAX_RECTANGLES = 10000;
@@ -201,8 +201,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
 			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
-			GeoNumberValue d,
-			SumType type) {
+			GeoNumberValue d, SumType type) {
 
 		super(cons);
 
@@ -279,8 +278,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	public AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue n,
-			SumType type, double[] vals, double[] borders, Construction cons1) {
+			GeoNumberValue n, SumType type, double[] vals, double[] borders,
+			Construction cons1) {
 		super(cons1, false);
 		this.type = type;
 
@@ -338,7 +337,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum.setLabel(label);
 	}
 
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoList list2) {
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
+			GeoList list2) {
 
 		super(cons);
 
@@ -370,8 +370,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum.setLabel(label);
 	}
 
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoList list2, GeoNumberValue width) {
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoList list2,
+			GeoNumberValue width) {
 
 		super(cons);
 
@@ -421,7 +421,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param list1
 	 * @param n
 	 */
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoNumeric n) {
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
+			GeoNumeric n) {
 
 		super(cons);
 
@@ -460,8 +461,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param list2
 	 * @param right
 	 */
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoList list2, boolean right) {
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoList list2,
+			boolean right) {
 
 		super(cons);
 
@@ -840,9 +841,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		case LOWERSUM:
 		case UPPERSUM:
 
-			if (f == null
-					|| !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-							.isDefined())) {
+			if (f == null || !(f.isDefined() && ageo.isDefined()
+					&& bgeo.isDefined() && ngeo.isDefined())) {
 				sum.setUndefined();
 				return;
 			}
@@ -878,9 +878,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 															// maximum
 
 			double totalArea = 0;
-			double left,
-			right,
-			min;
+			double left, right, min;
 
 			// calulate the min and max x-coords of what actually needs to be
 			// drawn
@@ -893,9 +891,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					kernel.getViewsXMax(sum));
 
 			// subsample every 5 pixels
-			double noOfSamples = kernel.getApplication().countPixels(
-					visibleMin, visibleMax)
-					/ SAMPLE_PIXELS;
+			double noOfSamples = kernel.getApplication().countPixels(visibleMin,
+					visibleMax) / SAMPLE_PIXELS;
 
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;
 			boolean doSubSamples = !Kernel.isZero(subStep)
@@ -921,9 +918,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				// Application.debug(left + " "+ visibleMin+" "+right +
 				// " "+visibleMax);
 				// subsample visible bit only
-				if (doSubSamples
-						&& ((STEP > 0 ? left : right) < visibleMax && (STEP > 0 ? right
-								: left) > visibleMin)) {
+				if (doSubSamples && ((STEP > 0 ? left : right) < visibleMax
+						&& (STEP > 0 ? right : left) > visibleMin)) {
 					// Application.debug("subsampling from "+left+" to "+right);
 					double y, minSample = left;
 					for (double x = left; x < right; x += subStep) {
@@ -974,9 +970,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		case RECTANGLESUM:
 		case LEFTSUM:
 
-			if (f == null
-					|| !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-							.isDefined())) {
+			if (f == null || !(f.isDefined() && ageo.isDefined()
+					&& bgeo.isDefined() && ngeo.isDefined())) {
 				sum.setUndefined();
 				return;
 			}
@@ -985,7 +980,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			if ((type == SumType.RECTANGLESUM) && (!dgeo.isDefined())) { // extra
 																			// parameter
 				sum.setUndefined();
-			}// if d parameter for rectanglesum
+			} // if d parameter for rectanglesum
 
 			fun = f.getRealRootFunctionY();
 
@@ -1031,15 +1026,15 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 						double xVal = Math.min(bd, leftBorder[i] + dd * STEP);
 
 						yval[i] = fun.evaluate(xVal); // divider
-																			// into
-																			// step-interval
+														// into
+														// step-interval
 					} else {
 						sum.setUndefined();
 						return;
-					}// if divider ok
+					} // if divider ok
 				} else {
 					yval[i] = fun.evaluate(leftBorder[i]);
-				}// if
+				} // if
 
 				totalArea += yval[i];
 			}
@@ -1047,7 +1042,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			// calc area of rectangles or trapezoids
 			if (type == SumType.TRAPEZOIDALSUM) {
 				totalArea -= (yval[0] + yval[N]) / 2;
-			}// if rectangles or trapezoids
+			} // if rectangles or trapezoids
 
 			// for (int i=0; i < N+1 ; i++) cumSum += yval[i];
 			sum.setValue(totalArea * STEP);
@@ -1110,8 +1105,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			double mini = Double.POSITIVE_INFINITY;
 			double maxi = Double.NEGATIVE_INFINITY;
-			int minIndex = -1,
-			maxIndex = -1;
+			int minIndex = -1, maxIndex = -1;
 
 			double step = n.getDouble();
 
@@ -1152,18 +1146,18 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			double gap = 0;
 
-			/*
-			 * if (kernel.isInteger(noOfBars)) { N = (int)noOfBars + 1; a =
-			 * (NumberValue)list1.get(minIndex); b =
-			 * (NumberValue)list1.get(maxIndex); } else
-			 */
-			{
-				N = (int) noOfBars + 2;
-				gap = ((N - 1) * step - totalWidth) / 2.0;
-				a = (new GeoNumeric(cons, mini - gap));
-				b = (new GeoNumeric(cons, maxi + gap));
-				// Application.debug("gap = "+gap);
-			}
+		/*
+		 * if (kernel.isInteger(noOfBars)) { N = (int)noOfBars + 1; a =
+		 * (NumberValue)list1.get(minIndex); b =
+		 * (NumberValue)list1.get(maxIndex); } else
+		 */
+		{
+			N = (int) noOfBars + 2;
+			gap = ((N - 1) * step - totalWidth) / 2.0;
+			a = (new GeoNumeric(cons, mini - gap));
+			b = (new GeoNumeric(cons, maxi + gap));
+			// Application.debug("gap = "+gap);
+		}
 
 			// Application.debug("N = "+N+" maxi = "+maxi+" mini = "+mini);
 
@@ -1183,8 +1177,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				yval[i] = 0;
 
 			// work out frequencies in each class
-			double datum,
-			valueFrequency = 1;
+			double datum, valueFrequency = 1;
 
 			for (int i = 0; i < list1.size(); i++) {
 				geo = list1.get(i);
@@ -1278,7 +1271,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			double end = ((GeoNumeric) (list1.get(N - 2))).getDouble();
 			step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
 
-			// Application.debug("N = "+N+" start = "+start+" end = "+end+" width = "+width);
+			// Application.debug("N = "+N+" start = "+start+" end = "+end+"
+			// width = "+width);
 
 			if (!Kernel.isEqual(end - start, step * (N - 2)) // check first list
 																// is
@@ -1387,7 +1381,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			}
 			double colWidth = width.getDouble();
 
-			// Application.debug("N = "+N+" start = "+start+" end = "+end+" colWidth = "+colWidth);
+			// Application.debug("N = "+N+" start = "+start+" end = "+end+"
+			// colWidth = "+colWidth);
 
 			if (!Kernel.isEqual(end - start, step * (N - 2)) // check first list
 																// is
@@ -1784,8 +1779,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				break;
 
 			case BARCHART_HYPERGEOMETRIC:
-				if (!(p1geo.isDefined() && p2geo.isDefined() && p3geo
-						.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined()
+						&& p3geo.isDefined()))
 					return false;
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
@@ -1874,5 +1869,4 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * treated differently than points.
 	 */
 
-	
 }

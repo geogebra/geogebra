@@ -113,7 +113,8 @@ public class EventDispatcher implements ClientView {
 	 * @param geos
 	 *            multiple targets
 	 */
-	public void dispatchBulkEvent(EventType evtType, ArrayList<GeoElement> geos) {
+	public void dispatchBulkEvent(EventType evtType,
+			ArrayList<GeoElement> geos) {
 		dispatchEvent(new Event(evtType, null, null, geos));
 	}
 

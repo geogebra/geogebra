@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoUnitVector3D extends AlgoUnitVector {
 
-
 	public AlgoUnitVector3D(Construction cons, GeoDirectionND line,
 			boolean normalize) {
 		super(cons, (GeoElement) line, normalize);

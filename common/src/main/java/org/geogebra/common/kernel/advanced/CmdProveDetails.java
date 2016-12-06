@@ -33,8 +33,8 @@ public class CmdProveDetails extends CommandProcessor {
 		case 1:
 			if (arg[0] instanceof BooleanValue) {
 
-				AlgoProveDetails algo = new AlgoProveDetails(cons,
-						c.getLabel(), arg[0]);
+				AlgoProveDetails algo = new AlgoProveDetails(cons, c.getLabel(),
+						arg[0]);
 
 				GeoElement[] ret = { algo.getGeoList() };
 				return ret;

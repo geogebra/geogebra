@@ -41,8 +41,7 @@ public abstract class CASFactory {
 	 * @return GIAC instance
 	 */
 	public abstract CASGenericInterface newGiac(CASparser parser,
-			CasParserTools tools,
-			Kernel kernel);
+			CasParserTools tools, Kernel kernel);
 
 	/**
 	 * @return whether this will produce a working CAS

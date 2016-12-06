@@ -33,8 +33,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					((TextProperties) geo).isSerifFont(), getCallBack());
 		}
 
-		return EuclidianStatic.drawMultiLineText(view.getApplication(), text,
-				0, 0, tempGraphics, ((TextProperties) geo).isSerifFont(),
+		return EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0,
+				0, tempGraphics, ((TextProperties) geo).isSerifFont(),
 				tempGraphics.getFont());
 
 	}
@@ -50,9 +50,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					text, 0, 0, ((TextProperties) geo).isSerifFont(),
 					getCallBack());
 		} else {
-			EuclidianStatic
-					.drawMultiLineText(view.getApplication(), text, 0, 0, g2d,
-							((TextProperties) geo).isSerifFont(), g2d.getFont());
+			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0,
+					g2d, ((TextProperties) geo).isSerifFont(), g2d.getFont());
 		}
 
 		return bimg;
@@ -109,33 +108,27 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		highLightIndex = -1;
 	}
-	
-	
+
 	/**
 	 * update draw position
 	 */
 	@Override
 	public void updateDrawPosition() {
-		
-		if (geo.isAbsoluteScreenLocActive()){
+
+		if (geo.isAbsoluteScreenLocActive()) {
 			if (origin == null) {
 				return;
 			}
-			
-			drawX = (int) (origin.getX() 
-					- drawable.getView3D().getWidth() / 2.0
+
+			drawX = (int) (origin.getX() - drawable.getView3D().getWidth() / 2.0
 					+ xOffset2 / getFontScale());
 			drawY = (int) (drawable.getView3D().getHeight() / 2.0
-					- origin.getY()
-					+ yOffset2 / getFontScale());
+					- origin.getY() + yOffset2 / getFontScale());
 			drawZ = 0;
-			
+
 		} else {
 			super.updateDrawPosition();
 		}
-
-
-		
 
 	}
 

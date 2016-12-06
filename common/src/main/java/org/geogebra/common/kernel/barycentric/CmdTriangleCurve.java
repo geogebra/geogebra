@@ -37,9 +37,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			GeoNumeric ta = null,
-			tb = null,
-			tc = null;
+			GeoNumeric ta = null, tb = null, tc = null;
 			arg = new GeoElement[4];
 			for (int i = 0; i < 3; i++) {
 				arg[i] = resArg(c, i, new EvalInfo(false));

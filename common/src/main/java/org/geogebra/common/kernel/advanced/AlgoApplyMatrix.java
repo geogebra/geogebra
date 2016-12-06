@@ -128,11 +128,11 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		} else {
 			outGeo.set(inGeo);
 		}
-		
+
 		if (!outGeo.isDefined()) {
 			return;
 		}
-		
+
 		MyList list = matrix.getMyList();
 
 		if ((list.getMatrixCols() != list.getMatrixRows())
@@ -214,7 +214,5 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		double d = ((NumberValue) (matrix.get(1, 1))).getDouble();
 		return (a * d) - (b * c);
 	}
-
-	
 
 }

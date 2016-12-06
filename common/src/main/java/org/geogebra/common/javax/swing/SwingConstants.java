@@ -3,8 +3,8 @@ package org.geogebra.common.javax.swing;
 /**
  * SwingConstants
  * 
- * @see <a
- *      href="http://google.com">http://docs.oracle.com/javase/7/docs/api/constant-values.html#javax.swing.SwingConstants.BOTTOM</a>
+ * @see <a href="http://google.com">http://docs.oracle.com/javase/7/docs/api/
+ *      constant-values.html#javax.swing.SwingConstants.BOTTOM</a>
  *
  */
 public interface SwingConstants {

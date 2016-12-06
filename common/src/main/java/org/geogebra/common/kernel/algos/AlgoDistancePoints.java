@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo,
-		SymbolicParametersBotanaAlgo {
+public class AlgoDistancePoints extends AlgoElement
+		implements DistanceAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPointND P, Q; // input
 	private GeoNumeric dist; // output
@@ -115,12 +115,12 @@ public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo,
 
 		GeoPoint P1 = (GeoPoint) P;
 		GeoPoint P2 = (GeoPoint) Q;
-		
+
 		if (P1 != null && P2 != null) {
-			
+
 			Variable[] vP1 = P1.getBotanaVars(P1);
 			Variable[] vP2 = P2.getBotanaVars(P2);
-			
+
 			if (botanaVars == null) {
 				botanaVars = new Variable[4];
 				botanaVars[0] = vP1[0];
@@ -136,5 +136,4 @@ public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo,
 
 	}
 
-	
 }

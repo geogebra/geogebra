@@ -50,7 +50,8 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 		double x, y, lengthSqr, mindist = Double.POSITIVE_INFINITY;
 		int minIndex = 0;
 		for (int i = 0; i < P.length; i++) {
-			// AbstractApplication.debug("\npoint "+i+":\nx="+P[i].inhomX+"\ny="+P[i].inhomY);
+			// AbstractApplication.debug("\npoint
+			// "+i+":\nx="+P[i].inhomX+"\ny="+P[i].inhomY);
 			x = (P[i].inhomX - xRW);
 			y = (P[i].inhomY - yRW);
 			lengthSqr = x * x + y * y;

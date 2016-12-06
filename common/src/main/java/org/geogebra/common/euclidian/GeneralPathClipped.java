@@ -394,11 +394,13 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	public GRectangle getBounds() {
-		return bounds == null ? AwtFactory.getPrototype().newRectangle() : bounds;
+		return bounds == null ? AwtFactory.getPrototype().newRectangle()
+				: bounds;
 	}
 
 	public GRectangle2D getBounds2D() {
-		return bounds == null ? AwtFactory.getPrototype().newRectangle() : bounds;
+		return bounds == null ? AwtFactory.getPrototype().newRectangle()
+				: bounds;
 	}
 
 	/*

@@ -8,23 +8,23 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 
-
 public class ShowConditionModel extends OptionsModel {
 	public interface IShowConditionListener extends PropertyListener {
 		void setText(String text);
+
 		void updateSelection(Object[] geos);
 
 	}
-	
+
 	private IShowConditionListener listener;
-	
+
 	public ShowConditionModel(App app, IShowConditionListener listener) {
 		super(app);
 		this.listener = listener;
 	}
 
 	public void updateProperties() {
-		
+
 		// take condition of first geo
 		String strCond = "";
 		GeoElement geo0 = getGeoAt(0);
@@ -44,7 +44,7 @@ public class ShowConditionModel extends OptionsModel {
 		}
 
 		listener.setText(strCond);
-		
+
 	}
 
 	@Override
@@ -59,12 +59,11 @@ public class ShowConditionModel extends OptionsModel {
 	 *            takes care of errors
 	 */
 	public void applyChanges(String strCond, ErrorHandler handler) {
-		//processed = true;
+		// processed = true;
 		GeoBoolean cond;
 		if (strCond == null || strCond.trim().length() == 0) {
 			cond = null;
 		} else {
-
 
 			cond = app.getKernel().getAlgebraProcessor()
 					.evaluateToBoolean(strCond, handler);

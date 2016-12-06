@@ -47,7 +47,8 @@ public class DrawAxis3D extends DrawLine3D {
 	@Override
 	public void drawLabel(Renderer renderer) {
 
-		// Application.debug(getGeoElement()+": "+getGeoElement().isLabelVisible());
+		// Application.debug(getGeoElement()+":
+		// "+getGeoElement().isLabelVisible());
 
 		if (!getGeoElement().isEuclidianVisible())
 			return;
@@ -68,7 +69,6 @@ public class DrawAxis3D extends DrawLine3D {
 		for (DrawLabel3D currentLabel : labels.values())
 			currentLabel.setWaitForReset();
 	}
-
 
 	@Override
 	protected void updateLabel() {
@@ -126,21 +126,20 @@ public class DrawAxis3D extends DrawLine3D {
 				if (tickLabel != null) {
 					// sets the label visible
 					tickLabel.setIsVisible(true);
-					tickLabel
-							.update(strNum, getView3D().getFontAxes(),
+					tickLabel.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
-							origin.copyVector(), numbersXOffset, numbersYOffset);
+							origin.copyVector(), numbersXOffset,
+							numbersYOffset);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					// TODO optimize this
 				} else {
 					// creates new label
 					tickLabel = new DrawLabel3D(getView3D(), this);
 					tickLabel.setAnchor(true);
-					tickLabel
-							.update(strNum, getView3D().getFontAxes(),
-							getGeoElement()
-							.getObjectColor(), origin.copyVector(),
-							numbersXOffset, numbersYOffset);
+					tickLabel.update(strNum, getView3D().getFontAxes(),
+							getGeoElement().getObjectColor(),
+							origin.copyVector(), numbersXOffset,
+							numbersYOffset);
 					tickLabel.updatePosition(getView3D().getRenderer());
 					labels.put(strNum, tickLabel);
 				}
@@ -158,7 +157,7 @@ public class DrawAxis3D extends DrawLine3D {
 			label.update(text, getView3D().getAxisLabelFont(axisIndex),
 					getGeoElement().getObjectColor(),
 					((GeoAxisND) getGeoElement()).getPointInD(3, minmax[1]),
-					getGeoElement().labelOffsetX,// -4,
+					getGeoElement().labelOffsetX, // -4,
 					getGeoElement().labelOffsetY// -6
 			);
 			label.updatePosition(getView3D().getRenderer());
@@ -205,8 +204,8 @@ public class DrawAxis3D extends DrawLine3D {
 			brush.setTicks(Ticks.NONE);
 			break;
 		}
-		brush.setTicksDistance((float) getView3D().getAxisNumberingDistance(
-				axisIndex));
+		brush.setTicksDistance(
+				(float) getView3D().getAxisNumberingDistance(axisIndex));
 		brush.setTicksOffset((float) (-minmax[0] / (minmax[1] - minmax[0])));
 		super.updateForItSelf(false);
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
@@ -218,8 +217,8 @@ public class DrawAxis3D extends DrawLine3D {
 
 	@Override
 	protected float getScale() {
-		return (float) getView3D().getScale(
-				((GeoAxisND) getGeoElement()).getType());
+		return (float) getView3D()
+				.getScale(((GeoAxisND) getGeoElement()).getType());
 	}
 
 	@Override
@@ -239,10 +238,8 @@ public class DrawAxis3D extends DrawLine3D {
 
 		// gets the direction vector of the axis as it is drawn on screen
 		Coords v = new Coords(4);
-		v.setMul(getView3D().getToScreenMatrixForGL(),
-				axis.getDirectionInD3());
+		v.setMul(getView3D().getToScreenMatrixForGL(), axis.getDirectionInD3());
 		v.set(3, 0); // set z-coord to 0
-
 
 		// calc orthogonal offsets
 		int vx = (int) getView3D().unscale(v.get(1) * 1.5 * axis.getTickSize());
@@ -256,9 +253,9 @@ public class DrawAxis3D extends DrawLine3D {
 			numbersYOffset = -numbersYOffset;
 		}
 
-		getGeoElement().setLabelOffset(((-vx - numbersXOffset) * 3) / 2,// -vx,//-2*xOffset,
+		getGeoElement().setLabelOffset(((-vx - numbersXOffset) * 3) / 2, // -vx,//-2*xOffset,
 				((-vy - numbersYOffset) * 3) / 2// -vy//-2*yOffset
-				);
+		);
 
 	}
 

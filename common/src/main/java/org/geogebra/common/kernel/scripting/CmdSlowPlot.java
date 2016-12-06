@@ -54,20 +54,14 @@ public class CmdSlowPlot extends CommandProcessor {
 				var.update();
 				FunctionVariable x = new FunctionVariable(cons.getKernel());
 				GeoElement corner1 = new AlgoDrawingPadCorner(cons,
-						new GeoNumeric(cons, 1), null,
- 5).getOutput(0);
+						new GeoNumeric(cons, 1), null, 5).getOutput(0);
 				GeoElement corner2 = new AlgoDrawingPadCorner(cons,
 						new GeoNumeric(cons, 2), null, 5).getOutput(0);
-				ExpressionNode exp = x
-						.wrap()
-						.lessThan(
-								var.wrap()
-										.multiply(
-												corner2.wrap()
-														.subtract(corner1)
-														.apply(Operation.XCOORD))
-										.plus(corner1.wrap().apply(
-												Operation.XCOORD)))
+				ExpressionNode exp = x.wrap()
+						.lessThan(var.wrap()
+								.multiply(corner2.wrap().subtract(corner1)
+										.apply(Operation.XCOORD))
+								.plus(corner1.wrap().apply(Operation.XCOORD)))
 						.apply(Operation.IF,
 								arg[0].wrap().apply(Operation.FUNCTION, x));
 				GeoFunction g = cons.getKernel().getAlgoDispatcher()
@@ -80,7 +74,6 @@ public class CmdSlowPlot extends CommandProcessor {
 					var.remove();
 					throw new MyError(loc, "InvalidFunction");
 				}
-
 
 				kernelA.getAnimatonManager().startAnimation();
 				return new GeoElement[] { g };

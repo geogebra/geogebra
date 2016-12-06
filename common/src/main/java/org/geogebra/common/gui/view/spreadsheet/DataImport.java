@@ -14,7 +14,7 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 
 public class DataImport {
-	
+
 	static CSVParser commaParser, tabParser;
 
 	/*

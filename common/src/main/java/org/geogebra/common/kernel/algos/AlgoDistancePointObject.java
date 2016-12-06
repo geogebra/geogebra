@@ -42,8 +42,8 @@ import org.geogebra.common.util.MyMath;
  *
  * @author Markus
  */
-public class AlgoDistancePointObject extends AlgoElement implements
-		DistanceAlgo {
+public class AlgoDistancePointObject extends AlgoElement
+		implements DistanceAlgo {
 
 	private GeoPointND P; // input
 	private GeoElement g; // input
@@ -133,13 +133,13 @@ public class AlgoDistancePointObject extends AlgoElement implements
 	 * @return val such as the point (val, function(val)) is closest to point
 	 *         (x, y)
 	 */
-	public static final double getClosestFunctionValueToPoint(
-			Function function, double x, double y) {
+	public static final double getClosestFunctionValueToPoint(Function function,
+			double x, double y) {
 		// Algorithm inspired by
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		Kernel kernel = function.getKernel();
-		PolyFunction polyFunction = function.expandToPolyFunction(
-				function.getExpression(), false, true);
+		PolyFunction polyFunction = function
+				.expandToPolyFunction(function.getExpression(), false, true);
 		if (polyFunction != null) {
 			return closestValPoly(polyFunction, x, y, kernel);
 		}
@@ -148,16 +148,16 @@ public class AlgoDistancePointObject extends AlgoElement implements
 		Function deriv = function.getDerivative(1, true);
 		// replace derivatives' function variable with functions'
 		// we need this, so our new function created below, can be evaluated
-		deriv.traverse(Traversing.Replacer.getReplacer(
-				deriv.getFunctionVariable(), fVar));
+		deriv.traverse(Traversing.Replacer
+				.getReplacer(deriv.getFunctionVariable(), fVar));
 		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the
 		// coordinates of point
 		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS,
 				new MyDouble(kernel, x));
 		expr = expr.multiply(2);
 		ExpressionNode expr2 = new ExpressionNode(kernel,
-				function.getExpression(), Operation.MINUS, new MyDouble(kernel,
-						y));
+				function.getExpression(), Operation.MINUS,
+				new MyDouble(kernel, y));
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
@@ -233,5 +233,4 @@ public class AlgoDistancePointObject extends AlgoElement implements
 		return eq[k];
 	}
 
-	
 }

@@ -20,26 +20,37 @@ package org.apache.commons.math.distribution;
 import org.apache.commons.math.MathException;
 
 /**
- * <p>Interface that signals that a distribution can compute the probability density function
- * for a particular point.
- * @param <P> the type of the point at which density is to be computed, this
- * may be for example <code>Double.</code></p>
+ * <p>
+ * Interface that signals that a distribution can compute the probability
+ * density function for a particular point.
+ * 
+ * @param <P>
+ *            the type of the point at which density is to be computed, this may
+ *            be for example <code>Double.</code>
+ *            </p>
  *
- * <p>This interface is deprecated.  As of version 2.0, the {@link ContinuousDistribution}
- * interface will be extended to include a <code>density(double)<code> method.</p>
+ *            <p>
+ *            This interface is deprecated. As of version 2.0, the
+ *            {@link ContinuousDistribution} interface will be extended to
+ *            include a <code>density(double)<code> method.
+ *            </p>
  *
  * @deprecated to be removed in math 3.0
- * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 dec. 2010) $
+ * @version $Revision: 1042336 $ $Date: 2010-12-05 13:40:48 +0100 (dim. 05 dec.
+ *          2010) $
  */
 @Deprecated
 public interface HasDensity<P> {
 
-    /**
-     * Compute the probability density function.
-     * @param x point for which the probability density is requested
-     * @return probability density at point x
-     * @throws MathException if probability density cannot be computed at specifed point
-     */
-    double density(P x) throws MathException;
+	/**
+	 * Compute the probability density function.
+	 * 
+	 * @param x
+	 *            point for which the probability density is requested
+	 * @return probability density at point x
+	 * @throws MathException
+	 *             if probability density cannot be computed at specifed point
+	 */
+	double density(P x) throws MathException;
 
 }

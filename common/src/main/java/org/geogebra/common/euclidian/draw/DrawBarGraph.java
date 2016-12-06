@@ -134,9 +134,9 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(GColor.newColor(
-									col.getRed(), col.getGreen(),
-									col.getBlue(), col.getAlpha()));
+							g2.setPaint(GColor.newColor(col.getRed(),
+									col.getGreen(), col.getBlue(),
+									col.getAlpha()));
 						} else {
 							g2.setPaint(selColor);
 						}
@@ -147,8 +147,6 @@ public class DrawBarGraph extends Drawable {
 			} catch (Exception e) {
 				Log.debug(e.getMessage());
 			}
-
-
 
 			try {
 				if (algo.getDrawType() != DrawType.STEP_GRAPH_CONTINUOUS) {
@@ -248,9 +246,9 @@ public class DrawBarGraph extends Drawable {
 						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
-							g2.setPaint(GColor.newColor(
-									col.getRed(), col.getGreen(),
-									col.getBlue(), geo.getLineOpacity()));
+							g2.setPaint(GColor.newColor(col.getRed(),
+									col.getGreen(), col.getBlue(),
+									geo.getLineOpacity()));
 						} else {
 							g2.setPaint(color);
 						}
@@ -304,8 +302,8 @@ public class DrawBarGraph extends Drawable {
 	public boolean hit(int x, int y, int hitThreshold) {
 		if (gp != null) {
 			for (int i = 0; i < gp.length; i++) {
-				if ((gp[i].contains(x, y) || gp[i].intersects(x, y,
-						hitThreshold))) {
+				if ((gp[i].contains(x, y)
+						|| gp[i].intersects(x, y, hitThreshold))) {
 					setToolTip(i);
 					return true;
 				}

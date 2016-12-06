@@ -119,8 +119,8 @@ public class SystemOfEquationsSolver {
 
 			quadraticParams[2] = a20;
 			quadraticParams[1] = a11 * quarticRoots[i] + a10;
-			quadraticParams[0] = a02 * quarticRoots[i] * quarticRoots[i] + a01
-					* quarticRoots[i] + a00;
+			quadraticParams[0] = a02 * quarticRoots[i] * quarticRoots[i]
+					+ a01 * quarticRoots[i] + a00;
 
 			double[] quadraticRoots = new double[3];
 
@@ -132,8 +132,8 @@ public class SystemOfEquationsSolver {
 			for (int j = 0; j < solnr2; j++) { // checking pairs (x, y)
 				double x = quadraticRoots[j];
 				double y = quarticRoots[i];
-				double result = b02 * y * y + b11 * x * y + b20 * x * x + b01
-						* y + b10 * x + b00;
+				double result = b02 * y * y + b11 * x * y + b20 * x * x
+						+ b01 * y + b10 * x + b00;
 
 				if (Math.abs(result) < epsilon) {
 					xs.add(x);

@@ -37,8 +37,8 @@ import org.geogebra.common.util.debug.Log;
  *
  * @author Markus
  */
-public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoParabolaPointLine extends AlgoParabolaPointLineND
+		implements SymbolicParametersBotanaAlgo {
 
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
@@ -80,7 +80,7 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		
+
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
@@ -110,10 +110,10 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
 				botanaVars[8] = vF[0];
 				botanaVars[9] = vF[1];
 				Log.trace("Parabola " + geo.getLabelSimple() + "("
-						+ botanaVars[0] + ","
-						+ botanaVars[1] + ") implicitly introduces feet point ("
-						+ botanaVars[2] + "," + botanaVars[3]
-						+ ") on directrix " + l.getLabelSimple());
+						+ botanaVars[0] + "," + botanaVars[1]
+						+ ") implicitly introduces feet point (" + botanaVars[2]
+						+ "," + botanaVars[3] + ") on directrix "
+						+ l.getLabelSimple());
 			}
 
 			botanaPolynomials = new Polynomial[3];

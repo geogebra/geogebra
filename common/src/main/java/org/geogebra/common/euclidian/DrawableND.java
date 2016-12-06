@@ -92,7 +92,9 @@ public abstract class DrawableND {
 
 	/**
 	 * says that the drawable has to be updated for visual style
-	 * @param prop TODO
+	 * 
+	 * @param prop
+	 *            TODO
 	 */
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 

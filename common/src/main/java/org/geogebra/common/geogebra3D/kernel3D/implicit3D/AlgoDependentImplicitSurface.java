@@ -61,7 +61,6 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 
 		compute(true);
 
-
 		geoElem.setLabel(label);
 	}
 
@@ -90,9 +89,8 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 	}
 
 	private void compute(boolean first) {
-		if (!first
-				&& (equation.hasVariableDegree() || equation
-						.isFunctionDependent())) {
+		if (!first && (equation.hasVariableDegree()
+				|| equation.isFunctionDependent())) {
 			equation.resetFlags();
 			equation.initEquation();
 		}
@@ -134,13 +132,13 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 				if (geoElem.hasChildren())
 					geoElem.setUndefined();
 				else {
-					replaceGeoElement(new GeoImplicitSurface(getConstruction()));
+					replaceGeoElement(
+							new GeoImplicitSurface(getConstruction()));
 					((GeoImplicitSurface) geoElem).fromEquation(equation);
 				}
 			}
 
 		}
-
 
 	}
 
@@ -179,8 +177,8 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 		ev[2] = lhs.getCoefficient("z");
 		ev[3] = lhs.getCoefficient("");
 		((GeoPlane3D) geoElem).setEquation(ev[0].evaluateDouble(),
-				ev[1].evaluateDouble(),
-				ev[2].evaluateDouble(),ev[3].evaluateDouble());
+				ev[1].evaluateDouble(), ev[2].evaluateDouble(),
+				ev[3].evaluateDouble());
 
 	}
 

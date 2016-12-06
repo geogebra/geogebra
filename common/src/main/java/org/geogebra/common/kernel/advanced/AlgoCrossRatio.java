@@ -70,5 +70,4 @@ public class AlgoCrossRatio extends AlgoElement {
 		}
 	}
 
-	
 }

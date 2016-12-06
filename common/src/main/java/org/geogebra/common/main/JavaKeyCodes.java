@@ -223,7 +223,9 @@ public class JavaKeyCodes {
 	 * 
 	 * @since 1.2
 	 */
-	/* F13 - F24 are used on IBM 3270 keyboard; use random range for constants. */
+	/*
+	 * F13 - F24 are used on IBM 3270 keyboard; use random range for constants.
+	 */
 	public static final int VK_F13 = 0xF000;
 
 	/**

@@ -34,8 +34,10 @@ public class CmdIntersectConic extends CommandProcessor {
 			arg = resArgs(c);
 
 			// between 2 quadrics
-			if ((ok[0] = (arg[0] instanceof GeoQuadric3D || arg[0] instanceof GeoQuadric3DLimited))
-					&& (ok[1] = (arg[1] instanceof GeoQuadric3D || arg[1] instanceof GeoQuadric3DLimited))) {
+			if ((ok[0] = (arg[0] instanceof GeoQuadric3D
+					|| arg[0] instanceof GeoQuadric3DLimited))
+					&& (ok[1] = (arg[1] instanceof GeoQuadric3D
+							|| arg[1] instanceof GeoQuadric3DLimited))) {
 				GeoElement[] ret = kernelA.getManager3D().IntersectAsCircle(
 						c.getLabels(), (GeoQuadricND) arg[0],
 						(GeoQuadricND) arg[1]);

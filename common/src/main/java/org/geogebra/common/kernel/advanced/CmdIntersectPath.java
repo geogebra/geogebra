@@ -15,8 +15,8 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.MyError;
 
 /**
- * IntersectPath[ <GeoLine>, <GeoPolygon> ] IntersectPath[ <GeoLine>, <GeoConic>
- * ] // removed IntersectPath[<GeoSegment>, <GeoConic>]
+ * IntersectPath[ <GeoLine>, <GeoPolygon> ] IntersectPath[ <GeoLine>,
+ * <GeoConic> ] // removed IntersectPath[<GeoSegment>, <GeoConic>]
  */
 public class CmdIntersectPath extends CommandProcessor {
 	/**
@@ -52,8 +52,7 @@ public class CmdIntersectPath extends CommandProcessor {
 				return ret;
 			}
 
-			
-			  // Line - Conic(as region) in 2D else if ((ok[0] =
+			// Line - Conic(as region) in 2D else if ((ok[0] =
 			// if (((arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoConic())))
 			// return
 			// intersectLineConicRegion(c.getLabels(), (GeoLine) arg[0],
@@ -64,7 +63,6 @@ public class CmdIntersectPath extends CommandProcessor {
 			// (arg[1].isGeoLine()))) return
 			// intersectLineConicRegion(c.getLabels(), (GeoLine) arg[1],
 			// (GeoConic) arg[0]);
-
 
 			// Segment - Conic(as region)
 			if ((ok[0] = (arg[0].isGeoSegment()))
@@ -108,9 +106,9 @@ public class CmdIntersectPath extends CommandProcessor {
 			// Polygon(as region) - Polygon(as region) in 2D
 
 			if ((ok[0] = arg[0].isGeoPolygon()) && arg[1].isGeoPolygon()) {
-				GeoElement[] ret = getAlgoDispatcher()
-						.IntersectPolygons(c.getLabels(), (GeoPolygon) arg[0],
-						(GeoPolygon) arg[1], true);
+				GeoElement[] ret = getAlgoDispatcher().IntersectPolygons(
+						c.getLabels(), (GeoPolygon) arg[0], (GeoPolygon) arg[1],
+						true);
 				return ret;
 			}
 
@@ -120,7 +118,6 @@ public class CmdIntersectPath extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-
 
 	/**
 	 * IntersectLineConic yields intersection points named label1, label2 of

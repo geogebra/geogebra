@@ -139,9 +139,8 @@ public class AlgoIterationList extends AlgoElement {
 	 * @param n
 	 *            number of iterations
 	 */
-	public AlgoIterationList(Construction cons,
-			GeoElement expression, GeoElement[] vars, GeoList[] over,
-			GeoNumberValue n) {
+	public AlgoIterationList(Construction cons, GeoElement expression,
+			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;
 		this.vars = vars;
@@ -303,8 +302,7 @@ public class AlgoIterationList extends AlgoElement {
 		int i = Math.min(over[0].size(), iterations);
 		int oldListSize = list.size();
 		list.clear();
-		for (int j = 0; j < over[0].size()
- && j < iterations + 1; j++) {
+		for (int j = 0; j < over[0].size() && j < iterations + 1; j++) {
 			list.add(over[0].get(j).copyInternal(cons));
 			if (j + 1 < varCount) {
 				vars[j + 1].set(over[0].get(j));
@@ -406,8 +404,7 @@ public class AlgoIterationList extends AlgoElement {
 							.replaceChildrenByValues(vars[j]);
 				}
 			}
-			listElement
-					.setDrawAlgorithm(algoCopy);
+			listElement.setDrawAlgorithm(algoCopy);
 			listElement.setEuclidianVisible(true);
 		}
 
@@ -501,7 +498,6 @@ public class AlgoIterationList extends AlgoElement {
 
 		vars[varCount - 1].set(listElement);
 
-
 		// update var's algorithms until we reach expression
 		if (expressionParentAlgo != null) {
 			// update all dependent algorithms of the local variable var
@@ -513,7 +509,6 @@ public class AlgoIterationList extends AlgoElement {
 		}
 
 	}
-
 
 	private void computeSimple() {
 		list.setDefined(true);
@@ -607,7 +602,5 @@ public class AlgoIterationList extends AlgoElement {
 		list.add(listElement);
 		listElement.setValue(value);
 	}
-
-	
 
 }

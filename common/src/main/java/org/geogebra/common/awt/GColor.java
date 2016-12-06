@@ -48,7 +48,6 @@ public class GColor implements GPaint {
 	/** PURPLE */
 	public static final GColor PURPLE = newColor(102, 102, 255);
 
-
 	private final int value;
 
 	/**
@@ -129,8 +128,6 @@ public class GColor implements GPaint {
 	public int getAlpha() {
 		return getAlpha(value);
 	}
-
-
 
 	/**
 	 * @param r

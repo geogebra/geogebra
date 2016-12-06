@@ -22,34 +22,41 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
  */
 public class EllipticArcLength {
 	/** half axes of the ellipse */
-	double [] halfAxes;
+	double[] halfAxes;
 	private RealRootFunction arcLengthFunction;
-	
+
 	/**
 	 * Creates new elliptic arc length calculator
-	 * @param ellipse ellipse
+	 * 
+	 * @param ellipse
+	 *            ellipse
 	 */
 	public EllipticArcLength(GeoConicND ellipse) {
 		halfAxes = ellipse.getHalfAxes();
 		arcLengthFunction = new EllipticArcLengthFunction();
 	}
-	
+
 	/**
-	 * Computes the arc length of an ellipse where
-	 * a is the start parameter and b is the end parameter
-	 * of the arc in radians.
-	 * @param a start param
-	 * @param b end param
+	 * Computes the arc length of an ellipse where a is the start parameter and
+	 * b is the end parameter of the arc in radians.
+	 * 
+	 * @param a
+	 *            start param
+	 * @param b
+	 *            end param
 	 * @return arc length
 	 */
 	public double compute(double a, double b) {
 		if (a <= b)
-			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a, b);
-		return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0, Kernel.PI_2)
-			 - AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b, a);
-		
+			return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, a,
+					b);
+		return AlgoIntegralDefinite.numericIntegration(arcLengthFunction, 0,
+				Kernel.PI_2)
+				- AlgoIntegralDefinite.numericIntegration(arcLengthFunction, b,
+						a);
+
 	}
-	
+
 	/**
 	 * f(t) = sqrt((a sin(t))^2 + (b cos(t))^2)
 	 */
@@ -61,7 +68,7 @@ public class EllipticArcLength {
 		public double evaluate(double t) {
 			double p = halfAxes[0] * Math.sin(t);
 			double q = halfAxes[1] * Math.cos(t);
-			return Math.sqrt(p*p + q*q);
+			return Math.sqrt(p * p + q * q);
 		}
 	}
 }

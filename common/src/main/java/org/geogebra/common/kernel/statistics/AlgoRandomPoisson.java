@@ -149,10 +149,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		}
 
 		// Stirling approximation
-		return halflog2pi
-				+ (k + 0.5)
-				* Math.log(k + 1)
-				- (k + 1)
+		return halflog2pi + (k + 0.5) * Math.log(k + 1) - (k + 1)
 				+ (1 / 12.0 - (1 / 360.0 - 1 / 1260.0 / (k + 1) / (k + 1))
 						/ (k + 1) / (k + 1)) / (k + 1);
 	}
@@ -167,5 +164,4 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 	}
 
-	
 }

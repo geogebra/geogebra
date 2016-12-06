@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
  *
  * @author ggb3D
  * 
- *          Calculate the ortho vector of a plane (or polygon, ...)
+ *         Calculate the ortho vector of a plane (or polygon, ...)
  * 
  */
 public class AlgoOrthoVectorPlane extends AlgoElement3D {
@@ -128,7 +128,5 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 				((GeoElement) plane).getLabel(tpl));
 
 	}
-
-	
 
 }

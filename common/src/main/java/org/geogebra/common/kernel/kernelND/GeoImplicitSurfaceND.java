@@ -12,15 +12,12 @@ import org.geogebra.common.kernel.geos.Translateable;
  *
  *         Interface for surfaces in any dimension
  */
-public interface GeoImplicitSurfaceND extends Translateable,
-		Dilateable, PointRotateable, MirrorableAtPlane, Transformable {
+public interface GeoImplicitSurfaceND extends Translateable, Dilateable,
+		PointRotateable, MirrorableAtPlane, Transformable {
 
 	/**
 	 * @return surface defining function (LHS-RHS)
 	 */
 	FunctionNVar getExpression();
-	
-	
-	
 
 }

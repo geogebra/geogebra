@@ -234,7 +234,6 @@ public class Equation extends ValidExpression implements EquationValue {
 	 */
 	public void initEquation() {
 
-
 		EvalInfo info = new EvalInfo(false);
 		// resolve variables in lhs
 		if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
@@ -269,8 +268,8 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	private static void fixStructure(ExpressionNode expression,
-			FunctionVariable xVar,
-			FunctionVariable yVar, FunctionVariable zVar) {
+			FunctionVariable xVar, FunctionVariable yVar,
+			FunctionVariable zVar) {
 		// try to replace x(x+1) by x*(x+1)
 		undecided.clear();
 		expression.replaceXYZnodes(xVar, yVar, zVar, undecided);
@@ -384,11 +383,11 @@ public class Equation extends ValidExpression implements EquationValue {
 
 		// var = ... || ... = var
 		return (lhsp.length() == 1
-				&& lhsp.getCoefficient(var).evaluateDouble() == 1 && !rhsp
-					.contains(var))
+				&& lhsp.getCoefficient(var).evaluateDouble() == 1
+				&& !rhsp.contains(var))
 				|| (rhsp.length() == 1
-						&& rhsp.getCoefficient(var).evaluateDouble() == 1 && !lhsp
-							.contains(var));
+						&& rhsp.getCoefficient(var).evaluateDouble() == 1
+						&& !lhsp.contains(var));
 	}
 
 	/**
@@ -584,7 +583,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		if(v != this){
+		if (v != this) {
 			return v;
 		}
 		lhs = lhs.traverse(t).wrap();
@@ -724,14 +723,14 @@ public class Equation extends ValidExpression implements EquationValue {
 			if (lhs.isSingleVariable()) {
 				rhs.setLabel(((Variable) lhs
 						.evaluate(StringTemplate.defaultTemplate))
-						.getName(StringTemplate.defaultTemplate));
+								.getName(StringTemplate.defaultTemplate));
 				return rhs;
 			}
 
 			// special case: e = 2 should be an assignment
 			// but an undefined "e" has been read as the Euler constant already
-			else if (Unicode.EULER_STRING.equals(lhs
-					.toString(StringTemplate.defaultTemplate))) {
+			else if (Unicode.EULER_STRING
+					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("e");
 				return rhs;
 			}
@@ -745,8 +744,8 @@ public class Equation extends ValidExpression implements EquationValue {
 
 			// special case: z = 2 should be an assignment when 3D view is not
 			// present
-			else if (kernel.isZvarAllowed()
-					&& "z".equals(lhs.toString(StringTemplate.defaultTemplate))) {
+			else if (kernel.isZvarAllowed() && "z"
+					.equals(lhs.toString(StringTemplate.defaultTemplate))) {
 				rhs.setLabel("z");
 				return rhs;
 			}

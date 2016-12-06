@@ -46,8 +46,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
-		FixedPathRegionAlgo {
+public class AlgoMacro extends AlgoElement
+		implements AlgoMacroInterface, FixedPathRegionAlgo {
 
 	private Macro macro;
 
@@ -60,12 +60,11 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	// all keys of macroToAlgoMap that are not part of macroInput
 	private ArrayList<GeoElementND> macroOutputAndReferencedGeos;
 	private ArrayList<GeoElementND> algoOutputAndReferencedGeos; // for
-																// efficiency,
-																// see
-																// getMacroConstructionState()
+																	// efficiency,
+																	// see
+																	// getMacroConstructionState()
 
 	private boolean locked;
-
 
 	/**
 	 * Creates a new algorithm that applies a macro to the given input objects.
@@ -176,7 +175,8 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 					Path path = ((GeoPointND) geoPoint).getPath();
 					PathParameter pp = ((GeoPointND) geoPoint)
 							.getPathParameter();
-					// Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());
+					// Application.debug(param.getDouble()+"
+					// "+path.getMinParameter()+" "+path.getMaxParameter());
 					pp.setT(t);
 					// Application.debug(pp.t);
 
@@ -253,8 +253,8 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 				boolean oldVisible = algoGeo.isSetEuclidianVisible();
 				if (drawAlgo instanceof DrawInformationAlgo) {
 					((GeoNumeric) algoGeo).setDrawable(true, oldVisible);
-					algoGeo.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
-							.copy());
+					algoGeo.setDrawAlgorithm(
+							((DrawInformationAlgo) drawAlgo).copy());
 				}
 
 			} else {
@@ -380,7 +380,8 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * GeoElement objects. We need to make sure that algoGeo only reference
 	 * objects in its own construction.
 	 */
-	private void initSpecialReferences(GeoElement macroGeo, GeoElement algoGeo) {
+	private void initSpecialReferences(GeoElement macroGeo,
+			GeoElement algoGeo) {
 
 		switch (macroGeo.getGeoClassType()) {
 		case INTERVAL:
@@ -641,6 +642,5 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		return kernel.getMacroID(macro)
 				+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 	}
-	
 
 }

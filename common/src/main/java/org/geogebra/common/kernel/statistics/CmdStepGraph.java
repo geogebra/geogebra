@@ -74,12 +74,12 @@ public class CmdStepGraph extends CommandProcessor {
 
 			// StepGraph[ <x List>, <y list>, <join> ]
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))
+			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2]);
+						(GeoList) arg[0], (GeoList) arg[1],
+						(GeoBoolean) arg[2]);
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 
@@ -99,14 +99,13 @@ public class CmdStepGraph extends CommandProcessor {
 
 			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))
+			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1],
-						(GeoBoolean) arg[2], (GeoNumeric) arg[3]);
+						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
+						(GeoNumeric) arg[3]);
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}

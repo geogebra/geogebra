@@ -75,8 +75,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 
 			FunctionNVar f2 = new FunctionNVar(x1.plus(y1),
 					new FunctionVariable[] { vx, vy });
-			tangentPoly.fromEquation(new Equation(kernel, f2, new MyDouble(
-					kernel, 0)), null);
+			tangentPoly.fromEquation(
+					new Equation(kernel, f2, new MyDouble(kernel, 0)), null);
 			return;
 
 		}
@@ -132,7 +132,5 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement {
 	public GeoImplicit getTangentCurve() {
 		return tangentPoly;
 	}
-
-	
 
 }

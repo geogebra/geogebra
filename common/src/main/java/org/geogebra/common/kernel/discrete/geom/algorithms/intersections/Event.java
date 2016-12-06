@@ -31,116 +31,117 @@ import org.geogebra.common.kernel.discrete.geom.Segment2D;
  */
 public class Event {
 
-    public enum Type {
+	public enum Type {
 
-        SEGMENT_START,
-        SEGMENT_END,
-        SEGMENTS_INTERSECTION;
-    }
-    private Intersection intersection;
-    private Type type;
+		SEGMENT_START, SEGMENT_END, SEGMENTS_INTERSECTION;
+	}
 
-    public Event(Intersection intersection, Event.Type eventType) {
-        this.intersection = intersection;
-        this.type = eventType;
-    }
+	private Intersection intersection;
+	private Type type;
 
-    public Intersection getIntersection() {
-        return this.intersection;
-    }
+	public Event(Intersection intersection, Event.Type eventType) {
+		this.intersection = intersection;
+		this.type = eventType;
+	}
 
-    public Event.Type getType() {
-        return this.type;
-    }
+	public Intersection getIntersection() {
+		return this.intersection;
+	}
 
-    @Override
-    public String toString() {
-        return type.name() + "\n\t" + intersection.toString();
-    }
+	public Event.Type getType() {
+		return this.type;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (o instanceof Event) {
-            Event e = (Event) o;
+	@Override
+	public String toString() {
+		return type.name() + "\n\t" + intersection.toString();
+	}
 
-            if (this.type.equals(e.type)) {
-                Intersection i = e.getIntersection();
-                if (intersection instanceof ScanlineIntersection) {
-                    if (i instanceof ScanlineIntersection) {
-                        return equalsForScanLineIntersectionEvent(e);
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Event) {
+			Event e = (Event) o;
 
-                    }
-                } else if (intersection instanceof SegmentsIntersection) {
-                    if (i instanceof SegmentsIntersection) {
-                        return equalsForSegmentsIntersectionEvent(e);
-                    }
-                }
-            }
-        }
-        return false;
+			if (this.type.equals(e.type)) {
+				Intersection i = e.getIntersection();
+				if (intersection instanceof ScanlineIntersection) {
+					if (i instanceof ScanlineIntersection) {
+						return equalsForScanLineIntersectionEvent(e);
 
-    }
+					}
+				} else if (intersection instanceof SegmentsIntersection) {
+					if (i instanceof SegmentsIntersection) {
+						return equalsForSegmentsIntersectionEvent(e);
+					}
+				}
+			}
+		}
+		return false;
 
-    private boolean equalsForScanLineIntersectionEvent(Event e) {
-        Intersection i = e.getIntersection();
-        if (i instanceof ScanlineIntersection) {
-            ScanlineIntersection sIntersection = (ScanlineIntersection) intersection;
-            ScanlineIntersection si = (ScanlineIntersection) i;
+	}
 
-            Segment2D s1 = sIntersection.getSegment();
-            Point2D p1 = sIntersection.getPoint();
-            Segment2D s2 = si.getSegment();
-            Point2D p2 = si.getPoint();
+	private boolean equalsForScanLineIntersectionEvent(Event e) {
+		Intersection i = e.getIntersection();
+		if (i instanceof ScanlineIntersection) {
+			ScanlineIntersection sIntersection = (ScanlineIntersection) intersection;
+			ScanlineIntersection si = (ScanlineIntersection) i;
 
-            if (s1.equals(s2)) {
-                if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+			Segment2D s1 = sIntersection.getSegment();
+			Point2D p1 = sIntersection.getPoint();
+			Segment2D s2 = si.getSegment();
+			Point2D p2 = si.getPoint();
 
-        } else {
-            return false;
-        }
-    }
+			if (s1.equals(s2)) {
+				if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
+					return true;
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
 
-    private boolean equalsForSegmentsIntersectionEvent(Event e) {
-        Intersection i = e.getIntersection();
-        if (i instanceof SegmentsIntersection) {
+		} else {
+			return false;
+		}
+	}
 
-            SegmentsIntersection sIntersection = (SegmentsIntersection) intersection;
-            SegmentsIntersection si = (SegmentsIntersection) i;
+	private boolean equalsForSegmentsIntersectionEvent(Event e) {
+		Intersection i = e.getIntersection();
+		if (i instanceof SegmentsIntersection) {
 
-            Segment2D sa1 = sIntersection.getSegment1();
-            Segment2D sa2 = sIntersection.getSegment2();
-            Segment2D sb1 = si.getSegment1();
-            Segment2D sb2 = si.getSegment2();
-            Point2D p1 = sIntersection.getPoint();
-            Point2D p2 = si.getPoint();
+			SegmentsIntersection sIntersection = (SegmentsIntersection) intersection;
+			SegmentsIntersection si = (SegmentsIntersection) i;
 
-            if ((sa1.equals(sb1) && sa2.equals(sb2)) || (sa1.equals(sb2) && sa2.equals(sb1))) {
-                if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
-                    return true;
-                } else {
-                    return false;
-                }
+			Segment2D sa1 = sIntersection.getSegment1();
+			Segment2D sa2 = sIntersection.getSegment2();
+			Segment2D sb1 = si.getSegment1();
+			Segment2D sb2 = si.getSegment2();
+			Point2D p1 = sIntersection.getPoint();
+			Point2D p2 = si.getPoint();
 
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+			if ((sa1.equals(sb1) && sa2.equals(sb2))
+					|| (sa1.equals(sb2) && sa2.equals(sb1))) {
+				if (LineAndPointUtils.pointsAreEqual(p1, p2)) {
+					return true;
+				} else {
+					return false;
+				}
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + (this.intersection != null ? this.intersection.hashCode() : 0);
-        hash = 17 * hash + (this.type != null ? this.type.hashCode() : 0);
-        return hash;
-    }
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 17 * hash + (this.intersection != null
+				? this.intersection.hashCode() : 0);
+		hash = 17 * hash + (this.type != null ? this.type.hashCode() : 0);
+		return hash;
+	}
 }

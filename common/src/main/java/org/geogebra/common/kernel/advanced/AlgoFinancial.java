@@ -179,7 +179,8 @@ public class AlgoFinancial extends AlgoElement {
 		switch (calcType) {
 
 		case RATE:
-			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType() && setGuess())) {
+			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType()
+					&& setGuess())) {
 				result.setUndefined();
 				return;
 			}
@@ -191,7 +192,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case NPER:
-			if (!(setRate() && setPmt() && setPV() && setFV() && setPmtType())) {
+			if (!(setRate() && setPmt() && setPV() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -200,9 +202,8 @@ public class AlgoFinancial extends AlgoElement {
 			} else {
 				double pmt2 = pmt * (1 + rate * pmtType);
 				nper = Kernel.checkInteger(
-						Math.log((pmt2 - rate * fv)
-						/ (pmt2 + rate * pv))
-						/ Math.log(1 + rate));
+						Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
+								/ Math.log(1 + rate));
 			}
 
 			if (nper <= 0) {
@@ -213,7 +214,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case PMT:
-			if (!(setRate() && setNper() && setPV() && setFV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPV() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -226,7 +228,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case PV:
-			if (!(setRate() && setNper() && setPmt() && setFV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setFV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -239,7 +242,8 @@ public class AlgoFinancial extends AlgoElement {
 			break;
 
 		case FV:
-			if (!(setRate() && setNper() && setPmt() && setPV() && setPmtType())) {
+			if (!(setRate() && setNper() && setPmt() && setPV()
+					&& setPmtType())) {
 				result.setUndefined();
 				return;
 			}
@@ -450,5 +454,4 @@ public class AlgoFinancial extends AlgoElement {
 		return false;
 	}
 
-	
 }

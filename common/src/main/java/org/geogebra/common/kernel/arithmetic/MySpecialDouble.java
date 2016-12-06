@@ -36,7 +36,6 @@ public class MySpecialDouble extends MyDouble {
 	private boolean scientificNotation = false;
 	private boolean setFromOutside;
 
-
 	/**
 	 * @param kernel
 	 *            kernel
@@ -116,8 +115,6 @@ public class MySpecialDouble extends MyDouble {
 		keepOriginalString = true;
 	}
 
-
-
 	/**
 	 * @return true if this equals E (no tolerance)
 	 */
@@ -141,8 +138,9 @@ public class MySpecialDouble extends MyDouble {
 			// use significant digits
 			// print the original string
 			if (keepOriginalString
-					|| (!tpl.useScientific(kernel.useSignificantFigures) && !strToString
-							.contains(".")) || tpl.allowMoreDigits()) {
+					|| (!tpl.useScientific(kernel.useSignificantFigures)
+							&& !strToString.contains("."))
+					|| tpl.allowMoreDigits()) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
 					return tpl.convertScientificNotation(strToString);
@@ -187,7 +185,7 @@ public class MySpecialDouble extends MyDouble {
 					return "\\mathit{e_{\\gamma}}";
 				}
 				return "\\textit{e}";
-				// return Unicode.EULER_STRING;
+			// return Unicode.EULER_STRING;
 			}
 			break;
 		default:

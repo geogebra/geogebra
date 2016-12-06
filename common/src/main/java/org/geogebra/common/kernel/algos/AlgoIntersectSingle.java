@@ -124,7 +124,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 			// ((AlgoIntersectConics)algo).getB()).addPointOnConic(point);
 
 		} else if (algo instanceof AlgoIntersectLineConic) {
-			point.addIncidence(((AlgoIntersectLineConic) algo).getLine(), false);
+			point.addIncidence(((AlgoIntersectLineConic) algo).getLine(),
+					false);
 			point.addIncidence(((AlgoIntersectLineConic) algo).getConic(),
 					false);
 

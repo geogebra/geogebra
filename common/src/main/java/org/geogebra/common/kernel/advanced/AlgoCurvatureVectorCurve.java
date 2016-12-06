@@ -35,8 +35,8 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	AlgoDerivative algoCAS, algoCAS2;
 	private GeoConic gc;
 
-	public AlgoCurvatureVectorCurve(Construction cons, String label,
-			GeoPoint A, GeoCurveCartesian f) {
+	public AlgoCurvatureVectorCurve(Construction cons, String label, GeoPoint A,
+			GeoCurveCartesian f) {
 		this(cons, A, f);
 
 		if (label != null) {
@@ -47,7 +47,8 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		}
 	}
 
-	AlgoCurvatureVectorCurve(Construction cons, GeoPoint A, GeoCurveCartesian f) {
+	AlgoCurvatureVectorCurve(Construction cons, GeoPoint A,
+			GeoCurveCartesian f) {
 		super(cons);
 		this.A = A;
 		this.f = f;
@@ -182,7 +183,5 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 		A.removeAlgorithm(algoCAS2);
 		f.removeAlgorithm(algoCAS2);
 	}
-
-	
 
 }

@@ -211,7 +211,8 @@ public abstract class SensorLogger {
 		registerGeoFunction(s, list, 0);
 	}
 
-	public void registerGeoFunction(String s, GeoFunction function, double limit) {
+	public void registerGeoFunction(String s, GeoFunction function,
+			double limit) {
 		Types type = Types.lookup(s);
 
 		if (type != null) {
@@ -244,8 +245,8 @@ public abstract class SensorLogger {
 	protected void initStartLogging() {
 		now = System.currentTimeMillis();
 
-		Log.debug("startLogging called, undoActive is: "
-				+ kernel.isUndoActive());
+		Log.debug(
+				"startLogging called, undoActive is: " + kernel.isUndoActive());
 		// make sure that running StartLogging twice does not switch undo off
 		oldUndoActive = oldUndoActive || kernel.isUndoActive();
 
@@ -309,32 +310,27 @@ public abstract class SensorLogger {
 				}
 				ExpressionValue ev = fn.getFunctionExpression().unwrap().wrap()
 						.getRight();
-			
+
 				if (ev instanceof MyNumberPair
 						&& ((MyNumberPair) ev).getX() instanceof MyList
 						&& ((MyNumberPair) ev).getY() instanceof MyList) {
 					MyList mx = (MyList) ((MyNumberPair) ev).getX();
 					MyList my = (MyList) ((MyNumberPair) ev).getY();
 					Integer ll = listLimits.get(type);
-					if (mx.size() > 0
-							&& timestamp < mx.getListElement(mx.size() - 1)
-							.evaluateDouble()) {
+					if (mx.size() > 0 && timestamp < mx
+							.getListElement(mx.size() - 1).evaluateDouble()) {
 						mx.clear();
 						my.clear();
 					}
 					if (ll == null || ll == 0 || ll + 2 > mx.size()) {
 						mx.addListElement(new MyDouble(kernel, timestamp));
 						my.addListElement(new MyDouble(kernel, val));
-					}else{
+					} else {
 						mx.addQue(timestamp, 0);
 						my.addQue(val, 0);
 					}
-					
-				}
-				
-				
 
-				
+				}
 
 				if (repaint) {
 					fn.updateRepaint();

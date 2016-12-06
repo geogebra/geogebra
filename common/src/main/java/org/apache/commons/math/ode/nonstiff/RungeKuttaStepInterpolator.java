@@ -20,108 +20,123 @@ package org.apache.commons.math.ode.nonstiff;
 import org.apache.commons.math.ode.AbstractIntegrator;
 import org.apache.commons.math.ode.sampling.AbstractStepInterpolator;
 
-/** This class represents an interpolator over the last step during an
- * ODE integration for Runge-Kutta and embedded Runge-Kutta integrators.
+/**
+ * This class represents an interpolator over the last step during an ODE
+ * integration for Runge-Kutta and embedded Runge-Kutta integrators.
  *
  * @see RungeKuttaIntegrator
  * @see EmbeddedRungeKuttaIntegrator
  *
- * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept. 2009) $
+ * @version $Revision: 811827 $ $Date: 2009-09-06 17:32:50 +0200 (dim. 06 sept.
+ *          2009) $
  * @since 1.2
  */
 
-abstract class RungeKuttaStepInterpolator
-  extends AbstractStepInterpolator {
+abstract class RungeKuttaStepInterpolator extends AbstractStepInterpolator {
 
-    /** Slopes at the intermediate points */
-    protected double[][] yDotK;
+	/** Slopes at the intermediate points */
+	protected double[][] yDotK;
 
-    /** Reference to the integrator. */
-    protected AbstractIntegrator integrator;
+	/** Reference to the integrator. */
+	protected AbstractIntegrator integrator;
 
-  /** Simple constructor.
-   * This constructor builds an instance that is not usable yet, the
-   * {@link #reinitialize} method should be called before using the
-   * instance in order to initialize the internal arrays. This
-   * constructor is used only in order to delay the initialization in
-   * some cases. The {@link RungeKuttaIntegrator} and {@link
-   * EmbeddedRungeKuttaIntegrator} classes use the prototyping design
-   * pattern to create the step interpolators by cloning an
-   * uninitialized model and latter initializing the copy.
-   */
-  protected RungeKuttaStepInterpolator() {
-    super();
-    yDotK      = null;
-    integrator = null;
-  }
+	/**
+	 * Simple constructor. This constructor builds an instance that is not
+	 * usable yet, the {@link #reinitialize} method should be called before
+	 * using the instance in order to initialize the internal arrays. This
+	 * constructor is used only in order to delay the initialization in some
+	 * cases. The {@link RungeKuttaIntegrator} and
+	 * {@link EmbeddedRungeKuttaIntegrator} classes use the prototyping design
+	 * pattern to create the step interpolators by cloning an uninitialized
+	 * model and latter initializing the copy.
+	 */
+	protected RungeKuttaStepInterpolator() {
+		super();
+		yDotK = null;
+		integrator = null;
+	}
 
-  /** Copy constructor.
+	/**
+	 * Copy constructor.
+	 * 
+	 * <p>
+	 * The copied interpolator should have been finalized before the copy,
+	 * otherwise the copy will not be able to perform correctly any
+	 * interpolation and will throw a {@link NullPointerException} later. Since
+	 * we don't want this constructor to throw the exceptions finalization may
+	 * involve and since we don't want this method to modify the state of the
+	 * copied interpolator, finalization is <strong>not</strong> done
+	 * automatically, it remains under user control.
+	 * </p>
+	 * 
+	 * <p>
+	 * The copy is a deep copy: its arrays are separated from the original
+	 * arrays of the instance.
+	 * </p>
+	 * 
+	 * @param interpolator
+	 *            interpolator to copy from.
+	 * 
+	 */
+	public RungeKuttaStepInterpolator(
+			final RungeKuttaStepInterpolator interpolator) {
 
-  * <p>The copied interpolator should have been finalized before the
-  * copy, otherwise the copy will not be able to perform correctly any
-  * interpolation and will throw a {@link NullPointerException}
-  * later. Since we don't want this constructor to throw the
-  * exceptions finalization may involve and since we don't want this
-  * method to modify the state of the copied interpolator,
-  * finalization is <strong>not</strong> done automatically, it
-  * remains under user control.</p>
+		super(interpolator);
 
-  * <p>The copy is a deep copy: its arrays are separated from the
-  * original arrays of the instance.</p>
+		if (interpolator.currentState != null) {
+			final int dimension = currentState.length;
 
-  * @param interpolator interpolator to copy from.
+			yDotK = new double[interpolator.yDotK.length][];
+			for (int k = 0; k < interpolator.yDotK.length; ++k) {
+				yDotK[k] = new double[dimension];
+				System.arraycopy(interpolator.yDotK[k], 0, yDotK[k], 0,
+						dimension);
+			}
 
-  */
-  public RungeKuttaStepInterpolator(final RungeKuttaStepInterpolator interpolator) {
+		} else {
+			yDotK = null;
+		}
 
-    super(interpolator);
+		// we cannot keep any reference to the equations in the copy
+		// the interpolator should have been finalized before
+		integrator = null;
 
-    if (interpolator.currentState != null) {
-      final int dimension = currentState.length;
+	}
 
-      yDotK = new double[interpolator.yDotK.length][];
-      for (int k = 0; k < interpolator.yDotK.length; ++k) {
-        yDotK[k] = new double[dimension];
-        System.arraycopy(interpolator.yDotK[k], 0,
-                         yDotK[k], 0, dimension);
-      }
-
-    } else {
-      yDotK = null;
-    }
-
-    // we cannot keep any reference to the equations in the copy
-    // the interpolator should have been finalized before
-    integrator = null;
-
-  }
-
-  /** Reinitialize the instance
-   * <p>Some Runge-Kutta integrators need fewer functions evaluations
-   * than their counterpart step interpolators. So the interpolator
-   * should perform the last evaluations they need by themselves. The
-   * {@link RungeKuttaIntegrator RungeKuttaIntegrator} and {@link
-   * EmbeddedRungeKuttaIntegrator EmbeddedRungeKuttaIntegrator}
-   * abstract classes call this method in order to let the step
-   * interpolator perform the evaluations it needs. These evaluations
-   * will be performed during the call to <code>doFinalize</code> if
-   * any, i.e. only if the step handler either calls the {@link
-   * AbstractStepInterpolator#finalizeStep finalizeStep} method or the
-   * {@link AbstractStepInterpolator#getInterpolatedState
-   * getInterpolatedState} method (for an interpolator which needs a
-   * finalization) or if it clones the step interpolator.</p>
-   * @param rkIntegrator integrator being used
-   * @param y reference to the integrator array holding the state at
-   * the end of the step
-   * @param yDotArray reference to the integrator array holding all the
-   * intermediate slopes
-   * @param forward integration direction indicator
-   */
-  public void reinitialize(final AbstractIntegrator rkIntegrator,
-                           final double[] y, final double[][] yDotArray, final boolean forward) {
-    reinitialize(y, forward);
-    this.yDotK = yDotArray;
-    this.integrator = rkIntegrator;
-  }
+	/**
+	 * Reinitialize the instance
+	 * <p>
+	 * Some Runge-Kutta integrators need fewer functions evaluations than their
+	 * counterpart step interpolators. So the interpolator should perform the
+	 * last evaluations they need by themselves. The {@link RungeKuttaIntegrator
+	 * RungeKuttaIntegrator} and {@link EmbeddedRungeKuttaIntegrator
+	 * EmbeddedRungeKuttaIntegrator} abstract classes call this method in order
+	 * to let the step interpolator perform the evaluations it needs. These
+	 * evaluations will be performed during the call to <code>doFinalize</code>
+	 * if any, i.e. only if the step handler either calls the
+	 * {@link AbstractStepInterpolator#finalizeStep finalizeStep} method or the
+	 * {@link AbstractStepInterpolator#getInterpolatedState
+	 * getInterpolatedState} method (for an interpolator which needs a
+	 * finalization) or if it clones the step interpolator.
+	 * </p>
+	 * 
+	 * @param rkIntegrator
+	 *            integrator being used
+	 * @param y
+	 *            reference to the integrator array holding the state at the end
+	 *            of the step
+	 * @param yDotArray
+	 *            reference to the integrator array holding all the intermediate
+	 *            slopes
+	 * @param forward
+	 *            integration direction indicator
+	 */
+	public void reinitialize(final AbstractIntegrator rkIntegrator,
+			final double[] y, final double[][] yDotArray,
+			final boolean forward) {
+		reinitialize(y, forward);
+		this.yDotK = yDotArray;
+		this.integrator = rkIntegrator;
+	}
 
 }

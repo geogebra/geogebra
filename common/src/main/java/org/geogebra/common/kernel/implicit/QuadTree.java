@@ -62,8 +62,8 @@ abstract class QuadTree {
 	public static final int T0111 = 7;
 
 	/**
-	 * invalid configuration. expression value is undefined / infinity for
-	 * at least one of the corner
+	 * invalid configuration. expression value is undefined / infinity for at
+	 * least one of the corner
 	 */
 	public static final int T_INV = -1;
 	public static final int EMPTY = 0;
@@ -103,9 +103,8 @@ abstract class QuadTree {
 	 * 
 	 * @param val
 	 *            value to check
-	 * @return the sign depending on the value. if value is infinity or NaN
-	 *         it returns T_INV, otherwise it returns 1 for +ve value 0
-	 *         otherwise
+	 * @return the sign depending on the value. if value is infinity or NaN it
+	 *         returns T_INV, otherwise it returns 1 for +ve value 0 otherwise
 	 */
 	public int sign(double val) {
 		if (Double.isInfinite(val) || Double.isNaN(val)) {
@@ -184,50 +183,63 @@ abstract class QuadTree {
 		}
 
 		double x1 = r.x1(), x2 = r.x2(), y1 = r.y1(), y2 = r.y2();
-		double tl = r.evals[0], tr = r.evals[1], br = r.evals[2], bl = r.evals[3];
+		double tl = r.evals[0], tr = r.evals[1], br = r.evals[2],
+				bl = r.evals[3];
 		double q1 = 0.0, q2 = 0.0;
 
 		switch (gridType) {
 		// one or three corners are inside / outside
 		case T0001:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(bl, tl, y2, y1), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2), y2, true);
+			pts[0] = new MyPoint(x1,
+					GeoImplicitCurve.interpolate(bl, tl, y2, y1), false);
+			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
+					y2, true);
 			q1 = Math.min(Math.abs(bl), Math.abs(tl));
 			q2 = Math.min(Math.abs(bl), Math.abs(br));
 			break;
 
 		case T0010:
-			pts[0] = new MyPoint(x2, GeoImplicitCurve.interpolate(br, tr, y2, y1), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(br, bl, x2, x1), y2, true);
+			pts[0] = new MyPoint(x2,
+					GeoImplicitCurve.interpolate(br, tr, y2, y1), false);
+			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(br, bl, x2, x1),
+					y2, true);
 			q1 = Math.min(Math.abs(br), Math.abs(tr));
 			q2 = Math.min(Math.abs(br), Math.abs(bl));
 			break;
 
 		case T0100:
-			pts[0] = new MyPoint(x2, GeoImplicitCurve.interpolate(tr, br, y1, y2), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tr, tl, x2, x1), y1, true);
+			pts[0] = new MyPoint(x2,
+					GeoImplicitCurve.interpolate(tr, br, y1, y2), false);
+			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tr, tl, x2, x1),
+					y1, true);
 			q1 = Math.min(Math.abs(tr), Math.abs(br));
 			q2 = Math.min(Math.abs(tr), Math.abs(tl));
 			break;
 
 		case T0111:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2), y1, true);
+			pts[0] = new MyPoint(x1,
+					GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
+			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2),
+					y1, true);
 			q1 = Math.min(Math.abs(bl), Math.abs(tl));
 			q2 = Math.min(Math.abs(tl), Math.abs(tr));
 			break;
 
 		// two consecutive corners are inside / outside
 		case T0011:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
-			pts[1] = new MyPoint(x2, GeoImplicitCurve.interpolate(tr, br, y1, y2), true);
+			pts[0] = new MyPoint(x1,
+					GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
+			pts[1] = new MyPoint(x2,
+					GeoImplicitCurve.interpolate(tr, br, y1, y2), true);
 			q1 = Math.min(Math.abs(tl), Math.abs(bl));
 			q2 = Math.min(Math.abs(tr), Math.abs(br));
 			break;
 
 		case T0110:
-			pts[0] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2), y1, false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2), y2, true);
+			pts[0] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2),
+					y1, false);
+			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
+					y2, true);
 			q1 = Math.min(Math.abs(tl), Math.abs(tr));
 			q2 = Math.min(Math.abs(bl), Math.abs(br));
 			break;
@@ -246,8 +258,8 @@ abstract class QuadTree {
 	}
 
 	/**
-	 * force to redraw the rectangular area bounded by (startX, startY,
-	 * startX + w, startY + h)
+	 * force to redraw the rectangular area bounded by (startX, startY, startX +
+	 * w, startY + h)
 	 * 
 	 * @param startX
 	 *            starting x coordinate
@@ -284,7 +296,8 @@ abstract class QuadTree {
 		double yMin = Math.max(y, other.quadTree.y);
 		double xMax = Math.min(x + w, other.quadTree.x + w);
 		double yMax = Math.min(y + h, other.quadTree.y + h);
-		return GeoImplicitCurve.probableInitialPoints(this.geoImplicitCurve.getExpression(), other.getExpression(),
+		return GeoImplicitCurve.probableInitialPoints(
+				this.geoImplicitCurve.getExpression(), other.getExpression(),
 				xMin, yMin, xMax, yMax, n);
 	}
 

@@ -98,8 +98,8 @@ public class CmdZoomIn extends CmdScripting {
 
 			EuclidianViewInterfaceCommon ev = proc.getApp()
 					.getActiveEuclidianView();
-			Coords coords = ev.getCoordsForView(((GeoPointND) arg[1])
-					.getCoordsInD3());
+			Coords coords = ev
+					.getCoordsForView(((GeoPointND) arg[1]).getCoordsInD3());
 			double px = ev.toScreenCoordXd(coords.getX());
 			double py = ev.toScreenCoordYd(coords.getY());
 

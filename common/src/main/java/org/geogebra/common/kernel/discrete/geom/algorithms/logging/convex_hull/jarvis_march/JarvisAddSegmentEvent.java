@@ -30,20 +30,20 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.PermanentLogE
  *
  * @author cyberpython
  */
-public class JarvisAddSegmentEvent extends PermanentLogEvent{
+public class JarvisAddSegmentEvent extends PermanentLogEvent {
 
-    Segment2D s;
+	Segment2D s;
 
-    public JarvisAddSegmentEvent(Point2D p0, Point2D p1){
-        this.s = new Segment2D(p0, p1);
-    }
+	public JarvisAddSegmentEvent(Point2D p0, Point2D p1) {
+		this.s = new Segment2D(p0, p1);
+	}
 
-    public JarvisAddSegmentEvent(Segment2D s){
-        this.s = s;
-    }
+	public JarvisAddSegmentEvent(Segment2D s) {
+		this.s = s;
+	}
 
-    public Segment2D getSegment(){
-        return s;
-    }
+	public Segment2D getSegment() {
+		return s;
+	}
 
 }

@@ -45,7 +45,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunction extends AlgoElement implements DependentAlgo {
+public class AlgoDependentFunction extends AlgoElement
+		implements DependentAlgo {
 	/** input */
 	protected Function fun;
 	/** output */
@@ -88,9 +89,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		if (addToConsList) {
 			cons.addToConstructionList(this, false);
 		}
-		this.fast = fast
-				|| !cons.getApplication().getSettings().getCasSettings()
-						.isEnabled();
+		this.fast = fast || !cons.getApplication().getSettings()
+				.getCasSettings().isEnabled();
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
@@ -266,7 +266,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// tree
 				return substituteFunction((Functional) leftValue,
 						node.getRight(), fast);
-				
+
 			case FUNCTION_NVAR:
 				// make sure we expand $ in $A1(x,y)
 				if (leftValue.isExpressionNode()) {
@@ -283,17 +283,20 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return ret == null ? ev : ret;
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional
-				if (leftValue.isGeoElement()
-						&& ((GeoElement) leftValue).isGeoFunctionConditional()) {
+				if (leftValue.isGeoElement() && ((GeoElement) leftValue)
+						.isGeoFunctionConditional()) {
 					return node;
 				}
 
-				int order = (int) Math.round(((NumberValue) node.getRight())
-						.getDouble());
+				int order = (int) Math
+						.round(((NumberValue) node.getRight()).getDouble());
 				if (leftValue.isExpressionNode()
-						&& (((ExpressionNode) leftValue).getOperation() == Operation.$VAR_COL
-								|| ((ExpressionNode) leftValue).getOperation() == Operation.$VAR_ROW || ((ExpressionNode) leftValue)
-								.getOperation() == Operation.$VAR_ROW_COL))
+						&& (((ExpressionNode) leftValue)
+								.getOperation() == Operation.$VAR_COL
+								|| ((ExpressionNode) leftValue)
+										.getOperation() == Operation.$VAR_ROW
+								|| ((ExpressionNode) leftValue)
+										.getOperation() == Operation.$VAR_ROW_COL))
 					leftValue = ((ExpressionNode) leftValue).getLeft();
 				if (leftValue instanceof GeoCasCell) {
 					return ((GeoCasCell) leftValue).getGeoDerivative(order,
@@ -305,16 +308,17 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				}
 				return ((Functional) leftValue).getGeoDerivative(order, fast);
 			case ELEMENT_OF:
-				  //list(x,x) cannot be expanded	
+				// list(x,x) cannot be expanded
 				ExpressionValue rt = node.getRight().unwrap();
 				if (rt instanceof ListValue) {
 					ListValue list = (ListValue) rt;
 					int constants = list.size();
 					for (int i = 0; i < list.size() - 1; i++) {
-					  if(list.getListElement(i).wrap().containsFreeFunctionVariable(null)){
+						if (list.getListElement(i).wrap()
+								.containsFreeFunctionVariable(null)) {
 							constants = i;
 							break;
-					  }
+						}
 					}
 					Log.debug(constants + "/" + list.size());
 					ExpressionNodeEvaluator expev = ((GeoList) leftValue)
@@ -323,8 +327,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 							node.getRight(), 1);
 					if (res instanceof Functional
 							&& constants >= list.size() - 1) {
-						return substituteFunction(((Functional) res),list
-								.getListElement(list.size() - 1), fast);
+						return substituteFunction(((Functional) res),
+								list.getListElement(list.size() - 1), fast);
 					}
 					if (res instanceof FunctionalNVar
 							&& constants >= list.size() - ((FunctionalNVar) res)
@@ -342,7 +346,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				}
 				// element of with no-list rhs: weird, don't expand
 				return node;
-				// remove spreadsheet $ references, i.e. $A1 -> A1
+			// remove spreadsheet $ references, i.e. $A1 -> A1
 			case $VAR_ROW:
 			case $VAR_COL:
 			case $VAR_ROW_COL:
@@ -355,12 +359,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return node;
 			}
 		} else if (ev instanceof MyNumberPair) {
-			((MyNumberPair) ev)
-					.setX(expandFunctionDerivativeNodes(((MyNumberPair) ev)
-							.getX(), fast));
-			((MyNumberPair) ev)
-					.setY(expandFunctionDerivativeNodes(((MyNumberPair) ev)
-							.getY(), fast));
+			((MyNumberPair) ev).setX(expandFunctionDerivativeNodes(
+					((MyNumberPair) ev).getX(), fast));
+			((MyNumberPair) ev).setY(expandFunctionDerivativeNodes(
+					((MyNumberPair) ev).getY(), fast));
 			// for f,g,h functions make sure f(g,h) expands to f(g(x),h(x))
 		} else if (ev.unwrap() instanceof FunctionalNVar) {
 			return ((FunctionalNVar) ev.unwrap()).getFunctionExpression()
@@ -384,8 +386,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			return null;
 		// now replace every x in function by the expanded argument
 		for (int i = 0; i < xy.length; i++)
-			funNExpression = funNExpression
-					.replace(xy[i], expandFunctionDerivativeNodes(
+			funNExpression = funNExpression.replace(xy[i],
+					expandFunctionDerivativeNodes(
 							((MyList) right).getListElement(i + offset), fast))
 					.wrap();
 		return (funNExpression);
@@ -396,12 +398,11 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		Function fun = leftValue.getFunction();
 		FunctionVariable x = fun.getFunctionVariable();
 		// don't destroy the function
-		ExpressionNode funcExpression = fun.getExpression().getCopy(
-				fun.getKernel());
+		ExpressionNode funcExpression = fun.getExpression()
+				.getCopy(fun.getKernel());
 		// now replace every x in function by the expanded argument
 		return funcExpression.replace(x,
-				expandFunctionDerivativeNodes(right, fast)
-				.wrap());
+				expandFunctionDerivativeNodes(right, fast).wrap());
 	}
 
 	/**
@@ -437,10 +438,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		if (f.isLabelSet()
-				&& !tpl.isHideLHS()
-				&& (!f.isBooleanFunction() || tpl
-						.hasType(StringType.GEOGEBRA_XML))) {
+		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
+				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
 			sb.append("(");
 			sb.append(f.getVarString(tpl));
@@ -503,7 +502,5 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	public ExpressionNode getExpression() {
 		return expression;
 	}
-
-	
 
 }

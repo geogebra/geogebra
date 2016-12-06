@@ -41,8 +41,8 @@ import org.geogebra.common.util.debug.Log;
  *
  * @author Markus
  */
-public class AlgoJoinPoints extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+public class AlgoJoinPoints extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P, Q; // input
 	private GeoLine g; // output

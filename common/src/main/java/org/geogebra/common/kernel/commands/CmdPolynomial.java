@@ -47,8 +47,8 @@ public class CmdPolynomial extends CommandProcessor {
 			// Michael Borcherds 2008-01-22 BEGIN
 			// PolynomialFromCoordinates
 			else if ((arg[0].isGeoList())) {
-				GeoElement[] ret = { PolynomialFunction(c.getLabel(),
-						((GeoList) arg[0])) };
+				GeoElement[] ret = {
+						PolynomialFunction(c.getLabel(), ((GeoList) arg[0])) };
 				return ret;
 			}
 			// Michael Borcherds 2008-01-22 END

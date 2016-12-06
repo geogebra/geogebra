@@ -1,12 +1,10 @@
 package org.geogebra.common.move.ggtapi.models;
 
-
 /**
- * @author gabor
- *	All GGT Request class should implement it
+ * @author gabor All GGT Request class should implement it
  */
 public interface Request {
-	
+
 	/**
 	 * @return JSON.stringify of the given Request
 	 */

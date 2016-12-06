@@ -15,11 +15,9 @@ public class RowHeaderPopupMenu {
 
 	public String getDeleteString(int[] selRows) {
 		if (selRows.length == 1) {
-			return loc.getPlain("DeleteRowA",
-					Integer.toString(selRows[0] + 1));
+			return loc.getPlain("DeleteRowA", Integer.toString(selRows[0] + 1));
 		}
-		return loc.getPlain("DeleteARows",
-				Integer.toString(selRows.length));
+		return loc.getPlain("DeleteARows", Integer.toString(selRows.length));
 	}
 
 }

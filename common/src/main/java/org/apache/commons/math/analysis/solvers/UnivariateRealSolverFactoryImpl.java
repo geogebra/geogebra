@@ -17,42 +17,45 @@
 package org.apache.commons.math.analysis.solvers;
 
 /**
- * A concrete {@link  UnivariateRealSolverFactory}.  This is the default solver factory
- * used by commons-math.
+ * A concrete {@link UnivariateRealSolverFactory}. This is the default solver
+ * factory used by commons-math.
  * <p>
- * The default solver returned by this factory is a {@link BrentSolver}.</p>
+ * The default solver returned by this factory is a {@link BrentSolver}.
+ * </p>
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  */
-public class UnivariateRealSolverFactoryImpl extends UnivariateRealSolverFactory {
+public class UnivariateRealSolverFactoryImpl
+		extends UnivariateRealSolverFactory {
 
-    /**
-     * Default constructor.
-     */
-    public UnivariateRealSolverFactoryImpl() {
-    }
+	/**
+	 * Default constructor.
+	 */
+	public UnivariateRealSolverFactoryImpl() {
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public UnivariateRealSolver newDefaultSolver() {
-        return newBrentSolver();
-    }
+	/** {@inheritDoc} */
+	@Override
+	public UnivariateRealSolver newDefaultSolver() {
+		return newBrentSolver();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public UnivariateRealSolver newBrentSolver() {
-        return new BrentSolver();
-    }
+	/** {@inheritDoc} */
+	@Override
+	public UnivariateRealSolver newBrentSolver() {
+		return new BrentSolver();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public UnivariateRealSolver newNewtonSolver() {
-        return new NewtonSolver();
-    }
+	/** {@inheritDoc} */
+	@Override
+	public UnivariateRealSolver newNewtonSolver() {
+		return new NewtonSolver();
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public UnivariateRealSolver newSecantSolver() {
-        return new SecantSolver();
-    }
+	/** {@inheritDoc} */
+	@Override
+	public UnivariateRealSolver newSecantSolver() {
+		return new SecantSolver();
+	}
 }

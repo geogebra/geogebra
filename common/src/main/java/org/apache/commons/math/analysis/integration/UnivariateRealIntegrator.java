@@ -24,83 +24,101 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 /**
  * Interface for univariate real integration algorithms.
  *
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr.
+ *          2011) $
  * @since 1.2
  */
 public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
 
-   /**
-     * Set the lower limit for the number of iterations.
-     * <p>
-     * Minimal iteration is needed to avoid false early convergence, e.g.
-     * the sample points happen to be zeroes of the function. Users can
-     * use the default value or choose one that they see as appropriate.</p>
-     * <p>
-     * A <code>ConvergenceException</code> will be thrown if this number
-     * is not met.</p>
-     *
-     * @param count minimum number of iterations
-     */
-    void setMinimalIterationCount(int count);
+	/**
+	 * Set the lower limit for the number of iterations.
+	 * <p>
+	 * Minimal iteration is needed to avoid false early convergence, e.g. the
+	 * sample points happen to be zeroes of the function. Users can use the
+	 * default value or choose one that they see as appropriate.
+	 * </p>
+	 * <p>
+	 * A <code>ConvergenceException</code> will be thrown if this number is not
+	 * met.
+	 * </p>
+	 *
+	 * @param count
+	 *            minimum number of iterations
+	 */
+	void setMinimalIterationCount(int count);
 
-    /**
-     * Get the lower limit for the number of iterations.
-     *
-     * @return the actual lower limit
-     */
-    int getMinimalIterationCount();
+	/**
+	 * Get the lower limit for the number of iterations.
+	 *
+	 * @return the actual lower limit
+	 */
+	int getMinimalIterationCount();
 
-    /**
-     * Reset the lower limit for the number of iterations to the default.
-     * <p>
-     * The default value is supplied by the implementation.</p>
-     *
-     * @see #setMinimalIterationCount(int)
-     */
-    void resetMinimalIterationCount();
+	/**
+	 * Reset the lower limit for the number of iterations to the default.
+	 * <p>
+	 * The default value is supplied by the implementation.
+	 * </p>
+	 *
+	 * @see #setMinimalIterationCount(int)
+	 */
+	void resetMinimalIterationCount();
 
-    /**
-     * Integrate the function in the given interval.
-     *
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value of integral
-     * @throws ConvergenceException if the maximum iteration count is exceeded
-     * or the integrator detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the
-     * function
-     * @throws IllegalArgumentException if min > max or the endpoints do not
-     * satisfy the requirements specified by the integrator
-     * @deprecated replaced by {@link #integrate(UnivariateRealFunction, double, double)}
-     * since 2.0
-     */
-    @Deprecated
-    double integrate(double min, double max)
-        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
+	/**
+	 * Integrate the function in the given interval.
+	 *
+	 * @param min
+	 *            the lower bound for the interval
+	 * @param max
+	 *            the upper bound for the interval
+	 * @return the value of integral
+	 * @throws ConvergenceException
+	 *             if the maximum iteration count is exceeded or the integrator
+	 *             detects convergence problems otherwise
+	 * @throws FunctionEvaluationException
+	 *             if an error occurs evaluating the function
+	 * @throws IllegalArgumentException
+	 *             if min > max or the endpoints do not satisfy the requirements
+	 *             specified by the integrator
+	 * @deprecated replaced by
+	 *             {@link #integrate(UnivariateRealFunction, double, double)}
+	 *             since 2.0
+	 */
+	@Deprecated
+	double integrate(double min, double max) throws ConvergenceException,
+			FunctionEvaluationException, IllegalArgumentException;
 
-    /**
-     * Integrate the function in the given interval.
-     *
-     * @param f the integrand function
-     * @param min the lower bound for the interval
-     * @param max the upper bound for the interval
-     * @return the value of integral
-     * @throws ConvergenceException if the maximum iteration count is exceeded
-     * or the integrator detects convergence problems otherwise
-     * @throws FunctionEvaluationException if an error occurs evaluating the function
-     * @throws IllegalArgumentException if min > max or the endpoints do not
-     * satisfy the requirements specified by the integrator
-     */
-    double integrate(UnivariateRealFunction f, double min, double max)
-        throws ConvergenceException, FunctionEvaluationException, IllegalArgumentException;
+	/**
+	 * Integrate the function in the given interval.
+	 *
+	 * @param f
+	 *            the integrand function
+	 * @param min
+	 *            the lower bound for the interval
+	 * @param max
+	 *            the upper bound for the interval
+	 * @return the value of integral
+	 * @throws ConvergenceException
+	 *             if the maximum iteration count is exceeded or the integrator
+	 *             detects convergence problems otherwise
+	 * @throws FunctionEvaluationException
+	 *             if an error occurs evaluating the function
+	 * @throws IllegalArgumentException
+	 *             if min > max or the endpoints do not satisfy the requirements
+	 *             specified by the integrator
+	 */
+	double integrate(UnivariateRealFunction f, double min, double max)
+			throws ConvergenceException, FunctionEvaluationException,
+			IllegalArgumentException;
 
-    /**
-     * Get the result of the last run of the integrator.
-     *
-     * @return the last result
-     * @throws IllegalStateException if there is no result available, either
-     * because no result was yet computed or the last attempt failed
-     */
-    double getResult() throws IllegalStateException;
+	/**
+	 * Get the result of the last run of the integrator.
+	 *
+	 * @return the last result
+	 * @throws IllegalStateException
+	 *             if there is no result available, either because no result was
+	 *             yet computed or the last attempt failed
+	 */
+	double getResult() throws IllegalStateException;
 
 }

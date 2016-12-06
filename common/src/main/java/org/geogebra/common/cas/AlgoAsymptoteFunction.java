@@ -42,7 +42,8 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 	 * @param f
 	 *            function
 	 */
-	public AlgoAsymptoteFunction(Construction cons, String label, GeoFunction f) {
+	public AlgoAsymptoteFunction(Construction cons, String label,
+			GeoFunction f) {
 		super(cons);
 		this.f = f;
 
@@ -103,7 +104,5 @@ public class AlgoAsymptoteFunction extends AlgoElement {
 			g.setUndefined();
 		}
 	}
-
-	
 
 }

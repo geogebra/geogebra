@@ -107,7 +107,8 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	 *            list that wants to add this geo
 	 * @return drawable for the geo
 	 */
-	private DrawableND getDrawable(GeoElement listElement, DrawableND drawList) {
+	private DrawableND getDrawable(GeoElement listElement,
+			DrawableND drawList) {
 
 		DrawableND d = view.getDrawableND(listElement);
 		if (d == null) {

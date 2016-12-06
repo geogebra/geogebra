@@ -59,8 +59,8 @@ public class AlgoFoldExpression extends AlgoElement {
 	 * @param op
 	 */
 	public AlgoFoldExpression(Construction cons, String label,
-			GeoElement expression, GeoNumeric var,
-			GeoNumeric from, GeoNumeric truncate, Operation op) {
+			GeoElement expression, GeoNumeric var, GeoNumeric from,
+			GeoNumeric truncate, Operation op) {
 		super(cons);
 		this.expression = expression;
 		this.var = var;
@@ -68,8 +68,8 @@ public class AlgoFoldExpression extends AlgoElement {
 		this.to = truncate;
 		this.op = op;
 		this.foldComputer = getComputer(expression);
-		resultFun = foldComputer
-				.getTemplate(cons, expression.getGeoClassType());
+		resultFun = foldComputer.getTemplate(cons,
+				expression.getGeoClassType());
 		if (op == Operation.MULTIPLY && resultFun instanceof VectorNDValue) {
 			((VectorNDValue) resultFun).setMode(Kernel.COORD_COMPLEX);
 		}
@@ -79,7 +79,7 @@ public class AlgoFoldExpression extends AlgoElement {
 	}
 
 	private FoldComputer getComputer(GeoElement expression) {
-		switch(expression.getGeoClassType()){
+		switch (expression.getGeoClassType()) {
 		case POINT:
 		case POINT3D:
 		case VECTOR:
@@ -155,7 +155,5 @@ public class AlgoFoldExpression extends AlgoElement {
 		}
 
 	}
-
-	
 
 }

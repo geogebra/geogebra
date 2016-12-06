@@ -84,8 +84,8 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 		} else {
 
 			outputAngles.setLabels(labels);
-			outputAngles.setIndexLabels(outputAngles.getElement(0).getLabel(
-					StringTemplate.defaultTemplate));
+			outputAngles.setIndexLabels(outputAngles.getElement(0)
+					.getLabel(StringTemplate.defaultTemplate));
 		}
 	}
 

@@ -65,5 +65,4 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 				getM().getLabel(tpl), getRGeo().getLabel(tpl));
 	}
 
-	
 }

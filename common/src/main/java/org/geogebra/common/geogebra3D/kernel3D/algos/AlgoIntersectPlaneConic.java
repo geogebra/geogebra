@@ -32,9 +32,9 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	public final void intersect(GeoCoordSys2D plane, GeoConicND c,
 			GeoPoint3D[] P) {
 		// calc intersection line of the plane and the plane including the conic
-		intersection = CoordMatrixUtil
-				.intersectPlanes(plane.getCoordSys().getMatrixOrthonormal(), c
-						.getCoordSys().getMatrixOrthonormal());
+		intersection = CoordMatrixUtil.intersectPlanes(
+				plane.getCoordSys().getMatrixOrthonormal(),
+				c.getCoordSys().getMatrixOrthonormal());
 
 		super.intersect(c, P);
 	}

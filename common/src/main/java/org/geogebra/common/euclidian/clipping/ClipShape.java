@@ -361,8 +361,8 @@ public class ClipShape {
 			eqn[3] = a;
 			if (offset == 0) {
 				// int k = CubicCurve2D.solveCubic(eqn,dest);
-				int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn,
-						dest);
+				int k = AwtFactory.getPrototype().newCubicCurve2D()
+						.solveCubic(eqn, dest);
 				if (k < 0)
 					return 0;
 				return k;
@@ -370,7 +370,8 @@ public class ClipShape {
 			if (t2 == null)
 				t2 = new double[3];
 			// int k = CubicCurve2D.solveCubic(eqn,t2);
-			int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn, t2);
+			int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn,
+					t2);
 			if (k < 0)
 				return 0;
 			for (int i = 0; i < k; i++) {
@@ -519,7 +520,8 @@ public class ClipShape {
 						&& lastY >= rTop && lastY <= rBottom);
 
 				for (int a = 0; a < tCtr; a++) {
-					if (a > 0 && interestingTimes[a] == interestingTimes[a - 1]) {
+					if (a > 0
+							&& interestingTimes[a] == interestingTimes[a - 1]) {
 						// do nothing
 					} else if (interestingTimes[a] > 0
 							&& interestingTimes[a] <= 1) {
@@ -546,11 +548,15 @@ public class ClipShape {
 							cappedY = rBottom;
 						}
 
-						thisValueIsCapped = !(Math.abs(x - cappedX) < TOLERANCE && Math
-								.abs(y - cappedY) < TOLERANCE);
+						thisValueIsCapped = !(Math.abs(x - cappedX) < TOLERANCE
+								&& Math.abs(y - cappedY) < TOLERANCE);
 
-						x2 = xf.evaluate((interestingTimes[a] + interestingTimes[a - 1]) / 2);
-						y2 = yf.evaluate((interestingTimes[a] + interestingTimes[a - 1]) / 2);
+						x2 = xf.evaluate(
+								(interestingTimes[a] + interestingTimes[a - 1])
+										/ 2);
+						y2 = yf.evaluate(
+								(interestingTimes[a] + interestingTimes[a - 1])
+										/ 2);
 						midValueInvalid = !(rLeft <= x2 && x2 <= rRight
 								&& rTop <= y2 && y2 <= rBottom);
 

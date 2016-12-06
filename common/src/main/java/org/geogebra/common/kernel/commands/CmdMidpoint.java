@@ -101,8 +101,8 @@ public class CmdMidpoint extends CommandProcessor {
 	 * @return midpoint for conic
 	 */
 	protected GeoElement[] conic(String label, GeoConicND conic) {
-		GeoElement[] ret = { (GeoElement) getAlgoDispatcher().Center(label,
-				conic) };
+		GeoElement[] ret = {
+				(GeoElement) getAlgoDispatcher().Center(label, conic) };
 		return ret;
 	}
 
@@ -116,7 +116,8 @@ public class CmdMidpoint extends CommandProcessor {
 	 *            second point
 	 * @return midpoint for two points
 	 */
-	protected GeoElement[] twoPoints(String label, GeoPointND p1, GeoPointND p2) {
+	protected GeoElement[] twoPoints(String label, GeoPointND p1,
+			GeoPointND p2) {
 		GeoElement[] ret = { getAlgoDispatcher().Midpoint(label, (GeoPoint) p1,
 				(GeoPoint) p2) };
 		return ret;

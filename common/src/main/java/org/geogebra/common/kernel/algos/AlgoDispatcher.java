@@ -223,8 +223,8 @@ public class AlgoDispatcher {
 	 * Line named label through Point P orthogonal to line l
 	 */
 	final public GeoLine OrthogonalLine(String label, GeoPoint P, GeoLine l) {
-		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label,
-				P, l);
+		AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons, label, P,
+				l);
 		GeoLine g = algo.getLine();
 		return g;
 	}
@@ -262,7 +262,8 @@ public class AlgoDispatcher {
 	/**
 	 * Angular bisectors of lines g, h
 	 */
-	final public GeoLine[] AngularBisector(String[] labels, GeoLine g, GeoLine h) {
+	final public GeoLine[] AngularBisector(String[] labels, GeoLine g,
+			GeoLine h) {
 		AlgoAngularBisectorLines algo = new AlgoAngularBisectorLines(cons,
 				labels, g, h);
 		GeoLine[] lines = algo.getLines();
@@ -399,7 +400,8 @@ public class AlgoDispatcher {
 		GeoPoint A = (GeoPoint) a;
 
 		// create a circle around A with radius n
-		AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius(cons, A, n);
+		AlgoCirclePointRadius algoCircle = new AlgoCirclePointRadius(cons, A,
+				n);
 		cons.removeFromConstructionList(algoCircle);
 		// place the new point on the circle
 		AlgoPointOnPath algoPoint = new AlgoPointOnPath(cons, pointLabel,
@@ -484,7 +486,8 @@ public class AlgoDispatcher {
 	/**
 	 * Angle named label between three points
 	 */
-	final public GeoAngle Angle(String label, GeoPoint A, GeoPoint B, GeoPoint C) {
+	final public GeoAngle Angle(String label, GeoPoint A, GeoPoint B,
+			GeoPoint C) {
 		AlgoAnglePoints algo = new AlgoAnglePoints(cons, label, A, B, C);
 		GeoAngle angle = algo.getAngle();
 		return angle;
@@ -503,8 +506,8 @@ public class AlgoDispatcher {
 	}
 
 	public GeoNumeric getDefaultNumber(boolean isAngle) {
-		return (GeoNumeric) cons.getConstructionDefaults().getDefaultGeo(
-				isAngle ? ConstructionDefaults.DEFAULT_ANGLE
+		return (GeoNumeric) cons.getConstructionDefaults()
+				.getDefaultGeo(isAngle ? ConstructionDefaults.DEFAULT_ANGLE
 						: ConstructionDefaults.DEFAULT_NUMBER);
 	}
 
@@ -547,8 +550,8 @@ public class AlgoDispatcher {
 	 */
 	final public GeoConicPart CircleArcSector(String label, GeoPoint A,
 			GeoPoint B, GeoPoint C, int type) {
-		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B,
-				C, type);
+		AlgoConicPartCircle algo = new AlgoConicPartCircle(cons, label, A, B, C,
+				type);
 		return algo.getConicPart();
 	}
 
@@ -664,7 +667,8 @@ public class AlgoDispatcher {
 	/**
 	 * diameter line conjugate to direction of g relative to c
 	 */
-	final public GeoElement DiameterLine(String label, GeoLineND g, GeoConicND c) {
+	final public GeoElement DiameterLine(String label, GeoLineND g,
+			GeoConicND c) {
 		AlgoDiameterLine algo = new AlgoDiameterLine(cons, label, c, g);
 		return (GeoElement) algo.getDiameter();
 	}
@@ -866,10 +870,10 @@ public class AlgoDispatcher {
 	final public GeoElement[] IntersectPolygons(String[] labels,
 			GeoPolygon poly0, GeoPolygon poly1, boolean asRegion) {
 		if (asRegion) {
-		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
-				labels, poly0, poly1);
-		GeoElement[] polygon = algo.getOutput();
-		return polygon;
+			AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
+					labels, poly0, poly1);
+			GeoElement[] polygon = algo.getOutput();
+			return polygon;
 		} else {
 			AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons,
 					labels, poly0, poly1, true, true);
@@ -886,8 +890,8 @@ public class AlgoDispatcher {
 
 	final public GeoElement[] IntersectPolygons(String[] labels,
 			GeoPolygon poly0, GeoPolygon poly1, int[] outputSizes) {
-		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons,
-				labels, poly0, poly1, outputSizes);
+		AlgoPolygonIntersection algo = new AlgoPolygonIntersection(cons, labels,
+				poly0, poly1, outputSizes);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -897,7 +901,8 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1) {
-		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1);
+		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0,
+				poly1);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -909,8 +914,8 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] Union(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1, int[] outputSizes) {
-		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0,
-				poly1, outputSizes);
+		AlgoPolygonUnion algo = new AlgoPolygonUnion(cons, labels, poly0, poly1,
+				outputSizes);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -985,14 +990,16 @@ public class AlgoDispatcher {
 			return null;
 		return LocusNoCheck(label, Q, P);
 	}
-	
+
 	public static boolean LocusCheck(GeoPointND Q, GeoNumeric P) {
 		return P.isSlider() && P.isDefined() && P.isAnimatable()
 				&& Q.getPath() == null && P.isParentOf(Q);
 	}
 
-	protected GeoElement LocusNoCheck(String label, GeoPointND Q, GeoNumeric P){
-		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, (GeoPoint) Q, P);
+	protected GeoElement LocusNoCheck(String label, GeoPointND Q,
+			GeoNumeric P) {
+		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, (GeoPoint) Q,
+				P);
 		return (GeoLocus) algo.getLocus();
 	}
 
@@ -1051,8 +1058,8 @@ public class AlgoDispatcher {
 	 *
 	 * @author thilina
 	 */
-	final public GeoElement[] IntersectPolyLines(String[] labels,
-			GeoPolyLine g, GeoPolyLine p) {
+	final public GeoElement[] IntersectPolyLines(String[] labels, GeoPolyLine g,
+			GeoPolyLine p) {
 		AlgoIntersectPolyLines algo = new AlgoIntersectPolyLines(cons, labels,
 				g, p, false, false);
 		return algo.getOutput();
@@ -1063,8 +1070,8 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] IntersectCurveCurve(String[] labels,
 			GeoCurveCartesian g, GeoCurveCartesian p) {
-		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons,
-				labels, g, p);
+		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons, labels,
+				g, p);
 		return algo.getOutput();
 	}
 
@@ -1082,9 +1089,8 @@ public class AlgoDispatcher {
 		double t2 = c2.getClosestParameter(p,
 				(c2.getMinParameter() + c2.getMaxParameter()) / 2);
 
-		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons,
-				labels, c1, c2, new GeoNumeric(cons, t1), new GeoNumeric(cons,
-						t2));
+		AlgoIntersectCurveCurve algo = new AlgoIntersectCurveCurve(cons, labels,
+				c1, c2, new GeoNumeric(cons, t1), new GeoNumeric(cons, t2));
 		return algo.getOutput();
 	}
 
@@ -1172,12 +1178,12 @@ public class AlgoDispatcher {
 			// TODO
 			return null;
 		} else {
-		AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
-				(GeoPolygon) g, (GeoConic) c);
-		algo.setPrintedInXML(true);
-		GeoElement[] points = algo.getOutput();
-		GeoElement.setLabels(labels, points);
-		return points;
+			AlgoIntersectPolyLineConic algo = getIntersectionAlgorithm(
+					(GeoPolygon) g, (GeoConic) c);
+			algo.setPrintedInXML(true);
+			GeoElement[] points = algo.getOutput();
+			GeoElement.setLabels(labels, points);
+			return points;
 		}
 	}
 
@@ -1198,8 +1204,8 @@ public class AlgoDispatcher {
 	/**
 	 * IntersectPolynomials yields all intersection points of polynomials a, b
 	 */
-	final public GeoPoint[] IntersectPolynomials(String[] labels,
-			GeoFunction a, GeoFunction b) {
+	final public GeoPoint[] IntersectPolynomials(String[] labels, GeoFunction a,
+			GeoFunction b) {
 		// TODO decide polynomial when CAS not loaded
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 
@@ -1274,11 +1280,10 @@ public class AlgoDispatcher {
 	final public GeoElement[] IntersectPolynomialPolyLine(String[] labels,
 			GeoFunction f, GeoPolyLine pl) {
 
+		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
+				cons, labels, f, pl, false);
 
-			AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
-					cons, labels, f, pl, false);
-
-			return algo.getOutput();
+		return algo.getOutput();
 	}
 
 	/**
@@ -1291,8 +1296,8 @@ public class AlgoDispatcher {
 			GeoFunction f, GeoPolygon pl) {
 
 		AlgoIntersectPolynomialPolyLine algo = new AlgoIntersectPolynomialPolyLine(
-					cons, labels, f, pl, true);
-		
+				cons, labels, f, pl, true);
+
 		return algo.getOutput();
 
 	}
@@ -1305,7 +1310,7 @@ public class AlgoDispatcher {
 	 */
 	final public GeoElement[] IntersectNPFunctionPolyLine(String[] labels,
 			GeoFunction f, GeoPolyLine pl, GeoPoint initPoint) {
-		
+
 		AlgoIntersectNpFunctionPolyLine algo = new AlgoIntersectNpFunctionPolyLine(
 				cons, labels, initPoint, f, pl, false);
 		return algo.getOutput();
@@ -1477,6 +1482,7 @@ public class AlgoDispatcher {
 		p[0] = algo.getP().toGeoElement();
 		return p;
 	}
+
 	// intersect polynomial and conic
 	public AlgoIntersectPolynomialConic getIntersectionAlgorithm(GeoFunction f,
 			GeoConic c) {
@@ -1494,7 +1500,8 @@ public class AlgoDispatcher {
 	}
 
 	// intersect line and conic
-	public AlgoIntersectLineConic getIntersectionAlgorithm(GeoLine g, GeoConic c) {
+	public AlgoIntersectLineConic getIntersectionAlgorithm(GeoLine g,
+			GeoConic c) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(g, c);
 		if (existingAlgo != null)
 			return (AlgoIntersectLineConic) existingAlgo;
@@ -1537,7 +1544,8 @@ public class AlgoDispatcher {
 	}
 
 	// intersect conics
-	public AlgoIntersectConics getIntersectionAlgorithm(GeoConic a, GeoConic b) {
+	public AlgoIntersectConics getIntersectionAlgorithm(GeoConic a,
+			GeoConic b) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(a, b);
 		if (existingAlgo != null)
 			return (AlgoIntersectConics) existingAlgo;
@@ -1557,7 +1565,8 @@ public class AlgoDispatcher {
 			return (AlgoIntersectPolynomials) existingAlgo;
 
 		// we didn't find a matching algorithm, so create a new one
-		AlgoIntersectPolynomials algo = new AlgoIntersectPolynomials(cons, a, b);
+		AlgoIntersectPolynomials algo = new AlgoIntersectPolynomials(cons, a,
+				b);
 		algo.setPrintedInXML(false);
 		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
@@ -1571,8 +1580,8 @@ public class AlgoDispatcher {
 			return (AlgoIntersectPolynomialLine) existingAlgo;
 
 		// we didn't find a matching algorithm, so create a new one
-		AlgoIntersectPolynomialLine algo = new AlgoIntersectPolynomialLine(
-				cons, a, l);
+		AlgoIntersectPolynomialLine algo = new AlgoIntersectPolynomialLine(cons,
+				a, l);
 		algo.setPrintedInXML(false);
 		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
@@ -1639,8 +1648,7 @@ public class AlgoDispatcher {
 	}
 
 	// intersection of two GeoImplicitPoly
-	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(
-GeoImplicit p1,
+	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(GeoImplicit p1,
 			GeoImplicit p2) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, p2);
 		if (existingAlgo != null)
@@ -1654,8 +1662,7 @@ GeoImplicit p1,
 		return algo;
 	}
 
-	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(
-GeoImplicit p1,
+	public AlgoIntersectImplicitpolys getIntersectionAlgorithm(GeoImplicit p1,
 			GeoConic c1) {
 		AlgoElement existingAlgo = findExistingIntersectionAlgorithm(p1, c1);
 		if (existingAlgo != null)
@@ -1676,8 +1683,8 @@ GeoImplicit p1,
 		for (int i = 0; i < size; i++) {
 			algo = intersectionAlgos.get(i);
 			GeoElement[] input = algo.getInput();
-			if (a == input[0] && b == input[1] || a == input[1]
-					&& b == input[0])
+			if (a == input[0] && b == input[1]
+					|| a == input[1] && b == input[0])
 				// we found an existing intersection algorithm
 				return algo;
 		}
@@ -1705,7 +1712,8 @@ GeoImplicit p1,
 	/**
 	 * tangents to c parallel to g
 	 */
-	final public GeoElement[] Tangent(String[] labels, GeoLineND g, GeoConicND c) {
+	final public GeoElement[] Tangent(String[] labels, GeoLineND g,
+			GeoConicND c) {
 		AlgoTangentLine algo = new AlgoTangentLine(cons, labels, g, c);
 		return algo.getOutput();
 	}
@@ -1722,14 +1730,13 @@ GeoImplicit p1,
 	 * tangents to p through P
 	 */
 	final public GeoLine[] Tangent(String[] labels, GeoPointND R,
- GeoImplicit p) {
-		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons,
-				labels, p, R);
+			GeoImplicit p) {
+		AlgoTangentImplicitpoly algo = new AlgoTangentImplicitpoly(cons, labels,
+				p, R);
 		algo.setLabels(labels);
 		GeoLine[] tangents = algo.getTangents();
 		return tangents;
 	}
-
 
 	/**
 	 * tangents to p parallel to g
@@ -1761,7 +1768,8 @@ GeoImplicit p1,
 	/**
 	 * mirror geoMir at point Q
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement geoMir, GeoPoint Q) {
+	final public GeoElement[] Mirror(String label, GeoElement geoMir,
+			GeoPoint Q) {
 		Transform t = new TransformMirror(cons, Q);
 		return t.transform(geoMir, label);
 	}
@@ -1769,7 +1777,8 @@ GeoImplicit p1,
 	/**
 	 * mirror (invert) element Q in circle Michael Borcherds 2008-02-10
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement Q, GeoConic conic) {
+	final public GeoElement[] Mirror(String label, GeoElement Q,
+			GeoConic conic) {
 		Transform t = new TransformMirror(cons, conic);
 		return t.transform(Q, label);
 	}
@@ -1777,7 +1786,8 @@ GeoImplicit p1,
 	/**
 	 * mirror geoMir at line g
 	 */
-	final public GeoElement[] Mirror(String label, GeoElement geoMir, GeoLine g) {
+	final public GeoElement[] Mirror(String label, GeoElement geoMir,
+			GeoLine g) {
 		Transform t = new TransformMirror(cons, g);
 		return t.transform(geoMir, label);
 
@@ -1793,10 +1803,8 @@ GeoImplicit p1,
 
 			boolean setDefaultColor = false;
 			if (((GeoElement) point).getColorFunction() == null) {
-				setDefaultColor = ((GeoElement) point)
-						.getObjectColor()
-						.equals(cons
-								.getConstructionDefaults()
+				setDefaultColor = ((GeoElement) point).getObjectColor()
+						.equals(cons.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_POINT_FREE)
 								.getObjectColor());
@@ -1810,8 +1818,7 @@ GeoImplicit p1,
 			// clearSelections();
 
 			if (setDefaultColor) {
-				newPoint.setObjColor(cons
-						.getConstructionDefaults()
+				newPoint.setObjColor(cons.getConstructionDefaults()
 						.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_POINT_ON_PATH)
 						.getObjectColor());
@@ -1838,10 +1845,8 @@ GeoImplicit p1,
 
 			boolean setDefaultColor = false;
 			if (((GeoElement) point).getColorFunction() == null) {
-				setDefaultColor = ((GeoElement) point)
-						.getObjectColor()
-						.equals(cons
-								.getConstructionDefaults()
+				setDefaultColor = ((GeoElement) point).getObjectColor()
+						.equals(cons.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_POINT_FREE)
 								.getObjectColor());
@@ -1854,8 +1859,7 @@ GeoImplicit p1,
 			cons.replace((GeoElement) point, (GeoElement) newPoint);
 
 			if (setDefaultColor) {
-				newPoint.setObjColor(cons
-						.getConstructionDefaults()
+				newPoint.setObjColor(cons.getConstructionDefaults()
 						.getDefaultGeo(
 								ConstructionDefaults.DEFAULT_POINT_IN_REGION)
 						.getObjectColor());
@@ -1878,18 +1882,14 @@ GeoImplicit p1,
 			boolean setDefaultColor = false;
 			if (((GeoElement) p).getColorFunction() == null) {
 				if (p.hasPath()) {
-					setDefaultColor = ((GeoElement) p)
-							.getObjectColor()
-							.equals(cons
-									.getConstructionDefaults()
+					setDefaultColor = ((GeoElement) p).getObjectColor()
+							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
 									.getObjectColor());
 				} else if (p.hasRegion()) {
-					setDefaultColor = ((GeoElement) p)
-							.getObjectColor()
-							.equals(cons
-									.getConstructionDefaults()
+					setDefaultColor = ((GeoElement) p).getObjectColor()
+							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_IN_REGION)
 									.getObjectColor());
@@ -1943,26 +1943,23 @@ GeoImplicit p1,
 	 *            new real world y-coordinate
 	 * @return success
 	 */
-	public boolean detach(GeoPointND point, double d, double e, boolean wasOnPath, boolean wasOnRegion) {
+	public boolean detach(GeoPointND point, double d, double e,
+			boolean wasOnPath, boolean wasOnRegion) {
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			
+
 			boolean setDefaultColor = false;
 			if (((GeoElement) point).getColorFunction() == null) {
 				if (wasOnPath) {
-					setDefaultColor = ((GeoElement) point)
-							.getObjectColor()
-							.equals(cons
-									.getConstructionDefaults()
+					setDefaultColor = ((GeoElement) point).getObjectColor()
+							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
 									.getObjectColor());
 				} else if (wasOnRegion) {
-					setDefaultColor = ((GeoElement) point)
-							.getObjectColor()
-							.equals(cons
-									.getConstructionDefaults()
+					setDefaultColor = ((GeoElement) point).getObjectColor()
+							.equals(cons.getConstructionDefaults()
 									.getDefaultGeo(
 											ConstructionDefaults.DEFAULT_POINT_IN_REGION)
 									.getObjectColor());
@@ -1973,7 +1970,7 @@ GeoImplicit p1,
 			GeoPoint newPoint = new GeoPoint(cons, null, d, e, 1.0);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, newPoint);
-			
+
 			if (setDefaultColor) {
 				newPoint.setObjColor(cons.getConstructionDefaults()
 						.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE)

@@ -206,12 +206,10 @@ public class AlgoContourPlot extends AlgoElement {
 		if (val > max) {
 			calcmax = val;
 		}
-		newContours += minadded > calcmin ? Math.ceil(Math.abs(minadded
-				- calcmin)
-				/ step) : 0;
-		newContours += maxadded < calcmax ? Math.ceil(Math.abs(calcmax
-				- maxadded)
-				/ step) : 0;
+		newContours += minadded > calcmin
+				? Math.ceil(Math.abs(minadded - calcmin) / step) : 0;
+		newContours += maxadded < calcmax
+				? Math.ceil(Math.abs(calcmax - maxadded) / step) : 0;
 		calcxmin -= xstep;
 		calcxmax += xstep;
 		calcymin -= ystep;
@@ -321,7 +319,7 @@ public class AlgoContourPlot extends AlgoElement {
 		int count = 0;
 		for (int i = 0; i < list.size(); i++) {
 			/* if (((GeoImplicitCurve) (list.get(i))).isOnScreen()) { */
-				count++;
+			count++;
 			// }
 		}
 		return count;

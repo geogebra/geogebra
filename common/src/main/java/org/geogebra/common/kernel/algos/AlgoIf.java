@@ -45,7 +45,8 @@ public class AlgoIf extends AlgoElement {
 	 *            may be null
 	 */
 	public AlgoIf(Construction cons, String label,
-			ArrayList<GeoBoolean> conditions, ArrayList<GeoElement> alternatives) {
+			ArrayList<GeoBoolean> conditions,
+			ArrayList<GeoElement> alternatives) {
 		super(cons);
 		this.conditions = conditions;
 		this.alternatives = alternatives;
@@ -120,12 +121,13 @@ public class AlgoIf extends AlgoElement {
 	private void setResult(GeoElement newResult) {
 		result.set(newResult);
 		if (!newResult.isIndependent()) {
-		result.setDefinition(newResult.getDefinition() == null ? null
-				: newResult.getDefinition().deepCopy(kernel));
+			result.setDefinition(newResult.getDefinition() == null ? null
+					: newResult.getDefinition().deepCopy(kernel));
 		}
 		if (newResult.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-			result.setDrawAlgorithm(((DrawInformationAlgo) newResult
-					.getDrawAlgorithm()).copy());
+			result.setDrawAlgorithm(
+					((DrawInformationAlgo) newResult.getDrawAlgorithm())
+							.copy());
 		}
 
 	}
@@ -134,18 +136,20 @@ public class AlgoIf extends AlgoElement {
 	public ExpressionNode toExpression() {
 		if (this.alternatives.size() == 1) {
 			return new ExpressionNode(kernel,
-					kernel.convertNumberValueToExpressionNode(this.conditions
-							.get(0)), Operation.IF,
-					kernel.convertNumberValueToExpressionNode(this.alternatives
-							.get(0)));
+					kernel.convertNumberValueToExpressionNode(
+							this.conditions.get(0)),
+					Operation.IF, kernel.convertNumberValueToExpressionNode(
+							this.alternatives.get(0)));
 		} else if (this.conditions.size() == 1) {
-			return new ExpressionNode(kernel, new MyNumberPair(kernel,
-					kernel.convertNumberValueToExpressionNode(this.conditions
-							.get(0)),
-					kernel.convertNumberValueToExpressionNode(this.alternatives
-							.get(0))), Operation.IF_ELSE,
-					kernel.convertNumberValueToExpressionNode(this.alternatives
-							.get(1)));
+			return new ExpressionNode(kernel,
+					new MyNumberPair(kernel,
+							kernel.convertNumberValueToExpressionNode(
+									this.conditions.get(0)),
+							kernel.convertNumberValueToExpressionNode(
+									this.alternatives.get(0))),
+					Operation.IF_ELSE,
+					kernel.convertNumberValueToExpressionNode(
+							this.alternatives.get(1)));
 		}
 		MyList cond = new MyList(kernel), funs = new MyList(kernel);
 		for (GeoBoolean f : conditions) {
@@ -167,5 +171,4 @@ public class AlgoIf extends AlgoElement {
 		return false;
 	}
 
-	
 }

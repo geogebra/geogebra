@@ -99,8 +99,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 		// center = conicPart.getTranslationVector();
 		halfAxes = ((GeoConicND) initConicPart).getHalfAxes();
 		// arc or sector?
-		closure = initConicPart.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR ? GArc2D.PIE
-				: GArc2D.OPEN;
+		closure = initConicPart
+				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR
+						? GArc2D.PIE : GArc2D.OPEN;
 	}
 
 	/**
@@ -159,9 +160,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 
 			// shape on screen?
-			if (shape != null
-					&& !shape.intersects(0, 0, view.getWidth(),
-							view.getHeight())) {
+			if (shape != null && !shape.intersects(0, 0, view.getWidth(),
+					view.getHeight())) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -170,8 +170,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			// draw trace
 			if (((Traceable) conicPart).getTrace()) {
 				isTracing = true;
-				GGraphics2D g2 = view
-						.getBackgroundGraphics();
+				GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -191,7 +190,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 		// check for huge pixel radius
 		double xradius = halfAxes[0] * view.getXscale();
 		double yradius = halfAxes[1] * view.getYscale();
-		if (xradius > DrawConic.HUGE_RADIUS || yradius > DrawConic.HUGE_RADIUS) {
+		if (xradius > DrawConic.HUGE_RADIUS
+				|| yradius > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
 		}
@@ -215,8 +215,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 			if (isPreview) { // coords have been calculated in view
 				ev[j] = ((GeoConicND) conicPart).getEigenvec3D(j);
 			} else {
-				ev[j] = view.getCoordsForView(((GeoConicND) conicPart)
-						.getEigenvec3D(j));
+				ev[j] = view.getCoordsForView(
+						((GeoConicND) conicPart).getEigenvec3D(j));
 				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
 					isVisible = false;
 					return;
@@ -225,15 +225,14 @@ public class DrawConicPart extends Drawable implements Previewable {
 		}
 
 		// set arc
-		arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0],
-				2 * halfAxes[1],
+		arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0], 2 * halfAxes[1],
 				-Math.toDegrees(conicPart.getParameterStart()),
 				-Math.toDegrees(conicPart.getParameterExtent()), closure);
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		transform.concatenate(view.getCompanion().getTransform(
-				(GeoConicND) conicPart, M, ev));
+		transform.concatenate(view.getCompanion()
+				.getTransform((GeoConicND) conicPart, M, ev));
 
 		// BIG RADIUS: larger than screen diagonal
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
@@ -242,9 +241,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 			shape = transform.createTransformedShape(arc);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arc, transform, AwtFactory.getPrototype()
-					.newRectangle(-1, -1, view.getWidth() + 2,
-							view.getHeight() + 2));
+			shape = ClipShape.clipToRect(arc, transform,
+					AwtFactory.getPrototype().newRectangle(-1, -1,
+							view.getWidth() + 2, view.getHeight() + 2));
 		}
 
 		// label position
@@ -267,8 +266,10 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		if (drawSegment == null
 				// also needs re-initing when changing Rays <-> Segment
-				|| (conicPart.positiveOrientation() && draw_type != DRAW_TYPE_SEGMENT)
-				|| (!conicPart.positiveOrientation() && draw_type != DRAW_TYPE_RAYS)) { // init
+				|| (conicPart.positiveOrientation()
+						&& draw_type != DRAW_TYPE_SEGMENT)
+				|| (!conicPart.positiveOrientation()
+						&& draw_type != DRAW_TYPE_RAYS)) { // init
 			GeoLine[] lines = ((GeoConicND) conicPart).getLines();
 			drawSegment = new DrawSegment(view, lines[0]);
 			drawRay1 = new DrawRay(view, lines[0]);
@@ -309,7 +310,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			switch (draw_type) {
 			case DRAW_TYPE_ELLIPSE:
 				fill(g2, shape); // fill using default/hatching/image as
-										// appropriate
+									// appropriate
 
 				if (geo.doHighlighting()) {
 					g2.setPaint(geo.getSelColor());
@@ -373,7 +374,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
 			fill(g2, shape); // fill using default/hatching/image as
-									// appropriate
+								// appropriate
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(shape);
@@ -406,7 +407,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			arcMode = previewMode == EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS ? GeoConicNDConstants.CONIC_PART_ARC
+			arcMode = previewMode == EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS
+					? GeoConicNDConstants.CONIC_PART_ARC
 					: GeoConicNDConstants.CONIC_PART_SECTOR;
 			AlgoConicPartCircle algo = new AlgoConicPartCircle(cons,
 					previewTempPoints[0], previewTempPoints[1],
@@ -418,8 +420,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
 
-
-			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS ? GeoConicNDConstants.CONIC_PART_ARC
+			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS
+					? GeoConicNDConstants.CONIC_PART_ARC
 					: GeoConicNDConstants.CONIC_PART_SECTOR;
 			AlgoConicPartCircumcircle algo2 = new AlgoConicPartCircumcircle(
 					cons, previewTempPoints[0], previewTempPoints[1],
@@ -439,8 +441,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;
 		if (isVisible) {
 			for (int i = 0; i < prevPoints.size(); i++) {
-				Coords c = view.getCoordsForView(prevPoints.get(i)
-						.getCoordsInD3());
+				Coords c = view
+						.getCoordsForView(prevPoints.get(i).getCoordsInD3());
 				// Log.debug("\n"+c);
 				if (!Kernel.isZero(c.getZ())) {
 					previewTempPoints[i].setUndefined();
@@ -457,15 +459,13 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 			// avoid random line when mouse is over one of the 2 initial points
 			if (prevPoints.size() == 2) {
-				if (Kernel.isEqual(prevPoints.get(0).getInhomX(), xRW)
-						&& Kernel
-								.isEqual(previewTempPoints[0].getInhomY(), yRW)) {
+				if (Kernel.isEqual(prevPoints.get(0).getInhomX(), xRW) && Kernel
+						.isEqual(previewTempPoints[0].getInhomY(), yRW)) {
 					isVisible = false;
 					return;
 				}
-				if (Kernel.isEqual(prevPoints.get(1).getInhomX(), xRW)
-						&& Kernel
-								.isEqual(previewTempPoints[1].getInhomY(), yRW)) {
+				if (Kernel.isEqual(prevPoints.get(1).getInhomX(), xRW) && Kernel
+						.isEqual(previewTempPoints[1].getInhomY(), yRW)) {
 					isVisible = false;
 					return;
 				}
@@ -505,17 +505,17 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 			return strokedShape.intersects(rect);
 
-			/*
-			 * // sector: take shape for hit testing if (closure == Arc2D.PIE) {
-			 * return shape.intersects(x-2, y-2, 4, 4) && !shape.contains(x-2,
-			 * y-2, 4, 4); } else { if (tempPoint == null) { tempPoint = new
-			 * GeoPoint(conicPart.getConstruction()); }
-			 * 
-			 * double rwX = view.toRealWorldCoordX(x); double rwY =
-			 * view.toRealWorldCoordY(y); double maxError = 4 * view.invXscale;
-			 * // pixel tempPoint.setCoords(rwX, rwY, 1.0); return
-			 * conicPart.isOnPath(tempPoint, maxError); }
-			 */
+		/*
+		 * // sector: take shape for hit testing if (closure == Arc2D.PIE) {
+		 * return shape.intersects(x-2, y-2, 4, 4) && !shape.contains(x-2, y-2,
+		 * 4, 4); } else { if (tempPoint == null) { tempPoint = new
+		 * GeoPoint(conicPart.getConstruction()); }
+		 * 
+		 * double rwX = view.toRealWorldCoordX(x); double rwY =
+		 * view.toRealWorldCoordY(y); double maxError = 4 * view.invXscale; //
+		 * pixel tempPoint.setCoords(rwX, rwY, 1.0); return
+		 * conicPart.isOnPath(tempPoint, maxError); }
+		 */
 
 		case DRAW_TYPE_SEGMENT:
 			return drawSegment.intersectsRectangle(rect);
@@ -541,12 +541,11 @@ public class DrawConicPart extends Drawable implements Previewable {
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape(shape);
 			}
-			pathHit = strokedShape.intersects(x - hitThreshold, y
-					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-			if (!pathHit
-					&& geo.isFilled()) {
-				regionHit = shape.intersects(x - hitThreshold,
-						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			pathHit = strokedShape.intersects(x - hitThreshold,
+					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+			if (!pathHit && geo.isFilled()) {
+				regionHit = shape.intersects(x - hitThreshold, y - hitThreshold,
+						2 * hitThreshold, 2 * hitThreshold);
 			}
 			break;
 

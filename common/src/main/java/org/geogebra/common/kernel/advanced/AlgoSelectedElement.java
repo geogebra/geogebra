@@ -42,7 +42,8 @@ public class AlgoSelectedElement extends AlgoElement {
 	 * @param label
 	 * @param geoList
 	 */
-	public AlgoSelectedElement(Construction cons, String label, GeoList geoList) {
+	public AlgoSelectedElement(Construction cons, String label,
+			GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
 
@@ -103,7 +104,5 @@ public class AlgoSelectedElement extends AlgoElement {
 			element.setUndefined();
 		}
 	}
-
-	
 
 }

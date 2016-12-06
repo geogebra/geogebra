@@ -18,12 +18,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * Elements rotateable around origin
  *
  */
-public interface Rotateable extends GeoElementND{
+public interface Rotateable extends GeoElementND {
 	/**
 	 * Rotates this element around origin
-	 * @param r angle
+	 * 
+	 * @param r
+	 *            angle
 	 */
 	public void rotate(NumberValue r);
 
 }
-

@@ -17,8 +17,9 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	}
 
 	private AbsoluteScreenLocateable getAbsoluteScreenLocateable(int index) {
-		return (AbsoluteScreenLocateable)getObjectAt(index);
+		return (AbsoluteScreenLocateable) getObjectAt(index);
 	}
+
 	@Override
 	public boolean getValueAt(int index) {
 		// TODO Auto-generated method stub
@@ -31,7 +32,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 			AbsoluteScreenLocateable geo = getAbsoluteScreenLocateable(index);
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		if (value) {
+			if (value) {
 				// convert real world to screen coords
 				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
 				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
@@ -39,10 +40,8 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 					geo.setAbsoluteScreenLoc(x, y);
 			} else {
 				// convert screen coords to real world
-				double x = ev.toRealWorldCoordX(geo
-						.getAbsoluteScreenLocX());
-				double y = ev.toRealWorldCoordY(geo
-						.getAbsoluteScreenLocY());
+				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
+				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
 				if (geo.isAbsoluteScreenLocActive())
 					geo.setRealWorldLoc(x, y);
 			}
@@ -55,8 +54,8 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 			// geo could be redefined, so need to change geos[i] to
 			// new geo
-			geo = EuclidianStyleBarStatic.applyFixPosition(al,
-					value, app.getActiveEuclidianView());
+			geo = EuclidianStyleBarStatic.applyFixPosition(al, value,
+					app.getActiveEuclidianView());
 		}
 		storeUndoInfo();
 	}
@@ -66,13 +65,13 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		GeoElement geo = getGeoAt(index);
 		if (geo instanceof AbsoluteScreenLocateable) {
 			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-			if (!absLoc.isAbsoluteScreenLocateable()
-					|| geo.isGeoBoolean() || geo instanceof Furniture)
+			if (!absLoc.isAbsoluteScreenLocateable() || geo.isGeoBoolean()
+					|| geo instanceof Furniture)
 				return false;
 		} else if (!geo.isPinnable()) {
 			return false;
 		}
-	
+
 		return true;
 	}
 

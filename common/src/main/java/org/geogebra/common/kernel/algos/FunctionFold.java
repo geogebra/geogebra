@@ -15,16 +15,24 @@ public class FunctionFold implements FoldComputer {
 
 	private GeoFunction resultFun;
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.kernel.algos.FoldComputer#getTemplate(org.geogebra.common.kernel.Construction)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.algos.FoldComputer#getTemplate(org.geogebra.
+	 * common.kernel.Construction)
 	 */
 	@Override
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.resultFun = new GeoFunction(cons);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.kernel.algos.FoldComputer#add(org.geogebra.common.kernel.geos.GeoElement, org.geogebra.common.plugin.Operation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.algos.FoldComputer#add(org.geogebra.common.
+	 * kernel.geos.GeoElement, org.geogebra.common.plugin.Operation)
 	 */
 	@Override
 	public void add(GeoElement geoElement, Operation op) {
@@ -33,8 +41,12 @@ public class FunctionFold implements FoldComputer {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.kernel.algos.FoldComputer#setFrom(org.geogebra.common.kernel.geos.GeoElement, org.geogebra.common.kernel.Kernel)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.algos.FoldComputer#setFrom(org.geogebra.common
+	 * .kernel.geos.GeoElement, org.geogebra.common.kernel.Kernel)
 	 */
 	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
@@ -48,8 +60,8 @@ public class FunctionFold implements FoldComputer {
 		FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
 		FunctionVariable x = new FunctionVariable(kernel);
 
-		ExpressionNode left = fun1.getFunctionExpression().getCopy(
-				fun1.getKernel());
+		ExpressionNode left = fun1.getFunctionExpression()
+				.getCopy(fun1.getKernel());
 
 		Function f = new Function(left.replace(x1, x).wrap(), x);
 
@@ -58,8 +70,12 @@ public class FunctionFold implements FoldComputer {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see org.geogebra.common.kernel.algos.FoldComputer#check(org.geogebra.common.kernel.geos.GeoElement)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.algos.FoldComputer#check(org.geogebra.common.
+	 * kernel.geos.GeoElement)
 	 */
 	@Override
 	public boolean check(GeoElement geoElement) {

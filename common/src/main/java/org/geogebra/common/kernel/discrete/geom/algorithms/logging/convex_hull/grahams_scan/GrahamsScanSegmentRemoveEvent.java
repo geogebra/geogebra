@@ -29,21 +29,21 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
  *
  * @author cyberpython
  */
-public class GrahamsScanSegmentRemoveEvent extends LogEvent{
+public class GrahamsScanSegmentRemoveEvent extends LogEvent {
 
-    private Segment2D s;
+	private Segment2D s;
 
-    public GrahamsScanSegmentRemoveEvent(Segment2D s){
-        this.s = s;
-    }
+	public GrahamsScanSegmentRemoveEvent(Segment2D s) {
+		this.s = s;
+	}
 
-    public Segment2D getSegment(){
-        return this.s;
-    }
+	public Segment2D getSegment() {
+		return this.s;
+	}
 
-    @Override
-    public String toString(){
-        return "REMOVE: "+this.s.toString();
-    }
+	@Override
+	public String toString() {
+		return "REMOVE: " + this.s.toString();
+	}
 
 }

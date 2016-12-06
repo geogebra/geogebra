@@ -115,6 +115,4 @@ public class AlgoResidualPlot extends AlgoElement {
 		}
 	}
 
-	
-
 }

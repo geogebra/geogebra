@@ -243,8 +243,8 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	/** c = Vector (Cross) Product of a and b */
-	final public static void vectorProduct(GeoVecInterface a,
-			GeoVecInterface b, Geo3DVec c) {
+	final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
+			Geo3DVec c) {
 		// tempX/Y needed because a and c can be the same variable
 		double tempX = a.getY() * b.getZ() - a.getZ() * b.getY();
 		double tempY = -a.getX() * b.getZ() + a.getZ() * b.getX();
@@ -556,11 +556,13 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	public Geo3DVec round() {
-		return new Geo3DVec(kernel, Math.round(x), Math.round(y), Math.round(z));
+		return new Geo3DVec(kernel, Math.round(x), Math.round(y),
+				Math.round(z));
 	}
 
 	public Geo3DVec floor() {
-		return new Geo3DVec(kernel, Math.floor(x), Math.floor(y), Math.floor(z));
+		return new Geo3DVec(kernel, Math.floor(x), Math.floor(y),
+				Math.floor(z));
 	}
 
 	public Geo3DVec ceil() {

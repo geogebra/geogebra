@@ -26,24 +26,25 @@ package org.apache.commons.math.stat.ranking;
  * <code>Double.POSITIVE_INFINITY</code></li>
  * <li>REMOVED - NaNs are removed before the rank transform is applied</li>
  * <li>FIXED - NaNs are left "in place," that is the rank transformation is
- * applied to the other elements in the input array, but the NaN elements
- * are returned unchanged.</li>
+ * applied to the other elements in the input array, but the NaN elements are
+ * returned unchanged.</li>
  * </ul>
  *
  * @since 2.0
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  */
 public enum NaNStrategy {
 
-    /** NaNs are considered minimal in the ordering */
-    MINIMAL,
+	/** NaNs are considered minimal in the ordering */
+	MINIMAL,
 
-    /** NaNs are considered maximal in the ordering */
-    MAXIMAL,
+	/** NaNs are considered maximal in the ordering */
+	MAXIMAL,
 
-    /** NaNs are removed before computing ranks */
-    REMOVED,
+	/** NaNs are removed before computing ranks */
+	REMOVED,
 
-    /** NaNs are left in place */
-    FIXED
+	/** NaNs are left in place */
+	FIXED
 }

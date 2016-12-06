@@ -1,8 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
-
 /**
- * Interface for geos coming from a "meta geo", e.g. a segment coming from a polygon
+ * Interface for geos coming from a "meta geo", e.g. a segment coming from a
+ * polygon
+ * 
  * @author mathieu
  *
  */

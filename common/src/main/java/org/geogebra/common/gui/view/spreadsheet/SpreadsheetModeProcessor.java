@@ -23,6 +23,7 @@ public class SpreadsheetModeProcessor {
 		this.copyPasteCut = table.getCopyPasteCut();
 		this.table = table;
 	}
+
 	/**
 	 * Creates autofunction cells based on the given cell range and the current
 	 * autofunction mode.
@@ -51,13 +52,10 @@ public class SpreadsheetModeProcessor {
 				// create new targetCell
 				if (isOK) {
 					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell
-							.setLabel(GeoElementSpreadsheet
+					targetCell.setLabel(GeoElementSpreadsheet
 							.getSpreadsheetCellName(maxColumn, row));
-					createAutoFunctionCell(
-							targetCell,
-							new CellRange(app, cr.getMinColumn(), row,
-									maxColumn - 1, row));
+					createAutoFunctionCell(targetCell, new CellRange(app,
+							cr.getMinColumn(), row, maxColumn - 1, row));
 				}
 			}
 
@@ -98,7 +96,7 @@ public class SpreadsheetModeProcessor {
 	}
 
 	private int getMaxUsedColumn(CellRange cr) {
-		
+
 		if (cr.isRow() || cr.isColumn()) {
 			return cr.getMaxColumn();
 		}
@@ -106,7 +104,7 @@ public class SpreadsheetModeProcessor {
 		for (int row = cr.getMinRow(); row <= cr.getMaxRow(); row++) {
 			if (kernel.getGeoAt(cr.getMaxColumn(), row) != null) {
 				return cr.getMaxColumn();
-				}
+			}
 		}
 
 		return cr.getMaxColumn() - 1;
@@ -126,6 +124,7 @@ public class SpreadsheetModeProcessor {
 
 		return cr.getMaxRow() - 1;
 	}
+
 	/**
 	 * Creates an autofunction in the given target cell based on the current
 	 * autofunction mode and the given cell range.
@@ -157,8 +156,8 @@ public class SpreadsheetModeProcessor {
 		Log.debug(expr);
 		// Create the new geo
 		if (!cr.contains(targetCell)) {
-			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(
-					expr, false);
+			kernel.getAlgebraProcessor().processAlgebraCommandNoExceptions(expr,
+					false);
 		} else {
 			targetCell.setUndefined();
 			success = false;
@@ -175,8 +174,8 @@ public class SpreadsheetModeProcessor {
 
 		table.setTableMode(MyTable.TABLE_MODE_STANDARD);
 
-		if (createAutoFunctionCell(targetCell, table.getSelectedCellRanges()
-				.get(0))) {
+		if (createAutoFunctionCell(targetCell,
+				table.getSelectedCellRanges().get(0))) {
 			// select the new geo
 			app.setMoveMode();
 			GPoint coords = targetCell.getSpreadsheetCoords();
@@ -187,8 +186,8 @@ public class SpreadsheetModeProcessor {
 
 	public void initTargetCell(int minSelectionColumn, int minSelectionRow) {
 		targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-		targetCell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(
-				minSelectionColumn, minSelectionRow));
+		targetCell.setLabel(GeoElementSpreadsheet
+				.getSpreadsheetCellName(minSelectionColumn, minSelectionRow));
 		targetCell.setUndefined();
 
 	}
@@ -200,8 +199,7 @@ public class SpreadsheetModeProcessor {
 	 */
 	public void updateAutoFunction() {
 
-		if (targetCell == null
-				|| table.getSelectedCellRanges().get(0).isEmpty()
+		if (targetCell == null || table.getSelectedCellRanges().get(0).isEmpty()
 				|| table.getTableMode() != MyTable.TABLE_MODE_AUTOFUNCTION) {
 			app.setMoveMode();
 			return;
@@ -228,8 +226,8 @@ public class SpreadsheetModeProcessor {
 
 		// Evaluate the autofunction and put the result in targetCell
 		if (!table.getSelectedCellRanges().get(0).contains(targetCell)) {
-			((GeoNumeric) targetCell).setValue(kernel.getAlgebraProcessor()
-					.evaluateToDouble(expr));
+			((GeoNumeric) targetCell).setValue(
+					kernel.getAlgebraProcessor().evaluateToDouble(expr));
 		} else {
 			((GeoNumeric) targetCell).setUndefined();
 		}

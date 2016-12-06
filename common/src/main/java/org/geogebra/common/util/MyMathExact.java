@@ -229,8 +229,8 @@ public class MyMathExact {
 
 			for (int i = 0; i < m; i++)
 				for (int j = 0; j < n; j++)
-					ret = ret.add(matrix.getEntry(i, j).multiply(
-							matrix.getEntry(i, j)));
+					ret = ret.add(matrix.getEntry(i, j)
+							.multiply(matrix.getEntry(i, j)));
 
 			return ret;
 		}
@@ -238,9 +238,8 @@ public class MyMathExact {
 		public MyDecimalMatrix multiply(MyDecimalMatrix m) {
 
 			if (this.getColumnDimension() != m.getRowDimension()) {
-				throw MathRuntimeException
-						.createIllegalArgumentException("Cannot multiply "
-								+ getRowDimension() + " x "
+				throw MathRuntimeException.createIllegalArgumentException(
+						"Cannot multiply " + getRowDimension() + " x "
 								+ getColumnDimension() + " and "
 								+ m.getRowDimension() + " x "
 								+ m.getColumnDimension() + "matrices!");
@@ -253,8 +252,8 @@ public class MyMathExact {
 				for (int j = 0; j < m.getColumnDimension(); j++) {
 					MyDecimal entry = new MyDecimal(this.fixedScale, 0);
 					for (int k = 0; k < this.getColumnDimension(); k++) {
-						entry = entry.add(this.getEntry(i, k).multiply(
-								m.getEntry(k, j)));
+						entry = entry.add(
+								this.getEntry(i, k).multiply(m.getEntry(k, j)));
 					}
 					ret.setEntry(i, j, entry);
 				}

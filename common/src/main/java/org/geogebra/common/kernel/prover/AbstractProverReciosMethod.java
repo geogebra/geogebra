@@ -54,11 +54,11 @@ public abstract class AbstractProverReciosMethod {
 		Prover p;
 
 		if (statement instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo) statement)
+			s = (((SymbolicParametersAlgo) statement).getSymbolicParameters());
+		else if (statement
+				.getParentAlgorithm() instanceof SymbolicParametersAlgo)
+			s = (((SymbolicParametersAlgo) statement.getParentAlgorithm())
 					.getSymbolicParameters());
-		else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo) statement
-					.getParentAlgorithm()).getSymbolicParameters());
 		else {
 			return ProofResult.UNKNOWN;
 		}
@@ -106,7 +106,6 @@ public abstract class AbstractProverReciosMethod {
 				 */
 			}
 		}
-
 
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stored in freeVariables
@@ -185,7 +184,8 @@ public abstract class AbstractProverReciosMethod {
 			// TODO: This is not a problem in the method, it is in the
 			// implementation.
 			// FIXME: Make the implementation faster.
-			Log.debug("Recio's method is currently disabled when # of free variables > 5");
+			Log.debug(
+					"Recio's method is currently disabled when # of free variables > 5");
 			return ProofResult.UNKNOWN;
 		}
 
@@ -223,8 +223,9 @@ public abstract class AbstractProverReciosMethod {
 				substitutions.put(v, values.get(v).longValue());
 			}
 			ProverSettings proverSettings = ProverSettings.get();
-			ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
-					.toArray(new Polynomial[as.polynomials.size()]),
+			ExtendedBoolean solvable = Polynomial.solvable(
+					as.polynomials
+							.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, as.geoStatement.getKernel(),
 					proverSettings.transcext);
 			Log.debug("Recio meets Botana:" + substitutions);
@@ -232,16 +233,16 @@ public abstract class AbstractProverReciosMethod {
 				return ProofResult.FALSE;
 			}
 		} else
-		try {
-			BigInteger[] exactCoordinates = s.getExactCoordinates(values);
-			for (BigInteger result : exactCoordinates) {
-				if (!result.equals(BigInteger.ZERO)) {
-					return ProofResult.FALSE;
+			try {
+				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
+				for (BigInteger result : exactCoordinates) {
+					if (!result.equals(BigInteger.ZERO)) {
+						return ProofResult.FALSE;
+					}
 				}
+			} catch (NoSymbolicParametersException e) {
+				return ProofResult.UNKNOWN;
 			}
-		} catch (NoSymbolicParametersException e) {
-			return ProofResult.UNKNOWN;
-		}
 		return ProofResult.TRUE;
 	}
 
@@ -259,8 +260,9 @@ public abstract class AbstractProverReciosMethod {
 					substitutions.put(v, values.get(v).longValue());
 				}
 				ProverSettings proverSettings = ProverSettings.get();
-				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
-						.toArray(new Polynomial[as.polynomials.size()]),
+				ExtendedBoolean solvable = Polynomial.solvable(
+						as.polynomials
+								.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
 						proverSettings.transcext);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
@@ -269,15 +271,16 @@ public abstract class AbstractProverReciosMethod {
 				}
 			} else
 				try {
-				BigInteger[] exactCoordinates = s.getExactCoordinates(values);
-				for (BigInteger result : exactCoordinates) {
-					if (!result.equals(BigInteger.ZERO)) {
-						return ProofResult.FALSE;
+					BigInteger[] exactCoordinates = s
+							.getExactCoordinates(values);
+					for (BigInteger result : exactCoordinates) {
+						if (!result.equals(BigInteger.ZERO)) {
+							return ProofResult.FALSE;
+						}
 					}
+				} catch (NoSymbolicParametersException e) {
+					return ProofResult.UNKNOWN;
 				}
-			} catch (NoSymbolicParametersException e) {
-				return ProofResult.UNKNOWN;
-			}
 		}
 		return ProofResult.TRUE;
 	}
@@ -308,9 +311,9 @@ public abstract class AbstractProverReciosMethod {
 						// FIXME: Change Long in Variable to BigInteger
 						substitutions.put(v, values.get(v).longValue());
 					}
-					ExtendedBoolean solvable = Polynomial
-							.solvable(as.polynomials
-							.toArray(new Polynomial[as.polynomials.size()]),
+					ExtendedBoolean solvable = Polynomial.solvable(
+							as.polynomials.toArray(
+									new Polynomial[as.polynomials.size()]),
 							substitutions, as.geoStatement.getKernel(),
 							ProverSettings.get().transcext);
 					Log.debug("Recio meets Botana: #" + caseno + " "
@@ -320,16 +323,16 @@ public abstract class AbstractProverReciosMethod {
 					}
 				} else
 					try {
-					BigInteger[] exactCoordinates = s
-							.getExactCoordinates(values);
-					for (BigInteger result : exactCoordinates) {
-						if (!result.equals(BigInteger.ZERO)) {
-							return ProofResult.FALSE;
+						BigInteger[] exactCoordinates = s
+								.getExactCoordinates(values);
+						for (BigInteger result : exactCoordinates) {
+							if (!result.equals(BigInteger.ZERO)) {
+								return ProofResult.FALSE;
+							}
 						}
+					} catch (NoSymbolicParametersException e) {
+						return ProofResult.UNKNOWN;
 					}
-				} catch (NoSymbolicParametersException e) {
-					return ProofResult.UNKNOWN;
-				}
 			}
 		}
 		return ProofResult.TRUE;

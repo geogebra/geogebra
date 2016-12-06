@@ -43,7 +43,8 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 		paramDeriv.setLabel(label);
 	}
 
-	private AlgoParametricDerivative(Construction cons, GeoCurveCartesian curve) {
+	private AlgoParametricDerivative(Construction cons,
+			GeoCurveCartesian curve) {
 		super(cons);
 		this.curve = curve;
 		paramDeriv = (GeoCurveCartesian) curve.copyInternal(cons);
@@ -85,8 +86,6 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 		// (x(t), y'(t)/x'(t))
 		paramDeriv.setParametricDerivative(curve);
 	}
-
-	
 
 	@Override
 	final public String toString(StringTemplate tpl) {

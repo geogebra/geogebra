@@ -28,7 +28,6 @@ public class AlgoDependentInterval extends AlgoDependentFunction {
 		compute();
 	}
 
-
 	@Override
 	public Algos getClassName() {
 		return Algos.Expression;

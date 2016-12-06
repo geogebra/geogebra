@@ -85,7 +85,7 @@ public final class DrawList extends CanvasDrawable
 		private int viewHeight = 0;
 		private int viewWidth = 0;
 
-//		private static final int MAX_COLS_NO_FONT_CHANGE = 5;
+		// private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
 		private class OptionItem {
 			public int index;
@@ -94,6 +94,7 @@ public final class DrawList extends CanvasDrawable
 			public String text;
 			public boolean latex;
 			GRectangle rect;
+
 			public OptionItem(GGraphics2D g2, int idx) {
 				index = idx;
 				GeoElement geoItem = geoList.get(idx);
@@ -140,6 +141,7 @@ public final class DrawList extends CanvasDrawable
 				}
 				return index == item.index;
 			}
+
 			public boolean isHit(int x, int y) {
 				return rect != null && rect.contains(x, y);
 			}
@@ -165,8 +167,8 @@ public final class DrawList extends CanvasDrawable
 
 		private static final int MIN_FONT_SIZE = 12;
 
-		private int colCount=1;
-		private int rowCount=1;
+		private int colCount = 1;
+		private int rowCount = 1;
 		private GRectangle rectTable;
 		private GDimension dimItem;
 		private GDimension dimTable;
@@ -252,7 +254,7 @@ public final class DrawList extends CanvasDrawable
 				startRow = -1;
 				visibleRows++;
 			}
-				for (int col = 0; col < getColCount(); col++) {
+			for (int col = 0; col < getColCount(); col++) {
 				for (int row = startRow; row < visibleRows; row++) {
 					if (idx < items.size()) {
 						drawItem(col, row, items.get(idx));
@@ -282,7 +284,6 @@ public final class DrawList extends CanvasDrawable
 						rectTop, dimItem.getWidth(), dimItem.getHeight()));
 			}
 
-
 			drawItem(item, item.isEqual(hovered));
 		}
 
@@ -296,26 +297,24 @@ public final class DrawList extends CanvasDrawable
 
 			boolean clip = false;
 			if (this.isScrollNeeded()) {
-				int ctrlUpY = (int) (rectUp.getBounds().getY() + rectUp
-						.getBounds().getHeight());
+				int ctrlUpY = (int) (rectUp.getBounds().getY()
+						+ rectUp.getBounds().getHeight());
 				int ctrlDownBottom = (int) (rectDown.getBounds().getY()
 						+ rectDown.getBounds().getHeight());
 
 				// no extra item drawing.
 				if ((item.index == startIdx - 1 && rectBottom < ctrlUpY)
-						|| (ctrlDownBottom < rectBottom)
-				) {
+						|| (ctrlDownBottom < rectBottom)) {
 					return;
 				}
 
-				clip = dragOffset != 0
-						&& ((item.rect.intersects(rectUp)
+				clip = dragOffset != 0 && ((item.rect.intersects(rectUp)
 						|| item.rect.intersects(rectDown)));
 
 				if (clip) {
 					Log.debug("CLIPPING");
-						g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
-						(int) (rectDown.getY() - ctrlUpY));
+					g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
+							(int) (rectDown.getY() - ctrlUpY));
 				}
 			}
 			int itemHeight = dimItem.getHeight();
@@ -341,7 +340,7 @@ public final class DrawList extends CanvasDrawable
 				int y = (int) rect.getY();
 
 				drawLatex(g2, geoList, itemFont, item.text,
-						x + (int) ((rect.getWidth() - item.width) / 2), 
+						x + (int) ((rect.getWidth() - item.width) / 2),
 						y + (int) ((rect.getHeight() - item.height) / 2));
 			} else {
 				if (g2.getFont().getSize() != itemFontSize) {
@@ -351,8 +350,7 @@ public final class DrawList extends CanvasDrawable
 				int y = (itemHeight - yPadding);
 
 				EuclidianStatic.drawIndexedString(viewOpt.getApplication(), g2,
-						item.text, rectLeft + x, rectTop + y, false,
-						false);
+						item.text, rectLeft + x, rectTop + y, false, false);
 			}
 			if (clip) {
 				g2.resetClip();
@@ -467,6 +465,7 @@ public final class DrawList extends CanvasDrawable
 
 			}
 		}
+
 		public boolean onMouseDown(int x, int y) {
 			if (!visible) {
 				return false;
@@ -517,7 +516,6 @@ public final class DrawList extends CanvasDrawable
 					dragged = di;
 					return true;
 				}
-
 
 				int d = dragged.startPoint.getY() - di.startPoint.getY();
 				dragDirection = d > 0;
@@ -616,8 +614,9 @@ public final class DrawList extends CanvasDrawable
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();
 			return getTableScale();
-			
+
 		}
+
 		private void getMetrics() {
 			xPadding = 10;
 			yPadding = 10;
@@ -640,8 +639,7 @@ public final class DrawList extends CanvasDrawable
 			Log.debug("[!!] 1 tableHeight: " + tableHeight + " rowCount: "
 					+ rowCount);
 			if (isScrollNeeded()
-					&& (top + tableHeight + MARGIN <= viewHeight))
-			{
+					&& (top + tableHeight + MARGIN <= viewHeight)) {
 				tableHeight += dimItem.getHeight();
 				// if (tableHeight + rectDown.getHeight() >= viewHeight) {
 				// tableHeight = (int) (viewHeight - top - MARGIN
@@ -649,9 +647,7 @@ public final class DrawList extends CanvasDrawable
 				// }
 			}
 
-
-			if (top + tableHeight + MARGIN >= viewOpt
-					.getHeight()) {
+			if (top + tableHeight + MARGIN >= viewOpt.getHeight()) {
 				top = (viewOpt.getHeight() - tableHeight - MARGIN);
 				if (top < MARGIN) {
 					top = MARGIN;
@@ -678,12 +674,10 @@ public final class DrawList extends CanvasDrawable
 				left = (viewOpt.getWidth() - dimTable.getWidth());
 			}
 			rectTable = AwtFactory.getPrototype().newRectangle(left,
-					top + MARGIN,
-					dimTable.getWidth(), dimTable.getHeight());
+					top + MARGIN, dimTable.getWidth(), dimTable.getHeight());
 
 			if (isScrollNeeded()) {
-				rectUp.setBounds(left, top,
-						(int) (rectUp.getWidth()),
+				rectUp.setBounds(left, top, (int) (rectUp.getWidth()),
 						(int) (rectUp.getHeight()));
 				rectDown.setBounds(left,
 						top + dimTable.getHeight()
@@ -719,8 +713,8 @@ public final class DrawList extends CanvasDrawable
 			// + ") w: " + w + " h: " + h);
 			g2.setPaint(geoList.getBackgroundColor());
 			g2.fillRoundRect(x, y, w, h, ROUND, ROUND);
-			dropDown.drawScrollUp(g2, x, y, w, h,
-					geoList.getBackgroundColor(), false);
+			dropDown.drawScrollUp(g2, x, y, w, h, geoList.getBackgroundColor(),
+					false);
 
 			int x2 = (int) rectDown.getX();
 			int y2 = (int) rectDown.getY();
@@ -737,6 +731,7 @@ public final class DrawList extends CanvasDrawable
 					geoList.getBackgroundColor(), false);
 
 		}
+
 		private void getOneColumnSettings() {
 			setColCount(1);
 			dimItem = AwtFactory.getPrototype()
@@ -755,11 +750,10 @@ public final class DrawList extends CanvasDrawable
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();
 			getOneColumnSettings();
-			rectUp = AwtFactory.getPrototype()
-					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
+			rectUp = AwtFactory.getPrototype().newRectangle(dimItem.getWidth(),
+					dimItem.getHeight() / 2);
 			rectDown = AwtFactory.getPrototype()
 					.newRectangle(dimItem.getWidth(), dimItem.getHeight() / 2);
-
 
 			int maxItems = geoList.size();
 
@@ -944,7 +938,6 @@ public final class DrawList extends CanvasDrawable
 			setVisible(!visible);
 		}
 
-
 		public void moveSelectorBy(int diff, boolean forward) {
 			boolean update = false;
 			boolean hasHovered = hovered != null;
@@ -981,6 +974,7 @@ public final class DrawList extends CanvasDrawable
 			dragged = null;
 			dragOffset = 0;
 		}
+
 		public void moveSelectorVertical(boolean moveDown) {
 			cancelDrag();
 			moveSelectorBy(1, moveDown);
@@ -989,7 +983,6 @@ public final class DrawList extends CanvasDrawable
 		public void moveSelectorHorizontal(boolean moveLeft) {
 			moveSelectorBy(rowCount, moveLeft);
 		}
-
 
 		public int getColCount() {
 			return colCount;
@@ -1007,7 +1000,6 @@ public final class DrawList extends CanvasDrawable
 			return dimItem != null ? dimItem.getWidth() : 0;
 		}
 
-
 		private void stopScrolling() {
 			dropDown.stopScrollTimer();
 			scrollMode = ScrollMode.NONE;
@@ -1024,6 +1016,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 	}
+
 	/**
 	 * Creates new drawable list
 	 * 
@@ -1137,8 +1130,7 @@ public final class DrawList extends CanvasDrawable
 			// draw trace
 			if (geoList.getTrace()) {
 				isTracing = true;
-				GGraphics2D g2 = view
-						.getBackgroundGraphics();
+				GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -1236,7 +1228,6 @@ public final class DrawList extends CanvasDrawable
 			return super.hit(x, y, hitThreshold) || isControlHit(x, y)
 					|| isOptionsHit(x, y);
 
-
 		}
 
 		int size = drawables.size();
@@ -1329,7 +1320,7 @@ public final class DrawList extends CanvasDrawable
 						view.remove(currentGeo);
 					}
 				}
-			drawables.clear();
+				drawables.clear();
 			}
 		} else {
 			// view.remove(box);
@@ -1397,8 +1388,7 @@ public final class DrawList extends CanvasDrawable
 
 		} else {
 			textBottom = boxTop
-					+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN)
-							/ 2;
+					+ (boxHeight + getLabelFontSize() - COMBO_TEXT_MARGIN) / 2;
 			g2.setPaint(geo.getObjectColor());
 			g2.setFont(getLabelFont());
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
@@ -1455,9 +1445,7 @@ public final class DrawList extends CanvasDrawable
 						/ 2;
 	}
 
-
 	private void updateMetrics(GGraphics2D g2) {
-
 
 		drawOptions.onResize(view.getWidth(), view.getHeight());
 
@@ -1481,7 +1469,6 @@ public final class DrawList extends CanvasDrawable
 
 	}
 
-
 	/**
 	 * @param geoItem
 	 *            geo
@@ -1496,7 +1483,6 @@ public final class DrawList extends CanvasDrawable
 			boolean draw) {
 
 		GFont font = getLabelFont();
-
 
 		if (seLatex) {
 			GDimension d = null;
@@ -1513,8 +1499,7 @@ public final class DrawList extends CanvasDrawable
 
 		if (draw) {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
-					selectedText,
-					left, top, false, false);
+					selectedText, left, top, false, false);
 		}
 
 		return AwtFactory.getPrototype().newDimension(w,
@@ -1540,8 +1525,7 @@ public final class DrawList extends CanvasDrawable
 
 		int maxItemWidth = drawOptions.getMaxItemWidth();
 		return (isOptionsVisible() && maxItemWidth > selectedWidth)
-				? maxItemWidth
-				: selectedWidth;
+				? maxItemWidth : selectedWidth;
 	}
 
 	@Override
@@ -1564,7 +1548,6 @@ public final class DrawList extends CanvasDrawable
 	protected void hideWidget() {
 		// no widget
 	}
-
 
 	/**
 	 * Returns if mouse is hit the options or not.
@@ -1746,6 +1729,7 @@ public final class DrawList extends CanvasDrawable
 
 		return drawOptions.onDrag(x, y);
 	}
+
 	public void onScroll(int x, int y) {
 		drawOptions.scroll();
 	}

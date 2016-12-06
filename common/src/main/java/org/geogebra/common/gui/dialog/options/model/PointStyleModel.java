@@ -9,13 +9,13 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class PointStyleModel extends NumberOptionsModel {
 	private IComboListener listener;
-	
+
 	public PointStyleModel(App app) {
 		super(app);
 	}
-	
+
 	private PointProperties getPointPropertiesAt(int index) {
-		return (PointProperties)getObjectAt(index);
+		return (PointProperties) getObjectAt(index);
 	}
 
 	@Override
@@ -23,16 +23,16 @@ public class PointStyleModel extends NumberOptionsModel {
 		if (!hasGeos()) {
 			return;
 		}
-		
+
 		PointProperties geo0 = getPointPropertiesAt(0);
 		if (listener == null) {
 			return;
 		}
-		
+
 		if ((geo0 == null) || (geo0.getPointStyle() == -1)) {
 			// select default button
 			listener.setSelectedIndex(EuclidianStyleConstants.POINT_STYLE_DOT);
-		
+
 		} else {
 			// select custom button and set combo box selection
 			listener.setSelectedIndex(geo0.getPointStyle());
@@ -47,16 +47,17 @@ public class PointStyleModel extends NumberOptionsModel {
 		}
 		return super.checkGeos();
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
-		if ((geo.isGeoElement3D() && !(geo.isGeoPoint()))
-				|| // TODO add point style to 3D points
-				(!geo.getGeoElementForPropertiesDialog().isGeoPoint() && (!(geo
-						.isGeoList() && ((GeoList) geo)
-						.showPointProperties())))) {
+		if ((geo.isGeoElement3D() && !(geo.isGeoPoint())) || // TODO add point
+																// style to 3D
+																// points
+				(!geo.getGeoElementForPropertiesDialog().isGeoPoint()
+						&& (!(geo.isGeoList()
+								&& ((GeoList) geo).showPointProperties())))) {
 			valid = false;
 		}
 		return valid;
@@ -72,6 +73,7 @@ public class PointStyleModel extends NumberOptionsModel {
 		}
 		return true;
 	}
+
 	@Override
 	protected void apply(int index, int value) {
 		PointProperties point = getPointPropertiesAt(index);
@@ -83,7 +85,7 @@ public class PointStyleModel extends NumberOptionsModel {
 	@Override
 	protected int getValueAt(int index) {
 		// not used
-		return 0;//getPointPropertiesAt(index).getPointStyle();
+		return 0;// getPointPropertiesAt(index).getPointStyle();
 	}
 
 	@Override

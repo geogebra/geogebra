@@ -3,21 +3,21 @@ package org.geogebra.common.kernel.kernelND;
 /**
  * Conic types
  */
-public interface GeoConicNDConstants extends GeoQuadricNDConstants{
-	
-	/** single point type*/    
+public interface GeoConicNDConstants extends GeoQuadricNDConstants {
+
+	/** single point type */
 	public static final int CONIC_SINGLE_POINT = QUADRIC_SINGLE_POINT;
-	/** intersecting lines type*/
+	/** intersecting lines type */
 	public static final int CONIC_INTERSECTING_LINES = QUADRIC_INTERSECTING_LINES;
-	/** ellipse type*/
+	/** ellipse type */
 	public static final int CONIC_ELLIPSE = QUADRIC_ELLIPSOID;
-	/** circle type*/
+	/** circle type */
 	public static final int CONIC_CIRCLE = QUADRIC_SPHERE;
-	/** hyperbola type*/
+	/** hyperbola type */
 	public static final int CONIC_HYPERBOLA = QUADRIC_HYPERBOLOID;
-	/** empty conic type*/
+	/** empty conic type */
 	public static final int CONIC_EMPTY = QUADRIC_EMPTY;
-	/** double line type*/
+	/** double line type */
 	public static final int CONIC_DOUBLE_LINE = QUADRIC_DOUBLE_LINE;
 	/** parallel lines type */
 	public static final int CONIC_PARALLEL_LINES = QUADRIC_PARALLEL_LINES;
@@ -25,18 +25,15 @@ public interface GeoConicNDConstants extends GeoQuadricNDConstants{
 	public static final int CONIC_PARABOLA = QUADRIC_PARABOLOID;
 	/** line type */
 	public static final int CONIC_LINE = QUADRIC_LINE;
-	
+
 	////////////////////////
 	// FOR GEO CONIC PART
-	
-	
+
 	/** conic arc */
 	public static final int CONIC_PART_ARC = 1;
 	/** conic sector */
 	public static final int CONIC_PART_SECTOR = 2;
-	/** conic arcs and  */
+	/** conic arcs and */
 	public static final int CONIC_PART_ARCS = 3;
-
-
 
 }

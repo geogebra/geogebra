@@ -88,7 +88,8 @@ public class CmdCurvature extends CommandProcessor {
 				// Gaussian Curvature
 				AlgoCurvatureSurfaceParametric algo = new AlgoCurvatureSurfaceParametric(
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoSurfaceCartesian3D) arg[2]);
+						(GeoNumberValue) arg[1],
+						(GeoSurfaceCartesian3D) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

@@ -14,36 +14,41 @@ import org.geogebra.common.kernel.locusequ.EquationScope;
  * @author sergio
  *
  */
-public class EquationIntersectLineConicRestriction extends
-		EquationIntersectRestriction {
+public class EquationIntersectLineConicRestriction
+		extends EquationIntersectRestriction {
 
 	private EquationElement line;
 	private EquationElement conic;
 
 	/**
 	 * General constructor
-	 * @param geo {@link GeoElement}
-	 * @param algo {@link AlgoIntersectLineConic}
-	 * @param scope {@link EquationScope}
+	 * 
+	 * @param geo
+	 *            {@link GeoElement}
+	 * @param algo
+	 *            {@link AlgoIntersectLineConic}
+	 * @param scope
+	 *            {@link EquationScope}
 	 */
-	public EquationIntersectLineConicRestriction(final GeoElement geo, final AlgoIntersectLineConic algo, final EquationScope scope) {
+	public EquationIntersectLineConicRestriction(final GeoElement geo,
+			final AlgoIntersectLineConic algo, final EquationScope scope) {
 		super(geo, algo, scope);
 	}
-	
+
 	@Override
 	public AlgoIntersectLineConic getAlgo() {
 		return (AlgoIntersectLineConic) super.getAlgo();
 	}
-	
+
 	public EquationElement getLine() {
-		if(this.line == null) {
+		if (this.line == null) {
 			this.line = this.getScope().getElement(this.getAlgo().getLine());
 		}
 		return this.line;
 	}
-	
+
 	public EquationElement getConic() {
-		if(this.conic == null) {
+		if (this.conic == null) {
 			this.conic = this.getScope().getElement(this.getAlgo().getConic());
 		}
 		return this.conic;
@@ -52,10 +57,10 @@ public class EquationIntersectLineConicRestriction extends
 	@Override
 	protected EquationList forPointImpl(EquationPoint p) {
 		EquationList list = new EquationList();
-		
+
 		list.addAll(this.getLine().forPoint(p));
 		list.addAll(this.getConic().forPoint(p));
-		
+
 		return list;
 	}
 }

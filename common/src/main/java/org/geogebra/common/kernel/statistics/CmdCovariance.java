@@ -28,8 +28,8 @@ public class CmdCovariance extends CmdOneOrTwoListsFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
-		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance(cons, a,
-				b, c);
+		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance(cons, a, b,
+				c);
 
 		return algo.getResult();
 	}

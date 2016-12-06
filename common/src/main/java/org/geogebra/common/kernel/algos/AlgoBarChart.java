@@ -49,8 +49,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author G. Sturr
  * 
  */
-public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
-		DrawInformationAlgo {
+public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
+		implements DrawInformationAlgo {
 
 	private Map<Integer, HashMap<Integer, Object>> tags = new HashMap<Integer, HashMap<Integer, Object>>();
 
@@ -91,8 +91,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	private GeoList list1, list2;
 
 	// local fields
-	private GeoElement ageo, bgeo, widthGeo, isCumulative, isHorizontal,
-			p1geo, p2geo, p3geo, hasJoin, pointType;
+	private GeoElement ageo, bgeo, widthGeo, isCumulative, isHorizontal, p1geo,
+			p2geo, p3geo, hasJoin, pointType;
 	private int type;
 	private int N; // # of intervals
 	private double[] yval; // y value (= min) in interval 0 <= i < N
@@ -393,10 +393,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param N
 	 */
 	protected AlgoBarChart(GeoNumberValue p1, GeoNumberValue p2,
-			GeoNumberValue p3,
-			GeoBoolean isCumulative, int type, GeoNumberValue a,
-			GeoNumberValue b,
-			double[] vals, double[] borders, int N) {
+			GeoNumberValue p3, GeoBoolean isCumulative, int type,
+			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
+			int N) {
 
 		super(p1.getConstruction(), false);
 
@@ -954,8 +953,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 
 		value = new String[N];
 		for (int i = 0; i < N; i++) {
-			value[i] = list1.get(i).toValueString(
-					StringTemplate.defaultTemplate);
+			value[i] = list1.get(i)
+					.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		double ySum = 0;
@@ -1102,8 +1101,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 				break;
 
 			case TYPE_BARCHART_HYPERGEOMETRIC:
-				if (!(p1geo.isDefined() && p2geo.isDefined() && p3geo
-						.isDefined()))
+				if (!(p1geo.isDefined() && p2geo.isDefined()
+						&& p3geo.isDefined()))
 					return false;
 				int pop = (int) p1.getDouble();
 				int successes = (int) p2.getDouble();
@@ -1135,15 +1134,14 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 			IntegerDistribution dist) throws Exception {
 		boolean oldSuppress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		if(list1 == null){
-			list1= new GeoList(cons);
-		}
-		else{
+		if (list1 == null) {
+			list1 = new GeoList(cons);
+		} else {
 			list1.clear();
 		}
-		if(list2 == null){
-			list2= new GeoList(cons);
-		}else{
+		if (list2 == null) {
+			list2 = new GeoList(cons);
+		} else {
 			list2.clear();
 		}
 		double prob;
@@ -1172,20 +1170,23 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		case TYPE_BARCHART_EXPRESSION:
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
-					(GeoNumberValue) getB()
-							.deepCopy(kernel), Cloner.clone(getValues()),
-					Cloner.clone(getLeftBorder()), N);
+					(GeoNumberValue) getB().deepCopy(kernel),
+					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+					N);
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 			return new AlgoBarChart(kernel.getConstruction(),
-					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
+					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+					N);
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
-					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
+					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+					N);
 		default: // TYPE_BARCHART_RAWDATA
 			return new AlgoBarChart(cons,
 					(GeoNumberValue) widthGeo.deepCopy(kernel),
-					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
+					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+					N);
 		}
 	}
 
@@ -1266,6 +1267,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	public FillType getBarFillType(int numBar) {
 		return getBarFillType(numBar, FillType.STANDARD);
 	}
+
 	public FillType getBarFillType(int numBar, FillType fallback) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
@@ -1393,8 +1395,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 						+ "\" />\n");
 			}
 			if (getBarHatchAngle(i) != -1) {
-				sb.append("\t\t<tag key=\"barHatchAngle\"" + " barNumber=\""
-						+ i + "\" value=\"" + getBarHatchAngle(i) + "\" />\n");
+				sb.append("\t\t<tag key=\"barHatchAngle\"" + " barNumber=\"" + i
+						+ "\" value=\"" + getBarHatchAngle(i) + "\" />\n");
 			}
 			if (getBarFillType(i) != FillType.STANDARD) {
 				sb.append("\t\t<tag key=\"barFillType\"" + " barNumber=\"" + i

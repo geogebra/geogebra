@@ -33,13 +33,13 @@ public class PointNDFold implements FoldComputer {
 		case POINT:
 			return new GeoPoint(cons);
 		case POINT3D:
-			return (GeoElement) cons.getKernel().getGeoFactory()
-					.newPoint(3, cons);
+			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
+					cons);
 		case VECTOR:
 			return new GeoVector(cons);
 		case VECTOR3D:
-			return (GeoElement) cons.getKernel().getGeoFactory()
-					.newPoint(3, cons);
+			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
+					cons);
 		}
 		return new GeoPoint(cons);
 	}

@@ -32,8 +32,7 @@ public class SingularWebService {
 	private static boolean fastConn;
 
 	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcovG",
-			"grobcovF2m",
-			"grobcovC1", "grobcovC0" };
+			"grobcovF2m", "grobcovC1", "grobcovC0" };
 
 	private final static int CONNECTION_SPEED_NO_TESTS = 3;
 	private final static int CONNECTION_SPEED_THRESHOLD = 100;
@@ -61,12 +60,13 @@ public class SingularWebService {
 		httpr.setTimeout(timeout);
 		// Varnish currently cannot do caching for POST requests,
 		// so we prefer GET for the shorter Singular programs:
-		if (encodedParameters.length() + url1.length() + command.length() + 6 <= GET_REQUEST_MAX_SIZE)
-			httpr.sendRequest(url1 + "?c=" + command + "&p="
-					+ encodedParameters + caching);
+		if (encodedParameters.length() + url1.length() + command.length()
+				+ 6 <= GET_REQUEST_MAX_SIZE)
+			httpr.sendRequest(url1 + "?c=" + command + "&p=" + encodedParameters
+					+ caching);
 		else
-			httpr.sendRequestPost(url1, "c=" + command + "&p="
-					+ encodedParameters + caching, null);
+			httpr.sendRequestPost(url1,
+					"c=" + command + "&p=" + encodedParameters + caching, null);
 		// In fact we will not use Varnish after changing SingularWS to version
 		// >= 3 (2014-01-03).
 		String response = httpr.getResponse(); // will not work in web, TODO:
@@ -326,14 +326,12 @@ public class SingularWebService {
 	public String getTranslatedCASCommand(String command) {
 		if (command.equals("CIFactor.1")) {
 			StringBuilder sb = new StringBuilder();
-			sb.append("LIB \"absfact.lib\";")
-					.
-					// FIXME: This covers the one-letter variables only, but
-					// does nothing for the others
-					// (infinitely many).
+			sb.append("LIB \"absfact.lib\";").
+			// FIXME: This covers the one-letter variables only, but
+			// does nothing for the others
+			// (infinitely many).
 					append("ring R=0, (x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w), ds; short=0;")
-					.append("poly q=%0;")
-					.
+					.append("poly q=%0;").
 					// Warning: the absfact.lib package prints an unwanted line
 					// containing "absolute_factors".
 					// It must be filtered somehow. Currently it is done in
@@ -342,20 +340,17 @@ public class SingularWebService {
 					// too, or hack the LIB.
 					append("def S=absFactorize(q); setring(S); list af=absolute_factors;")
 					.append("string Z=\"\";")
-					.append("int i; int p=size(af[1]);")
-					.
+					.append("int i; int p=size(af[1]);").
 					// quadpolyroot returns the Ith root of poly P
 					append("proc quadpolyroot(poly P, int I) {")
 					.append("string PS=string(P);")
-					.append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);")
-					.
+					.append("string RS=string(\"poly PP=\",PS[2,size(PS)-2]);").
 					// @c is the variable name for the rootof-like polynomial.
 					append("def RR=basering; ring NR=0,(@c),ds;	execute(RS);")
 					.append("matrix L=coeffs(PP,@c); bigint A=bigint(L[3,1]); bigint B=bigint(L[2,1]); bigint C=bigint(L[1,1]);")
 					.append("string SC; if (I==1) { SC=\"+\"; } if (I==2) { SC=\"-\"; }")
 					.append("string RV=string(\"((\",(-B),SC,\"sqrt(\",(B*B)-(4*A*C),\"))/(\",(2*A),\"))\");")
-					.append("setring(RR); return(RV); }")
-					.
+					.append("setring(RR); return(RV); }").
 					// polydeg returns the degree of poly P
 					append("proc polydeg(poly P) { string PS=string(P); string RS=string(\"poly PP=\",PS[2,size(PS)-2]);")
 					.append("def RR=basering; ring NR=0,(@c),ds; execute(RS); int L=size(coeffs(PP,@c))-1; setring(RR); return(L); }")

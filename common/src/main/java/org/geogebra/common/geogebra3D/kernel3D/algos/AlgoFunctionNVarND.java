@@ -72,16 +72,16 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		FunctionVariable[] funVar = new FunctionVariable[localVar.length];
 		for (int i = 0; i < localVar.length; i++) {
 			funVar[i] = new FunctionVariable(kernel);
-			funVar[i].setVarString(localVar[i]
-					.getLabel(StringTemplate.defaultTemplate));
+			funVar[i].setVarString(
+					localVar[i].getLabel(StringTemplate.defaultTemplate));
 		}
 
 		ExpressionNode[] exp = new ExpressionNode[coords.length];
 		FunctionNVar[] fun = new FunctionNVar[coords.length];
 
 		for (int i = 0; i < coords.length; i++) {
-			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i]
-					.toGeoElement());
+			exp[i] = kernel.convertNumberValueToExpressionNode(
+					coords[i].toGeoElement());
 			for (int j = 0; j < localVar.length; j++)
 				exp[i] = exp[i].replace(localVar[j], funVar[j]).wrap();
 			fun[i] = new FunctionNVar(exp[i], funVar);
@@ -203,7 +203,5 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	public Commands getClassName() {
 		return Commands.Function;
 	}
-
-	
 
 }

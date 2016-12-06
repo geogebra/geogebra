@@ -38,8 +38,9 @@ public class CmdLine3D extends CmdLine {
 				if ((ok[0] = (geo0.isGeoPoint()))
 						&& (ok[1] = (geo1.isGeoPoint()))) { // line between two
 															// 3D points
-					GeoElement[] ret = { kernelA.getManager3D().Line3D(
-							c.getLabel(), (GeoPointND) geo0, (GeoPointND) geo1) };
+					GeoElement[] ret = {
+							kernelA.getManager3D().Line3D(c.getLabel(),
+									(GeoPointND) geo0, (GeoPointND) geo1) };
 					return ret;
 				} else if ((ok[0] = (geo0.isGeoPoint()))
 						&& (ok[1] = (geo1.isGeoVector()))) { // line directed

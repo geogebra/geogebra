@@ -52,9 +52,8 @@ public class CmdOrthogonalLine extends CommandProcessor {
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 
-				AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(
-						cons, c.getLabel(), (GeoPoint) arg[0],
-						(GeoConic) arg[1]);
+				AlgoOrthoLinePointConic algo = new AlgoOrthoLinePointConic(cons,
+						c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
 
 				return algo.getOutput();
 			}

@@ -35,9 +35,8 @@ public class CmdZipf extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1]);
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -51,9 +50,9 @@ public class CmdZipf extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 
-				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons,
-						c.getLabel(), (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]);
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoBoolean) arg[2]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;

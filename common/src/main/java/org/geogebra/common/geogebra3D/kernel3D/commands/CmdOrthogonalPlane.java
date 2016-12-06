@@ -37,7 +37,8 @@ public class CmdOrthogonalPlane extends CommandProcessor {
 				} else if (arg[1] instanceof GeoVectorND) {
 					return new GeoElement[] { (GeoElement) kernelA
 							.getManager3D().OrthogonalPlane3D(c.getLabel(),
-									(GeoPointND) arg[0], (GeoVectorND) arg[1]) };
+									(GeoPointND) arg[0],
+									(GeoVectorND) arg[1]) };
 				} else {
 					throw argErr(app, c.getName(), arg[1]);
 				}

@@ -10,17 +10,17 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class NumberInputHandler implements InputHandler {
-  private AlgebraProcessor algebraProcessor;
-  private GeoNumberValue num = null;
+	private AlgebraProcessor algebraProcessor;
+	private GeoNumberValue num = null;
 	private AsyncOperation<GeoNumberValue> callback;
-  private boolean oldVal;
-  private App app;
-  
-  public NumberInputHandler(AlgebraProcessor algebraProcessor) {
+	private boolean oldVal;
+	private App app;
+
+	public NumberInputHandler(AlgebraProcessor algebraProcessor) {
 		super();
 		this.algebraProcessor = algebraProcessor;
 		this.app = algebraProcessor.getKernel().getApplication();
-  }
+	}
 
 	public NumberInputHandler(AlgebraProcessor algebraProcessor,
 			AsyncOperation<GeoNumberValue> cb, App appl, boolean oldValue) {
@@ -28,8 +28,8 @@ public class NumberInputHandler implements InputHandler {
 		callback = cb;
 		oldVal = oldValue;
 		app = appl;
-  }
-  
+	}
+
 	public void processInput(String inputString, final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback0) {
 		try {
@@ -69,13 +69,13 @@ public class NumberInputHandler implements InputHandler {
 			e.printStackTrace();
 		}
 
-  }
+	}
 
-  public void setNum(GeoNumberValue num) {
-    this.num = num;
-  }
+	public void setNum(GeoNumberValue num) {
+		this.num = num;
+	}
 
-  public GeoNumberValue getNum() {
-    return num;
-  }
+	public GeoNumberValue getNum() {
+		return num;
+	}
 }

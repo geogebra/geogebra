@@ -45,8 +45,6 @@ public class AlgoIncircle extends AlgoElement {
 		this.B = B;
 		this.C = C;
 
-
-
 		int dim = MyMath.max(A.getDimension(), B.getDimension(),
 				C.getDimension());
 		circle = kernel.getGeoFactory().newConic(dim, cons);
@@ -80,8 +78,6 @@ public class AlgoIncircle extends AlgoElement {
 		return circle;
 	}
 
-
-
 	// compute incircle of triangle A, B, C
 	@Override
 	public void compute() {
@@ -91,7 +87,7 @@ public class AlgoIncircle extends AlgoElement {
 		}
 		double dAB = A.distance(B);
 		double dAC = A.distance(C);
-		double dBC = B.distance(C);		
+		double dBC = B.distance(C);
 		double s = (dAB + dAC + dBC) / 2;
 		double wA = dBC / s / 2;
 		double wB = dAC / s / 2;
@@ -122,7 +118,6 @@ public class AlgoIncircle extends AlgoElement {
 				B.getLabel(tpl), C.getLabel(tpl));
 	}
 
-	
 }
 
 // Local Variables:
@@ -131,4 +126,3 @@ public class AlgoIncircle extends AlgoElement {
 // tab-width: 4
 // End:
 // vim: set expandtab shiftwidth=4 softtabstop=4 tabstop=4
-

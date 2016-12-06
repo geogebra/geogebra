@@ -31,8 +31,8 @@ public class CmdSpline extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -65,7 +65,7 @@ public class CmdSpline extends CommandProcessor {
 		case 3:
 			arg = resArgs(c);
 			if (!arg[2].isGeoFunctionNVar()) {
-					throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c.getName(), arg[2]);
 			}
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
 				int degree = (int) c.getArgument(1).evaluateDouble();
@@ -93,8 +93,8 @@ public class CmdSpline extends CommandProcessor {
 	}
 
 	private GeoCurveCartesianND Spline(String label, GeoList list) {
-		AlgoSpline algo = new AlgoSpline(cons, label, list, new GeoNumeric(
-				cons, 3), null);
+		AlgoSpline algo = new AlgoSpline(cons, label, list,
+				new GeoNumeric(cons, 3), null);
 		return algo.getSpline();
 	}
 

@@ -31,13 +31,12 @@ public class CmdRandomPointIn extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
-		
+
 		if (n == 1) {
 			if (arg[0].isGeoPolygon()) {
 
 				AlgoRandomPointInPolygon algo = new AlgoRandomPointInPolygon(
-						cons, c.getLabel(),
-						(GeoPolygon) arg[0]);
+						cons, c.getLabel(), (GeoPolygon) arg[0]);
 
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
@@ -70,7 +69,8 @@ public class CmdRandomPointIn extends CommandProcessor {
 			}
 			// everything ok
 
-			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons, c.getLabel(), points);
+			AlgoRandomPointInPoints algo = new AlgoRandomPointInPoints(cons,
+					c.getLabel(), points);
 
 			GeoElement[] ret = { algo.getRandomPoint() };
 			return ret;

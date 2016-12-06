@@ -145,17 +145,18 @@ public class AlgoListElement extends AlgoElement {
 				// init return element as copy of initIndex list element
 				if (((GeoList) current).size() > initIndex) {
 					// create copy of initIndex GeoElement in list
-					current = k == num2.length - 1 ? getGenericElement(
-							(GeoList) current, initIndex) : ((GeoList) current)
-							.get(initIndex);
+					current = k == num2.length - 1
+							? getGenericElement((GeoList) current, initIndex)
+							: ((GeoList) current).get(initIndex);
 				}
 
 				// if not enough elements in list:
 				// init return element as copy of first list element
 				else if (geoList.size() > 0) {
 					// create copy of first GeoElement in list
-					current = k == num2.length - 1 ? getGenericElement(
-							(GeoList) current, 0) : ((GeoList) current).get(0);
+					current = k == num2.length - 1
+							? getGenericElement((GeoList) current, 0)
+							: ((GeoList) current).get(0);
 				}
 				k++;
 			} while (current.isGeoList() && k < num2.length);
@@ -266,8 +267,8 @@ public class AlgoListElement extends AlgoElement {
 				|| Test.canSet(element, nth)) {
 			element.set(nth);
 			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
-				element.setDrawAlgorithm(((DrawInformationAlgo) nth
-						.getDrawAlgorithm()).copy());
+				element.setDrawAlgorithm(
+						((DrawInformationAlgo) nth.getDrawAlgorithm()).copy());
 
 		} else {
 			element.setUndefined();
@@ -295,7 +296,5 @@ public class AlgoListElement extends AlgoElement {
 	 * 
 	 * }
 	 */
-
-	
 
 }

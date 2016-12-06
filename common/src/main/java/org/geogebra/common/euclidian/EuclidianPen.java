@@ -54,8 +54,7 @@ public class EuclidianPen implements GTimerListener {
 	protected EuclidianView view;
 
 	/**
-	 * minimum determinant for circles
-	 * decrease to allow less "round" circles
+	 * minimum determinant for circles decrease to allow less "round" circles
 	 */
 	public double CIRCLE_MIN_DET = 0.95;
 
@@ -65,26 +64,26 @@ public class EuclidianPen implements GTimerListener {
 	public double CIRCLE_MAX_SCORE = 0.10;
 
 	/**
-	 * maximum deviation between the segment lengths
-	 * increase to allow less beautiful rectangles
+	 * maximum deviation between the segment lengths increase to allow less
+	 * beautiful rectangles
 	 */
 	public double RECTANGLE_LINEAR_TOLERANCE = 0.20;
 
 	/**
-	 * maximum deviation between the segment lengths
-	 * increase to allow less beautiful polygons
+	 * maximum deviation between the segment lengths increase to allow less
+	 * beautiful polygons
 	 */
 	public double POLYGON_LINEAR_TOLERANCE = 0.20;
 
 	/**
-	 * maximum deviation between the angles of a rectangle
-	 * increase to allow less beautiful rectangles
+	 * maximum deviation between the angles of a rectangle increase to allow
+	 * less beautiful rectangles
 	 */
 	public double RECTANGLE_ANGLE_TOLERANCE = 15 * Math.PI / 180;
 
 	/**
-	 * maximum determinant for lines (e.g. sides of a polygon)
-	 * decrease to allow lines that are not so straight
+	 * maximum determinant for lines (e.g. sides of a polygon) decrease to allow
+	 * lines that are not so straight
 	 */
 	public double LINE_MAX_DET = 0.015;
 	/** Polyline that conects stylebar to pen settings */
@@ -110,7 +109,6 @@ public class EuclidianPen implements GTimerListener {
 	private RecoSegment reco_queue_c = new RecoSegment();
 	private RecoSegment reco_queue_d = new RecoSegment();
 	private RecoSegment reco_queue_e = new RecoSegment();
-
 
 	private final static int PEN_SIZE_FACTOR = 2;
 	private static final double CONIC_AXIS_ERROR_RATIO = 10;
@@ -162,7 +160,7 @@ public class EuclidianPen implements GTimerListener {
 		this.app = app;
 
 		timer = app.newTimer(this, 1500);
-		
+
 		setDefaults();
 
 		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()) {
@@ -229,8 +227,8 @@ public class EuclidianPen implements GTimerListener {
 		this.lineOpacity = lineOpacity;
 		float[] rgb = new float[3];
 		penColor.getRGBColorComponents(rgb);
-		setPenColor(GColor.newColor(rgb[0], rgb[1], rgb[2],
-				lineOpacity / 255.0f));
+		setPenColor(
+				GColor.newColor(rgb[0], rgb[1], rgb[2], lineOpacity / 255.0f));
 	}
 
 	/**
@@ -297,7 +295,6 @@ public class EuclidianPen implements GTimerListener {
 		this.initialPoint = point;
 		this.deleteInitialPoint = deletePoint;
 	}
-
 
 	/**
 	 *
@@ -420,12 +417,14 @@ public class EuclidianPen implements GTimerListener {
 			maxX = e.getX();
 
 		if (penPoints.size() == 0) {
-			if(initialPoint != null){
+			if (initialPoint != null) {
 				// also add the coordinates of the initialPoint to the penPoints
 				Coords coords = initialPoint.getCoords();
 				// calculate the screen coordinates
-				int locationX = (int) (view.getXZero() + (coords.getX() / view.getInvXscale()));
-				int locationY = (int) (view.getYZero() - (coords.getY() / view.getInvYscale()));
+				int locationX = (int) (view.getXZero()
+						+ (coords.getX() / view.getInvXscale()));
+				int locationY = (int) (view.getYZero()
+						- (coords.getY() / view.getInvYscale()));
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
@@ -443,9 +442,10 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
-										   GPoint point2) {
+			GPoint point2) {
 		GLine2D line = AwtFactory.getPrototype().newLine2D();
-		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
+		line.setLine(point1.getX(), point1.getY(), point2.getX(),
+				point2.getY());
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
 				lineDrawingStyle));
 		g2D.setColor(lineDrawingColor);
@@ -538,8 +538,9 @@ public class EuclidianPen implements GTimerListener {
 		GeoConic circle = getCircleThreePoints();
 		if (circle != null) {
 			// midpoint
-			GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null, circle.getMidpoint().getX(),
-					circle.getMidpoint().getY(), 1.0);
+			GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null,
+					circle.getMidpoint().getX(), circle.getMidpoint().getY(),
+					1.0);
 
 			// point on the circle
 			GeoPoint p = circle.getPointsOnConic(1).get(0);
@@ -575,7 +576,8 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return {@link GeoElement} if polygon or line could be created, {@code null} otherwise
+	 * @return {@link GeoElement} if polygon or line could be created,
+	 *         {@code null} otherwise
 	 */
 	private GeoElement tryPolygonOrLine() {
 		int n = getPolygonal();
@@ -660,9 +662,9 @@ public class EuclidianPen implements GTimerListener {
 		return null;
 	}
 
-
 	/**
-	 * @return {@link GeoElement} if polygon or line could be created, {@code null} otherwise
+	 * @return {@link GeoElement} if polygon or line could be created,
+	 *         {@code null} otherwise
 	 */
 	private GeoElement tryLine() {
 		RecoSegment rs = getRecoSegment(0);
@@ -687,16 +689,14 @@ public class EuclidianPen implements GTimerListener {
 		if (this.initialPoint != null) {
 			p = initialPoint;
 		} else {
-			p = new GeoPoint(app.getKernel().getConstruction(), null,
-					x_first, y_first, 1.0);
+			p = new GeoPoint(app.getKernel().getConstruction(), null, x_first,
+					y_first, 1.0);
 		}
-		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(),
-				null, x_last, y_last, 1.0);
+		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), null,
+				x_last, y_last, 1.0);
 
 		return getJoinPointsSegment(p, q);
 	}
-
-
 
 	protected int getPolygonal() {
 		brk = new int[5];
@@ -707,7 +707,8 @@ public class EuclidianPen implements GTimerListener {
 
 		// AbstractApplication.debug(penPoints);
 
-		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0, 0);
+		return this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0,
+				0);
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
@@ -749,8 +750,9 @@ public class EuclidianPen implements GTimerListener {
 			GPoint p = it.next();
 			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
 			// view.toRealWorldCoordY(p.getY()), 1));
-			newPts[offset++] = new GeoPoint(cons, view.toRealWorldCoordX(p
-					.getX()), view.toRealWorldCoordY(p.getY()), 1);
+			newPts[offset++] = new GeoPoint(cons,
+					view.toRealWorldCoordX(p.getX()),
+					view.toRealWorldCoordY(p.getY()), 1);
 		}
 
 		AlgoElement algo;
@@ -864,8 +866,8 @@ public class EuclidianPen implements GTimerListener {
 
 		}
 
-		Log.debug("mono" + monotonicTest + " " + monotonicTest
-				/ penPoints.size());
+		Log.debug("mono" + monotonicTest + " "
+				+ monotonicTest / penPoints.size());
 
 		monotonicTest = monotonicTest / penPoints.size();
 
@@ -895,7 +897,8 @@ public class EuclidianPen implements GTimerListener {
 		for (int i = 0; i < penPoints.size(); i++) {
 			GPoint p = penPoints.get(i);
 			int index = p.x - minX;
-			if (index >= 0 && index < freehand1.length && Double.isNaN(freehand1[index])) {
+			if (index >= 0 && index < freehand1.length
+					&& Double.isNaN(freehand1[index])) {
 				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
@@ -917,8 +920,8 @@ public class EuclidianPen implements GTimerListener {
 					freehand1[i] = val;
 				else {
 					nextVal = freehand1[nextValIndex];
-					freehand1[i] = (val * (nextValIndex - i) + nextVal
-							* (i - valIndex))
+					freehand1[i] = (val * (nextValIndex - i)
+							+ nextVal * (i - valIndex))
 							/ (nextValIndex - valIndex);
 				}
 			} else {
@@ -931,13 +934,13 @@ public class EuclidianPen implements GTimerListener {
 
 		GeoList list = new GeoList(cons);
 		// checkDecimalFraction() -> shorter XML
-		list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(view
-				.toRealWorldCoordX(minX))));
-		list.add(new GeoNumeric(cons, Kernel.checkDecimalFraction(view
-				.toRealWorldCoordX(maxX))));
+		list.add(new GeoNumeric(cons,
+				Kernel.checkDecimalFraction(view.toRealWorldCoordX(minX))));
+		list.add(new GeoNumeric(cons,
+				Kernel.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
 		for (int i = 0; i < n; i++) {
-			list.add(new GeoNumeric(cons, Kernel
-					.checkDecimalFraction(freehand1[i])));
+			list.add(new GeoNumeric(cons,
+					Kernel.checkDecimalFraction(freehand1[i])));
 		}
 
 		// GeoElement fun = algo.getOutput(0);
@@ -962,7 +965,7 @@ public class EuclidianPen implements GTimerListener {
 	 * ported from xournal by Neel Shah
 	 */
 	private int findPolygonal(int start, int end, int n, int offset1,
-							  int offset2) {
+			int offset2) {
 		Inertia s = new Inertia();
 		Inertia s1 = new Inertia();
 		Inertia s2 = new Inertia();
@@ -1014,8 +1017,9 @@ public class EuclidianPen implements GTimerListener {
 				break;
 		}
 		if (i1 > start) {
-			n1 = this.findPolygonal(start, i1, (i2 == end) ? (nsides - 1)
-					: (nsides - 2), offset1, offset2);
+			n1 = this.findPolygonal(start, i1,
+					(i2 == end) ? (nsides - 1) : (nsides - 2), offset1,
+					offset2);
 			if (n1 == 0)
 				return 0;
 		} else
@@ -1121,9 +1125,8 @@ public class EuclidianPen implements GTimerListener {
 		for (i = start; i < end; ++i) {
 			dm = Math.hypot(penPoints.get(i + 1).x - penPoints.get(i).x,
 					penPoints.get(i + 1).y - penPoints.get(i).y);
-			deltar = Math.hypot(penPoints.get(i).x - x0, penPoints.get(i).y
-					- y0)
-					- r0;
+			deltar = Math.hypot(penPoints.get(i).x - x0,
+					penPoints.get(i).y - y0) - r0;
 			sum = sum + (dm * Math.abs(deltar));
 		}
 		return sum / (s.mass * r0);
@@ -1179,8 +1182,8 @@ public class EuclidianPen implements GTimerListener {
 				1.0);
 		GeoPoint z = new GeoPoint(app.getKernel().getConstruction(), x3, y3,
 				1.0);
-		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(app.getKernel()
-				.getConstruction(), null, p1, q, z);
+		AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
+				app.getKernel().getConstruction(), null, p1, q, z);
 
 		GeoConic circle = (GeoConic) algo.getCircle();
 		// circle.setLineThickness(penSize * PEN_SIZE_FACTOR);
@@ -1216,8 +1219,8 @@ public class EuclidianPen implements GTimerListener {
 
 		int step = this.penPoints.size() / datasize;
 
-		Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize, order
-				* (order + 1));
+		Array2DRowRealMatrix M = new Array2DRowRealMatrix(datasize,
+				order * (order + 1));
 
 		double[] coeffs = new double[6];
 
@@ -1267,8 +1270,10 @@ public class EuclidianPen implements GTimerListener {
 
 			// GeoVec2D midpoint = conic.b;
 
-			// Log.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-			// Log.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+			// Log.debug("size of M = "+M.getColumnDimension()+"
+			// "+M.getRowDimension());
+			// Log.debug("size of V = "+V.getColumnDimension()+"
+			// "+V.getRowDimension());
 
 		} catch (Throwable t) {
 			t.printStackTrace();
@@ -1278,8 +1283,8 @@ public class EuclidianPen implements GTimerListener {
 		GeoConic conic = new GeoConic(this.app.getKernel().getConstruction(),
 				coeffs);
 
-		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(),
-				0, 0, 1);
+		GeoPoint point = new GeoPoint(this.app.getKernel().getConstruction(), 0,
+				0, 1);
 		double error = 0;
 		for (GPoint p : penPoints) {
 			point.setCoords(view.toRealWorldCoordX(p.x),
@@ -1457,25 +1462,30 @@ public class EuclidianPen implements GTimerListener {
 			return null;
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + ((i + 1) % nsides));
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + ((i + 1) % nsides));
 			// AbstractApplication.debug(Math.abs(Math.abs(r1.angle-r2.angle)-Math.PI/2)
 			// > RECTANGLE_ANGLE_TOLERANCE);
-			if (Math.abs(Math.abs(r1.angle - r2.angle) - Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE)
+			if (Math.abs(Math.abs(r1.angle - r2.angle)
+					- Math.PI / 2) > RECTANGLE_ANGLE_TOLERANCE)
 				return null;
 			avg_angle = avg_angle + r1.angle;
 			if (r2.angle > r1.angle)
 				avg_angle = avg_angle + ((i + 1) * Math.PI / 2);
 			else
 				avg_angle = avg_angle - ((i + 1) * Math.PI / 2);
-			r1.reversed = ((r1.x2 - r1.x1) * (r2.xcenter - r1.xcenter) + (r1.y2 - r1.y1)
-					* (r2.ycenter - r1.ycenter)) < 0;
+			r1.reversed = ((r1.x2 - r1.x1) * (r2.xcenter - r1.xcenter)
+					+ (r1.y2 - r1.y1) * (r2.ycenter - r1.ycenter)) < 0;
 		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + ((i + 1) % nsides));
-			dist = Math.hypot((r1.reversed ? r1.x1 : r1.x2)
-					- (r2.reversed ? r2.x2 : r2.x1), (r1.reversed ? r1.y1
-					: r1.y2) - (r2.reversed ? r2.y2 : r2.y1));
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + ((i + 1) % nsides));
+			dist = Math.hypot(
+					(r1.reversed ? r1.x1 : r1.x2)
+							- (r2.reversed ? r2.x2 : r2.x1),
+					(r1.reversed ? r1.y1 : r1.y2)
+							- (r2.reversed ? r2.y2 : r2.y1));
 			if (dist > RECTANGLE_LINEAR_TOLERANCE * (r1.radius + r2.radius))
 				return null;
 		}
@@ -1494,7 +1504,8 @@ public class EuclidianPen implements GTimerListener {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + ((i + 1) % nsides));
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + ((i + 1) % nsides));
 			EuclidianPen.calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -1502,14 +1513,15 @@ public class EuclidianPen implements GTimerListener {
 		points[0] = points[2 * nsides];
 		points[1] = points[2 * nsides + 1];
 
-
 		// in case a initialPoint is defined, move the polygon so that its first
 		// point matches the initialPoint
 		double offsetInitialPointX = 0;
 		double offsetInitialPointY = 0;
 
-		// in case the initialPoint cannot be used and can be deleted safely, delete it
-		if(initialPoint != null && !initialPoint.isIndependent() && deleteInitialPoint){
+		// in case the initialPoint cannot be used and can be deleted safely,
+		// delete it
+		if (initialPoint != null && !initialPoint.isIndependent()
+				&& deleteInitialPoint) {
 			this.initialPoint.remove();
 			this.initialPoint = null;
 		}
@@ -1541,11 +1553,13 @@ public class EuclidianPen implements GTimerListener {
 
 	/**
 	 *
-	 * @param points {@link GeoPointND}
+	 * @param points
+	 *            {@link GeoPointND}
 	 * @return {@link GeoElement Polygon} created of given points
 	 */
 	private GeoElement createPolygonFromPoints(GeoPointND[] points) {
-		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(), null, points);
+		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(),
+				null, points);
 		GeoElement poly = algo.getOutput(0);
 		// poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// poly.setLineType(penLineStyle);
@@ -1556,7 +1570,8 @@ public class EuclidianPen implements GTimerListener {
 
 	private GeoElement getJoinPointsSegment(GeoPoint first, GeoPoint last) {
 		Construction cons = app.getKernel().getConstruction();
-		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null, first, last);
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null,
+				first, last);
 		GeoElement line = algo.getOutput(0);
 		line.updateRepaint();
 		return line;
@@ -1581,19 +1596,21 @@ public class EuclidianPen implements GTimerListener {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + (i + 1) % nsides);
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + (i + 1) % nsides);
 			EuclidianPen.calc_edge_isect(r1, r2, pt);
 			r1.reversed = (Math.hypot(pt[0] - r1.x1, pt[1] - r1.y1)) < (Math
 					.hypot(pt[0] - r1.x2, pt[1] - r1.y2));
 		}
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + (i + 1) % nsides);
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + (i + 1) % nsides);
 			EuclidianPen.calc_edge_isect(r1, r2, pt);
 			dist = Math.hypot((r1.reversed ? r1.x1 : r1.x2) - pt[0],
 					(r1.reversed ? r1.y1 : r1.y2) - pt[1])
 					+ Math.hypot((r2.reversed ? r2.x2 : r2.x1) - pt[0],
-					(r2.reversed ? r2.y2 : r2.y1) - pt[1]);
+							(r2.reversed ? r2.y2 : r2.y1) - pt[1]);
 			if (dist > POLYGON_LINEAR_TOLERANCE * (r1.radius + r2.radius)) {
 				return null;
 			}
@@ -1603,7 +1620,8 @@ public class EuclidianPen implements GTimerListener {
 
 		for (i = 0; i < nsides; ++i) {
 			r1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			r2 = getRecoSegment(recognizer_queue_length - nsides + (i + 1) % nsides);
+			r2 = getRecoSegment(
+					recognizer_queue_length - nsides + (i + 1) % nsides);
 			EuclidianPen.calc_edge_isect(r1, r2, pt);
 			points[2 * i + 2] = pt[0];
 			points[2 * i + 3] = pt[1];
@@ -1619,7 +1637,8 @@ public class EuclidianPen implements GTimerListener {
 				initialPoint = null;
 			} else {
 				// null -> created labeled point
-				pts[i] = new GeoPoint(app.getKernel().getConstruction(), null, view.toRealWorldCoordX(points[2 * i]),
+				pts[i] = new GeoPoint(app.getKernel().getConstruction(), null,
+						view.toRealWorldCoordX(points[2 * i]),
 						view.toRealWorldCoordY(points[2 * i + 1]), 1.0);
 			}
 		}
@@ -1633,21 +1652,22 @@ public class EuclidianPen implements GTimerListener {
 
 	private RecoSegment getRecoSegment(int n) {
 		switch (n) {
-			case 0:
-				return reco_queue_a;
-			case 1:
-				return reco_queue_b;
-			case 2:
-				return reco_queue_c;
-			case 3:
-				return reco_queue_d;
-			case 4:
-				return reco_queue_e;
+		case 0:
+			return reco_queue_a;
+		case 1:
+			return reco_queue_b;
+		case 2:
+			return reco_queue_c;
+		case 3:
+			return reco_queue_d;
+		case 4:
+			return reco_queue_e;
 		}
 		return null;
 	}
 
-	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2, double pt[]) {
+	private static void calc_edge_isect(RecoSegment r1, RecoSegment r2,
+			double pt[]) {
 		double t = (r2.xcenter - r1.xcenter) * Math.sin(r2.angle)
 				- (r2.ycenter - r1.ycenter) * Math.cos(r2.angle);
 		t = t / Math.sin(r2.angle - r1.angle);

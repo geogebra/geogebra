@@ -41,7 +41,8 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 	}
 
 	@Override
-	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
+	protected void setInput(GeoLineND g, GeoLineND h,
+			GeoDirectionND orientation) {
 		super.setInput(g, h, orientation);
 		this.orientation = orientation;
 	}

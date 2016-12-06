@@ -35,9 +35,9 @@ public class CmdZProportionEstimate extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				AlgoZProportionEstimate algo = new AlgoZProportionEstimate(
-						cons, c.getLabel(), (GeoNumeric) arg[0],
-						(GeoNumeric) arg[1], (GeoNumeric) arg[2]);
+				AlgoZProportionEstimate algo = new AlgoZProportionEstimate(cons,
+						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

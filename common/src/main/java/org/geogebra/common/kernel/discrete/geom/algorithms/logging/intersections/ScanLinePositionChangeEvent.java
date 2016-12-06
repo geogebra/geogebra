@@ -28,16 +28,16 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.TemporaryLogE
  *
  * @author cyberpython
  */
-public class ScanLinePositionChangeEvent extends TemporaryLogEvent{
+public class ScanLinePositionChangeEvent extends TemporaryLogEvent {
 
-    private double x;
+	private double x;
 
-    public ScanLinePositionChangeEvent(double x){
-        this.x = x;
-    }
+	public ScanLinePositionChangeEvent(double x) {
+		this.x = x;
+	}
 
-    public double getX(){
-        return this.x;
-    }
+	public double getX() {
+		return this.x;
+	}
 
 }

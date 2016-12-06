@@ -39,7 +39,6 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
-
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
@@ -54,13 +53,14 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConicND))
+			if ((ok[0] = (arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoConicND))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
-						c.getLabel(), (Path) arg[0],
-						(GeoNumberValue) arg[1], null);
+						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+						null);
 
 				return ret;
 			}
@@ -78,7 +78,8 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConicND))
+			if ((ok[0] = (arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoConicND))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
 				GeoElement[] ret = new GeoElement[1];
@@ -96,7 +97,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
 			if ((ok[0] = arg[0] instanceof VectorNDValue)
 
-			&& (ok[1] = arg[1] instanceof GeoNumeric)
+					&& (ok[1] = arg[1] instanceof GeoNumeric)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4] instanceof GeoNumeric)
@@ -113,8 +114,8 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					coords[i] = nx.getNumber();
 				}
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernelA.getManager3D().SurfaceCartesian3D(
-						c.getLabel(), exp, coords[0], coords[1], coords[2],
+				ret[0] = kernelA.getManager3D().SurfaceCartesian3D(c.getLabel(),
+						exp, coords[0], coords[1], coords[2],
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]);
@@ -134,12 +135,12 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[7] = arg[7] instanceof GeoNumberValue)
 					&& (ok[8] = arg[8] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
-				ret[0] = kernelA.getManager3D().SurfaceCartesian3D(
-						c.getLabel(), null, (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-						(GeoNumeric) arg[3], (GeoNumberValue) arg[4],
-						(GeoNumberValue) arg[5], (GeoNumeric) arg[6],
-						(GeoNumberValue) arg[7], (GeoNumberValue) arg[8]);
+				ret[0] = kernelA.getManager3D().SurfaceCartesian3D(c.getLabel(),
+						null, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
+						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
+						(GeoNumeric) arg[6], (GeoNumberValue) arg[7],
+						(GeoNumberValue) arg[8]);
 				return ret;
 			}
 

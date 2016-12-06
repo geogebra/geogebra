@@ -89,7 +89,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 		createBuffer(buffer, removedElementBuffers);
 	}
 
-	final private static void removeBuffer(GPUBuffer buffer, Stack<Object> stack) {
+	final private static void removeBuffer(GPUBuffer buffer,
+			Stack<Object> stack) {
 		stack.push(buffer.get());
 	}
 
@@ -102,8 +103,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	@Override
-	public void storeBuffer(GLBuffer fb, int length, int size,
-			GPUBuffer buffer, int attrib) {
+	public void storeBuffer(GLBuffer fb, int length, int size, GPUBuffer buffer,
+			int attrib) {
 		// Select the VBO, GPU memory data
 		bindBuffer(buffer);
 
@@ -135,12 +136,10 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	abstract protected void bindBuffer(int bufferType, GPUBuffer buffer);
-	
+
 	abstract protected int getGL_ELEMENT_ARRAY_BUFFER();
 
 	abstract protected int getGL_ARRAY_BUFFER();
-
-
 
 	/**
 	 * set vertex attribute pointer
@@ -186,9 +185,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 		glEnableVertexAttribArray(GLSL_ATTRIB_COLOR);
 	}
-	
+
 	abstract protected void glUniform3fv(Object location, float[] values);
-	abstract protected void glUniform3f(Object location, float x, float y, float z);
+
+	abstract protected void glUniform3f(Object location, float x, float y,
+			float z);
 
 	protected void resetOneNormalForAllVertices() {
 		oneNormalForAllVertices = false;
@@ -496,7 +497,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		vertexAttribPointer(GLSL_ATTRIB_TEXTURE, 2);
 	}
 
-
 	abstract protected int getGLType(Type type);
 
 	protected final void setModelViewIdentity() {
@@ -648,7 +648,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glUniform2fv(ambiantDiffuseLocation, ambiantDiffuse[light]);
 	}
 
-
 	@Override
 	public void setLightModel() {
 		// not used with shaders
@@ -709,28 +708,26 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void updatePerspValues() {
 
-		projectionMatrix
-				.set(1,
-						1,
-						2
-								* renderer.perspNear[renderer.eye]
-								/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]));
+		projectionMatrix.set(1, 1,
+				2 * renderer.perspNear[renderer.eye]
+						/ (renderer.perspRight[renderer.eye]
+								- renderer.perspLeft[renderer.eye]));
 		projectionMatrix.set(2, 1, 0);
 		projectionMatrix.set(3, 1, 0);
 		projectionMatrix.set(4, 1, 0);
 
 		projectionMatrix.set(1, 2, 0);
-		projectionMatrix
-				.set(2,
-						2,
-						2
-								* renderer.perspNear[renderer.eye]
-								/ (renderer.perspTop[renderer.eye] - renderer.perspBottom[renderer.eye]));
+		projectionMatrix.set(2, 2,
+				2 * renderer.perspNear[renderer.eye]
+						/ (renderer.perspTop[renderer.eye]
+								- renderer.perspBottom[renderer.eye]));
 		projectionMatrix.set(3, 2, 0);
 		projectionMatrix.set(4, 2, 0);
 
-		perspXZ = (renderer.perspRight[renderer.eye] + renderer.perspLeft[renderer.eye])
-				/ (renderer.perspRight[renderer.eye] - renderer.perspLeft[renderer.eye]);
+		perspXZ = (renderer.perspRight[renderer.eye]
+				+ renderer.perspLeft[renderer.eye])
+				/ (renderer.perspRight[renderer.eye]
+						- renderer.perspLeft[renderer.eye]);
 
 		projectionMatrix.set(1, 3, perspXZ);
 		perspYZ = (renderer.perspTop[renderer.eye]
@@ -804,9 +801,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		projectionMatrix.set(4, 4, 1);
 
 	}
-	
-
-
 
 	private float[] clipPlanesMin = new float[3];
 	private float[] clipPlanesMax = new float[3];
@@ -837,8 +831,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	}
 
-
-
 	@Override
 	public void initRenderingValues() {
 
@@ -856,7 +848,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void drawFaceToScreenBelow() {
 		glUniform1i(labelRenderingLocation, 0);
 	}
-
 
 	@Override
 	public void setLabelOrigin(float[] origin) {
@@ -877,9 +868,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		} else {
 			glUniform1i(enableLightLocation, 0);
 		}
-		
+
 		glUniform1i(enableShineLocation, 0);
-		
+
 	}
 
 	@Override
@@ -909,8 +900,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	final public void setCenter(Coords center) {
 		center.get4ForGL(pointCenter);
 		// set radius info
-		pointCenter[3] = view3D.unscale(pointCenter[3]
-				* DrawPoint3D.DRAW_POINT_FACTOR);
+		pointCenter[3] = view3D
+				.unscale(pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR);
 		glUniform4fv(centerLocation, pointCenter);
 	}
 
@@ -1082,6 +1073,5 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void disableAlphaTest() {
 		// done by shader
 	}
-
 
 }

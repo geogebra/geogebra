@@ -66,8 +66,8 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 			return;
 		}
 
-		Coords d = segment.getDirectionInD3().crossProduct(
-				direction.getDirectionInD3());
+		Coords d = segment.getDirectionInD3()
+				.crossProduct(direction.getDirectionInD3());
 		if (d.isZero()) {
 			line.setUndefined();
 		} else {

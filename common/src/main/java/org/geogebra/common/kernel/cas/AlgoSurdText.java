@@ -181,8 +181,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * 
 			 * 
 			 * if (!sb.toString().equals(q+"+\\sqrt{"+primes[p]+"}")) {
-			 * //Log.debug
-			 * ("error:"+sb.toString()+"       "+q+"+\\sqrt{"+primes[p]+"}");
+			 * //Log.debug ("error:"+sb.toString()+"       "
+			 * +q+"+\\sqrt{"+primes[p]+"}");
 			 * 
 			 * if (Math.abs(debug0) > Math.abs(debug1) && Math.abs(debug0) >
 			 * Math.abs(debug2)) { if (Math.abs(debug0) < debug0max) { debug0max
@@ -202,9 +202,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * if (sb.toString().indexOf("\\frac") > -1 &&
 			 * !sb.toString().equals(
 			 * "\\frac{"+q+"+\\sqrt{"+primes[p]+"}}{"+r+"}")) {
-			 * //Log.debug("error:"
-			 * +sb.toString()+"       \\frac{"+q+"+\\sqrt{"+primes
-			 * [p]+"}}{"+r+"}      "+sbDebug.toString());
+			 * //Log.debug("error:" +sb.toString()+"       \\frac{"
+			 * +q+"+\\sqrt{"+primes [p]+"}}{"+r+"}      "+sbDebug.toString());
 			 * 
 			 * 
 			 * if (Math.abs(debug0) > Math.abs(debug1) && Math.abs(debug0) >
@@ -322,8 +321,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (fitter.formalSolution.length() > 0
 				&& Kernel.isEqual(ve.evaluateDouble(), number)) {
 			sBuilder.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve,
-					null,
-					tpl, null, kernel));
+					null, tpl, null, kernel));
 			return;
 		}
 
@@ -366,7 +364,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					int j;
 					for (j = 2; j < 100; j++) {
 						double sqrt = Math.sqrt(j);
-						if (!Kernel.isInteger(sqrt) && Kernel.isEqual(x, sqrt)) {
+						if (!Kernel.isInteger(sqrt)
+								&& Kernel.isEqual(x, sqrt)) {
 							values.add(sqrt);
 							names.add("sqrt(" + j + ")");
 							break;
@@ -403,8 +402,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		boolean success = fitLinearComb(number, testNames, testValues, 100,
-				sBuilder,
-				tpl);
+				sBuilder, tpl);
 
 		if (success) {
 			return;
@@ -439,7 +437,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (fitter0.formalSolution.length() > 0
 				&& Kernel.isEqual(ve0.evaluateDouble(), y)) {
 			sb1.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,
-					tpl,null, kernel));
+					tpl, null, kernel));
 
 			// t2 = System.currentTimeMillis();
 			// System.out.println("time of ve to CAS: " + (t2-t1));
@@ -453,12 +451,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	private ValidExpression sbToCAS(StringBuilder sBuilder) {
 		if (sBuilder != null) {
-			return kernel
-					.getGeoGebraCAS()
-					.getCASparser()
+			return kernel.getGeoGebraCAS().getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(
-							sBuilder.toString(),
-							getKernel(),null);
+							sBuilder.toString(), getKernel(), null);
 		}
 		return null;
 	}
@@ -478,8 +473,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 *            coefficients index step
 	 * @return linear combination
 	 */
-	static double evaluateCombination(int n, double[] constValue,
-			int[] coeffs,
+	static double evaluateCombination(int n, double[] constValue, int[] coeffs,
 			int offset, int step) {
 		double sum = 0;
 
@@ -508,13 +502,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * @param tpl
 	 *            template sending numbers to CAS
 	 */
-	void appendCombination(StringBuilder sbToCAS, int numOfTerms,
-			String[] vars, int[] coeffs, int offset, int step,
-			StringTemplate tpl) {
+	void appendCombination(StringBuilder sbToCAS, int numOfTerms, String[] vars,
+			int[] coeffs, int offset, int step, StringTemplate tpl) {
 
 		int numOfAllTerms = vars.length;
-		if (numOfAllTerms - 1 > Math.floor((coeffs.length - 1 - step - offset)
-				/ (double) step)) { // checksum
+		if (numOfAllTerms - 1 > Math
+				.floor((coeffs.length - 1 - step - offset) / (double) step)) { // checksum
 			// appendUndefined();
 			return;
 		}
@@ -817,8 +810,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 	}
-
-
 
 	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
 		return PSLQ(x.length, x, AccuracyFactor, bound, null, null);
@@ -1329,10 +1320,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			boolean loopTillExhausted = true;
 			int iterCount = 0;
 			double iterBound = n
-					* (n + 1)
-					/ 2.0
-					* ((n - 1) * Math.log(gamma) + 0.5 * Math.log(n) + Math
-							.log(bound)) / Math.log(tau);
+					* (n + 1) / 2.0 * ((n - 1) * Math.log(gamma)
+							+ 0.5 * Math.log(n) + Math.log(bound))
+					/ Math.log(tau);
 
 			while (iterCount < iterBound) {
 
@@ -1383,14 +1373,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					temp4 = H.getColumn(r + 1);
 
 					for (int i = r; i < n; i++) {
-						H.setEntry(i, r,
-								b.multiply(temp3[i]).add(l.multiply(temp4[i]))
-										.divide(d));
-						H.setEntry(
-								i,
-								r + 1,
-								l.negate().multiply(temp3[i])
-										.add(b.multiply(temp4[i])).divide(d));
+						H.setEntry(i, r, b.multiply(temp3[i])
+								.add(l.multiply(temp4[i])).divide(d));
+						H.setEntry(i, r + 1, l.negate().multiply(temp3[i])
+								.add(b.multiply(temp4[i])).divide(d));
 					}
 				}
 				// pretermination, just for double-check. Not mentioned in the
@@ -1428,13 +1414,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					double maxxB = 0;
 					for (int i = 0; i < n; i++) {
 						sumBCol += B.getEntry(i, j).abs().doubleValue();
-						maxxB = Math.max(maxxB, xB.getEntry(0, i).abs()
-								.doubleValue());
+						maxxB = Math.max(maxxB,
+								xB.getEntry(0, i).abs().doubleValue());
 					}
 
-					if (xB.getEntry(0, j).signum() == 0
-							|| xB.getEntry(0, j).abs().doubleValue() < sumBCol
-									* err) {
+					if (xB.getEntry(0, j).signum() == 0 || xB.getEntry(0, j)
+							.abs().doubleValue() < sumBCol * err) {
 
 						relationFound = true;
 						IntRelation m = new IntRelation(n, B, xB, err / maxxB);
@@ -1470,7 +1455,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			for (int i = 0; i < n; i++) {
 				if (xNorm.getImpl().compareTo(BigDecimal.ZERO) != 0) {
-				x_full[i] = x_full[i].divide(xNorm);
+					x_full[i] = x_full[i].divide(xNorm);
 				}
 				x_double[i] = new MyDecimal(lessScale1, x_full[i].getImpl());
 
@@ -1504,9 +1489,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < i; j++) {
-					H_full.setEntry(i, j,
-							x_full[i].multiply(x_full[j]).divide(Pss[j])
-									.negate());
+					H_full.setEntry(i, j, x_full[i].multiply(x_full[j])
+							.divide(Pss[j]).negate());
 				}
 
 				if (i < n - 1)
@@ -1543,18 +1527,16 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * 
 			 * System.out.println(P.toString());
 			 * 
-			 * //debug: |P|^2=|H|^2 = n-1
-			 * AbstractApplication.debug("Frobenius Norm Squares: \n" +
-			 * "|P|^2 = " + frobNormSq(P,n,n) + "|H|^2 = " + frobNormSq(H,n,n-1)
-			 * );
+			 * //debug: |P|^2=|H|^2 = n-1 AbstractApplication.debug(
+			 * "Frobenius Norm Squares: \n" + "|P|^2 = " + frobNormSq(P,n,n) +
+			 * "|H|^2 = " + frobNormSq(H,n,n-1) );
 			 */
 
 			H = new MyDecimalMatrix(lessScale1, n, n - 1);
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n - 1; j++) {
-					H.setEntry(i, j,
-							new MyDecimal(lessScale1,
-									H_full.getEntry(i, j).getImpl()));
+					H.setEntry(i, j, new MyDecimal(lessScale1,
+							H_full.getEntry(i, j).getImpl()));
 				}
 			}
 
@@ -1602,36 +1584,23 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					// MyDecimal q = new MyDecimal(H.getEntry(i,
 					// j).divide(H.getEntry(j, j)).divide(ONE, 0,
 					// BigDecimal.ROUND_DOWN));
-					MyDecimal q = new MyDecimal(lessScale1, Math.rint(H
-							.getEntry(i, j).doubleValue()
-							/ H.getEntry(j, j).doubleValue()));
+					MyDecimal q = new MyDecimal(lessScale1,
+							Math.rint(H.getEntry(i, j).doubleValue()
+									/ H.getEntry(j, j).doubleValue()));
 					for (int k = 0; k <= j; k++) {
-						H.setEntry(
-								i,
-								k,
-								H.getEntry(i, k).subtract(
-										q.multiply(H.getEntry(j, k))));
+						H.setEntry(i, k, H.getEntry(i, k)
+								.subtract(q.multiply(H.getEntry(j, k))));
 					}
 					for (int k = 0; k < n; k++) {
-						D.setEntry(
-								i,
-								k,
-								D.getEntry(i, k).subtract(
-										q.multiply(D.getEntry(j, k))));
-						A.setEntry(
-								i,
-								k,
-								A.getEntry(i, k).subtract(
-										q.multiply(A.getEntry(j, k))));
-						B.setEntry(
-								k,
-								j,
-								B.getEntry(k, j).add(
-										q.multiply(B.getEntry(k, i))));
+						D.setEntry(i, k, D.getEntry(i, k)
+								.subtract(q.multiply(D.getEntry(j, k))));
+						A.setEntry(i, k, A.getEntry(i, k)
+								.subtract(q.multiply(A.getEntry(j, k))));
+						B.setEntry(k, j, B.getEntry(k, j)
+								.add(q.multiply(B.getEntry(k, i))));
 					}
-					xB.setEntry(0, j,
-							xB.getEntry(0, j)
-									.add(q.multiply(xB.getEntry(0, i))));
+					xB.setEntry(0, j, xB.getEntry(0, j)
+							.add(q.multiply(xB.getEntry(0, i))));
 				}
 			}
 
@@ -1670,13 +1639,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					double maxxB = 0;
 					for (int i = 0; i < n; i++) {
 						sumBCol += B.getEntry(i, j).abs().doubleValue();
-						maxxB = Math.max(maxxB, xB.getEntry(0, i).abs()
-								.doubleValue());
+						maxxB = Math.max(maxxB,
+								xB.getEntry(0, i).abs().doubleValue());
 					}
 
-					if (xB.getEntry(0, j).equals(ZERO_LESS)
-							|| Math.abs(xB.getEntry(0, j).doubleValue()) < sumBCol
-									* err) {
+					if (xB.getEntry(0, j).equals(ZERO_LESS) || Math.abs(
+							xB.getEntry(0, j).doubleValue()) < sumBCol * err) {
 
 						orthoIndices[j] = 1;
 						nilDim++;
@@ -1695,8 +1663,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					B_sol = null;
 				}
 				if (nilDim < size) {
-					B_rest = new MyDecimalMatrix(B.getScale(), size, size
-							- nilDim);
+					B_rest = new MyDecimalMatrix(B.getScale(), size,
+							size - nilDim);
 				} else {
 					B_rest = null;
 				}
@@ -2031,8 +1999,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 					penalties[0][j] += termMax[a][j] > coeffBound ? 1 : 0;
 					penalties[1][j] += termCount[a][j] > 0 ? 1 : 0;
-					penalties[2][j] = Math
-							.max(penalties[2][j], termCount[a][j]);
+					penalties[2][j] = Math.max(penalties[2][j],
+							termCount[a][j]);
 
 					// penalties[3][j]: form -- integer - 0, fraction - 1,
 					// sqrt(w3) - 2
@@ -2117,8 +2085,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					StringBuilder AString = new StringBuilder();
 					StringBuilder BString = new StringBuilder();
 
-					AString.append(kernel.format(bestRelation[numOfConsts * 3],
-							tpl));
+					AString.append(
+							kernel.format(bestRelation[numOfConsts * 3], tpl));
 					if (!isARational) {
 						AString.append("+");
 						// appendCombination(AString,(bestRelation[numOfConsts*3]==0)?
@@ -2128,8 +2096,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 								bestRelation, 0, 3, tpl);
 					}
 
-					BString.append(kernel.format(
-							bestRelation[numOfConsts * 3 + 1], tpl));
+					BString.append(kernel
+							.format(bestRelation[numOfConsts * 3 + 1], tpl));
 					if (!isBRational) {
 						BString.append("+");
 						appendCombination(BString, numOfConsts, constStrings,
@@ -2158,24 +2126,24 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				StringBuilder BString = new StringBuilder();
 				StringBuilder CString = new StringBuilder();
 
-				AString.append(kernel
-						.format(bestRelation[numOfConsts * 3], tpl));
+				AString.append(
+						kernel.format(bestRelation[numOfConsts * 3], tpl));
 				if (!isARational) {
 					AString.append("+");
 					appendCombination(AString, numOfConsts, constStrings,
 							bestRelation, 0, 3, tpl);
 				}
 
-				BString.append(kernel.format(bestRelation[numOfConsts * 3 + 1],
-						tpl));
+				BString.append(
+						kernel.format(bestRelation[numOfConsts * 3 + 1], tpl));
 				if (!isBRational) {
 					BString.append("+");
 					appendCombination(BString, numOfConsts, constStrings,
 							bestRelation, 1, 3, tpl);
 				}
 
-				CString.append(kernel.format(bestRelation[numOfConsts * 3 + 2],
-						tpl));
+				CString.append(
+						kernel.format(bestRelation[numOfConsts * 3 + 2], tpl));
 				if (!isCRational) {
 					CString.append("+");
 					appendCombination(CString, numOfConsts, constStrings,
@@ -2331,8 +2299,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					// bound
 					boolean tooLargeEntry = false;
 					for (int i = 0; i < n; i++)
-						tooLargeEntry = tooLargeEntry
-								|| result2.getEntry(i, j).abs().intValue() > bound;
+						tooLargeEntry = tooLargeEntry || result2.getEntry(i, j)
+								.abs().intValue() > bound;
 					if (tooLargeEntry)
 						break;
 
@@ -2371,6 +2339,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 			return result;
 		}
+
 		/**
 		 * Assume that number = A/B, then we need to find relation (B,-A) to the
 		 * vector (number,1)
@@ -2513,8 +2482,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			formalSolution
 					.append(kernel.format(bestRelation[numOfConsts], tpl));
 			formalSolution.append(")/(");
-			formalSolution.append(kernel.format(-bestRelation[numOfConsts + 1],
-					tpl));
+			formalSolution
+					.append(kernel.format(-bestRelation[numOfConsts + 1], tpl));
 			formalSolution.append(")");
 
 			return;
@@ -2600,7 +2569,5 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 * }
 		 */
 	}
-
-	
 
 }

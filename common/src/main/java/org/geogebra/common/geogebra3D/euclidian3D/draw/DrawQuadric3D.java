@@ -65,7 +65,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
-
 	@Override
 	protected void drawSurfaceGeometry(Renderer renderer) {
 		drawGeometry(renderer);
@@ -110,7 +109,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	protected void drawTracesOutline(Renderer renderer, boolean hidden) {
 
-		if ((((GeoQuadric3D) getGeoElement()).getType() != GeoQuadricNDConstants.QUADRIC_LINE || hidden)
+		if ((((GeoQuadric3D) getGeoElement())
+				.getType() != GeoQuadricNDConstants.QUADRIC_LINE || hidden)
 				&& drawLine != null) {
 			drawLine.drawTracesOutline(renderer, hidden);
 		}
@@ -157,7 +157,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void drawGeometryForPicking(Renderer renderer, PickingType type) {
-		if (((GeoQuadric3D) getGeoElement()).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+		if (((GeoQuadric3D) getGeoElement())
+				.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 			drawOutline(renderer);
 		} else {
 			drawGeometry(renderer);
@@ -247,12 +248,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			visible = Visible.CENTER_INSIDE;
 		} else {
 			// calc angles to draw minimum longitudes
-			double horizontalDistance = Math.sqrt(v.getX() * v.getX()
-					+ v.getY() * v.getY());
+			double horizontalDistance = Math
+					.sqrt(v.getX() * v.getX() + v.getY() * v.getY());
 			if (horizontalDistance > frustumRadius) {
 				alpha = Math.asin(frustumRadius / horizontalDistance);
 				beta = Math.atan2(v.getY(), v.getX());
-				// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
+				// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta =
+				// "+(beta*180/Math.PI)+"degrees");
 				visible = Visible.CENTER_OUTSIDE; // center outside
 			} else {
 				visible = Visible.CENTER_INSIDE; // do as if center inside
@@ -261,25 +263,24 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
-	private void drawSphere(PlotterSurface surface, Coords center, double radius) {
+	private void drawSphere(PlotterSurface surface, Coords center,
+			double radius) {
 		if (visible == Visible.CENTER_OUTSIDE) {
 			int longitudeAlpha = 8;
 			while (longitudeAlpha * Math.PI < alpha * longitude) {
 				longitudeAlpha *= 2;
 			}
 			// Log.debug(longitudeAlpha+"");
-			surface.drawSphere(center, radius, longitude, beta - longitudeAlpha
-					* Math.PI / longitude, longitudeAlpha);
+			surface.drawSphere(center, radius, longitude,
+					beta - longitudeAlpha * Math.PI / longitude,
+					longitudeAlpha);
 		} else {
 			surface.drawSphere(center, radius, longitude);
 		}
 	}
-	
 
-	
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
-	
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
@@ -298,15 +299,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private double[] uMinMax, vMinMax;
 
-
 	@Override
 	protected boolean updateForItSelf() {
-		
+
 		Renderer renderer = getView3D().getRenderer();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		PlotterSurface surface;
 		int type = quadric.getType();
-		
+
 		double min, max;
 
 		switch (type) {
@@ -365,15 +365,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					ev2.mul(r2));
 			scale = getView3D().getMaxScale();
 			// get radius at max
-			radius = Math.max(r0, r1)
-					* Math.max(Math.abs(vMinMax[0]),
-							Math.max(Math.abs(vMinMax[1]), 1)) / r2;
+			radius = Math.max(r0, r1) * Math.max(Math.abs(vMinMax[0]),
+					Math.max(Math.abs(vMinMax[1]), 1)) / r2;
 			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 			min = DrawConic3D.asinh(vMinMax[0]);
 			max = DrawConic3D.asinh(vMinMax[1]);
 			surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
-					longitude, min, max, !getView3D()
-							.useClippingCube());
+					longitude, min, max, !getView3D().useClippingCube());
 			setSurfaceIndex(surface.end());
 			break;
 
@@ -451,9 +449,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				vMinMax[1] = Math.sqrt(vMinMax[1]);
 				radius = Math.max(r0, r1) * vMinMax[1];
 				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-				surface.drawParaboloid(center, ev0, ev1, ev2, r0, r1,
-						longitude, vMinMax[0], vMinMax[1], !getView3D()
-								.useClippingCube());
+				surface.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude,
+						vMinMax[0], vMinMax[1], !getView3D().useClippingCube());
 				setSurfaceIndex(surface.end());
 			}
 			break;
@@ -602,9 +599,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
 						radius, radius);
 
-
 			} else {
-
 
 				scale = getView3D().getMaxScale();
 
@@ -621,8 +616,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				}
 				if (max > 0) {
 					surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0,
-							r1, min, max, vMinMax[0], vMinMax[1], !getView3D()
-									.useClippingCube());
+							r1, min, max, vMinMax[0], vMinMax[1],
+							!getView3D().useClippingCube());
 				}
 				uMinMax[0] = Math.sinh(min);
 				uMinMax[1] = Math.sinh(max);
@@ -643,16 +638,16 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				ev2 = quadric.getEigenvec3D(1);
 				radius = quadric.getHalfAxis(0);
 				double radius2 = quadric.getHalfAxis(1);
-				Coords bottomCenter = surface.cone(top, ev1, ev2, quadric.getEigenvec3D(2),
- radius, radius2, 0,
+				Coords bottomCenter = surface.cone(top, ev1, ev2,
+						quadric.getEigenvec3D(2), radius, radius2, 0,
 						2 * Math.PI, height, 1f);
-				
+
 				boundsMin.setValues(top, 3);
 				boundsMax.setValues(top, 3);
 				radius *= height;
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter,
-						ev1, ev2, radius, radius2);
-				
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
+						ev2, radius, radius2);
+
 			} else { // infinite cone
 				if (vMinMax == null) {
 					vMinMax = new double[2];
@@ -724,13 +719,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
 						radius, radius2, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
-						false, false, longitude);				
-				
+						false, false, longitude);
+
 				boundsMin.set(Double.POSITIVE_INFINITY);
 				boundsMax.set(Double.NEGATIVE_INFINITY);
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2, radius, radius);
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1, ev2, radius, radius);
-				
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
+						radius, radius);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
+						ev2, radius, radius);
+
 			} else {
 				if (vMinMax == null) {
 					vMinMax = new double[2];
@@ -752,11 +749,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				} else {
 					double delta = (max - min) / 10;
 					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min + delta, max - delta, false, false, longitude);
+							2 * Math.PI, min + delta, max - delta, false, false,
+							longitude);
 					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, min + delta, true, false, longitude);
+							2 * Math.PI, min, min + delta, true, false,
+							longitude);
 					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, max - delta, max, false, true, longitude);
+							2 * Math.PI, max - delta, max, false, true,
+							longitude);
 				}
 
 			}
@@ -770,12 +770,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			surface.start(getReusableSurfaceIndex());
 			Coords m = quadric.getMidpoint3D();
 			double thickness = quadric.getLineThickness()
-					/ getView3D().getScale()
-					* DrawPoint3D.DRAW_POINT_FACTOR;
-			surface.drawSphere(quadric.getLineThickness(),
-					m, thickness);
+					/ getView3D().getScale() * DrawPoint3D.DRAW_POINT_FACTOR;
+			surface.drawSphere(quadric.getLineThickness(), m, thickness);
 			setSurfaceIndex(surface.end());
-			
+
 			boundsMin.setValues(m, 3);
 			boundsMax.setValues(m, 3);
 			boundsMin.addInside(-thickness);
@@ -803,7 +801,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			setSurfaceIndex(-1);
 		}
 
-
 		return true;
 	}
 
@@ -823,9 +820,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	private DrawLine3D drawLine;
 
 	private void initDrawLine(GeoQuadric3D quadric) {
-		if (drawLine == null){
-			drawLine = new DrawLine3DForQuadrics(getView3D(),
-					quadric.getLine(), quadric);
+		if (drawLine == null) {
+			drawLine = new DrawLine3DForQuadrics(getView3D(), quadric.getLine(),
+					quadric);
 		}
 	}
 
@@ -837,7 +834,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 
-		double[] minmax = { Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY };
+		double[] minmax = { Double.POSITIVE_INFINITY,
+				Double.NEGATIVE_INFINITY };
 
 		getView3D().getMinIntervalOutsideClipping(minmax,
 				quadric.getMidpoint3D(), quadric.getEigenvec3D(2));
@@ -856,7 +854,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	protected void getMinMax(double[] minmax) {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
-
 
 		getView3D().getMinIntervalOutsideClipping(minmax,
 				quadric.getMidpoint3D(), quadric.getEigenvec3D(2));
@@ -1118,7 +1115,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		return DRAW_PICK_ORDER_SURFACE;
 	}
-	
+
 	@Override
 	public boolean isTransparent() {
 		if (getPickingType() == PickingType.SURFACE) {
@@ -1171,8 +1168,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	 *            quadric type
 	 */
 	public DrawQuadric3D(EuclidianView3D view3D,
-			ArrayList<GeoPointND> selectedPoints,
-			int type) {
+			ArrayList<GeoPointND> selectedPoints, int type) {
 
 		super(view3D);
 
@@ -1181,9 +1177,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		q.setIsPickable(false);
 		q.setType(type);
 		// setGeoElement(q);
-		
+
 		setPickingType(PickingType.SURFACE);
-		
+
 		this.selectedPoints = selectedPoints;
 
 		updatePreview();
@@ -1216,7 +1212,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 	}
-	
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -1224,9 +1219,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (waitForReset) { // prevent NPE
 			return false;
 		}
-		
+
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
-		
+
 		quadric.resetLastHitParameters();
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED) {
@@ -1234,14 +1229,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT) {
-			if (DrawPoint3D.hit(hitting, quadric.getMidpoint3D(), this, quadric.getLineThickness(), project,
-					parameters, false)){
+			if (DrawPoint3D.hit(hitting, quadric.getMidpoint3D(), this,
+					quadric.getLineThickness(), project, parameters, false)) {
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
 			return false;
-		}	
-		
+		}
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 			if (drawLine.hit(hitting)) {
@@ -1252,12 +1246,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+		if (getGeoElement()
+				.getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
-		
+
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES
-				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES) {
+				|| quadric
+						.getType() == GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES) {
 			double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
 			if (drawPlanes[0].hit(hitting, p1, project)) {
 				z1 = drawPlanes[0].getZPickNear();
@@ -1283,8 +1279,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			// project with ortho matrix to get correct parameters
 			hitting.origin.projectPlaneThruVIfPossible(
 					quadric.getPlanes()[planeIndex].getCoordSys()
-							.getMatrixOrthonormal(), hitting.direction, p1,
-					project);
+							.getMatrixOrthonormal(),
+					hitting.direction, p1, project);
 
 			parameters1[0] = PathNormalizer.inverseInfFunction(project.getX())
 					+ 2 * planeIndex;
@@ -1308,36 +1304,37 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-
 		quadric.getProjections(null, hitting.origin, hitting.direction, p1,
 				parameters1, p2, parameters2);
-		
+
 		double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
-		
+
 		// check first point
 		if (hitting.isInsideClipping(p1)
 				&& arePossibleParameters(parameters1[0], parameters1[1])) {
 			// check distance to hitting line
-			p1.projectLine(hitting.origin, hitting.direction, project, parameters); 
+			p1.projectLine(hitting.origin, hitting.direction, project,
+					parameters);
 
 			double d = getView3D().getScaledDistance(p1, project);
 			if (d <= hitting.getThreshold()) {
 				z1 = -parameters[0];
 			}
 		}
-		
+
 		// check second point (if defined)
 		if (p2.isDefined() && hitting.isInsideClipping(p2)
 				&& arePossibleParameters(parameters2[0], parameters2[1])) {
 			// check distance to hitting line
-			p2.projectLine(hitting.origin, hitting.direction, project, parameters); 
+			p2.projectLine(hitting.origin, hitting.direction, project,
+					parameters);
 
 			double d = getView3D().getScaledDistance(p2, project);
 			if (d <= hitting.getThreshold()) {
 				z2 = -parameters[0];
 			}
 		}
-		
+
 		// keep highest value (closest to eye)
 		if (z1 < z2) {
 			z1 = z2;
@@ -1345,18 +1342,17 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		} else {
 			quadric.setLastHitParameters(parameters1);
 		}
-		
+
 		// if both negative infinity : not hitted
-		if (Double.isInfinite(z1)){
+		if (Double.isInfinite(z1)) {
 			quadric.resetLastHitParameters();
 			return false;
 		}
-		
+
 		// hitted
 		setZPick(z1, z1);
 		setPickingType(PickingType.SURFACE);
 		return true;
-
 
 	}
 
@@ -1390,7 +1386,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
-
 	private boolean isPossibleU(double u) {
 
 		if (u < uMinMax[0]) {
@@ -1413,12 +1408,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return true;
 	}
 
-	private Coords project = Coords.createInhomCoorsInD3(), p1 = Coords.createInhomCoorsInD3(), p2 = Coords.createInhomCoorsInD3();
+	private Coords project = Coords.createInhomCoorsInD3(),
+			p1 = Coords.createInhomCoorsInD3(),
+			p2 = Coords.createInhomCoorsInD3();
 
 	private double[] parameters = new double[2];
 	private double[] parameters1 = new double[2];
 	private double[] parameters2 = new double[2];
-
 
 	@Override
 	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,

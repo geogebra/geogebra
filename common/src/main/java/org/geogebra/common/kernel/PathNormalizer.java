@@ -18,7 +18,8 @@ public class PathNormalizer {
 	 *            of range [min, max]
 	 * @return parameter value in [min, max]
 	 */
-	public static double toParentPathParameter(double pn, double min, double max) {
+	public static double toParentPathParameter(double pn, double min,
+			double max) {
 		double tn = pn;
 		// for Points as Paths (min=max=0)
 		if (min == max)

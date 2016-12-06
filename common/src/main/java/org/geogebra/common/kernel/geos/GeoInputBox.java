@@ -22,24 +22,32 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Input box for user input
+ * 
  * @author Michael
  *
  */
 public class GeoInputBox extends GeoButton {
 	private static int defaultLength = 20;
 	private int length;
+
 	/**
 	 * Creates new text field
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoInputBox(Construction c) {
 		super(c);
 		length = defaultLength;
 	}
+
 	/**
-	 * @param cons construction
-	 * @param labelOffsetX x offset
-	 * @param labelOffsetY y offset
+	 * @param cons
+	 *            construction
+	 * @param labelOffsetX
+	 *            x offset
+	 * @param labelOffsetY
+	 *            y offset
 	 */
 	public GeoInputBox(Construction cons, int labelOffsetX, int labelOffsetY) {
 		this(cons);
@@ -48,38 +56,40 @@ public class GeoInputBox extends GeoButton {
 	}
 
 	@Override
-	public boolean isChangeable(){
+	public boolean isChangeable() {
 		return true;
 	}
-    
-    @Override
+
+	@Override
 	public GeoClass getGeoClassType() {
-    	return GeoClass.TEXTFIELD;
-    }
-    
+		return GeoClass.TEXTFIELD;
+	}
+
 	@Override
 	public boolean isTextField() {
 		return true;
 	}
-	
+
 	/**
-	 * @param geo new linked geo
+	 * @param geo
+	 *            new linked geo
 	 */
 	public void setLinkedGeo(GeoElementND geo) {
 		linkedGeo = geo;
 		text = geo.getValueForInputBar();
-		
+
 		// remove quotes from start and end
 		if (text.length() > 0 && text.charAt(0) == '"') {
 			text = text.substring(1);
-		}		
+		}
 		if (text.length() > 0 && text.charAt(text.length() - 1) == '"') {
 			text = text.substring(0, text.length() - 1);
 		}
 	}
-	
+
 	/**
 	 * Returns the linked geo
+	 * 
 	 * @return linked geo
 	 */
 	public GeoElementND getLinkedGeo() {
@@ -89,31 +99,35 @@ public class GeoInputBox extends GeoButton {
 	private GeoElementND linkedGeo = null;
 
 	private String text = null;
-	
+
 	@Override
 	public String toValueString(StringTemplate tpl1) {
-		if (linkedGeo == null) return "";
+		if (linkedGeo == null)
+			return "";
 		return text;
 	}
-	
+
 	/**
 	 * Set the text
-	 * @param newText new text value
+	 * 
+	 * @param newText
+	 *            new text value
 	 */
 	public void setText(String newText) {
-		text = newText;		
+		text = newText;
 	}
-	
+
 	/**
 	 * Get the text (used for scripting)
+	 * 
 	 * @return the text
 	 */
 	public String getText() {
 		return text;
 	}
-	
+
 	@Override
-	public boolean isGeoInputBox(){
+	public boolean isGeoInputBox() {
 		return true;
 	}
 
@@ -140,10 +154,11 @@ public class GeoInputBox extends GeoButton {
 
 		super.getXMLtags(sb);
 		if (linkedGeo != null) {
-   	
+
 			sb.append("\t<linkedGeo exp=\"");
-			StringUtil.encodeXML(sb, linkedGeo.getLabel(StringTemplate.xmlTemplate));
-			sb.append("\"");			    		    	
+			StringUtil.encodeXML(sb,
+					linkedGeo.getLabel(StringTemplate.xmlTemplate));
+			sb.append("\"");
 			sb.append("/>\n");
 
 			// print decimals
@@ -160,21 +175,24 @@ public class GeoInputBox extends GeoButton {
 				sb.append("\"/>\n");
 			}
 		}
-		
+
 		if (getLength() != defaultLength) {
 			sb.append("\t<length val=\"");
 			sb.append(getLength());
-			sb.append("\"");			    		    	
-			sb.append("/>\n");			
+			sb.append("\"");
+			sb.append("/>\n");
 		}
 
 	}
+
 	@Override
 	public GeoElement copy() {
 		return new GeoInputBox(cons, labelOffsetX, labelOffsetY);
 	}
+
 	/**
-	 * @param inputText new value for linkedGeo
+	 * @param inputText
+	 *            new value for linkedGeo
 	 */
 	public void updateLinkedGeo(String inputText) {
 		String defineText = inputText;
@@ -209,16 +227,16 @@ public class GeoInputBox extends GeoButton {
 			// string like f(x,y)=x^2
 			// or f(\theta) = \theta
 			defineText = linkedGeo.getLabel(tpl) + "("
-					+ ((FunctionalNVar) linkedGeo).getVarString(tpl)
-					+ ")=" + defineText;
+					+ ((FunctionalNVar) linkedGeo).getVarString(tpl) + ")="
+					+ defineText;
 		}
-		
+
 		if ("".equals(defineText.trim())) {
 			return;
 		}
-		
+
 		double num = Double.NaN;
-		
+
 		// for a simple number, round it to the textfield setting (if set)
 		if (linkedGeo.isGeoNumeric() && linkedGeo.isIndependent()
 				&& !linkedGeo.isGeoAngle()
@@ -228,8 +246,8 @@ public class GeoInputBox extends GeoButton {
 				// so use full GeoGebra parser
 				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
 						false, null);
-				defineText = kernel.format(num,  tpl);
-				
+				defineText = kernel.format(num, tpl);
+
 			} catch (Exception e) {
 				// user has entered eg 33+
 				// do nothing
@@ -283,8 +301,7 @@ public class GeoInputBox extends GeoButton {
 		} catch (MyError e1) {
 			kernel.getApplication().showError(e1);
 			return;
-		} 
-		catch (Exception e1) {
+		} catch (Exception e1) {
 			Log.error(e1.getMessage());
 			kernel.getApplication().showError(kernel.getApplication()
 					.getLocalization().getError("InvalidInput"));
@@ -292,22 +309,25 @@ public class GeoInputBox extends GeoButton {
 		}
 		this.setLinkedGeo(linkedGeo);
 
-		
 	}
-	
+
 	/**
 	 * Called by a Drawable for this object when it is updated
-	 * @param textFieldToUpdate the Drawable's text field
+	 * 
+	 * @param textFieldToUpdate
+	 *            the Drawable's text field
 	 */
-	public void updateText(TextObject textFieldToUpdate){
-		
+	public void updateText(TextObject textFieldToUpdate) {
+
 		if (linkedGeo != null) {
 
 			String linkedText;
 
 			if (linkedGeo.isGeoText()) {
 				linkedText = ((GeoText) linkedGeo).getTextString();
-			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath || linkedGeo.getParentAlgorithm() instanceof AlgoPointInRegion) {
+			} else if (linkedGeo.getParentAlgorithm() instanceof AlgoPointOnPath
+					|| linkedGeo
+							.getParentAlgorithm() instanceof AlgoPointInRegion) {
 				linkedText = linkedGeo.toValueString(tpl);
 			} else {
 
@@ -315,8 +335,7 @@ public class GeoInputBox extends GeoButton {
 				// y=m x + c
 				boolean substituteNos = linkedGeo.isGeoNumeric()
 						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(tpl,
-						substituteNos);
+				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
 			}
 
 			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
@@ -325,7 +344,9 @@ public class GeoInputBox extends GeoButton {
 					linkedText = linkedText.replaceAll("\n", "\\\\\\\\n");
 				}
 			}
-			if (!textFieldToUpdate.getText().equals(linkedText)) { // avoid redraw error
+			if (!textFieldToUpdate.getText().equals(linkedText)) { // avoid
+																	// redraw
+																	// error
 				textFieldToUpdate.setText(linkedText);
 			}
 
@@ -334,11 +355,14 @@ public class GeoInputBox extends GeoButton {
 		}
 
 		setText(textFieldToUpdate.getText());
-	
+
 	}
+
 	/**
 	 * Called by a Drawable when its text object is updated
-	 * @param textFieldToUpdate the Drawable's text field
+	 * 
+	 * @param textFieldToUpdate
+	 *            the Drawable's text field
 	 */
 	public void textObjectUpdated(TextObject textFieldToUpdate) {
 		if (linkedGeo != null) {
@@ -348,32 +372,32 @@ public class GeoInputBox extends GeoButton {
 			setText(textFieldToUpdate.getText());
 		}
 	}
-	
+
 	/**
-	 * Called by a Drawable when the input is submitted
-	 * (e.g. by pressing ENTER)
+	 * Called by a Drawable when the input is submitted (e.g. by pressing ENTER)
 	 */
 	public void textSubmitted() {
 		runClickScripts(getText());
 	}
-	
+
 	private void updateTemplate() {
 
 		if (useSignificantFigures() && printFigures > -1) {
-			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures, false);
+			tpl = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures,
+					false);
 		} else if (!useSignificantFigures && printDecimals > -1) {
-			tpl = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals, false);
+			tpl = StringTemplate.printDecimals(StringType.GEOGEBRA,
+					printDecimals, false);
 		} else {
 			tpl = StringTemplate.get(StringType.GEOGEBRA);
 		}
 	}
 
-
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
-	
+
 	@Override
 	public int getPrintDecimals() {
 		return printDecimals;
@@ -416,15 +440,15 @@ public class GeoInputBox extends GeoButton {
 
 		// default in case alpha = 0 (not allowed for Input Boxes)
 		int red = 255, green = 255, blue = 255;
-		
+
 		// fix for files saved with alpha = 0
 		if (bgCol.getAlpha() != 0) {
-			
+
 			red = bgCol.getRed();
 			green = bgCol.getGreen();
 			blue = bgCol.getBlue();
 		}
-		
+
 		bgColor = GColor.newColor(red, green, blue);
 	}
 

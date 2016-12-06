@@ -18,7 +18,7 @@ import org.geogebra.common.main.MyError;
  */
 public abstract class CmdScripting extends CommandProcessor {
 	/** array of arguments */
-	//protected GeoElement[] arg;
+	// protected GeoElement[] arg;
 
 	/**
 	 * Create new command processor
@@ -56,8 +56,7 @@ public abstract class CmdScripting extends CommandProcessor {
 
 	@Override
 	public final GeoElement[] process(Command c, EvalInfo info)
-			throws MyError,
-			CircularDefinitionException {
+			throws MyError, CircularDefinitionException {
 		GeoScriptAction sa = new GeoScriptAction(cons, this, c);
 		return new GeoElement[] { sa };
 	}

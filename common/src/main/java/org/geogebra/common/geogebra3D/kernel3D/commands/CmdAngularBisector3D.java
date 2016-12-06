@@ -26,20 +26,17 @@ public class CmdAngularBisector3D extends CmdAngularBisector {
 	protected GeoElement[] process4(GeoElement[] arg, boolean[] ok, Command c)
 			throws MyError {
 
+		// angular bisector of three points
+		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
+				&& (ok[2] = (arg[2].isGeoPoint()))
+				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
+			GeoElement[] ret = { kernelA.getManager3D().AngularBisector3D(
+					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
+					(GeoPointND) arg[2], (GeoDirectionND) arg[3]) };
+			return ret;
+		}
 
-			// angular bisector of three points
-			if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoPoint()))
-					&& (ok[2] = (arg[2].isGeoPoint()))
-					&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
-				GeoElement[] ret = { kernelA.getManager3D().AngularBisector3D(
-						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2], (GeoDirectionND) arg[3]) };
-				return ret;
-			}
-
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
-
+		throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 	}
 

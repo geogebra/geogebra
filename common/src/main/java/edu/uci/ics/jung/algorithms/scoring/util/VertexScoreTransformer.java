@@ -18,27 +18,25 @@ import edu.uci.ics.jung.algorithms.scoring.VertexScorer;
 /**
  * A Transformer convenience wrapper around VertexScorer.
  */
-public class VertexScoreTransformer<V, S> implements Transformer<V, S>
-{
-    /**
-     * The VertexScorer instance that provides the values returned by <code>transform</code>.
-     */
-    protected VertexScorer<V,S> vs;
+public class VertexScoreTransformer<V, S> implements Transformer<V, S> {
+	/**
+	 * The VertexScorer instance that provides the values returned by
+	 * <code>transform</code>.
+	 */
+	protected VertexScorer<V, S> vs;
 
-    /**
-     * Creates an instance based on the specified VertexScorer.
-     */
-    public VertexScoreTransformer(VertexScorer<V,S> vs)
-    {
-        this.vs = vs;
-    }
+	/**
+	 * Creates an instance based on the specified VertexScorer.
+	 */
+	public VertexScoreTransformer(VertexScorer<V, S> vs) {
+		this.vs = vs;
+	}
 
-    /**
-     * Returns the score for this vertex.
-     */
-    public S transform(V v)
-    {
-        return vs.getVertexScore(v);
-    }
+	/**
+	 * Returns the score for this vertex.
+	 */
+	public S transform(V v) {
+		return vs.getVertexScore(v);
+	}
 
 }

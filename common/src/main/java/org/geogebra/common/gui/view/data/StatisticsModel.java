@@ -29,7 +29,7 @@ public class StatisticsModel {
 		void updateAnovaTable();
 
 	}
-	
+
 	private static final long serialVersionUID = 1L;
 	// inference mode constants
 	public static final int SUMMARY_STATISTICS = 0;
@@ -54,19 +54,20 @@ public class StatisticsModel {
 	private DataAnalysisModel daModel;
 	private IStatisticsModelListener listener;
 	private Localization loc;
+
 	/*************************************
 	 * Constructor
 	 * 
 	 * @param app
 	 * @param statDialog
 	 */
-	public StatisticsModel(App app, DataAnalysisModel model, IStatisticsModelListener listener) {
+	public StatisticsModel(App app, DataAnalysisModel model,
+			IStatisticsModelListener listener) {
 		this.loc = app.getLocalization();
 		this.daModel = model;
 		this.listener = listener;
 		createLabelMap();
 	}
-
 
 	public void fillInferenceModes() {
 
@@ -157,7 +158,6 @@ public class StatisticsModel {
 
 	}
 
-
 	public void selectInferenceMode(String item) {
 		if (item.equals(listener.getSeparator())) {
 			listener.selectInferenceMode(labelMap.get(getSelectedMode()));
@@ -166,11 +166,9 @@ public class StatisticsModel {
 		}
 	}
 
-
 	public int getSelectedMode() {
 		return selectedMode;
 	}
-
 
 	public void setSelectedMode(int selectedMode) {
 		this.selectedMode = selectedMode;

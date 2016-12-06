@@ -137,7 +137,8 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 		// check if the intersection point really is on the line
 		// this is important for segments and rays
-		if (!line.isIntersectionPointIncident(rootPoint, Kernel.MIN_PRECISION)) {
+		if (!line.isIntersectionPointIncident(rootPoint,
+				Kernel.MIN_PRECISION)) {
 			rootPoint.setUndefined();
 			return;
 		}

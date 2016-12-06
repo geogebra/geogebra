@@ -128,25 +128,20 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 			sections[1].setUndefined();
 			return;
 		}
-		
+
 		sections[0].setDefined();
 		sections[1].setDefined();
 
-
-		Coords o1 = quadric.getMidpoint3D().add(
-				quadric.getEigenvec3D(2).mul(
-						((GeoQuadric3DLimitedOrPart) quadric)
-								.getBottomParameter()));// point.getInhomCoordsInD3();
-		Coords o2 = quadric.getMidpoint3D().add(
-				quadric.getEigenvec3D(2)
-						.mul(((GeoQuadric3DLimitedOrPart) quadric)
-								.getTopParameter()));// pointThrough.getInhomCoordsInD3();
+		Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(
+				((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));// point.getInhomCoordsInD3();
+		Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2)
+				.mul(((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));// pointThrough.getInhomCoordsInD3();
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
 			if (Kernel.isZero(quadric.getHalfAxis(0))
-					&& (Double.isNaN(quadric.getHalfAxis(1)) || Kernel
-							.isZero(quadric.getHalfAxis(1)))) {
+					&& (Double.isNaN(quadric.getHalfAxis(1))
+							|| Kernel.isZero(quadric.getHalfAxis(1)))) {
 				// cylinder or cone equal to a segment
 				sections[0].setSinglePoint(o1);
 				sections[1].setSinglePoint(o2);
@@ -166,7 +161,6 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		CoordMatrix cm = pmt.mul(qm).mul(pm);
 
 		// Log.debug("pm=\n" + pm + "\nqm=\n" + qm + "\ncm=\n" + cm);
-
 
 		coordsys1.resetCoordSys();
 		coordsys1.addPoint(o1);
@@ -211,5 +205,4 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 * quadric).getLabel(),point.getLabel(),pointThrough.getLabel()); }
 	 */
 
-	
 }

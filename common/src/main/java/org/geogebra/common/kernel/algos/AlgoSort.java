@@ -99,7 +99,7 @@ public class AlgoSort extends AlgoElement {
 	 *            construction
 	 * @param inputList
 	 *            to be sorted
-	 * */
+	 */
 	public AlgoSort(Construction cons, GeoList inputList) {
 		this(cons, inputList, (GeoList) null);
 	}
@@ -202,7 +202,5 @@ public class AlgoSort extends AlgoElement {
 			}
 		}
 	}
-
-	
 
 }

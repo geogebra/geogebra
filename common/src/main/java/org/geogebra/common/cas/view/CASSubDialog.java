@@ -127,7 +127,7 @@ public abstract class CASSubDialog {
 				addVariables(var, vars);
 			}
 		}
-		
+
 		// get the substitution list from cell
 		ArrayList<Vector<String>> substList = cell.getSubstList();
 
@@ -144,7 +144,8 @@ public abstract class CASSubDialog {
 					break;
 				}
 			}
-			if (i == data.size() || !data.get(i).firstElement().equals(nextVar)) {
+			if (i == data.size()
+					|| !data.get(i).firstElement().equals(nextVar)) {
 				row.add(nextVar);
 				boolean added = false;
 				if (substList != null && !substList.isEmpty()) {

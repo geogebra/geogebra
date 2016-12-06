@@ -34,8 +34,8 @@ public class Drawable3DLists {
 			for (Drawable3D d : this) {
 				sb.append(d);
 				sb.append(" -- ");
-				sb.append(d.getGeoElement().getLabel(
-						StringTemplate.defaultTemplate));
+				sb.append(d.getGeoElement()
+						.getLabel(StringTemplate.defaultTemplate));
 				sb.append("\n");
 			}
 			return sb.toString();
@@ -118,7 +118,6 @@ public class Drawable3DLists {
 		return lists[type];
 	}
 
-
 	/**
 	 * 
 	 * @return true if contains clipped surfaces
@@ -163,8 +162,8 @@ public class Drawable3DLists {
 	public void updateAll() {
 
 		/*
-		 * if (isUpdatingAll){
-		 * Application.printStacktrace("is already updating"); return; }
+		 * if (isUpdatingAll){ Application.printStacktrace("is already updating"
+		 * ); return; }
 		 * 
 		 * isUpdatingAll = true;
 		 */
@@ -226,8 +225,8 @@ public class Drawable3DLists {
 
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();)
-			((DrawList3D) d.next()).getDrawable3DLists().drawHiddenNotTextured(
-					renderer);
+			((DrawList3D) d.next()).getDrawable3DLists()
+					.drawHiddenNotTextured(renderer);
 
 		renderer.resetCenter();
 
@@ -336,8 +335,8 @@ public class Drawable3DLists {
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();) {
-			((DrawList3D) d.next()).getDrawable3DLists().drawHiddenTextured(
-					renderer);
+			((DrawList3D) d.next()).getDrawable3DLists()
+					.drawHiddenTextured(renderer);
 		}
 
 	}
@@ -408,15 +407,15 @@ public class Drawable3DLists {
 	 * @param renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-		
+
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
 				.iterator(); d.hasNext();)
 			d.next().drawTransp(renderer);
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();) {
-			((DrawList3D) d.next()).getDrawable3DLists().drawTranspClipped(
-					renderer);
+			((DrawList3D) d.next()).getDrawable3DLists()
+					.drawTranspClipped(renderer);
 		}
 
 	}
@@ -459,14 +458,14 @@ public class Drawable3DLists {
 	 */
 	public void drawLabel(Renderer renderer) {
 
-		for (int i = 0; i < Drawable3D.DRAW_TYPE_TEXTS; i++){
-			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();){
+		for (int i = 0; i < Drawable3D.DRAW_TYPE_TEXTS; i++) {
+			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();) {
 				d.next().drawLabel(renderer);
 			}
 		}
-		
+
 	}
-	
+
 	/**
 	 * draw texts (not in absolute position)
 	 * 
@@ -479,15 +478,14 @@ public class Drawable3DLists {
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
 			((DrawText3D) d).drawNotAbsolutePosition(renderer);
 		}
-		
+
 		// lists
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 			((DrawList3D) d).getDrawable3DLists().drawNotAbsoluteText(renderer);
 		}
 
 	}
-	
-	
+
 	/**
 	 * draw texts (in absolute position)
 	 * 
@@ -500,12 +498,11 @@ public class Drawable3DLists {
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
 			((DrawText3D) d).drawAbsolutePosition(renderer);
 		}
-		
+
 		// lists
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 			((DrawList3D) d).getDrawable3DLists().drawAbsoluteText(renderer);
 		}
-		
 
 	}
 
@@ -524,8 +521,8 @@ public class Drawable3DLists {
 		// lists
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_LISTS]
 				.iterator(); d.hasNext();) {
-			((DrawList3D) d.next()).getDrawable3DLists().drawSurfacesForHiding(
-					renderer);
+			((DrawList3D) d.next()).getDrawable3DLists()
+					.drawSurfacesForHiding(renderer);
 		}
 
 	}

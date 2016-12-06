@@ -35,9 +35,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Michael Borcherds, adapted from GeoPolygon
  */
 public class GeoPolyLine extends GeoElement implements GeoNumberValue,
-		Traceable, Transformable, Mirrorable,
-		MatrixTransformable, PointRotateable, Translateable, Dilateable,
-		GeoPoly {
+		Traceable, Transformable, Mirrorable, MatrixTransformable,
+		PointRotateable, Translateable, Dilateable, GeoPoly {
 
 	/** maximum number of points when created by tool */
 	public static final int POLYLINE_MAX_POINTS = 500;
@@ -52,7 +51,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * 
 	 * @param cons
 	 *            the construction
-	 * @param label label
+	 * @param label
+	 *            label
 	 * @param points
 	 *            vertices
 	 */
@@ -62,11 +62,12 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 */
 	public GeoPolyLine(Construction cons) {
 		super(cons);
-		this.points = new GeoPointND[]{};
+		this.points = new GeoPointND[] {};
 		// moved from GeoElement's constructor
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
@@ -74,18 +75,22 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * @param cons construction
-	 * @param label label
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
 	 */
 	public GeoPolyLine(Construction cons, String label) {
 		this(cons);
-	
+
 		setLabel(label);
 	}
 
 	/**
-	 * @param cons construction
-	 * @param points vertices
+	 * @param cons
+	 *            construction
+	 * @param points
+	 *            vertices
 	 */
 	public GeoPolyLine(Construction cons, GeoPointND[] points) {
 		super(cons);
@@ -140,8 +145,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		if (points.length != poly.points.length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.points.length];
 			for (int i = 0; i < tempPoints.length; i++) {
-				tempPoints[i] = i < points.length ? points[i] : new GeoPoint(
-						cons);
+				tempPoints[i] = i < points.length ? points[i]
+						: new GeoPoint(cons);
 			}
 			points = tempPoints;
 		}
@@ -196,9 +201,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 			if (numPoints == g.getNumPoints()) {
 				pointsOK = true;
 				for (int i = 0; i < numPoints && pointsOK; i++) {
-					pointsOK = this.getPoint(i).isEqual(g.getPoint(i))
-							|| this.getPoint(i).isEqual(
-									g.getPoint(numPoints - 1 - i));
+					pointsOK = this.getPoint(i).isEqual(g.getPoint(i)) || this
+							.getPoint(i).isEqual(g.getPoint(numPoints - 1 - i));
 				}
 
 			}
@@ -409,9 +413,12 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public GeoPointND[] getPointsND() {
 		return points;
 	}
+
 	/**
 	 * Returns i-th vertex
-	 * @param i index
+	 * 
+	 * @param i
+	 *            index
 	 * @return i-th vertex
 	 */
 	public GeoPointND getPointND(int i) {
@@ -427,12 +434,13 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 			setUndefined();
 			length = Double.NaN;
 			return;
-		}		
-		
+		}
+
 		length = 0;
 
 		for (int i = 0; i < points.length - 1; i++) {
-			if (!((GeoPoint) points[i]).isDefined() || !((GeoPoint) points[i+1]).isDefined()) {
+			if (!((GeoPoint) points[i]).isDefined()
+					|| !((GeoPoint) points[i + 1]).isDefined()) {
 				// (?,?) makes a hole in the polyline
 				continue;
 			}
@@ -465,14 +473,15 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		}
 	}
 
-	public void matrixTransform(double a00, double a01, double a10, double a11) {
+	public void matrixTransform(double a00, double a01, double a10,
+			double a11) {
 		for (int i = 0; i < points.length; i++) {
 			((GeoPoint) points[i]).matrixTransform(a00, a01, a10, a11);
 		}
 		calcLength();
 
 	}
-	
+
 	public void translate(Coords v) {
 		for (int i = 0; i < points.length; i++) {
 			getPoint(i).translate(v);
@@ -527,7 +536,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public boolean getTrace() {
 		return trace;
 	}
-	
+
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
@@ -536,8 +545,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
 		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).matrixTransform(a00, a01, a02, a10, a11,
-					a12, a20, a21, a22);
+			((GeoPoint) points[i]).matrixTransform(a00, a01, a02, a10, a11, a12,
+					a20, a21, a22);
 		}
 		calcLength();
 	}
@@ -557,10 +566,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public Path getBoundary() {
 		return this;
 	}
-	
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 

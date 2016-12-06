@@ -42,7 +42,4 @@ public class Drawable3DListsForDrawList3D extends Drawable3DLists {
 
 	}
 
-	
-
-
 }

@@ -17,8 +17,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentCasCell extends AlgoElement implements
-		AlgoCasCellInterface {
+public class AlgoDependentCasCell extends AlgoElement
+		implements AlgoCasCellInterface {
 
 	// output CAS cell of this algorithm
 	private GeoCasCell casCell;
@@ -56,7 +56,7 @@ public class AlgoDependentCasCell extends AlgoElement implements
 
 		if (casCell.getInputVE() != null
 				&& casCell.getInputVE().isTopLevelCommand("SlopeField")) {
-				cons.registerEuclidianViewCE(this);
+			cons.registerEuclidianViewCE(this);
 		}
 	}
 
@@ -232,7 +232,5 @@ public class AlgoDependentCasCell extends AlgoElement implements
 	// // in the construction list.
 	// updateConstructionOrder(oldPred);
 	// }
-
-	
 
 }

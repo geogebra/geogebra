@@ -40,10 +40,8 @@ public class AlgoVectorPoint3D extends AlgoVectorPoint {
 	@Override
 	protected void setCoords() {
 		Coords coords = getP().getInhomCoordsInD3();
-		getVector()
-				.setCoords(
-						new double[] { coords.getX(), coords.getY(),
-								coords.getZ(), 0 });
+		getVector().setCoords(new double[] { coords.getX(), coords.getY(),
+				coords.getZ(), 0 });
 	}
 
 }

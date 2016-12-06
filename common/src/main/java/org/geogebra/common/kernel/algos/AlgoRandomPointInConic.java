@@ -31,7 +31,7 @@ public class AlgoRandomPointInConic extends AlgoElement {
 	protected GeoPoint randomPoint; // output
 
 	public AlgoRandomPointInConic(Construction cons, String label,
- GeoConicND c) {
+			GeoConicND c) {
 		this(cons, c);
 		randomPoint.setLabel(label);
 	}
@@ -135,7 +135,5 @@ public class AlgoRandomPointInConic extends AlgoElement {
 			randomPoint.setUndefined();
 		}
 	}
-
-	
 
 }

@@ -15,14 +15,14 @@ public class IneqStyleModel extends BooleanOptionModel {
 	public IneqStyleModel(App app) {
 		super(null, app);
 	}
-	
+
 	private InequalityProperties getInequalityPropertiesAt(int index) {
 		return (InequalityProperties) getObjectAt(index);
 	}
 
 	@Override
 	public void updateProperties() {
-		
+
 		if (!(getObjectAt(0) instanceof InequalityProperties)) {
 			return;
 		}
@@ -43,7 +43,7 @@ public class IneqStyleModel extends BooleanOptionModel {
 		if (equalFix) {
 			getListener().updateCheckbox(geo0.showOnAxis());
 			if (geo0.showOnAxis()) {
-				((IIneqStyleListener)getListener()).enableFilling(false);
+				((IIneqStyleListener) getListener()).enableFilling(false);
 			}
 		} else
 			getListener().updateCheckbox(false);
@@ -58,9 +58,8 @@ public class IneqStyleModel extends BooleanOptionModel {
 		}
 
 		GeoFunction gfun = (GeoFunction) geo;
-		if (!gfun.isBooleanFunction()
-				|| gfun.getVarString(StringTemplate.defaultTemplate)
-				.equals("y")) {
+		if (!gfun.isBooleanFunction() || gfun
+				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
 			return false;
 		}
 

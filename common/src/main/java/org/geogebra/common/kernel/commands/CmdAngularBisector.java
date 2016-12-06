@@ -30,8 +30,6 @@ public class CmdAngularBisector extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
-
-
 		GeoElement[] arg = resArgs(c);
 
 		switch (n) {
@@ -54,9 +52,9 @@ public class CmdAngularBisector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { angularBisector(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]) };
+				GeoElement[] ret = {
+						angularBisector(c.getLabel(), (GeoPointND) arg[0],
+								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			}
 			if (!ok[0]) {

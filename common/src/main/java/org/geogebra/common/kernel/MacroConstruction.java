@@ -112,7 +112,8 @@ public class MacroConstruction extends Construction {
 		 * remove all "$" signs from label and try again.
 		 */
 		if (label1.indexOf('$') > -1) {
-			StringBuilder labelWithout$ = new StringBuilder(label1.length() - 1);
+			StringBuilder labelWithout$ = new StringBuilder(
+					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
 				char ch = label1.charAt(i);
 				if (ch != '$') {

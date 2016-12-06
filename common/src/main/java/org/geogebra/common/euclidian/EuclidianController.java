@@ -2389,8 +2389,7 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			GeoElement[] ret = getAlgoDispatcher()
-					.IntersectLineCurve(new String[] { null },
-					line, curve);
+					.IntersectLineCurve(new String[] { null }, line, curve);
 			return ret;
 		}
 		// curve-curve
@@ -2425,8 +2424,7 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			GeoElement[] ret = getAlgoDispatcher().IntersectPolyLines(
-					new String[] { null },
-					polylines[0], polylines[1]);
+					new String[] { null }, polylines[0], polylines[1]);
 			return ret;
 		}
 
@@ -2436,8 +2434,7 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			GeoElement[] ret = getAlgoDispatcher().IntersectPolygons(
-					new String[] { null },
-					polygons[0], polygons[1], false);
+					new String[] { null }, polygons[0], polygons[1], false);
 			return ret;
 		}
 
@@ -3829,8 +3826,7 @@ public abstract class EuclidianController {
 						: "";
 
 				// deatch
-				if (detachFrom != null
-						&& !hits.contains(detachFrom)) {
+				if (detachFrom != null && !hits.contains(detachFrom)) {
 					String name = movedGeoPoint
 							.getLabel(StringTemplate.defaultTemplate);
 					this.app.getKernel().getAlgoDispatcher().detach(
@@ -5878,7 +5874,6 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-
 	/**
 	 * exit temporary mode (if set) and reset mode to old mode
 	 */
@@ -7725,7 +7720,8 @@ public abstract class EuclidianController {
 		}
 
 		if (view.getSelectionRectangle() == null) {
-			view.setSelectionRectangle(AwtFactory.getPrototype().newRectangle(0, 0));
+			view.setSelectionRectangle(
+					AwtFactory.getPrototype().newRectangle(0, 0));
 		}
 
 		int dx = mouseLoc.x - selectionStartPoint.x;
@@ -11183,7 +11179,8 @@ public abstract class EuclidianController {
 	void storeUndoInfo() {
 		// store undo info and state if we use the tool once again
 		int m = temporaryMode ? oldMode : mode;
-		app.storeUndoInfoAndStateForModeStarting(m != EuclidianConstants.MODE_MOVE);
+		app.storeUndoInfoAndStateForModeStarting(
+				m != EuclidianConstants.MODE_MOVE);
 	}
 
 	protected GeoElement[] extremum(Hits hits, boolean selPreview) {

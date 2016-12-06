@@ -19,8 +19,7 @@ public class VertexShader {
 			// is model view system based\n"
 			+ "uniform vec3	lightPosition;\n"
 
-			+ "uniform vec4	eyePosition;\n"
-			+ "uniform vec2	ambiantDiffuse;\n"
+			+ "uniform vec4	eyePosition;\n" + "uniform vec2	ambiantDiffuse;\n"
 			+ "uniform int		enableLight;\n"
 
 			+ "uniform int		culling;\n"
@@ -35,11 +34,11 @@ public class VertexShader {
 
 			+ "uniform vec3 labelOrigin;\n"
 
-	// in -- attributes
+			// in -- attributes
 			+ "attribute vec3  attribute_Position;  \n"
 			+ "attribute vec3  attribute_Normal;  \n"
 			+ "attribute vec4  attribute_Color;  \n"
-			+ "attribute vec2	attribute_Texture;   \n" 
+			+ "attribute vec2	attribute_Texture;   \n"
 			// out
 
 			+ "varying vec4    varying_Color;  \n"
@@ -53,17 +52,15 @@ public class VertexShader {
 
 			+ "{\n"
 
-	// position
+			// position
 
-			+ "  vec3 position;\n"
-			+ "  if (center.w > 0.0){ // use center\n"
+			+ "  vec3 position;\n" + "  if (center.w > 0.0){ // use center\n"
 			+ "  	position = vec3(center) + center.w * attribute_Position;\n"
 			+ "  }else{\n"
 
 			+ "  	position = attribute_Position;\n"
 
-			+ "  }\n"
-			+ "  gl_Position = matrix * vec4(position, 1.0); \n"
+			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
 			+ "  if (labelRendering == 1){ // use special origin for labels\n"
 			+ "      realWorldCoords = labelOrigin;\n"
 
@@ -73,7 +70,7 @@ public class VertexShader {
 
 			+ "  }\n"
 
-	// color
+			// color
 
 			+ "  vec4 c;\n"
 			+ "  if (color[0] < 0.0){ // then use per-vertex-color\n"
@@ -84,7 +81,7 @@ public class VertexShader {
 
 			+ "  }\n"
 
-	// light
+			// light
 
 			+ "  if (enableLight == 1){// color with light\n"
 
@@ -96,15 +93,14 @@ public class VertexShader {
 
 			+ "	  	n = normal;\n"
 
-			+ "	  }\n"
-			+ "	  float factor = dot(n, lightPosition);\n"
+			+ "	  }\n" + "	  float factor = dot(n, lightPosition);\n"
 			+ "	  factor = float(culling) * factor;\n"
 			+ "	  factor = max(0.0, factor);\n"
 			+ "	  float ambiant = ambiantDiffuse[0];\n"
-			+ "	  float diffuse = ambiantDiffuse[1];\n" 
+			+ "	  float diffuse = ambiantDiffuse[1];\n"
 
 			// specular
-	// makes natural specular
+			// makes natural specular
 			+ "	  if (eyePosition[3] < 0.5){ // parallel projection\n"
 			+ "	  	viewDirection = vec3(eyePosition);\n"
 			+ "	  }else{ // perspective projection\n"
@@ -114,14 +110,13 @@ public class VertexShader {
 			+ "	  lightReflect = reflect(lightPosition, n);\n"
 			// specular will be added in fragment shader
 			+ "	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
-			+ "	  varying_Color.a = c.a;\n" 
-			+ "  }else{ //no light\n"
+			+ "	  varying_Color.a = c.a;\n" + "  }else{ //no light\n"
 			+ "      lightReflect = vec3(0.0,0.0,0.0);\n"
 			+ "	  varying_Color = c;\n"
 
 			+ "  }\n"
 
-	// texture
+			// texture
 
 			+ "  coordTexture = attribute_Texture;\n"
 
@@ -133,8 +128,7 @@ public class VertexShader {
 			// is model view system based\n"
 			+ "uniform vec3	lightPosition;\n"
 
-			+ "uniform vec4	eyePosition;\n"
-			+ "uniform vec2	ambiantDiffuse;\n"
+			+ "uniform vec4	eyePosition;\n" + "uniform vec2	ambiantDiffuse;\n"
 			+ "uniform int		enableLight;\n"
 
 			+ "uniform int		culling;\n"
@@ -149,7 +143,7 @@ public class VertexShader {
 
 			+ "uniform vec3 labelOrigin;\n"
 
-	// in -- attributes
+			// in -- attributes
 
 			+ "attribute vec3  attribute_Position;\n"
 
@@ -157,7 +151,7 @@ public class VertexShader {
 			+ "attribute vec4  attribute_Color;\n"
 			+ "attribute vec2	attribute_Texture;\n"
 
-	// out
+			// out
 
 			+ "varying vec4    varying_Color;  \n"
 			+ "varying vec2	coordTexture;\n"
@@ -175,8 +169,7 @@ public class VertexShader {
 
 			+ "  	position = attribute_Position;\n"
 
-			+ "  }\n"
-			+ "  gl_Position = matrix * vec4(position, 1.0); \n"
+			+ "  }\n" + "  gl_Position = matrix * vec4(position, 1.0); \n"
 			+ "  if (labelRendering == 1){ // use special origin for labels\n"
 			+ "      realWorldCoords = labelOrigin;\n"
 
@@ -186,7 +179,7 @@ public class VertexShader {
 
 			+ "  }\n"
 
-	// color
+			// color
 
 			+ "  vec4 c;\n"
 			+ "  if (color[0] < 0.0){ // then use per-vertex-color\n"
@@ -197,7 +190,7 @@ public class VertexShader {
 
 			+ "  }\n"
 
-	// light
+			// light
 
 			+ "  if (enableLight == 1){// color with light\n"
 
@@ -215,7 +208,7 @@ public class VertexShader {
 			+ "	  factor = float(culling) * factor;\n"
 			+ "	  factor = max(0.0, factor);\n"
 			+ "	  float ambiant = ambiantDiffuse[0];\n"
-			+ "	  float diffuse = ambiantDiffuse[1];\n" 
+			+ "	  float diffuse = ambiantDiffuse[1];\n"
 			// no specular
 			+ "	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
 			+ "	  varying_Color.a = c.a;\n"
@@ -226,12 +219,11 @@ public class VertexShader {
 
 			+ "  }\n"
 
-	// texture
+			// texture
 
 			+ "  coordTexture = attribute_Texture;\n"
 
- + "}";
-
+			+ "}";
 
 	final public static String getVertexShaderShiny(boolean isHTML5) {
 

@@ -27,10 +27,11 @@ public abstract class ScriptManager implements EventListener {
 	protected ArrayList<JsScript> clientListeners = new ArrayList<JsScript>();
 
 	private ArrayList[] listenerLists() {
-		return new ArrayList[] { addListeners,
-			storeUndoListeners, removeListeners, renameListeners,
-			updateListeners, clickListeners, clearListeners, clientListeners };
+		return new ArrayList[] { addListeners, storeUndoListeners,
+				removeListeners, renameListeners, updateListeners,
+				clickListeners, clearListeners, clientListeners };
 	}
+
 	public ScriptManager(App app) {
 		this.app = app;
 		app.getEventDispatcher().addEventListener(this);
@@ -472,12 +473,9 @@ public abstract class ScriptManager implements EventListener {
 	public synchronized void initJavaScript() {
 	}
 
-
-
 	abstract public void callJavaScript(String jsFunction, Object[] args);
 
-	public void callJavaScript(String jsFunction, Object arg0,
-			Object arg1){
+	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
 		if (arg0 == null) {
 			callJavaScript(jsFunction, new Object[0]);
 			return;
@@ -486,7 +484,7 @@ public abstract class ScriptManager implements EventListener {
 			callJavaScript(jsFunction, new Object[] { arg0 });
 			return;
 		}
-		callJavaScript(jsFunction,new Object[]{arg0, arg1});
+		callJavaScript(jsFunction, new Object[] { arg0, arg1 });
 	}
 
 	// ------ getters for listeners -------------
@@ -550,7 +548,6 @@ public abstract class ScriptManager implements EventListener {
 	public void setGlobalScript() {
 		// to be overridden
 	}
-
 
 	public boolean hasListeners() {
 		// TODO Auto-generated method stub

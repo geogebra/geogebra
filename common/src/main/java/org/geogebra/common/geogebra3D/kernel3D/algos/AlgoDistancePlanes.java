@@ -59,7 +59,6 @@ public class AlgoDistancePlanes extends AlgoElement3D {
 		setDependencies(); // done by AlgoElement
 	}
 
-
 	public GeoNumeric getDistance() {
 		return dist;
 	}

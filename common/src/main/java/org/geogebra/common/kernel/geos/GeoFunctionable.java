@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 /**
  * Interface for functions convertible to GeoFunction
+ * 
  * @author Markus
  *
  */
@@ -22,6 +23,7 @@ public interface GeoFunctionable {
 	 * @return this as GeoFunction
 	 */
 	public GeoFunction getGeoFunction();
+
 	/**
 	 * @return this as GeoElement
 	 */

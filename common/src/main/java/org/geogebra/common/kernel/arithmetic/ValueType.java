@@ -11,34 +11,44 @@ public enum ValueType {
 	/**
 	 * Has no algebraic properties, eg a button
 	 */
-	VOID, /**
+	VOID,
+	/**
 	 * cannot be determined (eg a variable)
 	 */
-	UNKNOWN, /**
+	UNKNOWN,
+	/**
 	 * Bool
 	 */
-	BOOLEAN, /**
+	BOOLEAN,
+	/**
 	 * Number
 	 */
-	NUMBER, /**
+	NUMBER,
+	/**
 	 * 2D point or vector (cartesian or polar)
 	 */
-	NONCOMPLEX2D, /**
+	NONCOMPLEX2D,
+	/**
 	 * Complex point or vector
 	 */
-	COMPLEX, /**
+	COMPLEX,
+	/**
 	 * 3D point or vector
 	 */
-	VECTOR3D, /**
+	VECTOR3D,
+	/**
 	 * Equation
 	 */
-	EQUATION, /**
+	EQUATION,
+	/**
 	 * Text
 	 */
-	TEXT, /**
+	TEXT,
+	/**
 	 * List of objects
 	 */
-	LIST, /**
+	LIST,
+	/**
 	 * Function R^n -> R
 	 */
 	FUNCTION,
@@ -90,9 +100,10 @@ public enum ValueType {
 			}
 
 			// scalar product
-			if ((rightType == ValueType.NONCOMPLEX2D || rightType == ValueType.VECTOR3D)
-					&& (left.getValueType() == ValueType.NONCOMPLEX2D || left
-							.getValueType() == ValueType.VECTOR3D)) {
+			if ((rightType == ValueType.NONCOMPLEX2D
+					|| rightType == ValueType.VECTOR3D)
+					&& (left.getValueType() == ValueType.NONCOMPLEX2D
+							|| left.getValueType() == ValueType.VECTOR3D)) {
 				return ValueType.NUMBER;
 			}
 			// number * vector
@@ -128,10 +139,8 @@ public enum ValueType {
 		case NROOT:
 		case ROUND2:
 		case ARCTAN2:
-			return ValueType.COMPLEX.check(
-					left,
-					ValueType.LIST.check(left,
-							ValueType.LIST.check(right, ValueType.NUMBER)));
+			return ValueType.COMPLEX.check(left, ValueType.LIST.check(left,
+					ValueType.LIST.check(right, ValueType.NUMBER)));
 
 		case ACOSH:
 		case ASINH:
@@ -202,7 +211,6 @@ public enum ValueType {
 		case INTEGRAL:
 			break;
 
-
 		case MATRIXTOVECTOR:
 			if (!(left.unwrap() instanceof MyList)) {
 				return left.getValueType();
@@ -237,8 +245,8 @@ public enum ValueType {
 		case POLYGAMMA:
 			break;
 		case POWER:
-			if ((left.getValueType() == ValueType.NONCOMPLEX2D || left
-					.getValueType() == ValueType.VECTOR3D)
+			if ((left.getValueType() == ValueType.NONCOMPLEX2D
+					|| left.getValueType() == ValueType.VECTOR3D)
 					&& Kernel.isEqual(2, right.evaluateDouble())) {
 				return ValueType.NUMBER;
 			}

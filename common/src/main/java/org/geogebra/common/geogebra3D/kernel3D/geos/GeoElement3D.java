@@ -36,8 +36,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * <p>
  * 
- * <b> In GeoElement3D (this class), create an new constant to identify GeoNew3D
- * </b>
+ * <b> In GeoElement3D (this class), create an new constant to identify
+ * GeoNew3D </b>
  * <p>
  * <code> public static final int GEO_CLASS_NEW3D = 30??; </code>
  * <p>
@@ -108,8 +108,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * <h3>See</h3>
  * <ul>
- * <li> {@link Drawable3D} to create a drawable linked to this new element.</li>
- * <li> {@link Kernel3D} to add a method to create this new element</li>
+ * <li>{@link Drawable3D} to create a drawable linked to this new element.</li>
+ * <li>{@link Kernel3D} to add a method to create this new element</li>
  * <li>
  * {@link Test3D#Test3D(Kernel3D, geogebra.euclidian.EuclidianView, geogebra3D.euclidian3D.EuclidianView3D, geogebra3D.Application3D)}
  * to test it</li>

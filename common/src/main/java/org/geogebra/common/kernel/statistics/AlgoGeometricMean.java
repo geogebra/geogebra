@@ -30,7 +30,8 @@ public class AlgoGeometricMean extends AlgoElement {
 	private GeoNumeric result; // output
 	private int size;
 
-	public AlgoGeometricMean(Construction cons, String label, GeoList inputList) {
+	public AlgoGeometricMean(Construction cons, String label,
+			GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -89,7 +90,5 @@ public class AlgoGeometricMean extends AlgoElement {
 		}
 		result.setValue(Math.exp(resultLog / size));
 	}
-
-	
 
 }

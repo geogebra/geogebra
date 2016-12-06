@@ -69,8 +69,6 @@ public class AlgoMirror extends AlgoTransformation implements
 	private GeoPoint transformedPoint;
 	private MirrorBotana mirrorBotana;
 
-
-
 	/**
 	 * Creates new "mirror at point" algo
 	 * 
@@ -255,9 +253,9 @@ public class AlgoMirror extends AlgoTransformation implements
 
 		if (inGeo.isRegion() && mirror == mirrorConic) {
 			GeoVec2D v = mirrorConic.getTranslationVector();
-			outGeo.setInverseFill(((Region) inGeo).isInRegion(v.getX(),
-					v.getY())
-					^ inGeo.isInverseFill());
+			outGeo.setInverseFill(
+					((Region) inGeo).isInRegion(v.getX(), v.getY())
+							^ inGeo.isInverseFill());
 		}
 
 		computeRegardingMirror();
@@ -348,10 +346,9 @@ public class AlgoMirror extends AlgoTransformation implements
 		if (mirror instanceof GeoConic && geo instanceof GeoLine) {
 			return new GeoConic(cons);
 		}
-		if (mirror instanceof GeoConic
-				&& geo instanceof GeoConic
-				&& (!((GeoConic) geo).isCircle() || !((GeoConic) geo)
-						.keepsType()))
+		if (mirror instanceof GeoConic && geo instanceof GeoConic
+				&& (!((GeoConic) geo).isCircle()
+						|| !((GeoConic) geo).keepsType()))
 			return kernel.newImplicitPoly(cons).toGeoElement();
 		if (geo instanceof GeoPoly
 				|| (geo.isLimitedPath() && mirror != mirrorConic))
@@ -372,7 +369,8 @@ public class AlgoMirror extends AlgoTransformation implements
 		arc.setParameters(0, 6.28, true);
 		if (a instanceof GeoRay) {
 			transformedPoint.removePath();
-			setTransformedObject(((GeoRay) a).getStartPoint(), transformedPoint);
+			setTransformedObject(((GeoRay) a).getStartPoint(),
+					transformedPoint);
 			compute();
 			arc.pathChanged(transformedPoint);
 			double d = transformedPoint.getPathParameter().getT();
@@ -465,6 +463,5 @@ public class AlgoMirror extends AlgoTransformation implements
 		return this.mirrorBotana.getBotanaPolynomials(geo, inGeo, mirrorLine,
 				mirrorPoint, mirrorConic);
 	}
-
 
 }

@@ -92,8 +92,8 @@ public class DrawNyquist extends Drawable {
 			gpN.lineTo(xPN, yN);
 		}
 		GColor geoColor = getObjectColor();
-		GColor color = GColor.newColor(geoColor.getRed(),
-				geoColor.getGreen(), geoColor.getBlue(), 127);
+		GColor color = GColor.newColor(geoColor.getRed(), geoColor.getGreen(),
+				geoColor.getBlue(), 127);
 		g2.setColor(color);
 		g2.draw(gpN);
 		g2.setColor(geoColor);

@@ -72,15 +72,14 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 						.ClosestPoint(c.getLabel(), (Region) arg[0],
 								(GeoPointND) arg[1]) };
 			}
-			
+
 			if ((ok[1] = arg[1].isRegion()) && (ok[0] = arg[0].isGeoPoint())) {
 				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
 						.ClosestPoint(c.getLabel(), (Region) arg[1],
 								(GeoPointND) arg[0]) };
 			}
 
-			
-			if (!ok[0]){
+			if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			throw argErr(app, c.getName(), arg[1]);

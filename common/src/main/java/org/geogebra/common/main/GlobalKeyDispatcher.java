@@ -307,8 +307,8 @@ public abstract class GlobalKeyDispatcher {
 			app.getDialogManager().openToolHelp();
 			return true;
 
-			// F9 updates construction
-			// cmd-f9 on Mac OS
+		// F9 updates construction
+		// cmd-f9 on Mac OS
 		case F9:
 			if (!app.isApplet() || app.isRightClickEnabled()) {
 				app.getKernel().updateConstruction();
@@ -388,13 +388,11 @@ public abstract class GlobalKeyDispatcher {
 				// Croatian keyboard)
 				if (isShiftDown && app.getGuiManager() != null
 						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
-																	// event.isAltDown())
-																	// {
-					app.getGuiManager()
-							.setShowView(
-									!app.getGuiManager().showView(
-											App.VIEW_EUCLIDIAN3D),
-									App.VIEW_EUCLIDIAN3D);
+																		// event.isAltDown())
+																		// {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
+							App.VIEW_EUCLIDIAN3D);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -410,11 +408,9 @@ public abstract class GlobalKeyDispatcher {
 			case A:
 				if (isShiftDown) {
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager()
-								.setShowView(
-										!app.getGuiManager().showView(
-												App.VIEW_ALGEBRA),
-										App.VIEW_ALGEBRA);
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(App.VIEW_ALGEBRA),
+								App.VIEW_ALGEBRA);
 						consumed = true;
 					}
 				} else {
@@ -614,8 +610,8 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) {
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
 						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_SPREADSHEET),
+								!app.getGuiManager()
+										.showView(App.VIEW_SPREADSHEET),
 								App.VIEW_SPREADSHEET);
 						consumed = true;
 					}
@@ -670,8 +666,8 @@ public abstract class GlobalKeyDispatcher {
 				}
 
 				// disable zooming in PEN mode
-				if (!EuclidianView.isPenMode(app.getActiveEuclidianView()
-						.getMode())) {
+				if (!EuclidianView
+						.isPenMode(app.getActiveEuclidianView().getMode())) {
 
 					boolean spanish = app.getLocalization().getLanguage()
 							.startsWith("es");
@@ -680,12 +676,9 @@ public abstract class GlobalKeyDispatcher {
 					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 					// from eg Input Bar
 					if (!spanish || (fromEuclidianView)) {
-						(app.getActiveEuclidianView())
-								.getEuclidianController()
-								.zoomInOut(
-										isAltDown,
-										key.equals(KeyCodes.MINUS)
-												|| key.equals(KeyCodes.SUBTRACT));
+						(app.getActiveEuclidianView()).getEuclidianController()
+								.zoomInOut(isAltDown, key.equals(KeyCodes.MINUS)
+										|| key.equals(KeyCodes.SUBTRACT));
 						app.setUnsaved();
 						consumed = true;
 					}
@@ -737,10 +730,9 @@ public abstract class GlobalKeyDispatcher {
 						GeoElement geo = it.next();
 
 						if (geo instanceof Furniture
-								|| (geo.isGeoNumeric()
-										&& geo.isIndependent())
-								|| (geo.isGeoList() && ((GeoList) geo)
-										.drawAsComboBox())
+								|| (geo.isGeoNumeric() && geo.isIndependent())
+								|| (geo.isGeoList()
+										&& ((GeoList) geo).drawAsComboBox())
 								|| geo.isGeoBoolean()
 								|| (geo.isGeoPoint() && !geo.isFixed())) {
 
@@ -818,7 +810,8 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether shift is down
 	 * @return whether key was consumed
 	 */
-	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
+	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
+			boolean cycle) {
 
 		app.getActiveEuclidianView().closeDropdowns();
 
@@ -830,7 +823,6 @@ public abstract class GlobalKeyDispatcher {
 
 		return true;
 	}
-
 
 	/**
 	 * Changes the font size of the user interface and construction element
@@ -880,8 +872,7 @@ public abstract class GlobalKeyDispatcher {
 				.getConstructionDefaults();
 		cd.setDefaultLineThickness(cd.getDefaultLineThickness() + incr);
 		cd.setDefaultPointSize(cd.getDefaultPointSize() + incr,
-				cd.getDefaultDependentPointSize()
-				+ incr);
+				cd.getDefaultDependentPointSize() + incr);
 		cd.setDefaultAngleSize(cd.getDefaultAngleSize() + angleSizeIncr);
 		// blackWhiteMode: set defaults for new GeoElements
 		cd.setBlackWhiteMode(blackWhiteMode);
@@ -940,8 +931,8 @@ public abstract class GlobalKeyDispatcher {
 			// box
 			int geoLineThickness = geo.getLineThickness();
 			if (geoLineThickness != 0) {
-				int lineThickness = Math.max(2, geoLineThickness
-						+ lineThicknessIncr);
+				int lineThickness = Math.max(2,
+						geoLineThickness + lineThicknessIncr);
 				geo.setLineThickness(lineThickness);
 			}
 		}
@@ -1020,8 +1011,8 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				case INSERT:
 					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels((int) (height * base), 0,
-							0, EuclidianController.MOVE_VIEW);
+					ev.translateCoordSystemInPixels((int) (height * base), 0, 0,
+							EuclidianController.MOVE_VIEW);
 					return true;
 				case HOME:
 					ev.rememberOrigins();
@@ -1084,8 +1075,7 @@ public abstract class GlobalKeyDispatcher {
 									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
 								view.setCoordSystem(view.getXZero(),
-										view.getYZero(),
-										view.getXscale() * 0.9,
+										view.getYZero(), view.getXscale() * 0.9,
 										view.getYscale());
 							}
 						} else {
@@ -1108,8 +1098,7 @@ public abstract class GlobalKeyDispatcher {
 									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
 								view.setCoordSystem(view.getXZero(),
-										view.getYZero(),
-										view.getXscale() / 0.9,
+										view.getYZero(), view.getXscale() / 0.9,
 										view.getYscale());
 							}
 						} else {
@@ -1208,10 +1197,10 @@ public abstract class GlobalKeyDispatcher {
 
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
-		if (fromSpreadsheet
-				|| (app.isUsingFullGui() && app.getGuiManager() != null
-						&& app.getGuiManager().hasSpreadsheetView() && app
-						.getGuiManager().getSpreadsheetView().hasFocus())) {
+		if (fromSpreadsheet || (app.isUsingFullGui()
+				&& app.getGuiManager() != null
+				&& app.getGuiManager().hasSpreadsheetView()
+				&& app.getGuiManager().getSpreadsheetView().hasFocus())) {
 			return false;
 		}
 
@@ -1329,10 +1318,10 @@ public abstract class GlobalKeyDispatcher {
 			changeVal = -base;
 			vertical = false;
 			break;
-			// case ESCAPE:
-			// if (!fromSpreadsheet) {
-			// handleEscForDropdown();
-			// }
+		// case ESCAPE:
+		// if (!fromSpreadsheet) {
+		// handleEscForDropdown();
+		// }
 		// break;
 		}
 		/*
@@ -1353,21 +1342,22 @@ public abstract class GlobalKeyDispatcher {
 
 					// update number
 					if (geo.isGeoNumeric()
-							&& (!twoSliders || ((vertical && i == 0) || (!vertical && i == 1)))) {
+							&& (!twoSliders || ((vertical && i == 0)
+									|| (!vertical && i == 1)))) {
 						GeoNumeric num = (GeoNumeric) geo;
-						double newValue = num.getValue() + changeVal
-								* num.getAnimationStep();
+						double newValue = num.getValue()
+								+ changeVal * num.getAnimationStep();
 						if (num.getAnimationStep() > Kernel.MIN_PRECISION) {
 							// round to decimal fraction, e.g. 2.800000000001 to
 							// 2.8
 							if (num.isGeoAngle()) {
 								newValue = Kernel.PI_180
-										* Kernel.checkDecimalFraction(newValue
-												* Kernel.CONST_180_PI,
+										* Kernel.checkDecimalFraction(
+												newValue * Kernel.CONST_180_PI,
 												1 / num.getAnimationStep());
 							} else
-								newValue = Kernel.checkDecimalFraction(
-										newValue, 1 / num.getAnimationStep());
+								newValue = Kernel.checkDecimalFraction(newValue,
+										1 / num.getAnimationStep());
 						}
 						num.setValue(newValue);
 					}
@@ -1376,8 +1366,8 @@ public abstract class GlobalKeyDispatcher {
 					else if (geo.isGeoPoint() && !geo.isGeoElement3D()) {
 						GeoPoint p = (GeoPoint) geo;
 						if (p.hasPath()) {
-							p.addToPathParameter(changeVal
-									* p.getAnimationStep());
+							p.addToPathParameter(
+									changeVal * p.getAnimationStep());
 						}
 					}
 				}

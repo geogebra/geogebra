@@ -40,8 +40,7 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 
-			if (a.getDouble() > Long.MAX_VALUE
-					|| b.getDouble() > Long.MAX_VALUE
+			if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE
 					|| a.getDouble() < -Long.MAX_VALUE
 					|| b.getDouble() < -Long.MAX_VALUE) {
 				num.setUndefined();
@@ -50,10 +49,10 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 
 			if (Kernel.isInteger(a.getDouble())
 					&& Kernel.isInteger(b.getDouble())) {
-				BigInteger i1 = BigInteger.valueOf((long) Kernel.checkInteger(a
-						.getDouble()));
-				BigInteger i2 = BigInteger.valueOf((long) Kernel.checkInteger(b
-						.getDouble()));
+				BigInteger i1 = BigInteger
+						.valueOf((long) Kernel.checkInteger(a.getDouble()));
+				BigInteger i2 = BigInteger
+						.valueOf((long) Kernel.checkInteger(b.getDouble()));
 
 				i1 = i1.gcd(i2);
 

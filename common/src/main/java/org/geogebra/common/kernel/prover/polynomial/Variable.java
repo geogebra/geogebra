@@ -6,90 +6,91 @@ import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * A simple class for variables.
+ * 
  * @author Simon Weitzhofer
  * @author Damien Desfontaines
  *
  */
 public class Variable implements Comparable<Variable> {
 	private static int n = 0;
-    //private static int nextAvailableNumber = 0;
-	//private static HashMap<String,Integer> nameToId;
-    private static HashMap<Integer,Variable> twins;
-    private boolean isFree = false;
-    
-    private GeoElement parent;
-	//private final String name;
-    private final int id;
+	// private static int nextAvailableNumber = 0;
+	// private static HashMap<String,Integer> nameToId;
+	private static HashMap<Integer, Variable> twins;
+	private boolean isFree = false;
+
+	private GeoElement parent;
+	// private final String name;
+	private final int id;
 
 	static {
-		//nameToId = new HashMap<String, Integer>();
+		// nameToId = new HashMap<String, Integer>();
 		twins = new HashMap<Integer, Variable>();
 	}
-	
+
 	/**
 	 * Creates a new variable
 	 */
 	public Variable() {
-        n++;
-        //nextAvailableNumber++;
-        //name = "v".concat(Integer.toString(nextAvailableNumber));
-        //nameToId.put(name,n);
-        id = n;
+		n++;
+		// nextAvailableNumber++;
+		// name = "v".concat(Integer.toString(nextAvailableNumber));
+		// nameToId.put(name,n);
+		id = n;
 	}
-	
+
 	/**
 	 * Creates a new variable
-	 * @param free true if the Variable is a free variable
+	 * 
+	 * @param free
+	 *            true if the Variable is a free variable
 	 */
 	public Variable(boolean free) {
 		this();
-        isFree = free;
-	}
-	
-	/**
-	 * Creates a new variable and sets the parent GeoElement
-	 * @param parent the GeoElement which defines the variable
-	 */
-	public Variable(GeoElement parent){
-		this();
-		this.parent=parent;
+		isFree = free;
 	}
 
-    /**
-     * Returns the variable v
-     * @param v the name of the variable
-     */
-    // Removed to speed up the Variable class
-    /*
-    public Variable(String v) {
-        if (nameToId.containsKey(v)) {
-            name = v;
-            id = nameToId.get(name);
-        }
-        else {
-            n++;
-            name = v;
-            nameToId.put(name,n);
-            id = n;
-        }
-    }
-    */
+	/**
+	 * Creates a new variable and sets the parent GeoElement
+	 * 
+	 * @param parent
+	 *            the GeoElement which defines the variable
+	 */
+	public Variable(GeoElement parent) {
+		this();
+		this.parent = parent;
+	}
+
+	/**
+	 * Returns the variable v
+	 * 
+	 * @param v
+	 *            the name of the variable
+	 */
+	// Removed to speed up the Variable class
+	/*
+	 * public Variable(String v) { if (nameToId.containsKey(v)) { name = v; id =
+	 * nameToId.get(name); } else { n++; name = v; nameToId.put(name,n); id = n;
+	 * } }
+	 */
 
 	/**
 	 * Copies a variable
-	 * @param fv the variable to copy
+	 * 
+	 * @param fv
+	 *            the variable to copy
 	 */
 	protected Variable(Variable fv) {
-		//name = fv.getName();
-        id = fv.getId();
+		// name = fv.getName();
+		id = fv.getId();
 	}
 
 	/**
 	 * Returns the unique id of the variable
+	 * 
 	 * @return the id
 	 */
 	public int getId() {
-        return id;
+		return id;
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public class Variable implements Comparable<Variable> {
 	}
 
 	public int compareTo(Variable v) {
-        int vId = v.getId();
+		int vId = v.getId();
 		if (id < vId) {
 			return 1;
 		}
@@ -118,15 +119,17 @@ public class Variable implements Comparable<Variable> {
 
 	/**
 	 * Returns the name of the variable.
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
-		//return name;
-        return "v".concat(Integer.toString(id));
+		// return name;
+		return "v".concat(Integer.toString(id));
 	}
-	
+
 	/**
 	 * Exports the variable into LaTeX
+	 * 
 	 * @return the LaTeX formatted variable
 	 */
 	public String toTeX() {
@@ -139,7 +142,9 @@ public class Variable implements Comparable<Variable> {
 	}
 
 	/**
-	 * Returns the Variable which describes the other coordinate of the same point
+	 * Returns the Variable which describes the other coordinate of the same
+	 * point
+	 * 
 	 * @return the Variable
 	 */
 	public Variable getTwin() {
@@ -148,14 +153,17 @@ public class Variable implements Comparable<Variable> {
 
 	/**
 	 * Sets the Variable which describes the other coordinate of the same point
-	 * @param twin the Variable. Is null if there is no twin.
+	 * 
+	 * @param twin
+	 *            the Variable. Is null if there is no twin.
 	 */
 	public void setTwin(Variable twin) {
-		twins.put(id,twin);
+		twins.put(id, twin);
 	}
 
 	/**
 	 * Returns the parent GeoElement
+	 * 
 	 * @return the parent GeoElement
 	 */
 	public GeoElement getParent() {
@@ -164,7 +172,9 @@ public class Variable implements Comparable<Variable> {
 
 	/**
 	 * Sets the parent GeoElement
-	 * @param parent the parent GeoElement
+	 * 
+	 * @param parent
+	 *            the parent GeoElement
 	 */
 	public void setParent(final GeoElement parent) {
 		this.parent = parent;
@@ -172,7 +182,9 @@ public class Variable implements Comparable<Variable> {
 
 	/**
 	 * Tests whether the variable is free or dependent
-	 * @return returns true if this is a free variable and returns false if it is a dependent variable
+	 * 
+	 * @return returns true if this is a free variable and returns false if it
+	 *         is a dependent variable
 	 */
 	public boolean isFree() {
 		return isFree;

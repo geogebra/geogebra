@@ -69,5 +69,4 @@ public class AlgoAffineRatio extends AlgoElement {
 		}
 	}
 
-	
 }

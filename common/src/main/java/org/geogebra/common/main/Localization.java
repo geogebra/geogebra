@@ -98,8 +98,8 @@ public abstract class Localization implements KeyboardLocale {
 		// too big solution for us), http://dren.dk/hunspell.html.
 		// TODO: The used method is not as fast as it could be, so speedup is
 		// possible.
-		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be",
-				"-ban/-ben", "-hoz/-hez", "-val/-vel" };
+		String[] affixesList = { "-ra/-re", "-nak/-nek", "-ba/-be", "-ban/-ben",
+				"-hoz/-hez", "-val/-vel" };
 		String[] endE2 = { "10", "40", "50", "70", "90" };
 		// FIXME: Numbers in endings which greater than 999 are not supported
 		// yet.
@@ -116,7 +116,8 @@ public abstract class Localization implements KeyboardLocale {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
-					if (Unicode.translationFixHu_endE1.indexOf(prevChars) > -1) {
+					if (Unicode.translationFixHu_endE1
+							.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix,
 								"e", prevChars);
 					} else if (Unicode.translationFixHu_endO1
@@ -178,8 +179,8 @@ public abstract class Localization implements KeyboardLocale {
 				if (match > -1) {
 					// Article found. Get the next character.
 					if (match < text.length() - 5) {
-						char checked = Character.toLowerCase(text
-								.charAt(match + 5));
+						char checked = Character
+								.toLowerCase(text.charAt(match + 5));
 						String consonants = "bcdfghjklmnpqrstvwx2346789";
 						int match2 = consonants.indexOf(checked);
 						String first = text.substring(0, match + 1);
@@ -412,7 +413,6 @@ public abstract class Localization implements KeyboardLocale {
 	 */
 	public abstract String getColor(String key);
 
-
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
 	 * 
@@ -498,8 +498,6 @@ public abstract class Localization implements KeyboardLocale {
 	final public String getPlain(String key, String... arg0) {
 		return getPlainArray(key, arg0);
 	}
-
-
 
 	/**
 	 * 
@@ -691,16 +689,13 @@ public abstract class Localization implements KeyboardLocale {
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {
-		String[] strDecimalSpaces = {
-				getPlain("ADecimalPlaces", "0"),
-				getPlain("ADecimalPlace", "1"),
-				getPlain("ADecimalPlaces", "2"),
+		String[] strDecimalSpaces = { getPlain("ADecimalPlaces", "0"),
+				getPlain("ADecimalPlace", "1"), getPlain("ADecimalPlaces", "2"),
 				getPlain("ADecimalPlaces", "3"),
 				getPlain("ADecimalPlaces", "4"),
 				getPlain("ADecimalPlaces", "5"),
 				getPlain("ADecimalPlaces", "10"),
-				getPlain("ADecimalPlaces", "15"),
-				"---", // separator
+				getPlain("ADecimalPlaces", "15"), "---", // separator
 				getPlain("ASignificantFigures", "3"),
 				getPlain("ASignificantFigures", "5"),
 				getPlain("ASignificantFigures", "10"),
@@ -1085,6 +1080,7 @@ public abstract class Localization implements KeyboardLocale {
 	}
 
 	private HashMap<String, String> translateCommandTable;
+
 	public String getReverseCommand(String command) {
 		if (command == null) {
 			return null;

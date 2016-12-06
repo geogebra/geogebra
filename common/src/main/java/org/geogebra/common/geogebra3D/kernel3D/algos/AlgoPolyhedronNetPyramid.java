@@ -60,8 +60,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 			int newBottomPointsLength) {
 		net.startNewFace();
 		net.addPointToCurrentFace(outputPointsBottom.getElement(index));
-		net.addPointToCurrentFace(outputPointsBottom.getElement((index + 1)
-				% newBottomPointsLength));
+		net.addPointToCurrentFace(outputPointsBottom
+				.getElement((index + 1) % newBottomPointsLength));
 		net.addPointToCurrentFace(outputPointsSide.getElement(index));
 		net.endCurrentFace();
 	}
@@ -88,7 +88,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	}
 
 	@Override
-	protected void adjustOutputSize(int newBottomPointsLength, boolean setLabels) {
+	protected void adjustOutputSize(int newBottomPointsLength,
+			boolean setLabels) {
 
 		super.adjustOutputSize(newBottomPointsLength);
 
@@ -184,8 +185,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 	private void updateSide(int index, int newBottomPointsLength) {
 
 		GeoPointND pointBottom1 = outputPointsBottom.getElement(index);
-		GeoPointND pointBottom2 = outputPointsBottom.getElement((index + 1)
-				% newBottomPointsLength);
+		GeoPointND pointBottom2 = outputPointsBottom
+				.getElement((index + 1) % newBottomPointsLength);
 		GeoPointND pointSide = outputPointsSide.getElement(index);
 
 		// update segments
@@ -222,8 +223,8 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		}
 
 		Coords topCoords = p.getTopPoint();
-		topCoords.projectPlane(bottomPolygon.getCoordSys()
-				.getMatrixOrthonormal(), p1);
+		topCoords.projectPlane(
+				bottomPolygon.getCoordSys().getMatrixOrthonormal(), p1);
 		double d1 = p.getOrientedHeight();
 
 		Coords faceDirection = bottomPolygon.getDirectionInD3();

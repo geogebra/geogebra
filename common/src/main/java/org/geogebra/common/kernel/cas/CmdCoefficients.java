@@ -33,8 +33,8 @@ public class CmdCoefficients extends CommandProcessor {
 		case 1:
 			if ((arg[0].isGeoFunction())) {
 
-				AlgoCoefficients algo = new AlgoCoefficients(cons,
-						c.getLabel(), (GeoFunction) arg[0]);
+				AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((arg[0].isGeoConic())) {

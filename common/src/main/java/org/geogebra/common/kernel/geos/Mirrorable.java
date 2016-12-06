@@ -19,15 +19,20 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  * Represents geos that can be mirrored atline or point
  * 
  */
-public interface Mirrorable extends GeoElementND{
+public interface Mirrorable extends GeoElementND {
 	/**
 	 * Miror at point
-	 * @param Q mirror
+	 * 
+	 * @param Q
+	 *            mirror
 	 */
 	public void mirror(Coords Q);
+
 	/**
 	 * Miror at line
-	 * @param g mirror
+	 * 
+	 * @param g
+	 *            mirror
 	 */
 	public void mirror(GeoLineND g);
 }

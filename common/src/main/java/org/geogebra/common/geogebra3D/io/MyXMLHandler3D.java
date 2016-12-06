@@ -110,7 +110,6 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			 * else if (eName.equals("gridColor")) { ok = handleGridColor(ev,
 			 * attrs); break; }
 			 */
-			
 
 		case 'l':
 			if (eName.equals("light")) {
@@ -224,20 +223,19 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	
-	
-	private boolean handleLevelOfDetailQuality(LinkedHashMap<String, String> attrs) {
+	private boolean handleLevelOfDetailQuality(
+			LinkedHashMap<String, String> attrs) {
 		try {
 			boolean lod = Boolean.parseBoolean(attrs.get("val"));
-			if (lod){
-				((SurfaceEvaluable) geo).setLevelOfDetail(LevelOfDetail.QUALITY);
+			if (lod) {
+				((SurfaceEvaluable) geo)
+						.setLevelOfDetail(LevelOfDetail.QUALITY);
 			}
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-
 
 	/**
 	 * handles plane attributes (show plate) for EuclidianView3D
@@ -290,8 +288,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			return false;
 		}
 	}
-	
-	
+
 	/**
 	 * handles light attributes for EuclidianView3D
 	 * 
@@ -472,8 +469,8 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		return super.startEuclidianViewElementSwitch(eName, attrs, firstChar);
 	}
 
-	private static boolean handleTransformForPlane(
-			EuclidianSettingsForPlane ev, LinkedHashMap<String, String> attrs) {
+	private static boolean handleTransformForPlane(EuclidianSettingsForPlane ev,
+			LinkedHashMap<String, String> attrs) {
 
 		try {
 			ev.setTransformForPlane(Boolean.parseBoolean(attrs.get("mirror")),

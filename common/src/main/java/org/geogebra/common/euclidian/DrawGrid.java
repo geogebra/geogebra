@@ -57,19 +57,19 @@ public class DrawGrid {
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
 		}
-		final double yAxisEnd = (view.positiveAxes[1] && yCrossPix < view
-				.getHeight()) ? yCrossPix : view.getHeight();
+		final double yAxisEnd = (view.positiveAxes[1]
+				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		for (int j = 0; pix <= yAxisEnd; j++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-				if (view.axesLabelsPositionsY.contains(Integer.valueOf(
-						(int) (pix + Kernel.MIN_PRECISION)))) {
+				if (view.axesLabelsPositionsY.contains(
+						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
-							pix, xCrossPix);
+					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix,
+							xCrossPix);
 				} else {
 
 					// not hitting axis label, just draw it
@@ -87,7 +87,7 @@ public class DrawGrid {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = 0;
-		final double left = view.positiveAxes[0] ? xCrossPix : 0;		
+		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
@@ -102,8 +102,7 @@ public class DrawGrid {
 						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
-							pix,
+					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix,
 							xCrossPix);
 				} else {
 
@@ -122,15 +121,15 @@ public class DrawGrid {
 			double yCrossPix) {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
-		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0) ? xCrossPix
-				+ (((view.getXZero() - xCrossPix) % tickStepX) + tickStepX)
-				% tickStepX
+		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
+				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX)
+						+ tickStepX) % tickStepX
 				: (view.getXZero() % tickStepX);
 
-		final double yAxisEnd = (view.positiveAxes[1] && yCrossPix < view
-				.getHeight()) ? yCrossPix : view.getHeight();
-		final double bottom = view.positiveAxes[1] ? yAxisEnd : view
-				.getHeight();
+		final double yAxisEnd = (view.positiveAxes[1]
+				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double bottom = view.positiveAxes[1] ? yAxisEnd
+				: view.getHeight();
 		double pix = xAxisStart;
 
 		if (pix < EuclidianView.SCREEN_BORDER) {
@@ -141,8 +140,8 @@ public class DrawGrid {
 			// or if it's too close (eg sticky axes)
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-				if (view.axesLabelsPositionsX.contains(Integer.valueOf(
-						(int) (pix + Kernel.MIN_PRECISION)))) {
+				if (view.axesLabelsPositionsX.contains(
+						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
@@ -198,6 +197,7 @@ public class DrawGrid {
 		}
 
 	}
+
 	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
 			double x2, double y2, double xCrossPix) {
 

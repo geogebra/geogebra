@@ -11,17 +11,16 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 /**
- * @author gabor
- * StatisticCalculator common superclass
+ * @author gabor StatisticCalculator common superclass
  */
 public abstract class StatisticsCalculator {
-	
+
 	protected Construction cons;
 	protected StatisticsCollection sc;
 	protected StatisticsCalculatorProcessor statProcessor;
 	protected StatisticsCalculatorHTML statHTML;
 	protected Kernel kernel;
-	
+
 	// =========================================
 	// Procedures
 	// =========================================
@@ -73,7 +72,7 @@ public abstract class StatisticsCalculator {
 
 		selectedProcedure = Procedure.ZMEAN_TEST;
 	}
-		
+
 	public Procedure getSelectedProcedure() {
 		return selectedProcedure;
 	}
@@ -92,17 +91,17 @@ public abstract class StatisticsCalculator {
 					kernel.getPrintFigures(), false);
 		} else {
 			// override the default decimal place if < 4
-			int d = kernel.getPrintDecimals() < 4 ? 4 : cons.getKernel()
-					.getPrintDecimals();
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					d, false);
+			int d = kernel.getPrintDecimals() < 4 ? 4
+					: cons.getKernel().getPrintDecimals();
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
+					false);
 		}
 		// get the formatted string
 		String result = kernel.format(x, highPrecision);
 
 		return result;
 	}
-	
+
 	public HashMap<Procedure, String> getMapProcedureToName() {
 		return mapProcedureToName;
 	}
@@ -114,7 +113,7 @@ public abstract class StatisticsCalculator {
 	public StatisticsCollection getStatististicsCollection() {
 		return sc;
 	}
-	
+
 	public abstract void updateResult();
 
 	protected void combolabelsPreprocess() {
@@ -124,17 +123,17 @@ public abstract class StatisticsCalculator {
 		if (mapProcedureToName == null) {
 			mapProcedureToName = new HashMap<Procedure, String>();
 		}
-	
+
 		mapNameToProcedure.clear();
 		mapProcedureToName.clear();
-	
+
 		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
 		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
 		mapNameToProcedure.put(loc.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
-		mapNameToProcedure
-				.put(loc.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
-		mapNameToProcedure
-				.put(loc.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
+		mapNameToProcedure.put(loc.getMenu("ZMeanInterval"),
+				Procedure.ZMEAN_CI);
+		mapNameToProcedure.put(loc.getMenu("TMeanInterval"),
+				Procedure.TMEAN_CI);
 		mapNameToProcedure.put(loc.getMenu("ZTestDifferenceOfMeans"),
 				Procedure.ZMEAN2_TEST);
 		mapNameToProcedure.put(loc.getMenu("TTestDifferenceOfMeans"),
@@ -155,14 +154,14 @@ public abstract class StatisticsCalculator {
 				Procedure.GOF_TEST);
 		mapNameToProcedure.put(loc.getMenu("ChiSquaredTest"),
 				Procedure.CHISQ_TEST);
-	
+
 		for (String s : mapNameToProcedure.keySet()) {
 			this.mapProcedureToName.put(mapNameToProcedure.get(s), s);
 		}
 	}
 
 	protected void setLabelStrings() {
-	
+
 		strMean = loc.getMenu("Mean");
 		strSD = loc.getMenu("SampleStandardDeviation.short");
 		strSigma = loc.getMenu("StandardDeviation.short");

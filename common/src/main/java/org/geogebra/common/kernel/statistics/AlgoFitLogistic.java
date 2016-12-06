@@ -97,7 +97,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// Flags:
 	private boolean allplus, allneg; // flags for y-values, set by
-											// getPoints();
+										// getPoints();
 
 	// GeoGebra obligatory:
 	private GeoList geolist; // input
@@ -167,7 +167,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			doReg();
 		} catch (Exception all) {
 			error = true;
-		}// try-catch
+		} // try-catch
 		if (!error) {
 			// a=2.0d;c=3.0d;b=0.5d;
 			MyDouble A = new MyDouble(kernel, a);
@@ -188,7 +188,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		}// if error in regression
+		} // if error in regression
 	}// compute()
 
 	// / ============= IMPLEMENTATION
@@ -238,9 +238,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			if (Math.abs(y2) < Math.abs(y1)) {
 				sign = -1;
 				k = -k;
-			}// if
-		}// if
-			// debug("increasing: "+increasing+" allpos: "+allplus+" allneg: "+allneg);
+			} // if
+		} // if
+			// debug("increasing: "+increasing+" allpos: "+allplus+" allneg:
+			// "+allneg);
 
 		// / Iterate for best k: ///
 		err_old = beta2(k);
@@ -259,10 +260,10 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			} else {
 				k = k - sign * lambda; // go back and try again
 				lambda = lambda / 5;
-			}// if progress
+			} // if progress
 			k += sign * lambda;
-			// debug("b, error-error_old: "+k+"  ,  "+diff);
-		}// while reduction in error
+			// debug("b, error-error_old: "+k+" , "+diff);
+		} // while reduction in error
 			// Set params for final iteration:
 		b = k; // next routine uses c,a,b...
 		a = a(x1, y1, x2, y2, k);
@@ -273,7 +274,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined");
 			return;
-		}// 20.11:if one is undefined, everything is undefined
+		} // 20.11:if one is undefined, everything is undefined
 	}// findParameters()
 
 	private final void Logistic_Reg() {
@@ -290,7 +291,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 																	// started...
 		double b1, b2, b3; // At*beta
 		double m11, m12, m13, m21, m22, m23, m31, m32, m33, // At*A
-		n; // singular check
+				n; // singular check
 		double x, y;
 		double dfa, dfb, dfc, beta, newa, newb, newc;
 		iterations = 0;
@@ -313,7 +314,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			m11 += dfa * dfa; // only need diagonal
 			m22 += dfb * dfb;
 			m33 += dfc * dfc;
-		}// for all datapoints
+		} // for all datapoints
 
 		double startfaktor = Math.max(Math.max(m11, m22), m33);
 		lambda = startfaktor * 0.001; // heuristic... (Set to zero if no LM)
@@ -322,7 +323,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) > EPSILONREG) {// or
 																			// while(Math.abs(diff)>EPSILON)
 																			// ?
-			iterations++; // debug(""+iterations+"   : \n---------------");
+			iterations++; // debug(""+iterations+" : \n---------------");
 			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
 															// >200 gives
 															// nothing more...
@@ -350,7 +351,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				m22 += dfb * dfb + lambda;
 				m23 += dfb * dfc;
 				m33 += dfc * dfc + lambda;
-			}// for all datapoints
+			} // for all datapoints
 
 			// Symmetry:
 			m21 = m12;
@@ -376,7 +377,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				newc = c + dc; // remember this and update later if ok
 				residual = beta2(xd, yd, newa, newb, newc);
 				// diff=residual-old_residual;
-				// //debug("Residual difference: "+diff+"    lambda: "+lambda);
+				// //debug("Residual difference: "+diff+" lambda: "+lambda);
 
 				if (residual < old_residual) { // (Set to true if no LM)
 					lambda = lambda / LMFACTORDIV; // going well :-) but don't
@@ -389,11 +390,11 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				} else {
 					lambda = lambda * multfaktor; // not going well :-(
 					multfaktor *= 2; // LM drives hard...
-				}// if going the right way
+				} // if going the right way
 
-			}// if(error)-else
+			} // if(error)-else
 				// debug(""+da+"\t"+db+"\t"+dc+"\n"+a+"\t"+b+"\t"+c);
-		}// while(|da|+|db|+|dc|>epsilonreg)
+		} // while(|da|+|db|+|dc|>epsilonreg)
 
 		// 20.11: not wanted:
 		// errorMsg("AlgoFitLogistic: Sum Errors Squared= "+beta2(xd,yd,a,b,c));
@@ -403,7 +404,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined");
 			return;
-		}// 20.11:if one is undefined, everything is undefined
+		} // 20.11:if one is undefined, everything is undefined
 
 	}// Logistic_Reg()
 
@@ -432,13 +433,15 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}// simple(x,a,b)
 
 	// df/da
-	private final static double df_a(double x, double a1, double b1, double c1) {
+	private final static double df_a(double x, double a1, double b1,
+			double c1) {
 		double df_c = df_c(x, a1, b1);
 		return df_c * df_c * Math.exp(-b1 * x) * (-c1);
 	}// df_a(x,a,b,c)
 
 	// df/db
-	private final static double df_b(double x, double a1, double b1, double c1) {
+	private final static double df_b(double x, double a1, double b1,
+			double c1) {
 		double df_c = df_c(x, a1, b1);
 		return df_c * df_c * Math.exp(-b1 * x) * x * a1 * c1;
 	}// df_b(x,a,b,c)
@@ -456,13 +459,13 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}// bet(x,y,b)
 
 	// Sum of squared errors, using last a,b and c
-	private final double beta2(double[] x, double[] y, double a1,
-			double b1, double c1) {
+	private final double beta2(double[] x, double[] y, double a1, double b1,
+			double c1) {
 		double sum = 0.0d, beta;
 		for (int i = 0; i < size; i++) {
 			beta = beta(x[i], y[i], a1, b1, c1);
 			sum += beta * beta;
-		}// for all datapoints
+		} // for all datapoints
 			// debug("Sum Squared Errors: "+sum);
 		return sum;
 	}// beta2(x,y,a,b,c)
@@ -474,7 +477,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		for (int i = 0; i < size; i++) {
 			beta = beta(xd[i], yd[i], k1);
 			sum += beta * beta;
-		}// for all data
+		} // for all data
 		return sum;
 	}// beta2(k)
 
@@ -509,8 +512,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				sortedSet.add(geoelement);
 			} else {
 				error = true;
-			}// if point
-		}// for all points
+			} // if point
+		} // for all points
 		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		allplus = true;
@@ -529,7 +532,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 				allneg = false;
 			}
 			i++;
-		}// while iterating
+		} // while iterating
 
 		xd = xlist;
 		yd = ylist;
@@ -541,9 +544,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	/*
 	 * //SNIP START==========================Comment out in
 	 * release======================================================= private
-	 * final static void debug(String s) { if(DEBUG) {
-	 * System.out.print("\nAlgoFitLogistic:   "); System.out.println(s); }//if()
-	 * }//debug()
+	 * final static void debug(String s) { if(DEBUG) { System.out.print(
+	 * "\nAlgoFitLogistic:   "); System.out.println(s); }//if() }//debug()
 	 * 
 	 * 
 	 * 
@@ -565,7 +567,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = {a, b, c};
+		double[] ret = { a, b, c };
 		return ret;
 	}
 

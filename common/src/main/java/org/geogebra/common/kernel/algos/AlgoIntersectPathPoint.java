@@ -29,7 +29,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  *         Algo for intersection of path with point
  */
-public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegionAlgo {
+public class AlgoIntersectPathPoint extends AlgoElement
+		implements FixedPathRegionAlgo {
 
 	private Path path; // input
 	private GeoPointND point; // input
@@ -43,7 +44,8 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 	 * @param point
 	 *            point
 	 */
-	public AlgoIntersectPathPoint(Construction cons, Path path, GeoPointND point) {
+	public AlgoIntersectPathPoint(Construction cons, Path path,
+			GeoPointND point) {
 		super(cons);
 		this.path = path;
 		this.point = point;
@@ -53,8 +55,8 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 
 		// for AlgoElement
 		setInputOutput();
-		P.setVisualStyle(cons.getConstructionDefaults().getDefaultGeo(
-				ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
+		P.setVisualStyle(cons.getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_DEPENDENT));
 		compute();
 	}
 
@@ -158,7 +160,5 @@ public class AlgoIntersectPathPoint extends AlgoElement implements FixedPathRegi
 	public boolean isChangeable(GeoElement out) {
 		return false;
 	}
-
-	
 
 }

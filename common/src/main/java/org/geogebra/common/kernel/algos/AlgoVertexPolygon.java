@@ -71,8 +71,8 @@ public class AlgoVertexPolygon extends AlgoElement {
 		} else {
 
 			outputPoints.setLabels(labels);
-			outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(
-					StringTemplate.defaultTemplate));
+			outputPoints.setIndexLabels(outputPoints.getElement(0)
+					.getLabel(StringTemplate.defaultTemplate));
 		}
 	}
 
@@ -265,7 +265,5 @@ public class AlgoVertexPolygon extends AlgoElement {
 			}
 		});
 	}
-
-	
 
 }

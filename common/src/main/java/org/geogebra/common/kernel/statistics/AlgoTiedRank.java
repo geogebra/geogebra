@@ -99,6 +99,4 @@ public class AlgoTiedRank extends AlgoElement {
 		}
 	}
 
-	
-
 }

@@ -45,7 +45,6 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	public AlgoDependentVector(Construction cons, ExpressionNode root) {
 		super(cons);
 
-
 		v = new GeoVector(cons);
 		v.setDefinition(root);
 		setInputOutput(); // for AlgoElement
@@ -78,9 +77,8 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) v.getDefinition().evaluate(
-					StringTemplate.defaultTemplate))
-					.getVector();
+			temp = ((VectorValue) v.getDefinition()
+					.evaluate(StringTemplate.defaultTemplate)).getVector();
 			v.x = temp.getX();
 			v.y = temp.getY();
 		} catch (Exception e) {
@@ -97,5 +95,4 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		return v.getDefinition();
 	}
 
-	
 }

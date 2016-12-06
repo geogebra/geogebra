@@ -35,8 +35,8 @@ public class CmdSetTrace extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				if (geo != null && geo.isTraceable()) {
-					((Traceable) geo).setTrace(((GeoBoolean) arg[1])
-							.getBoolean());
+					((Traceable) geo)
+							.setTrace(((GeoBoolean) arg[1]).getBoolean());
 					geo.updateRepaint();
 				}
 

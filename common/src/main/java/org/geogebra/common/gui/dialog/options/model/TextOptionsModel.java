@@ -36,6 +36,7 @@ public class TextOptionsModel extends OptionsModel {
 		void selectFontStyle(int style);
 
 		void setEditorText(ArrayList<DynamicTextElement> list);
+
 		void setEditorText(String text);
 
 		void updatePreview();
@@ -49,7 +50,7 @@ public class TextOptionsModel extends OptionsModel {
 	private boolean justDisplayFontSize;
 
 	private Localization loc;
-	private DynamicTextProcessor dTProcessor; 
+	private DynamicTextProcessor dTProcessor;
 	private GeoText editGeo;
 
 	public TextOptionsModel(App app) {
@@ -60,20 +61,20 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean checkGeos() { 
+	public boolean checkGeos() {
 		if (!hasGeos()) {
 			return false;
 		}
-		boolean geosOK = true; 
-		justDisplayFontSize = true; 
-		for (int i = 0; i < getGeosLength(); i++) { 
-			GeoElement geo = getGeoAt(i); 
+		boolean geosOK = true;
+		justDisplayFontSize = true;
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
 
-			if ((geo instanceof TextProperties && !((TextProperties) geo) 
-					.justFontSize()) || geo.isGeoButton()) { 
-				justDisplayFontSize = false; 
-			} 
-
+			if ((geo instanceof TextProperties
+					&& !((TextProperties) geo).justFontSize())
+					|| geo.isGeoButton()) {
+				justDisplayFontSize = false;
+			}
 
 			if (!(geo.getGeoElementForPropertiesDialog().isGeoText())) {
 				if (!geo.isGeoButton()) {
@@ -81,10 +82,9 @@ public class TextOptionsModel extends OptionsModel {
 					break;
 				}
 			}
-		} 
-		return geosOK; 
-	} 
-
+		}
+		return geosOK;
+	}
 
 	public TextProperties getTextPropertiesAt(int index) {
 		return (TextProperties) getObjectAt(index);
@@ -108,12 +108,12 @@ public class TextOptionsModel extends OptionsModel {
 			listener.setWidgetsVisible(!justDisplayFontSize, geo.isGeoButton());
 		}
 
-		TextProperties geo0 = getTextPropertiesAt(0);	
+		TextProperties geo0 = getTextPropertiesAt(0);
 
 		setEditGeo(getGeoTextAt(0));
 
-		listener.selectSize(GeoText.getFontSizeIndex(geo0
-				.getFontSizeMultiplier())); // font
+		listener.selectSize(
+				GeoText.getFontSizeIndex(geo0.getFontSizeMultiplier())); // font
 		// size
 		// ranges
 		// from
@@ -138,8 +138,8 @@ public class TextOptionsModel extends OptionsModel {
 			selItem = OptionsMenu.figuresLookup(figures);
 
 		listener.selectDecimalPlaces(selItem);
-		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
-
+		listener.setSecondLineVisible(
+				(getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
 
 		Log.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
@@ -154,16 +154,16 @@ public class TextOptionsModel extends OptionsModel {
 			}
 
 		}
-		
+
 		listener.selectFontStyle(geo0.getFontStyle());
 
 	}
+
 	public void applyFontSizeFromString(String percentStr) {
 		double multiplier;
 		if (percentStr == null) {
 			// Cancel
-			return
-					;
+			return;
 		}
 		percentStr = percentStr.replaceAll("%", "");
 
@@ -178,10 +178,11 @@ public class TextOptionsModel extends OptionsModel {
 		} catch (NumberFormatException e2) {
 			app.showError("InvalidInput");
 			return;
-		}	
+		}
 		applyFontSize(multiplier);
 
 	}
+
 	public void applyFontSizeFromIndex(int index) {
 		applyFontSize(GeoText.getRelativeFontSize(index));
 	}
@@ -196,7 +197,7 @@ public class TextOptionsModel extends OptionsModel {
 			return;
 		}
 
-		((TextProperties)editGeo).setFontSizeMultiplier(value);
+		((TextProperties) editGeo).setFontSizeMultiplier(value);
 		listener.updatePreview();
 	}
 
@@ -210,7 +211,7 @@ public class TextOptionsModel extends OptionsModel {
 		return loc.getFontSizeStrings();
 	}
 
-	public void applyFont(boolean isSerif) { 
+	public void applyFont(boolean isSerif) {
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
@@ -231,13 +232,12 @@ public class TextOptionsModel extends OptionsModel {
 			if (decimals < 8) // decimal places
 			{
 				// Application.debug("decimals"+roundingMenuLookup[decimals]+"");
-				text.setPrintDecimals(
-						OptionsMenu.roundingMenuLookup(decimals), true);
+				text.setPrintDecimals(OptionsMenu.roundingMenuLookup(decimals),
+						true);
 			} else // significant figures
 			{
 				// Application.debug("figures"+roundingMenuLookup[decimals]+"");
-				text.setPrintFigures(
-						OptionsMenu.roundingMenuLookup(decimals),
+				text.setPrintFigures(OptionsMenu.roundingMenuLookup(decimals),
 						true);
 			}
 			((GeoElement) text).updateRepaint();
@@ -257,7 +257,7 @@ public class TextOptionsModel extends OptionsModel {
 
 	public void applyFontStyle(boolean isBold, boolean isItalic) {
 		int style = getFontStyle(isBold, isItalic);
-		
+
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setFontStyle(style);
@@ -285,7 +285,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (editGeo == null) {
 			return;
 		}
-	
+
 		editGeo.setTextString(text);
 	}
 
@@ -293,22 +293,19 @@ public class TextOptionsModel extends OptionsModel {
 			final boolean isLatex, final boolean isSerif,
 			ErrorHandler handler) {
 		GeoText geo0 = getGeoTextAt(0);
-		app
-				.getKernel()
-				.getAlgebraProcessor()
-				.changeGeoElement(geo0,
-						dTProcessor.buildGeoGebraString(text, isLatex), true,
-						true, handler, new AsyncOperation<GeoElementND>() {
+		app.getKernel().getAlgebraProcessor().changeGeoElement(geo0,
+				dTProcessor.buildGeoGebraString(text, isLatex), true, true,
+				handler, new AsyncOperation<GeoElementND>() {
 
-							@Override
-							public void callback(GeoElementND geo1) {
-								((GeoText) geo1).setSerifFont(isSerif);
-								((GeoText) geo1).setLaTeX(isLatex, true);
-								((GeoText) geo1).updateRepaint();
-								app.getSelectionManager().addSelectedGeo(geo1);
-								editGeo = null;
-							}
-						});
+					@Override
+					public void callback(GeoElementND geo1) {
+						((GeoText) geo1).setSerifFont(isSerif);
+						((GeoText) geo1).setLaTeX(isLatex, true);
+						((GeoText) geo1).updateRepaint();
+						app.getSelectionManager().addSelectedGeo(geo1);
+						editGeo = null;
+					}
+				});
 
 		storeUndoInfo();
 	}
@@ -337,7 +334,7 @@ public class TextOptionsModel extends OptionsModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public boolean isTextEditable() {
 		return getGeosLength() == 1 && getObjectAt(0) instanceof GeoText
 				&& !getGeoTextAt(0).isTextCommand()

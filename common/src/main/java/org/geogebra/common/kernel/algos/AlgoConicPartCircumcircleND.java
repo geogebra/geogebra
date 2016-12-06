@@ -96,7 +96,8 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	 *            part type (arc or sector)
 	 * @return output conic part
 	 */
-	abstract protected GeoConicND createConicPart(Construction cons1, int type1);
+	abstract protected GeoConicND createConicPart(Construction cons1,
+			int type1);
 
 	/**
 	 * 
@@ -212,13 +213,13 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 	// circle through A, B, C
 	private void computeCircle() {
 		// start angle from vector MA
-		double alpha = Math.atan2(getAy()
-				- conicPart.getTranslationVector().getY(), getAx()
-				- conicPart.getTranslationVector().getX());
+		double alpha = Math.atan2(
+				getAy() - conicPart.getTranslationVector().getY(),
+				getAx() - conicPart.getTranslationVector().getX());
 		// end angle from vector MC
-		double beta = Math.atan2(getCy()
-				- conicPart.getTranslationVector().getY(), getCx()
-				- conicPart.getTranslationVector().getX());
+		double beta = Math.atan2(
+				getCy() - conicPart.getTranslationVector().getY(),
+				getCx() - conicPart.getTranslationVector().getX());
 
 		// check orientation of triangle A, B, C to see
 		// whether we have to swap start and end angle

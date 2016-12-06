@@ -31,7 +31,8 @@ public class AlgoRootMeanSquare extends AlgoElement {
 	private int size;
 	private double sum;
 
-	public AlgoRootMeanSquare(Construction cons, String label, GeoList inputList) {
+	public AlgoRootMeanSquare(Construction cons, String label,
+			GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -90,7 +91,5 @@ public class AlgoRootMeanSquare extends AlgoElement {
 
 		result.setValue(Math.sqrt(sum / size));
 	}
-
-	
 
 }

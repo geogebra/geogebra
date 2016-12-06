@@ -42,7 +42,7 @@ public class GeoScriptRunner implements EventListener {
 			}
 		} catch (ScriptError e) {
 			app.showError(e.getScriptError());
-		} 
+		}
 	}
 
 	public void reset() {

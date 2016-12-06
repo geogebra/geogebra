@@ -28,7 +28,6 @@ abstract public class Input3D implements Input3DConstants {
 		LEFT, RIGHT, FAR, NEAR, BOTTOM, TOP, NO, NEVER, YES
 	}
 
-
 	private Coords mouse3DScenePosition, mouse3DDirection;
 
 	/**
@@ -69,7 +68,6 @@ abstract public class Input3D implements Input3DConstants {
 	 * @return device type
 	 */
 	abstract public DeviceType getDeviceType();
-
 
 	/**
 	 * Center is center of the screen, unit is pixels
@@ -211,9 +209,9 @@ abstract public class Input3D implements Input3DConstants {
 	 *            panel height
 	 */
 	abstract public void setPositionXYOnPanel(double[] absolutePos,
-			Coords panelPos,
-			double screenHalfWidth, double screenHalfHeight,
-			int panelPositionX, int panelPositionY, int panelDimW, int panelDimH);
+			Coords panelPos, double screenHalfWidth, double screenHalfHeight,
+			int panelPositionX, int panelPositionY, int panelDimW,
+			int panelDimH);
 
 	/**
 	 * 
@@ -235,7 +233,8 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @return true if using completing delay (e.g. for hand tracking -- no button)
+	 * @return true if using completing delay (e.g. for hand tracking -- no
+	 *         button)
 	 */
 	abstract public boolean useCompletingDelay();
 
@@ -341,7 +340,8 @@ abstract public class Input3D implements Input3DConstants {
 
 	/**
 	 * 
-	 * @param settings TODO
+	 * @param settings
+	 *            TODO
 	 */
 	abstract public void setSpecificSettings(EuclidianSettings3D settings);
 
@@ -408,9 +408,8 @@ abstract public class Input3D implements Input3DConstants {
 
 	public void updateHeadTracking() {
 		// eyes : set position only if we use glasses
-		if (useHeadTracking()
-				&& view3D
-						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+		if (useHeadTracking() && view3D
+				.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 
 			// set glasses position from tracker data
 			setGlassesPosition();
@@ -492,8 +491,7 @@ abstract public class Input3D implements Input3DConstants {
 
 	public void updateMousePosition() {
 		setPositionXYOnPanel(getInputPosition(), mouse3DPosition);
-		mouse3DPosition
-				.setZ(getInputPosition()[2] - view3D.getScreenZOffset());
+		mouse3DPosition.setZ(getInputPosition()[2] - view3D.getScreenZOffset());
 	}
 
 	public boolean hasMouse() {
@@ -707,8 +705,8 @@ abstract public class Input3D implements Input3DConstants {
 		// Log.debug("rotZ="+rotZ);
 
 		// set the view
-		view3D.setCoordSystemFromMouse3DMove(
-				startMouse3DPosition, mouse3DPosition, rotX, rotZ);
+		view3D.setCoordSystemFromMouse3DMove(startMouse3DPosition,
+				mouse3DPosition, rotX, rotZ);
 
 		/*
 		 * // USE FOR CHECK 3D MOUSE ORIENTATION // use file
@@ -938,6 +936,5 @@ abstract public class Input3D implements Input3DConstants {
 	public Coords getStartMouse3DPosition() {
 		return startMouse3DPosition;
 	}
-
 
 }

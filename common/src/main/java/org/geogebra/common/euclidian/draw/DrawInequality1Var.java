@@ -67,8 +67,8 @@ public class DrawInequality1Var extends Drawable {
 				|| ineq2.getOperation().equals(Operation.GREATER_EQUAL)) {
 			ExpressionNode expr = ineq2.getNormalExpression();
 			if (expr.getOperation().equals(Operation.MINUS)) {
-				if(expr.getLeft() instanceof FunctionVariable 
-						&&  isNumber(expr.getRight())) {
+				if (expr.getLeft() instanceof FunctionVariable
+						&& isNumber(expr.getRight())) {
 					double min = expr.getRight().evaluateDouble();
 					minBound = min;
 				}
@@ -80,7 +80,8 @@ public class DrawInequality1Var extends Drawable {
 				}
 				if (isNumber(expr.getLeft())
 						&& expr.getRight() instanceof ExpressionNode
-						&& isVariableNegated((ExpressionNode) expr.getRight())) {
+						&& isVariableNegated(
+								(ExpressionNode) expr.getRight())) {
 					double min = expr.getLeft().evaluateDouble();
 					minBound = -min;
 				}
@@ -176,9 +177,9 @@ public class DrawInequality1Var extends Drawable {
 
 			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
-				g2.setStroke(EuclidianStatic.getStroke(
-						geo.getLineThickness() / 2.0f,
-						((GeoElement) ineq.getFunBorder()).lineType));
+				g2.setStroke(
+						EuclidianStatic.getStroke(geo.getLineThickness() / 2.0f,
+								((GeoElement) ineq.getFunBorder()).lineType));
 				g2.draw(lines[i]);
 			}
 
@@ -196,9 +197,9 @@ public class DrawInequality1Var extends Drawable {
 
 			if (geo.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
-				g2.setStroke(EuclidianStatic.getStroke(
-						geo.getLineThickness() / 2.0f,
-						EuclidianStyleConstants.LINE_TYPE_FULL));
+				g2.setStroke(
+						EuclidianStatic.getStroke(geo.getLineThickness() / 2.0f,
+								EuclidianStyleConstants.LINE_TYPE_FULL));
 				g2.draw(circle[i]);
 				if (!ineq.isStrict()) {
 					g2.fill(circle[i]);
@@ -260,8 +261,7 @@ public class DrawInequality1Var extends Drawable {
 			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
-			GArea a = AwtFactory.getPrototype()
-					.newArea();
+			GArea a = AwtFactory.getPrototype().newArea();
 			for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 				gp[i] = new GeneralPathClipped(view);
 				gp[i].moveTo(-10, x[2 * i + j]);
@@ -302,8 +302,7 @@ public class DrawInequality1Var extends Drawable {
 
 			initGP(numOfX);
 
-			GArea a = AwtFactory.getPrototype()
-					.newArea();
+			GArea a = AwtFactory.getPrototype().newArea();
 			int circleCount = 0;
 			if ((geo instanceof GeoFunction)
 					&& ((GeoFunction) geo).showOnAxis()) {
@@ -322,8 +321,8 @@ public class DrawInequality1Var extends Drawable {
 					circleCount++;
 				}
 			} else {
-				int j = ineq.getFunBorder().evaluate(
-						view.toRealWorldCoordX(-10)) <= 0 ? 1 : 0;
+				int j = ineq.getFunBorder()
+						.evaluate(view.toRealWorldCoordX(-10)) <= 0 ? 1 : 0;
 
 				for (int i = 0; 2 * i + j + 1 < numOfX; i++) {
 					gp[i] = new GeneralPathClipped(view);
@@ -337,8 +336,8 @@ public class DrawInequality1Var extends Drawable {
 					lines[2 * i].setLine(x[2 * i + j], -10, x[2 * i + j],
 							view.getHeight() + 10);
 					lines[2 * i + 1] = AwtFactory.getPrototype().newLine2D();
-					lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10, x[2 * i + 1
-							+ j], view.getHeight() + 10);
+					lines[2 * i + 1].setLine(x[2 * i + 1 + j], -10,
+							x[2 * i + 1 + j], view.getHeight() + 10);
 					a.add(AwtFactory.getPrototype().newArea(gp[i]));
 				}
 			}

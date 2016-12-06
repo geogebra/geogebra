@@ -32,7 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael
  */
-public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF {
+public class AlgoChiSquaredDF extends AlgoElement
+		implements AlgoDistributionDF {
 
 	private GeoNumberValue k; // input
 	private BooleanValue cumulative; // optional input
@@ -40,8 +41,7 @@ public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF 
 
 	@SuppressWarnings("javadoc")
 	public AlgoChiSquaredDF(Construction cons, String label,
-			GeoNumberValue mean,
-			BooleanValue cumulative) {
+			GeoNumberValue mean, BooleanValue cumulative) {
 		this(cons, mean, cumulative);
 		ret.setLabel(label);
 	}
@@ -117,8 +117,8 @@ public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF 
 
 			en = new ExpressionNode(kernel, fv);
 
-			en = en.power(halfk.subtract(1)).multiply(
-					en.reverseSign().divide(2).exp());
+			en = en.power(halfk.subtract(1))
+					.multiply(en.reverseSign().divide(2).exp());
 
 			div = div.multiply(halfk.powerR(2));
 
@@ -132,7 +132,5 @@ public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF 
 		ret.getFunctionExpression().setRight(en);
 
 	}
-
-	
 
 }

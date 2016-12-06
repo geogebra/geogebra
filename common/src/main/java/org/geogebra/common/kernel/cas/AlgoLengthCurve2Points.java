@@ -86,8 +86,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 		double a = c.getClosestParameter(A, c.getMinParameter());
 		double b = c.getClosestParameter(B, c.getMinParameter());
-		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
-				lengthCurve, a, b));
+		double lenVal = Math.abs(
+				AlgoIntegralDefinite.numericIntegration(lengthCurve, a, b));
 		length.setValue(lenVal);
 	}
 

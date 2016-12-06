@@ -41,7 +41,8 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = {
+						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0].isGeoFunction()) {
 
@@ -76,8 +77,9 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 			// two lists plus flag to indicate useFrequency (needed for SIGMAXX)
 			else if (n == 3 && arg[0].isGeoList() && arg[1].isGeoList()
 					&& arg[2].isGeoBoolean()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), c,
-						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2]) };
+				GeoElement[] ret = {
+						doCommand(c.getLabel(), c, (GeoList) arg[0],
+								(GeoList) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 			}
 

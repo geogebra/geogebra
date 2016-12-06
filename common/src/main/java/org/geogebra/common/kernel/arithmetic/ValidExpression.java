@@ -37,7 +37,6 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
-	
 
 	/**
 	 * @param label
@@ -179,7 +178,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	 *            assignment type
 	 * @return assignment in the form L:=R
 	 */
-	public String toAssignmentString(StringTemplate tpl, AssignmentType assignmentType) {
+	public String toAssignmentString(StringTemplate tpl,
+			AssignmentType assignmentType) {
 		if (labels == null) {
 			return toString(tpl);
 		}
@@ -212,7 +212,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	 *            assignment type
 	 * @return assignment in LaTeX
 	 */
-	public final String toAssignmentLaTeXString(StringTemplate tpl, AssignmentType assignmentType) {
+	public final String toAssignmentLaTeXString(StringTemplate tpl,
+			AssignmentType assignmentType) {
 		if (labels == null) {
 			return toLaTeXString(true, tpl);
 		}
@@ -271,8 +272,6 @@ public abstract class ValidExpression implements ExpressionValue {
 		// do nothing, see Command, ExpressionNode classes
 	}
 
-	
-
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		return this;
 	}
@@ -327,8 +326,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		if (s == null)
 			return "<null>";
 		if (s instanceof ExpressionNode)
-			return "ExNode(" + debugString(((ExpressionNode) s).getLeft())
-					+ "," + ((ExpressionNode) s).getOperation() + ","
+			return "ExNode(" + debugString(((ExpressionNode) s).getLeft()) + ","
+					+ ((ExpressionNode) s).getOperation() + ","
 					+ debugString(((ExpressionNode) s).getRight()) + ")";
 		if (s instanceof Equation)
 			return "Eq(" + debugString(((Equation) s).getLHS()) + ",=,"
@@ -356,21 +355,20 @@ public abstract class ValidExpression implements ExpressionValue {
 			return sb.toString();
 		}
 		if (s.isGeoElement()) {
-			return (((GeoElement) s).getConstruction() instanceof MacroConstruction ? "Macro"
-					: "")
-					+ s.getClass()
-							.getName()
+			return (((GeoElement) s)
+					.getConstruction() instanceof MacroConstruction ? "Macro"
+							: "")
+					+ s.getClass().getName()
 							.replaceAll("org.geogebra.common.kernel.geos.Geo",
 									"G")
 							.replaceAll(
 									"org.geogebra.common.geogebra3D.kernel3D.geos.Geo",
 									"G")
-					+ "("
-					+ s.toString(StringTemplate.defaultTemplate) + ")";
+					+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
 		}
 		return s.getClass().getName()
-				.replaceAll("org.geogebra.common.kernel.arithmetic.", "")
-				+ "(" + s.toString(StringTemplate.defaultTemplate) + ")";
+				.replaceAll("org.geogebra.common.kernel.arithmetic.", "") + "("
+				+ s.toString(StringTemplate.defaultTemplate) + ")";
 	}
 
 	public ExpressionValue unwrap() {
@@ -397,8 +395,6 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 
-
-
 	/**
 	 * print expression as value or geo label
 	 * 
@@ -415,8 +411,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		if (values) {
 			return x2.toValueString(tpl);
 		}
-		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
-				.toString(tpl);
+		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl)
+				: x2.toString(tpl);
 	}
 
 	/**
@@ -431,7 +427,7 @@ public abstract class ValidExpression implements ExpressionValue {
 			}
 		});
 	}
-	
+
 	/**
 	 * @param name
 	 *            variable name
@@ -442,9 +438,8 @@ public abstract class ValidExpression implements ExpressionValue {
 
 			@Override
 			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable
-						&& (name == null || name.equals(((FunctionVariable) v)
-								.getSetVarString()));
+				return v instanceof FunctionVariable && (name == null || name
+						.equals(((FunctionVariable) v).getSetVarString()));
 			}
 		});
 	}

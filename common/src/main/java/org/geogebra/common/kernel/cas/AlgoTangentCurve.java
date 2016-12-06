@@ -190,8 +190,8 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 		f.evaluateCurve(tvalue, feval);
 		df.evaluateCurve(tvalue, dfeval);
-		tangent.setCoords(-dfeval[1], dfeval[0], feval[0] * dfeval[1]
-				- dfeval[0] * feval[1]);
+		tangent.setCoords(-dfeval[1], dfeval[0],
+				feval[0] * dfeval[1] - dfeval[0] * feval[1]);
 
 		if (!pointOnCurve && !pointOnCurveSpecial) {
 			T.setCoords(feval[0], feval[1], 1.0);
@@ -205,5 +205,4 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		return null;
 	}
 
-	
 }

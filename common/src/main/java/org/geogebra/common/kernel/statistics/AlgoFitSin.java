@@ -163,7 +163,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			doReg();
 		} catch (Exception all) {
 			error = true;
-		}// try-catch
+		} // try-catch
 		if (!error) { // Make function
 			MyDouble A = new MyDouble(kernel, a);
 			MyDouble B = new MyDouble(kernel, b);
@@ -184,7 +184,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		}// if error in regression
+		} // if error in regression
 	}// compute()
 
 	// / ============= IMPLEMENTATION
@@ -217,9 +217,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				min = y;
 				xmin_abs = i;
 			}
-		}// for
+		} // for
 		a = sum / size;
-		b = (max - min) / 2.0d; // System.out.println("a= "+a+" b= "+b+" max= "+max+" min= "+min);
+		b = (max - min) / 2.0d; // System.out.println("a= "+a+" b= "+b+" max=
+								// "+max+" min= "+min);
 
 		// Find c:
 		// This time first and second local max/min, between rise and fall and
@@ -241,15 +242,15 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 					state = current; // set first state
 				} else { // we are on our way...
 					if (current != state) { // Update
-																// eventual
-																// change
+											// eventual
+											// change
 						if (nearmaxmin(a, b, state, current, max, min)) {// Kill
 																			// noise
 							changes++;
 							state = current;
-						}// if near
-					}// if change
-				}// if steady up or down
+						} // if near
+					} // if change
+				} // if steady up or down
 
 				// Two changes enough. (Must check before updating extremums.)
 				if (changes >= 2) { // debug("Two changes on "+i);
@@ -263,14 +264,16 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 					} else if (current == -1) { // Steady down
 						min = y;
 						xmin = i; // Last is min so far
-					}// update extremums
-				}// if changes<2
+					} // update extremums
+				} // if changes<2
 			} else { // Not steady, nothing to do...
 
-			}// if steady up or down
+			} // if steady up or down
 				// debug("i: "+i);
-				// debug("state: "+state+" current: "+current+" changes: "+changes+" max: "+max+" min: "+min+" xmax: "+xmax+" xmin: "+xmin);
-		}// for all data
+				// debug("state: "+state+" current: "+current+" changes:
+				// "+changes+" max: "+max+" min: "+min+" xmax: "+xmax+" xmin:
+				// "+xmin);
+		} // for all data
 
 		// 09.12: Checking half-period:
 		min_max_distance = Math.abs(xd[xmax] - xd[xmin]);
@@ -291,8 +294,9 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																					// a
 																					// period,
 																					// hopefully
-		}// if too few extrema
-		c = PI * numberofhalfperiods / min_max_distance; // debug("Final c: "+c);
+		} // if too few extrema
+		c = PI * numberofhalfperiods / min_max_distance; // debug("Final c:
+															// "+c);
 		// System.out.println("c="+c); //**************
 		double c2 = 2 * Math.PI / ((xd[size - 1] - xd[0]) * 2 / changes);
 		// System.out.println("or..."+c2);
@@ -317,11 +321,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			err = beta(xd, yd, a, b, c, d); // Without squaring is ok...
 			if (err < old_err) {
 				old_err = err;
-				bestd = d; // System.out.println("d-iteration: error= "+error+"   d: "+d);
-			}// if new min
-		}// for: d-iteration
+				bestd = d; // System.out.println("d-iteration: error= "+error+"
+							// d: "+d);
+			} // if new min
+		} // for: d-iteration
 		d = bestd; // System.out.println("old routine gave d= "+d);
-					// debug("Parameters:  a= "+a+" b= "+b+" c= "+c+" d "+d);
+					// debug("Parameters: a= "+a+" b= "+b+" c= "+c+" d "+d);
 
 	}// findParameters()
 
@@ -339,8 +344,9 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 																		// get
 																		// started...
 		double b1, b2, b3, b4; // At*beta
-		double m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44, // At*A
-		n; // singular check
+		double m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41,
+				m42, m43, m44, // At*A
+				n; // singular check
 		double x, y;
 		double dfa, dfb, dfc, dfd, beta, newa, newb, newc, newd;
 
@@ -366,21 +372,22 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			m22 += dfb * dfb;
 			m33 += dfc * dfc;
 			m44 += dfd * dfd;
-		}// for all datapoints
+		} // for all datapoints
 		double startfaktor = Math.max(Math.max(Math.max(m11, m22), m33), m44);
 		lambda = startfaktor * 0.001; // Heuristic, suggested by several
 										// articles
 										// debug("Startlambda: "+lambda);
-		while (Math.abs(da) + Math.abs(db) + Math.abs(dc) + Math.abs(dd) > EPSILON) {
+		while (Math.abs(da) + Math.abs(db) + Math.abs(dc)
+				+ Math.abs(dd) > EPSILON) {
 
-			iterations++; // debug(""+iterations+"   : ");
+			iterations++; // debug(""+iterations+" : ");
 			if ((iterations > MAXITERATIONS) || (error)) { // From experience:
 															// >100 gives
 															// unusable result
 				Log.debug("More than " + MAXITERATIONS + " iterations...");
 				error = true; // 14.02.09: No use=>undefined!
 				break;
-			}// if diverging
+			} // if diverging
 			b1 = b2 = b3 = b4 = 0.0d;
 			m11 = m12 = m13 = m14 = m21 = m22 = m23 = m24 = m31 = m32 = m33 = m34 = m41 = m42 = m43 = m44 = 0.0d;
 			for (int i = 0; i < size; i++) { // for all datapoints
@@ -407,7 +414,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				m33 += dfc * dfc + lambda;
 				m34 += dfc * dfd;
 				m44 += dfd * dfd + lambda;
-			}// for all datapoints
+			} // for all datapoints
 
 			// Symmetry:
 			m21 = m12;
@@ -438,9 +445,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				newb = b + db;
 				newc = c + dc;
 				newd = d + dd; // Remember this, in case we have to go back...
-				residual = beta2(xd, yd, newa, newb, newc, newd); // debug("ChiSqError: +"+residual);
+				residual = beta2(xd, yd, newa, newb, newc, newd); // debug("ChiSqError:
+																	// +"+residual);
 				// diff=residual-old_residual;
-				// //debug("Residual difference: "+diff+"    lambda: "+lambda);
+				// //debug("Residual difference: "+diff+" lambda: "+lambda);
 				if (residual < old_residual) {
 					lambda = lambda / LMFACTORDIV; // going well :-) But don't
 													// overdo it...
@@ -453,11 +461,11 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				} else {
 					lambda = lambda * multfaktor; // Not going well :-(
 					multfaktor *= 2; // LM drives hard...
-				}// if going the right way
-			}// if(error)-else
+				} // if going the right way
+			} // if(error)-else
 				// System.out.println( ""+da+"\t"+db+"\t"+dc+"\t"+dd+"\n"+
 				// ""+a+"\t"+b+"\t"+c+"\t"+d+"\n" );//out
-		}// while(da+db+dc>eps)
+		} // while(da+db+dc>eps)
 
 		// Reduce d to interval <-pi,pi>
 		// d=Rdft.reduce(d);//put here not in rdft!
@@ -470,17 +478,18 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			if (d < -Math.PI) {
 				d += reduction;
 			} // debug("justifying: "+d);
-		}// while not in i <-pi,pi>
+		} // while not in i <-pi,pi>
 
 		// Not wanted in log:
-		// System.out.println("AlgoFitSin: Sum Errors Squared= "+beta2(xd,yd,a,b,c,d));
+		// System.out.println("AlgoFitSin: Sum Errors Squared=
+		// "+beta2(xd,yd,a,b,c,d));
 		// //Info
 		if (Double.isNaN(a) || Double.isNaN(b) || Double.isNaN(c)
 				|| Double.isNaN(d)) {
 			error = true;
 			Log.debug("findParameters(): a,b or c undefined (NaN).");
 			return;
-		}// 20.11:if one is undefined, everything is undefined
+		} // 20.11:if one is undefined, everything is undefined
 	}// sinus_Reg()
 
 	/* sin(Cx+D) */
@@ -526,25 +535,25 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}// beta(x,a,b,c,d)
 
 	/* Sum of quadratic errors */
-	public final static double beta2(double[] x, double[] y, double a,
-			double b, double c, double d) {
+	public final static double beta2(double[] x, double[] y, double a, double b,
+			double c, double d) {
 		double sum = 0.0d, beta;
 		int n = x.length;
 		for (int i = 0; i < n; i++) {
 			beta = beta(x[i], y[i], a, b, c, d);
 			sum += beta * beta;
-		}// for all datapoints
+		} // for all datapoints
 		return sum;
 	}// beta(x,y,a,b,c,d)
 
 	// Sum of errors (absolute values)
-	private final static double beta(double[] x, double[] y, double a,
-			double b, double c, double d) {
+	private final static double beta(double[] x, double[] y, double a, double b,
+			double c, double d) {
 		double sum = 0.0d;
 		int n = x.length;
 		for (int i = 0; i < n; i++) {
 			sum += Math.abs(beta(x[i], y[i], a, b, c, d));
-		}// for all datapoints
+		} // for all datapoints
 		return sum;
 	}// beta(x,y,a,b,c,d)
 
@@ -556,7 +565,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			return -1;
 		} else { // Some over, som under...
 			return 0;
-		}// if
+		} // if
 	}// direction()
 
 	// Get Points and sort them. (Could find abs max and min as well,
@@ -578,8 +587,8 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				sortedSet.add((GeoPoint) geoelement);
 			} else {
 				error = true;
-			}// if point
-		}// for all points
+			} // if point
+		} // for all points
 		Iterator<GeoPoint> iter = sortedSet.iterator();
 		int i = 0;
 		xlist = new double[size];
@@ -591,7 +600,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			xlist[i] = xy[0];
 			ylist[i] = xy[1];
 			i++;
-		}// while iterating
+		} // while iterating
 		xd = xlist;
 		yd = ylist;
 		if (error) {
@@ -614,7 +623,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			return false;
 		} else {
 			return false; // Should not happen...
-		}// if
+		} // if
 	}// nearmaxmin(y,a,b)
 
 	// Is distance between abs max and abx min 1,3,5,... halfperiodes?
@@ -630,12 +639,17 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 			n = 2 * i - 1; // number of halfperiods
 			period = Math.abs(xd[xmax] - xd[xmin]) * 2.0 / n;
 			c = TWO_PI / period;
-			error = beta2(xd, yd, a, b, c, PI / 2.0d - c * xd[xmax]); // debug("halfperiod: n, c, error: "+n+"     "+c+"    "+error);
+			error = beta2(xd, yd, a, b, c, PI / 2.0d - c * xd[xmax]); // debug("halfperiod:
+																		// n, c,
+																		// error:
+																		// "+n+"
+																		// "+c+"
+																		// "+error);
 			if (error < min_error) {
 				min_error = error;
 				best = n;
-			}// if better
-		}// for all actual frequencies
+			} // if better
+		} // for all actual frequencies
 		return best;
 	}// findNumberOfHalfPeriods(int,double)
 
@@ -664,7 +678,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = {a, b, c, d};
+		double[] ret = { a, b, c, d };
 		return ret;
 	}
 

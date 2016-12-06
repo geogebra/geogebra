@@ -18,10 +18,8 @@ import org.geogebra.common.move.ggtapi.requests.UploadRequest;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
-
 /**
- * @author gabor
- * Common base for GeoGebraTubeApi
+ * @author gabor Common base for GeoGebraTubeApi
  */
 public abstract class GeoGebraTubeAPI {
 
@@ -42,11 +40,11 @@ public abstract class GeoGebraTubeAPI {
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */
 	protected static GeoGebraTubeAPI instance;
-	
+
 	static public final int LOGIN_TOKEN_VALID = 0;
 	static public final int LOGIN_TOKEN_INVALID = 1;
 	static public final int LOGIN_REQUEST_FAILED = -2;
-	
+
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
@@ -61,7 +59,7 @@ public abstract class GeoGebraTubeAPI {
 		this.materialsURL = beta ? urlBeta : url;
 		this.loginURL = beta ? login_urlBeta : login_url;
 	}
-	
+
 	public void setURL(String url1) {
 		this.materialsURL = url1;
 	}
@@ -70,21 +68,22 @@ public abstract class GeoGebraTubeAPI {
 		this.loginURL = loginAPIurl;
 
 	}
+
 	/**
 	 * Private method performing the request given by requestString
 	 * 
 	 * @param requestString
-	 *          JSON request String for the GeoGebraTubeAPI
-	 * @return The HttpRequest object that contains the response and error information 
+	 *            JSON request String for the GeoGebraTubeAPI
+	 * @return The HttpRequest object that contains the response and error
+	 *         information
 	 */
-	protected final void performRequest(String requestString, boolean login, AjaxCallback callback)
-	{
+	protected final void performRequest(String requestString, boolean login,
+			AjaxCallback callback) {
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(login ? getLoginUrl() : getUrl(),
-				requestString,
+		request.sendRequestPost(login ? getLoginUrl() : getUrl(), requestString,
 				callback);
 	}
-	
+
 	public final String getLoginUrl() {
 		return loginURL;
 	}
@@ -100,19 +99,22 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	protected abstract HttpRequest createHttpRequest();
 
-	protected abstract boolean parseUserDataFromResponse(
-			GeoGebraTubeUser user, String response);
-	
+	protected abstract boolean parseUserDataFromResponse(GeoGebraTubeUser user,
+			String response);
+
 	/**
-	 * Sends a request to the GeoGebraTube API to check if the login token which is defined in the specified 
-	 * GeoGebraTubeUser is valid.
+	 * Sends a request to the GeoGebraTube API to check if the login token which
+	 * is defined in the specified GeoGebraTubeUser is valid.
 	 * 
-	 * @param user The user that should be authorized.
-	 * @return One of the following return codes: LOGIN_TOKEN_VALID, LOGIN_TOKEN_INVALID, LOGIN_REQUEST_FAILED
+	 * @param user
+	 *            The user that should be authorized.
+	 * @return One of the following return codes: LOGIN_TOKEN_VALID,
+	 *         LOGIN_TOKEN_INVALID, LOGIN_REQUEST_FAILED
 	 */
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
-		performRequest(buildTokenLoginRequest(user.getLoginToken(), user.getCookie()),
+		performRequest(
+				buildTokenLoginRequest(user.getLoginToken(), user.getCookie()),
 				true, new AjaxCallback() {
 					@Override
 					public void onSuccess(String responseStr) {
@@ -120,7 +122,6 @@ public abstract class GeoGebraTubeAPI {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
 
 							GeoGebraTubeAPI.this.available = true;
-							
 
 							// Parse the userdata from the response
 							if (!parseUserDataFromResponse(user, responseStr)) {
@@ -129,7 +130,8 @@ public abstract class GeoGebraTubeAPI {
 								return;
 							}
 
-							op.onEvent(new LoginEvent(user, true, automatic, responseStr));
+							op.onEvent(new LoginEvent(user, true, automatic,
+									responseStr));
 
 							// GeoGebraTubeAPID.this.available = false;
 						} catch (Exception e) {
@@ -138,13 +140,12 @@ public abstract class GeoGebraTubeAPI {
 
 					}
 
-					
-
 					@Override
 					public void onError(String error) {
 						GeoGebraTubeAPI.this.availabilityCheckDone = true;
 						GeoGebraTubeAPI.this.available = false;
-						op.onEvent(new LoginEvent(user, false, automatic, null));
+						op.onEvent(
+								new LoginEvent(user, false, automatic, null));
 					}
 				});
 
@@ -188,7 +189,7 @@ public abstract class GeoGebraTubeAPI {
 		checkIfAvailable(op, getClientInfo());
 		return this.available;
 	}
-	
+
 	public boolean isAvailable() {
 		return this.available;
 	}
@@ -205,22 +206,25 @@ public abstract class GeoGebraTubeAPI {
 	 * 
 	 * @return boolean if the request was successful.
 	 */
-	private boolean checkIfAvailable(final LogInOperation op, String clientInfo) {
-		if(!this.availabilityCheckDone){
+	private boolean checkIfAvailable(final LogInOperation op,
+			String clientInfo) {
+		if (!this.availabilityCheckDone) {
 			this.available = false;
 		}
 		this.availabilityCheckDone = false;
 		try {
 			performRequest(
-					"{\"request\": {\"-api\": \"1.0.0\","+clientInfo+"\"task\": {\"-type\": \"info\"}}}",
+					"{\"request\": {\"-api\": \"1.0.0\"," + clientInfo
+							+ "\"task\": {\"-type\": \"info\"}}}",
 					false, new AjaxCallback() {
 
 						@Override
 						public void onSuccess(String response) {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
 							GeoGebraTubeAPI.this.available = true;
-							if(op!=null){
-								op.onEvent(new TubeAvailabilityCheckEvent(true));
+							if (op != null) {
+								op.onEvent(
+										new TubeAvailabilityCheckEvent(true));
 							}
 						}
 
@@ -228,8 +232,9 @@ public abstract class GeoGebraTubeAPI {
 						public void onError(String error) {
 							GeoGebraTubeAPI.this.availabilityCheckDone = true;
 							GeoGebraTubeAPI.this.available = false;
-							if(op!=null){
-								op.onEvent(new TubeAvailabilityCheckEvent(true));
+							if (op != null) {
+								op.onEvent(
+										new TubeAvailabilityCheckEvent(true));
 							}
 
 						}
@@ -243,12 +248,11 @@ public abstract class GeoGebraTubeAPI {
 	}
 
 	public void setUserLanguage(String lang, String token) {
-		performRequest(
-				"{\"request\": {"
-                        +"\"api\":\"1.0.0\","
-                        +"\"login\": {\"token\":\""+token+"\", \"getuserinfo\":\"false\"},"
-                        +"\"task\": {\"type\":\"setuserlang\", \"lang\":\""+lang+"\"}}}",
-				true, new AjaxCallback() {
+		performRequest("{\"request\": {" + "\"api\":\"1.0.0\","
+				+ "\"login\": {\"token\":\"" + token
+				+ "\", \"getuserinfo\":\"false\"},"
+				+ "\"task\": {\"type\":\"setuserlang\", \"lang\":\"" + lang
+				+ "\"}}}", true, new AjaxCallback() {
 
 					@Override
 					public void onSuccess(String response) {
@@ -264,9 +268,9 @@ public abstract class GeoGebraTubeAPI {
 
 	public void logout(String token) {
 		performRequest(
-				"{\"request\": {"
-                        +"\"api\":\"1.0.0\","
-                        +"\"logout\": {\"token\":\""+token+"\", \"getuserinfo\":\"false\"}}}",
+				"{\"request\": {" + "\"api\":\"1.0.0\","
+						+ "\"logout\": {\"token\":\"" + token
+						+ "\", \"getuserinfo\":\"false\"}}}",
 				true, new AjaxCallback() {
 
 					@Override
@@ -282,12 +286,12 @@ public abstract class GeoGebraTubeAPI {
 	}
 
 	public void favorite(int id, boolean favorite) {
-		performRequest("{\"request\": {" + "\"-api\":\"1.0.0\","
-				+ "\"login\": {\"-token\":\"" + getToken()
- + "\"},"
-				+ "\"task\": {\"-type\":\"favorite\", \"id\":\"" + id
-				+ "\",\"favorite\":\"" + favorite + "\"}}}", false,
-				new AjaxCallback() {
+		performRequest(
+				"{\"request\": {" + "\"-api\":\"1.0.0\","
+						+ "\"login\": {\"-token\":\"" + getToken() + "\"},"
+						+ "\"task\": {\"-type\":\"favorite\", \"id\":\"" + id
+						+ "\",\"favorite\":\"" + favorite + "\"}}}",
+				false, new AjaxCallback() {
 
 					@Override
 					public void onSuccess(String response) {
@@ -315,7 +319,8 @@ public abstract class GeoGebraTubeAPI {
 	public void uploadRenameMaterial(Material mat, final MaterialCallbackI cb) {
 		performRequest(
 				UploadRequest.getRequestElement(mat.getTitle(), mat.getId())
-						.toJSONString(client), cb);
+						.toJSONString(client),
+				cb);
 	}
 
 	/**
@@ -330,8 +335,8 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public void uploadLocalMaterial(final Material mat,
 			final MaterialCallbackI cb) {
-		performRequest(UploadRequest.getRequestElement(mat)
-				.toJSONString(client), cb);
+		performRequest(
+				UploadRequest.getRequestElement(mat).toJSONString(client), cb);
 	}
 
 	/**
@@ -350,10 +355,8 @@ public abstract class GeoGebraTubeAPI {
 
 	public void shareMaterial(Material material, String to, String message,
 			final MaterialCallbackI cb) {
-		performRequest(
-				ShareRequest.getRequestElement(material, to, message)
-						.toJSONString(client),
-				cb);
+		performRequest(ShareRequest.getRequestElement(material, to, message)
+				.toJSONString(client), cb);
 	}
 
 	/**
@@ -364,7 +367,8 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public void getUsersMaterials(MaterialCallbackI cb) {
 		performRequest(
-				MaterialRequest.forCurrentUser(client).toJSONString(client), cb);
+				MaterialRequest.forCurrentUser(client).toJSONString(client),
+				cb);
 	}
 
 	/**
@@ -402,8 +406,8 @@ public abstract class GeoGebraTubeAPI {
 	 *            {@link MaterialCallbackI}
 	 */
 	public void getBookItems(int id, MaterialCallbackI cb) {
-		performRequest(
-				MaterialRequest.forBook(id, client).toJSONString(client), cb);
+		performRequest(MaterialRequest.forBook(id, client).toJSONString(client),
+				cb);
 	}
 
 	public void getWorksheetItems(int id, MaterialCallbackI cb) {
@@ -426,9 +430,9 @@ public abstract class GeoGebraTubeAPI {
 			final String filename, String base64, final MaterialCallbackI cb,
 			MaterialType type) {
 
-		performRequest(
-				UploadRequest.getRequestElement(tubeID, visibility, filename,
-						base64, type).toJSONString(client), cb);
+		performRequest(UploadRequest
+				.getRequestElement(tubeID, visibility, filename, base64, type)
+				.toJSONString(client), cb);
 
 	}
 
@@ -500,16 +504,16 @@ public abstract class GeoGebraTubeAPI {
 							Object items = responseObj.get("item");
 
 							if (items instanceof JSONArray) {
-								for (int i = 0; i < ((JSONArray)items).length(); i++) {
+								for (int i = 0; i < ((JSONArray) items)
+										.length(); i++) {
 									JSONParserGGT.prototype.addEvent(
 											(JSONObject) ((JSONArray) items)
 													.get(i),
 											events);
 								}
 							} else if (items instanceof JSONObject) {
-								JSONParserGGT.prototype.addEvent(
-										(JSONObject) items,
-										events);
+								JSONParserGGT.prototype
+										.addEvent((JSONObject) items, events);
 							}
 							cb.onSync(events);
 						} catch (Exception e) {

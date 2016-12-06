@@ -68,8 +68,9 @@ public class CmdVertex extends CommandProcessor {
 
 				return algo.getVertex();
 			} else if (arg[0] instanceof GeoNumberValue) {
-				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(
-						c.getLabel(), (GeoNumberValue) arg[0], null) };
+				GeoElement[] ret = {
+						(GeoElement) cornerOfDrawingPad(c.getLabel(),
+								(GeoNumberValue) arg[0], null) };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
@@ -82,7 +83,8 @@ public class CmdVertex extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 
 				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons,
-						c.getLabel(), (GeoPoly) arg[0], (GeoNumberValue) arg[1]);
+						c.getLabel(), (GeoPoly) arg[0],
+						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
 				return ret;
@@ -126,9 +128,10 @@ public class CmdVertex extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[0]);
 			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(
-						c.getLabel(), (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[0]) };
+				GeoElement[] ret = {
+						(GeoElement) cornerOfDrawingPad(c.getLabel(),
+								(GeoNumberValue) arg[1],
+								(GeoNumberValue) arg[0]) };
 				return ret;
 
 			} else {

@@ -18,13 +18,14 @@ import org.geogebra.common.util.MyMath;
  * @author mathieu
  *
  */
-public class GeoConicSection extends GeoConic3D implements
-		GeoConicSectionInterface {
+public class GeoConicSection extends GeoConic3D
+		implements GeoConicSectionInterface {
 
 	private double[] paramStart, paramEnd, paramExtent;
-	
-	private double[] edgeStartX, edgeStartY, edgeEndX, edgeEndY, edgeStartParam, edgeEndParam;
-	
+
+	private double[] edgeStartX, edgeStartY, edgeEndX, edgeEndY, edgeStartParam,
+			edgeEndParam;
+
 	private boolean[] edgeExists;
 
 	/**
@@ -98,11 +99,11 @@ public class GeoConicSection extends GeoConic3D implements
 	 * @param top1
 	 *            second parameter for top
 	 */
-	final public void setParameters(double bottom0, double bottom1,
-			double top0, double top1) {
-		
+	final public void setParameters(double bottom0, double bottom1, double top0,
+			double top1) {
+
 		// restart edges
-		for (int i = 0 ; i < 2 ; i++){
+		for (int i = 0; i < 2; i++) {
 			edgeExists[i] = false;
 		}
 
@@ -118,10 +119,7 @@ public class GeoConicSection extends GeoConic3D implements
 			parametersTree.add(new IndexedParameter(top1, 2));
 			parametersTree.toArray(parametersArray);
 
-			double start1,
-			end1,
-			start2,
-			end2;
+			double start1, end1, start2, end2;
 			if (parametersArray[0].index == parametersArray[1].index) {
 				start1 = parametersArray[0].value;
 				end1 = parametersArray[1].value;
@@ -160,49 +158,60 @@ public class GeoConicSection extends GeoConic3D implements
 			paramExtent[1] = paramEnd[1] - paramStart[1];
 			if (paramExtent[1] < 0)
 				paramExtent[1] += Kernel.PI_2;
-			
+
 			// set edges
-			if (!Double.isNaN(paramStart[0])){ // at least one edge
+			if (!Double.isNaN(paramStart[0])) { // at least one edge
 				double x0 = getEigenvec(0).getX() * getHalfAxis(0);
 				double y0 = getEigenvec(0).getY() * getHalfAxis(0);
 				double x1 = getEigenvec(1).getX() * getHalfAxis(1);
 				double y1 = getEigenvec(1).getY() * getHalfAxis(1);
-				if (Double.isNaN(paramStart[1])){ // only one edge
-					edgeEndX[0] = b.getX() + x0 * Math.cos(paramStart[0]) + x1 * Math.sin(paramStart[0]);
-					edgeEndY[0] = b.getY() + y0 * Math.cos(paramStart[0]) + y1 * Math.sin(paramStart[0]);
+				if (Double.isNaN(paramStart[1])) { // only one edge
+					edgeEndX[0] = b.getX() + x0 * Math.cos(paramStart[0])
+							+ x1 * Math.sin(paramStart[0]);
+					edgeEndY[0] = b.getY() + y0 * Math.cos(paramStart[0])
+							+ y1 * Math.sin(paramStart[0]);
 					edgeEndParam[0] = paramStart[0];
-					edgeStartX[0] = b.getX() + x0 * Math.cos(paramEnd[0]) + x1 * Math.sin(paramEnd[0]);
-					edgeStartY[0] = b.getY() + y0 * Math.cos(paramEnd[0]) + y1 * Math.sin(paramEnd[0]);
+					edgeStartX[0] = b.getX() + x0 * Math.cos(paramEnd[0])
+							+ x1 * Math.sin(paramEnd[0]);
+					edgeStartY[0] = b.getY() + y0 * Math.cos(paramEnd[0])
+							+ y1 * Math.sin(paramEnd[0]);
 					edgeStartParam[0] = paramEnd[0];
-					if (edgeStartParam[0] > edgeEndParam[0]){
-						edgeStartParam[0] -= 2*Math.PI;
+					if (edgeStartParam[0] > edgeEndParam[0]) {
+						edgeStartParam[0] -= 2 * Math.PI;
 					}
 					edgeExists[0] = true;
-				}else{
-					edgeEndX[0] = b.getX() + x0 * Math.cos(paramStart[0]) + x1 * Math.sin(paramStart[0]);
-					edgeEndY[0] = b.getY() + y0 * Math.cos(paramStart[0]) + y1 * Math.sin(paramStart[0]);
+				} else {
+					edgeEndX[0] = b.getX() + x0 * Math.cos(paramStart[0])
+							+ x1 * Math.sin(paramStart[0]);
+					edgeEndY[0] = b.getY() + y0 * Math.cos(paramStart[0])
+							+ y1 * Math.sin(paramStart[0]);
 					edgeEndParam[0] = paramStart[0];
-					edgeStartX[0] = b.getX() + x0 * Math.cos(paramEnd[1]) + x1 * Math.sin(paramEnd[1]);
-					edgeStartY[0] = b.getY() + y0 * Math.cos(paramEnd[1]) + y1 * Math.sin(paramEnd[1]);
+					edgeStartX[0] = b.getX() + x0 * Math.cos(paramEnd[1])
+							+ x1 * Math.sin(paramEnd[1]);
+					edgeStartY[0] = b.getY() + y0 * Math.cos(paramEnd[1])
+							+ y1 * Math.sin(paramEnd[1]);
 					edgeStartParam[0] = paramEnd[1];
-					if (edgeStartParam[0] > edgeEndParam[0]){
-						edgeStartParam[0] -= 2*Math.PI;
+					if (edgeStartParam[0] > edgeEndParam[0]) {
+						edgeStartParam[0] -= 2 * Math.PI;
 					}
 					edgeExists[0] = true;
 
-					edgeEndX[1] = b.getX() + x0 * Math.cos(paramStart[1]) + x1 * Math.sin(paramStart[1]);
-					edgeEndY[1] = b.getY() + y0 * Math.cos(paramStart[1]) + y1 * Math.sin(paramStart[1]);
+					edgeEndX[1] = b.getX() + x0 * Math.cos(paramStart[1])
+							+ x1 * Math.sin(paramStart[1]);
+					edgeEndY[1] = b.getY() + y0 * Math.cos(paramStart[1])
+							+ y1 * Math.sin(paramStart[1]);
 					edgeEndParam[1] = paramStart[1];
-					edgeStartX[1] = b.getX() + x0 * Math.cos(paramEnd[0]) + x1 * Math.sin(paramEnd[0]);
-					edgeStartY[1] = b.getY() + y0 * Math.cos(paramEnd[0]) + y1 * Math.sin(paramEnd[0]);
+					edgeStartX[1] = b.getX() + x0 * Math.cos(paramEnd[0])
+							+ x1 * Math.sin(paramEnd[0]);
+					edgeStartY[1] = b.getY() + y0 * Math.cos(paramEnd[0])
+							+ y1 * Math.sin(paramEnd[0]);
 					edgeStartParam[1] = paramEnd[0];
-					if (edgeStartParam[1] > edgeEndParam[1]){
-						edgeStartParam[1] -= 2*Math.PI;
+					if (edgeStartParam[1] > edgeEndParam[1]) {
+						edgeStartParam[1] -= 2 * Math.PI;
 					}
 					edgeExists[1] = true;
 				}
 			}
-
 
 			break;
 
@@ -252,56 +261,63 @@ public class GeoConicSection extends GeoConic3D implements
 			setInfParameter(paramEnd, top1);
 
 			sortParameters();
-			
-			// set edges
-			for (int i = 0 ; i < 2 ; i++){
-				if (!Double.isNaN(paramStart[i])){	
-					double s = paramEnd[i];				
-					double x = (1 - 2 * i) * halfAxes[0] * MyMath.cosh(s); 	
-					double y = halfAxes[1] * MyMath.sinh(s); 
-					double x1 = b.getX() + x * getEigenvec(0).getX() + y * getEigenvec(1).getX();
-					double y1 = b.getY() + x * getEigenvec(0).getY() + y * getEigenvec(1).getY();
-					
-					s = paramStart[i];					
-					x = (1 - 2 * i) * halfAxes[0] * MyMath.cosh(s); 	
-					y = halfAxes[1] * MyMath.sinh(s); 
-					double x2 = b.getX() + x * getEigenvec(0).getX() + y * getEigenvec(1).getX();
-					double y2 = b.getY() + x * getEigenvec(0).getY() + y * getEigenvec(1).getY();
 
-					
-					if (i == 0){
+			// set edges
+			for (int i = 0; i < 2; i++) {
+				if (!Double.isNaN(paramStart[i])) {
+					double s = paramEnd[i];
+					double x = (1 - 2 * i) * halfAxes[0] * MyMath.cosh(s);
+					double y = halfAxes[1] * MyMath.sinh(s);
+					double x1 = b.getX() + x * getEigenvec(0).getX()
+							+ y * getEigenvec(1).getX();
+					double y1 = b.getY() + x * getEigenvec(0).getY()
+							+ y * getEigenvec(1).getY();
+
+					s = paramStart[i];
+					x = (1 - 2 * i) * halfAxes[0] * MyMath.cosh(s);
+					y = halfAxes[1] * MyMath.sinh(s);
+					double x2 = b.getX() + x * getEigenvec(0).getX()
+							+ y * getEigenvec(1).getX();
+					double y2 = b.getY() + x * getEigenvec(0).getY()
+							+ y * getEigenvec(1).getY();
+
+					if (i == 0) {
 						edgeStartX[i] = x2;
 						edgeStartY[i] = y2;
-						edgeStartParam[i] = PathNormalizer.inverseInfFunction(paramStart[i]);
+						edgeStartParam[i] = PathNormalizer
+								.inverseInfFunction(paramStart[i]);
 						edgeEndX[i] = x1;
 						edgeEndY[i] = y1;
-						edgeEndParam[i] = PathNormalizer.inverseInfFunction(paramEnd[i]);
-					}else{
+						edgeEndParam[i] = PathNormalizer
+								.inverseInfFunction(paramEnd[i]);
+					} else {
 						edgeStartX[i] = x1;
 						edgeStartY[i] = y1;
-						edgeStartParam[i] = PathNormalizer.inverseInfFunction(paramEnd[i]) + 2;
+						edgeStartParam[i] = PathNormalizer
+								.inverseInfFunction(paramEnd[i]) + 2;
 						edgeEndX[i] = x2;
 						edgeEndY[i] = y2;
-						edgeEndParam[i] = PathNormalizer.inverseInfFunction(paramStart[i]) + 2;
+						edgeEndParam[i] = PathNormalizer
+								.inverseInfFunction(paramStart[i]) + 2;
 					}
-					
+
 					edgeExists[i] = true;
-					
-				}else{ // prevent second branch
+
+				} else { // prevent second branch
 					double x1 = b.getX() - getEigenvec(1).getX();
 					double y1 = b.getY() - getEigenvec(1).getY();
 					double x2 = b.getX() + getEigenvec(1).getX();
 					double y2 = b.getY() + getEigenvec(1).getY();
-					if (i == 0){
+					if (i == 0) {
 						edgeStartX[i] = x1;
 						edgeStartY[i] = y1;
 						edgeEndX[i] = x2;
 						edgeEndY[i] = y2;
-					}else{
+					} else {
 						edgeStartX[i] = x2;
 						edgeStartY[i] = y2;
 						edgeEndX[i] = x1;
-						edgeEndY[i] = y1;						
+						edgeEndY[i] = y1;
 					}
 				}
 			}
@@ -316,20 +332,24 @@ public class GeoConicSection extends GeoConic3D implements
 				paramStart[0] = bottom1;
 				paramEnd[0] = bottom0;
 			}
-			
+
 			// set edges
-			double y = bottom0 * p; 
-			double x = y * bottom0 / 2.0; 			
-			edgeEndX[0] = b.getX() + x * getEigenvec(0).getX() + y * getEigenvec(1).getX();
-			edgeEndY[0] = b.getY() + x * getEigenvec(0).getY() + y * getEigenvec(1).getY();
+			double y = bottom0 * p;
+			double x = y * bottom0 / 2.0;
+			edgeEndX[0] = b.getX() + x * getEigenvec(0).getX()
+					+ y * getEigenvec(1).getX();
+			edgeEndY[0] = b.getY() + x * getEigenvec(0).getY()
+					+ y * getEigenvec(1).getY();
 			edgeEndParam[0] = bottom0;
-			
-			y = bottom1 * p; 
-			x = y * bottom1 / 2.0; 
-			edgeStartX[0] = b.getX() + x * getEigenvec(0).getX() + y * getEigenvec(1).getX();
-			edgeStartY[0] = b.getY() + x * getEigenvec(0).getY() + y * getEigenvec(1).getY();
+
+			y = bottom1 * p;
+			x = y * bottom1 / 2.0;
+			edgeStartX[0] = b.getX() + x * getEigenvec(0).getX()
+					+ y * getEigenvec(1).getX();
+			edgeStartY[0] = b.getY() + x * getEigenvec(0).getY()
+					+ y * getEigenvec(1).getY();
 			edgeStartParam[0] = bottom1;
-			
+
 			edgeExists[0] = true;
 
 			break;
@@ -406,80 +426,83 @@ public class GeoConicSection extends GeoConic3D implements
 	public GeoClass getGeoClassType() {
 		return GeoClass.CONICSECTION;
 	}
-	
-	
+
 	@Override
 	public boolean isInRegion(double x0, double y0) {
 
-		if (!super.isInRegion(x0, y0)){
+		if (!super.isInRegion(x0, y0)) {
 			return false;
 		}
-		
+
 		return isInsideEdges(x0, y0);
-		
+
 	}
-	
-	private boolean isInsideEdges(double x0, double y0){
-		for (int i = 0 ; i < 2 ; i++){
-			if (edgeExists[i] || type == GeoConicNDConstants.CONIC_HYPERBOLA){
-				if ((edgeStartX[i] - x0) * (edgeEndY[i] - y0) - (edgeEndX[i] - x0) * (edgeStartY[i] - y0) < 0){
+
+	private boolean isInsideEdges(double x0, double y0) {
+		for (int i = 0; i < 2; i++) {
+			if (edgeExists[i] || type == GeoConicNDConstants.CONIC_HYPERBOLA) {
+				if ((edgeStartX[i] - x0) * (edgeEndY[i] - y0)
+						- (edgeEndX[i] - x0) * (edgeStartY[i] - y0) < 0) {
 					return false;
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
-	
 	@Override
 	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
-		
-		if (checkSection){
+
+		if (checkSection) {
 			double xOld = P.getX() / P.getZ();
-			double yOld = P.getY() / P.getZ();			
+			double yOld = P.getY() / P.getZ();
 			double distance = Double.POSITIVE_INFINITY;
 
 			// calc point on conic and check it
 			super.pointChanged(P, pp, checkSection);
-			
-			if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-				if (edgeExists[0]){
-					if (pp.t > 1){ // wrong branch: force correct branch apex
+
+			if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
+				if (edgeExists[0]) {
+					if (pp.t > 1) { // wrong branch: force correct branch apex
 						pp.t = 0;
 						P.setX(getHalfAxis(0));
 						P.setY(0);
-						P.setZ(1.0);	
+						P.setZ(1.0);
 						coordsEVtoRW(P);
 					}
-				}else{
-					if (pp.t < 1){ // wrong branch: force correct branch apex
+				} else {
+					if (pp.t < 1) { // wrong branch: force correct branch apex
 						pp.t = 2;
 						P.setX(-getHalfAxis(0));
 						P.setY(0);
-						P.setZ(1.0);	
+						P.setZ(1.0);
 						coordsEVtoRW(P);
 					}
 				}
 			}
 
 			P.setInhomCoords();
-			if (isInsideEdges(P.getX(), P.getY())){
+			if (isInsideEdges(P.getX(), P.getY())) {
 				double dx = P.getX() - xOld;
 				double dy = P.getY() - yOld;
 				distance = dx * dx + dy * dy;
 			}
 
 			// calc points on edges
-			for (int i = 0 ; i < 2 ; i++){
-				if (edgeExists[i]){
-					double parameter = getParameterOnSegment(xOld, yOld, edgeStartX[i], edgeStartY[i], edgeEndX[i], edgeEndY[i]);
-					double x = edgeStartX[i] * (1 - parameter) + edgeEndX[i] * parameter;
-					double y = edgeStartY[i] * (1 - parameter) + edgeEndY[i] * parameter;
+			for (int i = 0; i < 2; i++) {
+				if (edgeExists[i]) {
+					double parameter = getParameterOnSegment(xOld, yOld,
+							edgeStartX[i], edgeStartY[i], edgeEndX[i],
+							edgeEndY[i]);
+					double x = edgeStartX[i] * (1 - parameter)
+							+ edgeEndX[i] * parameter;
+					double y = edgeStartY[i] * (1 - parameter)
+							+ edgeEndY[i] * parameter;
 					double dx = x - xOld;
 					double dy = y - yOld;
 					double d = dx * dx + dy * dy;
-					if (d < distance){
+					if (d < distance) {
 						distance = d;
 						P.setX(x);
 						P.setY(y);
@@ -488,77 +511,83 @@ public class GeoConicSection extends GeoConic3D implements
 						case GeoConicNDConstants.CONIC_CIRCLE:
 						case GeoConicNDConstants.CONIC_ELLIPSE:
 							// we map the [0,1] parameter to edge parameters
-							pp.t = edgeStartParam[i] * (1 - parameter) + edgeEndParam[i] * parameter;
-							if (pp.t > Math.PI){
+							pp.t = edgeStartParam[i] * (1 - parameter)
+									+ edgeEndParam[i] * parameter;
+							if (pp.t > Math.PI) {
 								pp.t -= Kernel.PI_2;
 							}
 							break;
 						case GeoConicNDConstants.CONIC_PARABOLA:
 							// we add edge parameter to start parameter
-							if (edgeStartParam[0] < edgeEndParam[0]){
+							if (edgeStartParam[0] < edgeEndParam[0]) {
 								parameter = -parameter;
 							}
 							pp.t = edgeStartParam[0] + parameter;
 							break;
 						case GeoConicNDConstants.CONIC_HYPERBOLA:
-							pp.t = edgeEndParam[i] * parameter + (1 - parameter);
+							pp.t = edgeEndParam[i] * parameter
+									+ (1 - parameter);
 							break;
 						}
 					}
 				}
 			}
-		}else{
+		} else {
 			// calc point on conic and check it
 			super.pointChanged(P, pp, checkSection);
 		}
-		
-		
+
 	}
-	
-	private static double getParameterOnSegment(double x, double y, double startX, double startY, double endX, double endY){
+
+	private static double getParameterOnSegment(double x, double y,
+			double startX, double startY, double endX, double endY) {
 		double dx = endX - startX;
 		double dy = endY - startY;
-		double parameter = ((x - startX) * (endX - startX) + (y - startY) * (endY - startY)) / (dx * dx + dy * dy);
-		if (parameter < 0){
+		double parameter = ((x - startX) * (endX - startX)
+				+ (y - startY) * (endY - startY)) / (dx * dx + dy * dy);
+		if (parameter < 0) {
 			return 0;
 		}
-		if (parameter > 1){
+		if (parameter > 1) {
 			return 1;
 		}
 		return parameter;
 	}
-	
-	
+
 	@Override
-	protected void pathChangedWithoutCheckEllipse(Coords P, PathParameter pp, boolean checkSection) {
-		
-		if (checkSection){
-			for (int i = 0 ; i < 2 ; i++){
-				if (edgeExists[i]){
+	protected void pathChangedWithoutCheckEllipse(Coords P, PathParameter pp,
+			boolean checkSection) {
+
+		if (checkSection) {
+			for (int i = 0; i < 2; i++) {
+				if (edgeExists[i]) {
 					// get parameter in [-pi,pi]
 					double parameter = pp.t % Kernel.PI_2;
-					if (parameter > Math.PI){
+					if (parameter > Math.PI) {
 						parameter -= Kernel.PI_2;
 					}
-					
+
 					// check if in edge
 					boolean inEdge = false;
-					if (edgeStartParam[i] > Math.PI){
+					if (edgeStartParam[i] > Math.PI) {
 						parameter += Kernel.PI_2;
-						inEdge = parameter >= edgeStartParam[i] && parameter <= edgeEndParam[i];
-					}else if (edgeEndParam[i] > Math.PI){
-						if (parameter >= edgeStartParam[i]){
+						inEdge = parameter >= edgeStartParam[i]
+								&& parameter <= edgeEndParam[i];
+					} else if (edgeEndParam[i] > Math.PI) {
+						if (parameter >= edgeStartParam[i]) {
 							inEdge = true;
-						}else{ 
+						} else {
 							parameter += Kernel.PI_2;
 							inEdge = parameter <= edgeEndParam[i];
 						}
-					}else{
-						inEdge = parameter >= edgeStartParam[i] && parameter <= edgeEndParam[i];
+					} else {
+						inEdge = parameter >= edgeStartParam[i]
+								&& parameter <= edgeEndParam[i];
 					}
 
-					if (inEdge){
-						double a = (parameter - edgeStartParam[i]) / (edgeEndParam[i] - edgeStartParam[i]);
+					if (inEdge) {
+						double a = (parameter - edgeStartParam[i])
+								/ (edgeEndParam[i] - edgeStartParam[i]);
 						P.setX(edgeStartX[i] * (1 - a) + edgeEndX[i] * a);
 						P.setY(edgeStartY[i] * (1 - a) + edgeEndY[i] * a);
 						P.setZ(1);
@@ -568,48 +597,47 @@ public class GeoConicSection extends GeoConic3D implements
 				}
 			}
 		}
-		
+
 		super.pathChangedWithoutCheckEllipse(P, pp, checkSection);
 	}
-	
-	
-	
-	@Override
-	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp, boolean checkSection) {
 
-		if (checkSection){
-			if (edgeExists[0]){
-				if (edgeStartParam[0] < edgeEndParam[0]){
-					if (pp.t < edgeStartParam[0]){
-						double a =  - pp.t + edgeStartParam[0];
-						if (a < 1){
+	@Override
+	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp,
+			boolean checkSection) {
+
+		if (checkSection) {
+			if (edgeExists[0]) {
+				if (edgeStartParam[0] < edgeEndParam[0]) {
+					if (pp.t < edgeStartParam[0]) {
+						double a = -pp.t + edgeStartParam[0];
+						if (a < 1) {
 							P.setX(edgeStartX[0] * (1 - a) + edgeEndX[0] * a);
 							P.setY(edgeStartY[0] * (1 - a) + edgeEndY[0] * a);
-						}else{ // prevent outside of edge when path changes
+						} else { // prevent outside of edge when path changes
 							P.setX(edgeEndX[0]);
 							P.setY(edgeEndY[0]);
 						}
 						P.setZ(1);
 						return;
-					}else if (pp.t > edgeEndParam[0]){
+					} else if (pp.t > edgeEndParam[0]) {
 						P.setX(edgeEndX[0]);
 						P.setY(edgeEndY[0]);
 						P.setZ(1);
 						return;
 					}
-				}else{
-					if (pp.t > edgeStartParam[0]){
+				} else {
+					if (pp.t > edgeStartParam[0]) {
 						double a = pp.t - edgeStartParam[0];
-						if (a < 1){
+						if (a < 1) {
 							P.setX(edgeStartX[0] * (1 - a) + edgeEndX[0] * a);
 							P.setY(edgeStartY[0] * (1 - a) + edgeEndY[0] * a);
-						}else{ // prevent outside of edge when path changes
+						} else { // prevent outside of edge when path changes
 							P.setX(edgeEndX[0]);
 							P.setY(edgeEndY[0]);
 						}
 						P.setZ(1);
 						return;
-					}else if (pp.t < edgeEndParam[0]){
+					} else if (pp.t < edgeEndParam[0]) {
 						P.setX(edgeEndX[0]);
 						P.setY(edgeEndY[0]);
 						P.setZ(1);
@@ -618,58 +646,61 @@ public class GeoConicSection extends GeoConic3D implements
 				}
 			}
 		}
-		
+
 		super.pathChangedWithoutCheckParabola(P, pp, checkSection);
 	}
 
-	
 	@Override
-	protected void pathChangedWithoutCheckHyperbola(Coords P, PathParameter pp, boolean checkSection) {
-		
+	protected void pathChangedWithoutCheckHyperbola(Coords P, PathParameter pp,
+			boolean checkSection) {
+
 		double oldParameter = pp.t;
-		
-		if (checkSection){
-			
+
+		if (checkSection) {
+
 			// reverse branch if needed
 			int i;
-			if (pp.t < 1){
-				if (edgeExists[0]){
+			if (pp.t < 1) {
+				if (edgeExists[0]) {
 					i = 0;
-				}else{
+				} else {
 					i = 1;
 					pp.t = 2 - pp.t;
 				}
-			}else{
-				if (edgeExists[1]){
+			} else {
+				if (edgeExists[1]) {
 					i = 1;
-				}else{
+				} else {
 					i = 0;
 					pp.t = 2 - pp.t;
 				}
 			}
-			
-				
-			if (i == 0 ^ pp.t < edgeEndParam[i]){
-				double a = (pp.t - edgeEndParam[i])/(1 - edgeEndParam[i]); // pp.t is from edgeEndParam[i] to 1
-				if (a < 1){
+
+			if (i == 0 ^ pp.t < edgeEndParam[i]) {
+				double a = (pp.t - edgeEndParam[i]) / (1 - edgeEndParam[i]); // pp.t
+																				// is
+																				// from
+																				// edgeEndParam[i]
+																				// to
+																				// 1
+				if (a < 1) {
 					P.setX(edgeStartX[i] * a + edgeEndX[i] * (1 - a));
 					P.setY(edgeStartY[i] * a + edgeEndY[i] * (1 - a));
-				}else{ // prevent outside of edge when path changes
+				} else { // prevent outside of edge when path changes
 					P.setX(edgeEndX[i]);
 					P.setY(edgeEndY[i]);
 				}
 				P.setZ(1);
 				return;
 			}
-			
+
 		}
-		
+
 		super.pathChangedWithoutCheckHyperbola(P, pp, checkSection);
-		
-		if (checkSection){
+
+		if (checkSection) {
 			pp.t = oldParameter;
 		}
 	}
-	
-	
+
 }

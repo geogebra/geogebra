@@ -123,10 +123,10 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 		double xRandom, yRandom;
 
 		while (!foundRandom) {
-			xRandom = xMin + (xMax - xMin)
-					* cons.getApplication().getRandomNumber();
-			yRandom = yMin + (yMax - yMin)
-					* cons.getApplication().getRandomNumber();
+			xRandom = xMin
+					+ (xMax - xMin) * cons.getApplication().getRandomNumber();
+			yRandom = yMin
+					+ (yMax - yMin) * cons.getApplication().getRandomNumber();
 
 			if (polygon.isInRegion(xRandom, yRandom)) {
 				randomPoint.setCoords(xRandom, yRandom, 1);
@@ -134,7 +134,5 @@ public class AlgoRandomPointInPoints extends AlgoElement {
 			}
 		}
 	}
-
-	
 
 }

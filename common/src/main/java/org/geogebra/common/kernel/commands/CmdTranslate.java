@@ -32,8 +32,8 @@ public class CmdTranslate extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -49,8 +49,8 @@ public class CmdTranslate extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 
-				AlgoTranslateVector algo = getAlgoTranslateVector(label,
-						arg[0], arg[1]);
+				AlgoTranslateVector algo = getAlgoTranslateVector(label, arg[0],
+						arg[1]);
 
 				ret[0] = (GeoElement) algo.getTranslatedVector();
 

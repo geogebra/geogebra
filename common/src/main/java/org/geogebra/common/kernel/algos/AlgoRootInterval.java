@@ -143,8 +143,8 @@ public class AlgoRootInterval extends AlgoElement {
 			newtonRoot = rootPolisher.solve(new RealRootDerivAdapter(fun), min,
 					max, root);
 
-			if (Math.abs(fun.evaluate(newtonRoot)) < Math.abs(fun
-					.evaluate(root))) {
+			if (Math.abs(fun.evaluate(newtonRoot)) < Math
+					.abs(fun.evaluate(root))) {
 				root = newtonRoot;
 				// Log.debug("polished result from Newton is better: " +
 				// newtonRoot);
@@ -171,5 +171,4 @@ public class AlgoRootInterval extends AlgoElement {
 				aGeo.getLabel(tpl), bGeo.getLabel(tpl));
 	}
 
-	
 }

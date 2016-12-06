@@ -2,12 +2,10 @@ package org.geogebra.common.geogebra3D.main;
 
 public class FragmentShader {
 
-
 	final private static String fragmentHeaderDesktop = "#if __VERSION__ >= 130\n"
 			+ "  #define varying in\n"
 
-			+ "  out vec4 mgl_FragColor;\n"
-			+ "  #define texture2D texture\n"
+			+ "  out vec4 mgl_FragColor;\n" + "  #define texture2D texture\n"
 			+ "  #define gl_FragColor mgl_FragColor\n"
 
 			+ "#endif \n"
@@ -41,8 +39,7 @@ public class FragmentShader {
 
 			+ "{ \n"
 
-			+ "float x;\n"
-			+ "if (enableClipPlanes == 1  // clip the scene\n"
+			+ "float x;\n" + "if (enableClipPlanes == 1  // clip the scene\n"
 			+ "&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x\n"
 			+ "|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y \n"
 			+ "|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z \n"
@@ -52,7 +49,7 @@ public class FragmentShader {
 
 			+ "}\n"
 
-	// default
+			// default
 
 			+ "if (textureType == 0){\n"
 
@@ -62,7 +59,7 @@ public class FragmentShader {
 
 			+ "}\n"
 
-	// fading
+			// fading
 			+ "if (textureType == 1){ // TEXTURE_TYPE_FADING = 1\n"
 			+ "float factor;\n"
 
@@ -74,7 +71,7 @@ public class FragmentShader {
 
 			+ "}\n"
 
-	// text
+			// text
 			+ "if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;\n"
 			+ "vec4 textureVal = texture2D(Texture0, coordTexture);\n"
 			+ "if (textureVal.a < 0.25){\n"
@@ -98,8 +95,7 @@ public class FragmentShader {
 
 			+ "gl_FragColor = varying_Color;\n"
 
-			+ "} \n"
-			+ "";
+			+ "} \n" + "";
 
 	final public static String getFragmentShader(boolean isHTML5) {
 
@@ -146,8 +142,7 @@ public class FragmentShader {
 
 				+ "}\n"
 
-				+ "vec4 color;\n"
-				+ "if (enableShine == 1){\n"
+				+ "vec4 color;\n" + "if (enableShine == 1){\n"
 				// adding specular
 				+ "float specular = dot(normalize(lightReflect), normalize(viewDirection));\n"
 				+ "if (specular > 0.0){\n"
@@ -169,14 +164,13 @@ public class FragmentShader {
 
 				+ "}\n"
 
-		// default
+				// default
 
 				+ "if (textureType == 0){\n"
 
- + "gl_FragColor = color;\n"
- + "return;\n"
+				+ "gl_FragColor = color;\n" + "return;\n"
 
-				+ "}\n" 
+				+ "}\n"
 				// fading
 				+ "if (textureType == 1){ // TEXTURE_TYPE_FADING = 1\n"
 				+ "float factor;\n"
@@ -189,13 +183,12 @@ public class FragmentShader {
 
 				+ "}\n"
 
-		// text
+				// text
 				+ "if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;\n"
 				+ "vec4 textureVal = texture2D(Texture0, coordTexture);\n"
 				+ "if (textureVal.a < 0.25){\n"
 
-				+ "  discard; // don't write\n"
-				+ "  }\n"
+				+ "  discard; // don't write\n" + "  }\n"
 
 				+ "gl_FragColor.rgb = color.rgb;\n"
 				+ "gl_FragColor.a = textureVal.a;\n"
@@ -214,5 +207,5 @@ public class FragmentShader {
 
 				+ "} ";
 
-}
+	}
 }

@@ -7,6 +7,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles fill image of GeoElement
+ * 
  * @author Arpad
  */
 public abstract class GeoElementGraphicsAdapter {
@@ -23,14 +24,16 @@ public abstract class GeoElementGraphicsAdapter {
 	}
 
 	/**
-	 * @param ba new fill image
+	 * @param ba
+	 *            new fill image
 	 */
 	public void setImageOnly(MyImage ba) {
 		image = ba;
 	}
 
 	/**
-	 * @param fn new filename
+	 * @param fn
+	 *            new filename
 	 */
 	public void setImageFileNameOnly(String fn) {
 		FileExtensions ext = StringUtil.getFileExtension(fn);
@@ -55,19 +58,21 @@ public abstract class GeoElementGraphicsAdapter {
 	public String getImageFileName() {
 		return imageFileName;
 	}
-	
+
 	/**
 	 * @return fill image
 	 */
 	public abstract MyImage getFillImage();
-	
+
 	/**
-	 * @param fileName filename
+	 * @param fileName
+	 *            filename
 	 */
 	public abstract void setImageFileName(String fileName);
 
 	/**
-	 * @param filename filename
+	 * @param filename
+	 *            filename
 	 */
 	public void setFillImage(String filename) {
 		setImageFileNameOnly(filename);
@@ -75,10 +80,9 @@ public abstract class GeoElementGraphicsAdapter {
 	}
 
 	/**
-	 * Make sure the image name and MD5 is adjusted to match the saveable formats 
-	 * (no change in desktop, JPEG, GIF -> PNG in Web)
+	 * Make sure the image name and MD5 is adjusted to match the saveable
+	 * formats (no change in desktop, JPEG, GIF -> PNG in Web)
 	 */
 	public abstract void convertToSaveableFormat();
-	
-	
+
 }

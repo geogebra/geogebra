@@ -39,8 +39,8 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 	private GeoPointND center;
 	private GeoDirectionND orientation;
 
-	AlgoRotate3DPointOrientation(Construction cons, String label,
-			GeoElement in, GeoNumberValue angle, GeoPointND center,
+	AlgoRotate3DPointOrientation(Construction cons, String label, GeoElement in,
+			GeoNumberValue angle, GeoPointND center,
 			GeoDirectionND orientation) {
 		this(cons, in, angle, center, orientation);
 		((GeoElement) out).setLabel(label);
@@ -100,7 +100,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 		} else {
 			outGeo.set(inGeo);
 		}
-		
+
 		if (!outGeo.isDefined()) {
 			return;
 		}

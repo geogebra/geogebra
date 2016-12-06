@@ -67,7 +67,8 @@ public class AlgoDensityPlot extends AlgoElement {
 	 *            2-variables function
 	 * 
 	 */
-	public AlgoDensityPlot(final Construction c, final GeoFunctionNVar function) {
+	public AlgoDensityPlot(final Construction c,
+			final GeoFunctionNVar function) {
 		this(c, function, -2, 2, -2, 2, false);
 	}
 
@@ -85,7 +86,8 @@ public class AlgoDensityPlot extends AlgoElement {
 	 *            view
 	 */
 	public AlgoDensityPlot(Construction cons, GeoFunctionNVar geoFunctionNVar,
-			double lowX, double highX, double lowY, double highY, boolean fixed) {
+			double lowX, double highX, double lowY, double highY,
+			boolean fixed) {
 		super(cons);
 		grade = 1;
 		// for web image, area and resolution are a quarter of desktop
@@ -120,9 +122,9 @@ public class AlgoDensityPlot extends AlgoElement {
 		df = new DecimalFormat("0.##");
 		imagePlusOffset = imageSize + offset;
 		outputImage.setAbsoluteScreenLocActive(true);
-		outputImage.setAbsoluteScreenLoc(view.getViewWidth() / 2
-				- (imageSize + 2 * offset) / 2, view.getViewHeight() / 2
-				+ (imageSize + 2 * offset) / 2);
+		outputImage.setAbsoluteScreenLoc(
+				view.getViewWidth() / 2 - (imageSize + 2 * offset) / 2,
+				view.getViewHeight() / 2 + (imageSize + 2 * offset) / 2);
 		setInputOutput();
 		deleteAxes();
 		if (fixed) {
@@ -153,8 +155,7 @@ public class AlgoDensityPlot extends AlgoElement {
 			for (i = offset, vals[0] = minX; i < imagePlusOffset; vals[0] += incX, i += grade) {
 				value = f.evaluate(vals);
 				colors = rgbColor(value);
-				color = GColor.newColor(colors[0], colors[1],
-						colors[1]);
+				color = GColor.newColor(colors[0], colors[1], colors[1]);
 				g.setColor(color);
 				g.fillRect(i, j, grade, grade);
 			}
@@ -181,10 +182,10 @@ public class AlgoDensityPlot extends AlgoElement {
 		}
 		g.setColor(GColor.BLACK);
 		for (i = offset; i <= imagePlusOffset; i += gridPixel * 5) {
-			t = AwtFactory.getPrototype().newTextLayout(
-					df.format(xx), font, g.getFontRenderContext());
-			g.drawString(df.format(xx), i - t.getAdvance() / 2, imageSize + 2
-					* offset - offset / 3);
+			t = AwtFactory.getPrototype().newTextLayout(df.format(xx), font,
+					g.getFontRenderContext());
+			g.drawString(df.format(xx), i - t.getAdvance() / 2,
+					imageSize + 2 * offset - offset / 3);
 			g.drawString(df.format(yy), 1, i + 4);
 			yy -= incY * gridPixel * 5 / grade;
 			xx += incX * gridPixel * 5 / grade;

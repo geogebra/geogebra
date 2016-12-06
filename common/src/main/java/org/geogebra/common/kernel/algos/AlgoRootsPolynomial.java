@@ -62,7 +62,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	/**
 	 * Computes all roots of f
 	 */
-	public AlgoRootsPolynomial(Construction cons, String[] labels, GeoFunction f) {
+	public AlgoRootsPolynomial(Construction cons, String[] labels,
+			GeoFunction f) {
 		this(cons, labels, !cons.isSuppressLabelsActive(), f, null, null);
 	}
 
@@ -291,7 +292,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				if (!Kernel.isEqual(f.evaluate(solution.curRoots[i]),
-						g.evaluate(solution.curRoots[i]), Kernel.MIN_PRECISION)) {
+						g.evaluate(solution.curRoots[i]),
+						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
 					i--;
 				}
@@ -385,8 +387,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// get polynomial factors for this function
 		if (derivDegree > 0) {
 			// try to get the factors of the symbolic derivative
-			factorList = fun.getSymbolicPolynomialDerivativeFactors(
-					derivDegree, true);
+			factorList = fun.getSymbolicPolynomialDerivativeFactors(derivDegree,
+					true);
 
 			// if this didn't work take the derivative of the numeric
 			// expansion of this function
@@ -442,12 +444,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	}
 
-
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
-
-
-
-
 
 	// roots array and number of roots
 	protected final void setRootPoints(double[] roots, int number) {
@@ -466,7 +463,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				rootPoints[i].setCoords(roots[i],
 						yValFunction.evaluate(roots[i]), 1.0);
 
-				// Application.debug("   " + rootPoints[i]);
+				// Application.debug(" " + rootPoints[i]);
 			}
 		}
 
@@ -489,8 +486,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 				// check labeling
 				if (!rootPoints[i].isLabelSet()) {
 					// use user specified label if we have one
-					String newLabel = (labels != null && i < labels.length) ? labels[i]
-							: null;
+					String newLabel = (labels != null && i < labels.length)
+							? labels[i] : null;
 					rootPoints[i].setLabel(newLabel);
 				}
 			}

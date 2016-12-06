@@ -42,7 +42,6 @@ public class CmdCopyFreeObject extends CommandProcessor {
 
 			}
 
-
 			if (arg[0] instanceof GeoSegmentND) {
 
 				geo = ((GeoSegmentND) arg[0]).copyFreeSegment();
@@ -64,7 +63,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				arg[0].remove();
 			return ret;
 
-			// more than one argument
+		// more than one argument
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
@@ -82,9 +81,9 @@ public class CmdCopyFreeObject extends CommandProcessor {
 			// add label explicitly to make sure this works for f(t) or f(a,b)
 			command.append(geoElement.getFreeLabel(null));
 		}
-			command.append('(');
-			command.append(f.getVarString(StringTemplate.defaultTemplate));
-			command.append(")=");
+		command.append('(');
+		command.append(f.getVarString(StringTemplate.defaultTemplate));
+		command.append(")=");
 
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
 		if (f.getFunctionExpression().isSecret()) {
@@ -99,8 +98,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		}
 
 		try {
-			GeoElementND[] ret = kernelA
-					.getAlgebraProcessor()
+			GeoElementND[] ret = kernelA.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(command.toString(),
 							true);
 			ret[0].setVisualStyle(geoElement);

@@ -22,8 +22,8 @@ public class CmdRandomPolynomial extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 3)
 			throw argNumErr(app, c.getName(), args.length);
@@ -31,9 +31,9 @@ public class CmdRandomPolynomial extends CommandProcessor {
 			if (!(args[i] instanceof GeoNumberValue))
 				throw argErr(app, c.getName(), args[i]);
 		}
-		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons,
-				c.getLabel(), (GeoNumberValue) args[0],
-				(GeoNumberValue) args[1], (GeoNumberValue) args[2]);
+		AlgoRandomPolynomial algo = new AlgoRandomPolynomial(cons, c.getLabel(),
+				(GeoNumberValue) args[0], (GeoNumberValue) args[1],
+				(GeoNumberValue) args[2]);
 		return new GeoElement[] { algo.getResult() };
 	}
 

@@ -16,15 +16,16 @@
  */
 package org.apache.commons.math.exception;
 
-
 /**
- * Base class for all exceptions that signal a mismatch between the
- * current state and the user's expectations.
+ * Base class for all exceptions that signal a mismatch between the current
+ * state and the user's expectations.
  *
  * @since 2.2
- * @version $Revision: 1061496 $ $Date: 2011-01-20 21:32:16 +0100 (jeu. 20 janv. 2011) $
+ * @version $Revision: 1061496 $ $Date: 2011-01-20 21:32:16 +0100 (jeu. 20 janv.
+ *          2011) $
  */
-public class MathIllegalStateException extends IllegalStateException implements MathThrowable {
+public class MathIllegalStateException extends IllegalStateException
+		implements MathThrowable {
 
 	public MathIllegalStateException(String specific, String noData,
 			Object[] objects) {
@@ -34,5 +35,5 @@ public class MathIllegalStateException extends IllegalStateException implements 
 	public MathIllegalStateException(String internalError, String reportUrl) {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 }

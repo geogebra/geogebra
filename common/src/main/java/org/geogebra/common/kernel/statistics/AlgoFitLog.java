@@ -41,12 +41,11 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 	public AlgoFitLog(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
-		
-		
+
 	}
 
 	public AlgoFitLog(Construction cons, GeoList geolist) {
-		super(cons);		
+		super(cons);
 		this.geolist = geolist;
 		geofunction = new GeoFunction(cons);
 		regMath = new RegressionMath();
@@ -98,16 +97,14 @@ public class AlgoFitLog extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		}// if error in regression
+		} // if error in regression
 			// if error in parameters
 	}
-	
+
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = {regMath.getP1(), regMath.getP2()};
+		double[] ret = { regMath.getP1(), regMath.getP2() };
 		return ret;
 	}
-
-	
 
 }// class AlgoFitLog

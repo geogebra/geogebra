@@ -37,7 +37,8 @@ public class CmdTTest extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoText())) {
 
 				AlgoTTest algo = new AlgoTTest(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoText) arg[2]);
+						(GeoList) arg[0], (GeoNumeric) arg[1],
+						(GeoText) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

@@ -100,5 +100,4 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 		return getLoc().getPlain("ConicFromCoeffListA", L.getLabel(tpl));
 	}
 
-	
 }

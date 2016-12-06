@@ -83,7 +83,7 @@ public class DataSource {
 	}
 
 	public boolean isNumericData() {
-		if(getSelectedDataVariable()== null){
+		if (getSelectedDataVariable() == null) {
 			return false;
 		}
 		return getSelectedDataVariable().getGeoClass() == GeoClass.NUMERIC;
@@ -110,7 +110,7 @@ public class DataSource {
 	}
 
 	public DataVariable getSelectedDataVariable() {
-		if(selectedIndex >= dataList.size()){
+		if (selectedIndex >= dataList.size()) {
 			return null;
 		}
 		return dataList.get(selectedIndex);
@@ -155,13 +155,10 @@ public class DataSource {
 	}
 
 	private MyTable spreadsheetTable() {
-		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface)((GuiManagerInterface) app
+		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface) ((GuiManagerInterface) app
 				.getGuiManager()).getSpreadsheetView();
-		return (MyTable)spvi.getSpreadsheetTable();
+		return (MyTable) spvi.getSpreadsheetTable();
 	}
-
-
-	
 
 	/**
 	 * Sets the DataItem at a given location to reference the currently selected
@@ -191,7 +188,8 @@ public class DataSource {
 	 */
 	private DataItem createDataItemFromGeoSelection() {
 
-		if (selection.getSelectedGeos() == null || selection.getSelectedGeos().size() == 0) {
+		if (selection.getSelectedGeos() == null
+				|| selection.getSelectedGeos().size() == 0) {
 			return null;
 		}
 
@@ -202,8 +200,8 @@ public class DataSource {
 		}
 
 		else if (geo.getSpreadsheetCoords() != null) {
-			return new DataItem(CellRangeProcessor.clone(spreadsheetTable()
-					.getSelectedCellRanges()));
+			return new DataItem(CellRangeProcessor
+					.clone(spreadsheetTable().getSelectedCellRanges()));
 		}
 
 		return null;
@@ -379,14 +377,16 @@ public class DataSource {
 
 		dataList.clear();
 
-		if (selection.getSelectedGeos() == null || selection.getSelectedGeos().size() == 0) {
+		if (selection.getSelectedGeos() == null
+				|| selection.getSelectedGeos().size() == 0) {
 			return;
 		}
 
 		try {
 			// if the first selected geo is a spreadsheet cell then use the
 			// spreadsheet's selected cell range list
-			if (selection.getSelectedGeos().get(0).getSpreadsheetCoords() != null) {
+			if (selection.getSelectedGeos().get(0)
+					.getSpreadsheetCoords() != null) {
 				setDataListFromSpreadsheet(mode, defaultGroupType);
 
 			} else {
@@ -576,17 +576,17 @@ public class DataSource {
 
 			if (scanByColumn) {
 				// extract vertical cell ranges
-				itemList.add(new DataItem(rangeList.get(0)
-						.toPartialColumnList().get(0)));
-				itemList.add(new DataItem(rangeList.get(1)
-						.toPartialColumnList().get(0)));
+				itemList.add(new DataItem(
+						rangeList.get(0).toPartialColumnList().get(0)));
+				itemList.add(new DataItem(
+						rangeList.get(1).toPartialColumnList().get(0)));
 
 			} else {
 				// extract horizontal cell range
-				itemList.add(new DataItem(rangeList.get(0).toPartialRowList()
-						.get(0)));
-				itemList.add(new DataItem(rangeList.get(1).toPartialRowList()
-						.get(0)));
+				itemList.add(new DataItem(
+						rangeList.get(0).toPartialRowList().get(0)));
+				itemList.add(new DataItem(
+						rangeList.get(1).toPartialRowList().get(0)));
 			}
 		}
 	}

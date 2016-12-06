@@ -64,7 +64,8 @@ public class AlgoInverseExponential extends AlgoDistribution {
 			double param = a.getDouble();
 			double val = b.getDouble();
 			try {
-				ExponentialDistribution dist = getExponentialDistribution(param);
+				ExponentialDistribution dist = getExponentialDistribution(
+						param);
 				num.setValue(dist.inverseCumulativeProbability(val)); // P(T <=
 																		// val)
 

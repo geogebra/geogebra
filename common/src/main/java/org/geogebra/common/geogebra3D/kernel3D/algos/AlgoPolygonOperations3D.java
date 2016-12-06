@@ -45,15 +45,15 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
  * 
  * Input: Two polygons
  * 
- * Output: Polygon that is the result of an intersection, union or
- * difference operation on the input polygons.
+ * Output: Polygon that is the result of an intersection, union or difference
+ * operation on the input polygons.
  * 
  * @author thilina
  */
 
 public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
-	//input
+	// input
 	protected GeoPolygon inPoly0;
 	protected GeoPolygon inPoly1;
 
@@ -83,8 +83,6 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	protected PolyOperation operationType;
 
 	protected String[] labels;
-
-
 
 	/**
 	 * special constructor without operation type for CmdDifference. after this
@@ -151,16 +149,16 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		} else {
 			int labelsLength = labels.length;
 			if (labelsLength > 1) {
-					// set default
-					outputPolygons.setLabels(null);
-					outputSegments.setLabels(null);
-					outputPoints.setLabels(null);
+				// set default
+				outputPolygons.setLabels(null);
+				outputSegments.setLabels(null);
+				outputPoints.setLabels(null);
 
 			} else if (labels.length == 1 && labels[0] != null
 					&& !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
 			}
-			}
+		}
 
 		update();
 	}
@@ -182,8 +180,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPoly inPoly0, GeoPoly inPoly1,
-			PolyOperation operationType, int[] outputSizes) {
+			GeoPoly inPoly0, GeoPoly inPoly1, PolyOperation operationType,
+			int[] outputSizes) {
 
 		super(cons);
 
@@ -255,39 +253,39 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					outputPolygons.setLabels(null);
 					outputSegments.setLabels(null);
 					outputPoints.setLabels(null);
-					}
+				}
 			} else if (labels.length == 1 && labels[0] != null
 					&& !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
-					}
-				}
+			}
+		}
 
 		update();
 
 	}
 
-		@Override
-		protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
+	@Override
+	protected void getCmdOutputXML(StringBuilder sb, StringTemplate tpl) {
 
-			sb.append("\t<outputSizes val=\"");
-			sb.append(outputPolygons.size());
-			sb.append(",");
-			sb.append(outputPoints.size());
-			sb.append(",");
-			sb.append(outputSegments.size());
-			sb.append("\"");
-			sb.append("/>\n");
+		sb.append("\t<outputSizes val=\"");
+		sb.append(outputPolygons.size());
+		sb.append(",");
+		sb.append(outputPoints.size());
+		sb.append(",");
+		sb.append(outputSegments.size());
+		sb.append("\"");
+		sb.append("/>\n");
 
-			// common method
-			super.getCmdOutputXML(sb, tpl);
+		// common method
+		super.getCmdOutputXML(sb, tpl);
 
-		}
+	}
 
-		/**
-		 * create outputHandlers for output polygons, points, and segments and
-		 * initiate them
-		 */
-		private final void createOutput() {
+	/**
+	 * create outputHandlers for output polygons, points, and segments and
+	 * initiate them
+	 */
+	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<GeoPolygon3D>(
 				new elementFactory<GeoPolygon3D>() {
@@ -310,7 +308,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					public GeoPoint3D newElement() {
 						GeoPoint3D newPoint = new GeoPoint3D(cons);
 						newPoint.setCoords(0, 0, 1);
-						newPoint.setParentAlgorithm(AlgoPolygonOperations3D.this);
+						newPoint.setParentAlgorithm(
+								AlgoPolygonOperations3D.this);
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setViewFlags(inPoly0.getViewSet());
 
@@ -324,8 +323,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				new elementFactory<GeoSegment3D>() {
 					public GeoSegment3D newElement() {
 						GeoSegment3D segment = (GeoSegment3D) outputPolygons
-								.getElement(0).createSegment(
-										outputPoints.getElement(0),
+								.getElement(0)
+								.createSegment(outputPoints.getElement(0),
 										outputPoints.getElement(0), true);
 						segment.setAuxiliaryObject(true);
 						segment.setViewFlags(inPoly0.getViewSet());
@@ -333,27 +332,26 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					}
 				});
 
-		}
+	}
 
-		@Override
-		protected void setInputOutput() {
+	@Override
+	protected void setInputOutput() {
 
 		input = new GeoElement[2];
-			input[0] = inPoly0;
-			input[1] = inPoly1;
+		input[0] = inPoly0;
+		input[1] = inPoly1;
 
-			// set dependencies
-			for (int i = 0; i < input.length; i++) {
-				input[i].addAlgorithm(this);
-			}
-			cons.addToAlgorithmList(this);
+		// set dependencies
+		for (int i = 0; i < input.length; i++) {
+			input[i].addAlgorithm(this);
+		}
+		cons.addToAlgorithmList(this);
 
 		setDependencies();
-		}
+	}
 
-		@Override
+	@Override
 	public void compute() {
-
 
 		// one or more input polygons are undefined, terminate immediately
 		if (!this.inPoly0.isDefined() || !this.inPoly1.isDefined()) {
@@ -366,9 +364,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			return;
 		}
 
-		Coords[] res = CoordMatrixUtil.intersectPlanes(this.inPoly0
-				.getCoordSys().getMatrixOrthonormal(), this.inPoly1
-				.getCoordSys().getMatrixOrthonormal());
+		Coords[] res = CoordMatrixUtil.intersectPlanes(
+				this.inPoly0.getCoordSys().getMatrixOrthonormal(),
+				this.inPoly1.getCoordSys().getMatrixOrthonormal());
 		// Log.debug("res[0]: " + res[0].getX() + " , " + res[0].getY() + " , "
 		// + res[0].getZ() + " , " + res[0].getW());
 		// Log.debug("res[1]: " + res[1].getX() + " , " + res[1].getY() + " , "
@@ -383,11 +381,12 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			// add subject polygon
 			subject.clear();
 			for (int i = 0; i < this.inPoly0.getPointsLength(); i++) {
-				DoublePoint point = new DoublePoint(this.inPoly0.getPoint(i)
-						.getX(), this.inPoly0.getPoint(i).getY());
-					// Log.debug("SubjectPoly-> x:"
-					// + this.inPoly0.getPoint(i).getX() + " y:"
-					// + this.inPoly0.getPoint(i).getY());
+				DoublePoint point = new DoublePoint(
+						this.inPoly0.getPoint(i).getX(),
+						this.inPoly0.getPoint(i).getY());
+				// Log.debug("SubjectPoly-> x:"
+				// + this.inPoly0.getPoint(i).getX() + " y:"
+				// + this.inPoly0.getPoint(i).getY());
 				subject.add(point);
 			}
 
@@ -405,7 +404,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			}
 
 			// initializing clipper
-			DefaultClipper clipper = new DefaultClipper(Clipper.STRICTLY_SIMPLE);
+			DefaultClipper clipper = new DefaultClipper(
+					Clipper.STRICTLY_SIMPLE);
 			clipper.addPath(clip, PolyType.CLIP, true);
 			clipper.addPath(subject, PolyType.SUBJECT, true);
 
@@ -416,8 +416,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			switch (operationType) {
 			default:
 			case INTERSECTION:
-				solutionValid = clipper.execute(ClipType.INTERSECTION,
-						solution, PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
+				solutionValid = clipper.execute(ClipType.INTERSECTION, solution,
+						PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
 				break;
 			case UNION:
 				solutionValid = clipper.execute(ClipType.UNION, solution,
@@ -454,13 +454,12 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				pointCount = 0;
 				for (Path path : solution) {
 					for (int i = 0; i < path.size(); i++) {
-					GeoPoint3D point = outputPoints.getElement(pointCount);
+						GeoPoint3D point = outputPoints.getElement(pointCount);
 						DoublePoint calcPoint = path.get(i);
-						retCoords = this.inPoly0.getCoordSys().getPoint(
-								calcPoint.getX(),
-								calcPoint.getY());
+						retCoords = this.inPoly0.getCoordSys()
+								.getPoint(calcPoint.getX(), calcPoint.getY());
 
-							point.setCoords(retCoords.getX(), retCoords.getY(),
+						point.setCoords(retCoords.getX(), retCoords.getY(),
 								retCoords.getZ(), 1);
 						// Log.debug("x: " + retCoords.getX() + " y: "
 						// + retCoords.getY()
@@ -491,8 +490,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 								.getElement(segmentIndex);
 
 						segment.setPoints(points[pointIndex + i],
-								points[pointIndex
-							+ (i + 1) % path.size()]);
+								points[pointIndex + (i + 1) % path.size()]);
 						segment.setCoord(points[pointIndex + i],
 								points[pointIndex + (i + 1) % path.size()]);
 						segment.update();
@@ -511,7 +509,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					polygon.calcArea();
 				}
 
-				// Log.debug("ending computing intersection between two polygons in the same plane. ");
+				// Log.debug("ending computing intersection between two polygons
+				// in the same plane. ");
 			}
 		}
 
@@ -544,7 +543,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				Coords[] coords = new Coords[1];
 				coords = newCoords.values().toArray(coords);
 				this.intersectSegmentIndex.clear();
-				for (int i = 0; i < coords.length-1; i++) {
+				for (int i = 0; i < coords.length - 1; i++) {
 					// check whether the mid point of two consecutive intersect
 					// points is on both polygons
 					tmpPoint.setCoords(coords[i].add(coords[i + 1]).mul(0.5));
@@ -553,18 +552,18 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 						this.intersectSegmentIndex.add(i);
 					}
 				}
-				
+
 				int noOfSegs = this.intersectSegmentIndex.size();
 				// Log.debug("no Of Intersection Segments: " + noOfSegs);
-				
+
 				outputPolygons.adjustOutputSize(noOfSegs, false);
 				outputPoints.adjustOutputSize(noOfSegs * 2, false);
 				outputSegments.adjustOutputSize(noOfSegs, false);
-				
+
 				int pointIndex = 0;
-				for(int i=0; i<noOfSegs; i++){
-					outputPoints.getElement(pointIndex).setCoords(
-							coords[intersectSegmentIndex.get(i)]);
+				for (int i = 0; i < noOfSegs; i++) {
+					outputPoints.getElement(pointIndex)
+							.setCoords(coords[intersectSegmentIndex.get(i)]);
 					outputPoints.getElement(pointIndex + 1).setCoords(
 							coords[intersectSegmentIndex.get(i) + 1]);
 
@@ -575,11 +574,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					pointIndex = pointIndex + 2;
 
 					GeoSegment3D[] polySegments = new GeoSegment3D[1];
-					outputSegments.getElement(i).setPoints(
-							polyPoints[0], polyPoints[1]);
+					outputSegments.getElement(i).setPoints(polyPoints[0],
+							polyPoints[1]);
 					polySegments[0] = outputSegments.getElement(i);
 					polySegments[0].update();
-
 
 					// assign points to poly without creating segments
 					outputPolygons.getElement(i).setPoints(polyPoints, null,
@@ -665,13 +663,12 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			Coords d2 = seg.getPointInD(3, 1).getInhomCoordsInSameDimension()
 					.sub(o2);
 
-			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1,
-					d1, o2, d2);
+			Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1,
+					o2, d2);
 
 			// check if projection is intersection point
-			if (project != null
-					&& project[0].equalsForKernel(project[1],
-							Kernel.STANDARD_PRECISION)) {
+			if (project != null && project[0].equalsForKernel(project[1],
+					Kernel.STANDARD_PRECISION)) {
 
 				double t1 = project[2].get(1); // parameter on line
 				double t2 = project[2].get(2); // parameter on segment

@@ -130,7 +130,9 @@ public abstract class App implements UpdateSelection {
 	public static final int VIEW_CONSTRUCTION_PROTOCOL = 32;
 	/** id for probability calculator view */
 	public static final int VIEW_PROBABILITY_CALCULATOR = 64;
-	/** id for data analysis view, ie multi/single/two variable analysisis tools */
+	/**
+	 * id for data analysis view, ie multi/single/two variable analysisis tools
+	 */
 	public static final int VIEW_DATA_ANALYSIS = 70;
 	/** id for function inspector */
 	public static final int VIEW_FUNCTION_INSPECTOR = 128;
@@ -187,11 +189,12 @@ public abstract class App implements UpdateSelection {
 	final private static String[] strDecimalSpacesAC = { "0 decimals",
 			"1 decimals", "2 decimals", "3 decimals", "4 decimals",
 			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
-			"5 figures", "10 figures", "15 figures"};
+			"5 figures", "10 figures", "15 figures" };
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
+
 	/** Singular web service (CAS) */
 	private static SingularWebService singularWS;
 
@@ -203,9 +206,9 @@ public abstract class App implements UpdateSelection {
 	 * whether axes should be visible when EV is created first element of this
 	 * array is for x-axis, second for y-axis
 	 */
-	protected final boolean[] showAxes = {true, true};
+	protected final boolean[] showAxes = { true, true };
 	/** whether axes should be logarithmci when EV is created */
-	protected final boolean[] logAxes = {false, false};
+	protected final boolean[] logAxes = { false, false };
 	/**
 	 * Whether we are running applet in frame. Not possible with 4.2+ (we need
 	 * this to hide reset icon from EV)
@@ -383,8 +386,8 @@ public abstract class App implements UpdateSelection {
 	private Macro macro;
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	/**
-	 * says that a labeling style is selected in menu
-	 * (i.e. all default geos use the selected labeling style)
+	 * says that a labeling style is selected in menu (i.e. all default geos use
+	 * the selected labeling style)
 	 */
 	private boolean labelingStyleSelected = true;
 	private boolean scriptingDisabled = false;
@@ -411,6 +414,7 @@ public abstract class App implements UpdateSelection {
 		companion = newAppCompanion();
 		resetUniqueId();
 	}
+
 	/**
 	 * constructor
 	 */
@@ -437,7 +441,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param string CAS version string
+	 * @param string
+	 *            CAS version string
 	 */
 	public static final void setCASVersionString(String string) {
 		CASVersionString = string;
@@ -453,7 +458,8 @@ public abstract class App implements UpdateSelection {
 		if (singularWS.isAvailable()) {
 			Log.info("SingularWS is available at "
 					+ singularWS.getConnectionSite());
-			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal I=x^2,x;groebner(I);"));
+			// debug(singularWS.directCommand("ring r=0,(x,y),dp;ideal
+			// I=x^2,x;groebner(I);"));
 		} else {
 			Log.info("No SingularWS is available at "
 					+ singularWS.getConnectionSite() + " (yet)");
@@ -467,7 +473,8 @@ public abstract class App implements UpdateSelection {
 	/* selection handling */
 
 	/**
-	 * @param version string version, eg 4.9.38.0
+	 * @param version
+	 *            string version, eg 4.9.38.0
 	 * @return version as list of ints, eg [4,9,38,0]
 	 */
 	static final public int[] getSubValues(String version) {
@@ -574,7 +581,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param i capturing threshold
+	 * @param i
+	 *            capturing threshold
 	 */
 	public void setCapturingThreshold(int i) {
 		this.capturingThreshold = i;
@@ -601,9 +609,8 @@ public abstract class App implements UpdateSelection {
 		// ready to fill the casCommandDict. In that case, we will fill the
 		// dict during fillCommandDict :)
 
-		if (!getLocalization().isCommandChanged()
-				&& ((commandDictCAS != null) || getLocalization()
-				.isCommandNull())) {
+		if (!getLocalization().isCommandChanged() && ((commandDictCAS != null)
+				|| getLocalization().isCommandNull())) {
 			return;
 		}
 		GeoGebraCasInterface cas = kernel.getGeoGebraCAS();
@@ -715,8 +722,6 @@ public abstract class App implements UpdateSelection {
 		commandDict = newLowerCaseDictionary();
 		// else commandDict.clear();
 
-
-
 		// =====================================
 		// init sub command dictionaries
 
@@ -784,8 +789,8 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCase(local), Commands
-					.englishToInternal(comm).name());
+			translateCommandTable.put(StringUtil.toLowerCase(local),
+					Commands.englishToInternal(comm).name());
 		}
 
 	}
@@ -794,7 +799,8 @@ public abstract class App implements UpdateSelection {
 	 * translate command name to internal name. Note: the case of localname is
 	 * NOT relevant
 	 *
-	 * @param command local name
+	 * @param command
+	 *            local name
 	 * @return internal name
 	 */
 	public String getReverseCommand(String command) {
@@ -870,7 +876,8 @@ public abstract class App implements UpdateSelection {
 		storeUndoInfoAndStateForModeStarting(true);
 	}
 
-	final public void storeUndoInfoAndStateForModeStarting(boolean storeForMode) {
+	final public void storeUndoInfoAndStateForModeStarting(
+			boolean storeForMode) {
 		if (isUndoActive()) {
 			if (storeForMode) {
 				kernel.storeUndoInfoAndStateForModeStarting();
@@ -946,7 +953,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param blockUpdateScripts the blockUpdateScripts to set
+	 * @param blockUpdateScripts
+	 *            the blockUpdateScripts to set
 	 */
 	public void setBlockUpdateScripts(boolean blockUpdateScripts) {
 		this.blockUpdateScripts = blockUpdateScripts;
@@ -971,8 +979,8 @@ public abstract class App implements UpdateSelection {
 
 			// make sure that when si[] is typed in script, it's changed to
 			// Si[] etc
-			if (StringUtil.toLowerCase(getLocalization().getCommand(s)).equals(
-					cmdLower)) {
+			if (StringUtil.toLowerCase(getLocalization().getCommand(s))
+					.equals(cmdLower)) {
 				return s;
 			}
 		}
@@ -982,7 +990,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Show error dialog wiith given text
 	 *
-	 * @param s error message
+	 * @param s
+	 *            error message
 	 */
 	public abstract void showError(String s);
 
@@ -1042,7 +1051,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Start tracing geo to spreadsheet
 	 *
-	 * @param ge geo
+	 * @param ge
+	 *            geo
 	 */
 	public void traceToSpreadsheet(GeoElement ge) {
 		getTraceManager().traceToSpreadsheet(ge);
@@ -1051,7 +1061,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Reset tracing column for given geo
 	 *
-	 * @param ge geo
+	 * @param ge
+	 *            geo
 	 */
 	public void resetTraceColumn(GeoElement ge) {
 		getTraceManager().setNeedsColumnReset(ge, true);
@@ -1127,7 +1138,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Append XML describing the keyboard to given string builder
 	 *
-	 * @param sb string builder
+	 * @param sb
+	 *            string builder
 	 */
 	public void getKeyboardXML(StringBuilder sb) {
 		sb.append("<keyboard width=\"");
@@ -1156,7 +1168,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * set right angle style
 	 *
-	 * @param style style
+	 * @param style
+	 *            style
 	 */
 	public void setRightAngleStyle(int style) {
 		rightAngleStyle = style;
@@ -1293,7 +1306,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param scriptingLanguage the scriptingLanguage to set
+	 * @param scriptingLanguage
+	 *            the scriptingLanguage to set
 	 */
 	public void setScriptingLanguage(String scriptingLanguage) {
 		this.scriptingLanguage = scriptingLanguage;
@@ -1315,7 +1329,8 @@ public abstract class App implements UpdateSelection {
 			throws Exception;
 
 	/**
-	 * @param v version parts
+	 * @param v
+	 *            version parts
 	 * @return whether given version is newer than this code
 	 */
 	public boolean fileVersionBefore(int[] v) {
@@ -1383,8 +1398,8 @@ public abstract class App implements UpdateSelection {
 	 * Returns labeling style for newly created geos
 	 *
 	 * @return labeling style; AUTOMATIC is resolved either to
-	 * USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
-	 * of AV
+	 *         USE_DEFAULTS/POINTS_ONLY (for 3D) or OFF depending on visibility
+	 *         of AV
 	 */
 	public int getCurrentLabelingStyle() {
 		if (getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC) {
@@ -1429,7 +1444,7 @@ public abstract class App implements UpdateSelection {
 	 * @return image wrapped in GBufferedImage
 	 */
 	public abstract MyImage getExternalImageAdapter(String filename, int width,
-													int height);
+			int height);
 
 	/**
 	 * @return whether label dragging is enableded
@@ -1519,18 +1534,19 @@ public abstract class App implements UpdateSelection {
 		return isAutoSaved;
 	}
 
-	public final void setAutoSaved(){
+	public final void setAutoSaved() {
 		isAutoSaved = true;
 	}
 
-	public final void setUnAutoSaved(){
+	public final void setUnAutoSaved() {
 		isAutoSaved = false;
 	}
 
 	/**
 	 * Makes given view active
 	 *
-	 * @param evID view id
+	 * @param evID
+	 *            view id
 	 */
 	public abstract void setActiveView(int evID);
 
@@ -1545,7 +1561,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Switches the application to macro editing mode
 	 *
-	 * @param editMacro Tool to be edited
+	 * @param editMacro
+	 *            Tool to be edited
 	 * @author Zbynek Konecny
 	 * @version 2010-05-26
 	 */
@@ -1565,7 +1582,8 @@ public abstract class App implements UpdateSelection {
 		String macroXml = sb.toString();
 		String newXml = header
 				+ macroXml.substring(macroXml.indexOf("<construction"),
-				macroXml.indexOf("</construction>")) + footer;
+						macroXml.indexOf("</construction>"))
+				+ footer;
 		this.macro = editMacro;
 		setXML(newXml, true);
 	}
@@ -1664,7 +1682,8 @@ public abstract class App implements UpdateSelection {
 	public abstract void showError(String string, String str);
 
 	/**
-	 * @param viewID view id
+	 * @param viewID
+	 *            view id
 	 * @return view with given ID
 	 */
 	public View getView(int viewID) {
@@ -1675,61 +1694,62 @@ public abstract class App implements UpdateSelection {
 			return getGuiManager().getPlotPanelView(viewID);
 		}
 		switch (viewID) {
-			case VIEW_EUCLIDIAN:
-				return getEuclidianView1();
-			case VIEW_EUCLIDIAN3D:
-				return getEuclidianView3D();
-			case VIEW_ALGEBRA:
-				return getAlgebraView();
-			case VIEW_SPREADSHEET:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				if (getGuiManager() == null)
-					return null;
-				return getGuiManager().getSpreadsheetView();
-			case VIEW_CAS:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				if (getGuiManager() == null)
-					return null;
-				return getGuiManager().getCasView();
-			case VIEW_EUCLIDIAN2:
-				return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
-			case VIEW_CONSTRUCTION_PROTOCOL:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				if (getGuiManager() == null)
-					return null;
-				return getGuiManager().getConstructionProtocolData();
-			case VIEW_PROBABILITY_CALCULATOR:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				if (getGuiManager() == null)
-					return null;
-				return getGuiManager().getProbabilityCalculator();
-			case VIEW_DATA_ANALYSIS:
-				if (!isUsingFullGui())
-					return null;
-				else if (getGuiManager() == null)
-					initGuiManager();
-				if (getGuiManager() == null)
-					return null;
-				return getGuiManager().getDataAnalysisView();
+		case VIEW_EUCLIDIAN:
+			return getEuclidianView1();
+		case VIEW_EUCLIDIAN3D:
+			return getEuclidianView3D();
+		case VIEW_ALGEBRA:
+			return getAlgebraView();
+		case VIEW_SPREADSHEET:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
+			return getGuiManager().getSpreadsheetView();
+		case VIEW_CAS:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
+			return getGuiManager().getCasView();
+		case VIEW_EUCLIDIAN2:
+			return hasEuclidianView2(1) ? getEuclidianView2(1) : null;
+		case VIEW_CONSTRUCTION_PROTOCOL:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
+			return getGuiManager().getConstructionProtocolData();
+		case VIEW_PROBABILITY_CALCULATOR:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
+			return getGuiManager().getProbabilityCalculator();
+		case VIEW_DATA_ANALYSIS:
+			if (!isUsingFullGui())
+				return null;
+			else if (getGuiManager() == null)
+				initGuiManager();
+			if (getGuiManager() == null)
+				return null;
+			return getGuiManager().getDataAnalysisView();
 		}
 
 		return null;
 	}
 
 	/**
-	 * @param asPreference true if we need this for prefs XML
+	 * @param asPreference
+	 *            true if we need this for prefs XML
 	 * @return XML for user interface (EVs, spreadsheet, kernel settings)
 	 */
 	public String getCompleteUserInterfaceXML(boolean asPreference) {
@@ -1857,7 +1877,8 @@ public abstract class App implements UpdateSelection {
 	public void setLabelingStyle(int labelingStyle) {
 		this.labelingStyle = labelingStyle;
 		labelingStyleSelected = true;
-		getKernel().getConstruction().getConstructionDefaults().resetLabelModeDefaultGeos();
+		getKernel().getConstruction().getConstructionDefaults()
+				.resetLabelModeDefaultGeos();
 	}
 
 	/**
@@ -1871,13 +1892,12 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * set the labeling style not selected,
-	 * i.e. at least one default geo has
+	 * set the labeling style not selected, i.e. at least one default geo has
 	 * specific labeling style
 	 */
 	public void setLabelingStyleIsNotSelected() {
 		labelingStyleSelected = false;
-		if (getGuiManager() != null){
+		if (getGuiManager() != null) {
 			getGuiManager().updateMenubar();
 		}
 	}
@@ -1898,7 +1918,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param size preferred size
+	 * @param size
+	 *            preferred size
 	 */
 	public void setPreferredSize(GDimension size) {
 		// TODO Auto-generated method stub
@@ -1925,7 +1946,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param ttl tooltip language
+	 * @param ttl
+	 *            tooltip language
 	 */
 	public void setTooltipLanguage(String ttl) {
 		// TODO Auto-generated method stub
@@ -2062,7 +2084,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,
-													  boolean showGrid1);
+			boolean showGrid1);
 
 	public abstract EuclidianController newEuclidianController(Kernel kernel1);
 
@@ -2229,7 +2251,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Adds geo to 3D views
 	 *
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 */
 	public void addToViews3D(GeoElement geo) {
 		geo.addViews3D();
@@ -2372,7 +2395,8 @@ public abstract class App implements UpdateSelection {
 
 		// if showMenuBar is false, we can still update the style bars
 		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE
-				|| getActiveEuclidianView().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+				|| getActiveEuclidianView()
+						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			updateStyleBars();
 		}
 
@@ -2407,7 +2431,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param shiftDragZoomEnabled whether shift, drag and zoom features are enabled
+	 * @param shiftDragZoomEnabled
+	 *            whether shift, drag and zoom features are enabled
 	 */
 	public final void setShiftDragZoomEnabled(boolean shiftDragZoomEnabled) {
 		this.shiftDragZoomEnabled = shiftDragZoomEnabled;
@@ -2428,8 +2453,10 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Changes font size and possibly resets fonts
 	 *
-	 * @param points font size
-	 * @param update whether fonts should be reset
+	 * @param points
+	 *            font size
+	 * @param update
+	 *            whether fonts should be reset
 	 * @see #resetFonts()
 	 */
 	public void setFontSize(int points, boolean update) {
@@ -2489,7 +2516,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param size GUI font size
+	 * @param size
+	 *            GUI font size
 	 */
 	public void setGUIFontSize(int size) {
 		guiFontSize = size;
@@ -2497,7 +2525,6 @@ public abstract class App implements UpdateSelection {
 		// isSaved = false;
 
 		resetFonts();
-
 
 	}
 
@@ -2512,7 +2539,8 @@ public abstract class App implements UpdateSelection {
 	 * Returns a font that can display testString in plain sans-serif font and
 	 * current font size.
 	 *
-	 * @param testString test string
+	 * @param testString
+	 *            test string
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString) {
@@ -2536,14 +2564,18 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns a font that can display testString and given font size.
 	 *
-	 * @param testString test string
-	 * @param serif      true=serif, false=sans-serif
-	 * @param fontStyle  font style
-	 * @param fontSize   font size
+	 * @param testString
+	 *            test string
+	 * @param serif
+	 *            true=serif, false=sans-serif
+	 * @param fontStyle
+	 *            font style
+	 * @param fontSize
+	 *            font size
 	 * @return font
 	 */
 	public GFont getFontCanDisplay(String testString, boolean serif,
-								   int fontStyle, int fontSize) {
+			int fontStyle, int fontSize) {
 		return getFontManager().getFontCanDisplay(testString, serif, fontStyle,
 				fontSize);
 	}
@@ -2551,7 +2583,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Returns gui settings in XML format
 	 *
-	 * @param asPreference whether this is for preferences file
+	 * @param asPreference
+	 *            whether this is for preferences file
 	 * @return gui settings in XML format
 	 */
 	public String getGuiXML(boolean asPreference) {
@@ -2592,8 +2625,6 @@ public abstract class App implements UpdateSelection {
 		return sb.toString();
 	}
 
-
-
 	protected abstract int getWindowWidth();
 
 	protected abstract int getWindowHeight();
@@ -2601,8 +2632,10 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Appends layout settings in XML format to given builder
 	 *
-	 * @param sb           string builder
-	 * @param asPreference whether this is for preferences
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            whether this is for preferences
 	 */
 	protected void getWindowLayoutXML(StringBuilder sb, boolean asPreference) {
 		sb.append("\t<window width=\"");
@@ -2626,7 +2659,8 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"/>\n");
 	}
 
-	protected abstract void getLayoutXML(StringBuilder sb, boolean asPreference);
+	protected abstract void getLayoutXML(StringBuilder sb,
+			boolean asPreference);
 
 	public abstract void reset();
 
@@ -2638,14 +2672,16 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param sl selection listener
+	 * @param sl
+	 *            selection listener
 	 */
 	public void setCurrentSelectionListener(GeoElementSelectionListener sl) {
 		currentSelectionListener = sl;
 	}
 
 	/**
-	 * @param flag whether reset icon should be visible (in applets)
+	 * @param flag
+	 *            whether reset icon should be visible (in applets)
 	 */
 	public void setShowResetIcon(boolean flag) {
 		if (flag != showResetIcon) {
@@ -2703,7 +2739,8 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean isHTML5Applet();
 
 	/**
-	 * @param useTransparentCursorWhenDragging whether transparent cursor should be used while dragging
+	 * @param useTransparentCursorWhenDragging
+	 *            whether transparent cursor should be used while dragging
 	 */
 	public void setUseTransparentCursorWhenDragging(
 			boolean useTransparentCursorWhenDragging) {
@@ -2763,8 +2800,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	@Deprecated
 	public void setShowInputTop(boolean flag, boolean update) {
-		if (flag && showInputTop == InputPosition.top || !flag
-				&& showInputTop == InputPosition.bottom) {
+		if (flag && showInputTop == InputPosition.top
+				|| !flag && showInputTop == InputPosition.bottom) {
 			return;
 		}
 
@@ -2849,8 +2886,9 @@ public abstract class App implements UpdateSelection {
 					ret = macro1.getToolHelp();
 				}
 			} catch (Exception e) {
-				Log.debug("Application.getModeText(): macro does not exist: ID = "
-						+ macroID);
+				Log.debug(
+						"Application.getModeText(): macro does not exist: ID = "
+								+ macroID);
 				// e.printStackTrace();
 				return "";
 			}
@@ -3071,7 +3109,8 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"disableAutoScale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
 
-		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
+		sb.append(
+				"\"language\":\"" + getLocalization().getLanguage() + "\",\n");
 
 		sb.append(
 				"// use this instead of ggbBase64 to load a material from geogebra.org\n");
@@ -3088,7 +3127,8 @@ public abstract class App implements UpdateSelection {
 		// eg var views =
 		// {"is3D":1,"AV":0,"SV":0,"CV":0,"EV2":0,"CP":0,"PC":0,"DA":0,"FI":0,"PV":0,"macro":0};
 
-		sb.append("// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View\n");
+		sb.append(
+				"// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View\n");
 		sb.append("var views = {");
 		sb.append("'is3D': "
 				+ (kernel.getConstruction().has3DObjects() ? "1" : "0"));
@@ -3156,7 +3196,8 @@ public abstract class App implements UpdateSelection {
 	 * Sets the ratio between the scales of y-axis and x-axis, i.e. ratio =
 	 * yscale / xscale;
 	 *
-	 * @param axesratio axes scale ratio
+	 * @param axesratio
+	 *            axes scale ratio
 	 */
 	public final void zoomAxesRatio(double axesratio) {
 		getActiveEuclidianView().zoomAxesRatio(axesratio, true);
@@ -3165,7 +3206,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Zooms and pans active EV to show all objects
 	 *
-	 * @param keepRatio true to keep ratio of axes
+	 * @param keepRatio
+	 *            true to keep ratio of axes
 	 */
 	public final void setViewShowAllObjects(boolean keepRatio) {
 		getActiveEuclidianView().setViewShowAllObjects(true, keepRatio);
@@ -3182,7 +3224,8 @@ public abstract class App implements UpdateSelection {
 	 * Enables or disables right clicking in this application. This is useful
 	 * for applets.
 	 *
-	 * @param flag whether right click features should be enabled
+	 * @param flag
+	 *            whether right click features should be enabled
 	 */
 	public void setRightClickEnabled(boolean flag) {
 		rightClickEnabled = flag;
@@ -3210,13 +3253,15 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * @param geo1   geo
-	 * @param string parameter (for input box scripts)
+	 * @param geo1
+	 *            geo
+	 * @param string
+	 *            parameter (for input box scripts)
 	 */
 	public abstract void runScripts(GeoElement geo1, String string);
 
 	public Script createScript(ScriptType type, String scriptText,
-							   boolean translate) {
+			boolean translate) {
 		if (type == ScriptType.GGBSCRIPT && translate) {
 			scriptText = GgbScript.localizedScript2Script(this, scriptText);
 		}
@@ -3377,7 +3422,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean getShowCPNavNeedsUpdate(int id) {
-		if (showConstProtNavigationNeedsUpdate == null){
+		if (showConstProtNavigationNeedsUpdate == null) {
 			return false;
 		}
 
@@ -3393,8 +3438,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 		}
 
-
-		for (boolean update : showConstProtNavigationNeedsUpdate.values()){
+		for (boolean update : showConstProtNavigationNeedsUpdate.values()) {
 			if (update) {
 				return true;
 			}
@@ -3503,8 +3547,8 @@ public abstract class App implements UpdateSelection {
 		if (getGuiManager() != null) {
 			for (int id : showConsProtNavigation.keySet()) {
 				showConsProtNavigation.put(id, false);
-				getGuiManager()
-						.setShowConstructionProtocolNavigation(false, id);
+				getGuiManager().setShowConstructionProtocolNavigation(false,
+						id);
 				setShowConstProtNavigationNeedsUpdate(id, false);
 			}
 		} else {
@@ -3531,7 +3575,8 @@ public abstract class App implements UpdateSelection {
 	 *            true to show navigation bar
 	 */
 	public void setShowConstructionProtocolNavigation(boolean flag) {
-		dispatchEvent(new Event(EventType.SHOW_NAVIGATION_BAR, null, flag + ""));
+		dispatchEvent(
+				new Event(EventType.SHOW_NAVIGATION_BAR, null, flag + ""));
 		if (!flag) {
 			setHideConstructionProtocolNavigation();
 		} else {
@@ -3578,8 +3623,8 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 		showConsProtNavigation.put(id, flag);
-		dispatchEvent(new Event(EventType.SHOW_NAVIGATION_BAR, null, "[" + flag
-				+ "," + id + "]"));
+		dispatchEvent(new Event(EventType.SHOW_NAVIGATION_BAR, null,
+				"[" + flag + "," + id + "]"));
 		if (getGuiManager() != null) {
 			getGuiManager().setShowConstructionProtocolNavigation(flag, id);
 			setShowConstProtNavigationNeedsUpdate(id, false);
@@ -3705,7 +3750,8 @@ public abstract class App implements UpdateSelection {
 	 * Should lose focus on Web applets, implement only where appropriate
 	 */
 	public void loseFocus() {
-		Log.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");
+		Log.debug(
+				"Should lose focus on Web applets, ipmelment (override) only where appropriate");
 	}
 
 	/**
@@ -3811,7 +3857,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Adds a macro from XML
 	 *
-	 * @param xml macro code (including &lt;macro> wrapper)
+	 * @param xml
+	 *            macro code (including &lt;macro> wrapper)
 	 * @return True if successful
 	 */
 	public boolean addMacroXML(String xml) {
@@ -3819,7 +3866,8 @@ public abstract class App implements UpdateSelection {
 		try {
 			getXMLio().processXMLString(
 					"<geogebra format=\"" + GeoGebraConstants.XML_FILE_FORMAT
-							+ "\">" + xml + "</geogebra>", false, true);
+							+ "\">" + xml + "</geogebra>",
+					false, true);
 		} catch (MyError err) {
 			err.printStackTrace();
 			showError(err);
@@ -3874,8 +3922,8 @@ public abstract class App implements UpdateSelection {
 		case EXERCISES:
 			return prerelease;
 
-			// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
-			// in Command.Java
+		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
+		// in Command.Java
 		case IMPLICIT_SURFACES:
 			return prerelease;
 
@@ -3889,8 +3937,8 @@ public abstract class App implements UpdateSelection {
 		case POLYGON_TRIANGULATION:
 			return prerelease;
 
-			// when moved to stable, move Difference[] from TABLE_ENGLISH in
-			// Command.Java
+		// when moved to stable, move Difference[] from TABLE_ENGLISH in
+		// Command.Java
 		case POLYGON_OPS:
 			return prerelease;
 
@@ -3916,7 +3964,7 @@ public abstract class App implements UpdateSelection {
 
 		case DIFFERENT_AXIS_RATIO_3D:
 			return prerelease;
-			
+
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
 			return prerelease;
@@ -3957,14 +4005,13 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_KEYBOARD_IN_POPUP:
 			return prerelease;
 
-		//MOB-339
+		// MOB-339
 		case MOBILE_ANALYTICS:
 			return true;
 
 		// MOB-668
 		case MOBILE_SET_MODE_IN_TOOLBAR_FROM_APP:
 			return true;
-
 
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
@@ -3973,8 +4020,8 @@ public abstract class App implements UpdateSelection {
 
 			return false;
 
-			// in web (not tablet apps yet)
-			// File -> Enter Exam Mode
+		// in web (not tablet apps yet)
+		// File -> Enter Exam Mode
 		case EXAM_TABLET:
 			return prerelease;
 
@@ -3988,7 +4035,7 @@ public abstract class App implements UpdateSelection {
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;
 
-			// GGB-641
+		// GGB-641
 		case EXPLICIT_LOCUS_VIA_BOTANA:
 			return true;
 
@@ -4004,17 +4051,17 @@ public abstract class App implements UpdateSelection {
 		case AV_SCROLL:
 			return prerelease;
 
-			// GGB-944
+		// GGB-944
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
 
-		//MOB-601
+		// MOB-601
 		case MOBILE_LOCAL_SAVE:
 			return false;
 		case RETEX_EDITOR:
 			return prerelease;
 
-			// GGB-790
+		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
 			return prerelease;
 
@@ -4022,12 +4069,12 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case MOBILE_DIALOG_FORMULA_INPUT:
-				return true; // 5.0.299
-		//MOB-788
+			return true; // 5.0.299
+		// MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		//MOB-823, MOB-824
+		// MOB-823, MOB-824
 		case MOBILE_APPS_CONNECTION:
 			return true; // 5.0.290
 
@@ -4043,13 +4090,12 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_NEW_EV_CENTERING:
 			return true; // 5.0.290
 
-		//MOB-827
+		// MOB-827
 		case MOBILE_ROUNDING_OPTION:
 			return true; // 5.0.276
 		// GGB-1178
 		case ITERATION_LIST_DOUBLE:
 			return true;
-
 
 		// MOB-885
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
@@ -4080,14 +4126,14 @@ public abstract class App implements UpdateSelection {
 		case ONSCREEN_KEYBOARD_AT_PROBCALC:
 			return prerelease;
 
-			// GGB-1349
+		// GGB-1349
 		case FIX_KEYBOARD_POSITION:
 			return prerelease;
 
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
-			// GGB-1252
+		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
 			return prerelease;
 
@@ -4100,33 +4146,33 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CACHE_FEATURED:
 			return false;
 
-			// MOB-961, MOB-962
-			case BIND_ANDROID_TO_EXAM_APP:
+		// MOB-961, MOB-962
+		case BIND_ANDROID_TO_EXAM_APP:
 			return true;
 
-			// MOB-873
-			case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
-				return prerelease;
+		// MOB-873
+		case MOBILE_ANDROID_PROCESS_LAST_VALID_INPUT:
+			return prerelease;
 
-			// MOB-555
-			case MOBILE_3D_TOOLS_WITH_DIALOGS:
-				return prerelease;
+		// MOB-555
+		case MOBILE_3D_TOOLS_WITH_DIALOGS:
+			return prerelease;
 
-			// MOB-1005
-			case MOBILE_DO_NOT_AUTOSYNC_APPS:
-				return true; //5.0.299
+		// MOB-1005
+		case MOBILE_DO_NOT_AUTOSYNC_APPS:
+			return true; // 5.0.299
 
-			// related to MOB-1005
-			case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
-				return false;
+		// related to MOB-1005
+		case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
+			return false;
 
-			// related to MOB-1005
-			case MOBILE_OPEN_IN_RELEVANT_APP:
-				return false;
+		// related to MOB-1005
+		case MOBILE_OPEN_IN_RELEVANT_APP:
+			return false;
 
-			// MOB-1014
-			case MOBILE_KILL_DIALOG_TITLE:
-				return true; // 5.0.294
+		// MOB-1014
+		case MOBILE_KILL_DIALOG_TITLE:
+			return true; // 5.0.294
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4188,7 +4234,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * add to views for plane (if any)
 	 *
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 */
 	final public void addToViewsForPlane(GeoElement geo) {
 		companion.addToViewsForPlane(geo);
@@ -4254,7 +4301,6 @@ public abstract class App implements UpdateSelection {
 		return Math.max(getFontSize(), 12);
 	}
 
-
 	/**
 	 * @return if sliders are displayed in the AV
 	 */
@@ -4277,7 +4323,7 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	public void setNewExam(){
+	public void setNewExam() {
 		setExam(new ExamEnvironment());
 	}
 
@@ -4338,7 +4384,8 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Creates a new Timer.
 	 *
-	 * @param delay Milliseconds to run timer after start()1.
+	 * @param delay
+	 *            Milliseconds to run timer after start()1.
 	 * @return GTimer descendant instance.
 	 */
 	public abstract GTimer newTimer(GTimerListener listener, int delay);
@@ -4435,7 +4482,6 @@ public abstract class App implements UpdateSelection {
 		return url;
 	}
 
-
 	public ErrorHandler getErrorHandler() {
 		return getDefaultErrorHandler();
 	}
@@ -4490,19 +4536,20 @@ public abstract class App implements UpdateSelection {
 
 	}
 
-	public GBufferedImage getActiveEuclidianViewExportImage(double maxX, double maxY){
-		return getEuclidianViewExportImage(getActiveEuclidianView(), maxX, maxY);
+	public GBufferedImage getActiveEuclidianViewExportImage(double maxX,
+			double maxY) {
+		return getEuclidianViewExportImage(getActiveEuclidianView(), maxX,
+				maxY);
 	}
 
-	final protected GBufferedImage getEuclidianViewExportImage(
-			EuclidianView ev, double maxX, double maxY) {
+	final protected GBufferedImage getEuclidianViewExportImage(EuclidianView ev,
+			double maxX, double maxY) {
 
 		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),
 				maxY / ev.getSelectedHeightInPixels());
 
 		return ev.getExportImage(scale);
 	}
-
 
 	public void batchUpdateStart() {
 		// used in android
@@ -4542,25 +4589,24 @@ public abstract class App implements UpdateSelection {
 		return adjustViews.isPortait();
 	}
 
-
 	public Versions getVersion() {
 		return version;
 	}
 
 	final public static String getLabelStyleName(App app, int id) {
 		switch (id) {
-			case (-1):
-				return app.getLocalization().getPlain("Hidden");
-			case (GeoElement.LABEL_NAME):
-				return app.getLocalization().getPlain("Name");
-			case (GeoElement.LABEL_NAME_VALUE):
-				return app.getLocalization().getPlain("NameAndValue");
-			case (GeoElement.LABEL_VALUE):
-				return app.getLocalization().getPlain("Value");
-			case (GeoElement.LABEL_CAPTION):
-				return app.getLocalization().getPlain("Caption");
-			default:
-				return "";
+		case (-1):
+			return app.getLocalization().getPlain("Hidden");
+		case (GeoElement.LABEL_NAME):
+			return app.getLocalization().getPlain("Name");
+		case (GeoElement.LABEL_NAME_VALUE):
+			return app.getLocalization().getPlain("NameAndValue");
+		case (GeoElement.LABEL_VALUE):
+			return app.getLocalization().getPlain("Value");
+		case (GeoElement.LABEL_CAPTION):
+			return app.getLocalization().getPlain("Caption");
+		default:
+			return "";
 		}
 	}
 

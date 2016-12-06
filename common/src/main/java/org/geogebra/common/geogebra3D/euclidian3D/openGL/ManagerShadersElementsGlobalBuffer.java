@@ -13,14 +13,11 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class ManagerShadersElementsGlobalBuffer extends
-		ManagerShadersNoTriangleFan {
+public class ManagerShadersElementsGlobalBuffer
+		extends ManagerShadersNoTriangleFan {
 
-	
-	private GLBufferIndices curvesIndices, fanDirectIndices,
-			fanIndirectIndices;
-	private int curvesIndicesSize, fanDirectIndicesSize,
-			fanIndirectIndicesSize;
+	private GLBufferIndices curvesIndices, fanDirectIndices, fanIndirectIndices;
+	private int curvesIndicesSize, fanDirectIndicesSize, fanIndirectIndicesSize;
 
 	final static boolean DEBUG = false;
 
@@ -50,8 +47,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 		}
 	}
 
-
-
 	/**
 	 * 
 	 * @param r
@@ -62,8 +57,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 	 *         enough
 	 */
 	public final GLBufferIndices getBufferIndicesForCurve(
-			RendererShadersInterface r,
-			int size) {
+			RendererShadersInterface r, int size) {
 
 		if (size > curvesIndicesSize) {
 
@@ -80,16 +74,16 @@ public class ManagerShadersElementsGlobalBuffer extends
 					int iNext = (i + 1) % PlotterBrush.LATITUDES;
 					// first triangle
 					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
-					curvesIndices.put((short) (i + (k + 1)
-							* PlotterBrush.LATITUDES));
-					curvesIndices.put((short) (iNext + (k + 1)
-							* PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (i + (k + 1) * PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
 					// second triangle
 					curvesIndices.put((short) (i + k * PlotterBrush.LATITUDES));
-					curvesIndices.put((short) (iNext + (k + 1)
-							* PlotterBrush.LATITUDES));
-					curvesIndices.put((short) (iNext + k
-							* PlotterBrush.LATITUDES));
+					curvesIndices.put(
+							(short) (iNext + (k + 1) * PlotterBrush.LATITUDES));
+					curvesIndices
+							.put((short) (iNext + k * PlotterBrush.LATITUDES));
 				}
 			}
 			curvesIndices.rewind();
@@ -149,7 +143,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 	public final GLBufferIndices getBufferIndicesForFanIndirect(
 			RendererShadersInterface r, int size) {
 
-
 		if (size > fanIndirectIndicesSize) {
 
 			debug("NEW fanIndirectIndicesSize : ", size);
@@ -178,8 +171,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 		return fanIndirectIndices;
 	}
-	
-	
+
 	protected class GeometriesSetElementsGlobalBuffer extends GeometriesSet {
 		@Override
 		protected Geometry newGeometry(Type type) {
@@ -188,8 +180,8 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 		@Override
 		public void bindGeometry(int size, TypeElement type) {
-			((GeometryElementsGlobalBuffer) currentGeometry).bind(
-					(RendererShadersInterface) renderer, size, type);
+			((GeometryElementsGlobalBuffer) currentGeometry)
+					.bind((RendererShadersInterface) renderer, size, type);
 		}
 
 		/**
@@ -215,7 +207,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 		public GeometryElementsGlobalBuffer(Type type) {
 			super(type);
 		}
-		
 
 		/**
 		 * remove buffers
@@ -239,8 +230,8 @@ public class ManagerShadersElementsGlobalBuffer extends
 		 * @param type
 		 *            type for elements indices
 		 */
-		public void bind(RendererShadersInterface r, int size, TypeElement type) {
-
+		public void bind(RendererShadersInterface r, int size,
+				TypeElement type) {
 
 			switch (type) {
 			case NONE:
@@ -266,7 +257,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 				} else {
 					debug("keep same index buffer");
 				}
-
 
 				hasSharedIndexBuffer = false;
 				break;
@@ -378,10 +368,10 @@ public class ManagerShadersElementsGlobalBuffer extends
 	 * @param view3d
 	 *            3D view
 	 */
-	public ManagerShadersElementsGlobalBuffer(Renderer renderer, EuclidianView3D view3d) {
+	public ManagerShadersElementsGlobalBuffer(Renderer renderer,
+			EuclidianView3D view3d) {
 		super(renderer, view3d);
 	}
-
 
 	@Override
 	protected void initGeometriesList() {
@@ -446,8 +436,6 @@ public class ManagerShadersElementsGlobalBuffer extends
 		}
 
 	}
-
-
 
 	@Override
 	public void drawTriangleFans(Coords n, Coords[] verticesWithIntersections,

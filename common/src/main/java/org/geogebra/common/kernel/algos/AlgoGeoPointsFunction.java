@@ -109,7 +109,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			points[0].update();
 			points[0].setUndefined();
 			points[0].update();
-		}// if list not defined
+		} // if list not defined
 	}// showOneRootInAlgebraView()
 
 	protected final static void removeDuplicates(double[] tab) {
@@ -121,8 +121,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				max = tab[i];
 				maxIndex++;
 				tab[maxIndex] = max;
-			}// if greater
-		}// for
+			} // if greater
+		} // for
 	}// removeDuplicates(double[])
 
 	// roots array and number of roots
@@ -135,14 +135,14 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			points[i].setCoords(curXValues[i], yAt(curXValues[i]), // yValFunction.evaluate(curXValues[i]),
 					1.0);
 
-			// Application.debug("   " + rootPoints[i]);
+			// Application.debug(" " + rootPoints[i]);
 
-		}// for
+		} // for
 
 		// all other roots are undefined
 		for (int i = number; i < points.length; i++) {
 			points[i].setUndefined();
-		}//
+		} //
 
 		if (setLabels)
 			updateLabels(number);
@@ -163,23 +163,23 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 				// check labeling
 				if (!points[i].isLabelSet()) {
 					// use user specified label if we have one
-					String newLabel = (labels != null && i < labels.length) ? labels[i]
-							: null;
+					String newLabel = (labels != null && i < labels.length)
+							? labels[i] : null;
 					points[i].setLabel(newLabel);
-				}// if
-			}// for
-		}// if
+				} // if
+			} // for
+		} // if
 
 		// all other roots are undefined
 		for (int i = number; i < points.length; i++) {
 			points[i].setUndefined(); // Points[i].setAlgebraVisible(false);
-		}// for
+		} // for
 	}// updateLabels(n)
 
 	protected void noUndefinedPointsInAlgebraView(GeoPoint[] gpts) {
 		for (int i = 1; i < gpts.length; i++) {
 			gpts[i].showUndefinedInAlgebraView(false);
-		}// for
+		} // for
 	}// noUndefinedPointsInAlgebraView(GeoPoint[])
 
 	/**
@@ -193,14 +193,15 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			if (points[i] == output && !points[i].isDefined()) {
 				removePoint(i);
 
-				// make sure that the function is removed after the last undefined point was removed
-				if(points.length == 0){
+				// make sure that the function is removed after the last
+				// undefined point was removed
+				if (points.length == 0) {
 					super.remove();
 				}
 
 				return;
-			}// if
-		}// for
+			} // if
+		} // for
 
 		// if we get here removing output was not possible
 		// so we remove the whole algorithm
@@ -222,7 +223,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			}
 			points = temp;
 			super.setOutput(points);
-		}// if
+		} // if
 	}// initPoints(n)
 
 	protected void removePoint(int pos) {
@@ -248,8 +249,9 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	// */ //--- SNIP end ---------------------------------------
 
-	protected void updateInterval(){
-		EuclidianViewInterfaceCommon ev = this.kernel.getApplication().getActiveEuclidianView();
+	protected void updateInterval() {
+		EuclidianViewInterfaceCommon ev = this.kernel.getApplication()
+				.getActiveEuclidianView();
 
 		left = ev.getXminObject();
 		right = ev.getXmaxObject();
@@ -259,11 +261,10 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	@Override
 	protected int getInputLengthForXML() {
-		if(intervalDefinedByEV){
+		if (intervalDefinedByEV) {
 			return 1;
 		}
 		return super.getInputLengthForXML();
 	}
 
 }// class AlgoGeoPontsFunction
-

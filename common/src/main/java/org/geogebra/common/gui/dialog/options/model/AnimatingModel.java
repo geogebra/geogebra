@@ -6,7 +6,7 @@ import org.geogebra.common.main.App;
 
 public class AnimatingModel extends BooleanOptionModel {
 	private Kernel kernel;
-	
+
 	public AnimatingModel(App app, IBooleanOptionListener listener) {
 		super(listener, app);
 		kernel = app.getKernel();
@@ -19,7 +19,7 @@ public class AnimatingModel extends BooleanOptionModel {
 		}
 		storeUndoInfo();
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		return getGeoAt(index).isAnimatable();
@@ -34,8 +34,7 @@ public class AnimatingModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		GeoElement geo = getGeoAt(index);
 		geo.setAnimating(value);
-		geo.updateRepaint();		
+		geo.updateRepaint();
 	}
 
 }
-

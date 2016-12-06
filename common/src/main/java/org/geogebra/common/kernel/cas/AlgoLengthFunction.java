@@ -94,8 +94,8 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		double a = A.getValue();
 		double b = B.getValue();
 
-		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
-				lengthFunction, a, b));
+		double lenVal = Math.abs(
+				AlgoIntegralDefinite.numericIntegration(lengthFunction, a, b));
 		length.setValue(lenVal);
 	}
 
@@ -110,5 +110,4 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 		cons.removeFromConstructionList(algoCAS);
 	}
 
-	
 }

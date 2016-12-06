@@ -41,10 +41,9 @@ import org.geogebra.common.util.debug.Log;
  * @author ggb3D
  * 
  */
-public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable,
-		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable,
-		CoordStyle {
+public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
+		SpreadsheetTraceable, RotateableND, Traceable, MirrorableAtPlane,
+		Transformable, Dilateable, MatrixTransformable, CoordStyle {
 
 	private GeoPointND startPoint;
 
@@ -161,11 +160,10 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 	@Override
 	public void set(GeoElementND geo) {
-		if(geo.isGeoPoint()){ 
-		 	 GeoPointND p= (GeoPointND) geo; 
-		 	setCoords(p.getCoordsInD3().get()); 
-		} else
-		if (geo.isGeoVector()) {
+		if (geo.isGeoPoint()) {
+			GeoPointND p = (GeoPointND) geo;
+			setCoords(p.getCoordsInD3().get());
+		} else if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
 
@@ -338,14 +336,14 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			sb.setLength(0);
 
 		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
-			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl,
-					getX(), getY(), getZ(), sb, this, symbolic);
+			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(),
+					getY(), getZ(), sb, this, symbolic);
 			return sb.toString();
 		}
 
 		if (getMode() == Kernel.COORD_SPHERICAL) {
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
-					getY(), getZ(), sb);
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(),
+					getZ(), sb);
 			return sb.toString();
 		}
 
@@ -555,19 +553,22 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getZBracket(), // "z("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 
 	}
 
@@ -755,8 +756,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
-	
-	
+
 	@Override
 	protected boolean moveVector(Coords rwTransVec, Coords endPosition) {
 

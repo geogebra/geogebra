@@ -26,21 +26,23 @@ import org.apache.commons.math.exception.util.LocalizedFormats;
  */
 public class NoDataException extends MathIllegalStateException {
 
-    /** Serializable version Id. */
-    private static final long serialVersionUID = -3629324471511904459L;
+	/** Serializable version Id. */
+	private static final long serialVersionUID = -3629324471511904459L;
 
-    /**
-     * Construct the exception.
-     */
-    public NoDataException() {
-        this(null);
-    }
-    /**
-     * Construct the exception with a specific context.
-     *
-     * @param specific Contextual information on what caused the exception.
-     */
-    public NoDataException(String specific) {
-        super(specific, LocalizedFormats.NO_DATA, (Object[]) null);
-    }
+	/**
+	 * Construct the exception.
+	 */
+	public NoDataException() {
+		this(null);
+	}
+
+	/**
+	 * Construct the exception with a specific context.
+	 *
+	 * @param specific
+	 *            Contextual information on what caused the exception.
+	 */
+	public NoDataException(String specific) {
+		super(specific, LocalizedFormats.NO_DATA, (Object[]) null);
+	}
 }

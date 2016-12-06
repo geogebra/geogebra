@@ -55,13 +55,16 @@ public class AlgoLogNormal extends AlgoDistribution {
 			} else if (x < 0) {
 				num.setValue(0);
 			} else {
-				num.setValue(MyMath2.erf((Math.log(x) - mean)
-						/ (Math.sqrt(2) * Math.abs(s))) / 2 + 0.5);
+				num.setValue(MyMath2.erf(
+						(Math.log(x) - mean) / (Math.sqrt(2) * Math.abs(s))) / 2
+						+ 0.5);
 			}
 
 			// old hack
 			// processAlgebraCommand(
-			// "1/2 erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) + 1/2",
+			// "1/2
+			// erf((ln(If["+x+"<0,0,"+x+"])-("+mean+"))/(sqrt(2)*abs("+sd+"))) +
+			// 1/2",
 			// true );
 
 		} else

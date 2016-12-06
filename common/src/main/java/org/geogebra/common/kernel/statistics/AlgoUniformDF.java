@@ -130,6 +130,4 @@ public class AlgoUniformDF extends AlgoElement {
 		ret.setDefined(true);
 	}
 
-	
-
 }

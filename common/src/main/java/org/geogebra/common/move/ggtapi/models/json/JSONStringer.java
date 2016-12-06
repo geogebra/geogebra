@@ -112,12 +112,13 @@ public class JSONStringer {
 	 * of nesting.
 	 */
 	private final List<Scope> stack = new ArrayList<Scope>();
-    /**
+	/**
 	 * A string containing a full set of spaces for a single level of
 	 * indentation, or null for no pretty printing.
 	 */
 	private final String indent;
-    public JSONStringer() {
+
+	public JSONStringer() {
 		indent = null;
 	}
 
@@ -327,7 +328,7 @@ public class JSONStringer {
 			default:
 				if (c <= 0x1F) {
 					out.append(StringUtil.toJavaString(c + ""));
-					//out.append(String.format("\\u%04x", (int) c));
+					// out.append(String.format("\\u%04x", (int) c));
 				} else {
 					out.append(c);
 				}
@@ -400,8 +401,8 @@ public class JSONStringer {
 		} else if (context != Scope.NULL) {
 			throw new JSONException("Nesting problem");
 		}
-    }
-    
+	}
+
 	/**
 	 * Returns the encoded JSON string.
 	 *
@@ -417,5 +418,5 @@ public class JSONStringer {
 	@Override
 	public String toString() {
 		return out.length() == 0 ? null : out.toString();
-    }
+	}
 }

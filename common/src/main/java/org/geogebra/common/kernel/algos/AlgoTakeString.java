@@ -111,6 +111,4 @@ public class AlgoTakeString extends AlgoElement {
 
 	}
 
-	
-
 }

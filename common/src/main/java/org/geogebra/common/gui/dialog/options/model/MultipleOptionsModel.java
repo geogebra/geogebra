@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
-
 public abstract class MultipleOptionsModel extends NumberOptionsModel {
 	public static final int MAX_CHOICES = 200;
 	private IComboListener listener;
@@ -14,9 +13,9 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 	public MultipleOptionsModel(App app) {
 		super(app);
 	}
-	
+
 	public abstract List<String> getChoiches(Localization loc);
-	
+
 	@Override
 	public void updateProperties() {
 		int value0 = getValueAt(0);
@@ -29,7 +28,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		}
 		listener.setSelectedIndex(isEqual ? value0 : -1);
 	}
-		
+
 	public void fillModes(Localization loc) {
 		if (getListener() == null) {
 			return;
@@ -42,7 +41,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 			}
 			return;
 		}
-		for (String item: getChoiches(loc)) {
+		for (String item : getChoiches(loc)) {
 			getListener().addItem(item);
 		}
 	}

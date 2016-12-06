@@ -142,6 +142,4 @@ public class AlgoFitLineX extends AlgoElement {
 		}
 	}
 
-	
-
 }

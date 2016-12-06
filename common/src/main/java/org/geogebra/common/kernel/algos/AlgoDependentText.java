@@ -36,6 +36,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	private GeoText text; // output
 	// Curve[If[t>1,(t,t)],t,0,5]
+
 	/**
 	 * @param cons
 	 *            construction
@@ -153,10 +154,10 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	public void setSpreadsheetTraceableText() {
 
 		/*
-		 * AbstractApplication.debug("\nroot: "+root+
-		 * "\nleft: "+root.getLeftTree()+ "\nright: "+root.getRightTree()+
-		 * "\ngeos:"+root.getVariables()+
-		 * "\nright geos:"+root.getRightTree().getVariables() ); //
+		 * AbstractApplication.debug("\nroot: "+root+ "\nleft: "
+		 * +root.getLeftTree()+ "\nright: "+root.getRightTree()+
+		 * "\ngeos:"+root.getVariables()+ "\nright geos:"
+		 * +root.getRightTree().getVariables() ); //
 		 */
 
 		// find first NumberValue in expression and replace
@@ -171,8 +172,10 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 		text.setSpreadsheetTraceable(copy, numToTrace);
 
-		// AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
-		// AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false,
+		// AbstractApplication.debug("\nleft string :
+		// "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
+		// AbstractApplication.debug("\nleft string latex :
+		// "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false,
 		// StringTemplate.defaultTemplate));
 
 	}
@@ -273,7 +276,5 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	public ExpressionNode getExpression() {
 		return text.getDefinition();
 	}
-
-	
 
 }

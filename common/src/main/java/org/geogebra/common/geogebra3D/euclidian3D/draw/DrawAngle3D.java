@@ -76,8 +76,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 	private Coords[] drawCoords = null;
 
 	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4),
-			v1 = new Coords(4), v2 = new Coords(4), center = Coords
-					.createInhomCoorsInD3();
+			v1 = new Coords(4), v2 = new Coords(4),
+			center = Coords.createInhomCoorsInD3();
 
 	private double size, angleValue, offset;
 
@@ -127,7 +127,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 													// the screen
 				double[] minmax = getView3D().getIntervalClippedLarge(
 						new double[] { Double.NEGATIVE_INFINITY,
-								Double.POSITIVE_INFINITY }, center, vn);
+								Double.POSITIVE_INFINITY },
+						center, vn);
 				center.setAdd(center,
 						tmpCoords.setMul(vn, (minmax[0] + minmax[1]) / 2));
 			}
@@ -172,7 +173,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 			labelCenter.addInside(center);
 
 			// 90degrees
-			show90degrees = getView3D().getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
+			show90degrees = getView3D()
+					.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 					&& angle.isEmphasizeRightAngle()
 					&& Kernel.isEqual(angleValue, Kernel.PI_HALF);
 
@@ -229,17 +231,13 @@ public class DrawAngle3D extends Drawable3DCurves {
 					if (tmpCoords2 == null) {
 						tmpCoords2 = new Coords(4);
 					}
-					tmpCoords2.setAdd(center, tmpCoords2.setAdd(
-							tmpCoords.setMul(v1, offset),
-							tmpCoords2.setMul(v2, offset)));
-					brush.segment(
-							tmpCoords2,
-							tmpCoords.setAdd(tmpCoords2,
-									tmpCoords.setMul(v1, size)));
-					brush.segment(
-							tmpCoords2,
-							tmpCoords.setAdd(tmpCoords2,
-									tmpCoords.setMul(v2, size)));
+					tmpCoords2.setAdd(center,
+							tmpCoords2.setAdd(tmpCoords.setMul(v1, offset),
+									tmpCoords2.setMul(v2, offset)));
+					brush.segment(tmpCoords2, tmpCoords.setAdd(tmpCoords2,
+							tmpCoords.setMul(v1, size)));
+					brush.segment(tmpCoords2, tmpCoords.setAdd(tmpCoords2,
+							tmpCoords.setMul(v2, size)));
 					setGeometryIndex(brush.end());
 					break;
 				}
@@ -266,7 +264,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					surface.start(getReusableSurfaceIndex());
-					surface.ellipsePart(center, v1, v2, size, size, 0, angleValue);
+					surface.ellipsePart(center, v1, v2, size, size, 0,
+							angleValue);
 					setSurfaceIndex(surface.end());
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
@@ -288,7 +287,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 		if (drawCoords != null) {
 			return;
 		}
-		drawCoords = new Coords[] { new Coords(4), new Coords(4), new Coords(4) };
+		drawCoords = new Coords[] { new Coords(4), new Coords(4),
+				new Coords(4) };
 	}
 
 	protected double getStart() {
@@ -302,7 +302,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom() // update only if zoom occurred
-				|| ((GeoAngle) getGeoElement()).getParentAlgorithm() instanceof AlgoAnglePlanes) {
+				|| ((GeoAngle) getGeoElement())
+						.getParentAlgorithm() instanceof AlgoAnglePlanes) {
 			updateForItSelf();
 			setLabelWaitForUpdate();
 		}
@@ -403,7 +404,6 @@ public class DrawAngle3D extends Drawable3DCurves {
 		if (!angleVisible) {
 			return false;
 		}
-
 
 		hitting.origin.projectPlaneInPlaneCoords(v1, vn2, hitting.direction,
 				center, tmpCoords);

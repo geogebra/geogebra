@@ -212,13 +212,13 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		}
 
 		// the temp points P and Q should lie on the conic
-		startPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(
-				cs.getMatrixOrthonormal(), p2d);
+		startPoint.getInhomCoordsInD3()
+				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramP);
 
-		endPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(
-				cs.getMatrixOrthonormal(), p2d);
+		endPoint.getInhomCoordsInD3()
+				.projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramQ);
 

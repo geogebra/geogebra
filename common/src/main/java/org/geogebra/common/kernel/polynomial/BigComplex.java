@@ -33,8 +33,8 @@ public class BigComplex {
 	}
 
 	public BigComplex subtract(BigComplex b, MathContext mc) {
-		return new BigComplex(real.subtract(b.real, mc), imag.subtract(b.imag,
-				mc));
+		return new BigComplex(real.subtract(b.real, mc),
+				imag.subtract(b.imag, mc));
 	}
 
 	public BigComplex multiply(BigComplex b, MathContext mc) {
@@ -86,15 +86,16 @@ public class BigComplex {
 		if (absReal.compareTo(absImag) >= 0) {
 			BigDecimal dOverC = b.imag.divide(b.real, mc);
 			BigDecimal div = b.real.add(b.imag.multiply(dOverC, mc), mc);
-			return new BigComplex(real.add(imag.multiply(dOverC, mc), mc)
-					.divide(div, mc), imag.subtract(real.multiply(dOverC, mc),
-					mc).divide(div, mc));
+			return new BigComplex(
+					real.add(imag.multiply(dOverC, mc), mc).divide(div, mc),
+					imag.subtract(real.multiply(dOverC, mc), mc).divide(div,
+							mc));
 		}
 		BigDecimal cOverD = b.real.divide(b.imag, mc);
 		BigDecimal div = b.real.multiply(cOverD, mc).add(b.imag, mc);
-		return new BigComplex(real.multiply(cOverD, mc).add(imag, mc)
-				.divide(div, mc), imag.multiply(cOverD, mc).subtract(real, mc)
-				.divide(div, mc));
+		return new BigComplex(
+				real.multiply(cOverD, mc).add(imag, mc).divide(div, mc),
+				imag.multiply(cOverD, mc).subtract(real, mc).divide(div, mc));
 
 		// BigDecimal div=b.real.multiply(b.real).add(b.imag.multiply(b.imag));
 		// return new
@@ -115,9 +116,8 @@ public class BigComplex {
 		BigDecimal absImag = imag.abs(mc);
 		if (absReal.compareTo(BigDecimal.ONE) < 0
 				&& absImag.compareTo(BigDecimal.ONE) < 0) {
-			return sqrt(
-					absReal.multiply(absReal, mc).add(
-							absImag.multiply(absImag, mc), mc), mc);
+			return sqrt(absReal.multiply(absReal, mc)
+					.add(absImag.multiply(absImag, mc), mc), mc);
 		}
 		if (absReal.compareTo(absImag) >= 0) {
 			BigDecimal q = imag.divide(real, mc);
@@ -141,29 +141,34 @@ public class BigComplex {
 		if (absReal.compareTo(absImag) >= 0) {
 			BigDecimal q = imag.divide(real, mc);
 			BigDecimal p = sqrt(BigDecimal.ONE.add(q.multiply(q, mc), mc), mc);
-			w = sqrt(absReal, mc).multiply(
-					sqrt(BigDecimal.ONE.add(p, mc).divide(
-							BigDecimal.valueOf(2), mc), mc), mc);
+			w = sqrt(absReal, mc)
+					.multiply(
+							sqrt(BigDecimal.ONE.add(p, mc)
+									.divide(BigDecimal.valueOf(2), mc), mc),
+							mc);
 		} else {
 			BigDecimal q = real.divide(imag, mc);
 			BigDecimal p = sqrt(BigDecimal.ONE.add(q.multiply(q, mc), mc), mc);
 			w = sqrt(absImag, mc)
 					.multiply(
 							sqrt(q.abs(mc).add(p, mc)
-									.divide(BigDecimal.valueOf(2), mc), mc), mc);
+									.divide(BigDecimal.valueOf(2), mc), mc),
+							mc);
 		}
 		if (w.compareTo(BigDecimal.ZERO) == 0) {
 			return BigComplex.ZERO;
 		}
 		if (real.compareTo(BigDecimal.ZERO) >= 0) {
-			return new BigComplex(w, imag.divide(BigDecimal.valueOf(2)
-					.multiply(w, mc), mc));
+			return new BigComplex(w,
+					imag.divide(BigDecimal.valueOf(2).multiply(w, mc), mc));
 		} else if (imag.compareTo(BigDecimal.ZERO) >= 0) {
-			return new BigComplex(absImag.divide(BigDecimal.valueOf(2)
-					.multiply(w, mc), mc), w);
+			return new BigComplex(
+					absImag.divide(BigDecimal.valueOf(2).multiply(w, mc), mc),
+					w);
 		} else {
-			return new BigComplex(absImag.divide(BigDecimal.valueOf(2)
-					.multiply(w, mc), mc), w.negate());
+			return new BigComplex(
+					absImag.divide(BigDecimal.valueOf(2).multiply(w, mc), mc),
+					w.negate());
 		}
 	}
 
@@ -196,8 +201,8 @@ public class BigComplex {
 					.subtract(x.multiply(x, mc).multiply(d, mc), mc)
 					.divide(BigDecimal.valueOf(2), mc);
 			BigDecimal newDistOne = s.subtract(BigDecimal.ONE, mc).abs(mc);
-			if (s.compareTo(BigDecimal.ONE) == 0
-					|| (distOne != null && distOne.compareTo(newDistOne) <= 0)) {
+			if (s.compareTo(BigDecimal.ONE) == 0 || (distOne != null
+					&& distOne.compareTo(newDistOne) <= 0)) {
 				break;
 			}
 
@@ -210,8 +215,7 @@ public class BigComplex {
 			// Application.debug()
 			// AbstractApplication.debug(String.format("s^2=%s,1/s=%s,s=%s",d,x,d.multiply(x,mc)));//GWT
 			// limitation
-			Log.debug("s^2=" + d + ",1/s=" + x + ",s="
-					+ d.multiply(x, mc));
+			Log.debug("s^2=" + d + ",1/s=" + x + ",s=" + d.multiply(x, mc));
 		}
 		return d.multiply(x, mc);
 	}
@@ -260,8 +264,8 @@ public class BigComplex {
 		Log.debug(sb.toString());
 
 		b = new BigPolynomial(new double[] { -148.413, -469.075, -1062.1,
-				-1287.92, -1145.84, -268.747, 223.29, 520.898, 111.839,
-				4.04776, -140.187, 14.33, -5.2737, 20.9335, -8.59141, 1. }, mc);
+				-1287.92, -1145.84, -268.747, 223.29, 520.898, 111.839, 4.04776,
+				-140.187, 14.33, -5.2737, 20.9335, -8.59141, 1. }, mc);
 		dr = b.getRealRootsDouble(20);
 		sb = new StringBuilder();
 		for (int i = 0; i < dr.length; i++) {

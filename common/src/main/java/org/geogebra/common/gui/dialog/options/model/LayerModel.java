@@ -30,7 +30,7 @@ public class LayerModel extends MultipleOptionsModel {
 
 	@Override
 	protected void apply(int index, int value) {
-		GeoElement geo = getGeoAt(index); 
+		GeoElement geo = getGeoAt(index);
 		geo.setLayer(value);
 		geo.updateRepaint();
 	}

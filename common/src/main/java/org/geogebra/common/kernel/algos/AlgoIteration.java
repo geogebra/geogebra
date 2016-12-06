@@ -78,9 +78,8 @@ public class AlgoIteration extends AlgoElement {
 	private AlgoElement expressionParentAlgo;
 	AlgoIterationList.Type type;
 
-	public AlgoIteration(Construction cons, String label,
-			GeoElement expression, GeoElement[] vars, GeoList[] over,
-			GeoNumberValue n) {
+	public AlgoIteration(Construction cons, String label, GeoElement expression,
+			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
 		super(cons);
 		this.expression = expression;
 		this.vars = vars;
@@ -114,8 +113,7 @@ public class AlgoIteration extends AlgoElement {
 			input[2] = nGeo;
 
 			// done by AlgoElement
-		}
-		else if (type == Type.DOUBLE) {
+		} else if (type == Type.DOUBLE) {
 			input = new GeoElement[3];
 			input[0] = fNVar;
 			input[1] = startValueGeo;
@@ -132,7 +130,7 @@ public class AlgoIteration extends AlgoElement {
 			input[1 + varCount] = over[0];
 			input[2 + varCount] = nGeo;
 
-		}// done by AlgoElement
+		} // done by AlgoElement
 		super.setOutputLength(1);
 		super.setOutput(0, result);
 		setDependencies();
@@ -220,7 +218,6 @@ public class AlgoIteration extends AlgoElement {
 
 		isEmpty = over[0].size() == 0;
 
-
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -245,14 +242,11 @@ public class AlgoIteration extends AlgoElement {
 		return realInput;
 	}
 
-	
-
 	private void updateListItems() {
 		if (isEmpty)
 			return;
 
 		int listSize = (int) Math.round(n.getDouble());
-
 
 		if (listSize < over[0].size()) {
 			result.set(over[0].get(listSize));
@@ -262,8 +256,8 @@ public class AlgoIteration extends AlgoElement {
 			vars[j].set(over[0].get(over[0].size() - varCount + j - 1));
 		}
 
-		GeoElement listElement = over[0].get(over[0].size() - 1).copyInternal(
-				cons);
+		GeoElement listElement = over[0].get(over[0].size() - 1)
+				.copyInternal(cons);
 		int i = over[0].size();
 		while (i <= listSize) {
 			// check we haven't run out of memory
@@ -285,10 +279,11 @@ public class AlgoIteration extends AlgoElement {
 			} else {
 				listElement.setUndefined();
 			}
-			if (listElement instanceof GeoNumeric
-					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression
-						.getDrawAlgorithm()).copy());
+			if (listElement instanceof GeoNumeric && listElement
+					.getDrawAlgorithm() instanceof DrawInformationAlgo) {
+				listElement.setDrawAlgorithm(
+						((DrawInformationAlgo) expression.getDrawAlgorithm())
+								.copy());
 				listElement.setEuclidianVisible(true);
 			}
 			listElement.update();

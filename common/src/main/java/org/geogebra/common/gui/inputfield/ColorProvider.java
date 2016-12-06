@@ -49,8 +49,8 @@ public class ColorProvider {
 	private boolean isCasInput;
 
 	/** Regular expression objects */
-	private RegExp commandReg = RegExp.compile(LABEL_REGEX_STRING + "\\[("
-			+ STRING + "|,)\\]", "g");
+	private RegExp commandReg = RegExp
+			.compile(LABEL_REGEX_STRING + "\\[(" + STRING + "|,)\\]", "g");
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>",
 			"g");
 	private RegExp splitter = RegExp.compile(",");
@@ -136,9 +136,9 @@ public class ColorProvider {
 	}
 
 	private static RegExp createAssignmentRegExp(boolean isCasInput) {
-		return RegExp.compile("^" + WHITESPACE
-				+ LABEL_REGEX_STRING
-				+ // f - function label
+		return RegExp.compile("^" + WHITESPACE + LABEL_REGEX_STRING + // f -
+																		// function
+																		// label
 				"(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE
 				+ "," + WHITESPACE + ")*)" + LABEL_REGEX_STRING + WHITESPACE
 				+ "\\))" + // ( x1 , x2 , x3 , ... ) - function parameters
@@ -165,13 +165,13 @@ public class ColorProvider {
 		if (!isCasInput) {
 			while ((res = commandReg.exec(text)) != null) {
 				int i = res.getIndex();
-				ignoreIntervals.add(new Integer[] { i,
-						i + res.getGroup(1).length() });
+				ignoreIntervals
+						.add(new Integer[] { i, i + res.getGroup(1).length() });
 			}
 			while ((res = commandParamReg.exec(text)) != null) {
 				int i = res.getIndex();
-				ignoreIntervals.add(new Integer[] { i,
-						i + res.getGroup(0).length() });
+				ignoreIntervals
+						.add(new Integer[] { i, i + res.getGroup(0).length() });
 			}
 		}
 

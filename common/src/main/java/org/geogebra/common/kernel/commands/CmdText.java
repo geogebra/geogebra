@@ -79,8 +79,8 @@ public class CmdText extends CommandProcessor {
 				GeoElement[] ret2 = { algo.getGeoText() };
 				return ret2;
 			}
-			throw argErr(app, c.getName(), ok ? (ok1 ? arg[3] : arg[2])
-					: arg[1]);
+			throw argErr(app, c.getName(),
+					ok ? (ok1 ? arg[3] : arg[2]) : arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

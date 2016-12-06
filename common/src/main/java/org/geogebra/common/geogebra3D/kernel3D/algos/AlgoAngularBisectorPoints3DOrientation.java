@@ -13,8 +13,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public class AlgoAngularBisectorPoints3DOrientation extends
-		AlgoAngularBisectorPoints3D {
+public class AlgoAngularBisectorPoints3DOrientation
+		extends AlgoAngularBisectorPoints3D {
 
 	private GeoDirectionND orientation;
 

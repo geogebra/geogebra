@@ -31,8 +31,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoIntegralFunctions extends AlgoElement implements
-		DrawInformationAlgo, AlgoIntegralDefiniteInterface {
+public class AlgoIntegralFunctions extends AlgoElement
+		implements DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
 	private GeoFunction f, g; // input
 	private NumberValue a, b; // input
@@ -56,8 +56,8 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 	 * @param b
 	 *            right bound
 	 */
-	public AlgoIntegralFunctions(Construction cons, String label,
-			GeoFunction f, GeoFunction g, GeoNumberValue a, GeoNumberValue b) {
+	public AlgoIntegralFunctions(Construction cons, String label, GeoFunction f,
+			GeoFunction g, GeoNumberValue a, GeoNumberValue b) {
 		this(cons, label, f, g, a, b, null);
 		n.setLabel(label);
 	}
@@ -78,8 +78,8 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 	 * @param evaluate
 	 *            true to evaluate, false = just shade
 	 */
-	public AlgoIntegralFunctions(Construction cons, String label,
-			GeoFunction f, GeoFunction g, GeoNumberValue a, GeoNumberValue b,
+	public AlgoIntegralFunctions(Construction cons, String label, GeoFunction f,
+			GeoFunction g, GeoNumberValue a, GeoNumberValue b,
 			GeoBoolean evaluate) {
 		super(cons);
 		this.f = f;
@@ -140,8 +140,8 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 
 		return new AlgoIntegralFunctions((GeoFunction) f.copy(),
 				(GeoFunction) g.copy(), new MyDouble(kernel, a.getDouble()),
-				new MyDouble(kernel, b.getDouble()), evaluate == null ? null
-						: (GeoBoolean) evaluate.copy());
+				new MyDouble(kernel, b.getDouble()),
+				evaluate == null ? null : (GeoBoolean) evaluate.copy());
 
 	}
 
@@ -230,6 +230,5 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		g.replaceChildrenByValues(geo);
 
 	}
-	
 
 }

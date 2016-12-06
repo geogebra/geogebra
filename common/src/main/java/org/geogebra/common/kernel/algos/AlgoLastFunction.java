@@ -70,12 +70,12 @@ public class AlgoLastFunction extends AlgoElement {
 	@Override
 	public final void compute() {
 		result.setUndefined();
-		if(!function.isDefined()){
+		if (!function.isDefined()) {
 			return;
 		}
 		ExpressionNode exp = this.function.getFunctionExpression().unwrap()
 				.wrap();
-		if(exp.getOperation() != Operation.DATA){
+		if (exp.getOperation() != Operation.DATA) {
 			return;
 		}
 		ExpressionValue ev = ((MyNumberPair) exp.getRight()).getY();
@@ -83,9 +83,9 @@ public class AlgoLastFunction extends AlgoElement {
 			return;
 		}
 
-		result.setValue(((ListValue) ev).getListElement(
-				((ListValue) ev).size() - 1).evaluateDouble());
-		
+		result.setValue(((ListValue) ev)
+				.getListElement(((ListValue) ev).size() - 1).evaluateDouble());
+
 	}
 
 	/**

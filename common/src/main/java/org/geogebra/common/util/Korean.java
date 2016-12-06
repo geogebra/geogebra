@@ -108,9 +108,8 @@ public class Korean {
 		return false;
 	}
 
-
 	private static boolean isKoreanMultiChar(char c) {
-		
+
 		if (c >= 0xac00 && c <= 0xd7af) {
 			return true;
 		}
@@ -204,7 +203,8 @@ public class Korean {
 		int tail0 = tail == 0 ? 0 : tail - 0x11a8 + 1;
 
 		// http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
-		char unicode = (char) (tail0 + (vowel0 - 1) * 28 + (lead0 - 1) * 588 + 44032);
+		char unicode = (char) (tail0 + (vowel0 - 1) * 28 + (lead0 - 1) * 588
+				+ 44032);
 
 		ret.append(unicode);
 	}
@@ -215,9 +215,11 @@ public class Korean {
 	 */
 	private static void appendKoreanMultiChar(StringBuilder sb, char c) {
 		char tail = (char) (0x11a7 + (c - 44032) % 28);
-		char vowel = (char) (0x1161 + ((c - 44032 - (tail - 0x11a7)) % 588) / 28);
+		char vowel = (char) (0x1161
+				+ ((c - 44032 - (tail - 0x11a7)) % 588) / 28);
 		char lead = (char) (0x1100 + (c - 44032) / 588);
-		// Application.debug(Util.toHexString(c)+" decoded to "+Util.toHexString(lead)+Util.toHexString(vowel)+Util.toHexString(tail));
+		// Application.debug(Util.toHexString(c)+" decoded to
+		// "+Util.toHexString(lead)+Util.toHexString(vowel)+Util.toHexString(tail));
 		sb.append(lead);
 		sb.append(vowel);
 		if (!isKoreanLeadPlusVowelChar(c)) {

@@ -118,10 +118,12 @@ public class AlgoQ1 extends AlgoElement {
 
 			switch (size % 4) {
 			case 0:
-				Q1.setValue((sortList[(size) / 4 - 1] + sortList[(size + 4) / 4 - 1]) / 2);
+				Q1.setValue((sortList[(size) / 4 - 1]
+						+ sortList[(size + 4) / 4 - 1]) / 2);
 				break;
 			case 1:
-				Q1.setValue((sortList[(size - 1) / 4 - 1] + sortList[(size + 3) / 4 - 1]) / 2);
+				Q1.setValue((sortList[(size - 1) / 4 - 1]
+						+ sortList[(size + 3) / 4 - 1]) / 2);
 				break;
 			case 2:
 				Q1.setValue(sortList[(size + 2) / 4 - 1]);
@@ -138,7 +140,8 @@ public class AlgoQ1 extends AlgoElement {
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
-			if (!freqList.isDefined() || (inputList.size() != freqList.size())) {
+			if (!freqList.isDefined()
+					|| (inputList.size() != freqList.size())) {
 				Q1.setUndefined();
 				return;
 			}
@@ -175,12 +178,12 @@ public class AlgoQ1 extends AlgoElement {
 			// find Q1
 			switch (n % 4) {
 			case 0:
-				Q1.setValue((AlgoMedian.getValueAt(n / 4 - 1, v, f) + AlgoMedian
-						.getValueAt((n + 4) / 4 - 1, v, f)) / 2);
+				Q1.setValue((AlgoMedian.getValueAt(n / 4 - 1, v, f)
+						+ AlgoMedian.getValueAt((n + 4) / 4 - 1, v, f)) / 2);
 				break;
 			case 1:
-				Q1.setValue((AlgoMedian.getValueAt((n - 1) / 4 - 1, v, f) + AlgoMedian
-						.getValueAt((n + 3) / 4 - 1, v, f)) / 2);
+				Q1.setValue((AlgoMedian.getValueAt((n - 1) / 4 - 1, v, f)
+						+ AlgoMedian.getValueAt((n + 3) / 4 - 1, v, f)) / 2);
 				break;
 			case 2:
 				Q1.setValue(AlgoMedian.getValueAt((n + 2) / 4 - 1, v, f));
@@ -194,5 +197,4 @@ public class AlgoQ1 extends AlgoElement {
 
 	}
 
-	
 }

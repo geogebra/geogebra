@@ -53,8 +53,8 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 
 	public AlgoSumLower copy() {
 		return new AlgoSumLower((GeoNumberValue) this.getA().deepCopy(kernel),
-				(GeoNumberValue) this.getB().deepCopy(kernel), this.getN()
-						.copy(), Cloner.clone(getValues()),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				this.getN().copy(), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), cons);
 	}
 

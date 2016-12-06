@@ -17,20 +17,22 @@
 
 package org.apache.commons.math.analysis;
 
-
 /**
- * Extension of {@link MultivariateVectorialFunction} representing a differentiable
- * multivariate vectorial function.
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * Extension of {@link MultivariateVectorialFunction} representing a
+ * differentiable multivariate vectorial function.
+ * 
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  * @since 2.0
  */
 public interface DifferentiableMultivariateVectorialFunction
-    extends MultivariateVectorialFunction {
+		extends MultivariateVectorialFunction {
 
-    /**
-     * Returns the jacobian function.
-     * @return the jacobian function
-     */
-    MultivariateMatrixFunction jacobian();
+	/**
+	 * Returns the jacobian function.
+	 * 
+	 * @return the jacobian function
+	 */
+	MultivariateMatrixFunction jacobian();
 
 }

@@ -15,8 +15,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * @author matthieu
  *
  */
-public class DrawIntersectionCurve3D extends Drawable3DCurves implements
-		Previewable {
+public class DrawIntersectionCurve3D extends Drawable3DCurves
+		implements Previewable {
 
 	private ArrayList<Drawable3D> drawables;
 

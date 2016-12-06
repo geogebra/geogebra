@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
-
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersect3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
@@ -76,7 +75,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 			outputs.adjustOutputSize(0);
 			return;
 		}
-		
+
 		if (eqn instanceof GeoLineND) {
 			intersectLine((GeoLineND) eqn);
 		}
@@ -91,7 +90,7 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 		ExpressionNode z = new ExpressionNode(kernel, r.getZ());
 		x = x.plus(new ExpressionNode(kernel, t, Operation.MULTIPLY,
 				new MyDouble(kernel, v.getX())));
-		y =	y.plus(new ExpressionNode(kernel, t, Operation.MULTIPLY,
+		y = y.plus(new ExpressionNode(kernel, t, Operation.MULTIPLY,
 				new MyDouble(kernel, v.getY())));
 		z = z.plus(new ExpressionNode(kernel, t, Operation.MULTIPLY,
 				new MyDouble(kernel, v.getZ())));

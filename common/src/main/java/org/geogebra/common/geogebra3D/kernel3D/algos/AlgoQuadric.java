@@ -78,6 +78,4 @@ public abstract class AlgoQuadric extends AlgoElement3D {
 	 * should be used.
 	 */
 
-	
-
 }

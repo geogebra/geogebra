@@ -73,8 +73,8 @@ public class AnimationManager implements GTimerListener {
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = animatedGeos.get(i);
 			GeoElement animObj = geo.getAnimationSpeedObject();
-			if (animObj == null || !animObj.isLabelSet()
-					&& animObj.isIndependent()) {
+			if (animObj == null
+					|| !animObj.isLabelSet() && animObj.isIndependent()) {
 				needToShowAnimationButton = true;
 				return;
 			}
@@ -246,8 +246,8 @@ public class AnimationManager implements GTimerListener {
 			adaptFrameRate(compTime);
 			// System.out.println("UPDATE compTime: " + compTime +
 			// ", frameRate: " + frameRate);
-			
-			//collect some potential garbage
+
+			// collect some potential garbage
 			kernel.notifyRemoveGroup();
 		}
 

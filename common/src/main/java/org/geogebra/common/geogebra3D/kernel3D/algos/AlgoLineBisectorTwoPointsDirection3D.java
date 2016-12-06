@@ -34,8 +34,8 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 
 	private GeoLine3D line; // output
 
-	public AlgoLineBisectorTwoPointsDirection3D(Construction cons,
-			String label, GeoPointND a, GeoPointND b, GeoDirectionND direction) {
+	public AlgoLineBisectorTwoPointsDirection3D(Construction cons, String label,
+			GeoPointND a, GeoPointND b, GeoDirectionND direction) {
 		super(cons);
 		this.a = a;
 		this.b = b;

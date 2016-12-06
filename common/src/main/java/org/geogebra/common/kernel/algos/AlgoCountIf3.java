@@ -104,8 +104,8 @@ public class AlgoCountIf3 extends AlgoElement {
 					GeoElement geo = inputList.get(i);
 					var.set(geo);
 					this.setStopUpdateCascade(true);
-					var.getAlgoUpdateSet().updateAllUntil(
-							bool.getParentAlgorithm());
+					var.getAlgoUpdateSet()
+							.updateAllUntil(bool.getParentAlgorithm());
 					if (bool.getBoolean()) {
 						count++;
 					}

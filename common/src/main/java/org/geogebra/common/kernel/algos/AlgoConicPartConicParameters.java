@@ -68,8 +68,6 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 		setDependencies();
 	}
 
-	
-
 	@Override
 	public GeoConicND getConicPart() {
 		return super.getConicPart();

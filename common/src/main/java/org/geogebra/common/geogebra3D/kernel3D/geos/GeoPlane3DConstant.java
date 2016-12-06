@@ -10,8 +10,8 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class GeoPlane3DConstant extends GeoPlane3D implements
-		SymbolicParametersBotanaAlgo {
+public class GeoPlane3DConstant extends GeoPlane3D
+		implements SymbolicParametersBotanaAlgo {
 
 	public static final int XOY_PLANE = 1;
 

@@ -30,7 +30,8 @@ public class AlgoProductMatrices extends AlgoElement {
 	private GeoList result; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoProductMatrices(Construction cons, String label, GeoList geoList) {
+	public AlgoProductMatrices(Construction cons, String label,
+			GeoList geoList) {
 		super(cons);
 		this.geoList = geoList;
 
@@ -151,7 +152,5 @@ public class AlgoProductMatrices extends AlgoElement {
 		result.set(ret);
 
 	}
-
-	
 
 }

@@ -12,17 +12,21 @@ import org.geogebra.common.kernel.locusequ.EquationScope;
  */
 public class EquationGenericSegment extends EquationGenericRay {
 
-    /**
-     * General constructor
-     * @param element {@link GeoElement}
-     * @param scope {@link EquationScope}
-     */
-    public EquationGenericSegment(final GeoElement element, final EquationScope scope) {
-        super(element, scope);
-    }
-    
-    @Override
-    public boolean isAlgebraic() {
-        return false;
-    }
+	/**
+	 * General constructor
+	 * 
+	 * @param element
+	 *            {@link GeoElement}
+	 * @param scope
+	 *            {@link EquationScope}
+	 */
+	public EquationGenericSegment(final GeoElement element,
+			final EquationScope scope) {
+		super(element, scope);
+	}
+
+	@Override
+	public boolean isAlgebraic() {
+		return false;
+	}
 }

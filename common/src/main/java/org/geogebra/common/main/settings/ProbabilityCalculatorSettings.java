@@ -43,7 +43,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 
 	private double high;
 
-	public ProbabilityCalculatorSettings(LinkedList<SettingListener> listeners) {
+	public ProbabilityCalculatorSettings(
+			LinkedList<SettingListener> listeners) {
 		super(listeners);
 	}
 

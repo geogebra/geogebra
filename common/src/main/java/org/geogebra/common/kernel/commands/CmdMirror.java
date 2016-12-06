@@ -16,9 +16,9 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.MyError;
 
 /**
- * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ]
- * Mirror[<GeoLine>, <GeoPoint> ] Mirror[ <GeoConic>, <GeoPoint> ]
- * Mirror[<GeoPolygon>, <GeoPoint> ]
+ * (2nd argument is the mirror) Mirror[ <GeoPoint>, <GeoPoint> ] Mirror[
+ * <GeoLine>, <GeoPoint> ] Mirror[ <GeoConic>, <GeoPoint> ] Mirror[<GeoPolygon>,
+ * <GeoPoint> ]
  * 
  * Mirror[ <GeoPoint>, <GeoLine> ] Mirror[ <GeoLine>, <GeoLine> ] Mirror[
  * <GeoConic>, <GeoLine> ] Mirror[ <GeoPolygon>, <GeoLine> ]
@@ -74,7 +74,8 @@ public class CmdMirror extends CommandProcessor {
 	 *            ok array
 	 * @return result (if one)
 	 */
-	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok) {
+	protected GeoElement[] process2(String label, GeoElement[] arg,
+			boolean[] ok) {
 
 		GeoElement[] ret = new GeoElement[1];
 

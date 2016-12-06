@@ -88,7 +88,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label label
+	 * @param label
+	 *            label
 	 * @param fileName
 	 *            path to the image
 	 */
@@ -231,7 +232,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	public void setImageFileName(String fileName, int width, int height) {
 
-
 		if (fileName == null)
 			return;
 		if (fileName.equals(this.getGraphicsAdapter().getImageFileName()))
@@ -239,8 +239,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
-		this.getGraphicsAdapter().setImageOnly(
-				kernel.getApplication().getExternalImageAdapter(fileName, width, height));
+		this.getGraphicsAdapter().setImageOnly(kernel.getApplication()
+				.getExternalImageAdapter(fileName, width, height));
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -249,7 +249,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			pixelHeight = 0;
 		}
 	}
-	
+
 	@Override
 	public void setImageFileName(String fileName) {
 		setImageFileName(fileName, 0, 0);
@@ -405,7 +405,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	/**
 	 * sets if the image want to be interpolated
 	 * 
-	 * @param flag true to turn interpolation on
+	 * @param flag
+	 *            true to turn interpolation on
 	 */
 	final public void setInterpolate(boolean flag) {
 		interpolate = flag;
@@ -516,7 +517,8 @@ public class GeoImage extends GeoElement implements Locateable,
 		sb.append("\t<file name=\"");
 		// Michael Borcherds 2007-12-10 this line restored (not needed now MD5
 		// code put in the correct place)
-		sb.append(StringUtil.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+		sb.append(StringUtil
+				.encodeXML(this.getGraphicsAdapter().getImageFileName()));
 		sb.append("\"/>\n");
 
 		// name of image file
@@ -571,8 +573,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			sb.append(" z=\"" + corners[number].z + "\"");
 		} else {
 			sb.append(" exp=\"");
-			StringUtil.encodeXML(sb, corners[number]
-					.getLabel(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb,
+					corners[number].getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"");
 		}
 		sb.append("/>\n");
@@ -638,8 +640,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		return isIndependent();
 	}
 
-	/* **************************************
-	 * Transformations *************************************
+	/*
+	 * ************************************** Transformations
+	 * *************************************
 	 */
 
 	/**
@@ -676,8 +679,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			double[] d = new double[2];
 			getInternalCornerPointCoords(b, 1);
 			getInternalCornerPointCoords(d, 2);
-			result.setCoords(d[0] + b[0] - corners[0].inhomX, d[1] + b[1]
-					- corners[0].inhomY, 1.0);
+			result.setCoords(d[0] + b[0] - corners[0].inhomX,
+					d[1] + b[1] - corners[0].inhomY, 1.0);
 			break;
 
 		case 4: // get D
@@ -960,14 +963,14 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 	}
+
 	/**
 	 * Clears the image
 	 */
 	public void clearFillImage() {
-		this.getGraphicsAdapter().setImageOnly(
-AwtFactory.getPrototype()
-						.newMyImage(pixelWidth, pixelHeight,
-								GBufferedImage.TYPE_INT_ARGB));
+		this.getGraphicsAdapter()
+				.setImageOnly(AwtFactory.getPrototype().newMyImage(pixelWidth,
+						pixelHeight, GBufferedImage.TYPE_INT_ARGB));
 		this.updateRepaint();
 
 	}
@@ -979,12 +982,11 @@ AwtFactory.getPrototype()
 
 	public void updateLocation() {
 		updateGeo(false);
-		kernel.notifyUpdateLocation(this);	
+		kernel.notifyUpdateLocation(this);
 	}
-	
 
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

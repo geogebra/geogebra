@@ -170,27 +170,28 @@ public class ClipLine {
 		GPoint2D p1 = null;
 
 		/*
-		 * System.out.println("mask1 = "+mask1);
-		 * System.out.println("mask2 = "+mask2);
-		 * System.out.println("mask = "+mask);
+		 * System.out.println("mask1 = "+mask1); System.out.println("mask2 = "
+		 * +mask2); System.out.println("mask = "+mask);
 		 */
 		double xhack = 0;
 		double yhack = 0;
 
 		if (mask1 == INSIDE) {
 			// point 1 is internal
-			p1 = AwtFactory.getPrototype().newPoint2D((x1 + xhack), (y1 + yhack));
+			p1 = AwtFactory.getPrototype().newPoint2D((x1 + xhack),
+					(y1 + yhack));
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
 				GPoint2D[] ret = new GPoint2D[2];
 				ret[0] = p1;
-				ret[1] = AwtFactory.getPrototype()
-						.newPoint2D((x2 + xhack), (y2 + yhack));
+				ret[1] = AwtFactory.getPrototype().newPoint2D((x2 + xhack),
+						(y2 + yhack));
 				return ret;
 			}
 		} else if (mask2 == INSIDE) {
 			// point 2 is internal
-			p1 = AwtFactory.getPrototype().newPoint2D((x2 + xhack), (y2 + yhack));
+			p1 = AwtFactory.getPrototype().newPoint2D((x2 + xhack),
+					(y2 + yhack));
 		} else if (mask == 0) {
 			// shortcut: no point is inside, but both are in the same sector, so
 			// no intersection is possible
@@ -200,8 +201,7 @@ public class ClipLine {
 		if ((mask & LEFT) != 0) {
 			// System.out.println("Trying left");
 			// try to calculate intersection with left line
-			GPoint2D p = intersect(x1, y1, x2, y2, xmin,
-					ymin, xmin, ymax);
+			GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmin, ymax);
 			if (p != null) {
 				if (p1 == null) {
 					p1 = p;
@@ -216,8 +216,7 @@ public class ClipLine {
 		if ((mask & RIGHT) != 0) {
 			// System.out.println("Trying right");
 			// try to calculate intersection with right line
-			GPoint2D p = intersect(x1, y1, x2, y2, xmax,
-					ymin, xmax, ymax);
+			GPoint2D p = intersect(x1, y1, x2, y2, xmax, ymin, xmax, ymax);
 			if (p != null) {
 				if (p1 == null) {
 					p1 = p;
@@ -236,8 +235,7 @@ public class ClipLine {
 			if ((mask & ABOVE) != 0) {
 				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
-				GPoint2D p = intersect(x1, y1, x2, y2,
-						xmin, ymax, xmax, ymax);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
 				if (p != null) {
 					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
@@ -248,8 +246,7 @@ public class ClipLine {
 			if ((mask & BELOW) != 0) {
 				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
-				GPoint2D p = intersect(x1, y1, x2, y2,
-						xmin, ymin, xmax, ymin);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
 				if (p != null) {
 					GPoint2D[] ret = new GPoint2D[2];
 					ret[0] = p1;
@@ -261,8 +258,7 @@ public class ClipLine {
 			if ((mask & BELOW) != 0) {
 				// System.out.println("Trying bottom");
 				// try to calculate intersection with lower line
-				GPoint2D p = intersect(x1, y1, x2, y2,
-						xmin, ymin, xmax, ymin);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymin, xmax, ymin);
 				if (p != null) {
 					if (p1 == null) {
 						p1 = p;
@@ -277,8 +273,7 @@ public class ClipLine {
 			if ((mask & ABOVE) != 0) {
 				// System.out.println("Trying top");
 				// try to calculate intersection with upper line
-				GPoint2D p = intersect(x1, y1, x2, y2,
-						xmin, ymax, xmax, ymax);
+				GPoint2D p = intersect(x1, y1, x2, y2, xmin, ymax, xmax, ymax);
 				if (p != null) {
 					if (p1 == null) {
 						p1 = p;
@@ -333,9 +328,8 @@ public class ClipLine {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
 			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
-				GPoint2D p = AwtFactory.getPrototype()
-						.newPoint2D((x21 + mu * dx2 + xhack),
-								(y21 + mu * dy2 + yhack));
+				GPoint2D p = AwtFactory.getPrototype().newPoint2D(
+						(x21 + mu * dx2 + xhack), (y21 + mu * dy2 + yhack));
 				// System.out.println("p = "+p);
 				return p;
 			}

@@ -57,11 +57,10 @@ public class AlgoMaximize extends AlgoOptimize {
 				OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.Maximize;
 	}// getClassName()
-
-	
 
 }// class AlgoMaximize

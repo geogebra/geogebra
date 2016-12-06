@@ -32,7 +32,8 @@ public abstract class AlgoSphereNDTwoPoints extends AlgoElement {
 	private GeoPointND M, P; // input
 	private GeoQuadricND sphereND; // output
 
-	public AlgoSphereNDTwoPoints(Construction cons, GeoPointND M, GeoPointND P) {
+	public AlgoSphereNDTwoPoints(Construction cons, GeoPointND M,
+			GeoPointND P) {
 		super(cons);
 		this.M = M;
 		this.P = P;

@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -13,24 +12,32 @@ import org.geogebra.common.main.App;
 public class SliderModel extends OptionsModel {
 	public interface ISliderOptionsListener extends PropertyListener {
 		void setMinText(final String text);
+
 		void setMaxText(final String text);
+
 		void setWidthText(final String text);
+
 		void setWidthUnitText(final String text);
+
 		void selectFixed(boolean value);
+
 		void selectRandom(boolean value);
+
 		void setRandomVisible(boolean value);
+
 		void setSliderDirection(int i);
 
 		Object updatePanel(Object[] geos2);
-		
+
 	}
-	
+
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
-	
+
 	private ISliderOptionsListener listener;
 	private Kernel kernel;
 	private boolean widthUnit;
 	private boolean includeRandom;
+
 	public SliderModel(App app, ISliderOptionsListener listener) {
 		super(app);
 		kernel = app.getKernel();
@@ -47,9 +54,10 @@ public class SliderModel extends OptionsModel {
 		return true;
 	}
 
-	protected GeoNumeric getNumericAt(int index)  {
-		return (GeoNumeric)getObjectAt(index);
+	protected GeoNumeric getNumericAt(int index) {
+		return (GeoNumeric) getObjectAt(index);
 	}
+
 	@Override
 	public void updateProperties() {
 		// check if properties have same values
@@ -94,48 +102,48 @@ public class SliderModel extends OptionsModel {
 		}
 
 		StringTemplate highPrecision = StringTemplate.printDecimals(
-				StringType.GEOGEBRA,
-				TEXT_FIELD_FRACTION_DIGITS, false);
+				StringType.GEOGEBRA, TEXT_FIELD_FRACTION_DIGITS, false);
 		if (equalMin) {
 			GeoElement min0 = GeoElement.as(num0.getIntervalMinObject());
-			if (onlyAngles
-					&& (min0 == null || (!min0.isLabelSet() && min0
-							.isIndependent()))) {
-				listener.setMinText(kernel.formatAngle(num0.getIntervalMin(),
-						highPrecision, true).toString());
+			if (onlyAngles && (min0 == null
+					|| (!min0.isLabelSet() && min0.isIndependent()))) {
+				listener.setMinText(kernel
+						.formatAngle(num0.getIntervalMin(), highPrecision, true)
+						.toString());
 			} else
-				listener.setMinText(num0.getIntervalMinObject().getLabel(
-						highPrecision));
+				listener.setMinText(
+						num0.getIntervalMinObject().getLabel(highPrecision));
 		} else {
 			listener.setMinText("");
 		}
 
 		if (equalMax) {
 			GeoElement max0 = GeoElement.as(num0.getIntervalMaxObject());
-			if (onlyAngles
-					&& (max0 == null || (!max0.isLabelSet() && max0
-							.isIndependent())))
-				listener.setMaxText(kernel.formatAngle(num0.getIntervalMax(),
-						highPrecision, true).toString());
+			if (onlyAngles && (max0 == null
+					|| (!max0.isLabelSet() && max0.isIndependent())))
+				listener.setMaxText(kernel
+						.formatAngle(num0.getIntervalMax(), highPrecision, true)
+						.toString());
 			else
-				listener.setMaxText(num0.getIntervalMaxObject().getLabel(
-						highPrecision));
+				listener.setMaxText(
+						num0.getIntervalMaxObject().getLabel(highPrecision));
 		} else {
 			listener.setMaxText("");
 		}
-		
-		widthUnit=false;
+
+		widthUnit = false;
 		if (equalWidth && equalPinned) {
-			listener.setWidthText(kernel.format(num0.getSliderWidth(), highPrecision));		
+			listener.setWidthText(
+					kernel.format(num0.getSliderWidth(), highPrecision));
 			if (num0.isPinned())
-				widthUnit=true;
+				widthUnit = true;
 		} else {
 			listener.setMaxText("");
 		}
-		
+
 		setLabelForWidthUnit();
 
-		if (equalSliderFixed){
+		if (equalSliderFixed) {
 			listener.selectFixed(num0.isSliderFixed());
 		}
 
@@ -147,15 +155,14 @@ public class SliderModel extends OptionsModel {
 
 		if (equalSliderHorizontal) {
 			// TODO why doesn't this work when you create a slider
-			listener.setSliderDirection(num0.isSliderHorizontal() ? 0
-					: 1);
+			listener.setSliderDirection(num0.isSliderHorizontal() ? 0 : 1);
 		}
 
 	}
-	
-	public void setLabelForWidthUnit(){
-		listener.setWidthUnitText(widthUnit ? app.getLocalization().getMenu(
-				"Pixels.short") : "");
+
+	public void setLabelForWidthUnit() {
+		listener.setWidthUnitText(
+				widthUnit ? app.getLocalization().getMenu("Pixels.short") : "");
 	}
 
 	public void applyFixed(boolean value) {
@@ -166,7 +173,7 @@ public class SliderModel extends OptionsModel {
 		}
 		storeUndoInfo();
 	}
-	
+
 	public void applyRandom(boolean value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
@@ -186,7 +193,6 @@ public class SliderModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
-	
 	private void applyExtrema(NumberValue value, boolean isMinimum) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
@@ -198,9 +204,10 @@ public class SliderModel extends OptionsModel {
 						dependsOnListener = true;
 					}
 				}
-			
+
 			if (dependsOnListener || geoValue.isChildOrEqual(num)) {
-				app.showError(app.getLocalization().getError("CircularDefinition"));
+				app.showError(
+						app.getLocalization().getError("CircularDefinition"));
 			} else {
 				if (isMinimum) {
 					num.setIntervalMin(value);
@@ -210,19 +217,18 @@ public class SliderModel extends OptionsModel {
 			}
 			num.updateRepaint();
 
-
 		}
 		storeUndoInfo();
 	}
-	
+
 	public void applyMin(NumberValue value) {
 		applyExtrema(value, true);
 	}
-	
+
 	public void applyMax(NumberValue value) {
 		applyExtrema(value, false);
 	}
-	
+
 	public void applyWidth(double value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);

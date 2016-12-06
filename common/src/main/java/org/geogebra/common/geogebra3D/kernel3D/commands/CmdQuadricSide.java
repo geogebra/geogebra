@@ -31,8 +31,8 @@ public class CmdQuadricSide extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
-				return new GeoElement[] { kernelA.getManager3D().QuadricSide(
-						c.getLabel(), (GeoQuadricND) arg[0]) };
+				return new GeoElement[] { kernelA.getManager3D()
+						.QuadricSide(c.getLabel(), (GeoQuadricND) arg[0]) };
 			}
 			throw argErr(arg[0]);
 

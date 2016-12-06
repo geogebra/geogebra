@@ -70,8 +70,8 @@ public class CmdSetVisibleInView extends CmdScripting {
 				}
 				if (geo instanceof GeoAxisND) {
 
-					EuclidianSettings evs = app.getSettings().getEuclidian(
-							viewNo < 0 ? 3 : viewNo);
+					EuclidianSettings evs = app.getSettings()
+							.getEuclidian(viewNo < 0 ? 3 : viewNo);
 
 					evs.setShowAxis(((GeoAxisND) geo).getType(), show);
 					geo.updateRepaint();

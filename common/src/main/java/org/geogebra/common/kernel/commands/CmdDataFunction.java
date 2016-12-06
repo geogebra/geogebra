@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 
-
 /**
  * Function[ <GeoFunction>, <NumberValue>, <NumberValue> ]
  */
@@ -35,7 +34,7 @@ public class CmdDataFunction extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0: 
+		case 0:
 		case 2:
 		case 3:
 			FunctionVariable fv = new FunctionVariable(kernelA);
@@ -64,7 +63,8 @@ public class CmdDataFunction extends CommandProcessor {
 	 * @return data function expression
 	 */
 	public static ExpressionNode getDataFunction(Kernel kernelA, String label,
-			ListValue xlist, ListValue ylist, ExpressionNode arg0, FunctionVariable fv) {
+			ListValue xlist, ListValue ylist, ExpressionNode arg0,
+			FunctionVariable fv) {
 
 		// ml.addListElement(new MyDouble(kernelA));
 		// vl.addListElement(new MyDouble(kernelA, -1));
@@ -104,8 +104,7 @@ public class CmdDataFunction extends CommandProcessor {
 		ExpressionValue ev = c.getArgument(argIndex).unwrap();
 		if (ev instanceof Variable) {
 			ev = kernelA
-					.lookupLabel(ev
-					.toString(StringTemplate.noLocalDefault));
+					.lookupLabel(ev.toString(StringTemplate.noLocalDefault));
 		}
 		if (ev instanceof ListValue) {
 			return (ListValue) ev;
@@ -128,5 +127,5 @@ public class CmdDataFunction extends CommandProcessor {
 		geo.setLabel(label);
 		return new GeoElement[] { geo };
 	}
-	
+
 }

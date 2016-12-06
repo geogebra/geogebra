@@ -11,8 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public class PlatonicSolidsFactory {
 
 	static private volatile PlatonicSolid tetrahedron, cube, octahedron,
-			dodecahedron,
-			icosahedron;
+			dodecahedron, icosahedron;
 
 	/**
 	 * 
@@ -23,8 +22,7 @@ public class PlatonicSolidsFactory {
 		if (tetrahedron == null) {
 			PlatonicSolid tetrahedron0 = new PlatonicSolid();
 			tetrahedron0.set(
-					new Coords[] {
-							new Coords(0.0, 0.0, 0.0, 1.0),
+					new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
 							new Coords(1.0, 0.0, 0.0, 1.0),
 							new Coords(0.5, 0.8660254037844398, 0.0, 1.0),
 							new Coords(0.5, 0.28867513459481,
@@ -33,7 +31,6 @@ public class PlatonicSolidsFactory {
 							{ 2, 1, 3 } });
 			tetrahedron = tetrahedron0;
 		}
-
 
 		return tetrahedron;
 
@@ -47,16 +44,18 @@ public class PlatonicSolidsFactory {
 
 		if (cube == null) {
 			PlatonicSolid cube0 = new PlatonicSolid();
-			cube0.set(new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
-					new Coords(1.0, 0.0, 0.0, 1.0),
-					new Coords(1.0, 1.0, 0.0, 1.0),
-					new Coords(0.0, 1.0, 0.0, 1.0),
-					new Coords(0.0, 0.0, 1.0, 1.0),
-					new Coords(1.0, 0.0, 1.0, 1.0),
-					new Coords(1.0, 1.0, 1.0, 1.0),
-					new Coords(0.0, 1.0, 1.0, 1.0) }, new int[][] {
-					{ 3, 0, 1, 2 }, { 4, 0, 3, 7 }, { 1, 0, 4, 5 },
-					{ 2, 1, 5, 6 }, { 3, 2, 6, 7 }, { 4, 7, 6, 5 } });
+			cube0.set(
+					new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
+							new Coords(1.0, 0.0, 0.0, 1.0),
+							new Coords(1.0, 1.0, 0.0, 1.0),
+							new Coords(0.0, 1.0, 0.0, 1.0),
+							new Coords(0.0, 0.0, 1.0, 1.0),
+							new Coords(1.0, 0.0, 1.0, 1.0),
+							new Coords(1.0, 1.0, 1.0, 1.0),
+							new Coords(0.0, 1.0, 1.0, 1.0) },
+					new int[][] { { 3, 0, 1, 2 }, { 4, 0, 3, 7 },
+							{ 1, 0, 4, 5 }, { 2, 1, 5, 6 }, { 3, 2, 6, 7 },
+							{ 4, 7, 6, 5 } });
 
 			cube = cube0;
 		}
@@ -64,7 +63,6 @@ public class PlatonicSolidsFactory {
 		return cube;
 
 	}
-
 
 	/**
 	 * 
@@ -75,18 +73,20 @@ public class PlatonicSolidsFactory {
 		if (octahedron == null) {
 			PlatonicSolid octahedron0 = new PlatonicSolid();
 			octahedron0.set(
-					new Coords[] {
-							new Coords(0.0, 0.0, 0.0, 1.0),
+					new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
 							new Coords(1.0, 0.0, 0.0, 1.0),
 							new Coords(0.5, 0.8660254037844398, 0.0, 1.0),
-							new Coords(0.5, -0.28867513459481986,
-									0.81649658092772, 1.0),
-							new Coords(1.0, 0.57735026918962, 0.81649658092772,
+							new Coords(0.5,
+									-0.28867513459481986, 0.81649658092772,
+									1.0),
+							new Coords(
+									1.0, 0.57735026918962, 0.81649658092772,
 									1.0),
 							new Coords(0.0, 0.57735026918962, 0.81649658092772,
-									1.0) }, new int[][] { { 2, 0, 1 },
-							{ 5, 0, 2 }, { 3, 0, 5 }, { 1, 0, 3 }, { 4, 1, 3 },
-							{ 2, 1, 4 }, { 5, 2, 4 }, { 5, 4, 3 } });
+									1.0) },
+					new int[][] { { 2, 0, 1 }, { 5, 0, 2 }, { 3, 0, 5 },
+							{ 1, 0, 3 }, { 4, 1, 3 }, { 2, 1, 4 }, { 5, 2, 4 },
+							{ 5, 4, 3 } });
 
 			octahedron = octahedron0;
 		}
@@ -103,18 +103,20 @@ public class PlatonicSolidsFactory {
 
 		if (dodecahedron == null) {
 			PlatonicSolid dodecahedron0 = new PlatonicSolid();
-			dodecahedron0
-					.set(new Coords[] {
-							new Coords(0.0, 0.0, 0.0, 1.0),
+			dodecahedron0.set(
+					new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
 							new Coords(1.0, 0.0, 0.0, 1.0),
-							new Coords(1.3090169943749501, 0.9510565162951601,
-									0.0, 1.0),
+							new Coords(
+									1.3090169943749501, 0.9510565162951601, 0.0,
+									1.0),
 							new Coords(0.5, 1.5388417685876306, 0.0, 1.0),
 							new Coords(-0.30901699437495, 0.9510565162951601,
 									0.0, 1.0),
 							new Coords(1.3090169943749501,
-									-0.42532540417601983, 0.85065080835204, 1.0),
-							new Coords(1.8090169943749501, 1.1135163644116104,
+									-0.42532540417601983, 0.85065080835204,
+									1.0),
+							new Coords(
+									1.8090169943749501, 1.1135163644116104,
 									0.85065080835204, 1.0),
 							new Coords(0.5, 2.06457288070676, 0.85065080835204,
 									1.0),
@@ -135,15 +137,17 @@ public class PlatonicSolidsFactory {
 									1.0),
 							new Coords(0.5, -0.1624598481164502,
 									2.22703272882321, 1.0),
-							new Coords(1.3090169943749501, 0.42532540417602016,
+							new Coords(
+									1.3090169943749501, 0.42532540417602016,
 									2.22703272882321, 1.0),
-							new Coords(1.0, 1.37638192047117, 2.22703272882321,
+							new Coords(
+									1.0, 1.37638192047117, 2.22703272882321,
 									1.0),
 							new Coords(0.0, 1.37638192047117, 2.22703272882321,
 									1.0),
 							new Coords(-0.30901699437495, 0.42532540417602016,
-									2.22703272882321, 1.0) }, new int[][] {
-							{ 4, 0, 1, 2, 3 }, { 9, 0, 4, 8, 14 },
+									2.22703272882321, 1.0) },
+					new int[][] { { 4, 0, 1, 2, 3 }, { 9, 0, 4, 8, 14 },
 							{ 1, 0, 9, 10, 5 }, { 2, 1, 5, 11, 6 },
 							{ 3, 2, 6, 12, 7 }, { 4, 3, 7, 13, 8 },
 							{ 14, 8, 13, 18, 19 }, { 9, 14, 19, 15, 10 },
@@ -166,8 +170,7 @@ public class PlatonicSolidsFactory {
 		if (icosahedron == null) {
 			PlatonicSolid icosahedron0 = new PlatonicSolid();
 			icosahedron0.set(
-					new Coords[] {
-							new Coords(0.0, 0.0, 0.0, 1.0),
+					new Coords[] { new Coords(0.0, 0.0, 0.0, 1.0),
 							new Coords(1.0, 0.0, 0.0, 1.0),
 							new Coords(0.5, 0.8660254037844398, 0.0, 1.0),
 							new Coords(0.5, -0.6454972243679103,
@@ -183,15 +186,16 @@ public class PlatonicSolidsFactory {
 									1.0),
 							new Coords(0.5, 1.2228474935575302,
 									0.93417235896271, 1.0),
-							new Coords(0.5, -0.28867513459481986,
-									1.5115226281523402, 1.0),
+							new Coords(0.5,
+									-0.28867513459481986, 1.5115226281523402,
+									1.0),
 							new Coords(1.0, 0.57735026918962,
 									1.5115226281523402, 1.0),
 							new Coords(0.0, 0.57735026918962,
-									1.5115226281523402, 1.0) }, new int[][] {
-							{ 2, 0, 1 }, { 5, 0, 2 }, { 6, 0, 5 }, { 3, 0, 6 },
-							{ 1, 0, 3 }, { 7, 1, 3 }, { 4, 1, 7 }, { 2, 1, 4 },
-							{ 8, 2, 4 }, { 5, 2, 8 }, { 10, 4, 7 },
+									1.5115226281523402, 1.0) },
+					new int[][] { { 2, 0, 1 }, { 5, 0, 2 }, { 6, 0, 5 },
+							{ 3, 0, 6 }, { 1, 0, 3 }, { 7, 1, 3 }, { 4, 1, 7 },
+							{ 2, 1, 4 }, { 8, 2, 4 }, { 5, 2, 8 }, { 10, 4, 7 },
 							{ 8, 4, 10 }, { 11, 8, 10 }, { 5, 8, 11 },
 							{ 9, 10, 7 }, { 11, 10, 9 }, { 6, 11, 9 },
 							{ 5, 11, 6 }, { 3, 9, 7 }, { 6, 9, 3 } });
@@ -244,6 +248,5 @@ public class PlatonicSolidsFactory {
 	//
 	// System.out.println(s);
 	// }
-
 
 }

@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Markus
  */
-public abstract class AlgoTangentLineND extends AlgoElement implements
-		TangentAlgo {
+public abstract class AlgoTangentLineND extends AlgoElement
+		implements TangentAlgo {
 
 	protected GeoLineND g; // input
 	protected GeoConicND c; // input
@@ -189,5 +189,4 @@ public abstract class AlgoTangentLineND extends AlgoElement implements
 				g.getLabel(tpl));
 	}
 
-	
 }

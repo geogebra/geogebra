@@ -22,46 +22,56 @@ package org.apache.commons.math.distribution;
  * <p>
  * References:
  * <ul>
- * <li><a href="http://mathworld.wolfram.com/GammaDistribution.html">
- * Gamma Distribution</a></li>
+ * <li><a href="http://mathworld.wolfram.com/GammaDistribution.html"> Gamma
+ * Distribution</a></li>
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
-public interface GammaDistribution extends ContinuousDistribution, HasDensity<Double> {
-    /**
-     * Modify the shape parameter, alpha.
-     * @param alpha the new shape parameter.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setAlpha(double alpha);
+public interface GammaDistribution
+		extends ContinuousDistribution, HasDensity<Double> {
+	/**
+	 * Modify the shape parameter, alpha.
+	 * 
+	 * @param alpha
+	 *            the new shape parameter.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setAlpha(double alpha);
 
-    /**
-     * Access the shape parameter, alpha
-     * @return alpha.
-     */
-    double getAlpha();
+	/**
+	 * Access the shape parameter, alpha
+	 * 
+	 * @return alpha.
+	 */
+	double getAlpha();
 
-    /**
-     * Modify the scale parameter, beta.
-     * @param beta the new scale parameter.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setBeta(double beta);
+	/**
+	 * Modify the scale parameter, beta.
+	 * 
+	 * @param beta
+	 *            the new scale parameter.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setBeta(double beta);
 
-    /**
-     * Access the scale parameter, beta
-     * @return beta.
-     */
-    double getBeta();
+	/**
+	 * Access the scale parameter, beta
+	 * 
+	 * @return beta.
+	 */
+	double getBeta();
 
-    /**
-     * Return the probability density for a particular point.
-     * @param x  The point at which the density should be computed.
-     * @return  The pdf at point x.
-     */
-    double density(Double x);
+	/**
+	 * Return the probability density for a particular point.
+	 * 
+	 * @param x
+	 *            The point at which the density should be computed.
+	 * @return The pdf at point x.
+	 */
+	double density(Double x);
 }

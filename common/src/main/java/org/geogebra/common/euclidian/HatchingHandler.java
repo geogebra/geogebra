@@ -62,10 +62,10 @@ public class HatchingHandler {
 	 *            needed to determine right font
 	 * @return texture paint
 	 */
-	public final GPaint setHatching(GGraphics2D g3,
-			GBasicStroke defObjStroke, GColor color, GColor bgColor,
-			float backgroundTransparency, double hatchDist,
-			double angleDegrees, FillType fillType, String symbol, App app) {
+	public final GPaint setHatching(GGraphics2D g3, GBasicStroke defObjStroke,
+			GColor color, GColor bgColor, float backgroundTransparency,
+			double hatchDist, double angleDegrees, FillType fillType,
+			String symbol, App app) {
 		// round to nearest 5 degrees
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 		GBasicStroke objStroke = defObjStroke;
@@ -165,14 +165,12 @@ public class HatchingHandler {
 			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
 					(int) (dist * 2.5)));
 			GTextLayout t = AwtFactory.getPrototype().newTextLayout(symbol,
-					g2d.getFont(),
-							g2d.getFontRenderContext());
-			g2d = createImage(objStroke, color, bgColor,
-					backgroundTransparency,
+					g2d.getFont(), g2d.getFontRenderContext());
+			g2d = createImage(objStroke, color, bgColor, backgroundTransparency,
 					(Math.round(t.getAscent() + t.getDescent()) / 3),
 					(Math.round(t.getAscent() + t.getDescent()) / 3));
-			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
-					24));
+			g2d.setFont(
+					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24));
 			g2d.drawString(symbol, 0, Math.round(t.getAscent()));
 			startY = 0;
 			startX = 0;
@@ -189,8 +187,8 @@ public class HatchingHandler {
 		GPaint ret = AwtFactory.getPrototype().newTexturePaint(
 				subImage = bufferedImage.getSubimage(startX, startY, width,
 						height),
-				AwtFactory.getPrototype().newRectangle(0, 0, width / exportScale,
-						height / exportScale));
+				AwtFactory.getPrototype().newRectangle(0, 0,
+						width / exportScale, height / exportScale));
 		g3.setPaint(ret);
 		return ret;
 	}
@@ -213,9 +211,8 @@ public class HatchingHandler {
 			g2d.setColor(GColor.newColor(255, 255, 255,
 					(int) (backgroundTransparency * 255f)));
 		} else {
-			g2d.setColor(GColor.newColor(bgColor.getRed(),
-					bgColor.getGreen(), bgColor.getBlue(),
-					(int) (backgroundTransparency * 255f)));
+			g2d.setColor(GColor.newColor(bgColor.getRed(), bgColor.getGreen(),
+					bgColor.getBlue(), (int) (backgroundTransparency * 255f)));
 
 		}
 
@@ -234,8 +231,7 @@ public class HatchingHandler {
 	 * @param alpha
 	 *            alpha value
 	 */
-	protected void setTexture(GGraphics2D g3,
-			GeoElementND geo, float alpha) {
+	protected void setTexture(GGraphics2D g3, GeoElementND geo, float alpha) {
 		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
 			g3.setPaint(geo.getFillColor());
@@ -274,8 +270,8 @@ public class HatchingHandler {
 				// set partial transparency
 				// AlphaComposite alphaComp = AlphaComposite.getInstance(
 				// AlphaComposite.SRC_OVER, alpha);
-				GAlphaComposite ac = AwtFactory.getPrototype().newAlphaComposite(
-						GAlphaComposite.SRC_OVER, alpha);
+				GAlphaComposite ac = AwtFactory.getPrototype()
+						.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
 				g2d.setComposite(ac);
 
 				// paint image with specified transparency
@@ -337,22 +333,19 @@ public class HatchingHandler {
 		}
 	}
 
-	private void drawBricks(double angle, int xInt, int yInt,
-			GGraphics2D g2d) {
+	private void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
 		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
-			rect.setRect(xInt / 2.0, yInt,
-					2 * xInt, yInt);
+			rect.setRect(xInt / 2.0, yInt, 2 * xInt, yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);
-			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2, yInt * 2
-					+ yInt / 2);
+			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2,
+					yInt * 2 + yInt / 2);
 		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
-			rect.setRect(xInt, yInt / 2.0,
-					xInt, 2 * yInt);
+			rect.setRect(xInt, yInt / 2.0, xInt, 2 * yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
-			g2d.drawLine(xInt * 2, yInt + yInt / 2, 2 * xInt + xInt / 2, yInt
-					+ yInt / 2);
+			g2d.drawLine(xInt * 2, yInt + yInt / 2, 2 * xInt + xInt / 2,
+					yInt + yInt / 2);
 		} else if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
 			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
 			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
@@ -369,12 +362,12 @@ public class HatchingHandler {
 	private static void drawDotted(double dist, GGraphics2D g2d) {
 		int distInt = (int) dist;
 		int size = 2;
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, distInt, size,
-				size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt, distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, distInt,
 				size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, 2 * distInt,
-				size, size));
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt,
+				distInt, size, size));
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt,
+				2 * distInt, size, size));
 		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt,
 				2 * distInt, size, size));
 	}
@@ -426,8 +419,8 @@ public class HatchingHandler {
 		g2d.draw(path);
 	}
 
-	private static void drawHatching(double angle, double y, int xInt,
-			int yInt, GGraphics2D g2d) {
+	private static void drawHatching(double angle, double y, int xInt, int yInt,
+			GGraphics2D g2d) {
 		if (angle == 0) { // horizontal
 
 			g2d.drawLine(0, yInt, xInt * 3, yInt);

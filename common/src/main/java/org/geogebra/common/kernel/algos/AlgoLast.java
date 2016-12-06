@@ -112,6 +112,4 @@ public class AlgoLast extends AlgoElement {
 		}
 	}
 
-	
-
 }

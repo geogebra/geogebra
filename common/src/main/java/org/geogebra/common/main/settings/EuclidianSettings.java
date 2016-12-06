@@ -66,10 +66,10 @@ public class EuclidianSettings extends AbstractSettings {
 	protected App app;
 
 	// settings for the base EuclidianView (or null if this is the base)
-	//private final EuclidianSettings euclidianSettings1;
+	// private final EuclidianSettings euclidianSettings1;
 
 	public EuclidianSettings(App app, EuclidianSettings euclidianSettings1) {
-		//this.euclidianSettings1 = euclidianSettings1;
+		// this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
@@ -346,10 +346,8 @@ public class EuclidianSettings extends AbstractSettings {
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
-	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] {
-			null,
-			null,
-			null };
+	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] { null,
+			null, null };
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
@@ -434,8 +432,8 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean getShowAxis(int axis) {
 		return showAxes[axis];
 	}
-	
-	public boolean getLogAxis(int axis){
+
+	public boolean getLogAxis(int axis) {
 		return logAxes[axis];
 	}
 
@@ -451,8 +449,8 @@ public class EuclidianSettings extends AbstractSettings {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
 		} else {
-			changed = axesLabels[axis] != null ? !axesLabels[axis]
-					.equals(axisLabel) : true;
+			changed = axesLabels[axis] != null
+					? !axesLabels[axis].equals(axisLabel) : true;
 			changed = !axisLabel.equals(axesLabels[axis]);
 			axesLabels[axis] = axisLabel;
 		}
@@ -693,7 +691,7 @@ public class EuclidianSettings extends AbstractSettings {
 		this.yZero = yZero;
 		this.xscale = xscale;
 		this.yscale = yscale;
-		if(fire){
+		if (fire) {
 			settingChanged();
 		}
 
@@ -969,7 +967,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean isViewForPlane() {
 		return false;
 	}
-	
+
 	/**
 	 * convert screen coordinate x to real world coordinate x
 	 * 
@@ -999,7 +997,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public int getAxisFontStyle() {
 		// #5320
-		return axisFontStyle ;
+		return axisFontStyle;
 	}
 
 	/**
@@ -1034,12 +1032,11 @@ public class EuclidianSettings extends AbstractSettings {
 		this.size = null;
 	}
 
-
 	public void setSize(int w, int h) {
 		size = AwtFactory.getPrototype().newDimension(w, h);
 	}
 
-	public void setOriginNoUpdate(double xZero, double yZero){
+	public void setOriginNoUpdate(double xZero, double yZero) {
 		this.xZero = xZero;
 		this.yZero = yZero;
 	}

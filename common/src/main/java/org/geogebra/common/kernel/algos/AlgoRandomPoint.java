@@ -75,22 +75,21 @@ public class AlgoRandomPoint extends AlgoElement {
 		double cNum = c.getDouble();
 		double dNum = d.getDouble();
 
-		if (input[0].isDefined() && input[1].isDefined()
-				&& input[2].isDefined() && input[3].isDefined()
-				&& !Double.isInfinite(aNum) && !Double.isNaN(aNum)
-				&& !Double.isInfinite(bNum) && !Double.isNaN(bNum)
-				&& !Double.isInfinite(cNum) && !Double.isNaN(cNum)
-				&& !Double.isInfinite(dNum) && !Double.isNaN(dNum)) {
+		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()
+				&& input[3].isDefined() && !Double.isInfinite(aNum)
+				&& !Double.isNaN(aNum) && !Double.isInfinite(bNum)
+				&& !Double.isNaN(bNum) && !Double.isInfinite(cNum)
+				&& !Double.isNaN(cNum) && !Double.isInfinite(dNum)
+				&& !Double.isNaN(dNum)) {
 
-			double p = aNum + (bNum - aNum)
-					* cons.getApplication().getRandomNumber();
-			double q = cNum + (dNum - cNum)
-					* cons.getApplication().getRandomNumber();
+			double p = aNum
+					+ (bNum - aNum) * cons.getApplication().getRandomNumber();
+			double q = cNum
+					+ (dNum - cNum) * cons.getApplication().getRandomNumber();
 			getPoint().setCoords(p, q, 1.0);
 		} else {
 			M.setUndefined();
 		}
 	}
-	
-}
 
+}

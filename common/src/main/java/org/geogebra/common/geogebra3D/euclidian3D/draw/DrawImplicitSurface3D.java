@@ -80,10 +80,10 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		s.start(getReusableSurfaceIndex());
 
 		s.startTriangles();
-		 while (surfaceMover.hasNext()) {
+		while (surfaceMover.hasNext()) {
 			Triangle tri = surfaceMover.next();
 			s.triangle(tri.v1, tri.v2, tri.v3, tri.n1, tri.n2, tri.n3);
-		 }
+		}
 		s.endGeometry();
 		setSurfaceIndex(s.end());
 
@@ -120,7 +120,8 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
+		if (getGeoElement()
+				.getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
 
@@ -138,8 +139,9 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		for (int i = 0; i < hitTestParams.length; i++) {
 			double p = hitTestParams[i];
 			double q = 1 - p;
-			v1 = gs.evaluateAt(hitting.x1 * p + hitting.x0 * q, hitting.y1 * p
-					+ hitting.y0 * q, hitting.z1 * p + hitting.z0 * q);
+			v1 = gs.evaluateAt(hitting.x1 * p + hitting.x0 * q,
+					hitting.y1 * p + hitting.y0 * q,
+					hitting.z1 * p + hitting.z0 * q);
 			if (MyMath.changedSign(v0, v1)) {
 				return true;
 			}
@@ -149,6 +151,5 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 
 	private final static double[] hitTestParams = new double[] { 0.5, 0.25,
 			0.75, 0.125, 0.375, 0.625, 0.875 };
-
 
 }

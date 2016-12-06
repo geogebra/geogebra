@@ -83,8 +83,8 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			algo = new AlgoHyperbolaFociLength3D(kernelA.getConstruction(),
 					label, a, b, v, orientation);
 		} else { // ellipse
-			algo = new AlgoEllipseFociLength3D(kernelA.getConstruction(),
-					label, a, b, v, orientation);
+			algo = new AlgoEllipseFociLength3D(kernelA.getConstruction(), label,
+					a, b, v, orientation);
 		}
 		return algo.getConic();
 	}

@@ -30,14 +30,14 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  */
 public abstract class Intersection {
 
-    private Point2D p0;
+	private Point2D p0;
 
-    public Intersection(Point2D p0){
-        this.p0 = p0;
-    }
+	public Intersection(Point2D p0) {
+		this.p0 = p0;
+	}
 
-    public Point2D getPoint(){
-        return this.p0;
-    }
+	public Point2D getPoint() {
+		return this.p0;
+	}
 
 }

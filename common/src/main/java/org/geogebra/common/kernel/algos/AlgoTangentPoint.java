@@ -30,11 +30,12 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicParametersBotanaAlgo{
+public class AlgoTangentPoint extends AlgoTangentPointND
+		implements SymbolicParametersBotanaAlgo {
 
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
-	
+
 	public AlgoTangentPoint(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
 		super(cons, labels, P, c);
@@ -44,8 +45,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 	protected boolean isIntersectionPointIncident() {
 		// Too low precision causes tangent not touching the conic GGB-1018
 		return c.isIntersectionPointIncident((GeoPoint) P,
-				Kernel.STANDARD_PRECISION)
-				|| P.getIncidenceList().contains(c);
+				Kernel.STANDARD_PRECISION) || P.getIncidenceList().contains(c);
 	}
 
 	@Override
@@ -171,7 +171,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 				Polynomial pointDistCircle = Polynomial.equidistant(vPoint[0],
 						vPoint[1], vcircle[0], vcircle[1], vcircle[2],
 						vcircle[3]);
-				
+
 				// tangent point is on circle
 				if (pointDistCircle.isZero()) {
 					if (botanaVars == null) {
@@ -203,14 +203,13 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 							.subtract(o2).subtract(c2);
 
 					// TA = AC
-					botanaPolynomials[2] = Polynomial.equidistant(
-							botanaVars[0], botanaVars[1], vPoint[0], vPoint[1],
-							botanaVars[4], botanaVars[5]);
+					botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
+							botanaVars[1], vPoint[0], vPoint[1], botanaVars[4],
+							botanaVars[5]);
 
 					// AT orthogonal OC
 					botanaPolynomials[3] = Polynomial.perpendicular(vPoint[0],
-							vPoint[1],
-							botanaVars[0], botanaVars[1], vcircle[0],
+							vPoint[1], botanaVars[0], botanaVars[1], vcircle[0],
 							vcircle[1], botanaVars[4], botanaVars[5]);
 
 				} else {
@@ -235,24 +234,22 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 					Polynomial e2 = new Polynomial(vPoint[1]);
 					Polynomial o1 = new Polynomial(vcircle[0]);
 					Polynomial o2 = new Polynomial(vcircle[1]);
-			
+
 					// M midpoint of EO
 					botanaPolynomials[0] = new Polynomial(2).multiply(m1)
-						.subtract(o1).subtract(e1);
+							.subtract(o1).subtract(e1);
 					botanaPolynomials[1] = new Polynomial(2).multiply(m2)
-						.subtract(o2).subtract(e2);
+							.subtract(o2).subtract(e2);
 
 					// MT = ME
-					botanaPolynomials[2] = Polynomial.equidistant(
-							botanaVars[0],
-						botanaVars[1], botanaVars[4], botanaVars[5], vPoint[0],
-						vPoint[1]);
+					botanaPolynomials[2] = Polynomial.equidistant(botanaVars[0],
+							botanaVars[1], botanaVars[4], botanaVars[5],
+							vPoint[0], vPoint[1]);
 
 					// OT = OB
-					botanaPolynomials[3] = Polynomial.equidistant(
-							botanaVars[0],
-						botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
-						vcircle[3]);
+					botanaPolynomials[3] = Polynomial.equidistant(botanaVars[0],
+							botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
+							vcircle[3]);
 				}
 				return botanaPolynomials;
 

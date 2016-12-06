@@ -42,8 +42,8 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Markus + ggb3D
  */
-public class MyVec3DNode extends ValidExpression implements Vector3DValue,
-		MyVecNDNode {
+public class MyVec3DNode extends ValidExpression
+		implements Vector3DValue, MyVecNDNode {
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;

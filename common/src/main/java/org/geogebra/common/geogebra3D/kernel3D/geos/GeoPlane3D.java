@@ -30,10 +30,10 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.plugin.GeoClass;
 
-public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable,
-		RotateableND, MirrorableAtPlane, Transformable, Dilateable,
-		EquationValue {
+public class GeoPlane3D extends GeoElement3D
+		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
+		Translateable, Traceable, RotateableND, MirrorableAtPlane,
+		Transformable, Dilateable, EquationValue {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -82,14 +82,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
-	public GeoPlane3D(Construction cons, double a, double b,
-			double c, double d) {
+	public GeoPlane3D(Construction cons, double a, double b, double c,
+			double d) {
 		this(cons);
 
 		setEquation(a, b, c, d);
 
 	}
-
 
 	public void setEquation(double a, double b, double c, double d) {
 
@@ -128,9 +127,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
 		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
-		willingCoords.projectPlaneThruVIfPossible(getCoordSys()
-				.getMatrixOrthonormal(), oldCoords, willingDirection,
-				result[0], result[1]);
+		willingCoords.projectPlaneThruVIfPossible(
+				getCoordSys().getMatrixOrthonormal(), oldCoords,
+				willingDirection, result[0], result[1]);
 
 		return result;
 	}
@@ -269,8 +268,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {
-		return getLineThickness() > 0
-				&& isEuclidianVisible();
+		return getLineThickness() > 0 && isEuclidianVisible();
 	}
 
 	/** returns if there is a plate visible */
@@ -294,9 +292,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	// /////////////////////////////////
 	// GEOELEMENT3D
-
-
-
 
 	@Override
 	public Coords getMainDirection() {
@@ -425,7 +420,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		// wrapped in Ggb2giac
 		// if (tpl.hasCASType()) {
 		// StringBuilder sbTemp = new StringBuilder();
-			// Giac
+		// Giac
 		// sbTemp.append("plane(");
 		// sbTemp.append(ret);
 		// sbTemp.append(")");
@@ -437,8 +432,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	static public final StringBuilder buildValueString(StringTemplate tpl,
-			Kernel kernel,
-			Coords coords, boolean needsZ) {
+			Kernel kernel, Coords coords, boolean needsZ) {
 		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,
 				KEEP_LEADING_SIGN, true, needsZ, '=', tpl, true);
 	}
@@ -565,8 +559,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public void createView2D() {
-		euclidianViewForPlane = kernel
-				.getApplication().getCompanion()
+		euclidianViewForPlane = kernel.getApplication().getCompanion()
 				.createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
@@ -586,9 +579,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public boolean hasView2DVisible() {
-		return euclidianViewForPlane != null
-				&& kernel.getApplication().getGuiManager()
-						.showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane != null && kernel.getApplication()
+				.getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 
 	@Override
@@ -600,8 +592,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			return;
 		}
 
-		kernel.getApplication().getGuiManager()
-				.setShowView(flag, euclidianViewForPlane.getId());
+		kernel.getApplication().getGuiManager().setShowView(flag,
+				euclidianViewForPlane.getId());
 
 	}
 
@@ -614,7 +606,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view) {
+	public void setEuclidianViewForPlane(
+			EuclidianViewForPlaneCompanionInterface view) {
 		euclidianViewForPlane = view;
 	}
 
@@ -678,8 +671,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			return 0;
 		}
 
-		tmpCoords1.setSub(P.getCoordSys().getOrigin(), getCoordSys()
-				.getOrigin());
+		tmpCoords1.setSub(P.getCoordSys().getOrigin(),
+				getCoordSys().getOrigin());
 
 		return tmpCoords1.dotproduct(tmpCoords2);
 

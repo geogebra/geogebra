@@ -35,7 +35,8 @@ public class AlgoLengthSegment extends AlgoElement {
 	private GeoSegmentND seg; // input
 	private GeoNumeric num; // output
 
-	public AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
+	public AlgoLengthSegment(Construction cons, String label,
+			GeoSegmentND seg) {
 		super(cons);
 		this.seg = seg;
 		num = new GeoNumeric(cons);
@@ -79,5 +80,4 @@ public class AlgoLengthSegment extends AlgoElement {
 
 	}
 
-	
 }

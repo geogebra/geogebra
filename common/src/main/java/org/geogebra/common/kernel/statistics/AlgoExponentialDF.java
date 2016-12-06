@@ -32,8 +32,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael
  */
-public class AlgoExponentialDF extends AlgoElement implements
-		AlgoDistributionDF {
+public class AlgoExponentialDF extends AlgoElement
+		implements AlgoDistributionDF {
 
 	private GeoNumberValue lambda; // input
 	private BooleanValue cumulative; // optional input
@@ -41,8 +41,7 @@ public class AlgoExponentialDF extends AlgoElement implements
 
 	@SuppressWarnings("javadoc")
 	public AlgoExponentialDF(Construction cons, String label,
-			GeoNumberValue mean,
-			BooleanValue cumulative) {
+			GeoNumberValue mean, BooleanValue cumulative) {
 		this(cons, mean, cumulative);
 		ret.setLabel(label);
 	}
@@ -120,7 +119,5 @@ public class AlgoExponentialDF extends AlgoElement implements
 		ret.getFunctionExpression().setRight(en);
 
 	}
-
-	
 
 }

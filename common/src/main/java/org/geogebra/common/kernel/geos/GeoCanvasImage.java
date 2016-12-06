@@ -40,9 +40,9 @@ public class GeoCanvasImage extends GeoImage {
 	 *            construction
 	 */
 	public GeoCanvasImage(Construction c) {
-		this(c,200,100);
+		this(c, 200, 100);
 	}
-	
+
 	/**
 	 * Creates new labeled image
 	 * 
@@ -55,14 +55,16 @@ public class GeoCanvasImage extends GeoImage {
 		this(c);
 		setLabel(label);
 	}
+
 	/**
 	 * Create new image with indicated size
+	 * 
 	 * @param c
-	 * 			construction
-	 * @param width 
-	 * 			width of image
+	 *            construction
+	 * @param width
+	 *            width of image
 	 * @param height
-	 * 			height of image
+	 *            height of image
 	 */
 	public GeoCanvasImage(Construction c, int width, int height) {
 		super(c);
@@ -76,6 +78,7 @@ public class GeoCanvasImage extends GeoImage {
 				alphaValue, pixelWidth, pixelHeight);
 
 	}
+
 	/**
 	 * Copy constructor
 	 * 
@@ -165,19 +168,18 @@ public class GeoCanvasImage extends GeoImage {
 	public boolean isGeoImage() {
 		return true;
 	}
-	
+
 	@Override
-	public boolean isIndependent(){
+	public boolean isIndependent() {
 		return true;
 	}
-	
-	
+
 	@Override
 	public void getXML(boolean getListenersToo, StringBuilder sb) {
 		/*
-		 * Since objects of this class are always created by commands 
-		 * you must override the method to prevent the XML result 
-		 * duplicates the object definition.
+		 * Since objects of this class are always created by commands you must
+		 * override the method to prevent the XML result duplicates the object
+		 * definition.
 		 */
 	}
 
@@ -186,7 +188,7 @@ public class GeoCanvasImage extends GeoImage {
 	 */
 
 	/*
-	 * @Override protected void 
+	 * @Override protected void
 	 * 
 	 * // name of image file sb.append("\t<file name=\""); // Michael Borcherds
 	 * 2007-12-10 this line restored (not needed now MD5 // code put in the
@@ -197,8 +199,8 @@ public class GeoCanvasImage extends GeoImage {
 	 * // name of image file sb.append("\t<inBackground val=\"");
 	 * sb.append(inBackground); sb.append("\"/>\n");
 	 * 
-	 * // image has to be interpolated if (!isInterpolate())
-	 * sb.append("\t<interpolate val=\"false\"/>\n");
+	 * // image has to be interpolated if (!isInterpolate()) sb.append(
+	 * "\t<interpolate val=\"false\"/>\n");
 	 * 
 	 * // locateion of image if (hasAbsoluteScreenLocation) {
 	 * sb.append(getXMLabsScreenLoc()); } else { // store location of corners

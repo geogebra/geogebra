@@ -45,7 +45,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
 
 		g = new GeoFunction(cons); // output
 		FunctionVariable X = new FunctionVariable(kernel);
-		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.SIN, null);
+		ExpressionNode expr = new ExpressionNode(kernel, X, Operation.SIN,
+				null);
 		Function fun = new Function(expr, X);
 		g.setFunction(fun);
 		g.setDefined(false);
@@ -98,21 +99,14 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		if (inputList.size() < 4
 				|| !inputList.getElementType().equals(GeoClass.NUMERIC))
 			return "?";
-		return getLoc()
-				.getPlain(
-						"FreehandFunctionOnIntervalAB",
-						kernel.format(
-								((GeoNumeric) inputList.get(0)).getDouble(),
-								tpl),
-						kernel.format(
-								((GeoNumeric) inputList.get(1)).getDouble(),
-								tpl));
+		return getLoc().getPlain("FreehandFunctionOnIntervalAB",
+				kernel.format(((GeoNumeric) inputList.get(0)).getDouble(), tpl),
+				kernel.format(((GeoNumeric) inputList.get(1)).getDouble(),
+						tpl));
 	}
 
 	public GeoList getList() {
 		return inputList;
 	}
-
-	
 
 }

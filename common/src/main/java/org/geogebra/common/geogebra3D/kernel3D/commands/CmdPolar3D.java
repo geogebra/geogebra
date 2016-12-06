@@ -33,7 +33,8 @@ public class CmdPolar3D extends CmdPolar {
 	}
 
 	@Override
-	protected GeoElement polarPoint(String label, GeoLineND line, GeoConicND c) {
+	protected GeoElement polarPoint(String label, GeoLineND line,
+			GeoConicND c) {
 
 		if (line.isGeoElement3D() || c.isGeoElement3D()) {
 			AlgoPolarPoint3D algo = new AlgoPolarPoint3D(cons, label, c, line);

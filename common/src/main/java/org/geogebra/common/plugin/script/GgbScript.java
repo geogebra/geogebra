@@ -55,7 +55,8 @@ public class GgbScript extends Script {
 			try {
 				GeoElementND[] res = proc
 						.processAlgebraCommandNoExceptionHandling(line, false,
-						new ScriptErrorHandler(app, evt, i), false, null);
+								new ScriptErrorHandler(app, evt, i), false,
+								null);
 				success = success && res != null;
 			} catch (Throwable e) {
 
@@ -142,8 +143,7 @@ public class GgbScript extends Script {
 				} else if (app.getParserFunctions()
 						.getInternal(app.getLocalization(), starr[i]) != null) {
 					retone.append(app.getParserFunctions()
-							.getInternal(app.getLocalization(),
-							starr[i]));
+							.getInternal(app.getLocalization(), starr[i]));
 				} else {
 					// fallback for wrong call in English already
 					// or if someone writes an English command into an

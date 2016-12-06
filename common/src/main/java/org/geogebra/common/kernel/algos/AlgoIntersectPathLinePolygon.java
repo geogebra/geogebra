@@ -243,9 +243,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 						project1.val, project2.val, lineCoords, tmp);
 
 				// check if projection is intersection point
-				if (!Double.isNaN(lineCoords[0])
-						&& project1.equalsForKernel(project2,
-								Kernel.STANDARD_PRECISION)) {
+				if (!Double.isNaN(lineCoords[0]) && project1
+						.equalsForKernel(project2, Kernel.STANDARD_PRECISION)) {
 
 					double t1 = lineCoords[0]; // parameter on line
 					double t2 = lineCoords[1]; // parameter on segment
@@ -427,7 +426,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * @param end
 	 *            point
 	 */
-	final protected static void setSegment(GeoSegmentND seg, Coords start, Coords end) {
+	final protected static void setSegment(GeoSegmentND seg, Coords start,
+			Coords end) {
 		seg.setTwoPointsInhomCoords(start, end);
 	}
 
@@ -448,7 +448,5 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		}
 
 	}
-
-	
 
 }

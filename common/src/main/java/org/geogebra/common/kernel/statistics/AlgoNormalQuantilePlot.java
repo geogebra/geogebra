@@ -193,6 +193,4 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
-	
-
 }

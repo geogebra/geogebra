@@ -40,7 +40,8 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  * 
  * 
  */
-public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric {
+public class AlgoIntersectPlaneQuadricLimited
+		extends AlgoIntersectPlaneQuadric {
 
 	private AlgoIntersectPlaneConic algoBottom, algoTop;
 
@@ -189,8 +190,8 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 			if (Double.isNaN(topParameters[0])) {
 				if (!Double.isNaN(bottomParameters[0])) {
 					// if parameters are equal, no hole
-					if (Kernel
-							.isEqual(bottomParameters[0], bottomParameters[1])) {
+					if (Kernel.isEqual(bottomParameters[0],
+							bottomParameters[1])) {
 						if (planeOutsideAxis()) { // just single point
 							setSinglePoint(bottomP[0], topP[0]);
 						} else { // no hole
@@ -198,7 +199,8 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 						}
 					} else {
 						// calc "midpoint" on conic
-						double midParameter = (bottomParameters[0] + bottomParameters[1]) / 2;
+						double midParameter = (bottomParameters[0]
+								+ bottomParameters[1]) / 2;
 						PathParameter pp = new PathParameter(midParameter);
 						Coords P = new Coords(3);
 						conic.pathChangedWithoutCheck(P, pp, false);
@@ -243,8 +245,9 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 																					// point
 					setSinglePoint(topP[0], topP[1]);
 				}
-			} else if (Kernel.isEqual(bottomParameters[0], bottomParameters[1])) { // single
-																					// point
+			} else if (Kernel.isEqual(bottomParameters[0],
+					bottomParameters[1])) { // single
+											// point
 				setSinglePoint(bottomP[0], bottomP[1]);
 			}
 
@@ -371,8 +374,8 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 
 		double[] ret = new double[2];
 
-		if (c0.equalsForKernel(c1)
-				&& conic.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES) {
+		if (c0.equalsForKernel(c1) && conic
+				.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES) {
 			// force compute parameter for the two liness
 			PathParameter pp = new PathParameter();
 			conic.lines[0].doPointChanged(c0, pp);

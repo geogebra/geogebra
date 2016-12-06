@@ -27,45 +27,50 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface ZipfDistribution extends IntegerDistribution {
 
-    /**
-     * Get the number of elements (e.g. corpus size) for the distribution.
-     *
-     * @return the number of elements
-     */
-    int getNumberOfElements();
+	/**
+	 * Get the number of elements (e.g. corpus size) for the distribution.
+	 *
+	 * @return the number of elements
+	 */
+	int getNumberOfElements();
 
-    /**
-     * Set the number of elements (e.g. corpus size) for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param n the number of elements
-     * @throws IllegalArgumentException if n &le; 0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumberOfElements(int n);
+	/**
+	 * Set the number of elements (e.g. corpus size) for the distribution. The
+	 * parameter value must be positive; otherwise an
+	 * <code>IllegalArgumentException</code> is thrown.
+	 *
+	 * @param n
+	 *            the number of elements
+	 * @throws IllegalArgumentException
+	 *             if n &le; 0
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setNumberOfElements(int n);
 
-    /**
-     * Get the exponent characterising the distribution.
-     *
-     * @return the exponent
-     */
-    double getExponent();
+	/**
+	 * Get the exponent characterising the distribution.
+	 *
+	 * @return the exponent
+	 */
+	double getExponent();
 
-    /**
-     * Set the exponent characterising the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgumentException</code> is thrown.
-     *
-     * @param s the exponent
-     * @throws IllegalArgumentException if s &le; 0.0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setExponent(double s);
+	/**
+	 * Set the exponent characterising the distribution. The parameter value
+	 * must be positive; otherwise an <code>IllegalArgumentException</code> is
+	 * thrown.
+	 *
+	 * @param s
+	 *            the exponent
+	 * @throws IllegalArgumentException
+	 *             if s &le; 0.0
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setExponent(double s);
 }

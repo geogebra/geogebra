@@ -26,7 +26,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author matthieu
  */
-public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection {
+public class AlgoCircle3DPointPointDirection
+		extends AlgoCircle3DPointDirection {
 
 	/**
 	 * 
@@ -52,8 +53,8 @@ public class AlgoCircle3DPointPointDirection extends AlgoCircle3DPointDirection 
 	protected final double getRadius() {
 
 		GeoPointND pointThrough = (GeoPointND) getSecondInput();
-		Coords radius = pointThrough.getInhomCoordsInD3().sub(
-				getCenter().getInhomCoordsInD3());
+		Coords radius = pointThrough.getInhomCoordsInD3()
+				.sub(getCenter().getInhomCoordsInD3());
 
 		// check if direction is compatible (orthogonal) to center-second point
 		if (!Kernel.isZero(getDirection().dotproduct(radius)))

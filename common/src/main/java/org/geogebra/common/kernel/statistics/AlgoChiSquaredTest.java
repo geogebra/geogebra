@@ -35,7 +35,8 @@ public class AlgoChiSquaredTest extends AlgoElement {
 	private double p, testStat;
 	private ChiSquaredDistribution chisquared = null;
 
-	public AlgoChiSquaredTest(Construction cons, String label, GeoList geoList) {
+	public AlgoChiSquaredTest(Construction cons, String label,
+			GeoList geoList) {
 		this(cons, geoList, null);
 		result.setLabel(label);
 	}
@@ -243,7 +244,5 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		result.addNumber(testStat, null);
 
 	}
-
-	
 
 }

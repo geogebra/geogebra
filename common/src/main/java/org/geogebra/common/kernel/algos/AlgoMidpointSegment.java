@@ -40,8 +40,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoMidpointSegment extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
+public class AlgoMidpointSegment extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
 		RestrictionAlgoForLocusEquation {
 
 	private GeoSegment segment; // input
@@ -67,8 +67,6 @@ public class AlgoMidpointSegment extends AlgoElement implements
 		// create new Point
 		M = new GeoPoint(cons);
 		setInputOutput();
-
-
 
 		// compute M = (P + Q)/2
 		compute();
@@ -174,17 +172,18 @@ public class AlgoMidpointSegment extends AlgoElement implements
 			int[] degreeQ = Q.getDegrees();
 
 			int[] result = new int[3];
-			result[0] = Math.max(degreeP[0] + degreeQ[2], degreeQ[0]
-					+ degreeP[2]);
-			result[1] = Math.max(degreeP[1] + degreeQ[2], degreeQ[1]
-					+ degreeP[2]);
+			result[0] = Math.max(degreeP[0] + degreeQ[2],
+					degreeQ[0] + degreeP[2]);
+			result[1] = Math.max(degreeP[1] + degreeQ[2],
+					degreeQ[1] + degreeP[2]);
 			result[2] = degreeP[2] + degreeQ[2];
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);

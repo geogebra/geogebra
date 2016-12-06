@@ -36,6 +36,7 @@ public class OFFHandler {
 	private CSVParser parser;
 	private static final String OFF = "OFF";
 	private static final String COMMENT_PREFIX = "#";
+
 	/**
 	 * 
 	 * @param kernel
@@ -45,11 +46,9 @@ public class OFFHandler {
 	 */
 	public OFFHandler(Kernel kernel, Construction construction) {
 
-
 		this.construction = construction;
 		this.parser = new CSVParser(' ');
 	}
-
 
 	/**
 	 * Generate GGB objects from parsed data
@@ -76,8 +75,8 @@ public class OFFHandler {
 			for (int i = 0; i < s; i++)
 				geoPs[i] = vert[fs[i]];
 			// FIXME: better to add a method in AlgoDispatcher for this
-			AlgoPolygon3D algo = new AlgoPolygon3D(construction, geoPs,
-					false, null);
+			AlgoPolygon3D algo = new AlgoPolygon3D(construction, geoPs, false,
+					null);
 			GeoPolygon3D polygon = (GeoPolygon3D) algo.getOutput()[0];
 			boolean hasColor = hasColor(index);
 			if (polygon.isDefined()) {
@@ -90,8 +89,7 @@ public class OFFHandler {
 				// FIXME: It works only only if polygon is convex
 				for (int i = 2; i < s; i++) {
 					algo = new AlgoPolygon3D(construction, new GeoPointND[] {
-							geoPs[0], geoPs[i - 1], geoPs[i] },
-							false, null);
+							geoPs[0], geoPs[i - 1], geoPs[i] }, false, null);
 
 					polygon = (GeoPolygon3D) algo.getOutput()[0];
 					polygon.setLabel(null);
@@ -214,10 +212,10 @@ public class OFFHandler {
 				int a = 0xff;
 				if (in.length > offset + 1) {
 					g = Integer.parseInt(in[offset + 1]);
-					b = in.length > offset + 2 ? Integer
-							.parseInt(in[offset + 2]) : 0;
-					a = in.length > offset + 3 ? Integer
-							.parseInt(in[offset + 3]) : 0xff;
+					b = in.length > offset + 2
+							? Integer.parseInt(in[offset + 2]) : 0;
+					a = in.length > offset + 3
+							? Integer.parseInt(in[offset + 3]) : 0xff;
 				} else {
 					a = r & 0xff;
 					b = (r >>> 8) & 0xff;
@@ -265,8 +263,8 @@ public class OFFHandler {
 			faces.add(v);
 
 			// check whether face color is specified;
-			facesColor[faces.size() - 1] = OFFHandler
-					.tryReadColor(aux, vCount + 1);
+			facesColor[faces.size() - 1] = OFFHandler.tryReadColor(aux,
+					vCount + 1);
 
 		}
 
@@ -275,8 +273,9 @@ public class OFFHandler {
 	private void addVertexLine(String line) throws CSVException {
 		if (!OFFHandler.isComment(line)) {
 			String[] aux = nonempty(parser.parseLine(line));
-			vertices.add(new Coords(Double.parseDouble(aux[0]), Double
-					.parseDouble(aux[1]), Double.parseDouble(aux[2]), 1.0));
+			vertices.add(new Coords(Double.parseDouble(aux[0]),
+					Double.parseDouble(aux[1]), Double.parseDouble(aux[2]),
+					1.0));
 		}
 
 	}
@@ -312,7 +311,7 @@ public class OFFHandler {
 		if (vertexCount == 0) {
 			String[] aux = nonempty(parser.parseLine(line));
 			setCounts(Integer.parseInt(aux[0]), Integer.parseInt(aux[1]),
-				Integer.parseInt(aux[2]));
+					Integer.parseInt(aux[2]));
 			return;
 		}
 		// read all vertices

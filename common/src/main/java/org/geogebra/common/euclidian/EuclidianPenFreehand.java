@@ -61,17 +61,17 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		resetParameters();
 		switch (expected) {
-			case circleThreePoints:
-				CIRCLE_MAX_SCORE = 0.15;
-				CIRCLE_MIN_DET = 0.9;
-				break;
-			case polygon:
-			case rigidPolygon:
-			case vectorPolygon:
-				RECTANGLE_LINEAR_TOLERANCE = 0.25;
-				POLYGON_LINEAR_TOLERANCE = 0.25;
-				RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
-				break;
+		case circleThreePoints:
+			CIRCLE_MAX_SCORE = 0.15;
+			CIRCLE_MIN_DET = 0.9;
+			break;
+		case polygon:
+		case rigidPolygon:
+		case vectorPolygon:
+			RECTANGLE_LINEAR_TOLERANCE = 0.25;
+			POLYGON_LINEAR_TOLERANCE = 0.25;
+			RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
+			break;
 		}
 	}
 
@@ -82,21 +82,24 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * Creates predicted shape if possible
-	 * @param x x-coord of new point
-	 * @param y y-coord of new point
+	 * 
+	 * @param x
+	 *            x-coord of new point
+	 * @param y
+	 *            y-coord of new point
 	 */
 	private void checkExpectedShape(int x, int y) {
 		initShapeRecognition(x, y);
 
 		switch (this.expected) {
-			case polygon:
-			case rigidPolygon:
-			case vectorPolygon:
-				createPolygon();
-				break;
-			case circleThreePoints:
-				createCircle();
-				break;
+		case polygon:
+		case rigidPolygon:
+		case vectorPolygon:
+			createPolygon();
+			break;
+		case circleThreePoints:
+			createCircle();
+			break;
 		}
 	}
 
@@ -123,8 +126,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			// the circle needs to be recreated to prevent errors in the XML
 			if (recreate) {
 				geoCircle.remove();
-				AlgoCircleThreePoints algo = new AlgoCircleThreePoints(app
-						.getKernel().getConstruction(), null, list.get(0),
+				AlgoCircleThreePoints algo = new AlgoCircleThreePoints(
+						app.getKernel().getConstruction(), null, list.get(0),
 						list.get(1), list.get(2));
 				geoCircle = algo.getCircle();
 				geoCircle.updateRepaint();
@@ -135,14 +138,15 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * tries to construct a circle through 3 existing points, null otherwise
+	 * 
 	 * @return {@link GeoElement circle}
 	 */
 	private GeoElement tryCircleThroughExistingPoints() {
 		GeoElement circle = null;
 		ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
 		for (GPoint p : this.penPoints) {
-			this.view.setHits(p, this.view.getEuclidianController()
-					.getDefaultEventType());
+			this.view.setHits(p,
+					this.view.getEuclidianController().getDefaultEventType());
 			if (this.view.getHits().containsGeoPoint()) {
 				GeoPoint point = (GeoPoint) this.view.getHits()
 						.getFirstHit(Test.GEOPOINT);
@@ -153,8 +157,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		if (list.size() >= 3) {
-			circle = this.app.getKernel().getAlgoDispatcher()
-					.Circle(null, list.get(0), list.get(1), list.get(2));
+			circle = this.app.getKernel().getAlgoDispatcher().Circle(null,
+					list.get(0), list.get(1), list.get(2));
 		}
 		return circle;
 	}
@@ -171,7 +175,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			polygon = tryPolygon(n);
 		}
 
-		//Postprocessing
+		// Postprocessing
 
 		if (polygon != null) {
 			ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
@@ -185,9 +189,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
-				polygon = expected == ShapeType.rigidPolygon ?
-						this.app.getKernel().rigidPolygon(null, list.toArray(new GeoPoint[0]))[0] :
-						this.app.getKernel().VectorPolygon(null, list.toArray(new GeoPoint[0]))[0];
+				polygon = expected == ShapeType.rigidPolygon
+						? this.app.getKernel().rigidPolygon(null,
+								list.toArray(new GeoPoint[0]))[0]
+						: this.app.getKernel().VectorPolygon(null,
+								list.toArray(new GeoPoint[0]))[0];
 			}
 		} else {
 			resetInitialPoint();

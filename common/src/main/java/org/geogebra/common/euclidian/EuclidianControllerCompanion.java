@@ -139,8 +139,8 @@ public class EuclidianControllerCompanion {
 				GeoFunction f = ((GeoFunctionable) b).getGeoFunction();
 				if (f.isPolynomialFunction(false)) {
 					point = ec.getAlgoDispatcher()
-							.IntersectPolynomialLineSingle(null, f,
-									(GeoLine) a, ec.xRW, ec.yRW);
+							.IntersectPolynomialLineSingle(null, f, (GeoLine) a,
+									ec.xRW, ec.yRW);
 				}
 				GeoPoint initPoint = new GeoPoint(ec.kernel.getConstruction());
 				initPoint.setCoords(ec.xRW, ec.yRW, 1.0);
@@ -434,7 +434,8 @@ public class EuclidianControllerCompanion {
 	 * @param forPreviewable
 	 *            in 3D we might want a preview
 	 */
-	protected GeoPointND createNewPoint(boolean forPreviewable, boolean complex) {
+	protected GeoPointND createNewPoint(boolean forPreviewable,
+			boolean complex) {
 
 		ec.checkZooming(forPreviewable);
 
@@ -475,7 +476,8 @@ public class EuclidianControllerCompanion {
 		p.remove();
 	}
 
-	public ArrayList<GeoElement> removeParentsOfView(ArrayList<GeoElement> list) {
+	public ArrayList<GeoElement> removeParentsOfView(
+			ArrayList<GeoElement> list) {
 		return list;
 	}
 

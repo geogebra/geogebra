@@ -249,20 +249,18 @@ public class ToolCreationDialogModel {
 	 *         was not compatible with the old
 	 */
 	public boolean overwriteMacro(Macro macro) {
-		boolean compatible = newTool.getNeededTypesString().equals(
-				macro.getNeededTypesString());
+		boolean compatible = newTool.getNeededTypesString()
+				.equals(macro.getNeededTypesString());
 		for (int i = 0; compatible && i < macro.getMacroOutput().length; i++)
-			compatible = compatible
-					&& macro.getMacroOutput()[i].getClass().equals(
-							newTool.getMacroOutput()[i].getClass());
+			compatible = compatible && macro.getMacroOutput()[i].getClass()
+					.equals(newTool.getMacroOutput()[i].getClass());
 		Kernel kernel = macro.getKernel();
 		App appToSave = kernel.getApplication();
 		if (compatible) {
 			StringBuilder sb = new StringBuilder();
 			newTool.getXML(sb);
 			Exercise ex = app.getKernel().getExercise();
-			GeoAssignment assignment = ex
-					.getAssignment(macro);
+			GeoAssignment assignment = ex.getAssignment(macro);
 			int assignmentIndex = ex.getParts().indexOf(assignment);
 			if (app.getMacro() != null) {
 				kernel.removeMacro(app.getMacro());
@@ -398,15 +396,14 @@ public class ToolCreationDialogModel {
 
 	public void setFromMacro(Macro macro) {
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
-			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroInput()[i]
-							.getLabel(StringTemplate.defaultTemplate));
+			GeoElement el = app.getKernel().lookupLabel(macro.getMacroInput()[i]
+					.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.inputList.add(0, el);
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
-			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroOutput()[i]
+			GeoElement el = app.getKernel()
+					.lookupLabel(macro.getMacroOutput()[i]
 							.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.outputList.add(0, el);

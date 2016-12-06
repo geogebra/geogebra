@@ -110,8 +110,7 @@ public abstract class MyZoomer {
 	 *            true to store undo info
 	 */
 	public synchronized void initRW(double rwx0, double rwx1, double rwy0,
-			double rwy1,
-			int noOfSteps, boolean doStoreUndo) {
+			double rwy1, int noOfSteps, boolean doStoreUndo) {
 		this.x0 = rwx0;
 		this.x1 = rwx1;
 		this.y0 = rwy0;
@@ -168,8 +167,7 @@ public abstract class MyZoomer {
 			case ZOOM_RW:
 				double i = counter;
 				double j = steps - counter;
-				view.setRealWorldCoordSystem(
-						((x0 * i) + (xminOld * j)) / steps,
+				view.setRealWorldCoordSystem(((x0 * i) + (xminOld * j)) / steps,
 						((x1 * i) + (xmaxOld * j)) / steps,
 						((y0 * i) + (yminOld * j)) / steps,
 						((y1 * i) + (ymaxOld * j)) / steps);

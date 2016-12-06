@@ -97,5 +97,4 @@ public class AlgoEccentricity extends AlgoElement {
 		return getLoc().getPlain("EccentricityOfA", c.getLabel(tpl));
 	}
 
-	
 }

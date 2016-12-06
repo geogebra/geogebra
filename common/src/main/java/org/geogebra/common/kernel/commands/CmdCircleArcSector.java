@@ -43,9 +43,9 @@ public class CmdCircleArcSector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { circleArcSector(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]) };
+				GeoElement[] ret = {
+						circleArcSector(c.getLabel(), (GeoPointND) arg[0],
+								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

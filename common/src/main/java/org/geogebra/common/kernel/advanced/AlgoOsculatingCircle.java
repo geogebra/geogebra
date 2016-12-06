@@ -113,5 +113,4 @@ public class AlgoOsculatingCircle extends AlgoElement {
 		cv.remove();
 	}
 
-	
 }

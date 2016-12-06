@@ -19,27 +19,29 @@ package org.apache.commons.collections15;
 /**
  * Defines a functor interface implemented by classes that create objects.
  * <p>
- * A <code>Factory</code> creates an object without using an input parameter.
- * If an input parameter is required, then {@link Transformer} is more appropriate.
+ * A <code>Factory</code> creates an object without using an input parameter. If
+ * an input parameter is required, then {@link Transformer} is more appropriate.
  * <p>
  * Standard implementations of common factories are provided by
- * {@link FactoryUtils}. These include factories that return a constant,
- * a copy of a prototype or a new instance.
+ * {@link FactoryUtils}. These include factories that return a constant, a copy
+ * of a prototype or a new instance.
  * 
  * @since Commons Collections 2.1
- * @version $Revision: 646777 $ $Date: 2008-04-10 13:33:15 +0100 (Thu, 10 Apr 2008) $
+ * @version $Revision: 646777 $ $Date: 2008-04-10 13:33:15 +0100 (Thu, 10 Apr
+ *          2008) $
  *
  * @author Arron Bates
  * @author Stephen Colebourne
  */
 public interface Factory<T> {
 
-    /**
-     * Create a new object.
-     *
-     * @return a new object
-     * @throws FunctorException (runtime) if the factory cannot create an object
-     */
-    public T create();
+	/**
+	 * Create a new object.
+	 *
+	 * @return a new object
+	 * @throws FunctorException
+	 *             (runtime) if the factory cannot create an object
+	 */
+	public T create();
 
 }

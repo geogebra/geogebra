@@ -142,8 +142,8 @@ public class AlgoLaTeX extends AlgoElement {
 			text.setTextString("");
 
 		} else {
-			boolean substitute = substituteVars == null ? true : substituteVars
-					.getBoolean();
+			boolean substitute = substituteVars == null ? true
+					: substituteVars.getBoolean();
 			boolean show = showName == null ? false : showName.getBoolean();
 
 			if (!geo.isLabelSet()) {
@@ -159,12 +159,12 @@ public class AlgoLaTeX extends AlgoElement {
 					text.setTextString(((GeoCasCell) geo)
 							.getOutput(StringTemplate.numericLatex));
 				} else {
-					text.setTextString(geo.getLaTeXAlgebraDescription(
-							substitute, tpl));
+					text.setTextString(
+							geo.getLaTeXAlgebraDescription(substitute, tpl));
 				}
 				if (text.getTextString() == null) {
-					String desc = geo.getAlgebraDescription(text
-							.getStringTemplate());
+					String desc = geo
+							.getAlgebraDescription(text.getStringTemplate());
 					if (geo.hasIndexLabel())
 						desc = GeoElement.indicesToHTML(desc, true);
 					text.setTextString(desc);
@@ -192,7 +192,5 @@ public class AlgoLaTeX extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

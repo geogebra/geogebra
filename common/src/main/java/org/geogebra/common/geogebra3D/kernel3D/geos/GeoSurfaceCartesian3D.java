@@ -35,8 +35,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Mathieu
  * 
  */
-public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		Functional2Var, Traceable, CasEvaluableFunction, Region {
+public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
+		implements Functional2Var, Traceable, CasEvaluableFunction, Region {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -84,30 +84,32 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		p.set(fun[0].evaluate(tmp), fun[1].evaluate(tmp), fun[2].evaluate(tmp));
 	}
 
-	private Coords der1 = new Coords(3), der2 = new Coords(3), normal = new Coords(3);
+	private Coords der1 = new Coords(3), der2 = new Coords(3),
+			normal = new Coords(3);
 	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
-	
-	private boolean setNormalFromNeighbours(Coords3 p, double u, double v, Coords3 n){
-		
+
+	private boolean setNormalFromNeighbours(Coords3 p, double u, double v,
+			Coords3 n) {
+
 		evaluatePoint(u + SurfaceEvaluable.NUMERICAL_DELTA, v, p1);
-		if (!p1.isDefined()){
+		if (!p1.isDefined()) {
 			return false;
 		}
 		evaluatePoint(u, v + SurfaceEvaluable.NUMERICAL_DELTA, p2);
-		if (!p2.isDefined()){
+		if (!p2.isDefined()) {
 			return false;
 		}
-		
+
 		der1.setX(p1.x - p.getXd());
 		der1.setY(p1.y - p.getYd());
 		der1.setZ(p1.z - p.getZd());
 		der2.setX(p2.x - p.getXd());
 		der2.setY(p2.y - p.getYd());
 		der2.setZ(p2.z - p.getZd());
-		
+
 		normal.setCrossProduct(der1, der2);
 		n.setNormalizedIfPossible(normal);
-	
+
 		return true;
 	}
 
@@ -119,13 +121,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		double val;
 		for (int i = 0; i < 3; i++) {
 			val = fun1[0][i].evaluate(tmp);
-			if (Double.isNaN(val)){
+			if (Double.isNaN(val)) {
 				return setNormalFromNeighbours(p, u, v, n);
 			}
 			der1.set(i + 1, val);
-			
+
 			val = fun1[1][i].evaluate(tmp);
-			if (Double.isNaN(val)){
+			if (Double.isNaN(val)) {
 				return setNormalFromNeighbours(p, u, v, n);
 			}
 			der2.set(i + 1, val);
@@ -133,7 +135,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		normal.setCrossProduct(der1, der2);
 		n.setNormalizedIfPossible(normal);
-		
+
 		return true;
 
 	}
@@ -147,8 +149,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * @param vz
 	 * @param matrix
 	 */
-	public void setJacobianForBivariate(double[] uv, double vx,
-			double vy,
+	public void setJacobianForBivariate(double[] uv, double vx, double vy,
 			double vz, CoordMatrix matrix) {
 
 		final double dfxu = fun1[0][0].evaluate(uv);
@@ -178,7 +179,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * @param vector
 	 */
 	public void setVectorForBivariate(double[] uv, double[] xyz, double vx,
-			double vy, double vz, double cx, double cy, double cz, Coords vector) {
+			double vy, double vz, double cx, double cy, double cz,
+			Coords vector) {
 
 		xyz[0] = fun[0].evaluate(uv);
 		xyz[1] = fun[1].evaluate(uv);
@@ -209,7 +211,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
 			// Application.debug(fun[i].toString());
 		}
-		
+
 		fun1 = null;
 		fun2 = null;
 
@@ -317,7 +319,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		for (int i = 0; i < 3; i++) {
 			val = fun1[0][i].evaluate(tmp);
 			der1.set(i + 1, val);
-			
+
 			val = fun1[1][i].evaluate(tmp);
 			der2.set(i + 1, val);
 		}
@@ -338,7 +340,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		getLineStyleXML(sb);
 
 		// level of detail
-		if (getLevelOfDetail() == LevelOfDetail.QUALITY){
+		if (getLevelOfDetail() == LevelOfDetail.QUALITY) {
 			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
 		}
 
@@ -356,9 +358,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public void setLevelOfDetail(LevelOfDetail lod) {
-		levelOfDetail = lod;			
+		levelOfDetail = lod;
 	}
-	
+
 	@Override
 	public boolean hasLevelOfDetail() {
 		return true;
@@ -417,10 +419,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
-	
-	
+
 	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
+			boolean keepAdvanced) {
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		if (geo.hasLevelOfDetail()) {
@@ -488,7 +490,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			xyzuv = new double[5];
 		}
 
-
 		// use willing direction if exist
 		if (p.hasWillingDirection()) {
 			direction = p.getWillingDirection();
@@ -512,9 +513,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			return;
 		}
 
-
 		// find closest point, looking for zero normal
-		getClosestParameters(coords.getX(), coords.getY(), coords.getZ(), xyzuv);
+		getClosestParameters(coords.getX(), coords.getY(), coords.getZ(),
+				xyzuv);
 
 		RegionParameters rp = p.getRegionParameters();
 		rp.setT1(xyzuv[3]);
@@ -555,7 +556,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			xyzDvv = new double[3];
 			uv = new double[2];
 		}
-
 
 		if (jacobian == null) {
 			jacobian = new CoordMatrix(2, 2);
@@ -601,7 +601,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 		}
 	}
-	
+
 	private static final int BIVARIATE_JUMPS = 10;
 	private static final int BIVARIATE_SAMPLES = 8;
 
@@ -617,7 +617,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			double dx = xyz[0] - x0;
 			double dy = xyz[1] - y0;
 			double dz = xyz[2] - z0;
-
 
 			// calculate derivatives values
 			xyzDu[0] = fun1[0][0].evaluate(uvOut);
@@ -657,17 +656,19 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			// set jacobian matrix
 			double xyzDuDv = xyzDu[0] * xyzDv[0] + xyzDu[1] * xyzDv[1]
 					+ xyzDu[2] * xyzDv[2];
-			jacobian.set(1, 1, xyzDu[0] * xyzDu[0] + xyzDu[1] * xyzDu[1]
-					+ xyzDu[2] * xyzDu[2] + dx * xyzDuu[0] + dy * xyzDuu[1]
-					+ dz * xyzDuu[2]);
-			jacobian.set(1, 2, xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz
-					* xyzDuv[2]);
+			jacobian.set(1, 1,
+					xyzDu[0] * xyzDu[0] + xyzDu[1] * xyzDu[1]
+							+ xyzDu[2] * xyzDu[2] + dx * xyzDuu[0]
+							+ dy * xyzDuu[1] + dz * xyzDuu[2]);
+			jacobian.set(1, 2,
+					xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz * xyzDuv[2]);
 
-			jacobian.set(2, 1, xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz
-					* xyzDvu[2]);
-			jacobian.set(2, 2, xyzDv[0] * xyzDv[0] + xyzDv[1] * xyzDv[1]
-					+ xyzDv[2] * xyzDv[2] + dx * xyzDvv[0] + dy * xyzDvv[1]
-					+ dz * xyzDvv[2]);
+			jacobian.set(2, 1,
+					xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz * xyzDvu[2]);
+			jacobian.set(2, 2,
+					xyzDv[0] * xyzDv[0] + xyzDv[1] * xyzDv[1]
+							+ xyzDv[2] * xyzDv[2] + dx * xyzDvv[0]
+							+ dy * xyzDvv[1] + dz * xyzDvv[2]);
 
 			// solve jacobian
 			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
@@ -683,7 +684,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 			// check bounds
 			randomBackInIntervalsIfNeeded(uvOut);
-
 
 		}
 
@@ -968,8 +968,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	}
 
-	private boolean findMinimumDistanceGradient(double x0, double y0,
-			double z0, double vx, double vy, double vz, double[] uvOut) {
+	private boolean findMinimumDistanceGradient(double x0, double y0, double z0,
+			double vx, double vy, double vz, double[] uvOut) {
 
 		for (int i = 0; i < GRADIENT_JUMPS; i++) {
 			// calc current f(u,v) point
@@ -1113,9 +1113,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 *            (x,y,z,u,v) best point coords and parameters
 	 * @return true if point found
 	 */
-	public boolean getBestColinear(double x0, double xMax, double y0,
-			double z0, double vx,
-			double vy, double vz, double vSquareNorm, double[] xyzuvOut) {
+	public boolean getBestColinear(double x0, double xMax, double y0, double z0,
+			double vx, double vy, double vz, double vSquareNorm,
+			double[] xyzuvOut) {
 		if (jacobian == null) {
 			jacobian = new CoordMatrix(2, 2);
 			bivariateVector = new Coords(3);
@@ -1159,8 +1159,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
 				uv[1] = vMin + vi * dv;
 				double error = findBivariateColinear(x0, y0, z0, vx, vy, vz,
-						vSquareNorm, gxc, gyc, gzc,
-						uv, uMin, uMax, vMin, vMax);
+						vSquareNorm, gxc, gyc, gzc, uv, uMin, uMax, vMin, vMax);
 				if (!Double.isNaN(error)) {
 					// check if the hit point is in the correct direction
 					double d = (xyz[0] - x0) * vx + (xyz[1] - y0) * vy
@@ -1186,12 +1185,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 
 	private double findBivariateColinear(final double x0, final double y0,
-			final double z0, final double vx,
-			final double vy, final double vz, final double vSquareNorm,
-			final double gxc,
-			final double gyc,
-			final double gzc, double[] uv, final double uMin,
-			final double uMax, final double vMin, final double vMax) {
+			final double z0, final double vx, final double vy, final double vz,
+			final double vSquareNorm, final double gxc, final double gyc,
+			final double gzc, double[] uv, final double uMin, final double uMax,
+			final double vMin, final double vMax) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 
@@ -1240,12 +1237,14 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 *            u,v parameters
 	 */
 	public void randomBackInIntervalsIfNeeded(double[] uvInOut) {
-		if (uvInOut[0] > getMaxParameter(0) || uvInOut[0] < getMinParameter(0)) {
+		if (uvInOut[0] > getMaxParameter(0)
+				|| uvInOut[0] < getMinParameter(0)) {
 			uvInOut[0] = getRandomBetween(getMinParameter(0),
 					getMaxParameter(0));
 		}
 
-		if (uvInOut[1] > getMaxParameter(1) || uvInOut[1] < getMinParameter(1)) {
+		if (uvInOut[1] > getMaxParameter(1)
+				|| uvInOut[1] < getMinParameter(1)) {
 			uvInOut[1] = getRandomBetween(getMinParameter(1),
 					getMaxParameter(1));
 		}
@@ -1268,7 +1267,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		// TODO Auto-generated method stub
 		return false;
 	}
-
 
 	/**
 	 * reset last hitted parameters

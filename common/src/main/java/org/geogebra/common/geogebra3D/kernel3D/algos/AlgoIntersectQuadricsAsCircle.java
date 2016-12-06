@@ -166,7 +166,8 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 				coordSys.addVector(vs[0]);
 				coordSys.addVector(vs[1]);
 				coordSys.makeOrthoMatrix(false, false);
-				circle.setSphereND(new Coords(0, 0), Math.sqrt(r1 * r1 - x * x));
+				circle.setSphereND(new Coords(0, 0),
+						Math.sqrt(r1 * r1 - x * x));
 				return;
 
 			}

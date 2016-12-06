@@ -31,7 +31,6 @@ import org.geogebra.common.main.App;
 
 public abstract class AwtFactory {
 
-
 	private static volatile AwtFactory prototype = null;
 
 	private static final Object lock = new Object();
@@ -91,7 +90,8 @@ public abstract class AwtFactory {
 
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
-	public abstract GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l);
+	public abstract GEllipse2DFloat newEllipse2DFloat(int i, int j, int k,
+			int l);
 
 	public abstract GArc2D newArc2D();
 
@@ -109,8 +109,7 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract GAlphaComposite newAlphaComposite(
-			int srcOver, float alpha);
+	public abstract GAlphaComposite newAlphaComposite(int srcOver, float alpha);
 
 	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
 

@@ -30,18 +30,18 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.PermanentLogE
  *
  * @author cyberpython
  */
-public class JarvisChainsDetectedEvent extends PermanentLogEvent{
+public class JarvisChainsDetectedEvent extends PermanentLogEvent {
 
-    Point2D lowest;
-    Point2D highest;
+	Point2D lowest;
+	Point2D highest;
 
-    public JarvisChainsDetectedEvent(Point2D lowest, Point2D highest){
-        this.lowest = lowest;
-        this.highest = highest;
-    }
+	public JarvisChainsDetectedEvent(Point2D lowest, Point2D highest) {
+		this.lowest = lowest;
+		this.highest = highest;
+	}
 
-    public Segment2D getSegment(){
-        return new Segment2D(lowest, highest);
-    }
+	public Segment2D getSegment() {
+		return new Segment2D(lowest, highest);
+	}
 
 }

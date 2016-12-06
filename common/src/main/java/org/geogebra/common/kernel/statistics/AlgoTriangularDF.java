@@ -145,7 +145,9 @@ public class AlgoTriangularDF extends AlgoElement {
 
 			// old hack:
 			// processAlgebraCommand(
-			// "If[x < "+a+", 0, If[x < "+c+", 2(x - ("+a+")) / ("+b+" - ("+a+")) / ("+c+" - ("+a+")), If[x < "+b+", 2(x - ("+b+")) / ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 0]]]",
+			// "If[x < "+a+", 0, If[x < "+c+", 2(x - ("+a+")) / ("+b+" -
+			// ("+a+")) / ("+c+" - ("+a+")), If[x < "+b+", 2(x - ("+b+")) /
+			// ("+b+" - ("+a+")) / ("+c+" - ("+b+")), 0]]]",
 			// true );
 		}
 		ExpressionNode middleRight = lessThanMode.ifElse(branchAtoMode,
@@ -155,7 +157,5 @@ public class AlgoTriangularDF extends AlgoElement {
 		ret.getFunctionExpression().setRight(middleRight);
 
 	}
-
-	
 
 }

@@ -7,9 +7,9 @@ public class ListAsComboModel extends BooleanOptionModel {
 	public interface IListAsComboListener extends IBooleanOptionListener {
 		void drawListAsComboBox(GeoList geo, boolean value);
 	}
-	
+
 	private IListAsComboListener listener;
-	
+
 	public ListAsComboModel(App app, IListAsComboListener listener) {
 		super(listener, app);
 		this.listener = listener;
@@ -18,21 +18,22 @@ public class ListAsComboModel extends BooleanOptionModel {
 	private GeoList getGeoListAt(int index) {
 		return (GeoList) getObjectAt(index);
 	}
+
 	public void applyChanges(boolean value) {
 		super.applyChanges(value);
 		app.refreshViews();
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		return getGeoAt(index).isGeoList();
 	}
-	
+
 	@Override
 	public boolean getValueAt(int index) {
 		return getGeoListAt(0).drawAsComboBox();
 	}
-	
+
 	@Override
 	public void apply(int index, boolean value) {
 		GeoList geo = getGeoListAt(index);

@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
  *
  * @author Markus
  */
-public class AlgoDependentPoint3D extends AlgoElement3D implements
-		DependentAlgo {
+public class AlgoDependentPoint3D extends AlgoElement3D
+		implements DependentAlgo {
 
 	private GeoPoint3D P; // output
 
@@ -90,7 +90,7 @@ public class AlgoDependentPoint3D extends AlgoElement3D implements
 		try {
 			temp = ((Vector3DValue) P.getDefinition()
 					.evaluate(StringTemplate.defaultTemplate))
-					.getPointAsDouble();
+							.getPointAsDouble();
 			if (Double.isInfinite(temp[0]) || Double.isInfinite(temp[1])
 					|| Double.isInfinite(temp[2])) {
 				P.setUndefined();
@@ -112,5 +112,4 @@ public class AlgoDependentPoint3D extends AlgoElement3D implements
 		return P.getDefinition().toString(tpl);
 	}
 
-	
 }

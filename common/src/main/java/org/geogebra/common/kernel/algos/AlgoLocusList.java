@@ -73,7 +73,8 @@ public class AlgoLocusList extends AlgoElement {
 		path.pointChanged(P);
 	}
 
-	public AlgoLocusList(Construction cons, String label, GeoPoint Q, GeoPoint P) {
+	public AlgoLocusList(Construction cons, String label, GeoPoint Q,
+			GeoPoint P) {
 		super(cons);
 		this.movingPoint = P;
 		this.locusPoint = Q;
@@ -134,7 +135,8 @@ public class AlgoLocusList extends AlgoElement {
 								if (arrLocus.get(i) instanceof AlgoLocus) {
 									((AlgoLocus) arrLocus.get(i))
 											.updateScreenBorders();
-								} else if (arrLocus.get(i) instanceof AlgoLocusList) {
+								} else if (arrLocus
+										.get(i) instanceof AlgoLocusList) {
 									((AlgoLocusList) arrLocus.get(i))
 											.updateScreenBorders();
 								}
@@ -299,9 +301,9 @@ public class AlgoLocusList extends AlgoElement {
 			else
 				continue;
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
-				insertPoint(actGeo.getPoints().get(j).x, actGeo.getPoints()
-						.get(j).y, (j == 0) ? false
-						: actGeo.getPoints().get(j).lineTo);
+				insertPoint(actGeo.getPoints().get(j).x,
+						actGeo.getPoints().get(j).y,
+						(j == 0) ? false : actGeo.getPoints().get(j).lineTo);
 			}
 			if (actGeo.getPointLength() > 0)
 				foundDefined = true;
@@ -323,8 +325,6 @@ public class AlgoLocusList extends AlgoElement {
 		// lineTo);
 		locus.insertPoint(x, y, lineTo);
 	}
-
-	
 
 	@Override
 	public boolean euclidianViewUpdate() {

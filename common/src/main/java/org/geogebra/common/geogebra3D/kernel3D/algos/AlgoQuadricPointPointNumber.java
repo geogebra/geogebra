@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author ggb3D
  *
  */
-public abstract class AlgoQuadricPointPointNumber extends
-		AlgoQuadricPointNumber {
+public abstract class AlgoQuadricPointPointNumber
+		extends AlgoQuadricPointNumber {
 
 	/**
 	 * @param c
@@ -31,8 +31,8 @@ public abstract class AlgoQuadricPointPointNumber extends
 
 	@Override
 	protected Coords getDirection() {
-		return ((GeoPointND) getSecondInput()).getInhomCoordsInD3().sub(
-				getOrigin().getInhomCoordsInD3());
+		return ((GeoPointND) getSecondInput()).getInhomCoordsInD3()
+				.sub(getOrigin().getInhomCoordsInD3());
 	}
 
 	@Override

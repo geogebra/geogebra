@@ -74,7 +74,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		initialCompute();
 		compute();
 	}
-	
+
 	/**
 	 * Proves the given statement and gives some details in a list.
 	 * 
@@ -240,8 +240,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 							} else if ("AreCongruent".equals(cond)) {
 								s = RelationNumerical.congruentSegmentString(
 										ndgc.getGeos()[0], ndgc.getGeos()[1],
-										false,
-										getLoc());
+										false, getLoc());
 							}
 						}
 						if (s == null || !relTool) {
@@ -251,7 +250,8 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 							} else {
 								s = getLoc().getCommand(ndgc.getCondition());
 								s += "[";
-								for (int i = 0; i < ndgc.getGeos().length; ++i) {
+								for (int i = 0; i < ndgc
+										.getGeos().length; ++i) {
 									if (i > 0) {
 										s += ',';
 									}
@@ -305,7 +305,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					list.add(ndgConditionsList);
 			}
 		}
-		
+
 		/*
 		 * Don't remove this. It is needed for testing the web platform. (String
 		 * match is assumed.)

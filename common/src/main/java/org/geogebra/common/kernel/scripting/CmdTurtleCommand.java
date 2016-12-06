@@ -65,8 +65,8 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	 * @throws MyError
 	 *             possible error
 	 */
-	protected abstract void performTurtleCommand(String cname, GeoElement[] args)
-			throws MyError;
+	protected abstract void performTurtleCommand(String cname,
+			GeoElement[] args) throws MyError;
 
 	@Override
 	public final GeoElement[] perform(Command c) throws MyError {

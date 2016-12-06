@@ -74,14 +74,14 @@ public class DrawParametricCurve extends Drawable {
 
 	@Override
 	final public void update() {
-		isVisible = geo.isEuclidianVisible();		
+		isVisible = geo.isEuclidianVisible();
 		if (!isVisible)
 			return;
 		dataExpression = null;
 		if (geo.getLineType() == EuclidianStyleConstants.LINE_TYPE_POINTWISE
 				&& (curve instanceof GeoFunction)) {
-			((GeoFunction) curve).getFunctionExpression().inspect(
-					checkPointwise());
+			((GeoFunction) curve).getFunctionExpression()
+					.inspect(checkPointwise());
 		}
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(geo);
@@ -180,8 +180,9 @@ public class DrawParametricCurve extends Drawable {
 	private int nPoints = 0;
 	private ArrayList<GPoint2D> points;
 	private GLine2D diag1, diag2;
+
 	private void updatePointwise() {
-		if(points == null){
+		if (points == null) {
 			points = new ArrayList<GPoint2D>();
 		}
 
@@ -229,8 +230,9 @@ public class DrawParametricCurve extends Drawable {
 	private ExpressionNode dataExpression;
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
+
 	private Inspecting checkPointwise() {
-		return new Inspecting(){
+		return new Inspecting() {
 
 			public boolean check(ExpressionValue v) {
 				/*
@@ -241,13 +243,14 @@ public class DrawParametricCurve extends Drawable {
 				 * v).getLeft()).getFunctionExpression().inspect(this)){ return
 				 * true; } }
 				 */
-				if (v.isExpressionNode()
-						&& ((ExpressionNode) v).getOperation() == Operation.DATA) {
+				if (v.isExpressionNode() && ((ExpressionNode) v)
+						.getOperation() == Operation.DATA) {
 
 					return updateDataExpression((ExpressionNode) v);
 				}
 				return false;
-			}};
+			}
+		};
 	}
 
 	/**
@@ -377,8 +380,8 @@ public class DrawParametricCurve extends Drawable {
 				if ((right < low && left < low && middle < low)
 						|| (right > high && left > high && middle > high)
 						|| (!MyDouble.isFinite(right)
-								&& !MyDouble.isFinite(left) && !MyDouble
-									.isFinite(middle))) {
+								&& !MyDouble.isFinite(left)
+								&& !MyDouble.isFinite(middle))) {
 					return false;
 				}
 				return gp.intersects(x - hitThreshold, y - hitThreshold,
@@ -445,8 +448,7 @@ public class DrawParametricCurve extends Drawable {
 	}
 
 	final private static boolean filling(CurveEvaluable curve) {
-		return !curve.isFunctionInX()
-				&& curve.toGeoElement().isFilled();
+		return !curve.isFunctionInX() && curve.toGeoElement().isFilled();
 	}
 
 }

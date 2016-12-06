@@ -28,49 +28,59 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface HypergeometricDistribution extends IntegerDistribution {
 
-    /**
-     * Access the number of successes.
-     * @return the number of successes.
-     */
-    int getNumberOfSuccesses();
+	/**
+	 * Access the number of successes.
+	 * 
+	 * @return the number of successes.
+	 */
+	int getNumberOfSuccesses();
 
-    /**
-     * Access the population size.
-     * @return the population size.
-     */
-    int getPopulationSize();
+	/**
+	 * Access the population size.
+	 * 
+	 * @return the population size.
+	 */
+	int getPopulationSize();
 
-    /**
-     * Access the sample size.
-     * @return the sample size.
-     */
-    int getSampleSize();
+	/**
+	 * Access the sample size.
+	 * 
+	 * @return the sample size.
+	 */
+	int getSampleSize();
 
-    /**
-     * Modify the number of successes.
-     * @param num the new number of successes.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumberOfSuccesses(int num);
+	/**
+	 * Modify the number of successes.
+	 * 
+	 * @param num
+	 *            the new number of successes.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setNumberOfSuccesses(int num);
 
-    /**
-     * Modify the population size.
-     * @param size the new population size.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setPopulationSize(int size);
+	/**
+	 * Modify the population size.
+	 * 
+	 * @param size
+	 *            the new population size.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setPopulationSize(int size);
 
-    /**
-     * Modify the sample size.
-     * @param size the new sample size.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setSampleSize(int size);
+	/**
+	 * Modify the sample size.
+	 * 
+	 * @param size
+	 *            the new sample size.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setSampleSize(int size);
 }

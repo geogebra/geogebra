@@ -98,7 +98,6 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		polyhedron.setReverseNormals();
 		setOutput();
 
-
 		setLabels(labels);
 
 		update();
@@ -247,8 +246,8 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		// set points
 		for (int i = 0; i < coords.length - 3; i++) {
-			outputPoints.getElement(i).setCoords(
-					tmpCoords.setMul(matrix, coords[i + 3]), true);
+			outputPoints.getElement(i)
+					.setCoords(tmpCoords.setMul(matrix, coords[i + 3]), true);
 		}
 
 		// update volume

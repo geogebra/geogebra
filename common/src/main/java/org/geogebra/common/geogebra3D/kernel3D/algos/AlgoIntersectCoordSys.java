@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  *
  * @author ggb3D
  * 
- *          Calculate the GeoPoint3D intersection of two coord sys (eg line and
- *          plane).
+ *         Calculate the GeoPoint3D intersection of two coord sys (eg line and
+ *         plane).
  * 
  */
 public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
@@ -41,7 +41,6 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	// output
 	/** intersection */
 	private GeoElement3D intersection;
-
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -65,8 +64,8 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	}
 
-	AlgoIntersectCoordSys(Construction cons, GeoElementND cs1,
-			GeoElementND cs2, boolean swapInputs) {
+	AlgoIntersectCoordSys(Construction cons, GeoElementND cs1, GeoElementND cs2,
+			boolean swapInputs) {
 
 		super(cons);
 
@@ -75,13 +74,15 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 		intersection = createIntersection(cons);// new GeoPoint3D(cons);
 
-		setInputOutput(swapInputs
-				? new GeoElement[] { (GeoElement) cs2, (GeoElement) cs1 }
-				: new GeoElement[] { (GeoElement) cs1, (GeoElement) cs2 },
+		setInputOutput(
+				swapInputs
+						? new GeoElement[] { (GeoElement) cs2,
+								(GeoElement) cs1 }
+						: new GeoElement[] { (GeoElement) cs1,
+								(GeoElement) cs2 },
 				new GeoElement[] { intersection });
 
 	}
-
 
 	/**
 	 * return new intersection (default is 3D point)
@@ -155,7 +156,5 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	 * should be used. It produces a GeoNumeric, so beware GeoNumeric will be
 	 * treated differently than points.
 	 */
-
-	
 
 }

@@ -35,48 +35,55 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.LaTeXCache;
+
 /**
  * Common interface for all interfaces that represent GeoElements
+ * 
  * @author Zbynek
  *
  */
 public interface GeoElementND extends ExpressionValue {
 	/**
-	 * @param string new label
+	 * @param string
+	 *            new label
 	 */
 	void setLabel(String string);
+
 	/**
 	 * Updates this geo
 	 */
 	void update();
 
 	/**
-	 * @param objectColor object color
+	 * @param objectColor
+	 *            object color
 	 */
 	void setObjColor(GColor objectColor);
 
 	/**
-	 * @param visible whether should be visible in EV
+	 * @param visible
+	 *            whether should be visible in EV
 	 */
 	void setEuclidianVisible(boolean visible);
-	
+
 	/**
 	 * @return true if this is visible in EV
 	 */
 	boolean isEuclidianVisible();
-	
+
 	/**
 	 * @return true if label is visible
 	 */
 	boolean isLabelVisible();
-	
+
 	/**
 	 * @return true if label was set
 	 */
 	public boolean isLabelSet();
 
 	/**
-	 * @param tpl template
+	 * @param tpl
+	 *            template
 	 * @return label or definition command
 	 */
 	public String getLabel(StringTemplate tpl);
@@ -85,7 +92,7 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return true for infinite numbers / points
 	 */
 	public boolean isInfinite();
-	
+
 	/**
 	 * Update visual style and notify kernel
 	 * 
@@ -98,14 +105,15 @@ public interface GeoElementND extends ExpressionValue {
 	 * Remove this from construction
 	 */
 	public void remove();
-	
+
 	/**
 	 * @return true if tracing to spreadsheet
 	 */
 	public boolean getSpreadsheetTrace();
-	
+
 	/**
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 * @return copy of this element in given construction
 	 */
 	public GeoElement copyInternal(Construction cons);
@@ -133,101 +141,108 @@ public interface GeoElementND extends ExpressionValue {
 	public void setUndefined();
 
 	/**
-	 * @param type line type
+	 * @param type
+	 *            line type
 	 */
 	public void setLineType(int type);
 
 	/**
-	 * @param th line thickness
+	 * @param th
+	 *            line thickness
 	 */
 	public void setLineThickness(int th);
-	
+
 	/**
 	 * @return true if it has a line opacity value between 0 and 255
 	 */
 	public boolean hasLineOpacity();
-	
+
 	/**
 	 * Sets the line opacity for this {@code GeoElement}. </br>
-	 * @param opacity opacity value between 0 - 255
+	 * 
+	 * @param opacity
+	 *            opacity value between 0 - 255
 	 */
 	public void setLineOpacity(int opacity);
-	
+
 	/**
 	 * @return The value for the line opacity (0 - 255). </br>
-	 * 			The default value is 255 (opaque)
+	 *         The default value is 255 (opaque)
 	 */
 	public int getLineOpacity();
 
 	/**
-	 * @param b true to make label visible
+	 * @param b
+	 *            true to make label visible
 	 */
 	public void setLabelVisible(boolean b);
-	
+
 	/**
 	 * Returns whether this GeoElement is a point on a path.
 	 * 
 	 * @return true for points on path
 	 */
 	public boolean isPointOnPath();
-	
+
 	/**
 	 * Returns whether this GeoElement is a point in a region
 	 * 
 	 * @return true for points on path
 	 */
 	public boolean isPointInRegion();
-	
+
 	/**
-	 * @param p point
+	 * @param p
+	 *            point
 	 * @return distance from point
 	 */
 	public double distance(GeoPointND p);
-	
+
 	/**
 	 * Update this geo and all its descendants
 	 */
 	void updateCascade();
+
 	/**
 	 * Update and repaint this geo
 	 */
 	void updateRepaint();
-	
+
 	/**
 	 * @return line type
 	 */
 	int getLineType();
-	
+
 	/**
 	 * @return line thickness
 	 */
 	int getLineThickness();
-	
+
 	/**
 	 * @return whether the complement should be filled
 	 */
 	boolean isInverseFill();
-	
+
 	/**
 	 * @return animation step as double
 	 */
 	public double getAnimationStep();
-	
-	
+
 	/**
 	 * @return construction index
 	 */
 	int getConstructionIndex();
+
 	/**
 	 * @return set of algos that depend on this geo
 	 */
 	AlgorithmSet getAlgoUpdateSet();
+
 	/**
 	 * @return whether the update set
 	 */
 	boolean hasAlgoUpdateSet();
-	
-	
+
 	/**
 	 * @return whether this is instance of GeoElement3D
 	 */
@@ -243,12 +258,16 @@ public interface GeoElementND extends ExpressionValue {
 	 * @return whether this is instance of GeoText
 	 */
 	public boolean isGeoText();
+
 	int getLabelMode();
+
 	void setLabelMode(int labelName);
-	//public Kernel getKernel();
+
+	// public Kernel getKernel();
 	public String getLabelSimple();
 
 	public void set(GeoElementND geo);
+
 	/**
 	 * Sets visibility if not given by condition to show object
 	 * 
@@ -308,11 +327,12 @@ public interface GeoElementND extends ExpressionValue {
 	ExpressionNode getDefinition();
 
 	void setDefinition(ExpressionNode def);
-	
+
 	/**
 	 * Returns whether geo depends on this object.
 	 * 
-	 * @param geo other geo
+	 * @param geo
+	 *            other geo
 	 * @return true if geo depends on this object.
 	 */
 	public boolean isParentOf(final GeoElementND geo);
@@ -388,7 +408,7 @@ public interface GeoElementND extends ExpressionValue {
 	boolean getShowTrimmedIntersectionLines();
 
 	boolean isVisible();
-	
+
 	public LaTeXCache getLaTeXCache();
 
 	public void updateVisualStyleRepaint(GProperty prop);

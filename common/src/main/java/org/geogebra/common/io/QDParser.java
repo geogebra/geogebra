@@ -124,7 +124,7 @@ public class QDParser {
 				doc.endDocument();
 				return;
 
-				// We are between tags collecting text.
+			// We are between tags collecting text.
 			case TEXT:
 				switch (c) {
 				case '<':
@@ -242,7 +242,8 @@ public class QDParser {
 						sb.append('\'');
 					// Could parse hex entities if we wanted to
 					else if (cent.startsWith("#x"))
-						sb.append((char) Integer.parseInt(cent.substring(2), 16));
+						sb.append(
+								(char) Integer.parseInt(cent.substring(2), 16));
 					else if (cent.charAt(0) == '#')
 						sb.append((char) Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here

@@ -146,14 +146,14 @@ public class CmdSetColor extends CmdScripting {
 
 			try {
 
-				String color = StringUtil.removeSpaces(((GeoText) arg[1])
-						.getTextString());
+				String color = StringUtil
+						.removeSpaces(((GeoText) arg[1]).getTextString());
 				// lookup Color
 				// HashMap<String, Color> colors = app.getColorsHashMap();
 				// Color col = colors.get(color);
 
-				GColor col = GeoGebraColorConstants
-						.getGeogebraColor(app, color);
+				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
+						color);
 
 				// support for translated color names
 				// if (col == null) {
@@ -198,11 +198,10 @@ public class CmdSetColor extends CmdScripting {
 						.normalize0to255(((NumberValue) arg[3]).getDouble());
 
 				if (background)
-					arg[0].setBackgroundColor(GColor.newColor(
-							red, green, blue));
+					arg[0].setBackgroundColor(
+							GColor.newColor(red, green, blue));
 				else
-					arg[0].setObjColor(GColor.newColor(red,
-							green, blue));
+					arg[0].setObjColor(GColor.newColor(red, green, blue));
 
 				arg[0].updateRepaint();
 

@@ -57,7 +57,7 @@ public interface GeoGebraConstants {
 
 		Versions(String suffix, boolean exam) {
 			this.suffix = suffix;
-			this.exam  = exam;
+			this.exam = exam;
 		}
 
 		Versions(String suffix) {
@@ -79,14 +79,12 @@ public interface GeoGebraConstants {
 
 		public boolean isAndroidWebview() {
 			switch (this) {
-				case ANDROID_WEBVIEW:
-				case ANDROID_WEBVIEW_EXAM:
-					return true;
+			case ANDROID_WEBVIEW:
+			case ANDROID_WEBVIEW_EXAM:
+				return true;
 			}
 			return false;
 		}
-
-
 
 	}
 
@@ -95,7 +93,7 @@ public interface GeoGebraConstants {
 	 * for *all* ggb versions with
 	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow =
 	 * false
-	 * */
+	 */
 	public static final String PREFERENCES_ROOT_GLOBAL = "/geogebra";
 
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
@@ -209,9 +207,5 @@ public interface GeoGebraConstants {
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
-
-
-
-
 
 }

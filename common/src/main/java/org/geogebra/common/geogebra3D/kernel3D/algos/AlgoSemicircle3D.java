@@ -98,7 +98,8 @@ public class AlgoSemicircle3D extends AlgoElement {
 		cons.removeFromConstructionList(algo);
 		conic = algo.getCircle();
 
-		conicPart = new GeoConicPart3D(cons, GeoConicNDConstants.CONIC_PART_ARC);
+		conicPart = new GeoConicPart3D(cons,
+				GeoConicNDConstants.CONIC_PART_ARC);
 		conicPart.addPointOnConic(A);
 		conicPart.addPointOnConic(B);
 

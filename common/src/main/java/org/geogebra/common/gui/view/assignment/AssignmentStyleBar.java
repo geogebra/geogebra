@@ -5,7 +5,7 @@ package org.geogebra.common.gui.view.assignment;
  *
  */
 public abstract class AssignmentStyleBar {
-	
+
 	protected static final String downTriangle = "  \u25BE  ";
 
 }

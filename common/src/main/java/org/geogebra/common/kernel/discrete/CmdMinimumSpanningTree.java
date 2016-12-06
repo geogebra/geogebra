@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.CmdOneListFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+
 /**
  * SpanningTree[ &lt;List of Points> ]
  *
@@ -20,11 +21,9 @@ public class CmdMinimumSpanningTree extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
-		
-		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, a,
-				b);
+	final protected GeoElement doCommand(String a, GeoList b) {
+
+		AlgoMinimumSpanningTree algo = new AlgoMinimumSpanningTree(cons, a, b);
 		return algo.getResult();
 
 	}

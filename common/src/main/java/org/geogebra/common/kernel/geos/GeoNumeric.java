@@ -60,10 +60,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class GeoNumeric extends GeoElement implements GeoNumberValue,
-		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV,
-		SymbolicParametersBotanaAlgo, HasSymbolicMode, AnimationExportSlider,
-		Evaluate2Var {
+public class GeoNumeric extends GeoElement
+		implements GeoNumberValue, AbsoluteScreenLocateable, GeoFunctionable,
+		Animatable, HasExtendedAV, SymbolicParametersBotanaAlgo,
+		HasSymbolicMode, AnimationExportSlider, Evaluate2Var {
 
 	private Variable[] botanaVars;
 
@@ -80,16 +80,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	/** default slider width in pixels */
 	public final static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
-	/** 
-	 * Default width of angle slider in pixels 
-	 *  
-	 * Should be a factor of 360 to work well 
-	 * 72 gives increment of 5 degrees 
-	 * 144 gives increment of 2.5 degrees (doesn't look good) 
-	 * 180 gives increment of 2 degrees 
-	 */ 
+	/**
+	 * Default width of angle slider in pixels
+	 * 
+	 * Should be a factor of 360 to work well 72 gives increment of 5 degrees
+	 * 144 gives increment of 2.5 degrees (doesn't look good) 180 gives
+	 * increment of 2 degrees
+	 */
 	public final static int DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE = 180;
-	
+
 	/** Default maximum value when displayed as slider */
 	public final static double DEFAULT_SLIDER_MIN = -5;
 	/** Default minimum value when displayed as slider */
@@ -112,8 +111,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private boolean intervalMaxActive = false;
 	private NumberValue intervalMin;
 	private NumberValue intervalMax;
-	private double sliderWidth = this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE
-			: DEFAULT_SLIDER_WIDTH_PIXEL;
+	private double sliderWidth = this instanceof GeoAngle
+			? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
 	private SliderPosition sliderPos;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
@@ -137,10 +136,14 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public GeoNumeric(Construction c) {
 		this(c, true);
 	}
+
 	/**
 	 * Creates new numeric
-	 * @param c construction
-	 * @param setDefaults true to set from defaults
+	 * 
+	 * @param c
+	 *            construction
+	 * @param setDefaults
+	 *            true to set from defaults
 	 */
 	public GeoNumeric(Construction c, boolean setDefaults) {
 		super(c);
@@ -165,7 +168,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public GeoClass getGeoClassType() {
 		return GeoClass.NUMERIC;
 	}
-
 
 	/**
 	 * Creates new number
@@ -212,6 +214,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public final void setDrawable(boolean flag) {
 		setDrawable(flag, true);
 	}
+
 	/**
 	 * Sets whether the number should be drawable (as slider or angle in case of
 	 * GeoAngle) and visible.
@@ -238,10 +241,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// number with given min and max
 		if (isIndependent()) {
 			if (visible) { // TODO: Remove cast from GeoNumeric
-				GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isAngle());
+				GeoNumeric num = kernel.getAlgoDispatcher()
+						.getDefaultNumber(isAngle());
 				// make sure the slider value is not fixed
 				setFixed(false);
-				if (!isIntervalMinActive() && !(intervalMin instanceof GeoNumeric)) {
+				if (!isIntervalMinActive()
+						&& !(intervalMin instanceof GeoNumeric)) {
 					if (!isIntervalMaxActive()
 							&& !(intervalMax instanceof GeoNumeric)) {
 						// set both to default
@@ -294,6 +299,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setIntervalMax(new MyDouble(kernel, max));
 
 	}
+
 	private void setMinFrom(GeoNumeric num) {
 		double min = num.getIntervalMin();
 		if (value < min) {
@@ -312,10 +318,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
 			sliderPos.x = 30;
-			EuclidianViewInterfaceSlim ev = kernel.getApplication().getActiveEuclidianView();
-			if(ev != null){
+			EuclidianViewInterfaceSlim ev = kernel.getApplication()
+					.getActiveEuclidianView();
+			if (ev != null) {
 				sliderPos.y = ev.getSliderOffsetY() + 40 * count;
-			}else{
+			} else {
 				sliderPos.y = 50 + 40 * count;
 			}
 			// make sure slider is visible on screen
@@ -324,8 +331,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			sliderPos.x = -5;
 			sliderPos.y = 10 - count;
 		}
-		
+
 	}
+
 	private int countSliders() {
 		int count = 0;
 
@@ -342,7 +350,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (num.isSlider())
 				count++;
 		}
-
 
 		return count;
 	}
@@ -385,8 +392,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		if (!isIntervalMaxActive()) {
 			return false;
 		}
-
-
 
 		return (getIntervalMin() < getIntervalMax());
 	}
@@ -464,9 +469,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public double getAnimationStep() {
 
-
 		if (getAnimationStepObject() == null) {
-			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher()
+					.getDefaultNumber(isGeoAngle());
 			setAnimationStep(num.getAnimationStep());
 		}
 
@@ -482,17 +487,18 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		if (intervalMin == null || intervalMax == null) {
 			return isAngle() ? Math.PI / 180 : 0.05;
 		}
-		if(isAngle()){
+		if (isAngle()) {
 			// default 360 *10/200 -> 2deg
 			return MyMath.nextPrettyNumber(
 					(intervalMax.getDouble() - intervalMin.getDouble())
 							* getAnimationSpeed() * (180 / Math.PI)
-							* AUTO_STEP_MUL_ANGLE, 0)
-					* (Math.PI / 180);
+							* AUTO_STEP_MUL_ANGLE,
+					0) * (Math.PI / 180);
 		}
 		return MyMath.nextPrettyNumber(
 				(intervalMax.getDouble() - intervalMin.getDouble())
-						* getAnimationSpeed() * AUTO_STEP_MUL, 0);
+						* getAnimationSpeed() * AUTO_STEP_MUL,
+				0);
 	}
 
 	/**
@@ -517,7 +523,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public double getAnimationSpeed() {
 		if (getAnimationSpeedObject() == null) {
-			GeoNumeric num = kernel.getAlgoDispatcher().getDefaultNumber(isGeoAngle());
+			GeoNumeric num = kernel.getAlgoDispatcher()
+					.getDefaultNumber(isGeoAngle());
 			setAnimationSpeed(num.getAnimationSpeed());
 		}
 		return super.getAnimationSpeed();
@@ -535,7 +542,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * @param val0
-	 *            prefered value
+	 *            preferred value
 	 * @return value that respects min, max, step
 	 */
 	final public double restrictToSliderValues(double val0) {
@@ -575,17 +582,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setDefinition(null);
 		if (Double.isNaN(x))
 			value = Double.NaN;
-		else if (isIntervalMinActive() && x < getIntervalMin()){
+		else if (isIntervalMinActive() && x < getIntervalMin()) {
 			value = getIntervalMin();
-			if(getCorrespondingCasCell()!=null)
+			if (getCorrespondingCasCell() != null)
 				getCorrespondingCasCell().setInputFromTwinGeo(true, false);
-		}
-		else if (isIntervalMaxActive() && x > getIntervalMax()){
+		} else if (isIntervalMaxActive() && x > getIntervalMax()) {
 			value = getIntervalMax();
-			if(getCorrespondingCasCell()!=null)
+			if (getCorrespondingCasCell() != null)
 				getCorrespondingCasCell().setInputFromTwinGeo(true, false);
-		}
-		else
+		} else
 			value = x;
 
 		// remember value for animation also
@@ -605,27 +610,27 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString == null) {
-			sbToString =  new StringBuilder(50);
+			sbToString = new StringBuilder(50);
 		}
-		
+
 		// #4186
 		if (tpl.hasCASType()) {
-			return toValueString(tpl); 
-		} 
-		
+			return toValueString(tpl);
+		}
+
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-	
+
 	/**
 	 * @return string representation for regression output
 	 */
 	final public String toStringMinimal() {
 		if (sbToString == null) {
-			sbToString =  new StringBuilder(50);
+			sbToString = new StringBuilder(50);
 		}
 		sbToString.setLength(0);
 		sbToString.append(toValueStringMinimal());
@@ -649,7 +654,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		
+
 		// see MyDouble.toString()
 		if (tpl.hasCASType()) {
 			if (this.label != null && (this.label.startsWith("c_")
@@ -667,15 +672,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (!sendValueToCas) {
 				return "(ggbtmpvar" + label + ")";
 			}
-			//make sure random() works inside Sequence, see #3558
+			// make sure random() works inside Sequence, see #3558
 			if (this.isRandomGeo() && !this.isLabelSet()) {
 				return "exact(rand(0,1))";
 			}
-			
+
 			if (Double.isNaN(value)) {
 				return "undef";
 			}
-			
+
 			if (Double.isInfinite(value)) {
 				if (value > 0) {
 					return "inf";
@@ -706,7 +711,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo,
+			boolean keepAdvanced) {
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		if (geo.isGeoNumeric()) {
@@ -773,7 +779,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * @return true iff slider is possible
 	 */
 	protected boolean isSliderable() {
-		return isIndependent() && (isIntervalMinActive() || isIntervalMaxActive());
+		return isIndependent()
+				&& (isIntervalMinActive() || isIntervalMaxActive());
 	}
 
 	@Override
@@ -811,14 +818,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		sb.append("\t<slider");
 		if (isIntervalMinActive() || intervalMin instanceof GeoNumeric) {
 			sb.append(" min=\"");
-			StringUtil
-					.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
+			StringUtil.encodeXML(sb, getIntervalMinObject().getLabel(tpl));
 			sb.append("\"");
 		}
 		if (isIntervalMaxActive() || intervalMax instanceof GeoNumeric) {
 			sb.append(" max=\"");
-			StringUtil
-					.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
+			StringUtil.encodeXML(sb, getIntervalMaxObject().getLabel(tpl));
 			sb.append("\"");
 		}
 
@@ -919,7 +924,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			if (getOrigSliderWidth() == null) {
 				setOrigSliderWidth(width);
 			}
-			sliderWidth = width;
+		sliderWidth = width;
 	}
 
 	/**
@@ -1046,6 +1051,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void setSliderHorizontal(boolean sliderHorizontal) {
 		this.sliderHorizontal = sliderHorizontal;
 	}
+
 	/**
 	 * Sets the location of the slider for this number.
 	 * 
@@ -1091,7 +1097,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
 		if (flag)
-			sliderWidth = this instanceof GeoAngle ? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE
+			sliderWidth = this instanceof GeoAngle
+					? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE
 					: DEFAULT_SLIDER_WIDTH_PIXEL;
 		else
 			sliderWidth = DEFAULT_SLIDER_WIDTH_RW;
@@ -1162,7 +1169,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 * Given geo no longer depends on this one (via min or max value for slider)
 	 * and should not be updated any more
 	 * 
-	 * @param geo slider whose min/max is this numeric
+	 * @param geo
+	 *            slider whose min/max is this numeric
 	 */
 	public void unregisterMinMaxListener(GeoNumeric geo) {
 		if (minMaxListeners == null)
@@ -1210,8 +1218,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 
 	}
-	
-	
+
 	/**
 	 * Updates random slider - no updateCascade()
 	 */
@@ -1231,8 +1238,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		double max = getIntervalMax();
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
-		return Kernel.checkDecimalFraction(Math.floor(kernel.getApplication().getRandomNumber() * n)
-				* increment + min);
+		return Kernel.checkDecimalFraction(
+				Math.floor(kernel.getApplication().getRandomNumber() * n)
+						* increment + min);
 	}
 
 	@Override
@@ -1261,15 +1269,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				&& !Double.isInfinite(getIntervalMax());
 		boolean ok = (getIntervalMin() <= getIntervalMax());
 		setIntervalMinActive(ok && okMin);
-		setIntervalMaxActive((ok && okMin && okMax)|| (getIntervalMin() == getIntervalMax() && okMin && okMax));
+		setIntervalMaxActive((ok && okMin && okMax)
+				|| (getIntervalMin() == getIntervalMax() && okMin && okMax));
 		if (ok && okMin && okMax) {
 			setValue(isDefined() ? value : 1.0);
 		} else if (okMin && okMax)
 			setUndefined();
-		if(oldValue!=value){
+		if (oldValue != value) {
 			updateCascade();
-		}else{
-			//we want to make the slider visible again if it was not
+		} else {
+			// we want to make the slider visible again if it was not
 			// do what GeoElement.update does (no need to call listeners)
 			// also don't update the CAS
 			updateGeo(false);
@@ -1283,7 +1292,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public boolean isAnimatable() {
-		return isIndependent() && isIntervalMinActive() && isIntervalMaxActive();
+		return isIndependent() && isIntervalMinActive()
+				&& isIntervalMaxActive();
 	}
 
 	/**
@@ -1318,8 +1328,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			}
 
 			double intervalWidth = getIntervalMax() - getIntervalMin();
-			double step = intervalWidth
-					* getAnimationSpeed()
+			double step = intervalWidth * getAnimationSpeed()
 					/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 			// update animation value
 			if (Double.isNaN(animationValue) || animationValue < 0)
@@ -1341,8 +1350,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 		// compute animation step based on speed and frame rates
 		double intervalWidth = getIntervalMax() - getIntervalMin();
-		double step = intervalWidth
-				* getAnimationSpeed()
+		double step = intervalWidth * getAnimationSpeed()
 				* getAnimationDirection()
 				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
 
@@ -1470,7 +1478,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	/**
 	 * Set interval min
 	 * 
-	 * @param value new min for this slider
+	 * @param value
+	 *            new min for this slider
 	 */
 	public void setIntervalMin(double value) {
 		setIntervalMin(new MyDouble(kernel, value));
@@ -1479,7 +1488,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	/**
 	 * Set interval max
 	 * 
-	 * @param value new max for this slider
+	 * @param value
+	 *            new max for this slider
 	 */
 	public void setIntervalMax(double value) {
 		setIntervalMax(new MyDouble(kernel, value));
@@ -1520,7 +1530,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 
 	/**
-	 * @param ev euclidian view which listens to this numeric
+	 * @param ev
+	 *            euclidian view which listens to this numeric
 	 */
 	public void addEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners == null)
@@ -1531,7 +1542,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * @param ev euclidian view which listens to this numeric
+	 * @param ev
+	 *            euclidian view which listens to this numeric
 	 */
 	public void removeEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners != null)
@@ -1567,14 +1579,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean isLaTeXDrawableGeo() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean hasLineOpacity() {
 		return true;
 	}
 
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = this.copy(); // should handle GeoAngle
 		// too
 		spreadsheetTraceList.add(xx);
@@ -1584,6 +1597,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private void setIntervalMinActive(boolean intervalMinActive) {
 		this.intervalMinActive = intervalMinActive;
 	}
+
 	private void setIntervalMaxActive(boolean intervalMaxActive) {
 		this.intervalMaxActive = intervalMaxActive;
 	}
@@ -1597,7 +1611,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public ExpressionValue integral(FunctionVariable fv, Kernel kernel0) {
 		return new ExpressionNode(kernel0, this, Operation.MULTIPLY, fv);
 	}
-	
+
 	/**
 	 * @param num
 	 *            number to update
@@ -1605,7 +1619,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 *            whether it's angle
 	 * @return num
 	 */
-	public static GeoNumeric setSliderFromDefault(GeoNumeric num, boolean isAngle) {
+	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
+			boolean isAngle) {
 		return setSliderFromDefault(num, isAngle, true);
 
 	}
@@ -1621,9 +1636,11 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	public static GeoNumeric setSliderFromDefault(GeoNumeric num,
 			boolean isAngle, boolean visible) {
-		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(false);           
-		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher().getDefaultNumber(isAngle);           
-		num.setSliderFixed(defaultNum.isSliderFixed());         
+		GeoNumeric defaultNum = num.getKernel().getAlgoDispatcher()
+				.getDefaultNumber(false);
+		GeoNumeric defaultAngleOrNum = num.getKernel().getAlgoDispatcher()
+				.getDefaultNumber(isAngle);
+		num.setSliderFixed(defaultNum.isSliderFixed());
 		num.setEuclidianVisible(visible);
 		num.setIntervalMin(defaultAngleOrNum.getIntervalMinObject());
 		num.setIntervalMax(defaultAngleOrNum.getIntervalMaxObject());
@@ -1634,18 +1651,17 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
-		num.setDrawable(false,false);
+		num.setDrawable(false, false);
 		num.update();
 		return num;
 	}
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 
 	private boolean showExtendedAV = true;
-
 
 	@Override
 	public boolean isShowingExtendedAV() {
@@ -1656,16 +1672,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
 	}
-	
-	
+
 	@Override
-	protected void setLabelModeDefault(){
-		
+	protected void setLabelModeDefault() {
+
 		// label visibility
 		App app = getKernel().getApplication();
-		int labelingStyle = app == null ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS : app
-				.getCurrentLabelingStyle();
-		
+		int labelingStyle = app == null
+				? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+				: app.getCurrentLabelingStyle();
+
 		// automatic labelling:
 		// if algebra window open -> all labels
 		// else -> no labels
@@ -1690,10 +1706,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			visible = true;
 			break;
 		}
-				
-		if (visible){
+
+		if (visible) {
 			labelMode = LABEL_NAME_VALUE;
-		}else{
+		} else {
 			labelMode = LABEL_VALUE;
 		}
 

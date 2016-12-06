@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  * @author matthieu
  */
-public class AlgoIntersectPathLinePolygon3D extends
-		AlgoIntersectPathLinePolygon {
+public class AlgoIntersectPathLinePolygon3D
+		extends AlgoIntersectPathLinePolygon {
 
 	/**
 	 * common constructor
@@ -99,7 +99,8 @@ public class AlgoIntersectPathLinePolygon3D extends
 	}
 
 	@Override
-	protected void addCoords(double parameter, Coords coords, GeoElementND geo) {
+	protected void addCoords(double parameter, Coords coords,
+			GeoElementND geo) {
 		newCoords.put(parameter, coords.copyVector());
 	}
 
@@ -118,7 +119,5 @@ public class AlgoIntersectPathLinePolygon3D extends
 				.getNormalProjection(a.copy().addInside(b).mulInside(0.5))[1];
 		return poly.isInRegion(midpoint.getX(), midpoint.getY());
 	}
-
-	
 
 }

@@ -20,8 +20,7 @@ public class FormatJscad implements Format {
 		sb.append("    return union(s);\n}");
 	}
 
-	public void getObjectStart(StringBuilder sb, GeoClass type,
-			String label) {
+	public void getObjectStart(StringBuilder sb, GeoClass type, String label) {
 		sb.append("\n    // ");
 		sb.append(type);
 		sb.append(": ");
@@ -79,7 +78,5 @@ public class FormatJscad implements Format {
 	public void getFacesEnd(StringBuilder sb) {
 		sb.append("\n        ]");
 	}
-
-
 
 }

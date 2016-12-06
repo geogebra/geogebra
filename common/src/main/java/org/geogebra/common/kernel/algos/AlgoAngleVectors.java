@@ -53,15 +53,13 @@ public class AlgoAngleVectors extends AlgoAngleVectorsND {
 		// cos(alpha) = v . w / (|v| * |w|)
 		// tan(alpha) = sin(alpha) / cos(alpha)
 		// => tan(alpha) = det(v, w) / v . w
-		double det = ((GeoVector) v).x * ((GeoVector) w).y - ((GeoVector) v).y
-				* ((GeoVector) w).x;
-		double prod = ((GeoVector) v).x * ((GeoVector) w).x + ((GeoVector) v).y
-				* ((GeoVector) w).y;
+		double det = ((GeoVector) v).x * ((GeoVector) w).y
+				- ((GeoVector) v).y * ((GeoVector) w).x;
+		double prod = ((GeoVector) v).x * ((GeoVector) w).x
+				+ ((GeoVector) v).y * ((GeoVector) w).y;
 		double value = Math.atan2(det, prod);
 		angle.setValue(value);
 	}
-
-	
 
 	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE

@@ -112,12 +112,13 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		p.setStatement(root);
 		// Don't compute extra NDG's:
 		p.setReturnExtraNDGs(false);
-		
+
 		// Adding benchmarking:
 		double startTime = cons.getApplication().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
-		
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+				- startTime);
+
 		/*
 		 * Don't remove this. It is needed for automated testing. (String match
 		 * is assumed.)
@@ -142,7 +143,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 				bool.setValue(false);
 			}
 		}
-		
+
 		/*
 		 * Don't remove this. It is needed for testing the web platform. (String
 		 * match is assumed.)

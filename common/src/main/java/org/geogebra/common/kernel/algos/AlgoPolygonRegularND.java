@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  * @author Markus Hohenwarter
  */
-public abstract class AlgoPolygonRegularND extends AlgoElement implements
-		PolygonAlgo {
+public abstract class AlgoPolygonRegularND extends AlgoElement
+		implements PolygonAlgo {
 	/** first input point */
 	protected final GeoPointND A; // input
 	/** second input point */
@@ -159,7 +159,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 									.getShowObjectCondition();
 						if (conditionToShow != null) {
 							try {
-								newPoint.setShowObjectCondition(conditionToShow);
+								newPoint.setShowObjectCondition(
+										conditionToShow);
 							} catch (Exception e) {
 								// circular exception -- do nothing
 							}
@@ -352,8 +353,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 		// update new segments
 		for (int i = numOld - 1; i < n; i++) {
 			// Log.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
-			((GeoSegmentND) outputSegments.getElement(i)).modifyInputPoints(
-					points[i], points[(i + 1) % n]);
+			((GeoSegmentND) outputSegments.getElement(i))
+					.modifyInputPoints(points[i], points[(i + 1) % n]);
 		}
 
 		// update polygon
@@ -398,8 +399,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 		// update points and segments
 		if (n > nOld) {
 			showNewPointsLabels = labelPointsAndSegments
-					&& (A.isEuclidianVisible() && A.isLabelVisible() || B
-							.isEuclidianVisible() && B.isLabelVisible());
+					&& (A.isEuclidianVisible() && A.isLabelVisible()
+							|| B.isEuclidianVisible() && B.isLabelVisible());
 			outputPoints.augmentOutputSize(n - nOld, false);
 			if (labelPointsAndSegments && !labelsNeedIniting)
 				outputPoints.updateLabels();
@@ -449,7 +450,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 			AlgoElement algo = algoList.get(k);
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPointsSegmentInterface
-					&& ((AlgoJoinPointsSegmentInterface) algo).getPoly() == poly) {
+					&& ((AlgoJoinPointsSegmentInterface) algo)
+							.getPoly() == poly) {
 				continue;
 			}
 			algo.remove();

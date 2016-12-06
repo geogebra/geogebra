@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.geogebra.common.move.ggtapi.models.json;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -47,14 +48,14 @@ import java.util.List;
  */
 public class JSONArray {
 	private final List<Object> values;
-    
+
 	/**
 	 * Creates a {@code JSONArray} with no values.
 	 */
-    public JSONArray() {
+	public JSONArray() {
 		values = new ArrayList<Object>();
-    }
-    
+	}
+
 	/**
 	 * Creates a new {@code JSONArray} by copying all values from the given
 	 * collection.
@@ -66,14 +67,14 @@ public class JSONArray {
 	 */
 	/* Accept a raw type for API compatibility */
 	public JSONArray(Collection copyFrom) {
-        this();
+		this();
 		if (copyFrom != null) {
 			for (Iterator it = copyFrom.iterator(); it.hasNext();) {
 				put(JSONObject.wrap(it.next()));
-            }
-        }
-    }
-    
+			}
+		}
+	}
+
 	/**
 	 * Creates a new {@code JSONArray} with values from the next array in the
 	 * tokener.
@@ -95,8 +96,8 @@ public class JSONArray {
 		} else {
 			throw JSON.typeMismatch(object, "JSONArray");
 		}
-    }
-    
+	}
+
 	/**
 	 * Creates a new {@code JSONArray} with values from the JSON string.
 	 *
@@ -108,8 +109,8 @@ public class JSONArray {
 	 */
 	public JSONArray(String json) throws JSONException {
 		this(new JSONTokener(json));
-    }
-    
+	}
+
 	/**
 	 * Creates a new {@code JSONArray} with values from the given primitive
 	 * array.
@@ -120,14 +121,14 @@ public class JSONArray {
 	 * Array.getLength(array); values = new ArrayList<Object>(length); for (int
 	 * i = 0; i < length; ++i) { put(JSONObject.wrap(Array.get(array, i))); } }
 	 */
-    
+
 	/**
 	 * Returns the number of values in this array.
 	 */
 	public int length() {
 		return values.size();
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the end of this array.
 	 *
@@ -136,8 +137,8 @@ public class JSONArray {
 	public JSONArray put(boolean value) {
 		values.add(value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the end of this array.
 	 *
@@ -149,8 +150,8 @@ public class JSONArray {
 	public JSONArray put(double value) throws JSONException {
 		values.add(JSON.checkDouble(value));
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the end of this array.
 	 *
@@ -159,8 +160,8 @@ public class JSONArray {
 	public JSONArray put(int value) {
 		values.add(value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the end of this array.
 	 *
@@ -169,8 +170,8 @@ public class JSONArray {
 	public JSONArray put(long value) {
 		values.add(value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Appends {@code value} to the end of this array.
 	 *
@@ -186,18 +187,18 @@ public class JSONArray {
 	public JSONArray put(Object value) {
 		values.add(value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Same as {@link #put}, with added validity checks.
 	 */
 	void checkedPut(Object value) throws JSONException {
 		if (value instanceof Number) {
 			JSON.checkDouble(((Number) value).doubleValue());
-        }
+		}
 		put(value);
-    }
-    
+	}
+
 	/**
 	 * Sets the value at {@code index} to {@code value}, null padding this array
 	 * to the required length if necessary. If a value already exists at {@code
@@ -207,8 +208,8 @@ public class JSONArray {
 	 */
 	public JSONArray put(int index, boolean value) throws JSONException {
 		return put(index, (Boolean) value);
-    }
-    
+	}
+
 	/**
 	 * Sets the value at {@code index} to {@code value}, null padding this array
 	 * to the required length if necessary. If a value already exists at {@code
@@ -221,8 +222,8 @@ public class JSONArray {
 	 */
 	public JSONArray put(int index, double value) throws JSONException {
 		return put(index, (Double) value);
-    }
-    
+	}
+
 	/**
 	 * Sets the value at {@code index} to {@code value}, null padding this array
 	 * to the required length if necessary. If a value already exists at {@code
@@ -232,8 +233,8 @@ public class JSONArray {
 	 */
 	public JSONArray put(int index, int value) throws JSONException {
 		return put(index, (Integer) value);
-    }
-    
+	}
+
 	/**
 	 * Sets the value at {@code index} to {@code value}, null padding this array
 	 * to the required length if necessary. If a value already exists at {@code
@@ -243,8 +244,8 @@ public class JSONArray {
 	 */
 	public JSONArray put(int index, long value) throws JSONException {
 		return put(index, (Long) value);
-    }
-    
+	}
+
 	/**
 	 * Sets the value at {@code index} to {@code value}, null padding this array
 	 * to the required length if necessary. If a value already exists at {@code
@@ -265,11 +266,11 @@ public class JSONArray {
 		}
 		while (values.size() <= index) {
 			values.add(null);
-        }
+		}
 		values.set(index, value);
 		return this;
-    }
-    
+	}
+
 	/**
 	 * Returns true if this array has no value at {@code index}, or if its value
 	 * is the {@code null} reference or {@link JSONObject#NULL}.
@@ -277,8 +278,8 @@ public class JSONArray {
 	public boolean isNull(int index) {
 		Object value = opt(index);
 		return value == null || value == JSONObject.NULL;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index}.
 	 *
@@ -288,7 +289,7 @@ public class JSONArray {
 	 *             if the value is {@code JSONObject#NULL}.
 	 */
 	public Object get(int index) throws JSONException {
-        try {
+		try {
 			Object value = values.get(index);
 			if (value == null) {
 				throw new JSONException("Value at " + index + " is null.");
@@ -297,9 +298,9 @@ public class JSONArray {
 		} catch (IndexOutOfBoundsException e) {
 			throw new JSONException("Index " + index + " out of range [0.."
 					+ values.size() + ")");
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Returns the value at {@code index}, or null if the array has no value at
 	 * {@code index}.
@@ -309,8 +310,8 @@ public class JSONArray {
 			return null;
 		}
 		return values.get(index);
-    }
-    
+	}
+
 	/**
 	 * Removes and returns the value at {@code index}, or null if the array has
 	 * no value at {@code index}.
@@ -318,10 +319,10 @@ public class JSONArray {
 	public Object remove(int index) {
 		if (index < 0 || index >= values.size()) {
 			return null;
-        }
+		}
 		return values.remove(index);
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean.
@@ -337,16 +338,16 @@ public class JSONArray {
 			throw JSON.typeMismatch(index, object, "boolean");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns false otherwise.
 	 */
 	public boolean optBoolean(int index) {
 		return optBoolean(index, false);
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a boolean or can
 	 * be coerced to a boolean. Returns {@code fallback} otherwise.
@@ -355,8 +356,8 @@ public class JSONArray {
 		Object object = opt(index);
 		Boolean result = JSON.toBoolean(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double.
@@ -370,18 +371,18 @@ public class JSONArray {
 		Double result = JSON.toDouble(object);
 		if (result == null) {
 			throw JSON.typeMismatch(index, object, "double");
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code NaN} otherwise.
 	 */
 	public double optDouble(int index) {
 		return optDouble(index, Double.NaN);
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a double or can be
 	 * coerced to a double. Returns {@code fallback} otherwise.
@@ -390,8 +391,8 @@ public class JSONArray {
 		Object object = opt(index);
 		Double result = JSON.toDouble(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int.
@@ -407,16 +408,16 @@ public class JSONArray {
 			throw JSON.typeMismatch(index, object, "int");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns 0 otherwise.
 	 */
 	public int optInt(int index) {
 		return optInt(index, 0);
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is an int or can be
 	 * coerced to an int. Returns {@code fallback} otherwise.
@@ -425,8 +426,8 @@ public class JSONArray {
 		Object object = opt(index);
 		Integer result = JSON.toInteger(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long.
@@ -442,16 +443,16 @@ public class JSONArray {
 			throw JSON.typeMismatch(index, object, "long");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns 0 otherwise.
 	 */
 	public long optLong(int index) {
 		return optLong(index, 0L);
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a long or can be
 	 * coerced to a long. Returns {@code fallback} otherwise.
@@ -460,8 +461,8 @@ public class JSONArray {
 		Object object = opt(index);
 		Long result = JSON.toLong(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary.
@@ -476,16 +477,16 @@ public class JSONArray {
 			throw JSON.typeMismatch(index, object, "String");
 		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns the empty string if no such value exists.
 	 */
 	public String optString(int index) {
 		return optString(index, "");
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists, coercing it if
 	 * necessary. Returns {@code fallback} if no such value exists.
@@ -494,8 +495,8 @@ public class JSONArray {
 		Object object = opt(index);
 		String result = JSON.toString(object);
 		return result != null ? result : fallback;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}.
@@ -511,8 +512,8 @@ public class JSONArray {
 		} else {
 			throw JSON.typeMismatch(index, object, "JSONArray");
 		}
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONArray}. Returns null otherwise.
@@ -520,8 +521,8 @@ public class JSONArray {
 	public JSONArray optJSONArray(int index) {
 		Object object = opt(index);
 		return object instanceof JSONArray ? (JSONArray) object : null;
-    }
-    
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}.
@@ -534,11 +535,11 @@ public class JSONArray {
 		Object object = get(index);
 		if (object instanceof JSONObject) {
 			return (JSONObject) object;
-        } else {
+		} else {
 			throw JSON.typeMismatch(index, object, "JSONObject");
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Returns the value at {@code index} if it exists and is a {@code
 	 * JSONObject}. Returns null otherwise.
@@ -546,8 +547,8 @@ public class JSONArray {
 	public JSONObject optJSONObject(int index) {
 		Object object = opt(index);
 		return object instanceof JSONObject ? (JSONObject) object : null;
-    }
-    
+	}
+
 	/**
 	 * Returns a new object whose values are the values in this array, and whose
 	 * names are the values in {@code names}. Names and values are paired up by
@@ -555,19 +556,19 @@ public class JSONArray {
 	 * strings will be coerced to strings. This method returns null if either
 	 * array is empty.
 	 */
-    public JSONObject toJSONObject(JSONArray names) throws JSONException {
+	public JSONObject toJSONObject(JSONArray names) throws JSONException {
 		JSONObject result = new JSONObject();
 		int length = Math.min(names.length(), values.size());
 		if (length == 0) {
-            return null;
-        }
+			return null;
+		}
 		for (int i = 0; i < length; i++) {
 			String name = JSON.toString(names.opt(i));
 			result.put(name, opt(i));
-        }
+		}
 		return result;
-    }
-    
+	}
+
 	/**
 	 * Returns a new string by alternating this array's values with {@code
 	 * separator}. This array's string values are quoted and have their special
@@ -586,11 +587,11 @@ public class JSONArray {
 				stringer.out.append(separator);
 			}
 			stringer.value(values.get(i));
-        }
+		}
 		stringer.close(JSONStringer.Scope.NULL, JSONStringer.Scope.NULL, "");
 		return stringer.out.toString();
-    }
-    
+	}
+
 	/**
 	 * Encodes this array as a compact JSON string, such as:
 	 * 
@@ -606,9 +607,9 @@ public class JSONArray {
 			return stringer.toString();
 		} catch (JSONException e) {
 			return null;
-        }
-    }
-    
+		}
+	}
+
 	/**
 	 * Encodes this array as a human readable JSON string for debugging, such
 	 * as:
@@ -627,15 +628,15 @@ public class JSONArray {
 		JSONStringer stringer = new JSONStringer(indentSpaces);
 		writeTo(stringer);
 		return stringer.toString();
-    }
+	}
 
 	void writeTo(JSONStringer stringer) throws JSONException {
 		stringer.array();
 		for (Object value : values) {
 			stringer.value(value);
-        }
+		}
 		stringer.endArray();
-    }
+	}
 
 	@Override
 	public boolean equals(Object o) {

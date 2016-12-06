@@ -34,8 +34,9 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 		super(cons, label, line1);
 		this.line2 = line2;
 
-		setInputOutput(new GeoElement[] { (GeoElement) line1,
-				(GeoElement) line2 }, new GeoElement[] { getLine() });
+		setInputOutput(
+				new GeoElement[] { (GeoElement) line1, (GeoElement) line2 },
+				new GeoElement[] { getLine() });
 
 		// compute line
 		compute();
@@ -57,8 +58,6 @@ public class AlgoOrthoLineLineLine extends AlgoOrthoLineLine {
 		origin = points[0];
 
 	}
-
-	
 
 	@Override
 	public String toString(StringTemplate tpl) {

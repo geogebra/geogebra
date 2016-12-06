@@ -59,10 +59,10 @@ import org.geogebra.common.util.debug.Log;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D implements HasSegments,
-		HasVolume, Traceable, RotateableND, Translateable, MirrorableAtPlane,
-		Transformable, Dilateable, HasHeight, Path, GeoPolyhedronInterface,
-		GeoNumberValue {
+public class GeoPolyhedron extends GeoElement3D
+		implements HasSegments, HasVolume, Traceable, RotateableND,
+		Translateable, MirrorableAtPlane, Transformable, Dilateable, HasHeight,
+		Path, GeoPolyhedronInterface, GeoNumberValue {
 
 	public static final int TYPE_PYRAMID = 1;
 	public static final int TYPE_PRISM = 3;
@@ -268,7 +268,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		return polygonsIndex.values();
 	}
 
-
 	/**
 	 * last face index (for pyramid/prism)
 	 */
@@ -455,7 +454,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	 * @return the segment
 	 */
 
-	public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint) {
+	public GeoSegmentND createSegment(GeoPointND startPoint,
+			GeoPointND endPoint) {
 
 		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
@@ -627,9 +627,9 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 		/*
 		 * String s="labels:\n"; for (int i=0; i<labels.length; i++)
-		 * s+=labels[i]+"\n";
-		 * s+="points: "+pointsCreated.size()+"\npolygons: "+polygons
-		 * .size()+"\nsegments: "+segments.size(); Application.debug(s);
+		 * s+=labels[i]+"\n"; s+="points: "+pointsCreated.size()+"\npolygons: "
+		 * +polygons .size()+"\nsegments: "+segments.size();
+		 * Application.debug(s);
 		 */
 
 		// first label for polyhedron itself
@@ -710,14 +710,14 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			String[] points = new String[key.size()];
 			int indexFirstPointName = 0;
 			int i = 0;
-			for (Iterator<ConstructionElement> it = key.iterator(); it
-					.hasNext() && (labelUsability < 2);) {
+			for (Iterator<ConstructionElement> it = key.iterator(); it.hasNext()
+					&& (labelUsability < 2);) {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
 				if (labelUsability < 2) {
 					points[i] = p.getLabel(StringTemplate.defaultTemplate);
-					if (points[i]
-							.compareToIgnoreCase(points[indexFirstPointName]) < 0)
+					if (points[i].compareToIgnoreCase(
+							points[indexFirstPointName]) < 0)
 						indexFirstPointName = i;
 					i++;
 				}
@@ -736,8 +736,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				if (indexSecondPointMinus == -1)
 					indexSecondPointMinus = points.length - 1;
 
-				if (points[indexSecondPointPlus]
-						.compareToIgnoreCase(points[indexSecondPointMinus]) < 0) {
+				if (points[indexSecondPointPlus].compareToIgnoreCase(
+						points[indexSecondPointMinus]) < 0) {
 					for (int j = indexFirstPointName; j < points.length; j++)
 						sb.append(points[j]);
 					for (int j = 0; j < indexFirstPointName; j++)
@@ -745,7 +745,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				} else {
 					for (int j = indexFirstPointName; j >= 0; j--)
 						sb.append(points[j]);
-					for (int j = points.length - 1; j > indexFirstPointName; j--)
+					for (int j = points.length
+							- 1; j > indexFirstPointName; j--)
 						sb.append(points[j]);
 				}
 
@@ -764,8 +765,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 			String[] points = new String[2];
 			int i = 0;
-			for (Iterator<ConstructionElement> it = key.iterator(); it
-					.hasNext() && (labelUsability < 2);) {
+			for (Iterator<ConstructionElement> it = key.iterator(); it.hasNext()
+					&& (labelUsability < 2);) {
 				GeoElement p = (GeoElement) it.next();
 				labelUsability += usableLabel(p);
 				if (labelUsability < 2) {
@@ -1255,7 +1256,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 			// init copy points list
 			if (copyPoints == null) {
-				if (pointIdComparator == null){
+				if (pointIdComparator == null) {
 					pointIdComparator = new Comparator<GeoPointND>() {
 						public int compare(GeoPointND o1, GeoPointND o2) {
 							if (o1.getID() < o2.getID()) {
@@ -1272,7 +1273,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 						pointIdComparator);
 			}
 
-			
 			int index;
 
 			// set segments
@@ -1340,7 +1340,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		if (!p.isDefined()) {
 			return false;
 		}
-		
+
 		int pointsLength = p.getPointsLength();
 
 		if (pointsLength == 0) {
@@ -1382,7 +1382,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		GeoPoint3D endPoint = getCopyPoint(s.getEndPoint());
 		ConstructionElementCycle key = ConstructionElementCycle
 				.segmentDescription(startPoint, endPoint);
-
 
 		if (index >= segmentsIndexMax) {
 			// seg = (GeoSegment3D)
@@ -1633,7 +1632,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	}
 
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+	public void rotate(NumberValue r, GeoPointND S,
+			GeoDirectionND orientation) {
 
 		for (GeoPoint3D point : copyPoints.values()) {
 			if (point.isDefined()) {

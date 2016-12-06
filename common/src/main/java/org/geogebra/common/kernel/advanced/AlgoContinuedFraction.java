@@ -176,7 +176,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 		if (Double.isNaN(dec))
 			return -1;
 
-		if (dec == Double.POSITIVE_INFINITY || dec == Double.NEGATIVE_INFINITY) {
+		if (dec == Double.POSITIVE_INFINITY
+				|| dec == Double.NEGATIVE_INFINITY) {
 			return -1;
 		}
 
@@ -223,15 +224,15 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 
 			// the approximation is within standard precision
-			if (Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
+			if (Math.abs((decimal - (FractionNumerator
+					/ FractionDenominator))) <= AccuracyFactor) {
 				denom[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
 			}
 
 		} while ((maxSteps == 0 || steps < maxSteps)
-				&& !Kernel.isEqual(Z, Math.floor(Z))
-				&& steps < denom.length);
+				&& !Kernel.isEqual(Z, Math.floor(Z)) && steps < denom.length);
 		return steps;
 	}
 
@@ -239,7 +240,5 @@ public class AlgoContinuedFraction extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

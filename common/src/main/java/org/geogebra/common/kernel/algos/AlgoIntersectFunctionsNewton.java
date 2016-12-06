@@ -150,9 +150,8 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 			}
 		}
 
-		double x = Double.isNaN(higher)
-				|| (startPoint.getInhomX() - lower < higher
-						- startPoint.getInhomX()) ? lower : higher;
+		double x = Double.isNaN(higher) || (startPoint.getInhomX()
+				- lower < higher - startPoint.getInhomX()) ? lower : higher;
 		rootPoint.setCoords(x, real.evaluate(x), 1);
 
 	}

@@ -104,10 +104,10 @@ public class SliderMover extends PathMoverGeneric {
 		resetStartParameter();
 
 		// System.out.println("init Path mover");
-		// System.out.println("  min_param : " + min_param);
-		// System.out.println("  max_param : " + max_param);
-		// System.out.println("  start_param : " + start_param);
-		// System.out.println("  max_step_width : " + max_step_width);
+		// System.out.println(" min_param : " + min_param);
+		// System.out.println(" max_param : " + max_param);
+		// System.out.println(" start_param : " + start_param);
+		// System.out.println(" max_step_width : " + max_step_width);
 	}
 
 	/**

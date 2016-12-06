@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael Borcherds
  */
-public class AlgoRandomUniform extends AlgoTwoNumFunction implements
-		SetRandomValue {
+public class AlgoRandomUniform extends AlgoTwoNumFunction
+		implements SetRandomValue {
 
 	public AlgoRandomUniform(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {
@@ -42,9 +42,9 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(a.getDouble()
-					+ kernel.getApplication().getRandomNumber()
-					* (b.getDouble() - a.getDouble()));
+			num.setValue(
+					a.getDouble() + kernel.getApplication().getRandomNumber()
+							* (b.getDouble() - a.getDouble()));
 		} else
 			num.setUndefined();
 

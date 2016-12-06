@@ -21,6 +21,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		implements PathPlotter {
 
 	private boolean lineDrawn;
+
 	/**
 	 * constructor
 	 * 
@@ -140,7 +141,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		// point
 		if (moveToAllowed == Gap.MOVE_TO) {
 			drawTo(x0, y0, false);
-		} else if (moveToAllowed == Gap.LINE_TO || moveToAllowed == Gap.CORNER) {
+		} else if (moveToAllowed == Gap.LINE_TO
+				|| moveToAllowed == Gap.CORNER) {
 			drawTo(x0, y0, true);
 		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = getCurrentPoint().getY();
@@ -181,7 +183,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	public boolean copyCoords(MyPoint point, double[] ret,
 			CoordSys transformSys) {
-		
+
 		Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
 		if (transformSys != CoordSys.XOY) {
 			transformSys.getPointFromOriginVectors(coords, tmpCoords);

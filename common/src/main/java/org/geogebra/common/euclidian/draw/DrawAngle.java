@@ -52,7 +52,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.getPrototype().newArc2D();
 	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath(); // Michael
-																			// Borcherds
+																				// Borcherds
 	// 2007-11-19
 	private GEllipse2DDouble dot90degree;
 	private GShape shape;
@@ -254,7 +254,8 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		// check whether we need to take care for a special 90 degree angle
 		// appearance
-		show90degrees = view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
+		show90degrees = view
+				.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 				&& angle.isEmphasizeRightAngle()
 				&& Kernel.isEqual(angExt, Kernel.PI_HALF);
 
@@ -277,22 +278,21 @@ public class DrawAngle extends Drawable implements Previewable {
 					square.reset();
 				double length = arcSize * 0.7071067811865;
 				square.moveTo((float) coords[0], (float) coords[1]);
-				square.lineTo(
-						(float) (coords[0] + length * Math.cos(angSt)),
+				square.lineTo((float) (coords[0] + length * Math.cos(angSt)),
 						(float) (coords[1] - length * Math.sin(angSt)
 								* view.getScaleRatio()));
 				square.lineTo(
 						(float) (coords[0] + arcSize
 								* Math.cos(angSt + Kernel.PI_HALF / 2)),
-						(float) (coords[1] - arcSize
-								* Math.sin(angSt + Kernel.PI_HALF / 2)
-								* view.getScaleRatio()));
+						(float) (coords[1]
+								- arcSize * Math.sin(angSt + Kernel.PI_HALF / 2)
+										* view.getScaleRatio()));
 				square.lineTo(
-						(float) (coords[0] + length
-								* Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1] - length
-								* Math.sin(angSt + Kernel.PI_HALF)
-								* view.getScaleRatio()));
+						(float) (coords[0]
+								+ length * Math.cos(angSt + Kernel.PI_HALF)),
+						(float) (coords[1]
+								- length * Math.sin(angSt + Kernel.PI_HALF)
+										* view.getScaleRatio()));
 				square.lineTo((float) coords[0], (float) coords[1]);
 				shape = square;
 				break;
@@ -306,28 +306,29 @@ public class DrawAngle extends Drawable implements Previewable {
 				length = arcSize * 0.7071067811865;
 				double offset = length * 0.4;
 				square.moveTo(
-						(float) (coords[0] + length * Math.cos(angSt) + offset
-								* Math.cos(angSt) + offset
-								* Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1] - length * Math.sin(angSt)
-								* view.getScaleRatio() - offset
-								* Math.sin(angSt) - offset
-								* Math.sin(angSt + Kernel.PI_HALF)));
+						(float) (coords[0] + length * Math.cos(angSt)
+								+ offset * Math.cos(angSt)
+								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
+						(float) (coords[1]
+								- length * Math.sin(angSt)
+										* view.getScaleRatio()
+								- offset * Math.sin(angSt)
+								- offset * Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
-						(float) (coords[0] + offset * Math.cos(angSt) + offset
-								* Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1] - offset * Math.sin(angSt) - offset
-								* Math.sin(angSt + Kernel.PI_HALF)));
+						(float) (coords[0] + offset * Math.cos(angSt)
+								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
+						(float) (coords[1] - offset * Math.sin(angSt)
+								- offset * Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
-						(float) (coords[0] + length
-								* Math.cos(angSt + Kernel.PI_HALF) + offset
-								* Math.cos(angSt) + offset
-								* Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1] - length
-								* Math.sin(angSt + Kernel.PI_HALF)
-								* view.getScaleRatio() - offset
-								* Math.sin(angSt) - offset
-								* Math.sin(angSt + Kernel.PI_HALF)));
+						(float) (coords[0]
+								+ length * Math.cos(angSt + Kernel.PI_HALF)
+								+ offset * Math.cos(angSt)
+								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
+						(float) (coords[1]
+								- length * Math.sin(angSt + Kernel.PI_HALF)
+										* view.getScaleRatio()
+								- offset * Math.sin(angSt)
+								- offset * Math.sin(angSt + Kernel.PI_HALF)));
 				shape = square; // FIXME
 
 				break;
@@ -337,15 +338,16 @@ public class DrawAngle extends Drawable implements Previewable {
 				drawDot = true;
 
 				if (dot90degree == null)
-					dot90degree = AwtFactory.getPrototype().newEllipse2DDouble();
+					dot90degree = AwtFactory.getPrototype()
+							.newEllipse2DDouble();
 				int diameter = 2 * geo.getLineThickness();
 				double radius = r / 1.7;
 				double labelAngle = angSt + angExt / 2.0;
 				coords[0] = m[0] + radius * Math.cos(labelAngle);
 				coords[1] = m[1] + radius * Math.sin(labelAngle);
 				view.toScreenCoords(coords);
-				dot90degree.setFrame(coords[0] - geo.getLineThickness(), coords[1]
-						- geo.getLineThickness(), diameter, diameter);
+				dot90degree.setFrame(coords[0] - geo.getLineThickness(),
+						coords[1] - geo.getLineThickness(), diameter, diameter);
 
 				// set arc in real world coords and transform to screen coords
 				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.PIE);
@@ -369,8 +371,8 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.getCoordTransform().createTransformedShape(
-						decoArc);
+				shapeArc1 = view.getCoordTransform()
+						.createTransformedShape(decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
@@ -378,13 +380,13 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.getCoordTransform().createTransformedShape(
-						decoArc);
+				shapeArc1 = view.getCoordTransform()
+						.createTransformedShape(decoArc);
 				r = (arcSize - 2 * rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc2 = view.getCoordTransform().createTransformedShape(
-						decoArc);
+				shapeArc2 = view.getCoordTransform()
+						.createTransformedShape(decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_ONE_TICK:
@@ -406,7 +408,8 @@ public class DrawAngle extends Drawable implements Previewable {
 			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
 				angleTick[0] = -angSt - 3 * angExt / 8;
 				angleTick[1] = -angSt - 5 * angExt / 8;
-				if (Math.abs(angleTick[1] - angleTick[0]) > 2 * MAX_TICK_DISTANCE) {
+				if (Math.abs(angleTick[1] - angleTick[0]) > 2
+						* MAX_TICK_DISTANCE) {
 					angleTick[0] = -angSt - angExt / 2 - MAX_TICK_DISTANCE;
 					angleTick[1] = -angSt - angExt / 2 + MAX_TICK_DISTANCE;
 				}
@@ -453,17 +456,17 @@ public class DrawAngle extends Drawable implements Previewable {
 				double size = 4d + geo.getLineThickness() / 4d;
 				size = size * 0.9d;
 
-				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size
-						* view.getInvXscale();
-				p2[1] = p1[1] + (1 * n[1] + 3 * v[1]) * size
-						* view.getInvYscale(); // arrow
+				p2[0] = p1[0]
+						+ (1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+				p2[1] = p1[1]
+						+ (1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
 				// end
 				// 1
 
-				p3[0] = p1[0] + (-1 * n[0] + 3 * v[0]) * size
-						* view.getInvXscale();
-				p3[1] = p1[1] + (-1 * n[1] + 3 * v[1]) * size
-						* view.getInvYscale(); // arrow
+				p3[0] = p1[0]
+						+ (-1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
+				p3[1] = p1[1]
+						+ (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
 				// end
 				// 2
 
@@ -517,10 +520,10 @@ public class DrawAngle extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
-			if (!show90degrees
-					|| view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L) {
+			if (!show90degrees || view
+					.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L) {
 				fill(g2, shape); // fill using default/hatching/image as
-										// appropriate
+									// appropriate
 			}
 
 			if (geo.doHighlighting()) {
@@ -614,10 +617,10 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		double length = 2.5 + geo.getLineThickness() / 4d;
 
-		tick[id].setLine(coords[0] + (radius - length) * cos, coords[1]
-				+ (radius - length) * sin * view.getScaleRatio(), coords[0]
-				+ (radius + length) * cos, coords[1] + (radius + length) * sin
-				* view.getScaleRatio());
+		tick[id].setLine(coords[0] + (radius - length) * cos,
+				coords[1] + (radius - length) * sin * view.getScaleRatio(),
+				coords[0] + (radius + length) * cos,
+				coords[1] + (radius + length) * sin * view.getScaleRatio());
 	}
 
 	@Override
@@ -681,8 +684,8 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 
 		for (int i = 0; i < prevPoints.size(); i++) {
-			Coords p = view.getCoordsForView(prevPoints.get(i)
-					.getInhomCoordsInD3());
+			Coords p = view
+					.getCoordsForView(prevPoints.get(i).getInhomCoordsInD3());
 			previewTempPoints[i].setCoords(p, true);
 		}
 		previewTempPoints[0].updateCascade();

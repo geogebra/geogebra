@@ -29,8 +29,8 @@ public class CmdTop extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
-				GeoElement[] ret = { kernelA.getManager3D()
-						.QuadricTop(c.getLabel(), (GeoQuadric3DLimited) arg[0]) };
+				GeoElement[] ret = { kernelA.getManager3D().QuadricTop(
+						c.getLabel(), (GeoQuadric3DLimited) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

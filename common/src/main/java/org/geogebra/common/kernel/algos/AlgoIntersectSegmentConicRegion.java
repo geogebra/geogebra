@@ -247,10 +247,11 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			count = 0;
 			for (int i = 0; i < 3; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 						isPartValid[i] = true;
 						count++;
 					}
@@ -336,10 +337,11 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			count = 0;
 			for (int i = 0; i < 4; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 						isPartValid[i] = true;
 						count++;
 					}
@@ -369,10 +371,9 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			boolean[] isPartValid = { false, false, false, false, false };
 
 			// get intersect point on segment
-			GeoPoint[] pnt = { getSegment().getStartPoint(),
-					intersectPoints[0], intersectPoints[1],
-					closureIntersect[0], closureIntersect[1],
-					getSegment().getEndPoint() };
+			GeoPoint[] pnt = { getSegment().getStartPoint(), intersectPoints[0],
+					intersectPoints[1], closureIntersect[0],
+					closureIntersect[1], getSegment().getEndPoint() };
 
 			// sorting intersection points order on input segment starting from
 			// inputsegment.getStartPoint()
@@ -434,10 +435,11 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			count = 0;
 			for (int i = 0; i < 4; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 						isPartValid[i] = true;
 						count++;
 					}
@@ -470,7 +472,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			outputSegments.updateLabels();
 		}
 	}
-
 
 	/**
 	 * initialize Elements. CreateOutput is called inside
@@ -511,7 +512,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				numberOfLineParts += 1;
 		}
 	}
-	
+
 	/**
 	 * /** calculates and assigns the intersection point between given segment
 	 * and conic curve
@@ -523,8 +524,8 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	 * @param intersectPoints
 	 *            GeoPoint[2]
 	 */
-	public static void intersectSegmentConic(GeoSegment segment,
-			GeoConic conic, GeoPoint[] intersectPoints) {
+	public static void intersectSegmentConic(GeoSegment segment, GeoConic conic,
+			GeoPoint[] intersectPoints) {
 		/*
 		 * calculate and assign intersection point between segment(as line) and
 		 * conic(full conic)
@@ -537,9 +538,9 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 				// checks the validitiy and the incidence on both conic and
 				// segment of intersection point
-				if (!(segment
-						.isOnPath(intersectPoints[i], Kernel.MIN_PRECISION) && conic
-						.isOnPath(intersectPoints[i], Kernel.MIN_PRECISION))) {
+				if (!(segment.isOnPath(intersectPoints[i], Kernel.MIN_PRECISION)
+						&& conic.isOnPath(intersectPoints[i],
+								Kernel.MIN_PRECISION))) {
 					intersectPoints[i].setUndefined();
 				}
 			}
@@ -588,8 +589,8 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				GeoVec3D.lineThroughPoints(endPoints[0], endPoints[1],
 						closureSegments[0]);
 				closureSegments[0].setPoints(endPoints[0], endPoints[1]);
-				closureSegments[1]
-						.setCoords(Double.NaN, Double.NaN, Double.NaN);
+				closureSegments[1].setCoords(Double.NaN, Double.NaN,
+						Double.NaN);
 				break;
 			case GeoConicNDConstants.CONIC_PART_SECTOR:
 				GeoVec3D.lineThroughPoints(midPoint, endPoints[0],
@@ -609,8 +610,8 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		} else { // if full conic no endpoints or closure segments
 			for (int i = 0; i < 2; i++) {
 				endPoints[i].setUndefined();
-				closureSegments[i]
-						.setCoords(Double.NaN, Double.NaN, Double.NaN);
+				closureSegments[i].setCoords(Double.NaN, Double.NaN,
+						Double.NaN);
 			}
 		}
 	}
@@ -639,14 +640,17 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		case GeoConicNDConstants.CONIC_PART_ARC:
 			if (!Double.isNaN(closureSegments[0].getX())) {
 				// calc intersection points
-				GeoVec3D.cross(closureSegments[0], segment, closureIntersect[0]);
+				GeoVec3D.cross(closureSegments[0], segment,
+						closureIntersect[0]);
 
 				// checks whether the cross product(intersection point) is
 				// actually an intersection point
 				if (closureIntersect[0].isDefined()) {
-					if (!(Kernel.isZero(closureSegments[0]
-							.distance(closureIntersect[0])) && Kernel
-							.isZero(segment.distance(closureIntersect[0])))) {
+					if (!(Kernel
+							.isZero(closureSegments[0]
+									.distance(closureIntersect[0]))
+							&& Kernel.isZero(
+									segment.distance(closureIntersect[0])))) {
 						closureIntersect[0].setUndefined();
 					}
 				}
@@ -676,9 +680,11 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 					// checks whether the cross product(intersection point) is
 					// actually an intersection point
 					if (closureIntersect[i].isDefined()) {
-						if (!(Kernel.isZero(closureSegments[i]
-								.distance(closureIntersect[i])) && Kernel
-								.isZero(segment.distance(closureIntersect[i])))) {
+						if (!(Kernel
+								.isZero(closureSegments[i]
+										.distance(closureIntersect[i]))
+								&& Kernel.isZero(segment
+										.distance(closureIntersect[i])))) {
 							closureIntersect[i].setUndefined();
 						}
 					}

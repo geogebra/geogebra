@@ -33,12 +33,11 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.Region3D;
 
-
 /***
  * Replacement for isInstance checks
  * 
- * For Macro inputs, objects are tested in order so we must have eg GEOVECTOR then GEOVECTORND then MOVEABLE otherwise the test will not work
- * see #2398
+ * For Macro inputs, objects are tested in order so we must have eg GEOVECTOR
+ * then GEOVECTORND then MOVEABLE otherwise the test will not work see #2398
  * 
  * @author kondr & Arpi
  *
@@ -199,7 +198,7 @@ Test {
 			return ob instanceof GeoQuadric3DInterface;
 		}
 	},
-	
+
 	/**
 	 * Implicit surface
 	 */
@@ -217,7 +216,7 @@ Test {
 			return ob instanceof GeoQuadric3DLimitedInterface;
 		}
 	},
-	
+
 	/** Test for GEOQUADRICND */
 	GEOQUADRICND {
 		@Override
@@ -225,8 +224,7 @@ Test {
 			return ob instanceof GeoQuadricND;
 		}
 	},
-	
-	
+
 	/** Test for GEOPOLYHEDRON */
 	GEOPOLYHEDRON {
 		@Override
@@ -234,7 +232,7 @@ Test {
 			return ob instanceof GeoPolyhedronInterface;
 		}
 	},
-	
+
 	/** Test for GEOCURVECARTESIAN */
 	GEOCURVECARTESIAN {
 		@Override
@@ -397,10 +395,6 @@ Test {
 		}
 	},
 
-	
-
-
-	
 	/** Test for GEOCOORDSYS2D, not GEOPLANEND */
 	GEOCOORDSYS2DNOTPLANE {
 		@Override
@@ -408,7 +402,7 @@ Test {
 			return Test.GEOCOORDSYS2D.check(ob) && !Test.GEOPLANEND.check(ob);
 		}
 	},
-	
+
 	/** Test for GEOPLANEND */
 	GEOPLANEND {
 		@Override
@@ -416,7 +410,7 @@ Test {
 			return ob instanceof GeoPlaneND;
 		}
 	},
-	
+
 	/** Test for GEOCOORDSYS2D */
 	GEOCOORDSYS2D {
 		@Override
@@ -516,7 +510,7 @@ Test {
 			return ob instanceof Transformable;
 		}
 	},
-	
+
 	/** Test for ROTATEABLE */
 	ROTATEABLE {
 		@Override
@@ -544,21 +538,25 @@ Test {
 	PATH_NO_FILL_HIT {
 		@Override
 		public boolean check(Object ob) {
-			if(ob instanceof GeoConicND){
-				return ((GeoConicND) ob).getLastHitType() == HitType.ON_BOUNDARY;
+			if (ob instanceof GeoConicND) {
+				return ((GeoConicND) ob)
+						.getLastHitType() == HitType.ON_BOUNDARY;
 			}
 			return ob instanceof Path;
 		}
 	};
-	/** 
+	/**
 	 * Checks whether given object passes this test
-	 * @param ob object to test
+	 * 
+	 * @param ob
+	 *            object to test
 	 * @return true if object passes
 	 */
 	public abstract boolean check(Object ob);
 
 	/**
-	 * @param obj object
+	 * @param obj
+	 *            object
 	 * @return the most specific test this object can pass
 	 */
 	public static Test getSpecificTest(Object obj) {
@@ -578,32 +576,32 @@ Test {
 	 * @return whether objec.set(setter) will run OK
 	 */
 	public static boolean canSet(GeoElement object, GeoElement setter) {
-		return gen(getSpecificTest(object),getSpecificTest(setter));
+		return gen(getSpecificTest(object), getSpecificTest(setter));
 	}
-	
+
 	private static boolean gen(Test first, Test second) {
-		if(first == second){
+		if (first == second) {
 			return true;
 		}
-		switch(first){
-			case GEONUMERIC:
-				return gen(GEOANGLE,second) || gen(GEOBOOLEAN,second);
-			case GEOFUNCTION:
-				return gen(GEONUMERIC,second) || gen(GEOLINE,second);
-			case GEOFUNCTIONNVAR:
-				return gen(GEOFUNCTION,second);
-			case GEOCONIC:
-				return gen(GEOLINE,second);
+		switch (first) {
+		case GEONUMERIC:
+			return gen(GEOANGLE, second) || gen(GEOBOOLEAN, second);
+		case GEOFUNCTION:
+			return gen(GEONUMERIC, second) || gen(GEOLINE, second);
+		case GEOFUNCTIONNVAR:
+			return gen(GEOFUNCTION, second);
+		case GEOCONIC:
+			return gen(GEOLINE, second);
 		case GEOIMPLICIT:
-				return gen(GEOCONIC,second);
-			case GEOPLANEND:
-				return gen(GEOLINE,second);
-			case GEOPOINT:
-				return gen(GEONUMERIC, second);
+			return gen(GEOCONIC, second);
+		case GEOPLANEND:
+			return gen(GEOLINE, second);
+		case GEOPOINT:
+			return gen(GEONUMERIC, second);
 		default:
 			break;
 		}
 		return false;
 	}
-		
+
 }

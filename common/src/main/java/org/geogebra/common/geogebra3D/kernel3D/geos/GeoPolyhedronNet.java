@@ -83,8 +83,6 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 			oldSegments = null;
 		}
 
-
-
 		super.createFaces();
 
 	}
@@ -142,7 +140,6 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 			point.setEuclidianVisible(visible);
 		}
 	}
-
 
 	@Override
 	public double getDouble() {

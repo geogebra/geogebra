@@ -146,9 +146,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			return super.processConic(equ, def);
 
 		// check if the equ is forced plane or if the 3D view has the focus
-		if (equ.isForcedQuadric()
-				|| kernel.getApplication().getActiveEuclidianView()
-						.isEuclidianView3D()) {
+		if (equ.isForcedQuadric() || kernel.getApplication()
+				.getActiveEuclidianView().isEuclidianView3D()) {
 			return processQuadric(equ, def);
 		}
 		return super.processConic(equ, def);
@@ -156,7 +155,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	private GeoElement[] processQuadric(Equation equ, ExpressionNode def) {
-		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0, z = 0, c = 0;
+		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0,
+				z = 0, c = 0;
 		GeoElement[] ret = new GeoElement[1];
 		GeoQuadric3D quadric;
 		String label = equ.getLabel();
@@ -179,8 +179,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			double[] coeffs = { xx, yy, zz, c, xy, xz, yz, x, y, z };
 			quadric = new GeoQuadric3D(cons, coeffs);
 		} else {
-			quadric = (GeoQuadric3D) kernel.getManager3D().DependentQuadric3D(
-					equ);
+			quadric = (GeoQuadric3D) kernel.getManager3D()
+					.DependentQuadric3D(equ);
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
@@ -209,12 +209,10 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			b = lhs.getCoeffValue("y");
 			c = lhs.getCoeffValue("z");
 			d = lhs.getCoeffValue("");
-			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(a, b, c,
-					d);
+			plane = (GeoPlane3D) kernel.getManager3D().Plane3D(a, b, c, d);
 			plane.setDefinition(def);
 		} else {
-			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(
-					equ);
+			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(equ);
 		}
 		plane.showUndefinedInAlgebraView(true);
 		plane.setLabel(label);
@@ -240,10 +238,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 					&& lhs.isConstant() && !equ.hasVariableDegree();
 
 			if (kernel.getApplication().getActiveEuclidianView()
-					.isEuclidianView3D()
-					|| equ.isForcedSurface()
-					|| equ.isForcedPlane()
-					|| equ.isForcedQuadric()) {
+					.isEuclidianView3D() || equ.isForcedSurface()
+					|| equ.isForcedPlane() || equ.isForcedQuadric()) {
 				GeoElement geo = null;
 				if (isIndependent) {
 					geo = new GeoImplicitSurface(cons, equ);

@@ -130,7 +130,6 @@ public class DrawCurve3D extends Drawable3DCurves {
 			return false;
 		}
 
-
 		if (hittingPoint == null) {
 			hittingPoint = new GeoPoint3D(getGeoElement().getConstruction());
 			project = new Coords(4);
@@ -165,7 +164,6 @@ public class DrawCurve3D extends Drawable3DCurves {
 		}
 
 		return false;
-
 
 	}
 

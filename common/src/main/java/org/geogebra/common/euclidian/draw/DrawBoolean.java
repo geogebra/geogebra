@@ -45,6 +45,7 @@ public final class DrawBoolean extends Drawable {
 	private final GPoint textSize = new GPoint(0, 0);
 
 	private CheckBoxIcon checkBoxIcon;
+
 	/**
 	 * Creates new DrawText
 	 * 
@@ -64,6 +65,7 @@ public final class DrawBoolean extends Drawable {
 	private boolean isLatexLabel() {
 		return CanvasDrawable.isLatexString(labelDesc);
 	}
+
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -99,8 +101,8 @@ public final class DrawBoolean extends Drawable {
 		int size = view.getBooleanSize();
 		GDimension prefSize = AwtFactory.getPrototype().newDimension(size + 12,
 				size + 12);// checkBox.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth()
-				+ textSize.x, prefSize.getHeight());
+		labelRectangle.setBounds(xLabel, yLabel,
+				prefSize.getWidth() + textSize.x, prefSize.getHeight());
 
 		// checkBox.setBounds(labelRectangle);
 	}
@@ -119,7 +121,6 @@ public final class DrawBoolean extends Drawable {
 					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
 					geoBool.labelOffsetY + 5, view.getBooleanSize());
 
-
 			if (isLatexLabel()) {
 				GDimension d = CanvasDrawable.measureLatex(
 						view.getApplication(), g2, geoBool, g2.getFont(),
@@ -127,7 +128,6 @@ public final class DrawBoolean extends Drawable {
 
 				textSize.x = d.getWidth();
 				textSize.y = d.getHeight();
-
 
 				if (checkBoxIcon.getIconHeight() < d.getHeight()) {
 					posY -= (d.getHeight() - checkBoxIcon.getIconHeight()) / 2;
@@ -140,8 +140,7 @@ public final class DrawBoolean extends Drawable {
 				g2.setColor(GColor.RED);
 				app.getDrawEquation().drawEquation(app, geoBool, g2, posX, posY,
 						geoBool.getCaption(StringTemplate.defaultTemplate),
-						g2.getFont(), false,
-						geoBool.getObjectColor(),
+						g2.getFont(), false, geoBool.getObjectColor(),
 						geoBool.getBackgroundColor(), false, false, null);
 			} else {
 				g2.setPaint(geo.getObjectColor());
@@ -245,8 +244,8 @@ public final class DrawBoolean extends Drawable {
 		private EuclidianView ev;
 
 		/** background color when highlighted */
-		public static final GColor highlightBackground = GColor
-				.newColor(248, 248, 248);
+		public static final GColor highlightBackground = GColor.newColor(248,
+				248, 248);
 
 		/**
 		 * Creates new checkbox icon
@@ -282,42 +281,42 @@ public final class DrawBoolean extends Drawable {
 
 			{
 				// outer bevel
-					// Draw rounded border
-					g.setColor(GColor.DARK_GRAY);
-					g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
+				// Draw rounded border
+				g.setColor(GColor.DARK_GRAY);
+				g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
-					// Draw rectangle with rounded borders
-					if (highlighted) {
-						g.setColor(highlightBackground);
-					} else {
-						g.setColor(GColor.WHITE);
-					}
-					g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2,
-							csize / 5, csize / 5);
+				// Draw rectangle with rounded borders
+				if (highlighted) {
+					g.setColor(highlightBackground);
+				} else {
+					g.setColor(GColor.WHITE);
+				}
+				g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize / 5,
+						csize / 5);
 
-					g.setColor(GColor.DARK_GRAY);
+				g.setColor(GColor.DARK_GRAY);
 
 				// paint check
 
 				if (checked) {
 					if (csize == 13) {
-						
+
 						if (stroke13 == null) {
-							stroke13 = AwtFactory.getPrototype()
-							.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
+							stroke13 = AwtFactory.getPrototype().newBasicStroke(
+									2f, GBasicStroke.CAP_ROUND,
 									GBasicStroke.JOIN_ROUND);
 						}
-						
+
 						g.setStroke(stroke13);
 						g.drawLine(x + 2, y + 7, x + 5, y + 10);
 						g.drawLine(x + 5, y + 10, x + 10, y + 3);
 
 					} else { // csize == 26
-						
+
 						if (stroke26 == null) {
-							stroke26 = AwtFactory.getPrototype()
-									.newBasicStroke(4f, GBasicStroke.CAP_ROUND,
-											GBasicStroke.JOIN_ROUND);
+							stroke26 = AwtFactory.getPrototype().newBasicStroke(
+									4f, GBasicStroke.CAP_ROUND,
+									GBasicStroke.JOIN_ROUND);
 						}
 						g.setStroke(stroke26);
 						g.drawLine(x + 5, y + 15, x + 10, y + 20);

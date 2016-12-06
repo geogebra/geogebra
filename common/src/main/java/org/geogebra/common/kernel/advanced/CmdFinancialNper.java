@@ -91,7 +91,8 @@ public class CmdFinancialNper extends CommandProcessor {
 				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(),
 						(GeoNumeric) arg[0], null, (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4], AlgoFinancial.CalculationType.NPER);
+						(GeoNumeric) arg[4],
+						AlgoFinancial.CalculationType.NPER);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

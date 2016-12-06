@@ -46,8 +46,7 @@ public class AdjustButton extends AdjustWidget {
 			return;
 		}
 
-		Log.debug(
-"[AS] Button " + button.getLabelSimple()
+		Log.debug("[AS] Button " + button.getLabelSimple()
 				+ " is NOT  on screen");
 
 		int viewWidth = view.getViewWidth();
@@ -75,8 +74,7 @@ public class AdjustButton extends AdjustWidget {
 		}
 
 		if (changed) {
-			button.setAbsoluteScreenLoc((int) x,
- (int) y);
+			button.setAbsoluteScreenLoc((int) x, (int) y);
 		}
 
 	}

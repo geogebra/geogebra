@@ -27,34 +27,41 @@ package org.apache.commons.math.distribution;
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface BinomialDistribution extends IntegerDistribution {
-    /**
-     * Access the number of trials for this distribution.
-     * @return the number of trials.
-     */
-    int getNumberOfTrials();
+	/**
+	 * Access the number of trials for this distribution.
+	 * 
+	 * @return the number of trials.
+	 */
+	int getNumberOfTrials();
 
-    /**
-     * Access the probability of success for this distribution.
-     * @return the probability of success.
-     */
-    double getProbabilityOfSuccess();
+	/**
+	 * Access the probability of success for this distribution.
+	 * 
+	 * @return the probability of success.
+	 */
+	double getProbabilityOfSuccess();
 
-    /**
-     * Change the number of trials for this distribution.
-     * @param trials the new number of trials.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setNumberOfTrials(int trials);
+	/**
+	 * Change the number of trials for this distribution.
+	 * 
+	 * @param trials
+	 *            the new number of trials.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setNumberOfTrials(int trials);
 
-    /**
-     * Change the probability of success for this distribution.
-     * @param p the new probability of success.
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setProbabilityOfSuccess(double p);
+	/**
+	 * Change the probability of success for this distribution.
+	 * 
+	 * @param p
+	 *            the new probability of success.
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setProbabilityOfSuccess(double p);
 }

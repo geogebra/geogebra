@@ -32,8 +32,8 @@ public class CmdUnitOrthogonalVector extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoLine) {
-				AlgoUnitOrthoVectorLine algo = new AlgoUnitOrthoVectorLine(
-						cons, c.getLabel(), (GeoLine) arg[0]);
+				AlgoUnitOrthoVectorLine algo = new AlgoUnitOrthoVectorLine(cons,
+						c.getLabel(), (GeoLine) arg[0]);
 
 				GeoElement[] ret = { algo.getVector() };
 				return ret;

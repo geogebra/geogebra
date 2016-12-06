@@ -22,24 +22,26 @@ import org.apache.commons.collections15.Factory;
 import edu.uci.ics.jung.graph.util.Pair;
 
 /**
- * An implementation of <code>UndirectedGraph</code> that is suitable for sparse graphs,
- * orders its vertex and edge collections according to insertion time, and permits
- * parallel edges.
+ * An implementation of <code>UndirectedGraph</code> that is suitable for sparse
+ * graphs, orders its vertex and edge collections according to insertion time,
+ * and permits parallel edges.
  */
 @SuppressWarnings("serial")
-public class UndirectedOrderedSparseMultigraph<V,E> 
-    extends UndirectedSparseMultigraph<V,E>
-    implements UndirectedGraph<V,E> {
-	
-    /**
-     * Returns a {@code Factory} that creates an instance of this graph type.
-     * @param <V> the vertex type for the graph factory
-     * @param <E> the edge type for the graph factory
-     */
-	public static <V,E> Factory<UndirectedGraph<V,E>> getFactory() {
-		return new Factory<UndirectedGraph<V,E>> () {
-			public UndirectedGraph<V,E> create() {
-				return new UndirectedOrderedSparseMultigraph<V,E>();
+public class UndirectedOrderedSparseMultigraph<V, E> extends
+		UndirectedSparseMultigraph<V, E> implements UndirectedGraph<V, E> {
+
+	/**
+	 * Returns a {@code Factory} that creates an instance of this graph type.
+	 * 
+	 * @param <V>
+	 *            the vertex type for the graph factory
+	 * @param <E>
+	 *            the edge type for the graph factory
+	 */
+	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
+		return new Factory<UndirectedGraph<V, E>>() {
+			public UndirectedGraph<V, E> create() {
+				return new UndirectedOrderedSparseMultigraph<V, E>();
 			}
 		};
 	}
@@ -47,42 +49,40 @@ public class UndirectedOrderedSparseMultigraph<V,E>
 	/**
 	 * Creates a new instance.
 	 */
-    public UndirectedOrderedSparseMultigraph() {
-        vertices = new LinkedHashMap<V, Set<E>>();
-        edges = new LinkedHashMap<E, Pair<V>>();
-    }
+	public UndirectedOrderedSparseMultigraph() {
+		vertices = new LinkedHashMap<V, Set<E>>();
+		edges = new LinkedHashMap<E, Pair<V>>();
+	}
 
-    @Override
-    public boolean addVertex(V vertex) {
-    	if(vertex == null) {
-    		throw new IllegalArgumentException("vertex may not be null");
-    	}
-        if (!containsVertex(vertex))
-        {
-            vertices.put(vertex, new LinkedHashSet<E>());
-            return true;
-        } else {
-            return false;
-        }
-    }
+	@Override
+	public boolean addVertex(V vertex) {
+		if (vertex == null) {
+			throw new IllegalArgumentException("vertex may not be null");
+		}
+		if (!containsVertex(vertex)) {
+			vertices.put(vertex, new LinkedHashSet<E>());
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    @Override
-    public Collection<V> getNeighbors(V vertex) {
-        if (!containsVertex(vertex))
-            return null;
-        
-        Set<V> neighbors = new LinkedHashSet<V>();
-        for (E edge : getIncident_internal(vertex))
-        {
-            Pair<V> endpoints = this.getEndpoints(edge);
-            V e_a = endpoints.getFirst();
-            V e_b = endpoints.getSecond();
-            if (vertex.equals(e_a))
-                neighbors.add(e_b);
-            else
-                neighbors.add(e_a);
-        }
-        
-        return Collections.unmodifiableCollection(neighbors);
-    }
+	@Override
+	public Collection<V> getNeighbors(V vertex) {
+		if (!containsVertex(vertex))
+			return null;
+
+		Set<V> neighbors = new LinkedHashSet<V>();
+		for (E edge : getIncident_internal(vertex)) {
+			Pair<V> endpoints = this.getEndpoints(edge);
+			V e_a = endpoints.getFirst();
+			V e_b = endpoints.getSecond();
+			if (vertex.equals(e_a))
+				neighbors.add(e_b);
+			else
+				neighbors.add(e_a);
+		}
+
+		return Collections.unmodifiableCollection(neighbors);
+	}
 }

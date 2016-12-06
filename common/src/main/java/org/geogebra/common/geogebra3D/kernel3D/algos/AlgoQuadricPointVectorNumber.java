@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * @author ggb3D
  *
  */
-public abstract class AlgoQuadricPointVectorNumber extends
-		AlgoQuadricPointNumber {
+public abstract class AlgoQuadricPointVectorNumber
+		extends AlgoQuadricPointNumber {
 
 	/**
 	 * @param c

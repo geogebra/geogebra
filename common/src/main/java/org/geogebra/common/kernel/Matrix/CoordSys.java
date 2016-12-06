@@ -24,7 +24,7 @@ public class CoordSys {
 
 	/** dimension of the space (2 for 2D, 3 for 3D, ...) */
 	private int spaceDimension = 3;
-	
+
 	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4),
 			tmpCoords3 = new Coords(4), tmpCoords4 = new Coords(4);
 
@@ -76,8 +76,8 @@ public class CoordSys {
 	 * "identity" coord sys
 	 */
 	public static final CoordSys Identity3D;
-	
-	static{
+
+	static {
 		Identity3D = new CoordSys(2);
 		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
 		Identity3D.makeOrthoMatrix(true, true);
@@ -155,7 +155,6 @@ public class CoordSys {
 		return getPoint(coords2D.getX(), coords2D.getY(), result);
 	}
 
-
 	public Coords getPoint(double x, double y, Coords result) {
 		result.setAdd(matrixOrthonormal.getOrigin(),
 				getVector(x, y, tmpCoords2));
@@ -178,15 +177,15 @@ public class CoordSys {
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
-	
+
 	/**
 	 * @deprecated use {@link #getPoint(double, double, double, Coords)} instead
 	 */
 	public Coords getPoint(double x, double y, double z) {
-		if (Kernel.isZero(z)){
+		if (Kernel.isZero(z)) {
 			return getVector(x, y);
 		}
-		return getPoint(x/z, y/z);
+		return getPoint(x / z, y / z);
 	}
 
 	public Coords getPoint(double x, double y, double z, Coords result) {
@@ -195,7 +194,6 @@ public class CoordSys {
 		}
 		return getPoint(x / z, y / z, result);
 	}
-
 
 	/**
 	 * 
@@ -269,13 +267,10 @@ public class CoordSys {
 	// ///////////////////////////////////
 
 	public Coords[] getNormalProjection(Coords coords) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
 		coords.projectPlane(this.getMatrixOrthonormal(), result[0], result[1]);
 		return result;
 	}
-
-	
-
 
 	// /////////////////////////////////////
 	// creating a coord sys
@@ -312,12 +307,12 @@ public class CoordSys {
 	public int getMadeCoordSys() {
 		return madeCoordSys;
 	}
-	
+
 	/**
 	 * complete the coord sys for 2 dimension
 	 */
-	public void completeCoordSys2D(){
-		switch(getMadeCoordSys()){
+	public void completeCoordSys2D() {
+		switch (getMadeCoordSys()) {
 		case 0:
 			addVectorWithoutCheckMadeCoordSys(Coords.VX);
 			addVectorWithoutCheckMadeCoordSys(Coords.VY);
@@ -325,9 +320,11 @@ public class CoordSys {
 		case 1:
 			Coords vx = getVx();
 			if (Kernel.isZero(vx.getX()))
-				addVectorWithoutCheckMadeCoordSys(new Coords(0,-vx.getZ(),vx.getY(),0));
+				addVectorWithoutCheckMadeCoordSys(
+						new Coords(0, -vx.getZ(), vx.getY(), 0));
 			else
-				addVectorWithoutCheckMadeCoordSys(new Coords(-vx.getY(),vx.getX(),0,0));
+				addVectorWithoutCheckMadeCoordSys(
+						new Coords(-vx.getY(), vx.getX(), 0, 0));
 			break;
 		}
 	}
@@ -390,18 +387,17 @@ public class CoordSys {
 		switch (getMadeCoordSys()) {
 		case 0: // add first vector
 			// check if v==0
-			if (!Kernel.isEqual(v.norm(), 0,
-					Kernel.STANDARD_PRECISION)) {
+			if (!Kernel.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
 				setVx(v);
 				setMadeCoordSys(1);
 			}
 			break;
 		case 1: // add second vector
-//			// calculate normal vector to check if v1 depends to vx
-//			Coords vn = getVx().crossProduct(v);
-//			// check if vn==0
-//			if (!Kernel.isEqual(vn.norm(), 0,
-//					Kernel.STANDARD_PRECISION)) {
+			// // calculate normal vector to check if v1 depends to vx
+			// Coords vn = getVx().crossProduct(v);
+			// // check if vn==0
+			// if (!Kernel.isEqual(vn.norm(), 0,
+			// Kernel.STANDARD_PRECISION)) {
 			if (getVx().isLinearIndependent(v)) {
 				setVy(v);
 				getVz().setCrossProduct(getVx(), getVy());
@@ -423,76 +419,89 @@ public class CoordSys {
 
 		double d = equationVector.dotproduct(getOrigin());
 		equationVector.set(4, -d);
-		
+
 		checkEquationVectorHasJustOneNegativeCoeff();
 	}
-	
-	/** 
-	 * check if two of the x, y, z coeff are equal to 0, and if the other is negative,
-	 * then change signs
+
+	/**
+	 * check if two of the x, y, z coeff are equal to 0, and if the other is
+	 * negative, then change signs
 	 * 
 	 */
-	final private void checkEquationVectorHasJustOneNegativeCoeff(){
-		
+	final private void checkEquationVectorHasJustOneNegativeCoeff() {
+
 		int zeros = 0;
 		boolean negative = false;
-		
-		// check if two of the x, y, z coeff are equal to 0, and if the other is negative
-		for (int i = 1 ; i <= 3 ; i++){
+
+		// check if two of the x, y, z coeff are equal to 0, and if the other is
+		// negative
+		for (int i = 1; i <= 3; i++) {
 			double coeff = equationVector.get(i);
-			if (Kernel.isZero(coeff)){
+			if (Kernel.isZero(coeff)) {
 				zeros++;
-			}else{
-				negative = (coeff<0);
+			} else {
+				negative = (coeff < 0);
 			}
 		}
-		
+
 		// then change signs
-		if (zeros == 2 && negative){
+		if (zeros == 2 && negative) {
 			equationVector.mulInside(-1);
 		}
-		
+
 	}
-	
+
 	/**
 	 * set equation vector
-	 * @param a x coeff
-	 * @param b y coeff
-	 * @param c z coeff
-	 * @param d w coeff
+	 * 
+	 * @param a
+	 *            x coeff
+	 * @param b
+	 *            y coeff
+	 * @param c
+	 *            z coeff
+	 * @param d
+	 *            w coeff
 	 */
-	final public void setEquationVector(double a, double b, double c, double d){
+	final public void setEquationVector(double a, double b, double c,
+			double d) {
 		equationVector.setX(a);
 		equationVector.setY(b);
 		equationVector.setZ(c);
 		equationVector.setW(d);
-		
+
 		checkEquationVectorHasJustOneNegativeCoeff();
-	}
-	
-	/**
-	 * set equation vector corresponding to (m-o).n = 0
-	 * @param o origin
-	 * @param n normal point
-	 */
-	public void setEquationVector(Coords o, Coords n){
-		setEquationVector(n.getX(),n.getY(),n.getZ(),-(n.getX()*o.getX()+n.getY()*o.getY()+n.getZ()*o.getZ()));
 	}
 
 	/**
-	 * set equation vector 
-	 * @param cA first point
-	 * @param cB second point
-	 * @param cC third point
+	 * set equation vector corresponding to (m-o).n = 0
+	 * 
+	 * @param o
+	 *            origin
+	 * @param n
+	 *            normal point
 	 */
-	public void setEquationVector(Coords cA, Coords cB, Coords cC){
+	public void setEquationVector(Coords o, Coords n) {
+		setEquationVector(n.getX(), n.getY(), n.getZ(), -(n.getX() * o.getX()
+				+ n.getY() * o.getY() + n.getZ() * o.getZ()));
+	}
+
+	/**
+	 * set equation vector
+	 * 
+	 * @param cA
+	 *            first point
+	 * @param cB
+	 *            second point
+	 * @param cC
+	 *            third point
+	 */
+	public void setEquationVector(Coords cA, Coords cB, Coords cC) {
 		tmpCoords1.setSub(cB, cA);
 		tmpCoords2.setSub(cC, cA);
 		tmpCoords3.setCrossProduct(tmpCoords1, tmpCoords2);
 		setEquationVector(cA, tmpCoords3);
 	}
-	
-
 
 	/**
 	 * @return the equation vector
@@ -580,7 +589,7 @@ public class CoordSys {
 				matrixOrthonormal.set(0);
 				if (getMadeCoordSys() == 0)
 					matrixOrthonormal.setOrigin(getOrigin());
-				getVx().set(0);				
+				getVx().set(0);
 			}
 			return false;
 
@@ -599,9 +608,9 @@ public class CoordSys {
 				getVz().setCrossProduct(getVx(), getVy());
 			}
 
-			if (projectOrigin){ // recompute origin for ortho matrix
-				Coords.O.projectPlane(getMatrixOrthonormal(),tmpCoords1);
-			}else{
+			if (projectOrigin) { // recompute origin for ortho matrix
+				Coords.O.projectPlane(getMatrixOrthonormal(), tmpCoords1);
+			} else {
 				tmpCoords1.set(getOrigin());
 			}
 
@@ -647,8 +656,9 @@ public class CoordSys {
 			matrixOrthonormal.setVy(tmpCoords2);
 			matrixOrthonormal.setVz(tmpCoords3);
 			Coords.O.projectPlane(getMatrixOrthonormal(), tmpCoords3);
-			
-			if (projectOrigin){ // recompute origin for ortho and drawing matrix
+
+			if (projectOrigin) { // recompute origin for ortho and drawing
+									// matrix
 				matrixOrthonormal.setOrigin(tmpCoords3);
 			}
 
@@ -681,21 +691,22 @@ public class CoordSys {
 	public CoordMatrix4x4 getDrawingMatrix() {
 		return drawingMatrix;
 	}
-	
-	
+
 	/**
 	 * set simple coord sys with m for origin
-	 * @param m origin point
+	 * 
+	 * @param m
+	 *            origin point
 	 */
-	public void setSimpleCoordSysWithOrigin(Coords m){
+	public void setSimpleCoordSysWithOrigin(Coords m) {
 		setOrigin(m);
 		setVx(Coords.VX);
 		setVy(Coords.VY);
 		setVz(Coords.VZ);
-		
+
 		matrixOrthonormal = CoordMatrix4x4.Identity();
 		matrixOrthonormal.setOrigin(m);
-		
+
 		drawingMatrix = CoordMatrix4x4.Identity();
 		drawingMatrix.setOrigin(m);
 	}
@@ -706,31 +717,35 @@ public class CoordSys {
 
 	/**
 	 * translate the coord sys (matrix orthonormal and drawing matrix)
-	 * @param v translation vector
+	 * 
+	 * @param v
+	 *            translation vector
 	 */
 	public void translate(Coords v) {
 
 		Coords o = matrixOrthonormal.getOrigin();
 		o.addInside(v);
 		matrixOrthonormal.setOrigin(o);
-		if (dimension==2){
+		if (dimension == 2) {
 			drawingMatrix.setOrigin(o);
-		}		
+		}
 
 		setOrigin(o);
 
-		if (dimension==2){
+		if (dimension == 2) {
 			Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
 			drawingMatrix.setOrigin(tmpCoords3);
 		}
-		
+
 	}
-	
+
 	/**
 	 * translate equation vector
-	 * @param v translation vector
+	 * 
+	 * @param v
+	 *            translation vector
 	 */
-	public void translateEquationVector(Coords v){
+	public void translateEquationVector(Coords v) {
 		translateEquationVector(equationVector, v);
 	}
 
@@ -745,98 +760,98 @@ public class CoordSys {
 	static final public void translateEquationVector(Coords eqV, Coords v) {
 		eqV.setW(eqV.getW() - v.dotproduct(eqV));
 	}
-	
+
 	/**
 	 * transform the matrix orthonormal to fit transform represented by m.
 	 * Compute {a,b,c} to perform inside coordsys transformation (which keep
-	 * orthonormal matrix) :
-	 * new x = a*x
-	 * new y = b*x + c*y
-	 * @param m matrix of transformation
+	 * orthonormal matrix) : new x = a*x new y = b*x + c*y
+	 * 
+	 * @param m
+	 *            matrix of transformation
 	 * @return {a,b,c} for inside coordsys transformation
 	 */
-	public double[] matrixTransform(CoordMatrix4x4 m){
-		
+	public double[] matrixTransform(CoordMatrix4x4 m) {
+
 		double[] ret;
-		
+
 		Coords o = m.mul(matrixOrthonormal.getOrigin());
-		
+
 		Coords vx = m.mul(matrixOrthonormal.getVx());
 		Coords vy = m.mul(matrixOrthonormal.getVy());
 		Coords vn = vx.crossProduct4(vy);
-		
-		
-		if (vn.isZero()){ // vx, vy not independant
-			if (vx.isZero()){
-				if (vy.isZero()){ // all to 0
-					ret = new double[] {0, 0, 
-										   0};
+
+		if (vn.isZero()) { // vx, vy not independant
+			if (vx.isZero()) {
+				if (vy.isZero()) { // all to 0
+					ret = new double[] { 0, 0, 0 };
 					CoordMatrix4x4.Identity(matrixOrthonormal);
 					matrixOrthonormal.setOrigin(o);
-				}else{ // vy != 0
+				} else { // vy != 0
 					vy.calcNorm();
 					double l = vy.getNorm();
-					ret = new double[] {0, 0, 
-										   l};
-					CoordMatrix4x4.createOrthoToDirection(o, vy.mul(1/l), CoordMatrix4x4.VY, tmpCoords1, tmpCoords2, matrixOrthonormal);
-				}				
-			}else{ // vx != 0
+					ret = new double[] { 0, 0, l };
+					CoordMatrix4x4.createOrthoToDirection(o, vy.mul(1 / l),
+							CoordMatrix4x4.VY, tmpCoords1, tmpCoords2,
+							matrixOrthonormal);
+				}
+			} else { // vx != 0
 				vx.calcNorm();
 				double l = vx.getNorm();
-				vx = vx.mul(1/l);
+				vx = vx.mul(1 / l);
 				double a = vy.dotproduct(vx); // vy maybe not 0
-				ret = new double[] {l, a, 
-									   0};
-				CoordMatrix4x4.createOrthoToDirection(o, vx, CoordMatrix4x4.VX, tmpCoords1, tmpCoords2, matrixOrthonormal);
+				ret = new double[] { l, a, 0 };
+				CoordMatrix4x4.createOrthoToDirection(o, vx, CoordMatrix4x4.VX,
+						tmpCoords1, tmpCoords2, matrixOrthonormal);
 
 			}
-		}else{ // none are 0
-			
+		} else { // none are 0
+
 			vx.calcNorm();
 			double l = vx.getNorm();
-			vx = vx.mul(1/l);
+			vx = vx.mul(1 / l);
 			vn.normalize();
 			Coords vyn = vn.crossProduct4(vx);
 			double a = vy.dotproduct(vx);
 			double b = vy.dotproduct(vyn);
-			ret = new double[] {l, a, 
-								   b};
+			ret = new double[] { l, a, b };
 			matrixOrthonormal.setVx(vx);
 			matrixOrthonormal.setVy(vyn);
 			matrixOrthonormal.setVz(vn);
 			matrixOrthonormal.setOrigin(o);
-		
+
 		}
-		
+
 		// set original origin and vectors
 		setOrigin(o);
-		setVx(m.mul(getVx()));	
+		setVx(m.mul(getVx()));
 
-		if (dimension==2){
+		if (dimension == 2) {
 			setVy(m.mul(getVy()));
 			setVz(m.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
-		
+
 		return ret;
 	}
-	
-	private void setDrawingMatrixFromMatrixOrthonormal(Coords vx){
+
+	private void setDrawingMatrixFromMatrixOrthonormal(Coords vx) {
 
 		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords3, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, vx, tmpCoords1, tmpCoords2, drawingMatrix);
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
+				matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, vx, tmpCoords1,
+				tmpCoords2, drawingMatrix);
 
 	}
-	
-
 
 	private void setDrawingMatrixFromMatrixOrthonormal() {
 
 		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords3, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, drawingMatrix);
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords3,
+				matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, tmpCoords1,
+				tmpCoords2, drawingMatrix);
 
 	}
-	
+
 	/**
 	 * set matrix orthonormal from coordsys origin and vectors, and drawing
 	 * matrix from matrix orthonormal
@@ -854,137 +869,146 @@ public class CoordSys {
 
 	/**
 	 * rotate by phi around center, parallel to xOy plane
-	 * @param phi angle
-	 * @param center center point
+	 * 
+	 * @param phi
+	 *            angle
+	 * @param center
+	 *            center point
 	 */
-	public void rotate(double phi, Coords center){
-		
-		//create rotation matrix
-		if (tempMatrix3x3 == null){
-			tempMatrix3x3 = new CoordMatrix(3,3);
+	public void rotate(double phi, Coords center) {
+
+		// create rotation matrix
+		if (tempMatrix3x3 == null) {
+			tempMatrix3x3 = new CoordMatrix(3, 3);
 		}
 		CoordMatrix.rotation3x3(phi, tempMatrix3x3);
 
 		Coords o = matrixOrthonormal.getOrigin();
-		
-		//set multiplication matrix
-		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
-		//set origin matrix
-		matrixOrthonormal.setOrigin(tempMatrix3x3.mul(o.sub(center)).add(center));
-		matrixOrthonormal.set(4,4, 1);
 
+		// set multiplication matrix
+		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
+		// set origin matrix
+		matrixOrthonormal
+				.setOrigin(tempMatrix3x3.mul(o.sub(center)).add(center));
+		matrixOrthonormal.set(4, 4, 1);
 
 		// set original origin and vectors
 		setOrigin(o);
-		setVx(tempMatrix3x3.mul(getVx()));	
+		setVx(tempMatrix3x3.mul(getVx()));
 
-		if (dimension==2){
+		if (dimension == 2) {
 			setVy(tempMatrix3x3.mul(getVy()));
 			setVz(tempMatrix3x3.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
-	
-	
+
 	/**
 	 * rotate the 3x3 inside matrix
-	 * @param rot rotation matrix
-	 * @param center rotation center
+	 * 
+	 * @param rot
+	 *            rotation matrix
+	 * @param center
+	 *            rotation center
 	 */
-	public void rotate(CoordMatrix rot, Coords center){
+	public void rotate(CoordMatrix rot, Coords center) {
 
-		//set multiplication matrix
+		// set multiplication matrix
 		Coords o = matrixOrthonormal.getOrigin();
-		
-		
+
 		Coords newOrigin = rot.mul(o.sub(center)).add(center);
 		Coords vx = matrixOrthonormal.getVx();
 		Coords vz = new Coords(4);
 		vz.setValues(rot.mul(matrixOrthonormal.getVz()), 3);
-		CoordMatrix4x4.createOrthoToDirection(newOrigin, vz, CoordMatrix4x4.VZ, vx, tmpCoords1, tmpCoords2, matrixOrthonormal);
-		
-		/*
-		matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
+		CoordMatrix4x4.createOrthoToDirection(newOrigin, vz, CoordMatrix4x4.VZ,
+				vx, tmpCoords1, tmpCoords2, matrixOrthonormal);
 
-		//set origin matrix
-		Coords newOrigin = rot.mul(o.sub(center)).add(center);
-		matrixOrthonormal.setOrigin(newOrigin);
-		matrixOrthonormal.set(4,4, 1);
-		*/
-		
+		/*
+		 * matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
+		 * 
+		 * //set origin matrix Coords newOrigin =
+		 * rot.mul(o.sub(center)).add(center);
+		 * matrixOrthonormal.setOrigin(newOrigin); matrixOrthonormal.set(4,4,
+		 * 1);
+		 */
 
 		// set original origin and vectors
 		setOrigin(newOrigin);
-		
+
 		// set vectors
-		setVx(matrixOrthonormal.getVx());	
-		if (dimension==2){	
+		setVx(matrixOrthonormal.getVx());
+		if (dimension == 2) {
 			setVy(matrixOrthonormal.getVy());
 			setVz(matrixOrthonormal.getVz());
 			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
 		}
 	}
-	
-	
+
 	/**
 	 * rotate by phi around axis through center and parallel to direction
-	 * @param phi angle
-	 * @param center center point
-	 * @param direction direction
+	 * 
+	 * @param phi
+	 *            angle
+	 * @param center
+	 *            center point
+	 * @param direction
+	 *            direction
 	 */
-	public void rotate(double phi, Coords center, Coords direction){
-		
-		//create rotation matrix
-		if (tempMatrix3x3 == null){
-			tempMatrix3x3 = new CoordMatrix(3,3);
+	public void rotate(double phi, Coords center, Coords direction) {
+
+		// create rotation matrix
+		if (tempMatrix3x3 == null) {
+			tempMatrix3x3 = new CoordMatrix(3, 3);
 		}
 		CoordMatrix.rotation3x3(direction, phi, tempMatrix3x3);
-				
+
 		Coords o = matrixOrthonormal.getOrigin();
-		
-		//set multiplication matrix
+
+		// set multiplication matrix
 		matrixOrthonormal = tempMatrix3x3.mul3x3(matrixOrthonormal);
-		//set origin matrix
+		// set origin matrix
 		Coords newOrigin = tempMatrix3x3.mul(o.sub(center)).add(center);
 		matrixOrthonormal.setOrigin(newOrigin);
-		matrixOrthonormal.set(4,4, 1);
-		
+		matrixOrthonormal.set(4, 4, 1);
+
 		// set original origin and vectors
 		setOrigin(newOrigin);
-		setVx(tempMatrix3x3.mul(getVx()));	
+		setVx(tempMatrix3x3.mul(getVx()));
 
-		if (dimension==2){
+		if (dimension == 2) {
 			setVy(tempMatrix3x3.mul(getVy()));
 			setVz(tempMatrix3x3.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
-	
+
 	/**
 	 * dilate at point
-	 * @param r ratio
-	 * @param point center point
+	 * 
+	 * @param r
+	 *            ratio
+	 * @param point
+	 *            center point
 	 */
-	public void dilate(double r, Coords point){
-		
-		if (r < 0){//reverse all values
+	public void dilate(double r, Coords point) {
+
+		if (r < 0) {// reverse all values
 			matrixOrthonormal.mulInside3x3(-1);
 		}
-		
-		//translate origin matrix
+
+		// translate origin matrix
 		Coords o = matrixOrthonormal.getOrigin();
-		Coords newOrigin = o.mul(r).add(point.mul(1-r));
+		Coords newOrigin = o.mul(r).add(point.mul(1 - r));
 		matrixOrthonormal.setOrigin(newOrigin);
-		
 
 		// set original origin and vectors
 		setOrigin(newOrigin);
-		if (r < 0){
+		if (r < 0) {
 			getVx().mulInside(-1);
 		}
 
-		if (dimension==2){
-			if (r < 0){
+		if (dimension == 2) {
+			if (r < 0) {
 				getVy().mulInside(-1);
 				getVz().mulInside(-1);
 			}
@@ -995,140 +1019,153 @@ public class CoordSys {
 
 	/**
 	 * dilate equation vector
-	 * @param r ratio
-	 * @param point center point
+	 * 
+	 * @param r
+	 *            ratio
+	 * @param point
+	 *            center point
 	 */
-	public void dilateEquationVector(double r, Coords point){
-		
-		translateEquationVector(point.mul(1-r));
-		
+	public void dilateEquationVector(double r, Coords point) {
+
+		translateEquationVector(point.mul(1 - r));
+
 	}
 
-	
-	
 	/**
 	 * mirror the coord sys at point
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 */
-	public void mirror(Coords point){
-		
-		//reverse all values
+	public void mirror(Coords point) {
+
+		// reverse all values
 		matrixOrthonormal.mulInside(-1);
-		//translate origin matrix
+		// translate origin matrix
 		matrixOrthonormal.addToOrigin(point.mul(2));
 
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
 		getVx().mulInside(-1);
 
-		if (dimension==2){
+		if (dimension == 2) {
 			getVy().mulInside(-1);
 			getVz().mulInside(-1);
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 
 	}
-	
+
 	/**
 	 * mirror equation vector at point
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 */
-	public void mirrorEquationVector(Coords point){
+	public void mirrorEquationVector(Coords point) {
 		translateEquationVector(point.mul(2));
 	}
-	
+
 	/**
 	 * mirror the coord sys at line defined by point, direction
-	 * @param point point
-	 * @param direction direction
+	 * 
+	 * @param point
+	 *            point
+	 * @param direction
+	 *            direction
 	 */
-	public void mirror(Coords point, Coords direction){
-		
-		//origin projected on the line
-		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1, null); 
-		
-		//get projection values
-		double x = 2*matrixOrthonormal.getVx().dotproduct(direction);
-		double y = 2*matrixOrthonormal.getVy().dotproduct(direction);
-		double z = 2*matrixOrthonormal.getVz().dotproduct(direction);
-		//reverse all values
+	public void mirror(Coords point, Coords direction) {
+
+		// origin projected on the line
+		matrixOrthonormal.getOrigin().projectLine(point, direction, tmpCoords1,
+				null);
+
+		// get projection values
+		double x = 2 * matrixOrthonormal.getVx().dotproduct(direction);
+		double y = 2 * matrixOrthonormal.getVy().dotproduct(direction);
+		double z = 2 * matrixOrthonormal.getVz().dotproduct(direction);
+		// reverse all values
 		matrixOrthonormal.mulInside(-1);
-		//translate vectors
+		// translate vectors
 		matrixOrthonormal.addToVx(direction.mul(x));
 		matrixOrthonormal.addToVy(direction.mul(y));
 		matrixOrthonormal.addToVz(direction.mul(z));
-		//translate origin matrix
+		// translate origin matrix
 		matrixOrthonormal.addToOrigin(tmpCoords1.mul(2));
-		
-		
+
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
-		double p = 2*getVx().dotproduct(direction);
+		double p = 2 * getVx().dotproduct(direction);
 		setVx(getVx().mul(-1).add(direction.mul(p)));
 
-		if (dimension==2){
-			p = 2*getVy().dotproduct(direction);
+		if (dimension == 2) {
+			p = 2 * getVy().dotproduct(direction);
 			setVy(getVy().mul(-1).add(direction.mul(p)));
-			p = 2*getVz().dotproduct(direction);
+			p = 2 * getVz().dotproduct(direction);
 			setVz(getVz().mul(-1).add(direction.mul(p)));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
-	
-	
+
 	/**
 	 * mirror the coord sys at plane
-	 * @param cs coord sys representing the plane
+	 * 
+	 * @param cs
+	 *            coord sys representing the plane
 	 */
-	public void mirror(CoordSys cs){
-		
+	public void mirror(CoordSys cs) {
+
 		Coords vn = cs.getNormal();
-		
-		//origin projected on the line
+
+		// origin projected on the line
 		Coords o = matrixOrthonormal.getOrigin();
 		o.projectPlane(cs.getMatrixOrthonormal(), tmpCoords1);
 
-		//get projection values
-		double x = -2*matrixOrthonormal.getVx().dotproduct(vn);
-		double y = -2*matrixOrthonormal.getVy().dotproduct(vn);
-		double z = -2*matrixOrthonormal.getVz().dotproduct(vn);
-		//translate vectors
+		// get projection values
+		double x = -2 * matrixOrthonormal.getVx().dotproduct(vn);
+		double y = -2 * matrixOrthonormal.getVy().dotproduct(vn);
+		double z = -2 * matrixOrthonormal.getVz().dotproduct(vn);
+		// translate vectors
 		matrixOrthonormal.addToVx(tmpCoords2.setMul(vn, x));
 		matrixOrthonormal.addToVy(tmpCoords2.setMul(vn, y));
 		matrixOrthonormal.addToVz(tmpCoords2.setMul(vn, z));
-		//translate origin matrix
-		matrixOrthonormal.setOrigin(tmpCoords2.setSub(tmpCoords2.setMul(tmpCoords1, 2),o));
-		
+		// translate origin matrix
+		matrixOrthonormal.setOrigin(
+				tmpCoords2.setSub(tmpCoords2.setMul(tmpCoords1, 2), o));
+
 		// set original origin and vectors
 		setOrigin(matrixOrthonormal.getOrigin());
-		
-		double p = -2*getVx().dotproduct(vn);
+
+		double p = -2 * getVx().dotproduct(vn);
 		setVx(tmpCoords2.setAdd(getVx(), tmpCoords2.setMul(vn, p)));
 
-		if (dimension==2){
-			p = -2*getVy().dotproduct(vn);
+		if (dimension == 2) {
+			p = -2 * getVy().dotproduct(vn);
 			setVy(tmpCoords2.setAdd(getVy(), tmpCoords2.setMul(vn, p)));
-			p = -2*getVz().dotproduct(vn);
+			p = -2 * getVz().dotproduct(vn);
 			setVz(tmpCoords2.setAdd(getVz(), tmpCoords2.setMul(vn, p)));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
 
-	
 	/**
 	 * update this to new coord sys with continuity
-	 * @param coordsys new coord sys
+	 * 
+	 * @param coordsys
+	 *            new coord sys
 	 */
-	public void updateContinuous(CoordSys coordsys){
-		
-		matrixOrthonormal.getOrigin().projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
+	public void updateContinuous(CoordSys coordsys) {
+
+		matrixOrthonormal.getOrigin()
+				.projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
 		Coords vz = coordsys.getMatrixOrthonormal().getVz();
-		if (matrixOrthonormal.getVz().dotproduct(vz) < 0){
+		if (matrixOrthonormal.getVz().dotproduct(vz) < 0) {
 			vz.mulInside3(-1);
 		}
-		
-		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, vz, CoordMatrix4x4.VZ, 
-				matrixOrthonormal.getVx(), tmpCoords2, tmpCoords3, matrixOrthonormal);
+
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, vz, CoordMatrix4x4.VZ,
+				matrixOrthonormal.getVx(), tmpCoords2, tmpCoords3,
+				matrixOrthonormal);
 
 		setFromMatrixOrthonormal();
 
@@ -1165,9 +1202,8 @@ public class CoordSys {
 		tmpCoords3.normalize();
 
 		CoordMatrix4x4.createOrthoToDirection(matrixOrthonormal.getOrigin(),
-				tmpCoords3,
-				CoordMatrix4x4.VZ, matrixOrthonormal.getVx(), tmpCoords2,
-				tmpCoords4, matrixOrthonormal);
+				tmpCoords3, CoordMatrix4x4.VZ, matrixOrthonormal.getVx(),
+				tmpCoords2, tmpCoords4, matrixOrthonormal);
 
 		updateToContainPoint(point);
 

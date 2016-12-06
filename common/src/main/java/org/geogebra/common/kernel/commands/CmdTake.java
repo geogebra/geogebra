@@ -34,7 +34,8 @@ public class CmdTake extends CommandProcessor {
 		switch (n) {
 		case 2:
 
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 				GeoElement[] ret = { Take(c.getLabel(), (GeoList) arg[0],
 						(GeoNumeric) arg[1], null) };
 				return ret;

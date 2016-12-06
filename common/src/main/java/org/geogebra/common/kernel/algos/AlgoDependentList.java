@@ -192,6 +192,5 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	public ExpressionNode getExpression() {
 		return geoList.wrap();
 	}
-	
 
 }

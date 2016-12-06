@@ -47,8 +47,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class Command extends ValidExpression implements
-		ReplaceChildrenByValues, GetItem {
+public class Command extends ValidExpression
+		implements ReplaceChildrenByValues, GetItem {
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -165,7 +165,7 @@ public class Command extends ValidExpression implements
 			if (((MySpecialDouble) ev).isEulerConstant()) {
 				return Unicode.EULER_STRING;
 			}
-		}else if(ev instanceof ValidExpression){
+		} else if (ev instanceof ValidExpression) {
 			Log.debug(((ValidExpression) ev).getLabel()
 					+ " valid expression label");
 		}
@@ -232,8 +232,8 @@ public class Command extends ValidExpression implements
 			StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case GIAC:
-			return (kernel.getGeoGebraCAS()).getCASCommand(name, args,
-					symbolic, tpl);
+			return (kernel.getGeoGebraCAS()).getCASCommand(name, args, symbolic,
+					tpl);
 		case LATEX:
 			if (sbToString == null)
 				sbToString = new StringBuilder();
@@ -247,47 +247,50 @@ public class Command extends ValidExpression implements
 					while (ite.hasNext()) {
 						GeoElement geo = ite.next();
 						// get function from construction
-						GeoElement geoFunc = getKernel()
-								.getConstruction()
-								.geoTableVarLookup(
-										geo.getLabel(StringTemplate.defaultTemplate));
-						GeoElement geoCASCell = getKernel()
-								.getConstruction()
-								.lookupCasCellLabel(
-										geo.getLabel(StringTemplate.defaultTemplate));
+						GeoElement geoFunc = getKernel().getConstruction()
+								.geoTableVarLookup(geo.getLabel(
+										StringTemplate.defaultTemplate));
+						GeoElement geoCASCell = getKernel().getConstruction()
+								.lookupCasCellLabel(geo.getLabel(
+										StringTemplate.defaultTemplate));
 						// if input function was without parameter
 						// replace geoDummyVariable with function
 						if (geo instanceof GeoDummyVariable && geoFunc != null
 								&& geoFunc.isGeoFunction()) {
-							ExpressionNode funcNode = new ExpressionNode(
-									kernel, geoFunc, Operation.FUNCTION,
+							ExpressionNode funcNode = new ExpressionNode(kernel,
+									geoFunc, Operation.FUNCTION,
 									((GeoFunction) geoFunc)
 											.getFunctionVariables()[0]);
 							getArgument(0)
-									.traverse(
-											GeoDummyReplacer.getReplacer(
-													geo.getLabel(StringTemplate.defaultTemplate),
-													funcNode, true));
+									.traverse(GeoDummyReplacer.getReplacer(
+											geo.getLabel(
+													StringTemplate.defaultTemplate),
+											funcNode, true));
 						}
 						// if we couldn't find the function
 						// just as GeoCasCell
-						if (geo instanceof GeoDummyVariable && geoCASCell != null && geoCASCell.isGeoCasCell()
-								&& ((GeoCasCell) geoCASCell).getInputVE() instanceof Function) {
-							ExpressionNode funcNode = new ExpressionNode(
-									kernel, geo, Operation.FUNCTION,
+						if (geo instanceof GeoDummyVariable
+								&& geoCASCell != null
+								&& geoCASCell.isGeoCasCell()
+								&& ((GeoCasCell) geoCASCell)
+										.getInputVE() instanceof Function) {
+							ExpressionNode funcNode = new ExpressionNode(kernel,
+									geo, Operation.FUNCTION,
 									((GeoCasCell) geoCASCell)
 											.getFunctionVariables()[0]);
-							String funcStr = getArgument(0).toString(
-									StringTemplate.defaultTemplate);
+							String funcStr = getArgument(0)
+									.toString(StringTemplate.defaultTemplate);
 							// geoDummyVariable wasn't already changed
-							if (!funcStr.contains("("
-									+ ((GeoCasCell) geoCASCell)
-											.getFunctionVariables()[0] + ")")) {
+							if (!funcStr
+									.contains("("
+											+ ((GeoCasCell) geoCASCell)
+													.getFunctionVariables()[0]
+											+ ")")) {
 								getArgument(0)
-									.traverse(
-											GeoDummyReplacer.getReplacer(
-													geo.getLabel(StringTemplate.defaultTemplate),
-													funcNode, true));
+										.traverse(GeoDummyReplacer.getReplacer(
+												geo.getLabel(
+														StringTemplate.defaultTemplate),
+												funcNode, true));
 							}
 						}
 						// make sure that we get from set the variable and not
@@ -378,10 +381,14 @@ public class Command extends ValidExpression implements
 					if (i == 0 && args.get(0).isExpressionNode()
 							&& args.get(0).getLeft() instanceof GeoCasCell) {
 						if (((GeoCasCell) args.get(0).getLeft())
-								.isAssignmentVariableDefined() && args.get(0).getRight() == null) {
-							sbToString.append("("
-									+ ((GeoCasCell) args.get(0).getLeft())
-											.getFunctionVariable() + ")");
+								.isAssignmentVariableDefined()
+								&& args.get(0).getRight() == null) {
+							sbToString
+									.append("("
+											+ ((GeoCasCell) args.get(0)
+													.getLeft())
+															.getFunctionVariable()
+											+ ")");
 						}
 					}
 				}
@@ -429,8 +436,8 @@ public class Command extends ValidExpression implements
 			return evalGeos[0];
 		}
 		Log.debug("invalid command evaluation: " + name);
-		throw new MyError(app.getLocalization(), app.getLocalization()
-				.getError("InvalidInput") + ":\n" + this);
+		throw new MyError(app.getLocalization(),
+				app.getLocalization().getError("InvalidInput") + ":\n" + this);
 
 	}
 
@@ -443,17 +450,17 @@ public class Command extends ValidExpression implements
 	 */
 	public ExpressionValue simplify(EvalInfo info) {
 		// not yet evaluated: process command
-		ExpressionValue result = kernel.getAlgebraProcessor().simplifyCommand(
-				this, info.withLabels(false));
+		ExpressionValue result = kernel.getAlgebraProcessor()
+				.simplifyCommand(this, info.withLabels(false));
 		if (result instanceof GeoElement) {
-			evalGeos = new GeoElement[]{(GeoElement)result};
+			evalGeos = new GeoElement[] { (GeoElement) result };
 		}
 		if (result != null) {
 			return result;
 		}
 		Log.debug("invalid command evaluation: " + name);
-		throw new MyError(app.getLocalization(), app.getLocalization()
-				.getError("InvalidInput") + ":\n" + this);
+		throw new MyError(app.getLocalization(),
+				app.getLocalization().getError("InvalidInput") + ":\n" + this);
 
 	}
 
@@ -484,8 +491,9 @@ public class Command extends ValidExpression implements
 			evalGeos = evaluateMultiple(new EvalInfo(false));
 
 		if (evalGeos == null || evalGeos.length == 0)
-			throw new MyError(app.getLocalization(), app.getLocalization()
-					.getError("InvalidInput") + ":\n" + this);
+			throw new MyError(app.getLocalization(),
+					app.getLocalization().getError("InvalidInput") + ":\n"
+							+ this);
 
 		for (int i = 0; i < evalGeos.length; i++)
 			if (!evalGeos[i].isConstant())
@@ -511,7 +519,6 @@ public class Command extends ValidExpression implements
 
 	private ValueType lastType = null;
 
-
 	@Override
 	public ValueType getValueType() {
 		if ("Sequence".equals(name) || "IterationList".equals(name)
@@ -521,7 +528,8 @@ public class Command extends ValidExpression implements
 		if ("Function".equals(name)) {
 			return ValueType.FUNCTION;
 		}
-		if ("Surface".equals(name) || ("Curve".equals(name) && args.size() > 5)) {
+		if ("Surface".equals(name)
+				|| ("Curve".equals(name) && args.size() > 5)) {
 			return ValueType.PARAMETRIC3D;
 		}
 		if ("CurveCartesian".equals(name)) {
@@ -552,13 +560,13 @@ public class Command extends ValidExpression implements
 			if (ev != null) {
 				lastType = ev.getValueType();
 			} else {
-			throw ex instanceof MyError ? (MyError) ex : new MyError(
-					kernel.getLocalization(), ex.getMessage());
+				throw ex instanceof MyError ? (MyError) ex
+						: new MyError(kernel.getLocalization(),
+								ex.getMessage());
 			}
 		}
 		return lastType;
 	}
-
 
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
@@ -566,7 +574,8 @@ public class Command extends ValidExpression implements
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate) instanceof VectorValue;
+			return evaluate(
+					StringTemplate.defaultTemplate) instanceof VectorValue;
 		} catch (MyError ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
@@ -798,31 +807,33 @@ public class Command extends ValidExpression implements
 	 */
 	public static ExpressionNode xyzCAS(ValidExpression en, int i,
 			boolean mayCheck, ArrayList<ExpressionNode> undecided) {
-			Operation[] ops = new Operation[]{Operation.XCOORD, Operation.YCOORD, Operation.ZCOORD};
+		Operation[] ops = new Operation[] { Operation.XCOORD, Operation.YCOORD,
+				Operation.ZCOORD };
 		Kernel k = en.wrap().getKernel();
-			
-			ExpressionNode en2;
-			if(en.evaluatesToList()){
-				  Command cmd = new Command(k, "Element", true, mayCheck );
+
+		ExpressionNode en2;
+		if (en.evaluatesToList()) {
+			Command cmd = new Command(k, "Element", true, mayCheck);
 			cmd.addArgument(en.wrap());
-		          //Element uses 1 for first element
-		          cmd.addArgument( new MyDouble(k,i+1).wrap() );
-		          en2 = cmd.wrap();
-			}else if(en.hasCoords()){
-				en2 = new ExpressionNode(k,en.unwrap(),ops[i],null);
-				/*char funName = (char) ('x'+i);
-				  Command cmd = new Command(k, funName+"", true, mayCheck );
-		          cmd.addArgument( en );
-		          en2 = cmd.wrap();*/
-			}else{ 
-				char funName = (char) ('x'+i);
-				en2 = new ExpressionNode(k,new FunctionVariable(k,funName+""),Operation.MULTIPLY_OR_FUNCTION,en);
-				undecided.add(en2);
-			}
-			//App.printStacktrace("");
-			return en2;
-	     
-          
+			// Element uses 1 for first element
+			cmd.addArgument(new MyDouble(k, i + 1).wrap());
+			en2 = cmd.wrap();
+		} else if (en.hasCoords()) {
+			en2 = new ExpressionNode(k, en.unwrap(), ops[i], null);
+			/*
+			 * char funName = (char) ('x'+i); Command cmd = new Command(k,
+			 * funName+"", true, mayCheck ); cmd.addArgument( en ); en2 =
+			 * cmd.wrap();
+			 */
+		} else {
+			char funName = (char) ('x' + i);
+			en2 = new ExpressionNode(k, new FunctionVariable(k, funName + ""),
+					Operation.MULTIPLY_OR_FUNCTION, en);
+			undecided.add(en2);
+		}
+		// App.printStacktrace("");
+		return en2;
+
 	}
 
 	/**

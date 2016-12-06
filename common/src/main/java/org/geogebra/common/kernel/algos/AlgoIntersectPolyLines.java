@@ -118,13 +118,11 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 		this.intersectingCoords.clear();
 
 		// calculates intersection points
-		intersectionCoords(this.polyA, this.polyB,
-				this.intersectingCoords);
+		intersectionCoords(this.polyA, this.polyB, this.intersectingCoords);
 
 		// update and/or create points
-		this.outputPoints
-				.adjustOutputSize(this.intersectingCoords.size() > 0 ? this.intersectingCoords
-						.size() : 1);
+		this.outputPoints.adjustOutputSize(this.intersectingCoords.size() > 0
+				? this.intersectingCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;
@@ -238,9 +236,10 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 				// checks whether the cross product(this.dummyPoint[4]) actually
 				// an intersection point
 				if (this.dummyPoint[4].isDefined()) {
-					if (!(Kernel.isZero(this.dummySegment[0]
-							.distance(this.dummyPoint[4])) && Kernel
-							.isZero(this.dummySegment[1]
+					if (!(Kernel
+							.isZero(this.dummySegment[0]
+									.distance(this.dummyPoint[4]))
+							&& Kernel.isZero(this.dummySegment[1]
 									.distance(this.dummyPoint[4])))) {
 						this.dummyPoint[4].setUndefined();
 					}

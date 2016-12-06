@@ -117,6 +117,4 @@ public class AlgoMatrixPlot extends AlgoElement {
 
 	}
 
-	
-
 }

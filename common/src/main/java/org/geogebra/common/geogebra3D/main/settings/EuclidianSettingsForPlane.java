@@ -17,7 +17,8 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	 * @param standardSettings
 	 *            standard settings
 	 */
-	public EuclidianSettingsForPlane(App app, EuclidianSettings standardSettings) {
+	public EuclidianSettingsForPlane(App app,
+			EuclidianSettings standardSettings) {
 		super(app, standardSettings);
 	}
 

@@ -20,12 +20,12 @@ public abstract class ViewTextField {
 		textField = null;
 		box = null;
 	}
-	
+
 	public AutoCompleteTextField getTextField(int length,
 			DrawInputBox drawInputBox) {
 		if (textField == null) {
 			textField = newAutoCompleteTextField(length, this.euclidianView.app,
-							drawInputBox);
+					drawInputBox);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);
 			textField.setFocusTraversalKeysEnabled(false);
@@ -51,9 +51,8 @@ public abstract class ViewTextField {
 			Log.debug("[TF] d is null!!!");
 			return;
 		}
-		Log.debug(
-				"[TF] focusTo " + inputBox.getLabelSimple() + " text: "
-						+ inputBox.getText());
+		Log.debug("[TF] focusTo " + inputBox.getLabelSimple() + " text: "
+				+ inputBox.getText());
 		d.attachTextField();
 	}
 

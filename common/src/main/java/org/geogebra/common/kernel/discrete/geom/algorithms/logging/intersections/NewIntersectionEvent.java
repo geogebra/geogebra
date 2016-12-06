@@ -29,16 +29,16 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.PermanentLogE
  *
  * @author cyberpython
  */
-public class NewIntersectionEvent extends PermanentLogEvent{
+public class NewIntersectionEvent extends PermanentLogEvent {
 
-    Point2D p0;
+	Point2D p0;
 
-    public NewIntersectionEvent(Point2D p0){
-        this.p0 = p0;
-    }
+	public NewIntersectionEvent(Point2D p0) {
+		this.p0 = p0;
+	}
 
-    public Point2D getPoint(){
-        return this.p0;
-    }
+	public Point2D getPoint() {
+		return this.p0;
+	}
 
 }

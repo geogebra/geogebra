@@ -47,9 +47,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	private TDistributionImpl tDist;
 	private double difference;
 
-	public AlgoTMean2Estimate(Construction cons, String label,
-			GeoList geoList1, GeoList geoList2, GeoNumeric geoLevel,
-			GeoBoolean geoPooled) {
+	public AlgoTMean2Estimate(Construction cons, String label, GeoList geoList1,
+			GeoList geoList2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = geoList1;
 		this.geoList2 = geoList2;
@@ -157,8 +156,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		if (pooled)
 			return n1 + n2 - 2;
 		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2)
-						/ (n2 * n2 * (n2 - 1d)));
+				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
+						+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
 	}
 
 	/**
@@ -186,8 +185,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
-					pooled));
+			tDist = new TDistributionImpl(
+					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 
@@ -299,8 +298,6 @@ public class AlgoTMean2Estimate extends AlgoElement {
 			// result.add(new GeoNumeric(cons, getDegreeOfFreedom(var1, var2,
 			// n1, n2, pooled)));
 
-
-
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (MathException e) {
@@ -308,7 +305,5 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		}
 
 	}
-
-	
 
 }

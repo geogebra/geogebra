@@ -107,13 +107,13 @@ public class Term implements Comparable<Term> {
 	public Variable getHighestVariable() {
 		return variables.lastKey();
 	}
-	
+
 	public int compareTo(Term o) {
-		if (this==o){
+		if (this == o) {
 			return 0;
 		}
 
-		TreeMap<Variable, Integer> t=o.getTerm();
+		TreeMap<Variable, Integer> t = o.getTerm();
 		if (t.isEmpty()) {
 			if (variables.isEmpty()) {
 				return 0;
@@ -123,22 +123,23 @@ public class Term implements Comparable<Term> {
 		if (variables.isEmpty()) {
 			return -1;
 		}
-		
-		Variable variablesLastKey=variables.lastKey(),
-				tLastKey=t.lastKey();
+
+		Variable variablesLastKey = variables.lastKey(), tLastKey = t.lastKey();
 
 		int compare = variablesLastKey.compareTo(tLastKey);
 
 		if (compare == 0) {
-			compare = variables.get(variablesLastKey).compareTo(t.get(tLastKey));
+			compare = variables.get(variablesLastKey)
+					.compareTo(t.get(tLastKey));
 		}
 
 		if (compare != 0) {
 			return compare;
 		}
-		
+
 		do {
-			SortedMap<Variable, Integer> variablesSub = variables.headMap(variablesLastKey);
+			SortedMap<Variable, Integer> variablesSub = variables
+					.headMap(variablesLastKey);
 			SortedMap<Variable, Integer> oSub = t.headMap(tLastKey);
 			if (variablesSub.isEmpty()) {
 				if (oSub.isEmpty()) {
@@ -149,12 +150,12 @@ public class Term implements Comparable<Term> {
 			if (oSub.isEmpty()) {
 				return 1;
 			}
-			variablesLastKey=variablesSub.lastKey();
-			tLastKey=oSub.lastKey();
+			variablesLastKey = variablesSub.lastKey();
+			tLastKey = oSub.lastKey();
 			compare = variablesLastKey.compareTo(tLastKey);
 			if (compare == 0) {
-				compare = variablesSub.get(variablesLastKey).compareTo(
-						oSub.get(tLastKey));
+				compare = variablesSub.get(variablesLastKey)
+						.compareTo(oSub.get(tLastKey));
 			}
 		} while (compare == 0);
 
@@ -183,14 +184,15 @@ public class Term implements Comparable<Term> {
 				sb.append(power);
 			}
 		}
-		if (sb.length()>0) {
+		if (sb.length() > 0) {
 			return sb.substring(1); // removing first "*" character
 		}
-		return "";	
+		return "";
 	}
 
 	/**
 	 * Exports the term into LaTeX
+	 * 
 	 * @return LaTeX formatted polynomial
 	 */
 	public String toTeX() {
@@ -206,42 +208,46 @@ public class Term implements Comparable<Term> {
 		return sb.toString();
 	}
 
-	
 	/**
 	 * The set of variables in this term
+	 * 
 	 * @return the set of variables
 	 */
 	public HashSet<Variable> getVars() {
 		HashSet<Variable> v = new HashSet<Variable>();
 		Iterator<Variable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
-			Variable fv  = it.next();
+			Variable fv = it.next();
 			v.add(fv);
 		}
 		return v;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		if (variables.isEmpty()){
+		if (variables.isEmpty()) {
 			return 0;
 		}
-		return variables.firstKey().hashCode()>>variables.lastKey().hashCode();
+		return variables.firstKey().hashCode() >> variables.lastKey()
+				.hashCode();
 	}
 
 	/**
 	 * Test whether the term f is a multiple of term g
-	 * @param f the dividend
-	 * @param g the divisor
+	 * 
+	 * @param f
+	 *            the dividend
+	 * @param g
+	 *            the divisor
 	 * @return true if g divides f and false otherwise
 	 */
 	public static boolean divides(final Term f, final Term g) {
 		TreeMap<Variable, Integer> termG = g.getTerm();
 		Iterator<Variable> itG = termG.keySet().iterator();
-		while(itG.hasNext()){
+		while (itG.hasNext()) {
 			Variable var = itG.next();
-			Integer powF=f.getTerm().get(var);
-			if (powF==null || powF.intValue() < termG.get(var).intValue()){
+			Integer powF = f.getTerm().get(var);
+			if (powF == null || powF.intValue() < termG.get(var).intValue()) {
 				return false;
 			}
 		}

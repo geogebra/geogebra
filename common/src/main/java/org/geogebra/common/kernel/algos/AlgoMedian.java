@@ -119,7 +119,8 @@ public class AlgoMedian extends AlgoElement {
 
 			if (MyDouble.exactEqual(Math.floor((double) size / 2),
 					size / 2.0)) {
-				median.setValue((sortList[size / 2] + sortList[size / 2 - 1]) / 2);
+				median.setValue(
+						(sortList[size / 2] + sortList[size / 2 - 1]) / 2);
 			} else {
 				median.setValue(sortList[(size - 1) / 2]);
 			}
@@ -130,9 +131,8 @@ public class AlgoMedian extends AlgoElement {
 		// ================================================
 		else if (inputList.size() == freqList.size()) {
 
-			if (!freqList.isDefined()
-					|| !(inputList.size() == freqList.size() || inputList
-							.size() == freqList.size() + 1)) {
+			if (!freqList.isDefined() || !(inputList.size() == freqList.size()
+					|| inputList.size() == freqList.size() + 1)) {
 				median.setUndefined();
 				return;
 			}
@@ -166,8 +166,9 @@ public class AlgoMedian extends AlgoElement {
 
 			// find the median
 			if (MyDouble.exactEqual(Math.floor((double) n / 2), n / 2.0)) {
-				median.setValue((getValueAt(n / 2, v, f) + getValueAt(
-						n / 2 - 1, v, f)) / 2);
+				median.setValue(
+						(getValueAt(n / 2, v, f) + getValueAt(n / 2 - 1, v, f))
+								/ 2);
 			} else {
 				median.setValue(getValueAt((n - 1) / 2, v, f));
 			}
@@ -179,9 +180,8 @@ public class AlgoMedian extends AlgoElement {
 
 		else {
 
-			if (!freqList.isDefined()
-					|| !(inputList.size() == freqList.size() || inputList
-							.size() == freqList.size() + 1)) {
+			if (!freqList.isDefined() || !(inputList.size() == freqList.size()
+					|| inputList.size() == freqList.size() + 1)) {
 				median.setUndefined();
 				return;
 			}
@@ -272,5 +272,4 @@ public class AlgoMedian extends AlgoElement {
 		return obj;
 	}
 
-	
 }

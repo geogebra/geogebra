@@ -67,8 +67,8 @@ public class CASparser implements CASParserInterface {
 		this.parserFunctions = pf;
 	}
 
-	public ValidExpression parseGeoGebraCASInput(final String exp, GeoCasCell cell)
-			throws CASException {
+	public ValidExpression parseGeoGebraCASInput(final String exp,
+			GeoCasCell cell) throws CASException {
 		CASException c;
 		try {
 			return parser.parseGeoGebraCAS(exp, cell);
@@ -84,7 +84,8 @@ public class CASparser implements CASParserInterface {
 	}
 
 	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
-			final String inValue, Kernel kernel, GeoCasCell cell) throws CASException {
+			final String inValue, Kernel kernel, GeoCasCell cell)
+			throws CASException {
 		if (inValue == null || inValue.length() == 0)
 			return null;
 
@@ -122,8 +123,7 @@ public class CASparser implements CASParserInterface {
 	 * symbolic variables. TODO check that we need default template here
 	 */
 	public synchronized ExpressionValue resolveVariablesForCAS(
-			ExpressionValue ev,
-			Kernel kernel) {
+			ExpressionValue ev, Kernel kernel) {
 
 		// add local variables to kernel,
 		// e.g. f(a,b) := 3*a+c*b has local variables a, b
@@ -155,8 +155,8 @@ public class CASparser implements CASParserInterface {
 		if (isFunction) {
 			Construction cmdCons = kernel.getConstruction();
 			for (FunctionVariable funVar : funVars) {
-				cmdCons.removeLocalVariable(funVar
-						.toString(StringTemplate.defaultTemplate));
+				cmdCons.removeLocalVariable(
+						funVar.toString(StringTemplate.defaultTemplate));
 			}
 		}
 		return ret;
@@ -244,7 +244,8 @@ public class CASparser implements CASParserInterface {
 	 *            whether unicode characters need to be encoded
 	 * @return string where _,{,} are replaced
 	 */
-	public synchronized String replaceIndices(String str, boolean replaceUnicode) {
+	public synchronized String replaceIndices(String str,
+			boolean replaceUnicode) {
 		int len = str.length();
 		StringBuilder replaceIndices = new StringBuilder();
 
@@ -265,7 +266,8 @@ public class CASparser implements CASParserInterface {
 						state = FA.UNDERSCORE;
 						appendcode(replaceIndices, '_');
 					}
-				} else if (replaceUnicode && c > 127 && c != Unicode.MEASURED_ANGLE) {
+				} else if (replaceUnicode && c > 127
+						&& c != Unicode.MEASURED_ANGLE) {
 					appendcode(replaceIndices, c);
 
 					// ' replaced in StringTemplate.addTempVariablePrefix() so
@@ -295,7 +297,8 @@ public class CASparser implements CASParserInterface {
 			}
 		}
 
-		// Log.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
+		// Log.debug(insertSpecialChars(replaceIndices.toString())+"
+		// "+replaceIndices.toString());
 
 		return replaceIndices.toString();
 	}
@@ -348,7 +351,8 @@ public class CASparser implements CASParserInterface {
 					// try to get the unicode
 					int code = 0;
 					char digit;
-					while (j < len && StringUtil.isDigit(digit = str.charAt(j))) {
+					while (j < len
+							&& StringUtil.isDigit(digit = str.charAt(j))) {
 						code = 10 * code + (digit - 48);
 						j++;
 					}

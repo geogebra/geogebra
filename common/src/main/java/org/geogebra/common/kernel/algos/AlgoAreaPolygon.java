@@ -35,15 +35,17 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * 
  * @author mathieu
  */
-public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBotanaAlgo {
+public class AlgoAreaPolygon extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPolygon polygon; // input
 	private GeoNumeric area; // output
-	
+
 	private Variable[] botanaVars;
 	private Polynomial[] botanaPolynomials;
 
-	public AlgoAreaPolygon(Construction cons, String label, GeoPolygon polygon) {
+	public AlgoAreaPolygon(Construction cons, String label,
+			GeoPolygon polygon) {
 		super(cons);
 		this.polygon = polygon;
 		area = new GeoNumeric(cons);
@@ -106,10 +108,7 @@ public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBo
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-			return null;
+		return null;
 	}
-	
-
-	
 
 }

@@ -35,6 +35,7 @@ public class ModeDelete {
 	}
 
 	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
+
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -142,7 +143,7 @@ public class ModeDelete {
 		ec.deleteAll(h);
 		if (as != null)
 			as.updateAll();
-		}
+	}
 
 	private void updatePenDeleteMode(Hits h) {
 		// if we switched to pen deletion just now, some geos may still need
@@ -219,9 +220,9 @@ public class ModeDelete {
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
 										- view.toScreenCoordXd(p.inhomX)),
-								Math.abs(eventY - view.toScreenCoordYd(
-										p.inhomY))) <= ec.getDeleteToolSize()
-												/ 2.0) {
+								Math.abs(eventY
+										- view.toScreenCoordYd(p.inhomY))) <= ec
+												.getDeleteToolSize() / 2.0) {
 							dataPoints[i].setUndefined();
 							dataPoints[i].resetDefinition();
 							if (as == null) {

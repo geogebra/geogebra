@@ -27,8 +27,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public abstract class AlgoTangentPointND extends AlgoElement implements
-		TangentAlgo {
+public abstract class AlgoTangentPointND extends AlgoElement
+		implements TangentAlgo {
 
 	protected GeoPointND P; // input
 	protected GeoConicND c; // input

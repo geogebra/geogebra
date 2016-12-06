@@ -147,6 +147,4 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 	private static Comparator<OrderedPair> comparator;
 
-	
-
 }

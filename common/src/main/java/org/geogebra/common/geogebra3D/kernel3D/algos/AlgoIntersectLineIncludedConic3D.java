@@ -43,7 +43,8 @@ public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 	 * @param g
 	 * @param c
 	 */
-	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g, GeoConicND c) {
+	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g,
+			GeoConicND c) {
 		super(cons, g, c);
 
 	}

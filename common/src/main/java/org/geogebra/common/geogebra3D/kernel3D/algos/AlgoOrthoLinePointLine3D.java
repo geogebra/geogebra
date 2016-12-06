@@ -36,8 +36,10 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 
 	@Override
 	protected void setSpecificInputOutput() {
-		setInputOutput(new GeoElement[] { (GeoElement) point, inputOrtho,
-				(GeoSpace) cons.getSpace() }, new GeoElement[] { line });
+		setInputOutput(
+				new GeoElement[] { (GeoElement) point, inputOrtho,
+						(GeoSpace) cons.getSpace() },
+				new GeoElement[] { line });
 	}
 
 	@Override
@@ -74,7 +76,5 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 		return getLoc().getPlain("LineThroughAPerpendicularToBinSpace",
 				point.getLabel(tpl), inputOrtho.getLabel(tpl));
 	}
-
-	
 
 }

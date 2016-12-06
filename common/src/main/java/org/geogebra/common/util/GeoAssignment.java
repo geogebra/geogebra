@@ -190,9 +190,8 @@ public class GeoAssignment extends Assignment {
 		}
 	}
 
-	private void checkEqualityOfGeos(GeoElement[] input,
-			GeoElement macroOutput, GeoElement possibleOutput[], int i,
-			TreeSet<Result> partRes) {
+	private void checkEqualityOfGeos(GeoElement[] input, GeoElement macroOutput,
+			GeoElement possibleOutput[], int i, TreeSet<Result> partRes) {
 		// TODO Check if we really need to call adjustMoveableOutputs with all
 		// possibleOutputs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
@@ -209,12 +208,11 @@ public class GeoAssignment extends Assignment {
 			// : Result.WRONG);
 		} else if (checkOp.equals("==")) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
-					: Result.WRONG);
+					macroOutput, possibleOutput[i]).getBoolean()
+							? Result.CORRECT : Result.WRONG);
 		} else if (checkOp.equals("AreCongruent")) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
-					? Result.CORRECT
-					: Result.WRONG);
+					? Result.CORRECT : Result.WRONG);
 		}
 		callsToEqual++;
 		int j = 0;
@@ -222,13 +220,15 @@ public class GeoAssignment extends Assignment {
 			while (j < input.length
 					&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				if (input[j].isRandomizable()) {
-					mayAdjustMoveableOutputs = doProbabilisticChecking(
-							input[j], macroOutput, possibleOutput, i, partRes,
+					mayAdjustMoveableOutputs = doProbabilisticChecking(input[j],
+							macroOutput, possibleOutput, i, partRes,
 							mayAdjustMoveableOutputs);
 				} else {
-					input[j].addRandomizablePredecessorsToSet(randomizeablePredecessors);
+					input[j].addRandomizablePredecessorsToSet(
+							randomizeablePredecessors);
 					for (int k = 0; k < randomizeablePredecessors.size()
-							&& !partRes.contains(Result.WRONG_AFTER_RANDOMIZE); k++) {
+							&& !partRes.contains(
+									Result.WRONG_AFTER_RANDOMIZE); k++) {
 						mayAdjustMoveableOutputs = doProbabilisticChecking(
 								randomizeablePredecessors.pollFirst(),
 								macroOutput, possibleOutput, i, partRes,
@@ -258,12 +258,11 @@ public class GeoAssignment extends Assignment {
 					: Result.WRONG_AFTER_RANDOMIZE);
 		} else if (checkOp.equals("==")) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
-					macroOutput, possibleOutput[i]).getBoolean() ? Result.CORRECT
-					: Result.WRONG_AFTER_RANDOMIZE);
+					macroOutput, possibleOutput[i]).getBoolean()
+							? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		} else if (checkOp.equals("AreCongruent")) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
-					? Result.CORRECT
-					: Result.WRONG_AFTER_RANDOMIZE);
+					? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		}
 		callsToEqual++;
 		geoToRandomize.set(saveInput);
@@ -304,8 +303,8 @@ public class GeoAssignment extends Assignment {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
-			possibleOutputPermutation[i].addPredecessorsToSet(
-					possibleInputGeos, geoInspector);
+			possibleOutputPermutation[i].addPredecessorsToSet(possibleInputGeos,
+					geoInspector);
 		}
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleInputGeos.remove(possibleOutputPermutation[i]);

@@ -14,7 +14,7 @@ public enum Feature {
 	KOREAN_KEYBOARD,
 
 	POLYGON_TRIANGULATION,
-	
+
 	DATA_COLLECTION,
 
 	IMPLICIT_SURFACES,
@@ -49,7 +49,6 @@ public enum Feature {
 	EXPLICIT_LOCUS_VIA_BOTANA,
 
 	AV_DEFINITION_AND_VALUE,
-
 
 	/** MOB-321 */
 	MOBILE_LANDSCAPE_FULLSCREEN_INPUT,
@@ -194,4 +193,4 @@ public enum Feature {
 	 */
 	MOBILE_KILL_DIALOG_TITLE
 
-	}
+}

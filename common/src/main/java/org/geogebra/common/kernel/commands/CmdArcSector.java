@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>, <GeoPoint>
- * ]
+ * Arc[ <GeoConic>, <Number>, <Number> ] Arc[ <GeoConic>, <GeoPoint>,
+ * <GeoPoint> ]
  */
 public class CmdArcSector extends CommandProcessor {
 
@@ -56,9 +56,9 @@ public class CmdArcSector extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
-				GeoElement[] ret = { arcSector(c.getLabel(),
-						(GeoConicND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]) };
+				GeoElement[] ret = {
+						arcSector(c.getLabel(), (GeoConicND) arg[0],
+								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 
 				return ret;
 			} else {

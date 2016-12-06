@@ -194,7 +194,6 @@ public abstract class ExportToPrinter3D {
 
 			printToFile(sb.toString());
 
-
 		} else {
 			// TODO implement non convex polygons
 		}
@@ -208,7 +207,7 @@ public abstract class ExportToPrinter3D {
 	public Format getFormat() {
 		return format;
 	}
-	
+
 	abstract protected void printToFile(String s);
 
 	private void getVertex(boolean notFirst, double x, double y, double z) {
@@ -236,6 +235,5 @@ public abstract class ExportToPrinter3D {
 			format.getFaces(sb, v1, v2, v3);
 		}
 	}
-
 
 }

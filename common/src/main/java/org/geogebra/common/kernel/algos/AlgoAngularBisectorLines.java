@@ -39,8 +39,8 @@ import org.geogebra.common.util.MyMath;
  * 
  * @author Markus
  */
-public class AlgoAngularBisectorLines extends AlgoElement implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoAngularBisectorLines extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoLine g, h; // input
 	private GeoLine[] bisector; // output
@@ -321,7 +321,7 @@ public class AlgoAngularBisectorLines extends AlgoElement implements
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		
+
 		GeoLine lg = getg();
 		GeoLine lh = geth();
 
@@ -344,7 +344,7 @@ public class AlgoAngularBisectorLines extends AlgoElement implements
 				polysB[1] = Polynomial.collinear(varsB[0], varsB[1], varsLh[0],
 						varsLh[1], varsLh[2], varsLh[3]);
 			}
-			
+
 			Variable[] vA = new Variable[2];
 			vA[0] = varsLg[0];
 			vA[1] = varsLg[1];

@@ -89,6 +89,4 @@ public class AlgoTextElement extends AlgoElement {
 		}
 	}
 
-	
-
 }

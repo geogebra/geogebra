@@ -83,8 +83,8 @@ public class CurvePlotter {
 	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	final public static GPoint plotCurve(CurveEvaluable curve, double t1,
-			double t2, EuclidianView view, PathPlotter gp,
-			boolean calcLabelPos, Gap moveToAllowed) {
+			double t2, EuclidianView view, PathPlotter gp, boolean calcLabelPos,
+			Gap moveToAllowed) {
 		countPoints = 0;
 		countEvaluations = 0;
 
@@ -94,8 +94,8 @@ public class CurvePlotter {
 		// ensure MIN_PLOT_POINTS
 		double max_param_step = Math.abs(t2 - t1) / view.getMinSamplePoints();
 		// plot Interval [t1, t2]
-		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step,
-				view, gp, calcLabelPos, moveToAllowed);
+		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
+				gp, calcLabelPos, moveToAllowed);
 		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
@@ -106,12 +106,13 @@ public class CurvePlotter {
 		return labelPoint;
 	}
 
-	//private static int plotIntervals = 0;
+	// private static int plotIntervals = 0;
 
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
-	 * @param: max_param_step: largest parameter step width allowed
+	 * @param: max_param_step:
+	 *             largest parameter step width allowed
 	 * @param gp
 	 *            generalpath that can be drawn afterwards
 	 * @param calcLabelPos
@@ -224,17 +225,15 @@ public class CurvePlotter {
 			// pixel distance from last point OK?
 			distanceOK = segOffScreen || isDistanceOK(diff, view);
 			// angle from last segment OK?
-			angleOK = isAngleOK(
-					prevDiff,
-					diff,
-					segOffScreen ? view.getMaxBendOfScreen() : view
-							.getMaxBend());
+			angleOK = isAngleOK(prevDiff, diff, segOffScreen
+					? view.getMaxBendOfScreen() : view.getMaxBend());
 
 			// bisect interval as long as ...
 			while ( // max bisection depth not reached
 			depth < view.getMaxDefinedBisections() &&
 			// distance not ok or angle not ok or step too big
-					(!distanceOK || !angleOK || divisors[depth] > max_param_step)
+					(!distanceOK || !angleOK
+							|| divisors[depth] > max_param_step)
 					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
 					// 0, 6]
 					&& countDiffZeros < view.getMaxZeroCount()) {
@@ -284,11 +283,8 @@ public class CurvePlotter {
 				// pixel distance from last point OK?
 				distanceOK = segOffScreen || isDistanceOK(diff, view);
 				// angle from last segment OK?
-				angleOK = isAngleOK(
-						prevDiff,
-						diff,
-						segOffScreen ? view.getMaxBendOfScreen() : view
-								.getMaxBend());
+				angleOK = isAngleOK(prevDiff, diff, segOffScreen
+						? view.getMaxBendOfScreen() : view.getMaxBend());
 
 			} // end of while-loop for interval bisections
 
@@ -412,15 +408,13 @@ public class CurvePlotter {
 		if (intervalsTooLarge) {
 			// bisect interval
 			calcLabel = calcLabel && labelPoint == null;
-			labelPoint1 = plotInterval(curve, t1, splitParam,
-					intervalDepth + 1, max_param_step, view, gp, calcLabel,
-					moveToAllowed);
+			labelPoint1 = plotInterval(curve, t1, splitParam, intervalDepth + 1,
+					max_param_step, view, gp, calcLabel, moveToAllowed);
 
 			// plot interval [(t1+t2)/2, t2]
 			calcLabel = calcLabel && labelPoint1 == null;
-			labelPoint2 = plotInterval(curve, splitParam, t2,
-					intervalDepth + 1, max_param_step, view, gp, calcLabel,
-					moveToAllowed);
+			labelPoint2 = plotInterval(curve, splitParam, t2, intervalDepth + 1,
+					max_param_step, view, gp, calcLabel, moveToAllowed);
 		} else {
 			// look at the end points of the intervals [t1, (t1+t2)/2] and
 			// [(t1+t2)/2, t2]
@@ -546,8 +540,8 @@ public class CurvePlotter {
 	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
-	public static boolean isContinuous(CurveEvaluable c, double from,
-			double to, int mnaxIterations) {
+	public static boolean isContinuous(CurveEvaluable c, double from, double to,
+			int mnaxIterations) {
 		double t1 = from;
 		double t2 = to;
 		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
@@ -599,7 +593,7 @@ public class CurvePlotter {
 
 			if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
 				return true;
-			// System.out.println("  largest dist: " + dist + ", [" + t1 + ", "
+			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "
 			// + t2 +"]");
 		}
 
@@ -667,15 +661,13 @@ public class CurvePlotter {
 			ArrayList<? extends MyPoint> pointList, CoordSys transformSys) {
 		double[] coords = gp.newDoubleArray();
 		int size = pointList.size();
-		if (!gp.supports(transformSys)
-				|| size == 0) {
+		if (!gp.supports(transformSys) || size == 0) {
 			return coords;
 		}
 		// this is for making sure that there is no lineto from nothing
 		// and there is no lineto if there is an infinite point between the
 		// points
 		boolean linetofirst = true;
-
 
 		for (int i = 0; i < size; i++) {
 			MyPoint p = pointList.get(i);

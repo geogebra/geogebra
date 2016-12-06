@@ -35,8 +35,8 @@ public class CmdLineBisector extends CommandProcessor {
 			arg = resArgs(c);
 			// line through point orthogonal to segment
 			if (arg[0].isGeoSegment()) {
-				GeoElement[] ret = { lineBisector(c.getLabel(),
-						(GeoSegmentND) arg[0]) };
+				GeoElement[] ret = {
+						lineBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
 				return ret;
 			}
 
@@ -77,9 +77,10 @@ public class CmdLineBisector extends CommandProcessor {
 			throws MyError {
 
 		// line through point orthogonal to vector
-		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))) {
-			GeoElement[] ret = { lineBisector(c.getLabel(),
-					(GeoPointND) arg[0], (GeoPointND) arg[1]) };
+		if ((ok[0] = (arg[0].isGeoPoint()))
+				&& (ok[1] = (arg[1].isGeoPoint()))) {
+			GeoElement[] ret = { lineBisector(c.getLabel(), (GeoPointND) arg[0],
+					(GeoPointND) arg[1]) };
 			return ret;
 		}
 
@@ -125,7 +126,8 @@ public class CmdLineBisector extends CommandProcessor {
 	 *            second point
 	 * @return perpendicular bisector
 	 */
-	protected GeoElement lineBisector(String label, GeoPointND a, GeoPointND b) {
+	protected GeoElement lineBisector(String label, GeoPointND a,
+			GeoPointND b) {
 		return getAlgoDispatcher().LineBisector(label, (GeoPoint) a,
 				(GeoPoint) b);
 	}

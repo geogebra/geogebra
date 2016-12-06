@@ -119,8 +119,10 @@ public class AlgoFitImplicit extends AlgoElement {
 
 			// Log.debug("V = "+V.toString());
 
-			// Log.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-			// Log.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+			// Log.debug("size of M = "+M.getColumnDimension()+"
+			// "+M.getRowDimension());
+			// Log.debug("size of V = "+V.getColumnDimension()+"
+			// "+V.getRowDimension());
 
 			makeFunction();
 

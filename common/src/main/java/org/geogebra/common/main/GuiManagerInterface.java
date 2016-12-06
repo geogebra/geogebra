@@ -80,7 +80,6 @@ public interface GuiManagerInterface {
 
 	public boolean isInputFieldSelectionListener();
 
-
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);
 
@@ -121,7 +120,8 @@ public interface GuiManagerInterface {
 
 	public void getSpreadsheetViewXML(StringBuilder sb, boolean asPreference);
 
-	public void getDataCollectionViewXML(StringBuilder sb, boolean asPreference);
+	public void getDataCollectionViewXML(StringBuilder sb,
+			boolean asPreference);
 
 	public void getAlgebraViewXML(StringBuilder sb, boolean asPreference);
 
@@ -252,8 +252,6 @@ public interface GuiManagerInterface {
 	public void setScrollToShow(boolean b);
 
 	public void showURLinBrowser(String strURL);
-
-
 
 	public void exitAll();
 

@@ -14,58 +14,67 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
-
-
 /**
- * Interface for GeoElements that have an absolute screen position
- * (GeoImage, GeoText, GeoNumeric)
+ * Interface for GeoElements that have an absolute screen position (GeoImage,
+ * GeoText, GeoNumeric)
  */
-public interface AbsoluteScreenLocateable extends GeoElementND{
+public interface AbsoluteScreenLocateable extends GeoElementND {
 	/**
-	 * @param x x offset (in pixels)
-	 * @param y y offset (in pixels)
+	 * @param x
+	 *            x offset (in pixels)
+	 * @param y
+	 *            y offset (in pixels)
 	 */
 	public void setAbsoluteScreenLoc(int x, int y);
+
 	/**
 	 * 
 	 * @return x offset (in pixels)
 	 */
 	public int getAbsoluteScreenLocX();
+
 	/**
 	 * 
 	 * @return y offset (in pixels)
 	 */
 	public int getAbsoluteScreenLocY();
-	
+
 	/**
 	 * 
-	 * @param x real world x coordinate
-	 * @param y real world y coordinate
+	 * @param x
+	 *            real world x coordinate
+	 * @param y
+	 *            real world y coordinate
 	 */
 	public void setRealWorldLoc(double x, double y);
+
 	/**
 	 * 
 	 * @return real world x coordinate
 	 */
 	public double getRealWorldLocX();
+
 	/**
 	 * 
 	 * @return y real worldcoordinate
 	 */
 	public double getRealWorldLocY();
-	
+
 	/**
-	 * @param flag true to make abs position active
+	 * @param flag
+	 *            true to make abs position active
 	 */
 	public void setAbsoluteScreenLocActive(boolean flag);
-	
+
 	/**
 	 * @return true iff abs position is active
 	 */
 	public boolean isAbsoluteScreenLocActive();
 
 	/**
-	 * E.g. GeoNumeric implements this, but not all numbers can have abs. location
+	 * E.g. GeoNumeric implements this, but not all numbers can have abs.
+	 * location
+	 * 
 	 * @return true if this element can have absolute screen location
 	 */
 	public boolean isAbsoluteScreenLocateable();

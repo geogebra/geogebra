@@ -37,8 +37,8 @@ public class CmdFinancialRate extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(),
-						null, (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], null, null,
 						AlgoFinancial.CalculationType.RATE);
 
@@ -61,8 +61,8 @@ public class CmdFinancialRate extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())) {
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(),
-						null, (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3], null,
 						AlgoFinancial.CalculationType.RATE);
 
@@ -88,10 +88,11 @@ public class CmdFinancialRate extends CommandProcessor {
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())) {
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(),
-						null, (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4], AlgoFinancial.CalculationType.RATE);
+						(GeoNumeric) arg[4],
+						AlgoFinancial.CalculationType.RATE);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -118,8 +119,8 @@ public class CmdFinancialRate extends CommandProcessor {
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())) {
 
-				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(),
-						null, (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+				AlgoFinancial algo = new AlgoFinancial(cons, c.getLabel(), null,
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						AlgoFinancial.CalculationType.RATE);

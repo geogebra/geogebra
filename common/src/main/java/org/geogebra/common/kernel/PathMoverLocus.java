@@ -49,7 +49,6 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		super.init(p, min_steps);
 	}
 
-
 	@Override
 	public void resetStartParameter() {
 		super.resetStartParameter();
@@ -257,7 +256,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 						Math.ceil(next_param));
 				if (myPointList.get(rightIndexNext).lineTo == false) {
 					next_param = max_param;
-					for (int i = rightIndexNext + 1; i <= myPointList.size() - 1; i++) {
+					for (int i = rightIndexNext + 1; i <= myPointList.size()
+							- 1; i++) {
 						if (myPointList.get(i).lineTo == true) {
 							next_param = i - 1;
 							break;
@@ -270,7 +270,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 				double next_param_little = next_param - myPointList.size() + 1;
 				if (myPointList.get(rightIndexNext).lineTo == false) {
 					next_param_little = max_param;
-					for (int i = rightIndexNext + 1; i <= myPointList.size() - 1; i++) {
+					for (int i = rightIndexNext + 1; i <= myPointList.size()
+							- 1; i++) {
 						if (myPointList.get(i).lineTo == true) {
 							next_param_little = i - 1;
 							break;
@@ -280,8 +281,9 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 				next_param = next_param_little + myPointList.size() - 1;
 			}
 
-			hasNext = !(curr_param < start_param && next_param >= start_param || curr_param < start_paramUP
-					&& next_param >= start_paramUP);
+			hasNext = !(curr_param < start_param && next_param >= start_param
+					|| curr_param < start_paramUP
+							&& next_param >= start_paramUP);
 		} else {
 			if (next_param > min_param) {
 				int rightIndexNext = (int) Math.min(myPointList.size() - 1,
@@ -311,8 +313,9 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 				next_param = next_param_big - myPointList.size() + 1;
 			}
 
-			hasNext = !(curr_param > start_param && next_param <= start_param || curr_param > start_paramDOWN
-					&& next_param <= start_paramDOWN);
+			hasNext = !(curr_param > start_param && next_param <= start_param
+					|| curr_param > start_paramDOWN
+							&& next_param <= start_paramDOWN);
 		}
 
 		return hasNext;

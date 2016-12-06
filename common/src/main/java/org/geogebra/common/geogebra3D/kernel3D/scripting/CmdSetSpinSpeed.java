@@ -37,10 +37,10 @@ public class CmdSetSpinSpeed extends CmdScripting {
 							.getSettings().getEuclidian(3);
 					settings.setRotSpeed(v.getDouble() * 0.01);
 				} else {
-				EuclidianView3D view3D = (EuclidianView3D) app
-						.getEuclidianView3D();
+					EuclidianView3D view3D = (EuclidianView3D) app
+							.getEuclidianView3D();
 
-				view3D.setRotContinueAnimation(0, v.getDouble() * 0.01);
+					view3D.setRotContinueAnimation(0, v.getDouble() * 0.01);
 				}
 				return arg;
 

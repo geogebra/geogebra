@@ -65,9 +65,8 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
 					|| Double.isNaN(bfrac[1])) {
 				num.setUndefined();
 			} else {
-				num.setValue(afrac[1]
-						* bfrac[1]
-						/ Kernel.gcd(Math.round(afrac[1]), Math.round(bfrac[1])));
+				num.setValue(afrac[1] * bfrac[1] / Kernel
+						.gcd(Math.round(afrac[1]), Math.round(bfrac[1])));
 			}
 		} else {
 			num.setUndefined();

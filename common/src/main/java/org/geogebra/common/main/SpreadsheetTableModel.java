@@ -200,8 +200,6 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			app.getTraceManager().traceToSpreadsheet(geo);
 		}
 
-
-
 	}
 
 	private void addToCellRangeAlgos(GeoElement geo) {

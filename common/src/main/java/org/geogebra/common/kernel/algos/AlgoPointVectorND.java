@@ -26,8 +26,7 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 	protected GeoVectorND v; // input
 	protected GeoPointND Q; // output
 
-	public AlgoPointVectorND(Construction cons, GeoPointND P,
-			GeoVectorND v) {
+	public AlgoPointVectorND(Construction cons, GeoPointND P, GeoVectorND v) {
 		super(cons);
 		this.P = P;
 		this.v = v;
@@ -82,5 +81,4 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 
 	}
 
-	
 }

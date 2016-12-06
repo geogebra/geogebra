@@ -384,5 +384,4 @@ public class AlgoZip extends AlgoElement {
 		}
 	}
 
-	
 }

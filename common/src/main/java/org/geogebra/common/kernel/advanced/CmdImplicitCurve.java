@@ -27,15 +27,15 @@ public class CmdImplicitCurve extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		if (n == 1) {
 			if (arg[0] instanceof GeoFunctionNVar) {
 				GeoFunctionNVar func = (GeoFunctionNVar) arg[0];
-				return new GeoElement[] { getAlgoDispatcher().ImplicitCurve(
-						c.getLabel(), func) };
+				return new GeoElement[] {
+						getAlgoDispatcher().ImplicitCurve(c.getLabel(), func) };
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		}

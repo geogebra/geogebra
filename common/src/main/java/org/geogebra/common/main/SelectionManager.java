@@ -75,8 +75,6 @@ public class SelectionManager {
 	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimitedInterface>();
 	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
 
-
-
 	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
 
 	private boolean geoToggled = false;
@@ -311,8 +309,8 @@ public class SelectionManager {
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
 
-		Iterator<GeoElement> it = kernel.getConstruction()
-				.getGeoSetLabelOrder().iterator();
+		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder()
+				.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if ((layer == -1) || (geo.getLayer() == layer)) {
@@ -328,8 +326,8 @@ public class SelectionManager {
 	 */
 	final public void invertSelection() {
 
-		Iterator<GeoElement> it = kernel.getConstruction()
-				.getGeoSetLabelOrder().iterator();
+		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder()
+				.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (selectedGeos.contains(geo)) {
@@ -452,7 +450,8 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolyhedron() || geo.getGeoClassType() == GeoClass.NET) {
+			if (geo.isGeoPolyhedron()
+					|| geo.getGeoClassType() == GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle(GProperty.VISIBLE);
 			}
@@ -670,7 +669,8 @@ public class SelectionManager {
 			Iterator<GeoElement> itt = tree.iterator();
 			while (itt.hasNext()) {
 				actual = itt.next();
-				if (selectedGeos.contains(actual)) {// && (selGeo == null) // redundant
+				if (selectedGeos.contains(actual)) {// && (selGeo == null) //
+													// redundant
 					selGeo = actual;
 					break;
 				}
@@ -943,8 +943,8 @@ public class SelectionManager {
 		return tempMoveGeoList;
 	}
 
-	public <T> int addToSelectionList(ArrayList<T> selectionList,
-			T geo, int max) {
+	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo,
+			int max) {
 		if (geo == null) {
 			return 0;
 		}

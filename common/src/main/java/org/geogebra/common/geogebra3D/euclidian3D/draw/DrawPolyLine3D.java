@@ -44,12 +44,14 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	 * @param points
 	 *            preview points
 	 */
-	public DrawPolyLine3D(EuclidianView3D a_view3d, ArrayList<GeoPointND> points) {
+	public DrawPolyLine3D(EuclidianView3D a_view3d,
+			ArrayList<GeoPointND> points) {
 		super(a_view3d);
 		// p.setIsPickable(false);
 		// setGeoElement(p);
 
-		setGeoElement(new GeoPolyLine3D(a_view3d.getKernel().getConstruction()));
+		setGeoElement(
+				new GeoPolyLine3D(a_view3d.getKernel().getConstruction()));
 		this.selectedPoints = points;
 
 		updatePreview();
@@ -70,8 +72,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
-	
-	
+
 	@Override
 	protected boolean updateForItSelf() {
 
@@ -101,11 +102,11 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		brush.setAffineTexture(
 				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
 
-		if (num > 0){
+		if (num > 0) {
 			Coords previous = p.getPointND(0).getInhomCoordsInD3();
 			boundsMin.setValues(previous, 3);
 			boundsMax.setValues(previous, 3);
-			for (int i = 1; i < num; i++){
+			for (int i = 1; i < num; i++) {
 				Coords current = p.getPointND(i).getInhomCoordsInD3();
 				brush.segment(previous, current);
 				previous = current;
@@ -117,10 +118,9 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 		return true;
 	}
-	
+
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
-	
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
@@ -142,8 +142,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	// Previewable interface
 
 	private ArrayList<GeoPointND> selectedPoints;
-
-	
 
 	@Override
 	public void updateMousePos(double xRW, double yRW) {

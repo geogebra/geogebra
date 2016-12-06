@@ -168,9 +168,9 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 					coords.getY(), coords.getZ());
 
 			// return segment and new point
-			GeoElement[] ret = {
-					(GeoElement) getManager3D().Segment3D(segmentLabel, A,
-							algoPoint.getP()), (GeoElement) algoPoint.getP() };
+			GeoElement[] ret = { (GeoElement) getManager3D()
+					.Segment3D(segmentLabel, A, algoPoint.getP()),
+					(GeoElement) algoPoint.getP() };
 
 			return ret;
 		}
@@ -183,7 +183,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	private GeoElement[] SegmentFixedSphere(String pointLabel,
 			String segmentLabel, GeoPointND A, GeoNumberValue n) {
 		// create a sphere around A with radius n
-		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A, n);
+		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A,
+				n);
 
 		cons.removeFromConstructionList(algoSphere);
 		// place the new point on the circle
@@ -200,9 +201,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				pointLabel, algoSphere.getSphere(), tmpCoords);
 
 		// return segment and new point
-		GeoElement[] ret = {
-				(GeoElement) getManager3D().Segment3D(segmentLabel, A,
-						algoPoint.getP()), algoPoint.getP() };
+		GeoElement[] ret = { (GeoElement) getManager3D().Segment3D(segmentLabel,
+				A, algoPoint.getP()), algoPoint.getP() };
 
 		return ret;
 	}
@@ -291,10 +291,11 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 			GeoVectorND v) {
 		return getManager3D().Translate3D(label, geoTrans, v);
 	}
-	
+
 	@Override
-	protected GeoElement LocusNoCheck(String label, GeoPointND Q, GeoNumeric P){
-		if (Q.isGeoElement3D()){
+	protected GeoElement LocusNoCheck(String label, GeoPointND Q,
+			GeoNumeric P) {
+		if (Q.isGeoElement3D()) {
 			return getManager3D().Locus3D(label, Q, P);
 		}
 		return super.LocusNoCheck(label, Q, P);

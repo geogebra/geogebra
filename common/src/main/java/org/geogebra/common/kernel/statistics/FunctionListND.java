@@ -90,7 +90,6 @@ public interface FunctionListND {
 
 		private Evaluate2Var[] array;
 
-
 		public boolean set(int i, GeoElement geo) {
 			if (!(geo instanceof Evaluate2Var)) {
 				return false;
@@ -119,17 +118,14 @@ public interface FunctionListND {
 			// Checks done in makeMatrixes...
 			gf = array[0];
 			GeoFunctionNVar fTemplate = (GeoFunctionNVar) template;
-			mult(fTemplate, p,
-					gf, Operation.MULTIPLY); // p1*f(x)
-
+			mult(fTemplate, p, gf, Operation.MULTIPLY); // p1*f(x)
 
 			for (int i = 1; i < array.length; i++) {
 				p = P.getEntry(i, 0);
 				gf = array[i];
 				mult(product, p, gf, Operation.MULTIPLY); //
 
-				add(fTemplate, fTemplate,
-						product, Operation.PLUS); // fit(x)=...+p*func
+				add(fTemplate, fTemplate, product, Operation.PLUS); // fit(x)=...+p*func
 			}
 			fTemplate.setDefined(true);
 			return template;
@@ -150,12 +146,11 @@ public interface FunctionListND {
 		}
 
 		private static void mult(GeoFunctionNVar res, double lt,
-				Evaluate2Var rt,
-				Operation op) {
+				Evaluate2Var rt, Operation op) {
 			Kernel kernel1 = res.getKernel();
 			FunctionNVar fRes = GeoFunction
-					.applyNumberSymb(op, rt,
-					new MyDouble(kernel1, lt), false).deepCopy(kernel1);
+					.applyNumberSymb(op, rt, new MyDouble(kernel1, lt), false)
+					.deepCopy(kernel1);
 			fRes.setExpression(AlgoDependentFunction
 					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
 					.wrap());

@@ -78,6 +78,4 @@ public class AlgoInputBox extends AlgoElement {
 		return EuclidianConstants.MODE_TEXTFIELD_ACTION;
 	}
 
-	
-
 }

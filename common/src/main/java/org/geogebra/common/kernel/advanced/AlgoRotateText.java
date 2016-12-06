@@ -145,6 +145,4 @@ public class AlgoRotateText extends AlgoElement {
 		return true;
 	}
 
-	
-
 }

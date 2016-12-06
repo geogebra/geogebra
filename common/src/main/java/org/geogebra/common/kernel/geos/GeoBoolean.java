@@ -191,11 +191,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			// 1 = true
 			// 0 = false
 			setValue(Kernel.isZero(((GeoNumeric) geo).getDouble() - 1));
-			isDefined = true; 
+			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;
 			setValue(b.value);
-			isDefined = b.isDefined; 
+			isDefined = b.isDefined;
 		}
 	}
 
@@ -215,9 +215,9 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 */
 	final public void setUndefinedProverOnly() {
 		// Needed for prover's yes/no/undefined trichotomy
-		isDefined = false; 
+		isDefined = false;
 	}
-	
+
 	/**
 	 * Changes the defined flag of this boolean
 	 */

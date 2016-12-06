@@ -92,5 +92,4 @@ public class AlgoAxisSecondLength extends AlgoElement {
 		return getLoc().getPlain("SecondAxisLengthOfA", c.getLabel(tpl));
 	}
 
-	
 }

@@ -1,6 +1,5 @@
 package org.geogebra.common.util;
 
-
 public interface LaTeXCache {
 	public void remove();
 

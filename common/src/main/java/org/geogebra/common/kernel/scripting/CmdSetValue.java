@@ -43,7 +43,7 @@ public class CmdSetValue extends CmdScripting {
 
 		switch (n) {
 		case 2:
-			setValue2(arg[0],arg[1]);
+			setValue2(arg[0], arg[1]);
 			return arg;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
@@ -106,13 +106,14 @@ public class CmdSetValue extends CmdScripting {
 			} else {
 				geo.set(arg2);
 			}
-			if(list.getDefinition()!=null){
+			if (list.getDefinition() != null) {
 				ExpressionValue root = list.getDefinition().unwrap();
 				// sizes different == something went wrong
 				if (root instanceof MyList && arg2.getDefinition() != null
 						&& ((MyList) root).size() == list.size()) {
-					((MyList)root).setListElement(nn-1,arg2.getDefinition());
-				}else{
+					((MyList) root).setListElement(nn - 1,
+							arg2.getDefinition());
+				} else {
 					list.setDefinition(null);
 				}
 			}

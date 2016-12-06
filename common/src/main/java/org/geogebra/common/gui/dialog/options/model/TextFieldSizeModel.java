@@ -12,14 +12,14 @@ public class TextFieldSizeModel extends OptionsModel {
 		this.listener = listener;
 	}
 
-
 	public TextFieldSizeModel(App app) {
 		super(app);
 	}
 
 	private GeoInputBox getTextFieldAt(int index) {
-		return (GeoInputBox)getObjectAt(index);
+		return (GeoInputBox) getObjectAt(index);
 	}
+
 	@Override
 	public void updateProperties() {
 		GeoInputBox temp, geo0 = getTextFieldAt(0);
@@ -37,16 +37,14 @@ public class TextFieldSizeModel extends OptionsModel {
 			listener.setText("");
 		}
 
-
 	}
 
 	public void applyChanges(final String strValue) {
 
 		applyChanges(app.getKernel().getAlgebraProcessor()
-				.evaluateToNumeric(
-strValue, ErrorHelper.silent()));
+				.evaluateToNumeric(strValue, ErrorHelper.silent()));
 	}
-	
+
 	public void applyChanges(NumberValue value) {
 		if (value != null && !Double.isNaN(value.getDouble())) {
 			for (int i = 0; i < getGeosLength(); i++) {
@@ -54,10 +52,10 @@ strValue, ErrorHelper.silent()));
 				geo.setLength((int) value.getDouble());
 				geo.updateRepaint();
 			}
-		}	
+		}
 		storeUndoInfo();
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		return (getGeoAt(index) instanceof GeoInputBox);

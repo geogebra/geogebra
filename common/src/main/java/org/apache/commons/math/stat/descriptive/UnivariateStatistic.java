@@ -16,38 +16,42 @@
  */
 package org.apache.commons.math.stat.descriptive;
 
-
 /**
  * Base interface implemented by all statistics.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept. 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 19:36:48 +0200 (sam. 05 sept.
+ *          2009) $
  */
 public interface UnivariateStatistic {
 
-    /**
-     * Returns the result of evaluating the statistic over the input array.
-     *
-     * @param values input array
-     * @return the value of the statistic applied to the input array
-     */
-    double evaluate(double[] values);
+	/**
+	 * Returns the result of evaluating the statistic over the input array.
+	 *
+	 * @param values
+	 *            input array
+	 * @return the value of the statistic applied to the input array
+	 */
+	double evaluate(double[] values);
 
-    /**
-     * Returns the result of evaluating the statistic over the specified entries
-     * in the input array.
-     *
-     * @param values the input array
-     * @param begin the index of the first element to include
-     * @param length the number of elements to include
-     * @return the value of the statistic applied to the included array entries
-     */
-    double evaluate(double[] values, int begin, int length);
+	/**
+	 * Returns the result of evaluating the statistic over the specified entries
+	 * in the input array.
+	 *
+	 * @param values
+	 *            the input array
+	 * @param begin
+	 *            the index of the first element to include
+	 * @param length
+	 *            the number of elements to include
+	 * @return the value of the statistic applied to the included array entries
+	 */
+	double evaluate(double[] values, int begin, int length);
 
-    /**
-     * Returns a copy of the statistic with the same internal state.
-     *
-     * @return a copy of the statistic
-     */
-    UnivariateStatistic copy();
+	/**
+	 * Returns a copy of the statistic with the same internal state.
+	 *
+	 * @return a copy of the statistic
+	 */
+	UnivariateStatistic copy();
 
 }

@@ -21,7 +21,6 @@ public abstract class OptionsObject {
 	private StringBuilder sb = new StringBuilder();
 	public App app;
 
-
 	/**
 	 * update geo just added
 	 * 

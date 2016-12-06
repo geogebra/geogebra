@@ -140,8 +140,7 @@ public class SpreadsheetTraceManager {
 		SpreadsheetTraceSettings t = geo.getTraceSettings();
 		// clearGeoTraceColumns(geo);
 		CopyPasteCut.delete(app, t.traceColumn1, t.traceRow1, t.traceColumn2,
-				app.getMaxSpreadsheetRowsVisible(),
-				MyTable.CELL_SELECT);
+				app.getMaxSpreadsheetRowsVisible(), MyTable.CELL_SELECT);
 
 		addSpreadsheetTraceGeo(geo);
 	}
@@ -302,7 +301,8 @@ public class SpreadsheetTraceManager {
 
 	}
 
-	private void togglePauseTraceGeo(GeoElement geo, SpreadsheetTraceSettings t) {
+	private void togglePauseTraceGeo(GeoElement geo,
+			SpreadsheetTraceSettings t) {
 		t.pause = !t.pause;
 		if (!t.pause) {
 			traceToSpreadsheet(geo, t);
@@ -381,8 +381,7 @@ public class SpreadsheetTraceManager {
 			row1 += t.headerOffset;
 
 		CopyPasteCut.delete(app, t.traceColumn1, row1, t.traceColumn2,
-				app.getMaxSpreadsheetRowsVisible(),
-				MyTable.CELL_SELECT);
+				app.getMaxSpreadsheetRowsVisible(), MyTable.CELL_SELECT);
 		// t.tracingRow = t.traceRow1;
 		// t.lastTrace.clear();
 	}
@@ -401,7 +400,8 @@ public class SpreadsheetTraceManager {
 		app.repaintSpreadsheet();
 	}
 
-	public void handleColumnDelete(int column1, int row1, int column2, int row2) {
+	public void handleColumnDelete(int column1, int row1, int column2,
+			int row2) {
 		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = geo.getTraceSettings();
@@ -589,7 +589,8 @@ public class SpreadsheetTraceManager {
 		traceToSpreadsheet(geo, t);
 	}
 
-	private void traceToSpreadsheet(GeoElement geo, SpreadsheetTraceSettings t) {
+	private void traceToSpreadsheet(GeoElement geo,
+			SpreadsheetTraceSettings t) {
 
 		Construction cons = app.getKernel().getConstruction();
 
@@ -703,8 +704,8 @@ public class SpreadsheetTraceManager {
 		if (t.showTraceList) {
 			int traceIndex = 0;
 			for (int column = t.traceColumn1; column <= t.traceColumn2; column++) {
-				updateTraceListCell(cons, geo, column, t.traceRow1,
-						t.lastTrace, traceIndex);
+				updateTraceListCell(cons, geo, column, t.traceRow1, t.lastTrace,
+						traceIndex);
 				++traceIndex;
 			}
 		}
@@ -776,8 +777,8 @@ public class SpreadsheetTraceManager {
 					|| !cell.getGeoClassType().equals(geo.getGeoClassType())) {
 				// cell is null or type has changed: deep copy
 				cell = geo.deepCopyGeo();
-				cell.setLabel(GeoElementSpreadsheet.getSpreadsheetCellName(
-						column, row));
+				cell.setLabel(GeoElementSpreadsheet
+						.getSpreadsheetCellName(column, row));
 
 				cell.setAllVisualProperties(geo, true);
 				cell.setSpreadsheetTrace(false);
@@ -831,8 +832,8 @@ public class SpreadsheetTraceManager {
 				CopyPasteCut.delete(app, column, row, column, row,
 						MyTable.CELL_SELECT);
 
-			String cellName = GeoElementSpreadsheet.getSpreadsheetCellName(
-					column, row);
+			String cellName = GeoElementSpreadsheet
+					.getSpreadsheetCellName(column, row);
 			switch (geoClassType) {
 
 			case NUMERIC:
@@ -880,8 +881,8 @@ public class SpreadsheetTraceManager {
 	}
 
 	private void putCell(GeoElement cell, int column, int row) {
-		String label = GeoElementSpreadsheet
-				.getSpreadsheetCellName(column, row);
+		String label = GeoElementSpreadsheet.getSpreadsheetCellName(column,
+				row);
 		GeoElement old = cell.getKernel().lookupLabel(label);
 		if (old != null) {
 			old.remove();

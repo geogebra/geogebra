@@ -9,13 +9,11 @@
 */
 package edu.uci.ics.jung.algorithms.util;
 
-
 /**
  * An interface for algorithms that proceed iteratively.
  *
  */
-public interface IterativeContext 
-{
+public interface IterativeContext {
 	/**
 	 * Advances one step.
 	 */

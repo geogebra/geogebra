@@ -30,7 +30,7 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 
 	// temporary lines
 	private GeoSegmentND[] segA, segB;
-		
+
 	/**
 	 * constructor with labels
 	 * 
@@ -56,7 +56,6 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		setLabels(labels);
 		update();
 	}
-
 
 	@Override
 	protected void setInputOutput() {
@@ -103,7 +102,6 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		}
 	}
 
-
 	@Override
 	public void compute() {
 
@@ -127,9 +125,8 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 
 				project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2,
 						d2);
-				
-				if (project != null
-						&& !Double.isNaN(project[2].get(1))
+
+				if (project != null && !Double.isNaN(project[2].get(1))
 						&& project[0].equalsForKernel(project[1],
 								Kernel.STANDARD_PRECISION)) {
 					double t1 = project[2].get(1); // parameter on line 1
@@ -150,9 +147,8 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		}
 
 		// update and/or create points
-		this.outputPoints
-				.adjustOutputSize(this.intersectingCoords.size() > 0 ? this.intersectingCoords
-						.size() : 1);
+		this.outputPoints.adjustOutputSize(this.intersectingCoords.size() > 0
+				? this.intersectingCoords.size() : 1);
 
 		// affect new computed points
 		int index = 0;

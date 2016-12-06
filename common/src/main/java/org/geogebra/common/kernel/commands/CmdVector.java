@@ -31,8 +31,8 @@ public class CmdVector extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { (GeoElement) getAlgoDispatcher().Vector(
-						c.getLabel(), (GeoPointND) arg[0]) };
+				GeoElement[] ret = { (GeoElement) getAlgoDispatcher()
+						.Vector(c.getLabel(), (GeoPointND) arg[0]) };
 				return ret;
 			}
 

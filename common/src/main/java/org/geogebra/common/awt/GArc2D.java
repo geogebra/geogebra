@@ -28,8 +28,8 @@ public interface GArc2D extends GRectangularShape {
 	 * @param type
 	 *            type (OPEN or PIE)
 	 */
-	public abstract void setArc(double x, double y, double width,
-			double height, double angleStart, double angleEnd, int type);
+	public abstract void setArc(double x, double y, double width, double height,
+			double angleStart, double angleEnd, int type);
 
 	/**
 	 * @return start point

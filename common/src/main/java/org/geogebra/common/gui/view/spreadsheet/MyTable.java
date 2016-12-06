@@ -12,27 +12,21 @@ public interface MyTable extends MyTableInterface {
 
 	public void setTableMode(int mode);
 
-	
 	// e.g. for CellRangeProcessor
 	public Kernel getKernel();
-	
-	public SpreadsheetViewInterface getView();
-	public CopyPasteCut getCopyPasteCut();
 
+	public SpreadsheetViewInterface getView();
+
+	public CopyPasteCut getCopyPasteCut();
 
 	public ArrayList<CellRange> getSelectedCellRanges();
 
-
 	public void updateTableCellValue(Object value, int i, int j);
-
 
 	public boolean setSelection(CellRange targetRange);
 
 	public void changeSelection(int y, int x, boolean b);
 
 	public int getTableMode();
-		
-	
-	
-	
+
 }

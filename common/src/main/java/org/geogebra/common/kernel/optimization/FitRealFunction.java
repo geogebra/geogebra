@@ -109,7 +109,7 @@ public class FitRealFunction implements
 		for (int i = 0; i < numberOfParameters; i++) {
 			mydoubles[i].set(pars[i]);
 			// mydoubles[i].setLabel("p_{"+i+"}");
-		}// for all parameter
+		} // for all parameter
 		lastvalue = newf.evaluate(x);
 		return lastvalue;
 	}// evaluate(x,pars[])
@@ -133,7 +133,7 @@ public class FitRealFunction implements
 			newf = value(x, pars);
 			gradient[i] = (newf - oldf) / deltap;
 			pars[i] -= deltap;
-		}// for all parameters
+		} // for all parameters
 		return gradient;
 	}// gradient(x,pars)
 
@@ -144,11 +144,12 @@ public class FitRealFunction implements
 		java.util.HashSet<GeoElement> hash = f.getVariables(); // Get a,b,c,...
 																// to array
 		if (hash == null) {
-			//throw (new Exception("No gliders/parameters in fit-function..."));
-			this.parametersOK  = false;
+			// throw (new Exception("No gliders/parameters in
+			// fit-function..."));
+			this.parametersOK = false;
 		} else {
 			gliders = hash.toArray();
-		}// if no gliders
+		} // if no gliders
 
 		numberOfParameters = gliders.length;
 
@@ -158,27 +159,32 @@ public class FitRealFunction implements
 			temp = ((NumberValue) gliders[i]).getDouble();
 			mydoubles[i] = new MyDouble(kernel);
 			mydoubles[i].set(temp); // Set mydoubles to start values from a,b,c
-		}// for all parameters
+		} // for all parameters
 
 		ExpressionNode node = f.getExpression();
 
 		ExpressionNode enf = node.deepCopy(kernel); // Make new
-																		// tree
-																		// for
-																		// new
-																		// function
+													// tree
+													// for
+													// new
+													// function
 		// ExpressionNode enf=new ExpressionNode(kernel,evf);
 
 		for (int i = 0; i < numberOfParameters; i++) {
-			enf = enf.replace((ExpressionValue) gliders[i],
-					mydoubles[i].evaluate(StringTemplate.defaultTemplate))
+			enf = enf
+					.replace((ExpressionValue) gliders[i],
+							mydoubles[i]
+									.evaluate(StringTemplate.defaultTemplate))
 					.wrap();
-			// System.out.println("Replaced: "+((NumberValue)pars[i]).toString()+"with: "+mydoubles[i].toString());
-		}// for all parameters
+			// System.out.println("Replaced:
+			// "+((NumberValue)pars[i]).toString()+"with:
+			// "+mydoubles[i].toString());
+		} // for all parameters
 			// System.out.println("enf(etter replace): "+enf.toString());
 		enf.resolveVariables(new EvalInfo(false));
 		// should we dispose this??? if(this.newf!=null)
-		this.newf = new Function(enf, fvar); // System.out.println("new function: "+newf.toString());
+		this.newf = new Function(enf, fvar); // System.out.println("new
+												// function: "+newf.toString());
 
 	}// setFunction(Function)
 
@@ -193,7 +199,7 @@ public class FitRealFunction implements
 																		// first
 																		// time:
 																		// mydoubles[i].getDouble();
-		}// for all parameters
+		} // for all parameters
 		return startvalues;
 	}// getStartValues()
 

@@ -40,6 +40,4 @@ public class AlgoQuadricEndBottom extends AlgoQuadricEnd {
 		return Commands.Bottom;
 	}
 
-	
-
 }

@@ -282,9 +282,8 @@ public class PolynomialUtils {
 			for (int j = 0; j < coeff[i].length; j++) {
 				if (coeff[i][j] != null) {
 					// find constant parts of input and evaluate them right now
-					if (simplify
-							&& !coeff[i][j]
-									.inspect(Inspecting.dynamicGeosFinder)) {
+					if (simplify && !coeff[i][j]
+							.inspect(Inspecting.dynamicGeosFinder)) {
 						coeff[i][j] = coeff[i][j]
 								.evaluate(StringTemplate.defaultTemplate);
 					}

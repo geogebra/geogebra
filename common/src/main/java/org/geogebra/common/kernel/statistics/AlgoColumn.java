@@ -71,5 +71,4 @@ public class AlgoColumn extends AlgoElement {
 			num.setUndefined();
 	}
 
-	
 }

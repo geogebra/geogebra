@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoVoronoi extends AlgoDiscrete{
+public class AlgoVoronoi extends AlgoDiscrete {
 
 	public AlgoVoronoi(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);
@@ -31,53 +31,52 @@ public class AlgoVoronoi extends AlgoDiscrete{
 	public final void compute() {
 
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			locus.setUndefined();
 			return;
-		} 
+		}
 
 		double inhom[] = new double[2];
 
-		
 		ArrayList<Double> xcoords = new ArrayList<Double>();
 		ArrayList<Double> ycoords = new ArrayList<Double>();
-		
-		final double delta =  0.0000001;
-		
-		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<GPoint2D> pointTree = new TreeSet<GPoint2D>(getPointComparator());
 
-		for (int i = 0 ; i < size ; i++) {
+		final double delta = 0.0000001;
+
+		// add to TreeSet to remove duplicates (from touching triangles)
+		TreeSet<GPoint2D> pointTree = new TreeSet<GPoint2D>(
+				getPointComparator());
+
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoPoint()) {
-				GeoPointND p = (GeoPointND)geo;
+				GeoPointND p = (GeoPointND) geo;
 				p.getInhomCoords(inhom);
-				
-				pointTree.add(new GPoint2D.Double(inhom[0],  inhom[1]));
-				
+
+				pointTree.add(new GPoint2D.Double(inhom[0], inhom[1]));
+
 			}
 		}
-		
+
 		Point_dt[] points = new Point_dt[pointTree.size()];
 		int indx = 0;
 
-		
 		Iterator<GPoint2D> it3 = pointTree.iterator();
-		
+
 		while (it3.hasNext()) {
 			GPoint2D p = it3.next();
 			double x = p.getX();
 			double y = p.getY();
-					
-			
+
 			while (xcoords.contains(x)) {
 				x += delta;
 			}
 			while (ycoords.contains(y)) {
 				y += delta;
 			}
-			
-			// work around a bug in the algorithm for Points with an equal x or y coordinate 
+
+			// work around a bug in the algorithm for Points with an equal x or
+			// y coordinate
 			xcoords.add(x);
 			ycoords.add(y);
 
@@ -101,22 +100,32 @@ public class AlgoVoronoi extends AlgoDiscrete{
 		}
 
 		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<MyLine> tree = new TreeSet<MyLine>(AlgoDelauneyTriangulation.getComparator());
+		TreeSet<MyLine> tree = new TreeSet<MyLine>(
+				AlgoDelauneyTriangulation.getComparator());
 
 		while (it.hasNext()) {
 			Triangle_dt triangle = it.next();
 
-			for (int index = 0 ; index < 3 ; index ++) {
+			for (int index = 0; index < 3; index++) {
 
 				Point_dt corner = triangle.getCorner(index);
 
 				if (corner != null) {
 
-					Point_dt[] voronoiCell = dt.calcVoronoiCell(triangle, corner);
+					Point_dt[] voronoiCell = dt.calcVoronoiCell(triangle,
+							corner);
 
 					if (voronoiCell != null)
-						for (int i = 0 ; i < voronoiCell.length - 1 ; i++) {
-							tree.add(new MyLine(new GPoint2D.Double(voronoiCell[i].x() , voronoiCell[i].y()), new GPoint2D.Double(voronoiCell[(i+1) % voronoiCell.length].x() , voronoiCell[(i+1) % voronoiCell.length].y())));
+						for (int i = 0; i < voronoiCell.length - 1; i++) {
+							tree.add(new MyLine(
+									new GPoint2D.Double(voronoiCell[i].x(),
+											voronoiCell[i].y()),
+									new GPoint2D.Double(
+											voronoiCell[(i + 1)
+													% voronoiCell.length].x(),
+											voronoiCell[(i + 1)
+													% voronoiCell.length]
+															.y())));
 
 						}
 				}
@@ -124,56 +133,53 @@ public class AlgoVoronoi extends AlgoDiscrete{
 
 		}
 
-
 		Iterator<MyLine> it2 = tree.iterator();
 
 		while (it2.hasNext()) {
 			MyLine line = it2.next();
-			al.add(new MyPoint(line.p1.getX() , line.p1.getY(), false));
-			al.add(new MyPoint(line.p2.getX() , line.p2.getY(), true));
+			al.add(new MyPoint(line.p1.getX(), line.p1.getY(), false));
+			al.add(new MyPoint(line.p2.getX(), line.p2.getY(), true));
 		}
-
-
 
 		locus.setPoints(al);
 		locus.setDefined(true);
 
 	}
 
-    /*
-     * comparator used to eliminate duplicate objects
-     * (TreeSet deletes duplicates ie those that return 0)
-     */
+	/*
+	 * comparator used to eliminate duplicate objects (TreeSet deletes
+	 * duplicates ie those that return 0)
+	 */
 	public static Comparator<GPoint2D> getPointComparator() {
 		if (pointComparator == null) {
 			pointComparator = new Comparator<GPoint2D>() {
 				public int compare(GPoint2D p1, GPoint2D p2) {
-		        
-					//double p1A = itemA.getX();
-					//double p1B = itemA.getY();
-					//double p2A = itemB.getX();
-					//double p2B = itemB.getY();
-					
+
+					// double p1A = itemA.getX();
+					// double p1B = itemA.getY();
+					// double p2A = itemB.getX();
+					// double p2B = itemB.getY();
+
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (Kernel.isEqual(p1.getX(), p2.getX()) && Kernel.isEqual(p1.getY(), p2.getY())) {
-						//Application.debug("equal2");
+					if (Kernel.isEqual(p1.getX(), p2.getX())
+							&& Kernel.isEqual(p1.getY(), p2.getY())) {
+						// Application.debug("equal2");
 						return 0;
 					}
-			
-					// need to return something sensible, otherwise tree doesn't work
+
+					// need to return something sensible, otherwise tree doesn't
+					// work
 					return p1.getX() > p2.getX() ? -1 : 1;
-					
-				
+
 				}
 			};
-			
-			}
-		
-			return pointComparator;
+
 		}
-	  private static Comparator<GPoint2D> pointComparator;
 
+		return pointComparator;
+	}
 
+	private static Comparator<GPoint2D> pointComparator;
 
 }

@@ -31,7 +31,8 @@ public class AlgoHarmonicMean extends AlgoElement {
 	private int size;
 	private double sum;
 
-	public AlgoHarmonicMean(Construction cons, String label, GeoList inputList) {
+	public AlgoHarmonicMean(Construction cons, String label,
+			GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		result = new GeoNumeric(cons);
@@ -90,7 +91,5 @@ public class AlgoHarmonicMean extends AlgoElement {
 
 		result.setValue(size / sum);
 	}
-
-	
 
 }

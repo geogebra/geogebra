@@ -115,13 +115,13 @@ public class AlgoAsymptote extends AlgoElement {
 
 			asymptotes[0].x = -(vec2y + vec1y);
 			asymptotes[0].y = vec2x + vec1x;
-			asymptotes[0].z = -(asymptotes[0].x * b.getX() + asymptotes[0].y
-					* b.getY());
+			asymptotes[0].z = -(asymptotes[0].x * b.getX()
+					+ asymptotes[0].y * b.getY());
 
 			asymptotes[1].x = -(vec2y - vec1y);
 			asymptotes[1].y = vec2x - vec1x;
-			asymptotes[1].z = -(asymptotes[1].x * b.getX() + asymptotes[1].y
-					* b.getY());
+			asymptotes[1].z = -(asymptotes[1].x * b.getX()
+					+ asymptotes[1].y * b.getY());
 
 			// point on lines
 			P.setCoords(b.getX(), b.getY(), 1.0);
@@ -140,5 +140,4 @@ public class AlgoAsymptote extends AlgoElement {
 		return getLoc().getPlain("AsymptoteToA", c.getLabel(tpl));
 	}
 
-	
 }

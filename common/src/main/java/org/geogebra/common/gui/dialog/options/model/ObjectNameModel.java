@@ -15,14 +15,20 @@ import org.geogebra.common.util.AsyncOperation;
 public class ObjectNameModel extends OptionsModel {
 	public interface IObjectNameListener extends PropertyListener {
 		void setNameText(final String text);
+
 		void setDefinitionText(final String text);
+
 		void setCaptionText(final String text);
+
 		void updateGUI(boolean showDefinition, boolean showCaption);
+
 		void updateDefLabel();
+
 		void updateCaption();
+
 		void updateName(final String text);
 	}
-	
+
 	private IObjectNameListener listener;
 	private RenameInputHandler nameInputHandler;
 	private RedefineInputHandler defInputHandler;
@@ -30,7 +36,7 @@ public class ObjectNameModel extends OptionsModel {
 	private boolean redefinitionFailed;
 	private GeoElement currentGeoForFocusLost;
 	private boolean busy;
-	
+
 	public ObjectNameModel(App app, IObjectNameListener listener) {
 		super(app);
 		this.listener = listener;
@@ -41,8 +47,7 @@ public class ObjectNameModel extends OptionsModel {
 		setDefInputHandler(new RedefineInputHandler(app, null, null));
 
 	}
-	
-	
+
 	@Override
 	public void updateProperties() {
 		/*
@@ -75,8 +80,9 @@ public class ObjectNameModel extends OptionsModel {
 		GeoElement geo0 = getGeoAt(0);
 		listener.updateName(geo0.getLabel(StringTemplate.editTemplate));
 
-		// if a focus lost is called in between, we keep the current definition text
-		//redefinitionForFocusLost = tfDefinition.getText();
+		// if a focus lost is called in between, we keep the current definition
+		// text
+		// redefinitionForFocusLost = tfDefinition.getText();
 		setCurrentGeo(geo0);
 		nameInputHandler.setGeoElement(geo0);
 		defInputHandler.setGeoElement(geo0);
@@ -84,16 +90,19 @@ public class ObjectNameModel extends OptionsModel {
 		// DEFINITION
 		// boolean showDefinition = !(currentGeo.isGeoText() ||
 		// currentGeo.isGeoImage());
-		boolean showDefinition = getCurrentGeo().isGeoText() ? ((GeoText) getCurrentGeo())
-				.isTextCommand() : !(((getCurrentGeo().isGeoImage() || getCurrentGeo()
-				.isGeoButton()) && getCurrentGeo().isIndependent()));
-				
+		boolean showDefinition = getCurrentGeo().isGeoText()
+				? ((GeoText) getCurrentGeo()).isTextCommand()
+				: !(((getCurrentGeo().isGeoImage()
+						|| getCurrentGeo().isGeoButton())
+						&& getCurrentGeo().isIndependent()));
+
 		if (showDefinition) {
 			listener.updateDefLabel();
 		}
 		// CAPTION
-		boolean showCaption = !(getCurrentGeo() instanceof TextValue); // borcherds was
-															// currentGeo.isGeoBoolean();
+		boolean showCaption = !(getCurrentGeo() instanceof TextValue); // borcherds
+																		// was
+		// currentGeo.isGeoBoolean();
 		if (showCaption) {
 			listener.updateCaption();
 		}
@@ -115,23 +124,24 @@ public class ObjectNameModel extends OptionsModel {
 		nameInputHandler.processInput(name, handler,
 				new AsyncOperation<Boolean>() {
 
-			@Override
-			public void callback(Boolean obj) {
-				// TODO Auto-generated method stub
+					@Override
+					public void callback(Boolean obj) {
+						// TODO Auto-generated method stub
 
-			}
-		});
+					}
+				});
 
 		// reset label if not successful
-		final String strName = currentGeo.getLabel(StringTemplate.defaultTemplate);
+		final String strName = currentGeo
+				.getLabel(StringTemplate.defaultTemplate);
 		if (!strName.equals(name)) {
 			listener.setNameText(strName);
 		}
 		currentGeo.updateRepaint();
 		storeUndoInfo();
-	
+
 	}
-	
+
 	public void applyDefinitionChange(final String definition,
 			ErrorHandler handler) {
 		if (!definition.equals(getDefText(currentGeo))) {
@@ -157,14 +167,14 @@ public class ObjectNameModel extends OptionsModel {
 		}
 
 	}
-	
+
 	public static String getDefText(GeoElementND geo) {
-			/*
-			 * return geo.isIndependent() ? geo.toOutputValueString() :
-			 * geo.getCommandDescription();
-			 */
-			return geo.getRedefineString(false, true);
-		}
+		/*
+		 * return geo.isIndependent() ? geo.toOutputValueString() :
+		 * geo.getCommandDescription();
+		 */
+		return geo.getRedefineString(false, true);
+	}
 
 	public void applyCaptionChange(final String caption) {
 		currentGeo.setCaption(caption);
@@ -186,9 +196,9 @@ public class ObjectNameModel extends OptionsModel {
 			return;
 		}
 
-		if (currentGeo == geo){
+		if (currentGeo == geo) {
 			if (!text.equals(getDefText(currentGeo))) {
-				
+
 				listener.setDefinitionText(text);
 				defInputHandler.setGeoElement(geo);
 				defInputHandler.processInput(text, handler,
@@ -196,17 +206,17 @@ public class ObjectNameModel extends OptionsModel {
 
 							@Override
 							public void callback(Boolean ok) {
-								if(ok){
-									setCurrentGeo(defInputHandler.getGeoElement());
+								if (ok) {
+									setCurrentGeo(
+											defInputHandler.getGeoElement());
 									storeUndoInfo();
 								}
 
 							}
-						}
-				);
-					
+						});
+
 			}
-		}else{
+		} else {
 			String strDefinition = redefinitionText;
 			if (!strDefinition.equals(getDefText(geo))) {
 				defInputHandler.setGeoElement(geo);
@@ -229,51 +239,41 @@ public class ObjectNameModel extends OptionsModel {
 		return currentGeo;
 	}
 
-
 	public void setCurrentGeo(GeoElementND currentGeo) {
 		this.currentGeo = currentGeo;
 	}
-
 
 	public RenameInputHandler getNameInputHandler() {
 		return nameInputHandler;
 	}
 
-
 	public void setNameInputHandler(RenameInputHandler nameInputHandler) {
 		this.nameInputHandler = nameInputHandler;
 	}
-
 
 	public RedefineInputHandler getDefInputHandler() {
 		return defInputHandler;
 	}
 
-
 	public void setDefInputHandler(RedefineInputHandler defInputHandler) {
 		this.defInputHandler = defInputHandler;
 	}
-
 
 	public boolean isBusy() {
 		return busy;
 	}
 
-
 	public void setBusy(boolean busy) {
 		this.busy = busy;
 	}
-
 
 	protected boolean isRedefinitionFailed() {
 		return redefinitionFailed;
 	}
 
-
 	protected void setRedefinitionFailed(boolean redefinitionFailed) {
 		this.redefinitionFailed = redefinitionFailed;
 	}
-
 
 	@Override
 	protected boolean isValidAt(int index) {

@@ -167,6 +167,4 @@ public class AlgoVerticalText extends AlgoElement {
 		return true;
 	}
 
-	
-
 }

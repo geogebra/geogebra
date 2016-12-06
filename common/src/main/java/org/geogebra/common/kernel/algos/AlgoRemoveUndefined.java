@@ -122,6 +122,4 @@ public class AlgoRemoveUndefined extends AlgoElement {
 		return isDefined;
 	}
 
-	
-
 }

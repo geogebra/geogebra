@@ -20,14 +20,14 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  *
  */
 public class ChangeableCoordParent {
-	
+
 	private GeoNumeric changeableCoordNumber = null;
 	private GeoElement changeableCoordDirector = null;
 	private double startValue;
 	private Coords direction, direction2, centroid;
 	private boolean forPolyhedronNet = false;
 	private GeoPolyhedronInterface parent;
-	
+
 	/**
 	 * 
 	 * @param v
@@ -78,11 +78,13 @@ public class ChangeableCoordParent {
 
 	/**
 	 * constructor
-	 * @param number number
-	 * @param director director
+	 * 
+	 * @param number
+	 *            number
+	 * @param director
+	 *            director
 	 */
-	public ChangeableCoordParent(GeoNumeric number,
-			GeoElement director) {
+	public ChangeableCoordParent(GeoNumeric number, GeoElement director) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;
 		forPolyhedronNet = false;
@@ -113,7 +115,7 @@ public class ChangeableCoordParent {
 	final public GeoNumeric getNumber() {
 		return changeableCoordNumber;
 	}
-	
+
 	/**
 	 * 
 	 * @return value of the number
@@ -122,7 +124,6 @@ public class ChangeableCoordParent {
 		return changeableCoordNumber.getValue();
 	}
 
-	
 	/**
 	 * 
 	 * @return director
@@ -130,14 +131,14 @@ public class ChangeableCoordParent {
 	final public GeoElement getDirector() {
 		return changeableCoordDirector;
 	}
-	
+
 	/**
 	 * record number value
 	 * 
 	 * @param view
 	 *            view calling
 	 */
-	final public void record(EuclidianView view){
+	final public void record(EuclidianView view) {
 		startValue = getValue();
 		if (direction == null) {
 			direction = new Coords(3);
@@ -157,28 +158,32 @@ public class ChangeableCoordParent {
 			direction.set3(changeableCoordDirector.getMainDirection());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return start value
 	 */
-	final public double getStartValue(){
+	final public double getStartValue() {
 		return startValue;
 	}
 
-	
 	/**
-	 * @param rwTransVec real world translation vector
-	 * @param endPosition end position
-	 * @param viewDirection view direction
-	 * @param updateGeos list of geos
-	 * @param tempMoveObjectList temporary list
-	 * @param view view where the move occurs (if not keyboard)
+	 * @param rwTransVec
+	 *            real world translation vector
+	 * @param endPosition
+	 *            end position
+	 * @param viewDirection
+	 *            view direction
+	 * @param updateGeos
+	 *            list of geos
+	 * @param tempMoveObjectList
+	 *            temporary list
+	 * @param view
+	 *            view where the move occurs (if not keyboard)
 	 * @return true on success
 	 */
-	final public boolean move(Coords rwTransVec,
-			Coords endPosition, Coords viewDirection,
-			ArrayList<GeoElement> updateGeos,
+	final public boolean move(Coords rwTransVec, Coords endPosition,
+			Coords viewDirection, ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
 
 		GeoNumeric var = getNumber();
@@ -190,13 +195,15 @@ public class ChangeableCoordParent {
 		if (endPosition == null) { // comes from arrows keys -- all is added
 			var.setValue(var.getValue() + rwTransVec.getX() + rwTransVec.getY()
 					+ rwTransVec.getZ());
-			GeoElement.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
-					tempMoveObjectList);
+			GeoElement.addChangeableCoordParentNumberToUpdateList(var,
+					updateGeos, tempMoveObjectList);
 			return true;
 		}
 
-		if (viewDirection == null) { // may come from 2D view, e.g. EuclidianController.moveDependent()
-			// see https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&sh=false&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException:+Attempt+to+invoke+virtual+method+'double+org.geogebra.a.m.a.j.e(org.geogebra.a.m.a.j)'+on+a+null+object+reference&tf=SourceFile&tc=%2509at+org.geogebra.common.kernel.geos.ChangeableCoordParent.move(ChangeableCoordParent.java:202)&tm=a&nid&an&c&s=new_status_desc&ed=1480452507515
+		if (viewDirection == null) { // may come from 2D view, e.g.
+										// EuclidianController.moveDependent()
+			// see
+			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&sh=false&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException:+Attempt+to+invoke+virtual+method+'double+org.geogebra.a.m.a.j.e(org.geogebra.a.m.a.j)'+on+a+null+object+reference&tf=SourceFile&tc=%2509at+org.geogebra.common.kernel.geos.ChangeableCoordParent.move(ChangeableCoordParent.java:202)&tm=a&nid&an&c&s=new_status_desc&ed=1480452507515
 			return false;
 		}
 
@@ -240,7 +247,7 @@ public class ChangeableCoordParent {
 				break;
 			}
 		}
-		
+
 		var.setValue(val);
 		GeoElement.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
 				tempMoveObjectList);
@@ -248,6 +255,5 @@ public class ChangeableCoordParent {
 		return true;
 
 	}
-
 
 }

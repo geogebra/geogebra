@@ -26,10 +26,10 @@ package org.geogebra.common.kernel.discrete.geom.algorithms.intersections;
  *
  * @author cyberpython
  */
-public class LeftEndPoint extends EndPoint{
+public class LeftEndPoint extends EndPoint {
 
-    public LeftEndPoint(double x, double y, Segment2DEx segment){
-        super(x, y, segment);
-    }
+	public LeftEndPoint(double x, double y, Segment2DEx segment) {
+		super(x, y, segment);
+	}
 
 }

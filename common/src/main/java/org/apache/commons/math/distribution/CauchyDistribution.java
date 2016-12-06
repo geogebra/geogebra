@@ -23,41 +23,48 @@ package org.apache.commons.math.distribution;
  * <p>
  * References:
  * <ul>
- * <li><a href="http://mathworld.wolfram.com/CauchyDistribution.html">
- * Cauchy Distribution</a></li>
+ * <li><a href="http://mathworld.wolfram.com/CauchyDistribution.html"> Cauchy
+ * Distribution</a></li>
  * </ul>
  * </p>
  *
  * @since 1.1
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface CauchyDistribution extends ContinuousDistribution {
 
-    /**
-     * Access the median.
-     * @return median for this distribution
-     */
-    double getMedian();
+	/**
+	 * Access the median.
+	 * 
+	 * @return median for this distribution
+	 */
+	double getMedian();
 
-    /**
-     * Access the scale parameter.
-     * @return scale parameter for this distribution
-     */
-    double getScale();
+	/**
+	 * Access the scale parameter.
+	 * 
+	 * @return scale parameter for this distribution
+	 */
+	double getScale();
 
-    /**
-     * Modify the median.
-     * @param median for this distribution
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setMedian(double median);
+	/**
+	 * Modify the median.
+	 * 
+	 * @param median
+	 *            for this distribution
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setMedian(double median);
 
-    /**
-     * Modify the scale parameter.
-     * @param s scale parameter for this distribution
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setScale(double s);
+	/**
+	 * Modify the scale parameter.
+	 * 
+	 * @param s
+	 *            scale parameter for this distribution
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setScale(double s);
 }

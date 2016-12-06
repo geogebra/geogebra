@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author matthieu
  *
  */
-public class AlgoConeInfinitePointPointNumber extends
-		AlgoQuadricPointPointNumber {
+public class AlgoConeInfinitePointPointNumber
+		extends AlgoQuadricPointPointNumber {
 
 	/**
 	 * @param c

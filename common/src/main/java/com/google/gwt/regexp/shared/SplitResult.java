@@ -20,35 +20,37 @@ package com.google.gwt.regexp.shared;
  */
 public class SplitResult {
 
-  private final String[] result;
+	private final String[] result;
 
-  public SplitResult(String[] result) {
-    this.result = result;
-  }
+	public SplitResult(String[] result) {
+		this.result = result;
+	}
 
-  /**
-   * Returns one the strings split off.
-   *
-   * @param index the index of the string to be returned.
-   * @return The index'th string resulting from the split.
-   */
-  public String get(int index) {
-    return result[index];
-  }
+	/**
+	 * Returns one the strings split off.
+	 *
+	 * @param index
+	 *            the index of the string to be returned.
+	 * @return The index'th string resulting from the split.
+	 */
+	public String get(int index) {
+		return result[index];
+	}
 
-  /**
-   * Returns the number of strings split off.
-   */
-  public int length() {
-    return result.length;
-  }
+	/**
+	 * Returns the number of strings split off.
+	 */
+	public int length() {
+		return result.length;
+	}
 
-  /**
-   * Sets (overrides) one of the strings split off.
-   *
-   * @param index the index of the string to be set.
-   */
-  public void set(int index, String value) {
-    result[index] = value;
-  }
+	/**
+	 * Sets (overrides) one of the strings split off.
+	 *
+	 * @param index
+	 *            the index of the string to be set.
+	 */
+	public void set(int index, String value) {
+		result[index] = value;
+	}
 }

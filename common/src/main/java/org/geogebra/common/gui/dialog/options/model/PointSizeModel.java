@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.App;
 
-
 public class PointSizeModel extends SliderOptionsModel {
 
 	public PointSizeModel(App app) {
@@ -14,7 +13,7 @@ public class PointSizeModel extends SliderOptionsModel {
 	}
 
 	private PointProperties getPointPropertiesAt(int index) {
-		return (PointProperties)getObjectAt(index);
+		return (PointProperties) getObjectAt(index);
 	}
 
 	@Override
@@ -22,8 +21,8 @@ public class PointSizeModel extends SliderOptionsModel {
 		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
 		if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
-				&& (!(geo.isGeoList() && ((GeoList) geo)
-						.showPointProperties()))) {
+				&& (!(geo.isGeoList()
+						&& ((GeoList) geo).showPointProperties()))) {
 			valid = false;
 		}
 		return valid;

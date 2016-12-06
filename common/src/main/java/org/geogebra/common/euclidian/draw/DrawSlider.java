@@ -47,7 +47,6 @@ public class DrawSlider extends Drawable {
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
-
 	// private GeoPointND P;
 
 	// now hard-coded
@@ -58,7 +57,8 @@ public class DrawSlider extends Drawable {
 			+ 2 * HIGHLIGHT_OFFSET;
 
 	// for dot and selection
-	private GEllipse2DDouble circle = AwtFactory.getPrototype().newEllipse2DDouble();
+	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+			.newEllipse2DDouble();
 	private GEllipse2DDouble circleOuter = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
@@ -70,8 +70,6 @@ public class DrawSlider extends Drawable {
 	private double[] coords = new double[2];
 
 	private GLine2D line = AwtFactory.getPrototype().newLine2D();
-
-
 
 	/**
 	 * Creates new drawable for slider
@@ -121,8 +119,8 @@ public class DrawSlider extends Drawable {
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
 
 				widthRW = number.getSliderWidth();
-				widthScreen = horizontal ? widthRW * view.getXscale() : widthRW
-						* view.getYscale();
+				widthScreen = horizontal ? widthRW * view.getXscale()
+						: widthRW * view.getYscale();
 			}
 
 			// point on slider that moves
@@ -180,8 +178,8 @@ public class DrawSlider extends Drawable {
 			// horizontal line
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(objStroke);
-			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(), line
-					.getP2().getX(), line.getP2().getY());
+			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
+					line.getP2().getX(), line.getP2().getY());
 			if (geo.doHighlighting()) {
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);
@@ -309,9 +307,10 @@ public class DrawSlider extends Drawable {
 			labelVisible = false;
 		}
 		// selection area
-		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET, yUL
-				- HIGHLIGHT_OFFSET * 2, hightlightDiameter + 2
-				* HIGHLIGHT_OFFSET, hightlightDiameter + 2 * HIGHLIGHT_OFFSET);
+		circleHighlight.setFrame(xUL - 2 * HIGHLIGHT_OFFSET,
+				yUL - HIGHLIGHT_OFFSET * 2,
+				hightlightDiameter + 2 * HIGHLIGHT_OFFSET,
+				hightlightDiameter + 2 * HIGHLIGHT_OFFSET);
 
 		circleOuter.setFrame(xUL - HIGHLIGHT_OFFSET, yUL - HIGHLIGHT_OFFSET,
 				hightlightDiameter, hightlightDiameter);

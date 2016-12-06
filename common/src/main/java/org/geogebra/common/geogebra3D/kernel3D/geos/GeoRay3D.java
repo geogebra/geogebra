@@ -105,8 +105,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	}
 
 	public GeoElement[] createTransformedObject(Transform t, String label) {
-		AlgoElement algoParent = keepTypeOnGeometricTransform ? getParentAlgorithm()
-				: null;
+		AlgoElement algoParent = keepTypeOnGeometricTransform
+				? getParentAlgorithm() : null;
 
 		// CREATE RAY
 		if (algoParent instanceof AlgoJoinPoints3D && t.isAffine()) {
@@ -212,8 +212,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 		setKeepTypeOnGeometricTransform(ray.keepsTypeOnGeometricTransform());
 
-		startPoint = GeoLine.updatePoint(cons, startPoint,
-				ray.getStartPoint());
+		startPoint = GeoLine.updatePoint(cons, startPoint, ray.getStartPoint());
 	}
 
 	@Override

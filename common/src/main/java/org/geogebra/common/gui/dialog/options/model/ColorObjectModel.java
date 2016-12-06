@@ -11,19 +11,16 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 
-
 public class ColorObjectModel extends OptionsModel {
 	public interface IColorObjectListener extends PropertyListener {
 
 		void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
-				boolean hasBackground,
-				boolean hasAlpha);
+				boolean hasBackground, boolean hasAlpha);
 
 		void updatePreview(GColor col, float alpha);
 
 		boolean isBackgroundColorSelected();
-
 
 		void updateNoBackground(GeoElement geo, GColor col, float alpha,
 				boolean updateAlphaOnly, boolean allFillable);
@@ -51,7 +48,6 @@ public class ColorObjectModel extends OptionsModel {
 	public void updateProperties() {
 
 		GeoElement geo0 = getGeoAt(0);
-
 
 		// check geos for similar properties
 
@@ -88,27 +84,26 @@ public class ColorObjectModel extends OptionsModel {
 			if (geo0.getBackgroundColor() == null)
 				// test for all null background color
 				for (int i = 1; i < getGeosLength(); i++) {
-					temp = getGeoAt(i);
-					if (temp.getBackgroundColor() != null) {
-						equalObjColorBackground = false;
-						break;
-					}
+				temp = getGeoAt(i);
+				if (temp.getBackgroundColor() != null) {
+				equalObjColorBackground = false;
+				break;
+				}
 				}
 			else
 				// test for all same background color
 				for (int i = 1; i < getGeosLength(); i++) {
-					temp = getGeoAt(i);
-					// same background color
-					if (!geo0.getBackgroundColor().equals(
-							temp.getBackgroundColor())) {
-						equalObjColorBackground = false;
-						break;
-					}
+				temp = getGeoAt(i);
+				// same background color
+				if (!geo0.getBackgroundColor().equals(temp.getBackgroundColor())) {
+				equalObjColorBackground = false;
+				break;
+				}
 				}
 		}
-		
-		listener.updateChooser(equalObjColor, equalObjColorBackground, allFillable, hasBackground,
-				hasOpacity(geo0));
+
+		listener.updateChooser(equalObjColor, equalObjColorBackground,
+				allFillable, hasBackground, hasOpacity(geo0));
 	}
 
 	protected boolean hasOpacity(GeoElement geo) {
@@ -118,17 +113,17 @@ public class ColorObjectModel extends OptionsModel {
 		}
 		return hasOpacity;
 	}
-	
+
 	/**
 	 * Sets color of selected GeoElements
 	 */
 	private void updateColor(GColor col, float alpha, boolean updateAlphaOnly) {
 		if (col == null || getGeos() == null) {
 			return;
-		}	
+		}
 
 		listener.updatePreview(col, alpha);
-		
+
 		GeoElement geo;
 		for (int i = 0; i < getGeosLength(); i++) {
 			geo = getGeoAt(i);
@@ -136,15 +131,15 @@ public class ColorObjectModel extends OptionsModel {
 			if (hasBackground && listener.isBackgroundColorSelected()) {
 				geo.setBackgroundColor(col);
 			} else {
-				listener.updateNoBackground(geo,col,alpha,updateAlphaOnly, allFillable);
+				listener.updateNoBackground(geo, col, alpha, updateAlphaOnly,
+						allFillable);
 			}
-			
+
 			geo.updateVisualStyle(GProperty.COLOR);
 
 		}
 		kernel.notifyRepaint();
 	}
-
 
 	/**
 	 * Sets the background color of selected GeoElements to null
@@ -187,7 +182,7 @@ public class ColorObjectModel extends OptionsModel {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public static String getColorAsString(App app, GColor color) {
 		String result = "";
 		int blue = color.getBlue();
@@ -198,11 +193,11 @@ public class ColorObjectModel extends OptionsModel {
 		} else {
 			result = rgbDec;
 		}
-		
-		result +=  " (" + StringUtil.toHtmlColor(color) + ")";
+
+		result += " (" + StringUtil.toHtmlColor(color) + ")";
 		return result;
 	}
-	
+
 	/*
 	 * public static String getColorAsString(App app, GColor color) {
 	 * ColorObjectModel.app = app; return getColorAsString(color); }
@@ -265,7 +260,8 @@ public class ColorObjectModel extends OptionsModel {
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {
 			GeoElement geo = getGeoAt(0);
-			for (int numBar = 1; numBar < getBarChartIntervals() + 1; numBar++) {
+			for (int numBar = 1; numBar < getBarChartIntervals()
+					+ 1; numBar++) {
 				algo.setBarColor(null, numBar);
 				algo.setBarAlpha(-1, numBar);
 			}

@@ -49,8 +49,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Markus Hohenwarter
  * 
  */
-public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPath, GeoNumberValue {
-
+public class GeoConicPart extends GeoConic
+		implements GeoConicPartND, LimitedPath, GeoNumberValue {
 
 	// parameters (e.g. angles) for arc
 	private GeoConicPartParameters parameters;
@@ -58,7 +58,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	/**
 	 * GeoCirclePart is constructed by AlgoCirclePart...
 	 * 
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 * @param type
 	 *            CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
@@ -71,7 +72,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	/**
 	 * Copy constructor
 	 * 
-	 * @param conic conic to copy
+	 * @param conic
+	 *            conic to copy
 	 */
 	public GeoConicPart(GeoConicPart conic) {
 		this(conic.cons, conic.getConicPartType());
@@ -99,7 +101,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 	@Override
 	public GeoElement copyInternal(Construction construction) {
-		GeoConicPart ret = new GeoConicPart(construction, parameters.conic_part_type);
+		GeoConicPart ret = new GeoConicPart(construction,
+				parameters.conic_part_type);
 		ret.set(this);
 		return ret;
 	}
@@ -122,7 +125,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		if (geo.isGeoConicPart()) {
 			GeoConicPartND cp = (GeoConicPartND) geo;
-			parameters.allowOutlyingIntersections = cp.getParameters().allowOutlyingIntersections;
+			parameters.allowOutlyingIntersections = cp
+					.getParameters().allowOutlyingIntersections;
 		}
 	}
 
@@ -132,7 +136,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	 * @return CONIC_PART_ARC or CONIC_PART_SECTOR
 	 */
 	final public int getConicPartType() {
-		if (parameters == null){ //for default settings
+		if (parameters == null) { // for default settings
 			return GeoConicNDConstants.CONIC_PART_ARC;
 		}
 		return parameters.conic_part_type;
@@ -178,8 +182,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		GeoConicPart other = (GeoConicPart) geo;
 
-		return parameters.isEqual(other.parameters)
-				&& super.isEqual(other);
+		return parameters.isEqual(other.parameters) && super.isEqual(other);
 	}
 
 	/**
@@ -187,15 +190,19 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	 * CONIC_PART_ARC the value is the length, for CONIC_PART_SECTOR the value
 	 * is an area. This method should only be called by the parent algorithm
 	 * 
-	 * @param start start param
-	 * @param end end param
-	 * @param positiveOrientation true for positive orientation
+	 * @param start
+	 *            start param
+	 * @param end
+	 *            end param
+	 * @param positiveOrientation
+	 *            true for positive orientation
 	 */
 	final public void setParameters(double start, double end,
 			boolean positiveOrientation) {
-		
-		parameters.setParameters(super.isDefined(), start, end, positiveOrientation);
-		
+
+		parameters.setParameters(super.isDefined(), start, end,
+				positiveOrientation);
+
 	}
 
 	@Override
@@ -218,7 +225,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	}
 
 	/**
-	 * Returns arc length 
+	 * Returns arc length
 	 * 
 	 * @return arc length
 	 */
@@ -327,7 +334,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		default:
 			pPP.t = -1;
-			// Application.debug("GeoConicPart.isIncident: unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.isIncident: unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 
@@ -415,12 +423,11 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		default:
 			pp.t = Double.NaN;
-			// Application.debug("GeoConicPart.pointChanged(): unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.pointChanged(): unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 	}
-
-
 
 	@Override
 	protected void pathChanged(Coords P, PathParameter pp) {
@@ -480,7 +487,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			break;
 
 		default:
-			// Application.debug("GeoConicPart.pathChanged(): unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.pathChanged(): unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 	}
@@ -497,7 +505,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		case CONIC_ELLIPSE:
 			return 0;
 
-			// degenerate case: two rays or one segment
+		// degenerate case: two rays or one segment
 		case CONIC_PARALLEL_LINES:
 			if (parameters.posOrientation) {
 				// segment
@@ -523,7 +531,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		case CONIC_ELLIPSE:
 			return 1;
 
-			// degenerate case: two rays or one segment
+		// degenerate case: two rays or one segment
 		case CONIC_PARALLEL_LINES:
 			if (parameters.posOrientation) {
 				// segment
@@ -548,7 +556,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		
+
 		parameters.getXMLtags(sb);
 
 	}
@@ -574,11 +582,12 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		return true;
 	}
 
-	public GeoElement[] createTransformedObject(Transform t, String transformedLabel) {
+	public GeoElement[] createTransformedObject(Transform t,
+			String transformedLabel) {
 		if (parameters.keepTypeOnGeometricTransform) {
 			algoParent = getParentAlgorithm();
 		}
-		
+
 		int conic_part_type = parameters.conic_part_type;
 
 		// CREATE CONIC PART
@@ -596,10 +605,9 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 			// transform points and circle
 			points = t.transformPoints(points);
-			GeoConicND transformedCircle = t
-					.getTransformedConic(circle);
-			cons.removeFromConstructionList(transformedCircle
-					.getParentAlgorithm());
+			GeoConicND transformedCircle = t.getTransformedConic(circle);
+			cons.removeFromConstructionList(
+					transformedCircle.getParentAlgorithm());
 
 			// create a new arc from the transformed circle using startPoint and
 			// endPoint
@@ -618,9 +626,10 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 					(GeoPoint) algoParent.input[2] };
 			points = t.transformPoints(points);
 
-			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(
-					cons, transformedLabel, (GeoPoint) points[0], (GeoPoint) points[1],
-					(GeoPoint) points[2], conic_part_type);
+			AlgoConicPartCircumcircle algo = new AlgoConicPartCircumcircle(cons,
+					transformedLabel, (GeoPoint) points[0],
+					(GeoPoint) points[1], (GeoPoint) points[2],
+					conic_part_type);
 			GeoConicPart res = algo.getConicPart();
 			res.setLabel(transformedLabel);
 			res.setVisualStyleForTransformations(this);
@@ -630,10 +639,9 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		} else if (algoParent instanceof AlgoConicPartConicParameters) {
 			AlgoConicPartConicParameters algo = (AlgoConicPartConicParameters) algoParent;
 
-			GeoConicND transformedConic = t
-					.getTransformedConic(algo.conic);
-			cons.removeFromConstructionList(transformedConic
-					.getParentAlgorithm());
+			GeoConicND transformedConic = t.getTransformedConic(algo.conic);
+			cons.removeFromConstructionList(
+					transformedConic.getParentAlgorithm());
 
 			algo = new AlgoConicPartConicParameters(cons, transformedLabel,
 					transformedConic, algo.startParam, algo.endParam,
@@ -648,14 +656,12 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 			points = t.transformPoints(points);
 			GeoConicND orgConic = algo.getConic();
 
-			GeoConicND transformedConic = t
-					.getTransformedConic(orgConic);
-			cons.removeFromConstructionList(transformedConic
-					.getParentAlgorithm());
+			GeoConicND transformedConic = t.getTransformedConic(orgConic);
+			cons.removeFromConstructionList(
+					transformedConic.getParentAlgorithm());
 
-			algo = new AlgoConicPartConicPoints(cons, transformedLabel, transformedConic,
- points[0], points[1],
-					conic_part_type);
+			algo = new AlgoConicPartConicPoints(cons, transformedLabel,
+					transformedConic, points[0], points[1], conic_part_type);
 			GeoConicPart conicPart = algo.getConicPart();
 			conicPart.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { conicPart, (GeoPoint) points[0],
@@ -669,18 +675,19 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 			GeoConic semCirc;
 			if (t instanceof TransformMirror && t.changesOrientation()) {
-				semCirc = kernel.getAlgoDispatcher().Semicircle(transformedLabel,
-						(GeoPoint) points[1], (GeoPoint) points[0]);
+				semCirc = kernel.getAlgoDispatcher().Semicircle(
+						transformedLabel, (GeoPoint) points[1],
+						(GeoPoint) points[0]);
 			} else if (t.isSimilar()) {
-				semCirc = kernel.getAlgoDispatcher().Semicircle(transformedLabel,
-						(GeoPoint) points[0], (GeoPoint) points[1]);
+				semCirc = kernel.getAlgoDispatcher().Semicircle(
+						transformedLabel, (GeoPoint) points[0],
+						(GeoPoint) points[1]);
 			} else {
 
 				GeoConic orgConic = ((AlgoSemicircle) algo).getConic();
-				GeoConicND transformedConic = t
-						.getTransformedConic(orgConic);
-				(cons).removeFromConstructionList(transformedConic
-						.getParentAlgorithm());
+				GeoConicND transformedConic = t.getTransformedConic(orgConic);
+				(cons).removeFromConstructionList(
+						transformedConic.getParentAlgorithm());
 				if (t.changesOrientation()) {
 					algo = new AlgoConicPartConicPoints(cons, transformedLabel,
 							transformedConic, points[0], points[1],
@@ -722,7 +729,6 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 
 		return parameters.isInRegion(x0, y0);
 	}
-
 
 	private Coords tmpCoords = new Coords(3);
 	private double[] tmpParameters = new double[2];
@@ -835,7 +841,8 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	}
 
 	/**
-	 * @param param path parameter from 0 to 1
+	 * @param param
+	 *            path parameter from 0 to 1
 	 * @return point with this parameter
 	 */
 	public GeoPoint getPointParam(double param) {
@@ -846,27 +853,24 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		ret.updateCoords();
 		return ret;
 	}
-	
 
-	public GeoConicPartParameters getParameters(){
+	public GeoConicPartParameters getParameters() {
 		return parameters;
 	}
-	
-	
+
 	@Override
 	public Coords getOrigin3D(int i) {
 		return lines[i].getStartInhomCoords();
 	}
 
-
 	public Coords getSegmentEnd3D() {
 		return lines[0].getEndInhomCoords();
 	}
 
-	public void setParametersToSinglePoint() {		
+	public void setParametersToSinglePoint() {
 		parameters.value = 0;
 		parameters.value_defined = true;
-		
+
 	}
 
 	@Override

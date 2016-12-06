@@ -109,8 +109,9 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 			// arbitrary (used to depend on screen width)
 			double step = 1;
 
-			root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(
-					fun), start - step, start + step, start);
+			root = rootFinderBrent.solve(MAX_ITERATIONS,
+					new RealRootAdapter(fun), start - step, start + step,
+					start);
 			if (checkRoot(fun, root)) {
 				// System.out.println("1. Brent worked: " + root);
 				return root;
@@ -122,8 +123,8 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		// try Brent method on valid interval around start
 		double[] borders = getDomain(fun, start);
 		try {
-			root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(
-					fun), borders[0], borders[1], start);
+			root = rootFinderBrent.solve(MAX_ITERATIONS,
+					new RealRootAdapter(fun), borders[0], borders[1], start);
 			if (checkRoot(fun, root)) {
 				// System.out.println("2. Brent worked: " + root);
 				return root;

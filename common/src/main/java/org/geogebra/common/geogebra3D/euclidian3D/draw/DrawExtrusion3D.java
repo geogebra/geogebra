@@ -36,8 +36,8 @@ public class DrawExtrusion3D extends DrawExtrusionOrConify3D {
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoPolygon basis, GeoNumeric height) {
-		return new AlgoPolyhedronPointsPrismForExtrusion(getView3D()
-				.getKernel().getConstruction(), null, basis, height);
+		return new AlgoPolyhedronPointsPrismForExtrusion(
+				getView3D().getKernel().getConstruction(), null, basis, height);
 	}
 
 	@Override

@@ -123,7 +123,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
 		double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
 
-
 		double ymin, ymax, zmin, zmax;
 		double halfWidth = renderer.getWidth() / 2.0;
 
@@ -205,8 +204,10 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	public boolean updateNearestCorner() {
 		Coords eye = getView3D().getEyePosition();
 		int x, y, z;
-		if (getView3D().getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
-				|| getView3D().getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
+		if (getView3D()
+				.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
+				|| getView3D()
+						.getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
 			x = eye.getX() > 0 ? 0 : 1;
 			y = eye.getY() > 0 ? 0 : 1;
 			z = eye.getZ() > 0 ? 0 : 1;
@@ -307,8 +308,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		brush.start(getReusableGeometryIndex());
 		// use 1.5 factor for border to avoid self clipping
-		border = 1.5 * brush.setThickness(getGeoElement()
-				.getLineThickness(),
+		border = 1.5 * brush.setThickness(getGeoElement().getLineThickness(),
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0.5f, 0.25f);
 
@@ -329,14 +329,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		drawSegment(brush, 0, 1, 1, 0, 1, 0);
 
 		setGeometryIndex(brush.end());
-		
+
 		updateRendererClipPlanes();
 
 		return true;
 	}
 
-	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1,
-			int x2, int y2, int z2) {
+	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1, int x2,
+			int y2, int z2) {
 
 		setVertexWithBorder(x1, y1, z1, border, tmpCoords1);
 		setVertexWithBorder(x2, y2, z2, border, tmpCoords2);
@@ -394,7 +394,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            direction of the line
 	 * @return interval to draw the line
 	 */
-	public double[] getIntervalClippedLarge(double[] minmax, Coords o, Coords v) {
+	public double[] getIntervalClippedLarge(double[] minmax, Coords o,
+			Coords v) {
 
 		for (int i = 1; i <= 3; i++) {
 			double min = (minMaxLarge[i - 1][0] - o.get(i)) / v.get(i);
@@ -461,7 +462,8 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 *            second value
 	 * @return intersection interval
 	 */
-	private static double[] updateInterval(double[] minmax, double v1, double v2) {
+	private static double[] updateInterval(double[] minmax, double v1,
+			double v2) {
 
 		if (v1 > v2) {
 			double v = v1;

@@ -18,7 +18,8 @@ import org.geogebra.common.kernel.geos.GeoInterval;
 
 public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 
-	public AlgoIntervalMidpoint(Construction cons, String label, GeoInterval s) {
+	public AlgoIntervalMidpoint(Construction cons, String label,
+			GeoInterval s) {
 		super(cons, label, s);
 	}
 
@@ -31,7 +32,5 @@ public class AlgoIntervalMidpoint extends AlgoIntervalAbstract {
 	public final void compute() {
 		result.setValue(interval.getMidPoint());
 	}
-
-	
 
 }

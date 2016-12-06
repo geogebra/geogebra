@@ -63,18 +63,17 @@ public class InputHelper {
 				// start with numeric mode for simple fractions like 7/2
 				if (geos[i] instanceof GeoNumeric
 						&& geos[i].getDefinition() != null
-						&& geos[i].getDefinition()
-							.isSimpleFraction()) {
+						&& geos[i].getDefinition().isSimpleFraction()) {
 					((HasSymbolicMode) geos[i]).setSymbolicMode(false,
-								geos[i] instanceof GeoText);
+							geos[i] instanceof GeoText);
 				} else {
-				((HasSymbolicMode) geos[i]).setSymbolicMode(true,
-						geos[i] instanceof GeoText);
+					((HasSymbolicMode) geos[i]).setSymbolicMode(true,
+							geos[i] instanceof GeoText);
 				}
 				((HasSymbolicMode) geos[i]).updateRepaint();
 			}
 			if (geos[i] instanceof GeoText) {
-			GeoText text = (GeoText) geos[i];
+				GeoText text = (GeoText) geos[i];
 				centerText(text, ev);
 			}
 		}
@@ -82,7 +81,7 @@ public class InputHelper {
 	}
 
 	public static void centerText(GeoText text,
-								  EuclidianViewInterfaceCommon ev) {
+			EuclidianViewInterfaceCommon ev) {
 		text.setAuxiliaryObject(false);
 		Construction cons = text.getConstruction();
 
@@ -141,8 +140,8 @@ public class InputHelper {
 	 * @return word start position
 	 */
 	public static int updateCurrentWord(boolean searchRight,
-			StringBuilder curWord,
-			String text, int caretPos0, boolean onlySquareBrackets) {
+			StringBuilder curWord, String text, int caretPos0,
+			boolean onlySquareBrackets) {
 		int caretPos = caretPos0;
 		int curWordStart;
 		if (text == null)
@@ -172,10 +171,8 @@ public class InputHelper {
 
 		// search to the left
 		curWordStart = caretPos - 1;
-		while (curWordStart >= 0 &&
-				(curWordStart >= text.length()
-				|| StringUtil.isLetterOrDigitOrUnderscore(
-								text.charAt(curWordStart)))) {
+		while (curWordStart >= 0 && (curWordStart >= text.length() || StringUtil
+				.isLetterOrDigitOrUnderscore(text.charAt(curWordStart)))) {
 			--curWordStart;
 		}
 		curWordStart++;

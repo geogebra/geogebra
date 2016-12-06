@@ -21,19 +21,25 @@ import org.apache.commons.math.FunctionEvaluationException;
 
 /**
  * An interface representing a multivariate real function.
- * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr. 2011) $
+ * 
+ * @version $Revision: 1070725 $ $Date: 2011-02-15 02:31:12 +0100 (mar. 15 fevr.
+ *          2011) $
  * @since 2.0
  */
 public interface MultivariateRealFunction {
 
-    /**
-     * Compute the value for the function at the given point.
-     * @param point point at which the function must be evaluated
-     * @return function value for the given point
-     * @exception FunctionEvaluationException if the function evaluation fails
-     * @exception IllegalArgumentException if points dimension is wrong
-     */
-    double value(double[] point)
-        throws FunctionEvaluationException, IllegalArgumentException;
+	/**
+	 * Compute the value for the function at the given point.
+	 * 
+	 * @param point
+	 *            point at which the function must be evaluated
+	 * @return function value for the given point
+	 * @exception FunctionEvaluationException
+	 *                if the function evaluation fails
+	 * @exception IllegalArgumentException
+	 *                if points dimension is wrong
+	 */
+	double value(double[] point)
+			throws FunctionEvaluationException, IllegalArgumentException;
 
 }

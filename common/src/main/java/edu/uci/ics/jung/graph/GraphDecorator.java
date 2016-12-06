@@ -8,48 +8,52 @@ import edu.uci.ics.jung.graph.util.Pair;
 
 /**
  * An implementation of <code>Graph</code> that delegates its method calls to a
- * constructor-specified <code>Graph</code> instance.  This is useful for adding
- * additional behavior (such as synchronization or unmodifiability) to an existing
- * instance.
+ * constructor-specified <code>Graph</code> instance. This is useful for adding
+ * additional behavior (such as synchronization or unmodifiability) to an
+ * existing instance.
  */
 @SuppressWarnings("serial")
-public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
-	
-	protected Graph<V,E> delegate;
+public class GraphDecorator<V, E> implements Graph<V, E>, Serializable {
 
-    /**
-     * Creates a new instance based on the provided {@code delegate}.
-     * @param delegate
-     */
+	protected Graph<V, E> delegate;
+
+	/**
+	 * Creates a new instance based on the provided {@code delegate}.
+	 * 
+	 * @param delegate
+	 */
 	public GraphDecorator(Graph<V, E> delegate) {
 		this.delegate = delegate;
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object, java.util.Collection)
+	 * @see edu.uci.ics.jung.graph.Hypergraph#addEdge(java.lang.Object,
+	 *      java.util.Collection)
 	 */
 	public boolean addEdge(E edge, Collection<? extends V> vertices) {
 		return delegate.addEdge(edge, vertices);
 	}
-	
+
 	/**
 	 * @see Hypergraph#addEdge(Object, Collection, EdgeType)
 	 */
-	public boolean addEdge(E edge, Collection<? extends V> vertices, EdgeType
-		edge_type)
-	{
+	public boolean addEdge(E edge, Collection<? extends V> vertices,
+			EdgeType edge_type) {
 		return delegate.addEdge(edge, vertices, edge_type);
 	}
-	
+
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#addEdge(java.lang.Object, java.lang.Object, java.lang.Object, edu.uci.ics.jung.graph.util.EdgeType)
+	 * @see edu.uci.ics.jung.graph.Graph#addEdge(java.lang.Object,
+	 *      java.lang.Object, java.lang.Object,
+	 *      edu.uci.ics.jung.graph.util.EdgeType)
 	 */
 	public boolean addEdge(E e, V v1, V v2, EdgeType edgeType) {
 		return delegate.addEdge(e, v1, v2, edgeType);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#addEdge(java.lang.Object, java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#addEdge(java.lang.Object,
+	 *      java.lang.Object, java.lang.Object)
 	 */
 	public boolean addEdge(E e, V v1, V v2) {
 		return delegate.addEdge(e, v1, v2);
@@ -63,14 +67,16 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Hypergraph#isIncident(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isIncident(V vertex, E edge) {
 		return delegate.isIncident(vertex, edge);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Hypergraph#isNeighbor(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isNeighbor(V v1, V v2) {
 		return delegate.isNeighbor(v1, v2);
@@ -84,14 +90,16 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Hypergraph#findEdge(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public E findEdge(V v1, V v2) {
 		return delegate.findEdge(v1, v2);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Hypergraph#findEdgeSet(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public Collection<E> findEdgeSet(V v1, V v2) {
 		return delegate.findEdgeSet(v1, v2);
@@ -114,11 +122,10 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	/**
 	 * @see edu.uci.ics.jung.graph.Hypergraph#getEdgeCount(EdgeType)
 	 */
-	public int getEdgeCount(EdgeType edge_type) 
-	{
-	    return delegate.getEdgeCount(edge_type);
+	public int getEdgeCount(EdgeType edge_type) {
+		return delegate.getEdgeCount(edge_type);
 	}
-	
+
 	/**
 	 * @see edu.uci.ics.jung.graph.Hypergraph#getEdges()
 	 */
@@ -143,11 +150,10 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	/**
 	 * @see edu.uci.ics.jung.graph.Graph#getDefaultEdgeType()
 	 */
-	public EdgeType getDefaultEdgeType() 
-	{
+	public EdgeType getDefaultEdgeType() {
 		return delegate.getDefaultEdgeType();
 	}
-	
+
 	/**
 	 * @see edu.uci.ics.jung.graph.Graph#getEndpoints(java.lang.Object)
 	 */
@@ -198,7 +204,8 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#getOpposite(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public V getOpposite(V vertex, E edge) {
 		return delegate.getOpposite(vertex, edge);
@@ -268,28 +275,32 @@ public class GraphDecorator<V,E> implements Graph<V,E>, Serializable {
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#isDest(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isDest(V vertex, E edge) {
 		return delegate.isDest(vertex, edge);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#isPredecessor(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isPredecessor(V v1, V v2) {
 		return delegate.isPredecessor(v1, v2);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#isSource(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isSource(V vertex, E edge) {
 		return delegate.isSource(vertex, edge);
 	}
 
 	/**
-	 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object, java.lang.Object)
+	 * @see edu.uci.ics.jung.graph.Graph#isSuccessor(java.lang.Object,
+	 *      java.lang.Object)
 	 */
 	public boolean isSuccessor(V v1, V v2) {
 		return delegate.isSuccessor(v1, v2);

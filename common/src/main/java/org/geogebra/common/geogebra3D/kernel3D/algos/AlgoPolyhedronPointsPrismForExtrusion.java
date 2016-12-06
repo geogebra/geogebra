@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
  * @author Mathieu
  *
  */
-public class AlgoPolyhedronPointsPrismForExtrusion extends
-		AlgoPolyhedronPointsPrism implements AlgoForExtrusion {
+public class AlgoPolyhedronPointsPrismForExtrusion
+		extends AlgoPolyhedronPointsPrism implements AlgoForExtrusion {
 
 	private ExtrusionComputer extrusionComputer;
 

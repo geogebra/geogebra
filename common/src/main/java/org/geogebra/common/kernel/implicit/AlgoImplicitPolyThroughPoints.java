@@ -65,6 +65,4 @@ public class AlgoImplicitPolyThroughPoints extends AlgoElement {
 		return Commands.ImplicitCurve;
 	}
 
-	
-
 }

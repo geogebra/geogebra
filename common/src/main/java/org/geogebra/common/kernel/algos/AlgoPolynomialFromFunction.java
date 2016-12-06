@@ -93,7 +93,4 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		g.setDefined(true);
 	}
 
-
-	
-
 }

@@ -45,12 +45,12 @@ public class CmdKeepIf extends CommandProcessor {
 			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			try {
 				if (!arg1Str.equals(kernelA.getParser().parseLabel(arg1Str))) {
-					throw argErr(app, c.getName(), new MyStringBuffer(kernelA,
-							arg1Str));
+					throw argErr(app, c.getName(),
+							new MyStringBuffer(kernelA, arg1Str));
 				}
 			} catch (ParseException e) {
-				throw argErr(app, c.getName(), new MyStringBuffer(kernelA,
-						arg1Str));
+				throw argErr(app, c.getName(),
+						new MyStringBuffer(kernelA, arg1Str));
 			}
 
 			GeoElement[] vars = new GeoElement[1];
@@ -108,8 +108,8 @@ public class CmdKeepIf extends CommandProcessor {
 	 *            both arguments
 	 * @return result of the command
 	 */
-	protected GeoElement[] getResult2(ValidExpression c,
-			GeoFunction booleanFun, GeoElement[] args) {
+	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun,
+			GeoElement[] args) {
 		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun,
 				((GeoList) args[1]));
 		GeoElement[] ret = { algo.getResult() };

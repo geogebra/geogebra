@@ -89,6 +89,4 @@ public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
 	}
 
-	
-
 }

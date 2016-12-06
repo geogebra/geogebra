@@ -137,8 +137,8 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 			}
 		} else {
 			if (f.isDefined()) {
-				slope.setValue(f.getFunction().getDerivativeNoCAS(1)
-						.evaluate(0));
+				slope.setValue(
+						f.getFunction().getDerivativeNoCAS(1).evaluate(0));
 			} else {
 				slope.setUndefined();
 			}
@@ -159,5 +159,4 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		return new AlgoSlope((GeoFunction) f.copy());
 	}
 
-	
 }

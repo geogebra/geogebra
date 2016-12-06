@@ -25,61 +25,65 @@ import java.io.Serializable;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:24 $
  * @since Commons Collections 3.0
  */
-public class FactoryTransformer <I, T> implements Transformer<I, T>, Serializable {
+public class FactoryTransformer<I, T>
+		implements Transformer<I, T>, Serializable {
 
-    /**
-     * Serial version UID
-     */
-    static final long serialVersionUID = -6817674502475353160L;
+	/**
+	 * Serial version UID
+	 */
+	static final long serialVersionUID = -6817674502475353160L;
 
-    /**
-     * The factory to wrap
-     */
-    private final Factory<T> iFactory;
+	/**
+	 * The factory to wrap
+	 */
+	private final Factory<T> iFactory;
 
-    /**
-     * Factory method that performs validation.
-     *
-     * @param factory the factory to call, not null
-     * @return the <code>factory</code> transformer
-     * @throws IllegalArgumentException if the factory is null
-     */
-    public static <K,T> Transformer<K, T> getInstance(Factory<T> factory) {
-        if (factory == null) {
-            throw new IllegalArgumentException("Factory must not be null");
-        }
-        return new FactoryTransformer<K, T>(factory);
-    }
+	/**
+	 * Factory method that performs validation.
+	 *
+	 * @param factory
+	 *            the factory to call, not null
+	 * @return the <code>factory</code> transformer
+	 * @throws IllegalArgumentException
+	 *             if the factory is null
+	 */
+	public static <K, T> Transformer<K, T> getInstance(Factory<T> factory) {
+		if (factory == null) {
+			throw new IllegalArgumentException("Factory must not be null");
+		}
+		return new FactoryTransformer<K, T>(factory);
+	}
 
-    /**
-     * Constructor that performs no validation.
-     * Use <code>getInstance</code> if you want that.
-     *
-     * @param factory the factory to call, not null
-     */
-    public FactoryTransformer(Factory<T> factory) {
-        super();
-        iFactory = factory;
-    }
+	/**
+	 * Constructor that performs no validation. Use <code>getInstance</code> if
+	 * you want that.
+	 *
+	 * @param factory
+	 *            the factory to call, not null
+	 */
+	public FactoryTransformer(Factory<T> factory) {
+		super();
+		iFactory = factory;
+	}
 
+	/**
+	 * Gets the factory.
+	 *
+	 * @return the factory
+	 * @since Commons Collections 3.1
+	 */
+	public Factory<T> getFactory() {
+		return iFactory;
+	}
 
-    /**
-     * Gets the factory.
-     *
-     * @return the factory
-     * @since Commons Collections 3.1
-     */
-    public Factory<T> getFactory() {
-        return iFactory;
-    }
-
-    /**
-     * Transforms the input by ignoring the input and returning the result of
-     * calling the decorated factory.
-     *
-     * @param input the input object to transform
-     * @return the transformed result
-     */
+	/**
+	 * Transforms the input by ignoring the input and returning the result of
+	 * calling the decorated factory.
+	 *
+	 * @param input
+	 *            the input object to transform
+	 * @return the transformed result
+	 */
 	public T transform(I input) {
 		return iFactory.create();
 	}

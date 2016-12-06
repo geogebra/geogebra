@@ -107,12 +107,12 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		for (int index = 0; index < segCountOfPoly; index++) {
 
 			tempSegEndPoints[0] = getPoly().getPoint(index);
-			tempSegEndPoints[1] = getPoly().getPoint(
-					(index + 1) % polyPointCount);
-			GeoVec3D.lineThroughPoints(tempSegEndPoints[0],
-					tempSegEndPoints[1], tempSeg);
+			tempSegEndPoints[1] = getPoly()
+					.getPoint((index + 1) % polyPointCount);
+			GeoVec3D.lineThroughPoints(tempSegEndPoints[0], tempSegEndPoints[1],
+					tempSeg);
 			tempSeg.setPoints(tempSegEndPoints[0], tempSegEndPoints[1]);
-			
+
 			calcIntersectPaths(tempSeg, index);
 		}
 
@@ -174,9 +174,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			// calculate intersection points between input segment and closure
 			// segments
 			AlgoIntersectSegmentConicRegion
-					.intersectSegmentConicClosureSegments(segment,
-							getConic(), closureSegments, closureIntersect,
-							intersectPoints);
+					.intersectSegmentConicClosureSegments(segment, getConic(),
+							closureSegments, closureIntersect, intersectPoints);
 		}
 
 		int numberOfLineParts = 1;
@@ -308,14 +307,15 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			// counting no of output segments and assigning them as output
 			for (int i = 0; i < 3; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
 								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]]
-								.getCoords();
+						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
+								+ 1]].getCoords();
 						intersectPathIndex++;
 
 						cd.intersectPathcount++;
@@ -388,15 +388,16 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			// counting no of output segments and assining them as output
 			for (int i = 0; i < 4; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 
 						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
 								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]]
-								.getCoords();
+						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
+								+ 1]].getCoords();
 						intersectPathIndex++;
 
 						cd.intersectPathcount++;
@@ -477,15 +478,16 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			// counting no of output segments and assining them as output
 			for (int i = 0; i < 4; i++) {
 				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
-					if (getConic()
-							.isInRegion(
-									(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX) / 2.0d,
-									(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY) / 2.0d)) {
+					if (getConic().isInRegion(
+							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
+									/ 2.0d,
+							(pnt[order[i]].inhomY + pnt[order[i + 1]].inhomY)
+									/ 2.0d)) {
 
 						cd.intersectPathCoords[intersectPathIndex] = pnt[order[i]]
 								.getCoords();
-						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i + 1]]
-								.getCoords();
+						cd.intersectPathCoords[++intersectPathIndex] = pnt[order[i
+								+ 1]].getCoords();
 						intersectPathIndex++;
 
 						cd.intersectPathcount++;

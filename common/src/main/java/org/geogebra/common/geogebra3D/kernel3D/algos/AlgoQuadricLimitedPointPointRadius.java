@@ -38,7 +38,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	private AlgoQuadricEnds algoEnds;
 
 	public AlgoQuadricLimitedPointPointRadius(Construction c, String[] labels,
-			GeoPointND origin, GeoPointND secondPoint, NumberValue r, int type) {
+			GeoPointND origin, GeoPointND secondPoint, NumberValue r,
+			int type) {
 		super(c);
 
 		this.origin = origin;
@@ -140,8 +141,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		quadric.calcVolume();
 	}
 
-	abstract protected void setQuadric(Coords o1, Coords o2, Coords d,
-			double r, double min, double max);
+	abstract protected void setQuadric(Coords o1, Coords o2, Coords d, double r,
+			double min, double max);
 
 	public GeoQuadric3DLimited getQuadric() {
 		return quadric;
@@ -177,8 +178,8 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		Transform.setVisualStyleForTransformations((GeoElement) secondPoint,
 				(GeoElement) p2);
 
-		GeoNumeric r = (new AlgoRadius(this.cons, null, getQuadric()
-				.getBottom())).getRadius();
+		GeoNumeric r = (new AlgoRadius(this.cons, null,
+				getQuadric().getBottom())).getRadius();
 		r.setAuxiliaryObject(true);
 
 		GeoElement[] output = getOutput();

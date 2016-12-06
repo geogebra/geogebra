@@ -109,14 +109,14 @@ public class AlgoPolynomialDivision extends AlgoElement {
 
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(
-					sb.toString(), arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+					arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				g.setUndefined();
 			} else {
 				// read result back into function
-				g.set(kernel.getAlgebraProcessor().evaluateToFunction(
-						functionOut, false));
+				g.set(kernel.getAlgebraProcessor()
+						.evaluateToFunction(functionOut, false));
 			}
 
 			sb.setLength(0);
@@ -134,14 +134,12 @@ public class AlgoPolynomialDivision extends AlgoElement {
 				h.setUndefined();
 			} else {
 				// read result back into function
-				h.set(kernel.getAlgebraProcessor().evaluateToFunction(
-						functionOut, false));
+				h.set(kernel.getAlgebraProcessor()
+						.evaluateToFunction(functionOut, false));
 			}
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
 	}
-
-	
 
 }

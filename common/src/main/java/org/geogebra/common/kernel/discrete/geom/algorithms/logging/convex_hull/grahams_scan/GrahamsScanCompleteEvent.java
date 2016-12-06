@@ -28,6 +28,6 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
  *
  * @author cyberpython
  */
-public class GrahamsScanCompleteEvent extends LogEvent{
+public class GrahamsScanCompleteEvent extends LogEvent {
 
 }

@@ -22,8 +22,8 @@ import org.geogebra.common.main.settings.SettingListener;
  * Interface for n-dimensional Euclidian view
  *
  */
-public interface EuclidianViewInterfaceCommon extends
-		EuclidianViewInterfaceSlim, SettingListener {
+public interface EuclidianViewInterfaceCommon
+		extends EuclidianViewInterfaceSlim, SettingListener {
 
 	/** reference to x axis */
 	public static final int AXIS_X = 0;
@@ -71,7 +71,8 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            points
 	 * @return the segment previewable
 	 */
-	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints);
+	public Previewable createPreviewSegment(
+			ArrayList<GeoPointND> selectedPoints);
 
 	/**
 	 * create a previewable for ray construction
@@ -89,7 +90,8 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            points
 	 * @return the ray previewable
 	 */
-	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints);
+	public Previewable createPreviewVector(
+			ArrayList<GeoPointND> selectedPoints);
 
 	/**
 	 * create a previewable for conic construction
@@ -656,9 +658,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            event type
 	 * @return hit button (or null)
 	 */
-	public MyButton getHitButton(GPoint p,
-			PointerEventType type);
-
+	public MyButton getHitButton(GPoint p, PointerEventType type);
 
 	/**
 	 * Switch to hit cursor
@@ -825,7 +825,8 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            points
 	 * @return the polygon previewable
 	 */
-	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints);
+	public Previewable createPreviewPolygon(
+			ArrayList<GeoPointND> selectedPoints);
 
 	/**
 	 * create a previewable for polyline construction

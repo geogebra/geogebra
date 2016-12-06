@@ -19,7 +19,8 @@ public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
 	 * @param view3d
 	 *            3D view
 	 */
-	public ManagerShadersNoTriangleFan(Renderer renderer, EuclidianView3D view3d) {
+	public ManagerShadersNoTriangleFan(Renderer renderer,
+			EuclidianView3D view3d) {
 		super(renderer, view3d);
 	}
 

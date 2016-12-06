@@ -54,8 +54,7 @@ public class CmdZoomOut extends CmdScripting {
 		case 2:
 			arg = resArgs(c);
 			return CmdZoomIn.zoomIn2(arg, c.getName(),
-					1 / arg[0].evaluateDouble(),
-					this);
+					1 / arg[0].evaluateDouble(), this);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

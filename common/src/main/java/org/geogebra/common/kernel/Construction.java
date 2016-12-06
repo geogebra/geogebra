@@ -123,7 +123,7 @@ public class Construction {
 	 * cleared in Construction.newConstructionDefaults() (after default geos are
 	 * loaded)
 	 * 
-	 * */
+	 */
 	private TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
 
 	/**
@@ -207,6 +207,7 @@ public class Construction {
 	private HashMap<GeoElement, GeoElement> redefineMap;
 	private GeoElement keepGeo;
 	private ArrayList<GeoElement> latexGeos;
+
 	/**
 	 * @return geo temporarily kept inside this construction
 	 */
@@ -241,6 +242,7 @@ public class Construction {
 	public void setSelfGeo(GeoElement selfGeo) {
 		this.selfGeo = selfGeo;
 	}
+
 	/**
 	 * Returns x-axis
 	 * 
@@ -642,14 +644,15 @@ public class Construction {
 	 * @return returns the equation defined by label in CAS
 	 */
 	public ValidExpression geoCeListLookup(String label) {
-		for (int i = 0;i<ceList.size();i++) {
+		for (int i = 0; i < ceList.size(); i++) {
 			if (ceList.get(i) instanceof GeoCasCell) {
 				// get current cell
 				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
 				// we found the equation
 				if (currCell.getInput(StringTemplate.defaultTemplate)
 						.startsWith(label + "=")
-						&& ((ExpressionNode) currCell.getInputVE()).getLeft() instanceof Equation) {
+						&& ((ExpressionNode) currCell.getInputVE())
+								.getLeft() instanceof Equation) {
 					// return the equation
 					return (ValidExpression) ((ExpressionNode) currCell
 							.getInputVE()).getLeft();
@@ -944,8 +947,8 @@ public class Construction {
 	 */
 	public boolean moveInConstructionList(GeoElement geo, int toIndex) {
 		AlgoElement algoParent = geo.getParentAlgorithm();
-		int fromIndex = (algoParent == null) ? ceList.indexOf(geo) : ceList
-				.indexOf(algoParent);
+		int fromIndex = (algoParent == null) ? ceList.indexOf(geo)
+				: ceList.indexOf(algoParent);
 		if (fromIndex >= 0) {
 			return moveInConstructionList(fromIndex, toIndex);
 		}
@@ -1131,7 +1134,7 @@ public class Construction {
 	final public void updateConstruction() {
 		updateConstruction(true);
 	}
-	
+
 	/**
 	 * Updates all objects in this construction.
 	 * 
@@ -1220,7 +1223,8 @@ public class Construction {
 			for (int i = 0; i < ceList.size(); ++i) {
 				ConstructionElement ce = ceList.get(i);
 				if ((ce.isGeoElement() && ((GeoElement) ce).isGeoCasCell())
-						|| ((ce instanceof AlgoElement) && ce instanceof AlgoCasCellInterface)) {
+						|| ((ce instanceof AlgoElement)
+								&& ce instanceof AlgoCasCellInterface)) {
 					ce.update();
 				}
 			}
@@ -1302,7 +1306,8 @@ public class Construction {
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
-			if (!(ce instanceof AlgoProve) && !(ce instanceof AlgoProveDetails)) {
+			if (!(ce instanceof AlgoProve)
+					&& !(ce instanceof AlgoProveDetails)) {
 				// Collecting non-Prove* elements:
 				ce.getXML_OGP(sb);
 			}
@@ -1485,8 +1490,8 @@ public class Construction {
 
 		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
-		if (oldGeo.getDefinition(StringTemplate.maxPrecision).equals(
-				newGeo.getDefinition(StringTemplate.maxPrecision))
+		if (oldGeo.getDefinition(StringTemplate.maxPrecision)
+				.equals(newGeo.getDefinition(StringTemplate.maxPrecision))
 				&& oldGeo.getParentAlgorithm() != null) {
 			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
 			ae.add(oldGeo.getParentAlgorithm());
@@ -1539,8 +1544,8 @@ public class Construction {
 			// check for eg a = a + 1, A = A + (1,1), a = !a
 			if (oldGeo.isIndependent() && oldGeo instanceof GeoNumeric) {
 
-				((GeoNumeric) oldGeo).setValue(((GeoNumeric) newGeo)
-						.getDouble());
+				((GeoNumeric) oldGeo)
+						.setValue(((GeoNumeric) newGeo).getDouble());
 				oldGeo.updateRepaint();
 				newGeo.remove();
 				return;
@@ -1728,8 +1733,8 @@ public class Construction {
 	 * @param newGeo
 	 *            replacement
 	 */
-	protected void doReplaceInXML(StringBuilder consXML,
-			GeoElement oldGeo, GeoElement newGeo) {
+	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
+			GeoElement newGeo) {
 		String oldXML, newXML; // a = old string, b = new string
 
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
@@ -1753,8 +1758,8 @@ public class Construction {
 				isGettingXMLForReplace = false;
 			}
 
-			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
-					.getXML();
+			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML()
+					: oldGeoAlgo.getXML();
 			newXML = ""; // remove oldGeo from construction
 		} else {
 			// newGeo doesn't exist in construction, so we take oldGeo's label
@@ -1776,8 +1781,8 @@ public class Construction {
 			}
 
 			isGettingXMLForReplace = true;
-			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
-					.getXML();
+			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML()
+					: oldGeoAlgo.getXML();
 			if (newGeoAlgo == null) {
 				newXML = newGeo.getXML();
 			} else {
@@ -1824,7 +1829,8 @@ public class Construction {
 					int labelPos0 = consXML.indexOf("label=\"" + label + "\"");
 					if (labelPos0 > labelPos) {
 						labelPos = labelPos0;
-						inputEndPos = consXML.indexOf("</element>", labelPos) + 11;
+						inputEndPos = consXML.indexOf("</element>", labelPos)
+								+ 11;
 					}
 				}
 			}
@@ -1968,7 +1974,8 @@ public class Construction {
 	 *            use {@link GeoClass} constants
 	 * @return Set of elements of given type.
 	 */
-	final public TreeSet<GeoElement> getGeoSetLabelOrder(GeoClass geoClassType) {
+	final public TreeSet<GeoElement> getGeoSetLabelOrder(
+			GeoClass geoClassType) {
 		TreeSet<GeoElement> typeSet = geoSetsTypeMap.get(geoClassType);
 		if (typeSet == null) {
 			typeSet = createTypeSet(geoClassType);
@@ -2085,7 +2092,8 @@ public class Construction {
 	 *             if the number is higher than the number of rows)
 	 */
 	public GeoCasCell lookupCasRowReference(String label) throws CASException {
-		if (!label.startsWith(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX)) {
+		if (!label
+				.startsWith(ExpressionNodeConstants.CAS_ROW_REFERENCE_PREFIX)) {
 			return null;
 		}
 
@@ -2164,7 +2172,8 @@ public class Construction {
 		 * remove all "$" signs from label and try again.
 		 */
 		if (label1.indexOf('$') > -1) {
-			StringBuilder labelWithout$ = new StringBuilder(label1.length() - 1);
+			StringBuilder labelWithout$ = new StringBuilder(
+					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
 				char ch = label1.charAt(i);
 				if (ch != '$') {
@@ -2293,9 +2302,8 @@ public class Construction {
 		if (label == null) {
 			return false;
 		}
-		if (!fileLoading
-				&& getKernel().getApplication().getParserFunctions()
-						.isReserved(label))
+		if (!fileLoading && getKernel().getApplication().getParserFunctions()
+				.isReserved(label))
 			return false;
 
 		if (fileLoading && casCellUpdate) {
@@ -2305,8 +2313,7 @@ public class Construction {
 			}
 		}
 
-		if (fileLoading
-				&& !isCasCellUpdate() && geoTable.containsKey(label)
+		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)
 				&& label.startsWith("c_")) {
 			GeoElement geo = geoTable.get(label);
 			if (geo instanceof GeoNumeric
@@ -2328,7 +2335,7 @@ public class Construction {
 			GeoElement geo = geoTable.get(label);
 			if (geo instanceof GeoNumeric) {
 				if (((GeoNumeric) geo).isDependentConst()) {
-				return false;
+					return false;
 				}
 				return true;
 			}
@@ -2427,8 +2434,8 @@ public class Construction {
 		// maybe we can move casCell down in the construction list
 		int maxCellIndex = casCell.getMaxConstructionIndex();
 		if (maxCellIndex >= maxPredIndex) {
-			moveInConstructionList(casCell, maxPredIndex
-					+ (maxCellIndex > maxPredIndex ? 1 : 0));
+			moveInConstructionList(casCell,
+					maxPredIndex + (maxCellIndex > maxPredIndex ? 1 : 0));
 			return true;
 		}
 
@@ -2452,8 +2459,8 @@ public class Construction {
 			moveInConstructionList(casCell, maxPredIndex + 1);
 			return true;
 		}
-		System.err
-				.println("Construction.updateConstructionOrder(GeoCasCell) failed: "
+		System.err.println(
+				"Construction.updateConstructionOrder(GeoCasCell) failed: "
 						+ casCell);
 		return false;
 	}
@@ -2647,22 +2654,24 @@ public class Construction {
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
 		// according to whether A,B are points or numbers
 		if (length == 3 && label.charAt(2) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0)+"",label.charAt(1)+"'");
+			createdGeo = distanceOrProduct(label.charAt(0) + "",
+					label.charAt(1) + "'");
 			fix = false;
 
-		}
-		else if (length == 3 && label.charAt(1) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0)+"'",label.charAt(2)+"");
+		} else if (length == 3 && label.charAt(1) == '\'') {
+			createdGeo = distanceOrProduct(label.charAt(0) + "'",
+					label.charAt(2) + "");
 			fix = false;
 
-		}
-		else if (length == 4 && label.charAt(1) == '\'' && label.charAt(3) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0)+"'",label.charAt(2)+"'");
+		} else if (length == 4 && label.charAt(1) == '\''
+				&& label.charAt(3) == '\'') {
+			createdGeo = distanceOrProduct(label.charAt(0) + "'",
+					label.charAt(2) + "'");
 			fix = false;
 
-		}
-		else if (length == 2) {
-			createdGeo = distanceOrProduct(label.charAt(0)+"",label.charAt(1)+"");
+		} else if (length == 2) {
+			createdGeo = distanceOrProduct(label.charAt(0) + "",
+					label.charAt(1) + "");
 			fix = false;
 
 		} else if (length == 1) {
@@ -2710,7 +2719,7 @@ public class Construction {
 				AlgoDistancePoints dist = new AlgoDistancePoints(this,
 						(GeoPointND) geo1, (GeoPointND) geo2);
 				return dist.getDistance();
-				
+
 			}
 		} else if (geo1 != null && geo1 instanceof NumberValue) {
 			GeoElement geo2 = kernel.lookupLabel(string2 + "");
@@ -2719,7 +2728,7 @@ public class Construction {
 						Operation.MULTIPLY, geo2);
 				AlgoDependentNumber algo = new AlgoDependentNumber(this, node,
 						false);
-				return algo.getNumber();				
+				return algo.getNumber();
 			}
 		}
 		return null;
@@ -2795,6 +2804,7 @@ public class Construction {
 	public boolean isStarted() {
 		return usedGeos.size() > 0 || kernel.getMacroNumber() > 0;
 	}
+
 	/**
 	 * Returns a set with all labeled GeoElement objects sorted in alphabetical
 	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
@@ -3226,8 +3236,9 @@ public class Construction {
 	 * 
 	 * @param algoSetCurrentlyUpdated
 	 *            algo set
-	 * */
-	public void setAlgoSetCurrentlyUpdated(AlgorithmSet algoSetCurrentlyUpdated) {
+	 */
+	public void setAlgoSetCurrentlyUpdated(
+			AlgorithmSet algoSetCurrentlyUpdated) {
 		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
 	}
 
@@ -3455,10 +3466,10 @@ public class Construction {
 			while (it.hasNext()) {
 				AlgoElement curr = it.next();
 				if (curr instanceof AlgoJoinPointsSegment) {
-					if ((curr.getInput(0).equals(A) && curr.getInput(1).equals(
-							B))
-							|| (curr.getInput(0).equals(B) && curr.getInput(1)
-									.equals(A))) {
+					if ((curr.getInput(0).equals(A)
+							&& curr.getInput(1).equals(B))
+							|| (curr.getInput(0).equals(B)
+									&& curr.getInput(1).equals(A))) {
 						return ((AlgoJoinPointsSegment) curr).getSegment();
 					}
 				}

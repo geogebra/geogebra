@@ -41,9 +41,8 @@ public class CmdChiSquared extends CommandProcessor {
 		switch (n) {
 		case 3:
 
-			if (!arg[1].isGeoFunction()
-					|| !((GeoFunction) arg[1]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
@@ -55,9 +54,8 @@ public class CmdChiSquared extends CommandProcessor {
 			// fall through
 		case 2:
 			if (arg[0] instanceof GeoNumberValue) {
-				if (arg[1].isGeoFunction()
-						&& ((GeoFunction) arg[1]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[1].isGeoFunction() && ((GeoFunction) arg[1])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
 					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);
@@ -65,9 +63,8 @@ public class CmdChiSquared extends CommandProcessor {
 
 				} else if (arg[1] instanceof GeoNumberValue) {
 
-					AlgoChiSquared algo = new AlgoChiSquared(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
-							(GeoNumberValue) arg[1]);
+					AlgoChiSquared algo = new AlgoChiSquared(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else

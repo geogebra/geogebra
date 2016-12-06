@@ -89,6 +89,4 @@ public class AlgoDivisorsList extends AlgoElement {
 		return result;
 	}
 
-	
-
 }

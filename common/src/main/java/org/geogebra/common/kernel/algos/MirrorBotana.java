@@ -17,8 +17,8 @@ public class MirrorBotana {
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 
-	public Polynomial[] getBotanaPolynomials(GeoElementND geo,
-			GeoElement inGeo, GeoLineND mirrorLine, GeoPointND mirrorPoint,
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo, GeoElement inGeo,
+			GeoLineND mirrorLine, GeoPointND mirrorPoint,
 			GeoConicND mirrorCircle) throws NoSymbolicParametersException {
 
 		if (botanaPolynomials != null) {
@@ -86,8 +86,7 @@ public class MirrorBotana {
 					// PV1 orthogonal AB
 					botanaPolynomials[3] = Polynomial.perpendicular(
 							inGeoVars[0], inGeoVars[1], botanaVars[4],
-							botanaVars[5], A[0], A[1],
-							B[0], B[1]);
+							botanaVars[5], A[0], A[1], B[0], B[1]);
 
 					// second we want to mirror Q to the mirrorLine
 
@@ -111,8 +110,7 @@ public class MirrorBotana {
 					// QV2 orthogonal AB
 					botanaPolynomials[7] = Polynomial.perpendicular(
 							inGeoVars[2], inGeoVars[3], botanaVars[6],
-							botanaVars[7], A[0], A[1],
-							B[0], B[1]);
+							botanaVars[7], A[0], A[1], B[0], B[1]);
 
 					return botanaPolynomials;
 				}
@@ -550,16 +548,16 @@ public class MirrorBotana {
 					Polynomial b_2 = new Polynomial(botanaVars[3]);
 
 					// AP vector = PA' vector
-					botanaPolynomials[0] = p1.subtract(a1).subtract(
-							a_1.subtract(p1));
-					botanaPolynomials[1] = p2.subtract(a2).subtract(
-							a_2.subtract(p2));
+					botanaPolynomials[0] = p1.subtract(a1)
+							.subtract(a_1.subtract(p1));
+					botanaPolynomials[1] = p2.subtract(a2)
+							.subtract(a_2.subtract(p2));
 
 					// BP vector = PB' vector
-					botanaPolynomials[2] = p1.subtract(b1).subtract(
-							b_1.subtract(p1));
-					botanaPolynomials[3] = p2.subtract(b2).subtract(
-							b_2.subtract(p2));
+					botanaPolynomials[2] = p1.subtract(b1)
+							.subtract(b_1.subtract(p1));
+					botanaPolynomials[3] = p2.subtract(b2)
+							.subtract(b_2.subtract(p2));
 
 					return botanaPolynomials;
 				}
@@ -598,16 +596,16 @@ public class MirrorBotana {
 					Polynomial b_2 = new Polynomial(botanaVars[3]);
 
 					// AP vector = PA' vector
-					botanaPolynomials[0] = p1.subtract(a1).subtract(
-							a_1.subtract(p1));
-					botanaPolynomials[1] = p2.subtract(a2).subtract(
-							a_2.subtract(p2));
+					botanaPolynomials[0] = p1.subtract(a1)
+							.subtract(a_1.subtract(p1));
+					botanaPolynomials[1] = p2.subtract(a2)
+							.subtract(a_2.subtract(p2));
 
 					// BP vector = PB' vector
-					botanaPolynomials[2] = p1.subtract(b1).subtract(
-							b_1.subtract(p1));
-					botanaPolynomials[3] = p2.subtract(b2).subtract(
-							b_2.subtract(p2));
+					botanaPolynomials[2] = p1.subtract(b1)
+							.subtract(b_1.subtract(p1));
+					botanaPolynomials[3] = p2.subtract(b2)
+							.subtract(b_2.subtract(p2));
 
 					return botanaPolynomials;
 				}
@@ -844,24 +842,28 @@ public class MirrorBotana {
 								.subtract(e2);
 
 						// d1^2=Polynomial.sqrDistance(a_1,a_2,c_1,c_2)
-						botanaPolynomials[9] = Polynomial.sqrDistance(
-								botanaVars[6], botanaVars[7], botanaVars[8],
-								botanaVars[9]).subtract(d1.multiply(d1));
+						botanaPolynomials[9] = Polynomial
+								.sqrDistance(botanaVars[6], botanaVars[7],
+										botanaVars[8], botanaVars[9])
+								.subtract(d1.multiply(d1));
 
 						// d2^2=Polynomial.sqrDistance(b_1,b_2,c_1,c_2)
-						botanaPolynomials[10] = Polynomial.sqrDistance(
-								botanaVars[6], botanaVars[7], botanaVars[8],
-								botanaVars[9]).subtract(d2.multiply(d2));
+						botanaPolynomials[10] = Polynomial
+								.sqrDistance(botanaVars[6], botanaVars[7],
+										botanaVars[8], botanaVars[9])
+								.subtract(d2.multiply(d2));
 
 						// e1^2=Polynomial.sqrDistance(a_1,a_2,p_1,p_2)
-						botanaPolynomials[11] = Polynomial.sqrDistance(
-								botanaVars[6], botanaVars[7], botanaVars[0],
-								botanaVars[1]).subtract(e1.multiply(e1));
+						botanaPolynomials[11] = Polynomial
+								.sqrDistance(botanaVars[6], botanaVars[7],
+										botanaVars[0], botanaVars[1])
+								.subtract(e1.multiply(e1));
 
 						// e2^2=Polynomial.sqrDistance(b_1,b_2,p_1,p_2)
-						botanaPolynomials[12] = Polynomial.sqrDistance(
-								botanaVars[8], botanaVars[9], botanaVars[0],
-								botanaVars[1]).subtract(e2.multiply(e2));
+						botanaPolynomials[12] = Polynomial
+								.sqrDistance(botanaVars[8], botanaVars[9],
+										botanaVars[0], botanaVars[1])
+								.subtract(e2.multiply(e2));
 
 					}
 					return botanaPolynomials;
@@ -953,24 +955,28 @@ public class MirrorBotana {
 					botanaPolynomials[8] = d1.subtract(d2).subtract(e1).add(e2);
 
 					// d1^2=Polynomial.sqrDistance(a_1,a_2,c_1,c_2)
-					botanaPolynomials[9] = Polynomial.sqrDistance(
-							botanaVars[6], botanaVars[7], botanaVars[10],
-							botanaVars[11]).subtract(d1.multiply(d1));
+					botanaPolynomials[9] = Polynomial
+							.sqrDistance(botanaVars[6], botanaVars[7],
+									botanaVars[10], botanaVars[11])
+							.subtract(d1.multiply(d1));
 
 					// d2^2=Polynomial.sqrDistance(b_1,b_2,c_1,c_2)
-					botanaPolynomials[10] = Polynomial.sqrDistance(
-							botanaVars[8], botanaVars[9], botanaVars[10],
-							botanaVars[11]).subtract(d2.multiply(d2));
+					botanaPolynomials[10] = Polynomial
+							.sqrDistance(botanaVars[8], botanaVars[9],
+									botanaVars[10], botanaVars[11])
+							.subtract(d2.multiply(d2));
 
 					// e1^2=Polynomial.sqrDistance(a_1,a_2,p_1,p_2)
-					botanaPolynomials[3] = Polynomial.sqrDistance(
-							botanaVars[6], botanaVars[7], botanaVars[0],
-							botanaVars[1]).subtract(e1.multiply(e1));
+					botanaPolynomials[3] = Polynomial
+							.sqrDistance(botanaVars[6], botanaVars[7],
+									botanaVars[0], botanaVars[1])
+							.subtract(e1.multiply(e1));
 
 					// e2^2=Polynomial.sqrDistance(b_1,b_2,p_1,p_2)
-					botanaPolynomials[4] = Polynomial.sqrDistance(
-							botanaVars[8], botanaVars[9], botanaVars[0],
-							botanaVars[1]).subtract(e2.multiply(e2));
+					botanaPolynomials[4] = Polynomial
+							.sqrDistance(botanaVars[8], botanaVars[9],
+									botanaVars[0], botanaVars[1])
+							.subtract(e2.multiply(e2));
 
 					return botanaPolynomials;
 				}
@@ -1022,17 +1028,17 @@ public class MirrorBotana {
 					Polynomial oa = (a1.subtract(o1)).multiply(a1.subtract(o1))
 							.add((a2.subtract(o2)).multiply(a2.subtract(o2)));
 					// (x-x_0)^2 + (y-y_0)^2
-					Polynomial denominator = (b1.subtract(o1)).multiply(
-							b1.subtract(o1)).add(
-							(b2.subtract(o2)).multiply(b2.subtract(o2)));
+					Polynomial denominator = (b1.subtract(o1))
+							.multiply(b1.subtract(o1))
+							.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
 
 					// formula for the coordinates of inverse point
 					// from: http://mathworld.wolfram.com/Inversion.html
-					botanaPolynomials[0] = oa.multiply(b1.subtract(o1)).add(
-							(o1.subtract(b_1)).multiply(denominator));
+					botanaPolynomials[0] = oa.multiply(b1.subtract(o1))
+							.add((o1.subtract(b_1)).multiply(denominator));
 
-					botanaPolynomials[1] = oa.multiply(b2.subtract(o2)).add(
-							(o2.subtract(b_2)).multiply(denominator));
+					botanaPolynomials[1] = oa.multiply(b2.subtract(o2))
+							.add((o2.subtract(b_2)).multiply(denominator));
 
 					return botanaPolynomials;
 				}
@@ -1101,21 +1107,21 @@ public class MirrorBotana {
 					// formula for the coordinates of the center of inverse
 					// circle
 					// from: http://mathworld.wolfram.com/Inversion.html
-					botanaPolynomials[0] = oc.multiply(a1.subtract(o1)).add(
-							(o1.subtract(a_1)).multiply(denominator1));
-					botanaPolynomials[1] = oc.multiply(a2.subtract(o2)).add(
-							(o2.subtract(a_2)).multiply(denominator1));
+					botanaPolynomials[0] = oc.multiply(a1.subtract(o1))
+							.add((o1.subtract(a_1)).multiply(denominator1));
+					botanaPolynomials[1] = oc.multiply(a2.subtract(o2))
+							.add((o2.subtract(a_2)).multiply(denominator1));
 
-					Polynomial denominator2 = (b1.subtract(o1)).multiply(
-							b1.subtract(o1)).add(
-							(b2.subtract(o2)).multiply(b2.subtract(o2)));
+					Polynomial denominator2 = (b1.subtract(o1))
+							.multiply(b1.subtract(o1))
+							.add((b2.subtract(o2)).multiply(b2.subtract(o2)));
 
 					// formula for the coordinates of inverse point
 					// from: http://mathworld.wolfram.com/Inversion.html
-					botanaPolynomials[2] = oc.multiply(b1.subtract(o1)).add(
-							(o1.subtract(b_1)).multiply(denominator2));
-					botanaPolynomials[3] = oc.multiply(b2.subtract(o2)).add(
-							(o2.subtract(b_2)).multiply(denominator2));
+					botanaPolynomials[2] = oc.multiply(b1.subtract(o1))
+							.add((o1.subtract(b_1)).multiply(denominator2));
+					botanaPolynomials[3] = oc.multiply(b2.subtract(o2))
+							.add((o2.subtract(b_2)).multiply(denominator2));
 
 					return botanaPolynomials;
 

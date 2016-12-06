@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public class AlgoQuadricComputerCylinderOpen extends
-		AlgoQuadricComputerCylinder {
+public class AlgoQuadricComputerCylinderOpen
+		extends AlgoQuadricComputerCylinder {
 
 	@Override
 	public GeoQuadric3D newQuadric(Construction c) {

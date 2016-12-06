@@ -35,18 +35,19 @@ public class CmdContourPlot extends CommandProcessor {
 			AlgoContourPlot algo = null;
 			if (n == 1) {
 				algo = new AlgoContourPlot(cons, c.getLabel(),
-						(GeoFunctionNVar) arg[0], app.getActiveEuclidianView()
-								.getXmin(), app.getActiveEuclidianView()
-								.getXmax(), app.getActiveEuclidianView()
-								.getYmin(), app.getActiveEuclidianView()
-								.getYmax());
+						(GeoFunctionNVar) arg[0],
+						app.getActiveEuclidianView().getXmin(),
+						app.getActiveEuclidianView().getXmax(),
+						app.getActiveEuclidianView().getYmin(),
+						app.getActiveEuclidianView().getYmax());
 			} else if (n == 2 && arg[1] instanceof GeoNumeric) {
 				algo = new AlgoContourPlot(cons, c.getLabel(),
-						(GeoFunctionNVar) arg[0], app.getActiveEuclidianView()
-								.getXmin(), app.getActiveEuclidianView()
-								.getXmax(), app.getActiveEuclidianView()
-								.getYmin(), app.getActiveEuclidianView()
-								.getYmax(), arg[1].evaluateDouble());
+						(GeoFunctionNVar) arg[0],
+						app.getActiveEuclidianView().getXmin(),
+						app.getActiveEuclidianView().getXmax(),
+						app.getActiveEuclidianView().getYmin(),
+						app.getActiveEuclidianView().getYmax(),
+						arg[1].evaluateDouble());
 			} else {
 				throw this.argErr(app, c.getName(), arg[1]);
 			}

@@ -75,16 +75,20 @@ public class RelationNumerical {
 			/**
 			 * equality
 			 */
-			AreEqual, /**
+			AreEqual,
+			/**
 			 * parallelism
 			 */
-			AreParallel, /**
+			AreParallel,
+			/**
 			 * orthogonality
 			 */
-			ArePerpendicular, /**
+			ArePerpendicular,
+			/**
 			 * member of a path
 			 */
-			IsOnPath, /**
+			IsOnPath,
+			/**
 			 * congruent segments
 			 */
 			AreCongruent
@@ -286,18 +290,13 @@ public class RelationNumerical {
 				register(true, RelationCommand.AreEqual,
 						equalityString((GeoElement) a, (GeoElement) b, true));
 			} else {
-				register(
-						true,
-						RelationCommand.AreCongruent,
+				register(true, RelationCommand.AreCongruent,
 						congruentSegmentString((GeoElement) a, (GeoElement) b,
 								true, loc));
 			}
 		} else {
-			register(
-					false,
-					null,
-					congruentSegmentString((GeoElement) a, (GeoElement) b,
-							false, loc));
+			register(false, null, congruentSegmentString((GeoElement) a,
+					(GeoElement) b, false, loc));
 		}
 
 		// Checking parallelism:
@@ -416,7 +415,8 @@ public class RelationNumerical {
 		if (g.isLimitedPath() || c.isLimitedPath()) {
 			// intersect line and conic
 			// precision setting is not needed here (done by algorithm)
-			AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
+			AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g,
+					c);
 			GeoPoint[] points = algo.getIntersectionPoints();
 			cons.removeFromConstructionList(algo);
 
@@ -604,14 +604,12 @@ public class RelationNumerical {
 	 * @return internationalized string
 	 */
 	final static public String congruentSegmentString(GeoElement a,
-			GeoElement b,
-			boolean equal, Localization loc) {
+			GeoElement b, boolean equal, Localization loc) {
 		if (equal) {
 			return loc.getPlain("AhasTheSameLengthAsB", a.getColoredLabel(),
 					b.getColoredLabel());
 		}
-		return loc.getPlain("AdoesNothaveTheSameLengthAsB",
-				a.getColoredLabel(),
+		return loc.getPlain("AdoesNothaveTheSameLengthAsB", a.getColoredLabel(),
 				b.getColoredLabel());
 	}
 
@@ -647,8 +645,8 @@ public class RelationNumerical {
 			return loc.getPlain("AliesOnThePerimeterOfB", a.getColoredLabel(),
 					b.getColoredLabel());
 		}
-		return loc.getPlain("AdoesNotLieOnThePerimeterOfB",
-				a.getColoredLabel(), b.getColoredLabel());
+		return loc.getPlain("AdoesNotLieOnThePerimeterOfB", a.getColoredLabel(),
+				b.getColoredLabel());
 	}
 
 	// "Relation of a and b: parallel"
@@ -697,14 +695,12 @@ public class RelationNumerical {
 	 */
 	final public static String triangleNonDegenerateString(GeoPoint A,
 			GeoPoint B, GeoPoint C, Localization loc) {
-		return loc
-				.getPlain(
-						"TriangleABCnonDegenerate",
-						A.getColoredLabel() + B.getColoredLabel()
-								+ C.getColoredLabel());
+		return loc.getPlain("TriangleABCnonDegenerate", A.getColoredLabel()
+				+ B.getColoredLabel() + C.getColoredLabel());
 	}
 
-	final private String perpendicularString(GeoLine a, GeoLine b, boolean perp) {
+	final private String perpendicularString(GeoLine a, GeoLine b,
+			boolean perp) {
 		return perpendicularString(a, b, perp, loc);
 	}
 
@@ -765,7 +761,8 @@ public class RelationNumerical {
 	}
 
 	// "a touches b"
-	final private String touchString(GeoElement a, GeoElement b, boolean touches) {
+	final private String touchString(GeoElement a, GeoElement b,
+			boolean touches) {
 		return touchString(a, b, touches, loc);
 	}
 
@@ -803,38 +800,38 @@ public class RelationNumerical {
 			// strType = getPlain("producingLine");
 			return loc.getPlain("AisaDegenerateBranchOfB", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE:
 			// strType = getPlain("asymptoticLine");
 			return loc.getPlain("AisAnAsymptoteToB", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE:
 			// strType = getPlain("meetingLine");
 			return loc.getPlain("AintersectsWithBOnce", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE:
 			// strType = getPlain("tangentLine");
 			return loc.getPlain("AisaTangentToB", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 
 		case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE:
 			// strType = getPlain("secantLine");
 			return loc.getPlain("AintersectsWithBTwice", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 
 		default:
 			// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
 			// strType = getPlain("passingLine");
 			return loc.getPlain("ADoesNotIntersectWithB", a.getColoredLabel(),
 					b.getColoredLabel());
-			// break;
+		// break;
 		}
 	}
 

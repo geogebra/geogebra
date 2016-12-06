@@ -37,7 +37,8 @@ public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
 	 * @param label
 	 * @param segment
 	 */
-	AlgoMidpointSegment3D(Construction cons, String label, GeoSegmentND segment) {
+	AlgoMidpointSegment3D(Construction cons, String label,
+			GeoSegmentND segment) {
 		this(cons, segment);
 		getPoint().setLabel(label);
 	}

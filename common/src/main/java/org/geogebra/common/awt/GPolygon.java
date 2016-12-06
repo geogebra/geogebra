@@ -25,6 +25,7 @@ public interface GPolygon extends GShape {
 
 	// boolean intersects(GRectangle2D r);
 	boolean contains(double x, double y, double w, double h);
+
 	// boolean contains(GRectangle2D r);
 	GPathIterator getPathIterator(GAffineTransform at);
 

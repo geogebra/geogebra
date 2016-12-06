@@ -65,8 +65,8 @@ public class CASInputHandler {
 			return;
 		}
 		// Multiple cells selected and solve button clicked
-		if ((ggbcmd.equalsIgnoreCase("Solve") || ggbcmd
-				.equalsIgnoreCase("NSolve"))
+		if ((ggbcmd.equalsIgnoreCase("Solve")
+				|| ggbcmd.equalsIgnoreCase("NSolve"))
 				&& (consoleTable.getSelectedRows().length > 1)) {
 			processMultipleRows(ggbcmd);
 			return;
@@ -90,11 +90,12 @@ public class CASInputHandler {
 		// hack for debugging the underlying cas
 		if (selRowInput != null && selRowInput.startsWith("@")) {
 			try {
-				String s = kernel.getGeoGebraCAS().evaluateRaw(
-						selRowInput.substring(1));
-				GeoText text = kernel.lookupLabel("casOutput") instanceof GeoText ? (GeoText) kernel
-						.lookupLabel("casOutput") : new GeoText(
-						kernel.getConstruction());
+				String s = kernel.getGeoGebraCAS()
+						.evaluateRaw(selRowInput.substring(1));
+				GeoText text = kernel
+						.lookupLabel("casOutput") instanceof GeoText
+								? (GeoText) kernel.lookupLabel("casOutput")
+								: new GeoText(kernel.getConstruction());
 				if (!text.isLabelSet()) {
 					text.setLabel("casOutput");
 				}
@@ -111,11 +112,11 @@ public class CASInputHandler {
 		if (selRowInput == null || selRowInput.length() == 0) {
 			if (consoleTable.getSelectedRow() != -1) {
 				consoleTable.startEditingRow(consoleTable.getSelectedRow());
-				GeoCasCell cell = consoleTable.getGeoCasCell(consoleTable
-						.getSelectedRow());
+				GeoCasCell cell = consoleTable
+						.getGeoCasCell(consoleTable.getSelectedRow());
 				if (cell.getInputVE() != null)
-					selRowInput = cell.getInputVE().toString(
-							StringTemplate.numericDefault);
+					selRowInput = cell.getInputVE()
+							.toString(StringTemplate.numericDefault);
 			}
 			// process empty row
 			if (selRowInput.length() == 0) {
@@ -133,11 +134,10 @@ public class CASInputHandler {
 							if (prevCell.getFunctionVariables() != null) {
 								prevCellName.append("(");
 								FunctionVariable[] fVars = prevCell
-									.getFunctionVariables();
+										.getFunctionVariables();
 								for (int i = 0; i < fVars.length; i++) {
-									prevCellName
-										.append(fVars[i]
-												.toString(StringTemplate.defaultTemplate));
+									prevCellName.append(fVars[i].toString(
+											StringTemplate.defaultTemplate));
 									if (i != fVars.length - 1) {
 										prevCellName.append(",");
 									}
@@ -223,20 +223,20 @@ public class CASInputHandler {
 					StringBuilder sb = new StringBuilder();
 					sb.append(inputStrForNSolve);
 
-				// sb.append("]");
-				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
-						sb.toString())) {
-					cellValue.setNSolveCmdNeeded(true);
-					cellValue.setInput(sb.toString());
-					selRowInput = sb.toString();
-					evalText = sb.toString();
-				}
+					// sb.append("]");
+					if (!cellValue.getInput(StringTemplate.defaultTemplate)
+							.equals(sb.toString())) {
+						cellValue.setNSolveCmdNeeded(true);
+						cellValue.setInput(sb.toString());
+						selRowInput = sb.toString();
+						evalText = sb.toString();
+					}
 				}
 			}
 
 			if (cellValue.getNSolveCmdNeeded() && !ggbcmd.equals("NSolve")) {
-				if (cellValue.getInputVE() != null
-						&& cellValue.getInputVE().getTopLevelCommand() != null) {
+				if (cellValue.getInputVE() != null && cellValue.getInputVE()
+						.getTopLevelCommand() != null) {
 					cellValue.setNSolveCmdNeeded(false);
 				} else {
 					ggbcmd = "NSolve";
@@ -244,8 +244,8 @@ public class CASInputHandler {
 			}
 
 			// FIX common INPUT ERRORS in evalText
-			if (!hasSelectedText
-					&& (ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
+			if (!hasSelectedText && (ggbcmd.equals("Evaluate")
+					|| ggbcmd.equals("KeepInput"))) {
 				String fixedInput = fixInputErrors(selRowInput);
 				if (!fixedInput.equals(selRowInput)) {
 					cellValue.setInput(fixedInput);
@@ -255,9 +255,8 @@ public class CASInputHandler {
 
 			// we want to avoid user selecting a+b in (a+b)/c
 			// TODO cache this somehow
-			boolean structureOK = cellValue
-					.isStructurallyEqualToLocalizedInput(prefix + evalText
-							+ postfix);
+			boolean structureOK = cellValue.isStructurallyEqualToLocalizedInput(
+					prefix + evalText + postfix);
 			if (!structureOK) {
 				// show current selection again
 				consoleTable.startEditingRow(selRow);
@@ -279,8 +278,8 @@ public class CASInputHandler {
 				// eg. a:=b+c
 				// use only b+c
 				if (isAssignment && !hasSelectedText) {
-					evalText = cellValue.getInputVE().toString(
-							StringTemplate.defaultTemplate);
+					evalText = cellValue.getInputVE()
+							.toString(StringTemplate.defaultTemplate);
 				}
 				// show substitute dialog
 				casView.showSubstituteDialog(prefix, evalText, postfix, selRow);
@@ -296,12 +295,14 @@ public class CASInputHandler {
 				if (isNumeric && inVE != null) {
 					// evaluation text is wrapped only if the input is not
 					// already wrapped
-					if (inVE.getTopLevelCommand() == null
-							|| !inVE.getTopLevelCommand().getName()
-									.equals("Numeric")) {
-						cellValue.setProcessingInformation(prefix, ggbcmd + "["
-								+ inVE.toString(StringTemplate.numericDefault)
-								+ "]", postfix);
+					if (inVE.getTopLevelCommand() == null || !inVE
+							.getTopLevelCommand().getName().equals("Numeric")) {
+						cellValue.setProcessingInformation(prefix,
+								ggbcmd + "["
+										+ inVE.toString(
+												StringTemplate.numericDefault)
+										+ "]",
+								postfix);
 					}
 					// otherwise set the evaluation text to input
 				} else {
@@ -338,9 +339,8 @@ public class CASInputHandler {
 						if (isDerivative) {
 							sb.append('\'');
 						}
-						sb.append('(')
-								.append(((FunctionNVar) outputVE.unwrap())
-										.getVarString(StringTemplate.defaultTemplate))
+						sb.append('(').append(((FunctionNVar) outputVE.unwrap())
+								.getVarString(StringTemplate.defaultTemplate))
 								.append(')');
 						sb.append(outputVE.getAssignmentOperator());
 						sb.append(ggbcmd).append('[').append(assignmentLabel)
@@ -359,12 +359,9 @@ public class CASInputHandler {
 			// don't wrap Numeric[pi, 20] with a second Numeric command
 			// as this would remove precision
 			// don't wrap in KeepInput neither
-			boolean wrapEvalText = !isEvaluate
-					&& !isKeepInput
+			boolean wrapEvalText = !isEvaluate && !isKeepInput
 					&& !(isNumeric && (evalText.startsWith("Numeric[")
-							|| evalText
-								.startsWith("Numeric(")));
-
+							|| evalText.startsWith("Numeric(")));
 
 			if (wrapEvalText) {
 				// prepare evalText as ggbcmd[ evalText, parameters ... ]
@@ -398,8 +395,7 @@ public class CASInputHandler {
 		// case input is a cell
 		if (evalText.charAt(0) == (GeoCasCell.ROW_REFERENCE_DYNAMIC)) {
 			int row = Integer.parseInt(evalText.substring(1, 2));
-			GeoCasCell geoCasCell = consoleTable
-					.getGeoCasCell(row - 1);
+			GeoCasCell geoCasCell = consoleTable.getGeoCasCell(row - 1);
 			expandValidExp = geoCasCell.getInputVE();
 		} else {
 			try {
@@ -428,19 +424,20 @@ public class CASInputHandler {
 				// handle case list with two equations
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
-						.evaluateRaw("ispolynomial2("
-								+ equList.getListElement(0)
-										.toString(StringTemplate.giacTemplate)
-								+ ","
-								+ equList.getListElement(1)
-										.toString(StringTemplate.giacTemplate)
-								+ ")");
+						.evaluateRaw(
+								"ispolynomial2("
+										+ equList.getListElement(0).toString(
+												StringTemplate.giacTemplate)
+										+ ","
+										+ equList.getListElement(1).toString(
+												StringTemplate.giacTemplate)
+										+ ")");
 			}
 			// use NSolve tool with one equation
 			else {
 				casResult = cas.getCurrentCAS().evaluateRaw("ispolynomial("
-					+ expandValidExp.toString(StringTemplate.giacTemplate)
-					+ ")");
+						+ expandValidExp.toString(StringTemplate.giacTemplate)
+						+ ")");
 			}
 
 			// case it is not
@@ -473,8 +470,8 @@ public class CASInputHandler {
 								varsStrSet.clear();
 							} else {
 								// add var=1
-								String var = next
-									.toString(StringTemplate.defaultTemplate);
+								String var = next.toString(
+										StringTemplate.defaultTemplate);
 								sb.append(",");
 								sb.append(var);
 								sb.append("=1");
@@ -642,12 +639,11 @@ public class CASInputHandler {
 					// check if input is polynomial
 					inputStr.append("is_polynomial(");
 					inputStr.append(selCellValue.getOutputValidExpression()
-								.toString(
-								StringTemplate.giacTemplate));
+							.toString(StringTemplate.giacTemplate));
 					inputStr.append(")");
 
-					String casResult = cas.getCurrentCAS().evaluateRaw(
-							inputStr.toString());
+					String casResult = cas.getCurrentCAS()
+							.evaluateRaw(inputStr.toString());
 					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
 							.getVariables();
 					Iterator<GeoElement> it = cellVars.iterator();
@@ -658,7 +654,8 @@ public class CASInputHandler {
 							// we should use only the variables from output
 							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
 									.getOutputValidExpression().getVariables();
-							Iterator<GeoElement> currIt = currCellVars.iterator();
+							Iterator<GeoElement> currIt = currCellVars
+									.iterator();
 							if (vars.isEmpty()) {
 								vars.addAll(currCellVars);
 							} else {
@@ -666,10 +663,11 @@ public class CASInputHandler {
 									GeoElement currEl = currIt.next();
 									int j;
 									for (j = 0; j < vars.size(); j++) {
-										if (currEl.toString(
-											StringTemplate.defaultTemplate)
+										if (currEl
+												.toString(
+														StringTemplate.defaultTemplate)
 												.equals(vars.get(j).toString(
-													StringTemplate.defaultTemplate))) {
+														StringTemplate.defaultTemplate))) {
 											break;
 										}
 									}
@@ -693,14 +691,14 @@ public class CASInputHandler {
 								}
 							}
 							if (j == vars.size()) {
-							vars.add(curr);
+								vars.add(curr);
+							}
 						}
-					}
 					}
 					// case it is not
 					if (casResult.equals("false") || casResult.equals("0")) {
 						foundNonPolynomial = true;
-					} 
+					}
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -714,9 +712,8 @@ public class CASInputHandler {
 				references[i] = assignedVariable;
 			} else {
 				cellText = selCellValue.getInputVE().toString(tpl);
-				cellText = resolveCASrowReferences(cellText,
-						selectedIndices[i], GeoCasCell.ROW_REFERENCE_STATIC,
-						false);
+				cellText = resolveCASrowReferences(cellText, selectedIndices[i],
+						GeoCasCell.ROW_REFERENCE_STATIC, false);
 				if (!inTheSelectedRow)
 					references[i] = "$" + (selectedIndices[i] + 1);
 				else {
@@ -744,9 +741,9 @@ public class CASInputHandler {
 					cellText.append(",");
 				if (vars.get(i) instanceof GeoDummyVariable) {
 					first = false;
-					cellText.append(vars.get(i).toString(
-						StringTemplate.defaultTemplate)
-						+ "=1");
+					cellText.append(
+							vars.get(i).toString(StringTemplate.defaultTemplate)
+									+ "=1");
 				}
 			}
 			cellText.append("}");
@@ -1046,12 +1043,11 @@ public class CASInputHandler {
 				MyList ml = (MyList) ve.unwrap();
 				int i = 0;
 				while (i < ml.size() && isPlottable) {
-					isPlottable &= !(ml.getItem(i).unwrap() instanceof MySpecialDouble)
-							&& !ml.getItem(i++)
-									.unwrap()
-									.inspect(
-											Inspecting.UnplottableChecker
-													.getChecker(dim));
+					isPlottable &= !(ml.getItem(i)
+							.unwrap() instanceof MySpecialDouble)
+							&& !ml.getItem(i++).unwrap()
+									.inspect(Inspecting.UnplottableChecker
+											.getChecker(dim));
 				}
 			} else if (ve.unwrap() instanceof Command) {
 				isPlottable &= ((Command) ve.unwrap()).getName().equals("If");
@@ -1061,8 +1057,7 @@ public class CASInputHandler {
 		}
 		if (ve != null
 				&& !cell.getAssignmentType().equals(AssignmentType.DELAYED)) {
-			if (cell.showOutput()
-					&& !cell.isError()
+			if (cell.showOutput() && !cell.isError()
 					&& (isPlottable || !ve.unwrap().inspect(
 							Inspecting.UnplottableChecker.getChecker(dim)))) {
 				renderer.setMarbleValue(marbleShown);

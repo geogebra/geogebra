@@ -40,8 +40,8 @@ public class CmdANOVA extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 
 				if (list.get(0).isGeoList()) {
-					GeoElement[] ret = { ANOVATest(c.getLabel(),
-							(GeoList) arg[0]) };
+					GeoElement[] ret = {
+							ANOVATest(c.getLabel(), (GeoList) arg[0]) };
 					return ret;
 
 				}

@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 /**
  * Interface for geos that have a height (cones, pyramids, prisms, etc.)
+ * 
  * @author mathieu
  *
  */

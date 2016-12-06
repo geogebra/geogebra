@@ -50,7 +50,7 @@ public class StatTableModel {
 		GeoElement getRegressionModel();
 
 		DataAnalysisModel.Regression getRegressionMode();
-		
+
 		boolean isValidData();
 
 		void setValueAt(double value, int row, int i);
@@ -63,10 +63,12 @@ public class StatTableModel {
 
 		boolean isNumericData();
 	}
+
 	private App app;
 	private Construction cons;
 	private StatTableListener listener;
-	//!TODO: to common!
+
+	// !TODO: to common!
 	public enum Stat {
 		NULL, LENGTH, MEAN, SD, SAMPLE_SD, SUM, SIGMAXX, MIN, Q1, MEDIAN, Q3, MAX, MEANX, MEANY, SX, SY, PMCC, SPEARMAN, SXX, SYY, SXY, RSQUARE, SSE
 	};
@@ -82,7 +84,6 @@ public class StatTableModel {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 	}
-
 
 	public String[] getRowNames() {
 		ArrayList<Stat> list = getStatList();
@@ -108,8 +109,7 @@ public class StatTableModel {
 	// =======================================================
 
 	/**
-	 * Evaluates all s
-	 * tatistics for the selected data list. If data source is
+	 * Evaluates all s tatistics for the selected data list. If data source is
 	 * not valid, the result cells are set blank.
 	 * 
 	 */
@@ -137,7 +137,7 @@ public class StatTableModel {
 						getConstruction().removeFromConstructionList(algo);
 						value = ((GeoNumeric) algo.getGeoElements()[0])
 								.getDouble();
-						getListener().setValueAt(value, row,	0);
+						getListener().setValueAt(value, row, 0);
 					}
 				}
 			}
@@ -363,9 +363,11 @@ public class StatTableModel {
 		case MEAN:
 			return new AlgoMean(getConstruction(), dataList, freqList);
 		case SD:
-			return new AlgoStandardDeviation(getConstruction(), dataList, freqList);
+			return new AlgoStandardDeviation(getConstruction(), dataList,
+					freqList);
 		case SAMPLE_SD:
-			return new AlgoSampleStandardDeviation(getConstruction(), dataList, freqList);
+			return new AlgoSampleStandardDeviation(getConstruction(), dataList,
+					freqList);
 		case SUM:
 			return new AlgoSum(getConstruction(), dataList, freqList);
 		case SIGMAXX:
@@ -398,9 +400,11 @@ public class StatTableModel {
 		case MEAN:
 			return new AlgoMean(getConstruction(), classList, freqList);
 		case SD:
-			return new AlgoStandardDeviation(getConstruction(), classList, freqList);
+			return new AlgoStandardDeviation(getConstruction(), classList,
+					freqList);
 		case SAMPLE_SD:
-			return new AlgoSampleStandardDeviation(getConstruction(), classList, freqList);
+			return new AlgoSampleStandardDeviation(getConstruction(), classList,
+					freqList);
 		case SUM:
 			return new AlgoSum(getConstruction(), classList, freqList);
 		case SIGMAXX:
@@ -410,26 +414,21 @@ public class StatTableModel {
 		}
 	}
 
-
 	public Construction getConstruction() {
 		return cons;
 	}
-
 
 	public App getApp() {
 		return app;
 	}
 
-
 	public void setApp(App app) {
 		this.app = app;
 	}
 
-
 	public StatTableListener getListener() {
 		return listener;
 	}
-
 
 	public void setListener(StatTableListener listener) {
 		this.listener = listener;

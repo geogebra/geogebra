@@ -76,5 +76,4 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 		return true;
 	}
 
-	
 }

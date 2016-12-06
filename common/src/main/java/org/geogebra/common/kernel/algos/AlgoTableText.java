@@ -573,8 +573,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
-				} else if (rows == 1
-						&& (horizontalLinesJustEdges || c0 == '1' || c1 == '1')) {
+				} else if (rows == 1 && (horizontalLinesJustEdges || c0 == '1'
+						|| c1 == '1')) {
 
 					if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
 						// both
@@ -630,10 +630,11 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 					if (!verticalLines) {
 						sb.append("\\ggbtd" + jc + "{");
-					} else if (columns == 1
-							&& (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {
+					} else if (columns == 1 && (verticalLinesJustEdges
+							|| c0 == '1' || c1 == '1')) {
 
-						if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+						if (verticalLinesJustEdges
+								|| (c0 == '1' && c1 == '1')) {
 							// both
 							sb.append("\\ggbtdl" + jc + "{");
 						} else if (c0 == '1') {
@@ -644,7 +645,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 							sb.append("\\ggbtdlr" + jc + "{");
 						}
 
-					} else if (c == 0 && (verticalLinesJustEdges || c0 == '1')) {
+					} else if (c == 0
+							&& (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll" + jc + "{");
 					} else if (c == columns - 1) {
 
@@ -685,8 +687,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 				if (!horizontalLines) {
 					sb.append("\\ggbtr{");
-				} else if (columns == 1
-						&& (horizontalLinesJustEdges || c0 == '1' || c1 == '1')) {
+				} else if (columns == 1 && (horizontalLinesJustEdges
+						|| c0 == '1' || c1 == '1')) {
 
 					if (horizontalLinesJustEdges || (c0 == '1' && c1 == '1')) {
 						// both
@@ -740,10 +742,11 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 					if (!verticalLines) {
 						sb.append("\\ggbtd" + jc + "{");
-					} else if (rows == 1
-							&& (verticalLinesJustEdges || c0 == '1' || c1 == '1')) {
+					} else if (rows == 1 && (verticalLinesJustEdges || c0 == '1'
+							|| c1 == '1')) {
 
-						if (verticalLinesJustEdges || (c0 == '1' && c1 == '1')) {
+						if (verticalLinesJustEdges
+								|| (c0 == '1' && c1 == '1')) {
 							// both
 							sb.append("\\ggbtdl" + jc + "{");
 						} else if (c0 == '1') {
@@ -754,7 +757,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 							sb.append("\\ggbtdlr" + jc + "{");
 						}
 
-					} else if (r == 0 && (verticalLinesJustEdges || c0 == '1')) {
+					} else if (r == 0
+							&& (verticalLinesJustEdges || c0 == '1')) {
 						sb.append("\\ggbtdll" + jc + "{");
 					} else if (r == rows - 1) {
 
@@ -859,32 +863,28 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					String numStr = kernel.format(num * 100, tpl);
 
 					text1 = tpl.padZerosAfterDecimalPoint(numStr,
-							justification1 == '%',
-							kernel.getPrintDecimals(), "%");
+							justification1 == '%', kernel.getPrintDecimals(),
+							"%");
 				}
 
 			}
-
 
 			if (" ".equals(text1) || "".equals(text1)) {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
 			}
 
 			// make sure latex isn't wrapped in \text{}
-			if (((geo1 instanceof TextProperties && !((TextProperties) geo1)
-					.isLaTeXTextCommand()) && (!(geo1 instanceof GeoText) || !((GeoText) geo1)
-					.isLaTeX()))
+			if (((geo1 instanceof TextProperties
+					&& !((TextProperties) geo1).isLaTeXTextCommand())
+					&& (!(geo1 instanceof GeoText)
+							|| !((GeoText) geo1).isLaTeX()))
 
 					// check for "raw" LaTeX
 					// eg TableText[{"\frac{2}{3}","2","3"},{"4","5","6"}]
-					&& text1.indexOf(" ") > -1
-					&& text1.indexOf("^") == -1
-					&& text1.indexOf("{") == -1
-					&& text1.indexOf("}") == -1
-					&& text1.indexOf("+") == -1
-					&& text1.indexOf("-") == -1
-					&& text1.indexOf("=") == -1
-					&& text1.indexOf("\\") == -1
+					&& text1.indexOf(" ") > -1 && text1.indexOf("^") == -1
+					&& text1.indexOf("{") == -1 && text1.indexOf("}") == -1
+					&& text1.indexOf("+") == -1 && text1.indexOf("-") == -1
+					&& text1.indexOf("=") == -1 && text1.indexOf("\\") == -1
 
 			) {
 
@@ -912,7 +912,5 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

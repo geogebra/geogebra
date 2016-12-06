@@ -46,7 +46,8 @@ public class AlgoExponential extends AlgoDistribution {
 			double param = a.getDouble();
 			double val = b.getDouble();
 			try {
-				ExponentialDistribution dist = getExponentialDistribution(param);
+				ExponentialDistribution dist = getExponentialDistribution(
+						param);
 				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
 
 			} catch (Exception e) {

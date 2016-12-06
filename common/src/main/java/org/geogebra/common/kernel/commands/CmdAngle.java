@@ -21,10 +21,10 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Angle[ number ] Angle[ <GeoPolygon> ] Angle[ <GeoConic> ] Angle[ <GeoVector>
- * ] Angle[ <GeoPoint> ] Angle[ <GeoVector>, <GeoVector> ] Angle[ <GeoLine>,
- * <GeoLine> ] Angle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] Angle[ <GeoPoint>,
- * <GeoPoint>, <Number> ]
+ * Angle[ number ] Angle[ <GeoPolygon> ] Angle[ <GeoConic> ] Angle[
+ * <GeoVector> ] Angle[ <GeoPoint> ] Angle[ <GeoVector>, <GeoVector> ] Angle[
+ * <GeoLine>, <GeoLine> ] Angle[ <GeoPoint>, <GeoPoint>, <GeoPoint> ] Angle[
+ * <GeoPoint>, <GeoPoint>, <Number> ]
  */
 public class CmdAngle extends CommandProcessor {
 
@@ -103,8 +103,8 @@ public class CmdAngle extends CommandProcessor {
 			// angle from number
 			else if (arg[0].isGeoNumeric()) {
 
-				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons,
-						c.getLabel(), (GeoNumeric) arg[0]);
+				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, c.getLabel(),
+						(GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getAngle() };
 				return ret;
@@ -210,8 +210,8 @@ public class CmdAngle extends CommandProcessor {
 		// angle between three points
 		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
-			return angle(c.getLabel(), (GeoPointND) arg[0],
-					(GeoPointND) arg[1], (GeoPointND) arg[2]);
+			return angle(c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
+					(GeoPointND) arg[2]);
 		}
 
 		// fixed angle
@@ -271,8 +271,8 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angle between lines
 	 */
 	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h) {
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoLine) g,
-				(GeoLine) h) };
+		GeoElement[] ret = {
+				getAlgoDispatcher().Angle(label, (GeoLine) g, (GeoLine) h) };
 		return ret;
 	}
 

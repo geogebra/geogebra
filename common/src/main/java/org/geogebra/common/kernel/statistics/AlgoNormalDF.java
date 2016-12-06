@@ -138,6 +138,4 @@ public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	
-
 }

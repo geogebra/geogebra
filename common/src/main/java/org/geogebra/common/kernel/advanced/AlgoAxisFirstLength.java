@@ -93,5 +93,4 @@ public class AlgoAxisFirstLength extends AlgoElement {
 
 	}
 
-	
 }

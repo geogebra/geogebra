@@ -12,8 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * @author matthieu
  *
  */
-public class AlgoConeInfinitePointVectorNumber extends
-		AlgoQuadricPointVectorNumber {
+public class AlgoConeInfinitePointVectorNumber
+		extends AlgoQuadricPointVectorNumber {
 
 	/**
 	 * @param c
@@ -29,7 +29,8 @@ public class AlgoConeInfinitePointVectorNumber extends
 	 */
 	public AlgoConeInfinitePointVectorNumber(Construction c, String label,
 			GeoPointND origin, GeoVectorND direction, NumberValue angle) {
-		super(c, label, origin, direction, angle, new AlgoQuadricComputerCone());
+		super(c, label, origin, direction, angle,
+				new AlgoQuadricComputerCone());
 	}
 
 	@Override

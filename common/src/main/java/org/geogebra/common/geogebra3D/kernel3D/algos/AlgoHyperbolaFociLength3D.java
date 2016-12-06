@@ -55,18 +55,18 @@ public class AlgoHyperbolaFociLength3D extends AlgoConicFociLength3D {
 		// direction is plane
 		if (orientation instanceof GeoCoordSys2D) {
 			return getLoc().getPlain(
-							conic.isEllipse() || conic.isCircle() ? "EllipseWithFociABandFirstAxisLengthCParallelToD"
-									:
-					"HyperbolaWithFociABandFirstAxisLengthCParallelToD",
+					conic.isEllipse() || conic.isCircle()
+							? "EllipseWithFociABandFirstAxisLengthCParallelToD"
+							: "HyperbolaWithFociABandFirstAxisLengthCParallelToD",
 					A.getLabel(tpl), B.getLabel(tpl),
 					a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
 		}
 
 		// direction is line
 		return getLoc().getPlain(
-						conic.isEllipse() || conic.isCircle() ? "EllipseWithFociABandFirstAxisLengthCPerpendicularToD"
-								:
-				"HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD",
+				conic.isEllipse() || conic.isCircle()
+						? "EllipseWithFociABandFirstAxisLengthCPerpendicularToD"
+						: "HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD",
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
 	}

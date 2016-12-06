@@ -37,7 +37,6 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		update();
 	}
 
-
 	@Override
 	public void compute() {
 
@@ -52,18 +51,18 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		if (Kernel.isZero(coeffs.getW())) {
 			enx = new ExpressionNode(kernel, 0);
 			for (int i = 0; i < curve.getDimension(); i++) {
-				enx = enx.plus(new ExpressionNode(kernel, new MyDouble(kernel,
-						coeffs.get(i + 1)), Operation.MULTIPLY, curve.getFun(i)
-						.getExpression()));
+				enx = enx.plus(new ExpressionNode(kernel,
+						new MyDouble(kernel, coeffs.get(i + 1)),
+						Operation.MULTIPLY, curve.getFun(i).getExpression()));
 			}
 
 		} else {
 			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
 			enx = new ExpressionNode(kernel, 1);
 			for (int i = 0; i < curve.getDimension(); i++) {
-				enx = enx.plus(new ExpressionNode(kernel, new MyDouble(kernel,
-						coeffs.get(i + 1) / coeffs.getW()), Operation.MULTIPLY,
-						curve.getFun(i).getExpression()));
+				enx = enx.plus(new ExpressionNode(kernel,
+						new MyDouble(kernel, coeffs.get(i + 1) / coeffs.getW()),
+						Operation.MULTIPLY, curve.getFun(i).getExpression()));
 			}
 
 		}

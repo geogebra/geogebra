@@ -19,37 +19,42 @@ package org.apache.commons.math.linear;
 
 import org.apache.commons.math.MathRuntimeException;
 
-
-
 /**
- * Thrown when a system attempts an operation on a matrix, and
- * that matrix does not satisfy the preconditions for the
- * aforementioned operation.
- * @version $Revision: 746578 $ $Date: 2009-02-21 15:01:14 -0500 (Sat, 21 Feb 2009) $
+ * Thrown when a system attempts an operation on a matrix, and that matrix does
+ * not satisfy the preconditions for the aforementioned operation.
+ * 
+ * @version $Revision: 746578 $ $Date: 2009-02-21 15:01:14 -0500 (Sat, 21 Feb
+ *          2009) $
  */
 public class InvalidMatrixException extends MathRuntimeException {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = 1135533765052675495L;
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = 1135533765052675495L;
 
-    /**
-     * Construct an exception with the given message.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 2.0
-     */
-    public InvalidMatrixException(final String pattern, final Object ... arguments) {
-        super(pattern, arguments);
-    }
+	/**
+	 * Construct an exception with the given message.
+	 * 
+	 * @param pattern
+	 *            format specifier
+	 * @param arguments
+	 *            format arguments
+	 * @since 2.0
+	 */
+	public InvalidMatrixException(final String pattern,
+			final Object... arguments) {
+		super(pattern, arguments);
+	}
 
-    /**
-     * Construct an exception with the given message.
-     * @param cause the exception or error that caused this exception
-     * to be thrown.
-     * @since 2.0
-     */
-    public InvalidMatrixException(final Throwable cause) {
-        super(cause);
-    }
+	/**
+	 * Construct an exception with the given message.
+	 * 
+	 * @param cause
+	 *            the exception or error that caused this exception to be
+	 *            thrown.
+	 * @since 2.0
+	 */
+	public InvalidMatrixException(final Throwable cause) {
+		super(cause);
+	}
 
 }

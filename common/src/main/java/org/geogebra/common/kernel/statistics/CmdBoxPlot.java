@@ -74,7 +74,8 @@ public class CmdBoxPlot extends CommandProcessor {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoList) arg[2], (GeoList) arg[3], (GeoBoolean) arg[4]);
+						(GeoList) arg[2], (GeoList) arg[3],
+						(GeoBoolean) arg[4]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;

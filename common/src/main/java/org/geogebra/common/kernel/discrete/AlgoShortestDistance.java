@@ -216,5 +216,4 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		}
 	}
 
-	
 }

@@ -25,43 +25,44 @@ import org.apache.commons.collections15.Predicate;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:24 $
  * @since Commons Collections 3.0
  */
-public final class TruePredicate <T> implements Predicate<T> {
+public final class TruePredicate<T> implements Predicate<T> {
 
-    /**
-     * Serial version UID
-     */
-    static final long serialVersionUID = 3374767158756189740L;
+	/**
+	 * Serial version UID
+	 */
+	static final long serialVersionUID = 3374767158756189740L;
 
-    /**
-     * Singleton predicate instance
-     */
-    public static final Predicate INSTANCE = new TruePredicate();
+	/**
+	 * Singleton predicate instance
+	 */
+	public static final Predicate INSTANCE = new TruePredicate();
 
-    /**
-     * Factory returning the singleton instance.
-     *
-     * @return the singleton instance
-     * @since Commons Collections 3.1
-     */
-    public static <T> Predicate<T> getInstance() {
-        return INSTANCE;
-    }
+	/**
+	 * Factory returning the singleton instance.
+	 *
+	 * @return the singleton instance
+	 * @since Commons Collections 3.1
+	 */
+	public static <T> Predicate<T> getInstance() {
+		return INSTANCE;
+	}
 
-    /**
-     * Restricted constructor.
-     */
-    private TruePredicate() {
-        super();
-    }
+	/**
+	 * Restricted constructor.
+	 */
+	private TruePredicate() {
+		super();
+	}
 
-    /**
-     * Evaluates the predicate returning true always.
-     *
-     * @param object the input object
-     * @return true always
-     */
-    public boolean evaluate(T object) {
-        return true;
-    }
+	/**
+	 * Evaluates the predicate returning true always.
+	 *
+	 * @param object
+	 *            the input object
+	 * @return true always
+	 */
+	public boolean evaluate(T object) {
+		return true;
+	}
 
 }

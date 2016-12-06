@@ -51,8 +51,8 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 		}
 
 		// check number
-		double r = getComputer().getNumber(
-				((NumberValue) getNumber()).getDouble());
+		double r = getComputer()
+				.getNumber(((NumberValue) getNumber()).getDouble());
 		if (Double.isNaN(r)) {
 			getQuadric().setUndefined();
 			return;

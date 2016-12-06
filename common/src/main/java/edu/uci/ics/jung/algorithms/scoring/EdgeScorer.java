@@ -11,18 +11,19 @@
  */
 package edu.uci.ics.jung.algorithms.scoring;
 
-
 /**
  * An interface for algorithms that assign scores to edges.
  *
- * @param <E> the edge type
- * @param <S> the score type
+ * @param <E>
+ *            the edge type
+ * @param <S>
+ *            the score type
  */
-public interface EdgeScorer<E, S>
-{
-    /**
-     * Returns the algorithm's score for this edge.
-     * @return the algorithm's score for this edge
-     */
-    public S getEdgeScore(E e);
+public interface EdgeScorer<E, S> {
+	/**
+	 * Returns the algorithm's score for this edge.
+	 * 
+	 * @return the algorithm's score for this edge
+	 */
+	public S getEdgeScore(E e);
 }

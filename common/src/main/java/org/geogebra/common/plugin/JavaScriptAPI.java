@@ -86,7 +86,6 @@ public interface JavaScriptAPI {
 	 */
 	public void debug(String string);
 
-
 	/**
 	 * Turns showing of error dialogs on (true) or (off). Note: this is
 	 * especially useful together with evalCommand().
@@ -750,7 +749,7 @@ public interface JavaScriptAPI {
 	public void setPerspective(String s);
 
 	public int getCASObjectNumber();
-	
+
 	public float getExerciseFraction();
 
 	public String getVersion();

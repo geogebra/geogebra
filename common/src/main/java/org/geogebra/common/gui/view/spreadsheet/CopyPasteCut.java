@@ -55,7 +55,8 @@ public abstract class CopyPasteCut {
 
 	private SpreadsheetViewInterface getView() {
 		if (view == null) {
-			view = (SpreadsheetViewInterface) app.getGuiManager().getSpreadsheetView();
+			view = (SpreadsheetViewInterface) app.getGuiManager()
+					.getSpreadsheetView();
 		}
 
 		return view;
@@ -88,7 +89,7 @@ public abstract class CopyPasteCut {
 	 */
 	abstract public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy);
-	
+
 	/**
 	 * Copies the contents of the cell block defined by upper-left corner
 	 * (column1, row1) and lower left corner (column2, row2) into the system
@@ -139,9 +140,6 @@ public abstract class CopyPasteCut {
 	 * @return
 	 */
 	abstract public boolean paste(int column1, int row1, int column2, int row2);
-
-
-
 
 	/**
 	 * Copies geos from the field cellBufferGeo and then pastes (renames) them
@@ -276,8 +274,10 @@ public abstract class CopyPasteCut {
 							&& x + (x3 - x1) >= x1 && y + (y3 - y1) <= y2
 							&& y + (y3 - y1) >= y1;
 
-					// Application.debug("x1="+x1+" x2="+x2+" x3="+x3+" x4="+x4+" x="+x+" ix="+ix);
-					// Application.debug("y1="+y1+" y2="+y2+" y3="+y3+" y4="+y4+" y="+y+" iy="+iy);
+					// Application.debug("x1="+x1+" x2="+x2+" x3="+x3+"
+					// x4="+x4+" x="+x+" ix="+ix);
+					// Application.debug("y1="+y1+" y2="+y2+" y3="+y3+"
+					// y4="+y4+" y="+y+" iy="+iy);
 
 					if (ix + column1 <= maxColumn && iy + row1 <= maxRow// ) {
 																		// //
@@ -446,7 +446,8 @@ public abstract class CopyPasteCut {
 				if (tableModel.getColumnCount() < column1 + data[iy].length) {
 					tableModel.setColumnCount(column1 + data[iy].length);
 				}
-				for (int column = column1; column < column1 + data[iy].length; ++column) {
+				for (int column = column1; column < column1
+						+ data[iy].length; ++column) {
 					if (column < 0 || column > maxColumn)
 						continue;
 					int ix = column - column1;
@@ -474,7 +475,7 @@ public abstract class CopyPasteCut {
 										column, row, true);
 						// values2[iy][ix].setAuxiliaryObject(values2[iy][ix].isGeoNumeric());
 						values2[iy][ix].setAuxiliaryObject(true);
-			
+
 					}
 				}
 			}
@@ -501,16 +502,16 @@ public abstract class CopyPasteCut {
 
 	public boolean delete(int column1, int row1, int column2, int row2) {
 
-		return delete(app, column1, row1, column2, row2, getTable()
-				.getSelectionType());
+		return delete(app, column1, row1, column2, row2,
+				getTable().getSelectionType());
 	}
 
 	public void deleteAll() {
 		delete(0, 0, tableModel.getColumnCount(), tableModel.getRowCount());
 	}
 
-	public static boolean delete(App app, int column1,
-			int row1, int column2, int row2, int selectionType) {
+	public static boolean delete(App app, int column1, int row1, int column2,
+			int row2, int selectionType) {
 		boolean succ = false;
 		TreeSet<GeoElement> toRemove = new TreeSet<GeoElement>();
 		for (int column = column1; column <= column2; ++column) {
@@ -523,7 +524,7 @@ public abstract class CopyPasteCut {
 		}
 		app.getKernel().setSpreadsheetBatchRunning(true);
 		int size = toRemove.size();
-		for(int i =0; i < size; i++){
+		for (int i = 0; i < size; i++) {
 			toRemove.last().removeOrSetUndefinedIfHasFixedDescendent();
 			succ = true;
 			toRemove.remove(toRemove.last());
@@ -534,11 +535,12 @@ public abstract class CopyPasteCut {
 		// TODO add SelectAll
 		if (selectionType == MyTable.COLUMN_SELECT) {
 			app.getTraceManager().handleColumnDelete(column1, column2);
-		}else{
-			app.getTraceManager().handleColumnDelete(column1, row1, column2, row2);
+		} else {
+			app.getTraceManager().handleColumnDelete(column1, row1, column2,
+					row2);
 		}
-		
-		if (succ){
+
+		if (succ) {
 			app.getKernel().notifyRepaint();
 		}
 
@@ -594,6 +596,5 @@ public abstract class CopyPasteCut {
 	}
 
 	private static Comparator comparator;
-
 
 }

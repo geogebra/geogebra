@@ -31,8 +31,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * 
  * @author Markus
  */
-public abstract class AlgoAnglePointsND extends AlgoAngle implements
-		DrawInformationAlgo {
+public abstract class AlgoAnglePointsND extends AlgoAngle
+		implements DrawInformationAlgo {
 
 	protected GeoPointND leg1N, vertexN, leg2N; // input
 	protected GeoAngle angle; // output
@@ -233,10 +233,11 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		secondVecScreen[0] -= vertexScreen[0];
 		secondVecScreen[1] -= vertexScreen[1];
 
-		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(firstVecScreen[0]
-				* firstVecScreen[0] + firstVecScreen[1] * firstVecScreen[1],
-				secondVecScreen[0] * secondVecScreen[0] + secondVecScreen[1]
-						* secondVecScreen[1])));
+		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(
+				firstVecScreen[0] * firstVecScreen[0]
+						+ firstVecScreen[1] * firstVecScreen[1],
+				secondVecScreen[0] * secondVecScreen[0]
+						+ secondVecScreen[1] * secondVecScreen[1])));
 		return true;
 
 	}
@@ -250,7 +251,5 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 
 		return true;
 	}
-
-	
 
 }

@@ -65,8 +65,8 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 				polarOrigin = c.getCoordSys().getPoint(0,
 						-polarCoords[2] / polarCoords[1]);
 			} else {
-				polarOrigin = c.getCoordSys().getPoint(
-						-polarCoords[2] / polarCoords[0], 0);
+				polarOrigin = c.getCoordSys()
+						.getPoint(-polarCoords[2] / polarCoords[0], 0);
 			}
 		}
 
@@ -90,7 +90,8 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 			return true;
 		}
 
-		coords2D = c.getCoordSys().getNormalProjection(P.getInhomCoordsInD3())[1];
+		coords2D = c.getCoordSys()
+				.getNormalProjection(P.getInhomCoordsInD3())[1];
 		if (!Kernel.isZero(coords2D.getZ())) {
 			return true;
 		}
@@ -113,7 +114,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 		// Too low precision causes tangent not touching the conic GGB-1018
 		return c.isIntersectionPointIncident(coords2D,
 				Kernel.STANDARD_PRECISION); // ||
-																				// P.getIncidenceList().contains(c);
+											// P.getIncidenceList().contains(c);
 	}
 
 	@Override

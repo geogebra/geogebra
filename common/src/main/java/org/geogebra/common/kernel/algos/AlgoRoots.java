@@ -89,8 +89,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	}// Constructor TYPE_ROOTS
 
-	public AlgoRoots(Construction cons, String[] labels, GeoFunction function, EuclidianViewInterfaceCommon view) {
-		this(cons, labels, function, view.getXminObject(), view.getXmaxObject());
+	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
+			EuclidianViewInterfaceCommon view) {
+		this(cons, labels, function, view.getXminObject(),
+				view.getXmaxObject());
 
 		// updates the area that is visible
 		cons.registerEuclidianViewCE(this);
@@ -173,7 +175,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	@Override
 	public final void compute() {
-		if(intervalDefinedByEV){
+		if (intervalDefinedByEV) {
 			updateInterval();
 		}
 
@@ -199,8 +201,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				compute2(diff);
 			} else {
 				compute2(f0);
-			}// if type
-		}// if ok input
+			} // if type
+		} // if ok input
 	}// compute()
 
 	@Override
@@ -253,7 +255,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				Log.debug("We have probably lost some roots...");
 		} catch (Exception e) {
 			Log.debug("Exception in compute() " + e.toString());
-		}// try-catch
+		} // try-catch
 
 		// }//if
 
@@ -261,7 +263,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			setPoints(new double[1], 0); // 0 flags no root=>undefined
 		} else {
 			setPoints(roots, roots.length);
-		}// if
+		} // if
 	}// compute()
 
 	/**
@@ -284,16 +286,17 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			x = l + i * deltax;
 			y[i] = f.evaluate(x);
 			// if left endpoint is root by pure luck...
-			if ((Math.abs(y[i]) < Kernel.MIN_PRECISION) && (signChanged(f, x))) { // if
-																					// left
-																					// endpoint
-																					// is
-																					// root
-																					// by
-																					// pure
-																					// luck...
+			if ((Math.abs(y[i]) < Kernel.MIN_PRECISION)
+					&& (signChanged(f, x))) { // if
+												// left
+												// endpoint
+												// is
+												// root
+												// by
+												// pure
+												// luck...
 				xlist.add(x);
-			}// if
+			} // if
 			if (i > 0) {
 				if (((y[i - 1] < 0.0d) && (y[i] > 0.0d)) || // or just
 															// y[i-1]*y[i]<0...
@@ -310,15 +313,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 																				// Apache
 																				// lib...
 						xlist.add(xval);
-					}// if check
-				}// if possible root
-			}// if both ends of interval
-		}// for all endpoints
+					} // if check
+				} // if possible root
+			} // if both ends of interval
+		} // for all endpoints
 		if (xlist.size() > 0) {
 			double[] res = new double[xlist.size()];
 			for (int i = 0; i < xlist.size(); i++) {
 				res[i] = xlist.get(i);
-			}// for all x in xlist
+			} // for all x in xlist
 			removeDuplicates(res); // new 08.03.11 to avoid (1,0.00000x) and
 									// (1,-0.00000x) ...
 			return res;
@@ -356,8 +359,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 						borders[1]);
 			} catch (Exception ex) {
 				root = Double.NaN;
-			}// try-catch
-		}// try-catch
+			} // try-catch
+		} // try-catch
 
 		return root;
 	}// calcSingleRoot(f,l,r)
@@ -447,7 +450,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	// for (int i = 0; i < n; i++) {
 	// System.out.println("Label: "
 	// + gpts[i].getLabel(StringTemplate.defaultTemplate)
-	// + "     pt[" + i + "]: (" + gpts[i].x + "," + gpts[i]
+	// + " pt[" + i + "]: (" + gpts[i].x + "," + gpts[i]
 	// + ")");
 	// }// for
 	// } else {
@@ -463,14 +466,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	// }
 	// // if near enough...
 	// return " ****************** WRONG *******************\n" + " ERROR: "
-	// + Math.abs(value - answer) + "  for: "
+	// + Math.abs(value - answer) + " for: "
 	// + geo.getNameDescription() + "\n"
 	// + " ********************************************\n";
 	// }// test(label,answer)
 
 	// */ //--- SNIP end ---------------------------------------
-
-	
 
 	/*
 	 * @Override protected void updateDependentGeos() { // update dependent
@@ -482,64 +483,65 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		return true;
 	}
 
-    @Override
-    protected void initPoints(int number) {
-        super.initPoints(number);
+	@Override
+	protected void initPoints(int number) {
+		super.initPoints(number);
 
-        // parentAlgorithm is set to null in some cases (see below)
-        for (int i = 0; i < points.length; i++) {
-            points[i].setParentAlgorithm(this);
-        }
+		// parentAlgorithm is set to null in some cases (see below)
+		for (int i = 0; i < points.length; i++) {
+			points[i].setParentAlgorithm(this);
+		}
 
-        if (points.length > number) {
+		if (points.length > number) {
 
-            // no visible points left
-            if (number == 0) {
-                ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
-                for (int i = 0; i < points.length; i++) {
-                    if (!points[i].getAlgoUpdateSet().isEmpty()) {
-                        // store points that have dependent objects
-                        temp.add(points[i]);
-                    }
-                }
+			// no visible points left
+			if (number == 0) {
+				ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
+				for (int i = 0; i < points.length; i++) {
+					if (!points[i].getAlgoUpdateSet().isEmpty()) {
+						// store points that have dependent objects
+						temp.add(points[i]);
+					}
+				}
 
-                // at least one point with dependencies was found
-                if (temp.size() > 0) {
-                    // delete all other points
-                    for (int i = 0; i < points.length; i++) {
-                        if (!temp.contains(points[i])) {
-                            points[i].setParentAlgorithm(null);
-                            points[i].remove();
-                        }
-                    }
-                    // do not reset points -> position of the not removed points is not changed
-                    return;
-                }
-            }
+				// at least one point with dependencies was found
+				if (temp.size() > 0) {
+					// delete all other points
+					for (int i = 0; i < points.length; i++) {
+						if (!temp.contains(points[i])) {
+							points[i].setParentAlgorithm(null);
+							points[i].remove();
+						}
+					}
+					// do not reset points -> position of the not removed points
+					// is not changed
+					return;
+				}
+			}
 
 			for (int i = Math.max(number, 1); i < points.length; i++) {
-				if(!points[i].getAlgoUpdateSet().isEmpty()){
+				if (!points[i].getAlgoUpdateSet().isEmpty()) {
 					points[i].setCoords(0, 0, 1); // init as defined
-				} else{
+				} else {
 					points[i].setParentAlgorithm(null);
 					points[i].remove();
 				}
 			}
 
-            super.setOutput(points);
-        }
-    }
+			super.setOutput(points);
+		}
+	}
 
-    @Override
-    protected void removePoint(int pos) {
-        points[pos].doRemove();
+	@Override
+	protected void removePoint(int pos) {
+		points[pos].doRemove();
 
-        for (GeoPoint point : points) {
-            if (point.isLabelSet()) {
-                return;
-            }
-        }
+		for (GeoPoint point : points) {
+			if (point.isLabelSet()) {
+				return;
+			}
+		}
 
-        super.remove();
-    }
+		super.remove();
+	}
 }// class AlgoRoots

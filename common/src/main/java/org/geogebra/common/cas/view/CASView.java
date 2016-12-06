@@ -81,8 +81,8 @@ public abstract class CASView implements Editing, SetLabels {
 
 		// if we don't have an outputVE, we let GeoCasCell deal with it :)
 		if (outVE == null) {
-			return getConsoleTable().getGeoCasCell(n).getOutput(
-					StringTemplate.numericDefault);
+			return getConsoleTable().getGeoCasCell(n)
+					.getOutput(StringTemplate.numericDefault);
 		}
 		if (outVE.unwrap() instanceof GeoElement) {
 			return ((GeoElement) outVE.unwrap())
@@ -100,8 +100,8 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @return input string in the n-th row of this CAS view
 	 */
 	public String getRowInputValue(int n) {
-		return getConsoleTable().getGeoCasCell(n).getInput(
-				StringTemplate.defaultTemplate);
+		return getConsoleTable().getGeoCasCell(n)
+				.getInput(StringTemplate.defaultTemplate);
 	}
 
 	/**
@@ -132,7 +132,7 @@ public abstract class CASView implements Editing, SetLabels {
 			return;
 
 		String command = EuclidianConstants.getModeTextSimple(mode); // e.g.
-																// "Derivative"
+		// "Derivative"
 		boolean backToEvaluate = true;
 		switch (mode) {
 		case EuclidianConstants.MODE_CAS_EVALUATE:
@@ -154,9 +154,8 @@ public abstract class CASView implements Editing, SetLabels {
 		case EuclidianConstants.MODE_DELETE:
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
-			if (getApp().getGuiManager() != null
-					&& getApp().getGuiManager().getActiveToolbarId() != this
-							.getViewID())
+			if (getApp().getGuiManager() != null && getApp().getGuiManager()
+					.getActiveToolbarId() != this.getViewID())
 				backToEvaluate = false;
 			boolean undo = deleteCasCells(getConsoleTable().getSelectedRows());
 			if (undo)
@@ -165,18 +164,15 @@ public abstract class CASView implements Editing, SetLabels {
 		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
-			if (getApp().getGuiManager() != null
-					&& getApp().getGuiManager().getActiveToolbarId() != this
-							.getViewID())
+			if (getApp().getGuiManager() != null && getApp().getGuiManager()
+					.getActiveToolbarId() != this.getViewID())
 				backToEvaluate = false;
 			if (getConsoleTable().getSelectedRows().length > 0) {
-				GeoCasCell cell = getConsoleTable().getGeoCasCell(
-						getConsoleTable().getSelectedRows()[0]);
+				GeoCasCell cell = getConsoleTable()
+						.getGeoCasCell(getConsoleTable().getSelectedRows()[0]);
 				if (cell != null && cell.getTwinGeo() instanceof GeoFunction) {
-					this.getApp()
-							.getDialogManager()
-							.showFunctionInspector(
-									(GeoFunction) cell.getTwinGeo());
+					this.getApp().getDialogManager().showFunctionInspector(
+							(GeoFunction) cell.getTwinGeo());
 				}
 			}
 			break;
@@ -189,7 +185,7 @@ public abstract class CASView implements Editing, SetLabels {
 			backToEvaluate = false;
 			// ignore other modes
 		}
-		if (backToEvaluate){
+		if (backToEvaluate) {
 			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,
 					ModeSetter.CAS_VIEW);
 			getApp().closePopups();
@@ -228,10 +224,8 @@ public abstract class CASView implements Editing, SetLabels {
 		int rows = getRowCount();
 		// add an empty one when we have no rows or last one is not empty or the
 		// last is in construction list
-		if (rows == 0
-				|| !isRowOutputEmpty(rows - 1)
-				|| getConsoleTable().getGeoCasCell(rows - 1)
-						.isInConstructionList()) {
+		if (rows == 0 || !isRowOutputEmpty(rows - 1) || getConsoleTable()
+				.getGeoCasCell(rows - 1).isInConstructionList()) {
 			GeoCasCell casCell = new GeoCasCell(kernel.getConstruction());
 			getConsoleTable().insertRow(rows, casCell, false);
 		}
@@ -319,7 +313,7 @@ public abstract class CASView implements Editing, SetLabels {
 	public void processInput(String ggbcmd) {
 		getApp().getCommandDictionaryCAS(); // #5456 make sure we have the right
 											// dict
-										// before evaluating
+		// before evaluating
 		getInputHandler().processCurrentRow(ggbcmd);
 		getApp().storeUndoInfo();
 	}
@@ -348,8 +342,8 @@ public abstract class CASView implements Editing, SetLabels {
 	 * @return string with replaced references
 	 */
 	public String resolveCASrowReferences(String inputExp, int row) {
-		String result = getInputHandler().resolveCASrowReferences(inputExp,
-				row, GeoCasCell.ROW_REFERENCE_STATIC, false);
+		String result = getInputHandler().resolveCASrowReferences(inputExp, row,
+				GeoCasCell.ROW_REFERENCE_STATIC, false);
 		return getInputHandler().resolveCASrowReferences(result, row,
 				GeoCasCell.ROW_REFERENCE_DYNAMIC, false);
 	}
@@ -511,6 +505,7 @@ public abstract class CASView implements Editing, SetLabels {
 		// TODO Auto-generated method stub
 
 	}
+
 	/**
 	 * @param i
 	 *            cell index

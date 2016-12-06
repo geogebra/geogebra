@@ -87,9 +87,9 @@ public class NDGDetector {
 		}
 
 		Log.debug("Trying to detect polynomial " + p);
-		
+
 		// CHECKING FORMULA WITH QUANTITIES
-		
+
 		if (statement.getParentAlgorithm() instanceof AlgoDependentBoolean) {
 			// list of segments -> variables
 			ArrayList<Entry<GeoElement, Variable>> varSubstListOfSegs = ((AlgoDependentBoolean) statement
@@ -211,8 +211,9 @@ public class NDGDetector {
 			Variable[] fv3 = ((SymbolicParametersBotanaAlgo) points[2])
 					.getBotanaVars(points[2]);
 			// Creating the polynomial for collinearity:
-			Polynomial coll = Polynomial.collinear(fv1[0], fv1[1], fv2[0],
-					fv2[1], fv3[0], fv3[1]).substitute(substitutions);
+			Polynomial coll = Polynomial
+					.collinear(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0], fv3[1])
+					.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, coll)) {
 				Log.debug(p + " means collinearity for " + triplet);
 				ndgc = new NDGCondition();
@@ -244,8 +245,9 @@ public class NDGDetector {
 			Variable[] fv2 = ((SymbolicParametersBotanaAlgo) points[1])
 					.getBotanaVars(points[1]);
 			// Creating the polynomial for equality:
-			Polynomial eq = Polynomial.sqrDistance(fv1[0], fv1[1], fv2[0],
-					fv2[1]).substitute(substitutions);
+			Polynomial eq = Polynomial
+					.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1])
+					.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, eq)) {
 				Log.debug(p + " means equality for " + pair);
 				ndgc = new NDGCondition();
@@ -302,7 +304,7 @@ public class NDGDetector {
 			}
 			Polynomial xeq = (new Polynomial(coords[0])
 					.subtract(new Polynomial(coords[1])))
-					.substitute(substitutions);
+							.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, xeq)) {
 				Log.debug(p + " means x-equality for " + pair);
 				ndgc = new NDGCondition();
@@ -334,7 +336,7 @@ public class NDGDetector {
 			}
 			Polynomial yeq = (new Polynomial(coords[0])
 					.subtract(new Polynomial(coords[1])))
-					.substitute(substitutions);
+							.substitute(substitutions);
 			if (Polynomial.areAssociates1(p, yeq)) {
 				Log.debug(p + " means y-equality for " + pair);
 				ndgc = new NDGCondition();
@@ -386,8 +388,9 @@ public class NDGDetector {
 				Variable[] fv4 = ((SymbolicParametersBotanaAlgo) points[3])
 						.getBotanaVars(points[1]);
 				// Creating the polynomial for perpendicularity:
-				Polynomial eq = Polynomial.perpendicular(fv1[0], fv1[1],
-						fv2[0], fv2[1], fv3[0], fv3[1], fv4[0], fv4[1])
+				Polynomial eq = Polynomial
+						.perpendicular(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0],
+								fv3[1], fv4[0], fv4[1])
 						.substitute(substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
 					Log.debug(p + " means perpendicularity for " + pair1
@@ -400,9 +403,10 @@ public class NDGDetector {
 					return ndgc;
 				}
 				// Creating the polynomial for parallelism:
-				eq = Polynomial.parallel(fv1[0], fv1[1], fv2[0], fv2[1],
-						fv3[0], fv3[1], fv4[0], fv4[1]).substitute(
-						substitutions);
+				eq = Polynomial
+						.parallel(fv1[0], fv1[1], fv2[0], fv2[1], fv3[0],
+								fv3[1], fv4[0], fv4[1])
+						.substitute(substitutions);
 				if (Polynomial.areAssociates1(p, eq)) {
 					Log.debug(p + " means parallelism for " + pair1 + " and "
 							+ pair2);

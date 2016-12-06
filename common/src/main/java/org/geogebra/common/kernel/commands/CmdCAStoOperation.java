@@ -30,8 +30,8 @@ public class CmdCAStoOperation extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c, EvalInfo info) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c, EvalInfo info)
+			throws MyError, CircularDefinitionException {
 		ExpressionNode en = null;
 		GeoElement[] args = resArgs(c);
 		switch (op) {

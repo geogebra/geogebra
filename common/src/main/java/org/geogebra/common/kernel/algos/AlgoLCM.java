@@ -40,8 +40,7 @@ public class AlgoLCM extends AlgoTwoNumFunction {
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 
-			if (a.getDouble() > Long.MAX_VALUE
-					|| b.getDouble() > Long.MAX_VALUE
+			if (a.getDouble() > Long.MAX_VALUE || b.getDouble() > Long.MAX_VALUE
 					|| a.getDouble() < -Long.MAX_VALUE
 					|| b.getDouble() < -Long.MAX_VALUE) {
 				num.setUndefined();

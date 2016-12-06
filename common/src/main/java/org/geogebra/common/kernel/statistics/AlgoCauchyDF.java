@@ -112,9 +112,8 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 
 		} else {
 
-			en = g.abs()
-					.divide(g.square().plus(en.subtract(x0).square())
-							.multiply(Math.PI));
+			en = g.abs().divide(g.square().plus(en.subtract(x0).square())
+					.multiply(Math.PI));
 
 			// old hack:
 			// command = "1/pi abs("+g+")/(("+g+")^2+(x-("+x0+"))^2)";
@@ -126,7 +125,5 @@ public class AlgoCauchyDF extends AlgoElement implements AlgoDistributionDF {
 		ret.setFunction(tempFun);
 
 	}
-
-	
 
 }

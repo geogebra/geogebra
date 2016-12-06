@@ -53,9 +53,8 @@ public class AlgoDivisorsSum extends AlgoElement {
 			if (sum) {
 				double prime = ((NumberValue) pair.get(0)).getDouble();
 				Log.debug(prime);
-				res = res
-						* Math.round((Math.pow(prime, exp + 1) - 1)
-								/ (prime - 1.0));
+				res = res * Math
+						.round((Math.pow(prime, exp + 1) - 1) / (prime - 1.0));
 			} else {
 				res = res * Math.round(exp + 1);
 			}
@@ -73,7 +72,5 @@ public class AlgoDivisorsSum extends AlgoElement {
 			return Commands.DivisorsSum;
 		return Commands.Divisors;
 	}
-
-	
 
 }

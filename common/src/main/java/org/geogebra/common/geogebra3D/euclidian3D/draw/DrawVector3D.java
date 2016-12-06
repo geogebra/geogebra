@@ -61,17 +61,17 @@ public class DrawVector3D extends DrawJoinPoints {
 	@SuppressWarnings("unchecked")
 	public DrawVector3D(EuclidianView3D view3D, ArrayList selectedPoints) {
 
-		super(view3D, selectedPoints, new GeoVector3D(view3D.getKernel()
-				.getConstruction()));
+		super(view3D, selectedPoints,
+				new GeoVector3D(view3D.getKernel().getConstruction()));
 
 	}
 
 	@Override
 	protected void setPreviewableCoords(GeoPointND firstPoint,
 			GeoPointND secondPoint) {
-		((GeoVector3D) getGeoElement()).setCoords(secondPoint
-				.getInhomCoordsInD3().sub(firstPoint.getInhomCoordsInD3())
-				.get());
+		((GeoVector3D) getGeoElement())
+				.setCoords(secondPoint.getInhomCoordsInD3()
+						.sub(firstPoint.getInhomCoordsInD3()).get());
 		try {
 			((GeoVector3D) getGeoElement()).setStartPoint(firstPoint);
 		} catch (CircularDefinitionException e) {

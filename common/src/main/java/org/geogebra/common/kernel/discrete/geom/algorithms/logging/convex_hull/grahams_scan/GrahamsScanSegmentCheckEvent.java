@@ -29,22 +29,22 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
  *
  * @author cyberpython
  */
-public class GrahamsScanSegmentCheckEvent extends LogEvent{
+public class GrahamsScanSegmentCheckEvent extends LogEvent {
 
-    private Segment2D s1;
-    private Segment2D s2;
+	private Segment2D s1;
+	private Segment2D s2;
 
-    public GrahamsScanSegmentCheckEvent(Segment2D s1, Segment2D s2){
-        this.s1 = s1;
-        this.s2 = s2;
-    }
+	public GrahamsScanSegmentCheckEvent(Segment2D s1, Segment2D s2) {
+		this.s1 = s1;
+		this.s2 = s2;
+	}
 
-    public Segment2D getSegment1(){
-        return this.s1;
-    }
+	public Segment2D getSegment1() {
+		return this.s1;
+	}
 
-    public Segment2D getSegment2(){
-        return this.s2;
-    }
+	public Segment2D getSegment2() {
+		return this.s2;
+	}
 
 }

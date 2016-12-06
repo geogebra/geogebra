@@ -80,5 +80,4 @@ public class AlgoTextToUnicode extends AlgoElement {
 		}
 	}
 
-	
 }

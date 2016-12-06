@@ -20,6 +20,7 @@ public class ScriptInputModel extends OptionsModel {
 		void setLanguageIndex(int index, String name);
 
 	}
+
 	private GeoElement geo;
 	private boolean global = false;
 	// private boolean javaScript = false;
@@ -37,8 +38,8 @@ public class ScriptInputModel extends OptionsModel {
 	 */
 	private boolean editOccurred = false;
 
-
-	public ScriptInputModel(App app, IScriptInputListener listener, boolean updateScript, boolean forceJavaScript) {
+	public ScriptInputModel(App app, IScriptInputListener listener,
+			boolean updateScript, boolean forceJavaScript) {
 		super(app);
 		this.listener = listener;
 		this.updateScript = updateScript;
@@ -87,11 +88,10 @@ public class ScriptInputModel extends OptionsModel {
 		handlingDocumentEventOff = currentHandlingDocumentEventOff;
 	}
 
-	public void processInput(String inputText, AsyncOperation<Boolean> callback) {
+	public void processInput(String inputText,
+			AsyncOperation<Boolean> callback) {
 		inputHandler.processInput(inputText, app.getErrorHandler(), callback);
 	}
-
-
 
 	// private void setJSMode(boolean flag){
 	// javaScript = flag;
@@ -165,7 +165,6 @@ public class ScriptInputModel extends OptionsModel {
 		}
 	}
 
-
 	public void handleDocumentEvent() {
 
 		if (handlingDocumentEventOff)
@@ -182,7 +181,7 @@ public class ScriptInputModel extends OptionsModel {
 	}
 
 	@Override
-	public boolean checkGeos(){
+	public boolean checkGeos() {
 		return getGeosLength() == 1;
 	}
 

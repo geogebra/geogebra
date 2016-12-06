@@ -209,8 +209,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdReducedRowEchelonForm(kernel);
 		case Determinant:
 			return new CmdDeterminant(kernel);
-			// case MatrixPlot:
-			// return new CmdMatrixPlot(kernel);
+		// case MatrixPlot:
+		// return new CmdMatrixPlot(kernel);
 		case Identity:
 			return new CmdIdentity(kernel);
 		case Centroid:

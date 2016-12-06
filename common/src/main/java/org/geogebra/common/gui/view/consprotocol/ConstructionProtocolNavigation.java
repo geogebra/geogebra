@@ -5,7 +5,7 @@ import org.geogebra.common.main.App;
 /**
  * Navigation buttons for the construction protocol
  */
-public abstract class ConstructionProtocolNavigation{
+public abstract class ConstructionProtocolNavigation {
 
 	/**
 	 * True if play button visible on navigation bar.
@@ -28,7 +28,9 @@ public abstract class ConstructionProtocolNavigation{
 
 	/**
 	 * Sets the visibility of the navigation bar.
-	 * @param visible if true, the navigation bar will be visible
+	 * 
+	 * @param visible
+	 *            if true, the navigation bar will be visible
 	 */
 	public abstract void setVisible(boolean visible);
 
@@ -40,8 +42,9 @@ public abstract class ConstructionProtocolNavigation{
 	}
 
 	/**
-	 * Returns delay between frames of automatic construction protocol
-	 * playing in seconds.
+	 * Returns delay between frames of automatic construction protocol playing
+	 * in seconds.
+	 * 
 	 * @return delay in seconds
 	 */
 	public double getPlayDelay() {
@@ -57,13 +60,17 @@ public abstract class ConstructionProtocolNavigation{
 
 	/**
 	 * Sets delay for the value given in parameter.
-	 * @param delay expected delay in seconds
+	 * 
+	 * @param delay
+	 *            expected delay in seconds
 	 */
 	public abstract void setPlayDelay(double delay);
-	
+
 	/**
 	 * Sets the construction protocol button visible or invisible.
-	 * @param flag if true, the construction protocol button will be visible
+	 * 
+	 * @param flag
+	 *            if true, the construction protocol button will be visible
 	 */
 	public abstract void setConsProtButtonVisible(boolean flag);
 
@@ -74,11 +81,12 @@ public abstract class ConstructionProtocolNavigation{
 
 	public void update() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
-	 * @param flag true to make play button visible
+	 * @param flag
+	 *            true to make play button visible
 	 */
 	public void setPlayButtonVisible(boolean flag) {
 		showPlayButton = flag;
@@ -95,7 +103,7 @@ public abstract class ConstructionProtocolNavigation{
 	 *            CP view
 	 */
 	abstract public void register(ConstructionProtocolView cpv);
-	
+
 	/**
 	 * set button to "play" aspect
 	 */

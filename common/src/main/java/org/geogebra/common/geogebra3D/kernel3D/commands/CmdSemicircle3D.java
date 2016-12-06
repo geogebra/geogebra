@@ -29,13 +29,13 @@ public class CmdSemicircle3D extends CmdSemicircle {
 		GeoDirectionND orientation = CommandProcessor3D
 				.getCurrentViewOrientation(kernelA, app);
 		if (orientation != null) {
-			return (GeoElement) kernelA.getManager3D().Semicircle3D(label, A,
-					B, orientation);
+			return (GeoElement) kernelA.getManager3D().Semicircle3D(label, A, B,
+					orientation);
 		}
 
 		if (A.isGeoElement3D() || B.isGeoElement3D()) {
-			return (GeoElement) kernelA.getManager3D().Semicircle3D(label, A,
-					B, kernelA.getXOYPlane());
+			return (GeoElement) kernelA.getManager3D().Semicircle3D(label, A, B,
+					kernelA.getXOYPlane());
 		}
 
 		return super.semicircle(label, A, B);

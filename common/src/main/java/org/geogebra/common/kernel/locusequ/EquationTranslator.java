@@ -19,54 +19,67 @@ import org.geogebra.common.kernel.locusequ.arith.EquationExpression;
  */
 public abstract class EquationTranslator<T> {
 
-    private Map<EquationExpression, T> container;
-    private EquationSystem system;
-    
-    protected EquationTranslator() {
-        this.container = new HashMap<EquationExpression, T>();
-    }
-    
-    protected void setSystem(EquationSystem system) {
-        this.system = system;
-    }
-    
-    public abstract Collection<T> translate(EquationSystem system);
-    
-    protected Map<EquationExpression,T> getContainer() {
-        return this.container;
-    }
-    
-    protected void setNewContainer(Map<EquationExpression, T> newContainer) {
-        this.container = newContainer;
-    }
-    
-    protected EquationSystem getSystem() {
-        return this.system;
-    }
-    
-    public boolean containsKey(EquationExpression equationExpression) {
-        return this.getContainer().containsKey(equationExpression);
-    }
+	private Map<EquationExpression, T> container;
+	private EquationSystem system;
 
-    public T get(EquationExpression equationExpression) {
-        return this.getContainer().get(equationExpression);
-    }
-    public abstract EquationList getLocus();
-    
-    public abstract T abs(T value);
-    public abstract T sum(T a, T b);
-    public abstract T diff(T a, T b);
-    public abstract T product(T a, T b);
-    public abstract T div(T num, T denom);
-    public abstract T exp(T base, long exp);
-    public abstract T inverse(T value);
-    public abstract T number(double number);
-    public abstract T auxiliarSymbolic(int id);
-    public abstract T specialSymbolic(int id);
-    public abstract T symbolic(int id);
-    public abstract T opposite(T value);
-    public abstract T sqrt(T value);
-    
+	protected EquationTranslator() {
+		this.container = new HashMap<EquationExpression, T>();
+	}
+
+	protected void setSystem(EquationSystem system) {
+		this.system = system;
+	}
+
+	public abstract Collection<T> translate(EquationSystem system);
+
+	protected Map<EquationExpression, T> getContainer() {
+		return this.container;
+	}
+
+	protected void setNewContainer(Map<EquationExpression, T> newContainer) {
+		this.container = newContainer;
+	}
+
+	protected EquationSystem getSystem() {
+		return this.system;
+	}
+
+	public boolean containsKey(EquationExpression equationExpression) {
+		return this.getContainer().containsKey(equationExpression);
+	}
+
+	public T get(EquationExpression equationExpression) {
+		return this.getContainer().get(equationExpression);
+	}
+
+	public abstract EquationList getLocus();
+
+	public abstract T abs(T value);
+
+	public abstract T sum(T a, T b);
+
+	public abstract T diff(T a, T b);
+
+	public abstract T product(T a, T b);
+
+	public abstract T div(T num, T denom);
+
+	public abstract T exp(T base, long exp);
+
+	public abstract T inverse(T value);
+
+	public abstract T number(double number);
+
+	public abstract T auxiliarSymbolic(int id);
+
+	public abstract T specialSymbolic(int id);
+
+	public abstract T symbolic(int id);
+
+	public abstract T opposite(T value);
+
+	public abstract T sqrt(T value);
+
 	/**
 	 * Compute coefficients of polynomial solution of an algebraic translation
 	 * of geometric restrictions in a construction.
@@ -81,7 +94,7 @@ public abstract class EquationTranslator<T> {
 	 */
 	public double[][][] eliminateSystem(EquationSystem equationSystem) {
 		return this.eliminate(this.translate(equationSystem));
-    }
+	}
 
 	/**
 	 * Compute coefficients of polynomial solution of an algebraic translation

@@ -68,15 +68,17 @@ public class AlgoRandomDiscrete extends AlgoElement {
 	public final void compute() {
 		size = values.size();
 
-		if (!values.isDefined() || !probabilities.isDefined() || size == 0 || size != probabilities.size()) {
+		if (!values.isDefined() || !probabilities.isDefined() || size == 0
+				|| size != probabilities.size()) {
 			randomDiscrete.setUndefined();
 			return;
 		}
 
-		double sum =0;
-		
-		for(int i =0; i<size; i++){
-			if(!(values.get(i) instanceof NumberValue) && !(probabilities.get(i) instanceof NumberValue)){
+		double sum = 0;
+
+		for (int i = 0; i < size; i++) {
+			if (!(values.get(i) instanceof NumberValue)
+					&& !(probabilities.get(i) instanceof NumberValue)) {
 				randomDiscrete.setUndefined();
 				return;
 			}
@@ -92,20 +94,19 @@ public class AlgoRandomDiscrete extends AlgoElement {
 
 			sum += prob;
 		}
-		
+
 		double randomDouble = sum * cons.getApplication().getRandomNumber();
-		
-		double total = ((NumberValue)probabilities.get(0)).getDouble();
-		int count =0;
-		
-		while(total < randomDouble){
+
+		double total = ((NumberValue) probabilities.get(0)).getDouble();
+		int count = 0;
+
+		while (total < randomDouble) {
 			count++;
-			total += ((NumberValue)probabilities.get(count)).getDouble();
+			total += ((NumberValue) probabilities.get(count)).getDouble();
 		}
-		
+
 		double result = ((NumberValue) values.get(count)).getDouble();
 		randomDiscrete.setValue(result);
 	}
 
 }
-

@@ -88,5 +88,4 @@ public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 
 	}
 
-	
 }

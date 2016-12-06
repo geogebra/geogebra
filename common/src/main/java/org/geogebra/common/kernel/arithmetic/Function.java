@@ -34,8 +34,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class Function extends FunctionNVar implements
-		Functional, RealRootDerivFunction {
+public class Function extends FunctionNVar
+		implements Functional, RealRootDerivFunction {
 
 	/** function expression */
 	private Function derivative;
@@ -135,7 +135,6 @@ public class Function extends FunctionNVar implements
 
 	}
 
-
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
@@ -218,7 +217,7 @@ public class Function extends FunctionNVar implements
 
 		// translate y
 		if (!Kernel.isZero(vy)) {
-				// f(x) = f(x) + vy
+			// f(x) = f(x) + vy
 			translateY(vy);
 		}
 
@@ -232,8 +231,6 @@ public class Function extends FunctionNVar implements
 		}
 	}
 
-
-
 	/**
 	 * translates in y-coordinate
 	 * 
@@ -244,7 +241,7 @@ public class Function extends FunctionNVar implements
 		expression = translateY(expression, fVars, vy);
 
 	}
-	
+
 	/**
 	 * Shifts the function by vy up
 	 * 
@@ -258,8 +255,7 @@ public class Function extends FunctionNVar implements
 	 * @return translated expression
 	 */
 	final public static ExpressionNode translateY(ExpressionNode expr,
-			FunctionVariable[] fVars,
-			double vy) {
+			FunctionVariable[] fVars, double vy) {
 		ExpressionNode expression = expr.unwrap().wrap();
 		// special case: constant
 		if (expression.isLeaf() && expression.getLeft() != fVars[0]
@@ -270,39 +266,37 @@ public class Function extends FunctionNVar implements
 			return expression;
 		} else if (expression.getOperation() == Operation.IF) {
 
-			expression.setRight(translateY(expression.getRight().wrap(), fVars,
-					vy));
+			expression.setRight(
+					translateY(expression.getRight().wrap(), fVars, vy));
 			return expression;
-		}
- else if (expression.getOperation() == Operation.IF_ELSE) {
+		} else if (expression.getOperation() == Operation.IF_ELSE) {
 
 			MyNumberPair left = (MyNumberPair) expression.getLeft();
 			left.setY(translateY(left.getY().unwrap().wrap(), fVars, vy));
-			expression.setRight(translateY(expression.getRight().wrap(), fVars,
-					vy));
+			expression.setRight(
+					translateY(expression.getRight().wrap(), fVars, vy));
 			return expression;
 		} else if (expression.getOperation() == Operation.IF_LIST) {
 
 			MyList left = (MyList) expression.getRight();
-			for(int i = 0; i < left.size();i++){
-				left.setListElement(i,
-						translateY(left.getListElement(i).unwrap().wrap(),
-								fVars, vy));
+			for (int i = 0; i < left.size(); i++) {
+				left.setListElement(i, translateY(
+						left.getListElement(i).unwrap().wrap(), fVars, vy));
 			}
-			
+
 			return expression;
 		} else if (expression.getOperation() == Operation.MULTIPLY
 				&& ExpressionNode.isConstantDouble(expression.getLeft(), -1)) {
-			expression.setRight(translateY(expression.getRight().wrap(), fVars,
-					-vy));
+			expression.setRight(
+					translateY(expression.getRight().wrap(), fVars, -vy));
 			return expression;
 		} else if (expression.getOperation() == Operation.PLUS) {
-			expression.setRight(translateY(expression.getRight().wrap(), fVars,
-					vy));
+			expression.setRight(
+					translateY(expression.getRight().wrap(), fVars, vy));
 			return expression;
 		} else if (expression.getOperation() == Operation.MINUS) {
-			expression.setRight(translateY(expression.getRight().wrap(), fVars,
-					-vy));
+			expression.setRight(
+					translateY(expression.getRight().wrap(), fVars, -vy));
 			return expression;
 		}
 		return addNumber(expression, vy);
@@ -320,8 +314,8 @@ public class Function extends FunctionNVar implements
 				new MyDouble(kernel, -n));
 	}
 
-	/* ********************
-	 * POLYNOMIAL FACTORING *******************
+	/*
+	 * ******************** POLYNOMIAL FACTORING *******************
 	 */
 
 	// remember calculated factors
@@ -464,7 +458,8 @@ public class Function extends FunctionNVar implements
 					assumeFalseIfCASNeeded);
 		}
 
-		if (symbolicPolyFactorListDefined && symbolicPolyFactorList.size() > 0) {
+		if (symbolicPolyFactorListDefined
+				&& symbolicPolyFactorList.size() > 0) {
 			return symbolicPolyFactorList;
 		}
 		return null;
@@ -525,7 +520,7 @@ public class Function extends FunctionNVar implements
 								rootFindingSimplification,
 								assumeFalseIfCASNeeded);
 
-				// try some simplifications of factors for root finding
+			// try some simplifications of factors for root finding
 			case POWER:
 			case DIVIDE:
 				if (!rootFindingSimplification)
@@ -550,9 +545,8 @@ public class Function extends FunctionNVar implements
 					if (node.getOperation().equals(Operation.POWER)) {
 						if (Kernel.isZero(rightVal))
 							// left^0 = 1
-							return addPolynomialFactors(
-									new MyDouble(kernel, 1), l, symbolic,
-									rootFindingSimplification,
+							return addPolynomialFactors(new MyDouble(kernel, 1),
+									l, symbolic, rootFindingSimplification,
 									assumeFalseIfCASNeeded);
 						else if (rightVal > 0)
 							// left ^ right = 0 <=> left = 0 for right > 0
@@ -565,8 +559,8 @@ public class Function extends FunctionNVar implements
 							return false;
 						}
 						// left / right = 0 <=> left = 0 for right != null
-						return addPolynomialFactors(node.getLeft(), l,
-								symbolic, rootFindingSimplification,
+						return addPolynomialFactors(node.getLeft(), l, symbolic,
+								rootFindingSimplification,
 								assumeFalseIfCASNeeded);
 					}
 				}
@@ -682,15 +676,15 @@ public class Function extends FunctionNVar implements
 			} catch (Exception e) {
 				Log.warn("error in buildPolyFunction:" + e.getMessage());
 				e.printStackTrace();
-					return null;
-				}
+				return null;
+			}
 		}
 		return polyFun;
 
 	}
 
-	private ExpressionNode zeroExpr = new ExpressionNode(kernel, new MyDouble(
-			kernel, 0));
+	private ExpressionNode zeroExpr = new ExpressionNode(kernel,
+			new MyDouble(kernel, 0));
 
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic) {
@@ -700,9 +694,9 @@ public class Function extends FunctionNVar implements
 		int terms = -1;
 		ExpressionValue evCopy = ev.deepCopy(kernel);
 		ExpressionNode replaced;
-		VariableReplacer varep = VariableReplacer
-				.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate),
-						xVar, kernel);
+		VariableReplacer varep = VariableReplacer.getReplacer(
+				fVars[0].toString(StringTemplate.defaultTemplate), xVar,
+				kernel);
 		if (evCopy instanceof ExpressionNode) {
 			replaced = ((ExpressionNode) evCopy).traverse(varep).wrap();
 		} else {
@@ -730,8 +724,8 @@ public class Function extends FunctionNVar implements
 																	// #2276
 																	// ---Tam
 				} else {
-					coeffValues[i] = coeff[i][0] instanceof NumberValue ? ((NumberValue) coeff[i][0])
-							.getDouble() : 0;
+					coeffValues[i] = coeff[i][0] instanceof NumberValue
+							? ((NumberValue) coeff[i][0]).getDouble() : 0;
 				}
 
 			}
@@ -766,8 +760,8 @@ public class Function extends FunctionNVar implements
 		}
 	}
 
-	/* ***************
-	 * CALULUS **************
+	/*
+	 * *************** CALULUS **************
 	 */
 
 	/**
@@ -836,8 +830,8 @@ public class Function extends FunctionNVar implements
 
 				@Override
 				public boolean check(ExpressionValue v) {
-					if (v instanceof ExpressionNode
-							&& ((ExpressionNode) v).getOperation() == Operation.POWER) {
+					if (v instanceof ExpressionNode && ((ExpressionNode) v)
+							.getOperation() == Operation.POWER) {
 						if (((ExpressionNode) v).getLeft().unwrap()
 								.isExpressionNode()
 								&& ((ExpressionNode) v).getRight()
@@ -904,8 +898,8 @@ public class Function extends FunctionNVar implements
 		FunctionVariable fv = xDashed.getFunctionVariable();
 
 		// make sure both functions use same variable
-		ExpressionValue yDashedEv = yDashed.getExpression().replace(
-				yDashed.getFunctionVariable(), fv);
+		ExpressionValue yDashedEv = yDashed.getExpression()
+				.replace(yDashed.getFunctionVariable(), fv);
 
 		ExpressionNode en = new ExpressionNode(funX.getKernel(), yDashedEv,
 				Operation.DIVIDE, xDashed.getExpression());
@@ -963,14 +957,13 @@ public class Function extends FunctionNVar implements
 		// f(x) + a/b * x
 		if (coeffX > 0) {
 			temp = new ExpressionNode(f.kernel, f.expression, Operation.PLUS,
-					new ExpressionNode(f.kernel,
-							new MyDouble(f.kernel, coeffX), Operation.MULTIPLY,
-							f.fVars[0]));
+					new ExpressionNode(f.kernel, new MyDouble(f.kernel, coeffX),
+							Operation.MULTIPLY, f.fVars[0]));
 		} else {
 			temp = new ExpressionNode(f.kernel, f.expression, Operation.MINUS,
 					new ExpressionNode(f.kernel,
-							new MyDouble(f.kernel, -coeffX),
-							Operation.MULTIPLY, f.fVars[0]));
+							new MyDouble(f.kernel, -coeffX), Operation.MULTIPLY,
+							f.fVars[0]));
 		}
 
 		// f(x) + a/b * x + c/b
@@ -1153,8 +1146,8 @@ public class Function extends FunctionNVar implements
 		if (map == null) {
 			return;
 		}
-		kernel.getConstruction().registerFunctionVariable(
-				this.fVars[0].getSetVarString());
+		kernel.getConstruction()
+				.registerFunctionVariable(this.fVars[0].getSetVarString());
 		for (Entry<String, String> entry : map.entrySet()) {
 			GeoFunction gfun = kernel.getAlgebraProcessor()
 					.evaluateToFunction(entry.getValue(), true, true);

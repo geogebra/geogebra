@@ -74,8 +74,7 @@ public class GeoGebraColorConstants {
 	 */
 	public static final GColor LIGHTBLUE = rgb(125, 125, 255);
 	/** gold */
-	public static final GColor GOLD = GColor
-			.newColor(255, 215, 0);
+	public static final GColor GOLD = GColor.newColor(255, 215, 0);
 	/** dark blue (wikipedia persian blue) */
 	public static final GColor DARKBLUE = rgb(28, 57, 187);
 	/** indigo */
@@ -116,8 +115,8 @@ public class GeoGebraColorConstants {
 	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
 
 	/** local objects (local variables, blue) */
-	public static final GColor LOCAL_OBJECT_COLOR = GColor
-			.newColor(0, 102, 255);
+	public static final GColor LOCAL_OBJECT_COLOR = GColor.newColor(0, 102,
+			255);
 	/** unbalanced brackets */
 	public static final GColor UNBALANCED_BRACKET_COLOR = GColor.RED;
 
@@ -256,8 +255,8 @@ public class GeoGebraColorConstants {
 		GColor ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
 
 		if (ret == null) {
-			ret = geogebraColor.get(app.getLocalization().reverseGetColor(
-					colorName));
+			ret = geogebraColor
+					.get(app.getLocalization().reverseGetColor(colorName));
 		}
 		if (ret == null)
 			// will need only English characters
@@ -275,8 +274,8 @@ public class GeoGebraColorConstants {
 	 * @return GeoGebra color name string corresponding with given Color object
 	 */
 	public static String getGeogebraColorName(App app, GColor color) {
-		return app.getLocalization().getColor(
-				getGeoGebraColorReverse().get(color));
+		return app.getLocalization()
+				.getColor(getGeoGebraColorReverse().get(color));
 	}
 
 	/**
@@ -523,85 +522,46 @@ public class GeoGebraColorConstants {
 
 			// Row 1 RED related colors
 
-			PINK,
-			rgb(255, 153, 204),
-			rgb(255, 102, 153),
-			rgb(255, 51, 102),
-			rgb(255, 0, 51),
-			GGB_RED,
-			MAROON,
-			rgb(51, 0, 0),
+			PINK, rgb(255, 153, 204), rgb(255, 102, 153), rgb(255, 51, 102),
+			rgb(255, 0, 51), GGB_RED, MAROON, rgb(51, 0, 0),
 
 			// Row 2 ORANGE related colors
 
-			LIGHTORANGE,
-			rgb(255, 204, 51),
-			rgb(255, 153, 0),
-			rgb(255, 153, 51),
-			rgb(255, 102, 0),
-			rgb(204, 102, 0),
-			rgb(153, 102, 0),
+			LIGHTORANGE, rgb(255, 204, 51), rgb(255, 153, 0), rgb(255, 153, 51),
+			rgb(255, 102, 0), rgb(204, 102, 0), rgb(153, 102, 0),
 			rgb(51, 51, 0),
 
 			// Row 3 YELLOW related colors
 
-			LIGHTYELLOW,
-			rgb(255, 255, 153),
-			rgb(255, 255, 102),
-			GOLD,
-			rgb(255, 204, 102),
-			rgb(204, 153, 0),
-			GGB_BROWN,
-			rgb(102, 51, 0),
+			LIGHTYELLOW, rgb(255, 255, 153), rgb(255, 255, 102), GOLD,
+			rgb(255, 204, 102), rgb(204, 153, 0), GGB_BROWN, rgb(102, 51, 0),
 
 			// Row 4 YELLOW-GREEN ("LIME") related colors
 
-			rgb(204, 255, 204),
-			rgb(204, 255, 102),
-			rgb(153, 255, 0),
-			rgb(153, 204, 0),
-			rgb(102, 204, 0),
-			rgb(102, 153, 0),
-			rgb(51, 153, 0),
-			rgb(0, 102, 51),
+			rgb(204, 255, 204), rgb(204, 255, 102), rgb(153, 255, 0),
+			rgb(153, 204, 0), rgb(102, 204, 0), rgb(102, 153, 0),
+			rgb(51, 153, 0), rgb(0, 102, 51),
 
 			// Row 5 GREEN related colors
 
-			LIGHTGREEN,
-			rgb(153, 255, 153),
-			rgb(102, 255, 0),
-			rgb(51, 255, 0),
-			rgb(0, 204, 0),
-			rgb(0, 153, 0),
-			GGB_GREEN,
-			rgb(0, 51, 0),
+			LIGHTGREEN, rgb(153, 255, 153), rgb(102, 255, 0), rgb(51, 255, 0),
+			rgb(0, 204, 0), rgb(0, 153, 0), GGB_GREEN, rgb(0, 51, 0),
 
 			// Row 6 CYAN related colors
 
-			TURQUOISE,
-			rgb(153, 255, 255),
-			rgb(51, 255, 204),
-			rgb(0, 153, 255),
-			rgb(0, 153, 204),
-			rgb(0, 102, 153),
-			rgb(0, 51, 204),
+			TURQUOISE, rgb(153, 255, 255), rgb(51, 255, 204), rgb(0, 153, 255),
+			rgb(0, 153, 204), rgb(0, 102, 153), rgb(0, 51, 204),
 			rgb(0, 51, 153),
 
 			// Row 7 BLUE related colors
 
-			AQUA, rgb(153, 204, 255), rgb(102, 204, 255),
-			rgb(102, 153, 255),
-			rgb(125, 125, 255),
-			rgb(51, 51, 255),
-			rgb(0, 0, 204),
-			rgb(0, 0, 51),
+			AQUA, rgb(153, 204, 255), rgb(102, 204, 255), rgb(102, 153, 255),
+			rgb(125, 125, 255), rgb(51, 51, 255), rgb(0, 0, 204), rgb(0, 0, 51),
 
 			// Row 8 VIOLET related colors
 
 			LIGHTPURPLE, rgb(204, 153, 255), rgb(204, 102, 255),
-			rgb(153, 102, 255), rgb(102, 0, 204),
-			PURPLE,
-			INDIGO,
+			rgb(153, 102, 255), rgb(102, 0, 204), PURPLE, INDIGO,
 			rgb(51, 0, 51),
 
 			// Row 9 MAGENTA related colors

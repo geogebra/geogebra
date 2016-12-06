@@ -157,8 +157,8 @@ public class AlgoDilate extends AlgoTransformation {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		String sLabel = S == null ? cons.getOrigin().toValueString(tpl) : S
-				.getLabel(tpl);
+		String sLabel = S == null ? cons.getOrigin().toValueString(tpl)
+				: S.getLabel(tpl);
 		return getLoc().getPlain("ADilatedByFactorBfromC", inGeo.getLabel(tpl),
 				rgeo.getLabel(tpl), sLabel);
 
@@ -190,5 +190,4 @@ public class AlgoDilate extends AlgoTransformation {
 		return r.getDouble() * r.getDouble();
 	}
 
-	
 }

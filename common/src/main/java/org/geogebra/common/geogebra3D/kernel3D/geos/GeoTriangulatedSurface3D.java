@@ -191,7 +191,7 @@ public class GeoTriangulatedSurface3D extends GeoElement3D {
 	public static MyPoint3D[] copyOf(MyPoint3D[] src) {
 		int size = src.length;
 		MyPoint3D[] pts = new MyPoint3D[size];
-		for(int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			pts[i] = new MyPoint3D(src[i].x, src[i].y, src[i].z, src[i].lineTo);
 		}
 		return pts;

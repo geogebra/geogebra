@@ -53,9 +53,9 @@ public class CmdIterationList extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (app.has(Feature.ITERATION_LIST_DOUBLE)){
-				if ((ok[0] = (arg[0].isGeoFunctionNVar() && ((GeoFunctionNVar) arg[0])
-						.isFun2Var()))
+			if (app.has(Feature.ITERATION_LIST_DOUBLE)) {
+				if ((ok[0] = (arg[0].isGeoFunctionNVar()
+						&& ((GeoFunctionNVar) arg[0]).isFun2Var()))
 						&& (ok[1] = arg[1] instanceof GeoList)
 						&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
 					AlgoIterationList algo = new AlgoIterationList(cons,
@@ -86,11 +86,10 @@ public class CmdIterationList extends CommandProcessor {
 				cons.setSuppressLabelCreation(oldval);
 			}
 
-			AlgoIterationList algo = new AlgoIterationList(cons,
-					arg1, vars, over, num[0]);
+			AlgoIterationList algo = new AlgoIterationList(cons, arg1, vars,
+					over, num[0]);
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
-
 
 		}
 	}

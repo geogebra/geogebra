@@ -12,8 +12,8 @@ import java.util.TreeSet;
  * is based upon the TreeSet collection class to provide quick lookups and
  * default sorting. All lookups are case insensitive!
  */
-public class LowerCaseDictionary extends HashMap<String, String> implements
-		AutoCompleteDictionary {
+public class LowerCaseDictionary extends HashMap<String, String>
+		implements AutoCompleteDictionary {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,8 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		this.normalizer = normalizer;
 	}
 
-	private static final String greatestCommonPrefix(String possiblyNull, String notNull) {
+	private static final String greatestCommonPrefix(String possiblyNull,
+			String notNull) {
 		if (possiblyNull == null) {
 			return null;
 		}
@@ -146,17 +147,19 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 
 	/**
 	 * Calculate greatest prefix common to curr. Then return list of all
-	 * elements matching this prefix. Return null if none
-	 * exists
+	 * elements matching this prefix. Return null if none exists
 	 *
-	 * @param curr The string to use as the base for the lookup
+	 * @param curr
+	 *            The string to use as the base for the lookup
 	 * @return the greatest common prefix
 	 */
-	public String setMatchingGreatestPrefix(final String curr, ArrayList<String> completions) {
+	public String setMatchingGreatestPrefix(final String curr,
+			ArrayList<String> completions) {
 		if (curr == null || "".equals(curr))
 			return "";
 
-		String prefixLowerCase = getGreatestCommonPrefix(normalizer.transform(curr));
+		String prefixLowerCase = getGreatestCommonPrefix(
+				normalizer.transform(curr));
 		if (prefixLowerCase == null || "".equals(prefixLowerCase))
 			return ""; // no common prefix
 

@@ -50,7 +50,8 @@ public class CopyPaste3D extends CopyPaste {
 				// TODO: implementation!
 
 				if (geo.isGeoPolyhedron()) {
-					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
+							geo);
 
 					// there are many kinds of algorithm to create a
 					// GeoPolyhedron,
@@ -96,7 +97,8 @@ public class CopyPaste3D extends CopyPaste {
 						}
 					}
 				} else if (geo instanceof GeoPolyhedronNet) {
-					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
+							geo);
 
 					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedronNet) geo)
 							.getPolygons().iterator();
@@ -140,32 +142,37 @@ public class CopyPaste3D extends CopyPaste {
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCone
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCylinder) {
-						TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+						TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(
+								geo);
 
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j])
-									&& predecessorsCovered(pgeos[j], ancestors)) {
+							if (!geos.contains(pgeos[j]) && predecessorsCovered(
+									pgeos[j], ancestors)) {
 								geos.add(pgeos[j]);
 							}
 						}
 						pgeos = geo.getParentAlgorithm().getOutput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j])
-									&& predecessorsCovered(pgeos[j], ancestors)) {
+							if (!geos.contains(pgeos[j]) && predecessorsCovered(
+									pgeos[j], ancestors)) {
 								geos.add(pgeos[j]);
 							}
 						}
 					}
 
-				} else if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
-						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector3D)) {
+				} else if ((geo.isGeoLine()
+						&& geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
+						|| (geo.isGeoVector() && geo
+								.getParentAlgorithm() instanceof AlgoVector3D)) {
 
-					if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
+					if (!geos
+							.contains(geo.getParentAlgorithm().getInput()[0])) {
 						geos.add(geo.getParentAlgorithm().getInput()[0]);
 					}
-					if (!geos.contains(geo.getParentAlgorithm().getInput()[1])) {
+					if (!geos
+							.contains(geo.getParentAlgorithm().getInput()[1])) {
 						geos.add(geo.getParentAlgorithm().getInput()[1]);
 					}
 				} else if (geo instanceof GeoPolygon3D) {
@@ -186,7 +193,8 @@ public class CopyPaste3D extends CopyPaste {
 								geos.add(ogeos[j]);
 							}
 						}
-					} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegular3D) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoPolygonRegular3D) {
 						GeoElement[] pgeos = ((geo.getParentAlgorithm()))
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
@@ -199,8 +207,8 @@ public class CopyPaste3D extends CopyPaste {
 								.getOutput();
 						for (int j = 0; j < ogeos.length; j++) {
 							if (!geos.contains(ogeos[j])
-									&& (ogeos[j].isGeoSegment() || ogeos[j]
-											.isGeoPoint())) {
+									&& (ogeos[j].isGeoSegment()
+											|| ogeos[j].isGeoPoint())) {
 								geos.add(ogeos[j]);
 							}
 						}
@@ -223,7 +231,8 @@ public class CopyPaste3D extends CopyPaste {
 					 * geo.getParentAlgorithm().getInput(); if
 					 * (!geos.contains(pgeos[0])) geos.add(pgeos[0]); if
 					 * (!geos.contains(pgeos[1])) geos.add(pgeos[1]); } else
-					 */if (geo.getParentAlgorithm() instanceof AlgoCircle3DThreePoints
+					 */if (geo
+							.getParentAlgorithm() instanceof AlgoCircle3DThreePoints
 							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
@@ -233,7 +242,8 @@ public class CopyPaste3D extends CopyPaste {
 							geos.add(pgeos[1]);
 						if (!geos.contains(pgeos[2]))
 							geos.add(pgeos[2]);
-					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints3D) {
+					} else if (geo
+							.getParentAlgorithm() instanceof AlgoConicFivePoints3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
@@ -241,11 +251,11 @@ public class CopyPaste3D extends CopyPaste {
 								geos.add(pgeos[j]);
 						}
 					} /*
-					 * else if (geo.getParentAlgorithm() instanceof
-					 * AlgoCirclePointRadius) { GeoElement[] pgeos =
-					 * geo.getParentAlgorithm().getInput(); if
-					 * (!geos.contains(pgeos[0])) geos.add(pgeos[0]); }
-					 */
+						 * else if (geo.getParentAlgorithm() instanceof
+						 * AlgoCirclePointRadius) { GeoElement[] pgeos =
+						 * geo.getParentAlgorithm().getInput(); if
+						 * (!geos.contains(pgeos[0])) geos.add(pgeos[0]); }
+						 */
 				}
 			}
 		}
@@ -259,7 +269,7 @@ public class CopyPaste3D extends CopyPaste {
 
 	private boolean predecessorsCovered(GeoElementND ps2n,
 			TreeSet<GeoElement> ancestors) {
-		return ancestors.containsAll(getAllIndependentPredecessors(ps2n
-				.toGeoElement()));
+		return ancestors.containsAll(
+				getAllIndependentPredecessors(ps2n.toGeoElement()));
 	}
 }

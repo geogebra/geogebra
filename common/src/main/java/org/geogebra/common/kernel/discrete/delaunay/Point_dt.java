@@ -24,11 +24,11 @@ public class Point_dt {
 	 * constructs a 3D point at (0,0,0).
 	 */
 	public Point_dt() {
-		this (0,0);
+		this(0, 0);
 	}
 
-	/** 
-	 * constructs a 3D point 
+	/**
+	 * constructs a 3D point
 	 */
 	public Point_dt(double x, double y, double z) {
 		this.x = x;
@@ -52,10 +52,12 @@ public class Point_dt {
 	public double x() {
 		return x;
 	}
-	
+
 	/**
 	 * Sets the x coordinate.
-	 * @param x The new x coordinate.
+	 * 
+	 * @param x
+	 *            The new x coordinate.
 	 */
 	public void setX(double x) {
 		this.x = x;
@@ -65,10 +67,12 @@ public class Point_dt {
 	public double y() {
 		return y;
 	}
-	
+
 	/**
 	 * Sets the y coordinate.
-	 * @param y The new y coordinate.
+	 * 
+	 * @param y
+	 *            The new y coordinate.
 	 */
 	public void setY(double y) {
 		this.y = y;
@@ -78,10 +82,12 @@ public class Point_dt {
 	public double z() {
 		return z;
 	}
-	
+
 	/**
 	 * Sets the z coordinate.
-	 * @param z The new z coordinate.
+	 * 
+	 * @param z
+	 *            The new z coordinate.
 	 */
 	public void setZ(double Z) {
 		this.z = Z;
@@ -136,7 +142,9 @@ public class Point_dt {
 		return Math.sqrt(temp);
 	}
 
-	/** return a String: x y z (used by the save to file - write_tsin method). */
+	/**
+	 * return a String: x y z (used by the save to file - write_tsin method).
+	 */
 	public String toFile() {
 		return ("" + x + " " + y + " " + z);
 	}
@@ -152,12 +160,12 @@ public class Point_dt {
 
 	/**
 	 * + <br>
-	 * */
+	 */
 	public final static int LEFT = 1;
 
 	/**
 	 * +
-	 * */
+	 */
 	public final static int RIGHT = 2;
 	public final static int INFRONTOFA = 3;
 	public final static int BEHINDB = 4;
@@ -234,14 +242,14 @@ public class Point_dt {
 
 	Point_dt circumcenter(Point_dt a, Point_dt b) {
 
-		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y)) / 2.0f;
+		double u = ((a.x - b.x) * (a.x + b.x) + (a.y - b.y) * (a.y + b.y))
+				/ 2.0f;
 		double v = ((b.x - x) * (b.x + x) + (b.y - y) * (b.y + y)) / 2.0f;
 		double den = (a.x - b.x) * (b.y - y) - (b.x - x) * (a.y - b.y);
 		if (den == 0) // oops
 			Log.debug("circumcenter, degenerate case");
-		return new Point_dt((u * (b.y - y) - v * (a.y - b.y)) / den, (v
-				* (a.x - b.x) - u * (b.x - x))
-				/ den);
+		return new Point_dt((u * (b.y - y) - v * (a.y - b.y)) / den,
+				(v * (a.x - b.x) - u * (b.x - x)) / den);
 	}
 
 	public static Comparator<Point_dt> getComparator(int flag) {
@@ -253,7 +261,7 @@ public class Point_dt {
 	}
 }
 
-class Compare implements Comparator{
+class Compare implements Comparator {
 	private int _flag;
 
 	public Compare(int i) {
@@ -320,6 +328,5 @@ class Compare implements Comparator{
 		}
 		return ans;
 	}
-
 
 }

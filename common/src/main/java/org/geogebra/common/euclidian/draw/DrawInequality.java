@@ -129,7 +129,7 @@ public class DrawInequality extends Drawable {
 				}
 			} else {
 				double maxRight = ((DrawInequality1Var) right.drawable)
-					.getMaxBound();
+						.getMaxBound();
 				if (Kernel.isGreater(maxBound, maxRight)) {
 					maxBound = maxRight;
 					if (this.max != null) {
@@ -145,8 +145,8 @@ public class DrawInequality extends Drawable {
 			return;
 		}
 
-		if ((left.drawable == null || left.operation
-				.equals(Operation.AND_INTERVAL))) {
+		if ((left.drawable == null
+				|| left.operation.equals(Operation.AND_INTERVAL))) {
 			left.min = min;
 			left.max = max;
 			left.minBound = minBound;
@@ -212,8 +212,8 @@ public class DrawInequality extends Drawable {
 		 * if (this.operation.equals(Operation.OR)) { wasOR = true; }
 		 */
 
-		if ((right.drawable == null || right.operation
-				.equals(Operation.AND_INTERVAL))) {
+		if ((right.drawable == null
+				|| right.operation.equals(Operation.AND_INTERVAL))) {
 			if (this.operation.equals(Operation.OR)) {
 				right.min = null;
 				right.max = null;
@@ -282,7 +282,7 @@ public class DrawInequality extends Drawable {
 				}
 			} else {
 				double maxRight = ((DrawInequality1Var) right.drawable)
-					.getMaxBound();
+						.getMaxBound();
 				if (Kernel.isGreater(maxBound, maxRight)) {
 					maxBound = maxRight;
 					if (this.max != null) {
@@ -371,7 +371,6 @@ public class DrawInequality extends Drawable {
 
 	}
 
-
 	private DrawInequality(IneqTree tree, EuclidianView view, GeoElement geo) {
 		this.view = view;
 		this.geo = geo;
@@ -392,8 +391,7 @@ public class DrawInequality extends Drawable {
 		// init gp
 		updateRecursive(function.getIneqs());
 		labelDesc = geo.getLabelDescription();
-		if ((geo instanceof GeoFunction)
-				&& ((GeoFunction) geo).showOnAxis()
+		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
 				&& !"y".equals(((GeoFunction) geo)
 						.getVarString(StringTemplate.defaultTemplate))) {
 			TreeSet<Double> zeros = new TreeSet<Double>();
@@ -413,10 +411,12 @@ public class DrawInequality extends Drawable {
 							.evaluateBoolean(0.5 * (last + zero));
 					if (value) {
 						gpAxis[gpCount] = new GeneralPathClipped(view);
-						gpAxis[gpCount].moveTo(view.toScreenCoordXd(last)
-								+ radius, view.toScreenCoordYd(0));
-						gpAxis[gpCount].lineTo(view.toScreenCoordXd(zero)
-								- radius, view.toScreenCoordYd(0));
+						gpAxis[gpCount].moveTo(
+								view.toScreenCoordXd(last) + radius,
+								view.toScreenCoordYd(0));
+						gpAxis[gpCount].lineTo(
+								view.toScreenCoordXd(zero) - radius,
+								view.toScreenCoordYd(0));
 						gpCount++;
 					}
 				}
@@ -465,8 +465,8 @@ public class DrawInequality extends Drawable {
 			} else if (ineq.getType() == IneqType.INEQUALITY_CONIC) {
 				ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 				if (drawable instanceof DrawConic) {
-					((DrawConic) drawable).setIgnoreSingularities(!ineq
-							.isStrict() == ineq.isAboveBorder());
+					((DrawConic) drawable).setIgnoreSingularities(
+							!ineq.isStrict() == ineq.isAboveBorder());
 				}
 			}
 			drawable.update();
@@ -475,8 +475,7 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			GArea b = AwtFactory.getPrototype().newArea(view
-					.getBoundingPath());
+			GArea b = AwtFactory.getPrototype().newArea(view.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -632,9 +631,8 @@ public class DrawInequality extends Drawable {
 	private boolean hit2(int x, int y) {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
-		if (geo instanceof GeoFunction
-				&& ((GeoFunction) geo).getVarString(
-						StringTemplate.defaultTemplate).equals("y"))
+		if (geo instanceof GeoFunction && ((GeoFunction) geo)
+				.getVarString(StringTemplate.defaultTemplate).equals("y"))
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
 		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 
@@ -662,6 +660,5 @@ public class DrawInequality extends Drawable {
 	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
-
 
 }

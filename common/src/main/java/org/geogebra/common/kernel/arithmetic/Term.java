@@ -197,7 +197,7 @@ public class Term implements Comparable<Object> {
 					case PLUS:
 						return add(add(a, ben.getLeft(), kernel),
 								ben.getRight(), kernel);
-						// a + (b.left - b.right) = (a + b.left) - b.right
+					// a + (b.left - b.right) = (a + b.left) - b.right
 					case MINUS:
 						return sub(add(a, ben.getLeft(), kernel),
 								ben.getRight(), kernel);
@@ -282,7 +282,7 @@ public class Term implements Comparable<Object> {
 						case MULTIPLY:
 							return multiply(multiply(a, ben.getLeft(), kernel),
 									ben.getRight(), kernel);
-							// a * (b.left / b.right) = (a * b.left) / b.right
+						// a * (b.left / b.right) = (a * b.left) / b.right
 						case DIVIDE:
 							return divide(multiply(a, ben.getLeft(), kernel),
 									ben.getRight(), kernel);
@@ -336,7 +336,7 @@ public class Term implements Comparable<Object> {
 				case DIVIDE:
 					return multiply(divide(a, ben.getLeft(), kernel),
 							ben.getRight(), kernel);
-				//TODO muliply?
+				// TODO muliply?
 				default:
 					break;
 				}
@@ -370,8 +370,8 @@ public class Term implements Comparable<Object> {
 		Term t;
 		if (o instanceof Term) {
 			t = (Term) o;
-			return (coefficient == t.coefficient && variables.toString()
-					.equals(t.variables.toString()));
+			return (coefficient == t.coefficient
+					&& variables.toString().equals(t.variables.toString()));
 		}
 		return false;
 	}

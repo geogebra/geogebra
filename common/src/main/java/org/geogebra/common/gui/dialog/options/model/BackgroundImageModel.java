@@ -4,15 +4,15 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 
 public class BackgroundImageModel extends BooleanOptionModel {
-	
+
 	public BackgroundImageModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
-	
+
 	private GeoImage getImageAt(int index) {
 		return (GeoImage) getObjectAt(index);
 	}
-	
+
 	@Override
 	public boolean isValidAt(int index) {
 		return (getObjectAt(index) instanceof GeoImage);
@@ -31,5 +31,3 @@ public class BackgroundImageModel extends BooleanOptionModel {
 		storeUndoInfo();
 	}
 }
-
-

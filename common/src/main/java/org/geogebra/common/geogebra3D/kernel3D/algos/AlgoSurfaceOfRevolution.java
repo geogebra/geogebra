@@ -85,8 +85,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 * @param line
 	 *            rotation axis
 	 */
-	public AlgoSurfaceOfRevolution(Construction cons, String label,
- Path path,
+	public AlgoSurfaceOfRevolution(Construction cons, String label, Path path,
 			GeoNumberValue angle, GeoLineND line) {
 
 		super(cons);
@@ -112,15 +111,11 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 			rotateAroundX();
 		} else {
 
-
 			FunctionNVar[] fun = new FunctionNVar[3];
 			fun[0] = new FunctionNVar(funVar[0].wrap(), funVar);
 			fun[1] = new FunctionNVar(funVar[0].wrap(), funVar);
 			fun[2] = new FunctionNVar(funVar[0].wrap(), funVar);
 			surface = createSurface(cons, fun);
-
-
-
 
 		}
 		if (path instanceof ParametricCurve
@@ -136,15 +131,14 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	}
 
-
 	private void rotateAroundX() {
 
 		// functions describing the surface
 		ExpressionNode expU, expF, expV;
 		if (function.isFunctionInX()) {
 			expU = new ExpressionNode(kernel, funVar[0]);
-			expF = new ExpressionNode(kernel, function,
-				Operation.FUNCTION, funVar[0]);
+			expF = new ExpressionNode(kernel, function, Operation.FUNCTION,
+					funVar[0]);
 		} else {
 			expF = function.getFun(1).getExpression().deepCopy(kernel).replace(
 					function.getFun(1).getFunctionVariable(), funVar[0]).wrap();
@@ -161,10 +155,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		fun[1] = new FunctionNVar(expCos.multiply(expF), funVar);
 		fun[2] = new FunctionNVar(expSin.multiply(expF), funVar);
 
-
 		// create the curve
 		surface = createSurface(cons, fun);
-		
 
 	}
 
@@ -222,15 +214,14 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		if (line != null || path != function) {
 			ExpressionValue[][] coeffs = new ExpressionValue[4][4];
 			FunctionNVar[] fun = surface.getFunctions();
-			if(line == null){
+			if (line == null) {
 				rotation4x4(new Coords(1, 0, 0), funVar[1], coeffs);
 				transform(function, coeffs, fun, new Coords(0, 0, 0));
-			}else{
+			} else {
 				rotation4x4(line.getDirectionInD3().normalized(), funVar[1],
 						coeffs);
 				transform(function, coeffs, fun, line.getStartInhomCoords());
 			}
-
 
 			String var = function.getFunctionVariables()[0] + "";
 			for (int i = 0; i < 3; i++) {
@@ -248,7 +239,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		// the coord-functions don't have to be updated,
 		// so we only set the interval
 		surface.setIntervals(min, max);
-
 
 	}
 
@@ -270,8 +260,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 				trans = trans.plus(expr[i].multiply(coeff[i]));
 			}
 
-			fun1[row].setExpression(trans.plus(startPoint.get(
-					row + 1)));
+			fun1[row].setExpression(trans.plus(startPoint.get(row + 1)));
 		}
 
 	}
@@ -317,5 +306,4 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	}
 
-	
 }

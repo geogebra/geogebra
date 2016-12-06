@@ -4,8 +4,8 @@ import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.analysis.DifferentiableUnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 
-public class RealRootDerivAdapter implements
-		DifferentiableUnivariateRealFunction {
+public class RealRootDerivAdapter
+		implements DifferentiableUnivariateRealFunction {
 
 	RealRootDerivFunction derivFun;
 

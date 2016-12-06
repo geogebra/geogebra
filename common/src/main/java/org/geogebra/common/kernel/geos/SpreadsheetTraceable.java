@@ -19,21 +19,25 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 /**
  * @author Michael Borcherds
  * 
- * NumberValue extends SpreadsheetTraceable as all NumberValues can be traced to spreadsheet
+ *         NumberValue extends SpreadsheetTraceable as all NumberValues can be
+ *         traced to spreadsheet
  * 
- * default implementations in GeoElement
- * TODO this interface should extend GeoElementND and should not be extended by NumberValue
+ *         default implementations in GeoElement TODO this interface should
+ *         extend GeoElementND and should not be extended by NumberValue
  */
 public interface SpreadsheetTraceable extends ExpressionValue {
-	
+
 	/**
-	 * @param al list containing GeoNumeric / GeoAngle
+	 * @param al
+	 *            list containing GeoNumeric / GeoAngle
 	 */
 	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> al);
+
 	/**
 	 * @return list of column headings
 	 */
 	public ArrayList<GeoText> getColumnHeadings();
+
 	/**
 	 * @return spreadsheet trace settings
 	 */

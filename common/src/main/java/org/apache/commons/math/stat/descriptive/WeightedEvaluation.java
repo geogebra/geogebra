@@ -20,30 +20,39 @@ package org.apache.commons.math.stat.descriptive;
  * Weighted evaluation for statistics.
  *
  * @since 2.1
- * @version $Revision: 894474 $ $Date: 2009-12-29 21:02:37 +0100 (mar. 29 dec. 2009) $
+ * @version $Revision: 894474 $ $Date: 2009-12-29 21:02:37 +0100 (mar. 29 dec.
+ *          2009) $
  */
 public interface WeightedEvaluation {
 
-    /**
-     * Returns the result of evaluating the statistic over the input array,
-     * using the supplied weights.
-     *
-     * @param values input array
-     * @param weights array of weights
-     * @return the value of the weighted statistic applied to the input array
-     */
-    double evaluate(double[] values, double[] weights);
+	/**
+	 * Returns the result of evaluating the statistic over the input array,
+	 * using the supplied weights.
+	 *
+	 * @param values
+	 *            input array
+	 * @param weights
+	 *            array of weights
+	 * @return the value of the weighted statistic applied to the input array
+	 */
+	double evaluate(double[] values, double[] weights);
 
-    /**
-     * Returns the result of evaluating the statistic over the specified entries
-     * in the input array, using corresponding entries in the supplied weights array.
-     *
-     * @param values the input array
-     * @param weights array of weights
-     * @param begin the index of the first element to include
-     * @param length the number of elements to include
-     * @return the value of the weighted statistic applied to the included array entries
-     */
-    double evaluate(double[] values, double[] weights, int begin, int length);
+	/**
+	 * Returns the result of evaluating the statistic over the specified entries
+	 * in the input array, using corresponding entries in the supplied weights
+	 * array.
+	 *
+	 * @param values
+	 *            the input array
+	 * @param weights
+	 *            array of weights
+	 * @param begin
+	 *            the index of the first element to include
+	 * @param length
+	 *            the number of elements to include
+	 * @return the value of the weighted statistic applied to the included array
+	 *         entries
+	 */
+	double evaluate(double[] values, double[] weights, int begin, int length);
 
 }

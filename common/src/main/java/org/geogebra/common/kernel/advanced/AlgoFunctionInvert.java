@@ -108,7 +108,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 	}
 
-
 	/**
 	 * @param root0
 	 *            root element
@@ -121,8 +120,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 	 * @return inverted expression
 	 */
 	public static ExpressionNode invert(ExpressionValue root0,
-			FunctionVariable oldFV,
-			FunctionVariable x, Kernel kernel) {
+			FunctionVariable oldFV, FunctionVariable x, Kernel kernel) {
 		boolean fvLeft;
 		ExpressionNode newRoot = x.wrap();
 		ExpressionValue root = root0;
@@ -155,48 +153,54 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 			case COT:
 				// acot(x) can be written as atan(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ARCTAN, null);
 				root = left;
 				break;
 
 			case SEC:
 				// asec(x) can be written as acos(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ARCCOS, null);
 				root = left;
 				break;
 
 			case CSC:
 				// acsc(x) can be written as asin(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ARCSIN, null);
 				root = left;
 				break;
 
 			case COTH:
 				// acoth(x) can be written as atanh(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ATANH, null);
 				root = left;
 				break;
 
 			case SECH:
 				// asech(x) can be written as acosh(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ACOSH, null);
 				root = left;
 				break;
 
 			case CSCH:
 				// acsch(x) can be written as asinh(1/x)
-				newRoot = new ExpressionNode(kernel, new ExpressionNode(kernel,
-						new MyDouble(kernel, 1.0), Operation.DIVIDE, newRoot),
+				newRoot = new ExpressionNode(kernel,
+						new ExpressionNode(kernel, new MyDouble(kernel, 1.0),
+								Operation.DIVIDE, newRoot),
 						Operation.ASINH, null);
 				root = left;
 				break;
@@ -225,13 +229,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 			case LOG10:
 
-				newRoot = new ExpressionNode(kernel,
-						new MyDouble(kernel, 10.0), Operation.POWER, newRoot);
+				newRoot = new ExpressionNode(kernel, new MyDouble(kernel, 10.0),
+						Operation.POWER, newRoot);
 				root = left;
 				break;
 
 			case LOGB:
-				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
+				if ((fvLeft = left.contains(oldFV))
+						&& (right.contains(oldFV))) {
 					return null;
 				}
 				if (fvLeft) {
@@ -239,9 +244,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 							new ExpressionNode(kernel, 1).divide(newRoot));
 					root = left;
 				} else {
-				newRoot = new ExpressionNode(kernel, left, Operation.POWER,
-						newRoot);
-				root = right;
+					newRoot = new ExpressionNode(kernel, left, Operation.POWER,
+							newRoot);
+					root = right;
 				}
 				break;
 
@@ -254,7 +259,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 					if (right instanceof NumberValue) {
 						double index = (((NumberValue) (right
 								.evaluate(StringTemplate.maxPrecision)))
-								.getDouble());
+										.getDouble());
 						if (Kernel.isEqual(index, 3)) {
 							// inverse of x^3 is cbrt(x)
 							newRoot = new ExpressionNode(kernel, newRoot,
@@ -266,12 +271,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 						} else if (Kernel.isEqual(index, -1)) {
 							// inverse of x^-1 is x^-1
 							newRoot = new ExpressionNode(kernel, newRoot,
-									Operation.POWER, new MyDouble(kernel, -1.0));
+									Operation.POWER,
+									new MyDouble(kernel, -1.0));
 						} else if (right.isExpressionNode()
 								&& ((ExpressionNode) right).getOperation()
 										.equals(Operation.DIVIDE)) {
 							// special case for x^(a/b) convert to x^(b/a)
-							// AbstractApplication.debug("special case for x^(a/b) convert to x^(b/a)");
+							// AbstractApplication.debug("special case for
+							// x^(a/b) convert to x^(b/a)");
 
 							ExpressionValue num = ((ExpressionNode) right)
 									.getLeft();
@@ -301,22 +308,23 @@ public class AlgoFunctionInvert extends AlgoElement {
 							} else if (frac[0] < 100 && frac[1] < 100) {
 								// nice form for x^(23/45)
 								newRoot = new ExpressionNode(kernel, newRoot,
-										Operation.POWER, new ExpressionNode(
-												kernel, new MyDouble(kernel,
-														frac[1]),
-												Operation.DIVIDE, new MyDouble(
-														kernel, frac[0])));
+										Operation.POWER,
+										new ExpressionNode(kernel,
+												new MyDouble(kernel, frac[1]),
+												Operation.DIVIDE,
+												new MyDouble(kernel, frac[0])));
 							} else {
 								// just use decimals for fractions like 101/43
 								newRoot = new ExpressionNode(kernel, newRoot,
-										Operation.POWER, new MyDouble(kernel,
-												1.0 / index));
+										Operation.POWER,
+										new MyDouble(kernel, 1.0 / index));
 							}
 						}
 					} else {
 						// inverse of x^a is x^(1/a)
 						newRoot = new ExpressionNode(kernel, newRoot,
-								Operation.POWER, new ExpressionNode(kernel,
+								Operation.POWER,
+								new ExpressionNode(kernel,
 										new MyDouble(kernel, 1.0),
 										Operation.DIVIDE, right));
 					}
@@ -329,7 +337,8 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 			case PLUS:
 			case MULTIPLY:
-				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
+				if ((fvLeft = left.contains(oldFV))
+						&& (right.contains(oldFV))) {
 					return null;
 				}
 				// AbstractApplication.debug("left"+((ExpressionNode)
@@ -339,13 +348,11 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 				if (!fvLeft) {
 					newRoot = new ExpressionNode(kernel, newRoot,
-							Operation.inverse(op),
-							left);
+							Operation.inverse(op), left);
 					root = right;
 				} else {
 					newRoot = new ExpressionNode(kernel, newRoot,
-							Operation.inverse(op),
-							right);
+							Operation.inverse(op), right);
 					root = left;
 				}
 
@@ -353,7 +360,8 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 			case MINUS:
 			case DIVIDE:
-				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
+				if ((fvLeft = left.contains(oldFV))
+						&& (right.contains(oldFV))) {
 					return null;
 				}
 				// AbstractApplication.debug("left"+((ExpressionNode)
@@ -388,7 +396,5 @@ public class AlgoFunctionInvert extends AlgoElement {
 		}
 		return newRoot;
 	}
-
-	
 
 }

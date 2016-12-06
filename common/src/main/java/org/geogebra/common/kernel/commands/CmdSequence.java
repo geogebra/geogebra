@@ -28,7 +28,8 @@ public class CmdSequence extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		// avoid
-		// "Command Sequence not known eg Sequence[If[Element[list1,i]=="b",0,1]]
+		// "Command Sequence not known eg
+		// Sequence[If[Element[list1,i]=="b",0,1]]
 		if (n != 4 && n != 5 && n != 1 && n != 2) {
 			throw argNumErr(app, c.getName(), n);
 		}
@@ -70,8 +71,8 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
-				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
-						arg[0], (GeoNumeric) arg[1], (GeoNumberValue) arg[2],
+				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(), arg[0],
+						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], null);
 
 				return algo.getOutput();
@@ -90,8 +91,8 @@ public class CmdSequence extends CommandProcessor {
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
 
-				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
-						arg[0], (GeoNumeric) arg[1], (GeoNumberValue) arg[2],
+				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(), arg[0],
+						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
 				return algo.getOutput();
 

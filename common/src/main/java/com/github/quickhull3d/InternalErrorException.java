@@ -34,7 +34,7 @@ package com.github.quickhull3d;
  */
 public class InternalErrorException extends RuntimeException {
 
-    public InternalErrorException(String msg) {
-        super(msg);
-    }
+	public InternalErrorException(String msg) {
+		super(msg);
+	}
 }

@@ -107,7 +107,8 @@ public class BigPolynomial implements Cloneable {
 		BigDecimal[] coeff = new BigDecimal[] { BigDecimal.ZERO };// =new
 																	// BigDecimal[Math.max(coefficients.length,
 																	// p.coefficients.length)];
-		for (int i = Math.max(coefficients.length, p.coefficients.length) - 1; i >= 0; i--) {
+		for (int i = Math.max(coefficients.length, p.coefficients.length)
+				- 1; i >= 0; i--) {
 			BigDecimal newCoeff = BigDecimal.ZERO;
 			if (i < coefficients.length && i < p.coefficients.length) {
 				newCoeff = coefficients[i].add(p.coefficients[i], mc);
@@ -138,7 +139,8 @@ public class BigPolynomial implements Cloneable {
 		BigDecimal[] coeff = new BigDecimal[] { BigDecimal.ZERO };// new
 																	// BigDecimal[Math.max(coefficients.length,
 																	// p.coefficients.length)];
-		for (int i = Math.max(coefficients.length, p.coefficients.length) - 1; i >= 0; i--) {
+		for (int i = Math.max(coefficients.length, p.coefficients.length)
+				- 1; i >= 0; i--) {
 			BigDecimal newCoeff = BigDecimal.ZERO;
 			if (i < coefficients.length && i < p.coefficients.length) {
 				newCoeff = coefficients[i].subtract(p.coefficients[i], mc);
@@ -168,13 +170,15 @@ public class BigPolynomial implements Cloneable {
 	public BigPolynomial multiply(BigPolynomial p) {
 		BigDecimal[] coeff = new BigDecimal[] { BigDecimal.ZERO };// new
 																	// BigDecimal[(coefficients.length+p.coefficients.length)-1];
-		for (int i = (coefficients.length + p.coefficients.length) - 2; i >= 0; i--) {
+		for (int i = (coefficients.length + p.coefficients.length)
+				- 2; i >= 0; i--) {
 			BigDecimal sum = BigDecimal.ZERO;
 			for (int j = 0; j <= i; j++) {
-				if (j < coefficients.length && (i - j) < p.coefficients.length) {
-					sum = sum
-							.add(coefficients[j].multiply(
-									p.coefficients[i - j], mc), mc);
+				if (j < coefficients.length
+						&& (i - j) < p.coefficients.length) {
+					sum = sum.add(
+							coefficients[j].multiply(p.coefficients[i - j], mc),
+							mc);
 				}
 				// else if (j>=coefficients.length){
 				// sum=sum.add(p.coefficients[i-j]);
@@ -210,7 +214,8 @@ public class BigPolynomial implements Cloneable {
 		BigDecimal[] remainder = getCoefficients();
 		int k = remainder.length - 1;
 		if (k < degD) {
-			return new BigPolynomial(this, new BigDecimal[] { BigDecimal.ZERO });
+			return new BigPolynomial(this,
+					new BigDecimal[] { BigDecimal.ZERO });
 		}
 		quotient = new BigDecimal[] { BigDecimal.ZERO };// new
 														// BigDecimal[k+1-degD];

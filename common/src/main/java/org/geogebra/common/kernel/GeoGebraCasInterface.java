@@ -80,7 +80,8 @@ public interface GeoGebraCasInterface {
 	 *            variable
 	 * @return list of strings representing the coefficients
 	 */
-	public String[] getPolynomialCoeffs(final String exp, final String variable);
+	public String[] getPolynomialCoeffs(final String exp,
+			final String variable);
 
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
@@ -119,10 +120,8 @@ public interface GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression exp,
-			MyArbitraryConstant arbConst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
-			throws CASException;
-	
-	
+			MyArbitraryConstant arbConst, StringTemplate tpl, GeoCasCell cell,
+			Kernel kernel) throws CASException;
 
 	/**
 	 * Returns the CAS command for the currently set CAS using the given key and

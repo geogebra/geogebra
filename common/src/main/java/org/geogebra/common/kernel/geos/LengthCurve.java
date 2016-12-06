@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
 public class LengthCurve implements RealRootFunction {
 	private GeoCurveCartesianND c1;
 	private double f1eval[] = new double[] { 0, 0, 0 };
+
 	/**
 	 * Curve length function for numeric estimation of curve length
 	 * 

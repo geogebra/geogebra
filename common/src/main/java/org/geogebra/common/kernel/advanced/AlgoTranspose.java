@@ -91,6 +91,4 @@ public class AlgoTranspose extends AlgoElement {
 
 	}
 
-	
-
 }

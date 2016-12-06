@@ -148,16 +148,16 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	// ////////////////////////
 
 	@Override
-	protected void getNormalProjectionParameters(Coords coords, double[] parameters) {
+	protected void getNormalProjectionParameters(Coords coords,
+			double[] parameters) {
 
 		super.getNormalProjectionParameters(coords, parameters);
 
-		if (parameters[1] < getMinParameter(1)){
+		if (parameters[1] < getMinParameter(1)) {
 			parameters[1] = getMinParameter(1);
-		}else if (parameters[1] > getMaxParameter(1)){
+		} else if (parameters[1] > getMaxParameter(1)) {
 			parameters[1] = getMaxParameter(1);
 		}
-
 
 	}
 
@@ -176,20 +176,19 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		return super.getProjection(willingCoords, willingDirection, t1, t2);
 
 	}
-	
+
 	@Override
-	protected boolean checkParameters(double[] parameters){
+	protected boolean checkParameters(double[] parameters) {
 		if (Kernel.isGreater(getMinParameter(1), parameters[1])) {
 			parameters[1] = getMinParameter(1);
 			return false;
-		} 
+		}
 		if (Kernel.isGreater(parameters[1], getMaxParameter(1))) {
 			parameters[1] = getMaxParameter(1);
 			return false;
 		}
 		return super.checkParameters(parameters);
 	}
-	
 
 	/**
 	 * try with t1, then with t2, assuming t1 < t2
@@ -207,8 +206,8 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	private Coords[] getProjectionSorted(Coords willingCoords,
 			Coords willingDirection, double t1, double t2) {
 
-		super.getNormalProjectionParameters(willingCoords
-				.add(willingDirection.mul(t1)), tmpDouble2);
+		super.getNormalProjectionParameters(
+				willingCoords.add(willingDirection.mul(t1)), tmpDouble2);
 
 		// check if first parameters are inside
 		if (Kernel.isGreater(getMinParameter(1), tmpDouble2[1])) {
@@ -216,24 +215,26 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		} else if (Kernel.isGreater(tmpDouble2[1], getMaxParameter(1))) {
 			tmpDouble2[1] = getMaxParameter(1);
 		} else {
-			return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]), new Coords(tmpDouble2) }; // first
-																		// parameters
-																		// are
-																		// inside
+			return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
+					new Coords(tmpDouble2) }; // first
+			// parameters
+			// are
+			// inside
 		}
 
 		// first parameters are outside, check second parameters
-		super.getNormalProjectionParameters(willingCoords
-				.add(willingDirection.mul(t2)), tmpDouble2bis);
+		super.getNormalProjectionParameters(
+				willingCoords.add(willingDirection.mul(t2)), tmpDouble2bis);
 		if (Kernel.isGreater(getMinParameter(1), tmpDouble2bis[1])) {
 			tmpDouble2bis[1] = getMinParameter(1);
 		} else if (Kernel.isGreater(tmpDouble2bis[1], getMaxParameter(1))) {
 			tmpDouble2bis[1] = getMaxParameter(1);
 		} else {
-			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]), new Coords(tmpDouble2bis) }; // first
-																		// parameters
-																		// are
-																		// inside
+			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]),
+					new Coords(tmpDouble2bis) }; // first
+			// parameters
+			// are
+			// inside
 		}
 
 		// first and second parameters are outside: check nearest limit point
@@ -242,9 +243,11 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		double d1 = l1.distLine(willingCoords, willingDirection);
 		double d2 = l2.distLine(willingCoords, willingDirection);
 		if (Kernel.isGreater(d1, d2)) {
-			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]), new Coords(tmpDouble2bis) };
+			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]),
+					new Coords(tmpDouble2bis) };
 		}
-		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]), new Coords(tmpDouble2)  };
+		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
+				new Coords(tmpDouble2) };
 
 	}
 
@@ -290,7 +293,8 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 	public void calcArea() {
 
-		// Application.debug("geo="+getLabel()+", half="+getHalfAxis(0)+", min="+min+", max="+max+", type="+type);
+		// Application.debug("geo="+getLabel()+", half="+getHalfAxis(0)+",
+		// min="+min+", max="+max+", type="+type);
 
 		switch (type) {
 		case QUADRIC_CYLINDER:

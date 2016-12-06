@@ -19,13 +19,17 @@ public class TwoVarStatModel {
 	public interface TwoVarStatListener {
 
 		void setValueAt(String value, int row, int col);
+
 		void setValueAt(double value, int row, int col);
+
 		GeoList getDataSelected();
+
 		double[] getValueArray(GeoList dataList1);
+
 		void clear();
 
 	}
-	
+
 	protected Localization loc;
 
 	private Integer[] selectedDataIndex = { 0, 1 };
@@ -35,7 +39,8 @@ public class TwoVarStatModel {
 	private long n1, n2;
 	private TwoVarStatListener listener;
 
-	public TwoVarStatModel(App app, boolean isPairedData, TwoVarStatListener listener) {
+	public TwoVarStatModel(App app, boolean isPairedData,
+			TwoVarStatListener listener) {
 
 		this.loc = app.getLocalization();
 		this.isPairedData = isPairedData;
@@ -87,7 +92,7 @@ public class TwoVarStatModel {
 		updateStat();
 		updateDifferences();
 	}
-	
+
 	private void updateStat() {
 		// get the sample data statistics; if error clear the table and exit
 		boolean ok = evaluateSampleData();
@@ -104,12 +109,12 @@ public class TwoVarStatModel {
 		listener.setValueAt(sd2, 1, 2);
 		listener.setValueAt(n2, 1, 3);
 	}
-	
+
 	private void updateDifferences() {
 		if (!isPairedData) {
 			return;
 		}
-		
+
 		// get the sample data statistics; if error (e.g. unequal sizes) clear
 		// the table and exit
 		boolean ok = evaluatePairedDifferences();
@@ -217,7 +222,5 @@ public class TwoVarStatModel {
 	public void setSelectedDataIndex1(int idx) {
 		selectedDataIndex[1] = idx;
 	}
-
-	
 
 }

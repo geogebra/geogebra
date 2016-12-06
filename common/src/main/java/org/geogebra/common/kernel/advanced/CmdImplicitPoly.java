@@ -30,7 +30,6 @@ public class CmdImplicitPoly extends CommandProcessor {
 		super(kernel);
 	}
 
-
 	private GeoElement doCommand(String a, GeoList b) {
 
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
@@ -41,8 +40,8 @@ public class CmdImplicitPoly extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
@@ -61,8 +60,8 @@ public class CmdImplicitPoly extends CommandProcessor {
 				if (fvars.length != 2) {
 					throw new MyError(app.getLocalization(), "InvalidEquation");
 				}
-				GeoElement[] ret = { getAlgoDispatcher().ImplicitPoly(
-						c.getLabel(), ((GeoFunctionNVar) arg[0]))
+				GeoElement[] ret = { getAlgoDispatcher()
+						.ImplicitPoly(c.getLabel(), ((GeoFunctionNVar) arg[0]))
 						.toGeoElement() };
 				return ret;
 			} else {

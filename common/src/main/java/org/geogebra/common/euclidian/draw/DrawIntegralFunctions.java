@@ -89,10 +89,10 @@ public class DrawIntegralFunctions extends Drawable {
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
 		Kernel kernel = cmd.getKernel();
-		f = new GeoFunction(kernel.getConstruction(), new Function(cmd
-				.getArgument(0).wrap().replaceCasCommands()));
-		g = new GeoFunction(kernel.getConstruction(), new Function(cmd
-				.getArgument(1).wrap().replaceCasCommands()));
+		f = new GeoFunction(kernel.getConstruction(),
+				new Function(cmd.getArgument(0).wrap().replaceCasCommands()));
+		g = new GeoFunction(kernel.getConstruction(),
+				new Function(cmd.getArgument(1).wrap().replaceCasCommands()));
 		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap()
 				.replaceCasCommands().evaluateDouble());
 		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).wrap()
@@ -176,7 +176,7 @@ public class DrawIntegralFunctions extends Drawable {
 			}
 
 			fill(g2, gp); // fill using default/hatching/image as
-								// appropriate
+							// appropriate
 
 			if (objStroke.getLineWidth() > 0) {
 				g2.setPaint(getObjectColor());

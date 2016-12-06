@@ -47,8 +47,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Markus Hohenwarter
  * 
  */
-public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
-		GeoNumberValue, LimitedPath {
+public class GeoConicPart3D extends GeoConic3D
+		implements GeoConicPartND, GeoNumberValue, LimitedPath {
 
 	// parameters (e.g. angles) for arc
 	private GeoConicPartParameters parameters;
@@ -123,7 +123,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 
 		if (geo.isGeoConicPart()) {
 			GeoConicPartND cp = (GeoConicPartND) geo;
-			parameters.allowOutlyingIntersections = cp.getParameters().allowOutlyingIntersections;
+			parameters.allowOutlyingIntersections = cp
+					.getParameters().allowOutlyingIntersections;
 		}
 	}
 
@@ -342,7 +343,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 
 		default:
 			pPP.t = -1;
-			// Application.debug("GeoConicPart.isIncident: unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.isIncident: unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 
@@ -418,7 +420,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 
 		default:
 			pp.t = Double.NaN;
-			// Application.debug("GeoConicPart.pointChanged(): unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.pointChanged(): unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 	}
@@ -481,7 +484,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 			break;
 
 		default:
-			// Application.debug("GeoConicPart.pathChanged(): unsupported conic part for conic type: "
+			// Application.debug("GeoConicPart.pathChanged(): unsupported conic
+			// part for conic type: "
 			// + type);
 		}
 	}
@@ -498,7 +502,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		case CONIC_ELLIPSE:
 			return 0;
 
-			// degenerate case: two rays or one segment
+		// degenerate case: two rays or one segment
 		case CONIC_PARALLEL_LINES:
 			if (parameters.posOrientation) {
 				// segment
@@ -524,7 +528,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		case CONIC_ELLIPSE:
 			return 1;
 
-			// degenerate case: two rays or one segment
+		// degenerate case: two rays or one segment
 		case CONIC_PARALLEL_LINES:
 			if (parameters.posOrientation) {
 				// segment
@@ -740,8 +744,8 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 																// segment
 				nearestPoint.check(tmpCoords);
 		} else {
-			coords.projectLineSub(firstPoint, secondPoint,
-					tmpCoords, tmpParameters);
+			coords.projectLineSub(firstPoint, secondPoint, tmpCoords,
+					tmpParameters);
 			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																// the
 																// projected

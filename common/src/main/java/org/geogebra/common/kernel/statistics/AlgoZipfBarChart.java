@@ -58,9 +58,9 @@ public class AlgoZipfBarChart extends AlgoBarChart {
 				(GeoNumberValue) this.getP1().deepCopy(kernel),
 				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),
-				(GeoNumberValue) this.getB().deepCopy(
-						kernel), Cloner.clone(getValues()),
-				Cloner.clone(getLeftBorder()), getIntervals());
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+				getIntervals());
 
 	}
 

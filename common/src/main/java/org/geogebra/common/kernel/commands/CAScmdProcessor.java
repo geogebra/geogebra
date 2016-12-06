@@ -23,10 +23,10 @@ public class CAScmdProcessor extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
-		throw new MyError(loc, loc.getPlain("CASViewOnly",
-				loc.getCommand(c.getName())));
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
+		throw new MyError(loc,
+				loc.getPlain("CASViewOnly", loc.getCommand(c.getName())));
 	}
 
 }

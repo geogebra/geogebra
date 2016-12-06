@@ -68,8 +68,9 @@ public class AlgoDimension extends AlgoElement {
 				firstDimension.setUndefined();
 				return;
 			}
-			firstDimension.setValue(point instanceof GeoPoint
-					|| point instanceof GeoVector ? 2 : 3);
+			firstDimension.setValue(
+					point instanceof GeoPoint || point instanceof GeoVector ? 2
+							: 3);
 			return;
 		}
 
@@ -107,7 +108,5 @@ public class AlgoDimension extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.Dimension;
 	}
-
-	
 
 }

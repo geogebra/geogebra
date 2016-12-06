@@ -105,7 +105,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return maxScale;
 	}
 
-
 	/**
 	 * 
 	 * @return x scale * y scale
@@ -180,7 +179,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param yZero2
 	 * @param zZero2
 	 */
-	public void updateOriginFromView(double xZero2, double yZero2, double zZero2) {
+	public void updateOriginFromView(double xZero2, double yZero2,
+			double zZero2) {
 		this.xZero = xZero2;
 		this.yZero = yZero2;
 		this.zZero = zZero2;
@@ -271,15 +271,14 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public int getProjection() {
 		return projection;
 	}
-	
-	
+
 	private int projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
-	
+
 	/**
 	 * default value for eye distance to the screen for perspective
 	 */
 	public static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
-	
+
 	/**
 	 * 
 	 * @return eye distance to the screen for perspective
@@ -287,9 +286,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public int getProjectionPerspectiveEyeDistance() {
 		return projectionPerspectiveEyeDistance;
 	}
-	
-	
-	
+
 	/**
 	 * set the near distance regarding eye distance to the screen for
 	 * perspective (in pixels)
@@ -297,64 +294,54 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * @param distance
 	 */
 	public void setProjectionPerspectiveEyeDistance(int distance) {
-		if (projectionPerspectiveEyeDistance != distance){
+		if (projectionPerspectiveEyeDistance != distance) {
 			projectionPerspectiveEyeDistance = distance;
 			settingChanged();
 		}
 	}
-	
-	
-	
-	
 
 	public static final int EYE_SEP_DEFAULT = 200;
-	
+
 	private int eyeSep = EYE_SEP_DEFAULT;
-	
-	public void setEyeSep(int value){
-		if (eyeSep != value){
+
+	public void setEyeSep(int value) {
+		if (eyeSep != value) {
 			eyeSep = value;
 			settingChanged();
 		}
 	}
-	
+
 	public int getEyeSep() {
 		return eyeSep;
 	}
-	
-	
+
 	public static final double PROJECTION_OBLIQUE_ANGLE_DEFAULT = 30;
 	public static final double PROJECTION_OBLIQUE_FACTOR_DEFAULT = 0.5;
 
-	
-	
 	private double projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
 	private double projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
-	
-	public void setProjectionObliqueAngle(double value){
-		if (projectionObliqueAngle != value){
+
+	public void setProjectionObliqueAngle(double value) {
+		if (projectionObliqueAngle != value) {
 			projectionObliqueAngle = value;
 			settingChanged();
 		}
 	}
-	
+
 	public double getProjectionObliqueAngle() {
 		return projectionObliqueAngle;
 	}
 
-	public void setProjectionObliqueFactor(double value){
-		if (projectionObliqueFactor != value){
+	public void setProjectionObliqueFactor(double value) {
+		if (projectionObliqueFactor != value) {
 			projectionObliqueFactor = value;
 			settingChanged();
 		}
 	}
-	
+
 	public double getProjectionObliqueFactor() {
 		return projectionObliqueFactor;
 	}
-
-	
-	
 
 	private boolean yAxisVertical = false;
 
@@ -374,20 +361,19 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 
 	}
-	
-	
+
 	private boolean useLight = true;
 
 	private double rotSpeed;
-	
-	public void setUseLight(boolean flag){
+
+	public void setUseLight(boolean flag) {
 		if (useLight != flag) {
 			useLight = flag;
 			settingChanged();
 		}
 	}
-	
-	public boolean getUseLight(){
+
+	public boolean getUseLight() {
 		return useLight;
 	}
 
@@ -395,52 +381,50 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public boolean is3D() {
 		return true;
 	}
-	
-	
+
 	@Override
 	protected void resetNoFire() {
-		
+
 		super.resetNoFire();
-		
+
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
-		
+
 		a = EuclidianView3D.ANGLE_ROT_OZ;
 		b = EuclidianView3D.ANGLE_ROT_XOY;
-		
+
 		xscale = EuclidianView.SCALE_STANDARD;
 		yscale = EuclidianView.SCALE_STANDARD;
 		zscale = EuclidianView.SCALE_STANDARD;
 		maxScale = EuclidianView.SCALE_STANDARD;
-		
+
 		yAxisVertical = false;
-		useLight = true;	
-		
+		useLight = true;
+
 		clippingReduction = 1;
 		useClippingCube = false;
 		showClippingCube = false;
 
 		showPlate = true;
 
-		
 		projection = 0;
-		
+
 		eyeSep = EYE_SEP_DEFAULT;
 		projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
-		
+
 		projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
 		projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
-		
-		
-		
+
 	}
-	
+
 	/**
 	 * set x, y, z scale, don't call settingsChanged()
-	 * @param scale scale value
+	 * 
+	 * @param scale
+	 *            scale value
 	 */
-	public void setScaleNoCallToSettingsChanged(double scale){
+	public void setScaleNoCallToSettingsChanged(double scale) {
 		this.xscale = scale;
 		this.yscale = scale;
 		this.zscale = scale;
@@ -517,8 +501,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		sb.append("\" pointCapturing=\"");
 
 		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
-		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
-				: getPointCapturingMode());
+		sb.append(
+				getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX
+						? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
+						: getPointCapturingMode());
 
 		sb.append("\" rightAngleStyle=\"");
 		sb.append(app.rightAngleStyle);

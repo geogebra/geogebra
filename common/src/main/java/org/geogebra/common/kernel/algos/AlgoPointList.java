@@ -95,6 +95,4 @@ public class AlgoPointList extends AlgoElement {
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 
-	
-
 }

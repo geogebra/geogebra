@@ -27,56 +27,50 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * <pre>
  * <h3>RegressionMath:</h3>
  * 
- *  RegressionMath is a library of sums, determinants and parameter calculations
- *  used by the FitXxx[GeoList]:GeoFunction commands.
- *   
- *  Might be problems if callers are running in separate threads.
- *  Is this a problem?
- *  
- *  
- *  @author Hans-Petter Ulven
- *  @version 20.02.10
- *  Start  24.04.08
- *  Update 15.11.08:
- *  		public det22(...),...,det44(...) for use in FitSin() and FitLogistic()
- *  Update 27.01.09:
- *       doPolyN():boolean
- *       getPar():double[]
- *       to serve the extending of FitPoly[...] to degree>=5
- *       Matrix operations based on Jama.
- *  Update 20.02.2010:
- *  		Changed from JaMa to Apache matrix library
- *       See doPolyN()  
- *       Got rid of r=corrcoff(), not used. Exists as separate command now.
+ * RegressionMath is a library of sums, determinants and parameter calculations
+ * used by the FitXxx[GeoList]:GeoFunction commands.
+ * 
+ * Might be problems if callers are running in separate threads. Is this a
+ * problem?
+ * 
+ * 
+ * @author Hans-Petter Ulven
+ * @version 20.02.10 Start 24.04.08 Update 15.11.08: public
+ *          det22(...),...,det44(...) for use in FitSin() and FitLogistic()
+ *          Update 27.01.09: doPolyN():boolean getPar():double[] to serve the
+ *          extending of FitPoly[...] to degree>=5 Matrix operations based on
+ *          Jama. Update 20.02.2010: Changed from JaMa to Apache matrix library
+ *          See doPolyN() Got rid of r=corrcoff(), not used. Exists as separate
+ *          command now.
  *
- * <ul><b>--- Interface: ---</b>
- *<li>RegressionMath(GeoList)
- *<li>det33(...), det44(...)	determinants. (Faster than Gauss for n<5)
- *<li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
- *<li>doExpReg(),doLogReg(),doPowReg()
- *<li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
- *<li>getSigmaY(),[getSigmaY2(),getSigmaXY(),getSigmaX2Y(),getSigmaX3Y(),getSigmaX4Y()]
- *<li>getP1(),getP2(),getP3(),getP4(),getP5()   //Parameters for regression function
- *<li>getR()    //regression coeffisient. (When users get regression, they will certainly ask for this...)
- *</ul>
+ *          <ul>
+ *          <b>--- Interface: ---</b>
+ *          <li>RegressionMath(GeoList)
+ *          <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
+ *          <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
+ *          <li>doExpReg(),doLogReg(),doPowReg()
+ *          <li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
+ *          <li>getSigmaY(),[getSigmaY2(),getSigmaXY(),getSigmaX2Y(),getSigmaX3Y
+ *          (),getSigmaX4Y()]
+ *          <li>getP1(),getP2(),getP3(),getP4(),getP5() //Parameters for
+ *          regression function
+ *          <li>getR() //regression coeffisient. (When users get regression,
+ *          they will certainly ask for this...)
+ *          </ul>
  */
 
 public final class RegressionMath {
 
-	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, QUART = 4,
-			EXP = 5, LOG = 6, POW = 7;
+	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, QUART = 4, EXP = 5,
+			LOG = 6, POW = 7;
 
 	// / --- Properties --- ///
 	private boolean error = false;
 	// private int regtype = LINEAR; //Default
 	private double // r, //Reg-coeff
-			p1,
-			p2, p3, p4,
-			p5, // Parameters
-			sigmax, sigmax2, sigmax3,
-			sigmax4, // Sums of x,x^2,...
-			sigmax5, sigmax6, sigmax7, sigmax8, sigmay, sigmay2,
-			sigmaxy,
+	p1, p2, p3, p4, p5, // Parameters
+			sigmax, sigmax2, sigmax3, sigmax4, // Sums of x,x^2,...
+			sigmax5, sigmax6, sigmax7, sigmax8, sigmay, sigmay2, sigmaxy,
 			sigmax2y, sigmax3y, sigmax4y;
 	private GeoList geolist;
 	private double[] xlist;
@@ -171,7 +165,7 @@ public final class RegressionMath {
 		} catch (Throwable t) {
 			Log.debug(t.toString());
 			error = true;
-		}// try-catch. ToDo: A bit more fine-grained error-handling...
+		} // try-catch. ToDo: A bit more fine-grained error-handling...
 		return !error;
 	}// doPolyN()
 
@@ -211,14 +205,14 @@ public final class RegressionMath {
 			return false;
 		}
 
-		double n = det33(1.0d * size, sigmax, sigmax2, sigmax, sigmax2,
-				sigmax3, sigmax2, sigmax3, sigmax4);
+		double n = det33(1.0d * size, sigmax, sigmax2, sigmax, sigmax2, sigmax3,
+				sigmax2, sigmax3, sigmax4);
 
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
-		p1 = det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3,
-				sigmax2y, sigmax3, sigmax4) / n;
+		p1 = det33(sigmay, sigmax, sigmax2, sigmaxy, sigmax2, sigmax3, sigmax2y,
+				sigmax3, sigmax4) / n;
 		p2 = det33(1.0d * size, sigmay, sigmax2, sigmax, sigmaxy, sigmax3,
 				sigmax2, sigmax2y, sigmax4) / n;
 		p3 = det33(1.0d * size, sigmax, sigmay, sigmax, sigmax2, sigmaxy,
@@ -240,29 +234,25 @@ public final class RegressionMath {
 			return false;
 		}
 
-		double n = det44(1.0d * size, sigmax, sigmax2, sigmax3, sigmax,
-				sigmax2, sigmax3, sigmax4, sigmax2, sigmax3, sigmax4, sigmax5,
-				sigmax3, sigmax4, sigmax5, sigmax6);
+		double n = det44(1.0d * size, sigmax, sigmax2, sigmax3, sigmax, sigmax2,
+				sigmax3, sigmax4, sigmax2, sigmax3, sigmax4, sigmax5, sigmax3,
+				sigmax4, sigmax5, sigmax6);
 
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
 		p1 = det44(sigmay, sigmax, sigmax2, sigmax3, sigmaxy, sigmax2, sigmax3,
-				sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y,
-				sigmax4, sigmax5, sigmax6)
-				/ n;
+				sigmax4, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax3y, sigmax4,
+				sigmax5, sigmax6) / n;
 		p2 = det44(size, sigmay, sigmax2, sigmax3, sigmax, sigmaxy, sigmax3,
-				sigmax4, sigmax2, sigmax2y, sigmax4, sigmax5, sigmax3,
-				sigmax3y, sigmax5, sigmax6)
-				/ n;
+				sigmax4, sigmax2, sigmax2y, sigmax4, sigmax5, sigmax3, sigmax3y,
+				sigmax5, sigmax6) / n;
 		p3 = det44(size, sigmax, sigmay, sigmax3, sigmax, sigmax2, sigmaxy,
 				sigmax4, sigmax2, sigmax3, sigmax2y, sigmax5, sigmax3, sigmax4,
-				sigmax3y, sigmax6)
-				/ n;
+				sigmax3y, sigmax6) / n;
 		p4 = det44(size, sigmax, sigmax2, sigmay, sigmax, sigmax2, sigmax3,
 				sigmaxy, sigmax2, sigmax3, sigmax4, sigmax2y, sigmax3, sigmax4,
-				sigmax5, sigmax3y)
-				/ n;
+				sigmax5, sigmax3y) / n;
 		// r=0.0d; // Not useful
 		return true;
 	}// doCubic(Geolist)
@@ -280,38 +270,33 @@ public final class RegressionMath {
 			return false;
 		}
 
-		double n = det55(1.0d * size, sigmax, sigmax2, sigmax3, sigmax4,
-				sigmax, sigmax2, sigmax3, sigmax4, sigmax5, sigmax2, sigmax3,
-				sigmax4, sigmax5, sigmax6, sigmax3, sigmax4, sigmax5, sigmax6,
-				sigmax7, sigmax4, sigmax5, sigmax6, sigmax7, sigmax8);
+		double n = det55(1.0d * size, sigmax, sigmax2, sigmax3, sigmax4, sigmax,
+				sigmax2, sigmax3, sigmax4, sigmax5, sigmax2, sigmax3, sigmax4,
+				sigmax5, sigmax6, sigmax3, sigmax4, sigmax5, sigmax6, sigmax7,
+				sigmax4, sigmax5, sigmax6, sigmax7, sigmax8);
 		if (Math.abs(n - 0.0d) < 1.0E-15d) {
 			return false;
 		}
 		p1 = det55(sigmay, sigmax, sigmax2, sigmax3, sigmax4, sigmaxy, sigmax2,
 				sigmax3, sigmax4, sigmax5, sigmax2y, sigmax3, sigmax4, sigmax5,
-				sigmax6, sigmax3y, sigmax4, sigmax5, sigmax6, sigmax7,
-				sigmax4y, sigmax5, sigmax6, sigmax7, sigmax8)
-				/ n;
+				sigmax6, sigmax3y, sigmax4, sigmax5, sigmax6, sigmax7, sigmax4y,
+				sigmax5, sigmax6, sigmax7, sigmax8) / n;
 		p2 = det55(1.0d * size, sigmay, sigmax2, sigmax3, sigmax4, sigmax,
 				sigmaxy, sigmax3, sigmax4, sigmax5, sigmax2, sigmax2y, sigmax4,
 				sigmax5, sigmax6, sigmax3, sigmax3y, sigmax5, sigmax6, sigmax7,
-				sigmax4, sigmax4y, sigmax6, sigmax7, sigmax8)
-				/ n;
+				sigmax4, sigmax4y, sigmax6, sigmax7, sigmax8) / n;
 		p3 = det55(1.0d * size, sigmax, sigmay, sigmax3, sigmax4, sigmax,
 				sigmax2, sigmaxy, sigmax4, sigmax5, sigmax2, sigmax3, sigmax2y,
 				sigmax5, sigmax6, sigmax3, sigmax4, sigmax3y, sigmax6, sigmax7,
-				sigmax4, sigmax5, sigmax4y, sigmax7, sigmax8)
-				/ n;
+				sigmax4, sigmax5, sigmax4y, sigmax7, sigmax8) / n;
 		p4 = det55(1.0d * size, sigmax, sigmax2, sigmay, sigmax4, sigmax,
 				sigmax2, sigmax3, sigmaxy, sigmax5, sigmax2, sigmax3, sigmax4,
-				sigmax2y, sigmax6, sigmax3, sigmax4, sigmax5, sigmax3y,
-				sigmax7, sigmax4, sigmax5, sigmax6, sigmax4y, sigmax8)
-				/ n;
+				sigmax2y, sigmax6, sigmax3, sigmax4, sigmax5, sigmax3y, sigmax7,
+				sigmax4, sigmax5, sigmax6, sigmax4y, sigmax8) / n;
 		p5 = det55(1.0d * size, sigmax, sigmax2, sigmax3, sigmay, sigmax,
 				sigmax2, sigmax3, sigmax4, sigmaxy, sigmax2, sigmax3, sigmax4,
-				sigmax5, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax6,
-				sigmax3y, sigmax4, sigmax5, sigmax6, sigmax7, sigmax4y)
-				/ n;
+				sigmax5, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax6, sigmax3y,
+				sigmax4, sigmax5, sigmax6, sigmax7, sigmax4y) / n;
 		// r=0.0d; // Not useful
 		return true;
 	}// doQuart(Geolist)
@@ -336,7 +321,7 @@ public final class RegressionMath {
 				return false;
 			}
 			ylist[i] = Math.log(y);
-		}// for all y
+		} // for all y
 		doSums(LINEAR); // calculate neccessary sigmas
 		if (error) {
 			return false;
@@ -370,7 +355,7 @@ public final class RegressionMath {
 				return false;
 			}
 			xlist[i] = Math.log(xlist[i]);
-		}// for all x
+		} // for all x
 		doSums(LINEAR); // calculate neccessary sigmas
 		if (error) {
 			return false;
@@ -409,7 +394,7 @@ public final class RegressionMath {
 			}
 			xlist[i] = Math.log(x);
 			ylist[i] = Math.log(y);
-		}// for all x
+		} // for all x
 		doSums(LINEAR); // calculate neccessary sigmas
 		if (error) {
 			return false;
@@ -447,16 +432,18 @@ public final class RegressionMath {
 			double a22, double a23, double a24, double a31, double a32,
 			double a33, double a34, double a41, double a42, double a43,
 			double a44) {
-		return a11 * a22 * a33 * a44 - a11 * a22 * a34 * a43 - a11 * a23 * a32
-				* a44 + a11 * a23 * a42 * a34 + a11 * a32 * a24 * a43 - a11
-				* a24 * a33 * a42 - a12 * a21 * a33 * a44 + a12 * a21 * a34
-				* a43 + a12 * a31 * a23 * a44 - a12 * a31 * a24 * a43 - a12
-				* a23 * a41 * a34 + a12 * a41 * a24 * a33 + a21 * a13 * a32
-				* a44 - a21 * a13 * a42 * a34 - a21 * a14 * a32 * a43 + a21
-				* a14 * a33 * a42 - a13 * a22 * a31 * a44 + a13 * a22 * a41
-				* a34 + a13 * a31 * a24 * a42 - a13 * a32 * a41 * a24 + a22
-				* a31 * a14 * a43 - a22 * a14 * a41 * a33 - a31 * a14 * a23
-				* a42 + a14 * a23 * a32 * a41;
+		return a11 * a22 * a33 * a44 - a11 * a22 * a34 * a43
+				- a11 * a23 * a32 * a44 + a11 * a23 * a42 * a34
+				+ a11 * a32 * a24 * a43 - a11 * a24 * a33 * a42
+				- a12 * a21 * a33 * a44 + a12 * a21 * a34 * a43
+				+ a12 * a31 * a23 * a44 - a12 * a31 * a24 * a43
+				- a12 * a23 * a41 * a34 + a12 * a41 * a24 * a33
+				+ a21 * a13 * a32 * a44 - a21 * a13 * a42 * a34
+				- a21 * a14 * a32 * a43 + a21 * a14 * a33 * a42
+				- a13 * a22 * a31 * a44 + a13 * a22 * a41 * a34
+				+ a13 * a31 * a24 * a42 - a13 * a32 * a41 * a24
+				+ a22 * a31 * a14 * a43 - a22 * a14 * a41 * a33
+				- a31 * a14 * a23 * a42 + a14 * a23 * a32 * a41;
 	}// det44()
 
 	public final static double det55(
@@ -466,66 +453,66 @@ public final class RegressionMath {
 			double a31, double a32, double a33, double a34, double a35,
 			double a41, double a42, double a43, double a44, double a45,
 			double a51, double a52, double a53, double a54, double a55) {
-		return a11 * a22 * a33 * a44 * a55 - a11 * a22 * a33 * a45 * a54 - a11
-				* a22 * a34 * a43 * a55 + a11 * a22 * a34 * a53 * a45 + a11
-				* a22 * a43 * a35 * a54 - a11 * a22 * a35 * a44 * a53 - a11
-				* a23 * a32 * a44 * a55 + a11 * a23 * a32 * a45 * a54 + a11
-				* a23 * a42 * a34 * a55 - a11 * a23 * a42 * a35 * a54 - a11
-				* a23 * a34 * a52 * a45 + a11 * a23 * a52 * a35 * a44 + a11
-				* a32 * a24 * a43 * a55 - a11 * a32 * a24 * a53 * a45 - a11
-				* a32 * a25 * a43 * a54 + a11 * a32 * a25 * a44 * a53 - a11
-				* a24 * a33 * a42 * a55 + a11 * a24 * a33 * a52 * a45 + a11
-				* a24 * a42 * a35 * a53 - a11 * a24 * a43 * a52 * a35 + a11
-				* a33 * a42 * a25 * a54 - a11 * a33 * a25 * a52 * a44 - a11
-				* a42 * a25 * a34 * a53 + a11 * a25 * a34 * a43 * a52 - a12
-				* a21 * a33 * a44 * a55 + a12 * a21 * a33 * a45 * a54 + a12
-				* a21 * a34 * a43 * a55 - a12 * a21 * a34 * a53 * a45 - a12
-				* a21 * a43 * a35 * a54 + a12 * a21 * a35 * a44 * a53 + a12
-				* a31 * a23 * a44 * a55 - a12 * a31 * a23 * a45 * a54 - a12
-				* a31 * a24 * a43 * a55 + a12 * a31 * a24 * a53 * a45 + a12
-				* a31 * a25 * a43 * a54 - a12 * a31 * a25 * a44 * a53 - a12
-				* a23 * a41 * a34 * a55 + a12 * a23 * a41 * a35 * a54 + a12
-				* a23 * a51 * a34 * a45 - a12 * a23 * a51 * a35 * a44 + a12
-				* a41 * a24 * a33 * a55 - a12 * a41 * a24 * a35 * a53 - a12
-				* a41 * a33 * a25 * a54 + a12 * a41 * a25 * a34 * a53 - a12
-				* a24 * a33 * a51 * a45 + a12 * a24 * a51 * a43 * a35 + a12
-				* a33 * a51 * a25 * a44 - a12 * a51 * a25 * a34 * a43 + a21
-				* a13 * a32 * a44 * a55 - a21 * a13 * a32 * a45 * a54 - a21
-				* a13 * a42 * a34 * a55 + a21 * a13 * a42 * a35 * a54 + a21
-				* a13 * a34 * a52 * a45 - a21 * a13 * a52 * a35 * a44 - a21
-				* a14 * a32 * a43 * a55 + a21 * a14 * a32 * a53 * a45 + a21
-				* a14 * a33 * a42 * a55 - a21 * a14 * a33 * a52 * a45 - a21
-				* a14 * a42 * a35 * a53 + a21 * a14 * a43 * a52 * a35 + a21
-				* a32 * a15 * a43 * a54 - a21 * a32 * a15 * a44 * a53 - a21
-				* a15 * a33 * a42 * a54 + a21 * a15 * a33 * a52 * a44 + a21
-				* a15 * a42 * a34 * a53 - a21 * a15 * a34 * a43 * a52 - a13
-				* a22 * a31 * a44 * a55 + a13 * a22 * a31 * a45 * a54 + a13
-				* a22 * a41 * a34 * a55 - a13 * a22 * a41 * a35 * a54 - a13
-				* a22 * a51 * a34 * a45 + a13 * a22 * a51 * a35 * a44 + a13
-				* a31 * a24 * a42 * a55 - a13 * a31 * a24 * a52 * a45 - a13
-				* a31 * a42 * a25 * a54 + a13 * a31 * a25 * a52 * a44 - a13
-				* a32 * a41 * a24 * a55 + a13 * a32 * a41 * a25 * a54 + a13
-				* a32 * a24 * a51 * a45 - a13 * a32 * a51 * a25 * a44 + a13
-				* a41 * a24 * a52 * a35 - a13 * a41 * a25 * a34 * a52 - a13
-				* a24 * a42 * a51 * a35 + a13 * a42 * a51 * a25 * a34 + a22
-				* a31 * a14 * a43 * a55 - a22 * a31 * a14 * a53 * a45 - a22
-				* a31 * a15 * a43 * a54 + a22 * a31 * a15 * a44 * a53 - a22
-				* a14 * a41 * a33 * a55 + a22 * a14 * a41 * a35 * a53 + a22
-				* a14 * a33 * a51 * a45 - a22 * a14 * a51 * a43 * a35 + a22
-				* a41 * a15 * a33 * a54 - a22 * a41 * a15 * a34 * a53 - a22
-				* a15 * a33 * a51 * a44 + a22 * a15 * a51 * a34 * a43 - a31
-				* a14 * a23 * a42 * a55 + a31 * a14 * a23 * a52 * a45 + a31
-				* a14 * a42 * a25 * a53 - a31 * a14 * a25 * a43 * a52 + a31
-				* a23 * a15 * a42 * a54 - a31 * a23 * a15 * a52 * a44 - a31
-				* a15 * a24 * a42 * a53 + a31 * a15 * a24 * a43 * a52 + a14
-				* a23 * a32 * a41 * a55 - a14 * a23 * a32 * a51 * a45 - a14
-				* a23 * a41 * a52 * a35 + a14 * a23 * a42 * a51 * a35 - a14
-				* a32 * a41 * a25 * a53 + a14 * a32 * a51 * a25 * a43 + a14
-				* a41 * a33 * a25 * a52 - a14 * a33 * a42 * a51 * a25 - a23
-				* a32 * a41 * a15 * a54 + a23 * a32 * a15 * a51 * a44 + a23
-				* a41 * a15 * a34 * a52 - a23 * a15 * a42 * a51 * a34 + a32
-				* a41 * a15 * a24 * a53 - a32 * a15 * a24 * a51 * a43 - a41
-				* a15 * a24 * a33 * a52 + a15 * a24 * a33 * a42 * a51;
+		return a11 * a22 * a33 * a44 * a55 - a11 * a22 * a33 * a45 * a54
+				- a11 * a22 * a34 * a43 * a55 + a11 * a22 * a34 * a53 * a45
+				+ a11 * a22 * a43 * a35 * a54 - a11 * a22 * a35 * a44 * a53
+				- a11 * a23 * a32 * a44 * a55 + a11 * a23 * a32 * a45 * a54
+				+ a11 * a23 * a42 * a34 * a55 - a11 * a23 * a42 * a35 * a54
+				- a11 * a23 * a34 * a52 * a45 + a11 * a23 * a52 * a35 * a44
+				+ a11 * a32 * a24 * a43 * a55 - a11 * a32 * a24 * a53 * a45
+				- a11 * a32 * a25 * a43 * a54 + a11 * a32 * a25 * a44 * a53
+				- a11 * a24 * a33 * a42 * a55 + a11 * a24 * a33 * a52 * a45
+				+ a11 * a24 * a42 * a35 * a53 - a11 * a24 * a43 * a52 * a35
+				+ a11 * a33 * a42 * a25 * a54 - a11 * a33 * a25 * a52 * a44
+				- a11 * a42 * a25 * a34 * a53 + a11 * a25 * a34 * a43 * a52
+				- a12 * a21 * a33 * a44 * a55 + a12 * a21 * a33 * a45 * a54
+				+ a12 * a21 * a34 * a43 * a55 - a12 * a21 * a34 * a53 * a45
+				- a12 * a21 * a43 * a35 * a54 + a12 * a21 * a35 * a44 * a53
+				+ a12 * a31 * a23 * a44 * a55 - a12 * a31 * a23 * a45 * a54
+				- a12 * a31 * a24 * a43 * a55 + a12 * a31 * a24 * a53 * a45
+				+ a12 * a31 * a25 * a43 * a54 - a12 * a31 * a25 * a44 * a53
+				- a12 * a23 * a41 * a34 * a55 + a12 * a23 * a41 * a35 * a54
+				+ a12 * a23 * a51 * a34 * a45 - a12 * a23 * a51 * a35 * a44
+				+ a12 * a41 * a24 * a33 * a55 - a12 * a41 * a24 * a35 * a53
+				- a12 * a41 * a33 * a25 * a54 + a12 * a41 * a25 * a34 * a53
+				- a12 * a24 * a33 * a51 * a45 + a12 * a24 * a51 * a43 * a35
+				+ a12 * a33 * a51 * a25 * a44 - a12 * a51 * a25 * a34 * a43
+				+ a21 * a13 * a32 * a44 * a55 - a21 * a13 * a32 * a45 * a54
+				- a21 * a13 * a42 * a34 * a55 + a21 * a13 * a42 * a35 * a54
+				+ a21 * a13 * a34 * a52 * a45 - a21 * a13 * a52 * a35 * a44
+				- a21 * a14 * a32 * a43 * a55 + a21 * a14 * a32 * a53 * a45
+				+ a21 * a14 * a33 * a42 * a55 - a21 * a14 * a33 * a52 * a45
+				- a21 * a14 * a42 * a35 * a53 + a21 * a14 * a43 * a52 * a35
+				+ a21 * a32 * a15 * a43 * a54 - a21 * a32 * a15 * a44 * a53
+				- a21 * a15 * a33 * a42 * a54 + a21 * a15 * a33 * a52 * a44
+				+ a21 * a15 * a42 * a34 * a53 - a21 * a15 * a34 * a43 * a52
+				- a13 * a22 * a31 * a44 * a55 + a13 * a22 * a31 * a45 * a54
+				+ a13 * a22 * a41 * a34 * a55 - a13 * a22 * a41 * a35 * a54
+				- a13 * a22 * a51 * a34 * a45 + a13 * a22 * a51 * a35 * a44
+				+ a13 * a31 * a24 * a42 * a55 - a13 * a31 * a24 * a52 * a45
+				- a13 * a31 * a42 * a25 * a54 + a13 * a31 * a25 * a52 * a44
+				- a13 * a32 * a41 * a24 * a55 + a13 * a32 * a41 * a25 * a54
+				+ a13 * a32 * a24 * a51 * a45 - a13 * a32 * a51 * a25 * a44
+				+ a13 * a41 * a24 * a52 * a35 - a13 * a41 * a25 * a34 * a52
+				- a13 * a24 * a42 * a51 * a35 + a13 * a42 * a51 * a25 * a34
+				+ a22 * a31 * a14 * a43 * a55 - a22 * a31 * a14 * a53 * a45
+				- a22 * a31 * a15 * a43 * a54 + a22 * a31 * a15 * a44 * a53
+				- a22 * a14 * a41 * a33 * a55 + a22 * a14 * a41 * a35 * a53
+				+ a22 * a14 * a33 * a51 * a45 - a22 * a14 * a51 * a43 * a35
+				+ a22 * a41 * a15 * a33 * a54 - a22 * a41 * a15 * a34 * a53
+				- a22 * a15 * a33 * a51 * a44 + a22 * a15 * a51 * a34 * a43
+				- a31 * a14 * a23 * a42 * a55 + a31 * a14 * a23 * a52 * a45
+				+ a31 * a14 * a42 * a25 * a53 - a31 * a14 * a25 * a43 * a52
+				+ a31 * a23 * a15 * a42 * a54 - a31 * a23 * a15 * a52 * a44
+				- a31 * a15 * a24 * a42 * a53 + a31 * a15 * a24 * a43 * a52
+				+ a14 * a23 * a32 * a41 * a55 - a14 * a23 * a32 * a51 * a45
+				- a14 * a23 * a41 * a52 * a35 + a14 * a23 * a42 * a51 * a35
+				- a14 * a32 * a41 * a25 * a53 + a14 * a32 * a51 * a25 * a43
+				+ a14 * a41 * a33 * a25 * a52 - a14 * a33 * a42 * a51 * a25
+				- a23 * a32 * a41 * a15 * a54 + a23 * a32 * a15 * a51 * a44
+				+ a23 * a41 * a15 * a34 * a52 - a23 * a15 * a42 * a51 * a34
+				+ a32 * a41 * a15 * a24 * a53 - a32 * a15 * a24 * a51 * a43
+				- a41 * a15 * a24 * a33 * a52 + a15 * a24 * a33 * a42 * a51;
 	}// det55
 
 	// / --- Private --- ///
@@ -562,7 +549,7 @@ public final class RegressionMath {
 				sigmaxy += xy;
 				sigmay += y;
 			}// switch
-		}// for
+		} // for
 	}// doSums(degree)
 
 	/* Get points to local array */
@@ -583,8 +570,8 @@ public final class RegressionMath {
 				error = true;
 				xlist[i] = 0.0d;
 				ylist[i] = 0.0d;
-			}// if
-		}// for all points
+			} // if
+		} // for all points
 	}// getPoints()
 
 	// Make M with 1,x,x^2,... , and Y with y1,y2,.. for all datapoints
@@ -597,8 +584,8 @@ public final class RegressionMath {
 			// M:
 			for (int j = 0; j < (degree + 1); j++) {
 				marray[i][j] = Math.pow(xlist[i], j);
-			}// for j (all degrees =columns in marray)
-		}// for i (all datapoints = rows in marray, cols in yarray)
+			} // for j (all degrees =columns in marray)
+		} // for i (all datapoints = rows in marray, cols in yarray)
 
 	}// makeMatrixArrays()
 
@@ -621,10 +608,8 @@ public final class RegressionMath {
 	 * Jama is twice as fast if small datasets and degrees, // Apache about the
 	 * same if things get big... public static void diff(double[] a, double[]
 	 * b){ int size=Math.min(a.length,b.length); double dif=0.0d; for(int
-	 * i=0;i<size;i++){ dif=a[i]-b[i]; if(dif>1.0E-10){
-	 * //System.out.println("TOO BIG DIFFERENCE???");}
-	 * System.out.println(Math.abs(dif)); }//if too big diff }//for all data
-	 * }//diff
+	 * i=0;i<size;i++){ dif=a[i]-b[i]; if(dif>1.0E-10){ //System.out.println(
+	 * "TOO BIG DIFFERENCE???");} System.out.println(Math.abs(dif)); }//if too
+	 * big diff }//for all data }//diff
 	 */// --- SNIP END
 }// class RegressionMath
-

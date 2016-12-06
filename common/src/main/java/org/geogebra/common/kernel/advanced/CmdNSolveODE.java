@@ -64,8 +64,8 @@ public class CmdNSolveODE extends CommandProcessor {
 																			// before
 					&& (ok[3] = arg[3].isGeoNumeric())) {
 				GeoElement[] ret = getAlgoDispatcher().NSolveODE(c.getLabels(),
-						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoList) arg[2], (GeoNumeric) arg[3]);
+						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoList) arg[2],
+						(GeoNumeric) arg[3]);
 				return ret;
 			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));

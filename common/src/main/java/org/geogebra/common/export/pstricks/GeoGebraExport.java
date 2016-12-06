@@ -126,8 +126,8 @@ public abstract class GeoGebraExport {
 		int x2 = euclidianView.toScreenCoordX(xmax);
 		int y1 = euclidianView.toScreenCoordY(ymin);
 		int y2 = euclidianView.toScreenCoordY(ymax);
-		GRectangle rec = AwtFactory.getPrototype()
-				.newRectangle(x1, y2, x2 - x1, y1 - y2);
+		GRectangle rec = AwtFactory.getPrototype().newRectangle(x1, y2, x2 - x1,
+				y1 - y2);
 		// Application.debug(x1+" "+x2+" "+y1+" "+y2);
 		euclidianView.setSelectionRectangle(rec);
 		euclidianView.repaint();
@@ -178,8 +178,7 @@ public abstract class GeoGebraExport {
 		// Changes to make xmin,xmax,ymin,ymax be defined by the selection
 		// rectangle
 		// when this one is defined.
-		GRectangle rect = this.euclidianView
-				.getSelectionRectangle();
+		GRectangle rect = this.euclidianView.getSelectionRectangle();
 		if (rect != null) {
 			xmin = euclidianView.toRealWorldCoordX(rect.getMinX());
 			xmax = euclidianView.toRealWorldCoordX(rect.getMaxX());
@@ -447,7 +446,8 @@ public abstract class GeoGebraExport {
 
 	protected boolean isSinglePointConic(GeoElement geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_SINGLE_POINT)
+			if (((GeoConic) geo)
+					.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT)
 				return true;
 		}
 		return false;
@@ -455,9 +455,12 @@ public abstract class GeoGebraExport {
 
 	protected boolean isDoubleLineConic(GeoElement geo) {
 		if (geo.isGeoConic()) {
-			if (((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE
-					|| ((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES
-					|| ((GeoConic) geo).getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)
+			if (((GeoConic) geo)
+					.getType() == GeoConicNDConstants.CONIC_DOUBLE_LINE
+					|| ((GeoConic) geo)
+							.getType() == GeoConicNDConstants.CONIC_INTERSECTING_LINES
+					|| ((GeoConic) geo)
+							.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES)
 				return true;
 		}
 		return false;
@@ -648,7 +651,8 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The function to export
 	 */
-	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo,boolean trasparency);
+	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
+			boolean trasparency);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Text on euclidian view
@@ -683,8 +687,8 @@ public abstract class GeoGebraExport {
 	 *            geo Object
 	 */
 
-	abstract protected void drawLine(double x1, double y1, double x2,
-			double y2, GeoElement geo);
+	abstract protected void drawLine(double x1, double y1, double x2, double y2,
+			GeoElement geo);
 
 	/**
 	 * Export as PStricks or PGF arc mark for angle
@@ -700,8 +704,8 @@ public abstract class GeoGebraExport {
 	 * @param r
 	 *            radius
 	 */
-	abstract protected void drawArc(GeoAngle geo, double[] vertex,
-			double angSt, double angEnd, double r);
+	abstract protected void drawArc(GeoAngle geo, double[] vertex, double angSt,
+			double angEnd, double r);
 
 	/**
 	 * Export as PStricks or PGF segment mark
@@ -738,8 +742,7 @@ public abstract class GeoGebraExport {
 	 *            The StringBuilder to complete
 	 */
 
-	abstract protected void colorCode(GColor color,
-			StringBuilder sb);
+	abstract protected void colorCode(GColor color, StringBuilder sb);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ PolyLine objects polyline[A,B,C,D,E]
@@ -821,8 +824,8 @@ public abstract class GeoGebraExport {
 	// (pstricks,pgf,asymptote)
 	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2);
-	
-	abstract protected boolean fillSpline(GeoCurveCartesian [] curves);
+
+	abstract protected boolean fillSpline(GeoCurveCartesian[] curves);
 
 	/**
 	 * @return the xmin
@@ -1011,17 +1014,17 @@ public abstract class GeoGebraExport {
 			ny *= factor;
 			x1 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx
-					+ arrowlength * (nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy
-					+ arrowlength * (ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - arrowlength * vx + arrowlength * (nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - arrowlength * vy + arrowlength * (ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx
-					+ arrowlength * (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy
-					+ arrowlength * (-ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - arrowlength * vx + arrowlength * (-nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
 		case GeoElement.DECORATION_SEGMENT_TWO_ARROWS:
@@ -1035,17 +1038,17 @@ public abstract class GeoGebraExport {
 			ny *= factor;
 			x1 = euclidianView.toRealWorldCoordX(midX - 2 * arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - 2 * arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - 2 * arrowlength * vx
-					+ arrowlength * (nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - 2 * arrowlength * vy
-					+ arrowlength * (ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - 2 * arrowlength * vx + arrowlength * (nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - 2 * arrowlength * vy + arrowlength * (ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX - 2 * arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - 2 * arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - 2 * arrowlength * vx
-					+ arrowlength * (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - 2 * arrowlength * vy
-					+ arrowlength * (-ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - 2 * arrowlength * vx + arrowlength * (-nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - 2 * arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 
 			x1 = euclidianView.toRealWorldCoordX(midX);
@@ -1057,10 +1060,10 @@ public abstract class GeoGebraExport {
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX);
 			y1 = euclidianView.toRealWorldCoordY(midY);
-			x2 = euclidianView.toRealWorldCoordX(midX + arrowlength
-					* (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY + arrowlength
-					* (-ny + vy));
+			x2 = euclidianView
+					.toRealWorldCoordX(midX + arrowlength * (-nx + vx));
+			y2 = euclidianView
+					.toRealWorldCoordY(midY + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
 		case GeoElement.DECORATION_SEGMENT_THREE_ARROWS:
@@ -1074,47 +1077,47 @@ public abstract class GeoGebraExport {
 			ny *= factor;
 			x1 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx
-					+ arrowlength * (nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy
-					+ arrowlength * (ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - arrowlength * vx + arrowlength * (nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - arrowlength * vy + arrowlength * (ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - arrowlength * vx
-					+ arrowlength * (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - arrowlength * vy
-					+ arrowlength * (-ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - arrowlength * vx + arrowlength * (-nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 
 			x1 = euclidianView.toRealWorldCoordX(midX + arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY + arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX + arrowlength * vx
-					+ arrowlength * (nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY + arrowlength * vy
-					+ arrowlength * (ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX + arrowlength * vx + arrowlength * (nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY + arrowlength * vy + arrowlength * (ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX + arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY + arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX + arrowlength * vx
-					+ arrowlength * (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY + arrowlength * vy
-					+ arrowlength * (-ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX + arrowlength * vx + arrowlength * (-nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY + arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 
 			x1 = euclidianView.toRealWorldCoordX(midX - 3 * arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - 3 * arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - 3 * arrowlength * vx
-					+ arrowlength * (nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - 3 * arrowlength * vy
-					+ arrowlength * (ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - 3 * arrowlength * vx + arrowlength * (nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - 3 * arrowlength * vy + arrowlength * (ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			x1 = euclidianView.toRealWorldCoordX(midX - 3 * arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - 3 * arrowlength * vy);
-			x2 = euclidianView.toRealWorldCoordX(midX - 3 * arrowlength * vx
-					+ arrowlength * (-nx + vx));
-			y2 = euclidianView.toRealWorldCoordY(midY - 3 * arrowlength * vy
-					+ arrowlength * (-ny + vy));
+			x2 = euclidianView.toRealWorldCoordX(
+					midX - 3 * arrowlength * vx + arrowlength * (-nx + vx));
+			y2 = euclidianView.toRealWorldCoordY(
+					midY - 3 * arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
 		// Michael Borcherds 20071006 end
@@ -1165,7 +1168,8 @@ public abstract class GeoGebraExport {
 			double angleTick[] = new double[2];
 			angleTick[0] = (2 * angSt + 3 * angEnd) / 5;
 			angleTick[1] = (3 * angSt + 2 * angEnd) / 5;
-			if (Math.abs(angleTick[1] - angleTick[0]) > DrawAngle.MAX_TICK_DISTANCE) {
+			if (Math.abs(angleTick[1]
+					- angleTick[0]) > DrawAngle.MAX_TICK_DISTANCE) {
 				angleTick[0] = (angSt + angEnd) / 2
 						- DrawAngle.MAX_TICK_DISTANCE / 2;
 				angleTick[1] = (angSt + angEnd) / 2
@@ -1181,7 +1185,8 @@ public abstract class GeoGebraExport {
 			angleTick = new double[2];
 			angleTick[0] = (5 * angSt + 3 * angEnd) / 8;
 			angleTick[1] = (3 * angSt + 5 * angEnd) / 8;
-			if (Math.abs(angleTick[1] - angleTick[0]) > DrawAngle.MAX_TICK_DISTANCE) {
+			if (Math.abs(angleTick[1]
+					- angleTick[0]) > DrawAngle.MAX_TICK_DISTANCE) {
 				angleTick[0] = (angSt + angEnd) / 2
 						- DrawAngle.MAX_TICK_DISTANCE / 2;
 				angleTick[1] = (angSt + angEnd) / 2
@@ -1202,7 +1207,8 @@ public abstract class GeoGebraExport {
 
 	protected void drawAllElements() {
 		boolean increment = (euclidianView.getShowGrid()
-				|| euclidianView.getShowXaxis() || euclidianView.getShowYaxis());
+				|| euclidianView.getShowXaxis()
+				|| euclidianView.getShowYaxis());
 		for (int step = 0; step < construction.steps(); step++) {
 			if (increment)
 				beamerSlideNumber = step + 2;
@@ -1368,8 +1374,8 @@ public abstract class GeoGebraExport {
 
 	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
 			double xrangemax, double xrangemin, int point, String template) {
-		GeoCurveCartesian curve = new GeoCurveCartesian(app.getKernel()
-				.getConstruction());
+		GeoCurveCartesian curve = new GeoCurveCartesian(
+				app.getKernel().getConstruction());
 		geo.toGeoCurveCartesian(curve);
 		StringBuilder lineBuilder = new StringBuilder();
 		double y = geo.evaluate(xrangemin);
@@ -1387,8 +1393,8 @@ public abstract class GeoGebraExport {
 				x = 0;
 			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (CurvePlotter.isContinuous(curve, xprec, x, 8)) {
-					lineBuilder.append(StringUtil.format(template, xprec,
-							yprec, x, y));
+					lineBuilder.append(
+							StringUtil.format(template, xprec, yprec, x, y));
 				}
 			}
 			yprec = y;
@@ -1459,7 +1465,6 @@ public abstract class GeoGebraExport {
 				&& !s.toLowerCase().contains("sech(")
 				&& !s.toLowerCase().contains("if");
 
-
 	}
 
 	protected void addTextPackage() {
@@ -1505,8 +1510,7 @@ public abstract class GeoGebraExport {
 				if (algo.getBarColor(barNumber) != null) {
 					rgb = new float[4];
 					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
-					linecolor = GColor.newColor(rgb[0], rgb[1],
-							rgb[2], rgb[3]);
+					linecolor = GColor.newColor(rgb[0], rgb[1], rgb[2], rgb[3]);
 				}
 				if (algo.getBarHatchDistance(barNumber) != -1) {
 					y = algo.getBarHatchDistance(barNumber);
@@ -1547,7 +1551,8 @@ public abstract class GeoGebraExport {
 	}
 
 	private void drawCurveCartesian(GeoElement geo) {
-		if (!isLatexFunction(geo.toValueString(StringTemplate.noLocalDefault))) {
+		if (!isLatexFunction(
+				geo.toValueString(StringTemplate.noLocalDefault))) {
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
 			Function f = curve.getFunX();
 			ExpressionNode exl = f.getFunctionExpression().getLeftTree();
@@ -1568,8 +1573,8 @@ public abstract class GeoGebraExport {
 			GeoCurveCartesian[] curves = new GeoCurveCartesian[exlsv.length];
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
 			for (int i = 0; i < exlsv.length; i++) {
-				GeoFunction fxx = ap.evaluateToFunction("xspline(t)="
-						+ exrsv[i], true);
+				GeoFunction fxx = ap
+						.evaluateToFunction("xspline(t)=" + exrsv[i], true);
 				curves[i] = new GeoCurveCartesian(this.construction);
 				curves[i].setFunctionX(fxx.getFunction());
 				curves[i].setInterval(Double.parseDouble(paramValues[i]),
@@ -1589,16 +1594,17 @@ public abstract class GeoGebraExport {
 			exlsv = exls.split(",");
 			exrsv = exrs.split(",");
 			for (int i = 0; i < exlsv.length; i++) {
-				GeoFunction fxx = ap.evaluateToFunction("yspline(t)="
-						+ exrsv[i], true);
+				GeoFunction fxx = ap
+						.evaluateToFunction("yspline(t)=" + exrsv[i], true);
 				curves[i].setFunctionY(fxx.getFunction());
 				curves[i].setInterval(Double.parseDouble(paramValues[i]),
 						Double.parseDouble(paramValues[i + 1]));
 			}
-			boolean fill=fillSpline(curves);
-			if (!fill){
-				for (int i=0;i<curves.length;i++){
-					drawSingleCurveCartesian((GeoCurveCartesian) curves[i],true);
+			boolean fill = fillSpline(curves);
+			if (!fill) {
+				for (int i = 0; i < curves.length; i++) {
+					drawSingleCurveCartesian((GeoCurveCartesian) curves[i],
+							true);
 				}
 			}
 		} else {

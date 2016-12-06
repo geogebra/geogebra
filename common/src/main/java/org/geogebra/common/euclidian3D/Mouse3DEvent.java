@@ -8,7 +8,6 @@ public class Mouse3DEvent extends AbstractEvent {
 
 	private GPoint point;
 
-
 	/**
 	 * constructor
 	 * 
@@ -80,7 +79,6 @@ public class Mouse3DEvent extends AbstractEvent {
 	public boolean isPopupTrigger() {
 		return false;
 	}
-
 
 	@Override
 	public PointerEventType getType() {

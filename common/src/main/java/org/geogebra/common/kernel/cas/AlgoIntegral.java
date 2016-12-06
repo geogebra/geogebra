@@ -180,6 +180,4 @@ public class AlgoIntegral extends AlgoCasBase {
 		return computedSymbolically;
 	}
 
-	
-
 }

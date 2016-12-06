@@ -74,12 +74,12 @@ public class CmdStickGraph extends CommandProcessor {
 
 			// StickGraph[ <x List>, <y list>, <isHorizontal> ]
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoList()))
+			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2]);
+						(GeoList) arg[0], (GeoList) arg[1],
+						(GeoBoolean) arg[2]);
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}

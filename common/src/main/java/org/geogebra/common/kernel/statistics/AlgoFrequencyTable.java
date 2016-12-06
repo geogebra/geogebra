@@ -116,7 +116,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	}
 
-	public AlgoFrequencyTable(Construction cons, String label, GeoNumeric chart) {
+	public AlgoFrequencyTable(Construction cons, String label,
+			GeoNumeric chart) {
 		this(cons, chart);
 		table.setLabel(label);
 	}
@@ -212,7 +213,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		return strHeader;
 	}
 
-
 	@Override
 	public final void compute() {
 
@@ -243,8 +243,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			for (int i = 0; i < f.length; i++) {
 				strValue[i] = kernel.format(leftBorder[i],
 						table.getStringTemplate());
-				strFrequency[i] = kernel
-						.format(f[i], table.getStringTemplate());
+				strFrequency[i] = kernel.format(f[i],
+						table.getStringTemplate());
 			}
 
 			createLaTeXTable(true);
@@ -300,19 +300,19 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 					if (scale != null) {
 						double scaleValue = scale.getDouble();
 						if (Kernel.isEqual(scaleValue, 1.0)) {
-							strHeader[1] = getLoc().getMenu(
-									"FrequencyTable.Count");
+							strHeader[1] = getLoc()
+									.getMenu("FrequencyTable.Count");
 						} else if (Kernel.isEqual(scaleValue * dataList.size(),
 								1)) {
 							strHeader[1] = getLoc().getMenu(
 									"FrequencyTable.RelativeFrequency");
 						} else {
-							strHeader[1] = getLoc().getMenu(
-									"FrequencyTable.Frequency");
+							strHeader[1] = getLoc()
+									.getMenu("FrequencyTable.Frequency");
 						}
 					} else {
-						strHeader[1] = getLoc().getMenu(
-								"FrequencyTable.Frequency");
+						strHeader[1] = getLoc()
+								.getMenu("FrequencyTable.Frequency");
 					}
 				} else {
 					strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
@@ -323,10 +323,10 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				GeoList va = freq.getValue();
 
 				for (int i = 0; i < length; i++) {
-					strValue[i] = va.get(i).toValueString(
-							table.getStringTemplate());
-					strFrequency[i] = fr.get(i).toValueString(
-							table.getStringTemplate());
+					strValue[i] = va.get(i)
+							.toValueString(table.getStringTemplate());
+					strFrequency[i] = fr.get(i)
+							.toValueString(table.getStringTemplate());
 				}
 				createLaTeXTable(false);
 			}
@@ -346,14 +346,14 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				strValue = new String[length + 1];
 				strFrequency = new String[length + 1];
 				for (int i = 0; i < length; i++) {
-					strValue[i] = classList.get(i).toValueString(
-							table.getStringTemplate());
-					strFrequency[i] = fr.get(i).toValueString(
-							table.getStringTemplate());
+					strValue[i] = classList.get(i)
+							.toValueString(table.getStringTemplate());
+					strFrequency[i] = fr.get(i)
+							.toValueString(table.getStringTemplate());
 				}
 				// include final class limit
-				strValue[length] = classList.get(length).toValueString(
-						table.getStringTemplate());
+				strValue[length] = classList.get(length)
+						.toValueString(table.getStringTemplate());
 
 				createLaTeXTable(true);
 			}
@@ -432,7 +432,5 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		}
 		sb.append("}}}");
 	}
-
-	
 
 }

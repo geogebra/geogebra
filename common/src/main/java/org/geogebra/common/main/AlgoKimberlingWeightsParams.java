@@ -1,7 +1,8 @@
 package org.geogebra.common.main;
 
 public class AlgoKimberlingWeightsParams {
-	public AlgoKimberlingWeightsParams(int pk, double pa, double pb, double pc) {
+	public AlgoKimberlingWeightsParams(int pk, double pa, double pb,
+			double pc) {
 		this.k = pk;
 		this.a = pa;
 		this.b = pb;

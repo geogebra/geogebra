@@ -189,8 +189,8 @@ public class AlgoSlopeField extends AlgoElement {
 
 			if (view.isVisibleInThisView(locus)) {
 				mainView = view;
-				xmax = Math
-						.max(xmax, view.toRealWorldCoordX((view.getWidth())));
+				xmax = Math.max(xmax,
+						view.toRealWorldCoordX((view.getWidth())));
 				ymax = Math.max(ymax, view.toRealWorldCoordY(0));
 				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
 				ymin = Math.min(ymin,
@@ -224,8 +224,8 @@ public class AlgoSlopeField extends AlgoElement {
 			double xStep = (xmax - xmin) / nD;
 			double yStep = (ymax - ymin) / nD;
 
-			double length = (lengthRatio == null ? 0.5 : lengthRatio
-					.getDouble());
+			double length = (lengthRatio == null ? 0.5
+					: lengthRatio.getDouble());
 
 			if (length < 0 || length > 1 || Double.isInfinite(length)
 					|| Double.isNaN(length)) {
@@ -236,7 +236,6 @@ public class AlgoSlopeField extends AlgoElement {
 					* 0.5;
 			// double yLength = yStep * length * 0.5;
 
-
 			// AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
 			for (double xx = xmin; xx < xmax + xStep / 2; xx += xStep) {
@@ -245,13 +244,13 @@ public class AlgoSlopeField extends AlgoElement {
 					// double[] input1 = { xx, yy };
 					// double gradient = func.evaluate(input1);
 
-					// AbstractApplication.debug(num.isDefined()+" "+den.isDefined());
+					// AbstractApplication.debug(num.isDefined()+"
+					// "+den.isDefined());
 
 					if (num.isDefined() && den.isDefined()) {
 						// quotient function like x / y
 
 						// make sure eg SlopeField[(2 - y) / 2] works
-
 
 						double numD = num.evaluate(xx, yy);
 						double denD = den.evaluate(xx, yy);
@@ -313,7 +312,5 @@ public class AlgoSlopeField extends AlgoElement {
 		((GeoElement) func).removeAlgorithm(numAlgo);
 		((GeoElement) func).removeAlgorithm(denAlgo);
 	}
-
-	
 
 }

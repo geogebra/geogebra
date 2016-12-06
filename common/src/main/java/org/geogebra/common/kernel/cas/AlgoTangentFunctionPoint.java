@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.statistics.AlgoFitPoly;
 /**
  * Algorithm for tangent of function
  */
-public class AlgoTangentFunctionPoint extends AlgoElement implements
-		TangentAlgo {
+public class AlgoTangentFunctionPoint extends AlgoElement
+		implements TangentAlgo {
 
 	private GeoPointND P; // input
 	private GeoLine tangent; // output
@@ -102,8 +102,7 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 			// APPROXIMATE tangent for Freehand Functions
 			freehand = true;
 
-			freehandAlgo = (AlgoFunctionFreehand) f
-					.getParentAlgorithm();
+			freehandAlgo = (AlgoFunctionFreehand) f.getParentAlgorithm();
 
 			freehandList = freehandAlgo.getList();
 
@@ -193,7 +192,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 	// calc tangent at x=a
 	@Override
 	public final void compute() {
-		if (!(f.isDefined() && P.isDefined() && (freehand || deriv.isDefined()))) {
+		if (!(f.isDefined() && P.isDefined()
+				&& (freehand || deriv.isDefined()))) {
 			tangent.setUndefined();
 			return;
 		}
@@ -261,7 +261,5 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 				"x = x(" + P.getLabel(tpl) + ")");
 
 	}
-
-	
 
 }

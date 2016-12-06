@@ -131,7 +131,4 @@ public class AlgoMode extends AlgoElement {
 
 	}
 
-
-	
-
 }

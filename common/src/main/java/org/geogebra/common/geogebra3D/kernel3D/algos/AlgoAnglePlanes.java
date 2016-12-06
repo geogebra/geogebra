@@ -155,11 +155,8 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 
 		// projection of first plane origin on second plane
 		// direction orthogonal to v and colinear to first plane
-		p.getCoordSys()
-				.getMatrixOrthonormal()
-				.getOrigin()
-				.projectPlaneThruV(q.getCoordSys().getMatrixOrthonormal(), v2,
-						o);
+		p.getCoordSys().getMatrixOrthonormal().getOrigin().projectPlaneThruV(
+				q.getCoordSys().getMatrixOrthonormal(), v2, o);
 
 	}
 

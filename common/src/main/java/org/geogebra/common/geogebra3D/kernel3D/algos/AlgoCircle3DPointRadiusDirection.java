@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author matthieu
  */
-public class AlgoCircle3DPointRadiusDirection extends
-		AlgoCircle3DPointDirection {
+public class AlgoCircle3DPointRadiusDirection
+		extends AlgoCircle3DPointDirection {
 
 	/**
 	 * 
@@ -51,8 +51,8 @@ public class AlgoCircle3DPointRadiusDirection extends
 	 * @param forAxis
 	 * @param radius
 	 */
-	public AlgoCircle3DPointRadiusDirection(Construction cons,
-			GeoPointND point, GeoNumberValue radius, GeoDirectionND forAxis) {
+	public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point,
+			GeoNumberValue radius, GeoDirectionND forAxis) {
 		super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
 
 	}

@@ -179,6 +179,4 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		return false;
 	}
 
-	
-
 }

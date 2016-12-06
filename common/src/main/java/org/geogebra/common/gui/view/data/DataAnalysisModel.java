@@ -13,8 +13,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.util.debug.Log;
 
-
-
 /**
  * View to display plots and statistical analysis of data.
  * 
@@ -25,26 +23,38 @@ public class DataAnalysisModel {
 
 	public interface IDataAnalysisListener extends ICreateColor {
 		void onModeChange();
+
 		void setPlotPanelOVNotNumeric(int mode);
+
 		void setPlotPanelOVRawData(int mode);
+
 		void setPlotPanelOVFrequency(int mode);
+
 		void setPlotPanelOVClass(int mode);
+
 		void setPlotPanelRegression(int mode);
+
 		void setPlotPanelMultiVar(int mode);
+
 		void loadDataTable(ArrayList<GeoElement> dataArray);
+
 		void updateStatDataPanelVisibility();
+
 		DataAnalysisController getController();
+
 		void showComboPanel2(boolean show);
+
 		void updateGUI();
 
 		DataAnalysisModel getModel();
 
 		DataDisplayModel getDisplayModel(int zeroBasedIndex);
 	}
-	
+
 	public interface ICreateColor {
 		GColor createColor(int idx);
 	}
+
 	private static final long serialVersionUID = 1L;
 
 	// ggb
@@ -89,8 +99,8 @@ public class DataAnalysisModel {
 	 */
 	public enum Regression {
 		NONE("None"), LINEAR("Linear"), LOG("Log"), POLY("Polynomial"), POW(
-				"Power"), EXP("Exponential"), GROWTH("Growth"), SIN("Sin"), LOGISTIC(
-				"Logistic");
+				"Power"), EXP("Exponential"), GROWTH(
+						"Growth"), SIN("Sin"), LOGISTIC("Logistic");
 
 		// getMenu(label) must be defined
 		private String label;
@@ -119,7 +129,7 @@ public class DataAnalysisModel {
 	final static String SourceCard = "Card with data type options";
 
 	private IDataAnalysisListener listener;
-	
+
 	/*************************************************
 	 * Constructs the view.
 	 * 
@@ -131,7 +141,7 @@ public class DataAnalysisModel {
 		setIniting(true);
 		this.app = app;
 		this.kernel = app.getKernel();
-		
+
 		this.setListener(listener);
 		this.ctrl = ctrl;
 		ctrl.setModel(this);
@@ -165,12 +175,11 @@ public class DataAnalysisModel {
 		if (this.getMode() != mode || forceModeUpdate) {
 
 			this.setMode(mode);
-			// first update the lists to make sure onModeChange 
+			// first update the lists to make sure onModeChange
 			// does not fail on one var -> two var mode change
 			ctrl.updateDataLists();
 			getListener().onModeChange();
-			
-		
+
 			// TODO: why do this here?
 			ctrl.updateDataAnalysisView();
 
@@ -231,11 +240,10 @@ public class DataAnalysisModel {
 	public void setDataSource(DataSource dataSource) {
 		ctrl.setDataSource(dataSource);
 	}
+
 	public GroupType groupType() {
 		return ctrl.getDataSource().getGroupType();
 	}
-
-
 
 	public boolean showDataDisplayPanel2() {
 		return showDataDisplayPanel2;
@@ -365,8 +373,8 @@ public class DataAnalysisModel {
 		// override the default decimal place setting if less than 4 decimals
 		if (printDecimals >= 0) {
 			int d = printDecimals < 4 ? 4 : printDecimals;
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
-					d, false);
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
+					false);
 		} else {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
 					printFigures, false);
@@ -464,16 +472,13 @@ public class DataAnalysisModel {
 		app.getSettings().getDataAnalysis().setMode(mode);
 	}
 
-
-
 	public void updateFromSettings() {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
 		if (settings.getItems().size() > 0) {
 			DataSource source = new DataSource(app);
 			source.setDataListFromSettings(settings.getItems(),
 					settings.getMode());
-			this.setView(source, settings.getMode(),
-					true);
+			this.setView(source, settings.getMode(), true);
 			settings.getItems().clear();
 		}
 

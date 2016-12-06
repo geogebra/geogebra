@@ -20,9 +20,9 @@ package org.apache.commons.collections15;
  * Defines a functor interface implemented by classes that perform a predicate
  * test on an object.
  * <p/>
- * A <code>Predicate</code> is the object equivalent of an <code>if</code> statement.
- * It uses the input object to return a true or false value, and is often used in
- * validation or filtering.
+ * A <code>Predicate</code> is the object equivalent of an <code>if</code>
+ * statement. It uses the input object to return a true or false value, and is
+ * often used in validation or filtering.
  * <p/>
  * Standard implementations of common predicates are provided by
  * {@link PredicateUtils}. These include true, false, instanceof, equals, and,
@@ -33,17 +33,21 @@ package org.apache.commons.collections15;
  * @version $Revision: 1.1 $ $Date: 2005/10/11 17:05:19 $
  * @since Commons Collections 1.0
  */
-public interface Predicate <T> {
+public interface Predicate<T> {
 
-    /**
-     * Use the specified parameter to perform a test that returns true or false.
-     *
-     * @param object the object to evaluate, should not be changed
-     * @return true or false
-     * @throws ClassCastException       (runtime) if the input is the wrong class
-     * @throws IllegalArgumentException (runtime) if the input is invalid
-     * @throws FunctorException         (runtime) if the predicate encounters a problem
-     */
-    public boolean evaluate(T object);
+	/**
+	 * Use the specified parameter to perform a test that returns true or false.
+	 *
+	 * @param object
+	 *            the object to evaluate, should not be changed
+	 * @return true or false
+	 * @throws ClassCastException
+	 *             (runtime) if the input is the wrong class
+	 * @throws IllegalArgumentException
+	 *             (runtime) if the input is invalid
+	 * @throws FunctorException
+	 *             (runtime) if the predicate encounters a problem
+	 */
+	public boolean evaluate(T object);
 
 }

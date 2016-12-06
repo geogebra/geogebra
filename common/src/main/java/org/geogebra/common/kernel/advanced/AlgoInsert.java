@@ -110,6 +110,4 @@ public class AlgoInsert extends AlgoElement {
 			}
 	}
 
-	
-
 }

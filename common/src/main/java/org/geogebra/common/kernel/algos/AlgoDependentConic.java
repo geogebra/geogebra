@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  *
  * @author Markus
  */
-public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
-		DependentAlgo {
+public class AlgoDependentConic extends AlgoElement
+		implements EvaluateAtPoint, DependentAlgo {
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[6]; // input
@@ -116,9 +116,9 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 		double mat3 = ev[1].evaluateDouble() / 2.0; // xy
 		double mat4 = ev[3].evaluateDouble() / 2.0; // x
 		double mat5 = ev[4].evaluateDouble() / 2.0;
-		return P.x * (mat0 * P.x + mat3 * P.y + mat4 * P.z) + P.y
-				* (mat3 * P.x + mat1 * P.y + mat5 * P.z) + P.z
-				* (mat4 * P.x + mat5 * P.y + mat2 * P.z);
+		return P.x * (mat0 * P.x + mat3 * P.y + mat4 * P.z)
+				+ P.y * (mat3 * P.x + mat1 * P.y + mat5 * P.z)
+				+ P.z * (mat4 * P.x + mat5 * P.y + mat2 * P.z);
 	}
 
 	@Override
@@ -128,7 +128,6 @@ public class AlgoDependentConic extends AlgoElement implements EvaluateAtPoint,
 		}
 		return equation.toString(tpl);
 	}
-	
 
 	public ExpressionNode getExpression() {
 		return equation.wrap();

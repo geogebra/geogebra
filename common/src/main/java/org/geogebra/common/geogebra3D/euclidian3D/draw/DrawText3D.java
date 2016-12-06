@@ -143,8 +143,7 @@ public class DrawText3D extends Drawable3DCurves {
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		return false; // no label
 	}
-	
-	
+
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		addToDrawable3DLists(lists, DRAW_TYPE_TEXTS);
@@ -154,21 +153,21 @@ public class DrawText3D extends Drawable3DCurves {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_TEXTS);
 	}
-	
+
 	public void drawNotAbsolutePosition(Renderer renderer) {
 		GeoText text = (GeoText) getGeoElement();
-		if (!text.isAbsoluteScreenLocActive()){
+		if (!text.isAbsoluteScreenLocActive()) {
 			drawLabel(renderer);
 		}
-		
+
 	}
 
 	public void drawAbsolutePosition(Renderer renderer) {
 		GeoText text = (GeoText) getGeoElement();
-		if (text.isAbsoluteScreenLocActive()){
+		if (text.isAbsoluteScreenLocActive()) {
 			drawLabel(renderer);
 		}
-		
+
 	}
 
 }

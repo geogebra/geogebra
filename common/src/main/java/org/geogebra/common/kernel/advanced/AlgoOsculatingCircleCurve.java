@@ -147,6 +147,4 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		cv.remove();
 	}
 
-	
-
 }

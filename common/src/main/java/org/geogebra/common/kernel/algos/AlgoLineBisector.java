@@ -29,8 +29,8 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 
-public class AlgoLineBisector extends AlgoElement implements
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+public class AlgoLineBisector extends AlgoElement
+		implements SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	private GeoPoint A, B; // input
 	private GeoLine g; // output
@@ -133,10 +133,10 @@ public class AlgoLineBisector extends AlgoElement implements
 			int[] degree1 = A.getDegrees();
 			int[] degree2 = B.getDegrees();
 			int[] result = new int[3];
-			result[0] = Math.max(degree1[0] + degree1[2] + 2 * degree2[2], 2
-					* degree1[2] + degree2[0] + degree2[2]);
-			result[1] = Math.max(degree1[1] + degree1[2] + 2 * degree2[2], 2
-					* degree1[2] + degree2[1] + degree2[2]);
+			result[0] = Math.max(degree1[0] + degree1[2] + 2 * degree2[2],
+					2 * degree1[2] + degree2[0] + degree2[2]);
+			result[1] = Math.max(degree1[1] + degree1[2] + 2 * degree2[2],
+					2 * degree1[2] + degree2[1] + degree2[2]);
 			result[2] = 2 * Math.max(
 					Math.max(degree1[2] + degree2[0], degree1[2] + degree2[1]),
 					Math.max(degree1[0] + degree2[2], degree1[1] + degree2[2]));
@@ -145,7 +145,8 @@ public class AlgoLineBisector extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(
+			HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (A != null && B != null) {
 			BigInteger[] coords1 = A.getExactCoordinates(values);
@@ -153,38 +154,25 @@ public class AlgoLineBisector extends AlgoElement implements
 
 			BigInteger[] result = new BigInteger[3];
 			// 2 az bz (-az bx + ax bz)
-			result[0] = BigInteger
-					.valueOf(2)
-					.multiply(coords1[2])
+			result[0] = BigInteger.valueOf(2).multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(
-							coords1[0].multiply(coords2[2]).subtract(
-									coords2[0].multiply(coords1[2])));
+					.multiply(coords1[0].multiply(coords2[2])
+							.subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			result[1] = BigInteger
-					.valueOf(2)
-					.multiply(coords1[2])
+			result[1] = BigInteger.valueOf(2).multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(
-							coords1[1].multiply(coords2[2]).subtract(
-									coords2[1].multiply(coords1[2])));
+					.multiply(coords1[1].multiply(coords2[2])
+							.subtract(coords2[1].multiply(coords1[2])));
 			// (az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay
 			// bz)
-			result[2] = coords1[2]
-					.multiply(coords2[0])
+			result[2] = coords1[2].multiply(coords2[0])
 					.subtract(coords1[0].multiply(coords2[2]))
-					.multiply(
-							coords1[2].multiply(coords2[0]).add(
-									coords1[0].multiply(coords2[2])))
-					.subtract(
-							coords1[1]
-									.multiply(coords2[2])
-									.subtract(coords1[2].multiply(coords2[1]))
-									.multiply(
-											coords1[1]
-													.multiply(coords2[2])
-													.add(coords1[2]
-															.multiply(coords2[1]))));
+					.multiply(coords1[2].multiply(coords2[0])
+							.add(coords1[0].multiply(coords2[2])))
+					.subtract(coords1[1].multiply(coords2[2])
+							.subtract(coords1[2].multiply(coords2[1]))
+							.multiply(coords1[1].multiply(coords2[2])
+									.add(coords1[2].multiply(coords2[1]))));
 			return result;
 		}
 		throw new NoSymbolicParametersException();
@@ -200,36 +188,25 @@ public class AlgoLineBisector extends AlgoElement implements
 
 			polynomials = new Polynomial[3];
 			// 2 az bz (-az bx + ax bz)
-			polynomials[0] = (new Polynomial(2))
-					.multiply(coords1[2])
+			polynomials[0] = (new Polynomial(2)).multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(
-							coords1[0].multiply(coords2[2]).subtract(
-									coords2[0].multiply(coords1[2])));
+					.multiply(coords1[0].multiply(coords2[2])
+							.subtract(coords2[0].multiply(coords1[2])));
 			// 2 az bz (-az by + ay bz)
-			polynomials[1] = (new Polynomial(2))
-					.multiply(coords1[2])
+			polynomials[1] = (new Polynomial(2)).multiply(coords1[2])
 					.multiply(coords2[2])
-					.multiply(
-							coords1[1].multiply(coords2[2]).subtract(
-									coords2[1].multiply(coords1[2])));
+					.multiply(coords1[1].multiply(coords2[2])
+							.subtract(coords2[1].multiply(coords1[2])));
 			// (az bx - ax bz) (az bx + ax bz) - (-az by + ay bz) (az by + ay
 			// bz)
-			polynomials[2] = coords1[2]
-					.multiply(coords2[0])
+			polynomials[2] = coords1[2].multiply(coords2[0])
 					.subtract(coords1[0].multiply(coords2[2]))
-					.multiply(
-							coords1[2].multiply(coords2[0]).add(
-									coords1[0].multiply(coords2[2])))
-					.subtract(
-							coords1[1]
-									.multiply(coords2[2])
-									.subtract(coords1[2].multiply(coords2[1]))
-									.multiply(
-											coords1[1]
-													.multiply(coords2[2])
-													.add(coords1[2]
-															.multiply(coords2[1]))));
+					.multiply(coords1[2].multiply(coords2[0])
+							.add(coords1[0].multiply(coords2[2])))
+					.subtract(coords1[1].multiply(coords2[2])
+							.subtract(coords1[2].multiply(coords2[1]))
+							.multiply(coords1[1].multiply(coords2[2])
+									.add(coords1[2].multiply(coords2[1]))));
 			return polynomials;
 		}
 		throw new NoSymbolicParametersException();

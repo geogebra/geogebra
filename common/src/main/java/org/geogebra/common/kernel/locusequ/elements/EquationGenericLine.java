@@ -22,60 +22,72 @@ import org.geogebra.common.kernel.locusequ.SymbolicVector;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
 import org.geogebra.common.kernel.locusequ.arith.EquationExpression;
 import org.geogebra.common.kernel.locusequ.arith.EquationNumericValue;
+
 /**
- * @author sergio
- * Generic base class for lines.
+ * @author sergio Generic base class for lines.
  */
 public abstract class EquationGenericLine extends EquationElement {
 
 	private SymbolicVector vector;
 	private EquationPoint pequ;
-	private EquationExpression a,b,c;
+	private EquationExpression a, b, c;
 
 	/**
 	 * Empty constructor in case any subclass needs it.
 	 */
-	protected EquationGenericLine() {}
+	protected EquationGenericLine() {
+	}
 
 	/**
 	 * General constructor
-	 * @param line {@link GeoElement}
-	 * @param scope {@link EquationScope}
+	 * 
+	 * @param line
+	 *            {@link GeoElement}
+	 * @param scope
+	 *            {@link EquationScope}
 	 */
-	public EquationGenericLine(final GeoElement line, final EquationScope scope) {
+	public EquationGenericLine(final GeoElement line,
+			final EquationScope scope) {
 		super(line, scope);
 	}
 
 	/**
-	 * @param point in line.
+	 * @param point
+	 *            in line.
 	 */
 	protected void setPoint(final GeoPoint point) {
 		this.pequ = this.getScope().getPoint(point);
 	}
 
 	/**
-	 * @param point in line.
+	 * @param point
+	 *            in line.
 	 */
 	protected void setPoint(final EquationPoint point) {
 		this.pequ = point;
 	}
 
-	public GeoPoint getPoint() { return this.getEquationPoint().getPoint(); }
+	public GeoPoint getPoint() {
+		return this.getEquationPoint().getPoint();
+	}
 
-	public EquationPoint getEquationPoint() { return this.pequ; }
+	public EquationPoint getEquationPoint() {
+		return this.pequ;
+	}
 
 	/**
 	 * @return a director vector.
 	 */
 	public SymbolicVector getVector() {
-		if(this.vector == null) {
+		if (this.vector == null) {
 			this.vector = this.getVectorFromABC();
 		}
 		return this.vector;
 	}
 
 	/**
-	 * @param vector director vector.
+	 * @param vector
+	 *            director vector.
 	 */
 	protected void setVector(final SymbolicVector vector) {
 		this.vector = vector;
@@ -112,13 +124,14 @@ public abstract class EquationGenericLine extends EquationElement {
 	@Override
 	public EquationList forPointImpl(EquationPoint point) {
 		EquationExpression expr;
-		if(this.isVertical()){
+		if (this.isVertical()) {
 			expr = diff(point.getX(), this.pequ.getX());
-		} else if(this.isHorizonta()) {
+		} else if (this.isHorizonta()) {
 			expr = diff(point.getY(), this.pequ.getY());
 		} else {
-			expr = diff(times(this.vector.getY(),
-					diff(point.getX(), this.pequ.getX())),
+			expr = diff(
+					times(this.vector.getY(),
+							diff(point.getX(), this.pequ.getX())),
 					times(this.vector.getX(),
 							diff(point.getY(), this.pequ.getY())));
 		}
@@ -131,13 +144,21 @@ public abstract class EquationGenericLine extends EquationElement {
 		return true;
 	}
 
-	protected void setA(EquationExpression a){ this.a = a; }
-	protected void setB(EquationExpression b){ this.b = b; }
-	protected void setC(EquationExpression c){ this.c = c; }
+	protected void setA(EquationExpression a) {
+		this.a = a;
+	}
+
+	protected void setB(EquationExpression b) {
+		this.b = b;
+	}
+
+	protected void setC(EquationExpression c) {
+		this.c = c;
+	}
 
 	public EquationExpression getA() {
-		if(this.a == null) {
-			if(this.isVertical()) {
+		if (this.a == null) {
+			if (this.isVertical()) {
 				this.a = EquationNumericValue.from(1.0);
 			} else if (this.isHorizonta()) {
 				this.a = EquationNumericValue.from(0.0);
@@ -149,8 +170,8 @@ public abstract class EquationGenericLine extends EquationElement {
 	}
 
 	public EquationExpression getB() {
-		if(this.b == null) {
-			if(this.isHorizonta()) {
+		if (this.b == null) {
+			if (this.isHorizonta()) {
 				this.b = EquationNumericValue.from(1.0);
 			} else if (this.isVertical()) {
 				this.b = EquationNumericValue.from(0.0);
@@ -162,27 +183,31 @@ public abstract class EquationGenericLine extends EquationElement {
 	}
 
 	public EquationExpression getC() {
-		if(this.c == null) {
-			if(this.isHorizonta()) {
+		if (this.c == null) {
+			if (this.isHorizonta()) {
 				this.c = this.getEquationPoint().getY().getOpposite();
 			} else if (this.isVertical()) {
 				this.c = this.getEquationPoint().getX().getOpposite();
 			} else {
-				this.c = diff(	times(this.getVector().getX(), this.getEquationPoint().getY()),
-								times(this.getVector().getY(), this.getEquationPoint().getX()));
+				this.c = diff(
+						times(this.getVector().getX(),
+								this.getEquationPoint().getY()),
+						times(this.getVector().getY(),
+								this.getEquationPoint().getX()));
 			}
 		}
 		return this.c;
 	}
 
 	/**
-	 * @param p external point
+	 * @param p
+	 *            external point
 	 * @return distance from this line to p.
 	 */
 	public Equation distToPoint(final EquationPoint p) {
-		return equation(div(abs(sum(times(this.getA(), p.getXExpression()),
-				times(this.getB(), p.getYExpression()),
-				this.getC())),
+		return equation(div(
+				abs(sum(times(this.getA(), p.getXExpression()),
+						times(this.getB(), p.getYExpression()), this.getC())),
 				sqrt(sum(pow(this.getA(), EquationNumericValue.from(2)),
 						pow(this.getB(), EquationNumericValue.from(2))))));
 	}
@@ -191,9 +216,10 @@ public abstract class EquationGenericLine extends EquationElement {
 	 * @return a director vector from coefficients of line.
 	 */
 	protected SymbolicVector getVectorFromABC() {
-		return new SymbolicVector(EquationPoint.ORIGIN, EquationPoint.fromCoordinates(getB().getOpposite(), getA()));
+		return new SymbolicVector(EquationPoint.ORIGIN,
+				EquationPoint.fromCoordinates(getB().getOpposite(), getA()));
 	}
-	
+
 	public EquationExpression getSlope() {
 		SymbolicVector vec = this.getVector();
 		return div(vec.getY(), vec.getX());

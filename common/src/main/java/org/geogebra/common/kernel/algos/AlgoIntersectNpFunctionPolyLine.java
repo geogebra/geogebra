@@ -94,7 +94,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		for (int i = 0; i < segEndPoints.length; i++) {
 			segEndPoints[i] = new GeoPoint(getConstruction());
 		}
-		
+
 		polyPointLength = this.poly.getPoints().length;
 		polySegCount = isPolyClosed() ? polyPointLength : polyPointLength - 1;
 
@@ -105,8 +105,8 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	public final void compute() {
 		Coords minIntersectCoords = null, currentIntersectCoords = null;
 
-		if (!(getFunction().isDefined() && getPoly().isDefined() && startPoint
-				.isDefined())) {
+		if (!(getFunction().isDefined() && getPoly().isDefined()
+				&& startPoint.isDefined())) {
 			rootPoint.setUndefined();
 			Log.debug("either func, poly, or start is not defined");
 			return;
@@ -116,8 +116,8 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		for (int index = 0; index < polySegCount; index++) {
 
 			segEndPoints[0] = getPoly().getPoint(index);
-			segEndPoints[1] = getPoly().getPoint(
-					(index + 1) % this.polyPointLength);
+			segEndPoints[1] = getPoly()
+					.getPoint((index + 1) % this.polyPointLength);
 			GeoVec3D.lineThroughPoints(segEndPoints[0], segEndPoints[1],
 					tempSeg);
 			tempSeg.setPoints(segEndPoints[0], segEndPoints[1]);
@@ -144,7 +144,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 				}
 			}
 		}
-		
+
 		if (minIntersectCoords == null) {
 			rootPoint.setUndefined();
 			Log.debug("no intersection");

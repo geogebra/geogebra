@@ -79,13 +79,10 @@ public class AlgoRootList extends AlgoElement {
 			GeoElement geo = inputList.get(i);
 			if (geo.isGeoNumeric()) {
 				GeoNumeric num = (GeoNumeric) geo;
-				outputList.addPoint(num.getDouble(), 0.0, 1.0,
-						this);
+				outputList.addPoint(num.getDouble(), 0.0, 1.0, this);
 			}
 		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
-
-	
 
 }

@@ -37,7 +37,6 @@ public class StatisticsCalculatorHTML {
 		this.setLabelStrings();
 	}
 
-	
 	/**
 	 * Formats a number string using local format settings.
 	 * 
@@ -63,21 +62,21 @@ public class StatisticsCalculatorHTML {
 		strP = loc.getMenu("PValue");
 		strZ = loc.getMenu("ZStatistic");
 		strT = loc.getMenu("TStatistic");
-		
+
 		strUpper = loc.getMenu("UpperLimit");
 		strLower = loc.getMenu("LowerLimit");
 		strInterval = loc.getMenu("Interval");
 		strPooled = loc.getMenu("Pooled");
-		
+
 		strChiSq = Unicode.Chi + "" + Unicode.Superscript_2;
-		
+
 	}
 
 	public StringBuilder getStatString() {
 
 		StringBuilder sb = new StringBuilder("");
-		sb.append(statCalc.getMapProcedureToName().get(
-				statCalc.getSelectedProcedure()));
+		sb.append(statCalc.getMapProcedureToName()
+				.get(statCalc.getSelectedProcedure()));
 		sb.append(newline);
 		sb.append(newline);
 
@@ -86,8 +85,9 @@ public class StatisticsCalculatorHTML {
 		case ZMEAN_TEST:
 
 			String[][] zTestTable = { { strMean, format(sc.mean) },
-					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) },
-					{ strZ, format(sc.testStat) }, { strP, format(sc.P) } };
+					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strN, format(sc.n) }, { strZ, format(sc.testStat) },
+					{ strP, format(sc.P) } };
 
 			sb.append(htmlTable(zTestTable, true));
 
@@ -96,7 +96,8 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_TEST:
 
 			String[][] tTestTable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) }, { strDF, format(sc.df)},
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strN, format(sc.n) }, { strDF, format(sc.df) },
 					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(tTestTable, true));
@@ -105,12 +106,9 @@ public class StatisticsCalculatorHTML {
 
 		case ZMEAN_CI:
 
-			String[][] zCITable = {
-					{ strMean, format(sc.mean) },
-					{ strSigma, format(sc.sd) },
-					{ strSE, format(sc.se) },
-					{ strN, format(sc.n)},
-					{ strLower, format(sc.lower) },
+			String[][] zCITable = { { strMean, format(sc.mean) },
+					{ strSigma, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strN, format(sc.n) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval(sc.mean, sc.me) } };
 
@@ -121,7 +119,8 @@ public class StatisticsCalculatorHTML {
 		case TMEAN_CI:
 
 			String[][] tCITable = { { strMean, format(sc.mean) },
-					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },{ strN, format(sc.n) }, { strDF, format(sc.df)},
+					{ strSD, format(sc.sd) }, { strSE, format(sc.se) },
+					{ strN, format(sc.n) }, { strDF, format(sc.df) },
 					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
 					{ strInterval, getInterval(sc.mean, sc.me) } };
@@ -146,8 +145,7 @@ public class StatisticsCalculatorHTML {
 
 		case ZMEAN2_CI:
 
-			String[][] zCI2SampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
+			String[][] zCI2SampleTable = { { "&nbsp;", strSample1, strSample2 },
 					{ strMean, format(sc.mean), format(sc.mean2) },
 					{ strSigma, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
@@ -166,8 +164,8 @@ public class StatisticsCalculatorHTML {
 					{ strMean, format(sc.mean), format(sc.mean2) },
 					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) }, { strDF, format(sc.df)},{ strT, format(sc.testStat) },
-					{ strP, format(sc.P) } };
+					{ strSE, format(sc.se) }, { strDF, format(sc.df) },
+					{ strT, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(tTest2SampleTable, true));
 
@@ -175,14 +173,15 @@ public class StatisticsCalculatorHTML {
 
 		case TMEAN2_CI:
 
-			String[][] tCI2SampleTable = {
-					{ "&nbsp;", strSample1, strSample2 },
+			String[][] tCI2SampleTable = { { "&nbsp;", strSample1, strSample2 },
 					{ strMean, format(sc.mean), format(sc.mean2) },
 					{ strSD, format(sc.sd), format(sc.sd2) },
 					{ strN, format(sc.n), format(sc.n2) },
-					{ strSE, format(sc.se) },{ strDF, format(sc.df)}, { strLower, format(sc.lower) },
+					{ strSE, format(sc.se) }, { strDF, format(sc.df) },
+					{ strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) }, { strPooled, isPooled() } };
+					{ strInterval, getInterval(sc.mean - sc.mean2, sc.me) },
+					{ strPooled, isPooled() } };
 
 			sb.append(htmlTable(tCI2SampleTable, true));
 
@@ -230,7 +229,10 @@ public class StatisticsCalculatorHTML {
 					{ strN, format(sc.n), format(sc.n2) },
 					{ strSE, format(sc.se) }, { strLower, format(sc.lower) },
 					{ strUpper, format(sc.upper) },
-					{ strInterval, getInterval(sc.getProportion()-sc.getProportion2(), sc.me) } };
+					{ strInterval,
+							getInterval(
+									sc.getProportion() - sc.getProportion2(),
+									sc.me) } };
 
 			sb.append(htmlTable(zProp2CISampleTable, true));
 
@@ -238,10 +240,9 @@ public class StatisticsCalculatorHTML {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
-			
+
 			String[][] chiSqTestTable = { { strDF, format(sc.df) },
-					{ strChiSq, format(sc.testStat) },
-					{ strP, format(sc.P) } };
+					{ strChiSq, format(sc.testStat) }, { strP, format(sc.P) } };
 
 			sb.append(htmlTable(chiSqTestTable, true));
 

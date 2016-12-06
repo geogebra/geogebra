@@ -40,8 +40,8 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	private GeoLine g; // output
 
 	/** Creates new AlgoJoinPoints */
-	public AlgoOrthoLinePointVector(Construction cons, String label,
-			GeoPoint P, GeoVector v) {
+	public AlgoOrthoLinePointVector(Construction cons, String label, GeoPoint P,
+			GeoVector v) {
 		super(cons);
 		this.P = P;
 		this.v = v;
@@ -130,5 +130,4 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 				P.getLabel(tpl), v.getLabel(tpl));
 	}
 
-	
 }

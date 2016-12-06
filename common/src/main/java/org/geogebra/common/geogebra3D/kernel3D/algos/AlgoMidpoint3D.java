@@ -37,7 +37,8 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	 * @param P
 	 * @param Q
 	 */
-	AlgoMidpoint3D(Construction cons, String label, GeoPointND P, GeoPointND Q) {
+	AlgoMidpoint3D(Construction cons, String label, GeoPointND P,
+			GeoPointND Q) {
 		this(cons, P, Q);
 		getPoint().setLabel(label);
 	}
@@ -80,11 +81,8 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	@Override
 	protected void computeMidCoords() {
 
-		getPoint().setCoords(
-				getP().getInhomCoordsInD3().add(getQ().getInhomCoordsInD3())
-						.mul(0.5));
+		getPoint().setCoords(getP().getInhomCoordsInD3()
+				.add(getQ().getInhomCoordsInD3()).mul(0.5));
 	}
-
-	
 
 }

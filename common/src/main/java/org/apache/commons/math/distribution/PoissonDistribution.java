@@ -24,41 +24,47 @@ import org.apache.commons.math.MathException;
  * <p>
  * References:
  * <ul>
- * <li><a href="http://mathworld.wolfram.com/PoissonDistribution.html">
- * Poisson distribution</a></li>
+ * <li><a href="http://mathworld.wolfram.com/PoissonDistribution.html"> Poisson
+ * distribution</a></li>
  * </ul>
  * </p>
  *
- * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars 2010) $
+ * @version $Revision: 920852 $ $Date: 2010-03-09 13:53:44 +0100 (mar. 09 mars
+ *          2010) $
  */
 public interface PoissonDistribution extends IntegerDistribution {
 
-    /**
-     * Get the mean for the distribution.
-     *
-     * @return the mean for the distribution.
-     */
-    double getMean();
+	/**
+	 * Get the mean for the distribution.
+	 *
+	 * @return the mean for the distribution.
+	 */
+	double getMean();
 
-    /**
-     * Set the mean for the distribution.
-     * The parameter value must be positive; otherwise an
-     * <code>IllegalArgument</code> is thrown.
-     *
-     * @param p the mean
-     * @throws IllegalArgumentException if p &le; 0
-     * @deprecated as of v2.1
-     */
-    @Deprecated
-    void setMean(double p);
+	/**
+	 * Set the mean for the distribution. The parameter value must be positive;
+	 * otherwise an <code>IllegalArgument</code> is thrown.
+	 *
+	 * @param p
+	 *            the mean
+	 * @throws IllegalArgumentException
+	 *             if p &le; 0
+	 * @deprecated as of v2.1
+	 */
+	@Deprecated
+	void setMean(double p);
 
-    /**
-     * Calculates the Poisson distribution function using a normal approximation.
-     *
-     * @param x the upper bound, inclusive
-     * @return the distribution function value calculated using a normal approximation
-     * @throws MathException if an error occurs computing the normal approximation
-     */
-    double normalApproximateProbability(int x) throws MathException;
+	/**
+	 * Calculates the Poisson distribution function using a normal
+	 * approximation.
+	 *
+	 * @param x
+	 *            the upper bound, inclusive
+	 * @return the distribution function value calculated using a normal
+	 *         approximation
+	 * @throws MathException
+	 *             if an error occurs computing the normal approximation
+	 */
+	double normalApproximateProbability(int x) throws MathException;
 
 }

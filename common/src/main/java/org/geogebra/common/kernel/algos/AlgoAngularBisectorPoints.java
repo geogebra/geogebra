@@ -38,8 +38,8 @@ import org.geogebra.common.util.MyMath;
  *
  * @author Markus
  */
-public class AlgoAngularBisectorPoints extends AlgoElement implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoAngularBisectorPoints extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPoint A, B, C; // input
 	private GeoLine bisector; // output
@@ -285,41 +285,42 @@ public class AlgoAngularBisectorPoints extends AlgoElement implements
 			}
 
 			/*
-			 * // Computation borrowed from OpenGeoProver. 
-			 * // Maybe there is an error somewhere (it does not work properly).
+			 * // Computation borrowed from OpenGeoProver. // Maybe there is an
+			 * error somewhere (it does not work properly).
 			 * 
 			 * botanaPolynomials = new Polynomial[1];
 			 * 
-			 * Polynomial a1 = new Polynomial(vA[0]); 
-			 * Polynomial a2 = new Polynomial(vA[1]);
-			 * Polynomial b1 = new Polynomial(vB[0]);
-			 * Polynomial b2 = new Polynomial(vB[1]); 
-			 * Polynomial c1 = new Polynomial(vC[0]); 
-			 * Polynomial c2 = new Polynomial(vC[1]);
-			 * Polynomial m1 = new Polynomial(botanaVars[0]); 
-			 * Polynomial m2 = new Polynomial(botanaVars[1]);
+			 * Polynomial a1 = new Polynomial(vA[0]); Polynomial a2 = new
+			 * Polynomial(vA[1]); Polynomial b1 = new Polynomial(vB[0]);
+			 * Polynomial b2 = new Polynomial(vB[1]); Polynomial c1 = new
+			 * Polynomial(vC[0]); Polynomial c2 = new Polynomial(vC[1]);
+			 * Polynomial m1 = new Polynomial(botanaVars[0]); Polynomial m2 =
+			 * new Polynomial(botanaVars[1]);
 			 * 
-			 * // ((yM - yC)(xA - xC) - (yA - yC)(xM - xC))
-			 * Polynomial nominator1 = (m2.subtract(c2))
-			 * 		.multiply(a1.subtract(c1)).subtract(
-			 * 		(a2.subtract(c2)).multiply(m1.subtract(c1)));
+			 * // ((yM - yC)(xA - xC) - (yA - yC)(xM - xC)) Polynomial
+			 * nominator1 = (m2.subtract(c2))
+			 * .multiply(a1.subtract(c1)).subtract(
+			 * (a2.subtract(c2)).multiply(m1.subtract(c1)));
 			 * 
-			 * // ((xA - xC)(xM - xC) + (yA - yC)(yM - yC))
-			 * Polynomial denominator1 = (a1.subtract(c1))
-			 * 		.multiply(m1.subtract(c1)).add((a2
-			 * 		.subtract(c2)).multiply(m2.subtract(c2)));
+			 * // ((xA - xC)(xM - xC) + (yA - yC)(yM - yC)) Polynomial
+			 * denominator1 = (a1.subtract(c1))
+			 * .multiply(m1.subtract(c1)).add((a2
+			 * .subtract(c2)).multiply(m2.subtract(c2)));
 			 * 
-			 * // ((yB - yM)(xC - xM) - (yC - yM)(xB - xM))
-			 * Polynomial nominator2 = (b2.subtract(m2)).multiply(c1.subtract(m1)).subtract(
-			 * 		(c2.subtract(m2)).multiply(b1.subtract(m1)));
+			 * // ((yB - yM)(xC - xM) - (yC - yM)(xB - xM)) Polynomial
+			 * nominator2 =
+			 * (b2.subtract(m2)).multiply(c1.subtract(m1)).subtract(
+			 * (c2.subtract(m2)).multiply(b1.subtract(m1)));
 			 * 
-			 * // ((xC - xM)(xB - xM) + (yC - yM)(yB - yM))
-			 * Polynomial denominator2 = (c1.subtract(m1)).multiply(b1.subtract(m1)).add((c2
-			 * 		.subtract(m2)).multiply(b2.subtract(m2)));
+			 * // ((xC - xM)(xB - xM) + (yC - yM)(yB - yM)) Polynomial
+			 * denominator2 =
+			 * (c1.subtract(m1)).multiply(b1.subtract(m1)).add((c2
+			 * .subtract(m2)).multiply(b2.subtract(m2)));
 			 * 
 			 * // nominator1 * denominator2 = denominator1 * nominator2
-			 * botanaPolynomials[0] = nominator1.multiply(denominator2).subtract(
-			 * 		denominator1.multiply(nominator2));
+			 * botanaPolynomials[0] =
+			 * nominator1.multiply(denominator2).subtract(
+			 * denominator1.multiply(nominator2));
 			 */
 
 			// Here we use the scalar product formula, see
@@ -346,47 +347,45 @@ public class AlgoAngularBisectorPoints extends AlgoElement implements
 			// (b2-c2)*(c2-d2)
 			Polynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
 			// (a1-c1)^2+(a2-c2)^2
-			Polynomial p3 = (Polynomial.sqr(a1.subtract(c1))).add(Polynomial
-					.sqr(a2.subtract(c2)));
+			Polynomial p3 = (Polynomial.sqr(a1.subtract(c1)))
+					.add(Polynomial.sqr(a2.subtract(c2)));
 			// (a1-c1)*(c1-d1)
 			Polynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
 			// (a2-c2)*(c2-d2)
 			Polynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
 			// (b1-c1)^2+(b2-c2)^2
-			Polynomial p6 = Polynomial.sqr(b1.subtract(c1)).add(
-					Polynomial.sqr(b2.subtract(c2)));
+			Polynomial p6 = Polynomial.sqr(b1.subtract(c1))
+					.add(Polynomial.sqr(b2.subtract(c2)));
 			// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
 			// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
 			botanaPolynomials[1] = Polynomial.sqr((p1.add(p2))).multiply(p3)
 					.subtract(Polynomial.sqr(p4.add(p5)).multiply(p6));
 
 			/*
-			 * // Another method. 
-			 * //Maybe there is an error somewhere (it does not work properly).
+			 * // Another method. //Maybe there is an error somewhere (it does
+			 * not work properly).
 			 * 
-			 * Polynomial m_1 = new Polynomial(botanaVars[2]);
-			 * Polynomial m_2 = new Polynomial(botanaVars[3]);
+			 * Polynomial m_1 = new Polynomial(botanaVars[2]); Polynomial m_2 =
+			 * new Polynomial(botanaVars[3]);
 			 * 
-			 * Polynomial a_1 = b2.subtract(a2);
-			 * Polynomial b_1 = a1.subtract(b1);
-			 * Polynomial c_1 = (a1.multiply(b2)).subtract(b1.multiply(a2));
-			 * Polynomial a_2 = c2.subtract(a2);
-			 * Polynomial b_2 = a1.subtract(c1); 
-			 * Polynomial c_2 = (a1.multiply(c2)).subtract(c1.multiply(a2));
+			 * Polynomial a_1 = b2.subtract(a2); Polynomial b_1 =
+			 * a1.subtract(b1); Polynomial c_1 =
+			 * (a1.multiply(b2)).subtract(b1.multiply(a2)); Polynomial a_2 =
+			 * c2.subtract(a2); Polynomial b_2 = a1.subtract(c1); Polynomial c_2
+			 * = (a1.multiply(c2)).subtract(c1.multiply(a2));
 			 * 
 			 * botanaPolynomials[0] = a_1.add(a_2).add(a2).subtract(m2);
 			 * botanaPolynomials[1] = b_1.add(b_2).add(m1).subtract(a1);
 			 * botanaPolynomials[2] = c_1.add(c_2).add(m1.multiply(a2))
-			 * 		.subtract(a1.multiply(m2)); 
-			 * botanaPolynomials[3] = a1.add(b_1).add(b_2).subtract(m_1);
-			 * botanaPolynomials[4] = a2.subtract(a_1).subtract(a_2).subtract(m_2);
+			 * .subtract(a1.multiply(m2)); botanaPolynomials[3] =
+			 * a1.add(b_1).add(b_2).subtract(m_1); botanaPolynomials[4] =
+			 * a2.subtract(a_1).subtract(a_2).subtract(m_2);
 			 */
 
 			return botanaPolynomials;
 
 		}
 		throw new NoSymbolicParametersException();
-
 
 	}
 }

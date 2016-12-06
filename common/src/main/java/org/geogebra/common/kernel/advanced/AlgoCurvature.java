@@ -80,6 +80,4 @@ public class AlgoCurvature extends AlgoElement {
 		super.remove();
 	}
 
-	
-
 }

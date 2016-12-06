@@ -61,7 +61,8 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	 * @param orientation
 	 */
 	protected AlgoAngularBisectorPoints3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
+			GeoPointND A, GeoPointND B, GeoPointND C,
+			GeoDirectionND orientation) {
 		super(cons);
 		this.A = A;
 		this.B = B;

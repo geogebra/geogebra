@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 
-	
 	protected GeoList inputList; // input
 	private GeoNumeric percentage; // input
 	protected GeoLocus locus; // output
@@ -63,7 +62,5 @@ public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 	public GeoLocus getResult() {
 		return locus;
 	}
-
-
 
 }

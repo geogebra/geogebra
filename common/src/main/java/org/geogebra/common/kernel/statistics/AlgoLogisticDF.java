@@ -127,6 +127,4 @@ public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 
 	}
 
-	
-
 }

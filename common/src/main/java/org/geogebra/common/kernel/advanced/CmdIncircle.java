@@ -37,9 +37,8 @@ public class CmdIncircle extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
-				AlgoIncircle algo = new AlgoIncircle(cons,
-						(GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]);
+				AlgoIncircle algo = new AlgoIncircle(cons, (GeoPointND) arg[0],
+						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 				GeoConicND circle = algo.getCircle();
 				circle.setToSpecific();
 				circle.setLabel(c.getLabel());

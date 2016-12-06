@@ -27,7 +27,9 @@ public class RegionParameters {
 
 	private Coords normal; // normal on the region at this place
 
-	/** says if the point is on the path defined by the frontier of the region */
+	/**
+	 * says if the point is on the path defined by the frontier of the region
+	 */
 	private boolean isOnPath = false;
 
 	/**
@@ -67,10 +69,10 @@ public class RegionParameters {
 	}
 
 	/*
-	 * void appendXML(StringBuilder sb) { // pathParameter
-	 * sb.append("\t<pathParameter val=\""); sb.append(t); if (branch > 0) {
-	 * sb.append("\" branch=\""); sb.append(branch); } if (pathType > -1) {
-	 * sb.append("\" type=\""); sb.append(pathType); } sb.append("\"/>\n"); }
+	 * void appendXML(StringBuilder sb) { // pathParameter sb.append(
+	 * "\t<pathParameter val=\""); sb.append(t); if (branch > 0) { sb.append(
+	 * "\" branch=\""); sb.append(branch); } if (pathType > -1) { sb.append(
+	 * "\" type=\""); sb.append(pathType); } sb.append("\"/>\n"); }
 	 */
 
 	/**

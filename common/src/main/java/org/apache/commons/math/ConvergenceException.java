@@ -22,49 +22,61 @@ package org.apache.commons.math;
  * Error thrown when a numerical computation can not be performed because the
  * numerical result failed to converge to a finite value.
  *
- * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep 2009) $
+ * @version $Revision: 811685 $ $Date: 2009-09-05 13:36:48 -0400 (Sat, 05 Sep
+ *          2009) $
  */
 public class ConvergenceException extends MathException {
 
-    /** Serializable version identifier */
-    private static final long serialVersionUID = 4883703247677159141L;
+	/** Serializable version identifier */
+	private static final long serialVersionUID = 4883703247677159141L;
 
-    /**
-     * Default constructor.
-     */
-    public ConvergenceException() {
-        super("Convergence failed");
-    }
+	/**
+	 * Default constructor.
+	 */
+	public ConvergenceException() {
+		super("Convergence failed");
+	}
 
-    /**
-     * Constructs an exception with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 1.2
-     */
-    public ConvergenceException(String pattern, Object ... arguments) {
-        super(pattern, arguments);
-    }
+	/**
+	 * Constructs an exception with specified formatted detail message. Message
+	 * formatting is delegated to {@link java.text.MessageFormat}.
+	 * 
+	 * @param pattern
+	 *            format specifier
+	 * @param arguments
+	 *            format arguments
+	 * @since 1.2
+	 */
+	public ConvergenceException(String pattern, Object... arguments) {
+		super(pattern, arguments);
+	}
 
-    /**
-     * Create an exception with a given root cause.
-     * @param cause  the exception or error that caused this exception to be thrown
-     */
-    public ConvergenceException(Throwable cause) {
-        super(cause);
-    }
+	/**
+	 * Create an exception with a given root cause.
+	 * 
+	 * @param cause
+	 *            the exception or error that caused this exception to be thrown
+	 */
+	public ConvergenceException(Throwable cause) {
+		super(cause);
+	}
 
-    /**
-     * Constructs an exception with specified formatted detail message and root cause.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param cause  the exception or error that caused this exception to be thrown
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 1.2
-     */
-    public ConvergenceException(Throwable cause, String pattern, Object ... arguments) {
-        super(cause, pattern, arguments);
-    }
+	/**
+	 * Constructs an exception with specified formatted detail message and root
+	 * cause. Message formatting is delegated to {@link java.text.MessageFormat}
+	 * .
+	 * 
+	 * @param cause
+	 *            the exception or error that caused this exception to be thrown
+	 * @param pattern
+	 *            format specifier
+	 * @param arguments
+	 *            format arguments
+	 * @since 1.2
+	 */
+	public ConvergenceException(Throwable cause, String pattern,
+			Object... arguments) {
+		super(cause, pattern, arguments);
+	}
 
 }

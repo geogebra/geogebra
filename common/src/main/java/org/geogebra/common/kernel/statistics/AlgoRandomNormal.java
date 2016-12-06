@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
  * 
  * @author Michael Borcherds
  */
-public class AlgoRandomNormal extends AlgoTwoNumFunction implements
-		SetRandomValue {
+public class AlgoRandomNormal extends AlgoTwoNumFunction
+		implements SetRandomValue {
 
 	public AlgoRandomNormal(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b) {

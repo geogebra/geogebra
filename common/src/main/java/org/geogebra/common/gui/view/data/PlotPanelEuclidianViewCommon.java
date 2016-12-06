@@ -5,14 +5,14 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
-
 /**
- * @author gabor
- * Common things used by plotPanelEuclidianViewsW/D
+ * @author gabor Common things used by plotPanelEuclidianViewsW/D
  *
  */
 public class PlotPanelEuclidianViewCommon {
-	/** Plot panel viewID. This is not a constant; it is assigned by GuiManager. */
+	/**
+	 * Plot panel viewID. This is not a constant; it is assigned by GuiManager.
+	 */
 	private int viewID;
 	/**
 	 * Flag to determine if the mouse is over the drag region, a thin rectangle
@@ -28,7 +28,7 @@ public class PlotPanelEuclidianViewCommon {
 	/**
 	 * @param overDragRegion
 	 * 
-	 * Constructor
+	 *            Constructor
 	 */
 	public PlotPanelEuclidianViewCommon(boolean overDragRegion) {
 		this.overDragRegion = overDragRegion;
@@ -61,10 +61,13 @@ public class PlotPanelEuclidianViewCommon {
 	/**
 	 * Sets the plotSettings field and updates the panel accordingly.
 	 * 
-	 * @param plotPanelEuclidianViewD TODO
+	 * @param plotPanelEuclidianViewD
+	 *            TODO
 	 * @param settings
 	 */
-	public void updateSettings(PlotPanelEuclidianViewInterface plotPanelEuclidianViewD, PlotSettings settings) {
+	public void updateSettings(
+			PlotPanelEuclidianViewInterface plotPanelEuclidianViewD,
+			PlotSettings settings) {
 		setPlotSettings(settings);
 		plotPanelEuclidianViewD.setEVParams();
 	}
@@ -72,9 +75,12 @@ public class PlotPanelEuclidianViewCommon {
 	/**
 	 * Uses the values stored in the plotSettings field to update the features
 	 * of this EuclidianView (e.g. axes visibility)
-	 * @param plotPanelEuclidianViewD TODO
+	 * 
+	 * @param plotPanelEuclidianViewD
+	 *            TODO
 	 */
-	public void setEVParams(PlotPanelEuclidianViewInterface plotPanelEuclidianViewD) {
+	public void setEVParams(
+			PlotPanelEuclidianViewInterface plotPanelEuclidianViewD) {
 		plotPanelEuclidianViewD.showGrid(getPlotSettings().showGrid);
 		plotPanelEuclidianViewD.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y,
 				getPlotSettings().showYAxis, false);
@@ -86,18 +92,22 @@ public class PlotPanelEuclidianViewCommon {
 				getPlotSettings().logXAxis, false);
 		plotPanelEuclidianViewD.setLogAxis(EuclidianViewInterfaceCommon.AXIS_Y,
 				getPlotSettings().logYAxis, false);
-	
-		plotPanelEuclidianViewD.setAutomaticGridDistance(getPlotSettings().gridIntervalAuto);
+
+		plotPanelEuclidianViewD
+				.setAutomaticGridDistance(getPlotSettings().gridIntervalAuto);
 		if (!getPlotSettings().gridIntervalAuto) {
-			plotPanelEuclidianViewD.setGridDistances(getPlotSettings().gridInterval);
+			plotPanelEuclidianViewD
+					.setGridDistances(getPlotSettings().gridInterval);
 		}
-	
+
 		if (getPlotSettings().showArrows) {
-			plotPanelEuclidianViewD.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
+			plotPanelEuclidianViewD.setAxesLineStyle(
+					EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		} else {
-			plotPanelEuclidianViewD.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
+			plotPanelEuclidianViewD.setAxesLineStyle(
+					EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 		}
-	
+
 		plotPanelEuclidianViewD.setDrawBorderAxes(getPlotSettings().isEdgeAxis);
 		if (!getPlotSettings().isEdgeAxis[0]) {
 			plotPanelEuclidianViewD.setAxisCross(0, 0);
@@ -105,9 +115,10 @@ public class PlotPanelEuclidianViewCommon {
 		if (!getPlotSettings().isEdgeAxis[1]) {
 			plotPanelEuclidianViewD.setAxisCross(1, 0);
 		}
-	
-		plotPanelEuclidianViewD.setPositiveAxes(getPlotSettings().isPositiveOnly);
-	
+
+		plotPanelEuclidianViewD
+				.setPositiveAxes(getPlotSettings().isPositiveOnly);
+
 		if (getPlotSettings().forceXAxisBuffer) {
 			// ensure that the axis labels are shown
 			// by forcing a fixed pixel height below the x-axis
@@ -116,40 +127,43 @@ public class PlotPanelEuclidianViewCommon {
 			getPlotSettings().yMin = (-pixelOffset * getPlotSettings().yMax)
 					/ (pixelHeight + pixelOffset);
 		}
-	
+
 		plotPanelEuclidianViewD.setAxesCornerCoordsVisible(false);
-	
-		plotPanelEuclidianViewD.setAutomaticAxesNumberingDistance(getPlotSettings().xAxesIntervalAuto,
-				0);
-		plotPanelEuclidianViewD.setAutomaticAxesNumberingDistance(getPlotSettings().yAxesIntervalAuto,
-				1);
-		Construction cons = plotPanelEuclidianViewD.getApplication()
-				.getKernel().getConstruction();
+
+		plotPanelEuclidianViewD.setAutomaticAxesNumberingDistance(
+				getPlotSettings().xAxesIntervalAuto, 0);
+		plotPanelEuclidianViewD.setAutomaticAxesNumberingDistance(
+				getPlotSettings().yAxesIntervalAuto, 1);
+		Construction cons = plotPanelEuclidianViewD.getApplication().getKernel()
+				.getConstruction();
 		if (!getPlotSettings().xAxesIntervalAuto) {
-			plotPanelEuclidianViewD.setAxesNumberingDistance(new GeoNumeric(
-					cons, getPlotSettings().xAxesInterval), 0);
+			plotPanelEuclidianViewD.setAxesNumberingDistance(
+					new GeoNumeric(cons, getPlotSettings().xAxesInterval), 0);
 		} else {
-			getPlotSettings().xAxesInterval = plotPanelEuclidianViewD.getAxesNumberingDistances()[0];
+			getPlotSettings().xAxesInterval = plotPanelEuclidianViewD
+					.getAxesNumberingDistances()[0];
 		}
 		if (!getPlotSettings().yAxesIntervalAuto) {
-			plotPanelEuclidianViewD.setAxesNumberingDistance(new GeoNumeric(
-					cons, getPlotSettings().yAxesInterval), 1);
+			plotPanelEuclidianViewD.setAxesNumberingDistance(
+					new GeoNumeric(cons, getPlotSettings().yAxesInterval), 1);
 		} else {
-			getPlotSettings().yAxesInterval = plotPanelEuclidianViewD.getAxesNumberingDistances()[1];
+			getPlotSettings().yAxesInterval = plotPanelEuclidianViewD
+					.getAxesNumberingDistances()[1];
 		}
-	
-		plotPanelEuclidianViewD.setPointCapturing(getPlotSettings().pointCaptureStyle);
-	
+
+		plotPanelEuclidianViewD
+				.setPointCapturing(getPlotSettings().pointCaptureStyle);
+
 		// do this last ?
 
-		plotPanelEuclidianViewD.setRealWorldCoordSystem(getPlotSettings().logXAxis && getPlotSettings().xMin <=0
-						? 0.1 : getPlotSettings().xMin,
+		plotPanelEuclidianViewD.setRealWorldCoordSystem(
+				getPlotSettings().logXAxis && getPlotSettings().xMin <= 0 ? 0.1
+						: getPlotSettings().xMin,
 				getPlotSettings().xMax,
-				getPlotSettings().logYAxis && getPlotSettings().yMin <=0
-						? 0.1
+				getPlotSettings().logYAxis && getPlotSettings().yMin <= 0 ? 0.1
 						: getPlotSettings().yMin,
 				getPlotSettings().yMax);
-	
+
 		plotPanelEuclidianViewD.repaint();
 	}
 
@@ -159,12 +173,13 @@ public class PlotPanelEuclidianViewCommon {
 		double xmaxTemp = plotPanelEView.getXmax();
 		double yminTemp = plotPanelEView.getYmin();
 		double ymaxTemp = plotPanelEView.getYmax();
-		
+
 		plotPanelEView.updateSizeKeepDrawables();
-		
+
 		// now reset the coord system so that our view dimensions are restored
 		// using the new scaling factors.
-		plotPanelEView.setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-		
+		plotPanelEView.setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp,
+				ymaxTemp);
+
 	}
 }

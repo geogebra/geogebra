@@ -43,8 +43,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author Markus Hohenwarter
  */
 
-public class MyDouble extends ValidExpression implements NumberValue,
-		Comparable<Object> {
+public class MyDouble extends ValidExpression
+		implements NumberValue, Comparable<Object> {
 
 	private double val;
 	private int angleDim = 0;
@@ -291,7 +291,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            2nd factor
 	 * @param c
 	 *            result
-	 * */
+	 */
 	final public static void mult(MyDouble a, NumberValue b, MyDouble c) {
 		c.angleDim = a.angleDim + b.getAngleDim();
 		double bval = b.getDouble();
@@ -323,7 +323,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            2nd factor
 	 * @param c
 	 *            result
-	 * */
+	 */
 	final public static void mult(MyDouble a, double b, MyDouble c) {
 		c.angleDim = a.angleDim;
 
@@ -393,12 +393,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return power a^b
 	 */
 	final public static double pow(double a, double b) {
-		
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b)
-				&& (Double.isInfinite(a) || Double.isNaN(a))) {			
+		if (Kernel.isZero(b) && (Double.isInfinite(a) || Double.isNaN(a))) {
 			return Double.NaN;
 		}
 
@@ -629,9 +627,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @param a
 	 *            difference to be added to value
 	 */
-	final public void add(double a){
+	final public void add(double a) {
 		val += a;
 	}
+
 	/**
 	 * @return abs(this)
 	 */
@@ -650,8 +649,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// kernel.checkInteger() needed otherwise floor(60degrees) gives
 		// 59degrees
 		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
-			set(Kernel.PI_180
-					* Math.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
+			set(Kernel.PI_180 * Math
+					.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			set(Math.floor(Kernel.checkInteger(val)));
@@ -668,8 +667,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
 		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
-			set(Kernel.PI_180
-					* Math.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
+			set(Kernel.PI_180 * Math
+					.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			set(Math.ceil(Kernel.checkInteger(val)));
@@ -899,7 +898,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble apply(Evaluatable lt) {
 		val = lt.evaluate(val);
 		angleDim = 0; // want function to return numbers eg f(x) = sin(x),
-							// f(45^o)
+						// f(45^o)
 		return this;
 	}
 
@@ -1115,7 +1114,6 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toValueString(tpl);
 	}
 
-
 	/*
 	 * needed for AlgoUnique (non-Javadoc) so that Kernel.isZero() is used
 	 */
@@ -1156,8 +1154,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *         (fractionalPart(-0.6)=-0.6)
 	 */
 	public ExpressionValue fractionalPart() {
-		return new MyDouble(kernel, val > 0 ? val - Math.floor(val) : val
-				- Math.ceil(val));
+		return new MyDouble(kernel,
+				val > 0 ? val - Math.floor(val) : val - Math.ceil(val));
 	}
 
 	/**

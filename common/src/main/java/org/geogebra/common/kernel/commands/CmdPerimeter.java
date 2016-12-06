@@ -34,15 +34,15 @@ public class CmdPerimeter extends CommandProcessor {
 			arg = resArgs(c);
 			if ((arg[0].isGeoPolygon())) {
 
-				GeoElement[] ret = { getAlgoDispatcher().Perimeter(
-						c.getLabel(), (GeoPolygon) arg[0]) };
+				GeoElement[] ret = { getAlgoDispatcher().Perimeter(c.getLabel(),
+						(GeoPolygon) arg[0]) };
 				return ret;
 
 				// Perimeter[ <Conic> ]
 			} else if ((arg[0].isGeoConic())) {
 
-				GeoElement[] ret = { getAlgoDispatcher().Circumference(
-						c.getLabel(), (GeoConicND) arg[0]) };
+				GeoElement[] ret = { getAlgoDispatcher()
+						.Circumference(c.getLabel(), (GeoConicND) arg[0]) };
 				return ret;
 
 			} else if ((arg[0].isGeoLocus())) {

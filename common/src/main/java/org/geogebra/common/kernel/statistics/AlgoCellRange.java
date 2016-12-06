@@ -336,5 +336,4 @@ public class AlgoCellRange extends AlgoElement {
 		return endCell;
 	}
 
-	
 }

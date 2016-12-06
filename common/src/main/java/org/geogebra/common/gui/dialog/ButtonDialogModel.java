@@ -64,15 +64,16 @@ public class ButtonDialogModel {
 
 	public void apply(String caption, String scriptText) {
 		Construction cons = app.getKernel().getConstruction();
-		button = textField ? app.getKernel().getAlgoDispatcher()
-				.textfield(null, linkedGeo) : GeoButton.getNewButton(cons);
+		button = textField
+				? app.getKernel().getAlgoDispatcher().textfield(null, linkedGeo)
+				: GeoButton.getNewButton(cons);
 		button.setEuclidianVisible(true);
 		button.setAbsoluteScreenLoc(x, y);
 
 		button.setLabel(null);
 		// XXX See Remark 1 above
-		Script script = app
-				.createScript(ScriptType.GGBSCRIPT, scriptText, true);
+		Script script = app.createScript(ScriptType.GGBSCRIPT, scriptText,
+				true);
 		button.setClickScript(script);
 
 		// set caption text
@@ -102,8 +103,8 @@ public class ButtonDialogModel {
 	}
 
 	public String getInitString() {
-		return button == null ? "" : button
-				.getCaption(StringTemplate.defaultTemplate);
+		return button == null ? ""
+				: button.getCaption(StringTemplate.defaultTemplate);
 	}
 
 	public boolean isTextField() {
@@ -113,8 +114,8 @@ public class ButtonDialogModel {
 
 	public String getClickScript() {
 		String result = "";
-		Script clickScript = button == null ? null : button
-				.getScript(EventType.CLICK);
+		Script clickScript = button == null ? null
+				: button.getScript(EventType.CLICK);
 		if (clickScript != null) {
 			result = clickScript.getText();
 		}

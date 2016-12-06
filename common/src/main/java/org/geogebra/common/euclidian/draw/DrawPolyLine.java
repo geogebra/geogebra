@@ -106,8 +106,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				GGraphics2D g2 = view
-						.getBackgroundGraphics();
+				GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
@@ -165,8 +164,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 							// between undef points
 							|| (i - 1 >= 0 && i + 1 < pts.length
 									&& !pts[i - 1].isDefined()
-									&& !pts[i + 1]
-											.isDefined())
+									&& !pts[i + 1].isDefined())
 							// first point
 							|| (i == 0 && i + 1 < pts.length
 									&& !pts[i + 1].isDefined())) {
@@ -186,9 +184,9 @@ public class DrawPolyLine extends Drawable implements Previewable {
 					gp.lineTo(coords[0], coords[1]);
 					// if point was added as start of segment
 					// then remove it
-					if (!pointList.isEmpty()
-							&& startPointAdded && view.getEuclidianController()
-									.getMode() != EuclidianConstants.MODE_ERASER) {
+					if (!pointList.isEmpty() && startPointAdded && view
+							.getEuclidianController()
+							.getMode() != EuclidianConstants.MODE_ERASER) {
 						pointList.remove(pointList.size() - 1);
 						startPointAdded = false;
 					}
@@ -253,9 +251,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				point.getY() + getLineThicknessForPoint());
 		float[] rgb = new float[3];
 		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = GColor.newColor(rgb[0],
-				rgb[1],
-				rgb[2], poly.getLineOpacity() / 255.0f);
+		GColor lineDrawingColor = GColor.newColor(rgb[0], rgb[1], rgb[2],
+				poly.getLineOpacity() / 255.0f);
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(ellipse);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());
@@ -271,8 +268,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				getLineThicknessForPoint() * 1.5);
 		float[] rgb = new float[3];
 		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = GColor.newColor(rgb[0],
-				rgb[1], rgb[2], poly.getLineOpacity() / 255.0f);
+		GColor lineDrawingColor = GColor.newColor(rgb[0], rgb[1], rgb[2],
+				poly.getLineOpacity() / 255.0f);
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(rectangle);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());
@@ -314,8 +311,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				double px = p.inhomX;
 				double py = p.inhomY;
 				double angle = Math.atan2(yRW - py, xRW - px) * 180 / Math.PI;
-				double radius = Math.sqrt((py - yRW) * (py - yRW) + (px - xRW)
-						* (px - xRW));
+				double radius = Math.sqrt(
+						(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 				// round angle to nearest 15 degrees
 				angle = Math.round(angle / 15) * 15;
@@ -381,8 +378,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
 			boolean intersects = strokedShape.intersects(x - hitThreshold,
-					y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold);
+					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			// if no hit of polyline
 			// try single points of polyline
 			if (!intersects && pointList != null) {
@@ -482,8 +478,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	private Coords getCoords(int i) {
 		if (poly != null) {
-			return view.getCoordsForView(poly.getPointND(i)
-					.getInhomCoordsInD3());
+			return view
+					.getCoordsForView(poly.getPointND(i).getInhomCoordsInD3());
 		}
 
 		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());

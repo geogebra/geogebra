@@ -165,9 +165,10 @@ public class AlgoTaylorSeries extends AlgoElement {
 					powerExp = diffExp;
 					break;
 				default:
-					powerExp = new ExpressionNode(kernel, new ExpressionNode(
-							kernel, diffExp, Operation.POWER, new MyDouble(
-									kernel, k)), Operation.DIVIDE,
+					powerExp = new ExpressionNode(kernel,
+							new ExpressionNode(kernel, diffExp, Operation.POWER,
+									new MyDouble(kernel, k)),
+							Operation.DIVIDE,
 							new ExpressionNode(kernel, new MyDouble(kernel, k),
 									Operation.FACTORIAL, null));
 				}
@@ -210,7 +211,5 @@ public class AlgoTaylorSeries extends AlgoElement {
 		g.setFunction(seriesFun);
 		g.setDefined(true);
 	}
-
-	
 
 }

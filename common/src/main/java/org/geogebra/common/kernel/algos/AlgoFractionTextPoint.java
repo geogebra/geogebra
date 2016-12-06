@@ -32,7 +32,8 @@ public class AlgoFractionTextPoint extends AlgoElement {
 
 	private StringBuilder sb = new StringBuilder();
 
-	public AlgoFractionTextPoint(Construction cons, String label, GeoPointND p) {
+	public AlgoFractionTextPoint(Construction cons, String label,
+			GeoPointND p) {
 		this(cons, p);
 		text.setLabel(label);
 	}
@@ -84,7 +85,6 @@ public class AlgoFractionTextPoint extends AlgoElement {
 			zCoord = AlgoFractionText.decimalToFraction(coords.getZ(),
 					Kernel.STANDARD_PRECISION);
 
-
 			sb.setLength(0);
 			sb.append("{ \\left( ");
 			AlgoFractionText.appendFormula(sb, xCoord, tpl, kernel);
@@ -106,7 +106,5 @@ public class AlgoFractionTextPoint extends AlgoElement {
 	public boolean isLaTeXTextCommand() {
 		return true;
 	}
-
-	
 
 }

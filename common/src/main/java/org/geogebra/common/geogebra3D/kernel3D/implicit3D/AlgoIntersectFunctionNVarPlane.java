@@ -81,12 +81,11 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 			double b = norm.getY();
 			double c = norm.getZ();
 			double d = norm.getW();
-			exp = x.wrap()
-					.multiply(a / c)
+			exp = x.wrap().multiply(a / c)
 					.plus(y.wrap()
-							.multiply(b / c)
-							.plus(surface.getFunctionExpression().deepCopy(
-									kernel)).plus(d / c));
+							.multiply(b / c).plus(surface
+									.getFunctionExpression().deepCopy(kernel))
+							.plus(d / c));
 
 			curve.getTransformedCoordSys().setZequal(a, b, c, d);
 		} else {
@@ -107,7 +106,7 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 				VariableReplacer.addVars("x", substY);
 				VariableReplacer.addVars("y",
 						new FunctionVariable(kernel, "x"));
-				
+
 				// set transformed coord sys to x=value
 				curve.getTransformedCoordSys().setXequal(v);
 			}

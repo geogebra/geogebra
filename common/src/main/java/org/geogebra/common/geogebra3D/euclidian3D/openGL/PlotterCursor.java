@@ -76,55 +76,52 @@ public class PlotterCursor {
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(size_start_move, 0, 0, 1), new Coords(
-				size_move, 0, 0, 1));
+		brush.segment(new Coords(size_start_move, 0, 0, 1),
+				new Coords(size_move, 0, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(-size_start_move, 0, 0, 1), new Coords(
-				-size_move, 0, 0, 1));
+		brush.segment(new Coords(-size_start_move, 0, 0, 1),
+				new Coords(-size_move, 0, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, size_start_move, 0, 1), new Coords(0,
-				size_move, 0, 1));
+		brush.segment(new Coords(0, size_start_move, 0, 1),
+				new Coords(0, size_move, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, -size_start_move, 0, 1), new Coords(0,
-				-size_move, 0, 1));
+		brush.segment(new Coords(0, -size_start_move, 0, 1),
+				new Coords(0, -size_move, 0, 1));
 		index[TYPE_ALREADY_XY] = brush.end();
 
 		// z
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, 0, size_start_move, 1), new Coords(0, 0,
-				size_move, 1));
+		brush.segment(new Coords(0, 0, size_start_move, 1),
+				new Coords(0, 0, size_move, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, 0, -size_start_move, 1), new Coords(0, 0,
-				-size_move, 1));
+		brush.segment(new Coords(0, 0, -size_start_move, 1),
+				new Coords(0, 0, -size_move, 1));
 		index[TYPE_ALREADY_Z] = brush.end();
-
-
 
 		// xyz
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(size_start_move, 0, 0, 1), new Coords(
-				size_move, 0, 0, 1));
+		brush.segment(new Coords(size_start_move, 0, 0, 1),
+				new Coords(size_move, 0, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(-size_start_move, 0, 0, 1), new Coords(
-				-size_move, 0, 0, 1));
+		brush.segment(new Coords(-size_start_move, 0, 0, 1),
+				new Coords(-size_move, 0, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, size_start_move, 0, 1), new Coords(0,
-				size_move, 0, 1));
+		brush.segment(new Coords(0, size_start_move, 0, 1),
+				new Coords(0, size_move, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, -size_start_move, 0, 1), new Coords(0,
-				-size_move, 0, 1));
+		brush.segment(new Coords(0, -size_start_move, 0, 1),
+				new Coords(0, -size_move, 0, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, 0, size_start_move, 1), new Coords(0, 0,
-				size_move, 1));
+		brush.segment(new Coords(0, 0, size_start_move, 1),
+				new Coords(0, 0, size_move, 1));
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.segment(new Coords(0, 0, -size_start_move, 1), new Coords(0, 0,
-				-size_move, 1));
+		brush.segment(new Coords(0, 0, -size_start_move, 1),
+				new Coords(0, 0, -size_move, 1));
 		index[TYPE_ALREADY_XYZ] = brush.end();
-
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
 
@@ -184,9 +181,9 @@ public class PlotterCursor {
 		brush.start(-1);
 		brush.setColor(GColor.GRAY);
 		brush.setThickness(thickness3);// re sets the thickness
-		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1), new Coords(1, 0, 0,
-				0), new Coords(0, 1, 0, 0), size_move / 2, -Math.PI * 0.6,
-				Math.PI * 1.2, 64);
+		brush.arcExtendedWithArrows(new Coords(0, 0, 0, 1),
+				new Coords(1, 0, 0, 0), new Coords(0, 1, 0, 0), size_move / 2,
+				-Math.PI * 0.6, Math.PI * 1.2, 64);
 		index[TYPE_ROTATION] = brush.end();
 
 		manager.setScalerView();
@@ -212,7 +209,8 @@ public class PlotterCursor {
 	}
 
 	private void quad(float x1, float y1, float z1, float x2, float y2,
-			float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+			float z2, float x3, float y3, float z3, float x4, float y4,
+			float z4) {
 
 		vertex(x1, y1, z1);
 		vertex(x2, y2, z2);
@@ -277,8 +275,8 @@ public class PlotterCursor {
 		color(1, 1, 1);
 
 		// up
-		quad(thickness, size, depth, -thickness, size, depth, -thickness,
-				-size, depth, thickness, -size, depth);
+		quad(thickness, size, depth, -thickness, size, depth, -thickness, -size,
+				depth, thickness, -size, depth);
 
 		quad(size, thickness, depth, thickness, thickness, depth, thickness,
 				-thickness, depth, size, -thickness, depth);
@@ -300,33 +298,34 @@ public class PlotterCursor {
 		color(0, 0, 0);
 
 		// up and down
-		quadSymxOyRotOz90SymOz(thickness, thickness, depth, thickness
-				+ thickness2, thickness + thickness2, depth, thickness
-				+ thickness2, size + thickness2, depth, thickness, size, depth);
+		quadSymxOyRotOz90SymOz(thickness, thickness, depth,
+				thickness + thickness2, thickness + thickness2, depth,
+				thickness + thickness2, size + thickness2, depth, thickness,
+				size, depth);
 
 		quadSymxOyRotOz90SymOz(thickness, -thickness, depth, thickness, -size,
 				depth, thickness + thickness2, -size - thickness2, depth,
 				thickness + thickness2, -thickness - thickness2, depth);
 
 		quadSymxOyRotOz90SymOz(size, thickness, depth, size, -thickness, depth,
-				size + thickness2, -thickness - thickness2, depth, size
-						+ thickness2, thickness + thickness2, depth);
+				size + thickness2, -thickness - thickness2, depth,
+				size + thickness2, thickness + thickness2, depth);
 
 		// edges
 		quadSymxOyRotOz90SymOz(thickness + thickness2, thickness + thickness2,
 				-depth, thickness + thickness2, size + thickness2, -depth,
-				thickness + thickness2, size + thickness2, depth, thickness
-						+ thickness2, thickness + thickness2, depth);
+				thickness + thickness2, size + thickness2, depth,
+				thickness + thickness2, thickness + thickness2, depth);
 
 		quadSymxOyRotOz90SymOz(thickness + thickness2, -thickness - thickness2,
 				-depth, thickness + thickness2, -thickness - thickness2, depth,
-				thickness + thickness2, -size - thickness2, depth, thickness
-						+ thickness2, -size - thickness2, -depth);
+				thickness + thickness2, -size - thickness2, depth,
+				thickness + thickness2, -size - thickness2, -depth);
 
 		quadRotOz90SymOz(size + thickness2, thickness + thickness2, -depth,
-				size + thickness2, thickness + thickness2, depth, size
-						+ thickness2, -thickness - thickness2, depth, size
-						+ thickness2, -thickness - thickness2, -depth);
+				size + thickness2, thickness + thickness2, depth,
+				size + thickness2, -thickness - thickness2, depth,
+				size + thickness2, -thickness - thickness2, -depth);
 
 	}
 
@@ -339,11 +338,11 @@ public class PlotterCursor {
 		// white parts
 		color(1, 1, 1);
 
-		quadSymxOyRotOz90SymOz(thickness, t, t, -thickness, t, t, -thickness,
-				t, size2, thickness, t, size2);
+		quadSymxOyRotOz90SymOz(thickness, t, t, -thickness, t, t, -thickness, t,
+				size2, thickness, t, size2);
 
-		quadSymxOyRotOz90SymOz(thickness, t, t, thickness, size2, t,
-				-thickness, size2, t, -thickness, t, t);
+		quadSymxOyRotOz90SymOz(thickness, t, t, thickness, size2, t, -thickness,
+				size2, t, -thickness, t, t);
 
 		quadRotOz90SymOz(t, t, thickness, t, t, -thickness, t, size2,
 				-thickness, t, size2, thickness);
@@ -353,13 +352,13 @@ public class PlotterCursor {
 
 		quadRotOz90SymOz(thickness, size2 + t - thickness, -thickness,
 				-thickness, size2 + t - thickness, -thickness, -thickness,
-				size2 + t - thickness, thickness, thickness, size2 + t
-						- thickness, thickness);
+				size2 + t - thickness, thickness, thickness,
+				size2 + t - thickness, thickness);
 
 		quadSymxOyRotOz90SymOz(thickness, -thickness, size2 + t - thickness,
 				thickness, thickness, size2 + t - thickness, -thickness,
-				thickness, size2 + t - thickness, -thickness, -thickness, size2
-						+ t - thickness);
+				thickness, size2 + t - thickness, -thickness, -thickness,
+				size2 + t - thickness);
 
 		// black parts
 		color(0, 0, 0);
@@ -370,14 +369,14 @@ public class PlotterCursor {
 		quadSymxOyRotOz90SymOz(thickness, t, t, thickness, t, size2, t, t,
 				size2, t, t, t);
 
-		quadSymxOyRotOz90SymOz(t, t, t, t, t, thickness, t, size2, thickness,
-				t, size2, t);
+		quadSymxOyRotOz90SymOz(t, t, t, t, t, thickness, t, size2, thickness, t,
+				size2, t);
 
-		quadSymxOyRotOz90SymOz(thickness, t, t, t, t, t, t, size2, t,
-				thickness, size2, t);
+		quadSymxOyRotOz90SymOz(thickness, t, t, t, t, t, t, size2, t, thickness,
+				size2, t);
 
-		quadSymxOyRotOz90SymOz(-t, t, t, -t, size2, t, -t, size2, thickness,
-				-t, t, thickness);
+		quadSymxOyRotOz90SymOz(-t, t, t, -t, size2, t, -t, size2, thickness, -t,
+				t, thickness);
 
 		quadSymxOyRotOz90SymOz(-thickness, t, t, -thickness, size2, t, -t,
 				size2, t, -t, t, t);
@@ -385,31 +384,32 @@ public class PlotterCursor {
 		quadSymxOyRotOz90SymOz(t, size2, t, t, size2 + t - thickness, t, -t,
 				size2 + t - thickness, t, -t, size2, t);
 
-		quadSymxOyRotOz90SymOz(t, size2 + t - thickness, t, t, size2 + t
-				- thickness, thickness, -t, size2 + t - thickness, thickness,
-				-t, size2 + t - thickness, t);
+		quadSymxOyRotOz90SymOz(t, size2 + t - thickness, t, t,
+				size2 + t - thickness, thickness, -t, size2 + t - thickness,
+				thickness, -t, size2 + t - thickness, t);
 
 		quadRotOz90SymOz(t, size2, t, t, size2, -t, t, size2 + t - thickness,
 				-t, t, size2 + t - thickness, t);
 
-		quadRotOz90SymOz(t, size2 + t - thickness, thickness, t, size2 + t
-				- thickness, -thickness, thickness, size2 + t - thickness,
-				-thickness, thickness, size2 + t - thickness, thickness);
+		quadRotOz90SymOz(t, size2 + t - thickness, thickness, t,
+				size2 + t - thickness, -thickness, thickness,
+				size2 + t - thickness, -thickness, thickness,
+				size2 + t - thickness, thickness);
 
-		quadRotOz90SymOz(-t, size2, t, -t, size2 + t - thickness, t, -t, size2
-				+ t - thickness, -t, -t, size2, -t);
+		quadRotOz90SymOz(-t, size2, t, -t, size2 + t - thickness, t, -t,
+				size2 + t - thickness, -t, -t, size2, -t);
 
 		quadRotOz90SymOz(-t, size2 + t - thickness, thickness, -thickness,
-				size2 + t - thickness, thickness, -thickness, size2 + t
-						- thickness, -thickness, -t, size2 + t - thickness,
+				size2 + t - thickness, thickness, -thickness,
+				size2 + t - thickness, -thickness, -t, size2 + t - thickness,
 				-thickness);
 
 		quadSymxOyRotOz90SymOz(t, t, size2, t, t, size2 + t - thickness, t, -t,
 				size2 + t - thickness, t, -t, size2);
 
 		quadSymxOyRotOz90SymOz(t, t, size2 + t - thickness, thickness,
-				thickness, size2 + t - thickness, thickness, -thickness, size2
-						+ t - thickness, t, -t, size2 + t - thickness);
+				thickness, size2 + t - thickness, thickness, -thickness,
+				size2 + t - thickness, t, -t, size2 + t - thickness);
 
 	}
 
@@ -583,7 +583,8 @@ public class PlotterCursor {
 	}
 
 	private void quadSymOz(float x1, float y1, float z1, float x2, float y2,
-			float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+			float z2, float x3, float y3, float z3, float x4, float y4,
+			float z4) {
 
 		quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
 

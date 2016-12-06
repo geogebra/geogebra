@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
  */
 public class DrawSurface3DElements extends DrawSurface3D {
 
-
 	/**
 	 * constructor
 	 * 
@@ -29,8 +28,8 @@ public class DrawSurface3DElements extends DrawSurface3D {
 	}
 
 	@Override
-	protected void drawTriangle(PlotterSurface surface,
-			CornerAndCenter cc, Corner c1, Corner c2) {
+	protected void drawTriangle(PlotterSurface surface, CornerAndCenter cc,
+			Corner c1, Corner c2) {
 
 		if (!checkIdsAreShort(cornerListIndex + cc.id, c1.id, c2.id)) {
 			return;
@@ -60,7 +59,6 @@ public class DrawSurface3DElements extends DrawSurface3D {
 
 	}
 
-
 	@Override
 	protected void drawTriangle(PlotterSurface surface, Coords3 p0, Coords3 n0,
 			Corner c1, Corner c2) {
@@ -69,12 +67,10 @@ public class DrawSurface3DElements extends DrawSurface3D {
 			return;
 		}
 
-
 		// add normal and vertex, and create new index
 		draw(surface, p0, n0);
 		draw(surface, c2);
 		draw(surface, c1);
-
 
 	}
 

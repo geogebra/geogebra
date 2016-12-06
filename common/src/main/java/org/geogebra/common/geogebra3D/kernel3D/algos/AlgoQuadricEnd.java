@@ -32,6 +32,7 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D section; // output
 	private CoordSys coordsys;
+
 	// private GeoPoint3D help;
 	/**
 	 * 
@@ -97,14 +98,15 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		}
 
 		section.setDefined();
-		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
+		if (quadric
+				.getType() == GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER) {
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			Coords d = quadric.getEigenvec3D(1).normalize();
 
-			Coords o1 = quadric.getMidpoint3D().copy()
-					.addInsideMul(d, quadric.getBottomParameter());
-			Coords o2 = quadric.getMidpoint3D().copy()
-					.addInsideMul(d, quadric.getTopParameter());
+			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
+					quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d,
+					quadric.getTopParameter());
 			pm.setOrigin(getOrigin(o1, o2));
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
 			v[2] = quadric.getEigenvec3D(2).normalize();
@@ -133,17 +135,18 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		} else {
 			CoordMatrix qm = quadric.getSymetricMatrix();
 			Coords d = quadric.getEigenvec3D(2);
-			Coords o1 = quadric.getMidpoint3D().copy()
-					.addInsideMul(d, quadric.getBottomParameter());
-			Coords o2 = quadric.getMidpoint3D().copy()
-					.addInsideMul(d, quadric.getTopParameter());
+			Coords o1 = quadric.getMidpoint3D().copy().addInsideMul(d,
+					quadric.getBottomParameter());
+			Coords o2 = quadric.getMidpoint3D().copy().addInsideMul(d,
+					quadric.getTopParameter());
 
 			if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
-					|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
+					|| quadric
+							.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
 				// cylinder or cone equal to a segment
 				if (Kernel.isZero(quadric.getHalfAxis(0))
-						&& (Double.isNaN(quadric.getHalfAxis(1)) || Kernel
-								.isZero(quadric.getHalfAxis(1)))) {
+						&& (Double.isNaN(quadric.getHalfAxis(1))
+								|| Kernel.isZero(quadric.getHalfAxis(1)))) {
 					section.setSinglePoint(getOrigin(o1, o2));
 					return;
 				}

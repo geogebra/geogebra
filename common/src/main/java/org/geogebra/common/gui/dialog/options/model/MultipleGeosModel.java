@@ -12,6 +12,7 @@ import org.geogebra.common.main.Localization;
 
 public abstract class MultipleGeosModel extends MultipleOptionsModel {
 	private List<String> choices;
+
 	public MultipleGeosModel(App app) {
 		super(app);
 		choices = new ArrayList<String>();

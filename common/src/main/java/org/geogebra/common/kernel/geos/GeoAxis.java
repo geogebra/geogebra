@@ -20,8 +20,10 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.GeoClass;
+
 /**
  * Cartesian axis
+ * 
  * @author Markus
  */
 public class GeoAxis extends GeoLine implements GeoAxisND {
@@ -31,8 +33,11 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	/**
 	 * Creates new axis
-	 * @param cons construction
-	 * @param type GeoAxisND.X_AXIS or GeoAxisND.Y_AXIS
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param type
+	 *            GeoAxisND.X_AXIS or GeoAxisND.Y_AXIS
 	 */
 	public GeoAxis(Construction cons, int type) {
 		super(cons);
@@ -47,7 +52,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			setCoords(0, 1, 0);
 			label = "xAxis";
 			setObjColor(GColor.newColor(255, 0, 0));// will be
-																	// Color.RED
+													// Color.RED
 			break;
 
 		case Y_AXIS:
@@ -56,7 +61,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			setObjColor(GColor.newColor(0, 128, 0));
 			break;
 		}
-		
+
 		setLabelSet(true);
 		setFixed(true);
 		setLabelVisible(false);
@@ -99,23 +104,20 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			return false;
 		return str.equals(label) || str.equals(getLoc().getPlain(label));
 	}
-	
+
 	@Override
 	public String getTypeString() {
 		return "Line";
 	}
-	
+
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.AXIS;
 	}
 
-
-
 	// /////////////////////////////////////
 	// GEOAXISND INTERFACE
 	// /////////////////////////////////////
-
 
 	public String getUnitLabel() {
 		// TODO Auto-generated method stub
@@ -135,13 +137,10 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	// for numbers and ticks
 	private int ticksize = 5; // TODO
 
-
 	public int getTickSize() {
 		return ticksize;
 	}
 
-
-	
 	/**
 	 * overrides GeoElement method : this is a "constant" element, so the label
 	 * is set
@@ -163,7 +162,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	public boolean isAxis() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean isRenameable() {
 		return false;
@@ -172,8 +171,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	@Override
 	public final boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
 
-		EuclidianSettings settings = ev == null ? kernel.getApplication()
-				.getActiveEuclidianView().getSettings() : ev.getSettings();
+		EuclidianSettings settings = ev == null
+				? kernel.getApplication().getActiveEuclidianView().getSettings()
+				: ev.getSettings();
 
 		if (settings != null) {
 			return settings.isSelectionAllowed(type);

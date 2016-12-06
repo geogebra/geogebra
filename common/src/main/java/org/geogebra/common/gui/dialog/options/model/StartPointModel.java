@@ -13,7 +13,6 @@ import org.geogebra.common.main.error.ErrorHelper;
 public class StartPointModel extends MultipleGeosModel {
 
 	private Kernel kernel;
-	
 
 	public StartPointModel(App app) {
 		super(app);
@@ -21,9 +20,9 @@ public class StartPointModel extends MultipleGeosModel {
 	}
 
 	public Locateable getLocateableAt(int index) {
-		return (Locateable)getObjectAt(index);
+		return (Locateable) getObjectAt(index);
 	}
-	
+
 	@Override
 	public void updateProperties() {
 
@@ -34,7 +33,7 @@ public class StartPointModel extends MultipleGeosModel {
 
 		// check if properties have same values
 		Locateable temp, geo0 = getLocateableAt(0);
-		
+
 		boolean equalLocation = true;
 
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -54,9 +53,6 @@ public class StartPointModel extends MultipleGeosModel {
 
 	}
 
-
-	
-
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 		handler.resetError();
@@ -69,18 +65,18 @@ public class StartPointModel extends MultipleGeosModel {
 		if (newLoc == null) {
 			return;
 		}
-		for (int i=0; i < getGeosLength(); i++) {
+		for (int i = 0; i < getGeosLength(); i++) {
 			Locateable l = getLocateableAt(i);
 			try {
 				l.setStartPoint(newLoc);
 				l.toGeoElement().updateRepaint();
 			} catch (CircularDefinitionException e) {
 				ErrorHelper.handleException(e, app, handler);
-			}			
+			}
 		}
 	}
-	
- 	@Override
+
+	@Override
 	protected void apply(int index, int value) {
 		// TODO Auto-generated method stub
 
@@ -96,9 +92,9 @@ public class StartPointModel extends MultipleGeosModel {
 	protected boolean isValidAt(int index) {
 		boolean valid = true;
 		GeoElement geo = getGeoAt(index);
-		if (!(geo instanceof Locateable && !((Locateable) geo)
-				.isAlwaysFixed()) || geo.isGeoImage() ||
-				geo.getParentAlgorithm() instanceof AlgoVector) {
+		if (!(geo instanceof Locateable && !((Locateable) geo).isAlwaysFixed())
+				|| geo.isGeoImage()
+				|| geo.getParentAlgorithm() instanceof AlgoVector) {
 			valid = false;
 		}
 		return valid;

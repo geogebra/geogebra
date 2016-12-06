@@ -4,8 +4,8 @@ import org.geogebra.common.kernel.discrete.tsp.impl.FLS;
 import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 
 public final class TSPSolver implements TSP {
-    public double solve(final Point[] points) {
-        final FLS fls = new FLS();
-        return fls.optimise(points);
-    }
+	public double solve(final Point[] points) {
+		final FLS fls = new FLS();
+		return fls.optimise(points);
+	}
 }

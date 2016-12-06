@@ -151,5 +151,4 @@ public class AlgoRotate extends AlgoTransformation {
 		return 1;
 	}
 
-	
 }

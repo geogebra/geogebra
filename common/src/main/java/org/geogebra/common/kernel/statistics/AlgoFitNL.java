@@ -119,7 +119,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		if (!geo2.isGeoFunction() || !geo1.isGeoPoint()) {
 			outputfunction.setUndefined();
 			return;
-		}// if wrong contents in lists
+		} // if wrong contents in lists
 
 		try {
 			// Get points as x[] and y[] from lists
@@ -144,7 +144,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 			for (int i = 0; i < datasize; i++) {
 				curvefitter.addObservedPoint(1.0, xdata[i], ydata[i]);
-			}// for all datapoints
+			} // for all datapoints
 
 			curvefitter.fit(prfunction, prfunction.getStartValues());
 
@@ -178,7 +178,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			if (!geo.isGeoPoint()) {
 				// throw (new Exception("Not points in function list..."));
 				return false;
-			}// if not point
+			} // if not point
 			point = (GeoPoint) geo;
 			xdata[i] = point.getX();
 			ydata[i] = point.getY();
@@ -198,7 +198,5 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 		return ret;
 	}
-
-	
 
 }

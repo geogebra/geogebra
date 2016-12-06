@@ -39,9 +39,8 @@ public class CmdLogistic extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction()
-					|| !((GeoFunction) arg[2]).toString(
-							StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
+					.toString(StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
 
@@ -54,13 +53,12 @@ public class CmdLogistic extends CommandProcessor {
 		case 3:
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction()
-						&& ((GeoFunction) arg[2]).toString(
-								StringTemplate.defaultTemplate).equals("x")) {
+				if (arg[2].isGeoFunction() && ((GeoFunction) arg[2])
+						.toString(StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoLogisticDF algo = new AlgoLogisticDF(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
-							(GeoNumberValue) arg[1], cumulative);
+					AlgoLogisticDF algo = new AlgoLogisticDF(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							cumulative);
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {

@@ -42,8 +42,8 @@ public class CmdCubic extends CommandProcessor {
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
 
 				AlgoCubic algo = new AlgoCubic(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoPoint) arg[1],
-						(GeoPoint) arg[2], (GeoNumberValue) arg[3]);
+						(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2],
+						(GeoNumberValue) arg[3]);
 
 				GeoElement[] ret = { algo.getResult().toGeoElement() };
 				return ret;

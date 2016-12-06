@@ -161,8 +161,9 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public final boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
 
-		EuclidianSettings settings = ev == null ? kernel.getApplication()
-				.getActiveEuclidianView().getSettings() : ev.getSettings();
+		EuclidianSettings settings = ev == null
+				? kernel.getApplication().getActiveEuclidianView().getSettings()
+				: ev.getSettings();
 
 		if (settings != null) {
 			return settings.isSelectionAllowed(type);

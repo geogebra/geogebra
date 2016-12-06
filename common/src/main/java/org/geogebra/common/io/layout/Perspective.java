@@ -90,10 +90,10 @@ public class Perspective {
 			"GeoGebra3DGrapher.short", "Perspective.Probability",
 			"Whiteboard" };
 	/** slugs for web app url / tutorials url */
-	final public static String[] perspectiveSlugs = new String[] {
-			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability",
-			"whiteboard"
- };
+	final public static String[] perspectiveSlugs = new String[] { "graphing",
+			"geometry", "spreadsheet", "cas", "3d", "probability",
+			"whiteboard" };
+
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the
 	 * perspectivesSlugs should be changed to the list below. because of the new
@@ -191,7 +191,8 @@ public class Perspective {
 			boolean showToolBar, boolean showGrid, boolean showAxes,
 			boolean showInputPanel, boolean showInputPanelCommands,
 			InputPosition inputPosition, int toolBarPosition,
-			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
+			boolean showToolBarHelp, boolean showDockBar,
+			boolean isDockBarEast) {
 		this.id = id;
 		this.splitPaneData = splitPaneInfo;
 		this.setDockPanelData(dockPanelInfo);
@@ -207,7 +208,6 @@ public class Perspective {
 		this.showDockBar = showDockBar;
 		this.isDockBarEast = isDockBarEast;
 	}
-
 
 	/**
 	 * Create an empty perspective.
@@ -533,7 +533,7 @@ public class Perspective {
 	/**
 	 * @return id of this perspective if it's default
 	 */
-	public int getDefaultID() {	
+	public int getDefaultID() {
 		return defaultID;
 	}
 

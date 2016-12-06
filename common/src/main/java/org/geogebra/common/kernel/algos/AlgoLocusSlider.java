@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
-
 	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,
 			GeoNumeric P) {
 		super(cons, label, Q, P);
@@ -60,36 +59,34 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 	}
 
 	protected boolean isFarAway(double x, double y, int i) {
-		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i] || y < farYmin[i]);
+		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i]);
 		return farAway;
 	}
 
 	@Override
 	protected boolean distanceOK(GeoPointND QND, GRectangle2D rec) {
 		GeoPoint Q = (GeoPoint) QND;
-			// if last point Q' was far away and Q is far away
-			// then the distance is probably OK (return true),
-			// so we probably don't need smaller step,
-			// except if the rectangle of the segment Q'Q
-			// intersects the near to screen rectangle
-			// (it will probably not be on the screen anyway)
-			double minX = lastX;
-			double minY = lastY;
-			double lengthX = Q.inhomX - lastX;
-			double lengthY = Q.inhomY - lastY;
-			if (Q.inhomX < minX)
-				minX = Q.inhomX;
-			if (Q.inhomY < minY)
-				minY = Q.inhomY;
-			if (lengthX < 0)
-				lengthX = -lengthX;
-			if (lengthY < 0)
-				lengthY = -lengthY;
-		return !rec.intersects(minX, minY, lengthX,
-					lengthY);
+		// if last point Q' was far away and Q is far away
+		// then the distance is probably OK (return true),
+		// so we probably don't need smaller step,
+		// except if the rectangle of the segment Q'Q
+		// intersects the near to screen rectangle
+		// (it will probably not be on the screen anyway)
+		double minX = lastX;
+		double minY = lastY;
+		double lengthX = Q.inhomX - lastX;
+		double lengthY = Q.inhomY - lastY;
+		if (Q.inhomX < minX)
+			minX = Q.inhomX;
+		if (Q.inhomY < minY)
+			minY = Q.inhomY;
+		if (lengthX < 0)
+			lengthX = -lengthX;
+		if (lengthY < 0)
+			lengthY = -lengthY;
+		return !rec.intersects(minX, minY, lengthX, lengthY);
 
-
-		
 	}
 
 	@Override
@@ -118,7 +115,6 @@ public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 		}
 		return true;
 	}
-	
 
 	@Override
 	protected boolean areEqual(GeoPointND A, GeoPointND B) {

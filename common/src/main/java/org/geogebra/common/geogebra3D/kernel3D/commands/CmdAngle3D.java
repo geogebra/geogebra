@@ -86,7 +86,8 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		// angle between planes
-		if ((ok[0] = (arg[0].isGeoPlane())) && (ok[1] = (arg[1].isGeoPlane()))) {
+		if ((ok[0] = (arg[0].isGeoPlane()))
+				&& (ok[1] = (arg[1].isGeoPlane()))) {
 			GeoElement[] ret = { kernelA.getManager3D().Angle3D(c.getLabel(),
 					(GeoPlane3D) arg[0], (GeoPlane3D) arg[1]) };
 			return ret;
@@ -135,8 +136,7 @@ public class CmdAngle3D extends CmdAngle {
 		}
 
 		// angle between vectors, oriented
-		if ((ok[0] = (arg[0].isGeoVector()))
-				&& (ok[1] = (arg[1].isGeoVector()))
+		if ((ok[0] = (arg[0].isGeoVector())) && (ok[1] = (arg[1].isGeoVector()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
 
 			if (!arg[0].isGeoElement3D() && !arg[1].isGeoElement3D()
@@ -159,8 +159,8 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		if (p1.isGeoElement3D() || p2.isGeoElement3D() || p3.isGeoElement3D()) {
-			GeoElement[] ret = { kernelA.getManager3D().Angle3D(label, p1, p2,
-					p3) };
+			GeoElement[] ret = {
+					kernelA.getManager3D().Angle3D(label, p1, p2, p3) };
 			return ret;
 		}
 
@@ -243,10 +243,10 @@ public class CmdAngle3D extends CmdAngle {
 			return new GeoElement[] {};
 		}
 
-		if (direction == kernelA.getXOYPlane() /*
-												 * || direction ==
-												 * kernelA.getSpace()
-												 */) { // use xOy plane
+		if (direction == kernelA
+				.getXOYPlane() /*
+								 * || direction == kernelA.getSpace()
+								 */) { // use xOy plane
 			if (p1.isGeoElement3D() || p2.isGeoElement3D()) {
 				return kernelA.getManager3D().Angle(labels, p1, p2, a,
 						kernelA.getXOYPlane(), true);

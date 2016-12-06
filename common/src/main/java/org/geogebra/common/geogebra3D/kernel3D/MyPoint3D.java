@@ -155,7 +155,8 @@ public class MyPoint3D extends MyPoint {
 
 	@Override
 	public MyPoint3D barycenter(double t, MyPoint point2) {
-		return new MyPoint3D((1 - t) * x + t * point2.x, (1 - t) * y + t
-				* point2.y, (1 - t) * z + t * point2.getZ(), false);
+		return new MyPoint3D((1 - t) * x + t * point2.x,
+				(1 - t) * y + t * point2.y, (1 - t) * z + t * point2.getZ(),
+				false);
 	}
 }

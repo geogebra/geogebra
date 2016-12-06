@@ -17,7 +17,9 @@ public class CmdShortestDistance extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdShortestDistance(Kernel kernel) {
 		super(kernel);
@@ -36,9 +38,9 @@ public class CmdShortestDistance extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				
-				GeoElement[] ret = {  new AlgoShortestDistance(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoPointND) arg[1],
+
+				GeoElement[] ret = { new AlgoShortestDistance(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2], (GeoBoolean) arg[3]).getResult() };
 
 				return ret;

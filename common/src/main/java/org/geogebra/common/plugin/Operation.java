@@ -97,8 +97,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
-					lt, rt);
+			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
+					rt);
 			// b can't be null here (findbugs)
 			// if (b == null) {
 			// return ev.illegalComparison(lt, rt,
@@ -207,8 +207,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
-					lt, rt);
+			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
+					rt);
 			// b can't be null here (findbugs)
 			// if (b == null) {
 			// return ev.illegalComparison(lt, rt,
@@ -223,17 +223,17 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				
+
 				double a = ((NumberValue) lt).getDouble();
 				double b = ((NumberValue) rt).getDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
-				
+
 				return new MyBoolean(ev.getKernel(), Kernel.isGreater(b, a),
 						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
-				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
-						((TextValue) rt).toValueString(tpl));
+				int comp = ((TextValue) lt).toValueString(tpl)
+						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp < 0);
 			}
 			return ev.illegalComparison(lt, rt, "<");
@@ -254,8 +254,8 @@ public enum Operation {
 						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
-				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
-						((TextValue) rt).toValueString(tpl));
+				int comp = ((TextValue) lt).toValueString(tpl)
+						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp > 0);
 			}
 			return ev.illegalComparison(lt, rt, ">");
@@ -276,8 +276,8 @@ public enum Operation {
 						Kernel.isGreaterEqual(b, a), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
-				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
-						((TextValue) rt).toValueString(tpl));
+				int comp = ((TextValue) lt).toValueString(tpl)
+						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp <= 0);
 			}
 			return ev.illegalComparison(lt, rt,
@@ -299,8 +299,8 @@ public enum Operation {
 						Kernel.isGreaterEqual(a, b), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
-				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
-						((TextValue) rt).toValueString(tpl));
+				int comp = ((TextValue) lt).toValueString(tpl)
+						.compareTo(((TextValue) rt).toValueString(tpl));
 				return new MyBoolean(ev.getKernel(), comp >= 0);
 			}
 			return ev.illegalComparison(lt, rt,
@@ -339,8 +339,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof ListValue) {
-				return new MyBoolean(ev.getKernel(), MyList.isElementOf(lt,
-						((ListValue) rt).getMyList()));
+				return new MyBoolean(ev.getKernel(),
+						MyList.isElementOf(lt, ((ListValue) rt).getMyList()));
 			}
 
 			// checks for 2D or 3D point
@@ -368,9 +368,9 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(ev.getKernel(), MyList.listContains(
-						((ListValue) rt).getMyList(),
-						((ListValue) lt).getMyList(), tpl));
+				return new MyBoolean(ev.getKernel(),
+						MyList.listContains(((ListValue) rt).getMyList(),
+								((ListValue) lt).getMyList(), tpl));
 			}
 			return ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_SUBSET_OF);
@@ -382,9 +382,9 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(ev.getKernel(), MyList.listContainsStrict(
-						((ListValue) rt).getMyList(),
-						((ListValue) lt).getMyList(), tpl));
+				return new MyBoolean(ev.getKernel(),
+						MyList.listContainsStrict(((ListValue) rt).getMyList(),
+								((ListValue) lt).getMyList(), tpl));
 			}
 			return ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_SUBSET_OF_STRICT);
@@ -478,19 +478,22 @@ public enum Operation {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {			
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof ListValue) {
 				double x = ((NumberValue) lt).getDouble();
 				double ret = Double.NaN;
-				
+
 				ListValue list = (ListValue) rt;
-				if(list instanceof GeoList && ((GeoList)list).getElementType() != GeoClass.NUMERIC ){
+				if (list instanceof GeoList && ((GeoList) list)
+						.getElementType() != GeoClass.NUMERIC) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
 				}
 				int n = list.size() - 3;
 				if (n >= 1) {
-					double min = ((NumberValue) (list.getListElement(0))).getDouble();
-					double max = ((NumberValue) (list.getListElement(1))).getDouble();
+					double min = ((NumberValue) (list.getListElement(0)))
+							.getDouble();
+					double max = ((NumberValue) (list.getListElement(1)))
+							.getDouble();
 
 					if ((min > max) || (x > max) || (x < min)) {
 						return new MyDouble(ev.getKernel(), Double.NaN);
@@ -501,13 +504,14 @@ public enum Operation {
 					int index = (int) Math.floor((x - min) / step);
 
 					if (index > (n - 1)) {
-						ret = ((NumberValue) (list.getListElement(n + 2))).getDouble();
+						ret = ((NumberValue) (list.getListElement(n + 2)))
+								.getDouble();
 					} else {
 
-						double y1 = ((NumberValue) (list.getListElement(index + 2)))
-								.getDouble();
-						double y2 = ((NumberValue) (list.getListElement(index + 3)))
-								.getDouble();
+						double y1 = ((NumberValue) (list
+								.getListElement(index + 2))).getDouble();
+						double y2 = ((NumberValue) (list
+								.getListElement(index + 3))).getDouble();
 						double x1 = min + (index * step);
 
 						// linear interpolation between (x1,y1) and
@@ -515,7 +519,6 @@ public enum Operation {
 						ret = y1 + (((x - x1) * (y2 - y1)) / step);
 					}
 				}
-				
 
 				return new MyDouble(ev.getKernel(), ret);
 
@@ -543,12 +546,12 @@ public enum Operation {
 				}
 				int index = (int) (keyList.size() * (x - min) / (max - min));
 				index = Math.max(Math.min(index, keyList.size() - 1), 0);
-				while (index > 0
-						&& keyList.getListElement(index).evaluateDouble() >= x) {
+				while (index > 0 && keyList.getListElement(index)
+						.evaluateDouble() >= x) {
 					index--;
 				}
-				while (index < keyList.size() - 1
-						&& keyList.getListElement(index + 1).evaluateDouble() < x) {
+				while (index < keyList.size() - 1 && keyList
+						.getListElement(index + 1).evaluateDouble() < x) {
 					index++;
 				}
 				double x1 = keyList.getListElement(index).evaluateDouble();
@@ -556,9 +559,8 @@ public enum Operation {
 				double y1 = valueList.getListElement(index).evaluateDouble();
 				double y2 = valueList.getListElement(index + 1)
 						.evaluateDouble();
-				return new MyDouble(ev.getKernel(), ((x - x1) * y2 + y1
-						* (x2 - x))
-						/ (x2 - x1));
+				return new MyDouble(ev.getKernel(),
+						((x - x1) * y2 + y1 * (x2 - x)) / (x2 - x1));
 			}
 			return ev.illegalArgument(lt, rt, "dataFunction(");
 		}
@@ -665,8 +667,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber()
-						.acos(false);
+				return ((NumberValue) lt).getNumber().acos(false);
 			}
 			return ev.polynomialOrDie(lt, this, "acos(");
 
@@ -720,8 +721,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber()
-						.atan(false);
+				return ((NumberValue) lt).getNumber().atan(false);
 			}
 			return ev.polynomialOrDie(lt, this, "atan(");
 
@@ -749,8 +749,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber()
-						.atan2((NumberValue) rt, false)
-						.getNumber();
+						.atan2((NumberValue) rt, false).getNumber();
 			}
 			return ev.illegalArgument(lt, rt, "arctan2(");
 		}
@@ -762,8 +761,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber()
-						.atan2((NumberValue) rt, true)
-						.getNumber();
+						.atan2((NumberValue) rt, true).getNumber();
 			}
 			return ev.illegalArgument(lt, rt, "arctan2d(");
 		}
@@ -1153,7 +1151,8 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().floor();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector()
+						.floor();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "floor(");
@@ -1211,7 +1210,8 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().round();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector()
+						.round();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -1225,8 +1225,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				if (rt instanceof NumberValue
-						&& (!Double.isNaN(((NumberValue) rt).getDouble()) || rt
-								.isGeoElement())) {
+						&& (!Double.isNaN(((NumberValue) rt).getDouble())
+								|| rt.isGeoElement())) {
 					return ((NumberValue) lt).getNumber().round(
 							((NumberValue) rt).getDouble(),
 							ev.getKernel().getAngleUnit());
@@ -1241,7 +1241,8 @@ public enum Operation {
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector().round();
+				Geo3DVecInterface ret = ((Vector3DValue) lt).getVector()
+						.round();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -1265,8 +1266,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return ((NumberValue) rt).getNumber().gammaIncomplete(
-						(NumberValue) lt);
+				return ((NumberValue) rt).getNumber()
+						.gammaIncomplete((NumberValue) lt);
 			}
 			return ev.illegalArgument(lt, rt, "gammaIncomplete");
 		}
@@ -1300,8 +1301,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof VectorValue && rt instanceof NumberValue) {
-				return ((NumberValue) rt).getNumber().betaIncomplete(
-						(VectorValue) lt);
+				return ((NumberValue) rt).getNumber()
+						.betaIncomplete((VectorValue) lt);
 			}
 			return ev.illegalArgument(lt, rt, "betaIncomplete(");
 		}
@@ -1346,8 +1347,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return ((NumberValue) rt).getNumber().polygamma(
-						(NumberValue) lt);
+				return ((NumberValue) rt).getNumber()
+						.polygamma((NumberValue) lt);
 			}
 			return ev.polynomialOrDie(lt, this, "polygamma(");
 		}
@@ -1421,7 +1422,6 @@ public enum Operation {
 			} else if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
-
 				return vec.ei();
 
 			}
@@ -1480,8 +1480,8 @@ public enum Operation {
 			if (lt instanceof VectorNDValue) {
 				GeoVecInterface vec = ((VectorNDValue) lt).getVector();
 
-				MyDouble ret = new MyDouble(kernel, Math.atan2(vec.getY(),
-						vec.getX()));
+				MyDouble ret = new MyDouble(kernel,
+						Math.atan2(vec.getY(), vec.getX()));
 				ret.setAngle();
 				return ret;
 			} else if (lt instanceof NumberValue) {
@@ -1537,8 +1537,8 @@ public enum Operation {
 				NumberValue arg = (NumberValue) rt;
 
 				if (lt instanceof GeoCurveCartesianND) {
-					return ((GeoCurveCartesianND) lt).evaluateCurve(arg
-							.getDouble());
+					return ((GeoCurveCartesianND) lt)
+							.evaluateCurve(arg.getDouble());
 				}
 
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
@@ -1547,9 +1547,9 @@ public enum Operation {
 				ListValue arg = (ListValue) rt;
 
 				if (lt instanceof GeoSurfaceCartesianND) {
-					return ((GeoSurfaceCartesianND) lt).evaluateSurface(arg
-							.getListElement(0).evaluateDouble(), arg
-							.getListElement(1).evaluateDouble());
+					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
+							arg.getListElement(0).evaluateDouble(),
+							arg.getListElement(1).evaluateDouble());
 				}
 				return ev.illegalArgument(lt);
 			}
@@ -1564,13 +1564,13 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof NumberValue) {
 				if (lt instanceof Functional) { // derivative of GeoFunction
-					return ((Functional) lt).getGeoDerivative((int) Math
-							.round(((NumberValue) rt).getDouble()), true);
+					return ((Functional) lt).getGeoDerivative(
+							(int) Math.round(((NumberValue) rt).getDouble()),
+							true);
 				} else if (lt instanceof GeoCurveCartesianND) { // derivative of
 																// GeoCurveCartesian
-					return ((GeoCurveCartesianND) lt)
-							.getGeoDerivative((int) Math
-									.round(((NumberValue) rt).getDouble()));
+					return ((GeoCurveCartesianND) lt).getGeoDerivative(
+							(int) Math.round(((NumberValue) rt).getDouble()));
 				}
 			}
 			return ev.illegalArgument(rt);
@@ -1582,7 +1582,6 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handleElementOf(lt, rt, 0);
-
 
 		}
 	},
@@ -1656,9 +1655,10 @@ public enum Operation {
 
 					}
 				}
-				return cond.size() == ((MyList) rt).size() ? new MyDouble(
-						ev.getKernel(), Double.NaN) : ((MyList) rt)
-						.getListElement(cond.size()).evaluate(tpl);
+				return cond.size() == ((MyList) rt).size()
+						? new MyDouble(ev.getKernel(), Double.NaN)
+						: ((MyList) rt).getListElement(cond.size())
+								.evaluate(tpl);
 
 			}
 
@@ -1762,10 +1762,9 @@ public enum Operation {
 
 			MyList list = (MyList) lt.unwrap();
 			if (list.size() == 3) {
-				return new MyVec3DNode(ev.getKernel(), MyList.getCell(list, 0,
-						0),
- MyList.getCell(list, 0, 1), MyList.getCell(list, 0,
-						2));
+				return new MyVec3DNode(ev.getKernel(),
+						MyList.getCell(list, 0, 0), MyList.getCell(list, 0, 1),
+						MyList.getCell(list, 0, 2));
 			}
 			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
 					MyList.getCell(list, 0, 1));
@@ -1967,6 +1966,5 @@ public enum Operation {
 
 		return false;
 	}
-
 
 }

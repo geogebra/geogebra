@@ -64,7 +64,8 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
-	public GAffineTransform getTransform(GeoConicND conic, Coords M, Coords[] ev) {
+	public GAffineTransform getTransform(GeoConicND conic, Coords M,
+			Coords[] ev) {
 
 		// use already computed for this view middlepoint M and eigen vecs ev
 		GAffineTransform transform = AwtFactory.getPrototype()

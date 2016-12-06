@@ -46,7 +46,8 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 		super(cons, label, g, h, orientation);
 	}
 
-	AlgoAngleLines3D(Construction cons, String label, GeoLineND g, GeoLineND h) {
+	AlgoAngleLines3D(Construction cons, String label, GeoLineND g,
+			GeoLineND h) {
 		this(cons, label, g, h, null);
 	}
 

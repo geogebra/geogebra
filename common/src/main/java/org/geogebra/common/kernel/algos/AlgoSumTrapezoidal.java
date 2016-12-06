@@ -56,9 +56,10 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	}
 
 	public AlgoSumTrapezoidal copy() {
-		return new AlgoSumTrapezoidal((GeoNumberValue) this.getA().deepCopy(
-				kernel), (GeoNumberValue) this.getB().deepCopy(kernel), this
-				.getN().copy(), Cloner.clone(getValues()),
+		return new AlgoSumTrapezoidal(
+				(GeoNumberValue) this.getA().deepCopy(kernel),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				this.getN().copy(), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), cons);
 	}
 

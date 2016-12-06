@@ -60,8 +60,8 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	public AlgoSumRectangle copy() {
 		return new AlgoSumRectangle((GeoFunction) this.getF().copy(),
 				(GeoNumberValue) this.getA().deepCopy(kernel),
-				(GeoNumberValue) this
-						.getB().deepCopy(kernel), this.getN().copy(),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				this.getN().copy(),
 				(GeoNumberValue) this.getD().deepCopy(kernel));
 	}
 

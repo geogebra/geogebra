@@ -126,8 +126,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 @SuppressWarnings("javadoc")
-public abstract class EuclidianView3D extends EuclidianView implements
-		EuclidianView3DInterface, ScalerXYZ {
+public abstract class EuclidianView3D extends EuclidianView
+		implements EuclidianView3DInterface, ScalerXYZ {
 
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
@@ -174,8 +174,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	final static public int PROJECTION_ORTHOGRAPHIC = 0;
 	final static public int PROJECTION_PERSPECTIVE = 1;
 	final static public int PROJECTION_GLASSES = 2;
-															// DrawList3D();
-															final static public int PROJECTION_OBLIQUE = 3;
+	// DrawList3D();
+	final static public int PROJECTION_OBLIQUE = 3;
 	// DrawList3D();
 	final static public int PROJECTION_EQUIRECTANGULAR = 4;
 	public static final int CURSOR_DEFAULT = 0;
@@ -189,7 +189,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
 	// maximum angle between two line segments
 	private static final double MAX_ANGLE_SPEED_SURFACE = 20; // degrees
-	private static final double MAX_BEND_SPEED_SURFACE = Math.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
+	private static final double MAX_BEND_SPEED_SURFACE = Math
+			.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
 	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 	protected Renderer renderer;
 	// distances between grid lines
@@ -286,7 +287,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private boolean isFrozen = false;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4
+			.Identity();
 	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
 			.Identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
@@ -303,11 +305,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private boolean viewChangedByRotate = true;
 	private int pointStyle;
 	private int projection = PROJECTION_ORTHOGRAPHIC;
-	private double[] projectionPerspectiveEyeDistance =
-			{PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT, PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT};
+	private double[] projectionPerspectiveEyeDistance = {
+			PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT,
+			PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT };
 	private boolean isGlassesGrayScaled = true;
 	private boolean isGlassesShutDownGreen = false;
-	private double[] eyeX = {-100, 100}, eyeY = {0, 0};
+	private double[] eyeX = { -100, 100 }, eyeY = { 0, 0 };
 	private double projectionObliqueAngle = 30;
 	private double projectionObliqueFactor = 0.5;
 	private Coords boundsMin, boundsMax;
@@ -319,7 +322,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param ec
 	 *            controller on this
 	 */
-	public EuclidianView3D(EuclidianController3D ec, EuclidianSettings settings) {
+	public EuclidianView3D(EuclidianController3D ec,
+			EuclidianSettings settings) {
 
 		super(ec, EVNO_3D, settings);
 		// don't remove, it's important we pick up when this class is created by
@@ -382,23 +386,23 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	protected void initAxesValues() {
 		axesNumberFormat = new NumberFormatAdapter[3];
-		showAxesNumbers = new boolean[]{true, true, true};
-		axesLabels = new String[]{null, null, null};
-		axesLabelsStyle = new int[]{GFont.PLAIN, GFont.PLAIN, GFont.PLAIN};
-		axesUnitLabels = new String[]{null, null, null};
-		axesTickStyles = new int[]{
+		showAxesNumbers = new boolean[] { true, true, true };
+		axesLabels = new String[] { null, null, null };
+		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN, GFont.PLAIN };
+		axesUnitLabels = new String[] { null, null, null };
+		axesTickStyles = new int[] {
 				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
 				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR};
-		automaticAxesNumberingDistances = new boolean[]{true, true, true};
-		axesNumberingDistances = new double[]{2, 2, 2};
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+		automaticAxesNumberingDistances = new boolean[] { true, true, true };
+		axesNumberingDistances = new double[] { 2, 2, 2 };
 		axesDistanceObjects = new GeoNumberValue[] { null, null, null };
-		drawBorderAxes = new boolean[]{false, false, false};
-		axisCross = new double[]{0, 0, 0};
-		positiveAxes = new boolean[]{false, false, false};
-		piAxisUnit = new boolean[]{false, false, false};
-		gridDistances = new double[]{2, 2, Math.PI / 6};
-		axesTickInterval = new double[]{ 1, 1, 1};
+		drawBorderAxes = new boolean[] { false, false, false };
+		axisCross = new double[] { 0, 0, 0 };
+		positiveAxes = new boolean[] { false, false, false };
+		piAxisUnit = new boolean[] { false, false, false };
+		gridDistances = new double[] { 2, 2, Math.PI / 6 };
+		axesTickInterval = new double[] { 1, 1, 1 };
 	}
 
 	public int getAxisTickStyle(int i) {
@@ -484,7 +488,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		clippingCube.setObjColor(GColor.GRAY);
 		clippingCube.setLineThickness(1);
 		clippingCube.setIsPickable(false);
-		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(clippingCube);
+		clippingCubeDrawable = (DrawClippingCube3D) createDrawable(
+				clippingCube);
 
 		// plane
 		xOyPlane = kernel3D.getXOYPlane();
@@ -585,152 +590,151 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			switch (geo.getGeoClassType()) {
 
-				// 2D also shown in 3D
-				case LIST:
-					d = new DrawList3D(this, (GeoList) geo);
-					break;
+			// 2D also shown in 3D
+			case LIST:
+				d = new DrawList3D(this, (GeoList) geo);
+				break;
 
-				// 3D stuff
-				case POINT:
-				case POINT3D:
-					d = new DrawPoint3D(this, (GeoPointND) geo);
-					break;
+			// 3D stuff
+			case POINT:
+			case POINT3D:
+				d = new DrawPoint3D(this, (GeoPointND) geo);
+				break;
 
-				case VECTOR:
-				case VECTOR3D:
-					d = new DrawVector3D(this, (GeoVectorND) geo);
-					break;
+			case VECTOR:
+			case VECTOR3D:
+				d = new DrawVector3D(this, (GeoVectorND) geo);
+				break;
 
-				case SEGMENT:
-				case SEGMENT3D:
-					d = new DrawSegment3D(this, (GeoSegmentND) geo);
-					break;
+			case SEGMENT:
+			case SEGMENT3D:
+				d = new DrawSegment3D(this, (GeoSegmentND) geo);
+				break;
 
-				case PLANE3D:
-					if (geo instanceof GeoPlane3DConstant)
-						d = new DrawPlaneConstant3D(this, (GeoPlane3D) geo,
-								axisDrawable[AXIS_X], axisDrawable[AXIS_Y]);
-					else
-						d = new DrawPlane3D(this, (GeoPlane3D) geo);
+			case PLANE3D:
+				if (geo instanceof GeoPlane3DConstant)
+					d = new DrawPlaneConstant3D(this, (GeoPlane3D) geo,
+							axisDrawable[AXIS_X], axisDrawable[AXIS_Y]);
+				else
+					d = new DrawPlane3D(this, (GeoPlane3D) geo);
 
-					break;
+				break;
 
-				case POLYGON:
-				case POLYGON3D:
-					d = new DrawPolygon3D(this, (GeoPolygon) geo);
-					break;
+			case POLYGON:
+			case POLYGON3D:
+				d = new DrawPolygon3D(this, (GeoPolygon) geo);
+				break;
 
-				case PENSTROKE:
-				case POLYLINE:
-				case POLYLINE3D:
-					d = new DrawPolyLine3D(this, geo);
-					break;
+			case PENSTROKE:
+			case POLYLINE:
+			case POLYLINE3D:
+				d = new DrawPolyLine3D(this, geo);
+				break;
 
-				case LINE:
-				case LINE3D:
-					d = new DrawLine3D(this, (GeoLineND) geo);
-					break;
+			case LINE:
+			case LINE3D:
+				d = new DrawLine3D(this, (GeoLineND) geo);
+				break;
 
-				case RAY:
-				case RAY3D:
-					d = new DrawRay3D(this, (GeoRayND) geo);
-					break;
+			case RAY:
+			case RAY3D:
+				d = new DrawRay3D(this, (GeoRayND) geo);
+				break;
 
-				case CONIC:
-				case CONIC3D:
-					d = new DrawConic3D(this, (GeoConicND) geo);
-					break;
+			case CONIC:
+			case CONIC3D:
+				d = new DrawConic3D(this, (GeoConicND) geo);
+				break;
 
-				case CONICPART:
-					d = new DrawConicPart3D(this, (GeoConicPartND) geo);
-					break;
+			case CONICPART:
+				d = new DrawConicPart3D(this, (GeoConicPartND) geo);
+				break;
 
-				case CONICSECTION:
-					d = new DrawConicSection3D(this, (GeoConicSection) geo);
-					break;
+			case CONICSECTION:
+				d = new DrawConicSection3D(this, (GeoConicSection) geo);
+				break;
 
-				case AXIS:
-				case AXIS3D:
-					d = new DrawAxis3D(this, (GeoAxisND) geo);
-					break;
+			case AXIS:
+			case AXIS3D:
+				d = new DrawAxis3D(this, (GeoAxisND) geo);
+				break;
 
-				case FUNCTION:
-					if (((GeoFunction) geo).isBooleanFunction()) {
-						d = newDrawSurface3D((SurfaceEvaluable) geo);
+			case FUNCTION:
+				if (((GeoFunction) geo).isBooleanFunction()) {
+					d = newDrawSurface3D((SurfaceEvaluable) geo);
 
-					} else {
-						d = new DrawCurve3D(this, (CurveEvaluable) geo);
-					}
-					break;
-				case CURVE_CARTESIAN:
-				case CURVE_CARTESIAN3D:
+				} else {
 					d = new DrawCurve3D(this, (CurveEvaluable) geo);
-					break;
+				}
+				break;
+			case CURVE_CARTESIAN:
+			case CURVE_CARTESIAN3D:
+				d = new DrawCurve3D(this, (CurveEvaluable) geo);
+				break;
 
-				case LOCUS:
-				d = new DrawLocus3D(this, (GeoLocusND) geo, geo,
-						CoordSys.XOY);
-					break;
-				case IMPLICIT_POLY:
-					d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);
-					break;
+			case LOCUS:
+				d = new DrawLocus3D(this, (GeoLocusND) geo, geo, CoordSys.XOY);
+				break;
+			case IMPLICIT_POLY:
+				d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);
+				break;
 
-				case ANGLE:
-				case ANGLE3D:
-					if (geo.isIndependent()) {
-						// TODO: slider
-					} else {
-						d = new DrawAngle3D(this, (GeoAngle) geo);
-					}
-					break;
+			case ANGLE:
+			case ANGLE3D:
+				if (geo.isIndependent()) {
+					// TODO: slider
+				} else {
+					d = new DrawAngle3D(this, (GeoAngle) geo);
+				}
+				break;
 
-				case QUADRIC:
-					d = new DrawQuadric3D(this, (GeoQuadric3D) geo);
-					break;
+			case QUADRIC:
+				d = new DrawQuadric3D(this, (GeoQuadric3D) geo);
+				break;
 
-				case QUADRIC_PART:
-					d = new DrawQuadric3DPart(this, (GeoQuadric3DPart) geo);
-					break;
+			case QUADRIC_PART:
+				d = new DrawQuadric3DPart(this, (GeoQuadric3DPart) geo);
+				break;
 
-				case QUADRIC_LIMITED:
-					if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()) {
-						// create drawable when side is not explicitely created
-						// (e.g. in sequence, or with transformation)
-						d = new DrawQuadric3DLimited(this,
-								(GeoQuadric3DLimited) geo);
-					}
-					break;
+			case QUADRIC_LIMITED:
+				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()) {
+					// create drawable when side is not explicitely created
+					// (e.g. in sequence, or with transformation)
+					d = new DrawQuadric3DLimited(this,
+							(GeoQuadric3DLimited) geo);
+				}
+				break;
 
-				case POLYHEDRON:
-					d = new DrawPolyhedron3D(this, (GeoPolyhedron) geo);
-					break;
+			case POLYHEDRON:
+				d = new DrawPolyhedron3D(this, (GeoPolyhedron) geo);
+				break;
 
-				case FUNCTION_NVAR:
-					GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
-					switch (geoFun.getVarNumber()) {
-						case 2:
-							d = newDrawSurface3D(geoFun);
-							break;
+			case FUNCTION_NVAR:
+				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
+				switch (geoFun.getVarNumber()) {
+				case 2:
+					d = newDrawSurface3D(geoFun);
+					break;
 				/*
 				 * case 3: d = new DrawImplicitFunction3Var(this, geoFun);
 				 * break;
 				 */
-					}
-					break;
+				}
+				break;
 
-				case SURFACECARTESIAN3D:
-					d = newDrawSurface3D((GeoSurfaceCartesian3D) geo);
-					break;
+			case SURFACECARTESIAN3D:
+				d = newDrawSurface3D((GeoSurfaceCartesian3D) geo);
+				break;
 
-				case TEXT:
-					d = new DrawText3D(this, (GeoText) geo);
-					break;
+			case TEXT:
+				d = new DrawText3D(this, (GeoText) geo);
+				break;
 
-				case CLIPPINGCUBE3D:
-					d = new DrawClippingCube3D(this, (GeoClippingCube3D) geo);
-					break;
-				case IMPLICIT_SURFACE_3D:
-					d = new DrawImplicitSurface3D(this, (GeoImplicitSurface) geo);
+			case CLIPPINGCUBE3D:
+				d = new DrawClippingCube3D(this, (GeoClippingCube3D) geo);
+				break;
+			case IMPLICIT_SURFACE_3D:
+				d = new DrawImplicitSurface3D(this, (GeoImplicitSurface) geo);
 			}
 		}
 
@@ -768,7 +772,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * converts the vector to screen coords
 	 *
-	 * @param vInOut vector
+	 * @param vInOut
+	 *            vector
 	 */
 	final public void toScreenCoords3D(Coords vInOut) {
 		changeCoords(mWithScale, vInOut);
@@ -838,13 +843,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		CoordMatrix m1, m2;
 
 		if (getYAxisVertical()) { // y axis taken for up-down direction
-			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b)
-					* EuclidianController3D.ANGLE_TO_DEGREES);
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
+					(this.b) * EuclidianController3D.ANGLE_TO_DEGREES);
 			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Y_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		} else { // z axis taken for up-down direction
-			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS, (this.b - 90)
-					* EuclidianController3D.ANGLE_TO_DEGREES);
+			m1 = CoordMatrix.rotation3DMatrix(CoordMatrix.X_AXIS,
+					(this.b - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 			m2 = CoordMatrix.rotation3DMatrix(CoordMatrix.Z_AXIS,
 					(-this.a - 90) * EuclidianController3D.ANGLE_TO_DEGREES);
 		}
@@ -870,7 +875,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		translationMatrixWithoutScale.set(1, 4, getXZero());
 		translationMatrixWithoutScale.set(2, 4, getYZero());
 		translationMatrixWithoutScale.set(3, 4, getZZero());
-		
+
 	}
 
 	protected void updateRotationAndScaleMatrices() {
@@ -901,9 +906,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			mWithoutScale.setMul(rotationMatrix, translationMatrixWithScale);
 		}
-		mWithScale
-				.setMul(rotationAndScaleMatrix, translationMatrixWithoutScale);
-
+		mWithScale.setMul(rotationAndScaleMatrix,
+				translationMatrixWithoutScale);
 
 		mInvWithUnscale.setMul(undoTranslationMatrix,
 				tmpMatrix4x4.setMul(undoScaleMatrix, undoRotationMatrix));
@@ -1027,7 +1031,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	@Override
 	final public void translateCoordSystemInPixels(int dx, int dy, int dz,
-												   int mode) {
+			int mode) {
 		setXZero(xZeroOld + dx / getSettings().getXscale());
 		setYZero(yZeroOld - dy / getSettings().getYscale());
 		setZZero(zZeroOld + dz / getSettings().getZscale());
@@ -1059,31 +1063,32 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	final private void processSetCoordSystemFromMouseMove() {
 		switch (mouseMoveMode) {
-			case EuclidianController.MOVE_ROTATE_VIEW:
-				setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
-				updateMatrix();
-				setViewChangedByRotate();
-				setWaitForUpdate();
-				break;
-			case EuclidianController.MOVE_VIEW:
-				Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
-				toSceneCoords3D(v);
+		case EuclidianController.MOVE_ROTATE_VIEW:
+			setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
+			updateMatrix();
+			setViewChangedByRotate();
+			setWaitForUpdate();
+			break;
+		case EuclidianController.MOVE_VIEW:
+			Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
+			toSceneCoords3D(v);
 
-				if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-							getViewDirection(), tmpCoords1);
-					setXZero(xZeroOld + tmpCoords1.getX());
-					setYZero(yZeroOld + tmpCoords1.getY());
-				} else {
-					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
-					setZZero(zZeroOld + tmpCoords1.getZ());
-				}
-				getSettings().updateOriginFromView(getXZero(), getYZero(),
-						getZZero());
-				updateMatrix();
-				setViewChangedByTranslate();
-				setWaitForUpdate();
-				break;
+			if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
+				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
+						getViewDirection(), tmpCoords1);
+				setXZero(xZeroOld + tmpCoords1.getX());
+				setYZero(yZeroOld + tmpCoords1.getY());
+			} else {
+				v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY,
+						tmpCoords1);
+				setZZero(zZeroOld + tmpCoords1.getZ());
+			}
+			getSettings().updateOriginFromView(getXZero(), getYZero(),
+					getZZero());
+			updateMatrix();
+			setViewChangedByTranslate();
+			setWaitForUpdate();
+			break;
 		}
 	}
 
@@ -1117,7 +1122,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 
 		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
-
 
 		updateMatrix();
 		setViewChangedByTranslate();
@@ -1187,8 +1191,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			updateTranslationMatrix();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
 			CoordMatrix matrix = ((mRS.inverse())
-					.mul(translationMatrixWithoutScale)
-					.mul(mRS));
+					.mul(translationMatrixWithoutScale).mul(mRS));
 			Coords origin = matrix.getOrigin();
 			setXZero(origin.getX());
 			setYZero(origin.getY());
@@ -1426,8 +1429,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	/**
-	 * @param mouse  mouse position
-	 * @param result mouse position with (0,0) on window center
+	 * @param mouse
+	 *            mouse position
+	 * @param result
+	 *            mouse position with (0,0) on window center
 	 */
 	public void setCenteredPosition(GPoint mouse, GPoint result) {
 		result.x = mouse.getX() + renderer.getLeft();
@@ -1443,16 +1448,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		} else {
 			pickPoint.setZ(renderer.getVisibleDepth());
 			if (projection == PROJECTION_OBLIQUE) {
-				pickPoint.setX(pickPoint.getX() - pickPoint.getZ()
-						* renderer.getObliqueX());
-				pickPoint.setY(pickPoint.getY() - pickPoint.getZ()
-						* renderer.getObliqueY());
+				pickPoint.setX(pickPoint.getX()
+						- pickPoint.getZ() * renderer.getObliqueX());
+				pickPoint.setY(pickPoint.getY()
+						- pickPoint.getZ() * renderer.getObliqueY());
 			}
 		}
 	}
 
 	/**
-	 * @param p 3D point in scene coords
+	 * @param p
+	 *            3D point in scene coords
 	 * @return (x, y) point aligned with p
 	 */
 	public Coords projectOnScreen(Coords p) {
@@ -1625,8 +1631,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	final public GeoElement getLabelHit(GPoint p,
-								  PointerEventType type) {
+	final public GeoElement getLabelHit(GPoint p, PointerEventType type) {
 		return getCompanion().getLabelHit(p, type);
 	}
 
@@ -1808,7 +1813,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * sets if the clipping cube is shown
 	 *
-	 * @param flag flag
+	 * @param flag
+	 *            flag
 	 */
 	public void setShowClippingCube(boolean flag) {
 		getSettings().setShowClippingCube(flag);
@@ -1834,7 +1840,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/**
 	 * sets the reduction of the clipping box
 	 *
-	 * @param value reduction
+	 * @param value
+	 *            reduction
 	 */
 	public void setClippingReduction(int value) {
 		clippingCube.setReduction(value);
@@ -1844,15 +1851,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void setAnimatedCoordSystem(double x0, double y0, int steps,
-									   boolean storeUndo) {
+			boolean storeUndo) {
 
 		setAnimatedCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD,
 				ZZERO_SCENE_STANDARD, SCALE_STANDARD, steps);
 	}
 
 	private void setAnimatedCoordSystem(double x, double y, double z,
-										double newScale, int steps) {
-
+			double newScale, int steps) {
 
 		rememberOrigins();
 		animatedScaleStartX = getXZero();
@@ -1875,7 +1881,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void setAnimatedCoordSystem(double ox, double oy, double f,
-									   double newScale, int steps, boolean storeUndo) {
+			double newScale, int steps, boolean storeUndo) {
 
 		rememberOrigins();
 		animatedScaleStartX = getXZero();
@@ -1903,14 +1909,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		double factor = getXscale() / newScale;
 
-		animatedScaleEndX = -v.getX() + (animatedScaleStartX + v.getX())
-				* factor;
-		animatedScaleEndY = -v.getY() + (animatedScaleStartY + v.getY())
-				* factor;
-		animatedScaleEndZ = -v.getZ() + (animatedScaleStartZ + v.getZ())
-				* factor;
+		animatedScaleEndX = -v.getX()
+				+ (animatedScaleStartX + v.getX()) * factor;
+		animatedScaleEndY = -v.getY()
+				+ (animatedScaleStartY + v.getY()) * factor;
+		animatedScaleEndZ = -v.getZ()
+				+ (animatedScaleStartZ + v.getZ()) * factor;
 
-		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end = ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero = ("+animatedScaleStartX+","+animatedScaleStartY+")");
+		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end =
+		// ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero =
+		// ("+animatedScaleStartX+","+animatedScaleStartY+")");
 
 		animatedScaleTimeStart = app.getMillisecondTime();
 		xScaleEnd = xScaleStart / factor;
@@ -2009,8 +2017,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *
 	 * @param aN
 	 * @param bN
-	 * @param checkSameValues if true, check new values are same than old, in this case
-	 *                        revert the view
+	 * @param checkSameValues
+	 *            if true, check new values are same than old, in this case
+	 *            revert the view
 	 */
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues) {
 		setRotAnimation(aN, bN, checkSameValues, true);
@@ -2034,10 +2043,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		aNew = aN;
 		bNew = bN;
 
-		// if (aNew,bNew)=(0degrees,90degrees), then change it to (90degrees,90degrees) to have correct
+		// if (aNew,bNew)=(0degrees,90degrees), then change it to
+		// (90degrees,90degrees) to have correct
 		// xOy orientation
-		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION)
-				&& Kernel
+		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION) && Kernel
 				.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION))
 			aNew = -90;
 
@@ -2094,10 +2103,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			break;
 		case ANIMATED_SCALE:
 			double t;
-			if (animatedScaleTimeFactor == 0){
+			if (animatedScaleTimeFactor == 0) {
 				t = 1;
 				stopAnimation();
-			}else {
+			} else {
 				t = (app.getMillisecondTime() - animatedScaleTimeStart)
 						* animatedScaleTimeFactor;
 				t += 0.2; // starting at 1/4
@@ -2132,7 +2141,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			shiftRotAboutZ(da);
 			break;
-			
+
 		case ROTATION:
 			t = (app.getMillisecondTime() - animatedRotTimeStart) * 0.001;
 			t *= t;
@@ -2143,8 +2152,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				stopAnimation();
 			}
 
-			setRotXYinDegrees(aOld * (1 - t) + aNew * t, bOld * (1 - t) + bNew
-					* t);
+			setRotXYinDegrees(aOld * (1 - t) + aNew * t,
+					bOld * (1 - t) + bNew * t);
 
 			updateMatrix();
 			setViewChangedByRotate();
@@ -2192,7 +2201,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		if (renderer.useLogicalPicking()) {
 			renderer.setHits(p, getCapturingThreshold(type));
-			if (type == PointerEventType.TOUCH && hitsEmptyOrOnlyContainsXOYPlane()) {
+			if (type == PointerEventType.TOUCH
+					&& hitsEmptyOrOnlyContainsXOYPlane()) {
 				renderer.setHits(p, getCapturingThresholdForTouch(type));
 			}
 
@@ -2202,12 +2212,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
-	private boolean hitsEmptyOrOnlyContainsXOYPlane(){
-		if (hits.size() == 0){
+	private boolean hitsEmptyOrOnlyContainsXOYPlane() {
+		if (hits.size() == 0) {
 			return true;
 		}
 
-		if (hits.size() == 1){
+		if (hits.size() == 1) {
 			return hits.get(0) == getxOyPlane();
 		}
 
@@ -2268,8 +2278,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public void setSelectionRectangle(
-GRectangle selectionRectangle) {
+	public void setSelectionRectangle(GRectangle selectionRectangle) {
 		// TODO Auto-generated method stub
 
 	}
@@ -2367,7 +2376,8 @@ GRectangle selectionRectangle) {
 	}
 
 	@Override
-	public Previewable createPreviewSegment(ArrayList<GeoPointND> selectedPoints) {
+	public Previewable createPreviewSegment(
+			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawSegment3D(this, selectedPoints);
 	}
 
@@ -2377,12 +2387,14 @@ GRectangle selectionRectangle) {
 	}
 
 	@Override
-	public Previewable createPreviewVector(ArrayList<GeoPointND> selectedPoints) {
+	public Previewable createPreviewVector(
+			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawVector3D(this, selectedPoints);
 	}
 
 	@Override
-	public Previewable createPreviewPolygon(ArrayList<GeoPointND> selectedPoints) {
+	public Previewable createPreviewPolygon(
+			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawPolygon3D(this, selectedPoints);
 	}
 
@@ -2395,7 +2407,7 @@ GRectangle selectionRectangle) {
 
 	@Override
 	public Previewable createPreviewConic(int mode,
-										  ArrayList<GeoPointND> selectedPoints) {
+			ArrayList<GeoPointND> selectedPoints) {
 		return null;
 	}
 
@@ -2403,7 +2415,8 @@ GRectangle selectionRectangle) {
 	 * @param selectedPoints
 	 * @return a preview sphere (center-point)
 	 */
-	public Previewable createPreviewSphere(ArrayList<GeoPointND> selectedPoints) {
+	public Previewable createPreviewSphere(
+			ArrayList<GeoPointND> selectedPoints) {
 		return new DrawQuadric3D(this, selectedPoints,
 				GeoQuadricNDConstants.QUADRIC_SPHERE);
 	}
@@ -2536,10 +2549,10 @@ GRectangle selectionRectangle) {
 					scaleNormalXYZ(cursorNormal);
 					cursorNormal.normalize();
 				}
-				CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-								.getDrawingMatrix().getOrigin(), cursorNormal,
-								CoordMatrix4x4.VZ,
-						tmpCoords1, tmpCoords2, cursorMatrix);
+				CoordMatrix4x4.createOrthoToDirection(
+						getCursor3D().getDrawingMatrix().getOrigin(),
+						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+						cursorMatrix);
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
@@ -2552,8 +2565,8 @@ GRectangle selectionRectangle) {
 			case PREVIEW_POINT_PATH:
 				// use path drawing directions for the arrow
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-							.getOrigin());
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
 					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
 							.getMainDirection());
@@ -2562,10 +2575,10 @@ GRectangle selectionRectangle) {
 					}
 					scaleXYZ(cursorNormal);
 					cursorNormal.normalize();
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), cursorNormal,
-							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
-							cursorMatrix);
+					CoordMatrix4x4.createOrthoToDirection(
+							getCursor3D().getDrawingMatrix().getOrigin(),
+							cursorNormal, CoordMatrix4x4.VZ, tmpCoords1,
+							tmpCoords2, cursorMatrix);
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
 					t = 1 / getScale();
@@ -2576,10 +2589,10 @@ GRectangle selectionRectangle) {
 					}
 					cursorNormal.normalize();
 
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), cursorNormal,
-							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
-							cursorMatrix);
+					CoordMatrix4x4.createOrthoToDirection(
+							getCursor3D().getDrawingMatrix().getOrigin(),
+							cursorNormal, CoordMatrix4x4.VZ, tmpCoords1,
+							tmpCoords2, cursorMatrix);
 					cursorMatrix.mulAllButOrigin(t);
 				}
 				break;
@@ -2617,12 +2630,12 @@ GRectangle selectionRectangle) {
 				// use default directions for the cross
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					cursorMatrix.setDiagonal3(1);
-					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-							.getOrigin());
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
-					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-							.getOrigin());
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
 					t = 1 / getScale();
 					cursorMatrix.setVx(Coords.VX.mul(t));
 					cursorMatrix.setVy(Coords.VY.mul(t));
@@ -2638,17 +2651,17 @@ GRectangle selectionRectangle) {
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					scaleNormalXYZ(cursorNormal);
 					cursorNormal.normalize();
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), cursorNormal,
-							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
-							cursorMatrix);
+					CoordMatrix4x4.createOrthoToDirection(
+							getCursor3D().getDrawingMatrix().getOrigin(),
+							cursorNormal, CoordMatrix4x4.VZ, tmpCoords1,
+							tmpCoords2, cursorMatrix);
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
 					// use region drawing directions for the arrow
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), cursorNormal,
-							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
-							cursorMatrix);
+					CoordMatrix4x4.createOrthoToDirection(
+							getCursor3D().getDrawingMatrix().getOrigin(),
+							cursorNormal, CoordMatrix4x4.VZ, tmpCoords1,
+							tmpCoords2, cursorMatrix);
 					t = 1 / getScale();
 					cursorMatrix.mulAllButOrigin(t);
 				}
@@ -2657,22 +2670,21 @@ GRectangle selectionRectangle) {
 			case PREVIEW_POINT_REGION_AS_PATH:
 				// use path drawing directions for the cross
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-							.getOrigin());
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
 					GeoElement path = getCursorPath();
 					cursorNormal.set3(path.getMainDirection());
 					scaleXYZ(cursorNormal);
 					cursorNormal.normalize();
 					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
-							tmpCoords2,
-							cursorMatrix);
+							tmpCoords2, cursorMatrix);
 					t = 10 + path.getLineThickness();
 					cursorMatrix.getVy().mulInside3(t);
 					cursorMatrix.getVz().mulInside3(t);
 				} else {
-					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-							.getOrigin());
+					cursorMatrix.setOrigin(
+							getCursor3D().getDrawingMatrix().getOrigin());
 
 					t = 1 / getScale();
 
@@ -2691,8 +2703,8 @@ GRectangle selectionRectangle) {
 				break;
 			case PREVIEW_POINT_DEPENDENT:
 				// use size of intersection
-				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-						.getOrigin());
+				cursorMatrix.setOrigin(
+						getCursor3D().getDrawingMatrix().getOrigin());
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					scaleXYZ(cursorMatrix.getOrigin());
 				}
@@ -2712,8 +2724,7 @@ GRectangle selectionRectangle) {
 					}
 
 					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
-							tmpCoords2,
-							tmpMatrix4x4);
+							tmpCoords2, tmpMatrix4x4);
 
 					cursorMatrix.setVx(tmpMatrix4x4.getVy());
 					cursorMatrix.setVy(tmpMatrix4x4.getVz());
@@ -2726,24 +2737,24 @@ GRectangle selectionRectangle) {
 						scaleNormalXYZ(cursorNormal);
 						cursorNormal.normalize();
 					}
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getCoordsInD3(), cursorNormal, CoordMatrix4x4.VZ,
-							tmpCoords1,
-							tmpCoords2, cursorMatrix);
+					CoordMatrix4x4.createOrthoToDirection(
+							getCursor3D().getCoordsInD3(), cursorNormal,
+							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+							cursorMatrix);
 				} else {
 					CoordMatrix4x4.Identity(cursorMatrix);
 				}
 
-				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
-						.getOrigin());
+				cursorMatrix.setOrigin(
+						getCursor3D().getDrawingMatrix().getOrigin());
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					scaleXYZ(cursorMatrix.getOrigin());
 				}
 
 				cursorMatrix.getVx().normalize();
 				// use size of point
-				t = unscale(Math.max(1,
-						getCursor3D().getPointSize() / 6.0 + 0.5));
+				t = unscale(
+						Math.max(1, getCursor3D().getPointSize() / 6.0 + 0.5));
 				cursorMatrix.getVx().mulInside3(t);
 				cursorMatrix.getVy().mulInside3(t);
 				cursorMatrix.getVz().mulInside3(t);
@@ -2830,7 +2841,8 @@ GRectangle selectionRectangle) {
 	/**
 	 * draws the mouse cursor (for glasses)
 	 *
-	 * @param renderer1 renderer
+	 * @param renderer1
+	 *            renderer
 	 */
 	public void drawMouseCursor(Renderer renderer1) {
 		if (!hasMouse())
@@ -2848,13 +2860,13 @@ GRectangle selectionRectangle) {
 
 		if (getCursor3DType() == CURSOR_DEFAULT) {
 			// if mouse is over nothing, use mouse coords and screen for depth
-			v = new Coords(mouseLoc.x + renderer1.getLeft(), -mouseLoc.y
-					+ renderer1.getTop(), 0, 1);
+			v = new Coords(mouseLoc.x + renderer1.getLeft(),
+					-mouseLoc.y + renderer1.getTop(), 0, 1);
 		} else {
 			// if mouse is over an object, use its depth and mouse coords
 			Coords eye = renderer1.getPerspEye();
-			double z = getToScreenMatrix().mul(getCursor3D().getCoords())
-					.getZ() + 20; // to be over
+			double z = getToScreenMatrix().mul(getCursor3D().getCoords()).getZ()
+					+ 20; // to be over
 			double eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
 
 			double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();
@@ -2862,8 +2874,8 @@ GRectangle selectionRectangle) {
 			double dz = eye.getZ() - z;
 			double coeff = dz / eye.getZ();
 
-			v = new Coords(x * coeff - eyeSep + eye.getX(), y * coeff
-					+ eye.getY(), z, 1);
+			v = new Coords(x * coeff - eyeSep + eye.getX(),
+					y * coeff + eye.getY(), z, 1);
 		}
 
 		drawMouseCursor(renderer1, v);
@@ -2902,7 +2914,8 @@ GRectangle selectionRectangle) {
 	/**
 	 * draws the cursor
 	 *
-	 * @param renderer1 renderer
+	 * @param renderer1
+	 *            renderer
 	 */
 	public void drawCursor(Renderer renderer1) {
 
@@ -2924,53 +2937,55 @@ GRectangle selectionRectangle) {
 				drawTranslateViewCursor(renderer1);
 			} else if (!getEuclidianController().mouseIsOverLabel()
 					&& ((EuclidianController3D) getEuclidianController())
-					.cursor3DVisibleForCurrentMode(getCursor3DType())) {
+							.cursor3DVisibleForCurrentMode(getCursor3DType())) {
 				renderer1.setMatrix(cursorMatrix);
 
 				switch (cursor) {
 				case DEFAULT:
-						switch (getCursor3DType()) {
-							case PREVIEW_POINT_FREE:
-								drawFreeCursor(renderer1);
-								break;
-							case PREVIEW_POINT_ALREADY: // showing arrows directions
-								drawPointAlready(getCursor3D());
-								break;
-							case PREVIEW_POINT_NONE:
-								// Log.debug("ici");
-								break;
-						}
+					switch (getCursor3DType()) {
+					case PREVIEW_POINT_FREE:
+						drawFreeCursor(renderer1);
 						break;
+					case PREVIEW_POINT_ALREADY: // showing arrows directions
+						drawPointAlready(getCursor3D());
+						break;
+					case PREVIEW_POINT_NONE:
+						// Log.debug("ici");
+						break;
+					}
+					break;
 				case HIT:
-						switch (getCursor3DType()) {
-							case PREVIEW_POINT_FREE:
-								if (drawCrossForFreePoint()) {
-									renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
-								}
-								break;
-							case PREVIEW_POINT_REGION:
-								if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
-									renderer1.drawViewInFrontOf();
-								} else {
-									renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
-								}
-								break;
-							case PREVIEW_POINT_PATH:
-							case PREVIEW_POINT_REGION_AS_PATH:
-								if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
-									renderer1.drawViewInFrontOf();
-								else
-									renderer1.drawCursor(PlotterCursor.TYPE_CYLINDER);
-								break;
-							case PREVIEW_POINT_DEPENDENT:
-								renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
-								break;
-
-							case PREVIEW_POINT_ALREADY:
-								drawPointAlready(getCursor3D());
-								break;
+					switch (getCursor3DType()) {
+					case PREVIEW_POINT_FREE:
+						if (drawCrossForFreePoint()) {
+							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
 						}
 						break;
+					case PREVIEW_POINT_REGION:
+						if (getEuclidianController()
+								.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+							renderer1.drawViewInFrontOf();
+						} else {
+							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
+						}
+						break;
+					case PREVIEW_POINT_PATH:
+					case PREVIEW_POINT_REGION_AS_PATH:
+						if (getEuclidianController()
+								.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF)
+							renderer1.drawViewInFrontOf();
+						else
+							renderer1.drawCursor(PlotterCursor.TYPE_CYLINDER);
+						break;
+					case PREVIEW_POINT_DEPENDENT:
+						renderer1.drawCursor(PlotterCursor.TYPE_DIAMOND);
+						break;
+
+					case PREVIEW_POINT_ALREADY:
+						drawPointAlready(getCursor3D());
+						break;
+					}
+					break;
 				}
 			}
 		}
@@ -2985,7 +3000,8 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param point moved point
+	 * @param point
+	 *            moved point
 	 * @return true if it has to draw 2D/1D arrows to move this point
 	 */
 	protected boolean drawCrossForPoint(GeoPoint3D point) {
@@ -3010,9 +3026,9 @@ GRectangle selectionRectangle) {
 		case GeoPointND.MOVE_MODE_XY:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
 			break;
-			case GeoPointND.MOVE_MODE_Z:
-				renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
-				break;
+		case GeoPointND.MOVE_MODE_Z:
+			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
+			break;
 		}
 	}
 
@@ -3154,7 +3170,7 @@ GRectangle selectionRectangle) {
 		// 2D cursor
 		if (getProjection() == PROJECTION_GLASSES) {
 			setCursor(EuclidianCursor.TRANSPARENT); // use own 3D cursor
-															// (for depth)
+													// (for depth)
 			// setDefault2DCursor();
 		} else {
 			setDefault2DCursor();
@@ -3242,8 +3258,10 @@ GRectangle selectionRectangle) {
 		sb.append("\" pointCapturing=\"");
 
 		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
-		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
-				: getPointCapturingMode());
+		sb.append(
+				getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX
+						? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
+						: getPointCapturingMode());
 
 		sb.append("\" rightAngleStyle=\"");
 		sb.append(getApplication().rightAngleStyle);
@@ -3601,7 +3619,8 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return i-th vertex of the clipping cube
 	 */
 	public Coords getClippingVertex(int i) {
@@ -3613,12 +3632,15 @@ GRectangle selectionRectangle) {
 	 * clipping box is between the two orthogonal planes to the (o,v) line,
 	 * through min and max parameters
 	 *
-	 * @param minmax initial and returned min/max values
-	 * @param o      line origin
-	 * @param v      line direction
+	 * @param minmax
+	 *            initial and returned min/max values
+	 * @param o
+	 *            line origin
+	 * @param v
+	 *            line direction
 	 */
 	public void getMinIntervalOutsideClipping(double[] minmax, Coords o,
-											  Coords v) {
+			Coords v) {
 
 		Coords p1, p2;
 
@@ -3651,7 +3673,7 @@ GRectangle selectionRectangle) {
 	// //////////////////////////////////////
 
 	private void intervalUnionOutside(double[] minmax, Coords o, Coords v,
-									  Coords p1, Coords p2) {
+			Coords p1, Coords p2) {
 		p1.projectLine(o, v, tmpCoords1, parameters);
 		double t1 = parameters[0];
 		p2.projectLine(o, v, tmpCoords1, parameters);
@@ -3660,9 +3682,9 @@ GRectangle selectionRectangle) {
 	}
 
 	public void updateBounds() {
-		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, getXmin(),
-				getXmax(), getYmin(), getYmax(), getZmin(), getZmax(),
-				getXscale(), getYscale(), getZscale());
+		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, getXmin(), getXmax(),
+				getYmin(), getYmax(), getZmin(), getZmax(), getXscale(),
+				getYscale(), getZscale());
 		calcPrintingScale();
 	}
 
@@ -3753,7 +3775,8 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return i-th label
 	 */
 	public String getAxisLabel(int i) {
@@ -3802,7 +3825,8 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return if i-th axis shows numbers
 	 */
 	public boolean getShowAxisNumbers(int i) {
@@ -3879,11 +3903,9 @@ GRectangle selectionRectangle) {
 		return getEuclidianController().getMode();
 	}
 
-
 	// ///////////////////////////////////////////////
 	// PROJECTION (ORTHO/PERSPECTIVE/...)
 	// ///////////////////////////////////////////////
-
 
 	protected void setViewChangedByZoom() {
 		viewChangedByZoom = true;
@@ -3941,7 +3963,8 @@ GRectangle selectionRectangle) {
 	}
 
 	@Override
-	public Previewable createPreviewAngle(ArrayList<GeoPointND> selectedPoints) {
+	public Previewable createPreviewAngle(
+			ArrayList<GeoPointND> selectedPoints) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -3955,8 +3978,6 @@ GRectangle selectionRectangle) {
 	public boolean isEuclidianView3D() {
 		return true;
 	}
-
-
 
 	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
@@ -3981,18 +4002,18 @@ GRectangle selectionRectangle) {
 
 	public void setProjection(int projection) {
 		switch (projection) {
-			case PROJECTION_ORTHOGRAPHIC:
-				setProjectionOrthographic();
-				break;
-			case PROJECTION_PERSPECTIVE:
-				setProjectionPerspective();
-				break;
-			case PROJECTION_GLASSES:
-				setProjectionGlasses();
-				break;
-			case PROJECTION_OBLIQUE:
-				setProjectionOblique();
-				break;
+		case PROJECTION_ORTHOGRAPHIC:
+			setProjectionOrthographic();
+			break;
+		case PROJECTION_PERSPECTIVE:
+			setProjectionPerspective();
+			break;
+		case PROJECTION_GLASSES:
+			setProjectionGlasses();
+			break;
+		case PROJECTION_OBLIQUE:
+			setProjectionOblique();
+			break;
 
 		}
 
@@ -4019,7 +4040,8 @@ GRectangle selectionRectangle) {
 	 *
 	 * @param distance
 	 */
-	public void setProjectionPerspectiveEyeDistance(double distanceLeft, double distanceRight) {
+	public void setProjectionPerspectiveEyeDistance(double distanceLeft,
+			double distanceRight) {
 		projectionPerspectiveEyeDistance[0] = distanceLeft;
 		projectionPerspectiveEyeDistance[1] = distanceRight;
 		if (projection != PROJECTION_PERSPECTIVE
@@ -4037,7 +4059,8 @@ GRectangle selectionRectangle) {
 
 	final private void updateProjectionPerspectiveEyeDistance() {
 
-		renderer.setNear(projectionPerspectiveEyeDistance[0], projectionPerspectiveEyeDistance[1]);
+		renderer.setNear(projectionPerspectiveEyeDistance[0],
+				projectionPerspectiveEyeDistance[1]);
 	}
 
 	/**
@@ -4070,7 +4093,6 @@ GRectangle selectionRectangle) {
 		eyeX[0] = -eyeX[1];
 
 		renderer.updateGlassesValues();
-
 
 		if (isPolarized()) {
 			renderer.setWaitForSetStencilLines();
@@ -4136,8 +4158,8 @@ GRectangle selectionRectangle) {
 	}
 
 	public boolean isGrayScaled() {
-		return projection == PROJECTION_GLASSES && !isPolarized() && !isStereoBuffered()
-				&& isGlassesGrayScaled();
+		return projection == PROJECTION_GLASSES && !isPolarized()
+				&& !isStereoBuffered() && isGlassesGrayScaled();
 	}
 
 	public boolean isGlassesShutDownGreen() {
@@ -4157,7 +4179,8 @@ GRectangle selectionRectangle) {
 		return projection == PROJECTION_GLASSES && isGlassesShutDownGreen();
 	}
 
-	public void setEyes(double leftX, double leftY, double rightX, double rightY) {
+	public void setEyes(double leftX, double leftY, double rightX,
+			double rightY) {
 		eyeX[0] = leftX;
 		eyeY[0] = leftY;
 		eyeX[1] = rightX;
@@ -4316,8 +4339,7 @@ GRectangle selectionRectangle) {
 
 	@Override
 	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-			GColor penColor, int penLineStyle,
-			int penSize) {
+			GColor penColor, int penLineStyle, int penSize) {
 		// TODO Auto-generated method stub
 
 	}
@@ -4328,7 +4350,8 @@ GRectangle selectionRectangle) {
 
 	}
 
-	public double[] getIntervalClippedLarge(double[] minmax, Coords o, Coords v) {
+	public double[] getIntervalClippedLarge(double[] minmax, Coords o,
+			Coords v) {
 		return clippingCubeDrawable.getIntervalClippedLarge(minmax, o, v);
 	}
 
@@ -4494,7 +4517,6 @@ GRectangle selectionRectangle) {
 
 		setProjection(evs.getProjection());
 
-
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();
@@ -4508,11 +4530,13 @@ GRectangle selectionRectangle) {
 	}
 
 	@Override
-	public final void setViewShowAllObjects(boolean storeUndo, boolean keepRatio) {
+	public final void setViewShowAllObjects(boolean storeUndo,
+			boolean keepRatio) {
 		setViewShowAllObjects(storeUndo, keepRatio, 15);
 	}
 
-	public final void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
+	public final void setViewShowAllObjects(boolean storeUndo,
+			boolean keepRatio, int steps) {
 
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
@@ -4581,7 +4605,6 @@ GRectangle selectionRectangle) {
 
 		// let the view a bit greater than the scene
 		scale *= 0.94;
-
 
 		double x = -(boundsMin2.getX() + boundsMax2.getX()) / 2;
 		double y = -(boundsMin2.getY() + boundsMax2.getY()) / 2;
@@ -4670,7 +4693,6 @@ GRectangle selectionRectangle) {
 		getCompanion().setZNearest(zNear);
 	}
 
-
 	/**
 	 *
 	 * @return true if currently uses hand grabbing (3D input)
@@ -4718,12 +4740,13 @@ GRectangle selectionRectangle) {
 	private double screenTranslateAndScaleDY;
 	private double screenTranslateAndScaleDZ;
 
-	public void screenTranslateAndScale(double dx, double dy, double scaleFactor) {
+	public void screenTranslateAndScale(double dx, double dy,
+			double scaleFactor) {
 
 		// dx and dy are translation in screen coords
 		// dx moves along "visible left-right" axis on xOy plane
 		// dy moves along "visible front-back" axis on xOy plane
-		//    or z-axis if this one "visibly" more than sqrt(2)*front-back axis
+		// or z-axis if this one "visibly" more than sqrt(2)*front-back axis
 		tmpCoords1.set(Coords.VX);
 		toSceneCoords3D(tmpCoords1);
 		screenTranslateAndScaleDX = tmpCoords1.getX() * dx;
@@ -4760,10 +4783,10 @@ GRectangle selectionRectangle) {
 	}
 
 	public void stopScreenTranslateAndScale() {
-		if (animationType == AnimationType.SCREEN_TRANSLATE_AND_SCALE){
+		if (animationType == AnimationType.SCREEN_TRANSLATE_AND_SCALE) {
 			animationType = AnimationType.OFF;
 		}
-		
+
 	}
 
 	public void scaleXYZ(Coords coords) {

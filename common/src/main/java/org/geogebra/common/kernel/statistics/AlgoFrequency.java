@@ -93,7 +93,8 @@ public class AlgoFrequency extends AlgoElement {
 	public AlgoFrequency(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, isCumulative, classList, dataList, useDensity, density, null);
+		this(cons, isCumulative, classList, dataList, useDensity, density,
+				null);
 		frequency.setLabel(label);
 	}
 
@@ -109,9 +110,9 @@ public class AlgoFrequency extends AlgoElement {
 	 * @param scale
 	 *            scale factor
 	 */
-	AlgoFrequency(Construction cons, GeoBoolean isCumulative,
-			GeoList classList, GeoList dataList, GeoBoolean useDensity,
-			GeoNumeric density, GeoNumeric scale) {
+	AlgoFrequency(Construction cons, GeoBoolean isCumulative, GeoList classList,
+			GeoList dataList, GeoBoolean useDensity, GeoNumeric density,
+			GeoNumeric scale) {
 		super(cons);
 
 		this.classList = classList;
@@ -231,8 +232,8 @@ public class AlgoFrequency extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
-				.getElementType().equals(GeoClass.NUMERIC))) {
+		if (!(dataList.getElementType().equals(GeoClass.TEXT)
+				|| dataList.getElementType().equals(GeoClass.NUMERIC))) {
 			frequency.setUndefined();
 			return;
 		}
@@ -382,7 +383,7 @@ public class AlgoFrequency extends AlgoElement {
 					classFreq -= f.getCount(upperClassBound);
 
 				// System.out.println(" =================================");
-				// System.out.println("class freq: " + classFreq + "   " +
+				// System.out.println("class freq: " + classFreq + " " +
 				// density);
 
 				if (doCumulative)
@@ -419,8 +420,8 @@ public class AlgoFrequency extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType().equals(GeoClass.TEXT) && classList
-				.getElementType().equals(GeoClass.TEXT))) {
+		if (!(dataList.getElementType().equals(GeoClass.TEXT)
+				&& classList.getElementType().equals(GeoClass.TEXT))) {
 			frequency.setUndefined();
 			return;
 		}
@@ -482,7 +483,5 @@ public class AlgoFrequency extends AlgoElement {
 		}
 		return s;
 	}
-
-	
 
 }

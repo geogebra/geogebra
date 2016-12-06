@@ -5,10 +5,10 @@ import org.geogebra.common.main.Localization;
 
 public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 
-	public MinimalMultiVarStatTableModel(App app, MultiVarStatTableListener listener) {
+	public MinimalMultiVarStatTableModel(App app,
+			MultiVarStatTableListener listener) {
 		super(app, listener);
 	}
-	
 
 	@Override
 	public String[] getColumnNames() {
@@ -21,13 +21,10 @@ public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 		return names;
 	}
 
-
 	@Override
 	public int getColumnCount() {
 		return getColumnNames().length;
 	}
-
-	
 
 	private String[][] getCmdMap() {
 		Localization loc = getApp().getLocalization();
@@ -36,6 +33,5 @@ public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 				{ loc.getMenu("SampleStandardDeviation.short"), "SampleSD" } };
 		return map;
 	}
-
 
 }

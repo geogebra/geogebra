@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.discrete.delaunay;
 
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -12,21 +11,23 @@ import org.geogebra.common.util.debug.Log;
 /**
  *
  * This class represents a Delaunay Triangulation. The class was written for a
- * large scale triangulation (1000 - 200,000 vertices). The application main use is 3D surface (terrain) presentation.
- * <br>
+ * large scale triangulation (1000 - 200,000 vertices). The application main use
+ * is 3D surface (terrain) presentation. <br>
  * The class main properties are the following:<br>
  * - fast point location. (O(n^0.5)), practical runtime is often very fast. <br>
- * - handles degenerate cases and none general position input (ignores duplicate points). <br>
+ * - handles degenerate cases and none general position input (ignores duplicate
+ * points). <br>
  * - save & load from\to text file in TSIN format. <br>
  * - 3D support: including z value approximation. <br>
  * - standard java (1.5 generic) iterators for the vertices and triangles. <br>
- * - smart iterator to only the updated triangles - for terrain simplification <br>
+ * - smart iterator to only the updated triangles - for terrain simplification
+ * <br>
  * <br>
  *
- * Testing (done in early 2005): Platform java 1.5.02 windows XP (SP2), AMD laptop 1.6G sempron CPU
- * 512MB RAM. Constructing a triangulation of 100,000 vertices takes ~ 10
- * seconds. point location of 100,000 points on a triangulation of 100,000
- * vertices takes ~ 5 seconds.
+ * Testing (done in early 2005): Platform java 1.5.02 windows XP (SP2), AMD
+ * laptop 1.6G sempron CPU 512MB RAM. Constructing a triangulation of 100,000
+ * vertices takes ~ 10 seconds. point location of 100,000 points on a
+ * triangulation of 100,000 vertices takes ~ 5 seconds.
  *
  * Note: constructing a triangulation with 200,000 vertices and more requires
  * extending java heap size (otherwise an exception will be thrown).<br>
@@ -35,8 +36,9 @@ import org.geogebra.common.util.debug.Log;
  * please send me an email to: benmo@ariel.ac.il
  *
  * @author Boaz Ben Moshe 5/11/05 <br>
- * The project uses some ideas presented in the VoroGuide project, written by Klasse f?r Kreise (1996-1997),
- * For the original applet see: http://www.pi6.fernuni-hagen.de/GeomLab/VoroGlide/ . <br>
+ *         The project uses some ideas presented in the VoroGuide project,
+ *         written by Klasse f?r Kreise (1996-1997), For the original applet
+ *         see: http://www.pi6.fernuni-hagen.de/GeomLab/VoroGlide/ . <br>
  */
 
 public class Delaunay_Triangulation {
@@ -61,10 +63,10 @@ public class Delaunay_Triangulation {
 	// additional data 4/8/05 used by the iterators
 	private Set<Point_dt> _vertices;
 	private Vector<Triangle_dt> _triangles;
-	
+
 	// The triangles that were deleted in the last deletePoint iteration.
 	private Vector<Triangle_dt> deletedTriangles;
-        // The triangles that were added in the last deletePoint iteration.
+	// The triangles that were added in the last deletePoint iteration.
 	private Vector<Triangle_dt> addedTriangles;
 
 	private int _modCount = 0, _modCount2 = 0;
@@ -105,8 +107,7 @@ public class Delaunay_Triangulation {
 	 *         ignore - set size).
 	 */
 	public int size() {
-		if (_vertices == null)
-		{
+		if (_vertices == null) {
 			return 0;
 		}
 		return _vertices.size();
@@ -114,7 +115,7 @@ public class Delaunay_Triangulation {
 
 	/**
 	 * @return the number of triangles in the triangulation. <br />
-	 * Note: includes infinife faces!!.
+	 *         Note: includes infinife faces!!.
 	 */
 	public int trianglesSize() {
 		this.initTriangles();
@@ -128,518 +129,532 @@ public class Delaunay_Triangulation {
 		return this._modCount;
 	}
 
-    /**
-     * insert the point to this Delaunay Triangulation. Note: if p is null or
-     * already exist in this triangulation p is ignored.
-     *
-     * @param p
-     *            new vertex to be inserted the triangulation.
-     */
-    public void insertPoint(Point_dt p) {
-     if (this._vertices.contains(p))
-      return;
-     _modCount++;
-     updateBoundingBox(p);
-     this._vertices.add(p);
-     Triangle_dt t = insertPointSimple(p);
-     if (t == null) //
-      return;
-     Triangle_dt tt = t;
-     currT = t; // recall the last point for - fast (last) update iterator.
-     do {
-      flip(tt, _modCount);
-      tt = tt.canext;
-     } while (tt != t && !tt.halfplane);
-     
-    }
-	
+	/**
+	 * insert the point to this Delaunay Triangulation. Note: if p is null or
+	 * already exist in this triangulation p is ignored.
+	 *
+	 * @param p
+	 *            new vertex to be inserted the triangulation.
+	 */
+	public void insertPoint(Point_dt p) {
+		if (this._vertices.contains(p))
+			return;
+		_modCount++;
+		updateBoundingBox(p);
+		this._vertices.add(p);
+		Triangle_dt t = insertPointSimple(p);
+		if (t == null) //
+			return;
+		Triangle_dt tt = t;
+		currT = t; // recall the last point for - fast (last) update iterator.
+		do {
+			flip(tt, _modCount);
+			tt = tt.canext;
+		} while (tt != t && !tt.halfplane);
+
+	}
+
 	/**
 	 * Deletes the given point from this.
-	 * @param pointToDelete The given point to delete.
 	 * 
-	 * Implementation of the Mostafavia, Gold & Dakowicz algorithm (2002).
+	 * @param pointToDelete
+	 *            The given point to delete.
 	 * 
-	 * By Eyal Roth & Doron Ganel (2009).
+	 *            Implementation of the Mostafavia, Gold & Dakowicz algorithm
+	 *            (2002).
+	 * 
+	 *            By Eyal Roth & Doron Ganel (2009).
 	 */
 	public void deletePoint(Point_dt pointToDelete) {
-                
+
 		// Finding the triangles to delete.
 		Vector<Point_dt> pointsVec = findConnectedVertices(pointToDelete, true);
 		if (pointsVec == null) {
 			return;
 		}
-		
-		while(pointsVec.size()>=3)
-		{
+
+		while (pointsVec.size() >= 3) {
 			// Getting a triangle to add, and saving it.
 			Triangle_dt triangle = findTriangle(pointsVec, pointToDelete);
 			addedTriangles.add(triangle);
-			
+
 			// Finding the point on the diagonal (pointToDelete,p)
-			Point_dt p = findDiagonal(triangle,pointToDelete);
-			
-			for(Point_dt tmpP : pointsVec)
-			{
-				if(tmpP.equals(p))
-				{
+			Point_dt p = findDiagonal(triangle, pointToDelete);
+
+			for (Point_dt tmpP : pointsVec) {
+				if (tmpP.equals(p)) {
 					pointsVec.removeElement(tmpP);
 					break;
 				}
 			}
 		}
-                //updating the trangulation
-                deleteUpdate(pointToDelete);
-                for(Triangle_dt t:deletedTriangles) {
-                    if(t == startTriangle) {
-                        startTriangle = addedTriangles.elementAt(0);
-                        break;
-                    }
-                }
-                _triangles.removeAll(deletedTriangles);
-                _triangles.addAll(addedTriangles);
-                _vertices.remove(pointToDelete);
-                nPoints = nPoints+addedTriangles.size()-deletedTriangles.size();
-                addedTriangles.removeAllElements();
-                deletedTriangles.removeAllElements();             
+		// updating the trangulation
+		deleteUpdate(pointToDelete);
+		for (Triangle_dt t : deletedTriangles) {
+			if (t == startTriangle) {
+				startTriangle = addedTriangles.elementAt(0);
+				break;
+			}
+		}
+		_triangles.removeAll(deletedTriangles);
+		_triangles.addAll(addedTriangles);
+		_vertices.remove(pointToDelete);
+		nPoints = nPoints + addedTriangles.size() - deletedTriangles.size();
+		addedTriangles.removeAllElements();
+		deletedTriangles.removeAllElements();
 	}
 
-    /** return a point from the trangulation that is close to pointToDelete
-     * @param pointToDelete the point that the user wants to delete
-     * @return a point from the trangulation that is close to pointToDelete
-     * By Eyal Roth & Doron Ganel (2009).
-     */
-    public Point_dt findClosePoint(Point_dt pointToDelete) {
-            Triangle_dt triangle = find(pointToDelete);
-            Point_dt p1 = triangle.p1();
-            Point_dt p2 = triangle.p2();
-            double d1 = p1.distance(pointToDelete);
-            double d2 = p2.distance(pointToDelete);
-            if(triangle.isHalfplane()) {
-                if(d1<=d2) {
-                    return p1;
-                }
-                else {
-                    return p2;
-                }
-            }
-            else {
-                Point_dt p3 = triangle.p3();
-                
-                double d3 = p3.distance(pointToDelete);
-                if(d1<=d2 && d1<=d3) {
-                    return p1;
-                }
-                else if(d2<=d1 && d2<=d3) {
-                    return p2;
-                }
-                else {
-                    return p3;
-                }
-            }
-        }
-        
-        //updates the trangulation after the triangles to be deleted and
-        //the triangles to be added were found
-        //by Doron Ganel & Eyal Roth(2009)
-        private void deleteUpdate(Point_dt pointToDelete) {
-            for(Triangle_dt addedTriangle1 : addedTriangles) {
-                //update between addedd triangles and deleted triangles
-                for(Triangle_dt deletedTriangle : deletedTriangles) {
-                    if(shareSegment(addedTriangle1,deletedTriangle)) {
-                        updateNeighbor(addedTriangle1,deletedTriangle,pointToDelete);
-                    }
-                }
-            }
-            for(Triangle_dt addedTriangle1 : addedTriangles) {
-                //update between added triangles
-                for(Triangle_dt addedTriangle2 : addedTriangles) {
-                    if((addedTriangle1!=addedTriangle2)&&(shareSegment(addedTriangle1,addedTriangle2))) {
-                        updateNeighbor(addedTriangle1,addedTriangle2);
-                    }
-                }
-            }
-            
-            
-        }
-        
-        //checks if the 2 triangles shares a segment
-        //by Doron Ganel & Eyal Roth(2009)
-        private boolean shareSegment(Triangle_dt t1,Triangle_dt t2) {
-            int counter = 0;
-            Point_dt t1P1 = t1.p1();
-            Point_dt t1P2 = t1.p2();
-            Point_dt t1P3 = t1.p3();
-            Point_dt t2P1 = t2.p1();
-            Point_dt t2P2 = t2.p2();
-            Point_dt t2P3 = t2.p3();
-                         
-            if(t1P1.equals(t2P1)){
-                counter++;
-            }
-            if(t1P1.equals(t2P2)){
-                counter++;
-            }
-            if(t1P1.equals(t2P3)){
-                counter++;
-            }
-            if(t1P2.equals(t2P1)){
-                counter++;
-            }
-            if(t1P2.equals(t2P2)){
-                counter++;
-            }
-            if(t1P2.equals(t2P3)){
-                counter++;
-            }
-            if(t1P3.equals(t2P1)){
-                counter++;
-            }
-            if(t1P3.equals(t2P2)){
-                counter++;
-            }
-            if(t1P3.equals(t2P3)){
-                counter++;
-            }
-            if(counter>=2)
-                return true;
-            else
-                return false;
-        }
-        
-        //update the neighbors of the addedTriangle and deletedTriangle
-        //we assume the 2 triangles share a segment
-        //by Doron Ganel & Eyal Roth(2009)
-        private void updateNeighbor(Triangle_dt addedTriangle,Triangle_dt deletedTriangle,Point_dt pointToDelete) {
-            Point_dt delA = deletedTriangle.p1();
-            Point_dt delB = deletedTriangle.p2();
-            Point_dt delC = deletedTriangle.p3();
-            Point_dt addA = addedTriangle.p1();
-            Point_dt addB = addedTriangle.p2();
-            Point_dt addC = addedTriangle.p3();
-            
-            //updates the neighbor of the deleted triangle to point to the added triangle
-            //setting the neighbor of the added triangle
-            if(pointToDelete.equals(delA)) {
-                deletedTriangle.next_23().switchneighbors(deletedTriangle,addedTriangle);
-                //AB-BC || BA-BC
-                if((addA.equals(delB)&&addB.equals(delC)) || (addB.equals(delB)&&addA.equals(delC))) {                    
-                        addedTriangle.abnext = deletedTriangle.next_23();                
-                }
-                //AC-BC || CA-BC
-                else if((addA.equals(delB)&&addC.equals(delC)) || (addC.equals(delB)&&addA.equals(delC))) {                    
-                        addedTriangle.canext = deletedTriangle.next_23();                
-                }
-                //BC-BC || CB-BC
-                else {
-                    addedTriangle.bcnext = deletedTriangle.next_23();
-                }
-            }
-            else if(pointToDelete.equals(delB)) {
-                deletedTriangle.next_31().switchneighbors(deletedTriangle,addedTriangle);
-                //AB-AC || BA-AC
-                if((addA.equals(delA)&&addB.equals(delC)) || (addB.equals(delA)&&addA.equals(delC))) {                    
-                        addedTriangle.abnext = deletedTriangle.next_31();                
-                }
-                //AC-AC || CA-AC
-                else if((addA.equals(delA)&&addC.equals(delC)) || (addC.equals(delA)&&addA.equals(delC))) {                    
-                        addedTriangle.canext = deletedTriangle.next_31();                
-                }
-                //BC-AC || CB-AC
-                else {
-                    addedTriangle.bcnext = deletedTriangle.next_31();
-                }
-            }
-            //equals c
-            else {
-                deletedTriangle.next_12().switchneighbors(deletedTriangle,addedTriangle);
-                //AB-AB || BA-AB
-                if((addA.equals(delA)&&addB.equals(delB)) || (addB.equals(delA)&&addA.equals(delB))) {                    
-                        addedTriangle.abnext = deletedTriangle.next_12();                
-                }
-                //AC-AB || CA-AB
-                else if((addA.equals(delA)&&addC.equals(delB)) || (addC.equals(delA)&&addA.equals(delB))) {                    
-                        addedTriangle.canext = deletedTriangle.next_12();                
-                }
-                //BC-AB || CB-AB
-                else {
-                    addedTriangle.bcnext = deletedTriangle.next_12();
-                }
-            }
-        }
-        
-        //update the neighbors of the 2 added Triangle s
-        //we assume the 2 triangles share a segment
-        //by Doron Ganel & Eyal Roth(2009)
-        private void updateNeighbor(Triangle_dt addedTriangle1,Triangle_dt addedTriangle2){
-            Point_dt A1 = addedTriangle1.p1();
-            Point_dt B1 = addedTriangle1.p2();
-            Point_dt C1 = addedTriangle1.p3();
-            Point_dt A2 = addedTriangle2.p1();
-            Point_dt B2 = addedTriangle2.p2();
-            Point_dt C2 = addedTriangle2.p3();
-            
-            //A1-A2
-            if(A1.equals(A2)){
-                //A1B1-A2B2
-                if(B1.equals(B2)) {
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //A1B1-A2C2
-                else if(B1.equals(C2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //A1C1-A2B2
-                else if(C1.equals(B2)) {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //A1C1-A2C2
-                else {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-            }
-            //A1-B2
-            else if(A1.equals(B2)) {
-                //A1B1-B2A2
-                if(B1.equals(A2)) {
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //A1B1-B2C2
-                else if(B1.equals(C2)) {
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //A1C1-B2A2
-                else if(C1.equals(A2)) {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //A1C1-B2C2
-                else {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-            //A1-C2
-            else if(A1.equals(C2)) {
-                //A1B1-C2A2
-                if(B1.equals(A2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //A1B1-C2B2
-                if(B1.equals(B2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //A1C1-C2A2
-                if(C1.equals(A2)){
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //A1C1-C2B2
-                else {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-            //B1-A2
-            else if(B1.equals(A2)){
-                //B1A1-A2B2
-                if(A1.equals(B2)) {
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //B1A1-A2C2
-                else if(A1.equals(C2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //B1C1-A2B2
-                else if(C1.equals(B2)) {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //B1C1-A2C2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-            }
-            //B1-B2
-            else if(B1.equals(B2)) {
-                //B1A1-B2A2
-                if(A1.equals(A2)) {
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //B1A1-B2C2
-                else if(A1.equals(C2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //B1C1-B2A2
-                else if(C1.equals(A2)) {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //B1C1-B2C2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-            //B1-C2
-            else if(B1.equals(C2)) {
-                //B1A1-C2A2
-                if(A1.equals(A2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //B1A1-C2B2
-                if(A1.equals(B2)){
-                    addedTriangle1.abnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //B1C1-C2A2
-                if(C1.equals(A2)){
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //B1C1-C2B2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-            //C1-A2
-            else if(C1.equals(A2)) {
-                //C1A1-A2B2
-                if(A1.equals(B2)) {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //C1A1-A2C2
-                else if(A1.equals(C2)){
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //C1B1-A2B2
-                else if(B1.equals(B2)) {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //C1B1-A2C2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-            }
-            //C1-B2
-            else if(C1.equals(B2)) {
-                //C1A1-B2A2
-                if(A1.equals(A2)) {
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //C1A1-B2C2
-                else if(A1.equals(C2)){
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //C1B1-B2A2
-                else if(B1.equals(A2)) {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.abnext = addedTriangle1;
-                }
-                //C1B1-B2C2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-            //C1-C2
-            else if(C1.equals(C2)) {
-                //C1A1-C2A2
-                if(A1.equals(A2)){
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //C1A1-C2B2
-                if(A1.equals(B2)){
-                    addedTriangle1.canext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-                //C1B1-C2A2
-                if(B1.equals(A2)){
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.canext = addedTriangle1;
-                }
-                //C1B1-C2B2
-                else {
-                    addedTriangle1.bcnext = addedTriangle2;
-                    addedTriangle2.bcnext = addedTriangle1;
-                }
-            }
-        }
-	
-	//finds the a point on the triangle that if connect it to "point" (creating a segment)
-        //the other two points of the triangle will be to the left and to the right of the segment
-	//by Doron Ganel & Eyal Roth(2009)
+	/**
+	 * return a point from the trangulation that is close to pointToDelete
+	 * 
+	 * @param pointToDelete
+	 *            the point that the user wants to delete
+	 * @return a point from the trangulation that is close to pointToDelete By
+	 *         Eyal Roth & Doron Ganel (2009).
+	 */
+	public Point_dt findClosePoint(Point_dt pointToDelete) {
+		Triangle_dt triangle = find(pointToDelete);
+		Point_dt p1 = triangle.p1();
+		Point_dt p2 = triangle.p2();
+		double d1 = p1.distance(pointToDelete);
+		double d2 = p2.distance(pointToDelete);
+		if (triangle.isHalfplane()) {
+			if (d1 <= d2) {
+				return p1;
+			} else {
+				return p2;
+			}
+		} else {
+			Point_dt p3 = triangle.p3();
+
+			double d3 = p3.distance(pointToDelete);
+			if (d1 <= d2 && d1 <= d3) {
+				return p1;
+			} else if (d2 <= d1 && d2 <= d3) {
+				return p2;
+			} else {
+				return p3;
+			}
+		}
+	}
+
+	// updates the trangulation after the triangles to be deleted and
+	// the triangles to be added were found
+	// by Doron Ganel & Eyal Roth(2009)
+	private void deleteUpdate(Point_dt pointToDelete) {
+		for (Triangle_dt addedTriangle1 : addedTriangles) {
+			// update between addedd triangles and deleted triangles
+			for (Triangle_dt deletedTriangle : deletedTriangles) {
+				if (shareSegment(addedTriangle1, deletedTriangle)) {
+					updateNeighbor(addedTriangle1, deletedTriangle,
+							pointToDelete);
+				}
+			}
+		}
+		for (Triangle_dt addedTriangle1 : addedTriangles) {
+			// update between added triangles
+			for (Triangle_dt addedTriangle2 : addedTriangles) {
+				if ((addedTriangle1 != addedTriangle2)
+						&& (shareSegment(addedTriangle1, addedTriangle2))) {
+					updateNeighbor(addedTriangle1, addedTriangle2);
+				}
+			}
+		}
+
+	}
+
+	// checks if the 2 triangles shares a segment
+	// by Doron Ganel & Eyal Roth(2009)
+	private boolean shareSegment(Triangle_dt t1, Triangle_dt t2) {
+		int counter = 0;
+		Point_dt t1P1 = t1.p1();
+		Point_dt t1P2 = t1.p2();
+		Point_dt t1P3 = t1.p3();
+		Point_dt t2P1 = t2.p1();
+		Point_dt t2P2 = t2.p2();
+		Point_dt t2P3 = t2.p3();
+
+		if (t1P1.equals(t2P1)) {
+			counter++;
+		}
+		if (t1P1.equals(t2P2)) {
+			counter++;
+		}
+		if (t1P1.equals(t2P3)) {
+			counter++;
+		}
+		if (t1P2.equals(t2P1)) {
+			counter++;
+		}
+		if (t1P2.equals(t2P2)) {
+			counter++;
+		}
+		if (t1P2.equals(t2P3)) {
+			counter++;
+		}
+		if (t1P3.equals(t2P1)) {
+			counter++;
+		}
+		if (t1P3.equals(t2P2)) {
+			counter++;
+		}
+		if (t1P3.equals(t2P3)) {
+			counter++;
+		}
+		if (counter >= 2)
+			return true;
+		else
+			return false;
+	}
+
+	// update the neighbors of the addedTriangle and deletedTriangle
+	// we assume the 2 triangles share a segment
+	// by Doron Ganel & Eyal Roth(2009)
+	private void updateNeighbor(Triangle_dt addedTriangle,
+			Triangle_dt deletedTriangle, Point_dt pointToDelete) {
+		Point_dt delA = deletedTriangle.p1();
+		Point_dt delB = deletedTriangle.p2();
+		Point_dt delC = deletedTriangle.p3();
+		Point_dt addA = addedTriangle.p1();
+		Point_dt addB = addedTriangle.p2();
+		Point_dt addC = addedTriangle.p3();
+
+		// updates the neighbor of the deleted triangle to point to the added
+		// triangle
+		// setting the neighbor of the added triangle
+		if (pointToDelete.equals(delA)) {
+			deletedTriangle.next_23().switchneighbors(deletedTriangle,
+					addedTriangle);
+			// AB-BC || BA-BC
+			if ((addA.equals(delB) && addB.equals(delC))
+					|| (addB.equals(delB) && addA.equals(delC))) {
+				addedTriangle.abnext = deletedTriangle.next_23();
+			}
+			// AC-BC || CA-BC
+			else if ((addA.equals(delB) && addC.equals(delC))
+					|| (addC.equals(delB) && addA.equals(delC))) {
+				addedTriangle.canext = deletedTriangle.next_23();
+			}
+			// BC-BC || CB-BC
+			else {
+				addedTriangle.bcnext = deletedTriangle.next_23();
+			}
+		} else if (pointToDelete.equals(delB)) {
+			deletedTriangle.next_31().switchneighbors(deletedTriangle,
+					addedTriangle);
+			// AB-AC || BA-AC
+			if ((addA.equals(delA) && addB.equals(delC))
+					|| (addB.equals(delA) && addA.equals(delC))) {
+				addedTriangle.abnext = deletedTriangle.next_31();
+			}
+			// AC-AC || CA-AC
+			else if ((addA.equals(delA) && addC.equals(delC))
+					|| (addC.equals(delA) && addA.equals(delC))) {
+				addedTriangle.canext = deletedTriangle.next_31();
+			}
+			// BC-AC || CB-AC
+			else {
+				addedTriangle.bcnext = deletedTriangle.next_31();
+			}
+		}
+		// equals c
+		else {
+			deletedTriangle.next_12().switchneighbors(deletedTriangle,
+					addedTriangle);
+			// AB-AB || BA-AB
+			if ((addA.equals(delA) && addB.equals(delB))
+					|| (addB.equals(delA) && addA.equals(delB))) {
+				addedTriangle.abnext = deletedTriangle.next_12();
+			}
+			// AC-AB || CA-AB
+			else if ((addA.equals(delA) && addC.equals(delB))
+					|| (addC.equals(delA) && addA.equals(delB))) {
+				addedTriangle.canext = deletedTriangle.next_12();
+			}
+			// BC-AB || CB-AB
+			else {
+				addedTriangle.bcnext = deletedTriangle.next_12();
+			}
+		}
+	}
+
+	// update the neighbors of the 2 added Triangle s
+	// we assume the 2 triangles share a segment
+	// by Doron Ganel & Eyal Roth(2009)
+	private void updateNeighbor(Triangle_dt addedTriangle1,
+			Triangle_dt addedTriangle2) {
+		Point_dt A1 = addedTriangle1.p1();
+		Point_dt B1 = addedTriangle1.p2();
+		Point_dt C1 = addedTriangle1.p3();
+		Point_dt A2 = addedTriangle2.p1();
+		Point_dt B2 = addedTriangle2.p2();
+		Point_dt C2 = addedTriangle2.p3();
+
+		// A1-A2
+		if (A1.equals(A2)) {
+			// A1B1-A2B2
+			if (B1.equals(B2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// A1B1-A2C2
+			else if (B1.equals(C2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// A1C1-A2B2
+			else if (C1.equals(B2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// A1C1-A2C2
+			else {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+		}
+		// A1-B2
+		else if (A1.equals(B2)) {
+			// A1B1-B2A2
+			if (B1.equals(A2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// A1B1-B2C2
+			else if (B1.equals(C2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// A1C1-B2A2
+			else if (C1.equals(A2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// A1C1-B2C2
+			else {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+		// A1-C2
+		else if (A1.equals(C2)) {
+			// A1B1-C2A2
+			if (B1.equals(A2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// A1B1-C2B2
+			if (B1.equals(B2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// A1C1-C2A2
+			if (C1.equals(A2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// A1C1-C2B2
+			else {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+		// B1-A2
+		else if (B1.equals(A2)) {
+			// B1A1-A2B2
+			if (A1.equals(B2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// B1A1-A2C2
+			else if (A1.equals(C2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// B1C1-A2B2
+			else if (C1.equals(B2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// B1C1-A2C2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+		}
+		// B1-B2
+		else if (B1.equals(B2)) {
+			// B1A1-B2A2
+			if (A1.equals(A2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// B1A1-B2C2
+			else if (A1.equals(C2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// B1C1-B2A2
+			else if (C1.equals(A2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// B1C1-B2C2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+		// B1-C2
+		else if (B1.equals(C2)) {
+			// B1A1-C2A2
+			if (A1.equals(A2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// B1A1-C2B2
+			if (A1.equals(B2)) {
+				addedTriangle1.abnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// B1C1-C2A2
+			if (C1.equals(A2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// B1C1-C2B2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+		// C1-A2
+		else if (C1.equals(A2)) {
+			// C1A1-A2B2
+			if (A1.equals(B2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// C1A1-A2C2
+			else if (A1.equals(C2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// C1B1-A2B2
+			else if (B1.equals(B2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// C1B1-A2C2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+		}
+		// C1-B2
+		else if (C1.equals(B2)) {
+			// C1A1-B2A2
+			if (A1.equals(A2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// C1A1-B2C2
+			else if (A1.equals(C2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// C1B1-B2A2
+			else if (B1.equals(A2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.abnext = addedTriangle1;
+			}
+			// C1B1-B2C2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+		// C1-C2
+		else if (C1.equals(C2)) {
+			// C1A1-C2A2
+			if (A1.equals(A2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// C1A1-C2B2
+			if (A1.equals(B2)) {
+				addedTriangle1.canext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+			// C1B1-C2A2
+			if (B1.equals(A2)) {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.canext = addedTriangle1;
+			}
+			// C1B1-C2B2
+			else {
+				addedTriangle1.bcnext = addedTriangle2;
+				addedTriangle2.bcnext = addedTriangle1;
+			}
+		}
+	}
+
+	// finds the a point on the triangle that if connect it to "point" (creating
+	// a segment)
+	// the other two points of the triangle will be to the left and to the right
+	// of the segment
+	// by Doron Ganel & Eyal Roth(2009)
 	private Point_dt findDiagonal(Triangle_dt triangle, Point_dt point) {
 		Point_dt p1 = triangle.p1();
 		Point_dt p2 = triangle.p2();
 		Point_dt p3 = triangle.p3();
-		
-		if((p1.pointLineTest(point,p3) == Point_dt.LEFT)&&
-		   (p2.pointLineTest(point,p3) == Point_dt.RIGHT))
+
+		if ((p1.pointLineTest(point, p3) == Point_dt.LEFT)
+				&& (p2.pointLineTest(point, p3) == Point_dt.RIGHT))
 			return p3;
-		if((p3.pointLineTest(point,p2) == Point_dt.LEFT)&&
-		   (p1.pointLineTest(point,p2) == Point_dt.RIGHT))
+		if ((p3.pointLineTest(point, p2) == Point_dt.LEFT)
+				&& (p1.pointLineTest(point, p2) == Point_dt.RIGHT))
 			return p2;
-		if((p2.pointLineTest(point,p1) == Point_dt.LEFT)&&
-		   (p3.pointLineTest(point,p1) == Point_dt.RIGHT))
+		if ((p2.pointLineTest(point, p1) == Point_dt.LEFT)
+				&& (p3.pointLineTest(point, p1) == Point_dt.RIGHT))
 			return p1;
-		return null;		
+		return null;
 	}
 
 	/**
-	 * Calculates a Voronoi cell for a given neighborhood
-	 * in this triangulation. A neighborhood is defined by a triangle
-	 * and one of its corner points.
-	 *  
+	 * Calculates a Voronoi cell for a given neighborhood in this triangulation.
+	 * A neighborhood is defined by a triangle and one of its corner points.
+	 * 
 	 * By Udi Schneider
 	 * 
-	 * @param triangle a triangle in the neighborhood  
-	 * @param p corner point whose surrounding neighbors will be checked
+	 * @param triangle
+	 *            a triangle in the neighborhood
+	 * @param p
+	 *            corner point whose surrounding neighbors will be checked
 	 * @return set of Points representing the cell polygon
 	 */
-	public Point_dt[] calcVoronoiCell(Triangle_dt triangle, Point_dt p)
-	{	
-		// handle any full triangle		 
+	public Point_dt[] calcVoronoiCell(Triangle_dt triangle, Point_dt p) {
+		// handle any full triangle
 		if (!triangle.isHalfplane()) {
-			
+
 			// get all neighbors of given corner point
-			Vector<Triangle_dt> neighbors = findTriangleNeighborhood(triangle, p);
-						
+			Vector<Triangle_dt> neighbors = findTriangleNeighborhood(triangle,
+					p);
+
 			if (neighbors == null) {
 				return null;
 			}
 			Iterator<Triangle_dt> itn = neighbors.iterator();
 			Point_dt[] vertices = new Point_dt[neighbors.size()];
-			
+
 			// for each neighbor, including the given triangle, add
 			// center of circumscribed circle to cell polygon
 			int index = 0;
 			while (itn.hasNext()) {
-				Triangle_dt tmp = itn.next();									
-				vertices[index++] = tmp.circumcircle().Center();				
-			}			
-			
+				Triangle_dt tmp = itn.next();
+				vertices[index++] = tmp.circumcircle().Center();
+			}
+
 			return vertices;
 		}
 		// local friendly alias
@@ -649,7 +664,7 @@ public class Delaunay_Triangulation {
 		Point_dt third = null;
 		// triangle adjacent to the half plane
 		Triangle_dt neighbor = null;
-		
+
 		// find the neighbor triangle
 		if (!halfplane.next_12().isHalfplane()) {
 			neighbor = halfplane.next_12();
@@ -658,7 +673,7 @@ public class Delaunay_Triangulation {
 		} else if (!halfplane.next_23().isHalfplane()) {
 			neighbor = halfplane.next_31();
 		}
-			
+
 		// find third point of neighbor triangle
 		// (the one which is not shared with current half plane)
 		// this is used in determining half plane orientation
@@ -714,9 +729,10 @@ public class Delaunay_Triangulation {
 
 		return result;
 	}
-	
+
 	/**
 	 * returns an iterator object involved in the last update.
+	 * 
 	 * @return iterator to all triangles involved in the last update of the
 	 *         triangulation NOTE: works ONLY if the are triangles (it there is
 	 *         only a half plane - returns an empty iterator
@@ -730,7 +746,8 @@ public class Delaunay_Triangulation {
 		return tmp.iterator();
 	}
 
-	private void allTriangles(Triangle_dt curr, Vector<Triangle_dt> front, int mc) {
+	private void allTriangles(Triangle_dt curr, Vector<Triangle_dt> front,
+			int mc) {
 		if (curr != null && curr._mc == mc && !front.contains(curr)) {
 			front.add(curr);
 			allTriangles(curr.abnext, front, mc);
@@ -1013,8 +1030,8 @@ public class Delaunay_Triangulation {
 	/**
 	 * compute the number of vertices in the convex hull. <br />
 	 * NOTE: has a 'bug-like' behavor: <br />
-	 * in cases of colinear - not on a asix parallel rectangle,
-	 * colinear points are reported
+	 * in cases of colinear - not on a asix parallel rectangle, colinear points
+	 * are reported
 	 *
 	 * @return the number of vertices in the convex hull.
 	 */
@@ -1040,7 +1057,8 @@ public class Delaunay_Triangulation {
 	 */
 	public Triangle_dt find(Point_dt p) {
 
-		// If triangulation has a spatial index try to use it as the starting triangle
+		// If triangulation has a spatial index try to use it as the starting
+		// triangle
 		Triangle_dt searchTriangle = startTriangle;
 
 		// Search for the point's triangle starting from searchTriangle
@@ -1064,7 +1082,6 @@ public class Delaunay_Triangulation {
 		Triangle_dt T = find(start, p);
 		return T;
 	}
-
 
 	private static Triangle_dt find(Triangle_dt curr, Point_dt p) {
 		if (p == null)
@@ -1091,8 +1108,7 @@ public class Delaunay_Triangulation {
 	}
 
 	/*
-	 * assumes v is NOT an halfplane!
-	 * returns the next triangle for find.
+	 * assumes v is NOT an halfplane! returns the next triangle for find.
 	 */
 	private static Triangle_dt findnext1(Point_dt p, Triangle_dt v) {
 		if (p.pointLineTest(v.a, v.b) == Point_dt.RIGHT && !v.abnext.halfplane)
@@ -1110,7 +1126,9 @@ public class Delaunay_Triangulation {
 		return null;
 	}
 
-	/** assumes v is an halfplane! - returns another (none halfplane) triangle */
+	/**
+	 * assumes v is an halfplane! - returns another (none halfplane) triangle
+	 */
 	private static Triangle_dt findnext2(Point_dt p, Triangle_dt v) {
 		if (v.abnext != null && !v.abnext.halfplane)
 			return v.abnext;
@@ -1120,152 +1138,148 @@ public class Delaunay_Triangulation {
 			return v.canext;
 		return null;
 	}
-	
-	/* 
-	 * Receives a point and returns all the points of the triangles that
-	 * shares point as a corner (Connected vertices to this point).
+
+	/*
+	 * Receives a point and returns all the points of the triangles that shares
+	 * point as a corner (Connected vertices to this point).
 	 * 
-	 * Set saveTriangles to true if you wish to save the triangles that were found.
+	 * Set saveTriangles to true if you wish to save the triangles that were
+	 * found.
 	 * 
 	 * By Doron Ganel & Eyal Roth
 	 */
-	private Vector<Point_dt> findConnectedVertices(Point_dt point, boolean saveTriangles) {
+	private Vector<Point_dt> findConnectedVertices(Point_dt point,
+			boolean saveTriangles) {
 		Set<Point_dt> pointsSet = new HashSet<Point_dt>();
 		Vector<Point_dt> pointsVec = new Vector<Point_dt>();
 		Vector<Triangle_dt> triangles = null;
 		// Getting one of the neigh
 		Triangle_dt triangle = find(point);
-		
+
 		// Validating find result.
 		if (!triangle.isCorner(point)) {
 			Log.error(
 					"findConnectedVertices: Could not find connected vertices since the first found triangle doesn't"
-							+
-					" share the given point.");
+							+ " share the given point.");
 			return null;
 		}
-		
+
 		triangles = findTriangleNeighborhood(triangle, point);
-                if(triangles == null) {
+		if (triangles == null) {
 			Log.error("Error: can't delete a point on the perimeter");
-                    return null;
-                }
+			return null;
+		}
 		if (saveTriangles) {
 			deletedTriangles = triangles;
 		}
-		
+
 		for (Triangle_dt tmpTriangle : triangles) {
 			Point_dt point1 = tmpTriangle.p1();
 			Point_dt point2 = tmpTriangle.p2();
 			Point_dt point3 = tmpTriangle.p3();
-			
+
 			if (point1.equals(point) && !pointsSet.contains(point2)) {
 				pointsSet.add(point2);
 				pointsVec.add(point2);
 			}
-			
+
 			if (point2.equals(point) && !pointsSet.contains(point3)) {
 				pointsSet.add(point3);
 				pointsVec.add(point3);
 			}
-			
-			if (point3.equals(point)&& !pointsSet.contains(point1)) {
+
+			if (point3.equals(point) && !pointsSet.contains(point1)) {
 				pointsSet.add(point1);
 				pointsVec.add(point1);
 			}
 		}
-		
+
 		return pointsVec;
 	}
-        
-        // Walks on a consistent side of triangles until a cycle is achieved.
-	//By Doron Ganel & Eyal Roth
-    // changed to public by Udi
-	public Vector<Triangle_dt> findTriangleNeighborhood(Triangle_dt firstTriangle, Point_dt point) {
+
+	// Walks on a consistent side of triangles until a cycle is achieved.
+	// By Doron Ganel & Eyal Roth
+	// changed to public by Udi
+	public Vector<Triangle_dt> findTriangleNeighborhood(
+			Triangle_dt firstTriangle, Point_dt point) {
 		Vector<Triangle_dt> triangles = new Vector<Triangle_dt>(30);
 		triangles.add(firstTriangle);
-		
+
 		Triangle_dt prevTriangle = null;
 		Triangle_dt currentTriangle = firstTriangle;
-		Triangle_dt nextTriangle = currentTriangle.nextNeighbor(point, prevTriangle);
-		
+		Triangle_dt nextTriangle = currentTriangle.nextNeighbor(point,
+				prevTriangle);
+
 		while (nextTriangle != firstTriangle) {
-                        //the point is on the perimeter
-                        if(nextTriangle.isHalfplane()) {                            
-                            return null;
-                        }
+			// the point is on the perimeter
+			if (nextTriangle.isHalfplane()) {
+				return null;
+			}
 			triangles.add(nextTriangle);
 			prevTriangle = currentTriangle;
 			currentTriangle = nextTriangle;
 			nextTriangle = currentTriangle.nextNeighbor(point, prevTriangle);
 		}
-		
+
 		return triangles;
-	}	
-	
+	}
+
 	/*
 	 * find triangle to be added to the triangulation
 	 * 
 	 * By: Doron Ganel & Eyal Roth
 	 * 
 	 */
-	private Triangle_dt findTriangle(Vector<Point_dt> pointsVec,Point_dt p)
-	{
+	private Triangle_dt findTriangle(Vector<Point_dt> pointsVec, Point_dt p) {
 		Point_dt[] arrayPoints = new Point_dt[pointsVec.size()];
 		pointsVec.toArray(arrayPoints);
-		
+
 		int size = arrayPoints.length;
-		if(size < 3)
-		{
+		if (size < 3) {
 			return null;
 		}
 		// if we left with 3 points we return the triangle
-		else if(size==3)
-		{
-			return new Triangle_dt(arrayPoints[0],arrayPoints[1],arrayPoints[2]);
-		}
-		else
-		{
-		        for(int i=0;i<=size-1;i++)
-		        {
-		                Point_dt p1 = arrayPoints[i];
-                                int j=i+1;                            
-                                int k=i+2;
-                                if(j>=size)
-                                {
-                                    j=0;
-                                    k=1;
-                                }
-                                //check IndexOutOfBound
-                                else if(k>=size)
-                                    k=0;
-                                Point_dt p2 = arrayPoints[j];
-                                Point_dt p3 = arrayPoints[k];
-                                //check if the triangle is not re-entrant and not encloses p
-                                Triangle_dt t = new Triangle_dt(p1,p2,p3);
-                                if((calcDet(p1, p2, p3) >= 0) && !t.contains(p)){                                                       
-                                    if(!t.fallInsideCircumcircle(arrayPoints))
-                                            return t;
-                                }
-                                //if there are only 4 points use contains that refers to point
-                                //on boundary as outside
-                                if(size==4&&(calcDet(p1, p2, p3) >= 0) && !t.contains_BoundaryIsOutside(p)){                                                       
-                                    if(!t.fallInsideCircumcircle(arrayPoints))
-                                            return t;
-                                }
-                        }                        
+		else if (size == 3) {
+			return new Triangle_dt(arrayPoints[0], arrayPoints[1],
+					arrayPoints[2]);
+		} else {
+			for (int i = 0; i <= size - 1; i++) {
+				Point_dt p1 = arrayPoints[i];
+				int j = i + 1;
+				int k = i + 2;
+				if (j >= size) {
+					j = 0;
+					k = 1;
+				}
+				// check IndexOutOfBound
+				else if (k >= size)
+					k = 0;
+				Point_dt p2 = arrayPoints[j];
+				Point_dt p3 = arrayPoints[k];
+				// check if the triangle is not re-entrant and not encloses p
+				Triangle_dt t = new Triangle_dt(p1, p2, p3);
+				if ((calcDet(p1, p2, p3) >= 0) && !t.contains(p)) {
+					if (!t.fallInsideCircumcircle(arrayPoints))
+						return t;
+				}
+				// if there are only 4 points use contains that refers to point
+				// on boundary as outside
+				if (size == 4 && (calcDet(p1, p2, p3) >= 0)
+						&& !t.contains_BoundaryIsOutside(p)) {
+					if (!t.fallInsideCircumcircle(arrayPoints))
+						return t;
+				}
+			}
 		}
 		return null;
 	}
-	
-	// TODO: Move this to triangle.
-	//checks if the triangle is not re-entrant
-	private static double calcDet(Point_dt A ,Point_dt B, Point_dt P)
-	{
-		return (A.x()*(B.y()-P.y())) - (A.y()*(B.x()-P.x())) + (B.x()*P.y()-B.y()*P.x());  
-	}
-	
 
+	// TODO: Move this to triangle.
+	// checks if the triangle is not re-entrant
+	private static double calcDet(Point_dt A, Point_dt B, Point_dt P) {
+		return (A.x() * (B.y() - P.y())) - (A.y() * (B.x() - P.x()))
+				+ (B.x() * P.y() - B.y() * P.x());
+	}
 
 	/**
 	 *
@@ -1339,12 +1353,13 @@ public class Delaunay_Triangulation {
 				_bb_max.z = z;
 		}
 	}
-     /**
-      * @return  The bounding rectange between the minimum and maximum coordinates
-      */
-     public BoundingBox getBoundingBox() {
-      return new BoundingBox(_bb_min, _bb_max);
-     }
+
+	/**
+	 * @return The bounding rectange between the minimum and maximum coordinates
+	 */
+	public BoundingBox getBoundingBox() {
+		return new BoundingBox(_bb_min, _bb_max);
+	}
 
 	/**
 	 * return the min point of the bounding box of this triangulation
@@ -1363,8 +1378,8 @@ public class Delaunay_Triangulation {
 	}
 
 	/**
-	 * computes the current set (vector) of all triangles and
-	 * return an iterator to them.
+	 * computes the current set (vector) of all triangles and return an iterator
+	 * to them.
 	 *
 	 * @return an iterator to the current set of all triangles.
 	 */
@@ -1377,6 +1392,7 @@ public class Delaunay_Triangulation {
 
 	/**
 	 * returns an iterator to the set of all the points on the XY-convex hull
+	 * 
 	 * @return iterator to the set of all the points on the XY-convex hull.
 	 */
 	public Iterator<Point_dt> CH_vertices_Iterator() {
@@ -1402,6 +1418,7 @@ public class Delaunay_Triangulation {
 
 	/**
 	 * returns an iterator to the set of points compusing this triangulation.
+	 * 
 	 * @return iterator to the set of points compusing this triangulation.
 	 */
 	public Iterator<Point_dt> verticesIterator() {

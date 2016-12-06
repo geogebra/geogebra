@@ -111,7 +111,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 	}
 
-	public AlgoIntersectConics(Construction cons, boolean addToConstructionList) {
+	public AlgoIntersectConics(Construction cons,
+			boolean addToConstructionList) {
 		super(cons, addToConstructionList);
 		init(cons);
 
@@ -347,8 +348,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				}
 
 				if (Kernel.isGreaterEqual(gap / 2, minDistance))
-					P[i].setCoordsFromPoint(preexistPoints
-							.get(closestPointIndex));
+					P[i].setCoordsFromPoint(
+							preexistPoints.get(closestPointIndex));
 			}
 
 		}
@@ -657,9 +658,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			for (i = 0; i < points.length; i++) {
 				points[i].setUndefined();
 			} /*
-			 * TODO if (conic1.type == GeoConicNDConstants.CONIC_SINGLE_POINT){
-			 * points[0].setCoords(conic1.getSinglePoint()); }
-			 */
+				 * TODO if (conic1.type ==
+				 * GeoConicNDConstants.CONIC_SINGLE_POINT){
+				 * points[0].setCoords(conic1.getSinglePoint()); }
+				 */
 			return;
 		}
 
@@ -746,7 +748,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			case GeoConicNDConstants.CONIC_EMPTY:
 				// this shouldn't happen: try it with doubleline conic
 				degConic.enforceDoubleLine();
-				// Application.debug("intersectWithDegenerate: empty degenerate conic, try double line");
+				// Application.debug("intersectWithDegenerate: empty degenerate
+				// conic, try double line");
 				// degConic.setToSpecific();
 				// Application.debug("degConic: " + degConic);
 
@@ -769,7 +772,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		}
 
 		// something went wrong: no intersections
-		// Application.debug("intersectWithDegenerate: undefined degenerate conic, type:  "
+		// Application.debug("intersectWithDegenerate: undefined degenerate
+		// conic, type: "
 		// + degConic.type);
 		for (int i = 0; i < 4; i++)
 			points[i].setUndefined();
@@ -797,8 +801,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		return foundPoint;
 	}
 
-	static final private double absCrossProduct(double a1, double a2,
-			double b1, double b2) {
+	static final private double absCrossProduct(double a1, double a2, double b1,
+			double b2) {
 		return Math.abs(a1 * b2 - a2 * b1);
 	}
 
@@ -821,7 +825,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 		double[] Amatrix = A.getFlatMatrix();
 		double[] Bmatrix = B.getFlatMatrix();
-		if (absCrossProduct(Amatrix[0], Amatrix[1], Bmatrix[0], Bmatrix[1]) < eps
+		if (absCrossProduct(Amatrix[0], Amatrix[1], Bmatrix[0],
+				Bmatrix[1]) < eps
 				&& absCrossProduct(Amatrix[0], Amatrix[3], Bmatrix[0],
 						Bmatrix[3]) < eps
 				&& absCrossProduct(Amatrix[1], Amatrix[3], Bmatrix[1],
@@ -872,29 +877,21 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				+ flatA[4] * (2.0 * flatA[3] * flatA[5] - flatA[1] * flatA[4])
 				- flatA[0] * flatA[5] * flatA[5];
 		// x
-		eqn[1] = flatB[0]
-				* (flatA[1] * flatA[2] - flatA[5] * flatA[5])
-				+ flatB[1]
-				* (flatA[0] * flatA[2] - flatA[4] * flatA[4])
-				+ flatB[2]
-				* (flatA[0] * flatA[1] - flatA[3] * flatA[3])
-				+ 2.0
-				* (flatB[3] * (flatA[4] * flatA[5] - flatA[2] * flatA[3])
-						+ flatB[4]
-						* (flatA[3] * flatA[5] - flatA[1] * flatA[4]) + flatB[5]
-						* (flatA[3] * flatA[4] - flatA[0] * flatA[5]));
+		eqn[1] = flatB[0] * (flatA[1] * flatA[2] - flatA[5] * flatA[5])
+				+ flatB[1] * (flatA[0] * flatA[2] - flatA[4] * flatA[4])
+				+ flatB[2] * (flatA[0] * flatA[1] - flatA[3] * flatA[3])
+				+ 2.0 * (flatB[3] * (flatA[4] * flatA[5] - flatA[2] * flatA[3])
+						+ flatB[4] * (flatA[3] * flatA[5] - flatA[1] * flatA[4])
+						+ flatB[5]
+								* (flatA[3] * flatA[4] - flatA[0] * flatA[5]));
 		// x^2
-		eqn[2] = flatA[0]
-				* (flatB[1] * flatB[2] - flatB[5] * flatB[5])
-				+ flatA[1]
-				* (flatB[0] * flatB[2] - flatB[4] * flatB[4])
-				+ flatA[2]
-				* (flatB[0] * flatB[1] - flatB[3] * flatB[3])
-				+ 2.0
-				* (flatA[3] * (flatB[4] * flatB[5] - flatB[2] * flatB[3])
-						+ flatA[4]
-						* (flatB[3] * flatB[5] - flatB[1] * flatB[4]) + flatA[5]
-						* (flatB[3] * flatB[4] - flatB[0] * flatB[5]));
+		eqn[2] = flatA[0] * (flatB[1] * flatB[2] - flatB[5] * flatB[5])
+				+ flatA[1] * (flatB[0] * flatB[2] - flatB[4] * flatB[4])
+				+ flatA[2] * (flatB[0] * flatB[1] - flatB[3] * flatB[3])
+				+ 2.0 * (flatA[3] * (flatB[4] * flatB[5] - flatB[2] * flatB[3])
+						+ flatA[4] * (flatB[3] * flatB[5] - flatB[1] * flatB[4])
+						+ flatA[5]
+								* (flatB[3] * flatB[4] - flatB[0] * flatB[5]));
 		// x^3
 		eqn[3] = flatB[2] * (flatB[0] * flatB[1] - flatB[3] * flatB[3])
 				+ flatB[4] * (2.0 * flatB[3] * flatB[5] - flatB[1] * flatB[4])
@@ -1036,8 +1033,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 *            resulting intersection points
 	 * @return true if points were found
 	 */
-	private boolean intersectConicsWithEqualSubmatrixS(GeoConic c1,
-			GeoConic c2, GeoPoint[] points, double eps) {
+	private boolean intersectConicsWithEqualSubmatrixS(GeoConic c1, GeoConic c2,
+			GeoPoint[] points, double eps) {
 		if (tempLine == null) {
 			tempLine = new GeoLine(cons);
 		}
@@ -1057,8 +1054,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		}
 
 		tempLine.setCoords(2 * (c1matrix[4] * m2 - c2matrix[4]),
-				2 * (c1matrix[5] * m2 - c2matrix[5]), c1matrix[2] * m2
-						- c2matrix[2]);
+				2 * (c1matrix[5] * m2 - c2matrix[5]),
+				c1matrix[2] * m2 - c2matrix[2]);
 
 		// try first conic
 		AlgoIntersectLineConic.intersectLineConic(tempLine, c1, points, eps);
@@ -1215,10 +1212,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				indexP = pair.indexP;
 				indexQ = pair.indexQ;
 
-				if (pair.isPalive
-						&& pair.isQonPath
-						&& pointList.getClosestPWithindexQ(pair.indexQ) == pair.indexP
-						&& pointList.getClosestQWithindexP(pair.indexP) == pair.indexQ) {
+				if (pair.isPalive && pair.isQonPath
+						&& pointList.getClosestPWithindexQ(
+								pair.indexQ) == pair.indexP
+						&& pointList.getClosestQWithindexP(
+								pair.indexP) == pair.indexQ) {
 					// workingList.insertPointPair(pair.indexP, isPalive,
 					// indexQ, isQonPath, distance)
 
@@ -1392,11 +1390,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					botanaPolynomialsThis = new Polynomial[3 + excludePoint];
 					botanaVarsOther = botanaVars.get(otherGeo);
 					botanaPolynomialsThis[2 + excludePoint] = (Polynomial
-							.sqrDistance(
-							botanaVarsThis[0], botanaVarsThis[1],
-							botanaVarsOther[0], botanaVarsOther[1])
+							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
+									botanaVarsOther[0], botanaVarsOther[1])
 							.multiply(new Polynomial(new Variable())))
-							.subtract(new Polynomial(1));
+									.subtract(new Polynomial(1));
 					found = true;
 				}
 			}
@@ -1405,9 +1402,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			}
 
 			Variable[] vA = A.getBotanaVars(A); // 4 variables from the first
-													// circle
+												// circle
 			Variable[] vB = B.getBotanaVars(B); // 4 variables from the first
-													// circle
+												// circle
 
 			botanaPolynomialsThis[0] = Polynomial.equidistant(vA[2], vA[3],
 					vA[0], vA[1], botanaVarsThis[0], botanaVarsThis[1]);
@@ -1425,11 +1422,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			if (excludePoint > 0) {
 				botanaVarsOther = ((GeoPoint) (preexistPoints.get(0)))
 						.getBotanaVars((preexistPoints.get(0)));
-				botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = (Polynomial
-						.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
-								botanaVarsOther[0], botanaVarsOther[1])
-						.multiply(new Polynomial(new Variable())))
-						.subtract(new Polynomial(1));
+				botanaPolynomialsThis[botanaPolynomialsThis.length
+						- 1] = (Polynomial
+								.sqrDistance(botanaVarsThis[0],
+										botanaVarsThis[1], botanaVarsOther[0],
+										botanaVarsOther[1])
+								.multiply(new Polynomial(new Variable())))
+										.subtract(new Polynomial(1));
 			}
 
 			botanaPolynomials.put(geo, botanaPolynomialsThis);
@@ -1441,7 +1440,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			 */
 			return botanaPolynomialsThis;
 		}
-		
 
 		/* General case */
 		Variable[] botanaVarsThis = new Variable[2];
@@ -1458,7 +1456,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			botanaVars.put(geo, botanaVarsThis);
 		}
 		if (botanaPolynomials == null) {
-			
+
 			if (A != null && B != null) {
 
 				Polynomial[] conic1Polys = A.getBotanaPolynomials(A);

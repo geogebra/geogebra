@@ -25,7 +25,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoListSampleSDX extends AlgoStats2D {
 
-	public AlgoListSampleSDX(Construction cons, String label, GeoList geoListx) {
+	public AlgoListSampleSDX(Construction cons, String label,
+			GeoList geoListx) {
 		super(cons, label, geoListx, AlgoStats2D.STATS_SAMPLESDX);
 	}
 

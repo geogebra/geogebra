@@ -17,8 +17,7 @@ public class CASTableCellController {
 	 * @param app
 	 *            application
 	 */
-	public synchronized void handleEnterKey(
-boolean control, boolean alt,
+	public synchronized void handleEnterKey(boolean control, boolean alt,
 			App app) {
 		// AppD app = view.getApp();
 		int mode = app.getMode();

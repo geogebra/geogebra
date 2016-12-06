@@ -166,6 +166,4 @@ public class AlgoObject extends AlgoElement {
 		return inputForUpdateSetPropagation;
 	}
 
-	
-
 }

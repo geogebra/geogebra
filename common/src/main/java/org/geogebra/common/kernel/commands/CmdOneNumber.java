@@ -23,15 +23,15 @@ public abstract class CmdOneNumber extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1)
 			throw argNumErr(app, c.getName(), args.length);
 		if (!(args[0] instanceof GeoNumberValue))
 			throw argErr(app, c.getName(), args[0]);
-		return new GeoElement[] { getResult((GeoNumberValue) args[0],
-				c.getLabel()) };
+		return new GeoElement[] {
+				getResult((GeoNumberValue) args[0], c.getLabel()) };
 	}
 
 	/**

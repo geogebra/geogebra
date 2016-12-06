@@ -10,6 +10,7 @@ public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<String>();
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	private Regression regression = Regression.NONE;
+
 	public void addItem(String ranges) {
 		items.add(ranges);
 	}

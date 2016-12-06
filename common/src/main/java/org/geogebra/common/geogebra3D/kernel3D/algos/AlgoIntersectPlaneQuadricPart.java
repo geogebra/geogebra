@@ -7,15 +7,15 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
-public class AlgoIntersectPlaneQuadricPart extends
-		AlgoIntersectPlaneQuadricLimited {
+public class AlgoIntersectPlaneQuadricPart
+		extends AlgoIntersectPlaneQuadricLimited {
 
 	private GeoConicND bottom, top;
 
 	private AlgoQuadricEnds algoEnds = null;
 
-	public AlgoIntersectPlaneQuadricPart(Construction cons,
-			GeoPlane3D plane, GeoQuadricND quadric) {
+	public AlgoIntersectPlaneQuadricPart(Construction cons, GeoPlane3D plane,
+			GeoQuadricND quadric) {
 		super(cons, plane, quadric);
 	}
 

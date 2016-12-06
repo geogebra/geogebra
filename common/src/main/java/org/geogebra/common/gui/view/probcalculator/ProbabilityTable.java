@@ -8,11 +8,11 @@ import org.geogebra.common.util.Unicode;
 /**
  * @author gabor
  * 
- * superclass for probability table
+ *         superclass for probability table
  *
  */
 public abstract class ProbabilityTable {
-	
+
 	/**
 	 * Application
 	 */
@@ -20,15 +20,17 @@ public abstract class ProbabilityTable {
 	protected ProbabilityManager probManager;
 	protected ProbabilityCalculatorView probCalc;
 	protected String[] columnNames;
-	
+
 	protected DIST distType;
 	protected int xMin, xMax;
 	protected boolean isIniting;
 	protected double[] parms;
 
 	/**
-	 * @param lowValue lowest value
-	 * @param highValue highest value
+	 * @param lowValue
+	 *            lowest value
+	 * @param highValue
+	 *            highest value
 	 */
 	public abstract void setSelectionByRowValue(int lowValue, int highValue);
 
@@ -36,14 +38,14 @@ public abstract class ProbabilityTable {
 		Localization loc = app.getLocalization();
 		columnNames = new String[2];
 		columnNames[0] = "k";
-		if(isCumulative())
+		if (isCumulative())
 			columnNames[1] = loc.getMenu("ProbabilityOf") + "X "
 					+ Unicode.LESS_EQUAL + " k"
 					+ loc.getMenu("EndProbabilityOf");
 		else
 			columnNames[1] = loc.getMenu("ProbabilityOf") + "X = k"
 					+ loc.getMenu("EndProbabilityOf");
-		
+
 	}
 
 	protected boolean isCumulative() {

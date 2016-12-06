@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
-
 public class MouseTouchGestureController {
 
 	/**
@@ -42,7 +41,7 @@ public class MouseTouchGestureController {
 	 * Actual scale of the axes (has to be saved during multitouch).
 	 */
 	protected double scale;
-	
+
 	/**
 	 * Conic which's size is changed.
 	 */
@@ -116,10 +115,10 @@ public class MouseTouchGestureController {
 			int i = 0;
 
 			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.view)) {
-				double newX = midpoint[0] + (originalPointX[i] - midpoint[0])
-						* scale;
-				double newY = midpoint[1] + (originalPointY[i] - midpoint[1])
-						* scale;
+				double newX = midpoint[0]
+						+ (originalPointX[i] - midpoint[0]) * scale;
+				double newY = midpoint[1]
+						+ (originalPointY[i] - midpoint[1]) * scale;
 				p.setCoords(newX, newY, 1.0);
 				p.updateCascade();
 				i++;
@@ -132,10 +131,10 @@ public class MouseTouchGestureController {
 
 			// index 0 is the midpoint, index 1 is the point on the circle
 			GeoPointND p = scaleConic.getFreeInputPoints(ec.view).get(1);
-			double newX = midpoint[0] + (originalPointX[1] - midpoint[0])
-					* scale;
-			double newY = midpoint[1] + (originalPointY[1] - midpoint[1])
-					* scale;
+			double newX = midpoint[0]
+					+ (originalPointX[1] - midpoint[0]) * scale;
+			double newY = midpoint[1]
+					+ (originalPointY[1] - midpoint[1]) * scale;
 			p.setCoords(newX, newY, 1.0);
 			p.updateCascade();
 			ec.kernel.notifyRepaint();
@@ -185,8 +184,8 @@ public class MouseTouchGestureController {
 			}
 
 			// set line through the two finger touches
-			Coords crossP = firstFingerTouch.getCoords().crossProduct(
-					secondFingerTouch.getCoords());
+			Coords crossP = firstFingerTouch.getCoords()
+					.crossProduct(secondFingerTouch.getCoords());
 			lineToMove.setCoords(crossP.getX(), crossP.getY(), crossP.getZ());
 			lineToMove.updateCascade();
 
@@ -230,7 +229,8 @@ public class MouseTouchGestureController {
 			int centerX = (x1 + x2) / 2;
 			int centerY = (y1 + y2) / 2;
 
-			if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
+			if (MyMath.length(oldCenterX - centerX,
+					oldCenterY - centerY) > MIN_MOVE) {
 				ec.view.rememberOrigins();
 				ec.view.translateCoordSystemInPixels(centerX - oldCenterX,
 						centerY - oldCenterY, 0,
@@ -282,7 +282,8 @@ public class MouseTouchGestureController {
 				this.multitouchMode = MultitouchMode.circle3Points;
 			} else if (scaleConic.getFreeInputPoints(ec.view).size() == 2) {
 				this.multitouchMode = MultitouchMode.circle2Points;
-			} else if (scaleConic.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+			} else if (scaleConic
+					.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 				this.multitouchMode = MultitouchMode.circleRadius;
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				NumberValue radius = (NumberValue) algo.input[1];
@@ -322,8 +323,8 @@ public class MouseTouchGestureController {
 					ec.view.toRealWorldCoordX(x2),
 					ec.view.toRealWorldCoordY(y2), 1);
 
-			firstTouchIsAttachedToStartPoint = setFirstTouchToStartPoint(
-					touch1, touch2);
+			firstTouchIsAttachedToStartPoint = setFirstTouchToStartPoint(touch1,
+					touch2);
 
 			if (firstTouchIsAttachedToStartPoint) {
 				firstFingerTouch = touch1;
@@ -346,9 +347,12 @@ public class MouseTouchGestureController {
 	 * @return true if GeoElement should be movable with two fingers
 	 */
 	private boolean isMovableWithTwoFingers(GeoElement geoElement) {
-		return geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_JOIN
-				|| geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_SEGMENT
-				|| geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_RAY;
+		return geoElement.getParentAlgorithm()
+				.getRelatedModeID() == EuclidianConstants.MODE_JOIN
+				|| geoElement.getParentAlgorithm()
+						.getRelatedModeID() == EuclidianConstants.MODE_SEGMENT
+				|| geoElement.getParentAlgorithm()
+						.getRelatedModeID() == EuclidianConstants.MODE_RAY;
 	}
 
 	/**
@@ -358,8 +362,10 @@ public class MouseTouchGestureController {
 	 *            {@link GeoPoint}
 	 * @return true if the first touch should be attached to the startPoint
 	 */
-	private boolean setFirstTouchToStartPoint(GeoPoint touch1, GeoPoint touch2) {
-		if (lineToMove.getStartPoint().getX() < lineToMove.getEndPoint().getX()) {
+	private boolean setFirstTouchToStartPoint(GeoPoint touch1,
+			GeoPoint touch2) {
+		if (lineToMove.getStartPoint().getX() < lineToMove.getEndPoint()
+				.getX()) {
 			return touch1.getX() < touch2.getX();
 		}
 		return touch2.getX() < touch1.getX();
@@ -395,4 +401,3 @@ public class MouseTouchGestureController {
 		mAllowPropertiesView = allowProperties;
 	}
 }
-

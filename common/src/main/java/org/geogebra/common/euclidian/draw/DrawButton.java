@@ -149,8 +149,8 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		}
 		myButton.setText(labelDesc);
 
-		int fontSize = (int) (view.getFontSize() * geoButton
-				.getFontSizeMultiplier());
+		int fontSize = (int) (view.getFontSize()
+				* geoButton.getFontSizeMultiplier());
 		App app = view.getApplication();
 
 		// myButton.setOpaque(true);

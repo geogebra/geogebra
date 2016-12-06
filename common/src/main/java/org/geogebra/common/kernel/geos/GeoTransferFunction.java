@@ -69,7 +69,8 @@ public class GeoTransferFunction extends GeoElement {
 	public GeoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den, int omega) {
 		super(c);
-		if (num.getElementType().equals(GeoClass.NUMERIC) && den.getElementType().equals(GeoClass.NUMERIC)){
+		if (num.getElementType().equals(GeoClass.NUMERIC)
+				&& den.getElementType().equals(GeoClass.NUMERIC)) {
 			omegaStart = omega;
 			Function strFunc = createFunction(num, den);
 			GeoFunction f = new GeoFunction(c, strFunc);
@@ -78,7 +79,7 @@ public class GeoTransferFunction extends GeoElement {
 			parser = kernel.getParser();
 			this.setEuclidianVisible(true);
 		} else {
-			isDefined=false;
+			isDefined = false;
 		}
 	}
 
@@ -96,28 +97,30 @@ public class GeoTransferFunction extends GeoElement {
 	 */
 	public GeoTransferFunction(Construction c, String label, GeoList num,
 			GeoList den) {
-		this(c,label,num,den,10);
+		this(c, label, num, den, 10);
 	}
 
-	
 	private Function createFunction(GeoList num, GeoList den) {
-		FunctionVariable s= new FunctionVariable(kernel,"s");
-		return new Function(createPolynom(num, s).divide(createPolynom(den,s)),s);
-		
+		FunctionVariable s = new FunctionVariable(kernel, "s");
+		return new Function(createPolynom(num, s).divide(createPolynom(den, s)),
+				s);
+
 	}
 
-	private static ExpressionNode createPolynom(GeoList values, FunctionVariable s) {
+	private static ExpressionNode createPolynom(GeoList values,
+			FunctionVariable s) {
 
 		ExpressionNode exs = s.wrap();
 		int size = values.size();
-		ExpressionNode ret =  ((GeoNumberValue)values.get(values.size()-1)).getNumber().wrap();
+		ExpressionNode ret = ((GeoNumberValue) values.get(values.size() - 1))
+				.getNumber().wrap();
 		for (int i = 1; i < size; i++) {
-			MyDouble coeff = ((GeoNumberValue)values.get(values.size()-1-i)).getNumber();
-			ret = exs.power(i).multiply(coeff).plus(ret); 
+			MyDouble coeff = ((GeoNumberValue) values
+					.get(values.size() - 1 - i)).getNumber();
+			ret = exs.power(i).multiply(coeff).plus(ret);
 		}
 		return ret;
 	}
-
 
 	/**
 	 * @return GeoFunction
@@ -136,7 +139,7 @@ public class GeoTransferFunction extends GeoElement {
 		double p = omegaStart / step;
 		for (; !Kernel.isEqual(p, 0, 0.01); p /= step) {
 			po = evaluate(p);
-			if (!coordsList.contains(po)){
+			if (!coordsList.contains(po)) {
 				coordsList.add(po);
 			}
 		}
@@ -185,7 +188,6 @@ public class GeoTransferFunction extends GeoElement {
 		omegaStart = gcf.getOmega();
 		coordsList = gcf.getCoordsList();
 	}
-	
 
 	@Override
 	public boolean isDefined() {
@@ -247,7 +249,7 @@ public class GeoTransferFunction extends GeoElement {
 			if (Kernel.isEqual(x, 0, Kernel.MIN_PRECISION)) {
 				return (new Coords(originalFunction.evaluate(0), 0, 1));
 			}
-			GeoVec2D xi = new GeoVec2D(kernel,0,x);
+			GeoVec2D xi = new GeoVec2D(kernel, 0, x);
 			xi.setMode(Kernel.COORD_COMPLEX);
 			exp = xi.wrap();
 			currentFunction = new Function(originalFunction, kernel);
@@ -263,7 +265,7 @@ public class GeoTransferFunction extends GeoElement {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String getLaTeXAlgebraDescription(final boolean substituteNumbers,
 			StringTemplate tpl) {
@@ -272,7 +274,7 @@ public class GeoTransferFunction extends GeoElement {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		if (isDefined){
+		if (isDefined) {
 			return originalFunction.toValueString(tpl);
 		}
 
@@ -312,11 +314,9 @@ public class GeoTransferFunction extends GeoElement {
 	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
-	
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 

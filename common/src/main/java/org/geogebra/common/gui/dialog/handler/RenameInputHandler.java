@@ -19,8 +19,6 @@ public class RenameInputHandler implements InputHandler {
 
 	private App app;
 
-	
-
 	public RenameInputHandler(App app, GeoElement geo, boolean storeUndo) {
 		this.app = app;
 		this.geo = geo;
@@ -34,8 +32,8 @@ public class RenameInputHandler implements InputHandler {
 	public void processInput(String inputValue, ErrorHandler handler,
 			AsyncOperation<Boolean> callback) {
 		GeoElementND geo = this.geo;
-		
-		if (inputValue == null){
+
+		if (inputValue == null) {
 			callback.callback(false);
 			return;
 		}
@@ -52,20 +50,21 @@ public class RenameInputHandler implements InputHandler {
 
 		try {
 			Kernel kernel = app.getKernel();
-			String newLabel = kernel.getAlgebraProcessor().parseLabel(
-					inputValue);
+			String newLabel = kernel.getAlgebraProcessor()
+					.parseLabel(inputValue);
 
 			// is there a geo with this name?
-			GeoElement existingGeo = kernel.lookupLabel(newLabel);	
-			
+			GeoElement existingGeo = kernel.lookupLabel(newLabel);
+
 			if (existingGeo != null) {
 				// rename this geo too:
-				if (kernel.getConstruction().isConstantElement(existingGeo)==Constants.NOT){					
+				if (kernel.getConstruction()
+						.isConstantElement(existingGeo) == Constants.NOT) {
 					String tempLabel = existingGeo.getIndexLabel(newLabel);
 					existingGeo.rename(tempLabel);
-				}else
+				} else
 					newLabel = existingGeo.getIndexLabel(newLabel);
-			}					
+			}
 
 			if (geo.rename(newLabel) && storeUndo) {
 				app.storeUndoInfo();
@@ -78,10 +77,9 @@ public class RenameInputHandler implements InputHandler {
 		} catch (MyError err) {
 			app.showError("InvalidInput", inputValue);
 		}
-		
+
 		callback.callback(false);
 
 	}
 
-	
 }

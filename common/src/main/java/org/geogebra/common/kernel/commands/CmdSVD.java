@@ -32,7 +32,8 @@ public class CmdSVD extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList()) {
-				AlgoSVD algo = new AlgoSVD(cons, c.getLabel(), (GeoList) arg[0]);
+				AlgoSVD algo = new AlgoSVD(cons, c.getLabel(),
+						(GeoList) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}

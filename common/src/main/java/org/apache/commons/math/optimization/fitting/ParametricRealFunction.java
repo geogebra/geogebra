@@ -23,28 +23,37 @@ import org.apache.commons.math.FunctionEvaluationException;
  * An interface representing a real function that depends on one independent
  * variable plus some extra parameters.
  *
- * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr. 2011) $
+ * @version $Revision: 1073158 $ $Date: 2011-02-21 22:46:52 +0100 (lun. 21 fevr.
+ *          2011) $
  */
 public interface ParametricRealFunction {
 
-    /**
-     * Compute the value of the function.
-     * @param x the point for which the function value should be computed
-     * @param parameters function parameters
-     * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
-     */
-    double value(double x, double[] parameters)
-        throws FunctionEvaluationException;
+	/**
+	 * Compute the value of the function.
+	 * 
+	 * @param x
+	 *            the point for which the function value should be computed
+	 * @param parameters
+	 *            function parameters
+	 * @return the value
+	 * @throws FunctionEvaluationException
+	 *             if the function evaluation fails
+	 */
+	double value(double x, double[] parameters)
+			throws FunctionEvaluationException;
 
-    /**
-     * Compute the gradient of the function with respect to its parameters.
-     * @param x the point for which the function value should be computed
-     * @param parameters function parameters
-     * @return the value
-     * @throws FunctionEvaluationException if the function evaluation fails
-     */
-    double[] gradient(double x, double[] parameters)
-        throws FunctionEvaluationException;
+	/**
+	 * Compute the gradient of the function with respect to its parameters.
+	 * 
+	 * @param x
+	 *            the point for which the function value should be computed
+	 * @param parameters
+	 *            function parameters
+	 * @return the value
+	 * @throws FunctionEvaluationException
+	 *             if the function evaluation fails
+	 */
+	double[] gradient(double x, double[] parameters)
+			throws FunctionEvaluationException;
 
 }

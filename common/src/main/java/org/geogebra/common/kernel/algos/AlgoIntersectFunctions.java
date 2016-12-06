@@ -43,4 +43,3 @@ public class AlgoIntersectFunctions extends AlgoRoots {
 	}// getIntersectionPoints()
 
 }// class AgoIntersetFunctions
-

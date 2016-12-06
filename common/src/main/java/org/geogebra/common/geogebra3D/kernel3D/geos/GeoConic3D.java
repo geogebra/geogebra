@@ -25,8 +25,8 @@ import org.geogebra.common.plugin.GeoClass;
  * @author ggb3D
  * 
  */
-public class GeoConic3D extends GeoConicND implements RotateableND,
-		MirrorableAtPlane, ViewCreator {
+public class GeoConic3D extends GeoConicND
+		implements RotateableND, MirrorableAtPlane, ViewCreator {
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys;
@@ -204,16 +204,12 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		return true;
 	}
 
-
-
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		return buildParametricValueString(tpl, 3);
 
 	}
-
-
 
 	@Override
 	public void setSphereND(GeoPointND M, GeoSegmentND segment) {
@@ -237,8 +233,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 		// coordSys.setSimpleCoordSysWithOrigin(m.getInhomCoordsInD3());
 
 		// set midpoint as projection of m on the current coord sys
-		setMidpoint(coordSys.getNormalProjection(m.getInhomCoordsInD3())[1]
-				.get());
+		setMidpoint(
+				coordSys.getNormalProjection(m.getInhomCoordsInD3())[1].get());
 
 		setSinglePointMatrix();
 
@@ -347,7 +343,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 			Coords v0 = getCoordSys().getV(0);
 			Coords v1 = getCoordSys().getV(1);
 			Coords origin = getCoordSys().getOrigin();
-			
+
 			sb.append("\t<coords ");
 			sb.append(" ox=\"" + origin.get(1) + "\"");
 			sb.append(" oy=\"" + origin.get(2) + "\"");
@@ -409,7 +405,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	}
 
 	@Override
-	public void matrixTransform(double a00, double a01, double a10, double a11) {
+	public void matrixTransform(double a00, double a01, double a10,
+			double a11) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = CoordMatrix4x4.Identity();
@@ -584,8 +581,7 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	@Override
 	public void createView2D() {
-		euclidianViewForPlane = kernel
-				.getApplication().getCompanion()
+		euclidianViewForPlane = kernel.getApplication().getCompanion()
 				.createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
@@ -605,9 +601,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	@Override
 	public boolean hasView2DVisible() {
-		return euclidianViewForPlane != null
-				&& kernel.getApplication().getGuiManager()
-						.showView(euclidianViewForPlane.getId());
+		return euclidianViewForPlane != null && kernel.getApplication()
+				.getGuiManager().showView(euclidianViewForPlane.getId());
 	}
 
 	@Override
@@ -619,8 +614,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 			return;
 		}
 
-		kernel.getApplication().getGuiManager()
-				.setShowView(flag, euclidianViewForPlane.getId());
+		kernel.getApplication().getGuiManager().setShowView(flag,
+				euclidianViewForPlane.getId());
 
 	}
 
@@ -638,7 +633,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	}
 
 	@Override
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanionInterface view) {
+	public void setEuclidianViewForPlane(
+			EuclidianViewForPlaneCompanionInterface view) {
 		euclidianViewForPlane = view;
 	}
 

@@ -74,8 +74,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 		GeoPolyhedron p = getPolyhedron();
 
-		int[][] faceIndices = quickHull3D.getFaces(QuickHull3D.POINT_RELATIVE
-				| QuickHull3D.CLOCKWISE);
+		int[][] faceIndices = quickHull3D
+				.getFaces(QuickHull3D.POINT_RELATIVE | QuickHull3D.CLOCKWISE);
 		for (int i = 0; i < faceIndices.length; i++) {
 			p.startNewFace();
 			for (int k = 0; k < faceIndices[i].length; k++) {
@@ -118,8 +118,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		TreeSet<Integer> availableIndices = new TreeSet<Integer>();
 		availableIndices.addAll(p.getPolygonsIndices());
 
-		int[][] faceIndices = quickHull3D.getFaces(QuickHull3D.POINT_RELATIVE
-				| QuickHull3D.CLOCKWISE);
+		int[][] faceIndices = quickHull3D
+				.getFaces(QuickHull3D.POINT_RELATIVE | QuickHull3D.CLOCKWISE);
 		for (int i = 0; i < faceIndices.length; i++) {
 			p.startNewFace();
 			for (int k = 0; k < faceIndices[i].length; k++) {
@@ -202,7 +202,6 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		outputPolygons.updateParentAlgorithm();
 
 	}
-
 
 	private void setUndefined() {
 		getPolyhedron().setUndefined();

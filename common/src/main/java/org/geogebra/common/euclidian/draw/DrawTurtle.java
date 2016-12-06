@@ -49,7 +49,8 @@ public class DrawTurtle extends Drawable {
 			.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
-	private GAffineTransform at = AwtFactory.getPrototype().newAffineTransform();
+	private GAffineTransform at = AwtFactory.getPrototype()
+			.newAffineTransform();
 
 	/**
 	 * @param view
@@ -157,8 +158,8 @@ public class DrawTurtle extends Drawable {
 
 		public void finishPartialPath() {
 			if (nlines > 0) {
-				pathList.add(new PartialPath(penColor, penThickness,
-						currentPath));
+				pathList.add(
+						new PartialPath(penColor, penThickness, currentPath));
 			}
 			currentPath = new GeneralPathClipped(getView());
 			currentPath.moveTo(coords[0], coords[1]);
@@ -210,9 +211,8 @@ public class DrawTurtle extends Drawable {
 
 		// turtle path on screen?
 		isVisible = false;
-		isVisible = getBounds() != null
-				&& getBounds().intersects(0, 0, view.getWidth(),
-						view.getHeight());
+		isVisible = getBounds() != null && getBounds().intersects(0, 0,
+				view.getWidth(), view.getHeight());
 		if (isVisible) {
 			at.setTransform(1, 0, 0, 1, 1, 0);
 			at.translate(currentCoords[0], currentCoords[1]);

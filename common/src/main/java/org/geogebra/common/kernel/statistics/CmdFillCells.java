@@ -47,7 +47,8 @@ public class CmdFillCells extends CommandProcessor {
 
 				GeoList cellRange = (GeoList) arg[0];
 
-				if (!(cellRange.getParentAlgorithm() instanceof AlgoCellRange)) {
+				if (!(cellRange
+						.getParentAlgorithm() instanceof AlgoCellRange)) {
 					Log.debug("not cell range");
 					throw argErr(app, c.getName(), arg[0]);
 
@@ -132,8 +133,8 @@ public class CmdFillCells extends CommandProcessor {
 								// FillCells[B1:B7,A1] doesn't change A1
 								// use FillCells[B1:B7,A1+0] for that
 								RelativeCopy.doCopyNoStoringUndoInfo0(kernelA,
-										app, geo, null, col - minCol, row
-												- minRow, minRow, minCol);
+										app, geo, null, col - minCol,
+										row - minRow, minRow, minCol);
 
 								// old code
 								// kernelA.getGeoElementSpreadsheet()
@@ -153,8 +154,8 @@ public class CmdFillCells extends CommandProcessor {
 
 					int countX = 0;
 					for (int row = minRow; row <= maxRow; row++) {
-						GeoList rowList = (GeoList) list.get(countX
-								% list.size());
+						GeoList rowList = (GeoList) list
+								.get(countX % list.size());
 						countX++;
 						int countY = 0;
 						for (int col = minCol; col <= maxCol; col++) {
@@ -166,10 +167,7 @@ public class CmdFillCells extends CommandProcessor {
 										.getSpreadsheetCellName(col, row));
 
 								kernelA.getGeoElementSpreadsheet()
-										.setSpreadsheetCell(
-												app,
-												row,
-												col,
+										.setSpreadsheetCell(app, row, col,
 												rowList.get(countY
 														% rowList.size()));
 								countY++;
@@ -214,81 +212,81 @@ public class CmdFillCells extends CommandProcessor {
 
 			}
 
-			// arg[0] not list
-			{
+		// arg[0] not list
+		{
 
-				if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
+			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 
-					if (!arg[1].isGeoList()) {
-						app.setScrollToShow(true);
-						throw argErr(app, c.getName(), arg[1]);
-					}
+				if (!arg[1].isGeoList()) {
+					app.setScrollToShow(true);
+					throw argErr(app, c.getName(), arg[1]);
+				}
 
-					GeoList list = (GeoList) arg[1];
+				GeoList list = (GeoList) arg[1];
 
-					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.exec(arg[0]
-									.getLabel(StringTemplate.defaultTemplate));
-					int column = GeoElementSpreadsheet
-							.getSpreadsheetColumn(matcher);
-					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
+				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+						.exec(arg[0].getLabel(StringTemplate.defaultTemplate));
+				int column = GeoElementSpreadsheet
+						.getSpreadsheetColumn(matcher);
+				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
-					if (row == -1 || column == -1) {
-						app.setScrollToShow(true);
-						throw argErr(app, c.getName(), arg[0]);
-					}
-
-					if (list.isMatrix()) {
-						// 2D fill
-						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
-						// need to remove B3
-						if (arg[0] != null) {
-							arg[0].remove();
-						}
-
-						try {
-							int rows = list.size();
-							int cols = ((GeoList) list.get(0)).size();
-							for (int r = 0; r < rows; r++) {
-								GeoList rowList = (GeoList) list.get(r);
-								for (int c1 = 0; c1 < cols; c1++) {
-									kernelA.getGeoElementSpreadsheet()
-											.setSpreadsheetCell(app, row + r,
-													column + c1,
-													rowList.get(c1).copy());
-								}
-							}
-						} catch (Exception e) {
-							app.setScrollToShow(true);
-							throw argErr(app, c.getName(), list);
-						}
-
-					} else {
-						// 1D fill
-						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
-						// need to remove B3
-						if (arg[0] != null) {
-							arg[0].remove();
-						}
-
-						for (int i = list.size() - 1; i >= 0; i--)
-							try {
-								// Application.debug("setting "+row+" "+(column+i)+" to "+list.get(i).toString());
-								kernelA.getGeoElementSpreadsheet()
-										.setSpreadsheetCell(app, row,
-												column + i, list.get(i).copy());
-							} catch (Exception e) {
-								e.printStackTrace();
-								app.setScrollToShow(true);
-								throw argErr(app, c.getName(), arg[1]);
-							}
-					}
-
-				} else {
+				if (row == -1 || column == -1) {
 					app.setScrollToShow(true);
 					throw argErr(app, c.getName(), arg[0]);
 				}
+
+				if (list.isMatrix()) {
+					// 2D fill
+					// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
+					// need to remove B3
+					if (arg[0] != null) {
+						arg[0].remove();
+					}
+
+					try {
+						int rows = list.size();
+						int cols = ((GeoList) list.get(0)).size();
+						for (int r = 0; r < rows; r++) {
+							GeoList rowList = (GeoList) list.get(r);
+							for (int c1 = 0; c1 < cols; c1++) {
+								kernelA.getGeoElementSpreadsheet()
+										.setSpreadsheetCell(app, row + r,
+												column + c1,
+												rowList.get(c1).copy());
+							}
+						}
+					} catch (Exception e) {
+						app.setScrollToShow(true);
+						throw argErr(app, c.getName(), list);
+					}
+
+				} else {
+					// 1D fill
+					// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
+					// need to remove B3
+					if (arg[0] != null) {
+						arg[0].remove();
+					}
+
+					for (int i = list.size() - 1; i >= 0; i--)
+						try {
+							// Application.debug("setting "+row+" "+(column+i)+"
+							// to "+list.get(i).toString());
+							kernelA.getGeoElementSpreadsheet()
+									.setSpreadsheetCell(app, row, column + i,
+											list.get(i).copy());
+						} catch (Exception e) {
+							e.printStackTrace();
+							app.setScrollToShow(true);
+							throw argErr(app, c.getName(), arg[1]);
+						}
+				}
+
+			} else {
+				app.setScrollToShow(true);
+				throw argErr(app, c.getName(), arg[0]);
 			}
+		}
 
 			GeoElement[] ret = {};
 			app.storeUndoInfo();

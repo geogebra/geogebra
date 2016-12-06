@@ -17,4 +17,5 @@ package edu.uci.ics.jung.graph;
  * 
  * @author Joshua O'Madadhain
  */
-public interface MultiGraph<V, E> {}
+public interface MultiGraph<V, E> {
+}

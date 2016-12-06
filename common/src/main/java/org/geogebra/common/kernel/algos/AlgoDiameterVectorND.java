@@ -89,5 +89,4 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 				v.getLabel(tpl));
 	}
 
-	
 }

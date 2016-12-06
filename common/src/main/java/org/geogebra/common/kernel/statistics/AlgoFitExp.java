@@ -103,15 +103,13 @@ public class AlgoFitExp extends AlgoElement implements FitAlgo {
 		} else {
 			geofunction.setUndefined();
 			return;
-		}// if error in regression
+		} // if error in regression
 	}// compute()
 
 	@Override
 	public double[] getCoeffs() {
-		double[] ret = {regMath.getP1(), regMath.getP2()};
+		double[] ret = { regMath.getP1(), regMath.getP2() };
 		return ret;
 	}
-
-	
 
 }// class AlgoFitExp

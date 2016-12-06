@@ -20,63 +20,66 @@ import java.util.Iterator;
 
 import org.apache.commons.collections15.Unmodifiable;
 
-
-/** 
+/**
  * Decorates an iterator such that it cannot be modified.
  * <p>
- * Attempts to modify it will result in an UnsupportedOperationException. 
+ * Attempts to modify it will result in an UnsupportedOperationException.
  *
  * @since Commons Collections 3.0
  * @version $Revision$ $Date$
  *
  * @author Stephen Colebourne
  */
-public final class UnmodifiableIterator<E> implements Iterator<E>, Unmodifiable {
+public final class UnmodifiableIterator<E>
+		implements Iterator<E>, Unmodifiable {
 
-    /** The iterator being decorated */
-    private final Iterator<E> iterator;
+	/** The iterator being decorated */
+	private final Iterator<E> iterator;
 
-    //-----------------------------------------------------------------------
-    /**
-     * Decorates the specified iterator such that it cannot be modified.
-     * <p>
-     * If the iterator is already unmodifiable it is returned directly.
-     *
-     * @param iterator  the iterator to decorate
-     * @throws IllegalArgumentException if the iterator is null
-     */
-    public static <E> Iterator<E> decorate(Iterator<E> iterator) {
-        if (iterator == null) {
-            throw new IllegalArgumentException("Iterator must not be null");
-        }
-        if (iterator instanceof Unmodifiable) {
-            return iterator;
-        }
-        return new UnmodifiableIterator<E>(iterator);
-    }
+	// -----------------------------------------------------------------------
+	/**
+	 * Decorates the specified iterator such that it cannot be modified.
+	 * <p>
+	 * If the iterator is already unmodifiable it is returned directly.
+	 *
+	 * @param iterator
+	 *            the iterator to decorate
+	 * @throws IllegalArgumentException
+	 *             if the iterator is null
+	 */
+	public static <E> Iterator<E> decorate(Iterator<E> iterator) {
+		if (iterator == null) {
+			throw new IllegalArgumentException("Iterator must not be null");
+		}
+		if (iterator instanceof Unmodifiable) {
+			return iterator;
+		}
+		return new UnmodifiableIterator<E>(iterator);
+	}
 
-    //-----------------------------------------------------------------------
-    /**
-     * Constructor.
-     *
-     * @param iterator  the iterator to decorate
-     */
-    private UnmodifiableIterator(Iterator<E> iterator) {
-        super();
-        this.iterator = iterator;
-    }
+	// -----------------------------------------------------------------------
+	/**
+	 * Constructor.
+	 *
+	 * @param iterator
+	 *            the iterator to decorate
+	 */
+	private UnmodifiableIterator(Iterator<E> iterator) {
+		super();
+		this.iterator = iterator;
+	}
 
-    //-----------------------------------------------------------------------
-    public boolean hasNext() {
-        return iterator.hasNext();
-    }
+	// -----------------------------------------------------------------------
+	public boolean hasNext() {
+		return iterator.hasNext();
+	}
 
-    public E next() {
-        return iterator.next();
-    }
+	public E next() {
+		return iterator.next();
+	}
 
-    public void remove() {
-        throw new UnsupportedOperationException("remove() is not supported");
-    }
+	public void remove() {
+		throw new UnsupportedOperationException("remove() is not supported");
+	}
 
 }

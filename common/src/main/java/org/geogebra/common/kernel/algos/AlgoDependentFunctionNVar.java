@@ -27,8 +27,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoDependentFunctionNVar extends AlgoElement implements
-		DependentAlgo {
+public class AlgoDependentFunctionNVar extends AlgoElement
+		implements DependentAlgo {
 
 	private FunctionNVar fun;
 	private GeoFunctionNVar f; // output
@@ -115,9 +115,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 			ExpressionValue ev = null;
 
 			try { // needed for eg f(x)=floor(x) f'(x)
-				ev = AlgoDependentFunction
-						.expandFunctionDerivativeNodes(expression
-								.deepCopy(kernel), false);
+				ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
+						expression.deepCopy(kernel), false);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.debug("derivative failed");
@@ -152,10 +151,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		if (f.isLabelSet()
-				&& !tpl.isHideLHS()
-				&& (!f.isBooleanFunction() || tpl
-						.hasType(StringType.GEOGEBRA_XML))) {
+		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction()
+				|| tpl.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
 			sb.append("(");
 			sb.append(f.getVarString(tpl));
@@ -168,6 +165,5 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 	public ExpressionNode getExpression() {
 		return expression;
 	}
-	
 
 }

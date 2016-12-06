@@ -100,7 +100,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// extraCoords[3].setX(0);
 		// extraCoords[3].setY(1);
 
-
 	}
 
 	/**
@@ -121,14 +120,13 @@ public class DrawPolygon extends Drawable implements Previewable {
 		updatePreview();
 	}
 
-
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
 			updateStrokes(poly);
-			
+
 			// build general path for this polygon
 			isVisible = addPointsToPath(poly.getPointsLength());
 			if (!isVisible) {
@@ -137,19 +135,18 @@ public class DrawPolygon extends Drawable implements Previewable {
 			gp.closePath();
 			fillShape = false;
 
-			//			 if
-			//			 (!getView().getApplication().has(Feature.POLYGON_TRIANGULATION)
-			//			 || isAllPointsOnScreen()) {
+			// if
+			// (!getView().getApplication().has(Feature.POLYGON_TRIANGULATION)
+			// || isAllPointsOnScreen()) {
 			if (geo.isInverseFill()) {
 				createShape();
 				fillShape = true;
 			}
-			//			 } else {
-			//				triangularize();
-			//				fillShape = true;
-			//			 }
-			
-			
+			// } else {
+			// triangularize();
+			// fillShape = true;
+			// }
+
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
 					&& !geo.isInverseFill()) {
@@ -160,8 +157,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				GGraphics2D g2 = view
-						.getBackgroundGraphics();
+				GGraphics2D g2 = view.getBackgroundGraphics();
 				if (g2 != null) {
 					fill(g2, gp);
 				}
@@ -173,17 +169,14 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 		}
-		
+
 	}
 
 	private void createShape() {
-		setShape(AwtFactory.getPrototype()
-				.newArea(view.getBoundingPath()));
-		getShape().subtract(
-AwtFactory.getPrototype().newArea(gp));
+		setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
+		getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 
 	}
-
 
 	private void triangularize() {
 
@@ -191,7 +184,7 @@ AwtFactory.getPrototype().newArea(gp));
 		pt.clear();
 
 		Coords n = poly.getMainDirection();
-		
+
 		calculateCorners();
 
 		pt.setCorners(extraCoords);
@@ -249,33 +242,32 @@ AwtFactory.getPrototype().newArea(gp));
 					pt.triangulate();
 
 					// compute 3D coords for intersections
-					pt.setCompleteVertices(vertices,
-									poly.getCoordSys(), poly.getPointsLength());
-					Coords[] verticesWithIntersections = pt
-							.getCompleteVertices(vertices,
-									poly.getPointsLength());
+					pt.setCompleteVertices(vertices, poly.getCoordSys(),
+							poly.getPointsLength());
+					Coords[] verticesWithIntersections = pt.getCompleteVertices(
+							vertices, poly.getPointsLength());
 
 					// draw the triangle fans
-					
+
 					// needs specific path for fans
 					if (gpTriangularize == null)
 						gpTriangularize = new GeneralPathClipped(view);
 					else
 						gpTriangularize.reset();
-					
+
 					for (TriangleFan triFan : pt.getTriangleFans()) {
-						// we need here verticesWithIntersections, for self-intersecting polygons
+						// we need here verticesWithIntersections, for
+						// self-intersecting polygons
 						drawTriangleFan(n, verticesWithIntersections, triFan);
 					}
-					
+
 					// create the shape
 					if (geo.isInverseFill()) {
 						setShape(AwtFactory.getPrototype()
 								.newArea(view.getBoundingPath()));
-						getShape().subtract(
-								AwtFactory.getPrototype()
-										.newArea(gpTriangularize));
-					}else{
+						getShape().subtract(AwtFactory.getPrototype()
+								.newArea(gpTriangularize));
+					} else {
 						setShape(AwtFactory.getPrototype()
 								.newArea(gpTriangularize));
 					}
@@ -285,9 +277,8 @@ AwtFactory.getPrototype().newArea(gp));
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 			e.printStackTrace();
-		}		
+		}
 	}
-
 
 	private final void calculateCorners() {
 		calculateViewCorners();
@@ -374,16 +365,15 @@ AwtFactory.getPrototype().newArea(gp));
 				|| c[1] > view.getHeight() + FAN_DELTA;
 	}
 
-
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
 		Log.debug("[POLY] drawTriangleFan");
-		
+
 		int size = triFan.size();
-		
+
 		if (fanCoords == null || fanCoords.length < size) {
 			fanCoords = new double[size][];
 		}
-		
+
 		// apex coords to screen, check it's inside
 		Coords coordsApex = v[triFan.getApexPoint()];
 		coords[0] = coordsApex.getX();
@@ -395,7 +385,7 @@ AwtFactory.getPrototype().newArea(gp));
 
 		// fan coords to screen, check it's inside
 		for (int i = 0; i < size; i++) {
-			Coords coord = v[triFan.getVertexIndex(i)];		
+			Coords coord = v[triFan.getVertexIndex(i)];
 			if (fanCoords[i] == null) {
 				fanCoords[i] = new double[2];
 			}
@@ -406,7 +396,7 @@ AwtFactory.getPrototype().newArea(gp));
 				return;
 			}
 		}
-		
+
 		// all vertices inside : draw
 
 		// start
@@ -417,9 +407,10 @@ AwtFactory.getPrototype().newArea(gp));
 			gpTriangularize.lineTo(fanCoords[i][0], fanCoords[i][1]);
 		}
 
-		// we have to move back manually to apex since we may have new fan to draw
+		// we have to move back manually to apex since we may have new fan to
+		// draw
 		gpTriangularize.lineTo(coords[0], coords[1]);
-		
+
 	}
 
 	private Coords getCoords(int i) {
@@ -485,9 +476,9 @@ AwtFactory.getPrototype().newArea(gp));
 
 		if (isVisible) {
 			fill(g2, (fillShape ? getShape() : gp)); // fill
-																		// using
-																		// default/hatching/image
-																		// as
+														// using
+														// default/hatching/image
+														// as
 			// appropriate
 
 			if (geo.doHighlighting()) {
@@ -498,7 +489,8 @@ AwtFactory.getPrototype().newArea(gp));
 
 			// polygons (e.g. in GeoLists) that don't have labeled segments
 			// should also draw their border
-			else if (!poly.wasInitLabelsCalled() && poly.getLineThickness() > 0) {
+			else if (!poly.wasInitLabelsCalled()
+					&& poly.getLineThickness() > 0) {
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
@@ -567,10 +559,10 @@ AwtFactory.getPrototype().newArea(gp));
 							} else if (Kernel.isEqual(ang2, 90)) {
 								l2.setCoords(1.0, 0, -px2);
 							} else {
-								double gradient2 = Math.tan(ang2 * Math.PI
-										/ 180.0);
-								l2.setCoords(gradient2, -1.0, py2 - gradient2
-										* px2);
+								double gradient2 = Math
+										.tan(ang2 * Math.PI / 180.0);
+								l2.setCoords(gradient2, -1.0,
+										py2 - gradient2 * px2);
 							}
 
 							// calculate intersection
@@ -580,7 +572,8 @@ AwtFactory.getPrototype().newArea(gp));
 							double y1 = intersection.y / intersection.z;
 
 							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							// Log.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");//
+							// Log.debug("angle = "+angle+"\nang2 =
+							// "+ang2+"\n("+x1+","+y1+")");//
 							// "+xRW+","+yRW);
 							// Application.debug(x1+","+y1);
 							if (d < dist) {
@@ -597,8 +590,8 @@ AwtFactory.getPrototype().newArea(gp));
 				} else {
 					double angle = Math.atan2(yRW - py, xRW - px) * 180
 							/ Math.PI;
-					double radius = Math.sqrt((py - yRW) * (py - yRW)
-							+ (px - xRW) * (px - xRW));
+					double radius = Math.sqrt(
+							(py - yRW) * (py - yRW) + (px - xRW) * (px - xRW));
 
 					// round angle to nearest 15 degrees
 					angle = Math.round(angle / 15) * 15;
@@ -639,11 +632,9 @@ AwtFactory.getPrototype().newArea(gp));
 
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		GShape t = geo.isInverseFill() ? getShape()
-				: gp;
-		return t != null
-				&& (t.contains(x, y) || t.intersects(x - hitThreshold, y
-						- hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
+		GShape t = geo.isInverseFill() ? getShape() : gp;
+		return t != null && (t.contains(x, y) || t.intersects(x - hitThreshold,
+				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
 	}
 
 	@Override

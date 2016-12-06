@@ -65,9 +65,8 @@ public class CmdExtremum extends CommandProcessor {
 	}
 
 	/**
-	 * @return
-	 *      - all Extrema of function f (for polynomial functions)
-	 *      - all Extrema currently visible (for non-polynomial functions)
+	 * @return - all Extrema of function f (for polynomial functions) - all
+	 *         Extrema currently visible (for non-polynomial functions)
 	 */
 	final private GeoPoint[] Extremum(Command c, GeoFunction f) {
 
@@ -85,12 +84,13 @@ public class CmdExtremum extends CommandProcessor {
 
 		// check if this is a polynomial at the moment
 		// uninitialized CAS algo may return non-polynomial
-//		if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
-//				&& !f.isPolynomialFunction(true))
-//			return null;
+		// if (!kernelA.getConstruction().isFileLoading() && f.isDefined()
+		// && !f.isPolynomialFunction(true))
+		// return null;
 
-		if(!f.isPolynomialFunction(true)){
-			EuclidianViewInterfaceCommon view = this.kernelA.getApplication().getActiveEuclidianView();
+		if (!f.isPolynomialFunction(true)) {
+			EuclidianViewInterfaceCommon view = this.kernelA.getApplication()
+					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, f, view);
 			return algo.getExtremumPoints();
 		}

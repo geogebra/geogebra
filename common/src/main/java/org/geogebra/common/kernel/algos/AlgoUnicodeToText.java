@@ -80,5 +80,4 @@ public class AlgoUnicodeToText extends AlgoElement {
 		text.setTextString(s);
 	}
 
-	
 }

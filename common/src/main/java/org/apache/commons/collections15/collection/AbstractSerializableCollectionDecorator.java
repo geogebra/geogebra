@@ -27,42 +27,46 @@ import java.util.Collection;
  * @author Matt Hall, John Watkinson, Stephen Colebourne
  * @since Commons Collections 3.1
  */
-public abstract class AbstractSerializableCollectionDecorator <E> extends AbstractCollectionDecorator<E> implements Serializable {
+public abstract class AbstractSerializableCollectionDecorator<E>
+		extends AbstractCollectionDecorator<E> implements Serializable {
 
-    /**
-     * Serialization version
-     */
-    private static final long serialVersionUID = 6249888059822088500L;
+	/**
+	 * Serialization version
+	 */
+	private static final long serialVersionUID = 6249888059822088500L;
 
-    /**
-     * Constructor.
-     */
-    protected AbstractSerializableCollectionDecorator(Collection<E> coll) {
-        super(coll);
-    }
+	/**
+	 * Constructor.
+	 */
+	protected AbstractSerializableCollectionDecorator(Collection<E> coll) {
+		super(coll);
+	}
 
-    //-----------------------------------------------------------------------
-    /**
-     * Write the collection out using a custom routine.
-     *
-     * @param out the output stream
-     * @throws IOException
-     */
-//    private void writeObject(ObjectOutputStream out) throws IOException {
-//        out.defaultWriteObject();
-//        out.writeObject(collection);
-//    }
+	// -----------------------------------------------------------------------
+	/**
+	 * Write the collection out using a custom routine.
+	 *
+	 * @param out
+	 *            the output stream
+	 * @throws IOException
+	 */
+	// private void writeObject(ObjectOutputStream out) throws IOException {
+	// out.defaultWriteObject();
+	// out.writeObject(collection);
+	// }
 
-    /**
-     * Read the collection in using a custom routine.
-     *
-     * @param in the input stream
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-//    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-//        in.defaultReadObject();
-//        collection = (Collection<E>) in.readObject();
-//    }
+	/**
+	 * Read the collection in using a custom routine.
+	 *
+	 * @param in
+	 *            the input stream
+	 * @throws IOException
+	 * @throws ClassNotFoundException
+	 */
+	// private void readObject(ObjectInputStream in) throws IOException,
+	// ClassNotFoundException {
+	// in.defaultReadObject();
+	// collection = (Collection<E>) in.readObject();
+	// }
 
 }

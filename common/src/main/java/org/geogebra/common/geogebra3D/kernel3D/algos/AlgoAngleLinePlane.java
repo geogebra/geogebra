@@ -35,8 +35,8 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  *
  * @author mathieu
  */
-public class AlgoAngleLinePlane extends AlgoAngle implements
-		DrawInformationAlgo {
+public class AlgoAngleLinePlane extends AlgoAngle
+		implements DrawInformationAlgo {
 
 	private GeoLineND g; // input
 	private GeoPlane3D p; // input

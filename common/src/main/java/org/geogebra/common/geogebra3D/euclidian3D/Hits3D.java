@@ -186,7 +186,7 @@ public class Hits3D extends Hits {
 	 *            the drawable
 	 * @param type
 	 *            type of picking
-	 * */
+	 */
 	public void addDrawable3D(Drawable3D d, PickingType type) {
 
 		if (type == PickingType.LABEL) {
@@ -235,15 +235,14 @@ public class Hits3D extends Hits {
 			topHits.add(d.getGeoElement());
 		}
 
-
 		// App.error(""+topHits);
 
 		// sets the hits to this
 		ArrayList<GeoElement> segmentList = new ArrayList<GeoElement>();
 		drawables3D.clear();
 
-		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet.iterator(); iterSet
-				.hasNext();) {
+		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet
+				.iterator(); iterSet.hasNext();) {
 			TreeSetOfDrawable3D set = iterSet.next();
 			for (Iterator<Drawable3D> iter = set.iterator(); iter.hasNext();) {
 				Drawable3D d = iter.next();
@@ -277,8 +276,8 @@ public class Hits3D extends Hits {
 		// debug
 		/*
 		 * if (getLabelHit()==null) Application.debug(toString()); else
-		 * Application
-		 * .debug(toString()+"\n first label : "+getLabelHit().getLabel());
+		 * Application .debug(toString()+"\n first label : "
+		 * +getLabelHit().getLabel());
 		 */
 
 		return zNear;
@@ -308,8 +307,8 @@ public class Hits3D extends Hits {
 		Hits3D ret = new Hits3D();
 		int depthCount = 0;
 		int geoNCount = 0;
-		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet.iterator(); iterSet
-				.hasNext() && depthCount < depth;) {
+		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet
+				.iterator(); iterSet.hasNext() && depthCount < depth;) {
 			TreeSetOfDrawable3D set = iterSet.next();
 			if (set.size() > 0)
 				depthCount++;
@@ -335,7 +334,8 @@ public class Hits3D extends Hits {
 		if (hitsLabels.isEmpty())
 			return null;
 
-		// Log.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst hit:"+drawables3D.get(0).zPickMin);
+		// Log.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst
+		// hit:"+drawables3D.get(0).zPickMin);
 		GeoElement labelGeo = hitsLabels.first().getGeoElement();
 		// check if the label hit is the first geo hitted
 		if (labelGeo == topHits.get(0))

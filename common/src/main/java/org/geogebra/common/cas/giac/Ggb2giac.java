@@ -84,34 +84,34 @@ public class Ggb2giac {
 				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,%1)],ggbcfactans][3]");
 
 		p("ChiSquared.2",
-		// "chisquare_cdf(%0,%1)");
+				// "chisquare_cdf(%0,%1)");
 				"igamma(%0/2,%1/2,1)");
 		p("Coefficients.1", "when(is_polynomial(%0)," + "coeffs(%0)," + "{})");
 
 		p("Coefficients.2", "coeffs(%0,%1)");
 		p("CompleteSquare.1",
 				" [[ggbcmpsqarg0:=expand(%0)] , when ( size(simplify(%0)) <= 3 , "
-				// case max 3 terms
-				// hack for case like x^2 + x + 0.9
-				// needed for GGB-126
+						// case max 3 terms
+						// hack for case like x^2 + x + 0.9
+						// needed for GGB-126
 						+ " when ( size(ggbcmpsqarg0) == 2 && (size((ggbcmpsqarg0)[2]) == 2 || size((ggbcmpsqarg0)[2]) == 1) && (ggbcmpsqarg0)[2][0] != '+' , "
 						// case 2 terms
 						+ " when ( odd(degree(ggbcmpsqarg0)) == 0 , when ( degree((ggbcmpsqarg0)[2]) == 0 , "
-				// case px^(2n) + r
+						// case px^(2n) + r
 						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [r:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] ] , equation(p*(lname(ggbcmpsqarg0)[0]^(2n))+r) ][1] , "
 						// case px^(2n) + qx^n
 						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] , [h:=-q/(2*p)] , [k:=(-q^2)/(4*p)] ] , when ( degree((ggbcmpsqarg0)[2]) == n , equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k) , ? ) ][1] ) ,"
 						// 2 terms with even degree
 						+ " ? ) , "
-				// case 3 term with degree 2
+						// case 3 term with degree 2
 						+ "when ( degree(ggbcmpsqarg0) == 2 , canonical_form(ggbcmpsqarg0) , "
-				// case 3 term with degree > 2
+						// case 3 term with degree > 2
 						+ " when ( odd(degree(ggbcmpsqarg0)) == 0 && degree(ggbsort(ggbcmpsqarg0)[2]) == degree(ggbsort(ggbcmpsqarg0)[1]) div 2 && type(ggbsort(ggbcmpsqarg0)[3]) == DOM_INT , "
 						// case px^(2n) + qx^n + r
 						+ " [ [ [[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]] , [p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]] , [q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] , [r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]] , [h:=-q/(2*p)] , [k:=r-(q^2)/(4*p)] ] , equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k) ][1] , "
 						// invalid equation
 						+ "? ) ) ) , "
-				// term > 3
+						// term > 3
 						+ " ? )][1] ");
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
@@ -170,18 +170,15 @@ public class Ggb2giac {
 		// when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
 
 		p("Derivative.1",
-				"[[ggbderivarg0:=%0], regroup(regroup(diff(ggbderivarg0, "
-						+
-						// check for constant
+				"[[ggbderivarg0:=%0], regroup(regroup(diff(ggbderivarg0, " +
+				// check for constant
 						"when(length(lname(ggbderivarg0))==0,x,"
 						+ "when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x)))))][1]");
-		p("Derivative.2",
-				"[[[ggbderiv2arg0:=%0],[ggbderiv2arg1:=%1]],"
-						+ "when(type(ggbderiv2arg1)==DOM_INT,"
-						+ "regroup(regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(%0)[0],x),ggbderiv2arg1)))"
-						+ ","
-						+ "regroup(regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))"
-						+ ")][1]");
+		p("Derivative.2", "[[[ggbderiv2arg0:=%0],[ggbderiv2arg1:=%1]],"
+				+ "when(type(ggbderiv2arg1)==DOM_INT,"
+				+ "regroup(regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(%0)[0],x),ggbderiv2arg1)))"
+				+ "," + "regroup(regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))"
+				+ ")][1]");
 
 		p("Derivative.3", "regroup(regroup(diff(%0,%1,%2)))");
 
@@ -200,15 +197,16 @@ public class Ggb2giac {
 
 		// p("Dot.2", "regroup(dot(%0,%1))");
 		// p("Dot.2",
-		// "[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]], regroup(dot(ggbdotarg0,ggbdotarg1))][1]");
+		// "[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]],
+		// regroup(dot(ggbdotarg0,ggbdotarg1))][1]");
 		p("Dot.2",
-				"[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]],"+
-						"when(type(ggbdotarg0)==DOM_LIST && subtype(ggbdotarg0)!=27,"+
+				"[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]],"
+						+ "when(type(ggbdotarg0)==DOM_LIST && subtype(ggbdotarg0)!=27,"
+						+
 						// eg lists length 4 (and not ggbvect)
-						"regroup(ggbdotarg0 * ggbdotarg1)"+
-						","+
-						" regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"+
-						")][1]");
+						"regroup(ggbdotarg0 * ggbdotarg1)" + ","
+						+ " regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"
+						+ ")][1]");
 
 		// GeoGebra indexes lists from 1, giac from 0
 
@@ -686,11 +684,11 @@ public class Ggb2giac {
 						// "[[A:=%0],[B:=%1],[C:=%2],[D:=%3],[E:=%4]],"+
 						"[[A:=(real(%0[1]),im(%0[1]))],[B:=(real(%1[1]),im(%1[1]))],[C:=(real(%2[1]),im(%2[1]))],[D:=(real(%3[1]),im(%3[1]))],[E:=(real(%4[1]),im(%4[1]))],],"
 						+ "[M:={{x^2,x*y,y^2,x,y,1},{A[0]^2,A[0]*A[1],A[1]^2,A[0],A[1],1},{B[0]^2,B[0]*B[1],B[1]^2,B[0],B[1],1},{C[0]^2,C[0]*C[1],C[1]^2,C[0],C[1],1},{D[0]^2,D[0]*D[1],D[1]^2,D[0],D[1],1},{E[0]^2,E[0]*E[1],E[1]^2,E[0],E[1],1}}],"
-						+ "[M:=det(M)],"
-						+
+						+ "[M:=det(M)]," +
 
 						// eg Conic[(5,0),(-5,0),(0,5),(0,-5),(4,1)]
-						// simplify to x^2 +2 x y + y^2 - 25 from 10000x^2 + 20000x
+						// simplify to x^2 +2 x y + y^2 - 25 from 10000x^2 +
+						// 20000x
 						// y + 10000y^2 - 250000
 						"[hcf:=factors(M)[0]],"
 						+ "when(type(hcf)==DOM_INT,normal(M/hcf)=0,M=0)"
@@ -715,12 +713,11 @@ public class Ggb2giac {
 				"[a := when(%2[0]=='pnt',(sqrt((b1-real(a[1]))^2+(b2-im(a[1]))^2) ";
 
 		final String ellipseHyperbola2 = "sqrt((c1-real(a[1]))^2+(c2-im(a[1]))^2))/2,a)],"
-				+ "[diff1 := b1 - c1],"
-				+ "[diff2 := b2 - c2],"
+				+ "[diff1 := b1 - c1]," + "[diff2 := b2 - c2],"
 				+ "[sqsumb := b1 * b1 + b2 * b2],"
 				+ "[sqsumc := c1 * c1 + c2 * c2],"
-				+ "[sqsumdiff := sqsumb - sqsumc],"
-				+ "[a2 := 2 * a]," + "[asq4 := a2 * a2]," + "[asq := a * a],"
+				+ "[sqsumdiff := sqsumb - sqsumc]," + "[a2 := 2 * a],"
+				+ "[asq4 := a2 * a2]," + "[asq := a * a],"
 				+ "[afo := asq * asq],"
 				+ "[ggbeherans:=normal(simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc)))]],"
 				+
@@ -795,11 +792,9 @@ public class Ggb2giac {
 						// LeftSide only defined for equations
 						// see GGB-1116
 						+ "when ((ggbleftarg0)[0] == '=',"
-						+ "left(ggbleftarg0),"
-						+ "?))][1]");
-		p("LeftSide.2",
-				"[[ggbleftarg0:=%0],"
-						+ "when(ggbleftarg0[%1-1][0] == '=',left(ggbleftarg0[%1-1]),?)][1]");
+						+ "left(ggbleftarg0)," + "?))][1]");
+		p("LeftSide.2", "[[ggbleftarg0:=%0],"
+				+ "when(ggbleftarg0[%1-1][0] == '=',left(ggbleftarg0[%1-1]),?)][1]");
 		// subtype 27 is ggbvect()
 		p("Length.1",
 				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt' || (type(ggbv)==DOM_LIST && subtype(ggbv)==27), l2norm(ggbv),size(ggbv)))][1]");
@@ -863,11 +858,11 @@ public class Ggb2giac {
 						// eg NSolve[{pi / x = cos(x - 2y), 2 y - pi =
 						// sin(x)},{x,y}]
 						// eg NSolve[{3=c*a^5, 3=c*a^4},{a,c}]
-		"[[ggbvars:=seq(left(%%1[j]),j,0,dim(%%1)-1)],[ggbnsans:=fsolve(ggbnsans,%%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"
+						"[[ggbvars:=seq(left(%%1[j]),j,0,dim(%%1)-1)],[ggbnsans:=fsolve(ggbnsans,%%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"
 						+
 						// eg NSolve[a^4 + 34a^3 = 34, a=3]
 						// eg NSolve[a^4 + 34a^3 = 34, a]
-		"[[ggbvars:=when(type(%%1)==DOM_LIST,left(%%1[0]),left(%%1))],[ggbnsans:=fsolve(ggbnsans,%%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"
+						"[[ggbvars:=when(type(%%1)==DOM_LIST,left(%%1[0]),left(%%1))],[ggbnsans:=fsolve(ggbnsans,%%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"
 						+ "ggbnsans][2])");
 
 		// fsolve starts at x=0 if no initial value is specified and if the
@@ -900,7 +895,6 @@ public class Ggb2giac {
 						+ "when((%0)[0]=='*', "
 						+ "when((%0)[2][0]=='inv' || length(%0) > 2, getNum(%0), getNum(factor(ggbnumerans))),"
 						+ "getNum(factor(ggbnumerans))   )" + ")][1]");
-
 
 		p("Numeric.1",
 				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,"
@@ -937,21 +931,20 @@ public class Ggb2giac {
 		p("Poisson.3", "if %2==true then "
 				+ "exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) "
 				+ "else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
-		p("Polynomial.N",
-				"[[[ggbpolans:=0/0], [ggbvar:=x], [ggbinput:=%], "
-						// DOM_IDENT: something like x or y
-						+ "when(type(ggbinput)==DOM_LIST && type(ggbinput[1]) != DOM_IDENT,"
-						// eg Polynomial[{(1, 1), (2, 3)}]
-						// eg Polynomial[(1, 1), (2, 3)]
-						// eg Polynomial[{(1, 1), (2, 3), (3, 6)}]
-						// eg Polynomial[(1, 1), (2, 3), (3, 6)]
-						+ "[[xvals := [seq(xcoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [yvals := [seq(ycoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [ggbpolans := normal(lagrange(xvals,yvals,x))]]"
-						+ ","
-						// eg Polynomial[x^2+a x + b x +c]
-						// eg Polynomial[y^2+a y + b y +c,y]
-						+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))], "
-						+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
-						+ ")],ggbpolans][1]");
+		p("Polynomial.N", "[[[ggbpolans:=0/0], [ggbvar:=x], [ggbinput:=%], "
+				// DOM_IDENT: something like x or y
+				+ "when(type(ggbinput)==DOM_LIST && type(ggbinput[1]) != DOM_IDENT,"
+				// eg Polynomial[{(1, 1), (2, 3)}]
+				// eg Polynomial[(1, 1), (2, 3)]
+				// eg Polynomial[{(1, 1), (2, 3), (3, 6)}]
+				// eg Polynomial[(1, 1), (2, 3), (3, 6)]
+				+ "[[xvals := [seq(xcoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [yvals := [seq(ycoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [ggbpolans := normal(lagrange(xvals,yvals,x))]]"
+				+ ","
+				// eg Polynomial[x^2+a x + b x +c]
+				// eg Polynomial[y^2+a y + b y +c,y]
+				+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))], "
+				+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
+				+ ")],ggbpolans][1]");
 
 		p("PreviousPrime.1",
 				"[[ggbpparg0:=%0],if (ggbpparg0 > 2) then prevprime(ggbpparg0) else 0/0 fi][1]");
@@ -986,7 +979,7 @@ public class Ggb2giac {
 						+ "when ((ggbrightarg0)[0] == '=',"
 						+ "right(ggbrightarg0),?))][1]");
 		p("RightSide.2", "[[ggbrightarg0:=%0],"
-						+ "when(ggbrightarg0[%1-1][0] == '=',right(ggbrightarg0[%1-1]),?)][1]");
+				+ "when(ggbrightarg0[%1-1][0] == '=',right(ggbrightarg0[%1-1]),?)][1]");
 
 		p("ReducedRowEchelonForm.1", "rref(%0)");
 		p("Sample.2", "flatten1(seq(rand(1,%0),j,1,%1))");
@@ -1029,33 +1022,34 @@ public class Ggb2giac {
 		p("Solve.1", root1);
 
 		p("Solve.2",
-		// Solve[<Equation in x>,<assumption>]
-		// GGB-134
-		// hack needed for GGB-618
-		// aa(t) has symbolic type
+				// Solve[<Equation in x>,<assumption>]
+				// GGB-134
+				// hack needed for GGB-618
+				// aa(t) has symbolic type
 				"when ( type(%0) == DOM_SYMBOLIC && type(%1) == DOM_SYMBOLIC && (%1)[0] != 'of' , (assume(%1),solve(%0,x)) [size(assume(%1),solve(%0,x))-1] , "
 						// if input equation was only x, interpret as x=0
 						+ "when ( type(%0) == DOM_IDENT && type(%1) == DOM_SYMBOLIC && %0 == 'x', (assume(%1),solve(%0=0,x))[size(assume(%1),solve(%0=0,x))-1] ,"
 						+ "when ( size(%1) == 1,"
-				+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
+						+ "flatten1(ggbsort(normal([op(solve(%0,%1))]))),"
 						+ "ggbsort(normal([op(solve(%0,%1))])) ) ) )");
 		// solve with assumptions
 		p("Solve.3",
-		// accepted input
-		// Solve[<equation>,<variable>,<assumption>]
-		// or Solve[<list of equations>,<list of variable>,<list of
-		// assumptions>]
+				// accepted input
+				// Solve[<equation>,<variable>,<assumption>]
+				// or Solve[<list of equations>,<list of variable>,<list of
+				// assumptions>]
 				"when( (type(%0) == DOM_SYMBOLIC || type(%0) == DOM_LIST) && (type(%1) == DOM_IDENT || type(%1) == DOM_LIST) , "
 						+ "(assume(%2),solve(%0,%1))[size(assume(%2),solve(%0,%1))-1] , ? )");
-		p("SolveODE.1", "when((%0)[0]=='=',"
+		p("SolveODE.1",
+				"when((%0)[0]=='=',"
 						// case the equation contains only y and other variable
 						// as x, by default use for variable list y, x
 						// #5099
 						+ " when (size(lname(%0) intersect [x]) == 0 && size(lname(%0) intersect [y]) == 1 && size(lname(%0) minus [y]) > 0,normal(map(desolve(%0,x,y),x->y=x)[0]),normal(map(desolve(%0),x->y=x)[0]))"
 						+ ","
-				// add y'= if it's missing
-				+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
-		
+						// add y'= if it's missing
+						+ "normal(map(desolve(y'=%0),x->y=x)[0])" + ")");
+
 		// goes through 1 point
 		// SolveODE[y''=x, (1,1)]
 		// goes through 1 point, y'= missing
@@ -1063,22 +1057,19 @@ public class Ggb2giac {
 		// goes through 2 points
 		// SolveODE[y''=x, {(1,1),(2,2)}]
 		// can't do [solveodearg0:=%0] as y' is immediately simplified to 1
-		p("SolveODE.2", ""+
-				"normal(y=when(type(%1)==DOM_LIST,"+
-				// list of 2 points
-				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"+
-				","+
+		p("SolveODE.2", "" + "normal(y=when(type(%1)==DOM_LIST," +
+		// list of 2 points
+				"desolve([%0,y(xcoord(%1[0]))=ycoord(%1[0]),y(xcoord(%1[1]))=ycoord(%1[1])],x,y)"
+				+ "," +
 				// one point
-				"desolve(when((%0)[0]=='=',%0,y'=%0),x,y,%1)"+
-				")"+
-				""+
-				"[0])");
+				"desolve(when((%0)[0]=='=',%0,y'=%0),x,y,%1)" + ")" + ""
+				+ "[0])");
 		p("SolveODEPoint.2", "" + "normal(y=" +
 		// list of 2 points
 
-				// one point
+		// one point
 				"desolve(y'=%0,x,y,%1)[0])");
-				
+
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"
 						+ "normal(map(desolve(%0,%2,%1),(type(%1)==DOM_IDENT)?(x->%1=x):(x->y=x))[0])"
@@ -1090,11 +1081,12 @@ public class Ggb2giac {
 				+ "normal(map(desolve(%0,%2,%1,%3),x->%1=x)[0])" + ","
 				// add y'= if it's missing
 				+ "normal(map(desolve(y'=%0,%2,%1,%3),x->%1=x)[0])" + ")");
-		p("SolveODE.5",// SolveODE[y''=x,y,x,A,{B}]
+		p("SolveODE.5", // SolveODE[y''=x,y,x,A,{B}]
 				"normal(map(desolve(%0,%2,%1,%3,%4),x->%1=x)[0])");
 		p("Substitute.2", "subst(%0,%1)");
 		p("Substitute.3", "subst(%0,%1,%2)");
-		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else sub(%1,!*hold(%0))");
+		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else
+		// sub(%1,!*hold(%0))");
 
 		p("Sum.1",
 				"[[ggbsumarg1:=%0],when ( when(size(ggbsumarg1)>0,ggbsumarg1[0],1)[0] == 'pnt' ,"
@@ -1129,7 +1121,8 @@ public class Ggb2giac {
 		p("TDistribution.2", "student_cdf(%0,%1)");
 		// alternative for exact calculations, but
 		// Numeric[TDistribution[4,2],15] doesn't work with this
-		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
+		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2
+		// ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
 				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
 						+
@@ -1144,7 +1137,7 @@ public class Ggb2giac {
 		p("ToPolar.1",
 				"([[ggbtpans:=%0],[ggbtpans:=polar_coordinates(ggbtpans)],[ggbtpans:=convert([ggb_ang(ggbtpans[0],ggbtpans[1])],25)],ggbtpans])[3]");
 		p("ToPoint.1", "point(convert(coordinates(%0),25))");
-		
+
 		// if (app.has(Feature.CAS_TRANSLATE_COMMAND)) {
 		p("Translate.2",
 				"[[[ggbtrsarg0:=%0] , [ggbtrsarg1:=%1]] , "
@@ -1195,12 +1188,9 @@ public class Ggb2giac {
 		// subst(trigexpand(subst(sin(x),solve(tmpvar=x/2,lname(sin(x)))),tmpvar=x/2)
 		// gives 2*cos(x/2)*sin(x/2)
 		p("TrigExpand.3",
-				"[[[ggbtrigarg0:=%0],[ggbtrigarg2:=%2]],"
-						+ "when(%1==tan(x),"
-						+
-						// if %1=tan(x), assume %2=x/2
-						"tlin(halftan(ggbtrigarg0))"
-						+ ","
+				"[[[ggbtrigarg0:=%0],[ggbtrigarg2:=%2]]," + "when(%1==tan(x)," +
+				// if %1=tan(x), assume %2=x/2
+						"tlin(halftan(ggbtrigarg0))" + ","
 						+ "subst(trigexpand(subst(ggbtrigarg0,solve(ggbtmp=ggbtrigarg2,lname(ggbtrigarg0)))),ggbtmp=ggbtrigarg2)"
 						+ ")][1]");
 
@@ -1210,11 +1200,9 @@ public class Ggb2giac {
 		// 2*cos(x/2)*sin(x/2)+2*cos(y/2)*sin(y/2)
 		p("TrigExpand.4",
 				"[[[ggbtrigarg0:=%0],[ggbtrigarg2:=%2],[ggbtrigarg3:=%3]],"
-						+ "when(%1==tan(x),"
-						+
+						+ "when(%1==tan(x)," +
 						// if %1=tan(x), assume %2=x/2, %3=y/2
-						"tlin(halftan(ggbtrigarg0))"
-						+ ","
+						"tlin(halftan(ggbtrigarg0))" + ","
 						+ "subst(subst(trigexpand(subst(subst(ggbtrigarg0,solve(tmpvar=ggbtrigarg2,lname(ggbtrigarg0))),solve(tmpvar2=ggbtrigarg3,lname(ggbtrigarg0)))),tmpvar=ggbtrigarg2),tmpvar2=ggbtrigarg3)"
 						+ ")][1]");
 
@@ -1225,7 +1213,8 @@ public class Ggb2giac {
 						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
 						+ "when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
 
-		// try with and without tan2sincos(), tcollectsin() and check which i		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
+		// try with and without tan2sincos(), tcollectsin() and check which i //
+		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
 		p("TrigCombine.1",
 				"[[[ggbtrigarg:=%0], [ggbsin:=tcollectsin(normal(ggbtrigarg))], [ggbcos:=tcollect(normal(ggbtrigarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbtrigarg)))], "
 						+ "[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"
@@ -1258,47 +1247,44 @@ public class Ggb2giac {
 		// f(x) = x^3 - 9x^2 - 2x + 8
 
 		// adapted from xcas example by Bernard Parisse
-		p("SolveCubic.1", "["
-				+ "[j:=exp(2*i*pi/3)],"
-				+ "[ggbcub:=%0],"
-				+ "[V:=symb2poly(when(ggbcub[0]=='=',left(ggbcub)-right(ggbcub),ggbcub),x)],"
-				+ "[n:=size(V)],"
-				+
+		p("SolveCubic.1",
+				"[" + "[j:=exp(2*i*pi/3)]," + "[ggbcub:=%0],"
+						+ "[V:=symb2poly(when(ggbcub[0]=='=',left(ggbcub)-right(ggbcub),ggbcub),x)],"
+						+ "[n:=size(V)]," +
 
-				// if (n!=4){
-				// throw(afficher(P)+" n'est pas de degre 3");
-				// }
-				// Reduction de l'equation
+						// if (n!=4){
+						// throw(afficher(P)+" n'est pas de degre 3");
+						// }
+						// Reduction de l'equation
 
-				"[V:=V/V[0]],"
-				+ "[b:=V[1]],"
-				+ "[V:=ptayl(V,-b/3)],"
-				+ "[p:=V[2]],"
-				+ "[q:=V[3]],"
-				+
-				// on est ramen x^3+p*x+q=0
-				// x=u+v -> u^3+v^3+(3uv+p)(u+v)+q=0
-				// On pose uv=-p/3 donc u^3+v^3=-q et u^3 et v^3 sont solutions
-				// de u^3 v^3 = -p^3/27 et u^3+v^3=-q
-				// donc de x^2+q*x-p^3/27=0
-				"[d:=q^2/4+p^3/27],"
-				+
+						"[V:=V/V[0]]," + "[b:=V[1]]," + "[V:=ptayl(V,-b/3)],"
+						+ "[p:=V[2]]," + "[q:=V[3]]," +
+						// on est ramen x^3+p*x+q=0
+						// x=u+v -> u^3+v^3+(3uv+p)(u+v)+q=0
+						// On pose uv=-p/3 donc u^3+v^3=-q et u^3 et v^3 sont
+						// solutions
+						// de u^3 v^3 = -p^3/27 et u^3+v^3=-q
+						// donc de x^2+q*x-p^3/27=0
+						"[d:=q^2/4+p^3/27]," +
 
-				// if (d==0){
-				// // racine double
-				// return solve(P,x);
-				// }
-				"[d:=sqrt(d)]," + "[u:=(-q/2+d)^(1/3)]," + "[v:=-p/3/u],"
-				+ "[x1:=u+v-b/3]," + "[x2:=u*j+v*conj(j)-b/3],"
-				+ "[x3:=u*conj(j)+v*j-b/3]," + "[x1s:=regroup(normal(x1))],"
-				+ "[x2s:=regroup(normal(x2))]," + "[x3s:=regroup(normal(x3))],"
+						// if (d==0){
+						// // racine double
+						// return solve(P,x);
+						// }
+						"[d:=sqrt(d)]," + "[u:=(-q/2+d)^(1/3)],"
+						+ "[v:=-p/3/u]," + "[x1:=u+v-b/3],"
+						+ "[x2:=u*j+v*conj(j)-b/3],"
+						+ "[x3:=u*conj(j)+v*j-b/3],"
+						+ "[x1s:=regroup(normal(x1))],"
+						+ "[x2s:=regroup(normal(x2))],"
+						+ "[x3s:=regroup(normal(x3))],"
 
-				// for debugging
-				// + "[p,q,d,u,v,x1,x2,x3]"
-				// SolveCubic[x^3+1] -> u=0, v=?
-				+ "when(d==0 || u==0, csolve(ggbcub,x), [x1s,x2s,x3s])"
+						// for debugging
+						// + "[p,q,d,u,v,x1,x2,x3]"
+						// SolveCubic[x^3+1] -> u=0, v=?
+						+ "when(d==0 || u==0, csolve(ggbcub,x), [x1s,x2s,x3s])"
 
-				+ "][19]");
+						+ "][19]");
 
 		// SolveQuartic[2x^4+3x^3+x^2+1]
 		// SolveQuartic[x^4+6x^2-60x+36] approx = {(-1.872136644123) -
@@ -1390,93 +1376,89 @@ public class Ggb2giac {
 
 		// point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0))
 		// so we can mix 2d and 3d points
-		p("Angle.2",
-				"[[[ggbangarg0:=%0], [ggbangarg1:=%1]], "
-						// handle special case function as single variable
-						// e.g. Angle[x,3-x]
-						+ "when ( type(ggbangarg0) == DOM_IDENT || type(ggbangarg1) == DOM_IDENT ,"
-						+ "normal(regroup(angle(point(0,0,0) ,"
-						+ "point(coeff(ggbangarg0,x,1),1,"
-						+ "coeff(ggbangarg0,z,1)) ,"
-						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
-						// case angle between planes
-						+ "when( string(xcoord(ggbangarg0[1])) == string(hyperplan) && string(xcoord(ggbangarg1[1])) == string(hyperplan) , "
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( ggbangarg0[1][1][0] , ggbangarg0[1][1][1] , ggbangarg0[1][1][2]),"
-						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))),"
-						// line defined with command and plane defined with
-						// command
-						+ "when ( xcoord(ggbangarg0) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-						+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))) ,"
-						// line defined from inputBar and plane defined with
-						// command
-						+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan),"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
-						+ "point((ggbangarg1)[1][1][0],(ggbangarg1)[1][1][1],(ggbangarg1)[1][1][2]) ))),"
-						// functions without y or f(x)
-						// e.g. Angle[x+1,-x+3]
-						+ "when ( (ggbangarg0)[0] <> '=' && (ggbangarg0)[0] <> 'pnt' && "
-						+ "xcoord(ggbangarg0) <> string(X) && (xcoord(ggbangarg0))[0] <> '=' && "
-						+ "(ggbangarg1)[0] <> '=' && (ggbangarg1)[0] <> 'pnt' &&"
-						+ " xcoord(ggbangarg1) <> string(X) && (xcoord(ggbangarg1))[0] <> '=' && "
-						+ "subtype(ggbangarg0) <> 27 && subtype(ggbangarg1) <> 27,"
-						+ "normal(regroup(angle(point(0,0,0) ,"
-						+ "point(coeff(ggbangarg0,x,1),1,"
-						+ "coeff(ggbangarg0,z,1)) ,"
-						+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
-						// case lines defined as functions
-						+ "when ( (ggbangarg0)[0] == '=' && (ggbangarg0)[1][0] == 'of' && (ggbangarg0)[1][2] == 'x' &&"
-						+ "(ggbangarg1)[0] == '=' && (ggbangarg1)[1][0] == 'of' && (ggbangarg1)[1][2] == 'x' , "
-						+ " normal(regroup(angle(point(0,0,0),"
-						+ "point(xcoord(ggbangarg0),1,zcoord(ggbangarg0)),"
-						+ "point(xcoord(ggbangarg1),1,zcoord(ggbangarg1)) ))),"
-						// case line from inputBar and plane by lin. equation
-						+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))), "
-						// case line or plane defined by linear equation
-						// or points or vectors (GGB-988)
-						+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt' || subtype(ggbangarg0) == 27)  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' || subtype(ggbangarg1) == 27),"
-						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
-						// case 3D lines defined in this command
-						+ "when ( xcoord(ggbangarg0) == string(X) && xcoord(ggbangarg1) == string(X) ,"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-						+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) ,"
-						// case 3D lines defined from inputBar
-						+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && (xcoord(ggbangarg1))[0] == '=' && string((xcoord(ggbangarg1))[1]) == string(X),"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
-						+ "point( ggbangarg1[2][2][2][0] , ggbangarg1[2][2][2][1] , ggbangarg1[2][2][2][2] ) ))),"
-						// case 3D line def with command and plane with linear
-						// equation
-						+ " when ( xcoord(ggbangarg0) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , "
-						// case 3D line from inputBar and plane with linear
-						// equation
-						+ "when ( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT ,"
-						+ "normal(regroup(angle(point(0,0,0),"
-						+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
-						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , "
-						+ " ? ) ) ) ) ) ) ) ) ) ) ) ) ][1]");
+		p("Angle.2", "[[[ggbangarg0:=%0], [ggbangarg1:=%1]], "
+				// handle special case function as single variable
+				// e.g. Angle[x,3-x]
+				+ "when ( type(ggbangarg0) == DOM_IDENT || type(ggbangarg1) == DOM_IDENT ,"
+				+ "normal(regroup(angle(point(0,0,0) ,"
+				+ "point(coeff(ggbangarg0,x,1),1," + "coeff(ggbangarg0,z,1)) ,"
+				+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
+				// case angle between planes
+				+ "when( string(xcoord(ggbangarg0[1])) == string(hyperplan) && string(xcoord(ggbangarg1[1])) == string(hyperplan) , "
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( ggbangarg0[1][1][0] , ggbangarg0[1][1][1] , ggbangarg0[1][1][2]),"
+				+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))),"
+				// line defined with command and plane defined with
+				// command
+				+ "when ( xcoord(ggbangarg0) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+				+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))) ,"
+				// line defined from inputBar and plane defined with
+				// command
+				+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan),"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
+				+ "point((ggbangarg1)[1][1][0],(ggbangarg1)[1][1][1],(ggbangarg1)[1][1][2]) ))),"
+				// functions without y or f(x)
+				// e.g. Angle[x+1,-x+3]
+				+ "when ( (ggbangarg0)[0] <> '=' && (ggbangarg0)[0] <> 'pnt' && "
+				+ "xcoord(ggbangarg0) <> string(X) && (xcoord(ggbangarg0))[0] <> '=' && "
+				+ "(ggbangarg1)[0] <> '=' && (ggbangarg1)[0] <> 'pnt' &&"
+				+ " xcoord(ggbangarg1) <> string(X) && (xcoord(ggbangarg1))[0] <> '=' && "
+				+ "subtype(ggbangarg0) <> 27 && subtype(ggbangarg1) <> 27,"
+				+ "normal(regroup(angle(point(0,0,0) ,"
+				+ "point(coeff(ggbangarg0,x,1),1," + "coeff(ggbangarg0,z,1)) ,"
+				+ "point(coeff(ggbangarg1,x,1),1,coeff(ggbangarg1,z,1))))),"
+				// case lines defined as functions
+				+ "when ( (ggbangarg0)[0] == '=' && (ggbangarg0)[1][0] == 'of' && (ggbangarg0)[1][2] == 'x' &&"
+				+ "(ggbangarg1)[0] == '=' && (ggbangarg1)[1][0] == 'of' && (ggbangarg1)[1][2] == 'x' , "
+				+ " normal(regroup(angle(point(0,0,0),"
+				+ "point(xcoord(ggbangarg0),1,zcoord(ggbangarg0)),"
+				+ "point(xcoord(ggbangarg1),1,zcoord(ggbangarg1)) ))),"
+				// case line from inputBar and plane by lin. equation
+				+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
+				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))), "
+				// case line or plane defined by linear equation
+				// or points or vectors (GGB-988)
+				+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt' || subtype(ggbangarg0) == 27)  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' || subtype(ggbangarg1) == 27),"
+				+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
+				// case 3D lines defined in this command
+				+ "when ( xcoord(ggbangarg0) == string(X) && xcoord(ggbangarg1) == string(X) ,"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+				+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) ,"
+				// case 3D lines defined from inputBar
+				+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && (xcoord(ggbangarg1))[0] == '=' && string((xcoord(ggbangarg1))[1]) == string(X),"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+				+ "point( ggbangarg1[2][2][2][0] , ggbangarg1[2][2][2][1] , ggbangarg1[2][2][2][2] ) ))),"
+				// case 3D line def with command and plane with linear
+				// equation
+				+ " when ( xcoord(ggbangarg0) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , "
+				// case 3D line from inputBar and plane with linear
+				// equation
+				+ "when ( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT ,"
+				+ "normal(regroup(angle(point(0,0,0),"
+				+ "point( ggbangarg0[2][2][2][0] , ggbangarg0[2][2][2][1] , ggbangarg0[2][2][2][2]),"
+				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))  )))  , "
+				+ " ? ) ) ) ) ) ) ) ) ) ) ) ) ][1]");
 
-		p("Angle.3",
-				"[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], "
-						// syntax Angle[Point, Apex, Point]
-						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && (ggbangarg2)[0] == 'pnt' ,"
-						+ "normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2))))), "
-						// syntax Angle[Point, Apex, Angle]
-						// third parameter is angle given in degree
-						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && "
-						+ "type(evalf(ggbangarg2)) == DOM_FLOAT , "
-						+ "normal(regroup(rotation(ggbangarg1,ggbangarg2,ggbangarg0))) , "
-						+ "? ) )][1]");
+		p("Angle.3", "[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], "
+				// syntax Angle[Point, Apex, Point]
+				+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && (ggbangarg2)[0] == 'pnt' ,"
+				+ "normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2))))), "
+				// syntax Angle[Point, Apex, Angle]
+				// third parameter is angle given in degree
+				+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && "
+				+ "type(evalf(ggbangarg2)) == DOM_FLOAT , "
+				+ "normal(regroup(rotation(ggbangarg1,ggbangarg2,ggbangarg0))) , "
+				+ "? ) )][1]");
 		// p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
 
 		// eg distance((4,5),(0,3))
@@ -1495,23 +1477,20 @@ public class Ggb2giac {
 						+
 						// if variable list contains 'z', wrap in plane()
 						"when(count_eq(z,lname(ggbdisarg1))==0,ggbdisarg1,plane(ggbdisarg1))"
-						+ ")"
-						+ "))))]],"
+						+ ")" + "))))]],"
 						+ "when(lname(ggbdisans)=={},normal(ggbdisans),ggbdisans)][1]");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
 		// X=point(xcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)))
-		p("Line.2",
-				"[[ggblinearg0:=%0],[ggblinearg1:=%1],"
-						+ "when(is3dpoint(ggblinearg0),"
-						+ "when(ggblinearg1[0]=='pnt',"
-						// case Line[3dPoint,3dPoint]
-						+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
-						// case Line[3dPoint,Vect]
-						+ "equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
-						// case Line[2dPoint,2dPoint] or Line[2dPoint,Vector]
-						+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
+		p("Line.2", "[[ggblinearg0:=%0],[ggblinearg1:=%1],"
+				+ "when(is3dpoint(ggblinearg0)," + "when(ggblinearg1[0]=='pnt',"
+				// case Line[3dPoint,3dPoint]
+				+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
+				// case Line[3dPoint,Vect]
+				+ "equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
+				// case Line[2dPoint,2dPoint] or Line[2dPoint,Vector]
+				+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
 
 		p("Point.1",
 				"when(length(%0)==3,point(xcoord(%0),ycoord(%0),zcoord(%0)),point(xcoord(%0),ycoord(%0)))");
@@ -1539,21 +1518,18 @@ public class Ggb2giac {
 
 		p("Tangent.2",
 				"[[[ggbtanarg0:=%0],[ggbtanarg1:=%1],[ggbtanvar:=when(size(lname(ggbtanarg1) intersect [x]) == 0,lname(ggbtanarg1)[0],x)]],"
-						+ "when((%0)[0]=='pnt',"
-						+ "when((ggbtanarg1)[0]=='=',"
+						+ "when((%0)[0]=='pnt'," + "when((ggbtanarg1)[0]=='=',"
 						+
 						// Tangent[conic/implicit, point on curve]
 						"when ( type(equation(tangent(ggbtanarg1,ggbtanarg0))) == DOM_LIST,"
 						+ "equation(tangent(ggbtanarg1,ggbtanarg0)),"
 						// needed for TRAC-2635
 						// convert to list the result
-						+ "{equation(tangent(ggbtanarg1,ggbtanarg0))} ),"
-						+
+						+ "{equation(tangent(ggbtanarg1,ggbtanarg0))} )," +
 						// Tangent[point, function]
 						// just use x-coordinate real(%0[1])
 						"y=normal(subst(diff(ggbtanarg1,ggbtanvar),ggbtanvar=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,ggbtanvar=real(%0[1])))) "
-						+ ","
-						+
+						+ "," +
 						// Tangent[x-value, function]
 						// use lname(function) instead of x
 						// e.g. lname(sin(t)) = t
@@ -1564,7 +1540,8 @@ public class Ggb2giac {
 		// p("TangentThroughPoint.2",
 		// "[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
 		// +
-		// "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 && rhs(ggbans)==0,?,ggbans)],"
+		// "[ggbans:=when(((ggbans)[0])=='=' && lhs(ggbans)==1 &&
+		// rhs(ggbans)==0,?,ggbans)],"
 		// +
 		// "[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,{ggbans})],ggbans][4]");
 
@@ -1572,15 +1549,12 @@ public class Ggb2giac {
 		// eg Dot[Vector[(a,b)],Vector[(c,d)]]
 
 		p("Vector.1",
-		// "point(convert(coordinates(%0),25))");
-				"when(is3dpoint(%0),"
-						+
-						// 3D
-						// "ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
-						"ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]"
-						+ ","
-						+ "when((%0)[0]=='pnt',"
-						+
+				// "point(convert(coordinates(%0),25))");
+				"when(is3dpoint(%0)," +
+				// 3D
+				// "ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
+						"ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]" + ","
+						+ "when((%0)[0]=='pnt'," +
 						// 2D point
 						// "ggbvect[real((%0)[1]), im((%0)[1])]"+
 						"ggbvect[xcoord(%0),ycoord(%0)]" + ","
@@ -1590,14 +1564,15 @@ public class Ggb2giac {
 						// complex
 						"ggbvect[re(%0),im(%0)]" + ")))");
 
-		p("Vector.2", "when(is3dpoint(%0)||is3dpoint(%1),"
-				+
-				// 3D points
-				// "ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1], ((%1)[1])[2]-((%0)[1])[2] ]"+
+		p("Vector.2", "when(is3dpoint(%0)||is3dpoint(%1)," +
+		// 3D points
+		// "ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1],
+		// ((%1)[1])[2]-((%0)[1])[2] ]"+
 				"ggbvect[xcoord(%1)-xcoord(%0),ycoord(%1)-ycoord(%0),zcoord(%1)-zcoord(%0)]"
 				+ "," + "when((%0)[0]=='pnt'," +
 				// 2D points
-				// "ggbvect[real((%1)[1])-real((%0)[1]), im((%1)[1])-im((%0)[1])]"+
+				// "ggbvect[real((%1)[1])-real((%0)[1]),
+				// im((%1)[1])-im((%0)[1])]"+
 				"ggbvect[xcoord(%1)-xcoord(%0),ycoord(%1)-ycoord(%0)]" + "," +
 				// numbers
 				"ggbvect[%0,%1]" + "))");

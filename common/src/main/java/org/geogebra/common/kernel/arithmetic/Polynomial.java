@@ -27,7 +27,6 @@ import org.geogebra.common.plugin.Operation;
 
 public class Polynomial {
 
-
 	private ArrayList<Term> terms = new ArrayList<Term>();
 	private Kernel kernel;
 
@@ -111,8 +110,8 @@ public class Polynomial {
 			return false;
 		try {
 			Term t = terms.get(0);
-			return (t.getVars().equals(var) && t.getCoefficient().isConstant() && t
-					.getCoefficient().evaluateDouble() == 1.0);
+			return (t.getVars().equals(var) && t.getCoefficient().isConstant()
+					&& t.getCoefficient().evaluateDouble() == 1.0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -337,7 +336,8 @@ public class Polynomial {
 						t[j] = null;
 					}
 				}
-				if (!(ti.coefficient.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)) {
+				if (!(ti.coefficient.evaluate(
+						StringTemplate.defaultTemplate) instanceof NumberValue)) {
 					if (eq != null) {
 						eq.setIsPolynomial(false);
 					}
@@ -616,7 +616,8 @@ public class Polynomial {
 		case POWER:
 			double power = rt.evaluateDouble();
 			if (Inspecting.dynamicGeosFinder.check(rt)) {
-				if (!(rt.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)) {
+				if (!(rt.evaluate(
+						StringTemplate.defaultTemplate) instanceof NumberValue)) {
 					equ.setIsPolynomial(false);
 				} else {
 					this.power((int) power, equ);

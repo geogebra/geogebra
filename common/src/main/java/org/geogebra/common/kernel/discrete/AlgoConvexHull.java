@@ -33,12 +33,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Mode of a list. Adapted from AlgoMode
  * 
  * @author Michael Borcherds
-
+ * 
  */
 
-public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
+public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
-	
 	private GeoList inputList; // input
 	private GeoLocus locus; // output
 	private ArrayList<MyPoint> al;
@@ -46,9 +45,12 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 	private int size;
 
 	/**
-	 * @param cons cons
-	 * @param label label
-	 * @param inputList list of GeoPoints
+	 * @param cons
+	 *            cons
+	 * @param label
+	 *            label
+	 * @param inputList
+	 *            list of GeoPoints
 	 */
 	public AlgoConvexHull(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -63,8 +65,8 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.ConvexHull;
-    }
+		return Commands.ConvexHull;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -98,13 +100,12 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 		double inhom[] = new double[2];
 
-
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo.isDefined() && geo.isGeoPoint()) {
 				GeoPointND p = (GeoPointND) geo;
 				p.getInhomCoords(inhom);
-				
+
 				// make sure duplicates aren't added
 				if (!contains(vl, inhom[0], inhom[1])) {
 					if (Double.isNaN(inhom[0]) || Double.isNaN(inhom[1])) {
@@ -116,7 +117,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 				}
 			}
 		}
-		
+
 		if (al == null) {
 			al = new ArrayList<MyPoint>();
 		} else {
@@ -140,13 +141,12 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		List<Point2D> jarvisResult = ConvexHull.jarvisMarch(vl,
 				new ArrayList<LogEvent>());
 
-		
 		for (int i = 0; i < jarvisResult.size(); i++) {
 			Point2D p = jarvisResult.get(i);
 			al.add(new MyPoint(p.getX(), p.getY(), i != 0));
 
 		}
-		
+
 		if (jarvisResult.size() == 0) {
 			locus.setDefined(false);
 			return;
@@ -156,7 +156,6 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		Point2D p = jarvisResult.get(0);
 		al.add(new MyPoint(p.getX(), p.getY(), true));
 
-
 		locus.setPoints(al);
 		locus.setDefined(true);
 
@@ -164,16 +163,14 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 	private static boolean contains(ArrayList<Point2D> vl2, double x,
 			double y) {
-		for (int i = 0 ; i < vl2.size() ; i++) {
+		for (int i = 0; i < vl2.size(); i++) {
 			Point2D p = vl2.get(i);
 			if (Kernel.isEqual(p.getX(), x) && Kernel.isEqual(p.getY(), y)) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-
-	
 
 }

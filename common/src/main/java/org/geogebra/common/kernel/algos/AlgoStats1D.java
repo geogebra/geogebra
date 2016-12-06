@@ -142,9 +142,10 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		if (geoList2 != null) {
 			if (!geoList2.isDefined()
-			// return undefined if we can't use number * freq or midpoint * freq
-					|| !(geoList.size() == geoList2.size() || geoList.size() == geoList2
-							.size() + 1)) {
+					// return undefined if we can't use number * freq or
+					// midpoint * freq
+					|| !(geoList.size() == geoList2.size()
+							|| geoList.size() == geoList2.size() + 1)) {
 				result.setUndefined();
 				return;
 			}
@@ -302,7 +303,5 @@ public abstract class AlgoStats1D extends AlgoElement {
 			break;
 		}
 	}
-
-	
 
 }

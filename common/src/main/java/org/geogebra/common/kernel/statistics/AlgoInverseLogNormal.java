@@ -27,8 +27,7 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 
 	@SuppressWarnings("javadoc")
 	public AlgoInverseLogNormal(Construction cons, String label,
-			GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
@@ -55,8 +54,9 @@ public class AlgoInverseLogNormal extends AlgoDistribution {
 			if (s <= 0 || x <= 0 || x > 1) {
 				num.setValue(0);
 			} else {
-				num.setValue(Math.exp(MyMath2.inverf(2 * (x - 0.5))
-						* Math.sqrt(2) * s + mean));
+				num.setValue(Math
+						.exp(MyMath2.inverf(2 * (x - 0.5)) * Math.sqrt(2) * s
+								+ mean));
 			}
 
 		} else

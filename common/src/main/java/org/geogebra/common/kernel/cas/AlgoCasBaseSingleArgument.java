@@ -50,12 +50,10 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
 		Commands cmd = this.getClassName();
-		g.setUsingCasCommand(cmd.name() + "[%]", f, false,
-				arbconst);
+		g.setUsingCasCommand(cmd.name() + "[%]", f, false, arbconst);
 		if (f.isDefined() && !g.isDefined()) {
 			g.toGeoElement().set(f.toGeoElement());
 		}
 	}
 
-	
 }

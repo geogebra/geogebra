@@ -25,7 +25,7 @@ import org.geogebra.common.main.MyError;
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * 
- * based on CmdAreEqual
+ *         based on CmdAreEqual
  *
  */
 public class CmdAreCongruent extends CommandProcessor {
@@ -41,15 +41,15 @@ public class CmdAreCongruent extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
-			CircularDefinitionException {
+	public GeoElement[] process(Command c)
+			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n == 2) {
 
-			AlgoAreCongruent algo = new AlgoAreCongruent(cons, c.getLabel(), arg[0],
-					arg[1]);
+			AlgoAreCongruent algo = new AlgoAreCongruent(cons, c.getLabel(),
+					arg[0], arg[1]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

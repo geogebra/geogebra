@@ -84,10 +84,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus
  */
-public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
-		Mirrorable, Dilateable, MatrixTransformable, ConicMirrorable,
-		GeoPointND, Animatable, Transformable, SymbolicParametersAlgo,
-		SymbolicParametersBotanaAlgo {
+public class GeoPoint extends GeoVec3D
+		implements VectorValue, PathOrPoint, Mirrorable, Dilateable,
+		MatrixTransformable, ConicMirrorable, GeoPointND, Animatable,
+		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -183,7 +183,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @param z
 	 *            homogeneous z-coord
 	 */
-	public GeoPoint(Construction c, String label, double x, double y, double z) {
+	public GeoPoint(Construction c, String label, double x, double y,
+			double z) {
 		this(c, x, y, z);
 		setLabel(label);
 	}
@@ -262,7 +263,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public int getRelatedModeID() {
-		return toStringMode == Kernel.COORD_COMPLEX ? EuclidianConstants.MODE_COMPLEX_NUMBER
+		return toStringMode == Kernel.COORD_COMPLEX
+				? EuclidianConstants.MODE_COMPLEX_NUMBER
 				: EuclidianConstants.MODE_POINT;
 	}
 
@@ -290,7 +292,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		setConstructionDefaults();
 		set(point);
 	}
-
 
 	@Override
 	public void set(GeoElementND geo) {
@@ -387,9 +388,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 					&& !point.isFixed();
 		}
 
-		return !point.isFixed()
-				&& (point.isIndependent() || point.isPointOnPath() || point
-						.isPointInRegion());
+		return !point.isFixed() && (point.isIndependent()
+				|| point.isPointOnPath() || point.isPointInRegion());
 	}
 
 	@Override
@@ -426,20 +426,21 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						endPosition.getX());
 				double oldAngle = Math.atan2(inhomY, inhomX);
 
-				double angle = Kernel.convertToAngleValue(yvar.getDouble()
-						- oldAngle + endAngle);
+				double angle = Kernel.convertToAngleValue(
+						yvar.getDouble() - oldAngle + endAngle);
 				// angle outsid of slider range
 				if (((GeoNumeric) yvar).isIntervalMinActive()
 						&& ((GeoNumeric) yvar).isIntervalMaxActive()
-						&& (angle < ((GeoNumeric) yvar).getIntervalMin() || angle > ((GeoNumeric) yvar)
-								.getIntervalMax())) {
+						&& (angle < ((GeoNumeric) yvar).getIntervalMin()
+								|| angle > ((GeoNumeric) yvar)
+										.getIntervalMax())) {
 					// use angle value closest to closest border
-					double minDiff = Math.abs((angle - ((GeoNumeric) yvar)
-							.getIntervalMin()));
+					double minDiff = Math.abs(
+							(angle - ((GeoNumeric) yvar).getIntervalMin()));
 					if (minDiff > Math.PI)
 						minDiff = Kernel.PI_2 - minDiff;
-					double maxDiff = Math.abs((angle - ((GeoNumeric) yvar)
-							.getIntervalMax()));
+					double maxDiff = Math.abs(
+							(angle - ((GeoNumeric) yvar).getIntervalMax()));
 					if (maxDiff > Math.PI)
 						maxDiff = Kernel.PI_2 - maxDiff;
 
@@ -454,7 +455,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// cartesian coords (xvar + constant, yvar + constant)
 		else {
-
 
 			// only change if GeoNumeric
 			if (xvar instanceof GeoNumeric) {
@@ -519,14 +519,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return false;
 
 		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
-			GeoElement maxObj1 = GeoElement.as(((GeoNumeric) num1)
-					.getIntervalMaxObject());
-			GeoElement maxObj2 = GeoElement.as(((GeoNumeric) num2)
-					.getIntervalMaxObject());
-			GeoElement minObj1 = GeoElement.as(((GeoNumeric) num1)
-					.getIntervalMinObject());
-			GeoElement minObj2 = GeoElement.as(((GeoNumeric) num2)
-					.getIntervalMinObject());
+			GeoElement maxObj1 = GeoElement
+					.as(((GeoNumeric) num1).getIntervalMaxObject());
+			GeoElement maxObj2 = GeoElement
+					.as(((GeoNumeric) num2).getIntervalMaxObject());
+			GeoElement minObj1 = GeoElement
+					.as(((GeoNumeric) num1).getIntervalMinObject());
+			GeoElement minObj2 = GeoElement
+					.as(((GeoNumeric) num2).getIntervalMinObject());
 			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2))
 				return false;
 			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2))
@@ -537,11 +537,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				return false;
 		}
 
-		boolean ret = (num1 instanceof GeoNumeric && ((GeoNumeric) num1)
-				.isChangeable())
+		boolean ret = (num1 instanceof GeoNumeric
+				&& ((GeoNumeric) num1).isChangeable())
 				|| (num2 instanceof GeoNumeric
-						&& ((GeoNumeric) num2)
-						.isChangeable());
+						&& ((GeoNumeric) num2).isChangeable());
 
 		return ret;
 	}
@@ -617,8 +616,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	private boolean hasPolarParentNumbers() {
 		return hasPolarParentNumbers;
 	}
-
-
 
 	@Override
 	final public boolean isPointOnPath() {
@@ -841,7 +838,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// finite point
 		else {
 			isInfinite = false;
-			isDefined = !(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z));
+			isDefined = !(Double.isNaN(x) || Double.isNaN(y)
+					|| Double.isNaN(z));
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
@@ -1068,8 +1066,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// det(ABC) == 0 <=> sum1 == sum2
 
 		// A.z, B.z, C.z could be zero
-		double eps = Math.max(Kernel.MIN_PRECISION, Kernel.MIN_PRECISION * A.z
-				* B.z * C.z);
+		double eps = Math.max(Kernel.MIN_PRECISION,
+				Kernel.MIN_PRECISION * A.z * B.z * C.z);
 
 		return Kernel.isEqual(sum1, sum2, eps);
 	}
@@ -1083,7 +1081,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            third point
 	 * @return whether the three points A, B and C are collinear.
 	 */
-	public static boolean collinearND(GeoPointND A, GeoPointND B, GeoPointND C) {
+	public static boolean collinearND(GeoPointND A, GeoPointND B,
+			GeoPointND C) {
 		// A, B, C are collinear iff (A-B)x(A-C) == (0,0,0)
 
 		Coords diffB = A.getInhomCoordsInD3().sub(B.getInhomCoordsInD3());
@@ -1199,8 +1198,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		double qx = z * Q.getX();
 		double qy = z * Q.getY();
 
-		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
-				+ (y - qy) * cos + qy, z);
+		setCoords((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy, z);
 	}
 
 	final public void rotate(NumberValue phiValue, GeoPointND point) {
@@ -1230,10 +1229,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			if (Double.isInfinite(x) || Double.isInfinite(y2D))
 				setCoords(a, b, 1.0);
 			else {
-				double sf = r
-						* r
-						/ ((inhomX - a) * (inhomX - a) + (inhomY - b)
-								* (inhomY - b));
+				double sf = r * r / ((inhomX - a) * (inhomX - a)
+						+ (inhomY - b) * (inhomY - b));
 				setCoords(a + sf * (inhomX - a), b + sf * (inhomY - b), 1.0);
 			}
 		} else {
@@ -1490,11 +1487,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sbBuildValueString
 				.append(kernel.format(MyMath.length(lengthXY, z), tpl));
 		sbBuildValueString.append("; ");
-		sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl,
-				false));
+		sbBuildValueString
+				.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 		sbBuildValueString.append("; ");
-		sbBuildValueString.append(kernel.formatAngle(Math.atan2(z, lengthXY),
-				tpl, true));
+		sbBuildValueString
+				.append(kernel.formatAngle(Math.atan2(z, lengthXY), tpl, true));
 		sbBuildValueString.append(')');
 
 	}
@@ -1513,16 +1510,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @param sbBuildValueString
 	 *            string builder
 	 */
-	public static final void buildValueString(Kernel kernel,
-			StringTemplate tpl, int toStringMode, double x, double y,
+	public static final void buildValueString(Kernel kernel, StringTemplate tpl,
+			int toStringMode, double x, double y,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
 		case Kernel.COORD_POLAR:
 			sbBuildValueString.append('(');
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
-			sbBuildValueString.append(kernel.formatAngle(Math.atan2(y, x), tpl,
-					false));
+			sbBuildValueString
+					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(')');
 			break;
 
@@ -1577,7 +1574,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			// write parameter just for GeoCurveCartesian/GeoCurveCartesian3D
 			// as curve may cross itself so just coords doesn't determine unique
 			// pos
-			if (((AlgoPointOnPath) algo).getPath() instanceof GeoCurveCartesianND) {
+			if (((AlgoPointOnPath) algo)
+					.getPath() instanceof GeoCurveCartesianND) {
 				sb.append("\t<curveParam");
 				sb.append(" t=\"");
 				sb.append(getPathParameter().t);
@@ -2039,7 +2037,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @param z
 	 *            z inhom coord
 	 */
-	public static void pointChanged(GeoPointND p, double x, double y, double z) {
+	public static void pointChanged(GeoPointND p, double x, double y,
+			double z) {
 		p.setCoords2D(x, y, z);
 		p.updateCoordsFrom2D(false, null);
 
@@ -2287,8 +2286,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 	}
 
-
-
 	/**
 	 * @param geo
 	 *            incident geo tobe removed
@@ -2321,8 +2318,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public void randomizeForProbabilisticChecking() {
-		setCoords(x + (Math.random() * 2 - 1) * z, y + (Math.random() * 2 - 1)
-				* z, z);
+		setCoords(x + (Math.random() * 2 - 1) * z,
+				y + (Math.random() * 2 - 1) * z, z);
 	}
 
 	@Override
@@ -2372,14 +2369,16 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 
 	}
 
@@ -2620,8 +2619,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		Coords cB = B.getInhomCoordsInD3();
 		Coords cC = C.getInhomCoordsInD3();
 		Coords cM = cA.copy().mulInside(wA / w).addInsideMul(cB, wB / w)
-				.addInsideMul(cC,
-				wC / w);
+				.addInsideMul(cC, wC / w);
 		M.setCoords(cM, false);
 
 	}

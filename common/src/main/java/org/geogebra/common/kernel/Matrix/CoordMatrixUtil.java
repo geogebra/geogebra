@@ -23,20 +23,22 @@ public final class CoordMatrixUtil {
 	 *            direction of line2
 	 * @return {p1,p2,{p1 coord on l1,p2 coord on l2}}
 	 */
-	static final public Coords[] nearestPointsFromTwoLines(Coords o1,
-			Coords v1, Coords o2, Coords v2) {
-		
-		double[] project1 = new double[4], project2 = new double[4], lineCoords = new double[2];
+	static final public Coords[] nearestPointsFromTwoLines(Coords o1, Coords v1,
+			Coords o2, Coords v2) {
 
-		nearestPointsFromTwoLines(o1, v1, o2, v2, project1, project2, lineCoords, new double[4]);
-		
-		return new Coords[] {new Coords(project1), new Coords(project2), new Coords(lineCoords)};
+		double[] project1 = new double[4], project2 = new double[4],
+				lineCoords = new double[2];
+
+		nearestPointsFromTwoLines(o1, v1, o2, v2, project1, project2,
+				lineCoords, new double[4]);
+
+		return new Coords[] { new Coords(project1), new Coords(project2),
+				new Coords(lineCoords) };
 	}
 
-	
 	/**
-	 * Set points from line1 and from line2 that are the nearest
-	 * possible. Return infinite points if the two lines are parallel.
+	 * Set points from line1 and from line2 that are the nearest possible.
+	 * Return infinite points if the two lines are parallel.
 	 * 
 	 * @param o1
 	 *            origin of line1
@@ -46,18 +48,19 @@ public final class CoordMatrixUtil {
 	 *            origin of line2
 	 * @param v2
 	 *            direction of line2
-	 * @param project1 point on line 1
-	 * @param project2 point on line 2
-	 * @param lineCoords parameters of each point on each line
-	 * @param tmp tmp values (length 4)
-	 *            
+	 * @param project1
+	 *            point on line 1
+	 * @param project2
+	 *            point on line 2
+	 * @param lineCoords
+	 *            parameters of each point on each line
+	 * @param tmp
+	 *            tmp values (length 4)
+	 * 
 	 */
-	static final public void nearestPointsFromTwoLines(Coords o1,
-			Coords v1, Coords o2, Coords v2,
-			double[] project1, double[] project2, double[] lineCoords,
-			double[] tmp
-			) {
-		
+	static final public void nearestPointsFromTwoLines(Coords o1, Coords v1,
+			Coords o2, Coords v2, double[] project1, double[] project2,
+			double[] lineCoords, double[] tmp) {
 
 		// if v1 and v2 are parallel, return infinite points v1 and v2
 		Coords vn = v1.crossProduct(v2);
@@ -79,8 +82,7 @@ public final class CoordMatrixUtil {
 		// projection of o1 on this plane
 		o1.projectPlaneNoCheck(v2, vn, v1, o2, project1, tmp);
 		lineCoords[0] = -tmp[2]; // points in lines coords
-		
-		
+
 	}
 
 	/**
@@ -108,7 +110,7 @@ public final class CoordMatrixUtil {
 
 		// project the origin of the line on the plane (along v direction)
 		Coords o = line.getColumn(2);
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
 		o.projectPlaneThruV(plane, v, result[0], result[1]);
 		return result;
 	}
@@ -153,10 +155,8 @@ public final class CoordMatrixUtil {
 		ret.setX(norm);
 		ret.setY(a);
 		ret.setZ(b);
-		
+
 	}
-
-
 
 	/**
 	 * 
@@ -185,8 +185,7 @@ public final class CoordMatrixUtil {
 			Coords direction) {
 
 		// if lines is not in the plane, return null
-		if (!Kernel.isZero(origin.getZ())
-				|| !Kernel.isZero(direction.getZ()))
+		if (!Kernel.isZero(origin.getZ()) || !Kernel.isZero(direction.getZ()))
 			return null;
 
 		double x = -direction.getY();
@@ -209,29 +208,31 @@ public final class CoordMatrixUtil {
 		Coords vn1 = plane1.getVz();
 		Coords vn2 = plane2.getVz();
 		Coords v = vn1.crossProduct(vn2);
-		
 
 		Coords direction = new Coords(4);
 		Coords origin = new Coords(4);
-		
+
 		// compute origin
-		if (v.isZero()){ //planes are parallel or equal
-			origin.set(plane1.getOrigin()); //planes are equal
+		if (v.isZero()) { // planes are parallel or equal
+			origin.set(plane1.getOrigin()); // planes are equal
 			plane1.getOrigin().projectPlaneInPlaneCoords(plane2, direction);
-			if (!Kernel.isZero(direction.getZ())){ //plane are not included: return (0,0,0,0) as origin
+			if (!Kernel.isZero(direction.getZ())) { // plane are not included:
+													// return (0,0,0,0) as
+													// origin
 				origin.set(0);
 			}
-		}else{
+		} else {
 			// projection of first plane origin on second plane
 			// direction orthogonal to v and colinear to first plane
-			plane1.getOrigin().projectPlaneThruV(plane2, vn1.crossProduct4(v), origin);
+			plane1.getOrigin().projectPlaneThruV(plane2, vn1.crossProduct4(v),
+					origin);
 		}
 
 		// return line
 		direction.set(v);
 		direction.setW(0); // v is Coords(3)
 
-		return new Coords[] {origin, direction };
+		return new Coords[] { origin, direction };
 	}
 
 }

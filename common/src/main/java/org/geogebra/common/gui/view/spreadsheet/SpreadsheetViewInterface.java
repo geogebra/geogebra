@@ -8,11 +8,14 @@ public interface SpreadsheetViewInterface extends View {
 
 	public MyTableInterface getSpreadsheetTable();
 
-
 	public void rowHeaderRevalidate();
+
 	public void columnHeaderRevalidate();
+
 	public void updateCellFormat(String s);
+
 	public App getApplication();
+
 	public int getMode();
 
 	public void scrollIfNeeded(GeoElement geo, String labelNew);

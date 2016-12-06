@@ -152,5 +152,4 @@ public class AlgoCircumferenceConic extends AlgoElement {
 		return circum;
 	}
 
-	
 }

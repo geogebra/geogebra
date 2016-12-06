@@ -42,9 +42,9 @@ import org.geogebra.common.plugin.Operation;
  * @author mathieu
  * 
  */
-public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, RotateableND, Translateable, MirrorableAtPlane,
-		Transformable, Dilateable {
+public class GeoCurveCartesian3D extends GeoCurveCartesianND
+		implements CurveEvaluable, RotateableND, Translateable,
+		MirrorableAtPlane, Transformable, Dilateable {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -278,7 +278,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	}
 
 	@Override
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+	public void rotate(NumberValue r, GeoPointND S,
+			GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
@@ -312,8 +313,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
-
-
 	private CoordMatrix4x4 tmpMatrix4x4;
 
 	@Override
@@ -331,8 +330,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	public void rotate(GeoLineND line, ExpressionValue r,
 			GeoSurfaceCartesian3D surface) {
-
-
 
 	}
 
@@ -358,7 +355,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * 
 	 */
 	static public double[] getDefinedInterval(double a, double b,
-			RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ) {
+			RealRootFunction funX, RealRootFunction funY,
+			RealRootFunction funZ) {
 
 		// compute interval for x(t)
 		double[] interval = RealRootUtil.getDefinedInterval(funX, a, b);
@@ -390,8 +388,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * 
 	 */
 	static public double[] getDefinedInterval(double a, double b,
-			RealRootFunction funX, RealRootFunction funY,
-			RealRootFunction funZ, RealRootFunction fun) {
+			RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ,
+			RealRootFunction fun) {
 
 		// compute interval for x(t), y(t), z(t)
 		double[] interval = getDefinedInterval(a, b, funX, funY, funZ);
@@ -496,7 +494,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 
 		distFun.setDistantPoint(P);
-		
+
 		// check if P is on this curve and has the right path parameter already
 		if (P.getPath() == this) {
 			// point A is on curve c, take its parameter
@@ -554,8 +552,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 			startValResult = adjustRange(startValResult);
 
-			if (distFun.evaluate(startValResult) < distFun
-					.evaluate(sampleResult) + Kernel.MIN_PRECISION / 2) {
+			if (distFun
+					.evaluate(startValResult) < distFun.evaluate(sampleResult)
+							+ Kernel.MIN_PRECISION / 2) {
 				return startValResult;
 			}
 		}
@@ -657,8 +656,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// current expressions
 		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = fun[i].deepCopy(kernel)
-					.getExpression();
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
 			ExpressionNode trans = expr.plus(v.get(i + 1));
 			fun[i].setExpression(trans);
 		}
@@ -682,8 +680,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	public void mirror(GeoLineND line) {
 
-		transform(CoordMatrix4x4.AxialSymetry(line.getDirectionInD3()
-				.normalized(), line.getStartInhomCoords()));
+		transform(CoordMatrix4x4.AxialSymetry(
+				line.getDirectionInD3().normalized(),
+				line.getStartInhomCoords()));
 
 	}
 
@@ -703,8 +702,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = fun[i].deepCopy(kernel)
-					.getExpression();
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
 			fun[i].setExpression(new ExpressionNode(kernel, ratio,
 					Operation.MULTIPLY, expr));
 		}
@@ -746,8 +744,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 */
 	@Override
 	public Geo3DVec evaluateCurve(double t) {
-		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1)
-				.evaluate(t), getFun(2).evaluate(t));
+		return new Geo3DVec(this.kernel, getFun(0).evaluate(t),
+				getFun(1).evaluate(t), getFun(2).evaluate(t));
 	}
 
 	@Override

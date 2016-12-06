@@ -36,6 +36,7 @@ public abstract class CanvasDrawable extends Drawable {
 		return drawLatex(g2, geo0, font, text, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 	}
+
 	protected GDimension drawLatex(GGraphics2D g2, GeoElement geo0, GFont font,
 			String text, int x, int y) {
 		App app = view.getApplication();
@@ -47,10 +48,9 @@ public abstract class CanvasDrawable extends Drawable {
 
 		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
 				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
-				false,
-				false, null);
+				false, false, null);
 	};
-	
+
 	public static GDimension measureLatex(App app, GGraphics2D g2,
 			GeoElement geo0, GFont font, String text) {
 		return app.getDrawEquation().measureEquation(app, geo0,
@@ -71,8 +71,7 @@ public abstract class CanvasDrawable extends Drawable {
 				g2.setFont(getLabelFont());
 				setLabelSize(
 						EuclidianStatic.drawIndexedString(view.getApplication(),
-								g2, text, 0, 0,
-						false, false, false));
+								g2, text, 0, 0, false, false, false));
 			}
 			calculateBoxBounds(latex);
 		} else {
@@ -131,8 +130,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	}
 
-	protected void drawOnCanvas(GGraphics2D g2,
-			String text) {
+	protected void drawOnCanvas(GGraphics2D g2, String text) {
 		App app = view.getApplication();
 		getPreferredSize();
 
@@ -183,8 +181,8 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
 		// make sure layout won't be null ("" makes it null).
-		return g2.getFontRenderContext().getTextLayout(
-				"".equals(text) ? "A" : text, font);
+		return g2.getFontRenderContext()
+				.getTextLayout("".equals(text) ? "A" : text, font);
 	}
 
 	protected abstract void drawWidget(GGraphics2D g2);
@@ -207,6 +205,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 		return res;
 	}
+
 	public GFont getLabelFont() {
 		return labelFont;
 	}

@@ -36,7 +36,8 @@ public class MyNumberPair extends MyVecNode {
 	 * @param en2
 	 *            second number
 	 */
-	public MyNumberPair(Kernel kernel, ExpressionValue en, ExpressionValue en2) {
+	public MyNumberPair(Kernel kernel, ExpressionValue en,
+			ExpressionValue en2) {
 		super(kernel, en, en2);
 	}
 

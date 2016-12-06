@@ -32,7 +32,6 @@ public class DropDownList {
 	@Weak
 	private DropDownListener listener;
 
-
 	public DropDownList(App app, DropDownListener listener) {
 		this.listener = listener;
 		clickTimer = app.newTimer(new GTimerListener() {

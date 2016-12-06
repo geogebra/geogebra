@@ -58,8 +58,8 @@ public class UploadRequest implements Request {
 	 */
 	public UploadRequest(Material mat) {
 		this.consTitle = mat.getTitle();
-		this.type = mat.getType() == MaterialType.ggb ? "applet" : mat
-				.getType().name();
+		this.type = mat.getType() == MaterialType.ggb ? "applet"
+				: mat.getType().name();
 		if (mat.getId() != 0) {
 			this.uniqueID = mat.getId();
 		}
@@ -97,9 +97,8 @@ public class UploadRequest implements Request {
 	 *            material type
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(int tubeID,
-												  String visibility, String filename,
-												  String base64, MaterialType type) {
+	public static UploadRequest getRequestElement(int tubeID, String visibility,
+			String filename, String base64, MaterialType type) {
 		return new UploadRequest(tubeID, visibility, filename, base64, type);
 	}
 
@@ -123,8 +122,7 @@ public class UploadRequest implements Request {
 	 *            int
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(String newTitle,
-												  int id) {
+	public static UploadRequest getRequestElement(String newTitle, int id) {
 		return new UploadRequest(newTitle, id);
 	}
 
@@ -141,7 +139,7 @@ public class UploadRequest implements Request {
 			// login
 			JSONObject login = new JSONObject();
 			login.put("-type", this.GGB);
-			login.put("-token", 
+			login.put("-token",
 					client.getModel().getLoggedInUser().getLoginToken());
 			api.put("login", login);
 

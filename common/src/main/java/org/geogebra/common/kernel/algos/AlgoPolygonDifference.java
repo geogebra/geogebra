@@ -41,7 +41,6 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 
 	}
 
-
 	/**
 	 * 
 	 * @param cons
@@ -62,8 +61,7 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive,
 			int[] outputSizes) {
 
-		super(cons, labels, inPoly0, inPoly1, getOp(exclusive),
-				outputSizes);
+		super(cons, labels, inPoly0, inPoly1, getOp(exclusive), outputSizes);
 		this.exclusive = exclusive;
 		this.threeArgs = exclusive != null;
 		initialize(outputSizes);

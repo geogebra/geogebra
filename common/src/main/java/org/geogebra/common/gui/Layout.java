@@ -62,25 +62,31 @@ public abstract class Layout {
 		// algebra & graphics (default settings of GeoGebra < 3.2)
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"1", 500);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
+				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-				"3", 200);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
+				200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1,3",
-				300);
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
-				true, AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+				true,
+				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1,1", 500);
 		// dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false, false,
-		// false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 600), "1,1",
+		// false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 600),
+		// "1,1",
 		// 500);
 
 		spData = new DockSplitPaneData[1];
@@ -95,26 +101,30 @@ public abstract class Layout {
 		defaultPerspectives[i] = new Perspective(1, spData, dpData, defToolbar,
 				true, false, true, true, true, InputPosition.algebraView);
 
-
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"1", 500);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
+				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-				"3", 200);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
+				200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1,3",
-				300);
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
-				true, AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+				true,
+				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1,1", 500);
 
 		/*
@@ -128,67 +138,77 @@ public abstract class Layout {
 		 */
 
 		// geometry - like basic geometry but with less toolbar entries
-		defaultPerspectives[++i] = new Perspective(2,
-				spData, dpData, defToolbar, true, false, false, false, true,
+		defaultPerspectives[++i] = new Perspective(2, spData, dpData,
+				defToolbar, true, false, false, false, true,
 				InputPosition.algebraView);
 
 		defaultPerspectives[i].setUnitAxesRatio(true);
 
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.45, GSplitPane.HORIZONTAL_SPLIT);
+		spData[0] = new DockSplitPaneData("", 0.45,
+				GSplitPane.HORIZONTAL_SPLIT);
 
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"1", 500);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
+				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
 				"3,3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, true, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"3", 300);
-		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3,1",
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
 				300);
+		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"3,1", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
-				true, AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+				true,
+				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1", 400);
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 500);
 
-		defaultPerspectives[++i] = new Perspective(3,
-				spData, dpData, defToolbar, true, false, true, false, true,
+		defaultPerspectives[++i] = new Perspective(3, spData, dpData,
+				defToolbar, true, false, true, false, true,
 				InputPosition.algebraView);
 
 		Log.debug("CAS support: " + app.supportsView(App.VIEW_CAS));
 		if (app.supportsView(App.VIEW_CAS)) {
 			// CAS & Graphics - cas and euclidian view
 			dpData = new DockPanelData[6];
-			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "1", 500);
+			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
+					false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1", 500);
 			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
 					false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
 					"3,3", 200);
 			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "3,1", 300);
+					false, false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"3,1", 300);
 			dpData[3] = new DockPanelData(App.VIEW_CAS, null, true, false,
 					false,
-					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
-					300);
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"3", 300);
 			dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false,
-					true, true, AwtFactory.getPrototype().newRectangle(100, 100,
-							700, 550), "1,1,1", 400);
+					true, true,
+					AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+					"1,1,1", 400);
 			dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "1,1", 500);
+					false, false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1,1", 500);
 
-			defaultPerspectives[++i] = new Perspective(4,
-					spData, dpData, defToolbar, true, false, true, false, true,
+			defaultPerspectives[++i] = new Perspective(4, spData, dpData,
+					defToolbar, true, false, true, false, true,
 					InputPosition.algebraView);
 
 		} else {
@@ -203,27 +223,32 @@ public abstract class Layout {
 			// algebra & 3D graphics
 			dpData = new DockPanelData[6];
 			dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "1,3", 500);
+					false, false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1,3", 500);
 			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false,
 					false,
-					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
-					200);
+					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
+					"3", 200);
 			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "1,1", 300);
+					false, false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1,1", 300);
 			dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false,
 					false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 					"1,3,3", 300);
 			dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false,
-					true, true, AwtFactory.getPrototype().newRectangle(100, 100,
-							700, 550), "1,1,1,1", 400);
+					true, true,
+					AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+					"1,1,1,1", 400);
 			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true,
-					false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-							600, 400), "1", 500);
+					false, false,
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1", 500);
 			// dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false,
-			// false, false, AwtFactory.getPrototype().newRectangle(100, 100, 600,
+			// false, false, AwtFactory.getPrototype().newRectangle(100, 100,
+			// 600,
 			// 600), "1,1", 500);
 
 			// Note: toolbar definition is always for EV1, for 3D we use
@@ -238,26 +263,32 @@ public abstract class Layout {
 
 		dpData = new DockPanelData[7];
 		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-				"3", 500);
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
+				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
 				"1,3", 200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 300);
 		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1,3,3",
-				300);
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,3,3", 300);
 		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
-				true, AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+				true,
+				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
 				"1,1,1,1", 400);
 		dpData[6] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
-				false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 500);
 		dpData[0] = new DockPanelData(App.VIEW_PROBABILITY_CALCULATOR, null,
-				true, false, false, AwtFactory.getPrototype().newRectangle(100, 100,
-						600, 600), "1", 500);
+				true, false, false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 600), "1",
+				500);
 
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent,
@@ -267,19 +298,19 @@ public abstract class Layout {
 		// Note: toolbar definition is always for EV1, for 3D we use definition
 		// from the 3D dock panel classes
 
-		defaultPerspectives[++i] = new Perspective(6,
-				spData, dpData, defToolbar, false, false, true, false, true,
+		defaultPerspectives[++i] = new Perspective(6, spData, dpData,
+				defToolbar, false, false, true, false, true,
 				InputPosition.algebraView);
 		if (app.has(Feature.WHITEBOARD_APP)) {
 			dpData = new DockPanelData[6];
 			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 					false,
-					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
-					500);
+					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+					"1", 500);
 			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
 					false,
-					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
-					200);
+					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
+					"3", 200);
 			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
 					false, false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
@@ -300,7 +331,8 @@ public abstract class Layout {
 			// tring wbToolbar = "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 |
 			// 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26
 			// 17 62 | 25 | 40 41 42 27 , 6";
-			//String wbToolbar = "0 | 62 73 6 110 | 2 16 51 10 55 | 102 103 104 105 106 107 108 109 101| 17 26";
+			// String wbToolbar = "0 | 62 73 6 110 | 2 16 51 10 55 | 102 103 104
+			// 105 106 107 108 109 101| 17 26";
 			String wbToolbar = ToolBar.getWBToolBarDefString();
 			Perspective whiteboard = new Perspective(7, spData, dpData,
 					wbToolbar, true, false, false, false, true,
@@ -356,7 +388,7 @@ public abstract class Layout {
 	/**
 	 * @return default perspective 0 (graphing)
 	 */
-	protected Perspective getDefaultPerspective(){
+	protected Perspective getDefaultPerspective() {
 		return defaultPerspectives[0];
 	}
 
@@ -393,19 +425,13 @@ public abstract class Layout {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			Log.debug("Ev is" + ev);
 			if (app.getEuclidianView1() == ev)
-				changed |= app
-						.getSettings()
-						.getEuclidian(1)
-						.setShowAxes(perspective.getShowAxes(),
-								perspective.getShowAxes());
+				changed |= app.getSettings().getEuclidian(1).setShowAxes(
+						perspective.getShowAxes(), perspective.getShowAxes());
 
 			else if (app.hasEuclidianView2EitherShowingOrNot(1)
 					&& app.getEuclidianView2(1) == ev)
-				changed |= app
-						.getSettings()
-						.getEuclidian(2)
-						.setShowAxes(perspective.getShowAxes(),
-								perspective.getShowAxes());
+				changed |= app.getSettings().getEuclidian(2).setShowAxes(
+						perspective.getShowAxes(), perspective.getShowAxes());
 			else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev)
 				changed |= app.getSettings().getEuclidian(3)
 						.setShowAxes(perspective.getShowAxes());

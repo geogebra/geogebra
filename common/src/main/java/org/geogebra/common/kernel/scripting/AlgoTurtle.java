@@ -119,5 +119,4 @@ public class AlgoTurtle extends AlgoElement {
 		return sb.toString();
 	}
 
-	
 }

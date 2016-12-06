@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- *Hull
+ * Hull
  */
 public class CmdHull extends CommandProcessor {
 
@@ -32,8 +32,9 @@ public class CmdHull extends CommandProcessor {
 		switch (n) {
 		case 2:
 
-			if ((ok[0]=arg[0].isGeoList()) && (ok[1]=arg[1].isGeoNumeric())) {
-				
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
+
 				// command removed
 				// AlgoHull algo = new AlgoHull(cons, c.getLabel(),
 				// (GeoList) arg[0], (GeoNumeric) arg[1]);
@@ -45,7 +46,7 @@ public class CmdHull extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

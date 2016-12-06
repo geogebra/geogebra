@@ -99,6 +99,4 @@ public class AlgoUnion extends AlgoElement {
 		}
 	}
 
-	
-
 }

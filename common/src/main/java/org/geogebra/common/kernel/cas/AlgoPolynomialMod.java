@@ -103,20 +103,18 @@ public class AlgoPolynomialMod extends AlgoElement {
 
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(
-					sb.toString(), arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+					arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				g.setUndefined();
 			} else {
 				// read result back into function
-				g.set(kernel.getAlgebraProcessor().evaluateToFunction(
-						functionOut, false));
+				g.set(kernel.getAlgebraProcessor()
+						.evaluateToFunction(functionOut, false));
 			}
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
 	}
-
-	
 
 }

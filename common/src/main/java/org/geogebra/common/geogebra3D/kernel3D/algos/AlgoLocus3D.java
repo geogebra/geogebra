@@ -90,7 +90,8 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 		return new GeoLocus3D(cons);
 	}
 
-	public AlgoLocus3D(Construction cons, String label, GeoPoint Q, GeoPoint P) {
+	public AlgoLocus3D(Construction cons, String label, GeoPoint Q,
+			GeoPoint P) {
 		super(cons, label, Q, P);
 	}
 
@@ -219,7 +220,5 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	protected MyPoint3D newCache() {
 		return new MyPoint3D();
 	}
-
-	
 
 }

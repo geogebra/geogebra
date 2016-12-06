@@ -6,15 +6,18 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 /**
  * @author stefan
  * 
- * This event is triggered when an attempt to login the user is started
+ *         This event is triggered when an attempt to login the user is started
  *
  */
 public class LoginAttemptEvent extends BaseEvent {
 	private GeoGebraTubeUser user;
-	
+
 	/**
 	 * Creates a new Login attempt event,
-	 * @param user The user that is going to be logged in. At this state only the login token may be defined.
+	 * 
+	 * @param user
+	 *            The user that is going to be logged in. At this state only the
+	 *            login token may be defined.
 	 * 
 	 */
 	public LoginAttemptEvent(GeoGebraTubeUser user) {
@@ -23,7 +26,8 @@ public class LoginAttemptEvent extends BaseEvent {
 	}
 
 	/**
-	 * @return The user that is going to be logged in. At this state onyl the login token may be defined.
+	 * @return The user that is going to be logged in. At this state onyl the
+	 *         login token may be defined.
 	 */
 	public GeoGebraTubeUser getUser() {
 		return user;

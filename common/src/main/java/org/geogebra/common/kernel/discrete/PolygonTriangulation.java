@@ -20,8 +20,8 @@ import org.geogebra.common.util.debug.Log;
  * Class to convert a GeoPolygon to a set of triangles
  * 
  * based on monotone pieces and sweep line, as described here:
- * https://www.cs.ucsb.edu/~suri/cs235/Triangulation.pdf
- * (Subhash Suri, UC Santa Barbara)
+ * https://www.cs.ucsb.edu/~suri/cs235/Triangulation.pdf (Subhash Suri, UC Santa
+ * Barbara)
  * 
  * @author mathieu
  *
@@ -105,6 +105,7 @@ public class PolygonTriangulation {
 	public static final int CORNERS = 4;
 	public static final int CORNERS_ALL = CORNERS * 2;
 	public static final int EXTRA_POINTS = 12;
+
 	/**
 	 * message debug
 	 * 
@@ -214,9 +215,8 @@ public class PolygonTriangulation {
 				s += "/ to left : ";
 				for (Segment segment : toLeft) {
 					s += ((int) (segment.orientation * 180 / Math.PI))
-							+ Unicode.DEGREE_CHAR + ":"
-							+ segment.leftPoint.name + "(" + segment.usable
-							+ "), ";
+							+ Unicode.DEGREE_CHAR + ":" + segment.leftPoint.name
+							+ "(" + segment.usable + "), ";
 				}
 			}
 			if (toRight != null) {
@@ -689,8 +689,8 @@ public class PolygonTriangulation {
 	 *            id in polygon when name == null
 	 * @return null if new point equals current
 	 */
-	private Point addPointToChain(Point point, double x, double y,
-			String name, int nameId) {
+	private Point addPointToChain(Point point, double x, double y, String name,
+			int nameId) {
 		if (!Kernel.isEqual(point.x, x, POINT_DELTA)
 				|| !Kernel.isEqual(point.y, y, POINT_DELTA)) {
 			point.next = new Point(x, y, point.id + 1);
@@ -700,6 +700,7 @@ public class PolygonTriangulation {
 		}
 		return point;
 	}
+
 	/**
 	 * update points list: creates a chain from firstPoint to next points ; two
 	 * consecutive points can't be equal ; three consecutive points can't be
@@ -722,7 +723,6 @@ public class PolygonTriangulation {
 					polygon.getPointY(i), null, i);
 		}
 
-
 		// corners
 		if (corners != null) {
 			maxPointIndex += EXTRA_POINTS;
@@ -738,9 +738,8 @@ public class PolygonTriangulation {
 			}
 
 			// re-add first corner
-			point = addPointToChain(point, corners[0].getX(),
-					corners[0].getY(), "c", 0);
-
+			point = addPointToChain(point, corners[0].getX(), corners[0].getY(),
+					"c", 0);
 
 			// add last four corners
 			for (int i = CORNERS; i < CORNERS_ALL; i++) {
@@ -752,10 +751,9 @@ public class PolygonTriangulation {
 			point = addPointToChain(point, corners[CORNERS].getX(),
 					corners[CORNERS].getY(), "c", 4);
 
-
 			// re-add first corner
-			point = addPointToChain(point, corners[0].getX(),
-					corners[0].getY(), "c", 0);
+			point = addPointToChain(point, corners[0].getX(), corners[0].getY(),
+					"c", 0);
 
 		}
 
@@ -786,8 +784,8 @@ public class PolygonTriangulation {
 		// set orientations and remove flat points
 		Point prevPoint = firstPoint;
 		point = prevPoint.next;
-		prevPoint.orientationToNext = Math.atan2(point.y - prevPoint.y, point.x
-				- prevPoint.x);
+		prevPoint.orientationToNext = Math.atan2(point.y - prevPoint.y,
+				point.x - prevPoint.x);
 
 		int removedPoints = 0;
 		for (int i = 0; i < n && removedPoints < n - 1; i++) {
@@ -818,8 +816,8 @@ public class PolygonTriangulation {
 			} else if (Kernel.isEqual(delta, Math.PI, ORIENTATION_DELTA)) { // U-turn
 				debug("U-turn");
 				if (Kernel.isEqual(nextPoint.x, prevPoint.x, POINT_DELTA)
-						&& Kernel
-								.isEqual(nextPoint.y, prevPoint.y, POINT_DELTA)) {
+						&& Kernel.isEqual(nextPoint.y, prevPoint.y,
+								POINT_DELTA)) {
 					// same point
 					debug(prevPoint.name + "==" + nextPoint.name);
 
@@ -835,9 +833,11 @@ public class PolygonTriangulation {
 					point.next = nextPoint.next;
 					nextPoint.next.prev = point;
 					removedPoints += 2;
-				} else if (Kernel.isGreater(0, (nextPoint.x - prevPoint.x)
-						* (point.x - prevPoint.x) + (nextPoint.y - prevPoint.y)
-						* (point.y - prevPoint.y), POINT_DELTA)) {
+				} else if (Kernel.isGreater(0,
+						(nextPoint.x - prevPoint.x) * (point.x - prevPoint.x)
+								+ (nextPoint.y - prevPoint.y)
+										* (point.y - prevPoint.y),
+						POINT_DELTA)) {
 					// next point is back old point
 					debug(" next point is back old point - "
 							+ (prevPoint.orientationToNext * 180 / Math.PI));
@@ -929,8 +929,7 @@ public class PolygonTriangulation {
 				delta -= 2 * Math.PI;
 			}
 			convex = positive ^ (delta < 0);
-			debug(point2.name + "("
-					+ (point2.orientationToNext * 180 / Math.PI)
+			debug(point2.name + "(" + (point2.orientationToNext * 180 / Math.PI)
 					+ Unicode.DEGREE_CHAR + ") -- " + "("
 					+ (delta * 180 / Math.PI) + Unicode.DEGREE_CHAR + ") -- "
 					+ convex);
@@ -941,11 +940,10 @@ public class PolygonTriangulation {
 		}
 
 		// check if (angle sum) == (n-2)*pi
-		debug((deltaSum * 180 / Math.PI) + " , " + (pointLengthMinus2 - 2)
-				* 180);
-		convex = convex
-				&& Kernel.isEqual(Math.abs(deltaSum), pointLengthMinus2
-						* Math.PI);
+		debug((deltaSum * 180 / Math.PI) + " , "
+				+ (pointLengthMinus2 - 2) * 180);
+		convex = convex && Kernel.isEqual(Math.abs(deltaSum),
+				pointLengthMinus2 * Math.PI);
 
 		if (convex) {
 			if (positive) {
@@ -1158,8 +1156,8 @@ public class PolygonTriangulation {
 			bottom.above = top;
 			top.below = bottom;
 
-			for (Point pt = pointSet.first(); pt != pointSet.last(); pt = pointSet
-					.higher(pt)) {
+			for (Point pt = pointSet.first(); pt != pointSet
+					.last(); pt = pointSet.higher(pt)) {
 
 				String s = pt.name + " : ";
 				/*
@@ -1184,18 +1182,22 @@ public class PolygonTriangulation {
 																	// segments
 					above = pt.toLeft.first().above;
 					below = pt.toLeft.last().below;
-					// debug(pt.name+" : "+pt.toLeft.first()+"("+pt.toLeft.first().hashCode()+")"+" -- "+pt.toLeft.last()+"("+below+")");
+					// debug(pt.name+" :
+					// "+pt.toLeft.first()+"("+pt.toLeft.first().hashCode()+")"+"
+					// -- "+pt.toLeft.last()+"("+below+")");
 					below.above = above;
 					above.below = below;
 					checkIntersection(below, above, pointSet);
 
 					// check if new point is aligned with existing segment
 					boolean go = true;
-					for (Segment segment = bottom.above; segment != top && go; segment = segment.above) {
-						double orientation = Math.atan2(pt.y
-								- segment.leftPoint.y, pt.x
-								- segment.leftPoint.x);
-						// error(segment.leftPoint.name+pt.name+" : "+orientation);
+					for (Segment segment = bottom.above; segment != top
+							&& go; segment = segment.above) {
+						double orientation = Math.atan2(
+								pt.y - segment.leftPoint.y,
+								pt.x - segment.leftPoint.x);
+						// error(segment.leftPoint.name+pt.name+" :
+						// "+orientation);
 						if (Kernel.isEqual(orientation, segment.orientation,
 								ORIENTATION_DELTA)) {
 							error("(1)" + pt.name + " aligned with " + segment);
@@ -1219,12 +1221,15 @@ public class PolygonTriangulation {
 				} else { // search for the correct place for to-right segments
 					debug("search the correct place : " + pt.name);
 					boolean go = true;
-					for (Segment segment = bottom.above; segment != top && go; segment = segment.above) {
-						// error(segment.leftPoint.name+segment.rightPoint.name+" : "+segment.orientation);
-						double orientation = Math.atan2(pt.y
-								- segment.leftPoint.y, pt.x
-								- segment.leftPoint.x);
-						// error(segment.leftPoint.name+pt.name+" : "+orientation);
+					for (Segment segment = bottom.above; segment != top
+							&& go; segment = segment.above) {
+						// error(segment.leftPoint.name+segment.rightPoint.name+"
+						// : "+segment.orientation);
+						double orientation = Math.atan2(
+								pt.y - segment.leftPoint.y,
+								pt.x - segment.leftPoint.x);
+						// error(segment.leftPoint.name+pt.name+" :
+						// "+orientation);
 						if (Kernel.isEqual(orientation, segment.orientation,
 								ORIENTATION_DELTA)) {
 							error("(2)" + pt.name + " aligned with " + segment);
@@ -1368,7 +1373,8 @@ public class PolygonTriangulation {
 								if (next == null) { // no to-right segment
 									next = nextPoint.toLeft.last();
 									running = Running.LEFT;
-									needsDiagonal = needsDiagonal(segment, next);
+									needsDiagonal = needsDiagonal(segment,
+											next);
 								}
 							} else {
 								running = Running.LEFT;
@@ -1379,16 +1385,17 @@ public class PolygonTriangulation {
 					} else { // running == Running.LEFT
 						nextPoint = segment.leftPoint;
 						if (nextPoint == start
-								&& (start.toRight.higher(segStart) == segment || segStart == segment)) { // check
-																											// if
-																											// there
-																											// are
-																											// no
-																											// segment
-																											// between
-																											// current
-																											// and
-																											// segStart
+								&& (start.toRight.higher(segStart) == segment
+										|| segStart == segment)) { // check
+																	// if
+																	// there
+																	// are
+																	// no
+																	// segment
+																	// between
+																	// current
+																	// and
+																	// segStart
 							running = Running.STOP;
 							next = segStart;
 						} else {
@@ -1401,7 +1408,8 @@ public class PolygonTriangulation {
 								if (next == null) { // no to-left segment
 									next = nextPoint.toRight.last();
 									running = Running.RIGHT;
-									needsDiagonal = needsDiagonal(segment, next);
+									needsDiagonal = needsDiagonal(segment,
+											next);
 								}
 							} else {
 								running = Running.RIGHT;
@@ -1449,7 +1457,8 @@ public class PolygonTriangulation {
 					if (!segment.addToPoints()) {
 						comparedSameSegment.usable++;
 						// debug("not new : "+segment+", "+segment.usable);
-						// debug(segment.hashCode()+" / "+comparedSameSegment.hashCode());
+						// debug(segment.hashCode()+" /
+						// "+comparedSameSegment.hashCode());
 					}
 
 					// says if the point needs a diagonal
@@ -1644,11 +1653,11 @@ public class PolygonTriangulation {
 		// (point.orientationToNext*180/Math.PI))+ Unicode.degreeChar +
 		// ", "+point.next.name);
 		Segment segment;
-		if (Kernel.isGreater(point.orientationToNext, -Math.PI / 2)
-				&& Kernel.isGreaterEqual(Math.PI / 2, point.orientationToNext)) { // point
-																					// is
-																					// left
-																					// point
+		if (Kernel.isGreater(point.orientationToNext, -Math.PI / 2) && Kernel
+				.isGreaterEqual(Math.PI / 2, point.orientationToNext)) { // point
+																			// is
+																			// left
+																			// point
 			segment = new Segment(point.orientationToNext, point, point.next);
 		} else { // point is right point
 			segment = new Segment(
@@ -1745,16 +1754,19 @@ public class PolygonTriangulation {
 					above.below = below;
 
 					if (pt.needsDiagonal) {
-						// error("diagonal to right : "+below+"<"+pt.name+"<"+above);
+						// error("diagonal to right :
+						// "+below+"<"+pt.name+"<"+above);
 						Point pt2;
-						if (below.rightPoint.compareToOnly(above.rightPoint) < 0) {
+						if (below.rightPoint
+								.compareToOnly(above.rightPoint) < 0) {
 							pt2 = below.rightPoint;
 						} else {
 							pt2 = above.rightPoint;
 						}
 
-						Segment diagonal = new Segment(Math.atan2(pt2.y - pt.y,
-								pt2.x - pt.x), pt, pt2);
+						Segment diagonal = new Segment(
+								Math.atan2(pt2.y - pt.y, pt2.x - pt.x), pt,
+								pt2);
 						diagonal.addToPoints();
 						diagonal.usable++;
 
@@ -1764,10 +1776,11 @@ public class PolygonTriangulation {
 				} else { // search for the correct place for to-right segments
 							// error(pt.name);
 					boolean go = true;
-					for (Segment segment = bottom.above; segment != top && go; segment = segment.above) {
-						double orientation = Math.atan2(pt.y
-								- segment.leftPoint.y, pt.x
-								- segment.leftPoint.x);
+					for (Segment segment = bottom.above; segment != top
+							&& go; segment = segment.above) {
+						double orientation = Math.atan2(
+								pt.y - segment.leftPoint.y,
+								pt.x - segment.leftPoint.x);
 						if (orientation < segment.orientation) { // found the
 																	// place
 							go = false;
@@ -1782,7 +1795,8 @@ public class PolygonTriangulation {
 					}
 
 					if (pt.needsDiagonal) {
-						// error("diagonal to left : "+below+"<"+pt.name+"<"+above);
+						// error("diagonal to left :
+						// "+below+"<"+pt.name+"<"+above);
 						if (below.usable > 1) {
 							below.removeFromPoints();
 							below.rightPoint = pt;
@@ -1803,13 +1817,15 @@ public class PolygonTriangulation {
 							above.below = below;
 						} else {
 							Point pt2;
-							if (below.leftPoint.compareToOnly(above.leftPoint) < 0) {
+							if (below.leftPoint
+									.compareToOnly(above.leftPoint) < 0) {
 								pt2 = above.leftPoint;
 							} else {
 								pt2 = below.leftPoint;
 							}
-							Segment diagonal = new Segment(Math.atan2(pt.y
-									- pt2.y, pt.x - pt2.x), pt2, pt);
+							Segment diagonal = new Segment(
+									Math.atan2(pt.y - pt2.y, pt.x - pt2.x), pt2,
+									pt);
 							diagonal.addToPoints();
 							diagonal.usable++;
 
@@ -1901,7 +1917,8 @@ public class PolygonTriangulation {
 				segment.removeFromPoints();
 				if (oldRunning == Running.LEFT) {
 					if (segment.usable > 1) {
-						// debug("segment "+segment+" is diagonal, running left, keep point : "+nextPoint.name);
+						// debug("segment "+segment+" is diagonal, running left,
+						// keep point : "+nextPoint.name);
 						segment.usable--; // usable once less, clone it
 						Segment clone = segment.clone();
 						clone.addToPoints();
@@ -1914,7 +1931,8 @@ public class PolygonTriangulation {
 
 				} else { // oldRunning == Running.RIGHT
 					if (segment.usable > 1) {
-						// debug("segment "+segment+" is diagonal, running right, keep point : "+currentPoint.name);
+						// debug("segment "+segment+" is diagonal, running
+						// right, keep point : "+currentPoint.name);
 						segment.usable--; // usable once less, clone it
 						Segment clone = segment.clone();
 						clone.addToPoints();
@@ -2041,7 +2059,8 @@ public class PolygonTriangulation {
 			boolean clockWise = false;
 
 			// boolean viBetween = vi > min && vi < max;
-			// debugDiagonal("(vi > min && vi < max) , (top > min && top < max) : "+(vi
+			// debugDiagonal("(vi > min && vi < max) , (top > min && top < max)
+			// : "+(vi
 			// > min && vi < max)+","+(top > min && top < max),vi,top);
 			if (viChain != chain) { // vi and top are not on the same chain
 				debugDiagonal("case 2 ", top, vi);
@@ -2152,7 +2171,8 @@ public class PolygonTriangulation {
 	 * @param length
 	 *            vertices length
 	 */
-	public void setCompleteVertices(Coords[] vertices, CoordSys cs, int length) {
+	public void setCompleteVertices(Coords[] vertices, CoordSys cs,
+			int length) {
 		if (maxPointIndex == length) {
 			return;
 		}
@@ -2182,8 +2202,7 @@ public class PolygonTriangulation {
 	 *            vertices length
 	 * @return complete 3D vertex array (with intersections)
 	 */
-	public Coords[] getCompleteVertices(Coords[] vertices,
-			int length) {
+	public Coords[] getCompleteVertices(Coords[] vertices, int length) {
 		if (maxPointIndex == length) {
 			return vertices;
 		}

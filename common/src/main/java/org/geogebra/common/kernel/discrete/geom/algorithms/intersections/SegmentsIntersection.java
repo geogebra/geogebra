@@ -28,55 +28,55 @@ import org.geogebra.common.kernel.discrete.geom.Point2D;
  *
  * @author cyberpython
  */
-public class SegmentsIntersection extends Intersection{
-    private Segment2DEx s1;
-    private Segment2DEx s2;
+public class SegmentsIntersection extends Intersection {
+	private Segment2DEx s1;
+	private Segment2DEx s2;
 
-    public SegmentsIntersection(Point2D p0, Segment2DEx s1, Segment2DEx s2){
-        super(p0);
-        this.s1 = s1;
-        this.s2 = s2;
-    }
+	public SegmentsIntersection(Point2D p0, Segment2DEx s1, Segment2DEx s2) {
+		super(p0);
+		this.s1 = s1;
+		this.s2 = s2;
+	}
 
-    public Segment2DEx getSegment1(){
-        return this.s1;
-    }
+	public Segment2DEx getSegment1() {
+		return this.s1;
+	}
 
-    public Segment2DEx getSegment2(){
-        return this.s2;
-    }
+	public Segment2DEx getSegment2() {
+		return this.s2;
+	}
 
+	@Override
+	public String toString() {
+		return s1.toString() + " CROSSES " + s2.toString() + " AT: "
+				+ getPoint().toString();
+	}
 
-    @Override
-    public String toString(){
-        return s1.toString() + " CROSSES " + s2.toString() + " AT: " + getPoint().toString();
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof SegmentsIntersection) {
+			SegmentsIntersection s = (SegmentsIntersection) o;
+			if (this.getPoint().equals(s.getPoint())) {
+				if (s1.equals(s.s1) && s2.equals(s.s2)) {
+					return true;
+				} else if (s1.equals(s.s2) && s2.equals(s.s1)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
 
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 71 * hash + (this.s1 != null ? this.s1.hashCode() : 0);
+		hash = 71 * hash + (this.s2 != null ? this.s2.hashCode() : 0);
+		hash = 71 * hash
+				+ (this.getPoint() != null ? this.getPoint().hashCode() : 0);
+		return hash;
+	}
 
-    @Override
-    public boolean equals(Object o){
-        if(o instanceof SegmentsIntersection){
-            SegmentsIntersection s = (SegmentsIntersection) o;
-            if(this.getPoint().equals(s.getPoint())){
-                if(s1.equals(s.s1)&&s2.equals(s.s2)){
-                    return true;
-                }else if(s1.equals(s.s2)&&s2.equals(s.s1)){
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 71 * hash + (this.s1 != null ? this.s1.hashCode() : 0);
-        hash = 71 * hash + (this.s2 != null ? this.s2.hashCode() : 0);
-        hash = 71 * hash + (this.getPoint() != null ? this.getPoint() .hashCode() : 0);
-        return hash;
-    }
-    
 }

@@ -76,8 +76,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				"ggbsort(x):=when(length(x)==0,{},when(type(x[0])==DOM_LIST,x,sort(x)))"), SECH(
 						"sech", "sech(x):=1/cosh(x)"), CSCH("csch",
 								"csch(x):=1/sinh(x)"),
-								// Giac's fPart has problems, so use this
-								// http://wiki.geogebra.org/en/FractionalPart_Function
+		// Giac's fPart has problems, so use this
+		// http://wiki.geogebra.org/en/FractionalPart_Function
 		FRACTIONAL_PART("fractionalPart",
 				"fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)))"),
 
@@ -88,10 +88,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * null -> always sent (used by other definitions)
 		 */
-				IS_3D_POINT(null,
-						"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false)"),
-						// check whether a is polynomial
-						// special cases like y^2=1 also handled
+		IS_3D_POINT(null,
+				"is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false)"),
+		// check whether a is polynomial
+		// special cases like y^2=1 also handled
 
 		IS_POLYNOMIAL("ispolynomial",
 				"ispolynomial(a):=when(a[0] == '=' ,is_polynomial(a[1]) && is_polynomial(a[2]),"
@@ -104,17 +104,17 @@ public abstract class CASgiac implements CASGenericInterface {
 				+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
 
 		/* xcoordsymb(A) converted back to x(A) in CommandDispatcherGiac */
-				XCOORD("xcoord",
-						"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
-						// altsymb(P) converted back to alt(P) in
-						// CommandDispatcherGiac
+		XCOORD("xcoord",
+				"xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))"),
+		// altsymb(P) converted back to alt(P) in
+		// CommandDispatcherGiac
 
 		YCOORD("ycoord",
 				"ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))"),
 
 		// make sure z((1,2)) = 0
-				ZCOORD("zcoord",
-						"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
+		ZCOORD("zcoord",
+				"zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))"),
 
 		// unicode0176u passes unaltered through Giac
 		// then gets decoded to degree sign in GeoGebra
@@ -130,20 +130,20 @@ public abstract class CASgiac implements CASGenericInterface {
 				"atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
 		/* subtype 27 is ggbvect[] */
-				ABS("ggbabs",
-						"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x))"),
-						// check list before equation to
-						// avoid out of bounds. flatten
-						// helps
-						// for {} and {{{0}}}
+		ABS("ggbabs",
+				"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x))"),
+		// check list before equation to
+		// avoid out of bounds. flatten
+		// helps
+		// for {} and {{{0}}}
 		IS_ZERO("ggb_is_zero",
 				"ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,x[0]== 'pnt' && x[1] == ggbvect[0,0,0])))"),
-				// convert the polys into primitive polys in the input list
-				// (contains temporary fix for primpart also):
+		// convert the polys into primitive polys in the input list
+		// (contains temporary fix for primpart also):
 		PRIM_POLY("primpoly",
 				"primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
-				// strange why sommet(-x)!='-' (so we do an ugly hack here,
-				// FIXME)
+		// strange why sommet(-x)!='-' (so we do an ugly hack here,
+		// FIXME)
 		FACTOR_SQR_FREE("factorsqrfree",
 				"factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		// remove zeroes or linear dependencies from a list (workaround for
@@ -180,14 +180,14 @@ public abstract class CASgiac implements CASGenericInterface {
 			// http://wiki.geogebra.org/en/FractionalPart_Function
 			+ "fractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)));;"
 
-	// eg Integral[x ln(5x)^2]
-	// DOESN'T WORK eg Integral[sec(x)] gives x
-	// "regroupAndNormalIfShorter(x):=[[[ggbevalans:=regroup(normal(x))],[ggbevalans2:=regroup(x)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1];"
+			// eg Integral[x ln(5x)^2]
+			// DOESN'T WORK eg Integral[sec(x)] gives x
+			// "regroupAndNormalIfShorter(x):=[[[ggbevalans:=regroup(normal(x))],[ggbevalans2:=regroup(x)]],when(length(\"\"+ggbevalans)<=length(\"\"+ggbevalans2),ggbevalans,ggbevalans2)][1];"
 
-	// these both give 3
-	// @size(point(1,2,3)[1]) gives 3
-	// @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
-	// so need to check subtype(x[1])==20 to distinguish 2D and 3D
+			// these both give 3
+			// @size(point(1,2,3)[1]) gives 3
+			// @size(point((-(5))+(ggbtmpvark),(-(5))+(ggbtmpvark))[1]) gives 3
+			// so need to check subtype(x[1])==20 to distinguish 2D and 3D
 			+ "is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false);;"
 			// check whether a is polynomial
 			// special cases like y^2=1 also handled
@@ -203,19 +203,19 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			+ "ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])));;"
 
-	// make sure z((1,2)) = 0
+			// make sure z((1,2)) = 0
 			+ "zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))));;"
 
-	// unicode0176u passes unaltered through Giac
-	// then gets decoded to degree sign in GeoGebra
-	// needed for "return angle from inverse trig function"
-	// see ExpressionNode.degFix()
+			// unicode0176u passes unaltered through Giac
+			// then gets decoded to degree sign in GeoGebra
+			// needed for "return angle from inverse trig function"
+			// see ExpressionNode.degFix()
 			+ "degasin(x):=normal(asin(x)/pi*180)*unicode0176u;;"
 			+ "degacos(x):=normal(acos(x)/pi*180)*unicode0176u;;"
 			+ "degatan(x):=normal(atan(x)/pi*180)*unicode0176u;;"
 			+ "degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;;"
 
-	// subtype 27 is ggbvect[]
+			// subtype 27 is ggbvect[]
 			+ "ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));;"
 			// check list before equation to avoid out of bounds. flatten helps
 			// for {} and {{{0}}}
@@ -306,7 +306,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	final public synchronized String evaluateGeoGebraCAS(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
 			StringTemplate tpl, GeoCasCell cell, Kernel kernel)
-					throws CASException {
+			throws CASException {
 
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
@@ -445,7 +445,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
 			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
-					throws CASException {
+			throws CASException {
 		boolean ggbvect = giacString.startsWith("ggbvect");
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
@@ -822,8 +822,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *            in a custom format
 	 * @return the output array of coefficients in GeoImplicitCurve's format
 	 */
-	public double[][][] getBivarPolyCoefficientsAll(
-			String rawResult) {
+	public double[][][] getBivarPolyCoefficientsAll(String rawResult) {
 		double[][] coeff = getBivarPolyCoefficients(rawResult);
 		double[][][] coeffSquarefree = getBivarPolySquarefreeCoefficients(
 				rawResult);
@@ -958,11 +957,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 5 > x && x > 3 into 3<x<5
 		while ((matcher = inequality.exec(ret)) != null &&
-				// TODO: check not x<3 && x<4
+		// TODO: check not x<3 && x<4
 
 		// check variable the same
 		// ie not x>5 && y<4
-		matcher.getGroup(2).equals(matcher.getGroup(11))) {
+				matcher.getGroup(2).equals(matcher.getGroup(11))) {
 
 			ret = matcher.getGroup(1) + matcher.getGroup(4) + "<"
 					+ matcher.getGroup(3) + matcher.getGroup(2) + "<"

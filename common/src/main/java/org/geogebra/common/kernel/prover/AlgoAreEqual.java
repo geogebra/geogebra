@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * @author Simon Weitzhofer 17 May 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
-public class AlgoAreEqual extends AlgoElement implements
-		SymbolicParametersBotanaAlgoAre {
+public class AlgoAreEqual extends AlgoElement
+		implements SymbolicParametersBotanaAlgoAre {
 
 	private GeoElement inputElement1; // input
 	private GeoElement inputElement2; // input
@@ -46,8 +46,8 @@ public class AlgoAreEqual extends AlgoElement implements
 	 * @param inputElement2
 	 *            the second object
 	 */
-	public AlgoAreEqual(Construction cons,
-			GeoElement inputElement1, GeoElement inputElement2) {
+	public AlgoAreEqual(Construction cons, GeoElement inputElement1,
+			GeoElement inputElement2) {
 		super(cons);
 		this.inputElement1 = inputElement1;
 		this.inputElement2 = inputElement2;
@@ -104,7 +104,6 @@ public class AlgoAreEqual extends AlgoElement implements
 		outputBoolean.setValue(inputElement1.isEqual(inputElement2));
 	}
 
-
 	public Polynomial[][] getBotanaPolynomials()
 			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
@@ -133,7 +132,7 @@ public class AlgoAreEqual extends AlgoElement implements
 			// currently unimplemented
 			throw new NoSymbolicParametersException();
 		}
-		
+
 		if (inputElement1 instanceof GeoLine
 				&& inputElement2 instanceof GeoLine) {
 			botanaPolynomials = new Polynomial[2][1];
@@ -167,12 +166,13 @@ public class AlgoAreEqual extends AlgoElement implements
 				// We want to prove: 1) |AC|^2 = 0, 2) |AB|^2 = |CD|^2
 				botanaPolynomials[0][0] = Polynomial.sqrDistance(v1[0], v1[1],
 						v2[0], v2[1]);
-				botanaPolynomials[1][0] = Polynomial.sqrDistance(v1[0], v1[1],
-						v1[2], v1[3]).subtract(
-						Polynomial.sqrDistance(v2[0], v2[1], v2[2], v2[3]));
+				botanaPolynomials[1][0] = Polynomial
+						.sqrDistance(v1[0], v1[1], v1[2], v1[3])
+						.subtract(Polynomial.sqrDistance(v2[0], v2[1], v2[2],
+								v2[3]));
 				return botanaPolynomials;
 			}
-			
+
 			if (((GeoConic) inputElement1).isParabola()
 					&& ((GeoConic) inputElement2).isParabola()) {
 				botanaPolynomials = new Polynomial[4][1];
@@ -243,8 +243,10 @@ public class AlgoAreEqual extends AlgoElement implements
 		// distance between 2 point without segment
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
-				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_DISTANCE
-				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_DISTANCE) {
+				&& (inputElement1.getParentAlgorithm())
+						.getRelatedModeID() == EuclidianConstants.MODE_DISTANCE
+				&& (inputElement2.getParentAlgorithm())
+						.getRelatedModeID() == EuclidianConstants.MODE_DISTANCE) {
 			// We check whether their length are equal.
 			botanaPolynomials = new Polynomial[1][1];
 
@@ -268,9 +270,9 @@ public class AlgoAreEqual extends AlgoElement implements
 			Polynomial d1 = new Polynomial(v2[2]);
 			Polynomial d2 = new Polynomial(v2[3]);
 			botanaPolynomials[0][0] = ((Polynomial.sqr(a1.subtract(b1))
-					.add(Polynomial.sqr(a2.subtract(b2)))).subtract(Polynomial
-					.sqr(c1.subtract(d1)))).subtract(Polynomial.sqr(c2
-					.subtract(d2)));
+					.add(Polynomial.sqr(a2.subtract(b2))))
+							.subtract(Polynomial.sqr(c1.subtract(d1))))
+									.subtract(Polynomial.sqr(c2.subtract(d2)));
 
 			return botanaPolynomials;
 		}
@@ -279,15 +281,17 @@ public class AlgoAreEqual extends AlgoElement implements
 		// area of polygon is the sum of areas of triangles in polygon
 		if (inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoNumeric
-				&& (inputElement1.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA
-				&& (inputElement2.getParentAlgorithm()).getRelatedModeID() == EuclidianConstants.MODE_AREA) {
+				&& (inputElement1.getParentAlgorithm())
+						.getRelatedModeID() == EuclidianConstants.MODE_AREA
+				&& (inputElement2.getParentAlgorithm())
+						.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
 
 			// get botanaVars of points of first polygon
 			Variable[] v1 = ((SymbolicParametersBotanaAlgo) inputElement1
-						.getParentAlgorithm()).getBotanaVars(inputElement1);
+					.getParentAlgorithm()).getBotanaVars(inputElement1);
 			// get botanaVars of points of first polygon
 			Variable[] v2 = ((SymbolicParametersBotanaAlgo) inputElement2
-						.getParentAlgorithm()).getBotanaVars(inputElement2);
+					.getParentAlgorithm()).getBotanaVars(inputElement2);
 
 			// add areas of triangles in first polygon
 			Polynomial det1sum = Polynomial.area(v1[0], v1[1], v1[2], v1[3],
@@ -316,5 +320,4 @@ public class AlgoAreEqual extends AlgoElement implements
 		throw new NoSymbolicParametersException();
 	}
 
-	
 }

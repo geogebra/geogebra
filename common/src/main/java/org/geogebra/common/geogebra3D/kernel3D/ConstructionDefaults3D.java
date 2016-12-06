@@ -73,6 +73,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	private static final GColor colPolyhedron() {
 		return colPolygon;
 	}
+
 	/** default alpha for polyhedrons and limited quadrics */
 	public static final float DEFAULT_POLYHEDRON_ALPHA = 0.4f;
 
@@ -107,7 +108,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
 		intersectionCurve.setObjColor(colIntersectionCurve);
-		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);		
+		intersectionCurve.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		intersectionCurve.setDefaultGeoType(DEFAULT_INTERSECTION_CURVE);
 		defaultGeoElements.put(DEFAULT_INTERSECTION_CURVE, intersectionCurve);
 

@@ -48,7 +48,6 @@ import static org.geogebra.common.util.mathIT.Complex.power;
 import static org.geogebra.common.util.mathIT.Complex.sin;
 import static org.geogebra.common.util.mathIT.Complex.subtract;
 
-
 /**
  * This class provides the Riemann zeta function &#950;(<i>s</i>) for any
  * complex number <i>s</i> &#8712; <span style="font-size:large;">&#8450;</span>
@@ -980,4 +979,3 @@ public class Riemann {
 	 * javax.swing.JOptionPane.PLAIN_MESSAGE ); } //
 	 */
 }
-

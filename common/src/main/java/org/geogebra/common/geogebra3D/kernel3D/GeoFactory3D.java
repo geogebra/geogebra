@@ -146,7 +146,7 @@ public class GeoFactory3D extends GeoFactory {
 
 		case CONICPART:
 			return new GeoConicPart3D((GeoConicPartND) geo);
-			
+
 		case IMPLICIT_POLY:
 			return new GeoImplicitCurve3D((GeoImplicitCurve) geo);
 
@@ -162,6 +162,7 @@ public class GeoFactory3D extends GeoFactory {
 		}
 		return new GeoVector(cons);
 	}
+
 	@Override
 	public GeoElement copyInternal3D(Construction cons1, GeoElement geo) {
 
@@ -182,9 +183,9 @@ public class GeoFactory3D extends GeoFactory {
 			return ret;
 
 		case SEGMENT:
-			ret = new GeoSegment3D(geo.getConstruction(), new GeoPoint3D(
-					((GeoSegmentND) geo).getStartPoint()), new GeoPoint3D(
-					((GeoSegmentND) geo).getEndPoint()));
+			ret = new GeoSegment3D(geo.getConstruction(),
+					new GeoPoint3D(((GeoSegmentND) geo).getStartPoint()),
+					new GeoPoint3D(((GeoSegmentND) geo).getEndPoint()));
 			ret.set(geo);
 			return ret;
 

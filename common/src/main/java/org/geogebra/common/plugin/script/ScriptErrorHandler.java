@@ -25,9 +25,9 @@ public class ScriptErrorHandler implements ErrorHandler {
 		}
 		app.getDefaultErrorHandler()
 				.showError(app.getLocalization().getPlain(
-				"ErrorInScriptAtLineAFromObjectB", (line + 1) + "",
-				evt.target.getLabel(StringTemplate.defaultTemplate)) + "\n"
-				+ msg);
+						"ErrorInScriptAtLineAFromObjectB", (line + 1) + "",
+						evt.target.getLabel(StringTemplate.defaultTemplate))
+						+ "\n" + msg);
 
 	}
 
@@ -49,7 +49,6 @@ public class ScriptErrorHandler implements ErrorHandler {
 						"ErrorInScriptAtLineAFromObjectB", (line + 1)
 								+ "",
 						evt.target.getLabel(StringTemplate.defaultTemplate)));
-
 
 	}
 

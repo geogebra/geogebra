@@ -38,8 +38,8 @@ public class CmdSetCoords extends CmdScripting {
 
 			double x = getDouble(arg[1], c);
 			double y = getDouble(arg[2], c);
-			
-			if(!setCoords(arg[0],x,y)){
+
+			if (!setCoords(arg[0], x, y)) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			return arg;
@@ -91,7 +91,7 @@ public class CmdSetCoords extends CmdScripting {
 			}
 			// don't return false, need to fall through
 		}
-		
+
 		if (geo.isGeoTurtle()) {
 			((GeoTurtle) geo).setCoords(x, y);
 			return true;
@@ -124,7 +124,8 @@ public class CmdSetCoords extends CmdScripting {
 	 *            z coordinate
 	 * @return true when successful
 	 */
-	public static boolean setCoords(GeoElement geo, double x, double y, double z) {
+	public static boolean setCoords(GeoElement geo, double x, double y,
+			double z) {
 		if (geo.isMoveable() && geo instanceof GeoPointND) {
 			((GeoPointND) geo).setCoords(x, y, z, 1);
 			geo.updateRepaint();

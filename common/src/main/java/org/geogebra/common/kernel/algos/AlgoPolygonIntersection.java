@@ -69,6 +69,4 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 		return Commands.IntersectPath;
 	}
 
-	
-
 }

@@ -80,8 +80,8 @@ public class AlgoLengthFunction2Points extends AlgoUsingTempCASalgo {
 		double a = A.getInhomCoordsInD3().getX();
 		double b = B.getInhomCoordsInD3().getX();
 
-		double lenVal = Math.abs(AlgoIntegralDefinite.numericIntegration(
-				lengthFunction, a, b));
+		double lenVal = Math.abs(
+				AlgoIntegralDefinite.numericIntegration(lengthFunction, a, b));
 		length.setValue(lenVal);
 	}
 

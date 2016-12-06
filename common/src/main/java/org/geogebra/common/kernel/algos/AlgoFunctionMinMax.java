@@ -126,14 +126,14 @@ public class AlgoFunctionMinMax extends AlgoElement {
 				|| (right.getDouble() <= left.getDouble())) {
 			E.setUndefined();
 			return;
-		}// if input is ok?
+		} // if input is ok?
 
 		// Brent's algorithm
 		extrFinder = new ExtremumFinder();
 		RealRootFunction fun = f.getRealRootFunctionY();
 
-		min = isMin ? extrFinder.findMinimum(l, r, fun, 5.0E-8) : extrFinder
-				.findMaximum(l, r, fun, 5.0E-8);
+		min = isMin ? extrFinder.findMinimum(l, r, fun, 5.0E-8)
+				: extrFinder.findMaximum(l, r, fun, 5.0E-8);
 
 		E.setCoords(min, f.evaluate(min), 1.0);
 		E.updateRepaint();

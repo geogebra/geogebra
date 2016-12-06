@@ -20,101 +20,110 @@ package org.apache.commons.math.analysis;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.util.FastMath;
 
-
-
 /**
- * Base class for {@link BivariateRealFunction} that can be composed with other functions.
+ * Base class for {@link BivariateRealFunction} that can be composed with other
+ * functions.
  *
  * @since 2.1
- * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 fevr. 2011) $
+ * @version $Revision: 1073498 $ $Date: 2011-02-22 21:57:26 +0100 (mar. 22 fevr.
+ *          2011) $
  * @deprecated in 2.2
  */
 @Deprecated
 public abstract class BinaryFunction implements BivariateRealFunction {
 
-    /** The + operator method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction ADD = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return x + y;
-        }
-    };
+	/** The + operator method wrapped as a {@link BinaryFunction}. */
+	public static final BinaryFunction ADD = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return x + y;
+		}
+	};
 
-    /** The - operator method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction SUBTRACT = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return x - y;
-        }
-    };
+	/** The - operator method wrapped as a {@link BinaryFunction}. */
+	public static final BinaryFunction SUBTRACT = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return x - y;
+		}
+	};
 
-    /** The * operator method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction MULTIPLY = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return x * y;
-        }
-    };
+	/** The * operator method wrapped as a {@link BinaryFunction}. */
+	public static final BinaryFunction MULTIPLY = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return x * y;
+		}
+	};
 
-    /** The / operator method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction DIVIDE = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return x / y;
-        }
-    };
+	/** The / operator method wrapped as a {@link BinaryFunction}. */
+	public static final BinaryFunction DIVIDE = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return x / y;
+		}
+	};
 
-    /** The {@code FastMath.pow} method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction POW = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return FastMath.pow(x, y);
-        }
-    };
+	/** The {@code FastMath.pow} method wrapped as a {@link BinaryFunction}. */
+	public static final BinaryFunction POW = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return FastMath.pow(x, y);
+		}
+	};
 
-    /** The {@code FastMath.atan2} method wrapped as a {@link BinaryFunction}. */
-    public static final BinaryFunction ATAN2 = new BinaryFunction() {
-        /** {@inheritDoc} */
-        @Override
-        public double value(double x, double y) {
-            return FastMath.atan2(x, y);
-        }
-    };
+	/**
+	 * The {@code FastMath.atan2} method wrapped as a {@link BinaryFunction}.
+	 */
+	public static final BinaryFunction ATAN2 = new BinaryFunction() {
+		/** {@inheritDoc} */
+		@Override
+		public double value(double x, double y) {
+			return FastMath.atan2(x, y);
+		}
+	};
 
-    /** {@inheritDoc} */
-    public abstract double value(double x, double y) throws FunctionEvaluationException;
+	/** {@inheritDoc} */
+	public abstract double value(double x, double y)
+			throws FunctionEvaluationException;
 
-    /** Get a composable function by fixing the first argument of the instance.
-     * @param fixedX fixed value of the first argument
-     * @return a function such that {@code f.value(y) == value(fixedX, y)}
-     */
-    public ComposableFunction fix1stArgument(final double fixedX) {
-        return new ComposableFunction() {
-            @Override
-            /** {@inheritDoc} */
-            public double value(double x) throws FunctionEvaluationException {
-                return BinaryFunction.this.value(fixedX, x);
-            }
-        };
-    }
+	/**
+	 * Get a composable function by fixing the first argument of the instance.
+	 * 
+	 * @param fixedX
+	 *            fixed value of the first argument
+	 * @return a function such that {@code f.value(y) == value(fixedX, y)}
+	 */
+	public ComposableFunction fix1stArgument(final double fixedX) {
+		return new ComposableFunction() {
+			@Override
+			/** {@inheritDoc} */
+			public double value(double x) throws FunctionEvaluationException {
+				return BinaryFunction.this.value(fixedX, x);
+			}
+		};
+	}
 
-    /** Get a composable function by fixing the second argument of the instance.
-     * @param fixedY fixed value of the second argument
-     * @return a function such that {@code f.value(x) == value(x, fixedY)}
-     */
-    public ComposableFunction fix2ndArgument(final double fixedY) {
-        return new ComposableFunction() {
-            @Override
-            /** {@inheritDoc} */
-            public double value(double x) throws FunctionEvaluationException {
-                return BinaryFunction.this.value(x, fixedY);
-            }
-        };
-    }
+	/**
+	 * Get a composable function by fixing the second argument of the instance.
+	 * 
+	 * @param fixedY
+	 *            fixed value of the second argument
+	 * @return a function such that {@code f.value(x) == value(x, fixedY)}
+	 */
+	public ComposableFunction fix2ndArgument(final double fixedY) {
+		return new ComposableFunction() {
+			@Override
+			/** {@inheritDoc} */
+			public double value(double x) throws FunctionEvaluationException {
+				return BinaryFunction.this.value(x, fixedY);
+			}
+		};
+	}
 
 }

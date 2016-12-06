@@ -15,7 +15,8 @@ import org.geogebra.common.main.Localization;
 public class TwoVarInferenceModel {
 	public interface TwoVarInferenceListener {
 
-		void setStatTable(int row, String[] rowNames, int length, String[] columnNames);
+		void setStatTable(int row, String[] rowNames, int length,
+				String[] columnNames);
 
 		void setFormattedValueAt(double value, int row, int col);
 
@@ -28,13 +29,13 @@ public class TwoVarInferenceModel {
 		void addAltHypItem(String name, String tail, double value);
 
 		void selectAltHyp(int idx);
-		
+
 	}
-	
+
 	public interface UpdatePanel {
 		void updatePanel();
 	}
-	
+
 	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
 
 	// test type (tail)
@@ -56,6 +57,7 @@ public class TwoVarInferenceModel {
 
 	private TwoVarInferenceListener listener;
 	private Localization loc;
+
 	/**
 	 * Construct a TwoVarInference panel
 	 */
@@ -64,27 +66,26 @@ public class TwoVarInferenceModel {
 		this.listener = listener;
 	}
 
-
 	public boolean isPairedData() {
-		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
+		return (selectedInference == StatisticsModel.INFER_TINT_PAIRED
+				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 	}
 
 	public String getNullHypName() {
 
 		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS) {
 			return loc.getMenu("DifferenceOfMeans.short");
-		}
-		else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
+		} else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
 			return loc.getMenu("MeanDifference");
-		}
-		else {
+		} else {
 			return "";
 		}
 
 	}
-	
+
 	public boolean isTest() {
-		return (selectedInference == StatisticsModel.INFER_TTEST_2MEANS || selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
+		return (selectedInference == StatisticsModel.INFER_TTEST_2MEANS
+				|| selectedInference == StatisticsModel.INFER_TTEST_PAIRED);
 	}
 
 	public void setResults() {
@@ -170,7 +171,6 @@ public class TwoVarInferenceModel {
 
 	}
 
-
 	// ============================================================
 	// Evaluate
 	// ============================================================
@@ -230,8 +230,8 @@ public class TwoVarInferenceModel {
 
 				// get confidence interval
 				tDist = new TDistributionImpl(df);
-				tCritical = tDist
-						.inverseCumulativeProbability((getConfLevel() + 1d) / 2);
+				tCritical = tDist.inverseCumulativeProbability(
+						(getConfLevel() + 1d) / 2);
 				me = tCritical * se;
 				upper = diffMeans + me;
 				lower = diffMeans - me;
@@ -259,8 +259,8 @@ public class TwoVarInferenceModel {
 				df = n1 - 1;
 
 				tDist = new TDistributionImpl(df);
-				tCritical = tDist
-						.inverseCumulativeProbability((getConfLevel() + 1d) / 2);
+				tCritical = tDist.inverseCumulativeProbability(
+						(getConfLevel() + 1d) / 2);
 				me = tCritical * se;
 				upper = meanDifference + me;
 				lower = meanDifference - me;
@@ -315,16 +315,16 @@ public class TwoVarInferenceModel {
 	 *            second sample n
 	 * @return approximate degrees of freedom
 	 */
-	public double getDegreeOfFreedom(double v1, double v2, double n1,
-			double n2, boolean pooled) {
+	public double getDegreeOfFreedom(double v1, double v2, double n1, double n2,
+			boolean pooled) {
 
 		if (pooled)
 			return n1 + n2 - 2;
 
 		else
 			return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-					/ ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2)
-							/ (n2 * n2 * (n2 - 1d)));
+					/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
+							+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
 	}
 
 	/**
@@ -352,65 +352,57 @@ public class TwoVarInferenceModel {
 			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
 					/ (n1 + n2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
-					pooled));
+			tDist = new TDistributionImpl(
+					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 
 		} else {
 
 			double se = Math.sqrt((v1 / n1) + (v2 / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
-					pooled));
+			tDist = new TDistributionImpl(
+					getDegreeOfFreedom(v1, v2, n1, n2, pooled));
 			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
 		}
 
 	}
 
-
 	public void setSelectedInference(int value) {
 		selectedInference = value;
 	}
-
 
 	public double getHypMean() {
 		return hypMean;
 	}
 
-
 	public void setHypMean(double hypMean) {
 		this.hypMean = hypMean;
 	}
-
 
 	public double getConfLevel() {
 		return confLevel;
 	}
 
-
 	public void setConfLevel(double confLevel) {
 		this.confLevel = confLevel;
 	}
-
 
 	public boolean isPooled() {
 		return pooled;
 	}
 
-
 	public void applyTail(int idx) {
 		if (idx == 0) {
 			tail = tail_right;
-		}
-		else if (idx == 1) {
+		} else if (idx == 1) {
 			tail = tail_left;
-		}
-		else {
+		} else {
 			tail = tail_two;
 		}
 		updateResults();
 	}
+
 	public void setPooled(boolean pooled) {
 		this.pooled = pooled;
 		updateResults();
@@ -421,13 +413,13 @@ public class TwoVarInferenceModel {
 		listener.addAltHypItem(nullHypName, tail_right, hypMean);
 		listener.addAltHypItem(nullHypName, tail_left, hypMean);
 		listener.addAltHypItem(nullHypName, tail_two, hypMean);
-			if (tail == tail_right) {
+		if (tail == tail_right) {
 			listener.selectAltHyp(0);
 		} else if (tail == tail_left) {
 			listener.selectAltHyp(0);
 		} else {
 			listener.selectAltHyp(2);
-			
-		}	
+
+		}
 	}
 }

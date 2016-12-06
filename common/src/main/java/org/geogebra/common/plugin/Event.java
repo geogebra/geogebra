@@ -31,7 +31,8 @@ public class Event {
 		this.targets = targets;
 	}
 
-	public Event(EventType type, GeoElement geoElement, boolean alwaysDispatch) {
+	public Event(EventType type, GeoElement geoElement,
+			boolean alwaysDispatch) {
 		this(type, geoElement);
 		this.alwaysDispatched = alwaysDispatch;
 	}

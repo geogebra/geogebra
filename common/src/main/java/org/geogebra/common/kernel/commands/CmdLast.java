@@ -39,17 +39,19 @@ public class CmdLast extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { Last(c.getLabel(), (GeoList) arg[0], null) };
+				GeoElement[] ret = {
+						Last(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0], null) };
+				GeoElement[] ret = {
+						Last(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoFunction()) {
-				AlgoLastFunction algo = new AlgoLastFunction(cons,
-						c.getLabel(), (GeoFunction) arg[0]);
+				AlgoLastFunction algo = new AlgoLastFunction(cons, c.getLabel(),
+						(GeoFunction) arg[0]);
 				return new GeoElement[] { algo.getResult() };
 			}
-				throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			boolean list = arg[0].isGeoList();
@@ -63,7 +65,8 @@ public class CmdLast extends CommandProcessor {
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), (list && text) ? arg[1] : arg[0]);
+				throw argErr(app, c.getName(),
+						(list && text) ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

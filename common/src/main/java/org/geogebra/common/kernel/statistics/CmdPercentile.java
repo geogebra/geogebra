@@ -33,7 +33,8 @@ public class CmdPercentile extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+			if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoNumeric())) {
 
 				AlgoPercentile algo = new AlgoPercentile(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);

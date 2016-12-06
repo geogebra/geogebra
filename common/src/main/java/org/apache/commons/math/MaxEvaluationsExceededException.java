@@ -18,49 +18,57 @@
 package org.apache.commons.math;
 
 /**
- * Error thrown when a numerical computation exceeds its allowed
- * number of functions evaluations.
+ * Error thrown when a numerical computation exceeds its allowed number of
+ * functions evaluations.
  *
- * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 aout 2010) $
+ * @version $Revision: 983921 $ $Date: 2010-08-10 12:46:06 +0200 (mar. 10 aout
+ *          2010) $
  * @since 2.0
  */
 public class MaxEvaluationsExceededException extends ConvergenceException {
 
-    /** Serializable version identifier. */
-    private static final long serialVersionUID = -5921271447220129118L;
+	/** Serializable version identifier. */
+	private static final long serialVersionUID = -5921271447220129118L;
 
-    /** Maximal number of evaluations allowed. */
-    private final int maxEvaluations;
+	/** Maximal number of evaluations allowed. */
+	private final int maxEvaluations;
 
-    /**
-     * Constructs an exception with a default detail message.
-     * @param maxEvaluations maximal number of evaluations allowed
-     */
-    public MaxEvaluationsExceededException(final int maxEvaluations) {
-        super("Max evaluations exceeded: {0}", maxEvaluations);
-        this.maxEvaluations = maxEvaluations;
-    }
+	/**
+	 * Constructs an exception with a default detail message.
+	 * 
+	 * @param maxEvaluations
+	 *            maximal number of evaluations allowed
+	 */
+	public MaxEvaluationsExceededException(final int maxEvaluations) {
+		super("Max evaluations exceeded: {0}", maxEvaluations);
+		this.maxEvaluations = maxEvaluations;
+	}
 
+	/**
+	 * Constructs an exception with specified formatted detail message. Message
+	 * formatting is delegated to {@link java.text.MessageFormat}.
+	 * 
+	 * @param maxEvaluations
+	 *            the exceeded maximal number of evaluations
+	 * @param pattern
+	 *            format specifier
+	 * @param arguments
+	 *            format arguments
+	 * @since 2.2
+	 */
+	public MaxEvaluationsExceededException(final int maxEvaluations,
+			final String pattern, final Object... arguments) {
+		super(pattern, arguments);
+		this.maxEvaluations = maxEvaluations;
+	}
 
-    /**
-     * Constructs an exception with specified formatted detail message.
-     * Message formatting is delegated to {@link java.text.MessageFormat}.
-     * @param maxEvaluations the exceeded maximal number of evaluations
-     * @param pattern format specifier
-     * @param arguments format arguments
-     * @since 2.2
-     */
-    public MaxEvaluationsExceededException(final int maxEvaluations,
-                                           final String pattern, final Object ... arguments) {
-        super(pattern, arguments);
-        this.maxEvaluations = maxEvaluations;
-    }
-
-    /** Get the maximal number of evaluations allowed.
-     * @return maximal number of evaluations allowed
-     */
-    public int getMaxEvaluations() {
-        return maxEvaluations;
-    }
+	/**
+	 * Get the maximal number of evaluations allowed.
+	 * 
+	 * @return maximal number of evaluations allowed
+	 */
+	public int getMaxEvaluations() {
+		return maxEvaluations;
+	}
 
 }

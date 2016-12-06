@@ -357,25 +357,24 @@ public class DataItem {
 
 		Construction cons = app.getKernel().getConstruction();
 		GeoList list;
-		
+
 		switch (sourceType) {
 
 		case LIST:
-			
+
 			if (doCopy) {
 				list = dependentListCopy(cons, getGeoList());
-			}else{
+			} else {
 				list = getGeoList();
 			}
-			if(!leftToRight){
+			if (!leftToRight) {
 				swapXYCoords(list);
 			}
-			
+
 			break;
 
 		case SPREADSHEET:
 
-			
 			boolean scanByColumn = true;
 			boolean copyByValue = doCopy; // allows dynamic changes
 			boolean doStoreUndo = false;
@@ -393,7 +392,7 @@ public class DataItem {
 				e.printStackTrace();
 				return null;
 			}
-			
+
 			break;
 
 		case CLASS:
@@ -433,11 +432,11 @@ public class DataItem {
 		default:
 			return null;
 		}
-		
-		if(!leftToRight && list.getElementType() == GeoClass.POINT){
+
+		if (!leftToRight && list.getElementType() == GeoClass.POINT) {
 			swapXYCoords(list);
 		}
-		
+
 		return list;
 	}
 
@@ -448,8 +447,8 @@ public class DataItem {
 	 * @param removeHeaderCell
 	 * @return
 	 */
-	private static ArrayList<CellRange> rangeListCopy(
-			ArrayList<CellRange> list, boolean removeHeaderCell) {
+	private static ArrayList<CellRange> rangeListCopy(ArrayList<CellRange> list,
+			boolean removeHeaderCell) {
 
 		ArrayList<CellRange> list2 = new ArrayList<CellRange>();
 
@@ -478,7 +477,8 @@ public class DataItem {
 
 	}
 
-	private static GeoList dependentListCopy(Construction cons, GeoList geoList) {
+	private static GeoList dependentListCopy(Construction cons,
+			GeoList geoList) {
 
 		ArrayList<GeoElement> copyList = new ArrayList<GeoElement>();
 
@@ -493,7 +493,7 @@ public class DataItem {
 	}
 
 	private static void swapXYCoords(GeoList geoList) {
-		
+
 		if (geoList.getElementType() != GeoClass.POINT) {
 			return;
 		}
@@ -539,15 +539,17 @@ public class DataItem {
 			case LIST:
 				for (int i = 0; i < geoList.size(); i++) {
 
-					if (geoList.get(i) == null || !(geoList.get(i).isDefined())) {
+					if (geoList.get(i) == null
+							|| !(geoList.get(i).isDefined())) {
 						continue;
 					}
 					if (isValidDataType(geoList.get(i))) {
 						strList.add(i, geoList.get(i).getValueForInputBar());
 					} else {
-						strList.add(i, "<html><i><font color = gray>"
-								+ geoList.get(i).getValueForInputBar()
-								+ "</font></i></html>");
+						strList.add(i,
+								"<html><i><font color = gray>"
+										+ geoList.get(i).getValueForInputBar()
+										+ "</font></i></html>");
 					}
 				}
 
@@ -630,9 +632,9 @@ public class DataItem {
 	}
 
 	private static MyTable spreadsheetTable(App app) {
-		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface)((GuiManagerInterface) app
+		SpreadsheetViewInterface spvi = (SpreadsheetViewInterface) ((GuiManagerInterface) app
 				.getGuiManager()).getSpreadsheetView();
-		return (MyTable)spvi.getSpreadsheetTable();
-}
+		return (MyTable) spvi.getSpreadsheetTable();
+	}
 
 }

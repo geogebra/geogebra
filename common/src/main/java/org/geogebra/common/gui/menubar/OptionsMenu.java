@@ -140,7 +140,7 @@ public class OptionsMenu {
 	public void updateMenuDecimalPlaces() {
 		if (menuDecimalPlaces == null)
 			return;
-		
+
 		int pos = getMenuDecimalPosition(kernel);
 
 		try {
@@ -162,14 +162,12 @@ public class OptionsMenu {
 
 		if (kernel.useSignificantFigures) {
 			int figures = kernel.getPrintFigures();
-			if (figures > 0
-					&& figures < figuresLookupLength())
+			if (figures > 0 && figures < figuresLookupLength())
 				pos = figuresLookup(figures);
 		} else {
 			int decimals = kernel.getPrintDecimals();
 
-			if (decimals >= 0
-					&& decimals < decimalsLookupLength())
+			if (decimals >= 0 && decimals < decimalsLookupLength())
 				pos = decimalsLookup(decimals);
 
 		}

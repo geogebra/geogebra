@@ -21,70 +21,73 @@ import java.util.Map;
 import org.apache.commons.collections15.KeyValue;
 
 /**
- * Provides a base decorator that allows additional functionality to be
- * added to a {@link java.util.Map.Entry Map.Entry}.
+ * Provides a base decorator that allows additional functionality to be added to
+ * a {@link java.util.Map.Entry Map.Entry}.
  *
  * @since Commons Collections 3.0
  * @version $Revision$ $Date$
  *
  * @author Stephen Colebourne
  */
-public abstract class AbstractMapEntryDecorator<K, V> implements Map.Entry<K, V>, KeyValue<K, V> {
-    
-    /** The <code>Map.Entry</code> to decorate */
-    protected final Map.Entry<K, V> entry;
+public abstract class AbstractMapEntryDecorator<K, V>
+		implements Map.Entry<K, V>, KeyValue<K, V> {
 
-    /**
-     * Constructor that wraps (not copies).
-     *
-     * @param entry  the <code>Map.Entry</code> to decorate, must not be null
-     * @throws IllegalArgumentException if the collection is null
-     */
-    public AbstractMapEntryDecorator(Map.Entry<K, V> entry) {
-        if (entry == null) {
-            throw new IllegalArgumentException("Map Entry must not be null");
-        }
-        this.entry = entry;
-    }
+	/** The <code>Map.Entry</code> to decorate */
+	protected final Map.Entry<K, V> entry;
 
-    /**
-     * Gets the map being decorated.
-     * 
-     * @return the decorated map
-     */
-    protected Map.Entry<K, V> getMapEntry() {
-        return entry;
-    }
+	/**
+	 * Constructor that wraps (not copies).
+	 *
+	 * @param entry
+	 *            the <code>Map.Entry</code> to decorate, must not be null
+	 * @throws IllegalArgumentException
+	 *             if the collection is null
+	 */
+	public AbstractMapEntryDecorator(Map.Entry<K, V> entry) {
+		if (entry == null) {
+			throw new IllegalArgumentException("Map Entry must not be null");
+		}
+		this.entry = entry;
+	}
 
-    //-----------------------------------------------------------------------
-    public K getKey() {
-        return entry.getKey();
-    }
+	/**
+	 * Gets the map being decorated.
+	 * 
+	 * @return the decorated map
+	 */
+	protected Map.Entry<K, V> getMapEntry() {
+		return entry;
+	}
 
-    public V getValue() {
-        return entry.getValue();
-    }
+	// -----------------------------------------------------------------------
+	public K getKey() {
+		return entry.getKey();
+	}
 
-    public V setValue(V object) {
-        return entry.setValue(object);
-    }
-   
-    @Override
-    public boolean equals(Object object) {
-        if (object == this) {
-            return true;
-        }
-        return entry.equals(object);
-    }
+	public V getValue() {
+		return entry.getValue();
+	}
 
-    @Override
-    public int hashCode() {
-        return entry.hashCode();
-    }
+	public V setValue(V object) {
+		return entry.setValue(object);
+	}
 
-    @Override
-    public String toString() {
-        return entry.toString();
-    }
+	@Override
+	public boolean equals(Object object) {
+		if (object == this) {
+			return true;
+		}
+		return entry.equals(object);
+	}
+
+	@Override
+	public int hashCode() {
+		return entry.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return entry.toString();
+	}
 
 }

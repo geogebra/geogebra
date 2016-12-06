@@ -131,20 +131,20 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			return false;
 		GeoSegment3D s = (GeoSegment3D) geo;
 
-		return (((startPoint).isEqualPointND(s.startPoint) && (endPoint)
-				.isEqualPointND(s.endPoint)) || ((startPoint)
-				.isEqualPointND(s.endPoint) && (endPoint)
-				.isEqualPointND(s.startPoint)));
+		return (((startPoint).isEqualPointND(s.startPoint)
+				&& (endPoint).isEqualPointND(s.endPoint))
+				|| ((startPoint).isEqualPointND(s.endPoint)
+						&& (endPoint).isEqualPointND(s.startPoint)));
 	}
 
 	final public boolean isEqual(GeoSegmentND geo) {
 
-		return (getStartInhomCoords()
-				.equalsForKernel(geo.getStartInhomCoords()) && getEndInhomCoords()
-				.equalsForKernel(geo.getEndInhomCoords()))
-				|| (getStartInhomCoords().equalsForKernel(
-						geo.getEndInhomCoords()) && getEndInhomCoords()
-						.equalsForKernel(geo.getStartInhomCoords()));
+		return (getStartInhomCoords().equalsForKernel(geo.getStartInhomCoords())
+				&& getEndInhomCoords().equalsForKernel(geo.getEndInhomCoords()))
+				|| (getStartInhomCoords()
+						.equalsForKernel(geo.getEndInhomCoords())
+						&& getEndInhomCoords()
+								.equalsForKernel(geo.getStartInhomCoords()));
 
 	}
 
@@ -270,9 +270,9 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	 * @return coresponding coords
 	 */
 	public Coords getPointCoords(double parameter) {
-		return startPoint.getInhomCoordsInD3().add(
-				(endPoint.getInhomCoordsInD3().sub(startPoint
-						.getInhomCoordsInD3())).mul(parameter));
+		return startPoint.getInhomCoordsInD3()
+				.add((endPoint.getInhomCoordsInD3()
+						.sub(startPoint.getInhomCoordsInD3())).mul(parameter));
 	}
 
 	public GeoElement getStartPointAsGeoElement() {
@@ -328,7 +328,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	/**
 	 * creates new transformed segment
 	 */
-	public GeoElement[] createTransformedObject(Transform t, String labelTrans) {
+	public GeoElement[] createTransformedObject(Transform t,
+			String labelTrans) {
 
 		if (keepTypeOnGeometricTransform && t.isAffine()) {
 
@@ -336,8 +337,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			GeoPointND[] points = { getStartPoint(), getEndPoint() };
 			points = t.transformPoints(points);
 			// create SEGMENT
-			GeoElement segment = (GeoElement) kernel.getManager3D().Segment3D(
-					labelTrans, points[0], points[1]);
+			GeoElement segment = (GeoElement) kernel.getManager3D()
+					.Segment3D(labelTrans, points[0], points[1]);
 			segment.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { segment, (GeoElement) points[0],
 					(GeoElement) points[1] };
@@ -553,10 +554,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment()
-				&& Kernel
-						.isEqual(getLength(),
-								((GeoSegmentND) geo).getLength()));
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && Kernel
+				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 
 	public Coords getOrigin() {
@@ -582,7 +581,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 			changeableCoordParent = ccp;
 		}
 	}
-
 
 	@Override
 	public boolean hasChangeableCoordParentNumbers() {

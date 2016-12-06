@@ -27,8 +27,8 @@ import org.geogebra.common.main.Localization;
  * 
  * @author Markus
  */
-public abstract class ConstructionElement implements
-		Comparable<ConstructionElement> {
+public abstract class ConstructionElement
+		implements Comparable<ConstructionElement> {
 
 	/** parent construction of this element */
 	public transient Construction cons;
@@ -226,8 +226,8 @@ public abstract class ConstructionElement implements
 	public abstract String getDefinitionDescription(StringTemplate tpl);
 
 	/**
-	 * Returns command that defines this construction element (e.g.
-	 * "Line[A, B]"). Note: may return ""
+	 * Returns command that defines this construction element (e.g. "Line[A, B]"
+	 * ). Note: may return ""
 	 */
 
 	/**

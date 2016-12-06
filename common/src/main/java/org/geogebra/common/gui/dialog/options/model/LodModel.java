@@ -22,8 +22,7 @@ public class LodModel extends MultipleOptionsModel {
 	private SurfaceEvaluable getSurfaceAt(int index) {
 		return (SurfaceEvaluable) getObjectAt(index);
 	}
-	
-	
+
 	@Override
 	public void updateProperties() {
 		SurfaceEvaluable temp, geo0 = getSurfaceAt(0);
@@ -36,7 +35,6 @@ public class LodModel extends MultipleOptionsModel {
 			}
 
 		}
-
 
 		if (equalLevelOfDetail) {
 			getListener().setSelectedIndex(
@@ -54,25 +52,24 @@ public class LodModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	protected boolean isValidAt(int index){
-		GeoElement geo = getGeoAt(index);	
+	protected boolean isValidAt(int index) {
+		GeoElement geo = getGeoAt(index);
 		return (!isDefaults && (geo.hasLevelOfDetail()));
-		
+
 	}
 
 	@Override
 	protected void apply(int index, int value) {
 		SurfaceEvaluable geo = getSurfaceAt(index);
-		geo.setLevelOfDetail(value == 0 ? LevelOfDetail.SPEED : LevelOfDetail.QUALITY);
+		geo.setLevelOfDetail(
+				value == 0 ? LevelOfDetail.SPEED : LevelOfDetail.QUALITY);
 		((GeoElementND) geo).updateRepaint();
 	}
-
 
 	@Override
 	public int getValueAt(int index) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
 
 }

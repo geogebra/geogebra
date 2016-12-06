@@ -8,91 +8,94 @@ import org.geogebra.common.kernel.locusequ.arith.EquationNumericValue;
 import org.geogebra.common.kernel.locusequ.arith.EquationSymbolicValue;
 
 /**
- * @author sergio
- * EquationSymbolicPoint is the superclass of both {@link EquationDependentPoint}
- * and {@link EquationSpecialSymbolicPoint}.
- * Both of them share the same implementation except for the identifier.
+ * @author sergio EquationSymbolicPoint is the superclass of both
+ *         {@link EquationDependentPoint} and
+ *         {@link EquationSpecialSymbolicPoint}. Both of them share the same
+ *         implementation except for the identifier.
  */
 public abstract class EquationSymbolicPoint extends EquationPoint {
 
-    @Override
-    public void getIndexesFrom(EquationPoint newPoint) {
-        this.x = newPoint.getX();
-        this.y = newPoint.getY();
-        this.z = newPoint.getZ();
-    }
+	@Override
+	public void getIndexesFrom(EquationPoint newPoint) {
+		this.x = newPoint.getX();
+		this.y = newPoint.getY();
+		this.z = newPoint.getZ();
+	}
 
-    /**
-     * Identifier for {@link EquationDependentPoint}
-     */
+	/**
+	 * Identifier for {@link EquationDependentPoint}
+	 */
 	protected final static String DEPENDENT_POINT_ID = "x";
-    
-    /**
-     * Identifier for {@link EquationSpecialSymbolicPoint}
-     */
+
+	/**
+	 * Identifier for {@link EquationSpecialSymbolicPoint}
+	 */
 	protected final static String SPECIAL_SYMBOLIC_ID = "u";
-    
-    /**
-     * Identifier for {@link EquationAuxiliarSymbolicPoint}
-     */
+
+	/**
+	 * Identifier for {@link EquationAuxiliarSymbolicPoint}
+	 */
 	protected final static String AUXILIAR_SYMBOLIC_ID = "a";
-    
-    /**
-     * x coordinate.
-     */
-    protected EquationExpression x;
-    
-    /**
-     * y coordinate.
-     */
-    protected EquationExpression y;
-    
-    
-    /**
-     * z coordinate (only because GeoPoint already has three coordinates).
-     */
-    protected EquationExpression z;
-    
-    protected EquationSymbolicPoint() { super(); } // Empty constructor for subclasses, in case they need it.
-    
-    /**
-     * @param v Starting value for the coordinates.
-     */
-    public EquationSymbolicPoint(int v){
-        super();
-        this.x = new EquationSymbolicValue(v+0);
-        this.y = new EquationSymbolicValue(v+1);
-        this.z = new EquationSymbolicValue(v+2);
-    }
-    
-    @Override
+
+	/**
+	 * x coordinate.
+	 */
+	protected EquationExpression x;
+
+	/**
+	 * y coordinate.
+	 */
+	protected EquationExpression y;
+
+	/**
+	 * z coordinate (only because GeoPoint already has three coordinates).
+	 */
+	protected EquationExpression z;
+
+	protected EquationSymbolicPoint() {
+		super();
+	} // Empty constructor for subclasses, in case they need it.
+
+	/**
+	 * @param v
+	 *            Starting value for the coordinates.
+	 */
+	public EquationSymbolicPoint(int v) {
+		super();
+		this.x = new EquationSymbolicValue(v + 0);
+		this.y = new EquationSymbolicValue(v + 1);
+		this.z = new EquationSymbolicValue(v + 2);
+	}
+
+	@Override
 	public EquationExpression getXExpression() {
-        return this.x;
-    }
+		return this.x;
+	}
 
-    @Override
+	@Override
 	public EquationExpression getYExpression() {
-        return this.y;
-    }
+		return this.y;
+	}
 
-    @Override
+	@Override
 	public EquationExpression getZExpression() {
-        return this.z;
-    }
-    
-    /**
-     * @return A string containing the general identifier for the specific type of point.
-     */
-    protected abstract String getId();
+		return this.z;
+	}
 
-    @Override
-    public void fixX(double value) {
-        this.x = EquationNumericValue.from(value);
-    }
+	/**
+	 * @return A string containing the general identifier for the specific type
+	 *         of point.
+	 */
+	protected abstract String getId();
 
-    @Override
-    public void fixY(double value) {
-        this.y = EquationNumericValue.from(value);
-    }
+	@Override
+	public void fixX(double value) {
+		this.x = EquationNumericValue.from(value);
+	}
+
+	@Override
+	public void fixY(double value) {
+		this.y = EquationNumericValue.from(value);
+	}
 
 }

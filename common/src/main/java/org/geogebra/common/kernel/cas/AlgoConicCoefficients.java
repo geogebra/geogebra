@@ -38,7 +38,8 @@ public class AlgoConicCoefficients extends AlgoElement {
 	 * @param c
 	 *            conic
 	 */
-	public AlgoConicCoefficients(Construction cons, String label, GeoConicND c) {
+	public AlgoConicCoefficients(Construction cons, String label,
+			GeoConicND c) {
 		super(cons);
 		this.c = c;
 
@@ -96,7 +97,5 @@ public class AlgoConicCoefficients extends AlgoElement {
 		((GeoNumeric) g.get(5)).setValue(matrix[5] * 2);
 
 	}
-
-	
 
 }

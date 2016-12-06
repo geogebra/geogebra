@@ -31,33 +31,31 @@ public class SyncRequest implements Request {
 	@Override
 	public String toJSONString(ClientInfo client) {
 		try {
-		// TODO for save we only need title
-		// request
-		JSONObject request = new JSONObject();
+			// TODO for save we only need title
+			// request
+			JSONObject request = new JSONObject();
 
-		JSONObject api = new JSONObject();
+			JSONObject api = new JSONObject();
 			api.put("-api", this.API);
 
-		// login
-		JSONObject login = new JSONObject();
+			// login
+			JSONObject login = new JSONObject();
 			login.put("-type", this.GGB);
 			login.put("-token",
 					client.getModel().getLoggedInUser().getLoginToken());
-		api.put("login", login);
+			api.put("login", login);
 
-		// task
-		JSONObject task = new JSONObject();
+			// task
+			JSONObject task = new JSONObject();
 			task.put("-type", this.TASK);
 
-		// type
+			// type
 			task.put("timestamp", this.timestamp + "");
 
+			api.put("task", task);
+			request.put("request", api);
 
-
-		api.put("task", task);
-		request.put("request", api);
-
-		return request.toString();
+			return request.toString();
 		} catch (Exception e) {
 			Log.debug("problem building request: " + e.getMessage());
 			return null;

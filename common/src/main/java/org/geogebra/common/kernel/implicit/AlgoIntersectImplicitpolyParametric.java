@@ -211,9 +211,9 @@ public class AlgoIntersectImplicitpolyParametric
 
 		GeoFunction paramEquation = new GeoFunction(cons, p, null, fun);
 
-		AlgoRoots algo = new AlgoRoots(cons, paramEquation, new GeoNumeric(
-				cons, fun.getMinParameter()), new GeoNumeric(cons,
-				fun.getMaxParameter()));
+		AlgoRoots algo = new AlgoRoots(cons, paramEquation,
+				new GeoNumeric(cons, fun.getMinParameter()),
+				new GeoNumeric(cons, fun.getMaxParameter()));
 		cons.removeFromConstructionList(algo);
 
 		GeoPoint[] rootPoints = algo.getRootPoints();
@@ -222,7 +222,6 @@ public class AlgoIntersectImplicitpolyParametric
 			double t = rootPoints[i].getX();
 			valPairs.add(new double[] { t, fun.evaluate(t) });
 		}
-
 
 		setPoints(valPairs);
 

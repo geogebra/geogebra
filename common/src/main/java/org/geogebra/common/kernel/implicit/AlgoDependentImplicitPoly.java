@@ -29,7 +29,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 
 	private ExpressionValue[][] coeff; // input
 	private GeoElementND geoElement; // output (will be a implicitPoly, line or
-									// conic)
+										// conic)
 	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
 	private Equation equation;
@@ -46,8 +46,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 *            equation
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ,
-			ExpressionNode definition,
-			boolean simplify) {
+			ExpressionNode definition, boolean simplify) {
 		super(c, false);
 		equation = equ;
 		Polynomial lhs = equ.getNormalForm();
@@ -59,18 +58,18 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		}
 		c.addToConstructionList(this, false);
 
-			switch (equ.preferredDegree()) {
-			// linear equation -> LINE
-			case 1:
-				geoElement = new GeoLine(c);
-				break;
-			// quadratic equation -> CONIC
-			case 2:
-				geoElement = new GeoConic(c);
-				break;
-			default:
-				geoElement = kernel.newImplicitPoly(c);
-			}
+		switch (equ.preferredDegree()) {
+		// linear equation -> LINE
+		case 1:
+			geoElement = new GeoLine(c);
+			break;
+		// quadratic equation -> CONIC
+		case 2:
+			geoElement = new GeoConic(c);
+			break;
+		default:
+			geoElement = kernel.newImplicitPoly(c);
+		}
 
 		geoElement.setDefinition(definition);
 		setInputOutput(); // for AlgoElement
@@ -185,7 +184,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				if (geoElement.hasChildren())
 					geoElement.setUndefined();
 				else {
-					replaceGeoElement(kernel.newImplicitPoly(getConstruction()));
+					replaceGeoElement(
+							kernel.newImplicitPoly(getConstruction()));
 					((GeoImplicit) geoElement).setDefined();
 					((GeoImplicit) geoElement).fromEquation(equation, null);
 					if (equation.mayBePolynomial()) {
@@ -335,7 +335,5 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		return geoElement.getLabel(tpl) + ": "
 				+ geoElement.getDefinition().toString(tpl);
 	}
-
-	
 
 }

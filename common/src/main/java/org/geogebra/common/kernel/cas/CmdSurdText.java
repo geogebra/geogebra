@@ -54,7 +54,8 @@ public class CmdSurdText extends CommandProcessor {
 		case 2:
 
 			boolean ok0;
-			if ((ok0 = arg[0] instanceof GeoNumberValue) && arg[1].isGeoList()) {
+			if ((ok0 = arg[0] instanceof GeoNumberValue)
+					&& arg[1].isGeoList()) {
 
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoList) arg[1]);

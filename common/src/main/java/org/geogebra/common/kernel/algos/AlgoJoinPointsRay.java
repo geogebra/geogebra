@@ -36,8 +36,8 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoJoinPointsRay extends AlgoElement implements
-		SymbolicParametersBotanaAlgo {
+public class AlgoJoinPointsRay extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPoint P, Q; // input
 	private GeoRay ray; // output

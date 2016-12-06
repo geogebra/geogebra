@@ -18,45 +18,62 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math;
 
-
 /**
- * Interface representing <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
- * @param <T> the type of the field elements
+ * Interface representing
+ * <a href="http://mathworld.wolfram.com/Field.html">field</a> elements.
+ * 
+ * @param <T>
+ *            the type of the field elements
  * @see Field
  * @version $Revision: 1.1 $ $Date: 2009-08-09 07:40:13 $
  * @since 2.0
  */
 public interface FieldElement<T> {
 
-    /** Compute this + a.
-     * @param a element to add
-     * @return a new element representing this + a
-     */
-    T add(T a);
+	/**
+	 * Compute this + a.
+	 * 
+	 * @param a
+	 *            element to add
+	 * @return a new element representing this + a
+	 */
+	T add(T a);
 
-    /** Compute this - a.
-     * @param a element to subtract
-     * @return a new element representing this - a
-     */
-    T subtract(T a);
+	/**
+	 * Compute this - a.
+	 * 
+	 * @param a
+	 *            element to subtract
+	 * @return a new element representing this - a
+	 */
+	T subtract(T a);
 
-    /** Compute this &times; a.
-     * @param a element to multiply
-     * @return a new element representing this &times; a
-     */
-    T multiply(T a);
+	/**
+	 * Compute this &times; a.
+	 * 
+	 * @param a
+	 *            element to multiply
+	 * @return a new element representing this &times; a
+	 */
+	T multiply(T a);
 
-    /** Compute this &divide; a.
-     * @param a element to add
-     * @return a new element representing this &divide; a
-     * @exception ArithmeticException if a is the zero of the
-     * additive operation (i.e. additive identity)
-     */
-    T divide(T a) throws ArithmeticException;
+	/**
+	 * Compute this &divide; a.
+	 * 
+	 * @param a
+	 *            element to add
+	 * @return a new element representing this &divide; a
+	 * @exception ArithmeticException
+	 *                if a is the zero of the additive operation (i.e. additive
+	 *                identity)
+	 */
+	T divide(T a) throws ArithmeticException;
 
-    /** Get the {@link Field} to which the instance belongs.
-     * @return {@link Field} to which the instance belongs
-     */
-    Field<T> getField();
+	/**
+	 * Get the {@link Field} to which the instance belongs.
+	 * 
+	 * @return {@link Field} to which the instance belongs
+	 */
+	Field<T> getField();
 
 }

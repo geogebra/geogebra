@@ -52,9 +52,8 @@ public class JsScript extends Script {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ScriptError(app.getLocalization()
-					.getMenu(update ? "OnUpdate" : "OnClick")
-					+ " " + label + ":\n"
-					+ app.getLocalization().getMenu("ErrorInJavaScript")
+					.getMenu(update ? "OnUpdate" : "OnClick") + " " + label
+					+ ":\n" + app.getLocalization().getMenu("ErrorInJavaScript")
 					+ "\n" + e.getLocalizedMessage());
 		}
 	}
@@ -83,14 +82,15 @@ public class JsScript extends Script {
 	}
 
 	static HashMap<String, JsScript> nameToScript = new HashMap<String, JsScript>();
+
 	public static JsScript fromName(App app, String string) {
-		if(nameToScript == null){
+		if (nameToScript == null) {
 			nameToScript = new HashMap<String, JsScript>();
 		} else if (nameToScript.containsKey(string)) {
 			return nameToScript.get(string);
 		}
 		JsScript script = new JsScript(app, string);
-		nameToScript.put(string,script);
+		nameToScript.put(string, script);
 		return script;
 	}
 }

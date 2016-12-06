@@ -73,10 +73,10 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 				double a = norm.getW() / norm.getX();
 				ExpressionNode substX = new ExpressionNode(kernel, a);
 				VariableReplacer.addVars("x", substX);
-				VariableReplacer
-						.addVars("y", new FunctionVariable(kernel, "x"));
-				VariableReplacer
-						.addVars("z", new FunctionVariable(kernel, "y"));
+				VariableReplacer.addVars("y",
+						new FunctionVariable(kernel, "x"));
+				VariableReplacer.addVars("z",
+						new FunctionVariable(kernel, "y"));
 				curve.getTransformedCoordSys().setXequal(a);
 
 			} else {
@@ -84,17 +84,17 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 				double b = norm.getW() / norm.getY();
 				ExpressionNode substY = x.wrap().multiply(a).plus(b);
 				VariableReplacer.addVars("y", substY);
-				VariableReplacer
-						.addVars("z", new FunctionVariable(kernel, "y"));
+				VariableReplacer.addVars("z",
+						new FunctionVariable(kernel, "y"));
 				curve.getTransformedCoordSys().setYequal(a, 1, b);
 			}
 		}
 		ExpressionNode exp = surface.getExpression().getFunctionExpression()
 				.getCopy(kernel);
 		exp = exp.traverse(vr).wrap();
-		curve.fromEquation(new Equation(kernel, exp, new ExpressionNode(kernel,
-				0)), null);
-		
+		curve.fromEquation(
+				new Equation(kernel, exp, new ExpressionNode(kernel, 0)), null);
+
 		// TODO Auto-generated method stub
 
 	}

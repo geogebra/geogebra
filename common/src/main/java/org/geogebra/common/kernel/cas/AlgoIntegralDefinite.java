@@ -46,8 +46,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
-		DrawInformationAlgo, AlgoIntegralDefiniteInterface {
+public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
+		implements DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 
 	private GeoFunction f; // input
 	private NumberValue a, b; // input
@@ -354,8 +354,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			}
 		}
 		/*
-		 * Application.debug("***\nsteps: " + maxstep);
-		 * Application.debug("max_error: " + max_error);
+		 * Application.debug("***\nsteps: " + maxstep); Application.debug(
+		 * "max_error: " + max_error);
 		 */
 	}
 
@@ -469,7 +469,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// int noOfSteps = (int) ((b - step * end - (a + step * start) )/step);
 		// int noOfSteps = (int) ((b - step * end - a - step * start) )/step)
 		// should be an integer, add Math.round in case of rounding error
-		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap) + 1;
+		int noOfSteps = (int) Math.round((b1 - a1) / step - endGap - startGap)
+				+ 1;
 
 		double area = 0;
 		double sum = 0;
@@ -542,7 +543,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 		ExpressionNode exp = f2.getFunction().getExpression();
 		ExpressionValue rt = exp.getRight();
-
 
 		ListValue keyList = (ListValue) ((MyNumberPair) rt).getX();
 		ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
@@ -689,7 +689,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		return numericIntegration(fun, a, b, 1);
 
 	}
-	
+
 	/**
 	 * Computes integral of function fun in interval a, b using an adaptive
 	 * Gauss quadrature approach.
@@ -758,9 +758,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		// else Application.debug(a+" "+b+" error",1);
 
 		// check if both results are equal
-		boolean equal = !error
-				&& Kernel.isEqual(firstSum, secondSum,
-						Kernel.STANDARD_PRECISION);
+		boolean equal = !error && Kernel.isEqual(firstSum, secondSum,
+				Kernel.STANDARD_PRECISION);
 
 		if (equal) {
 			// success
@@ -784,8 +783,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	public DrawInformationAlgo copy() {
 		if (evaluate != null)
-			return new AlgoIntegralDefinite(
-					(GeoFunction) f.copy(),
+			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),
 					(NumberValue) b.deepCopy(kernel), evaluate.copy());
 		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
@@ -820,7 +818,5 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		f.replaceChildrenByValues(geo);
 
 	}
-
-	
 
 }

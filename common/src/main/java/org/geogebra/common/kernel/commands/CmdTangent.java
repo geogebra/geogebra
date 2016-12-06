@@ -155,7 +155,8 @@ public class CmdTangent extends CommandProcessor {
 	 *            conic
 	 * @return tangent point/conic
 	 */
-	protected GeoElement[] tangent(String[] labels, GeoPointND a, GeoConicND c) {
+	protected GeoElement[] tangent(String[] labels, GeoPointND a,
+			GeoConicND c) {
 		return getAlgoDispatcher().Tangent(labels, a, c);
 	}
 
@@ -181,7 +182,8 @@ public class CmdTangent extends CommandProcessor {
 	 *            conic
 	 * @return tangent conic/conic
 	 */
-	protected GeoElement[] tangent(String[] labels, GeoConicND c1, GeoConicND c2) {
+	protected GeoElement[] tangent(String[] labels, GeoConicND c1,
+			GeoConicND c2) {
 		return getAlgoDispatcher().CommonTangents(labels, c1, c2);
 	}
 

@@ -3,8 +3,6 @@
  */
 package org.geogebra.common.kernel.locusequ;
 
-
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -39,19 +37,17 @@ import org.geogebra.common.util.Prover.ProverEngine;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author sergio
- * Works out the equation for a given locus.
+ * @author sergio Works out the equation for a given locus.
  */
 public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
-    private GeoPoint movingPoint, locusPoint;
+	private GeoPoint movingPoint, locusPoint;
 	private GeoImplicit geoPoly;
 	private GeoElement[] efficientInput, standardInput;
 	private String efficientInputFingerprint;
-    private EquationSystem old_system = null; // for caching
+	private EquationSystem old_system = null; // for caching
 	private GeoElement implicitLocus = null;
 
-    
 	/**
 	 * @param cons
 	 *            construction
@@ -60,18 +56,19 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-    public AlgoLocusEquation(Construction cons, GeoPoint locusPoint, GeoPoint movingPoint) {
-        super(cons);
-        
-        this.movingPoint = movingPoint;
-        this.locusPoint  = locusPoint;
+	public AlgoLocusEquation(Construction cons, GeoPoint locusPoint,
+			GeoPoint movingPoint) {
+		super(cons);
+
+		this.movingPoint = movingPoint;
+		this.locusPoint = locusPoint;
 		this.implicitLocus = null;
-        
+
 		this.geoPoly = kernel.newImplicitPoly(cons);
-        
-        setInputOutput();
+
+		setInputOutput();
 		initialCompute();
-    }
+	}
 
 	/**
 	 * @param cons
@@ -94,7 +91,9 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		initialCompute();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see geogebra.common.kernel.algos.AlgoElement#setInputOutput()
 	 */
 	@Override
@@ -106,34 +105,35 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 
 		// it is inefficient to have Q and P as input
-        // let's take all independent parents of Q
-        // and the path as input
-        TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
-        inSet.add(this.movingPoint.getPath().toGeoElement());
-        
-        // we need all independent parents of Q PLUS
-        // all parents of Q that are points on a path       
-        Iterator<GeoElement> it = this.locusPoint.getAllPredecessors().iterator();
-        while (it.hasNext()) {
-            GeoElement geo = it.next();
-            if (geo.isIndependent() || geo.isPointOnPath()) {
-                inSet.add(geo);             
-            }
-        }        
-        // remove P from input set!
-        inSet.remove(movingPoint);
-        
-        efficientInput = new GeoElement[inSet.size()];
-        efficientInput = inSet.toArray(efficientInput);
-        
-        standardInput = new GeoElement[2];
-        standardInput[0] = this.locusPoint;
-        standardInput[1] = this.movingPoint;
-        
-        setOutputLength(1);
+		// let's take all independent parents of Q
+		// and the path as input
+		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		inSet.add(this.movingPoint.getPath().toGeoElement());
+
+		// we need all independent parents of Q PLUS
+		// all parents of Q that are points on a path
+		Iterator<GeoElement> it = this.locusPoint.getAllPredecessors()
+				.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isIndependent() || geo.isPointOnPath()) {
+				inSet.add(geo);
+			}
+		}
+		// remove P from input set!
+		inSet.remove(movingPoint);
+
+		efficientInput = new GeoElement[inSet.size()];
+		efficientInput = inSet.toArray(efficientInput);
+
+		standardInput = new GeoElement[2];
+		standardInput[0] = this.locusPoint;
+		standardInput[1] = this.movingPoint;
+
+		setOutputLength(1);
 		setOutput(0, this.geoPoly.toGeoElement());
-        
-        setEfficientDependencies(standardInput, efficientInput);
+
+		setEfficientDependencies(standardInput, efficientInput);
 		// Removing extra algos manually:
 		Construction c = movingPoint.getConstruction();
 		do {
@@ -145,7 +145,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		efficientInputFingerprint = fingerprint(efficientInput);
 	}
-    
+
 	/*
 	 * We use a very hacky way to avoid drawing locus equation when the curve is
 	 * not changed. To achieve that, we create a fingerprint of the current
@@ -167,14 +167,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		return ret;
 	}
 
-    /**
-     * @return the result.
-     */
+	/**
+	 * @return the result.
+	 */
 	public GeoImplicit getPoly() {
 		return this.geoPoly;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see geogebra.common.kernel.algos.AlgoElement#compute()
 	 */
 	@Override
@@ -200,42 +202,43 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			return;
 		}
 
-		if (implicitLocus == null
-				&& movingPoint.getKernel().getApplication()
-						.has(Feature.EXPLICIT_LOCUS_VIA_BOTANA)) {
+		if (implicitLocus == null && movingPoint.getKernel().getApplication()
+				.has(Feature.EXPLICIT_LOCUS_VIA_BOTANA)) {
 			computeExplicitImplicit(false);
 			return;
 		}
 
 		EquationSystem system = getOriginalIdeal();
-		/* geoPoly is set to undefined until the CAS is loaded properly.
-		 * On loading a GGB file geoPoly may be, however, defined, but
-		 * later it will be set to undefined until the CAS is loaded.
-		 * In the desktop platform the CAS is loading quickly, but in
-		 * the web its loading may be slower: this is why we need
-		 * to check if geoPoly is already defined or not.
-		 * When geoPoly is defined, it can be the same as in a previous
-		 * update when a dragging event was started. In many cases
-		 * dragging will not change the equation system, hence it is
-		 * unnecessary to recompute elimination in the CAS. For this
-		 * purpose we simply store the previous equation system
-		 * in the old_system variable.   
+		/*
+		 * geoPoly is set to undefined until the CAS is loaded properly. On
+		 * loading a GGB file geoPoly may be, however, defined, but later it
+		 * will be set to undefined until the CAS is loaded. In the desktop
+		 * platform the CAS is loading quickly, but in the web its loading may
+		 * be slower: this is why we need to check if geoPoly is already defined
+		 * or not. When geoPoly is defined, it can be the same as in a previous
+		 * update when a dragging event was started. In many cases dragging will
+		 * not change the equation system, hence it is unnecessary to recompute
+		 * elimination in the CAS. For this purpose we simply store the previous
+		 * equation system in the old_system variable.
 		 */
 		if (this.geoPoly.isDefined() && system != null
 				&& system.looksSame(old_system)) {
-			// do nothing: the system has not been changed, thus we use the cache
+			// do nothing: the system has not been changed, thus we use the
+			// cache
 			return; // avoid the heavy computation
 		}
 		old_system = system;
 
 		if (system != null) {
 			EquationTranslator<StringBuilder> trans = new CASTranslator(kernel);
-			try{
-				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem() is heavy
+			try {
+				this.geoPoly.setCoeff(trans.eliminateSystem(system)); // eliminateSystem()
+																		// is
+																		// heavy
 				this.geoPoly.setDefined();
-				
-			// Timeout or other error => set undefined	
-			} catch(Exception e) {
+
+				// Timeout or other error => set undefined
+			} catch (Exception e) {
 				this.geoPoly.setUndefined();
 			}
 		} else {
@@ -245,27 +248,29 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 	private EquationSystem getOriginalIdeal() {
 		EquationScope scope = new EquationScope(locusPoint, movingPoint);
-        GeoPoint[] points = EquationHelpers.getDependentPredecessorPointsForElement(locusPoint);
-                
-        EquationPoint pequ;
-        
-        EquationList restrictions = new EquationList();
-        AlgoElement algo;
-        
-        Set<AlgoElement> visitedAlgos = new HashSet<AlgoElement>();
+		GeoPoint[] points = EquationHelpers
+				.getDependentPredecessorPointsForElement(locusPoint);
 
-        // TODO some algos are done more than once.
-        for(GeoPoint p : points){
-            pequ = scope.getPoint(p);
-            if(!pequ.isIndependent()){
-                addAlgoIfNotVisited(restrictions, p.getParentAlgorithm(), scope, visitedAlgos);
-                
+		EquationPoint pequ;
+
+		EquationList restrictions = new EquationList();
+		AlgoElement algo;
+
+		Set<AlgoElement> visitedAlgos = new HashSet<AlgoElement>();
+
+		// TODO some algos are done more than once.
+		for (GeoPoint p : points) {
+			pequ = scope.getPoint(p);
+			if (!pequ.isIndependent()) {
+				addAlgoIfNotVisited(restrictions, p.getParentAlgorithm(), scope,
+						visitedAlgos);
+
 				if (p.getParentAlgorithm() != null
 						&& !p.getParentAlgorithm().isLocusEquable()) {
 					Log.info("Non-algebraic or unimplemented dependent point: "
 							+ p.getParentAlgorithm());
 					return null;
-                }
+				}
 				for (Object predObj : p.getAllPredecessors()) {
 					GeoElement pred = (GeoElement) predObj;
 					Log.trace("Considering " + pred);
@@ -276,54 +281,58 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 						return null;
 					}
 				}
-                
-                //restrictions.addAll(scope.getRestrictionsFromAlgo(p.getParentAlgorithm()));
-                for(Object algoObj : p.getAlgorithmList()) {
-                    algo = (AlgoElement) algoObj;
-                    addAlgoIfNotVisited(restrictions, algo, scope, visitedAlgos);
-                    //restrictions.addAll(scope.getRestrictionsFromAlgo(algo));
-                }
-            }
-        }
-        
+
+				// restrictions.addAll(scope.getRestrictionsFromAlgo(p.getParentAlgorithm()));
+				for (Object algoObj : p.getAlgorithmList()) {
+					algo = (AlgoElement) algoObj;
+					addAlgoIfNotVisited(restrictions, algo, scope,
+							visitedAlgos);
+					// restrictions.addAll(scope.getRestrictionsFromAlgo(algo));
+				}
+			}
+		}
+
 		for (EquationAuxiliarSymbolicPoint p : scope
 				.getAuxiliarSymbolicPoints()) {
 			restrictions.addAll(p.getRestrictions());
-        }
-        
+		}
+
 		return new EquationSystem(restrictions, scope);
 	}
-	
+
 	/**
 	 * Just static so it cannot modify any instance variables.
+	 * 
 	 * @param restrictions
 	 * @param algo
 	 * @param scope
 	 * @param visitedAlgos
 	 */
 	private static void addAlgoIfNotVisited(EquationList restrictions,
-            AlgoElement algo, EquationScope scope, Set<AlgoElement> visitedAlgos) {
-        if(!visitedAlgos.contains(algo)){
-            visitedAlgos.add(algo);
-            EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-			Log.debug("Visiting algo "
-					+ algo.getOutput()[0]
-							.toString(StringTemplate.defaultTemplate));
-            for(Equation eq : eqs) {
+			AlgoElement algo, EquationScope scope,
+			Set<AlgoElement> visitedAlgos) {
+		if (!visitedAlgos.contains(algo)) {
+			visitedAlgos.add(algo);
+			EquationList eqs = scope.getRestrictionsFromAlgo(algo);
+			Log.debug("Visiting algo " + algo.getOutput()[0]
+					.toString(StringTemplate.defaultTemplate));
+			for (Equation eq : eqs) {
 				Log.debug(" -> " + eq.toString() + " == 0");
-            }
-            restrictions.addAll(eqs);
-        }
-    }
+			}
+			restrictions.addAll(eqs);
+		}
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see geogebra.common.kernel.algos.AlgoElement#getClassName()
 	 */
 	@Override
 	public Commands getClassName() {
 		return Commands.LocusEquation;
 	}
-	
+
 	private String getImplicitPoly(boolean implicit) throws Throwable {
 		Prover p = UtilFactory.getPrototype().newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
@@ -512,10 +521,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			}
 		}
 
-		eliminationIdeal = Polynomial.eliminate(
-				as.getPolynomials().toArray(
-						new Polynomial[as.getPolynomials().size()]),
-				substitutions, k, 0, false, true);
+		eliminationIdeal = Polynomial
+				.eliminate(
+						as.getPolynomials()
+								.toArray(new Polynomial[as.getPolynomials()
+										.size()]),
+						substitutions, k, 0, false, true);
 
 		// We implicitly assume that there is one equation here as result.
 		Polynomial result = null;
@@ -545,9 +556,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		// This piece of code has been directly copied from CASgiac.java:
 		StringBuilder script = new StringBuilder();
-		script.append("[[aa:=")
-				.append(implicitCurveString)
-				.append("],")
+		script.append("[[aa:=").append(implicitCurveString).append("],")
 				.append("[bb:=coeffs(factorsqrfree(aa),x)], [sx:=size(bb)], [sy:=size(coeffs(aa,y))],")
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
@@ -565,8 +574,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
 		try {
-			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
-					script.toString());
+			String impccoeffs = cas.getCurrentCAS()
+					.evaluateRaw(script.toString());
 			Log.trace("Output from giac: " + impccoeffs);
 			return impccoeffs;
 		} catch (Exception ex) {

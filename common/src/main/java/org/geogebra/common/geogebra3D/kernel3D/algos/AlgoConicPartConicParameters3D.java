@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.algos.AlgoConicPartConicParameters;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
-public class AlgoConicPartConicParameters3D extends
-		AlgoConicPartConicParameters {
+public class AlgoConicPartConicParameters3D
+		extends AlgoConicPartConicParameters {
 
 	public AlgoConicPartConicParameters3D(Construction cons, String label,
 			GeoConicND circle, GeoNumberValue startParameter,

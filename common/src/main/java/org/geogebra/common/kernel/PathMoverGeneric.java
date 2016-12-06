@@ -161,10 +161,10 @@ public class PathMoverGeneric implements PathMover {
 		resetStartParameter();
 
 		// System.out.println("init Path mover");
-		// System.out.println("  min_param : " + min_param);
-		// System.out.println("  max_param : " + max_param);
-		// System.out.println("  start_param : " + start_param);
-		// System.out.println("  max_step_width : " + max_step_width);
+		// System.out.println(" min_param : " + min_param);
+		// System.out.println(" max_param : " + max_param);
+		// System.out.println(" start_param : " + start_param);
+		// System.out.println(" max_step_width : " + max_step_width);
 	}
 
 	public void resetStartParameter() {
@@ -278,11 +278,13 @@ public class PathMoverGeneric implements PathMover {
 
 		double next_param = curr_param + step_width;
 		if (posOrientation) {
-			hasNext = !(curr_param < start_param && next_param >= start_param || curr_param < start_paramUP
-					&& next_param >= start_paramUP);
+			hasNext = !(curr_param < start_param && next_param >= start_param
+					|| curr_param < start_paramUP
+							&& next_param >= start_paramUP);
 		} else {
-			hasNext = !(curr_param > start_param && next_param <= start_param || curr_param > start_paramDOWN
-					&& next_param <= start_paramDOWN);
+			hasNext = !(curr_param > start_param && next_param <= start_param
+					|| curr_param > start_paramDOWN
+							&& next_param <= start_paramDOWN);
 		}
 
 		return hasNext;

@@ -3,7 +3,7 @@ package org.geogebra.common.gui.view.data;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class PlotSettings {
-	
+
 	public double xMin = -10;
 	public double xMax = 10;
 	public double xAxesInterval = 1;
@@ -12,33 +12,34 @@ public class PlotSettings {
 	public double yMax = 10;
 	public double yAxesInterval = 1;
 	public boolean yAxesIntervalAuto = true;
-	
-	public double[] gridInterval = {1,1};
+
+	public double[] gridInterval = { 1, 1 };
 	public boolean gridIntervalAuto = true;
-	
+
 	public int pointCaptureStyle = EuclidianStyleConstants.POINT_CAPTURING_OFF;
-	
+
 	public boolean showYAxis = false;
 	public boolean showXAxis = true;
 	public boolean showArrows = false;
 	public boolean forceXAxisBuffer = false;
 	public boolean forceYAxisBuffer = false;
-	public boolean[] isEdgeAxis = {false,false};
-	public boolean[] isPositiveOnly = {false,false};
+	public boolean[] isEdgeAxis = { false, false };
+	public boolean[] isPositiveOnly = { false, false };
 	public boolean showGrid = false;
-	
+
 	public boolean logXAxis = false;
 	public boolean logYAxis = false;
 
 	/**
 	 * Default constructor
 	 */
-	public PlotSettings(){
-		
+	public PlotSettings() {
+
 	}
-	
+
 	/**
 	 * Partial default constructor
+	 * 
 	 * @param xMinEV
 	 * @param xMaxEV
 	 * @param yMinEV
@@ -60,8 +61,7 @@ public class PlotSettings {
 		this.forceXAxisBuffer = forceXAxisBuffer;
 		this.isEdgeAxis = isEdgeAxis;
 	}
-	
-	
+
 	// public void debug(){
 	//
 	// System.out.println("=======================");
@@ -71,7 +71,5 @@ public class PlotSettings {
 	// System.out.println("yMax: " + yMax);
 	// System.out.println("=======================");
 	// }
-	
-	
-	
+
 }

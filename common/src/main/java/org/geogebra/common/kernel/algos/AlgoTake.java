@@ -120,6 +120,4 @@ public class AlgoTake extends AlgoElement {
 		}
 	}
 
-	
-
 }

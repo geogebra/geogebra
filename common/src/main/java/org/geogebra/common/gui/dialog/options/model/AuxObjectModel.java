@@ -5,7 +5,6 @@ import org.geogebra.common.main.App;
 
 public class AuxObjectModel extends BooleanOptionModel {
 
-
 	public AuxObjectModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
@@ -25,7 +24,7 @@ public class AuxObjectModel extends BooleanOptionModel {
 
 	@Override
 	public boolean isValidAt(int index) {
-			return getGeoAt(index).isAlgebraVisible();
-		
+		return getGeoAt(index).isAlgebraVisible();
+
 	}
 }

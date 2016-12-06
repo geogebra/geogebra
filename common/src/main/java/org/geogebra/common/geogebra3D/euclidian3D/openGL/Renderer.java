@@ -115,7 +115,8 @@ public abstract class Renderer {
 		this.type = type;
 
 		// textures
-		textures = new Textures(this, view3D.getApplication().getImageManager());
+		textures = new Textures(this,
+				view3D.getApplication().getImageManager());
 
 	}
 
@@ -167,10 +168,10 @@ public abstract class Renderer {
 	 */
 	protected void initRenderingValues() {
 		// clear color buffer
-		if (!view3D.isStereoBuffered()){
+		if (!view3D.isStereoBuffered()) {
 			clearColorBuffer();
 		}
-		
+
 		// init lighting
 		initLighting();
 	}
@@ -188,9 +189,9 @@ public abstract class Renderer {
 	 */
 	public void drawScene() {
 
-//		if (!view3D.isShowing()) {
-//			return;
-//		}
+		// if (!view3D.isShowing()) {
+		// return;
+		// }
 
 		if (exportImageEquirectangular) {
 			view3D.setProjectionEquirectangular();
@@ -225,12 +226,10 @@ public abstract class Renderer {
 		updateViewAndDrawables();
 		// Log.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
-		
 		if (needExportImage && !exportImageEquirectangular) {
 			selectFBO();
 		}
-		
-		
+
 		if (waitForSetStencilLines) {
 			setStencilLines();
 		}
@@ -260,8 +259,8 @@ public abstract class Renderer {
 				// update view
 				// view3D.setEquirectangularAngle(-EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_ELEMENT
 				// * i);
-				view3D.setEquirectangularAngle(-i
-						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA);
+				view3D.setEquirectangularAngle(
+						-i * EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA);
 
 				// left eye
 				clearColorBuffer();
@@ -283,7 +282,6 @@ public abstract class Renderer {
 
 			}
 
-
 			setExportImageEquirectangularFromTiles();
 			exportImageEquirectangular();
 			unselectFBO();
@@ -293,10 +291,11 @@ public abstract class Renderer {
 
 			return;
 
-		} else if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+		} else if (view3D
+				.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
 
 			// left eye
-			setDrawLeft();			
+			setDrawLeft();
 			setView();
 			draw();
 
@@ -334,13 +333,13 @@ public abstract class Renderer {
 		boolean nei = needExportImage;
 
 		exportImage();
-		
+
 		if (nei) {
 			unselectFBO();
 		}
 
 	}
-	
+
 	/**
 	 * export equirectangular image
 	 */
@@ -382,17 +381,19 @@ public abstract class Renderer {
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
 			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
 
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2 * EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2
+			* EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
 
 	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
 			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
 
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0 / EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0
+			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
 
 	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI / 360.0);
-
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI
+					/ 360.0);
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -405,7 +406,6 @@ public abstract class Renderer {
 
 		needExportImage(scale, (int) (getWidth() * scale),
 				(int) (getHeight() * scale));
-
 
 	}
 
@@ -469,8 +469,8 @@ public abstract class Renderer {
 	 *            slider step
 	 */
 	public void startAnimatedGIFExport(Object gifEncoder,
-			AnimationExportSlider num,
-			int n, double val, double min, double max, double step) {
+			AnimationExportSlider num, int n, double val, double min,
+			double max, double step) {
 		exportType = ExportType.ANIMATEDGIF;
 
 		num.setValue(val);
@@ -532,11 +532,11 @@ public abstract class Renderer {
 	/**
 	 * set drawing for left eye
 	 */
-	final protected void setDrawLeft(){
+	final protected void setDrawLeft() {
 		if (view3D.isPolarized()) {
 			// draw where stencil's value is 0
 			setStencilFunc(0);
-		}else if (view3D.isStereoBuffered()){
+		} else if (view3D.isStereoBuffered()) {
 			setBufferLeft();
 			clearColorBuffer();
 		}
@@ -544,18 +544,17 @@ public abstract class Renderer {
 		eye = EYE_LEFT;
 		setColorMask();
 		clearDepthBuffer();
-		
-	}
 
+	}
 
 	/**
 	 * set drawing for right eye
 	 */
-	final protected void setDrawRight(){
+	final protected void setDrawRight() {
 		if (view3D.isPolarized()) {
 			// draw where stencil's value is 1
 			setStencilFunc(1);
-		}else if (view3D.isStereoBuffered()){
+		} else if (view3D.isStereoBuffered()) {
 			setBufferRight();
 			clearColorBuffer();
 		}
@@ -570,17 +569,16 @@ public abstract class Renderer {
 		setColorMask();
 		clearDepthBuffer(); // clear depth buffer
 	}
-	
+
 	/**
 	 * set drawing to left buffer (when stereo buffered)
 	 */
 	abstract protected void setBufferLeft();
-	
+
 	/**
 	 * set drawing to right buffer (when stereo buffered)
 	 */
 	abstract protected void setBufferRight();
-
 
 	/**
 	 * clear color buffer
@@ -795,7 +793,6 @@ public abstract class Renderer {
 		drawable3DLists.drawLabel(this);
 		drawable3DLists.drawNotAbsoluteText(this);
 
-
 		disableTextures();
 
 		if (enableClipPlanes)
@@ -807,8 +804,7 @@ public abstract class Renderer {
 			enableClipPlanes();
 
 	}
-	
-	
+
 	/**
 	 * draw face-to screen parts at end (absolute texts, ...)
 	 */
@@ -821,9 +817,8 @@ public abstract class Renderer {
 		enableBlending();
 
 		enableTexturesForText();
-		
-		drawable3DLists.drawAbsoluteText(this);
 
+		drawable3DLists.drawAbsoluteText(this);
 
 		disableTextures();
 
@@ -919,7 +914,8 @@ public abstract class Renderer {
 	 * @param a
 	 *            alpha
 	 */
-	abstract public void setColorMask(boolean r, boolean g, boolean b, boolean a);
+	abstract public void setColorMask(boolean r, boolean g, boolean b,
+			boolean a);
 
 	protected void draw() {
 
@@ -1048,18 +1044,17 @@ public abstract class Renderer {
 		disableDepthTest();
 
 		// drawWireFrame();
-		
+
 		unsetMatrixView();
 
 		// drawFPS();
-		
+
 		// absolute texts
 		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
 		enableTexturesForText();
 		drawFaceToScreenEnd();
-		
 
 		enableDepthTest();
 		enableLighting();
@@ -1298,7 +1293,6 @@ public abstract class Renderer {
 		resetMatrix();
 	}
 
-
 	public int startPolygons(int old) {
 
 		return geometryManager.startPolygons(old);
@@ -1491,7 +1485,8 @@ public abstract class Renderer {
 
 	abstract protected void pushSceneMatrix();
 
-	protected boolean intersectsMouse3D(double zNear, double zFar, double mouseZ) {
+	protected boolean intersectsMouse3D(double zNear, double zFar,
+			double mouseZ) {
 		// Log.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
 		return mouseZ - MOUSE_PICK_DEPTH < zNear
 				&& mouseZ + MOUSE_PICK_DEPTH > zFar;
@@ -1522,7 +1517,8 @@ public abstract class Renderer {
 	}
 
 	public void pick(Drawable3D d, boolean intersection, PickingType type) {
-		// Log.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);
+		// Log.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits
+		// length="+drawHits.length);
 		// Application.debug("1");
 		glLoadName(pickingLoop);// Application.debug("2");
 		Drawable3D ret = d.drawForPicking(this, intersection, type);
@@ -1549,12 +1545,15 @@ public abstract class Renderer {
 		// (perspNear*(z-(perspFar-perspNear)))/((perspFar-perspNear)*(z-eyeToScreenDistance));
 
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
-				|| view3D.getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
+				|| view3D
+						.getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
 			return d * (1 - z);
 		}
 
-		return eyeToScreenDistance[EYE_LEFT] * (z - 1 - d / eyeToScreenDistance[EYE_LEFT])
-				/ (z - 1 - eyeToScreenDistance[EYE_LEFT] / d) - view3D.getScreenZOffset();
+		return eyeToScreenDistance[EYE_LEFT]
+				* (z - 1 - d / eyeToScreenDistance[EYE_LEFT])
+				/ (z - 1 - eyeToScreenDistance[EYE_LEFT] / d)
+				- view3D.getScreenZOffset();
 	}
 
 	// ////////////////////////////////
@@ -1564,8 +1563,8 @@ public abstract class Renderer {
 	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
 	public static final float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
 			SQRT2_DIV2 };
-	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f,
-			SQRT2_DIV2, 0f };
+	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2,
+			0f };
 
 	protected void setLightPosition() {
 		setLightPosition(getLightPosition());
@@ -1606,7 +1605,10 @@ public abstract class Renderer {
 		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
-				&& !view3D.isPolarized() && !view3D.isStereoBuffered()) { // grayscale for anaglyph glasses
+				&& !view3D.isPolarized() && !view3D.isStereoBuffered()) { // grayscale
+																			// for
+																			// anaglyph
+																			// glasses
 			r = (float) (c.getGrayScale() / 255);
 			g = r;
 			b = r;
@@ -1853,7 +1855,6 @@ public abstract class Renderer {
 
 	}
 
-
 	/**
 	 * for shaders : update projection matrix
 	 */
@@ -1888,7 +1889,7 @@ public abstract class Renderer {
 
 	protected void updatePerspValues() {
 
-		for (int i = 0 ; i < 2 ; i++){
+		for (int i = 0; i < 2; i++) {
 			perspNear[i] = eyeToScreenDistance[i] - getVisibleDepth() / 2.0;
 			if (perspNear[i] < PERSP_NEAR_MIN) {
 				perspNear[i] = PERSP_NEAR_MIN;
@@ -1911,7 +1912,6 @@ public abstract class Renderer {
 						* EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN;
 				perspLeft[i] = -perspRight[i];
 
-
 			} else {
 				// ratio so that distance on screen plane are not changed
 				perspDistratio[i] = perspNear[i] / eyeToScreenDistance[i];
@@ -1930,8 +1930,8 @@ public abstract class Renderer {
 	}
 
 	private void updatePerspEye() {
-		perspEye = new Coords(glassesEyeX[1], glassesEyeY[1], -perspFocus[EYE_LEFT],
-				1); // perspFocus is negative
+		perspEye = new Coords(glassesEyeX[1], glassesEyeY[1],
+				-perspFocus[EYE_LEFT], 1); // perspFocus is negative
 	}
 
 	/**
@@ -1958,7 +1958,7 @@ public abstract class Renderer {
 	public double[] glassesEyeY1 = new double[2];
 
 	public void updateGlassesValues() {
-		for (int i = 0 ; i < 2 ; i++){
+		for (int i = 0; i < 2; i++) {
 			// eye values
 			glassesEyeX[i] = view3D.getEyeX(i);
 			glassesEyeY[i] = view3D.getEyeY(i);
@@ -2110,7 +2110,8 @@ public abstract class Renderer {
 	public double getEyeToScreenDistance() {
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
 				|| view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
-				|| view3D.getProjection() == EuclidianView3D.PROJECTION_EQUIRECTANGULAR) {
+				|| view3D
+						.getProjection() == EuclidianView3D.PROJECTION_EQUIRECTANGULAR) {
 			return eyeToScreenDistance[EYE_LEFT];
 		}
 
@@ -2281,7 +2282,7 @@ public abstract class Renderer {
 	 * enable fading (e.g. for planes)
 	 */
 	abstract public void enableFading();
-	
+
 	/**
 	 * enable text textures
 	 */

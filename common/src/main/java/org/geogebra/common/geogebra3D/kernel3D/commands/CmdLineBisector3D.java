@@ -29,9 +29,9 @@ public class CmdLineBisector3D extends CmdLineBisector {
 		// line through point orthogonal to vector
 		if ((ok[0] = (arg[0].isGeoSegment()))
 				&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
-			GeoElement[] ret = { kernelA.getManager3D().LineBisector3D(
-					c.getLabel(), (GeoSegmentND) arg[0],
-					(GeoDirectionND) arg[1]) };
+			GeoElement[] ret = {
+					kernelA.getManager3D().LineBisector3D(c.getLabel(),
+							(GeoSegmentND) arg[0], (GeoDirectionND) arg[1]) };
 			return ret;
 		}
 
@@ -58,7 +58,8 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	}
 
 	@Override
-	protected GeoElement lineBisector(String label, GeoPointND a, GeoPointND b) {
+	protected GeoElement lineBisector(String label, GeoPointND a,
+			GeoPointND b) {
 
 		GeoDirectionND orientation = CommandProcessor3D
 				.getCurrentViewOrientation(kernelA, app);

@@ -32,8 +32,8 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 * @param vertices
 	 *            list of vertices
 	 */
-	public AlgoPolygon3D(Construction cons, String[] label,
-			GeoPointND[] points, GeoList vertices) {
+	public AlgoPolygon3D(Construction cons, String[] label, GeoPointND[] points,
+			GeoList vertices) {
 		this(cons, label, points, true, vertices);
 
 	}
@@ -51,10 +51,8 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 *            list of vertices
 	 */
 	public AlgoPolygon3D(Construction cons, String[] labels,
-			GeoPointND[] points, boolean createSegments,
-			GeoList vertices) {
-		super(cons, labels, points, vertices, null, createSegments, null,
-				null);
+			GeoPointND[] points, boolean createSegments, GeoList vertices) {
+		super(cons, labels, points, vertices, null, createSegments, null, null);
 
 	}
 

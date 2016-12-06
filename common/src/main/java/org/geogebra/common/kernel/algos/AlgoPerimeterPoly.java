@@ -33,7 +33,8 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	// Output is a GeoNumeric (= a number)
 	private GeoNumeric circum;
 
-	public AlgoPerimeterPoly(Construction cons, String label, GeoPolygon polygon) {
+	public AlgoPerimeterPoly(Construction cons, String label,
+			GeoPolygon polygon) {
 		this(cons, polygon);
 		circum.setLabel(label);
 	}
@@ -89,5 +90,4 @@ public class AlgoPerimeterPoly extends AlgoElement {
 		return circum;
 	}
 
-	
 }

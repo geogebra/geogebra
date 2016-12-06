@@ -99,7 +99,7 @@ public class AlgoCountIf extends AlgoElement {
 							.wrap();
 					if (((MyBoolean) ex
 							.evaluate(StringTemplate.defaultTemplate))
-							.getBoolean())
+									.getBoolean())
 						count++;
 				}
 			}
@@ -111,5 +111,4 @@ public class AlgoCountIf extends AlgoElement {
 		}
 	}
 
-	
 }

@@ -17,14 +17,14 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
 			AsyncOperation<GeoNumberValue> callback, App app, boolean oldVal) {
 		super(algebraProcessor, callback, app, oldVal);
 	}
-	
-  /**
-   * If (changeSign==true), change sign of the number handled
-   * 
-   * @param inputString
-   * @param changeSign
-   * @return number handled
-   */
+
+	/**
+	 * If (changeSign==true), change sign of the number handled
+	 * 
+	 * @param inputString
+	 * @param changeSign
+	 * @return number handled
+	 */
 	public void processInput(String inputString, boolean changeSign,
 			ErrorHandler handler, AsyncOperation<Boolean> callback) {
 		if (changeSign) {
@@ -36,6 +36,6 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
 		} else {
 
 			processInput(inputString, handler, callback);
-    }
-  }
+		}
+	}
 }

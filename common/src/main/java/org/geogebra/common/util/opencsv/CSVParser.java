@@ -393,8 +393,8 @@ public class CSVParser {
 						// quotes in here.
 				&& nextLine.length() > (i + 1) // there is indeed another
 												// character to check.
-				&& (nextLine.charAt(i + 1) == quotechar || nextLine
-						.charAt(i + 1) == this.escape);
+				&& (nextLine.charAt(i + 1) == quotechar
+						|| nextLine.charAt(i + 1) == this.escape);
 	}
 
 	/**

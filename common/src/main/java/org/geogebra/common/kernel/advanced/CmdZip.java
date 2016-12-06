@@ -28,7 +28,8 @@ public class CmdZip extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		// avoid
-		// "Command Sequence not known eg Sequence[If[Element[list1,i]=="b",0,1]]
+		// "Command Sequence not known eg
+		// Sequence[If[Element[list1,i]=="b",0,1]]
 		if (n < 3)
 			throw argNumErr(app, c.getName(), n);
 
@@ -43,8 +44,8 @@ public class CmdZip extends CommandProcessor {
 		} finally {
 			for (GeoElement localVar : vars) {
 				if (localVar != null)
-					cons.removeLocalVariable(localVar
-							.getLabel(StringTemplate.defaultTemplate));
+					cons.removeLocalVariable(
+							localVar.getLabel(StringTemplate.defaultTemplate));
 			}
 			cons.setSuppressLabelCreation(oldval);
 		}

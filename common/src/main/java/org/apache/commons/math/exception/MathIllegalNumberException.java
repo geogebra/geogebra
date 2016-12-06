@@ -16,58 +16,61 @@
  */
 package org.apache.commons.math.exception;
 
-
 /**
- * Base class for exceptions raised by a wrong number.
- * This class is not intended to be instantiated directly: it should serve
- * as a base class to create all the exceptions that are raised because some
- * precondition is violated by a number argument.
+ * Base class for exceptions raised by a wrong number. This class is not
+ * intended to be instantiated directly: it should serve as a base class to
+ * create all the exceptions that are raised because some precondition is
+ * violated by a number argument.
  *
  * @since 2.2
  * @version $Revision$ $Date$
  */
 public class MathIllegalNumberException extends MathIllegalArgumentException {
 
-    /** Serializable version Id. */
-    private static final long serialVersionUID = -7447085893598031110L;
+	/** Serializable version Id. */
+	private static final long serialVersionUID = -7447085893598031110L;
 
-    /** Requested. */
-    private final Number argument;
+	/** Requested. */
+	private final Number argument;
 
-    /**
-     * Construct an exception.
-     *
-     * @param specific Localizable pattern.
-     * @param general Localizable pattern.
-     * @param wrong wrong number
-     * @param arguments Arguments.
-     */
-    protected MathIllegalNumberException(String specific,
-                                         String general,
-                                         Number wrong,
-                                         Object ... arguments) {
-        super(specific, general, wrong, arguments);
-        argument = wrong;
-    }
+	/**
+	 * Construct an exception.
+	 *
+	 * @param specific
+	 *            Localizable pattern.
+	 * @param general
+	 *            Localizable pattern.
+	 * @param wrong
+	 *            wrong number
+	 * @param arguments
+	 *            Arguments.
+	 */
+	protected MathIllegalNumberException(String specific, String general,
+			Number wrong, Object... arguments) {
+		super(specific, general, wrong, arguments);
+		argument = wrong;
+	}
 
-    /**
-     * Construct an exception.
-     *
-     * @param general Localizable pattern.
-     * @param wrong wrong number
-     * @param arguments Arguments.
-     */
-    protected MathIllegalNumberException(String general,
-                                         Number wrong,
-                                         Object ... arguments) {
-        super(general, wrong, arguments);
-        argument = wrong;
-    }
+	/**
+	 * Construct an exception.
+	 *
+	 * @param general
+	 *            Localizable pattern.
+	 * @param wrong
+	 *            wrong number
+	 * @param arguments
+	 *            Arguments.
+	 */
+	protected MathIllegalNumberException(String general, Number wrong,
+			Object... arguments) {
+		super(general, wrong, arguments);
+		argument = wrong;
+	}
 
-    /**
-     * @return the requested value.
-     */
-    public Number getArgument() {
-        return argument;
-    }
+	/**
+	 * @return the requested value.
+	 */
+	public Number getArgument() {
+		return argument;
+	}
 }

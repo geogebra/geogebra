@@ -69,7 +69,6 @@ public class AlgoFirstLocus extends AlgoFirst {
 			}
 		}
 
-
 	}
 
 }

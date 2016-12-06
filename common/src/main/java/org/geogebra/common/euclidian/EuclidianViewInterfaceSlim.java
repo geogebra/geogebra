@@ -159,7 +159,8 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 * @param storeUndo
 	 *            true to store undo
 	 */
-	void zoom(double px, double py, double factor, int steps, boolean storeUndo);
+	void zoom(double px, double py, double factor, int steps,
+			boolean storeUndo);
 
 	/**
 	 * Returns point capturing mode.

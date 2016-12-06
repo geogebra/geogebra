@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoEllipseHyperbolaFociPoint3DOriented extends
-		AlgoEllipseHyperbolaFociPoint3D {
+public class AlgoEllipseHyperbolaFociPoint3DOriented
+		extends AlgoEllipseHyperbolaFociPoint3D {
 
 	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons,
 			String label, GeoPointND A, GeoPointND B, GeoPointND C,
@@ -38,7 +38,8 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented extends
 	}
 
 	@Override
-	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc, Coords Cc) {
+	protected boolean setCoordSys(CoordSys cs, Coords Ac, Coords Bc,
+			Coords Cc) {
 
 		Coords vn = orientation.getDirectionInD3();
 

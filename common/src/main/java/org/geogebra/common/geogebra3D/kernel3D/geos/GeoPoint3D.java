@@ -298,8 +298,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (!Double.isNaN(v.getW())
 				&& Kernel.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
 			isInfinite = true;
-			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2)) || Double
-					.isNaN(v.get(3)));
+			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2))
+					|| Double.isNaN(v.get(3)));
 			inhom.setX(Double.NaN);
 			inhom.setY(Double.NaN);
 			inhom.setZ(Double.NaN);
@@ -575,8 +575,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		path.pointChanged(this);
 		// check if the path is a 2D path : in this case, 2D coords have been
 		// modified
-		if (!(path.toGeoElement().isGeoElement3D() || path.toGeoElement()
-				.isGeoList()))
+		if (!(path.toGeoElement().isGeoElement3D()
+				|| path.toGeoElement().isGeoList()))
 			updateCoordsFrom2D(false, null);
 		updateCoords();
 
@@ -740,8 +740,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			 * Application.printStacktrace("ici"); }
 			 */
 			setCoords(((Region3D) region).getPoint(getX2D(), getY2D(),
-					new Coords(4)),
-					doPathOrRegion);
+					new Coords(4)), doPathOrRegion);
 		} else
 			setCoords(new Coords(getX2D(), getY2D(), 0, 1), doPathOrRegion);
 	}
@@ -944,8 +943,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
 						p.getY(), p.getZ(), sbToString);
 			} else {
-				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
-						p.getX(), p.getY(), p.getZ(), sbToString);
+				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(),
+						p.getY(), p.getZ(), sbToString);
 			}
 		} else {
 			GeoPoint.buildValueString(kernel, tpl, getMode(), p.getX(),
@@ -986,8 +985,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			return false;
 
 	}
-
-
 
 	// /////////////////////////////////////
 	// PointProperties
@@ -1239,8 +1236,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		if (hasRegion()) {
 			GeoElement geo = (GeoElement) region;
-			if (geo.isGeoQuadric()
-					&& ((GeoQuadric3D) geo).getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+			if (geo.isGeoQuadric() && ((GeoQuadric3D) geo)
+					.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
 				return MOVE_MODE_NONE;
 			}
 			return MOVE_MODE_XY;
@@ -1317,19 +1314,22 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getXBracket(), // "x("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getYBracket(), // "y("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
 				kernel, kernel.getAlgebraProcessor().getZBracket(), // "z("
-				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
-						Operation.PLUS, kernel.getAlgebraProcessor()
-								.getCloseBracket())))); // ")"
+				Operation.PLUS,
+				new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS,
+						kernel.getAlgebraProcessor().getCloseBracket())))); // ")"
 
 	}
 
@@ -1469,8 +1469,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double qx = w * Q.getX();
 		double qy = w * Q.getY();
 
-		setCoords((x - qx) * cos + (qy - y) * sin + qx, (x - qx) * sin
-				+ (y - qy) * cos + qy, z, w);
+		setCoords((x - qx) * cos + (qy - y) * sin + qx,
+				(x - qx) * sin + (y - qy) * cos + qy, z, w);
 	}
 
 	@Override
@@ -1530,10 +1530,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		tmpCoords3.setCrossProduct(vn, tmpCoords2);
 		tmpCoords3.setW(0);
 
-		setCoords(tmpCoords1.setAdd(
-				tmpCoords1,
-				tmpCoords2.setAdd(tmpCoords2.mulInside(cos),
-						tmpCoords3.mulInside(sin / l))));
+		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(
+				tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin / l))));
 	}
 
 	@Override
@@ -1641,8 +1639,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (!tmpWillingDirection.isDefined()) {
 			d = getInhomCoords().distance(tmpWillingCoords);
 		} else {
-			d = getInhomCoords()
-					.distLine(tmpWillingCoords, tmpWillingDirection);
+			d = getInhomCoords().distLine(tmpWillingCoords,
+					tmpWillingDirection);
 			setWillingDirection(tmpWillingDirection);
 		}
 
@@ -1752,8 +1750,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		double w = getW();
 
 		setCoords(r * getX() + temp * S.getX() * w,
-				r * getY() + temp * S.getY() * w, r * getZ() + temp * S.getZ()
-						* w, w);
+				r * getY() + temp * S.getY() * w,
+				r * getZ() + temp * S.getZ() * w, w);
 
 	}
 
@@ -1870,8 +1868,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			MyPoint rightPoint) {
 
 		setCoords(new Coords(param2 * leftPoint.x + param1 * rightPoint.x,
-				param2 * leftPoint.y + param1 * rightPoint.y, param2
-						* leftPoint.getZ() + param1 * rightPoint.getZ(), 1.0),
+				param2 * leftPoint.y + param1 * rightPoint.y,
+				param2 * leftPoint.getZ() + param1 * rightPoint.getZ(), 1.0),
 				false);
 
 		updateCoords();

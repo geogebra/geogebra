@@ -92,7 +92,8 @@ public class AlgoFoldFunctions extends AlgoElement {
 		// Sum[{x^2,x^3}]
 		int n = truncate == null ? geoList.size() : (int) truncate.getDouble();
 
-		if (n <= 0 || n > geoList.size() || !foldComputer.check(geoList.get(0))) {
+		if (n <= 0 || n > geoList.size()
+				|| !foldComputer.check(geoList.get(0))) {
 			resultFun.setUndefined();
 			return;
 		}
@@ -109,7 +110,5 @@ public class AlgoFoldFunctions extends AlgoElement {
 		}
 		foldComputer.finish();
 	}
-
-	
 
 }

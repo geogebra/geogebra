@@ -82,6 +82,4 @@ public class AlgoDeterminant extends AlgoElement {
 		// Determinant[{{1,2},{3,4}}]
 	}
 
-	
-
 }

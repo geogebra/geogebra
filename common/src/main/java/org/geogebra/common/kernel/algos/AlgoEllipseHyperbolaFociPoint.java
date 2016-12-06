@@ -39,8 +39,9 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  *
  * @author Markus
  */
-public class AlgoEllipseHyperbolaFociPoint extends
-		AlgoEllipseHyperbolaFociPointND implements SymbolicParametersBotanaAlgo {
+public class AlgoEllipseHyperbolaFociPoint
+		extends AlgoEllipseHyperbolaFociPointND
+		implements SymbolicParametersBotanaAlgo {
 
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
@@ -179,20 +180,24 @@ public class AlgoEllipseHyperbolaFociPoint extends
 				botanaPolynomials[0] = d1.add(d2).subtract(e1).subtract(e2);
 
 				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
-				botanaPolynomials[1] = Polynomial.sqrDistance(vA[0], vA[1],
-						vC[0], vC[1]).subtract(d1.multiply(d1));
+				botanaPolynomials[1] = Polynomial
+						.sqrDistance(vA[0], vA[1], vC[0], vC[1])
+						.subtract(d1.multiply(d1));
 
 				// d2^2=Polynomial.sqrDistance(b1,b2,c1,c2)
-				botanaPolynomials[2] = Polynomial.sqrDistance(vB[0], vB[1],
-						vC[0], vC[1]).subtract(d2.multiply(d2));
+				botanaPolynomials[2] = Polynomial
+						.sqrDistance(vB[0], vB[1], vC[0], vC[1])
+						.subtract(d2.multiply(d2));
 
 				// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[3] = Polynomial.sqrDistance(vA[0], vA[1],
-						botanaVars[0], botanaVars[1]).subtract(e1.multiply(e1));
+				botanaPolynomials[3] = Polynomial
+						.sqrDistance(vA[0], vA[1], botanaVars[0], botanaVars[1])
+						.subtract(e1.multiply(e1));
 
 				// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[4] = Polynomial.sqrDistance(vB[0], vB[1],
-						botanaVars[0], botanaVars[1]).subtract(e2.multiply(e2));
+				botanaPolynomials[4] = Polynomial
+						.sqrDistance(vB[0], vB[1], botanaVars[0], botanaVars[1])
+						.subtract(e2.multiply(e2));
 
 				return botanaPolynomials;
 
@@ -219,13 +224,13 @@ public class AlgoEllipseHyperbolaFociPoint extends
 					botanaVars[3] = new Variable();
 					botanaVars[4] = new Variable();
 					botanaVars[5] = new Variable();
-					// A 
+					// A
 					botanaVars[6] = vA[0];
 					botanaVars[7] = vA[1];
-					// B 
+					// B
 					botanaVars[8] = vB[0];
 					botanaVars[9] = vB[1];
-					// C 
+					// C
 					botanaVars[10] = vC[0];
 					botanaVars[11] = vC[1];
 				}
@@ -241,21 +246,25 @@ public class AlgoEllipseHyperbolaFociPoint extends
 				botanaPolynomials[0] = d1.subtract(d2).subtract(e1).add(e2);
 
 				// d1^2=Polynomial.sqrDistance(a1,a2,c1,c2)
-				botanaPolynomials[1] = Polynomial.sqrDistance(vA[0], vA[1],
-						vC[0], vC[1]).subtract(d1.multiply(d1));
+				botanaPolynomials[1] = Polynomial
+						.sqrDistance(vA[0], vA[1], vC[0], vC[1])
+						.subtract(d1.multiply(d1));
 
 				// d2^2=Polynomial.sqrDistance(b1,b2,c1,c2)
-				botanaPolynomials[2] = Polynomial.sqrDistance(vB[0], vB[1],
-						vC[0], vC[1]).subtract(d2.multiply(d2));
+				botanaPolynomials[2] = Polynomial
+						.sqrDistance(vB[0], vB[1], vC[0], vC[1])
+						.subtract(d2.multiply(d2));
 
 				// e1^2=Polynomial.sqrDistance(a1,a2,p1,p2)
-				botanaPolynomials[3] = Polynomial.sqrDistance(vA[0], vA[1],
-						botanaVars[0], botanaVars[1]).subtract(e1.multiply(e1));
+				botanaPolynomials[3] = Polynomial
+						.sqrDistance(vA[0], vA[1], botanaVars[0], botanaVars[1])
+						.subtract(e1.multiply(e1));
 
 				// e2^2=Polynomial.sqrDistance(b1,b2,p1,p2)
-				botanaPolynomials[4] = Polynomial.sqrDistance(vB[0], vB[1],
-						botanaVars[0], botanaVars[1]).subtract(e2.multiply(e2));
-			return botanaPolynomials;
+				botanaPolynomials[4] = Polynomial
+						.sqrDistance(vB[0], vB[1], botanaVars[0], botanaVars[1])
+						.subtract(e2.multiply(e2));
+				return botanaPolynomials;
 			}
 			throw new NoSymbolicParametersException();
 

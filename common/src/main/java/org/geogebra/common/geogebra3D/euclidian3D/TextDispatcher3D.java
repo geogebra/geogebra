@@ -52,14 +52,11 @@ public class TextDispatcher3D extends TextDispatcher {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 
-		return view3D
-				.getEuclidianController()
-				.getCompanion()
-				.createNewPoint(
-						removeUnderscoresAndBraces(l10n.getPlain("Point")
-								+ object.getLabel(StringTemplate.defaultTemplate)),
-						false, object, coords.getX(), coords.getY(),
-						coords.getZ(), false, false);
+		return view3D.getEuclidianController().getCompanion().createNewPoint(
+				removeUnderscoresAndBraces(l10n.getPlain("Point")
+						+ object.getLabel(StringTemplate.defaultTemplate)),
+				false, object, coords.getX(), coords.getY(), coords.getZ(),
+				false, false);
 	}
 
 	@Override
@@ -101,10 +98,11 @@ public class TextDispatcher3D extends TextDispatcher {
 		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", hasVolume,
 				volume, loc);
 		if (hasVolume.isLabelSet()) {
-			volume.setLabel(removeUnderscoresAndBraces(StringUtil.toLowerCase(l10n
-					.getCommand("Volume")) + hasVolume.getLabelSimple()));
-			text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
-					+ hasVolume.getLabelSimple()));
+			volume.setLabel(removeUnderscoresAndBraces(
+					StringUtil.toLowerCase(l10n.getCommand("Volume"))
+							+ hasVolume.getLabelSimple()));
+			text.setLabel(removeUnderscoresAndBraces(
+					l10n.getPlain("Text") + hasVolume.getLabelSimple()));
 		}
 
 	}

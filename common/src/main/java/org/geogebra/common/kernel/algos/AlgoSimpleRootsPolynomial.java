@@ -69,8 +69,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		doCalc(pf);
 	}
 
-	public void setRootsPolynomialWithinRange(PolynomialFunction pf,
-			double min, double max) {
+	public void setRootsPolynomialWithinRange(PolynomialFunction pf, double min,
+			double max) {
 		doCalc(pf, min, max);
 	}
 
@@ -98,7 +98,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	 * @param eqnSolver
 	 * @return number of distinct roots
 	 */
-	public static int getRoots(double[] roots, EquationSolverInterface eqnSolver) {
+	public static int getRoots(double[] roots,
+			EquationSolverInterface eqnSolver) {
 		int nrRealRoots = eqnSolver.polynomialRoots(roots, false);
 		// StringBuilder sb=new StringBuilder();
 		// for (int i=0;i<nrRealRoots;i++){
@@ -133,7 +134,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		makePoints(roots, nrRealRoots);
 	}
 
-	protected void doCalc(PolynomialFunction rootsPoly, double min, double max) {
+	protected void doCalc(PolynomialFunction rootsPoly, double min,
+			double max) {
 		double roots[] = rootsPoly.getCoefficients();
 		int nrRealRoots = 0;
 		if (roots.length > 1)
@@ -149,8 +151,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	}
 
 	private static double distancePairSq(double[] p1, double[] p2) {
-		return (p1[0] - p2[0]) * (p1[0] - p2[0]) + (p1[1] - p2[1])
-				* (p1[1] - p2[1]);
+		return (p1[0] - p2[0]) * (p1[0] - p2[0])
+				+ (p1[1] - p2[1]) * (p1[1] - p2[1]);
 	}
 
 	private void makePoints(double[] roots, int nrRealRoots) {
@@ -161,7 +163,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			for (int j = 0; j < len; j++) {
 				double[] pair = getXYPair(roots[i], j);
 				for (int k = 0; k < valPairs.size(); k++) {
-					if (distancePairSq(pair, valPairs.get(k)) < Kernel.STANDARD_PRECISION) {
+					if (distancePairSq(pair,
+							valPairs.get(k)) < Kernel.STANDARD_PRECISION) {
 						pair = null;
 						break;
 					}

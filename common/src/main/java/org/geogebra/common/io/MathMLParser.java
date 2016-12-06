@@ -715,7 +715,8 @@ public class MathMLParser {
 
 	/**
 	 * TODO berarbeiten (complete MathML blocks only?): Parses MathML code into
-	 * LaTeX code using the substitution table genereated by the constructor.<br>
+	 * LaTeX code using the substitution table genereated by the constructor.
+	 * <br>
 	 * Only presentation markup can be parsed properly, no use for parsing
 	 * content markup.
 	 * <p>
@@ -920,8 +921,8 @@ public class MathMLParser {
 
 						prevBlockNumber = blockNumber;
 
-						String blockNumberStr = substBuf.substring(
-								blockNumberIndex, substIndex);
+						String blockNumberStr = substBuf
+								.substring(blockNumberIndex, substIndex);
 
 						if (blockNumberStr.equals("S")) {
 							// keyword is BLOCKS -> parse all inner blocks in
@@ -951,8 +952,7 @@ public class MathMLParser {
 								blockNumber = Integer.parseInt(blockNumberStr);
 							} catch (NumberFormatException nfe) {
 								throw new Exception(
-										"Parsing error at character "
-												+ pos
+										"Parsing error at character " + pos
 												+ ": Unparseable block number in substitution.");
 							}
 
@@ -982,7 +982,8 @@ public class MathMLParser {
 					}
 				} else {
 					// parse subblocks of nextTag
-					while ((strBuf.substring(pos, blockEnd + 1)).indexOf('<') != -1) {
+					while ((strBuf.substring(pos, blockEnd + 1))
+							.indexOf('<') != -1) {
 						nextTag = getNextTag();
 						parseBlock(nextTag, result, true);
 						skipFollowingTag();

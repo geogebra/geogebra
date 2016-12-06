@@ -9,25 +9,31 @@ import java.util.ArrayList;
  *
  */
 public interface GLBuffer {
-	
+
 	/**
 	 * allocate memory if needed
-	 * @param length length
+	 * 
+	 * @param length
+	 *            length
 	 */
 	public void allocate(int length);
-	
+
 	/**
 	 * set limit to which we use the buffer
-	 * @param length limit
+	 * 
+	 * @param length
+	 *            limit
 	 */
 	public void setLimit(int length);
-	
+
 	/**
 	 * put value at current buffer position
-	 * @param value value
+	 * 
+	 * @param value
+	 *            value
 	 */
 	public void put(double value);
-	
+
 	/**
 	 * 
 	 * @return value at current buffer position

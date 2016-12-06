@@ -7,28 +7,29 @@ import org.geogebra.common.plugin.GeoClass;
 
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
-	
+
 	protected final App app;
 
 	public OptionsModel(App app) {
 		this.app = app;
 	}
+
 	public Object[] getGeos() {
 		return geos;
 	}
-	
+
 	public void setGeos(Object[] geos) {
 		this.geos = geos;
 	}
-	
+
 	public Object getObjectAt(int i) {
 		return geos[i];
 	}
-	
+
 	public GeoElement getGeoAt(int i) {
-		return (GeoElement)geos[i];
+		return (GeoElement) geos[i];
 	}
-	
+
 	public int getGeosLength() {
 		return geos.length;
 	}
@@ -36,11 +37,11 @@ public abstract class OptionsModel {
 	public boolean hasGeos() {
 		return (geos != null && geos.length > 0);
 	}
-	
+
 	protected abstract boolean isValidAt(int index);
-		
+
 	public abstract void updateProperties();
-	
+
 	public boolean checkGeos() {
 		boolean geosOK = true;
 		for (int i = 0; i < getGeosLength(); i++) {
@@ -63,14 +64,14 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
-
-	// Used for displaying angle properties only, if elements of a list are angles
+	// Used for displaying angle properties only, if elements of a list are
+	// angles
 	public static boolean isAngleList(GeoElement geo) {
 		if (geo.isGeoList()) {
-			GeoClass elemType = ((GeoList)geo).getElementType();
+			GeoClass elemType = ((GeoList) geo).getElementType();
 			return (elemType == GeoClass.ANGLE || elemType == GeoClass.ANGLE3D);
-		} 
-		
+		}
+
 		return false;
 	}
 
@@ -91,5 +92,3 @@ public abstract class OptionsModel {
 		}
 	}
 }
-	
-

@@ -21,7 +21,6 @@
  */
 package org.geogebra.common.kernel.discrete.geom;
 
-
 /**
  *
  * @author cyberpython

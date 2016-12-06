@@ -35,7 +35,8 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 	private GeoVector direction;
 
 	/** Creates new AlgoTangentLine */
-	AlgoTangentLine(Construction cons, String label, GeoLineND g, GeoConicND c) {
+	AlgoTangentLine(Construction cons, String label, GeoLineND g,
+			GeoConicND c) {
 		super(cons, label, g, c);
 	}
 
@@ -52,7 +53,8 @@ public class AlgoTangentLine extends AlgoTangentLineND {
 		direction = new GeoVector(cons);
 		((GeoLine) g).getDirection(direction);
 		c.diameterLine(direction, diameter);
-		algoIntersect = new AlgoIntersectLineConic(cons, diameter, (GeoConic) c);
+		algoIntersect = new AlgoIntersectLineConic(cons, diameter,
+				(GeoConic) c);
 		// this is only an internal Algorithm that shouldn't be in the
 		// construction list
 		cons.removeFromConstructionList(algoIntersect);

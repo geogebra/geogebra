@@ -96,5 +96,4 @@ public class AlgoAngleConic extends AlgoAngle {
 		return true;
 	}
 
-	
 }

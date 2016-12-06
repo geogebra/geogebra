@@ -221,10 +221,10 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 				+ g.getStartInhomCoords().getZ() * Sv3 + m[7] * v1 + m[8] * v2
 				+ m[9] * v3;
 
-		double w = p1 * (m[0] * p1 + m[4] * p2 + m[5] * p3 + m[7]) + p2
-				* (m[4] * p1 + m[1] * p2 + m[6] * p3 + m[8]) + p3
-				* (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9]) + m[7] * p1 + m[8]
-				* p2 + m[9] * p3 + m[3];
+		double w = p1 * (m[0] * p1 + m[4] * p2 + m[5] * p3 + m[7])
+				+ p2 * (m[4] * p1 + m[1] * p2 + m[6] * p3 + m[8])
+				+ p3 * (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9]) + m[7] * p1
+				+ m[8] * p2 + m[9] * p3 + m[3];
 
 		if (Kernel.isZero(u)) {// no quadratic term
 			if (Kernel.isZero(b)) {// no linear term: 0 t = -w

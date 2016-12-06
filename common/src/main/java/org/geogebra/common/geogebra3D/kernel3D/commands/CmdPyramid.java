@@ -33,15 +33,13 @@ public class CmdPyramid extends CommandProcessor {
 		if (n == 2) {
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = kernelA.getManager3D()
-						.Pyramid(c.getLabels(), (GeoPolygon) arg[0],
-								(GeoPointND) arg[1]);
+				GeoElement[] ret = kernelA.getManager3D().Pyramid(c.getLabels(),
+						(GeoPolygon) arg[0], (GeoPointND) arg[1]);
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				GeoElement[] ret = kernelA.getManager3D().Pyramid(
-						c.getLabels(), (GeoPolygon) arg[0],
-						(GeoNumberValue) arg[1]);
+				GeoElement[] ret = kernelA.getManager3D().Pyramid(c.getLabels(),
+						(GeoPolygon) arg[0], (GeoNumberValue) arg[1]);
 				return ret;
 			} else {
 				if (!ok[0])

@@ -82,14 +82,12 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 						(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
 						c.getOutputSizes());
 
-
-
 			// intersection 3D polygons
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
 				GeoElement[] result = kernelA.getManager3D().IntersectPolygons(
 						c.getLabels(), (GeoPolygon) arg[0],
-								(GeoPolygon) arg[1]);
+						(GeoPolygon) arg[1]);
 				return result;
 			}
 			// argument x=0 should be a plane, not line
@@ -104,14 +102,16 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			if ((ok[0] = (arg[0].isGeoPlane()))
 					&& (ok[0] = (arg[1].isGeoPlane()))) {
 
-				GeoElement[] ret = { kernelA.getManager3D().IntersectPlanes(
-						c.getLabel(), (GeoPlaneND) arg[0], (GeoPlaneND) arg[1]) };
+				GeoElement[] ret = {
+						kernelA.getManager3D().IntersectPlanes(c.getLabel(),
+								(GeoPlaneND) arg[0], (GeoPlaneND) arg[1]) };
 				return ret;
 
 			}
 
-			GeoElement ret = processPlaneSurface(kernelA, arg, ok, c.getLabel());
-			if(ret != null){
+			GeoElement ret = processPlaneSurface(kernelA, arg, ok,
+					c.getLabel());
+			if (ret != null) {
 				return new GeoElement[] { ret };
 			}
 
@@ -154,16 +154,14 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 	 * @return path
 	 */
 	public static GeoElement processPlaneSurface(Kernel kernel,
-			GeoElement[] arg, boolean[] ok,
-			String label) {
+			GeoElement[] arg, boolean[] ok, String label) {
 		Construction cons = kernel.getConstruction();
 		GeoElement result = null;
 		if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
 			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
 					(GeoPlaneND) arg[0], (GeoImplicitSurface) arg[1])[0];
-		}
-		else if ((ok[1] = (arg[1].isGeoPlane()))
+		} else if ((ok[1] = (arg[1].isGeoPlane()))
 				&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
 			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
 					(GeoPlaneND) arg[1], (GeoImplicitSurface) arg[0])[0];
@@ -171,18 +169,17 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 
 		else if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoFunctionNVar()))) {
-			result =  new AlgoIntersectFunctionNVarPlane(
-					cons, (GeoFunctionNVar) arg[1], (GeoPlaneND) arg[0])
-					.getOutput()[0] ;
-		}
-		else if ((ok[1] = (arg[1].isGeoPlane()))
+			result = new AlgoIntersectFunctionNVarPlane(cons,
+					(GeoFunctionNVar) arg[1], (GeoPlaneND) arg[0])
+							.getOutput()[0];
+		} else if ((ok[1] = (arg[1].isGeoPlane()))
 				&& (ok[0] = (arg[0].isGeoFunctionNVar()))) {
-			result =  new AlgoIntersectFunctionNVarPlane(
-					cons, (GeoFunctionNVar) arg[0], (GeoPlaneND) arg[1])
-					.getOutput()[0];
-			
+			result = new AlgoIntersectFunctionNVarPlane(cons,
+					(GeoFunctionNVar) arg[0], (GeoPlaneND) arg[1])
+							.getOutput()[0];
+
 		}
-		if(result != null){
+		if (result != null) {
 			result.setLabel(label);
 		}
 		return result;
@@ -223,24 +220,23 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				&& (ok[1] = (arg[1] instanceof GeoQuadricND))) {
 			GeoElement ret =
 
-			kernelA.getManager3D().Intersect(c.getLabel(), (GeoPlaneND) arg[0],
-					(GeoQuadricND) arg[1]);
+					kernelA.getManager3D().Intersect(c.getLabel(),
+							(GeoPlaneND) arg[0], (GeoQuadricND) arg[1]);
 			return ret;
 		} else if ((arg[0] instanceof GeoQuadricND)
 				&& (arg[1] instanceof GeoPlaneND)) {
 			GeoElement ret =
 
-			kernelA.getManager3D().Intersect(c.getLabel(), (GeoPlaneND) arg[1],
-					(GeoQuadricND) arg[0]);
+					kernelA.getManager3D().Intersect(c.getLabel(),
+							(GeoPlaneND) arg[1], (GeoQuadricND) arg[0]);
 			return ret;
 		}
 
 		return null;
 	}
 
-	static private final GeoElement intersectPlaneQuadricLimited(
-			Kernel kernelA, String label, GeoPlaneND plane,
-			GeoQuadric3DLimited quadric) {
+	static private final GeoElement intersectPlaneQuadricLimited(Kernel kernelA,
+			String label, GeoPlaneND plane, GeoQuadric3DLimited quadric) {
 		return kernelA.getManager3D().IntersectQuadricLimited(label, plane,
 				quadric);
 	}

@@ -5,12 +5,13 @@ import org.geogebra.common.main.App;
 
 public class OutlyingIntersectionsModel extends BooleanOptionModel {
 
-	public OutlyingIntersectionsModel(IBooleanOptionListener listener, App app) {
+	public OutlyingIntersectionsModel(IBooleanOptionListener listener,
+			App app) {
 		super(listener, app);
 	}
 
 	private LimitedPath getLimitedPathAt(int index) {
-		return (LimitedPath)getObjectAt(index);
+		return (LimitedPath) getObjectAt(index);
 	}
 
 	@Override
@@ -27,7 +28,6 @@ public class OutlyingIntersectionsModel extends BooleanOptionModel {
 	public void apply(int index, boolean value) {
 		LimitedPath geo = getLimitedPathAt(index);
 		geo.setAllowOutlyingIntersections(value);
-		geo.toGeoElement().updateRepaint();		
+		geo.toGeoElement().updateRepaint();
 	}
 }
-

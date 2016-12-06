@@ -23,30 +23,37 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  * List of GeoElements
  */
-public class GeoScriptAction extends GeoElement  {
+public class GeoScriptAction extends GeoElement {
 
-	
 	private CmdScripting action;
 	private Command command;
+
 	/**
 	 * Creates new script action
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public GeoScriptAction(Construction c) {
 		super(c);
 	}
+
 	/**
 	 * Creates new script action
-	 * @param cons construction
-	 * @param cmdScripting command processor to be used 
-	 * @param command command to be processed
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param cmdScripting
+	 *            command processor to be used
+	 * @param command
+	 *            command to be processed
 	 */
-	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,Command command) {
+	public GeoScriptAction(Construction cons, CmdScripting cmdScripting,
+			Command command) {
 		this(cons);
 		action = cmdScripting;
 		this.command = command;
 	}
-	
 
 	@Override
 	public GeoClass getGeoClassType() {
@@ -58,15 +65,15 @@ public class GeoScriptAction extends GeoElement  {
 		GeoScriptAction n = new GeoScriptAction(cons);
 		n.set(this);
 		return n;
-		
+
 	}
 
 	@Override
 	public void set(GeoElementND geo) {
-		if(!(geo instanceof GeoScriptAction))
-				throw new IllegalArgumentException();
-		action = ((GeoScriptAction)geo).action;
-		command = ((GeoScriptAction)geo).command;
+		if (!(geo instanceof GeoScriptAction))
+			throw new IllegalArgumentException();
+		action = ((GeoScriptAction) geo).action;
+		command = ((GeoScriptAction) geo).command;
 	}
 
 	@Override
@@ -98,28 +105,27 @@ public class GeoScriptAction extends GeoElement  {
 
 	@Override
 	public boolean isEqual(GeoElement geo) {
-		if(!(geo instanceof GeoScriptAction))
+		if (!(geo instanceof GeoScriptAction))
 			return false;
-		return action == ((GeoScriptAction)geo).action;
+		return action == ((GeoScriptAction) geo).action;
 	}
-	
+
 	/**
 	 * Perform the command
 	 */
 	public void perform() {
-		if(action!=null)
+		if (action != null)
 			action.performAndClean(command);
 		remove();
 	}
-	
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.NONE;
 	}
 
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}
-		
+
 }

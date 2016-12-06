@@ -50,8 +50,8 @@ public class AlgoPolyLine extends AlgoElement {
 		this(cons, (GeoPointND[]) null, geoList, false);
 	}
 
-	public AlgoPolyLine(Construction cons, String label,
-			GeoPointND[] points, boolean penStroke) {
+	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
+			boolean penStroke) {
 		this(cons, label, points, null, penStroke);
 	}
 
@@ -70,8 +70,8 @@ public class AlgoPolyLine extends AlgoElement {
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
 	 */
-	public AlgoPolyLine(Construction cons, String label,
-			GeoPointND[] points, GeoList geoList) {
+	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
+			GeoList geoList) {
 
 		this(cons, points, geoList, false);
 
@@ -79,8 +79,8 @@ public class AlgoPolyLine extends AlgoElement {
 
 	}
 
-	public AlgoPolyLine(Construction cons, String label,
-			GeoPointND[] points, GeoList geoList, boolean penStroke) {
+	public AlgoPolyLine(Construction cons, String label, GeoPointND[] points,
+			GeoList geoList, boolean penStroke) {
 
 		this(cons, points, geoList, penStroke);
 
@@ -88,8 +88,8 @@ public class AlgoPolyLine extends AlgoElement {
 
 	}
 
-	public AlgoPolyLine(Construction cons, GeoPointND[] points,
-			GeoList geoList, boolean penStroke) {
+	public AlgoPolyLine(Construction cons, GeoPointND[] points, GeoList geoList,
+			boolean penStroke) {
 		super(cons);
 		this.points = points;
 		this.geoList = geoList;
@@ -263,5 +263,4 @@ public class AlgoPolyLine extends AlgoElement {
 		return points;
 	}
 
-	
 }

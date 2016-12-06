@@ -11,18 +11,19 @@
  */
 package edu.uci.ics.jung.algorithms.scoring;
 
-
 /**
  * An interface for algorithms that assign scores to vertices.
  *
- * @param <V> the vertex type
- * @param <S> the score type
+ * @param <V>
+ *            the vertex type
+ * @param <S>
+ *            the score type
  */
-public interface VertexScorer<V, S>
-{
-    /**
-     * Returns the algorithm's score for this vertex.
-     * @return the algorithm's score for this vertex
-     */
-    public S getVertexScore(V v);
+public interface VertexScorer<V, S> {
+	/**
+	 * Returns the algorithm's score for this vertex.
+	 * 
+	 * @return the algorithm's score for this vertex
+	 */
+	public S getVertexScore(V v);
 }

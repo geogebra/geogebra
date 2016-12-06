@@ -21,12 +21,16 @@ public class EquationHyperbolaFociLength extends EquationGenericConic {
 
 	@Override
 	protected void computeMatrix() {
-		AlgoHyperbolaFociLength algo = (AlgoHyperbolaFociLength) this.getResult().getParentAlgorithm();
-		
-		EquationPoint focus1 = this.getScope().getPoint((GeoPoint) algo.getFocus1());
-		EquationPoint focus2 = this.getScope().getPoint((GeoPoint) algo.getFocus2());
-		EquationExpression length = EquationNumericValue.from(algo.getLength().getDouble());
-		
+		AlgoHyperbolaFociLength algo = (AlgoHyperbolaFociLength) this
+				.getResult().getParentAlgorithm();
+
+		EquationPoint focus1 = this.getScope()
+				.getPoint((GeoPoint) algo.getFocus1());
+		EquationPoint focus2 = this.getScope()
+				.getPoint((GeoPoint) algo.getFocus2());
+		EquationExpression length = EquationNumericValue
+				.from(algo.getLength().getDouble());
+
 		this.setEllipseHyperbola(focus1, focus2, length);
 	}
 

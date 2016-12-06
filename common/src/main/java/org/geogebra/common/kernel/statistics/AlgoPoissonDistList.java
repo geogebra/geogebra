@@ -42,8 +42,7 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 	 *            cumulative
 	 */
 	public AlgoPoissonDistList(Construction cons, String label,
-			GeoNumberValue a,
-			GeoList b) {
+			GeoNumberValue a, GeoList b) {
 		super(cons, label, a, b);
 	}
 

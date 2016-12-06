@@ -60,14 +60,14 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 		sb.append(")");
 
 		try {
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(
-					sb.toString(), arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+					arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				result.setUndefined();
 			} else {
 				// read result back into function
-				result.set(kernel.getAlgebraProcessor().evaluateToFunctionNVar(
-						functionOut, true));
+				result.set(kernel.getAlgebraProcessor()
+						.evaluateToFunctionNVar(functionOut, true));
 			}
 		} catch (Throwable e) {
 			result.setUndefined();
@@ -85,7 +85,5 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 	public GeoFunctionNVar getResult() {
 		return result;
 	}
-
-	
 
 }

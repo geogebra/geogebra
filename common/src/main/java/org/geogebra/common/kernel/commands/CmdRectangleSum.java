@@ -38,8 +38,7 @@ public class CmdRectangleSum extends CommandProcessor {
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))
 					&& (ok[4] = (arg[4] instanceof GeoNumberValue))) {
 
-				AlgoSumRectangle algo = new AlgoSumRectangle(cons,
-						c.getLabel(),
+				AlgoSumRectangle algo = new AlgoSumRectangle(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);

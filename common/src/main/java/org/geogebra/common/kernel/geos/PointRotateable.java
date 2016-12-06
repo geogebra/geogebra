@@ -20,8 +20,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public interface PointRotateable extends Rotateable {
 	/**
 	 * Rotates this element around (parallel to xOy plane)
-	 * @param r angle
-	 * @param S center
+	 * 
+	 * @param r
+	 *            angle
+	 * @param S
+	 *            center
 	 */
 	public void rotate(NumberValue r, GeoPointND S);
 }

@@ -47,9 +47,8 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
-		Region3D, Translateable, RotateableND, MirrorableAtPlane,
-		Transformable, Dilateable, HasVolume, GeoQuadric3DInterface,
-		EquationValue {
+		Region3D, Translateable, RotateableND, MirrorableAtPlane, Transformable,
+		Dilateable, HasVolume, GeoQuadric3DInterface, EquationValue {
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
@@ -145,9 +144,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			return;
 
 		// det of S
-		detS = matrix[0] * matrix[1] * matrix[2] - matrix[0] * matrix[6]
-				* matrix[6] - matrix[1] * matrix[5] * matrix[5] - matrix[2]
-				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
+		detS = matrix[0] * matrix[1] * matrix[2]
+				- matrix[0] * matrix[6] * matrix[6]
+				- matrix[1] * matrix[5] * matrix[5]
+				- matrix[2] * matrix[4] * matrix[4]
+				+ 2 * matrix[4] * matrix[5] * matrix[6];
 		Log.debug(detS + ",");
 		if (Kernel.isZero(detS)) {
 			classifyNoMidpointQuadric();
@@ -163,8 +164,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// set eigenvalues
 		eigenval[0] = -matrix[0] * matrix[1] - matrix[1] * matrix[2]
-				- matrix[2] * matrix[0] + matrix[4] * matrix[4] + matrix[5]
-				* matrix[5] + matrix[6] * matrix[6];
+				- matrix[2] * matrix[0] + matrix[4] * matrix[4]
+				+ matrix[5] * matrix[5] + matrix[6] * matrix[6];
 		eigenval[1] = matrix[0] + matrix[1] + matrix[2];
 		eigenval[2] = -1;
 
@@ -530,9 +531,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// set midpoint
 		midpoint.set(Coords.O);
-		midpoint.addInside(tmpCoords.setMul(eigenvecND[0], valSgn
-				* (d - c * c / value)
-				/ (2 * norm)));
+		midpoint.addInside(tmpCoords.setMul(eigenvecND[0],
+				valSgn * (d - c * c / value) / (2 * norm)));
 		midpoint.addInside(tmpCoords.setMul(eigenvecND[2], -c / value));
 
 		// set halfAxes = radius
@@ -682,21 +682,24 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private void classifyMidpointQuadric() {
 
 		// set midpoint
-		double x = (-matrix[1] * matrix[2] * matrix[7] + matrix[1] * matrix[5]
-				* matrix[9] + matrix[2] * matrix[4] * matrix[8] - matrix[4]
-				* matrix[6] * matrix[9] - matrix[5] * matrix[6] * matrix[8] + matrix[6]
-				* matrix[6] * matrix[7])
-				/ detS;
-		double y = (-matrix[0] * matrix[2] * matrix[8] + matrix[0] * matrix[6]
-				* matrix[9] + matrix[2] * matrix[4] * matrix[7] - matrix[4]
-				* matrix[5] * matrix[9] + matrix[5] * matrix[5] * matrix[8] - matrix[5]
-				* matrix[6] * matrix[7])
-				/ detS;
-		double z = (-matrix[0] * matrix[1] * matrix[9] + matrix[0] * matrix[6]
-				* matrix[8] + matrix[1] * matrix[5] * matrix[7] + matrix[4]
-				* matrix[4] * matrix[9] - matrix[4] * matrix[5] * matrix[8] - matrix[4]
-				* matrix[6] * matrix[7])
-				/ detS;
+		double x = (-matrix[1] * matrix[2] * matrix[7]
+				+ matrix[1] * matrix[5] * matrix[9]
+				+ matrix[2] * matrix[4] * matrix[8]
+				- matrix[4] * matrix[6] * matrix[9]
+				- matrix[5] * matrix[6] * matrix[8]
+				+ matrix[6] * matrix[6] * matrix[7]) / detS;
+		double y = (-matrix[0] * matrix[2] * matrix[8]
+				+ matrix[0] * matrix[6] * matrix[9]
+				+ matrix[2] * matrix[4] * matrix[7]
+				- matrix[4] * matrix[5] * matrix[9]
+				+ matrix[5] * matrix[5] * matrix[8]
+				- matrix[5] * matrix[6] * matrix[7]) / detS;
+		double z = (-matrix[0] * matrix[1] * matrix[9]
+				+ matrix[0] * matrix[6] * matrix[8]
+				+ matrix[1] * matrix[5] * matrix[7]
+				+ matrix[4] * matrix[4] * matrix[9]
+				- matrix[4] * matrix[5] * matrix[8]
+				- matrix[4] * matrix[6] * matrix[7]) / detS;
 		double[] coords = { x, y, z, 1 };
 		setMidpoint(coords);
 
@@ -705,13 +708,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// set eigenvalues
 		eigenval[0] = detS;
 		eigenval[1] = -matrix[0] * matrix[1] - matrix[1] * matrix[2]
-				- matrix[2] * matrix[0] + matrix[4] * matrix[4] + matrix[5]
-				* matrix[5] + matrix[6] * matrix[6];
+				- matrix[2] * matrix[0] + matrix[4] * matrix[4]
+				+ matrix[5] * matrix[5] + matrix[6] * matrix[6];
 		eigenval[2] = matrix[0] + matrix[1] + matrix[2];
 		eigenval[3] = -1;
 
-		int nRoots = cons.getKernel().getEquationSolver()
-				.solveCubic(eigenval, eigenval, Kernel.STANDARD_PRECISION);
+		int nRoots = cons.getKernel().getEquationSolver().solveCubic(eigenval,
+				eigenval, Kernel.STANDARD_PRECISION);
 
 		if (nRoots == 1) {
 			eigenval[1] = eigenval[0];
@@ -1012,10 +1015,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenvecND[1].setValues(eigenvec[ellipseIndex1], 3);
 
 			// set halfAxes = radius
-			halfAxes[0] = Math.sqrt(-eigenval[directionIndex]
-					/ eigenval[ellipseIndex0]);
-			halfAxes[1] = Math.sqrt(-eigenval[directionIndex]
-					/ eigenval[ellipseIndex1]);
+			halfAxes[0] = Math
+					.sqrt(-eigenval[directionIndex] / eigenval[ellipseIndex0]);
+			halfAxes[1] = Math
+					.sqrt(-eigenval[directionIndex] / eigenval[ellipseIndex1]);
 			halfAxes[2] = 1;
 
 			// set the diagonal values
@@ -1346,13 +1349,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// lines are dependents
 
 		// first try, result maybe 0 if lines 1 & 2 are dependent
-		v.set(m[5] * (m[1] - mu) - m[4] * m[6], m[6] * (m[0] - mu) - m[4]
-				* m[5], m[4] * m[4] - (m[0] - mu) * (m[1] - mu));
+		v.set(m[5] * (m[1] - mu) - m[4] * m[6],
+				m[6] * (m[0] - mu) - m[4] * m[5],
+				m[4] * m[4] - (m[0] - mu) * (m[1] - mu));
 
 		if (v.isZero()) {
 			// second try, result maybe 0 if lines 1 & 3 are dependent
-			v.set(m[5] * m[6] - m[4] * (m[2] - mu), (m[0] - mu) * (m[2] - mu)
-					- m[5] * m[5], m[4] * m[5] - m[6] * (m[0] - mu));
+			v.set(m[5] * m[6] - m[4] * (m[2] - mu),
+					(m[0] - mu) * (m[2] - mu) - m[5] * m[5],
+					m[4] * m[5] - m[6] * (m[0] - mu));
 
 			if (v.isZero()) {
 				// third try: lines 2 & 3 are not dependent, so line 1 equals 0
@@ -1449,7 +1454,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// //////////////////////////////
 	// CONE
 
-	public void setCone(GeoPointND origin, GeoVectorND direction, double angle) {
+	public void setCone(GeoPointND origin, GeoVectorND direction,
+			double angle) {
 
 		// check midpoint
 		defined = ((GeoElement) origin).isDefined() && !origin.isInfinite();
@@ -1475,8 +1481,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	public void setCone(Coords origin, Coords direction, Coords eigen,
-			double r, double r2) {
+	public void setCone(Coords origin, Coords direction, Coords eigen, double r,
+			double r2) {
 
 		// set center
 		setMidpoint(origin.get());
@@ -1543,6 +1549,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 	}
+
 	public void setCylinder(Coords origin, Coords direction, Coords eigen,
 			double r, double r2) {
 		setCylinder(origin, direction, eigen, r, r2, QUADRIC_CYLINDER, 1);
@@ -1743,7 +1750,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			getPlanes();
 			planes[0].set(quadric.planes[0]);
 			if (type != GeoQuadricNDConstants.QUADRIC_PLANE) {
-			planes[1].set(quadric.planes[1]);
+				planes[1].set(quadric.planes[1]);
 			}
 		}
 
@@ -1873,13 +1880,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			break;
 
 		case QUADRIC_PARABOLOID:
-			point.setMulPoint(eigenMatrix, Math.cos(u) * v, Math.sin(u) * v, v
-					* v);
+			point.setMulPoint(eigenMatrix, Math.cos(u) * v, Math.sin(u) * v,
+					v * v);
 			break;
 
 		case QUADRIC_HYPERBOLIC_PARABOLOID:
-			point.setMulPoint(eigenMatrix, u, v, getHalfAxis(0) * u * u
-					+ getHalfAxis(1) * v * v);
+			point.setMulPoint(eigenMatrix, u, v,
+					getHalfAxis(0) * u * u + getHalfAxis(1) * v * v);
 			break;
 
 		case QUADRIC_PARABOLIC_CYLINDER:
@@ -1914,11 +1921,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		case QUADRIC_PARALLEL_PLANES:
 		case QUADRIC_INTERSECTING_PLANES:
 			if (u < 1) { // -1 < u < 1: first plane
-				point.set(planes[0].getCoordSys().getPoint(
-						PathNormalizer.infFunction(u), v));
+				point.set(planes[0].getCoordSys()
+						.getPoint(PathNormalizer.infFunction(u), v));
 			} else { // 1 < u < 3: second plane
-				point.set(planes[1].getCoordSys().getPoint(
-						PathNormalizer.infFunction(u - 2), v));
+				point.set(planes[1].getCoordSys()
+						.getPoint(PathNormalizer.infFunction(u - 2), v));
 			}
 			break;
 
@@ -2051,7 +2058,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 						-r1 * Math.cosh(DrawConic3D.asinh(s)));
 			} else {
 				s = PathNormalizer.infFunction(u - 2);
-				n.setMul(getEigenvec3D(0), r1 * Math.cosh(DrawConic3D.asinh(s)));
+				n.setMul(getEigenvec3D(0),
+						r1 * Math.cosh(DrawConic3D.asinh(s)));
 			}
 			tmpCoords.setMul(getEigenvec3D(1), -r0 * s);
 			n.addInside(tmpCoords);
@@ -2333,15 +2341,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		case QUADRIC_PARALLEL_PLANES:
 		case QUADRIC_INTERSECTING_PLANES:
-			coords.projectPlaneInPlaneCoords(planes[0].getCoordSys()
-					.getMatrixOrthonormal(), tmpCoords);
+			coords.projectPlaneInPlaneCoords(
+					planes[0].getCoordSys().getMatrixOrthonormal(), tmpCoords);
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
 			break;
 
 		case QUADRIC_PLANE:
-			coords.projectPlaneInPlaneCoords(planes[0].getCoordSys()
-					.getMatrixOrthonormal(), tmpCoords);
+			coords.projectPlaneInPlaneCoords(
+					planes[0].getCoordSys().getMatrixOrthonormal(), tmpCoords);
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
 			break;
@@ -2471,14 +2479,14 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		// get closer point (in some "eigen coord sys")
-		return getNormalProjection(willingCoords.add(willingDirection.mul(-b
-				/ a)));
+		return getNormalProjection(
+				willingCoords.add(willingDirection.mul(-b / a)));
 
 	}
 
 	public void getProjections(Coords oldCoords, Coords willingCoords,
-			Coords willingDirection, Coords p1, double[] parameters1,
-			Coords p2, double[] parameters2) {
+			Coords willingDirection, Coords p1, double[] parameters1, Coords p2,
+			double[] parameters2) {
 
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
@@ -2522,8 +2530,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// get closest point (in some "eigen coord sys")
 			getNormalProjection(
 					tmpCoords.setAdd(willingCoords,
-							tmpCoords.setMul(willingDirection, -b / a)), p1,
-					parameters1);
+							tmpCoords.setMul(willingDirection, -b / a)),
+					p1, parameters1);
 			p2.setUndefined();
 		}
 
@@ -2713,8 +2721,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				}
 
 				coords.projectPlaneInPlaneCoords(planeMatrix.getVx(),
-						planeMatrix.getVy(), direction,
-						planeMatrix.getOrigin(), tmpCoords);
+						planeMatrix.getVy(), direction, planeMatrix.getOrigin(),
+						tmpCoords);
 
 				double t1Shift = 0;
 
@@ -2734,8 +2742,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				}
 
 				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
-						new Coords(4)),
-						false);
+						new Coords(4)), false);
 				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
 						+ t1Shift);
 				rp.setT2(tmpCoords.getY());
@@ -2806,9 +2813,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		p.setCoords(coords, false);
 		p.updateCoords();
 
-
 	}
-
 
 	private boolean compatibleType(int regionType) {
 		return type == GeoQuadricNDConstants.QUADRIC_EMPTY
@@ -2927,7 +2932,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 
-	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
+	public void rotate(NumberValue r, GeoPointND S,
+			GeoDirectionND orientation) {
 
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
@@ -3222,8 +3228,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		 * switch (toStringMode) { case GeoConicND.EQUATION_SPECIFIC :
 		 * sb.append("\t<eqnStyle style=\"specific\"/>\n"); break;
 		 * 
-		 * case GeoConicND.EQUATION_EXPLICIT :
-		 * sb.append("\t<eqnStyle style=\"explicit\"/>\n"); break;
+		 * case GeoConicND.EQUATION_EXPLICIT : sb.append(
+		 * "\t<eqnStyle style=\"explicit\"/>\n"); break;
 		 * 
 		 * default : sb.append("\t<eqnStyle style=\"implicit\"/>\n"); }
 		 */
@@ -3242,7 +3248,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenvecND[2].set(x2, y2, z2);
 
 		// compute dependent quadric again to ensure eigenvalues are correct
-		if (algoParent != null && algoParent instanceof AlgoDependentQuadric3D) {
+		if (algoParent != null
+				&& algoParent instanceof AlgoDependentQuadric3D) {
 			algoParent.compute();
 		}
 	}
