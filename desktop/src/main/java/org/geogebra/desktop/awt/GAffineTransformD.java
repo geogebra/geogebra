@@ -74,11 +74,24 @@ public class GAffineTransformD implements GAffineTransform {
 	}
 
 	public GPoint2D transform(GPoint2D p, GPoint2D p2) {
-		Point2D point = GPoint2DD.getAwtPoint2D(p);
-		Point2D point2 = GPoint2DD.getAwtPoint2D(p2);
+
+		Point2D point;
+		Point2D point2;
+
+		if (p instanceof GPoint2DD) {
+			point = ((GPoint2DD) p).getAwtPoint2D();
+		} else {
+			point = GPoint2DD.newAwtPoint2D(p);
+		}
+
+		if (p2 instanceof GPoint2DD) {
+			point2 = ((GPoint2DD) p2).getAwtPoint2D();
+		} else {
+			point2 = GPoint2DD.newAwtPoint2D(p2);
+		}
+
 		at.transform(point, point2);
-		p2.setX(point2.getX());
-		p2.setY(point2.getY());
+
 		return p2;
 	}
 

@@ -67,7 +67,7 @@ public class GPoint2DD extends GPoint2D {
 		return impl.hashCode();
 	}
 
-	public static Point2D getAwtPoint2D(GPoint2D p) {
+	public static Point2D newAwtPoint2D(GPoint2D p) {
 		if (p == null) {
 			return null;
 		}
