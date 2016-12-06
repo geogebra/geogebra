@@ -12,8 +12,9 @@ public class GCompositeD implements GComposite {
 	}
 
 	public static Composite getAwtComposite(GComposite c) {
-		if (!(c instanceof GCompositeD))
+		if (!(c instanceof GCompositeD)) {
 			return null;
+		}
 		return ((GCompositeD) c).impl;
 	}
 

@@ -20,10 +20,8 @@ public class GPoint2DD extends GPoint2D {
 		impl = point;
 	}
 
-	public static Point2D getAwtPoint2D(GPoint2D p) {
-		if (p == null)
-			return null;
-		return new Point2D.Double(p.getX(), p.getY());
+	public Point2D getAwtPoint2D() {
+		return impl;
 	}
 
 	@Override

@@ -81,23 +81,6 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 		return impl;
 	}
 
-	public static Ellipse2D.Double getAwtEllipse2DDouble(
-			Ellipse2D.Double ellipse) {
-
-		if (ellipse == null) {
-			return null;
-		}
-
-		return new Ellipse2D.Double(ellipse.getX(), ellipse.getY(),
-				ellipse.getWidth(), ellipse.getHeight());
-
-		/*
-		 * if(ellipse instanceof geogebra.awt.Shape) return
-		 * ((geogebra.awt.Ellipse2DDouble)ellipse).getAwtShape(); if (ellipse!=
-		 * null) Application.debug("other type"); return null;
-		 */
-	}
-
 	public void setFrameFromCenter(double i, double j, double d, double e) {
 		impl.setFrameFromCenter(i, j, d, e);
 

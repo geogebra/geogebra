@@ -51,8 +51,7 @@ public class GEllipse2DFloatD implements GRectangularShapeD, GEllipse2DFloat {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		return new GPathIteratorD(
-impl.getPathIterator(
+		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(at), flatness));
 	}
 

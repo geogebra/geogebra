@@ -180,7 +180,7 @@ public class GRectangleD implements GRectangle2DD,
 	}
 
 	public boolean contains(GPoint2D p1) {
-		return impl.contains(GPoint2DD.getAwtPoint2D(p1));
+		return impl.contains(((GPoint2DD) p1).getAwtPoint2D());
 	}
 
 	public GRectangle union(GRectangle bounds) {

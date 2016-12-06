@@ -27,10 +27,10 @@ public class GBufferedImageD implements GBufferedImage {
 		return impl.getHeight();
 	}
 
-	public static BufferedImage getAwtBufferedImage(
-			GBufferedImage im) {
-		if (im == null)
+	public static BufferedImage getAwtBufferedImage(GBufferedImage im) {
+		if (im == null) {
 			return null;
+		}
 		return ((GBufferedImageD) im).impl;
 	}
 

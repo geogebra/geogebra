@@ -11,8 +11,7 @@ public class GFontRenderContextD extends GFontRenderContext {
 		impl = frc;
 	}
 
-	public static FontRenderContext getAwtFrc(
-			GFontRenderContext frc) {
+	public static FontRenderContext getAwtFrc(GFontRenderContext frc) {
 		if (!(frc instanceof GFontRenderContextD)) {
 			return null;
 		}
