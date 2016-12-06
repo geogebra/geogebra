@@ -184,7 +184,7 @@ public class MyMathExact {
 
 			for (int i = 0; i < rowD; i++) {
 				for (int j = 0; j < colD; j++) {
-					mdm.setEntry(i, j, this.getEntry(i, j));
+					mdm.setEntry(i, j, data[i][j]);
 				}
 			}
 
