@@ -183,6 +183,7 @@ public class RadioTreeItemController
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
+			return;
 		}
 
 		if (markForEdit()) {
@@ -212,6 +213,10 @@ public class RadioTreeItemController
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
+		if (item.isEditing()) {
+			return;
+		}
+
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)
 				&& !isMarbleHit(event)) {
 			editOnTap(item.isEditing(), event);
@@ -288,6 +293,9 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.stopPropagation();
+		if (item.isEditing()) {
+			return;
+		}
 		if (markForEdit()) {
 			return;
 		}
@@ -448,6 +456,7 @@ public class RadioTreeItemController
 	}
 
 	private void editOnTap(boolean active, MouseEvent<?> event) {
+
 		editOnTap(active,
 				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
