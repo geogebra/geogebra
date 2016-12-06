@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
+import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
@@ -942,6 +943,9 @@ public class EuclidianPen implements GTimerListener {
 			list.add(new GeoNumeric(cons,
 					Kernel.checkDecimalFraction(freehand1[i])));
 		}
+
+		// create the freehand function
+		new AlgoFunctionFreehand(cons, null, list);
 
 		// GeoElement fun = algo.getOutput(0);
 
