@@ -392,8 +392,13 @@ public class Term implements Comparable<Object> {
 	}
 
 	public int compareTo(Object o) {
-		// may throw ClassCastException
-		return ((Term) o).variables.toString().compareTo(variables.toString());
+		if (o instanceof Term) {
+			return ((Term) o).variables.toString()
+					.compareTo(variables.toString());
+		}
+
+		return Integer.MAX_VALUE;
+
 	}
 
 	@Override

@@ -186,8 +186,14 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 			final double max, final double startValue)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
 
-		try {
+		if (!(f instanceof DifferentiableUnivariateRealFunction)) {
+			throw MathRuntimeException.createIllegalArgumentException(
+					LocalizedFormats.FUNCTION_NOT_DIFFERENTIABLE);
+		}
 
+		/*
+		 * try {
+		 */
 			final UnivariateRealFunction derivative = ((DifferentiableUnivariateRealFunction) f)
 					.derivative();
 			clearResult();
@@ -210,10 +216,10 @@ public class NewtonSolver extends UnivariateRealSolverImpl {
 			}
 
 			throw new MaxIterationsExceededException(maximalIterationCount);
-		} catch (ClassCastException cce) {
-			throw MathRuntimeException.createIllegalArgumentException(
-					LocalizedFormats.FUNCTION_NOT_DIFFERENTIABLE);
-		}
+		// } catch (ClassCastException cce) {
+		// throw MathRuntimeException.createIllegalArgumentException(
+		// LocalizedFormats.FUNCTION_NOT_DIFFERENTIABLE);
+		// }
 	}
 
 }

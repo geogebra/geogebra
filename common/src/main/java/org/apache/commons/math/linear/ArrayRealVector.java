@@ -1067,9 +1067,9 @@ public class ArrayRealVector extends AbstractRealVector
 
 	/** {@inheritDoc} */
 	public RealVector append(RealVector v) {
-		try {
+		if (v instanceof ArrayRealVector) {
 			return new ArrayRealVector(this, (ArrayRealVector) v);
-		} catch (ClassCastException cce) {
+		} else {
 			return new ArrayRealVector(this, v);
 		}
 	}
@@ -1123,9 +1123,9 @@ public class ArrayRealVector extends AbstractRealVector
 	@Override
 	public void setSubVector(int index, RealVector v) {
 		try {
-			try {
+			if (v instanceof ArrayRealVector) {
 				set(index, (ArrayRealVector) v);
-			} catch (ClassCastException cce) {
+			} else {
 				for (int i = index; i < index + v.getDimension(); ++i) {
 					data[i] = v.getEntry(i - index);
 				}

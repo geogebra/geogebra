@@ -354,9 +354,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public BlockRealMatrix add(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof BlockRealMatrix) {
 			return add((BlockRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 
 			// safety check
 			MatrixUtils.checkAdditionCompatible(this, m);
@@ -429,9 +429,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public BlockRealMatrix subtract(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof BlockRealMatrix) {
 			return subtract((BlockRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 
 			// safety check
 			MatrixUtils.checkSubtractionCompatible(this, m);
@@ -544,9 +544,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public BlockRealMatrix multiply(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof BlockRealMatrix) {
 			return multiply((BlockRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 
 			// safety check
 			MatrixUtils.checkMultiplicationCompatible(this, m);
@@ -989,9 +989,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public void setRowMatrix(final int row, final RealMatrix matrix)
 			throws MatrixIndexException, InvalidMatrixException {
-		try {
+		if (matrix instanceof BlockRealMatrix) {
 			setRowMatrix(row, (BlockRealMatrix) matrix);
-		} catch (ClassCastException cce) {
+		} else {
 			super.setRowMatrix(row, matrix);
 		}
 	}
@@ -1083,9 +1083,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public void setColumnMatrix(final int column, final RealMatrix matrix)
 			throws MatrixIndexException, InvalidMatrixException {
-		try {
+		if (matrix instanceof BlockRealMatrix) {
 			setColumnMatrix(column, (BlockRealMatrix) matrix);
-		} catch (ClassCastException cce) {
+		} else {
 			super.setColumnMatrix(column, matrix);
 		}
 	}
@@ -1164,9 +1164,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public void setRowVector(final int row, final RealVector vector)
 			throws MatrixIndexException, InvalidMatrixException {
-		try {
+		if (vector instanceof ArrayRealVector) {
 			setRow(row, ((ArrayRealVector) vector).getDataRef());
-		} catch (ClassCastException cce) {
+		} else {
 			super.setRowVector(row, vector);
 		}
 	}
@@ -1200,9 +1200,9 @@ public class BlockRealMatrix extends AbstractRealMatrix
 	@Override
 	public void setColumnVector(final int column, final RealVector vector)
 			throws MatrixIndexException, InvalidMatrixException {
-		try {
+		if (vector instanceof ArrayRealVector) {
 			setColumn(column, ((ArrayRealVector) vector).getDataRef());
-		} catch (ClassCastException cce) {
+		} else {
 			super.setColumnVector(column, vector);
 		}
 	}

@@ -189,9 +189,9 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 	/** {@inheritDoc} */
 	@Override
 	public RealMatrix add(final RealMatrix m) throws IllegalArgumentException {
-		try {
+		if (m instanceof Array2DRowRealMatrix) {
 			return add((Array2DRowRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.add(m);
 		}
 	}
@@ -231,9 +231,9 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 	@Override
 	public RealMatrix subtract(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof Array2DRowRealMatrix) {
 			return subtract((Array2DRowRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.subtract(m);
 		}
 	}
@@ -273,9 +273,9 @@ public class Array2DRowRealMatrix extends AbstractRealMatrix
 	@Override
 	public RealMatrix multiply(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof Array2DRowRealMatrix) {
 			return multiply((Array2DRowRealMatrix) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.multiply(m);
 		}
 	}

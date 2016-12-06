@@ -319,9 +319,9 @@ public class LUDecompositionImpl implements LUDecomposition {
 		/** {@inheritDoc} */
 		public RealVector solve(RealVector b)
 				throws IllegalArgumentException, InvalidMatrixException {
-			try {
+			if (b instanceof ArrayRealVector) {
 				return solve((ArrayRealVector) b);
-			} catch (ClassCastException cce) {
+			} else {
 
 				final int m = pivot.length;
 				if (b.getDimension() != m) {

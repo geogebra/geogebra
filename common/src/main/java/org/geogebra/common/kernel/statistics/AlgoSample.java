@@ -98,14 +98,9 @@ public class AlgoSample extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo;
 
-				try {
-					geo = inputList.get((int) Math
-							.floor(cons.getApplication().getRandomNumber()
-									* inputListSize));
-				} catch (ClassCastException e) {
-					outputList.setUndefined();
-					return;
-				}
+				geo = inputList.get((int) Math
+						.floor(cons.getApplication().getRandomNumber()
+								* inputListSize));
 				setListElement(i, geo);
 			}
 		} else {

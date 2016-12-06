@@ -190,9 +190,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
 	/** {@inheritDoc} */
 	@Override
 	public RealMatrix add(final RealMatrix m) throws IllegalArgumentException {
-		try {
+		if (m instanceof RealMatrixImpl) {
 			return add((RealMatrixImpl) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.add(m);
 		}
 	}
@@ -232,9 +232,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
 	@Override
 	public RealMatrix subtract(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof RealMatrixImpl) {
 			return subtract((RealMatrixImpl) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.subtract(m);
 		}
 	}
@@ -274,9 +274,9 @@ public class RealMatrixImpl extends AbstractRealMatrix implements Serializable {
 	@Override
 	public RealMatrix multiply(final RealMatrix m)
 			throws IllegalArgumentException {
-		try {
+		if (m instanceof RealMatrixImpl) {
 			return multiply((RealMatrixImpl) m);
-		} catch (ClassCastException cce) {
+		} else {
 			return super.multiply(m);
 		}
 	}
