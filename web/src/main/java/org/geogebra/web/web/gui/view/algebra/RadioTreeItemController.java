@@ -172,11 +172,11 @@ public class RadioTreeItemController
 
 
 	public void onMouseDown(MouseDownEvent event) {
-		app.closePopups();
 		event.stopPropagation();
 
 		if (CancelEventTimer.cancelMouseEvent()
 				|| isMarbleHit(event)) {
+			app.closePopups();
 			return;
 		}
 
@@ -187,6 +187,7 @@ public class RadioTreeItemController
 				return;
 			}
 		}
+		app.closePopups();
 
 		if (markForEdit()) {
 			return;
