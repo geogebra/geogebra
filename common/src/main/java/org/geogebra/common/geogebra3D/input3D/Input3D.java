@@ -436,7 +436,7 @@ abstract public class Input3D implements Input3DConstants {
 				screenHalfHeight, panelX, panelY, panelWidth, panelHeight);
 	}
 
-	private double[] inputPositionOnScreen, inputDirection;
+	private double[] inputPositionOnScreen;
 
 	private int onScreenX, onScreenY;
 
@@ -503,7 +503,6 @@ abstract public class Input3D implements Input3DConstants {
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
 	private boolean wasThirdButtonReleased;
-	private boolean isNotMovingView = true;
 
 	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
 			tmpCoords3 = new Coords(3);
@@ -514,7 +513,6 @@ abstract public class Input3D implements Input3DConstants {
 		if (wasThirdButtonReleased) {
 			setMouse3DPositionShifted(startMouse3DPosition);
 			view3D.rememberOrigins();
-			isNotMovingView = false;
 		} else {
 			getShiftForMouse3D(tmpCoords);
 			tmpCoords.setAdd3(tmpCoords, mouse3DPosition);
@@ -617,7 +615,6 @@ abstract public class Input3D implements Input3DConstants {
 		view3D.rememberOrigins();
 		vz = view3D.getRotationMatrix().getVz();
 
-		isNotMovingView = false;
 	}
 
 	private Coords rightDragElevation = new Coords(3);

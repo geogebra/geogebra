@@ -188,6 +188,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			origin.setY(0);
 			origin.setZ(renderer1.getFar());
 			break;
+		default:
 		case NEAR:
 			origin.setX(0);
 			origin.setY(0);

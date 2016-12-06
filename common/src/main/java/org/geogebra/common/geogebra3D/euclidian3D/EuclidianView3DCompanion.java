@@ -192,6 +192,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 		if (getView().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			switch (cursor) {
+			default:
 			case MOVE:
 				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 				getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
