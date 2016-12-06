@@ -533,10 +533,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setValue(x, true);
 	}
 
-	final public double restrictToSliderValues(double val) {
+	/**
+	 * @param val0
+	 *            prefered value
+	 * @return value that respects min, max, step
+	 */
+	final public double restrictToSliderValues(double val0) {
 		double min = getIntervalMin();
 		double max = getIntervalMax();
-
+		double val = val0;
 		if (val > max) {
 			val = max;
 		} else {
