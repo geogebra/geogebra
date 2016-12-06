@@ -180,7 +180,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		 * @version 2010-03-07
 		 */
 		if (singleton == null) {
-			if (!(PROPERTY_FILEPATH == null)) { // Application.debug(PROPERTY_FILENAME);
+			if (PROPERTY_FILEPATH != null) { // Application.debug(PROPERTY_FILENAME);
 				singleton = GeoGebraPortablePreferences.getPref();
 			} // if (else leave it to original)
 		} // if

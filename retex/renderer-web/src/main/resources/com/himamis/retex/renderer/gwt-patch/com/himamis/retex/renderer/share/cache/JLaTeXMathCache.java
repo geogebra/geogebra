@@ -45,23 +45,6 @@
 
 package com.himamis.retex.renderer.share.cache;
 
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.Iterator;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ConcurrentHashMap;
-
-import com.himamis.retex.renderer.share.TeXFormula;
-import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.exception.ParseException;
-import com.himamis.retex.renderer.share.platform.Graphics;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
-import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
-import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Insets;
-import com.himamis.retex.renderer.share.platform.graphics.Transform;
-
 /**
  * No caching in javascript
  */

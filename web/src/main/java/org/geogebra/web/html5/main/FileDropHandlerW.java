@@ -9,9 +9,9 @@ public class FileDropHandlerW {
 	 * @param ce
 	 *            Element that listens to the drop events
 	 */
-	protected static native void registerDropHandler(Element ce, AppW app) /*-{
+	protected static native void registerDropHandler(Element ce,
+			AppW appl) /*-{
 
-		var appl = this;
 		var frameElement = ce;
 
 		if (frameElement) {
