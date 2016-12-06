@@ -92,6 +92,9 @@ public class GAffineTransformD implements GAffineTransform {
 
 		at.transform(point, point2);
 
+		p2.setX(point2.getX());
+		p2.setY(point2.getY());
+
 		return p2;
 	}
 
