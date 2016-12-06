@@ -65,6 +65,11 @@ public class FormulaEditor extends View implements MathField {
         //System.out.println(message);
     }
 
+    @Override
+    public boolean useCustomPaste() {
+        return false;
+    }
+
     public FormulaEditor(Context context) {
         super(context);
         init();
