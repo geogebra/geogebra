@@ -29,7 +29,6 @@ import javax.swing.text.html.StyleSheet;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
-import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
