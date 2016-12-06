@@ -38,11 +38,14 @@ public class AlgoIf extends AlgoElement {
 	 * Algorithm for handling of an if-then-else construct
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
-	 * @param condition
-	 * @param ifGeo
-	 * @param elseGeo
-	 *            may be null
+	 *            output label
+	 * @param conditions
+	 *            bool expressions
+	 * @param alternatives
+	 *            possible outputs
+	 * 
 	 */
 	public AlgoIf(Construction cons, String label,
 			ArrayList<GeoBoolean> conditions,
@@ -90,6 +93,9 @@ public class AlgoIf extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoElement getGeoElement() {
 		return result;
 	}
@@ -119,6 +125,11 @@ public class AlgoIf extends AlgoElement {
 	}
 
 	private void setResult(GeoElement newResult) {
+		// in case ? is used for different object type
+		if (!newResult.isDefined()) {
+			result.setUndefined();
+			return;
+		}
 		result.set(newResult);
 		if (!newResult.isIndependent()) {
 			result.setDefinition(newResult.getDefinition() == null ? null
@@ -132,7 +143,11 @@ public class AlgoIf extends AlgoElement {
 
 	}
 
-	// Curve[If[t>0,t^2,-t^2],t,t,-5,5]
+	/**
+	 * For Curve[If[t>0,t^2,-t^2],t,t,-5,5]
+	 * 
+	 * @return expression expanision of this algo
+	 */
 	public ExpressionNode toExpression() {
 		if (this.alternatives.size() == 1) {
 			return new ExpressionNode(kernel,
@@ -161,6 +176,7 @@ public class AlgoIf extends AlgoElement {
 		return new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
 	}
 
+	@Override
 	public boolean isUndefined() {
 		for (int i = 0; i < conditions.size(); i++) {
 			if (conditions.get(i).getBoolean()) {

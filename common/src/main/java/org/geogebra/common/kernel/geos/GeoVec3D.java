@@ -102,8 +102,12 @@ public abstract class GeoVec3D extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		GeoVec3D v = (GeoVec3D) geo;
-		setCoords(v.x, v.y, v.z);
+		if (geo instanceof GeoVec3D) {
+			GeoVec3D v = (GeoVec3D) geo;
+			setCoords(v.x, v.y, v.z);
+		} else {
+			setUndefined();
+		}
 	}
 
 	/**
