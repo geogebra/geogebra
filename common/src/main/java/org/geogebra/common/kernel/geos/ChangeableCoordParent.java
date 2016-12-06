@@ -194,6 +194,12 @@ public class ChangeableCoordParent {
 					tempMoveObjectList);
 			return true;
 		}
+
+		if (viewDirection == null) { // may come from 2D view, e.g. EuclidianController.moveDependent()
+			// see https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&sh=false&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException:+Attempt+to+invoke+virtual+method+'double+org.geogebra.a.m.a.j.e(org.geogebra.a.m.a.j)'+on+a+null+object+reference&tf=SourceFile&tc=%2509at+org.geogebra.common.kernel.geos.ChangeableCoordParent.move(ChangeableCoordParent.java:202)&tm=a&nid&an&c&s=new_status_desc&ed=1480452507515
+			return false;
+		}
+
 		// else: comes from mouse
 		if (direction2 == null) {
 			direction2 = new Coords(3);
