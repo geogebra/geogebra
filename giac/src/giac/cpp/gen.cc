@@ -11378,7 +11378,7 @@ namespace giac {
     *u &= 0xe0;
 #endif
     if (d<0 && calc_mode(contextptr)==38)
-      return "âˆ’"+print_DOUBLE_(-d,contextptr);
+      return "−"+print_DOUBLE_(-d,contextptr);
     string & forme=format_double(contextptr);
     if (!forme.empty()){
       char ch=forme[0];
@@ -11993,9 +11993,9 @@ namespace giac {
 
   const char * printi(GIAC_CONTEXT){
     if (calc_mode(contextptr)==1)
-      return "Î¯";
+      return "ί";
     if (abs_calc_mode(contextptr)==38)
-      return "î€ƒ"; // "\xe2\x81\xb1";
+      return ""; // "\xe2\x81\xb1";
     if (xcas_mode(contextptr)==3)
       return "\xa1";
     if (xcas_mode(contextptr)>0)
@@ -12260,65 +12260,65 @@ namespace giac {
 	case _QUADRANT4:
 	  return "quadrant4";
 	case _POINT_LOSANGE:
-	  return "Ï?Î¿Î¼Î²Î¿ÎµÎ¹Î´Î­Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "ρομβοειδές_σημείο";
 	case _POINT_CARRE:
-	  return "Ï„ÎµÏ„Ï?Î±Î³Ï‰Î½Î¹ÎºÏŒ_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "τετραγωνικό_σημείο";
 	case _POINT_PLUS:
-	  return "ÏƒÏ„Î±Ï…Ï?Î¿ÎµÎ¹Î´Î­Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "σταυροειδές_σημείο";
 	case _POINT_TRIANGLE:
-	  return "Ï„Ï?Î¹Î³Ï‰Î½Î¹ÎºÏŒ_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "τριγωνικό_σημείο";
 	case _POINT_ETOILE:
-	  return "Î±ÏƒÏ„Ï?Î¿ÎµÎ¹Î´Î­Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "αστροειδές_σημείο";
 	case _POINT_POINT:
 	  return "point_point";
 	case _POINT_INVISIBLE:
-	  return "Î±ÏŒÏ?Î±Ï„Î¿_ÏƒÎ·Î¼ÎµÎ¯Î¿";
+	  return "αόρατο_σημείο";
 	case 49:
 	  return "gomme";
 	case _LINE_WIDTH_2:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_2";
+	  return "εύρος_γραμμής_2";
 	case _LINE_WIDTH_3:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_3";
+	  return "εύρος_γραμμής_3";
 	case _LINE_WIDTH_4:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_4";
+	  return "εύρος_γραμμής_4";
 	case _LINE_WIDTH_5:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_5";
+	  return "εύρος_γραμμής_5";
 	case _LINE_WIDTH_6:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_6";
+	  return "εύρος_γραμμής_6";
 	case _LINE_WIDTH_7:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_7";
+	  return "εύρος_γραμμής_7";
 	case _LINE_WIDTH_8:
-	  return "ÎµÏ?Ï?Î¿Ï‚_Î³Ï?Î±Î¼Î¼Î®Ï‚_8";
+	  return "εύρος_γραμμής_8";
 	case _POINT_WIDTH_2:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_2";
+	  return "εύρος_σημείου_2";
 	case _POINT_WIDTH_3:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_3";
+	  return "εύρος_σημείου_3";
 	case _POINT_WIDTH_4:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_4";
+	  return "εύρος_σημείου_4";
 	case _POINT_WIDTH_5:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_5";
+	  return "εύρος_σημείου_5";
 	case _POINT_WIDTH_6:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_6";
+	  return "εύρος_σημείου_6";
 	case _POINT_WIDTH_7:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_7";
+	  return "εύρος_σημείου_7";
 	case _POINT_WIDTH_8:
-	  return "ÎµÏ?Ï?Î¿Ï‚_ÏƒÎ·Î¼ÎµÎ¯Î¿Ï…_8";
+	  return "εύρος_σημείου_8";
 	case _HIDDEN_NAME:
 	  return "hidden_name";
 	case _DASH_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_Î´Î¹Î±ÎºÎµÎºÎ¿Î¼Î¼Î­Î½Î·";
+	  return "γραμμή_διακεκομμένη";
 	case _DOT_LINE:
-	  return "Ï€Î±Ï?Î»Î±_Ï„ÎµÎ»ÎµÎ¯Î±";
+	  return "παύλα_τελεία";
 	case _DASHDOT_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_Ï€Î±Ï?Î»Î±_Ï„ÎµÎ»ÎµÎ¯Î±";
+	  return "γραμμή_παύλα_τελεία";
 	case _DASHDOTDOT_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_Ï€Î±Ï?Î»Î±_Ï„ÎµÎ»ÎµÎ¯Î±Ï„ÎµÎ»ÎµÎ¯Î±";
+	  return "γραμμή_παύλα_τελείατελεία";
 	case _CAP_FLAT_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_ÎµÏ€Î¯Ï€ÎµÎ´Î¿_ÎºÎ±Î²Î¿Ï?ÎºÎ¹";
+	  return "γραμμή_επίπεδο_καβούκι";
 	case _CAP_ROUND_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_ÏƒÏ„Ï?Î¿Î³Î³Ï…Î»ÏŒ_ÎºÎ±Î²Î¿Ï?ÎºÎ¹";
+	  return "γραμμή_στρογγυλό_καβούκι";
 	case _CAP_SQUARE_LINE:
-	  return "Î³Ï?Î±Î¼Î¼Î®_Ï„ÎµÏ„Ï?Î¬Î³Ï‰Î½Î¿_ÎºÎ±Î²Î¿Ï?ÎºÎ¹";
+	  return "γραμμή_τετράγωνο_καβούκι";
 	}
       default:
 	switch (val){
@@ -12721,7 +12721,7 @@ namespace giac {
     switch (type ) {
     case _INT_: 
       if (val<0 && val != (1<<31) && calc_mode(contextptr)==38)
-	return "âˆ’"+(-*this).print(contextptr);
+	return "−"+(-*this).print(contextptr);
       if (subtype)
 	return localize(printint32(val,subtype,contextptr),language(contextptr));
       switch (integer_format(contextptr)){
@@ -12735,11 +12735,11 @@ namespace giac {
     case _DOUBLE_:
       return print_DOUBLE_(_DOUBLE_val,contextptr);
     case _FLOAT_:
-      if (abs_calc_mode(contextptr)==38 && is_strictly_positive(-*this,contextptr)) return "âˆ’"+print_FLOAT_(-_FLOAT_val,contextptr);
+      if (abs_calc_mode(contextptr)==38 && is_strictly_positive(-*this,contextptr)) return "−"+print_FLOAT_(-_FLOAT_val,contextptr);
       return print_FLOAT_(_FLOAT_val,contextptr);
     case _ZINT: 
       if (abs_calc_mode(contextptr)==38 && is_strictly_positive(-*this,contextptr))
-	return "âˆ’"+(-*this).print(contextptr);
+	return "−"+(-*this).print(contextptr);
       switch (integer_format(contextptr)){
       case 16:
 	return hexa_print_ZINT(*_ZINTptr);
@@ -12771,7 +12771,7 @@ namespace giac {
 	if (is_one(*(_CPLXptr+1)))
 	  return printi(contextptr);
 	if (is_minus_one(*(_CPLXptr+1)))
-	  return (abs_calc_mode(contextptr)==38?string("âˆ’"):string("-"))+printi(contextptr);
+	  return (abs_calc_mode(contextptr)==38?string("−"):string("-"))+printi(contextptr);
 	return ((_CPLXptr+1)->print(contextptr) + string("*"))+printi(contextptr);
       }
       if (is_one(*(_CPLXptr+1)))
@@ -12792,7 +12792,7 @@ namespace giac {
 	      // calc_mode(contextptr)!=1
 	      abs_calc_mode(contextptr)==38
 	      )
-	    return "âˆž";
+	    return "-∞";
 	  else
 	    return "+infinity";
 	}
