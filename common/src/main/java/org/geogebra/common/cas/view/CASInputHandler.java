@@ -234,7 +234,7 @@ public class CASInputHandler {
 				}
 			}
 
-			if (cellValue.getNSolveCmdNeeded() && !ggbcmd.equals("NSolve")) {
+			if (cellValue.getNSolveCmdNeeded() && !"NSolve".equals(ggbcmd)) {
 				if (cellValue.getInputVE() != null && cellValue.getInputVE()
 						.getTopLevelCommand() != null) {
 					cellValue.setNSolveCmdNeeded(false);
@@ -244,8 +244,8 @@ public class CASInputHandler {
 			}
 
 			// FIX common INPUT ERRORS in evalText
-			if (!hasSelectedText && (ggbcmd.equals("Evaluate")
-					|| ggbcmd.equals("KeepInput"))) {
+			if (!hasSelectedText && ("Evaluate".equals(ggbcmd)
+					|| "KeepInput".equals(ggbcmd))) {
 				String fixedInput = fixInputErrors(selRowInput);
 				if (!fixedInput.equals(selRowInput)) {
 					cellValue.setInput(fixedInput);
@@ -267,12 +267,12 @@ public class CASInputHandler {
 			}
 
 			boolean isAssignment = cellValue.getAssignmentVariable() != null;
-			boolean isEvaluate = ggbcmd.equals("Evaluate");
-			boolean isNumeric = ggbcmd.equals("Numeric");
-			boolean isKeepInput = ggbcmd.equals("KeepInput");
+			boolean isEvaluate = "Evaluate".equals(ggbcmd);
+			boolean isNumeric = "Numeric".equals(ggbcmd);
+			boolean isKeepInput = "KeepInput".equals(ggbcmd);
 
 			// Substitute dialog
-			if (ggbcmd.equals("Substitute")) {
+			if ("Substitute".equals(ggbcmd)) {
 				// if cell has assignment and nothing other is selected -> use
 				// input without defnition
 				// eg. a:=b+c
@@ -331,9 +331,9 @@ public class CASInputHandler {
 					GeoCasCell newRowValue = new GeoCasCell(
 							kernel.getConstruction());
 					StringBuilder sb = new StringBuilder(label);
-					boolean isDerivative = ggbcmd.equals("Derivative");
+					boolean isDerivative = "Derivative".equals(ggbcmd);
 					boolean isIntegral = !isDerivative
-							&& ggbcmd.equals("Integral");
+							&& "Integral".equals(ggbcmd);
 					if ((isDerivative || isIntegral)
 							&& outputVE.unwrap() instanceof FunctionNVar) {
 						if (isDerivative) {
@@ -441,7 +441,7 @@ public class CASInputHandler {
 			}
 
 			// case it is not
-			if (casResult.equals("false")) {
+			if ("false".equals(casResult)) {
 				ValidExpression ve = cellValue.getEvalVE();
 				HashSet<GeoElement> vars = ve.getVariables();
 				if (!vars.isEmpty()) {
@@ -632,7 +632,7 @@ public class CASInputHandler {
 		for (int i = 0; i < selectedIndices.length; i++) {
 			GeoCasCell selCellValue = consoleTable
 					.getGeoCasCell(selectedIndices[i]);
-			if (ggbcmd.equals("NSolve") && selCellValue != null) {
+			if ("NSolve".equals(ggbcmd) && selCellValue != null) {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					StringBuilder inputStr = new StringBuilder();
@@ -696,7 +696,7 @@ public class CASInputHandler {
 						}
 					}
 					// case it is not
-					if (casResult.equals("false") || casResult.equals("0")) {
+					if ("false".equals(casResult) || "0".equals(casResult)) {
 						foundNonPolynomial = true;
 					}
 				} catch (Throwable e) {
@@ -750,7 +750,7 @@ public class CASInputHandler {
 		}
 
 		// FIX common INPUT ERRORS in evalText
-		if ((ggbcmd.equals("Evaluate") || ggbcmd.equals("KeepInput"))) {
+		if (("Evaluate".equals(ggbcmd) || "KeepInput".equals(ggbcmd))) {
 			String fixedInput = fixInputErrors(cellText.toString());
 			if (!fixedInput.equals(cellText.toString())) {
 				evalText = fixedInput;

@@ -1042,7 +1042,7 @@ public class CellFormat implements CellFormatInterface {
 	 * @param formatStr
 	 */
 	private void processCellFormatString(String formatStr) {
-		if (formatStr.equals("null")) {
+		if ("null".equals(formatStr)) {
 			return;
 		}
 		// System.out.println("cellFormat: " + formatStr);

@@ -370,7 +370,7 @@ public class TextDispatcher {
 			GPoint mouseLoc) {
 		GeoNumeric slope;
 		/*
-		 * if (strLocale.equals("de_AT")) { slope = kernel.Slope("k", line); }
+		 * if ("de_AT".equals(strLocale)) { slope = kernel.Slope("k", line); }
 		 * else { slope = kernel.Slope("m", line); }
 		 */
 

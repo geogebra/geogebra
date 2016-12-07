@@ -380,7 +380,7 @@ public abstract class Log {
 			callerClassName = elements[depth].getClassName();
 			callerLineNumber = elements[depth].getLineNumber();
 
-			if (callerClassName.equals("Unknown")) {
+			if ("Unknown".equals(callerClassName)) {
 				/*
 				 * In web production mode the GWT compile rewrites the code very
 				 * thoroughly. We are doing some intuitive hacking here to
@@ -390,14 +390,14 @@ public abstract class Log {
 
 				// PRETTY style
 				// safari:
-				if (callerMethodName.equals("$fillInStackTrace")) {
+				if ("$fillInStackTrace".equals(callerMethodName)) {
 					if (elements.length < 10) {
 						return "?";
 					}
 					return elements[9].getMethodName();
 				}
 				// gecko1_8
-				if (callerMethodName.equals("fillInStackTrace")) {
+				if ("fillInStackTrace".equals(callerMethodName)) {
 					if (elements.length < 11) {
 						return "?";
 					}

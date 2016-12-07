@@ -742,7 +742,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 												StringTemplate.giacTemplate)
 										+ ")");
 				if (!expandGiacOutput.contains("?")
-						&& !expandGiacOutput.equals("{}")) {
+						&& !"{}".equals(expandGiacOutput)) {
 					// parse expanded string into expression
 					ValidExpression expandValidExp = (kernel.getGeoGebraCAS())
 							.getCASparser()

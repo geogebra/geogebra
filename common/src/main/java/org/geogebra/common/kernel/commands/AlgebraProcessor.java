@@ -2421,7 +2421,7 @@ public class AlgebraProcessor {
 			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
 					.trim();
 
-			if (lhsStr.equals("y")
+			if ("y".equals(lhsStr)
 					&& !equ.getRHS().containsFreeFunctionVariable("y")) {
 
 				Function fun = new Function(equ.getRHS());

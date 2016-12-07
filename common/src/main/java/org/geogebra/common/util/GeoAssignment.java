@@ -196,7 +196,7 @@ public class GeoAssignment extends Assignment {
 		// possibleOutputs ie.the array
 		boolean mayAdjustMoveableOutputs = adjustMoveableOutputs(macroOutput,
 				possibleOutput);
-		if (checkOp.equals("AreEqual")) {
+		if ("AreEqual".equals(checkOp)) {
 			// GeoElement root = new AlgoAreEqual(cons, macroOutput,
 			// possibleOutput[i]).getOutput()[0];
 			//
@@ -206,11 +206,11 @@ public class GeoAssignment extends Assignment {
 			// partRes.add(algoProve.getGeoBoolean().getBoolean() ?
 			// Result.CORRECT
 			// : Result.WRONG);
-		} else if (checkOp.equals("==")) {
+		} else if ("==".equals(checkOp)) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 					macroOutput, possibleOutput[i]).getBoolean()
 							? Result.CORRECT : Result.WRONG);
-		} else if (checkOp.equals("AreCongruent")) {
+		} else if ("AreCongruent".equals(checkOp)) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
 					? Result.CORRECT : Result.WRONG);
 		}
@@ -253,14 +253,14 @@ public class GeoAssignment extends Assignment {
 					possibleOutput);
 		}
 
-		if (checkOp.equals("AreEqual")) {
+		if ("AreEqual".equals(checkOp)) {
 			partRes.add(macroOutput.isEqual(possibleOutput[i]) ? Result.CORRECT
 					: Result.WRONG_AFTER_RANDOMIZE);
-		} else if (checkOp.equals("==")) {
+		} else if ("==".equals(checkOp)) {
 			partRes.add(ExpressionNodeEvaluator.evalEquals(macro.getKernel(),
 					macroOutput, possibleOutput[i]).getBoolean()
 							? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
-		} else if (checkOp.equals("AreCongruent")) {
+		} else if ("AreCongruent".equals(checkOp)) {
 			partRes.add((macroOutput.isCongruent(possibleOutput[i]).boolVal())
 					? Result.CORRECT : Result.WRONG_AFTER_RANDOMIZE);
 		}

@@ -113,7 +113,7 @@ public interface Inspecting {
 								.getRight() instanceof MyVec3DNode) {
 					String str = ((ExpressionNode) v).getLeft()
 							.toString(StringTemplate.defaultTemplate);
-					if (str.equals("\u03BB")) {
+					if ("\u03BB".equals(str)) {
 						nrOfPoints++;
 					}
 				}
@@ -121,10 +121,10 @@ public interface Inspecting {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
 					String varString = gdv
 							.toString(StringTemplate.defaultTemplate);
-					if (!varString.equals("x") && !varString.equals("y")
-							&& !varString.equals("X")
-							&& (dim < 3 || !varString.equals("z"))) {
-						if (varString.equals("\u03BB") && !isOtherVar
+					if (!"x".equals(varString) && !"y".equals(varString)
+							&& !"X".equals(varString)
+							&& (dim < 3 || !"z".equals(varString))) {
+						if ("\u03BB".equals(varString) && !isOtherVar
 								&& nrOfPoints == 2) {
 							return false;
 						}
@@ -139,7 +139,7 @@ public interface Inspecting {
 						}
 						return true;
 					}
-					if (varString.equals("x") || varString.equals("z")) {
+					if ("x".equals(varString) || "z".equals(varString)) {
 						isOtherVar = true;
 					}
 

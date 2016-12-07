@@ -2679,7 +2679,7 @@ public class Construction {
 			fix = false;
 
 		} else if (length == 1) {
-			if (label.equals("O")) {
+			if ("O".equals(label)) {
 
 				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
 				label = "O";

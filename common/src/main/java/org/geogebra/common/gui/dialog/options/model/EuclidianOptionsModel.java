@@ -632,7 +632,7 @@ public class EuclidianOptionsModel {
 	public void applyGridTicks(String str, int idx) {
 		double value = Double.NaN;
 		final String text = str.trim();
-		if (!text.equals("")) {
+		if (!"".equals(text)) {
 			value = app.getKernel().getAlgebraProcessor()
 					.evaluateToDouble(text);
 		}

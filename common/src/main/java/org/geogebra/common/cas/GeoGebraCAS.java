@@ -372,7 +372,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				casParser.setNrOfVars(0);
 			}
 			for (String str : varsInEqus) {
-				if (!str.equals("x") && !str.equals("y") && !str.equals("z")) {
+				if (!"x".equals(str) && !"y".equals(str) && !"z".equals(str)) {
 					// add current variable to the completion string
 					complOfVarsStr += ",ggbtmpvar" + str;
 				} else {
@@ -418,7 +418,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		MyList equsForArgs = new MyList(this.app.getKernel());
 		StringBuilder assumesForArgs = new StringBuilder();
 		if (args.size() == 1 && args.get(0).isExpressionNode()
-				&& name.equals("Point")) {
+				&& "Point".equals(name)) {
 			ExpressionNode node = args.get(0);
 			if (node.isLeaf() && node.getLeft() instanceof MyList) {
 				if (((ExpressionNode) ((MyList) node.getLeft())
@@ -431,7 +431,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 		// case solve with list of equations
-		else if (name.equals("Solve") && args.size() == 2
+		else if ("Solve".equals(name) && args.size() == 2
 				&& args.get(0).getLeft() instanceof MyList && !varComplNeeded) {
 			// get list of equations from args
 			MyList listOfEqus = (MyList) args.get(0).getLeft();
@@ -682,7 +682,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						ev = ((MyList) args.get(0).getLeft())
 								.getListElement(pos);
 						sbCASCommand.append(toString(ev, symbolic, tplToUse));
-					} else if (name.equals("Solve")) {
+					} else if ("Solve".equals(name)) {
 						// case we have assumptions in equation list
 						if (isAssumeInEqus && args.size() != 3) {
 							// append list of equations
@@ -745,7 +745,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						// success: insert argument(pos)
 						ev = args.get(pos);
 						// needed for #5506
-						if (name.equals("SolveODE")
+						if ("SolveODE".equals(name)
 								&& ((ExpressionNode) ev)
 										.getLeft() instanceof MyList
 								&& args.size() > 2) {
@@ -791,7 +791,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			try {
 				String retval = App
 						.singularWSdirectCommand(sbCASCommand.toString());
-				if (retval == null || retval.equals("")) {
+				if (retval == null || "".equals(retval)) {
 					// if there was a problem, try again without using Singular:
 					return getCASCommand(name, args, symbolic, tpl, false);
 				}
@@ -803,10 +803,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		// change variables to y and x for command SolveODE
-		if (name.equals("SolveODE") && args.size() >= 2) {
+		if ("SolveODE".equals(name) && args.size() >= 2) {
 			return sbCASCommand.toString().replaceAll("unicode39u", "\'");
 			// return switchVarsToSolveODE(args, sbCASCommand);
-		} else if (name.equals("Solutions") && args.size() == 1) {
+		} else if ("Solutions".equals(name) && args.size() == 1) {
 			return switchVarsToSolutions(args, sbCASCommand);
 		}
 
@@ -842,7 +842,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private static boolean checkForParamEquExistance(
 			ArrayList<ExpressionNode> args, String name) {
 		// case we have command Solve[<Equation list>, <Variable list>]
-		if (name.equals("Solve") && args.size() == 2) {
+		if ("Solve".equals(name) && args.size() == 2) {
 			if (args.get(0).getLeft() instanceof MyList
 					&& (args.get(1).getLeft() instanceof MyList || args.get(1)
 							.getLeft() instanceof GeoDummyVariable)) {
@@ -910,7 +910,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			Iterator<String> ite = setOfDummyVars.iterator();
 			String var = ite.next();
 			// if not x then switch
-			if (!var.equals("x")) {
+			if (!"x".equals(var)) {
 				newSbCASCommand = newSbCASCommand.replaceFirst(",x\\)",
 						",ggbtmpvar" + var + ")");
 			}
@@ -922,7 +922,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// create list of variables
 		while (ite.hasNext()) {
 			String currVar = ite.next();
-			if (!currVar.equals("x") && !currVar.equals("y")) {
+			if (!"x".equals(currVar) && !"y".equals(currVar)) {
 				listOfVars.append(",ggbtmpvar" + currVar);
 			} else {
 				listOfVars.append("," + currVar);

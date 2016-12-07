@@ -60,7 +60,7 @@ public class AxisModel {
 	public void applyTickDistance(String str) {
 		GeoNumberValue value = null;
 		final String text = str.trim();
-		if (!text.equals("")) {
+		if (!"".equals(text)) {
 			value = app.getKernel().getAlgebraProcessor()
 					.evaluateToNumeric(text, ErrorHelper.silent());
 		}
@@ -92,7 +92,7 @@ public class AxisModel {
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || text.equals(""))
+		if (text == null || "".equals(text))
 			return Double.NaN;
 		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 	}

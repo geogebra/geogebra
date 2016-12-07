@@ -198,7 +198,7 @@ public abstract class CASSubDialog {
 		for (int i = 0; i < data.size(); i++) {
 			String fromExpr = data.get(i).get(0).trim();
 			String toExpr = data.get(i).get(1).trim();
-			if (!fromExpr.equals("") && !toExpr.equals("")) {
+			if (!"".equals(fromExpr) && !"".equals(toExpr)) {
 				if (substList.length() > 1) {
 					substList.append(',');
 					substComment.append(',');
@@ -224,10 +224,10 @@ public abstract class CASSubDialog {
 
 		// substitute command
 		String subCmd = "Substitute[" + evalText + "," + substList + "]";
-		if (actionCommand.equals("Substitute")) {
+		if ("Substitute".equals(actionCommand)) {
 			subCmd = "Substitute[" + evalText + "," + substList + "]";
 			keepInput = true;
-		} else if (actionCommand.equals("Numeric")) {
+		} else if ("Numeric".equals(actionCommand)) {
 			subCmd = "Numeric[" + subCmd + "]";
 			keepInput = false;
 		}

@@ -496,39 +496,39 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		// row elements
 		for (int colIndex = 0; colIndex < colValues.length; colIndex++) {
 
-			if (type.equals("blank")) {
+			if ("blank".equals(type)) {
 				sb.append("\\;");
 
-			} else if (type.equals("colValue")) {
+			} else if ("colValue".equals(type)) {
 				sb.append(colValues[colIndex]);
 
-			} else if (type.equals("count")) {
+			} else if ("count".equals(type)) {
 				sb.append(freqValues[rowIndex][colIndex]);
 
-			} else if (type.equals("_")) {
+			} else if ("_".equals(type)) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / rowSum[rowIndex];
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-			} else if (type.equals("|")) {
+			} else if ("|".equals(type)) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / colSum[colIndex];
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-			} else if (type.equals("+")) {
+			} else if ("+".equals(type)) {
 				x = 100.0 * freqValues[rowIndex][colIndex] / totalSum;
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-			} else if (type.equals("e")) {
+			} else if ("e".equals(type)) {
 				x = expected[rowIndex][colIndex];
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-			} else if (type.equals("k")) {
+			} else if ("k".equals(type)) {
 				x = chiCont[rowIndex][colIndex];
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-			} else if (type.equals("tableFooter")) {
+			} else if ("tableFooter".equals(type)) {
 				sb.append(colSum[colIndex]);
 
-			} else if (type.equals("rowPercentFooter")) {
+			} else if ("rowPercentFooter".equals(type)) {
 				x = 100.0 * colSum[colIndex] / totalSum;
 				sb.append(kernel.format(x, StringTemplate.numericDefault));
 			}
@@ -537,17 +537,17 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		}
 
 		// margin
-		if (type.equals("count")) {
+		if ("count".equals(type)) {
 			sb.append(rowSum[rowIndex]);
 
-		} else if (type.equals("colValue")) {
+		} else if ("colValue".equals(type)) {
 			sb.append(getLoc().getMenu("Total"));
 
-		} else if (type.equals("|")) {
+		} else if ("|".equals(type)) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;
 			sb.append(kernel.format(x, StringTemplate.numericDefault));
 
-		} else if (type.equals("tableFooter")) {
+		} else if ("tableFooter".equals(type)) {
 			sb.append(totalSum);
 
 		} else {

@@ -2108,7 +2108,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					// don't use Kernel.isEqual as a small coefficient can be
 					// significant
 					// check for "0" doesn't work for 0.00
-					if (!number.equals("0") && coeff[i][j] != 0) {
+					if (!"0".equals(number) && coeff[i][j] != 0) {
 						if (pos) {
 							if (!first) {
 								sb.append('+');
@@ -2121,7 +2121,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						}
 						first = false;
 						// check both in case of 1.000
-						if (!number.equals("1") && coeff[i][j] != 1) {
+						if (!"1".equals(number) && coeff[i][j] != 1) {
 							sb.append(number);
 							if (tpl.hasCASType()) {
 								appendMultiply(sb);

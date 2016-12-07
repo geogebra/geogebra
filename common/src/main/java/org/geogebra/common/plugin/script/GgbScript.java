@@ -49,7 +49,7 @@ public class GgbScript extends Script {
 		boolean success = true;
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i].trim();
-			if (line.equals("") || line.charAt(0) == '#') {
+			if ("".equals(line) || line.charAt(0) == '#') {
 				continue;
 			}
 			try {
@@ -69,7 +69,7 @@ public class GgbScript extends Script {
 		final String[] starr = splitScriptByCommands(st);
 		boolean isAssignment = false;
 		for (String string : starr) {
-			if (string.equals(":=")) {
+			if (":=".equals(string)) {
 				isAssignment = true;
 				break;
 			}
@@ -116,7 +116,7 @@ public class GgbScript extends Script {
 		final String[] starr = splitScriptByCommands(st);
 		boolean isAssignment = false;
 		for (String string : starr) {
-			if (string.equals(":=")) {
+			if (":=".equals(string)) {
 				isAssignment = true;
 				break;
 			}

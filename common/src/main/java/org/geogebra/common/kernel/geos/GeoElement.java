@@ -573,7 +573,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public String getLabel(StringTemplate tpl) {
 		if (!tpl.isUseRealLabels() || (realLabel == null)
-				|| realLabel.equals("")) {
+				|| "".equals(realLabel)) {
 			if (!isLabelSet() && !localVarLabelSet) {
 				if (algoParent != null) {
 					return algoParent.getDefinition(tpl);
@@ -969,7 +969,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public String getDefinitionForEditorNoLabel() {
 		String ret = getDefinition(StringTemplate.editorTemplate);
-		if (ret.equals("")) {
+		if ("".equals(ret)) {
 			ret = getAlgebraDescription(StringTemplate.editorTemplate);
 		}
 		return ret;
@@ -981,7 +981,7 @@ public abstract class GeoElement extends ConstructionElement
 		// so we need to use getCommandDescription() in those cases
 
 		String inputBarStr = getDefinition(stringTemplate);
-		if (!inputBarStr.equals("")) {
+		if (!"".equals(inputBarStr)) {
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a

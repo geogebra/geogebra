@@ -230,15 +230,15 @@ public class QDParser {
 					mode = popMode(stack);
 					String cent = etag.toString();
 					etag.setLength(0);
-					if (cent.equals("lt"))
+					if ("lt".equals(cent))
 						sb.append('<');
-					else if (cent.equals("gt"))
+					else if ("gt".equals(cent))
 						sb.append('>');
-					else if (cent.equals("amp"))
+					else if ("amp".equals(cent))
 						sb.append('&');
-					else if (cent.equals("quot"))
+					else if ("quot".equals(cent))
 						sb.append('"');
-					else if (cent.equals("apos"))
+					else if ("apos".equals(cent))
 						sb.append('\'');
 					// Could parse hex entities if we wanted to
 					else if (cent.startsWith("#x"))

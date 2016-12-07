@@ -3843,7 +3843,7 @@ public abstract class EuclidianController {
 
 				// attach
 				if (needsAttach) {
-					if (!attachTo.equals("")) {
+					if (!"".equals(attachTo)) {
 						Path path = (Path) this.kernel.getConstruction()
 								.geoTableVarLookup(attachTo);
 						this.kernel.getAlgoDispatcher().attach(movedGeoPoint,

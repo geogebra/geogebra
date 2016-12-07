@@ -578,7 +578,7 @@ public class Macro {
 	 *            Tool help. Either "","null" or null for empty.
 	 */
 	public void setToolHelp(String toolHelp) {
-		if (toolHelp == null || toolHelp.equals("null"))
+		if (toolHelp == null || "null".equals(toolHelp))
 			this.toolHelp = "";
 		else
 			this.toolHelp = toolHelp;
@@ -631,7 +631,7 @@ public class Macro {
 	 *            new tool name
 	 */
 	public void setToolName(String name) {
-		if (name == null || name.equals("null") || name.length() == 0)
+		if (name == null || "null".equals(name) || name.length() == 0)
 			this.toolName = cmdName;
 		else
 			this.toolName = name;

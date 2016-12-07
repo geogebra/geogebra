@@ -301,7 +301,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 		}
 
-		if (openBracket.equals("\\left.") && closeBracket.equals("\\right.")) {
+		if ("\\left.".equals(openBracket) && "\\right.".equals(closeBracket)) {
 			openBracket = "";
 			closeBracket = "";
 		}

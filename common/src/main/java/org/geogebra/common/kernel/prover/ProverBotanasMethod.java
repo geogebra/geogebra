@@ -750,7 +750,7 @@ public class ProverBotanasMethod {
 						 */
 						if (geoProver
 								.getProverEngine() != ProverEngine.LOCUS_IMPLICIT
-								&& !(casResult.equals("{}"))) {
+								&& !("{}".equals(casResult))) {
 							// skip { and }
 							casResult = casResult.substring(1,
 									casResult.length() - 1);
@@ -831,7 +831,7 @@ public class ProverBotanasMethod {
 
 						}
 						/* giac output is not empty */
-						if (!(output.equals("{}"))) {
+						if (!("{}".equals(output))) {
 							// Log.debug(output);
 							ValidExpression validExpression = (geoStatement
 									.getKernel().getGeoGebraCAS())

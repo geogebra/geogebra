@@ -473,7 +473,7 @@ public class RelativeCopy {
 
 		// for E1 = Polynomial[D1] we need value.getCommandDescription();
 		// even though it's a GeoFunction
-		if (value.isGeoFunction() && text.equals("")) {
+		if (value.isGeoFunction() && "".equals(text)) {
 			// we need the definition without A1(x)= on the front
 			text = ((GeoFunction) value).toSymbolicString(highPrecision);
 		}
@@ -519,7 +519,7 @@ public class RelativeCopy {
 		}
 
 		// allow pasting blank strings
-		if (text.equals("")) {
+		if ("".equals(text)) {
 			text = "\"\"";
 		}
 

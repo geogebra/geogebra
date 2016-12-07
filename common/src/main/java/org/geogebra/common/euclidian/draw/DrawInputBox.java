@@ -449,7 +449,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 */
 	public void setFocus(final String str) {
 		Log.debug("[DrawTextFied] setFocus: " + str);
-		if (str != null && !str.equals("\t")) {
+		if (str != null && !"\t".equals(str)) {
 			getTextField().wrapSetText(str);
 		}
 		getTextField().requestFocus();

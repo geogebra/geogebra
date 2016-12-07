@@ -215,7 +215,7 @@ public class EuclidianStyleBarStatic {
 		String definitonStr = geo.getDefinition(StringTemplate.maxPrecision);
 
 		// everything else
-		if (definitonStr.equals("")) {
+		if ("".equals(definitonStr)) {
 			// "false" here so that pinning works for eg polygons
 			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision,
 					false);
@@ -536,7 +536,7 @@ public class EuclidianStyleBarStatic {
 		App app = ev.getApplication();
 		// cons = app.getKernel().getConstruction();
 		boolean changed = false;
-		if (actionCommand.equals("showAxes")) {
+		if ("showAxes".equals(actionCommand)) {
 			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
 					app);
 
@@ -549,7 +549,7 @@ public class EuclidianStyleBarStatic {
 			ev.repaint();
 		}
 
-		else if (actionCommand.equals("showGrid")) {
+		else if ("showGrid".equals(actionCommand)) {
 			EuclidianSettings evs = app.getSettings().getEuclidianForView(ev,
 					app);
 			if (evs != null) {
@@ -560,14 +560,14 @@ public class EuclidianStyleBarStatic {
 			ev.repaint();
 		}
 
-		else if (actionCommand.equals("standardView")) {
+		else if ("standardView".equals(actionCommand)) {
 
 			// no parameters, always do this
 			// app.setStandardView();
 			ev.setStandardView(true);
 		}
 
-		else if (actionCommand.equals("pointCapture")) {
+		else if ("pointCapture".equals(actionCommand)) {
 			int mode = ev.getStyleBar().getPointCaptureSelectedIndex();
 
 			if (mode == 3 || mode == 0)

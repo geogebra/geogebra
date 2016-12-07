@@ -479,13 +479,13 @@ public class Term implements Comparable<Object> {
 			return str;
 		case 2:
 
-			if (str.equals("xx")) {
+			if ("xx".equals(str)) {
 				return "x\u00b2";
 			}
-			if (str.equals("yy")) {
+			if ("yy".equals(str)) {
 				return "y\u00b2";
 			}
-			if (str.equals("xy")) {
+			if ("xy".equals(str)) {
 				return "xy";
 			}
 		default:

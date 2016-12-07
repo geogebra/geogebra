@@ -46,7 +46,7 @@ public abstract class AbstractProverReciosMethod {
 
 		SymbolicParameters s = null;
 		boolean B = false; // use Botana's method or not
-		if (ProverSettings.get().proverMethod.equals("groebner")) {
+		if ("groebner".equals(ProverSettings.get().proverMethod)) {
 			B = true;
 		}
 		AlgebraicStatement as = null;

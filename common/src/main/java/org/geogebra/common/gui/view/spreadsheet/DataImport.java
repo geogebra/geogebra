@@ -188,7 +188,7 @@ public class DataImport {
 	 */
 	private static String adjustNumberString(String s) {
 
-		if (s == null || s.equals("")) {
+		if (s == null || "".equals(s)) {
 			return s;
 		}
 

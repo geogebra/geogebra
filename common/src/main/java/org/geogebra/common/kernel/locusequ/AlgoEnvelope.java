@@ -331,7 +331,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 					.getGeoGebraCAS();
 			try {
 				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
-				if (det.equals("?")) {
+				if ("?".equals(det)) {
 					Log.debug("Cannot compute det of Jacobi matrix (yet?)");
 					return null;
 				}

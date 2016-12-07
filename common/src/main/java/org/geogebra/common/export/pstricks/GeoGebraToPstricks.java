@@ -1055,7 +1055,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String fy = geo.getFunY(getStringTemplate());
 		fy = killSpace(StringUtil.toLaTeXString(fy, true));
 		String variable = geo.getVarString(getStringTemplate());
-		boolean warning = !(variable.equals("t"));
+		boolean warning = !("t".equals(variable));
 		startBeamer(code);
 		if (warning)
 			code.append(

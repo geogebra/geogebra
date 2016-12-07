@@ -547,10 +547,10 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		// Replacing variables to have x and y instead of vx and vy:
 		String implicitCurveString = result.toString();
-		if (!vx.equals("")) {
+		if (!"".equals(vx)) {
 			implicitCurveString = implicitCurveString.replaceAll(vx, "x");
 		}
-		if (!vy.equals("")) {
+		if (!"".equals(vy)) {
 			implicitCurveString = implicitCurveString.replaceAll(vy, "y");
 		}
 		Log.trace("Implicit locus equation: " + implicitCurveString);

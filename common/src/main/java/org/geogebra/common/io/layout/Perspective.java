@@ -466,7 +466,7 @@ public class Perspective {
 		sb.append("\" />\n");
 
 		// skip axes & grid for document perspectives
-		if (!id.equals("tmp")) {
+		if (!"tmp".equals(id)) {
 			sb.append("\t<show axes=\"");
 			sb.append(getShowAxes());
 			sb.append("\" grid=\"");

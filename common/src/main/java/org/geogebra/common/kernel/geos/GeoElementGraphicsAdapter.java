@@ -38,7 +38,7 @@ public abstract class GeoElementGraphicsAdapter {
 	public void setImageFileNameOnly(String fn) {
 		FileExtensions ext = StringUtil.getFileExtension(fn);
 
-		if (!ext.isAllowedImage() && !fn.equals("")) {
+		if (!ext.isAllowedImage() && !"".equals(fn)) {
 
 			// all bitmaps (except JPG) saved as PNG
 			// eg .TIFF/.TIF/.BMP

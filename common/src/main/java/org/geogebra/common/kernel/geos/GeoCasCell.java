@@ -1313,7 +1313,7 @@ public class GeoCasCell extends GeoElement
 
 		for (String varLabel : invars) {
 			if (!(ignoreUndefinedXY
-					&& (varLabel.equals("x") || varLabel.equals("y")))) // provide
+					&& ("x".equals(varLabel) || "y".equals(varLabel)))) // provide
 																		// definitions
 																		// of
 																		// funktions
@@ -1420,7 +1420,7 @@ public class GeoCasCell extends GeoElement
 		evalCmd = cmd == null ? "" : cmd;
 
 		// includesNumericCommand = includesNumericCommand || evalCmd != null
-		// && evalCmd.equals("Numeric");
+		// && "Numeric".equals(evalCmd);
 		setKeepInputUsed(
 				evalCmd != null && evalCmd.toLowerCase().equals("keepinput"));
 	}
@@ -1439,11 +1439,11 @@ public class GeoCasCell extends GeoElement
 	 */
 	final public void setEvalComment(final String comment) {
 		if (comment != null) {
-			if (!comment.equals("")) {
+			if (!"".equals(comment)) {
 				setSubstList(getSubstListFromSubstComment(comment));
 			}
-			if (evalComment != null && !evalComment.equals("")
-					&& comment.equals("")) {
+			if (evalComment != null && !"".equals(evalComment)
+					&& "".equals(comment)) {
 				setSubstList(getSubstListFromSubstComment(evalComment));
 			}
 			evalComment = comment;
@@ -1497,7 +1497,7 @@ public class GeoCasCell extends GeoElement
 			// parse output into valid expression
 			ValidExpression parsed = parseGeoGebraCASInputAndResolveDummyVars(
 					res);
-			if ((evalCmd != null && evalCmd.equals("NSolve"))
+			if ((evalCmd != null && "NSolve".equals(evalCmd))
 					|| (inputVE != null && inputVE.getTopLevelCommand() != null
 							&& inputVE.getTopLevelCommand().getName()
 									.equals("NSolve"))) {
@@ -3171,7 +3171,7 @@ public class GeoCasCell extends GeoElement
 	 *         is already a twinGeo, or a new twinGeo was created successfully
 	 */
 	public boolean plot() {
-		if (getEvalVE() == null || input.equals("")) {
+		if (getEvalVE() == null || "".equals(input)) {
 			return false;
 		} else if (hasTwinGeo()) { // there is already a twinGeo, this means
 									// this cell is plotable,
@@ -3229,7 +3229,7 @@ public class GeoCasCell extends GeoElement
 			getEvalVE().setLabel(
 					twinGeo.getAssignmentLHS(StringTemplate.defaultTemplate));
 			boolean wasKeepInputUsed = isKeepInputUsed();
-			boolean wasNumericUsed = evalCmd.equals("Numeric");
+			boolean wasNumericUsed = "Numeric".equals(evalCmd);
 			setInput(ex.toAssignmentString(StringTemplate.numericDefault,
 					AssignmentType.DEFAULT));
 			if (wasKeepInputUsed) {
@@ -3418,12 +3418,12 @@ public class GeoCasCell extends GeoElement
 		if (evalVE.isTopLevelCommand()
 				&& (getPlotVar().equals(assignmentVar))) {
 			String cmd = evalVE.getTopLevelCommand().getName();
-			if (!inequalityInEvalVE() && ((cmd.equals("Solutions")
-					|| cmd.equals("CSolutions") || cmd.equals("NSolutions"))
-					|| (!onlySolutions && (cmd.equals("Solve")
-							|| cmd.equals("CSolve") || cmd.equals("NSolve")
-							|| cmd.equals("Root")
-							|| cmd.equals("ComplexRoot"))))) {
+			if (!inequalityInEvalVE() && (("Solutions".equals(cmd)
+					|| "CSolutions".equals(cmd) || "NSolutions".equals(cmd))
+					|| (!onlySolutions && ("Solve".equals(cmd)
+							|| "CSolve".equals(cmd) || "NSolve".equals(cmd)
+							|| "Root".equals(cmd)
+							|| "ComplexRoot".equals(cmd))))) {
 				// if we got evalVE by clicking Solve button, inputVE might just
 				// contain the equations
 				// we want the command in input as well

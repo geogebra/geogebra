@@ -1227,7 +1227,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		String fx = parseFunction(geo.getFunX(getStringTemplate()));
 		String fy = parseFunction(geo.getFunY(getStringTemplate()));
 		String variable = parseFunction(geo.getVarString(getStringTemplate()));
-		// boolean warning=!(variable.equals("t"));
+		// boolean warning=!("t".equals(variable));
 
 		int indexFunc = -1;
 		String tempFunctionCount = "f" + Integer.toString(functionCount + 1);

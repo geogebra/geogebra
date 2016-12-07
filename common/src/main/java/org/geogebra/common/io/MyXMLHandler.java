@@ -1335,9 +1335,9 @@ public class MyXMLHandler implements DocHandler {
 				// "false"
 				// now pointCapturing holds an int value
 				int pointCapturingMode;
-				if (str.equals("false")) {
+				if ("false".equals(str)) {
 					pointCapturingMode = 0;
-				} else if (str.equals("true")) {
+				} else if ("true".equals(str)) {
 					pointCapturingMode = 1;
 				} else {
 					// int value
@@ -1853,9 +1853,9 @@ public class MyXMLHandler implements DocHandler {
 		if (angleUnit == null)
 			return false;
 
-		if (angleUnit.equals("degree"))
+		if ("degree".equals(angleUnit))
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
-		else if (angleUnit.equals("radiant"))
+		else if ("radiant".equals(angleUnit))
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
 		else
 			return false;
@@ -2329,15 +2329,15 @@ public class MyXMLHandler implements DocHandler {
 			// }
 
 			String str = attrs.get("auxiliaryObjects");
-			boolean auxiliaryObjects = (str != null && str.equals("true"));
+			boolean auxiliaryObjects = (str != null && "true".equals(str));
 			app1.setShowAuxiliaryObjects(auxiliaryObjects);
 
 			str = attrs.get("algebraInput");
-			boolean algebraInput = (str == null || str.equals("true"));
+			boolean algebraInput = (str == null || "true".equals(str));
 			tmp_perspective.setShowInputPanel(algebraInput);
 
 			str = attrs.get("cmdList");
-			boolean cmdList = (str == null || str.equals("true"));
+			boolean cmdList = (str == null || "true".equals(str));
 			tmp_perspective.setShowInputPanelCommands(cmdList);
 
 			return true;
@@ -2486,7 +2486,7 @@ public class MyXMLHandler implements DocHandler {
 				if (showToolBar == null) {
 					tmp_perspective.setShowToolBar(true);
 				} else {
-					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
+					tmp_perspective.setShowToolBar("true".equals(showToolBar));
 				}
 				String items = attrs.get("items");
 				tmp_perspective.setToolbarDefinition(
@@ -2798,7 +2798,7 @@ public class MyXMLHandler implements DocHandler {
 
 			String showStyleBarStr = attrs.get("stylebar");
 			boolean showStyleBar = (showStyleBarStr != null
-					? !showStyleBarStr.equals("false") : false);
+					? !"false".equals(showStyleBarStr) : false);
 
 			// the window rectangle is given in the format "x,y,width,height"
 			String[] window = attrs.get("window").split(",");
@@ -3957,12 +3957,12 @@ public class MyXMLHandler implements DocHandler {
 
 		if (red != null && green != null && blue != null)
 			try {
-				if (!red.equals("") || !green.equals("") || !blue.equals("")) {
-					if (red.equals(""))
+				if (!"".equals(red) || !"".equals(green) || !"".equals(blue)) {
+					if ("".equals(red))
 						red = "0";
-					if (green.equals(""))
+					if ("".equals(green))
 						green = "0";
-					if (blue.equals(""))
+					if ("".equals(blue))
 						blue = "0";
 
 					StringBuilder sb = new StringBuilder();
@@ -3972,7 +3972,7 @@ public class MyXMLHandler implements DocHandler {
 					sb.append(green);
 					sb.append(',');
 					sb.append(blue);
-					if (alpha != null && !alpha.equals("")) {
+					if (alpha != null && !"".equals(alpha)) {
 						sb.append(',');
 						sb.append(alpha);
 					}
@@ -5814,27 +5814,27 @@ public class MyXMLHandler implements DocHandler {
 			// enforce point or vector or line or plane type if it was given in
 			// attribute type
 			if (type != null) {
-				if (type.equals("point") && ve instanceof ExpressionNode) {
+				if ("point".equals(type) && ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForcePoint();
-				} else if (type.equals("vector")
+				} else if ("vector".equals(type)
 						&& ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForceVector();
 					// we must check that we have Equation here as xAxis
 					// has also type "line" but is parsed as ExpressionNode
 				} else if (ve instanceof Equation) {
-					if (type.equals("line")) {
+					if ("line".equals(type)) {
 						((Equation) ve).setForceLine();
-					} else if (type.equals("plane")) {
+					} else if ("plane".equals(type)) {
 						((Equation) ve).setForcePlane();
-					} else if (type.equals("conic")) {
+					} else if ("conic".equals(type)) {
 						((Equation) ve).setForceConic();
-					} else if (type.equals("quadric")) {
+					} else if ("quadric".equals(type)) {
 						((Equation) ve).setForceQuadric();
-					} else if (type.equals("implicitpoly")) {
+					} else if ("implicitpoly".equals(type)) {
 						((Equation) ve).setForceImplicitPoly();
-					} else if (type.equals("implicitPoly")) {
+					} else if ("implicitPoly".equals(type)) {
 						((Equation) ve).setForceImplicitPoly();
-					} else if (type.equals("implicitsurface")) {
+					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();
 					}
 

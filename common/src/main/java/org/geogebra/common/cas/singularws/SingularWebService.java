@@ -143,7 +143,7 @@ public class SingularWebService {
 		}
 		if (result == null)
 			return false;
-		if (result.equals("ok")) {
+		if ("ok".equals(result)) {
 			// Testing connection speed.
 			fastConn = true; // be optimistic
 			for (int i = 0; i < CONNECTION_SPEED_NO_TESTS && fastConn; ++i) {
@@ -324,7 +324,7 @@ public class SingularWebService {
 	 * @return its translation to Singular commands
 	 */
 	public String getTranslatedCASCommand(String command) {
-		if (command.equals("CIFactor.1")) {
+		if ("CIFactor.1".equals(command)) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("LIB \"absfact.lib\";").
 			// FIXME: This covers the one-letter variables only, but

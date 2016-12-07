@@ -230,7 +230,7 @@ public class ConstructionProtocolView {
 			// algebra column should only be shown at startup if algebraview is
 			// shown
 			// in app
-			if (title.equals("Value")
+			if ("Value".equals(title)
 					&& !(app.getGuiManager()).showView(App.VIEW_ALGEBRA))
 				return false;
 

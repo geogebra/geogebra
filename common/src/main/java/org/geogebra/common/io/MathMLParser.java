@@ -924,7 +924,7 @@ public class MathMLParser {
 						String blockNumberStr = substBuf
 								.substring(blockNumberIndex, substIndex);
 
-						if (blockNumberStr.equals("S")) {
+						if ("S".equals(blockNumberStr)) {
 							// keyword is BLOCKS -> parse all inner blocks in
 							// order of appearance
 

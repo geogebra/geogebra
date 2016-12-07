@@ -64,7 +64,7 @@ public class EuclidianStatic {
 	 */
 	public final static float textWidth(String str, GFont font,
 			GFontRenderContext frc) {
-		if (str.equals(""))
+		if ("".equals(str))
 			return 0f;
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(str, font,
 				frc);

@@ -72,25 +72,25 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		switch (eName.charAt(0)) {
 
 		case 'a':
-			if (eName.equals("axesColor")) {
+			if ("axesColor".equals(eName)) {
 				// ok = handleAxesColor(ev, attrs);
 				break;
-			} else if (eName.equals("axis")) {
+			} else if ("axis".equals(eName)) {
 				ok = handleAxis(evSet, attrs);
 				break;
 			}
 
 		case 'b':
-			if (eName.equals("bgColor")) {
+			if ("bgColor".equals(eName)) {
 				ok = handleBgColor(evSet, attrs);
 				break;
 			}
 
 		case 'c':
-			if (eName.equals("coordSystem")) {
+			if ("coordSystem".equals(eName)) {
 				ok = handleCoordSystem3D((EuclidianSettings3D) evSet, attrs);
 				break;
-			} else if (eName.equals("clipping")) {
+			} else if ("clipping".equals(eName)) {
 				ok = handleClipping((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
@@ -102,17 +102,17 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 
 		case 'g':
-			if (eName.equals("grid")) {
+			if ("grid".equals(eName)) {
 				ok = handleGrid(evSet, attrs);
 				break;
 			}
 			/*
-			 * else if (eName.equals("gridColor")) { ok = handleGridColor(ev,
+			 * else if ("gridColor".equals(eName)) { ok = handleGridColor(ev,
 			 * attrs); break; }
 			 */
 
 		case 'l':
-			if (eName.equals("light")) {
+			if ("light".equals(eName)) {
 				ok = handleLight((EuclidianSettings3D) evSet, attrs);
 				break;
 			} else if ("labelStyle".equals(eName)) {
@@ -121,23 +121,23 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			}
 
 		case 'p':
-			if (eName.equals("plate") || eName.equals("plane")) {
+			if ("plate".equals(eName) || "plane".equals(eName)) {
 				ok = handlePlate((EuclidianSettings3D) evSet, attrs);
 				break;
-			} else if (eName.equals("projection")) {
+			} else if ("projection".equals(eName)) {
 				ok = handleProjection((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
 
 		case 'y':
-			if (eName.equals("yAxisVertical")) {
+			if ("yAxisVertical".equals(eName)) {
 				ok = handleYAxisIsUp((EuclidianSettings3D) evSet, attrs);
 				break;
 			}
 
 			/*
 			 * 
-			 * case 's': if (eName.equals("size")) { ok = handleEvSize(ev,
+			 * case 's': if ("size".equals(eName)) { ok = handleEvSize(ev,
 			 * attrs); break; }
 			 */
 
@@ -161,12 +161,12 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		boolean ok = true;
 		switch (eName.charAt(0)) {
 		case 'f':
-			if (eName.equals("fading")) {
+			if ("fading".equals(eName)) {
 				ok = handleFading(attrs);
 				break;
 			}
 		case 'l':
-			if (eName.equals("levelOfDetailQuality")) {
+			if ("levelOfDetailQuality".equals(eName)) {
 				ok = handleLevelOfDetailQuality(attrs);
 				break;
 			}

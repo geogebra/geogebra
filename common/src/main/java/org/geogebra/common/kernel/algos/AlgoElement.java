@@ -1182,7 +1182,7 @@ public abstract class AlgoElement extends ConstructionElement
 		String def = getDefinitionName(tpl);
 
 		// command name
-		if (def.equals("Expression")) {
+		if ("Expression".equals(def)) {
 			return toString(tpl);
 		}
 		// #2706
@@ -1263,7 +1263,7 @@ public abstract class AlgoElement extends ConstructionElement
 		// translate algorithm class name to internal command name
 		cmdname = getCommandString(classname);
 		// dependent algorithm is an "Expression"
-		if (!cmdname.equals("Expression")) {
+		if (!"Expression".equals(cmdname)) {
 			if (tpl.isUseTempVariablePrefix()) {
 				// protect GeoGebra commands when sent to CAS
 				// e.g. Element[list, 1] becomes ggbtmpvarElement[list, 1] to
@@ -1320,7 +1320,7 @@ public abstract class AlgoElement extends ConstructionElement
 			// command
 			StringTemplate tpl = StringTemplate.xmlTemplate;
 			String cmdname = getDefinitionName(tpl);
-			if (cmdname.equals("Expression")) {
+			if ("Expression".equals(cmdname)) {
 				sb.append(getExpXML(tpl));
 
 			} else {
@@ -1358,7 +1358,7 @@ public abstract class AlgoElement extends ConstructionElement
 			// command
 			StringTemplate tpl = StringTemplate.ogpTemplate;
 			String cmdname = getDefinitionName(tpl);
-			if (cmdname.equals("Expression")) {
+			if ("Expression".equals(cmdname)) {
 				sb.append(getExpXML(tpl));
 			} else {
 				sb.append(getCmdXML(cmdname, tpl));

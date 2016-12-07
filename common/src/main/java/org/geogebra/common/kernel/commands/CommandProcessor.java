@@ -344,7 +344,7 @@ public abstract class CommandProcessor {
 
 	private void replaceZvarIfNeeded(String name, Command c,
 			int argsToReplace) {
-		if (name.equals("z")) {
+		if ("z".equals(name)) {
 			// parse again to undo z*z -> Function
 			try {
 				for (int i = 0; i < argsToReplace; i++) {

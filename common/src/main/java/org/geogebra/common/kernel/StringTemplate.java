@@ -1031,7 +1031,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		ret = printVariableName(getStringType(), label);
 
-		if (ret != null && ret.length() == 1 && ret.equals("l")
+		if (ret != null && ret.length() == 1 && "l".equals(ret)
 				&& hasType(StringType.LATEX)) {
 			ret = "\\ell";
 		}
@@ -2563,7 +2563,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		/*
 		 * support for sin^2(x) for display, too slow and hacky if
 		 * (STRING_TYPE.equals(StringType.GEOGEBRA &&
-		 * leftStr.startsWith("sin(")) { //&& rightStr.equals("2")) { int index;
+		 * leftStr.startsWith("sin(")) { //&& "2".equals(rightStr)) { int index;
 		 * try { index = Integer.parseInt(rightStr); } catch
 		 * (NumberFormatException nfe) { index = Integer.MAX_VALUE; }
 		 * 

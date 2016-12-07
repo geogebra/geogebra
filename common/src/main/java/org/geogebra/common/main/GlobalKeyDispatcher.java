@@ -323,9 +323,9 @@ public abstract class GlobalKeyDispatcher {
 		 * // off // **** NB if NumLock on, event.isShiftDown() always returns
 		 * false with // Numlock on!!! (Win 7) if (event.getKeyLocation() ==
 		 * KeyEvent.KEY_LOCATION_NUMPAD) { String keyText =
-		 * KeyEvent.getKeyText(keyCode); if (keyText.equals("End")) { keyCode =
-		 * KeyEvent.VK_1; } else if (keyText.equals("Down")) { keyCode =
-		 * KeyEvent.VK_2; } else if (keyText.equals("Page Down")) { keyCode =
+		 * KeyEvent.getKeyText(keyCode); if ("End".equals(keyText)) { keyCode =
+		 * KeyEvent.VK_1; } else if ("Down".equals(keyText)) { keyCode =
+		 * KeyEvent.VK_2; } else if ("Page Down".equals(keyText)) { keyCode =
 		 * KeyEvent.VK_3; }
 		 * 
 		 * }
