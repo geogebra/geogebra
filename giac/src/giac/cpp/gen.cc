@@ -12792,7 +12792,7 @@ namespace giac {
 	      // calc_mode(contextptr)!=1
 	      abs_calc_mode(contextptr)==38
 	      )
-	    return "-∞";
+	    return "∞";
 	  else
 	    return "+infinity";
 	}
@@ -12801,7 +12801,7 @@ namespace giac {
 	      // calc_mode(contextptr)!=1
 	      abs_calc_mode(contextptr)==38
 	      )
-	    return "-âˆž"; 
+	    return "-∞"; 
 	  else
 	    return "-infinity";
 	}
