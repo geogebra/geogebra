@@ -109,13 +109,13 @@ public abstract class UndoManager {
 	 * needed for "cancel" actions).
 	 */
 	final public synchronized void restoreCurrentUndoInfo() {
-		app.getKernel().storeSelectedGeosNames();
+		app.getSelectionManager().storeSelectedGeosNames();
 		if (iterator != null) {
 			loadUndoInfo(iterator.previous());
 			iterator.next();
 			updateUndoActions();
 		}
-		app.getKernel().recallSelectedGeosNames();
+		app.getSelectionManager().recallSelectedGeosNames(app.getKernel());
 	}
 
 	/**
@@ -153,6 +153,12 @@ public abstract class UndoManager {
 	 */
 	public abstract void storeUndoInfoAfterPasteOrAdd();
 
+	/**
+	 * @param currentUndoXML
+	 *            construction XML
+	 * @param refresh
+	 *            whether to reload afterwards
+	 */
 	public abstract void storeUndoInfo(StringBuilder currentUndoXML,
 			boolean refresh);
 

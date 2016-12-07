@@ -4215,11 +4215,11 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleListeners(LinkedHashMap<String, String> attrs) {
 		try {
-			if (attrs.get("type") == "objectUpdate") {
+			if ("objectUpdate".equals(attrs.get("type"))) {
 				app.getScriptManager().getUpdateListenerMap().put(geo,
 						JsScript.fromName(app, attrs.get("val")));
 			}
-			if (attrs.get("type") == "objectClick") {
+			if ("objectClick".equals(attrs.get("type"))) {
 				app.getScriptManager().getClickListenerMap().put(geo,
 						JsScript.fromName(app, attrs.get("val")));
 			}

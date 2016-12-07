@@ -43,7 +43,16 @@ public class AlgoAsymptote extends AlgoElement {
 	private GeoVec2D b;
 	private GeoPoint P; // point on asymptotes = b
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new algo for Asymptote
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 */
 	AlgoAsymptote(Construction cons, String label, GeoConic c) {
 		this(cons, c);
 		GeoElement.setLabels(label, asymptotes);

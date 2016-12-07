@@ -1956,7 +1956,11 @@ public class Construction {
 		 */
 	}
 
-	private static class LabelComparator implements Comparator<GeoElement> {
+	/**
+	 * Compares geos by labels (if set)
+	 *
+	 */
+	protected static class LabelComparator implements Comparator<GeoElement> {
 		public int compare(GeoElement ob1, GeoElement ob2) {
 			GeoElement geo1 = ob1;
 			GeoElement geo2 = ob2;

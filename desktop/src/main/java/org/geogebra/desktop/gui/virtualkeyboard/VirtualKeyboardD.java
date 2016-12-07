@@ -1198,7 +1198,7 @@ public class VirtualKeyboardD extends JFrame
 		doSetLabels();
 	}
 
-	void readConf(AppD appD, Locale loc, boolean math) {
+	void readConf(AppD appD, Locale loc0, boolean math) {
 
 		ResourceBundle rbKeyboard;
 
@@ -1223,15 +1223,15 @@ public class VirtualKeyboardD extends JFrame
 					"/org/geogebra/desktop/gui/virtualkeyboard/keyboardMath",
 					locale);
 		} else {
-			if (loc == null)
+			if (loc0 == null)
 				rbKeyboard = MyResourceBundle.createBundle(
 						"/org/geogebra/desktop/gui/virtualkeyboard/keyboard",
 						locale);
 			else {
 				rbKeyboard = MyResourceBundle.createBundle(
 						"/org/geogebra/desktop/gui/virtualkeyboard/keyboard",
-						loc);
-				kbLocale = loc;
+						loc0);
+				kbLocale = loc0;
 			}
 		}
 
@@ -1302,10 +1302,9 @@ public class VirtualKeyboardD extends JFrame
 
 	}
 
-	private WindowsUnicodeKeyboard kb = null;
 
 	public WindowsUnicodeKeyboard getKeyboard() {
-
+		WindowsUnicodeKeyboard kb = null;
 		try {
 			kb = new WindowsUnicodeKeyboard();
 		} catch (Exception e) {

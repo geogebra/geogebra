@@ -44,10 +44,12 @@ public class AlgoDependentPoint extends AlgoElement
 	private GeoVec2D temp;
 
 	/**
-	 * Creates new AlgoJoinPoints
+	 * Creates new dependent point algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param root
 	 *            expression defining the result
 	 * @param complex
@@ -59,6 +61,14 @@ public class AlgoDependentPoint extends AlgoElement
 		P.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            expression
+	 * @param complex
+	 *            whether output is complex
+	 */
 	public AlgoDependentPoint(Construction cons, ExpressionNode root,
 			boolean complex) {
 		super(cons);
@@ -90,6 +100,9 @@ public class AlgoDependentPoint extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoPoint getPoint() {
 		return P;
 	}

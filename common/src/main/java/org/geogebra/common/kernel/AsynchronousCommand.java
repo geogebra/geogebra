@@ -49,6 +49,9 @@ public interface AsynchronousCommand {
 	 */
 	public String getCasInput();
 
+	/**
+	 * @return kernel
+	 */
 	public Kernel getKernel();
 
 }

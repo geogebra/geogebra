@@ -34,16 +34,27 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 
 	private GeoVector v;
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new 2D algo for Diameter
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param c
+	 *            conic
+	 * @param g
+	 *            parallel line
+	 */
 	public AlgoDiameterLine(Construction cons, String label, GeoConicND c,
 			GeoLineND g) {
 		super(cons, label, c, g);
 	}
 
 	@Override
-	protected void createOutput(Construction cons) {
-		diameter = new GeoLine(cons);
-		v = new GeoVector(cons);
+	protected void createOutput(Construction cons1) {
+		diameter = new GeoLine(cons1);
+		v = new GeoVector(cons1);
 	}
 
 	// calc diameter line of v relativ to c
@@ -58,6 +69,7 @@ public class AlgoDiameterLine extends AlgoDiameterLineND {
 		return true;
 	}
 
+	@Override
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnDiameterLine(geo, this, scope);

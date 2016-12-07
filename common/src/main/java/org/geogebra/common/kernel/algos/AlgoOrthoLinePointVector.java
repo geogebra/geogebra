@@ -39,7 +39,18 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	private GeoVector v; // input
 	private GeoLine g; // output
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new algo for PerpendicularLine[point, vector]
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param P
+	 *            point
+	 * @param v
+	 *            perpendicular vector
+	 */
 	public AlgoOrthoLinePointVector(Construction cons, String label, GeoPoint P,
 			GeoVector v) {
 		super(cons);
@@ -87,17 +98,13 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoLine getLine() {
 		return g;
 	}
 
-	GeoPoint getP() {
-		return P;
-	}
-
-	GeoVector getv() {
-		return v;
-	}
 
 	// line through P normal to v
 	@Override

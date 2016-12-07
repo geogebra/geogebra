@@ -14,6 +14,10 @@ public interface CASParserInterface {
 	 * 
 	 * @param inValue
 	 *            GeoGebraCAS input
+	 * @param kernel
+	 *            kernel
+	 * @param cell
+	 *            CAS cell we parse this for
 	 * @return parsed expression
 	 * @throws CASException
 	 *             if something goes wrong (invalid input)
@@ -26,6 +30,8 @@ public interface CASParserInterface {
 	 * 
 	 * @param inValue
 	 *            GeoGebraCAS input
+	 * @param cell
+	 *            CAS cell we parse this for
 	 * @return parsed expression
 	 * @throws CASException
 	 *             something goes wrong
@@ -38,7 +44,9 @@ public interface CASParserInterface {
 	 * 
 	 * @param outputVe
 	 *            value to process
-	 * @return
+	 * @param kernel
+	 *            kernel
+	 * @return resolved expression
 	 */
 	ExpressionValue resolveVariablesForCAS(ExpressionValue outputVe,
 			Kernel kernel);

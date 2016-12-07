@@ -11,16 +11,24 @@ import java.awt.event.KeyEvent;
  */
 public class WindowsUnicodeKeyboard extends Keyboard {
 
-	private Robot robot;
+	private Robot windowsRobot;
 
+	/**
+	 * @param robot
+	 *            robot
+	 */
 	public WindowsUnicodeKeyboard(Robot robot) {
 		super(robot);
-		this.robot = robot;
+		this.windowsRobot = robot;
 	}
 
+	/**
+	 * @throws AWTException
+	 *             when super fails
+	 */
 	public WindowsUnicodeKeyboard() throws AWTException {
 		super();
-		this.robot = super.robot;
+		this.windowsRobot = super.robot;
 	}
 
 	@Override
@@ -31,7 +39,7 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 
 			int unicodeDigits = character;
 			// Application.debug(unicodeDigits+"");
-			robot.keyPress(KeyEvent.VK_ALT);
+			windowsRobot.keyPress(KeyEvent.VK_ALT);
 
 			try { // make sure Alt is released!
 
@@ -50,7 +58,7 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 				ex.printStackTrace();
 			}
 
-			robot.keyRelease(KeyEvent.VK_ALT);
+			windowsRobot.keyRelease(KeyEvent.VK_ALT);
 
 		}
 	}

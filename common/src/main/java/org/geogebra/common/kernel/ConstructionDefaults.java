@@ -1008,6 +1008,10 @@ public class ConstructionDefaults {
 
 	}
 
+	/**
+	 * @param otherDefaults
+	 *            template defaults (from template file)
+	 */
 	public void setConstructionDefaults(ConstructionDefaults otherDefaults) {
 		for (GeoElement geo : defaultGeoElements.values()) {
 			GeoElement otherGeo = otherDefaults
@@ -1020,6 +1024,9 @@ public class ConstructionDefaults {
 
 	private int colorIndex = 0;
 
+	/**
+	 * @return next color in sequence
+	 */
 	public GColor getNextColor() {
 		GColor color = colorSequence[colorIndex];
 		if (!cons.getKernel().isSilentMode()) {

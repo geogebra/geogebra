@@ -305,8 +305,18 @@ public class Kernel {
 
 	/** 3D manager */
 	private Manager3DInterface manager3D;
+	private AlgoDispatcher algoDispatcher;
+	private GeoFactory geoFactory;
+
+
+	private GeoVec2D imaginaryUnit;
+
+
+	private Exercise exercise;
 
 	private Object concurrentModificationLock = new Object();
+
+
 
 	/**
 	 * @param app
@@ -2348,9 +2358,15 @@ public class Kernel {
 	}
 
 	/**
-	 * Returns whether x is equal to y infinity == infinity returns true eg 1/0
-	 * -infinity == infinity returns false eg -1/0 -infinity == -infinity
-	 * returns true undefined == undefined returns false eg 0/0
+	 * Returns whether x is equal to y
+	 * 
+	 * infinity == infinity returns true eg 1/0
+	 * 
+	 * -infinity == infinity returns false eg -1/0
+	 * 
+	 * -infinity == -infinity returns true
+	 * 
+	 * undefined == undefined returns false eg 0/0
 	 */
 	final public static boolean isEqual(double x, double y) {
 		if (x == y) {
@@ -4171,44 +4187,19 @@ public class Kernel {
 		}
 	}
 
-	/** selected geos names just before undo/redo */
-	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
-
-	/**
-	 * store selected geos names
-	 */
-	public void storeSelectedGeosNames() {
-		selectedGeosNames.clear();
-		for (GeoElement geo : getApplication().getSelectionManager()
-				.getSelectedGeos())
-			selectedGeosNames.add(geo.getLabelSimple());
-	}
-
-	/**
-	 * set geos selected from their names
-	 */
-	public void recallSelectedGeosNames() {
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-		for (String name : selectedGeosNames) {
-			GeoElement geo = lookupLabel(name);
-			if (geo != null)
-				list.add(geo);
-		}
-		getApplication().getSelectionManager().setSelectedGeos(list);
-	}
 
 	public void redo() {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
 			app.batchUpdateStart();
 			app.startCollectingRepaints();
-			storeSelectedGeosNames();
+			app.getSelectionManager().storeSelectedGeosNames();
 			app.getCompanion().storeViewCreators();
 			notifyReset();
 			clearJustCreatedGeosInViews();
 			cons.redo();
 			notifyReset();
 			app.getCompanion().recallViewCreators();
-			recallSelectedGeosNames();
+			app.getSelectionManager().recallSelectedGeosNames(this);
 			app.stopCollectingRepaints();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
@@ -4278,7 +4269,7 @@ public class Kernel {
 			if (cons.getUndoManager().undoPossible()) {
 				app.batchUpdateStart();
 				app.startCollectingRepaints();
-				storeSelectedGeosNames();
+				app.getSelectionManager().storeSelectedGeosNames();
 				app.getCompanion().storeViewCreators();
 				notifyReset();
 				clearJustCreatedGeosInViews();
@@ -4287,7 +4278,7 @@ public class Kernel {
 				cons.undo();
 				notifyReset();
 				app.getCompanion().recallViewCreators();
-				recallSelectedGeosNames();
+				app.getSelectionManager().recallSelectedGeosNames(this);
 
 				// repaint needed for last undo in second EuclidianView (bugfix)
 				if (!undoPossible()) {
@@ -4450,8 +4441,6 @@ public class Kernel {
 	/***********************************
 	 * FACTORY METHODS FOR GeoElements
 	 ***********************************/
-
-	private GeoVec2D imaginaryUnit;
 
 	public GeoVec2D getImaginaryUnit() {
 		if (imaginaryUnit == null) {
@@ -4721,8 +4710,6 @@ public class Kernel {
 	public int getMacroID(Macro macro) {
 		return (macroManager == null) ? -1 : macroManager.getMacroID(macro);
 	}
-
-	private Exercise exercise;
 
 	public Exercise getExercise() {
 		if (exercise == null) {
@@ -5224,9 +5211,6 @@ public class Kernel {
 
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
-
-	private AlgoDispatcher algoDispatcher;
-	private GeoFactory geoFactory;
 
 	public AlgoDispatcher getAlgoDispatcher() {
 		if (algoDispatcher == null) {

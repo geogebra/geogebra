@@ -37,7 +37,18 @@ public class AlgoLinePointVector extends AlgoElement {
 	private GeoVector v; // input
 	private GeoLine g; // output
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new algo for Line[point, vector]
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param v
+	 *            direction vector
+	 */
 	public AlgoLinePointVector(Construction cons, String label, GeoPoint P,
 			GeoVector v) {
 		super(cons);

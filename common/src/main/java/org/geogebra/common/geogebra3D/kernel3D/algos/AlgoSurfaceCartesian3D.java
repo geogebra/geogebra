@@ -46,7 +46,24 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	private GeoNumeric[] localVar; // input
 	private GeoSurfaceCartesianND surface; // output
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new algo for Surface
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param point
+	 *            point expression
+	 * @param coords
+	 *            coordinate functions
+	 * @param localVar
+	 *            variables
+	 * @param from
+	 *            range min
+	 * @param to
+	 *            range max
+	 */
 	public AlgoSurfaceCartesian3D(Construction cons, String label,
 			ExpressionNode point, GeoNumberValue[] coords,
 			GeoNumeric[] localVar, GeoNumberValue[] from, GeoNumberValue[] to) {

@@ -41,7 +41,18 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 	private Coords diameterOrigin, diameterDirection;
 
-	/** Creates new AlgoDiameterVector */
+	/**
+	 * Creates new 3D algo for Diameter
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param v
+	 *            direction vector
+	 */
 	public AlgoDiameterVector3D(Construction cons, String label, GeoConicND c,
 			GeoVectorND v) {
 		super(cons, label, c, v);

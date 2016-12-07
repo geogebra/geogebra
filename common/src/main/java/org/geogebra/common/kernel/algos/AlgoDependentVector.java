@@ -69,6 +69,9 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoVector getVector() {
 		return v;
 	}

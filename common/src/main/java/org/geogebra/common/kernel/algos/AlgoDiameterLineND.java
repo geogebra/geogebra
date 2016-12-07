@@ -36,7 +36,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 	protected GeoLineND g; // input
 	protected GeoLineND diameter; // output
 
-	/** Creates new AlgoJoinPoints */
+	/** Creates new algo for Diameter */
 	public AlgoDiameterLineND(Construction cons, String label, GeoConicND c,
 			GeoLineND g) {
 		super(cons);

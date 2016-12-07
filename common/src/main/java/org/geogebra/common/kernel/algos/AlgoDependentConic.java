@@ -40,7 +40,14 @@ public class AlgoDependentConic extends AlgoElement
 	private ExpressionValue[] ev = new ExpressionValue[6]; // input
 	private GeoConic conic; // output
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new AlgoDependentConic
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param equ
+	 *            conic equation
+	 */
 	public AlgoDependentConic(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;
@@ -91,6 +98,9 @@ public class AlgoDependentConic extends AlgoElement
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return conic
+	 */
 	public GeoConic getConic() {
 		return conic;
 	}

@@ -1029,4 +1029,29 @@ public class SelectionManager {
 		clearSelection(getSelectedQuadricLimitedList(), false);
 
 	}
+
+	/** selected geos names just before undo/redo */
+	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
+
+	/**
+	 * store selected geos names
+	 */
+	public void storeSelectedGeosNames() {
+		selectedGeosNames.clear();
+		for (GeoElement geo : getSelectedGeos())
+			selectedGeosNames.add(geo.getLabelSimple());
+	}
+
+	/**
+	 * set geos selected from their names
+	 */
+	public void recallSelectedGeosNames(Kernel kernel) {
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		for (String name : selectedGeosNames) {
+			GeoElement geo = kernel.lookupLabel(name);
+			if (geo != null)
+				list.add(geo);
+		}
+		setSelectedGeos(list);
+	}
 }

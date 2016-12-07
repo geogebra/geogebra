@@ -42,6 +42,8 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	 *            construction
 	 * @param root
 	 *            root element
+	 * @param mayBeSpreadsheetTraceable
+	 *            whether this may contain spreadsheet tracable vars
 	 */
 	public AlgoDependentText(Construction cons, ExpressionNode root,
 			boolean mayBeSpreadsheetTraceable) {
@@ -151,6 +153,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		return text.getDefinition().toString(tpl);
 	}
 
+	/**
+	 * Update spreadsheet traceable flag
+	 */
 	public void setSpreadsheetTraceableText() {
 
 		/*

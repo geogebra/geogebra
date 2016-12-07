@@ -41,7 +41,18 @@ public class AlgoDiameterLine3D extends AlgoDiameterLineND {
 
 	private Coords diameterOrigin, diameterDirection;
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new 3D algo for Diameter
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param g
+	 *            parallel line
+	 */
 	public AlgoDiameterLine3D(Construction cons, String label, GeoConicND c,
 			GeoLineND g) {
 		super(cons, label, c, g);
