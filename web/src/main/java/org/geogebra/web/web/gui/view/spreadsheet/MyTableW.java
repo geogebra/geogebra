@@ -1619,12 +1619,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
-					if (Browser.isAndroid() || Browser.isIPad()) {
-						w.setEnabled(false);
-						w.addDummyCursor(w.getCaretPosition());
-					}
 					if (view.isKeyboardEnabled()) {
 						app.showKeyboard(w, true);
+						if (Browser.isAndroid() || Browser.isIPad()) {
+							w.setEnabled(false);
+							w.addDummyCursor(w.getCaretPosition());
+						}
 					}
 				}
 
