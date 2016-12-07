@@ -474,7 +474,7 @@ public class PrintPreviewD extends JDialog {
 			String strOrientation = GeoGebraPreferencesD.getPref()
 					.loadPreference(GeoGebraPreferencesD.PRINT_ORIENTATION,
 							"landscape");
-			m_orientation = strOrientation.equals("portrait")
+			m_orientation = "portrait".equals(strOrientation)
 					? PageFormat.PORTRAIT : PageFormat.LANDSCAPE;
 
 			// show printing scale in cm

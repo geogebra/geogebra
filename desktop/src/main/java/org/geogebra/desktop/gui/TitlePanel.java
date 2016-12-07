@@ -128,7 +128,7 @@ public class TitlePanel extends JPanel {
 	public String configureDate(String src) {
 
 		// If no date specified use current date
-		if (src.equals("")) {
+		if ("".equals(src)) {
 
 			App app = cons.getApplication();
 

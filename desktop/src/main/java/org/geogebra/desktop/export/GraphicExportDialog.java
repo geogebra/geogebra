@@ -532,9 +532,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			Format formatID = Format.PNG;
 			String format = GeoGebraPreferencesD.getPref().loadPreference(
 					GeoGebraPreferencesD.EXPORT_PIC_FORMAT, "png");
-			if (format.equals("eps")) {
+			if ("eps".equals(format)) {
 				formatID = Format.EPS;
-			} else if (format.equals("svg")) {
+			} else if ("svg".equals(format)) {
 				formatID = Format.SVG;
 			}
 			if (formatID.ordinal() < cbFormat.getItemCount()) {
@@ -1199,12 +1199,12 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			File file, boolean transparent, int dpi, double exportScale,
 			boolean textAsShapes, boolean useEMFplus, int pixelWidth,
 			int pixelHeight, AppD app) {
-		if (extension.equals("png")) {
+		if ("png".equals(extension)) {
 			// can be 3D View
 			GraphicExportDialog.exportPNG(ev, file, transparent, dpi,
 					exportScale, false);
 
-		} else if (extension.equals("eps")) {
+		} else if ("eps".equals(extension)) {
 
 			StringBuilder sb = new StringBuilder();
 
@@ -1213,15 +1213,15 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			UtilD.writeStringToFile(sb.toString(), file);
 
-		} else if (extension.equals("pdf")) {
+		} else if ("pdf".equals(extension)) {
 			GraphicExportDialog.exportPDF(app, (EuclidianViewD) ev, file,
 					textAsShapes, pixelWidth, pixelHeight, exportScale);
 
-		} else if (extension.equals("emf")) {
+		} else if ("emf".equals(extension)) {
 			GraphicExportDialog.exportEMF(app, (EuclidianViewD) ev, file,
 					useEMFplus, pixelWidth, pixelHeight, exportScale);
 
-		} else if (extension.equals("svg")) {
+		} else if ("svg".equals(extension)) {
 			GraphicExportDialog.exportSVG(app, (EuclidianViewD) ev, file,
 					textAsShapes, pixelWidth, pixelHeight, -1, -1, exportScale,
 					transparent);

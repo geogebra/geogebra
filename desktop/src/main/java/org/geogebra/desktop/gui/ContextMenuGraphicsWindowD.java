@@ -208,11 +208,11 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
-		if (cmd.equals("standardView")) {
+		if ("standardView".equals(cmd)) {
 			setStandardView();
-		} else if (cmd.equals("showAllObjects")) {
+		} else if ("showAllObjects".equals(cmd)) {
 			app.setViewShowAllObjects(false);
-		} else if (cmd.equals("properties")) {
+		} else if ("properties".equals(cmd)) {
 			showOptionsDialog();
 		}
 	}

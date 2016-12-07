@@ -851,7 +851,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	}
 
 	protected double parseDouble(String text) {
-		if (text == null || text.equals(""))
+		if (text == null || "".equals(text))
 			return Double.NaN;
 		return kernel.getAlgebraProcessor().evaluateToDouble(text);
 	}

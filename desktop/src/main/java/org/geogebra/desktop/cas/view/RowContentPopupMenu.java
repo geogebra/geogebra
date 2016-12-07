@@ -124,23 +124,23 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable data = null;
 
-		if (ac.equals("copy")) {
+		if ("copy".equals(ac)) {
 			data = new StringSelection(
 					// use xml template so that sin(2x) -> sin(2*x)
 					// so that it can be pasted into other software
 					value.getOutput(StringTemplate.casCopyTemplate));
 
-		} else if (ac.equals("copyAsLatex")) {
+		} else if ("copyAsLatex".equals(ac)) {
 			String latexOutput = value.getLaTeXOutput();
 			data = new StringSelection(
 					StringUtil.toLaTeXString(latexOutput, true));
 
-		} else if (ac.equals("copyAsLibreOfficeMath")) {
+		} else if ("copyAsLibreOfficeMath".equals(ac)) {
 			String libreofficeOutput = value
 					.getOutput(StringTemplate.libreofficeTemplate);
 			data = new StringSelection(libreofficeOutput);
 
-		} else if (ac.equals("copyAsImage")) {
+		} else if ("copyAsImage".equals(ac)) {
 			ImageIcon latexIcon = new ImageIcon();
 			AppD app = (AppD) table.getApplication();
 			Font latexFont = new Font(app.getPlainFont().getName(),
@@ -165,7 +165,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		String data = "";
 		Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 
-		if (ac.equals("paste")) {
+		if ("paste".equals(ac)) {
 			Transferable contents = sysClip.getContents(null);
 			boolean hasTransferableText = (contents != null)
 					&& contents.isDataFlavorSupported(DataFlavor.stringFlavor);

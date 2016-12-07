@@ -924,15 +924,15 @@ public class VirtualKeyboardD extends JFrame
 				@Override
 				public void mousePressed(MouseEvent e) {
 					String txt = Buttons[i][j].getText();
-					if (txt.equals("\u2190")) {
+					if ("\u2190".equals(txt)) {
 						startAutoRepeat("<left>");
-					} else if (txt.equals("\u2191")) {
+					} else if ("\u2191".equals(txt)) {
 						startAutoRepeat("<up>");
-					} else if (txt.equals("\u2192")) {
+					} else if ("\u2192".equals(txt)) {
 						startAutoRepeat("<right>");
-					} else if (txt.equals("\u2193")) {
+					} else if ("\u2193".equals(txt)) {
 						startAutoRepeat("<down>");
-					} else if (txt.equals("\u21a4")) {
+					} else if ("\u21a4".equals(txt)) {
 						startAutoRepeat("<backspace>");
 					}
 					// Application.debug(Buttons[i][j].getText());

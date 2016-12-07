@@ -257,7 +257,7 @@ public class SliderPanel extends JPanel
 	private void doTextFieldActionPerformed(JTextField source) {
 		actionPerforming = true;
 		String inputText = source.getText().trim();
-		boolean emptyString = inputText.equals("");
+		boolean emptyString = "".equals(inputText);
 
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {

@@ -142,15 +142,15 @@ public class GeoGebraKeys implements KeyListener {
 					+ " " + keyString);
 
 			// workaround for different Java versions!!
-			if (keyString.equals("minus"))
+			if ("minus".equals(keyString))
 				keyString = "-";
-			else if (keyString.equals("plus"))
+			else if ("plus".equals(keyString))
 				keyString = "+";
-			else if (keyString.equals("comma"))
+			else if ("comma".equals(keyString))
 				keyString = ",";
-			else if (keyString.equals("period"))
+			else if ("period".equals(keyString))
 				keyString = ".";
-			else if (keyString.equals("equals"))
+			else if ("equals".equals(keyString))
 				keyString = "=";
 			else if (keyString.length() > 1)
 				Log.debug("Unknown keyString: " + keyString);
@@ -189,7 +189,7 @@ public class GeoGebraKeys implements KeyListener {
 			}
 
 			// insert into the text component
-			if (!insertStr.equals("")) {
+			if (!"".equals(insertStr)) {
 				JTextComponent comp = (JTextComponent) e.getComponent();
 				int pos = comp.getCaretPosition();
 

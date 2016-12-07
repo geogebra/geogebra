@@ -160,7 +160,7 @@ public class ProverD extends Prover {
 					}
 					j++;
 				}
-				if (ndgCommand.equals("IsOnCircle")) {
+				if ("IsOnCircle".equals(ndgCommand)) {
 					ndgCommand = "IsIsoscelesTriangle";
 					// IsOnCircle[A,B,C]: AB==AC
 					// IsIsoscelesTriangle[A,B,C]: AB==BC

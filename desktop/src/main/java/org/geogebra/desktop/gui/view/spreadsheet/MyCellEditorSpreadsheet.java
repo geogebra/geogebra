@@ -284,7 +284,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				value = kernel.lookupLabel(GeoElementSpreadsheet
 						.getSpreadsheetCellName(column, row));
 
-				if (text.equals("")) {
+				if ("".equals(text)) {
 					if (value != null) {
 						value.removeOrSetUndefinedIfHasFixedDescendent();
 						value = null;

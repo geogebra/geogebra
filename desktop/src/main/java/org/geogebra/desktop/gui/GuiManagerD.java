@@ -2724,7 +2724,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void insertStringIntoTextfield(String text, boolean altPressed,
 			boolean ctrlPressed, boolean shiftPressed) {
 
-		if (currentKeyboardListener != null && !text.equals("\n")
+		if (currentKeyboardListener != null && !"\n".equals(text)
 				&& (!text.startsWith("<") || !text.endsWith(">")) && !altPressed
 				&& !ctrlPressed) {
 			currentKeyboardListener.insertString(text);

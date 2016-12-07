@@ -323,7 +323,7 @@ public class EuclidianViewD extends EuclidianView
 		int y = 0;
 		Construction cons = app.getKernel().getConstruction();
 		String title = cons.getTitle();
-		if (!title.equals("")) {
+		if (!"".equals(title)) {
 			GFont titleFont = app.getBoldFontCommon().deriveFont(GFont.BOLD,
 					app.getBoldFont().getSize() + 2);
 			g2d.setFont(GFontD.getAwtFont(titleFont));
@@ -338,10 +338,10 @@ public class EuclidianViewD extends EuclidianView
 		String author = cons.getAuthor();
 		String date = cons.getDate();
 		String line = null;
-		if (!author.equals("")) {
+		if (!"".equals(author)) {
 			line = author;
 		}
-		if (!date.equals("")) {
+		if (!"".equals(date)) {
 			if (line == null) {
 				line = date;
 			} else {

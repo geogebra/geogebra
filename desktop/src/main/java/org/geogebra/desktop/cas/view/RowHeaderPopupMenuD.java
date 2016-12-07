@@ -103,22 +103,22 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		boolean undoNeeded = true;
 
 		String ac = e.getActionCommand();
-		if (ac.equals("insertAbove")) {
+		if ("insertAbove".equals(ac)) {
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[0], null, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
-		} else if (ac.equals("insertBelow")) {
+		} else if ("insertBelow".equals(ac)) {
 			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[selRows.length - 1] + 1, null, true);
 			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
-		} else if (ac.equals("delete")) {
+		} else if ("delete".equals(ac)) {
 			undoNeeded = table.getCASView().deleteCasCells(selRows);
-		} else if (ac.equals("useAsText")) {
+		} else if ("useAsText".equals(ac)) {
 			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);
 			casCell2.setUseAsText(cbUseAsText.isSelected());
-		} else if (ac.equals("copyAsLaTeX")) {
+		} else if ("copyAsLaTeX".equals(ac)) {
 			String text = table.getCASView().getLaTeXfromCells(selRows);
 			if (text != null) {
 				StringSelection data = new StringSelection(text);

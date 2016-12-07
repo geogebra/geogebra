@@ -620,7 +620,7 @@ public class GeoGebraFrame extends JFrame
 
 			boolean checkNeeded = false;
 
-			if (lastVersionCheck == null || lastVersionCheck.equals("")) {
+			if (lastVersionCheck == null || "".equals(lastVersionCheck)) {
 				checkNeeded = true;
 				Log.debug("major version check needed: no check was done yet");
 			}
@@ -854,7 +854,7 @@ public class GeoGebraFrame extends JFrame
 			String dpiStr = args.getStringValue("dpi");
 
 			final int dpi = Integer
-					.parseInt(dpiStr.equals("") ? "300" : dpiStr);
+					.parseInt("".equals(dpiStr) ? "300" : dpiStr);
 
 			final EuclidianView ev = app.getActiveEuclidianView();
 			final String filename0 = args.getStringValue("exportAnimation");
@@ -941,7 +941,7 @@ public class GeoGebraFrame extends JFrame
 						String delayStr = args.getStringValue("delay");
 
 						final int delay = Integer.parseInt(
-								delayStr.equals("") ? "10" : delayStr);
+								"".equals(delayStr) ? "10" : delayStr);
 
 						final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
 						gifEncoder.setQuality(1);
@@ -1024,7 +1024,7 @@ public class GeoGebraFrame extends JFrame
 			String dpiStr = args.getStringValue("dpi");
 
 			final int dpi = Integer
-					.parseInt(dpiStr.equals("") ? "300" : dpiStr);
+					.parseInt("".equals(dpiStr) ? "300" : dpiStr);
 
 			Log.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");

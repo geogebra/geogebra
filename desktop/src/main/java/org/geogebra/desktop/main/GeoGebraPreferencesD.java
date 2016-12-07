@@ -603,7 +603,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			}
 
 			// String xml = getPref().loadPreference(XML_USER_PREFERENCES, "");
-			// if(xml.equals("")) {
+			// if("".equals(xml)) {
 			// initDefaultXML(app);
 			// xml = XML_GGB_FACTORY_DEFAULT;
 			// }

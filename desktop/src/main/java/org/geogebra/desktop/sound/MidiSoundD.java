@@ -219,7 +219,7 @@ public class MidiSoundD implements MetaEventListener {
 	public void playMidiFile(String filePath) {
 		try {
 
-			if (filePath.equals("") && app.isUsingFullGui()) {
+			if ("".equals(filePath) && app.isUsingFullGui()) {
 				// launch a file chooser (just for testing)
 				final JFileChooser fc = new JFileChooser();
 				int returnVal = fc.showOpenDialog(app.getMainComponent());
@@ -288,10 +288,10 @@ public class MidiSoundD implements MetaEventListener {
 				ext = filePath.substring(filePath.lastIndexOf(".") + 1);
 			}
 
-			if (ext.equals("txt")) {
+			if ("txt".equals(ext)) {
 				playJFugueFromFile(f, url);
 
-			} else if (ext.equals("gm")) {
+			} else if ("gm".equals(ext)) {
 				loadSoundBank(f, url);
 			} else {
 				// Load new sequence from .mid file

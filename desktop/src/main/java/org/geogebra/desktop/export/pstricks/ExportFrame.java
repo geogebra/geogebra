@@ -372,9 +372,9 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	 * add(button,app.borderEast()); add(zone,BorderLayout.CENTER);
 	 * setSize(200,300); setVisible(true); } public void
 	 * actionPerformed(ActionEvent e){ String cmd=e.getActionCommand(); if
-	 * (cmd.equals("button")){
+	 * ("button".equals(cmd)){
 	 * encoding=encode.get(menu.getSelectedItem().toString()).toString();
-	 * dispose(); } else if (cmd.equals("combo")){ if (isLaTeX()){ StringBuilder
+	 * dispose(); } else if ("combo".equals(cmd)){ if (isLaTeX()){ StringBuilder
 	 * sb=new StringBuilder(); sb.append("\\usepackage[");
 	 * sb.append(encode.get(menu.getSelectedItem().toString()));
 	 * sb.append("]{inputenc}\n"); zone.setText(sb.toString()); } else if

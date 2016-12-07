@@ -1095,21 +1095,21 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (versionCheckAllow != null) {
-			if (versionCheckAllow.equals("off")) {
+			if ("off".equals(versionCheckAllow)) {
 				GeoGebraPreferencesD.getPref().saveVersionCheckAllow("false");
 				versionCheckAllowed = false;
 				return;
 			}
-			if (versionCheckAllow.equals("on")) {
+			if ("on".equals(versionCheckAllow)) {
 				GeoGebraPreferencesD.getPref().saveVersionCheckAllow("true");
 				versionCheckAllowed = true;
 				return;
 			}
-			if (versionCheckAllow.equals("false")) {
+			if ("false".equals(versionCheckAllow)) {
 				versionCheckAllowed = false;
 				return;
 			}
-			if (versionCheckAllow.equals("true")) {
+			if ("true".equals(versionCheckAllow)) {
 				versionCheckAllowed = true;
 				return;
 			}

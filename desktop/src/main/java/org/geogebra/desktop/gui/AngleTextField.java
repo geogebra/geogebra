@@ -60,7 +60,7 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 			break;
 		}
 
-		if (modifierKeyPressed && !insertString.equals("")) {
+		if (modifierKeyPressed && !"".equals(insertString)) {
 			int start = getSelectionStart();
 			int end = getSelectionEnd();
 			// clear selection if there is one

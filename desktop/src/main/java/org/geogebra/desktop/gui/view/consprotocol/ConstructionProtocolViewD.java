@@ -419,9 +419,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						String title = cons.getTitle();
 						String date = tp.configureDate(cons.getDate());
 
-						if (title.equals(""))
+						if ("".equals(title))
 							title = loc.getMenu("UntitledConstruction");
-						if (author.equals(""))
+						if ("".equals(author))
 							return title + " (" + date + ")";
 						return author + ": " + title + " (" + date + ")";
 
@@ -509,8 +509,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						int column = table.columnAtPoint(origin);
 						String colName = table.getColumnName(column);
 
-						// if (colName.equals("Breakpoint")) {
-						if (colName.equals("H")) {
+						// if ("Breakpoint".equals(colName)) {
+						if ("H".equals(colName)) {
 							RowData rd = data.getRow(row);
 							GeoElement geo = rd.getGeo();
 							boolean newVal = !geo.isConsProtocolBreakpoint();
@@ -1278,12 +1278,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * pg.getFont(); FontMetrics fm = pg.getFontMetrics();
 	 * 
 	 * // title Construction cons = kernel.getConstruction(); String title =
-	 * cons.getTitle(); if (!title.equals("")) { y += fm.getAscent();
+	 * cons.getTitle(); if (!"".equals(title)) { y += fm.getAscent();
 	 * pg.drawString(title, 0, y); }
 	 * 
 	 * // construction author and date String author = cons.getAuthor(); String
-	 * date = cons.getDate(); String line = null; if (!author.equals("")) { line
-	 * = author; } if (!date.equals("")) { if (line == null) line = date; else
+	 * date = cons.getDate(); String line = null; if (!"".equals(author)) { line
+	 * = author; } if (!"".equals(date)) { if (line == null) line = date; else
 	 * line = line + " - " + date; } if (line != null) {
 	 * pg.setFont(table.getFont()); // fn = pg.getFont(); fm =
 	 * pg.getFontMetrics(); y += fm.getHeight(); pg.drawString(line, 0, y); }
@@ -1372,7 +1372,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		// header with title
 		Construction cons = kernel.getConstruction();
 		String title = cons.getTitle();
-		if (!title.equals("")) {
+		if (!"".equals(title)) {
 			sb.append("<h1>");
 			sb.append(StringUtil.toHTMLString(title));
 			sb.append("</h1>\n");
@@ -1382,10 +1382,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		String author = cons.getAuthor();
 		String date = cons.getDate();
 		String line = null;
-		if (!author.equals("")) {
+		if (!"".equals(author)) {
 			line = author;
 		}
-		if (!date.equals("")) {
+		if (!"".equals(date)) {
 			if (line == null)
 				line = date;
 			else
@@ -1449,7 +1449,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 							.toHTMLString(((ConstructionTableDataD) data)
 									.getPlainHTMLAt(nRow, col), false);
 					sb.append("<td>");
-					if (str.equals(""))
+					if ("".equals(str))
 						sb.append("&nbsp;"); // space
 					else {
 						Color color = ((ConstructionTableDataD) data)

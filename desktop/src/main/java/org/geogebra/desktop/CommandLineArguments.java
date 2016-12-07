@@ -144,7 +144,7 @@ public class CommandLineArguments {
 			return false;
 		}
 		strValue = strValue.toLowerCase();
-		return strValue.equals("true") || strValue.equals("false");
+		return "true".equals(strValue) || "false".equals(strValue);
 	}
 
 	/**
