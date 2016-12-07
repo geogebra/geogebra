@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.web.gui.util.SliderInputHandler;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -47,7 +46,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 	public static native void addInputHandler(Element el,
 			SliderInputHandler handler)/*-{
 		el.oninput = function() {
-			handler.@org.geogebra.web.web.gui.util.SliderInputHandler::onSliderInput()();
+			handler.@org.geogebra.web.html5.gui.util.SliderInputHandler::onSliderInput()();
 		}
 	}-*/;
 

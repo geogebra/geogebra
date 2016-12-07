@@ -14,6 +14,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Slider;
+import org.geogebra.web.html5.gui.util.SliderInputHandler;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.web.gui.images.AppResources;
