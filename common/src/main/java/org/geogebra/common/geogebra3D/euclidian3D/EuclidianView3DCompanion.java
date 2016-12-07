@@ -26,9 +26,16 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		super(view);
 	}
 
+	private EuclidianView3D view3D;
+
+	protected void setView(EuclidianView view) {
+		super.setView(view);
+		view3D = (EuclidianView3D) view;
+	}
+
 	@Override
 	public EuclidianView3D getView() {
-		return (EuclidianView3D) super.getView();
+		return view3D;
 	}
 
 	/**
@@ -218,6 +225,95 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	public void updateStylusBeamForMovedGeo() {
 		// used for some 3D inputs
+	}
+
+	public boolean isPolarized() {
+		return false;
+	}
+
+	private boolean isStereoBuffered = false;
+
+	public void setIsStereoBuffered(boolean flag) {
+		isStereoBuffered = flag;
+	}
+
+	public boolean isStereoBuffered() {
+		return isStereoBuffered;
+	}
+
+	public boolean wantsStereo() {
+		return isStereoBuffered();
+	}
+
+	/**
+	 *
+	 * @return true if currently uses hand grabbing (3D input)
+	 */
+	public boolean useHandGrabbing() {
+		return false;
+	}
+
+	public Coords getHittingOrigin(GPoint mouse) {
+		Coords origin = getView().getPickPoint(mouse);
+		if (getView().getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
+				|| getView()
+						.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+			origin = getView().getRenderer().getPerspEye().copyVector();
+		}
+		getView().toSceneCoords3D(origin);
+
+		return origin;
+	}
+
+	/**
+	 *
+	 * @return direction for hitting
+	 */
+	public Coords getHittingDirection() {
+		return getView().getViewDirection();
+	}
+
+	protected void setPickPointFromMouse(GPoint mouse, Coords pickPoint) {
+		Renderer renderer = getView().getRenderer();
+		int projection = getView().getProjection();
+		pickPoint.setX(mouse.getX() + renderer.getLeft());
+		pickPoint.setY(-mouse.getY() + renderer.getTop());
+		if (projection == EuclidianView3D.PROJECTION_PERSPECTIVE
+				|| projection == EuclidianView3D.PROJECTION_GLASSES) {
+			pickPoint.setZ(0);
+		} else {
+			pickPoint.setZ(renderer.getVisibleDepth());
+			if (projection == EuclidianView3D.PROJECTION_OBLIQUE) {
+				pickPoint.setX(pickPoint.getX()
+						- pickPoint.getZ() * renderer.getObliqueX());
+				pickPoint.setY(pickPoint.getY()
+						- pickPoint.getZ() * renderer.getObliqueY());
+			}
+		}
+	}
+
+	protected boolean decorationVisible() {
+		return getView().getPointDecorations().shouldBeDrawn();
+	}
+
+	/**
+	 *
+	 * @return true if it has to draw 2D/1D arrows to move free point
+	 */
+	protected boolean drawCrossForFreePoint() {
+		return true;
+	}
+
+	public void initAxisAndPlane() {
+		// needed for input3D
+	}
+
+	/**
+	 * 
+	 * @return true if we use depth for hitting
+	 */
+	public boolean useInputDepthForHitting() {
+		return false;
 	}
 
 }

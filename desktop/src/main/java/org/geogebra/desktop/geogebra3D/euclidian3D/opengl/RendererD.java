@@ -57,7 +57,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 		// canvas = view;
 		Log.debug("create 3D component -- use Canvas : " + useCanvas);
-		RendererJogl.initCaps(view.isStereoBuffered());
+		RendererJogl.initCaps(view.getCompanion().isStereoBuffered());
 		canvas = RendererJogl.createComponent3D(useCanvas);
 
 		Log.debug("add gl event listener");

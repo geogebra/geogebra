@@ -63,4 +63,8 @@ public class ZSpaceGwt {
 		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.viewportSpaceStylusPose;
 	}-*/;
 
+	public native JsArrayNumber getButtonPressed() /*-{
+		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl.buttonPressed;
+	}-*/;
+
 }

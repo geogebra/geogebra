@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.input3D;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPointWithZ;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Companion for EuclidianView3D using Input3D
@@ -213,6 +215,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
 
+	@Override
 	public void drawTransp(Renderer renderer1) {
 
 		// sphere for mouse cursor
@@ -229,6 +232,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	}
 
+	@Override
 	public void drawHiding(Renderer renderer1) {
 
 		// sphere for mouse cursor
@@ -240,6 +244,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	}
 
+	@Override
 	public void drawFreeCursor(Renderer renderer1) {
 
 		if (input3D.currentlyUseMouse2D()) {
@@ -342,6 +347,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	static private int STYLUS_BEAM_THICKNESS = 9;
 
+	@Override
 	public void initAxisAndPlane() {
 
 		if (input3D.hasMouseDirection()) {
@@ -384,6 +390,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	/**
 	 * update stylus beam for moved geo
 	 */
+	@Override
 	public void updateStylusBeamForMovedGeo() {
 
 		if (getView().getEuclidianController()
@@ -428,24 +435,28 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 				coords.setMul(input3D.getMouse3DDirection(), l));
 	}
 
+	@Override
 	public void resetAllVisualStyles() {
 		if (input3D.hasMouseDirection()) {
 			stylusBeamDrawable.setWaitForUpdateVisualStyle(null);
 		}
 	}
 
+	@Override
 	public void resetOwnDrawables() {
 		if (input3D.hasMouseDirection()) {
 			stylusBeamDrawable.setWaitForReset();
 		}
 	}
 
+	@Override
 	public void update() {
 		if (input3D.hasMouseDirection()) {
 			stylusBeamDrawable.update();
 		}
 	}
 
+	@Override
 	public void draw(Renderer renderer1) {
 		if (drawStylusBeam()) {
 			stylusBeamDrawable.drawOutline(renderer1);
@@ -453,6 +464,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	}
 
+	@Override
 	public void drawHidden(Renderer renderer1) {
 		if (drawStylusBeam()) {
 			stylusBeamDrawable.drawHidden(renderer1);
@@ -889,6 +901,71 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	public StationaryCoords getStationaryCoords() {
 		return stationaryCoords;
+	}
+
+	@Override
+	public boolean isPolarized() {
+		return input3D.useInterlacedPolarization();
+	}
+
+	@Override
+	public boolean useHandGrabbing() {
+		return input3D.useHandGrabbing() && !input3D.currentlyUseMouse2D();
+	}
+
+	@Override
+	public Coords getHittingOrigin(GPoint mouse) {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
+			return input3D.getMouse3DScenePosition();
+		}
+		return super.getHittingOrigin(mouse);
+	}
+
+	@Override
+	public Coords getHittingDirection() {
+		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
+			return input3D.getMouse3DDirection();
+		}
+		return super.getHittingDirection();
+	}
+
+	@Override
+	protected void setPickPointFromMouse(GPoint mouse, Coords pickPoint) {
+		super.setPickPointFromMouse(mouse, pickPoint);
+
+		if (input3D.currentlyUseMouse2D()) {
+			return;
+		}
+
+		if (mouse instanceof GPointWithZ) {
+			pickPoint.setZ(((GPointWithZ) mouse).getZ());
+		}
+	}
+
+	@Override
+	protected boolean decorationVisible() {
+		return (!input3D.hasMouseDirection() || input3D.currentlyUseMouse2D())
+				&& super.decorationVisible();
+	}
+
+	@Override
+	protected boolean drawCrossForFreePoint() {
+		return !input3D.hasMouseDirection() || input3D.currentlyUseMouse2D();
+	}
+
+	@Override
+	public boolean isStereoBuffered() {
+		return input3D.isStereoBuffered();
+	}
+
+	@Override
+	public boolean wantsStereo() {
+		return input3D.wantsStereo();
+	}
+
+	@Override
+	public boolean useInputDepthForHitting() {
+		return input3D.useInputDepthForHitting();
 	}
 
 }

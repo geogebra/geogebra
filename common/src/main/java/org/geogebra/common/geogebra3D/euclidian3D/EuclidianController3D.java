@@ -204,9 +204,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
+	private EuclidianController3DCompanion companion3D;
+
 	@Override
 	protected EuclidianControllerCompanion newCompanion() {
-		return new EuclidianController3DCompanion(this);
+		companion3D = new EuclidianController3DCompanion(this);
+		return companion3D;
 	}
 
 	/**
@@ -272,14 +275,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param coords
 	 *            start point coords
 	 */
-	protected void updateMovedGeoPointStartValues(Coords coords) {
-		if (!movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()) {
-
-			CoordMatrix4x4.Identity(getCurrentPlane());
-			// update the moving plane altitude
-			getCurrentPlane().set(coords, 4);
-
-		}
+	final public void updateMovedGeoPointStartValues(Coords coords) {
+		getCompanion().updateMovedGeoPointStartValues(coords, movedGeoPoint,
+				getCurrentPlane());
 	}
 
 	// //////////////////////////////////////////:
@@ -431,17 +429,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param point
 	 *            a point
 	 */
-	protected void setMouseOrigin(GeoPoint3D point) {
-		// Michael Borcherds
-		// move mouse fast, sometimes get mouseLoc = null
-		if (mouseLoc == null)
-			return;
-
-		Coords o = view3D.getPickPoint(mouseLoc);
-		view3D.toSceneCoords3D(o);
-
-		addOffsetForTranslation(o);
-		point.setWillingCoords(o);
+	final protected void setMouseOrigin(GeoPoint3D point) {
+		getCompanion().setMouseOrigin(point, mouseLoc);
 	}
 
 	/**
@@ -3833,8 +3822,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return true if there is a free plane to move
 	 */
-	protected boolean handleMovedElementFreePlane() {
-		return false;
+	final private boolean handleMovedElementFreePlane() {
+		boolean ret = getCompanion()
+				.handleMovedElementFreePlane(movedGeoElement);
+		if (ret) {
+			moveMode = MOVE_PLANE;
+		}
+		return ret;
 	}
 
 	@Override
@@ -4138,13 +4132,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
-	/**
-	 * 
-	 * @return true if we use depth for hitting
-	 */
-	public boolean useInputDepthForHitting() {
-		return false;
-	}
+
 
 	@Override
 	protected Coords getMouseLocRW() {
@@ -4499,6 +4487,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	public void setMouseEvent(AbstractEvent event) {
 		mouseEvent = event;
+	}
+
+	@Override
+	public EuclidianController3DCompanion getCompanion() {
+		return companion3D;
 	}
 
 }

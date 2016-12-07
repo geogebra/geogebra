@@ -168,7 +168,7 @@ public abstract class Renderer {
 	 */
 	protected void initRenderingValues() {
 		// clear color buffer
-		if (!view3D.isStereoBuffered()) {
+		if (!view3D.getCompanion().isStereoBuffered()) {
 			clearColorBuffer();
 		}
 
@@ -305,7 +305,7 @@ public abstract class Renderer {
 			draw();
 
 		} else {
-			if (view3D.isStereoBuffered()) {
+			if (view3D.getCompanion().isStereoBuffered()) {
 				// we draw the same image on both left/right buffers
 				setBufferLeft();
 				clearColorBuffer();
@@ -533,10 +533,10 @@ public abstract class Renderer {
 	 * set drawing for left eye
 	 */
 	final protected void setDrawLeft() {
-		if (view3D.isPolarized()) {
+		if (view3D.getCompanion().isPolarized()) {
 			// draw where stencil's value is 0
 			setStencilFunc(0);
-		} else if (view3D.isStereoBuffered()) {
+		} else if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferLeft();
 			clearColorBuffer();
 		}
@@ -551,15 +551,16 @@ public abstract class Renderer {
 	 * set drawing for right eye
 	 */
 	final protected void setDrawRight() {
-		if (view3D.isPolarized()) {
+		if (view3D.getCompanion().isPolarized()) {
 			// draw where stencil's value is 1
 			setStencilFunc(1);
-		} else if (view3D.isStereoBuffered()) {
+		} else if (view3D.getCompanion().isStereoBuffered()) {
 			setBufferRight();
 			clearColorBuffer();
 		}
 
-		if (view3D.isStereoBuffered() && !view3D.wantsStereo()) {
+		if (view3D.getCompanion().isStereoBuffered()
+				&& !view3D.getCompanion().wantsStereo()) {
 			// draw again left eye if no stereo glasses detected
 			eye = EYE_LEFT;
 		} else {
@@ -1605,10 +1606,10 @@ public abstract class Renderer {
 		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
-				&& !view3D.isPolarized() && !view3D.isStereoBuffered()) { // grayscale
-																			// for
-																			// anaglyph
-																			// glasses
+				&& !view3D.getCompanion().isPolarized()
+				&& !view3D.getCompanion().isStereoBuffered()) { // grayscale for
+																// anaglyph
+																// glasses
 			r = (float) (c.getGrayScale() / 255);
 			g = r;
 			b = r;
@@ -1977,7 +1978,8 @@ public abstract class Renderer {
 	protected void setColorMask() {
 
 		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES
-				&& !view3D.isPolarized() && !view3D.isStereoBuffered()) {
+				&& !view3D.getCompanion().isPolarized()
+				&& !view3D.getCompanion().isStereoBuffered()) {
 			if (eye == EYE_LEFT) {
 				setColorMask(true, false, false, true); // cyan
 				// getGL().glColorMask(false,true,false,true); //magenta
@@ -2075,7 +2077,7 @@ public abstract class Renderer {
 			updatePerspValues();
 			updateGlassesValues();
 			updatePerspEye();
-			if (view3D.isPolarized()) {
+			if (view3D.getCompanion().isPolarized()) {
 				setWaitForSetStencilLines();
 			}
 			break;

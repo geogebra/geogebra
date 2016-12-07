@@ -781,7 +781,7 @@ public class App3D extends AppD {
 	public boolean handleSpaceKey() {
 
 		if (isEuclidianView3Dinited()) {
-			if (euclidianView3D.useHandGrabbing()) {
+			if (euclidianView3D.getCompanion().useHandGrabbing()) {
 				euclidianView3D.handleSpaceKey();
 			}
 		}

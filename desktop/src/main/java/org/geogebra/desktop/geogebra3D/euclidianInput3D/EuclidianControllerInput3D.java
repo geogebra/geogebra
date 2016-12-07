@@ -8,21 +8,15 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.input3D.EuclidianControllerInput3DCompanion;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 
@@ -184,29 +178,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 
-	@Override
-	protected void setMouseLocation(AbstractEvent event) {
-		if (input3D.currentlyUseMouse2D()) {
-			super.setMouseLocation(event);
-		} else {
-			mouseLoc = event.getPoint();
-		}
-	}
-
-	protected Coords movedGeoPointStartCoords = new Coords(0, 0, 0, 1);
-
-	@Override
-	protected void updateMovedGeoPointStartValues(Coords coords) {
-		if (input3D.currentlyUseMouse2D()) {
-			super.updateMovedGeoPointStartValues(coords);
-		} else {
-			movedGeoPointStartCoords.set(coords);
-			if (input3D.hasMouseDirection()) {
-				startZNearest = ((EuclidianViewInput3D) view3D).getCompanion()
-						.getZNearest();
-			}
-		}
-	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -245,78 +216,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	@Override
-	public boolean useInputDepthForHitting() {
-		return input3D.useInputDepthForHitting();
-	}
-
-	@Override
-	final protected boolean handleMovedElementFreePlane() {
-		if (movedGeoElement.isGeoPlane()) {
-			moveMode = MOVE_PLANE;
-			setMovedGeoPlane(movedGeoElement);
-
-			return true;
-		}
-
-		return false;
-	}
-
-	protected GeoPlane3D movedGeoPlane;
-	protected CoordSys movedGeoPlaneStartCoordSys;
-	private Coords movedGeoStartPosition;
-
-	protected ArrayList<GeoPointND> stickyPoints;
-
-	/**
-	 * set plane to move
-	 * 
-	 * @param geo
-	 *            moved geo
-	 */
-	public void setMovedGeoPlane(GeoElement geo) {
-
-		movedGeoPlane = (GeoPlane3D) geo;
-
-		if (movedGeoPlaneStartCoordSys == null) {
-			movedGeoPlaneStartCoordSys = new CoordSys(2);
-		}
-		movedGeoPlaneStartCoordSys.set(movedGeoPlane.getCoordSys());
-
-		if (movedGeoStartPosition == null) {
-			movedGeoStartPosition = new Coords(4);
-		}
-		movedGeoStartPosition.set(input3D.getMouse3DPosition());
-
-		updateMovedGeoPointStartValues(
-				view3D.getCursor3D().getInhomCoordsInD(3));
-
-		view3D.setDragCursor();
-
-		// set sticky points
-		if (stickyPoints == null) {
-			stickyPoints = new ArrayList<GeoPointND>();
-		} else {
-			stickyPoints.clear();
-		}
-
-		for (GeoElement geo1 : geo.getConstruction()
-				.getGeoSetConstructionOrder()) {
-			if (geo1.isGeoPoint() && geo1.isVisibleInView3D()
-					&& !geo1.isChildOf(geo)) {
-				stickyPoints.add((GeoPointND) geo1);
-			}
-		}
-
-	}
-
-	protected double startZNearest;
-
-	@Override
-	public float getPointCapturingPercentage() {
-		return 2f * super.getPointCapturingPercentage();
-	}
-
-	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
 		if (mode == EuclidianConstants.MODE_MOVE && !input3D.hasMouseDirection()
 				&& !input3D.currentlyUseMouse2D()) {
@@ -336,15 +235,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return input3D.getMouseLoc();
 	}
 
-	@Override
-	protected void setMouseOrigin(GeoPoint3D point) {
 
-		if (input3D.hasMouseDirection() && !input3D.currentlyUseMouse2D()) {
-			point.setWillingCoords(input3D.getMouse3DScenePosition());
-		} else {
-			super.setMouseOrigin(point);
-		}
-	}
 
 	@Override
 	protected int getModeForShallMoveView(AbstractEvent event) {

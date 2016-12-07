@@ -89,6 +89,8 @@ public class InputZSpace3DW extends Input3D {
 				panel.getAbsoluteTop());
 
 		// update eyes
+		eyeSeparation = EYE_SEP_HALF * 2 * toPixelRatio;
+
 		JsArrayNumber pose = zSpace.getViewportSpaceHeadPose();
 
 		double x = pose.get(12);
@@ -104,7 +106,17 @@ public class InputZSpace3DW extends Input3D {
 
 		updateHeadTracking();
 
-		// update stylus
+		// update stylus buttons
+		JsArrayNumber buttons = zSpace.getButtonPressed();
+
+		isLeftPressed = buttons.get(0) > 0.4 ? true : false;
+		isRightPressed = buttons.get(1) > 0.4 ? true : false;
+		isThirdButtonPressed = buttons.get(2) > 0.4 ? true : false;
+
+		Log.debug(isLeftPressed + "," + isRightPressed + ","
+				+ isThirdButtonPressed);
+
+		// update stylus position
 
 		pose = zSpace.getViewportSpaceStylusPose();
 
@@ -125,7 +137,7 @@ public class InputZSpace3DW extends Input3D {
 		updateMousePosition();
 
 		updateMouse3DEvent();
-		// handleButtons();
+		handleButtons();
 
 		Log.debug("\nmouse pos:\n" + getMouse3DPosition() + "\ndir:\n"
 				+ getMouse3DDirection());
@@ -161,34 +173,33 @@ public class InputZSpace3DW extends Input3D {
 		return null;
 	}
 
+	private double eyeSeparation;;
+
 	@Override
 	public double getEyeSeparation() {
-		// TODO Auto-generated method stub
-		return 0;
+		return eyeSeparation;
 	}
+
+	private boolean isRightPressed, isLeftPressed, isThirdButtonPressed;
 
 	@Override
 	public boolean isRightPressed() {
-		// TODO Auto-generated method stub
-		return false;
+		return isRightPressed;
 	}
 
 	@Override
 	public boolean isLeftPressed() {
-		// TODO Auto-generated method stub
-		return false;
+		return isLeftPressed;
 	}
 
 	@Override
 	public boolean isThirdButtonPressed() {
-		// TODO Auto-generated method stub
-		return false;
+		return isThirdButtonPressed;
 	}
 
 	@Override
 	public boolean isButtonPressed() {
-		// TODO Auto-generated method stub
-		return false;
+		return isRightPressed() || isLeftPressed() || isThirdButtonPressed();
 	}
 
 	@Override
@@ -206,13 +217,13 @@ public class InputZSpace3DW extends Input3D {
 	@Override
 	public boolean hasMouse(EuclidianView3D view3d, Coords mouse3dPosition) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean hasMouse(EuclidianView3D view3d) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -269,64 +280,79 @@ public class InputZSpace3DW extends Input3D {
 
 	}
 
+	@Override
 	public boolean useScreenZOffset() {
 		return false;
 	}
 
+	@Override
 	public boolean isStereoBuffered() {
 		return true;
 	}
 
+	@Override
 	public boolean useInterlacedPolarization() {
 		return false;
 	}
 
+	@Override
 	public boolean useCompletingDelay() {
 		return false;
 	}
 
 
+	@Override
 	public boolean useQuaternionsForRotate() {
 		return false;
 	}
 
+	@Override
 	public boolean wantsStereo() {
 		return true;
 	}
 
+	@Override
 	public double getDefaultRotationOz() {
 		return 270;
 	}
 
 
+	@Override
 	public boolean shouldStoreStereoToXML() {
 		return false;
 	}
 
+	@Override
 	public boolean needsGrayBackground() {
 		return true;
 	}
 
+	@Override
 	public boolean useHeadTracking() {
 		return true;
 	}
 
+	@Override
 	public boolean useHandGrabbing() {
 		return false;
 	}
 
+	@Override
 	public OutOfField getOutOfField() {
 		return OutOfField.NEVER;
 	}
 
+	@Override
 	public void exit() {
 		// not used here
 	}
 
+	@Override
 	public void setPositionOnScreen() {
 		hasStylusNotIntersectingPhysicalScreen = false;
 	}
 
+	@Override
 	public void setPositionOffScreen() {
 		hasStylusNotIntersectingPhysicalScreen = true;
 	}
@@ -334,6 +360,7 @@ public class InputZSpace3DW extends Input3D {
 	private boolean hasStylusNotIntersectingPhysicalScreen = true,
 			stylusDetected = false;
 
+	@Override
 	public boolean isZSpace() {
 		return true;
 	}

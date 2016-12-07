@@ -4223,8 +4223,8 @@ public abstract class EuclidianController {
 		yRW = (view.getYZero() - mouseLoc.y) * view.getInvYscale();
 	}
 
-	protected void setMouseLocation(AbstractEvent event) {
-		setMouseLocation(event.isAltDown(), event.getX(), event.getY());
+	final protected void setMouseLocation(AbstractEvent event) {
+		getCompanion().setMouseLocation(event);
 	}
 
 	protected void setMouseLocation(boolean alt, int x, int y) {
@@ -4248,8 +4248,8 @@ public abstract class EuclidianController {
 	 *
 	 * @return percentage for which we capture point to grid
 	 */
-	public float getPointCapturingPercentage() {
-		return EuclidianStyleConstants.POINT_CAPTURING_GRID;
+	final public float getPointCapturingPercentage() {
+		return getCompanion().getPointCapturingPercentage();
 	}
 
 	/**

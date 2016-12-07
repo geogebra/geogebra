@@ -469,7 +469,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * init the axis and xOy plane
 	 */
-	public void initAxisAndPlane() {
+	final public void initAxisAndPlane() {
 		// axis
 		axis = new GeoAxisND[3];
 		axisDrawable = new DrawAxis3D[3];
@@ -498,6 +498,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		xOyPlane.setPlateVisible(true);
 		// xOyPlane.setFading(0);
 		xOyPlaneDrawable = (DrawPlane3D) createDrawable(xOyPlane);
+
+		// companion
+		getCompanion().initAxisAndPlane();
 
 	}
 
@@ -977,8 +980,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 * @return direction for hitting
 	 */
-	public Coords getHittingDirection() {
-		return getViewDirection();
+	final public Coords getHittingDirection() {
+		return getCompanion().getHittingDirection();
 	}
 
 	/**
@@ -1417,15 +1420,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		return pickPoint.copyVector();
 	}
 
-	public Coords getHittingOrigin(GPoint mouse) {
-		Coords origin = getPickPoint(mouse);
-		if (getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
-			origin = getRenderer().getPerspEye().copyVector();
-		}
-		toSceneCoords3D(origin);
-
-		return origin;
+	final public Coords getHittingOrigin(GPoint mouse) {
+		return getCompanion().getHittingOrigin(mouse);
 	}
 
 	/**
@@ -1439,21 +1435,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		result.y = -mouse.getY() + renderer.getTop();
 	}
 
-	protected void setPickPointFromMouse(GPoint mouse) {
-		pickPoint.setX(mouse.getX() + renderer.getLeft());
-		pickPoint.setY(-mouse.getY() + renderer.getTop());
-		if (projection == PROJECTION_PERSPECTIVE
-				|| projection == PROJECTION_GLASSES) {
-			pickPoint.setZ(0);
-		} else {
-			pickPoint.setZ(renderer.getVisibleDepth());
-			if (projection == PROJECTION_OBLIQUE) {
-				pickPoint.setX(pickPoint.getX()
-						- pickPoint.getZ() * renderer.getObliqueX());
-				pickPoint.setY(pickPoint.getY()
-						- pickPoint.getZ() * renderer.getObliqueY());
-			}
-		}
+	final private void setPickPointFromMouse(GPoint mouse) {
+		getCompanion().setPickPointFromMouse(mouse, pickPoint);
 	}
 
 	/**
@@ -2844,42 +2827,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param renderer1
 	 *            renderer
 	 */
-	public void drawMouseCursor(Renderer renderer1) {
-		if (!hasMouse())
-			return;
-
-		if (getProjection() != PROJECTION_GLASSES) // && getProjection() !=
-			// PROJECTION_PERSPECTIVE)
-			return;
-
-		GPoint mouseLoc = euclidianController.getMouseLoc();
-		if (mouseLoc == null)
-			return;
-
-		Coords v;
-
-		if (getCursor3DType() == CURSOR_DEFAULT) {
-			// if mouse is over nothing, use mouse coords and screen for depth
-			v = new Coords(mouseLoc.x + renderer1.getLeft(),
-					-mouseLoc.y + renderer1.getTop(), 0, 1);
-		} else {
-			// if mouse is over an object, use its depth and mouse coords
-			Coords eye = renderer1.getPerspEye();
-			double z = getToScreenMatrix().mul(getCursor3D().getCoords()).getZ()
-					+ 20; // to be over
-			double eyeSep = renderer1.getEyeSep(); // TODO eye lateralization
-
-			double x = mouseLoc.x + renderer1.getLeft() + eyeSep - eye.getX();
-			double y = -mouseLoc.y + renderer1.getTop() - eye.getY();
-			double dz = eye.getZ() - z;
-			double coeff = dz / eye.getZ();
-
-			v = new Coords(x * coeff - eyeSep + eye.getX(),
-					y * coeff + eye.getY(), z, 1);
-		}
-
-		drawMouseCursor(renderer1, v);
-
+	final public void drawMouseCursor(Renderer renderer1) {
+		getCompanion().drawMouseCursor(renderer1);
 	}
 
 	/**
@@ -2957,7 +2906,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				case HIT:
 					switch (getCursor3DType()) {
 					case PREVIEW_POINT_FREE:
-						if (drawCrossForFreePoint()) {
+						if (getCompanion().drawCrossForFreePoint()) {
 							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
 						}
 						break;
@@ -2991,13 +2940,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
-	/**
-	 *
-	 * @return true if it has to draw 2D/1D arrows to move free point
-	 */
-	protected boolean drawCrossForFreePoint() {
-		return true;
-	}
+
 
 	/**
 	 * @param point
@@ -3521,16 +3464,17 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (showClippingCube())
 			clippingCubeDrawable.drawHidden(renderer1);
 
-		if (decorationVisible())
+		if (getCompanion().decorationVisible())
 			pointDecorations.drawHidden(renderer1);
 
 		getCompanion().drawHidden(renderer1);
 
 	}
 
-	protected boolean decorationVisible() {
-		return pointDecorations.shouldBeDrawn();
+	public DrawPointDecorations getPointDecorations() {
+		return pointDecorations;
 	}
+
 
 	/**
 	 * draw for picking view's drawables (plane and axis)
@@ -4074,7 +4018,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setProjectionGlasses() {
 		updateProjectionPerspectiveEyeDistance();
 		renderer.updateGlassesValues();
-		if (isPolarized()) {
+		if (getCompanion().isPolarized()) {
 			renderer.setWaitForSetStencilLines();
 		} else {
 			renderer.setWaitForDisableStencilLines();
@@ -4094,7 +4038,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		renderer.updateGlassesValues();
 
-		if (isPolarized()) {
+		if (getCompanion().isPolarized()) {
 			renderer.setWaitForSetStencilLines();
 		} else {
 			renderer.setWaitForDisableStencilLines();
@@ -4141,25 +4085,14 @@ public abstract class EuclidianView3D extends EuclidianView
 		resetAllDrawables();
 	}
 
-	public boolean isPolarized() {
-		return false;
-	}
-
-	public boolean isStereoBuffered() {
-		return false;
-	}
-
-	public boolean wantsStereo() {
-		return false;
-	}
-
 	public double getScreenZOffset() {
 		return getCompanion().getScreenZOffset();
 	}
 
 	public boolean isGrayScaled() {
-		return projection == PROJECTION_GLASSES && !isPolarized()
-				&& !isStereoBuffered() && isGlassesGrayScaled();
+		return projection == PROJECTION_GLASSES && !getCompanion().isPolarized()
+				&& !getCompanion().isStereoBuffered()
+				&& isGlassesGrayScaled();
 	}
 
 	public boolean isGlassesShutDownGreen() {
@@ -4693,13 +4626,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		getCompanion().setZNearest(zNear);
 	}
 
-	/**
-	 *
-	 * @return true if currently uses hand grabbing (3D input)
-	 */
-	public boolean useHandGrabbing() {
-		return false;
-	}
 
 	/**
 	 *
@@ -4957,14 +4883,17 @@ public abstract class EuclidianView3D extends EuclidianView
 		return new Mouse3DEvent(mouse3DLoc);
 	}
 
+	private EuclidianView3DCompanion companion3D;
+
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
-		return new EuclidianView3DCompanion(this);
+		companion3D = new EuclidianView3DCompanion(this);
+		return companion3D;
 	}
 
 	@Override
 	public EuclidianView3DCompanion getCompanion() {
-		return (EuclidianView3DCompanion) super.getCompanion();
+		return companion3D;
 	}
 
 	public DrawClippingCube3D getClippingCubeDrawable() {

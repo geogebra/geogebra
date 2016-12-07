@@ -20,8 +20,7 @@ public class RendererLogicalPickingGL2 extends RendererGL2 {
 
 		Log.debug("Renderer with old GL, logical picking created");
 
-		if (((EuclidianController3D) view3D.getEuclidianController())
-				.useInputDepthForHitting()) {
+		if (view3D.getCompanion().useInputDepthForHitting()) {
 			hitting = new HittingSphere(view3D);
 		} else {
 			hitting = new Hitting(view3D);

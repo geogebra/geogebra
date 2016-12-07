@@ -178,10 +178,9 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 					drawHits[num].setZPick(zNear, zFar);
 				} else { // if for hits array, some checks are done
 							// Log.debug("\n"+drawHits[num].getGeoElement());
-					if (!((EuclidianController3D) view3D
-							.getEuclidianController()).useInputDepthForHitting()// (mouse
-																				// instanceof
-																				// GPointWithZ)
+					if (!view3D.getCompanion()
+							.useInputDepthForHitting()// (mouse instanceof
+														// GPointWithZ)
 							|| intersectsMouse3D(zNear, zFar,
 									((GPointWithZ) mouse).getZ())) { // check if
 																		// mouse

@@ -41,6 +41,10 @@ public class EuclidianViewCompanion {
 	 *            view attached
 	 */
 	public EuclidianViewCompanion(EuclidianView view) {
+		setView(view);
+	}
+
+	protected void setView(EuclidianView view) {
 		this.view = view;
 	}
 

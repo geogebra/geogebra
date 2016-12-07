@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -38,6 +39,14 @@ public class EuclidianController3DCompanion
 		super(ec);
 	}
 
+	private EuclidianController3D ec3D;
+
+	@Override
+	protected void setEuclidianController(EuclidianController ec) {
+		super.setEuclidianController(ec);
+		ec3D = (EuclidianController3D) ec;
+	}
+
 	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 
 	@Override
@@ -49,8 +58,7 @@ public class EuclidianController3DCompanion
 
 			if (movedGeoPoint3D.hasPath()) {
 
-				((EuclidianController3D) ec)
-						.setMouseInformation(movedGeoPoint3D);
+				ec3D.setMouseInformation(movedGeoPoint3D);
 				movedGeoPoint3D.doPath();
 
 				Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
@@ -62,8 +70,7 @@ public class EuclidianController3DCompanion
 
 			} else if (movedGeoPoint3D.hasRegion()) {
 
-				((EuclidianController3D) ec)
-						.setMouseInformation(movedGeoPoint3D);
+				ec3D.setMouseInformation(movedGeoPoint3D);
 				hitRegion(movedGeoPoint3D);
 				movedGeoPoint3D.doRegion();
 
@@ -72,8 +79,7 @@ public class EuclidianController3DCompanion
 				Coords coords = movedGeoPoint3D.getCoords();
 				if (movedGeoPoint3D.getRegion() == ec.getKernel()
 						.getXOYPlane()) {
-					changed = ((EuclidianController3D) ec)
-							.checkXYMinMax(coords);
+					changed = ec3D.checkXYMinMax(coords);
 				}
 				if (checkPointCapturingXYThenZ(coords) || changed) {
 					movedGeoPoint3D.setWillingCoords(coords);
@@ -81,7 +87,7 @@ public class EuclidianController3DCompanion
 					movedGeoPoint3D.doRegion();
 				}
 
-				((EuclidianController3D) ec).view3D.getCursor3D()
+				ec3D.view3D.getCursor3D()
 						.setMoveNormalDirection(movedGeoPoint3D
 								.getRegionParameters().getNormal());
 
@@ -92,29 +98,26 @@ public class EuclidianController3DCompanion
 				if (ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
 						|| (ec.movedGeoPoint
 								.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
-								&& ((EuclidianController3D) ec)
-										.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
+								&& ec3D.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
 					moveAlongZAxis(movedGeoPoint3D);
 
 				} else {
 
-					((EuclidianController3D) ec)
-							.movePointOnCurrentPlane(movedGeoPoint3D, false);
+					ec3D.movePointOnCurrentPlane(movedGeoPoint3D, false);
 
 				}
 
 				// update point decorations
 				if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
-					((EuclidianController3D) ec).view3D
-							.updatePointDecorations();
+					ec3D.view3D.updatePointDecorations();
 				}
 
 			}
 
 			// update 3D cursor coordinates (false : no path or region update)
-			((EuclidianController3D) ec).view3D.getCursor3D()
+			ec3D.view3D.getCursor3D()
 					.setCoords(movedGeoPoint3D.getCoords(), false);
-			((EuclidianController3D) ec).view3D.updateMatrixForCursor3D();
+			ec3D.view3D.updateMatrixForCursor3D();
 
 			if (repaint) {
 				movedGeoPoint3D.updateRepaint();// for highlighting in
@@ -132,14 +135,14 @@ public class EuclidianController3DCompanion
 			ec.movedGeoPointDragged = true;
 
 		} else { // 2D point
-			Coords o = ((EuclidianController3D) ec).view3D
+			Coords o = ec3D.view3D
 					.getPickPoint(ec.mouseLoc);
-			((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
+			ec3D.view3D.toSceneCoords3D(o);
 			// TODO do this once
 			// GgbVector v = new GgbVector(new double[] {0,0,1,0});
 			// view3D.toSceneCoords3D(view3D.getViewDirection());
 			o.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-					((EuclidianController3D) ec).view3D.getHittingDirection(),
+					ec3D.view3D.getHittingDirection(),
 					tmpCoords1, tmpCoords2); // TODO
 												// use
 												// current
@@ -153,9 +156,9 @@ public class EuclidianController3DCompanion
 
 			ec.xRW = tmpCoords2.getX();
 			ec.yRW = tmpCoords2.getY();
-			super.movePoint(repaint, ((EuclidianController3D) ec).mouseEvent);
+			super.movePoint(repaint, ec3D.mouseEvent);
 
-			((EuclidianController3D) ec).view3D.getCursor3D()
+			ec3D.view3D.getCursor3D()
 					.setCoords(ec.movedGeoPoint.getCoordsInD3(), false);
 
 		}
@@ -171,27 +174,27 @@ public class EuclidianController3DCompanion
 		 * positionOld = movedGeoPoint3D.getCoords().copyVector(); movePointMode
 		 * = MOVE_POINT_MODE_Z; }
 		 */
-		Coords o = ((EuclidianController3D) ec).view3D
+		Coords o = ec3D.view3D
 				.getPickPoint(ec.mouseLoc);
-		((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
-		((EuclidianController3D) ec).addOffsetForTranslation(o);
+		ec3D.view3D.toSceneCoords3D(o);
+		ec3D.addOffsetForTranslation(o);
 		// GgbVector o =
 		// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
 		// view3D.toSceneCoords3D(o);
 
 		// getting new position of the point
 		movedGeoPoint3D.getCoords().projectNearLine(o,
-				((EuclidianController3D) ec).view3D.getHittingDirection(),
-				((EuclidianController3D) ec).getNormalTranslateDirection(),
+				ec3D.view3D.getHittingDirection(),
+				ec3D.getNormalTranslateDirection(),
 				tmpCoords1);
 
 		if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
 			// max z value
-			if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
-				tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[1]);
+			if (tmpCoords1.getZ() > ec3D.zMinMax[1])
+				tmpCoords1.setZ(ec3D.zMinMax[1]);
 			else if (tmpCoords1
-					.getZ() < ((EuclidianController3D) ec).zMinMax[0])
-				tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[0]);
+					.getZ() < ec3D.zMinMax[0])
+				tmpCoords1.setZ(ec3D.zMinMax[0]);
 		}
 
 		// capturing points
@@ -219,7 +222,7 @@ public class EuclidianController3DCompanion
 		movedGeoPoint3D.setCoords(tmpCoords1, true);
 
 		// update the moving plane altitude
-		((EuclidianController3D) ec).getCurrentPlane()
+		ec3D.getCurrentPlane()
 				.set(movedGeoPoint3D.getCoords(), 4);
 
 	}
@@ -351,7 +354,7 @@ public class EuclidianController3DCompanion
 
 		if (!forPreviewable) {
 			// if there's "no" 3D cursor, no point is created
-			if (((EuclidianController3D) ec).view3D
+			if (ec3D.view3D
 					.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_NONE)
 				return null;
 			point3D = (GeoPoint3D) ec.kernel.getManager3D().Point3D(null, 0, 0,
@@ -362,13 +365,13 @@ public class EuclidianController3DCompanion
 				return null;
 			point3D.setPath(null);
 			point3D.setRegion(null);
-			((EuclidianController3D) ec).view3D
+			ec3D.view3D
 					.setCursor3DType(EuclidianView3D.PREVIEW_POINT_FREE);
 			return point3D;
 		}
 
-		CoordMatrix4x4.Identity(((EuclidianController3D) ec).getCurrentPlane());
-		((EuclidianController3D) ec).movePointOnCurrentPlane(point3D, false);
+		CoordMatrix4x4.Identity(ec3D.getCurrentPlane());
+		ec3D.movePointOnCurrentPlane(point3D, false);
 
 		return point3D;
 	}
@@ -386,14 +389,14 @@ public class EuclidianController3DCompanion
 			point3D = (GeoPoint3D) ec.getKernel().getManager3D().Point3D(null,
 					path, false);
 		else {
-			point3D = ((EuclidianController3D) ec).view3D.getCursor3D();
+			point3D = ec3D.view3D.getCursor3D();
 			point3D.setPath(path);
 			point3D.setRegion(null);
-			((EuclidianController3D) ec).view3D
+			ec3D.view3D
 					.setCursor3DType(EuclidianView3D.PREVIEW_POINT_PATH);
 		}
 
-		((EuclidianController3D) ec).setMouseInformation(point3D);
+		ec3D.setMouseInformation(point3D);
 		point3D.doPath();
 
 		// try to capture point
@@ -409,12 +412,12 @@ public class EuclidianController3DCompanion
 	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	private void hitRegion(GeoPoint3D point3D) {
-		if (((EuclidianController3D) ec).view3D.getRenderer()
+		if (ec3D.view3D.getRenderer()
 				.useLogicalPicking()) {
-			DrawableND d = ((EuclidianController3D) ec).view3D
+			DrawableND d = ec3D.view3D
 					.getDrawableND((GeoElement) point3D.getRegion());
 			if (d != null) {
-				Hitting hitting = ((EuclidianController3D) ec).view3D
+				Hitting hitting = ec3D.view3D
 						.getRenderer().getHitting();
 				hitting.setOriginDirectionThreshold(point3D.getWillingCoords(),
 						point3D.getWillingDirection(), App.DEFAULT_THRESHOLD);
@@ -431,11 +434,11 @@ public class EuclidianController3DCompanion
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
 			boolean complex) {
 
-		GeoPoint3D point3D = ((EuclidianController3D) ec).view3D.getCursor3D();
+		GeoPoint3D point3D = ec3D.view3D.getCursor3D();
 		point3D.setPath(null);
 		point3D.setRegion(region);
 
-		((EuclidianController3D) ec).setMouseInformation(point3D);
+		ec3D.setMouseInformation(point3D);
 		hitRegion(point3D);
 		point3D.doRegion();
 		point3D.setMoveNormalDirection(
@@ -448,7 +451,7 @@ public class EuclidianController3DCompanion
 					|| coords.getX() > plane.getXmax()
 					|| coords.getY() < plane.getYmin()
 					|| coords.getY() > plane.getYmax()) {
-				((EuclidianController3D) ec).view3D
+				ec3D.view3D
 						.setCursor3DType(EuclidianView3D.PREVIEW_POINT_NONE);
 				return null;
 			}
@@ -459,7 +462,7 @@ public class EuclidianController3DCompanion
 				point3D.setCoords(captureCoords, false);
 			}
 
-			((EuclidianController3D) ec).view3D
+			ec3D.view3D
 					.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
 
 		} else {
@@ -474,10 +477,10 @@ public class EuclidianController3DCompanion
 			GeoElement geo = (GeoElement) region;
 			if (geo.isGeoQuadric() && ((GeoQuadric3D) geo)
 					.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
-				((EuclidianController3D) ec).view3D.setCursor3DType(
+				ec3D.view3D.setCursor3DType(
 						EuclidianView3D.PREVIEW_POINT_REGION_AS_PATH);
 			} else {
-				((EuclidianController3D) ec).view3D
+				ec3D.view3D
 						.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
 			}
 
@@ -513,6 +516,42 @@ public class EuclidianController3DCompanion
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
 		return false;
+	}
+
+	protected void updateMovedGeoPointStartValues(Coords coords,
+			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
+		if (!movedGeoPoint.hasPath() && !movedGeoPoint.hasRegion()) {
+
+			CoordMatrix4x4.Identity(currentPlane);
+			// update the moving plane altitude
+			currentPlane.set(coords, 4);
+
+		}
+	}
+
+	/**
+	 * 
+	 * @return true if there is a free plane to move
+	 */
+	protected boolean handleMovedElementFreePlane(GeoElement movedGeoElement) {
+		return false;
+	}
+
+	protected void setMouseOrigin(GeoPoint3D point, GPoint mouseLoc) {
+		// Michael Borcherds
+		// move mouse fast, sometimes get mouseLoc = null
+		if (mouseLoc == null)
+			return;
+
+		Coords o = getView().getPickPoint(mouseLoc);
+		getView().toSceneCoords3D(o);
+
+		ec3D.addOffsetForTranslation(o);
+		point.setWillingCoords(o);
+	}
+
+	protected EuclidianView3D getView() {
+		return (EuclidianView3D) ec.view;
 	}
 
 }

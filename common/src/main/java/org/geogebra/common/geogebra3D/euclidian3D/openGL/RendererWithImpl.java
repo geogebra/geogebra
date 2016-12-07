@@ -36,8 +36,7 @@ public abstract class RendererWithImpl extends Renderer
 	public RendererWithImpl(EuclidianView3D view, RendererType type) {
 		super(view, type);
 
-		if (((EuclidianController3D) view3D.getEuclidianController())
-				.useInputDepthForHitting()) {
+		if (view3D.getCompanion().useInputDepthForHitting()) {
 			hitting = new HittingSphere(view3D);
 		} else {
 			hitting = new Hitting(view3D);

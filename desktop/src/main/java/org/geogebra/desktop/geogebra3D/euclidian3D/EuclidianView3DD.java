@@ -124,7 +124,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	protected Renderer createRenderer() {
 
 		// set stereo on/off
-		isStereoBuffered = ((App3D) app).isStereo3D();
+		getCompanion().setIsStereoBuffered(((App3D) app).isStereo3D());
 
 		// lines below for testing
 
@@ -623,18 +623,6 @@ public class EuclidianView3DD extends EuclidianView3D
 	@Override
 	protected void drawBackgroundImage(GGraphics2D g2d) {
 		// nothing to do here
-	}
-
-	private boolean isStereoBuffered;
-
-	@Override
-	public boolean isStereoBuffered() {
-		return isStereoBuffered;
-	}
-
-	@Override
-	public boolean wantsStereo() {
-		return isStereoBuffered();
 	}
 
 	@Override

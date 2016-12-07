@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
@@ -48,6 +49,10 @@ public class EuclidianControllerCompanion {
 	 *            controller
 	 */
 	public EuclidianControllerCompanion(EuclidianController ec) {
+		setEuclidianController(ec);
+	}
+
+	protected void setEuclidianController(EuclidianController ec) {
 		this.ec = ec;
 	}
 
@@ -672,6 +677,18 @@ public class EuclidianControllerCompanion {
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
 		return ec.getApplication().has(Feature.ABSOLUTE_TEXTS) == false;
+	}
+
+	public void setMouseLocation(AbstractEvent event) {
+		ec.setMouseLocation(event.isAltDown(), event.getX(), event.getY());
+	}
+
+	/**
+	 *
+	 * @return percentage for which we capture point to grid
+	 */
+	public float getPointCapturingPercentage() {
+		return EuclidianStyleConstants.POINT_CAPTURING_GRID;
 	}
 
 }
