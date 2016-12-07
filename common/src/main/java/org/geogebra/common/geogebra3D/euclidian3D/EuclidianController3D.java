@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
@@ -4366,6 +4367,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private Coords scaleAxisVector = new Coords(2), scaleOrigin = new Coords(2);
 	private double scaleOld, scaleDistanceInPixelsStart;
+	private Mouse3DEvent event3D;
 
 	@Override
 	protected void setMoveModeIfAxis(Object hit) {
@@ -4493,6 +4495,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (companion3D == null) {
 			companion3D = (EuclidianController3DCompanion) companion;
 		}
+	}
+
+	public void setMouseEvent(Mouse3DEvent createMouse3DEvent) {
+		this.event3D = createMouse3DEvent;
+
+	}
+
+	public AbstractEvent getMouseEvent() {
+		return event3D;
 	}
 
 }
