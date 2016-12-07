@@ -1367,10 +1367,8 @@ namespace giac {
     if (direct && is_zero(im(v,contextptr))){
       double * data=new double[n];
       for (int i=0;i<n;++i){
-	if (v[i].type!=_DOUBLE_){
-	  delete [] data;
+	if (v[i].type!=_DOUBLE_)
 	  return gensizeerr(contextptr);
-	}
 	data[i]=v[i]._DOUBLE_val;
       }
       if (n==(1<<(sizeinbase2(n)-1))){
@@ -1412,10 +1410,8 @@ namespace giac {
     for (int i=0;i<n;++i){
       reim(v[i],gr,gi,contextptr);
       gi=evalf_double(gi,1,contextptr);
-      if (gr.type!=_DOUBLE_ || gi.type!=_DOUBLE_){
-	delete [] data;
+      if (gr.type!=_DOUBLE_ || gi.type!=_DOUBLE_)
 	return gensizeerr(contextptr);
-      }
       data[2*i]=gr._DOUBLE_val;
       data[2*i+1]=gi._DOUBLE_val;
     }

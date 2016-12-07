@@ -46,15 +46,6 @@ using namespace std;
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-  gen _fft_mult_size(const gen & args,GIAC_CONTEXT){
-    if (args.type!=_INT_ || args.val<1)
-      return gensizeerr(contextptr);
-    return FFTMUL_SIZE=args.val;
-  }
-  static const char _fft_mult_size_s []="fft_mult_size";
-  static define_unary_function_eval (__fft_mult_size,&_fft_mult_size,_fft_mult_size_s);
-  define_unary_function_ptr5( at_fft_mult_size ,alias_at_fft_mult_size,&__fft_mult_size,0,true);
-
   // random modular number
   gen nrandom(environment * env){
     if (env->moduloon){
@@ -720,7 +711,7 @@ namespace giac {
       }
 #endif
       for (;it!=itend;++it)
-	type_operator_times(*it,fact,*it); // *it= (*it)*fact;
+	*it= (*it)*fact;
     }
     else { // &th!=&new_coord
       new_coord.clear();
@@ -894,149 +885,56 @@ namespace giac {
     mpz_sub(*res,*res,prod);
   }
 
-  static void Muldense_POLY1(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord,int taille){
-    if (ita0==ita_end || itb0==itb_end){
-      new_coord.clear();
-      return;
-    }
+  static void Muldense_POLY1(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord){
     mpz_t prod;
     mpz_init(prod);
-    new_coord.resize((ita_end-ita0)+(itb_end-itb0)-1);
-    modpoly::const_iterator ita_begin=ita0-1,ita=ita0,itb=itb0;
-    gen * target=&new_coord.front();
-    if (taille<128) 
-      taille=128; 
-    else {
-      taille=sizeinbase2(taille/128);
-      taille=(128 << taille);
-    }
-    ref_mpz_t * res = new ref_mpz_t(taille); 
+    new_coord.clear();
+    if (ita0==ita_end || itb0==itb_end) return;
+    //new_coord.reserve((ita_end-ita0)+(itb_end-itb0)-1);
+    modpoly::const_iterator ita_begin=ita0,ita=ita0,itb=itb0;
     for ( ; ita!=ita_end; ++ita ){
+      ref_mpz_t * res = new ref_mpz_t; 
       modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
 	add_mul(&res->z,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	if (ita_cur==ita_begin)
+	  break;
       }
-      if (env && env->moduloon){
-	*target=smod(gen(res),env->modulo);
-	res = new ref_mpz_t(taille); 
-      }
-      else {
-	// *target=res; 
-	if (ref_mpz_t2gen(res,*target))
-	  res = new ref_mpz_t(taille); 
-	else
-	  mpz_set_si(res->z,0);
-      }
-      ++target;
+      if (env && env->moduloon)
+	new_coord.push_back(smod(gen(res),env->modulo));
+      else
+	new_coord.push_back(gen(res));	
     }
     --ita;
     ++itb;
     for ( ; itb!=itb_end;++itb){
+      ref_mpz_t * res = new ref_mpz_t;
       modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
+      for (;itb_cur!=itb_end;--ita_cur,++itb_cur) {
 	add_mul(&res->z,prod,*ita_cur,*itb_cur); // res=res+((*ita_cur)) * ((*itb_cur));
+	if (ita_cur==ita_begin)
+	  break;
       }
-      if (env && env->moduloon){
-	*target=smod(gen(res),env->modulo);
-	res = new ref_mpz_t(taille); 
-      }
-      else {
-	// *target=res; 
-	if (ref_mpz_t2gen(res,*target))
-	  res = new ref_mpz_t(taille); 
-	else
-	  mpz_set_si(res->z,0);
-      }
-      ++target;
-    }
-    delete res;
-    mpz_clear(prod);
-  }
-
-  void add_mulmodpoly(const modpoly::const_iterator & ita0,const modpoly::const_iterator & ita_end,const modpoly::const_iterator & itb0,const modpoly::const_iterator & itb_end,environment * env,modpoly & new_coord){
-    if (ita0==ita_end || itb0==itb_end)
-      return;
-    bool same=ita0==itb0 && ita_end==itb_end;
-    mpz_t prod;
-    mpz_init(prod);
-    int ncs=new_coord.size();
-    int news=(ita_end-ita0)+(itb_end-itb0)-1;
-    if (ncs<news)
-      new_coord=mergevecteur(vecteur(news-ncs,0),new_coord);
-    modpoly::const_iterator ita_begin=ita0-1,ita=ita0,itb=itb0;
-    gen * target=&new_coord.front();
-    if (ncs>news)
-      target += (ncs-news);
-    for ( ; ita!=ita_end; ++ita,++target ){
-      if (!env && target->type==_ZINT && target->ref_count()==1){
-	mpz_t * resz=target->_ZINTptr;
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
-	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	}
-      }
-      else {
-	ref_mpz_t * res=new ref_mpz_t; 
-	mpz_t * resz=&res->z;
-	if (target->type==_INT_)
-	  mpz_set_si(*resz,target->val);
-	else
-	  mpz_set(*resz,*target->_ZINTptr);
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
-	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	}
-	if (env && env->moduloon)
-	  *target=smod(gen(res),env->modulo);
-	else
-	  *target=res;
-      }
-    }
-    --ita;
-    ++itb;
-    for ( ; itb!=itb_end;++itb,++target){
-      if (!env && target->type==_ZINT && target->ref_count()==1){
-	mpz_t * resz=target->_ZINTptr;
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
-	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	}
-      }
-      else {
-	ref_mpz_t * res=new ref_mpz_t; 
-	mpz_t * resz=&res->z;
-	if (target->type==_INT_)
-	  mpz_set_si(*resz,target->val);
-	else
-	  mpz_set(*resz,*target->_ZINTptr);
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	for (;itb_cur!=itb_end && ita_cur!=ita_begin;--ita_cur,++itb_cur) {
-	  add_mul(resz,prod,*ita_cur,*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	}
-	if (env && env->moduloon)
-	  *target=smod(gen(res),env->modulo);
-	else
-	  *target=res;
-      }
+      if (env && env->moduloon)
+	new_coord.push_back(smod(gen(res),env->modulo));
+      else
+	new_coord.push_back(gen(res));	
     }
     mpz_clear(prod);
   }
 
   // new_coord memory must be reserved, Mulmodpoly clears new_coord
-  static void Mulmodpolymod(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord,bool intcoeff,int taille,int seuil_kara){
+  static void Mulmodpolymod(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord){
     int a=int(ita_end-ita);
     int b=int(itb_end-itb);
     if (!b)
       return ;
-    if ( ( a <= seuil_kara) || ( b <= seuil_kara) ){
-      if (intcoeff)
-	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord,taille);
-      else
-	mulmodpoly_naive(ita,ita_end,itb,itb_end,env,new_coord);
+    if ( ( a <= KARAMUL_SIZE) || ( b <= KARAMUL_SIZE) ){
+      Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord);
       return ;
     }
     if (a<b){
-      Mulmodpolymod(itb,itb_end,ita,ita_end,env,new_coord,intcoeff,taille,seuil_kara);
+      Mulmodpolymod(itb,itb_end,ita,ita_end,env,new_coord);
       return;
     }
     int mid=(a+1)/2;
@@ -1044,26 +942,25 @@ namespace giac {
     if (mid>=b){ // cut A in a/b+1 parts
       int nslices=a/b; // number of submultiplications -1
       ita_mid=ita+b;
-      Mulmodpolymod(itb,itb_end,ita,ita_mid,env,new_coord,intcoeff,taille,seuil_kara); // initialization
+      Mulmodpolymod(itb,itb_end,ita,ita_mid,env,new_coord); // initialization
       modpoly low;
       low.reserve(b*b);
       for (int i=1;i<nslices;i++){
 	ita=ita_mid;
 	ita_mid=ita_mid+b;
 	shiftmodpoly(new_coord,b);
-	Mulmodpolymod(itb,itb_end,ita,ita_mid,env,low,intcoeff,taille,seuil_kara);
+	Mulmodpolymod(itb,itb_end,ita,ita_mid,env,low);
 	addmodpoly(new_coord,low,env,new_coord);
       }
       // last multiplication
       mid=a%b;
       if (mid){
 	shiftmodpoly(new_coord,mid);
-	Mulmodpolymod(itb,itb_end,ita_mid,ita_end,env,low,intcoeff,taille,seuil_kara);
+	Mulmodpolymod(itb,itb_end,ita_mid,ita_end,env,low);
 	addmodpoly(new_coord,low,env,new_coord);	
       }
       return ;
     }
-    bool same=ita==itb && ita_end==itb_end;
     // cut A and B in two parts
     // A=A_low+x^mid*A_high, B=B_low+x^mid*B_high
     // A*B = A_low*B_low + x^[2*mid]* A_high*B_high
@@ -1071,47 +968,24 @@ namespace giac {
     modpoly lowlow, Aplus, Bplus, lowhigh;
     modpoly::const_iterator itb_mid=itb_end-mid;
     lowlow.reserve(3*mid);
-    Mulmodpolymod(ita_mid,ita_end,itb_mid,itb_end,env,lowlow,intcoeff,taille,seuil_kara);
+    Mulmodpolymod(ita_mid,ita_end,itb_mid,itb_end,env,lowlow);
     // COUT << "lowlow" << lowlow << endl;
     // new_coord.reserve(2*mid);
-    Mulmodpolymod(ita,ita_mid,itb,itb_mid,env,new_coord,intcoeff,taille,seuil_kara);
-#if 0
-    if (same){ 
-      // (a+bx)^2=a^2+2*a*b*x+b^2*x^2, slower because a*b is not a square
-      // a^2+b^2*x^2+((a+b)^2-a^2-b^2)*x is faster
-      mergemodpoly(new_coord,lowlow,2*mid);
-      Mulmodpolymod(ita,ita_mid,ita_mid,ita_end,env,lowhigh,intcoeff,taille,seuil_kara);
-      mulmodpoly(lowhigh,2,lowhigh);
-      shiftmodpoly(lowhigh,mid);
-      addmodpoly(new_coord,lowhigh,env,new_coord);
-      return;
-    }
-#endif
+    Mulmodpolymod(ita,ita_mid,itb,itb_mid,env,new_coord);
     // COUT << "new_coord" << new_coord << endl;
-    lowhigh.reserve(3*mid);
+    lowhigh.reserve(2*mid);
     Addmodpoly(ita,ita_mid,ita_mid,ita_end,env,Aplus);
+    Addmodpoly(itb,itb_mid,itb_mid,itb_end,env,Bplus);
     modpoly::const_iterator itap=Aplus.begin(),itap_end=Aplus.end();
-    if (same){
-      Mulmodpolymod(itap,itap_end,itap,itap_end,env,lowhigh,intcoeff,taille,seuil_kara);
-    }
-    else {
-      Addmodpoly(itb,itb_mid,itb_mid,itb_end,env,Bplus);
-      modpoly::const_iterator itbp=Bplus.begin(),itbp_end=Bplus.end();
-      Mulmodpolymod(itap,itap_end,itbp,itbp_end,env,lowhigh,intcoeff,taille,seuil_kara);
-    }
+    modpoly::const_iterator itbp=Bplus.begin(),itbp_end=Bplus.end();
+    Mulmodpolymod(itap,itap_end,itbp,itbp_end,env,lowhigh);
     // COUT << "lowhigh" << lowhigh << endl;
     submodpoly(lowhigh,new_coord,env,lowhigh);
     mergemodpoly(new_coord,lowlow,2*mid);
-#if 0
-    submodpoly(lowhigh,lowlow,env,lowhigh);
-    shiftmodpoly(lowhigh,mid);
-    addmodpoly(new_coord,lowhigh,env,new_coord);
-#else
     submodpoly(lowhigh,lowlow,env,lowlow);
     // COUT << "lowh-hh-ll" << lowlow << endl;
     shiftmodpoly(lowlow,mid);
     addmodpoly(new_coord,lowlow,env,new_coord);
-#endif
     // modpoly verif;
     // Muldense_POLY1(ita,ita_end,itb,itb_end,env,verif);
     // COUT << "newcoord" << new_coord << "=?" << verif << endl;
@@ -1251,7 +1125,7 @@ namespace giac {
     else {
       if ( //1 ||
 	   (!env || !env->moduloon || env->modulo.type==_INT_) 
-	   && as>=FFTMUL_SIZE && bs>=FFTMUL_SIZE
+	   && as>FFTMUL_SIZE && bs>FFTMUL_SIZE
 	   ){
 	// Check that all coeff are integers
 	for (;ita!=ita_end;++ita){
@@ -1277,11 +1151,10 @@ namespace giac {
 	ita=a.begin();
 	itb=b.begin();
       }
-      int taille=0;//sizeinbase2(a)+sizeinbase2(b);
       if ((as<=KARAMUL_SIZE) && (bs<=KARAMUL_SIZE))
-	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord,taille);
+	Muldense_POLY1(ita,ita_end,itb,itb_end,env,new_coord);
       else
-	Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord,true,taille,KARAMUL_SIZE);
+	Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord);
     }
   }
   
@@ -1345,43 +1218,12 @@ namespace giac {
     }
   }
 
-  void mulmodpoly_naive(modpoly::const_iterator ita,modpoly::const_iterator ita_end,modpoly::const_iterator itb,modpoly::const_iterator itb_end,environment * env,modpoly & new_coord){
+  void mulmodpoly_naive(const modpoly & a, const modpoly & b,modpoly & new_coord){
     new_coord.clear();
+    modpoly::const_iterator ita=a.begin(),ita_end=a.end(),itb=b.begin(),itb_end=b.end();
     if (ita==ita_end || itb==itb_end)
       return;
     modpoly::const_iterator ita_begin=ita;
-    if (ita==itb && ita_end==itb_end){
-      // square polynomial
-      // CERR << "square size " << ita_end-ita << endl;
-      for ( ; ita!=ita_end; ++ita ){
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	gen res;
-	for (;itb_cur<ita_cur;--ita_cur,++itb_cur) {
-	  type_operator_plus_times(*ita_cur,*itb_cur,res);	  
-	}
-	if (res.type==_VECT && res.ref_count()==1) mulmodpoly(*res._VECTptr,2,*res._VECTptr); else 
-	  res = 2*res;
-	if (itb_cur==ita_cur)
-	  type_operator_plus_times(*ita_cur,*itb_cur,res);
-	new_coord.push_back(res);	
-      }
-      --ita;
-      ++itb;
-      for ( ; itb!=itb_end;++itb){
-	modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-	gen res;
-	for (;itb_cur<ita_cur;--ita_cur,++itb_cur) {
-	  type_operator_plus_times(*ita_cur,*itb_cur,res);	  
-	}
-	if (res.type==_VECT && res.ref_count()==1) mulmodpoly(*res._VECTptr,2,*res._VECTptr); else 
-	  res = 2*res;
-	if (itb_cur==ita_cur)
-	  type_operator_plus_times(*ita_cur,*itb_cur,res);
-	new_coord.push_back(res);	
-      }
-      return;
-    }
-    // CERR << "non square size " << ita_end-ita << endl;
     for ( ; ita!=ita_end; ++ita ){
       modpoly::const_iterator ita_cur=ita,itb_cur=itb;
       gen res;
@@ -1414,162 +1256,6 @@ namespace giac {
       }
       new_coord.push_back(res);	
     }
-  }
-
-  void mulmodpoly_kara_naive(const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord,int seuil_kara){
-    modpoly::const_iterator ita=a.begin(),ita_end=a.end(),itb=b.begin(),itb_end=b.end();
-    Mulmodpolymod(ita,ita_end,itb,itb_end,env,new_coord,false,0,seuil_kara); // sizeinbase2(a)+sizeinbase2(b));
-  }
-
-  // return true if v empty
-  bool trim(modpoly & v){
-    iterateur it=v.begin(),itend=v.end();
-    for (;it!=itend;++it){
-      if (*it!=0)
-	break;
-    }
-    if (it!=v.begin())
-      v.erase(v.begin(),it);
-    return v.empty();
-  }
-
-  // exchange outer and inner variable in source
-  void reorder(const modpoly & source,modpoly & target){
-    int ts=0,ss=source.size();
-    modpoly::const_iterator it=source.begin(),itend=source.end();
-    for (;it!=itend;++it)
-      ts=giacmax(ts,it->type==_VECT?it->_VECTptr->size():1);
-    target.resize(ts);
-    for (int i=0;i<ts;++i)
-      target[i]=gen(vecteur(ss),_POLY1__VECT);
-    for (int j=0;j<ss;++j){
-      gen g=source[j];
-      if (g.type!=_VECT){
-	(*target[0]._VECTptr)[j]=g;
-	continue;
-      }
-      vecteur & v =*g._VECTptr;
-      int vs=v.size();
-      int shift=ts-vs;
-      for (int i=0;i<vs;++i){
-	(*target[i+shift]._VECTptr)[j]=v[i];
-      }
-    }
-    for (int i=0;i<ts;++i){
-      if (trim(*target[i]._VECTptr))
-	target[i]=0;
-    }
-  }
-
-  // recursive 2d to 1d, inner variable must be of degree<n
-  bool to1d(const modpoly & p,modpoly & q,int n){
-    int ps=p.size();
-    q.reserve(ps*n);
-    for (int i=0;i<ps;++i){
-      gen pi=p[i];
-      if (pi.type!=_VECT){
-	for (int j=1;j<n;++j)
-	  q.push_back(0);
-	q.push_back(pi);
-	continue;
-      }
-      vecteur & v = *pi._VECTptr;
-      int vs=v.size();
-      if (vs>n) return false;
-      for (int j=vs;j<n;++j)
-	q.push_back(0);
-      for (int j=0;j<vs;++j)
-	q.push_back(v[j]);
-    }
-    return true;
-  }
-
-  void from1d(const modpoly & p,modpoly &q,int n){
-    int ps=p.size();
-    q.clear();
-    q.reserve((ps+n-1)/n);
-    int r=ps%n;
-    vecteur tmp;
-    tmp.reserve(n);
-    const_iterateur it=p.begin(),itend=p.end();
-    for (;r>0;++it,--r){
-      tmp.push_back(*it);
-    }
-    trim(tmp);
-    if (!tmp.empty())
-      q.push_back(tmp);
-    for (;it!=itend;){
-      tmp.clear();
-      for (r=n;r>0;++it,--r){
-	tmp.push_back(*it);
-      }
-      trim(tmp);
-      q.push_back(tmp.empty()?0:(tmp.size()==1?tmp.front():tmp));
-    }
-  }
-
-  // eval p[i] at x in q[i]
-  void horner2(const modpoly & p,const gen & x,modpoly & q){
-    int ps=p.size();
-    q.resize(ps);
-    for (int i=0;i<ps;++i){
-      gen pi=p[i];
-      if (pi.type!=_VECT)
-	q[i]=pi;
-      else
-	q[i]=horner(*pi._VECTptr,x,context0);
-    }
-  }
-
-  void mulmodpoly_interpolate(const modpoly & p,const modpoly & q,int n,modpoly & res){
-    modpoly px,qx,pqx;
-    vecteur X,Y;
-    int rs=p.size()+q.size()-1;
-    res.resize(rs);
-    if (debug_infolevel) 
-      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate horner " << endl;
-    for (int i=-n;i<=n;++i){
-      X.push_back(i);
-      if (debug_infolevel>1) 
-	CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate horner2 " << i << endl;
-      horner2(p,i,px);
-      if (debug_infolevel>1) 
-	CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate mult " << endl;
-      if (&p==&q){
-	mulmodpoly_kara_naive(px,px,0,pqx,20);
-#if 0
-	vecteur tmp; mulmodpoly(px,px,0,tmp); 	
-	if (tmp!=pqx) {
-	  ofstream of("bugfft");
-	  of << "p:=" << gen(px,_POLY1__VECT) << ":;" << endl;
-	  of << "correct p2 " << gen(pqx,_POLY1__VECT) << ":;" << endl;
-	  of << "wront p2 " << gen(tmp,_POLY1__VECT) << ":;" << endl;
-	  tmp=pqx-tmp;
-	  of << "difference" << tmp << endl;
-	}
-#endif
-      }
-      else {
-	horner2(q,i,qx);
-	mulmodpoly_kara_naive(px,qx,0,pqx,20);
-      }
-      Y.push_back(pqx);
-    }
-    if (debug_infolevel) 
-      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate reorder " << endl;
-    vecteur Yr;
-    reorder(Y,Yr);
-    if (debug_infolevel) 
-      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate rebuild " << endl;
-    for (int i=0;i<rs;++i){
-      vecteur y=gen2vecteur(Yr[i]);
-      if (y.size()<2*n+1)
-	y.insert(y.begin(),2*n+1-y.size(),0);
-      interpolate_inplace(X,y,0);
-      res[i]=y;
-    }
-    if (debug_infolevel) 
-      CERR << CLOCK()*1e-6 << " mulmodpoly_interpolate end " << endl;
   }
 
   void operator_times (const modpoly & a, const modpoly & b,environment * env,modpoly & new_coord) {
@@ -1623,37 +1309,8 @@ namespace giac {
       if (ita->type==_EXT){
 	gen pmin=*(ita->_EXTptr+1);
 	modpoly aa,bb;
-	if (&a==&b && unext(a,pmin,aa)){
-#if 0
-	  if (pmin.type==_VECT && to1d(aa,bb,2*pmin._VECTptr->size()-3)){
-	    aa.clear();
-	    mulmodpoly_kara_naive(bb,bb,env,aa,KARAMUL_SIZE);
-	    //mulmodpoly(bb,bb,env,aa);
-	    from1d(aa,new_coord,2*pmin._VECTptr->size()-3);
-	    ext(new_coord,pmin);
-	    return;
-	  }
-#endif
-	  int n=-1;
-	  if (pmin.type==_VECT)
-	    n=pmin._VECTptr->size()-2;
-	  if (n>0 && aa.size()>=512)
-	    mulmodpoly_interpolate(aa,aa,n,new_coord);
-	  else
-	    mulmodpoly_kara_naive(aa,aa,env,new_coord,10);
-	  ext(new_coord,pmin);
-	  return;
-	}
 	if (unext(a,pmin,aa) && unext(b,pmin,bb)){
-	  if (0 && (aa.size()>=20 || bb.size()>=20)){
-	    modpoly A,B,C; // it's slower
-	    reorder(aa,A);
-	    reorder(bb,B);
-	    mulmodpoly_kara_naive(A,B,env,C,8);
-	    reorder(C,new_coord);
-	  }
-	  else
-	    mulmodpoly_kara_naive(aa,bb,env,new_coord,10);
+	  mulmodpoly_naive(aa,bb,new_coord);
 	  ext(new_coord,pmin);
 	  return;
 	}
@@ -1681,11 +1338,11 @@ namespace giac {
       if (!itb->is_integer())
 	break;
     }
-    if (ita==ita_end && itb==itb_end){ // integer coefficients
+    if (ita==ita_end && itb==itb_end){
       mulmodpoly(a,b,env,new_coord);
       return;
     }
-    mulmodpoly_kara_naive(a,b,env,new_coord,KARAMUL_SIZE);
+    mulmodpoly_naive(a,b,new_coord);
   }
 
   // res=(*it) * ... (*(it_end-1))
@@ -5224,7 +4881,8 @@ namespace giac {
     return r;
   }
 
-  void divided_differences(const vecteur & x,vecteur & res,environment * env,bool divexact){
+  void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env){
+    res=y;
     int s=int(x.size());
     for (int k=1;k<s;++k){
       if (env && env->moduloon){
@@ -5234,28 +4892,10 @@ namespace giac {
       }
       else {
 	for (int j=s-1;j>=k;--j){
-	  gen & g=res[j];
-	  operator_minus_eq(g,res[j-1],context0);
-	  gen dx(x[j]-x[j-k]);
-	  if (divexact && g.type==_ZINT && g.ref_count()==1 && dx.type==_INT_){
-	    mpz_t * z=g._ZINTptr;
-	    if (dx.val>0)
-	      mpz_divexact_ui(*z,*z,dx.val);
-	    else {
-	      mpz_divexact_ui(*z,*z,-dx.val);
-	      mpz_neg(*z,*z);
-	    }
-	  }
-	  else
-	    g=g/dx;
+	  res[j]=(res[j]-res[j-1])/(x[j]-x[j-k]);
 	}
       }
     }
-  }
-
-  void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env){
-    res=y;
-    divided_differences(x,res,env,false);
   }
 
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env){
@@ -5274,24 +4914,6 @@ namespace giac {
 	gen & tmp = *it;
 	++it;
 	*it -= tmp*fact;
-	if (env && env->moduloon)
-	  *it=smod(*it,env->modulo);
-      }
-    }
-  }
-
-  void interpolate_inplace(const vecteur & x,modpoly & res,environment * env){
-    divided_differences(x,res,env,true);
-    unsigned s=unsigned(x.size());
-    int j=s-1;
-    reverse(res.begin(),res.end());
-    for (j--;j>=0;j--){
-      iterateur it=res.begin()+(s-2-j),itbeg=res.begin()-1;
-      const gen & fact = x[j];
-      for (;it!=itbeg;it-=2){
-	gen & tmp = *it;
-	++it;
-	type_operator_minus_times(tmp,fact,*it); // *it -= tmp*fact;
 	if (env && env->moduloon)
 	  *it=smod(*it,env->modulo);
       }
@@ -7196,15 +6818,7 @@ namespace giac {
 	source += zsize;
 	continue; // coeff in p is 0
       }
-      // check previous for carry
-      longlong U=*end;
-      if (end>begin && U/(1<<nbits)==0){
-	*end=0;
-	--end;
-	*end += U*(1<<nbits);
-	U=*end;
-      }
-      int sign=ulonglong(U)>>63; // 1 for neg, 0 for positive
+      int sign=ulonglong(*end)>>63; // 1 for neg, 0 for positive
       ++end;
       if (sign){
 	for (;begin<end;++begin){
@@ -7212,7 +6826,6 @@ namespace giac {
 	}
       }
       // now make all coeff positive
-      longlong finalcarry=0; int finalpow2=0;      
       begin=source;
       for (;;){
 	if (*begin>=0){
@@ -7221,16 +6834,11 @@ namespace giac {
 	    break;
 	  continue;
 	}
-	longlong s=1+(ulonglong(-*begin)>>nbits); 
+	longlong s=1+(ulonglong(-*begin)>>nbits2); 
 	*begin += s*base;
 	++begin;
 	if (begin==end){
-	  if (end==source+zsize){
-	    CERR << "unexpected carry" << endl;
-	    break;
-	  }
-	  finalcarry=sign?s:-s;
-	  finalpow2=end-source;
+	  CERR << "unexpected carry" << endl;
 	  break;
 	}
 	*begin -= s;
@@ -7280,9 +6888,6 @@ namespace giac {
 	p[i]=mpz_get_si(z);
       else
 	p[i]=z;
-      if (finalcarry){
-	p[i] = p[i]+gen(finalcarry)*pow(plus_two,finalpow2*nbits,context0);
-      }
     }
     mpz_clear(z);
   }
@@ -7523,7 +7128,7 @@ namespace giac {
       // time required by ichinrem fft: 4+3*(nbits/32-4)*fft(rs)+C/2*(nbits/32)^2
       // where C*(nbits/32) is about fft(rs) for rs=2^19 and nbits around 200
       // -> FFTMUL_INT_MAXBITS around 1000
-      if ( //1 ||        
+      if ( //1 || 
 	  (//0 && 
 	    nbits>nthreads*FFTMUL_INT_MAXBITS)){
 	// add one more variable to convert long integer coefficients into that variable

@@ -6636,12 +6636,10 @@ namespace giac {
 	  return 0;
 	res=*makemod(res,modulo)._VECTptr;
 	// keep the permutation without makemod
-	if (!pivots.empty()){
-	  gen last=pivots.back();
-	  pivots.pop_back();
-	  pivots=*makemod(pivots,modulo)._VECTptr;
-	  pivots.push_back(last);
-	}
+	gen last=pivots.back();
+	pivots.pop_back();
+	pivots=*makemod(pivots,modulo)._VECTptr;
+	pivots.push_back(last);
 	det=makemod(det,modulo);
 	return 1;
       }
@@ -9992,20 +9990,6 @@ namespace giac {
       return;
     }
     if (is_integer(f)){
-      if (f.type==_INT_){
-	int t=f.val;
-	if (t<0){
-	  for (int i=0;i<n;++i)
-	    res.push_back((int) (2*t*(giac_rand(contextptr)/(rand_max2+1.0))-t)	);
-	  return;
-	}
-#if 0
-	int add=(xcas_mode(contextptr)==3 || abs_calc_mode(contextptr)==38);
-	for (int i=0;i<n;++i)
-	  res.push_back(add+(int) t*(giac_rand(contextptr)/(rand_max2+1.0)));
-	return;
-#endif
-      }
       for (int i=0;i<n;++i)
 	res.push_back(_rand(f,contextptr));
       return;
@@ -10286,20 +10270,6 @@ namespace giac {
       for (int i=0;i<n;++i)
 	res.push_back(f(vecteur(0),contextptr));
       return;
-    }
-    if (f.is_symb_of_sommet(at_rootof)){
-      gen ff=f._SYMBptr->feuille;
-      if (ff.type==_VECT && !ff._VECTptr->empty()){
-	ff=ff._VECTptr->back();
-	if (ff.type==_VECT && !ff._VECTptr->empty()){
-	  int d=ff._VECTptr->size()-1;
-	  for (int i=0;i<n;++i){
-	    gen g=vranm(d,0,contextptr);
-	    res.push_back(symb_rootof(g,ff,contextptr));
-	  }
-	  return;
-	}
-      }
     }
     for (int i=0;i<n;++i)
       res.push_back(eval(f,eval_level(contextptr),contextptr));

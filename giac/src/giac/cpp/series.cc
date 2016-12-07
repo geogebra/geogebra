@@ -307,7 +307,7 @@ namespace giac {
       }
       // Add coefficient of a and b
       gen sum=a_cur->coeff+b_cur->coeff;
-      if (sum.type>_POLY && sum.type!=_FRAC &&(res.empty() || (series_flags(contextptr) & 0x1) ) ){
+      if (res.empty() || (series_flags(contextptr) & 0x1) ){
 	//cerr << sum << " ";
 	sum=recursive_normal(remove_lnexp(sum,contextptr),contextptr);
 	//cerr << sum << endl;
@@ -346,12 +346,8 @@ namespace giac {
     gen b(b_orig);
     if (&a==&res){
       sparse_poly1::iterator it=res.begin(),itend=res.end();
-      for (;it!=itend;++it){
-	gen g=it->coeff * b;
-	if (g.type>_POLY && g.type!=_FRAC) 
-	  g=ratnormal(g,contextptr) ;
-	it->coeff = g;
-      }
+      for (;it!=itend;++it)
+	it->coeff = ratnormal(it->coeff * b,contextptr) ;
       return true;
     }
     sparse_poly1::const_iterator it=a.begin(),itend=a.end();

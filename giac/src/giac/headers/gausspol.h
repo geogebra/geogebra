@@ -100,7 +100,6 @@ namespace giac {
   inline polynome operator * (const gen & fact, const polynome & th){ return th*fact; }
   // a*b+c*d
   gen foisplus(const polynome & a,const polynome & b,const polynome & c,const polynome & d);
-  gen foisplus(const gen & a,const gen & b,const gen & c,const gen & d);
   polynome operator - (const polynome & th) ;
   polynome operator / (const polynome & th,const polynome & other);
   polynome operator / (const polynome & th,const gen & fact );
