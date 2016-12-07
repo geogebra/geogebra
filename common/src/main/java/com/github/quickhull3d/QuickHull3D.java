@@ -158,8 +158,6 @@ public class QuickHull3D {
 	 */
 	public static final double AUTOMATIC_TOLERANCE = -1;
 
-	protected int findIndex = -1;
-
 	// estimated size of the point set
 	protected double charLength;
 
