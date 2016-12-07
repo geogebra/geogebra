@@ -5535,7 +5535,6 @@ namespace giac {
 
   void type_operator_plus_times(const gen & a,const gen & b,gen & c){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
-#ifndef EMCC
     if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       c._DOUBLE_val += a._DOUBLE_val*b._DOUBLE_val;
@@ -5545,7 +5544,6 @@ namespace giac {
 #endif
       return ;
     }
-#endif
     if (c.type==_ZINT && c.ref_count()==1){
       switch (t){
       case _ZINT__ZINT:
@@ -5615,7 +5613,6 @@ namespace giac {
 
   void type_operator_minus_times(const gen & a,const gen & b,gen & c){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
-#ifndef EMCC
     if (c.type==_DOUBLE_ && t==_DOUBLE___DOUBLE_){
 #ifdef DOUBLEVAL
       c._DOUBLE_val -= a._DOUBLE_val*b._DOUBLE_val;
@@ -5625,7 +5622,6 @@ namespace giac {
 #endif
       return ;
     }
-#endif
     if (c.type==_ZINT && c.ref_count()==1){
       switch (t){
       case _ZINT__ZINT:
@@ -12307,65 +12303,65 @@ namespace giac {
 	case _QUADRANT4:
 	  return "quadrant4";
 	case _POINT_LOSANGE:
-	  return "ρομβοειδές_σημείο";
+	  return "�?ομβοειδές_σημείο";
 	case _POINT_CARRE:
-	  return "τετραγωνικό_σημείο";
+	  return "τετ�?αγωνικό_σημείο";
 	case _POINT_PLUS:
-	  return "σταυροειδές_σημείο";
+	  return "σταυ�?οειδές_σημείο";
 	case _POINT_TRIANGLE:
-	  return "τριγωνικό_σημείο";
+	  return "τ�?ιγωνικό_σημείο";
 	case _POINT_ETOILE:
-	  return "αστροειδές_σημείο";
+	  return "αστ�?οειδές_σημείο";
 	case _POINT_POINT:
 	  return "point_point";
 	case _POINT_INVISIBLE:
-	  return "αόρατο_σημείο";
+	  return "αό�?ατο_σημείο";
 	case 49:
 	  return "gomme";
 	case _LINE_WIDTH_2:
-	  return "εύρος_γραμμής_2";
+	  return "ε�?�?ος_γ�?αμμής_2";
 	case _LINE_WIDTH_3:
-	  return "εύρος_γραμμής_3";
+	  return "ε�?�?ος_γ�?αμμής_3";
 	case _LINE_WIDTH_4:
-	  return "εύρος_γραμμής_4";
+	  return "ε�?�?ος_γ�?αμμής_4";
 	case _LINE_WIDTH_5:
-	  return "εύρος_γραμμής_5";
+	  return "ε�?�?ος_γ�?αμμής_5";
 	case _LINE_WIDTH_6:
-	  return "εύρος_γραμμής_6";
+	  return "ε�?�?ος_γ�?αμμής_6";
 	case _LINE_WIDTH_7:
-	  return "εύρος_γραμμής_7";
+	  return "ε�?�?ος_γ�?αμμής_7";
 	case _LINE_WIDTH_8:
-	  return "εύρος_γραμμής_8";
+	  return "ε�?�?ος_γ�?αμμής_8";
 	case _POINT_WIDTH_2:
-	  return "εύρος_σημείου_2";
+	  return "ε�?�?ος_σημείου_2";
 	case _POINT_WIDTH_3:
-	  return "εύρος_σημείου_3";
+	  return "ε�?�?ος_σημείου_3";
 	case _POINT_WIDTH_4:
-	  return "εύρος_σημείου_4";
+	  return "ε�?�?ος_σημείου_4";
 	case _POINT_WIDTH_5:
-	  return "εύρος_σημείου_5";
+	  return "ε�?�?ος_σημείου_5";
 	case _POINT_WIDTH_6:
-	  return "εύρος_σημείου_6";
+	  return "ε�?�?ος_σημείου_6";
 	case _POINT_WIDTH_7:
-	  return "εύρος_σημείου_7";
+	  return "ε�?�?ος_σημείου_7";
 	case _POINT_WIDTH_8:
-	  return "εύρος_σημείου_8";
+	  return "ε�?�?ος_σημείου_8";
 	case _HIDDEN_NAME:
 	  return "hidden_name";
 	case _DASH_LINE:
-	  return "γραμμή_διακεκομμένη";
+	  return "γ�?αμμή_διακεκομμένη";
 	case _DOT_LINE:
-	  return "παύλα_τελεία";
+	  return "πα�?λα_τελεία";
 	case _DASHDOT_LINE:
-	  return "γραμμή_παύλα_τελεία";
+	  return "γ�?αμμή_πα�?λα_τελεία";
 	case _DASHDOTDOT_LINE:
-	  return "γραμμή_παύλα_τελείατελεία";
+	  return "γ�?αμμή_πα�?λα_τελείατελεία";
 	case _CAP_FLAT_LINE:
-	  return "γραμμή_επίπεδο_καβούκι";
+	  return "γ�?αμμή_επίπεδο_καβο�?κι";
 	case _CAP_ROUND_LINE:
-	  return "γραμμή_στρογγυλό_καβούκι";
+	  return "γ�?αμμή_στ�?ογγυλό_καβο�?κι";
 	case _CAP_SQUARE_LINE:
-	  return "γραμμή_τετράγωνο_καβούκι";
+	  return "γ�?αμμή_τετ�?άγωνο_καβο�?κι";
 	}
       default:
 	switch (val){

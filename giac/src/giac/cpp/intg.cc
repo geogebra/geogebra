@@ -5461,24 +5461,15 @@ namespace giac {
 	for (int i=0;i<dim;++i){
 	  yt1[i]=yt[i];
 	}
-	if (dim==1){
-	  gen & yt10=yt1[0];
-	  for (int k=0;k<j;k++){
-	    type_operator_plus_times(butcher_a[butcher_a_shift+k],butcher_k[k]._VECTptr->front(),yt10); 
-	  }
-	}
-	else {
-	  for (int k=0;k<j;k++){
-	    gen bak=butcher_a[butcher_a_shift+k];
-	    const vecteur & bkk=(*butcher_k[k]._VECTptr);
-	    for (int i=0;i<dim;++i){
-	      type_operator_plus_times(bak,bkk[i],yt1[i]); //yt1[i] += bak*bkk[i];
-	    }
+	for (int k=0;k<j;k++){
+	  gen bak=butcher_a[butcher_a_shift+k];
+	  const vecteur & bkk=(*butcher_k[k]._VECTptr);
+	  for (int i=0;i<dim;++i){
+	    yt1[i] += bak*bkk[i];
 	  }
 	}
 	butcher_a_shift += j;
-	yt1[dim]=yt[dim];
-	type_operator_plus_times(butcher_c[j],dt,yt1[dim]);
+	yt1[dim]=yt[dim]+butcher_c[j]*dt;
 	vecteur & bkj = *butcher_k[j]._VECTptr;
 	if (j<6)
 	  bkj=subst(odesolve_f,ytvar,yt1,false,contextptr);
@@ -5498,7 +5489,7 @@ namespace giac {
 	gen bb4j=butcher_b4[j];
 	for (int i=0;i<dim;i++){
 	  // y_final5[i] += bb5j*bkj[i];
-	  type_operator_plus_times(bb4j,bkj[i],y_final4[i]);//y_final4[i] += bb4j*bkj[i];
+	  y_final4[i] += bb4j*bkj[i];
 	}
       }
       // accept or reject current step and compute dt
