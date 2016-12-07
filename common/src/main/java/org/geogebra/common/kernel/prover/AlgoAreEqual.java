@@ -1,11 +1,15 @@
 package org.geogebra.common.kernel.prover;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoAnglePoints;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -275,6 +279,50 @@ public class AlgoAreEqual extends AlgoElement
 									.subtract(Polynomial.sqr(c2.subtract(d2)));
 
 			return botanaPolynomials;
+		}
+
+		// equality of two expressions, one of them is a segment
+		if ((inputElement1 instanceof GeoNumeric
+				&& inputElement2 instanceof GeoSegment)
+				|| (inputElement2 instanceof GeoNumeric
+						&& inputElement1 instanceof GeoSegment)) {
+
+			GeoNumeric n;
+			GeoSegment s;
+			if (inputElement1 instanceof GeoNumeric) {
+				n = (GeoNumeric) inputElement1;
+				s = (GeoSegment) inputElement2;
+			} else {
+				n = (GeoNumeric) inputElement2;
+				s = (GeoSegment) inputElement1;
+			}
+
+			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+
+			// Create n-s=var as a ValidExpression
+			ValidExpression resultVE = cas.getCASparser()
+					.parseGeoGebraCASInputAndResolveDummyVars(
+							n.getDefinition() + "-" + s.getLabelSimple(),
+							kernel, null);
+			// Convert the ValidExpression to ExpressionNode
+			ExpressionNode en = new ExpressionNode(kernel, resultVE);
+			// Silently create an AlgoDependentNumber from the ExpressionNode
+			AlgoDependentNumber adn = new AlgoDependentNumber(
+					s.getConstruction(), en, false, null, false, false);
+			// Obtain the polynomials
+			Polynomial[] result = adn.getBotanaPolynomials(n); // n unused
+			int no = result.length;
+			botanaPolynomials = new Polynomial[1][no + 1];
+			for (int i = 0; i < no; ++i) {
+				botanaPolynomials[0][i + 1] = result[i];
+			}
+			Variable[] botanaVars = adn.getBotanaVars(n); // n unused
+			// Add the equation var=0 to the polynomial list
+			botanaPolynomials[0][0] = new Polynomial(botanaVars[0]);
+			// This AlgoDependentNumber is not needed anymore
+			s.getConstruction().removeFromAlgorithmList(adn);
+			return botanaPolynomials;
+
 		}
 
 		// area of two polygons

@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Term;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for dependent numbers, e.g. c = a + b.
@@ -61,6 +62,13 @@ public class AlgoDependentNumber extends AlgoElement
 
 	private Variable[] botanaVars;
 	private Polynomial[] botanaPolynomials;
+	/*
+	 * Rewrite formulas appearing in other geos to contain GeoGebra definitions.
+	 * E.g. when entering a+2b, convert this formula to Segment[A,B] +
+	 * 2Segment[C,D] in all other occurrences. Sometimes this is not what we
+	 * want, e.g. on creating formulas from the prover automatically.
+	 */
+	private boolean rewriteFormula = true;
 
 	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<GeoSegment>();
 	private ArrayList<Entry<GeoElement, Variable>> segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
@@ -101,7 +109,7 @@ public class AlgoDependentNumber extends AlgoElement
 	}
 
 	/**
-	 * Creates new AlgoJoinPoints
+	 * Creates new AlgoDependentNumber
 	 * 
 	 * @param cons
 	 *            construction
@@ -117,9 +125,34 @@ public class AlgoDependentNumber extends AlgoElement
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate,
 			boolean addToConstructionList) {
+		this(cons, root, isAngle, evaluate, true, true);
+	}
+
+	/**
+	 * Creates new AlgoDependentNumber
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            expression defining the result
+	 * @param isAngle
+	 *            true for angles
+	 * @param evaluate
+	 *            pre-evaluated result
+	 * @param addToConstructionList
+	 *            add object to the construction list
+	 * @param rewrite
+	 *            rewrite the related formulas in other geos
+	 */
+	public AlgoDependentNumber(Construction cons, ExpressionNode root,
+			boolean isAngle, ExpressionValue evaluate,
+			boolean addToConstructionList, boolean rewrite) {
 		super(cons, addToConstructionList);
+		rewriteFormula = rewrite;
 		// simplify constant integers, e.g. -1 * 300 becomes -300
-		root.simplifyConstantIntegers();
+		if (rewriteFormula) {
+			root.simplifyConstantIntegers();
+		}
 		if (evaluate instanceof GeoNumberValue) {
 			// fix error with a=7, b = a renaming a instead of creating b
 			number = (GeoNumberValue) ((GeoNumberValue) evaluate)
@@ -181,6 +214,9 @@ public class AlgoDependentNumber extends AlgoElement
 	// calc the current value of the arithmetic tree
 	@Override
 	public final void compute() {
+		if (!rewriteFormula) {
+			return;
+		}
 		try {
 			NumberValue nv = (NumberValue) number.getDefinition()
 					.evaluate(StringTemplate.defaultTemplate);
@@ -314,13 +350,15 @@ public class AlgoDependentNumber extends AlgoElement
 
 			allSegmentsFromExpression = new HashSet<GeoSegment>();
 			// remove variables as geoSegment names
-			if (!segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
-						.iterator();
-				while (it.hasNext()) {
-					Entry<GeoElement, Variable> curr = it.next();
-					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
-					currGeoSeg.setLabelSet(false);
+			if (rewriteFormula) {
+				if (!segVarPairs.isEmpty()) {
+					Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+							.iterator();
+					while (it.hasNext()) {
+						Entry<GeoElement, Variable> curr = it.next();
+						GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
+						currGeoSeg.setLabelSet(false);
+					}
 				}
 			}
 			segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
@@ -337,6 +375,7 @@ public class AlgoDependentNumber extends AlgoElement
 
 	private void traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
+		// Log.debug(node.toString());
 		if (node.getLeft() != null && node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
@@ -362,30 +401,44 @@ public class AlgoDependentNumber extends AlgoElement
 			searchSegVarPair(pair);
 			allSegmentsFromExpression.add((GeoSegment) node.getLeft());
 		}
-		if (node.getRight() != null && node.getRight().isGeoElement()
-				&& node.getRight() instanceof GeoSegment) {
+		if (node.getRight() != null && ((node.getRight().isGeoElement()
+				&& node.getRight() instanceof GeoSegment)
+				|| node.getRight() instanceof GeoDummyVariable)) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
+			ExpressionValue right = node.getRight();
+			GeoSegment s = null;
 
-			Variable currentVar = new Variable();
-			/*
-			 * This is voodoo magic here. We may need a different solution
-			 * rather than playing with the label. TODO.
-			 */
-			boolean suppress = cons.isSuppressLabelsActive();
-			cons.setSuppressLabelCreation(false);
-			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
-				GeoSegment right = (GeoSegment) node.getRight();
-				right.setLabel(currentVar.toString());
-				right.setAuxiliaryObject(true);
-				right.setEuclidianVisible(false);
-				right.update();
+			if (right instanceof GeoDummyVariable) {
+				GeoDummyVariable v = (GeoDummyVariable) node.getRight();
+				GeoElement e = v.getElementWithSameName();
+				if (e instanceof GeoSegment) {
+					s = (GeoSegment) e;
+				}
+			} else if (right instanceof GeoSegment) {
+				s = (GeoSegment) right;
 			}
-			cons.setSuppressLabelCreation(suppress);
-			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
-					(GeoSegment) node.getRight(), currentVar);
-			searchSegVarPair(pair);
-			allSegmentsFromExpression.add((GeoSegment) node.getRight());
+
+			if (s != null) {
+				Variable currentVar = new Variable();
+				/*
+				 * This is voodoo magic here. We may need a different solution
+				 * rather than playing with the label. TODO.
+				 */
+				boolean suppress = cons.isSuppressLabelsActive();
+				cons.setSuppressLabelCreation(false);
+				if (s.getLabelSimple() == null) {
+					s.setLabel(currentVar.toString());
+					s.setAuxiliaryObject(true);
+					s.setEuclidianVisible(false);
+					s.update();
+				}
+				cons.setSuppressLabelCreation(suppress);
+				Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
+						s, currentVar);
+				searchSegVarPair(pair);
+				allSegmentsFromExpression.add(s);
+			}
 		}
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
 			traverseExpression((ExpressionNode) node.getLeft());
@@ -395,6 +448,7 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()
+				&& node.getRight() != null
 				&& node.getRight().isExpressionNode()) {
 			return;
 		}
@@ -526,8 +580,25 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 	}
 
+	/**
+	 * Creates a PolynomialNode from an ExpressionNode.
+	 * 
+	 * @param expNode
+	 *            ExpressionNode presentation of the polynomial
+	 * @param polyNode
+	 *            PolynomialNode presentation of the polynomial
+	 * @throws NoSymbolicParametersException
+	 *             if the conversion is not possible for some reason (maybe
+	 *             because of unhandled cases)
+	 * 
+	 * @author Csilla Solyom-Gecse
+	 * @author Zoltan Kovacs
+	 * 
+	 *         TODO: Find a more elegant way to do that.
+	 */
 	public void buildPolynomialTree(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
+		// Log.debug(expNode.toString());
 		if (expNode == null) {
 			return;
 		}
@@ -663,7 +734,19 @@ public class AlgoDependentNumber extends AlgoElement
 				return variable;
 			}
 		}
+		// It's possible that the variable is in segVarPairs.
+		Iterator<Entry<GeoElement, Variable>> it = segVarPairs.iterator();
+		while (it.hasNext()) {
+			Entry<GeoElement, Variable> e = it.next();
+			GeoElement ge = e.getKey();
+			if (ge.getLabelSimple().equals(str)) {
+				return e.getValue();
+			}
+		}
+		// This will cause a NPE (should not happen):
+		Log.error("Internal error in AlgoDependentNumber");
 		return null;
+
 	}
 
 	private String getStrForGiac(String str) {
