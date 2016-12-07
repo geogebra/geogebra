@@ -1011,9 +1011,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		// highlight only
 		boolean selected = geo.doHighlighting();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			selected = selected || commonEditingCheck();
-		}
 
 		setSelected(selected);
 
@@ -1866,7 +1863,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (selected) {
 			addStyleName("avSelectedRow");
-
+			Log.printStacktrace("kijeloli");
 
 
 		} else {
