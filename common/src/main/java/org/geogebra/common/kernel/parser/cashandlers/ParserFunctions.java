@@ -311,8 +311,9 @@ public class ParserFunctions {
 
 	private static String[] translateable1var = new String[] { "sin", "cos",
 			"tan", "cot", "csc", "sec", "sinh", "cosh", "tanh", "coth", "csch",
-			"sech", "asin", "acos", "atan", "asinh", "acosh", "atanh", "real",
-			"imaginary", "conjugate", "fractionalPart" };
+			"sech", "asin", "acos", "atan", "asind", "acosd", "atand", "asinh",
+			"acosh", "atanh", "real", "imaginary", "conjugate",
+			"fractionalPart" };
 
 	/**
 	 * Updates local names of functions
@@ -434,7 +435,7 @@ public class ParserFunctions {
 	/**
 	 * @param string
 	 *            english function name
-	 * @return wheher this is a translateable function
+	 * @return whether this is a translateable function
 	 */
 	public boolean isFunction(String string) {
 		for (int i = 0; i < translateable1var.length; i++) {
