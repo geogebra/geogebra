@@ -1526,9 +1526,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		imgFileName = zip_directory + '/' + fn;
+		fn = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, fileStr, loc1, width, height);
+		doDropHappened(fn, fileStr, loc1, width, height);
 	}
 
 	private void doDropHappened(String imgFileName, String fileStr,

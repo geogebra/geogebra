@@ -847,4 +847,45 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getGgbApi().setPointCapture(view, capture);
 
 	}
+
+	public void setFont(String label, int size, boolean italic, boolean bold, boolean serif) {
+		getGgbApi().setFont(label, size, italic, bold, serif);
+
+	}
+
+	public void setRounding(String format) {
+		getGgbApi().setRounding(format);
+	}
+
+	public void newConstruction() {
+		getGgbApi().newConstruction();
+	}
+
+	public boolean isExercise() {
+		// TODO Auto-generated method stub
+		return getGgbApi().isExercise();
+	}
+
+	public void undo(boolean repaint) {
+		getGgbApi().undo(repaint);
+
+	}
+
+	public void redo(boolean repaint) {
+		getGgbApi().redo(repaint);
+	}
+
+	public String getViewProperties(int viewID) {
+		return getGgbApi().getViewProperties(viewID);
+	}
+
+	public void logout() {
+		getGgbApi().logout();
+
+	}
+
+	public void login(String token) {
+		getGgbApi().login(token);
+
+	}
 }

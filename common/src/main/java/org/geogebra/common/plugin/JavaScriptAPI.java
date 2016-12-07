@@ -779,4 +779,22 @@ public interface JavaScriptAPI {
 	 */
 	public void enableShiftDragZoom(boolean enable);
 
+	public void setFont(String label, int size, boolean bold, boolean italic,
+			boolean serif);
+
+	public void setRounding(String format);
+
+	public void newConstruction();
+
+	public boolean isExercise();
+
+	public void undo(boolean repaint);
+
+	public void redo(boolean repaint);
+
+	public String getViewProperties(int viewID);
+
+	public void logout();
+
+	public void login(String token);
 }
