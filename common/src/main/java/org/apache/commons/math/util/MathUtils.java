@@ -25,6 +25,8 @@ import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.exception.NonMonotonousSequenceException;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Some useful additions to the built-in functions in {@link Math}.
  * 
@@ -1686,6 +1688,8 @@ public final class MathUtils {
 	 * @return the rounded value.
 	 * @since 1.1
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	private static double roundUnscaled(double unscaled, double sign,
 			int roundingMethod) {
 		switch (roundingMethod) {

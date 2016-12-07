@@ -20,6 +20,8 @@ import org.apache.commons.math.special.Gamma;
 import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * <p>
  * Utility class used by various distributions to accurately compute their
@@ -107,6 +109,8 @@ final class SaddlePointExpansion {
 	 *            the value.
 	 * @return the Striling's series error.
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	static double getStirlingError(double z) {
 		double ret;
 		if (z < 15.0) {
@@ -147,6 +151,8 @@ final class SaddlePointExpansion {
 	 *            the average.
 	 * @return a part of the deviance.
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	static double getDeviancePart(double x, double mu) {
 		double ret;
 		if (FastMath.abs(x - mu) < 0.1 * (x + mu)) {

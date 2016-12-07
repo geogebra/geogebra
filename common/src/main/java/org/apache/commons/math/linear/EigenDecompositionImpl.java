@@ -24,6 +24,8 @@ import org.apache.commons.math.util.FastMath;
 import org.apache.commons.math.util.MathUtils;
 import org.geogebra.common.util.Cloner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Calculates the eigen decomposition of a real <strong>symmetric</strong>
  * matrix.
@@ -488,6 +490,8 @@ public class EigenDecompositionImpl implements EigenDecomposition {
 	 * @param householderMatrix
 	 *            Householder matrix of the transformation to tri-diagonal form.
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	private void findEigenVectors(double[][] householderMatrix) {
 
 		double[][] z = Cloner.clone2(householderMatrix);

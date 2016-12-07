@@ -23,6 +23,8 @@ import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.exception.util.LocalizedFormats;
 import org.apache.commons.math.util.FastMath;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implements the
  * <a href="http://mathworld.wolfram.com/BrentsMethod.html"> Brent algorithm</a>
@@ -359,6 +361,8 @@ public class BrentSolver extends UnivariateRealSolverImpl {
 	 * @throws FunctionEvaluationException
 	 *             if an error occurs evaluating the function
 	 */
+	@SuppressFBWarnings({ "FE_FLOATING_POINT_EQUALITY",
+			"OK to compare floats, as even tiny differences should trigger update" })
 	private double solve(final UnivariateRealFunction f, double x0, double y0,
 			double x1, double y1, double x2, double y2)
 			throws MaxIterationsExceededException, FunctionEvaluationException {
