@@ -439,7 +439,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 
 	}
-	private class OpacityPanel extends FlowPanel {
+
+	private class OpacityPanel extends FlowPanel implements SliderInputHandler {
 		private Label title;
 		private Label minLabel;
 		private Slider slider;
@@ -465,11 +466,18 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			slider.addChangeHandler(new ChangeHandler(){
 
 				public void onChange(ChangeEvent event) {
-					if (changeHandler != null) {
-						changeHandler.onAlphaChange();
-					}
-					previewPanel.update();
+					onSliderInput();
                 }});
+			Slider.addInputHandler(slider.getElement(), this);
+
+		}
+
+		public void onSliderInput() {
+			if (changeHandler != null) {
+				changeHandler.onAlphaChange();
+			}
+			previewPanel.update();
+
 		}
 
 		public float getAlphaValue() {

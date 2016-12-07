@@ -2,8 +2,8 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.web.gui.util.SliderInputHandler;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 
 public class SliderPanel extends FlowPanel implements HasChangeHandlers,
-        HasValue<Integer> {
+		HasValue<Integer>, SliderInputHandler {
 
 	private Slider slider;
 	//private Label minLabel;
@@ -38,7 +38,7 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		add(sliderLabel);
 		sliderLabel.addStyleName("popupSliderLabel");
 		setStyleName("optionsSlider");
-		Slider.addInputHandler(slider.getElement(), getInputHandler(this));
+		Slider.addInputHandler(slider.getElement(), this);
 	}
 
 	public Integer getValue() {
@@ -80,13 +80,7 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 		return slider.addValueChangeHandler(handler);
 	}
 
-	private native JavaScriptObject getInputHandler(SliderPanel sp)/*-{
-		return function() {
-			sp.@org.geogebra.web.html5.gui.util.SliderPanel::doOninput()();
-		}
-	}-*/;
-
-	private void doOninput() {
+	public void onSliderInput() {
 		DomEvent.fireNativeEvent(Document.get().createChangeEvent(),
 				this.slider);
 		sliderLabel.setText(this.getValue() + "");
