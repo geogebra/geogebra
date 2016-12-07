@@ -4057,7 +4057,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-601
 		case MOBILE_LOCAL_SAVE:
-			return false;
+			return prerelease;
 		case RETEX_EDITOR:
 			return prerelease;
 
@@ -4144,7 +4144,7 @@ public abstract class App implements UpdateSelection {
 			return true; // 5.0.290
 
 		case MOBILE_CACHE_FEATURED:
-			return false;
+			return prerelease;
 
 		// MOB-961, MOB-962
 		case BIND_ANDROID_TO_EXAM_APP:
