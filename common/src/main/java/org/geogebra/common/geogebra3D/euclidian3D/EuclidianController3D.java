@@ -4481,17 +4481,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 		animatedRotSpeed = speed;
 	}
 
-	public AbstractEvent getMouseEvent() {
-		return mouseEvent;
-	}
-
-	public void setMouseEvent(AbstractEvent event) {
-		mouseEvent = event;
+	@Override
+	public EuclidianController3DCompanion getCompanion() {
+		createCompanionsIfNeeded();
+		return companion3D;
 	}
 
 	@Override
-	public EuclidianController3DCompanion getCompanion() {
-		return companion3D;
+	protected void createCompanionsIfNeeded() {
+		super.createCompanionsIfNeeded();
+		if (companion3D == null) {
+			companion3D = (EuclidianController3DCompanion) companion;
+		}
 	}
 
 }
