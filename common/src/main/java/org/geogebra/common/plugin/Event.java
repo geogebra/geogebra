@@ -40,4 +40,8 @@ public class Event {
 	public boolean isAlwaysDispatched() {
 		return this.alwaysDispatched;
 	}
+
+	public EventType getType() {
+		return type;
+	}
 }
