@@ -7,6 +7,7 @@ import java.util.HashSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
@@ -33,6 +34,8 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -396,6 +399,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				selectAll();
 			}
 		}, ClickEvent.getType());
+
+		ClickStartHandler.init(gridPanel, new ClickStartHandler() {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				CancelEventTimer.keyboardSetVisible();
+			}
+		});
 
 	}
 
