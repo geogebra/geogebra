@@ -1435,7 +1435,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		result.y = -mouse.getY() + renderer.getTop();
 	}
 
-	final protected void setPickPointFromMouse(GPoint mouse) {
+	protected void setPickPointFromMouse(GPoint mouse) {
 		getCompanion().setPickPointFromMouse(mouse, pickPoint);
 	}
 
