@@ -55,53 +55,53 @@ public class GeoFactory3D extends GeoFactory {
 
 		switch (type.charAt(0)) {
 		case 'a':
-			if (type.equals("axis3d"))
+			if ("axis3d".equals(type))
 				return new GeoAxis3D(cons1);
-			else if (type.equals("angle3d"))
+			else if ("angle3d".equals(type))
 				return new GeoAngle3D(cons1);
 
 		case 'c':
-			if (type.equals("conic3d"))
+			if ("conic3d".equals(type))
 				return new GeoConic3D(cons1, new CoordSys(2));
-			else if (type.equals("curvecartesian3d"))
+			else if ("curvecartesian3d".equals(type))
 				return new GeoCurveCartesian3D(cons1);
 
 		case 'l':
-			if (type.equals("line3d"))
+			if ("line3d".equals(type))
 				return new GeoLine3D(cons1);
 
 		case 'p':
-			if (type.equals("point3d")) {
+			if ("point3d".equals(type)) {
 				return new GeoPoint3D(cons1);
-			} else if (type.equals("polygon3d"))
+			} else if ("polygon3d".equals(type))
 				return new GeoPolygon3D(cons1, null);
-			else if (type.equals("plane3d"))
+			else if ("plane3d".equals(type))
 				return new GeoPlane3D(cons1);
-			else if (type.equals("polyline3d"))
+			else if ("polyline3d".equals(type))
 				return new GeoPolyLine3D(cons1, null);
-			else if (type.equals("polyhedron"))
+			else if ("polyhedron".equals(type))
 				return new GeoPolyhedron(cons1);
 
 		case 'q':
-			if (type.equals("quadric3d") || type.equals("quadric")) {
+			if ("quadric3d".equals(type) || "quadric".equals(type)) {
 				return new GeoQuadric3D(cons1);
-			} else if (type.equals("quadric3dpart"))
+			} else if ("quadric3dpart".equals(type))
 				return new GeoQuadric3DPart(cons1);
-			else if (type.equals("quadric3dlimited"))
+			else if ("quadric3dlimited".equals(type))
 				return new GeoQuadric3DLimited(cons1);
 
 		case 'r':
-			if (type.equals("ray3d"))
+			if ("ray3d".equals(type))
 				return new GeoRay3D(cons1);
 
 		case 's':
-			if (type.equals("segment3d"))
+			if ("segment3d".equals(type))
 				return new GeoSegment3D(cons1);
-			if (type.equals("surfacecartesian3d"))
+			if ("surfacecartesian3d".equals(type))
 				return new GeoSurfaceCartesian3D(cons1);
 
 		case 'v':
-			if (type.equals("vector3d"))
+			if ("vector3d".equals(type))
 				return new GeoVector3D(cons1);
 
 		}

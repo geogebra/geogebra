@@ -3403,17 +3403,17 @@ public class Kernel {
 			return GeoClass.ANGLE;
 
 		case 'b': // angle
-			if (type.equals("boolean")) {
+			if ("boolean".equals(type)) {
 				return GeoClass.BOOLEAN;
 			}
 			return GeoClass.BUTTON; // "button"
 
 		case 'c': // conic
-			if (type.equals("conic")) {
+			if ("conic".equals(type)) {
 				return GeoClass.CONIC;
-			} else if (type.equals("conicpart")) {
+			} else if ("conicpart".equals(type)) {
 				return GeoClass.CONICPART;
-			} else if (type.equals("circle")) { // bug in GeoGebra 2.6c
+			} else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
 				return GeoClass.CONIC;
 			}
 
@@ -3430,18 +3430,18 @@ public class Kernel {
 			return GeoClass.CONIC;
 
 		case 'i': // image,implicitpoly
-			if (type.equals("image")) {
+			if ("image".equals(type)) {
 				return GeoClass.IMAGE;
-			} else if (type.equals("intersectinglines")) {
+			} else if ("intersectinglines".equals(type)) {
 				return GeoClass.CONIC;
-			} else if (type.equals("implicitpoly")) {
+			} else if ("implicitpoly".equals(type)) {
 				return GeoClass.IMPLICIT_POLY;
 			}
 
 		case 'l': // line, list, locus
-			if (type.equals("line")) {
+			if ("line".equals(type)) {
 				return GeoClass.LINE;
-			} else if (type.equals("list")) {
+			} else if ("list".equals(type)) {
 				return GeoClass.LIST;
 			} else {
 				return GeoClass.LOCUS;
@@ -3451,13 +3451,13 @@ public class Kernel {
 			return GeoClass.NUMERIC;
 
 		case 'p': // point, polygon
-			if (type.equals("point")) {
+			if ("point".equals(type)) {
 				return GeoClass.POINT;
-			} else if (type.equals("polygon")) {
+			} else if ("polygon".equals(type)) {
 				return GeoClass.POLYGON;
-			} else if (type.equals("polyline")) {
+			} else if ("polyline".equals(type)) {
 				return GeoClass.POLYLINE;
-			} else if (type.equals("penstroke")) {
+			} else if ("penstroke".equals(type)) {
 				return GeoClass.PENSTROKE;
 			} else {
 				return GeoClass.CONIC;
@@ -3470,7 +3470,7 @@ public class Kernel {
 			return GeoClass.SEGMENT;
 
 		case 't':
-			if (type.equals("text")) {
+			if ("text".equals(type)) {
 				return GeoClass.TEXT; // text
 			}
 			return GeoClass.TEXTFIELD; // textfield

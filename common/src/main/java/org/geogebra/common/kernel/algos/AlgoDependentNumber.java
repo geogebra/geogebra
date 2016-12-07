@@ -350,8 +350,7 @@ public class AlgoDependentNumber extends AlgoElement
 
 			allSegmentsFromExpression = new HashSet<GeoSegment>();
 			// remove variables as geoSegment names
-			if (rewriteFormula) {
-				if (!segVarPairs.isEmpty()) {
+			if (rewriteFormula && !segVarPairs.isEmpty()) {
 					Iterator<Entry<GeoElement, Variable>> it = segVarPairs
 							.iterator();
 					while (it.hasNext()) {
@@ -359,7 +358,6 @@ public class AlgoDependentNumber extends AlgoElement
 						GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
 						currGeoSeg.setLabelSet(false);
 					}
-				}
 			}
 			segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
 

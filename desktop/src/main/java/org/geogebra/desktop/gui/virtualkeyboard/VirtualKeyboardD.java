@@ -795,15 +795,15 @@ public class VirtualKeyboardD extends JFrame
 
 			}
 
-		if (addchar.equals("<enter>")) {
+		if ("<enter>".equals(addchar)) {
 			addchar = "\n";
-		} else if (addchar.equals("<E>")) {
+		} else if ("<E>".equals(addchar)) {
 			addchar = "E";
-		} else if (addchar.equals("<multiply>")) {
+		} else if ("<multiply>".equals(addchar)) {
 			addchar = "*";
-		} else if (addchar.equals("<divide>")) {
+		} else if ("<divide>".equals(addchar)) {
 			addchar = "/";
-		} else if (addchar.equals("<minus>")) {
+		} else if ("<minus>".equals(addchar)) {
 			addchar = "-";
 		}
 
@@ -994,27 +994,27 @@ public class VirtualKeyboardD extends JFrame
 		if (!text.startsWith("<"))
 			return text;
 
-		if (text.equals("<enter>"))
+		if ("<enter>".equals(text))
 			return unicodeString('\u21b2', "");
-		if (text.equals("<backspace>"))
+		if ("<backspace>".equals(text))
 			return "\u21a4";
-		if (text.equals("<escape>"))
+		if ("<escape>".equals(text))
 			return (app == null) ? escText : loc.getMenu("Esc");
-		if (text.equals("<left>"))
+		if ("<left>".equals(text))
 			return "\u2190";
-		if (text.equals("<up>"))
+		if ("<up>".equals(text))
 			return "\u2191";
-		if (text.equals("<right>"))
+		if ("<right>".equals(text))
 			return "\u2192";
-		if (text.equals("<down>"))
+		if ("<down>".equals(text))
 			return "\u2193";
-		if (text.equals("<E>"))
+		if ("<E>".equals(text))
 			return "\u00D710\u207F"; // *10^n
-		if (text.equals("<multiply>"))
+		if ("<multiply>".equals(text))
 			return Unicode.MULTIPLY + "";
-		if (text.equals("<divide>"))
+		if ("<divide>".equals(text))
 			return Unicode.DIVIDE;
-		if (text.equals("<minus>"))
+		if ("<minus>".equals(text))
 			return Unicode.MINUS + "";
 		return text;
 	}

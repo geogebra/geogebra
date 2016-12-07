@@ -1710,11 +1710,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			GeoLine line = (GeoLine) geo;
 
-			if (style.equals("parametric")) {
+			if ("parametric".equals(style)) {
 				line.setMode(GeoLine.PARAMETRIC);
-			} else if (style.equals("explicit")) {
+			} else if ("explicit".equals(style)) {
 				line.setMode(GeoLine.EQUATION_EXPLICIT);
-			} else if (style.equals("implicit")) {
+			} else if ("implicit".equals(style)) {
 				line.setMode(GeoLine.EQUATION_IMPLICIT);
 			}
 
@@ -1724,13 +1724,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			GeoConic conic = (GeoConic) geo;
 
-			if (style.equals("parametric")) {
+			if ("parametric".equals(style)) {
 				conic.setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
-			} else if (style.equals("explicit")) {
+			} else if ("explicit".equals(style)) {
 				conic.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
-			} else if (style.equals("implicit")) {
+			} else if ("implicit".equals(style)) {
 				conic.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
-			} else if (style.equals("specific")) {
+			} else if ("specific".equals(style)) {
 				conic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
 			}
 

@@ -375,19 +375,19 @@ public class Keyboard {
 		if (!text.startsWith("<") || !text.endsWith(">")) {
 			type(altPressed, ctrlPressed, shiftPressed, text);
 		} else {
-			if (text.equals("<escape>")) {
+			if ("<escape>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_ESCAPE);
-			} else if (text.equals("<left>")) {
+			} else if ("<left>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_LEFT);
-			} else if (text.equals("<right>")) {
+			} else if ("<right>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_RIGHT);
-			} else if (text.equals("<up>")) {
+			} else if ("<up>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_UP);
-			} else if (text.equals("<down>")) {
+			} else if ("<down>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_DOWN);
-			} else if (text.equals("<backspace>")) {
+			} else if ("<backspace>".equals(text)) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_BACK_SPACE);
 			} else {

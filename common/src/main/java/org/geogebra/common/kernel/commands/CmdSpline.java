@@ -100,8 +100,7 @@ public class CmdSpline extends CommandProcessor {
 
 	private static boolean arePoint(GeoList geoList) {
 		for (int i = 0; i < geoList.size() - 1; i++) {
-			if (!geoList.get(i).isGeoPoint()
-					|| geoList.get(i).isEqual(geoList.get(i + 1))) {
+			if (!geoList.get(i).isGeoPoint()) {
 				return false;
 			}
 		}

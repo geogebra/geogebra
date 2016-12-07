@@ -56,26 +56,26 @@ public class GeoFactory {
 
 		switch (type.charAt(0)) {
 		case 'a': // angle
-			if (type.equals("angle"))
+			if ("angle".equals(type))
 				return new GeoAngle(cons1);
 			return new GeoAxis(cons1, 1);
 
 		case 'b': // angle
-			if (type.equals("boolean")) {
+			if ("boolean".equals(type)) {
 				return new GeoBoolean(cons1);
 			}
 			return new GeoButton(cons1); // "button"
 
 		case 'c': // conic
-			if (type.equals("conic"))
+			if ("conic".equals(type))
 				return new GeoConic(cons1);
-			else if (type.equals("conicpart"))
+			else if ("conicpart".equals(type))
 				return new GeoConicPart(cons1, 0);
-			else if (type.equals("curvecartesian"))
+			else if ("curvecartesian".equals(type))
 				return new GeoCurveCartesian(cons1);
-			else if (type.equals("cascell"))
+			else if ("cascell".equals(type))
 				return new GeoCasCell(cons1);
-			else if (type.equals("circle")) { // bug in GeoGebra 2.6c
+			else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
 			}
 
@@ -86,9 +86,9 @@ public class GeoFactory {
 			return new GeoConic(cons1);
 
 		case 'f': // function
-			if (type.equals("function")) {
+			if ("function".equals(type)) {
 				return new GeoFunction(cons1);
-			} else if (type.equals("functionconditional")) { // had special
+			} else if ("functionconditional".equals(type)) { // had special
 																// class fror v
 																// <5.0
 				return new GeoFunction(cons1);
@@ -100,20 +100,20 @@ public class GeoFactory {
 			return new GeoConic(cons1);
 
 		case 'i': // image,implicitpoly
-			if (type.equals("image"))
+			if ("image".equals(type))
 				return new GeoImage(cons1);
-			else if (type.equals("intersectinglines")) // bug in GeoGebra 2.6c
+			else if ("intersectinglines".equals(type)) // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
-			else if (type.equals("implicitpoly"))
+			else if ("implicitpoly".equals(type))
 				return newImplicitPoly(cons1).toGeoElement();
-			else if (type.equals("interval")) {
+			else if ("interval".equals(type)) {
 				return new GeoInterval(cons1);
 			}
 
 		case 'l': // line, list, locus
-			if (type.equals("line"))
+			if ("line".equals(type))
 				return new GeoLine(cons1);
-			else if (type.equals("list"))
+			else if ("list".equals(type))
 				return new GeoList(cons1);
 			else
 				return new GeoLocus(cons1);
@@ -122,11 +122,11 @@ public class GeoFactory {
 			return new GeoNumeric(cons1);
 
 		case 'p': // point, polygon
-			if (type.equals("point"))
+			if ("point".equals(type))
 				return new GeoPoint(cons1);
-			else if (type.equals("polygon"))
+			else if ("polygon".equals(type))
 				return new GeoPolygon(cons1, null);
-			else if (type.equals("polyline"))
+			else if ("polyline".equals(type))
 				return new GeoPolyLine(cons1, new GeoPointND[] {});
 			else
 				// parabola, parallelLines, point // bug in GeoGebra 2.6c
@@ -139,7 +139,7 @@ public class GeoFactory {
 			return new GeoSegment(cons1, null, null);
 
 		case 't':
-			if (type.equals("text")) {
+			if ("text".equals(type)) {
 				return new GeoText(cons1); // text
 			}
 			return new GeoInputBox(cons1); // textfield

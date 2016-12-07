@@ -238,7 +238,7 @@ public class Command extends ValidExpression
 			if (sbToString == null)
 				sbToString = new StringBuilder();
 			sbToString.setLength(0);
-			if (name.equals("Integral")) {
+			if ("Integral".equals(name)) {
 				sbToString.append("\\int");
 				Set<GeoElement> vars = getArgument(0).getVariables();
 				String var = "x";
@@ -336,7 +336,7 @@ public class Command extends ValidExpression
 				sbToString.append("\\,\\mathrm{d}");
 				sbToString.append(var);
 				return sbToString.toString();
-			} else if (name.equals("Sum") && getArgumentNumber() == 4) {
+			} else if ("Sum".equals(name) && getArgumentNumber() == 4) {
 				sbToString.append("\\sum_{");
 				sbToString.append(args.get(1).toString(tpl));
 				sbToString.append("=");
@@ -346,7 +346,7 @@ public class Command extends ValidExpression
 				sbToString.append("}");
 				sbToString.append(args.get(0).toString(tpl));
 				return sbToString.toString();
-			} else if (name.equals("Product") && getArgumentNumber() == 4) {
+			} else if ("Product".equals(name) && getArgumentNumber() == 4) {
 				sbToString.append("\\prod_{");
 				sbToString.append(args.get(1).toString(tpl));
 				sbToString.append("=");
@@ -377,7 +377,7 @@ public class Command extends ValidExpression
 				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
 				// Integral[f,0,1]
 				// make sure that we add the parameter of the function too
-				if (name.equals("Integral")) {
+				if ("Integral".equals(name)) {
 					if (i == 0 && args.get(0).isExpressionNode()
 							&& args.get(0).getLeft() instanceof GeoCasCell) {
 						if (((GeoCasCell) args.get(0).getLeft())

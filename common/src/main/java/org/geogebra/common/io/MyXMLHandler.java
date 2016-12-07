@@ -4112,16 +4112,16 @@ public class MyXMLHandler implements DocHandler {
 		if (geo.isGeoLine()) {
 			GeoLineND line = (GeoLineND) geo;
 			String style = attrs.get("style");
-			if (style.equals("implicit")) {
+			if ("implicit".equals(style)) {
 				line.setToImplicit();
-			} else if (style.equals("explicit")) {
+			} else if ("explicit".equals(style)) {
 				line.setToExplicit();
-			} else if (style.equals("parametric")) {
+			} else if ("parametric".equals(style)) {
 				String parameter = attrs.get("parameter");
 				line.setToParametric(parameter);
-			} else if (style.equals("user")) {
+			} else if ("user".equals(style)) {
 				line.setToUser();
-			} else if (style.equals("general")) {
+			} else if ("general".equals(style)) {
 				line.setToGeneral();
 			} else {
 				Log.error("unknown style for line in <eqnStyle>: " + style);
@@ -4132,17 +4132,17 @@ public class MyXMLHandler implements DocHandler {
 		else if (geo.isGeoConic()) {
 			GeoConicND conic = (GeoConicND) geo;
 			String style = attrs.get("style");
-			if (style.equals("implicit")) {
+			if ("implicit".equals(style)) {
 				conic.setToImplicit();
-			} else if (style.equals("specific")) {
+			} else if ("specific".equals(style)) {
 				conic.setToSpecific();
-			} else if (style.equals("explicit")) {
+			} else if ("explicit".equals(style)) {
 				conic.setToExplicit();
-			} else if (style.equals("parametric")) {
+			} else if ("parametric".equals(style)) {
 				conic.setToParametric();
-			} else if (style.equals("user")) {
+			} else if ("user".equals(style)) {
 				conic.setToUser();
-			} else if (style.equals("vertex")) {
+			} else if ("vertex".equals(style)) {
 				conic.setToVertexform();
 			} else {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
@@ -4196,15 +4196,15 @@ public class MyXMLHandler implements DocHandler {
 		}
 		CoordStyle v = (CoordStyle) geo;
 		String style = attrs.get("style");
-		if (style.equals("cartesian")) {
+		if ("cartesian".equals(style)) {
 			v.setCartesian();
-		} else if (style.equals("polar")) {
+		} else if ("polar".equals(style)) {
 			v.setPolar();
-		} else if (style.equals("complex")) {
+		} else if ("complex".equals(style)) {
 			v.setComplex();
-		} else if (style.equals("cartesian3d")) {
+		} else if ("cartesian3d".equals(style)) {
 			v.setCartesian3D();
-		} else if (style.equals("spherical")) {
+		} else if ("spherical".equals(style)) {
 			v.setSpherical();
 		} else {
 			Log.error("unknown style in <coordStyle>: " + style);
