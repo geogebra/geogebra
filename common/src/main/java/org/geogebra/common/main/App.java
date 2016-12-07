@@ -4041,7 +4041,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return prerelease;
+			return false;
 
 		// GGB-1288
 		case ADJUST_VIEWS:
