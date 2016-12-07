@@ -812,4 +812,24 @@ public class CommandsTest extends Assert{
 		t("atand(0.317)", "17.58862\u00B0", StringTemplate.editTemplate);
 	
 	}
+
+	@Test
+	public void cmdSpline() {
+		String theSpline = "(If[t  <  0.38743, 0.88246t^3 + 0t^2 + 2.44868t + 0, t  <  1, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377], If[t  <  0.38743, -5.43794t^3 + 0t^2 + 3.39737t, t  <  1, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623])";
+		String lowSpline = "(If[t  <  0.38743, 0.88246t^3 + 0t^2 + 2.44868t, t  <  1, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377], If[t  <  0.38743, -5.43794t^3 + 0t^2 + 3.39737t + 0, t  <  1, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623])";
+		t("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline),
+				StringTemplate.editTemplate);
+		t("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline),
+				StringTemplate.editTemplate);
+		t("Spline[{(0,0),(1,1),(3,0)},3,sqrt(x^2+y^2)]",
+				unicode(lowSpline),
+				StringTemplate.editTemplate);
+		t("Spline[{(0,0),(1,1),(1,1),(3,0)},4]", "?",
+				StringTemplate.editTemplate);
+	}
+
+	private String unicode(String theSpline) {
+		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
+				Unicode.Superscript_3 + "");
+	}
 }

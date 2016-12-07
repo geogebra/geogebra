@@ -1946,12 +1946,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdSpline() {
-		t("Spline[listSpline]");
-		t("Spline[listSpline,degree]");
-	}
-
-	@Test
 	public void cmdStartAnimation() {
 		t("StartAnimation[]");
 		t("StartAnimation[ b1 ]");
