@@ -2104,6 +2104,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		}
 
 		updateSelection();
+
 	}
 
 	/**

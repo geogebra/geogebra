@@ -155,4 +155,9 @@ public class SliderTreeItemRetexController extends RadioTreeItemController
 		getApp().getKernel().notifyRepaint();
 	}
 
+	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
+		boolean result = super.editOnTap(active, wrappedEvent);
+		handleAVItem(wrappedEvent);
+		return result;
+	}
 }

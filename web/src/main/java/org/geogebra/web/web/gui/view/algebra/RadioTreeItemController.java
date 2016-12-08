@@ -463,7 +463,7 @@ public class RadioTreeItemController
 				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 
-	private boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
+	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
 		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && markForEdit)) {
 			return false;
 		}
@@ -572,6 +572,10 @@ public class RadioTreeItemController
 	void handleAVItem(MouseEvent<?> evt) {
 		handleAVItem(evt.getClientX(), evt.getClientY(),
 				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+	}
+
+	void handleAVItem(PointerEvent evt) {
+		handleAVItem(evt.getX(), evt.getY(), evt.isRightClick());
 	}
 
 	private void handleAVItem(TouchStartEvent evt) {
