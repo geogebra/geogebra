@@ -2,6 +2,8 @@ package org.geogebra.web.geogebra3D.web.input3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
+import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.input3D.EuclidianControllerInput3DCompanion;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Kernel;
@@ -16,6 +18,10 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 		super(kernel);
 
 		this.input3D = input3D;
+
+		((EuclidianControllerInput3DCompanion) companion).setInput3D(input3D);
+
+		input3D.setScreenHalfDimensions(960, 540);
 	}
 
 
@@ -41,6 +47,25 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 		}
 
 		return input3D.getMouseLoc();
+	}
+
+	private boolean isNotMovingView = true;
+
+	@Override
+	public void wrapMouseReleased(AbstractEvent e) {
+		isNotMovingView = true;
+		if (!input3D.wasRightReleased() && !input3D.useQuaternionsForRotate()) {
+			processRightRelease();
+			return;
+		}
+
+		super.wrapMouseReleased(e);
+
+	}
+
+	private void processRightRelease() {
+		((EuclidianView3D) view).setRotContinueAnimation(
+				app.getMillisecondTime() - timeOld, animatedRotSpeed);
 	}
 
 }

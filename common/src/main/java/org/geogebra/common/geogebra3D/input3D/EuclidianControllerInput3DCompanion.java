@@ -62,7 +62,7 @@ public class EuclidianControllerInput3DCompanion extends
 	@Override
 	protected GeoPoint3D createNewFreePoint(boolean complex) {
 
-		if (input3D == null || input3D.currentlyUseMouse2D()) {
+		if (input3D.currentlyUseMouse2D()) {
 			return super.createNewFreePoint(complex);
 		}
 
@@ -556,7 +556,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 	@Override
 	public void setMouseLocation(AbstractEvent event) {
-		if (input3D == null || input3D.currentlyUseMouse2D()) {
+		if (input3D.currentlyUseMouse2D()) {
 			super.setMouseLocation(event);
 		} else {
 			ec.mouseLoc = event.getPoint();
@@ -566,7 +566,7 @@ public class EuclidianControllerInput3DCompanion extends
 	@Override
 	protected void setMouseOrigin(GeoPoint3D point, GPoint mouseLoc) {
 
-		if (input3D != null && input3D.hasMouseDirection()
+		if (input3D.hasMouseDirection()
 				&& !input3D.currentlyUseMouse2D()) {
 			point.setWillingCoords(input3D.getMouse3DScenePosition());
 		} else {

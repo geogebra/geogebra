@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JsArrayNumber;
@@ -20,11 +19,19 @@ public class InputZSpace3DW extends Input3D {
 
 	private double[] inputPosition, inputDirection, inputOrientation;
 
+	private double[][] inputGlassesPosition;
+
 	public InputZSpace3DW() {
 		super();
 		inputPosition = new double[3];
 		inputDirection = new double[3];
 		inputOrientation = new double[4];
+
+		// glasses position
+		inputGlassesPosition = new double[2][];
+		for (int i = 0; i < 2; i++) {
+			inputGlassesPosition[i] = new double[3];
+		}
 	}
 
 	public void setZSpace(ZSpaceGwt zSpace) {
@@ -99,10 +106,12 @@ public class InputZSpace3DW extends Input3D {
 		double dx = EYE_SEP_HALF * pose.get(0);
 		double dy = EYE_SEP_HALF * pose.get(1);
 		double dz = EYE_SEP_HALF * pose.get(2);
-		glassesPosition[0].set((x - dx) * toPixelRatio, (y - dy) * toPixelRatio,
-				(z - dz) * toPixelRatio);
-		glassesPosition[1].set((x + dx) * toPixelRatio, (y + dy) * toPixelRatio,
-				(z + dz) * toPixelRatio);
+		inputGlassesPosition[0][0] = (x - dx) * toPixelRatio;
+		inputGlassesPosition[0][1] = (y - dy) * toPixelRatio;
+		inputGlassesPosition[0][2] = (z - dz) * toPixelRatio;
+		inputGlassesPosition[1][0] = (x + dx) * toPixelRatio;
+		inputGlassesPosition[1][1] = (y + dy) * toPixelRatio;
+		inputGlassesPosition[1][2] = (z + dz) * toPixelRatio;
 
 		updateHeadTracking();
 
@@ -113,21 +122,21 @@ public class InputZSpace3DW extends Input3D {
 		isRightPressed = buttons.get(1) > 0.4 ? true : false;
 		isThirdButtonPressed = buttons.get(2) > 0.4 ? true : false;
 
-		Log.debug(isLeftPressed + "," + isRightPressed + ","
-				+ isThirdButtonPressed);
+		// Log.debug(isLeftPressed + "," + isRightPressed + ","
+		// + isThirdButtonPressed);
 
 		// update stylus position
 
 		pose = zSpace.getViewportSpaceStylusPose();
 
-		String s = "\npose\n";
-		for (int i = 0; i < 16; i++) {
-			if (i % 4 == 0) {
-				s += "\n";
-			}
-			s += " " + pose.get(i);
-		}
-		Log.debug(s);
+		// String s = "\npose\n";
+		// for (int i = 0; i < 16; i++) {
+		// if (i % 4 == 0) {
+		// s += "\n";
+		// }
+		// s += " " + pose.get(i);
+		// }
+		// Log.debug(s);
 		
 		updateStylus(toPixelRatio, pose.get(0), pose.get(1), pose.get(2),
 				pose.get(4), pose.get(5), pose.get(6), pose.get(8), pose.get(9),
@@ -139,22 +148,15 @@ public class InputZSpace3DW extends Input3D {
 		updateMouse3DEvent();
 		handleButtons();
 
-		Log.debug("\nmouse pos:\n" + getMouse3DPosition() + "\ndir:\n"
-				+ getMouse3DDirection());
+		// Log.debug("\nmouse pos:\n" + getMouse3DPosition() + "\ndir:\n"
+		// + getMouse3DDirection());
 
 		return false;
 	}
 
 	@Override
-	protected void setGlassesPosition() {
-		// transformation has been already done
-	}
-
-
-	@Override
 	public DeviceType getDeviceType() {
-		// TODO Auto-generated method stub
-		return null;
+		return DeviceType.PEN;
 	}
 
 	@Override
@@ -169,8 +171,7 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public double[] getGlassesPosition(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return inputGlassesPosition[i];
 	}
 
 	private double eyeSeparation;;
@@ -204,13 +205,11 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public boolean useInputDepthForHitting() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean useMouseRobot() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -234,13 +233,11 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public void setHasCompletedGrabbingDelay(boolean flag) {
-		// TODO Auto-generated method stub
-
+		// not used
 	}
 
 	@Override
 	public boolean hasCompletedGrabbingDelay() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -270,7 +267,7 @@ public class InputZSpace3DW extends Input3D {
 	@Override
 	public double getDefaultRotationXOY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 30;
 	}
 
 

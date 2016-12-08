@@ -49,11 +49,6 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 	}
 
 	@Override
-	public void setProjection(int projection) {
-		setProjectionGlasses();
-	}
-
-	@Override
 	public boolean isAnimated() {
 		return true;
 	}
