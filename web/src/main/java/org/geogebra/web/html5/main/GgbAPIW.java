@@ -762,7 +762,7 @@ public class GgbAPIW extends GgbAPI {
 		c2d.drawImage(img.getImage(), 0, 0);
 		url = cv.toDataUrl("image/png");
 		// Opera and Safari cannot toDataUrl jpeg (much less the others)
-		// if ("g".equals(ext) || "g".equals(ext))
+		// if ("jpg".equals(ext) || "jpeg".equals(ext))
 		// addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
 		// else
 		return url;

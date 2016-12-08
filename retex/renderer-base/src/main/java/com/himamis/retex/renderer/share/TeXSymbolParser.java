@@ -92,7 +92,7 @@ public class TeXSymbolParser {
 					TYPE_ATTR, symbol);
 			// retrieve optional attribute
 			String del = symbol.getAttribute(DELIMITER_ATTR);
-			boolean isDelimiter = (del != null && "e".equals(del));
+			boolean isDelimiter = (del != null && "true".equals(del));
 			// check if type is known
 			Object typeVal = typeMappings.get(type);
 			if (typeVal == null) // unknown type

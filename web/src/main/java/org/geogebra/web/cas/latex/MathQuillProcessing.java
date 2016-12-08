@@ -119,10 +119,10 @@ public class MathQuillProcessing implements KeyboardListener {
 			// probably not have issues for indeterministic behaviour
 			// that's why this is probably better than entering
 			// "(" + ")" by keypress events...
-		} else if ("t".equals(text)) {
+		} else if ("nroot".equals(text)) {
 			field.insertString("nroo");
 			field.keypress('t', false, false, true, false);
-		} else if ("g".equals(text)) {
+		} else if ("log".equals(text)) {
 			field.insertString("log_{10}");
 			field.keypress('(', false, false, false, true);
 		} else if (text.equals(KeyboardConstants.A_SQUARE)) {
@@ -130,9 +130,9 @@ public class MathQuillProcessing implements KeyboardListener {
 		} else if (keyPressNeeded(text)) {
 			field.keypress(text.charAt(0), false, false, false,
 					text.startsWith("(") || text.startsWith("|"));
-		} else if ("s".equals(text)) {
+		} else if ("abs".equals(text)) {
 			field.keypress('|', false, false, false, true);
-		} else if ("s".equals(text)) {
+		} else if ("quotes".equals(text)) {
 			field.keypress('"', false, false, false, true);
 		} else {
 			// if (text.length() == 1) {

@@ -67,7 +67,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 //	TextResource jasmidJs();
 
 
-	@Source("org/geogebra/web/resources/css/web-styles.css")
+	@Source("org/geogebra/web/resources/css/web-styles.less")
 	LessResource modernStyle();
 
 

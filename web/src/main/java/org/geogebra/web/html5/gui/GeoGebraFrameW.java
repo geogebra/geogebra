@@ -353,7 +353,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		String dpBorder = ae.getDataParamBorder();
 		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null) {
-			if ("e".equals(dpBorder)) {
+			if ("none".equals(dpBorder)) {
 				setBorder(ae, gf, "transparent", thickness);
 			} else {
 				setBorder(ae, gf, dpBorder, thickness);
@@ -371,7 +371,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		String dpBorder = ae.getDataParamBorder();
 		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null) {
-			if ("e".equals(dpBorder)) {
+			if ("none".equals(dpBorder)) {
 				setBorder(ae, gfE, "transparent", thickness);
 			} else {
 				setBorder(ae, gfE, dpBorder, thickness);
@@ -398,7 +398,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		gf.getElement()
 		        .addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		int thickness = ae.getBorderThickness() / 2;
-		if (dpBorder != null && "e".equals(dpBorder)) {
+		if (dpBorder != null && "none".equals(dpBorder)) {
 			setBorder(ae, gf, "transparent", thickness);
 			return;
 		}
@@ -410,7 +410,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		gfE.removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 		gfE.addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		int thickness = ae.getBorderThickness() / 2;
-		if (dpBorder != null && "e".equals(dpBorder)) {
+		if (dpBorder != null && "none".equals(dpBorder)) {
 			setBorder(ae, gfE, "transparent", thickness);
 			return;
 		}

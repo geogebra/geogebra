@@ -67,7 +67,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 			onArrow(ArrowType.left);
 		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
 			field.insertString("^");
-		} else if ("t".equals(text)) {
+		} else if ("nroot".equals(text)) {
 			field.insertString("()");
 			onArrow(ArrowType.left);
 		}

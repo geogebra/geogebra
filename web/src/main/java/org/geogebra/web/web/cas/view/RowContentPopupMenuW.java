@@ -111,11 +111,11 @@ public class RowContentPopupMenuW extends GPopupMenuW {
 		String toBeCopied = null;
 
 		if (value != null) {
-			if ("y".equals(ac)) {
+			if ("copy".equals(ac)) {
 				toBeCopied = value.getOutput(StringTemplate.xmlTemplate);
 				// use xmlTemplate so that sin(2x) -> sin(2*x)
 				// so that it can be pasted into other software
-			} else if ("x".equals(ac)) {
+			} else if ("copyAsLatex".equals(ac)) {
 				String latexOutput = value.getLaTeXOutput();
 				toBeCopied = StringUtil.toLaTeXString(latexOutput, true);
 			}
@@ -134,7 +134,7 @@ public class RowContentPopupMenuW extends GPopupMenuW {
 		String data = "";
 		Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
 
-		if ("e".equals(ac)) {
+		if ("paste".equals(ac)) {
 			Transferable contents = sysClip.getContents(null);
 			boolean hasTransferableText = (contents != null)
 					&& contents.isDataFlavorSupported(DataFlavor.stringFlavor);
