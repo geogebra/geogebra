@@ -343,7 +343,9 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 		if (!shouldCancelDrag()) {
 
-			Event.setCapture(((PointerEvent) event).getRelativeElement());
+			if (event instanceof PointerEvent) {
+				Event.setCapture(((PointerEvent) event).getRelativeElement());
+			}
 
 			super.wrapMouseDragged(event, startCapture);
 		}

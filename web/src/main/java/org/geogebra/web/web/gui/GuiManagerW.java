@@ -326,7 +326,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void setFocusedPanel(final AbstractEvent event,
 	        final boolean updatePropertiesView) {
-		setFocusedPanel(((PointerEvent) event).getEvID(), updatePropertiesView);
+
+		if (event instanceof PointerEvent) {
+			setFocusedPanel(((PointerEvent) event).getEvID(),
+					updatePropertiesView);
+		}
 	}
 
 	@Override
