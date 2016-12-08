@@ -163,7 +163,7 @@ public class TestGraphs {
 		index.addAll(g.getVertices());
 		// and one edge to connect them all
 		for (int i = 0; i < index.size() - 1; i++)
-			g.addEdge(new Integer(i), index.get(i), index.get(i + 1));
+			g.addEdge(Integer.valueOf(i), index.get(i), index.get(i + 1));
 
 		return g;
 	}

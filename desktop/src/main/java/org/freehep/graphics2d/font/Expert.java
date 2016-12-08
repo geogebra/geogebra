@@ -20,827 +20,827 @@ public class Expert extends AbstractCharTable {
 
 		unicodeToName.put(new Character((char) 0xF7E6), "AEsmall");
 		nameToUnicode.put("AEsmall", new Character((char) 0xF7E6));
-		nameToEnc.put("AEsmall", new Integer(190));
+		nameToEnc.put("AEsmall", Integer.valueOf(190));
 		encToName[190] = "AEsmall";
 
 		unicodeToName.put(new Character((char) 0xF7E1), "Aacutesmall");
 		nameToUnicode.put("Aacutesmall", new Character((char) 0xF7E1));
-		nameToEnc.put("Aacutesmall", new Integer(135));
+		nameToEnc.put("Aacutesmall", Integer.valueOf(135));
 		encToName[135] = "Aacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7E2), "Acircumflexsmall");
 		nameToUnicode.put("Acircumflexsmall", new Character((char) 0xF7E2));
-		nameToEnc.put("Acircumflexsmall", new Integer(137));
+		nameToEnc.put("Acircumflexsmall", Integer.valueOf(137));
 		encToName[137] = "Acircumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF7B4), "Acutesmall");
 		nameToUnicode.put("Acutesmall", new Character((char) 0xF7B4));
-		nameToEnc.put("Acutesmall", new Integer(39));
+		nameToEnc.put("Acutesmall", Integer.valueOf(39));
 		encToName[39] = "Acutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7E4), "Adieresissmall");
 		nameToUnicode.put("Adieresissmall", new Character((char) 0xF7E4));
-		nameToEnc.put("Adieresissmall", new Integer(138));
+		nameToEnc.put("Adieresissmall", Integer.valueOf(138));
 		encToName[138] = "Adieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF7E0), "Agravesmall");
 		nameToUnicode.put("Agravesmall", new Character((char) 0xF7E0));
-		nameToEnc.put("Agravesmall", new Integer(136));
+		nameToEnc.put("Agravesmall", Integer.valueOf(136));
 		encToName[136] = "Agravesmall";
 
 		unicodeToName.put(new Character((char) 0xF7E5), "Aringsmall");
 		nameToUnicode.put("Aringsmall", new Character((char) 0xF7E5));
-		nameToEnc.put("Aringsmall", new Integer(140));
+		nameToEnc.put("Aringsmall", Integer.valueOf(140));
 		encToName[140] = "Aringsmall";
 
 		unicodeToName.put(new Character((char) 0xF761), "Asmall");
 		nameToUnicode.put("Asmall", new Character((char) 0xF761));
-		nameToEnc.put("Asmall", new Integer(97));
+		nameToEnc.put("Asmall", Integer.valueOf(97));
 		encToName[97] = "Asmall";
 
 		unicodeToName.put(new Character((char) 0xF7E3), "Atildesmall");
 		nameToUnicode.put("Atildesmall", new Character((char) 0xF7E3));
-		nameToEnc.put("Atildesmall", new Integer(139));
+		nameToEnc.put("Atildesmall", Integer.valueOf(139));
 		encToName[139] = "Atildesmall";
 
 		unicodeToName.put(new Character((char) 0xF6F4), "Brevesmall");
 		nameToUnicode.put("Brevesmall", new Character((char) 0xF6F4));
-		nameToEnc.put("Brevesmall", new Integer(243));
+		nameToEnc.put("Brevesmall", Integer.valueOf(243));
 		encToName[243] = "Brevesmall";
 
 		unicodeToName.put(new Character((char) 0xF762), "Bsmall");
 		nameToUnicode.put("Bsmall", new Character((char) 0xF762));
-		nameToEnc.put("Bsmall", new Integer(98));
+		nameToEnc.put("Bsmall", Integer.valueOf(98));
 		encToName[98] = "Bsmall";
 
 		unicodeToName.put(new Character((char) 0xF6F5), "Caronsmall");
 		nameToUnicode.put("Caronsmall", new Character((char) 0xF6F5));
-		nameToEnc.put("Caronsmall", new Integer(174));
+		nameToEnc.put("Caronsmall", Integer.valueOf(174));
 		encToName[174] = "Caronsmall";
 
 		unicodeToName.put(new Character((char) 0xF7E7), "Ccedillasmall");
 		nameToUnicode.put("Ccedillasmall", new Character((char) 0xF7E7));
-		nameToEnc.put("Ccedillasmall", new Integer(141));
+		nameToEnc.put("Ccedillasmall", Integer.valueOf(141));
 		encToName[141] = "Ccedillasmall";
 
 		unicodeToName.put(new Character((char) 0xF7B8), "Cedillasmall");
 		nameToUnicode.put("Cedillasmall", new Character((char) 0xF7B8));
-		nameToEnc.put("Cedillasmall", new Integer(201));
+		nameToEnc.put("Cedillasmall", Integer.valueOf(201));
 		encToName[201] = "Cedillasmall";
 
 		unicodeToName.put(new Character((char) 0xF6F6), "Circumflexsmall");
 		nameToUnicode.put("Circumflexsmall", new Character((char) 0xF6F6));
-		nameToEnc.put("Circumflexsmall", new Integer(94));
+		nameToEnc.put("Circumflexsmall", Integer.valueOf(94));
 		encToName[94] = "Circumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF763), "Csmall");
 		nameToUnicode.put("Csmall", new Character((char) 0xF763));
-		nameToEnc.put("Csmall", new Integer(99));
+		nameToEnc.put("Csmall", Integer.valueOf(99));
 		encToName[99] = "Csmall";
 
 		unicodeToName.put(new Character((char) 0xF7A8), "Dieresissmall");
 		nameToUnicode.put("Dieresissmall", new Character((char) 0xF7A8));
-		nameToEnc.put("Dieresissmall", new Integer(172));
+		nameToEnc.put("Dieresissmall", Integer.valueOf(172));
 		encToName[172] = "Dieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF6F7), "Dotaccentsmall");
 		nameToUnicode.put("Dotaccentsmall", new Character((char) 0xF6F7));
-		nameToEnc.put("Dotaccentsmall", new Integer(250));
+		nameToEnc.put("Dotaccentsmall", Integer.valueOf(250));
 		encToName[250] = "Dotaccentsmall";
 
 		unicodeToName.put(new Character((char) 0xF764), "Dsmall");
 		nameToUnicode.put("Dsmall", new Character((char) 0xF764));
-		nameToEnc.put("Dsmall", new Integer(100));
+		nameToEnc.put("Dsmall", Integer.valueOf(100));
 		encToName[100] = "Dsmall";
 
 		unicodeToName.put(new Character((char) 0xF7E9), "Eacutesmall");
 		nameToUnicode.put("Eacutesmall", new Character((char) 0xF7E9));
-		nameToEnc.put("Eacutesmall", new Integer(142));
+		nameToEnc.put("Eacutesmall", Integer.valueOf(142));
 		encToName[142] = "Eacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7EA), "Ecircumflexsmall");
 		nameToUnicode.put("Ecircumflexsmall", new Character((char) 0xF7EA));
-		nameToEnc.put("Ecircumflexsmall", new Integer(144));
+		nameToEnc.put("Ecircumflexsmall", Integer.valueOf(144));
 		encToName[144] = "Ecircumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF7EB), "Edieresissmall");
 		nameToUnicode.put("Edieresissmall", new Character((char) 0xF7EB));
-		nameToEnc.put("Edieresissmall", new Integer(145));
+		nameToEnc.put("Edieresissmall", Integer.valueOf(145));
 		encToName[145] = "Edieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF7E8), "Egravesmall");
 		nameToUnicode.put("Egravesmall", new Character((char) 0xF7E8));
-		nameToEnc.put("Egravesmall", new Integer(143));
+		nameToEnc.put("Egravesmall", Integer.valueOf(143));
 		encToName[143] = "Egravesmall";
 
 		unicodeToName.put(new Character((char) 0xF765), "Esmall");
 		nameToUnicode.put("Esmall", new Character((char) 0xF765));
-		nameToEnc.put("Esmall", new Integer(101));
+		nameToEnc.put("Esmall", Integer.valueOf(101));
 		encToName[101] = "Esmall";
 
 		unicodeToName.put(new Character((char) 0xF7F0), "Ethsmall");
 		nameToUnicode.put("Ethsmall", new Character((char) 0xF7F0));
-		nameToEnc.put("Ethsmall", new Integer(68));
+		nameToEnc.put("Ethsmall", Integer.valueOf(68));
 		encToName[68] = "Ethsmall";
 
 		unicodeToName.put(new Character((char) 0xF766), "Fsmall");
 		nameToUnicode.put("Fsmall", new Character((char) 0xF766));
-		nameToEnc.put("Fsmall", new Integer(102));
+		nameToEnc.put("Fsmall", Integer.valueOf(102));
 		encToName[102] = "Fsmall";
 
 		unicodeToName.put(new Character((char) 0xF760), "Gravesmall");
 		nameToUnicode.put("Gravesmall", new Character((char) 0xF760));
-		nameToEnc.put("Gravesmall", new Integer(96));
+		nameToEnc.put("Gravesmall", Integer.valueOf(96));
 		encToName[96] = "Gravesmall";
 
 		unicodeToName.put(new Character((char) 0xF767), "Gsmall");
 		nameToUnicode.put("Gsmall", new Character((char) 0xF767));
-		nameToEnc.put("Gsmall", new Integer(103));
+		nameToEnc.put("Gsmall", Integer.valueOf(103));
 		encToName[103] = "Gsmall";
 
 		unicodeToName.put(new Character((char) 0xF768), "Hsmall");
 		nameToUnicode.put("Hsmall", new Character((char) 0xF768));
-		nameToEnc.put("Hsmall", new Integer(104));
+		nameToEnc.put("Hsmall", Integer.valueOf(104));
 		encToName[104] = "Hsmall";
 
 		unicodeToName.put(new Character((char) 0xF6F8), "Hungarumlautsmall");
 		nameToUnicode.put("Hungarumlautsmall", new Character((char) 0xF6F8));
-		nameToEnc.put("Hungarumlautsmall", new Integer(34));
+		nameToEnc.put("Hungarumlautsmall", Integer.valueOf(34));
 		encToName[34] = "Hungarumlautsmall";
 
 		unicodeToName.put(new Character((char) 0xF7ED), "Iacutesmall");
 		nameToUnicode.put("Iacutesmall", new Character((char) 0xF7ED));
-		nameToEnc.put("Iacutesmall", new Integer(146));
+		nameToEnc.put("Iacutesmall", Integer.valueOf(146));
 		encToName[146] = "Iacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7EE), "Icircumflexsmall");
 		nameToUnicode.put("Icircumflexsmall", new Character((char) 0xF7EE));
-		nameToEnc.put("Icircumflexsmall", new Integer(148));
+		nameToEnc.put("Icircumflexsmall", Integer.valueOf(148));
 		encToName[148] = "Icircumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF7EF), "Idieresissmall");
 		nameToUnicode.put("Idieresissmall", new Character((char) 0xF7EF));
-		nameToEnc.put("Idieresissmall", new Integer(149));
+		nameToEnc.put("Idieresissmall", Integer.valueOf(149));
 		encToName[149] = "Idieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF7EC), "Igravesmall");
 		nameToUnicode.put("Igravesmall", new Character((char) 0xF7EC));
-		nameToEnc.put("Igravesmall", new Integer(147));
+		nameToEnc.put("Igravesmall", Integer.valueOf(147));
 		encToName[147] = "Igravesmall";
 
 		unicodeToName.put(new Character((char) 0xF769), "Ismall");
 		nameToUnicode.put("Ismall", new Character((char) 0xF769));
-		nameToEnc.put("Ismall", new Integer(105));
+		nameToEnc.put("Ismall", Integer.valueOf(105));
 		encToName[105] = "Ismall";
 
 		unicodeToName.put(new Character((char) 0xF76A), "Jsmall");
 		nameToUnicode.put("Jsmall", new Character((char) 0xF76A));
-		nameToEnc.put("Jsmall", new Integer(106));
+		nameToEnc.put("Jsmall", Integer.valueOf(106));
 		encToName[106] = "Jsmall";
 
 		unicodeToName.put(new Character((char) 0xF76B), "Ksmall");
 		nameToUnicode.put("Ksmall", new Character((char) 0xF76B));
-		nameToEnc.put("Ksmall", new Integer(107));
+		nameToEnc.put("Ksmall", Integer.valueOf(107));
 		encToName[107] = "Ksmall";
 
 		unicodeToName.put(new Character((char) 0xF6F9), "Lslashsmall");
 		nameToUnicode.put("Lslashsmall", new Character((char) 0xF6F9));
-		nameToEnc.put("Lslashsmall", new Integer(194));
+		nameToEnc.put("Lslashsmall", Integer.valueOf(194));
 		encToName[194] = "Lslashsmall";
 
 		unicodeToName.put(new Character((char) 0xF76C), "Lsmall");
 		nameToUnicode.put("Lsmall", new Character((char) 0xF76C));
-		nameToEnc.put("Lsmall", new Integer(108));
+		nameToEnc.put("Lsmall", Integer.valueOf(108));
 		encToName[108] = "Lsmall";
 
 		unicodeToName.put(new Character((char) 0xF7AF), "Macronsmall");
 		nameToUnicode.put("Macronsmall", new Character((char) 0xF7AF));
-		nameToEnc.put("Macronsmall", new Integer(244));
+		nameToEnc.put("Macronsmall", Integer.valueOf(244));
 		encToName[244] = "Macronsmall";
 
 		unicodeToName.put(new Character((char) 0xF76D), "Msmall");
 		nameToUnicode.put("Msmall", new Character((char) 0xF76D));
-		nameToEnc.put("Msmall", new Integer(109));
+		nameToEnc.put("Msmall", Integer.valueOf(109));
 		encToName[109] = "Msmall";
 
 		unicodeToName.put(new Character((char) 0xF76E), "Nsmall");
 		nameToUnicode.put("Nsmall", new Character((char) 0xF76E));
-		nameToEnc.put("Nsmall", new Integer(110));
+		nameToEnc.put("Nsmall", Integer.valueOf(110));
 		encToName[110] = "Nsmall";
 
 		unicodeToName.put(new Character((char) 0xF7F1), "Ntildesmall");
 		nameToUnicode.put("Ntildesmall", new Character((char) 0xF7F1));
-		nameToEnc.put("Ntildesmall", new Integer(150));
+		nameToEnc.put("Ntildesmall", Integer.valueOf(150));
 		encToName[150] = "Ntildesmall";
 
 		unicodeToName.put(new Character((char) 0xF6FA), "OEsmall");
 		nameToUnicode.put("OEsmall", new Character((char) 0xF6FA));
-		nameToEnc.put("OEsmall", new Integer(207));
+		nameToEnc.put("OEsmall", Integer.valueOf(207));
 		encToName[207] = "OEsmall";
 
 		unicodeToName.put(new Character((char) 0xF7F3), "Oacutesmall");
 		nameToUnicode.put("Oacutesmall", new Character((char) 0xF7F3));
-		nameToEnc.put("Oacutesmall", new Integer(151));
+		nameToEnc.put("Oacutesmall", Integer.valueOf(151));
 		encToName[151] = "Oacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7F4), "Ocircumflexsmall");
 		nameToUnicode.put("Ocircumflexsmall", new Character((char) 0xF7F4));
-		nameToEnc.put("Ocircumflexsmall", new Integer(153));
+		nameToEnc.put("Ocircumflexsmall", Integer.valueOf(153));
 		encToName[153] = "Ocircumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF7F6), "Odieresissmall");
 		nameToUnicode.put("Odieresissmall", new Character((char) 0xF7F6));
-		nameToEnc.put("Odieresissmall", new Integer(154));
+		nameToEnc.put("Odieresissmall", Integer.valueOf(154));
 		encToName[154] = "Odieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF6FB), "Ogoneksmall");
 		nameToUnicode.put("Ogoneksmall", new Character((char) 0xF6FB));
-		nameToEnc.put("Ogoneksmall", new Integer(242));
+		nameToEnc.put("Ogoneksmall", Integer.valueOf(242));
 		encToName[242] = "Ogoneksmall";
 
 		unicodeToName.put(new Character((char) 0xF7F2), "Ogravesmall");
 		nameToUnicode.put("Ogravesmall", new Character((char) 0xF7F2));
-		nameToEnc.put("Ogravesmall", new Integer(152));
+		nameToEnc.put("Ogravesmall", Integer.valueOf(152));
 		encToName[152] = "Ogravesmall";
 
 		unicodeToName.put(new Character((char) 0xF7F8), "Oslashsmall");
 		nameToUnicode.put("Oslashsmall", new Character((char) 0xF7F8));
-		nameToEnc.put("Oslashsmall", new Integer(191));
+		nameToEnc.put("Oslashsmall", Integer.valueOf(191));
 		encToName[191] = "Oslashsmall";
 
 		unicodeToName.put(new Character((char) 0xF76F), "Osmall");
 		nameToUnicode.put("Osmall", new Character((char) 0xF76F));
-		nameToEnc.put("Osmall", new Integer(111));
+		nameToEnc.put("Osmall", Integer.valueOf(111));
 		encToName[111] = "Osmall";
 
 		unicodeToName.put(new Character((char) 0xF7F5), "Otildesmall");
 		nameToUnicode.put("Otildesmall", new Character((char) 0xF7F5));
-		nameToEnc.put("Otildesmall", new Integer(155));
+		nameToEnc.put("Otildesmall", Integer.valueOf(155));
 		encToName[155] = "Otildesmall";
 
 		unicodeToName.put(new Character((char) 0xF770), "Psmall");
 		nameToUnicode.put("Psmall", new Character((char) 0xF770));
-		nameToEnc.put("Psmall", new Integer(112));
+		nameToEnc.put("Psmall", Integer.valueOf(112));
 		encToName[112] = "Psmall";
 
 		unicodeToName.put(new Character((char) 0xF771), "Qsmall");
 		nameToUnicode.put("Qsmall", new Character((char) 0xF771));
-		nameToEnc.put("Qsmall", new Integer(113));
+		nameToEnc.put("Qsmall", Integer.valueOf(113));
 		encToName[113] = "Qsmall";
 
 		unicodeToName.put(new Character((char) 0xF6FC), "Ringsmall");
 		nameToUnicode.put("Ringsmall", new Character((char) 0xF6FC));
-		nameToEnc.put("Ringsmall", new Integer(251));
+		nameToEnc.put("Ringsmall", Integer.valueOf(251));
 		encToName[251] = "Ringsmall";
 
 		unicodeToName.put(new Character((char) 0xF772), "Rsmall");
 		nameToUnicode.put("Rsmall", new Character((char) 0xF772));
-		nameToEnc.put("Rsmall", new Integer(114));
+		nameToEnc.put("Rsmall", Integer.valueOf(114));
 		encToName[114] = "Rsmall";
 
 		unicodeToName.put(new Character((char) 0xF6FD), "Scaronsmall");
 		nameToUnicode.put("Scaronsmall", new Character((char) 0xF6FD));
-		nameToEnc.put("Scaronsmall", new Integer(167));
+		nameToEnc.put("Scaronsmall", Integer.valueOf(167));
 		encToName[167] = "Scaronsmall";
 
 		unicodeToName.put(new Character((char) 0xF773), "Ssmall");
 		nameToUnicode.put("Ssmall", new Character((char) 0xF773));
-		nameToEnc.put("Ssmall", new Integer(115));
+		nameToEnc.put("Ssmall", Integer.valueOf(115));
 		encToName[115] = "Ssmall";
 
 		unicodeToName.put(new Character((char) 0xF7FE), "Thornsmall");
 		nameToUnicode.put("Thornsmall", new Character((char) 0xF7FE));
-		nameToEnc.put("Thornsmall", new Integer(185));
+		nameToEnc.put("Thornsmall", Integer.valueOf(185));
 		encToName[185] = "Thornsmall";
 
 		unicodeToName.put(new Character((char) 0xF6FE), "Tildesmall");
 		nameToUnicode.put("Tildesmall", new Character((char) 0xF6FE));
-		nameToEnc.put("Tildesmall", new Integer(126));
+		nameToEnc.put("Tildesmall", Integer.valueOf(126));
 		encToName[126] = "Tildesmall";
 
 		unicodeToName.put(new Character((char) 0xF774), "Tsmall");
 		nameToUnicode.put("Tsmall", new Character((char) 0xF774));
-		nameToEnc.put("Tsmall", new Integer(116));
+		nameToEnc.put("Tsmall", Integer.valueOf(116));
 		encToName[116] = "Tsmall";
 
 		unicodeToName.put(new Character((char) 0xF7FA), "Uacutesmall");
 		nameToUnicode.put("Uacutesmall", new Character((char) 0xF7FA));
-		nameToEnc.put("Uacutesmall", new Integer(156));
+		nameToEnc.put("Uacutesmall", Integer.valueOf(156));
 		encToName[156] = "Uacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7FB), "Ucircumflexsmall");
 		nameToUnicode.put("Ucircumflexsmall", new Character((char) 0xF7FB));
-		nameToEnc.put("Ucircumflexsmall", new Integer(158));
+		nameToEnc.put("Ucircumflexsmall", Integer.valueOf(158));
 		encToName[158] = "Ucircumflexsmall";
 
 		unicodeToName.put(new Character((char) 0xF7FC), "Udieresissmall");
 		nameToUnicode.put("Udieresissmall", new Character((char) 0xF7FC));
-		nameToEnc.put("Udieresissmall", new Integer(159));
+		nameToEnc.put("Udieresissmall", Integer.valueOf(159));
 		encToName[159] = "Udieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF7F9), "Ugravesmall");
 		nameToUnicode.put("Ugravesmall", new Character((char) 0xF7F9));
-		nameToEnc.put("Ugravesmall", new Integer(157));
+		nameToEnc.put("Ugravesmall", Integer.valueOf(157));
 		encToName[157] = "Ugravesmall";
 
 		unicodeToName.put(new Character((char) 0xF775), "Usmall");
 		nameToUnicode.put("Usmall", new Character((char) 0xF775));
-		nameToEnc.put("Usmall", new Integer(117));
+		nameToEnc.put("Usmall", Integer.valueOf(117));
 		encToName[117] = "Usmall";
 
 		unicodeToName.put(new Character((char) 0xF776), "Vsmall");
 		nameToUnicode.put("Vsmall", new Character((char) 0xF776));
-		nameToEnc.put("Vsmall", new Integer(118));
+		nameToEnc.put("Vsmall", Integer.valueOf(118));
 		encToName[118] = "Vsmall";
 
 		unicodeToName.put(new Character((char) 0xF777), "Wsmall");
 		nameToUnicode.put("Wsmall", new Character((char) 0xF777));
-		nameToEnc.put("Wsmall", new Integer(119));
+		nameToEnc.put("Wsmall", Integer.valueOf(119));
 		encToName[119] = "Wsmall";
 
 		unicodeToName.put(new Character((char) 0xF778), "Xsmall");
 		nameToUnicode.put("Xsmall", new Character((char) 0xF778));
-		nameToEnc.put("Xsmall", new Integer(120));
+		nameToEnc.put("Xsmall", Integer.valueOf(120));
 		encToName[120] = "Xsmall";
 
 		unicodeToName.put(new Character((char) 0xF7FD), "Yacutesmall");
 		nameToUnicode.put("Yacutesmall", new Character((char) 0xF7FD));
-		nameToEnc.put("Yacutesmall", new Integer(180));
+		nameToEnc.put("Yacutesmall", Integer.valueOf(180));
 		encToName[180] = "Yacutesmall";
 
 		unicodeToName.put(new Character((char) 0xF7FF), "Ydieresissmall");
 		nameToUnicode.put("Ydieresissmall", new Character((char) 0xF7FF));
-		nameToEnc.put("Ydieresissmall", new Integer(216));
+		nameToEnc.put("Ydieresissmall", Integer.valueOf(216));
 		encToName[216] = "Ydieresissmall";
 
 		unicodeToName.put(new Character((char) 0xF779), "Ysmall");
 		nameToUnicode.put("Ysmall", new Character((char) 0xF779));
-		nameToEnc.put("Ysmall", new Integer(121));
+		nameToEnc.put("Ysmall", Integer.valueOf(121));
 		encToName[121] = "Ysmall";
 
 		unicodeToName.put(new Character((char) 0xF6FF), "Zcaronsmall");
 		nameToUnicode.put("Zcaronsmall", new Character((char) 0xF6FF));
-		nameToEnc.put("Zcaronsmall", new Integer(189));
+		nameToEnc.put("Zcaronsmall", Integer.valueOf(189));
 		encToName[189] = "Zcaronsmall";
 
 		unicodeToName.put(new Character((char) 0xF77A), "Zsmall");
 		nameToUnicode.put("Zsmall", new Character((char) 0xF77A));
-		nameToEnc.put("Zsmall", new Integer(122));
+		nameToEnc.put("Zsmall", Integer.valueOf(122));
 		encToName[122] = "Zsmall";
 
 		unicodeToName.put(new Character((char) 0xfe60), "ampersandsmall");
 		nameToUnicode.put("ampersandsmall", new Character((char) 0xfe60));
-		nameToEnc.put("ampersandsmall", new Integer(38));
+		nameToEnc.put("ampersandsmall", Integer.valueOf(38));
 		encToName[38] = "ampersandsmall";
 
 		unicodeToName.put(new Character((char) 0xF6E9), "asuperior");
 		nameToUnicode.put("asuperior", new Character((char) 0xF6E9));
-		nameToEnc.put("asuperior", new Integer(129));
+		nameToEnc.put("asuperior", Integer.valueOf(129));
 		encToName[129] = "asuperior";
 
 		unicodeToName.put(new Character((char) 0xF6EA), "bsuperior");
 		nameToUnicode.put("bsuperior", new Character((char) 0xF6EA));
-		nameToEnc.put("bsuperior", new Integer(245));
+		nameToEnc.put("bsuperior", Integer.valueOf(245));
 		encToName[245] = "bsuperior";
 
 		unicodeToName.put(new Character((char) 0xF6DF), "centinferior");
 		nameToUnicode.put("centinferior", new Character((char) 0xF6DF));
-		nameToEnc.put("centinferior", new Integer(169));
+		nameToEnc.put("centinferior", Integer.valueOf(169));
 		encToName[169] = "centinferior";
 
 		unicodeToName.put(new Character((char) 0xF7A2), "centoldstyle");
 		nameToUnicode.put("centoldstyle", new Character((char) 0xF7A2));
-		nameToEnc.put("centoldstyle", new Integer(35));
+		nameToEnc.put("centoldstyle", Integer.valueOf(35));
 		encToName[35] = "centoldstyle";
 
 		unicodeToName.put(new Character((char) 0xF6E0), "centsuperior");
 		nameToUnicode.put("centsuperior", new Character((char) 0xF6E0));
-		nameToEnc.put("centsuperior", new Integer(130));
+		nameToEnc.put("centsuperior", Integer.valueOf(130));
 		encToName[130] = "centsuperior";
 
 		unicodeToName.put(new Character((char) 0x003a), "colon");
 		nameToUnicode.put("colon", new Character((char) 0x003a));
-		nameToEnc.put("colon", new Integer(58));
+		nameToEnc.put("colon", Integer.valueOf(58));
 		encToName[58] = "colon";
 
 		unicodeToName.put(new Character((char) 0x20a1), "colonmonetary");
 		nameToUnicode.put("colonmonetary", new Character((char) 0x20a1));
-		nameToEnc.put("colonmonetary", new Integer(123));
+		nameToEnc.put("colonmonetary", Integer.valueOf(123));
 		encToName[123] = "colonmonetary";
 
 		unicodeToName.put(new Character((char) 0x002c), "comma");
 		nameToUnicode.put("comma", new Character((char) 0x002c));
-		nameToEnc.put("comma", new Integer(44));
+		nameToEnc.put("comma", Integer.valueOf(44));
 		encToName[44] = "comma";
 
 		unicodeToName.put(new Character((char) 0xF6E1), "commainferior");
 		nameToUnicode.put("commainferior", new Character((char) 0xF6E1));
-		nameToEnc.put("commainferior", new Integer(178));
+		nameToEnc.put("commainferior", Integer.valueOf(178));
 		encToName[178] = "commainferior";
 
 		unicodeToName.put(new Character((char) 0xF6E2), "commasuperior");
 		nameToUnicode.put("commasuperior", new Character((char) 0xF6E2));
-		nameToEnc.put("commasuperior", new Integer(248));
+		nameToEnc.put("commasuperior", Integer.valueOf(248));
 		encToName[248] = "commasuperior";
 
 		unicodeToName.put(new Character((char) 0xF6E3), "dollarinferior");
 		nameToUnicode.put("dollarinferior", new Character((char) 0xF6E3));
-		nameToEnc.put("dollarinferior", new Integer(182));
+		nameToEnc.put("dollarinferior", Integer.valueOf(182));
 		encToName[182] = "dollarinferior";
 
 		unicodeToName.put(new Character((char) 0xF724), "dollaroldstyle");
 		nameToUnicode.put("dollaroldstyle", new Character((char) 0xF724));
-		nameToEnc.put("dollaroldstyle", new Integer(36));
+		nameToEnc.put("dollaroldstyle", Integer.valueOf(36));
 		encToName[36] = "dollaroldstyle";
 
 		unicodeToName.put(new Character((char) 0xF6E4), "dollarsuperior");
 		nameToUnicode.put("dollarsuperior", new Character((char) 0xF6E4));
-		nameToEnc.put("dollarsuperior", new Integer(37));
+		nameToEnc.put("dollarsuperior", Integer.valueOf(37));
 		encToName[37] = "dollarsuperior";
 
 		unicodeToName.put(new Character((char) 0xF6EB), "dsuperior");
 		nameToUnicode.put("dsuperior", new Character((char) 0xF6EB));
-		nameToEnc.put("dsuperior", new Integer(235));
+		nameToEnc.put("dsuperior", Integer.valueOf(235));
 		encToName[235] = "dsuperior";
 
 		unicodeToName.put(new Character((char) 0x2088), "eightinferior");
 		nameToUnicode.put("eightinferior", new Character((char) 0x2088));
-		nameToEnc.put("eightinferior", new Integer(165));
+		nameToEnc.put("eightinferior", Integer.valueOf(165));
 		encToName[165] = "eightinferior";
 
 		unicodeToName.put(new Character((char) 0xF738), "eightoldstyle");
 		nameToUnicode.put("eightoldstyle", new Character((char) 0xF738));
-		nameToEnc.put("eightoldstyle", new Integer(56));
+		nameToEnc.put("eightoldstyle", Integer.valueOf(56));
 		encToName[56] = "eightoldstyle";
 
 		unicodeToName.put(new Character((char) 0x2078), "eightsuperior");
 		nameToUnicode.put("eightsuperior", new Character((char) 0x2078));
-		nameToEnc.put("eightsuperior", new Integer(161));
+		nameToEnc.put("eightsuperior", Integer.valueOf(161));
 		encToName[161] = "eightsuperior";
 
 		unicodeToName.put(new Character((char) 0xF6EC), "esuperior");
 		nameToUnicode.put("esuperior", new Character((char) 0xF6EC));
-		nameToEnc.put("esuperior", new Integer(228));
+		nameToEnc.put("esuperior", Integer.valueOf(228));
 		encToName[228] = "esuperior";
 
 		unicodeToName.put(new Character((char) 0xF7A1), "exclamdownsmall");
 		nameToUnicode.put("exclamdownsmall", new Character((char) 0xF7A1));
-		nameToEnc.put("exclamdownsmall", new Integer(214));
+		nameToEnc.put("exclamdownsmall", Integer.valueOf(214));
 		encToName[214] = "exclamdownsmall";
 
 		unicodeToName.put(new Character((char) 0xfe57), "exclamsmall");
 		nameToUnicode.put("exclamsmall", new Character((char) 0xfe57));
-		nameToEnc.put("exclamsmall", new Integer(33));
+		nameToEnc.put("exclamsmall", Integer.valueOf(33));
 		encToName[33] = "exclamsmall";
 
 		unicodeToName.put(new Character((char) 0xfb00), "ff");
 		nameToUnicode.put("ff", new Character((char) 0xfb00));
-		nameToEnc.put("ff", new Integer(86));
+		nameToEnc.put("ff", Integer.valueOf(86));
 		encToName[86] = "ff";
 
 		unicodeToName.put(new Character((char) 0xfb03), "ffi");
 		nameToUnicode.put("ffi", new Character((char) 0xfb03));
-		nameToEnc.put("ffi", new Integer(89));
+		nameToEnc.put("ffi", Integer.valueOf(89));
 		encToName[89] = "ffi";
 
 		unicodeToName.put(new Character((char) 0xfb04), "ffl");
 		nameToUnicode.put("ffl", new Character((char) 0xfb04));
-		nameToEnc.put("ffl", new Integer(90));
+		nameToEnc.put("ffl", Integer.valueOf(90));
 		encToName[90] = "ffl";
 
 		unicodeToName.put(new Character((char) 0xfb01), "fi");
 		nameToUnicode.put("fi", new Character((char) 0xfb01));
-		nameToEnc.put("fi", new Integer(87));
+		nameToEnc.put("fi", Integer.valueOf(87));
 		encToName[87] = "fi";
 
 		unicodeToName.put(new Character((char) 0x2012), "figuredash");
 		nameToUnicode.put("figuredash", new Character((char) 0x2012));
-		nameToEnc.put("figuredash", new Integer(208));
+		nameToEnc.put("figuredash", Integer.valueOf(208));
 		encToName[208] = "figuredash";
 
 		unicodeToName.put(new Character((char) 0x215d), "fiveeighths");
 		nameToUnicode.put("fiveeighths", new Character((char) 0x215d));
-		nameToEnc.put("fiveeighths", new Integer(76));
+		nameToEnc.put("fiveeighths", Integer.valueOf(76));
 		encToName[76] = "fiveeighths";
 
 		unicodeToName.put(new Character((char) 0x2085), "fiveinferior");
 		nameToUnicode.put("fiveinferior", new Character((char) 0x2085));
-		nameToEnc.put("fiveinferior", new Integer(176));
+		nameToEnc.put("fiveinferior", Integer.valueOf(176));
 		encToName[176] = "fiveinferior";
 
 		unicodeToName.put(new Character((char) 0xF735), "fiveoldstyle");
 		nameToUnicode.put("fiveoldstyle", new Character((char) 0xF735));
-		nameToEnc.put("fiveoldstyle", new Integer(53));
+		nameToEnc.put("fiveoldstyle", Integer.valueOf(53));
 		encToName[53] = "fiveoldstyle";
 
 		unicodeToName.put(new Character((char) 0x2075), "fivesuperior");
 		nameToUnicode.put("fivesuperior", new Character((char) 0x2075));
-		nameToEnc.put("fivesuperior", new Integer(222));
+		nameToEnc.put("fivesuperior", Integer.valueOf(222));
 		encToName[222] = "fivesuperior";
 
 		unicodeToName.put(new Character((char) 0xfb02), "fl");
 		nameToUnicode.put("fl", new Character((char) 0xfb02));
-		nameToEnc.put("fl", new Integer(88));
+		nameToEnc.put("fl", Integer.valueOf(88));
 		encToName[88] = "fl";
 
 		unicodeToName.put(new Character((char) 0x2084), "fourinferior");
 		nameToUnicode.put("fourinferior", new Character((char) 0x2084));
-		nameToEnc.put("fourinferior", new Integer(162));
+		nameToEnc.put("fourinferior", Integer.valueOf(162));
 		encToName[162] = "fourinferior";
 
 		unicodeToName.put(new Character((char) 0xF734), "fouroldstyle");
 		nameToUnicode.put("fouroldstyle", new Character((char) 0xF734));
-		nameToEnc.put("fouroldstyle", new Integer(52));
+		nameToEnc.put("fouroldstyle", Integer.valueOf(52));
 		encToName[52] = "fouroldstyle";
 
 		unicodeToName.put(new Character((char) 0x2074), "foursuperior");
 		nameToUnicode.put("foursuperior", new Character((char) 0x2074));
-		nameToEnc.put("foursuperior", new Integer(221));
+		nameToEnc.put("foursuperior", Integer.valueOf(221));
 		encToName[221] = "foursuperior";
 
 		unicodeToName.put(new Character((char) 0x2044), "fraction");
 		nameToUnicode.put("fraction", new Character((char) 0x2044));
-		nameToEnc.put("fraction", new Integer(47));
+		nameToEnc.put("fraction", Integer.valueOf(47));
 		encToName[47] = "fraction";
 
 		unicodeToName.put(new Character((char) 0x002d), "hyphen");
 		nameToUnicode.put("hyphen", new Character((char) 0x002d));
-		nameToEnc.put("hyphen", new Integer(45));
+		nameToEnc.put("hyphen", Integer.valueOf(45));
 		encToName[45] = "hyphen";
 
 		unicodeToName.put(new Character((char) 0x208b), "hypheninferior");
 		nameToUnicode.put("hypheninferior", new Character((char) 0x208b));
-		nameToEnc.put("hypheninferior", new Integer(95));
+		nameToEnc.put("hypheninferior", Integer.valueOf(95));
 		encToName[95] = "hypheninferior";
 
 		unicodeToName.put(new Character((char) 0x207b), "hyphensuperior");
 		nameToUnicode.put("hyphensuperior", new Character((char) 0x207b));
-		nameToEnc.put("hyphensuperior", new Integer(209));
+		nameToEnc.put("hyphensuperior", Integer.valueOf(209));
 		encToName[209] = "hyphensuperior";
 
 		unicodeToName.put(new Character((char) 0xF6ED), "isuperior");
 		nameToUnicode.put("isuperior", new Character((char) 0xF6ED));
-		nameToEnc.put("isuperior", new Integer(233));
+		nameToEnc.put("isuperior", Integer.valueOf(233));
 		encToName[233] = "isuperior";
 
 		unicodeToName.put(new Character((char) 0xF6EE), "lsuperior");
 		nameToUnicode.put("lsuperior", new Character((char) 0xF6EE));
-		nameToEnc.put("lsuperior", new Integer(241));
+		nameToEnc.put("lsuperior", Integer.valueOf(241));
 		encToName[241] = "lsuperior";
 
 		unicodeToName.put(new Character((char) 0xF6EF), "msuperior");
 		nameToUnicode.put("msuperior", new Character((char) 0xF6EF));
-		nameToEnc.put("msuperior", new Integer(247));
+		nameToEnc.put("msuperior", Integer.valueOf(247));
 		encToName[247] = "msuperior";
 
 		unicodeToName.put(new Character((char) 0x2089), "nineinferior");
 		nameToUnicode.put("nineinferior", new Character((char) 0x2089));
-		nameToEnc.put("nineinferior", new Integer(187));
+		nameToEnc.put("nineinferior", Integer.valueOf(187));
 		encToName[187] = "nineinferior";
 
 		unicodeToName.put(new Character((char) 0xF739), "nineoldstyle");
 		nameToUnicode.put("nineoldstyle", new Character((char) 0xF739));
-		nameToEnc.put("nineoldstyle", new Integer(57));
+		nameToEnc.put("nineoldstyle", Integer.valueOf(57));
 		encToName[57] = "nineoldstyle";
 
 		unicodeToName.put(new Character((char) 0x2079), "ninesuperior");
 		nameToUnicode.put("ninesuperior", new Character((char) 0x2079));
-		nameToEnc.put("ninesuperior", new Integer(225));
+		nameToEnc.put("ninesuperior", Integer.valueOf(225));
 		encToName[225] = "ninesuperior";
 
 		unicodeToName.put(new Character((char) 0x207f), "nsuperior");
 		nameToUnicode.put("nsuperior", new Character((char) 0x207f));
-		nameToEnc.put("nsuperior", new Integer(246));
+		nameToEnc.put("nsuperior", Integer.valueOf(246));
 		encToName[246] = "nsuperior";
 
 		unicodeToName.put(new Character((char) 0x2024), "onedotenleader");
 		nameToUnicode.put("onedotenleader", new Character((char) 0x2024));
-		nameToEnc.put("onedotenleader", new Integer(43));
+		nameToEnc.put("onedotenleader", Integer.valueOf(43));
 		encToName[43] = "onedotenleader";
 
 		unicodeToName.put(new Character((char) 0x215b), "oneeight");
 		nameToUnicode.put("oneeight", new Character((char) 0x215b));
-		nameToEnc.put("oneeight", new Integer(74));
+		nameToEnc.put("oneeight", Integer.valueOf(74));
 		encToName[74] = "oneeight";
 
 		unicodeToName.put(new Character((char) 0xF6DC), "onefitted");
 		nameToUnicode.put("onefitted", new Character((char) 0xF6DC));
-		nameToEnc.put("onefitted", new Integer(124));
+		nameToEnc.put("onefitted", Integer.valueOf(124));
 		encToName[124] = "onefitted";
 
 		unicodeToName.put(new Character((char) 0x00bd), "onehalf");
 		nameToUnicode.put("onehalf", new Character((char) 0x00bd));
-		nameToEnc.put("onehalf", new Integer(72));
+		nameToEnc.put("onehalf", Integer.valueOf(72));
 		encToName[72] = "onehalf";
 
 		unicodeToName.put(new Character((char) 0x2081), "oneinferior");
 		nameToUnicode.put("oneinferior", new Character((char) 0x2081));
-		nameToEnc.put("oneinferior", new Integer(193));
+		nameToEnc.put("oneinferior", Integer.valueOf(193));
 		encToName[193] = "oneinferior";
 
 		unicodeToName.put(new Character((char) 0xF731), "oneoldstyle");
 		nameToUnicode.put("oneoldstyle", new Character((char) 0xF731));
-		nameToEnc.put("oneoldstyle", new Integer(49));
+		nameToEnc.put("oneoldstyle", Integer.valueOf(49));
 		encToName[49] = "oneoldstyle";
 
 		unicodeToName.put(new Character((char) 0x00bc), "onequarter");
 		nameToUnicode.put("onequarter", new Character((char) 0x00bc));
-		nameToEnc.put("onequarter", new Integer(71));
+		nameToEnc.put("onequarter", Integer.valueOf(71));
 		encToName[71] = "onequarter";
 
 		unicodeToName.put(new Character((char) 0x00b9), "onesuperior");
 		nameToUnicode.put("onesuperior", new Character((char) 0x00b9));
-		nameToEnc.put("onesuperior", new Integer(218));
+		nameToEnc.put("onesuperior", Integer.valueOf(218));
 		encToName[218] = "onesuperior";
 
 		unicodeToName.put(new Character((char) 0x2153), "onethird");
 		nameToUnicode.put("onethird", new Character((char) 0x2153));
-		nameToEnc.put("onethird", new Integer(78));
+		nameToEnc.put("onethird", Integer.valueOf(78));
 		encToName[78] = "onethird";
 
 		unicodeToName.put(new Character((char) 0xF6F0), "osuperior");
 		nameToUnicode.put("osuperior", new Character((char) 0xF6F0));
-		nameToEnc.put("osuperior", new Integer(175));
+		nameToEnc.put("osuperior", Integer.valueOf(175));
 		encToName[175] = "osuperior";
 
 		unicodeToName.put(new Character((char) 0x208d), "parenleftinferior");
 		nameToUnicode.put("parenleftinferior", new Character((char) 0x208d));
-		nameToEnc.put("parenleftinferior", new Integer(91));
+		nameToEnc.put("parenleftinferior", Integer.valueOf(91));
 		encToName[91] = "parenleftinferior";
 
 		unicodeToName.put(new Character((char) 0x207d), "parenleftsuperior");
 		nameToUnicode.put("parenleftsuperior", new Character((char) 0x207d));
-		nameToEnc.put("parenleftsuperior", new Integer(40));
+		nameToEnc.put("parenleftsuperior", Integer.valueOf(40));
 		encToName[40] = "parenleftsuperior";
 
 		unicodeToName.put(new Character((char) 0x208e), "parenrightinferior");
 		nameToUnicode.put("parenrightinferior", new Character((char) 0x208e));
-		nameToEnc.put("parenrightinferior", new Integer(93));
+		nameToEnc.put("parenrightinferior", Integer.valueOf(93));
 		encToName[93] = "parenrightinferior";
 
 		unicodeToName.put(new Character((char) 0x207e), "parenrightsuperior");
 		nameToUnicode.put("parenrightsuperior", new Character((char) 0x207e));
-		nameToEnc.put("parenrightsuperior", new Integer(41));
+		nameToEnc.put("parenrightsuperior", Integer.valueOf(41));
 		encToName[41] = "parenrightsuperior";
 
 		unicodeToName.put(new Character((char) 0x002e), "period");
 		nameToUnicode.put("period", new Character((char) 0x002e));
-		nameToEnc.put("period", new Integer(46));
+		nameToEnc.put("period", Integer.valueOf(46));
 		encToName[46] = "period";
 
 		unicodeToName.put(new Character((char) 0xF6E7), "periodinferior");
 		nameToUnicode.put("periodinferior", new Character((char) 0xF6E7));
-		nameToEnc.put("periodinferior", new Integer(179));
+		nameToEnc.put("periodinferior", Integer.valueOf(179));
 		encToName[179] = "periodinferior";
 
 		unicodeToName.put(new Character((char) 0xF6E8), "periodsuperior");
 		nameToUnicode.put("periodsuperior", new Character((char) 0xF6E8));
-		nameToEnc.put("periodsuperior", new Integer(249));
+		nameToEnc.put("periodsuperior", Integer.valueOf(249));
 		encToName[249] = "periodsuperior";
 
 		unicodeToName.put(new Character((char) 0xF7BF), "questiondownsmall");
 		nameToUnicode.put("questiondownsmall", new Character((char) 0xF7BF));
-		nameToEnc.put("questiondownsmall", new Integer(192));
+		nameToEnc.put("questiondownsmall", Integer.valueOf(192));
 		encToName[192] = "questiondownsmall";
 
 		unicodeToName.put(new Character((char) 0xfe56), "questionsmall");
 		nameToUnicode.put("questionsmall", new Character((char) 0xfe56));
-		nameToEnc.put("questionsmall", new Integer(63));
+		nameToEnc.put("questionsmall", Integer.valueOf(63));
 		encToName[63] = "questionsmall";
 
 		unicodeToName.put(new Character((char) 0xF6F1), "rsuperior");
 		nameToUnicode.put("rsuperior", new Character((char) 0xF6F1));
-		nameToEnc.put("rsuperior", new Integer(229));
+		nameToEnc.put("rsuperior", Integer.valueOf(229));
 		encToName[229] = "rsuperior";
 
 		unicodeToName.put(new Character((char) 0xF6DD), "rupiah");
 		nameToUnicode.put("rupiah", new Character((char) 0xF6DD));
-		nameToEnc.put("rupiah", new Integer(125));
+		nameToEnc.put("rupiah", Integer.valueOf(125));
 		encToName[125] = "rupiah";
 
 		unicodeToName.put(new Character((char) 0x003b), "semicolon");
 		nameToUnicode.put("semicolon", new Character((char) 0x003b));
-		nameToEnc.put("semicolon", new Integer(59));
+		nameToEnc.put("semicolon", Integer.valueOf(59));
 		encToName[59] = "semicolon";
 
 		unicodeToName.put(new Character((char) 0x215e), "seveneighths");
 		nameToUnicode.put("seveneighths", new Character((char) 0x215e));
-		nameToEnc.put("seveneighths", new Integer(77));
+		nameToEnc.put("seveneighths", Integer.valueOf(77));
 		encToName[77] = "seveneighths";
 
 		unicodeToName.put(new Character((char) 0x2087), "seveninferior");
 		nameToUnicode.put("seveninferior", new Character((char) 0x2087));
-		nameToEnc.put("seveninferior", new Integer(166));
+		nameToEnc.put("seveninferior", Integer.valueOf(166));
 		encToName[166] = "seveninferior";
 
 		unicodeToName.put(new Character((char) 0xF737), "sevenoldstyle");
 		nameToUnicode.put("sevenoldstyle", new Character((char) 0xF737));
-		nameToEnc.put("sevenoldstyle", new Integer(55));
+		nameToEnc.put("sevenoldstyle", Integer.valueOf(55));
 		encToName[55] = "sevenoldstyle";
 
 		unicodeToName.put(new Character((char) 0x2077), "sevensuperior");
 		nameToUnicode.put("sevensuperior", new Character((char) 0x2077));
-		nameToEnc.put("sevensuperior", new Integer(224));
+		nameToEnc.put("sevensuperior", Integer.valueOf(224));
 		encToName[224] = "sevensuperior";
 
 		unicodeToName.put(new Character((char) 0x2086), "sixinferior");
 		nameToUnicode.put("sixinferior", new Character((char) 0x2086));
-		nameToEnc.put("sixinferior", new Integer(164));
+		nameToEnc.put("sixinferior", Integer.valueOf(164));
 		encToName[164] = "sixinferior";
 
 		unicodeToName.put(new Character((char) 0xF736), "sixoldstyle");
 		nameToUnicode.put("sixoldstyle", new Character((char) 0xF736));
-		nameToEnc.put("sixoldstyle", new Integer(54));
+		nameToEnc.put("sixoldstyle", Integer.valueOf(54));
 		encToName[54] = "sixoldstyle";
 
 		unicodeToName.put(new Character((char) 0x2076), "sixsuperior");
 		nameToUnicode.put("sixsuperior", new Character((char) 0x2076));
-		nameToEnc.put("sixsuperior", new Integer(223));
+		nameToEnc.put("sixsuperior", Integer.valueOf(223));
 		encToName[223] = "sixsuperior";
 
 		unicodeToName.put(new Character((char) 0x0020), "space");
 		nameToUnicode.put("space", new Character((char) 0x0020));
-		nameToEnc.put("space", new Integer(32));
+		nameToEnc.put("space", Integer.valueOf(32));
 		encToName[32] = "space";
 
 		unicodeToName.put(new Character((char) 0xF6F2), "ssuperior");
 		nameToUnicode.put("ssuperior", new Character((char) 0xF6F2));
-		nameToEnc.put("ssuperior", new Integer(234));
+		nameToEnc.put("ssuperior", Integer.valueOf(234));
 		encToName[234] = "ssuperior";
 
 		unicodeToName.put(new Character((char) 0x215c), "threeeighths");
 		nameToUnicode.put("threeeighths", new Character((char) 0x215c));
-		nameToEnc.put("threeeighths", new Integer(75));
+		nameToEnc.put("threeeighths", Integer.valueOf(75));
 		encToName[75] = "threeeighths";
 
 		unicodeToName.put(new Character((char) 0x2083), "threeinferior");
 		nameToUnicode.put("threeinferior", new Character((char) 0x2083));
-		nameToEnc.put("threeinferior", new Integer(163));
+		nameToEnc.put("threeinferior", Integer.valueOf(163));
 		encToName[163] = "threeinferior";
 
 		unicodeToName.put(new Character((char) 0xF733), "threeoldstyle");
 		nameToUnicode.put("threeoldstyle", new Character((char) 0xF733));
-		nameToEnc.put("threeoldstyle", new Integer(51));
+		nameToEnc.put("threeoldstyle", Integer.valueOf(51));
 		encToName[51] = "threeoldstyle";
 
 		unicodeToName.put(new Character((char) 0x00be), "threequarters");
 		nameToUnicode.put("threequarters", new Character((char) 0x00be));
-		nameToEnc.put("threequarters", new Integer(73));
+		nameToEnc.put("threequarters", Integer.valueOf(73));
 		encToName[73] = "threequarters";
 
 		unicodeToName.put(new Character((char) 0xfe58), "threequartersemdash");
 		nameToUnicode.put("threequartersemdash", new Character((char) 0xfe58));
-		nameToEnc.put("threequartersemdash", new Integer(61));
+		nameToEnc.put("threequartersemdash", Integer.valueOf(61));
 		encToName[61] = "threequartersemdash";
 
 		unicodeToName.put(new Character((char) 0x00b3), "threesuperior");
 		nameToUnicode.put("threesuperior", new Character((char) 0x00b3));
-		nameToEnc.put("threesuperior", new Integer(220));
+		nameToEnc.put("threesuperior", Integer.valueOf(220));
 		encToName[220] = "threesuperior";
 
 		unicodeToName.put(new Character((char) 0xF6F3), "tsuperior");
 		nameToUnicode.put("tsuperior", new Character((char) 0xF6F3));
-		nameToEnc.put("tsuperior", new Integer(230));
+		nameToEnc.put("tsuperior", Integer.valueOf(230));
 		encToName[230] = "tsuperior";
 
 		unicodeToName.put(new Character((char) 0x2025), "twodotenleader");
 		nameToUnicode.put("twodotenleader", new Character((char) 0x2025));
-		nameToEnc.put("twodotenleader", new Integer(42));
+		nameToEnc.put("twodotenleader", Integer.valueOf(42));
 		encToName[42] = "twodotenleader";
 
 		unicodeToName.put(new Character((char) 0x2082), "twoinferior");
 		nameToUnicode.put("twoinferior", new Character((char) 0x2082));
-		nameToEnc.put("twoinferior", new Integer(170));
+		nameToEnc.put("twoinferior", Integer.valueOf(170));
 		encToName[170] = "twoinferior";
 
 		unicodeToName.put(new Character((char) 0xF732), "twooldstyle");
 		nameToUnicode.put("twooldstyle", new Character((char) 0xF732));
-		nameToEnc.put("twooldstyle", new Integer(50));
+		nameToEnc.put("twooldstyle", Integer.valueOf(50));
 		encToName[50] = "twooldstyle";
 
 		unicodeToName.put(new Character((char) 0x00b2), "twosuperior");
 		nameToUnicode.put("twosuperior", new Character((char) 0x00b2));
-		nameToEnc.put("twosuperior", new Integer(219));
+		nameToEnc.put("twosuperior", Integer.valueOf(219));
 		encToName[219] = "twosuperior";
 
 		unicodeToName.put(new Character((char) 0x2154), "twothirds");
 		nameToUnicode.put("twothirds", new Character((char) 0x2154));
-		nameToEnc.put("twothirds", new Integer(79));
+		nameToEnc.put("twothirds", Integer.valueOf(79));
 		encToName[79] = "twothirds";
 
 		unicodeToName.put(new Character((char) 0x2080), "zeroinferior");
 		nameToUnicode.put("zeroinferior", new Character((char) 0x2080));
-		nameToEnc.put("zeroinferior", new Integer(188));
+		nameToEnc.put("zeroinferior", Integer.valueOf(188));
 		encToName[188] = "zeroinferior";
 
 		unicodeToName.put(new Character((char) 0xF730), "zerooldstyle");
 		nameToUnicode.put("zerooldstyle", new Character((char) 0xF730));
-		nameToEnc.put("zerooldstyle", new Integer(48));
+		nameToEnc.put("zerooldstyle", Integer.valueOf(48));
 		encToName[48] = "zerooldstyle";
 
 		unicodeToName.put(new Character((char) 0x2070), "zerosuperior");
 		nameToUnicode.put("zerosuperior", new Character((char) 0x2070));
-		nameToEnc.put("zerosuperior", new Integer(226));
+		nameToEnc.put("zerosuperior", Integer.valueOf(226));
 		encToName[226] = "zerosuperior";
 
 	}

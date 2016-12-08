@@ -102,7 +102,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		encoding.entry("Type", pdf.name("Encoding"));
 
 		Object[] differences = new Object[257];
-		differences[0] = new Integer(0);
+		differences[0] = Integer.valueOf(0);
 		for (int i = 0; i < 256; i++) {
 			String charName = charTable.toName(i);
 			differences[i + 1] = (charName != null) ? pdf.name(charName)

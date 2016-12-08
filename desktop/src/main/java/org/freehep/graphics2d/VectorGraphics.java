@@ -538,28 +538,28 @@ public abstract class VectorGraphics extends Graphics2D
 	private static Hashtable symbols = new Hashtable(15);
 
 	static {
-		symbols.put("vline", new Integer(SYMBOL_VLINE));
-		symbols.put("hline", new Integer(SYMBOL_HLINE));
-		symbols.put("plus", new Integer(SYMBOL_PLUS));
-		symbols.put("cross", new Integer(SYMBOL_CROSS));
-		symbols.put("star", new Integer(SYMBOL_STAR));
-		symbols.put("circle", new Integer(SYMBOL_CIRCLE));
-		symbols.put("box", new Integer(SYMBOL_BOX));
-		symbols.put("up_triangle", new Integer(SYMBOL_UP_TRIANGLE));
-		symbols.put("dn_triangle", new Integer(SYMBOL_DN_TRIANGLE));
-		symbols.put("diamond", new Integer(SYMBOL_DIAMOND));
+		symbols.put("vline", Integer.valueOf(SYMBOL_VLINE));
+		symbols.put("hline", Integer.valueOf(SYMBOL_HLINE));
+		symbols.put("plus", Integer.valueOf(SYMBOL_PLUS));
+		symbols.put("cross", Integer.valueOf(SYMBOL_CROSS));
+		symbols.put("star", Integer.valueOf(SYMBOL_STAR));
+		symbols.put("circle", Integer.valueOf(SYMBOL_CIRCLE));
+		symbols.put("box", Integer.valueOf(SYMBOL_BOX));
+		symbols.put("up_triangle", Integer.valueOf(SYMBOL_UP_TRIANGLE));
+		symbols.put("dn_triangle", Integer.valueOf(SYMBOL_DN_TRIANGLE));
+		symbols.put("diamond", Integer.valueOf(SYMBOL_DIAMOND));
 	}
 
 	private static Hashtable alignments = new Hashtable(6);
 
 	static {
-		alignments.put("baseline", new Integer(TEXT_BASELINE));
-		alignments.put("left", new Integer(TEXT_LEFT));
-		alignments.put("top", new Integer(TEXT_TOP));
-		alignments.put("middle", new Integer(TEXT_CENTER));
-		alignments.put("center", new Integer(TEXT_CENTER));
-		alignments.put("right", new Integer(TEXT_RIGHT));
-		alignments.put("bottom", new Integer(TEXT_BOTTOM));
+		alignments.put("baseline", Integer.valueOf(TEXT_BASELINE));
+		alignments.put("left", Integer.valueOf(TEXT_LEFT));
+		alignments.put("top", Integer.valueOf(TEXT_TOP));
+		alignments.put("middle", Integer.valueOf(TEXT_CENTER));
+		alignments.put("center", Integer.valueOf(TEXT_CENTER));
+		alignments.put("right", Integer.valueOf(TEXT_RIGHT));
+		alignments.put("bottom", Integer.valueOf(TEXT_BOTTOM));
 	}
 
 	public static int getTextAlignment(String name) {

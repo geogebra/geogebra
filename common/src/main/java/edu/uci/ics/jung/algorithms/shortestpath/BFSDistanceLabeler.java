@@ -102,7 +102,7 @@ public class BFSDistanceLabeler<V, E> {
 
 		mCurrentList = new ArrayList<V>();
 		for (V v : rootSet) {
-			distanceDecorator.put(v, new Integer(0));
+			distanceDecorator.put(v, Integer.valueOf(0));
 			mCurrentList.add(v);
 			mUnvisitedVertices.remove(v);
 			mVerticesInOrderVisited.add(v);
@@ -147,7 +147,7 @@ public class BFSDistanceLabeler<V, E> {
 		}
 
 		for (V v : mUnvisitedVertices) {
-			distanceDecorator.put(v, new Integer(-1));
+			distanceDecorator.put(v, Integer.valueOf(-1));
 		}
 	}
 
@@ -168,7 +168,7 @@ public class BFSDistanceLabeler<V, E> {
 	private void visitNewVertex(V predecessor, V neighbor, int distance,
 			List<V> newList) {
 		if (mUnvisitedVertices.contains(neighbor)) {
-			distanceDecorator.put(neighbor, new Integer(distance));
+			distanceDecorator.put(neighbor, Integer.valueOf(distance));
 			newList.add(neighbor);
 			mVerticesInOrderVisited.add(neighbor);
 			mUnvisitedVertices.remove(neighbor);

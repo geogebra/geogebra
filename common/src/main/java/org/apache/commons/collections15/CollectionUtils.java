@@ -51,7 +51,7 @@ public class CollectionUtils {
 	/**
 	 * Constant to avoid repeated object creation
 	 */
-	private static Integer INTEGER_ONE = new Integer(1);
+	private static Integer INTEGER_ONE = Integer.valueOf(1);
 
 	/**
 	 * An empty unmodifiable collection. The JDK provides empty Set and List
@@ -232,13 +232,13 @@ public class CollectionUtils {
 		return false;
 	}
 
-	public static void main(String[] args) {
-		List<String> l1 = new ArrayList<String>();
-		l1.add("Test");
-		List<Integer> l2 = new ArrayList<Integer>();
-		l2.add(1);
-		containsAny(l1, l2);
-	}
+	// public static void main(String[] args) {
+	// List<String> l1 = new ArrayList<String>();
+	// l1.add("Test");
+	// List<Integer> l2 = new ArrayList<Integer>();
+	// l2.add(1);
+	// containsAny(l1, l2);
+	// }
 
 	/**
 	 * Returns a {@link Map} mapping each unique element in the given
@@ -262,7 +262,7 @@ public class CollectionUtils {
 			if (c == null) {
 				count.put(obj, INTEGER_ONE);
 			} else {
-				count.put(obj, new Integer(c.intValue() + 1));
+				count.put(obj, Integer.valueOf(c.intValue() + 1));
 			}
 		}
 		return count;
@@ -826,7 +826,7 @@ public class CollectionUtils {
 	 *             v4.0
 	 */
 	public static Object index(Object obj, int idx) {
-		return index(obj, new Integer(idx));
+		return index(obj, Integer.valueOf(idx));
 	}
 
 	/**

@@ -32,7 +32,7 @@ public class PDF {
 		this.out = out;
 		// add dummy element to refsByNumber and xrefsByNumber
 		refsByNumber.addElement(new PDFRef("Dummy", 0, 0));
-		xrefsByNumber.addElement(new Integer(999999));
+		xrefsByNumber.addElement(Integer.valueOf(999999));
 	}
 
 	public PDFName name(String name) {
@@ -62,7 +62,7 @@ public class PDF {
 	}
 
 	protected void setXRef(int objectNumber, int offset) {
-		xrefsByNumber.set(objectNumber, new Integer(offset));
+		xrefsByNumber.set(objectNumber, Integer.valueOf(offset));
 	}
 
 	protected void xref() throws IOException {

@@ -1799,7 +1799,7 @@ public final class MusicStringParser extends Parser {
 		String definition = dictionaryLookup(bracketedString);
 		Integer newint = null;
 		try {
-			newint = new Integer(definition);
+			newint = Integer.valueOf(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_INT, definition,
 					bracketedString);

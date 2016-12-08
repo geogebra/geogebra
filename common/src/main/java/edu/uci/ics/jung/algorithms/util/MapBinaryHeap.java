@@ -217,13 +217,14 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		while ((i > TOP) && (comp.compare(heap.elementAt(parent(i)), o) > 0)) {
 			T parentElt = heap.elementAt(parent(i));
 			heap.setElementAt(parentElt, i);
-			object_indices.put(parentElt, new Integer(i)); // reset index to i
+			object_indices.put(parentElt, Integer.valueOf(i)); // reset index to
+																// i
 															// (new location)
 			i = parent(i);
 		}
 
 		// place object in heap at appropriate place
-		object_indices.put(o, new Integer(i));
+		object_indices.put(o, Integer.valueOf(i));
 		heap.setElementAt(o, i);
 
 		return i;
@@ -276,10 +277,10 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		T jElt = heap.elementAt(j);
 
 		heap.setElementAt(jElt, i);
-		object_indices.put(jElt, new Integer(i));
+		object_indices.put(jElt, Integer.valueOf(i));
 
 		heap.setElementAt(iElt, j);
-		object_indices.put(iElt, new Integer(j));
+		object_indices.put(iElt, Integer.valueOf(j));
 	}
 
 	/**
@@ -350,7 +351,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		if (top != null) {
 			T bottom_elt = heap.lastElement();
 			heap.setElementAt(bottom_elt, TOP);
-			object_indices.put(bottom_elt, new Integer(TOP));
+			object_indices.put(bottom_elt, Integer.valueOf(TOP));
 
 			heap.setSize(heap.size() - 1); // remove the last element
 			if (heap.size() > 1)

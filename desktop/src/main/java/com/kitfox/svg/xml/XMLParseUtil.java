@@ -690,7 +690,7 @@ public class XMLParseUtil {
 			} catch (Exception e) {
 			}
 
-			elementCache.addLast(new Integer(eleVal));
+			elementCache.addLast(Integer.valueOf(eleVal));
 		}
 
 		int[] retArr = new int[elementCache.size()];

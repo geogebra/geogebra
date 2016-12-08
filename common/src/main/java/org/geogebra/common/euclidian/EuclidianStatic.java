@@ -208,13 +208,14 @@ public class EuclidianStatic {
 				String[] lines = elements[i].split("\\n", -1);
 
 				for (int j = 0; j < lines.length; ++j) {
-					elementHeights.add(new Integer(lineSpread));
+					elementHeights.add(Integer.valueOf(lineSpread));
 
 					// create a new line
 					if (j + 1 < lines.length) {
 						++currentLine;
 
-						lineHeights.add(new Integer(lineSpread + lineSpace));
+						lineHeights
+								.add(Integer.valueOf(lineSpread + lineSpace));
 					}
 				}
 			}

@@ -22,7 +22,7 @@ public class GenericTagHandler extends TagHandler {
 	/**
 	 * TextAttribute for overline, not a standard
 	 */
-	final public static Integer UNDERLINE_OVERLINE = new Integer(128);
+	final public static Integer UNDERLINE_OVERLINE = Integer.valueOf(128);
 
 	/**
 	 * context to draw AttributedString
@@ -167,7 +167,7 @@ public class GenericTagHandler extends TagHandler {
 		// it the first openened, e.g. <b>text<b>text2</b> will draw
 		// text and text2 in bold weight
 		if (!tags.containsKey(tag)) {
-			tags.put(tag, new Integer(clearedText.length()));
+			tags.put(tag, Integer.valueOf(clearedText.length()));
 		}
 		return "";
 	}

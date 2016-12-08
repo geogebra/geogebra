@@ -168,7 +168,7 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 						|| newCapacity > neighborCapacity.intValue()) {
 					parentMap.put(neighboringVertex, currentVertex);
 					parentCapacityMap.put(neighboringVertex,
-							new Integer(newCapacity));
+							Integer.valueOf(newCapacity));
 					visitedEdgesMap.add(neighboringEdge);
 					if (neighboringVertex != target) {
 						queue.add(neighboringVertex);
@@ -292,7 +292,7 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 
 			Number residualCapacity = residualCapacityMap.get(currentEdge);
 			if (capacity != null) {
-				Integer flowValue = new Integer(
+				Integer flowValue = Integer.valueOf(
 						capacity.intValue() - residualCapacity.intValue());
 				this.edgeFlowMap.put(currentEdge, flowValue);
 			}

@@ -46,7 +46,7 @@ public class TagSet {
 	public void addTag(Tag tag) {
 		int id = tag.getTag();
 		if (id != Tag.DEFAULT_TAG) {
-			tags.put(new Integer(id), tag);
+			tags.put(Integer.valueOf(id), tag);
 		} else {
 			defaultTag = tag;
 		}
@@ -60,7 +60,7 @@ public class TagSet {
 	 * @return correspoding tag or UndefinedTag if tagID is not found.
 	 */
 	public Tag get(int tagID) {
-		Tag tag = (Tag) tags.get(new Integer(tagID));
+		Tag tag = (Tag) tags.get(Integer.valueOf(tagID));
 		if (tag == null)
 			tag = defaultTag;
 		return tag;
@@ -74,6 +74,6 @@ public class TagSet {
 	 * @return true if corresponding Tag for TagID exists
 	 */
 	public boolean exists(int tagID) {
-		return (tags.get(new Integer(tagID)) != null);
+		return (tags.get(Integer.valueOf(tagID)) != null);
 	}
 }

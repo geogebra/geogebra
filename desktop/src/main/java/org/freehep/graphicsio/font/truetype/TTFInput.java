@@ -127,7 +127,7 @@ public abstract class TTFInput {
 		int ushort = -1;
 		do {
 			ushort = readUShort();
-			values.add(new Integer(ushort));
+			values.add(Integer.valueOf(ushort));
 		} while (ushort != 0xFFFF);
 		int[] shorts = new int[values.size()];
 		Iterator i = values.iterator();

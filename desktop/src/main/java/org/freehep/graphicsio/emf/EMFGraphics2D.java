@@ -473,7 +473,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 			int handle = handleManager.getHandle();
 			os.writeTag(new ExtCreateFontIndirectW(handle, logFontW));
 
-			fontIndex = new Integer(handle);
+			fontIndex = Integer.valueOf(handle);
 			fontTable.put(font, fontIndex);
 		}
 		os.writeTag(new SelectObject(fontIndex.intValue()));

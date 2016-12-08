@@ -242,7 +242,7 @@ public class BarabasiAlbertGenerator<V, E>
 		// now that we're done attaching edges to this new vertex,
 		// add it to the index
 		vertex_index.add(newVertex);
-		index_vertex.put(newVertex, new Integer(vertex_index.size() - 1));
+		index_vertex.put(newVertex, Integer.valueOf(vertex_index.size() - 1));
 	}
 
 	public int numIterations() {
