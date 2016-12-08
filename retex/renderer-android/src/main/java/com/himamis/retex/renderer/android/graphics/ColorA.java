@@ -15,7 +15,7 @@ public class ColorA implements Color {
 	}
 
 	public Object getNativeObject() {
-		return new Integer(mColor);
+		return Integer.valueOf(mColor);
 	}
 
 	public int getColor() {
@@ -24,10 +24,7 @@ public class ColorA implements Color {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + mColor;
-		return result;
+		return mColor;
 	}
 
 	@Override

@@ -406,11 +406,11 @@ public class FormulaEditor extends View implements MathField {
         repaint();
     }
 
-    static private final int CURSOR_MARGIN = 5;
+    static private final static int CURSOR_MARGIN = 5;
 
     // min-max values for cursor color
-    static private final int CURSOR_MIN_RED = 222;
-    static private final int CURSOR_MAX_GREEN_BLUE = 128;
+    static private final static int CURSOR_MIN_RED = 222;
+    static private final static int CURSOR_MAX_GREEN_BLUE = 128;
 
     /**
      * @return current shift in x for drawing the formula
