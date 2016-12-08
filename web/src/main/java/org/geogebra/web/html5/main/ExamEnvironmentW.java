@@ -2,6 +2,7 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.debug.Log;
 
@@ -11,7 +12,8 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
-    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled;
+    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled, wasScreenOn;
+    private int windowsLeftCount;
 
     public ExamEnvironmentW(App app) {
         super();
@@ -26,6 +28,13 @@ public class ExamEnvironmentW extends ExamEnvironment {
         wasWifiEnabled = false;
         // bluetooth should be disabled when started
         wasBluetoothEnabled = false;
+        // screen should be on when started
+        wasScreenOn = true;
+        // no cheat at start
+        isCheating = false;
+        // init counter
+        windowsLeftCount = 0;
+
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
             exportGeoGebraAndroidMethods();
@@ -33,6 +42,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 // task should locked when started
                 wasTaskLocked = true;
                 watchTaskLock();
+            }
+            if (app.has(Feature.EXAM_ANDROID_CHECK_SCREEN_STATE)){
+                watchScreenState();
             }
         }
     }
@@ -59,6 +71,29 @@ public class ExamEnvironmentW extends ExamEnvironment {
         checkTaskLockTimer.startRepeat();
     }
 
+
+    private GTimer checkScreenState = null;
+
+    private void watchScreenState() {
+        Log.debug("watch screen state");
+
+        // set timer to check continuously screen stated
+        if (checkScreenState != null && checkScreenState.isRunning()) {
+            checkScreenState.stop();
+        }
+        checkScreenState = app.newTimer(new GTimer.GTimerListener() {
+            @Override
+            public void onRun() {
+                if (isScreenOff()){
+                    screenOff(true);
+                } else {
+                    screenOn();
+                }
+            }
+        }, 1000);
+        checkScreenState.startRepeat();
+    }
+
     public static native boolean checkLockTaskAvailable() /*-{
         return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
 	}-*/;
@@ -69,6 +104,10 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
     public static native void startLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
+	}-*/;
+
+    public static native boolean isScreenOff() /*-{
+        return $wnd.GeoGebraExamAndroidJsBinder.isScreenOff();
 	}-*/;
 
 
@@ -141,6 +180,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_ON);
                 wasAirplaneModeOn = true;
+                isCheating = true;
                 Log.debug("STOPPED CHEATING: airplane mode on");
             }
         }
@@ -157,6 +197,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
                 wasWifiEnabled = true;
+                isCheating = true;
                 Log.debug("STARTED CHEATING: wifi enabled");
             }
         }
@@ -186,6 +227,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.TASK_UNLOCKED);
                 wasTaskLocked = false;
+                isCheating = true;
                 Log.debug("STARTED CHEATING: task unlocked");
             }
         }
@@ -216,6 +258,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.BLUETOOTH_ENABLED);
                 wasBluetoothEnabled = true;
+                isCheating = true;
                 Log.debug("STARTED CHEATING: bluetooth enabled");
             }
         }
@@ -236,5 +279,71 @@ public class ExamEnvironmentW extends ExamEnvironment {
             }
         }
     }
+
+    private boolean isCheating;
+
+    public boolean isCheating() {
+        if (app.has(Feature.EXAM_ANDROID_CHECK_SCREEN_STATE) && app.getVersion().isAndroidWebview()) {
+            return isCheating;
+        }
+
+        return super.isCheating();
+    }
+
+    protected void addCheatingWindowsLeft(long time){
+        super.addCheatingWindowsLeft(time);
+//        if (app.getVersion().isAndroidWebview()) {
+//            if (isScreenOff()){
+//                Log.debug("addCheatingWindowsLeft: screen is off");
+//                screenOff(false);
+//            }else {
+//                Log.debug("addCheatingWindowsLeft: screen is on");
+//                windowsLeftCount++;
+//                lastWindowsLeftTime = time;
+//            }
+//        }
+    }
+
+    /**
+     * windows can be left without cheating is screen is off within this delay
+     */
+    private static long WINDOWS_LEFT_SCREEN_OFF_MAX_DELAY = 2000;
+
+    private long lastWindowsLeftTime = 0;
+
+
+    public void screenOff(boolean checkWindowsLeftTime) {
+        if (getStart() > 0) {
+            if (wasScreenOn) {
+                initLists();
+                long time = System.currentTimeMillis();
+                cheatingTimes.add(time);
+                cheatingEvents.add(CheatingEvent.SCREEN_OFF);
+                wasScreenOn = false;
+//                if (checkWindowsLeftTime){
+//                    if (time < lastWindowsLeftTime + WINDOWS_LEFT_SCREEN_OFF_MAX_DELAY){
+//                        Log.debug("screenOff: cancel last windows left cheating event");
+//                        windowsLeftCount--;
+//                    }
+//                }
+//                lastWindowsLeftTime = 0;
+                Log.debug("screen: off");
+            }
+        }
+    }
+
+
+    public void screenOn() {
+        if (getStart() > 0) {
+            if (!wasScreenOn) {
+                initLists();
+                cheatingTimes.add(System.currentTimeMillis());
+                cheatingEvents.add(CheatingEvent.SCREEN_ON);
+                wasScreenOn = true;
+                Log.debug("screen: on");
+            }
+        }
+    }
+
 
 }

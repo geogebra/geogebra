@@ -4175,6 +4175,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_KILL_DIALOG_TITLE:
 			return true; // 5.0.294
 
+			//EXAM-10
+			case EXAM_ANDROID_CHECK_SCREEN_STATE:
+				return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

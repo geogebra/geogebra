@@ -15,7 +15,9 @@ public class ExamEnvironment {
 	protected LinkedList<Long> cheatingTimes = null;
 
 	protected enum CheatingEvent {
-		WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED, TASK_UNLOCKED, TASK_LOCKED, BLUETOOTH_ENABLED, BLUETOOTH_DISABLED
+		WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON, WIFI_ENABLED, WIFI_DISABLED,
+		TASK_UNLOCKED, TASK_LOCKED, BLUETOOTH_ENABLED, BLUETOOTH_DISABLED,
+		SCREEN_ON, SCREEN_OFF
 	}
 
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
@@ -63,14 +65,18 @@ public class ExamEnvironment {
 				initLists();
 				if (cheatingEvents.size() == 0
 						|| !lastCheatingEventWindowWasLeft) {
-					cheatingTimes.add(System.currentTimeMillis());
-					cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
+					addCheatingWindowsLeft(System.currentTimeMillis());
 					lastCheatingEventWindowWasLeft = true;
 					Log.debug("STARTED CHEATING");
 				}
 
 			}
 		}
+	}
+
+	protected void addCheatingWindowsLeft(long time) {
+		cheatingTimes.add(time);
+		cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
 	}
 
 	public void stopCheating() {
@@ -208,6 +214,10 @@ public class ExamEnvironment {
 			return loc.getMenu("exam_log_bluetooth_enabled");
 		case BLUETOOTH_DISABLED:
 			return loc.getMenu("exam_log_bluetooth_disabled");
+			case SCREEN_OFF:
+				return loc.getMenu("exam_log_screen_off");
+			case SCREEN_ON:
+				return loc.getMenu("exam_log_screen_on");
 
 		}
 		return "";

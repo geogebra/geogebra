@@ -191,6 +191,11 @@ public enum Feature {
 	/**
 	 * MOB-1014
 	 */
-	MOBILE_KILL_DIALOG_TITLE
+	MOBILE_KILL_DIALOG_TITLE,
+
+	/**
+	 * EXAM-10
+	 */
+	EXAM_ANDROID_CHECK_SCREEN_STATE
 
 }
