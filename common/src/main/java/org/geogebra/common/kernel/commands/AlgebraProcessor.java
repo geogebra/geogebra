@@ -1066,18 +1066,36 @@ public class AlgebraProcessor {
 			return nv.getDouble();
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
+			}
+
+			if (forGeo != null) {
+				forGeo.setUndefined();
+			}
+
 			return Double.NaN;
 		} catch (MyError e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError(e);
+			}
+
+			if (forGeo != null) {
+				forGeo.setUndefined();
+			}
+
 			return Double.NaN;
 		} catch (Error e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
+			}
+
+			if (forGeo != null) {
+				forGeo.setUndefined();
+			}
+
 			return Double.NaN;
 		}
 	}
