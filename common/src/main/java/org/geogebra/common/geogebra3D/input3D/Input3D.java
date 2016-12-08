@@ -2,8 +2,8 @@ package org.geogebra.common.geogebra3D.input3D;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPointWithZ;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.Input3DConstants;
+import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -796,10 +796,11 @@ abstract public class Input3D implements Input3DConstants {
 			if (wasLeftReleased) {
 				startMouse3DPosition.set(mouse3DPosition);
 				storeOrientation();
-				wrapMousePressed();
+				view3D.getEuclidianController().wrapMousePressed(mouse3DEvent);
 			} else {
 				// no capture in desktop
-				wrapMouseDragged();
+				view3D.getEuclidianController().wrapMouseDragged(mouse3DEvent,
+						false);
 			}
 			wasRightReleased = true;
 			wasLeftReleased = false;
@@ -812,7 +813,8 @@ abstract public class Input3D implements Input3DConstants {
 				storeOrientation();
 			} else {
 				// no capture in desktop
-				wrapMouseDragged();
+				view3D.getEuclidianController().wrapMouseDragged(mouse3DEvent,
+						false);
 			}
 			wasRightReleased = true;
 			wasLeftReleased = false;
@@ -821,11 +823,11 @@ abstract public class Input3D implements Input3DConstants {
 			// process button release
 			if (!wasRightReleased || !wasLeftReleased
 					|| !wasThirdButtonReleased) {
-				wrapMouseReleased();
+				view3D.getEuclidianController().wrapMouseReleased(mouse3DEvent);
 			}
 
 			// process move
-			wrapMouseMoved();
+			view3D.getEuclidianController().wrapMouseMoved(mouse3DEvent);
 			wasRightReleased = true;
 			wasLeftReleased = true;
 			wasThirdButtonReleased = true;
@@ -833,29 +835,7 @@ abstract public class Input3D implements Input3DConstants {
 
 	}
 
-	private void wrapMouseMoved() {
-		view3D.getEuclidianController()
-				.wrapMouseMoved(getEuclidianControllerEvent());
-	}
 
-	private void wrapMouseReleased() {
-		view3D.getEuclidianController()
-				.wrapMouseReleased(getEuclidianControllerEvent());
-	}
-
-	private void wrapMouseDragged() {
-		view3D.getEuclidianController()
-				.wrapMouseDragged(getEuclidianControllerEvent(), false);
-	}
-
-	private void wrapMousePressed() {
-		view3D.getEuclidianController()
-				.wrapMousePressed(getEuclidianControllerEvent());
-	}
-
-	private AbstractEvent getEuclidianControllerEvent() {
-		return getEuclidianController().getMouseEvent();
-	}
 
 	/**
 	 * 
@@ -867,14 +847,16 @@ abstract public class Input3D implements Input3DConstants {
 
 	private GPointWithZ mouse3DLoc = new GPointWithZ();
 
-	public void updateMouse3DEvent() {
+	private Mouse3DEvent mouse3DEvent;
+
+	final public void updateMouse3DEvent() {
 
 		mouse3DLoc = new GPointWithZ(
 				getPanelWidth() / 2 + (int) mouse3DPosition.getX(),
 				getPanelHeight() / 2 - (int) mouse3DPosition.getY(),
 				(int) mouse3DPosition.getZ());
 
-		view3D.setMouse3DEvent(mouse3DLoc);
+		mouse3DEvent = view3D.createMouse3DEvent(mouse3DLoc);
 
 		// mouse direction
 		if (hasMouseDirection()) {

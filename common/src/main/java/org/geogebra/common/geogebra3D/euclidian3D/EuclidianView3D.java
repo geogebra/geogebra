@@ -4874,12 +4874,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	public void setMouse3DEvent(GPointWithZ mouse3DLoc) {
-		((EuclidianController3D) euclidianController)
-				.setMouseEvent(createMouse3DEvent(mouse3DLoc));
-	}
-
-	protected Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
+	public Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
 		return new Mouse3DEvent(mouse3DLoc);
 	}
 

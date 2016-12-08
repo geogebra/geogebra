@@ -626,7 +626,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	protected Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
+	public Mouse3DEvent createMouse3DEvent(GPointWithZ mouse3DLoc) {
 		return new Mouse3DEventD(mouse3DLoc, getJPanel());
 	}
 
