@@ -36,6 +36,7 @@ import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -189,7 +190,8 @@ public class GgbAPID extends GgbAPIJre {
 							// draw graphics view into image
 							GBufferedImage img = ((AppD) getApplication())
 									.getEuclidianView1()
-									.getExportImage(exportScale, transparent);
+									.getExportImage(exportScale, transparent,
+											ExportType.PNG);
 
 							// write image to file
 							MyImageIO.write(
@@ -222,7 +224,8 @@ public class GgbAPID extends GgbAPIJre {
 	protected void exportPNGClipboardDPIisNaN(boolean transparent,
 			double exportScale, EuclidianView ev) {
 		// pastes into more programs
-		GBufferedImage img = ev.getExportImage(exportScale, transparent);
+		GBufferedImage img = ev.getExportImage(exportScale, transparent,
+				ExportType.PNG);
 
 		ImageSelection imgSel = new ImageSelection(
 				GBufferedImageD.getAwtBufferedImage(img));
@@ -234,7 +237,7 @@ public class GgbAPID extends GgbAPIJre {
 	protected String base64encodePNG(boolean transparent, double DPI,
 			double exportScale, EuclidianView ev) {
 		GBufferedImage img = ((EuclidianViewInterfaceD) ev)
-				.getExportImage(exportScale, transparent);
+				.getExportImage(exportScale, transparent, ExportType.PNG);
 		return base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
 	}
 

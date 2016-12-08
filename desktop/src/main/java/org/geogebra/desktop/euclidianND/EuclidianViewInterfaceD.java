@@ -9,6 +9,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.main.App.ExportType;
 
 /**
  * interface for 2D/3D view in desktop
@@ -63,7 +64,8 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 * @throws OutOfMemoryError
 	 *             if the requested image is too big
 	 */
-	public GBufferedImage getExportImage(double scale, boolean transparency)
+	public GBufferedImage getExportImage(double scale, boolean transparency,
+			ExportType exportType)
 			throws OutOfMemoryError;
 
 	/**
@@ -81,7 +83,7 @@ public interface EuclidianViewInterfaceD extends EuclidianViewInterfaceCommon {
 	 *            if we want to export to clipboard
 	 */
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard);
+			File file, boolean exportToClipboard, ExportType exportType);
 
 	/**
 	 * @return printing scale

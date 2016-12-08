@@ -414,10 +414,11 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard) {
+			File file, boolean exportToClipboard, ExportType exportType) {
 
 		try {
-			GBufferedImage img = getExportImage(scale, transparency);
+			GBufferedImage img = getExportImage(scale, transparency,
+					exportType);
 			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png",
 					dpi, file);
 			if (exportToClipboard) {

@@ -478,7 +478,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				}
 
 				exportPNGSilent(pngDestination, toClipboard, transparent,
-						getDPI(), exportScale, app, getEuclidianView());
+						getDPI(), exportScale, app, getEuclidianView(),
+						braille ? ExportType.PNG_BRAILLE : ExportType.PNG);
 
 				if (braille) {
 					// GGB-766
@@ -867,7 +868,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		File file = getTmpPNG();
 
 		return exportPNGSilent(file, true, transparent0, dpi, exportScale0, app,
-				ev);
+				ev, ExportType.PNG);
 	}
 
 	private static File getTmpPNG() {
@@ -883,7 +884,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	private static boolean exportPNGSilent(File file, boolean exportToClipboard,
 			boolean transparent0, int dpi, double exportScale0, AppD app,
-			EuclidianViewInterfaceD ev) {
+			EuclidianViewInterfaceD ev, ExportType exportType) {
 		if (file == null) {
 			return false;
 		}
@@ -893,7 +894,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// EuclidianViewInterfaceD ev = getEuclidianView();
 
 			exportPNG(ev, file, transparent0, dpi, exportScale0,
-					exportToClipboard);
+					exportToClipboard, exportType);
 
 			return true;
 		} catch (Exception ex) {
@@ -1188,10 +1189,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	public static void exportPNG(EuclidianViewInterfaceD ev, File file,
 			boolean transparent, int dpi, double exportScale,
-			boolean exportToClipboard) {
+			boolean exportToClipboard, ExportType exportType) {
 
 		ev.exportImagePNG(exportScale, transparent, dpi, file,
-				exportToClipboard);
+				exportToClipboard, exportType);
 
 	}
 
@@ -1202,7 +1203,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if ("png".equals(extension)) {
 			// can be 3D View
 			GraphicExportDialog.exportPNG(ev, file, transparent, dpi,
-					exportScale, false);
+					exportScale, false, ExportType.PNG);
 
 		} else if ("eps".equals(extension)) {
 

@@ -39,6 +39,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsG
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -548,11 +549,12 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	@Override
 	public GBufferedImage getExportImage(double scale) {
-		return getExportImage(scale, false);
+		return getExportImage(scale, false, ExportType.PNG);
 	}
 
 	@Override
-	public GBufferedImage getExportImage(double scale, boolean transparency)
+	public GBufferedImage getExportImage(double scale, boolean transparency,
+			ExportType exportType)
 			throws OutOfMemoryError {
 		getRenderer().needExportImage(scale, true);
 
@@ -565,7 +567,7 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard) {
+			File file, boolean exportToClipboard, ExportType exportType) {
 
 		exportDPI = dpi;
 		exportFile = file;

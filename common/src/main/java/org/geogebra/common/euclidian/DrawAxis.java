@@ -8,10 +8,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.Unicode;
 
 /**
  * Draws axes in 2D
@@ -36,8 +34,10 @@ public class DrawAxis {
 
 		// TRAC-5292
 		// problem exporting to PDF
+		// GGB-766
+		// also needed for Braille
 		char minusSign = view.getApplication().getExportType()
-				.equals(ExportType.PDF_EMBEDFONTS) ? '-' : Unicode.nDash;
+				.getAxisMinusSign();
 
 		// xCrossPix: yAxis crosses the xAxis at this x pixel
 		double xCrossPix = view.getXAxisCrossingPixel();

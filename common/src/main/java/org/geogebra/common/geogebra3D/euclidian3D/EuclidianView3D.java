@@ -111,6 +111,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -4769,7 +4770,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public GBufferedImage getExportImage(double scale, boolean transparency) {
+	public GBufferedImage getExportImage(double scale, boolean transparency,
+			ExportType exportType) {
 		return getRenderer().getExportImage(scale);
 	}
 

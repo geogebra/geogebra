@@ -85,6 +85,7 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
@@ -4414,7 +4415,18 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public enum ExportType {
-		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, SVG, PRINTING
+		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, PNG_BRAILLE, SVG, PRINTING;
+
+		public char getAxisMinusSign() {
+			switch (this) {
+			case PDF_EMBEDFONTS:
+			case PNG_BRAILLE:
+				return '-';
+
+			default:
+				return Unicode.nDash;
+			}
+		}
 	}
 
 	/**

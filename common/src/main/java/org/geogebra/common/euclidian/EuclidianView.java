@@ -5463,7 +5463,7 @@ public abstract class EuclidianView
 	 * @return image of drawing pad sized according to the given scale factor.
 	 */
 	public GBufferedImage getExportImage(double scale) {
-		return getExportImage(scale, false);
+		return getExportImage(scale, false, ExportType.PNG);
 	}
 
 	/**
@@ -5473,12 +5473,13 @@ public abstract class EuclidianView
 	 *            true for transparent image
 	 * @return image
 	 */
-	public GBufferedImage getExportImage(double scale, boolean transparency) {
+	public GBufferedImage getExportImage(double scale, boolean transparency,
+			ExportType exportType) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		GBufferedImage img = AwtFactory.getPrototype()
 				.createBufferedImage(width, height, transparency);
-		exportPaint(img.createGraphics(), scale, transparency, ExportType.PNG);
+		exportPaint(img.createGraphics(), scale, transparency, exportType);
 		img.flush();
 		return img;
 	}
