@@ -4104,7 +4104,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-779
 		case MOBILE_COPY_3D_VIEW_TO_IMAGE_VIEW_FOR_ANIMATIONS:
-			return false; // 5.0.290
+			return false;
 
 		// MOB-893
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
