@@ -4157,7 +4157,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-555
 		case MOBILE_3D_TOOLS_WITH_DIALOGS:
-			return prerelease;
+			return true; // 5.0.301
 
 		// MOB-1005
 		case MOBILE_DO_NOT_AUTOSYNC_APPS:
