@@ -526,7 +526,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	//		int y = 0;
 	//		Construction cons = kernel.getConstruction();
 	//		String title = cons.getTitle();
-	//		if (!title.equals("")) {
+	//		if (!"".equals(title)) {
 	//			Font titleFont = app.getBoldFont().deriveFont(Font.BOLD,
 	//					app.getBoldFont().getSize() + 2);
 	//			g2d.setFont(titleFont);
@@ -541,10 +541,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	//		String author = cons.getAuthor();
 	//		String date = cons.getDate();
 	//		String line = null;
-	//		if (!author.equals("")) {
+	//		if (!"".equals(author)) {
 	//			line = author;
 	//		}
-	//		if (!date.equals("")) {
+	//		if (!"".equals(date)) {
 	//			if (line == null)
 	//				line = date;
 	//			else

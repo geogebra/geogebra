@@ -52,7 +52,7 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 			break;
 		}
 
-		if (modifierKeyPressed && !insertString.equals("")) {
+		if (modifierKeyPressed && !"".equals(insertString)) {
 			int start = getCursorPos();
 			int end = start + getSelectionLength();
 			// clear selection if there is one

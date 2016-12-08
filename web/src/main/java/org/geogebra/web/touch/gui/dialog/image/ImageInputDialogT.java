@@ -114,10 +114,11 @@ public class ImageInputDialogT extends UploadImageDialog {
 			if (!location.isLabelSet()) {
 				location.setLabel(null);
 	    	}
-			if (this.cameraIsActive && !this.pictureFromCameraString.equals("")) {
+			if (this.cameraIsActive && !"".equals(this.pictureFromCameraString)) {
 				app.imageDropHappened("devicePicture",
 						this.pictureFromCameraString, "", location);
-			} else if (!this.cameraIsActive && !this.pictureFromFileString.equals("")) {
+			} else if (!this.cameraIsActive
+					&& !"".equals(this.pictureFromFileString)) {
 				app.imageDropHappened("devicePicture",
 						this.pictureFromFileString, "", location);
 			}
@@ -133,7 +134,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 
 	@Override
 	protected void uploadClicked() {
-		if (this.pictureFromFileString != null && !this.pictureFromFileString.equals("")) {
+		if (this.pictureFromFileString != null
+				&& !"".equals(this.pictureFromFileString)) {
 			imageAvailable();
 		} else {
 			imageUnavailable();
@@ -145,7 +147,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 	}
 	
 	protected void cameraClicked() {
-		if (this.pictureFromCameraString != null && !this.pictureFromCameraString.equals("")) {
+		if (this.pictureFromCameraString != null
+				&& !"".equals(this.pictureFromCameraString)) {
 			imageAvailable();
 		} else {
 			imageUnavailable();

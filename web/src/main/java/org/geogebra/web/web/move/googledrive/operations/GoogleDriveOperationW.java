@@ -415,7 +415,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
-		if (desc.equals("null") || desc.equals("undefined")) {
+		if ("l".equals(desc) || "d".equals(desc)) {
 			driveBase64description = "";
 		} else {
 			driveBase64description = desc;

@@ -310,7 +310,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private NumberValue getNumberFromInput(final String inputText) {
-		boolean emptyString = inputText.equals("");
+		boolean emptyString = "".equals(inputText);
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,

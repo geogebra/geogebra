@@ -314,7 +314,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public void displaySearchResults(final String query) {
 		clearMaterials();
-		if (query.equals("")) {
+		if ("".equals(query)) {
 			loadAllMaterials();
 			return;
 		}

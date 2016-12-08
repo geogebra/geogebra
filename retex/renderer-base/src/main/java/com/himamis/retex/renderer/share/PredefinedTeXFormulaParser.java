@@ -109,7 +109,7 @@ public class PredefinedTeXFormulaParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals(""))
+		if ("".equals(attrValue))
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
 		return attrValue;
 	}

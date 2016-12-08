@@ -579,7 +579,7 @@ public class ToolTipManagerW {
 			return;
 		}
 		// exit if toolTip is already hidden
-		if (!tipPanel.isVisible() && oldText.equals("")) {
+		if (!tipPanel.isVisible() && "".equals(oldText)) {
 			return;
 		}
 

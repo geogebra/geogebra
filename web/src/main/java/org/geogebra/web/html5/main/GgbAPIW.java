@@ -308,7 +308,7 @@ public class GgbAPIW extends GgbAPI {
 					getViewForThumbnail()
 							.getCanvasBase64WithTypeString(), archiveContent);
 
-		if (!macroXml.equals("")) {
+		if (!"".equals(macroXml)) {
 			writeMacroImages(archiveContent);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
 		}
@@ -342,7 +342,7 @@ public class GgbAPIW extends GgbAPI {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
 		writeMacroImages(archiveContent);
 		String macroXml = getApplication().getMacroXMLorEmpty();
-		if (!macroXml.equals("")) {
+		if (!"".equals(macroXml)) {
 			writeMacroImages(archiveContent);
 			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
 		}
@@ -762,7 +762,7 @@ public class GgbAPIW extends GgbAPI {
 		c2d.drawImage(img.getImage(), 0, 0);
 		url = cv.toDataUrl("image/png");
 		// Opera and Safari cannot toDataUrl jpeg (much less the others)
-		// if (ext.equals("jpg") || ext.equals("jpeg"))
+		// if ("g".equals(ext) || "g".equals(ext))
 		// addImageToZip(filePath + fileName, cv.toDataUrl("image/jpg"));
 		// else
 		return url;

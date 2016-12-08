@@ -654,7 +654,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !consTitle.equals("")
+		if (consTitle != null && !"".equals(consTitle)
 				&& !isMacro()) {
 			if (consTitle.startsWith(FileManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);

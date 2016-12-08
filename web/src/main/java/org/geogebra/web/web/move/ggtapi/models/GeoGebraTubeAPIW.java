@@ -157,7 +157,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				if (response != null) {
 					try {
 						String respData = response.getText();
-						if (respData == null || respData.equals("")) {
+						if (respData == null || "".equals(respData)) {
 							Log.debug("[ANIMGIF] no response");
 							return;
 						}

@@ -567,7 +567,7 @@ public class DefaultTeXFontParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals(""))
+		if ("".equals(attrValue))
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
 		return attrValue;
 	}
@@ -605,7 +605,7 @@ public class DefaultTeXFontParser {
 	public static int getOptionalInt(String attrName, Element element, int defaultValue)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals("")) // attribute not present
+		if ("".equals(attrValue)) // attribute not present
 			return defaultValue;
 		else {
 			// try parsing string to integer value
@@ -624,7 +624,7 @@ public class DefaultTeXFontParser {
 	public static float getOptionalFloat(String attrName, Element element, float defaultValue)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals("")) // attribute not present
+		if ("".equals(attrValue)) // attribute not present
 			return defaultValue;
 		else {
 			// try parsing string to float value

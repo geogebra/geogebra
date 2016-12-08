@@ -75,7 +75,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 			onArrow(ArrowType.left);
 		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
 			field.insertString("^");
-		} else if (text.equals("nroot")) {
+		} else if ("t".equals(text)) {
 			field.insertString("()");
 			onArrow(ArrowType.left);
 		}

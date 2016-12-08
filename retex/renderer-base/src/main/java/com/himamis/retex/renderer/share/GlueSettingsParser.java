@@ -141,7 +141,7 @@ public class GlueSettingsParser {
 			String attrVal = null;
 			try {
 				attrVal = type.getAttribute(names[i]);
-				if (!attrVal.equals("")) // attribute present
+				if (!"".equals(attrVal)) // attribute present
 					val = Double.parseDouble(attrVal);
 			} catch (NumberFormatException e) {
 				throw new XMLResourceParseException(RESOURCE_NAME, "GlueType", names[i],
@@ -214,7 +214,7 @@ public class GlueSettingsParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals(""))
+		if ("".equals(attrValue))
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
 		return attrValue;
 	}

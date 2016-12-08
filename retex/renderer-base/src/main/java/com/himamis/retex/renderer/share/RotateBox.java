@@ -115,29 +115,29 @@ public class RotateBox extends Box {
 		if (option.length() == 1) {
 			option += "c";
 		}
-		if (option.equals("bl") || option.equals("lb")) {
+		if ("l".equals(option) || "b".equals(option)) {
 			return BL;
-		} else if (option.equals("bc") || option.equals("cb")) {
+		} else if ("c".equals(option) || "b".equals(option)) {
 			return BC;
-		} else if (option.equals("br") || option.equals("rb")) {
+		} else if ("r".equals(option) || "b".equals(option)) {
 			return BR;
-		} else if (option.equals("cl") || option.equals("lc")) {
+		} else if ("l".equals(option) || "c".equals(option)) {
 			return CL;
-		} else if (option.equals("cc")) {
+		} else if ("c".equals(option)) {
 			return CC;
-		} else if (option.equals("cr") || option.equals("cr")) {
+		} else if ("r".equals(option) || "r".equals(option)) {
 			return CR;
-		} else if (option.equals("tl") || option.equals("lt")) {
+		} else if ("l".equals(option) || "t".equals(option)) {
 			return TL;
-		} else if (option.equals("tc") || option.equals("ct")) {
+		} else if ("c".equals(option) || "t".equals(option)) {
 			return TC;
-		} else if (option.equals("tr") || option.equals("rt")) {
+		} else if ("r".equals(option) || "t".equals(option)) {
 			return TR;
-		} else if (option.equals("Bl") || option.equals("lB")) {
+		} else if ("l".equals(option) || "B".equals(option)) {
 			return BBL;
-		} else if (option.equals("Bc") || option.equals("cB")) {
+		} else if ("c".equals(option) || "B".equals(option)) {
 			return BBC;
-		} else if (option.equals("Br") || option.equals("rB")) {
+		} else if ("r".equals(option) || "B".equals(option)) {
 			return BBR;
 		} else
 

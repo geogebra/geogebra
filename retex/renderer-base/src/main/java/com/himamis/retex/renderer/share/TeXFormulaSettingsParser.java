@@ -97,9 +97,9 @@ public class TeXFormulaSettingsParser {
 			String symbol = map.getAttribute("symbol");
 			String text = map.getAttribute("text");
 			// both attributes are required!
-			if (ch.equals("")) {
+			if ("".equals(ch)) {
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
-			} else if (symbol.equals("")) {
+			} else if ("".equals(symbol)) {
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "symbol", null);
 			}
 
@@ -111,7 +111,7 @@ public class TeXFormulaSettingsParser {
 						"must have a value that contains exactly 1 character!");
 			}
 
-			if (tableText != null && !text.equals("")) {
+			if (tableText != null && !"".equals(text)) {
 				tableText[ch.charAt(0)] = text;
 			}
 		}
@@ -125,9 +125,9 @@ public class TeXFormulaSettingsParser {
 			String formula = map.getAttribute("formula");
 			String text = map.getAttribute("text");
 			// both attributes are required!
-			if (ch.equals(""))
+			if ("".equals(ch))
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
-			else if (formula.equals(""))
+			else if ("".equals(formula))
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "formula", null);
 			if (ch.length() == 1) {// valid element found
 				tableMath[ch.charAt(0)] = formula;
@@ -136,7 +136,7 @@ public class TeXFormulaSettingsParser {
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char",
 						"must have a value that contains exactly 1 character!");
 
-			if (tableText != null && !text.equals("")) {
+			if (tableText != null && !"".equals(text)) {
 				tableText[ch.charAt(0)] = text;
 			}
 		}

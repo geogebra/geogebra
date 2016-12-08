@@ -119,10 +119,10 @@ public class MathQuillProcessing implements KeyboardListener {
 			// probably not have issues for indeterministic behaviour
 			// that's why this is probably better than entering
 			// "(" + ")" by keypress events...
-		} else if (text.equals("nroot")) {
+		} else if ("t".equals(text)) {
 			field.insertString("nroo");
 			field.keypress('t', false, false, true, false);
-		} else if (text.equals("log")) {
+		} else if ("g".equals(text)) {
 			field.insertString("log_{10}");
 			field.keypress('(', false, false, false, true);
 		} else if (text.equals(KeyboardConstants.A_SQUARE)) {
@@ -130,9 +130,9 @@ public class MathQuillProcessing implements KeyboardListener {
 		} else if (keyPressNeeded(text)) {
 			field.keypress(text.charAt(0), false, false, false,
 					text.startsWith("(") || text.startsWith("|"));
-		} else if (text.equals("abs")) {
+		} else if ("s".equals(text)) {
 			field.keypress('|', false, false, false, true);
-		} else if (text.equals("quotes")) {
+		} else if ("s".equals(text)) {
 			field.keypress('"', false, false, false, true);
 		} else {
 			// if (text.length() == 1) {
@@ -187,11 +187,11 @@ public class MathQuillProcessing implements KeyboardListener {
 	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
 	 */
 	protected static boolean keyPressNeeded(String text) {
-		return text.equals("/") || text.equals("_") || text.equals("$")
-				|| text.equals(" ") || text.equals("|") || text.equals(",")
-				|| text.equals("*") || text.startsWith("(") || text.equals(")")
-				|| text.equals("[") || text.equals("]") || text.equals("{")
-				|| text.equals("}") || text.equals(Unicode.SQUARE_ROOT + "")
+		return "/".equals(text) || "_".equals(text) || "$".equals(text)
+				|| " ".equals(text) || "|".equals(text) || ",".equals(text)
+				|| "*".equals(text) || text.startsWith("(") || ")".equals(text)
+				|| "[".equals(text) || "]".equals(text) || "{".equals(text)
+				|| "}".equals(text) || text.equals(Unicode.SQUARE_ROOT + "")
 				// allowing both syntaxes for * and / here
 				|| text.equals(Unicode.MULTIPLY + "")
 				|| text.equals(Unicode.DIVIDE);

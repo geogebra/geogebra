@@ -195,7 +195,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 
 		int key = 0;
 
-		boolean upperCase = updateSection.equals("shiftDown");
+		boolean upperCase = "n".equals(updateSection);
 		int offset = upperCase ? 1 : 0;
 
 

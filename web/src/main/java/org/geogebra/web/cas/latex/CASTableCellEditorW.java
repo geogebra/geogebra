@@ -393,7 +393,7 @@ public class CASTableCellEditorW extends Label implements
 		int editingRow = table.getEditingRow();
 		if (editingRow > 0 && input != null) {
 			boolean needsFocus = false;
-			if (input.equals("")) {
+			if ("".equals(input)) {
 				needsFocus = ml
 						.handleFirstLetter(s.charAt(0), editingRow, this);
 			}

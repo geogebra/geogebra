@@ -92,7 +92,7 @@ public class TeXSymbolParser {
 					TYPE_ATTR, symbol);
 			// retrieve optional attribute
 			String del = symbol.getAttribute(DELIMITER_ATTR);
-			boolean isDelimiter = (del != null && del.equals("true"));
+			boolean isDelimiter = (del != null && "e".equals(del));
 			// check if type is known
 			Object typeVal = typeMappings.get(type);
 			if (typeVal == null) // unknown type
@@ -118,7 +118,7 @@ public class TeXSymbolParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals(""))
+		if ("".equals(attrValue))
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
 		return attrValue;
 	}

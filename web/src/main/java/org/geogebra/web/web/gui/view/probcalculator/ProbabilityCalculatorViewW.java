@@ -873,7 +873,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 			String inputText = source.getText().trim();
 			boolean update = true;
-			if (!inputText.equals("")) {
+			if (!"".equals(inputText)) {
 				int dotIndex = inputText.indexOf('.');
 					
 				if (dotIndex == inputText.length() - 1) {
@@ -888,7 +888,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				if ((inputText.charAt(inputText.length() - 1) != '.')
 						&& (dotIndex == -1 || (inputText
 								.charAt(inputText.length() - 1) != '0'))
-			        && !inputText.equals("-")) {
+			        && !"-".equals(inputText)) {
 			// Double value = Double.parseDouble(source.getText());
 
 				// allow input such as sqrt(2)

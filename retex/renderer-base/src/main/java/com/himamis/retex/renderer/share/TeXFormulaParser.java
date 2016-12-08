@@ -444,7 +444,7 @@ public class TeXFormulaParser {
 	}
 
 	private static void checkNullValue(String value, String type) throws ResourceParseException {
-		if (value.equals("")) {
+		if ("".equals(value)) {
 			throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
 					ARG_VAL_ATTR, "is required for an argument of type '" + type + "'!");
 		}
@@ -453,7 +453,7 @@ public class TeXFormulaParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if (attrValue.equals("")) {
+		if ("".equals(attrValue)) {
 			throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME,
 					element.getTagName(), attrName, null);
 		}

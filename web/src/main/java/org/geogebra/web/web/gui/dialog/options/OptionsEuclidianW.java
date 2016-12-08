@@ -149,7 +149,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		}
 		protected double parseDouble(String text) {
-			if (text == null || text.equals(""))
+			if (text == null || "".equals(text))
 				return Double.NaN;
 			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 		}
