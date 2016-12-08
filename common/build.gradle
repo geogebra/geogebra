@@ -64,3 +64,13 @@ test {
 findbugs{
      ignoreFailures = true
 }
+
+tasks.withType(FindBugs) {
+    exclude '**/edu/uci/**', '**/org/apache/**', '**/com/github/**', '**/com/google/**'
+    classes = classes.filter { 
+        !it.path.contains(new File("edu/uci/").path)  &&
+        !it.path.contains(new File("org/apache/").path) &&
+        !it.path.contains(new File("com/github/").path) &&
+        !it.path.contains(new File("com/google/").path)
+    }
+}
