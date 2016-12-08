@@ -101,11 +101,11 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     }
 
     public boolean isArray() {
-        return tagName.equals("Array");
+        return "Array".equals(tagName);
     }
 
     public boolean isMatrix() {
-        return tagName.equals("Matrix");
+        return "Matrix".equals(tagName);
     }
 
 	public String getGroup() {

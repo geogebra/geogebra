@@ -56,7 +56,7 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String input) {
-                return input.equals("\u00B2");
+                return "\u00B2".equals(input);
             }
         });
         adapters.add(new StringInput() {
@@ -67,7 +67,7 @@ public class KeyboardInputAdapter {
 
             @Override
             public boolean test(String input) {
-                return input.equals("\u221A");
+                return "\u221A".equals(input);
             }
         });
         adapters.add(new StringInput() {
