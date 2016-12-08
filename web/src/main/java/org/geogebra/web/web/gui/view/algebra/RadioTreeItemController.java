@@ -176,7 +176,6 @@ public class RadioTreeItemController
 
 		if (CancelEventTimer.cancelMouseEvent()
 				|| isMarbleHit(event)) {
-			app.closePopups();
 			return;
 		}
 

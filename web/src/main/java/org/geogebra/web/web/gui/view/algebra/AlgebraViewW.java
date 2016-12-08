@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
@@ -31,6 +32,8 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
@@ -67,7 +70,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public class AlgebraViewW extends Tree implements LayerView,
  AlgebraView,
-OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
+		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Flag for LaTeX rendering
 	 */
@@ -1631,17 +1634,20 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 
 		boolean sameItem = activeItem == item;
-		if (!sameItem) {
-			stopCurrentEditor();
+		if (sameItem) {
+			return;
 		}
-		if ((this.activeItem != null) && !sameItem
+
+		stopCurrentEditor();
+
+		if ((this.activeItem != null)
 				&& (!this.activeItem.commonEditingCheck())
 				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			// removeCloseButton() on this would cause infinite recursion
 			activeItem.removeCloseButton();
 		}
 
-		if (activeItem != null && !sameItem
+		if (activeItem != null 
 				&& !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
 		}
@@ -1801,7 +1807,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			editItem = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
-				RadioTreeItem.as(node).enterEditMode(
+				RadioTreeItem ri = RadioTreeItem.as(node);
+				expandWidth(ri.getWidthForEdit());
+				ri.enterEditMode(
 						geo.isPointOnPath() || geo.isPointInRegion());
 			}
 		}
@@ -1944,6 +1952,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Update items for new window size / pixel ratio
 	 */
 	public void resize() {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			// setOriginalWidth(null);
+		}
+		
 		if (app.has(Feature.AV_SCROLL)) {
 			int resizedWidth = getOffsetWidth();
 			if (maxItemWidth == 0) {
@@ -2086,6 +2098,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void resetItems(boolean unselectAll) {
 		MinMaxPanel.closeMinMaxPanel();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+			cancelEditItem();
+			stopCurrentEditor();
 			return;
 		}
 
@@ -2177,6 +2191,57 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public int getMaxItemWidth() {
 		return maxItemWidth > getOffsetWidth() ? maxItemWidth
 				: getOffsetWidth();
+	}
+
+	/**
+	 * Algebra View is expanded to the item's width when editing.
+	 * 
+	 * @param width
+	 *            The width to expand.
+	 */
+	public void expandWidth(int width) {
+		if (getOriginalWidth() != null) {
+			return;
+		}
+
+		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
+		if (splitPane == null || splitPane
+				.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
+			return;
+		}
+
+		int currentWidth = avDockPanel.asWidget().getOffsetWidth();
+
+		if (currentWidth < width) {
+			setOriginalWidth(currentWidth);
+			Log.debug("[AVSIZE] expanding width to " + width);
+
+			splitPane.setWidgetSize(avDockPanel, width);
+			avDockPanel.deferredOnResize();
+
+		} else {
+			// setOriginalWidth(null);
+		}
+	}
+
+	/**
+	 * Restores AV original size before editing, if it has been expanded.
+	 */
+	public void restoreWidth() {
+		Integer w = getOriginalWidth();
+		if (w != null) {
+			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+			Log.debug("[AVSIZE] restoring width to " + w);
+			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+			avDockPanel.deferredOnResize();
+			setOriginalWidth(null);
+		}
+	}
+
+	private AlgebraDockPanelW getAlgebraDockPanel() {
+		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
 }

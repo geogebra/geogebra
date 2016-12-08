@@ -283,4 +283,14 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		return slider;
 	}
 
+	public void expandSize(int width) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void restoreSize() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

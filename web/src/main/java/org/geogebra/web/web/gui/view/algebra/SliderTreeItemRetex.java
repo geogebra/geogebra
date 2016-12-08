@@ -276,4 +276,14 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	public void setSlider(SliderPanelW slider) {
 		this.slider = slider;
 	}
+
+	public void expandSize(int width) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void restoreSize() {
+		// TODO Auto-generated method stub
+
+	}
 }

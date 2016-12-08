@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -48,7 +47,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
-import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -1316,8 +1314,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		styleEditor();
 
-		restoreSize();
-
 		if (stylebarShown != null) {
 			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
 			stylebarShown = null;
@@ -2219,37 +2215,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public boolean needsAutofocus() {
 		return true;
-	}
-
-	public void expandSize(int newWidth) {
-		if (getAV().getOriginalWidth() != null) {
-			return;
-		}
-		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-		int w = avDockPanel.asWidget().getOffsetWidth();
-		if (w < newWidth) {
-			DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
-			if (splitPane == null || splitPane
-					.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
-				return;
-			}
-			getAV().setOriginalWidth(w);
-			splitPane.setWidgetSize(avDockPanel, newWidth);
-			avDockPanel.deferredOnResize();
-
-		} else {
-			getAV().setOriginalWidth(null);
-		}
-	}
-
-	public void restoreSize() {
-		Integer w = getAV().getOriginalWidth();
-		if (w != null) {
-			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
-			avDockPanel.deferredOnResize();
-			getAV().setOriginalWidth(null);
-		}
 	}
 
 	protected PushButton getClearInputButton() {
