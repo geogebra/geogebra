@@ -491,7 +491,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		sb.append(table.preferredColumnWidth);
 		sb.append("\"");
 		sb.append(" height=\"");
-		sb.append(MyTableW.minimumRowHeight
+		sb.append(table.minimumRowHeight
 		// FIXME: temporarily, otherwise:
 		// table.getRowHeight()
 		);
@@ -513,7 +513,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			for (int row = 1; row < table.getRowCount(); row++) {
 				int rowHeight = table.getGrid().getRowFormatter()
 				        .getElement(row).getOffsetHeight();
-				if (rowHeight != MyTableW.minimumRowHeight
+				if (rowHeight != table.minimumRowHeight
 				// FIXME: temporarily, otherwise
 				// table.getRowHeight()
 				)

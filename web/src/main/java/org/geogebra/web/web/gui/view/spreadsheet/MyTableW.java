@@ -180,7 +180,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	// there should be place left for the textfield
-	public static int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
+	public int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
 	// the textfield is this much smaller than the row height and column width
 	public static int minusRowHeight = 2; // 12;
 	public static int minusColumnWidth = 2; // 14;

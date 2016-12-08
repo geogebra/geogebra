@@ -83,7 +83,7 @@ import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LatexTable;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
@@ -105,7 +105,7 @@ public class TextInputDialogD extends InputDialogD
 	private JCheckBox cbLaTeX;
 	private JToolBar toolBar;
 	private JPanel previewPanel, editPanel, toolPanel;
-	private PopupMenuButton btInsertLaTeX, btInsertUnicode, btInsertGeo;
+	private PopupMenuButtonD btInsertLaTeX, btInsertUnicode, btInsertGeo;
 	private JLabel previewHeader, editHeader;
 
 	// text handling fields
@@ -249,8 +249,8 @@ public class TextInputDialogD extends InputDialogD
 		cbLaTeX.addActionListener(this);
 
 		// create insertion buttons
-		btInsertUnicode = new PopupMenuButton(app);
-		btInsertLaTeX = new PopupMenuButton(app);
+		btInsertUnicode = new PopupMenuButtonD(app);
+		btInsertLaTeX = new PopupMenuButtonD(app);
 		btInsertLaTeX.setVisible(false);
 
 		// (build the latex button on demand)
@@ -549,7 +549,7 @@ public class TextInputDialogD extends InputDialogD
 				});
 
 		// create a popup button and add the list to it
-		btInsertGeo = new PopupMenuButton(app) {
+		btInsertGeo = new PopupMenuButtonD(app) {
 
 			private static final long serialVersionUID = 1L;
 

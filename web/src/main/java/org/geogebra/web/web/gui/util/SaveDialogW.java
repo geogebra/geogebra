@@ -88,7 +88,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private final static int MIN_TITLE_LENGTH = 1;
 	Runnable runAfterSave;
 	// SaveCallback saveCallback;
-	private PopupMenuButton providerPopup;
+	private PopupMenuButtonW providerPopup;
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
 	private MaterialType saveType;
@@ -314,7 +314,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		if (providerPopup != null) {
 			buttonPanel.remove(providerPopup);
 		}
-		providerPopup = new PopupMenuButton(app, ImageOrText.convert(
+		providerPopup = new PopupMenuButtonW(app, ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
 				SelectionTable.MODE_ICON);
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
@@ -701,7 +701,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	@Override
-	public void fireActionPerformed(PopupMenuButton actionButton) {
+	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		Provider provider = this.supportedProviders.get(actionButton.getSelectedIndex());
 		app.getFileManager().setFileProvider(provider);
 

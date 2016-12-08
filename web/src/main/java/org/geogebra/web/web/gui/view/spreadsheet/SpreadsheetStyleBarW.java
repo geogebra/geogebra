@@ -15,7 +15,7 @@ import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW;
 
@@ -278,7 +278,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 
 	}
 
-	public void fireActionPerformed(PopupMenuButton actionButton) {
+	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		handleEventHandlers(actionButton);
     }
 }

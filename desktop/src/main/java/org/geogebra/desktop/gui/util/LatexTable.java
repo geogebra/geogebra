@@ -24,12 +24,12 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 
 	private TextInputDialogD inputDialog;
 	private String[] latexArray;
-	private PopupMenuButton popupButton;
+	private PopupMenuButtonD popupButton;
 	private int caretPosition = 0;
 	private SelectionTable mode;
 
 	public LatexTable(AppD app, TextInputDialogD textInputDialog,
-			PopupMenuButton popupButton, String[] latexArray, int rows,
+			PopupMenuButtonD popupButton, String[] latexArray, int rows,
 			int columns, SelectionTable mode) {
 
 		super(app, latexArray, rows, columns, new Dimension(24, 24), mode);

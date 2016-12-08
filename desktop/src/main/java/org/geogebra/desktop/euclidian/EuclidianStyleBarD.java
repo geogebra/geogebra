@@ -44,7 +44,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -110,7 +110,7 @@ public class EuclidianStyleBarD extends JToolBar
 	// buttons and lists of buttons
 	protected ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	protected PopupMenuButton btnLineStyle, btnPointStyle, btnTextSize,
+	protected PopupMenuButtonD btnLineStyle, btnPointStyle, btnTextSize,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
 			btnPointCapture, btnAngleInterval;
 
@@ -131,7 +131,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 	MyToggleButton btnFixPosition, btnFixObject;
 
-	private PopupMenuButton[] popupBtnList;
+	private PopupMenuButtonD[] popupBtnList;
 	private MyToggleButton[] toggleBtnList;
 
 	// fields for setting/unsetting default geos
@@ -537,8 +537,8 @@ public class EuclidianStyleBarD extends JToolBar
 		// nothing to do in 2D
 	}
 
-	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnColor, btnBgColor, btnTextColor,
+	protected PopupMenuButtonD[] newPopupBtnList() {
+		return new PopupMenuButtonD[] { btnColor, btnBgColor, btnTextColor,
 				btnLineStyle, btnPointStyle, btnTextSize, btnTableTextJustify,
 				btnTableTextBracket, btnAngleInterval, btnLabelStyle,
 				btnPointCapture, };
@@ -632,7 +632,7 @@ public class EuclidianStyleBarD extends JToolBar
 					Color.BLACK, null);
 
 		// create button
-		btnLineStyle = new PopupMenuButton(app, lineStyleIcons, -1, 1,
+		btnLineStyle = new PopupMenuButtonD(app, lineStyleIcons, -1, 1,
 				lineStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -723,7 +723,7 @@ public class EuclidianStyleBarD extends JToolBar
 					Color.BLACK, null);
 
 		// create button
-		btnPointStyle = new PopupMenuButton(app, pointStyleIcons, 2, -1,
+		btnPointStyle = new PopupMenuButtonD(app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -804,7 +804,7 @@ public class EuclidianStyleBarD extends JToolBar
 					GeoAngle.getIntervalMaxList(i));
 		}
 
-		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
+		btnAngleInterval = new PopupMenuButtonD(app, angleIntervalArray, -1, 1,
 				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -847,7 +847,7 @@ public class EuclidianStyleBarD extends JToolBar
 				loc.getPlain("Caption") // index 3
 		};
 
-		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
+		btnLabelStyle = new PopupMenuButtonD(app, captionArray, -1, 1,
 				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -890,7 +890,7 @@ public class EuclidianStyleBarD extends JToolBar
 				app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 				app.getMenu("off") };
 
-		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
+		btnPointCapture = new PopupMenuButtonD(app, strPointCapturing, -1, 1,
 				new Dimension(0, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -1300,7 +1300,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
 
-		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
+		btnTextSize = new PopupMenuButtonD(app, textSizeArray, -1, 1,
 				new Dimension(-1, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;
@@ -1354,7 +1354,7 @@ public class EuclidianStyleBarD extends JToolBar
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_LEFT),
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_CENTER),
 				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_RIGHT) };
-		btnTableTextJustify = new PopupMenuButton((AppD) ev.getApplication(),
+		btnTableTextJustify = new PopupMenuButtonD((AppD) ev.getApplication(),
 				justifyIcons, 1, -1, new Dimension(getIconWidth(), iconHeight),
 				SelectionTable.MODE_ICON) {
 
@@ -1402,7 +1402,7 @@ public class EuclidianStyleBarD extends JToolBar
 					Color.BLACK, null);
 		}
 
-		btnTableTextBracket = new PopupMenuButton((AppD) ev.getApplication(),
+		btnTableTextBracket = new PopupMenuButtonD((AppD) ev.getApplication(),
 				bracketIcons, 2, -1,
 				new Dimension(getIconWidth(30) + 4, iconHeight + 4),
 				SelectionTable.MODE_ICON) {
@@ -1743,7 +1743,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// not needed in Desktop
 	}
 
-	protected PopupMenuButton getBtnPointStyle() {
+	protected PopupMenuButtonD getBtnPointStyle() {
 		return btnPointStyle;
 	}
 

@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -21,7 +21,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		PopupMenuHandler {
 
 	private ConstructionProtocolViewW cpView;
-	private PopupMenuButton btnColumns;
+	private PopupMenuButtonW btnColumns;
 
 	String[] tableColumns = {};
 	boolean[] show = {};
@@ -51,7 +51,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 			}
 		}
 
-		btnColumns = new PopupMenuButton(app,
+		btnColumns = new PopupMenuButtonW(app,
 		        ImageOrText.convert(tableColumns), -1, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, true, false,
 		        show);
@@ -68,7 +68,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		// TODO Auto-generated method stub
 	}
 
-	public void fireActionPerformed(PopupMenuButton actionButton) {
+	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		if (actionButton == btnColumns) {
 
 			// which item was selected in the menu

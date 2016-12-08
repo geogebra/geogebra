@@ -31,7 +31,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 	protected final static int ICON_HEIGHT = 24;
 
-	PopupMenuButton viewButton;
+	PopupMenuButtonW viewButton;
 	MyCJButton menuButton;
 	public AppW app;
 	int viewID;
@@ -99,11 +99,11 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		}
 		add(menuButton);
 	}
-	protected PopupMenuButton getViewButton(){
+	protected PopupMenuButtonW getViewButton(){
 		return this.viewButton;
 	}
 	/**
-	 * adds a {@link PopupMenuButton button} to show a popup, where the user can
+	 * adds a {@link PopupMenuButtonW button} to show a popup, where the user can
 	 * either close this view or open another one.
 	 */
 	protected void addViewButton(){
@@ -149,7 +149,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			}
 		}
 
-		viewButton = new PopupMenuButton(app, data, k, 1,
+		viewButton = new PopupMenuButtonW(app, data, k, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		viewButton.addStyleDependentName("borderless");
 		viewButton.addStyleDependentName("rightaligned");
@@ -186,7 +186,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 
 	    viewButton.addPopupHandler(new PopupMenuHandler(){
 			@Override
-            public void fireActionPerformed(PopupMenuButton actionButton) {
+            public void fireActionPerformed(PopupMenuButtonW actionButton) {
 				int i = viewButton.getSelectedIndex();
 
 				// the first item is the close button

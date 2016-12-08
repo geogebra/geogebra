@@ -15,7 +15,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -25,7 +24,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * Table popup for selecting properties of objects
  *
  */
-public class PopupMenuButton extends MyCJButton
+public class PopupMenuButtonW extends MyCJButton
 		implements ChangeHandler, SliderInputHandler {
 	
 	/**
@@ -47,7 +46,6 @@ public class PopupMenuButton extends MyCJButton
 	private boolean isIniting = true;
 	private ImageOrText fixedIcon;
 	private boolean isFixedIcon = false;
-	private HandlerRegistration actionListener;
 	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
 
@@ -63,7 +61,7 @@ public class PopupMenuButton extends MyCJButton
 	 * @param mode
 	 *            {@link SelectionTableW}
 	 */
-	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode) {
 		this(app, data, rows, columns, mode, true, false);
 	}
@@ -84,7 +82,7 @@ public class PopupMenuButton extends MyCJButton
 	 * @param hasSlider
 	 *            {@code boolean}
 	 */
-	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null);
@@ -109,7 +107,7 @@ public class PopupMenuButton extends MyCJButton
 	 * @param selected
 	 *            which items are selected
 	 */
-	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
+	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected) {
 		super();
@@ -126,7 +124,7 @@ public class PopupMenuButton extends MyCJButton
 
 			public void onClick(ClickEvent event) {
 				event.stopPropagation();
-				if (!PopupMenuButton.this.isEnabled()) {
+				if (!PopupMenuButtonW.this.isEnabled()) {
 					return;
 				}
 				handleClick();
@@ -174,7 +172,7 @@ public class PopupMenuButton extends MyCJButton
     }
 
 	/**
-	 * handle click on {@link PopupMenuButton this button}
+	 * handle click on {@link PopupMenuButtonW this button}
 	 */
 	void handleClick() {
 		onClickAction();
@@ -473,9 +471,6 @@ public class PopupMenuButton extends MyCJButton
 	 *            {@link EuclidianStyleBarW}
 	 */
 	public void removeActionListener(EuclidianStyleBarW euclidianStyleBar) {
-		if (actionListener != null) {
-			actionListener.removeHandler();
-		}
 	}
 
 	/**

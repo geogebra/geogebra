@@ -8,7 +8,7 @@ import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.shared.GWT;
 
@@ -33,7 +33,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	}
 
 	@Override
-	protected void setIcon(OptionType type, PopupMenuButton btn) {
+	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		switch (type) {
 		case EUCLIDIAN3D :
 			PerspectiveResources pr = ((ImageFactory) GWT

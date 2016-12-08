@@ -6,7 +6,7 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.web.html5.main.AppW;
 
-public class LineStylePopup extends PopupMenuButton  {
+public class LineStylePopup extends PopupMenuButtonW  {
 
 	private static final int DEFAULT_SIZE = 2;
 

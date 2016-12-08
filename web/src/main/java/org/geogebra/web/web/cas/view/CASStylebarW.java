@@ -17,7 +17,7 @@ import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW;
 
@@ -43,7 +43,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	private boolean needUndo = false;
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
-	private PopupMenuButton[] popupBtnList;
+	private PopupMenuButtonW[] popupBtnList;
 	private MyToggleButton2[] toggleBtnList;
 	private Localization loc;
 
@@ -277,8 +277,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	/**
 	 * @return array of popup buttons
 	 */
-	private PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnTextColor };
+	private PopupMenuButtonW[] newPopupBtnList() {
+		return new PopupMenuButtonW[] { btnTextColor };
 	}
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
@@ -315,7 +315,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		}
 	}
 
-	public void fireActionPerformed(PopupMenuButton actionButton) {
+	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		if (actionButton == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				applyTextColor(selectedRows);

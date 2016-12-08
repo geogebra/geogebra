@@ -70,7 +70,7 @@ import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.PointStylePopup;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -524,7 +524,7 @@ public class OptionsTab extends FlowPanel {
 	private class DecoAnglePanel extends OptionPanel implements
 			IDecoAngleListener {
 		private Label decoLabel;
-		private PopupMenuButton decoPopup;
+		private PopupMenuButtonW decoPopup;
 		DecoAngleModel model;
 		private AppW app;
 
@@ -541,7 +541,7 @@ public class OptionsTab extends FlowPanel {
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 			}
-			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
+			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
@@ -596,7 +596,7 @@ public class OptionsTab extends FlowPanel {
 	private class DecoSegmentPanel extends OptionPanel implements
 			IComboListener {
 		private Label decoLabel;
-		private PopupMenuButton decoPopup;
+		private PopupMenuButtonW decoPopup;
 		DecoSegmentModel model;
 		private AppW app;
 
@@ -613,7 +613,7 @@ public class OptionsTab extends FlowPanel {
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 			}
-			decoPopup = new PopupMenuButton(app, iconArray, -1, 1,
+			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent() {
@@ -843,7 +843,7 @@ public class OptionsTab extends FlowPanel {
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 
 				@Override
-				public void fireActionPerformed(PopupMenuButton actionButton) {
+				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					model.applyLineTypeFromIndex(btnLineStyle
 							.getSelectedIndex());
 

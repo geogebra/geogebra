@@ -10,12 +10,12 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
-public class ColorPopupMenuButton extends PopupMenuButton
+public class ColorPopupMenuButton extends PopupMenuButtonW
 		implements ClickHandler {
 
 	private static final int NUM_OF_BUTTONS = 27;

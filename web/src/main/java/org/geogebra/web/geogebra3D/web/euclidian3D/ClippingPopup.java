@@ -6,9 +6,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
-public class ClippingPopup extends PopupMenuButton {
+public class ClippingPopup extends PopupMenuButtonW {
 
 	private EuclidianView3D ev;
 	private ImageOrText defaultIcon;

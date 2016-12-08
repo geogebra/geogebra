@@ -17,7 +17,7 @@ import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
 
@@ -39,7 +39,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 
 
-	private PopupMenuButton btnViewProjection;
+	private PopupMenuButtonW btnViewProjection;
 
 	/**
 	 * constructor
@@ -196,7 +196,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		}
 	}
 
-	private class PopupMenuButtonForView3D extends PopupMenuButton /*
+	private class PopupMenuButtonForView3D extends PopupMenuButtonW /*
 																	 * implements
 																	 * ClickHandler
 																	 */{
@@ -293,7 +293,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	}
 
 	@Override
-	protected PopupMenuButton getAxesOrGridPopupMenuButton() {
+	protected PopupMenuButtonW getAxesOrGridPopupMenuButton() {
 		return btnShowAxesAndPlane;
 	}
 
@@ -340,9 +340,9 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	// }
 
 	@Override
-	protected PopupMenuButton[] newPopupBtnList() {
-		PopupMenuButton[] superList = super.newPopupBtnList();
-		PopupMenuButton[] ret = new PopupMenuButton[superList.length + 4];
+	protected PopupMenuButtonW[] newPopupBtnList() {
+		PopupMenuButtonW[] superList = super.newPopupBtnList();
+		PopupMenuButtonW[] ret = new PopupMenuButtonW[superList.length + 4];
 
 		// -1: skip change view popup and insert it after rotate
 		for (int i = 0; i < superList.length - 1; i++)

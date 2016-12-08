@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 
-public class PointStylePopup extends PopupMenuButton implements IComboListener {
+public class PointStylePopup extends PopupMenuButtonW implements IComboListener {
 
 	private static final int DEFAULT_SIZE = 4;
 	private static HashMap<Integer, Integer> pointStyleMap;

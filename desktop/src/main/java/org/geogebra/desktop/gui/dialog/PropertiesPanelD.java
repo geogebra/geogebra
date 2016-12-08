@@ -161,7 +161,7 @@ import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -2699,13 +2699,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JLabel lblMsgSelected;
 		private JButton btnOpenFile;
 
-		private PopupMenuButton btnImage;
+		private PopupMenuButtonD btnImage;
 		// button for removing turtle's image
 		private JButton btnClearImage;
 		private JLabel lblFillInverse;
 		private JLabel lblSymbols;
 		private ArrayList<ImageResourceD> imgFileNameList;
-		private PopupMenuButton btInsertUnicode;
+		private PopupMenuButtonD btInsertUnicode;
 
 		// For handle single bar
 		private JPanel barsPanel;
@@ -2721,7 +2721,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// For filling whit unicode char
 			model = new FillingModel(app);
 			model.setListener(this);
-			btInsertUnicode = new PopupMenuButton(app);
+			btInsertUnicode = new PopupMenuButtonD(app);
 			buildInsertUnicodeButton();
 			btInsertUnicode.addActionListener(this);
 			btInsertUnicode.setVisible(false);
@@ -2936,7 +2936,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// panel for button to open external file
 
-			btnImage = new PopupMenuButton(app, iconArray, -1, 4,
+			btnImage = new PopupMenuButtonD(app, iconArray, -1, 4,
 					new Dimension(32, 32), SelectionTable.MODE_ICON);
 			btnImage.setSelectedIndex(1);
 			btnImage.setStandardButton(true);
@@ -3316,7 +3316,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			 */
 			private static final long serialVersionUID = 1L;
 			private Object[] latexArray;
-			private PopupMenuButton popupButton;
+			private PopupMenuButtonD popupButton;
 
 			/**
 			 * @param app
@@ -3333,7 +3333,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			 *            number of columns
 			 */
 			public LatexTableFill(AppD app, FillingPanel panel,
-					PopupMenuButton popupButton, Object[] data, int rows,
+					PopupMenuButtonD popupButton, Object[] data, int rows,
 					int columns) {
 				super(app, data, rows, columns, new Dimension(24, 24),
 						SelectionTable.MODE_TEXT);

@@ -23,10 +23,10 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
-public class ColorPopupMenuButton extends PopupMenuButton
+public class ColorPopupMenuButton extends PopupMenuButtonD
 		implements ActionListener {
 
 	private static final long serialVersionUID = 1L;

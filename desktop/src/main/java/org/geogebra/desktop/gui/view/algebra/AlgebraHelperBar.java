@@ -12,7 +12,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -45,8 +45,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 * Categorize objects by free / independent / auxiliary - Categorize objects
 	 * by their type
 	 */
-	protected PopupMenuButton toggleTypeTreeMode;
-	protected PopupMenuButton toggleDescriptionMode;
+	protected PopupMenuButtonD toggleTypeTreeMode;
+	protected PopupMenuButtonD toggleDescriptionMode;
 
 	private JPopupMenu treeModeMenu, descriptionMenu;
 
@@ -88,7 +88,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 		addSeparator();
 
-		toggleTypeTreeMode = new PopupMenuButton(app);
+		toggleTypeTreeMode = new PopupMenuButtonD(app);
 		buildTreeModeMenu();
 		toggleTypeTreeMode.setPopupMenu(treeModeMenu);
 		toggleTypeTreeMode.setKeepVisible(true);
@@ -98,7 +98,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 				GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
 		add(toggleTypeTreeMode);
 
-		toggleDescriptionMode = new PopupMenuButton(app);
+		toggleDescriptionMode = new PopupMenuButtonD(app);
 		buildDescriptionMenu();
 		toggleDescriptionMode.setPopupMenu(descriptionMenu);
 		toggleDescriptionMode.setKeepVisible(true);

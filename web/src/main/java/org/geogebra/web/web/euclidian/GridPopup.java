@@ -5,9 +5,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
-public class GridPopup extends PopupMenuButton {
+public class GridPopup extends PopupMenuButtonW {
 
 	private EuclidianView ev;
 	private ImageOrText defaultIcon;

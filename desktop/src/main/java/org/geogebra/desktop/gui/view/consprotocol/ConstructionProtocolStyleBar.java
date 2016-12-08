@@ -21,7 +21,7 @@ import javax.swing.JToolBar;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -44,9 +44,9 @@ public class ConstructionProtocolStyleBar extends JToolBar
 	 */
 	protected AppD app;
 	/** Columns button */
-	PopupMenuButton btnColumns;
+	PopupMenuButtonD btnColumns;
 	/** Options button */
-	PopupMenuButton btnOptions;
+	PopupMenuButtonD btnOptions;
 	private JButton btnExport, btnPrint, btnHelp;
 	/** Item for Show only breakpoints option */
 	JCheckBoxMenuItem miShowOnlyBreakpoints;
@@ -81,7 +81,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 
 		// "columns" button
 
-		btnColumns = new PopupMenuButton(app) {
+		btnColumns = new PopupMenuButtonD(app) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -117,7 +117,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		// options button
 		// PopupMenuButton without selection table, add JMenuItems directly.
 
-		btnOptions = new PopupMenuButton(app) {
+		btnOptions = new PopupMenuButtonD(app) {
 
 			private static final long serialVersionUID = 1L;
 

@@ -10,7 +10,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Command;
@@ -145,7 +145,7 @@ public class PropertiesStyleBarW extends
 		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
     }
 	
-	protected void setIcon(OptionType type, PopupMenuButton btn) {
+	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
 		

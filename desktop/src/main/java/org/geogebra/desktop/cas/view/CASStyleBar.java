@@ -22,7 +22,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -41,9 +41,9 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 	// buttons and lists of buttons
 	private MyToggleButton[] toggleBtnList;
-	private PopupMenuButton[] popupBtnList;
+	private PopupMenuButtonD[] popupBtnList;
 	private ColorPopupMenuButton btnTextColor;
-	private PopupMenuButton btnTextSize;
+	private PopupMenuButtonD btnTextSize;
 	/** button for bold text */
 	protected MyToggleButton btnBold;
 	/** button for italic text */
@@ -265,8 +265,8 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	/**
 	 * @return array of popup buttons
 	 */
-	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnTextColor, btnTextSize };
+	protected PopupMenuButtonD[] newPopupBtnList() {
+		return new PopupMenuButtonD[] { btnTextColor, btnTextSize };
 	}
 
 	/**
@@ -459,7 +459,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		String[] textSizeArray = app.getLocalization().getFontSizeStrings();
 
-		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
+		btnTextSize = new PopupMenuButtonD(app, textSizeArray, -1, 1,
 				new Dimension(-1, iconHeight), SelectionTable.MODE_TEXT) {
 
 			private static final long serialVersionUID = 1L;

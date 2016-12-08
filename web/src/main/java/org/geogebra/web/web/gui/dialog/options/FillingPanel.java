@@ -28,7 +28,7 @@ import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.util.BarList;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -61,7 +61,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private Label lblMsgSelected;
 	private Button btnOpenFile;
 
-	private PopupMenuButton btnImage;
+	private PopupMenuButtonW btnImage;
 	// button for removing turtle's image
 	private PushButton btnClearImage;
 	private Label lblSymbols;
@@ -422,7 +422,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		//
 		// // panel for button to open external file
 		//
-		btnImage = new PopupMenuButton(app, iconArray, -1, 4,
+		btnImage = new PopupMenuButtonW(app, iconArray, -1, 4,
 				SelectionTable.MODE_ICON) {
 			@Override
 			public void handlePopupActionEvent() {

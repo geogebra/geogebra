@@ -58,7 +58,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
 import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
@@ -98,7 +98,7 @@ public class FunctionInspectorD extends FunctionInspector
 	private MyTextFieldD fldStep, fldLow, fldHigh;
 	private JButton btnRemoveColumn, btnHelp;
 	private JToggleButton btnOscCircle, btnTangent, btnXYSegments, btnTable;
-	private PopupMenuButton btnAddColumn, btnOptions;
+	private PopupMenuButtonD btnAddColumn, btnOptions;
 	private JTabbedPane tabPanel;
 	private JPanel intervalTabPanel, pointTabPanel, headerPanel, helpPanel;
 
@@ -314,7 +314,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 	private void createBtnAddColumn() {
 
-		btnAddColumn = new PopupMenuButton(getAppD(),
+		btnAddColumn = new PopupMenuButtonD(getAppD(),
 				getModel().getColumnNames(), -1, 1, new Dimension(0, 18),
 				SelectionTable.MODE_TEXT);
 		btnAddColumn.setKeepVisible(false);
@@ -619,7 +619,7 @@ public class FunctionInspectorD extends FunctionInspector
 	protected void createOptionsButton() {
 		AppD app = getAppD();
 		if (btnOptions == null) {
-			btnOptions = new PopupMenuButton(app);
+			btnOptions = new PopupMenuButtonD(app);
 			btnOptions.setKeepVisible(true);
 			btnOptions.setStandardButton(true);
 			btnOptions.setFixedIcon(app.getScaledIcon(GuiResourcesD.TOOL));

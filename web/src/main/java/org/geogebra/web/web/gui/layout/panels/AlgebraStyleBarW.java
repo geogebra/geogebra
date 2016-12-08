@@ -23,7 +23,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 
@@ -39,8 +39,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		ValueChangeHandler<Boolean>, SettingListener {
 
 	/** button to open the popup with the supported tree-modes */
-	PopupMenuButton treeModeButton;
-	PopupMenuButton descriptionButton;
+	PopupMenuButtonW treeModeButton;
+	PopupMenuButtonW descriptionButton;
 	/** list of all supported {@link SortMode modes} */
 	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
 
@@ -175,7 +175,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		if(treeModeButton == null){
-			treeModeButton = new PopupMenuButton(app, strTreeMode,
+			treeModeButton = new PopupMenuButtonW(app, strTreeMode,
 					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 	
 			ImageOrText icon = new ImageOrText(
@@ -192,7 +192,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	
 			treeModeButton.addPopupHandler(new PopupMenuHandler() {
 				@Override
-				public void fireActionPerformed(PopupMenuButton actionButton) {
+				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					// called if a object of the popup is clicked
 					int i = treeModeButton.getSelectedIndex();
 					app.getSettings().getAlgebra()
@@ -208,7 +208,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	private void addDescriptionButton() {
 		ImageOrText[] strTreeMode = getDescriptionModes();
 		if (descriptionButton == null) {
-			descriptionButton = new PopupMenuButton(app, strTreeMode,
+			descriptionButton = new PopupMenuButtonW(app, strTreeMode,
 					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
 
 			ImageOrText icon = new ImageOrText(
@@ -230,7 +230,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 			descriptionButton.addPopupHandler(new PopupMenuHandler() {
 				@Override
-				public void fireActionPerformed(PopupMenuButton actionButton) {
+				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					// called if a object of the popup is clicked
 					int i = descriptionButton.getSelectedIndex();
 					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {

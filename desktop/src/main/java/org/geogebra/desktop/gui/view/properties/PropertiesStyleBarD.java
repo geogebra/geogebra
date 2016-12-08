@@ -29,7 +29,7 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
 public class PropertiesStyleBarD extends PropertiesStyleBar {
@@ -38,7 +38,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	PropertiesView propertiesView;
 	protected AppD app;
 
-	protected PopupMenuButton btnOption;
+	protected PopupMenuButtonD btnOption;
 	private JPopupMenu menu;
 
 	private JToolBar toolbar;
@@ -54,7 +54,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 
 		this.wrappedPanel = new JPanel();
 
-		btnOption = new PopupMenuButton(app);
+		btnOption = new PopupMenuButtonD(app);
 		buildMenu();
 		menu.getSelectionModel().setSelectedIndex(0);
 		btnOption.setPopupMenu(menu);
@@ -146,7 +146,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		return new PropertiesButton();
 	}
 
-	public PopupMenuButton getBtnOption() {
+	public PopupMenuButtonD getBtnOption() {
 		return btnOption;
 	}
 

@@ -33,7 +33,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-public class PopupMenuButton extends JButton implements ChangeListener {
+public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +42,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	private SelectionTable mode;
 	private Object[] data;
 	private AppD app;
-	private PopupMenuButton thisButton;
+	private PopupMenuButtonD thisButton;
 
 	private JPopupMenu myPopup;
 
@@ -108,7 +108,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	/**
 	 * @param app
 	 */
-	public PopupMenuButton(AppD app) {
+	public PopupMenuButtonD(AppD app) {
 		this(app, null, -1, -1, null, SelectionTable.UNKNOWN, false, false);
 	}
 
@@ -120,7 +120,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public PopupMenuButton(AppD app, Object[] data, int rows, int columns,
+	public PopupMenuButtonD(AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, SelectionTable mode) {
 		this(app, data, rows, columns, iconSize, mode, true, false);
 	}
@@ -135,7 +135,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(final AppD app, Object[] data, int rows, int columns,
+	public PopupMenuButtonD(final AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider) {
 		super();

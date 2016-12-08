@@ -135,7 +135,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 *            runs programatically the action performed event.
 	 */
 	@Override
-	public void fireActionPerformed(PopupMenuButton actionButton) {
+	public void fireActionPerformed(PopupMenuButtonW actionButton) {
 		handleEventHandlers(actionButton);
 	}
 

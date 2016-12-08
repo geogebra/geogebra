@@ -7,9 +7,9 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
-public class AxesAndPlanePopup extends PopupMenuButton {
+public class AxesAndPlanePopup extends PopupMenuButtonW {
 
 	private EuclidianView3D ev;
 	private ImageOrText defaultIcon;

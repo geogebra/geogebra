@@ -140,8 +140,6 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
-	private StationaryQuaternion stationaryQuaternion = new StationaryQuaternion();
-
 	private static class StationaryQuaternion {
 
 		private Quaternion startCoords = new Quaternion();
@@ -181,14 +179,14 @@ public class EuclidianControllerInput3DCompanion extends
 
 			if (startCoords.isDefined()) {
 				int delay = (int) ((time - startTime) / 100);
-				String s = "";
+				StringBuilder s = new StringBuilder();
 				for (int i = 0; i < 10 - delay; i++) {
-					s += "=";
+					s.append('=');
 				}
 				for (int i = 10 - delay; i <= 10; i++) {
-					s += " ";
+					s.append(' ');
 				}
-				s += "|";
+				s.append('|');
 				Log.error("\n rot delay : " + s);
 				if ((time - startTime) > 1000) {
 					startCoords.setUndefined(); // consume event
@@ -216,11 +214,11 @@ public class EuclidianControllerInput3DCompanion extends
 		public int compareTo(StickyPoint sp) {
 
 			// check distance
-			if (this.getDistanceAbs() < sp.getDistanceAbs()) {
+			if (Kernel.isGreater(sp.getDistanceAbs(), this.getDistanceAbs())) {
 				return -1;
 			}
 
-			if (this.getDistanceAbs() > sp.getDistanceAbs()) {
+			if (Kernel.isGreater(this.getDistanceAbs(), sp.getDistanceAbs())) {
 				return 1;
 			}
 
@@ -262,13 +260,13 @@ public class EuclidianControllerInput3DCompanion extends
 		public int compareTo(StickyPointForDirection spd) {
 
 			// compare cosinus
-			if (Math.abs(distanceOrtho * spd.distanceOrigin) < Math
-					.abs(spd.distanceOrtho * distanceOrigin)) {
+			if (Kernel.isGreater(Math.abs(spd.distanceOrtho * distanceOrigin),
+					Math.abs(distanceOrtho * spd.distanceOrigin))) {
 				return -1;
 			}
 
-			if (Math.abs(distanceOrtho * spd.distanceOrigin) > Math
-					.abs(spd.distanceOrtho * distanceOrigin)) {
+			if (Kernel.isGreater(Math.abs(distanceOrtho * spd.distanceOrigin), Math
+					.abs(spd.distanceOrtho * distanceOrigin))) {
 				return 1;
 			}
 
@@ -406,6 +404,9 @@ public class EuclidianControllerInput3DCompanion extends
 					}
 
 					switch (step) {
+					default:
+						// do nothing
+						break;
 					case 1: // only origin
 						plane.getCoordSys().updateToContainPoint(origin);
 						break;
@@ -460,9 +461,6 @@ public class EuclidianControllerInput3DCompanion extends
 		ec.endOfWrapMouseReleased(new Hits(), false, false,
 				PointerEventType.TOUCH);
 	}
-
-	private Coords tmpCoordsInput3D1, tmpCoordsInput3D2, tmpCoordsInput3D3,
-			tmpCoordsInput3D4;
 
 	private static boolean checkDistanceToStickyPoint(double d,
 			GeoPointND point, double scale, int threshold) {

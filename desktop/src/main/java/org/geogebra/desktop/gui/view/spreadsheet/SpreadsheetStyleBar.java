@@ -18,7 +18,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -42,7 +42,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	private ColorPopupMenuButton btnBgColor;
 	private MyToggleButton btnBold, btnItalic;
 	private boolean allowActionPerformed = true;
-	private PopupMenuButton btnBorderStyle;
+	private PopupMenuButtonD btnBorderStyle;
 
 	protected int iconHeight = 18;
 	private Dimension iconDimension = new Dimension(16, iconHeight);
@@ -158,7 +158,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				app.getScaledIcon(GuiResourcesD.BORDER_LEFT),
 				app.getScaledIcon(GuiResourcesD.BORDER_RIGHT) };
 
-		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2, -1,
+		btnBorderStyle = new PopupMenuButtonD(app, borderStyleIcon, 2, -1,
 				iconDimension, SelectionTable.MODE_ICON);
 		btnBorderStyle.setKeepVisible(false);
 		btnBorderStyle.setSelectedIndex(1);

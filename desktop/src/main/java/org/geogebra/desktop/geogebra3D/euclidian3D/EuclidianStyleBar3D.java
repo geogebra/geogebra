@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianStyleBarD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.gui.util.MyToggleButton;
-import org.geogebra.desktop.gui.util.PopupMenuButton;
+import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -30,11 +30,11 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private PopupMenuButton btnRotateView, btnClipping;
+	private PopupMenuButtonD btnRotateView, btnClipping;
 
 	private MyToggleButton btnShowPlane;
 
-	private PopupMenuButton btnViewProjection, btnViewDirection;
+	private PopupMenuButtonD btnViewProjection, btnViewDirection;
 
 	/**
 	 * Common constructor.
@@ -143,7 +143,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			super.processSource(source, targetGeos);
 	}
 
-	private class PopupMenuButtonForView3D extends PopupMenuButton {
+	private class PopupMenuButtonForView3D extends PopupMenuButtonD {
 
 		public PopupMenuButtonForView3D() {
 			super(app, null, -1, -1,
@@ -240,7 +240,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 	}
 
-	private class ProjectionPopup extends PopupMenuButton {// implements
+	private class ProjectionPopup extends PopupMenuButtonD {// implements
 															// ActionListener{
 		private static final long serialVersionUID = 1L;
 
@@ -324,9 +324,9 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	}
 
 	@Override
-	protected PopupMenuButton[] newPopupBtnList() {
-		PopupMenuButton[] superList = super.newPopupBtnList();
-		PopupMenuButton[] ret = new PopupMenuButton[superList.length + 4];
+	protected PopupMenuButtonD[] newPopupBtnList() {
+		PopupMenuButtonD[] superList = super.newPopupBtnList();
+		PopupMenuButtonD[] ret = new PopupMenuButtonD[superList.length + 4];
 		for (int i = 0; i < superList.length; i++)
 			ret[i] = superList[i];
 

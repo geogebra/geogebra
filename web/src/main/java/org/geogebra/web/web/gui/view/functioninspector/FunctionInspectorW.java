@@ -22,7 +22,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -71,7 +71,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyToggleButton2 btnOscCircle;
 
 	private StandardButton btnHelp;
-	PopupMenuButton btnOptions;
+	PopupMenuButtonW btnOptions;
 	// private MenuBar btnOptions;
 
 	private Label lblGeoName, lblStep, lblInterval;
@@ -79,7 +79,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private InspectorTableW tableXY, tableInterval;
 	private GridModel modelXY, modelInterval;
 
-	PopupMenuButton btnAddColumn;
+	PopupMenuButtonW btnAddColumn;
 	private MyCJButton btnRemoveColumn;
 
 	private int pointCount = 9;
@@ -449,7 +449,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnAddColumn() {
-		btnAddColumn = new PopupMenuButton(getAppW(),
+		btnAddColumn = new PopupMenuButtonW(getAppW(),
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 			@Override
@@ -615,7 +615,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
 		        appW.getMenu("CopyToSpreadsheet")) };
-		btnOptions = new PopupMenuButton(appW, strOptions,
+		btnOptions = new PopupMenuButtonW(appW, strOptions,
 		        strOptions.length, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
@@ -625,7 +625,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnOptions.setSelectedIndex(-1);
 		btnOptions.addPopupHandler(new PopupMenuHandler() {
 			@Override
-			public void fireActionPerformed(PopupMenuButton actionButton) {
+			public void fireActionPerformed(PopupMenuButtonW actionButton) {
 				doCopyToSpreadsheet();
 				btnOptions.setSelectedIndex(-1);
 			}

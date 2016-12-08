@@ -39,7 +39,7 @@ import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.util.PointStylePopup;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -106,12 +106,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	// // buttons and lists of buttons
 	private ColorPopupMenuButton btnBgColor, btnTextColor;
-	private PopupMenuButton btnTextSize;
-	private PopupMenuButton btnLabelStyle;
-	private PopupMenuButton btnAngleInterval;
-	private PopupMenuButton btnShowGrid;
-	protected PopupMenuButton btnPointCapture;
-	protected PopupMenuButton btnChangeView;
+	private PopupMenuButtonW btnTextSize;
+	private PopupMenuButtonW btnLabelStyle;
+	private PopupMenuButtonW btnAngleInterval;
+	private PopupMenuButtonW btnShowGrid;
+	protected PopupMenuButtonW btnPointCapture;
+	protected PopupMenuButtonW btnChangeView;
 
 	private MyToggleButton2 btnShowAxes;
 	MyToggleButton2 btnBold;
@@ -123,7 +123,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private MyToggleButton2[] toggleBtnList;
 	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
-	private PopupMenuButton[] popupBtnList;
+	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
@@ -524,7 +524,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return btnShowAxes;
 	}
 
-	protected PopupMenuButton getAxesOrGridPopupMenuButton() {
+	protected PopupMenuButtonW getAxesOrGridPopupMenuButton() {
 		return btnShowGrid;
 	}
 
@@ -535,8 +535,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        btnDeleteSizes[2] };
 	}
 
-	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { getAxesOrGridPopupMenuButton(),
+	protected PopupMenuButtonW[] newPopupBtnList() {
+		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
 		        btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
 				btnPointCapture, btnChangeView };
@@ -567,7 +567,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createChangeViewButtons();
 	}
 
-	protected class ProjectionPopup extends PopupMenuButton {
+	protected class ProjectionPopup extends PopupMenuButtonW {
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
@@ -640,7 +640,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				loc.getMenu("Labeling.automatic"), loc.getMenu("SnapToGrid"),
 				loc.getMenu("FixedToGrid"), loc.getMenu("off") });
 
-		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
+		btnPointCapture = new PopupMenuButtonW(app, strPointCapturing, -1, 1,
 				SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -676,7 +676,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				loc.getMenu("Caption") // index 3
 		        });
 
-		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
+		btnLabelStyle = new PopupMenuButtonW(app, captionArray, -1, 1,
 				SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -717,7 +717,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		ImageOrText[] angleIntervalArray = ImageOrText
 		        .convert(angleIntervalString);
 
-		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
+		btnAngleInterval = new PopupMenuButtonW(app, angleIntervalArray, -1, 1,
 				SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -1055,7 +1055,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		ImageOrText[] textSizeArray = ImageOrText.convert(app.getLocalization()
 		        .getFontSizeStrings());
 
-		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
+		btnTextSize = new PopupMenuButtonW(app, textSizeArray, -1, 1,
 				SelectionTable.MODE_TEXT) {
 
 			@Override

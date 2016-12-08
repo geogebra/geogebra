@@ -31,7 +31,7 @@ import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.NumberListBox;
-import org.geogebra.web.web.gui.util.PopupMenuButton;
+import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -103,7 +103,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		protected FlowPanel axesOptionsPanel;
 		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
-		private PopupMenuButton axesStylePopup;
+		private PopupMenuButtonW axesStylePopup;
 		protected Label backgroundColorLabel;
 		protected MyCJButton btBackgroundColor;
 		CheckBox cbShowMouseCoords;
@@ -350,7 +350,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 								.getLineStyleOptions(i));
 			}
 			
-			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1,
+			axesStylePopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent(){
@@ -921,7 +921,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
-				public void fireActionPerformed(PopupMenuButton actionButton) {
+				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					model.appyGridStyle(EuclidianView
 							.getLineType(btnGridStyle.getSelectedIndex()));
 
