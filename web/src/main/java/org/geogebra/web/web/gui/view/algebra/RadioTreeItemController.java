@@ -569,13 +569,13 @@ public class RadioTreeItemController
 		onPointerUp(wrappedEvent);
 	}
 
-	void handleAVItem(MouseEvent<?> evt) {
-		handleAVItem(evt.getClientX(), evt.getClientY(),
+	boolean handleAVItem(MouseEvent<?> evt) {
+		return handleAVItem(evt.getClientX(), evt.getClientY(),
 				evt.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 	}
 
-	void handleAVItem(PointerEvent evt) {
-		handleAVItem(evt.getX(), evt.getY(), evt.isRightClick());
+	boolean handleAVItem(PointerEvent evt) {
+		return handleAVItem(evt.getX(), evt.getY(), evt.isRightClick());
 	}
 
 	private void handleAVItem(TouchStartEvent evt) {

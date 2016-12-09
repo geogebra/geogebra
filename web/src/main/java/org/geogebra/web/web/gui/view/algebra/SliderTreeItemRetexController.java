@@ -12,6 +12,12 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Controller for slider items in AV that use RETEX editor.
+ *
+ * @author laszlo
+ *
+ */
 public class SliderTreeItemRetexController extends LatexTreeItemController
 		implements ValueChangeHandler<Double> {
 

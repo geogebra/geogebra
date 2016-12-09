@@ -1859,8 +1859,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (selected) {
 			addStyleName("avSelectedRow");
-			Log.printStacktrace("kijeloli");
-
 
 		} else {
 			removeStyleName("avSelectedRow");

@@ -128,7 +128,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	}
 
-	private boolean ensureCanvas() {
+	protected boolean ensureCanvas() {
 		if (canvas == null) {
 			Log.debug("CANVAS IS NULL");
 			canvas = Canvas.createIfSupported();
