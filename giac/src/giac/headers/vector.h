@@ -220,7 +220,6 @@ namespace std {
     const _Tp & operator [](size_t i) const { return *(begin()+i); }
     void push_back(const _Tp & p0){ 
       _Tp p(p0); 
-      int abstaille;
       // create a copy since p0 may be scratched 
       // if p0 is a vector element and the vector is realloced
       if (_taille<=0){ 
@@ -229,16 +228,12 @@ namespace std {
 	  --_taille;
 	  return;
 	}
-	abstaille=-_taille;
-	_realloc(abstaille?2*abstaille:1);
+	_realloc(_taille?2*_abs(_taille):1);
       }
-      else {
-	abstaille=(_taille==immvector_max)?0:_taille;
-      }
-      if (_endalloc_immediate_vect==_begin_immediate_vect+abstaille)
-	_realloc(abstaille?2*abstaille:1);
-      *(_begin_immediate_vect+abstaille)=p;
-      _taille=abstaille+1;
+      if (_endalloc_immediate_vect==_begin_immediate_vect+_abs(_taille))
+	_realloc(_abs(_taille)?2*_taille:1);
+      *(_begin_immediate_vect+_abs(_taille))=p;
+      if (_taille==immvector_max) _taille=1; else ++_taille;
     }
     _Tp pop_back(){ 
       if (_taille<=0){
@@ -260,17 +255,14 @@ namespace std {
     }
     void clear(){ 
       if (_taille>0 &&_begin_immediate_vect){
-	if (_taille!=immvector_max){
-	  for (unsigned i=0;i<_taille;++i)
-	    *(_begin_immediate_vect+i)=_Tp();
-	  _taille=immvector_max;
-	}
+	delete [] _begin_immediate_vect; 
+	_zero_tab();
       }
       else {
 	if (_taille<0)
 	  _free_tab();
-	_taille=0;
       }
+      _taille=0;
     }
     bool empty() const { return _taille==0 || _taille==immvector_max; }
     void reserve(size_t n){ if (_abs(_taille)<n) _realloc(int(n)); }

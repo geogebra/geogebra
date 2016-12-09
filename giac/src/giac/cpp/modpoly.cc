@@ -890,7 +890,6 @@ namespace giac {
     mpz_init(prod);
     new_coord.clear();
     if (ita0==ita_end || itb0==itb_end) return;
-    //new_coord.reserve((ita_end-ita0)+(itb_end-itb0)-1);
     modpoly::const_iterator ita_begin=ita0,ita=ita0,itb=itb0;
     for ( ; ita!=ita_end; ++ita ){
       ref_mpz_t * res = new ref_mpz_t; 
@@ -1185,76 +1184,10 @@ namespace giac {
     return res;
   }
 
-  bool unext(const modpoly & a,const gen & pmin,modpoly & res){
-    res=a;
-    iterateur it=res.begin(),itend=res.end();
-    for (;it!=itend;++it){
-      gen g=*it;
-      if (g.type==_FRAC)
-	return false;
-      if (g.type==_EXT){
-	if (*(g._EXTptr+1)!=pmin)
-	  return false;
-	g=*g._EXTptr;
-	if (g.type==_VECT)
-	  g.subtype=_POLY1__VECT;
-	*it=g;
-      }
-    }
-    return true;
-  }
-
-  void ext(modpoly & res,const gen & pmin){
-    iterateur it=res.begin(),itend=res.end();
-    for (;it!=itend;++it){
-      *it=ext_reduce(*it,pmin);
-    }
-  }
-
   void modularize(modpoly & a,const gen & m){
     iterateur it=a.begin(),itend=a.end();
     for (;it!=itend;++it){
       *it=makemod(*it,m);
-    }
-  }
-
-  void mulmodpoly_naive(const modpoly & a, const modpoly & b,modpoly & new_coord){
-    new_coord.clear();
-    modpoly::const_iterator ita=a.begin(),ita_end=a.end(),itb=b.begin(),itb_end=b.end();
-    if (ita==ita_end || itb==itb_end)
-      return;
-    modpoly::const_iterator ita_begin=ita;
-    for ( ; ita!=ita_end; ++ita ){
-      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      gen res;
-      for (;;) {
-	type_operator_plus_times(*ita_cur,*itb_cur,res);
-	//res += (*ita_cur)*(*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
-	if (ita_cur==ita_begin)
-	  break;
-	--ita_cur;
-	++itb_cur;
-	if (itb_cur==itb_end)
-	  break;
-      }
-      new_coord.push_back(res);	
-    }
-    --ita;
-    ++itb;
-    for ( ; itb!=itb_end;++itb){
-      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
-      gen res;
-      for (;;) {
-	type_operator_plus_times(*ita_cur,*itb_cur,res);
-	//res += (*ita_cur)*(*itb_cur);
-	if (ita_cur==ita_begin)
-	  break;
-	--ita_cur;
-	++itb_cur;
-	if (itb_cur==itb_end)
-	  break;
-      }
-      new_coord.push_back(res);	
     }
   }
 
@@ -1306,15 +1239,6 @@ namespace giac {
 #endif
     // Check that all coeff of a b are integers
     for (;ita!=ita_end;++ita){
-      if (ita->type==_EXT){
-	gen pmin=*(ita->_EXTptr+1);
-	modpoly aa,bb;
-	if (unext(a,pmin,aa) && unext(b,pmin,bb)){
-	  mulmodpoly_naive(aa,bb,new_coord);
-	  ext(new_coord,pmin);
-	  return;
-	}
-      }
       if (ita->type==_MOD && (ita->_MODptr+1)->type==_INT_){
 	environment e;
 	e.modulo=*(ita->_MODptr+1);
@@ -1342,7 +1266,41 @@ namespace giac {
       mulmodpoly(a,b,env,new_coord);
       return;
     }
-    mulmodpoly_naive(a,b,new_coord);
+    new_coord.clear();
+    ita=a.begin(); itb=b.begin();
+    if (ita==ita_end || itb==itb_end)
+      return;
+    modpoly::const_iterator ita_begin=ita;
+    for ( ; ita!=ita_end; ++ita ){
+      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+      gen res;
+      for (;;) {
+	res += (*ita_cur)*(*itb_cur); // res = res + (*ita_cur) * (*itb_cur);
+	if (ita_cur==ita_begin)
+	  break;
+	--ita_cur;
+	++itb_cur;
+	if (itb_cur==itb_end)
+	  break;
+      }
+      new_coord.push_back(res);	
+    }
+    --ita;
+    ++itb;
+    for ( ; itb!=itb_end;++itb){
+      modpoly::const_iterator ita_cur=ita,itb_cur=itb;
+      gen res;
+      for (;;) {
+	res += (*ita_cur)*(*itb_cur);
+	if (ita_cur==ita_begin)
+	  break;
+	--ita_cur;
+	++itb_cur;
+	if (itb_cur==itb_end)
+	  break;
+      }
+      new_coord.push_back(res);	
+    }
   }
 
   // res=(*it) * ... (*(it_end-1))

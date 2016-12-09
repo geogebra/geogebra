@@ -738,6 +738,8 @@ namespace giac {
       return 1;
     if (g==*(itend-1))
       return int(itend-it);
+    if (itend - it <= 2)
+      return 0;
     if (islesscomplexthanf(g,*it) || islesscomplexthanf(*(itend-1),g))
       return 0;
     return findpos(it,itend,g);
@@ -750,8 +752,15 @@ namespace giac {
 	*logptr(contextptr) << gettext("Warning, replacing ") << i[k] << gettext(" by ") << newi[k] << gettext(", a substitution variable should perhaps be purged.") << endl;
     }
     int is=int(i.size());
-    if (i.size()<2)
+    if (is<2)
       return;
+    if ( is == 2){
+      if (islesscomplexthanf(i[0], i[1]))
+	return;
+      swapgen(i[0], i[1]);
+      swapgen(newi[0], newi[1]);
+      return;
+    }
     // set same size, required for mrv substition in series.cc
     for (int j=int(newi.size());j<is;++j)
       newi.push_back(i[j]);

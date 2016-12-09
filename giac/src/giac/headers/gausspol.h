@@ -55,13 +55,9 @@ namespace giac {
   // check type of coefficients
   int coefftype(const polynome & p,gen & coefft);
   // remove MODulo coefficients
-  void unmodularize(const polynome & p,polynome & res);
+  void unmodularize(const polynome p,polynome & res);
   polynome unmodularize(const polynome & p);
   void modularize(polynome & d,const gen & m);
-  // remove EXT, also checks that pmin is the min poly
-  bool unext(const polynome & p,const gen & pmin,polynome & res);
-  bool ext(polynome & res,const gen & pmin);
-  void ext(const polynome & p,const gen & pmin,polynome & res);
   // arithmetic
   bool is_one(const polynome & p);
   bool operator < (const polynome & f,const polynome & g);

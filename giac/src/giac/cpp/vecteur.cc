@@ -6636,10 +6636,12 @@ namespace giac {
 	  return 0;
 	res=*makemod(res,modulo)._VECTptr;
 	// keep the permutation without makemod
-	gen last=pivots.back();
-	pivots.pop_back();
-	pivots=*makemod(pivots,modulo)._VECTptr;
-	pivots.push_back(last);
+	if (!pivots.empty()){
+	  gen last=pivots.back();
+	  pivots.pop_back();
+	  pivots=*makemod(pivots,modulo)._VECTptr;
+	  pivots.push_back(last);
+	}
 	det=makemod(det,modulo);
 	return 1;
       }
