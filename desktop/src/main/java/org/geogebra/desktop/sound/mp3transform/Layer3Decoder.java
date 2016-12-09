@@ -666,7 +666,8 @@ final class Layer3Decoder {
 		int len = nonzero[ch];
 		// Compute overall (global) scaling
 		double globalGain = Constants.POW2[gi.globalGain];
-		for (int i = 0, sb = 0; sb < SBLIMIT; sb++) {
+		int i = 0;
+		for (int sb = 0; sb < SBLIMIT; sb++) {
 			for (int ss = 0; ss < SSLIMIT; ss++, i++) {
 				if (i >= len) {
 					break;

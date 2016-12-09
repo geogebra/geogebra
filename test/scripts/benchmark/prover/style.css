@@ -24,7 +24,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #8cacff;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 table td {
 border-width: 1px;
@@ -32,7 +32,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #eeffee;
--moz-border-radius: ;
+-moz-border-radius: 0;
 vertical-align: middle;
 text-align: center;
 }
@@ -43,7 +43,7 @@ border-style: inset;
 border-right-style: none;
 border-color: gray;
 background-color: #eeffee;
--moz-border-radius: ;
+-moz-border-radius: 0;
 vertical-align: middle;
 text-align: left;
 }
@@ -54,7 +54,7 @@ border-style: inset;
 border-left-style: none;
 border-color: gray;
 background-color: #eeffee;
--moz-border-radius: ;
+-moz-border-radius: 0;
 vertical-align: middle;
 text-align: right;
 }
@@ -65,7 +65,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.2);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o6 {
@@ -74,7 +74,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.3);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o5 {
@@ -83,7 +83,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.4);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o4 {
@@ -92,7 +92,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.5);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o3 {
@@ -101,7 +101,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.6);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o2 {
@@ -110,7 +110,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.7);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.o1 {
@@ -119,7 +119,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: rgba(20,170,20,0.8);
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.error {
@@ -128,7 +128,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #ffcccc;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.undefined {
@@ -137,7 +137,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #ffffcc;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.untested {
@@ -146,7 +146,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #ffffff;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.timeout {
@@ -155,7 +155,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #ffff80;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 
 table td.summary {
@@ -164,7 +164,7 @@ padding: 2px;
 border-style: inset;
 border-color: gray;
 background-color: #ccccdd;
--moz-border-radius: ;
+-moz-border-radius: 0;
 }
 img {
 border: 1px solid lightblue;
