@@ -3422,8 +3422,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (!checkFileExistsAndShowFileNotFound(file)) {
 			return false;
 		}
-		kernel.notifyOpeningFile(file.getName());
-
 		boolean status = true;
 		try {
 			OFFReader reader = new OFFReader();
@@ -3438,8 +3436,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			status = false;
 			ex.printStackTrace();
 		}
-
-		kernel.notifyFileOpenComplete(true);
 
 		return status;
 	}
@@ -3466,10 +3462,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public boolean loadExistingFile(File file, boolean isMacroFile) {
 
-		kernel.notifyOpeningFile(file.getName());
-
 		setWaitCursor();
-
 		if (!isMacroFile) {
 			// hide navigation bar for construction steps if visible
 			setHideConstructionProtocolNavigation();
@@ -3483,8 +3476,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		kernel.notifyFileOpenComplete(success);
 		return success;
 	}
 

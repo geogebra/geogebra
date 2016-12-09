@@ -81,7 +81,8 @@ public class FunctionParser {
 							myList.getListElement(0));
 				}
 				int index = funcName.length() - 1;
-				while (index >= 0 && cimage.charAt(index) == '\'') {
+				while (index >= 0 && cimage.charAt(index) == '\''
+						&& kernel.getAlgebraProcessor().enableVectors()) {
 					order++;
 					index--;
 				}

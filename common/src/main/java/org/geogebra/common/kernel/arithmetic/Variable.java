@@ -171,7 +171,8 @@ public class Variable extends ValidExpression {
 	 */
 	public static ExpressionValue replacement(Kernel kernel, String name) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
-		if (name.endsWith("'")) {
+		if (name.endsWith("'")
+				&& kernel.getAlgebraProcessor().enableVectors()) {
 
 			ExpressionValue ret = asDerivative(kernel, name);
 			if (ret != null) {

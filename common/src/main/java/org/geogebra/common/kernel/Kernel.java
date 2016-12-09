@@ -162,8 +162,6 @@ public class Kernel {
 	private boolean addingPolygon = false;
 	private GeoElement newPolygon;
 	private ArrayList<GeoElement> deleteList;
-	// TODO merge with clientListeners
-	private ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
 	/** Algebra processor */
@@ -341,7 +339,6 @@ public class Kernel {
 	protected Kernel(GeoFactory factory) {
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
-		this.userAwarenessListeners = new ArrayList<UserAwarenessListener>();
 		this.deleteList = new ArrayList<GeoElement>();
 		this.geoFactory = factory;
 	}
@@ -992,18 +989,6 @@ public class Kernel {
 	 */
 	public void setLoadingMode(boolean b) {
 		loadingMode = b;
-	}
-
-	public void notifyOpeningFile(String fileName) {
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.fileLoading(fileName);
-		}
-	}
-
-	public void notifyFileOpenComplete(boolean success) {
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.fileLoadComplete(success);
-		}
 	}
 
 	/**
@@ -4587,9 +4572,8 @@ public class Kernel {
 		}
 		macroManager.addMacro(macro);
 
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.addMacro(macro);
-		}
+		app.dispatchEvent(
+				new Event(EventType.ADD_MACRO, null, macro.getCommandName()));
 	}
 
 	/**
@@ -4604,9 +4588,8 @@ public class Kernel {
 			ex.removeAssignment(macro);
 		}
 
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.removeMacro(macro);
-		}
+		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
+				macro.getCommandName()));
 	}
 
 	/**
@@ -4620,9 +4603,7 @@ public class Kernel {
 		// Also remove all Assignments
 		getExercise().removeAllAssignments();
 
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.removeAllMacros();
-		}
+		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null, null));
 	}
 
 	/**
@@ -4636,9 +4617,9 @@ public class Kernel {
 		if (nameUsed || cmdName == null || cmdName.length() == 0)
 			return false;
 
-		for (UserAwarenessListener listener : this.userAwarenessListeners) {
-			listener.setMacroCommandName(macro, cmdName);
-		}
+		app.dispatchEvent(new Event(EventType.RENAME_MACRO, null,
+				"[\"" + macro.getCommandName() + "\",\"" + cmdName + "\"]"));
+
 
 		macroManager.setMacroCommandName(macro, cmdName);
 

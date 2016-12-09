@@ -90,7 +90,13 @@ public enum EventType {
 	EXPORT("export"),
 
 	/** OPEN_DIALOG */
-	OPEN_DIALOG("openDialog");
+	OPEN_DIALOG("openDialog"),
+	/** Custom tool created */
+	ADD_MACRO("addMacro"),
+	/** Custom tool removed */
+	REMOVE_MACRO("removeMacro"),
+	/** Custom tool renamed */
+	RENAME_MACRO("renameMacro");
 
 	private String eventName;
 
