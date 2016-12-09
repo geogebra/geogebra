@@ -78,9 +78,13 @@ public class AlgoDensityPlot extends AlgoElement {
 	 * @param geoFunctionNVar
 	 *            2-variables function
 	 * @param lowX
+	 *            min x
 	 * @param highX
+	 *            max x
 	 * @param lowY
+	 *            min y
 	 * @param highY
+	 *            max y
 	 * @param fixed
 	 *            true for fixed scale, false for scale handled by euclidean
 	 *            view

@@ -63,8 +63,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 	private GeoConic A, B;
 	private GeoPoint[] P, D, Q; // points
-	ArrayList<GeoPointND> preexistPoints; // pre-existing intersection points
-											// before this Algo is constructed
+	/**
+	 * pre-existing intersection points before this Algo is constructed
+	 */
+	ArrayList<GeoPointND> preexistPoints;
+	/**
+	 * Defined points from P
+	 **/
 	ArrayList<GeoPoint> newPoints;
 
 	private HashMap<GeoElementND, Polynomial[]> botanaPolynomials;
@@ -807,9 +812,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	}
 
 	/**
-	 * Caculates the intersection points of the conic sections A and B.
+	 * Caculates the intersection points of the conic sections 1 and 2.
 	 */
-	final private boolean calcIntersectionPoints(GeoConic A, GeoConic B,
+	final private boolean calcIntersectionPoints(GeoConic conic1,
+			GeoConic conic2,
 			GeoPoint[] points, double eps) {
 		/*
 		 * Pluecker mu method: Solves the cubic equation det(A + x B) = 0 or
@@ -823,8 +829,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// => degnerate is single line
 		// (e.g. for circles)
 
-		double[] Amatrix = A.getFlatMatrix();
-		double[] Bmatrix = B.getFlatMatrix();
+		double[] Amatrix = conic1.getFlatMatrix();
+		double[] Bmatrix = conic2.getFlatMatrix();
 		if (absCrossProduct(Amatrix[0], Amatrix[1], Bmatrix[0],
 				Bmatrix[1]) < eps
 				&& absCrossProduct(Amatrix[0], Amatrix[3], Bmatrix[0],
@@ -850,7 +856,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			 * return true;
 			 */
 
-			return intersectConicsWithEqualSubmatrixS(A, B, points, eps);
+			return intersectConicsWithEqualSubmatrixS(conic1, conic2, points,
+					eps);
 		}
 
 		// STANDARD CASE
@@ -926,13 +933,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			degConic.setDegenerateMatrixFromArray(flatDeg);
 
 			// try first conic
-			intersectWithDegenerate(A, degConic, points, eps);
-			if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+			intersectWithDegenerate(conic1, degConic, points, eps);
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
 				return true;
 
 			// try second conic
-			intersectWithDegenerate(B, degConic, points, eps);
-			if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+			intersectWithDegenerate(conic2, degConic, points, eps);
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
 				return true;
 		}
 
@@ -970,13 +977,13 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			// degConic.getTypeString());
 
 			// try first conic
-			intersectWithDegenerate(A, degConic, points, eps);
-			if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+			intersectWithDegenerate(conic1, degConic, points, eps);
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
 				return true;
 
 			// try second conic
-			intersectWithDegenerate(B, degConic, points, eps);
-			if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+			intersectWithDegenerate(conic2, degConic, points, eps);
+			if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
 				return true;
 		}
 
@@ -1017,7 +1024,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		for (int i = solnr; i < 4; i++)
 			points[i].setUndefined();
 
-		if (testPoints(A, B, points, Kernel.MIN_PRECISION))
+		if (testPoints(conic1, conic2, points, Kernel.MIN_PRECISION))
 			return true;
 
 		// Application.debug("no solutions found");
@@ -1160,16 +1167,24 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * to set P that really lie on both paths.
 	 * 
 	 * @param P
+	 *            output array
 	 * @param isPalive
 	 * @param Q
+	 *            new permutation
 	 * @param isQonPath
 	 * @param distTable
 	 * @param pointList
+	 * 
 	 * 
 	 * @param permutation
 	 *            is an output parameter for the permutation of points Q used to
 	 *            set points P, e.g. permuation {1,0} means that P[0]=Q[1] and
 	 *            P[1]=Q[0]
+	 * @param needStrict
+	 *            false to ignore eps
+	 * @param eps
+	 *            precision: if csome intersection points are closer than this,
+	 *            don't permute
 	 */
 	final static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q,
 			boolean[] isQonPath, double[][] distTable, PointPairList pointList,

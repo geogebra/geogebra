@@ -456,7 +456,7 @@ public class AlgebraProcessor {
 						app.getCompanion().recallViewCreators();
 						if (storeUndoInfo)
 							app.storeUndoInfo();
-						if (obj.length > 0) {
+						if (obj.length > 0 && callback != null) {
 							callback.callback(obj[0]);
 						}
 					}
@@ -479,7 +479,7 @@ public class AlgebraProcessor {
 			app.getCompanion().recallViewCreators();
 			if (storeUndoInfo)
 				app.storeUndoInfo();
-			if (result.length > 0) {
+			if (result.length > 0 && callback != null) {
 				callback.callback(result[0]);
 			}
 		} else {

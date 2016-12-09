@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
-public class AlgoIntersection extends AlgoIntersectAbstract {
+public class AlgoIntersection extends AlgoElement {
 
 	private GeoList inputList; // input
 	private GeoList inputList2; // input
@@ -60,6 +60,9 @@ public class AlgoIntersection extends AlgoIntersectAbstract {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return intersection of lists
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

@@ -36,7 +36,18 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 	protected GeoVectorND v; // input
 	protected GeoLineND diameter; // output
 
-	/** Creates new AlgoDiameterVector */
+	/**
+	 * Creates new AlgoDiameterVector
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param v
+	 *            vector
+	 */
 	public AlgoDiameterVectorND(Construction cons, String label, GeoConicND c,
 			GeoVectorND v) {
 		super(cons);
@@ -50,7 +61,11 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 		diameter.setLabel(label);
 	}
 
-	abstract protected void createOutput(Construction cons);
+	/**
+	 * @param cons1
+	 *            construction
+	 */
+	abstract protected void createOutput(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -69,14 +84,11 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	GeoVectorND getVector() {
-		return v;
-	}
 
-	GeoConicND getConic() {
-		return c;
-	}
 
+	/**
+	 * @return result
+	 */
 	public GeoLineND getDiameter() {
 		return diameter;
 	}

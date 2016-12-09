@@ -2954,6 +2954,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract void createNewWindow();
 
+	/**
+	 * Clear construction and reset settings from preferences
+	 */
 	public abstract void fileNew();
 
 	/**
@@ -4045,7 +4048,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease;
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-798
 		case AV_SCROLL:

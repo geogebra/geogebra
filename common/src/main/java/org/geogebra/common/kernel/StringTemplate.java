@@ -2255,6 +2255,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * @param sb
+	 *            builder
+	 * @param string
+	 *            binary op name
+	 * @param leftStr
+	 *            first argument
+	 * @param rightStr
+	 *            second argument
+	 */
 	public static void appendOp(StringBuilder sb, String string, String leftStr,
 			String rightStr) {
 		sb.append(string);
@@ -2266,6 +2276,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            left string
+	 * @param rightStr
+	 *            right string
+	 * @return leftStr || rightStr for this string type
+	 */
 	public String orString(ExpressionValue left, ExpressionValue right,
 			String leftStr, String rightStr) {
 		StringBuilder sb = new StringBuilder();
@@ -2332,6 +2353,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 	}
 
+	/**
+	 * @return > for this string type
+	 */
 	public String greaterSign() {
 		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
 			return "\\->";
@@ -2339,6 +2363,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return ">";
 	}
 
+	/**
+	 * @return < for this string type
+	 */
 	public String lessSign() {
 		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
 			return "\\-<";

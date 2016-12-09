@@ -30,15 +30,26 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  */
 public class AlgoDiameterVector extends AlgoDiameterVectorND {
 
-	/** Creates new AlgoDiameterVector */
+	/**
+	 * Creates new AlgoDiameterVector
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param v
+	 *            vector
+	 */
 	public AlgoDiameterVector(Construction cons, String label, GeoConicND c,
 			GeoVectorND v) {
 		super(cons, label, c, v);
 	}
 
 	@Override
-	protected void createOutput(Construction cons) {
-		diameter = new GeoLine(cons);
+	protected void createOutput(Construction cons1) {
+		diameter = new GeoLine(cons1);
 	}
 
 	// calc diameter line of v relativ to c

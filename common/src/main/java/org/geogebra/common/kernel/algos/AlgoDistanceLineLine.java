@@ -33,8 +33,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoDistanceLineLine extends AlgoElement {
 
 	private GeoLine g, h; // input
-	protected GeoNumeric dist; // output
+	/** output: distance */
+	protected GeoNumeric dist;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param g
+	 *            line #1
+	 * @param h
+	 *            line #2
+	 */
 	public AlgoDistanceLineLine(Construction cons, String label, GeoLine g,
 			GeoLine h) {
 		super(cons);
@@ -70,16 +81,11 @@ public class AlgoDistanceLineLine extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoNumeric getDistance() {
 		return dist;
-	}
-
-	GeoLine getg() {
-		return g;
-	}
-
-	GeoLine geth() {
-		return h;
 	}
 
 	// calc length of vector v

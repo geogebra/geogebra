@@ -32,6 +32,14 @@ public class AlgoDefined extends AlgoElement {
 	private GeoElement inputGeo; // input
 	private GeoBoolean outputBoolean; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputGeo
+	 *            element to be checked
+	 */
 	public AlgoDefined(Construction cons, String label, GeoElement inputGeo) {
 		super(cons);
 		this.inputGeo = inputGeo;
@@ -58,6 +66,9 @@ public class AlgoDefined extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoBoolean getResult() {
 		return outputBoolean;
 	}

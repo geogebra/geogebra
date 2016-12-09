@@ -31,12 +31,25 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  * @author Markus
  */
 public abstract class AlgoDiameterLineND extends AlgoElement {
+	/** input conic */
+	protected GeoConicND c;
+	/** input line */
+	protected GeoLineND g;
+	/** output diameter */
+	protected GeoLineND diameter;
 
-	protected GeoConicND c; // input
-	protected GeoLineND g; // input
-	protected GeoLineND diameter; // output
-
-	/** Creates new algo for Diameter */
+	/**
+	 * Creates new algo for Diameter
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 * @param g
+	 *            parallel line
+	 */
 	public AlgoDiameterLineND(Construction cons, String label, GeoConicND c,
 			GeoLineND g) {
 		super(cons);
@@ -53,10 +66,10 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 	/**
 	 * create the output needed
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 */
-	abstract protected void createOutput(Construction cons);
+	abstract protected void createOutput(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -80,16 +93,27 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * Made public for LocusEqu
+	 * 
+	 * @return line
+	 */
 	public GeoLineND getLine() {
 		return g;
 	}
 
-	// Made public for LocusEqu
+	/**
+	 * Made public for LocusEqu
+	 * 
+	 * @return conic
+	 */
 	public GeoConicND getConic() {
 		return c;
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoLineND getDiameter() {
 		return diameter;
 	}
