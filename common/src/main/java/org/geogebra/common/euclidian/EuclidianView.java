@@ -1742,7 +1742,7 @@ public abstract class EuclidianView
 		if (geo.isGeoPoint()) {
 			stickyPointList.remove(geo);
 		}
-		euclidianController.removeFromPen(geo);
+		euclidianController.clear(geo);
 		if (!d.isCreatedByDrawListVisible())
 			repaint();
 

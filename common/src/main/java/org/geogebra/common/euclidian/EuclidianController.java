@@ -11481,12 +11481,17 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	public void removeFromPen(GeoElement geo) {
+	public void clear(GeoElement geo) {
+		handleAddSelectedArrayList.remove(geo);
+		highlightedGeos.remove(geo);
+		tempArrayList.remove(geo);
+		tempRegionHitsArrayList.remove(geo);
+		removeFromPen(geo);
+	}
+
+	private void removeFromPen(GeoElement geo) {
 		if (pen != null) {
 			pen.remove(geo);
 		}
-
 	}
-
-	// public abstract void closePopups(int x, int y, PointerEventType type);
 }
