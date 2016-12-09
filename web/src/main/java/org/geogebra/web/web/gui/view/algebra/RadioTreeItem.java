@@ -198,7 +198,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 							return;
 						}
 						event.stopPropagation();
-						geo.remove();
+						getController().removeGeo();
 					}
 				});
 			}

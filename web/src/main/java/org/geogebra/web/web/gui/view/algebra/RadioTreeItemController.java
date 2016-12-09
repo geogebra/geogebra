@@ -220,10 +220,23 @@ public class RadioTreeItemController
 		}
 
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)
-				&& !isMarbleHit(event)) {
+				&& canEditStart(event)) {
 			editOnTap(item.isEditing(), event);
 		}
 	}
+
+	/**
+	 * Determines if the item can be edited at that point that event has
+	 * happened. For example editing is not allowed clicking on marbles.
+	 * 
+	 * @param event
+	 *            The mouse event
+	 * @return if editing can start or not.
+	 */
+	protected boolean canEditStart(MouseEvent<?> event) {
+		return !isMarbleHit(event);
+	}
+
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
@@ -636,5 +649,9 @@ public class RadioTreeItemController
 		return app;
 	}
 
+	public void removeGeo() {
+		item.geo.remove();
+		getAV().setActiveTreeItem(null);
+	}
 }
 
