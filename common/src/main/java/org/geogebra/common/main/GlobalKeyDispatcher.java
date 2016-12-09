@@ -498,7 +498,17 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
+			case X:
+				// Ctrl-shift-c: copy graphics view to clipboard
+				// should also work in applets with no menubar
+				
+					// check not spreadsheet
+				if (!fromSpreadsheet) {
+					handleCopyCut(true);
+				}
 
+				
+				break;
 			case C:
 				// Ctrl-shift-c: copy graphics view to clipboard
 				// should also work in applets with no menubar
@@ -508,7 +518,7 @@ public abstract class GlobalKeyDispatcher {
 				} else {
 					// check not spreadsheet
 					if (!fromSpreadsheet) {
-						handleCtrlC();
+						handleCopyCut(false);
 					}
 
 				}
@@ -792,13 +802,18 @@ public abstract class GlobalKeyDispatcher {
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
 	/**
-	 * overridden in desktop Default implementation pastes from XML and returns
-	 * true
+	 * overridden in desktop Default implementation copies into XML
+	 * 
+	 * @param cut
+	 *            whether to cut (false = copy)
 	 */
-	protected void handleCtrlC() {
+	protected void handleCopyCut(boolean cut) {
 		// Copy selected geos
 		app.setWaitCursor();
 		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
+		if (cut) {
+			app.deleteSelectedObjects();
+		}
 		app.updateMenubar();
 		app.setDefaultCursor();
 	}

@@ -214,13 +214,13 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 	}
 
 	@Override
-	protected void handleCtrlC() {
+	protected void handleCopyCut(boolean cut) {
 		if (!(((GuiManagerD) app.getGuiManager()).getSpreadsheetView()
 				.hasFocus())
 				&& !(((AlgebraInputD) ((GuiManagerD) app.getGuiManager())
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
-			super.handleCtrlC();
+			super.handleCopyCut(cut);
 		}
 
 	}

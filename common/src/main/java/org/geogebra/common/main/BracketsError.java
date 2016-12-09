@@ -1,9 +1,23 @@
 package org.geogebra.common.main;
 
+/**
+ * Unbalanced brackets error
+ */
 public class BracketsError extends MyError {
 
-	public BracketsError(Localization loc, String errorName) {
-		super(loc, new String[] { "UnbalancedBrackets", errorName });
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @param loc
+	 *            localization
+	 * @param input
+	 *            parsed string
+	 */
+	public BracketsError(Localization loc, String input) {
+		super(loc, new String[] { "UnbalancedBrackets", input });
 
 	}
 

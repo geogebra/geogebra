@@ -26,11 +26,11 @@ public class GeoGebraColorConstants {
 
 	private static GColor rgb(int r, int g, int b) {
 		return GColor.newColor(r, g, b);
-	};
+	}
 
 	private static GColor rgb(int rgb) {
 		return GColor.newColorRGB(rgb);
-	};
+	}
 	// ggb color constants
 
 	/** violet */
@@ -61,13 +61,17 @@ public class GeoGebraColorConstants {
 	 * Dark green: don't change: default Angle color
 	 */
 	public static final GColor GGB_GREEN = rgb(0, 100, 0);
+	/** purple */
 	public static final GColor GGB_PURPLE = rgb(153, 51, 255);
-
+	/** dark red, for functions */
 	public static final GColor GGB_RED = rgb(204, 0, 0);
+	/** violet */
 	public static final GColor GGB_VIOLET = rgb(244, 0, 153);
-
+	/** intersection point gray */
 	public static final GColor GGB_GRAY = rgb(102, 102, 102);
+	/** polygon brown */
 	public static final GColor GGB_BROWN = rgb(153, 51, 0);
+	/** intersection line orange */
 	public static final GColor GGB_ORANGE = rgb(255, 85, 0);
 	/**
 	 * Light blue: don't change: default Point on path color
