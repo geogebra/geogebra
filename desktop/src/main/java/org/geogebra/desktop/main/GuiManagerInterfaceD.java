@@ -51,4 +51,12 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	public void updateMenuWindow();
 
 	public void updateMenuFile();
+
+	void allowGUIToRefresh();
+
+	void updateFrameTitle();
+
+	void setShowToolBarHelp(boolean b);
+
+	boolean saveCurrentFile();
 }

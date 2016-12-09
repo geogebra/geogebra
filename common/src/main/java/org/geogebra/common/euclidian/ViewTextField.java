@@ -15,12 +15,23 @@ public abstract class ViewTextField {
 	private AutoCompleteTextField textField;
 	private GBox box;
 
+	/**
+	 * @param euclidianView
+	 *            view
+	 */
 	public ViewTextField(EuclidianView euclidianView) {
 		this.euclidianView = euclidianView;
 		textField = null;
 		box = null;
 	}
 
+	/**
+	 * @param length
+	 *            number of characters
+	 * @param drawInputBox
+	 *            linked drawable
+	 * @return textfield
+	 */
 	public AutoCompleteTextField getTextField(int length,
 			DrawInputBox drawInputBox) {
 		if (textField == null) {
@@ -39,10 +50,17 @@ public abstract class ViewTextField {
 		return textField;
 	}
 
+	/**
+	 * @return textfield (may be null)
+	 */
 	public AutoCompleteTextField getTextField() {
 		return textField;
 	}
 
+	/**
+	 * @param inputBox
+	 *            input box to focus
+	 */
 	public void focusTo(GeoInputBox inputBox) {
 
 		DrawInputBox d = (DrawInputBox) this.euclidianView

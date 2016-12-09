@@ -1012,11 +1012,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void mousePressedForPropertiesView() {
 		if (propertiesView != null) {
 			propertiesView.mousePressedForPropertiesView();
-		} else {
-			// TODO: @Gabor: do we want this? I don't think we want to
-			// initialize the view unnecessarily.
-			// ((PropertiesViewW)
-			// getPropertiesView()).mousePressedForPropertiesView();
 		}
 	}
 
@@ -1111,11 +1106,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// force JavaScript ggbOnInit(); to be called
 		if (!app.isApplet())
 			app.getScriptManager().ggbOnInit();
-	}
-
-	private void updateSize() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1387,13 +1377,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public boolean saveCurrentFile() {
-		// TODO Auto-generated method stub
-		Log.debug("unimplemented");
-		return false;
-	}
-
-	@Override
 	public boolean hasEuclidianView2(final int idx) {
 		if (!this.hasEuclidianView2EitherShowingOrNot(idx)) {
 			return false;
@@ -1404,20 +1387,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (!euclidianView2.get(idx).isShowing())
 			return false;
 		return true;
-	}
-
-	@Override
-	public void allowGUIToRefresh() {
-		Log.debug("unimplemented");
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateFrameTitle() {
-		// TODO Auto-generated method stub
-		Log.debug("unimplemented");
-
 	}
 
 	@Override
@@ -1470,13 +1439,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	public void updatePrintMenu() {
 		// not implemented
-	}
-
-	@Override
-	public void setShowToolBarHelp(final boolean showToolBarHelp) {
-		Log.debug("unimplemented");
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

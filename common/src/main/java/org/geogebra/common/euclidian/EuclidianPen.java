@@ -99,8 +99,8 @@ public class EuclidianPen implements GTimerListener {
 	// segment
 	private int brk[];
 	private int recognizer_queue_length = 0;
-	private int MAX_POLYGON_SIDES = 4;
-	private double SLANT_TOLERANCE = 5 * Math.PI / 180;
+	private static final int MAX_POLYGON_SIDES = 4;
+	private static final double SLANT_TOLERANCE = 5 * Math.PI / 180;
 	private Inertia a = null;
 	private Inertia b = null;
 	private Inertia c = null;
@@ -218,7 +218,7 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @param line
+	 * @param lineOpacity
 	 *            Opacity
 	 */
 	public void setPenOpacity(int lineOpacity) {
@@ -531,6 +531,12 @@ public class EuclidianPen implements GTimerListener {
 		return makeAConic(); // might return null
 	}
 
+	/**
+	 * @param x
+	 *            initial x
+	 * @param y
+	 *            initial y
+	 */
 	protected void initShapeRecognition(int x, int y) {
 		penPoints.add(new GPoint(x, y));
 	}
@@ -945,13 +951,13 @@ public class EuclidianPen implements GTimerListener {
 		}
 
 		// create the freehand function
-		new AlgoFunctionFreehand(cons, null, list);
+		AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, null, list);
 
-		// GeoElement fun = algo.getOutput(0);
+		GeoElement fun = algo.getOutput(0);
 
 		// fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
-		// fun.setLineType(penLineStyle);
-		// fun.setObjColor(penColor);
+		fun.setLineType(penLineStyle);
+		fun.setObjColor(penColor);
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;

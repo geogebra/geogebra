@@ -2961,6 +2961,13 @@ public class AppD extends App implements KeyEventDispatcher {
 		getGuiManager().updateFrameTitle();
 	}
 
+	public void setShowToolBar(boolean toolbar, boolean help) {
+		super.setShowToolBar(toolbar, help);
+		if (toolbar && getGuiManager() != null) {
+			getGuiManager().setShowToolBarHelp(help);
+		}
+	}
+
 	// **************************************************************************
 	// GUI Getters/Setters
 	// **************************************************************************

@@ -255,19 +255,11 @@ public interface GuiManagerInterface {
 
 	public void exitAll();
 
-	public boolean saveCurrentFile();
-
 	public void updateToolbar();
 
 	public boolean hasEuclidianView2(int idx);
 
-	public void allowGUIToRefresh();
-
-	public void updateFrameTitle();
-
 	public void setLabels();
-
-	public void setShowToolBarHelp(boolean showToolBarHelp);
 
 	public View getEuclidianView2(int idx);
 

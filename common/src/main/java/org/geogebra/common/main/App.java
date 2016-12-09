@@ -2053,9 +2053,7 @@ public abstract class App implements UpdateSelection {
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		showToolBar = toolbar;
 		showToolBarHelp = help;
-		if (showToolBar && getGuiManager() != null) {
-			getGuiManager().setShowToolBarHelp(showToolBarHelp);
-		}
+
 	}
 
 	public int getToolbarPosition() {

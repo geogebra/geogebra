@@ -71,6 +71,9 @@ public class AlgoFunctionFreehand extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return freehand function
+	 */
 	public GeoFunction getFunction() {
 		return g;
 	}

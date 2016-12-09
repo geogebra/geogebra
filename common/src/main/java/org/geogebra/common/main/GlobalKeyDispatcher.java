@@ -808,6 +808,8 @@ public abstract class GlobalKeyDispatcher {
 	 *            whether control is down
 	 * @param isShiftDown
 	 *            whether shift is down
+	 * @param cycle
+	 *            whether to cycle back
 	 * @return whether key was consumed
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown,
