@@ -12,7 +12,7 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class SliderTreeItemRetexController extends RadioTreeItemController
+public class SliderTreeItemRetexController extends LatexTreeItemController
 		implements ValueChangeHandler<Double> {
 
 	private SliderTreeItemRetex slider;
@@ -156,8 +156,13 @@ public class SliderTreeItemRetexController extends RadioTreeItemController
 	}
 
 	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
+		if (handleAVItem(wrappedEvent)) {
+			// return true;
+		} else {
+			startEdit(wrappedEvent.isControlDown());
+			return true;
+		}
 		boolean result = super.editOnTap(active, wrappedEvent);
-		handleAVItem(wrappedEvent);
 		return result;
 	}
 }
