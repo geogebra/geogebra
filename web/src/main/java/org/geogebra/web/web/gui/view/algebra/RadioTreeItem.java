@@ -1306,6 +1306,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void stopEditing() {
+		if (!editing) {
+			return;
+		}
 		stopEditing(getText(), null);
 	}
 

@@ -106,6 +106,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 				if (right) {
 					return true;
 				}
+				radioTreeItem.stopEditing();
 
 				boolean value = !isGeoAnimating();
 
@@ -209,6 +210,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	public void onClick(ClickEvent event) {
+		radioTreeItem.stopEditing();
 		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
 			return;
 		}

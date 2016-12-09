@@ -5,9 +5,12 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Widget;
@@ -97,6 +100,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !rightClick) {
 
 			if (minHit || maxHit) {
+				slider.stopEditing();
 				slider.minMaxPanel.show();
 				if (minHit) {
 					slider.minMaxPanel.setMinFocus();
@@ -114,6 +118,28 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 
 		return false;
 
+	}
+
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
+		SliderWJquery.stopSliders();
+
+		if (handleAVItem(event)) {
+			event.stopPropagation();
+			return;
+		}
+
+		if (!canEditStart(event)) {
+			slider.stopEditing();
+		}
+		super.onMouseUp(event);
+	}
+
+	@Override
+	protected boolean canEditStart(MouseEvent<?> event) {
+
+		return super.canEditStart(event)
+				&& isWidgetHit(item.getPlainTextItem(), event);
 	}
 
 	private static boolean isWidgetHit(Widget w, int x, int y) {
@@ -161,14 +187,4 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		getApp().getKernel().notifyRepaint();
 	}
 
-	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
-		if (handleAVItem(wrappedEvent)) {
-			// return true;
-		} else {
-			startEdit(wrappedEvent.isControlDown());
-			return true;
-		}
-		boolean result = super.editOnTap(active, wrappedEvent);
-		return result;
-	}
 }

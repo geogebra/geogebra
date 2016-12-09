@@ -440,4 +440,5 @@ public class LatexTreeItem extends RadioTreeItem {
 		return true;
 
 	}
+
 }
