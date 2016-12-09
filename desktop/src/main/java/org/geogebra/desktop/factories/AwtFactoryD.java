@@ -299,7 +299,7 @@ public class AwtFactoryD extends AwtFactory {
 		return ((GBasicStrokeD) s).getImpl();
 	}
 
-	static public java.awt.BasicStroke getDefaultStrokeAwt() {
+	static public BasicStroke getDefaultStrokeAwt() {
 		return ((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic.getDefaultStroke());
 	}

@@ -666,7 +666,7 @@ public class EuclidianViewD extends EuclidianView
 	/**
 	 * @return mouse position
 	 */
-	public java.awt.Point getMousePosition() {
+	public Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
 

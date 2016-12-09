@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.parser;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import org.geogebra.common.main.App;
 
@@ -88,7 +89,7 @@ public class SimpleCharStream
     tokenBegin = 0;
   }
 
-	protected void FillBuff() throws java.io.IOException {
+	protected void FillBuff() throws IOException {
 		if (maxNextCharInd == available) {
 			if (available == bufsize) {
 				if (tokenBegin > 2048) {
@@ -130,7 +131,7 @@ public class SimpleCharStream
 	}
 
 /** Start. */
-  public char BeginToken() throws java.io.IOException
+  public char BeginToken() throws IOException
   {
     tokenBegin = -1;
     char c = readChar();
@@ -180,7 +181,7 @@ public class SimpleCharStream
   }
 
 /** Read a character. */
-  public char readChar() throws java.io.IOException
+  public char readChar() throws IOException
   {
     if (inBuf > 0)
     {
@@ -312,78 +313,78 @@ public class SimpleCharStream
   }
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,
-  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
+  int startcolumn, int buffersize) throws UnsupportedEncodingException
   {
     this(encoding == null ? new java.io.InputStreamReader(dstream, "UTF-8") : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
   }
 
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, int startline,
-  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
+  int startcolumn, int buffersize) throws UnsupportedEncodingException
   {
     this(new java.io.InputStreamReader(dstream, "UTF-8"), startline, startcolumn, buffersize);
   }
 
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,
-                          int startcolumn) throws java.io.UnsupportedEncodingException
+                          int startcolumn) throws UnsupportedEncodingException
   {
     this(dstream, encoding, startline, startcolumn, 4096);
   }
 
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, int startline,
-                          int startcolumn) throws java.io.UnsupportedEncodingException
+                          int startcolumn) throws UnsupportedEncodingException
   {
     this(dstream, startline, startcolumn, 4096);
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException
+  public SimpleCharStream(java.io.InputStream dstream, String encoding) throws UnsupportedEncodingException
   {
     this(dstream, encoding, 1, 1, 4096);
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream) throws java.io.UnsupportedEncodingException
+  public SimpleCharStream(java.io.InputStream dstream) throws UnsupportedEncodingException
   {
     this(dstream, 1, 1, 4096);
   }
 
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, String encoding, int startline,
-                          int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
+                          int startcolumn, int buffersize) throws UnsupportedEncodingException
   {
     ReInit(encoding == null ? new java.io.InputStreamReader(dstream, "UTF-8") : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
   }
 
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, int startline,
-                          int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
+                          int startcolumn, int buffersize) throws UnsupportedEncodingException
   {
     ReInit(new java.io.InputStreamReader(dstream, "UTF-8"), startline, startcolumn, buffersize);
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream, String encoding) throws java.io.UnsupportedEncodingException
+  public void ReInit(java.io.InputStream dstream, String encoding) throws UnsupportedEncodingException
   {
     ReInit(dstream, encoding, 1, 1, 4096);
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream) throws java.io.UnsupportedEncodingException
+  public void ReInit(java.io.InputStream dstream) throws UnsupportedEncodingException
   {
     ReInit(dstream, 1, 1, 4096);
   }
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, String encoding, int startline,
-                     int startcolumn) throws java.io.UnsupportedEncodingException
+                     int startcolumn) throws UnsupportedEncodingException
   {
     ReInit(dstream, encoding, startline, startcolumn, 4096);
   }
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, int startline,
-                     int startcolumn) throws java.io.UnsupportedEncodingException
+                     int startcolumn) throws UnsupportedEncodingException
   {
     ReInit(dstream, startline, startcolumn, 4096);
   }

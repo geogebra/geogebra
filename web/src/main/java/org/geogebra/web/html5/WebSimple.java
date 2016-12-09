@@ -72,8 +72,7 @@ public class WebSimple implements EntryPoint {
 	 * default
 	 */
 	public static void registerSuperdevExceptionHandler() {
-		com.google.gwt.core.client.GWT
-				.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 					public void onUncaughtException(Throwable t) {
 						Throwable cause = t;
 						while (cause.getCause() != null) {

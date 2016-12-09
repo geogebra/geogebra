@@ -12,7 +12,7 @@ public class GFontD extends GFont {
 		impl = font;
 	}
 
-	public java.awt.Font getAwtFont() {
+	public Font getAwtFont() {
 		return impl;
 	}
 

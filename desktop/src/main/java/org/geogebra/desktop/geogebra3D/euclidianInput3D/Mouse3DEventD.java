@@ -21,13 +21,15 @@ public class Mouse3DEventD extends Mouse3DEvent implements MouseEventND {
 	 * 
 	 * @param point
 	 *            point
+	 * @param component
+	 *            target component
 	 */
 	public Mouse3DEventD(GPoint point, Component component) {
 		super(point);
 		this.component = component;
 	}
 
-	public java.awt.Component getComponent() {
+	public Component getComponent() {
 		return component;
 	}
 
