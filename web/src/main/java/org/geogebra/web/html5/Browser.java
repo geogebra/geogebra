@@ -467,4 +467,12 @@ public class Browser {
 		return webWorkerSupported;
 	}
 
+	public static native int getScreenWidth() /*-{
+		return $wnd.screen.width;
+	}-*/;
+
+	public static native int getScreenHeight() /*-{
+		return $wnd.screen.height;
+	}-*/;
+
 }

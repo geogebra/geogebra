@@ -222,8 +222,9 @@ public class AppWapplication extends AppWFull {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
-		String perspective = getArticleElement().getDataParamPerspective();
 
+		String perspective = getArticleElement().getDataParamPerspective();
+		getGuiManager().updateFrameSize();
 		getGuiManager().getLayout().setPerspectives(
 		        getTmpPerspectives(),
 		        PerspectiveDecoder.decode(perspective, this.getKernel()

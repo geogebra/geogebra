@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -1112,6 +1113,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			app.getScriptManager().ggbOnInit();
 	}
 
+	private void updateSize() {
+		// TODO Auto-generated method stub
+
+	}
+
 	@Override
 	public void startEditing(final GeoElement geoElement) {
 		Log.debug("unimplemented");
@@ -1524,8 +1530,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateFrameSize() {
-		// TODO Auto-generated method stub
-		Log.debug("unimplemented");
+		// get frame size from layout manager
+		GDimension size = ((AppW) app).getPreferredSize();
+		int width = size.getWidth();
+		int height = size.getHeight();
+		// check if frame fits on screen
+
+		if (width > Browser.getScreenWidth()
+				|| height > Browser.getScreenHeight()) {
+			width = Browser.getScreenWidth();
+			height = Browser.getScreenHeight();
+			Window.moveTo(0, 0);
+		}
+		Log.debug("FILE RESIZE" + width + "," + height);
+		Window.resizeTo(width, height);
 
 	}
 
