@@ -33,10 +33,26 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 	 * inpupt polyline/polygon
 	 */
 	protected GeoPoly poly;
+	/** intersection points */
 	protected OutputHandler<GeoPoint> outputPoints;
-	protected boolean hasLabels, polyclosed;
+	/** whether labels are used */
+	protected boolean hasLabels;
+	/** whether the input is a closed polyline (=polygon) */
+	protected boolean polyclosed;
 
-	protected int numOfOutputPoints, polyPointCount, segCountOfPoly;
+	/**
+	 * Number of intersections
+	 */
+	protected int numOfOutputPoints;
+	/**
+	 * Number of polyline vertices
+	 */
+	protected int polyPointCount;
+	/**
+	 * Number of polyline edges
+	 */
+	protected int segCountOfPoly;
+	/** intersection coordinates; */
 	protected ArrayList<Coords> intersectCoords;
 
 	private GeoPoint[] tempSegEndPoints;
@@ -196,6 +212,15 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 
 	}
 
+	/**
+	 * @param coeff
+	 *            implicit poly coefficients
+	 * @param tx
+	 *            function of t to plug into x
+	 * @param ty
+	 *            function of t to plug into y
+	 * @return function of t representing f(tx(t),ty(t))
+	 */
 	public static PolynomialFunction lineIntersect(double[][] coeff,
 			PolynomialFunction tx, PolynomialFunction ty) {
 		PolynomialFunction sum = null;

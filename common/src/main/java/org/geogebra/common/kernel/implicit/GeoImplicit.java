@@ -1,20 +1,16 @@
 package org.geogebra.common.kernel.implicit;
 
-import java.util.TreeSet;
-
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusND;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public interface GeoImplicit extends GeoElementND {
+public interface GeoImplicit extends Path {
 
 	double[][] getCoeff();
 
@@ -28,17 +24,25 @@ public interface GeoImplicit extends GeoElementND {
 
 	boolean isOnScreen();
 
+	/**
+	 * @return locus for drawing
+	 */
 	GeoLocusND<? extends MyPoint> getLocus();
 
-	public TreeSet<GeoElement> getAllChildren();
-
+	/**
+	 * @return degree in x or -1
+	 */
 	int getDegX();
 
+	/**
+	 * @return degree in y or -1
+	 */
 	int getDegY();
 
+	/**
+	 * Switch to user input form
+	 */
 	void setInputForm();
-
-	boolean isOnPath(GeoPointND r);
 
 	void translate(double d, double e);
 
@@ -46,22 +50,52 @@ public interface GeoImplicit extends GeoElementND {
 
 	boolean isValidInputForm();
 
+	/**
+	 * @return whether the print form is input
+	 */
 	boolean isInputForm();
 
+	/**
+	 * Switch print form to expanded
+	 */
 	void setExtendedForm();
 
 	void fromEquation(Equation equation, double[][] coeff);
 
+	/**
+	 * Make sure locus points are not computed
+	 */
 	void preventPathCreation();
 
 	void setCoeff(ExpressionValue[][] coeff);
 
 	void throughPoints(GeoList p);
 
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @return f_x(x,y) where f = lhs-rhs
+	 */
 	double derivativeX(double x, double y);
 
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @return f_y(x,y) where f = lhs-rhs
+	 */
 	double derivativeY(double x, double y);
 
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @return f(x,y) where f = lhs-rhs
+	 */
 	double evaluateImplicitCurve(double x, double y);
 
 	/**

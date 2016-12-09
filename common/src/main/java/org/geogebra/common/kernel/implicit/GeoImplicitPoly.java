@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -75,7 +74,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author ?
  */
-public class GeoImplicitPoly extends GeoUserInputElement implements Path,
+public class GeoImplicitPoly extends GeoUserInputElement implements 
 		Traceable, Mirrorable, ConicMirrorable, Translateable, PointRotateable,
 		Dilateable, Transformable, EuclidianViewCE, GeoImplicit {
 

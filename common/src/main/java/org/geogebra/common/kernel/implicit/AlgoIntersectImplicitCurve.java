@@ -212,7 +212,8 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 			return;
 		} else if (conic.isDegenerate()) {
 			GeoPoint pt = conic.getSinglePoint();
-			if (pt != null && pt.isDefined() && curve.isOnPath(pt)) {
+			if (pt != null && pt.isDefined()
+					&& curve.isOnPath(pt, Kernel.STANDARD_PRECISION)) {
 				outputLen++;
 				outputs.adjustOutputSize(outputLen);
 				outputs.getElement(outputLen - 1).setCoordsFromPoint(pt);

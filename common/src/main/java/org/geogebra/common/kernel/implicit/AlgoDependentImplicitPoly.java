@@ -24,8 +24,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Dependent implicit polynomial (or line / conic)
  */
-public class AlgoDependentImplicitPoly extends AlgoElement
-		implements AlgoDependentImplicit {
+public class AlgoDependentImplicitPoly extends AlgoElement {
 
 	private ExpressionValue[][] coeff; // input
 	private GeoElementND geoElement; // output (will be a implicitPoly, line or
@@ -44,6 +43,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 *            whether we can evaluate the coefficients
 	 * @param equ
 	 *            equation
+	 * @param definition
+	 *            definition node
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ,
 			ExpressionNode definition, boolean simplify) {

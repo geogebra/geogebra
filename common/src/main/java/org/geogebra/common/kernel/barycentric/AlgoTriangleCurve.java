@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.implicit.AlgoDependentImplicit;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.Operation;
@@ -33,7 +32,7 @@ public class AlgoTriangleCurve extends AlgoElement
 	private GeoElement poly; // output
 	private Equation eq;
 	private GeoNumeric[] xcoef, ycoef, constant;
-	private AlgoDependentImplicit dd;
+	private AlgoDependentImplicitPoly dd;
 
 	/**
 	 * @param cons
@@ -66,9 +65,11 @@ public class AlgoTriangleCurve extends AlgoElement
 
 		AlgoElement d = n.getParentAlgorithm();
 		cons.removeFromConstructionList(d);
-		ExpressionNode lhs = ((AlgoDependentImplicit) d).getEquation().getLHS()
+		ExpressionNode lhs = ((AlgoDependentImplicitPoly) d).getEquation()
+				.getLHS()
 				.deepCopy(kernel);
-		ExpressionNode rhs = ((AlgoDependentImplicit) d).getEquation().getRHS()
+		ExpressionNode rhs = ((AlgoDependentImplicitPoly) d).getEquation()
+				.getRHS()
 				.deepCopy(kernel);
 		ExpressionNode[] abcExp = new ExpressionNode[3];
 		FunctionVariable x = new FunctionVariable(kernel, "x");
@@ -100,7 +101,7 @@ public class AlgoTriangleCurve extends AlgoElement
 		boolean flag = cons.isSuppressLabelsActive();
 		dd = new AlgoDependentImplicitPoly(cons, eq, eq.wrap(), false);
 
-		cons.removeFromConstructionList((AlgoElement) dd);
+		cons.removeFromConstructionList(dd);
 		poly = ((AlgoElement) dd).getOutput()[0];
 
 		setInputOutput();

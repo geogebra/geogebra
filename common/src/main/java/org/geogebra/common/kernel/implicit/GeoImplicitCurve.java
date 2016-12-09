@@ -12,7 +12,6 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -58,7 +57,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
-		Traceable, Path, Translateable, Dilateable, Mirrorable, ConicMirrorable,
+		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
 		Transformable, PointRotateable, GeoImplicit, EquationValue {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
@@ -86,8 +85,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	protected final QuadTree quadTree = new WebExperimentalQuadTree();
 
-	private double[] evalArray = new double[2];
-	private double[] derEvalArray = new double[2];
+	private final double[] evalArray = new double[2];
+	private final double[] derEvalArray = new double[2];
 
 	private boolean defined = true;
 	private boolean trace;

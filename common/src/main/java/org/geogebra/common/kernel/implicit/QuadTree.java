@@ -22,7 +22,6 @@ abstract class QuadTree {
 	/**
 	 * All corners are inside / outside
 	 */
-	@SuppressWarnings("unused")
 	public static final int T0000 = 0;
 
 	/**

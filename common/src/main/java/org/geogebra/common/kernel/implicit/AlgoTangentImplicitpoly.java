@@ -101,22 +101,21 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		setInputOutput();
 	}
 
-	/**
-	 * To compute tangents to poly in given direction
+	/*
+	 * * To compute tangents to poly in given direction
 	 * 
-	 * @param c
-	 *            construction
-	 * @param labels
-	 *            labels for output
-	 * @param p
-	 *            implicit polynomial
-	 * @param g
-	 *            line
+	 * @param c construction
+	 * 
+	 * @param labels labels for output
+	 * 
+	 * @param p implicit polynomial
+	 * 
+	 * @param g line
 	 *
 	 *
-	 *            not working #4380 public AlgoTangentImplicitpoly(Construction
-	 *            c,String[] labels,GeoImplicitPoly p,GeoLineND g) {
-	 *            this(c,labels,p); this.g=g; setInputOutput(); }
+	 * not working #4380 public AlgoTangentImplicitpoly(Construction c,String[]
+	 * labels,GeoImplicitPoly p,GeoLineND g) { this(c,labels,p); this.g=g;
+	 * setInputOutput(); }
 	 */
 
 	@Override
@@ -164,7 +163,7 @@ public class AlgoTangentImplicitpoly extends AlgoElement
 		tangents.adjustOutputSize(0);
 
 		int n = 0;
-		if (p.isOnPath(R)) {
+		if (p.isOnPath(R, Kernel.STANDARD_PRECISION)) {
 			tangents.adjustOutputSize(n + 1);
 			double dfdx = this.p.derivativeX(R.getInhomX(), R.getInhomY());
 			double dfdy = this.p.derivativeY(R.getInhomX(), R.getInhomY());
