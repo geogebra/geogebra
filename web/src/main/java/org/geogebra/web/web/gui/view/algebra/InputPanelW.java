@@ -16,17 +16,23 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class InputPanelW extends FlowPanel {
 
-	private AppW app;
-	private boolean autoComplete;
 	private AutoCompleteTextFieldW textComponent;
 	private boolean showSymbolPopup;
 	private TextEditPanel textAreaComponent;
 
+	/**
+	 * @param initText
+	 *            initial text
+	 * @param app
+	 *            application
+	 * @param columns
+	 *            number of columns
+	 * @param autoComplete
+	 *            whether to allow autocomplete
+	 */
 	public InputPanelW(String initText, AppW app, int columns,
 	        boolean autoComplete) {
 		super();
-		this.app = app;
-		this.autoComplete = autoComplete;
 		//setHorizontalAlignment(ALIGN_CENTER);
 		//setVerticalAlignment(ALIGN_MIDDLE);
 		addStyleName("InputPanel");
@@ -35,21 +41,46 @@ public class InputPanelW extends FlowPanel {
 		add(textComponent);
 	}
 
+	/**
+	 * @param initText
+	 *            initial text
+	 * @param app
+	 *            application
+	 * @param columns
+	 *            number of columns
+	 * @param rows
+	 *            number of rows
+	 * @param showSymbolPopupIcon
+	 *            whether to show symbol icon
+	 */
 	public InputPanelW(String initText, AppW app, int rows, int columns,
 	        boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon,
-		        false/* , null */, DialogType.GeoGebraEditor);
+				DialogType.GeoGebraEditor);
 		if (textComponent != null) {
-			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) textComponent;
+			AutoCompleteTextFieldW atf = textComponent;
 			atf.setAutoComplete(false);
 		}
 	}
 
+	/**
+	 * @param initText
+	 *            initial text
+	 * @param app
+	 *            application
+	 * @param columns
+	 *            number of columns
+	 * @param rows
+	 *            number of rows
+	 * @param showSymbolPopupIcon
+	 *            whether to show symbol icon
+	 * @param type
+	 *            dialog type
+	 */
 	public InputPanelW(String initText, AppW app, int rows, int columns,
-	        boolean showSymbolPopupIcon, boolean showSymbolButtons,
-	        /* KeyListener keyListener, */DialogType type) {
+			boolean showSymbolPopupIcon,
+			DialogType type) {
 
-		this.app = app;
 		this.showSymbolPopup = showSymbolPopupIcon;
 
 		// set up the text component:
@@ -58,17 +89,6 @@ public class InputPanelW extends FlowPanel {
 
 			textAreaComponent = new TextEditPanel(app);
 
-			// switch (type) {
-			// case TextArea:
-			// textComponent = new JTextArea(rows, columns);
-			// break;
-			// case DynamicText:
-			// textComponent = new DynamicTextInputPane(app);
-			// break;
-			// case GeoGebraEditor:
-			// textComponent = new GeoGebraEditorPane(app, rows, columns);
-			// ((GeoGebraEditorPane) textComponent).setEditorKit("geogebra");
-			// break;
 
 		} else {
 
@@ -77,52 +97,37 @@ public class InputPanelW extends FlowPanel {
 			textComponent.prepareShowSymbolButton(showSymbolPopup);
 		}
 
-		// textComponent.addFocusListener(this);
-		// textComponent.setFocusable(true);
-		//
-		// if (keyListener != null)
-		// textComponent.addKeyListener(keyListener);
-		//
-
-		//
-		// // create the GUI
-		//
-		if (rows > 1) { // JTextArea
-			// setLayout(new BorderLayout(5, 5));
-			// // put the text pane in a border layout to prevent JTextPane's
-			// auto
-			// // word wrap
-			// JPanel noWrapPanel = new JPanel(new BorderLayout());
-			// noWrapPanel.add(textComponent);
-			// scrollPane = new JScrollPane(noWrapPanel);
-			// scrollPane.setAutoscrolls(true);
-			// add(scrollPane, BorderLayout.CENTER);
-			//
+		if (rows > 1) {
 			if (initText != null)
 				textAreaComponent.setText(initText);
 			add(textAreaComponent);
 
 		}
 		//
-		else { // JTextField
-			   // setLayout(new BorderLayout(0, 0));
-			   // tfPanel = new JPanel(new BorderLayout(0, 0));
-			   // tfPanel.add(textComponent, BorderLayout.CENTER);
-			   // add(tfPanel, BorderLayout.CENTER);
+		else {
 			if (initText != null)
 				textComponent.setText(initText);
 			add(textComponent);
 		}
 	}
 
+	/**
+	 * @return single line editable field
+	 */
 	public AutoCompleteTextFieldW getTextComponent() {
 		return textComponent;
 	}
 
+	/**
+	 * @return multiline editable field
+	 */
 	public TextEditPanel getTextAreaComponent() {
 		return textAreaComponent;
 	}
 
+	/**
+	 * @return text
+	 */
 	public String getText() {
 		if (textComponent != null) {
 			return textComponent.getText();

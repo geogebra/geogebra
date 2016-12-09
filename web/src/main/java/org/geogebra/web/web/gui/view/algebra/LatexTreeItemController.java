@@ -80,7 +80,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug.needsEnterForSuggestion();
 			return;
 		}
-		onEnter(item.hasGeo());
+		onEnter(!item.hasGeo());
 	}
 
 	public void onKeyTyped() {
