@@ -339,8 +339,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 		public void reposition() {
 			if (!app.has(Feature.AV_SCROLL)
 					|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+
+				if (first && !getAlgebraDockPanel().hasLongStyleBar()) {
+					// removeStyleName("avControlsNormal");
+					addStyleName("avControlsWithSmallStyleBar");
+				} else {
+					removeStyleName("avControlsWithSmallStyleBar");
+					// addStyleName("avControlsNormal");
+				}
 				return;
 			}
+
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 				public void execute() {
@@ -358,11 +367,20 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 					int value = margin + getOffsetWidth()
 							- (algebraPanel.getOffsetWidth() + scrollPos);
-
 					getElement().getStyle().setRight(value, Unit.PX);
 
 				}
 			});
+		}
+
+		private void repositionFirstRow() {
+			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || !first) {
+				return;
+			}
+
+
+			// getElement().getStyle().setRight(value, Unit.PX);
+
 		}
 
 	}
@@ -2290,7 +2308,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			stylebarShown = getAlgebraDockPanel().isStyleBarPanelShown();
 			getAlgebraDockPanel().showStyleBarPanel(false);
 			if (controls != null) {
-				controls.getElement().getStyle().setRight(0, Unit.PX);
+				controls.reposition();
 			}
 		}
 
@@ -2310,4 +2328,5 @@ public abstract class RadioTreeItem extends AVTreeItem
 		app.showKeyboard(this);
 	}
 }
+
 
