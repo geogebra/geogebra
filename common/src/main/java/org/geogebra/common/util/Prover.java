@@ -1054,8 +1054,13 @@ public abstract class Prover {
 			csvAdd("num of edges/max path length",
 					(double) edges / longestPath);
 			csvAdd("statement complexity", nodeComplexity.get(statement));
+			GetCommand dominantPredicate = statement.getParentAlgorithm()
+					.getClassName();
+			String dominantPredicateS = "";
+			if (dominantPredicate != null)
+				dominantPredicateS = dominantPredicate.toString();
 			csvAdd("statement dominant predicate",
-					statement.getParentAlgorithm().getClassName().toString());
+					dominantPredicateS);
 			csvAdd("statement predicates",
 					'"' + statement.getDefinition(StringTemplate.ogpTemplate)
 							+ '"');
