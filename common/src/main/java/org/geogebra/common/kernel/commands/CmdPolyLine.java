@@ -38,41 +38,53 @@ public class CmdPolyLine extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
-			if (!arg[0].isGeoList()) {
-				throw argErr(app, c.getName(), arg[0]);
-			}
-			if (!arg[1].isGeoBoolean()) {
-				throw argErr(app, c.getName(), arg[1]);
-			}
+			if (arg[0].isGeoList()) {
 
-			return PolyLine(c.getLabel(), (GeoList) arg[0]);
+				if (!arg[1].isGeoBoolean()) {
+					throw argErr(app, c.getName(), arg[1]);
+				}
 
+				return PolyLine(c.getLabel(), (GeoList) arg[0]);
+			}
+			if (arg[0].isGeoPoint()) {
+
+				if (!arg[1].isGeoPoint()) {
+					throw argErr(app, c.getName(), arg[1]);
+				}
+
+				return genericPolyline(arg, c);
+			}
+			throw argErr(app, c.getName(), arg[0]);
 		default:
 
-			int size = n;
-			boolean penStroke = false;
-
-			if (arg[arg.length - 1].isGeoBoolean()) {
-				// pen stroke
-				// last argument is boolean (normally true)
-				size = size - 1;
-				penStroke = ((GeoBoolean) arg[arg.length - 1]).getBoolean();
-			}
-
-			// polygon for given points
-			GeoPointND[] points = new GeoPointND[size];
-			// check arguments
-			boolean is3D = false;
-			for (int i = 0; i < size; i++) {
-				if (!(arg[i].isGeoPoint()))
-					throw argErr(app, c.getName(), arg[i]);
-				points[i] = (GeoPointND) arg[i];
-				is3D = checkIs3D(is3D, arg[i]);
-			}
-			// everything ok
-			return polyLine(c.getLabel(), points, penStroke, is3D);
+			return genericPolyline(arg, c);
 
 		}
+	}
+
+	private GeoElement[] genericPolyline(GeoElement[] arg, Command c) {
+		int size = arg.length;
+		boolean penStroke = false;
+
+		if (arg[arg.length - 1].isGeoBoolean()) {
+			// pen stroke
+			// last argument is boolean (normally true)
+			size = size - 1;
+			penStroke = ((GeoBoolean) arg[arg.length - 1]).getBoolean();
+		}
+
+		// polygon for given points
+		GeoPointND[] points = new GeoPointND[size];
+		// check arguments
+		boolean is3D = false;
+		for (int i = 0; i < size; i++) {
+			if (!(arg[i].isGeoPoint()))
+				throw argErr(app, c.getName(), arg[i]);
+			points[i] = (GeoPointND) arg[i];
+			is3D = checkIs3D(is3D, arg[i]);
+		}
+		// everything ok
+		return polyLine(c.getLabel(), points, penStroke, is3D);
 	}
 
 	/**
