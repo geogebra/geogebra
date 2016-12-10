@@ -3242,8 +3242,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				ssFile = new File(
 						"C:\\Program Files\\Microsoft Office\\Office14\\OMML2MML.XSL");
 			}
-			Source stylesheet = new StreamSource(new File(
-					"C:\\Program Files\\Microsoft Office 15\\root\\office15\\OMML2MML.XSL"));
+			Source stylesheet = new StreamSource(ssFile);
 			Transformer transformer = factory.newTransformer(stylesheet);
 			StringWriter writer = new StringWriter();
 			Result output = new StreamResult(writer);
