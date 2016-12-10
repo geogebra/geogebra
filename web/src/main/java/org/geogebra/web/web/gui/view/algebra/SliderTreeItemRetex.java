@@ -278,12 +278,10 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	}
 
 	public void expandSize(int width) {
-		// TODO Auto-generated method stub
-
+		getAV().expandWidth(width);
 	}
 
 	public void restoreSize() {
-		// TODO Auto-generated method stub
-
+		getAV().restoreWidth();
 	}
 }
