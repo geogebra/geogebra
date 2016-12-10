@@ -580,6 +580,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			Log.trace("Output from giac: " + impccoeffs);
 			return impccoeffs;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
@@ -628,6 +629,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		try {
 			result = getImplicitPoly(implicit);
 		} catch (Throwable ex) {
+			ex.printStackTrace();
 			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 

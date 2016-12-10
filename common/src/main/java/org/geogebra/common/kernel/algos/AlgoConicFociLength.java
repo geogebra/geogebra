@@ -25,14 +25,19 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * 
  * @author Markus
  */
-public abstract class AlgoConicFociLength extends AlgoConicFociLengthND {
-
+public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
+		implements SymbolicParametersBotanaAlgo {
+	private BotanaEllipseHyperbolaLength botanaParams;
 	public AlgoConicFociLength(
 			// package private
 			Construction cons, String label, GeoPointND A, GeoPointND B,
@@ -66,5 +71,20 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND {
 	@Override
 	protected GeoPoint getB2d() {
 		return (GeoPoint) B;
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		if (botanaParams == null) {
+			botanaParams = new BotanaEllipseHyperbolaLength();
+		}
+		return botanaParams.getVars();
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaParams == null) {
+			botanaParams = new BotanaEllipseHyperbolaLength();
+		}
+		return botanaParams.getBotanaPolynomials(getFocus1(), getFocus2(), a);
 	}
 }

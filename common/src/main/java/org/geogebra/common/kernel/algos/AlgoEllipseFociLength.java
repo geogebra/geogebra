@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
+
 	public AlgoEllipseFociLength(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a);
@@ -88,5 +89,9 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl));
 	}
+
+
+
+
 
 }
