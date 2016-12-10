@@ -183,7 +183,7 @@ public class RadioTreeItemController
 			// keep focus in editor
 			event.preventDefault();
 			if (item.isEditing()) {
-				return;
+				// return;
 			}
 		}
 		app.closePopups();
@@ -219,8 +219,7 @@ public class RadioTreeItemController
 			return;
 		}
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)
-				&& canEditStart(event)) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && canEditStart(event)) {
 			editOnTap(item.isEditing(), event);
 		}
 	}
@@ -460,7 +459,7 @@ public class RadioTreeItemController
 			});
 
 			showKeyboard();
-			setFocus(true);
+			// setFocus(true);
 		}
 
 	}
@@ -495,7 +494,7 @@ public class RadioTreeItemController
 		if (enable && (!active || item.isInputTreeItem())) {
 			Log.debug("[AVTAP] single tap edit begins");
 			longTouchManager.cancelTimer();
-			item.selectItem(true);
+			// item.selectItem(true);
 			startEdit(wrappedEvent.isControlDown());
 			updateSelectionByMode(wrappedEvent.isControlDown(),
 					wrappedEvent.isShiftDown());
