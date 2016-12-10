@@ -59,7 +59,8 @@ import org.geogebra.common.util.debug.Log;
 public class GeoList extends GeoElement
 		implements ListValue, PointProperties, TextProperties, Traceable, Path,
 		Transformable, SpreadsheetTraceable, AbsoluteScreenLocateable,
-		Furniture, InequalityProperties, AngleProperties, HasSymbolicMode {
+ Furniture, InequalityProperties,
+		AngleProperties, HasSymbolicMode, Animatable {
 
 	private final static GeoClass ELEMENT_TYPE_MIXED = GeoClass.DEFAULT;
 
@@ -3096,6 +3097,34 @@ public class GeoList extends GeoElement
 		for (int i = 0; i < size(); i++) {
 			this.geoList.get(i).resetDefinition();
 		}
+	}
+
+	public GeoElementND doAnimationStep(double frameRate, GeoList parent) {
+		if (size() > selectedIndex) {
+			if (get(selectedIndex).isAnimatable()) {
+				return ((Animatable) get(selectedIndex)).doAnimationStep(
+						frameRate, this);
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isAnimatable() {
+		return false;
+	}
+
+	public void selectNext() {
+		if (selectedIndex >= size() - 1 && getAnimationDirection() > 0) {
+			this.changeAnimationDirection();
+			return;
+		}
+		if (selectedIndex == 0 && getAnimationDirection() < 0) {
+			this.changeAnimationDirection();
+			return;
+		}
+		selectedIndex += this.getAnimationDirection();
+
 	}
 
 }

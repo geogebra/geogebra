@@ -2087,8 +2087,8 @@ public class GeoPoint extends GeoVec3D
 	 *            animation path
 	 * @return whether the value of this number was changed
 	 */
-	static public boolean doAnimationStep(double frameRate, GeoPointND p,
-			Path path) {
+	static public GeoElementND doAnimationStep(double frameRate, GeoPointND p,
+			Path path, GeoList parent) {
 		PathParameter pp = p.getPathParameter();
 		GeoElement geo = (GeoElement) p;
 
@@ -2148,9 +2148,9 @@ public class GeoPoint extends GeoVec3D
 		if (pp.t != oldValue) {
 			path.pathChanged(p);
 			p.updateCoords();
-			return true;
+			return p;
 		}
-		return false;
+		return null;
 	}
 
 	/**
@@ -2159,9 +2159,10 @@ public class GeoPoint extends GeoVec3D
 	 * 
 	 * @return whether the value of this number was changed
 	 */
-	public synchronized boolean doAnimationStep(double frameRate) {
+	public synchronized GeoElementND doAnimationStep(double frameRate,
+			GeoList parent) {
 
-		return doAnimationStep(frameRate, this, path);
+		return doAnimationStep(frameRate, this, path, parent);
 	}
 
 	// ///////////////////////////////////////

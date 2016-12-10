@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -463,8 +464,9 @@ public class GeoTurtle extends GeoPoint {
 	}
 
 	@Override
-	public synchronized boolean doAnimationStep(double frameRate) {
-		return doStepTurtle(1.0 / frameRate);
+	public synchronized GeoElementND doAnimationStep(double frameRate,
+			GeoList parent) {
+		return doStepTurtle(1.0 / frameRate) ? this : null;
 	}
 
 	/*

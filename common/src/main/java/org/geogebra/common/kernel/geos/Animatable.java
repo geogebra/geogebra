@@ -27,9 +27,11 @@ public interface Animatable extends GeoElementND {
 	 * 
 	 * @param frameRate
 	 *            current frames/second used in animation
-	 * @return whether the value of this GeoElement was changed
+	 * @param parent
+	 *            parent list
+	 * @return null if nothing changed or changed element otherwise
 	 */
-	public boolean doAnimationStep(double frameRate);
+	public GeoElementND doAnimationStep(double frameRate, GeoList parent);
 
 	/**
 	 * @return true when animation is on

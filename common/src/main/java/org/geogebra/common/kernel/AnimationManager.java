@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
 
@@ -24,7 +25,7 @@ public class AnimationManager implements GTimerListener {
 	/** animated geos */
 	protected ArrayList<GeoElement> animatedGeos;
 	/** changed geos */
-	protected ArrayList<Animatable> changedGeos;
+	protected ArrayList<GeoElementND> changedGeos;
 	/** current frame rate */
 	protected double frameRate = MAX_ANIMATION_FRAME_RATE;
 	private boolean needToShowAnimationButton;
@@ -43,7 +44,7 @@ public class AnimationManager implements GTimerListener {
 	public AnimationManager(Kernel kernel2) {
 		this.kernel = kernel2;
 		animatedGeos = new ArrayList<GeoElement>();
-		changedGeos = new ArrayList<Animatable>();
+		changedGeos = new ArrayList<GeoElementND>();
 		timer = kernel.getApplication().newTimer(this,
 				1000 / MAX_ANIMATION_FRAME_RATE);
 	}
@@ -223,9 +224,9 @@ public class AnimationManager implements GTimerListener {
 
 		for (int i = size - 1; i >= 0; i--) {
 			Animatable anim = (Animatable) animatedGeos.get(i);
-			boolean changed = anim.doAnimationStep(frameRate);
-			if (changed)
-				changedGeos.add(anim);
+			GeoElementND changed = anim.doAnimationStep(frameRate, null);
+			if (changed != null)
+				changedGeos.add(changed);
 		}
 		// do we need to update anything?
 		if (changedGeos.size() > 0) {

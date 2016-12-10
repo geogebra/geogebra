@@ -1309,12 +1309,14 @@ public class GeoNumeric extends GeoElement
 	 * Performs the next automatic animation step for this numbers. This changes
 	 * the value but will NOT call update() or updateCascade().
 	 * 
-	 * @return whether the value of this number was changed
+	 * @return this or null, depending on whether the value of this number was
+	 *         changed
 	 */
-	final public synchronized boolean doAnimationStep(double frameRate) {
+	final public synchronized GeoNumeric doAnimationStep(double frameRate,
+			GeoList parent) {
 		// check that we have valid min and max values
 		if (!isIntervalMinActive() || !isIntervalMaxActive())
-			return false;
+			return null;
 
 		// special case for random slider
 		// animationValue goes from 0 to animationStep
@@ -1338,11 +1340,11 @@ public class GeoNumeric extends GeoElement
 			if (animationValue > animationStep) {
 				animationValue -= animationStep;
 				setValue(getRandom(), false);
-				return true;
+				return this;
 			}
 
 			// no update needed
-			return false;
+			return null;
 		}
 
 		// remember old value of number to decide whether update is necessary
@@ -1376,22 +1378,29 @@ public class GeoNumeric extends GeoElement
 				setAnimating(false);
 				boolean changed = getIntervalMax() != value;
 				setValue(getIntervalMax(), false);
-				return changed;
+				return changed ? this : null;
 			} else if (animationValue < getIntervalMin()) {
 				setAnimating(false);
 				setValue(getIntervalMin(), false);
-				return true;
+				return this;
 			}
 			break;
 
 		case GeoElement.ANIMATION_OSCILLATING:
 		default:
+			boolean parentStep = false;
 			if (animationValue >= getIntervalMax()) {
 				animationValue = getIntervalMax();
 				changeAnimationDirection();
+				parentStep = true;
 			} else if (animationValue <= getIntervalMin()) {
 				animationValue = getIntervalMin();
 				changeAnimationDirection();
+				parentStep = true;
+			}
+			if (parentStep && parent != null) {
+				parent.selectNext();
+				return null;
 			}
 			break;
 		}
@@ -1413,7 +1422,7 @@ public class GeoNumeric extends GeoElement
 		setValue(newValue, false);
 
 		// return whether value of slider has changed
-		return getValue() != oldValue;
+		return getValue() != oldValue ? this : null;
 	}
 
 	/**

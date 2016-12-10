@@ -5,8 +5,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -38,8 +36,7 @@ public class CmdStartAnimation extends CmdScripting {
 
 		case 1:
 			GeoElement[] arg = resArgs(c);
-			if ((arg[0].isGeoNumeric() && ((GeoNumeric) arg[0]).isIndependent())
-					|| arg[0].isPointOnPath()) {
+			if (arg[0].isAnimatable()) {
 				arg[0].setAnimating(true);
 				app.getKernel().getAnimatonManager().startAnimation();
 				return arg;
@@ -65,14 +62,13 @@ public class CmdStartAnimation extends CmdScripting {
 				sliderCount = n - 1;
 			}
 			for (int i = 0; i < sliderCount; i++)
-				if (!arg[i].isGeoNumeric() && !arg[i].isPointOnPath())
+				if (!arg[i].isAnimatable())
 					throw argErr(app, c.getName(), arg[i]);
 
 			for (int i = 0; i < sliderCount; i++) {
-				if (arg[i].isGeoNumeric())
-					((GeoNumeric) arg[i]).setAnimating(start);
-				else
-					((GeoPointND) arg[i]).setAnimating(start);
+				if (arg[i].isAnimatable()) {
+					arg[i].setAnimating(start);
+				}
 				if (start)
 					app.getKernel().getAnimatonManager().startAnimation();
 			}

@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -1891,8 +1892,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		setCoords(v);
 	}
 
-	public boolean doAnimationStep(double frameRate) {
-		return GeoPoint.doAnimationStep(frameRate, this, path);
+	public GeoElementND doAnimationStep(double frameRate, GeoList parent) {
+		return GeoPoint.doAnimationStep(frameRate, this, path, parent);
 	}
 
 	@Override
