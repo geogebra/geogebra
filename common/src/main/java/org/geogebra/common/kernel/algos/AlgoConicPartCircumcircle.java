@@ -18,11 +18,18 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Circle arc or sector defined by three points.
  */
-public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
+public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
+		implements SymbolicParametersBotanaAlgo {
+
+	private BotanaCircleThreePoints botanaParams;
 
 	public AlgoConicPartCircumcircle(Construction cons, String label,
 			GeoPoint A, GeoPoint B, GeoPoint C, int type) {
@@ -83,6 +90,22 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircumcircleArc(geo, this, scope);
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircleThreePoints();
+		}
+		return botanaParams.getVars();
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircleThreePoints();
+		}
+		return botanaParams.getPolynomials(getInput());
 	}
 
 	@Override

@@ -49,8 +49,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 	private GeoPointND A, B, C; // input
 	// protected GeoConicND circle; // output
 	protected GeoConicND circle; // output
-	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
+
 
 	// line bisectors
 	private GeoLine s0, s1;
@@ -59,6 +58,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 	transient private double ax, ay, bx, by, cx, cy, ABx, ABy, ACx, ACy, BCx,
 			BCy, maxDet;
 	transient private int casenr;
+	private BotanaCircleThreePoints botanaParams;
 
 	public AlgoCircleThreePoints(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
@@ -308,46 +308,19 @@ public class AlgoCircleThreePoints extends AlgoElement
 	}
 
 	public Variable[] getBotanaVars(GeoElementND geo) {
-		return botanaVars;
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircleThreePoints();
+		}
+		return botanaParams.getVars();
 	}
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
-		if (botanaPolynomials != null) {
-			return botanaPolynomials;
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircleThreePoints();
 		}
-
-		Variable[] circle1vars, circle2vars, circle3vars;
-		circle1vars = ((SymbolicParametersBotanaAlgo) input[0])
-				.getBotanaVars(input[0]);
-
-		if (botanaVars == null) {
-			botanaVars = new Variable[4];
-			// Virtual center:
-			botanaVars[0] = new Variable();
-			botanaVars[1] = new Variable();
-			// Point on the circle:
-			botanaVars[2] = circle1vars[0];
-			botanaVars[3] = circle1vars[1];
-		}
-		Variable[] centerVars = { botanaVars[0], botanaVars[1] };
-		circle2vars = ((SymbolicParametersBotanaAlgo) input[1])
-				.getBotanaVars(input[1]);
-		circle3vars = ((SymbolicParametersBotanaAlgo) input[2])
-				.getBotanaVars(input[2]);
-
-		botanaPolynomials = new Polynomial[2];
-		// AO=OB
-		botanaPolynomials[0] = Polynomial.equidistant(circle1vars[0],
-				circle1vars[1], centerVars[0], centerVars[1], circle2vars[0],
-				circle2vars[1]);
-		// AO=OC
-		botanaPolynomials[1] = Polynomial.equidistant(circle1vars[0],
-				circle1vars[1], centerVars[0], centerVars[1], circle3vars[0],
-				circle3vars[1]);
-
-		return botanaPolynomials;
+		return botanaParams.getPolynomials(getInput());
 	}
 
 	@Override

@@ -39,7 +39,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 		implements SymbolicParametersBotanaAlgo {
 
-	private Variable[] botanaVars;
+	private BotanaCircle botanaParams;
 
 	public AlgoCircleTwoPoints(Construction cons, GeoPoint M, GeoPoint P) {
 		super(cons, M, P);
@@ -87,23 +87,10 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	 */
 
 	public Variable[] getBotanaVars(GeoElementND geo) {
-		if (botanaVars == null) {
-			Variable[] circle1vars, centerVars;
-
-			GeoElement P = (GeoElement) getP();
-			GeoElement M = (GeoElement) getM();
-			circle1vars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
-			centerVars = ((SymbolicParametersBotanaAlgo) M).getBotanaVars(M);
-
-			botanaVars = new Variable[4];
-			// Center:
-			botanaVars[0] = centerVars[0];
-			botanaVars[1] = centerVars[1];
-			// Point on the circle:
-			botanaVars[2] = circle1vars[0];
-			botanaVars[3] = circle1vars[1];
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircle();
 		}
-		return botanaVars;
+		return botanaParams.getBotanaVars(getP(), getM());
 	}
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)

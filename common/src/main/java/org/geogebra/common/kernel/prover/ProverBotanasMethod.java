@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
@@ -32,11 +31,13 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
@@ -109,6 +110,7 @@ public class ProverBotanasMethod {
 	 * case for this at the moment to be convinced if this really helps in
 	 * speed.
 	 */
+	@SuppressWarnings("unused")
 	private static List<GeoElement> getCircleCenters(GeoElement statement) {
 		List<GeoElement> circleCenters = new ArrayList<GeoElement>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
@@ -406,8 +408,8 @@ public class ProverBotanasMethod {
 				 * linear objects. Now we still compute the numerical formula
 				 * for most of the cases.
 				 */
-				if (numerical
-						.getParentAlgorithm() instanceof AlgoJoinPointsSegment) {
+				if (numerical instanceof GeoSegment
+						|| numerical instanceof GeoConicPart) {
 					// we don't want the equation of the length
 					numerical = null;
 				}
@@ -620,8 +622,7 @@ public class ProverBotanasMethod {
 				try {
 					Variable[] vars = ((SymbolicParametersBotanaAlgo) movingPoint)
 							.getBotanaVars(movingPoint);
-					String strForGiac = numerical.getFormulaString(
-							StringTemplate.giacTemplateInternal, true);
+					String strForGiac = getFormulaString(numerical);
 					// Log.debug(strForGiac);
 
 					Kernel kernel = geoStatement.kernel;
@@ -691,6 +692,17 @@ public class ProverBotanasMethod {
 				}
 			}
 			Log.debug("Hypotheses have been processed.");
+		}
+
+		/**
+		 * @param numerical
+		 *            numerical object
+		 * @return equation as string
+		 */
+		protected String getFormulaString(GeoElement numerical) {
+
+			return numerical.getFormulaString(
+					StringTemplate.giacTemplateInternal, true);
 		}
 
 		private void setThesis() {

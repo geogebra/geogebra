@@ -21,16 +21,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
  * circle (start point) and another point (angle for end-point).
  */
-public class AlgoConicPartCircle extends AlgoConicPart {
+public class AlgoConicPartCircle extends AlgoConicPart implements
+		SymbolicParametersBotanaAlgo {
 
 	private GeoPoint center, startPoint, endPoint;
 
 	private GeoPoint P, Q;
+
+	private BotanaCircle botanaParams;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
@@ -150,6 +156,19 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleArc(geo, this, scope);
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		if (botanaParams == null) {
+			botanaParams = new BotanaCircle();
+		}
+		return botanaParams.getBotanaVars(startPoint, center);
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		// It's OK to return null here since no constraint must be set:
+		return null;
 	}
 
 	@Override
