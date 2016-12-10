@@ -49,11 +49,8 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 		return input3D.getMouseLoc();
 	}
 
-	private boolean isNotMovingView = true;
-
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
-		isNotMovingView = true;
 		if (!input3D.wasRightReleased() && !input3D.useQuaternionsForRotate()) {
 			processRightRelease();
 			return;

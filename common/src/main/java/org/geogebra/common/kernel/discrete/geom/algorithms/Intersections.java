@@ -123,13 +123,8 @@ public class Intersections {
 			double y1 = o1.getY();
 			double y2 = o2.getY();
 
-			if (y1 < y2) {
-				return -1;
-			} else if (y1 > y2) {
-				return 1;
-			} else {
-				return 0;
-			}
+			// findbugs CO_COMPARETO_INCORRECT_FLOATING
+			return Double.compare(y1, y2);
 		}
 	}
 

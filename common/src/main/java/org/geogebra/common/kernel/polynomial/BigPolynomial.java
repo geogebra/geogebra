@@ -7,7 +7,7 @@ import java.math.MathContext;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
 
-public class BigPolynomial implements Cloneable {
+final public class BigPolynomial implements Cloneable {
 
 	protected BigDecimal[] coefficients;
 	protected String representation;

@@ -12,7 +12,7 @@ import org.geogebra.common.main.App;
  * 
  * @author Florian Sonner
  */
-public class DockPanelData implements Cloneable {
+final public class DockPanelData implements Cloneable {
 	private int viewId;
 	private boolean isVisible;
 	private boolean openInFrame;

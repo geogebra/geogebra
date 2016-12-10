@@ -117,9 +117,9 @@ public class NDGDetector {
 
 				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
 					Long coeff = tm1.get(t1); // e.g. 5
+					long absCoeff = Math.abs(coeff);
 					/* always use the absolute value */
-					ExpressionNode c = new ExpressionNode(kernel,
-							coeff > 0 ? coeff : -coeff);
+					ExpressionNode c = new ExpressionNode(kernel, absCoeff);
 
 					TreeMap<Variable, Integer> tm2 = t1.getTerm();
 					ExpressionNode en = new ExpressionNode(kernel, 1);
