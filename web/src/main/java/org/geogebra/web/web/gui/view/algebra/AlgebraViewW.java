@@ -1088,6 +1088,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			return;
 		}
 		cancelEditItem();
+		// setActiveTreeItem(null);
 		this.isShowingAuxiliaryObjects = showAuxiliaryObjects();
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
@@ -1695,7 +1696,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 		if (node == null) {
 			return;
 		}
-		
+		if (select) {
+			Log.debug("alljmeg!");
+		}
 		RadioTreeItem.as(node).selectItem(select);
 
 	}

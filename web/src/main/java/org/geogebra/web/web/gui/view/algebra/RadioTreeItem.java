@@ -219,15 +219,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 		public void buildGUI() {
 			setFirst(first);
 			clear();
-			if (animPanel == null) {
-				createAnimPanel();
+			if (geo.isAnimatable()) {
+				if (animPanel == null) {
+					createAnimPanel();
+				}
+
+				add(animPanel);
+				reset();
+				updateAnimPanel();
+				showAnimPanel(true);
+			} else {
+				hideAnimPanel();
 			}
 
-			add(animPanel);
 			add(getDeleteButton());
-			reset();
-			updateAnimPanel();
-			showAnimPanel(true);
+
 		}
 
 		public void hideAnimPanel() {
@@ -329,10 +335,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			setVisible(b);
 
-			if (value && geo.isAnimatable()) {
+			if (value) {
 				buildGUI();
-			} else {
-				hideAnimPanel();
 			}
 		}
 
@@ -340,12 +344,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (!app.has(Feature.AV_SCROLL)
 					|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 
-				if (first && !getAlgebraDockPanel().hasLongStyleBar()) {
-					// removeStyleName("avControlsNormal");
+				if (first && !getAlgebraDockPanel().hasLongStyleBar()
+						&& !isEditing()) {
 					addStyleName("avControlsWithSmallStyleBar");
 				} else {
 					removeStyleName("avControlsWithSmallStyleBar");
-					// addStyleName("avControlsNormal");
 				}
 				return;
 			}
@@ -372,17 +375,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				}
 			});
 		}
-
-		private void repositionFirstRow() {
-			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || !first) {
-				return;
-			}
-
-
-			// getElement().getStyle().setRight(value, Unit.PX);
-
-		}
-
 	}
 
 	protected GeoElement geo;
@@ -1846,6 +1838,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 			
 		}
 
+		showControlsInSelection();
+	}
+
+	private void showControlsInSelection() {
 		boolean geoInSelection = app.getSelectionManager()
 
 				.containsSelectedGeo(geo);
