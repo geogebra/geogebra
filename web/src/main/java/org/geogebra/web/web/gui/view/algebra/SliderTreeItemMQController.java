@@ -137,8 +137,8 @@ public class SliderTreeItemMQController extends RadioTreeItemController
 	}
 
 	public void onValueChange(ValueChangeEvent<Double> event) {
-		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && slider.isEditing()) {
-			slider.stopEditing();
+		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
+			slider.getController().stopEdit();
 		}
 
 		slider.getNum().setValue(event.getValue());

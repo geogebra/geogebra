@@ -1322,6 +1322,7 @@ public class DockManagerW extends DockManager {
 		
 		if(focusedDockPanel != null) {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
+			Log.debug("FOCUSCHANGE: " + focusedDockPanel.getViewId());
 		}
 		
 		app.getGuiManager().updateMenubarSelection();

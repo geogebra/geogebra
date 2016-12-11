@@ -389,7 +389,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 			 * won't work then (ticket #151).
 			 */
 			if (isEditItem()) {
-				if (item.isEditing()) {
+				if (item.getController().isEditing()) {
 					item.cancelEditing();
 				}
 			}
@@ -1696,9 +1696,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 		if (node == null) {
 			return;
 		}
-		if (select) {
-			Log.debug("alljmeg!");
-		}
+
 		RadioTreeItem.as(node).selectItem(select);
 
 	}
@@ -1806,14 +1804,13 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 		if (node != null) {
 			cancelEditItem();
-			// FIXMEWEB select and show node
+
 			editItem = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				RadioTreeItem ri = RadioTreeItem.as(node);
 				expandWidth(ri.getWidthForEdit());
-				ri.enterEditMode(
-						geo.isPointOnPath() || geo.isPointInRegion());
+				ri.enterEditMode(geo.isPointOnPath() || geo.isPointInRegion());
 			}
 		}
 	}
@@ -2082,7 +2079,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 */
 	public void unselectActiveItem() {
 		if (activeItem != null) {
-			activeItem.stopEditing();
+			activeItem.getController().stopEdit();
 			unselect(activeItem.getGeo());
 		}
 		repaintView();

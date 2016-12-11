@@ -83,6 +83,7 @@ public class RadioTreeItemController
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
+	protected boolean editing = false;
 
 	private boolean markForEdit = false;
 	public long latestTouchEndTime = 0;
@@ -150,8 +151,12 @@ public class RadioTreeItemController
 		return item.commonEditingCheck();
 	}
 
-	protected boolean isEditing() {
-		return item.isEditing();
+	public boolean isEditing() {
+		return editing;
+	}
+
+	protected void setEditing(boolean value) {
+		editing = value;
 	}
 
 	@Override
@@ -182,7 +187,7 @@ public class RadioTreeItemController
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
-			if (item.isEditing()) {
+			if (isEditing()) {
 				// return;
 			}
 		}
@@ -215,12 +220,12 @@ public class RadioTreeItemController
 	public void onMouseUp(MouseUpEvent event) {
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
-		if (item.isEditing()) {
+		if (isEditing()) {
 			return;
 		}
 
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && canEditStart(event)) {
-			editOnTap(item.isEditing(), event);
+			editOnTap(isEditing(), event);
 		}
 	}
 
@@ -262,7 +267,7 @@ public class RadioTreeItemController
 		JsArray<Touch> touches = event.getTargetTouches().length() == 0
 				? event.getChangedTouches() : event.getTargetTouches();
 
-		boolean active = item.isEditing();
+		boolean active = isEditing();
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
@@ -307,7 +312,7 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.stopPropagation();
-		if (item.isEditing()) {
+		if (isEditing()) {
 			return;
 		}
 		if (markForEdit()) {
@@ -459,9 +464,15 @@ public class RadioTreeItemController
 			});
 
 			showKeyboard();
-			// setFocus(true);
 		}
 
+	}
+
+	public void stopEdit() {
+		if (!editing) {
+			return;
+		}
+		item.stopEditing(item.getText(), null);
 	}
 
 	protected void showKeyboard() {
@@ -486,7 +497,7 @@ public class RadioTreeItemController
 				&& !isWidgetHit(item.getPlainTextItem(), wrappedEvent))) {
 			enable = false;
 			if (active) {
-				item.stopEditing();
+				stopEdit();
 			}
 
 		}
@@ -531,7 +542,7 @@ public class RadioTreeItemController
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && item.isEditing()) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
 			item.cancelEditing();
 			// return;
 		}

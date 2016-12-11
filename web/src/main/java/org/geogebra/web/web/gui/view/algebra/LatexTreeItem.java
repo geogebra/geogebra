@@ -399,7 +399,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	@Override
 	protected void updateButtonPanelPosition() {
 		super.updateButtonPanelPosition();
-		if (isInputTreeItem() && !isEditing()) {
+		if (isInputTreeItem() && !getController().isEditing()) {
 			getAlgebraDockPanel().scrollToBottom();
 		}
 	}

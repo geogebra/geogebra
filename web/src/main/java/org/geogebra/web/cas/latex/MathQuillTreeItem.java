@@ -254,7 +254,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 	}
 
 	public void onEnter(final boolean keepFocus) {
-		if (!editing) {
+		if (!getController().isEditing()) {
 			return;
 		}
 		stopEditing(getText(), new AsyncOperation<GeoElementND>() {

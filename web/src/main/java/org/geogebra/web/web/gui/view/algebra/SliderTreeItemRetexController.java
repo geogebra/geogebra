@@ -100,7 +100,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !rightClick) {
 
 			if (minHit || maxHit) {
-				slider.stopEditing();
+				stopEdit();
 				slider.minMaxPanel.show();
 				if (minHit) {
 					slider.minMaxPanel.setMinFocus();
@@ -130,7 +130,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		}
 
 		if (!canEditStart(event)) {
-			slider.stopEditing();
+			stopEdit();
 		}
 		super.onMouseUp(event);
 	}
@@ -168,8 +168,8 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	}
 
 	public void onValueChange(ValueChangeEvent<Double> event) {
-		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && slider.isEditing()) {
-			slider.stopEditing();
+		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
+			stopEdit();
 		}
 
 		slider.num.setValue(event.getValue());

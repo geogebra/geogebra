@@ -284,7 +284,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 				setVisible(true);
 
-				if (!isEditing()) {
+				if (!controller.isEditing()) {
 					maybeSetPButtonVisibility(false);
 				}
 
@@ -316,7 +316,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		@Override
 		public void setVisible(boolean b) {
-			if (isEditing()) {
+			if (controller.isEditing()) {
 				return;
 			}
 			super.setVisible(b);
@@ -327,7 +327,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				return;
 			}
 
-			boolean b = value || isEditing();
+			boolean b = value || controller.isEditing();
 
 			if (value && isVisible()) {
 				return;
@@ -345,7 +345,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 					|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 
 				if (first && !getAlgebraDockPanel().hasLongStyleBar()
-						&& !isEditing()) {
+						&& !controller.isEditing()) {
 					addStyleName("avControlsWithSmallStyleBar");
 				} else {
 					removeStyleName("avControlsWithSmallStyleBar");
@@ -382,7 +382,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected AppW app;
 	protected AlgebraView av;
 	protected boolean latex = false;
-	protected boolean editing = false;
 
 	public FlowPanel latexItem;
 	private FlowPanel plainTextItem;
@@ -788,7 +787,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void buildItemContent() {
 		if (isDefinitionAndValue()) {
-			if (isEditing() || geo == null) {
+			if (controller.isEditing() || geo == null) {
 				return;
 			}
 
@@ -1027,7 +1026,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean commonEditingCheck() {
-		return av.isEditItem() || isEditing() || isInputTreeItem()
+		return av.isEditItem() || controller.isEditing() || isInputTreeItem()
 				|| geo == null;
 	}
 
@@ -1226,9 +1225,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public boolean isEditing() {
-		return editing;
-	}
 
 	public abstract void cancelEditing();
 
@@ -1247,7 +1243,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		if (isEditing()) {
+		if (controller.isEditing()) {
 			return true;
 		}
 
@@ -1257,7 +1253,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			controls.update(true);
 		}
 
-		editing = true;
+		controller.setEditing(true);
+
 		if (onEditStart(false) == false) {
 			return false;
 		}
@@ -1315,13 +1312,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	public void stopEditing() {
-		if (!editing) {
-			return;
-		}
-		stopEditing(getText(), null);
-	}
-
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
 
@@ -1334,7 +1324,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		removeCloseButton();
 
-		editing = false;
+		controller.setEditing(false);
+
 		av.cancelEditItem();
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
@@ -1727,7 +1718,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void ensureEditing() {
-		if (!isEditing()) {
+		if (!controller.isEditing()) {
 			enterEditMode(geo == null || isMoveablePoint(geo));
 
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
