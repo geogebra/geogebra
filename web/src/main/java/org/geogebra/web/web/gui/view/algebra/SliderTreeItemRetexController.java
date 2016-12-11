@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 
 import com.google.gwt.event.dom.client.DoubleClickEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -107,7 +108,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				} else if (maxHit) {
 					slider.minMaxPanel.setMaxFocus();
 				}
-
+				getApp().getKernel().notifyRepaint();
 				return true;
 			}
 		}
@@ -121,17 +122,17 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	}
 
 	@Override
-	public void onMouseUp(MouseUpEvent event) {
-		SliderWJquery.stopSliders();
-
+	public void onMouseDown(MouseDownEvent event) {
 		if (handleAVItem(event)) {
 			event.stopPropagation();
 			return;
 		}
+		super.onMouseDown(event);
+	}
 
-		if (!canEditStart(event)) {
-			stopEdit();
-		}
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
+		SliderWJquery.stopSliders();
 		super.onMouseUp(event);
 	}
 

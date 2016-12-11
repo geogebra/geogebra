@@ -191,7 +191,9 @@ public class RadioTreeItemController
 				// return;
 			}
 		}
-		app.closePopups();
+		if (!isEditing()) {
+			app.closePopups();
+		}
 
 		if (markForEdit()) {
 			return;
