@@ -51,8 +51,6 @@ public class AlgebraInputW extends FlowPanel
 	protected InputPanelW inputPanel;
 	/** text component */
 	protected AutoCompleteTextFieldW inputField;
-	/** panel for help button */
-	protected FlowPanel eastPanel;
 	//protected FlowPanel innerPanel;
 	/** button for help */
 	protected ToggleButton btnHelpToggle;

@@ -3,7 +3,6 @@ package org.geogebra.web.phone.gui.container.header.simple;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.phone.PhoneLookAndFeel;
 import org.geogebra.web.phone.gui.container.header.Header;
 import org.geogebra.web.phone.gui.view.AbstractView;
@@ -15,7 +14,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class SimpleHeader extends FlowPanel implements Header {
 
-	private AppW app;
 
 	private SimplePanel leftFloatPanel;
 	private FlowPanel rightTabPanel;
@@ -24,8 +22,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 	
 	private AbstractView activeView;
 
-	public SimpleHeader(AppW app) {
-		this.app = app;
+	public SimpleHeader() {
 		setStyleName("PhoneHeader");
 
 		onResize();

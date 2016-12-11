@@ -1,7 +1,6 @@
 package org.geogebra.desktop.export;
 
 import java.awt.Dimension;
-import java.awt.geom.AffineTransform;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,7 +32,6 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	private double cmWidth;
 	private double cmHeight;
 
-	private AffineTransform identity = new AffineTransform();
 	protected String title;
 	protected String desc;
 

@@ -33,14 +33,13 @@ public class ScrollableSuggestBox extends SuggestBox {
 		}
 	}
 
-	private static GTextBox tb;
 
 	/**
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
 	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp) {
-		super(oracle, tb = new GTextBox(false, hsp),
+		super(oracle, new GTextBox(false, hsp),
 				new CustomSuggestionDisplay());
 	}
 

@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
@@ -18,7 +17,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 	ScrollPanel algebrap;
 	SimplePanel simplep;
 	AlgebraViewW aview = null;
-	private ShowKeyboardButton keyboardButton;
 
 	public AlgebraDockPanelW() {
 		super(

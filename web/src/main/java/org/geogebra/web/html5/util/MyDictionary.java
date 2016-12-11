@@ -34,7 +34,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class MyDictionary {
 
 	private static Map<String, MyDictionary> cache = new HashMap<String, MyDictionary>();
-	private static final int MAX_KEYS_TO_SHOW = 20;
 
 	/**
 	 * Returns the <code>Dictionary</code> object associated with the given

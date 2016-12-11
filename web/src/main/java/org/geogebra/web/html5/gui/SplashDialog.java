@@ -35,7 +35,7 @@ public class SplashDialog extends SimplePanel {
 	public SplashDialog(boolean showLogo, String articleId, GeoGebraFrameW frame) {
 		this.articleId = articleId;
 		this.geogebraFrame = frame;
-		isPreviewExists = checkIfPreviewExists();
+		isPreviewExists = checkIfPreviewExists(articleId);
 
 		if (!isPreviewExists) {
 			FlowPanel panel = new FlowPanel();
@@ -86,9 +86,8 @@ public class SplashDialog extends SimplePanel {
 		geogebraFrame.runAsyncAfterSplash();
 	}
 
-	private native boolean checkIfPreviewExists() /*-{
-		var thisArticle = $doc
-				.getElementById(this.@org.geogebra.web.html5.gui.SplashDialog::articleId);
+	private native boolean checkIfPreviewExists(String id) /*-{
+		var thisArticle = $doc.getElementById(id);
 		if (thisArticle && thisArticle.querySelector(".ggb_preview") !== null) {
 			return true;
 		}
@@ -102,13 +101,13 @@ public class SplashDialog extends SimplePanel {
 
 	protected void hide() {
 		this.removeFromParent();
-		removePreviewImg();
+		removePreviewImg(articleId);
 
 	}
 
-	private native void removePreviewImg() /*-{
+	private native void removePreviewImg(String id) /*-{
 		var thisArticle = $doc
-				.getElementById(this.@org.geogebra.web.html5.gui.SplashDialog::articleId), img;
+				.getElementById(id, img;
 		if (thisArticle) {
 			img = thisArticle.querySelector(".ggb_preview");
 		}

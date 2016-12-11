@@ -35,8 +35,6 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.GeoGebraPreferencesD;
-import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
@@ -59,10 +57,7 @@ public class WorksheetExportDialog extends JDialog {
 	JButton uploadButton;
 
 	private JButton helpButton;
-	private GraphicSizePanel sizePanel;
 	boolean kernelChanged = false;
-	private GeoGebraPreferencesD ggbPref;
-	private GuiManagerInterfaceD guiManager;
 	MyTextFieldD titleField;
 	private TitlePanel titlePanel;
 
@@ -81,8 +76,6 @@ public class WorksheetExportDialog extends JDialog {
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 
-		ggbPref = GeoGebraPreferencesD.getPref();
-		guiManager = app.getGuiManager();
 
 		initGUI();
 	}

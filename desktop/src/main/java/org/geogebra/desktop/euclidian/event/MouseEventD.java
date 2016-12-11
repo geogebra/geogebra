@@ -13,7 +13,6 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	public static final LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
 	private MouseEvent event;
-	private int id;
 
 	private MouseEventD(MouseEvent e) {
 		Log.debug("possible missing release()");

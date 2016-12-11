@@ -51,7 +51,7 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 	}
 
 	private void createHeader() {
-		header = new SimpleHeader(app);
+		header = new SimpleHeader();
 		add(header);
 		resizeListeners.add(header);
 	}
