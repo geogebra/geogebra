@@ -69,9 +69,6 @@ public class DataPanelD extends JPanel
 	private LocalizationD loc;
 
 	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
-	private static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(
-					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
 	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
 	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
 
@@ -190,10 +187,6 @@ public class DataPanelD extends JPanel
 
 	}
 
-	public void removeGeos() {
-
-	}
-
 	public void setLabels() {
 		lblHeader.setText(loc.getMenu("Data"));
 	}
@@ -224,7 +217,6 @@ public class DataPanelD extends JPanel
 		}
 
 		TableModel dataModel = null;
-		GeoPoint geo = null;
 		String[] titles = daView.getDataTitles();
 
 		switch (daView.getModel().getMode()) {

@@ -31,9 +31,6 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 	private JButton btnCancel, btnCopy;
 	private JRadioButton rbFree, rbDependent;
 
-	private JPanel optionsPanel;
-
-	private String title;
 	private JCheckBox ckTranspose;
 
 	public DialogCopyToSpreadsheet(AppD app, SpreadsheetViewDnD dndHandler) {

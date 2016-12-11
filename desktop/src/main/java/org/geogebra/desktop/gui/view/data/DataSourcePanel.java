@@ -65,15 +65,16 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-
 public class DataSourcePanel extends JPanel
 		implements ActionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
 
 	private static final int MINIMUM_ROW = 8;
-	private final AppD app;
-	private final LocalizationD loc;
+	/** application */
+	final AppD app;
+	/** localization */
+	final LocalizationD loc;
 	private DataAnalysisViewD dataView;
 
 	// data source and table
@@ -87,7 +88,8 @@ public class DataSourcePanel extends JPanel
 	private MyTextFieldD fldStart, fldWidth;
 
 	// flags and other fields
-	private int mode;
+	/** current mode */
+	int mode;
 	protected int btnHoverColumn = -1;
 
 	private int selectedVarIndex() {
@@ -99,8 +101,6 @@ public class DataSourcePanel extends JPanel
 	public String[] getColumnDataTitles() {
 		return columnDataTitles;
 	}
-
-	private String[] columnDataDescriptions;
 
 	/*************************************************
 	 * Constructor
@@ -128,11 +128,11 @@ public class DataSourcePanel extends JPanel
 	// GUI
 	// ====================================================
 
-	public void updatePanel(int mode, boolean doAutoLoadSelectedGeos) {
-		this.mode = mode;
+	public void updatePanel(int newMode, boolean doAutoLoadSelectedGeos) {
+		this.mode = newMode;
 
 		if (doAutoLoadSelectedGeos) {
-			dataSource.setDataListFromSelection(mode);
+			dataSource.setDataListFromSelection(newMode);
 		}
 
 		buildGUI();
@@ -255,18 +255,6 @@ public class DataSourcePanel extends JPanel
 
 	}
 
-	private String[] getDataTypeLabels() {
-		if (mode == DataAnalysisModel.MODE_ONEVAR) {
-			String[] dataTypeLabels = { loc.getMenu("Number"),
-					loc.getMenu("Text") };
-			return dataTypeLabels;
-		} else if (mode == DataAnalysisModel.MODE_REGRESSION) {
-			String[] dataTypeLabels = { loc.getMenu("Numbers"),
-					loc.getMenu("Points") };
-			return dataTypeLabels;
-		}
-		return null;
-	}
 
 	protected void updateGUI() {
 
@@ -304,6 +292,7 @@ public class DataSourcePanel extends JPanel
 		sourceTable.getTable().getModel()
 				.addTableModelListener(new TableModelListener() {
 
+					@Override
 					public void tableChanged(TableModelEvent e) {
 						if (e.getType() == TableModelEvent.UPDATE) {
 							// updateTableEdit(e.getColumn());
@@ -315,6 +304,7 @@ public class DataSourcePanel extends JPanel
 
 		sourceTable.getTable().getColumnModel().getSelectionModel()
 				.addListSelectionListener(new ListSelectionListener() {
+					@Override
 					public void valueChanged(ListSelectionEvent e) {
 						sourceTable.revalidate();
 						sourceTable.repaint();
@@ -498,11 +488,12 @@ public class DataSourcePanel extends JPanel
 	/**
 	 * Handles button clicks
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
 		if (source instanceof JTextField) {
-			doTextFieldActionPerformed((JTextField) source);
+			doTextFieldActionPerformed(source);
 
 		} else if (source == btnAdd) {
 			dataSource.getSelectedDataVariable().addNewValue();
@@ -552,10 +543,12 @@ public class DataSourcePanel extends JPanel
 		}
 	}
 
+	@Override
 	public void focusGained(FocusEvent e) {
 		// do nothing
 	}
 
+	@Override
 	public void focusLost(FocusEvent e) {
 		doTextFieldActionPerformed(e.getSource());
 	}
@@ -597,10 +590,12 @@ public class DataSourcePanel extends JPanel
 
 		JTableHeader header = table().getTableHeader();
 
+		@Override
 		public void mouseDragged(MouseEvent arg0) {
-
+			// nothing to do
 		}
 
+		@Override
 		public void mouseMoved(MouseEvent e) {
 
 			// handles mouse over a button
@@ -638,6 +633,7 @@ public class DataSourcePanel extends JPanel
 
 	public class ColumnHeaderMouseListener extends MouseAdapter {
 
+		@Override
 		public void mouseClicked(MouseEvent evt) {
 
 			JTable table = sourceTable.getTable();
@@ -659,6 +655,7 @@ public class DataSourcePanel extends JPanel
 				// Mouse was clicked between column heads
 				// vColIndex is the column head closest to the click
 				if (evt.getX() < headerRect.x) {
+					// TODO do something
 				}
 			}
 
@@ -676,6 +673,7 @@ public class DataSourcePanel extends JPanel
 
 		}
 
+		@Override
 		public void mouseExited(MouseEvent evt) {
 
 			if (btnHoverColumn > -1) {
@@ -742,6 +740,7 @@ public class DataSourcePanel extends JPanel
 
 		}
 
+		@Override
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus,
 				int rowIndex, int vColIndex) {
@@ -760,14 +759,12 @@ public class DataSourcePanel extends JPanel
 			// DataItem
 			lblDataTitle.setText(getColumnDataTitles()[vColIndex]);
 			lblDataTitle.setFont(app.getItalicFont());
-
-			if (!lblDataDescription.getText().equals(app.getMenu("Classes")))
+			if (!lblDataDescription.getText().equals(loc.getMenu("Classes")))
 			// && vColIndex == table.getSelectedColumn()) {
 			{
 				if (btnHoverColumn == vColIndex) {
 					lblImportBtn.setIcon(importIconRollover);
-					setToolTipText(app.getLocalization()
-							.getMenuTooltip("AddSelection"));
+					setToolTipText(loc.getMenuTooltip("AddSelection"));
 				} else {
 					lblImportBtn.setIcon(importIcon);
 					setToolTipText(null);
@@ -797,22 +794,21 @@ public class DataSourcePanel extends JPanel
 			return this;
 		}
 
-		private Rectangle rect = new Rectangle();
 
 		/**
 		 * Returns true if the given mouse location (in local coordinates of the
 		 * header component) is over a trace button.
 		 * 
 		 * @param colIndex
-		 * @param loc
+		 * @param locPt
 		 * @param value
 		 * @return
 		 */
-		public boolean isOverTraceButton(int colIndex, Point loc,
+		public boolean isOverTraceButton(int colIndex, Point locPt,
 				Object value) {
 
 			try {
-				return loc.x < 24;
+				return locPt.x < 24;
 			} catch (Exception e) {
 				// e.printStackTrace();
 			}
@@ -828,6 +824,11 @@ public class DataSourcePanel extends JPanel
 	 * 
 	 */
 	public class MyCellEditor extends DefaultCellEditor {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		public MyCellEditor(MathTextField tf) {
 			super(tf);
@@ -868,6 +869,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					var.setGeoClass(GeoClass.NUMERIC);
 					updatePanel(mode, false);
@@ -878,6 +880,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("Type.Text"));
 			itemTypeText.setSelected(var.getGeoClass() == GeoClass.TEXT);
 			itemTypeText.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					var.setGeoClass(GeoClass.TEXT);
 					updatePanel(mode, false);
@@ -898,6 +901,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("RawData"));
 			itmRawData.setSelected(var.getGroupType() == GroupType.RAWDATA);
 			itmRawData.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmRawData.isSelected()
 							&& var.getGroupType() != GroupType.RAWDATA) {
@@ -911,6 +915,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("DataWithFrequency"));
 			itmFrequency.setSelected(var.getGroupType() == GroupType.FREQUENCY);
 			itmFrequency.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmFrequency.isSelected()
 							&& var.getGroupType() != GroupType.FREQUENCY) {
@@ -924,6 +929,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("ClassWithFrequency"));
 			itmClass.setSelected(var.getGroupType() == GroupType.CLASS);
 			itmClass.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					if (itmClass.isSelected()
 							&& var.getGroupType() != GroupType.CLASS) {
@@ -954,6 +960,7 @@ public class DataSourcePanel extends JPanel
 					app.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
 			itmNumeric.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<DataItem> itemList = new ArrayList<DataItem>();
 					itemList.add(new DataItem());
@@ -967,6 +974,7 @@ public class DataSourcePanel extends JPanel
 					app.getLocalization().getMenu("Point"));
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
 			itmPoint.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					ArrayList<DataItem> itemList = new ArrayList<DataItem>();
 					itemList.add(new DataItem());
@@ -993,6 +1001,7 @@ public class DataSourcePanel extends JPanel
 				app.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
 		itmHeader.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (dataSource.enableHeader() != itmHeader.isSelected()) {
 					dataSource.setEnableHeader(itmHeader.isSelected());
@@ -1010,6 +1019,11 @@ public class DataSourcePanel extends JPanel
 	}
 
 	private static class MyButton extends JButton {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		public MyButton(ImageIcon imageIcon) {
 			super(imageIcon);

@@ -426,4 +426,10 @@ public class SpreadsheetViewDnD
 		}
 	}
 
+	public static SpreadsheetViewDnD get(AppD app2,
+			SpreadsheetViewD spreadsheetView) {
+		return new SpreadsheetViewDnD(app2, spreadsheetView);
+
+	}
+
 }

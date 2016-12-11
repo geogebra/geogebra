@@ -58,8 +58,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		implements ActionListener, FocusListener, ChangeListener {
 
-	private static final long serialVersionUID = 1L;
-
 	private ProbabiltyCalculatorStyleBarD styleBar;
 
 	// GUI elements
@@ -75,7 +73,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private ListSeparatorRenderer comboRenderer;
 
 	// GUI layout panels
-	private JPanel controlPanel, distPanel, probPanel, tablePanel;
+	private JPanel controlPanel, tablePanel;
 	private JSplitPane mainSplitPane, plotSplitPane;
 
 	private JToggleButton btnExport;

@@ -70,20 +70,11 @@ public class SelectionTableD extends JTable {
 
 	private SelectionTable mode;
 
-	private GColor fgColor, bgColor;
-	private float alpha;
-
-	public void setAlpha(float alpha) {
-		this.alpha = alpha;
-	}
+	private GColor fgColor;
 
 	public void setFgColor(GColor fgColor) {
 		this.fgColor = fgColor;
 		repaint();
-	}
-
-	public void setBgColor(GColor bgColor) {
-		this.bgColor = bgColor;
 	}
 
 	boolean useColorSwatchBorder = false;

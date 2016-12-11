@@ -58,16 +58,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 
 	// Borders (not implemented yet)
 	private Border cellPadding = BorderFactory.createEmptyBorder(2, 5, 2, 5);
-	private Border bTop = BorderFactory.createMatteBorder(1, 0, 0, 0,
-			Color.RED);
-	private Border bLeft = BorderFactory.createMatteBorder(0, 1, 0, 0,
-			Color.RED);
-	private Border bBottom = BorderFactory.createMatteBorder(0, 0, 1, 0,
-			Color.RED);
-	private Border bRight = BorderFactory.createMatteBorder(0, 0, 0, 1,
-			Color.RED);
-	private Border bAll = BorderFactory.createMatteBorder(1, 1, 1, 1,
-			Color.RED);
+
 
 	// Rendering objects for lists, buttons and booleans
 	private JCheckBox checkBox;

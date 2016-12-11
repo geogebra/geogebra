@@ -60,9 +60,6 @@ public class UtilD extends Util {
 	public UtilD() {
 	}
 
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-	private static StringBuilder hexSB = null;
 
 	/**
 	 * copy an object (deep copy)

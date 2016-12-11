@@ -54,9 +54,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private Kernel kernel;
 	private FlowPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane;
-	private boolean actionPerforming;
 
-	private boolean widthUnit = false;
 
 	private CheckboxPanel avPanel;
 	private Localization loc;

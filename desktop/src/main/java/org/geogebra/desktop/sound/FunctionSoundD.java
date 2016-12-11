@@ -21,8 +21,6 @@ import org.geogebra.desktop.main.AppD;
 public final class FunctionSoundD extends FunctionSound
 		implements LineListener {
 
-	private AppD app;
-
 	// threaded class to play function
 	private SoundThread soundThread;
 
@@ -37,7 +35,6 @@ public final class FunctionSoundD extends FunctionSound
 	 */
 	public FunctionSoundD(AppD app) throws Exception {
 		super();
-		this.app = app;
 
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {
 			throw new Exception("Cannot initialize streaming audio");

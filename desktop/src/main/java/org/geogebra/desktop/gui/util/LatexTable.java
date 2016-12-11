@@ -25,7 +25,6 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 	private TextInputDialogD inputDialog;
 	private String[] latexArray;
 	private PopupMenuButtonD popupButton;
-	private int caretPosition = 0;
 	private SelectionTable mode;
 
 	public LatexTable(AppD app, TextInputDialogD textInputDialog,
@@ -48,10 +47,6 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 				BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 		// this.setBorder(BorderFactory.createEmptyBorder());
 		this.setShowSelection(false);
-	}
-
-	public void setCaretPosition(int caretPosition) {
-		this.caretPosition = caretPosition;
 	}
 
 	// support for MenuElement interface

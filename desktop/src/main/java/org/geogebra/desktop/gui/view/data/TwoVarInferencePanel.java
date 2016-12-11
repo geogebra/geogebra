@@ -12,12 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -34,15 +31,11 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private DataAnalysisViewD daView;
 	private StatTable resultTable;
 
-	private JList dataSourceList;
-	private DefaultListModel tblModel;
-
 	private JComboBox cbTitle1, cbTitle2, cbAltHyp;
 	private JLabel lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
-			lblCI, lblConfLevel, lblResultHeader;
-	private JButton btnCalc;
+			lblConfLevel, lblResultHeader;
 	private MyTextFieldD fldNullHyp;
-	private JPanel cardProcedure, resultPanel;
+	private JPanel resultPanel;
 	private JCheckBox ckEqualVariances;
 	private MyTextFieldD fldConfLevel;
 

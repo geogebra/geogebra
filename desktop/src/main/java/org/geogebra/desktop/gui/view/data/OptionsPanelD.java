@@ -50,7 +50,6 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private DataAnalysisViewD statDialog;
 	private StatPanelSettings settings;
 
 	// histogram panel GUI

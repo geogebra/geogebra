@@ -13,12 +13,10 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	private MenuItem tutorials, forum, manual, about, bug;
-	private final App app;
 	
 	public HelpMenuW(final App app)  {
 
 		super(true, "help");
-	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
 	    
 		Localization loc = app.getLocalization();

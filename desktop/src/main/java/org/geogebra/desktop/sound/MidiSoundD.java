@@ -78,7 +78,7 @@ public class MidiSoundD implements MetaEventListener {
 					synthesizer.loadInstrument(instruments[0]);
 				}
 
-				channels = synthesizer.getChannels();
+				setChannels(synthesizer.getChannels());
 			}
 		}
 
@@ -177,7 +177,7 @@ public class MidiSoundD implements MetaEventListener {
 			synthesizer.close();
 		}
 		instruments = null;
-		channels = null;
+		setChannels(null);
 		if ((sequencer != null) && sequencer.isOpen()) {
 			// sequencer.stop();
 			sequencer.close();
@@ -389,6 +389,14 @@ public class MidiSoundD implements MetaEventListener {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public MidiChannel[] getChannels() {
+		return channels;
+	}
+
+	private void setChannels(MidiChannel channels[]) {
+		this.channels = channels;
 	}
 
 	/**********************************************************

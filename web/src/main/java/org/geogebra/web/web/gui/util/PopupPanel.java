@@ -1321,8 +1321,6 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     setPopupPosition(left, top);
   }
   
-	private final static int mouseEvents = Event.MOUSEEVENTS;
-	private final static int touchEvents = Event.TOUCHEVENTS;
 
   /**
    * Preview the {@link NativePreviewEvent}.

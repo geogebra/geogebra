@@ -43,29 +43,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	
 	// LaTeX
 	// private ImageIcon latexIcon, emptyIcon;
-	private String latexStr;
 
 	// Cell formats
 	private CellFormat formatHandler;
 	private Integer alignment = -1;
-	private Integer traceBorder = -1;
 	private Integer fontStyle;
-	boolean isCustomBGColor;
-
-	/*
-	 * // Borders (not implemented yet) private Border cellPadding =
-	 * BorderFactory.createEmptyBorder(2, 5, 2, 5); private Border bTop =
-	 * BorderFactory .createMatteBorder(1, 0, 0, 0, Color.RED); private Border
-	 * bLeft = BorderFactory.createMatteBorder(0, 1, 0, 0, Color.RED); private
-	 * Border bBottom = BorderFactory.createMatteBorder(0, 0, 1, 0, Color.RED);
-	 * private Border bRight = BorderFactory.createMatteBorder(0, 0, 0, 1,
-	 * Color.RED); private Border bAll = BorderFactory .createMatteBorder(1, 1,
-	 * 1, 1, Color.RED);
-	 * 
-	 * // Rendering objects for lists, buttons and booleans private JCheckBox
-	 * checkBox; private JButton button; private JComboBox comboBox; private
-	 * DefaultComboBoxModel cbModel;
-	 */
 
 
 	// Cell geo

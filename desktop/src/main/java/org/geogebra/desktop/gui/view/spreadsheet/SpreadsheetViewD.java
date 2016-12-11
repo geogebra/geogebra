@@ -92,7 +92,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	private FormulaBar formulaBar;
 	private JPanel spreadsheetPanel;
 
-	private SpreadsheetViewDnD dndHandler;
 
 	/******************************************************
 	 * Construct spreadsheet view.
@@ -114,7 +113,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// Create tool bar manager to handle tool bar mode changes
 		toolbarManager = new SpreadsheetToolbarManager(app, this);
 
-		dndHandler = new SpreadsheetViewDnD(app, this);
+		SpreadsheetViewDnD.get(app, this);
 
 		settingsChanged(settings());
 
