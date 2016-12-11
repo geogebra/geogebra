@@ -77,7 +77,6 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 	private InputListModel inputList;
 	private DefaultComboBoxModel cbInputAddList, cbOutputAddList;
 
-	private boolean allowMultiple = false;
 
 	private Macro newTool;
 

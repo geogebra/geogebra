@@ -22,7 +22,6 @@ import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
@@ -42,17 +41,14 @@ public class OptionsMenuD extends BaseMenu
 		implements ActionListener, MyActionListener, MenuInterface {
 	private static final long serialVersionUID = -8032696074032177289L;
 
-	Kernel kernel;
 	private AbstractAction
 	// drawingPadPropAction,
 	showOptionsAction, saveSettings, restoreDefaultSettings;
 
-	private JMenu menuLabeling, menuAlgebraStyle;
 
 	public OptionsMenuD(AppD app) {
 		super(app, app.getMenu("Options"));
 
-		kernel = app.getKernel();
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
 	}
@@ -154,8 +150,13 @@ public class OptionsMenuD extends BaseMenu
 	/**
 	 * Create a list with all languages which can be selected.
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @param menu
+	 *            menu component
 	 * @param al
+	 *            language change listener
 	 */
 	public static void addLanguageMenuItems(AppD app, JComponent menu,
 			ActionListener al) {

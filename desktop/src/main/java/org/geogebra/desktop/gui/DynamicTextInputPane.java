@@ -69,7 +69,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		thisPane = this;
 		setBackground(Color.white);
 		doc = (DefaultStyledDocument) this.getDocument();
-		this.addKeyListener(new GeoGebraKeys(app));
+		this.addKeyListener(new GeoGebraKeys());
 		this.addFocusListener(this);
 		focusedTextComponent = this;
 		// this.setCaret(new MyCaret());

@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.data;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -20,10 +19,8 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	private AppW app;
 	private DataAnalysisViewW daView;
-	private Button btnRounding, btnPrint;
+	private Button btnPrint;
 	private MyToggleButton2 btnShowStatistics, btnShowPlot2, btnShowData;
-	private AutoCompleteTextFieldW fldSource;
-	private AutoCompleteTextFieldW fldDataSource;
 	private MyToggleButton2 btnExport;
 	private MyToggleButton2 btnSwapXY;
 

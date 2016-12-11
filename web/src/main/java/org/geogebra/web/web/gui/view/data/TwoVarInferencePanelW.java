@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -31,10 +30,9 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	private ListBox lbTitle1, lbTitle2, lbAltHyp;
 	private Label lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
-			lblCI, lblConfLevel, lblResultHeader;
-	private Button btnCalc;
+			lblConfLevel, lblResultHeader;
 	private AutoCompleteTextFieldW fldNullHyp;
-	private FlowPanel cardProcedure, resultPanel;
+	private FlowPanel resultPanel;
 	private CheckBox ckEqualVariances;
 	private AutoCompleteTextFieldW fldConfLevel;
 

@@ -49,7 +49,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private CheckBox cbSliderFixed, cbRandom;
 	private ListBox lbSliderHorizontal;
 
-	private AppW app;
 	private AnimationStepPanelW stepPanel;
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
@@ -66,7 +65,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	public SliderPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
-		this.app = app;
 		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		model = new SliderModel(app, this);

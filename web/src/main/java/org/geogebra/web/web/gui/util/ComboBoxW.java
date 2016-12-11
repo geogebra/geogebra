@@ -7,7 +7,6 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListDataModel;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListModelEvent;
 import org.geogebra.web.web.gui.advanced.client.ui.widget.ComboBox;
@@ -20,14 +19,11 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final int DEFAULT_VISIBLE_ROWS = 10;
 	private static final String DEFAULT_WIDTH = "90px";
-	private static final Image choiceImage = new Image(GuiResources.INSTANCE.toolbar_further_tools());
-	private static final Image choiceImageActive = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 
 	public ComboBoxW(AppW app) {
 		super(app);

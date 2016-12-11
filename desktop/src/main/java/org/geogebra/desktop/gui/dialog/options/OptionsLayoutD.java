@@ -35,13 +35,14 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * Layout options for the options dialog.
  */
 public class OptionsLayoutD extends OptionsLayout
-		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
+ implements OptionPanelD,
+		ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
 	private Settings settings;
 
 	/** */
-	private JPanel sideBarPanel, inputBarPanel, toolbarPanel, navbarPanel,
+	private JPanel sideBarPanel, inputBarPanel, toolbarPanel,
 			perspectivesPanel;
 
 	/**	 */
@@ -56,7 +57,7 @@ public class OptionsLayoutD extends OptionsLayout
 
 	private JToggleButton rbInputBarSouth, rbInputBarNorth;
 
-	private JLabel lblInputBarPosition, lblSidebarPosition;
+	private JLabel lblInputBarPosition;
 
 	/** */
 	private ButtonGroup inputbarPosGroup, toolBarPosGroup;
@@ -190,8 +191,6 @@ public class OptionsLayoutD extends OptionsLayout
 		ckShowSideBar = new JCheckBox();
 		ckShowSideBar.addActionListener(this);
 
-		int tab = 20;
-
 		ButtonGroup grp = new ButtonGroup();
 		rbSidebarWest = new JToggleButton(
 				app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
@@ -211,8 +210,6 @@ public class OptionsLayoutD extends OptionsLayout
 		rbButtonSidebar = new JRadioButton();
 		rbButtonSidebar.addActionListener(this);
 		grp2.add(rbButtonSidebar);
-
-		lblSidebarPosition = new JLabel();
 
 		sideBarPanel.add(LayoutUtil.flowPanel(ckShowSideBar,
 				Box.createHorizontalStrut(5), rbSidebarWest, rbSidebarEast));
@@ -286,20 +283,6 @@ public class OptionsLayoutD extends OptionsLayout
 
 	}
 
-	private void updateIcons() {
-		rbToolbarNorth.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
-		rbToolbarSouth.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
-		rbToolbarEast.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
-		rbToolbarWest.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
-		if (this.rbInputBarNorth != null) {
-			rbInputBarNorth
-					.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
-			rbInputBarNorth
-					.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
-		}
-
-	}
-
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
@@ -357,11 +340,6 @@ public class OptionsLayoutD extends OptionsLayout
 		rbButtonSidebar.addActionListener(this);
 		rbPespectiveSidebar.addActionListener(this);
 		revalidate();
-
-	}
-
-	// needed updating things on the reset defaults button
-	public void updateAfterReset() {
 
 	}
 
@@ -434,12 +412,14 @@ public class OptionsLayoutD extends OptionsLayout
 	 * Not implemented.
 	 */
 	public void focusGained(FocusEvent e) {
+		// nothing to do
 	}
 
 	/**
 	 * Apply textfield changes.
 	 */
 	public void focusLost(FocusEvent e) {
+		// nothing to do
 
 	}
 

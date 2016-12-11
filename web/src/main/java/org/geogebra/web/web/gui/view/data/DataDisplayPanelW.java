@@ -69,8 +69,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private static final int PLOTPANEL_MIN_WIDTH = 400;
 	private static final int PLOTPANEL_MIN_HEIGHT = 150;
-	private static final int OPTIONSPANEL_WIDTH = 200;
-
 	// ggb fields
 	private AppW app;
 	private final LocalizationW loc;
@@ -82,7 +80,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private FlowPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
 	private PlotPanelEuclidianViewW plotPanel;
 
-	private Label imageContainer;
 	private Canvas latexCanvas;
 	private GeoNumeric sample;
 	// control panel

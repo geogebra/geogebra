@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -48,14 +48,18 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-//TODO: Consider creating SpreadsheetHeaderW class, with all the common method from the row and column header
+/**
+ * TODO: Consider creating SpreadsheetHeaderW class, with all the common method
+ * from the row and column header
+ * 
+ *
+ */
 public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
         MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyDownHandler, LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler
 
 {
 	private static final long serialVersionUID = 1L;
 	private AppW app;
-	private SpreadsheetViewW view;
 	private MyTableW table;
 	private Grid grid;
 	private FlowPanel container;
@@ -79,7 +83,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		this.app = app;
 		this.table = table;
-		this.view = (SpreadsheetViewW) table.getView();
 
 		prepareGUI();
 		registerListeners();
@@ -226,7 +229,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			/*Style s = grid.getCellFormatter().getElement(rowIndex, 0)
 			        .getStyle();*/
 
-			if (table.getSelectionType() == MyTable.COLUMN_SELECT) {
+			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
 				//setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, rowIndex);
 			} else {
@@ -409,7 +412,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			if (shiftDown) {
 				// extend the column selection
 				int row = table.getLeadSelectionRow();
-				table.setSelectionType(MyTableW.ROW_SELECT);
+				table.setSelectionType(MyTableInterface.ROW_SELECT);
 				table.changeSelection(row - 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -426,7 +429,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			if (shiftDown) {
 				// extend the row selection
 				int row = table.getLeadSelectionRow();
-				table.setSelectionType(MyTableW.ROW_SELECT);
+				table.setSelectionType(MyTableInterface.ROW_SELECT);
 				table.changeSelection(row + 1, -1, true);
 			} else {
 				// select topmost cell in first column left of the selection
@@ -591,8 +594,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			GPoint point = table.getIndexFromPixel(x, y);
 			if (point != null) {
 
-				if (table.getSelectionType() != MyTable.ROW_SELECT) {
-					table.setSelectionType(MyTable.ROW_SELECT);
+				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
+					table.setSelectionType(MyTableInterface.ROW_SELECT);
 					// ?//requestFocusInWindow();
 				}
 
@@ -691,8 +694,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			        || p.getX() > table.maxSelectionColumn) {
 
 				// switch to row selection mode and select row
-				if (table.getSelectionType() != MyTable.ROW_SELECT) {
-					table.setSelectionType(MyTable.ROW_SELECT);
+				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
+					table.setSelectionType(MyTableInterface.ROW_SELECT);
 				}
 
 				table.setRowSelectionInterval(p.getY(), p.getY());

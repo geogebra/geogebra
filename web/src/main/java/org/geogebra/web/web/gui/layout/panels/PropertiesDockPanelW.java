@@ -10,10 +10,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class PropertiesDockPanelW extends DockPanelW {
 
 	private PropertiesViewW view;
-	private boolean auxWasVisible;
-	private boolean wasAVShowing;
-	private boolean isVisible = false;
-
 	/**
 	 * @param app
 	 */

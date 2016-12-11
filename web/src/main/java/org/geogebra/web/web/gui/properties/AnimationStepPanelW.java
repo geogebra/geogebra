@@ -22,11 +22,9 @@ implements ITextFieldListener {
 	private AnimationStepModel model;
 	private Label label;	
 	private AngleTextFieldW tfAnimStep;
-	private AppW app;
 	private Kernel kernel;
 
 	public AnimationStepPanelW(final AppW app) {
-		this.app = app;
 		kernel = app.getKernel();
 		model = new AnimationStepModel(this, app);
 		setModel(model);

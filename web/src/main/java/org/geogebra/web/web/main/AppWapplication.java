@@ -13,7 +13,6 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
-import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -32,11 +31,9 @@ public class AppWapplication extends AppWFull {
 
 	private GeoGebraAppFrame appFrame = null;
 	// TODO remove GUI stuff from appW
-	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
 	/** Device (browser / tablet / ...) */
 
-	private boolean macroRestored;
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
 	 * 

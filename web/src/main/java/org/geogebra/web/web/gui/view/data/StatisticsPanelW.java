@@ -7,7 +7,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -43,7 +42,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private AppW app;
 	private DataAnalysisModel daModel;
 
-	private CheckBox ckPooled;
 
 	/*************************************
 	 * Constructor

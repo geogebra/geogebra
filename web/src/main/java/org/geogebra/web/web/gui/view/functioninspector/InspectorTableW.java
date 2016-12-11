@@ -21,11 +21,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class InspectorTableW extends FlexTable implements IGridListener {
 	private static final int HEADER_ROW = 0;
-	private static final String TABLE_PREFIX = "[INSPECTOR_TABLE]";
 	private GridModel model;
 	private int selectedRow;
-	private int editRow;
-	private int editCol;
 	private AutoCompleteTextFieldW cellEditor;
 	private KeyHandler keyHandler;
 	private BlurHandler blurHandler;
@@ -36,8 +33,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setWidth("100%");
 		setModel(new GridModel(col, this));
 		selectedRow = 1;
-		editRow = -1;
-		editCol = -1;
 		RowFormatter rf = getRowFormatter();
 		rf.setStyleName(HEADER_ROW, "inspectorTableHeader");
 		InputPanelW input = new InputPanelW(null, app, -1, false);

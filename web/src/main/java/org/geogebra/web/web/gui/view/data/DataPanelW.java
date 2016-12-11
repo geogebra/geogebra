@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
@@ -33,7 +32,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private Boolean[] selectionList;
 
 	private Label lblHeader;
-	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	private LocalizationW loc;
 

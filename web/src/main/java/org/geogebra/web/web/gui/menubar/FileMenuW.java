@@ -362,7 +362,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 	}-*/;
 
-	private boolean printItemAdded = false;
 
 	/**
 	 * 

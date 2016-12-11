@@ -26,10 +26,9 @@ public class GeoGebraKeys implements KeyListener {
 
 	private boolean altPressed;
 
-	private AppD app;
 
-	public GeoGebraKeys(AppD app) {
-		this.app = app;
+	public GeoGebraKeys() {
+		// nothing to do
 	}
 
 	public void keyPressed(KeyEvent e) {

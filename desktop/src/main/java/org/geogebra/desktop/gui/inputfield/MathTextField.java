@@ -22,13 +22,13 @@ public class MathTextField extends MyTextFieldD implements KeyListener {
 
 	public MathTextField(AppD app) {
 		super(app);
-		ggbKeys = new GeoGebraKeys(app);
+		ggbKeys = new GeoGebraKeys();
 		addKeyListener(this);
 	}
 
 	public MathTextField(AppD app, int length) {
 		super(app, length);
-		ggbKeys = new GeoGebraKeys(app);
+		ggbKeys = new GeoGebraKeys();
 		addKeyListener(this);
 	}
 

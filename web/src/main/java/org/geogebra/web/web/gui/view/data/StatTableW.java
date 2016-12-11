@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -23,17 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class StatTableW extends FlowPanel {
 
-	private App app;
-	private Localization loc;
 	private MyTable myTable;
-	private ScheduledCommand al;
-
 	/**
 	 * @param app App
 	 */
 	public StatTableW(App app) {
-	    this.app = app;
-	    this.loc = app.getLocalization();
 	    
 	    initTable();
 	}
@@ -110,8 +103,6 @@ public class StatTableW extends FlowPanel {
 	 */
 	public void setComboBoxCells(HashMap<GPoint, String[]> cell,
 			ScheduledCommand al) {
-
-		this.al = al;
 
 		/*TODO: if (comboBoxEditorMap == null)
 			comboBoxEditorMap = new HashMap<Point, MyComboBoxEditor>();

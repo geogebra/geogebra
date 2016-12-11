@@ -52,7 +52,7 @@ public class ButtonDialogD extends JDialog
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextComponent tfCaption, tfScript, tfScript2;
+	private JTextComponent tfCaption, tfScript;
 	private JPanel btPanel;
 	// private DefaultListModel listModel;
 	private ButtonDialogModel model;
@@ -69,10 +69,15 @@ public class ButtonDialogD extends JDialog
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
 	 * 
+	 * @param app
+	 *            application
+	 * 
 	 * @param x
-	 *            location of slider in screen coords
+	 *            location of button in screen coords
 	 * @param y
-	 *            location of slider in screen coords
+	 *            location of button in screen coords
+	 * @param textField
+	 *            whether we need an input box
 	 */
 	public ButtonDialogD(AppD app, int x, int y, boolean textField) {
 		super(app.getFrame(), false);
@@ -277,27 +282,35 @@ public class ButtonDialogD extends JDialog
 	}
 
 	public void keyReleased(KeyEvent arg0) {
+		// nothing to do
 	}
 
 	public void keyTyped(KeyEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowActivated(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowClosed(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowClosing(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowDeactivated(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowDeiconified(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowIconified(WindowEvent arg0) {
+		// nothing to do
 	}
 
 	public void windowOpened(WindowEvent arg0) {
