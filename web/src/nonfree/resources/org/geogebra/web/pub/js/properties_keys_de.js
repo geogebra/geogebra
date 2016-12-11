@@ -1978,7 +1978,7 @@ __GGB__keysVar.de.menu = {
     "Keyboard.Numeric": "Taschenrechner",
     "Keyboard.Standard": "Standardtastatur",
     "Keyboard.row1": "qQwWeErRtTzZuUiIoOpP\xfc\xdc",
-    "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf6\xd6\xe4\xc4",
+    "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf6\xd6\xe4\xc4''",
     "Keyboard.row3": "yYxXcCvVbBnNmM''",
     "KinectWindow": "Kinect Fenster",
     "LaTeXFormula": "LaTeX Formel",
