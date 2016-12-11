@@ -29,6 +29,15 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public abstract class PropertiesView implements View {
+
+	protected Kernel kernel;
+	protected boolean attached;
+	protected App app;
+	protected final Localization loc;
+	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
+
+	protected OptionsObject objectPanel;
+	protected int selectedTab = 0;
 	final private static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
 	// map to match view ID with OptionType
 	static {
@@ -41,14 +50,6 @@ public abstract class PropertiesView implements View {
 		viewMap.put(App.VIEW_EUCLIDIAN_FOR_PLANE_START,
 				OptionType.EUCLIDIAN_FOR_PLANE);
 	}
-
-	protected Kernel kernel;
-	protected boolean attached;
-	protected App app;
-	protected final Localization loc;
-	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
-
-	protected OptionsObject objectPanel;
 
 	public PropertiesView(App app2) {
 		app = app2;
@@ -402,9 +403,6 @@ public abstract class PropertiesView implements View {
 		}
 
 	}
-
-	protected int selectedTab = 0;
-	private int subType;
 
 	abstract protected void setSelectedTab(OptionType type);
 

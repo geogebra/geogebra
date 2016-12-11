@@ -60,7 +60,7 @@ public class DataSourceDialog extends JDialog
 
 	private void createGUI() {
 
-		dataSourcePanel = new DataSourcePanel(app, this, mode);
+		dataSourcePanel = new DataSourcePanel(app, mode);
 
 		lblTitle = new JLabel();
 		lblTitle.setIconTextGap(10);

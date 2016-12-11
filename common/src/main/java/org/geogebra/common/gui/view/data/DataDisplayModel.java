@@ -67,11 +67,9 @@ public class DataDisplayModel {
 
 	};
 
-	private static final long serialVersionUID = 1L;
 	//
 	// // ggb fields
 	private App app;
-	private Localization loc;
 	private DataAnalysisModel daModel;
 	private StatGeo statGeo;
 
@@ -110,8 +108,8 @@ public class DataDisplayModel {
 		 * @return translated key for the current locale eg "StemPlot" ->
 		 *         "Stem and Leaf Diagram" in en_GB
 		 */
-		public String getTranslatedKey(App app) {
-			return app.getLocalization().getMenu(key);
+		public String getTranslatedKey(Localization loc) {
+			return loc.getMenu(key);
 		}
 
 	}
@@ -142,7 +140,6 @@ public class DataDisplayModel {
 
 		this.daModel = daModel;
 		this.app = daModel.getApp();
-		this.loc = app.getLocalization();
 		this.statGeo = daModel.getStatGeo();
 		this.listener = listener;
 		plotGeoList = new ArrayList<GeoElementND>();

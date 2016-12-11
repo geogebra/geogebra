@@ -65,7 +65,6 @@ public class DataAnalysisModel {
 	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
 	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
 	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
-	private int mode = -1;
 
 	// colors
 	public static final int TABLE_GRID_COLOR_IDX = 0;
@@ -118,15 +117,9 @@ public class DataAnalysisModel {
 	private int printDecimals = 4, printFigures = -1;
 
 	// public static final int regressionTypes = 9;
-	private Regression regressionMode = Regression.NONE;
 	private int regressionOrder = 2;
 
-	private int defaultDividerSize;
-
 	private DataAnalysisController ctrl;
-
-	final static String MainCard = "Card with main panel";
-	final static String SourceCard = "Card with data type options";
 
 	private IDataAnalysisListener listener;
 
@@ -305,7 +298,7 @@ public class DataAnalysisModel {
 		}
 
 		Log.warn("no mode set in setRegressionMode()");
-		this.regressionMode = Regression.NONE;
+		// this.regressionMode = Regression.NONE;
 
 	}
 

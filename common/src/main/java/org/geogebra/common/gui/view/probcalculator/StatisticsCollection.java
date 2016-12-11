@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * @author G. Sturr
@@ -9,7 +7,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class StatisticsCollection {
 
-	private Construction cons;
 
 	public double mean, mean2, sd, sd2, nullHyp, me, lower, upper, se, testStat,
 			P, df, level, n, n2, count, count2, total;
@@ -49,7 +46,6 @@ public class StatisticsCollection {
 	}
 
 	public void setChiSqData(int rows, int columns) {
-		Log.debug(rows + " : " + columns);
 		this.rows = rows;
 		this.columns = columns;
 

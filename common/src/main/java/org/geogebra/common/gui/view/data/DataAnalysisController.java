@@ -20,7 +20,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class DataAnalysisController {
 
-	private App app;
 	private Kernel kernel;
 	private Construction cons;
 	// private DataAnalysisModel view;
@@ -45,7 +44,6 @@ public abstract class DataAnalysisController {
 	 */
 	public DataAnalysisController(App app) {
 
-		this.app = app;
 		this.kernel = app.getKernel();
 		this.cons = kernel.getConstruction();
 	}

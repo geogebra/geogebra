@@ -89,6 +89,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 	private ScrollPanel spGraph;
 	private ListBox cbLogAxes;
+	private Localization loc;
 
 	private final static int fieldWidth = 8;
 
@@ -125,6 +126,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			DataDisplayModel dyModel) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.daModel = model;
 		this.dyModel = dyModel;
 		this.settings = dyModel.getSettings();
@@ -157,7 +159,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		this.setVisible(true);
 
 		// add plot-specific tab
-		String tabTitle = plotType.getTranslatedKey(app);
+		String tabTitle = plotType.getTranslatedKey(loc);
 		spHistogram = new ScrollPanel();
 		mainPanel.setStyleName("daScrollPanel");
 		spHistogram.add(mainPanel);
@@ -178,7 +180,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		spGraph = new ScrollPanel();
 		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
-		tabPanel.add(spGraph, app.getLocalization().getMenu("Graph"));
+		tabPanel.add(spGraph, loc.getMenu("Graph"));
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
 

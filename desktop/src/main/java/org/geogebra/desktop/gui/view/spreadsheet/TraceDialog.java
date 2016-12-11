@@ -90,14 +90,13 @@ public class TraceDialog extends javax.swing.JDialog
 	private JSplitPane splitPane;
 	private JPanel tabbedPane;
 	private JPanel optionsPanel, listPanel, promptPanel, buttonPanel,
-			locationPanel, leftButtonPanel, statPanel;
+			leftButtonPanel;
 
 	private JTextField firstRowField, numRowsField;
 	private JCheckBox cbResetColumns, cbRowLimit, cbShowLabel, cbTraceList;
 	private JRadioButton traceModeValues, traceModeCopy;
 	private TitledBorder traceModeTitle, locationTitle, optionsTitle;
-	private JButton btRemove, btAdd, btClose, btCancel, btChangeLocation,
-			btErase;
+	private JButton btRemove, btAdd, btClose, btCancel, btErase;
 	private JLabel prompt;
 
 	// modes
@@ -701,7 +700,7 @@ public class TraceDialog extends javax.swing.JDialog
 	private void doTextFieldActionPerformed(JTextField source) {
 
 		try {
-			String inputText = source.getText().trim();
+			source.getText().trim();
 			Integer value = Integer.parseInt(source.getText());
 
 			if (value != null && value > 0

@@ -208,7 +208,6 @@ import org.geogebra.desktop.io.OFFReader;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
-import org.geogebra.desktop.move.ggtapi.models.AuthenticationModelD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
@@ -226,6 +225,7 @@ import org.geogebra.desktop.util.UtilD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
+@SuppressWarnings("javadoc")
 public class AppD extends App implements KeyEventDispatcher {
 
 	/**
@@ -236,7 +236,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	/**
 	 * Command line arguments
 	 */
-	protected CommandLineArguments args;
+	protected CommandLineArguments cmdArgs;
 
 	// ==============================================================
 	// JAR fields
@@ -267,11 +267,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	// RESOURCE fields
 	// ==============================================================
 
-	private ResourceBundle rbcommandEnglish, rbmenuEnglish, rbsettings;
+	private ResourceBundle rbcommandEnglish, rbmenuEnglish;
 
 	private final LocalizationD loc;
 
-	private static final String RB_SETTINGS = "/org/geogebra/desktop/export/settings";
+
 
 	// ==============================================================
 	// APPLET fields
@@ -340,13 +340,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	private GgbAPID ggbapi = null;
 	private SpreadsheetTableModelD tableModel;
 
-	private AuthenticationModelD authenticationModel;
+
 
 	// ==============================================================
 	// MISC FLAGS
 	// ==============================================================
-
-	private boolean printScaleString = false;
 
 	private boolean allowToolTips = true;
 
@@ -405,7 +403,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		this.loc = loc;
 		loc.setApp(this);
-		this.args = args;
+		this.cmdArgs = args;
 
 		if (args != null && !args.containsArg("silent")) {
 			Log.setLogger(new LoggerD());
@@ -629,7 +627,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (appletImpl != null) {
 			appletImpl.reset();
 		} else if (currentFile != null) {
-			loadFile(this, currentFile, false);
+			loadFile(this, currentFile);
 		} else {
 			clearConstruction();
 		}
@@ -979,10 +977,7 @@ public class AppD extends App implements KeyEventDispatcher {
 						JSONObject response = new JSONObject(tokener);
 						String command = (String) response.get("cmd");
 						String result = (String) response.get("result");
-						String category = (String) response.get("cat");
-						// String notes = (String) response.get("notes");
-						// JSONObject responseArray =
-						// response.getJSONObject("cmd");
+						response.get("cat");
 
 						// System.out.println("response = " + response);
 						// System.out.println("result = " + result);
@@ -1393,7 +1388,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public void createNewWindow() {
-		GeoGebraFrame.createNewWindow(args.getGlobalArguments());
+		GeoGebraFrame.createNewWindow(cmdArgs.getGlobalArguments());
 	}
 
 	@Override
@@ -1709,7 +1704,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	private static String getAttributeValue(String page, String lowerCasedPage,
-			String attrName) {
+			String attrName0) {
+		String attrName = attrName0;
 		int index;
 		if (-1 != (index = lowerCasedPage.indexOf(attrName))) { // value='test.ggb'
 			index += attrName.length();
@@ -1984,7 +1980,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return scaleIcon(icon, iconSize);
 	}
 
-	private ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
+	private static ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
 		if (icon == null || iconSize == 0) {
 			return null;
 		}
@@ -2311,7 +2307,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				new StringSelection(getFullHTML5ExportString()), null);
 	}
 
-	public void copyGraphicsViewToClipboard(final EuclidianView euclidianView) {
+	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
 
 		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
@@ -2321,7 +2317,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			public void run() {
 				setWaitCursor();
 
-				simpleExportToClipboard(euclidianView);
+				simpleExportToClipboard(copyView);
 
 				/*
 				 * doesn't work in Win7, XP pasting into eg Paint pasting into
@@ -2469,15 +2465,15 @@ public class AppD extends App implements KeyEventDispatcher {
 		String[] parts = s.split("_");
 		String language = parts[0];
 		String country = parts.length > 1 ? parts[1] : null;
-		Locale loc = null;
+		Locale locale = null;
 		if (language != null) {
 			if (country != null) {
-				loc = new Locale(language, country);
+				locale = new Locale(language, country);
 			} else {
-				loc = new Locale(language);
+				locale = new Locale(language);
 			}
 		}
-		setLocale(loc);
+		setLocale(locale);
 	}
 
 	/**
@@ -2961,6 +2957,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		getGuiManager().updateFrameTitle();
 	}
 
+	@Override
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		super.setShowToolBar(toolbar, help);
 		if (toolbar && getGuiManager() != null) {
@@ -3167,6 +3164,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return fontManager.getPlainFont();
 	}
 
+	@Deprecated
 	@Override
 	final public GFont getPlainFontCommon() {
 		return new GFontD(fontManager.getPlainFont());
@@ -4203,6 +4201,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (defaultErrorHandler == null) {
 			defaultErrorHandler = new ErrorHandler() {
 
+				@Override
 				public void showError(final String msg) {
 					// don't remove, useful
 					if (msg == null) {
@@ -4214,7 +4213,8 @@ public class AppD extends App implements KeyEventDispatcher {
 					GeoGebra.hideSplash();
 
 					isErrorDialogShowing = true;
-
+					final String msgDisplay = msg.substring(0,
+							Math.min(msg.length() - 1, 100));
 					// use SwingUtilities to make sure this gets executed in the
 					// correct
 					// (=GUI) thread.
@@ -4223,7 +4223,9 @@ public class AppD extends App implements KeyEventDispatcher {
 						public void run() {
 							// TODO investigate why this freezes Firefox
 							// sometimes
-							JOptionPane.showConfirmDialog(mainComp, msg,
+							JOptionPane.showConfirmDialog(
+									mainComp,
+									msgDisplay,
 									GeoGebraConstants.APPLICATION_NAME + " - "
 											+ getLocalization()
 													.getError("Error"),
@@ -4235,16 +4237,19 @@ public class AppD extends App implements KeyEventDispatcher {
 
 				}
 
+				@Override
 				public void resetError() {
 					showError(null);
 				}
 
+				@Override
 				public boolean onUndefinedVariables(String string,
 						AsyncOperation<String[]> callback) {
 					return getGuiManager().checkAutoCreateSliders(string,
 							callback);
 				}
 
+				@Override
 				public void showCommandError(String command, String message) {
 
 					// make sure splash screen not showing (will be in front)
@@ -4271,6 +4276,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 				}
 
+				@Override
 				public String getCurrentCommand() {
 					return null;
 				}
@@ -4425,23 +4431,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// stdout.println("Hello on old stdout");
 	}
 
-	private void setUpFileLogging() {
 
-		// initialize logging to go to rolling log file
-		StringBuilder logFile = new StringBuilder(30);
-
-		logFile.append(UtilD.getTempDir());
-		logFile.append("GeoGebraLog_");
-		// randomize filename
-		for (int i = 0; i < 10; i++) {
-			logFile.append((char) ('a' + Math.round(Math.random() * 25)));
-		}
-		logFile.append(".txt");
-
-		Log.setLogDestination(LogDestination.FILE);
-		Log.setLogFile(logFile.toString());
-		Log.debug(logFile.toString());
-	}
 
 	/*
 	 * gets a String from the clipboard
@@ -4702,7 +4692,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return false;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public DialogManager getDialogManager() {
 
@@ -4735,7 +4724,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public CommandLineArguments getCommandLineArgs() {
-		return args;
+		return cmdArgs;
 	}
 
 	/**
@@ -4747,9 +4736,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	public int flowLeft() {
 		if (!getLocalization().isRightToLeftReadingOrder()) {
 			return 0; // left
-		} else {
-			return 2; // right
 		}
+		return 2; // right
 	}
 
 	/**
@@ -4761,9 +4749,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	public int flowRight() {
 		if (getLocalization().isRightToLeftReadingOrder()) {
 			return 0; // left
-		} else {
-			return 2; // right
 		}
+		return 2; // right
 	}
 
 	/**
@@ -4964,8 +4951,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			AnimationExportSlider num, int n, double val, double min,
-			double max, double step) {
+			AnimationExportSlider num, int n, double initVal, double min,
+			double max, double stepSize) {
+		double val = initVal;
+		double step = stepSize;
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
@@ -5061,6 +5050,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel kernel2) {
 		return new CommandDispatcher(kernel2) {
+			// nothing to override
 		};
 	}
 
@@ -5183,12 +5173,12 @@ public class AppD extends App implements KeyEventDispatcher {
 
 				EventQueue.invokeLater(new Runnable() {
 					@Override
-					@SuppressWarnings("synthetic-access")
 					public void run() {
 						boolean showDockPopup = true;
 
-						LoginOperationD signIn = (LoginOperationD) getLoginOperation();
-						if (signIn.isTubeAvailable() && !signIn.isLoggedIn()) {
+						LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
+						if (signInOp.isTubeAvailable()
+								&& !signInOp.isLoggedIn()) {
 							showDockPopup = showTubeLogin();
 						}
 
@@ -5294,6 +5284,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private ScheduledFuture<?> handler;
 
+	@Override
 	public void schedulePreview(Runnable scheduledPreview) {
 
 		cancelPreview();
@@ -5302,6 +5293,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
 
+	@Override
 	public void cancelPreview() {
 		if (handler != null) {
 			handler.cancel(false);
@@ -5380,7 +5372,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return new GuiManagerD(appD);
 	}
 
-	public static void loadFile(AppD app, File currentFile, boolean b) {
+	public static void loadFile(AppD app, File currentFile) {
 		app.getGuiManager().loadFile(currentFile, false);
 	}
 
@@ -5404,10 +5396,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		return new DockBar(app);
 	}
 
+	@Override
 	public boolean isDesktop() {
 		return true;
 	}
 
+	@Override
 	public CopyPaste getCopyPaste() {
 
 		if (copyPaste == null) {

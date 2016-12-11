@@ -23,7 +23,6 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
@@ -76,7 +75,6 @@ public class DataSourcePanel extends JPanel
 	private final AppD app;
 	private final LocalizationD loc;
 	private DataAnalysisViewD dataView;
-	private JDialog invoker;
 
 	// data source and table
 	protected DataSource dataSource;
@@ -89,7 +87,6 @@ public class DataSourcePanel extends JPanel
 	private MyTextFieldD fldStart, fldWidth;
 
 	// flags and other fields
-	private double classStart = 0, classWidth = 1;
 	private int mode;
 	protected int btnHoverColumn = -1;
 
@@ -111,11 +108,10 @@ public class DataSourcePanel extends JPanel
 	 * @param app
 	 * @param mode
 	 */
-	public DataSourcePanel(AppD app, JDialog invoker, int mode) {
+	public DataSourcePanel(AppD app, int mode) {
 
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.invoker = invoker;
 		this.mode = mode;
 		dataSource = new DataSource(app);
 

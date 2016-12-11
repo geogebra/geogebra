@@ -89,7 +89,6 @@ public class DataAnalysisViewD extends JPanel
 	private DataDisplayPanelD dataDisplayPanel1, dataDisplayPanel2;
 
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
-	private DataSourcePanel dataSourcePanel;
 	private JPanel mainPanel;
 
 	private int defaultDividerSize;

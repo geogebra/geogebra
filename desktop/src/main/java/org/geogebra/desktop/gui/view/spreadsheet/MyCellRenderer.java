@@ -53,7 +53,6 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	private CellFormat formatHandler;
 	private GPoint cellPoint;
 	private Integer alignment = -1;
-	private Integer traceBorder = -1;
 	private Integer fontStyle;
 	boolean isCustomBGColor;
 

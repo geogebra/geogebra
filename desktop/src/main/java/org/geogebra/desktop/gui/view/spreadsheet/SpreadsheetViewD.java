@@ -54,8 +54,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		ComponentListener, FocusListener, Gridable, SettingListener {
 
-	private static final long serialVersionUID = 1L;
-
 	// ggb fields
 	protected AppD app;
 	private Kernel kernel;
@@ -75,7 +73,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	// public static int MAX_ROWS = 9999; // TODO make sure this is actually
 	// used
 
-	private static int DEFAULT_COLUMN_WIDTH = 70;
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 
 	// TODO: should traceDialog belong to the SpreadsheetTraceManager?
@@ -85,10 +82,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	// fields for split panel, stylebar
 	private JScrollPane spreadsheet;
-	private int defaultDividerLocation = 150;
 	private SpreadsheetStyleBar styleBar;
-	private JPanel restorePanel;
-
 	// toolbar manager
 	SpreadsheetToolbarManager toolbarManager;
 

@@ -9,7 +9,6 @@ import org.geogebra.common.util.Util;
  */
 public class OptionsMenu {
 
-	private RadioButtonMenuBar menuAlgebraStyle;
 	private RadioButtonMenuBar menuDecimalPlaces;
 	private RadioButtonMenuBar menuLabeling;
 	private App app;

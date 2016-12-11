@@ -517,52 +517,57 @@ public class MyXMLHandler implements DocHandler {
 			break;
 
 		case MODE_INVALID:
-			// is this a geogebra file?
-			if ("geogebra".equals(eName)) {
-				mode = MODE_GEOGEBRA;
-				// check file format version
-				try {
-					ggbFileFormat = StringUtil.parseDouble(attrs.get("format"));
-
-					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
-
-					// Allow unbounded angles when loading new files,
-					// not saved automatically eg. for slider min #4108
-					if (ggbFileFormat > FORMAT) {
-						Log.debug(loc.getError("FileFormatNewer") + ": "
-								+ ggbFileFormat); // Michael
-						// Borcherds
-					}
-
-					// removed - doesn't work over an undo
-					// fileFormat dependent settings for downward compatibility
-					// if (ggbFileFormat < 2.6) {
-					// kernel.arcusFunctionCreatesAngle = true;
-					// }
-
-					if (ggbFileFormat < 3.0) {
-						// before V3.0 the kernel had continuity always on
-						if (!(kernel instanceof MacroKernel))
-							kernel.setContinuous(true);
-
-					}
-
-				} catch (Exception e) {
-					errors.add(loc.getError("FileFormatUnknown"));
-				}
-
-				String ggbVersion = attrs.get("version");
-				app.setFileVersion(ggbVersion);
-
-				String uniqueId = attrs.get("id");
-				if (uniqueId != null)
-					app.setUniqueId(uniqueId);
-			}
+			startTopLevel(eName, attrs);
 			break;
 
 		default:
 			Log.error("unknown mode: " + mode);
 		}
+	}
+
+	private void startTopLevel(String eName, LinkedHashMap<String, String> attrs) {
+		// is this a geogebra file?
+		if ("geogebra".equals(eName)) {
+			mode = MODE_GEOGEBRA;
+			// check file format version
+			try {
+				ggbFileFormat = StringUtil.parseDouble(attrs.get("format"));
+
+				ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
+
+				// Allow unbounded angles when loading new files,
+				// not saved automatically eg. for slider min #4108
+				if (ggbFileFormat > FORMAT) {
+					Log.debug(loc.getError("FileFormatNewer") + ": "
+							+ ggbFileFormat); // Michael
+					// Borcherds
+				}
+
+				// removed - doesn't work over an undo
+				// fileFormat dependent settings for downward compatibility
+				// if (ggbFileFormat < 2.6) {
+				// kernel.arcusFunctionCreatesAngle = true;
+				// }
+
+				if (ggbFileFormat < 3.0) {
+					// before V3.0 the kernel had continuity always on
+					if (!(kernel instanceof MacroKernel))
+						kernel.setContinuous(true);
+
+				}
+
+			} catch (Exception e) {
+				errors.add(loc.getError("FileFormatUnknown"));
+			}
+
+			String ggbVersion = attrs.get("version");
+			app.setFileVersion(ggbVersion);
+
+			String uniqueId = attrs.get("id");
+			if (uniqueId != null)
+				app.setUniqueId(uniqueId);
+		}
+
 	}
 
 	private void startDataAnalysisElement(String eName,

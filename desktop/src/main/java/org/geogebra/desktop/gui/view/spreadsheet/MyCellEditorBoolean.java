@@ -9,7 +9,6 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.desktop.main.AppD;
 
 /**
  * Cell editor for GeoBoolean.
@@ -19,8 +18,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class MyCellEditorBoolean extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
-	private Kernel kernel;
-	private AppD app;
 	private GeoBoolean editGeo;
 	private JCheckBox checkBox;
 	boolean editing = false;
@@ -29,7 +26,6 @@ public class MyCellEditorBoolean extends DefaultCellEditor {
 
 		super(new JCheckBox());
 		checkBox = (JCheckBox) editorComponent;
-		app = (AppD) kernel.getApplication();
 	}
 
 	@Override

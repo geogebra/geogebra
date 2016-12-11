@@ -683,7 +683,7 @@ public class App3D extends AppD {
 
 	@Override
 	public void createNewWindow() {
-		GeoGebraFrame3D.createNewWindow3D(args.getGlobalArguments());
+		GeoGebraFrame3D.createNewWindow3D(cmdArgs.getGlobalArguments());
 	}
 
 	@Override

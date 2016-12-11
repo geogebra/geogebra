@@ -158,7 +158,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		this.setVisible(true);
 
 		// add plot-specific tab
-		String tabTitle = plotType.getTranslatedKey(app);
+		String tabTitle = plotType.getTranslatedKey(loc);
 		tabbedPane.insertTab(tabTitle, null, new JScrollPane(mainPanel), null,
 				0);
 		classesPanel.setVisible(false);
