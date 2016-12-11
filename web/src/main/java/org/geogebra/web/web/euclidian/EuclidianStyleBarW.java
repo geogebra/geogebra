@@ -392,7 +392,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (activeGeoList == null) {
 			return;
 		}
-		double l = System.currentTimeMillis();
 		Object[] geos = activeGeoList.toArray();
 		for (int i = 0; i < popupBtnList.length; i++) {
 			if (popupBtnList[i] != null) {// null pointer fix until necessary

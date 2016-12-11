@@ -68,7 +68,7 @@ public class GeoGebraTubeExportW extends
 		postData = postData.replace("+", "%2B");
 
 		try {
-			Request response = rb.sendRequest(postData, new RequestCallback() {
+			rb.sendRequest(postData, new RequestCallback() {
 
 				public void onError(Request request, Throwable exception) {
 					Log.debug("onError: " + request.toString() + " "
@@ -131,8 +131,6 @@ public class GeoGebraTubeExportW extends
 
 		showDialog();
 
-		Construction cons = app.getKernel().getConstruction();
-
 		try {
 
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
@@ -163,8 +161,6 @@ public class GeoGebraTubeExportW extends
 		this.macros = macrosIn;
 
 		showDialog();
-
-		Construction cons = app.getKernel().getConstruction();
 
 		try {
 			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,

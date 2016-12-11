@@ -378,9 +378,9 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		return properties;
 	}
 
-	public final static void main(String[] args) {
-		GeoGebraPreferencesD gp = GeoGebraPortablePreferences.getPref();
-	}// main()
+	// public final static void main(String[] args) {
+	// GeoGebraPreferencesD gp = GeoGebraPortablePreferences.getPref();
+	// }
 
 	// --- SNIP ---------------------------------------------------
 

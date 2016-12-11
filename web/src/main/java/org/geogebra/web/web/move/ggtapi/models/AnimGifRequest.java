@@ -38,7 +38,7 @@ public class AnimGifRequest implements Request {
 			api.put("-api", this.API);
 
 			// login
-			JSONObject login = new JSONObject();
+			// JSONObject login = new JSONObject();
 			// login.put("-type", new JSONString(this.TYPE));
 			// login.put("-token", new JSONString(client.getModel()
 			// .getLoggedInUser().getLoginToken()));

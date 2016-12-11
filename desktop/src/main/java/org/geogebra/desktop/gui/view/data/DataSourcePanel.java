@@ -845,7 +845,7 @@ public class DataSourcePanel extends JPanel
 		public boolean stopCellEditing() {
 
 			// get the edit column while it is still available
-			int editColumn = sourceTable.getTable().getEditingColumn();
+			// int editColumn = sourceTable.getTable().getEditingColumn();
 
 			// call super.stopCellEditing to update the table model
 			boolean result = super.stopCellEditing();

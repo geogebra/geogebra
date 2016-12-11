@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -874,10 +873,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
-			addExternalImage(filename, "data:image/svg+xml;base64,"
+			addExternalImage(fn, "data:image/svg+xml;base64,"
 					+ Browser.encodeBase64(content));
 		} else {
-			addExternalImage(filename, content);
+			addExternalImage(fn, content);
 		}
 	}
 
@@ -1535,7 +1534,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	        GeoPoint loc, int width, int height) {
 
 		Construction cons = getKernel().getConstruction();
-		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 		getImageManager().addExternalImage(imgFileName, fileStr);
 		GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);

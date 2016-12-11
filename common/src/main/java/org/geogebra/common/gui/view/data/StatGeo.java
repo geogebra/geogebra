@@ -254,12 +254,13 @@ public class StatGeo {
 
 		// set the density
 		double density = -1;
-		int dataSize = dataList.size();
 
-		if (settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE)
+		if (settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE) {
 			density = 1.0 * settings.getClassWidth() / dataList.size();
-		if (settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED)
+		} else if (settings
+				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED) {
 			density = 1.0 / dataList.size();
+		}
 
 		// ==================
 		// create a histogram and (possibly) a frequency polygon

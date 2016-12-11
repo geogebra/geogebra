@@ -233,7 +233,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	public boolean isTraceColumn(int column) {
-		SpreadsheetTraceSettings t = new SpreadsheetTraceSettings();
+		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = traceGeoCollection.get(geo);
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)
@@ -271,7 +271,7 @@ public class SpreadsheetTraceManager {
 	}
 
 	public GeoElement getTraceGeo(int column) {
-		SpreadsheetTraceSettings t = new SpreadsheetTraceSettings();
+		SpreadsheetTraceSettings t;
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			t = traceGeoCollection.get(geo);
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)

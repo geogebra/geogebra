@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
@@ -230,7 +229,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		//		plotPanel.updateSize();
 		plotPanelNorth = new FlowPanel();
 		plotPanelSouth = new FlowPanel();
-		GColor bgColor = plotPanel.getBackgroundCommon();
 
 		lblTitleX = new Label();
 		lblTitleY = new Label();
@@ -770,7 +768,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 				}
 
 				// do the export
-				//exportGeosToEV(euclidianViewID);
+				getModel().exportGeosToEV(euclidianViewID);
 
 				// null out the ID property
 				this.putValue("euclidianViewID", null);

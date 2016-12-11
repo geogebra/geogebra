@@ -1364,7 +1364,7 @@ public class GeoPolyhedron extends GeoElement3D
 				addPointToCurrentFace(point);
 			}
 			endCurrentFace();
-			poly = createPolygon(index);
+			createPolygon(index);
 		} else {
 			poly.modifyInputPoints(pointsList);
 		}

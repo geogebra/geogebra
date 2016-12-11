@@ -433,7 +433,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		body.append(" \\ggbtable{ ");
 
 		// populate the body array
-		ArrayList<Integer> currentLine = new ArrayList<Integer>();
+		ArrayList<Integer> currentLine;
 		int stem;
 		for (int r = 0; r < stemLines.size(); r++) {
 			body.append(" \\ggbtr{ ");

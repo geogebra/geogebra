@@ -1562,7 +1562,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		// multiply matrix with factor to avoid huge and tiny coefficients
 		if (factor != 1.0 && !Double.isInfinite(factor)
 				&& !Double.isNaN(factor)) {
-			maxCoeffAbs *= factor;
 			for (int i = 0; i < 6; i++) {
 				matrix[i] *= factor;
 			}
@@ -2796,11 +2795,12 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	private boolean isDetSzero() {
 		// get largest abs of A0, A1, A3
-		double maxAbs = Math.abs(matrix[0]);
-		double abs = Math.abs(matrix[1]);
-		if (abs > maxAbs)
-			maxAbs = abs;
-		abs = Math.abs(matrix[3]);
+		// double maxAbs = Math.abs(matrix[0]);
+		// double abs = Math.abs(matrix[1]);
+		// if (abs > maxAbs) {
+		// maxAbs = abs;
+		// }
+		// abs = Math.abs(matrix[3]);
 
 		// det(S) = 0
 		// A[0] * A[1] = A[3] * A[3]

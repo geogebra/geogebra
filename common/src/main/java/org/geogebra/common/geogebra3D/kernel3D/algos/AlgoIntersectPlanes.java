@@ -87,11 +87,11 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 	@Override
 	public void compute() {
 
-		GeoPlane3D p1 = (GeoPlane3D) getCS1();
-		GeoPlane3D p2 = (GeoPlane3D) getCS2();
+		CoordSys p1 = ((GeoPlane3D) getCS1()).getCoordSys();
+		CoordSys p2 = ((GeoPlane3D) getCS2()).getCoordSys();
 
-		Coords v1 = ((GeoPlane3D) getCS1()).getCoordSys().getEquationVector();
-		Coords v2 = ((GeoPlane3D) getCS2()).getCoordSys().getEquationVector();
+		Coords v1 = p1.getEquationVector();
+		Coords v2 = p2.getEquationVector();
 
 		vn.setCrossProduct(v1, v2);
 
@@ -100,8 +100,8 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 			return;
 		}
 
-		Coords o1 = ((GeoPlane3D) getCS1()).getCoordSys().getOrigin();
-		Coords o2 = ((GeoPlane3D) getCS2()).getCoordSys().getOrigin();
+		Coords o1 = p1.getOrigin();
+		Coords o2 = p2.getOrigin();
 		vn1.setCrossProduct(v1, vn);
 		vn2.setCrossProduct(v2, vn);
 		o2.projectPlane(vn, vn1, vn2, o1, o);

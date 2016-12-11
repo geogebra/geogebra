@@ -26,7 +26,6 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.cell.client.AbstractCell;
 import com.google.gwt.cell.client.Cell;
-import com.google.gwt.cell.client.Cell.Context;
 import com.google.gwt.cell.client.CheckboxCell;
 import com.google.gwt.cell.client.EditTextCell;
 import com.google.gwt.cell.client.FieldUpdater;
@@ -774,9 +773,9 @@ myCell) {
 			@Override
 			public String getValue(RowData object) {
 				// ???
-				Context context = new Context(object.getIndex(),
-						table.getColumnIndex(this), table.getValueKey(object));
-				boolean isEditing = editCell.isEditing(context, null, null);
+				// Context context = new Context(object.getIndex(),
+				// table.getColumnIndex(this), table.getValueKey(object));
+				// boolean isEditing = editCell.isEditing(context, null, null);
 
 				// isEditing = (object.getIndex() == editCell.getFocusedRow() +
 				// 1);

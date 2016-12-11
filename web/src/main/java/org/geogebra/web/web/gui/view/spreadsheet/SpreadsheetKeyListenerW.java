@@ -59,7 +59,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		int keyCode = e.getNativeKeyCode();// .getKeyCode();
 		// Application.debug(keyCode+"");
 		// boolean shiftDown = e.isShiftDown();
-		boolean altDown = e.isAltKeyDown();
 		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
 
 		// AppW.isControlDown(e) // Windows ctrl/Mac Meta

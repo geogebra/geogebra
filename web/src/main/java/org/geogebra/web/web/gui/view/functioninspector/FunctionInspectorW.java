@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.MyCJButton;
@@ -27,7 +26,6 @@ import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.functioninspector.GridModel.DataCell;
-import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -634,8 +632,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void doCopyToSpreadsheet() {
-		SpreadsheetViewW sp = ((GuiManagerW) getAppW().getGuiManager())
-		        .getSpreadsheetView();
 
 		if (isIntervalTabSelected()) {
 			getModel().copyIntervalsToSpreadsheet(2, 9);// modelInterval.getColumnCount(),

@@ -402,8 +402,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		int keyCode = e.getNativeKeyCode();
 
 		boolean shiftDown = e.isShiftKeyDown();
-		boolean altDown = e.isAltKeyDown();
-		boolean ctrlDown = e.isControlKeyDown() || e.isMetaKeyDown();
 
 		switch (keyCode) {
 

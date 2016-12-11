@@ -63,7 +63,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G.Sturr
  * 
  */
-public class DataDisplayPanel extends JPanel implements ActionListener,
+public class DataDisplayPanelD extends JPanel implements ActionListener,
 		FocusListener, StatPanelInterface, IDataDisplayListener {
 	private static final long serialVersionUID = 1L;
 
@@ -127,7 +127,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	 * @param daView
 	 *            daView
 	 */
-	public DataDisplayPanel(DataAnalysisViewD daView) {
+	public DataDisplayPanelD(DataAnalysisViewD daView) {
 
 		this.app = daView.getApp();
 		this.loc = app.getLocalization();

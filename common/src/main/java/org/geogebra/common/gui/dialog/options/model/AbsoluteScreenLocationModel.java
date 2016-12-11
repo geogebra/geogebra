@@ -54,7 +54,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
 			// geo could be redefined, so need to change geos[i] to
 			// new geo
-			geo = EuclidianStyleBarStatic.applyFixPosition(al, value,
+			EuclidianStyleBarStatic.applyFixPosition(al, value,
 					app.getActiveEuclidianView());
 		}
 		storeUndoInfo();

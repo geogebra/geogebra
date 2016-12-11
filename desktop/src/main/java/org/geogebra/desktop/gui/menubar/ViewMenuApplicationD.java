@@ -6,7 +6,6 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.KeyboardSettings;
@@ -52,8 +51,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		}
 		initViewItems(this);
 
-		JMenuItem mi;
-
 		// show/hide keyboard
 		if (!app.isApplet()) {
 			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
@@ -74,7 +71,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		addSeparator();
 
-		mi = add(showLayoutOptionsAction);
+		add(showLayoutOptionsAction);
 
 		addSeparator();
 

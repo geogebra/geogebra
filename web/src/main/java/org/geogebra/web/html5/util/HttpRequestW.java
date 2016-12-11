@@ -32,7 +32,7 @@ public class HttpRequestW extends HttpRequest {
 		try {
 			builder.setTimeoutMillis(timeout * 1000);
 			Log.debug("Sending request " + url + " until timeout " + timeout);
-			Request request = builder.sendRequest(null, new RequestCallback() {
+			builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP
 					// violation, etc.)

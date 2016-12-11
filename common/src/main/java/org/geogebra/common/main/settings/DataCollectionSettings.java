@@ -116,9 +116,9 @@ public class DataCollectionSettings extends AbstractSettings {
 
 		sb.append("<dataCollectionView>\n");
 
-		GDimension size = preferredSize();
-		int width = size.getWidth();
-		int height = size.getHeight();
+		// GDimension size = preferredSize();
+		// int width = size.getWidth();
+		// int height = size.getHeight();
 
 		// sb.append("\t<size ");
 		// if (width != 0) {

@@ -724,7 +724,6 @@ public class ProbabilityManager {
 			break;
 
 		case CAUCHY:
-			scale = parms[1];
 			// mean and median are undefined
 			break;
 

@@ -1824,8 +1824,8 @@ public class GeoCasCell extends GeoElement
 						cons.addToConstructionList(geoNum, false);
 						cons.putLabel(geoNum);
 						this.arbconst.getConstList().add(geoNum);
-						GeoDummyReplacer replacer = new GeoDummyReplacer();
-						replacer = GeoDummyReplacer.getReplacer(
+						GeoDummyReplacer replacer = GeoDummyReplacer
+								.getReplacer(
 								geoNum.getLabelSimple(), geoNum, false);
 						if (outputVE != null) {
 							outputVE.traverse(replacer);

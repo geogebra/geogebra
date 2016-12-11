@@ -174,7 +174,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (nRoots == 1) {
 			eigenval[1] = eigenval[0];
-			nRoots++;
 		}
 
 		eigenval[2] = 0;

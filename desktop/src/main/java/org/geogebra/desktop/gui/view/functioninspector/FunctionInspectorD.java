@@ -61,7 +61,6 @@ import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
 import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
-import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -651,9 +650,6 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	protected void doCopyToSpreadsheet() {
-
-		SpreadsheetViewD sp = ((GuiManagerD) getAppD().getGuiManager())
-				.getSpreadsheetView();
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
 			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),

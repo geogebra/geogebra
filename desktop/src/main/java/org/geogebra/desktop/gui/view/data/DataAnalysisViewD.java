@@ -86,7 +86,7 @@ public class DataAnalysisViewD extends JPanel
 	private DataPanelD dataPanel;
 	private StatisticsPanel statisticsPanel;
 	private RegressionPanel regressionPanel;
-	private DataDisplayPanel dataDisplayPanel1, dataDisplayPanel2;
+	private DataDisplayPanelD dataDisplayPanel1, dataDisplayPanel2;
 
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
 	private DataSourcePanel dataSourcePanel;
@@ -110,8 +110,8 @@ public class DataAnalysisViewD extends JPanel
 		daCtrl = new DataAnalysisControllerD(app, this);
 		model = new DataAnalysisModel(app, mode, this, daCtrl);
 
-		dataDisplayPanel1 = new DataDisplayPanel(this);
-		dataDisplayPanel2 = new DataDisplayPanel(this);
+		dataDisplayPanel1 = new DataDisplayPanelD(this);
+		dataDisplayPanel2 = new DataDisplayPanelD(this);
 
 		setView(null, mode, true);
 		model.setIniting(false);
@@ -337,11 +337,11 @@ public class DataAnalysisViewD extends JPanel
 		return daCtrl.getDataSource().getGroupType();
 	}
 
-	public DataDisplayPanel getDataDisplayPanel1() {
+	public DataDisplayPanelD getDataDisplayPanel1() {
 		return dataDisplayPanel1;
 	}
 
-	public DataDisplayPanel getDataDisplayPanel2() {
+	public DataDisplayPanelD getDataDisplayPanel2() {
 		return dataDisplayPanel2;
 	}
 
@@ -781,7 +781,7 @@ public class DataAnalysisViewD extends JPanel
 		return GColor.newColor(c.getRed(), c.getGreen(), c.getBlue());
 	}
 
-	public void updateOtherDataDisplay(DataDisplayPanel display) {
+	public void updateOtherDataDisplay(DataDisplayPanelD display) {
 		if (!model.showDataDisplayPanel2()) {
 			return;
 		}

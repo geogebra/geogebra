@@ -111,7 +111,6 @@ public class UDPLoggerD extends SensorLogger {
 		byte c1 = buffer[1];
 		byte c2 = buffer[2];
 		byte c3 = buffer[3];
-		byte c4 = buffer[4];
 		if (c0 == 'F' && c1 == 'S' && c2 == 0x01) {
 			double timestamp = 0;
 			// https://itunes.apple.com/gb/app/sensor-data-streamer/id608278214?mt=8

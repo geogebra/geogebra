@@ -699,7 +699,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					vertex = tempPoint;
 				vertex.getInhomCoords(m);
 			} else if (vec instanceof GeoPoint) {
-				point = (GeoPoint) vec;
 				vertex = tempPoint;
 				// vertex
 				vertex.getInhomCoords(m);

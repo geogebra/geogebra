@@ -38,7 +38,7 @@ public class CallJavaScript {
 		} catch (Throwable t) {
 
 		}
-		cx.exit();
+		Context.exit();
 		return scope;
 
 	}
@@ -72,10 +72,10 @@ public class CallJavaScript {
 		newScope.setParentScope(null);
 
 		// Evaluate the script.
-		Object result = cx.evaluateString(newScope, script,
+		cx.evaluateString(newScope, script,
 				app.getLocalization().getMenu("ErrorAtLine"), 1, null);
 
-		cx.exit();
+		Context.exit();
 
 	}
 

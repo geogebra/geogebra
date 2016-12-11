@@ -81,10 +81,10 @@ public class PolyBezier {
 	final public void buildGeneralPath() {
 
 		double u[] = new double[n + 1];
-		double X2[] = new double[n + 1];
-		double Y2[] = new double[n + 1];
-		double Xb[] = new double[4];
-		double Yb[] = new double[4];
+		double X2[];// = new double[n + 1];
+		double Y2[];// = new double[n + 1];
+		double Xb[];// = new double[4];
+		double Yb[];// = new double[4];
 		for (int i = 0; i <= n - 1; i++)
 			u[i] = i; // dummy x-coordinates
 

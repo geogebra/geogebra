@@ -185,12 +185,9 @@ public class AlgoAreCollinear extends AlgoElement
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
 
-			Variable[] fv1 = new Variable[2];
-			Variable[] fv2 = new Variable[2];
-			Variable[] fv3 = new Variable[2];
-			fv1 = getInputPoint1().getBotanaVars(getInputPoint1());
-			fv2 = getInputPoint2().getBotanaVars(getInputPoint2());
-			fv3 = getInputPoint3().getBotanaVars(getInputPoint3());
+			Variable[] fv1 = getInputPoint1().getBotanaVars(getInputPoint1());
+			Variable[] fv2 = getInputPoint2().getBotanaVars(getInputPoint2());
+			Variable[] fv3 = getInputPoint3().getBotanaVars(getInputPoint3());
 
 			botanaPolynomials = new Polynomial[1][1];
 			botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1],

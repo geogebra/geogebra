@@ -620,7 +620,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			double screenPixels = Kernel.checkDecimalFraction(
 					100 * ev.getPrintingScale() / ev.getXscale());
 
-			double screenPixelsY = 100 * ev.getPrintingScale() / ev.getYscale();
+			// double screenPixelsY = 100 * ev.getPrintingScale() /
+			// ev.getYscale();
 
 			cmWidth = ev.getExportWidth() / 100.0 * screenPixels;
 			// not screenPixelsY

@@ -2250,7 +2250,7 @@ public class DefaultClipper extends ClipperBase {
 			} else {
 				final Edge[] t = new Edge[] { horzEdge };
 				updateEdgeIntoAEL(t);
-				horzEdge = t[0];
+				// horzEdge = t[0];
 			}
 		} else {
 			if (horzEdge.outIdx >= 0) {

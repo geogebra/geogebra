@@ -292,7 +292,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		AlgebraSettings as = (AlgebraSettings) settings;
+		//
 	}
 
 	@Override

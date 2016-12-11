@@ -869,8 +869,7 @@ public class AlgebraViewD extends AlgebraTree
 					// expand component width to extend to the enclosing
 					// container bounds
 					int n = lastPath.getPathCount();
-					Rectangle r = new Rectangle();
-					r = tree.getParent().getBounds();
+					Rectangle r = tree.getParent().getBounds();
 					eSize.width = r.width - (offset * n);
 
 					// only show the symbol table icon if the editor is wide

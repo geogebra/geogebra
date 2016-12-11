@@ -435,8 +435,6 @@ public class SelectionTableD extends JTable {
 	 */
 	public int getMaxColumnWidth(JTable table, int column) {
 
-		TableColumn tableColumn = table.getColumnModel().getColumn(column);
-
 		// iterate through the rows and find the preferred width
 		int maxPrefWidth = 0;
 		int colPrefWidth = 0;

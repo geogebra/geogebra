@@ -541,9 +541,6 @@ public class GeoGebraFileChooser extends JFileChooser
 						}
 
 					} else {
-						newWidth = oldWidth;
-						newHeight = oldHeight;
-
 						img = tmpImage;
 					}
 

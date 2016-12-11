@@ -117,15 +117,13 @@ public abstract class DialogManager {
 		// (geogebra.gui.AngleInputDialog) ob[1];
 		// String angleText = getText();
 
-		GeoAngle angle;
-
 		if (points.length == 2) {
-			angle = ec.getCompanion().createAngle(points[0], points[1], num,
+			ec.getCompanion().createAngle(points[0], points[1], num,
 					clockWise);
 			// (GeoAngle) kernel.getAlgoDispatcher().Angle(null, points[0],
 			// points[1], num, !clockWise)[0];
 		} else {
-			angle = ec.getCompanion().createAngle(segments[0].getEndPoint(),
+			ec.getCompanion().createAngle(segments[0].getEndPoint(),
 					segments[0].getStartPoint(), num, clockWise);
 			// (GeoAngle) kernel.getAlgoDispatcher().Angle(null,
 			// segments[0].getEndPoint(), segments[0].getStartPoint(), num,

@@ -3594,8 +3594,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			BufferedInputStream bis = new BufferedInputStream(is);
 
-			bis = new BufferedInputStream(is);
-
 			if (bis.markSupported()) {
 				bis.mark(Integer.MAX_VALUE);
 				BufferedReader reader = new BufferedReader(

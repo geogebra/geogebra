@@ -692,7 +692,7 @@ public class AppDNoGui extends App {
 		if (locale == loc.getLocale()) {
 			return;
 		}
-		Locale oldLocale = loc.getLocale();
+		// Locale oldLocale = loc.getLocale();
 
 		// only allow special locales due to some weird server
 		// problems with the naming of the property files

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GColorD;
-import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
@@ -121,8 +120,8 @@ public class DrawEquationD extends DrawEquation {
 
 		GGraphics2DD.setAntialiasing(g2image);
 
-		GDimension d = new GDimensionD();
-		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
+		GDimension d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0,
+				latex,
 				new GFontD(font), serif, GColorD.newColor(fgColor),
 				GColorD.newColor(bgColor), true, false, null);
 
