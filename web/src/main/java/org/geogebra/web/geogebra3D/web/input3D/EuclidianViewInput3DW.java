@@ -53,4 +53,10 @@ public class EuclidianViewInput3DW extends EuclidianView3DW {
 		return true;
 	}
 
+	@Override
+	public void setTransparentCursor() {
+		// avoid transparent cursor for now
+		setDefault2DCursor();
+	}
+
 }

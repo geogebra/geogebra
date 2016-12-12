@@ -21,7 +21,6 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 
 		((EuclidianControllerInput3DCompanion) companion).setInput3D(input3D);
 
-		input3D.setScreenHalfDimensions(960, 540);
 	}
 
 

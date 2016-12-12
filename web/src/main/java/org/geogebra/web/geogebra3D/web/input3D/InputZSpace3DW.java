@@ -8,6 +8,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JsArrayNumber;
+import com.google.gwt.user.client.ui.RootPanel;
 
 public class InputZSpace3DW extends Input3D {
 
@@ -89,6 +90,11 @@ public class InputZSpace3DW extends Input3D {
 	@Override
 	public boolean update() {
 
+		// set screen dimensions
+		RootPanel rootPanel = RootPanel.get();
+		setScreenHalfDimensions(rootPanel.getOffsetWidth() / 2,
+				rootPanel.getOffsetHeight() / 2);
+
 		// set panel dimensions
 		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
@@ -138,18 +144,27 @@ public class InputZSpace3DW extends Input3D {
 		// }
 		// Log.debug(s);
 		
-		updateStylus(toPixelRatio, pose.get(0), pose.get(1), pose.get(2),
-				pose.get(4), pose.get(5), pose.get(6), pose.get(8), pose.get(9),
-				pose.get(10), pose.get(12), pose.get(13), pose.get(14),
+		// along x/z values seems to need to be reversed
+		updateStylus(toPixelRatio, -pose.get(0), -pose.get(1), -pose.get(2),
+				pose.get(4), pose.get(5), pose.get(6), -pose.get(8),
+				-pose.get(9), -pose.get(10), pose.get(12), pose.get(13),
+				pose.get(14),
 				inputPosition, inputDirection, inputOrientation);
+
+
+		updateOnScreenPosition();
+		
+		// Log.debug("hasStylusNotIntersectingPhysicalScreen = "
+		// + hasStylusNotIntersectingPhysicalScreen);
+		// if (!hasStylusNotIntersectingPhysicalScreen) {
+		// MouseRobot.dispatchMouseMoveEvent(getOnScreenX(), getOnScreenY());
+		// }
 
 		updateMousePosition();
 
 		updateMouse3DEvent();
 		handleButtons();
 
-		// Log.debug("\nmouse pos:\n" + getMouse3DPosition() + "\ndir:\n"
-		// + getMouse3DDirection());
 
 		return false;
 	}
@@ -215,13 +230,26 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public boolean hasMouse(EuclidianView3D view3d, Coords mouse3dPosition) {
-		// TODO Auto-generated method stub
-		return true;
+		return hasMouse(view3d);
 	}
 
 	@Override
 	public boolean hasMouse(EuclidianView3D view3d) {
-		// TODO Auto-generated method stub
+		if (hasStylusNotIntersectingPhysicalScreen) {
+			return false;
+		}
+		if (onScreenX < panelX) {
+			return false;
+		}
+		if (onScreenX > panelX + panelWidth) {
+			return false;
+		}
+		if (onScreenY < panelY) {
+			return false;
+		}
+		if (onScreenY > panelY + panelHeight) {
+			return false;
+		}
 		return true;
 	}
 

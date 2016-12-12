@@ -415,7 +415,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected void setDefault2DCursor() {
 		setCursorClass("cursor_hit");
-
 	}
 
 	@Override
@@ -517,9 +516,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
+	@Override
 	public void setTransparentCursor() {
 		setCursorClass("cursor_transparent");
-
 	}
 
 	@Override

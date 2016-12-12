@@ -437,7 +437,7 @@ abstract public class Input3D implements Input3DConstants {
 
 	private double[] inputPositionOnScreen;
 
-	private int onScreenX, onScreenY;
+	protected int onScreenX, onScreenY;
 
 	public void updateOnScreenPosition() {
 		if (hasMouseDirection()) { // project position on
