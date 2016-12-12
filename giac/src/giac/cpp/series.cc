@@ -3237,12 +3237,13 @@ namespace giac {
       sto(s,h,contextptr);
       series_flags(contextptr) = series_flags(contextptr) | (1<<5);
       *logptr(contextptr) << "Setting " << ch << " as series variable name" << endl;
-      gen O("O",contextptr);
+      string Os=abs_calc_mode(contextptr)==38?"b":"O";
+      gen O(Os,contextptr);
       if (eval(O,1,contextptr)!=O)
-	*logptr(contextptr) << "Purge O if you want to use O("<< h <<"^...) notation"<< endl;
+	*logptr(contextptr) << "Purge "<<Os<<" if you want to use "<<Os<<"("<< h <<"^...) notation"<< endl;
       else {
 	gen prog=symb_program(vx_var,0,vx_var*symbolic(at_order_size,h),contextptr);
-	*logptr(contextptr) << "Assigning O so that you can use use O("<< h<<"^...) notation"<< endl;
+	*logptr(contextptr) << "Assigning "<<Os<<" so that you can use use "<<Os<<"("<< h<<"^...) notation"<< endl;
 	sto(prog,O,contextptr);
 	series_flags(contextptr)=series_flags(contextptr) | (1<<6) ;
       }

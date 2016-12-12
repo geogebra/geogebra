@@ -11906,7 +11906,7 @@ namespace giac {
       identificateur tt(string(1,series_variable_name(contextptr)));
       gen remains,g=sparse_poly12gen(p,tt,remains,!(sf & (1<<6)));
       if ( (sf & (1<<6)) && !is_zero(remains))
-	g += symb_of(gen("O",contextptr),remains);
+	g += symb_of(gen(abs_calc_mode(contextptr)==38?"b":"O",contextptr),remains);
       return g.print(contextptr);
     }
     string s;

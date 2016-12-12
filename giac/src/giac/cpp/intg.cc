@@ -5439,7 +5439,7 @@ namespace giac {
 			35./384,0,500./1113,125./192,-2187./6784,11./84};
     // double butcher_b5[]={35./384,0,500./1113,125./192,-2187./6784,11./84,0};
     double butcher_b4[]={5179./57600,0,7571./16695,393./640,-92097./339200,187./2100,1./40};
-    vecteur y_final5(dim),y_final4(dim);
+    vecteur y_final5(yt.begin(),yt.begin()+dim),y_final4(dim);
     vecteur butcher_k(7);
     for (int i=0;i<7;++i)
       butcher_k[i]=vecteur(dim);

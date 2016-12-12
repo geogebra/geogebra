@@ -1023,9 +1023,9 @@ namespace giac {
   }
 
   gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & fres,int step_info,GIAC_CONTEXT){
-    if (eval(x_orig,1,contextptr)!=x_orig)
+    if (x_orig.type!=_VECT &&eval(x_orig,1,contextptr)!=x_orig)
       return gensizeerr("Independant variable assigned. Run purge("+x_orig.print(contextptr)+")\n");
-    if (eval(y_orig,1,contextptr)!=y_orig)
+    if (y_orig.type!=_VECT &&eval(y_orig,1,contextptr)!=y_orig)
       return gensizeerr("Dependant variable assigned. Run purge("+y_orig.print(contextptr)+")\n");
     gen x(x_orig);
     if ( (x_orig.type==_VECT) && (x_orig._VECTptr->size()==1) )
