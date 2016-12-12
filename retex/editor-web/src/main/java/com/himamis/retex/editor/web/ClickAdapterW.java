@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.web;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
@@ -51,15 +52,20 @@ public class ClickAdapterW
 	}
 
 	private int getX(TouchEvent event) {
-		Touch touch = (Touch) event.getTouches().get(0);
-		return touch.getClientX();
+		Touch touch = getRelevantTouch(event);
+		return touch == null ? 0 : touch.getClientX();
 	}
 
 	private int getY(TouchEvent event) {
-		Touch touch = (Touch) event.getTouches().get(0);
-		return touch.getClientY();
+		Touch touch = getRelevantTouch(event);
+		return touch == null ? 0 : touch.getClientY();
 	}
 
+	public static Touch getRelevantTouch(TouchEvent event) {
+		JsArray touches = event.getTouches().length() == 0
+				? event.getChangedTouches() : event.getTouches();
+		return (Touch) touches.get(0);
+	}
 	public void onMouseUp(MouseUpEvent event) {
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
