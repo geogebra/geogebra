@@ -4170,7 +4170,7 @@ public abstract class App implements UpdateSelection {
 
 			//EXAM-10
 			case EXAM_ANDROID_CHECK_SCREEN_STATE:
-				return false;
+				return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

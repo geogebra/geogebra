@@ -13,7 +13,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
     private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled, wasScreenOn;
-    private int windowsLeftCount;
 
     public ExamEnvironmentW(App app) {
         super();
@@ -32,8 +31,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
         wasScreenOn = true;
         // no cheat at start
         isCheating = false;
-        // init counter
-        windowsLeftCount = 0;
 
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
@@ -85,7 +82,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
             @Override
             public void onRun() {
                 if (isScreenOff()){
-                    screenOff(true);
+                    screenOff();
                 } else {
                     screenOn();
                 }
@@ -290,29 +287,17 @@ public class ExamEnvironmentW extends ExamEnvironment {
         return super.isCheating();
     }
 
+
     protected void addCheatingWindowsLeft(long time){
+        if (app.getVersion().isAndroidWebview()) {
+            if (isScreenOff()) {
+                screenOff();
+            }
+        }
         super.addCheatingWindowsLeft(time);
-//        if (app.getVersion().isAndroidWebview()) {
-//            if (isScreenOff()){
-//                Log.debug("addCheatingWindowsLeft: screen is off");
-//                screenOff(false);
-//            }else {
-//                Log.debug("addCheatingWindowsLeft: screen is on");
-//                windowsLeftCount++;
-//                lastWindowsLeftTime = time;
-//            }
-//        }
     }
 
-    /**
-     * windows can be left without cheating is screen is off within this delay
-     */
-    private static long WINDOWS_LEFT_SCREEN_OFF_MAX_DELAY = 2000;
-
-    private long lastWindowsLeftTime = 0;
-
-
-    public void screenOff(boolean checkWindowsLeftTime) {
+    public void screenOff() {
         if (getStart() > 0) {
             if (wasScreenOn) {
                 initLists();
@@ -320,13 +305,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(time);
                 cheatingEvents.add(CheatingEvent.SCREEN_OFF);
                 wasScreenOn = false;
-//                if (checkWindowsLeftTime){
-//                    if (time < lastWindowsLeftTime + WINDOWS_LEFT_SCREEN_OFF_MAX_DELAY){
-//                        Log.debug("screenOff: cancel last windows left cheating event");
-//                        windowsLeftCount--;
-//                    }
-//                }
-//                lastWindowsLeftTime = 0;
                 Log.debug("screen: off");
             }
         }
