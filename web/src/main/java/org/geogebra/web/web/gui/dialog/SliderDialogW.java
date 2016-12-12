@@ -22,7 +22,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldKbW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
@@ -161,7 +160,8 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		nameLabel = new Label(loc.getMenu("Name"));
 		nameWidget.add(nameLabel);
 		
-		tfLabel = new AutoCompleteTextFieldKbW(-1, app);
+		tfLabel = new AutoCompleteTextFieldW(-1, app);
+		tfLabel.addFieldHandler();
 		updateLabelField(number, false);
 		tfLabel.addFocusListener(new FocusListenerW(tfLabel));
 		tfLabel.requestToShowSymbolButton();
