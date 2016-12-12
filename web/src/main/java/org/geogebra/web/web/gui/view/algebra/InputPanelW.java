@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.TextEditPanel;
 
@@ -62,11 +61,9 @@ public class InputPanelW extends FlowPanel {
 		if (textComponent != null) {
 			AutoCompleteTextFieldW atf = textComponent;
 			atf.setAutoComplete(false);
-			FieldHandler handler = new FieldHandler(app);
 
 			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-				atf.addFocusHandler(handler);
-				atf.addBlurHandler(handler);
+				atf.addFieldHandler();
 				app.registerPopup(this);
 			}
 		}

@@ -52,6 +52,7 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -1581,6 +1582,20 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public HandlerRegistration addFocusHandler(FocusHandler handler) {
 		return textField.getValueBox().addFocusHandler(handler);
 
+	}
+
+	public void addFieldHandler() {
+		addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(AutoCompleteTextFieldW.this, app);
+			}
+		});
+
+		addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent event) {
+				FieldHandler.focusLost(AutoCompleteTextFieldW.this, app);
+			}
+		});
 	}
 
 	/**

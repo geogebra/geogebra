@@ -71,19 +71,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
 			tfCaption.setAutoComplete(false);
-
-			tfCaption.addFocusHandler(new FocusHandler() {
-				public void onFocus(FocusEvent event) {
-					FieldHandler.focusGained(tfCaption, app);
-				}
-			});
-
-			tfCaption.addBlurHandler(new BlurHandler() {
-				public void onBlur(BlurEvent event) {
-					FieldHandler.focusLost(tfCaption, app);
-				}
-			});
-
+			tfCaption.addFieldHandler();
 		}
 
 		VerticalPanel captionPanel = new VerticalPanel();
