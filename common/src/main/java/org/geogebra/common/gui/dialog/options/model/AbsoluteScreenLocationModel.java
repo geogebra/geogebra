@@ -48,7 +48,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 			geo.setAbsoluteScreenLocActive(value);
 			geo.toGeoElement().updateRepaint();
 		} else if (getGeoAt(index).isPinnable()) {
-			GeoElement geo = getGeoAt(index);
 			ArrayList<GeoElement> al = new ArrayList<GeoElement>();
 			al.add(getGeoAt(index));
 

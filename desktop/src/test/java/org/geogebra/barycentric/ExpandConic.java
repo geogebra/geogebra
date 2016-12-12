@@ -804,7 +804,7 @@ public class ExpandConic {
 		}
 		
 		else{
-			String symCheck = "",asymCheck = "", coeffs="";
+			String symCheck = "", asymCheck = "";
 			try {
 				//300,210,120,111
 				//033,123,213,222
@@ -812,8 +812,8 @@ public class ExpandConic {
 						"normal(g[3][2][1]-swapab(g[2][3][1]))");		
 				asymCheck = app.getKernel().getGeoGebraCAS().evaluateRaw(
 						"normal(g[3][2][1]+swapab(g[2][3][1]))");
-				coeffs = app.getKernel().getGeoGebraCAS().evaluateRaw(
-						"{g[0][3][3],g[1][2][3],g[2][2][2]}))");
+				// coeffs = app.getKernel().getGeoGebraCAS().evaluateRaw(
+				// "{g[0][3][3],g[1][2][3],g[2][2][2]}))");
 				
 				
 			} catch (Throwable e) {

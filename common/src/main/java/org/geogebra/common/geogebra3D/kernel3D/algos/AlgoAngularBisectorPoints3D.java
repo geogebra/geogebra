@@ -135,7 +135,6 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 		boolean infiniteB = B.isInfinite();
 
 		// set direction vector of bisector: (wx, wy)
-		double wx, wy;
 		if (infiniteB) {
 			// if B is at infinity then use it for direction
 			// and midpoint(A,B) for start point

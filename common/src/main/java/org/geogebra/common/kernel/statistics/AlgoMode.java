@@ -34,6 +34,14 @@ public class AlgoMode extends AlgoElement {
 	private GeoList outputList; // output
 	private int size;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param inputList
+	 *            data
+	 */
 	public AlgoMode(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
@@ -59,6 +67,9 @@ public class AlgoMode extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return mode
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}
@@ -116,7 +127,6 @@ public class AlgoMode extends AlgoElement {
 		// check which numbers occur maxRun times and put them in a list
 		run = 1;
 		val = sortList[0];
-		int modeNo = 0;
 
 		for (int i = 1; i < size; i++) {
 			if (sortList[i] == val) {

@@ -32,7 +32,7 @@ public class StartPointModel extends MultipleGeosModel {
 		// kernel.getConstruction().getGeoSetLabelOrder(GeoElement.GEO_CLASS_POINT);
 
 		// check if properties have same values
-		Locateable temp, geo0 = getLocateableAt(0);
+		Locateable geo0 = getLocateableAt(0);
 
 		boolean equalLocation = true;
 

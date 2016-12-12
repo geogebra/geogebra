@@ -43,7 +43,7 @@ public class KoreanTest {
 		System.out.println("TEST 3");
 
 		for (char i = 0xac00; i <= 0xD788; i += 1) {
-			String s = i + "";
+			// String s = i + "";
 			// System.out.println(i + " " + StringUtil.toHexString(s) + " "
 			// + Korean.isKoreanLeadPlusVowelChar(i)
 			// + (((i + 12) % 28) == 0));

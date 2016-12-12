@@ -47,8 +47,11 @@ public class StatisticsCalculatorProcessor {
 
 	/**
 	 * @param app
+	 *            application
 	 * @param statCalc
+	 *            calculator
 	 * @param sc
+	 *            statistics collection
 	 */
 	public StatisticsCalculatorProcessor(App app, StatisticsCalculator statCalc,
 			StatisticsCollection sc) {
@@ -160,11 +163,13 @@ public class StatisticsCalculatorProcessor {
 		}
 	}
 
+	/**
+	 * Update the statistics collection
+	 */
 	public void doCalculate() {
 
 		AlgoElement algo;
 		GeoElement[] result;
-		GeoList list;
 
 		updateGeoValues();
 

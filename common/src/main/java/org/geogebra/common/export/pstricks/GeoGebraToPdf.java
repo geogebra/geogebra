@@ -653,7 +653,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		AlgoElement algo = geo.getParentAlgorithm();
 		GeoPointND vertex, point;
 		GeoVectorND v;
-		GeoLine line, line2;
 		GeoPoint tempPoint = new GeoPoint(construction);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 		double[] firstVec = new double[2];

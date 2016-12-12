@@ -234,8 +234,6 @@ public class ConvexHull {
 			result.add(lowestPoint);
 			events.add(new JarvisAddSegmentEvent(lowestPoint, lowestPoint));
 
-			int i = 1;
-
 			Point2D p = lowestPoint;
 			Point2D p1;
 			int index = 1;

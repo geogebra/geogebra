@@ -654,7 +654,6 @@ public class StatGeo {
 	public GeoElement[] createMultipleBoxPlot(GeoList dataList,
 			StatPanelSettings settings) {
 
-		GeoElement geo;
 		int length = dataList.size();
 		GeoElement[] ret = new GeoElement[length];
 
@@ -668,7 +667,6 @@ public class StatGeo {
 			ret[i].setObjColor(
 					listener.createColor(DataAnalysisModel.BOXPLOT_COLOR_IDX));
 			ret[i].setAlphaValue(DataAnalysisModel.opacityBarChart);
-
 		}
 
 		return ret;

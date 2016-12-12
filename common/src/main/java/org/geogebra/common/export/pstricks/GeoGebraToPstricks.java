@@ -525,7 +525,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		AlgoElement algo = geo.getParentAlgorithm();
 		GeoPointND vertex, point;
 		GeoVectorND v;
-		GeoLine line, line2;
 		GeoPoint tempPoint = new GeoPoint(construction);
 		tempPoint.setCoords(0.0, 0.0, 1.0);
 		double[] firstVec = new double[2];
@@ -1142,7 +1141,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				if (integral) {
 					code.append(lineOptionCode(geo1, true));
 					pre = "{";
-					String end = s.substring(s.lastIndexOf("("));
 					post = "(" + b + "," + f.evaluate(b) + ")(" + b + ",0)\n";
 					post += "(" + b + ",0)(" + a + ",0)\n";
 					post += "(" + a + ",0)(" + a + "," + f.evaluate(a) + ")}\n";

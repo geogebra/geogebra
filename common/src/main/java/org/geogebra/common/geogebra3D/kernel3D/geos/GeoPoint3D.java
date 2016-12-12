@@ -358,7 +358,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getInhomCoordsInD(int dimension) {
-		Coords v;
 		switch (dimension) {
 		case 3:
 			return getInhomCoordsInD3();
