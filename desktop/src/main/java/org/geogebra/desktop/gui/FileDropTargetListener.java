@@ -33,7 +33,7 @@ import org.geogebra.desktop.main.AppD;
 
 public class FileDropTargetListener implements DropTargetListener {
 
-	static DataFlavor urlFlavor, macPictStreamFlavor;
+	static DataFlavor urlFlavor;
 	static {
 
 		try {

@@ -52,7 +52,6 @@ public abstract class DialogManager {
 	protected App app;
 	protected Localization loc;
 
-	private Object oldString;
 
 	/**
 	 * Dialog for styling text objects.

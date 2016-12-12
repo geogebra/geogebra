@@ -42,7 +42,6 @@ public class AlgoAreaPolygon extends AlgoElement
 	private GeoNumeric area; // output
 
 	private Variable[] botanaVars;
-	private Polynomial[] botanaPolynomials;
 
 	public AlgoAreaPolygon(Construction cons, String label,
 			GeoPolygon polygon) {

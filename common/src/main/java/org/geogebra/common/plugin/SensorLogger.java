@@ -118,8 +118,6 @@ public abstract class SensorLogger {
 
 	private int stepsToGo = DEFAULT_LIMIT;
 
-	private double lastStamp;
-
 	public abstract boolean startLogging();
 
 	protected abstract void closeSocket();

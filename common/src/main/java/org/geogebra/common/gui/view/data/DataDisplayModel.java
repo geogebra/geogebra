@@ -65,7 +65,7 @@ public class DataDisplayModel {
 
 		// void updatePlot(boolean b);
 
-	};
+	}
 
 	//
 	// // ggb fields
@@ -124,7 +124,7 @@ public class DataDisplayModel {
 	private GeoElement[] boxPlotTitles;
 	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
 	private GeoElement dotPlot, normalCurve, scatterPlot, residualPlot,
-			logarithmicPlot, nqPlot, boxPlot, freqTableGeo;
+			nqPlot, boxPlot, freqTableGeo;
 
 	private boolean hasControlPanel = true;
 	private IDataDisplayListener listener;

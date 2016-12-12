@@ -43,7 +43,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	protected boolean setLabels = false;
 
 	// remove? double[] curXValues = new double[30]; // current x-values
-	int numberOfXValues;
 
 	protected GeoNumberValue left; // input
 	protected GeoNumberValue right; // input

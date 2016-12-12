@@ -34,7 +34,6 @@ public class ObjectNameModel extends OptionsModel {
 	private RedefineInputHandler defInputHandler;
 	private GeoElementND currentGeo;
 	private boolean redefinitionFailed;
-	private GeoElement currentGeoForFocusLost;
 	private boolean busy;
 
 	public ObjectNameModel(App app, IObjectNameListener listener) {

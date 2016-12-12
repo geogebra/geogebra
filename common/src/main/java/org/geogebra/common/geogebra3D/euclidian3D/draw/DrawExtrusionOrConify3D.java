@@ -27,6 +27,16 @@ import org.geogebra.common.util.AsyncOperation;
 public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		implements Previewable {
 
+	/** basis */
+	private ArrayList<GeoPolygon> selectedPolygons;
+	private ArrayList<GeoConicND> selectedConics;
+
+	/** extrusion computer */
+	protected ExtrusionComputer extrusionComputer;
+
+	private GeoNumeric height;
+
+	private GeoElement basis;
 	// drawing
 
 	@Override
@@ -77,21 +87,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 	// //////////////////////////////
 	// Previewable interface
 
-	/** basis */
-	private ArrayList<GeoPolygon> selectedPolygons;
-	private ArrayList<GeoConicND> selectedConics;
 
-	/** segments of the polygon preview */
-	private ArrayList<DrawSegment3D> segments;
-
-	@SuppressWarnings("rawtypes")
-	private ArrayList<ArrayList> segmentsPoints;
-
-	protected ExtrusionComputer extrusionComputer;
-
-	private GeoNumeric height;
-
-	private GeoElement basis;
 
 	/**
 	 * Constructor for previewable

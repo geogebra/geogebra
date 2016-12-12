@@ -77,8 +77,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		implements OptionPanelD, ActionListener, FocusListener, ItemListener,
 		SetLabels, IEuclidianOptionsListener {
 
-	private static final long serialVersionUID = 1L;
-
 	protected AppD app;
 	private Kernel kernel;
 	private EuclidianOptionsModel model;
@@ -96,8 +94,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private JPanel consProtocolPanel;
 
 	protected JPanel miscPanel;
-
-	private JPanel selectViewPanel;
 
 	// GUI elements
 	protected JButton btBackgroundColor;

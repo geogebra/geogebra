@@ -39,8 +39,6 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 
 	private double[] polarCoords;
 
-	private Coords polarOrigin, polarDirection;
-
 	/** Creates new AlgoPolarLine */
 	public AlgoPolarPoint3D(Construction cons, String label, GeoConicND c,
 			GeoLineND line) {

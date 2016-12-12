@@ -38,11 +38,17 @@ import org.geogebra.common.plugin.Operation;
 public class AlgoDependentPlane3D extends AlgoElement3D {
 
 	private Equation equation;
-	private NumberValue num;
 	private ExpressionValue[] ev = new ExpressionValue[4]; // input
 	private GeoPlane3D p; // output
 
-	/** Creates new AlgoDependentPlane */
+	/**
+	 * Creates new AlgoDependentPlane
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param equ
+	 *            equation
+	 */
 	public AlgoDependentPlane3D(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;

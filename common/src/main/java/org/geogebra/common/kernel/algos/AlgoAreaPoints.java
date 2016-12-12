@@ -36,7 +36,6 @@ public class AlgoAreaPoints extends AlgoElement
 	protected GeoNumeric area; // output
 
 	private Variable[] botanaVars;
-	private Polynomial[][] botanaPolynomials;
 
 	public AlgoAreaPoints(Construction cons, String label, GeoPointND[] P) {
 		this(cons, P);

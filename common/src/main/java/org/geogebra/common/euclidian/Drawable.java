@@ -75,10 +75,6 @@ public abstract class Drawable extends DrawableND {
 	public int xLabel;
 	/** y-coord of the label */
 	public int yLabel;
-	/** for Previewables */
-	int mouseX;
-	/** for Previewables */
-	int mouseY;
 	/** label Description */
 	public String labelDesc;
 	private String oldLabelDesc;

@@ -48,7 +48,7 @@ public class TwoVarInferenceModel {
 	private double confLevel = .95, hypMean = 0;
 
 	// statistics
-	double t, P, df, lower, upper, mean, se, me, n1, n2, diffMeans, mean1,
+	double t, P, df, lower, upper, se, me, n1, n2, diffMeans, mean1,
 			mean2;
 	private TTestImpl tTestImpl;
 	private TDistributionImpl tDist;
@@ -318,13 +318,12 @@ public class TwoVarInferenceModel {
 	public double getDegreeOfFreedom(double v1, double v2, double n1, double n2,
 			boolean pooled) {
 
-		if (pooled)
+		if (pooled) {
 			return n1 + n2 - 2;
-
-		else
-			return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
-					/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
-							+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
+		}
+		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
+				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d))
+						+ (v2 * v2) / (n2 * n2 * (n2 - 1d)));
 	}
 
 	/**

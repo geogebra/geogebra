@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -36,14 +35,19 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 public class AlgoDependentQuadric3D extends AlgoElement3D {
 
 	private Equation equation;
-	private NumberValue num;
 	private ExpressionValue[] ev = new ExpressionValue[10]; // input
-	private ExpressionNode root;
 	private GeoQuadric3D quadric; // output
 
 	private double[] coeffs;
 
-	/** Creates new AlgoDependentPlane */
+	/**
+	 * Creates new AlgoDependentPlane
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param equ
+	 *            equation
+	 */
 	public AlgoDependentQuadric3D(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
 		equation = equ;

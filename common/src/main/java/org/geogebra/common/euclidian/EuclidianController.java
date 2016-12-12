@@ -336,13 +336,11 @@ public abstract class EuclidianController {
 	protected Object detachFrom;
 	protected boolean freehandModePrepared = false;
 	protected long lastMousePressedTime;
-	double xRWold = Double.NEGATIVE_INFINITY;
-	double yRWold = xRWold;
+
 	// ==============================================
 	// Paste preview
-	double temp;
-	int index;
-	double vertexX = Double.NaN, vertexY = Double.NaN;
+	private int index;
+	private double vertexX = Double.NaN, vertexY = Double.NaN;
 	private ModeDelete deleteMode;
 	private GPoint2D.Double startPoint = new GPoint2D.Double();
 	private boolean externalHandling;

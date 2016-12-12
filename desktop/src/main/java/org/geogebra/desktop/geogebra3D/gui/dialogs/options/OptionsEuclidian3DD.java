@@ -438,11 +438,11 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 	@Override
 	protected void setTabLabels() {
-		tabbedPane.setTitleAt(0, app.getMenu("Properties.Basic"));
+		tabbedPane.setTitleAt(0, loc.getMenu("Properties.Basic"));
 		tabbedPane.setTitleAt(1, loc.getMenu("xAxis"));
 		tabbedPane.setTitleAt(2, loc.getMenu("yAxis"));
 		tabbedPane.setTitleAt(3, loc.getMenu("zAxis"));
-		tabbedPane.setTitleAt(4, app.getMenu("Grid"));
+		tabbedPane.setTitleAt(4, loc.getMenu("Grid"));
 		tabbedPane.setTitleAt(5, loc.getMenu("Projection"));
 	}
 

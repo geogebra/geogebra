@@ -38,7 +38,6 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	private GeoLine[] lines; // output
 	private int numberOfLineParts;
 	private int numberOfOutputLines;
-	String labelPrefixForLines;
 	// private SortedSet<Double> paramSet;
 	private Double tMin, tMax;
 	// private GeoPoint[] outputPoints;

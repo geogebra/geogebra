@@ -60,7 +60,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// labels
 	private JLabel[] lblSampleStat1, lblSampleStat2;
 	private JLabel lblResult, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblSigma, lblSampleHeader, lblSampleHeader1,
+			lblConfLevel, lblSigma, lblSampleHeader1,
 			lblSampleHeader2;
 
 	// buttons and combo boxes

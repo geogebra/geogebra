@@ -342,16 +342,7 @@ public abstract class App implements UpdateSelection {
 	protected AppCompanion companion;
 	protected boolean prerelease;
 	protected boolean canary;
-	/**
-	 * given 1, return eg 1st, 1e, 1:e according to the language
-	 * <p/>
-	 * http://en.wikipedia.org/wiki/Ordinal_indicator
-	 */
-	StringBuilder sbOrdinal;
-	/**
-	 * id for Python view
-	 */
-	// public static final int VIEW_PYTHON = 16384;
+
 	private boolean showResetIcon = false;
 	private ParserFunctions pf;
 	private SpreadsheetTraceManager traceManager;
