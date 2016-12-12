@@ -2956,6 +2956,8 @@ __GGB__keysVar.az.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "GeoGebra Exam Log",
     "exam_log_pin": "App pinned",
+    "exam_log_screen_off": "Screen turned off",
+    "exam_log_screen_on": "Screen turned on",
     "exam_log_unpin": "App unpinned",
     "exam_log_wifi_disabled": "WiFi disabled",
     "exam_log_wifi_enabled": "WiFi enabled",

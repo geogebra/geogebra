@@ -2956,6 +2956,8 @@ __GGB__keysVar.pt_PT.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth ativo",
     "exam_log_header": "Entrada no \"modo Exame\"",
     "exam_log_pin": "App agregado",
+    "exam_log_screen_off": "Screen turned off",
+    "exam_log_screen_on": "Screen turned on",
     "exam_log_unpin": "App desagregado",
     "exam_log_wifi_disabled": "WiFi desativado",
     "exam_log_wifi_enabled": "WiFi ativo",

@@ -2956,6 +2956,8 @@ __GGB__keysVar.fr.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth activ\xe9",
     "exam_log_header": "GeoGebra Examen",
     "exam_log_pin": "Appli \xe9pingl\xe9e",
+    "exam_log_screen_off": "\xc9cran d\xe9sactiv\xe9",
+    "exam_log_screen_on": "\xc9cran activ\xe9",
     "exam_log_unpin": "Appli d\xe9s\xe9pingl\xe9e",
     "exam_log_wifi_disabled": "WiFi d\xe9sactiv\xe9",
     "exam_log_wifi_enabled": "WiFi activ\xe9",

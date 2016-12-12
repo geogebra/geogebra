@@ -2956,6 +2956,8 @@ __GGB__keysVar.iw.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth enabled",
     "exam_log_header": "\u05d9\u05d5\u05de\u05df \u05d1\u05d7\u05d9\u05e0\u05d4",
     "exam_log_pin": "App pinned",
+    "exam_log_screen_off": "Screen turned off",
+    "exam_log_screen_on": "Screen turned on",
     "exam_log_unpin": "App unpinned",
     "exam_log_wifi_disabled": "WiFi disabled",
     "exam_log_wifi_enabled": "WiFi enabled",

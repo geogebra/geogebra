@@ -2956,6 +2956,8 @@ __GGB__keysVar.nl.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth ingeschakeld",
     "exam_log_header": "GeoGebra Examen logboek",
     "exam_log_pin": "App gepind",
+    "exam_log_screen_off": "Scherm afgezet",
+    "exam_log_screen_on": "Scherm aangezet",
     "exam_log_unpin": "App niet gepind",
     "exam_log_wifi_disabled": "WiFi uitgeschakeld",
     "exam_log_wifi_enabled": "WiFi ingeschakeld",

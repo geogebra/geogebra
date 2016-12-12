@@ -2956,6 +2956,8 @@ __GGB__keysVar.it.menu = {
     "exam_log_bluetooth_enabled": "Bluetooth attivato",
     "exam_log_header": "Registro di GeoGebra Esame",
     "exam_log_pin": "App bloccata",
+    "exam_log_screen_off": "Schermo disattivato",
+    "exam_log_screen_on": "Schermo attivato",
     "exam_log_unpin": "App sbloccata",
     "exam_log_wifi_disabled": "WiFi disattivato",
     "exam_log_wifi_enabled": "WiFi attivato",
