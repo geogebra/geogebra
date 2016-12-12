@@ -51,7 +51,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	protected FlowPanel btPanel;
 
-	private Localization loc;
+	protected final Localization loc;
 	
 	public InputDialogW(boolean modal, AppW app) {
 		this.app = app;
@@ -300,7 +300,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	public void setLabels() {
 		wrappedPopup.setText(title);
-		Localization loc = app.getLocalization();
 		btOK.setText(loc.getPlain("OK"));
 		btApply.setText(loc.getPlain("Apply"));
 		btCancel.setText(loc.getPlain("Cancel"));

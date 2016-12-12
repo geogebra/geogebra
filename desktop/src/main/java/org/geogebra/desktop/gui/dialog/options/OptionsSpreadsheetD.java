@@ -46,7 +46,6 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 		implements OptionPanelD, ActionListener, FocusListener, SetLabels {
 
 	private AppD app;
-	private SpreadsheetViewD view;
 
 	private JCheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
 			cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
@@ -65,7 +64,6 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	public OptionsSpreadsheetD(AppD app, SpreadsheetViewD view) {
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.view = view;
 
 		this.wrappedPanel = new JPanel();
 		// build GUI

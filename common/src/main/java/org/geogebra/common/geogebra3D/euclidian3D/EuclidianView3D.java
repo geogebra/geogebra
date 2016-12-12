@@ -184,9 +184,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * id of z-axis
 	 */
 	static final int AXIS_Z = 2; // AXIS_X and AXIS_Y already defined in
-	private static final int CURSOR_DRAG = 1;
-	private static final int CURSOR_MOVE = 2;
-	private static final int CURSOR_HIT = 3;
+
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
 	// maximum angle between two line segments
 	private static final double MAX_ANGLE_SPEED_SURFACE = 20; // degrees

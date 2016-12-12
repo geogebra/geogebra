@@ -10,7 +10,6 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,16 +33,14 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	private static final long serialVersionUID = 1L;
 
 	private AppD app;
-	private LayoutD layout;
 
 	private PerspectivePanel popup;
 	private JPanel slimSidebarPanel;
-	private JLabel lblIcon, lblIconRight;
+	private JLabel lblIcon;
 
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
 
-	private AbstractAction showKeyboardAction;
 
 	/***************************************************
 	 * Constructor
@@ -53,7 +50,6 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 	public DockBar(AppD app) {
 
 		this.app = app;
-		this.layout = (LayoutD) app.getGuiManager().getLayout();
 		setBorder(BorderFactory.createEmptyBorder());
 		initGUI();
 

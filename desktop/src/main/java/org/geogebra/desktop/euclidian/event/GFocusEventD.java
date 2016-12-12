@@ -9,17 +9,14 @@ import org.geogebra.common.util.debug.Log;
 public class GFocusEventD extends GFocusEvent {
 
 	public static final LinkedList<GFocusEventD> pool = new LinkedList<GFocusEventD>();
-	private FocusEvent event;
 
 	private GFocusEventD(FocusEvent e) {
 		Log.debug("possible missing release()");
-		this.event = e;
 	}
 
 	public static GFocusEventD wrapEvent(FocusEvent e) {
 		if (!pool.isEmpty()) {
 			GFocusEventD wrap = pool.getLast();
-			wrap.event = e;
 			pool.removeLast();
 			return wrap;
 		}

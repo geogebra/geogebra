@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class ColorPopupMenuButton extends PopupMenuButtonW
 		implements ClickHandler {
 
-	private static final int NUM_OF_BUTTONS = 27;
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;

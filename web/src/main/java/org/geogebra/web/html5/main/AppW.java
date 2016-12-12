@@ -2087,31 +2087,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// Languages
 	// ========================================================
 
-	private static ArrayList<String> supportedLanguages = null;
-
-	/**
-	 * @return ArrayList of languages suitable for GWT, eg "en", "de_AT"
-	 */
-	/*
-	 * public static ArrayList<String> getSupportedLanguages() {
-	 * 
-	 * if (supportedLanguages != null) { return supportedLanguages; }
-	 * 
-	 * supportedLanguages = new ArrayList<String>();
-	 * 
-	 * Language[] languages = Language.values();
-	 * 
-	 * for (int i = 0; i < languages.length; i++) {
-	 * 
-	 * Language language = languages[i];
-	 * 
-	 * if (language.fullyTranslated || this.isPrerelease()) {
-	 * supportedLanguages.add(language.localeGWT); } }
-	 * 
-	 * return supportedLanguages;
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Checks for GeoGebraLangUI in URL, then in cookie, then checks browser

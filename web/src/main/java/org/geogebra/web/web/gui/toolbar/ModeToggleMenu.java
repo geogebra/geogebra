@@ -54,7 +54,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	protected final Vector<Integer> menu;
 	
-	private String toolTipText;
 	
 	private boolean wasMenuShownOnMouseDown;
 
@@ -456,10 +455,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 
 	}
-
-	public void setToolTipText(String string) {
-		toolTipText = string;
-    }
 
 	public void showToolTipBottom(int mode, ModeSetter m) {
 		if (m != ModeSetter.CAS_VIEW

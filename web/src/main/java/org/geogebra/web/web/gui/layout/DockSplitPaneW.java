@@ -32,7 +32,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 	private AppW app;
 
-	private boolean splittersFrozen = false;
 
 	/**
 	 * For calling the onResize method in a deferred way

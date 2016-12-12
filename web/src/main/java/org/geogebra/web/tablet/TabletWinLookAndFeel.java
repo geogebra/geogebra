@@ -24,6 +24,11 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
+	public boolean supportsFullscreen() {
+		return true;
+	}
+
+	@Override
 	public String getFrameStyleName() {
 		return "TabletWin";
 	}

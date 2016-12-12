@@ -24,10 +24,8 @@ public class UploadImagePanel extends VerticalPanel {
 
 	private UploadImageDialog dialog;
 	
-	private AppW app;
 	
 	public UploadImagePanel(UploadImageDialog uploadImageDialog, AppW app, int previewWidth, int previewHeight) {
-		this.app = app;
 		this.dialog = uploadImageDialog;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;

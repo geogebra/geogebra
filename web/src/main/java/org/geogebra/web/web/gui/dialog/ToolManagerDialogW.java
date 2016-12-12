@@ -153,7 +153,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private Button btClose;
 
 	private ToolNameIconPanelW macroPanel;
-	private int lastMacroIdx;
 
 	private Button btShare;
 
@@ -390,7 +389,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		}
 		toolList.setSelectedIndex(0);
 		updateMacroPanel();
-		lastMacroIdx = -1;
 	}
 
 

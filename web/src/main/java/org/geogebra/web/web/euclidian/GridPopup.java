@@ -9,13 +9,11 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 public class GridPopup extends PopupMenuButtonW {
 
-	private EuclidianView ev;
 	private ImageOrText defaultIcon;
 
 	public GridPopup(AppW app, ImageOrText[] data, int rows, int columns,
 	        SelectionTable mode, EuclidianView ev) {
 		super(app, data, rows, columns, mode, true, false);
-		this.ev = ev;
 		defaultIcon = data.length > 1 ? data[1] : null;
 		this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);
 	}

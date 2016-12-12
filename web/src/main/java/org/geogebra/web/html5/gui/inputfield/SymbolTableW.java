@@ -15,10 +15,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SymbolTableW extends FlexTable implements ClickHandler {
 
 	private String[] symbolStrings;
-	private String[] symbolToolTips;
 	private int selectedCellIndex = 0;
-	private int selectedColumnIndex;
-	private int selectedRowIndex;
 	private boolean isLatex;
 
 	private int rowLength = 10;
@@ -35,7 +32,6 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 			boolean isLatex, int rowLength, App app, GColor[] colors) {
 		super();
 		this.symbolStrings = symbolStrings;
-		this.symbolToolTips = symbolToolTips;
 		this.isLatex = isLatex;
 		this.rowLength = rowLength;
 		if (app != null) {
@@ -101,17 +97,10 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		        + clickCell.getCellIndex();
 
 		setSelectedCellIndex(cellIndex);
-		setSelectedRowIndex(clickCell.getRowIndex());
-		setSelectedColumnIndex(clickCell.getCellIndex());
+
 	}
 
-	private void setSelectedColumnIndex(int index) {
-		selectedColumnIndex = index;
-	}
 
-	private void setSelectedRowIndex(int index) {
-		selectedRowIndex = index;
-	}
 
 	public int getSelectedCellIndex() {
 		return selectedCellIndex;

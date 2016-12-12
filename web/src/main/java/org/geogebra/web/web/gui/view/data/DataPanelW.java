@@ -2,12 +2,10 @@ package org.geogebra.web.web.gui.view.data;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 
@@ -35,11 +33,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	private LocalizationW loc;
 
-	private static final GColor DISABLED_BACKGROUND_COLOR = GColor.LIGHT_GRAY;
-	private static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants
-			.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
-	private static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants
-			.TABLE_GRID_COLOR;
 //	private static final GColor TABLE_HEADER_COLOR = GeoGebraColorConstants.TABLE_HEADER_COLOR;
 	private StatTableW dataTable;
 

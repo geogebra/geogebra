@@ -37,8 +37,6 @@ public class ToolbarSubmenuW extends FlowPanel {
 	 */
 	protected UnorderedList itemList;
 
-	private double maxHeight;
-
 	int order;
 	
 	/**
@@ -48,7 +46,6 @@ public class ToolbarSubmenuW extends FlowPanel {
 	public ToolbarSubmenuW(AppW app, int order) {
 		this.app = app;
 		this.order = order;
-		this.maxHeight = app.getHeight() - 40;
 	    setStyleName("toolbar_submenu");
 	    initGui();
     }

@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -273,7 +272,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
-		Localization loc = app.getLocalization();
 		btOK.setText(loc.getMenu("Create"));
 		btApply.setText(loc.getMenu("Apply"));
 		btCancel.setText(loc.getMenu("Cancel"));

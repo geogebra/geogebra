@@ -59,7 +59,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
 	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu, windowMenu,
-			helpMenu, languageMenu;
+			helpMenu;
 
 	ViewMenuApplicationD viewMenu;
 

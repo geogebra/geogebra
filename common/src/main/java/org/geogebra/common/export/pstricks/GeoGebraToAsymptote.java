@@ -107,7 +107,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	// Maps unicode expressions to text equivalents
 	private Map<String, String> pairNameTable;
 	// Maps function return expressions to function #
-	private Map<String, Integer> functionTable, implicitPolyTable;
+	private Map<String, Integer> implicitPolyTable;
 	// use the following packages for Asymptote and LaTeX commands
 	// importContour = false, importMath = false, importGraph = false,
 	// usepackage_amssymb = false, usepackage_amsmath = false,
@@ -149,8 +149,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		pointList = new ArrayList<GeoPoint>(); // list of pairs, for cse5
 		pairNameTable = new HashMap<String, String>(); // map of coordinates ->
 														// point's name
-		functionTable = new HashMap<String, Integer>(); // function(x) return
-														// value to function #
 		implicitPolyTable = new HashMap<String, Integer>(); // function(x,y)
 															// return value to
 															// function #

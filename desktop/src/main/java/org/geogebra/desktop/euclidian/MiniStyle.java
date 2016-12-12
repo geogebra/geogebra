@@ -20,7 +20,6 @@ import org.geogebra.desktop.main.AppD;
  */
 public class MiniStyle {
 
-	private final AppD app;
 	private final SelectionManager selection;
 
 	final public static int MODE_PEN = 0;
@@ -43,7 +42,6 @@ public class MiniStyle {
 	 */
 	public MiniStyle(AppD app, int mode) {
 
-		this.app = app;
 		this.selection = app.getSelectionManager();
 		colorList = createStyleBarColorList();
 		if (mode == MODE_PEN)

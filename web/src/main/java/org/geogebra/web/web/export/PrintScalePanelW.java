@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class PrintScalePanelW extends FlowPanel {
 
-	private static final int maxFracDigits = 5;
 	private TextBox tfScale1, tfScale2, tfScaleFixed;
 
 	private EuclidianView ev;

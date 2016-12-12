@@ -64,7 +64,6 @@ public class SliderPanel extends JPanel
 	private boolean useTabbedPane;
 	private boolean actionPerforming;
 
-	private boolean widthUnit = false;
 	private final Localization loc;
 
 	public SliderPanel(AppD app, PropertiesPanelD propPanel,

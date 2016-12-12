@@ -37,7 +37,6 @@ public class CustomColorDialog extends DialogBoxW {
 	private Button btnOk;
 	private Button btnCancel;
 	private Button btnReset;
-	private App app;
 	private Localization loc;
 	private ICustomColor listener;
     private class ColorComponent extends FlowPanel {
@@ -142,7 +141,6 @@ public class CustomColorDialog extends DialogBoxW {
 
 	public CustomColorDialog(App app, ICustomColor listener) {
 		super(((AppW) app).getPanel());
-		this.app = app;
 		this.listener = listener;
 		loc = app.getLocalization();
 		setWidget(mainWidget = new FlowPanel());

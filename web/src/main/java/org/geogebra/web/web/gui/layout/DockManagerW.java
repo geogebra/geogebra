@@ -46,7 +46,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	private static final double AV_LANDSCAPE_RATIO = 0.2;
 	private static final int DEFAULT_KEYBOARD_HEIGHT = 186;
 	AppW app;
 	private LayoutW layout;

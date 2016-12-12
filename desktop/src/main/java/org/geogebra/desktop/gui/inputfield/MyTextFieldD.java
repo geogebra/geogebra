@@ -58,8 +58,6 @@ public class MyTextFieldD extends JTextField
 
 	private ImageIcon icon = GeoGebraIconD.createSymbolTableIcon(this.getFont(),
 			false);
-	private ImageIcon rollOverIcon = GeoGebraIconD
-			.createSymbolTableIcon(this.getFont(), true);
 	private boolean showSymbolTableIcon = false;
 
 	// colored character rendering fields
