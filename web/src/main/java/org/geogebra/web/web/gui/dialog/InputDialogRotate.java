@@ -5,7 +5,6 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -21,7 +20,6 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 
 
 	GeoPolygon[] polys;
-	GeoPointND[] points;
 	GeoElement[] selGeos;
 	
 	protected EuclidianController ec;

@@ -40,7 +40,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TextEditPanel extends VerticalPanel implements ClickHandler,
         FocusHandler, ITextEditPanel {
 
-	private static final int ICON_HEIGHT = 18;
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
 	protected GeoTextEditor editor;
@@ -49,7 +48,6 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 	protected ToggleButton btnInsert;
 
-	private boolean isSerif, isBold, isItalic;
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;

@@ -10,7 +10,6 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -81,8 +80,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyCJButton btnRemoveColumn;
 
 	private int pointCount = 9;
-	private boolean isChangingValue;
-	private GeoElementSelectionListener sl;
 
 	private class RoundingCommand implements Command {
 		private int index;
@@ -529,18 +526,14 @@ public class FunctionInspectorW extends FunctionInspector {
 				getModel().applyStep(value);
 				updateXYTable();
 			} else if (source == fldLow) {
-				isChangingValue = true;
 
 				getModel().applyLow(value);
 
-				isChangingValue = false;
 				updateIntervalTable();
 			} else if (source == fldHigh) {
-				isChangingValue = true;
 
 				getModel().applyHigh(value);
 
-				isChangingValue = false;
 				updateIntervalTable();
 			}
 
@@ -584,9 +577,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void updateXYTable() {
-		isChangingValue = true;
 		getModel().updateXYTable(modelXY.getRowCount(), btnTable.isSelected());
-		isChangingValue = false;
 	}
 
 	@Override

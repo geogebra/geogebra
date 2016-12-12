@@ -75,7 +75,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	private Object selectedOptionPanel = null;
 
 	// GUI elements
-	private JPanel mainPanel, buttonPanel;
+	private JPanel mainPanel;
 	// private JButton restoreDefaultsButton, saveButton;
 
 	protected boolean isIniting = true;
@@ -736,8 +736,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
 	}
-
-	private int subType;
 
 	@Override
 	protected void setSelectedTab(OptionType type) {

@@ -15,8 +15,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class Marble extends SimplePanel
 {
 	private RadioTreeItem gc;
-	/** whether the last switch was done using touch (ignore onclick in that case) */
-	boolean touchUsed;
 	
 	/**
 	 * Toggle visibility of corresponding geo

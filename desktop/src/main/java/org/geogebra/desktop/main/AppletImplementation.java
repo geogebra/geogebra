@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.JApplet;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -58,7 +57,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	protected AppD app;
 	protected Kernel kernel;
-	private JButton btOpen;
 	private EuclidianViewD ev;
 	public boolean undoActive;
 	public boolean showToolBar, showToolBarHelp, showAlgebraInput,

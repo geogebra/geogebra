@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 
@@ -30,7 +29,9 @@ public class PlotterBrush implements PathPlotter {
 	private int index;
 
 	/** start and end sections */
-	protected PlotterBrushSection start, end;
+	protected PlotterBrushSection start;
+	/** start and end sections */
+	protected PlotterBrushSection end;
 
 	private boolean justStarted = false;
 	private boolean notStarted = false;
@@ -62,7 +63,6 @@ public class PlotterBrush implements PathPlotter {
 	protected static final int TEXTURE_AFFINE = 2;
 	static final private int TEXTURE_LINEAR = 3;
 	private int textureTypeX = TEXTURE_ID;
-	private int textureTypeY = TEXTURE_CONSTANT_0;
 
 	static final private float TEXTURE_AFFINE_FACTOR = 0.05f;
 
@@ -101,9 +101,6 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	private float ticksOffset;
 
-	// for GeoCartesianCurve
-	/** curve */
-	GeoCurveCartesian3DInterface curve;
 
 	// level of detail
 	/** number of rules */

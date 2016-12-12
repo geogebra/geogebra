@@ -18,7 +18,6 @@ public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpH
 
 	private GeoPointND[] points;
 	
-	private Kernel kernel;
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	public InputDialogRotatePointW(AppW app, String title,

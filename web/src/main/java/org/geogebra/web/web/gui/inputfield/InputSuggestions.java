@@ -24,7 +24,6 @@ public class InputSuggestions implements HasSuggestions {
 	public static final int querylimit = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
-	private int curWordStart;
 	protected CompletionsPopup popup;
 	private App app;
 

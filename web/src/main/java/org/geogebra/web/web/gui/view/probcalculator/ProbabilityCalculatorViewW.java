@@ -80,9 +80,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private AutoCompleteTextFieldW fldHigh;
 	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
+	/** control panel */
 	FlowPanel controlPanel;
 	private ScheduledCommand exportToEVAction;
-	private FlowPanel plotPanelPlus;
+	/** plot panel */
+	FlowPanel plotPanelPlus;
 	private FlowPanel plotPanelOptions;
 	private FlowPanel plotSplitPane;
 	private FlowPanel mainSplitPane;
@@ -91,7 +93,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
-	private boolean valueChanged;
 	private MenuBar btnExport;
 	private MyToggleButton2 btnNormalOverlay;
 	

@@ -101,7 +101,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private MyCJButton btAxesColor;
 		private Label lineStyle;
 		protected FlowPanel axesOptionsPanel;
-		private AutoCompleteTextFieldW axesOptionTitle;
 		private Label axesOptionsTitle;
 		private PopupMenuButtonW axesStylePopup;
 		protected Label backgroundColorLabel;
@@ -114,8 +113,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbShowNavbar;
 		CheckBox cbNavPlay;
 		CheckBox cbOpenConsProtocol;
-		private CheckBox cbShowGrid;
-		private CheckBox cbBoldGrid;
 		protected Label lblAxisLabelStyle;
 		protected CheckBox cbAxisLabelSerif;
 		protected CheckBox cbAxisLabelBold;

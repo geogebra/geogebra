@@ -39,7 +39,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	StatPanelInterfaceW {
 
 	private AppW app;
-	private DataAnalysisViewW statDialog;
 	private StatPanelSettings settings;
 
 	// histogram panel GUI

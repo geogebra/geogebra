@@ -8,12 +8,10 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
 	private AutoCompleteW textField;
-	private VerticalPanel list;
 
 	public CompletionsPopup() {
 		super();

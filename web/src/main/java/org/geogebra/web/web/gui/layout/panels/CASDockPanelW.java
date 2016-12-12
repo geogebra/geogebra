@@ -10,7 +10,6 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.SimpleLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -19,9 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASDockPanelW extends NavigableDockPanelW {
 
-	SimpleLayoutPanel toplevel;
-
-	CASViewW sview;
+	CASViewW casView;
 
 
 	public CASDockPanelW(App appl) {
@@ -41,7 +38,7 @@ public class CASDockPanelW extends NavigableDockPanelW {
 	}
 
 	public CASViewW getCAS() {
-		return sview;
+		return casView;
 	}
 
 	public App getApp() {
@@ -76,11 +73,11 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Panel getViewPanel() {
-		sview = (CASViewW) app.getGuiManager().getCasView();
+		casView = (CASViewW) app.getGuiManager().getCasView();
 		if (!app.supportsView(App.VIEW_CAS)) {
 			return new FlowPanel();
 		}
-		sview.maybeOpenKeyboard(true);
-		return sview.getComponent();
+		casView.maybeOpenKeyboard(true);
+		return casView.getComponent();
 	}
 }

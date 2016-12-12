@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 
-import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -32,7 +31,6 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	private EuclidianViewForPlaneW view;
 
-	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
