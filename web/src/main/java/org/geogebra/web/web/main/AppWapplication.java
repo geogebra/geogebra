@@ -212,7 +212,7 @@ public class AppWapplication extends AppWFull {
 
 	@Override
 	public void afterLoadFileAppOrNot() {
-
+		closePerspectivesPopup();
 		if (openMacroFromStorage()) {
 			return;
 		}

@@ -325,6 +325,7 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void afterLoadFileAppOrNot() {
+		closePerspectivesPopup();
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()

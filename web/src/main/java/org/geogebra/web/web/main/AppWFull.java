@@ -676,8 +676,9 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void closePerspectivesPopup() {
-
-		// getPerspectivesPopup().closePerspectivesPopup();
+		if (this.perspectivesPopup != null) {
+			getPerspectivesPopup().closePerspectivesPopup();
+		}
 	}
 
 	@Override
