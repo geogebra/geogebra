@@ -326,6 +326,9 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void afterLoadFileAppOrNot() {
 		closePerspectivesPopup();
+		if (!getLAF().isSmart()) {
+			removeSplash();
+		}
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()

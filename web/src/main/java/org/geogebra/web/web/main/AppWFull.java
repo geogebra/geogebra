@@ -67,6 +67,7 @@ import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
@@ -674,6 +675,16 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	/**
+	 * Removed element called ggbsplash
+	 */
+	protected static void removeSplash() {
+		Element el = DOM.getElementById("ggbsplash");
+		if (el != null) {
+			el.removeFromParent();
+		}
+
+	}
 	@Override
 	public void closePerspectivesPopup() {
 		if (this.perspectivesPopup != null) {

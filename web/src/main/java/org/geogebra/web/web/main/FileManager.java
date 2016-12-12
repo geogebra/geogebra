@@ -24,6 +24,10 @@ import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.web.util.SaveCallback;
 
+/**
+ * Manager for local file saving
+ *
+ */
 public abstract class FileManager implements FileManagerI {
 	private AppW app;
 	private Provider provider = Provider.TUBE;
@@ -74,6 +78,11 @@ public abstract class FileManager implements FileManagerI {
 		return Integer.parseInt(key.substring(FILE_PREFIX.length(),
 		        key.indexOf("_", FILE_PREFIX.length())));
 	}
+
+	/**
+	 * @param app
+	 *            application
+	 */
 	public FileManager(final AppW app) {
 		this.app = app;
 	}
@@ -85,12 +94,19 @@ public abstract class FileManager implements FileManagerI {
 	 * 
 	 * @param base64
 	 *            only a hint, we can send null and it will be resolved
+	 * @param modified
+	 *            modification timestamp
 	 * @param cb
+	 *            callback
 	 */
 	public abstract void saveFile(String base64, long modified,
 	        final SaveCallback cb);
 
 
+	/**
+	 * @param materialFilter
+	 *            filter
+	 */
 	protected abstract void getFiles(MaterialFilter materialFilter);
 
 	/**
@@ -113,6 +129,13 @@ public abstract class FileManager implements FileManagerI {
 		app.getGuiManager().getBrowseView().addMaterial(material);
 	}
 
+	/**
+	 * @param base64
+	 *            material base64
+	 * @param modified
+	 *            timestamp
+	 * @return material
+	 */
 	public Material createMaterial(final String base64, long modified) {
 		final Material mat = new Material(0, MaterialType.ggb);
 
@@ -159,18 +182,38 @@ public abstract class FileManager implements FileManagerI {
 		// getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
 	}
 
-	private int notSyncedFileCount, notDownloadedFileCount;
+	private int notSyncedFileCount;
+	/** files waiting for download */
+	int notDownloadedFileCount;
 
+	/**
+	 * @param count
+	 *            number of files waiting for sync
+	 * @param events
+	 *            sync events
+	 */
 	public void setNotSyncedFileCount(int count, ArrayList<SyncEvent> events) {
 		this.notSyncedFileCount = count;
 		checkMaterialsToDownload(events);
 	}
 
+	/**
+	 * @param events
+	 *            sync events
+	 */
 	public void ignoreNotSyncedFile(ArrayList<SyncEvent> events) {
 		this.notSyncedFileCount--;
 		checkMaterialsToDownload(events);
 	}
 
+	/**
+	 * Synchronize the material and mark corresponding event as resolved
+	 * 
+	 * @param mat
+	 *            material
+	 * @param events
+	 *            sync events
+	 */
 	public void sync(final Material mat, ArrayList<SyncEvent> events) {
 		if (mat.getId() == 0) {
 			upload(mat);
@@ -283,15 +326,13 @@ public abstract class FileManager implements FileManagerI {
 			        public void onLoaded(final List<Material> parseResponse,
 			                ArrayList<Chapter> meta) {
 				        FileManager.this.notDownloadedFileCount--;
-				        checkSyncFinished();
 				        // edited on Tube, not edited locally
 				        if (parseResponse.size() == 1) {
 							Log.debug("SYNC downloading file:" + id);
 					        Material tubeMat = parseResponse.get(0);
 					        tubeMat.setSyncStamp(tubeMat.getModified());
 					        tubeMat.setFromAnotherDevice(fromAnotherDevice);
-					        FileManager.this.updateFile(
-null,
+							FileManager.this.updateFile(null,
 					                tubeMat.getModified(), tubeMat);
 				        }
 			        }
@@ -299,17 +340,13 @@ null,
 			        @Override
 			        public void onError(final Throwable exception) {
 				        FileManager.this.notDownloadedFileCount--;
-				        checkSyncFinished();
 						Log.debug("SYNC error loading from tube" + id);
 			        }
 		        });
 
 	}
 
-	protected void checkSyncFinished() {
-		// TODO Auto-generated method stub
 
-	}
 
 	private void getFromTube(final Material mat) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())

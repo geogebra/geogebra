@@ -15,9 +15,7 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -121,13 +119,7 @@ public class AppWapplication extends AppWFull {
 						: Cookies.getCookie("SSID");
 	}
 
-	private static void removeSplash() {
-		Element el = DOM.getElementById("ggbsplash");
-		if (el != null) {
-			el.removeFromParent();
-		}
 
-	}
 
 
 
