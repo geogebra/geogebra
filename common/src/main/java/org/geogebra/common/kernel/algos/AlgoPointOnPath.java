@@ -390,6 +390,16 @@ public class AlgoPointOnPath extends AlgoElement
 				Variable[] vellipse = ((SymbolicParametersBotanaAlgo) input[0])
 						.getBotanaVars(input[0]);
 
+				if (input[0]
+						.getParentAlgorithm() instanceof AlgoConicFivePoints) {
+					botanaPolynomials = new Polynomial[2];
+					botanaPolynomials[0] = new Polynomial(vellipse[0])
+							.subtract(new Polynomial(botanaVars[0]));
+					botanaPolynomials[1] = new Polynomial(vellipse[1])
+							.subtract(new Polynomial(botanaVars[1]));
+					return botanaPolynomials;
+				}
+
 				botanaPolynomials = new Polynomial[3];
 
 				Polynomial e_1 = new Polynomial(botanaVars[2]);

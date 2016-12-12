@@ -59,6 +59,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		initialCompute();
 		compute();
 		bool.setLabel(label);
+		
 	}
 
 	@Override

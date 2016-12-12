@@ -414,6 +414,7 @@ public class ProverBotanasMethod {
 					numerical = null;
 				}
 			}
+
 			/*
 			 * Remove geos directly related with AlgoDependentNumber algos since
 			 * we don't want to add them twice (they will be invoked during
