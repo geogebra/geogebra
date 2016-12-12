@@ -35,8 +35,6 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
-	/** if is a segment from a GeoPolygon3D or GeoPolyhedron */
-	private GeoElement geoParent = null;
 
 	/**
 	 * constructor with no points

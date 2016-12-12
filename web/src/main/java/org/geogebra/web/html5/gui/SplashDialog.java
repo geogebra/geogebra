@@ -106,8 +106,7 @@ public class SplashDialog extends SimplePanel {
 	}
 
 	private native void removePreviewImg(String id) /*-{
-		var thisArticle = $doc
-				.getElementById(id, img;
+		var thisArticle = $doc.getElementById(id), img;
 		if (thisArticle) {
 			img = thisArticle.querySelector(".ggb_preview");
 		}

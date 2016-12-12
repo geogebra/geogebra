@@ -35,7 +35,6 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	private int filledArrowLength = 10;
 
 	// for drawing
-	private int pointSize = 4;
 	private Line2D.Double tempLine = new Line2D.Double();
 	private GeneralPath gp = new GeneralPath();
 	private static BasicStroke borderStroke = AwtFactoryD.getDefaultStrokeAwt();

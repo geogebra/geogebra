@@ -30,7 +30,6 @@ public abstract class GeoVec extends GeoElement3D {
 
 	public Coords v;
 
-	private int m_length;
 
 	public GeoVec(Construction c) {
 		super(c);
@@ -44,7 +43,6 @@ public abstract class GeoVec extends GeoElement3D {
 
 	public GeoVec(Construction c, int n) {
 		this(c);
-		m_length = n;
 		v = new Coords(n);
 	}
 

@@ -2,7 +2,6 @@ package org.geogebra.desktop.geogebra3D.gui.layout.panels;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -11,7 +10,6 @@ import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
-import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -38,17 +36,6 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 
 		setEmbeddedSize(300);
 	}
-
-	/**
-	 * Panel to hold euclidian view and navigation bar if necessary.
-	 */
-	private JPanel panel;
-
-	/**
-	 * Component of the construction protocol navigation bar, invisible if not
-	 * needed.
-	 */
-	private ConstructionProtocolNavigationD consProtNav;
 
 	@Override
 	protected JComponent loadStyleBar() {

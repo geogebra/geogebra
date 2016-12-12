@@ -71,7 +71,6 @@ public class GeoGebraView extends WrappedPlainView {
 
 	private ViewContext context;
 	private Lexer lexer;
-	private boolean lexerValid;
 	private Document doc;
 	private Segment text = new Segment();
 	private boolean isTabViewable = true;
@@ -80,9 +79,6 @@ public class GeoGebraView extends WrappedPlainView {
 
 	private int tabType;
 	private String tabCharacter = " ";
-
-	private int numOfColumns = 80;
-	private Color lineColor = new Color(220, 220, 220);
 
 	private final Rectangle rect = new Rectangle();
 	private Map desktopFontHints;
@@ -110,7 +106,6 @@ public class GeoGebraView extends WrappedPlainView {
 		this.lexer = lexer;
 		this.doc = getDocument();
 		lexer.setDocument(doc);
-		lexerValid = false;
 		setTabRepresentation(TABVERTICAL);
 	}
 
