@@ -4214,7 +4214,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 					isErrorDialogShowing = true;
 					final String msgDisplay = msg.substring(0,
-							Math.min(msg.length() - 1, 100));
+							Math.min(msg.length() - 1, 1000));
 					// use SwingUtilities to make sure this gets executed in the
 					// correct
 					// (=GUI) thread.
