@@ -374,31 +374,31 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	
 	
 	//Whiteboard
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_line.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapeline.png")
 	ImageResource mode_shape_line_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_triangle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapetriangle.png")
 	ImageResource mode_shape_triangle_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_square.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapesquare.png")
 	ImageResource mode_shape_square_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperectangle.png")
 	ImageResource mode_shape_rectangle_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle_round_edges.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shaperectangleroundedges.png")
 	ImageResource mode_shape_rectangle_round_edges_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_polygon.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapepolygon.png")
 	ImageResource mode_shape_polygon_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_freeform.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapefreeform.png")
 	ImageResource mode_shape_freeform_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_circle.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapecircle.png")
 	ImageResource mode_shape_circle_32();
 	
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_ellipse.png")
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shapeellipse.png")
 	ImageResource mode_shape_ellipse_32();
 	
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_eraser.png")

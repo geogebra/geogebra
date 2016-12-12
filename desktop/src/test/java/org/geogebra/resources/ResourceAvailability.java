@@ -59,6 +59,7 @@ public class ResourceAvailability {
 	public void checkToolIcons() {
 		StringUtil.setPrototypeIfNull(new StringUtilD());
 		ImageManagerD man = new ImageManagerD(new JPanel());
+		StringBuilder missing = new StringBuilder();
 		for (int i = 0; i < 1000; i++) {
 			String modeText = EuclidianConstants.getModeTextSimple(i);
 			if (modeText.isEmpty() || "Select".equals(modeText)
@@ -67,8 +68,11 @@ public class ResourceAvailability {
 			}
 			ImageResourceD res = man.getToolImageResource(modeText, false);
 			URL url = ResourceAvailability.class.getResource(res.getFilename());
-			Assert.assertNotNull("" + modeText, url);
+			if (url == null) {
+				missing.append(modeText + ",");
+			}
 		}
+		Assert.assertEquals(missing.toString(), missing.length(), 0);
 	}
 
 	private boolean hasFlag(Country country) {
