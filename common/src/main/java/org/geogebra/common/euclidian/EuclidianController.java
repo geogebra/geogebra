@@ -9737,6 +9737,7 @@ public abstract class EuclidianController {
 				}
 			}
 		} else {
+			movedGeoElement = null;
 			// no hits: release mouse button creates a point
 			// for the transformation tools
 			// (note: this cannot be done in mousePressed because
