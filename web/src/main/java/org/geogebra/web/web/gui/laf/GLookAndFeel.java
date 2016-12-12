@@ -190,4 +190,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 		Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/", false);
 	}
 
+	public String getFrameStyleName() {
+		return "GeoGebra";
+	}
+
 }

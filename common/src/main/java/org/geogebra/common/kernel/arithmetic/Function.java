@@ -637,8 +637,6 @@ public class Function extends FunctionNVar
 		} catch (NullPointerException e) {
 			// this is not a valid polynomial
 			return null;
-		} finally {
-			// do nothing
 		}
 
 		String[] strCoeffs = kernel.getPolynomialCoeffs(function, var);

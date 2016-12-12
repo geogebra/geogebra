@@ -119,8 +119,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					tpl, cell, kernel);
 		} catch (CASException ce) {
 			exception = ce;
-		} finally {
-			// do nothing
 		}
 
 		// check if keep input command was successful

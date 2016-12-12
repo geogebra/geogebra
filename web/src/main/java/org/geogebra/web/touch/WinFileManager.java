@@ -19,10 +19,6 @@ import org.geogebra.web.web.util.SaveCallback;
 
 
 public class WinFileManager extends FileManager {
-	private static final String META_PREFIX = "meta_";
-	private static final String GGB_DIR = "GeoGebra";
-	private static final String META_DIR = "meta";
-	private static final String FILE_EXT = ".ggb";
 
 	public WinFileManager(final AppW app) {
 		super(app);

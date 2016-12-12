@@ -104,7 +104,7 @@ configurations.all {
 
 def warDirRel = 'war'
 def warDirAbs = file(warDirRel).toURI()
-def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d']
+def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
     outputs.each { folder ->

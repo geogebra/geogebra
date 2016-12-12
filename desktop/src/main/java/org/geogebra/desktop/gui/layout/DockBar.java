@@ -345,12 +345,6 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 			System.out.println("error: " + e.getMessage());
 		}
 
-		finally {
-			// Exit full-screen mode
-			// AbstractApplication.info("finally");
-			// gs.setFullScreenWindow(null);
-		}
-
 	}
 
 }

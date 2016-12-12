@@ -1373,76 +1373,70 @@ public class ExpressionNode extends ValidExpression
 	public String getCASstring(StringTemplate tpl, boolean symbolic) {
 		String ret = null;
 
-		try {
 
-			if (leaf) { // leaf is GeoElement or not
-				/*
-				 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
-				 * left).getLabel(); else if (left.isExpressionNode()) ret =
-				 * ((ExpressionNode)left).printJSCLString(symbolic); else ret =
-				 * left.toString(); } else { ret = left.toValueString(); }
-				 */
+		if (leaf) { // leaf is GeoElement or not
+			/*
+			 * if (symbolic) { if (left.isGeoElement()) ret = ((GeoElement)
+			 * left).getLabel(); else if (left.isExpressionNode()) ret =
+			 * ((ExpressionNode)left).printJSCLString(symbolic); else ret =
+			 * left.toString(); } else { ret = left.toValueString(); }
+			 */
 
-				if (symbolic && left.isGeoElement()) {
-					ret = ((GeoElement) left).getLabel(tpl);
-				} else if (left.isExpressionNode()) {
-					ret = ((ExpressionNode) left).getCASstring(tpl, symbolic);
-				} else {
-					ret = symbolic ? left.toString(tpl)
-							: left.toValueString(tpl);
-				}
+			if (symbolic && left.isGeoElement()) {
+				ret = ((GeoElement) left).getLabel(tpl);
+			} else if (left.isExpressionNode()) {
+				ret = ((ExpressionNode) left).getCASstring(tpl, symbolic);
+			} else {
+				ret = symbolic ? left.toString(tpl) : left.toValueString(tpl);
 			}
-
-			// STANDARD case: no leaf
-			else {
-				// expression node
-
-				// we could group the factors of all possible numerators here.
-				// we won't do that.
-				// http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
-				// numerGroup();
-
-				String leftStr = null, rightStr = null;
-				if (symbolic && left.isGeoElement()) {
-					leftStr = ((GeoElement) left).getLabel(tpl);
-				} else if (left.isExpressionNode()) {
-					leftStr = ((ExpressionNode) left).getCASstring(tpl,
-							symbolic);
-				} else {
-					leftStr = symbolic ? left.toString(tpl)
-							: left.toValueString(tpl);
 				}
 
-				if (right != null) {
-					if (symbolic && right.isGeoElement()) {
-						rightStr = ((GeoElement) right).getLabel(tpl);
-					} else if (right.isExpressionNode()) {
-						rightStr = ((ExpressionNode) right).getCASstring(tpl,
+		// STANDARD case: no leaf
+		else {
+			// expression node
+
+			// we could group the factors of all possible numerators here.
+			// we won't do that.
+			// http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
+			// numerGroup();
+
+			String leftStr = null, rightStr = null;
+			if (symbolic && left.isGeoElement()) {
+				leftStr = ((GeoElement) left).getLabel(tpl);
+			} else if (left.isExpressionNode()) {
+				leftStr = ((ExpressionNode) left).getCASstring(tpl,
 								symbolic);
-					} else if (shaveBrackets()) {
-						rightStr = ((MyList) right).toString(tpl, !symbolic,
-								false);
 					} else {
-						rightStr = symbolic ? right.toString(tpl)
-								: right.toValueString(tpl);
-					}
-				}
-				// do not send random() to CAS
-				// #4072
-				if (operation == Operation.RANDOM) {
-					double d = left.evaluateDouble();
-					leftStr = kernel.format(d, StringTemplate.defaultTemplate);
-					ret = ExpressionNode.operationToString(left, right,
-							operation, leftStr, rightStr, true, tpl, kernel);
+				leftStr = symbolic ? left.toString(tpl)
+						: left.toValueString(tpl);
+			}
+
+			if (right != null) {
+				if (symbolic && right.isGeoElement()) {
+					rightStr = ((GeoElement) right).getLabel(tpl);
+				} else if (right.isExpressionNode()) {
+					rightStr = ((ExpressionNode) right).getCASstring(tpl,
+							symbolic);
+				} else if (shaveBrackets()) {
+					rightStr = ((MyList) right).toString(tpl, !symbolic, false);
 				} else {
-					ret = ExpressionNode.operationToString(left, right,
-							operation, leftStr, rightStr, !symbolic, tpl,
-							kernel);
+					rightStr = symbolic ? right.toString(tpl)
+							: right.toValueString(tpl);
 				}
 			}
-		} finally {
-			// do nothing
+			// do not send random() to CAS
+			// #4072
+			if (operation == Operation.RANDOM) {
+				double d = left.evaluateDouble();
+				leftStr = kernel.format(d, StringTemplate.defaultTemplate);
+				ret = ExpressionNode.operationToString(left, right, operation,
+						leftStr, rightStr, true, tpl, kernel);
+			} else {
+				ret = ExpressionNode.operationToString(left, right, operation,
+						leftStr, rightStr, !symbolic, tpl, kernel);
+			}
 		}
+
 
 		return ret;
 	}

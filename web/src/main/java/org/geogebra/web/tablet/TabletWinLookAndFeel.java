@@ -33,4 +33,9 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 		return Versions.WINDOWS_STORE;
 	}
 
+	@Override
+	public boolean examSupported(boolean tablet) {
+		return true;
+	}
+
 }

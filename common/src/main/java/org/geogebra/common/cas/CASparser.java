@@ -411,13 +411,10 @@ public class CASparser implements CASParserInterface {
 	public String translateToCAS(ValidExpression ve,
 			StringTemplate casStringType, CASGenericInterface cas) {
 
-		try {
 			String body = ve.wrap().getCASstring(casStringType, false);
 
 			return body;
-		} finally {
-			// do nothing
-		}
+
 	}
 
 	private Map<String, String> rbCasTranslations; // translates from

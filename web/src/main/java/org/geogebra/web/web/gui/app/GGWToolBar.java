@@ -272,7 +272,7 @@ pr.menu_header_undo(), null, 32);
 
 		});
 		// check and log window resize and focus on window
-		visibilityEventMain();
+		visibilityEventMain(isTablet());
 
 
 		FlowPanel fp = new FlowPanel();
@@ -365,7 +365,8 @@ pr.menu_header_undo(), null, 32);
 
 
 	private boolean isTablet() {
-		return app.getLAF().isTablet();
+		return app.getLAF().isTablet()
+				&& !"TabletWin".equals(app.getLAF().getFrameStyleName());
 	}
 
 	/**
@@ -375,7 +376,7 @@ pr.menu_header_undo(), null, 32);
 	 * full screen losing focus starts "cheating", gaining focus stops
 	 * "cheating"
 	 */
-	private native void visibilityEventMain() /*-{
+	private native void visibilityEventMain(boolean tabletMode) /*-{
 		// wrapper to call the appropriate function from visibility.js
 		var that = this;
 
@@ -408,11 +409,10 @@ pr.menu_header_undo(), null, 32);
 		//};
 		//$wnd.console.log("examActive " + examActive);
 
-		if (isTablet()) {
+		if (tabletMode) {
 			$wnd.visibilityEventMain(startCheating, stopCheating);
 		} else {
 
-			// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 			$wnd.onblur = function(event) {
 				// Borrowed from http://www.quirksmode.org/js/events_properties.html
 				//$wnd.console.log("4");

@@ -57,4 +57,6 @@ public interface GLookAndFeelI {
 
 	void storeLanguage(String s);
 
+	String getFrameStyleName();
+
 }
