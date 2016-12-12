@@ -1,12 +1,14 @@
 package org.geogebra.web.html5.main;
 
 public class ExamUtil {
-	public native static boolean toggleFullscreen(boolean full) /*-{
+	public native static void toggleFullscreen(boolean full,
+			boolean browserAPI) /*-{
 		if ($wnd.ggbExamMode && (full == !$wnd.ggbExamMode.running)) {
 			$wnd.ggbExamMode.running = full;
 			$wnd.ggbExamMode(full);
 		}
-		$wnd.toggleFullScreen(full);
-		return false;
+		if (browserAPI) {
+			$wnd.toggleFullScreen(full);
+		}
 	}-*/;
 }

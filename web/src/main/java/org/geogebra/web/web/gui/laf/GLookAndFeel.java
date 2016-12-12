@@ -9,6 +9,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.gui.browser.MaterialListElement;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -180,8 +181,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 				: Versions.WEB_FOR_BROWSER_2D;
 	}
 
-	public boolean supportsFullscreen() {
-		return true;
+	public void toggleFullscreen(boolean full) {
+		ExamUtil.toggleFullscreen(full, true);
 	}
 
 	public void storeLanguage(String s) {

@@ -14,7 +14,6 @@ import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -81,7 +80,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * Exit exam and restore normal mode
 	 */
 	protected void exitAndResetExam() {
-		if (!ExamUtil.toggleFullscreen(false)) {
+		app.getLAF().toggleFullscreen(false);
 
 			ExamEnvironment exam = app.getExam();
 			exam.exit();
@@ -155,7 +154,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 			app.setActivePerspective(0);
 
-		}
+
 	}
 	
 

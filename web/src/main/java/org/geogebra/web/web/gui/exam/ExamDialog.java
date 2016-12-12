@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamEnvironmentW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -173,7 +172,7 @@ public class ExamDialog {
 			public void onClick(ClickEvent event) {
 				app.getExam().exit();
 				app.setExam(null);
-				ExamUtil.toggleFullscreen(false);
+				app.getLAF().toggleFullscreen(false);
 				app.fireViewsChangedEvent();
 				guiManager.updateToolbarActions();
 				guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, app));
@@ -203,8 +202,8 @@ public class ExamDialog {
 
 	public static void startExam(DialogBoxW box, AppW app, boolean needsFullscreen) {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		if (needsFullscreen && app.getLAF().supportsFullscreen()) {
-			ExamUtil.toggleFullscreen(true);
+		if (needsFullscreen) {
+			app.getLAF().toggleFullscreen(true);
 		}
 		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
 		Date date = new Date();

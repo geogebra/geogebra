@@ -5,7 +5,6 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -107,9 +106,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		return new Runnable() {
 
 			public void run() {
-				if (app.getLAF().supportsFullscreen()) {
-					ExamUtil.toggleFullscreen(true);
-				}
+				app.getLAF().toggleFullscreen(true);
+
 				app.setNewExam();
 				((AppWFull) app).examWelcome();
 

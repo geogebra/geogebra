@@ -160,7 +160,8 @@ public class AppCacheLinker extends AbstractLinker {
 					        || pathName.startsWith("js/properties_")) {
 						// skip these resources
 					} else {
-						publicSourcesSb.append("\"https://cdn.geogebra.org/"
+						publicSourcesSb
+								.append("\"https://cdn.geogebra.org/geogebra-web/"
 								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName.replace("\\", "/") + "\",\n");
 						publicSourcesSbM
 								.append("https://cdn.geogebra.org/"

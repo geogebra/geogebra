@@ -96,8 +96,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean supportsFullscreen() {
-		return false;
+	public void toggleFullscreen(boolean full) {
+		// tablet, nothing to do
 	}
 
 }

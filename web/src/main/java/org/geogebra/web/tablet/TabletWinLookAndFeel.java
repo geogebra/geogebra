@@ -1,6 +1,7 @@
 package org.geogebra.web.tablet;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.web.html5.main.ExamUtil;
 
 /**
  * LAF for Windows Store app
@@ -24,8 +25,8 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	}
 
 	@Override
-	public boolean supportsFullscreen() {
-		return true;
+	public void toggleFullscreen(boolean full) {
+		ExamUtil.toggleFullscreen(full, false);
 	}
 
 	@Override

@@ -53,10 +53,11 @@ public interface GLookAndFeelI {
 
 	public Versions getVersion(int dim, boolean app);
 
-	boolean supportsFullscreen();
 
 	void storeLanguage(String s);
 
 	String getFrameStyleName();
+
+	void toggleFullscreen(boolean b);
 
 }

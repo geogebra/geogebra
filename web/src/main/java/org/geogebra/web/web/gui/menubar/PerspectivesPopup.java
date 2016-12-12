@@ -7,7 +7,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -168,9 +167,7 @@ public class PerspectivesPopup {
 						((AppWFull) app).showStartTooltip(defID);
 					}
 				} else if (index == -1) {
-					if (app.getLAF().supportsFullscreen()) {
-						ExamUtil.toggleFullscreen(true);
-					}
+					app.getLAF().toggleFullscreen(true);
 					app.setNewExam();
 					((AppWFull) app).examWelcome();
 					// activePerspective = -1;

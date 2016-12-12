@@ -120,4 +120,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	public Versions getVersion(int dim, boolean app) {
 		return Versions.SMART;
 	}
+
+	@Override
+	public void toggleFullscreen(boolean full) {
+		// nothing to do
+	}
 }
