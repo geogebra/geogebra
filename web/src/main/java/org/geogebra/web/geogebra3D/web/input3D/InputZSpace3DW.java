@@ -92,8 +92,8 @@ public class InputZSpace3DW extends Input3D {
 
 		// set screen dimensions
 		RootPanel rootPanel = RootPanel.get();
-		setScreenHalfDimensions(rootPanel.getOffsetWidth() / 2,
-				rootPanel.getOffsetHeight() / 2);
+		setScreenHalfDimensions(rootPanel.getOffsetWidth() / 2.0,
+				rootPanel.getOffsetHeight() / 2.0);
 
 		// set panel dimensions
 		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
