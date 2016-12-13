@@ -192,7 +192,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				polygon = expected == ShapeType.rigidPolygon
 						? this.app.getKernel().rigidPolygon(null,
 								list.toArray(new GeoPoint[0]))[0]
-						: this.app.getKernel().VectorPolygon(null,
+						: this.app.getKernel().vectorPolygon(null,
 								list.toArray(new GeoPoint[0]))[0];
 			}
 		} else {

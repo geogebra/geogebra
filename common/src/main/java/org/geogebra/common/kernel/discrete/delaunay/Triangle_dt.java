@@ -215,7 +215,7 @@ public class Triangle_dt {
 
 	boolean circumcircle_contains(Point_dt p) {
 
-		return circum.Radius() > circum.Center().distance2(p);
+		return circum.radius() > circum.center().distance2(p);
 	}
 
 	public String toString() {

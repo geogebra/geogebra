@@ -2111,7 +2111,7 @@ public abstract class EuclidianController {
 
 				checkZooming();
 
-				GeoElement[] ret = kernel.VectorPolygon(null, pointsCopy);
+				GeoElement[] ret = kernel.vectorPolygon(null, pointsCopy);
 
 				// offset the copy slightly
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
@@ -2217,7 +2217,7 @@ public abstract class EuclidianController {
 			return ret;
 		} else if (polygonMode == POLYGON_VECTOR) {
 			GeoElement[] ret = { null };
-			GeoElement[] ret0 = kernel.VectorPolygon(null,
+			GeoElement[] ret0 = kernel.vectorPolygon(null,
 					getSelectedPointsND());
 			if (ret0 != null) {
 				ret[0] = ret0[0];
@@ -3082,7 +3082,7 @@ public abstract class EuclidianController {
 				GeoElement[] ret = { null };
 				checkZooming();
 
-				ret[0] = kernel.Tangent(null, points[0], curves[0]);
+				ret[0] = kernel.tangent(null, points[0], curves[0]);
 				return ret;
 			}
 		} else if (selImplicitpoly() == 1) {

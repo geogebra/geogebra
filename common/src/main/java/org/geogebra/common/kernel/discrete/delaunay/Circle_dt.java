@@ -49,7 +49,7 @@ public class Circle_dt {
 	 * 
 	 * @return the center of the circle.
 	 */
-	public Point_dt Center() {
+	public Point_dt center() {
 		return this.c;
 	}
 
@@ -58,7 +58,7 @@ public class Circle_dt {
 	 * 
 	 * @return the radius of the circle.
 	 */
-	public double Radius() {
+	public double radius() {
 		return this.r;
 	}
 }

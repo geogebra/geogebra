@@ -20,14 +20,14 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	}
 
 	@Override
-	protected GeoElement[] PolyLine(String label, GeoList pointList) {
+	protected GeoElement[] polyLine(String label, GeoList pointList) {
 		for (int i = 0; i < pointList.size(); i++) {
 			if (pointList.get(i).isGeoElement3D()) {
 				return kernelA.getManager3D().PolyLine3D(label, pointList);
 			}
 		}
 
-		return super.PolyLine(label, pointList);
+		return super.polyLine(label, pointList);
 	}
 
 	@Override

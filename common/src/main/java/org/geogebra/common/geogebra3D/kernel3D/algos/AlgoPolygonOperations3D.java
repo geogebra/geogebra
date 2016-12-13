@@ -131,7 +131,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		planeIntsctGeoLine3D = new GeoLine3D(getConstruction());
 		newCoords = new TreeMap<Double, Coords>(
-				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 		tmpPoint = new GeoPoint3D(getConstruction());
 		intersectSegmentIndex = new ArrayList<Integer>();
 
@@ -197,7 +197,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		planeIntsctGeoLine3D = new GeoLine3D(getConstruction());
 		newCoords = new TreeMap<Double, Coords>(
-				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 		tmpPoint = new GeoPoint3D(getConstruction());
 		intersectSegmentIndex = new ArrayList<Integer>();
 

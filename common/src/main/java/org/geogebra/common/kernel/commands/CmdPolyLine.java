@@ -34,7 +34,7 @@ public class CmdPolyLine extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList())
-				return PolyLine(c.getLabel(), (GeoList) arg[0]);
+				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
@@ -44,7 +44,7 @@ public class CmdPolyLine extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[1]);
 				}
 
-				return PolyLine(c.getLabel(), (GeoList) arg[0]);
+				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			if (arg[0].isGeoPoint()) {
 
@@ -94,7 +94,7 @@ public class CmdPolyLine extends CommandProcessor {
 	 *            input points
 	 * @return polyline
 	 */
-	protected GeoElement[] PolyLine(String label, GeoList pointList) {
+	protected GeoElement[] polyLine(String label, GeoList pointList) {
 		AlgoPolyLine algo = new AlgoPolyLine(cons, label, pointList);
 		return algo.getOutput();
 	}

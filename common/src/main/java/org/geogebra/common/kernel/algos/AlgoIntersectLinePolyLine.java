@@ -74,7 +74,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		this.pi = p;
 
 		newCoords = new TreeMap<Double, Coords>(
-				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		compute();
 

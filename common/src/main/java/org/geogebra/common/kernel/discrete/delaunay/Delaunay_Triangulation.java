@@ -652,7 +652,7 @@ public class Delaunay_Triangulation {
 			int index = 0;
 			while (itn.hasNext()) {
 				Triangle_dt tmp = itn.next();
-				vertices[index++] = tmp.circumcircle().Center();
+				vertices[index++] = tmp.circumcircle().center();
 			}
 
 			return vertices;
@@ -718,7 +718,7 @@ public class Delaunay_Triangulation {
 
 		// the cell line is a line originating from the circumcircle to infinity
 		// x = 500.0 is used as a large enough value
-		Point_dt circumcircle = neighbor.circumcircle().Center();
+		Point_dt circumcircle = neighbor.circumcircle().center();
 		double x_cell_line = (circumcircle.x() + (500.0 * sign));
 		double y_cell_line = perp_delta * (x_cell_line - circumcircle.x())
 				+ circumcircle.y();

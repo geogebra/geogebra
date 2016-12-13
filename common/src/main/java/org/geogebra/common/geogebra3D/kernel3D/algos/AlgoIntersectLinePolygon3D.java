@@ -43,7 +43,7 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 		this.p = p;
 
 		newCoords = new TreeMap<Double, Coords>(
-				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		compute();
 

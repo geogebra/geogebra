@@ -71,7 +71,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		setSecondInput(p);
 
 		newCoords = new TreeMap<Double, Coords>(
-				Kernel.DoubleComparator(Kernel.STANDARD_PRECISION));
+				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		setInputOutput(); // for AlgoElement
 	}

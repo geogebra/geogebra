@@ -2208,7 +2208,7 @@ public class Manager3D implements Manager3DInterface {
 			return algo.getOutput()[0];
 		}
 
-		return kernel.Tangent(label, point, (GeoCurveCartesian) curve);
+		return kernel.tangent(label, point, (GeoCurveCartesian) curve);
 
 	}
 

@@ -522,7 +522,7 @@ public class Kernel {
 	 * @return a double comparator which says doubles are equal if their diff is
 	 *         less than precision
 	 */
-	final static public Comparator<Double> DoubleComparator(double precision) {
+	final static public Comparator<Double> doubleComparator(double precision) {
 
 		final double eps = precision;
 
@@ -4749,7 +4749,7 @@ public class Kernel {
 		return new ExpressionNode(this, geo);
 	}
 
-	final public GeoElement[] VectorPolygon(String[] labels,
+	final public GeoElement[] vectorPolygon(String[] labels,
 			GeoPointND[] points) {
 
 		/*
@@ -5023,7 +5023,7 @@ public class Kernel {
 	/**
 	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
 	 */
-	final public GeoLine Tangent(String label, GeoPointND P,
+	final public GeoLine tangent(String label, GeoPointND P,
 			GeoCurveCartesian f) {
 
 		return KernelCAS.tangent(cons, label, P, f);
