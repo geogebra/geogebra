@@ -839,7 +839,6 @@ public class ProverBotanasMethod {
 						}
 						/* giac output is not empty */
 						if (!("{}".equals(output))) {
-							// Log.debug(output);
 							ValidExpression validExpression = (geoStatement
 									.getKernel().getGeoGebraCAS())
 											.getCASparser()
@@ -847,8 +846,6 @@ public class ProverBotanasMethod {
 													output,
 													geoStatement.getKernel(),
 													null);
-							// Log.debug(validExpression
-							// .toString(StringTemplate.defaultTemplate));
 							PolynomialNode polyRoot = new PolynomialNode();
 							ExpressionNode expNode = new ExpressionNode(
 									geoStatement.getKernel(),
