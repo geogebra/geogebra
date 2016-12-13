@@ -1,6 +1,7 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
@@ -112,8 +113,16 @@ public class BrowserDevice implements GDevice {
 		return new ConstructionProtocolViewW(app);
 	}
 
-	public void resizeView(int width, int height) {
-		Window.resizeTo(width, height);
+	public void resizeView(int width0, int height0) {
+		if (width0 > Browser.getScreenWidth()
+				|| height0 > Browser.getScreenHeight()) {
+			int width = Browser.getScreenWidth();
+			int height = Browser.getScreenHeight();
+			Window.moveTo(0, 0);
+			Window.resizeTo(width, height);
+		} else {
+			Window.resizeTo(width0, height0);
+		}
 
 	}
 

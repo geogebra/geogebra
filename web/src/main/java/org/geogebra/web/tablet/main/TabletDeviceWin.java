@@ -51,6 +51,10 @@ public class TabletDeviceWin extends TouchDevice {
 		}
 	}-*/;
 
+	/**
+	 * @param bg
+	 *            browse GUI
+	 */
 	native void showOpenPicker(BrowseGUI bg) /*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
 			bg.@org.geogebra.web.web.gui.browser.BrowseGUI::showLoading()();
@@ -71,7 +75,6 @@ public class TabletDeviceWin extends TouchDevice {
 
 	public native void resizeView(int width, int height) /*-{
 		if ($wnd.android && $wnd.android.callPlugin) {
-			bg.@org.geogebra.web.web.gui.browser.BrowseGUI::showLoading()();
 			$wnd.android.callPlugin("ResizeView", [ width, height ]);
 		}
 	}-*/;
