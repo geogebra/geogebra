@@ -41,7 +41,7 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		ArrayList<TraceIndex> indices = get(traceSettingsCurrent);
 		if (indices == null) {
 			indices = new ArrayList<TraceIndex>();
-			put(traceSettingsCurrent.clone(), indices);
+			put(traceSettingsCurrent.copy(), indices);
 		}
 		return indices;
 	}

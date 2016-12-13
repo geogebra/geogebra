@@ -15,8 +15,7 @@ final public class TraceSettings
 		setColor(c, a);
 	}
 
-	@Override
-	public TraceSettings clone() {
+	public TraceSettings copy() {
 		return new TraceSettings(c, c.getAlpha());
 	}
 
