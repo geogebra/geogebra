@@ -1119,7 +1119,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public boolean isTransparent() {
 		if (getPickingType() == PickingType.SURFACE) {
-			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE_INT;
 		}
 
 		return false;

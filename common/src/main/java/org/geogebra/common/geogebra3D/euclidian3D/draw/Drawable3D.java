@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
@@ -174,9 +173,7 @@ public abstract class Drawable3D extends DrawableND {
 	private double zPickNear;
 
 	/** (r,g,b,a) vector */
-	protected Coords color = new Coords(4), colorHighlighted = new Coords(4),
-			surfaceColor = new Coords(4),
-			surfaceColorHighlighted = new Coords(4);
+	protected GColor[] color = new GColor[2], surfaceColor = new GColor[2];
 
 	private static final float EPSILON_Z = 0.0001f;// 0.0001f;//10000000;
 													// //limit to consider two
@@ -1066,10 +1063,10 @@ public abstract class Drawable3D extends DrawableND {
 	protected void setHighlightingColor() {
 
 		if (doHighlighting()) {
-			Manager manager = getView3D().getRenderer().getGeometryManager();
-			setDrawingColor(manager.getHigthlighting(color, colorHighlighted));
-		} else
-			setDrawingColor(color);
+			setDrawingColor(color[1]);
+		} else {
+			setDrawingColor(color[0]);
+		}
 	}
 
 	/**
@@ -1078,7 +1075,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @param color
 	 *            color
 	 */
-	protected void setDrawingColor(Coords color) {
+	protected void setDrawingColor(GColor color) {
 		getView3D().getRenderer().setColor(color);
 	}
 
@@ -1088,86 +1085,94 @@ public abstract class Drawable3D extends DrawableND {
 	protected void setSurfaceHighlightingColor() {
 
 		if (doHighlighting()) {
-			Manager manager = getView3D().getRenderer().getGeometryManager();
-			setDrawingColor(manager.getHigthlighting(surfaceColor,
-					surfaceColorHighlighted));
+			setDrawingColor(surfaceColor[1]);
 		} else {
-			setDrawingColor(surfaceColor);
+			setDrawingColor(surfaceColor[0]);
 		}
 	}
 
-	private static final double ALPHA_MIN_HIGHLIGHTING = 0.25;
-	private static final double LIGHT_COLOR = 3 * 0.5;
+	private static final int ALPHA_MIN_HIGHLIGHTING = 64;
+	private static final int LIGHT_COLOR = 3 * 127;
 
 	protected void updateColors() {
-		setColors(alpha, color, colorHighlighted);
+		setColors(alpha, color);
 	}
 
 	protected void setColorsOutlined() {
-		setColors(1, color, colorHighlighted);// for outline
-		setColors(alpha, surfaceColor, surfaceColorHighlighted);
+		setColors(255, color);// for outline
+		setColors(alpha, surfaceColor);
 	}
 
-	private Coords tmpColor2 = new Coords(4), tmpCoords1 = new Coords(4);
+	private Coords tmpCoords1 = new Coords(4);
+	private GColor tmpColor2;
 
-	protected void setColors(double alpha, Coords color,
-			Coords colorHighlighted) {
-		GColor c = getGeoElement().getObjectColor();
-		color.set(new Coords((double) c.getRed() / 255,
-				(double) c.getGreen() / 255, (double) c.getBlue() / 255,
-				alpha));
+	protected void setColors(int alpha, GColor[] color) {
 
-		if (getView3D().isGrayScaled())
-			color.convertToGrayScale();
+		GColor c = getGeoElement().getObjectColor().deriveWithAlpha(alpha);
+
+		if (getView3D().isGrayScaled()) {
+			color[0] = c.createGrayScale();
+		} else {
+			color[0] = c;
+		}
 
 		// creates corresponding color for highlighting
 
-		double r = color.getX();
-		double g = color.getY();
-		double b = color.getZ();
-		double d = r + g + b;
+		int r = color[0].getRed();
+		int g = color[0].getGreen();
+		int b = color[0].getBlue();
+		int d = r + g + b;
 
 		double distance;
 
 		if (d > LIGHT_COLOR) {// color is closer to white : darken it
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
 															// to black
-			tmpColor2.set(0, 0, 0, color.getW()); // black
+			tmpColor2 = GColor.BLACK;
 		} else {// color is closer to black : lighten it
-			r = 1 - r;
-			g = 1 - g;
-			b = 1 - b;
+			r = 255 - r;
+			g = 255 - g;
+			b = 255 - b;
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
 															// to white
-			tmpColor2.set(1, 1, 1, color.getW()); // white
+			tmpColor2 = GColor.WHITE;
 		}
 
-		double s = getColorShift() / distance;
-		colorHighlighted.set(tmpCoords1.setAdd(tmpCoords1.setMul(color, 1 - s),
-				tmpColor2.setMul(tmpColor2, s)));
-		// color.mul(1 - s).add(color2.mul(s)));
-
+		double s = 255 * getColorShift() / distance;
+		int a = color[0].getAlpha();
 		// sufficient alpha to be seen
-		if (colorHighlighted.getW() < ALPHA_MIN_HIGHLIGHTING)
-			colorHighlighted.setW(ALPHA_MIN_HIGHLIGHTING);
+		if (a < ALPHA_MIN_HIGHLIGHTING) {
+			a = ALPHA_MIN_HIGHLIGHTING;
+		}
+		// highlighted color
+		color[1] = GColor.mixColors(color[0], tmpColor2, s, a);
+
 	}
 
 	/** alpha value for rendering transparency */
-	private float alpha = 1f;
+	private int alpha = 255;
 
-	protected void setAlpha(float alpha) {
+	protected void setAlpha(int alpha) {
 		this.alpha = alpha;
 	}
 
-	protected float getAlpha() {
+	protected int getAlpha() {
 		return alpha;
 	}
 
 	protected void updateAlpha() {
 		// only used by surfaces
 		// use 1-(1-alpha)^(1/3) because transparent parts are drawn twice
-		setAlpha((float) (1
-				- Math.pow(1 - getGeoElement().getAlphaValue(), 1. / 3.)));
+		int a = (int) (255
+				* (1 - Math.pow(1 - getGeoElement().getAlphaValue(), 1. / 3.)));
+
+		if (a < 0) {
+			a = 0;
+		} else if (a > 255) {
+			a = 255;
+		}
+		setAlpha(a);
+
 		// setAlpha(getGeoElement().getAlphaValue());
 	}
 
@@ -1176,7 +1181,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return true if has alpha that leads to a transparent surface
 	 */
 	protected boolean hasTransparentAlpha() {
-		return getAlpha() > 0 && getAlpha() < 1;
+		return getAlpha() > 0 && getAlpha() < 255;
 	}
 
 	protected final static double COLOR_SHIFT_SURFACE = 0.75; // 0.2
@@ -1390,9 +1395,7 @@ public abstract class Drawable3D extends DrawableND {
 			ArrayList<TraceIndex> indices = trace.get(settings);
 			double a = settings.getAlpha();
 			if (a > 0 && a < 1) {
-				Coords c = settings.getColor().copyVector();
-				c.set(4, a);
-				setDrawingColor(c);
+				setDrawingColor(settings.getColor());
 				for (TraceIndex index : indices) {
 					drawSurface(renderer, index);
 				}

@@ -176,7 +176,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 	@Override
 	public boolean isTransparent() {
 		if (getPickingType() == PickingType.SURFACE) {
-			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE_INT;
 		}
 
 		return false;

@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.awt.GColor;
 
 public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 
@@ -33,9 +33,8 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 		lastTraceIndices = null;
 	}
 
-	public void setSettings(Coords color, float alpha) {
-		traceSettingsCurrent.setColor(color);
-		traceSettingsCurrent.setAlpha(alpha);
+	public void setSettings(GColor color, int alpha) {
+		traceSettingsCurrent.setColor(color, alpha);
 	}
 
 	public ArrayList<TraceIndex> getTracesIndicesCurrent() {
@@ -48,7 +47,7 @@ public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 	}
 
 	public void record(Drawable3D d) {
-		setSettings(d.color, d.getAlpha());
+		setSettings(d.color[0], d.getAlpha());
 
 		ArrayList<TraceIndex> indices = getTracesIndicesCurrent();
 

@@ -140,6 +140,8 @@ public abstract class EuclidianController {
 	 * through it)
 	 */
 	public static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
+	public static final int MAX_TRANSPARENT_ALPHA_VALUE_INT = (int) (255
+			* MAX_TRANSPARENT_ALPHA_VALUE);
 
 	/**
 	 * max value for alpha to consider an object visible

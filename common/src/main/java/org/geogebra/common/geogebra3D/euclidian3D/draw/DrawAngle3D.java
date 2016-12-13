@@ -57,7 +57,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			return;
 		}
 
-		if (getAlpha() < 1)
+		if (getAlpha() < 255)
 			return;
 
 		setSurfaceHighlightingColor();

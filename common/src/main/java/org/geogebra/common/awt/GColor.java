@@ -269,6 +269,15 @@ public class GColor implements GPaint {
 	}
 
 	/**
+	 * 
+	 * @return gray scale GColor corresponding to this color
+	 */
+	public GColor createGrayScale() {
+		int gray = (int) getGrayScale();
+		return GColor.newColor(gray, gray, gray, getAlpha());
+	}
+
+	/**
 	 * This method could return Long, but it returns Integer for
 	 * backwards-compatibility, even if it's negative
 	 * 
@@ -448,6 +457,25 @@ public class GColor implements GPaint {
 	public GColor deriveWithAlpha(int alpha) {
 
 		return newColor(getRed(), getGreen(), getBlue(), alpha);
+	}
+
+	/**
+	 * 
+	 * @param color1
+	 * @param color2
+	 * @param mix
+	 * @param alpha
+	 * @return color1 * (1-mix) + color2 * mix and force alpha
+	 */
+	public static GColor mixColors(GColor color1, GColor color2,
+			double mix, int alpha) {
+
+		int r = (int) (color1.getRed() * (1 - mix) + color2.getRed() * mix);
+		int g = (int) (color1.getGreen() * (1 - mix) + color2.getGreen() * mix);
+		int b = (int) (color1.getBlue() * (1 - mix) + color2.getBlue() * mix);
+
+		return newColor(r, g, b, alpha);
+
 	}
 
 }

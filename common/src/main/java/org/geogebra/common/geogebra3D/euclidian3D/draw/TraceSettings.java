@@ -1,65 +1,43 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
-import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.awt.GColor;
 
 final public class TraceSettings
 		implements Comparable<TraceSettings>, Cloneable {
 
-	private Coords c;
-	private double a;
+	private GColor c;
 
 	public TraceSettings() {
 
 	}
 
-	public TraceSettings(Coords c, double a) {
-		this.c = c;
-		this.a = a;
+	public TraceSettings(GColor c, int a) {
+		setColor(c, a);
 	}
 
-	final public TraceSettings clone() {
-		Coords c1 = this.c.copyVector();
-		return new TraceSettings(c1, a);
+	@Override
+	public TraceSettings clone() {
+		return new TraceSettings(c, c.getAlpha());
 	}
 
-	public void setColor(Coords c) {
-		this.c = c;
+	public void setColor(GColor c, int a) {
+		this.c = c.deriveWithAlpha(a);
 	}
 
-	public Coords getColor() {
+	public GColor getColor() {
 		return c;
 	}
 
-	public double getAlpha() {
-		return a;
-	}
-
-	public void setAlpha(double a) {
-		this.a = a;
-	}
-
-	private int getInt(double value) {
-		return (int) (256 * value);
+	public int getAlpha() {
+		return c.getAlpha();
 	}
 
 	@Override
 	public int compareTo(TraceSettings settings) {
 
-		// compare colors (r,g,b)
-		for (int i = 1; i <= 3; i++) {
-			int v1 = getInt(this.c.get(i));
-			int v2 = getInt(settings.c.get(i));
-			if (v1 < v2) {
-				return -1;
-			}
-			if (v1 > v2) {
-				return 1;
-			}
-		}
-
-		// compare alpha
-		int v1 = getInt(this.a);
-		int v2 = getInt(settings.a);
+		// compare colors
+		int v1 = this.c.hashCode();
+		int v2 = settings.c.hashCode();
 		if (v1 < v2) {
 			return -1;
 		}
@@ -68,5 +46,15 @@ final public class TraceSettings
 		}
 
 		return 0;
+	}
+
+	@Override
+	public boolean equals(Object settings) {
+		if (settings instanceof TraceSettings) {
+			int v1 = this.c.hashCode();
+			int v2 = ((TraceSettings) settings).c.hashCode();
+			return v1 == v2;
+		}
+		return false;
 	}
 }

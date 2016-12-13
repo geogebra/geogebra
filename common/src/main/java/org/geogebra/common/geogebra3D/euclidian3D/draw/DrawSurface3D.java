@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -211,7 +212,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 
-			setDrawingColor(Coords.DARK_GRAY);
+			setDrawingColor(GColor.DARK_GRAY);
 			setLineTextureHidden(renderer);
 
 			renderer.getGeometryManager().draw(getGeometryIndex());
@@ -230,7 +231,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 
-			setDrawingColor(Coords.DARK_GRAY);
+			setDrawingColor(GColor.DARK_GRAY);
 			renderer.getTextures()
 					.setDashFromLineType(getGeoElement().getLineType());
 

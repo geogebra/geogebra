@@ -87,7 +87,7 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer) {
 
-		if (isVisible() && getAlpha() >= 1) {
+		if (isVisible() && getAlpha() == 255) {
 			setSurfaceHighlightingColor();
 			drawSurfaceGeometry(renderer);
 		}
@@ -648,7 +648,7 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public boolean isTransparent() {
 		if (getPickingType() == PickingType.SURFACE) {
-			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE_INT;
 		}
 
 		return false;
