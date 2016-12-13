@@ -11,7 +11,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class MouseEventD extends AbstractEvent implements MouseEventND {
 
-	public static final LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
+	private static final LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
 	private MouseEvent event;
 
 	private MouseEventD(MouseEvent e) {
