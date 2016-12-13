@@ -1663,14 +1663,14 @@ public class AlgebraViewW extends Tree implements LayerView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-			// new item inserted => confirm the old input first
-			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				getActiveTreeItem().onEnter(false);
+			} else if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 				getActiveTreeItem().stopEditing(null, null);
 			} else {
 				getActiveTreeItem().onEnter(false);
 			}
 		}
-
 	}
 
 	/**
