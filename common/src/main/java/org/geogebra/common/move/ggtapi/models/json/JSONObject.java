@@ -100,10 +100,10 @@ public class JSONObject {
 	 * method returns "null".
 	 */
 
-	@SuppressFBWarnings({ "EQ_UNUSUAL",
-			"API specifies this broken equals implementation" })
 	public static final Object NULL = new Object() {
 		@Override
+		@SuppressFBWarnings({ "EQ_UNUSUAL",
+				"API specifies this broken equals implementation" })
 		public boolean equals(Object o) {
 			return o == this || o == null; // API specifies this broken equals
 											// implementation
@@ -854,8 +854,7 @@ public class JSONObject {
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
+		return nameValuePairs.hashCode();
 	}
 
 }
