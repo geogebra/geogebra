@@ -11,8 +11,7 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 
 public class MathFieldController {
 
@@ -22,13 +21,12 @@ public class MathFieldController {
     private float size = 16;
     private int type = TeXFormula.SERIF;
 
-	private Image image;
+	private GraphicsStub graphics;
 
     public MathFieldController(MathField mathField) {
         this.mathField = mathField;
         texSerializer = new TeXSerializer(mathField.getMetaModel());
-		image = FactoryProvider.INSTANCE.getGraphicsFactory()
-				.createImage(1, 1, 1);
+		graphics = new GraphicsStub();
 	}
 
     public void setSize(float size) {
@@ -93,7 +91,8 @@ public class MathFieldController {
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
 		renderer.getBox().getPath(x / size, y / size, list);
-		renderer.paintIcon(null, image.createGraphics2D(), 0, 0);
+		graphics.reset();
+		renderer.paintIcon(null, graphics, 0, 0);
 	}
 
 	public void getSelectedPath(MathFormula mathFormula,
@@ -107,7 +106,8 @@ public class MathFieldController {
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
 		renderer.getBox().getSelectedPath(list, 0);
-		renderer.paintIcon(null, image.createGraphics2D(), 0, 0);
+		graphics.reset();
+		renderer.paintIcon(null, graphics, 0, 0);
 	}
 
 	public void setSelectedPath(MathFormula mathFormula,
