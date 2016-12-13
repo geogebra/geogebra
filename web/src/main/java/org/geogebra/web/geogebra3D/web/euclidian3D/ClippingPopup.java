@@ -16,7 +16,7 @@ public class ClippingPopup extends PopupMenuButtonW {
 	public ClippingPopup(AppW app, ImageOrText[] data, int rows, int columns,
 	        SelectionTable mode, EuclidianView3D ev) {
 		super(app, data, rows, columns, mode, true,
-		        false);
+				false, null);
 		this.ev = ev;
 
 		defaultIcon = data.length > 2 ? data[2] : null;

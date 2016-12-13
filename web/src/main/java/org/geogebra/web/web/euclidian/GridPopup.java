@@ -13,7 +13,7 @@ public class GridPopup extends PopupMenuButtonW {
 
 	public GridPopup(AppW app, ImageOrText[] data, int rows, int columns,
 	        SelectionTable mode, EuclidianView ev) {
-		super(app, data, rows, columns, mode, true, false);
+		super(app, data, rows, columns, mode, true, false, null);
 		defaultIcon = data.length > 1 ? data[1] : null;
 		this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);
 	}

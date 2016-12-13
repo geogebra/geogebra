@@ -570,7 +570,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					SelectionTable.MODE_ICON, true, false);
+					SelectionTable.MODE_ICON, true, false, null);
 		}
 
 		@Override

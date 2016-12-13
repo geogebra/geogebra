@@ -54,7 +54,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		btnColumns = new PopupMenuButtonW(app,
 		        ImageOrText.convert(tableColumns), -1, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, true, false,
-		        show);
+				show, null);
 
 		ImageResource ic = AppResources.INSTANCE.header_column();
 		ImgResourceHelper.setIcon(ic, btnColumns);

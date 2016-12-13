@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
+import java.util.HashMap;
+
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -48,6 +50,7 @@ public class PopupMenuButtonW extends MyCJButton
 	private boolean isFixedIcon = false;
 	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
+	protected HashMap<Integer, Integer> lineStyleMap;
 
 	/**
 	 * @param app
@@ -63,7 +66,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode) {
-		this(app, data, rows, columns, mode, true, false);
+		this(app, data, rows, columns, mode, true, false, null);
 	}
 
 	/**
@@ -84,8 +87,9 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider) {
-		this(app, data, rows, columns, mode, hasTable, hasSlider, null);
+			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
+		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
+				lineStyleMap0);
 	}
 
 	
@@ -109,10 +113,12 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, boolean[] selected) {
+			boolean hasSlider, boolean[] selected,
+			HashMap<Integer, Integer> lineStyleMap0) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
+		this.lineStyleMap = lineStyleMap0;
 		if (selected != null) {
 			multiselectionEnabled = true;
 		}
@@ -202,8 +208,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param mode
 	 *            selection mode
 	 */
-	private void createSelectionTable(ImageOrText[] newData,
- Integer rows,
+	private void createSelectionTable(ImageOrText[] newData, Integer rows,
 			Integer columns, SelectionTable mode, boolean[] selected) {
 		this.data = newData;
 

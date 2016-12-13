@@ -6,7 +6,6 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -16,10 +15,12 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		ILineStyleListener {
 	LineStyleModel model;
 
-	public EuclidianLineStylePopup(AppW app, ImageOrText[] data, Integer rows,
+	public EuclidianLineStylePopup(AppW app, int iconHeight, Integer rows,
 			Integer columns, SelectionTable mode, boolean hasTable,
 			boolean hasSlider) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider);
+		super(app, LineStylePopup.getLineStyleIcons(iconHeight), rows, columns,
+				mode, hasTable, hasSlider,
+				LineStylePopup.getLineStyleMap(iconHeight));
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);

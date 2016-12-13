@@ -10,48 +10,67 @@ public class LineStylePopup extends PopupMenuButtonW  {
 
 	private static final int DEFAULT_SIZE = 2;
 
-	private static HashMap<Integer, Integer> lineStyleMap;
 	private int mode;
-	private static ImageOrText [] lineStyleIcons = null;
-	public static void fillData(int iconHeight) {
-		
-		
-		Integer styleCount = LineStyleModel.getStyleCount();
-		setLineStyleIcons(new ImageOrText[styleCount]);
-		
-		for (int i = 0; i < styleCount; i++)
-			getLineStyleIcons()[i] = GeoGebraIconW.createLineStyleIcon(i);
-		
-		lineStyleMap = new HashMap<Integer, Integer>();
-		
-		for (int i = 0; i < styleCount; i++)
-			lineStyleMap.put(LineStyleModel.getStyleAt(i), i);
+	private ImageOrText[] lineStyleIcons = null;
 
+	public static HashMap<Integer, Integer> getLineStyleMap(int iconHeight) {
+
+		Integer styleCount = LineStyleModel.getStyleCount();
+		
+		HashMap<Integer, Integer> lineStyleMap0 = new HashMap<Integer, Integer>();
+
+		for (int i = 0; i < styleCount; i++) {
+			lineStyleMap0.put(LineStyleModel.getStyleAt(i), i);
+		}
+
+		return lineStyleMap0;
+
+	}
+
+	public static ImageOrText[] getLineStyleIcons(int iconHeight) {
+
+		Integer styleCount = LineStyleModel.getStyleCount();
+		ImageOrText[] lineStyleIcons0 = new ImageOrText[styleCount];
+		
+		for (int i = 0; i < styleCount; i++) {
+			lineStyleIcons0[i] = GeoGebraIconW.createLineStyleIcon(i);
+		}
+		
+		return lineStyleIcons0;
 
 	}
 	public static LineStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider) {
 
+		ImageOrText[] lineStyleIcons0 = getLineStyleIcons(iconHeight);
 
-		fillData(iconHeight);
-		LineStylePopup ret = new LineStylePopup(app, getLineStyleIcons(), -1,
+		HashMap<Integer, Integer> lineStyleMap0 = getLineStyleMap(iconHeight);
+
+		LineStylePopup ret = new LineStylePopup(app, lineStyleIcons0, -1,
 				6, SelectionTable.MODE_ICON,
-				true, hasSlider);
+				true, hasSlider, lineStyleMap0);
 		ret.setMode(mode);
+		// ret.fillData(iconHeight);
 		return ret;
 	}
 
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
-			boolean hasTable, boolean hasSlider) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider);
+			boolean hasTable, boolean hasSlider,
+			HashMap<Integer, Integer> lineStyleMap0) {
+		super(app, data, rows, columns, mode, hasTable, hasSlider,
+				lineStyleMap0);
 
 	}
 
 	
 	public void selectLineType(int type) {
-		setSelectedIndex(lineStyleMap.get(type));
+		setSelectedIndex(getLineStyleMap().get(type));
 	}
 
+
+	private HashMap<Integer, Integer> getLineStyleMap() {
+		return lineStyleMap;
+	}
 
 	@Override
 	public ImageOrText getButtonIcon() {
@@ -68,17 +87,6 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		int val = super.getSliderValue();
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
-	
-	public static ImageOrText [] getLineStyleIcons() {
-		return lineStyleIcons;
-    }
-	public static void setLineStyleIcons(ImageOrText [] lineStyleIcons) {
-	    LineStylePopup.lineStyleIcons = lineStyleIcons;
-    }
-
-	public int getMode() {
-	    return mode;
-    }
 
 	public void setMode(int mode) {
 		this.mode = mode;
