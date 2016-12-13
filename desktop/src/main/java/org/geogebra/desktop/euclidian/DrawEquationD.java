@@ -134,7 +134,7 @@ public class DrawEquationD extends DrawEquation {
 
 		GGraphics2DD.setAntialiasing(g2image);
 
-		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
+		drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
 				new GFontD(font), serif, GColorD.newColor(fgColor),
 				GColorD.newColor(bgColor), true, false, null);
 

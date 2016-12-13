@@ -282,8 +282,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double animatedRotSpeed;
 	/** starting time for animated rotation */
 	private double animatedRotTimeStart;
-	/** says if the view is frozen (see freeze()) */
-	private boolean isFrozen = false;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4

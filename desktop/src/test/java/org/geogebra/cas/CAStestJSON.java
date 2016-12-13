@@ -91,7 +91,6 @@ public class CAStestJSON {
 	    logger = new CASTestLogger();
 	    // Setting the general timeout to 13 seconds. Feel free to change this.
 	    kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(13000);
-		
 		try {
 			Log.debug("CAS: loading testcases");
 			String json = readFileAsString("../web/war/__giac.js");

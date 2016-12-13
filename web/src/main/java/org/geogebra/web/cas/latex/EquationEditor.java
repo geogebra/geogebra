@@ -46,7 +46,6 @@ public class EquationEditor implements HasSuggestions {
 	public static final int querylimit = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
-	private int curWordStart;
 	protected CompletionsPopup popup;
 	private App app;
 
@@ -105,12 +104,10 @@ public class EquationEditor implements HasSuggestions {
 	 * AutoCompleteTextFieldW
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
+		InputHelper.updateCurrentWord(searchRight, this.curWord,
 		        component.getText(),
 				getCaretPosition(), false);
-		if (next > -1) {
-			this.curWordStart = next;
-		}
+
 	}
 
 	public int getCaretPosition() {

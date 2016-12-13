@@ -41,7 +41,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	}
 
-	private boolean isPreview = false;
 
 	private int previewMode;
 
@@ -61,7 +60,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		this.selectedPoints = selectedPoints;
 		this.selectedPolygons = selectedPolygons;
 
-		isPreview = true;
 		previewMode = mode;
 
 		// updatePreview();

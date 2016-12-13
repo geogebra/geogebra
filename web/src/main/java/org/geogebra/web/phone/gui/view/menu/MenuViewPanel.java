@@ -9,7 +9,6 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
  */
 public class MenuViewPanel extends AbstractViewPanel {
 
-	private MainMenu menu;
 
 	/**
 	 * @param app
@@ -17,9 +16,9 @@ public class MenuViewPanel extends AbstractViewPanel {
 	 */
 	public MenuViewPanel(AppW app) {
 		super(app);
-		this.menu = (MainMenu) app.getLAF().getMenuBar(app);
-		this.menu.addStyleName("phoneMenu");
-		this.add(menu);
+		MainMenu menu = (MainMenu) app.getLAF().getMenuBar(app);
+		menu.addStyleName("phoneMenu");
+		add(menu);
 		onResize();
 	}
 

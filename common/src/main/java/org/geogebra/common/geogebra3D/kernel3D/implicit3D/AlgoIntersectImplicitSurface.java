@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersect3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.GetCommand;
@@ -27,15 +26,11 @@ import org.geogebra.common.plugin.Operation;
  *
  */
 public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
-	@SuppressWarnings("unused")
-	private static final double EPS = Kernel.MIN_PRECISION;
 	private static final int SAMPLE_SIZE = 100;
 	private GeoImplicitSurfaceND surface;
 	private GeoElementND eqn;
 	private OutputHandler<GeoPoint3D> outputs;
 	private String labels[];
-	@SuppressWarnings("unused")
-	private int outputLen;
 
 	/**
 	 * 
@@ -117,7 +112,6 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 			outputs.adjustOutputSize(0);
 			return;
 		}
-		this.outputLen = roots.length;
 		Function f1 = new Function(x);
 		Function f2 = new Function(y);
 		Function f3 = new Function(z);

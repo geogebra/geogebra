@@ -758,21 +758,10 @@ public class DrawAxis {
 				view.axesTickStyles[1] <= 1 };
 		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
 				view.axesTickStyles[1] == 0 };
-		double rw = view.getXmin()
-				- (view.getXmin() % view.axesNumberingDistances[0]);
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
 		double smallTickOffset = 0;
-		if (view.getPositiveAxes()[0]
-				&& (Kernel.isGreaterEqual(rw, view.getXmin()))) {
-			// start labels at the y-axis instead of screen border
-			// be careful: view.axisCross[1] = x value for which the y-axis
-			// crosses,
-			// so xmin is replaced view.axisCross[1] and not
-			// view.axisCross[0]
-			rw = MyMath.nextMultiple(view.axisCross[1],
-					view.axesNumberingDistances[0]);
-		}
+
 		int maxX = view.getWidth() - EuclidianView.SCREEN_BORDER;
 
 		double smallTickPix;

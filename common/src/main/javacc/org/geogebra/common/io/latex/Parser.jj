@@ -366,7 +366,6 @@ void quotes(MathContainer currentField) :
 
 void mathCharacter(MathContainer currentField) :
 {
-    Token space = null;
     Token t = null;
 }
 {
@@ -374,7 +373,7 @@ void mathCharacter(MathContainer currentField) :
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
+    (( <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
@@ -397,7 +396,6 @@ void mathCharacter(MathContainer currentField) :
 
 void mathAtomCharacter(MathContainer currentField) :
 {
-    Token space = null;
     Token t = null;
 }
 {

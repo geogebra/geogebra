@@ -95,9 +95,9 @@ public class MyImageD implements MyImageJre {
 
 			MessageDigest md;
 			md = MessageDigest.getInstance("MD5");
-			byte[] md5hash = new byte[32];
+
 			md.update(fileData, 0, fileData.length);
-			md5hash = md.digest();
+			byte[] md5hash = md.digest();
 			return StringUtil.convertToHex(md5hash);
 
 		} catch (Exception e) {
