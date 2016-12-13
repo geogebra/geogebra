@@ -86,6 +86,14 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		}
 
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof CoordsWithParent) {
+				return compareTo((CoordsWithParent) o) == 0;
+			}
+			return false;
+		}
+
 		/**
 		 * compare parent to o
 		 * 
