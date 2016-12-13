@@ -112,6 +112,10 @@ public class BrowserDevice implements GDevice {
 		return new ConstructionProtocolViewW(app);
 	}
 
+	public void resizeView(int width, int height) {
+		Window.resizeTo(width, height);
+
+	}
 
 
 }

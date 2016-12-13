@@ -14,7 +14,8 @@ public class GpuBlacklist {
 	 * extended to use a list or using more sophisticated methods to blacklist
 	 * some gpus
 	 */
-	private static final String blacklistedRenderer = "Gallium 0.4 on i915 (chipset: Pineview M)";
+	private static final String[] blacklistedRenderer = new String[] {
+			"Gallium 0.4 on i915 (chipset: Pineview M)", "NVIDIA Tegra 3" };
 
 	/**
 	 * @param glContext
@@ -24,7 +25,12 @@ public class GpuBlacklist {
 	public static boolean isCurrentGpuBlacklisted(
 	        WebGLRenderingContext glContext) {
 		String unmaskedRenderer = getUnmaskedRendererWebgl(glContext);
-		return blacklistedRenderer.equals(unmaskedRenderer);
+		for (String model : blacklistedRenderer) {
+			if (model.equals(unmaskedRenderer)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static native String getUnmaskedRendererWebgl(

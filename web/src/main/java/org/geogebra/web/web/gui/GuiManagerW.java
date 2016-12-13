@@ -1492,6 +1492,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateFrameSize() {
+		if (((AppW) app).getArticleElement().getDataParamApp()) {
+			return;
+		}
 		// get frame size from layout manager
 		GDimension size = ((AppW) app).getPreferredSize();
 		int width = size.getWidth();
@@ -1504,8 +1507,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			height = Browser.getScreenHeight();
 			Window.moveTo(0, 0);
 		}
-		Log.debug("FILE RESIZE" + width + "," + height);
-		Window.resizeTo(width, height);
+		if (((AppWFull) app).getDevice() != null) {
+			((AppWFull) app).getDevice().resizeView(width, height);
+		}
 
 	}
 

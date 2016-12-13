@@ -19,4 +19,6 @@ public interface GDevice {
 	public BrowseViewI createBrowseView(AppW app);
 
 	public ConstructionProtocolView getConstructionProtocolView(AppW app);
+
+	public void resizeView(int width, int height);
 }

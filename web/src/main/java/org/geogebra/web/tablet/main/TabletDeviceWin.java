@@ -68,4 +68,11 @@ public class TabletDeviceWin extends TouchDevice {
 	public UploadImageDialog getImageInputDialog(AppW app) {
 		return new ImageInputDialogWin(app);
 	}
+
+	public native void resizeView(int width, int height) /*-{
+		if ($wnd.android && $wnd.android.callPlugin) {
+			bg.@org.geogebra.web.web.gui.browser.BrowseGUI::showLoading()();
+			$wnd.android.callPlugin("ResizeView", [ width, height ]);
+		}
+	}-*/;
 }

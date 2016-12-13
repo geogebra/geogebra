@@ -18,4 +18,9 @@ public class TabletDevice extends TouchDevice {
 	public BrowseGUI createBrowseView(AppW app) {
 		return new TabletBrowseGUI(app);
 	}
+
+	public void resizeView(int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
 }

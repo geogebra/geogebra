@@ -18,4 +18,9 @@ public class PhoneDevice extends TouchDevice {
 		return new BrowseView(app);
 	}
 
+	public void resizeView(int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
