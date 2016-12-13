@@ -237,6 +237,14 @@ public class EuclidianControllerInput3DCompanion extends
 
 		}
 
+		@Override
+		public boolean equals(Object sp) {
+			if (sp instanceof StickyPoint) {
+				return compareTo((StickyPoint) sp) == 0;
+			}
+			return false;
+		}
+
 	}
 
 	private static class StickyPointForDirection
@@ -283,6 +291,14 @@ public class EuclidianControllerInput3DCompanion extends
 
 			return 0;
 
+		}
+		
+		@Override
+		public boolean equals(Object spd) {
+			if (spd instanceof StickyPointForDirection) {
+				return compareTo((StickyPointForDirection) spd) == 0;
+			}
+			return false;
 		}
 
 	}
