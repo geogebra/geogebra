@@ -2173,7 +2173,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		String str1 = str;
 		if (str1 == null || str1.length() == 0)
 			return true;
-		if (str1.equals("?"))
+		if ("?".equals(str1))
 			return true; // undefined/NaN
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
 		str1 = StringUtil.toLowerCase(str1);

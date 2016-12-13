@@ -185,7 +185,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 			ctx.fillRect(x + padding, y + padding, w - padding, h - padding);
 
-			if (emptyTile == true) {
+			if (emptyTile) {
 				borderColor = EMPTY_TILE_COLOR;
 			} else	if (col == currentCol && row == currentRow && !emptyTile) {
 				ctx.setLineWidth(BORDER_WIDTH);

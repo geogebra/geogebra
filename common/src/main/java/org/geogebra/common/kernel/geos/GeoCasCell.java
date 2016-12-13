@@ -548,7 +548,7 @@ public class GeoCasCell extends GeoElement
 				assignmentStr = assignmentStr + ";";
 			String evalCmd1 = evalCmd;
 			if (setInput(assignmentStr)) {
-				if (evalCmd1.equals("Numeric")) {
+				if ("Numeric".equals(evalCmd1)) {
 					setProcessingInformation("",
 							"Numeric["
 									+ evalVE.toString(
@@ -2543,17 +2543,17 @@ public class GeoCasCell extends GeoElement
 			public int compare(String o1, String o2) {
 				if (o1.equals(o2))
 					return 0;
-				if (o1.equals("x"))
+				if ("x".equals(o1))
 					return -1;
-				if (o2.equals("x"))
+				if ("x".equals(o2))
 					return 1;
-				if (o1.equals("y"))
+				if ("y".equals(o1))
 					return -1;
-				if (o2.equals("y"))
+				if ("y".equals(o2))
 					return 1;
-				if (o1.equals("z"))
+				if ("z".equals(o1))
 					return -1;
-				if (o2.equals("z"))
+				if ("z".equals(o2))
 					return 1;
 				return o1.compareTo(o2);
 			}

@@ -1095,7 +1095,7 @@ public class TextInputDialogD extends InputDialogD
 				inputValue = inputValue.replaceAll("\n\"", "\"\n");
 			}
 
-			if (inputValue.equals("\"\"")) {
+			if ("\"\"".equals(inputValue)) {
 				callback.callback(false);
 				return;
 			}

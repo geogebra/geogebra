@@ -416,7 +416,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			// try to write image using the format of the filename extension
 			int pos = fileName.lastIndexOf('.');
 			String ext = StringUtil.toLowerCase(fileName.substring(pos + 1));
-			if (ext.equals("jpg") || ext.equals("jpeg"))
+			if ("jpg".equals(ext) || "jpeg".equals(ext))
 				ext = "JPG";
 			else
 				ext = "PNG";

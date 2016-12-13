@@ -1435,7 +1435,7 @@ public class Delaunay_Triangulation {
 			front.add(this.startTriangle);
 			while (front.size() > 0) {
 				Triangle_dt t = front.remove(0);
-				if (t._mark == false) {
+				if (!t._mark) {
 					t._mark = true;
 					_triangles.add(t);
 					if (t.abnext != null && !t.abnext._mark) {
