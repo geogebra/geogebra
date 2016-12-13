@@ -734,7 +734,7 @@ public class TraceDialog extends javax.swing.JDialog
 	/** Listener for changes in geo selection */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 
-		if (traceManager.isTraceGeo(geo) == true) {
+		if (traceManager.isTraceGeo(geo)) {
 			traceGeoList.setSelectedValue(geo, true);
 			updateGUI();
 		} else {

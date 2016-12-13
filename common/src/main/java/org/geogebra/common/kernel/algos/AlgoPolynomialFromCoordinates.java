@@ -127,8 +127,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			}
 
 		// remove duplicates at end of list
-		while (remove[n - 1] == true)
+		while (remove[n - 1]) {
 			n--;
+		}
 
 		// remove duplicates in the middle;
 		if (n > 2)

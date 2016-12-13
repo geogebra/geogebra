@@ -168,7 +168,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 				if (!thisButton.isEnabled())
 					return;
-				if (popupIsVisible == true && !myPopup.isVisible()) {
+				if (popupIsVisible && !myPopup.isVisible()) {
 					popupIsVisible = false;
 					return;
 				}

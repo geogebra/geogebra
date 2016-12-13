@@ -922,7 +922,7 @@ public class GeoList extends GeoElement
 			sb.append("\"/>\n");
 		}
 
-		if (drawAsComboBox == true) {
+		if (drawAsComboBox) {
 			sb.append("\t<comboBox val=\"true\"/>\n");
 		}
 

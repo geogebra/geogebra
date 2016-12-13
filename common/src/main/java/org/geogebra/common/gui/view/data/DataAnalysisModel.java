@@ -158,7 +158,7 @@ public class DataAnalysisModel {
 		}
 
 		if (mode == MODE_ONEVAR) {
-			if (showDataPanel == true
+			if (showDataPanel
 					&& dataSource.getGroupType() != GroupType.RAWDATA) {
 				setShowDataPanel(false);
 			}

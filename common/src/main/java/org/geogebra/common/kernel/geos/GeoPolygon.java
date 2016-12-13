@@ -2043,7 +2043,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		int i = 1;
-		while ((answer == true) && (i < n)) {
+		while (answer && (i < n)) {
 			dx1 = dx2;
 			dy1 = dy2;
 			x1 = x2;

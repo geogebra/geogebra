@@ -589,7 +589,7 @@ public class StatTable extends JScrollPane {
 		@Override
 		public boolean isCellEditable(int rowIndex, int colIndex) {
 
-			if (allowCellEdit == true) {
+			if (allowCellEdit) {
 				return true;
 			}
 

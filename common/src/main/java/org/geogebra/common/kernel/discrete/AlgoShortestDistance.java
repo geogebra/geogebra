@@ -140,7 +140,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 		DijkstraShortestPath<MyNode, MyLink> alg;
 
-		if (weighted.getBoolean() == true) {
+		if (weighted.getBoolean()) {
 			alg = new DijkstraShortestPath<MyNode, MyLink>(g, wtTransformer);
 		} else {
 			// Unweighted Shortest Path

@@ -1561,7 +1561,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		for (int i = 0; i < k; i++) {
 			TableColumn column = getTableColumns()[i];
 			model.removeColumn(column);
-			if (colsVisibility[i] == true) {
+			if (colsVisibility[i]) {
 				model.addColumn(column);
 			}
 			// else {

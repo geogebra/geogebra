@@ -500,7 +500,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			return;
 
 		// only needed if eg columns resized
-		if (editing == true) {
+		if (editing) {
 			if (!errorOnStopEditing) {
 
 				// Process the current edit, exit the editor and update the
