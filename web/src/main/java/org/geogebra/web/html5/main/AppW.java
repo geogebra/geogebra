@@ -873,10 +873,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
-			addExternalImage(fn, "data:image/svg+xml;base64,"
+			addExternalImage(filename, "data:image/svg+xml;base64,"
 					+ Browser.encodeBase64(content));
 		} else {
-			addExternalImage(fn, content);
+			addExternalImage(filename, content);
 		}
 	}
 
