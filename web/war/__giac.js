@@ -887,12 +887,12 @@ var __giac = [ {},
 { cat:"Evaluate",cmd:"{\u212f^(\u03AF \u03C0 / 8), \u03AF \u212f^(\u03AF \u03C0 / 8), -\u212f^(\u03AF \u03C0 / 8), -\u03AF \u212f^(\u03AF \u03C0 / 8)}", result:"{\u212f^(\u03AF \u03C0 / 8), \u03AF \u212f^(\u03AF \u03C0 / 8), -\u212f^(\u03AF \u03C0 / 8), -\u03AF \u212f^(\u03AF \u03C0 / 8)}|OR|{\u212f^(\u03AF / 8 \u03C0), \u03AF \u212f^(\u03AF / 8 \u03C0), -\u212f^(\u03AF / 8 \u03C0), -\u03AF \u212f^(\u03AF / 8 \u03C0)}" },
 { cat:"CSolutions", cmd:"CSolutions[x^4-\u03AF=0]", result:"{\u03AF \u212f^(\u03AF \u03C0 / 8), -\u03AF \u212f^(\u03AF \u03C0 / 8), \u212f^(\u03AF \u03C0 / 8), -\u212f^(\u03AF \u03C0 / 8)}|OR|{(\u03AF * \u212f^((\u03AF * \u03C0 / 8))), ((-\u03AF) * \u212f^((\u03AF * \u03C0 / 8))), \u212f^((\u03AF * \u03C0 / 8)), (-\u212f^((\u03AF * \u03C0 / 8)))}|OR|{\u212f^(\u03AF \u03C0 / 8), \u03AF \u212f^(\u03AF \u03C0 / 8), -\u212f^(\u03AF \u03C0 / 8), -\u03AF \u212f^(\u03AF \u03C0 / 8)}|OR|{\u03AF \u212f^(\u03AF \u03C0 / 8), -\u03AF \u212f^(\u03AF \u03C0 / 8), -\u212f^(\u03AF \u03C0 / 8), \u212f^(\u03AF \u03C0 / 8)}" },
 { cat:"CSolutions", cmd:"CSolutions[x^5-\u03AF=0]", result:"{\u03AF, \u03AF \u212f^(2\u03C0 \u03AF / 5), \u03AF \u212f^(4\u03C0 \u03AF / 5), -\u03AF \u212f^(\u03C0 \u03AF / 5), -\u03AF \u212f^(3\u03C0 \u03AF / 5)}" },
-{ cat:"Integral", cmd:"Integral[Normal[0, 0.09, x], -1, 1]", result:"1 / 2 erf(-50 sqrt(2) / 9) + 1 / 2 erf(50sqrt(2) / 9) + 1|OR|(erf(-50 sqrt(2) / 9) + erf(50sqrt(2) / 9) + 2) / 2" },
+{ cat:"Integral", cmd:"Integral[Normal[0, 0.09, x], -1, 1]", result:"(erf(50x sqrt(2) / 9) + 1) / 2|OR|1 / 2 erf(-50 sqrt(2) / 9) + 1 / 2 erf(50sqrt(2) / 9) + 1|OR|(erf(-50 sqrt(2) / 9) + erf(50sqrt(2) / 9) + 2) / 2" },
 { cat:"SolveTrig", cmd:"Solve[sqrt(3)*sin(pi x)-cos(pi x)=0]", result:"{x = n_0 + 1 / 6}" },
 { cat:"SolveTrig", cmd:"Solve[tan(pi x) = 1/sqrt(3)]", result:"{x = n_0 + 1 / 6}" },
 { cat:"sin", cmd:"sin(15\u00b0)", result:"(sqrt(6) - sqrt(2)) / 4|OR|1 / 4 (-sqrt(2) + sqrt(6))" },
 { cat:"Evaluate", cmd:"Evaluate[(sqrt(6) - sqrt(2)) / 4]", result:"1 / 4 (-sqrt(2) + sqrt(6))" },
-{ cat:"Evaluate", cmd:"Evaluate[Normal[0, 0.09, x]]", result:"1 / 2 + 1 / 2 erf(sqrt(2) 50 (1 / 9) x)|OR|1 / 2 erf(sqrt(2) 50 (1 / 9) x) + 1 / 2" },
+{ cat:"Normal", cmd:"Normal[0, 0.09, x]", result:"1 / 2 + 1 / 2 erf(sqrt(2) 50 (1 / 9) x)|OR|1 / 2 erf(sqrt(2) 50 (1 / 9) x) + 1 / 2" },
 { cat:"Substitute", cmd:"Substitute[((-a\u00B2 y\u00B2 + x\u00B2 y\u00B2 + y\u00B2 x\u00B2) / a\u00B2 / y\u00B2),x=1]", result:"(-a\u00B2 y\u00B2 + y\u00B2 + y\u00B2) / a\u00B2 / y\u00B2|OR|(-a\u00B2 + 2) / a\u00B2" },
 { cat:"Element", cmd:"Element[x^2+y^2=a^2+b^2,1]", result:"x\u00B2 + y\u00B2" }, 
 { cat:"Element", cmd:"Element[x^2+y^2=a^2+b^2,2]", result:"a\u00B2 + b\u00B2" }, 
@@ -1975,7 +1975,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[acosd(0.317)]", result:"71.51840572927\u00B0", round:"71.52\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", round:"17.59\u00B0", notes:"GGB-1353" },
 { cat:"ComplexRoot", cmd:"ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]", result:"{-0.6454972243679 - 1.053972753436\u03AF, -0.6454972243679 + 1.053972753436\u03AF}", round:"{-0.65 - 1.05\u03AF, -0.65 + 1.05\u03AF}" },
-
+{ cat:"SolveODE", cmd:"SolveODE[y''+2y'+y=1-2x,(0,2),(0,1/5)]", result:"y = (-4) / 5 x \u212F^(-x) - 2x - 3\u212F^(-x) + 5" },
 // JSONEND
 //{ 
 // 
