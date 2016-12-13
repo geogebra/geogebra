@@ -448,7 +448,10 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	@Override
 	public String toValueString(StringTemplate tpl) {
 
-		if (this.isDefined) {
+		Function funx = getFun(0);
+		Function funy = getFun(1);
+
+		if (this.isDefined && funx != null && funy != null) {
 			StringBuilder sbTemp = new StringBuilder(80);
 
 			if (tpl.hasCASType()) {
@@ -456,11 +459,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 				// TODO: remove wrapping in equation when Giac supports
 				// intersecting equation, parametric
 				sbTemp.append("equation(plotparam([");
-				sbTemp.append(getFun(0).toValueString(tpl));
+				sbTemp.append(funx.toValueString(tpl));
 				sbTemp.append(',');
-				sbTemp.append(getFun(1).toValueString(tpl));
+				sbTemp.append(funy.toValueString(tpl));
 				sbTemp.append("],");
-				sbTemp.append(getFun(0).getFunctionVariable()
+				sbTemp.append(funx.getFunctionVariable()
 						.toString(StringTemplate.giacTemplate));
 				sbTemp.append(',');
 				sbTemp.append(this.kernel.format(getMinParameter(),
@@ -472,9 +475,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 			} else {
 
 				sbTemp.append('(');
-				sbTemp.append(getFun(0).toValueString(tpl));
+				sbTemp.append(funx.toValueString(tpl));
 				sbTemp.append(", ");
-				sbTemp.append(getFun(1).toValueString(tpl));
+				sbTemp.append(funy.toValueString(tpl));
 				sbTemp.append(')');
 			}
 
