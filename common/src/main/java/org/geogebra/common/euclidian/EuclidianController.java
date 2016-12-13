@@ -9634,7 +9634,7 @@ public abstract class EuclidianController {
 		}
 
 		// make sure we start the timer also for single point
-		if (!isPenDragged) {
+		if (!isPenDragged && penMode(mode)) {
 			getPen().startTimer();
 		}
 
