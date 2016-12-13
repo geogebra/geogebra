@@ -52,6 +52,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public void onEnter(final boolean keepFocus) {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && item.isInputTreeItem()
 				&& item.isEmpty()) {
+			item.styleEditor();
 			item.addDummyLabel();
 			return;
 		}
