@@ -135,8 +135,8 @@ public class Riemann {
 		if (PI * abs(s[1]) > 709) { // for large imaginary parts use
 									// log-versions
 			// s ln 2 + (s-1) ln pi + lnGamma(1-s) + lnSin (pi s/2)
-			result = multiply(Math.log(2), s);
-			result = add(result, multiply(log(Math.PI), subtract(s, ONE_)));
+			result = multiply(log(2), s);
+			result = add(result, multiply(log(PI), subtract(s, ONE_)));
 			result = add(result, lnGamma(subtract(ONE_, s)));
 			result = add(result, lnSin(multiply(PI / 2, s)));
 			return exp(result);
@@ -584,7 +584,7 @@ public class Riemann {
 	 * @see #theta(double)
 	 */
 	public static double Z(double t) {
-		if (Math.abs(t) < 10) {
+		if (abs(t) < 10) {
 			double[] s = { 0.5, t };
 			return -Complex.abs(zeta(s));
 		}

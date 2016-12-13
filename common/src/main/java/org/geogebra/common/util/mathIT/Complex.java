@@ -277,8 +277,8 @@ public class Complex {
 	public static double[] cos(double[] z) {
 		double[] result = new double[2];
 
-		result[0] = Math.cos(z[0]) * Math.cosh(z[1]);
-		result[1] = Math.sin(z[0]) * Math.sinh(z[1]);
+		result[0] = Math.cos(z[0]) * cosh(z[1]);
+		result[1] = Math.sin(z[0]) * sinh(z[1]);
 		return result;
 	}
 
@@ -658,9 +658,9 @@ public class Complex {
 		double[] result = new double[2];
 
 		if (Math.abs(z[1]) <= 709) {
-			result[0] = Math.cos(z[0]) * Math.cosh(z[1]); // since JDK 1.5:
+			result[0] = Math.cos(z[0]) * cosh(z[1]); // since JDK 1.5:
 			// result[0] = cos(z[0]) * ( exp(z[1]) + exp(-z[1]) ) / 2;
-			result[1] = Math.sin(z[0]) * Math.sinh(z[1]); // since JDK 1.5
+			result[1] = Math.sin(z[0]) * sinh(z[1]); // since JDK 1.5
 			// result[1] = sin(z[0]) * ( exp(z[1]) - exp(-z[1]) ) / 2;
 			result = ln(result);
 		} else { // approximately cosh y = sinh y = e^|y| / 2:

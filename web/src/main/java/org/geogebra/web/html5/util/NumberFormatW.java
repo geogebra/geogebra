@@ -16,15 +16,23 @@ public class NumberFormatW extends Format implements NumberFormatAdapter {
 
 	private int maximumFractionDigits;
 
+	/**
+	 * @param s
+	 *            format string
+	 * @param digits
+	 *            number of digits
+	 */
 	public NumberFormatW(String s, int digits) {
 		maximumFractionDigits = digits;
 
 		Boolean forcedLatinDigits = NumberFormat.forcedLatinDigits();
-		if (!forcedLatinDigits)
+		if (!forcedLatinDigits) {
 			NumberFormat.setForcedLatinDigits(true);
-		this.nf = com.google.gwt.i18n.client.NumberFormat.getFormat(s);
-		if (!forcedLatinDigits)
+		}
+		this.nf = NumberFormat.getFormat(s);
+		if (!forcedLatinDigits) {
 			NumberFormat.setForcedLatinDigits(false);
+		}
 		nf.overrideFractionDigits(0, maximumFractionDigits);
 	}
 

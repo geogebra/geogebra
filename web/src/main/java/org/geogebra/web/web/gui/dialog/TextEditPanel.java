@@ -151,10 +151,12 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		if (source == btnBold || source == btnItalic) {
 			int style = 0;
-			if (btnBold.getValue() == true)
+			if (btnBold.getValue()) {
 				style += 1;
-			if (btnItalic.getValue() == true)
+			}
+			if (btnItalic.getValue()) {
 				style += 2;
+			}
 			editGeo.setFontStyle(style);
 			updatePreviewPanel();
 

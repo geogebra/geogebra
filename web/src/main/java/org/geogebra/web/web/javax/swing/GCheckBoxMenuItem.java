@@ -34,7 +34,7 @@ public class GCheckBoxMenuItem {
 		checkBox = new CheckBox();
 		itemPanel = new HorizontalPanel();
 		itemPanel.add(checkBox);
-		if (isHtml == true) {
+		if (isHtml) {
 			itemPanel.add(new HTML(text));
 		} else {
 			itemPanel.add(new Label(text));

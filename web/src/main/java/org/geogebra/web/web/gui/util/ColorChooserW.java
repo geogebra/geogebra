@@ -177,7 +177,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			GColor fillColor = getColorFromPalette(col, row);
 
 			boolean emptyTile = (fillColor == null);
-			if (emptyTile == true) {
+			if (emptyTile) {
 				fillColor = NO_TILE_COLOR;
 	      	}
 			

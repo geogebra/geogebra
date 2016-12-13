@@ -32,6 +32,7 @@ import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandData.AlertData;
 import intel.rssdk.PXCMHandData.AlertType;
 import intel.rssdk.PXCMHandData.BodySideType;
 import intel.rssdk.PXCMHandModule;
@@ -796,7 +797,7 @@ public class Socket {
 			AlertHandler alertHandler = new AlertHandler() {
 				
 				@Override
-				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
+				public void OnFiredAlert(AlertData data) {
 					setAlert(data.handId, data.label);
 				}
 			};

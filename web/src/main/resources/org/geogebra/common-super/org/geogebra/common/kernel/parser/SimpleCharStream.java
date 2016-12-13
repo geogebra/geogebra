@@ -111,12 +111,12 @@ public class SimpleCharStream
 		IOException ex = null;
 
 		if (streamClosed) {
-			ex = new java.io.IOException();
+			ex = new IOException();
 		} else if ((i = inputStream.read(buffer, maxNextCharInd, available
 				- maxNextCharInd)) == -1) {
 			inputStream.close();
 			streamClosed = true;
-			ex = new java.io.IOException();
+			ex = new IOException();
 		} else {
 			maxNextCharInd += i;
 			return;

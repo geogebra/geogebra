@@ -115,7 +115,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 	 * @return wether the checbox selected or not
 	 */
 	public boolean isSelected() {
-	    return checkbox.getValue() == true;
+	    return checkbox.getValue();
     }
 	
 	private class MyValueChangeEvent extends ValueChangeEvent<Boolean> {

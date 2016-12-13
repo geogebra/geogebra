@@ -145,8 +145,7 @@ public abstract class DrawEquation {
 	final public GDimension drawEquation(final App app, final GeoElementND geo,
 			final Graphics2DInterface g2, final int x, final int y,
 			final String text, final GFont font, final boolean serif,
-			final com.himamis.retex.renderer.share.platform.graphics.Color fgColor,
-			final com.himamis.retex.renderer.share.platform.graphics.Color bgColor,
+			final Color fgColor, final Color bgColor,
 			final boolean useCache, final Integer maxWidth,
 			final Float lineSpace) {
 		// TODO uncomment when \- works
@@ -167,7 +166,7 @@ public abstract class DrawEquation {
 
 			HasForegroundColor fg = new HasForegroundColor() {
 
-				public com.himamis.retex.renderer.share.platform.graphics.Color getForegroundColor() {
+				public Color getForegroundColor() {
 					return fgColor;
 				}
 
