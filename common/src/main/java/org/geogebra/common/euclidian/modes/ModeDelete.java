@@ -1,7 +1,9 @@
 package org.geogebra.common.euclidian.modes;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -27,11 +29,13 @@ public class ModeDelete {
 	private Kernel kernel;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
+	private ArrayList<GPoint2D> interPoints;
 
 	public ModeDelete(EuclidianView view) {
 		this.ec = view.getEuclidianController();
 		this.kernel = view.getKernel();
 		this.view = view;
+		this.interPoints = new ArrayList<GPoint2D>();
 	}
 
 	GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100, 100);
@@ -107,8 +111,110 @@ public class ModeDelete {
 										- view.toScreenCoordXd(p.inhomX)),
 								Math.abs(eventY - view.toScreenCoordYd(
 										p.inhomY))) <= deleteSize / 2.0) {
-							dataPoints[i].setUndefined();
-							dataPoints[i].resetDefinition();
+							// end point of segment is in rectangle
+							if ((i - 1 >= 0 && dataPoints[i - 1].isDefined())) {
+								// get intersection point
+								getAllIntersectionPoint(
+											dataPoints[i - 1], dataPoints[i],
+											rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() == 1) {
+										double realX = view.toRealWorldCoordX(
+											interPoints.get(0)
+													.getX());
+										double realY = view.toRealWorldCoordY(
+											interPoints.get(0)
+													.getY());
+									// switch old point with intersection point
+										dataPoints[i].setCoords(realX, realY,
+											1);
+								}
+								// no intersection point
+								else if (interPoints.isEmpty()) {
+									double pointX = view.toScreenCoordXd(
+											dataPoints[i - 1].getInhomX());
+									double pointY = view.toScreenCoordYd(
+											dataPoints[i - 1].getInhomY());
+									GPoint2D point = AwtFactory.getPrototype()
+											.newPoint2D(pointX, pointY);
+									// if the first point is also inside of
+									// rectangle
+									if (rect.contains(point)) {
+										// we can set the end point to undefined
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+								// TODO handle more than one intersection points
+								else {
+									// Log.debug(
+									// "LIST_SIZE: " + interPoints.size());
+									dataPoints[i].setUndefined();
+									dataPoints[i].resetDefinition();
+								}
+							}
+							// start point of segment is in rectangle
+							else if (i - 1 >= 0
+									&& !dataPoints[i - 1].isDefined()
+									&& i + 1 < dataPoints.length
+									&& dataPoints[i + 1].isDefined()) {
+								// get intersection point
+								getAllIntersectionPoint(dataPoints[i],
+										dataPoints[i + 1], rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() == 1) {
+										double realX = view.toRealWorldCoordX(
+											interPoints.get(0).getX());
+										double realY = view.toRealWorldCoordY(
+											interPoints.get(0).getY());
+									// switch old point with intersection point
+									dataPoints[i].setCoords(realX, realY, 1);
+								}
+								// no intersection
+								else if (interPoints.isEmpty()) {
+									double pointX = view.toScreenCoordXd(
+											dataPoints[i + 1].getInhomX());
+									double pointY = view.toScreenCoordYd(
+											dataPoints[i + 1].getInhomY());
+									GPoint2D point = AwtFactory.getPrototype()
+											.newPoint2D(pointX, pointY);
+									// if end point is also inside of the
+									// rectangle
+									if (rect.contains(point)) {
+										// we can set point the start point at
+										// undefined
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+								// TODO handle more intersection points
+								else {
+									// Log.debug(
+									// "LIST_SIZE: " + interPoints.size());
+									dataPoints[i].setUndefined();
+									dataPoints[i].resetDefinition();
+								}
+							}
+							// handle first point and last point
+							else if ((i == 0
+									&& ((i + 1 < dataPoints.length
+											&& !dataPoints[i + 1].isDefined())
+											|| (i + 1 == dataPoints.length)))
+									|| (i - 1 >= 0
+											&& !dataPoints[i - 1].isDefined()
+											&& i + 1 == dataPoints.length)) {
+								dataPoints[i].setUndefined();
+								dataPoints[i].resetDefinition();
+							}
+							// handle single remained point
+							else if (i - 1 >= 0
+									&& !dataPoints[i - 1].isDefined()
+									&& i + 1 < dataPoints.length
+								  && !dataPoints[i + 1].isDefined()) {
+								dataPoints[i].setUndefined();
+								dataPoints[i].resetDefinition();
+							}
+								 
 							if (as == null) {
 								as = dataPoints[i].getAlgoUpdateSet();
 							} else {
@@ -155,7 +261,121 @@ public class ModeDelete {
 				this.penDeleteMode = true;
 			}
 		}
+	}
 
+	public GPoint2D getTopIntersectionPoint(GeoPointND point1,
+			GeoPointND point2,
+			GRectangle rectangle) {
+
+		// Top line
+		return getIntersectionPoint(point1, point2,
+				rectangle.getX(), rectangle.getY(),
+						rectangle.getX() + rectangle.getWidth(),
+				rectangle.getY());
+	}
+
+	public GPoint2D getBottomIntersectionPoint(GeoPointND point1,
+			GeoPointND point2, GRectangle rectangle) {
+
+		// Bottom line
+		return getIntersectionPoint(point1, point2,
+				rectangle.getX(),
+						rectangle.getY() + rectangle.getHeight(),
+						rectangle.getX() + rectangle.getWidth(),
+				rectangle.getY() + rectangle.getHeight());
+	}
+
+	public GPoint2D getLeftIntersectionPoint(GeoPointND point1,
+			GeoPointND point2, GRectangle rectangle) {
+
+		// Left side
+		return getIntersectionPoint(point1, point2,
+				rectangle.getX(), rectangle.getY(),
+						rectangle.getX(),
+				rectangle.getY() + rectangle.getHeight());
+	}
+
+	public GPoint2D getRightIntersectionPoint(GeoPointND point1,
+			GeoPointND point2, GRectangle rectangle) {
+
+		// Right side
+		return getIntersectionPoint(point1, point2,
+				rectangle.getX() + rectangle.getWidth(),
+						rectangle.getY(),
+						rectangle.getX() + rectangle.getWidth(),
+				rectangle.getY() + rectangle.getHeight());
+	}
+
+	public void getAllIntersectionPoint(GeoPointND point1,
+			GeoPointND point2,
+			GRectangle rectangle) {
+
+		interPoints = new ArrayList<GPoint2D>();
+
+		// intersection points
+		GPoint2D topInter = getTopIntersectionPoint(point1, point2, rectangle);
+		if (topInter != null) {
+			interPoints.add(topInter);
+		}
+		GPoint2D bottomInter = getBottomIntersectionPoint(point1, point2,
+				rectangle);
+		if (bottomInter != null) {
+			interPoints.add(bottomInter);
+		}
+		GPoint2D leftInter = getLeftIntersectionPoint(point1, point2,
+				rectangle);
+		if (leftInter != null) {
+			interPoints.add(leftInter);
+		}
+		GPoint2D rightInter = getRightIntersectionPoint(point1, point2,
+				rectangle);
+		if (rightInter != null) {
+			interPoints.add(rightInter);
+		}
+
+	}
+
+	public GPoint2D getIntersectionPoint(GeoPointND point1, GeoPointND point2,
+			double startPointX, double startPointY, double endPointX,
+			double endPointY) {
+
+		double x1 = view.toScreenCoordXd(point1.getInhomX());
+		double y1 = view.toScreenCoordYd(point1.getInhomY());
+		double x2 = view.toScreenCoordXd(point2.getInhomX());
+		double y2 = view.toScreenCoordYd(point2.getInhomY());
+
+		double x3 = startPointX;
+		double y3 = startPointY;
+		double x4 = endPointX;
+		double y4 = endPointY;
+
+		GPoint2D p = null;
+
+		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+		if (d != 0) {
+			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
+					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
+			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
+					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
+
+			if (onSegment(x1, y1, xi, yi, x2, y2)) {
+				p = new GPoint2D.Double(xi, yi);
+			}
+
+		}
+		return p;
+	}
+
+	private boolean onSegment(double segStartX, double segStartY,
+			double interPointX, double interPointY, double segEndX,
+			double segEndY) {
+		if (interPointX <= Math.max(segStartX, segEndX)
+				&& interPointX >= Math.min(segStartX, segEndX)
+				&& interPointY <= Math.max(segStartY, segEndY)
+				&& interPointY >= Math.min(segStartY, segEndY))
+			return true;
+
+		return false;
 	}
 
 	public void mousePressed(PointerEventType type) {
@@ -223,6 +443,7 @@ public class ModeDelete {
 								Math.abs(eventY
 										- view.toScreenCoordYd(p.inhomY))) <= ec
 												.getDeleteToolSize() / 2.0) {
+
 							dataPoints[i].setUndefined();
 							dataPoints[i].resetDefinition();
 							if (as == null) {
