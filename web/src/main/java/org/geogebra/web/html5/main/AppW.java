@@ -634,7 +634,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		
 		loadFile(archiveContent);
 		
-		if (algebraSettings.isModeChanged() == false) {
+		if (!algebraSettings.isModeChanged()) {
 			algebraSettings.setTreeMode(SortMode.TYPE);
 		}
 	}

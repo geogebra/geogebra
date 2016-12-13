@@ -569,7 +569,7 @@ public class DataPanelD extends JPanel
 		public void enableAll() {
 
 			for (int i = 0; i < selectionList.length; ++i) {
-				if (selectionList[i] == false) {
+				if (!selectionList[i]) {
 					statController.updateSelectedDataList(i, true);
 					selectionList[i] = true;
 				}
@@ -580,8 +580,9 @@ public class DataPanelD extends JPanel
 
 		public boolean isAllEnabled() {
 			for (int i = 0; i < selectionList.length; ++i) {
-				if (selectionList[i] == false)
+				if (!selectionList[i]) {
 					return false;
+				}
 			}
 			return true;
 		}

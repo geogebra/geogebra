@@ -1920,7 +1920,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (temporaryMode) {
 			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
 			temporaryMode = false;
-			if (dontClearSelection == false) {
+			if (!dontClearSelection) {
 				clearSelections();
 			}
 			dontClearSelection = false;

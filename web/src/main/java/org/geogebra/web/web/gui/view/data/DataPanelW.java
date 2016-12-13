@@ -267,7 +267,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	public void enableAll() {
 
 		for (int i = 0; i < selectionList.length; ++i) {
-			if (selectionList[i] == false) {
+			if (!selectionList[i]) {
 				statController.updateSelectedDataList(i, true);
 				selectionList[i] = true;
 				Widget w = dataTable.getTable().getWidget(i + 1, 0);
@@ -284,8 +284,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	public boolean isAllEnabled() {
 		for (int i = 0; i < selectionList.length; ++i) {
-			if (selectionList[i] == false)
+			if (!selectionList[i]) {
 				return false;
+			}
 		}
 		return true;
 	}

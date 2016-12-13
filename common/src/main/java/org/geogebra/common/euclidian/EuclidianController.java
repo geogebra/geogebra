@@ -6565,7 +6565,7 @@ public abstract class EuclidianController {
 				if (hit != null) {
 					if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
 						checkBoxOrButtonJustHitted = true;
-						if (app.showView(App.VIEW_PROPERTIES) == false) {
+						if (!app.showView(App.VIEW_PROPERTIES)) {
 							selection.removeSelectedGeo(hit, true, false); // make
 							// sure
 							// doesn't
@@ -6579,7 +6579,7 @@ public abstract class EuclidianController {
 							// mouse
 							// down
 							hitCheckBox(bool);
-							if (app.showView(App.VIEW_PROPERTIES) == false) {
+							if (!app.showView(App.VIEW_PROPERTIES)) {
 								selection.removeSelectedGeo(bool, true, false); // make
 								// sure
 								// doesn't
@@ -7511,7 +7511,7 @@ public abstract class EuclidianController {
 			if (!isMoveCheckboxExpected()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 
-				if (app.showView(App.VIEW_PROPERTIES) == false) {
+				if (!app.showView(App.VIEW_PROPERTIES)) {
 					selection.removeSelectedGeo(movedGeoBoolean); // make sure
 					// doesn't get
 					// selected
@@ -9785,7 +9785,7 @@ public abstract class EuclidianController {
 			temporaryMode = false;
 			// Michael Borcherds 2007-12-08 BEGIN bugfix: couldn't select
 			// multiple points with Ctrl
-			if (dontClearSelection == false) {
+			if (!dontClearSelection) {
 				clearSelections();
 			}
 			dontClearSelection = false;

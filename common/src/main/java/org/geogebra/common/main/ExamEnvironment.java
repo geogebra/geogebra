@@ -129,17 +129,17 @@ public class ExamEnvironment {
 		boolean supports3D = settings.getEuclidian(-1).isEnabled();
 
 		if (!hasGraph) {
-			if (supportsCAS == false || supports3D == false) {
+			if (!supportsCAS || !supports3D) {
 				sb.append(loc.getMenu("exam_views_deactivated") + ":");
 				sb.append(' ');
 			}
-			if (supportsCAS == false) {
+			if (!supportsCAS) {
 				sb.append(loc.getMenu("Perspective.CAS"));
 			}
-			if (supportsCAS == false && supports3D == false) {
+			if (!supportsCAS && !supports3D) {
 				sb.append("," + ' ');
 			}
-			if (supports3D == false) {
+			if (!supports3D) {
 				sb.append(loc.getMenu("Perspective.3DGraphics"));
 			}
 			sb.append("<br>");

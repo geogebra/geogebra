@@ -1255,7 +1255,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		controller.setEditing(true);
 
-		if (onEditStart(false) == false) {
+		if (!onEditStart(false)) {
 			return false;
 		}
 		if (controls != null) {
@@ -1874,7 +1874,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (marblePanel != null) {
 			marblePanel.setHighlighted(selected);
 		}
-		if (selected == false
+		if (!selected
 				// && geo != AVSelectionController.get(app).getLastSelectedGeo()
 		) {
 			controls.reset();

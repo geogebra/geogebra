@@ -655,7 +655,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
 			TableColumnModel model = table.getColumnModel();
 
-			if (colData.isVisible() == false) {
+			if (!colData.isVisible()) {
 				colData.setVisible(true);
 				model.addColumn(column);
 				// column is added at right end of model

@@ -237,7 +237,7 @@ public class ConvexHull {
 			Point2D p = lowestPoint;
 			Point2D p1;
 			int index = 1;
-			while (p.equals(highestPoint) == false) {
+			while (!p.equals(highestPoint)) {
 				index = jarvisFindSmallestPolarAngle(points, p, true, events);
 				result.add(points.get(index));
 				p1 = points.get(index);
@@ -245,7 +245,7 @@ public class ConvexHull {
 				p = p1;
 			}
 
-			while (p.equals(lowestPoint) == false) {
+			while (!p.equals(lowestPoint)) {
 				index = jarvisFindSmallestPolarAngle(points, p, false, events);
 				result.add(points.get(index));
 				p1 = points.get(index);

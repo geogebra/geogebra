@@ -1053,7 +1053,7 @@ public final class DrawList extends CanvasDrawable
 		int fontSize = (int) (view.getFontSize()
 				* geoList.getFontSizeMultiplier());
 		setLabelFontSize(fontSize);
-		if (geo.doHighlighting() == false) {
+		if (!geo.doHighlighting()) {
 			hideWidget();
 		}
 		// box.setVisible(isVisible);

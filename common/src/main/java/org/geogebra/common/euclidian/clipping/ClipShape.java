@@ -454,7 +454,7 @@ public class ClipShape {
 		double[] interestingTimes = new double[16];
 		int tCtr;
 
-		while (i.isDone() == false) {
+		while (!i.isDone()) {
 			k = i.currentSegment(f);
 			if (k == GPathIterator.SEG_MOVETO) {
 				initialX = f[0];

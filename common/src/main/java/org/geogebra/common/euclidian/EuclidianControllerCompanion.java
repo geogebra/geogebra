@@ -676,7 +676,7 @@ public class EuclidianControllerCompanion {
 	 */
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
-		return ec.getApplication().has(Feature.ABSOLUTE_TEXTS) == false;
+		return !ec.getApplication().has(Feature.ABSOLUTE_TEXTS);
 	}
 
 	public void setMouseLocation(AbstractEvent event) {

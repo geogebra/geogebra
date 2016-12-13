@@ -173,9 +173,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 					return;
 				}
 
-				if (prepareToShowPopup() == false)
+				if (!prepareToShowPopup()) {
 					return;
-
+				}
 				Point locButton = getLocation();
 				final int clicDownArrowWidth = (int) Math
 						.round((CLICK_DOWN_ARROW_WIDTH

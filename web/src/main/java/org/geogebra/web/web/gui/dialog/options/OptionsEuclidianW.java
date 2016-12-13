@@ -931,7 +931,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
-					if (cbShowGrid.getValue() == false) {
+					if (!cbShowGrid.getValue()) {
 						return;
 					}
 	              app.getDialogManager().showColorChooserDialog(model.getGridColor(),

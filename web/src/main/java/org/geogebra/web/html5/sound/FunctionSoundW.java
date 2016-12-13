@@ -45,7 +45,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 * @return
 	 */
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
-		if (super.initStreamingAudio(sampleRate, bitDepth) == false) {
+		if (!super.initStreamingAudio(sampleRate, bitDepth)) {
 			return false;
 		}
 

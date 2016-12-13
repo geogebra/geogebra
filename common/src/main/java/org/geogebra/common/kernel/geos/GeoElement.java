@@ -1925,7 +1925,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		final Set<GeoElement> tree = getAllChildren();
 		final Iterator<GeoElement> it = tree.iterator();
-		while (it.hasNext() && (hasFixedDescendent == false)) {
+		while (it.hasNext() && !hasFixedDescendent) {
 			if (it.next().isFixed()) {
 				hasFixedDescendent = true;
 			}

@@ -201,7 +201,7 @@ public class ViewMenuW extends GMenuBar {
 			public void doExecute() {
 				boolean shown = app.getGuiManager().showView(e.getID());
 
-				if (e.getID() == App.VIEW_ALGEBRA && shown == false) {
+				if (e.getID() == App.VIEW_ALGEBRA && !shown) {
 					app.setInputPosition(InputPosition.algebraView, true);
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());

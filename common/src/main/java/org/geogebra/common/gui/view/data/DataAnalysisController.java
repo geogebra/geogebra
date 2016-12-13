@@ -69,9 +69,6 @@ public abstract class DataAnalysisController {
 	}
 
 	public void setValidData(boolean isValidData) {
-		if (isValidData == false) {
-			// app.printStacktrace("invalid data");
-		}
 		this.isValidData = isValidData;
 	}
 

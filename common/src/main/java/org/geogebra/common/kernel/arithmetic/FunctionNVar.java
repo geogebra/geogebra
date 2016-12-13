@@ -766,8 +766,9 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	private static Operation adjustOp(Operation op, boolean negate) {
-		if (negate == false)
+		if (!negate) {
 			return op;
+		}
 		switch (op) {
 		case AND:
 			return Operation.OR;

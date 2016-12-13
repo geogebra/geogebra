@@ -343,7 +343,7 @@ public class Intersections {
 
 		System.out.println("QUEUE:");
 		System.out.println("----------------------------------");
-		while (tmp.isEmpty() == false) {
+		while (!tmp.isEmpty()) {
 			Event e = tmp.poll();
 			System.out.println(e.toString());
 		}

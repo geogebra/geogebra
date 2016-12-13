@@ -555,7 +555,7 @@ public class DataDisplayModel {
 			// =================================================================
 
 			// remove the histogram from the plot geo list if it is not showing
-			if (histogram != null && settings.isShowHistogram() == false) {
+			if (histogram != null && !settings.isShowHistogram()) {
 				plotGeoList.remove(histogram);
 				histogram.remove();
 				histogram = null;

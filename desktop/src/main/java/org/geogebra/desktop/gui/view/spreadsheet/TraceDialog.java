@@ -726,7 +726,7 @@ public class TraceDialog extends javax.swing.JDialog
 	/** Listener for selection changes in the traceGeoList */
 	public void valueChanged(ListSelectionEvent e) {
 		// if(getSettings() != null) getSettings().debug(getSelectedGeo());
-		if (e.getValueIsAdjusting() == false) {
+		if (!e.getValueIsAdjusting()) {
 			updateGUI();
 		}
 	}
@@ -753,7 +753,7 @@ public class TraceDialog extends javax.swing.JDialog
 		this.geo = geo;
 
 		// add geo to the trace collection
-		if (traceManager.isTraceGeo(geo) == false) {
+		if (!traceManager.isTraceGeo(geo)) {
 			SpreadsheetTraceSettings t = geo.getTraceSettings();
 			if (newTraceLocation != null) {
 				t.traceColumn1 = newTraceLocation.getMinColumn();
