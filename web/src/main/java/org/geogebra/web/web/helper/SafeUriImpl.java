@@ -1,10 +1,10 @@
 package org.geogebra.web.web.helper;
 
-public class SafeUri implements com.google.gwt.safehtml.shared.SafeUri {
+public class SafeUriImpl implements com.google.gwt.safehtml.shared.SafeUri {
 
 	private String url = null;
 
-	public SafeUri(String url) {
+	public SafeUriImpl(String url) {
 		this.url = url;
 	}
 

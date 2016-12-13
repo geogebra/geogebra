@@ -84,7 +84,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public static int DELAY_UNTIL_MOVE_FINISH = 150;
 
-	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
+	final public static int DELAY_BETWEEN_MOVE_EVENTS = 30;
 
 	public GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;

@@ -109,11 +109,10 @@ public class PlotterBrush implements PathPlotter {
 	/**
 	 * pre-calculated cosinus and sinus
 	 */
-	final protected static double[] COSINUS, SINUS;
+	final protected static double[] COSINUS = new double[LATITUDES + 1];
+	final protected static double[] SINUS = new double[LATITUDES + 1];
 
 	static {
-		COSINUS = new double[LATITUDES + 1];
-		SINUS = new double[LATITUDES + 1];
 		for (int i = 0; i <= LATITUDES; i++) {
 			COSINUS[i] = Math.cos(2 * i * Math.PI / LATITUDES);
 			SINUS[i] = Math.sin(2 * i * Math.PI / LATITUDES);

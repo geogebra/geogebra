@@ -84,7 +84,7 @@ public abstract class GeoQuadricND extends GeoElement
 	protected double[] diagonal;
 
 	/** variable string */
-	protected static final char[] VAR_STRING = { 'x', 'y', 'z' };
+	private static final char[] VAR_STRING = { 'x', 'y', 'z' };
 
 	/** eigenvalues */
 	protected double[] eigenval;

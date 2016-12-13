@@ -30,13 +30,13 @@ public class FontManagerD extends FontManager {
 	private HashMap fontMap = new HashMap();
 	private StringBuilder key = new StringBuilder();
 
-	public static final String[] FONT_NAMES_SANSSERIF = { "SansSerif", // Java
+	private static final String[] FONT_NAMES_SANSSERIF = { "SansSerif", // Java
 			"Arial Unicode MS", // Windows
 			"Helvetica", // Mac OS X
 			"LucidaGrande", // Mac OS X
 			"ArialUnicodeMS" // Mac OS X
 	};
-	public static final String[] FONT_NAMES_SERIF = { "Serif", // Java
+	private static final String[] FONT_NAMES_SERIF = { "Serif", // Java
 			"Times New Roman", // Windows
 			"Times" // Mac OS X
 	};

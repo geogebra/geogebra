@@ -56,8 +56,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public SplashDialog splash;
 	private int frameID;
 
-	public static SpanElement firstDummy = null;
-	public static SpanElement lastDummy = null;
+	private static SpanElement firstDummy = null;
+	private static SpanElement lastDummy = null;
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();

@@ -54,7 +54,7 @@ public class GeoPlane3D extends GeoElement3D
 	protected CoordSys coordsys;
 
 	/** string repre of coordinates */
-	public static final String[] VAR_STRING = { "x", "y", "z" };
+	private static final String[] VAR_STRING = { "x", "y", "z" };
 
 	/**
 	 * creates an empty plane

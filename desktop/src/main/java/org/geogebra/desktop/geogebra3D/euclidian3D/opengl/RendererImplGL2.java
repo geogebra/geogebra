@@ -415,7 +415,7 @@ public class RendererImplGL2 extends RendererImpl
 
 	}
 
-	protected static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
+	private static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
 			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
 			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
 			GLlocal.GL_CLIP_PLANE5 };

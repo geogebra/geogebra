@@ -17,7 +17,7 @@ public class LaTeXContext extends ViewContext {
 	/**
 	 * TOKENS : A Map which contains the names of keywords
 	 */
-	public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(
+	private static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(
 			14);
 
 	static {
