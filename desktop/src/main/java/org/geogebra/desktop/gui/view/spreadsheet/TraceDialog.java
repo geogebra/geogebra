@@ -700,10 +700,9 @@ public class TraceDialog extends javax.swing.JDialog
 	private void doTextFieldActionPerformed(JTextField source) {
 
 		try {
-			source.getText().trim();
 			Integer value = Integer.parseInt(source.getText());
 
-			if (value != null && value > 0
+			if (value > 0
 					&& value < app.getMaxSpreadsheetRowsVisible()) {
 
 				if (source == firstRowField) {

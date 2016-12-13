@@ -50,7 +50,7 @@ public abstract class StatisticsCalculator {
 	protected String strSigma;
 	protected String strSuccesses;
 	protected String strN;
-	protected String strPooled;
+	// protected String strPooled;
 
 	protected double[] s1;
 	protected double[] s2;
@@ -167,7 +167,7 @@ public abstract class StatisticsCalculator {
 		strSigma = loc.getMenu("StandardDeviation.short");
 		strSuccesses = loc.getMenu("Successes");
 		strN = loc.getMenu("N");
-		strPooled = loc.getMenu("Pooled");
+		// strPooled = loc.getMenu("Pooled");
 	}
 
 }

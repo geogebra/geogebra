@@ -823,7 +823,7 @@ public class DataSourcePanel extends JPanel
 	 * TODO: Currently not used. Remove if cell editing will never be allowed
 	 * 
 	 */
-	public class MyCellEditor extends DefaultCellEditor {
+	public static class MyCellEditor extends DefaultCellEditor {
 
 		/**
 		 * 
