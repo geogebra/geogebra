@@ -61,17 +61,17 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 
 		});
 
+		tfAnimSpeed.enableGGBKeyboard();
+
         tfAnimSpeed.addFocusListener(new FocusListenerW(this){
 
 			@Override
 			protected void wrapFocusGained(){
-				FieldHandler.focusGained(tfAnimSpeed, app);
 			}
 			
 			@Override
 			protected void wrapFocusLost(){
-				doActionPerformed();
-				FieldHandler.focusLost(tfAnimSpeed, app);
+					doActionPerformed();
 			}	
 		});
         tfAnimSpeed.requestToShowSymbolButton();

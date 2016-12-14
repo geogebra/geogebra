@@ -1,12 +1,19 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.inputfield.AltKeys;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -106,18 +113,14 @@ public class ScriptArea extends TextArea
 	}
 
 	public void startOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(false);
+		if (Browser.isAndroid()) {
 			addDummyCursor();
-			addStyleName("disabledTextfieldEditing");
 		}
 	}
 
 	public void endOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(true);
+		if (Browser.isAndroid()) {
 			removeDummyCursor();
-			removeStyleName("disabledTextfieldEditing");
 		}
 	}
 
@@ -164,6 +167,29 @@ public class ScriptArea extends TextArea
 	public boolean needsAutofocus() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public void enableGGBKeyboard(final AppW app) {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+
+		if (Browser.isTabletBrowser()) {
+			// avoid native keyboard opening
+			setReadOnly(true);
+		}
+
+		addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(ScriptArea.this, app);
+			}
+		});
+
+		addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent event) {
+				FieldHandler.focusLost(ScriptArea.this, app);
+			}
+		});
 	}
 
 }

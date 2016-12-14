@@ -120,18 +120,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 
 			}});
-		tfMin.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfMin, app);
-			}
-		});
+		tfMin.enableGGBKeyboard();
 		
 		tfMin.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMin();
-				FieldHandler.focusLost(tfMin, app);
 			}
 		});
 
@@ -144,18 +139,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 
-		tfMax.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfMax, app);
-			}
-		});
+		tfMax.enableGGBKeyboard();
 
 		tfMax.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyMax();
-				FieldHandler.focusLost(tfMax, app);
 			}
 		});
 
@@ -170,18 +160,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				}
 			}});
 		
-		tfWidth.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfWidth, app);
-			}
-		});
-
+		tfWidth.enableGGBKeyboard();
+		
 		tfWidth.addBlurHandler(new BlurHandler() {
 			
 			@Override
 			public void onBlur(BlurEvent event) {
 				applyWidth();
-				FieldHandler.focusLost(tfWidth, app);
 			}
 		});
 

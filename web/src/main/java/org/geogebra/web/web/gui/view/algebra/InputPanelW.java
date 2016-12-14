@@ -63,7 +63,7 @@ public class InputPanelW extends FlowPanel {
 			atf.setAutoComplete(false);
 
 			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-				atf.addFieldHandler();
+				atf.enableGGBKeyboard();
 				app.registerPopup(this);
 			}
 		}

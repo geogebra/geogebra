@@ -4,14 +4,11 @@ import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.event.FocusListenerW;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -55,11 +52,7 @@ implements ITextFieldListener {
 
 			}});
 
-		tfAnimStep.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfAnimStep, app);
-			}
-		});
+		tfAnimStep.enableGGBKeyboard();
 
 	}
 

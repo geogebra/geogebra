@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -42,10 +41,8 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 
 	public static void focusGained(HasKeyboardTF field, AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			if (Browser.isAndroid() || Browser.isIPad()) {
-				field.startOnscreenKeyboardEditing();
-			}
 			if (field != null) {
+				field.startOnscreenKeyboardEditing();
 				app.showKeyboard(field, true);
 			}
 		}

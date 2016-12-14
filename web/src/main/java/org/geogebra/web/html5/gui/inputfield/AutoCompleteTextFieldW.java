@@ -1585,7 +1585,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	}
 
-	public void addFieldHandler() {
+	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
 		}
@@ -1719,11 +1719,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	public void endOnscreenKeyboardEditing() {
-
+		if (Browser.isAndroid()) {
+			addDummyCursor();
+		}
 	}
 
 	public void startOnscreenKeyboardEditing() {
-
+		if (Browser.isAndroid()) {
+			removeDummyCursor();
+		}
 	}
 
 	public boolean hasDeferredFocus() {

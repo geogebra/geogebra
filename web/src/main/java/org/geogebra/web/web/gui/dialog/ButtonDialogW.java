@@ -71,7 +71,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		tfCaption = ip.getTextComponent();
 		if (tfCaption != null) {
 			tfCaption.setAutoComplete(false);
-			tfCaption.addFieldHandler();
+			tfCaption.enableGGBKeyboard();
 		}
 
 		VerticalPanel captionPanel = new VerticalPanel();
@@ -141,6 +141,8 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 
 		tfScript = new ScriptArea();
 		
+		tfScript.enableGGBKeyboard(app);
+
 		tfScript.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				FieldHandler.focusGained(tfScript, app);

@@ -1,11 +1,17 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
+import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
@@ -84,19 +90,38 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	}
 
 	public void startOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(false);
+		if (Browser.isAndroid()) {
 			addDummyCursor();
-			addStyleName("disabledTextfieldEditing");
 		}
 	}
 
 	public void endOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(true);
+		if (Browser.isAndroid()) {
 			removeDummyCursor();
-			removeStyleName("disabledTextfieldEditing");
 		}
+	}
+
+	public void enableGGBKeyboard() {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+
+		if (Browser.isTabletBrowser()) {
+			// avoid native keyboard opening
+			setReadOnly(true);
+		}
+
+		addFocusHandler(new FocusHandler() {
+			public void onFocus(FocusEvent event) {
+				FieldHandler.focusGained(AngleTextFieldW.this, app);
+			}
+		});
+
+		addBlurHandler(new BlurHandler() {
+			public void onBlur(BlurEvent event) {
+				FieldHandler.focusLost(AngleTextFieldW.this, app);
+			}
+		});
 	}
 
 	public void addDummyCursor() {
