@@ -184,6 +184,8 @@ public class RadioTreeItemController
 			return;
 		}
 
+		Log.debug("[--] mouseDown");
+
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
@@ -220,6 +222,11 @@ public class RadioTreeItemController
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+
+		Log.debug("[--] mouseUp");
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
 		if (isEditing()) {
@@ -246,6 +253,11 @@ public class RadioTreeItemController
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+
+		Log.debug("[--] mouseMove");
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
 			// scroll cancels edit request.
 			markForEdit = false;
@@ -258,8 +270,10 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
+		Log.debug("[--] touchEnd");
 
 		event.stopPropagation();
+		event.preventDefault();
 
 		if (item.isInputTreeItem()) {
 			// this might cause strange behaviour
@@ -274,6 +288,7 @@ public class RadioTreeItemController
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
 		if (editOnTap(active, wrappedEvent)) {
+			CancelEventTimer.touchEventOccured();
 			return;
 		}
 
@@ -282,9 +297,9 @@ public class RadioTreeItemController
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
 			if (!checkEditing()) {
-				startEdit(false // event.isControlKeyDown(),
+	//			startEdit(false // event.isControlKeyDown(),
 				// event.isShiftKeyDown()
-				);
+				// );
 			}
 		} else {
 			latestTouchEndTime = time;
@@ -296,11 +311,13 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
+		Log.debug("[--] touchMove");
 		event.stopPropagation();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			markForEdit = false;
 		}
-		// event.preventDefault();
+
+		event.preventDefault();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		getLongTouchManager().rescheduleTimerIfRunning(this, x, y);
@@ -313,7 +330,9 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		Log.debug("[--] touchStart");
 		event.stopPropagation();
+		event.preventDefault();
 		if (isEditing()) {
 			return;
 		}
