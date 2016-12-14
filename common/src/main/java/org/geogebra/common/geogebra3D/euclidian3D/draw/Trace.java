@@ -7,6 +7,9 @@ import org.geogebra.common.awt.GColor;
 
 public class Trace extends TreeMap<TraceSettings, ArrayList<TraceIndex>> {
 
+	/** Serialization version */
+	private static final long serialVersionUID = -7107935777385040694L;
+
 	private transient TraceIndex lastTraceIndex;
 	private transient ArrayList<TraceIndex> lastTraceIndices;
 	private transient TraceSettings traceSettingsCurrent;

@@ -4572,7 +4572,6 @@ public abstract class App implements UpdateSelection {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
 			return;
 		}
-		Log.printStacktrace("[AS] adjustScreen()");
 		final AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
 		as.apply();
 	}

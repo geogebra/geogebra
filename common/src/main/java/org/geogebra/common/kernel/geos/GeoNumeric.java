@@ -603,7 +603,7 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return number value
 	 */
-	final public double getValue() {
+	final public synchronized double getValue() {
 		return value;
 	}
 

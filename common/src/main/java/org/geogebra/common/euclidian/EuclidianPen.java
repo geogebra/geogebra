@@ -1415,7 +1415,7 @@ public class EuclidianPen implements GTimerListener {
 		if (start + 1 >= penPoints.size()) {
 			// Log.error("problem in incr_inertia "+ start + " " + s + " " +
 			// coeff);
-			Log.printStacktrace("problem in EuclidianPen.incr_inertia " + start
+			Log.debug("problem in EuclidianPen.incr_inertia " + start
 					+ " " + s + " " + coeff);
 			return;
 		}
