@@ -226,7 +226,6 @@ public class RadioTreeItemController
 			return;
 		}
 
-		Log.debug("[--] mouseUp");
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
 		if (isEditing()) {
@@ -257,7 +256,6 @@ public class RadioTreeItemController
 			return;
 		}
 
-		Log.debug("[--] mouseMove");
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
 			// scroll cancels edit request.
 			markForEdit = false;
@@ -270,14 +268,12 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
-		Log.debug("[--] touchEnd");
-
 		event.stopPropagation();
-		event.preventDefault();
 
 		if (item.isInputTreeItem()) {
 			// this might cause strange behaviour
 			setFocus(true);
+			event.preventDefault();
 			showKeyboard();
 		}
 
@@ -312,13 +308,14 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
-		Log.debug("[--] touchMove");
 		event.stopPropagation();
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			markForEdit = false;
 		}
 
-		event.preventDefault();
+		if (item.isInputTreeItem()) {
+			event.preventDefault();
+		}
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		getLongTouchManager().rescheduleTimerIfRunning(this, x, y);
@@ -331,9 +328,11 @@ public class RadioTreeItemController
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		Log.debug("[--] touchStart");
 		event.stopPropagation();
-		event.preventDefault();
+		if (item.isInputTreeItem()) {
+			event.preventDefault();
+		}
+
 		if (isEditing()) {
 			return;
 		}
