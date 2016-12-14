@@ -139,23 +139,36 @@ public class GlobalKeyDispatcherW extends
 							}
 						}
 					} 
-
+					preventIfNotTabOrEnter(event, appfocused);
+					break;
 				case Event.ONKEYPRESS:
 				case Event.ONKEYUP:
 					// not TAB and not ENTER
-					if (event.getNativeEvent().getKeyCode() != 9
-							&& event.getNativeEvent().getKeyCode() != 13) {
-						if (!appfocused) {
-							event.cancel();
-						}
-
-					}
+					preventIfNotTabOrEnter(event, appfocused);
 
 
 				}
 			}
 
 		});
+	}
+
+	/**
+	 * @param event
+	 *            native event
+	 * @param appfocused
+	 *            whether app is focused
+	 */
+	protected void preventIfNotTabOrEnter(NativePreviewEvent event,
+			boolean appfocused) {
+		if (event.getNativeEvent().getKeyCode() != 9
+				&& event.getNativeEvent().getKeyCode() != 13) {
+			if (!appfocused) {
+				event.cancel();
+			}
+
+		}
+
 	}
 
 	/**
