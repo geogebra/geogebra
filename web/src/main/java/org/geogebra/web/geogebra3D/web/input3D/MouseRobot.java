@@ -8,28 +8,23 @@ package org.geogebra.web.geogebra3D.web.input3D;
  */
 public class MouseRobot {
 
-	// static public void dispatchMouseMoveEvent(int x, int y) {
-	// Log.debug("dispatchMouseMoveEvent: " + x + "," + y + " (start)");
-	// RootPanel rootPanel = RootPanel.get();
-	// // create native event with detail = 1 (TODO check this)
-	// NativeEvent event = Document.get().createMouseMoveEvent(1, x, y, x, y,
-	// false, false, false, false, NativeEvent.BUTTON_LEFT);
-	// DomEvent.fireNativeEvent(event, rootPanel);
-	// Log.debug("dispatchMouseMoveEvent: " + x + "," + y + " (end)");
-	// }
-
 	static native public void dispatchMouseMoveEvent(int x, int y) /*-{
 
-		var event = new MouseEvent('mousemove', {
+		var target = $doc.elementFromPoint(x, y);
+		console.log("mouse=" + x + "," + y);
+		console.log("offset=" + target.offsetLeft + "," + target.offsetTop);
+		var x1 = x - target.offsetLeft;
+		var y1 = y - target.offsetTop;
+		var event = new MouseEvent('mouseover', {
 			'view' : $wnd,
 			'bubbles' : true,
 			'cancelable' : true,
 			'screenX' : x,
 			'screenY' : y,
-			'clientX' : x,
-			'clientY' : y
+			'clientX' : x1,
+			'clientY' : y1
 		});
-		$doc.body.dispatchEvent(event);
+		target.dispatchEvent(event);
 
 	}-*/;
 
