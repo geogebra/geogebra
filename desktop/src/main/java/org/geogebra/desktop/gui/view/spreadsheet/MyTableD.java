@@ -88,7 +88,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	protected RelativeCopy relativeCopy;
 	public CopyPasteCutD copyPasteCut;
-	protected SpreadsheetColumnController.ColumnHeaderRenderer headerRenderer;
+	protected SpreadsheetColumnControllerD.ColumnHeaderRenderer headerRenderer;
 	protected SpreadsheetViewD view;
 	protected DefaultTableModel tableModel;
 	private CellRangeProcessor crProcessor;
@@ -206,7 +206,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setRowHeight(SpreadsheetSettings.TABLE_CELL_HEIGHT);
 
 		// prepare column headers
-		SpreadsheetColumnController columnController = new SpreadsheetColumnController(
+		SpreadsheetColumnControllerD columnController = new SpreadsheetColumnControllerD(
 				app, this);
 		headerRenderer = columnController.new ColumnHeaderRenderer();
 		getTableHeader().setFocusable(true);

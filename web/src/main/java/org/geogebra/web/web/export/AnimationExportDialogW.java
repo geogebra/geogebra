@@ -104,11 +104,6 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	private List<GeoElement> geoNumerics;
 
 	/**
-	 * The index of the selected slider.
-	 */
-	private int selectedGeo;
-
-	/**
 	 * @param app
 	 *            Application
 	 */
@@ -201,7 +196,6 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 				geoNumerics.add(geo);
 			}
 		}
-		selectedGeo = 0;
 		boolean enabled = geoNumerics.size() != 0;
 		timeBetweenFramesInput.getTextComponent().setText("500");
 

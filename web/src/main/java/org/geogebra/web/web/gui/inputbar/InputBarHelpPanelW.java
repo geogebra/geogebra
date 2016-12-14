@@ -296,14 +296,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private class TreeItemButton extends InlineLabel {
-		TreeItem item;
-		boolean isLeaf;
 
 		public TreeItemButton(String text, final TreeItem item,
 		        final boolean isLeaf) {
 			super(text);
-			this.item = item;
-			this.isLeaf = isLeaf;
 			addStyleName("inputHelp-treeItem");
 
 			if (isLeaf) {

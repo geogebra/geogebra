@@ -5,7 +5,6 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
@@ -25,7 +24,6 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	 */
 	public static final int DEFAULT_HEIGHT = 300;
 	
-	private EuclidianControllerW ec;
 	public PlotPanelEuclidianViewCommon commonFields;
 	
 	/*************************************************
@@ -58,7 +56,6 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 
 				setViewId(kernel);
 				
-				this.ec = this.getEuclidianController();
 	}
 	
 	/*********** End Constructor **********************/

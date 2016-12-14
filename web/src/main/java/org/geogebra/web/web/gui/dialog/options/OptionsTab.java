@@ -226,13 +226,13 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldSizePanel((TextFieldSizeModel) m, app);
 		}
 		if(m instanceof ButtonSizeModel){
-			return new ButtonSizePanel((ButtonSizeModel)m, app);
+			return new ButtonSizePanel((ButtonSizeModel) m);
 		}
 		if(m instanceof FillingModel){
 			return new FillingPanel((FillingModel) m, app);
 		}
 		if(m instanceof LodModel){
-			return new LodPanel((LodModel) m, app);
+			return new LodPanel((LodModel) m);
 		}
 		if (m instanceof SymbolicModel) {
 			CheckboxPanel ret = new CheckboxPanel("Symbolic",
@@ -246,12 +246,12 @@ public class OptionsTab extends FlowPanel {
 					(InterpolateImageModel) m);
 		}
 		if(m instanceof DecoAngleModel){
-			DecoAnglePanel dap =  new DecoAnglePanel((DecoAngleModel)m, app);
+			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m);
 			dap.getWidget().setStyleName("optionsPanel");
 			return dap;
 		}
 		if(m instanceof DecoSegmentModel){
-			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel)m,app);
+			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel) m);
 			dsp.getWidget().setStyleName("optionsPanel");
 			return dsp;
 		}
@@ -528,10 +528,9 @@ public class OptionsTab extends FlowPanel {
 		DecoAngleModel model;
 		private AppW app;
 
-		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
+		public DecoAnglePanel(DecoAngleModel model0) {
 			model = model0;
 			model.setListener(this);
-			this.app = app;
 			setModel(model);
 			FlowPanel mainWidget = new FlowPanel();
 			decoLabel = new Label();
@@ -600,8 +599,7 @@ public class OptionsTab extends FlowPanel {
 		DecoSegmentModel model;
 		private AppW app;
 
-		public DecoSegmentPanel(DecoSegmentModel model0, AppW app) {
-			this.app = app;
+		public DecoSegmentPanel(DecoSegmentModel model0) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -1129,9 +1127,8 @@ public class OptionsTab extends FlowPanel {
 		ButtonSizeModel model;
 		private AppW app;
 
-		public ButtonSizePanel(ButtonSizeModel model0, AppW app) {
+		public ButtonSizePanel(ButtonSizeModel model0) {
 			model = model0;
-			this.app = app;
 			model.setListener(this);
 			setModel(model);
 			labelWidth = new Label();
@@ -1240,11 +1237,9 @@ public class OptionsTab extends FlowPanel {
 		private FlowPanel mainWidget;
 		private Label label;
 		ListBox combo;
-		private App app;
 
-		public LodPanel(LodModel model0, App app) {
+		public LodPanel(LodModel model0) {
 			model = model0;
-			this.app = app;
 			model.setListener(this);
 			setModel(model);
 

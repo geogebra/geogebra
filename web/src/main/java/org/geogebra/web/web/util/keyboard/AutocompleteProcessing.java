@@ -29,7 +29,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void setKeyBoardModeText(boolean b) {
-		field.setKeyBoardModeText(b);
+		//
 	}
 
 	@Override

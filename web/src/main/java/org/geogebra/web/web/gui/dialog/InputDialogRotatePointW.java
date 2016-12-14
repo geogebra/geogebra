@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -13,7 +12,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
-public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpHandler {
+public class InputDialogRotatePointW extends InputDialogRotateW implements KeyUpHandler {
 
 
 	private GeoPointND[] points;
@@ -22,8 +21,8 @@ public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpH
 
 	public InputDialogRotatePointW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, GeoPointND[] points,
-			GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
-		super(app, title, handler, polys, selGeos, kernel, ec);
+			GeoElement[] selGeos, EuclidianController ec) {
+		super(app, title, handler, polys, selGeos, ec);
 
 		this.points = points;	}
 

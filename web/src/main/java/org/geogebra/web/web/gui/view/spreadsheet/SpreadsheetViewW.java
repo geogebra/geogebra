@@ -637,20 +637,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// Update
 	// ===============================================================
 
-	/*
-	 * public void setLabels() { if (traceDialog != null)
-	 * traceDialog.setLabels();
-	 * 
-	 * if (table != null) table.setLabels(); if (formulaBar != null) {
-	 * formulaBar.setLabels(); } }
-	 */
-
-	Scheduler.ScheduledCommand updateTableFonts = new Scheduler.ScheduledCommand() {
-		public void execute() {
-			table.updateFonts();
-		}
-	};
-
 	public void updateFonts() {
 		table.updateFonts();
 	}

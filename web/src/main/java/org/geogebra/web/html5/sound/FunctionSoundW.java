@@ -96,12 +96,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		}
 	}
 
-	private boolean stopped = false;
-
-
-
 	private void generateFunctionSound() {
-		stopped = false;
 		waw.start(getMin(), getMax(), getSampleRate());
 	}
 
@@ -111,7 +106,6 @@ public final class FunctionSoundW extends FunctionSound implements
 	 */
 	public void stopSound() {
 
-		stopped = true;
 		waw.stop();
 	}
 

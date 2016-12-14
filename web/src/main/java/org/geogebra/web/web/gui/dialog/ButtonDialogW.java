@@ -5,7 +5,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -35,7 +34,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 	private Button btOK, btCancel;
 	private FlowPanel optionPane;
 	AppW app;
-	private GeoButton button = null;
 	ScriptArea tfScript;
 	private Localization loc;
 	

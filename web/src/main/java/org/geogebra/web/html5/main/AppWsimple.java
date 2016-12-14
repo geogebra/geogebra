@@ -119,11 +119,9 @@ public class AppWsimple extends AppW {
 		setAltText();
 	}
 
-	private boolean hasFocus = false;
 	@Override
 	public void focusLost(View v, Element el) {
 		super.focusLost(v, el);
-		hasFocus = true;
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		this.getGlobalKeyDispatcher().setFocused(false);
 	}
@@ -131,7 +129,6 @@ public class AppWsimple extends AppW {
 	@Override
 	public void focusGained(View v, Element el) {
 		super.focusGained(v, el);
-		hasFocus = true;
 		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
 		Log.debug("AppWsimple_focusGained");
 

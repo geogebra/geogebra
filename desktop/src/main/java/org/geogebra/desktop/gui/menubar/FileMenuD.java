@@ -18,7 +18,7 @@ import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.export.AnimationExportDialog;
+import org.geogebra.desktop.export.AnimationExportDialogD;
 import org.geogebra.desktop.export.WorksheetExportDialog;
 import org.geogebra.desktop.export.pstricks.AsymptoteFrame;
 import org.geogebra.desktop.export.pstricks.GeoGebraToAsymptoteD;
@@ -412,7 +412,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@SuppressWarnings("unused")
 			public void actionPerformed(ActionEvent e) {
 				try {
-					new AnimationExportDialog(app);
+					new AnimationExportDialogD(app);
 				} catch (Exception ex) {
 					Log.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {

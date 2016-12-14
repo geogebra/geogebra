@@ -20,10 +20,9 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
-public class InputDialogAngleFixed extends AngleInputDialog{
+public class InputDialogAngleFixedW extends AngleInputDialog{
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
-	private GeoPointND geoPoint1;
 	GeoSegmentND[] segments;
 	GeoPointND[] points;
 	GeoElement[] selGeos;
@@ -32,11 +31,10 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	
 	private EuclidianController ec;
 		
-	public InputDialogAngleFixed(AppW app, String title, InputHandler handler, GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
+	public InputDialogAngleFixedW(AppW app, String title, InputHandler handler, GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
 				defaultRotateAngle, false, handler, false);
 		
-		geoPoint1 = points[0];
 		this.segments = segments;
 		this.points = points;
 		this.selGeos = selGeos;

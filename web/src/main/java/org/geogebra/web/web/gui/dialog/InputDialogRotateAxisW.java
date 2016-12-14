@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
-public class InputDialogRotateAxisW extends InputDialogRotate {
+public class InputDialogRotateAxisW extends InputDialogRotateW {
 
 	private GeoLineND[] lines;
 
@@ -17,7 +17,7 @@ public class InputDialogRotateAxisW extends InputDialogRotate {
             NumberInputHandler handler, GeoPolygon[] polys,
             GeoLineND[] selectedLines, GeoElement[] selGeos,
             EuclidianController ec) {
-		super(app, title, handler, polys, selGeos, app.getKernel(), ec);
+		super(app, title, handler, polys, selGeos, ec);
 		this.lines = selectedLines;
     }
 

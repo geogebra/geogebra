@@ -388,7 +388,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor());
-		InputDialogD id = new InputDialogAngleFixed(((AppD) app), title,
+		InputDialogD id = new InputDialogAngleFixedD(((AppD) app), title,
 				handler, segments, points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 

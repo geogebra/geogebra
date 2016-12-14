@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.data;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -25,12 +24,10 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	protected AppW app;
-	private Kernel kernel;
 	protected DataAnalysisViewW statDialog;
 	protected MyTable statTable;
 	private TwoVarStatModel model;
 	private UpdatePanel listener;
-	private boolean isIniting;
 	
 	public TwoVarStatPanelW(AppW app, DataAnalysisViewW statDialog,
 			boolean isPairedData, UpdatePanel listener) {
@@ -38,7 +35,6 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		model = new TwoVarStatModel(app, isPairedData, this);
 		this.app = app;
 		this.statDialog = statDialog;
-		kernel = app.getKernel();
 		statTable = getTable();
 		this.listener = listener;
 
@@ -47,8 +43,6 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 	}
 
 	public void setTable(boolean isPairedData) {
-
-		isIniting = true;
 
 		model.setPairedData(isPairedData);
 		setStatTable(model.getRowCount(), model.getRowNames(),
@@ -62,7 +56,6 @@ public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
 		createListBoxCell(1, 0, app.getMenu("Sample2"), titles, 
 				model.getSelectedDataIndex1());
 
-		isIniting = false;
 	}
 
 	private void createListBoxCell(final int row, final int col, String title, String[] items,

@@ -11,11 +11,10 @@ import org.geogebra.web.html5.awt.GFontW;
  *
  */
 public class FontManagerW extends FontManager {
-	private int fontSize;
 
 	@Override
 	public void setFontSize(int size) {
-		fontSize = size;
+		// fontSize = size;
 	}
 
 	@Override

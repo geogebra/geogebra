@@ -145,8 +145,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	boolean keyBoardModeText = false;
-
 	private int actualFontSize = 14;
 	private boolean deferredFocus = false;
 
@@ -1281,7 +1279,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	private boolean isSuggestionJustHappened = false;
-	private boolean isSuggestionClickJustHappened = false;
 	private GeoInputBox geoUsedForInputBox;
 
 	/**
@@ -1294,13 +1291,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void setIsSuggestionJustHappened(boolean b) {
 		isSuggestionJustHappened = b;
-		isSuggestionClickJustHappened = b;
 	}
 
 	/* Hopefully happens only on click */
 	@Override
 	public void onValueChange(ValueChangeEvent<String> event) {
-		isSuggestionClickJustHappened = true;
 
 		// textField.getValueBox().getElement().focus();
 	}
@@ -1701,10 +1696,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void addInsertHandler(InsertHandler insertHandler) {
 		this.insertHandler = insertHandler;
-	}
-
-	public void setKeyBoardModeText(boolean keyBoardModeText) {
-		this.keyBoardModeText = keyBoardModeText;
 	}
 
 	@Override

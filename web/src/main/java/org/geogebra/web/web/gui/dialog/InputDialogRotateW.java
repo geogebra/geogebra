@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.util.AsyncOperation;
@@ -16,7 +15,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
-public abstract class InputDialogRotate extends AngleInputDialog implements KeyUpHandler {
+public abstract class InputDialogRotateW extends AngleInputDialog implements KeyUpHandler {
 
 
 	GeoPolygon[] polys;
@@ -24,21 +23,19 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 	
 	protected EuclidianController ec;
 
-	private Kernel kernel;
 	final protected static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES; // 45
 																				// degrees
 
-	public InputDialogRotate(AppW app, String title,
+	public InputDialogRotateW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, 
-			GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
+			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
 				defaultRotateAngle, false,
 				handler, false);
 
 		this.polys = polys;
 		this.selGeos = selGeos;
-		this.kernel = kernel;
-		
+
 		this.ec = ec;
 
 		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);

@@ -33,7 +33,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
-public class SpreadsheetColumnController
+public class SpreadsheetColumnControllerD
 		implements KeyListener, MouseListener, MouseMotionListener {
 
 	private AppD app;
@@ -48,7 +48,7 @@ public class SpreadsheetColumnController
 	private int overTraceButtonColumn = -1;
 	private final LocalizationD loc;
 
-	public SpreadsheetColumnController(AppD app, MyTableD table) {
+	public SpreadsheetColumnControllerD(AppD app, MyTableD table) {
 
 		this.app = app;
 		this.loc = app.getLocalization();

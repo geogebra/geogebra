@@ -57,15 +57,11 @@ public class GGraphics2DW implements GGraphics2D {
 	 * the pixel ratio of the canvas.
 	 */
 	public double devicePixelRatio = 1;
-	private int id;
-
-	private static int counter = 1;
 
 	/**
 	 * @param canvas
 	 */
 	public GGraphics2DW(Canvas canvas) {
-		this.id = counter++;
 		this.canvas = canvas;
 		setDirection();
 		this.context = (JLMContext2d) canvas.getContext2d();
@@ -926,10 +922,6 @@ public class GGraphics2DW implements GGraphics2D {
 	public void drawImage(MyImage img, int x, int y) {
 		context.drawImage(((MyImageW) img).getImage(), x, y);
 
-	}
-
-	public Integer getID() {
-		return this.id;
 	}
 
 	@Override

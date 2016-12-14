@@ -44,7 +44,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 	private JPanel intPanel;
 	private JPanel mainPanel;
 	private JPanel samplePanel;
-	private TwoVarStatPanel twoStatPanel;
+	private TwoVarStatPanelD twoStatPanel;
 	private TwoVarInferenceModel model;
 	private boolean enablePooled;
 	private JCheckBox ckPooled;
@@ -136,7 +136,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 		// sample panel
 
-		twoStatPanel = new TwoVarStatPanel(app, daView, model.isPairedData(),
+		twoStatPanel = new TwoVarStatPanelD(app, daView, model.isPairedData(),
 				this);
 
 		samplePanel = new JPanel(new GridBagLayout());

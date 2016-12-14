@@ -1806,8 +1806,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// used in AppWapplet
 		buildApplicationPanel();
 
-		fontManager.setFontSize(getGUIFontSize());
-
 		// update sizes
 		euclidianView.updateSize();
 		// needed: GGB-624

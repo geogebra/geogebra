@@ -14,10 +14,7 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 	        LineCap.SQUARE };
 
 	// Private fields
-	private float lineWidth = 1;
 	private int lineCap = CAP_BUTT;
-	private int lineJoin = JOIN_MITER;
-	private float[] dasharray = null;
 
 	public GBasicStrokeW(float width, int cap, int join, float miterLimit,
 			float[] dash, float dashPhase) {

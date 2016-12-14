@@ -38,7 +38,7 @@ import org.geogebra.desktop.util.FrameCollector;
  * 
  * TODO What happens with the slider context menu entry
  */
-public class AnimationExportDialog extends JDialog {
+public class AnimationExportDialogD extends JDialog {
 	/**	 */
 	private static final long serialVersionUID = 1L;
 
@@ -75,7 +75,7 @@ public class AnimationExportDialog extends JDialog {
 	 * @param app
 	 *            App instance
 	 */
-	public AnimationExportDialog(AppD app) {
+	public AnimationExportDialogD(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
 		this.loc = app.getLocalization();

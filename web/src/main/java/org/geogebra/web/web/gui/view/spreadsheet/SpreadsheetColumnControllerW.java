@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
@@ -27,7 +26,6 @@ public class SpreadsheetColumnControllerW implements
 	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
-	private SpreadsheetTableModelW model;
 
 	protected int column0 = -1;
 	protected boolean isResizing = false;
@@ -42,7 +40,6 @@ public class SpreadsheetColumnControllerW implements
 		this.kernel = app.getKernel();
 		this.table = table;
 		this.view = (SpreadsheetViewW)table.getView();
-		this.model = (SpreadsheetTableModelW)table.getModel();
 
 	}
 

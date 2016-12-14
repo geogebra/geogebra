@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -51,8 +50,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 {
 	private AppW app;
-	private SpreadsheetViewW view;
-	private Kernel kernel;
 	private MyTableW table;
 	private Grid grid;
 
@@ -77,8 +74,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 		this.app = app;
 		this.table = table;
-		this.view = (SpreadsheetViewW) table.getView();
-		this.kernel = app.getKernel();
 
 		prepareGUI();
 		registerListeners();

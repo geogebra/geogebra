@@ -20,7 +20,7 @@ import org.geogebra.desktop.main.AppD;
  * @author G. Sturr
  * 
  */
-public class TwoVarStatPanel extends StatTable
+public class TwoVarStatPanelD extends StatTable
 		implements ActionListener, TwoVarStatListener {
 	private static final long serialVersionUID = 1L;
 	protected AppD app;
@@ -31,7 +31,7 @@ public class TwoVarStatPanel extends StatTable
 	private ActionListener parentActionListener;
 	private boolean isIniting;
 
-	public TwoVarStatPanel(AppD app, DataAnalysisViewD statDialog,
+	public TwoVarStatPanelD(AppD app, DataAnalysisViewD statDialog,
 			boolean isPairedData, ActionListener parentActionListener) {
 		super(app);
 		model = new TwoVarStatModel(app, isPairedData, this);

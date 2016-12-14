@@ -22,7 +22,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogAngleFixed extends AngleInputDialog
+public class InputDialogAngleFixedD extends AngleInputDialog
 		implements KeyListener {
 
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
@@ -35,7 +35,7 @@ public class InputDialogAngleFixed extends AngleInputDialog
 
 	private EuclidianController ec;
 
-	public InputDialogAngleFixed(AppD app, String title, InputHandler handler,
+	public InputDialogAngleFixedD(AppD app, String title, InputHandler handler,
 			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
 			Kernel kernel, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,

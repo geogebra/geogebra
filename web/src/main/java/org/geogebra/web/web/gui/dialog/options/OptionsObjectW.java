@@ -1240,8 +1240,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		return (AppW) app;
 	}
 
-	long beforeTabs;
-
 	private TextOptionsModel textModel;
 
 	private void initGUI(final Runnable onTabSelection) {
@@ -1272,7 +1270,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		// and propertiesTabPanel2 classes should be merged
 		((Widget) tabPanel).addStyleName("propertiesTabPanel2");
 
-		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
@@ -1280,15 +1277,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					addAdvancedTab(), addAlgebraTab(), addScriptTab());
 		} else {
 			// skip scripting in exam
-		tabs = Arrays.asList(
-				basicTab,
-				addTextTab(),
-				addSliderTab(),
-				addColorTab(),
-				addStyleTab(),
-				addPositionTab(),
-				addAdvancedTab(),
- addAlgebraTab());
+			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),
+					addColorTab(), addStyleTab(), addPositionTab(),
+					addAdvancedTab(), addAlgebraTab());
 		}
 
 		for (OptionsTab tab: tabs) {

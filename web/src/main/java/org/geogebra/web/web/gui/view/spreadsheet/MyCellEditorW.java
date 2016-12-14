@@ -38,7 +38,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	protected int column = -1;
 	protected int row = -1;
 	private boolean editing = false;
-	private boolean errorOnStopEditing = false;
 
 	private boolean allowProcessGeo = false;
 
@@ -193,7 +192,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	public void cancelCellEditing() {
 		editing = false;
-		errorOnStopEditing = false;
 		
 		if (table != null) { // ?
 			table.finishEditing(false);
@@ -202,8 +200,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	public boolean stopCellEditing() {
 
-		errorOnStopEditing = true; // flag to handle column resizing during
-		                           // editing (see focusLost method)
 
 		if (autoCompleteTextField.hasDummyCursor()) {
 			autoCompleteTextField.removeDummyCursor();
@@ -211,10 +207,10 @@ public class MyCellEditorW implements BaseCellEditor {
 
 		// try to redefine or create the cell geo with the current editing
 		// string
-		if (!processGeo())
+		if (!processGeo()) {
 			return false;
+		}
 
-		errorOnStopEditing = false;
 		editing = false;
 		boolean success = true;// TODO super.stopCellEditing();
 

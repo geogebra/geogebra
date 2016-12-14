@@ -65,14 +65,10 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 
 	private final AppletFactory factory;
 
-	private int id;
-	private static int counter = 0;
-
 	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device, AppletFactory factory) {
 		this.laf = laf;
 		this.device = device;
 		this.factory = factory;
-		this.id = counter++;
 		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		

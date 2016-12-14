@@ -288,8 +288,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogRotate id = new InputDialogRotatePointW(((AppW) app), title, handler, polys,
-				points, selGeos, app.getKernel(), ec);
+		InputDialogRotateW id = new InputDialogRotatePointW(((AppW) app), title, handler, polys,
+				points, selGeos, ec);
 		id.setVisible(true);
 
 	}
@@ -300,7 +300,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogAngleFixed id = new InputDialogAngleFixed(((AppW) app), title, handler,
+		InputDialogAngleFixedW id = new InputDialogAngleFixedW(((AppW) app), title, handler,
 				segments, points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 
