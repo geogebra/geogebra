@@ -94,6 +94,11 @@ public class AlgoIntersectRegionPlanePolyhedron
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			return Double.hashCode(parameter) ^ parent.hashCode();
+		}
+
 		/**
 		 * compare parent to o
 		 * 

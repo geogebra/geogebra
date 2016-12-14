@@ -864,7 +864,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// bug in old versions (PNG saved with wrong extension)
 		// change BMP, TIFF, TIF -> PNG
 		if (!ext.isAllowedImage()) {
-			fn = StringUtil.changeFileExtension(fn, FileExtensions.PNG);
+			filename = StringUtil.changeFileExtension(filename,
+					FileExtensions.PNG);
 		}
 
 		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons

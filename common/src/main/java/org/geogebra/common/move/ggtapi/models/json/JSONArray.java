@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 /**
  * A dense indexed sequence of values. Values may be any mix of
@@ -600,6 +602,8 @@ public class JSONArray {
 	 * </pre>
 	 */
 	@Override
+	@SuppressFBWarnings({ "NP_TOSTRING_COULD_RETURN_NULL",
+			"API specifies this" })
 	public String toString() {
 		try {
 			JSONStringer stringer = new JSONStringer();

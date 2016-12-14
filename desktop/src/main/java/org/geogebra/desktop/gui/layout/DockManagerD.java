@@ -660,7 +660,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 				// in root pane, the opposite may be null
 				if (opposite == null) {
-					opposite = currentPane.getOpposite(opposite);
+					opposite = currentPane.getOpposite(null);
 					rootPane = newSplitPane;
 				} else if (opposite.getParent() == rootPane
 						&& rootPane.getOpposite(opposite) == null) {

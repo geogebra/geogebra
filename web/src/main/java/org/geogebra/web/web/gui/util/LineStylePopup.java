@@ -10,9 +10,6 @@ public class LineStylePopup extends PopupMenuButtonW  {
 
 	private static final int DEFAULT_SIZE = 2;
 
-	private int mode;
-	private ImageOrText[] lineStyleIcons = null;
-
 	public static HashMap<Integer, Integer> getLineStyleMap(int iconHeight) {
 
 		Integer styleCount = LineStyleModel.getStyleCount();
@@ -48,8 +45,6 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		LineStylePopup ret = new LineStylePopup(app, lineStyleIcons0, -1,
 				6, SelectionTable.MODE_ICON,
 				true, hasSlider, lineStyleMap0);
-		ret.setMode(mode);
-		// ret.fillData(iconHeight);
 		return ret;
 	}
 
@@ -88,9 +83,6 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		return val == -1 ? DEFAULT_SIZE : val;
 	}
 
-	public void setMode(int mode) {
-		this.mode = mode;
-    }
 }
 
 

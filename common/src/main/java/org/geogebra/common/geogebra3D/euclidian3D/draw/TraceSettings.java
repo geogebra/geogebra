@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.awt.GColor;
 
 final public class TraceSettings
-		implements Comparable<TraceSettings>, Cloneable {
+		implements Comparable<TraceSettings> {
 
 	private GColor c;
 
@@ -55,5 +55,10 @@ final public class TraceSettings
 			return v1 == v2;
 		}
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return c.hashCode();
 	}
 }

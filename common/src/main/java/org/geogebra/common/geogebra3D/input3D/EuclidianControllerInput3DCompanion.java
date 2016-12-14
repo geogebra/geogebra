@@ -245,6 +245,11 @@ public class EuclidianControllerInput3DCompanion extends
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			return Double.hashCode(distance) ^ point.hashCode();
+		}
+
 	}
 
 	private static class StickyPointForDirection
@@ -299,6 +304,12 @@ public class EuclidianControllerInput3DCompanion extends
 				return compareTo((StickyPointForDirection) spd) == 0;
 			}
 			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			return Double.hashCode(distanceOrtho)
+					^ Double.hashCode(distanceOrigin) ^ sp.hashCode();
 		}
 
 	}

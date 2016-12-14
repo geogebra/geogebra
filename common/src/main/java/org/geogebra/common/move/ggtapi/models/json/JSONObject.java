@@ -713,6 +713,8 @@ public class JSONObject {
 	 * </pre>
 	 */
 	@Override
+	@SuppressFBWarnings({ "NP_TOSTRING_COULD_RETURN_NULL",
+			"API specifies this" })
 	public String toString() {
 		try {
 			JSONStringer stringer = new JSONStringer();

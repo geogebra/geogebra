@@ -3483,8 +3483,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @return true if successful
 	 */
 	final public boolean loadXML(File file, boolean isMacroFile) {
+		FileInputStream fis = null;
 		try {
-			FileInputStream fis = null;
 			fis = new FileInputStream(file);
 
 			boolean success = false;
@@ -3511,6 +3511,13 @@ public class AppD extends App implements KeyEventDispatcher {
 			return false;
 		} finally {
 			initing = false;
+			if (fis != null) {
+				try {
+					fis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

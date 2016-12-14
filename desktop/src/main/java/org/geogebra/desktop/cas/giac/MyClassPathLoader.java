@@ -1,6 +1,7 @@
 package org.geogebra.desktop.cas.giac;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +70,7 @@ public class MyClassPathLoader {
 	 * 
 	 * @param ins
 	 * @param filename
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private static File writeTmpFile(InputStream ins, String filename)
@@ -88,7 +90,13 @@ public class MyClassPathLoader {
 			}
 		} finally {
 			if (ins != null) {
-				ins.close();
+
+				// need try/catch to be sure fos gets closed
+				try {
+					ins.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			if (fos != null) {
 				fos.close();

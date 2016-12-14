@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.geogebra.common.util.StringUtil;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 // Note: this class was written without inspecting the non-free org.json sourcecode.
 /**
  * Implements {@link JSONObject#toString} and {@link JSONArray#toString}. Most
@@ -416,6 +418,8 @@ public class JSONStringer {
 	 * contains no data.
 	 */
 	@Override
+	@SuppressFBWarnings({ "NP_TOSTRING_COULD_RETURN_NULL",
+			"API specifies this" })
 	public String toString() {
 		return out.length() == 0 ? null : out.toString();
 	}

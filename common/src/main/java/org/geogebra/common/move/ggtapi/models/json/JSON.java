@@ -15,6 +15,8 @@
  */
 package org.geogebra.common.move.ggtapi.models.json;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 class JSON {
 	/**
 	 * Returns the input if it is a JSON-permissible value; throws otherwise.
@@ -26,6 +28,7 @@ class JSON {
 		return d;
 	}
 
+	@SuppressFBWarnings({ "NP_BOOLEAN_RETURN_NULL", "API specifies this" })
 	static Boolean toBoolean(Object value) {
 		if (value instanceof Boolean) {
 			return (Boolean) value;

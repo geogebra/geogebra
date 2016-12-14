@@ -17,11 +17,11 @@ import org.geogebra.common.main.Feature;
  */
 public abstract class RendererImplShaders extends RendererImpl {
 
-	public int GLSL_ATTRIB_POSITION;
-	public int GLSL_ATTRIB_COLOR;
-	public int GLSL_ATTRIB_NORMAL;
-	public int GLSL_ATTRIB_TEXTURE;
-	public int GLSL_ATTRIB_INDEX;
+	static public int GLSL_ATTRIB_POSITION;
+	static public int GLSL_ATTRIB_COLOR;
+	static public int GLSL_ATTRIB_NORMAL;
+	static public int GLSL_ATTRIB_TEXTURE;
+	static public int GLSL_ATTRIB_INDEX;
 
 	final static protected int TEXTURE_TYPE_NONE = 0;
 	final static protected int TEXTURE_TYPE_FADING = 1;

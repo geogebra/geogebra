@@ -871,20 +871,21 @@ public class DockManagerW extends DockManager {
 						opposite = ((DockSplitPaneW)opposite).getRightComponent();
 					}
 				} else {
-					if(((DockSplitPaneW)opposite).getRightComponent() == null) {
+					if (((DockSplitPaneW) opposite)
+							.getRightComponent() == null) {
 						opposite = ((DockSplitPaneW)opposite).getLeftComponent();
 					}
 				}
 			} else {
-				if(secondLastPos == 0 || secondLastPos == 3) {
+				if (secondLastPos == 0 || secondLastPos == 3) {
 					opposite = currentPane.getLeftComponent();
 				} else {
 					opposite = currentPane.getRightComponent();
 				}
 
 				// in root pane, the opposite may be null
-				if(opposite == null) {
-					opposite = currentPane.getOpposite(opposite);
+				if (opposite == null) {
+					opposite = currentPane.getOpposite(null);
 					oppositeWidth = opposite.getOffsetWidth();
 					oppositeHeight = opposite.getOffsetHeight();
 					rootPane = newSplitPane;

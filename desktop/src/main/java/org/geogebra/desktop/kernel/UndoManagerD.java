@@ -197,10 +197,13 @@ public class UndoManagerD extends UndoManager {
 	 */
 	@Override
 	final protected synchronized void loadUndoInfo(final AppState info) {
+
+		InputStream is = null;
+
 		try {
 			// load from file
 			File tempFile = ((AppStateDesktop) info).getFile();
-			InputStream is = new FileInputStream(tempFile);
+			is = new FileInputStream(tempFile);
 
 			// make sure objects are displayed in the correct View
 			app.setActiveView(App.VIEW_EUCLIDIAN);
@@ -241,13 +244,22 @@ public class UndoManagerD extends UndoManager {
 			}
 			((AppD) app).getScriptManager().enableListeners();
 
-			is.close();
+
 		} catch (Exception e) {
 			Log.error("setUndoInfo: " + e.toString());
 			e.printStackTrace();
 			restoreCurrentUndoInfo();
 		} catch (java.lang.OutOfMemoryError err) {
 			Log.error("UndoManager.loadUndoInfo: " + err.toString());
+		} finally {
+			try {
+				if (is != null) {
+					is.close();
+				}
+			} catch (IOException e) {
+				Log.error("setUndoInfo: " + e.toString());
+				e.printStackTrace();
+			}
 		}
 
 	}

@@ -1103,7 +1103,6 @@ public abstract class Drawable3D extends DrawableND {
 		setColors(alpha, surfaceColor);
 	}
 
-	private Coords tmpCoords1 = new Coords(4);
 	private GColor tmpColor2;
 
 	protected void setColors(int alpha, GColor[] color) {
