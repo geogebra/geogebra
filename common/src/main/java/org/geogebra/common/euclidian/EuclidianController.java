@@ -9629,8 +9629,10 @@ public abstract class EuclidianController {
 		}
 
 		if (isPenDragged) {
-			getPen().handleMouseReleasedForPenMode(right, x, y);
-			storeUndoInfo();
+			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y);
+			if (geoCreated) {
+				storeUndoInfo();
+			}
 			draggingOccured = false;
 			return;
 		}

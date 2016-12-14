@@ -464,14 +464,16 @@ public class EuclidianPen implements GTimerListener {
 	 * @param y
 	 *            y-coord
 	 *
+	 * @return true if a GeoElement was created
+	 *
 	 */
-	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
+	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y) {
 		if (right && !freehand) {
-			return;
+			return false;
 		}
 
 		if (freehand) {
-			mouseReleasedFreehand(x, y);
+			boolean shapeCreated = mouseReleasedFreehand(x, y);
 			penPoints.clear();
 
 			app.refreshViews(); // clear trace
@@ -479,7 +481,7 @@ public class EuclidianPen implements GTimerListener {
 			minX = Integer.MAX_VALUE;
 			maxX = Integer.MIN_VALUE;
 
-			return;
+			return shapeCreated;
 		}
 
 		timer.start();
@@ -500,6 +502,8 @@ public class EuclidianPen implements GTimerListener {
 		penPoints.clear();
 		// drawing done, so no need for repaint
 		needsRepaint = false;
+
+		return true;
 	}
 
 	/**
@@ -846,7 +850,8 @@ public class EuclidianPen implements GTimerListener {
 		return (AlgoPolyLine) al.getInput()[0].getParentAlgorithm();
 	}
 
-	private void mouseReleasedFreehand(int x, int y) {
+	// Return true if a shape was created, false otherwise
+	private boolean mouseReleasedFreehand(int x, int y) {
 		int n = maxX - minX + 1;
 		double[] freehand1 = new double[n];
 
@@ -855,7 +860,7 @@ public class EuclidianPen implements GTimerListener {
 		if (shape != null && shape.isGeoLine()) {
 			// lines take priority over functions
 			penPoints.clear();
-			return;
+			return true;
 		}
 
 		// now check if it can be a function (increasing or decreasing x)
@@ -885,7 +890,7 @@ public class EuclidianPen implements GTimerListener {
 			// may or may not have recognized a shape eg circle in checkShapes()
 			// earlier
 			penPoints.clear();
-			return;
+			return shape != null;
 		}
 
 		// now definitely a function
@@ -961,6 +966,8 @@ public class EuclidianPen implements GTimerListener {
 
 		minX = Integer.MAX_VALUE;
 		maxX = Integer.MIN_VALUE;
+
+		return true;
 	}
 
 	/**

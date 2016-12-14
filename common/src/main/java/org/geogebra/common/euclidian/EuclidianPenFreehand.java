@@ -76,8 +76,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	}
 
 	@Override
-	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
-		checkExpectedShape(x, y);
+	public boolean handleMouseReleasedForPenMode(boolean right, int x, int y) {
+		return checkExpectedShape(x, y);
 	}
 
 	/**
@@ -88,28 +88,28 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @param y
 	 *            y-coord of new point
 	 */
-	private void checkExpectedShape(int x, int y) {
+	private boolean checkExpectedShape(int x, int y) {
 		initShapeRecognition(x, y);
 
 		switch (this.expected) {
 		case polygon:
 		case rigidPolygon:
 		case vectorPolygon:
-			createPolygon();
-			break;
+			return createPolygon();
 		case circleThreePoints:
-			createCircle();
-			break;
+			return createCircle();
 		}
+
+		return false;
 	}
 
 	/**
 	 * creates a circle if possible
 	 */
-	private void createCircle() {
+	private boolean createCircle() {
 		GeoElement geoCircle;
 		if (tryCircleThroughExistingPoints() != null) {
-			return;
+			return true;
 		} else if ((geoCircle = getCircleThreePoints()) != null) {
 
 			boolean recreate = false;
@@ -132,8 +132,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				geoCircle = algo.getCircle();
 				geoCircle.updateRepaint();
 			}
+
+			return true;
 		}
 		resetInitialPoint();
+		return false;
 	}
 
 	/**
@@ -166,7 +169,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	/**
 	 * creates a polygon if possible
 	 */
-	private void createPolygon() {
+	private boolean createPolygon() {
 
 		GeoElement polygon = null;
 
@@ -196,9 +199,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 						this.app.getKernel().vectorPolygon(null,
 							list.toArray(new GeoPoint[0]));
 				}
+				return polygon != null;
 			}
+			return true;
 		} else {
 			resetInitialPoint();
+			return false;
 		}
 	}
 
