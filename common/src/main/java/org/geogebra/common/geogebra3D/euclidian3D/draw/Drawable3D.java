@@ -117,8 +117,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
  */
 public abstract class Drawable3D extends DrawableND {
 
-	private static final boolean DEBUG = false;
-
 	// constants for rendering
 	/**
 	 * objects that are picked are drawn with a thickness * PICKED_DILATATION
@@ -135,6 +133,9 @@ public abstract class Drawable3D extends DrawableND {
 
 	/** value for surface / geometry index when not reusable */
 	protected static final int NOT_REUSABLE_INDEX = -1;
+
+	private static final int ALPHA_MIN_HIGHLIGHTING = 64;
+	private static final int LIGHT_COLOR = 3 * 127;
 
 	/** view3D */
 	private EuclidianView3D m_view3D;
@@ -173,12 +174,10 @@ public abstract class Drawable3D extends DrawableND {
 	private double zPickNear;
 
 	/** (r,g,b,a) vector */
-	protected GColor[] color = new GColor[2], surfaceColor = new GColor[2];
-
-	private static final float EPSILON_Z = 0.0001f;// 0.0001f;//10000000;
-													// //limit to consider two
-													// objects to be at the same
-													// place
+	protected GColor[] color = new GColor[2];
+	protected GColor[] surfaceColor = new GColor[2];
+	private GColor tmpColor2;
+	protected Trace trace;
 
 	// constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1,
 	// regarding to picking order
@@ -1091,8 +1090,7 @@ public abstract class Drawable3D extends DrawableND {
 		}
 	}
 
-	private static final int ALPHA_MIN_HIGHLIGHTING = 64;
-	private static final int LIGHT_COLOR = 3 * 127;
+
 
 	protected void updateColors() {
 		setColors(alpha, color);
@@ -1103,7 +1101,7 @@ public abstract class Drawable3D extends DrawableND {
 		setColors(alpha, surfaceColor);
 	}
 
-	private GColor tmpColor2;
+
 
 	protected void setColors(int alpha, GColor[] color) {
 
@@ -1292,7 +1290,7 @@ public abstract class Drawable3D extends DrawableND {
 
 	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
 
-	protected Trace trace;
+
 
 	protected Trace getTrace() {
 		if (trace == null) {
