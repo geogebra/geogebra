@@ -195,7 +195,7 @@ public class RadioTreeItemController
 			app.closePopups();
 		}
 
-		if (markForEdit()) {
+		if (markForEdit() && !item.isInputTreeItem()) {
 			return;
 		}
 
