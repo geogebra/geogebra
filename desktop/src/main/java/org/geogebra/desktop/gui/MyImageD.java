@@ -16,6 +16,8 @@ import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 
@@ -117,6 +119,59 @@ public class MyImageD implements MyImageJre {
 					new FileInputStream(imageFile), Charsets.UTF_8));
 			for (String line = reader.readLine(); line != null; line = reader
 					.readLine()) {
+
+				// width or height missing, hack to add them in
+				// needed for web
+				try {
+					if (line.startsWith("<svg")) {
+						if (line.contains("viewBox=\"")
+								&& (!line.contains("height=\"")
+										|| !line.contains("width=\""))) {
+
+							int index = line.indexOf('>');
+
+							String start = line.substring(0, index);
+							String end = line.substring(index, line.length());
+
+							String pattern = "viewBox=\"([^\"]*)\"";
+							Pattern r = Pattern.compile(pattern);
+
+							Matcher m = r.matcher(line);
+							if (m.find()) {
+								Log.debug("Found value: " + m.group(1));
+
+								String[] values = m.group(1).split(" ");
+
+								if (values.length == 4) {
+									double xmin = Double.parseDouble(values[0]);
+									double ymin = Double.parseDouble(values[1]);
+									double xmax = Double.parseDouble(values[2]);
+									double ymax = Double.parseDouble(values[3]);
+
+									double width = Math.abs(xmax - xmin);
+									double height = Math.abs(ymax - ymin);
+
+									line = start + " width=\"" + width
+											+ "\" height=\"" + height + "\""
+											+ end;
+									Log.error(
+											"patching SVG file to include height and width:\n"
+													+ line);
+
+									// Log.debug("line = " + line);
+
+									// Log.debug("start = " + start);
+									// Log.debug("end = " + end);
+								}
+
+							}
+
+						}
+					}
+				} catch (Exception e) {
+					Log.error("problem parsing viewBox from SVG");
+				}
+
 				svg.append(line);
 				svg.append('\n');
 			}
