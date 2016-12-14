@@ -1709,13 +1709,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	}
 
-	public void endOnscreenKeyboardEditing() {
+	public void startOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			addDummyCursor();
 		}
 	}
 
-	public void startOnscreenKeyboardEditing() {
+	public void endOnscreenKeyboardEditing() {
 		if (Browser.isAndroid()) {
 			removeDummyCursor();
 		}
