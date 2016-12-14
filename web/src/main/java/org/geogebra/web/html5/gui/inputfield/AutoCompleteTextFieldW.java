@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1585,6 +1586,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	public void addFieldHandler() {
+		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			return;
+		}
+
+		if (Browser.isTabletBrowser()) {
+			// avoid native keyboard opening
+			getTextField().getValueBox().setReadOnly(true);
+		}
+
 		addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
 				FieldHandler.focusGained(AutoCompleteTextFieldW.this, app);
@@ -1709,19 +1719,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	public void endOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(true);
-			removeDummyCursor();
-			removeStyleName("disabledTextfieldEditing");
-		}
+
 	}
 
 	public void startOnscreenKeyboardEditing() {
-		if (Browser.isAndroid() || Browser.isIPad()) {
-			setEnabled(false);
-			addDummyCursor();
-			addStyleName("disabledTextfieldEditing");
-		}
 
 	}
 

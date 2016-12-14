@@ -43,7 +43,6 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 	public static void focusGained(HasKeyboardTF field, AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			if (Browser.isAndroid() || Browser.isIPad()) {
-				field.setFocus(false);
 				field.startOnscreenKeyboardEditing();
 			}
 			if (field != null) {
@@ -54,11 +53,11 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 
 	public static void focusLost(HasKeyboardTF field, final AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+			field.endOnscreenKeyboardEditing();
 			if (CancelEventTimer.cancelKeyboardHide()) {
 				return;
 			}
 			app.hideKeyboard();
-			field.endOnscreenKeyboardEditing();
 		}
 	}
 
