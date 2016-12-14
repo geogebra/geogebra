@@ -38,11 +38,7 @@ public class SpreadsheetViewDnD
 		implements DragGestureListener, DragSourceListener, DropTargetListener {
 
 	private AppD app;
-	private SpreadsheetViewD view;
 	private MyTableD table;
-
-	private DragSource ds;
-	private DropTarget dt;
 
 	// current drag over cell
 	private GPoint currentCell = new GPoint(0, 0);
@@ -67,17 +63,17 @@ public class SpreadsheetViewDnD
 	 * @param app
 	 * @param view
 	 */
+	@SuppressWarnings("unused")
 	public SpreadsheetViewDnD(AppD app, SpreadsheetViewD view) {
 		this.app = app;
-		this.view = view;
 		this.table = (MyTableD) view.getSpreadsheetTable();
 
-		ds = new DragSource();
+		new DragSource();
 		// DragGestureRecognizer dgr =
 		// ds.createDefaultDragGestureRecognizer(table,
 		// DnDConstants.ACTION_COPY, this);
 
-		dt = new DropTarget(table, this);
+		new DropTarget(table, this);
 
 	}
 

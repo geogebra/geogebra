@@ -17,9 +17,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoPolygon3D extends AlgoPolygon {
 
-	/** says if the polygon has to creates its edges */
-	boolean createSegments = true;
-
 	/**
 	 * Constructor with points
 	 * 

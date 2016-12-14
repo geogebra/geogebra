@@ -53,7 +53,6 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 			cbEnableAutoComplete;
 	private JLabel descriptionLabel;
 	private JComboBox description;
-	boolean ignoreActions;
 	private JPanel wrappedPanel;
 	private JCheckBox cbShowNavigation;
 	private LocalizationD loc;
@@ -202,7 +201,6 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	}
 
 	private void updateDescription() {
-		ignoreActions = true;
 		String[] modes = new String[] { loc.getMenu("Value"),
 				loc.getMenu("Definition"), loc.getMenu("Command") };
 		description.removeAllItems();
@@ -213,7 +211,6 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 
 		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();
 		description.setSelectedIndex(descMode);
-		ignoreActions = false;
 	}
 
 	private void updateCheckBox(JCheckBox cb, boolean value) {

@@ -685,7 +685,6 @@ public class AppDNoGui extends App {
 
 	// public static char unicodeThousandsSeparator = ','; // \u066c for Arabic
 
-	StringBuilder testCharacters = new StringBuilder();
 	private SensorLogger udpLogger;
 
 	public void setLocale(Locale locale) {

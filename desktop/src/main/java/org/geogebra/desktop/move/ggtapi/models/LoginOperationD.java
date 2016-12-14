@@ -19,8 +19,6 @@ import org.geogebra.desktop.util.URLEncoderD;
  */
 public class LoginOperationD extends LogInOperation {
 
-	boolean tubeAvailable = false;
-
 	/**
 	 * Initializes the LoginOperation for Desktop by creating the corresponding
 	 * model and view classes

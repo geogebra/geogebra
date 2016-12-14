@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.ImageManager;
 
 /**
  * Class managing textures (dash, images, etc.)
@@ -12,8 +11,6 @@ import org.geogebra.common.util.ImageManager;
 public class Textures {
 
 	// private GL gl;
-
-	private ImageManager imageManager;
 
 	// /////////////////
 	// dash
@@ -112,10 +109,9 @@ public class Textures {
 	 * 
 	 * @param gl
 	 */
-	public Textures(Renderer renderer, ImageManager abstractImageManager) {
+	public Textures(Renderer renderer) {
 
 		this.renderer = renderer;
-		this.imageManager = abstractImageManager;
 
 	}
 

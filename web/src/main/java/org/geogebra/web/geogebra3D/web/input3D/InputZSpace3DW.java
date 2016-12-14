@@ -382,8 +382,7 @@ public class InputZSpace3DW extends Input3D {
 		hasStylusNotIntersectingPhysicalScreen = true;
 	}
 
-	private boolean hasStylusNotIntersectingPhysicalScreen = true,
-			stylusDetected = false;
+	private boolean hasStylusNotIntersectingPhysicalScreen = true;
 
 	@Override
 	public boolean isZSpace() {

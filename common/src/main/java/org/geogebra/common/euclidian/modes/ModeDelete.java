@@ -13,7 +13,6 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
@@ -26,14 +25,12 @@ import org.geogebra.common.util.debug.Log;
 
 public class ModeDelete {
 	private EuclidianView view;
-	private Kernel kernel;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
 
 	public ModeDelete(EuclidianView view) {
 		this.ec = view.getEuclidianController();
-		this.kernel = view.getKernel();
 		this.view = view;
 		this.interPoints = new ArrayList<GPoint2D>();
 	}

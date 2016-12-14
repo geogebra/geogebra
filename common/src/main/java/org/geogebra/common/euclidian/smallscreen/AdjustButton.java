@@ -11,8 +11,8 @@ public class AdjustButton extends AdjustWidget {
 	private GeoButton button;
 	private int origX;
 	private int origY;
-	private int origWidth;
-	private int origHeight;
+	// private int origWidth;
+	// private int origHeight;
 
 	public AdjustButton(GeoButton button, EuclidianView view) {
 		super(view);
@@ -22,9 +22,10 @@ public class AdjustButton extends AdjustWidget {
 
 		origX = button.getOrigX() == null ? 0 : button.getOrigX();
 		origY = button.getOrigY() == null ? 0 : button.getOrigY();
-		origWidth = button.getOrigWidth() == null ? 0 : button.getOrigWidth();
-		origHeight = button.getOrigHeight() == null ? 0
-				: button.getOrigHeight();
+		// origWidth = button.getOrigWidth() == null ? 0 :
+		// button.getOrigWidth();
+		// origHeight = button.getOrigHeight() == null ? 0
+		// : button.getOrigHeight();
 
 		width = button.getWidth();
 		height = button.getHeight();

@@ -38,7 +38,6 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -587,8 +586,6 @@ public class DataSourcePanel extends JPanel
 
 	public class ColumnHeaderMouseMotionListener
 			implements MouseMotionListener {
-
-		JTableHeader header = table().getTableHeader();
 
 		@Override
 		public void mouseDragged(MouseEvent arg0) {

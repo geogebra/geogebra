@@ -22,7 +22,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
-import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -282,20 +281,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	// //////////////////////////////////////////////////////////
 	// MyEuclidianViewPanel
 	// //////////////////////////////////////////////////////////
-
-	/**
-	 * current dockPanel (if exists)
-	 */
-	EuclidianDockPanel3DW dockPanel = null;
-
-	/**
-	 * 
-	 * @param dockPanel
-	 *            current dockPanel (if exists)
-	 */
-	public void setDockPanel(EuclidianDockPanel3DW dockPanel) {
-		this.dockPanel = dockPanel;
-	}
 
 	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
 		return new MyEuclidianViewPanel3D(this);

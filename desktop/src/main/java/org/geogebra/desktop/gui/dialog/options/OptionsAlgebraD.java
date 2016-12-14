@@ -18,7 +18,6 @@ import javax.swing.border.Border;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAlgebra;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
-import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -34,10 +33,6 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	private AppD app;
 	private LocalizationD loc;
 
-	/**
-	 * Settings for all kind of application components.
-	 */
-	private Settings settings;
 
 	private JPanel wrappedPanel;
 	private JCheckBox auxiliary;
@@ -57,7 +52,6 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 		this.app = app;
 		this.loc = app.getLocalization();
-		this.settings = app.getSettings();
 
 		initGUI();
 		updateGUI();

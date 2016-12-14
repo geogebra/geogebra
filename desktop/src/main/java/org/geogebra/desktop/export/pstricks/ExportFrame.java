@@ -90,7 +90,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 		width = ggb.getXmax() - ggb.getXmin();
 		height = ggb.getYmax() - ggb.getYmin();
-		listenKey = new ListenKey(this);
+		listenKey = new ListenKey();
 		textXUnit = new TextValue(this, String.valueOf(ggb.getXunit()), false,
 				this.TEXT_XUNIT);
 		textYUnit = new TextValue(this, String.valueOf(ggb.getYunit()), false,
@@ -383,11 +383,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	 * } } } String getEncoding(){ return encoding; } }
 	 */
 	class ListenKey extends KeyAdapter {
-		ExportFrame ef;
 
-		ListenKey(ExportFrame ef) {
-			this.ef = ef;
-		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {

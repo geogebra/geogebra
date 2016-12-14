@@ -75,26 +75,19 @@ public abstract class Renderer {
 	static final public int ARROW_TYPE_NONE = 0;
 	/** simple arrows */
 	static final public int ARROW_TYPE_SIMPLE = 1;
-	private int m_arrowType = ARROW_TYPE_NONE;
-
-	private double m_arrowLength, m_arrowWidth;
 
 	// /////////////////
 	// dilation
 
 	private static final int DILATION_NONE = 0;
 	private static final int DILATION_HIGHLITED = 1;
-	private int dilation = DILATION_NONE;
-	private double[] dilationValues = { 1, // DILATION_NONE
-			1.3 // DILATION_HIGHLITED
-	};
+
 
 	// /////////////////
 	// for picking
 
 	protected GPoint mouse;
 	protected boolean waitForPick = false;
-	private boolean doPick = false;
 	public static final int PICKING_MODE_OBJECTS = 0;
 	public static final int PICKING_MODE_LABELS = 1;
 	protected int pickingMode = PICKING_MODE_OBJECTS;
@@ -115,8 +108,7 @@ public abstract class Renderer {
 		this.type = type;
 
 		// textures
-		textures = new Textures(this,
-				view3D.getApplication().getImageManager());
+		textures = new Textures(this);
 
 	}
 
@@ -1143,39 +1135,6 @@ public abstract class Renderer {
 	 * 
 	 */
 	abstract protected void setColor(float r, float g, float b, float a);
-
-	// arrows
-
-	/**
-	 * sets the type of arrow used by the pencil.
-	 * 
-	 * @param a_arrowType
-	 *            type of arrow, see {@link #ARROW_TYPE_NONE},
-	 *            {@link #ARROW_TYPE_SIMPLE}, ...
-	 */
-	public void setArrowType(int a_arrowType) {
-		m_arrowType = a_arrowType;
-	}
-
-	/**
-	 * sets the width of the arrows painted by the pencil.
-	 * 
-	 * @param a_arrowWidth
-	 *            the width of the arrows
-	 */
-	public void setArrowWidth(double a_arrowWidth) {
-		m_arrowWidth = a_arrowWidth;
-	}
-
-	/**
-	 * sets the length of the arrows painted by the pencil.
-	 * 
-	 * @param a_arrowLength
-	 *            the length of the arrows
-	 */
-	public void setArrowLength(double a_arrowLength) {
-		m_arrowLength = a_arrowLength;
-	}
 
 	// layer
 	/**

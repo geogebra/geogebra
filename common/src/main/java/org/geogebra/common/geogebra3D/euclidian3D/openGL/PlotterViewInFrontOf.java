@@ -16,14 +16,11 @@ public class PlotterViewInFrontOf {
 
 	private int[] index;
 
-	private Manager manager;
-
 	/**
 	 * common constructor
 	 */
 	public PlotterViewInFrontOf(Manager manager) {
 
-		this.manager = manager;
 		manager.setScalerIdentity();
 
 		index = new int[1];

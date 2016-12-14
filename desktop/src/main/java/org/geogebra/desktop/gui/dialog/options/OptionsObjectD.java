@@ -328,10 +328,8 @@ public class OptionsObjectD extends OptionsObject
 
 	}
 
-	private boolean isSelected = false;
-
 	public void setSelected(boolean flag) {
-		isSelected = flag;
+		// isSelected = flag;
 	}
 
 	/**

@@ -57,7 +57,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			return new FlowPanel();
 		}
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
-		view.setDockPanel(this);
 		euclidianpanel = new EuclidianPanel(this,
 				(AbsolutePanel) view.getComponent());
 		return euclidianpanel;

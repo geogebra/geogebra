@@ -70,7 +70,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	private DragSource ds;
 
 	/** DnD cursors */
-	private Cursor grabbingCursor, grabCursor;
+	private Cursor grabCursor;
 
 	/** List of AbstractActions for the popup context menu */
 	ArrayList<AbstractAction> actionList;
@@ -106,7 +106,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		// create cursors for DnD
 		grabCursor = getCursorForImage(GuiResourcesD.CURSOR_GRAB);
-		grabbingCursor = getCursorForImage(GuiResourcesD.CURSOR_GRABBING);
 
 		// enable/disable mouseListeners
 		setMouseEnabled(false, true);
