@@ -5,10 +5,8 @@ import org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D;
 
 public class GCubicCurve2DW implements GCubicCurve2D {
 
-	CubicCurve2D.Double impl;
 
 	public GCubicCurve2DW() {
-		impl = new CubicCurve2D.Double();
 	}
 
 	public int solveCubic(double[] eqn, double[] dest) {

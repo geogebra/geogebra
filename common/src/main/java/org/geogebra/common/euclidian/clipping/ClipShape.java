@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle2D;
@@ -349,20 +350,26 @@ public class ClipShape {
 		 * us time & memory allocation. In current setup there is only 1 thread
 		 * that will be using these values.
 		 */
-		double[] t2;
-		double[] eqn;
+		private double[] t2;
+		private double[] eqn;
+		private GCubicCurve2D solver;
 
 		public int evaluateInverse(double x, double[] dest, int offset) {
-			if (eqn == null)
+			if (eqn == null) {
 				eqn = new double[4];
+			}
+
+			if (solver == null) {
+				solver = AwtFactory.getPrototype().newCubicCurve2D();
+			}
+
 			eqn[0] = d - x;
 			eqn[1] = c;
 			eqn[2] = b;
 			eqn[3] = a;
 			if (offset == 0) {
 				// int k = CubicCurve2D.solveCubic(eqn,dest);
-				int k = AwtFactory.getPrototype().newCubicCurve2D()
-						.solveCubic(eqn, dest);
+				int k = solver.solveCubic(eqn, dest);
 				if (k < 0)
 					return 0;
 				return k;
@@ -370,8 +377,7 @@ public class ClipShape {
 			if (t2 == null)
 				t2 = new double[3];
 			// int k = CubicCurve2D.solveCubic(eqn,t2);
-			int k = AwtFactory.getPrototype().newCubicCurve2D().solveCubic(eqn,
-					t2);
+			int k = solver.solveCubic(eqn, t2);
 			if (k < 0)
 				return 0;
 			for (int i = 0; i < k; i++) {
