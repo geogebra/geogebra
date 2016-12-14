@@ -89,7 +89,7 @@ public final class DrawImage extends Drawable {
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
 			alphaComp = AwtFactory.getPrototype()
-					.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
+					.newAlphaComposite(alpha);
 		}
 
 		image = geoImage.getFillImage();
@@ -252,7 +252,7 @@ public final class DrawImage extends Drawable {
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
 					alphaComp = AwtFactory.getPrototype()
-							.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
+							.newAlphaComposite(alpha);
 				g3.setComposite(alphaComp);
 			}
 

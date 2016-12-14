@@ -4,12 +4,10 @@ import org.geogebra.common.awt.GAlphaComposite;
 
 public class GAlphaCompositeW implements GAlphaComposite {
 
-	final public static GAlphaCompositeW Src = new GAlphaCompositeW(SRC, 1.0f);
-	private int srcOver;
+	final public static GAlphaCompositeW Src = new GAlphaCompositeW(1.0f);
 	private float alpha;
 
-	public GAlphaCompositeW(int srcOver, float alpha) {
-		this.srcOver = srcOver;
+	public GAlphaCompositeW(float alpha) {
 		this.alpha = alpha;
 	}
 
@@ -17,8 +15,8 @@ public class GAlphaCompositeW implements GAlphaComposite {
 		return alpha;
 	}
 
-	public static GAlphaCompositeW getInstance(int srcO, float a) {
-		return new GAlphaCompositeW(srcO, a);
+	public static GAlphaCompositeW getInstance(float a) {
+		return new GAlphaCompositeW(a);
 	}
 
 }

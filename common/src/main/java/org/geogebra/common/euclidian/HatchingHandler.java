@@ -271,7 +271,7 @@ public class HatchingHandler {
 				// AlphaComposite alphaComp = AlphaComposite.getInstance(
 				// AlphaComposite.SRC_OVER, alpha);
 				GAlphaComposite ac = AwtFactory.getPrototype()
-						.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
+						.newAlphaComposite(alpha);
 				g2d.setComposite(ac);
 
 				// paint image with specified transparency

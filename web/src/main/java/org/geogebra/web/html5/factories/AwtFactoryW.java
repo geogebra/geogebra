@@ -219,8 +219,8 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GAlphaComposite newAlphaComposite(int srcOver, float alpha) {
-		return new GAlphaCompositeW(srcOver, alpha);
+	public GAlphaComposite newAlphaComposite(float alpha) {
+		return new GAlphaCompositeW(alpha);
 	}
 
 	@Override

@@ -252,8 +252,9 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GAlphaComposite newAlphaComposite(int rule, float alpha) {
-		return new GAlphaCompositeD(AlphaComposite.getInstance(rule, alpha));
+	public GAlphaComposite newAlphaComposite(float alpha) {
+		return new GAlphaCompositeD(
+				AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
 	}
 
 	@Override

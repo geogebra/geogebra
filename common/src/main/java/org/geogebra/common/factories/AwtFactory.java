@@ -109,7 +109,7 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract GAlphaComposite newAlphaComposite(int srcOver, float alpha);
+	public abstract GAlphaComposite newAlphaComposite(float alpha);
 
 	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
 

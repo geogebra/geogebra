@@ -357,7 +357,7 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public GComposite getComposite() {
-		return new GAlphaCompositeW(3, (float) context.getGlobalAlpha());
+		return new GAlphaCompositeW((float) context.getGlobalAlpha());
 
 		// context.save();
 		// //just to not return null;
