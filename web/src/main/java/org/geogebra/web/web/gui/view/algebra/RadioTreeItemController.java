@@ -278,6 +278,7 @@ public class RadioTreeItemController
 		if (item.isInputTreeItem()) {
 			// this might cause strange behaviour
 			setFocus(true);
+			showKeyboard();
 		}
 
 		JsArray<Touch> touches = event.getTargetTouches().length() == 0
