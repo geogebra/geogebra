@@ -2,8 +2,8 @@ package org.geogebra.desktop;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Locale;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -48,11 +48,11 @@ public class CommandLineArguments {
 
 				if (equalSignIndex != -1) {
 					args.put(
-							cmdArgs[i].substring(2, equalSignIndex)
-									.toLowerCase(Locale.US),
+							StringUtil.toLowerCase(
+									cmdArgs[i].substring(2, equalSignIndex)),
 							cmdArgs[i].substring(equalSignIndex + 1));
 				} else {
-					args.put(cmdArgs[i].substring(2).toLowerCase(Locale.US),
+					args.put(StringUtil.toLowerCase(cmdArgs[i].substring(2)),
 							"");
 				}
 			} else if (!cmdArgs[i].startsWith("-")) { // make sure we don't
@@ -106,7 +106,7 @@ public class CommandLineArguments {
 	 * @return The string value of the specified argument (or empty string)
 	 */
 	public String getStringValue(String name) {
-		String strValue = args.get(name.toLowerCase(Locale.US));
+		String strValue = args.get(StringUtil.toLowerCase(name));
 		return (strValue == null ? "" : strValue);
 	}
 
@@ -121,7 +121,7 @@ public class CommandLineArguments {
 	 *         or has an invalid format.
 	 */
 	public boolean getBooleanValue(String name, boolean defaultValue) {
-		String strValue = args.get(name.toLowerCase(Locale.US));
+		String strValue = args.get(StringUtil.toLowerCase(name));
 
 		if (strValue == null || !isBoolean(name)) {
 			return defaultValue;
@@ -138,7 +138,7 @@ public class CommandLineArguments {
 	 * @return true for valid booleans
 	 */
 	public boolean isBoolean(String name) {
-		String strValue = args.get(name.toLowerCase(Locale.US));
+		String strValue = args.get(StringUtil.toLowerCase(name));
 
 		if (strValue == null) {
 			return false;
@@ -155,7 +155,7 @@ public class CommandLineArguments {
 	 * @return whether the args contain the key
 	 */
 	public boolean containsArg(String name) {
-		return args.containsKey(name.toLowerCase(Locale.US));
+		return args.containsKey(StringUtil.toLowerCase(name));
 	}
 
 	/**

@@ -23,7 +23,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -33,6 +32,7 @@ import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
@@ -103,7 +103,7 @@ public class MyXMLioD extends MyXMLioJre {
 				// load JavaScript
 				kernel.setLibraryJavaScript(UtilD.loadIntoString(zip));
 				javaScriptFound = true;
-			} else if (name.toLowerCase(Locale.US).endsWith("svg")) {
+			} else if (StringUtil.toLowerCase(name).endsWith("svg")) {
 				String svg = UtilD.loadIntoString(zip);
 
 				MyImageD img = new MyImageD(svg, name);

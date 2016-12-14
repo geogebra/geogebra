@@ -15,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.util.Locale;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -111,7 +110,7 @@ public class MyImageD implements MyImageJre {
 
 	public void load(File imageFile) throws IOException {
 
-		if (imageFile.getName().toLowerCase(Locale.US).endsWith(".svg")) {
+		if (StringUtil.toLowerCase(imageFile.getName()).endsWith(".svg")) {
 
 			svg = new StringBuilder((int) imageFile.length());
 			BufferedReader reader = new BufferedReader(new InputStreamReader(

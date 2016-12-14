@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Locale;
 
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.StringUtil;
 
 public class CopyPasteCutD extends CopyPasteCut {
 
@@ -215,7 +215,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		if (filename != null) {
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1)
-				return filename.substring(i + 1).toLowerCase(Locale.US);
+				return StringUtil.toLowerCase(filename.substring(i + 1));
 		}
 		return null;
 	}

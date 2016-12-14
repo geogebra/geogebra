@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Locale;
 
 import javax.swing.text.JTextComponent;
 
@@ -113,8 +112,8 @@ public class GeoGebraKeys implements KeyListener {
 			String insertStr = "";
 
 			// works nicely for alt or ctrl pressed (Windows/Mac)
-			String keyString = KeyEvent.getKeyText(e.getKeyCode())
-					.toLowerCase(Locale.US);
+			String keyString = StringUtil
+					.toLowerCase(KeyEvent.getKeyText(e.getKeyCode()));
 
 			// Application.debug(KeyEvent.getKeyText(e.getKeyCode()).toLowerCase().charAt(0)+"");
 			// Application.debug(e+"");

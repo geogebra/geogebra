@@ -14,11 +14,11 @@ package org.geogebra.desktop.gui.app;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.swing.filechooser.FileFilter;
 
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * A convenience implementation of FileFilter that filters out all files except
@@ -166,7 +166,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 			String filename = f.getName();
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1)
-				return filename.substring(i + 1).toLowerCase(Locale.US);
+				return StringUtil.toLowerCase(filename.substring(i + 1));
 		}
 		return null;
 	}

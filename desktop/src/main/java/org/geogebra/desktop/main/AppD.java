@@ -431,7 +431,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
-		OS = System.getProperty("os.name").toLowerCase(Locale.US);
+		OS = StringUtil.toLowerCase(System.getProperty("os.name"));
 
 		if (args != null) {
 			handleHelpVersionArgs(args);
@@ -1634,7 +1634,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		page = page.replaceAll("\\s+", " "); // Normalize white spaces
 		page = page.replace('"', '\''); // Replace double quotes (") with single
 		// quotes (')
-		String lowerCasedPage = page.toLowerCase(Locale.US); // We must preserve
+		String lowerCasedPage = StringUtil.toLowerCase(page); // We must
+																// preserve
 		// casing for
 		// base64
 		// strings and
@@ -2271,9 +2272,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	public String loadTextFile(String s) {
 		StringBuilder sb = new StringBuilder();
+		BufferedReader br = null;
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
-			BufferedReader br = new BufferedReader(
+			br = new BufferedReader(
 					new InputStreamReader(is, Charsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
@@ -2282,6 +2284,14 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return sb.toString();
 	}
@@ -4674,8 +4684,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
 	 * Windows Vista Windows XP
 	 */
-	private static String OS = System.getProperty("os.name")
-			.toLowerCase(Locale.US);
+	private static String OS = StringUtil
+			.toLowerCase(System.getProperty("os.name"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");

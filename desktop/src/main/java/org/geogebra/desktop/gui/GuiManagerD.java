@@ -28,7 +28,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Locale;
 import java.util.StringTokenizer;
 
 import javax.imageio.ImageIO;
@@ -2585,7 +2584,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		ret = StringUtil
 				.toHTMLString(getLocalization().getMenu("CreatedWithGeoGebra"));
 
-		if (ret.toLowerCase(Locale.US).indexOf("geogebr") == -1)
+		if (StringUtil.toLowerCase(ret).indexOf("geogebr") == -1)
 			ret = "Created with GeoGebra";
 
 		String[] words = ret.split(" ");
@@ -2594,8 +2593,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		for (int i = 0; i < words.length; i++) {
 			// deliberate 'a' missing
-			if (words[i].toLowerCase(Locale.US).startsWith("geogebr")) {
-				// wrap transletion of GeoGebra to make a link
+			if (StringUtil.toLowerCase(words[i]).startsWith("geogebr")) {
+				// wrap translation of GeoGebra to make a link
 				words[i] = "<a href=\"" + GeoGebraConstants.GEOGEBRA_WEBSITE
 						+ "\" target=\"_blank\" >" + words[i] + "</a>";
 			}

@@ -2,8 +2,8 @@ package org.geogebra.desktop.gui;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Locale;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -50,7 +50,7 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 		String insertString = "";
 
-		switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US)
+		switch (StringUtil.toLowerCase(KeyEvent.getKeyText(e.getKeyCode()))
 				.charAt(0)) {
 		case 'o':
 			insertString = Unicode.DEGREE;

@@ -647,33 +647,9 @@ public class StringUtil {
 	}
 
 	/**
-	 * Safe implementation of toLowerCase
-	 * 
-	 * @param s
-	 *            input string
-	 * @return the <code>String</code>, converted to lowercase.
-	 * @see #toLowerCase(String)
-	 */
-	protected String toLower(String s) {
-		return s.toLowerCase(Locale.US);
-	}
-
-	/**
-	 * Safe implementation of toLowerCase
-	 * 
-	 * @param s
-	 *            input string
-	 * @return the <code>String</code>, converted to lowercase.
-	 * @see #toLowerCase(String)
-	 */
-	protected String toUpper(String s) {
-		return s.toUpperCase(Locale.US);
-	}
-
-	/**
 	 * important to use this rather than String.toLowerCase() as this is
 	 * overridden in desktop.Application so that it uses
-	 * String.toLowerCase(Locale.US) so that the behavior is well defined
+	 * String.toLowerCase(Locale.US) so that the behaviour is well defined
 	 * whatever language we are running in NB does cause problems eg in Turkish
 	 * 
 	 * @param s
@@ -682,7 +658,7 @@ public class StringUtil {
 	 * @see java.lang.String#toUpperCase(Locale)
 	 */
 	public static String toLowerCase(String s) {
-		return prototype.toLower(s);
+		return s.toLowerCase(Locale.US);
 	}
 
 	/**
@@ -697,7 +673,7 @@ public class StringUtil {
 	 * @see java.lang.String#toUpperCase(Locale)
 	 */
 	public static String toUpperCase(String s) {
-		return prototype.toUpper(s);
+		return s.toUpperCase(Locale.US);
 	}
 
 	public static double parseDouble(String s) {
