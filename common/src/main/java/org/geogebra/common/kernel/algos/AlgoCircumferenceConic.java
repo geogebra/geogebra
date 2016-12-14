@@ -92,7 +92,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 			GeoConicPart conicPart = (GeoConicPart) conic;
 			int partType = conicPart.getConicPartType();
 			if (type == GeoConicNDConstants.CONIC_CIRCLE
-					&& partType == GeoConicPart.CONIC_PART_SECTOR) {
+					&& partType == GeoConicNDConstants.CONIC_PART_SECTOR) {
 				/*
 				 * value of sector is area: area = r*r * paramExtent / 2;
 				 * arclength = r * paramExtent; arclength = area * 2/r;
@@ -104,7 +104,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 				// circumference of sector
 				circum.setValue(arclength + 2 * r);
 			} else if (type == GeoConicNDConstants.CONIC_CIRCLE
-					&& partType == GeoConicPart.CONIC_PART_ARC) {
+					&& partType == GeoConicNDConstants.CONIC_PART_ARC) {
 				// value of arc is curved length
 				double arclength = conicPart.getValue();
 				double r = conic.getHalfAxis(0);

@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
 /**

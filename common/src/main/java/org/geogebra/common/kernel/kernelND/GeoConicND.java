@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;

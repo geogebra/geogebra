@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;

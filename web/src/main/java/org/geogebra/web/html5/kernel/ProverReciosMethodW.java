@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.geogebra.common.kernel.algos.SymbolicParameters;
-import org.geogebra.common.kernel.geos.GeoElement.ExtendedBoolean;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.ProverSettings;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.debug.Log;
 

@@ -355,9 +355,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	@Override
 	public void printCASEvalMapXML(StringBuilder sb) {
-		for (int k = 0; k < getDimension(); k++) {
-			// getFun(k).printCasEvalMap(sb);
-		}
+		// not supported for curves
 	}
 
 	@Override

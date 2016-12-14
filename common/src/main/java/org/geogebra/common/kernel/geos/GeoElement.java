@@ -90,6 +90,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.LaTeXCache;
 import org.geogebra.common.util.Language;
@@ -8440,24 +8441,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	public void setLabelWanted(boolean b) {
 		this.labelWanted = b;
-	}
-
-	public enum ExtendedBoolean {
-		TRUE, FALSE, UNKNOWN;
-
-		final public boolean boolVal() {
-			switch (this) {
-			case TRUE:
-				return true;
-			default:
-				return false;
-			}
-
-		}
-
-		final public static ExtendedBoolean newExtendedBoolean(boolean b) {
-			return b ? TRUE : FALSE;
-		}
 	}
 
 	/**

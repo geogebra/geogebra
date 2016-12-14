@@ -16,14 +16,17 @@ public class GeoConicPartParameters {
 
 	private GeoConicND conic;
 
-	public double paramStart, paramEnd, paramExtent;
+	public double paramStart;
+	public double paramEnd;
+	public double paramExtent;
 	public boolean posOrientation = true;
 	public int conic_part_type;
 
-	public double value, area, arcLength;
+	private double area, arcLength;
+	public double value;
 	public boolean value_defined;
 
-	public EllipticArcLength ellipticArcLength;
+	private EllipticArcLength ellipticArcLength;
 	public boolean allowOutlyingIntersections = false;
 	public boolean keepTypeOnGeometricTransform = true;
 

@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Unicode;
 
 /**
