@@ -32,7 +32,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -55,7 +54,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -97,7 +95,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		implements MathKeyboardListener, 
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
-	private static final int BROWSER_SCROLLBAR_WIDTH = 17;
+	static final int BROWSER_SCROLLBAR_WIDTH = 17;
 
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
@@ -162,221 +160,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public class ItemControls extends FlowPanel {
-		/** Deletes the whole item */
-		protected PushButton btnDelete;
-
-
-		/** animation controls */
-		protected AnimPanel animPanel;
-
-		public ItemControls() {
-			addStyleName("AlgebraViewObjectStylebar");
-			addStyleName("smallStylebar");
-			setVisible(false);
-		}
-
-		/**
-		 * Gets (and creates if there is not yet) the delete button which geo
-		 * item can be removed with from AV.
-		 * 
-		 * @return The "X" button.
-		 */
-		public PushButton getDeleteButton() {
-			if (btnDelete == null) {
-				btnDelete = new PushButton(
-						new Image(GuiResources.INSTANCE.algebra_delete()));
-				btnDelete.getUpHoveringFace().setImage(new Image(
-						GuiResources.INSTANCE.algebra_delete_hover()));
-				btnDelete.addStyleName("XButton");
-				btnDelete.addStyleName("shown");
-				btnDelete.addMouseDownHandler(new MouseDownHandler() {
-					@Override
-					public void onMouseDown(MouseDownEvent event) {
-						if (event
-								.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-							return;
-						}
-						event.stopPropagation();
-						getController().removeGeo();
-					}
-				});
-			}
-			return btnDelete;
-
-		}
-
-		public void showAnimPanel(boolean value) {
-			if (hasAnimPanel()) {
-				animPanel.setVisible(value);
-			}
-		}
-
-		public void showAnimPanel() {
-			showAnimPanel(true);
-		}
-
-		public void buildGUI() {
-			setFirst(first);
-			clear();
-			if (geo.isAnimatable()) {
-				if (animPanel == null) {
-					createAnimPanel();
-				}
-
-				add(animPanel);
-				reset();
-				updateAnimPanel();
-				showAnimPanel(true);
-			} else {
-				hideAnimPanel();
-			}
-
-			add(getDeleteButton());
-
-		}
-
-		public void hideAnimPanel() {
-			showAnimPanel(false);
-		}
-
-		protected void createAnimPanel() {
-			animPanel = geo.isAnimatable() ? new AnimPanel(RadioTreeItem.this)
-					: null;
-
-		}
-
-		public void updateAnimPanel() {
-			if (hasAnimPanel()) {
-				animPanel.update();
-			}
-		}
-
-		public AnimPanel getAnimPanel() {
-			return animPanel;
-		}
-
-		public boolean update(boolean showX) {
-			setFirst(first);
-
-			if (geo == null) {
-				return false;
-			}
-			boolean ret = false;
-			if (getController().selectionCtrl.isSingleGeo()
-					|| getController().selectionCtrl.isEmpty()) {
-				setFirst(first);
-				clear();
-				if (geo.isAnimatable()) {
-					if (animPanel == null) {
-						createAnimPanel();
-					}
-
-					add(animPanel);
-				}
-
-				if (getPButton() != null) {
-					add(getPButton());
-				}
-				if (showX) {
-					add(getDeleteButton());
-				}
-
-				setVisible(true);
-
-				if (!controller.isEditing()) {
-					maybeSetPButtonVisibility(false);
-				}
-
-				getAV().setActiveTreeItem(RadioTreeItem.this);
-				ret = true;
-			} else {
-				getAV().removeCloseButton();
-			}
-
-			updateAnimPanel();
-			return ret;
-		}
-
-		public void removeAnimPanel() {
-			if (hasAnimPanel()) {
-				remove(animPanel);
-			}
-		}
-
-		public void reset() {
-			if (hasAnimPanel()) {
-				animPanel.reset();
-			}
-		}
-
-		public boolean hasAnimPanel() {
-			return animPanel != null;
-		}
-
-		@Override
-		public void setVisible(boolean b) {
-			if (controller.isEditing()) {
-				return;
-			}
-			super.setVisible(b);
-		}
-
-		public void show(boolean value) {
-			if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				return;
-			}
-
-			boolean b = value || controller.isEditing();
-
-			if (value && isVisible()) {
-				return;
-			}
-
-			setVisible(b);
-
-			if (value) {
-				buildGUI();
-			}
-		}
-
-		public void reposition() {
-			if (!app.has(Feature.AV_SCROLL)
-					|| app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-
-				if (first && !getAlgebraDockPanel().hasLongStyleBar()
-						&& !controller.isEditing()) {
-					addStyleName("avControlsWithSmallStyleBar");
-				} else {
-					removeStyleName("avControlsWithSmallStyleBar");
-				}
-				return;
-			}
-
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				public void execute() {
-					ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
-							.getGuiManager().getLayout().getDockManager()
-							.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-					int scrollPos = algebraPanel.getHorizontalScrollPosition();
-
-					// extra margin if vertical scrollbar is visible.
-					int sw = Browser.isTabletBrowser() ? 0
-							: BROWSER_SCROLLBAR_WIDTH;
-					int margin = getAV().getOffsetHeight()
-							+ getOffsetHeight() > algebraPanel.getOffsetHeight()
-									? sw : 0;
-
-					int value = margin + getOffsetWidth()
-							- (algebraPanel.getOffsetWidth() + scrollPos);
-					getElement().getStyle().setRight(value, Unit.PX);
-
-				}
-			});
-		}
-	}
-
 	protected GeoElement geo;
 	protected Kernel kernel;
 	protected AppW app;
@@ -413,7 +196,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected Localization loc;
 
-	private RadioTreeItemController controller;
+	RadioTreeItemController controller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -558,7 +341,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void createControls() {
-		controls = new ItemControls();
+		controls = new ItemControls(this);
 	}
 
 	protected void addControls() {
