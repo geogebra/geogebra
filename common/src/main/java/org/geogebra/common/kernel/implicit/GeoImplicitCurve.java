@@ -645,15 +645,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		for (int i = 0; i < factors; i++) {
 			if (coeffSquarefree[i].length == 3
 					&& coeffSquarefree[i][0].length == 3) {
-				double xx = coeffSquarefree[i][0][2];
-				double xy = coeffSquarefree[i][1][1];
-				double yy = coeffSquarefree[i][2][0];
-				double x = coeffSquarefree[i][1][0];
-				double y = coeffSquarefree[i][0][1];
-				double xxy = coeffSquarefree[i][1][2];
-				double xyy = coeffSquarefree[i][2][1];
-				double xxyy = coeffSquarefree[i][2][2];
-				double constant = coeffSquarefree[i][0][0];
+				double xx = get(coeffSquarefree[i][0], 2);
+				double xy = get(coeffSquarefree[i][1], 1);
+				double yy = get(coeffSquarefree[i][2], 0);
+				double x = get(coeffSquarefree[i][1], 0);
+				double y = get(coeffSquarefree[i][0], 1);
+				double xxy = get(coeffSquarefree[i][1], 2);
+				double xyy = get(coeffSquarefree[i][2], 1);
+				double xxyy = get(coeffSquarefree[i][2], 2);
+				double constant = get(coeffSquarefree[i][0], 0);
 				/*
 				 * E.g. (x+2)^2+(y-3)^2=0 is stored as x^2+4x+y^2-6y-13=0 or for
 				 * some constant c as c*(x^2+2x+y^2-6y-13)=0.
@@ -679,6 +679,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				}
 			}
 		}
+	}
+
+	private static double get(double[] ds, int i) {
+		return ds.length > i ? ds[i] : 0;
 	}
 
 	private void updatePathQuadTree(double x, double y, double w, double h,
