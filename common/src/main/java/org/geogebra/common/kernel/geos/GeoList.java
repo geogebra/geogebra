@@ -3149,4 +3149,12 @@ public class GeoList extends GeoElement
 		}
 	}
 
+	@Override
+	public GColor getBackgroundColor() {
+		if (drawAsComboBox && bgColor == null) {
+			return GColor.WHITE;
+		}
+		return bgColor;
+	}
+
 }
