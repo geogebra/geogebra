@@ -21,10 +21,17 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+/**
+ * Combo box
+ */
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final int DEFAULT_VISIBLE_ROWS = 10;
 	private static final String DEFAULT_WIDTH = "90px";
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ComboBoxW(AppW app) {
 		super(app);
 
@@ -96,12 +103,26 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		super.select(event);
 	}
 	
+	/**
+	 * @param value
+	 *            changed value
+	 */
 	protected abstract void onValueChange(String value);
 
+	/**
+	 * @param item
+	 *            new item
+	 */
 	public void addItem(String item) {
 		getModel().add(item, item);
 	}
 
+	/**
+	 * @param id
+	 *            item description
+	 * @param item
+	 *            item (used for color)
+	 */
 	public void addItem(String id, GeoElement item) {
 		getModel().add(id, item);
 	}

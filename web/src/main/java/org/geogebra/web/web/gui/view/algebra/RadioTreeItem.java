@@ -196,7 +196,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected Localization loc;
 
-	RadioTreeItemController controller;
+	private RadioTreeItemController controller;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;

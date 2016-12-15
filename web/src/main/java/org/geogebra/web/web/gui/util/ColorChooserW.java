@@ -71,7 +71,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private Button btnCustomColor;
 	App app;
 	private CustomColorDialog dialog;
-	private BarList lbBars;
+	BarList lbBars;
 	private int selectedBar;
 	private AlgoBarChart algoBarChart;
 	private GColor allBarsColor;
@@ -272,9 +272,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			return (palette != null && idx < palette.size() ? palette.get(idx) : null);
 		}
 
-		public int getHeight() {
-			return tableOffsetY + height;
-		}
 
 		public void setHeight(int height) {
 			this.height = height;
@@ -310,16 +307,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			
 		}
 
-		public boolean isCheckNeeded() {
-			return checkNeeded;
-		}
-
 		public void setCheckNeeded(boolean checkNeeded) {
 			this.checkNeeded = checkNeeded;
-		}
-
-		public String getTitle() {
-			return title;
 		}
 
 		public void setTitle(String title, int offsetX, int offsetY) {
@@ -391,22 +380,22 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 	private class PreviewPanel extends FlowPanel {
 		private Label titleLabel;
-		Canvas canvas;
-		private Context2d ctx;
+		Canvas previewCanvas;
+		private Context2d previewCtx;
 		private Label rgb;
 
 		public PreviewPanel() {
 			FlowPanel m = new FlowPanel();
 			m.setStyleName("colorChooserPreview");
 			titleLabel = new Label();
-			canvas = Canvas.createIfSupported();
-			canvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
-			canvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
-			canvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
-			ctx = canvas.getContext2d();
+			previewCanvas = Canvas.createIfSupported();
+			previewCanvas.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
+			previewCanvas.setCoordinateSpaceHeight(PREVIEW_HEIGHT);
+			previewCanvas.setCoordinateSpaceWidth(PREVIEW_WIDTH);
+			previewCtx = previewCanvas.getContext2d();
 			rgb = new Label();
 			add(titleLabel);
-			m.add(canvas);
+			m.add(previewCanvas);
 			m.add(rgb);
 			add(m);
 		}
@@ -418,20 +407,20 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				return;
 			}
 			rgb.setText(ColorObjectModel.getColorAsString(app, color));
-			ctx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			previewCtx.clearRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 			
 			String htmlColor = StringUtil.toHtmlColor(color);
 			
-			ctx.setFillStyle(htmlColor);
+			previewCtx.setFillStyle(htmlColor);
 			
-			ctx.setGlobalAlpha(getAlphaValue());
-			ctx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			previewCtx.setGlobalAlpha(getAlphaValue());
+			previewCtx.fillRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 
-			ctx.setStrokeStyle(htmlColor);
+			previewCtx.setStrokeStyle(htmlColor);
 			
-			ctx.setGlobalAlpha(1.0);
-			ctx.setLineWidth(PREVIEW_BORDER_WIDTH);
-			ctx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
+			previewCtx.setGlobalAlpha(1.0);
+			previewCtx.setLineWidth(PREVIEW_BORDER_WIDTH);
+			previewCtx.strokeRect(0, 0, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 
 		}
 		
@@ -662,10 +651,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		canvas.addMouseMoveHandler(new MouseMoveHandler() {
 
 			public void onMouseMove(MouseMoveEvent event) {
-				int x = event.getRelativeX(canvas.getElement());
-				int y = event.getRelativeY(canvas.getElement());
+				int mx = event.getRelativeX(canvas.getElement());
+				int my = event.getRelativeY(canvas.getElement());
 				for (ColorTable table: tables) {
-					table.setFocus(x, y);
+					table.setFocus(mx, my);
 				}				
 			}});
 
@@ -778,8 +767,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		opacityPanel.setLabels(title);
 	}
 	
-	public void addChangeHandler(ColorChangeHandler changeHandler) {
-		this.changeHandler = changeHandler;
+	public void addChangeHandler(ColorChangeHandler handler) {
+		this.changeHandler = handler;
 	}
 
 	public float getAlphaValue() {
@@ -836,7 +825,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	 * {@link CustomColorDialog}
 	 */
 	public void setColorPreviewClickable() {
-		this.previewPanel.canvas.addClickHandler(new ClickHandler() {
+		this.previewPanel.previewCanvas.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
