@@ -4172,6 +4172,9 @@ public abstract class App implements UpdateSelection {
 			case EXAM_ANDROID_CHECK_SCREEN_STATE:
 				return true;
 
+		case WEB_GL_USE_DEFAULT_ATTRIBS:
+			return true;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
