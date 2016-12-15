@@ -60,6 +60,12 @@ public interface GeoImplicit extends Path {
 	 */
 	void setExtendedForm();
 
+	/**
+	 * @param equation
+	 *            equation
+	 * @param coeff
+	 *            coefficients for polynomial or null
+	 */
 	void fromEquation(Equation equation, double[][] coeff);
 
 	/**
@@ -67,9 +73,17 @@ public interface GeoImplicit extends Path {
 	 */
 	void preventPathCreation();
 
+	/**
+	 * @param coeff
+	 *            coefficients
+	 */
 	void setCoeff(ExpressionValue[][] coeff);
 
-	void throughPoints(GeoList p);
+	/**
+	 * @param points
+	 *            list of points
+	 */
+	void throughPoints(GeoList points);
 
 	/**
 	 * @param x

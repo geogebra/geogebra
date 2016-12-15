@@ -75,7 +75,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * non-visual calculations.
 	 */
 	/** factorised expression */
-	FunctionNVar[] factorExpression;
+	private FunctionNVar[] factorExpression;
 	private FunctionNVar[] diffExp = new FunctionNVar[3];
 	/** path */
 	protected GeoLocus locus;
@@ -606,7 +606,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 		evalArray[0] = x;
 		evalArray[1] = y;
-		return this.factorExpression[factor].evaluate(evalArray);
+		return getFactor(factor).evaluate(evalArray);
 	}
 
 	/**
@@ -900,8 +900,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void translate(Coords v) {
 		expression.translate(v);
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].translate(v);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).translate(v);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
@@ -911,9 +911,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeff != null) {
 			updateCoeff(new Equation(kernel, expression.getFunctionExpression(),
 					new MyDouble(kernel, 0)));
-			for (int factor = 0; factor < factorExpression.length; ++factor) {
+			for (int factor = 0; factor < factorLength(); ++factor) {
 				updateCoeffSquarefree((new Equation(kernel,
-						factorExpression[factor].getFunctionExpression(),
+						getFactor(factor).getFunctionExpression(),
 						new MyDouble(kernel, 0))), factor);
 			}
 		}
@@ -934,18 +934,22 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void mirror(Coords Q) {
 		expression.mirror(Q);
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].mirror(Q);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).mirror(Q);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
 	}
 
+	private FunctionNVar getFactor(int factor) {
+		return this.factorExpression[factor];
+	}
+
 	@Override
 	public void mirror(GeoLineND g) {
 		expression.mirror((GeoLine) g);
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].mirror((GeoLine) g);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).mirror((GeoLine) g);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
@@ -954,8 +958,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void dilate(NumberValue r, Coords S) {
 		expression.dilate(r, S);
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].dilate(r, S);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).dilate(r, S);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
@@ -964,8 +968,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void rotate(NumberValue phi) {
 		expression.rotate(phi);
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].rotate(phi);
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).rotate(phi);
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
@@ -974,8 +978,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void rotate(NumberValue phi, GeoPointND S) {
 		expression.rotate(phi, S.getInhomCoords());
-		for (int factor = 0; factor < factorExpression.length; ++factor) {
-			factorExpression[factor].rotate(phi, S.getInhomCoords());
+		for (int factor = 0; factor < factorLength(); ++factor) {
+			getFactor(factor).rotate(phi, S.getInhomCoords());
 		}
 		updateCoeffFromExpr();
 		euclidianViewUpdate();
@@ -1024,12 +1028,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			expression.translate(c.getMidpoint2D());
 
 			// do the same computations for the factors also
-			for (int factor = 0; factor < factorExpression.length; ++factor) {
-				factorExpression[factor].getFunction().translate(
+			for (int factor = 0; factor < factorLength(); ++factor) {
+				getFactor(factor).getFunction().translate(
 						-c.getMidpoint2D().getX(), -c.getMidpoint2D().getY());
-				x = factorExpression[factor].getFunctionVariables()[0];
-				y = factorExpression[factor].getFunctionVariables()[1];
-				expr = factorExpression[factor].getFunctionExpression()
+				x = getFactor(factor).getFunctionVariables()[0];
+				y = getFactor(factor).getFunctionVariables()[1];
+				expr = getFactor(factor).getFunctionExpression()
 						.deepCopy(kernel);
 				x2 = new FunctionVariable(kernel, "x");
 				y2 = new FunctionVariable(kernel, "y");
@@ -1040,8 +1044,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				expr.replace(x, newX);
 				expr.replace(y, newY);
 				f2 = new FunctionNVar(expr, new FunctionVariable[] { x2, y2 });
-				factorExpression[factor].set(f2);
-				factorExpression[factor].translate(c.getMidpoint2D());
+				getFactor(factor).set(f2);
+				getFactor(factor).translate(c.getMidpoint2D());
 			}
 
 			setDefinition(
@@ -1548,7 +1552,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		@Override
 		public void updatePath() {
-			for (int factor = 0; factor < factorExpression.length; ++factor) {
+			for (int factor = 0; factor < factorLength(); ++factor) {
 				try {
 					evaluateImplicitCurve(0, 0, factor);
 				} catch (Throwable e) {
@@ -1684,6 +1688,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				}
 			}
 		}
+
+
 
 		public void createTree(Rect r, int depth, int factor) {
 			Rect[] n = r.split(GeoImplicitCurve.this, factor);
@@ -2025,6 +2031,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					}
 				}
 			}
+			if (expr == null) {
+				expr = new ExpressionNode(kernel, Double.NaN);
+			}
 			factorExpression[factor] = new FunctionNVar(expr,
 					new FunctionVariable[] { x, y });
 		}
@@ -2281,5 +2290,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public double getTranslateZ() {
 		return 0;
+	}
+
+	/**
+	 * @return number of factors
+	 */
+	int factorLength() {
+		return factorExpression.length;
 	}
 }
