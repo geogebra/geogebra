@@ -3227,9 +3227,6 @@ public class GeoCasCell extends GeoElement
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			twinGeo.setLabel(null);
 		}
-		for (int idx = 0; idx < ((GeoList) twinGeo).size(); idx++) {
-			Log.debug(((GeoList) twinGeo).get(idx));
-		}
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
 				&& twinGeo.isEuclidianShowable()) {
 			String twinGeoLabelSimple = twinGeo.getLabelSimple();
