@@ -128,7 +128,11 @@ public abstract class CASgiacJre extends CASgiac {
 	 * create context
 	 */
 	final protected void createContext() {
-		C = new context();
+		try {
+			C = new context();
+		} catch (UnsatisfiedLinkError e) {
+			Log.error("CAS not available: " + e.getMessage());
+		}
 	}
 
 	@Override
