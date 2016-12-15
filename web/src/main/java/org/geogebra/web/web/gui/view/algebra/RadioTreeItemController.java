@@ -37,6 +37,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -184,7 +185,7 @@ public class RadioTreeItemController
 			return;
 		}
 
-		Log.debug("[--] mouseDown");
+		Log.debug("[xx] mouseDown");
 
 		if (checkEditing()) {
 			// keep focus in editor
@@ -225,7 +226,7 @@ public class RadioTreeItemController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-
+		Log.debug("[xx] mouseUp");
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
 		if (isEditing()) {
@@ -269,12 +270,11 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		event.stopPropagation();
-
+		Log.debug("[xx] touchEnd");
 		if (item.isInputTreeItem()) {
-			// this might cause strange behaviour
-			setFocus(true);
-			event.preventDefault();
 			showKeyboard();
+			setFocusDeferred();
+			event.preventDefault();
 		}
 
 		JsArray<Touch> touches = event.getTargetTouches().length() == 0
@@ -307,9 +307,19 @@ public class RadioTreeItemController
 		CancelEventTimer.touchEventOccured();
 	}
 
+	private void setFocusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				setFocus(true);
+			}
+		});
+	}
+
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
+		Log.debug("[xx] touchMove");
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			markForEdit = false;
 		}
@@ -330,6 +340,7 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.stopPropagation();
+		Log.debug("[xx] touchStart");
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 		}
@@ -501,6 +512,7 @@ public class RadioTreeItemController
 		item.showKeyboard();
 
 	}
+
 
 	private void editOnTap(boolean active, MouseEvent<?> event) {
 
