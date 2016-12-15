@@ -78,7 +78,6 @@ public class GFontD extends GFont {
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
+		return impl.hashCode();
 	}
 }

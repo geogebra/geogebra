@@ -183,8 +183,7 @@ public abstract class Point<T extends Number & Comparable<T>> {
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
+		return x.hashCode() + y.hashCode() * 37 + z.hashCode() * 41;
 	}
 
 	public void set(Point<T> other) {

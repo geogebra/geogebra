@@ -17,8 +17,7 @@ public abstract class GDimension {
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
+		return getHeight() + 37 * getWidth();
 	}
 
 }
