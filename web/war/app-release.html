@@ -267,7 +267,7 @@ var app = document.createElement("script");
 			},startDelay);
 }
 	function isLocalhost(){
-		return location.protocol.match(/(app|file):/) || location.host.match(/^([0-9:.]*|(autotest|deploy).geogebra.org|localhost)$/);
+		return location.protocol.match(/(app|file):/) || location.host.match(/^([0-9:.]*|(autotest.?|deploy).geogebra.org|localhost)$/);
 	}
 	function showStartScreen(codebase){
 		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
@@ -322,7 +322,7 @@ var app = document.createElement("script");
 	function checkLogin(){
 		installWorker();
 		var tubeid = getURLparam("id");
-		var codebase = "https://cdn.geogebra.org/geogebra-web/"+latestVersion+"/";
+		var codebase = "https://cdn.geogebra.org/"+latestVersion+"/";
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}

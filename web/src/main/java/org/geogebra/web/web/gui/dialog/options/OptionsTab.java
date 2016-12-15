@@ -226,7 +226,7 @@ public class OptionsTab extends FlowPanel {
 			return new TextFieldSizePanel((TextFieldSizeModel) m, app);
 		}
 		if(m instanceof ButtonSizeModel){
-			return new ButtonSizePanel((ButtonSizeModel) m);
+			return new ButtonSizePanel((ButtonSizeModel) m, app);
 		}
 		if(m instanceof FillingModel){
 			return new FillingPanel((FillingModel) m, app);
@@ -246,12 +246,13 @@ public class OptionsTab extends FlowPanel {
 					(InterpolateImageModel) m);
 		}
 		if(m instanceof DecoAngleModel){
-			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m);
+			DecoAnglePanel dap = new DecoAnglePanel((DecoAngleModel) m, app);
 			dap.getWidget().setStyleName("optionsPanel");
 			return dap;
 		}
 		if(m instanceof DecoSegmentModel){
-			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel) m);
+			DecoSegmentPanel dsp = new DecoSegmentPanel((DecoSegmentModel) m,
+					app);
 			dsp.getWidget().setStyleName("optionsPanel");
 			return dsp;
 		}
@@ -526,9 +527,8 @@ public class OptionsTab extends FlowPanel {
 		private Label decoLabel;
 		private PopupMenuButtonW decoPopup;
 		DecoAngleModel model;
-		private AppW app;
 
-		public DecoAnglePanel(DecoAngleModel model0) {
+		public DecoAnglePanel(DecoAngleModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -597,9 +597,8 @@ public class OptionsTab extends FlowPanel {
 		private Label decoLabel;
 		private PopupMenuButtonW decoPopup;
 		DecoSegmentModel model;
-		private AppW app;
 
-		public DecoSegmentPanel(DecoSegmentModel model0) {
+		public DecoSegmentPanel(DecoSegmentModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -1125,9 +1124,8 @@ public class OptionsTab extends FlowPanel {
 		private Label labelPixelW;
 		private Label labelPixelH;
 		ButtonSizeModel model;
-		private AppW app;
 
-		public ButtonSizePanel(ButtonSizeModel model0) {
+		public ButtonSizePanel(ButtonSizeModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -1553,6 +1551,7 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				protected void wrapFocusGained() {
+					// only need focus lost
 				}
 
 				@Override
@@ -1564,7 +1563,10 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
-		private void doActionPerformed() {
+		/**
+		 * Change speed in model
+		 */
+		protected void doActionPerformed() {
 			GeoNumberValue animSpeed = app.getKernel().getAlgebraProcessor()
 					.evaluateToNumeric(tfAnimSpeed.getText(), false);
 			if (animSpeed != null) {
