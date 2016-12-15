@@ -89,6 +89,7 @@ public class AlgebraViewW extends Tree implements LayerView,
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
+	private String lastLang = null;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -872,6 +873,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 			break;
 		case ORDER:
 			break;
+		}
+		if (lastLang == null || !lastLang.equals(loc.getLocaleStr())) {
+			rebuildItems();
 		}
 	}
 
@@ -1928,6 +1932,10 @@ public class AlgebraViewW extends Tree implements LayerView,
 	 */
 	public void setPixelRatio(double ratio) {
 		updateFonts();
+		rebuildItems();
+	}
+
+	private void rebuildItems() {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
@@ -1946,7 +1954,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 			}
 		}
 		this.repaintView();
+
 	}
+
 
 	/**
 	 * Update items for new window size / pixel ratio
