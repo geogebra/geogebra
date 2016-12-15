@@ -285,6 +285,7 @@ public class RadioTreeItemController
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
 		if (editOnTap(active, wrappedEvent)) {
+			onPointerUp(wrappedEvent);
 			CancelEventTimer.touchEventOccured();
 			return;
 		}
@@ -294,9 +295,9 @@ public class RadioTreeItemController
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
 			if (!checkEditing()) {
-	//			startEdit(false // event.isControlKeyDown(),
+				startEdit(false // event.isControlKeyDown(),
 				// event.isShiftKeyDown()
-				// );
+				);
 			}
 		} else {
 			latestTouchEndTime = time;
