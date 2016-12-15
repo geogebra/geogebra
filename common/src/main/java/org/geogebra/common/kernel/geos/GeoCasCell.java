@@ -1727,8 +1727,7 @@ public class GeoCasCell extends GeoElement
 						newFuncVars);
 				newTwinGeo = new GeoFunctionNVar(cons, newFNV);
 			}
-			if (inputVE != null && inputVE.isTopLevelCommand()
-					&& newTwinGeo instanceof GeoList) {
+			if (uniformListCommand() && newTwinGeo instanceof GeoList) {
 				makePlotable((GeoList) newTwinGeo);
 			}
 		}
@@ -1750,6 +1749,16 @@ public class GeoCasCell extends GeoElement
 				newTwinGeo.setLabelVisible(true);
 			}
 		}
+	}
+
+	private boolean uniformListCommand() {
+		if (inputVE == null) {
+			return false;
+		}
+		return inputVE.isTopLevelCommand("Sequence")
+				|| inputVE.isTopLevelCommand("Zip")
+				|| inputVE.isTopLevelCommand("KeepIf")
+				|| inputVE.isTopLevelCommand("IterationList");
 	}
 
 	private static void makePlotable(GeoList list) {
