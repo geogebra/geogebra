@@ -120,10 +120,8 @@ public abstract class Prover {
 	/* input */
 	protected int timeout = 5;
 	private ProverEngine engine = ProverEngine.AUTO;
-	/**
-	 * The full GeoGebra construction, containing all geos and algos.
-	 */
-	protected Construction construction;
+
+	private Construction construction;
 	/**
 	 * The statement to be prove
 	 */
@@ -1109,4 +1107,11 @@ public abstract class Prover {
 	}
 
 	protected abstract AbstractProverReciosMethod getNewReciosProver();
+
+	/**
+	 * The full GeoGebra construction, containing all geos and algos.
+	 */
+	protected Construction getConstruction() {
+		return construction;
+	}
 }

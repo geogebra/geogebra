@@ -118,6 +118,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   
 	   tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
 
+			@Override
 		public void onSelection(SelectionEvent<Integer> event) {
 			if (styleBar != null)
 				styleBar.updateLayout();
@@ -135,6 +136,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	   isIniting = false;
     }
 	
+	@Override
 	public void setLabels() {
 
 		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
@@ -169,7 +171,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnNormalOverlay.setTitle(app.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
-					.setText(parameterLabels[selectedDist.ordinal()][i]);
+					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 		}
 	}
 	
@@ -206,6 +208,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				this.value.put(key, value);
 			}
 			
+			@Override
 			public void execute() {
 				Integer euclidianViewID = (Integer) this
 						.getValue("euclidianViewID");
@@ -628,7 +631,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 					if (hasParm) {
 						// set label
 						lblParameterArray[i].setVisible(true);
-						lblParameterArray[i].setText(parameterLabels[selectedDist
+						lblParameterArray[i].setText(getParameterLabels()[selectedDist
 								.ordinal()][i]);
 						// set field
 						//fldParameterArray[i].removeActionListener(this);
@@ -652,9 +655,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				// set distribution combo box
 				//comboDistribution.removeActionListener(this);
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
-				.equals(distributionMap.get(selectedDist))) {
+				.equals(getDistributionMap().get(selectedDist))) {
 					comboDistribution
-							.setSelectedIndex(ListBoxApi.getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+							.setSelectedIndex(ListBoxApi.getIndexOf(getDistributionMap().get(selectedDist), comboDistribution));
 		}
 				//comboDistribution.addActionListener(this);
 
@@ -674,16 +677,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				btnNormalOverlay.setValue(isShowNormalOverlay());
     }
 
+	@Override
 	public void onChange(ChangeEvent event) {
 		Object source = event.getSource();
 		if (source == comboDistribution) {
 
 			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR))
 				
-				if (!selectedDist.equals(this.reverseDistributionMap
+				if (!selectedDist.equals(this.getReverseDistributionMap()
 						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
 
-					selectedDist = reverseDistributionMap.get(comboDistribution.getValue(comboDistribution
+					selectedDist = getReverseDistributionMap().get(comboDistribution.getValue(comboDistribution
 							.getSelectedIndex()));
 					parameters = ProbabilityManager
 							.getDefaultParameters(selectedDist);
@@ -696,7 +700,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
     }
 
-	private void setProbabilityComboBoxMenu() {
+	@Override
+	protected void setProbabilityComboBoxMenu() {
 
 		comboProbType.clear();
 		comboProbHandler.removeHandler();
@@ -715,26 +720,26 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 		comboDistributionHandler.removeHandler();
 		comboDistribution.clear();
-		comboDistribution.addItem(distributionMap.get(DIST.NORMAL));
-		comboDistribution.addItem(distributionMap.get(DIST.STUDENT));
-		comboDistribution.addItem(distributionMap.get(DIST.CHISQUARE));
-		comboDistribution.addItem(distributionMap.get(DIST.F));
-		comboDistribution.addItem(distributionMap.get(DIST.EXPONENTIAL));
-		comboDistribution.addItem(distributionMap.get(DIST.CAUCHY));
-		comboDistribution.addItem(distributionMap.get(DIST.WEIBULL));
-		comboDistribution.addItem(distributionMap.get(DIST.GAMMA));
-		comboDistribution.addItem(distributionMap.get(DIST.LOGNORMAL));
-		comboDistribution.addItem(distributionMap.get(DIST.LOGISTIC));
+		comboDistribution.addItem(getDistributionMap().get(DIST.NORMAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.STUDENT));
+		comboDistribution.addItem(getDistributionMap().get(DIST.CHISQUARE));
+		comboDistribution.addItem(getDistributionMap().get(DIST.F));
+		comboDistribution.addItem(getDistributionMap().get(DIST.EXPONENTIAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.CAUCHY));
+		comboDistribution.addItem(getDistributionMap().get(DIST.WEIBULL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.GAMMA));
+		comboDistribution.addItem(getDistributionMap().get(DIST.LOGNORMAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.LOGISTIC));
 		
 		comboDistribution.addItem(SEPARATOR);
 
 
-		comboDistribution.addItem(distributionMap.get(DIST.BINOMIAL));
-		comboDistribution.addItem(distributionMap.get(DIST.PASCAL));
-		comboDistribution.addItem(distributionMap.get(DIST.POISSON));
-		comboDistribution.addItem(distributionMap.get(DIST.HYPERGEOMETRIC));
+		comboDistribution.addItem(getDistributionMap().get(DIST.BINOMIAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.PASCAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.POISSON));
+		comboDistribution.addItem(getDistributionMap().get(DIST.HYPERGEOMETRIC));
 
-		comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(distributionMap.get(selectedDist), comboDistribution));
+		comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(getDistributionMap().get(selectedDist), comboDistribution));
 		comboDistribution.addChangeHandler(this);
 
 	}
@@ -742,25 +747,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	
 
-	public void setCumulative(boolean isCumulative) {
-		if (this.isCumulative == isCumulative)
-			return;
-
-		this.isCumulative = isCumulative;
-
-		// in cumulative mode only left-sided intervals are allowed
-		setProbabilityComboBoxMenu();
-		if (!isCumulative)
-			// make sure left-sided is still selected when reverting to
-			// non-cumulative mode
-			comboProbType.setSelectedIndex(PROB_LEFT);
-
-		if (isCumulative) {
-			graphType = graphTypeCDF;
-		} else {
-			graphType = graphTypePDF;
-		}
-		updateAll();
+	@Override
+	public void setTypeSelectedIndex(int idx) {
+		comboProbType.setSelectedIndex(idx);
     }
 
 	/**
@@ -786,6 +775,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+			@Override
 			public void execute() {
 				onResize();
 			}
@@ -831,6 +821,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    return (EuclidianViewW) plotPanel;
     }
 
+	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		
 		Object source = event.getSource();
@@ -977,6 +968,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+				@Override
 				public void onInsert(String text) {
 					field.removeDummyCursor();
 					doTextFieldActionPerformed((TextBox) field.getTextBox(),
@@ -1005,6 +997,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    }
     }
 
+	@Override
 	public void setInterval(double low, double high) {
 		this.setLow(low);
 		this.setHigh(high);
@@ -1015,6 +1008,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateGUI();
 	}
 	
+	@Override
 	public boolean suggestRepaint(){
 		return false;
 	}
@@ -1071,6 +1065,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
 				new Command() {
 
+						@Override
 					public void execute() {
 						exportToEVAction.execute();
 					}
@@ -1083,6 +1078,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			MenuItem miAsPicture = new MenuItem(
 					loc.getPlain("ExportAsPicture"), new Command() {
 
+						@Override
 						public void execute() {
 							String url = ((EuclidianViewW) plotPanel)
 									.getExportImageDataUrl(3, true);

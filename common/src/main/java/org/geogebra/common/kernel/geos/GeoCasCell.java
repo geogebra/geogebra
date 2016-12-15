@@ -1765,7 +1765,13 @@ public class GeoCasCell extends GeoElement
 		if (list.size() < 2) {
 			return;
 		}
-		if (list.get(0) instanceof GeoFunction) {
+		boolean hasFunction = false;
+		for (int i = 0; i < list.size() && !hasFunction; i++) {
+			if (list.get(i).isGeoFunction()) {
+				hasFunction = true;
+			}
+		}
+		if (hasFunction) {
 			for (int i = 0; i < list.size(); i++) {
 				if (list.get(i).isGeoNumeric()) {
 					list.setListElement(i,

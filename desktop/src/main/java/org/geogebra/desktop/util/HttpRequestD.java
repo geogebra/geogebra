@@ -26,7 +26,7 @@ public class HttpRequestD extends HttpRequest {
 		try {
 			URL u = new URL(url);
 			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-			huc.setConnectTimeout(timeout * 1000);
+			huc.setConnectTimeout(getTimeout() * 1000);
 			huc.setRequestMethod("GET");
 			huc.connect();
 			in = new BufferedReader(new InputStreamReader(huc.getInputStream(),
@@ -41,7 +41,6 @@ public class HttpRequestD extends HttpRequest {
 				answer += s;
 			}
 		} catch (Exception ex) {
-			success = false;
 			processed = true;
 			Log.error(ex.getMessage());
 		} finally {
@@ -52,7 +51,6 @@ public class HttpRequestD extends HttpRequest {
 			}
 		}
 		responseText = answer;
-		success = true;
 		processed = true;
 	}
 
@@ -119,13 +117,11 @@ public class HttpRequestD extends HttpRequest {
 			osw.close();
 
 			responseText = answer;
-			success = true;
 			processed = true;
 			if (callback != null) {
 				callback.onSuccess(responseText);
 			}
 		} catch (Exception ex) {
-			success = false;
 			processed = true;
 			if (callback != null) {
 				callback.onError("Connection error: " + ex.getMessage());

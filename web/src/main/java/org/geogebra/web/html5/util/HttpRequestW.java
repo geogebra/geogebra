@@ -30,14 +30,13 @@ public class HttpRequestW extends HttpRequest {
 		        URL.encode(url));
 
 		try {
-			builder.setTimeoutMillis(timeout * 1000);
-			Log.debug("Sending request " + url + " until timeout " + timeout);
+			builder.setTimeoutMillis(getTimeout() * 1000);
+			Log.debug("Sending request " + url + " until timeout " + getTimeout());
 			builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP
 					// violation, etc.)
 					responseText = exception.getMessage();
-					success = false;
 					processed = true;
 				}
 
@@ -46,20 +45,17 @@ public class HttpRequestW extends HttpRequest {
 					if (200 == response.getStatusCode()) {
 						// Process the response in response.getText()
 						responseText = response.getText();
-						success = true;
 						processed = true;
 					} else {
 						// Handle the error. Can get the status text from
 						// response.getStatusText()
 						responseText = response.getStatusText();
-						success = false;
 						processed = true;
 					}
 				}
 			});
 		} catch (RequestException e) {
 			// Couldn't connect to server
-			success = false;
 			processed = true;
 		}
 	}

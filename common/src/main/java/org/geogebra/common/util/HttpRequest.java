@@ -16,16 +16,12 @@ public abstract class HttpRequest {
 	/**
 	 * current timeout for HTTP requests
 	 */
-	protected int timeout = DEFAULT_TIMEOUT;
+	private int timeout = DEFAULT_TIMEOUT;
 
 	/**
 	 * stores if the HTTP request is already processed
 	 */
 	public boolean processed = false;
-	/**
-	 * stores if the HTTP request has been successful
-	 */
-	protected Boolean success;
 	/**
 	 * the textual content of the result (or the error message)
 	 */
@@ -77,11 +73,13 @@ public abstract class HttpRequest {
 		return processed;
 	}
 
+
 	/**
-	 * @return if the HTTP request was successful
+	 * @return current timeout for HTTP requests
 	 */
-	public Boolean isSuccessful() {
-		return success;
+	protected int getTimeout() {
+		return timeout;
 	}
+
 
 }

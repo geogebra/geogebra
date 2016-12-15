@@ -51,10 +51,12 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	private FlowPanel pnlControl;
 
 	/**
-	 * @param app
-	 * @param statisticsCalculatorW
-	 * 
 	 * Constructs chisquarepanel for web
+	 * 
+	 * @param app
+	 *            application
+	 * @param statcalc
+	 *            calculator
 	 * 
 	 */
 	public ChiSquarePanelW(App app, StatisticsCalculator statcalc) {
@@ -105,17 +107,17 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    }
 	    
 	    pnlCount.clear();
-	    cell = new ChiSquareCellW[sc.rows + 2][sc.columns + 2];
+	    cell = new ChiSquareCellW[getSc().rows + 2][getSc().columns + 2];
 	    
-	    for (int r = 0; r < sc.rows + 2; r++) {
+	    for (int r = 0; r < getSc().rows + 2; r++) {
 	    	FlowPanel row = new FlowPanel();
 	    	row.addStyleName("chirow");
-	    	for (int c = 0; c < sc.columns + 2; c++) {
-	    		cell[r][c] = new ChiSquareCellW(sc, r, c);
+	    	for (int c = 0; c < getSc().columns + 2; c++) {
+	    		cell[r][c] = new ChiSquareCellW(getSc(), r, c);
 	    		cell[r][c].getInputField().addKeyPressHandler(this);
 	    		cell[r][c].getInputField().addFocusHandler(this);
 	    		
-	    		if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+	    		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 	    			//cell[r][c].setColumns(10);
 	    		}
 	    		
@@ -130,29 +132,29 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    cell[0][0].setMarginCell(true);
 	    
 	    //column headers and margins
-	    for (int c = 1; c < sc.columns + 2; c++) {
+	    for (int c = 1; c < getSc().columns + 2; c++) {
 	    	cell[0][c].setHeaderCell(true);
-	    	cell[sc.rows + 1][c].setMarginCell(true);
+	    	cell[getSc().rows + 1][c].setMarginCell(true);
 	    }
 	    
 	    // row headers adn margins
-	    for (int r = 0; r < sc.rows + 1; r++) {
+	    for (int r = 0; r < getSc().rows + 1; r++) {
 	    	cell[r][0].setHeaderCell(true);
-	    	cell[r][sc.columns + 1].setMarginCell(true);
+	    	cell[r][getSc().columns + 1].setMarginCell(true);
 	    }
 	    
 	    //set input cells
-	    for (int r = 1; r < sc.rows + 1; r++) {
-	    	for (int c = 1; c < sc.columns + 1; c++) {
+	    for (int r = 1; r < getSc().rows + 1; r++) {
+	    	for (int c = 1; c < getSc().columns + 1; c++) {
 	    		cell[r][c].setInputCell(true);
 	    	}
 	    }
 	    
 	    //clear other corners
-	    cell[sc.rows + 1][0].hideAll();
-	    cell[0][sc.columns + 1].hideAll();
+	    cell[getSc().rows + 1][0].hideAll();
+	    cell[0][getSc().columns + 1].hideAll();
 	    
-	    if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+	    if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 	    	cell[0][1].setMarginCell(true);
 	    	cell[0][2].setMarginCell(true);
 	    }
@@ -164,14 +166,14 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
 		public void updateGUI() {
 
-			if (statCalc.getSelectedProcedure() == Procedure.CHISQ_TEST) {
+			if (getStatCalc().getSelectedProcedure() == Procedure.CHISQ_TEST) {
 				cbColumns.setVisible(true);
 				lblColumns.setVisible(true);
 				ckRowPercent.setVisible(true);
 				ckExpected.setVisible(true);
 				ckChiDiff.setVisible(true);
 
-			} else if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+			} else if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 				cbColumns.setVisible(false);
 				lblColumns.setVisible(false);
 				ckRowPercent.setVisible(false);
@@ -182,7 +184,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
 			}
 
-			sc.setChiSqData(Integer.parseInt(cbRows.getValue(cbRows.getSelectedIndex())),
+			getSc().setChiSqData(Integer.parseInt(cbRows.getValue(cbRows.getSelectedIndex())),
 					Integer.parseInt(cbColumns.getValue(cbColumns.getSelectedIndex())));
 
 			createCountPanel();
@@ -190,8 +192,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		}
 		
 		private void updateVisibility() {
-			for (int i = 1; i < sc.rows + 1; i++) {
-				for (int j = 1; j < sc.columns + 1; j++) {
+			for (int i = 1; i < getSc().rows + 1; i++) {
+				for (int j = 1; j < getSc().columns + 1; j++) {
 					cell[i][j].setLabelVisible(1, ckExpected.getValue());
 					cell[i][j].setLabelVisible(2, ckChiDiff.getValue());
 					cell[i][j].setLabelVisible(3, ckRowPercent.getValue());
@@ -200,14 +202,14 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 			}
 
 			// column percent for bottom margin
-			for (int r = 0; r < sc.rows; r++) {
-				cell[r + 1][sc.columns + 1].setLabelVisible(3,
+			for (int r = 0; r < getSc().rows; r++) {
+				cell[r + 1][getSc().columns + 1].setLabelVisible(3,
 						ckColPercent.getValue());
 			}
 
 			// row percent for right margin
-			for (int c = 0; c < sc.columns; c++) {
-				cell[sc.rows + 1][c + 1].setLabelVisible(4,
+			for (int c = 0; c < getSc().columns; c++) {
+				cell[getSc().rows + 1][c + 1].setLabelVisible(4,
 						ckRowPercent.getValue());
 			}
 
@@ -216,68 +218,68 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
 		private void updateCellContent() {
 
-			statProcessor.doCalculate();
+			getStatProcessor().doCalculate();
 
-			for (int r = 0; r < sc.rows; r++) {
-				for (int c = 0; c < sc.columns; c++) {
+			for (int r = 0; r < getSc().rows; r++) {
+				for (int c = 0; c < getSc().columns; c++) {
 					if (ckExpected.getValue()) {
 						cell[r + 1][c + 1].setLabelText(1,
-								statCalc.format(sc.expected[r][c]));
+								getStatCalc().format(getSc().expected[r][c]));
 					}
 					if (ckChiDiff.getValue()) {
 						cell[r + 1][c + 1].setLabelText(2,
-								statCalc.format(sc.diff[r][c]));
+								getStatCalc().format(getSc().diff[r][c]));
 					}
 					if (ckRowPercent.getValue()) {
 						cell[r + 1][c + 1].setLabelText(
 								3,
-								statCalc.format(100 * sc.observed[r][c]
-										/ sc.rowSum[r]));
+								getStatCalc().format(100 * getSc().observed[r][c]
+										/ getSc().rowSum[r]));
 					}
 					if (ckColPercent.getValue()) {
 						cell[r + 1][c + 1].setLabelText(
 								4,
-								statCalc.format(100 * sc.observed[r][c]
-										/ sc.columnSum[c]));
+								getStatCalc().format(100 * getSc().observed[r][c]
+										/ getSc().columnSum[c]));
 					}
 				}
 			}
 
 			// column margin
 			if (showColumnMargin) {
-				for (int r = 0; r < sc.rows; r++) {
-					cell[r + 1][sc.columns + 1].setLabelText(0,
-							statCalc.format(sc.rowSum[r]));
+				for (int r = 0; r < getSc().rows; r++) {
+					cell[r + 1][getSc().columns + 1].setLabelText(0,
+							getStatCalc().format(getSc().rowSum[r]));
 					if (ckRowPercent.getValue()) {
-						cell[r + 1][sc.columns + 1].setLabelText(3,
-								statCalc.format(100 * sc.rowSum[r] / sc.total));
+						cell[r + 1][getSc().columns + 1].setLabelText(3,
+								getStatCalc().format(100 * getSc().rowSum[r] / getSc().total));
 					}
 				}
 			}
 
 			// bottom margin
-			for (int c = 0; c < sc.columns; c++) {
-				cell[sc.rows + 1][c + 1].setLabelText(0,
-						statCalc.format(sc.columnSum[c]));
+			for (int c = 0; c < getSc().columns; c++) {
+				cell[getSc().rows + 1][c + 1].setLabelText(0,
+						getStatCalc().format(getSc().columnSum[c]));
 
 				if (ckColPercent.getValue()) {
-					cell[sc.rows + 1][c + 1].setLabelText(4,
-							statCalc.format(100 * sc.columnSum[c] / sc.total));
+					cell[getSc().rows + 1][c + 1].setLabelText(4,
+							getStatCalc().format(100 * getSc().columnSum[c] / getSc().total));
 				}
 
 			}
 
 			// bottom right corner
 			if (showColumnMargin) {
-				cell[sc.rows + 1][sc.columns + 1].setLabelText(0,
-						statCalc.format(sc.total));
+				cell[getSc().rows + 1][getSc().columns + 1].setLabelText(0,
+						getStatCalc().format(getSc().total));
 			}
 
 		}
 	    
 	    
-		public void setLabels() {
-		Localization loc = app.getLocalization();
+	public void setLabels() {
+		Localization loc = getApp().getLocalization();
 		lblRows.setText(loc.getMenu("Rows"));
 		lblColumns.setText(loc.getMenu("Columns"));
 		ckExpected.setText(loc.getMenu("ExpectedCount"));
@@ -285,10 +287,10 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		ckRowPercent.setText(loc.getMenu("RowPercent"));
 		ckColPercent.setText(loc.getMenu("ColumnPercent"));
 
-			if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 			cell[0][1].setLabelText(0, loc.getMenu("ObservedCount"));
 			cell[0][2].setLabelText(0, loc.getMenu("ExpectedCount"));
-			}
+		}
 
 	}
 
@@ -322,11 +324,11 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    	cbColumns.addItem(num[i]);
 	    }
 	    
-		Log.debug(sc.rows + " :: " + sc.columns);
-	    cbRows.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(sc.rows), cbRows));
+		Log.debug(getSc().rows + " :: " + getSc().columns);
+	    cbRows.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(getSc().rows), cbRows));
 	    cbRows.addChangeHandler(this);
 	    
-	    cbColumns.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(sc.columns -1), cbColumns));
+	    cbColumns.setSelectedIndex(ListBoxApi.getIndexOf(String.valueOf(getSc().columns -1), cbColumns));
 	    cbColumns.addChangeHandler(this);
 	        
     }
@@ -374,7 +376,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     		this.sc = sc;
     		this.wrappedPanel = new FlowPanel();
     		this.wrappedPanel.addStyleName("ChiSquarePanelW");
-    		fldInput = new AutoCompleteTextFieldW(app);
+    		fldInput = new AutoCompleteTextFieldW(getApp());
 			fldInput.addKeyUpHandler(this);
     		fldInput.addFocusHandler(this);
     		wrappedPanel.add(fldInput);
@@ -436,23 +438,14 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	public void setLabelVisible(int index, boolean isVisible) {
     		label[index].setVisible(isVisible);
     	}
-
-    	public void setMarginCell(boolean isMarginCell) {
-    		this.isMarginCell = isMarginCell;
-    		setVisualStyle();
-    	}
-
-    	public void setHeaderCell(boolean isHeaderCell) {
-    		this.isHeaderCell = isHeaderCell;
-    		setVisualStyle();
-    	}
     	
     	public void setInputCell(boolean isInputCell) {
     		this.isInputCell = isInputCell;
     		setVisualStyle();
         }
 
-    	private void setVisualStyle() {
+		@Override
+		protected void setVisualStyle() {
     		fldInput.setVisible(false);
 
     		if (isMarginCell) {
@@ -504,7 +497,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
     	public void focusLost(FocusEvent e) {
     		updateCellData();
-    		statCalc.updateResult();
+    		getStatCalc().updateResult();
     	}
     	
     	public FlowPanel getWrappedPanel() {
@@ -514,7 +507,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		public void onKeyUp(KeyUpEvent e) {
 
 			updateCellData();
-			statCalc.updateResult();
+			getStatCalc().updateResult();
 			updateCellContent();
     	    
         }

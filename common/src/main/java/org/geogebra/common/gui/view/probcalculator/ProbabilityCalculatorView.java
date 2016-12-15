@@ -123,7 +123,7 @@ public abstract class ProbabilityCalculatorView
 												// distribution
 
 	// distribution fields
-	protected String[][] parameterLabels;
+	private String[][] parameterLabels;
 	protected final static int maxParameterCount = 3; // maximum number of
 														// parameters allowed
 														// for a
@@ -132,8 +132,8 @@ public abstract class ProbabilityCalculatorView
 	protected boolean isCumulative = false;
 
 	// maps for the distribution ComboBox
-	protected HashMap<DIST, String> distributionMap;
-	protected HashMap<String, DIST> reverseDistributionMap;
+	private HashMap<DIST, String> distributionMap;
+	private HashMap<String, DIST> reverseDistributionMap;
 
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
@@ -171,12 +171,12 @@ public abstract class ProbabilityCalculatorView
 	protected boolean showProbGeos = true;
 	protected boolean showNormalOverlay = false;
 
-	protected static final float opacityIntegral = 0.5f;
-	protected static final float opacityDiscrete = 0.0f; // entire bar chart
-	protected static final float opacityDiscreteInterval = 0.5f; // bar chart
+	private static final float opacityIntegral = 0.5f;
+	private static final float opacityDiscrete = 0.0f; // entire bar chart
+	private static final float opacityDiscreteInterval = 0.5f; // bar chart
 																	// interval
-	protected static final int thicknessCurve = 4;
-	protected static final int thicknessBarChart = 3;
+	private static final int thicknessCurve = 4;
+	private static final int thicknessBarChart = 3;
 
 	protected boolean removeFromConstruction = true;
 
@@ -261,6 +261,33 @@ public abstract class ProbabilityCalculatorView
 
 		updateAll();
 	}
+
+	public final void setCumulative(boolean isCumulative) {
+
+		if (this.isCumulative == isCumulative)
+			return;
+
+		this.isCumulative = isCumulative;
+
+		// in cumulative mode only left-sided intervals are allowed
+		setProbabilityComboBoxMenu();
+		if (!isCumulative)
+			// make sure left-sided is still selected when reverting to
+			// non-cumulative mode
+			setTypeSelectedIndex(PROB_LEFT);
+
+		if (isCumulative) {
+			graphType = graphTypeCDF;
+		} else {
+			graphType = graphTypePDF;
+		}
+		updateAll();
+
+	}
+
+	protected abstract void setProbabilityComboBoxMenu();
+
+	protected abstract void setTypeSelectedIndex(int probLeft);
 
 	public int getGraphType() {
 		return graphType;
@@ -1826,5 +1853,30 @@ public abstract class ProbabilityCalculatorView
 	public boolean isOverlayDefined() {
 		return !((selectedDist == DIST.CAUCHY)
 				|| (selectedDist == DIST.F && parameters[1] < 4));
+	}
+
+	protected HashMap<DIST, String> getDistributionMap() {
+		return distributionMap;
+	}
+
+	protected void setDistributionMap(HashMap<DIST, String> distributionMap) {
+		this.distributionMap = distributionMap;
+	}
+
+	protected HashMap<String, DIST> getReverseDistributionMap() {
+		return reverseDistributionMap;
+	}
+
+	protected void setReverseDistributionMap(
+			HashMap<String, DIST> reverseDistributionMap) {
+		this.reverseDistributionMap = reverseDistributionMap;
+	}
+
+	protected String[][] getParameterLabels() {
+		return parameterLabels;
+	}
+
+	protected void setParameterLabels(String[][] parameterLabels) {
+		this.parameterLabels = parameterLabels;
 	}
 }

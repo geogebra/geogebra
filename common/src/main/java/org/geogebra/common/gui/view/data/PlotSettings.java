@@ -22,7 +22,6 @@ public class PlotSettings {
 	public boolean showXAxis = true;
 	public boolean showArrows = false;
 	public boolean forceXAxisBuffer = false;
-	public boolean forceYAxisBuffer = false;
 	public boolean[] isEdgeAxis = { false, false };
 	public boolean[] isPositiveOnly = { false, false };
 	public boolean showGrid = false;

@@ -39,8 +39,6 @@ import org.geogebra.desktop.main.AppD;
 public class ChiSquarePanelD extends ChiSquarePanel
 		implements ActionListener, FocusListener {
 
-	private static final long serialVersionUID = 1L;
-
 	// ======================================
 	// GUI components
 	// ======================================
@@ -66,7 +64,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	public void setLabels() {
-		Localization loc = app.getLocalization();
+		Localization loc = getApp().getLocalization();
 		lblRows.setText(loc.getMenu("Rows"));
 		lblColumns.setText(loc.getMenu("Columns"));
 		ckExpected.setText(loc.getMenu("ExpectedCount"));
@@ -74,7 +72,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		ckRowPercent.setText(loc.getMenu("RowPercent"));
 		ckColPercent.setText(loc.getMenu("ColumnPercent"));
 
-		if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 			cell[0][1].setLabelText(0, loc.getMenu("ObservedCount"));
 			cell[0][2].setLabelText(0, loc.getMenu("ExpectedCount"));
 		}
@@ -121,12 +119,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			num[i] = "" + (i + 2);
 		}
 		cbRows = new JComboBox(num);
-		cbRows.setSelectedItem("" + sc.rows);
+		cbRows.setSelectedItem("" + getSc().rows);
 		cbRows.addActionListener(this);
 		cbRows.setMaximumRowCount(12);
 
 		cbColumns = new JComboBox(num);
-		cbColumns.setSelectedItem("" + sc.columns);
+		cbColumns.setSelectedItem("" + getSc().columns);
 		cbColumns.addActionListener(this);
 		cbColumns.setMaximumRowCount(12);
 
@@ -150,18 +148,18 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		pnlCount.removeAll();
 		pnlCount.setLayout(new BoxLayout(pnlCount, BoxLayout.Y_AXIS));
 
-		cell = new ChiSquareCellD[sc.rows + 2][sc.columns + 2];
+		cell = new ChiSquareCellD[getSc().rows + 2][getSc().columns + 2];
 
 		// create grid of cells
-		for (int r = 0; r < sc.rows + 2; r++) {
+		for (int r = 0; r < getSc().rows + 2; r++) {
 			JPanel row = new JPanel(new FlowLayout(FlowLayout.LEFT, 1, 1));
-			for (int c = 0; c < sc.columns + 2; c++) {
-				cell[r][c] = new ChiSquareCellD(sc, r, c);
+			for (int c = 0; c < getSc().columns + 2; c++) {
+				cell[r][c] = new ChiSquareCellD(getSc(), r, c);
 				cell[r][c].getInputField().addActionListener(this);
 				cell[r][c].getInputField().addFocusListener(this);
 
 				// wider fields for the GOF test
-				if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+				if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 					cell[r][c].setColumns(10);
 				}
 
@@ -174,22 +172,22 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		cell[0][0].setMarginCell(true);
 
 		// column headers and margins
-		for (int c = 1; c < sc.columns + 2; c++) {
+		for (int c = 1; c < getSc().columns + 2; c++) {
 			cell[0][c].setHeaderCell(true);
-			cell[sc.rows + 1][c].setMarginCell(true);
+			cell[getSc().rows + 1][c].setMarginCell(true);
 		}
 
 		// row headers and margins
-		for (int r = 1; r < sc.rows + 1; r++) {
+		for (int r = 1; r < getSc().rows + 1; r++) {
 			cell[r][0].setHeaderCell(true);
-			cell[r][sc.columns + 1].setMarginCell(true);
+			cell[r][getSc().columns + 1].setMarginCell(true);
 		}
 
 		// clear other corners
-		cell[sc.rows + 1][0].hideAll();
-		cell[0][sc.columns + 1].hideAll();
+		cell[getSc().rows + 1][0].hideAll();
+		cell[0][getSc().columns + 1].hideAll();
 
-		if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+		if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 			cell[0][1].setMarginCell(true);
 			cell[0][2].setMarginCell(true);
 		}
@@ -202,14 +200,14 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	public void updateGUI() {
 
-		if (statCalc.getSelectedProcedure() == Procedure.CHISQ_TEST) {
+		if (getStatCalc().getSelectedProcedure() == Procedure.CHISQ_TEST) {
 			cbColumns.setVisible(true);
 			lblColumns.setVisible(true);
 			ckRowPercent.setVisible(true);
 			ckExpected.setVisible(true);
 			ckChiDiff.setVisible(true);
 
-		} else if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
+		} else if (getStatCalc().getSelectedProcedure() == Procedure.GOF_TEST) {
 			cbColumns.setVisible(false);
 			lblColumns.setVisible(false);
 			ckRowPercent.setVisible(false);
@@ -223,7 +221,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		}
 
-		sc.setChiSqData(Integer.parseInt((String) cbRows.getSelectedItem()),
+		getSc().setChiSqData(Integer.parseInt((String) cbRows.getSelectedItem()),
 				Integer.parseInt((String) cbColumns.getSelectedItem()));
 
 		createCountPanel();
@@ -233,8 +231,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	private void updateVisibility() {
-		for (int i = 1; i < sc.rows + 1; i++) {
-			for (int j = 1; j < sc.columns + 1; j++) {
+		for (int i = 1; i < getSc().rows + 1; i++) {
+			for (int j = 1; j < getSc().columns + 1; j++) {
 				cell[i][j].setLabelVisible(1, ckExpected.isSelected());
 				cell[i][j].setLabelVisible(2, ckChiDiff.isSelected());
 				cell[i][j].setLabelVisible(3, ckRowPercent.isSelected());
@@ -243,14 +241,14 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		}
 
 		// column percent for bottom margin
-		for (int r = 0; r < sc.rows; r++) {
-			cell[r + 1][sc.columns + 1].setLabelVisible(3,
+		for (int r = 0; r < getSc().rows; r++) {
+			cell[r + 1][getSc().columns + 1].setLabelVisible(3,
 					ckColPercent.isSelected());
 		}
 
 		// row percent for right margin
-		for (int c = 0; c < sc.columns; c++) {
-			cell[sc.rows + 1][c + 1].setLabelVisible(4,
+		for (int c = 0; c < getSc().columns; c++) {
+			cell[getSc().rows + 1][c + 1].setLabelVisible(4,
 					ckRowPercent.isSelected());
 		}
 
@@ -259,57 +257,57 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 	private void updateCellContent() {
 
-		statProcessor.doCalculate();
+		getStatProcessor().doCalculate();
 
-		for (int r = 0; r < sc.rows; r++) {
-			for (int c = 0; c < sc.columns; c++) {
+		for (int r = 0; r < getSc().rows; r++) {
+			for (int c = 0; c < getSc().columns; c++) {
 				if (ckExpected.isSelected()) {
 					cell[r + 1][c + 1].setLabelText(1,
-							statCalc.format(sc.expected[r][c]));
+							getStatCalc().format(getSc().expected[r][c]));
 				}
 				if (ckChiDiff.isSelected()) {
 					cell[r + 1][c + 1].setLabelText(2,
-							statCalc.format(sc.diff[r][c]));
+							getStatCalc().format(getSc().diff[r][c]));
 				}
 				if (ckRowPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(3, statCalc
-							.format(100 * sc.observed[r][c] / sc.rowSum[r]));
+					cell[r + 1][c + 1].setLabelText(3, getStatCalc()
+							.format(100 * getSc().observed[r][c] / getSc().rowSum[r]));
 				}
 				if (ckColPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(4, statCalc
-							.format(100 * sc.observed[r][c] / sc.columnSum[c]));
+					cell[r + 1][c + 1].setLabelText(4, getStatCalc()
+							.format(100 * getSc().observed[r][c] / getSc().columnSum[c]));
 				}
 			}
 		}
 
 		// column margin
 		if (showColumnMargin) {
-			for (int r = 0; r < sc.rows; r++) {
-				cell[r + 1][sc.columns + 1].setLabelText(0,
-						statCalc.format(sc.rowSum[r]));
+			for (int r = 0; r < getSc().rows; r++) {
+				cell[r + 1][getSc().columns + 1].setLabelText(0,
+						getStatCalc().format(getSc().rowSum[r]));
 				if (ckRowPercent.isSelected()) {
-					cell[r + 1][sc.columns + 1].setLabelText(3,
-							statCalc.format(100 * sc.rowSum[r] / sc.total));
+					cell[r + 1][getSc().columns + 1].setLabelText(3,
+							getStatCalc().format(100 * getSc().rowSum[r] / getSc().total));
 				}
 			}
 		}
 
 		// bottom margin
-		for (int c = 0; c < sc.columns; c++) {
-			cell[sc.rows + 1][c + 1].setLabelText(0,
-					statCalc.format(sc.columnSum[c]));
+		for (int c = 0; c < getSc().columns; c++) {
+			cell[getSc().rows + 1][c + 1].setLabelText(0,
+					getStatCalc().format(getSc().columnSum[c]));
 
 			if (ckColPercent.isSelected()) {
-				cell[sc.rows + 1][c + 1].setLabelText(4,
-						statCalc.format(100 * sc.columnSum[c] / sc.total));
+				cell[getSc().rows + 1][c + 1].setLabelText(4,
+						getStatCalc().format(100 * getSc().columnSum[c] / getSc().total));
 			}
 
 		}
 
 		// bottom right corner
 		if (showColumnMargin) {
-			cell[sc.rows + 1][sc.columns + 1].setLabelText(0,
-					statCalc.format(sc.total));
+			cell[getSc().rows + 1][getSc().columns + 1].setLabelText(0,
+					getStatCalc().format(getSc().total));
 		}
 
 	}
@@ -385,7 +383,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			wrappedPanel.setLayout(
 					new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
 
-			fldInput = new MyTextFieldD((AppD) app);
+			fldInput = new MyTextFieldD((AppD) getApp());
 			fldInput.addActionListener(this);
 			fldInput.addFocusListener(this);
 			wrappedPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));
@@ -451,17 +449,10 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			label[index].setVisible(isVisible);
 		}
 
-		public void setMarginCell(boolean isMarginCell) {
-			this.isMarginCell = isMarginCell;
-			setVisualStyle();
-		}
 
-		public void setHeaderCell(boolean isHeaderCell) {
-			this.isHeaderCell = isHeaderCell;
-			setVisualStyle();
-		}
 
-		private void setVisualStyle() {
+		@Override
+		protected void setVisualStyle() {
 			wrappedPanel.setBackground(null);
 			fldInput.setVisible(false);
 
@@ -514,12 +505,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		public void focusLost(FocusEvent e) {
 			updateCellData();
-			statCalc.updateResult();
+			getStatCalc().updateResult();
 		}
 
 		public void actionPerformed(ActionEvent e) {
 			updateCellData();
-			statCalc.updateResult();
+			getStatCalc().updateResult();
 
 		}
 

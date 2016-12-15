@@ -82,7 +82,7 @@ public class ProverD extends Prover {
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
 		Log.debug("OGP is about to run...");
-		String c = simplifiedXML(construction, statement).replace(
+		String c = simplifiedXML(getConstruction(), statement).replace(
 				"command name=\"ProveDetails\"", "command name=\"Prove\""); // dirty
 																			// hack,
 																			// FIXME

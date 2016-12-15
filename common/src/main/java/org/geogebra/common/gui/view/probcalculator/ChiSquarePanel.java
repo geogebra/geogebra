@@ -13,15 +13,15 @@ public abstract class ChiSquarePanel {
 	// ======================================
 	// GeoGebra fields
 	// ======================================
-	protected App app;
-	protected StatisticsCalculator statCalc;
-	protected StatisticsCalculatorProcessor statProcessor;
-	protected StatisticsCollection sc;
+	private App app;
+	private StatisticsCalculator statCalc;
+	private StatisticsCalculatorProcessor statProcessor;
+	private StatisticsCollection sc;
 
 	/**
 	 * @param app
 	 *            Application
-	 * @param statcalc
+	 * @param statCalc
 	 *            SatisticCalculator
 	 */
 	public ChiSquarePanel(App app, StatisticsCalculator statCalc) {
@@ -32,5 +32,24 @@ public abstract class ChiSquarePanel {
 
 		sc.setChiSqData(3, 3);
 	}
+
+	public App getApp() {
+		return app;
+	}
+
+	public StatisticsCalculator getStatCalc() {
+		return statCalc;
+	}
+
+
+	public StatisticsCalculatorProcessor getStatProcessor() {
+		return statProcessor;
+	}
+
+	public StatisticsCollection getSc() {
+		return sc;
+	}
+
+
 
 }

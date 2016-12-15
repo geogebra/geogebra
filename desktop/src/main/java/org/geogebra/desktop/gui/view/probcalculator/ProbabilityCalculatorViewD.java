@@ -155,26 +155,10 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return probManager;
 	}
 
-	public void setCumulative(boolean isCumulative) {
 
-		if (this.isCumulative == isCumulative)
-			return;
 
-		this.isCumulative = isCumulative;
-
-		// in cumulative mode only left-sided intervals are allowed
-		setProbabilityComboBoxMenu();
-		if (!isCumulative)
-			// make sure left-sided is still selected when reverting to
-			// non-cumulative mode
-			comboProbType.setSelectedIndex(PROB_LEFT);
-
-		if (isCumulative) {
-			graphType = graphTypeCDF;
-		} else {
-			graphType = graphTypePDF;
-		}
-		updateAll();
+	protected void setTypeSelectedIndex(int idx) {
+		this.comboProbType.setSelectedIndex(idx);
 
 	}
 
@@ -434,12 +418,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 						.equals(ListSeparatorRenderer.SEPARATOR)) {
 					comboDistribution.removeActionListener(this);
 					comboDistribution
-							.setSelectedItem(distributionMap.get(selectedDist));
+							.setSelectedItem(getDistributionMap().get(selectedDist));
 					comboDistribution.addActionListener(this);
-				} else if (!selectedDist.equals(this.reverseDistributionMap
+				} else if (!selectedDist.equals(this.getReverseDistributionMap()
 						.get(comboDistribution.getSelectedItem()))) {
 
-					selectedDist = reverseDistributionMap
+					selectedDist = getReverseDistributionMap()
 							.get(comboDistribution.getSelectedItem());
 					parameters = ProbabilityManager
 							.getDefaultParameters(selectedDist);
@@ -599,7 +583,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				// set label
 				lblParameterArray[i].setVisible(true);
 				lblParameterArray[i]
-						.setText(parameterLabels[selectedDist.ordinal()][i]);
+						.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 				// set field
 				fldParameterArray[i].removeActionListener(this);
 				fldParameterArray[i].setText("" + format(parameters[i]));
@@ -619,9 +603,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		// set distribution combo box
 		comboDistribution.removeActionListener(this);
 		if (!comboDistribution.getSelectedItem()
-				.equals(distributionMap.get(selectedDist))) {
+				.equals(getDistributionMap().get(selectedDist))) {
 			comboDistribution
-					.setSelectedItem(distributionMap.get(selectedDist));
+					.setSelectedItem(getDistributionMap().get(selectedDist));
 		}
 
 		comboDistribution.addActionListener(this);
@@ -844,11 +828,11 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		for (int i = 0; i < ProbabilityManager
 				.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
-					.setText(parameterLabels[selectedDist.ordinal()][i]);
+					.setText(getParameterLabels()[selectedDist.ordinal()][i]);
 		}
 	}
 
-	private void setProbabilityComboBoxMenu() {
+	protected void setProbabilityComboBoxMenu() {
 
 		comboProbType.removeActionListener(this);
 		comboProbType.removeAllItems();
@@ -867,25 +851,25 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		comboDistribution.addItem(distributionMap.get(DIST.NORMAL));
-		comboDistribution.addItem(distributionMap.get(DIST.STUDENT));
-		comboDistribution.addItem(distributionMap.get(DIST.CHISQUARE));
-		comboDistribution.addItem(distributionMap.get(DIST.F));
-		comboDistribution.addItem(distributionMap.get(DIST.EXPONENTIAL));
-		comboDistribution.addItem(distributionMap.get(DIST.CAUCHY));
-		comboDistribution.addItem(distributionMap.get(DIST.WEIBULL));
-		comboDistribution.addItem(distributionMap.get(DIST.GAMMA));
-		comboDistribution.addItem(distributionMap.get(DIST.LOGNORMAL));
-		comboDistribution.addItem(distributionMap.get(DIST.LOGISTIC));
+		comboDistribution.addItem(getDistributionMap().get(DIST.NORMAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.STUDENT));
+		comboDistribution.addItem(getDistributionMap().get(DIST.CHISQUARE));
+		comboDistribution.addItem(getDistributionMap().get(DIST.F));
+		comboDistribution.addItem(getDistributionMap().get(DIST.EXPONENTIAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.CAUCHY));
+		comboDistribution.addItem(getDistributionMap().get(DIST.WEIBULL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.GAMMA));
+		comboDistribution.addItem(getDistributionMap().get(DIST.LOGNORMAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.LOGISTIC));
 
 		comboDistribution.addItem(ListSeparatorRenderer.SEPARATOR);
 
-		comboDistribution.addItem(distributionMap.get(DIST.BINOMIAL));
-		comboDistribution.addItem(distributionMap.get(DIST.PASCAL));
-		comboDistribution.addItem(distributionMap.get(DIST.POISSON));
-		comboDistribution.addItem(distributionMap.get(DIST.HYPERGEOMETRIC));
+		comboDistribution.addItem(getDistributionMap().get(DIST.BINOMIAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.PASCAL));
+		comboDistribution.addItem(getDistributionMap().get(DIST.POISSON));
+		comboDistribution.addItem(getDistributionMap().get(DIST.HYPERGEOMETRIC));
 
-		comboDistribution.setSelectedItem(distributionMap.get(selectedDist));
+		comboDistribution.setSelectedItem(getDistributionMap().get(selectedDist));
 		comboDistribution.addActionListener(this);
 
 	}
