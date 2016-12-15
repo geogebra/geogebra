@@ -1727,7 +1727,12 @@ public class GeoCasCell extends GeoElement
 						newFuncVars);
 				newTwinGeo = new GeoFunctionNVar(cons, newFNV);
 			}
+			if (inputVE != null && inputVE.isTopLevelCommand()
+					&& newTwinGeo instanceof GeoList) {
+				makePlotable((GeoList) newTwinGeo);
+			}
 		}
+
 
 		if (outputVE.unwrap() instanceof GeoElement
 				&& ((GeoElement) outputVE.unwrap())
@@ -1745,6 +1750,21 @@ public class GeoCasCell extends GeoElement
 				newTwinGeo.setLabelVisible(true);
 			}
 		}
+	}
+
+	private static void makePlotable(GeoList list) {
+		if (list.size() < 2) {
+			return;
+		}
+		if (list.get(0) instanceof GeoFunction) {
+			for (int i = 0; i < list.size(); i++) {
+				if (list.get(i).isGeoNumeric()) {
+					list.setListElement(i,
+							((GeoNumeric) list.get(i)).getGeoFunction());
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -2963,6 +2983,7 @@ public class GeoCasCell extends GeoElement
 	 *            new twin GeoElement
 	 */
 	private void setTwinGeo(final GeoElement newTwinGeo) {
+		Log.debug(newTwinGeo);
 		if (newTwinGeo == null && twinGeo != null) {
 			GeoElement oldTwinGeo = twinGeo;
 			twinGeo = null;
@@ -3190,6 +3211,9 @@ public class GeoCasCell extends GeoElement
 		this.computeOutput(true, true);
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			twinGeo.setLabel(null);
+		}
+		for (int idx = 0; idx < ((GeoList) twinGeo).size(); idx++) {
+			Log.debug(((GeoList) twinGeo).get(idx));
 		}
 		if (twinGeo != null && twinGeo.getLabelSimple() != null
 				&& twinGeo.isEuclidianShowable()) {

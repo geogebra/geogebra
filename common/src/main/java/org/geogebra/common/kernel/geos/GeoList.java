@@ -663,9 +663,7 @@ public class GeoList extends GeoElement
 				elementType = ELEMENT_TYPE_MIXED;
 			}
 		}
-		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoButton()
-				&& !(geo instanceof GeoBoolean) && !(geo instanceof GeoNumeric
-						&& ((GeoNumeric) geo).isSlider());
+		updateDrawableFlag(geo);
 
 		// set visual style of this list
 		applyVisualStyle(geo.toGeoElement());
@@ -674,6 +672,12 @@ public class GeoList extends GeoElement
 			geo.setVisibleInView3D(this);
 			geo.setVisibleInViewForPlane(this);
 		}
+	}
+
+	private void updateDrawableFlag(GeoElementND geo) {
+		isDrawable = isDrawable && geo.isDrawable() && !geo.isGeoButton()
+				&& !(geo instanceof GeoBoolean) && !(geo instanceof GeoNumeric
+						&& ((GeoNumeric) geo).isSlider());
 	}
 
 	/**
@@ -3125,6 +3129,24 @@ public class GeoList extends GeoElement
 		}
 		selectedIndex += this.getAnimationDirection();
 
+	}
+
+	/**
+	 * May break dependencies, use on free lists only
+	 * 
+	 * @param i
+	 *            index
+	 * @param element
+	 *            new element
+	 */
+	public void setListElement(int i, GeoElement element) {
+		this.geoList.set(i, element);
+		this.applyVisualStyle(element);
+		// this.elementType = element.getGeoClassType();
+		isDrawable = true;
+		for (int idx = 0; idx < size(); idx++) {
+			updateDrawableFlag(get(idx));
+		}
 	}
 
 }
