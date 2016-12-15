@@ -273,8 +273,9 @@ public abstract class AppWFull extends AppW {
 					+ getLocalization()
 					.getPlain(
 							"CheckOutTutorial",
-							getLocalization().getMenu(
-									Perspective.perspectiveNames[perspID]));
+									getLocalization().getMenu(Perspective
+											.getPerspectiveName(
+													perspID)));
 			String tooltipURL = GeoGebraConstants.QUICKSTART_URL
 					+ tutorials[perspID] + "/"
 					+ getLocalization().getLocaleStr() + "/";

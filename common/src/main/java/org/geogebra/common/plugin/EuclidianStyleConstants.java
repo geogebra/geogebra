@@ -81,7 +81,7 @@ public class EuclidianStyleConstants {
 			+ AXES_LEFT_ARROW + AXES_BOLD + AXES_FILL_ARROWS;
 
 	// for the options menu
-	final protected static Integer[] lineStyleOptions = {
+	final private static Integer[] lineStyleOptions = {
 			EuclidianStyleConstants.AXES_LINE_TYPE_FULL,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,

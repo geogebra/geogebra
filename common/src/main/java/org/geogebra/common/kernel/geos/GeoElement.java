@@ -131,7 +131,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * Default point labels
 	 */
-	protected static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
+	private static final char[] pointLabels = { 'A', 'B', 'C', 'D', 'E', 'F',
 			'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
 			'T', 'U', 'V', 'W', 'Z' };
 
@@ -8581,6 +8581,16 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void setLabelSet(boolean labelSet) {
 		this.labelSet = labelSet;
+	}
+
+	/**
+	 * @param var
+	 *            variable name
+	 * @return default label
+	 */
+	protected String getPointVectorDefault(String var) {
+		return getDefaultLabel(!Character.isLowerCase(var.charAt(0))
+				? GeoElement.pointLabels : null, false);
 	}
 
 }

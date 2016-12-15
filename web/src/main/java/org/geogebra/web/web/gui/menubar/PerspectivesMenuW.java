@@ -133,7 +133,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		if (app.getTubeId() < 1
 				&& app.getArticleElement().getDataParamApp()) {
 
-			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
+			Browser.changeUrl(Perspective.getPerspectiveSlug(index));
 
 		}
 		if (changed) {

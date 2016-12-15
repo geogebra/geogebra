@@ -84,7 +84,7 @@ public class Perspective {
 
 	private int defaultID;
 	/** translation keys for perspective names */
-	final public static String[] perspectiveNames = new String[] { "Custom",
+	final private static String[] perspectiveNames = new String[] { "Custom",
 			"GraphingCalculator", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"GeoGebra3DGrapher.short", "Perspective.Probability",
@@ -535,6 +535,24 @@ public class Perspective {
 	 */
 	public int getDefaultID() {
 		return defaultID;
+	}
+
+	/**
+	 * @param perspID
+	 *            perspective id
+	 * @return perspective name
+	 */
+	public static String getPerspectiveName(int perspID) {
+		return perspectiveNames[perspID];
+	}
+
+	/**
+	 * @param perspID
+	 *            perspective id
+	 * @return perspective URL slug
+	 */
+	public static String getPerspectiveSlug(int perspID) {
+		return perspectiveSlugs[perspID];
 	}
 
 }

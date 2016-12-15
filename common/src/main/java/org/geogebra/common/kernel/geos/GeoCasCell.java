@@ -1025,9 +1025,7 @@ public class GeoCasCell extends GeoElement
 			assignmentVar = var;
 		} else {
 
-			changeAssignmentVar(var,
-					getDefaultLabel(!Character.isLowerCase(var.charAt(0))
-							? GeoElement.pointLabels : null, false));
+			changeAssignmentVar(var, getPointVectorDefault(var));
 		}
 
 		// store label of this CAS cell in Construction
@@ -1044,6 +1042,8 @@ public class GeoCasCell extends GeoElement
 		}
 		ignoreSetAssignment = false;
 	}
+
+
 
 	/**
 	 * Replace old assignment var in input, e.g. "m := 8" becomes "a := 8"
