@@ -304,11 +304,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public void fill(GShape shape) {
 
-		if (shape instanceof GPolygonD) {
-			impl.fillPolygon(((GPolygonD) shape).getPolygon());
-		} else {
-			impl.fill(GGenericShapeD.getAwtShape(shape));
-		}
+		impl.fill(GGenericShapeD.getAwtShape(shape));
 
 	}
 
