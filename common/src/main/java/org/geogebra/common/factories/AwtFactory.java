@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -88,7 +87,7 @@ public abstract class AwtFactory {
 
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
-	public abstract GEllipse2DFloat newEllipse2DFloat(int i, int j, int k,
+	public abstract GEllipse2DDouble newEllipse2DDouble(int i, int j, int k,
 			int l);
 
 	public abstract GArc2D newArc2D();

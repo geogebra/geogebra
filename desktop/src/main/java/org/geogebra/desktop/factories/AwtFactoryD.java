@@ -18,7 +18,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GEllipse2DFloat;
+import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -44,7 +44,6 @@ import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GEllipse2DDoubleD;
-import org.geogebra.desktop.awt.GEllipse2DFloatD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGeneralPathD;
 import org.geogebra.desktop.awt.GGenericRectangle2DD;
@@ -197,8 +196,8 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
-		return new GEllipse2DFloatD(i, j, k, l);
+	public GEllipse2DDouble newEllipse2DDouble(int i, int j, int k, int l) {
+		return new GEllipse2DDoubleD(i, j, k, l);
 	}
 
 	@Override

@@ -362,13 +362,13 @@ public class HatchingHandler {
 	private static void drawDotted(double dist, GGraphics2D g2d) {
 		int distInt = (int) dist;
 		int size = 2;
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt, distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(distInt, distInt,
 				size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * distInt,
 				distInt, size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(distInt,
 				2 * distInt, size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DFloat(2 * distInt,
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * distInt,
 				2 * distInt, size, size));
 	}
 

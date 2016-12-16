@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -145,8 +144,8 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
-		return new Ellipse2D.Float(i, j, k, l);
+	public GEllipse2DDouble newEllipse2DDouble(int i, int j, int k, int l) {
+		return new Ellipse2D.Double(i, j, k, l);
 	}
 
 	@Override

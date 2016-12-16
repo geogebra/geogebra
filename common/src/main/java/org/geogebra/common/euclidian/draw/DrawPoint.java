@@ -22,7 +22,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -381,8 +380,8 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords1);
 
-			GEllipse2DFloat circleClip = AwtFactory.getPrototype()
-					.newEllipse2DFloat((int) coords1[0] - 30,
+			GEllipse2DDouble circleClip = AwtFactory.getPrototype()
+					.newEllipse2DDouble((int) coords1[0] - 30,
 							(int) coords1[1] - 30, 60, 60);
 			g2.setClip(circleClip);
 			geo2.forceEuclidianVisible(true);

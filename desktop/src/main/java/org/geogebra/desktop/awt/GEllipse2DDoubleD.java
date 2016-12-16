@@ -13,10 +13,6 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 
 	private Ellipse2D.Double impl;
 
-	/*
-	 * public Double(java.awt.geom.Ellipse2D.Double ellipse2d) { impl =
-	 * ellipse2d; }
-	 */
 	public GEllipse2DDoubleD() {
 		impl = new Ellipse2D.Double();
 	}

@@ -1,12 +1,10 @@
 package org.geogebra.common.gui.layout;
 
-import org.geogebra.common.awt.GComponent;
-
 /**
  * @author judit interface for geogebra.gui.layout.DockPanel
  * 
  */
-public interface DockPanel extends GComponent {
+public interface DockPanel {
 
 	String getToolbarString();
 
