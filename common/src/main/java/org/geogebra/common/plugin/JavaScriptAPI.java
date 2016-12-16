@@ -573,6 +573,14 @@ public interface JavaScriptAPI {
 	public String[] getAllObjectNames();
 
 	/**
+	 * Returns an array with all object names.
+	 * 
+	 * @param type
+	 *            object type
+	 * @return objects of this type
+	 */
+	public String[] getAllObjectNames(String type);
+	/**
 	 * Returns the number of objects in the construction.
 	 */
 	public int getObjectNumber();

@@ -608,8 +608,13 @@ public class ScriptManagerW extends ScriptManager {
 			}
 		};
 
-		api.getAllObjectNames = function() {// deprecated since 3.0
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames()();
+		api.getAllObjectNames = function(objectType) {
+			if(typeof objectType === "undefined"){
+				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames()();
+			}else{
+				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames(Ljava/lang/String;)(objectType);
+			}
+			
 		};
 
 		api.getObjectNumber = function() {

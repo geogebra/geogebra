@@ -46,6 +46,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.Cloner;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -366,7 +367,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setLayerVisible(int layer, boolean visible) {
 		if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS)
 			return;
-		String[] names = getObjNames();
+		String[] names = getAllObjectNames();
 		for (int i = 0; i < names.length; i++) {
 			GeoElement geo = kernel.lookupLabel(names[i]);
 			if (geo != null)
@@ -388,19 +389,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * 
 	 * @return object names
 	 */
-	public String[] getObjNames() { // ulven 29.05.08: Had to change to public,
-									// used by applet
+	@Deprecated
+	public String[] getObjNames() {
+		return getAllObjectNames();
+	}
 
+	public synchronized String[] getAllObjectNames() {
 		Construction cons = kernel.getConstruction();
 		TreeSet<GeoElement> geoSet = cons.getGeoSetConstructionOrder();
 		int size = geoSet.size();
-
-		/*
-		 * removed Michael Borcherds 2009-02-09 BUG!
-		 * 
-		 * // don't build objNames if nothing changed if (size ==
-		 * lastGeoElementsIteratorSize) return objNames;
-		 */
 
 		// build objNames array
 		lastGeoElementsIteratorSize = size;
@@ -412,16 +409,30 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			GeoElement geo = it.next();
 			objNames[i] = geo.getLabelSimple();
 			i++;
+
 		}
 		return objNames;
-
 	}
+	
 
-	/**
-	 * Returns an array with all object names.
-	 */
-	public synchronized String[] getAllObjectNames() {
-		return getObjNames();
+	public synchronized String[] getAllObjectNames(String type) {
+		Construction cons = kernel.getConstruction();
+		TreeSet<GeoElement> geoSet = cons.getGeoSetConstructionOrder();
+		int size = geoSet.size();
+
+		// build objNames array
+		lastGeoElementsIteratorSize = size;
+		ArrayList<String> objList = new ArrayList<String>(size / 2);
+
+		Iterator<GeoElement> it = geoSet.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (StringUtil.empty(type)
+					|| type.equalsIgnoreCase(geo.getTypeString())) {
+				objList.add(geo.getLabelSimple());
+			}
+		}
+		return Cloner.asArray(objList);
 	}
 
 	/**
@@ -1262,14 +1273,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * Returns the number of objects in the construction.
 	 */
 	public synchronized int getObjectNumber() {
-		return getObjNames().length;
+		return getAllObjectNames().length;
 	}
 
 	/**
 	 * Returns the name of the n-th object of this construction.
 	 */
 	public synchronized String getObjectName(int i) {
-		String[] names = getObjNames();
+		String[] names = getAllObjectNames();
 
 		try {
 			return names[i];
