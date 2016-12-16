@@ -306,10 +306,10 @@ public class AlgorithmSet {
 		}
 
 		public AlgoElement next() {
-			AlgoElement ret = cur.algo;
 			if (cur == null) {
 				throw new NoSuchElementException();
 			}
+			AlgoElement ret = cur.algo;
 			cur = cur.next;
 			return ret;
 		}

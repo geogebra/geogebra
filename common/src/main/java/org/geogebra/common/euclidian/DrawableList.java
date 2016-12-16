@@ -284,10 +284,10 @@ public class DrawableList {
 		}
 
 		final public Drawable next() {
-			Drawable ret = it.d;
 			if (it == null) {
 				throw new NoSuchElementException();
 			}
+			Drawable ret = it.d;
 			it = it.next;
 			return ret;
 		}
