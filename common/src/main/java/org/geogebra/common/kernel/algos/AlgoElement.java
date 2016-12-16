@@ -60,7 +60,7 @@ public abstract class AlgoElement extends ConstructionElement
 	private GeoElementND[] efficientInput;
 
 	private boolean isPrintedInXML = true;
-	private boolean stopUpdateCascade = false;
+	protected boolean stopUpdateCascade = false;
 	/**
 	 * list of registered outputHandler of this AlgoElement
 	 */
@@ -868,7 +868,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
-	private boolean protectedInput = false;
+	protected boolean protectedInput = false;
 
 	/**
 	 * sets if the "not labeled" inputs are protected from remove
