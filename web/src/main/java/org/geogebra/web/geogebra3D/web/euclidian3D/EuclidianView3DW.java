@@ -39,7 +39,6 @@ import org.geogebra.web.html5.main.TimerSystemW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -137,33 +136,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
-				if ((EuclidianView3DW.this == EuclidianViewW.lastInstance)
-						&& EuclidianViewW.tabPressed) {
-					// if this is the last to blur, and tabPressed
-					// is true, i.e. want to select another applet,
-					// let's go back to the first one!
-					// but how?? maybe better than jQuery:
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								public void execute() {
-									// in theory, the tabPressed will not be set
-									// to false
-									// before this, because the element that
-									// naturally
-									// receives focus will not be an
-									// EuclidianView,
-									// for this is the last one, but why not
-									// make sure?
-									EuclidianViewW.tabPressed = true;
-
-									// probably we have to wait for the
-									// focus event that accompanies this
-									// blur first, and only request for
-									// new focus afterwards...
-									EuclidianViewW.firstInstance.requestFocus();
-								}
-							});
-				}
+				EuclidianViewW.cycle(EuclidianView3DW.this);
 			}
 		});
 
@@ -171,18 +144,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			@Override
 			public void onFocus(FocusEvent fe) {
 				focusGained();
-				if (EuclidianViewW.tabPressed) {
-					// if focus is moved here from another applet,
-					// select the first GeoElement of this Graphics view
-					EuclidianViewW.tabPressed = false;
-					app.getSelectionManager().selectNextGeo(
-							EuclidianView3DW.this, true);
-
-					// .setFirstGeoSelectedForPropertiesView(); might not be
-					// perfect,
-					// for that GeoElement might not be visible in all Graphics
-					// views
-				}
+				EuclidianViewW.selectNextGeoOnTab(EuclidianView3DW.this);
 			}
 		});
 

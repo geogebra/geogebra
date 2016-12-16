@@ -434,7 +434,7 @@ public class GlobalKeyDispatcherW extends
 		setDownKeys(event);
 		// AbstractApplication.debug("onkeydown");
 
-		EuclidianViewW.tabPressed = false;
+		EuclidianViewW.resetTab();
 
 		event.stopPropagation();
 
@@ -463,31 +463,9 @@ public class GlobalKeyDispatcherW extends
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), true);
+			keydownPreventsDefaultKeypressTAB = EuclidianViewW
+					.checkTabPress(success);
 
-			if (!success) {
-				// should select first GeoElement in next applet
-				// this should work well except from last to first
-				// so there will be a blur handler there
-
-				// it would be too hard to select the first GeoElement
-				// from here, so this will be done in the focus handler
-				// of the other applet, depending on whether really
-				// this code called it, and it can be done by a static
-				// variable for the short term
-				EuclidianViewW.tabPressed = true;
-
-				// except EuclidianViewW.lastInstance, do not prevent:
-				if (EuclidianViewW.lastInstance.isInFocus()) {
-					keydownPreventsDefaultKeypressTAB = true;
-					EuclidianViewW.lastInstance.getCanvas().getElement().blur();
-				} else {
-					keydownPreventsDefaultKeypressTAB = false;
-				}
-			} else {
-
-				EuclidianViewW.tabPressed = false;
-				keydownPreventsDefaultKeypressTAB = true;
-			}
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;

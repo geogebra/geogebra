@@ -113,10 +113,10 @@ public class EuclidianViewW extends EuclidianView implements
 	private MsZoomer msZoomer;
 
 	// firstInstance is necessary for proper cycling
-	public static EuclidianViewWInterface firstInstance = null;
+	private static EuclidianViewWInterface firstInstance = null;
 
 	// lastInstance is necessary for knowing when to cycle
-	public static EuclidianViewWInterface lastInstance = null;
+	private static EuclidianViewWInterface lastInstance = null;
 
 	// tells whether recently TAB is pressed in some Graphics View
 	// in some applet, which SHOULD move focus to another Graphics View
@@ -126,7 +126,7 @@ public class EuclidianViewW extends EuclidianView implements
 	// for deciding, whether to select the first GeoElement in that
 	// applet or not (because we shall not change selection in case
 	// e.g. the spreadsheet view gives focus to Graphics view).
-	public static boolean tabPressed = false;
+	private static boolean tabPressed = false;
 
 	/**
 	 * @param euclidianViewPanel
@@ -632,36 +632,8 @@ public class EuclidianViewW extends EuclidianView implements
 			@Override
 			public void onBlur(BlurEvent be) {
 				focusLost();
-				// if all Graphics views have a tabindex of 10000,
-				// how do we know that this one is the last of them
-				// in DOM? Probably we shall have a lastInstance,
-				// just like we have firstInstance! These shall be
-				// actualized when new Graphics views are created,
-				// by comparing document position...
-				if ((EuclidianViewW.this == lastInstance) && tabPressed) {
-					// if this is the last to blur, and tabPressed
-					// is true, i.e. want to select another applet,
-					// let's go back to the first one!
-					// but how?? maybe better than jQuery:
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								public void execute() {
-									// in theory, the tabPressed will not be set
-									// to false
-									// before this, because the element that
-									// naturally
-									// receives focus will not be an
-									// EuclidianView,
-									// for this is the last one, but why not
-									// make sure?
-									tabPressed = true;
+				cycle(EuclidianViewW.this);
 
-									// calling it two times shall not do harm in
-									// theory
-									firstInstance.requestFocus();
-								}
-							});
-				}
 			}
 		});
 
@@ -669,18 +641,7 @@ public class EuclidianViewW extends EuclidianView implements
 			@Override
 			public void onFocus(FocusEvent fe) {
 				focusGained();
-				if (tabPressed) {
-					// if focus is moved here from another applet,
-					// select the first GeoElement of this Graphics view
-					tabPressed = false;
-					app.getSelectionManager().selectNextGeo(
-							EuclidianViewW.this, true);
-
-					// .setFirstGeoSelectedForPropertiesView(); might not be
-					// perfect,
-					// for that GeoElement might not be visible in all Graphics
-					// views
-				}
+				EuclidianViewW.selectNextGeoOnTab(EuclidianViewW.this);
 			}
 		});
 
@@ -1250,6 +1211,81 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		}
 
+	}
+
+	public static void cycle(EuclidianView from) {
+		if ((from == EuclidianViewW.lastInstance)
+				&& EuclidianViewW.tabPressed) {
+			// if this is the last to blur, and tabPressed
+			// is true, i.e. want to select another applet,
+			// let's go back to the first one!
+			// but how?? maybe better than jQuery:
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				public void execute() {
+					// in theory, the tabPressed will not be set
+					// to false
+					// before this, because the element that
+					// naturally
+					// receives focus will not be an
+					// EuclidianView,
+					// for this is the last one, but why not
+					// make sure?
+					EuclidianViewW.tabPressed = true;
+
+					// probably we have to wait for the
+					// focus event that accompanies this
+					// blur first, and only request for
+					// new focus afterwards...
+					EuclidianViewW.firstInstance.requestFocus();
+				}
+			});
+		}
+
+	}
+
+	public static boolean checkTabPress(boolean success) {
+		if (!success) {
+			// should select first GeoElement in next applet
+			// this should work well except from last to first
+			// so there will be a blur handler there
+
+			// it would be too hard to select the first GeoElement
+			// from here, so this will be done in the focus handler
+			// of the other applet, depending on whether really
+			// this code called it, and it can be done by a static
+			// variable for the short term
+			EuclidianViewW.tabPressed = true;
+
+			// except EuclidianViewW.lastInstance, do not prevent:
+			if (EuclidianViewW.lastInstance.isInFocus()) {
+
+				EuclidianViewW.lastInstance.getCanvas().getElement().blur();
+				return true;
+			}
+			return false;
+		}
+		EuclidianViewW.tabPressed = false;
+		return true;
+	}
+
+	public static void selectNextGeoOnTab(EuclidianView view) {
+		if (EuclidianViewW.tabPressed) {
+			// if focus is moved here from another applet,
+			// select the first GeoElement of this Graphics view
+			EuclidianViewW.tabPressed = false;
+			view.getApplication().getSelectionManager().selectNextGeo(view,
+					true);
+
+			// .setFirstGeoSelectedForPropertiesView(); might not be
+			// perfect,
+			// for that GeoElement might not be visible in all Graphics
+			// views
+		}
+
+	}
+
+	public static void resetTab() {
+		tabPressed = false;
 	}
 
 }

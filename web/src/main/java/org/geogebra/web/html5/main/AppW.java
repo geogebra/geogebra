@@ -345,7 +345,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	protected void afterCoreObjectsInited() {
-	} // TODO: abstract?
+		// TODO: abstract?
+	}
 
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
@@ -848,8 +849,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	private void maybeProcessImage(String filename, String content) {
-		String fn = filename.toLowerCase();
+	private void maybeProcessImage(String filename0, String content) {
+		String fn = filename0.toLowerCase();
 		if (fn.equals(MyXMLio.XML_FILE_THUMBNAIL)) {
 			return; // Ignore thumbnail
 		}
@@ -860,7 +861,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (!ext.isImage()) {
 			return;
 		}
-
+		String filename = filename0;
 		// bug in old versions (PNG saved with wrong extension)
 		// change BMP, TIFF, TIF -> PNG
 		if (!ext.isAllowedImage()) {
@@ -1908,6 +1909,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void setCustomToolBar() {
+		// only needed in AppWFull
 	}
 
 	/**
@@ -1984,12 +1986,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @param showGrid
 	 * @param id
 	 * @param settings
+	 *            view settings
 	 * @return new euclidian view
 	 */
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 	        EuclidianController ec, boolean[] showAxes, boolean showGrid,
-	        int id, EuclidianSettings settings) {
-		return new EuclidianViewW(evPanel, ec, showAxes, showGrid, id, settings);
+			int id, EuclidianSettings evSettings) {
+		return new EuclidianViewW(evPanel, ec, showAxes, showGrid, id,
+				evSettings);
 	}
 
 	@Override
@@ -2291,11 +2295,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	Timer timeruc = new Timer() {
 		@Override
 		public void run() {
-			boolean force = kernel.getForceUpdatingBoundingBox();
-			kernel.setForceUpdatingBoundingBox(true);
-			kernel.getConstruction().updateConstructionLaTeX();
-			kernel.notifyRepaint();
-			kernel.setForceUpdatingBoundingBox(force);
+			updateConsBoundingBox();
 		}
 	};
 
@@ -2310,7 +2310,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
 
-
+	protected void updateConsBoundingBox() {
+		boolean force = kernel.getForceUpdatingBoundingBox();
+		kernel.setForceUpdatingBoundingBox(true);
+		kernel.getConstruction().updateConstructionLaTeX();
+		kernel.notifyRepaint();
+		kernel.setForceUpdatingBoundingBox(force);
+	}
 	@Override
 	public void createNewWindow() {
 		// TODO implement it ?
@@ -2538,10 +2544,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return articleElement.getDataParamId();
 	}
 
-	public HasAppletProperties getAppletFrame() {
-		// Should be implemented in subclasses
-		return null;
-	}
+	public abstract HasAppletProperties getAppletFrame();
 
 	/**
 	 * @return whether the focus was lost
@@ -3046,6 +3049,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
+	 * 
+	 * @param textField
+	 *            keyboard listener
 	 */
 	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
 		// Overwritten in subclass - nothing to do here
@@ -3187,6 +3193,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	/**
+	 * 
+	 * @param base64
+	 *            CSV content
+	 */
 	public void openCSV(String base64) {
 		// TODO Auto-generated method stub
 
@@ -3209,6 +3220,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return true;
 	}
 
+	/**
+	 * @param response
+	 *            text of OFF file
+	 **/
 	public void openOFF(String response) {
 		// only makes sense in 3D
 
@@ -3403,6 +3418,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * 
 	 * @return 9999 (or 200 in web)
 	 */
+	@Override
 	public int getMaxSpreadsheetRowsVisible() {
 		return Kernel.MAX_SPREADSHEET_ROWS_WEB;
 	}
@@ -3411,6 +3427,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * 
 	 * @return 9999 (or 200 in web)
 	 */
+	@Override
 	public int getMaxSpreadsheetColumnsVisible() {
 		return Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	}
