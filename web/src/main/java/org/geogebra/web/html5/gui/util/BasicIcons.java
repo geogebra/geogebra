@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.ggbjdk.java.awt.geom.Polygon;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -45,29 +45,37 @@ public class BasicIcons {
 
 		g2.setColor(GColor.GRAY);
 
-		if (isRollOver)
+		if (isRollOver) {
 			g2.setColor(GColor.BLACK);
-		else
+		} else {
 			g2.setColor(GColor.DARK_GRAY);
+		}
 
 		int midx = w / 2;
 		int midy = h / 2;
 
-		Polygon p = new Polygon();
-		// make a triangle.
-		p.addPoint(midx - 3, midy - 1);
-		p.addPoint(midx + 3, midy - 1);
-		p.addPoint(midx, midy - 6);
+		AwtFactory.fillTriangle(g2, midx - 3, midy - 1, midx + 3, midy - 1,
+				midx, midy - 6);
 
-		g2.fill(p);
+		// Polygon p = new Polygon();
+		// // make a triangle.
+		// p.addPoint(midx - 3, midy - 1);
+		// p.addPoint(midx + 3, midy - 1);
+		// p.addPoint(midx, midy - 6);
+		//
+		// g2.fill(p);
 
-		// make a triangle.
-		p = new Polygon();
-		p.addPoint(midx - 3, midy + 1);
-		p.addPoint(midx + 3, midy + 1);
-		p.addPoint(midx, midy + 6);
+		AwtFactory.fillTriangle(g2, midx - 3, midy + 1, midx + 3, midy + 1,
+				midx, midy + 6);
 
-		g2.fill(p);
+
+		// // make a triangle.
+		// p = new Polygon();
+		// p.addPoint(midx - 3, midy + 1);
+		// p.addPoint(midx + 3, midy + 1);
+		// p.addPoint(midx, midy + 6);
+		//
+		// g2.fill(p);
 
 		/*
 		 * g2.drawLine(x, y, x+6, y); g2.drawLine(x+1, y+1, x+5, y+1);

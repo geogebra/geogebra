@@ -2,7 +2,6 @@ package org.geogebra.common.gui.util;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -80,11 +79,9 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.getPrototype().newPolygon();
-		p.addPoint(midx - tW, midy + tH);
-		p.addPoint(midx + tW, midy + tH);
-		p.addPoint(midx, midy + 2 * tW);
-		g2.fill(p);
+		AwtFactory.fillTriangle(g2, midx - tW, midy + tH, midx + tW, midy + tH,
+				midx,
+				midy + 2 * tW);
 
 	}
 
@@ -100,11 +97,15 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.getPrototype().newPolygon();
-		p.addPoint(midx - tW, midy + 2 * tW);
-		p.addPoint(midx + tW, midy + 2 * tW);
-		p.addPoint(midx, midy + tH);
-		g2.fill(p);
+		AwtFactory.fillTriangle(g2, midx - tW, midy + 2 * tW, midx + tW,
+				midy + 2 * tW,
+				midx, midy + tH);
+
+		// GPolygon p = AwtFactory.getPrototype().newPolygon();
+		// p.addPoint(midx - tW, midy + 2 * tW);
+		// p.addPoint(midx + tW, midy + 2 * tW);
+		// p.addPoint(midx, midy + tH);
+		// g2.fill(p);
 
 	}
 
@@ -120,11 +121,8 @@ public class DropDownList {
 
 		int midy = top + (height / 2 - (int) Math.round(tH * 1.5));
 
-		GPolygon p = AwtFactory.getPrototype().newPolygon();
-		p.addPoint(midx - tW, midy + tH);
-		p.addPoint(midx + tW, midy + tH);
-		p.addPoint(midx, midy + 2 * tW);
-		g2.fill(p);
+		AwtFactory.fillTriangle(g2, midx - tW, midy + tH, midx + tW, midy + tH,
+				midx, midy + 2 * tW);
 
 	}
 
@@ -135,7 +133,6 @@ public class DropDownList {
 
 	public void startClickTimer(int x, int y) {
 		setMouse(x, y);
-
 		// might be null eg Android, iOS
 		if (clickTimer != null) {
 			clickTimer.start();

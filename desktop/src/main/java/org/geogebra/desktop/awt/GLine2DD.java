@@ -88,4 +88,20 @@ public class GLine2DD implements GLine2D, GShapeD {
 		return new GPoint2DD(p2.getX(), p2.getY());
 	}
 
+	public double getX1() {
+		return impl.getX1();
+	}
+
+	public double getY1() {
+		return impl.getY1();
+	}
+
+	public double getX2() {
+		return impl.getX2();
+	}
+
+	public double getY2() {
+		return impl.getY2();
+	}
+
 }

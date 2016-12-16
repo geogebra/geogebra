@@ -157,4 +157,16 @@ public abstract class AwtFactory {
 
 	public abstract int solveCubic(double[] eqn, double[] dest);
 
+	public static void fillTriangle(GGraphics2D g2, int x1, int y1, int x2,
+			int y2, int x3, int y3) {
+		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+		gp.moveTo(x1, y1);
+		gp.lineTo(x2, y2);
+		gp.lineTo(x3, y3);
+		gp.lineTo(x1, y1);
+		GArea shape = AwtFactory.getPrototype().newArea(gp);
+		g2.fill(shape);
+
+	}
+
 }
