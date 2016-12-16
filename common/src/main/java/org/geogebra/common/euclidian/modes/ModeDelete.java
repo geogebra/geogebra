@@ -146,8 +146,33 @@ public class ModeDelete {
 								else {
 									// Log.debug(
 									// "LIST_SIZE: " + interPoints.size());
-									dataPoints[i].setUndefined();
-									dataPoints[i].resetDefinition();
+									/*
+									 * double realX = view.toRealWorldCoordX(
+									 * interPoints.get(0).getX()); double realY
+									 * = view.toRealWorldCoordY(
+									 * interPoints.get(0).getY()); // switch old
+									 * point with intersection point
+									 * dataPoints[i].setCoords(realX, realY, 1);
+									 * GeoPointND[] newDataPoints = new
+									 * GeoPointND[dataPoints.length + 1];
+									 * newDataPoints = Arrays
+									 * .copyOfRange(dataPoints, 0, i);
+									 */
+									if (areClose(interPoints.get(0),
+											interPoints.get(1))) {
+										double realX = view.toRealWorldCoordX(
+												interPoints.get(0).getX());
+										double realY = view.toRealWorldCoordY(
+												interPoints.get(0).getY());
+										// switch old point with intersection
+										// point
+										dataPoints[i].setCoords(realX, realY,
+												1);
+									} else {
+										// Log.debug("ARE_NOT_CLOSE");
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
 								}
 							}
 							// start point of segment is in rectangle
@@ -188,8 +213,21 @@ public class ModeDelete {
 								else {
 									// Log.debug(
 									// "LIST_SIZE: " + interPoints.size());
-									dataPoints[i].setUndefined();
-									dataPoints[i].resetDefinition();
+									if (areClose(interPoints.get(0),
+											interPoints.get(1))) {
+										double realX = view.toRealWorldCoordX(
+												interPoints.get(0).getX());
+										double realY = view.toRealWorldCoordY(
+												interPoints.get(0).getY());
+										// switch old point with intersection
+										// point
+										dataPoints[i].setCoords(realX, realY,
+												1);
+									} else {
+										// Log.debug("ARE_NOT_CLOSE");
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
 								}
 							}
 							// handle first point and last point
@@ -217,7 +255,25 @@ public class ModeDelete {
 							} else {
 								as.addAll(dataPoints[i].getAlgoUpdateSet());
 							}
+						} else {
+							if (i < dataPoints.length - 1
+									&& dataPoints[i].isDefined()
+									&& dataPoints[i + 1].isDefined()) {
+								getAllIntersectionPoint(dataPoints[i],
+										dataPoints[i + 1], rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() >= 2) {
+									dataPoints[i].setUndefined();
+									dataPoints[i].resetDefinition();
+								}
+								if (as == null) {
+									as = dataPoints[i].getAlgoUpdateSet();
+								} else {
+									as.addAll(dataPoints[i].getAlgoUpdateSet());
+								}
+							}
 						}
+
 						if (lastWasVisible && dataPoints[i].isDefined()) {
 							hasVisibleLine = true;
 						}
@@ -226,6 +282,7 @@ public class ModeDelete {
 							hasVisiblePart = true;
 						}
 					}
+
 				} else {
 					Log.debug(
 							"Can't delete points on stroke. Different number of in and output points.");
@@ -312,21 +369,25 @@ public class ModeDelete {
 		// intersection points
 		GPoint2D topInter = getTopIntersectionPoint(point1, point2, rectangle);
 		if (topInter != null) {
+			// Log.debug("TOP_INTER");
 			interPoints.add(topInter);
 		}
 		GPoint2D bottomInter = getBottomIntersectionPoint(point1, point2,
 				rectangle);
 		if (bottomInter != null) {
+			// Log.debug("BOTTOM_INTER");
 			interPoints.add(bottomInter);
 		}
 		GPoint2D leftInter = getLeftIntersectionPoint(point1, point2,
 				rectangle);
 		if (leftInter != null) {
+			// Log.debug("LEFT_INTER");
 			interPoints.add(leftInter);
 		}
 		GPoint2D rightInter = getRightIntersectionPoint(point1, point2,
 				rectangle);
 		if (rightInter != null) {
+			// Log.debug("RIGHT_INTER");
 			interPoints.add(rightInter);
 		}
 
@@ -349,13 +410,16 @@ public class ModeDelete {
 		GPoint2D p = null;
 
 		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
-		if (d != 0) {
+		if (d != 0.0) {
 			double xi = ((x3 - x4) * (x1 * y2 - y1 * x2)
 					- (x1 - x2) * (x3 * y4 - y3 * x4)) / d;
 			double yi = ((y3 - y4) * (x1 * y2 - y1 * x2)
 					- (y1 - y2) * (x3 * y4 - y3 * x4)) / d;
-
-			if (onSegment(x1, y1, xi, yi, x2, y2)) {
+			
+			if (onSegment(Math.round(x1), Math.round(y1), xi, yi,
+					Math.round(x2), Math.round(y2))
+					&& onSegment(Math.round(x3), Math.round(y3), xi, yi,
+							Math.round(x4), Math.round(y4))) {
 				p = new GPoint2D.Double(xi, yi);
 			}
 
@@ -366,13 +430,23 @@ public class ModeDelete {
 	private boolean onSegment(double segStartX, double segStartY,
 			double interPointX, double interPointY, double segEndX,
 			double segEndY) {
-		if (interPointX <= Math.max(segStartX, segEndX)
-				&& interPointX >= Math.min(segStartX, segEndX)
-				&& interPointY <= Math.max(segStartY, segEndY)
-				&& interPointY >= Math.min(segStartY, segEndY))
+		if (interPointX <= Math.max(segStartX, segEndX) + 1
+				&& interPointX >= Math.min(segStartX, segEndX) - 1
+				&& interPointY <= Math.max(segStartY, segEndY) + 1
+				&& interPointY >= Math.min(segStartY, segEndY) - 1)
 			return true;
 
 		return false;
+	}
+
+	private boolean areClose(GPoint2D point1, GPoint2D point2) {
+
+		double distance = Math.hypot(point1.getX() - point2.getX(),
+				point1.getY() - point2.getY());
+
+		// Log.debug("DISTANCE: " + distance);
+
+		return distance < 20;
 	}
 
 	public void mousePressed(PointerEventType type) {
@@ -402,6 +476,9 @@ public class ModeDelete {
 				if (ec.getMouseLoc() != null) {
 					eventX = ec.getMouseLoc().getX();
 					eventY = ec.getMouseLoc().getY();
+					rect.setBounds(eventX - ec.getDeleteToolSize() / 2,
+							eventY - ec.getDeleteToolSize() / 2,
+							ec.getDeleteToolSize(), ec.getDeleteToolSize());
 				} else {
 					return false;
 				}
@@ -441,14 +518,167 @@ public class ModeDelete {
 										- view.toScreenCoordYd(p.inhomY))) <= ec
 												.getDeleteToolSize() / 2.0) {
 
-							dataPoints[i].setUndefined();
-							dataPoints[i].resetDefinition();
+							// end point of segment is in rectangle
+							if ((i - 1 >= 0 && dataPoints[i - 1].isDefined())) {
+								// get intersection point
+								getAllIntersectionPoint(dataPoints[i - 1],
+										dataPoints[i], rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() == 1) {
+									double realX = view.toRealWorldCoordX(
+											interPoints.get(0).getX());
+									double realY = view.toRealWorldCoordY(
+											interPoints.get(0).getY());
+									// switch old point with intersection point
+									dataPoints[i].setCoords(realX, realY, 1);
+								}
+								// no intersection point
+								else if (interPoints.isEmpty()) {
+									double pointX = view.toScreenCoordXd(
+											dataPoints[i - 1].getInhomX());
+									double pointY = view.toScreenCoordYd(
+											dataPoints[i - 1].getInhomY());
+									GPoint2D point = AwtFactory.getPrototype()
+											.newPoint2D(pointX, pointY);
+									// if the first point is also inside of
+									// rectangle
+									if (rect.contains(point)) {
+										// we can set the end point to undefined
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+								// TODO handle more than one intersection points
+								else {
+									// Log.debug(
+									// "LIST_SIZE: " + interPoints.size());
+									/*
+									 * double realX = view.toRealWorldCoordX(
+									 * interPoints.get(0).getX()); double realY
+									 * = view.toRealWorldCoordY(
+									 * interPoints.get(0).getY()); // switch old
+									 * point with intersection point
+									 * dataPoints[i].setCoords(realX, realY, 1);
+									 * GeoPointND[] newDataPoints = new
+									 * GeoPointND[dataPoints.length + 1];
+									 * newDataPoints = Arrays
+									 * .copyOfRange(dataPoints, 0, i);
+									 */
+									if (areClose(interPoints.get(0),
+											interPoints.get(1))) {
+										double realX = view.toRealWorldCoordX(
+												interPoints.get(0).getX());
+										double realY = view.toRealWorldCoordY(
+												interPoints.get(0).getY());
+										// switch old point with intersection
+										// point
+										dataPoints[i].setCoords(realX, realY,
+												1);
+									} else {
+										// Log.debug("ARE_NOT_CLOSE");
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+							}
+							// start point of segment is in rectangle
+							else if (i - 1 >= 0
+									&& !dataPoints[i - 1].isDefined()
+									&& i + 1 < dataPoints.length
+									&& dataPoints[i + 1].isDefined()) {
+								// get intersection point
+								getAllIntersectionPoint(dataPoints[i],
+										dataPoints[i + 1], rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() == 1) {
+									double realX = view.toRealWorldCoordX(
+											interPoints.get(0).getX());
+									double realY = view.toRealWorldCoordY(
+											interPoints.get(0).getY());
+									// switch old point with intersection point
+									dataPoints[i].setCoords(realX, realY, 1);
+								}
+								// no intersection
+								else if (interPoints.isEmpty()) {
+									double pointX = view.toScreenCoordXd(
+											dataPoints[i + 1].getInhomX());
+									double pointY = view.toScreenCoordYd(
+											dataPoints[i + 1].getInhomY());
+									GPoint2D point = AwtFactory.getPrototype()
+											.newPoint2D(pointX, pointY);
+									// if end point is also inside of the
+									// rectangle
+									if (rect.contains(point)) {
+										// we can set point the start point at
+										// undefined
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+								// TODO handle more intersection points
+								else {
+									// Log.debug(
+									// "LIST_SIZE: " + interPoints.size());
+									if (areClose(interPoints.get(0),
+											interPoints.get(1))) {
+										double realX = view.toRealWorldCoordX(
+												interPoints.get(0).getX());
+										double realY = view.toRealWorldCoordY(
+												interPoints.get(0).getY());
+										// switch old point with intersection
+										// point
+										dataPoints[i].setCoords(realX, realY,
+												1);
+									} else {
+										// Log.debug("ARE_NOT_CLOSE");
+										dataPoints[i].setUndefined();
+										dataPoints[i].resetDefinition();
+									}
+								}
+							}
+							// handle first point and last point
+							else if ((i == 0 && ((i + 1 < dataPoints.length
+									&& !dataPoints[i + 1].isDefined())
+									|| (i + 1 == dataPoints.length)))
+									|| (i - 1 >= 0
+											&& !dataPoints[i - 1].isDefined()
+											&& i + 1 == dataPoints.length)) {
+								dataPoints[i].setUndefined();
+								dataPoints[i].resetDefinition();
+							}
+							// handle single remained point
+							else if (i - 1 >= 0
+									&& !dataPoints[i - 1].isDefined()
+									&& i + 1 < dataPoints.length
+									&& !dataPoints[i + 1].isDefined()) {
+								dataPoints[i].setUndefined();
+								dataPoints[i].resetDefinition();
+							}
+
+							if (as == null) {
+								as = dataPoints[i].getAlgoUpdateSet();
+							} else {
+								as.addAll(dataPoints[i].getAlgoUpdateSet());
+							}
+						} else {
+							if (i < dataPoints.length - 1
+									&& dataPoints[i].isDefined()
+									&& dataPoints[i + 1].isDefined()) {
+								getAllIntersectionPoint(dataPoints[i],
+										dataPoints[i + 1], rect);
+								if (!interPoints.isEmpty()
+										&& interPoints.size() >= 2) {
+									dataPoints[i].setUndefined();
+									dataPoints[i].resetDefinition();
+								}
+							}
 							if (as == null) {
 								as = dataPoints[i].getAlgoUpdateSet();
 							} else {
 								as.addAll(dataPoints[i].getAlgoUpdateSet());
 							}
 						}
+
 						if (lastWasVisible && dataPoints[i].isDefined()) {
 							hasVisibleLine = true;
 						}
