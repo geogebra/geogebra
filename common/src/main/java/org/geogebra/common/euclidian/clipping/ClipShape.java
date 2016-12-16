@@ -351,23 +351,18 @@ public class ClipShape {
 		 */
 		private double[] t2;
 		private double[] eqn;
-		// private GCubicCurve2D solver;
 
 		public int evaluateInverse(double x, double[] dest, int offset) {
 			if (eqn == null) {
 				eqn = new double[4];
 			}
 
-			// if (solver == null) {
-			// solver = AwtFactory.getPrototype().newCubicCurve2D();
-			// }
-
 			eqn[0] = d - x;
 			eqn[1] = c;
 			eqn[2] = b;
 			eqn[3] = a;
 			if (offset == 0) {
-				// int k = CubicCurve2D.solveCubic(eqn,dest);
+				// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,dest);
 				int k = AwtFactory.getPrototype().solveCubic(eqn, dest);
 				if (k < 0)
 					return 0;
@@ -375,7 +370,7 @@ public class ClipShape {
 			}
 			if (t2 == null)
 				t2 = new double[3];
-			// int k = CubicCurve2D.solveCubic(eqn,t2);
+			// int k = java.awt.geom.CubicCurve2D.solveCubic(eqn,t2);
 			int k = AwtFactory.getPrototype().solveCubic(eqn, t2);
 			if (k < 0)
 				return 0;

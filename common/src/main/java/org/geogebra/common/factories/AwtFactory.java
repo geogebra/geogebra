@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GEllipse2DFloat;
@@ -103,11 +102,6 @@ public abstract class AwtFactory {
 	public abstract GArea newArea(GShape shape);
 
 	public abstract GGeneralPath newGeneralPath(int rule);
-
-	public GCubicCurve2D newCubicCurve2D() {
-		// TODO remove this method
-		return null;
-	}
 
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
