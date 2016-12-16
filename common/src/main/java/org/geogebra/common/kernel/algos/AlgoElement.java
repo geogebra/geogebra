@@ -60,7 +60,14 @@ public abstract class AlgoElement extends ConstructionElement
 	private GeoElementND[] efficientInput;
 
 	private boolean isPrintedInXML = true;
-	protected boolean stopUpdateCascade = false;
+	private boolean stopUpdateCascade = false;
+	/**
+	 * list of registered outputHandler of this AlgoElement
+	 */
+	private List<OutputHandler<?>> outputHandler;
+	private boolean mayHaveRandomAncestors = true;
+	/** string builder */
+	protected StringBuilder sbAE = new StringBuilder();
 
 	/**
 	 * Creates new algorithm
@@ -162,11 +169,7 @@ public abstract class AlgoElement extends ConstructionElement
 		return output.length;
 	}
 
-	/**
-	 * list of registered outputHandler of this AlgoElement
-	 */
-	private List<OutputHandler<?>> outputHandler;
-	private boolean mayHaveRandomAncestors = true;
+
 
 	/**
 	 * One OutputHandler has been changed, we put together the new output.
@@ -481,6 +484,10 @@ public abstract class AlgoElement extends ConstructionElement
 			return outputList.size();
 		}
 
+		/**
+		 * @param labels2
+		 *            output labels
+		 */
 		public void setLabelsMulti(String[] labels2) {
 			// if only one label (e.g. "A") for more than one output, new labels
 			// will be A_1, A_2, ...
@@ -705,6 +712,9 @@ public abstract class AlgoElement extends ConstructionElement
 		return input[i];
 	}
 
+	/**
+	 * @return input without local variables
+	 */
 	public GeoElement[] getInputForUpdateSetPropagation() {
 		return input;
 	}
@@ -739,12 +749,21 @@ public abstract class AlgoElement extends ConstructionElement
 		doSetDependencies();
 	}
 
+	/**
+	 * Set output dependencies and add to cons list
+	 */
 	protected void doSetDependencies() {
 		this.mayHaveRandomAncestors = true;
 		setOutputDependencies();
 		cons.addToAlgorithmList(this);
 	}
 
+	/**
+	 * @param standardInput
+	 *            input
+	 * @param efficientInput
+	 *            input without moving point for locus
+	 */
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
 			GeoElementND[] efficientInput) {
 		// dependens on standardInput
@@ -778,6 +797,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * sets the given geo to be child of this algo
 	 * 
 	 * @param output
+	 *            output element
 	 */
 	protected void setOutputDependencies(GeoElement output) {
 		// parent algorithm of output
@@ -834,7 +854,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		// delete from algorithm lists of input
 		for (int i = 0; i < input.length; i++) {
-			if (!protectedInput && input[i].canBeRemovedAsInput()
+			if (!isProtectedInput() && input[i].canBeRemovedAsInput()
 					&& !input[i].isLabelSet() && !input[i].isGeoCasCell())
 				input[i].remove();
 			input[i].removeAlgorithm(this);
@@ -848,7 +868,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
-	public boolean protectedInput = false;
+	private boolean protectedInput = false;
 
 	/**
 	 * sets if the "not labeled" inputs are protected from remove
@@ -1066,6 +1086,12 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
+	/**
+	 * @param set
+	 *            predecessors set
+	 * @param check
+	 *            filter for adding predecessors
+	 */
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			Inspecting check) {
 		for (int i = 0; i < input.length; i++) {
@@ -1080,6 +1106,10 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 	}
 
+	/**
+	 * @param set
+	 *            set of randomizable predecessors
+	 */
 	public final void addRandomizablePredecessorsToSet(
 			TreeSet<GeoElement> set) {
 		for (int i = 0; i < input.length; i++) {
@@ -1140,7 +1170,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	protected StringBuilder sbAE = new StringBuilder();
 
 	@Override
 	public String getNameDescription() {
@@ -1157,6 +1186,11 @@ public abstract class AlgoElement extends ConstructionElement
 		return sbAE.toString();
 	}
 
+	/**
+	 * @param tpl
+	 *            template
+	 * @return regression output
+	 */
 	public String getAlgebraDescriptionRegrOut(StringTemplate tpl) {
 		sbAE.setLength(0);
 
@@ -1660,18 +1694,35 @@ public abstract class AlgoElement extends ConstructionElement
 		return getDefinition(tpl);
 	}
 
+	/**
+	 * May differ from toString where LHS is needed
+	 * 
+	 * @param tpl
+	 *            string template
+	 * @return expression string
+	 */
 	protected String toExpString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
-	final boolean doStopUpdateCascade() {
+	/**
+	 * @return whether this algo should stop updateCascade calls
+	 */
+	protected final boolean doStopUpdateCascade() {
 		return stopUpdateCascade;
 	}
 
+	/**
+	 * @param stopUpdateCascade
+	 *            whether this algo should stop updateCascade calls
+	 */
 	protected final void setStopUpdateCascade(boolean stopUpdateCascade) {
 		this.stopUpdateCascade = stopUpdateCascade;
 	}
 
+	/**
+	 * @return whether this needs to be updated when stepping through cons
+	 */
 	public boolean wantsConstructionProtocolUpdate() {
 		return false;
 	}
@@ -1768,6 +1819,11 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
+	/**
+	 * Check for undefined inputs, may be overridden
+	 * 
+	 * @return whether all relevant inputs are defined
+	 */
 	public boolean isUndefined() {
 		for (GeoElement geo : getInput()) {
 			if (!geo.isDefined()) {
@@ -1780,6 +1836,13 @@ public abstract class AlgoElement extends ConstructionElement
 	@Override
 	public String toString(GTemplate tpl) {
 		return toString(tpl.getTemplate());
+	}
+
+	/**
+	 * @return whether input is protected from deletion
+	 */
+	public boolean isProtectedInput() {
+		return protectedInput;
 	}
 
 }
