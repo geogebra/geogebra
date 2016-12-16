@@ -1900,7 +1900,7 @@ __GGB__keysVar.fr.menu = {
     "IgnoreDocumentLayout": "Ignorer pr\xe9sentation du document",
     "IllegalArgumentAinCustomToolB": "Argument ill\xe9gal %0 dans l'Outil utilisateur %1",
     "Image": "Image",
-    "Image.Help": "Cliquer dans la feuille, ou sur le point[cr\xe9\xe9] coin inf\xe9rieur gauche",
+    "Image.Help": "Cliquer dans la feuille.",
     "Image.Tool": "Image",
     "Images": "Images",
     "ImplicitConicEquation": "a x\xb2 + b xy + c y\xb2 + d x + e y = f",
