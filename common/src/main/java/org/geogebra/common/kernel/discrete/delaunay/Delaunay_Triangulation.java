@@ -672,6 +672,11 @@ public class Delaunay_Triangulation {
 			neighbor = halfplane.next_23();
 		} else if (!halfplane.next_23().isHalfplane()) {
 			neighbor = halfplane.next_31();
+		} else {
+			Log.error("problem in Delaunay_Triangulation");
+			// TODO fix added by GeoGebra
+			// should we do something else?
+			return null;
 		}
 
 		// find third point of neighbor triangle
@@ -687,7 +692,7 @@ public class Delaunay_Triangulation {
 				&& !neighbor.p3().equals(halfplane.p2())) {
 			third = neighbor.p3();
 		} else {
-			Log.debug("problem in Delaunay_Triangulation");
+			Log.error("problem in Delaunay_Triangulation");
 			// TODO fix added by GeoGebra
 			// should we do something else?
 			return null;

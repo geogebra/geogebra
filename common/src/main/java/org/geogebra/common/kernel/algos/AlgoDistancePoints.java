@@ -41,7 +41,6 @@ public class AlgoDistancePoints extends AlgoElement
 	private GeoPointND P, Q; // input
 	private GeoNumeric dist; // output
 
-	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
 
 	public AlgoDistancePoints(Construction cons, GeoPointND P, GeoPointND Q) {

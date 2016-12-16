@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Set to store AlgoElement objects for updating.
@@ -306,6 +307,9 @@ public class AlgorithmSet {
 
 		public AlgoElement next() {
 			AlgoElement ret = cur.algo;
+			if (cur == null) {
+				throw new NoSuchElementException();
+			}
 			cur = cur.next;
 			return ret;
 		}

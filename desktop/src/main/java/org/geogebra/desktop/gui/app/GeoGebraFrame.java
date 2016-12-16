@@ -40,6 +40,7 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -555,8 +556,11 @@ public class GeoGebraFrame extends JFrame
 		/**
 		 * Downloads newest GeoGebra .jar files and puts them into the user's
 		 * AppData directory. Also downloads license.txt.
+		 * 
+		 * @throws IOException
 		 */
-		private void downloadGeoGebraJars() {
+		private void downloadGeoGebraJars() throws IOException {
+			ZipInputStream zis = null;
 			try {
 				// Creating working directory:
 				String updateDir = System.getenv("APPDATA")
@@ -577,7 +581,7 @@ public class GeoGebraFrame extends JFrame
 				// Borrowed from
 				// http://www.concretepage.com/java/read_zip_file_java.php:
 				InputStream is = new FileInputStream(filename);
-				ZipInputStream zis = new ZipInputStream(is);
+				zis = new ZipInputStream(is);
 				ZipEntry ze;
 				byte[] buff = new byte[1024];
 				while ((ze = zis.getNextEntry()) != null) {
@@ -586,18 +590,26 @@ public class GeoGebraFrame extends JFrame
 					FileOutputStream fos = new FileOutputStream(
 							updateDir + File.separator + name);
 					Log.debug("Extracting " + name);
-					int l = 0;
-					// write buffer to file
-					while ((l = zis.read(buff)) > 0) {
-						fos.write(buff, 0, l);
+					try {
+
+						int l = 0;
+						// write buffer to file
+						while ((l = zis.read(buff)) > 0) {
+							fos.write(buff, 0, l);
+						}
+					} finally {
+						fos.close();
 					}
-					fos.close();
 				}
-				zis.close();
+
 				dest.delete();
 
 			} catch (Exception e) {
 				Log.error("Unsuccessful update");
+			} finally {
+				if (zis != null) {
+					zis.close();
+				}
 			}
 		}
 

@@ -14,6 +14,7 @@ package org.geogebra.common.euclidian;
 
 //import java.awt.Graphics2D;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -284,6 +285,9 @@ public class DrawableList {
 
 		final public Drawable next() {
 			Drawable ret = it.d;
+			if (it == null) {
+				throw new NoSuchElementException();
+			}
 			it = it.next;
 			return ret;
 		}

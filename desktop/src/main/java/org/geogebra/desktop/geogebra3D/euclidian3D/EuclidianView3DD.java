@@ -567,11 +567,11 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
-			File file, boolean exportToClipboard, ExportType exportType) {
+			File file, boolean exportToClipboard0, ExportType exportType) {
 
 		exportDPI = dpi;
 		exportFile = file;
-		this.exportToClipboard = exportToClipboard;
+		this.exportToClipboard = exportToClipboard0;
 
 		getRenderer().needExportImage(scale, false);
 	}

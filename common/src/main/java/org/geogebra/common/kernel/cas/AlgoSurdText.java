@@ -1609,7 +1609,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		private class IntRelation implements Comparable<IntRelation> {
 
 			private int size;
-			double sig;
+			final double sig;
 			// private double norm2; //norm of the vector m squared
 			// private int normInf;
 
@@ -1624,8 +1624,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			public IntRelation(int n, MyDecimalMatrix B, MyDecimalMatrix xB,
 					double sig) {
 
-				if (n == 0)
+				if (n == 0) {
+					this.sig = 0;
 					return;
+				}
 				this.size = n;
 				this.B1 = B.copy();
 				this.xB1 = xB.copy();
@@ -1723,6 +1725,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				return false;
 			}
 
+			@Override
+			public int hashCode() {
+				return (int) (1E8 * sig);
+			}
 
 		}
 
