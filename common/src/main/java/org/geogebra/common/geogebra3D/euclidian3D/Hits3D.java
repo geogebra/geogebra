@@ -69,7 +69,7 @@ public class Hits3D extends Hits {
 
 	private Hits topHits = new Hits();
 
-	private transient ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
+	private ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
 
 	/** number of quadrics 2D */
 	private int QuadCount;

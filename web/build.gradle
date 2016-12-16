@@ -196,4 +196,5 @@ test {
 
 findbugs {
     ignoreFailures = true
+    excludeFilter = file("src/main/config/findbugs.xml")
 }
