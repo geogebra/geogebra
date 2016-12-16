@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -121,8 +120,6 @@ public abstract class AwtFactory {
 	public abstract GPaint newTexturePaint(MyImage subimage, GRectangle rect);
 
 	public abstract GFont newFont(String name, int style, int size);
-
-	public abstract GPolygon newPolygon();
 
 	public static GAffineTransform getTranslateInstance(double tx, double ty) {
 		GAffineTransform Tx = prototype.newAffineTransform();

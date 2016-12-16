@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GGradientPaint;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -52,7 +51,6 @@ import org.geogebra.desktop.awt.GGenericRectangle2DD;
 import org.geogebra.desktop.awt.GGradientPaintD;
 import org.geogebra.desktop.awt.GLine2DD;
 import org.geogebra.desktop.awt.GPoint2DD;
-import org.geogebra.desktop.awt.GPolygonD;
 import org.geogebra.desktop.awt.GQuadCurve2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.awt.GTextLayoutD;
@@ -276,11 +274,6 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GFont newFont(String name, int style, int size) {
 		return new GFontD(new Font(name, style, size));
-	}
-
-	@Override
-	public GPolygon newPolygon() {
-		return new GPolygonD();
 	}
 
 	public BasicStroke getAwtStroke(GBasicStroke s) {

@@ -18,7 +18,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
@@ -35,7 +34,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Line2D;
 import org.geogebra.ggbjdk.java.awt.geom.Point2D;
-import org.geogebra.ggbjdk.java.awt.geom.Polygon;
 import org.geogebra.ggbjdk.java.awt.geom.QuadCurve2D;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
@@ -249,11 +247,6 @@ public class AwtFactoryW extends AwtFactory {
 		return new GTexturePaintW(
 				new GBufferedImageW(((MyImageW) subimage).getImage()));
 
-	}
-
-	@Override
-	public GPolygon newPolygon() {
-		return new Polygon();
 	}
 
 	// to make code more efficient in the following method

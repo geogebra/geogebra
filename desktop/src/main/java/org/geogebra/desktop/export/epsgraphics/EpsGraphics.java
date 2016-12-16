@@ -41,7 +41,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
@@ -1095,9 +1094,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws a polygon.
 	 */
-	public void drawPolygon(GPolygon p) {
-		draw(p);
-	}
+	// public void drawPolygon(GPolygon p) {
+	// draw(p);
+	// }
 
 	/**
 	 * Fills a polygon made with the specified points.
@@ -1111,9 +1110,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Fills a polygon.
 	 */
-	public void fillPolygon(GPolygon p) {
-		draw(p, "fill", false);
-	}
+	// public void fillPolygon(GPolygon p) {
+	// draw(p, "fill", false);
+	// }
 
 	/**
 	 * Draws the specified characters, starting from (x,y)
