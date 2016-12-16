@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.CmdIf;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -253,12 +254,8 @@ public class CommandDispatcherGiac {
 					return new ExpressionNode(kernel, Double.NaN);
 				}
 
-				ret = new ExpressionNode(kernel,
-						new MyNumberPair(kernel, args.getItem(0),
-								args.getItem(1)),
-						Operation.IF_ELSE, args.getItem(2));
+				return CmdIf.expandIf(kernel, args);
 
-				break;
 			case exact:
 				// just return argument
 				ret = new ExpressionNode(kernel, args.getItem(0));

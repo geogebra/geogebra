@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.GetItem;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>,
@@ -42,6 +44,35 @@ public class CmdIf extends CommandProcessor {
 	 */
 	public CmdIf(Kernel kernel) {
 		super(kernel);
+	}
+
+	// @Override
+	// public ExpressionValue simplify(Command c) {
+	// return expandIf(kernelA, c);
+	// }
+
+	public static ExpressionNode expandIf(Kernel kernelA, GetItem c) {
+		MyList conditions = new MyList(kernelA);
+		MyList alternatives = new MyList(kernelA);
+		int num = c.getLength();
+		if (num == 3) {
+			return new ExpressionNode(kernelA,
+					new MyNumberPair(kernelA, c.getItem(0), c.getItem(1)),
+					Operation.IF_ELSE, c.getItem(2));
+		}
+		for (int i = 0; i < num - 1; i += 2) {
+			conditions.addListElement(c.getItem(i));
+		}
+		for (int i = 1; i < num; i += 2) {
+			alternatives.addListElement(c.getItem(i));
+		}
+		if (MyDouble.isOdd(num)) {
+			alternatives.addListElement(c.getItem(num - 1));
+		}
+		Log.debug(conditions.size() + ":" + alternatives.size());
+		return new ExpressionNode(kernelA, conditions, Operation.IF_LIST,
+				alternatives);
+
 	}
 
 	// @Override
