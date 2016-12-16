@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GFont;
@@ -44,7 +43,6 @@ import org.geogebra.desktop.awt.GArc2DD;
 import org.geogebra.desktop.awt.GAreaD;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
-import org.geogebra.desktop.awt.GCubicCurve2DD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GEllipse2DDoubleD;
 import org.geogebra.desktop.awt.GEllipse2DFloatD;
@@ -236,11 +234,6 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GCubicCurve2D newCubicCurve2D() {
-		return new GCubicCurve2DD();
-	}
-
-	@Override
 	public GBasicStroke newBasicStroke(float f, int cap, int join) {
 		return new GBasicStrokeD(f, cap, join);
 	}
@@ -303,6 +296,11 @@ public class AwtFactoryD extends AwtFactory {
 	static public BasicStroke getDefaultStrokeAwt() {
 		return ((AwtFactoryD) AwtFactory.getPrototype())
 				.getAwtStroke(EuclidianStatic.getDefaultStroke());
+	}
+
+	@Override
+	public int solveCubic(double[] eqn, double[] dest) {
+		return java.awt.geom.CubicCurve2D.solveCubic(eqn, dest);
 	}
 
 }

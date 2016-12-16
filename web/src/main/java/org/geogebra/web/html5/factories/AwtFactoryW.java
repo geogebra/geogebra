@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GEllipse2DFloat;
@@ -42,7 +41,6 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.awt.GAlphaCompositeW;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
-import org.geogebra.web.html5.awt.GCubicCurve2DW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontRenderContextW;
 import org.geogebra.web.html5.awt.GFontW;
@@ -203,11 +201,6 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GCubicCurve2D newCubicCurve2D() {
-		return new GCubicCurve2DW();
-	}
-
-	@Override
 	public GBasicStroke newBasicStroke(float f, int cap, int join) {
 		return new GBasicStrokeW(f, cap, join);
 	}
@@ -315,5 +308,10 @@ public class AwtFactoryW extends AwtFactory {
 			}
 		}
 	}
+	
+	public int solveCubic(double[] eqn, double[] dest) {
+		return org.geogebra.ggbjdk.java.awt.geom.CubicCurve2D.solveCubic(eqn, dest);
+	}
+
 
 }

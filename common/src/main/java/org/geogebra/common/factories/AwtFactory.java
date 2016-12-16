@@ -104,7 +104,10 @@ public abstract class AwtFactory {
 
 	public abstract GGeneralPath newGeneralPath(int rule);
 
-	public abstract GCubicCurve2D newCubicCurve2D();
+	public GCubicCurve2D newCubicCurve2D() {
+		// TODO remove this method
+		return null;
+	}
 
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
@@ -157,5 +160,7 @@ public abstract class AwtFactory {
 		// needed in web only
 
 	}
+
+	public abstract int solveCubic(double[] eqn, double[] dest);
 
 }
