@@ -778,7 +778,7 @@ public class Kernel {
 		if (prev instanceof GeoCasCell
 				&& ((GeoCasCell) prev).getTwinGeo() != null
 				&& ((GeoCasCell) prev).getTwinGeo().isAlgebraVisible()) {
-			step--;
+			return step - 1;
 		}
 		return step;
 	}
@@ -1579,6 +1579,21 @@ public class Kernel {
 		return max;
 	}
 
+	/**
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            variables
+	 * @param KEEP_LEADING_SIGN
+	 *            whether output may start with -
+	 * @param CANCEL_DOWN
+	 *            whether we want to cancel GCD
+	 * @param needsZ
+	 *            whether explicit Z is necessary
+	 * @param tpl
+	 *            template
+	 * @return LHS string
+	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
 			StringTemplate tpl) {
@@ -2371,6 +2386,15 @@ public class Kernel {
 		return ((x - eps) <= y) && (y <= (x + eps));
 	}
 
+	/**
+	 * @param x
+	 *            first compared number
+	 * @param y
+	 *            second compared number
+	 * @param eps
+	 *            maximum difference
+	 * @return whether the x-eps &lt; y &lt; x+eps
+	 */
 	final public static boolean isEqual(double x, double y, double eps) {
 		if (x == y) {
 			return true;
@@ -2380,6 +2404,12 @@ public class Kernel {
 
 	/**
 	 * Returns whether x is greater than y
+	 * 
+	 * @param x
+	 *            first compared number
+	 * @param y
+	 *            second compared number
+	 * @return x &gt; y + STANDARD_PRECISION
 	 */
 	final public static boolean isGreater(double x, double y) {
 		return x > (y + STANDARD_PRECISION);
@@ -3938,9 +3968,11 @@ public class Kernel {
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
 					// needed for GGB-808
 					// geoCasCell is already removed from cas view
-					if (!(view.getViewID() == App.VIEW_CAS
-							&& geo instanceof GeoCasCell)) {
+					if (view.getViewID() == App.VIEW_CAS) {
+						removeFromCAS(view, geo);
+					} else {
 						view.remove(geo);
+
 					}
 				}
 			}
@@ -3948,6 +3980,18 @@ public class Kernel {
 		}
 
 		notifyRenameListenerAlgos();
+	}
+
+	/**
+	 * Remove object from CAS, ignore CAS cells with index -1 as they were
+	 * removed in Construction.removeFromConstructionList
+	 */
+	private static void removeFromCAS(View view, GeoElement geo) {
+		if (geo instanceof GeoCasCell
+				&& geo.getConstructionIndex() < 0) {
+			return;
+		}
+		view.remove(geo);
 	}
 
 	public final void movingGeoSet() {
@@ -4296,7 +4340,7 @@ public class Kernel {
 		return insertLineBreaks;
 	}
 
-	final public String getXMLFileFormat() {
+	static public String getXMLFileFormat() {
 		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
 
