@@ -91,8 +91,7 @@ public class MathFieldController {
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
 		renderer.getBox().getPath(x / size, y / size, list);
-		graphics.reset();
-		renderer.paintIcon(null, graphics, 0, 0);
+		drawWithStub(renderer);
 	}
 
 	public void getSelectedPath(MathFormula mathFormula,
@@ -106,8 +105,7 @@ public class MathFieldController {
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
 		renderer.getBox().getSelectedPath(list, 0);
-		graphics.reset();
-		renderer.paintIcon(null, graphics, 0, 0);
+		drawWithStub(renderer);
 	}
 
 	public void setSelectedPath(MathFormula mathFormula,
@@ -134,7 +132,10 @@ public class MathFieldController {
 			state.setCurrentOffset(idx);
 			state.setCurrentField((MathSequence) rootComponent);
 		}
-
 	}
 
+	public void drawWithStub(TeXIcon icon) {
+		graphics.reset();
+		icon.paintIcon(null, graphics, 0, 0);
+	}
 }
