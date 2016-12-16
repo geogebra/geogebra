@@ -207,7 +207,7 @@ public class EuclidianPen implements GTimerListener {
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
 		lineOpacity = 10;
-		setAbsoluteScreenPosition(true);
+		setAbsoluteScreenPosition(false);
 	}
 
 	/**
