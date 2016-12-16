@@ -1193,7 +1193,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	@Override
 	public void remove() {
 		super.remove();
-		if (protectedInput) {
+		if (isProtectedInput()) {
 			return;
 		}
 

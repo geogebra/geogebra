@@ -32,7 +32,7 @@ public class AlgoDependentCasCell extends AlgoElement
 	public AlgoDependentCasCell(GeoCasCell casCell) {
 		super(casCell.getConstruction());
 		this.casCell = casCell;
-		protectedInput = true;
+		setProtectedInput(true);
 		// make sure all input geos' values are present in the CAS
 		initInput();
 
@@ -170,7 +170,7 @@ public class AlgoDependentCasCell extends AlgoElement
 
 	@Override
 	public void update() {
-		if (stopUpdateCascade) {
+		if (doStopUpdateCascade()) {
 			return;
 		}
 

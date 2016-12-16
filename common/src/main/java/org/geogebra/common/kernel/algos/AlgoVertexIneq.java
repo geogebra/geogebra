@@ -514,7 +514,7 @@ public class AlgoVertexIneq extends AlgoElement {
 
 	private void setHelper(int i, int j, AlgoElement algo) {
 		helpers[i][j] = algo;
-		algo.protectedInput = true;
+		algo.setProtectedInput(true);
 		algo.remove();
 	}
 

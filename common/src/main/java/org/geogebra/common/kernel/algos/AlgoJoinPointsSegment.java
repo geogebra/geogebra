@@ -69,7 +69,7 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		// parent polygon
 		if (poly != null) {
 			setUpdateAfterAlgo(poly.getParentAlgorithm());
-			protectedInput = true;
+			setProtectedInput(true);
 		}
 
 		this.poly = poly;
