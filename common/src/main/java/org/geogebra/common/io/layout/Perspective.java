@@ -90,7 +90,7 @@ public class Perspective {
 			"GeoGebra3DGrapher.short", "Perspective.Probability",
 			"Whiteboard" };
 	/** slugs for web app url / tutorials url */
-	final public static String[] perspectiveSlugs = new String[] { "graphing",
+	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",
 			"whiteboard" };
 
