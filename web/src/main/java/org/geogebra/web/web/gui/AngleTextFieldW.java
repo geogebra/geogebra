@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -125,8 +126,15 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	}
 
 	public void addDummyCursor() {
-		int caretPos = getCursorPos();
-		addDummyCursor(caretPos);
+		if (dummyCursor) {
+			return;
+		}
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				int caretPos = getCursorPos();
+				addDummyCursor(caretPos);
+			}
+		});
 	}
 
 

@@ -726,8 +726,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	public void addDummyCursor() {
-		int caretPos = getCaretPosition();
-		addDummyCursor(caretPos);
+		if (dummyCursor) {
+			return;
+		}
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				int caretPos = getCaretPosition();
+				addDummyCursor(caretPos);
+			}
+		});
 	}
 
 	public void removeDummyCursor() {

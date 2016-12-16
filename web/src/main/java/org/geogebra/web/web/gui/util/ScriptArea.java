@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -125,8 +126,15 @@ public class ScriptArea extends TextArea
 	}
 
 	public void addDummyCursor() {
-		int caretPos = getCursorPos();
-		addDummyCursor(caretPos);
+		if (dummyCursor) {
+			return;
+		}
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				int caretPos = getCursorPos();
+				addDummyCursor(caretPos);
+			}
+		});
 	}
 
 	public void removeDummyCursor() {
