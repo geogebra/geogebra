@@ -190,8 +190,8 @@ public class RadioTreeItemController
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
-			if (isEditing()) {
-				// return;
+			if (isEditing() && !item.isInputTreeItem()) {
+				return;
 			}
 		}
 		if (!isEditing()) {
