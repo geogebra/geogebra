@@ -326,7 +326,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 				@Override
 				public void run() {
-					html.getElement().focus();
+					onFocusTimer();
 
 				}
 			};
@@ -346,6 +346,15 @@ public class MathFieldW implements MathField, IsWidget {
 			instances.remove(this);
 		}
 		this.focused = focus;
+	}
+
+	/**
+	 * Make sure the HTML element has focus and update to render cursor
+	 */
+	protected void onFocusTimer() {
+		mathFieldInternal.update();
+		html.getElement().focus();
+
 	}
 
 	private native void installPaste() /*-{
