@@ -320,6 +320,14 @@ public class PolygonTriangulation {
 			return 0;
 		}
 
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof Point) {
+				return compareTo((Point) o) == 0;
+			}
+			return false;
+		}
+
 		final public int compareToOnly(Point p2) {
 
 			// smallest x
@@ -529,6 +537,14 @@ public class PolygonTriangulation {
 
 			// same ptp
 			return 0;
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof Segment) {
+				return compareTo((Segment) o) == 0;
+			}
+			return false;
 		}
 	}
 

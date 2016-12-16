@@ -82,6 +82,15 @@ public class GeoConicSection extends GeoConic3D
 
 			return 1; // never return 0 to ensure having four parameters
 		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof IndexedParameter) {
+				return compareTo((IndexedParameter) o) == 0;
+			}
+			return false;
+		}
+
 	}
 
 	private TreeSet<IndexedParameter> parametersTree = new TreeSet<IndexedParameter>();

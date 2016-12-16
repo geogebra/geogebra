@@ -1715,6 +1715,15 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				return 0;
 			}
 
+			@Override
+			public boolean equals(Object o) {
+				if (o instanceof IntRelation) {
+					return compareTo((IntRelation) o) == 0;
+				}
+				return false;
+			}
+
+
 		}
 
 	}
