@@ -272,7 +272,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	}
 
 	public void setMacro(Macro m) {
-
+		this.macro = m;
 		tfCmdName.setText(m == null ? "" : m.getCommandName());
 		tfToolName.setText(m == null ? "" : m.getToolName());
 		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
