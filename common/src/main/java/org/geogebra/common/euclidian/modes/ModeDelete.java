@@ -42,6 +42,7 @@ public class ModeDelete {
 		if (e == null) {
 			return;
 		}
+
 		int eventX = e.getX();
 		int eventY = e.getY();
 		rect.setBounds(eventX - deleteSize / 2, eventY - deleteSize / 2,
@@ -62,7 +63,13 @@ public class ModeDelete {
 		AlgorithmSet as = null;
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo instanceof GeoPenStroke) {
+			// delete tool should delete the object for dragging
+			// at whiteboard
+			// see MOW-97
+			if (view.getApplication().isWhiteBoard()
+					&& ec.getMode() == EuclidianConstants.MODE_DELETE) {
+				geo.removeOrSetUndefinedIfHasFixedDescendent();
+			} else if (geo instanceof GeoPenStroke) {
 				GeoPenStroke gps = (GeoPenStroke) geo;
 
 				// we need two arrays for the case that AlgoAttachCopyToView is

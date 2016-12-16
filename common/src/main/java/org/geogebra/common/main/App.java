@@ -4319,6 +4319,10 @@ public abstract class App implements UpdateSelection {
 
 	;
 
+	public boolean isWhiteBoard() {
+		return false;
+	}
+
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
 
