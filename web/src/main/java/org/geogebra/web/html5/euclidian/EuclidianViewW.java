@@ -50,7 +50,6 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
@@ -74,7 +73,6 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -669,6 +667,8 @@ public class EuclidianViewW extends EuclidianView implements
 			es.addListener(this);
 		}
 
+		addDummyDiv();
+
 	}
 
 	/**
@@ -825,7 +825,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private Object preferredSize;
 
-	private SimplePanel sp;
+	private SimplePanel dummyDiv;
 
 	static public GBasicStrokeW getDefaultStroke() {
 		return standardStroke;
@@ -1219,36 +1219,27 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	private void addDummyDiv() {
+		dummyDiv = new SimplePanel();
+		// can't be tabbed, but can get the focus programmatically
+		dummyDiv.getElement().setTabIndex(-1);
+		RootPanel.get().add(dummyDiv);
+	}
 	public void readText(final String text) {
-		sp = new SimplePanel();
-		sp.getElement().setTabIndex(1);
-		RootPanel.get().add(sp);
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+		String oldAltText = g2p.getAltText();
+		g2p.setAltText(text);
 
-			public void execute() {
-				// text = "something in Euclidian view happens";
-				String oldAltText = g2p.getAltText();
-				g2p.setAltText(text);
+		// RootPanel.getBodyElement().focus();
+		printFocusedElement();
+		// DOM.getElementById("ggbPage").focus();
+		dummyDiv.getElement().focus();
+		// printFocusedElement();
+		// g2p.getCanvas().getCanvasElement().blur();
+		printFocusedElement();
+		g2p.getCanvas().getCanvasElement().focus();
+		printFocusedElement();
 
-				// RootPanel.getBodyElement().focus();
-				printFocusedElement();
-				// DOM.getElementById("ggbPage").focus();
-				// sp.getElement().focus();
-				// printFocusedElement();
-				g2p.getCanvas().getCanvasElement().blur();
-				printFocusedElement();
-				g2p.getCanvas().getCanvasElement().focus();
-				printFocusedElement();
-
-				// g2p.setAltText(oldAltText);
-
-				sp.removeFromParent();
-
-			}
-
-		});
-	
-		
+		// g2p.setAltText(oldAltText);
 	}
 
 	public static native void printFocusedElement()/*-{
