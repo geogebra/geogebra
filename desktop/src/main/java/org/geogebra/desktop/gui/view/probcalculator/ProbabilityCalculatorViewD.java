@@ -769,7 +769,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		if (!probmanagerIsDiscrete())
 			return;
 		int[] firstXLastX = generateFirstXLastXCommon();
-		((ProbabilityTableD) table).setTable(selectedDist, parameters,
+		table.setTable(selectedDist, parameters,
 				firstXLastX[0], firstXLastX[1]);
 	}
 

@@ -71,6 +71,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	private FlowPanel scroller;
 	private int tabIndex;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public StatisticsCalculatorW(App app) {
 		super(app);
 		createGUI();
@@ -119,6 +123,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    
     }
 
+	/**
+	 * Update translation
+	 */
 	void setLabels() {
 		lblResult.setText(app.getMenu("Result"));
 		lblNull.setText(app.getMenu("NullHypothesis"));

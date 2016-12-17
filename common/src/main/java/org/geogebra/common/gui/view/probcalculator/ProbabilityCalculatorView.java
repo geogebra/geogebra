@@ -1879,4 +1879,6 @@ public abstract class ProbabilityCalculatorView
 	protected void setParameterLabels(String[][] parameterLabels) {
 		this.parameterLabels = parameterLabels;
 	}
+
+	public abstract ProbabilityManager getProbManager();
 }

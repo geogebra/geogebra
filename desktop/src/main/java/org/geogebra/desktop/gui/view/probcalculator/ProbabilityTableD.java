@@ -12,6 +12,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.desktop.gui.view.data.StatTable;
@@ -27,9 +28,7 @@ public class ProbabilityTableD extends ProbabilityTable
 	private JPanel wrappedPanel;
 
 	public ProbabilityTableD(AppD app, ProbabilityCalculatorViewD probCalc) {
-		this.app = app;
-		this.probCalc = probCalc;
-		this.probManager = probCalc.getProbManager();
+		super(app, probCalc);
 
 		this.wrappedPanel = new JPanel();
 
@@ -57,15 +56,11 @@ public class ProbabilityTableD extends ProbabilityTable
 
 	public void setTable(DIST distType, double[] parms, int xMin, int xMax) {
 
-		isIniting = true;
+		setIniting(true);
 
-		this.distType = distType;
-		this.xMin = xMin;
-		this.xMax = xMax;
-		this.parms = parms;
-		setColumnNames();
+		this.setTableModel(distType, parms, xMin, xMax);
 
-		statTable.setStatTable(xMax - xMin + 1, null, 2, columnNames);
+		statTable.setStatTable(xMax - xMin + 1, null, 2, getColumnNames());
 
 		DefaultTableModel model = statTable.getModel();
 		int x = xMin;
@@ -77,20 +72,20 @@ public class ProbabilityTableD extends ProbabilityTable
 
 			model.setValueAt("" + x, row, 0);
 			if (distType != null) {
-				prob = probManager.probability(x, parms, distType,
+				prob = getProbManager().probability(x, parms, distType,
 						isCumulative());
-				model.setValueAt("" + probCalc.format(prob), row, 1);
+				model.setValueAt("" + getProbCalc().format(prob), row, 1);
 			}
 			x++;
 			row++;
 		}
 
-		updateFonts(((AppD) app).getPlainFont());
+		updateFonts(((AppD) getApp()).getPlainFont());
 
 		// need to get focus so that the table will finish resizing columns (not
 		// sure why)
 		statTable.getTable().requestFocus();
-		isIniting = false;
+		setIniting(false);
 	}
 
 	public void updateFonts(Font font) {
@@ -107,9 +102,7 @@ public class ProbabilityTableD extends ProbabilityTable
 
 	}
 
-	public void setLabels() {
-		setTable(distType, parms, xMin, xMax);
-	}
+
 
 	public void valueChanged(ListSelectionEvent e) {
 
@@ -118,10 +111,10 @@ public class ProbabilityTableD extends ProbabilityTable
 		int[] selRow = table.getSelectedRows();
 
 		// exit if initing or nothing selected
-		if (isIniting || selRow.length == 0)
+		if (isIniting() || selRow.length == 0)
 			return;
 
-		if (probCalc
+		if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorViewD.PROB_INTERVAL) {
 			// System.out.println(Arrays.toString(selectedRow));
 			String lowStr = (String) table.getModel().getValueAt(selRow[0], 0);
@@ -130,8 +123,8 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) probCalc).setInterval(low, high);
-		} else if (probCalc
+			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
+		} else if (getProbCalc()
 				.getProbMode() == ProbabilityCalculatorViewD.PROB_LEFT) {
 			String lowStr = (String) statTable.getTable().getModel()
 					.getValueAt(0, 0);
@@ -140,7 +133,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) probCalc).setInterval(low, high);
+			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
 
 			// adjust the selection
 			table.getSelectionModel().removeListSelectionListener(this);
@@ -157,8 +150,8 @@ public class ProbabilityTableD extends ProbabilityTable
 						table.getCellRect(selRow[selRow.length - 1], 0, true));
 			}
 			table.getSelectionModel().addListSelectionListener(this);
-		} else if (probCalc
-				.getProbMode() == ProbabilityCalculatorViewD.PROB_RIGHT) {
+		} else if (getProbCalc()
+				.getProbMode() == ProbabilityCalculatorView.PROB_RIGHT) {
 			String lowStr = (String) statTable.getTable().getModel()
 					.getValueAt(selRow[0], 0);
 			int maxRow = statTable.getTable().getRowCount() - 1;
@@ -167,7 +160,7 @@ public class ProbabilityTableD extends ProbabilityTable
 			int low = Integer.parseInt(lowStr);
 			int high = Integer.parseInt(highStr);
 			// System.out.println(low + " , " + high);
-			((ProbabilityCalculatorViewD) probCalc).setInterval(low, high);
+			((ProbabilityCalculatorViewD) getProbCalc()).setInterval(low, high);
 
 			table.getSelectionModel().removeListSelectionListener(this);
 			table.changeSelection(maxRow, 0, false, false);
@@ -189,10 +182,10 @@ public class ProbabilityTableD extends ProbabilityTable
 			statTable.getTable().getSelectionModel()
 					.removeListSelectionListener(this);
 
-			int lowIndex = lowValue - xMin;
+			int lowIndex = lowValue - getXMin();
 			if (lowIndex < 0)
 				lowIndex = 0;
-			int highIndex = highValue - xMin;
+			int highIndex = highValue - getXMin();
 			// System.out.println("-------------");
 			// System.out.println(lowIndex + " , " + highIndex);
 

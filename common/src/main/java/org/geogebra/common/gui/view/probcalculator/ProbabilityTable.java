@@ -16,15 +16,22 @@ public abstract class ProbabilityTable {
 	/**
 	 * Application
 	 */
-	protected App app;
-	protected ProbabilityManager probManager;
-	protected ProbabilityCalculatorView probCalc;
-	protected String[] columnNames;
+	private App app;
+	private ProbabilityManager probManager;
+	private ProbabilityCalculatorView probCalc;
+	private String[] columnNames;
 
-	protected DIST distType;
-	protected int xMin, xMax;
-	protected boolean isIniting;
-	protected double[] parms;
+	private DIST distType;
+	private int xMin;
+	private int xMax;
+	private boolean isIniting;
+	private double[] parms;
+
+	public ProbabilityTable(App app2, ProbabilityCalculatorView probCalc2) {
+		this.app = app2;
+		this.probCalc = probCalc2;
+		this.probManager = probCalc.getProbManager();
+	}
 
 	/**
 	 * @param lowValue
@@ -50,6 +57,71 @@ public abstract class ProbabilityTable {
 
 	protected boolean isCumulative() {
 		return probCalc.isCumulative();
+	}
+
+	public final void setLabels() {
+		setTable(distType, parms, xMin, xMax);
+	}
+
+	public abstract void setTable(DIST distType2, double[] parms2, int xMin2,
+			int xMax2);
+
+	protected ProbabilityManager getProbManager() {
+		return probManager;
+	}
+
+	protected ProbabilityCalculatorView getProbCalc() {
+		return probCalc;
+	}
+
+	protected App getApp() {
+		return app;
+	}
+
+	protected void setApp(App app) {
+		this.app = app;
+	}
+
+	protected DIST getDistType() {
+		return distType;
+	}
+
+	protected void setDistType(DIST distType) {
+		this.distType = distType;
+	}
+
+	protected int getXMin() {
+		return xMin;
+	}
+
+	protected double[] getParms() {
+		return parms;
+	}
+
+	protected boolean isIniting() {
+		return isIniting;
+	}
+
+	protected void setIniting(boolean isIniting) {
+		this.isIniting = isIniting;
+	}
+
+	protected int getxMax() {
+		return xMax;
+	}
+
+	protected String[] getColumnNames() {
+		return columnNames;
+	}
+
+	protected void setTableModel(DIST distType1, double[] parms1, int xMin1,
+			int xMax1) {
+		this.distType = distType1;
+		this.xMin = xMin1;
+		this.xMax = xMax1;
+		this.parms = parms1;
+		setColumnNames();
+
 	}
 
 }
