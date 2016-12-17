@@ -942,14 +942,14 @@ public class Hits extends ArrayList<GeoElement> {
 
 	@Override
 	public String toString() {
-		String s = "hits: " + size();
+		StringBuilder s = new StringBuilder("hits: " + size());
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			s += "\n hits(" + i + ") = "
-					+ geo.getLabel(StringTemplate.defaultTemplate);
+			s.append("\n hits(" + i + ") = "
+					+ geo.getLabel(StringTemplate.defaultTemplate));
 		}
-		return s;
+		return s.toString();
 	}
 
 	/**

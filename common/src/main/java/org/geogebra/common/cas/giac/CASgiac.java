@@ -784,11 +784,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *         commonize.
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret += "," + v.toString() + "=" + substitutions.get(v);
+			ret.append("," + v.toString() + "=" + substitutions.get(v));
 		}
 		if (ret.length() > 0)
 			return ret.substring(1);

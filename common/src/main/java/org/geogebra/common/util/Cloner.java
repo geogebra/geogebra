@@ -1,7 +1,5 @@
 package org.geogebra.common.util;
 
-import java.util.ArrayList;
-
 public class Cloner {
 	public static double[] clone(double[] array) {
 
@@ -81,15 +79,6 @@ public class Cloner {
 			arrayClone[i] = clone(array[i]);
 		}
 		return arrayClone;
-	}
-
-	public static String[] asArray(ArrayList<String> list) {
-		int size = list.size();
-		String[] arr = new String[size];
-		for (int i = 0; i < size; i++) {
-			arr[i] = list.get(i);
-		}
-		return arr;
 	}
 
 	/*

@@ -90,7 +90,7 @@ public class ToolManagerDialogModel {
 		boolean didDeletion = false;
 		boolean changeToolBar = false;
 		boolean foundUsedMacro = false;
-		String macroNames = "";
+		StringBuilder macroNames = new StringBuilder();
 		Kernel kernel = app.getKernel();
 		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
 		deletedMacros.clear();
@@ -113,8 +113,8 @@ public class ToolManagerDialogModel {
 				while (curr.hasNext())
 					app.getSelectionManager().addSelectedGeo(curr.next());
 				foundUsedMacro = true;
-				macroNames += "\n" + macro.getToolOrCommandName() + ": "
-						+ macro.getNeededTypesString();
+				macroNames.append("\n" + macro.getToolOrCommandName());
+				macroNames.append(": " + macro.getNeededTypesString());
 			}
 		}
 
@@ -124,9 +124,10 @@ public class ToolManagerDialogModel {
 			kernel.initUndoInfo();
 		}
 
-		if (foundUsedMacro)
+		if (foundUsedMacro) {
 			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
-					+ " " + macroNames);
+					+ " " + macroNames.toString());
+		}
 
 		return changeToolBar;
 	}

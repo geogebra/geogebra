@@ -124,13 +124,13 @@ public class PerspectiveDecoder {
 				return Layout.getDefaultPerspectives(i - 1);
 			}
 		}
-		String longCode = "";
+		StringBuilder longCode = new StringBuilder();
 		for (int i = 0; i < code.length(); i++) {
-			longCode += code.charAt(i) + " ";
+			longCode.append(code.charAt(i));
 		}
 		ExpressionValue expr;
 		try {
-			expr = parser.parseGeoGebraExpression(longCode).wrap();
+			expr = parser.parseGeoGebraExpression(longCode.toString()).wrap();
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;

@@ -158,20 +158,20 @@ public class Relation {
 
 							} else {
 								// GenerallyTrueAcondB
-								String conds = "<ul>";
+								StringBuilder conds = new StringBuilder("<ul>");
 								for (int j = 1; j < ndgs; ++j) {
-									conds += "<li " + liStyle + ">";
-									conds += ndgResult[j];
+									conds.append("<li " + liStyle + ">");
+									conds.append(ndgResult[j]);
 									if ((j < ndgs - 1)) {
-										conds += " " + and;
+										conds.append(" " + and);
 									}
 								}
-								conds += "</ul>";
+								conds.append("</ul>");
 								rel.info += loc
 										.getPlain("GenerallyTrueAcondB",
 												"<ul><li " + liStyle + ">"
 														+ relInfo + "</ul>",
-												conds);
+												conds.toString());
 							}
 						}
 					}

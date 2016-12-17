@@ -5501,27 +5501,23 @@ public abstract class EuclidianView
 			return null;
 		}
 
-		String text = null;
+
 
 		// single geo
 		if (list.size() == 1) {
-			text = "FormulaText[" + list.get(0) + ", true, true]";
+			return "FormulaText[" + list.get(0) + ", true, true]";
 		}
+		StringBuilder text = new StringBuilder("TableText[");
+		for (int i = 0; i < list.size(); i++) {
 
-		// multiple geos, wrap in TableText
-		else {
-			text = "TableText[";
-			for (int i = 0; i < list.size(); i++) {
-
-				text += "{FormulaText[" + list.get(i) + ", true, true]}";
-				if (i < list.size() - 1) {
-					text += ",";
-				}
+			text.append("{FormulaText[" + list.get(i) + ", true, true]}");
+			if (i < list.size() - 1) {
+				text.append(",");
 			}
-			text += "]";
 		}
+		text.append("]");
 
-		return text;
+		return text.toString();
 	}
 
 	public boolean isViewForPlane() {

@@ -46,7 +46,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
-import org.geogebra.common.util.Cloner;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -432,7 +431,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				objList.add(geo.getLabelSimple());
 			}
 		}
-		return Cloner.asArray(objList);
+		return objList.toArray(new String[objList.size()]);
 	}
 
 	/**
