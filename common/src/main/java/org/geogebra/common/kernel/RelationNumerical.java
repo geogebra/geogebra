@@ -237,7 +237,7 @@ public class RelationNumerical {
 			return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
 		}
 
-		register(null, null, loc.getPlain("AandBandCcannotBeCompared",
+		register(null, null, loc.getPlain("ABandCcannotBeCompared",
 				a.getColoredLabel(), b.getColoredLabel(), c.getColoredLabel()));
 		return reports;
 	}
@@ -292,7 +292,7 @@ public class RelationNumerical {
 					(GeoPoint) d);
 		}
 		register(null, null,
-				loc.getPlain("AandBandCandDcannotBeCompared",
+				loc.getPlain("ABCandDcannotBeCompared",
 						a.getColoredLabel(), b.getColoredLabel(),
 						c.getColoredLabel(), d.getColoredLabel()));
 		return reports;
@@ -441,13 +441,15 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoPoint A, GeoPoint B, GeoPoint C) {
 		if (A.isEqual(B) && A.isEqual(C)) {
-			String str = equalityString(A, B, C);
+			String str = equalityString(A, B, C, true);
 			// consider implementing Prove[A==B==C]
 			register(true, null, str);
-		}
-		if (GeoPoint.collinear(A, B, C)) {
+		} else if (GeoPoint.collinear(A, B, C)) {
 			String str = collinearityString(A, B, C);
 			register(true, RelationCommand.AreCollinear, str);
+		} else {
+			String str = equalityString(A, B, C, false);
+			register(false, null, str);
 		}
 		return reports;
 	}
@@ -559,18 +561,20 @@ public class RelationNumerical {
 		String str;
 		// check for equality
 		if (g.isEqual(h) && g.isEqual(i)) {
-			str = equalityString(g, h, i);
+			str = equalityString(g, h, i, true);
 			// consider implementing Prove[g==h==i]
 			register(true, null, str);
+		} else if (g.isParallel(h) && g.isParallel(i)) {
+			str = parallelString(g, h, i);
+			// consider implementing Prove[g||h||i]
+			register(true, null, str);
+		} else if (GeoLine.concurrent(g, h, i)) {
+			str = concurrentString(g, h, i);
+			register(true, RelationCommand.AreConcurrent, str);
 		} else {
-			if (g.isParallel(h) && g.isParallel(i)) {
-				str = parallelString(g, h, i);
-				// consider implementing Prove[g||h||i]
-				register(true, null, str);
-			} else if (GeoLine.concurrent(g, h, i)) {
-				str = concurrentString(g, h, i);
-				register(true, RelationCommand.AreConcurrent, str);
-			}
+			str = equalityString(g, h, i, false);
+			// consider implementing Prove[g==h==i]
+			register(false, null, str);
 		}
 		return reports;
 	}
@@ -763,7 +767,7 @@ public class RelationNumerical {
 	}
 
 	/**
-	 * Internationalized string of "a, b and c are equal"
+	 * Internationalized string of "a, b and c are equal" (or not)
 	 * 
 	 * @param a
 	 *            first object
@@ -771,12 +775,18 @@ public class RelationNumerical {
 	 *            second object
 	 * @param c
 	 *            third object
+	 * @param equal
+	 *            if objects are equal
 	 * 
 	 * @return internationalized string
 	 */
 	final public String equalityString(GeoElement a, GeoElement b,
-			GeoElement c) {
-		return loc.getPlain("ABandCareEqual", a.getColoredLabel(),
+			GeoElement c, boolean equal) {
+		if (equal) {
+			return loc.getPlain("ABandCareEqual", a.getColoredLabel(),
+					b.getColoredLabel(), c.getColoredLabel());
+		}
+		return loc.getPlain("ABandCareNotEqual", a.getColoredLabel(),
 				b.getColoredLabel(), c.getColoredLabel());
 	}
 
