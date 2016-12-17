@@ -6,6 +6,10 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.swing.SwingWorker;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
@@ -139,5 +143,40 @@ public class HttpRequestD extends HttpRequest {
 	public String sendRequestGetResponseSync(String url) {
 		sendRequest(url);
 		return getResponse();
+	}
+
+	/**
+	 * http://stackoverflow.com/questions/1201048/allowing-java-to-use-an-
+	 * untrusted-certificate-for-ssl-https-connection
+	 */
+	public static void ignoreSSL() {
+		TrustManager[] trustAllCerts = new TrustManager[] {
+				new X509TrustManager() {
+					public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+						return null;
+					}
+
+					public void checkClientTrusted(
+							java.security.cert.X509Certificate[] certs,
+							String authType) {
+						// accept all
+					}
+
+					public void checkServerTrusted(
+							java.security.cert.X509Certificate[] certs,
+							String authType) {
+						// truest everyyone
+					}
+				} };
+
+		try {
+			SSLContext sc = SSLContext.getInstance("SSL");
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+			HttpsURLConnection
+					.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		} catch (Exception e) {
+			// and ignore exceptions
+		}
+
 	}
 }
