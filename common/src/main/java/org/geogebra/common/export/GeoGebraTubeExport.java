@@ -86,9 +86,12 @@ public abstract class GeoGebraTubeExport {
 		 * 
 		 * @param string
 		 */
-		public UploadResults(String string) {
+		public UploadResults(String string0) {
+			String string = string0;
 			status = uid = errorMessage = "";
-
+			if(string.indexOf("status:")>0){
+				string = string.substring(string.indexOf("status:"));
+			}
 			for (String line : string.split(",")) {
 				int delimiterPos = line.indexOf(':');
 				String key = line.substring(0, delimiterPos).toLowerCase();
