@@ -453,7 +453,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	public String getCurrentWord() {
-		// TODO Auto-generated method stub
 		StringBuilder str = new StringBuilder(" ");
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
