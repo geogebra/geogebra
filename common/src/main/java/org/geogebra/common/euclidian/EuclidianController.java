@@ -2927,11 +2927,12 @@ public abstract class EuclidianController {
 			return false;
 		}
 
-		addSelectedGeo(hits, 2, false, selPreview);
-		if (selGeos() == 2) {
-			// fetch the two selected points
+		addSelectedGeo(hits, 4, false, selPreview);
+		int selGeos = selGeos();
+		if (selGeos >= 2) {
 			GeoElement[] geos = getSelectedGeos();
-			app.showRelation(geos[0], geos[1], null, null);
+			app.showRelation(geos[0], geos[1], selGeos > 2 ? geos[2] : null,
+					selGeos > 3 ? geos[3] : null);
 			return true;
 		}
 		return false;
@@ -8081,6 +8082,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_CREATE_LIST:
 			// case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+		case EuclidianConstants.MODE_RELATION:
 			return true;
 
 		// checkbox, button
@@ -9355,6 +9357,39 @@ public abstract class EuclidianController {
 			}
 			break;
 
+		case EuclidianConstants.MODE_RELATION:
+
+			// check for list first
+			if (hits.size() == 1) {
+				if (hits.get(0).isGeoList()) {
+					getSelectedGeoList().addAll(hits);
+					setAppSelectedGeos(hits);
+					changedKernel = processMode(hits, isControlDown, null);
+					view.setSelectionRectangle(null);
+					break;
+				}
+			}
+
+			// remove non-Points
+			for (int i = 0; i < hits.size(); i++) {
+				GeoElement geo = hits.get(i);
+				if (!(Test.GEOPOINT.check(geo))) {
+					hits.remove(i);
+				}
+			}
+
+			// Fit line makes sense only for more than 1 point (or one list)
+			if (hits.size() < 2) {
+				hits.clear();
+			} else {
+				removeParentPoints(hits);
+				getSelectedGeoList().addAll(hits);
+				setAppSelectedGeos(hits);
+				changedKernel = processMode(hits, isControlDown, null);
+				view.setSelectionRectangle(null);
+			}
+			break;
+
 		default:
 			// STANDARD CASE
 			setAppSelectedGeos(hits, false);
@@ -9435,6 +9470,26 @@ public abstract class EuclidianController {
 			}
 			// Fit line makes sense only for more than 2 points
 			if (hits.size() < 3) {
+				hits.clear();
+			} else {
+				removeParentPoints(hits);
+				getSelectedGeoList().addAll(hits);
+				setAppSelectedGeos(hits);
+				processMode(hits, false, null);
+
+				view.setSelectionRectangle(null);
+			}
+			break;
+
+		case EuclidianConstants.MODE_RELATION:
+			for (int i = 0; i < hits.size(); i++) {
+				GeoElement geo = hits.get(i);
+				if (!(Test.GEOPOINT.check(geo))) {
+					hits.remove(i);
+				}
+			}
+			// Relation makes sense only for more than 1 point
+			if (hits.size() < 2) {
 				hits.clear();
 			} else {
 				removeParentPoints(hits);
