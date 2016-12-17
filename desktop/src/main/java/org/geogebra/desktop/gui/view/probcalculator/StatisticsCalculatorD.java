@@ -42,7 +42,6 @@ import org.geogebra.desktop.main.AppD;
 public class StatisticsCalculatorD extends StatisticsCalculator
 		implements ActionListener, FocusListener, SetLabels {
 
-	private static final long serialVersionUID = 1L;
 
 	// =========================================
 	// support classes
@@ -611,21 +610,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
-	@Override
-	public void updateResult() {
-
-		updateStatisticCollection();
-		statProcessor.doCalculate();
-
-		bodyText = new StringBuilder();
-		bodyText.append(statHTML.getStatString());
-		updateResultText();
-
-		// prevent auto scrolling
-		resultPane.setCaretPosition(0);
-
-	}
-
 	public void actionPerformed(ActionEvent e) {
 		doActionPerformed(e);
 	}
@@ -699,7 +683,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		return Double.NaN;
 	}
 
-	private void updateStatisticCollection() {
+	protected void updateStatisticCollection() {
 		try {
 
 			sc.level = parseNumberText(fldConfLevel.getText());
@@ -792,7 +776,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	public void updateFonts(Font font) {
 		setStyleSheetFontSize((HTMLEditorKit) resultPane.getEditorKit(), font);
 		wrappedPanel.setFont(font);
-		updateResultText();
+		updateResultText(bodyText.toString());
 	}
 
 	private static void setStyleSheetFontSize(HTMLEditorKit kit, Font font) {
@@ -816,9 +800,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	}
 
-	private void updateResultText() {
+	@Override
+	protected void updateResultText(String str) {
 
-		String htmlString = "<html><body>\n" + bodyText.toString()
+		String htmlString = "<html><body>\n" + str
 				+ "</body>\n";
 		resultPane.setText(htmlString);
 
@@ -829,6 +814,11 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	 */
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
+	}
+
+	@Override
+	protected void resetCaret() {
+		resultPane.setCaretPosition(0);
 	}
 
 }

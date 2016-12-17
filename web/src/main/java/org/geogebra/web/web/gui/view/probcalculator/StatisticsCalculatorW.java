@@ -639,18 +639,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    
     }
 
-	@Override
-	public void updateResult() {
-		updateStatisticCollection();
-		statProcessor.doCalculate();
-
-		bodyText = new StringBuilder();
-		bodyText.append(statHTML.getStatString());
-		//bodyText.append(getStyleForBodyText());
-		updateResultText();
-
-		
-	}
 	
 //	private String getStyleForBodyText() {
 //		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
@@ -661,15 +649,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 //	    "</style>";
 //    }
 
-	private void updateResultText() {
+	@Override
+	protected void updateResultText(String str) {
 
-//		String htmlString = "<html><body>\n" + bodyText.toString()
-//				+ "</body>\n";
-//		resultPane.setHTML(htmlString);;
-		resultPane.getElement().setInnerHTML(bodyText.toString());
+		resultPane.getElement().setInnerHTML(str);
 	}
 	
-	private void updateStatisticCollection() {
+	protected void updateStatisticCollection() {
 		try {
 
 			sc.level = parseNumberText(fldConfLevel.getText());
@@ -850,4 +836,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	public FlowPanel getWrappedPanel() {
 	    return wrappedPanel;
     }
+
+	@Override
+	protected void resetCaret() {
+		// not needed
+	}
 }

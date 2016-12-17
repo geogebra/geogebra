@@ -356,7 +356,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	public class ChiSquareCellD extends ChiSquareCell
 			implements ActionListener, FocusListener {
 
-		private static final long serialVersionUID = 1L;
 
 		private JPanel wrappedPanel;
 
@@ -368,8 +367,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		 */
 		public ChiSquareCellD(StatisticsCollection sc, int row, int column) {
 			this(sc);
-			this.row = row;
-			this.column = column;
+			init(row, column);
 		}
 
 		/**
@@ -377,7 +375,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		 */
 		public ChiSquareCellD(StatisticsCollection sc) {
 
-			this.sc = sc;
+			super(sc);
 			this.wrappedPanel = new JPanel();
 			wrappedPanel.setOpaque(true);
 			wrappedPanel.setLayout(
@@ -456,12 +454,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			wrappedPanel.setBackground(null);
 			fldInput.setVisible(false);
 
-			if (isMarginCell) {
+			if (isMarginCell()) {
 				wrappedPanel
 						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				setLabelVisible(0, true);
 
-			} else if (isHeaderCell) {
+			} else if (isHeaderCell()) {
 				wrappedPanel
 						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
@@ -477,24 +475,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		}
 
-		public int getRow() {
-			return row;
-		}
-
-		public void setRow(int row) {
-			this.row = row;
-		}
-
-		public int getColumn() {
-			return column;
-		}
-
-		public void setColumn(int column) {
-			this.column = column;
-		}
-
 		private void updateCellData() {
-			sc.chiSquareData[row][column] = fldInput.getText();
+			updateCellData(fldInput.getText());
 		}
 
 		public void focusGained(FocusEvent e) {

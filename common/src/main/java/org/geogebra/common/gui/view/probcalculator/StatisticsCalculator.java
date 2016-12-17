@@ -114,7 +114,25 @@ public abstract class StatisticsCalculator {
 		return sc;
 	}
 
-	public abstract void updateResult();
+	public final void updateResult() {
+
+		updateStatisticCollection();
+		statProcessor.doCalculate();
+
+		bodyText = new StringBuilder();
+		bodyText.append(statHTML.getStatString());
+		updateResultText(bodyText.toString());
+
+		// prevent auto scrolling
+		resetCaret();
+
+	}
+
+	protected abstract void updateStatisticCollection();
+
+	protected abstract void resetCaret();
+
+	protected abstract void updateResultText(String string);
 
 	protected void combolabelsPreprocess() {
 		if (mapNameToProcedure == null) {
@@ -169,5 +187,7 @@ public abstract class StatisticsCalculator {
 		strN = loc.getMenu("N");
 		// strPooled = loc.getMenu("Pooled");
 	}
+	
+
 
 }

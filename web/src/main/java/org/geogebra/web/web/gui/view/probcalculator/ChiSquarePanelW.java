@@ -278,6 +278,9 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		}
 	    
 	    
+	/**
+	 * Update translation
+	 */
 	public void setLabels() {
 		Localization loc = getApp().getLocalization();
 		lblRows.setText(loc.getMenu("Rows"));
@@ -364,8 +367,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	 */
     	public ChiSquareCellW(StatisticsCollection sc, int row, int column) {
     		this(sc);
-    		this.row = row;
-    		this.column = column;
+			init(row, column);
     	}
 
 		/**
@@ -373,7 +375,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
     	 */
     	public ChiSquareCellW(StatisticsCollection sc) {
 
-    		this.sc = sc;
+			super(sc);
     		this.wrappedPanel = new FlowPanel();
     		this.wrappedPanel.addStyleName("ChiSquarePanelW");
     		fldInput = new AutoCompleteTextFieldW(getApp());
@@ -448,10 +450,10 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 		protected void setVisualStyle() {
     		fldInput.setVisible(false);
 
-    		if (isMarginCell) {
+			if (isMarginCell()) {
     			setLabelVisible(0, true);
 
-    		} else if (isHeaderCell) {
+			} else if (isHeaderCell()) {
     			
     			fldInput.setVisible(true);
     			wrappedPanel.addStyleName("headercell");
@@ -471,24 +473,8 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 
     	}
 
-    	public int getRow() {
-    		return row;
-    	}
-
-    	public void setRow(int row) {
-    		this.row = row;
-    	}
-
-    	public int getColumn() {
-    		return column;
-    	}
-
-    	public void setColumn(int column) {
-    		this.column = column;
-    	}
-
     	private void updateCellData() {
-    		sc.chiSquareData[row][column] = fldInput.getText();
+			updateCellData(fldInput.getText());
     	}
 
     	public void focusGained(FocusEvent e) {

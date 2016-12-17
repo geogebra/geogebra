@@ -2,12 +2,16 @@ package org.geogebra.common.gui.view.probcalculator;
 
 public abstract class ChiSquareCell {
 
-	protected StatisticsCollection sc;
+	private StatisticsCollection sc;
 
-	protected boolean isMarginCell = false;
-	protected boolean isHeaderCell = false;
+	private boolean isMarginCell = false;
+	private boolean isHeaderCell = false;
 
-	protected int row, column;
+	private int row, column;
+
+	public ChiSquareCell(StatisticsCollection sc1) {
+		this.sc = sc1;
+	}
 
 	public final void setMarginCell(boolean isMarginCell) {
 		this.isMarginCell = isMarginCell;
@@ -19,5 +23,22 @@ public abstract class ChiSquareCell {
 	public final void setHeaderCell(boolean isHeaderCell) {
 		this.isHeaderCell = isHeaderCell;
 		setVisualStyle();
+	}
+
+	protected void init(int row1, int column1) {
+		this.row = row1;
+		this.column = column1;
+	}
+
+	protected void updateCellData(String text) {
+		sc.chiSquareData[row][column] = text;
+	}
+
+	protected boolean isHeaderCell() {
+		return isHeaderCell;
+	}
+
+	protected boolean isMarginCell() {
+		return isMarginCell;
 	}
 }
