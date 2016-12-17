@@ -1039,4 +1039,9 @@ public class EuclidianViewD extends EuclidianView
 
 	}
 
+	public void readText(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

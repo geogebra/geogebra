@@ -939,6 +939,10 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
+	public String getAltText() {
+		return canvas.getElement().getInnerText();
+	}
+
 	public void forceResize() {
 		int width = canvas.getOffsetWidth();
 		int height = canvas.getOffsetHeight();

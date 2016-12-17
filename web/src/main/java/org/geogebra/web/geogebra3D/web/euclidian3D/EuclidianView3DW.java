@@ -59,6 +59,7 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -692,6 +693,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			}
 
 		}
+
+	}
+
+	public void readText(String text) {
+		//String oldAltText = g2p.getAltText();
+		//g2p.setAltText(text);
+		//RootPanel.getBodyElement().focus();
+		//this.requestFocus();
 
 	}
 

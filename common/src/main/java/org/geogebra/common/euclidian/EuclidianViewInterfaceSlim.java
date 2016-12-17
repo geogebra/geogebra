@@ -236,4 +236,6 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 */
 	public boolean isInPlane(CoordSys sys);
 
+	public void readText(String text);
+
 }

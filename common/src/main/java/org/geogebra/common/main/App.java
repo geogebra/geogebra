@@ -2393,6 +2393,14 @@ public abstract class App implements UpdateSelection {
 		if (updatePropertiesView && propertiesView != null && showMenuBar) {
 			propertiesView.updateSelection();
 		}
+		
+		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
+			if (0 < this.getSelectionManager().getSelectedGeos().size())
+				getActiveEuclidianView().readText(
+						this.getSelectionManager().getSelectedGeos().get(0)
+								.getLabelDescription());
+		}
+		
 	}
 
 	/**
@@ -4179,6 +4187,9 @@ public abstract class App implements UpdateSelection {
 
 		case WEB_GL_USE_DEFAULT_ATTRIBS:
 			return true;
+
+		case READ_OBJECT_NAME_AT_SELECTING:
+			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

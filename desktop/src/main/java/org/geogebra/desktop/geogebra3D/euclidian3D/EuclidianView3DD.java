@@ -632,4 +632,9 @@ public class EuclidianView3DD extends EuclidianView3D
 		return new Mouse3DEventD(mouse3DLoc, getJPanel());
 	}
 
+	public void readText(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

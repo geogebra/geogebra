@@ -50,6 +50,7 @@ import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.NodeList;
@@ -73,10 +74,13 @@ import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements
@@ -821,6 +825,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private Object preferredSize;
 
+	private SimplePanel sp;
+
 	static public GBasicStrokeW getDefaultStroke() {
 		return standardStroke;
 	}
@@ -1212,6 +1218,42 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 	}
+
+	public void readText(final String text) {
+		sp = new SimplePanel();
+		sp.getElement().setTabIndex(1);
+		RootPanel.get().add(sp);
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				// text = "something in Euclidian view happens";
+				String oldAltText = g2p.getAltText();
+				g2p.setAltText(text);
+
+				// RootPanel.getBodyElement().focus();
+				printFocusedElement();
+				// DOM.getElementById("ggbPage").focus();
+				// sp.getElement().focus();
+				// printFocusedElement();
+				g2p.getCanvas().getCanvasElement().blur();
+				printFocusedElement();
+				g2p.getCanvas().getCanvasElement().focus();
+				printFocusedElement();
+
+				// g2p.setAltText(oldAltText);
+
+				sp.removeFromParent();
+
+			}
+
+		});
+	
+		
+	}
+
+	public static native void printFocusedElement()/*-{
+		$wnd.console.log($doc.activeElement);
+	}-*/;
 
 	public static void cycle(EuclidianView from) {
 		if ((from == EuclidianViewW.lastInstance)

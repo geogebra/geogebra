@@ -216,4 +216,9 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return null;
 	}
 
+	public void readText(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

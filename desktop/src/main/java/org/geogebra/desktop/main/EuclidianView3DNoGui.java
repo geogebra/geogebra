@@ -162,4 +162,9 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		return null;
 	}
 
+	public void readText(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
