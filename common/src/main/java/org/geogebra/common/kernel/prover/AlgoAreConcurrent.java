@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
@@ -97,13 +96,8 @@ public class AlgoAreConcurrent extends AlgoElement
 
 	@Override
 	public final void compute() {
-		double det = inputLine1.getX() * inputLine2.getY() * inputLine3.getZ()
-				+ inputLine2.getX() * inputLine3.getY() * inputLine1.getZ()
-				+ inputLine3.getX() * inputLine1.getY() * inputLine2.getZ()
-				- inputLine3.getX() * inputLine2.getY() * inputLine1.getZ()
-				- inputLine2.getX() * inputLine1.getY() * inputLine3.getZ()
-				- inputLine1.getX() * inputLine3.getY() * inputLine2.getZ();
-		outputBoolean.setValue(Kernel.isZero(det));
+		outputBoolean.setValue(
+				GeoLine.concurrent(inputLine1, inputLine2, inputLine3));
 	}
 
 	public SymbolicParameters getSymbolicParameters() {

@@ -3267,19 +3267,24 @@ public abstract class App implements UpdateSelection {
 			getEventDispatcher().addEventListener(geoScriptRunner);
 		}
 	}
-
+	
 	/**
-	 * Compares two objects by using the Relation Tool.
+	 * Compares 2, 3 or 4 objects by using the Relation Tool.
 	 *
 	 * @param ra
 	 *            first object
 	 * @param rb
 	 *            second object
+	 * @param rc
+	 *            third object (optional, can be null)
+	 * @param rd
+	 *            forth object (optional, can be null)
 	 *
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	public void showRelation(final GeoElement ra, final GeoElement rb) {
-		Relation.showRelation(this, ra, rb);
+	public void showRelation(final GeoElement ra, final GeoElement rb,
+			final GeoElement rc, final GeoElement rd) {
+		Relation.showRelation(this, ra, rb, rc, rd);
 	}
 
 	public GeoElement getGeoForCopyStyle() {

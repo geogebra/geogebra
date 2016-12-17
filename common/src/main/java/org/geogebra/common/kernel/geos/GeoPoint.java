@@ -1047,6 +1047,8 @@ public class GeoPoint extends GeoVec3D
 	}
 
 	/**
+	 * Returns if three points are collinear.
+	 * 
 	 * @param A
 	 *            first point
 	 * @param B
@@ -1071,6 +1073,92 @@ public class GeoPoint extends GeoVec3D
 				Kernel.MIN_PRECISION * A.z * B.z * C.z);
 
 		return Kernel.isEqual(sum1, sum2, eps);
+	}
+
+	/**
+	 * Decides if 4 points are lying on the same circle.
+	 * 
+	 * @param inputPoint1
+	 *            first object
+	 * @param inputPoint2
+	 *            second object
+	 * @param inputPoint3
+	 *            third object
+	 * @param inputPoint4
+	 *            forth object
+	 * @return if the inputs are concyclic.
+	 */
+	public static boolean concyclic(GeoPoint inputPoint1, GeoPoint inputPoint2,
+			GeoPoint inputPoint3, GeoPoint inputPoint4) {
+		double ax = inputPoint1.getX(), ay = inputPoint1.getY(),
+				az = inputPoint1.getZ(), bx = inputPoint2.getX(),
+				by = inputPoint2.getY(), bz = inputPoint2.getZ(),
+				cx = inputPoint3.getX(), cy = inputPoint3.getY(),
+				cz = inputPoint3.getZ(), dx = inputPoint4.getX(),
+				dy = inputPoint4.getY(), dz = inputPoint4.getZ();
+
+		// Using Ptolemy's theorem
+
+		double ab = cz * dz
+				* Math.sqrt((bx * az - ax * bz) * (bx * az - ax * bz)
+						+ (by * az - ay * bz) * (by * az - ay * bz));
+		double ac = bz * dz
+				* Math.sqrt((cx * az - ax * cz) * (cx * az - ax * cz)
+						+ (cy * az - ay * cz) * (cy * az - ay * cz));
+		double ad = bz * cz
+				* Math.sqrt((dx * az - ax * dz) * (dx * az - ax * dz)
+						+ (dy * az - ay * dz) * (dy * az - ay * dz));
+		double bc = az * dz
+				* Math.sqrt((cx * bz - bx * cz) * (cx * bz - bx * cz)
+						+ (cy * bz - by * cz) * (cy * bz - by * cz));
+		double bd = az * cz
+				* Math.sqrt((dx * bz - bx * dz) * (dx * bz - bx * dz)
+						+ (dy * bz - by * dz) * (dy * bz - by * dz));
+		double cd = az * bz
+				* Math.sqrt((dx * cz - cx * dz) * (dx * cz - cx * dz)
+						+ (dy * cz - cy * dz) * (dy * cz - cy * dz));
+
+		if (Kernel.isZero((ab * cd + bc * ad - ac * bd) / (az * bz * cz * dz),
+				Kernel.MIN_PRECISION)
+				|| Kernel.isZero(
+						(ab * cd + ac * bd - bc * ad) / (az * bz * cz * dz),
+						Kernel.MIN_PRECISION)
+				|| Kernel.isZero(
+						(bc * ad + ac * bd - ab * cd) / (az * bz * cz * dz),
+						Kernel.MIN_PRECISION)) {
+			return true;
+		}
+		return false;
+
+		/*
+		 * 
+		 * double ax2=ax*ax, ay2=ay*ay, az2=az*az, bx2=bx*bx, by2=by*by,
+		 * bz2=bz*bz, cx2=cx*cx, cy2=cy*cy, cz2=cz*cz, dx2=dx*dx, dy2=dy*dy,
+		 * dz2=dz*dz;
+		 * 
+		 * double det= ax2*bx*bz*cy*cz*dz2 - ax2*bx*bz*cz2*dy*dz -
+		 * ax2*by*bz*cx*cz*dz2 + ax2*by*bz*cz2*dx*dz + ax2*bz2*cx*cz*dy*dz -
+		 * ax2*bz2*cy*cz*dx*dz - ax*az*bx2*cy*cz*dz2 + ax*az*bx2*cz2*dy*dz -
+		 * ax*az*by2*cy*cz*dz2 + ax*az*by2*cz2*dy*dz + ax*az*by*bz*cx2*dz2 +
+		 * ax*az*by*bz*cy2*dz2 - ax*az*by*bz*cz2*dx2 - ax*az*by*bz*cz2*dy2 -
+		 * ax*az*bz2*cx2*dy*dz - ax*az*bz2*cy2*dy*dz + ax*az*bz2*cy*cz*dx2 +
+		 * ax*az*bz2*cy*cz*dy2 + ay2*bx*bz*cy*cz*dz2 - ay2*bx*bz*cz2*dy*dz -
+		 * ay2*by*bz*cx*cz*dz2 + ay2*by*bz*cz2*dx*dz + ay2*bz2*cx*cz*dy*dz -
+		 * ay2*bz2*cy*cz*dx*dz + ay*az*bx2*cx*cz*dz2 - ay*az*bx2*cz2*dx*dz -
+		 * ay*az*bx*bz*cx2*dz2 - ay*az*bx*bz*cy2*dz2 + ay*az*bx*bz*cz2*dx2 +
+		 * ay*az*bx*bz*cz2*dy2 + ay*az*by2*cx*cz*dz2 - ay*az*by2*cz2*dx*dz +
+		 * ay*az*bz2*cx2*dx*dz - ay*az*bz2*cx*cz*dx2 - ay*az*bz2*cx*cz*dy2 +
+		 * ay*az*bz2*cy2*dx*dz - az2*bx2*cx*cz*dy*dz + az2*bx2*cy*cz*dx*dz +
+		 * az2*bx*bz*cx2*dy*dz + az2*bx*bz*cy2*dy*dz - az2*bx*bz*cy*cz*dx2 -
+		 * az2*bx*bz*cy*cz*dy2 - az2*by2*cx*cz*dy*dz + az2*by2*cy*cz*dx*dz -
+		 * az2*by*bz*cx2*dx*dz + az2*by*bz*cx*cz*dx2 + az2*by*bz*cx*cz*dy2 -
+		 * az2*by*bz*cy2*dx*dz; // There may be awful numerical errors
+		 * introduced, so switching to // minimal precision for the current
+		 * calculation (and then back): double precision = Kernel.getEpsilon();
+		 * Kernel.setMinPrecision();
+		 * //outputBoolean.setValue(Kernel.isZero(det));
+		 * AbstractApplication.debug(det); Kernel.setEpsilon(precision);
+		 */
 	}
 
 	/**

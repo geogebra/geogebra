@@ -91,7 +91,13 @@ public class RelationNumerical {
 			/**
 			 * congruent segments
 			 */
-			AreCongruent
+			AreCongruent,
+			/** collinear points */
+			AreCollinear,
+			/** concyclic points */
+			AreConcyclic,
+			/** concurrent lines */
+			AreConcurrent
 		}
 
 		/**
@@ -188,6 +194,109 @@ public class RelationNumerical {
 		loc = app.getLocalization();
 		cons = kernel.getConstruction();
 		reports = new HashSet<Report>();
+	}
+
+	/**
+	 * description of the relation between two GeoElements a, b (equal,
+	 * incident, intersect, parallel, linear dependent, tangent of, ...)
+	 * 
+	 * @param a
+	 *            first geo
+	 * @param b
+	 *            second geo
+	 * @param c
+	 *            third geo (optional)
+	 * @param d
+	 *            forth geo (optional)
+	 * @return string describing relation between these two
+	 */
+	final public Set<Report> relation(GeoElement a, GeoElement b,
+			GeoElement c) {
+		// check defined state
+		if (!a.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", a.getColoredLabel()));
+			return reports;
+		} else if (!b.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", b.getColoredLabel()));
+			return reports;
+		} else if (!c.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", c.getColoredLabel()));
+			return reports;
+		}
+		// decide what relation method can be used
+
+		// point, point, point
+		if (a instanceof GeoPoint && b instanceof GeoPoint
+				&& c instanceof GeoPoint) {
+			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c);
+		} else if (a instanceof GeoLine && b instanceof GeoLine
+				&& c instanceof GeoLine) {
+			return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
+		}
+
+		register(null, null, loc.getPlain("AandBandCcannotBeCompared",
+				a.getColoredLabel(), b.getColoredLabel(), c.getColoredLabel()));
+		return reports;
+	}
+
+	/**
+	 * description of the relation between two GeoElements a, b (equal,
+	 * incident, intersect, parallel, linear dependent, tangent of, ...)
+	 * 
+	 * @param a
+	 *            first geo
+	 * @param b
+	 *            second geo
+	 * @param c
+	 *            third geo (optional)
+	 * @param d
+	 *            forth geo (optional)
+	 * @return string describing relation between these two
+	 */
+	final public Set<Report> relation(GeoElement a, GeoElement b, GeoElement c,
+			GeoElement d) {
+		if (d == null) {
+			if (c == null) {
+				return relation(a, b);
+			}
+			return relation(a, b, c);
+		}
+		// check defined state
+		if (!a.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", a.getColoredLabel()));
+			return reports;
+		} else if (!b.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", b.getColoredLabel()));
+			return reports;
+		} else if (!c.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", c.getColoredLabel()));
+			return reports;
+		} else if (!d.isDefined()) {
+			register(null, null,
+					loc.getPlain("AisNotDefined", d.getColoredLabel()));
+			return reports;
+		}
+
+		// decide what relation method can be used
+
+		// point, point, point, point
+		if (a instanceof GeoPoint && b instanceof GeoPoint
+				&& c instanceof GeoPoint && d instanceof GeoPoint) {
+			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c,
+					(GeoPoint) d);
+		}
+		register(null, null,
+				loc.getPlain("AandBandCandDcannotBeCompared",
+						a.getColoredLabel(), b.getColoredLabel(),
+						c.getColoredLabel(), d.getColoredLabel()));
+		return reports;
+
 	}
 
 	/**
@@ -327,6 +436,46 @@ public class RelationNumerical {
 	}
 
 	/**
+	 * description of the relation of three points A, B, C (equal, unequal,
+	 * collinear)
+	 */
+	final private Set<Report> relation(GeoPoint A, GeoPoint B, GeoPoint C) {
+		if (A.isEqual(B) && A.isEqual(C)) {
+			String str = equalityString(A, B, C);
+			// consider implementing Prove[A==B==C]
+			register(true, null, str);
+		}
+		if (GeoPoint.collinear(A, B, C)) {
+			String str = collinearityString(A, B, C);
+			register(true, RelationCommand.AreCollinear, str);
+		}
+		return reports;
+	}
+
+	/**
+	 * description of the relation of three points A, B, C, D (equal, unequal,
+	 * collinear, concyclic)
+	 */
+	final private Set<Report> relation(GeoPoint A, GeoPoint B, GeoPoint C,
+			GeoPoint D) {
+		if (A.isEqual(B) && A.isEqual(C) && A.isEqual(D)) {
+			String str = equalityString(A, B, C, D);
+			// consider implementing Prove[A==B==C==D]
+			register(true, null, str);
+		}
+		if (GeoPoint.collinear(A, B, C) && GeoPoint.collinear(A, B, D)) {
+			String str = collinearityString(A, B, C, D);
+			// consider implementing Prove[AreCollinear[A,B,C,D]]
+			register(true, null, str);
+		}
+		if (GeoPoint.concyclic(A, B, C, D)) {
+			String str = concyclicityString(A, B, C, D);
+			register(true, RelationCommand.AreConcyclic, str);
+		}
+		return reports;
+	}
+
+	/**
 	 * description of the relation between two vectors a, b (equal, linear
 	 * dependent, linear independent)
 	 */
@@ -398,6 +547,29 @@ public class RelationNumerical {
 
 				str = intersectString(g, h, isIntersection);
 				register(isIntersection, null, str);
+			}
+		}
+		return reports;
+	}
+
+	/**
+	 * description of the relation between lines g, h and i (concurrency)
+	 */
+	final private Set<Report> relation(GeoLine g, GeoLine h, GeoLine i) {
+		String str;
+		// check for equality
+		if (g.isEqual(h) && g.isEqual(i)) {
+			str = equalityString(g, h, i);
+			// consider implementing Prove[g==h==i]
+			register(true, null, str);
+		} else {
+			if (g.isParallel(h) && g.isParallel(i)) {
+				str = parallelString(g, h, i);
+				// consider implementing Prove[g||h||i]
+				register(true, null, str);
+			} else if (GeoLine.concurrent(g, h, i)) {
+				str = concurrentString(g, h, i);
+				register(true, RelationCommand.AreConcurrent, str);
 			}
 		}
 		return reports;
@@ -591,6 +763,44 @@ public class RelationNumerical {
 	}
 
 	/**
+	 * Internationalized string of "a, b and c are equal"
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param c
+	 *            third object
+	 * 
+	 * @return internationalized string
+	 */
+	final public String equalityString(GeoElement a, GeoElement b,
+			GeoElement c) {
+		return loc.getPlain("ABandCareEqual", a.getColoredLabel(),
+				b.getColoredLabel(), c.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "a, b, c and d are equal"
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param c
+	 *            third object
+	 * @param d
+	 *            forth object
+	 * 
+	 * @return internationalized string
+	 */
+	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
+			GeoElement d) {
+		return loc.getPlain("ABCandDareEqual", a.getColoredLabel(),
+				b.getColoredLabel(), c.getColoredLabel(), d.getColoredLabel());
+	}
+
+	/**
 	 * Internationalized string of "a and b are congruent" (or not)
 	 * 
 	 * @param a
@@ -611,6 +821,82 @@ public class RelationNumerical {
 		}
 		return loc.getPlain("AdoesNothaveTheSameLengthAsB", a.getColoredLabel(),
 				b.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "A, B and C are collinear"
+	 * 
+	 * @param A
+	 *            first object
+	 * @param B
+	 *            second object
+	 * @param C
+	 *            third object
+	 * 
+	 * @return internationalized string
+	 */
+	final public String collinearityString(GeoElement A, GeoElement B,
+			GeoElement C) {
+		return loc.getPlain("ABandCareCollinear", A.getColoredLabel(),
+				B.getColoredLabel(), C.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "A, B, C and D are collinear"
+	 * 
+	 * @param A
+	 *            first object
+	 * @param B
+	 *            second object
+	 * @param C
+	 *            third object
+	 * @param D
+	 *            forth object
+	 *
+	 * @return internationalized string
+	 */
+	final public String collinearityString(GeoElement A, GeoElement B,
+			GeoElement C, GeoElement D) {
+		return loc.getPlain("ABCandDareCollinear", A.getColoredLabel(),
+				B.getColoredLabel(), C.getColoredLabel(), D.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "a, b and c are concurrent"
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param c
+	 *            third object
+	 *
+	 * @return internationalized string
+	 */
+	final public String concurrentString(GeoElement a, GeoElement b,
+			GeoElement c) {
+		return loc.getPlain("ABandCareConcurrent", a.getColoredLabel(),
+				b.getColoredLabel(), c.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "A, B, C and D are concyclic"
+	 * 
+	 * @param A
+	 *            first object
+	 * @param B
+	 *            second object
+	 * @param C
+	 *            third object
+	 * @param D
+	 *            forth object
+	 *
+	 * @return internationalized string
+	 */
+	final public String concyclicityString(GeoElement A, GeoElement B,
+			GeoElement C, GeoElement D) {
+		return loc.getPlain("ABCandDareConcyclic", A.getColoredLabel(),
+				B.getColoredLabel(), C.getColoredLabel(), D.getColoredLabel());
 	}
 
 	// "Relation of a and b: linear dependent"
@@ -654,6 +940,11 @@ public class RelationNumerical {
 		return parallelString(a, b, loc);
 	}
 
+	// "Relation of a and b and c: parallel"
+	final private String parallelString(GeoLine a, GeoLine b, GeoLine c) {
+		return parallelString(a, b, c, loc);
+	}
+
 	/**
 	 * Internationalized string of "a and b are parallel"
 	 * 
@@ -669,6 +960,25 @@ public class RelationNumerical {
 			Localization loc) {
 		return loc.getPlain("AandBareParallel", a.getColoredLabel(),
 				b.getColoredLabel());
+	}
+
+	/**
+	 * Internationalized string of "a, b and c are parallel"
+	 * 
+	 * @param a
+	 *            first line
+	 * @param b
+	 *            second line
+	 * @param c
+	 *            second line
+	 * @param loc
+	 *            locale
+	 * @return internationalized string
+	 */
+	final public static String parallelString(GeoLine a, GeoLine b, GeoLine c,
+			Localization loc) {
+		return loc.getPlain("ABandCareParallel", a.getColoredLabel(),
+				b.getColoredLabel(), c.getColoredLabel());
 	}
 
 	/*

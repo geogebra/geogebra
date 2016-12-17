@@ -2929,9 +2929,9 @@ public abstract class EuclidianController {
 
 		addSelectedGeo(hits, 2, false, selPreview);
 		if (selGeos() == 2) {
-			// fetch the three selected points
+			// fetch the two selected points
 			GeoElement[] geos = getSelectedGeos();
-			app.showRelation(geos[0], geos[1]);
+			app.showRelation(geos[0], geos[1], null, null);
 			return true;
 		}
 		return false;

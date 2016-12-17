@@ -12,8 +12,12 @@ import org.geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.prover.AlgoAreCollinear;
+import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
+import org.geogebra.common.kernel.prover.AlgoAreConcyclic;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
@@ -42,11 +46,15 @@ public class Relation {
 	 *            first object
 	 * @param rb
 	 *            second object
+	 * @param rc
+	 *            third object (optional, can be null)
+	 * @param rd
+	 *            forth object (optional, can be null)
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 	public static void showRelation(final App app, final GeoElement ra,
-			final GeoElement rb) {
+			final GeoElement rb, final GeoElement rc, final GeoElement rd) {
 		// Forcing CAS to load. This will be essential for the web version
 		// to run the Prove[Are...] commands with getting no "undefined":
 		GeoGebraCAS cas = (GeoGebraCAS) ra.getKernel().getGeoGebraCAS();
@@ -60,7 +68,8 @@ public class Relation {
 		RelationPane tablePane = app.getFactory().newRelationPane();
 		// Computing numerical results and collecting them alphabetically:
 		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(
-				new RelationNumerical(app.getKernel()).relation(ra, rb));
+				new RelationNumerical(app.getKernel()).relation(ra, rb, rc,
+						rd));
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
@@ -91,7 +100,7 @@ public class Relation {
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
 					app.setWaitCursor();
-					Boolean result = checkGenerally(relAlgo, ra, rb);
+					Boolean result = checkGenerally(relAlgo, ra, rb, rc, rd);
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
@@ -106,7 +115,8 @@ public class Relation {
 						// ProveDetails is unsuccessful.
 
 						// Third info start:
-						String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+						String[] ndgResult = getNDGConditions(relAlgo, ra, rb,
+								rc, rd);
 						app.setDefaultCursor();
 						// This style is defined in the CSS. It is harmless in
 						// desktop but
@@ -192,13 +202,17 @@ public class Relation {
 	 *            first object
 	 * @param g2
 	 *            second object
+	 * @param g3
+	 *            third object (optional)
+	 * @param g4
+	 *            forth object (optional)
 	 * @return true if statement holds generally, false if it does not hold,
 	 *         null if cannot be decided by GeoGebra
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 	final public static Boolean checkGenerally(RelationCommand command,
-			GeoElement g1, GeoElement g2) {
+			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
 		Boolean ret = null;
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
@@ -223,6 +237,18 @@ public class Relation {
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
 					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
 				}
+				break;
+			case AreConcyclic:
+				ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
+						(GeoPoint) g3, (GeoPoint) g4);
+				break;
+			case AreCollinear:
+				ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
+						(GeoPoint) g3);
+				break;
+			case AreConcurrent:
+				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
+						(GeoLine) g3);
 				break;
 			}
 		} catch (Exception ex) {
@@ -259,7 +285,7 @@ public class Relation {
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
 	final public static String[] getNDGConditions(RelationCommand command,
-			GeoElement g1, GeoElement g2) {
+			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
@@ -284,6 +310,18 @@ public class Relation {
 				} else if ((g2 instanceof GeoPoint) && (g1 instanceof Path)) {
 					ae = new AlgoIsOnPath(cons, (GeoPoint) g2, (Path) g1);
 				}
+				break;
+			case AreConcyclic:
+				ae = new AlgoAreConcyclic(cons, (GeoPoint) g1, (GeoPoint) g2,
+						(GeoPoint) g3, (GeoPoint) g4);
+				break;
+			case AreCollinear:
+				ae = new AlgoAreCollinear(cons, (GeoPoint) g1, (GeoPoint) g2,
+						(GeoPoint) g3);
+				break;
+			case AreConcurrent:
+				ae = new AlgoAreConcurrent(cons, (GeoLine) g1, (GeoLine) g2,
+						(GeoLine) g3);
 				break;
 			}
 		} catch (Exception ex) {

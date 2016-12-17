@@ -322,6 +322,28 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return isOnFullLine2D(P2d, eps);
 	}
 
+	/**
+	 * Returns whether three lines are concurrent
+	 * 
+	 * @param inputLine1
+	 *            first input
+	 * @param inputLine2
+	 *            second input
+	 * @param inputLine3
+	 *            third input
+	 * @return if the inputs are concurrent
+	 */
+	final public static boolean concurrent(GeoLine inputLine1,
+			GeoLine inputLine2, GeoLine inputLine3) {
+		double det = inputLine1.getX() * inputLine2.getY() * inputLine3.getZ()
+				+ inputLine2.getX() * inputLine3.getY() * inputLine1.getZ()
+				+ inputLine3.getX() * inputLine1.getY() * inputLine2.getZ()
+				- inputLine3.getX() * inputLine2.getY() * inputLine1.getZ()
+				- inputLine2.getX() * inputLine1.getY() * inputLine3.getZ()
+				- inputLine1.getX() * inputLine3.getY() * inputLine2.getZ();
+		return Kernel.isZero(det);
+	}
+
 	public boolean respectLimitedPath(Coords coords, double eps) {
 		return true;
 	}
