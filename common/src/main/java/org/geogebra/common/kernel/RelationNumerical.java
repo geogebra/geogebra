@@ -461,18 +461,19 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoPoint A, GeoPoint B, GeoPoint C,
 			GeoPoint D) {
 		if (A.isEqual(B) && A.isEqual(C) && A.isEqual(D)) {
-			String str = equalityString(A, B, C, D);
+			String str = equalityString(A, B, C, D, true);
 			// consider implementing Prove[A==B==C==D]
 			register(true, null, str);
-		}
-		if (GeoPoint.collinear(A, B, C) && GeoPoint.collinear(A, B, D)) {
+		} else if (GeoPoint.collinear(A, B, C) && GeoPoint.collinear(A, B, D)) {
 			String str = collinearityString(A, B, C, D);
 			// consider implementing Prove[AreCollinear[A,B,C,D]]
 			register(true, null, str);
-		}
-		if (GeoPoint.concyclic(A, B, C, D)) {
+		} else if (GeoPoint.concyclic(A, B, C, D)) {
 			String str = concyclicityString(A, B, C, D);
 			register(true, RelationCommand.AreConcyclic, str);
+		} else {
+			String str = equalityString(A, B, C, D, false);
+			register(false, null, str);
 		}
 		return reports;
 	}
@@ -791,7 +792,7 @@ public class RelationNumerical {
 	}
 
 	/**
-	 * Internationalized string of "a, b, c and d are equal"
+	 * Internationalized string of "a, b, c and d are equal" (or not)
 	 * 
 	 * @param a
 	 *            first object
@@ -801,12 +802,19 @@ public class RelationNumerical {
 	 *            third object
 	 * @param d
 	 *            forth object
+	 * @param equal
+	 *            if the objects are equal
 	 * 
 	 * @return internationalized string
 	 */
 	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
-			GeoElement d) {
-		return loc.getPlain("ABCandDareEqual", a.getColoredLabel(),
+			GeoElement d, boolean equal) {
+		if (equal) {
+			return loc.getPlain("ABCandDareEqual", a.getColoredLabel(),
+					b.getColoredLabel(), c.getColoredLabel(),
+					d.getColoredLabel());
+		}
+		return loc.getPlain("ABCandDareNotEqual", a.getColoredLabel(),
 				b.getColoredLabel(), c.getColoredLabel(), d.getColoredLabel());
 	}
 
