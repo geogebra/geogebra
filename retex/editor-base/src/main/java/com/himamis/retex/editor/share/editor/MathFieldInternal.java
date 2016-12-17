@@ -28,6 +28,7 @@
 package com.himamis.retex.editor.share.editor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
@@ -377,13 +378,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	private static void reverse(ArrayList<Integer> list2) {
-		for (int i = 0; i < list2.size() / 2; i++) {
-			int tmp = list2.get(i);
-
-			list2.set(i, list2.get(list2.size() - 1 - i));
-			list2.set(list2.size() - 1 - i, tmp);
-		}
-
+		Collections.reverse(list2);
 	}
 
 	public void onPointerMove(int x, int y) {
