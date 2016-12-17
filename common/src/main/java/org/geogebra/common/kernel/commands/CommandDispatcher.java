@@ -785,7 +785,7 @@ public abstract class CommandDispatcher {
 				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.warn("command not found / CAS command called:" + cmdName);
 		}
 		return null;

@@ -556,7 +556,7 @@ public class MyXMLHandler implements DocHandler {
 
 				}
 
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				errors.add(loc.getError("FileFormatUnknown"));
 			}
 
@@ -588,7 +588,7 @@ public class MyXMLHandler implements DocHandler {
 
 			boolean scriptingDisabled = "true".equals(attrs.get("disabled"));
 			app.setScriptingDisabled(scriptingDisabled);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("error in element <scripting>");
 		}
 	}
@@ -794,7 +794,7 @@ public class MyXMLHandler implements DocHandler {
 			boolean showOnStart = Boolean.parseBoolean(attrs.get("show"));
 			kbs.setShowKeyboardOnStart(showOnStart);
 			kbs.setKeyboardLocale(attrs.get("language"));
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			Log.error("error in element <keyboard>");
 		}
@@ -1152,7 +1152,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getProbCalcSettings().setParameters(parameters);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1170,7 +1170,7 @@ public class MyXMLHandler implements DocHandler {
 					.setHigh(StringUtil.parseDouble(attrs.get("high")));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1271,7 +1271,7 @@ public class MyXMLHandler implements DocHandler {
 				ymin.put(ev, null);
 				ymax.put(ev, null);
 				return true;
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				return false;
 			}
 		}
@@ -1281,7 +1281,7 @@ public class MyXMLHandler implements DocHandler {
 			ymin.put(ev, attrs.get("yMin"));
 			ymax.put(ev, attrs.get("yMax"));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1313,7 +1313,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setGridIsBold(parseBoolean(attrs.get("gridIsBold"))); // Michael
 																			// Borcherds
 				// 2008-04-11
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
 
@@ -1322,7 +1322,7 @@ public class MyXMLHandler implements DocHandler {
 					ev.setLockedAxesRatio(StringUtil
 							.parseDouble(attrs.get("lockedAxesRatio")));
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
 
@@ -1330,7 +1330,7 @@ public class MyXMLHandler implements DocHandler {
 				ev.setGridType(Integer.parseInt(attrs.get("gridType"))); // Michael
 																			// Borcherds
 				// 2008-04-30
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
 
@@ -1416,7 +1416,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1451,7 +1451,7 @@ public class MyXMLHandler implements DocHandler {
 						Integer.parseInt(attrs.get("height"))));
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1466,7 +1466,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getSpreadsheet().setPreferredSize(
 					AwtFactory.getPrototype().newDimension(width, height));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1479,7 +1479,7 @@ public class MyXMLHandler implements DocHandler {
 			int width = Integer.parseInt(attrs.get("width"));
 			app.getSettings().getSpreadsheet().addWidth(col, width);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1494,7 +1494,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getSpreadsheet().setPreferredRowHeight(height);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1507,7 +1507,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getSpreadsheet().setCellFormat(cellFormat);
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -1520,7 +1520,7 @@ public class MyXMLHandler implements DocHandler {
 			int height = Integer.parseInt(attrs.get("height"));
 			app.getSettings().getSpreadsheet().addHeight(row, height);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1549,7 +1549,7 @@ public class MyXMLHandler implements DocHandler {
 					parseBoolean(attrs.get("autoComplete")));
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1570,7 +1570,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1589,7 +1589,7 @@ public class MyXMLHandler implements DocHandler {
 	// ((JComponent) app.getCasView()).setPreferredSize(new Dimension(
 	// width, height));
 	// return true;
-	// } catch (Exception e) {
+	// } catch(RuntimeException e) {
 	// e.printStackTrace();
 	// return false;
 	// }
@@ -1636,7 +1636,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAxesLineStyle(Integer.parseInt(attrs.get("axes")));
 			ev.setGridLineStyle(Integer.parseInt(attrs.get("grid")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1656,7 +1656,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setAxisFontStyle(Integer.parseInt(attrs.get("axes")));
 			ev.setAxesLabelsSerif("true".equals(attrs.get("serif")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1680,7 +1680,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.setGridDistances(dists);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -1812,7 +1812,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			// e.printStackTrace();
 			return false;
 		}
@@ -1879,7 +1879,7 @@ public class MyXMLHandler implements DocHandler {
 						Integer.parseInt(attrs.get("val")));
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1889,7 +1889,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setCoordStyle(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1898,7 +1898,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setInverseTrigReturnsAngle(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1907,7 +1907,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setPrintDecimals(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1917,7 +1917,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			startAnimation = parseBoolean(attrs.get("val"));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1930,7 +1930,7 @@ public class MyXMLHandler implements DocHandler {
 			boolean labels = parseBoolean(attrs.get("labels"));
 			loc.setUseLocalizedLabels(labels);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1952,7 +1952,7 @@ public class MyXMLHandler implements DocHandler {
 				app.getSettings().getCasSettings().setTimeoutMilliseconds(
 						OptionsCAS.getTimeoutOption(timeout) * 1000);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1961,7 +1961,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setPrintFigures(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1971,7 +1971,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			kernel.setContinuous(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -1982,7 +1982,7 @@ public class MyXMLHandler implements DocHandler {
 			kernel.setUsePathAndRegionParameters(
 					PathRegionHandling.parse(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2069,7 +2069,7 @@ public class MyXMLHandler implements DocHandler {
 					PlotType.valueOf(attrs.get("plot1")));
 			app.getSettings().getDataAnalysis().setPlotType(1,
 					PlotType.valueOf(attrs.get("plot1")));
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 		return true;
@@ -2254,7 +2254,7 @@ public class MyXMLHandler implements DocHandler {
 			cpSettings.setColsVisibility(colsVis);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e);
 			return false;
 		}
@@ -2272,7 +2272,7 @@ public class MyXMLHandler implements DocHandler {
 					.setShowOnlyBreakpoints(showOnlyBreakpoints);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2308,7 +2308,7 @@ public class MyXMLHandler implements DocHandler {
 				consStep = Integer.parseInt(strConsStep);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -2346,7 +2346,7 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspective.setShowInputPanelCommands(cmdList);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			Log.error(e.getMessage() + ": " + e.getCause());
 			return false;
@@ -2386,7 +2386,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
@@ -2433,7 +2433,7 @@ public class MyXMLHandler implements DocHandler {
 				}
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			tmp_sp1 = 0;
 			tmp_sp2 = 0;
 			return false;
@@ -2511,7 +2511,7 @@ public class MyXMLHandler implements DocHandler {
 
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2532,7 +2532,7 @@ public class MyXMLHandler implements DocHandler {
 					Integer.parseInt(attrs.get("height")));
 			app.setPreferredSize(size);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.warn(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2562,7 +2562,7 @@ public class MyXMLHandler implements DocHandler {
 			app.setFontSize(guiSize, true); // set gui font size and update all
 											// fonts
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2587,7 +2587,7 @@ public class MyXMLHandler implements DocHandler {
 				app.setGUIFontSize(guiSize);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2609,7 +2609,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			app.setTooltipTimeout(ttt);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2620,7 +2620,7 @@ public class MyXMLHandler implements DocHandler {
 			int style = Integer.parseInt(attrs.get("val"));
 			app.setLabelingStyle(style);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -2667,7 +2667,7 @@ public class MyXMLHandler implements DocHandler {
 			mode = MODE_GUI_PERSPECTIVE;
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2745,7 +2745,7 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspective.setInputPosition(ip);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2757,7 +2757,7 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspective.setDockBarEast(!attrs.get("east").equals("false"));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2821,7 +2821,7 @@ public class MyXMLHandler implements DocHandler {
 					embeddedSize, plane));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2860,7 +2860,7 @@ public class MyXMLHandler implements DocHandler {
 					orientation));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.debug(e.getMessage() + ": " + e.getCause());
 			return false;
 		}
@@ -2882,7 +2882,7 @@ public class MyXMLHandler implements DocHandler {
 				cons.setAuthor(author);
 			if (date != null)
 				cons.setDate(date);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("error in <construction>");
 		}
 	}
@@ -2930,7 +2930,7 @@ public class MyXMLHandler implements DocHandler {
 			cons = macroKernel.getConstruction();
 			parser = new GParser(macroKernel, cons);
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("error in <macro>");
 		}
 	}
@@ -3144,7 +3144,7 @@ public class MyXMLHandler implements DocHandler {
 				// constructor
 				KernelCAS.dependentCasCell(geoCasCell);
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("error when processing <cellpair>: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -3927,7 +3927,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -3940,7 +3940,7 @@ public class MyXMLHandler implements DocHandler {
 			((GeoFunction) geo).setShowOnAxis(parseBoolean(attrs.get("val")));
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -3989,7 +3989,7 @@ public class MyXMLHandler implements DocHandler {
 							colorSpace == null ? GeoElement.COLORSPACE_RGB
 									: Integer.parseInt(colorSpace));
 				}
-			} catch (Exception e) {
+			} catch (RuntimeException e) {
 				e.printStackTrace();
 				Log.error("Error loading Dynamic Colors");
 			}
@@ -4053,7 +4053,7 @@ public class MyXMLHandler implements DocHandler {
 			int green = Integer.parseInt(attrs.get("g"));
 			int blue = Integer.parseInt(attrs.get("b"));
 			return GColor.newColor(red, green, blue);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return null;
 		}
 	}
@@ -4069,7 +4069,7 @@ public class MyXMLHandler implements DocHandler {
 			int blue = Integer.parseInt(attrs.get("b"));
 			int alpha = Integer.parseInt(attrs.get("alpha"));
 			return GColor.newColor(red, green, blue, alpha);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return null;
 		}
 	}
@@ -4097,7 +4097,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4107,7 +4107,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setDecorationType(Integer.parseInt(attrs.get("type")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4179,7 +4179,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error("problem in <curveParam>: " + e.getMessage());
 			return false;
 		}
@@ -4229,7 +4229,7 @@ public class MyXMLHandler implements DocHandler {
 						JsScript.fromName(app, attrs.get("val")));
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Log.error(e.getMessage());
 			return false;
 		}
@@ -4239,7 +4239,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setCaption(attrs.get("val"));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4258,7 +4258,7 @@ public class MyXMLHandler implements DocHandler {
 				geo.setUpdateScript(script);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4276,7 +4276,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4291,7 +4291,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoBoolean bool = (GeoBoolean) geo;
 			bool.setCheckboxFixed(parseBoolean(attrs.get("fixed")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4335,7 +4335,7 @@ public class MyXMLHandler implements DocHandler {
 				button.setClickScript(script);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4351,7 +4351,7 @@ public class MyXMLHandler implements DocHandler {
 			PointProperties p = (PointProperties) geo;
 			p.setPointSize(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4372,7 +4372,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			p.setPointStyle(style);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4382,7 +4382,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setLayer(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4403,7 +4403,7 @@ public class MyXMLHandler implements DocHandler {
 			String evalCmd = attrs.get("evalCmd");
 			geoCasCell.setEvalCommand(evalCmd);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4439,7 +4439,7 @@ public class MyXMLHandler implements DocHandler {
 				geoCasCell.setEvalComment(evalComment);
 			}
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4471,8 +4471,8 @@ public class MyXMLHandler implements DocHandler {
 	 * String strType = (String) attrs.get("type"); if (strType != null) {
 	 * param.setPathType(Integer.parseInt(strType)); }
 	 * 
-	 * p.initPathParameter(param); return true; } catch (Exception e) { return
-	 * false; } }
+	 * p.initPathParameter(param); return true; } catch(RuntimeException e) {
+	 * return false; } }
 	 */
 
 	private boolean handleSlider(LinkedHashMap<String, String> attrs) {
@@ -4517,7 +4517,7 @@ public class MyXMLHandler implements DocHandler {
 			num.setSliderHorizontal(parseBoolean(attrs.get("horizontal")));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4533,7 +4533,7 @@ public class MyXMLHandler implements DocHandler {
 			Traceable t = (Traceable) geo;
 			t.setTrace(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4582,7 +4582,7 @@ public class MyXMLHandler implements DocHandler {
 
 			return true;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -4595,7 +4595,7 @@ public class MyXMLHandler implements DocHandler {
 		 * 
 		 * try { GeoPoint p = (GeoPoint) geo;
 		 * p.setSpreadsheetTrace(parseBoolean((String) attrs.get("val")));
-		 * return true; } catch (Exception e) { return false; }
+		 * return true; } catch(RuntimeException e) { return false; }
 		 */
 		// END G.Sturr
 
@@ -4605,7 +4605,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setShowTrimmedIntersectionLines(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4615,7 +4615,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setSelectionAllowed(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4626,7 +4626,7 @@ public class MyXMLHandler implements DocHandler {
 				((GeoList) geo).setSelectedIndex(
 						Integer.parseInt(attrs.get("val")), false);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4658,7 +4658,7 @@ public class MyXMLHandler implements DocHandler {
 				animatingList.add(geo);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4667,7 +4667,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setFixed(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4676,7 +4676,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setConsProtocolBreakpoint(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4690,7 +4690,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setImageFileName(attrs.get("name"));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4727,7 +4727,7 @@ public class MyXMLHandler implements DocHandler {
 			if (style != null)
 				text.setFontStyle(Integer.parseInt((String) style));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4742,7 +4742,7 @@ public class MyXMLHandler implements DocHandler {
 			TextProperties text = (TextProperties) geo;
 			text.setPrintDecimals(Integer.parseInt(attrs.get("val")), true);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4757,7 +4757,7 @@ public class MyXMLHandler implements DocHandler {
 			TextProperties text = (TextProperties) geo;
 			text.setPrintFigures(Integer.parseInt(attrs.get("val")), true);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4772,7 +4772,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			((GeoImage) geo).setInBackground(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4787,7 +4787,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			((GeoImage) geo).setInterpolate(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4796,7 +4796,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setAuxiliaryObject(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4805,7 +4805,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setAutoColor(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4815,7 +4815,7 @@ public class MyXMLHandler implements DocHandler {
 
 			((GeoText) geo).setLaTeX(parseBoolean(attrs.get("val")), false);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4830,7 +4830,7 @@ public class MyXMLHandler implements DocHandler {
 			AngleProperties angle = (AngleProperties) geo;
 			angle.setArcSize(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4850,7 +4850,7 @@ public class MyXMLHandler implements DocHandler {
 			absLoc.setAbsoluteScreenLoc(x, y);
 			absLoc.setAbsoluteScreenLocActive(true);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4867,7 +4867,7 @@ public class MyXMLHandler implements DocHandler {
 			AngleProperties angle = (AngleProperties) geo;
 			angle.setAllowReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 
 			return false;
 		}
@@ -4885,7 +4885,7 @@ public class MyXMLHandler implements DocHandler {
 			AngleProperties angle = (AngleProperties) geo;
 			angle.setEmphasizeRightAngle(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 
 			return false;
 		}
@@ -4901,7 +4901,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoList list = (GeoList) geo;
 			list.setDrawAsComboBox(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 
 			return false;
 		}
@@ -4917,7 +4917,7 @@ public class MyXMLHandler implements DocHandler {
 			AngleProperties angle = (AngleProperties) geo;
 			angle.setAngleStyle(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 
 			return false;
 		}
@@ -4938,7 +4938,7 @@ public class MyXMLHandler implements DocHandler {
 			AngleProperties angle = (AngleProperties) geo;
 			angle.setForceReflexAngle(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 
 			return false;
 		}
@@ -4958,7 +4958,7 @@ public class MyXMLHandler implements DocHandler {
 			LimitedPath lpath = (LimitedPath) geo;
 			lpath.setAllowOutlyingIntersections(parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4976,7 +4976,7 @@ public class MyXMLHandler implements DocHandler {
 			lpath.setKeepTypeOnGeometricTransform(
 					parseBoolean(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -4991,7 +4991,7 @@ public class MyXMLHandler implements DocHandler {
 			HasSymbolicMode num = (HasSymbolicMode) geo;
 			num.setSymbolicMode(parseBoolean(attrs.get("val")), false);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5008,7 +5008,7 @@ public class MyXMLHandler implements DocHandler {
 			GeoNumeric num = (GeoNumeric) geo;
 			num.setSlopeTriangleSize(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5038,7 +5038,7 @@ public class MyXMLHandler implements DocHandler {
 		int number = 0;
 		try {
 			number = Integer.parseInt(attrs.get("number"));
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			// do nothing
 		}
 
@@ -5182,7 +5182,7 @@ public class MyXMLHandler implements DocHandler {
 				((GeoInputBox) pair.getGeo())
 						.setLinkedGeo(kernel.lookupLabel(pair.exp));
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			linkedGeoList.clear();
 			e.printStackTrace();
 			errors.add("Invalid linked geo " + e.toString());
@@ -5225,7 +5225,7 @@ public class MyXMLHandler implements DocHandler {
 						handler);
 				pair.getGeo().setAnimationSpeedObject(num);
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			animationSpeedList.clear();
 			e.printStackTrace();
 			errors.add("Invalid animation speed: " + e.toString());
@@ -5248,7 +5248,7 @@ public class MyXMLHandler implements DocHandler {
 				pair.getGeo().setAnimationStep(num);
 
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			animationStepList.clear();
 			e.printStackTrace();
 			errors.add("Invalid animation step: " + e.toString());
@@ -5264,7 +5264,7 @@ public class MyXMLHandler implements DocHandler {
 				GeoElement geo1 = it.next();
 				geo1.setAnimating(true);
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			errors.add("Invalid animating: " + e.toString());
 		}
 		animatingList.clear();
@@ -5325,7 +5325,7 @@ public class MyXMLHandler implements DocHandler {
 				if (!wasDefined)
 					pair.getGeo().setUndefined();
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			minMaxList.clear();
 			e.printStackTrace();
 			errors.add("Invalid min/max: " + e.toString());
@@ -5344,7 +5344,7 @@ public class MyXMLHandler implements DocHandler {
 				pair.getGeo()
 						.setColorFunction(algProc.evaluateToList(pair.exp));
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			dynamicColorList.clear();
 			e.printStackTrace();
 			errors.add("Invalid dynamic color: " + e.toString());
@@ -5375,7 +5375,7 @@ public class MyXMLHandler implements DocHandler {
 					StringUtil.parseDouble(attrs.get("y1")),
 					StringUtil.parseDouble(attrs.get("z1")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5423,7 +5423,7 @@ public class MyXMLHandler implements DocHandler {
 			geo.labelOffsetY = Integer.parseInt(attrs.get("y"));
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5432,7 +5432,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setLabelMode(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5441,7 +5441,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			geo.setTooltipMode(Integer.parseInt(attrs.get("val")));
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5504,7 +5504,7 @@ public class MyXMLHandler implements DocHandler {
 				// geo.setDefinition(def);
 				return true;
 			}
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 		return false;
@@ -5729,7 +5729,7 @@ public class MyXMLHandler implements DocHandler {
 			errors.add("processing of command: " + cmd);
 			e.printStackTrace();
 			return false;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			errors.add("processing of command: " + cmd);
 			return false;
@@ -5756,7 +5756,7 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		} catch (MyError e) {
 			errors.add("wrong command size for " + cmd);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			errors.add("wrong command size for " + cmd);
 		}
 		return false;
@@ -5885,7 +5885,7 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getAlgebra().setModeChanged(true);
 
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5897,7 +5897,7 @@ public class MyXMLHandler implements DocHandler {
 			boolean b = parseBoolean(attrs.get("show"));
 			app.getSettings().getAlgebra().setShowAuxiliaryObjects(b);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}
@@ -5912,7 +5912,7 @@ public class MyXMLHandler implements DocHandler {
 				vals[i] = Integer.parseInt(strings[i]);
 			app.getSettings().getAlgebra().setCollapsedNodes(vals);
 			return true;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return false;
 		}
 	}

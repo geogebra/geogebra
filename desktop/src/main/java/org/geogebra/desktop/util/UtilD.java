@@ -104,6 +104,9 @@ public class UtilD extends Util {
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("HEAD");
 			return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
+		} catch (RuntimeException e) {
+			Log.debug("Exception: existsHttpURL: " + url);
+			return false;
 		} catch (Exception e) {
 			Log.debug("Exception: existsHttpURL: " + url);
 			return false;
@@ -206,6 +209,8 @@ public class UtilD extends Util {
 				return null;
 			}
 			return buffer;
+		} catch (RuntimeException e) {
+			Log.error("problem loading " + filename);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		} finally {

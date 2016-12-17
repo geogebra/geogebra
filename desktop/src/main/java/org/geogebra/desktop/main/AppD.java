@@ -1049,6 +1049,9 @@ public class AppD extends App implements KeyEventDispatcher {
 				}
 
 				br.close();
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -34,6 +34,9 @@ public class Normalizer6 extends Normalizer {
 		try {
 			return ((String) normalize.invoke(null, ret, NFD))
 					.replaceAll("[\u0300-\u036F]", "");
+		} catch (RuntimeException e) {
+			// should work, if not
+			return ret;
 		} catch (Exception e) {
 			// should work, if not
 			return ret;

@@ -82,6 +82,9 @@ public class MyImageD implements MyImageJre {
 				md.update(svg.toString().getBytes(Charsets.UTF_8));
 				byte[] md5hash = md.digest();
 				return StringUtil.convertToHex(md5hash);
+			} catch (RuntimeException e) {
+				Log.error("MD5 Runtime Error");
+				return "svg" + UUID.randomUUID();
 			} catch (Exception e) {
 				Log.error("MD5 Error");
 				return "svg" + UUID.randomUUID();

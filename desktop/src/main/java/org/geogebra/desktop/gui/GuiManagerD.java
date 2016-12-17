@@ -784,7 +784,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				return false;
 			}
 			return layout.getDockManager().getPanel(viewId).isVisible();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -1208,7 +1208,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			return chooser.getColor();
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			return null;
 		}
 	}
@@ -1252,6 +1252,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			selection = new String(sbuf);
 			reader.close();
+		} catch (RuntimeException e) {
+			// e.printStackTrace();
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
