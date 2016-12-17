@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -40,7 +39,6 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public abstract class CASgiac implements CASGenericInterface {
 	/** parser tools */
-	protected CasParserTools parserTools;
 
 	/**
 	 * Random number generator

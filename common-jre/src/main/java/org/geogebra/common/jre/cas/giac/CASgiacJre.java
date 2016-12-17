@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.AsynchronousCommand;
@@ -32,17 +31,14 @@ public abstract class CASgiacJre extends CASgiac {
 	/**
 	 * @param casParser
 	 *            casParser
-	 * @param t
-	 *            CasParserTools
 	 * @param k
 	 *            Kernel
 	 */
-	public CASgiacJre(CASparser casParser, CasParserTools t, Kernel k) {
+	public CASgiacJre(CASparser casParser, Kernel k) {
 		super(casParser);
 
 		this.app = k.getApplication();
 
-		this.parserTools = t;
 
 	}
 

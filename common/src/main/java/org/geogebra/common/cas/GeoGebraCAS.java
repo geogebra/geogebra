@@ -99,8 +99,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 */
 	private synchronized CASGenericInterface getGiac() {
 		if (cas == null) {
-			cas = app.getCASFactory().newGiac(casParser,
-					new CasParserToolsImpl('e'), app.getKernel());
+			cas = app.getCASFactory().newGiac(casParser, app.getKernel());
 		}
 		return cas;
 	}

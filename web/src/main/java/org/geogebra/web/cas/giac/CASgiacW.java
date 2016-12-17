@@ -1,7 +1,6 @@
 package org.geogebra.web.cas.giac;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.AsynchronousCommand;
@@ -39,10 +38,9 @@ public class CASgiacW extends CASgiac {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CASgiacW(CASparser casParser, CasParserTools parserTools,
+	public CASgiacW(CASparser casParser,
 	        Kernel kernel) {
 		super(casParser);
-		this.parserTools = parserTools;
 		this.kernel = kernel;
 
 		App.setCASVersionString("Giac/JS");

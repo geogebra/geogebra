@@ -1,7 +1,6 @@
 package org.geogebra.common.factories;
 
 import org.geogebra.common.cas.CASparser;
-import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 
@@ -41,7 +40,7 @@ public abstract class CASFactory {
 	 * @return GIAC instance
 	 */
 	public abstract CASGenericInterface newGiac(CASparser parser,
-			CasParserTools tools, Kernel kernel);
+			Kernel kernel);
 
 	/**
 	 * @return whether this will produce a working CAS
