@@ -3916,7 +3916,7 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 
-		// TODO: remove
+		// TODO: remove me
 		prerelease = false;
 
 		switch (f) {
