@@ -137,7 +137,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 		StringBuilder sb = new StringBuilder("\nnew faces:");
 		for (ConstructionElementCycle face : newFaces) {
-			sb.append("\n   " + face);
+			sb.append("\n   ");
+			sb.append(face);
 		}
 		sb.append("\navailable indices:");
 		for (Integer index : availableIndices) {

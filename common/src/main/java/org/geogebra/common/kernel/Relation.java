@@ -160,10 +160,13 @@ public class Relation {
 								// GenerallyTrueAcondB
 								StringBuilder conds = new StringBuilder("<ul>");
 								for (int j = 1; j < ndgs; ++j) {
-									conds.append("<li " + liStyle + ">");
+									conds.append("<li ");
+									conds.append(liStyle);
+									conds.append(">");
 									conds.append(ndgResult[j]);
 									if ((j < ndgs - 1)) {
-										conds.append(" " + and);
+										conds.append(" ");
+										conds.append(and);
 									}
 								}
 								conds.append("</ul>");

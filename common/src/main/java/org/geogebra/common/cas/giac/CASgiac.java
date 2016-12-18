@@ -788,7 +788,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret.append("," + v.toString() + "=" + substitutions.get(v));
+			ret.append(",");
+			ret.append(v.toString());
+			ret.append("=");
+			ret.append(substitutions.get(v));
 		}
 		if (ret.length() > 0)
 			return ret.substring(1);

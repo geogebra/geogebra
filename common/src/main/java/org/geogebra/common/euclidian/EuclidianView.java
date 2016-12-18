@@ -5510,7 +5510,10 @@ public abstract class EuclidianView
 		StringBuilder text = new StringBuilder("TableText[");
 		for (int i = 0; i < list.size(); i++) {
 
-			text.append("{FormulaText[" + list.get(i) + ", true, true]}");
+			text.append("{FormulaText[");
+			text.append(list.get(i));
+			text.append(", true, true]}");
+
 			if (i < list.size() - 1) {
 				text.append(",");
 			}

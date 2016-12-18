@@ -110,11 +110,14 @@ public class ToolManagerDialogModel {
 				// don't delete, remember name
 				ArrayList<GeoElement> geos = macro.getDependentGeos();
 				Iterator<GeoElement> curr = geos.iterator();
-				while (curr.hasNext())
+				while (curr.hasNext()) {
 					app.getSelectionManager().addSelectedGeo(curr.next());
+				}
 				foundUsedMacro = true;
-				macroNames.append("\n" + macro.getToolOrCommandName());
-				macroNames.append(": " + macro.getNeededTypesString());
+				macroNames.append("\n");
+				macroNames.append(macro.getToolOrCommandName());
+				macroNames.append(": ");
+				macroNames.append(macro.getNeededTypesString());
 			}
 		}
 
