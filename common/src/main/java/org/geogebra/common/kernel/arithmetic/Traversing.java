@@ -1225,20 +1225,24 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
-				if (en.getRight() instanceof GeoDummyVariable
-						|| en.getRight() instanceof FunctionVariable) {
+				if (isVariable(en.getRight())) {
 					add(en.getRight());
 				}
 				if (en.getOperation() == Operation.FUNCTION
 						|| en.getOperation() == Operation.FUNCTION_NVAR
 						|| en.getOperation() == Operation.DERIVATIVE)
 					return en;
-				if (en.getLeft() instanceof GeoDummyVariable
-						|| en.getLeft() instanceof FunctionVariable) {
+				if (isVariable(en.getLeft())) {
 					add(en.getLeft());
 				}
 			}
 			return ev;
+		}
+
+		private static boolean isVariable(ExpressionValue right) {
+			return right instanceof GeoDummyVariable
+					|| right instanceof FunctionVariable
+					|| right instanceof Variable;
 		}
 
 		private void add(ExpressionValue dummy) {
