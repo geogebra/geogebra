@@ -4047,12 +4047,14 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return prerelease
-					&& Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
+			return false;
+		// return prerelease
+		// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return false;
+		// return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-798
 		case AV_SCROLL:
