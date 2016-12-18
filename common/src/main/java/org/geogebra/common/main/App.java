@@ -3915,10 +3915,11 @@ public abstract class App implements UpdateSelection {
 	public abstract String getEnglishCommand(String command);
 
 	public final boolean has(Feature f) {
-		switch (f) {
-		
+
 		// TODO: remove
 		prerelease = false;
+
+		switch (f) {
 
 		// leave as prerelease
 		case TUBE_BETA:
