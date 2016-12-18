@@ -3916,9 +3916,6 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 
-		// TODO: remove me
-		prerelease = false;
-
 		switch (f) {
 
 		// leave as prerelease
@@ -4051,14 +4048,12 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-334, TRAC-3401
 		case ADJUST_WIDGETS:
-			return false;
-		// return prerelease
-		// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
+			return prerelease
+					&& Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return false;
-		// return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
 		// GGB-798
 		case AV_SCROLL:
