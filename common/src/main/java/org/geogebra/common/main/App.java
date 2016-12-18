@@ -3916,6 +3916,9 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 		switch (f) {
+		
+		// TODO: remove
+		prerelease = false;
 
 		// leave as prerelease
 		case TUBE_BETA:
