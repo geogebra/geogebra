@@ -127,6 +127,7 @@ public class PerspectiveDecoder {
 		StringBuilder longCode = new StringBuilder();
 		for (int i = 0; i < code.length(); i++) {
 			longCode.append(code.charAt(i));
+			longCode.append(" ");
 		}
 		ExpressionValue expr;
 		try {
