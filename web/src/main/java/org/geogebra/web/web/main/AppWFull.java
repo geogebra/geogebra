@@ -615,6 +615,8 @@ public abstract class AppWFull extends AppW {
 							Material material = parseResponse.get(0);
 							material.setSyncStamp(parseResponse.get(0)
 									.getModified());
+							AppWFull.this.setSyncStamp(
+									parseResponse.get(0).getModified());
 							getGgbApi().setBase64(material.getBase64());
 							setActiveMaterial(material);
 							AppWFull.this.updateMaterialURL(material.getId(),

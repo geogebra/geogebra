@@ -12,6 +12,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	private static GeoGebraPreferencesW singleton;
 
+	/**
+	 * @return preferences
+	 */
 	public static GeoGebraPreferencesW getPref() {
 		if (singleton == null) {
 			singleton = new GeoGebraPreferencesW();
@@ -19,6 +22,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		return singleton;
 	}
 
+	/**
+	 * Remove all preferences from storage
+	 */
 	public void clearPreferences() {
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
@@ -29,6 +35,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	}
 
+	/**
+	 * Set the factory defaults to an application
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public void resetPreferences(final App app) {
 
 		app.setXML(GeoGebraPreferencesXML.getXML(app), false);

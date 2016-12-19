@@ -6,6 +6,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 
+/**
+ * Device interface, gives access to browser or tablet native features
+ */
 public interface GDevice {
 
 	public FileManager createFileManager(AppW app);
