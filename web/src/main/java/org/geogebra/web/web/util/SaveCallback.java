@@ -39,7 +39,7 @@ public class SaveCallback {
 			if (app.getActiveMaterial() != null
 					&& !app.getActiveMaterial().getVisibility().equals("P")) {
 				String msg = app.getMenu("SavedSuccessfully");
-				if (state == state.FORKED) {
+				if (state == SaveState.FORKED) {
 					msg += "<br/>";
 					msg += app.getLocalization().getPlain("SeveralVersionsOf",
 							app.getKernel().getConstruction().getTitle());

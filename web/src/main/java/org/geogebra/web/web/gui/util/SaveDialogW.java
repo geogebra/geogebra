@@ -54,11 +54,19 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Dialog for online saving (tube/drive)
+ */
 public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
         EventRenderable {
-
+	/** Material visibility */
 	public enum Visibility {
-		Private(0, "P"), Shared(1, "S"), Public(2, "O");
+		/** private */
+		Private(0, "P"),
+		/** shared with link */
+		Shared(1, "S"),
+		/** public */
+		Public(2, "O");
 
 		private int index;
 		private String token;
@@ -68,25 +76,33 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			this.token = tok;
 		}
 
+		/**
+		 * @return index 0-2
+		 */
 		int getIndex() {
 			return this.index;
 		}
 
+		/**
+		 * @return string representation P/S/O
+		 */
 		String getToken() {
 			return this.token;
 		}
 	}
 
 	private static final int MAX_TITLE_LENGTH = 60;
+	/** application */
 	protected AppW app;
-	FlowPanel contentPanel;
-	VerticalPanel p;
+	private FlowPanel contentPanel;
+	private VerticalPanel p;
+	/** title box */
 	protected TextBox title;
-	StandardButton dontSaveButton;
-	StandardButton saveButton;
+	private StandardButton dontSaveButton;
+	private StandardButton saveButton;
 	private Label titleLabel;
 	private final static int MIN_TITLE_LENGTH = 1;
-	Runnable runAfterSave;
+	private Runnable runAfterSave;
 	// SaveCallback saveCallback;
 	private PopupMenuButtonW providerPopup;
 	private FlowPanel buttonPanel;
@@ -130,10 +146,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
 			public void onClose(final CloseEvent<GPopupPanel> event) {
-				app.setDefaultCursor();
-				dontSaveButton.setEnabled(true);
-				title.setEnabled(true);
-				app.closePopups();
+				handleClose();
 			}
 		});
 		this.addDomHandler(new ClickHandler() {
@@ -150,6 +163,24 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
+	/**
+	 * Handle dialog closed (escape or cancel)
+	 */
+	protected void handleClose() {
+		app.setDefaultCursor();
+		dontSaveButton.setEnabled(true);
+		title.setEnabled(true);
+		app.closePopups();
+
+	}
+
+	/**
+	 * @param base64
+	 *            material base64
+	 * @param forked
+	 *            whether this is a fork
+	 * @return save callback
+	 */
 	MaterialCallback initMaterialCB(final String base64, final boolean forked) {
 		return new MaterialCallback() {
 
@@ -217,12 +248,18 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					((FileManager) app.getFileManager()).saveFile(base64,
 							modified, new SaveCallback(app, state));
 				} else {
-					app.setSaved();
+					SaveCallback.onSaved(app, state, false);
 				}
 			}
 		};
 	}
 
+	/**
+	 * @param app
+	 *            used to get current sync stamp
+	 * @return current time in seconds since epoch OR app sync stamp + 1 if
+	 *         bigger (to avoid problems with system clock)
+	 */
 	public static long getCurrentTimestamp(AppW app) {
 		return Math.max(System.currentTimeMillis() / 1000,
 		        app.getSyncStamp() + 1);
@@ -240,19 +277,28 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 			@Override
 			public void onKeyUp(final KeyUpEvent event) {
-				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
-				        && saveButton.isEnabled()) {
-					onSave();
-				} else if (title.getText().length() < MIN_TITLE_LENGTH) {
-					saveButton.setEnabled(false);
-				} else {
-					saveButton.setEnabled(true);
-				}
+				handleKeyUp(event);
 			}
 		});
 
 		titlePanel.addStyleName("titlePanel");
 		return titlePanel;
+	}
+
+	/**
+	 * @param event
+	 *            key event
+	 */
+	protected void handleKeyUp(KeyUpEvent event) {
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER
+				&& saveButton.isEnabled()) {
+			onSave();
+		} else if (title.getText().length() < MIN_TITLE_LENGTH) {
+			saveButton.setEnabled(false);
+		} else {
+			saveButton.setEnabled(true);
+		}
+
 	}
 
 	private FlowPanel getButtonPanel() {
@@ -425,15 +471,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 
 
-	/**
-	 * @return true if material was already public or shared
-	 */
-	private boolean isAlreadyPublicOrShared() {
-		return app.getActiveMaterial().getVisibility()
-		        .equals(Visibility.Public.getToken())
-		        || app.getActiveMaterial().getVisibility()
-		                .equals(Visibility.Shared.getToken());
-	}
+	// /**
+	// * @return true if material was already public or shared
+	// */
+	// private boolean isAlreadyPublicOrShared() {
+	// return app.getActiveMaterial().getVisibility()
+	// .equals(Visibility.Public.getToken())
+	// || app.getActiveMaterial().getVisibility()
+	// .equals(Visibility.Shared.getToken());
+	// }
 
 	/**
 	 * Handles the upload of the file and closes the dialog. If there are
@@ -514,6 +560,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
+	/**
+	 * @param base64
+	 *            material base64
+	 * @param visibility
+	 *            "P" / "O" / "S"
+	 */
 	void handleSync(final String base64, final String visibility) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(app.getTubeId() + "", new MaterialCallback() {
@@ -555,6 +607,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	/**
 	 * does the upload of the actual opened file to GeoGebraTube
+	 * 
+	 * @param tubeID
+	 *            id in materials platform
+	 * @param visibility
+	 *            visibility string
+	 * @param base64
+	 *            material base64
 	 * 
 	 * @param materialCallback
 	 *            {@link MaterialCallback}
@@ -643,7 +702,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
-	private void position() {
+	/**
+	 * Like center, but more to the top
+	 */
+	protected void position() {
 		int left = (getRootPanel().getOffsetWidth() - getOffsetWidth()) >> 1;
 		int top = Math.min(
 				(getRootPanel().getOffsetHeight() - getOffsetHeight()) >> 1,
@@ -666,10 +728,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
-	private String getTitleOnly(String key) {
+	private static String getTitleOnly(String key) {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
+	/**
+	 * Update localization
+	 */
 	public void setLabels() {
 		this.getCaption().setText(loc.getMenu("Save"));
 		this.titleLabel.setText(loc.getMenu("Title") + ": ");
@@ -742,6 +807,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	/**
 	 * @param visibility
 	 *            new default
+	 * @return this
 	 */
 	public SaveDialogW setDefaultVisibility(Visibility visibility) {
 		this.defaultVisibility = visibility;
