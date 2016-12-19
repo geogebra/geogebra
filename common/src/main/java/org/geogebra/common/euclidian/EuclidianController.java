@@ -9217,6 +9217,11 @@ public abstract class EuclidianController {
 			scriptsHaveRun = true;
 			app.runScripts(geo1, (String) null);
 		}
+		else if (view.getHits().size() > 0
+				&& view.getHits().get(0) instanceof GeoInputBox) {
+			// iPad inputboxes depend on this r50117
+			view.requestFocusInWindow();
+		}
 
 	}
 

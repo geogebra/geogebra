@@ -366,6 +366,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
+	/**
+	 * @param ae
+	 *            article element
+	 * @param gfE
+	 *            app frame element
+	 */
 	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
 		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
@@ -404,6 +410,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * @param ae
+	 *            article element
+	 * @param gfE
+	 *            app frame element
+	 */
 	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
 		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
