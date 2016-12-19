@@ -2367,18 +2367,23 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void closePopups() {
-		justClosedPopup = false;
-		for (Widget widget : popups) {
-			justClosedPopup = true;
-			widget.setVisible(false);
-		}
+		closePopupsNoTooltips();
 		ToolTipManagerW.hideAllToolTips();
-		popups.clear();
+
 		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			getAlgebraView().resetItems(false);
 		}
 
 
+	}
+
+	public void closePopupsNoTooltips() {
+		justClosedPopup = false;
+		for (Widget widget : popups) {
+			justClosedPopup = true;
+			widget.setVisible(false);
+		}
+		popups.clear();
 	}
 
 	public void addAsAutoHidePartnerForPopups(Element el) {

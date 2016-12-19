@@ -170,7 +170,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		app.setDefaultCursor();
 		dontSaveButton.setEnabled(true);
 		title.setEnabled(true);
-		app.closePopups();
+		app.closePopupsNoTooltips();
 
 	}
 
