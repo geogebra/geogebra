@@ -17,7 +17,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public enum Provider {
 		TUBE, GOOGLE, ONE, LOCAL
-	};
+	}
 
 	public enum MaterialType {
 		ggb, ggt, link, book, ws, csv, flexiblews;

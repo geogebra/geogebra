@@ -35,7 +35,7 @@ public abstract class GeoGebraTubeAPI {
 	/** Public login url DO NOT CHANGE! */
 	public static final String login_url = "https://accounts.geogebra.org/api/index.php";
 	/** Login for beta */
-	public static final String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
+	public static final String login_urlBeta = "https://accounts-beta.geogebra.org/api/index.php";
 
 	static public final int LOGIN_TOKEN_VALID = 0;
 	static public final int LOGIN_TOKEN_INVALID = 1;

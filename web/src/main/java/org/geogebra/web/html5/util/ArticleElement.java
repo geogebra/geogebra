@@ -540,6 +540,9 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-showTutorialLink", def);
 	}
 
+	/**
+	 * @return whether to enable file menu
+	 */
 	public boolean getDataParamEnableFileFeatures() {
 		return !"false".equals(getAttribute("data-param-enableFileFeatures"));
 	}

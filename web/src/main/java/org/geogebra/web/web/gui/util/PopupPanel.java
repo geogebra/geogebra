@@ -455,34 +455,6 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
   }
 
   /**
-   * Creates an empty popup panel, specifying its "auto-hide" property.
-   *
-   * @param autoHide <code>true</code> if the popup should be automatically
-   *          hidden when the user clicks outside of it or the history token
-   *          changes.
-   */
-  public PopupPanel(boolean autoHide) {
-    this();
-    this.autoHide = autoHide;
-    this.autoHideOnHistoryEvents = autoHide;
-  }
-
-  /**
-   * Creates an empty popup panel, specifying its "auto-hide" and "modal"
-   * properties.
-   *
-   * @param autoHide <code>true</code> if the popup should be automatically
-   *          hidden when the user clicks outside of it or the history token
-   *          changes.
-   * @param modal <code>true</code> if keyboard or mouse events that do not
-   *          target the PopupPanel or its children should be ignored
-   */
-  public PopupPanel(boolean autoHide, boolean modal) {
-    this(autoHide);
-    this.modal = modal;
-  }
-
-  /**
    * Mouse events that occur within an autoHide partner will not hide a panel
    * set to autoHide.
    *
