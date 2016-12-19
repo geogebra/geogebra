@@ -529,10 +529,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		if (listener != null) {
 			listener.onInsertString();
+			listener.onKeyTyped();
 		}
 		getMathFieldController().setSelectedPath(getFormula(), path,
 				getEditorState());
-
+		mathField.requestViewFocus();
 	}
 
 }

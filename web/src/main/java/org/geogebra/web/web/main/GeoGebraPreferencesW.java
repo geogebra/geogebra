@@ -8,6 +8,9 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
 
+/**
+ * Preferences in Web (Local Storage)
+ */
 public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 	private static GeoGebraPreferencesW singleton;
@@ -46,6 +49,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		app.setXML(GeoGebraPreferencesXML.getXML(app), false);
 	}
 
+	/**
+	 * Take prefernces from app and save them to local storage
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public void saveXMLPreferences(App app) {
 		String xml = app.getPreferencesXML();
 		Storage stockStore = null;
@@ -61,6 +70,12 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		}
 	}
 
+	/**
+	 * @param app
+	 *            app
+	 * @param p0
+	 *            selected perspective
+	 */
 	public void loadForApp(AppW app, Perspective p0) {
 		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end

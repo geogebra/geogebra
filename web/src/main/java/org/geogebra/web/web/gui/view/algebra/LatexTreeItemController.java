@@ -18,12 +18,20 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
+/**
+ * @author Laszlo
+ *
+ */
 public class LatexTreeItemController extends RadioTreeItemController
 		implements MathFieldListener, BlurHandler {
 
 	private InputSuggestions sug;
 	private RetexKeyboardListener retexListener;
 
+	/**
+	 * @param item
+	 *            AV item
+	 */
 	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
 	}
@@ -49,6 +57,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 	}
 
+	/**
+	 * @param keepFocus
+	 *            whether focus should stay
+	 */
 	public void onEnter(final boolean keepFocus) {
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && item.isInputTreeItem()
 				&& item.isEmpty()) {
@@ -126,6 +138,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	}
 
+	/**
+	 * @return whether suggestions are open
+	 */
 	public boolean isSuggesting() {
 		return sug != null && sug.isSuggesting();
 	}
@@ -192,30 +207,50 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	}
 
+	/**
+	 * @param text
+	 *            text to be inserted
+	 */
 	public void autocomplete(String text) {
 		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
 
 	}
 
+	/**
+	 * @return keyboard listener
+	 */
 	public RetexKeyboardListener getRetexListener() {
 		return retexListener;
 	}
 
+	/**
+	 * @param retexListener
+	 *            keyboard listener
+	 */
 	public void setRetexListener(RetexKeyboardListener retexListener) {
 		this.retexListener = retexListener;
 	}
 
+	/**
+	 * Coneect keyboard listener to keyboard
+	 */
 	public void setOnScreenKeyboardTextField() {
 		app.getGuiManager().setOnScreenKeyboardTextField(getRetexListener());
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
 	}
+
+	@Override
 	public void showKeyboard() {
 		app.showKeyboard(retexListener);
 
 	}
 	
+	/**
+	 * @param show
+	 *            whether to show keyboard
+	 */
 	public void initAndShowKeyboard(boolean show) {
 		retexListener = new RetexKeyboardListener(item.canvas, getMathField());
 		if (show) {
@@ -232,6 +267,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return getLatexTreeItem().getMathField();
 	}
 
+	/**
+	 * @return input suggestion model (lazy load)
+	 */
 	InputSuggestions getInputSuggestions() {
 		if (sug == null) {
 			sug = new InputSuggestions(app, item);

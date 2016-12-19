@@ -128,6 +128,9 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	}
 
+	/**
+	 * @return whether canvas was created
+	 */
 	protected boolean ensureCanvas() {
 		if (canvas == null) {
 			Log.debug("CANVAS IS NULL");
@@ -258,6 +261,9 @@ public class LatexTreeItem extends RadioTreeItem {
 		getController().setFocus(true);
 	}
 
+	/**
+	 * Update after key was typed
+	 */
 	public void onKeyTyped() {
 		app.closePerspectivesPopup();
 		updatePreview();
@@ -266,6 +272,9 @@ public class LatexTreeItem extends RadioTreeItem {
 		onCursorMove();
 	}
 
+	/**
+	 * Cursor listener
+	 */
 	public void onCursorMove() {
 		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
 				- 10 < CursorBox.startX) {
@@ -282,6 +291,9 @@ public class LatexTreeItem extends RadioTreeItem {
 		return getInputSuggestions().popupSuggestions();
 	}
 
+	/**
+	 * @return suggestions model
+	 */
 	InputSuggestions getInputSuggestions() {
 		return getLatexController().getInputSuggestions();
 	}
@@ -404,10 +416,9 @@ public class LatexTreeItem extends RadioTreeItem {
 		}
 	}
 
-
-
-
-
+	/**
+	 * @return math field
+	 */
 	public MathFieldW getMathField() {
 		return mf;
 	}

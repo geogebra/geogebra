@@ -15,6 +15,11 @@ public interface GDevice {
 
 	public void setMinWidth(GeoGebraAppFrame frame);
 
+	/**
+	 * @param app
+	 *            application
+	 * @return whether device is offline
+	 */
 	public boolean isOffline(AppW app);
 
 	public UploadImageDialog getImageInputDialog(AppW app);

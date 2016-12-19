@@ -32,15 +32,22 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -93,10 +100,13 @@ public class MathFieldW implements MathField, IsWidget {
 	public MathFieldW(Widget el, Context2d context,
 			MathFieldListener listener) {
 		html = el;
-		el.getElement().setTabIndex(1);
+		mathFieldInternal = new MathFieldInternal(this);
+		getHiddenTextArea();
+
+		// el.getElement().setTabIndex(1);
 		this.ctx = context;
 		SelectionBox.touchSelection = false;
-		mathFieldInternal = new MathFieldInternal(this);
+
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
@@ -115,6 +125,16 @@ public class MathFieldW implements MathField, IsWidget {
 			tick.scheduleRepeating(500);
 		}
 		instances.add(this);
+		el.addDomHandler(new MouseDownHandler() {
+
+			public void onMouseDown(MouseDownEvent event) {
+				event.stopPropagation();
+				setFocus(true);
+
+			}
+		}, MouseDownEvent.getType());
+
+		setKeyListener(wrap, keyListener);
 	}
 
 	@Override
@@ -146,7 +166,7 @@ public class MathFieldW implements MathField, IsWidget {
 	@Override
 	public void setKeyListener(final KeyListener keyListener) {
 		this.keyListener = keyListener;
-		setKeyListener(html, keyListener);
+
 
 	}
 
@@ -332,7 +352,7 @@ public class MathFieldW implements MathField, IsWidget {
 			};
 			focuser.schedule(200);
 			startEditing();
-			html.getElement().focus();
+			wrap.getElement().focus();
 			if (!pasteInstalled) {
 				pasteInstalled = true;
 				installPaste();
@@ -353,7 +373,7 @@ public class MathFieldW implements MathField, IsWidget {
 	 */
 	protected void onFocusTimer() {
 		mathFieldInternal.update();
-		html.getElement().focus();
+		wrap.getElement().focus();
 
 	}
 
@@ -411,16 +431,52 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private static native Element getHiddenTextArea() /*-{
-		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea');
+	Element el = null;
+	private TextArea wrap;
+	private Element getHiddenTextArea() {
+		if (el == null) {
+			el = getHiddenTextAreaNative(instances.size());
+			mathFieldInternal.debug("GWT connect");
+			wrap = TextArea.wrap(el);
+
+			wrap.addFocusHandler(new FocusHandler() {
+
+				public void onFocus(FocusEvent event) {
+					event.stopPropagation();
+
+				}
+			});
+			wrap.addBlurHandler(new BlurHandler() {
+
+				public void onBlur(BlurEvent event) {
+					event.stopPropagation();
+
+				}
+			});
+		}
+		Timer tim = new Timer() {
+
+			@Override
+			public void run() {
+				((Panel) html.getParent()).add(wrap);
+
+			}
+		};
+		tim.schedule(5000);
+
+		return el;
+	}
+
+	private static native Element getHiddenTextAreaNative(int counter) /*-{
+		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea'
+				+ counter);
 		if (!hiddenTextArea) {
 			hiddenTextArea = $doc.createElement("textarea");
-			hiddenTextArea.id = 'hiddenCopyPasteLatexArea';
+			hiddenTextArea.id = 'hiddenCopyPasteLatexArea' + counter;
 			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '100';
 			hiddenTextArea.style.left = '-1000px';
-
-			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
+			$doc.body.appendChild(hiddenTextArea);
 		}
 		//hiddenTextArea.value = '';
 		return hiddenTextArea;
@@ -428,7 +484,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	private static native String getSystemClipboardChromeWebapp(
 			Element el) /*-{
-		var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
+		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
 		copyFrom.select();
 		$doc.execCommand('paste');
 		var contents = copyFrom.value;
@@ -443,7 +499,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	private static native void nativeCopy(String value, Element el) /*-{
-		var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
+		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
@@ -452,18 +508,14 @@ public class MathFieldW implements MathField, IsWidget {
 
 	protected void listenToTextArea() {
 		if (keyListener != null) {
-			this.setKeyListener(HTML.wrap(getHiddenTextArea()), keyListener);
+			getHiddenTextArea();
+			this.setKeyListener(wrap, keyListener);
 		}
 	}
-	protected native void preparePaste() /*-{
-		if ($wnd.navigator.userAgent
-				&& $wnd.navigator.userAgent.match(/Firefox/)) {
-			$wnd.console.log("moving focus");
-			var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
-			copyFrom.select();
-			this.@com.himamis.retex.editor.web.MathFieldW::listenToTextArea();
-		}
-	}-*/;
+
+	protected void preparePaste() {
+		wrap.setFocus(true);
+	}
 
 	public native boolean useCustomPaste() /*-{
 		if ($wnd.navigator.userAgent

@@ -32,7 +32,13 @@ public class GeoGebraTubeExportW extends
 		super(app);
 	}
 
-	protected StringBuffer getPostData(String base64) throws IOException {
+	/**
+	 * @param base64
+	 *            material base64
+	 * @return urlencoded POST fields
+	 * @throws IOException
+	 */
+	protected StringBuffer getPostData(String base64) {
 		Construction cons = app.getKernel().getConstruction();
 
 		boolean isConstruction = (macros == null);
@@ -246,7 +252,7 @@ public class GeoGebraTubeExportW extends
 	}
 
 	@Override
-	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
+	protected String getBase64Tools(ArrayList<Macro> macros1) {
 		return ((GgbAPIW) app.getGgbApi()).getMacrosBase64();
 	}
 
