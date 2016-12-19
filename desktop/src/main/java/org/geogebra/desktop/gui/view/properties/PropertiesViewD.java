@@ -240,7 +240,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	@Override
 	public void mousePressedForPropertiesView() {
-		objectPanel.forgetGeoAdded();
+		getObjectPanel().forgetGeoAdded();
 	}
 
 	/**
@@ -329,8 +329,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		if (layoutPanel != null) {
 			layoutPanel.updateGUI();
 		}
-		if (objectPanel != null) {
-			((OptionsObjectD) objectPanel)
+		if (getObjectPanel() != null) {
+			((OptionsObjectD) getObjectPanel())
 					.setVisible(selectedOptionType == OptionType.OBJECTS);
 		}
 
@@ -446,12 +446,12 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return layoutPanel;
 
 		case OBJECTS:
-			if (objectPanel == null) {
-				objectPanel = new OptionsObjectD((AppD) app);
-				((OptionsObjectD) objectPanel).setMinimumSize(
-						((OptionsObjectD) objectPanel).getPreferredSize());
+			if (getObjectPanel() == null) {
+				setObjectPanel(new OptionsObjectD((AppD) app));
+				((OptionsObjectD) getObjectPanel()).setMinimumSize(
+						((OptionsObjectD) getObjectPanel()).getPreferredSize());
 			}
-			return (OptionPanelD) objectPanel;
+			return (OptionPanelD) getObjectPanel();
 		case ALGEBRA:
 			if (algebraPanel == null) {
 				algebraPanel = new OptionsAlgebraD((AppD) app);
@@ -497,8 +497,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			casPanel.setLabels();
 		if (advancedPanel != null)
 			advancedPanel.setLabels();
-		if (objectPanel != null)
-			((SetLabels) objectPanel).setLabels();
+		if (getObjectPanel() != null)
+			((SetLabels) getObjectPanel()).setLabels();
 		if (layoutPanel != null)
 			layoutPanel.setLabels();
 
@@ -548,8 +548,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	public void add(GeoElement geo) {
-		objectPanel.add(geo);
-		((OptionsObjectD) objectPanel).getTree().add(geo);
+		getObjectPanel().add(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().add(geo);
 		styleBar.setObjectButtonEnable(true);
 
 	}
@@ -557,7 +557,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	public void remove(GeoElement geo) {
 		// ((OptionsObjectD) objectPanel).updateIfInSelection(geo);
-		((OptionsObjectD) objectPanel).getTree().remove(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().remove(geo);
 		if (app.getKernel().isEmpty())
 			styleBar.setObjectButtonEnable(false);
 
@@ -568,8 +568,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		if (!isShowing())
 			return;
 
-		((OptionsObjectD) objectPanel).rename(geo);
-		((OptionsObjectD) objectPanel).getTree().rename(geo);
+		((OptionsObjectD) getObjectPanel()).rename(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().rename(geo);
 		updateTitleBar();
 
 	}
@@ -582,8 +582,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		// updateSelection();
 		// propPanel.updateSelection(new GeoElement[] {geo});
-		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
-		((OptionsObjectD) objectPanel).getTree().update(geo);
+		((OptionsObjectD) getObjectPanel()).updateIfInSelection(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().update(geo);
 
 	}
 
@@ -593,8 +593,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		if (!isShowing() || (!geo.isLabelSet() && !geo.isGeoCasCell()))
 			return;
 
-		((OptionsObjectD) objectPanel).updateVisualStyle(geo);
-		((OptionsObjectD) objectPanel).getTree().updateVisualStyle(geo, prop);
+		((OptionsObjectD) getObjectPanel()).updateVisualStyle(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().updateVisualStyle(geo, prop);
 
 	}
 
@@ -604,8 +604,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		if (!isShowing())
 			return;
 
-		((OptionsObjectD) objectPanel).updateIfInSelection(geo);
-		((OptionsObjectD) objectPanel).getTree().updateAuxiliaryObject(geo);
+		((OptionsObjectD) getObjectPanel()).updateIfInSelection(geo);
+		((OptionsObjectD) getObjectPanel()).getTree().updateAuxiliaryObject(geo);
 
 	}
 
@@ -615,21 +615,21 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		if (!isShowing())
 			return;
 
-		if (objectPanel != null) {
-			((OptionsObjectD) objectPanel).getTree().repaint();
+		if (getObjectPanel() != null) {
+			((OptionsObjectD) getObjectPanel()).getTree().repaint();
 		}
 
 	}
 
 	@Override
 	public void reset() {
-		((OptionsObjectD) objectPanel).getTree().repaint();
+		((OptionsObjectD) getObjectPanel()).getTree().repaint();
 
 	}
 
 	@Override
 	public void clearView() {
-		((OptionsObjectD) objectPanel).getTree().clearView();
+		((OptionsObjectD) getObjectPanel()).getTree().clearView();
 
 	}
 
@@ -732,7 +732,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	@Override
 	protected void updateObjectPanelSelection(ArrayList<GeoElement> geos) {
-		((OptionsObjectD) objectPanel).updateSelection(geos);
+		((OptionsObjectD) getObjectPanel()).updateSelection(geos);
 		updateTitleBar();
 		styleBar.setObjectsToolTip();
 	}
@@ -755,7 +755,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	public void windowPanel() {
 		applyModifications();
-		((OptionsObjectD) objectPanel).setGeoTreeVisible();
+		((OptionsObjectD) getObjectPanel()).setGeoTreeVisible();
 
 		// kernel.attach(geoTree);
 		// kernel.notifyAddAll(geoTree);
@@ -764,7 +764,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	public void unwindowPanel() {
 		applyModifications();
-		((OptionsObjectD) objectPanel).setGeoTreeNotVisible();
+		((OptionsObjectD) getObjectPanel()).setGeoTreeNotVisible();
 
 		// kernel.detach(geoTree);
 		// geoTree.clear();
@@ -781,7 +781,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public void showSliderTab() {
 		selectedOptionType = OptionType.EUCLIDIAN;
 		setOptionPanel(OptionType.OBJECTS);
-		((OptionsObjectD) objectPanel).showSliderTab();
+		((OptionsObjectD) getObjectPanel()).showSliderTab();
 		styleBar.updateGUI();
 		updateGUI();
 	}
@@ -853,8 +853,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			casPanel.updateFont(); //
 		if (advancedPanel != null)
 			advancedPanel.updateFont(); //
-		if (objectPanel != null)
-			((OptionsObjectD) objectPanel).updateFont(); // tree
+		if (getObjectPanel() != null)
+			((OptionsObjectD) getObjectPanel()).updateFont(); // tree
 		if (layoutPanel != null)
 			layoutPanel.updateFont(); //
 
@@ -885,8 +885,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 *            GeoText to be updated
 	 */
 	public void updateTextEditor(GeoElement geo) {
-		if (objectPanel != null) {
-			((OptionsObjectD) objectPanel).updateTextEditor(geo);
+		if (getObjectPanel() != null) {
+			((OptionsObjectD) getObjectPanel()).updateTextEditor(geo);
 		}
 	}
 

@@ -36,7 +36,7 @@ public abstract class PropertiesView implements View {
 	protected final Localization loc;
 	protected OptionType selectedOptionType = OptionType.EUCLIDIAN;
 
-	protected OptionsObject objectPanel;
+	private OptionsObject objectPanel;
 	protected int selectedTab = 0;
 	final private static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
 	// map to match view ID with OptionType
@@ -469,6 +469,14 @@ public abstract class PropertiesView implements View {
 
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
+	}
+
+	protected OptionsObject getObjectPanel() {
+		return objectPanel;
+	}
+
+	protected void setObjectPanel(OptionsObject objectPanel) {
+		this.objectPanel = objectPanel;
 	}
 
 }

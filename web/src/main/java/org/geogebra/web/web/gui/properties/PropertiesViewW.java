@@ -217,20 +217,20 @@ public class PropertiesViewW extends PropertiesView
 			return layoutPanel;
 
 		case OBJECTS:
-			if (objectPanel == null) {
-				objectPanel = new OptionsObjectW((AppW) app, false,
+			if (getObjectPanel() == null) {
+				setObjectPanel(new OptionsObjectW((AppW) app, false,
 						new Runnable() {
 
 							public void run() {
 								updatePropertiesView();
 							}
-						});
+						}));
 
 			}
 
 			Log.debug("obect prop SELECTING TAB " + subType);
-			((OptionsObjectW) objectPanel).selectTab(subType);
-			return (OptionPanelW) objectPanel;
+			((OptionsObjectW) getObjectPanel()).selectTab(subType);
+			return (OptionPanelW) getObjectPanel();
 		}
 		return null;
 	}
@@ -269,8 +269,9 @@ public class PropertiesViewW extends PropertiesView
 
 	}
 
-	private OptionsObjectW getObjectPanel() {
-		return objectPanel != null ? (OptionsObjectW) objectPanel:null;
+	protected OptionsObjectW getObjectPanel() {
+		return super.getObjectPanel() != null
+				? (OptionsObjectW) super.getObjectPanel() : null;
 	}
 
 	public void add(GeoElement geo) {
@@ -364,8 +365,8 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	protected void setOptionPanelWithoutCheck(OptionType type) {
 		int sType = 0;
-		if (type == OptionType.OBJECTS && this.objectPanel != null) {
-			MultiRowsTabPanel tabPanel = ((OptionsObjectW) this.objectPanel)
+		if (type == OptionType.OBJECTS && this.getObjectPanel() != null) {
+			MultiRowsTabPanel tabPanel = ((OptionsObjectW) this.getObjectPanel())
 					.getTabPanel();
 			sType = tabPanel.getTabBar().getSelectedTab();
 
@@ -393,10 +394,10 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	protected void updateObjectPanelSelection(ArrayList<GeoElement> geos) {
-		if (objectPanel == null) {
+		if (getObjectPanel() == null) {
 			return;
 		}
-		((OptionsObjectW) objectPanel).updateSelection(geos);
+		((OptionsObjectW) getObjectPanel()).updateSelection(geos);
 		updateTitleBar();
 		setObjectsToolTip();
 	}
@@ -425,10 +426,10 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void mousePressedForPropertiesView() {
-		if (objectPanel == null) {
+		if (getObjectPanel() == null) {
 			return;
 		}
-		objectPanel.forgetGeoAdded();
+		getObjectPanel().forgetGeoAdded();
 	}
 
 
