@@ -229,8 +229,8 @@ public class PropertiesViewW extends PropertiesView
 			}
 
 			Log.debug("obect prop SELECTING TAB " + subType);
-			((OptionsObjectW) getObjectPanel()).selectTab(subType);
-			return (OptionPanelW) getObjectPanel();
+			getObjectPanel().selectTab(subType);
+			return getObjectPanel();
 		}
 		return null;
 	}
@@ -269,6 +269,7 @@ public class PropertiesViewW extends PropertiesView
 
 	}
 
+	@Override
 	protected OptionsObjectW getObjectPanel() {
 		return super.getObjectPanel() != null
 				? (OptionsObjectW) super.getObjectPanel() : null;
@@ -366,7 +367,7 @@ public class PropertiesViewW extends PropertiesView
 	protected void setOptionPanelWithoutCheck(OptionType type) {
 		int sType = 0;
 		if (type == OptionType.OBJECTS && this.getObjectPanel() != null) {
-			MultiRowsTabPanel tabPanel = ((OptionsObjectW) this.getObjectPanel())
+			MultiRowsTabPanel tabPanel = this.getObjectPanel()
 					.getTabPanel();
 			sType = tabPanel.getTabBar().getSelectedTab();
 
@@ -397,7 +398,7 @@ public class PropertiesViewW extends PropertiesView
 		if (getObjectPanel() == null) {
 			return;
 		}
-		((OptionsObjectW) getObjectPanel()).updateSelection(geos);
+		getObjectPanel().updateSelection(geos);
 		updateTitleBar();
 		setObjectsToolTip();
 	}

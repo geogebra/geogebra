@@ -33,14 +33,25 @@ public class PropertiesStyleBarW extends
 			OptionType.SPREADSHEET, OptionType.CAS, OptionType.ALGEBRA
 	};
 	
-	private PropertiesViewW propertiesView;
+	/**
+	 * view
+	 */
+	protected PropertiesViewW propertiesView;
+	/** app */
 	protected App app;
 	private FlowPanel wrappedPanel;
 	//private PopupMenuButton btnOption;
-	protected HashMap<OptionType, MenuItem> buttonMap;
+	/** maps options to buttons */
+	private HashMap<OptionType, MenuItem> buttonMap;
 
 	private MenuItem currentButton;
 
+	/**
+	 * @param propertiesView
+	 *            properties view
+	 * @param app
+	 *            application
+	 */
 	public PropertiesStyleBarW(PropertiesViewW propertiesView, App app) {
 		this.propertiesView = propertiesView;
 		this.app = app;
@@ -58,28 +69,36 @@ public class PropertiesStyleBarW extends
 		
 	}
 	
-	
+	/**
+	 * @param type
+	 *            option type
+	 * @param visible
+	 *            whether to show it
+	 */
+	protected void setButtonVisible(OptionType type, boolean visible) {
+		buttonMap.get(type).setVisible(visible);
+	}
 
+	/**
+	 * Show/hide the right buttons
+	 */
 	public void updateGUI() {
-		
 
-		//selectButton(seltype);
-		
-		buttonMap.get(OptionType.OBJECTS).setVisible(
+		setButtonVisible(OptionType.OBJECTS,
 				app.getSelectionManager().selectedGeosSize() > 0);
 		
-		buttonMap.get(OptionType.EUCLIDIAN).setVisible(
+		setButtonVisible(OptionType.EUCLIDIAN,
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN));
 		
-		buttonMap.get(OptionType.EUCLIDIAN2).setVisible(
+		setButtonVisible(OptionType.EUCLIDIAN2,
 				app.getGuiManager()
 						.showView(App.VIEW_EUCLIDIAN2));
-//	These are not implemented yet		
-		buttonMap.get(OptionType.SPREADSHEET).setVisible(
+
+		setButtonVisible(OptionType.SPREADSHEET,
 				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
-//		
-		buttonMap.get(OptionType.CAS).setVisible(
+
+		setButtonVisible(OptionType.CAS,
 				app.getGuiManager().showView(App.VIEW_CAS));
     }
 
@@ -128,6 +147,10 @@ public class PropertiesStyleBarW extends
 	
 	
 
+	/**
+	 * @param type
+	 *            option type
+	 */
 	protected void selectButton(OptionType type) {
 		if(currentButton != null){
 			this.currentButton.removeStyleName("selected");
@@ -145,6 +168,12 @@ public class PropertiesStyleBarW extends
 		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
     }
 	
+	/**
+	 * @param type
+	 *            option type
+	 * @param btn
+	 *            button
+	 */
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
@@ -177,6 +206,11 @@ public class PropertiesStyleBarW extends
 		}
 	}
 
+	/**
+	 * @param type
+	 *            option type
+	 * @return icon URL
+	 */
 	protected String getTypeIcon(OptionType type) {
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
@@ -208,6 +242,9 @@ public class PropertiesStyleBarW extends
 
 
 
+	/**
+	 * @return stylebar panel
+	 */
 	public FlowPanel getWrappedPanel() {
 	    return wrappedPanel;
     }

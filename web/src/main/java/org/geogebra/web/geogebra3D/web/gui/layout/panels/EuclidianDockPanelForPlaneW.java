@@ -18,6 +18,10 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Dock panel for view for plane
+ *
+ */
 public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
         implements EuclidianPanelWAbstract {
 
@@ -31,9 +35,11 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	private EuclidianViewForPlaneW view;
 
+	/** pcontent panel */
 	EuclidianPanel euclidianpanel;
 
-	Canvas eview1 = null;// static foreground
+	/** static foreground */
+	Canvas eview1 = null;
 
 	/**
 	 * constructor
@@ -69,6 +75,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 	 * set the view attached
 	 * 
 	 * @param view
+	 *            euclidian view
 	 */
 	public void setView(EuclidianViewForPlaneW view) {
 		this.view = view;

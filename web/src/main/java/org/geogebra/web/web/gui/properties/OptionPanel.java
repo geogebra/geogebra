@@ -5,6 +5,10 @@ import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Panel for properties view
+ *
+ */
 public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 	private OptionsModel model;
 	private Widget widget;
@@ -37,6 +41,10 @@ public abstract class OptionPanel implements IOptionPanel, PropertyListener {
 		return model;
 	}
 
+	/**
+	 * @param model
+	 *            options model
+	 */
 	public void setModel(OptionsModel model) {
 		this.model = model;
 	}

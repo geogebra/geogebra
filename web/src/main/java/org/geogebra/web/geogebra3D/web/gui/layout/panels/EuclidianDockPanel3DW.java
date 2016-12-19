@@ -98,10 +98,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	public EuclidianPanel getEuclidianPanel() {
 	    return euclidianpanel;
     }
-
-	public void remove(Widget w) {
-		euclidianpanel.remove(w);
-    }
 	
 
 	@Override

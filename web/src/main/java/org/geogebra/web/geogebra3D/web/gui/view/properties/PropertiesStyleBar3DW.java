@@ -71,10 +71,10 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 
 		super.updateGUI();
 
-		buttonMap.get(OptionType.EUCLIDIAN3D).setVisible(
+		setButtonVisible(OptionType.EUCLIDIAN3D,
 		        app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D));
 
-		buttonMap.get(OptionType.EUCLIDIAN_FOR_PLANE).setVisible(
+		setButtonVisible(OptionType.EUCLIDIAN_FOR_PLANE,
 				app.hasEuclidianViewForPlaneVisible());
 
 	}
