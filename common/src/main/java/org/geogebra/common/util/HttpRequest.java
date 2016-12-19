@@ -25,7 +25,7 @@ public abstract class HttpRequest {
 	/**
 	 * the textual content of the result (or the error message)
 	 */
-	private String responseText;
+	protected String responseText;
 
 	/**
 	 * Gets a response from a remote HTTP server
