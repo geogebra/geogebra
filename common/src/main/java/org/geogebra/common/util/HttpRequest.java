@@ -25,7 +25,7 @@ public abstract class HttpRequest {
 	/**
 	 * the textual content of the result (or the error message)
 	 */
-	protected String responseText;
+	private String responseText;
 
 	/**
 	 * Gets a response from a remote HTTP server
@@ -79,6 +79,14 @@ public abstract class HttpRequest {
 	 */
 	protected int getTimeout() {
 		return timeout;
+	}
+
+	/**
+	 * @param responseText
+	 *            response text
+	 */
+	protected void setResponseText(String responseText) {
+		this.responseText = responseText;
 	}
 
 

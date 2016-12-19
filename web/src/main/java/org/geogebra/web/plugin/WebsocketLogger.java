@@ -24,7 +24,7 @@ public class WebsocketLogger extends SensorLogger {
 	private String websocket_url;
 
 	public WebsocketLogger(Kernel kernel) {
-		this.kernel = kernel;
+		super(kernel);
 	}
 
 	private void constructUrl() {

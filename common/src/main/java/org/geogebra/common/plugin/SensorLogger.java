@@ -19,8 +19,8 @@ public abstract class SensorLogger {
 
 	public static final int DEFAULT_LIMIT = 20000;
 
-	@SuppressWarnings("javadoc")
-	protected Kernel kernel;
+	/** kernel */
+	protected final Kernel kernel;
 
 	/**
 	 * port to receive UDP logging on
@@ -118,6 +118,9 @@ public abstract class SensorLogger {
 
 	private int stepsToGo = DEFAULT_LIMIT;
 
+	protected SensorLogger(Kernel kernel) {
+		this.kernel = kernel;
+	}
 	public abstract boolean startLogging();
 
 	protected abstract void closeSocket();

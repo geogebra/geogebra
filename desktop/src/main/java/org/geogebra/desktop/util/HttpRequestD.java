@@ -54,7 +54,7 @@ public class HttpRequestD extends HttpRequest {
 				e.printStackTrace();
 			}
 		}
-		responseText = answer;
+		setResponseText(answer);
 		processed = true;
 	}
 
@@ -120,10 +120,10 @@ public class HttpRequestD extends HttpRequest {
 			}
 			osw.close();
 
-			responseText = answer;
+			setResponseText(answer);
 			processed = true;
 			if (callback != null) {
-				callback.onSuccess(responseText);
+				callback.onSuccess(getResponse());
 			}
 		} catch (Exception ex) {
 			processed = true;

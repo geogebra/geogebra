@@ -36,7 +36,7 @@ public class HttpRequestW extends HttpRequest {
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP
 					// violation, etc.)
-					responseText = exception.getMessage();
+					setResponseText(exception.getMessage());
 					processed = true;
 				}
 
@@ -44,12 +44,12 @@ public class HttpRequestW extends HttpRequest {
 				        Response response) {
 					if (200 == response.getStatusCode()) {
 						// Process the response in response.getText()
-						responseText = response.getText();
+						setResponseText(response.getText());
 						processed = true;
 					} else {
 						// Handle the error. Can get the status text from
 						// response.getStatusText()
-						responseText = response.getStatusText();
+						setResponseText(response.getStatusText());
 						processed = true;
 					}
 				}

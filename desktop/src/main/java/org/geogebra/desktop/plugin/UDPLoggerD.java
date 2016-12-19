@@ -36,7 +36,7 @@ public class UDPLoggerD extends SensorLogger {
 	 *            kernel
 	 */
 	public UDPLoggerD(Kernel kernel) {
-		this.kernel = kernel;
+		super(kernel);
 	}
 
 	public void closeSocket() {
