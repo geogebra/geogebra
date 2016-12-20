@@ -174,11 +174,18 @@ public class MathFieldW implements MathField, IsWidget {
 		html2.addDomHandler(new KeyPressHandler() {
 
 			public void onKeyPress(KeyPressEvent event) {
-				keyListener.onKeyTyped(
-						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
-								event.getCharCode()));
-				event.stopPropagation();
-				event.preventDefault();
+				// don't kill Ctrl+V or write V
+				if (event.isControlKeyDown() && (event.getCharCode() == 'v'
+						|| event.getCharCode() == 'V')) {
+
+					event.stopPropagation();
+				} else {
+					keyListener.onKeyTyped(
+							new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
+									event.getCharCode()));
+					event.stopPropagation();
+					event.preventDefault();
+				}
 
 			}
 		}, KeyPressEvent.getType());
@@ -514,14 +521,10 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	protected void preparePaste() {
-		wrap.setFocus(true);
+		//wrap.setFocus(true);
 	}
 
 	public native boolean useCustomPaste() /*-{
-		if ($wnd.navigator.userAgent
-				&& $wnd.navigator.userAgent.match(/Firefox/)) {
-			return true;
-		}
 		return false;
 	}-*/;
 

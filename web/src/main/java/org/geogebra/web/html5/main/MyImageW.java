@@ -9,6 +9,10 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
+/**
+ * HTML5 implementation of image: wrapper around Image element
+ *
+ */
 public final class MyImageW implements MyImage {
 
 	private ImageElement img;
@@ -58,10 +62,11 @@ public final class MyImageW implements MyImage {
 		return isSVG;
 	}
 
-	public void drawSubimage(int x, int y, int width, int height, GGraphics2D g, int posX, int posY) {
+	public void drawSubimage(int x, int y, int screenWidth, int screenHeight,
+			GGraphics2D g, int posX, int posY) {
 		((GGraphics2DW) g).getContext().drawImage(
-				getCanvas().getCanvasElement(), x, y, width, height, posX, posY,
-				width, height);
+				getCanvas().getCanvasElement(), x, y, screenWidth, screenHeight,
+				posX, posY, screenWidth, screenHeight);
 	}
 
 	private Canvas getCanvas() {
@@ -81,6 +86,9 @@ public final class MyImageW implements MyImage {
 		return new GGraphics2DW(getCanvas(), true);
 	}
 
+	/**
+	 * @return image element
+	 */
 	public ImageElement getImage() {
 		return img;
 	}

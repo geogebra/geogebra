@@ -48,7 +48,7 @@ public class ViewW {
 	}
 
 	public void promptUserForGgbFile() {
-		Log.debug("No data-param-fileName attribute presented");
+		Log.debug("No data-param-fi7/7leName attribute presented");
 	}
 
 	public void showError(String errorMessage) {

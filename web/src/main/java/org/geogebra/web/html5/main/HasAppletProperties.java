@@ -71,15 +71,32 @@ public interface HasAppletProperties {
 
 	public JavaScriptObject getOnLoadCallback();
 
+	/**
+	 * @param b
+	 * @param textField
+	 * @param forceShow
+	 */
 	public void showKeyBoard(boolean b, MathKeyboardListener textField,
 	        boolean forceShow);
 
+	/**
+	 * @return whether keyboard is visible
+	 */
 	public boolean isKeyboardShowing();
 
+	/**
+	 * Flag keyboard to be shown next time applet is focused
+	 */
 	public void showKeyboardOnFocus();
 
+	/**
+	 * Update layout for keyboard height change
+	 */
 	public void updateKeyboardHeight();
 
+	/**
+	 * @return keyboard height in pixels (0 if not showing)
+	 */
 	public double getKeyboardHeight();
 
 	public void remove();

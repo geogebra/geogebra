@@ -284,6 +284,11 @@ public class GgbAPIW extends GgbAPI {
 		};
 	}-*/;
 
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @return
+	 */
 	public HashMap<String, String> createArchiveContent(boolean includeThumbnail) {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
 		boolean isSaving = getKernel().isSaving();
@@ -338,6 +343,9 @@ public class GgbAPIW extends GgbAPI {
 
 	}
 
+	/**
+	 * @return archive with macros + icons
+	 */
 	public HashMap<String, String> createMacrosArchive() {
 		HashMap<String, String> archiveContent = new HashMap<String, String>();
 		writeMacroImages(archiveContent);
