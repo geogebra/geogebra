@@ -52,7 +52,7 @@ public abstract class AwtFactory {
 	public abstract GRectangle newRectangle(int x, int y, int w, int h);
 
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
-			int pixelHeight, double pixelRatio);
+			int pixelHeight, float pixelRatio);
 
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
@@ -72,14 +72,14 @@ public abstract class AwtFactory {
 
 	public abstract GGeneralPath newGeneralPath();
 
-	public abstract GBasicStroke newMyBasicStroke(double f);
+	public abstract GBasicStroke newMyBasicStroke(float f);
 
-	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
+	public abstract GBasicStroke newBasicStroke(float f, int cap, int join);
 
-	public abstract GBasicStroke newBasicStroke(double width, int endCap,
-			int lineJoin, double miterLimit, double[] dash, double f);
+	public abstract GBasicStroke newBasicStroke(float width, int endCap,
+			int lineJoin, float miterLimit, float[] dash, float f);
 
-	public abstract GBasicStroke newBasicStroke(double f);
+	public abstract GBasicStroke newBasicStroke(float f);
 
 	public abstract GLine2D newLine2D();
 
@@ -104,9 +104,9 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract GAlphaComposite newAlphaComposite(double alpha);
+	public abstract GAlphaComposite newAlphaComposite(float alpha);
 
-	public abstract GBasicStroke newBasicStrokeJoinMitre(double f);
+	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
 
 	public abstract GGradientPaint newGradientPaint(int x, int y, GColor bg2,
 			int x2, int i, GColor bg);
