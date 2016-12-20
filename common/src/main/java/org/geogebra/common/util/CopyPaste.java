@@ -855,8 +855,6 @@ public class CopyPaste {
 		if (!app.getActiveEuclidianView().getEuclidianController().mayPaste())
 			return;
 
-		app.getKernel().notifyPaste();
-
 		copyObject2 = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
@@ -866,6 +864,12 @@ public class CopyPaste {
 
 			if (copiedXMLforSameWindow.length() == 0)
 				return;
+		}
+		
+		if(pasteFast(app)){
+			app.getKernel().notifyPaste(copiedXMLforSameWindow.toString());
+		} else {
+			app.getKernel().notifyPaste(copiedXML.toString());
 		}
 
 		// it turned out to be necessary for e.g. handleLabels

@@ -224,12 +224,12 @@ public class EventDispatcher implements ClientView {
 		dispatchBulkEvent(EventType.DELETE_GEOS, elms);
 	}
 
-	public void pasteElms() {
-		dispatchEvent(EventType.PASTE_ELMS, null);
+	public void pasteElms(String pasteXml) {
+		dispatchEvent(new Event(EventType.PASTE_ELMS, null, pasteXml));
 	}
 
 	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
-		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);
+		dispatchBulkEvent(EventType.PASTE_ELMS_COMPLETE, pastedElms);
 	}
 
 	public boolean suggestRepaint() {

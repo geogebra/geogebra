@@ -4085,11 +4085,11 @@ public class Kernel {
 		}
 	}
 
-	public void notifyPaste() {
+	public void notifyPaste(String pasteXml) {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
-					((ClientView) view).pasteElms();
+					((ClientView) view).pasteElms(pasteXml);
 				}
 			}
 		}
