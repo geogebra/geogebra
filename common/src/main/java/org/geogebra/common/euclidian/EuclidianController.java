@@ -5540,6 +5540,8 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ERASER:
 			changedKernel = getDeleteMode().process(hits.getTopHits(),
 					isControlDown, selectionPreview);
+			view.setCursor(EuclidianCursor.ERASER);
+
 			break;
 
 		// delete selected object
@@ -5681,6 +5683,7 @@ public abstract class EuclidianController {
 			// case EuclidianConstants.MODE_PENCIL:
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			// changedKernel = pen();
+			view.setCursor(EuclidianCursor.PEN);
 			break;
 
 		// Michael Borcherds 2008-03-13

@@ -1052,6 +1052,14 @@ public class EuclidianViewW extends EuclidianView implements
 		setCursorClass("cursor_transparent");
 	}
 
+	private void setEraserCursor() {
+		setCursorClass("cursor_eraser");
+	}
+
+	private void setPenCursor() {
+		setCursorClass("cursor_pen");
+	}
+
 	@Override
 	public boolean hasFocus() {
 		// changed to return true, otherwise Arrow keys don't work to pan the
@@ -1214,6 +1222,12 @@ public class EuclidianViewW extends EuclidianView implements
 			return;
 		case TRANSPARENT:
 			setTransparentCursor();
+			return;
+		case ERASER:
+			setEraserCursor();
+			return;
+		case PEN:
+			setPenCursor();
 			return;
 		}
 
