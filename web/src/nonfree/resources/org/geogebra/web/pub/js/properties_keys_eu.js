@@ -1039,7 +1039,7 @@ __GGB__keysVar.eu.command = {
     "Unique": "Bakarra",
     "Unique.Syntax": "[ <Zerrenda> ]",
     "UnitOrthogonalVector": "BektoreUnitarioPerpendikularra",
-    "UnitOrthogonalVector.Syntax": "[ <Zuzenkia> ]\n[ <Bektorea> ]\n[ <Lerroa (zuzena, zuzenerdia)> ]",
+    "UnitOrthogonalVector.Syntax": "[ <Lerroa> ]\n[ <Zuzenkia> ]\n[ <Bektorea> ]",
     "UnitOrthogonalVector.Syntax3D": "[ <Lerroa> ]\n[ <Zuzenkia> ]\n[ <Bektorea> ]\n[ <Planoa> ]",
     "UnitOrthogonalVector.SyntaxCAS": "[ <Bektorea> ]",
     "UnitVector": "BektoreUnitarioa",
