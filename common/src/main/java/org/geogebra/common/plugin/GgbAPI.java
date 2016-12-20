@@ -1857,4 +1857,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
+	/**
+	 * Returns localized name of given tool.
+	 *
+	 * @param mode
+	 *            number
+	 * @return name of given tool.
+	 */
+	public String getToolName(int mode) {
+		return app.getToolName(mode);
+	}
+
 }

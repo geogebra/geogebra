@@ -805,4 +805,13 @@ public interface JavaScriptAPI {
 	public void logout();
 
 	public void login(String token);
+
+	/**
+	 * Returns localized name of given tool.
+	 *
+	 * @param mode
+	 *            number
+	 * @return name of given tool.
+	 */
+	public String getToolName(int mode);
 }

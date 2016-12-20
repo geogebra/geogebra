@@ -892,4 +892,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public String[] getAllObjectNames(String type) {
 		return getGgbApi().getAllObjectNames(type);
 	}
+
+	public String getToolName(int mode) {
+		return getGgbApi().getToolName(mode);
+	}
 }
