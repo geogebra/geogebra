@@ -474,6 +474,11 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().renameObject(oldObjName, newObjName);
 	}
 
+	public synchronized boolean renameObject(String oldObjName,
+			String newObjName, boolean force) {
+		return getGgbApi().renameObject(oldObjName, newObjName, force);
+	}
+
 	public synchronized void setAnimating(String objName, boolean animate) {
 		getGgbApi().setAnimating(objName, animate);
 	}

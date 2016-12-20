@@ -13,9 +13,16 @@ public final class MyImageW implements MyImage {
 
 	private ImageElement img;
 	private Canvas canv;
-	int width = 0, height = 0;
+	private int width = 0;
+	private int height = 0;
 	private boolean isSVG;
 
+	/**
+	 * @param im
+	 *            image element
+	 * @param isSVG
+	 *            whether this is a SVG
+	 */
 	public MyImageW(ImageElement im, boolean isSVG) {
 		this.img = im;
 		this.isSVG = isSVG;

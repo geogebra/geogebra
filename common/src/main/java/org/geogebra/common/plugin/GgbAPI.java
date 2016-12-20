@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -877,21 +878,29 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		kernel.notifyRepaint();
 	}
 
+	public synchronized boolean renameObject(String oldName,
+			String suggestedName,
+			boolean forceRename) {
+		GeoElement geo = kernel.lookupLabel(oldName);
+		if (geo == null)
+			return false;
+		String newName = forceRename
+				? RenameInputHandler.checkFreeLabel(kernel, suggestedName)
+				: suggestedName;
+		// try to rename
+		boolean success = geo.rename(newName);
+		kernel.notifyRepaint();
+
+		return success;
+	}
+
 	/**
 	 * Renames an object from oldName to newName.
 	 * 
 	 * @return whether renaming worked
 	 */
 	public synchronized boolean renameObject(String oldName, String newName) {
-		GeoElement geo = kernel.lookupLabel(oldName);
-		if (geo == null)
-			return false;
-
-		// try to rename
-		boolean success = geo.rename(newName);
-		kernel.notifyRepaint();
-
-		return success;
+		return renameObject(oldName, newName, false);
 	}
 
 	/**

@@ -53,18 +53,7 @@ public class RenameInputHandler implements InputHandler {
 			String newLabel = kernel.getAlgebraProcessor()
 					.parseLabel(inputValue);
 
-			// is there a geo with this name?
-			GeoElement existingGeo = kernel.lookupLabel(newLabel);
-
-			if (existingGeo != null) {
-				// rename this geo too:
-				if (kernel.getConstruction()
-						.isConstantElement(existingGeo) == Constants.NOT) {
-					String tempLabel = existingGeo.getIndexLabel(newLabel);
-					existingGeo.rename(tempLabel);
-				} else
-					newLabel = existingGeo.getIndexLabel(newLabel);
-			}
+			newLabel = checkFreeLabel(kernel, newLabel);
 
 			if (geo.rename(newLabel) && storeUndo) {
 				app.storeUndoInfo();
@@ -80,6 +69,30 @@ public class RenameInputHandler implements InputHandler {
 
 		callback.callback(false);
 
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param newLabel
+	 *            intended label
+	 * @return alternate label if intended one is reserved
+	 */
+	public static String checkFreeLabel(Kernel kernel, String newLabel) {
+		// is there a geo with this name?
+		GeoElement existingGeo = kernel.lookupLabel(newLabel);
+
+		if (existingGeo != null) {
+			// rename this geo too:
+			if (kernel.getConstruction()
+					.isConstantElement(existingGeo) == Constants.NOT) {
+				String tempLabel = existingGeo.getIndexLabel(newLabel);
+				existingGeo.rename(tempLabel);
+			} else {
+				return existingGeo.getIndexLabel(newLabel);
+			}
+		}
+		return newLabel;
 	}
 
 }

@@ -340,6 +340,14 @@ public interface JavaScriptAPI {
 	 * 
 	 * @return whether renaming worked
 	 */
+	public boolean renameObject(String oldObjName, String newObjName,
+			boolean forceRename);
+
+	/**
+	 * Renames an object from oldName to newName.
+	 * 
+	 * @return whether renaming worked
+	 */
 	public boolean renameObject(String oldObjName, String newObjName);
 
 	/**

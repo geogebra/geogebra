@@ -423,8 +423,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFrameRate()();
 		}
 
-		api.renameObject = function(oldName, newName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;)(oldName,newName);
+		api.renameObject = function(oldName, newName, force) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;Z)(oldName,newName,!!force);
 		};
 
 		api.exists = function(objName) {
