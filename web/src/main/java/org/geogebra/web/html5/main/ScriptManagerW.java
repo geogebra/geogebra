@@ -95,10 +95,13 @@ public class ScriptManagerW extends ScriptManager {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {
 			if (args != null && args.length > 2) {
-				callListenerNativeArray(this.api, jsFunction,
-						toString(args[0]),
-						toString(args[1]),
-						toString(args[2]));
+				callListenerNativeArray(this.api, jsFunction, toString(args[0]),
+						toString(args[1]), toString(args[2]));
+				return;
+			}
+			if (args != null && args.length > 1) {
+				callListenerNativeArray(this.api, jsFunction, toString(args[0]),
+						toString(args[1]));
 				return;
 			}
 			String singleArg = args != null && args.length > 0
@@ -129,6 +132,12 @@ public class ScriptManagerW extends ScriptManager {
 	private native void callListenerNativeArray(JavaScriptObject api2,
 			String jsFunction, String arg0, String arg1, String arg2) /*-{
 		api2.listeners[jsFunction * 1]([ arg0, arg1, arg2 ]);
+
+	}-*/;
+
+	private native void callListenerNativeArray(JavaScriptObject api2,
+			String jsFunction, String arg0, String arg1) /*-{
+		api2.listeners[jsFunction * 1]([ arg0, arg1 ]);
 
 	}-*/;
 
