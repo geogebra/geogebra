@@ -33,10 +33,12 @@ public class TextLayoutA implements TextLayout {
 	}
 
 	public void draw(Graphics2DInterface graphics, int x, int y) {
-		updatePaint();
+		if (graphics instanceof Graphics2DA) {
+			updatePaint();
 
-		Graphics2DA g2d = (Graphics2DA) graphics;
-		g2d.drawString(mString, x, y, mPaint);
+			Graphics2DA g2d = (Graphics2DA) graphics;
+			g2d.drawString(mString, x, y, mPaint);
+		}
 	}
 
 	private void updatePaint() {
