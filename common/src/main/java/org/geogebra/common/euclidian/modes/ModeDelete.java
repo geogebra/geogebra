@@ -82,7 +82,7 @@ public class ModeDelete {
 				// for
 				// hit detection).
 
-				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
+				GeoPointND[] realPoints = gps.getPoints();
 				GeoPointND[] dataPoints;
 
 				if (geo.getParentAlgorithm() != null && (geo
@@ -94,6 +94,7 @@ public class ModeDelete {
 						}
 					}
 				}
+
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoPolyLine) {
 					dataPoints = ((AlgoPolyLine) gps.getParentAlgorithm())
@@ -109,7 +110,7 @@ public class ModeDelete {
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
-						GeoPoint p = realPoints[i];
+						GeoPoint p = (GeoPoint) realPoints[i];
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
 										- view.toScreenCoordXd(p.inhomX)),
@@ -490,7 +491,7 @@ public class ModeDelete {
 					return false;
 				}
 				GeoPenStroke gps = (GeoPenStroke) geos[0];
-				GeoPoint[] realPoints = (GeoPoint[]) gps.getPoints();
+				GeoPointND[] realPoints = gps.getPoints();
 				GeoPointND[] dataPoints;
 
 				if (geos[0].getParentAlgorithm() != null && (geos[0]
@@ -517,7 +518,7 @@ public class ModeDelete {
 				boolean hasVisiblePart = false;
 				if (realPoints.length == dataPoints.length) {
 					for (int i = 0; i < dataPoints.length; i++) {
-						GeoPoint p = realPoints[i];
+						GeoPoint p = (GeoPoint) realPoints[i];
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
 										- view.toScreenCoordXd(p.inhomX)),
