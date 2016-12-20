@@ -281,46 +281,64 @@ public class AlgoAreEqual extends AlgoElement
 			return botanaPolynomials;
 		}
 
-		// equality of two expressions, one of them is a segment
+		/*
+		 * Equality of two expressions, one of them is a segment, or both are
+		 * expressions.
+		 */
 		if ((inputElement1 instanceof GeoNumeric
 				&& inputElement2 instanceof GeoSegment)
 				|| (inputElement2 instanceof GeoNumeric
-						&& inputElement1 instanceof GeoSegment)) {
+						&& inputElement1 instanceof GeoSegment)
+				|| (inputElement1 instanceof GeoNumeric
+						&& inputElement2 instanceof GeoNumeric)) {
 
-			GeoNumeric n;
-			GeoSegment s;
+			GeoNumeric n1, n2 = null;
+			GeoSegment s = null;
 			if (inputElement1 instanceof GeoNumeric) {
-				n = (GeoNumeric) inputElement1;
-				s = (GeoSegment) inputElement2;
+				n1 = (GeoNumeric) inputElement1;
+				if (inputElement2 instanceof GeoNumeric) {
+					n2 = (GeoNumeric) inputElement2;
+				} else
+					s = (GeoSegment) inputElement2;
 			} else {
-				n = (GeoNumeric) inputElement2;
+				n1 = (GeoNumeric) inputElement2;
 				s = (GeoSegment) inputElement1;
 			}
 
 			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
-			// Create n-s=var as a ValidExpression
-			ValidExpression resultVE = cas.getCASparser()
-					.parseGeoGebraCASInputAndResolveDummyVars(
-							n.getDefinition() + "-" + s.getLabelSimple(),
-							kernel, null);
+			ValidExpression resultVE;
+			if ((inputElement1 instanceof GeoNumeric
+					&& inputElement2 instanceof GeoNumeric)) {
+				// Create n1-n2=var as a ValidExpression
+				resultVE = cas.getCASparser()
+						.parseGeoGebraCASInputAndResolveDummyVars(
+								n1.getDefinition() + "-" + n2.getDefinition(),
+								kernel, null);
+			} else {
+				// Create n1-s=var as a ValidExpression
+				resultVE = cas.getCASparser()
+						.parseGeoGebraCASInputAndResolveDummyVars(
+								n1.getDefinition() + "-" + s.getLabelSimple(),
+								kernel, null);
+			}
 			// Convert the ValidExpression to ExpressionNode
 			ExpressionNode en = new ExpressionNode(kernel, resultVE);
 			// Silently create an AlgoDependentNumber from the ExpressionNode
 			AlgoDependentNumber adn = new AlgoDependentNumber(
-					s.getConstruction(), en, false, null, false, false);
+					n1.getConstruction(), en, false, null, false, false);
 			// Obtain the polynomials
-			Polynomial[] result = adn.getBotanaPolynomials(n); // n unused
+			Polynomial[] result = adn.getBotanaPolynomials(n1); // n1 unused
 			int no = result.length;
 			botanaPolynomials = new Polynomial[1][no + 1];
 			for (int i = 0; i < no; ++i) {
 				botanaPolynomials[0][i + 1] = result[i];
 			}
-			Variable[] botanaVars = adn.getBotanaVars(n); // n unused
+			Variable[] botanaVars = adn.getBotanaVars(n1); // n1 unused
 			// Add the equation var=0 to the polynomial list
 			botanaPolynomials[0][0] = new Polynomial(botanaVars[0]);
 			// This AlgoDependentNumber is not needed anymore
-			s.getConstruction().removeFromAlgorithmList(adn);
+			n1.getConstruction().removeFromAlgorithmList(adn);
 			return botanaPolynomials;
 
 		}
