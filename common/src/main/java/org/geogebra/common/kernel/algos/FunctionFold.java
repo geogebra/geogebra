@@ -11,6 +11,10 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Sum command helper for functions
+ *
+ */
 public class FunctionFold implements FoldComputer {
 
 	private GeoFunction resultFun;

@@ -6,6 +6,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Sum command helper
+ * 
+ * @author Zbynek
+ *
+ */
 public interface FoldComputer {
 
 	public GeoElement getTemplate(Construction cons, GeoClass listElement);

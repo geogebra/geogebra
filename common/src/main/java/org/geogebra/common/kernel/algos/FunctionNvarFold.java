@@ -10,6 +10,10 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Sum helper for nvar functions
+ *
+ */
 public class FunctionNvarFold implements FoldComputer {
 
 	private GeoFunctionNVar result;

@@ -35,6 +35,14 @@ public class AlgoAngleConic extends AlgoAngle {
 	private GeoConic c; // input
 	private GeoAngle angle; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 */
 	public AlgoAngleConic(Construction cons, String label, GeoConic c) {
 		super(cons);
 		this.c = c;
@@ -56,12 +64,11 @@ public class AlgoAngleConic extends AlgoAngle {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting angle
+	 */
 	public GeoAngle getAngle() {
 		return angle;
-	}
-
-	GeoConic getConic() {
-		return c;
 	}
 
 	// compute conic's angle
@@ -88,6 +95,7 @@ public class AlgoAngleConic extends AlgoAngle {
 		return true;
 	}
 
+	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
 		drawCoords[0] = c.getMidpoint3D();
 		drawCoords[1] = Coords.VX;

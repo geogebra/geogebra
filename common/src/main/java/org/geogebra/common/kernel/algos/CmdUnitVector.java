@@ -13,6 +13,9 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdUnitVector extends CommandProcessor {
 
+	/**
+	 * Whether to use UnitVector rather than Direction
+	 */
 	protected boolean normalize;
 
 	/**
@@ -20,6 +23,8 @@ public class CmdUnitVector extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param normalize
+	 *            Whether to use UnitVector rather than Direction
 	 */
 	public CmdUnitVector(Kernel kernel, boolean normalize) {
 		super(kernel);
@@ -60,9 +65,12 @@ public class CmdUnitVector extends CommandProcessor {
 	 * process command in case arg is not a line nor a vector
 	 * 
 	 * @param c
+	 *            command
 	 * @param arg
+	 *            single argument (not line or vector)
 	 * @return result
 	 * @throws MyError
+	 *             always thrown in 2D; in 3D accepts planar geos
 	 */
 	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
 			throws MyError {

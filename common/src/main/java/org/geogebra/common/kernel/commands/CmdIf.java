@@ -51,6 +51,13 @@ public class CmdIf extends CommandProcessor {
 	// return expandIf(kernelA, c);
 	// }
 
+	/**
+	 * @param kernelA
+	 *            kernel
+	 * @param c
+	 *            collection of arguments
+	 * @return node with OPERATION_IF_ELSE or OPERATION_IF_LIST
+	 */
 	public static ExpressionNode expandIf(Kernel kernelA, GetItem c) {
 		MyList conditions = new MyList(kernelA);
 		MyList alternatives = new MyList(kernelA);

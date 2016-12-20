@@ -37,9 +37,12 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoAngleLinesND extends AlgoAngle
 		implements DrawInformationAlgo {
-
-	protected GeoLineND g, h; // input
-	protected GeoAngle angle; // output
+	/** input line */
+	protected GeoLineND g;
+	/** input line */
+	protected GeoLineND h;
+	/** output angle */
+	protected GeoAngle angle;
 
 	/**
 	 * Creates new unlabeled angle between lines algo
@@ -81,6 +84,12 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 		this.h = h;
 	}
 
+	/**
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
+	 */
 	protected AlgoAngleLinesND(GeoLineND g, GeoLineND h) {
 		super(((GeoElement) g).getConstruction(), false);
 		this.g = g;
@@ -108,7 +117,11 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 		angle.setLabel(label);
 	}
 
-	public AlgoAngleLinesND(Construction cons) {
+	/**
+	 * @param cons
+	 *            construction
+	 */
+	protected AlgoAngleLinesND(Construction cons) {
 		super(cons);
 	}
 
@@ -160,6 +173,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 	}
 
+	@Override
 	public boolean updateDrawInfo(double[] m, double[] firstVec,
 			DrawAngle drawable) {
 

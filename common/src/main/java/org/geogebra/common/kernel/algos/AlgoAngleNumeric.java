@@ -32,6 +32,14 @@ public class AlgoAngleNumeric extends AlgoElement {
 	private GeoNumeric num; // input
 	private GeoAngle angle; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param num
+	 *            converted number
+	 */
 	public AlgoAngleNumeric(Construction cons, String label, GeoNumeric num) {
 		super(cons);
 		this.num = num;
@@ -57,12 +65,11 @@ public class AlgoAngleNumeric extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting angle
+	 */
 	public GeoAngle getAngle() {
 		return angle;
-	}
-
-	GeoNumeric getNumber() {
-		return num;
 	}
 
 	// compute conic's angle
