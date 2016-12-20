@@ -207,12 +207,15 @@ public class Variable extends ValidExpression {
 					.get(nameNoX, 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
-				if (exponents[4] == 0 && degPower == 0) {
-					return xyzPowers(kernel, exponents).apply(op);
+				return xyzPiDegPower(kernel, exponents, degPower).apply(op);
+			} else if (nameNoX.startsWith("log_")) {
+				MyDouble index = FunctionParser.getLogIndex(nameNoX, kernel);
+				ExpressionValue arg = xyzPiDegPower(kernel, exponents,
+						degPower);
+				if (index != null) {
+					return new ExpressionNode(kernel, index, Operation.LOGB,
+							arg);
 				}
-				return xyzPowers(kernel, exponents)
-						.multiply(piDegTo(exponents[4], degPower, kernel))
-						.apply(op);
 			}
 
 			if (geo2 != null)
@@ -241,6 +244,15 @@ public class Variable extends ValidExpression {
 		return exponents[4] == 0 && degPower == 0 ? powers.multiply(geo2)
 				: powers.multiply(geo2)
 						.multiply(piDegTo(exponents[4], degPower, kernel));
+	}
+
+	private static ExpressionNode xyzPiDegPower(Kernel kernel, int[] exponents,
+			int degPower) {
+		if (exponents[4] == 0 && degPower == 0) {
+			return xyzPowers(kernel, exponents);
+		}
+		return xyzPowers(kernel, exponents)
+				.multiply(piDegTo(exponents[4], degPower, kernel));
 	}
 
 	private static ExpressionValue asDerivative(Kernel kernel,

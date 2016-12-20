@@ -20,12 +20,13 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 
 public class FunctionParser {
-	Kernel kernel;
-	App app;
+	private final Kernel kernel;
+	private final App app;
 
 	public FunctionParser(Kernel kernel) {
 		this.kernel = kernel;
@@ -69,15 +70,10 @@ public class FunctionParser {
 			if (cell == null && (geo == null
 					|| !(geo.isGeoFunction() || geo.isGeoCurveCartesian()))) {
 				if (label.startsWith("log_")) {
-					String logIndex = label.substring(4);
-					if (logIndex.startsWith("{")) {
-						logIndex = logIndex.substring(1, logIndex.length() - 1);
-					}
-					double indexVal = MyDouble
-							.parseDouble(kernel.getLocalization(), logIndex);
+					MyDouble indexVal = getLogIndex(label, kernel);
 
 					return new ExpressionNode(kernel,
-							new MyDouble(kernel, indexVal), Operation.LOGB,
+							indexVal, Operation.LOGB,
 							myList.getListElement(0));
 				}
 				int index = funcName.length() - 1;
@@ -204,6 +200,27 @@ public class FunctionParser {
 
 	}
 
+	/**
+	 * @param label
+	 *            label starting with log_
+	 * @param kernel
+	 *            kernel
+	 * @return MyDouble if numeric index is present, null otherwise
+	 */
+	public static MyDouble getLogIndex(String label, Kernel kernel) {
+		String logIndex = label.substring(4);
+		if (logIndex.startsWith("{")) {
+			logIndex = logIndex.substring(1, logIndex.length() - 1);
+		}
+		double val = 0;
+		try{
+			val = MyDouble.parseDouble(kernel.getLocalization(), logIndex);
+		} catch (MyError e) {
+			return null;
+		}
+		return new MyDouble(kernel,	val);
+	}
+
 	private ExpressionValue toFunctionArgument(MyList list, String funcName) {
 		switch (list.size()) {
 		case 1:
@@ -221,6 +238,13 @@ public class FunctionParser {
 
 	}
 
+	/**
+	 * @param op
+	 *            operation
+	 * @param list
+	 *            argument list
+	 * @return expression
+	 */
 	public ExpressionNode buildOpNode(Operation op, MyList list) {
 		switch (list.size()) {
 		case 1:
@@ -246,6 +270,19 @@ public class FunctionParser {
 		}
 	}
 
+	/**
+	 * @param kernel2
+	 *            kernel
+	 * @param geo
+	 *            function
+	 * @param order
+	 *            derivative order
+	 * @param curve
+	 *            whether geo is a curve
+	 * @param at
+	 *            function argument
+	 * @return expression for geo'''(at)
+	 */
 	public static ExpressionNode derivativeNode(Kernel kernel2,
 			ExpressionValue geo, int order, boolean curve, ExpressionValue at) {
 		return new ExpressionNode(kernel2,
