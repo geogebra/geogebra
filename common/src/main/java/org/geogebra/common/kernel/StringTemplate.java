@@ -2846,6 +2846,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		} else {
 			while (i > 0) {
 				switch (i % 10) {
+				default:
 				case 0:
 					index = "\u2070" + index;
 					break;

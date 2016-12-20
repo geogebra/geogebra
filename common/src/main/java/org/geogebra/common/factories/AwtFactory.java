@@ -52,7 +52,7 @@ public abstract class AwtFactory {
 	public abstract GRectangle newRectangle(int x, int y, int w, int h);
 
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
-			int pixelHeight, float pixelRatio);
+			int pixelHeight, double pixelRatio);
 
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
@@ -72,14 +72,14 @@ public abstract class AwtFactory {
 
 	public abstract GGeneralPath newGeneralPath();
 
-	public abstract GBasicStroke newMyBasicStroke(float f);
+	public abstract GBasicStroke newMyBasicStroke(double f);
 
-	public abstract GBasicStroke newBasicStroke(float f, int cap, int join);
+	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
 
-	public abstract GBasicStroke newBasicStroke(float width, int endCap,
-			int lineJoin, float miterLimit, float[] dash, float f);
+	public abstract GBasicStroke newBasicStroke(double width, int endCap,
+			int lineJoin, double miterLimit, double[] dash, double f);
 
-	public abstract GBasicStroke newBasicStroke(float f);
+	public abstract GBasicStroke newBasicStroke(double f);
 
 	public abstract GLine2D newLine2D();
 
@@ -104,9 +104,9 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract GAlphaComposite newAlphaComposite(float alpha);
+	public abstract GAlphaComposite newAlphaComposite(double alpha);
 
-	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
+	public abstract GBasicStroke newBasicStrokeJoinMitre(double f);
 
 	public abstract GGradientPaint newGradientPaint(int x, int y, GColor bg2,
 			int x2, int i, GColor bg);
@@ -163,6 +163,47 @@ public abstract class AwtFactory {
 		GArea shape = AwtFactory.getPrototype().newArea(gp);
 		g2.fill(shape);
 
+	}
+
+	/**
+	 * web (GWT) doesn't have a native float object so keep things as double as
+	 * much as possible
+	 * 
+	 * @param array
+	 *            input array
+	 * @return array with elements cast to (float)
+	 */
+	public float[] doubleToFloat(double[] array) {
+		if (array == null) {
+			return null;
+		}
+		int n = array.length;
+		float[] ret = new float[n];
+		for (int i = 0; i < n; i++) {
+			ret[i] = (float) array[i];
+		}
+		return ret;
+	}
+
+	/**
+	 * web (GWT) doesn't have a native float object so keep things as double as
+	 * much as possible
+	 * 
+	 * @param array
+	 *            input array
+	 * @return array with elements cast to (double)
+	 */
+	public static double[] floatToDouble(float[] array) {
+		if (array == null) {
+			return null;
+		}
+		int n = array.length;
+		double[] ret = new double[n];
+		for (int i = 0; i < n; i++) {
+			// implicit cast
+			ret[i] = array[i];
+		}
+		return ret;
 	}
 
 }

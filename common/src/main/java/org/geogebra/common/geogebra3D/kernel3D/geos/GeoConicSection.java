@@ -91,6 +91,11 @@ public class GeoConicSection extends GeoConic3D
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			return index + 43 * Double.hashCode(value);
+		}
+
 	}
 
 	private TreeSet<IndexedParameter> parametersTree = new TreeSet<IndexedParameter>();

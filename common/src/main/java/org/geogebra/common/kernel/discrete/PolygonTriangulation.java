@@ -328,6 +328,12 @@ public class PolygonTriangulation {
 			return false;
 		}
 
+		@Override
+		public int hashCode() {
+			assert false : "hashCode() not implemented";
+			return 42;
+		}
+
 		final public int compareToOnly(Point p2) {
 
 			// smallest x
@@ -545,6 +551,12 @@ public class PolygonTriangulation {
 				return compareTo((Segment) o) == 0;
 			}
 			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			assert false : "hashCode() not implemented";
+			return 42;
 		}
 	}
 
