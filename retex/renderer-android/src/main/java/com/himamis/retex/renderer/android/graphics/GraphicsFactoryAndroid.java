@@ -9,8 +9,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 public class GraphicsFactoryAndroid extends GraphicsFactory {
 
 	@Override
-	public BasicStroke createBasicStroke(float width, int cap, int join,
-			float miterLimit) {
+	public BasicStroke createBasicStroke(double width, int cap, int join,
+			double miterLimit) {
 		return new BasicStrokeA(width, miterLimit, cap, join);
 	}
 

@@ -7,27 +7,27 @@ import android.graphics.Paint.Join;
 
 public class BasicStrokeA implements BasicStroke {
 
-	private float mWidth;
-	private float mMiterLimit;
+	private double mWidth;
+	private double mMiterLimit;
 	private int mCap;
 	private int mJoin;
 	
-	public BasicStrokeA(float width, float miterLimit, Cap cap, Join join) {
+	public BasicStrokeA(double width, double miterLimit, Cap cap, Join join) {
 		this(width, miterLimit, getCap(cap), getJoin(join));
 	}
 
-	public BasicStrokeA(float width, float miterLimit, int cap, int join) {
+	public BasicStrokeA(double width, double miterLimit, int cap, int join) {
 		mWidth = width;
 		mMiterLimit = miterLimit;
 		mCap = cap;
 		mJoin = join;
 	}
 
-	public float getWidth() {
+	public double getWidth() {
 		return mWidth;
 	}
 
-	public float getMiterLimit() {
+	public double getMiterLimit() {
 		return mMiterLimit;
 	}
 
