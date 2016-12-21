@@ -19,7 +19,7 @@ public class FontLoaderA implements FontLoader {
 	public Font loadFont(Object fontType, String name) throws ResourceParseException {
 		// TODO fontType should be a class object instead of inputstream
 		Typeface typeface = Typeface.createFromAsset(mAssetManager, BaseObjectHelper.getPath(fontType, name));
-		return new FontA(name, typeface, Math.round(PIXELS_PER_POINT));
+		return new FontA(name, typeface, (int)Math.round(PIXELS_PER_POINT));
 	}
 
 }

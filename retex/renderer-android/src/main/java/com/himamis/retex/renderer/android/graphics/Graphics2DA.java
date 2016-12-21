@@ -81,8 +81,8 @@ public class Graphics2DA implements Graphics2DInterface {
 	}
 
 	private void setBasicStroke(BasicStrokeA basicStroke) {
-		mDrawPaint.setStrokeWidth(basicStroke.getWidth());
-		mDrawPaint.setStrokeMiter(basicStroke.getMiterLimit());
+		mDrawPaint.setStrokeWidth((float)basicStroke.getWidth());
+		mDrawPaint.setStrokeMiter((float)basicStroke.getMiterLimit());
 		mDrawPaint.setStrokeCap(basicStroke.getNativeCap());
 		mDrawPaint.setStrokeJoin(basicStroke.getNativeJoin());
 	}
