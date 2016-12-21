@@ -242,7 +242,9 @@ public final class JavascriptLexer extends Lexer
 			}
 
 			return tok;
-		} catch (Exception e) {
+		} catch (BadLocationException e) {
+			return JavascriptLexerConstants.DEFAULT;
+		} catch (IOException e) {
 			return JavascriptLexerConstants.DEFAULT;
 		}
 	}

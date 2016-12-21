@@ -382,7 +382,7 @@ public class LatexTreeItem extends RadioTreeItem {
 
 
 	@Override
-	public void setPixelRatio(float pixelRatio) {
+	public void setPixelRatio(double pixelRatio) {
 		if (mf != null) {
 			mf.setPixelRatio(pixelRatio);
 			mf.repaint();

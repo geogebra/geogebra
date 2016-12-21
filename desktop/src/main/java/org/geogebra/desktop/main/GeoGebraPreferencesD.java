@@ -26,6 +26,8 @@ import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.UtilD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Stores user settings and options as preferences.
  * 
@@ -387,6 +389,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Saves preferences by taking the application's current values.
 	 */
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			"don't need to check return value of mkdirs()" })
 	public void saveXMLPreferences(AppD app) {
 
 		String userPrefsXML = app.getPreferencesXML();
@@ -622,6 +626,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Clears all user preferences.
 	 */
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			"don't need to check return value of delete()" })
 	public void clearPreferences(App app) {
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {

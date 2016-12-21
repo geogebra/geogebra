@@ -33,6 +33,8 @@ import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * UndoManager handles undo information for a Construction. It uses an undo info
  * list with construction snapshots in temporary files.
@@ -69,6 +71,8 @@ public class UndoManagerD extends UndoManager {
 			return f;
 		}
 
+		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+				"don't need to check return value" })
 		public void delete() {
 			f.delete();
 

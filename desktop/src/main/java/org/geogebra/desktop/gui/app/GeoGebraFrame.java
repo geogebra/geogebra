@@ -84,6 +84,8 @@ import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.UtilD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * GeoGebra's main window.
  */
@@ -559,6 +561,8 @@ public class GeoGebraFrame extends JFrame
 		 * 
 		 * @throws IOException
 		 */
+		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+				"don't need to check return value of mkdirs() or delete()" })
 		private void downloadGeoGebraJars() throws IOException {
 			ZipInputStream zis = null;
 			try {

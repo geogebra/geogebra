@@ -9,6 +9,8 @@ import java.io.InputStream;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Adapted from
  * http://www.jotschi.de/Uncategorized/2011/09/26/jogl2-jogamp-classpathloader
@@ -24,6 +26,8 @@ public class MyClassPathLoader {
 	 *            eg javagiac or javagiac64
 	 * @return success
 	 */
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			"don't need to check return value of delete()" })
 	public boolean loadLibrary(String libname) {
 
 		String extension, prefix;
@@ -73,6 +77,8 @@ public class MyClassPathLoader {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			"don't need to check return value of delete()" })
 	private static File writeTmpFile(InputStream ins, String filename)
 			throws IOException {
 

@@ -42,6 +42,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
@@ -51,6 +53,8 @@ public class PerformanceTest implements EntryPoint {
 	 * set true if Google Api Js loaded
 	 */
 
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+			"object adds itself to construction" })
 	public void onModuleLoad() {
 		GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.getInstance().profile();
