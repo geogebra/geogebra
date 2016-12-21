@@ -540,4 +540,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setLoadedLabel(String label);
 
+	void setScripting(GeoElement value);
+
 }

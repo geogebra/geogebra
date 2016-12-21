@@ -625,6 +625,9 @@ public class RelativeCopy {
 			colorText = exp.toString(StringTemplate.maxPrecision);
 		}
 
+		// copy the scripts from the old GeoElement
+		value2.setScripting(value);
+
 		// attempt to set updated dynamic color function (if it's changed)
 		if ((colorText != null)) {
 			// removed as doesn't work for eg "random()" #388
