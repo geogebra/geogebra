@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.util.TreeMap;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * 
@@ -561,21 +560,6 @@ public class ManagerShaders extends Manager {
 
 	}
 
-	@Override
-	public void drawPolygon(Coords n, Coords[] v) {
-
-		startGeometry(Manager.Type.TRIANGLES);
-
-		// set normal
-		normal(n);
-
-		for (int i = 0; i < 3/* v.length */; i++) {
-			vertex(v[i]);
-		}
-
-		endGeometry();
-
-	}
 
 	@Override
 	public void endPolygons() {

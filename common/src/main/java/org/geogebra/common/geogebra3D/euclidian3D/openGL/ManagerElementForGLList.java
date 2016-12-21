@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
-import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * Manager to create GLLists using GL elements methods
@@ -91,12 +90,6 @@ public class ManagerElementForGLList extends Manager {
 	public int startPolygons(int old) {
 		// TODO Auto-generated method stub
 		return 0;
-	}
-
-	@Override
-	public void drawPolygon(Coords n, Coords[] v) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

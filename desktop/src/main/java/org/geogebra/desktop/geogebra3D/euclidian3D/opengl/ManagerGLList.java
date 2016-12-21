@@ -1,11 +1,7 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import javax.media.opengl.glu.GLU;
-import javax.media.opengl.glu.GLUtessellator;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -19,8 +15,6 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 public class ManagerGLList extends ManagerD {
 
 	// GL
-	private GLUtessellator tesselator;
-
 	protected Renderer renderer;
 
 	private JoglAndGluProvider joglAndGluProvider;
@@ -54,10 +48,6 @@ public class ManagerGLList extends ManagerD {
 
 	public RendererJogl getJogl() {
 		return joglAndGluProvider.getJogl();
-	}
-
-	public GLU getGLU() {
-		return joglAndGluProvider.getGLU();
 	}
 
 	// ///////////////////////////////////////////
@@ -117,56 +107,14 @@ public class ManagerGLList extends ManagerD {
 		if (ret == 0)
 			return 0;
 
-		RendererTesselCallBack tessCallback = new RendererTesselCallBack(this);
-
-		tesselator = GLU.gluNewTess();
-
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_VERTEX, tessCallback);// vertexCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_BEGIN, tessCallback);// beginCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_END, tessCallback);// endCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_ERROR, tessCallback);// errorCallback);
-		GLU.gluTessCallback(tesselator, GLU.GLU_TESS_COMBINE, tessCallback);// combineCallback);
-
 		newList(ret);
 
 		return ret;
 	}
 
 	@Override
-	public void drawPolygon(Coords n, Coords[] v) {
-
-		// starts the polygon
-		GLU.gluTessBeginPolygon(tesselator, null);
-		GLU.gluTessBeginContour(tesselator);
-
-		// set normal
-		float nx = (float) n.getX();
-		float ny = (float) n.getY();
-		float nz = (float) n.getZ();
-		GLU.gluTessNormal(tesselator, nx, ny, nz);
-		normal(nx, ny, nz);
-
-		// set texture
-		setDummyTexture();
-
-		// set vertices
-		for (int i = 0; i < v.length; i++) {
-			double[] point = v[i].get();
-			getGLU();
-			GLU.gluTessVertex(tesselator, point, 0, point);
-		}
-
-		// end the polygon
-		GLU.gluTessEndContour(tesselator);
-		GLU.gluTessEndPolygon(tesselator);
-
-	}
-
-	@Override
 	public void endPolygons() {
-
 		getJogl().getGL2().glEndList();
-		GLU.gluDeleteTess(tesselator);
 	}
 
 	/**

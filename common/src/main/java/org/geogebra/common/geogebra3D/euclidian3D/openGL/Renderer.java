@@ -1258,17 +1258,6 @@ public abstract class Renderer {
 		return geometryManager.startPolygons(old);
 	}
 
-	/**
-	 * draw a polygon
-	 * 
-	 * @param n
-	 *            normal
-	 * @param v
-	 *            vertices
-	 */
-	public void drawPolygon(Coords n, Coords[] v) {
-		geometryManager.drawPolygon(n, v);
-	}
 
 	public void endPolygons() {
 		geometryManager.endPolygons();
