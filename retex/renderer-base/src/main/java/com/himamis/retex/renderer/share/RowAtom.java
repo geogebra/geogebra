@@ -174,7 +174,7 @@ public class RowAtom extends Atom implements Row {
 			changeToOrd(atom, previousAtom, nextAtom);
 
 			// check for ligatures or kerning
-			float kern = 0;
+			double kern = 0;
 			// Calixte : I put a while to handle the case where there are
 			// several ligatures as in ffi or ffl
 			while (it.hasNext() && atom.getRightType() == TeXConstants.TYPE_ORDINARY && atom.isCharSymbol()) {

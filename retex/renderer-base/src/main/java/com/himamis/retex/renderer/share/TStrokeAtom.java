@@ -58,7 +58,7 @@ public class TStrokeAtom extends Atom {
 
 	public Box createBox(TeXEnvironment env) {
 		Char ch = env.getTeXFont().getChar("bar", env.getStyle());
-		float italic = ch.getItalic();
+		double italic = ch.getItalic();
 		CharBox T = new CharBox(env.getTeXFont().getChar(upper ? 'T' : 't', "mathnormal", env.getStyle()));
 		CharBox B = new CharBox(ch);
 		Box y;
@@ -80,13 +80,13 @@ public class TStrokeAtom extends Atom {
  * hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).createBox(env)); hb.add(A); return hb; }
  * 
  * public Box createBox(TeXEnvironment env) { Box b = base.createBox(env); VerticalBox vb = new
- * VerticalBox(); vb.add(b); Char ch = env.getTeXFont().getChar("ogonek", env.getStyle()); float
- * italic = ch.getItalic(); float x = new SpaceAtom(TeXConstants.UNIT_MU, 1f, 0,
+ * VerticalBox(); vb.add(b); Char ch = env.getTeXFont().getChar("ogonek", env.getStyle()); double
+ * italic = ch.getItalic(); double x = new SpaceAtom(TeXConstants.UNIT_MU, 1f, 0,
  * 0).createBox(env).getWidth(); Box ogonek = new CharBox(ch); Box y; if (Math.abs(italic) >
  * TeXFormula.PREC) { y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0)); y.add(ogonek); } else y
  * = ogonek;
  * 
  * Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_RIGHT); vb.add(new StrutBox(0,
- * -ogonek.getHeight(), 0, 0)); vb.add(og); float f = vb.getHeight() + vb.getDepth();
+ * -ogonek.getHeight(), 0, 0)); vb.add(og); double f = vb.getHeight() + vb.getDepth();
  * vb.setHeight(b.getHeight()); vb.setDepth(f - b.getHeight()); return vb; } }
  */

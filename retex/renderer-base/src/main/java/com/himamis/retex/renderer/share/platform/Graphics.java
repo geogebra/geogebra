@@ -61,19 +61,19 @@ public class Graphics {
 		return graphicsFactory.createColor(r, g, b);
 	}
 
-	public Color createColor(float r, float g, float b) {
-		int red = Math.round(r * 255);
-		int green = Math.round(g * 255);
-		int blue = Math.round(b * 255);
+	public Color createColor(double r, double g, double b) {
+		int red = (int) Math.round(r * 255);
+		int green = (int) Math.round(g * 255);
+		int blue = (int) Math.round(b * 255);
 		return createColor(red, green, blue);
 	}
 
-	public BasicStroke createBasicStroke(float width, int cap, int join, float miterLimit) {
+	public BasicStroke createBasicStroke(double width, int cap, int join, double miterLimit) {
 		return graphicsFactory.createBasicStroke(width, cap, join, miterLimit);
 	}
 
-	public BasicStroke createBasicStroke(float width, int cap, int join) {
-		return createBasicStroke(width, cap, join, 10.0f);
+	public BasicStroke createBasicStroke(double width, int cap, int join) {
+		return createBasicStroke(width, cap, join, 10.0);
 	}
 
 	public Image createImage(int width, int height, int type) {

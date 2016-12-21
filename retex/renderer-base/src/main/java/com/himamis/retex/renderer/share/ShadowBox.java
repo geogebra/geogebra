@@ -55,11 +55,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
  */
 public class ShadowBox extends FramedBox {
 
-	private float shadowRule;
+	private double shadowRule;
 
 	private Rectangle2D rectangle;
 
-	public ShadowBox(FramedBox fbox, float shadowRule) {
+	public ShadowBox(FramedBox fbox, double shadowRule) {
 		super(fbox.box, fbox.thickness, fbox.space);
 		this.shadowRule = shadowRule;
 		depth += shadowRule;
@@ -68,15 +68,15 @@ public class ShadowBox extends FramedBox {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
-		float th = thickness / 2;
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		double th = thickness / 2;
 		box.draw(g2, x + space + thickness, y);
 		Stroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		rectangle.setRectangle(x + th, y - height + th, width - shadowRule - thickness, height + depth
 				- shadowRule - thickness);
 		g2.draw(rectangle);
-		float penth = (float) Math.abs(1 / g2.getTransform().getScaleX());
+		double penth = Math.abs(1 / g2.getTransform().getScaleX());
 		g2.setStroke(graphics.createBasicStroke(penth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
 		rectangle.setRectangle(x + shadowRule - penth, y + depth - shadowRule - penth, width - shadowRule,
 				shadowRule);

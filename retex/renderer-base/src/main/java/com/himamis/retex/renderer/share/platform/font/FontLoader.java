@@ -47,7 +47,7 @@ import com.himamis.retex.renderer.share.exception.ResourceParseException;
 
 public interface FontLoader {
 	
-	public static final float PIXELS_PER_POINT = 1f;
+	public static final double PIXELS_PER_POINT = 1;
 
 	public Font loadFont(Object fontInt, String name) throws ResourceParseException;
 }

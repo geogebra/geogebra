@@ -51,7 +51,7 @@ package com.himamis.retex.renderer.share;
  */
 public class OverBar extends VerticalBox {
 
-	public OverBar(Box b, float kern, float thickness) {
+	public OverBar(Box b, double kern, double thickness) {
 		// construct vertical box
 		add(new StrutBox(0, thickness, 0, 0));
 		add(new HorizontalRule(thickness, b.getWidth(), 0));

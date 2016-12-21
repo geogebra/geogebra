@@ -59,7 +59,7 @@ public class FencedAtom extends Atom {
 	// parameters used in the TeX algorithm
 	private static final int DELIMITER_FACTOR = 901;
 
-	private static final float DELIMITER_SHORTFALL = 5f;
+	private static final double DELIMITER_SHORTFALL = 5;
 
 	// base atom
 	private final Atom base;
@@ -107,18 +107,18 @@ public class FencedAtom extends Atom {
 	 *
 	 * @param box box to be vertically centered with respect to the axis
 	 */
-	private static void center(Box box, float axis) {
-		float h = box.getHeight(), total = h + box.getDepth();
+	private static void center(Box box, double axis) {
+		double h = box.getHeight(), total = h + box.getDepth();
 		box.setShift(-(total / 2 - h) - axis);
 	}
 
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		Box content = base.createBox(env);
-		float shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
-		float axis = tf.getAxisHeight(env.getStyle());
-		float delta = Math.max(content.getHeight() - axis, content.getDepth() + axis);
-		float minHeight = Math.max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
+		double shortfall = DELIMITER_SHORTFALL * SpaceAtom.getFactor(TeXConstants.UNIT_POINT, env);
+		double axis = tf.getAxisHeight(env.getStyle());
+		double delta = Math.max(content.getHeight() - axis, content.getDepth() + axis);
+		double minHeight = Math.max((delta / 500) * DELIMITER_FACTOR, 2 * delta - shortfall);
 
 		// construct box
 		HorizontalBox hBox = new HorizontalBox();

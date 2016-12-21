@@ -24,7 +24,7 @@ public class TableBox extends Box {
 		this.depth = content.depth;
 	}
 	@Override
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		if (rectangles != null) {
 			Color old = g2.getColor();
 

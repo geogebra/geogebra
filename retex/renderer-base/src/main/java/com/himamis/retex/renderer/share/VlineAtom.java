@@ -50,25 +50,25 @@ package com.himamis.retex.renderer.share;
  */
 public class VlineAtom extends Atom {
 
-	private float height;
-	private float shift;
+	private double height;
+	private double shift;
 	private int n;
 
 	public VlineAtom(int n) {
 		this.n = n;
 	}
 
-	public void setHeight(float height) {
+	public void setHeight(double height) {
 		this.height = height;
 	}
 
-	public void setShift(float shift) {
+	public void setShift(double shift) {
 		this.shift = shift;
 	}
 
-	public float getWidth(TeXEnvironment env) {
+	public double getWidth(TeXEnvironment env) {
 		if (n != 0) {
-			float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 			return drt * (3 * n - 2);
 		} else
 			return 0;
@@ -76,7 +76,7 @@ public class VlineAtom extends Atom {
 
 	public Box createBox(TeXEnvironment env) {
 		if (n != 0) {
-			float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 			Box b = new HorizontalRule(height, drt, shift);
 			Box sep = new StrutBox(2 * drt, 0, 0, 0);
 			HorizontalBox hb = new HorizontalBox();

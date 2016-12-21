@@ -67,7 +67,7 @@ public class OverUnderDelimiter extends Atom {
 	// whether the delimiter should be positioned above or under the base
 	private final boolean over;
 
-	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, int kernUnit, float kern, boolean over)
+	public OverUnderDelimiter(Atom base, Atom script, SymbolAtom s, int kernUnit, double kern, boolean over)
 			throws InvalidUnitException {
 		type = TeXConstants.TYPE_INNER;
 		this.base = base;
@@ -95,7 +95,7 @@ public class OverUnderDelimiter extends Atom {
 		}
 
 		// create centered horizontal box if smaller than maximum width
-		float max = getMaxWidth(b, del, scriptBox);
+		double max = getMaxWidth(b, del, scriptBox);
 		if (max - b.getWidth() > TeXFormula.PREC) {
 			b = new HorizontalBox(b, max, TeXConstants.ALIGN_CENTER);
 		}
@@ -108,8 +108,8 @@ public class OverUnderDelimiter extends Atom {
 		return new OverUnderBox(b, del, scriptBox, kern.createBox(env).getHeight(), over);
 	}
 
-	private static float getMaxWidth(Box b, Box del, Box script) {
-		float max = Math.max(b.getWidth(), del.getHeight() + del.getDepth());
+	private static double getMaxWidth(Box b, Box del, Box script) {
+		double max = Math.max(b.getWidth(), del.getHeight() + del.getDepth());
 		if (script != null) {
 			max = Math.max(max, script.getWidth());
 		}

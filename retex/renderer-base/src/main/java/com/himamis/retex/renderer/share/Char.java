@@ -81,19 +81,19 @@ public class Char {
 		return fontCode;
 	}
 
-	public float getWidth() {
+	public double getWidth() {
 		return m.getWidth();
 	}
 
-	public float getItalic() {
+	public double getItalic() {
 		return m.getItalic();
 	}
 
-	public float getHeight() {
+	public double getHeight() {
 		return m.getHeight();
 	}
 
-	public float getDepth() {
+	public double getDepth() {
 		return m.getDepth();
 	}
 

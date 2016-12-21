@@ -112,8 +112,8 @@ public class DefaultTeXFontParser {
 		public void parse(Element el, char ch, FontInfo info) throws ResourceParseException {
 			// get required integer attribute
 			int code = DefaultTeXFontParser.getIntAndCheck("code", el);
-			// get required float attribute
-			float kernAmount = DefaultTeXFontParser.getFloatAndCheck("val", el);
+			// get required double attribute
+			double kernAmount = DefaultTeXFontParser.getFloatAndCheck("val", el);
 
 			// parsing OK, add kern info
 			info.addKern(ch, (char) code, kernAmount);
@@ -239,9 +239,9 @@ public class DefaultTeXFontParser {
 		else
 			throw new FontAlreadyLoadedException("Font " + fontId + " is already loaded !");
 		// get required real attributes
-		float space = getFloatAndCheck("space", font);
-		float xHeight = getFloatAndCheck("xHeight", font);
-		float quad = getFloatAndCheck("quad", font);
+		double space = getFloatAndCheck("space", font);
+		double xHeight = getFloatAndCheck("xHeight", font);
+		double quad = getFloatAndCheck("quad", font);
 
 		// get optional integer attribute
 		int skewChar = getOptionalInt("skewChar", font, -1);
@@ -342,8 +342,8 @@ public class DefaultTeXFontParser {
 	private static void processCharElement(Element charElement, FontInfo info) throws ResourceParseException {
 		// retrieve required integer attribute
 		char ch = (char) getIntAndCheck("code", charElement);
-		// retrieve optional float attributes
-		float[] metrics = new float[4];
+		// retrieve optional double attributes
+		double[] metrics = new double[4];
 		metrics[DefaultTeXFont.WIDTH] = getOptionalFloat("width", charElement, 0);
 		metrics[DefaultTeXFont.HEIGHT] = getOptionalFloat("height", charElement, 0);
 		metrics[DefaultTeXFont.DEPTH] = getOptionalFloat("depth", charElement, 0);
@@ -469,8 +469,8 @@ public class DefaultTeXFontParser {
 		return res;
 	}
 
-	public Map<String, Float> parseParameters() throws ResourceParseException {
-		Map<String, Float> res = new HashMap<String, Float>();
+	public Map<String, Double> parseParameters() throws ResourceParseException {
+		Map<String, Double> res = new HashMap<String, Double>();
 		Element parameters = root.getElementsByTagName("Parameters").item(0).castToElement();
 		if (parameters.isNull())
 			// "Parameters" is required!
@@ -480,8 +480,8 @@ public class DefaultTeXFontParser {
 			NamedNodeMap list = parameters.getAttributes();
 			for (int i = 0; i < list.getLength(); i++) {
 				String name = (list.item(i).castToAttr()).getName();
-				// set float value (if valid)
-				res.put(name, new Float(getFloatAndCheck(name, parameters)));
+				// set double value (if valid)
+				res.put(name, new Double(getFloatAndCheck(name, parameters)));
 			}
 			return res;
 		}
@@ -500,7 +500,7 @@ public class DefaultTeXFontParser {
 					Font_ID.indexOf(getAttrValueAndCheckIfNotNull(MUFONTID_ATTR, generalSettings))); // autoboxing
 			res.put(SPACEFONTID_ATTR,
 					Font_ID.indexOf(getAttrValueAndCheckIfNotNull(SPACEFONTID_ATTR, generalSettings))); // autoboxing
-			// set required float values (if valid)
+			// set required double values (if valid)
 			res.put("scriptfactor", getFloatAndCheck("scriptfactor", generalSettings)); // autoboxing
 			res.put("scriptscriptfactor", getFloatAndCheck("scriptscriptfactor", generalSettings)); // autoboxing
 
@@ -572,13 +572,13 @@ public class DefaultTeXFontParser {
 		return attrValue;
 	}
 
-	public static float getFloatAndCheck(String attrName, Element element) throws ResourceParseException {
+	public static double getFloatAndCheck(String attrName, Element element) throws ResourceParseException {
 		String attrValue = getAttrValueAndCheckIfNotNull(attrName, element);
 
-		// try parsing string to float value
-		float res = 0;
+		// try parsing string to double value
+		double res = 0;
 		try {
-			res = (float) Double.parseDouble(attrValue);
+			res = Double.parseDouble(attrValue);
 		} catch (NumberFormatException e) {
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName,
 					"has an invalid real value!");
@@ -621,19 +621,19 @@ public class DefaultTeXFontParser {
 		}
 	}
 
-	public static float getOptionalFloat(String attrName, Element element, float defaultValue)
+	public static double getOptionalFloat(String attrName, Element element, double defaultValue)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) // attribute not present
 			return defaultValue;
 		else {
-			// try parsing string to float value
-			float res = 0;
+			// try parsing string to double value
+			double res = 0;
 			try {
-				res = (float) Double.parseDouble(attrValue);
+				res = Double.parseDouble(attrValue);
 			} catch (NumberFormatException e) {
 				throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName,
-						"has an invalid float value!");
+						"has an invalid double value!");
 			}
 			// parsing OK
 			return res;

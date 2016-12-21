@@ -52,15 +52,15 @@ public class ResizeAtom extends Atom {
 
 	private Atom base;
 	private int wunit, hunit;
-	private float w, h;
+	private double w, h;
 	private boolean keepaspectratio;
 
 	public ResizeAtom(Atom base, String ws, String hs, boolean keepaspectratio) {
 		this.type = base.type;
 		this.base = base;
 		this.keepaspectratio = keepaspectratio;
-		float[] w = SpaceAtom.getLength(ws == null ? "" : ws);
-		float[] h = SpaceAtom.getLength(hs == null ? "" : hs);
+		double[] w = SpaceAtom.getLength(ws == null ? "" : ws);
+		double[] h = SpaceAtom.getLength(hs == null ? "" : hs);
 		if (w.length != 2) {
 			this.wunit = -1;
 		} else {

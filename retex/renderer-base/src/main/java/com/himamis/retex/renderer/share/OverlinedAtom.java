@@ -60,7 +60,7 @@ public class OverlinedAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 
 		// cramp the style of the formula to be overlined and create vertical box
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env.crampStyle()));

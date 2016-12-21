@@ -58,7 +58,7 @@ public class LaTeXAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy(env.getTeXFont().copy());
 		env.getTeXFont().setRoman(true);
-		float sc = env.getTeXFont().getScaleFactor();
+		double sc = env.getTeXFont().getScaleFactor();
 
 		TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
 		if (fontInfos != null) {
@@ -71,8 +71,8 @@ public class LaTeXAtom extends Atom {
 
 		HorizontalBox hb = new HorizontalBox(rat.getLastAtom().createBox(env));
 		hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.35f * sc, 0, 0).createBox(env));
-		float f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).createBox(env).getWidth();
-		float f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).createBox(env).getWidth();
+		double f = new SpaceAtom(TeXConstants.UNIT_EX, 0.45f * sc, 0, 0).createBox(env).getWidth();
+		double f1 = new SpaceAtom(TeXConstants.UNIT_EX, 0.5f * sc, 0, 0).createBox(env).getWidth();
 		CharBox A = new CharBox(env.getTeXFont().getChar('A', "mathnormal", env.supStyle().getStyle()));
 		A.setShift(-f);
 		hb.add(A);

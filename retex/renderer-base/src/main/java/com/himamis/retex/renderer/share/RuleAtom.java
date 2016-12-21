@@ -51,10 +51,10 @@ package com.himamis.retex.renderer.share;
 public class RuleAtom extends Atom {
 
 	private int wunit, hunit, runit;
-	private float w, h, r;
+	private double w, h, r;
 	private SpaceAtom width, height, raise;
 
-	public RuleAtom(int wunit, float width, int hunit, float height, int runit, float raise) {
+	public RuleAtom(int wunit, double width, int hunit, double height, int runit, double raise) {
 		this.wunit = wunit;
 		this.hunit = hunit;
 		this.runit = runit;

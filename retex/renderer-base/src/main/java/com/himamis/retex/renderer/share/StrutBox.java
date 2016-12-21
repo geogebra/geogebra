@@ -53,14 +53,14 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class StrutBox extends Box {
 
-	public StrutBox(float w, float h, float d, float s) {
+	public StrutBox(double w, double h, double d, double s) {
 		width = w;
 		height = h;
 		depth = d;
 		shift = s;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		// no visual effect
 	}
 

@@ -59,8 +59,8 @@ public class StrikeThroughAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
-		float axis = tf.getAxisHeight(style);
-		float drt = tf.getDefaultRuleThickness(style);
+		double axis = tf.getAxisHeight(style);
+		double drt = tf.getDefaultRuleThickness(style);
 		Box b = at.createBox(env);
 		HorizontalRule rule = new HorizontalRule(drt, b.getWidth(), -axis + drt, false);
 		HorizontalBox hb = new HorizontalBox();

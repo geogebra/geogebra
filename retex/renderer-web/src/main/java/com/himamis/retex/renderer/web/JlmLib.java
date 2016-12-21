@@ -69,7 +69,7 @@ public class JlmLib {
 	}
 
 	public JavaScriptObject drawLatex(final Context2d ctx, final String latex,
-			final float size, final int type, final int x, final int y,
+			final double size, final int type, final int x, final int y,
 			final int topInset, final int leftInset, final int bottomInset,
 			final int rightInset, final String fgColorString,
 			final String bgColorString, final JavaScriptObject callback) {
@@ -125,7 +125,7 @@ public class JlmLib {
 		}
 	}-*/;
 
-	public static TeXIcon createIcon(final String latex, final float size,
+	public static TeXIcon createIcon(final String latex, final double size,
 			final int type, Insets insets) {
 		TeXFormula formula = new TeXFormula(latex);
 		TeXIcon icon = formula.new TeXIconBuilder().setStyle(TeXConstants.STYLE_DISPLAY).setType(type)

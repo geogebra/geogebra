@@ -49,26 +49,27 @@ import com.himamis.retex.renderer.share.platform.graphics.BasicStroke;
 
 public class BasicStrokeW implements BasicStroke {
 
-	private float width;
+	private double width;
 	private int cap;
 	private int join;
-	private float miterLimit;
+	private double miterLimit;
 
-	public BasicStrokeW(float width, int cap, int join, float miterLimit) {
+	public BasicStrokeW(double width, int cap, int join, double miterLimit) {
 		this.width = width;
 		this.cap = cap;
 		this.join = join;
 		this.miterLimit = miterLimit;
 	}
 
-	public BasicStrokeW(float width, String cap, String join, float miterLimit) {
+	public BasicStrokeW(double width, String cap, String join,
+			double miterLimit) {
 		this.width = width;
 		this.cap = getLineCap(LineCap.valueOf(cap.toUpperCase()));
 		this.join = getLineJoin(LineJoin.valueOf(join.toUpperCase()));
 		this.miterLimit = miterLimit;
 	}
 
-	public float getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
@@ -80,7 +81,7 @@ public class BasicStrokeW implements BasicStroke {
 		return join;
 	}
 
-	public float getMiterLimit() {
+	public double getMiterLimit() {
 		return miterLimit;
 	}
 

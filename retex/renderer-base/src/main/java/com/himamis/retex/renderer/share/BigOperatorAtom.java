@@ -101,7 +101,7 @@ public class BigOperatorAtom extends Atom {
 		int style = env.getStyle();
 
 		Box y;
-		float delta;
+		double delta;
 
 		RowAtom bbase = null;
 		Atom Base = base;
@@ -152,7 +152,7 @@ public class BigOperatorAtom extends Atom {
 				z = under.createBox(env.subStyle());
 
 			// make boxes equally wide
-			float maxWidth = Math.max(Math.max(x == null ? 0 : x.getWidth(), y.getWidth()),
+			double maxWidth = Math.max(Math.max(x == null ? 0 : x.getWidth(), y.getWidth()),
 					z == null ? 0 : z.getWidth());
 			x = changeWidth(x, maxWidth);
 			y = changeWidth(y, maxWidth);
@@ -161,8 +161,8 @@ public class BigOperatorAtom extends Atom {
 			// build vertical box
 			VerticalBox vBox = new VerticalBox();
 
-			float bigop5 = tf.getBigOpSpacing5(style), kern = 0;
-			float xh = 0; // TODO: check why this is not used // NOPMD
+			double bigop5 = tf.getBigOpSpacing5(style), kern = 0;
+			double xh = 0; // TODO: check why this is not used // NOPMD
 
 			// over
 			if (over != null) {
@@ -179,7 +179,7 @@ public class BigOperatorAtom extends Atom {
 
 			// under
 			if (under != null) {
-				float k = Math.max(tf.getBigOpSpacing2(style), tf.getBigOpSpacing4(style) - z.getHeight());
+				double k = Math.max(tf.getBigOpSpacing2(style), tf.getBigOpSpacing4(style) - z.getHeight());
 				vBox.add(new StrutBox(0, k, 0, 0));
 				z.setShift(-delta / 2);
 				vBox.add(z);
@@ -187,7 +187,7 @@ public class BigOperatorAtom extends Atom {
 			}
 
 			// set height and depth vertical box and return it
-			float h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
+			double h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
 			if (x != null)
 				h += bigop5 + kern + x.getHeight() + x.getDepth();
 			vBox.setHeight(h);
@@ -208,7 +208,7 @@ public class BigOperatorAtom extends Atom {
 	/*
 	 * Centers the given box in a new box that has the given width
 	 */
-	private static Box changeWidth(Box b, float maxWidth) {
+	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC)
 			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
 		else

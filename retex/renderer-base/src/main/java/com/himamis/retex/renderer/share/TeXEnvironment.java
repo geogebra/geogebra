@@ -69,13 +69,13 @@ public class TeXEnvironment {
 	// last used font
 	private int lastFontId = TeXFont.NO_FONT;
 
-	private float textwidth = Float.POSITIVE_INFINITY;
+	private double textwidth = Double.POSITIVE_INFINITY;
 
 	private String textStyle;
 	private boolean smallCap;
-	private float scaleFactor = 1;
+	private double scaleFactor = 1;
 	private int interlineUnit;
-	private float interline;
+	private double interline;
 
 	public boolean isColored = false;
 
@@ -83,7 +83,7 @@ public class TeXEnvironment {
 		this(style, tf, null, null);
 	}
 
-	public TeXEnvironment(int style, TeXFont tf, int widthUnit, float textwidth) {
+	public TeXEnvironment(int style, TeXFont tf, int widthUnit, double textwidth) {
 		this(style, tf, null, null);
 		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
 	}
@@ -96,7 +96,7 @@ public class TeXEnvironment {
 		setInterline(TeXConstants.UNIT_EX, 1f);
 	}
 
-	private TeXEnvironment(int style, float scaleFactor, TeXFont tf, Color bg, Color c, String textStyle,
+	private TeXEnvironment(int style, double scaleFactor, TeXFont tf, Color bg, Color c, String textStyle,
 			boolean smallCap) {
 		this.style = style;
 		this.scaleFactor = scaleFactor;
@@ -108,28 +108,28 @@ public class TeXEnvironment {
 		setInterline(TeXConstants.UNIT_EX, 1f);
 	}
 
-	public void setInterline(int unit, float len) {
+	public void setInterline(int unit, double len) {
 		this.interline = len;
 		this.interlineUnit = unit;
 	}
 
-	public float getInterline() {
+	public double getInterline() {
 		return interline * SpaceAtom.getFactor(interlineUnit, this);
 	}
 
-	public void setTextwidth(int widthUnit, float textwidth) {
+	public void setTextwidth(int widthUnit, double textwidth) {
 		this.textwidth = textwidth * SpaceAtom.getFactor(widthUnit, this);
 	}
 
-	public float getTextwidth() {
+	public double getTextwidth() {
 		return textwidth;
 	}
 
-	public void setScaleFactor(float f) {
+	public void setScaleFactor(double f) {
 		scaleFactor = f;
 	}
 
-	public float getScaleFactor() {
+	public double getScaleFactor() {
 		return scaleFactor;
 	}
 
@@ -184,7 +184,7 @@ public class TeXEnvironment {
 	 *
 	 * @return the point size of the TeXFont
 	 */
-	public float getSize() {
+	public double getSize() {
 		return tf.getSize();
 	}
 
@@ -295,7 +295,7 @@ public class TeXEnvironment {
 		return s;
 	}
 
-	public float getSpace() {
+	public double getSpace() {
 		return tf.getSpace(style) * tf.getScaleFactor();
 	}
 

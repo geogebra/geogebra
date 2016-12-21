@@ -135,7 +135,7 @@ public class GlueSettingsParser {
 
 	private Glue createGlue(Element type, String name) throws ResourceParseException {
 		final String[] names = { "space", "stretch", "shrink" };
-		float[] values = new float[names.length];
+		double[] values = new double[names.length];
 		for (int i = 0; i < names.length; i++) {
 			double val = 0; // default value if attribute not present
 			String attrVal = null;
@@ -147,7 +147,7 @@ public class GlueSettingsParser {
 				throw new XMLResourceParseException(RESOURCE_NAME, "GlueType", names[i],
 						"has an invalid real value '" + attrVal + "'!");
 			}
-			values[i] = (float) val;
+			values[i] = val;
 		}
 		return new Glue(values[0], values[1], values[2], name);
 	}

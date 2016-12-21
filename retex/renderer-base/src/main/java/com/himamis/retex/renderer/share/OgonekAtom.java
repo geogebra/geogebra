@@ -62,7 +62,7 @@ public class OgonekAtom extends Atom {
 		VerticalBox vb = new VerticalBox();
 		vb.add(b);
 		Char ch = env.getTeXFont().getChar("ogonek", env.getStyle());
-		float italic = ch.getItalic();
+		double italic = ch.getItalic();
 		Box ogonek = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
@@ -74,7 +74,7 @@ public class OgonekAtom extends Atom {
 		Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_RIGHT);
 		vb.add(new StrutBox(0, -ogonek.getHeight(), 0, 0));
 		vb.add(og);
-		float f = vb.getHeight() + vb.getDepth();
+		double f = vb.getHeight() + vb.getDepth();
 		vb.setHeight(b.getHeight());
 		vb.setDepth(f - b.getHeight());
 		return vb;

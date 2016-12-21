@@ -92,8 +92,8 @@ public class FontInfo {
 	private final String fontName;
 
 	private final Map<CharCouple, Character> lig = new HashMap<CharCouple, Character>();
-	private final Map<CharCouple, Float> kern = new HashMap<CharCouple, Float>();
-	private float[][] metrics;
+	private final Map<CharCouple, Double> kern = new HashMap<CharCouple, Double>();
+	private double[][] metrics;
 	private CharFont[] nextLarger;
 	private int[][] extensions;
 	private HashMap<Character, Character> unicode = null;
@@ -102,9 +102,9 @@ public class FontInfo {
 	private char skewChar = (char) -1;
 
 	// general parameters for this font
-	private final float xHeight;
-	private final float space;
-	private final float quad;
+	private final double xHeight;
+	private final double space;
+	private final double quad;
 	private int boldId;
 	private int romanId;
 	private int ssId;
@@ -116,8 +116,8 @@ public class FontInfo {
 	protected final String ttVersion;
 	protected final String itVersion;
 
-	public FontInfo(int fontId, Object base, String path, String fontName, int unicode, float xHeight,
-			float space, float quad, String boldVersion, String romanVersion, String ssVersion,
+	public FontInfo(int fontId, Object base, String path, String fontName, int unicode, double xHeight,
+			double space, double quad, String boldVersion, String romanVersion, String ssVersion,
 			String ttVersion, String itVersion) {
 		this.fontId = fontId;
 		this.base = base;
@@ -136,7 +136,7 @@ public class FontInfo {
 			this.unicode = new HashMap<Character, Character>(unicode);
 			num = unicode;
 		}
-		metrics = new float[num][];
+		metrics = new double[num][];
 		nextLarger = new CharFont[num];
 		extensions = new int[num][];
 		fonts.put(fontId, this);
@@ -148,8 +148,8 @@ public class FontInfo {
 	 * @param right right character
 	 * @param k kern value
 	 */
-	public void addKern(char left, char right, float k) {
-		kern.put(new CharCouple(left, right), new Float(k));
+	public void addKern(char left, char right, double k) {
+		kern.put(new CharCouple(left, right), new Double(k));
 	}
 
 	/**
@@ -167,12 +167,12 @@ public class FontInfo {
 		return extensions[unicode.get(ch)];
 	}
 
-	public float getKern(char left, char right, float factor) {
+	public double getKern(char left, char right, double factor) {
 		Object obj = kern.get(new CharCouple(left, right));
 		if (obj == null)
 			return 0;
 		else
-			return ((Float) obj).floatValue() * factor;
+			return ((Double) obj).doubleValue() * factor;
 	}
 
 	public CharFont getLigature(char left, char right) {
@@ -183,7 +183,7 @@ public class FontInfo {
 			return new CharFont(((Character) obj).charValue(), fontId);
 	}
 
-	public float[] getMetrics(char c) {
+	public double[] getMetrics(char c) {
 		if (unicode == null)
 			return metrics[c];
 		return metrics[unicode.get(c)];
@@ -195,7 +195,7 @@ public class FontInfo {
 		return nextLarger[unicode.get(ch)];
 	}
 
-	public float getQuad(float factor) {
+	public double getQuad(double factor) {
 		return quad * factor;
 	}
 
@@ -206,11 +206,11 @@ public class FontInfo {
 		return skewChar;
 	}
 
-	public float getSpace(float factor) {
+	public double getSpace(double factor) {
 		return space * factor;
 	}
 
-	public float getXHeight(float factor) {
+	public double getXHeight(double factor) {
 		return xHeight * factor;
 	}
 
@@ -229,7 +229,7 @@ public class FontInfo {
 			extensions[unicode.get(ch)] = ext;
 	}
 
-	public void setMetrics(char c, float[] arr) {
+	public void setMetrics(char c, double[] arr) {
 		if (unicode == null)
 			metrics[c] = arr;
 		else if (!unicode.containsKey(c)) {

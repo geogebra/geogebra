@@ -83,7 +83,7 @@ public class VRowAtom extends Atom {
 		return this.addInterline;
 	}
 
-	public void setRaise(int unit, float r) {
+	public void setRaise(int unit, double r) {
 		raise = new SpaceAtom(unit, r, 0, 0);
 	}
 
@@ -114,7 +114,7 @@ public class VRowAtom extends Atom {
 		}
 
 		vb.setShift(-raise.createBox(env).getWidth());
-		float t = vb.getSize() == 0 ? 0 : vb.children.getLast().getDepth();
+		double t = vb.getSize() == 0 ? 0 : vb.children.getLast().getDepth();
 		vb.setHeight(vb.getDepth() + vb.getHeight() - t);
 		vb.setDepth(t);
 

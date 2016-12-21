@@ -55,7 +55,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 public class CharBox extends Box {
 
 	private final CharFont cf;
-	private final float size;
+	private final double size;
 
 	private final char[] arr = new char[1];
 
@@ -73,7 +73,7 @@ public class CharBox extends Box {
 	}
 
 	@Override
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		g2.saveTransformation();
 		g2.translate(x, y);

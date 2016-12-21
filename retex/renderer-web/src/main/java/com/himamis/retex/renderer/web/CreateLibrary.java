@@ -93,7 +93,7 @@ public class CreateLibrary implements EntryPoint {
 					|| "#000000", bgColor = opts.backgroundColor, // undefined === invisible
 			cb = opts.callback;
 
-			return library.@com.himamis.retex.renderer.web.JlmLib::drawLatex(Lcom/google/gwt/canvas/dom/client/Context2d;Ljava/lang/String;FIIIIIIILjava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ctx, latex, size, type, x, y, topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
+			return library.@com.himamis.retex.renderer.web.JlmLib::drawLatex(Lcom/google/gwt/canvas/dom/client/Context2d;Ljava/lang/String;DIIIIIIILjava/lang/String;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(ctx, latex, size, type, x, y, topInset, leftInset, bottomInset, rightInset, fgColor, bgColor, cb);
 		});
 
 		$wnd.jlmlib.setFontBaseUrl = $entry(function(url) {

@@ -55,7 +55,7 @@ public class DdotsAtom extends Atom {
 
 	public Box createBox(TeXEnvironment env) {
 		Box ldots = TeXFormula.get("ldots").root.createBox(env);
-		float w = ldots.getWidth();
+		double w = ldots.getWidth();
 		Box dot = SymbolAtom.get("ldotp").createBox(env);
 		HorizontalBox hb1 = new HorizontalBox(dot, w, TeXConstants.ALIGN_LEFT);
 		HorizontalBox hb2 = new HorizontalBox(dot, w, TeXConstants.ALIGN_CENTER);
@@ -68,7 +68,7 @@ public class DdotsAtom extends Atom {
 		vb.add(pt4);
 		vb.add(hb3);
 
-		float h = vb.getHeight() + vb.getDepth();
+		double h = vb.getHeight() + vb.getDepth();
 		vb.setHeight(h);
 		vb.setDepth(0);
 

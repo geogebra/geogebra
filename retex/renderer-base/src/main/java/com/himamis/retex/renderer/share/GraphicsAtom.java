@@ -117,8 +117,8 @@
 //				return base.createBox(env);
 //			} else {
 //				env.isColored = true;
-//				float width = w * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
-//				float height = h * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
+//				double width = w * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
+//				double height = h * SpaceAtom.getFactor(TeXConstants.UNIT_PIXEL, env);
 //				return new GraphicsBox(bimage, width, height, env.getSize(), interp);
 //			}
 //		}

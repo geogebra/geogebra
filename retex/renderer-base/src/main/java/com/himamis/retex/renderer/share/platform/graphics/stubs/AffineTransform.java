@@ -497,56 +497,6 @@ public class AffineTransform implements Cloneable, Transform {
     }
 
     /**
-     * Constructs a new <code>AffineTransform</code> from 6 floating point
-     * values representing the 6 specifiable entries of the 3x3
-     * transformation matrix.
-     *
-     * @param m00 the X coordinate scaling element of the 3x3 matrix
-     * @param m10 the Y coordinate shearing element of the 3x3 matrix
-     * @param m01 the X coordinate shearing element of the 3x3 matrix
-     * @param m11 the Y coordinate scaling element of the 3x3 matrix
-     * @param m02 the X coordinate translation element of the 3x3 matrix
-     * @param m12 the Y coordinate translation element of the 3x3 matrix
-     * @since 1.2
-     */
-    public AffineTransform(float m00, float m10,
-                           float m01, float m11,
-                           float m02, float m12) {
-        this.m00 = m00;
-        this.m10 = m10;
-        this.m01 = m01;
-        this.m11 = m11;
-        this.m02 = m02;
-        this.m12 = m12;
-        updateState();
-    }
-
-    /**
-     * Constructs a new <code>AffineTransform</code> from an array of
-     * floating point values representing either the 4 non-translation
-     * enries or the 6 specifiable entries of the 3x3 transformation
-     * matrix.  The values are retrieved from the array as
-     * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;[m02&nbsp;m12]}.
-     * @param flatmatrix the float array containing the values to be set
-     * in the new <code>AffineTransform</code> object. The length of the
-     * array is assumed to be at least 4. If the length of the array is
-     * less than 6, only the first 4 values are taken. If the length of
-     * the array is greater than 6, the first 6 values are taken.
-     * @since 1.2
-     */
-    public AffineTransform(float[] flatmatrix) {
-        m00 = flatmatrix[0];
-        m10 = flatmatrix[1];
-        m01 = flatmatrix[2];
-        m11 = flatmatrix[3];
-        if (flatmatrix.length > 5) {
-            m02 = flatmatrix[4];
-            m12 = flatmatrix[5];
-        }
-        updateState();
-    }
-
-    /**
      * Constructs a new <code>AffineTransform</code> from 6 double
      * precision values representing the 6 specifiable entries of the 3x3
      * transformation matrix.

@@ -62,7 +62,7 @@ public class FontLoaderD implements FontLoader {
 		InputStream fontIn = (InputStream) new Resource().loadResource(base, name);
 		try {
 			java.awt.Font f = java.awt.Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn)
-					.deriveFont(PIXELS_PER_POINT);
+					.deriveFont((float) PIXELS_PER_POINT);
 			GraphicsEnvironment graphicEnv = GraphicsEnvironment.getLocalGraphicsEnvironment();
 
 			/**

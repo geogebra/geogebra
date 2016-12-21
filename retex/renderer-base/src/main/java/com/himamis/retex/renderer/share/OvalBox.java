@@ -63,12 +63,12 @@ public class OvalBox extends FramedBox {
 		roundRectangle = geom.createRoundRectangle2D(0, 0, 0, 0, 0, 0);
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		box.draw(g2, x + space + thickness, y);
 		Stroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-		float th = thickness / 2;
-		float r = 0.5f * Math.min(width - thickness, height + depth - thickness);
+		double th = thickness / 2;
+		double r = 0.5 * Math.min(width - thickness, height + depth - thickness);
 		roundRectangle.setRoundRectangle(x + th, y - height + th, width - thickness, height + depth
 				- thickness, r, r);
 		g2.draw(roundRectangle);

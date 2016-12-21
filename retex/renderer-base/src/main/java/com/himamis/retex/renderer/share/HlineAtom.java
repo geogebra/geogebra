@@ -50,22 +50,22 @@ package com.himamis.retex.renderer.share;
  */
 public class HlineAtom extends Atom {
 
-	private float width;
-	private float shift;
+	private double width;
+	private double shift;
 
 	public HlineAtom() {
 	}
 
-	public void setWidth(float width) {
+	public void setWidth(double width) {
 		this.width = width;
 	}
 
-	public void setShift(float shift) {
+	public void setShift(double shift) {
 		this.shift = shift;
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 		Box b = new HorizontalRule(drt, width, shift, false);
 		VerticalBox vb = new VerticalBox();
 		vb.add(b);

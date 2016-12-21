@@ -180,9 +180,9 @@ public class PredefMacros {
 		int i;
 		for (i = 0; i < args[1].length() && !java.lang.Character.isLetter(args[1].charAt(i)); i++)
 			;
-		float f = 0;
+		double f = 0;
 		try {
-			f = Float.parseFloat(args[1].substring(0, i));
+			f = Double.parseDouble(args[1].substring(0, i));
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());
 		}
@@ -216,16 +216,16 @@ public class PredefMacros {
 	// }
 
 	public static final Atom rule_macro(final TeXParser tp, final String[] args) throws ParseException {
-		float[] winfo = SpaceAtom.getLength(args[1]);
+		double[] winfo = SpaceAtom.getLength(args[1]);
 		if (winfo.length == 1) {
 			throw new ParseException("Error in getting width in \\rule command !");
 		}
-		float[] hinfo = SpaceAtom.getLength(args[2]);
+		double[] hinfo = SpaceAtom.getLength(args[2]);
 		if (hinfo.length == 1) {
 			throw new ParseException("Error in getting height in \\rule command !");
 		}
 
-		float[] rinfo = SpaceAtom.getLength(args[3]);
+		double[] rinfo = SpaceAtom.getLength(args[3]);
 		if (rinfo.length == 1) {
 			throw new ParseException("Error in getting raise in \\rule command !");
 		}
@@ -268,9 +268,9 @@ public class PredefMacros {
 
 		double scaleX = 0.75;
 		double scaleY = 0.75;
-		float raise1 = 0.45f;
-		float shiftL = -0.13f;
-		float shiftR = -0.065f;
+		double raise1 = 0.45f;
+		double shiftL = -0.13f;
+		double shiftR = -0.065f;
 		Atom slash = SymbolAtom.get("slash");
 
 		if (!tp.isMathMode()) {
@@ -307,9 +307,9 @@ public class PredefMacros {
 		}
 
 		boolean rule = true;
-		float[] ths = SpaceAtom.getLength(args[3]);
+		double[] ths = SpaceAtom.getLength(args[3]);
 		if (args[3] == null || args[3].length() == 0 || ths.length == 1) {
-			ths = new float[] { 0.0f, 0.0f };
+			ths = new double[] { 0.0f, 0.0f };
 			rule = false;
 		}
 
@@ -414,7 +414,7 @@ public class PredefMacros {
 
 	public static final Atom above_macro(final TeXParser tp, final String[] args) throws ParseException {
 		Atom num = tp.getFormulaAtom();
-		float[] dim = tp.getLength();
+		double[] dim = tp.getLength();
 		Atom denom = new TeXFormula(tp, tp.getOverArgument(), false).root;
 		if (dim == null || dim.length != 2) {
 			throw new ParseException("Invalid length in above macro");
@@ -428,7 +428,7 @@ public class PredefMacros {
 	public static final Atom abovewithdelims_macro(final TeXParser tp, final String[] args)
 			throws ParseException {
 		Atom num = tp.getFormulaAtom();
-		float[] dim = tp.getLength();
+		double[] dim = tp.getLength();
 		Atom denom = new TeXFormula(tp, tp.getOverArgument(), false).root;
 		if (dim == null || dim.length != 2) {
 			throw new ParseException("Invalid length in above macro");
@@ -859,9 +859,9 @@ public class PredefMacros {
 
 	public static final Atom hdotsfor_macro(final TeXParser tp, final String[] args) throws ParseException {
 		int n = Integer.parseInt(args[1]);
-		float f = 1;
+		double f = 1;
 		if (args[2] != null) {
-			f = Float.parseFloat(args[2]);
+			f = Double.parseDouble(args[2]);
 		}
 		tp.addAtom(new HdotsforAtom(n, f));
 		((ArrayOfAtoms) tp.formula).addCol(n);
@@ -1335,17 +1335,17 @@ public class PredefMacros {
 	}
 
 	public static final Atom raisebox_macro(final TeXParser tp, final String[] args) throws ParseException {
-		float[] raise = SpaceAtom.getLength(args[1]);
+		double[] raise = SpaceAtom.getLength(args[1]);
 		if (raise.length == 1) {
 			throw new ParseException("Error in getting raise in \\raisebox command !");
 		}
-		float[] height = SpaceAtom.getLength(args[3]);
-		float[] depth = SpaceAtom.getLength(args[4]);
+		double[] height = SpaceAtom.getLength(args[3]);
+		double[] depth = SpaceAtom.getLength(args[4]);
 		if (height.length == 1 || height[1] == 0) {
-			height = new float[] { -1, 0 };
+			height = new double[] { -1, 0 };
 		}
 		if (depth.length == 1 || depth[1] == 0) {
-			depth = new float[] { -1, 0 };
+			depth = new double[] { -1, 0 };
 		}
 
 		return new RaiseAtom(new TeXFormula(tp, args[2]).root, (int) raise[0], raise[1], (int) height[0],
@@ -1367,24 +1367,24 @@ public class PredefMacros {
 	public static final Atom definecolor_macro(final TeXParser tp, final String[] args) throws ParseException {
 		Color color = null;
 		if ("gray".equals(args[2])) {
-			float f = Float.parseFloat(args[3]);
+			double f = Double.parseDouble(args[3]);
 			color = graphics.createColor(f, f, f);
 		} else if ("rgb".equals(args[2])) {
 			String[] tokens = args[3].split(",|;");
 			if (tokens.length != 3)
 				throw new ParseException("The color definition must have three components !");
-			float r = Float.parseFloat(tokens[0].trim());
-			float g = Float.parseFloat(tokens[1].trim());
-			float b = Float.parseFloat(tokens[2].trim());
+			double r = Double.parseDouble(tokens[0].trim());
+			double g = Double.parseDouble(tokens[1].trim());
+			double b = Double.parseDouble(tokens[2].trim());
 			color = graphics.createColor(r, g, b);
 		} else if ("cmyk".equals(args[2])) {
 			String[] tokens = args[3].split(",|;");
 			if (tokens.length != 4)
 				throw new ParseException("The color definition must have four components !");
-			float[] cmyk = new float[4];
+			double[] cmyk = new double[4];
 			for (int i = 0; i < 4; i++)
-				cmyk[i] = Float.parseFloat(tokens[i].trim());
-			float k = 1 - cmyk[3];
+				cmyk[i] = Double.parseDouble(tokens[i].trim());
+			double k = 1 - cmyk[3];
 			color = graphics.createColor(k * (1 - cmyk[0]), k * (1 - cmyk[1]), k * (1 - cmyk[2]));
 		} else
 			throw new ParseException("The color model is incorrect !");
@@ -1433,7 +1433,7 @@ public class PredefMacros {
 			final String[] args) throws ParseException {
 		try {
 			return new CursorAtom(ColorAtom.getColor("red"),
-					Float.parseFloat(args[1]));
+					Double.parseDouble(args[1]));
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());
 		}
@@ -1499,14 +1499,14 @@ public class PredefMacros {
 
 	public static final Atom DeclareMathSizes_macro(final TeXParser tp, final String[] args)
 			throws ParseException {
-		DefaultTeXFont.setMathSizes(Float.parseFloat(args[1]), Float.parseFloat(args[2]),
-				Float.parseFloat(args[3]), Float.parseFloat(args[4]));
+		DefaultTeXFont.setMathSizes(Double.parseDouble(args[1]), Double.parseDouble(args[2]),
+				Double.parseDouble(args[3]), Double.parseDouble(args[4]));
 		return null;
 	}
 
 	public static final Atom magnification_macro(final TeXParser tp, final String[] args)
 			throws ParseException {
-		DefaultTeXFont.setMagnification(Float.parseFloat(args[1]));
+		DefaultTeXFont.setMagnification(Double.parseDouble(args[1]));
 		return null;
 	}
 
@@ -1517,7 +1517,7 @@ public class PredefMacros {
 	}
 
 	public static final Atom size_macros(final TeXParser tp, final String[] args) throws ParseException {
-		float f = 1f;
+		double f = 1f;
 		if ("tiny".equals(args[0])) {
 			f = 0.5f;
 		} else if ("scriptsize".equals(args[0])) {
@@ -1783,7 +1783,7 @@ public class PredefMacros {
 	}
 
 	public static final Atom kern_macro(final TeXParser tp, final String[] args) throws ParseException {
-		float[] info = SpaceAtom.getLength(args[1]);
+		double[] info = SpaceAtom.getLength(args[1]);
 		if (info.length == 1) {
 			throw new ParseException("Error in getting kern in \\kern command !");
 		}

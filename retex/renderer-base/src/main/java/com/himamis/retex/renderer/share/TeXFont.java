@@ -65,23 +65,23 @@ public interface TeXFont {
 	 * @param pointSize the new size (in points) of the derived {@link TeXFont}
 	 * @return a <b>copy</b> of this {@link TeXFont} with the new size
 	 */
-	public TeXFont deriveFont(float pointSize);
+	public TeXFont deriveFont(double pointSize);
 
-	public TeXFont scaleFont(float factor);
+	public TeXFont scaleFont(double factor);
 
-	public float getScaleFactor();
+	public double getScaleFactor();
 
-	public float getAxisHeight(int style);
+	public double getAxisHeight(int style);
 
-	public float getBigOpSpacing1(int style);
+	public double getBigOpSpacing1(int style);
 
-	public float getBigOpSpacing2(int style);
+	public double getBigOpSpacing2(int style);
 
-	public float getBigOpSpacing3(int style);
+	public double getBigOpSpacing3(int style);
 
-	public float getBigOpSpacing4(int style);
+	public double getBigOpSpacing4(int style);
 
-	public float getBigOpSpacing5(int style);
+	public double getBigOpSpacing5(int style);
 
 	/**
 	 * Get a Char-object specifying the given character in the given text style with metric
@@ -125,11 +125,11 @@ public interface TeXFont {
 	 */
 	public Char getDefaultChar(char c, int style);
 
-	public float getDefaultRuleThickness(int style);
+	public double getDefaultRuleThickness(int style);
 
-	public float getDenom1(int style);
+	public double getDenom1(int style);
 
-	public float getDenom2(int style);
+	public double getDenom2(int style);
 
 	/**
 	 * Get an Extension-object for the given Char containing the 4 possible parts to build an
@@ -149,7 +149,7 @@ public interface TeXFont {
 	 * @param style the style in which the atom should be drawn
 	 * @return the kern value between both characters (default 0)
 	 */
-	public float getKern(CharFont left, CharFont right, int style);
+	public double getKern(CharFont left, CharFont right, int style);
 
 	/**
 	 * Get the ligature that replaces both characters (if any).
@@ -172,19 +172,19 @@ public interface TeXFont {
 	 */
 	public Char getNextLarger(Char c, int style);
 
-	public float getNum1(int style);
+	public double getNum1(int style);
 
-	public float getNum2(int style);
+	public double getNum2(int style);
 
-	public float getNum3(int style);
+	public double getNum3(int style);
 
-	public float getQuad(int style, int fontCode);
+	public double getQuad(int style, int fontCode);
 
 	/**
 	 * 
 	 * @return the point size of this TeXFont
 	 */
-	public float getSize();
+	public double getSize();
 
 	/**
 	 * Get the kern amount of the character defined by the given CharFont followed by the "skewchar"
@@ -195,27 +195,27 @@ public interface TeXFont {
 	 * @return the kern amount of the character defined by cf followed by the "skewchar" of it's
 	 *         font.
 	 */
-	public float getSkew(CharFont cf, int style);
+	public double getSkew(CharFont cf, int style);
 
-	public float getSpace(int style);
+	public double getSpace(int style);
 
-	public float getSub1(int style);
+	public double getSub1(int style);
 
-	public float getSub2(int style);
+	public double getSub2(int style);
 
-	public float getSubDrop(int style);
+	public double getSubDrop(int style);
 
-	public float getSup1(int style);
+	public double getSup1(int style);
 
-	public float getSup2(int style);
+	public double getSup2(int style);
 
-	public float getSup3(int style);
+	public double getSup3(int style);
 
-	public float getSupDrop(int style);
+	public double getSupDrop(int style);
 
-	public float getXHeight(int style, int fontCode);
+	public double getXHeight(int style, int fontCode);
 
-	public float getEM(int style);
+	public double getEM(int style);
 
 	/**
 	 * 

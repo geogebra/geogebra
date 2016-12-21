@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform.graphics;
 
 public abstract class GraphicsFactory {
 	
-	public abstract BasicStroke createBasicStroke(float width, int cap, int join, float miterLimit);
+	public abstract BasicStroke createBasicStroke(double width, int cap, int join, double miterLimit);
 	
 	public abstract Color createColor(int red, int green, int blue);
 

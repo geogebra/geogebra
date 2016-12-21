@@ -245,15 +245,15 @@ public class MatrixAtom extends Atom {
 		}
 	}
 
-	public Box[] getColumnSep(TeXEnvironment env, float width) {
+	public Box[] getColumnSep(TeXEnvironment env, double width) {
 		int col = matrix.col;
 		Box[] arr = new Box[col + 1];
 		Box Align, AlignSep, Hsep;
-		float h, w = env.getTextwidth();
+		double h, w = env.getTextwidth();
 		int i;
 
 		if (type == ALIGNED || type == ALIGNEDAT) {
-			w = Float.POSITIVE_INFINITY;
+			w = Double.POSITIVE_INFINITY;
 		}
 
 		switch (type) {
@@ -299,8 +299,8 @@ public class MatrixAtom extends Atom {
 			// Align env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep
 			// ... hsep elem hsep
 			Align = align.createBox(env);
-			if (w != Float.POSITIVE_INFINITY) {
-				h = Math.max((w - width - (col / 2) * Align.getWidth()) / (float) Math.floor((col + 3) / 2),
+			if (w != Double.POSITIVE_INFINITY) {
+				h = Math.max((w - width - (col / 2) * Align.getWidth()) / Math.floor((col + 3) / 2),
 						0);
 				AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
 			} else {
@@ -320,7 +320,7 @@ public class MatrixAtom extends Atom {
 		case ALIGNEDAT:
 		case ALIGNAT:
 			// Alignat env. : hsep=(textwidth-matWidth)/2 and hsep elem ... elem hsep
-			if (w != Float.POSITIVE_INFINITY) {
+			if (w != Double.POSITIVE_INFINITY) {
 				h = Math.max((w - width) / 2, 0);
 			} else {
 				h = 0;
@@ -343,8 +343,8 @@ public class MatrixAtom extends Atom {
 			// flalign env. : hsep=(textwidth-matWidth)/(2n+1) and hsep eq_lft \medskip el_rgt hsep
 			// ... hsep elem hsep
 			Align = align.createBox(env);
-			if (w != Float.POSITIVE_INFINITY) {
-				h = Math.max((w - width - (col / 2) * Align.getWidth()) / (float) Math.floor((col - 1) / 2),
+			if (w != Double.POSITIVE_INFINITY) {
+				h = Math.max((w - width - (col / 2) * Align.getWidth()) /  Math.floor((col - 1) / 2),
 						0);
 				AlignSep = new StrutBox(h, 0.0f, 0.0f, 0.0f);
 			} else {
@@ -364,7 +364,7 @@ public class MatrixAtom extends Atom {
 			break;
 		}
 
-		if (w == Float.POSITIVE_INFINITY) {
+		if (w == Double.POSITIVE_INFINITY) {
 			arr[0] = nullBox;
 			arr[col] = arr[0];
 		}
@@ -380,11 +380,11 @@ public class MatrixAtom extends Atom {
 		int row = matrix.row;
 		int col = matrix.col;
 		Box[][] boxarr = new Box[row][col];
-		float[] lineDepth = new float[row];
-		float[] lineHeight = new float[row];
-		float[] rowWidth = new float[col];
-		float matW = 0;
-		float drt = env0.getTeXFont().getDefaultRuleThickness(env0.getStyle());
+		double[] lineDepth = new double[row];
+		double[] lineHeight = new double[row];
+		double[] rowWidth = new double[col];
+		double matW = 0;
+		double drt = env0.getTeXFont().getDefaultRuleThickness(env0.getStyle());
 		TeXEnvironment env = env0;
 		if (type == SMALLMATRIX) {
 			env = env.copy();
@@ -426,12 +426,12 @@ public class MatrixAtom extends Atom {
 			int c = multi.getCol();
 			int r = multi.getRow();
 			int n = multi.getSkipped();
-			float w = 0;
+			double w = 0;
 			for (int j = c; j < c + n; j++) {
 				w += rowWidth[j];
 			}
 			if (boxarr[r][c].getWidth() > w) {
-				float extraW = (boxarr[r][c].getWidth() - w) / n;
+				double extraW = (boxarr[r][c].getWidth() - w) / n;
 				for (int j = c; j < c + n; j++) {
 					rowWidth[j] += extraW;
 				}
@@ -453,7 +453,7 @@ public class MatrixAtom extends Atom {
 		VerticalBox vb = new VerticalBox();
 		Box Vsep = vsep_in.createBox(env);
 		vb.add(vsep_ext_top.createBox(env));
-		float totalHeight = 0;
+		double totalHeight = 0;
 		for (int i = 0; i < row; i++) {
 			HorizontalBox hb = new HorizontalBox();
 			for (int j = 0; j < col; j++) {
@@ -522,8 +522,8 @@ public class MatrixAtom extends Atom {
 					}
 					break;
 				case TeXConstants.TYPE_INTERTEXT:
-					float f = env.getTextwidth();
-					f = f == Float.POSITIVE_INFINITY ? rowWidth[j] : f;
+					double f = env.getTextwidth();
+					f = f == Double.POSITIVE_INFINITY ? rowWidth[j] : f;
 					hb = new HorizontalBox(boxarr[i][j], f, TeXConstants.ALIGN_LEFT);
 					j = col - 1;
 					break;
@@ -558,15 +558,15 @@ public class MatrixAtom extends Atom {
 		vb.add(vsep_ext_bot.createBox(env));
 		totalHeight = vb.getHeight() + vb.getDepth();
 
-		float axis = env.getTeXFont().getAxisHeight(env.getStyle());
+		double axis = env.getTeXFont().getAxisHeight(env.getStyle());
 		vb.setHeight(totalHeight / 2 + axis);
 		vb.setDepth(totalHeight / 2 - axis);
 
 		return new TableBox(vb, rectangles, colors);
 	}
 
-	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, float[] rowWidth, int i, int j) {
-		float w = 0;
+	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, double[] rowWidth, int i, int j) {
+		double w = 0;
 		MulticolumnAtom mca = (MulticolumnAtom) matrix.get(i, j);
 		int k, n = mca.getSkipped();
 		for (k = j; k < j + n - 1; k++) {
@@ -578,7 +578,7 @@ public class MatrixAtom extends Atom {
 		w += rowWidth[k];
 
 		Box b = mca.createBox(env);
-		float bw = b.getWidth();
+		double bw = b.getWidth();
 		if (bw > w) {
 			// It isn't a good idea but for the moment I have no other solution !
 			w = 0;

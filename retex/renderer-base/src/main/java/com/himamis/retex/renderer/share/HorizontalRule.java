@@ -56,11 +56,11 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 public class HorizontalRule extends Box {
 
 	private Color color = null;
-	private float speShift = 0;
+	private double speShift = 0;
 
 	private Rectangle2D rectangle;
 
-	public HorizontalRule(float thickness, float width, float s) {
+	public HorizontalRule(double thickness, double width, double s) {
 		height = thickness;
 		this.width = width;
 		shift = s;
@@ -68,7 +68,7 @@ public class HorizontalRule extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public HorizontalRule(float thickness, float width, float s, boolean trueShift) {
+	public HorizontalRule(double thickness, double width, double s, boolean trueShift) {
 		height = thickness;
 		this.width = width;
 		if (trueShift) {
@@ -81,7 +81,7 @@ public class HorizontalRule extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public HorizontalRule(float thickness, float width, float s, Color c) {
+	public HorizontalRule(double thickness, double width, double s, Color c) {
 		height = thickness;
 		this.width = width;
 		color = c;
@@ -90,7 +90,7 @@ public class HorizontalRule extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		Color old = g2.getColor();
 		if (color != null)
 			g2.setColor(color);

@@ -62,7 +62,7 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
  * that created it.
  * <p>
  * This class cannot be instantiated directly. It can be constructed from a
- * TeXFormula using the {@link TeXFormula#createTeXIcon(int,float)} method.
+ * TeXFormula using the {@link TeXFormula#createTeXIcon(int,double)} method.
  *
  * @author Kurt Vermeulen
  */
@@ -70,12 +70,12 @@ public class TeXIcon implements Icon {
 
     private static final Color defaultColor = ColorUtil.BLACK;
 
-    public static float defaultSize = -1;
-    public static float magFactor = 0;
+    public static double defaultSize = -1;
+    public static double magFactor = 0;
 
     private Box box;
 
-    private final float size;
+    private final double size;
 
     private Insets insets = new Insets(0, 0, 0, 0);
 
@@ -89,11 +89,11 @@ public class TeXIcon implements Icon {
      * @param b the formula box to be painted
      * @param size the point size
      */
-    protected TeXIcon(Box b, float size) {
+    protected TeXIcon(Box b, double size) {
         this(b, size, false);
     }
 
-    protected TeXIcon(Box b, float size, boolean trueValues) {
+    protected TeXIcon(Box b, double size, boolean trueValues) {
         box = b;
 
         if (defaultSize != -1) {
@@ -166,7 +166,7 @@ public class TeXIcon implements Icon {
      * @param alignment a horizontal alignment constant: LEFT, RIGHT or CENTER
      */
     public void setIconWidth(int width, int alignment) {
-        float diff = width - getIconWidth();
+    	double diff = width - getIconWidth();
         if (diff > 0)
             box = new HorizontalBox(box, box.getWidth() + diff, alignment);
     }
@@ -181,7 +181,7 @@ public class TeXIcon implements Icon {
      * @param alignment a vertical alignment constant: TOP, BOTTOM or CENTER
      */
     public void setIconHeight(int height, int alignment) {
-        float diff = height - getIconHeight();
+    	double diff = height - getIconHeight();
         if (diff > 0)
             box = new VerticalBox(box, diff, alignment);
     }
@@ -208,14 +208,14 @@ public class TeXIcon implements Icon {
         return (int) (box.getWidth() * size + 0.99 + insets.left + insets.right);
     }
 
-    public float getTrueIconHeight() {
+    public double getTrueIconHeight() {
         return (box.getHeight() + box.getDepth()) * size;
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public float getTrueIconDepth() {
+    public double getTrueIconDepth() {
         return box.getDepth() * size;
     }
 
@@ -223,12 +223,12 @@ public class TeXIcon implements Icon {
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public float getTrueIconWidth() {
+    public double getTrueIconWidth() {
         return box.getWidth() * size;
     }
 
-    public float getBaseLine() {
-        return (float)( (box.getHeight() * size + 0.99 + insets.top) /
+    public double getBaseLine() {
+        return ( (box.getHeight() * size + 0.99 + insets.top) /
                         ((box.getHeight() + box.getDepth()) * size + 0.99 + insets.top + insets.bottom));
     }
 

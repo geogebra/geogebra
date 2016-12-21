@@ -66,10 +66,10 @@ public class FractionAtom extends Atom {
 	private Atom numerator, denominator;
 
 	// thickness of the fraction line
-	private float thickness;
+	private double thickness;
 
 	// thickness of the fraction line relative to the default thickness
-	private float defFactor;
+	private double defFactor;
 
 	// whether the "defFactor" value should be used
 	private boolean defFactorSet = false;
@@ -105,7 +105,7 @@ public class FractionAtom extends Atom {
 	 * @param t the thickness of the fraction line (in the given unit)
 	 * @throws InvalidUnitException if the given integer is not a valid unit constant
 	 */
-	public FractionAtom(Atom num, Atom den, boolean noDef, int unit, float t) throws InvalidUnitException {
+	public FractionAtom(Atom num, Atom den, boolean noDef, int unit, double t) throws InvalidUnitException {
 		// check unit
 		SpaceAtom.checkUnit(unit);
 
@@ -142,7 +142,7 @@ public class FractionAtom extends Atom {
 	 * @param numAlign alignment of the numerator
 	 * @param denomAlign alignment of the denominator
 	 */
-	public FractionAtom(Atom num, Atom den, float defFactor, int numAlign, int denomAlign) {
+	public FractionAtom(Atom num, Atom den, double defFactor, int numAlign, int denomAlign) {
 		this(num, den, true, numAlign, denomAlign);
 		this.defFactor = defFactor;
 		defFactorSet = true;
@@ -158,7 +158,7 @@ public class FractionAtom extends Atom {
 	 * @param numAlign alignment of the numerator
 	 * @param denomAlign alignment of the denominator
 	 */
-	public FractionAtom(Atom num, Atom den, int unit, float t, int numAlign, int denomAlign) {
+	public FractionAtom(Atom num, Atom den, int unit, double t, int numAlign, int denomAlign) {
 		this(num, den, unit, t);
 		this.numAlign = checkAlignment(numAlign);
 		this.denomAlign = checkAlignment(denomAlign);
@@ -172,7 +172,7 @@ public class FractionAtom extends Atom {
 	 * @param unit a unit constant for the line thickness
 	 * @param t the thickness of the fraction line (in the given unit)
 	 */
-	public FractionAtom(Atom num, Atom den, int unit, float t) {
+	public FractionAtom(Atom num, Atom den, int unit, double t) {
 		this(num, den, true, unit, t);
 	}
 
@@ -189,7 +189,7 @@ public class FractionAtom extends Atom {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
 		// set thickness to default if default value should be used
-		float drt = tf.getDefaultRuleThickness(style);
+		double drt = tf.getDefaultRuleThickness(style);
 		if (noDefault)
 			// convert the thickness to pixels
 			thickness *= SpaceAtom.getFactor(unit, env);
@@ -206,7 +206,7 @@ public class FractionAtom extends Atom {
 			denom = new HorizontalBox(denom, num.getWidth(), denomAlign);
 
 		// calculate default shift amounts
-		float shiftUp, shiftDown;
+		double shiftUp, shiftDown;
 		if (style < TeXConstants.STYLE_TEXT) {
 			shiftUp = tf.getNum1(style);
 			shiftDown = tf.getDenom1(style);
@@ -223,7 +223,7 @@ public class FractionAtom extends Atom {
 		vBox.add(num);
 
 		// calculate clearance clr, adjust shift amounts and create vertical box
-		float clr, delta, axis = tf.getAxisHeight(style);
+		double clr, delta, axis = tf.getAxisHeight(style);
 
 		if (thickness > 0) { // WITH fraction rule
 			// clearance clr
@@ -234,9 +234,9 @@ public class FractionAtom extends Atom {
 
 			// adjust shift amounts
 			delta = thickness / 2;
-			float kern1 = shiftUp - num.getDepth() - (axis + delta), kern2 = axis - delta
+			double kern1 = shiftUp - num.getDepth() - (axis + delta), kern2 = axis - delta
 					- (denom.getHeight() - shiftDown);
-			float delta1 = clr - kern1, delta2 = clr - kern2;
+			double delta1 = clr - kern1, delta2 = clr - kern2;
 			if (delta1 > 0) {
 				shiftUp += delta1;
 				kern1 += delta1;
@@ -258,7 +258,7 @@ public class FractionAtom extends Atom {
 				clr = 3 * drt;
 
 			// adjust shift amounts
-			float kern = shiftUp - num.getDepth() - (denom.getHeight() - shiftDown);
+			double kern = shiftUp - num.getDepth() - (denom.getHeight() - shiftDown);
 			delta = (clr - kern) / 2;
 			if (delta > 0) {
 				shiftUp += delta;
@@ -276,7 +276,7 @@ public class FractionAtom extends Atom {
 		vBox.setDepth(shiftDown + denom.getDepth());
 
 		// \nulldelimiterspace is set by default to 1.2pt = 0.12em)
-		float f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).createBox(env).getWidth();
+		double f = new SpaceAtom(TeXConstants.UNIT_EM, 0.12f, 0, 0).createBox(env).getWidth();
 
 		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f, TeXConstants.ALIGN_CENTER);
 	}

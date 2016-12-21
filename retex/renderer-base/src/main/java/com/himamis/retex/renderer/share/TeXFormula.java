@@ -106,14 +106,14 @@ public class TeXFormula {
 			{ "Updownarrow", "Updownarrow" }, { "vert", "vert" }, { "Vert", "Vert" } };
 
 	// point-to-pixel conversion
-	final public static float PIXELS_PER_POINT = 1f;
+	final public static double PIXELS_PER_POINT = 1f;
 
 	// used as second index in "delimiterNames" table (over or under)
 	private static final int OVER_DEL = 0;
 	private static final int UNDER_DEL = 1;
 
-	// for comparing floats with 0
-	protected static final float PREC = 0.0000001f;
+	// for comparing doubles with 0
+	protected static final double PREC = 0.0000001f;
 
 	// predefined TeXFormula's
 	public static Map<String, TeXFormula> predefinedTeXFormulas = new HashMap<String, TeXFormula>(150);
@@ -183,7 +183,7 @@ public class TeXFormula {
 	 * 
 	 * @param dpi the target DPI
 	 */
-//	public static void setDPITarget(float dpi) {
+//	public static void setDPITarget(double dpi) {
 //		PIXELS_PER_POINT = dpi / 72f;
 //	}
 
@@ -193,7 +193,7 @@ public class TeXFormula {
 	//public static void setDefaultDPI() {
 		// TODO
 		/*
-		 * if (!GraphicsEnvironment.isHeadless()) { setDPITarget((float)
+		 * if (!GraphicsEnvironment.isHeadless()) { setDPITarget((double)
 		 * Toolkit.getDefaultToolkit().getScreenResolution()); }
 		 */
 	//}
@@ -513,7 +513,7 @@ public class TeXFormula {
 	 * @return the modified TeXFormula
 	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
 	 */
-	public TeXFormula addStrut(int unit, float width, float height, float depth) throws InvalidUnitException {
+	public TeXFormula addStrut(int unit, double width, double height, double depth) throws InvalidUnitException {
 		return add(new SpaceAtom(unit, width, height, depth));
 	}
 
@@ -542,8 +542,8 @@ public class TeXFormula {
 	 * @return the modified TeXFormula
 	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
 	 */
-	public TeXFormula addStrut(int widthUnit, float width, int heightUnit, float height, int depthUnit,
-			float depth) throws InvalidUnitException {
+	public TeXFormula addStrut(int widthUnit, double width, int heightUnit, double height, int depthUnit,
+			double depth) throws InvalidUnitException {
 		return add(new SpaceAtom(widthUnit, width, heightUnit, height, depthUnit, depth));
 	}
 
@@ -557,7 +557,7 @@ public class TeXFormula {
 			return root.createBox(style);
 	}
 
-	private DefaultTeXFont createFont(float size, int type) {
+	private DefaultTeXFont createFont(double size, int type) {
 		DefaultTeXFont dtf = new DefaultTeXFont(size);
 		if (type == 0) {
 			dtf.setSs(false);
@@ -589,16 +589,16 @@ public class TeXFormula {
 	 */
 	public class TeXIconBuilder {
 		private Integer style;
-		private Float size;
+		private Double size;
 		private Integer type;
 		private Color fgcolor;
 		private boolean trueValues = false;
 		private Integer widthUnit;
-		private Float textWidth;
+		private Double textWidth;
 		private Integer align;
 		private boolean isMaxWidth = false;
 		private Integer interLineUnit;
-		private Float interLineSpacing;
+		private Double interLineSpacing;
 
 		/**
 		 * Specify the style for rendering the given TeXFormula
@@ -617,7 +617,7 @@ public class TeXFormula {
 		 * @param size the size
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setSize(final float size) {
+		public TeXIconBuilder setSize(final double size) {
 			this.size = size;
 			return this;
 		}
@@ -664,7 +664,7 @@ public class TeXFormula {
 		 * @param align the alignment
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setWidth(final int widthUnit, final float textWidth, final int align) {
+		public TeXIconBuilder setWidth(final int widthUnit, final double textWidth, final int align) {
 			this.widthUnit = widthUnit;
 			this.textWidth = textWidth;
 			this.align = align;
@@ -715,7 +715,7 @@ public class TeXFormula {
 		 * @param interLineSpacing the value
 		 * @return the builder, used for chaining
 		 */
-		public TeXIconBuilder setInterLineSpacing(final int interLineUnit, final float interLineSpacing) {
+		public TeXIconBuilder setInterLineSpacing(final int interLineUnit, final double interLineSpacing) {
 			if (widthUnit == null) {
 				throw new IllegalStateException(
 						"Cannot set inter line spacing without having specified a width!");
@@ -755,7 +755,7 @@ public class TeXFormula {
 			if (widthUnit != null) {
 				HorizontalBox hb;
 				if (interLineUnit != null) {
-					float il = interLineSpacing * SpaceAtom.getFactor(interLineUnit, te);
+					double il = interLineSpacing * SpaceAtom.getFactor(interLineUnit, te);
 					Box b = BreakFormula.split(box, te.getTextwidth(), il);
 					hb = new HorizontalBox(b, isMaxWidth ? b.getWidth() : te.getTextwidth(), align);
 				} else {
@@ -782,43 +782,43 @@ public class TeXFormula {
 	 * @param size the default TeXFont's point size
 	 * @return the created TeXIcon
 	 */
-	public TeXIcon createTeXIcon(int style, float size) {
+	public TeXIcon createTeXIcon(int style, double size) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int type) {
+	public TeXIcon createTeXIcon(int style, double size, int type) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int type, Color fgcolor) {
+	public TeXIcon createTeXIcon(int style, double size, int type, Color fgcolor) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type).setFGColor(fgcolor).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, boolean trueValues) {
+	public TeXIcon createTeXIcon(int style, double size, boolean trueValues) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setTrueValues(trueValues).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int widthUnit, float textwidth, int align) {
+	public TeXIcon createTeXIcon(int style, double size, int widthUnit, double textwidth, int align) {
 		return createTeXIcon(style, size, 0, widthUnit, textwidth, align);
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align) {
+	public TeXIcon createTeXIcon(int style, double size, int type, int widthUnit, double textwidth, int align) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setWidth(widthUnit, textwidth, align).build();
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int widthUnit, float textwidth, int align,
-			int interlineUnit, float interline) {
+	public TeXIcon createTeXIcon(int style, double size, int widthUnit, double textwidth, int align,
+			int interlineUnit, double interline) {
 		return createTeXIcon(style, size, 0, widthUnit, textwidth, align, interlineUnit, interline);
 	}
 
-	public TeXIcon createTeXIcon(int style, float size, int type, int widthUnit, float textwidth, int align,
-			int interlineUnit, float interline) {
+	public TeXIcon createTeXIcon(int style, double size, int type, int widthUnit, double textwidth, int align,
+			int interlineUnit, double interline) {
 		return new TeXIconBuilder().setStyle(style).setSize(size).setType(type)
 				.setWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
 	}
 
-	public void createImage(String format, int style, float size, String out, Color bg, Color fg,
+	public void createImage(String format, int style, double size, String out, Color bg, Color fg,
 			boolean transparency) {
 		// TODO
 		throw new UnsupportedOperationException();
@@ -845,15 +845,15 @@ public class TeXFormula {
 		 */
 	}
 
-	public void createPNG(int style, float size, String out, Color bg, Color fg) {
+	public void createPNG(int style, double size, String out, Color bg, Color fg) {
 		createImage("png", style, size, out, bg, fg, bg == null);
 	}
 
-	public void createGIF(int style, float size, String out, Color bg, Color fg) {
+	public void createGIF(int style, double size, String out, Color bg, Color fg) {
 		createImage("gif", style, size, out, bg, fg, bg == null);
 	}
 
-	public void createJPEG(int style, float size, String out, Color bg, Color fg) {
+	public void createJPEG(int style, double size, String out, Color bg, Color fg) {
 		// There is a bug when a BufferedImage has a component alpha so we disabel it
 		createImage("jpeg", style, size, out, bg, fg, false);
 	}
@@ -865,7 +865,7 @@ public class TeXFormula {
 	 * @param transparency, if true the background is transparent
 	 * @return the generated image
 	 */
-	public static Image createBufferedImage(String formula, int style, float size, Color fg, Color bg)
+	public static Image createBufferedImage(String formula, int style, double size, Color fg, Color bg)
 			throws ParseException {
 		TeXFormula f = new TeXFormula(formula);
 		
@@ -879,7 +879,7 @@ public class TeXFormula {
 	 * @param transparency, if true the background is transparent
 	 * @return the generated image
 	 */
-	public Image createBufferedImage(int style, float size, Color fg, Color bg) throws ParseException {
+	public Image createBufferedImage(int style, double size, Color fg, Color bg) throws ParseException {
 		TeXIcon icon = createTeXIcon(style, size);
 		icon.setInsets(new Insets(2, 2, 2, 2));
 		int w = icon.getIconWidth(), h = icon.getIconHeight();

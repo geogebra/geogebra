@@ -65,7 +65,7 @@ public class FcscoreAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		final float factor = 12 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+		final double factor = 12 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
 
 		return new FcscoreBox(N == 5 ? 4 : N, factor * 1f, factor * 0.07f, factor * 0.125f, N == 5);
 	}

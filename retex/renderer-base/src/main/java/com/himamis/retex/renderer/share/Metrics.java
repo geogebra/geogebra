@@ -51,13 +51,13 @@ package com.himamis.retex.renderer.share;
  */
 public class Metrics {
 
-	private final float w;
-	private final float h;
-	private final float d;
-	private final float i;
-	private final float s;
+	private final double w;
+	private final double h;
+	private final double d;
+	private final double i;
+	private final double s;
 
-	public Metrics(float w, float h, float d, float i, float factor, float size) {
+	public Metrics(double w, double h, double d, double i, double factor, double size) {
 		this.w = w * factor;
 		this.h = h * factor;
 		this.d = d * factor;
@@ -65,23 +65,23 @@ public class Metrics {
 		this.s = size;
 	}
 
-	public float getWidth() {
+	public double getWidth() {
 		return w;
 	}
 
-	public float getHeight() {
+	public double getHeight() {
 		return h;
 	}
 
-	public float getDepth() {
+	public double getDepth() {
 		return d;
 	}
 
-	public float getItalic() {
+	public double getItalic() {
 		return i;
 	}
 
-	public float getSize() {
+	public double getSize() {
 		return s;
 	}
 }

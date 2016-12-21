@@ -21,7 +21,7 @@ public class SelectionBox extends Box {
 		this.depth = content.depth;
 	}
 	@Override
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		content.draw(g2, x, y);
 		Stroke old = g2.getStroke();
 
@@ -74,7 +74,7 @@ public class SelectionBox extends Box {
 	}
 
 	@Override
-	public void getPath(float x, float y, ArrayList<Integer> list) {
+	public void getPath(double x, double y, ArrayList<Integer> list) {
 		super.getPath(x, y, list);
 
 	}

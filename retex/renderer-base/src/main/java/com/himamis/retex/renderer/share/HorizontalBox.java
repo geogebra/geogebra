@@ -60,9 +60,9 @@ public class HorizontalBox extends Box {
 
 	protected List<Integer> breakPositions;
 
-	public HorizontalBox(Box b, float w, int alignment) {
-		if (w != Float.POSITIVE_INFINITY) {
-			float rest = w - b.getWidth();
+	public HorizontalBox(Box b, double w, int alignment) {
+		if (w != Double.POSITIVE_INFINITY) {
+			double rest = w - b.getWidth();
 			if (rest > 0) {
 				if (alignment == TeXConstants.ALIGN_CENTER || alignment == TeXConstants.ALIGN_NONE) {
 					StrutBox s = new StrutBox(rest / 2, 0, 0, 0);
@@ -105,9 +105,9 @@ public class HorizontalBox extends Box {
 		return b;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
-		float xPos = x;
+		double xPos = x;
 		for (Box box : children) {
 			/*
 			 * int i = children.indexOf(box); if (breakPositions != null &&
@@ -136,8 +136,8 @@ public class HorizontalBox extends Box {
 		// curPos += b.getWidth();
 		// width = Math.max(width, curPos);
 		width += b.getWidth();
-		height = Math.max((children.size() == 0 ? Float.NEGATIVE_INFINITY : height), b.height - b.shift);
-		depth = Math.max((children.size() == 0 ? Float.NEGATIVE_INFINITY : depth), b.depth + b.shift);
+		height = Math.max((children.size() == 0 ? Double.NEGATIVE_INFINITY : height), b.height - b.shift);
+		depth = Math.max((children.size() == 0 ? Double.NEGATIVE_INFINITY : depth), b.depth + b.shift);
 	}
 
 	public int getLastFontId() {
@@ -189,9 +189,9 @@ public class HorizontalBox extends Box {
 	}
 
 	@Override
-	public void getPath(float x, float y, ArrayList<Integer> list) {
+	public void getPath(double x, double y, ArrayList<Integer> list) {
 
-		float xPos = 0;
+		double xPos = 0;
 		for (Box box : children) {
 			if (xPos + box.getWidth() > x) {
 				int idx = children.indexOf(box);

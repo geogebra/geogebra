@@ -54,27 +54,27 @@ public class ScaleBox extends Box {
 
 	private Box box;
 	private double xscl, yscl;
-	private float factor = 1;
+	private double factor = 1;
 
 	public ScaleBox(Box b, double xscl, double yscl) {
 		this.box = b;
 		this.xscl = (Double.isNaN(xscl) || Double.isInfinite(xscl)) ? 0 : xscl;
 		this.yscl = (Double.isNaN(yscl) || Double.isInfinite(yscl)) ? 0 : yscl;
-		width = b.width * (float) Math.abs(this.xscl);
-		height = this.yscl > 0 ? b.height * (float) this.yscl : -b.depth * (float) this.yscl;
-		depth = this.yscl > 0 ? b.depth * (float) this.yscl : -b.height * (float) this.yscl;
-		shift = b.shift * (float) this.yscl;
+		width = b.width *  Math.abs(this.xscl);
+		height = this.yscl > 0 ? b.height *  this.yscl : -b.depth *  this.yscl;
+		depth = this.yscl > 0 ? b.depth *  this.yscl : -b.height *  this.yscl;
+		shift = b.shift *  this.yscl;
 	}
 
-	public ScaleBox(Box b, float factor) {
+	public ScaleBox(Box b, double factor) {
 		this(b, (double) factor, (double) factor);
 		this.factor = factor;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		if (xscl != 0 && yscl != 0) {
-			float dec = xscl < 0 ? width : 0;
+			double dec = xscl < 0 ? width : 0;
 			g2.translate(x + dec, y);
 			g2.scale(xscl, yscl);
 			box.draw(g2, 0, 0);

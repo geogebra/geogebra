@@ -69,12 +69,12 @@ public class RotateBox extends Box {
 
 	protected double angle = 0;
 	private Box box;
-	private float xmax, xmin, ymax, ymin;
+	private double xmax, xmin, ymax, ymin;
 
-	private float shiftX;
-	private float shiftY;
+	private double shiftX;
+	private double shiftY;
 
-	public RotateBox(Box b, double angle, float x, float y) {
+	public RotateBox(Box b, double angle, double x, double y) {
 		this.box = b;
 		this.angle = angle * Math.PI / 180;
 		height = b.height;
@@ -82,17 +82,17 @@ public class RotateBox extends Box {
 		width = b.width;
 		double s = Math.sin(this.angle);
 		double c = Math.cos(this.angle);
-		shiftX = (float) (x * (1 - c) + y * s);
-		shiftY = (float) (y * (1 - c) - x * s);
-		xmax = (float) Math.max(-height * s,
+		shiftX = (x * (1 - c) + y * s);
+		shiftY = (y * (1 - c) - x * s);
+		xmax =  Math.max(-height * s,
 				Math.max(depth * s, Math.max(width * c + depth * s, width * c - height * s)))
 				+ shiftX;
-		xmin = (float) Math.min(-height * s,
+		xmin =  Math.min(-height * s,
 				Math.min(depth * s, Math.min(width * c + depth * s, width * c - height * s)))
 				+ shiftX;
-		ymax = (float) Math.max(height * c,
+		ymax =  Math.max(height * c,
 				Math.max(-depth * c, Math.max(width * s - depth * c, width * s + height * c)));
-		ymin = (float) Math.min(height * c,
+		ymin =  Math.min(height * c,
 				Math.min(-depth * c, Math.min(width * s - depth * c, width * s + height * c)));
 		width = xmax - xmin;
 		height = ymax + shiftY;
@@ -100,7 +100,7 @@ public class RotateBox extends Box {
 	}
 
 	public RotateBox(Box b, double angle, Point2D origin) {
-		this(b, angle, (float) origin.getX(), (float) origin.getY());
+		this(b, angle, origin.getX(), origin.getY());
 	}
 
 	public RotateBox(Box b, double angle, int option) {
@@ -201,7 +201,7 @@ public class RotateBox extends Box {
 		return p;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		box.drawDebug(g2, x, y, true);
 		y -= shiftY;

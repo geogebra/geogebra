@@ -66,7 +66,7 @@ public class XArrowAtom extends Atom {
 		Box oside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).createBox(env.supStyle());
 		Box uside = new SpaceAtom(TeXConstants.UNIT_EM, 1.5f, 0, 0).createBox(env.subStyle());
 		Box sep = new SpaceAtom(TeXConstants.UNIT_MU, 0, 2f, 0).createBox(env);
-		float width = Math.max(O.getWidth() + 2 * oside.getWidth(), U.getWidth() + 2 * uside.getWidth());
+		double width = Math.max(O.getWidth() + 2 * oside.getWidth(), U.getWidth() + 2 * uside.getWidth());
 		Box arrow = XLeftRightArrowFactory.create(left, env, width);
 
 		Box ohb = new HorizontalBox(O, width, TeXConstants.ALIGN_CENTER);
@@ -79,8 +79,8 @@ public class XArrowAtom extends Atom {
 		vb.add(sep);
 		vb.add(uhb);
 
-		float h = vb.getHeight() + vb.getDepth();
-		float d = sep.getHeight() + sep.getDepth() + uhb.getHeight() + uhb.getDepth();
+		double h = vb.getHeight() + vb.getDepth();
+		double d = sep.getHeight() + sep.getDepth() + uhb.getHeight() + uhb.getDepth();
 		vb.setDepth(d);
 		vb.setHeight(h - d);
 

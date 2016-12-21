@@ -53,7 +53,7 @@ public class NthRoot extends Atom {
 
 	private static final String sqrtSymbol = "sqrt";
 
-	private static final float FACTOR = 0.55f;
+	private static final double FACTOR = 0.55;
 
 	// base atom to be put under the root sign
 	private final Atom base;
@@ -72,7 +72,7 @@ public class NthRoot extends Atom {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
 		// calculate minimum clearance clr
-		float clr, drt = tf.getDefaultRuleThickness(style);
+		double clr, drt = tf.getDefaultRuleThickness(style);
 		if (style < TeXConstants.STYLE_TEXT)
 			clr = tf.getXHeight(style, tf.getChar(sqrtSymbol, style).getFontCode());
 		else
@@ -84,11 +84,11 @@ public class NthRoot extends Atom {
 		HorizontalBox b = new HorizontalBox(bs);
 		b.add(new SpaceAtom(TeXConstants.UNIT_MU, 1, 0, 0).createBox(env.crampStyle()));
 		// create root sign
-		float totalH = b.getHeight() + b.getDepth();
+		double totalH = b.getHeight() + b.getDepth();
 		Box rootSign = DelimiterFactory.create(sqrtSymbol, env, totalH + clr + drt);
 
 		// add half the excess to clr
-		float delta = rootSign.getDepth() - (totalH + clr);
+		double delta = rootSign.getDepth() - (totalH + clr);
 		clr += delta / 2;
 
 		// create total box
@@ -107,7 +107,7 @@ public class NthRoot extends Atom {
 			Box r = root.createBox(env.rootStyle());
 
 			// shift root up
-			float bottomShift = FACTOR * (squareRoot.getHeight() + squareRoot.getDepth());
+			double bottomShift = FACTOR * (squareRoot.getHeight() + squareRoot.getDepth());
 			r.setShift(squareRoot.getDepth() - r.getDepth() - bottomShift);
 
 			// negative kern
@@ -115,7 +115,7 @@ public class NthRoot extends Atom {
 
 			// arrange both boxes together with the negative kern
 			Box res = new HorizontalBox();
-			float pos = r.getWidth() + negativeKern.getWidth();
+			double pos = r.getWidth() + negativeKern.getWidth();
 			if (pos < 0)
 				res.add(new StrutBox(-pos, 0, 0, 0));
 

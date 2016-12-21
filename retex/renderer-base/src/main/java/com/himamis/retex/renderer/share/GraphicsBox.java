@@ -59,10 +59,10 @@
 //	public final static int BICUBIC = 2;
 //
 //	private Image image;
-//	private float scl;
+//	private double scl;
 //	private int interp;
 //
-//	public GraphicsBox(Image image, float width, float height, float size, int interpolation) {
+//	public GraphicsBox(Image image, double width, double height, double size, int interpolation) {
 //		this.image = image;
 //		this.width = width;
 //		this.height = height;
@@ -84,7 +84,7 @@
 //		}
 //	}
 //
-//	public void draw(Graphics2DInterface g2, float x, float y) {
+//	public void draw(Graphics2DInterface g2, double x, double y) {
 //		g2.saveTransformation();
 //		int oldKey = -1;
 //		if (interp != -1) {

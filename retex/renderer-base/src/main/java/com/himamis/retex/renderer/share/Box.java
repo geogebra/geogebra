@@ -104,22 +104,22 @@ public abstract class Box {
 	/**
 	 * The width of this box, i.e. the value that will be used for further calculations.
 	 */
-	protected float width = 0;
+	protected double width = 0;
 
 	/**
 	 * The height of this box, i.e. the value that will be used for further calculations.
 	 */
-	protected float height = 0;
+	protected double height = 0;
 
 	/**
 	 * The depth of this box, i.e. the value that will be used for further calculations.
 	 */
-	protected float depth = 0;
+	protected double depth = 0;
 
 	/**
 	 * The shift amount: the meaning depends on the particular kind of box (up, down, left, right)
 	 */
-	protected float shift = 0;
+	protected double shift = 0;
 
 	protected int type = -1;
 
@@ -175,7 +175,7 @@ public abstract class Box {
 	 *
 	 * @return the width of this box
 	 */
-	public float getWidth() {
+	public double getWidth() {
 		return width;
 	}
 
@@ -188,7 +188,7 @@ public abstract class Box {
 	 *
 	 * @return the height of this box
 	 */
-	public float getHeight() {
+	public double getHeight() {
 		return height;
 	}
 
@@ -197,7 +197,7 @@ public abstract class Box {
 	 *
 	 * @return the depth of this box
 	 */
-	public float getDepth() {
+	public double getDepth() {
 		return depth;
 	}
 
@@ -206,7 +206,7 @@ public abstract class Box {
 	 *
 	 * @return the shift amount
 	 */
-	public float getShift() {
+	public double getShift() {
 		return shift;
 	}
 
@@ -215,7 +215,7 @@ public abstract class Box {
 	 *
 	 * @param w the width
 	 */
-	public void setWidth(float w) {
+	public void setWidth(double w) {
 		width = w;
 	}
 
@@ -224,7 +224,7 @@ public abstract class Box {
 	 *
 	 * @param d the depth
 	 */
-	public void setDepth(float d) {
+	public void setDepth(double d) {
 		depth = d;
 	}
 
@@ -233,7 +233,7 @@ public abstract class Box {
 	 *
 	 * @param h the height
 	 */
-	public void setHeight(float h) {
+	public void setHeight(double h) {
 		height = h;
 	}
 
@@ -242,7 +242,7 @@ public abstract class Box {
 	 *
 	 * @param s the shift amount
 	 */
-	public void setShift(float s) {
+	public void setShift(double s) {
 		shift = s;
 	}
 
@@ -253,7 +253,7 @@ public abstract class Box {
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 */
-	public abstract void draw(Graphics2DInterface g2, float x, float y);
+	public abstract void draw(Graphics2DInterface g2, double x, double y);
 
 	/**
 	 * Get the id of the font that will be used the last when this box will be painted.
@@ -270,7 +270,7 @@ public abstract class Box {
 	 * @param x the x-coordinate
 	 * @param y the y-coordinate
 	 */
-	protected void startDraw(Graphics2DInterface g2, float x, float y) {
+	protected void startDraw(Graphics2DInterface g2, double x, double y) {
 		// old color
 		prevColor = g2.getColor();
 		if (background != null) { // draw background
@@ -286,7 +286,7 @@ public abstract class Box {
 		drawDebug(g2, x, y);
 	}
 
-	protected void drawDebug(Graphics2DInterface g2, float x, float y, boolean showDepth) {
+	protected void drawDebug(Graphics2DInterface g2, double x, double y, boolean showDepth) {
 		if (DEBUG) {
 			Stroke st = g2.getStroke();
 			if (markForDEBUG != null) {
@@ -296,7 +296,7 @@ public abstract class Box {
 				g2.setColor(c);
 			}
 			g2.setStroke(graphics.createBasicStroke(
-					(float) (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT,
+					 (Math.abs(1 / g2.getTransform().getScaleX())), BasicStroke.CAP_BUTT,
 					BasicStroke.JOIN_MITER));
 			if (width < 0) {
 				x += width;
@@ -322,7 +322,7 @@ public abstract class Box {
 		}
 	}
 
-	protected void drawDebug(Graphics2DInterface g2, float x, float y) {
+	protected void drawDebug(Graphics2DInterface g2, double x, double y) {
 		if (DEBUG) {
 			drawDebug(g2, x, y, true);
 		}
@@ -337,7 +337,7 @@ public abstract class Box {
 		g2.setColor(prevColor);
 	}
 
-	public void getPath(float x, float y, ArrayList<Integer> list) {
+	public void getPath(double x, double y, ArrayList<Integer> list) {
 		list.add(0);
 		if (children.size() > 0) {
 			children.get(0).getPath(x, y, list);

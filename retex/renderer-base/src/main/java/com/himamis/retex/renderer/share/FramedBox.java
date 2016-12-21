@@ -57,14 +57,14 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 public class FramedBox extends Box {
 
 	protected Box box;
-	protected float thickness;
-	protected float space;
+	protected double thickness;
+	protected double space;
 	private Color line;
 	private Color bg;
 
 	private Rectangle2D rectangle;
 
-	public FramedBox(Box box, float thickness, float space) {
+	public FramedBox(Box box, double thickness, double space) {
 		this.box = box;
 		this.width = box.width + 2 * thickness + 2 * space;
 		this.height = box.height + thickness + space;
@@ -76,16 +76,16 @@ public class FramedBox extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
-	public FramedBox(Box box, float thickness, float space, Color line, Color bg) {
+	public FramedBox(Box box, double thickness, double space, Color line, Color bg) {
 		this(box, thickness, space);
 		this.line = line;
 		this.bg = bg;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		Stroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
-		float th = thickness / 2;
+		double th = thickness / 2;
 		if (bg != null) {
 			Color prev = g2.getColor();
 			g2.setColor(bg);

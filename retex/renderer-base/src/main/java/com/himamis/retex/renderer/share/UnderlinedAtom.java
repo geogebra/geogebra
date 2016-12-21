@@ -60,7 +60,7 @@ class UnderlinedAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 
 		// create formula box in same style
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));

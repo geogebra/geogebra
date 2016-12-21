@@ -182,7 +182,7 @@ public class TeXFormulaParser {
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			try {
-				return new Float(Float.parseFloat(value));
+				return new Double(Double.parseDouble(value));
 			} catch (NumberFormatException e) {
 				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
 						ARG_VAL_ATTR, "has an invalid '" + type + "'-value : '" + value + "'!", e);
@@ -236,7 +236,7 @@ public class TeXFormulaParser {
 			checkNullValue(value, type);
 			try {
 				int val = Integer.parseInt(value);
-				return new Float(val);
+				return new Double(val);
 			} catch (NumberFormatException e) {
 				throw new XMLResourceParseException(PredefinedTeXFormulaParser.RESOURCE_NAME, "Argument",
 						ARG_VAL_ATTR, "has an invalid '" + type + "'-value : '" + value + "'!", e);
@@ -358,7 +358,7 @@ public class TeXFormulaParser {
 		classMappings.put("TeXConstants", int.class); // all integer constants
 		classMappings.put("TeXFormula", TeXFormula.class);
 		classMappings.put("String", String.class);
-		classMappings.put("float", float.class);
+		classMappings.put("double", double.class);
 		classMappings.put("int", int.class);
 		classMappings.put("boolean", boolean.class);
 		classMappings.put("char", char.class);
@@ -383,7 +383,7 @@ public class TeXFormulaParser {
 		argValueParsers.put("TeXConstants", new TeXConstantsValueParser());
 		argValueParsers.put("TeXFormula", new TeXFormulaValueParser());
 		argValueParsers.put("String", new StringValueParser());
-		argValueParsers.put("float", new FloatValueParser());
+		argValueParsers.put("double", new FloatValueParser());
 		argValueParsers.put("int", new IntValueParser());
 		argValueParsers.put("boolean", new BooleanValueParser());
 		argValueParsers.put("char", new CharValueParser());

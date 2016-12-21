@@ -52,7 +52,7 @@ public class MulticolumnAtom extends Atom {
 
 	protected int n;
 	protected int align;
-	protected float w = 0;
+	protected double w = 0;
 	protected Atom cols;
 	protected int beforeVlines;
 	protected int afterVlines;
@@ -64,7 +64,7 @@ public class MulticolumnAtom extends Atom {
 		this.align = parseAlign(align);
 	}
 
-	public void setWidth(float w) {
+	public void setWidth(double w) {
 		this.w = w;
 	}
 

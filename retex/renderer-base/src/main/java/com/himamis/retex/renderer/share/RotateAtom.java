@@ -56,7 +56,7 @@ public class RotateAtom extends Atom {
 	private double angle;
 	private int option = -1;
 	private int xunit, yunit;
-	private float x, y;
+	private double x, y;
 
 	public RotateAtom(Atom base, String angle, String option) {
 		this.type = base.type;
@@ -74,7 +74,7 @@ public class RotateAtom extends Atom {
 			this.option = RotateBox.getOrigin(map.get("origin"));
 		} else {
 			if (map.containsKey("x")) {
-				float[] xinfo = SpaceAtom.getLength(map.get("x"));
+				double[] xinfo = SpaceAtom.getLength(map.get("x"));
 				this.xunit = (int) xinfo[0];
 				this.x = xinfo[1];
 			} else {
@@ -82,7 +82,7 @@ public class RotateAtom extends Atom {
 				this.x = 0;
 			}
 			if (map.containsKey("y")) {
-				float[] yinfo = SpaceAtom.getLength(map.get("y"));
+				double[] yinfo = SpaceAtom.getLength(map.get("y"));
 				this.yunit = (int) yinfo[0];
 				this.y = yinfo[1];
 			} else {

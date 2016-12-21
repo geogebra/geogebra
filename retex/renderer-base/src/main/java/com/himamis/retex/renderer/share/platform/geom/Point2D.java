@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform.geom;
 
 public interface Point2D {
 
-	public interface Float extends Point2D {
+	public interface Double extends Point2D {
 		
 	}
 	

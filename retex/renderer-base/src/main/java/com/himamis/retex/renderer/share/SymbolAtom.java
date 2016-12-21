@@ -188,7 +188,7 @@ public class SymbolAtom extends CharSymbol {
 			cb = new CharBox(c);
 			cb.setShift(-(cb.getHeight() + cb.getDepth()) / 2
 					- env.getTeXFont().getAxisHeight(env.getStyle()));
-			float delta = c.getItalic();
+			double delta = c.getItalic();
 			HorizontalBox hb = new HorizontalBox(cb);
 			if (delta > TeXFormula.PREC)
 				hb.add(new StrutBox(delta, 0, 0, 0));

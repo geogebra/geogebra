@@ -61,8 +61,8 @@ public class UnderOverAtom extends Atom {
 	private final Atom over;
 
 	// kern between base and under- and overscript
-	private final float underSpace;
-	private final float overSpace;
+	private final double underSpace;
+	private final double overSpace;
 
 	// units for the kerns
 	private final int overUnit;
@@ -71,7 +71,7 @@ public class UnderOverAtom extends Atom {
 	private final boolean underScriptSize;
 	private final boolean overScriptSize;
 
-	public UnderOverAtom(Atom base, Atom underOver, int underOverUnit, float underOverSpace,
+	public UnderOverAtom(Atom base, Atom underOver, int underOverUnit, double underOverSpace,
 			boolean underOverScriptSize, boolean over) {
 		// check if unit is valid
 		SpaceAtom.checkUnit(underOverUnit);
@@ -99,8 +99,8 @@ public class UnderOverAtom extends Atom {
 		}
 	}
 
-	public UnderOverAtom(Atom base, Atom under, int underUnit, float underSpace, boolean underScriptSize,
-			Atom over, int overUnit, float overSpace, boolean overScriptSize) throws InvalidUnitException {
+	public UnderOverAtom(Atom base, Atom under, int underUnit, double underSpace, boolean underScriptSize,
+			Atom over, int overUnit, double overSpace, boolean overScriptSize) throws InvalidUnitException {
 		// check if units are valid
 		SpaceAtom.checkUnit(underUnit);
 		SpaceAtom.checkUnit(overUnit);
@@ -120,7 +120,7 @@ public class UnderOverAtom extends Atom {
 		// create boxes in right style and calculate maximum width
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));
 		Box o = null, u = null;
-		float max = b.getWidth();
+		double max = b.getWidth();
 		if (over != null) {
 			o = over.createBox(overScriptSize ? env.subStyle() : env);
 			max = Math.max(max, o.getWidth());
@@ -149,7 +149,7 @@ public class UnderOverAtom extends Atom {
 
 		// calculate future height of the vertical box (to make sure that the base
 		// stays on the baseline!)
-		float h = vBox.getHeight() + vBox.getDepth() - c.getDepth();
+		double h = vBox.getHeight() + vBox.getDepth() - c.getDepth();
 
 		// underscript + space
 		if (under != null) {
@@ -164,7 +164,7 @@ public class UnderOverAtom extends Atom {
 		return vBox;
 	}
 
-	private static Box changeWidth(Box b, float maxWidth) {
+	private static Box changeWidth(Box b, double maxWidth) {
 		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC)
 			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
 		else

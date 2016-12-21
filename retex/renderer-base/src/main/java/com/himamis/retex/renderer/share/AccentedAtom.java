@@ -145,8 +145,8 @@ public class AccentedAtom extends Atom {
 		// set base in cramped style
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env.crampStyle()));
 
-		float u = b.getWidth();
-		float s = 0;
+		double u = b.getWidth();
+		double s = 0;
 		if (underbase instanceof CharSymbol)
 			s = tf.getSkew(((CharSymbol) underbase).getCharFont(tf), style);
 
@@ -161,15 +161,15 @@ public class AccentedAtom extends Atom {
 		}
 
 		// calculate delta
-		float ec = -SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
-		float delta = acc ? ec : Math.min(b.getHeight(), tf.getXHeight(style, ch.getFontCode()));
+		double ec = -SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+		double delta = acc ? ec : Math.min(b.getHeight(), tf.getXHeight(style, ch.getFontCode()));
 
 		// create vertical box
 		VerticalBox vBox = new VerticalBox();
 
 		// accent
 		Box y;
-		float italic = ch.getItalic();
+		double italic = ch.getItalic();
 		Box cb = new CharBox(ch);
 		if (acc)
 			cb = accent.createBox(changeSize ? env.subStyle() : env);
@@ -181,7 +181,7 @@ public class AccentedAtom extends Atom {
 			y = cb;
 
 		// if diff > 0, center accent, otherwise center base
-		float diff = (u - y.getWidth()) / 2;
+		double diff = (u - y.getWidth()) / 2;
 		y.setShift(s + (diff > 0 ? diff : 0));
 		if (diff < 0)
 			b = new HorizontalBox(b, y.getWidth(), TeXConstants.ALIGN_CENTER);
@@ -193,7 +193,7 @@ public class AccentedAtom extends Atom {
 		vBox.add(b);
 
 		// set height and depth vertical box
-		float total = vBox.getHeight() + vBox.getDepth(), d = b.getDepth();
+		double total = vBox.getHeight() + vBox.getDepth(), d = b.getDepth();
 		vBox.setDepth(d);
 		vBox.setHeight(total - d);
 

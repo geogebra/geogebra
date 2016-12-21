@@ -50,16 +50,16 @@ package com.himamis.retex.renderer.share;
  */
 public class MonoScaleAtom extends ScaleAtom {
 
-	private float factor;
+	private double factor;
 
-	public MonoScaleAtom(Atom base, float factor) {
+	public MonoScaleAtom(Atom base, double factor) {
 		super(base, (double) factor, (double) factor);
 		this.factor = factor;
 	}
 
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy();
-		float f = env.getScaleFactor();
+		double f = env.getScaleFactor();
 		env.setScaleFactor(factor);
 		return new ScaleBox(base.createBox(env), factor / f);
 	}

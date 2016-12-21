@@ -61,9 +61,9 @@ public class BigDelimiterAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		Box b = DelimiterFactory.create(delim, env, size);
 		HorizontalBox hbox = new HorizontalBox();
-		final float h = b.getHeight();
-		final float total = h + b.getDepth();
-		final float axis = env.getTeXFont().getAxisHeight(env.getStyle());
+		final double h = b.getHeight();
+		final double total = h + b.getDepth();
+		final double axis = env.getTeXFont().getAxisHeight(env.getStyle());
 		b.setShift(-total / 2 + h - axis);
 		hbox.add(b);
 		return hbox;

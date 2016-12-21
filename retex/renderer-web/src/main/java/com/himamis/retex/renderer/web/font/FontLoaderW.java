@@ -63,7 +63,7 @@ public class FontLoaderW implements FontLoader {
 		String fontName = extractFileName(name);
 		String pathName = getPrefix(fontInt) + name;
 		AsyncLoadedFont font = fontLoaderWrapper.createNativeFont(pathName,
-				fontName, Font.PLAIN, Math.round(PIXELS_PER_POINT));
+				fontName, Font.PLAIN, (int) Math.round(PIXELS_PER_POINT));
 		return font;
 	}
 

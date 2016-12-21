@@ -4,9 +4,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 public class CursorAtom extends Atom {
 
-	private float height;
+	private double height;
 
-	public CursorAtom(Color color, float height) {
+	public CursorAtom(Color color, double height) {
 		super();
 		this.color = color;
 		this.height = height;

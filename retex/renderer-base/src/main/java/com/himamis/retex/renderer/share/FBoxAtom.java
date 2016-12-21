@@ -52,7 +52,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class FBoxAtom extends Atom {
 
-	public float INTERSPACE = 0.65f;
+	public double INTERSPACE = 0.65;
 
 	// base atom
 	protected final Atom base;
@@ -75,8 +75,8 @@ public class FBoxAtom extends Atom {
 
 	public Box createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
-		float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
-		float space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
+		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+		double space = INTERSPACE * SpaceAtom.getFactor(TeXConstants.UNIT_EM, env);
 		if (bg == null) {
 			return new FramedBox(bbase, drt, space);
 		} else {

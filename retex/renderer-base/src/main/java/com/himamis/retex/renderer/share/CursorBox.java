@@ -9,7 +9,7 @@ public class CursorBox extends Box {
 	public static boolean blink = true;
 	private Box content;
 
-	public CursorBox(Box content, float coeff, Color color) {
+	public CursorBox(Box content, double coeff, Color color) {
 		super(color, null);
 		this.content = content;
 		this.children.add(content);
@@ -18,11 +18,11 @@ public class CursorBox extends Box {
 		this.depth = content.depth * coeff;
 	}
 	@Override
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		if (CursorBox.blink) {
 			Color old = g2.getColor();
 			g2.setColor(foreground);
-			content.draw(g2, (float) (x - content.width * 0.5), y);
+			content.draw(g2, (x - content.width * 0.5), y);
 			g2.setColor(old);
 		}
 

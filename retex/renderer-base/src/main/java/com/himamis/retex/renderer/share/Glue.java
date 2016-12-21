@@ -52,9 +52,9 @@ package com.himamis.retex.renderer.share;
 public class Glue {
 
 	// the glue components
-	private final float space;
-	private final float stretch;
-	private final float shrink;
+	private final double space;
+	private final double stretch;
+	private final double shrink;
 
 	private final String name;
 
@@ -70,7 +70,7 @@ public class Glue {
 		glueTable = parser.createGlueTable();
 	}
 
-	public Glue(float space, float stretch, float shrink, String name) {
+	public Glue(double space, double stretch, double shrink, String name) {
 		this.space = space;
 		this.stretch = stretch;
 		this.shrink = shrink;
@@ -107,7 +107,7 @@ public class Glue {
 	private Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		// use "quad" from a font marked as an "mu font"
-		float quad = tf.getQuad(env.getStyle(), tf.getMuFontId());
+		double quad = tf.getQuad(env.getStyle(), tf.getMuFontId());
 
 		return new GlueBox((space / 18.0f) * quad, (stretch / 18.0f) * quad, (shrink / 18.0f) * quad);
 	}

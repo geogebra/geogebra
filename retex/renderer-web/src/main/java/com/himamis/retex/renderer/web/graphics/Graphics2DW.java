@@ -88,9 +88,9 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	private void initBasicStroke() {
-		basicStroke = new BasicStrokeW((float) context.getLineWidth(),
+		basicStroke = new BasicStrokeW(context.getLineWidth(),
 				context.getLineCap(), context.getLineJoin(),
-				(float) context.getMiterLimit());
+				context.getMiterLimit());
 	}
 
 	private void initColor() {
@@ -100,7 +100,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	private void initFont() {
 		font = new DefaultFont(context.getFont(), Font.PLAIN,
-				Math.round(FontLoader.PIXELS_PER_POINT));
+				(int) Math.round(FontLoader.PIXELS_PER_POINT));
 	}
 
 	public Context2d getContext() {

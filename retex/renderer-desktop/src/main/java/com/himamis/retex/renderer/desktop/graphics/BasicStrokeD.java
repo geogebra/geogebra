@@ -53,8 +53,8 @@ public class BasicStrokeD extends BasicStroke implements
 				.getMiterLimit());
 	}
 
-	public BasicStrokeD(float width, int cap, int join, float miterlimit) {
-		super(width, cap, join, miterlimit);
+	public BasicStrokeD(double width, int cap, int join, double miterlimit) {
+		super((float) width, cap, join, (float) miterlimit);
 	}
 
 }

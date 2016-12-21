@@ -87,7 +87,7 @@ public class DefaultTeXFont implements TeXFont {
 	private static Map<String, CharFont[]> textStyleMappings;
 	private static Map<String, CharFont> symbolMappings;
 	private static FontInfo[] fontInfo = new FontInfo[0];
-	private static Map<String, Float> parameters;
+	private static Map<String, Double> parameters;
 	private static Map<String, Number> generalSettings;
 
 	//private static boolean magnificationEnable = true;
@@ -99,7 +99,7 @@ public class DefaultTeXFont implements TeXFont {
 	public static List<Character.UnicodeBlock> loadedAlphabets = new ArrayList<Character.UnicodeBlock>();
 	public static Map<Character.UnicodeBlock, AlphabetRegistration> registeredAlphabets = new HashMap<Character.UnicodeBlock, AlphabetRegistration>();
 
-	protected float factor = 1f;
+	protected double factor = 1;
 
 	public boolean isBold = false;
 	public boolean isRoman = false;
@@ -133,7 +133,7 @@ public class DefaultTeXFont implements TeXFont {
 					"contains an unknown font id!");
 	}
 
-	private final float size; // standard size
+	private final double size; // standard size
 	
 	public static Font getFont(int fontId) {
 		FontInfo info = fontInfo[fontId];
@@ -141,15 +141,15 @@ public class DefaultTeXFont implements TeXFont {
 		return font;
 	}
 
-	public DefaultTeXFont(float pointSize) {
+	public DefaultTeXFont(double pointSize) {
 		size = pointSize;
 	}
 
-	public DefaultTeXFont(float pointSize, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
+	public DefaultTeXFont(double pointSize, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
 		this(pointSize, 1, b, rm, ss, tt, it);
 	}
 
-	public DefaultTeXFont(float pointSize, float f, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
+	public DefaultTeXFont(double pointSize, double f, boolean b, boolean rm, boolean ss, boolean tt, boolean it) {
 		size = pointSize;
 		factor = f;
 		isBold = b;
@@ -248,39 +248,39 @@ public class DefaultTeXFont implements TeXFont {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
-	public TeXFont deriveFont(float size) {
+	public TeXFont deriveFont(double size) {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
-	public TeXFont scaleFont(float factor) {
+	public TeXFont scaleFont(double factor) {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
-	public float getScaleFactor() {
+	public double getScaleFactor() {
 		return factor;
 	}
 
-	public float getAxisHeight(int style) {
+	public double getAxisHeight(int style) {
 		return getParameter("axisheight") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getBigOpSpacing1(int style) {
+	public double getBigOpSpacing1(int style) {
 		return getParameter("bigopspacing1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getBigOpSpacing2(int style) {
+	public double getBigOpSpacing2(int style) {
 		return getParameter("bigopspacing2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getBigOpSpacing3(int style) {
+	public double getBigOpSpacing3(int style) {
 		return getParameter("bigopspacing3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getBigOpSpacing4(int style) {
+	public double getBigOpSpacing4(int style) {
 		return getParameter("bigopspacing4") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getBigOpSpacing5(int style) {
+	public double getBigOpSpacing5(int style) {
 		return getParameter("bigopspacing5") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
@@ -316,7 +316,7 @@ public class DefaultTeXFont implements TeXFont {
 	}
 
 	public Char getChar(CharFont cf, int style) {
-		float fsize = getSizeFactor(style);
+		double fsize = getSizeFactor(style);
 		int id = isBold ? cf.boldFontId : cf.fontId;
 		FontInfo info = fontInfo[id];
 		if (isBold && cf.fontId == cf.boldFontId) {
@@ -369,22 +369,22 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
-	public float getDefaultRuleThickness(int style) {
+	public double getDefaultRuleThickness(int style) {
 		return getParameter("defaultrulethickness") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getDenom1(int style) {
+	public double getDenom1(int style) {
 		return getParameter("denom1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getDenom2(int style) {
+	public double getDenom2(int style) {
 		return getParameter("denom2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
 	public Extension getExtension(Char c, int style) {
 		Font f = c.getFont();
 		int fc = c.getFontCode();
-		float s = getSizeFactor(style);
+		double s = getSizeFactor(style);
 
 		// construct Char for every part
 		FontInfo info = fontInfo[fc];
@@ -401,7 +401,7 @@ public class DefaultTeXFont implements TeXFont {
 		return new Extension(parts[TOP], parts[MID], parts[REP], parts[BOT]);
 	}
 
-	public float getKern(CharFont left, CharFont right, int style) {
+	public double getKern(CharFont left, CharFont right, int style) {
 		if (left.fontId == right.fontId) {
 			FontInfo info = fontInfo[left.fontId];
 			return info.getKern(left.c, right.c, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
@@ -418,9 +418,9 @@ public class DefaultTeXFont implements TeXFont {
 		return null;
 	}
 
-	private Metrics getMetrics(CharFont cf, float size) {
+	private Metrics getMetrics(CharFont cf, double size) {
 		FontInfo info = fontInfo[cf.fontId];
-		float[] m = info.getMetrics(cf.c);
+		double[] m = info.getMetrics(cf.c);
 		if (m == null) {
 			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT,
 					size);
@@ -439,28 +439,28 @@ public class DefaultTeXFont implements TeXFont {
 		return new Char(ch.c, newInfo.getFont(), ch.fontId, getMetrics(ch, getSizeFactor(style)));
 	}
 
-	public float getNum1(int style) {
+	public double getNum1(int style) {
 		return getParameter("num1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getNum2(int style) {
+	public double getNum2(int style) {
 		return getParameter("num2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getNum3(int style) {
+	public double getNum3(int style) {
 		return getParameter("num3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getQuad(int style, int fontCode) {
+	public double getQuad(int style, int fontCode) {
 		FontInfo info = fontInfo[fontCode];
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
-	public float getSize() {
+	public double getSize() {
 		return size;
 	}
 
-	public float getSkew(CharFont cf, int style) {
+	public double getSkew(CharFont cf, int style) {
 		FontInfo info = fontInfo[cf.fontId];
 		char skew = info.getSkewChar();
 		if (skew == -1)
@@ -469,46 +469,46 @@ public class DefaultTeXFont implements TeXFont {
 			return getKern(cf, new CharFont(skew, cf.fontId), style);
 	}
 
-	public float getSpace(int style) {
+	public double getSpace(int style) {
 		int spaceFontId = generalSettings.get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
 		FontInfo info = fontInfo[spaceFontId];
 		return info.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
-	public float getSub1(int style) {
+	public double getSub1(int style) {
 		return getParameter("sub1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSub2(int style) {
+	public double getSub2(int style) {
 		return getParameter("sub2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSubDrop(int style) {
+	public double getSubDrop(int style) {
 		return getParameter("subdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSup1(int style) {
+	public double getSup1(int style) {
 		return getParameter("sup1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSup2(int style) {
+	public double getSup2(int style) {
 		return getParameter("sup2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSup3(int style) {
+	public double getSup3(int style) {
 		return getParameter("sup3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getSupDrop(int style) {
+	public double getSupDrop(int style) {
 		return getParameter("supdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
-	public float getXHeight(int style, int fontCode) {
+	public double getXHeight(int style, int fontCode) {
 		FontInfo info = fontInfo[fontCode];
 		return info.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
-	public float getEM(int style) {
+	public double getEM(int style) {
 		return getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
@@ -567,7 +567,7 @@ public class DefaultTeXFont implements TeXFont {
 		return info.getExtension(c.getChar()) != null;
 	}
 
-	public static void setMathSizes(float ds, float ts, float ss, float sss) {
+	public static void setMathSizes(double ds, double ts, double ss, double sss) {
 //		if (magnificationEnable) {
 //			generalSettings.put("scriptfactor", Math.abs(ss / ds));
 //			generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
@@ -576,7 +576,7 @@ public class DefaultTeXFont implements TeXFont {
 //		}
 	}
 
-	public static void setMagnification(float mag) {
+	public static void setMagnification(double mag) {
 //		if (magnificationEnable) {
 //			TeXIcon.magFactor = mag / 1000f;
 //		}
@@ -586,22 +586,22 @@ public class DefaultTeXFont implements TeXFont {
 //		magnificationEnable = b;
 //	}
 
-	private static float getParameter(String parameterName) {
+	private static double getParameter(String parameterName) {
 		Object param = parameters.get(parameterName);
 		if (param == null)
 			return 0;
 		else
-			return ((Float) param).floatValue();
+			return ((Double) param).doubleValue();
 	}
 
-	public static float getSizeFactor(int style) {
+	public static double getSizeFactor(int style) {
 		if (style < TeXConstants.STYLE_TEXT)
 			return 1;
 		else if (style < TeXConstants.STYLE_SCRIPT)
-			return generalSettings.get("textfactor").floatValue();
+			return generalSettings.get("textfactor").doubleValue();
 		else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT)
-			return generalSettings.get("scriptfactor").floatValue();
+			return generalSettings.get("scriptfactor").doubleValue();
 		else
-			return generalSettings.get("scriptscriptfactor").floatValue();
+			return generalSettings.get("scriptscriptfactor").doubleValue();
 	}
 }

@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform.geom;
 
 public interface Rectangle2D {
 
-	public interface Float extends Rectangle2D {
+	public interface Double extends Rectangle2D {
 
 	}
 

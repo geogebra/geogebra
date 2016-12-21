@@ -58,12 +58,12 @@ public class FcscoreBox extends Box {
 
 	private int N;
 	private boolean strike;
-	private float space;
-	private float thickness;
+	private double space;
+	private double thickness;
 
 	private Line2D line;
 
-	public FcscoreBox(int N, float h, float thickness, float space, boolean strike) {
+	public FcscoreBox(int N, double h, double thickness, double space, boolean strike) {
 		this.N = N;
 		this.width = N * (thickness + space) + 2 * space;
 		this.height = h;
@@ -75,7 +75,7 @@ public class FcscoreBox extends Box {
 		line = geom.createLine2D();
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		Transform transf = g2.getTransform();
 		g2.saveTransformation();
 		Stroke oldStroke = g2.getStroke();
@@ -91,11 +91,11 @@ public class FcscoreBox extends Box {
 			g2.scale(1 / sx, 1 / sy);
 		}
 		
-		g2.setStroke(graphics.createBasicStroke((float) (s * thickness), BasicStroke.CAP_BUTT,
+		g2.setStroke(graphics.createBasicStroke((s * thickness), BasicStroke.CAP_BUTT,
 				BasicStroke.JOIN_MITER));
-		float th = thickness / 2.f;
-		float xx = x + space;
-		xx = (float) (xx * s + (space / 2.f) * s);
+		double th = thickness / 2.0;
+		double xx = x + space;
+		xx = (xx * s + (space / 2.0) * s);
 		final int inc = (int) Math.round((space + thickness) * s);
 
 		for (int i = 0; i < N; i++) {

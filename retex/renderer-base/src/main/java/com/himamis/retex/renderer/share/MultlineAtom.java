@@ -70,8 +70,8 @@ public class MultlineAtom extends Atom {
 	}
 
 	public Box createBox(TeXEnvironment env) {
-		float tw = env.getTextwidth();
-		if (tw == Float.POSITIVE_INFINITY || type == GATHERED) {
+		double tw = env.getTextwidth();
+		if (tw == Double.POSITIVE_INFINITY || type == GATHERED) {
 			return new MatrixAtom(isPartial, column, "").createBox(env);
 		}
 
@@ -103,7 +103,7 @@ public class MultlineAtom extends Atom {
 			vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
 		}
 
-		float height = vb.getHeight() + vb.getDepth();
+		double height = vb.getHeight() + vb.getDepth();
 		vb.setHeight(height / 2);
 		vb.setDepth(height / 2);
 

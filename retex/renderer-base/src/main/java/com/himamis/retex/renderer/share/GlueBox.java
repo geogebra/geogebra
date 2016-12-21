@@ -53,15 +53,15 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 public class GlueBox extends Box {
 
-	protected float stretch = 0, shrink = 0;
+	protected double stretch = 0, shrink = 0;
 
-	public GlueBox(float space, float stretch, float shrink) {
+	public GlueBox(double space, double stretch, double shrink) {
 		this.width = space;
 		this.stretch = stretch;
 		this.shrink = shrink;
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		// no visible effect
 	}
 

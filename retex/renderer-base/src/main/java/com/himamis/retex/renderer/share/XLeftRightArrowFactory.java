@@ -54,12 +54,12 @@ public class XLeftRightArrowFactory {
 	private static final Atom LEFT = SymbolAtom.get("leftarrow");
 	private static final Atom RIGHT = SymbolAtom.get("rightarrow");
 
-	public static Box create(boolean left, TeXEnvironment env, float width) {
+	public static Box create(boolean left, TeXEnvironment env, double width) {
 		Box arr = left ? LEFT.createBox(env) : RIGHT.createBox(env);
-		float h = arr.getHeight();
-		float d = arr.getDepth();
+		double h = arr.getHeight();
+		double d = arr.getDepth();
 
-		float swidth = arr.getWidth();
+		double swidth = arr.getWidth();
 		if (width <= swidth) {
 			arr.setDepth(d / 2);
 			return arr;
@@ -67,16 +67,16 @@ public class XLeftRightArrowFactory {
 
 		Box minus = new SmashedAtom(MINUS, "").createBox(env);
 		Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -4f, 0, 0).createBox(env);
-		float mwidth = minus.getWidth() + kern.getWidth();
+		double mwidth = minus.getWidth() + kern.getWidth();
 		swidth += kern.getWidth();
 		HorizontalBox hb = new HorizontalBox();
-		float w;
+		double w;
 		for (w = 0; w < width - swidth - mwidth; w += mwidth) {
 			hb.add(minus);
 			hb.add(kern);
 		}
 
-		float sf = (width - swidth - w) / minus.getWidth();
+		double sf = (width - swidth - w) / minus.getWidth();
 
 		hb.add(new SpaceAtom(TeXConstants.UNIT_MU, -2f * sf, 0, 0).createBox(env));
 		hb.add(new ScaleAtom(MINUS, sf, 1).createBox(env));
@@ -95,10 +95,10 @@ public class XLeftRightArrowFactory {
 		return hb;
 	}
 
-	public static Box create(TeXEnvironment env, float width) {
+	public static Box create(TeXEnvironment env, double width) {
 		Box left = LEFT.createBox(env);
 		Box right = RIGHT.createBox(env);
-		float swidth = left.getWidth() + right.getWidth();
+		double swidth = left.getWidth() + right.getWidth();
 
 		if (width < swidth) {
 			HorizontalBox hb = new HorizontalBox(left);
@@ -109,11 +109,11 @@ public class XLeftRightArrowFactory {
 
 		Box minus = new SmashedAtom(MINUS, "").createBox(env);
 		Box kern = new SpaceAtom(TeXConstants.UNIT_MU, -3.4f, 0, 0).createBox(env);
-		float mwidth = minus.getWidth() + kern.getWidth();
+		double mwidth = minus.getWidth() + kern.getWidth();
 		swidth += 2 * kern.getWidth();
 
 		HorizontalBox hb = new HorizontalBox();
-		float w;
+		double w;
 		for (w = 0; w < width - swidth - mwidth; w += mwidth) {
 			hb.add(minus);
 			hb.add(kern);

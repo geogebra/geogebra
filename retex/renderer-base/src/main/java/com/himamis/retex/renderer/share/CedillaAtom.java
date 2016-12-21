@@ -61,7 +61,7 @@ public class CedillaAtom extends Atom {
 		VerticalBox vb = new VerticalBox();
 		vb.add(b);
 		Char ch = env.getTeXFont().getChar("jlatexmathcedilla", env.getStyle());
-		float italic = ch.getItalic();
+		double italic = ch.getItalic();
 		Box cedilla = new CharBox(ch);
 		Box y;
 		if (Math.abs(italic) > TeXFormula.PREC) {
@@ -72,10 +72,10 @@ public class CedillaAtom extends Atom {
 		}
 
 		Box ce = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_CENTER);
-		float x = 0.4f * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
+		double x = 0.4 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
 		vb.add(new StrutBox(0, -x, 0, 0));
 		vb.add(ce);
-		float f = vb.getHeight() + vb.getDepth();
+		double f = vb.getHeight() + vb.getDepth();
 		vb.setHeight(b.getHeight());
 		vb.setDepth(f - b.getHeight());
 		return vb;

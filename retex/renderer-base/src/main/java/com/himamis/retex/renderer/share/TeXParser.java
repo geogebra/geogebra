@@ -1202,7 +1202,7 @@ public class TeXParser {
 		return str;
 	}
 
-	public float[] getLength() throws ParseException {
+	public double[] getLength() throws ParseException {
 		if (pos == len)
 			return null;
 

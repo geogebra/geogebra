@@ -52,9 +52,9 @@ public class RaiseAtom extends Atom {
 
 	private Atom base;
 	private int runit, hunit, dunit;
-	private float r, h, d;
+	private double r, h, d;
 
-	public RaiseAtom(Atom base, int runit, float r, int hunit, float h, int dunit, float d) {
+	public RaiseAtom(Atom base, int runit, double r, int hunit, double h, int dunit, double d) {
 		this.base = base;
 		this.runit = runit;
 		this.r = r;

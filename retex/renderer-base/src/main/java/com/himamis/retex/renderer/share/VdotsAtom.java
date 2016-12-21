@@ -61,8 +61,8 @@ public class VdotsAtom extends Atom {
 		vb.add(dot);
 		vb.add(b);
 		vb.add(dot);
-		float d = vb.getDepth();
-		float h = vb.getHeight();
+		double d = vb.getDepth();
+		double h = vb.getHeight();
 		vb.setDepth(0);
 		vb.setHeight(d + h);
 

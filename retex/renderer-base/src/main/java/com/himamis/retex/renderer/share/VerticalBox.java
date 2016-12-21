@@ -56,13 +56,13 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
  */
 class VerticalBox extends Box {
 
-	private float leftMostPos = Float.MAX_VALUE;
-	private float rightMostPos = Float.MIN_VALUE;
+	private double leftMostPos = Double.MAX_VALUE;
+	private double rightMostPos = Double.MIN_VALUE;
 
 	public VerticalBox() {
 	}
 
-	public VerticalBox(Box b, float rest, int alignment) {
+	public VerticalBox(Box b, double rest, int alignment) {
 		this();
 		add(b);
 		if (alignment == TeXConstants.ALIGN_CENTER) {
@@ -90,7 +90,7 @@ class VerticalBox extends Box {
 		recalculateWidth(b);
 	}
 
-	public final void add(Box b, float interline) {
+	public final void add(Box b, double interline) {
 		if (children.size() >= 1) {
 			add(new StrutBox(0, interline, 0, 0));
 		}
@@ -113,8 +113,8 @@ class VerticalBox extends Box {
 		recalculateWidth(b);
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
-		float yPos = y - height;
+	public void draw(Graphics2DInterface g2, double x, double y) {
+		double yPos = y - height;
 		for (Box b : children) {
 			yPos += b.getHeight();
 			b.draw(g2, x + b.getShift() - leftMostPos, yPos);
@@ -138,8 +138,8 @@ class VerticalBox extends Box {
 	}
 
 	@Override
-	public void getPath(float x, float y, ArrayList<Integer> list) {
-		float yPos = 0;
+	public void getPath(double x, double y, ArrayList<Integer> list) {
+		double yPos = 0;
 		for (Box box : children) {
 			if (yPos + box.getHeight() + box.getDepth() > y) {
 				list.add(children.indexOf(box));

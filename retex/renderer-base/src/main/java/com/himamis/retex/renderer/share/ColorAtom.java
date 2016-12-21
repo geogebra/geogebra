@@ -139,9 +139,9 @@ public class ColorAtom extends Atom implements Row {
 						String G = toks[1].trim();
 						String B = toks[2].trim();
 
-						float r = Float.parseFloat(R);
-						float g = Float.parseFloat(G);
-						float b = Float.parseFloat(B);
+						double r = Double.parseDouble(R);
+						double g = Double.parseDouble(G);
+						double b = Double.parseDouble(B);
 
 						if (r == (int) r && g == (int) g && b == (int) b && R.indexOf('.') == -1
 								&& G.indexOf('.') == -1 && B.indexOf('.') == -1) {
@@ -150,9 +150,9 @@ public class ColorAtom extends Atom implements Row {
 							int ib = (int) Math.min(255, Math.max(0, b));
 							return graphics.createColor(ir, ig, ib);
 						} else {
-							r = (float) Math.min(1, Math.max(0, r));
-							g = (float) Math.min(1, Math.max(0, g));
-							b = (float) Math.min(1, Math.max(0, b));
+							r = Math.min(1, Math.max(0, r));
+							g =  Math.min(1, Math.max(0, g));
+							b =  Math.min(1, Math.max(0, b));
 							return graphics.createColor(r, g, b);
 						}
 					} catch (NumberFormatException e) {
@@ -161,15 +161,15 @@ public class ColorAtom extends Atom implements Row {
 				} else if (n == 4) {
 					// CMYK model
 					try {
-						float c = Float.parseFloat(toks[0].trim());
-						float m = Float.parseFloat(toks[1].trim());
-						float y = Float.parseFloat(toks[2].trim());
-						float k = Float.parseFloat(toks[3].trim());
+						double c = Double.parseDouble(toks[0].trim());
+						double m = Double.parseDouble(toks[1].trim());
+						double y = Double.parseDouble(toks[2].trim());
+						double k = Double.parseDouble(toks[3].trim());
 
-						c = (float) Math.min(1, Math.max(0, c));
-						m = (float) Math.min(1, Math.max(0, m));
-						y = (float) Math.min(1, Math.max(0, y));
-						k = (float) Math.min(1, Math.max(0, k));
+						c = Math.min(1, Math.max(0, c));
+						m =  Math.min(1, Math.max(0, m));
+						y =  Math.min(1, Math.max(0, y));
+						k =  Math.min(1, Math.max(0, k));
 
 						return convColor(c, m, y, k);
 					} catch (NumberFormatException e) {
@@ -184,7 +184,7 @@ public class ColorAtom extends Atom implements Row {
 			} else {
 				if (s.indexOf('.') != -1) {
 					try {
-						float g = (float) Math.min(1, Math.max(Float.parseFloat(s), 0));
+						double g = Math.min(1, Math.max(Double.parseDouble(s), 0));
 
 						return graphics.createColor(g, g, g);
 					} catch (NumberFormatException e) {
@@ -270,8 +270,8 @@ public class ColorAtom extends Atom implements Row {
 		Colors.put("gray", convColor(0f, 0f, 0f, 0.50f));
 	}
 
-	private static Color convColor(final float c, final float m, final float y, final float k) {
-		final float kk = 1 - k;
+	private static Color convColor(final double c, final double m, final double y, final double k) {
+		final double kk = 1 - k;
 		return new Graphics().createColor(kk * (1 - c), kk * (1 - m), kk * (1 - y));
 	}
 }

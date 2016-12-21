@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform.geom;
 
 public interface RoundRectangle2D {
 
-	public interface Float extends RoundRectangle2D {
+	public interface Double extends RoundRectangle2D {
 
 	}
 

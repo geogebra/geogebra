@@ -45,7 +45,7 @@ package com.himamis.retex.renderer.share.platform.geom;
 
 public interface Line2D {
 
-	public interface Float extends Line2D {
+	public interface Double extends Line2D {
 		
 	}
 	

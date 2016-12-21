@@ -100,7 +100,7 @@ public class ScriptsAtom extends Atom {
 			TeXEnvironment subStyle = env.subStyle(), supStyle = env.supStyle();
 
 			// set delta and preliminary shift-up and shift-down values
-			float delta = 0, shiftUp, shiftDown;
+			double delta = 0, shiftUp, shiftDown;
 
 			// TODO: use polymorphism?
 			if (base instanceof AccentedAtom) { // special case :
@@ -156,7 +156,7 @@ public class ScriptsAtom extends Atom {
 				return hor;
 			} else {
 				Box x = superscript.createBox(supStyle);
-				float msiz = x.getWidth();
+				double msiz = x.getWidth();
 				if (subscript != null && align == TeXConstants.ALIGN_RIGHT) {
 					msiz = Math.max(msiz, subscript.createBox(subStyle).getWidth());
 				}
@@ -165,7 +165,7 @@ public class ScriptsAtom extends Atom {
 				// add scriptspace (constant value!)
 				sup.add(SCRIPT_SPACE.createBox(env));
 				// adjust shift-up
-				float p;
+				double p;
 				if (style == TeXConstants.STYLE_DISPLAY)
 					p = tf.getSup1(style);
 				else if (env.crampStyle().getStyle() == style)
@@ -186,8 +186,8 @@ public class ScriptsAtom extends Atom {
 					// adjust shift-down
 					shiftDown = Math.max(shiftDown, tf.getSub2(style));
 					// position both sub- and superscript
-					float drt = tf.getDefaultRuleThickness(style);
-					float interSpace = shiftUp - x.getDepth() + shiftDown - y.getHeight(); // space
+					double drt = tf.getDefaultRuleThickness(style);
+					double interSpace = shiftUp - x.getDepth() + shiftDown - y.getHeight(); // space
 																							// between
 																							// sub-
 																							// en
@@ -197,7 +197,7 @@ public class ScriptsAtom extends Atom {
 						// set bottom superscript at least 4/5 of X-height
 						// above
 						// baseline
-						float psi = 4 * Math.abs(tf.getXHeight(style, lastFontId)) / 5
+						double psi = 4 * Math.abs(tf.getXHeight(style, lastFontId)) / 5
 								- (shiftUp - x.getDepth());
 
 						if (psi > 0) {

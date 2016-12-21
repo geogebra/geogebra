@@ -60,7 +60,7 @@ public class OverUnderBox extends Box {
 	private final Box script;
 
 	// kern amount between the delimiter and the script
-	private final float kern;
+	private final double kern;
 
 	// whether the delimiter should be drawn over (<-> under) the base atom
 	private final boolean over;
@@ -74,7 +74,7 @@ public class OverUnderBox extends Box {
 	 * @param over true : draws delimiter and script box above the base box, false : under the base
 	 *        box
 	 */
-	public OverUnderBox(Box b, Box d, Box script, float kern, boolean over) {
+	public OverUnderBox(Box b, Box d, Box script, double kern, boolean over) {
 		base = b;
 		del = d;
 		this.script = script;
@@ -89,11 +89,11 @@ public class OverUnderBox extends Box {
 				+ (!over && script != null ? script.height + script.depth + kern : 0);
 	}
 
-	public void draw(Graphics2DInterface g2, float x, float y) {
+	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		base.draw(g2, x, y);
 
-		float yVar = y - base.height - del.getWidth();
+		double yVar = y - base.height - del.getWidth();
 		del.setDepth(del.getHeight() + del.getDepth());
 		del.setHeight(0);
 		if (over) { // draw delimiter and script above base box
