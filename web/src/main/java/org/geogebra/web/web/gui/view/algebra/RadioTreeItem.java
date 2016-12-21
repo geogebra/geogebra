@@ -2035,7 +2035,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @param pixelRatio
 	 *            pixel ratio for input panel
 	 */
-	public void setPixelRatio(double pixelRatio) {
+	public void setPixelRatio(float pixelRatio) {
 		// only for LaTeX tree item
 
 	}
