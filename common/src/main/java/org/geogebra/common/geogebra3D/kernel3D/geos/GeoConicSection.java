@@ -63,22 +63,27 @@ public class GeoConicSection extends GeoConic3D
 		public int compareTo(IndexedParameter parameter) {
 
 			// NaN are the greatest
-			if (Double.isNaN(value))
+			if (Double.isNaN(value)) {
 				return 1;
+			}
 
-			if (Double.isNaN(parameter.value))
+			if (Double.isNaN(parameter.value)) {
 				return -1;
+			}
 
 			// compare values
-			if (value < parameter.value)
+			if (Kernel.isGreater(parameter.value, value)) {
 				return -1;
+			}
 
-			if (value > parameter.value)
+			if (Kernel.isGreater(value, parameter.value)) {
 				return 1;
+			}
 
 			// compare indices
-			if (index < parameter.index)
+			if (index < parameter.index) {
 				return -1;
+			}
 
 			return 1; // never return 0 to ensure having four parameters
 		}

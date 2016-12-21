@@ -30,13 +30,15 @@ public class DefaultClipper extends ClipperBase {
 		public int compare(IntersectNode node1, IntersectNode node2) {
 			// final long i = node2.getPt().getY() - node1.getPt().getY();
 			final double i = node2.getPt().getY() - node1.getPt().getY();
-			if (i > 0) {
-				return 1;
-			} else if (i < 0) {
-				return -1;
-			} else {
-				return 0;
-			}
+
+			return (int) Math.signum(i);
+			// if (i > 0) {
+			// return 1;
+			// } else if (i < 0) {
+			// return -1;
+			// } else {
+			// return 0;
+			// }
 		}
 
 	}
