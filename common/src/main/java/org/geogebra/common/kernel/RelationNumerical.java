@@ -290,10 +290,7 @@ public class RelationNumerical {
 			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c,
 					(GeoPoint) d);
 		}
-		register(null, null,
-				loc.getPlain("ABCandDcannotBeCompared",
-						a.getColoredLabel(), b.getColoredLabel(),
-						c.getColoredLabel(), d.getColoredLabel()));
+		register(null, null, loc.getPlain("ComparisonNotPossible"));
 		return reports;
 
 	}
@@ -856,8 +853,10 @@ public class RelationNumerical {
 	 */
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C) {
-		return loc.getPlain("ABandCareCollinear", A.getColoredLabel(),
-				B.getColoredLabel(), C.getColoredLabel());
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + " "
+				+ and + " " + C.getColoredLabel();
+		return loc.getPlain("TheFollowingAreCollinearA", pars);
 	}
 
 	/**
@@ -876,8 +875,10 @@ public class RelationNumerical {
 	 */
 	final public String collinearityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
-		return loc.getPlain("ABCandDareCollinear", A.getColoredLabel(),
-				B.getColoredLabel(), C.getColoredLabel(), D.getColoredLabel());
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + ", "
+				+ C.getColoredLabel() + " " + and + " " + D.getColoredLabel();
+		return loc.getPlain("TheFollowingAreCollinearA", pars);
 	}
 
 	/**
@@ -894,8 +895,10 @@ public class RelationNumerical {
 	 */
 	final public String concurrentString(GeoElement a, GeoElement b,
 			GeoElement c) {
-		return loc.getPlain("ABandCareConcurrent", a.getColoredLabel(),
-				b.getColoredLabel(), c.getColoredLabel());
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+				+ and + " " + c.getColoredLabel();
+		return loc.getPlain("TheFollowingAreConcurrentA", pars);
 	}
 
 	/**
@@ -914,8 +917,10 @@ public class RelationNumerical {
 	 */
 	final public String concyclicityString(GeoElement A, GeoElement B,
 			GeoElement C, GeoElement D) {
-		return loc.getPlain("ABCandDareConcyclic", A.getColoredLabel(),
-				B.getColoredLabel(), C.getColoredLabel(), D.getColoredLabel());
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = A.getColoredLabel() + ", " + B.getColoredLabel() + ", "
+				+ C.getColoredLabel() + " " + and + " " + D.getColoredLabel();
+		return loc.getPlain("TheFollowingAreConcyclicA", pars);
 	}
 
 	// "Relation of a and b: linear dependent"
@@ -996,8 +1001,11 @@ public class RelationNumerical {
 	 */
 	final public static String parallelString(GeoLine a, GeoLine b, GeoLine c,
 			Localization loc) {
-		return loc.getPlain("ABandCareParallel", a.getColoredLabel(),
-				b.getColoredLabel(), c.getColoredLabel());
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+				+ and + " " + c.getColoredLabel();
+		return loc.getPlain("TheFollowingAreParallelA", pars);
+
 	}
 
 	/*
