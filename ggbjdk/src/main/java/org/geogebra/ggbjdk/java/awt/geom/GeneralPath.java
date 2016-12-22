@@ -48,7 +48,7 @@ import org.geogebra.common.awt.GGeneralPath;
  * @author Jim Graham
  * @since 1.2
  */
-public final class GeneralPath extends Path2D.Float implements GGeneralPath {
+public final class GeneralPath extends Path2D.Double implements GGeneralPath {
     /**
      * Constructs a new empty single precision {@code GeneralPath} object
      * with a default winding rule of {@link #WIND_NON_ZERO}.
@@ -108,7 +108,7 @@ public final class GeneralPath extends Path2D.Float implements GGeneralPath {
     GeneralPath(int windingRule,
                 byte[] pointTypes,
                 int numTypes,
-                float[] pointCoords,
+                double[] pointCoords,
                 int numCoords)
     {
         // used to construct from native
@@ -116,7 +116,7 @@ public final class GeneralPath extends Path2D.Float implements GGeneralPath {
         this.windingRule = windingRule;
         this.pointTypes = pointTypes;
         this.numTypes = numTypes;
-        this.floatCoords = pointCoords;
+        this.doubleCoords = pointCoords;
         this.numCoords = numCoords;
     }
 

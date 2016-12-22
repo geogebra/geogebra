@@ -2892,7 +2892,8 @@ public class AffineTransform implements GAffineTransform {
             if (ptSrc instanceof Point2D.Double) {
                 ptDst = new Point2D.Double();
             } else {
-                ptDst = new Point2D.Float();
+                //ptDst = new Point2D.Float();
+            	throw new RuntimeException("Point2D.Float not available");
             }
         }
         // Copy source coords into local variables in case src == dst
@@ -2978,7 +2979,8 @@ public class AffineTransform implements GAffineTransform {
                 if (src instanceof Point2D.Double) {
                     dst = new Point2D.Double();
                 } else {
-                    dst = new Point2D.Float();
+                    //dst = new Point2D.Float();
+                	throw new RuntimeException("Point2D.Float not available");
                 }
                 ptDst[dstOff - 1] = dst;
             }
@@ -3467,7 +3469,9 @@ public class AffineTransform implements GAffineTransform {
             if (ptSrc instanceof Point2D.Double) {
                 ptDst = new Point2D.Double();
             } else {
-                ptDst = new Point2D.Float();
+                //ptDst = new Point2D.Float();
+            	throw new RuntimeException("Point2D.Float not available");
+
             }
         }
         // Copy source coords into local variables in case src == dst
@@ -3694,7 +3698,8 @@ public class AffineTransform implements GAffineTransform {
             if (ptSrc instanceof Point2D.Double) {
                 ptDst = new Point2D.Double();
             } else {
-                ptDst = new Point2D.Float();
+                //ptDst = new Point2D.Float();
+            	throw new RuntimeException("Point2D.Float not available");
             }
         }
         // Copy source coords into local variables in case src == dst

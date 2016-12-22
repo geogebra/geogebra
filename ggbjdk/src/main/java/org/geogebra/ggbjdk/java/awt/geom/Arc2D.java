@@ -322,7 +322,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          */
         protected GRectangle2D makeBounds(double x, double y,
                                          double w, double h) {
-            return new Rectangle2D.Float((float) x, (float) y,
+            return new Rectangle2D.Double((float) x, (float) y,
                                          (float) w, (float) h);
         }
 

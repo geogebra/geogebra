@@ -78,233 +78,233 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * coordinates.
      * @since 1.2
      */
-    public static class Float extends Rectangle2D implements Serializable {
-        /**
-         * The X coordinate of this <code>Rectangle2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float x;
-
-        /**
-         * The Y coordinate of this <code>Rectangle2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float y;
-
-        /**
-         * The width of this <code>Rectangle2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float width;
-
-        /**
-         * The height of this <code>Rectangle2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float height;
-
-        /**
-         * Constructs a new <code>Rectangle2D</code>, initialized to
-         * location (0.0,&nbsp;0.0) and size (0.0,&nbsp;0.0).
-         * @since 1.2
-         */
-        public Float() {
-        }
-
-        /**
-         * Constructs and initializes a <code>Rectangle2D</code>
-         * from the specified <code>float</code> coordinates.
-         *
-         * @param x the X coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param y the Y coordinate of the upper-left corner
-         *          of the newly constructed <code>Rectangle2D</code>
-         * @param w the width of the newly constructed
-         *          <code>Rectangle2D</code>
-         * @param h the height of the newly constructed
-         *          <code>Rectangle2D</code>
-         * @since 1.2
-        */
-        public Float(float x, float y, float w, float h) {
-            setRect(x, y, w, h);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getX() {
-            return (double) x;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getY() {
-            return (double) y;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getWidth() {
-            return (double) width;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getHeight() {
-            return (double) height;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public boolean isEmpty() {
-            return (width <= 0.0f) || (height <= 0.0f);
-        }
-
-        /**
-         * Sets the location and size of this <code>Rectangle2D</code>
-         * to the specified <code>float</code> values.
-         *
-         * @param x the X coordinate of the upper-left corner
-         *          of this <code>Rectangle2D</code>
-         * @param y the Y coordinate of the upper-left corner
-         *          of this <code>Rectangle2D</code>
-         * @param w the width of this <code>Rectangle2D</code>
-         * @param h the height of this <code>Rectangle2D</code>
-         * @since 1.2
-         */
-        public void setRect(float x, float y, float w, float h) {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public void setRect(double x, double y, double w, double h) {
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public void setRect(GRectangle2D r) {
-            this.x = (float) r.getX();
-            this.y = (float) r.getY();
-            this.width = (float) r.getWidth();
-            this.height = (float) r.getHeight();
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public int outcode(double x, double y) {
-            /*
-             * Note on casts to double below.  If the arithmetic of
-             * x+w or y+h is done in float, then some bits may be
-             * lost if the binary exponents of x/y and w/h are not
-             * similar.  By converting to double before the addition
-             * we force the addition to be carried out in double to
-             * avoid rounding error in the comparison.
-             *
-             * See bug 4320890 for problems that this inaccuracy causes.
-             */
-            int out = 0;
-            if (this.width <= 0) {
-                out |= OUT_LEFT | OUT_RIGHT;
-            } else if (x < this.x) {
-                out |= OUT_LEFT;
-            } else if (x > this.x + (double) this.width) {
-                out |= OUT_RIGHT;
-            }
-            if (this.height <= 0) {
-                out |= OUT_TOP | OUT_BOTTOM;
-            } else if (y < this.y) {
-                out |= OUT_TOP;
-            } else if (y > this.y + (double) this.height) {
-                out |= OUT_BOTTOM;
-            }
-            return out;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Rectangle2D getBounds2D() {
-            return new Float(x, y, width, height);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Rectangle2D createIntersection(GRectangle2D r) {
-            Rectangle2D dest;
-            if (r instanceof Float) {
-                dest = new Rectangle2D.Float();
-            } else {
-                dest = new Rectangle2D.Double();
-            }
-            Rectangle2D.intersect(this, r, dest);
-            return dest;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Rectangle2D createUnion(GRectangle2D r) {
-            Rectangle2D dest;
-            if (r instanceof Float) {
-                dest = new Rectangle2D.Float();
-            } else {
-                dest = new Rectangle2D.Double();
-            }
-            Rectangle2D.union(this, r, dest);
-            return dest;
-        }
-
-        /**
-         * Returns the <code>String</code> representation of this
-         * <code>Rectangle2D</code>.
-         * @return a <code>String</code> representing this
-         * <code>Rectangle2D</code>.
-         * @since 1.2
-         */
-        public String toString() {
-            return getClass().getName()
-                + "[x=" + x +
-                ",y=" + y +
-                ",w=" + width +
-                ",h=" + height + "]";
-        }
-
-        /*
-         * JDK 1.6 serialVersionUID
-         */
-        private static final long serialVersionUID = 3798716824173675777L;
-    }
+//    public static class Float extends Rectangle2D implements Serializable {
+//        /**
+//         * The X coordinate of this <code>Rectangle2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float x;
+//
+//        /**
+//         * The Y coordinate of this <code>Rectangle2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float y;
+//
+//        /**
+//         * The width of this <code>Rectangle2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float width;
+//
+//        /**
+//         * The height of this <code>Rectangle2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float height;
+//
+//        /**
+//         * Constructs a new <code>Rectangle2D</code>, initialized to
+//         * location (0.0,&nbsp;0.0) and size (0.0,&nbsp;0.0).
+//         * @since 1.2
+//         */
+//        public Float() {
+//        }
+//
+//        /**
+//         * Constructs and initializes a <code>Rectangle2D</code>
+//         * from the specified <code>float</code> coordinates.
+//         *
+//         * @param x the X coordinate of the upper-left corner
+//         *          of the newly constructed <code>Rectangle2D</code>
+//         * @param y the Y coordinate of the upper-left corner
+//         *          of the newly constructed <code>Rectangle2D</code>
+//         * @param w the width of the newly constructed
+//         *          <code>Rectangle2D</code>
+//         * @param h the height of the newly constructed
+//         *          <code>Rectangle2D</code>
+//         * @since 1.2
+//        */
+//        public Float(float x, float y, float w, float h) {
+//            setRect(x, y, w, h);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getX() {
+//            return (double) x;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getY() {
+//            return (double) y;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getWidth() {
+//            return (double) width;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getHeight() {
+//            return (double) height;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public boolean isEmpty() {
+//            return (width <= 0.0f) || (height <= 0.0f);
+//        }
+//
+//        /**
+//         * Sets the location and size of this <code>Rectangle2D</code>
+//         * to the specified <code>float</code> values.
+//         *
+//         * @param x the X coordinate of the upper-left corner
+//         *          of this <code>Rectangle2D</code>
+//         * @param y the Y coordinate of the upper-left corner
+//         *          of this <code>Rectangle2D</code>
+//         * @param w the width of this <code>Rectangle2D</code>
+//         * @param h the height of this <code>Rectangle2D</code>
+//         * @since 1.2
+//         */
+//        public void setRect(float x, float y, float w, float h) {
+//            this.x = x;
+//            this.y = y;
+//            this.width = w;
+//            this.height = h;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public void setRect(double x, double y, double w, double h) {
+//            this.x = (float) x;
+//            this.y = (float) y;
+//            this.width = (float) w;
+//            this.height = (float) h;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public void setRect(GRectangle2D r) {
+//            this.x = (float) r.getX();
+//            this.y = (float) r.getY();
+//            this.width = (float) r.getWidth();
+//            this.height = (float) r.getHeight();
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public int outcode(double x, double y) {
+//            /*
+//             * Note on casts to double below.  If the arithmetic of
+//             * x+w or y+h is done in float, then some bits may be
+//             * lost if the binary exponents of x/y and w/h are not
+//             * similar.  By converting to double before the addition
+//             * we force the addition to be carried out in double to
+//             * avoid rounding error in the comparison.
+//             *
+//             * See bug 4320890 for problems that this inaccuracy causes.
+//             */
+//            int out = 0;
+//            if (this.width <= 0) {
+//                out |= OUT_LEFT | OUT_RIGHT;
+//            } else if (x < this.x) {
+//                out |= OUT_LEFT;
+//            } else if (x > this.x + (double) this.width) {
+//                out |= OUT_RIGHT;
+//            }
+//            if (this.height <= 0) {
+//                out |= OUT_TOP | OUT_BOTTOM;
+//            } else if (y < this.y) {
+//                out |= OUT_TOP;
+//            } else if (y > this.y + (double) this.height) {
+//                out |= OUT_BOTTOM;
+//            }
+//            return out;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Rectangle2D getBounds2D() {
+//            return new Float(x, y, width, height);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Rectangle2D createIntersection(GRectangle2D r) {
+//            Rectangle2D dest;
+//            if (r instanceof Float) {
+//                dest = new Rectangle2D.Float();
+//            } else {
+//                dest = new Rectangle2D.Double();
+//            }
+//            Rectangle2D.intersect(this, r, dest);
+//            return dest;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Rectangle2D createUnion(GRectangle2D r) {
+//            Rectangle2D dest;
+//            if (r instanceof Float) {
+//                dest = new Rectangle2D.Float();
+//            } else {
+//                dest = new Rectangle2D.Double();
+//            }
+//            Rectangle2D.union(this, r, dest);
+//            return dest;
+//        }
+//
+//        /**
+//         * Returns the <code>String</code> representation of this
+//         * <code>Rectangle2D</code>.
+//         * @return a <code>String</code> representing this
+//         * <code>Rectangle2D</code>.
+//         * @since 1.2
+//         */
+//        public String toString() {
+//            return getClass().getName()
+//                + "[x=" + x +
+//                ",y=" + y +
+//                ",w=" + width +
+//                ",h=" + height + "]";
+//        }
+//
+//        /*
+//         * JDK 1.6 serialVersionUID
+//         */
+//        private static final long serialVersionUID = 3798716824173675777L;
+//    }
 
     /**
      * The <code>Double</code> class defines a rectangle specified in

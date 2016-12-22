@@ -57,169 +57,169 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * A line segment specified with float coordinates.
      * @since 1.2
      */
-    public static class Float extends Line2D implements Serializable {
-        /**
-         * The X coordinate of the start point of the line segment.
-         * @since 1.2
-         * @serial
-         */
-        public float x1;
-
-        /**
-         * The Y coordinate of the start point of the line segment.
-         * @since 1.2
-         * @serial
-         */
-        public float y1;
-
-        /**
-         * The X coordinate of the end point of the line segment.
-         * @since 1.2
-         * @serial
-         */
-        public float x2;
-
-        /**
-         * The Y coordinate of the end point of the line segment.
-         * @since 1.2
-         * @serial
-         */
-        public float y2;
-
-        /**
-         * Constructs and initializes a Line with coordinates (0, 0) &rarr; (0, 0).
-         * @since 1.2
-         */
-        public Float() {
-        }
-
-        /**
-         * Constructs and initializes a Line from the specified coordinates.
-         * @param x1 the X coordinate of the start point
-         * @param y1 the Y coordinate of the start point
-         * @param x2 the X coordinate of the end point
-         * @param y2 the Y coordinate of the end point
-         * @since 1.2
-         */
-        public Float(float x1, float y1, float x2, float y2) {
-            setLine(x1, y1, x2, y2);
-        }
-
-        /**
-         * Constructs and initializes a <code>Line2D</code> from the
-         * specified <code>Point2D</code> objects.
-         * @param p1 the start <code>Point2D</code> of this line segment
-         * @param p2 the end <code>Point2D</code> of this line segment
-         * @since 1.2
-         */
-        public Float(GPoint2D p1, GPoint2D p2) {
-            setLine(p1, p2);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getX1() {
-            return (double) x1;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getY1() {
-            return (double) y1;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Point2D getP1() {
-            return new Point2D.Float(x1, y1);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getX2() {
-            return (double) x2;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getY2() {
-            return (double) y2;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Point2D getP2() {
-            return new Point2D.Float(x2, y2);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public void setLine(double x1, double y1, double x2, double y2) {
-            this.x1 = (float) x1;
-            this.y1 = (float) y1;
-            this.x2 = (float) x2;
-            this.y2 = (float) y2;
-        }
-
-        /**
-         * Sets the location of the end points of this <code>Line2D</code>
-         * to the specified float coordinates.
-         * @param x1 the X coordinate of the start point
-         * @param y1 the Y coordinate of the start point
-         * @param x2 the X coordinate of the end point
-         * @param y2 the Y coordinate of the end point
-         * @since 1.2
-         */
-        public void setLine(float x1, float y1, float x2, float y2) {
-            this.x1 = x1;
-            this.y1 = y1;
-            this.x2 = x2;
-            this.y2 = y2;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public GRectangle2D getBounds2D() {
-            float x, y, w, h;
-            if (x1 < x2) {
-                x = x1;
-                w = x2 - x1;
-            } else {
-                x = x2;
-                w = x1 - x2;
-            }
-            if (y1 < y2) {
-                y = y1;
-                h = y2 - y1;
-            } else {
-                y = y2;
-                h = y1 - y2;
-            }
-            return new Rectangle2D.Float(x, y, w, h);
-        }
-
-        /*
-         * JDK 1.6 serialVersionUID
-         */
-        private static final long serialVersionUID = 6161772511649436349L;
-
-    }
+//    public static class Float extends Line2D implements Serializable {
+//        /**
+//         * The X coordinate of the start point of the line segment.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float x1;
+//
+//        /**
+//         * The Y coordinate of the start point of the line segment.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float y1;
+//
+//        /**
+//         * The X coordinate of the end point of the line segment.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float x2;
+//
+//        /**
+//         * The Y coordinate of the end point of the line segment.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float y2;
+//
+//        /**
+//         * Constructs and initializes a Line with coordinates (0, 0) &rarr; (0, 0).
+//         * @since 1.2
+//         */
+//        public Float() {
+//        }
+//
+//        /**
+//         * Constructs and initializes a Line from the specified coordinates.
+//         * @param x1 the X coordinate of the start point
+//         * @param y1 the Y coordinate of the start point
+//         * @param x2 the X coordinate of the end point
+//         * @param y2 the Y coordinate of the end point
+//         * @since 1.2
+//         */
+//        public Float(float x1, float y1, float x2, float y2) {
+//            setLine(x1, y1, x2, y2);
+//        }
+//
+//        /**
+//         * Constructs and initializes a <code>Line2D</code> from the
+//         * specified <code>Point2D</code> objects.
+//         * @param p1 the start <code>Point2D</code> of this line segment
+//         * @param p2 the end <code>Point2D</code> of this line segment
+//         * @since 1.2
+//         */
+//        public Float(GPoint2D p1, GPoint2D p2) {
+//            setLine(p1, p2);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getX1() {
+//            return (double) x1;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getY1() {
+//            return (double) y1;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Point2D getP1() {
+//            return new Point2D.Float(x1, y1);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getX2() {
+//            return (double) x2;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getY2() {
+//            return (double) y2;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Point2D getP2() {
+//            return new Point2D.Float(x2, y2);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public void setLine(double x1, double y1, double x2, double y2) {
+//            this.x1 = (float) x1;
+//            this.y1 = (float) y1;
+//            this.x2 = (float) x2;
+//            this.y2 = (float) y2;
+//        }
+//
+//        /**
+//         * Sets the location of the end points of this <code>Line2D</code>
+//         * to the specified float coordinates.
+//         * @param x1 the X coordinate of the start point
+//         * @param y1 the Y coordinate of the start point
+//         * @param x2 the X coordinate of the end point
+//         * @param y2 the Y coordinate of the end point
+//         * @since 1.2
+//         */
+//        public void setLine(float x1, float y1, float x2, float y2) {
+//            this.x1 = x1;
+//            this.y1 = y1;
+//            this.x2 = x2;
+//            this.y2 = y2;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public GRectangle2D getBounds2D() {
+//            float x, y, w, h;
+//            if (x1 < x2) {
+//                x = x1;
+//                w = x2 - x1;
+//            } else {
+//                x = x2;
+//                w = x1 - x2;
+//            }
+//            if (y1 < y2) {
+//                y = y1;
+//                h = y2 - y1;
+//            } else {
+//                y = y2;
+//                h = y1 - y2;
+//            }
+//            return new Rectangle2D.Float(x, y, w, h);
+//        }
+//
+//        /*
+//         * JDK 1.6 serialVersionUID
+//         */
+//        private static final long serialVersionUID = 6161772511649436349L;
+//
+//    }
 
     /**
      * A line segment specified with double coordinates.

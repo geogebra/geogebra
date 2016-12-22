@@ -51,144 +51,144 @@ public abstract class Ellipse2D extends RectangularShape {
      * in <code>float</code> precision.
      * @since 1.2
      */
-    public static class Float extends Ellipse2D implements Serializable {
-        /**
-         * The X coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
-         */
-        public float x;
-
-        /**
-         * The Y coordinate of the upper-left corner of the
-         * framing rectangle of this {@code Ellipse2D}.
-         * @since 1.2
-         * @serial
-         */
-        public float y;
-
-        /**
-         * The overall width of this <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float width;
-
-        /**
-         * The overall height of this <code>Ellipse2D</code>.
-         * @since 1.2
-         * @serial
-         */
-        public float height;
-
-        /**
-         * Constructs a new <code>Ellipse2D</code>, initialized to
-         * location (0,&nbsp;0) and size (0,&nbsp;0).
-         * @since 1.2
-         */
-        public Float() {
-        }
-
-        /**
-         * Constructs and initializes an <code>Ellipse2D</code> from the
-         * specified coordinates.
-         *
-         * @param x the X coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param y the Y coordinate of the upper-left corner
-         *          of the framing rectangle
-         * @param w the width of the framing rectangle
-         * @param h the height of the framing rectangle
-         * @since 1.2
-         */
-        public Float(float x, float y, float w, float h) {
-            setFrame(x, y, w, h);
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getX() {
-            return (double) x;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getY() {
-            return (double) y;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getWidth() {
-            return (double) width;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public double getHeight() {
-            return (double) height;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public boolean isEmpty() {
-            return (width <= 0.0 || height <= 0.0);
-        }
-
-        /**
-         * Sets the location and size of the framing rectangle of this
-         * <code>Shape</code> to the specified rectangular values.
-         *
-         * @param x the X coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param y the Y coordinate of the upper-left corner of the
-         *              specified rectangular shape
-         * @param w the width of the specified rectangular shape
-         * @param h the height of the specified rectangular shape
-         * @since 1.2
-         */
-        public void setFrame(float x, float y, float w, float h) {
-            this.x = x;
-            this.y = y;
-            this.width = w;
-            this.height = h;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public void setFrame(double x, double y, double w, double h) {
-            this.x = (float) x;
-            this.y = (float) y;
-            this.width = (float) w;
-            this.height = (float) h;
-        }
-
-        /**
-         * {@inheritDoc}
-         * @since 1.2
-         */
-        public Rectangle2D getBounds2D() {
-            return new Rectangle2D.Float(x, y, width, height);
-        }
-
-        /*
-         * JDK 1.6 serialVersionUID
-         */
-        private static final long serialVersionUID = -6633761252372475977L;
-    }
+//    public static class Float extends Ellipse2D implements Serializable {
+//        /**
+//         * The X coordinate of the upper-left corner of the
+//         * framing rectangle of this {@code Ellipse2D}.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float x;
+//
+//        /**
+//         * The Y coordinate of the upper-left corner of the
+//         * framing rectangle of this {@code Ellipse2D}.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float y;
+//
+//        /**
+//         * The overall width of this <code>Ellipse2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float width;
+//
+//        /**
+//         * The overall height of this <code>Ellipse2D</code>.
+//         * @since 1.2
+//         * @serial
+//         */
+//        public float height;
+//
+//        /**
+//         * Constructs a new <code>Ellipse2D</code>, initialized to
+//         * location (0,&nbsp;0) and size (0,&nbsp;0).
+//         * @since 1.2
+//         */
+//        public Float() {
+//        }
+//
+//        /**
+//         * Constructs and initializes an <code>Ellipse2D</code> from the
+//         * specified coordinates.
+//         *
+//         * @param x the X coordinate of the upper-left corner
+//         *          of the framing rectangle
+//         * @param y the Y coordinate of the upper-left corner
+//         *          of the framing rectangle
+//         * @param w the width of the framing rectangle
+//         * @param h the height of the framing rectangle
+//         * @since 1.2
+//         */
+//        public Float(float x, float y, float w, float h) {
+//            setFrame(x, y, w, h);
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getX() {
+//            return (double) x;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getY() {
+//            return (double) y;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getWidth() {
+//            return (double) width;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public double getHeight() {
+//            return (double) height;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public boolean isEmpty() {
+//            return (width <= 0.0 || height <= 0.0);
+//        }
+//
+//        /**
+//         * Sets the location and size of the framing rectangle of this
+//         * <code>Shape</code> to the specified rectangular values.
+//         *
+//         * @param x the X coordinate of the upper-left corner of the
+//         *              specified rectangular shape
+//         * @param y the Y coordinate of the upper-left corner of the
+//         *              specified rectangular shape
+//         * @param w the width of the specified rectangular shape
+//         * @param h the height of the specified rectangular shape
+//         * @since 1.2
+//         */
+//        public void setFrame(float x, float y, float w, float h) {
+//            this.x = x;
+//            this.y = y;
+//            this.width = w;
+//            this.height = h;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public void setFrame(double x, double y, double w, double h) {
+//            this.x = (float) x;
+//            this.y = (float) y;
+//            this.width = (float) w;
+//            this.height = (float) h;
+//        }
+//
+//        /**
+//         * {@inheritDoc}
+//         * @since 1.2
+//         */
+//        public Rectangle2D getBounds2D() {
+//            return new Rectangle2D.Float(x, y, width, height);
+//        }
+//
+//        /*
+//         * JDK 1.6 serialVersionUID
+//         */
+//        private static final long serialVersionUID = -6633761252372475977L;
+//    }
 
     /**
      * The <code>Double</code> class defines an ellipse specified
