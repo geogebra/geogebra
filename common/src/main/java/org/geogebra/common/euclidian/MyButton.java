@@ -34,8 +34,8 @@ public class MyButton implements Observer {
 	private final static int arcSize = 10;
 	private GFont font;
 	private boolean pressed, draggedOrContext;
-	private float textHeight;
-	private float textWidth;
+	private double textHeight;
+	private double textWidth;
 
 	private final static float marginTopMultiplier = 0.6f;
 	private final static float marginBottomMultiplier = 0.5f;

@@ -1503,7 +1503,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		return AwtFactory.getPrototype().newDimension(w,
-				Math.round(layout.getDescent() + layout.getAscent()));
+				(int) Math.round(layout.getDescent() + layout.getAscent()));
 	}
 
 	private int getTriangleControlWidth() {

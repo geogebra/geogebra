@@ -167,8 +167,8 @@ public class HatchingHandler {
 			GTextLayout t = AwtFactory.getPrototype().newTextLayout(symbol,
 					g2d.getFont(), g2d.getFontRenderContext());
 			g2d = createImage(objStroke, color, bgColor, backgroundTransparency,
-					(Math.round(t.getAscent() + t.getDescent()) / 3),
-					(Math.round(t.getAscent() + t.getDescent()) / 3));
+					(int) (Math.round(t.getAscent() + t.getDescent()) / 3),
+					(int) (Math.round(t.getAscent() + t.getDescent()) / 3));
 			g2d.setFont(
 					app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24));
 			g2d.drawString(symbol, 0, Math.round(t.getAscent()));

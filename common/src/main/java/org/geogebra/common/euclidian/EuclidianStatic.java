@@ -62,10 +62,10 @@ public class EuclidianStatic {
 	 *            rendering context
 	 * @return text width
 	 */
-	public final static float textWidth(String str, GFont font,
+	public final static double textWidth(String str, GFont font,
 			GFontRenderContext frc) {
 		if ("".equals(str))
-			return 0f;
+			return 0;
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout(str, font,
 				frc);
 		return layout.getAdvance();
@@ -375,7 +375,7 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			float xPos, float yPos, boolean serif, boolean precise) {
+			double xPos, double yPos, boolean serif, boolean precise) {
 
 		return drawIndexedString(app, g3, str, xPos, yPos, serif, precise,
 				true);
@@ -404,7 +404,7 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			float xPos, float yPos, boolean serif, boolean precise,
+			double xPos, double yPos, boolean serif, boolean precise,
 			boolean doDraw) {
 
 		GFont g2font = g3.getFont();

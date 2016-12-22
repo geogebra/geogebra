@@ -34,10 +34,9 @@ public class GTextLayoutW implements GTextLayout {
 		// str.indexOf('j') > -1 || str.indexOf('f') > -1;
 	}
 
-	public float getAdvance() {
+	public double getAdvance() {
 		if (advance < 0)
-			advance = frc.measureText(str,
- ((GFontW) font).getFullFontString());
+			advance = frc.measureText(str, ((GFontW) font).getFullFontString());
 		return advance;
 	}
 
@@ -45,14 +44,14 @@ public class GTextLayoutW implements GTextLayout {
 		return new Rectangle((int) getAdvance(), (int) getAscent());
 	}
 
-	public float getAscent() {
+	public double getAscent() {
 		if (containsLowerCase) {
 			return font.getSize() * 0.75f;
 		}
 		return font.getSize() * 0.80f;
 	}
 
-	public float getDescent() {
+	public double getDescent() {
 		if (containsLowerCase) {
 			return font.getSize() * 0.25f;
 		}

@@ -19,7 +19,7 @@ public class GTextLayoutD implements GTextLayout {
 				GFontRenderContextD.getAwtFrc(frc));
 	}
 
-	public float getAdvance() {
+	public double getAdvance() {
 		return impl.getAdvance();
 	}
 
@@ -27,11 +27,11 @@ public class GTextLayoutD implements GTextLayout {
 		return new GGenericRectangle2DD(impl.getBounds());
 	}
 
-	public float getAscent() {
+	public double getAscent() {
 		return impl.getAscent();
 	}
 
-	public float getDescent() {
+	public double getDescent() {
 		return impl.getDescent();
 	}
 

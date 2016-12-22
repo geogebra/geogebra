@@ -11,7 +11,7 @@ public interface GTextLayout {
 	/**
 	 * @return width of the text in pixels
 	 */
-	float getAdvance();
+	double getAdvance();
 
 	/**
 	 * @return bounding rectangle
@@ -22,7 +22,7 @@ public interface GTextLayout {
 	 * 
 	 * @return distance between baseline and top of the highest character
 	 */
-	float getAscent();
+	double getAscent();
 
 	/**
 	 * Draw this text in graphics
@@ -39,6 +39,6 @@ public interface GTextLayout {
 	/**
 	 * @return distance between baseline and deepest bottom of a character
 	 */
-	float getDescent();
+	double getDescent();
 
 }
