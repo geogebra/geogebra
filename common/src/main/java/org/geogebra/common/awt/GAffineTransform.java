@@ -23,8 +23,8 @@ public interface GAffineTransform {
 	public void transform(double[] labelCoords, int i, double[] labelCoords2,
 			int j, int k);
 
-	public void transform(float[] labelCoords, int i, float[] labelCoords2,
-			int j, int k);
+	// public void transform(float[] labelCoords, int i, float[] labelCoords2,
+	// int j, int k);
 
 	public GAffineTransform createInverse() throws Exception;
 
@@ -36,8 +36,8 @@ public interface GAffineTransform {
 
 	public double getTranslateY();
 
-	public void transform(float[] pointCoords, int pointIdx, double[] coords,
-			int j, int k);
+	// public void transform(float[] pointCoords, int pointIdx, double[] coords,
+	// int j, int k);
 
 	public void rotate(double theta);
 
@@ -53,6 +53,7 @@ public interface GAffineTransform {
 
 	public void setToRotation(double theta, double x, double y);
 
-	public void transform(double[] doubleCoords, int pointIdx, float[] coords,
-			int j, int k);
+	// public void transform(double[] doubleCoords, int pointIdx, float[]
+	// coords,
+	// int j, int k);
 }

@@ -118,25 +118,26 @@ public class GAffineTransformD implements GAffineTransform {
 
 	}
 
-	@Override
-	public void transform(float[] srcPts, int srcOff, float[] dstPts,
-			int dstOff, int numPts) {
-		at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
+	// @Override
+	// public void transform(float[] srcPts, int srcOff, float[] dstPts,
+	// int dstOff, int numPts) {
+	// at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
+	//
+	// }
 
-	}
+	// @Override
+	// public void transform(float[] srcPts, int srcOff, double[] dstPts,
+	// int dstOff, int numPts) {
+	// at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
+	//
+	// }
 
-	@Override
-	public void transform(float[] srcPts, int srcOff, double[] dstPts,
-			int dstOff, int numPts) {
-		at.transform(srcPts, srcOff, dstPts, dstOff, numPts);
-
-	}
-
-	public void transform(double[] doubleCoords, int pointIdx, float[] coords,
-			int j, int k) {
-		at.transform(doubleCoords, pointIdx, coords, j, k);
-
-	}
+	// public void transform(double[] doubleCoords, int pointIdx, float[]
+	// coords,
+	// int j, int k) {
+	// at.transform(doubleCoords, pointIdx, coords, j, k);
+	//
+	// }
 
 	@Override
 	public void rotate(double theta) {

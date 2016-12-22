@@ -17,7 +17,7 @@ public interface GPathIterator {
 
 	public void next();
 
-	public int currentSegment(float[] coords);
+	// public int currentSegment(float[] coords);
 
 	public int currentSegment(double[] coords);
 

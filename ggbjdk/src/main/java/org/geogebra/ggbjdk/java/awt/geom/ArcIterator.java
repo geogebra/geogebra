@@ -211,47 +211,47 @@ class ArcIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("arc iterator out of bounds");
-        }
-        double angle = angStRad;
-        if (index == 0) {
-            coords[0] = (float) (x + Math.cos(angle) * w);
-            coords[1] = (float) (y + Math.sin(angle) * h);
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_MOVETO;
-        }
-        if (index > arcSegs) {
-            if (index == arcSegs + lineSegs) {
-                return SEG_CLOSE;
-            }
-            coords[0] = (float) x;
-            coords[1] = (float) y;
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_LINETO;
-        }
-        angle += increment * (index - 1);
-        double relx = Math.cos(angle);
-        double rely = Math.sin(angle);
-        coords[0] = (float) (x + (relx - cv * rely) * w);
-        coords[1] = (float) (y + (rely + cv * relx) * h);
-        angle += increment;
-        relx = Math.cos(angle);
-        rely = Math.sin(angle);
-        coords[2] = (float) (x + (relx + cv * rely) * w);
-        coords[3] = (float) (y + (rely - cv * relx) * h);
-        coords[4] = (float) (x + relx * w);
-        coords[5] = (float) (y + rely * h);
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
-        }
-        return SEG_CUBICTO;
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("arc iterator out of bounds");
+//        }
+//        double angle = angStRad;
+//        if (index == 0) {
+//            coords[0] = (float) (x + Math.cos(angle) * w);
+//            coords[1] = (float) (y + Math.sin(angle) * h);
+//            if (affine != null) {
+//                affine.transform(coords, 0, coords, 0, 1);
+//            }
+//            return SEG_MOVETO;
+//        }
+//        if (index > arcSegs) {
+//            if (index == arcSegs + lineSegs) {
+//                return SEG_CLOSE;
+//            }
+//            coords[0] = (float) x;
+//            coords[1] = (float) y;
+//            if (affine != null) {
+//                affine.transform(coords, 0, coords, 0, 1);
+//            }
+//            return SEG_LINETO;
+//        }
+//        angle += increment * (index - 1);
+//        double relx = Math.cos(angle);
+//        double rely = Math.sin(angle);
+//        coords[0] = (float) (x + (relx - cv * rely) * w);
+//        coords[1] = (float) (y + (rely + cv * relx) * h);
+//        angle += increment;
+//        relx = Math.cos(angle);
+//        rely = Math.sin(angle);
+//        coords[2] = (float) (x + (relx + cv * rely) * w);
+//        coords[3] = (float) (y + (rely - cv * relx) * h);
+//        coords[4] = (float) (x + relx * w);
+//        coords[5] = (float) (y + rely * h);
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, 3);
+//        }
+//        return SEG_CUBICTO;
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in

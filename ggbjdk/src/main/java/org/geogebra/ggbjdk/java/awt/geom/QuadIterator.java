@@ -91,27 +91,27 @@ class QuadIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("quad iterator iterator out of bounds");
-        }
-        int type;
-        if (index == 0) {
-            coords[0] = (float) quad.getX1();
-            coords[1] = (float) quad.getY1();
-            type = SEG_MOVETO;
-        } else {
-            coords[0] = (float) quad.getCtrlX();
-            coords[1] = (float) quad.getCtrlY();
-            coords[2] = (float) quad.getX2();
-            coords[3] = (float) quad.getY2();
-            type = SEG_QUADTO;
-        }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, index == 0 ? 1 : 2);
-        }
-        return type;
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("quad iterator iterator out of bounds");
+//        }
+//        int type;
+//        if (index == 0) {
+//            coords[0] = (float) quad.getX1();
+//            coords[1] = (float) quad.getY1();
+//            type = SEG_MOVETO;
+//        } else {
+//            coords[0] = (float) quad.getCtrlX();
+//            coords[1] = (float) quad.getCtrlY();
+//            coords[2] = (float) quad.getX2();
+//            coords[3] = (float) quad.getY2();
+//            type = SEG_QUADTO;
+//        }
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, index == 0 ? 1 : 2);
+//        }
+//        return type;
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in

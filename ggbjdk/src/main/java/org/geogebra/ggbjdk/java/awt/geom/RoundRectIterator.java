@@ -140,21 +140,21 @@ class RoundRectIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("roundrect iterator out of bounds");
-        }
-        double ctrls[] = ctrlpts[index];
-        int nc = 0;
-        for (int i = 0; i < ctrls.length; i += 4) {
-            coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-            coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
-        }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, nc / 2);
-        }
-        return types[index];
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("roundrect iterator out of bounds");
+//        }
+//        double ctrls[] = ctrlpts[index];
+//        int nc = 0;
+//        for (int i = 0; i < ctrls.length; i += 4) {
+//            coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
+//            coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
+//        }
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, nc / 2);
+//        }
+//        return types[index];
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in

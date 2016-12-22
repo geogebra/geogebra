@@ -3041,99 +3041,99 @@ public class AffineTransform implements GAffineTransform {
      * @param numPts the number of points to be transformed
      * @since 1.2
      */
-    public void transform(float[] srcPts, int srcOff,
-                          float[] dstPts, int dstOff,
-                          int numPts) {
-        double M00, M01, M02, M10, M11, M12;    // For caching
-        if (dstPts == srcPts &&
-            dstOff > srcOff && dstOff < srcOff + numPts * 2)
-        {
-            // If the arrays overlap partially with the destination higher
-            // than the source and we transform the coordinates normally
-            // we would overwrite some of the later source coordinates
-            // with results of previous transformations.
-            // To get around this we use arraycopy to copy the points
-            // to their final destination with correct overwrite
-            // handling and then transform them in place in the new
-            // safer location.
-            System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * 2);
-            // srcPts = dstPts;         // They are known to be equal.
-            srcOff = dstOff;
-        }
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M01 = m01; M02 = m02;
-            M10 = m10; M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M00 * x + M01 * y + M02);
-                dstPts[dstOff++] = (float) (M10 * x + M11 * y + M12);
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M00 * x + M01 * y);
-                dstPts[dstOff++] = (float) (M10 * x + M11 * y);
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            M01 = m01; M02 = m02;
-            M10 = m10; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (M10 * x + M12);
-            }
-            return;
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++]);
-                dstPts[dstOff++] = (float) (M10 * x);
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M02 = m02;
-            M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++] + M12);
-            }
-            return;
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++]);
-                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++]);
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M12);
-            }
-            return;
-        case (APPLY_IDENTITY):
-            if (srcPts != dstPts || srcOff != dstOff) {
-                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
-                                 numPts * 2);
-            }
-            return;
-        }
-
-        /* NOTREACHED */
-    }
+//    public void transform(float[] srcPts, int srcOff,
+//                          float[] dstPts, int dstOff,
+//                          int numPts) {
+//        double M00, M01, M02, M10, M11, M12;    // For caching
+//        if (dstPts == srcPts &&
+//            dstOff > srcOff && dstOff < srcOff + numPts * 2)
+//        {
+//            // If the arrays overlap partially with the destination higher
+//            // than the source and we transform the coordinates normally
+//            // we would overwrite some of the later source coordinates
+//            // with results of previous transformations.
+//            // To get around this we use arraycopy to copy the points
+//            // to their final destination with correct overwrite
+//            // handling and then transform them in place in the new
+//            // safer location.
+//            System.arraycopy(srcPts, srcOff, dstPts, dstOff, numPts * 2);
+//            // srcPts = dstPts;         // They are known to be equal.
+//            srcOff = dstOff;
+//        }
+//        switch (state) {
+//        default:
+//            stateError();
+//            /* NOTREACHED */
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M01 = m01; M02 = m02;
+//            M10 = m10; M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M00 * x + M01 * y + M02);
+//                dstPts[dstOff++] = (float) (M10 * x + M11 * y + M12);
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE):
+//            M00 = m00; M01 = m01;
+//            M10 = m10; M11 = m11;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M00 * x + M01 * y);
+//                dstPts[dstOff++] = (float) (M10 * x + M11 * y);
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_TRANSLATE):
+//            M01 = m01; M02 = m02;
+//            M10 = m10; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (M10 * x + M12);
+//            }
+//            return;
+//        case (APPLY_SHEAR):
+//            M01 = m01; M10 = m10;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++]);
+//                dstPts[dstOff++] = (float) (M10 * x);
+//            }
+//            return;
+//        case (APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M02 = m02;
+//            M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++] + M12);
+//            }
+//            return;
+//        case (APPLY_SCALE):
+//            M00 = m00; M11 = m11;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++]);
+//                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++]);
+//            }
+//            return;
+//        case (APPLY_TRANSLATE):
+//            M02 = m02; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M12);
+//            }
+//            return;
+//        case (APPLY_IDENTITY):
+//            if (srcPts != dstPts || srcOff != dstOff) {
+//                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
+//                                 numPts * 2);
+//            }
+//            return;
+//        }
+//
+//        /* NOTREACHED */
+//    }
 
     /**
      * Transforms an array of double precision coordinates by this transform.
@@ -3267,84 +3267,84 @@ public class AffineTransform implements GAffineTransform {
      * @param numPts the number of points to be transformed
      * @since 1.2
      */
-    public void transform(float[] srcPts, int srcOff,
-                          double[] dstPts, int dstOff,
-                          int numPts) {
-        double M00, M01, M02, M10, M11, M12;    // For caching
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M01 = m01; M02 = m02;
-            M10 = m10; M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y + M02;
-                dstPts[dstOff++] = M10 * x + M11 * y + M12;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y;
-                dstPts[dstOff++] = M10 * x + M11 * y;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            M01 = m01; M02 = m02;
-            M10 = m10; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M10 * x + M12;
-            }
-            return;
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++];
-                dstPts[dstOff++] = M10 * x;
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M02 = m02;
-            M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M11 * srcPts[srcOff++] + M12;
-            }
-            return;
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++];
-                dstPts[dstOff++] = M11 * srcPts[srcOff++];
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = srcPts[srcOff++] + M12;
-            }
-            return;
-        case (APPLY_IDENTITY):
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++];
-                dstPts[dstOff++] = srcPts[srcOff++];
-            }
-            return;
-        }
-
-        /* NOTREACHED */
-    }
+//    public void transform(float[] srcPts, int srcOff,
+//                          double[] dstPts, int dstOff,
+//                          int numPts) {
+//        double M00, M01, M02, M10, M11, M12;    // For caching
+//        switch (state) {
+//        default:
+//            stateError();
+//            /* NOTREACHED */
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M01 = m01; M02 = m02;
+//            M10 = m10; M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = M00 * x + M01 * y + M02;
+//                dstPts[dstOff++] = M10 * x + M11 * y + M12;
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE):
+//            M00 = m00; M01 = m01;
+//            M10 = m10; M11 = m11;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = M00 * x + M01 * y;
+//                dstPts[dstOff++] = M10 * x + M11 * y;
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_TRANSLATE):
+//            M01 = m01; M02 = m02;
+//            M10 = m10; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = M01 * srcPts[srcOff++] + M02;
+//                dstPts[dstOff++] = M10 * x + M12;
+//            }
+//            return;
+//        case (APPLY_SHEAR):
+//            M01 = m01; M10 = m10;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = M01 * srcPts[srcOff++];
+//                dstPts[dstOff++] = M10 * x;
+//            }
+//            return;
+//        case (APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M02 = m02;
+//            M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = M00 * srcPts[srcOff++] + M02;
+//                dstPts[dstOff++] = M11 * srcPts[srcOff++] + M12;
+//            }
+//            return;
+//        case (APPLY_SCALE):
+//            M00 = m00; M11 = m11;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = M00 * srcPts[srcOff++];
+//                dstPts[dstOff++] = M11 * srcPts[srcOff++];
+//            }
+//            return;
+//        case (APPLY_TRANSLATE):
+//            M02 = m02; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = srcPts[srcOff++] + M02;
+//                dstPts[dstOff++] = srcPts[srcOff++] + M12;
+//            }
+//            return;
+//        case (APPLY_IDENTITY):
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = srcPts[srcOff++];
+//                dstPts[dstOff++] = srcPts[srcOff++];
+//            }
+//            return;
+//        }
+//
+//        /* NOTREACHED */
+//    }
 
     /**
      * Transforms an array of double precision coordinates by this transform
@@ -3363,84 +3363,84 @@ public class AffineTransform implements GAffineTransform {
      * @param numPts the number of point objects to be transformed
      * @since 1.2
      */
-    public void transform(double[] srcPts, int srcOff,
-                          float[] dstPts, int dstOff,
-                          int numPts) {
-        double M00, M01, M02, M10, M11, M12;    // For caching
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M01 = m01; M02 = m02;
-            M10 = m10; M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M00 * x + M01 * y + M02);
-                dstPts[dstOff++] = (float) (M10 * x + M11 * y + M12);
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M00 * x + M01 * y);
-                dstPts[dstOff++] = (float) (M10 * x + M11 * y);
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            M01 = m01; M02 = m02;
-            M10 = m10; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (M10 * x + M12);
-            }
-            return;
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++]);
-                dstPts[dstOff++] = (float) (M10 * x);
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M02 = m02;
-            M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++] + M12);
-            }
-            return;
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++]);
-                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++]);
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M02);
-                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M12);
-            }
-            return;
-        case (APPLY_IDENTITY):
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (float) (srcPts[srcOff++]);
-                dstPts[dstOff++] = (float) (srcPts[srcOff++]);
-            }
-            return;
-        }
-
-        /* NOTREACHED */
-    }
+//    public void transform(double[] srcPts, int srcOff,
+//                          float[] dstPts, int dstOff,
+//                          int numPts) {
+//        double M00, M01, M02, M10, M11, M12;    // For caching
+//        switch (state) {
+//        default:
+//            stateError();
+//            /* NOTREACHED */
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M01 = m01; M02 = m02;
+//            M10 = m10; M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M00 * x + M01 * y + M02);
+//                dstPts[dstOff++] = (float) (M10 * x + M11 * y + M12);
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_SCALE):
+//            M00 = m00; M01 = m01;
+//            M10 = m10; M11 = m11;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                double y = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M00 * x + M01 * y);
+//                dstPts[dstOff++] = (float) (M10 * x + M11 * y);
+//            }
+//            return;
+//        case (APPLY_SHEAR | APPLY_TRANSLATE):
+//            M01 = m01; M02 = m02;
+//            M10 = m10; M12 = m12;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (M10 * x + M12);
+//            }
+//            return;
+//        case (APPLY_SHEAR):
+//            M01 = m01; M10 = m10;
+//            while (--numPts >= 0) {
+//                double x = srcPts[srcOff++];
+//                dstPts[dstOff++] = (float) (M01 * srcPts[srcOff++]);
+//                dstPts[dstOff++] = (float) (M10 * x);
+//            }
+//            return;
+//        case (APPLY_SCALE | APPLY_TRANSLATE):
+//            M00 = m00; M02 = m02;
+//            M11 = m11; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++] + M12);
+//            }
+//            return;
+//        case (APPLY_SCALE):
+//            M00 = m00; M11 = m11;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (M00 * srcPts[srcOff++]);
+//                dstPts[dstOff++] = (float) (M11 * srcPts[srcOff++]);
+//            }
+//            return;
+//        case (APPLY_TRANSLATE):
+//            M02 = m02; M12 = m12;
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M02);
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++] + M12);
+//            }
+//            return;
+//        case (APPLY_IDENTITY):
+//            while (--numPts >= 0) {
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++]);
+//                dstPts[dstOff++] = (float) (srcPts[srcOff++]);
+//            }
+//            return;
+//        }
+//
+//        /* NOTREACHED */
+//    }
 
     /**
      * Inverse transforms the specified <code>ptSrc</code> and stores the

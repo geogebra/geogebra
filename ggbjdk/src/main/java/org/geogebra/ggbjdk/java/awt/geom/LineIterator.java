@@ -92,25 +92,25 @@ class LineIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("line iterator out of bounds");
-        }
-        int type;
-        if (index == 0) {
-            coords[0] = (float) line.getX1();
-            coords[1] = (float) line.getY1();
-            type = SEG_MOVETO;
-        } else {
-            coords[0] = (float) line.getX2();
-            coords[1] = (float) line.getY2();
-            type = SEG_LINETO;
-        }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 1);
-        }
-        return type;
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("line iterator out of bounds");
+//        }
+//        int type;
+//        if (index == 0) {
+//            coords[0] = (float) line.getX1();
+//            coords[1] = (float) line.getY1();
+//            type = SEG_MOVETO;
+//        } else {
+//            coords[0] = (float) line.getX2();
+//            coords[1] = (float) line.getY2();
+//            type = SEG_LINETO;
+//        }
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, 1);
+//        }
+//        return type;
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in

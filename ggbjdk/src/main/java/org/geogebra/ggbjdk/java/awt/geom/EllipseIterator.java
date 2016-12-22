@@ -114,34 +114,34 @@ class EllipseIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("ellipse iterator out of bounds");
-        }
-        if (index == 5) {
-            return SEG_CLOSE;
-        }
-        if (index == 0) {
-            double ctrls[] = ctrlpts[3];
-            coords[0] = (float) (x + ctrls[4] * w);
-            coords[1] = (float) (y + ctrls[5] * h);
-            if (affine != null) {
-                affine.transform(coords, 0, coords, 0, 1);
-            }
-            return SEG_MOVETO;
-        }
-        double ctrls[] = ctrlpts[index - 1];
-        coords[0] = (float) (x + ctrls[0] * w);
-        coords[1] = (float) (y + ctrls[1] * h);
-        coords[2] = (float) (x + ctrls[2] * w);
-        coords[3] = (float) (y + ctrls[3] * h);
-        coords[4] = (float) (x + ctrls[4] * w);
-        coords[5] = (float) (y + ctrls[5] * h);
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 3);
-        }
-        return SEG_CUBICTO;
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("ellipse iterator out of bounds");
+//        }
+//        if (index == 5) {
+//            return SEG_CLOSE;
+//        }
+//        if (index == 0) {
+//            double ctrls[] = ctrlpts[3];
+//            coords[0] = (float) (x + ctrls[4] * w);
+//            coords[1] = (float) (y + ctrls[5] * h);
+//            if (affine != null) {
+//                affine.transform(coords, 0, coords, 0, 1);
+//            }
+//            return SEG_MOVETO;
+//        }
+//        double ctrls[] = ctrlpts[index - 1];
+//        coords[0] = (float) (x + ctrls[0] * w);
+//        coords[1] = (float) (y + ctrls[1] * h);
+//        coords[2] = (float) (x + ctrls[2] * w);
+//        coords[3] = (float) (y + ctrls[3] * h);
+//        coords[4] = (float) (x + ctrls[4] * w);
+//        coords[5] = (float) (y + ctrls[5] * h);
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, 3);
+//        }
+//        return SEG_CUBICTO;
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in

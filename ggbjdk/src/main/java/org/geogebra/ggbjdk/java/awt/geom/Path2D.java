@@ -135,7 +135,7 @@ public abstract class Path2D implements Shape, Cloneable {
         this.pointTypes = new byte[initialTypes];
     }
 
-    abstract float[] cloneCoordsFloat(GAffineTransform at);
+    //abstract float[] cloneCoordsFloat(GAffineTransform at);
     abstract double[] cloneCoordsDouble(GAffineTransform at);
     abstract void append(float x, float y);
     abstract void append(double x, double y);
@@ -1078,17 +1078,17 @@ public abstract class Path2D implements Shape, Cloneable {
             }
         }
 
-        float[] cloneCoordsFloat(GAffineTransform at) {
-            float ret[] = new float[doubleCoords.length];
-            if (at == null) {
-                for (int i = 0; i < numCoords; i++) {
-                    ret[i] = (float) doubleCoords[i];
-                }
-            } else {
-                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
-            }
-            return ret;
-        }
+//        float[] cloneCoordsFloat(GAffineTransform at) {
+//            float ret[] = new float[doubleCoords.length];
+//            if (at == null) {
+//                for (int i = 0; i < numCoords; i++) {
+//                    ret[i] = (float) doubleCoords[i];
+//                }
+//            } else {
+//                at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
+//            }
+//            return ret;
+//        }
 
         double[] cloneCoordsDouble(GAffineTransform at) {
             double ret[];
@@ -1687,15 +1687,15 @@ public abstract class Path2D implements Shape, Cloneable {
                 this.affine = at;
             }
 
-            public int currentSegment(float[] coords) {
-                int type = path.pointTypes[typeIdx];
-                int numCoords = curvecoords[type];
-                if (numCoords > 0) {
-                    affine.transform(doubleCoords, pointIdx,
-                                     coords, 0, numCoords / 2);
-                }
-                return type;
-            }
+//            public int currentSegment(float[] coords) {
+//                int type = path.pointTypes[typeIdx];
+//                int numCoords = curvecoords[type];
+//                if (numCoords > 0) {
+//                    affine.transform(doubleCoords, pointIdx,
+//                                     coords, 0, numCoords / 2);
+//                }
+//                return type;
+//            }
 
             public int currentSegment(double[] coords) {
                 int type = path.pointTypes[typeIdx];

@@ -98,26 +98,26 @@ class RectIterator implements GPathIterator {
      * @see #SEG_CUBICTO
      * @see #SEG_CLOSE
      */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("rect iterator out of bounds");
-        }
-        if (index == 5) {
-            return SEG_CLOSE;
-        }
-        coords[0] = (float) x;
-        coords[1] = (float) y;
-        if (index == 1 || index == 2) {
-            coords[0] += (float) w;
-        }
-        if (index == 2 || index == 3) {
-            coords[1] += (float) h;
-        }
-        if (affine != null) {
-            affine.transform(coords, 0, coords, 0, 1);
-        }
-        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
-    }
+//    public int currentSegment(float[] coords) {
+//        if (isDone()) {
+//            throw new NoSuchElementException("rect iterator out of bounds");
+//        }
+//        if (index == 5) {
+//            return SEG_CLOSE;
+//        }
+//        coords[0] = (float) x;
+//        coords[1] = (float) y;
+//        if (index == 1 || index == 2) {
+//            coords[0] += (float) w;
+//        }
+//        if (index == 2 || index == 3) {
+//            coords[1] += (float) h;
+//        }
+//        if (affine != null) {
+//            affine.transform(coords, 0, coords, 0, 1);
+//        }
+//        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
+//    }
 
     /**
      * Returns the coordinates and type of the current path segment in
