@@ -45,7 +45,7 @@ public class EuclidianStyleConstants {
 
 	public static final int DEFAULT_LINE_TYPE_HIDDEN = LINE_TYPE_HIDDEN_DASHED;
 
-	public static final float SELECTION_ADD = 2.0f;
+	public static final double SELECTION_ADD = 2.0;
 
 	// ggb3D 2008-10-27 : mode constants moved to EuclidianConstants.java
 
@@ -115,7 +115,7 @@ public class EuclidianStyleConstants {
 	public static final int POINT_CAPTURING_ON_GRID = 2;
 	public static final int POINT_CAPTURING_AUTOMATIC = 3;
 	public static final int POINT_CAPTURING_STICKY_POINTS = 4;
-	public static final float POINT_CAPTURING_GRID = 0.125f;
+	public static final double POINT_CAPTURING_GRID = 0.125;
 
 	public static final int POINT_CAPTURING_DEFAULT = POINT_CAPTURING_AUTOMATIC;
 

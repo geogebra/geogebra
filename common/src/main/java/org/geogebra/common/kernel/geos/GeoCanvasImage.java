@@ -130,7 +130,8 @@ public class GeoCanvasImage extends GeoImage {
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
-			GColor bgColor1, float backgroundTransparency, int xInt, int yInt) {
+			GColor bgColor1, double backgroundTransparency, int xInt,
+			int yInt) {
 
 		bufferedImage = AwtFactory.getPrototype().newMyImage(xInt, yInt,
 				GBufferedImage.TYPE_INT_ARGB);

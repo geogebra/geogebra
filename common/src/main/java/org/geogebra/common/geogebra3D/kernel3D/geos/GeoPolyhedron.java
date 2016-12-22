@@ -1166,7 +1166,7 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	@Override
-	public void setAlphaValue(float alpha) {
+	public void setAlphaValue(double alpha) {
 
 		super.setAlphaValue(alpha);
 

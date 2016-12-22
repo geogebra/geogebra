@@ -375,7 +375,7 @@ public abstract class Drawable extends DrawableND {
 		} else {
 			int lines = 0;
 			int fontSize = textFont.getSize();
-			float lineSpread = fontSize * 1.5f;
+			double lineSpread = fontSize * 1.5;
 
 			int xoffset = 0, yoffset = 0;
 			// text with indices
@@ -406,7 +406,7 @@ public abstract class Drawable extends DrawableND {
 				}
 			}
 
-			float ypos = yLabel + lines * lineSpread;
+			double ypos = yLabel + lines * lineSpread;
 
 			// iOS (bug?) - bold text needs font setting for each line
 			g2.setFont(textFont);
@@ -537,7 +537,7 @@ public abstract class Drawable extends DrawableND {
 			if (!forcedLineType)
 				lineType = fromGeo.getLineType();
 
-			float width = lineThickness / 2.0f;
+			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 			decoStroke = EuclidianStatic.getStroke(width,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
@@ -548,7 +548,7 @@ public abstract class Drawable extends DrawableND {
 			if (!forcedLineType)
 				lineType = fromGeo.getLineType();
 
-			float width = lineThickness / 2.0f;
+			double width = lineThickness / 2.0;
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 		}
 	}

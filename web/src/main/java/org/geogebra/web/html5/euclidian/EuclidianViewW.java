@@ -815,10 +815,10 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 	// STROKES
 	final protected static GBasicStrokeW standardStroke = new GBasicStrokeW(
-	        1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+			1.0, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	final protected static GBasicStrokeW selStroke = new GBasicStrokeW(
-			1.0f + EuclidianStyleConstants.SELECTION_ADD,
+			1.0 + EuclidianStyleConstants.SELECTION_ADD,
 	        GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	protected boolean unitAxesRatio;

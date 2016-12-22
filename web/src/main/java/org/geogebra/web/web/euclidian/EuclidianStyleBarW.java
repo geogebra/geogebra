@@ -799,7 +799,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
-						float alpha = 1.0f;
+						double alpha = 1.0;
 						boolean hasFillable = false;
 						for (int i = 0; i < geos.length; i++) {
 							if (((GeoElement) geos[i]).isFillable()) {
@@ -824,9 +824,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						setSliderVisible(hasFillable);
 
 						if (EuclidianView.isPenMode(mode)) {
-							setSliderValue(Math.round((alpha * 100) / 255));
+							setSliderValue(
+									(int) Math.round((alpha * 100) / 255));
 						} else {
-							setSliderValue(Math.round(alpha * 100));
+							setSliderValue((int) Math.round(alpha * 100));
 						}
 
 						updateColorTable();
@@ -888,7 +889,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					 * getMySlider().setVisible(hasFillable);
 					 * setSliderValue(Math.round(alpha * 100));
 					 */
-					float alpha = 1.0f;
+					double alpha = 1.0;
 					updateColorTable();
 
 					// find the geoColor in the table and select it
@@ -1200,7 +1201,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					openPropertiesForColor(true);
 					return false;
 				}
-				float alpha = btnBgColor.getSliderValue() / 100.0f;
+				double alpha = btnBgColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
 				        color, alpha);
 			}

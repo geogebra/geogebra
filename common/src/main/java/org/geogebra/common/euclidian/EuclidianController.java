@@ -4253,7 +4253,7 @@ public abstract class EuclidianController {
 	 *
 	 * @return percentage for which we capture point to grid
 	 */
-	final public float getPointCapturingPercentage() {
+	final public double getPointCapturingPercentage() {
 		return getCompanion().getPointCapturingPercentage();
 	}
 

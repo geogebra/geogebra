@@ -23,7 +23,7 @@ public class URL {
 	/**
 	 * @param param
 	 *            the url parameter
-	 * @return url parameter as a float
+	 * @return url parameter as an int
 	 */
 	public static int getQueryParameterAsInteger(String param) {
 		return Integer.parseInt(getUrlParameter(param));

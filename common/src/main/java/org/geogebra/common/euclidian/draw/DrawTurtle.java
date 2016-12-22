@@ -380,21 +380,21 @@ public class DrawTurtle extends Drawable {
 
 	private void updateTurtleShape() {
 		int r = 8; // turtle radius
-		float x, y;
+		double x, y;
 		gPath.reset();
 
 		// back legs
 
-		x = (float) (1.3 * r * Math.cos(Math.PI / 6));
-		y = (float) (1.3 * r * Math.sin(Math.PI / 6));
+		x = (1.3 * r * Math.cos(Math.PI / 6));
+		y = (1.3 * r * Math.sin(Math.PI / 6));
 		gPath.moveTo(0, 0);
 		gPath.lineTo(-x, y);
 		gPath.moveTo(0, 0);
 		gPath.lineTo(-x, -y);
 
 		// front legs
-		x = (float) (1.2 * r * Math.cos(Math.PI / 4));
-		y = (float) (1.2 * r * Math.sin(Math.PI / 4));
+		x = (1.2 * r * Math.cos(Math.PI / 4));
+		y = (1.2 * r * Math.sin(Math.PI / 4));
 		gPath.moveTo(0, 0);
 		gPath.lineTo(x, y);
 		gPath.moveTo(0, 0);
@@ -433,16 +433,16 @@ public class DrawTurtle extends Drawable {
 	 * 
 	 * case 1: // ellipse body with legs and head
 	 * 
-	 * // back legs g2.setStroke(stroke2); x = (float) (1.3 * r *
-	 * Math.cos(Math.PI / 6)); y = (float) (1.3 * r * Math.sin(Math.PI / 6));
-	 * gPath.moveTo(0, 0); gPath.lineTo(-x, y); gPath.moveTo(0, 0);
-	 * gPath.lineTo(-x, -y); g2.setColor(GColor.black); g2.draw(gPath);
+	 * // back legs g2.setStroke(stroke2); x = (1.3 * r * Math.cos(Math.PI /
+	 * 6)); y = (1.3 * r * Math.sin(Math.PI / 6)); gPath.moveTo(0, 0);
+	 * gPath.lineTo(-x, y); gPath.moveTo(0, 0); gPath.lineTo(-x, -y);
+	 * g2.setColor(GColor.black); g2.draw(gPath);
 	 * 
-	 * // front legs g2.setStroke(stroke2); x = (float) (1.2 * r *
-	 * Math.cos(Math.PI / 4)); y = (float) (1.2 * r * Math.sin(Math.PI / 4));
-	 * gPath.moveTo(0, 0); gPath.lineTo(x, y); gPath.moveTo(0, 0);
-	 * gPath.lineTo(x, -y); g2.setColor(GColor.black);
-	 * gPath.createTransformedShape(at); g2.draw(gPath);
+	 * // front legs g2.setStroke(stroke2); x = (1.2 * r * Math.cos(Math.PI /
+	 * 4)); y = (1.2 * r * Math.sin(Math.PI / 4)); gPath.moveTo(0, 0);
+	 * gPath.lineTo(x, y); gPath.moveTo(0, 0); gPath.lineTo(x, -y);
+	 * g2.setColor(GColor.black); gPath.createTransformedShape(at);
+	 * g2.draw(gPath);
 	 * 
 	 * g2.setStroke(stroke1);
 	 * 
@@ -467,7 +467,7 @@ public class DrawTurtle extends Drawable {
 	 * g2.setColor(GColor.green); g2.fill(ellipse); g2.setColor(GColor.black);
 	 * g2.draw(ellipse);
 	 * 
-	 * // triangle x = (float) (r * Math.cos(2*Math.PI / 3)); y = (float) (r *
+	 * // triangle x = (r * Math.cos(2*Math.PI / 3)); y = (r *
 	 * Math.sin(2*Math.PI / 3)); gPath.moveTo(r, 0); gPath.lineTo(x, y);
 	 * gPath.lineTo(x, -y); gPath.lineTo(r, 0); g2.setColor(penColor);
 	 * g2.fill(gPath);

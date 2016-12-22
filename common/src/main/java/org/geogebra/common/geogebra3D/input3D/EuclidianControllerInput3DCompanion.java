@@ -600,7 +600,7 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	@Override
-	public float getPointCapturingPercentage() {
-		return 2f * super.getPointCapturingPercentage();
+	public double getPointCapturingPercentage() {
+		return 2 * super.getPointCapturingPercentage();
 	}
 }

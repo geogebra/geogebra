@@ -327,13 +327,13 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				public void onBackgroundSelected() {
-					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0f);
+					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0);
 				}
 
 				@Override
 				public void onForegroundSelected() {
 					GeoElement geo0 = model.getGeoAt(0);
-					float alpha = 1.0f;
+					double alpha = 1.0;
 					GColor color = null;
 					if (geo0.isFillable()) {
 						color = geo0.getFillColor();
@@ -372,7 +372,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		public void applyChanges(boolean alphaOnly) {
-			float alpha = colorChooserW.getAlphaValue();
+			double alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
 			if (model.isBarChart()) {
 				model.applyBar(colorChooserW.getSelectedBar(),
@@ -396,7 +396,7 @@ public class OptionsTab extends FlowPanel {
 			}
 
 			GColor selectedBGColor = null;
-			float alpha = 1;
+			double alpha = 1;
 			if (geo0.isGeoImage()) {
 				colorChooserW.enableColorPanel(false);
 			} else {
@@ -453,7 +453,7 @@ public class OptionsTab extends FlowPanel {
 				return false;
 			}
 
-			float alpha = geo0.getAlphaValue();
+			double alpha = geo0.getAlphaValue();
 
 			int barIdx = colorChooserW.getSelectedBar();
 
@@ -482,7 +482,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void updatePreview(GColor color, float alpha) {
+		public void updatePreview(GColor color, double alpha) {
 			colorChooserW.setSelectedColor(color);
 			colorChooserW.setAlphaValue(alpha);
 			colorChooserW.update();
@@ -494,7 +494,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		@Override
-		public void updateNoBackground(GeoElement geo, GColor col, float alpha,
+		public void updateNoBackground(GeoElement geo, GColor col, double alpha,
 				boolean updateAlphaOnly, boolean allFillable) {
 			if (!updateAlphaOnly) {
 				geo.setObjColor(col);
@@ -825,7 +825,8 @@ public class OptionsTab extends FlowPanel {
 				@Override
 				public void onChange(ChangeEvent event) {
 					if (true) {// !slider.getValueIsAdjusting()) {
-						int value = (int) ((opacitySlider.getValue() / 100.0f) * 255);
+						int value = (int) ((opacitySlider.getValue() / 100.0)
+								* 255);
 						model.applyOpacity(value);
 					}
 				}

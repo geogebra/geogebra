@@ -875,7 +875,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawPolygon(GeoPolygon geo) {
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
-		float alpha = geo.getAlphaValue();
+		double alpha = geo.getAlphaValue();
 		if (alpha == 0.0f && geo.getFillType() == FillType.IMAGE)
 			return;
 		startBeamer(codeFilledObject);

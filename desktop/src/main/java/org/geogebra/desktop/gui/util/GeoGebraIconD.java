@@ -402,13 +402,13 @@ public class GeoGebraIconD {
 		return ic;
 	}
 
-	public static ImageIcon createColorSwatchIcon(float alpha,
+	public static ImageIcon createColorSwatchIcon(double alpha,
 			Dimension iconSize, Color fgColor, Color bgColor) {
 
 		int h = iconSize.height;
 		int w = iconSize.width;
 		int offset = 2;
-		float thickness = 3;
+		double thickness = 3;
 
 		// if fgColor is null then make it a transparent white
 		if (fgColor == null) {
@@ -432,12 +432,12 @@ public class GeoGebraIconD {
 
 		float[] rgb = new float[3];
 		fgColor.getRGBColorComponents(rgb);
-		g2.setPaint(new Color(rgb[0], rgb[1], rgb[2], alpha));
+		g2.setPaint(new Color(rgb[0], rgb[1], rgb[2], (float) alpha));
 		g2.fillRect(offset, offset, w - 2 * offset, h - 2 * offset);
 
 		// border color with alpha = 1
 		g2.setPaint(fgColor);
-		g2.setStroke(new BasicStroke(thickness));
+		g2.setStroke(new BasicStroke((float) thickness));
 		g2.drawRect(offset, offset, w - 2 * offset, h - 2 * offset);
 
 		ImageIcon ic = new ImageIcon(image);

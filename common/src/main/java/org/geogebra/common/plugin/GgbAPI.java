@@ -676,7 +676,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null)
 			return;
 
-		geo.setAlphaValue((float) filling);
+		geo.setAlphaValue(filling);
 		geo.updateRepaint();
 	}
 

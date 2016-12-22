@@ -249,10 +249,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		ellipse.setFrameFromCenter(point.getX(), point.getY(),
 				point.getX() + getLineThicknessForPoint(),
 				point.getY() + getLineThicknessForPoint());
-		float[] rgb = new float[3];
-		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = GColor.newColor(rgb[0], rgb[1], rgb[2],
-				poly.getLineOpacity() / 255.0f);
+		GColor lineDrawingColor = getObjectColor()
+				.deriveWithAlpha(poly.getLineOpacity());
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(ellipse);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());
@@ -266,10 +264,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		rectangle.setRect(point.getX(), point.getY(),
 				getLineThicknessForPoint() * 1.5,
 				getLineThicknessForPoint() * 1.5);
-		float[] rgb = new float[3];
-		getObjectColor().getRGBColorComponents(rgb);
-		GColor lineDrawingColor = GColor.newColor(rgb[0], rgb[1], rgb[2],
-				poly.getLineOpacity() / 255.0f);
+		GColor lineDrawingColor = getObjectColor()
+				.deriveWithAlpha(poly.getLineOpacity());
 		g2D.setPaint(lineDrawingColor);
 		g2D.fill(rectangle);
 		g2D.setStroke(EuclidianStatic.getDefaultStroke());

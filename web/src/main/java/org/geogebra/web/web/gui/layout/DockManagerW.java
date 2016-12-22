@@ -1610,11 +1610,11 @@ public class DockManagerW extends DockManager {
 	 * @param scaleX
 	 * @param scaleY
 	 */
-	public void scale(float scaleX, float scaleY) {
+	public void scale(double scaleX, double scaleY) {
 		scale(scaleX, scaleY, rootPane);
 	}
 	
-	private void scale(float scaleX, float scaleY, DockSplitPaneW splitPane) {
+	private void scale(double scaleX, double scaleY, DockSplitPaneW splitPane) {
 		splitPane.setDividerLocation((int) (splitPane.getDividerLocation()
 				* (splitPane.getOrientation() == SwingConstants.VERTICAL_SPLIT
 						? scaleX : scaleY)));

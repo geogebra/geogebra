@@ -355,7 +355,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean doHighlighting();
 
-	float getAlphaValue();
+	double getAlphaValue();
 
 	AlgoElement getDrawAlgorithm();
 
@@ -381,7 +381,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setHatchingAngle(int hatchingAngle);
 
-	void setAlphaValue(float alpha);
+	void setAlphaValue(double alpha);
 
 	String getCaption(StringTemplate defaulttemplate);
 

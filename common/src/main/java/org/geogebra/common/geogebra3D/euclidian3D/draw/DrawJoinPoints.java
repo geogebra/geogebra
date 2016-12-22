@@ -135,7 +135,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 		setArrowTypeBefore(brush);
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getLineThickness(), getScale());
+		brush.setThickness(getLineThickness(), (float) getScale());
 		setAffineTexture(brush, minmax);
 
 		brush.segment(p1, p2);
@@ -148,8 +148,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * 
 	 * @return view scale for this line (used for axes)
 	 */
-	protected float getScale() {
-		return (float) getView3D().getScale();
+	protected double getScale() {
+		return getView3D().getScale();
 	}
 
 	/**

@@ -677,7 +677,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	}
 
 	@Override
-	public float getFillingValue() {
+	public double getFillingValue() {
 		return opacitySlider.getValue();
 	}
 

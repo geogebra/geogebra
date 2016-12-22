@@ -298,7 +298,7 @@ public class GColor implements GPaint {
 	 *            alpha (0-255)
 	 * @return new color
 	 */
-	public static GColor newColor(float r, float g, float b, float a) {
+	public static GColor newColor(double r, double g, double b, double a) {
 		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255),
 				(int) (a * 255));
 	}
@@ -312,19 +312,8 @@ public class GColor implements GPaint {
 	 *            blue (0-1)
 	 * @return new color
 	 */
-	public static GColor newColor(float r, float g, float b) {
+	public static GColor newColor(double r, double g, double b) {
 		return newColor((int) (r * 255), (int) (g * 255), (int) (b * 255), 255);
-	}
-
-	/**
-	 * @param rgb
-	 *            puts rgb values in array
-	 */
-	public void getRGBColorComponents(float[] rgb) {
-		rgb[0] = (float) (getRed() / 255.0);
-		rgb[1] = (float) (getGreen() / 255.0);
-		rgb[2] = (float) (getBlue() / 255.0);
-
 	}
 
 	/**
@@ -336,16 +325,17 @@ public class GColor implements GPaint {
 	 *            (0-1)
 	 * @return new color as ARGB
 	 */
-	public static int HSBtoRGB(float hue, float saturation, float brightness) {
+	public static int HSBtoRGB(double hue, double saturation,
+			double brightness) {
 		int r = 0, g = 0, b = 0;
 		if (saturation == 0) {
 			r = g = b = (int) (brightness * 255.0f + 0.5f);
 		} else {
-			float h = (hue - (float) Math.floor(hue)) * 6.0f;
-			float f = h - (float) java.lang.Math.floor(h);
-			float p = brightness * (1.0f - saturation);
-			float q = brightness * (1.0f - saturation * f);
-			float t = brightness * (1.0f - (saturation * (1.0f - f)));
+			double h = (hue - (double) Math.floor(hue)) * 6.0f;
+			double f = h - (double) java.lang.Math.floor(h);
+			double p = brightness * (1.0f - saturation);
+			double q = brightness * (1.0f - saturation * f);
+			double t = brightness * (1.0f - (saturation * (1.0f - f)));
 			switch ((int) h) {
 			case 0:
 				r = (int) (brightness * 255.0f + 0.5f);

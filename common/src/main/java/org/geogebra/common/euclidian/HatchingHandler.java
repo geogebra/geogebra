@@ -63,7 +63,7 @@ public class HatchingHandler {
 	 * @return texture paint
 	 */
 	public final GPaint setHatching(GGraphics2D g3, GBasicStroke defObjStroke,
-			GColor color, GColor bgColor, float backgroundTransparency,
+			GColor color, GColor bgColor, double backgroundTransparency,
 			double hatchDist, double angleDegrees, FillType fillType,
 			String symbol, App app) {
 		// round to nearest 5 degrees
@@ -128,7 +128,7 @@ public class HatchingHandler {
 			drawHatching(Math.PI / 2 - angle, -y, xInt, yInt, g2d);
 			break;
 		case CHESSBOARD:
-			drawChessboard(angle, (float) dist, g2d);
+			drawChessboard(angle, dist, g2d);
 			// multiply for sin for to have the same size in 0 and 45
 			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
 				dist = dist * Math.sin(angle);
@@ -138,7 +138,7 @@ public class HatchingHandler {
 			startX = startY = (int) (dist / 2);
 			break;
 		case HONEYCOMB:
-			drawHoneycomb((float) dist, g2d);
+			drawHoneycomb(dist, g2d);
 			double side = dist * Math.sqrt(3) / 2;
 			startY = 0;
 			startX = 0;
@@ -194,7 +194,7 @@ public class HatchingHandler {
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
-			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
+			GColor bgColor, double backgroundTransparency, int xInt, int yInt) {
 		bufferedImage = AwtFactory.getPrototype().newBufferedImage(xInt * 3,
 				yInt * 3, 1);
 
@@ -231,7 +231,7 @@ public class HatchingHandler {
 	 * @param alpha
 	 *            alpha value
 	 */
-	protected void setTexture(GGraphics2D g3, GeoElementND geo, float alpha) {
+	protected void setTexture(GGraphics2D g3, GeoElementND geo, double alpha) {
 		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
 			g3.setPaint(geo.getFillColor());
@@ -371,10 +371,10 @@ public class HatchingHandler {
 				2 * dist, size, size));
 	}
 
-	private boolean drawChessboard(double angle, float hatchDist,
+	private boolean drawChessboard(double angle, double hatchDist,
 			GGraphics2D g2d) {
 		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
-			float dist = (float) (hatchDist * Math.sin(angle));
+			double dist = (hatchDist * Math.sin(angle));
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
 			path.lineTo(dist + dist / 2, dist + dist / 2);
@@ -393,10 +393,10 @@ public class HatchingHandler {
 		return true;
 	}
 
-	private void drawHoneycomb(float dist, GGraphics2D g2d) {
+	private void drawHoneycomb(double dist, GGraphics2D g2d) {
 
-		float centerX = (float) (dist * Math.sqrt(3) / 2);
-		float width = centerX + centerX;
+		double centerX = (dist * Math.sqrt(3) / 2);
+		double width = centerX + centerX;
 		path.moveTo(centerX, dist);
 		path.lineTo(centerX, 2 * dist);
 		path.lineTo(0, 2 * dist + dist / 2);

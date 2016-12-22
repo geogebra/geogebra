@@ -1232,7 +1232,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public float getAlphaValue() {
+	public double getAlphaValue() {
 		if (super.getAlphaValue() == -1) {
 			// no alphaValue set
 			// so we need to set it to that of the first element, if there is
@@ -1240,7 +1240,7 @@ public class GeoList extends GeoElement
 			if ((geoList != null) && (geoList.size() > 0)) {
 
 				// get alpha value of first element
-				final float alpha = geoList.get(0).getAlphaValue();
+				final double alpha = geoList.get(0).getAlphaValue();
 
 				// Application.debug("setting list alpha to "+alpha);
 
@@ -1266,7 +1266,7 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public void setAlphaValue(final float alpha) {
+	public void setAlphaValue(final double alpha) {
 
 		if (alpha == -1) {
 			// wait until we have a GeoElement in the list to use

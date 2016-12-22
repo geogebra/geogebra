@@ -3468,7 +3468,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			return lblSelectedSymbol.getText();
 		}
 
-		public float getFillingValue() {
+		public double getFillingValue() {
 			return opacitySlider.getValue();
 		}
 

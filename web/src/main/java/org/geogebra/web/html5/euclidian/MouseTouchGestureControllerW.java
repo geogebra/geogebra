@@ -99,23 +99,23 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 	}
 
-	private float getEnvWidthScale() {
+	private double getEnvWidthScale() {
 		if (ec.view == null) {
 			return 1;
 		}
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetWidth() != 0) {
 			return v.getG2P().getCoordinateSpaceWidth()
-					/ (float) v.getG2P().getOffsetWidth();
+					/ (double) v.getG2P().getOffsetWidth();
 		}
 		return 0;
 	}
 
-	private float getEnvHeightScale() {
+	private double getEnvHeightScale() {
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetHeight() != 0) {
 			return v.getG2P().getCoordinateSpaceHeight()
-					/ (float) v.getG2P().getOffsetHeight();
+					/ (double) v.getG2P().getOffsetHeight();
 		}
 		return 0;
 	}

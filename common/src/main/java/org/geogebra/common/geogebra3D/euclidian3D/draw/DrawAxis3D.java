@@ -216,8 +216,8 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 	@Override
-	protected float getScale() {
-		return (float) getView3D()
+	protected double getScale() {
+		return getView3D()
 				.getScale(((GeoAxisND) getGeoElement()).getType());
 	}
 

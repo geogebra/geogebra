@@ -82,17 +82,15 @@ public class GeoGebraIconW extends BasicIcons{
 	 *            {@link GColor}
 	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createColorSwatchIcon(float alpha, GColor fgColor,
+	public static ImageOrText createColorSwatchIcon(double alpha,
+			GColor fgColor,
 			GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
-		float[] rgb = new float[3];
 		if (fgColor != null) {
-			fgColor.getRGBColorComponents(rgb);
-			ret.setFgColor(GColor.newColor(rgb[0], rgb[1], rgb[2], alpha));
+			ret.setFgColor(fgColor.deriveWithAlpha((int) (alpha * 255)));
 		}
 		if (bgColor != null) {
-			bgColor.getRGBColorComponents(rgb);
-			ret.setBgColor(GColor.newColor(rgb[0], rgb[1], rgb[2], alpha));
+			ret.setBgColor(bgColor.deriveWithAlpha((int) (alpha * 255)));
 		}
 		return ret;
 	}

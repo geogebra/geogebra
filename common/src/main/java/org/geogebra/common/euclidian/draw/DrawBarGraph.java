@@ -123,7 +123,7 @@ public class DrawBarGraph extends Drawable {
 		GColor selColor = geo.getSelColor();
 		FillType fillType = geo.getFillType();
 		String fileName = geo.getImageFileName();
-		float alpha = geo.getAlphaValue();
+		double alpha = geo.getAlphaValue();
 		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
 		if (isVisible) {
 			try {
@@ -161,7 +161,7 @@ public class DrawBarGraph extends Drawable {
 							geo.setAlphaValue(col.getAlpha());
 						}
 
-						float barAlpha = algop.getBarAlpha(k);
+						double barAlpha = algop.getBarAlpha(k);
 						if (barAlpha != -1.0) {
 							geo.setAlphaValue(barAlpha);
 						}

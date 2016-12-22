@@ -383,7 +383,7 @@ public final class ArticleElement extends Element {
 
 
 
-	private native float envScale(String type) /*-{
+	private native double envScale(String type) /*-{
 		var current = this;
 		var sx = 1;
 		var sy = 1;
@@ -437,13 +437,13 @@ public final class ArticleElement extends Element {
 	 * @return the CSS scale attached to the article element
 	 * 
 	 */
-	public float getScaleY() {
+	public double getScaleY() {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
 		if ("".equals(this.getAttribute("data-scaley"))) {
 			this.setAttribute("data-scaley", String.valueOf(envScale("y")));
 		}
-		return Float.parseFloat(this.getAttribute("data-scaley"));
+		return Double.parseDouble(this.getAttribute("data-scaley"));
 	}
 
 
@@ -484,14 +484,14 @@ public final class ArticleElement extends Element {
 		return ret == null ? "" : ret;
 	}
 
-	public float getDataParamScale() {
+	public double getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
 		if (scale.length() < 1) {
 			return 1;
 		}
-		float ret = 1;
+		double ret = 1;
 		try {
-			ret = Float.valueOf(scale);
+			ret = Double.parseDouble(scale);
 		} catch (Throwable t) {
 			Log.warn("Invalid scale");
 		}

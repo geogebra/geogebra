@@ -33,7 +33,7 @@ public class AlgoSpline extends AlgoElement {
 	private GeoList inputList;
 	private GeoCurveCartesianND spline;
 	private GeoNumberValue degree;
-	private double[][] floatPoints;
+	private double[][] doublePoints;
 	private double[][] parameters;
 	private int length;
 	private double[] cumulativeValueOfParameter;
@@ -77,7 +77,7 @@ public class AlgoSpline extends AlgoElement {
 			dimension = p.getDimension();
 		}
 		parameters = new double[dimension][];
-		floatPoints = new double[inputList.size()][dimension];
+		doublePoints = new double[inputList.size()][dimension];
 		if (dimension == 3) {
 			spline = new GeoCurveCartesian3D(cons);
 		} else {
@@ -161,15 +161,15 @@ public class AlgoSpline extends AlgoElement {
 
 		degreeValue = (int) degree.getDouble() + 1;
 
-		if (degreeValue < 4 || degreeValue > floatPoints.length + 1) {
+		if (degreeValue < 4 || degreeValue > doublePoints.length + 1) {
 			spline.setUndefined();
 			return;
 		}
 		int i = 0;
-		for (; i < floatPoints.length; i++) {
+		for (; i < doublePoints.length; i++) {
 			GeoPointND p = (GeoPointND) this.inputList.get(i);
 			for (int j = 0; j < dimension; j++) {
-				floatPoints[i][j] = (float) p.getInhomCoordsInD(dimension)
+				doublePoints[i][j] = p.getInhomCoordsInD(dimension)
 						.get(j + 1);
 			}
 		}
@@ -292,7 +292,7 @@ public class AlgoSpline extends AlgoElement {
 		int col = 0;
 		int pointIndex;
 		double currentValueFromZeroToOne;
-		length = floatPoints.length;
+		length = doublePoints.length;
 		cumulativeValueOfParameter = new double[length];
 		int i;
 		for (col = 1; col < length; col++) {
@@ -300,8 +300,8 @@ public class AlgoSpline extends AlgoElement {
 				for (row = 1; row <= col; row++) {
 					double value[] = new double[dimension];
 					for (i = 0; i < dimension; i++) {
-						value[i] = floatPoints[row][i]
-								- floatPoints[row - 1][i];
+						value[i] = doublePoints[row][i]
+								- doublePoints[row - 1][i];
 					}
 					cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
 							+ weight.evaluate(value);
@@ -310,9 +310,10 @@ public class AlgoSpline extends AlgoElement {
 				for (row = 1; row <= col; row++) {
 					float value = 0;
 					for (i = 0; i < dimension; i++) {
-						value += (floatPoints[row][i] - floatPoints[row - 1][i])
-								* (floatPoints[row][i]
-										- floatPoints[row - 1][i]);
+						value += (doublePoints[row][i]
+								- doublePoints[row - 1][i])
+								* (doublePoints[row][i]
+										- doublePoints[row - 1][i]);
 					}
 					cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
 							+ (float) Math.sqrt(value);
@@ -327,7 +328,7 @@ public class AlgoSpline extends AlgoElement {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
 			evalForPoint(matrix, row, col, currentValueFromZeroToOne);
-			matrix[row][matrix.length] = floatPoints[pointIndex][c];
+			matrix[row][matrix.length] = doublePoints[pointIndex][c];
 			row++;
 			col += degreeValue;
 
@@ -337,7 +338,7 @@ public class AlgoSpline extends AlgoElement {
 			currentValueFromZeroToOne = cumulativeValueOfParameter[pointIndex]
 					/ cumulativeValueOfParameter[length - 1];
 			evalForPoint(matrix, row, col, currentValueFromZeroToOne);
-			matrix[row][matrix.length] = floatPoints[pointIndex][c];
+			matrix[row][matrix.length] = doublePoints[pointIndex][c];
 			row++;
 			col += degreeValue;
 

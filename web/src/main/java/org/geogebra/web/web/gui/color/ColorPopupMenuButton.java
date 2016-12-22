@@ -130,7 +130,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 	}
 
-	protected void setDefaultColor(float alpha, GColor gc) {
+	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
 			this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
@@ -157,7 +157,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	}
 
 	private static ImageOrText[] getColorSwatchIcons(GColor[] colorArray,
-			float alpha, GDimensionW iconSize) {
+			double alpha, GDimensionW iconSize) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for (int i = 0; i < colorArray.length; i++)
 			if (colorArray[i] != null) {

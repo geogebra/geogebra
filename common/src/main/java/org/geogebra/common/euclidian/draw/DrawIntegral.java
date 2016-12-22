@@ -125,7 +125,7 @@ public class DrawIntegral extends Drawable {
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);
-		float y0 = (float) view.getYZero();
+		double y0 = view.getYZero();
 
 		// plot definite integral
 

@@ -1044,7 +1044,7 @@ public class EuclidianStyleBarD extends JToolBar
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
-						float alpha = 1.0f;
+						double alpha = 1.0;
 						boolean hasFillable = false;
 						for (int i = 0; i < geos.length; i++) {
 							if (((GeoElement) geos[i]).isFillable()) {
@@ -1061,7 +1061,7 @@ public class EuclidianStyleBarD extends JToolBar
 						else
 							setToolTipText(loc.getPlain("stylebar.Color"));
 
-						setSliderValue(Math.round(alpha * 100));
+						setSliderValue((int) Math.round(alpha * 100));
 
 						updateColorTable();
 

@@ -250,7 +250,7 @@ public abstract class GeoElement extends ConstructionElement
 	private int animationType = ANIMATION_OSCILLATING;
 	private int animationDirection = 1;
 	/** transparency */
-	protected float alphaValue = 0.0f;
+	protected double alphaValue = 0.0f;
 	/** angle of hatching */
 	protected int hatchingAngle = 45; // in degrees
 	/** distance of hatching */
@@ -1085,8 +1085,8 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	// Michael Borcherds 2008-04-02
-	private GColor getRGBFromList(float alpha1) {
-		float alpha2 = alpha1;
+	private GColor getRGBFromList(double alpha1) {
+		double alpha2 = alpha1;
 		if (alpha2 > 1f) {
 			alpha2 = 1f;
 		}
@@ -1164,8 +1164,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		case GeoElement.COLORSPACE_HSB:
 
-			final int rgb = GColor.HSBtoRGB((float) redD, (float) greenD,
-					(float) blueD);
+			final int rgb = GColor.HSBtoRGB(redD, greenD, blueD);
 			redD = (rgb >> 16) & 0xFF;
 			greenD = (rgb >> 8) & 0xFF;
 			blueD = rgb & 0xFF;
@@ -1412,7 +1411,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param alpha
 	 *            new alpha value
 	 */
-	public void setAlphaValue(final float alpha) {
+	public void setAlphaValue(final double alpha) {
 		if ((fillColor == null) || (alpha < 0.0f) || (alpha > 1.0f)) {
 			return;
 		}
@@ -1428,7 +1427,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         NOTE: can be -1 for lists, see GeoList.getAlphaValue(),
 	 *         GeoList.setgetAlphaValue()
 	 */
-	public float getAlphaValue() {
+	public double getAlphaValue() {
 		if ((colFunction == null) || (colFunction.size() == 3)) {
 			return alphaValue;
 		}
@@ -1444,7 +1443,7 @@ public abstract class GeoElement extends ConstructionElement
 			} else {
 				alpha = 2 * alpha;
 			}
-			return (float) alpha;
+			return alpha;
 		}
 		return alphaValue;
 	}

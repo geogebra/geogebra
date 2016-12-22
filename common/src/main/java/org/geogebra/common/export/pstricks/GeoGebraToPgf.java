@@ -572,9 +572,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// get point on line g
 		((AlgoSlope) geo.getParentAlgorithm()).getInhomPointOnLine(coords);
 		// draw slope triangle
-		float x = (float) coords[0];
-		float y = (float) coords[1];
-		float xright = x + slopeTriangleSize;
+		double x = coords[0];
+		double y = coords[1];
+		double xright = x + slopeTriangleSize;
 		startBeamer(codeFilledObject);
 		codeFilledObject.append("\\draw");
 		String s = lineOptionCode(geo, true);
@@ -588,8 +588,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		writePoint(xright, y + rwHeight, codeFilledObject);
 		codeFilledObject.append(";\n");
 		// draw Label
-		float xLabelHor = (x + xright) / 2;
-		float yLabelHor = y - (float) ((euclidianView.getFont().getSize() + 2)
+		double xLabelHor = (x + xright) / 2;
+		double yLabelHor = y - ((euclidianView.getFont().getSize() + 2)
 				/ euclidianView.getYscale());
 		GColor geocolor = geo.getObjectColor();
 		codePoint.append("\\draw[color=");
@@ -949,7 +949,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	@Override
 	protected void drawPolygon(GeoPolygon geo) {
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
-		float alpha = geo.getAlphaValue();
+		double alpha = geo.getAlphaValue();
 		if (alpha == 0.0f && geo.getFillType() == FillType.IMAGE)
 			return;
 		startBeamer(codeFilledObject);

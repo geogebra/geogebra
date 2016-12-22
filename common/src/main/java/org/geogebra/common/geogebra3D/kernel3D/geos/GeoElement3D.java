@@ -160,9 +160,10 @@ public abstract class GeoElement3D extends GeoElement {
 	 *            alpha value
 	 */
 	@Override
-	public void setAlphaValue(float alpha) {
-		if (alpha < 0.0f || alpha > 1.0f)
+	public void setAlphaValue(double alpha) {
+		if (alpha < 0.0 || alpha > 1.0) {
 			return;
+		}
 		alphaValue = alpha;
 	}
 

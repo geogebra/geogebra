@@ -117,11 +117,11 @@ public class DrawAxis {
 				if (filled) {
 
 					view.gp.reset();
-					view.gp.moveTo((float) xCrossPix, (float) arrowAdjusty);
-					view.gp.lineTo((float) (xCrossPix - arrowSize),
-							(float) (arrowAdjusty + 4 * arrowSize));
-					view.gp.lineTo((float) (xCrossPix + arrowSize),
-							(float) (arrowAdjusty + 4 * arrowSize));
+					view.gp.moveTo(xCrossPix, arrowAdjusty);
+					view.gp.lineTo((xCrossPix - arrowSize),
+							(arrowAdjusty + 4 * arrowSize));
+					view.gp.lineTo((xCrossPix + arrowSize),
+							(arrowAdjusty + 4 * arrowSize));
 
 					g2.fill(view.gp);
 
@@ -140,13 +140,13 @@ public class DrawAxis {
 				if (filled) {
 
 					view.gp.reset();
-					view.gp.moveTo((float) xCrossPix,
-							(float) (view.getHeight() - arrowAdjusty));
-					view.gp.lineTo((float) (xCrossPix - arrowSize),
-							(float) (view.getHeight() - arrowAdjusty
+					view.gp.moveTo(xCrossPix,
+							(view.getHeight() - arrowAdjusty));
+					view.gp.lineTo((xCrossPix - arrowSize),
+							(view.getHeight() - arrowAdjusty
 									- 4 * arrowSize));
-					view.gp.lineTo((float) (xCrossPix + arrowSize),
-							(float) (view.getHeight() - arrowAdjusty
+					view.gp.lineTo((xCrossPix + arrowSize),
+							(view.getHeight() - arrowAdjusty
 									- 4 * arrowSize));
 
 					g2.fill(view.gp);
@@ -205,16 +205,15 @@ public class DrawAxis {
 				if (filled) {
 
 					view.gp.reset();
-					view.gp.moveTo((float) (view.getWidth() - arrowAdjustx),
-							(float) yCrossPix);
+					view.gp.moveTo((view.getWidth() - arrowAdjustx), yCrossPix);
 					view.gp.lineTo(
-							(float) (view.getWidth() - arrowAdjustx
+							(view.getWidth() - arrowAdjustx
 									- arrowSize * 4),
-							(float) (yCrossPix - arrowSize));
+							(yCrossPix - arrowSize));
 					view.gp.lineTo(
-							(float) (view.getWidth() - arrowAdjustx
+							(view.getWidth() - arrowAdjustx
 									- arrowSize * 4),
-							(float) (yCrossPix + arrowSize));
+							(yCrossPix + arrowSize));
 
 					g2.fill(view.gp);
 
@@ -239,11 +238,11 @@ public class DrawAxis {
 				if (filled) {
 
 					view.gp.reset();
-					view.gp.moveTo((float) (arrowAdjustx), (float) yCrossPix);
-					view.gp.lineTo((float) (arrowAdjustx + arrowSize * 4),
-							(float) (yCrossPix - arrowSize));
-					view.gp.lineTo((float) (arrowAdjustx + arrowSize * 4),
-							(float) (yCrossPix + arrowSize));
+					view.gp.moveTo((arrowAdjustx), yCrossPix);
+					view.gp.lineTo((arrowAdjustx + arrowSize * 4),
+							(yCrossPix - arrowSize));
+					view.gp.lineTo((arrowAdjustx + arrowSize * 4),
+							(yCrossPix + arrowSize));
 
 					g2.fill(view.gp);
 

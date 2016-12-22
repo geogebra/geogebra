@@ -50,7 +50,7 @@ public class KeyboardSettings extends AbstractSettings {
 		supportedLocales.add(Language.Yiddish.locale);
 	}
 
-	private float keyboardOpacity = 0.7f;
+	private double keyboardOpacity = 0.7f;
 	private int keyboardWidth = 400;
 	private int keyboardHeight = 235;
 	private String keyboardLocale = null;
@@ -64,7 +64,7 @@ public class KeyboardSettings extends AbstractSettings {
 		super();
 	}
 
-	public float getKeyboardOpacity() {
+	public double getKeyboardOpacity() {
 		return keyboardOpacity;
 	}
 
@@ -111,7 +111,7 @@ public class KeyboardSettings extends AbstractSettings {
 		return showKeyboardOnStart;
 	}
 
-	public void setKeyboardOpacity(float opacity) {
+	public void setKeyboardOpacity(double opacity) {
 		keyboardOpacity = opacity;
 		settingChanged();
 	}

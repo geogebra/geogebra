@@ -398,7 +398,7 @@ public class EuclidianStyleBarStatic {
 	}
 
 	public static boolean applyColor(List<GeoElement> geos, GColor color,
-			float alpha, App app) {
+			double alpha, App app) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -419,7 +419,7 @@ public class EuclidianStyleBarStatic {
 					if (geo instanceof GeoPolyLine
 							&& geo.getKernel().getApplication()
 									.getMode() == EuclidianConstants.MODE_PEN) {
-						geo.setLineOpacity(Math.round(alpha * 255));
+						geo.setLineOpacity((int) Math.round(alpha * 255));
 					}
 				}
 
@@ -435,7 +435,7 @@ public class EuclidianStyleBarStatic {
 	}
 
 	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color,
-			float alpha) {
+			double alpha) {
 		boolean needUndo = false;
 
 		for (int i = 0; i < geos.size(); i++) {

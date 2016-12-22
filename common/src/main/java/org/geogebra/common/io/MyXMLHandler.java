@@ -789,7 +789,7 @@ public class MyXMLHandler implements DocHandler {
 			kbs.setKeyboardWidth(width);
 			int height = Integer.parseInt(attrs.get("height"));
 			kbs.setKeyboardHeight(height);
-			float opacity = Float.parseFloat(attrs.get("opacity"));
+			double opacity = Double.parseDouble(attrs.get("opacity"));
 			kbs.setKeyboardOpacity(opacity);
 			boolean showOnStart = Boolean.parseBoolean(attrs.get("show"));
 			kbs.setShowKeyboardOnStart(showOnStart);
@@ -2195,11 +2195,11 @@ public class MyXMLHandler implements DocHandler {
 		} else {
 			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
 					? width : height);
-			float relative;
+			double relative;
 			if (tmp_showSpreadsheet) {
-				relative = (float) tmp_sp1 / total;
+				relative = tmp_sp1 / total;
 			} else {
-				relative = (float) tmp_sp2 / total;
+				relative = tmp_sp2 / total;
 			}
 			spXml = new DockSplitPaneData[] {
 					new DockSplitPaneData("", relative, splitOrientation) };

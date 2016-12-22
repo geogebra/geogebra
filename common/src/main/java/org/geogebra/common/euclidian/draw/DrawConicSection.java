@@ -319,13 +319,13 @@ public class DrawConicSection extends DrawConic {
 		int numPoints = -1;
 
 		int tx0 = 0, ty0 = 0, x1 = 0, y1 = 0, x2, y2;
-		float x, y;
+		double x, y;
 
 		for (int i = 0; i < 4; i++) {
 			if (Kernel.isZero(endPoints[i].getZ())) {
 				if (numPoints == -1) { // first point
-					x = (float) endPoints[i].getX();
-					y = (float) endPoints[i].getY();
+					x = endPoints[i].getX();
+					y = endPoints[i].getY();
 					path.moveTo(x, y);
 					numPoints++;
 					tx0 = view.toScreenCoordX(x);
@@ -333,8 +333,8 @@ public class DrawConicSection extends DrawConic {
 					x1 = tx0;
 					y1 = ty0;
 				} else {
-					x = (float) endPoints[i].getX();
-					y = (float) endPoints[i].getY();
+					x = endPoints[i].getX();
+					y = endPoints[i].getY();
 					path.lineTo(x, y);
 					x2 = view.toScreenCoordX(x);
 					y2 = view.toScreenCoordY(y);

@@ -2759,7 +2759,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			KeyboardSettings settings = app.getSettings().getKeyboard();
 			virtualKeyboard = new VirtualKeyboardD(((AppD) app),
 					settings.getKeyboardWidth(), settings.getKeyboardHeight(),
-					settings.getKeyboardOpacity());
+					(float) settings.getKeyboardOpacity());
 			settings.addListener(virtualKeyboard);
 		}
 

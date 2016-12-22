@@ -205,7 +205,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 			
 			// set the color
-			ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0f, null,
+			ImageOrText data = GeoGebraIconW.createColorSwatchIcon(1.0, null,
 			        bgCol);
 			data.applyToLabel(btnBgColor.getButtonContent());
 			
@@ -266,7 +266,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			color = GColor.WHITE;
 		}
 		ImageOrText data = GeoGebraIconW
-		        .createColorSwatchIcon(1.0f, null, color);
+				.createColorSwatchIcon(1.0, null, color);
 		data.applyToLabel(btnBgColor.getButtonContent());
 
 		allowActionPerformed = true;

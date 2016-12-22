@@ -18,11 +18,11 @@ public class ColorObjectModel extends OptionsModel {
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasAlpha);
 
-		void updatePreview(GColor col, float alpha);
+		void updatePreview(GColor col, double alpha);
 
 		boolean isBackgroundColorSelected();
 
-		void updateNoBackground(GeoElement geo, GColor col, float alpha,
+		void updateNoBackground(GeoElement geo, GColor col, double alpha,
 				boolean updateAlphaOnly, boolean allFillable);
 
 	}
@@ -117,7 +117,8 @@ public class ColorObjectModel extends OptionsModel {
 	/**
 	 * Sets color of selected GeoElements
 	 */
-	private void updateColor(GColor col, float alpha, boolean updateAlphaOnly) {
+	private void updateColor(GColor col, double alpha,
+			boolean updateAlphaOnly) {
 		if (col == null || getGeos() == null) {
 			return;
 		}
@@ -163,7 +164,7 @@ public class ColorObjectModel extends OptionsModel {
 	/**
 	 * Listens for color chooser state changes
 	 */
-	public void applyChanges(GColor color, float alpha, boolean alphaOnly) {
+	public void applyChanges(GColor color, double alpha, boolean alphaOnly) {
 
 		updateColor(color, alpha, alphaOnly);
 		storeUndoInfo();
@@ -255,7 +256,7 @@ public class ColorObjectModel extends OptionsModel {
 		return getAlgoBarChart().getIntervals();
 	}
 
-	public void applyBar(int idx, GColor color, float alpha) {
+	public void applyBar(int idx, GColor color, double alpha) {
 		AlgoBarChart algo = getAlgoBarChart();
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {

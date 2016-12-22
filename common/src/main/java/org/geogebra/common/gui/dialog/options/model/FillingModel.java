@@ -56,7 +56,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 		String getSelectedSymbolText();
 
-		float getFillingValue();
+		double getFillingValue();
 
 		FillType getSelectedFillType();
 
@@ -467,7 +467,7 @@ public class FillingModel extends MultipleOptionsModel {
 		return getFillingListener().getSelectedSymbolText();
 	}
 
-	private float getFillingValue() {
+	private double getFillingValue() {
 		return getFillingListener().getFillingValue();
 	}
 

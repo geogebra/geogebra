@@ -40,7 +40,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	 * @param scaleY
 	 *            the scaleY to set
 	 */
-	public void setScaleY(float scaleY) {
+	public void setScaleY(double scaleY) {
 		this.scaleY = scaleY;
 	}
 

@@ -85,7 +85,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	Dasher dasher;
 
 	public DefaultBasicStroke() {
-		this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
+		this(1.0, CAP_SQUARE, JOIN_MITER, 10.0, null, 0.0);
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join, double miterLimit,
@@ -102,13 +102,13 @@ public class DefaultBasicStroke implements GBasicStroke {
 			// awt.135=Illegal join
 			throw new IllegalArgumentException(("Illegal join awt.135")); //$NON-NLS-1$
 		}
-		if (join == JOIN_MITER && miterLimit < 1.0f) {
-			// awt.136=miterLimit less than 1.0f
+		if (join == JOIN_MITER && miterLimit < 1.0) {
+			// awt.136=miterLimit less than 1.0
 			throw new IllegalArgumentException(
-					("miterLimit less than 1.0f awt.136")); //$NON-NLS-1$
+					("miterLimit less than 1.0 awt.136")); //$NON-NLS-1$
 		}
 		if (dash != null) {
-			if (dashPhase < 0.0f) {
+			if (dashPhase < 0.0) {
 				// awt.137=Negative dashPhase
 				throw new IllegalArgumentException(
 						("Negative dashPhase awt.137")); //$NON-NLS-1$
@@ -142,11 +142,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join, double miterLimit) {
-		this(width, cap, join, miterLimit, null, 0.0f);
+		this(width, cap, join, miterLimit, null, 0.0);
 	}
 
 	public DefaultBasicStroke(double width, int cap, int join) {
-		this(width, cap, join, 10.0f, null, 0.0f);
+		this(width, cap, join, 10.0, null, 0.0);
 	}
 
 	public DefaultBasicStroke(double width) {

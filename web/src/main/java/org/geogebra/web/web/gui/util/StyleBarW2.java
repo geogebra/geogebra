@@ -72,7 +72,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				openPropertiesForColor(false);
 			} else {
-				float alpha = btnColor.getSliderValue() / 100.0f;
+				double alpha = btnColor.getSliderValue() / 100.0;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
 						color,
 					alpha, app);

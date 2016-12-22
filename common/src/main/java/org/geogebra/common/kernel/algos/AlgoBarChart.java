@@ -1224,7 +1224,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		return null;
 	}
 
-	public void setBarAlpha(float alpha, int numBar) {
+	public void setBarAlpha(double alpha, int numBar) {
 		if (alpha == -1) {
 			if (tags.containsKey(numBar)) {
 				tags.get(numBar).remove(1);

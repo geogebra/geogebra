@@ -1489,7 +1489,7 @@ public abstract class GeoGebraExport {
 
 	protected class Info {
 
-		private float alpha;
+		private double alpha;
 		private int y;
 		private double angle;
 		private FillType fillType;
@@ -1503,14 +1503,15 @@ public abstract class GeoGebraExport {
 			fillType = geo.getFillType();
 			linecolor = geo.getObjectColor();
 
-			float[] rgb = null;
 
 			if (geo.getParentAlgorithm() instanceof AlgoBarChart) {
+
+				boolean setAlpha = false;
+
 				AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
 				if (algo.getBarColor(barNumber) != null) {
-					rgb = new float[4];
-					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
-					linecolor = GColor.newColor(rgb[0], rgb[1], rgb[2], rgb[3]);
+					linecolor = algo.getBarColor(barNumber);
+					setAlpha = true;
 				}
 				if (algo.getBarHatchDistance(barNumber) != -1) {
 					y = algo.getBarHatchDistance(barNumber);
@@ -1522,13 +1523,13 @@ public abstract class GeoGebraExport {
 					fillType = FillType.values()[algo.getBarFillType(barNumber)
 							.ordinal()];
 				}
-				if (algo.getBarAlpha(barNumber) != -1 && rgb != null) {
-					alpha = rgb[3];
+				if (algo.getBarAlpha(barNumber) != -1 && setAlpha) {
+					alpha = algo.getBarColor(barNumber).getAlpha() / 255.0;
 				}
 			}
 		}
 
-		public float getAlpha() {
+		public double getAlpha() {
 			return alpha;
 		}
 

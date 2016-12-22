@@ -129,7 +129,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(float alpha, GColor gc) {
+	public void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null)
 			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,

@@ -48,7 +48,7 @@ public final class DrawImage extends Drawable {
 
 	private boolean absoluteLocation;
 	private GAlphaComposite alphaComp;
-	private float alpha = -1;
+	private double alpha = -1;
 	private boolean isInBackground = false;
 	private GAffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
@@ -302,16 +302,11 @@ public final class DrawImage extends Drawable {
 								.newGeneralPath();
 					else
 						highlighting.reset();
-					highlighting.moveTo((float) corner1.getX(),
-							(float) corner1.getY());
-					highlighting.lineTo((float) corner2.getX(),
-							(float) corner2.getY());
-					highlighting.lineTo((float) corner3.getX(),
-							(float) corner3.getY());
-					highlighting.lineTo((float) corner4.getX(),
-							(float) corner4.getY());
-					highlighting.lineTo((float) corner1.getX(),
-							(float) corner1.getY());
+					highlighting.moveTo(corner1.getX(), corner1.getY());
+					highlighting.lineTo(corner2.getX(), corner2.getY());
+					highlighting.lineTo(corner3.getX(), corner3.getY());
+					highlighting.lineTo(corner4.getX(), corner4.getY());
+					highlighting.lineTo(corner1.getX(), corner1.getY());
 					g3.draw(highlighting);
 
 				}

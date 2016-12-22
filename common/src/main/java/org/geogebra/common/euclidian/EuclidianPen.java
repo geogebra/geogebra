@@ -226,10 +226,7 @@ public class EuclidianPen implements GTimerListener {
 			startNewStroke = true;
 		}
 		this.lineOpacity = lineOpacity;
-		float[] rgb = new float[3];
-		penColor.getRGBColorComponents(rgb);
-		setPenColor(
-				GColor.newColor(rgb[0], rgb[1], rgb[2], lineOpacity / 255.0f));
+		setPenColor(penColor.deriveWithAlpha(lineOpacity));
 	}
 
 	/**

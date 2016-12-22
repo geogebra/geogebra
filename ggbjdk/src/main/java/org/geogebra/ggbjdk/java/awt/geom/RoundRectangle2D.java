@@ -184,7 +184,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * @since 1.2
          */
         public boolean isEmpty() {
-            return (width <= 0.0f) || (height <= 0.0f);
+            return (width <= 0.0) || (height <= 0.0);
         }
 
         /**

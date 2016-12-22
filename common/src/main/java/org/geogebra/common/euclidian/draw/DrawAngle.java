@@ -277,23 +277,23 @@ public class DrawAngle extends Drawable implements Previewable {
 				else
 					square.reset();
 				double length = arcSize * 0.7071067811865;
-				square.moveTo((float) coords[0], (float) coords[1]);
-				square.lineTo((float) (coords[0] + length * Math.cos(angSt)),
-						(float) (coords[1] - length * Math.sin(angSt)
+				square.moveTo(coords[0], coords[1]);
+				square.lineTo((coords[0] + length * Math.cos(angSt)),
+						(coords[1] - length * Math.sin(angSt)
 								* view.getScaleRatio()));
 				square.lineTo(
-						(float) (coords[0] + arcSize
+						(coords[0] + arcSize
 								* Math.cos(angSt + Kernel.PI_HALF / 2)),
-						(float) (coords[1]
+						(coords[1]
 								- arcSize * Math.sin(angSt + Kernel.PI_HALF / 2)
 										* view.getScaleRatio()));
 				square.lineTo(
-						(float) (coords[0]
+						(coords[0]
 								+ length * Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1]
+						(coords[1]
 								- length * Math.sin(angSt + Kernel.PI_HALF)
 										* view.getScaleRatio()));
-				square.lineTo((float) coords[0], (float) coords[1]);
+				square.lineTo(coords[0], coords[1]);
 				shape = square;
 				break;
 
@@ -306,25 +306,25 @@ public class DrawAngle extends Drawable implements Previewable {
 				length = arcSize * 0.7071067811865;
 				double offset = length * 0.4;
 				square.moveTo(
-						(float) (coords[0] + length * Math.cos(angSt)
+						(coords[0] + length * Math.cos(angSt)
 								+ offset * Math.cos(angSt)
 								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1]
+						(coords[1]
 								- length * Math.sin(angSt)
 										* view.getScaleRatio()
 								- offset * Math.sin(angSt)
 								- offset * Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
-						(float) (coords[0] + offset * Math.cos(angSt)
+						(coords[0] + offset * Math.cos(angSt)
 								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1] - offset * Math.sin(angSt)
+						(coords[1] - offset * Math.sin(angSt)
 								- offset * Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
-						(float) (coords[0]
+						(coords[0]
 								+ length * Math.cos(angSt + Kernel.PI_HALF)
 								+ offset * Math.cos(angSt)
 								+ offset * Math.cos(angSt + Kernel.PI_HALF)),
-						(float) (coords[1]
+						(coords[1]
 								- length * Math.sin(angSt + Kernel.PI_HALF)
 										* view.getScaleRatio()
 								- offset * Math.sin(angSt)
@@ -475,9 +475,9 @@ public class DrawAngle extends Drawable implements Previewable {
 				view.toScreenCoords(p3);
 
 				polygon.reset();
-				polygon.moveTo((float) p1[0], (float) p1[1]);
-				polygon.lineTo((float) p2[0], (float) p2[1]);
-				polygon.lineTo((float) p3[0], (float) p3[1]);
+				polygon.moveTo(p1[0], p1[1]);
+				polygon.lineTo(p2[0], p2[1]);
+				polygon.lineTo(p3[0], p3[1]);
 				polygon.closePath();
 
 				break;

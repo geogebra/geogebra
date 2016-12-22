@@ -632,9 +632,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// get point on line g
 		((AlgoSlope) geo.getParentAlgorithm()).getInhomPointOnLine(coords);
 		// draw slope triangle
-		float x = (float) coords[0];
-		float y = (float) coords[1];
-		float xright = x + slopeTriangleSize;
+		double x = coords[0];
+		double y = coords[1];
+		double xright = x + slopeTriangleSize;
 
 		startTransparentFill(codeFilledObject);
 		addPoint(format(x), format(y), codeFilledObject);
@@ -646,8 +646,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		endTransparentFill(geo, codeFilledObject);
 
 		// draw Label
-		float xLabelHor = (x + xright) / 2;
-		float yLabelHor = y - (float) ((euclidianView.getFont().getSize() + 2)
+		double xLabelHor = (x + xright) / 2;
+		double yLabelHor = y - ((euclidianView.getFont().getSize() + 2)
 				/ euclidianView.getYscale());
 		GColor geocolor = geo.getObjectColor();
 

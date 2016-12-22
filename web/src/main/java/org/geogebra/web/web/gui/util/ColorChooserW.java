@@ -470,15 +470,15 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		}
 
-		public float getAlphaValue() {
-            return isVisible() ? slider.getValue() / 100.0f : 1.0f;
+		public double getAlphaValue() {
+			return isVisible() ? slider.getValue() / 100.0 : 1.0;
         }
 		
 		public void setLabels(String opacity) {
 			title.setText(opacity);
 		}
 
-		public void setAlpaValue(float alpha) {
+		public void setAlpaValue(double alpha) {
 	        slider.setValue((int) (alpha * 100));
         }
 	}
@@ -771,11 +771,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		this.changeHandler = handler;
 	}
 
-	public float getAlphaValue() {
+	public double getAlphaValue() {
 		return opacityPanel.getAlphaValue();
 	}
 
-	public void setAlphaValue(float alpha) {
+	public void setAlphaValue(double alpha) {
 	    opacityPanel.setAlpaValue(alpha);
 	    
     }

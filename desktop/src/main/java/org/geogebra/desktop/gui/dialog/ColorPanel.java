@@ -186,7 +186,7 @@ class ColorPanel extends JPanel
 		 * @param color
 		 * @param alpha
 		 */
-		public void setPreview(Color color, float alpha) {
+		public void setPreview(Color color, double alpha) {
 
 			if (color == null) {
 				alphaFillColor = getBackground();
@@ -194,7 +194,8 @@ class ColorPanel extends JPanel
 			} else {
 				float[] rgb = new float[3];
 				color.getRGBColorComponents(rgb);
-				alphaFillColor = new Color(rgb[0], rgb[1], rgb[2], alpha);
+				alphaFillColor = new Color(rgb[0], rgb[1], rgb[2],
+						(float) alpha);
 				setForeground(new Color(rgb[0], rgb[1], rgb[2], 1f));
 			}
 			this.repaint();
@@ -275,7 +276,7 @@ class ColorPanel extends JPanel
 	// Methods that set value for single bar if single bar is selected
 	// and bar has tag for value
 
-	private void setPreview(GeoElement geo, float alpha) {
+	private void setPreview(GeoElement geo, double alpha) {
 		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
 		if (selectedBarButton != 0
 				&& (algo.getBarAlpha(selectedBarButton) != -1)) {
@@ -284,7 +285,7 @@ class ColorPanel extends JPanel
 		previewPanel.setPreview(selectedColor, alpha);
 	}
 
-	private void setOpacitySlider(GeoElement geo, float alpha) {
+	private void setOpacitySlider(GeoElement geo, double alpha) {
 		/*
 		 * AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm(); if
 		 * (selectedBarButton != 0 && algo.getBarAlpha(selectedBarButton) != -1)
@@ -329,7 +330,8 @@ class ColorPanel extends JPanel
 	}
 
 	// Add tag for color and alpha or remove if selected all bars
-	private void updateBarsColorAndAlpha(GeoElement geo, Color col, float alpha,
+	private void updateBarsColorAndAlpha(GeoElement geo, Color col,
+			double alpha,
 			boolean updateAlphaOnly) {
 		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
 		if (selectedBarButton == 0) {
@@ -353,7 +355,7 @@ class ColorPanel extends JPanel
 		this.propertiesPanelD.fillingPanel.opacitySlider
 				.removeChangeListener(this.propertiesPanelD.fillingPanel);
 		this.propertiesPanelD.fillingPanel.opacitySlider
-				.setValue(Math.round(alpha * 100));
+				.setValue((int) Math.round(alpha * 100));
 		this.propertiesPanelD.fillingPanel.opacitySlider
 				.addChangeListener(this.propertiesPanelD.fillingPanel);
 	}
@@ -471,7 +473,7 @@ class ColorPanel extends JPanel
 		// initialize selected color and opacity
 		selectedColor = null;
 		Color selectedBGColor = null;
-		float alpha = 1;
+		double alpha = 1;
 		GeoElement geo0 = model.getGeoAt(0);
 		if (equalObjColorBackground) {
 			selectedBGColor = GColorD.getAwtColor(geo0.getBackgroundColor());
@@ -526,12 +528,12 @@ class ColorPanel extends JPanel
 			if (isBarChart) {
 				setOpacitySlider(geo0, alpha);
 			} else {
-				opacitySlider.setValue(Math.round(alpha * 100));
+				opacitySlider.setValue((int) Math.round(alpha * 100));
 			}
 		} else { // hide opacity slider and set alpha = 1
 			opacityPanel.setVisible(false);
 			alpha = 1;
-			opacitySlider.setValue(Math.round(alpha * 100));
+			opacitySlider.setValue((int) Math.round(alpha * 100));
 		}
 		opacitySlider.addChangeListener(this);
 
@@ -547,7 +549,7 @@ class ColorPanel extends JPanel
 
 	}
 
-	public void updatePreview(GColor col, float alpha) {
+	public void updatePreview(GColor col, double alpha) {
 		// update preview panel
 		Color color = GColorD.getAwtColor(col);
 		previewPanel.setPreview(color, alpha);
@@ -561,7 +563,7 @@ class ColorPanel extends JPanel
 		return rbtnBackgroundColor.isSelected();
 	}
 
-	public void updateNoBackground(GeoElement geo, GColor col, float alpha,
+	public void updateNoBackground(GeoElement geo, GColor col, double alpha,
 			boolean updateAlphaOnly, boolean allFillable) {
 
 		Color color = GColorD.getAwtColor(col);

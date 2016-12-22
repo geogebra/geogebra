@@ -171,7 +171,7 @@ public class DrawVector extends Drawable implements Previewable {
 	/**
 	 * Sets the line and arrow of the vector.
 	 */
-	private void setArrow(float lineThickness) {
+	private void setArrow(double lineThickness) {
 		// screen coords of start and end point of vector
 		boolean onscreenA = view.toScreenCoords(coordsA);
 		boolean onscreenB = view.toScreenCoords(coordsB);
@@ -247,11 +247,9 @@ public class DrawVector extends Drawable implements Previewable {
 				coordsV[0] /= 4.0;
 				coordsV[1] /= 4.0;
 
-				gp.moveTo((float) coordsB[0], (float) coordsB[1]); // end point
-				gp.lineTo((float) (coordsF[0] - coordsV[1]),
-						(float) (coordsF[1] + coordsV[0]));
-				gp.lineTo((float) (coordsF[0] + coordsV[1]),
-						(float) (coordsF[1] - coordsV[0]));
+				gp.moveTo(coordsB[0], coordsB[1]); // end point
+				gp.lineTo((coordsF[0] - coordsV[1]), (coordsF[1] + coordsV[0]));
+				gp.lineTo((coordsF[0] + coordsV[1]), (coordsF[1] - coordsV[0]));
 				gp.closePath();
 			}
 

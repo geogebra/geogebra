@@ -687,7 +687,7 @@ public class EuclidianControllerCompanion {
 	 *
 	 * @return percentage for which we capture point to grid
 	 */
-	public float getPointCapturingPercentage() {
+	public double getPointCapturingPercentage() {
 		return EuclidianStyleConstants.POINT_CAPTURING_GRID;
 	}
 

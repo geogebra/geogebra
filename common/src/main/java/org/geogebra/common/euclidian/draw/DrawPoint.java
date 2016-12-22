@@ -206,10 +206,10 @@ public final class DrawPoint extends Drawable {
 			if (gp == null) {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
-			gp.moveTo((float) (xUL + xR) / 2, (float) yUL);
-			gp.lineTo((float) xUL, (float) (yB + yUL) / 2);
-			gp.lineTo((float) (xUL + xR) / 2, (float) yB);
-			gp.lineTo((float) xR, (float) (yB + yUL) / 2);
+			gp.moveTo((xUL + xR) / 2, yUL);
+			gp.lineTo(xUL, (yB + yUL) / 2);
+			gp.lineTo((xUL + xR) / 2, yB);
+			gp.lineTo(xR, (yB + yUL) / 2);
 			gp.closePath();
 			break;
 
@@ -224,14 +224,12 @@ public final class DrawPoint extends Drawable {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo((float) coords[0],
-					(float) (coords[1] + direction * pointSize));
-			gp.lineTo((float) (coords[0] + pointSize * root3over2),
-					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) (coords[0] - pointSize * root3over2),
-					(float) (coords[1] - direction * pointSize / 2));
-			gp.lineTo((float) coords[0],
-					(float) (coords[1] + direction * pointSize));
+			gp.moveTo(coords[0], (coords[1] + direction * pointSize));
+			gp.lineTo((coords[0] + pointSize * root3over2),
+					(coords[1] - direction * pointSize / 2));
+			gp.lineTo((coords[0] - pointSize * root3over2),
+					(coords[1] - direction * pointSize / 2));
+			gp.lineTo(coords[0], (coords[1] + direction * pointSize));
 			gp.closePath();
 			break;
 
@@ -246,14 +244,12 @@ public final class DrawPoint extends Drawable {
 				gp = AwtFactory.getPrototype().newGeneralPath();
 			}
 			root3over2 = Math.sqrt(3.0) / 2.0;
-			gp.moveTo((float) (coords[0] + direction * pointSize),
-					(float) coords[1]);
-			gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-					(float) (coords[1] + pointSize * root3over2));
-			gp.lineTo((float) (coords[0] - direction * pointSize / 2),
-					(float) (coords[1] - pointSize * root3over2));
-			gp.lineTo((float) (coords[0] + direction * pointSize),
-					(float) coords[1]);
+			gp.moveTo((coords[0] + direction * pointSize), coords[1]);
+			gp.lineTo((coords[0] - direction * pointSize / 2),
+					(coords[1] + pointSize * root3over2));
+			gp.lineTo((coords[0] - direction * pointSize / 2),
+					(coords[1] - pointSize * root3over2));
+			gp.lineTo((coords[0] + direction * pointSize), coords[1]);
 			gp.closePath();
 			break;
 

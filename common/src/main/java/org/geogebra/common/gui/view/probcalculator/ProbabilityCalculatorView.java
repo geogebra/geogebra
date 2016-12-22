@@ -171,9 +171,9 @@ public abstract class ProbabilityCalculatorView
 	protected boolean showProbGeos = true;
 	protected boolean showNormalOverlay = false;
 
-	private static final float opacityIntegral = 0.5f;
-	private static final float opacityDiscrete = 0.0f; // entire bar chart
-	private static final float opacityDiscreteInterval = 0.5f; // bar chart
+	private static final double opacityIntegral = 0.5f;
+	private static final double opacityDiscrete = 0.0f; // entire bar chart
+	private static final double opacityDiscreteInterval = 0.5f; // bar chart
 																	// interval
 	private static final int thicknessCurve = 4;
 	private static final int thicknessBarChart = 3;

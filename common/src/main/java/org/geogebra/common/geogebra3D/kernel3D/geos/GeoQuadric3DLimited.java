@@ -460,7 +460,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	}
 
 	@Override
-	public void setAlphaValue(float alpha) {
+	public void setAlphaValue(double alpha) {
 
 		super.setAlphaValue(alpha);
 

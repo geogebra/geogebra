@@ -24,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeneralPathClipped implements GShape {
 
-	private static final float MAX_COORD_VALUE = 10000;
+	private static final double MAX_COORD_VALUE = 10000;
 
 	private ArrayList<MyPoint> pathPoints;
 	private GGeneralPath gp;
@@ -231,12 +231,12 @@ public class GeneralPathClipped implements GShape {
 
 		if (lineTo && p != null) {
 			try {
-				gp.lineTo((float) q.getX(), (float) q.getY());
+				gp.lineTo(q.getX(), q.getY());
 			} catch (Exception e) {
-				gp.moveTo((float) q.getX(), (float) q.getY());
+				gp.moveTo(q.getX(), q.getY());
 			}
 		} else {
-			gp.moveTo((float) q.getX(), (float) q.getY());
+			gp.moveTo(q.getX(), q.getY());
 		}
 	}
 
