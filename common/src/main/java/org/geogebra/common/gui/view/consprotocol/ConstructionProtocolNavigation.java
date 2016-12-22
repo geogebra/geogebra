@@ -22,7 +22,7 @@ public abstract class ConstructionProtocolNavigation {
 	protected boolean showConsProtButton = true;
 
 	/** Indicates whether animation is on or off */
-	public boolean isPlaying;
+	protected boolean isPlaying;
 
 	protected int viewID;
 

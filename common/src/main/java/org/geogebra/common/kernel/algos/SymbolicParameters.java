@@ -17,10 +17,7 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * 
  */
 public class SymbolicParameters {
-	/**
-	 * The symbolic degree of the coordinates
-	 */
-	protected int[] degree;
+
 	private HashSet<Variable> variables;
 	private SymbolicParametersAlgo spa;
 

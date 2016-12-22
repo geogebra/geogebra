@@ -224,11 +224,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			// strange why sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 			+ "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end;;";
 
-	/**
-	 * whether Giac has been set to GeoGebra mode yet
-	 */
-	protected boolean giacSetToGeoGebraMode;
-
 	/** CAS parser */
 	public CASparser casParser;
 

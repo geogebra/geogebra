@@ -17,7 +17,6 @@ public abstract class AdjustWidget {
 	protected double width;
 	protected double origWidth;
 	protected double height;
-	protected double origHeight;
 	protected double ratioX;
 	protected double ratioY;
 

@@ -158,7 +158,6 @@ public final class MatchingBlockScanner {
 	private Element elem;
 	private int start;
 	private int end;
-	private int savePos;
 
 	public MatchingBlockScanner(Document doc) {
 		this.doc = doc;

@@ -27,7 +27,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private int gridIndex = -1;
 	private int gridOutlineIndex = -1;
 
-	protected double xmin, xmax, ymin, ymax;
 	double[] minmaxXFinal = new double[2], minmaxYFinal = new double[2];
 
 	/** says if the view direction is parallel to the plane */

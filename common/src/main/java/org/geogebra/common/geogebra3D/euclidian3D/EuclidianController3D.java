@@ -119,9 +119,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private GPoint mouseLocOld = new GPoint();
 	private Coords positionOld = new Coords(4);
 
-	/** picking point */
-	protected Coords pickPoint;
-
 	/** says that a free point has just been created (used for 3D cursor) */
 	private boolean freePointJustCreated = false;
 

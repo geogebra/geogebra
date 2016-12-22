@@ -68,8 +68,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  * HTML5 version of AV
  *
  */
-public class AlgebraViewW extends Tree implements LayerView,
- AlgebraView,
+public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Flag for LaTeX rendering
@@ -89,7 +88,6 @@ public class AlgebraViewW extends Tree implements LayerView,
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
-	private String lastLang = null;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -874,9 +872,9 @@ public class AlgebraViewW extends Tree implements LayerView,
 		case ORDER:
 			break;
 		}
-		if (lastLang == null || !lastLang.equals(loc.getLocaleStr())) {
+		// if (lastLang == null || !lastLang.equals(loc.getLocaleStr())) {
 			rebuildItems();
-		}
+		// }
 	}
 
 	/**
