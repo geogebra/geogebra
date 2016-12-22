@@ -174,7 +174,7 @@ public abstract class AwtFactory {
 	 *            input array
 	 * @return array with elements cast to (float)
 	 */
-	public float[] doubleToFloat(double[] array) {
+	public static float[] doubleToFloat(double[] array) {
 		if (array == null) {
 			return null;
 		}
