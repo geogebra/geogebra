@@ -1979,7 +1979,7 @@ __GGB__keysVar.cs.menu = {
     "Keyboard.Standard": "Standardn\xed kl\xe1vesnice",
     "Keyboard.row1": "qQwWeErRtTzZuUiIoOpP\xb4\xb4",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u016f\u016e\u02c7\u02c7",
-    "Keyboard.row3": "yYxXcCvVbBnNmM",
+    "Keyboard.row3": "yYxXcCvVbBnNmM''",
     "KinectWindow": "Okno Kinect",
     "LaTeXFormula": "LaTeX vzorec",
     "LaTeXHelp": "LaTeX n\xe1pov\u011bda",

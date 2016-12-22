@@ -1979,7 +1979,7 @@ __GGB__keysVar.da.menu = {
     "Keyboard.Standard": "Almindeligt tastatur",
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe5\xc5",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xe6\xc6\xf8\xd8",
-    "Keyboard.row3": "zZxXcCvVbBnNmM",
+    "Keyboard.row3": "zZxXcCvVbBnNmM''",
     "KinectWindow": "Kinect Window",
     "LaTeXFormula": "LaTeX formel",
     "LaTeXHelp": "Latex hj\xe6lp",

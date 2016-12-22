@@ -1979,7 +1979,7 @@ __GGB__keysVar.fi.menu = {
     "Keyboard.Standard": "Perinteinen n\xe4pp\xe4imist\xf6",
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe5\xc5",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf6\xd6\xe4\xc4",
-    "Keyboard.row3": "zZxXcCvVbBnNmM",
+    "Keyboard.row3": "zZxXcCvVbBnNmM''",
     "KinectWindow": "Kinect-ikkuna",
     "LaTeXFormula": "LaTeX-kaava",
     "LaTeXHelp": "LaTeX-ohje",
