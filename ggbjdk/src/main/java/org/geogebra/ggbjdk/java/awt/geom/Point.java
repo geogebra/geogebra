@@ -25,6 +25,7 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
+import org.geogebra.common.awt.GPoint;
 
 /**
  * A point representing a location in {@code (x,y)} coordinate space,
@@ -33,7 +34,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
  * @author      Sami Shaio
  * @since       1.0
  */
-public class Point extends Point2D {
+public class Point extends Point2D implements java.io.Serializable {
     /**
      * The X coordinate of this <code>Point</code>.
      * If no X coordinate is set it will default to 0.
@@ -76,7 +77,7 @@ public class Point extends Point2D {
      * @param       p a point
      * @since       1.1
      */
-    public Point(Point p) {
+    public Point(GPoint p) {
         this(p.x, p.y);
     }
 
@@ -90,11 +91,6 @@ public class Point extends Point2D {
     public Point(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-    
-    @Override
-    public Object clone() {
-    	return new Point(x, y);
     }
 
     /**
@@ -118,11 +114,12 @@ public class Point extends Point2D {
      * This method is included for completeness, to parallel the
      * <code>getLocation</code> method of <code>Component</code>.
      * @return      a copy of this point, at the same location
-     * @see         gwt.awt.Component#getLocation
-     * @see         gwt.awt.Point#setLocation(gwt.awt.Point)
-     * @see         gwt.awt.Point#setLocation(int, int)
+     * @see         java.awt.Component#getLocation
+     * @see         java.awt.Point#setLocation(java.awt.Point)
+     * @see         java.awt.Point#setLocation(int, int)
      * @since       1.1
      */
+    //@Transient
     public Point getLocation() {
         return new Point(x, y);
     }
@@ -132,11 +129,11 @@ public class Point extends Point2D {
      * This method is included for completeness, to parallel the
      * <code>setLocation</code> method of <code>Component</code>.
      * @param       p  a point, the new location for this point
-     * @see         gwt.awt.Component#setLocation(gwt.awt.Point)
-     * @see         gwt.awt.Point#getLocation
+     * @see         java.awt.Component#setLocation(java.awt.Point)
+     * @see         java.awt.Point#getLocation
      * @since       1.1
      */
-    public void setLocation(Point p) {
+    public void setLocation(GPoint p) {
         setLocation(p.x, p.y);
     }
 
@@ -148,9 +145,9 @@ public class Point extends Point2D {
      * Its behavior is identical with <code>move(int,&nbsp;int)</code>.
      * @param       x the X coordinate of the new location
      * @param       y the Y coordinate of the new location
-     * @see         gwt.awt.Component#setLocation(int, int)
-     * @see         gwt.awt.Point#getLocation
-     * @see         gwt.awt.Point#move(int, int)
+     * @see         java.awt.Component#setLocation(int, int)
+     * @see         java.awt.Point#getLocation
+     * @see         java.awt.Point#move(int, int)
      * @since       1.1
      */
     public void setLocation(int x, int y) {
@@ -180,7 +177,7 @@ public class Point extends Point2D {
      * is identical with <code>setLocation(int,&nbsp;int)</code>.
      * @param       x the X coordinate of the new location
      * @param       y the Y coordinate of the new location
-     * @see         gwt.awt.Component#setLocation(int, int)
+     * @see         java.awt.Component#setLocation(int, int)
      */
     public void move(int x, int y) {
         this.x = x;
@@ -214,8 +211,8 @@ public class Point extends Point2D {
      *         the same values; <code>false</code> otherwise.
      */
     public boolean equals(Object obj) {
-        if (obj instanceof Point) {
-            Point pt = (Point)obj;
+        if (obj instanceof GPoint) {
+            GPoint pt = (GPoint)obj;
             return (x == pt.x) && (y == pt.y);
         }
         return super.equals(obj);
@@ -241,6 +238,7 @@ public class Point extends Point2D {
 
 	@Override
 	public void setY(double y) {
-		this.y = (int) y;
+		this.y =(int) y;
+		
 	}
 }

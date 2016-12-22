@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,7 +25,11 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
+import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 
@@ -77,19 +81,19 @@ import org.geogebra.common.awt.GRectangle2D;
  * negative width and height or it should use the first point in the set
  * to construct the {@code Rectangle}.
  * For example:
- * <pre>
+ * <pre>{@code
  *     Rectangle bounds = new Rectangle(0, 0, -1, -1);
  *     for (int i = 0; i < points.length; i++) {
  *         bounds.add(points[i]);
  *     }
- * </pre>
+ * }</pre>
  * or if we know that the points array contains at least one point:
- * <pre>
+ * <pre>{@code
  *     Rectangle bounds = new Rectangle(points[0]);
  *     for (int i = 1; i < points.length; i++) {
  *         bounds.add(points[i]);
  *     }
- * </pre>
+ * }</pre>
  * <p>
  * This class uses 32-bit integers to store its location and dimensions.
  * Frequently operations may produce a result that exceeds the range of
@@ -117,7 +121,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * @author      Sami Shaio
  * @since 1.0
  */
-public class Rectangle extends Rectangle2D implements Shape, GRectangle
+public class Rectangle extends Rectangle2D    implements Shape, GRectangle
 {
 
     /**
@@ -163,6 +167,19 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * JDK 1.1 serialVersionUID
      */
      private static final long serialVersionUID = -4345857070255674764L;
+
+    /**
+     * Initialize JNI field and method IDs
+     */
+    //private static native void initIDs();
+
+//    static {
+//        /* ensure that the necessary native libraries are loaded */
+//        Toolkit.loadLibraries();
+//        if (!GraphicsEnvironment.isHeadless()) {
+//            initIDs();
+//        }
+//    }
 
     /**
      * Constructs a new <code>Rectangle</code> whose upper-left corner
@@ -212,12 +229,6 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
     public Rectangle(int width, int height) {
         this(0, 0, width, height);
     }
-    
-
-    @Override
-    public Object clone() {
-    	return new Rectangle(x, y, width, height);
-    }
 
     /**
      * Constructs a new <code>Rectangle</code> whose upper-left corner is
@@ -229,8 +240,8 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * @param d a <code>Dimension</code>, representing the
      * width and height of the <code>Rectangle</code>
      */
-    public Rectangle(Point p, Dimension d) {
-        this(p.x, p.y, d.width, d.height);
+    public Rectangle(GPoint p, GDimension d) {
+        this(p.x, p.y, d.getWidth(), d.getHeight());
     }
 
     /**
@@ -239,7 +250,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * @param p a <code>Point</code> that is the top left corner
      * of the <code>Rectangle</code>
      */
-    public Rectangle(Point p) {
+    public Rectangle(GPoint p) {
         this(p.x, p.y, 0, 0);
     }
 
@@ -249,8 +260,8 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * by the <code>Dimension</code> argument.
      * @param d a <code>Dimension</code>, specifying width and height
      */
-    public Rectangle(Dimension d) {
-        this(0, 0, d.width, d.height);
+    public Rectangle(GDimension d) {
+        this(0, 0, d.getWidth(), d.getHeight());
     }
 
     /**
@@ -297,7 +308,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * {@link Component}.
      * @return    a new <code>Rectangle</code>, equal to the
      * bounding <code>Rectangle</code> for this <code>Rectangle</code>.
-     * @see       gwt.awt.Component#getBounds
+     * @see       java.awt.Component#getBounds
      * @see       #setBounds(Rectangle)
      * @see       #setBounds(int, int, int, int)
      * @since     1.1
@@ -322,11 +333,11 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * <code>setBounds</code> method of <code>Component</code>.
      * @param r the specified <code>Rectangle</code>
      * @see       #getBounds
-     * @see       gwt.awt.Component#setBounds(gwt.awt.Rectangle)
+     * @see       java.awt.Component#setBounds(java.awt.Rectangle)
      * @since     1.1
      */
-    public void setBounds(GRectangle r) {
-        setBounds((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
+    public void setBounds(Rectangle r) {
+        setBounds(r.x, r.y, r.width, r.height);
     }
 
     /**
@@ -344,7 +355,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * @param width the new width for this <code>Rectangle</code>
      * @param height the new height for this <code>Rectangle</code>
      * @see       #getBounds
-     * @see       gwt.awt.Component#setBounds(int, int, int, int)
+     * @see       java.awt.Component#setBounds(int, int, int, int)
      * @since     1.1
      */
     public void setBounds(int x, int y, int width, int height) {
@@ -439,7 +450,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * <code>getLocation</code> method of <code>Component</code>.
      * @return the <code>Point</code> that is the upper-left corner of
      *                  this <code>Rectangle</code>.
-     * @see       gwt.awt.Component#getLocation
+     * @see       java.awt.Component#getLocation
      * @see       #setLocation(Point)
      * @see       #setLocation(int, int)
      * @since     1.1
@@ -455,7 +466,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * <code>setLocation</code> method of <code>Component</code>.
      * @param p the <code>Point</code> specifying the new location
      *                for this <code>Rectangle</code>
-     * @see       gwt.awt.Component#setLocation(gwt.awt.Point)
+     * @see       java.awt.Component#setLocation(java.awt.Point)
      * @see       #getLocation
      * @since     1.1
      */
@@ -471,7 +482,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * @param x the X coordinate of the new location
      * @param y the Y coordinate of the new location
      * @see       #getLocation
-     * @see       gwt.awt.Component#setLocation(int, int)
+     * @see       java.awt.Component#setLocation(int, int)
      * @since     1.1
      */
     public void setLocation(int x, int y) {
@@ -500,8 +511,8 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      *                 along the X axis
      * @param dy the distance to move this <code>Rectangle</code>
      *                 along the Y axis
-     * @see       gwt.awt.Rectangle#setLocation(int, int)
-     * @see       gwt.awt.Rectangle#setLocation(gwt.awt.Point)
+     * @see       java.awt.Rectangle#setLocation(int, int)
+     * @see       java.awt.Rectangle#setLocation(java.awt.Point)
      */
     public void translate(int dx, int dy) {
         int oldv = this.x;
@@ -578,7 +589,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * <code>getSize</code> method of <code>Component</code>.
      * @return a <code>Dimension</code>, representing the size of
      *            this <code>Rectangle</code>.
-     * @see       gwt.awt.Component#getSize
+     * @see       java.awt.Component#getSize
      * @see       #setSize(Dimension)
      * @see       #setSize(int, int)
      * @since     1.1
@@ -594,7 +605,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * This method is included for completeness, to parallel the
      * <code>setSize</code> method of <code>Component</code>.
      * @param d the new size for the <code>Dimension</code> object
-     * @see       gwt.awt.Component#setSize(gwt.awt.Dimension)
+     * @see       java.awt.Component#setSize(java.awt.Dimension)
      * @see       #getSize
      * @since     1.1
      */
@@ -610,7 +621,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * <code>setSize</code> method of <code>Component</code>.
      * @param width the new width for this <code>Rectangle</code>
      * @param height the new height for this <code>Rectangle</code>
-     * @see       gwt.awt.Component#setSize(int, int)
+     * @see       java.awt.Component#setSize(int, int)
      * @see       #getSize
      * @since     1.1
      */
@@ -808,15 +819,15 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      *            this <code>Rectangle</code>; or if the rectangles
      *            do not intersect, an empty rectangle.
      */
-    public Rectangle intersection(Rectangle r) {
+    public Rectangle intersection(GRectangle r) {
         int tx1 = this.x;
         int ty1 = this.y;
-        int rx1 = r.x;
-        int ry1 = r.y;
+        int rx1 = (int) r.getX();
+        int ry1 = (int) r.getY();
         long tx2 = tx1; tx2 += this.width;
         long ty2 = ty1; ty2 += this.height;
-        long rx2 = rx1; rx2 += r.width;
-        long ry2 = ry1; ry2 += r.height;
+        long rx2 = rx1; rx2 += r.getWidth();
+        long ry2 = ry1; ry2 += r.getHeight();
         if (tx1 < rx1) tx1 = rx1;
         if (ty1 < ry1) ty1 = ry1;
         if (tx2 > rx2) tx2 = rx2;
@@ -854,7 +865,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      *            the specified <code>Rectangle</code> and this
      *            <code>Rectangle</code>.
      */
-    public GRectangle union(GRectangle r) {
+    public Rectangle union(GRectangle r) {
         long tx2 = this.width;
         long ty2 = this.height;
         if ((tx2 | ty2) < 0) {
@@ -864,7 +875,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
             // are non-existant and we can return any non-existant rectangle
             // as an answer.  Thus, returning r meets that criterion.
             // Either way, r is our answer.
-            return new Rectangle((Rectangle) r);
+            return new Rectangle(r);
         }
         long rx2 = (long) r.getWidth();
         long ry2 = (long) r.getHeight();
@@ -971,7 +982,7 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * @param pt the new <code>Point</code> to add to this
      *           <code>Rectangle</code>
      */
-    public void add(Point pt) {
+    public void add(GPoint pt) {
         add(pt.x, pt.y);
     }
 
@@ -1151,9 +1162,9 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public GRectangle2D createIntersection(GRectangle2D r) {
-        if (r instanceof Rectangle) {
-            return intersection((Rectangle) r);
+    public Rectangle2D createIntersection(GRectangle2D r) {
+        if (r instanceof GRectangle) {
+            return intersection((GRectangle) r);
         }
         Rectangle2D dest = new Rectangle2D.Double();
         Rectangle2D.intersect(this, r, dest);
@@ -1164,9 +1175,9 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
      * {@inheritDoc}
      * @since 1.2
      */
-    public GRectangle2D createUnion(GRectangle2D r) {
-        if (r instanceof Rectangle) {
-            return union((Rectangle) r);
+    public Rectangle2D createUnion(GRectangle2D r) {
+        if (r instanceof GRectangle) {
+            return union((GRectangle) r);
         }
         Rectangle2D dest = new Rectangle2D.Double();
         Rectangle2D.union(this, r, dest);
@@ -1206,9 +1217,20 @@ public class Rectangle extends Rectangle2D implements Shape, GRectangle
         return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
     }
 
-	@Override
-	public boolean intersects(int i, int j, int k, int l) {
-		return intersects((double)i, (double)j, (double)k, (double)l);
-	}
+    /**
+     * Sets the bounding <code>Rectangle</code> of this <code>Rectangle</code>
+     * to match the specified <code>Rectangle</code>.
+     * <p>
+     * This method is included for completeness, to parallel the
+     * <code>setBounds</code> method of <code>Component</code>.
+     * @param r the specified <code>Rectangle</code>
+     * @see       #getBounds
+     * @see       gwt.awt.Component#setBounds(gwt.awt.Rectangle)
+     * @since     1.1
+     */
+    public void setBounds(GRectangle r) {
+        setBounds((int)r.getX(), (int)r.getY(), (int)r.getWidth(), (int)r.getHeight());
+    }
+
 
 }

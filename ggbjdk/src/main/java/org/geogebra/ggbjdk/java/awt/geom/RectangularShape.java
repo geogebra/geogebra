@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -173,7 +173,8 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @see #setFrame(Rectangle2D)
      * @since 1.2
      */
-    public Rectangle2D getFrame() {
+    //@Transient
+    public GRectangle2D getFrame() {
         return new Rectangle2D.Double(getX(), getY(), getWidth(), getHeight());
     }
 
@@ -213,7 +214,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @see #getFrame
      * @since 1.2
      */
-    public void setFrame(Point2D loc, Dimension2D size) {
+    public void setFrame(GPoint2D loc, Dimension2D size) {
         setFrame(loc.getX(), loc.getY(), size.getWidth(), size.getHeight());
     }
 
@@ -226,7 +227,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @see #getFrame
      * @since 1.2
      */
-    public void setFrame(Rectangle2D r) {
+    public void setFrame(GRectangle2D r) {
         setFrame(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -267,7 +268,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @param p2 the end <code>Point2D</code> of the specified diagonal
      * @since 1.2
      */
-    public void setFrameFromDiagonal(Point2D p1, Point2D p2) {
+    public void setFrameFromDiagonal(GPoint2D p1, GPoint2D p2) {
         setFrameFromDiagonal(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
@@ -299,7 +300,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @param corner the specified corner <code>Point2D</code>
      * @since 1.2
      */
-    public void setFrameFromCenter(Point2D center, Point2D corner) {
+    public void setFrameFromCenter(GPoint2D center, GPoint2D corner) {
         setFrameFromCenter(center.getX(), center.getY(),
                            corner.getX(), corner.getY());
     }
@@ -386,5 +387,12 @@ public abstract class RectangularShape implements Shape, Cloneable {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
-    public abstract Object clone();
+//    public Object clone() {
+//        try {
+//            return super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // this shouldn't happen, since we are Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
 }

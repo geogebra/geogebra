@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,7 +28,6 @@ package org.geogebra.ggbjdk.java.awt.geom;
 import java.io.Serializable;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
 
 /**
  * The <code>Point2D</code> class defines a point representing a location
@@ -87,11 +86,11 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
             this.y = y;
         }
 
-        @Override
+        //@Override
         public Object clone() {
         	return new Float(x, y);
         }
-
+        
         /**
          * {@inheritDoc}
          * @since 1.2
@@ -147,12 +146,12 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
 
 		@Override
 		public void setX(double x) {
-			this.x = (float) x;
+			this.x = (float) x;			
 		}
 
 		@Override
 		public void setY(double y) {
-			this.y = (float) y;
+			this.y = (float) y;	
 		}
     }
 
@@ -198,12 +197,12 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
             this.x = x;
             this.y = y;
         }
-
-        @Override
+        
+        //@Override
         public Object clone() {
         	return new Double(x, y);
         }
-        
+
         /**
          * {@inheritDoc}
          * @since 1.2
@@ -246,7 +245,7 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
 
 		@Override
 		public void setX(double x) {
-			this.x = x;
+			this.x = x;			
 		}
 
 		@Override
@@ -262,9 +261,9 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.geom.Point2D.Float
-     * @see gwt.awt.geom.Point2D.Double
-     * @see gwt.awt.Point
+     * @see java.awt.geom.Point2D.Float
+     * @see java.awt.geom.Point2D.Double
+     * @see java.awt.Point
      * @since 1.2
      */
     protected Point2D() {
@@ -303,7 +302,7 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * this <code>Point2D</code>
      * @since 1.2
      */
-    public void setLocation(Point2D p) {
+    public void setLocation(GPoint2D p) {
         setLocation(p.getX(), p.getY());
     }
 
@@ -373,7 +372,7 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * <code>Point2D</code> to a specified <code>Point2D</code>.
      * @since 1.2
      */
-    public double distanceSq(Point2D pt) {
+    public double distanceSq(GPoint2D pt) {
         double px = pt.getX() - this.getX();
         double py = pt.getY() - this.getY();
         return (px * px + py * py);
@@ -421,17 +420,23 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
-    public abstract Object clone();
+//    public Object clone() {
+//        try {
+//            return super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // this shouldn't happen, since we are Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
 
     /**
      * Returns the hashcode for this <code>Point2D</code>.
      * @return      a hash code for this <code>Point2D</code>.
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(getX());
-    	hashCode.append(getY());
-    	return hashCode.hashCode();
+        long bits = java.lang.Double.doubleToLongBits(getX());
+        bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -446,8 +451,8 @@ public abstract class Point2D extends GPoint2D implements Cloneable {
      * @since 1.2
      */
     public boolean equals(Object obj) {
-        if (obj instanceof Point2D) {
-            Point2D p2d = (Point2D) obj;
+        if (obj instanceof GPoint2D) {
+            GPoint2D p2d = (GPoint2D) obj;
             return (getX() == p2d.getX()) && (getY() == p2d.getY());
         }
         return super.equals(obj);

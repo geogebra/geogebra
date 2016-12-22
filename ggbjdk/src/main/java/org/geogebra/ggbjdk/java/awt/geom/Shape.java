@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -45,7 +45,7 @@ import org.geogebra.common.awt.GShape;
  * object that describes the trajectory path of the <code>Shape</code>
  * outline.
  * <p>
- * <b>Definition of insideness:</b>
+ * <a name="def_insideness"><b>Definition of insideness:</b></a>
  * A point is considered to lie inside a
  * <code>Shape</code> if and only if:
  * <ul>
@@ -69,10 +69,10 @@ import org.geogebra.common.awt.GShape;
  * determining if a shape contains or intersects a rectangle or if a
  * shape contains a point.
  *
- * @see gwt.awt.geom.PathIterator
- * @see gwt.awt.geom.AffineTransform
- * @see gwt.awt.geom.FlatteningPathIterator
- * @see gwt.awt.geom.GeneralPath
+ * @see java.awt.geom.PathIterator
+ * @see java.awt.geom.AffineTransform
+ * @see java.awt.geom.FlatteningPathIterator
+ * @see java.awt.geom.GeneralPath
  *
  * @author Jim Graham
  * @since 1.2
@@ -90,6 +90,32 @@ public interface Shape extends GShape {
      * <code>getBounds2D</code> method generally returns a
      * tighter bounding box due to its greater flexibility in
      * representation.
+     *
+     * <p>
+     * Note that the <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
+     * definition of insideness</a> can lead to situations where points
+     * on the defining outline of the {@code shape} may not be considered
+     * contained in the returned {@code bounds} object, but only in cases
+     * where those points are also not considered contained in the original
+     * {@code shape}.
+     * </p>
+     * <p>
+     * If a {@code point} is inside the {@code shape} according to the
+     * {@link #contains(double x, double y) contains(point)} method, then
+     * it must be inside the returned {@code Rectangle} bounds object
+     * according to the {@link #contains(double x, double y) contains(point)}
+     * method of the {@code bounds}. Specifically:
+     * </p>
+     * <p>
+     *  {@code shape.contains(x,y)} requires {@code bounds.contains(x,y)}
+     * </p>
+     * <p>
+     * If a {@code point} is not inside the {@code shape}, then it might
+     * still be contained in the {@code bounds} object:
+     * </p>
+     * <p>
+     *  {@code bounds.contains(x,y)} does not imply {@code shape.contains(x,y)}
+     * </p>
      * @return an integer <code>Rectangle</code> that completely encloses
      *                 the <code>Shape</code>.
      * @see #getBounds2D
@@ -109,6 +135,32 @@ public interface Shape extends GShape {
      * to overflow problems since the return value can be an instance of
      * the <code>Rectangle2D</code> that uses double precision values to
      * store the dimensions.
+     *
+     * <p>
+     * Note that the <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
+     * definition of insideness</a> can lead to situations where points
+     * on the defining outline of the {@code shape} may not be considered
+     * contained in the returned {@code bounds} object, but only in cases
+     * where those points are also not considered contained in the original
+     * {@code shape}.
+     * </p>
+     * <p>
+     * If a {@code point} is inside the {@code shape} according to the
+     * {@link #contains(Point2D p) contains(point)} method, then it must
+     * be inside the returned {@code Rectangle2D} bounds object according
+     * to the {@link #contains(Point2D p) contains(point)} method of the
+     * {@code bounds}. Specifically:
+     * </p>
+     * <p>
+     *  {@code shape.contains(p)} requires {@code bounds.contains(p)}
+     * </p>
+     * <p>
+     * If a {@code point} is not inside the {@code shape}, then it might
+     * still be contained in the {@code bounds} object:
+     * </p>
+     * <p>
+     *  {@code bounds.contains(p)} does not imply {@code shape.contains(p)}
+     * </p>
      * @return an instance of <code>Rectangle2D</code> that is a
      *                 high-precision bounding box of the <code>Shape</code>.
      * @see #getBounds
@@ -118,7 +170,9 @@ public interface Shape extends GShape {
 
     /**
      * Tests if the specified coordinates are inside the boundary of the
-     * <code>Shape</code>.
+     * <code>Shape</code>, as described by the
+     * <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
+     * definition of insideness</a>.
      * @param x the specified X coordinate to be tested
      * @param y the specified Y coordinate to be tested
      * @return <code>true</code> if the specified coordinates are inside
@@ -130,7 +184,9 @@ public interface Shape extends GShape {
 
     /**
      * Tests if a specified {@link Point2D} is inside the boundary
-     * of the <code>Shape</code>.
+     * of the <code>Shape</code>, as described by the
+     * <a href="{@docRoot}/java/awt/Shape.html#def_insideness">
+     * definition of insideness</a>.
      * @param p the specified <code>Point2D</code> to be tested
      * @return <code>true</code> if the specified <code>Point2D</code> is
      *          inside the boundary of the <code>Shape</code>;
@@ -159,7 +215,7 @@ public interface Shape extends GShape {
      * This means that for some {@code Shapes} this method might
      * return {@code true} even though the rectangular area does not
      * intersect the {@code Shape}.
-     * The {@link gwt.awt.geom.Area Area} class performs
+     * The {@link java.awt.geom.Area Area} class performs
      * more accurate computations of geometric intersection than most
      * {@code Shape} objects and therefore can be used if a more precise
      * answer is required.
@@ -174,7 +230,7 @@ public interface Shape extends GShape {
      *          the interior of the rectangular area intersect, or are
      *          both highly likely to intersect and intersection calculations
      *          would be too expensive to perform; <code>false</code> otherwise.
-     * @see gwt.awt.geom.Area
+     * @see java.awt.geom.Area
      * @since 1.2
      */
     public boolean intersects(double x, double y, double w, double h);
@@ -195,7 +251,7 @@ public interface Shape extends GShape {
      * This means that for some {@code Shapes} this method might
      * return {@code true} even though the {@code Rectangle2D} does not
      * intersect the {@code Shape}.
-     * The {@link gwt.awt.geom.Area Area} class performs
+     * The {@link java.awt.geom.Area Area} class performs
      * more accurate computations of geometric intersection than most
      * {@code Shape} objects and therefore can be used if a more precise
      * answer is required.
@@ -215,7 +271,7 @@ public interface Shape extends GShape {
      * Tests if the interior of the <code>Shape</code> entirely contains
      * the specified rectangular area.  All coordinates that lie inside
      * the rectangular area must lie within the <code>Shape</code> for the
-     * entire rectanglar area to be considered contained within the
+     * entire rectangular area to be considered contained within the
      * <code>Shape</code>.
      * <p>
      * The {@code Shape.contains()} method allows a {@code Shape}
@@ -231,7 +287,7 @@ public interface Shape extends GShape {
      * This means that for some {@code Shapes} this method might
      * return {@code false} even though the {@code Shape} contains
      * the rectangular area.
-     * The {@link gwt.awt.geom.Area Area} class performs
+     * The {@link java.awt.geom.Area Area} class performs
      * more accurate geometric computations than most
      * {@code Shape} objects and therefore can be used if a more precise
      * answer is required.
@@ -249,7 +305,7 @@ public interface Shape extends GShape {
      *          <code>intersects</code> method returns <code>true</code>
      *          and the containment calculations would be too expensive to
      *          perform.
-     * @see gwt.awt.geom.Area
+     * @see java.awt.geom.Area
      * @see #intersects
      * @since 1.2
      */
@@ -271,7 +327,7 @@ public interface Shape extends GShape {
      * This means that for some {@code Shapes} this method might
      * return {@code false} even though the {@code Shape} contains
      * the {@code Rectangle2D}.
-     * The {@link gwt.awt.geom.Area Area} class performs
+     * The {@link java.awt.geom.Area Area} class performs
      * more accurate geometric computations than most
      * {@code Shape} objects and therefore can be used if a more precise
      * answer is required.

@@ -29,9 +29,7 @@ import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
 
 /**
  * The <code>Rectangle2D</code> class describes a rectangle
@@ -134,12 +132,6 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         public Float(float x, float y, float w, float h) {
             setRect(x, y, w, h);
         }
-        
-
-        @Override
-        public Object clone() {
-        	return new Float(x, y, width, height);
-        }
 
         /**
          * {@inheritDoc}
@@ -215,7 +207,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(Rectangle2D r) {
+        public void setRect(GRectangle2D r) {
             this.x = (float) r.getX();
             this.y = (float) r.getY();
             this.width = (float) r.getWidth();
@@ -259,7 +251,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             return new Float(x, y, width, height);
         }
 
@@ -267,7 +259,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D createIntersection(GRectangle2D r) {
+        public Rectangle2D createIntersection(GRectangle2D r) {
             Rectangle2D dest;
             if (r instanceof Float) {
                 dest = new Rectangle2D.Float();
@@ -282,7 +274,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D createUnion(GRectangle2D r) {
+        public Rectangle2D createUnion(GRectangle2D r) {
             Rectangle2D dest;
             if (r instanceof Float) {
                 dest = new Rectangle2D.Float();
@@ -312,17 +304,6 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = 3798716824173675777L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -384,12 +365,6 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         public Double(double x, double y, double w, double h) {
             setRect(x, y, w, h);
         }
-        
-
-        @Override
-        public Object clone() {
-        	return new Double(x, y, width, height);
-        }
 
         /**
          * {@inheritDoc}
@@ -446,7 +421,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public void setRect(Rectangle2D r) {
+        public void setRect(GRectangle2D r) {
             this.x = r.getX();
             this.y = r.getY();
             this.width = r.getWidth();
@@ -480,7 +455,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             return new Double(x, y, width, height);
         }
 
@@ -489,7 +464,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * @since 1.2
          */
         public GRectangle2D createIntersection(GRectangle2D r) {
-            Rectangle2D dest = new Rectangle2D.Double();
+            GRectangle2D dest = new Rectangle2D.Double();
             Rectangle2D.intersect(this, r, dest);
             return dest;
         }
@@ -499,7 +474,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * @since 1.2
          */
         public GRectangle2D createUnion(GRectangle2D r) {
-            Rectangle2D dest = new Rectangle2D.Double();
+            GRectangle2D dest = new Rectangle2D.Double();
             Rectangle2D.union(this, r, dest);
             return dest;
         }
@@ -523,17 +498,6 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = 7771313791441850493L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -543,9 +507,9 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.geom.Rectangle2D.Float
-     * @see gwt.awt.geom.Rectangle2D.Double
-     * @see gwt.awt.Rectangle
+     * @see java.awt.geom.Rectangle2D.Float
+     * @see java.awt.geom.Rectangle2D.Double
+     * @see java.awt.Rectangle
      * @since 1.2
      */
     protected Rectangle2D() {
@@ -571,7 +535,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @param r the specified <code>Rectangle2D</code>
      * @since 1.2
      */
-    public void setRect(Rectangle2D r) {
+    public void setRect(GRectangle2D r) {
         setRect(r.getX(), r.getY(), r.getWidth(), r.getHeight());
     }
 
@@ -692,7 +656,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @since 1.2
      */
     public GRectangle2D getBounds2D() {
-        return (Rectangle2D) clone();
+        return (GRectangle2D) clone();
     }
 
     /**
@@ -863,7 +827,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * <code>Rectangle2D</code>.
      * @since 1.2
      */
-    public void add(GPoint2D pt) {
+    public void add(Point2D pt) {
         add(pt.getX(), pt.getY());
     }
 
@@ -934,12 +898,11 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @since 1.2
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(getX());
-    	hashCode.append(getY());
-    	hashCode.append(getWidth());
-    	hashCode.append(getHeight());
-    	return hashCode.hashCode();
+        long bits = java.lang.Double.doubleToLongBits(getX());
+        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
+        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
+        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -959,8 +922,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Rectangle2D) {
-            Rectangle2D r2d = (Rectangle2D) obj;
+        if (obj instanceof GRectangle2D) {
+            GRectangle2D r2d = (GRectangle2D) obj;
             return ((getX() == r2d.getX()) &&
                     (getY() == r2d.getY()) &&
                     (getWidth() == r2d.getWidth()) &&
@@ -968,4 +931,20 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         }
         return false;
     }
+    
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
+	
+    public Object clone() {
+    	return new Rectangle2D.Double(this.getX(), this.getY(), this.getWidth(), this.getHeight());
+    }
+
+
 }

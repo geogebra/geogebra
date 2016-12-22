@@ -29,10 +29,8 @@ import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GEllipse2DDouble;
-import org.geogebra.common.awt.GEllipse2DFloat;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
 
 /**
  * The <code>Ellipse2D</code> class describes an ellipse that is defined
@@ -53,7 +51,7 @@ public abstract class Ellipse2D extends RectangularShape {
      * in <code>float</code> precision.
      * @since 1.2
      */
-    public static class Float extends Ellipse2D implements Serializable, GEllipse2DFloat {
+    public static class Float extends Ellipse2D implements Serializable {
         /**
          * The X coordinate of the upper-left corner of the
          * framing rectangle of this {@code Ellipse2D}.
@@ -106,12 +104,6 @@ public abstract class Ellipse2D extends RectangularShape {
          */
         public Float(float x, float y, float w, float h) {
             setFrame(x, y, w, h);
-        }
-        
-
-        @Override
-        public Object clone() {
-        	return new Float(x, y, width, height);
         }
 
         /**
@@ -188,7 +180,7 @@ public abstract class Ellipse2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             return new Rectangle2D.Float(x, y, width, height);
         }
 
@@ -196,17 +188,6 @@ public abstract class Ellipse2D extends RectangularShape {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = -6633761252372475977L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -267,11 +248,6 @@ public abstract class Ellipse2D extends RectangularShape {
          */
         public Double(double x, double y, double w, double h) {
             setFrame(x, y, w, h);
-        }
-        
-        @Override
-        public Object clone() {
-        	return new Double(x, y, width, height);
         }
 
         /**
@@ -338,16 +314,6 @@ public abstract class Ellipse2D extends RectangularShape {
          */
         private static final long serialVersionUID = 5555464816372320683L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -357,8 +323,8 @@ public abstract class Ellipse2D extends RectangularShape {
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.geom.Ellipse2D.Float
-     * @see gwt.awt.geom.Ellipse2D.Double
+     * @see java.awt.geom.Ellipse2D.Float
+     * @see java.awt.geom.Ellipse2D.Double
      * @since 1.2
      */
     protected Ellipse2D() {
@@ -468,12 +434,11 @@ public abstract class Ellipse2D extends RectangularShape {
      * @since 1.6
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(getX());
-    	hashCode.append(getY());
-    	hashCode.append(getWidth());
-    	hashCode.append(getHeight());
-    	return hashCode.hashCode();
+        long bits = java.lang.Double.doubleToLongBits(getX());
+        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
+        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
+        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -502,4 +467,15 @@ public abstract class Ellipse2D extends RectangularShape {
         }
         return false;
     }
+    
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
+
 }

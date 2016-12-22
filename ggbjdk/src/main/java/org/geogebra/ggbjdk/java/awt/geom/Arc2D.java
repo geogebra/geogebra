@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -25,14 +25,14 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
-
 import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GArc2D;
 import org.geogebra.common.awt.GPathIterator;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
+import org.geogebra.ggbjdk.java.awt.geom.utils.GWTMath;
 
 /**
  * <CODE>Arc2D</CODE> is the abstract superclass for all objects that
@@ -202,7 +202,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
          * @since 1.2
          */
-        public Float(Rectangle2D ellipseBounds,
+        public Float(GRectangle2D ellipseBounds,
                      float start, float extent, int type) {
             super(type);
             this.x = (float) ellipseBounds.getX();
@@ -211,12 +211,6 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
             this.height = (float) ellipseBounds.getHeight();
             this.start = start;
             this.extent = extent;
-        }
-        
-
-        @Override
-        public Object clone() {
-        	return new Float(x, y, width, height, start, extent, getArcType());
         }
 
         /**
@@ -326,7 +320,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        protected Rectangle2D makeBounds(double x, double y,
+        protected GRectangle2D makeBounds(double x, double y,
                                          double w, double h) {
             return new Rectangle2D.Float((float) x, (float) y,
                                          (float) w, (float) h);
@@ -337,17 +331,53 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          */
         private static final long serialVersionUID = 9130893014586380278L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
+        /**
+         * Writes the default serializable fields to the
+         * <code>ObjectOutputStream</code> followed by a byte
+         * indicating the arc type of this <code>Arc2D</code>
+         * instance.
+         *
+         * @serialData
+         * <ol>
+         * <li>The default serializable fields.
+         * <li>
+         * followed by a <code>byte</code> indicating the arc type
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+//        private void writeObject(java.io.ObjectOutputStream s)
+//            throws java.io.IOException
+//        {
+//            s.defaultWriteObject();
+//
+//            s.writeByte(getArcType());
+//        }
 
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
-
+        /**
+         * Reads the default serializable fields from the
+         * <code>ObjectInputStream</code> followed by a byte
+         * indicating the arc type of this <code>Arc2D</code>
+         * instance.
+         *
+         * @serialData
+         * <ol>
+         * <li>The default serializable fields.
+         * <li>
+         * followed by a <code>byte</code> indicating the arc type
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+//        private void readObject(java.io.ObjectInputStream s)
+//            throws java.lang.ClassNotFoundException, java.io.IOException
+//        {
+//            s.defaultReadObject();
+//
+//            try {
+//                setArcType(s.readByte());
+//            } catch (IllegalArgumentException iae) {
+//                throw new java.io.InvalidObjectException(iae.getMessage());
+//            }
+//        }
     }
 
     /**
@@ -475,11 +505,6 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
             this.start = start;
             this.extent = extent;
         }
-        
-        @Override
-        public Object clone() {
-        	return new Double(x, y, width, height, start, extent, getArcType());
-        }
 
         /**
          * {@inheritDoc}
@@ -598,17 +623,53 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
          */
         private static final long serialVersionUID = 728264085846882001L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
+        /**
+         * Writes the default serializable fields to the
+         * <code>ObjectOutputStream</code> followed by a byte
+         * indicating the arc type of this <code>Arc2D</code>
+         * instance.
+         *
+         * @serialData
+         * <ol>
+         * <li>The default serializable fields.
+         * <li>
+         * followed by a <code>byte</code> indicating the arc type
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+//        private void writeObject(java.io.ObjectOutputStream s)
+//            throws java.io.IOException
+//        {
+//            s.defaultWriteObject();
+//
+//            s.writeByte(getArcType());
+//        }
 
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
-
+        /**
+         * Reads the default serializable fields from the
+         * <code>ObjectInputStream</code> followed by a byte
+         * indicating the arc type of this <code>Arc2D</code>
+         * instance.
+         *
+         * @serialData
+         * <ol>
+         * <li>The default serializable fields.
+         * <li>
+         * followed by a <code>byte</code> indicating the arc type
+         * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
+         * </ol>
+         */
+//        private void readObject(java.io.ObjectInputStream s)
+//            throws java.lang.ClassNotFoundException, java.io.IOException
+//        {
+//            s.defaultReadObject();
+//
+//            try {
+//                setArcType(s.readByte());
+//            } catch (IllegalArgumentException iae) {
+//                throw new java.io.InvalidObjectException(iae.getMessage());
+//            }
+//        }
     }
 
     private int type;
@@ -624,10 +685,10 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * type of {@link #OPEN}.  It is provided only to enable
      * serialization of subclasses.
      *
-     * @see gwt.awt.geom.Arc2D.Float
-     * @see gwt.awt.geom.Arc2D.Double
+     * @see java.awt.geom.Arc2D.Float
+     * @see java.awt.geom.Arc2D.Double
      */
-    Arc2D() {
+    protected Arc2D() {
         this(OPEN);
     }
 
@@ -640,8 +701,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      *
      * @param type The closure type of this arc:
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
-     * @see gwt.awt.geom.Arc2D.Float
-     * @see gwt.awt.geom.Arc2D.Double
+     * @see java.awt.geom.Arc2D.Float
+     * @see java.awt.geom.Arc2D.Double
      * @since 1.2
      */
     protected Arc2D(int type) {
@@ -689,7 +750,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * x,y coordinates of the starting point of the arc.
      * @since 1.2
      */
-    public Point2D getStartPoint() {
+    public GPoint2D getStartPoint() {
         double angle = Math.toRadians(-getAngleStart());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
@@ -706,7 +767,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * x,y coordinates  of the ending point of the arc.
      * @since 1.2
      */
-    public Point2D getEndPoint() {
+    public GPoint2D getEndPoint() {
         double angle = Math.toRadians(-getAngleStart() - getAngleExtent());
         double x = getX() + (Math.cos(angle) * 0.5 + 0.5) * getWidth();
         double y = getY() + (Math.sin(angle) * 0.5 + 0.5) * getHeight();
@@ -747,7 +808,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public void setArc(Point2D loc, Dimension2D size,
+    public void setArc(GPoint2D loc, Dimension2D size,
                        double angSt, double angExt, int closure) {
         setArc(loc.getX(), loc.getY(), size.getWidth(), size.getHeight(),
                angSt, angExt, closure);
@@ -766,7 +827,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * {@link #OPEN}, {@link #CHORD}, or {@link #PIE}.
      * @since 1.2
      */
-    public void setArc(Rectangle2D rect, double angSt, double angExt,
+    public void setArc(GRectangle2D rect, double angSt, double angExt,
                        int closure) {
         setArc(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(),
                angSt, angExt, closure);
@@ -821,7 +882,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @param radius The radius of the arc.
      * @since 1.2
      */
-    public void setArcByTangent(Point2D p1, Point2D p2, Point2D p3,
+    public void setArcByTangent(GPoint2D p1, Point2D p2, Point2D p3,
                                 double radius) {
         double ang1 = Math.atan2(p1.getY() - p2.getY(),
                                  p1.getX() - p2.getX());
@@ -1051,7 +1112,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      *     of this arc.
      * @since 1.2
      */
-    protected abstract Rectangle2D makeBounds(double x, double y,
+    protected abstract GRectangle2D makeBounds(double x, double y,
                                               double w, double h);
 
     /*
@@ -1062,7 +1123,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
             if (angle <= (180.0 + 360.0)) {
                 angle = angle - 360.0;
             } else {
-                angle = angle % 360.0; // Math.IEEEremainder(angle, 360.0);
+                angle = GWTMath.IEEEremainder(angle, 360.0);
                 // IEEEremainder can return -180 here for some input values...
                 if (angle == -180.0) {
                     angle = 180.0;
@@ -1072,7 +1133,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
             if (angle > (-180.0 - 360.0)) {
                 angle = angle + 360.0;
             } else {
-                angle = angle % 360.0; // Math.IEEEremainder(angle, 360.0);
+                angle = GWTMath.IEEEremainder(angle, 360.0);
                 // IEEEremainder can return -180 here for some input values...
                 if (angle == -180.0) {
                     angle = 180.0;
@@ -1217,8 +1278,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         // extract necessary data
         double axc = getCenterX();
         double ayc = getCenterY();
-        Point2D sp = getStartPoint();
-        Point2D ep = getEndPoint();
+        GPoint2D sp = getStartPoint();
+        GPoint2D ep = getEndPoint();
         double sx = sp.getX();
         double sy = sp.getY();
         double ex = ep.getX();
@@ -1308,12 +1369,12 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * <CODE>false</CODE> if the arc doesn't contain the rectangle.
      * @since 1.2
      */
-    public boolean contains(GRectangle2D r) {
+    public boolean contains(Rectangle2D r) {
         return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight(), r);
     }
 
     private boolean contains(double x, double y, double w, double h,
-                             GRectangle2D origrect) {
+                             Rectangle2D origrect) {
         if (!(contains(x, y) &&
               contains(x + w, y) &&
               contains(x, y + h) &&
@@ -1367,7 +1428,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @return A <CODE>PathIterator</CODE> that defines the arc's boundary.
      * @since 1.2
      */
-    public GPathIterator getPathIterator(GAffineTransform at) {
+    public GPathIterator getPathIterator(AffineTransform at) {
         return new ArcIterator(this, at);
     }
 
@@ -1377,15 +1438,14 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
      * @since 1.6
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(getX());
-    	hashCode.append(getY());
-    	hashCode.append(getWidth());
-    	hashCode.append(getHeight());
-    	hashCode.append(getAngleStart());
-    	hashCode.append(getAngleExtent());
-    	hashCode.append(getArcType());
-    	return hashCode.hashCode();
+        long bits = java.lang.Double.doubleToLongBits(getX());
+        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
+        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
+        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+        bits += java.lang.Double.doubleToLongBits(getAngleStart()) * 53;
+        bits += java.lang.Double.doubleToLongBits(getAngleExtent()) * 59;
+        bits += getArcType() * 61;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -1418,4 +1478,22 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         }
         return false;
     }
+    
+    public GPathIterator getPathIterator(GAffineTransform at) {
+        return new ArcIterator(this, at);
+    }
+    
+
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
+
+
+
 }

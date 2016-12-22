@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -46,7 +46,7 @@ public abstract class Dimension2D implements Cloneable {
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.Dimension
+     * @see java.awt.Dimension
      * @since 1.2
      */
     protected Dimension2D() {
@@ -72,8 +72,8 @@ public abstract class Dimension2D implements Cloneable {
      * Sets the size of this <code>Dimension</code> object to the
      * specified width and height.
      * This method is included for completeness, to parallel the
-     * {@link gwt.awt.Component#getSize getSize} method of
-     * {@link gwt.awt.Component}.
+     * {@link java.awt.Component#getSize getSize} method of
+     * {@link java.awt.Component}.
      * @param width  the new width for the <code>Dimension</code>
      * object
      * @param height  the new height for the <code>Dimension</code>
@@ -103,5 +103,12 @@ public abstract class Dimension2D implements Cloneable {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
-    public abstract Object clone();
+//    public Object clone() {
+//        try {
+//            return super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // this shouldn't happen, since we are Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
 }

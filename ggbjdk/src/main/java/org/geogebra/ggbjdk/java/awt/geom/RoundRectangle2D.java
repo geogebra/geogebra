@@ -29,8 +29,6 @@ import java.io.Serializable;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
-import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
 
 /**
  * The <code>RoundRectangle2D</code> class defines a rectangle with
@@ -131,11 +129,6 @@ public abstract class RoundRectangle2D extends RectangularShape {
                      float arcw, float arch)
         {
             setRoundRect(x, y, w, h, arcw, arch);
-        }
-        
-        @Override
-        public Object clone() {
-        	return new Float(x, y, width, height, arcwidth, archeight);
         }
 
         /**
@@ -256,7 +249,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             return new Rectangle2D.Float(x, y, width, height);
         }
 
@@ -264,17 +257,6 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = -3423150618393866922L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -360,12 +342,6 @@ public abstract class RoundRectangle2D extends RectangularShape {
                       double arcw, double arch)
         {
             setRoundRect(x, y, w, h, arcw, arch);
-        }
-        
-
-        @Override
-        public Object clone() {
-        	return new Double(x, y, width, height, arcwidth, archeight);
         }
 
         /**
@@ -456,7 +432,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             return new Rectangle2D.Double(x, y, width, height);
         }
 
@@ -464,17 +440,6 @@ public abstract class RoundRectangle2D extends RectangularShape {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = 1048939333485206117L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -484,8 +449,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.geom.RoundRectangle2D.Float
-     * @see gwt.awt.geom.RoundRectangle2D.Double
+     * @see java.awt.geom.RoundRectangle2D.Float
+     * @see java.awt.geom.RoundRectangle2D.Double
      * @since 1.2
      */
     protected RoundRectangle2D() {
@@ -678,14 +643,13 @@ public abstract class RoundRectangle2D extends RectangularShape {
      * @since 1.6
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(getX());
-    	hashCode.append(getY());
-    	hashCode.append(getWidth());
-    	hashCode.append(getHeight());
-    	hashCode.append(getArcWidth());
-    	hashCode.append(getArcHeight());
-    	return hashCode.hashCode();
+        long bits = java.lang.Double.doubleToLongBits(getX());
+        bits += java.lang.Double.doubleToLongBits(getY()) * 37;
+        bits += java.lang.Double.doubleToLongBits(getWidth()) * 43;
+        bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
+        bits += java.lang.Double.doubleToLongBits(getArcWidth()) * 53;
+        bits += java.lang.Double.doubleToLongBits(getArcHeight()) * 59;
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -717,4 +681,14 @@ public abstract class RoundRectangle2D extends RectangularShape {
         }
         return false;
     }
+    
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
 }

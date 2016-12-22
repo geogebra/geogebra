@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,7 +28,6 @@ package org.geogebra.ggbjdk.java.awt.geom;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
 
 /**
  * The <code>AffineTransform</code> class represents a 2D affine transform
@@ -48,8 +47,7 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
  *      [ y'] = [  m10  m11  m12  ] [ y ] = [ m10x + m11y + m12 ]
  *      [ 1 ]   [   0    0    1   ] [ 1 ]   [         1         ]
  * </pre>
- * <p>
- * <a name="quadrantapproximation"><h4>Handling 90-Degree Rotations</h4></a>
+ * <h3><a name="quadrantapproximation">Handling 90-Degree Rotations</a></h3>
  * <p>
  * In some variations of the <code>rotate</code> methods in the
  * <code>AffineTransform</code> class, a double-precision argument
@@ -114,7 +112,7 @@ import org.geogebra.ggbjdk.java.awt.geom.utils.HashCode;
  * @author Jim Graham
  * @since 1.2
  */
-public class AffineTransform implements Cloneable, GAffineTransform {
+public class AffineTransform implements GAffineTransform {
 
     /*
      * This constant is only useful for the cached type field.
@@ -487,7 +485,10 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @param Tx the <code>AffineTransform</code> object to copy
      * @since 1.2
      */
-    public AffineTransform(AffineTransform Tx) {
+    public AffineTransform(GAffineTransform Tx0) {
+    	
+    	AffineTransform Tx = (AffineTransform) Tx0;
+    	
         this.m00 = Tx.m00;
         this.m10 = Tx.m10;
         this.m01 = Tx.m01;
@@ -526,7 +527,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
     /**
      * Constructs a new <code>AffineTransform</code> from an array of
      * floating point values representing either the 4 non-translation
-     * enries or the 6 specifiable entries of the 3x3 transformation
+     * entries or the 6 specifiable entries of the 3x3 transformation
      * matrix.  The values are retrieved from the array as
      * {&nbsp;m00&nbsp;m10&nbsp;m01&nbsp;m11&nbsp;[m02&nbsp;m12]}.
      * @param flatmatrix the float array containing the values to be set
@@ -716,7 +717,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 
     /**
      * Returns a transform that rotates coordinates around an anchor
-     * point accordinate to a rotation vector.
+     * point according to a rotation vector.
      * All coordinates rotate about the specified anchor coordinates
      * by the same amount.
      * The amount of rotation is such that coordinates along the former
@@ -846,7 +847,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * this transform.
      * The return value is either one of the constants TYPE_IDENTITY
      * or TYPE_GENERAL_TRANSFORM, or a combination of the
-     * appriopriate flag bits.
+     * appropriate flag bits.
      * A valid combination of flag bits is an exclusive OR operation
      * that can combine
      * the TYPE_TRANSLATION flag bit
@@ -877,6 +878,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * they have not been cached.
      * @see #getType
      */
+    @SuppressWarnings("fallthrough")
     private void calculateType() {
         int ret = TYPE_IDENTITY;
         boolean sgn0, sgn1;
@@ -1039,6 +1041,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @see #TYPE_UNIFORM_SCALE
      * @since 1.2
      */
+    @SuppressWarnings("fallthrough")
     public double getDeterminant() {
         switch (state) {
         default:
@@ -1126,7 +1129,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * a case was forgotten in a switch statement.
      */
     private void stateError() {
-        throw new RuntimeException("missing case in transform state switch");
+        throw new Error("missing case in transform state switch");
     }
 
     /**
@@ -1251,6 +1254,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             m02 = tx * m00 + ty * m01 + m02;
             m12 = tx * m10 + ty * m11 + m12;
@@ -1632,6 +1636,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
+    @SuppressWarnings("fallthrough")
     public void scale(double sx, double sy) {
         int state = this.state;
         switch (state) {
@@ -1706,6 +1711,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (APPLY_SHEAR | APPLY_SCALE):
             double M0, M1;
@@ -2170,10 +2176,10 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @since 1.2
      */
     public void setTransform(GAffineTransform Tx0) {
-    	
+
     	AffineTransform Tx = (AffineTransform) Tx0;
     	
-        this.m00 = Tx.m00;
+    	this.m00 = Tx.m00;
         this.m10 = Tx.m10;
         this.m01 = Tx.m01;
         this.m11 = Tx.m11;
@@ -2228,6 +2234,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @see #preConcatenate
      * @since 1.2
      */
+    @SuppressWarnings("fallthrough")
     public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;
@@ -2439,6 +2446,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @see #concatenate
      * @since 1.2
      */
+    @SuppressWarnings("fallthrough")
     public void preConcatenate(AffineTransform Tx) {
         double M0, M1;
         double T00, T01, T10, T11;
@@ -2662,6 +2670,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return null;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             det = m00 * m11 - m01 * m10;
             if (Math.abs(det) <= Double.MIN_VALUE) {
@@ -2758,6 +2767,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -2874,7 +2884,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @param ptDst the specified <code>Point2D</code> that stores the
      * result of transforming <code>ptSrc</code>
      * @return the <code>ptDst</code> after transforming
-     * <code>ptSrc</code> and stroring the result in <code>ptDst</code>.
+     * <code>ptSrc</code> and storing the result in <code>ptDst</code>.
      * @since 1.2
      */
     public GPoint2D transform(GPoint2D ptSrc, GPoint2D ptDst) {
@@ -2892,6 +2902,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return null;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             ptDst.setLocation(x * m00 + y * m01 + m02,
                               x * m10 + y * m11 + m12);
@@ -2953,16 +2964,16 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @param numPts the number of point objects to be transformed
      * @since 1.2
      */
-    public void transform(Point2D[] ptSrc, int srcOff,
-                          Point2D[] ptDst, int dstOff,
+    public void transform(GPoint2D[] ptSrc, int srcOff,
+                          GPoint2D[] ptDst, int dstOff,
                           int numPts) {
         int state = this.state;
         while (--numPts >= 0) {
             // Copy source coords into local variables in case src == dst
-            Point2D src = ptSrc[srcOff++];
+            GPoint2D src = ptSrc[srcOff++];
             double x = src.getX();
             double y = src.getY();
-            Point2D dst = ptDst[dstOff++];
+            GPoint2D dst = ptDst[dstOff++];
             if (dst == null) {
                 if (src instanceof Point2D.Double) {
                     dst = new Point2D.Double();
@@ -2975,6 +2986,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
             default:
                 stateError();
                 /* NOTREACHED */
+                return;
             case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
                 dst.setLocation(x * m00 + y * m01 + m02,
                                 x * m10 + y * m11 + m12);
@@ -3050,6 +3062,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -3164,6 +3177,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -3259,6 +3273,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -3354,6 +3369,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -3443,7 +3459,8 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      *                                         inverted.
      * @since 1.2
      */
-    public Point2D inverseTransform(Point2D ptSrc, Point2D ptDst)
+    @SuppressWarnings("fallthrough")
+    public GPoint2D inverseTransform(GPoint2D ptSrc, GPoint2D ptDst)
         throws NoninvertibleTransformException
     {
         if (ptDst == null) {
@@ -3554,6 +3571,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M00 = m00; M01 = m01; M02 = m02;
             M10 = m10; M11 = m11; M12 = m12;
@@ -3671,7 +3689,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * transformation.
      * @since 1.2
      */
-    public Point2D deltaTransform(Point2D ptSrc, Point2D ptDst) {
+    public GPoint2D deltaTransform(GPoint2D ptSrc, GPoint2D ptDst) {
         if (ptDst == null) {
             if (ptSrc instanceof Point2D.Double) {
                 ptDst = new Point2D.Double();
@@ -3686,6 +3704,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return null;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (APPLY_SHEAR | APPLY_SCALE):
             ptDst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
@@ -3761,6 +3780,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            return;
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (APPLY_SHEAR | APPLY_SCALE):
             M00 = m00; M01 = m01;
@@ -3858,8 +3878,8 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    public Object clone(){
-    	return new AffineTransform(this);
+    public Object clone() {
+        return new AffineTransform(this);
     }
 
     /**
@@ -3868,14 +3888,13 @@ public class AffineTransform implements Cloneable, GAffineTransform {
      * @since 1.2
      */
     public int hashCode() {
-    	HashCode hashCode = new HashCode();
-    	hashCode.append(m00);
-    	hashCode.append(m01);
-    	hashCode.append(m02);
-    	hashCode.append(m10);
-    	hashCode.append(m11);
-    	hashCode.append(m12);
-    	return hashCode.hashCode();
+        long bits = Double.doubleToLongBits(m00);
+        bits = bits * 31 + Double.doubleToLongBits(m01);
+        bits = bits * 31 + Double.doubleToLongBits(m02);
+        bits = bits * 31 + Double.doubleToLongBits(m10);
+        bits = bits * 31 + Double.doubleToLongBits(m11);
+        bits = bits * 31 + Double.doubleToLongBits(m12);
+        return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
@@ -3898,5 +3917,30 @@ public class AffineTransform implements Cloneable, GAffineTransform {
         return ((m00 == a.m00) && (m01 == a.m01) && (m02 == a.m02) &&
                 (m10 == a.m10) && (m11 == a.m11) && (m12 == a.m12));
     }
+
+    /* Serialization support.  A readObject method is neccessary because
+     * the state field is part of the implementation of this particular
+     * AffineTransform and not part of the public specification.  The
+     * state variable's value needs to be recalculated on the fly by the
+     * readObject method as it is in the 6-argument matrix constructor.
+     */
+
+    /*
+     * JDK 1.2 serialVersionUID
+     */
+    private static final long serialVersionUID = 1330973210523860834L;
+
+//    private void writeObject(java.io.ObjectOutputStream s)
+//        throws java.lang.ClassNotFoundException, java.io.IOException
+//    {
+//        s.defaultWriteObject();
+//    }
+//
+//    private void readObject(java.io.ObjectInputStream s)
+//        throws java.lang.ClassNotFoundException, java.io.IOException
+//    {
+//        s.defaultReadObject();
+//        updateState();
+//    }
 
 }

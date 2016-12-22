@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -40,7 +40,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * default coordinate system called <i>user space</i> in which the y-axis
  * values increase downward and x-axis values increase to the right.  For
  * more information on the user space coordinate system, see the
- * <a href="http://java.sun.com/j2se/1.3/docs/guide/2d/spec/j2d-intro.fm2.html#61857">
+ * <a href="https://docs.oracle.com/javase/1.3/docs/guide/2d/spec/j2d-intro.fm2.html#61857">
  * Coordinate Systems</a> section of the Java 2D Programmer's Guide.
  * <p>
  * This class is only the abstract superclass for all objects that
@@ -57,7 +57,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * A line segment specified with float coordinates.
      * @since 1.2
      */
-    public static class Float extends Line2D implements Serializable, GLine2D {
+    public static class Float extends Line2D implements Serializable {
         /**
          * The X coordinate of the start point of the line segment.
          * @since 1.2
@@ -87,7 +87,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
         public float y2;
 
         /**
-         * Constructs and initializes a Line with coordinates (0, 0) -> (0, 0).
+         * Constructs and initializes a Line with coordinates (0, 0) &rarr; (0, 0).
          * @since 1.2
          */
         public Float() {
@@ -112,14 +112,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
          * @param p2 the end <code>Point2D</code> of this line segment
          * @since 1.2
          */
-        public Float(Point2D p1, Point2D p2) {
+        public Float(GPoint2D p1, GPoint2D p2) {
             setLine(p1, p2);
-        }
-        
-
-        @Override
-        public Object clone() {
-        	return new Float(x1, y1, x2, y2);
         }
 
         /**
@@ -225,16 +219,6 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
          */
         private static final long serialVersionUID = 6161772511649436349L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -271,7 +255,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
         public double y2;
 
         /**
-         * Constructs and initializes a Line with coordinates (0, 0) -> (0, 0).
+         * Constructs and initializes a Line with coordinates (0, 0) &rarr; (0, 0).
          * @since 1.2
          */
         public Double() {
@@ -297,13 +281,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
          * @param p2 the end <code>Point2D</code> of this line segment
          * @since 1.2
          */
-        public Double(Point2D p1, Point2D p2) {
+        public Double(GPoint2D p1, GPoint2D p2) {
             setLine(p1, p2);
-        }
-        
-        @Override
-        public Object clone() {
-        	return new Double(x1, y1, x2, y2);
         }
 
         /**
@@ -393,16 +372,6 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
          */
         private static final long serialVersionUID = 7979627399746467499L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -412,8 +381,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * the information necessary to satisfy the various accessory
      * methods below.
      *
-     * @see gwt.awt.geom.Line2D.Float
-     * @see gwt.awt.geom.Line2D.Double
+     * @see java.awt.geom.Line2D.Float
+     * @see java.awt.geom.Line2D.Double
      * @since 1.2
      */
     protected Line2D() {
@@ -483,7 +452,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @param p2 the end <code>Point2D</code> of the line segment
      * @since 1.2
      */
-    public void setLine(Point2D p1, Point2D p2) {
+    public void setLine(GPoint2D p1, GPoint2D p2) {
         setLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
     }
 
@@ -515,7 +484,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * direction is clockwise.
      * <p>A return value of 0 indicates that the point lies
      * exactly on the line segment.  Note that an indicator value
-     * of 0 is rare and not useful for determining colinearity
+     * of 0 is rare and not useful for determining collinearity
      * because of floating point rounding issues.
      * <p>If the point is colinear with the line segment, but
      * not between the end points, then the value will be -1 if the point
@@ -607,7 +576,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see #relativeCCW(double, double, double, double, double, double)
      * @since 1.2
      */
-    public int relativeCCW(Point2D p) {
+    public int relativeCCW(GPoint2D p) {
         return relativeCCW(getX1(), getY1(), getX2(), getY2(),
                            p.getX(), p.getY());
     }
@@ -661,7 +630,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      *           specified line segment
      * @param y2 the Y coordinate of the end point of the
      *           specified line segment
-     * @return <true> if this line segment and the specified line segment
+     * @return {@code <true>} if this line segment and the specified line segment
      *                  intersect each other; <code>false</code> otherwise.
      * @since 1.2
      */
@@ -824,7 +793,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see #ptLineDistSq(Point2D)
      * @since 1.2
      */
-    public double ptSegDistSq(Point2D pt) {
+    public double ptSegDistSq(GPoint2D pt) {
         return ptSegDistSq(getX1(), getY1(), getX2(), getY2(),
                            pt.getX(), pt.getY());
     }
@@ -864,7 +833,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see #ptLineDist(Point2D)
      * @since 1.2
      */
-    public double ptSegDist(Point2D pt) {
+    public double ptSegDist(GPoint2D pt) {
         return ptSegDist(getX1(), getY1(), getX2(), getY2(),
                          pt.getX(), pt.getY());
     }
@@ -976,7 +945,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see #ptSegDistSq(Point2D)
      * @since 1.2
      */
-    public double ptLineDistSq(Point2D pt) {
+    public double ptLineDistSq(GPoint2D pt) {
         return ptLineDistSq(getX1(), getY1(), getX2(), getY2(),
                             pt.getX(), pt.getY());
     }
@@ -1013,7 +982,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see #ptSegDist(Point2D)
      * @since 1.2
      */
-    public double ptLineDist(Point2D pt) {
+    public double ptLineDist(GPoint2D pt) {
         return ptLineDist(getX1(), getY1(), getX2(), getY2(),
                          pt.getX(), pt.getY());
     }
@@ -1155,5 +1124,23 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
-    public abstract Object clone();
+//    public Object clone() {
+//        try {
+//            return super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // this shouldn't happen, since we are Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
+    
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
+
 }

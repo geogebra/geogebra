@@ -53,7 +53,7 @@ class QuadIterator implements GPathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     /**
@@ -99,13 +99,13 @@ class QuadIterator implements GPathIterator {
         if (index == 0) {
             coords[0] = (float) quad.getX1();
             coords[1] = (float) quad.getY1();
-            type = PathIterator.SEG_MOVETO;
+            type = SEG_MOVETO;
         } else {
             coords[0] = (float) quad.getCtrlX();
             coords[1] = (float) quad.getCtrlY();
             coords[2] = (float) quad.getX2();
             coords[3] = (float) quad.getY2();
-            type = PathIterator.SEG_QUADTO;
+            type = SEG_QUADTO;
         }
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, index == 0 ? 1 : 2);
@@ -139,13 +139,13 @@ class QuadIterator implements GPathIterator {
         if (index == 0) {
             coords[0] = quad.getX1();
             coords[1] = quad.getY1();
-            type = PathIterator.SEG_MOVETO;
+            type = SEG_MOVETO;
         } else {
             coords[0] = quad.getCtrlX();
             coords[1] = quad.getCtrlY();
             coords[2] = quad.getX2();
             coords[3] = quad.getY2();
-            type = PathIterator.SEG_QUADTO;
+            type = SEG_QUADTO;
         }
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, index == 0 ? 1 : 2);

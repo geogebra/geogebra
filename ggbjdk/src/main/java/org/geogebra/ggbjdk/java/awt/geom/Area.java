@@ -25,6 +25,7 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
+
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.Vector;
@@ -39,6 +40,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.ggbjdk.sun.awt.geom.AreaOp;
 import org.geogebra.ggbjdk.sun.awt.geom.Crossings;
 import org.geogebra.ggbjdk.sun.awt.geom.Curve;
+
 
 /**
  * An <code>Area</code> object stores and manipulates a
@@ -503,7 +505,7 @@ public class Area implements Shape, Cloneable, GArea {
      *          <code>false</code> otherwise.
      * @since 1.2
      */
-    public boolean equals(Area other) {
+    public boolean equals(GArea other) {
         // REMIND: A *much* simpler operation should be possible...
         // Should be able to do a curve-wise comparison since all Areas
         // should evaluate their curves in the same top-down order.
@@ -513,7 +515,7 @@ public class Area implements Shape, Cloneable, GArea {
         if (other == null) {
             return false;
         }
-        Vector c = new AreaOp.XorOp().calculate(this.curves, other.curves);
+        Vector c = new AreaOp.XorOp().calculate(this.curves, ((Area)other).curves);
         return c.isEmpty();
     }
 
@@ -525,7 +527,7 @@ public class Area implements Shape, Cloneable, GArea {
      * @throws NullPointerException if <code>t</code> is null
      * @since 1.2
      */
-    public void transform(AffineTransform t) {
+    public void transform(GAffineTransform t) {
         if (t == null) {
             throw new NullPointerException("transform must not be null");
         }
@@ -547,7 +549,7 @@ public class Area implements Shape, Cloneable, GArea {
      *           geometry.
      * @since 1.2
      */
-    public Area createTransformedArea(AffineTransform t) {
+    public Area createTransformedArea(GAffineTransform t) {
         Area a = new Area(this);
         a.transform(t);
         return a;
@@ -674,7 +676,7 @@ public class Area implements Shape, Cloneable, GArea {
 
 }
 
-class AreaIterator implements PathIterator, GPathIterator {
+class AreaIterator implements GPathIterator {
     private GAffineTransform transform;
     private Vector curves;
     private int index;
@@ -693,7 +695,7 @@ class AreaIterator implements PathIterator, GPathIterator {
         // REMIND: Which is better, EVEN_ODD or NON_ZERO?
         //         The paths calculated could be classified either way.
         //return WIND_EVEN_ODD;
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     public boolean isDone() {
@@ -723,9 +725,9 @@ class AreaIterator implements PathIterator, GPathIterator {
     public int currentSegment(float coords[]) {
         double dcoords[] = new double[6];
         int segtype = currentSegment(dcoords);
-        int numpoints = (segtype == PathIterator.SEG_CLOSE ? 0
-                         : (segtype == PathIterator.SEG_QUADTO ? 2
-                            : (segtype == PathIterator.SEG_CUBICTO ? 3
+        int numpoints = (segtype == SEG_CLOSE ? 0
+                         : (segtype == SEG_QUADTO ? 2
+                            : (segtype == SEG_CUBICTO ? 3
                                : 1)));
         for (int i = 0; i < numpoints * 2; i++) {
             coords[i] = (float) dcoords[i];
@@ -739,11 +741,11 @@ class AreaIterator implements PathIterator, GPathIterator {
         if (prevcurve != null) {
             // Need to finish off junction between curves
             if (thiscurve == null || thiscurve.getOrder() == 0) {
-                return PathIterator.SEG_CLOSE;
+                return SEG_CLOSE;
             }
             coords[0] = thiscurve.getX0();
             coords[1] = thiscurve.getY0();
-            segtype = PathIterator.SEG_LINETO;
+            segtype = SEG_LINETO;
             numpoints = 1;
         } else if (thiscurve == null) {
             throw new NoSuchElementException("area iterator out of bounds");

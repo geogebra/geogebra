@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -130,11 +130,6 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
             setCurve(x1, y1, ctrlx, ctrly, x2, y2);
         }
 
-        @Override
-        public Object clone() {
-        	return new Float(x1, y1, ctrlx, ctrly, x2, y2);
-        }
-
         /**
          * {@inheritDoc}
          * @since 1.2
@@ -251,7 +246,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             float left   = Math.min(Math.min(x1, x2), ctrlx);
             float top    = Math.min(Math.min(y1, y2), ctrly);
             float right  = Math.max(Math.max(x1, x2), ctrlx);
@@ -264,17 +259,6 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * JDK 1.6 serialVersionUID
          */
         private static final long serialVersionUID = -8511188402130719609L;
-
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -357,12 +341,6 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
                       double x2, double y2)
         {
             setCurve(x1, y1, ctrlx, ctrly, x2, y2);
-        }
-        
-
-        @Override
-        public Object clone() {
-        	return new Double(x1, y1, ctrlx, ctrly, x2, y2);
         }
 
         /**
@@ -457,7 +435,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          * {@inheritDoc}
          * @since 1.2
          */
-        public GRectangle2D getBounds2D() {
+        public Rectangle2D getBounds2D() {
             double left   = Math.min(Math.min(x1, x2), ctrlx);
             double top    = Math.min(Math.min(y1, y2), ctrly);
             double right  = Math.max(Math.max(x1, x2), ctrlx);
@@ -471,16 +449,6 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
          */
         private static final long serialVersionUID = 4217149928428559721L;
 
-		@Override
-		public boolean intersects(int i, int j, int k, int l) {
-			return intersects((double)i, (double)j, (double)k, (double)l);
-		}
-
-		@Override
-		public boolean contains(int x, int y) {
-			return contains((double)x, (double)y);
-		}
-
     }
 
     /**
@@ -490,8 +458,8 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * the information necessary to satisfy the various accessor
      * methods below.
      *
-     * @see gwt.awt.geom.QuadCurve2D.Float
-     * @see gwt.awt.geom.QuadCurve2D.Double
+     * @see java.awt.geom.QuadCurve2D.Float
+     * @see java.awt.geom.QuadCurve2D.Double
      * @since 1.2
      */
     protected QuadCurve2D() {
@@ -548,7 +516,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
     /**
      * Returns the X coordinate of the end point in
      * <code>double</code> precision.
-     * @return the x coordiante of the end point.
+     * @return the x coordinate of the end point.
      * @since 1.2
      */
     public abstract double getX2();
@@ -610,7 +578,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * @param p2 the end point
      * @since 1.2
      */
-    public void setCurve(Point2D p1, Point2D cp, Point2D p2) {
+    public void setCurve(GPoint2D p1, GPoint2D cp, GPoint2D p2) {
         setCurve(p1.getX(), p1.getY(),
                  cp.getX(), cp.getY(),
                  p2.getX(), p2.getY());
@@ -628,7 +596,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      *          <code>QuadCurve2D</code>
      * @since 1.2
      */
-    public void setCurve(Point2D[] pts, int offset) {
+    public void setCurve(GPoint2D[] pts, int offset) {
         setCurve(pts[offset + 0].getX(), pts[offset + 0].getY(),
                  pts[offset + 1].getX(), pts[offset + 1].getY(),
                  pts[offset + 2].getX(), pts[offset + 2].getY());
@@ -1084,7 +1052,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
     /**
      * Evaluate the t values in the first num slots of the vals[] array
      * and place the evaluated values back into the same array.  Only
-     * evaluate t values that are within the range <0, 1>, including
+     * evaluate t values that are within the range &lt;0, 1&gt;, including
      * the 0 and 1 ends of the range iff the include0 or include1
      * booleans are true.  If an "inflection" equation is handed in,
      * then any points which represent a point of inflection for that
@@ -1118,7 +1086,7 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
 
     /**
      * Determine where coord lies with respect to the range from
-     * low to high.  It is assumed that low <= high.  The return
+     * low to high.  It is assumed that low &lt;= high.  The return
      * value is one of the 5 values BELOW, LOWEDGE, INSIDE, HIGHEDGE,
      * or ABOVE.
      */
@@ -1427,5 +1395,22 @@ public abstract class QuadCurve2D implements Shape, Cloneable, GQuadCurve2D {
      * @see        java.lang.Cloneable
      * @since      1.2
      */
-    public abstract Object clone();
+//    public Object clone() {
+//        try {
+//            return super.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // this shouldn't happen, since we are Cloneable
+//            throw new InternalError(e);
+//        }
+//    }
+    
+	@Override
+	public boolean intersects(int i, int j, int k, int l) {
+		return intersects((double)i, (double)j, (double)k, (double)l);
+	}
+
+	@Override
+	public boolean contains(int x, int y) {
+		return contains((double)x, (double)y);
+	}
 }

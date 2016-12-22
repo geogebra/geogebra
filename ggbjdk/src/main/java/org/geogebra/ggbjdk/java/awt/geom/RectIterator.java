@@ -60,7 +60,7 @@ class RectIterator implements GPathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     /**
@@ -103,7 +103,7 @@ class RectIterator implements GPathIterator {
             throw new NoSuchElementException("rect iterator out of bounds");
         }
         if (index == 5) {
-            return PathIterator.SEG_CLOSE;
+            return SEG_CLOSE;
         }
         coords[0] = (float) x;
         coords[1] = (float) y;
@@ -116,7 +116,7 @@ class RectIterator implements GPathIterator {
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 1);
         }
-        return (index == 0 ? PathIterator.SEG_MOVETO : PathIterator.SEG_LINETO);
+        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
     }
 
     /**
@@ -142,7 +142,7 @@ class RectIterator implements GPathIterator {
             throw new NoSuchElementException("rect iterator out of bounds");
         }
         if (index == 5) {
-            return PathIterator.SEG_CLOSE;
+            return SEG_CLOSE;
         }
         coords[0] = x;
         coords[1] = y;
@@ -155,6 +155,6 @@ class RectIterator implements GPathIterator {
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 1);
         }
-        return (index == 0 ? PathIterator.SEG_MOVETO : PathIterator.SEG_LINETO);
+        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
     }
 }

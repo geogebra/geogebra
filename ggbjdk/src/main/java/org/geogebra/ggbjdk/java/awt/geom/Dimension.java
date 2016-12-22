@@ -25,7 +25,6 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
-
 /**
  * The <code>Dimension</code> class encapsulates the width and
  * height of a component (in integer precision) in a single object.
@@ -45,11 +44,11 @@ package org.geogebra.ggbjdk.java.awt.geom;
  *
  * @author      Sami Shaio
  * @author      Arthur van Hoff
- * @see         gwt.awt.Component
- * @see         gwt.awt.LayoutManager
+ * @see         java.awt.Component
+ * @see         java.awt.LayoutManager
  * @since       1.0
  */
-public class Dimension extends Dimension2D {
+public class Dimension extends Dimension2D implements java.io.Serializable {
 
     /**
      * The width dimension; negative values can be used.
@@ -75,6 +74,19 @@ public class Dimension extends Dimension2D {
      * JDK 1.1 serialVersionUID
      */
      private static final long serialVersionUID = 4723952579491349524L;
+
+    /**
+     * Initialize JNI field and method IDs
+     */
+//    private static native void initIDs();
+
+//    static {
+//        /* ensure that the necessary native libraries are loaded */
+//        Toolkit.loadLibraries();
+//        if (!GraphicsEnvironment.isHeadless()) {
+//            initIDs();
+//        }
+//    }
 
     /**
      * Creates an instance of <code>Dimension</code> with a width
@@ -106,11 +118,6 @@ public class Dimension extends Dimension2D {
     public Dimension(int width, int height) {
         this.width = width;
         this.height = height;
-    }
-    
-    @Override
-    public Object clone() {
-    	return new Dimension(this);
     }
 
     /**
@@ -152,10 +159,11 @@ public class Dimension extends Dimension2D {
      *
      * @return   the size of this dimension, a new instance of
      *           <code>Dimension</code> with the same width and height
-     * @see      gwt.awt.Dimension#setSize
-     * @see      gwt.awt.Component#getSize
+     * @see      java.awt.Dimension#setSize
+     * @see      java.awt.Component#getSize
      * @since    1.1
      */
+    //@Transient
     public Dimension getSize() {
         return new Dimension(width, height);
     }
@@ -165,8 +173,8 @@ public class Dimension extends Dimension2D {
      * This method is included for completeness, to parallel the
      * <code>setSize</code> method defined by <code>Component</code>.
      * @param    d  the new size for this <code>Dimension</code> object
-     * @see      gwt.awt.Dimension#getSize
-     * @see      gwt.awt.Component#setSize
+     * @see      java.awt.Dimension#getSize
+     * @see      java.awt.Component#setSize
      * @since    1.1
      */
     public void setSize(Dimension d) {
@@ -181,8 +189,8 @@ public class Dimension extends Dimension2D {
      *
      * @param    width   the new width for this <code>Dimension</code> object
      * @param    height  the new height for this <code>Dimension</code> object
-     * @see      gwt.awt.Dimension#getSize
-     * @see      gwt.awt.Component#setSize
+     * @see      java.awt.Dimension#getSize
+     * @see      java.awt.Component#setSize
      * @since    1.1
      */
     public void setSize(int width, int height) {

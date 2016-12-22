@@ -59,7 +59,7 @@ class EllipseIterator implements GPathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     /**
@@ -119,7 +119,7 @@ class EllipseIterator implements GPathIterator {
             throw new NoSuchElementException("ellipse iterator out of bounds");
         }
         if (index == 5) {
-            return PathIterator.SEG_CLOSE;
+            return SEG_CLOSE;
         }
         if (index == 0) {
             double ctrls[] = ctrlpts[3];
@@ -128,7 +128,7 @@ class EllipseIterator implements GPathIterator {
             if (affine != null) {
                 affine.transform(coords, 0, coords, 0, 1);
             }
-            return PathIterator.SEG_MOVETO;
+            return SEG_MOVETO;
         }
         double ctrls[] = ctrlpts[index - 1];
         coords[0] = (float) (x + ctrls[0] * w);
@@ -140,7 +140,7 @@ class EllipseIterator implements GPathIterator {
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 3);
         }
-        return PathIterator.SEG_CUBICTO;
+        return SEG_CUBICTO;
     }
 
     /**
@@ -166,7 +166,7 @@ class EllipseIterator implements GPathIterator {
             throw new NoSuchElementException("ellipse iterator out of bounds");
         }
         if (index == 5) {
-            return PathIterator.SEG_CLOSE;
+            return SEG_CLOSE;
         }
         if (index == 0) {
             double ctrls[] = ctrlpts[3];
@@ -175,7 +175,7 @@ class EllipseIterator implements GPathIterator {
             if (affine != null) {
                 affine.transform(coords, 0, coords, 0, 1);
             }
-            return PathIterator.SEG_MOVETO;
+            return SEG_MOVETO;
         }
         double ctrls[] = ctrlpts[index - 1];
         coords[0] = x + ctrls[0] * w;
@@ -187,6 +187,6 @@ class EllipseIterator implements GPathIterator {
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 3);
         }
-        return PathIterator.SEG_CUBICTO;
+        return SEG_CUBICTO;
     }
 }

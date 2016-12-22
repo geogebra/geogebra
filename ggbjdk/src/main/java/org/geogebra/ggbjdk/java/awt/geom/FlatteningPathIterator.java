@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -31,7 +31,7 @@ import org.geogebra.common.awt.GPathIterator;
 
 /**
  * The <code>FlatteningPathIterator</code> class returns a flattened view of
- * another {@link PathIterator} object.  Other {@link gwt.awt.Shape Shape}
+ * another {@link PathIterator} object.  Other {@link java.awt.Shape Shape}
  * classes can use this class to provide flattening behavior for their paths
  * without having to perform the interpolation calculations themselves.
  *
@@ -111,7 +111,7 @@ public class FlatteningPathIterator implements GPathIterator {
      * control points and the flattened curve
      * @param limit the maximum number of recursive subdivisions
      * allowed for any curved segment
-     * @exception <code>IllegalArgumentException</code> if
+     * @exception IllegalArgumentException if
      *          <code>flatness</code> or <code>limit</code>
      *          is less than zero
      */
@@ -338,7 +338,7 @@ public class FlatteningPathIterator implements GPathIterator {
      * @param coords an array that holds the data returned from
      * this method
      * @return the path segment type of the current path segment.
-     * @exception <code>NoSuchElementException</code> if there
+     * @exception NoSuchElementException if there
      *          are no more elements in the flattening path to be
      *          returned.
      * @see PathIterator#SEG_MOVETO
@@ -373,7 +373,7 @@ public class FlatteningPathIterator implements GPathIterator {
      * @param coords an array that holds the data returned from
      * this method
      * @return the path segment type of the current path segment.
-     * @exception <code>NoSuchElementException</code> if there
+     * @exception NoSuchElementException if there
      *          are no more elements in the flattening path to be
      *          returned.
      * @see PathIterator#SEG_MOVETO

@@ -27,8 +27,6 @@ package org.geogebra.ggbjdk.java.awt.geom;
 
 import org.geogebra.common.awt.GGeneralPath;
 
-
-
 /**
  * The {@code GeneralPath} class represents a geometric path
  * constructed from straight lines, and quadratic and cubic

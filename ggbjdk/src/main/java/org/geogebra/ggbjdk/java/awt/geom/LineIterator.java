@@ -28,6 +28,7 @@ package org.geogebra.ggbjdk.java.awt.geom;
 import java.util.NoSuchElementException;
 
 import org.geogebra.common.awt.GAffineTransform;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPathIterator;
 
 /**
@@ -37,11 +38,11 @@ import org.geogebra.common.awt.GPathIterator;
  * @author      Jim Graham
  */
 class LineIterator implements GPathIterator {
-    Line2D line;
+    GLine2D line;
     GAffineTransform affine;
     int index;
 
-    LineIterator(Line2D l, GAffineTransform at) {
+    LineIterator(GLine2D l, GAffineTransform at) {
         this.line = l;
         this.affine = at;
     }
@@ -53,7 +54,7 @@ class LineIterator implements GPathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     /**
@@ -99,11 +100,11 @@ class LineIterator implements GPathIterator {
         if (index == 0) {
             coords[0] = (float) line.getX1();
             coords[1] = (float) line.getY1();
-            type = PathIterator.SEG_MOVETO;
+            type = SEG_MOVETO;
         } else {
             coords[0] = (float) line.getX2();
             coords[1] = (float) line.getY2();
-            type = PathIterator.SEG_LINETO;
+            type = SEG_LINETO;
         }
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 1);
@@ -137,11 +138,11 @@ class LineIterator implements GPathIterator {
         if (index == 0) {
             coords[0] = line.getX1();
             coords[1] = line.getY1();
-            type = PathIterator.SEG_MOVETO;
+            type = SEG_MOVETO;
         } else {
             coords[0] = line.getX2();
             coords[1] = line.getY2();
-            type = PathIterator.SEG_LINETO;
+            type = SEG_LINETO;
         }
         if (affine != null) {
             affine.transform(coords, 0, coords, 0, 1);

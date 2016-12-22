@@ -30,7 +30,6 @@ import java.util.NoSuchElementException;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
 
-
 /**
  * A utility class to iterate over the path segments of a cubic curve
  * segment through the PathIterator interface.
@@ -54,7 +53,7 @@ class CubicIterator implements GPathIterator {
      * @see #WIND_NON_ZERO
      */
     public int getWindingRule() {
-        return PathIterator.WIND_NON_ZERO;
+        return WIND_NON_ZERO;
     }
 
     /**
