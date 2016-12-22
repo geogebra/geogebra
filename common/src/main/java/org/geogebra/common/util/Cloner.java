@@ -1,75 +1,29 @@
 package org.geogebra.common.util;
 
+import java.util.Arrays;
+
 public class Cloner {
 	public static double[] clone(double[] array) {
 
-		double[] arrayClone = new double[array.length];
-		for (int i = 0; i < array.length; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
-	}
+		// double[] arrayClone = new double[array.length];
+		// for (int i = 0; i < array.length; i++) {
+		// arrayClone[i] = array[i];
+		// }
+		// return arrayClone;
 
-	public static double[] clone(double[] array, int newlength) {
-		double[] arrayClone = new double[newlength];
-
-		int copyLength = Math.min(newlength, array.length);
-
-		for (int i = 0; i < copyLength; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
-	}
-
-	public static byte[] clone(byte[] array) {
-
-		byte[] arrayClone = new byte[array.length];
-		for (int i = 0; i < array.length; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
-	}
-
-	public static byte[] clone(byte[] array, int newlength) {
-		byte[] arrayClone = new byte[newlength];
-
-		int copyLength = Math.min(newlength, array.length);
-
-		for (int i = 0; i < copyLength; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
+		return Arrays.copyOf(array, array.length);
 	}
 
 	public static int[] clone(int[] array) {
 
-		int[] arrayClone = new int[array.length];
-		for (int i = 0; i < array.length; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
-	}
+		// int[] arrayClone = new int[array.length];
+		// for (int i = 0; i < array.length; i++) {
+		// arrayClone[i] = array[i];
+		// }
+		// return arrayClone;
 
-	public static int[] clone(int[] array, int newlength) {
-		int[] arrayClone = new int[newlength];
+		return Arrays.copyOf(array, array.length);
 
-		int copyLength = Math.min(newlength, array.length);
-
-		for (int i = 0; i < copyLength; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
-	}
-
-	public static float[] clone(float[] array, int newlength) {
-		float[] arrayClone = new float[newlength];
-
-		int copyLength = Math.min(newlength, array.length);
-
-		for (int i = 0; i < copyLength; i++) {
-			arrayClone[i] = array[i];
-		}
-		return arrayClone;
 	}
 
 	public static double[][] clone2(double[][] array) {
