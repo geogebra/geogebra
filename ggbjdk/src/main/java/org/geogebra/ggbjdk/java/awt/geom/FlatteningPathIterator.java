@@ -330,41 +330,6 @@ public class FlatteningPathIterator implements GPathIterator {
      * the iteration.
      * The return value is the path segment type:
      * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types return one point,
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path segment type of the current path segment.
-     * @exception NoSuchElementException if there
-     *          are no more elements in the flattening path to be
-     *          returned.
-     * @see PathIterator#SEG_MOVETO
-     * @see PathIterator#SEG_LINETO
-     * @see PathIterator#SEG_CLOSE
-     */
-    public int currentSegment(float[] coords) {
-        if (isDone()) {
-            throw new NoSuchElementException("flattening iterator out of bounds");
-        }
-        int type = holdType;
-        if (type != SEG_CLOSE) {
-            coords[0] = (float) hold[holdIndex + 0];
-            coords[1] = (float) hold[holdIndex + 1];
-            if (type != SEG_MOVETO) {
-                type = SEG_LINETO;
-            }
-        }
-        return type;
-    }
-
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
-     * SEG_MOVETO, SEG_LINETO, or SEG_CLOSE.
      * A double array of length 6 must be passed in and can be used to
      * store the coordinates of the point(s).
      * Each point is stored as a pair of double x,y coordinates.

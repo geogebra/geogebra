@@ -80,46 +80,7 @@ class RectIterator implements GPathIterator {
         index++;
     }
 
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
-     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
-     */
-//    public int currentSegment(float[] coords) {
-//        if (isDone()) {
-//            throw new NoSuchElementException("rect iterator out of bounds");
-//        }
-//        if (index == 5) {
-//            return SEG_CLOSE;
-//        }
-//        coords[0] = (float) x;
-//        coords[1] = (float) y;
-//        if (index == 1 || index == 2) {
-//            coords[0] += (float) w;
-//        }
-//        if (index == 2 || index == 3) {
-//            coords[1] += (float) h;
-//        }
-//        if (affine != null) {
-//            affine.transform(coords, 0, coords, 0, 1);
-//        }
-//        return (index == 0 ? SEG_MOVETO : SEG_LINETO);
-//    }
-
-    /**
+     /**
      * Returns the coordinates and type of the current path segment in
      * the iteration.
      * The return value is the path segment type:

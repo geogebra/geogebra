@@ -174,29 +174,6 @@ public interface PathIterator {
      * the iteration.
      * The return value is the path-segment type:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and can be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types returns one point,
-     * SEG_QUADTO returns two points,
-     * SEG_CUBICTO returns 3 points
-     * and SEG_CLOSE does not return any points.
-     * @param coords an array that holds the data returned from
-     * this method
-     * @return the path-segment type of the current path segment.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
-     */
-    public int currentSegment(float[] coords);
-
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path-segment type:
-     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
      * A double array of length 6 must be passed in and can be used to
      * store the coordinates of the point(s).
      * Each point is stored as a pair of double x,y coordinates.

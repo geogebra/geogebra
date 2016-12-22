@@ -101,53 +101,6 @@ class EllipseIterator implements GPathIterator {
      * the iteration.
      * The return value is the path segment type:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
-     */
-//    public int currentSegment(float[] coords) {
-//        if (isDone()) {
-//            throw new NoSuchElementException("ellipse iterator out of bounds");
-//        }
-//        if (index == 5) {
-//            return SEG_CLOSE;
-//        }
-//        if (index == 0) {
-//            double ctrls[] = ctrlpts[3];
-//            coords[0] = (float) (x + ctrls[4] * w);
-//            coords[1] = (float) (y + ctrls[5] * h);
-//            if (affine != null) {
-//                affine.transform(coords, 0, coords, 0, 1);
-//            }
-//            return SEG_MOVETO;
-//        }
-//        double ctrls[] = ctrlpts[index - 1];
-//        coords[0] = (float) (x + ctrls[0] * w);
-//        coords[1] = (float) (y + ctrls[1] * h);
-//        coords[2] = (float) (x + ctrls[2] * w);
-//        coords[3] = (float) (y + ctrls[3] * h);
-//        coords[4] = (float) (x + ctrls[4] * w);
-//        coords[5] = (float) (y + ctrls[5] * h);
-//        if (affine != null) {
-//            affine.transform(coords, 0, coords, 0, 3);
-//        }
-//        return SEG_CUBICTO;
-//    }
-
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
-     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
      * A double array of length 6 must be passed in and may be used to
      * store the coordinates of the point(s).
      * Each point is stored as a pair of double x,y coordinates.

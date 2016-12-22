@@ -122,41 +122,7 @@ class RoundRectIterator implements GPathIterator {
         SEG_CLOSE,
     };
 
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
-     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
-     */
-//    public int currentSegment(float[] coords) {
-//        if (isDone()) {
-//            throw new NoSuchElementException("roundrect iterator out of bounds");
-//        }
-//        double ctrls[] = ctrlpts[index];
-//        int nc = 0;
-//        for (int i = 0; i < ctrls.length; i += 4) {
-//            coords[nc++] = (float) (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
-//            coords[nc++] = (float) (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
-//        }
-//        if (affine != null) {
-//            affine.transform(coords, 0, coords, 0, nc / 2);
-//        }
-//        return types[index];
-//    }
-
-    /**
+     /**
      * Returns the coordinates and type of the current path segment in
      * the iteration.
      * The return value is the path segment type:

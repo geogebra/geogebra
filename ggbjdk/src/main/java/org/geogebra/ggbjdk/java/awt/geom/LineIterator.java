@@ -79,44 +79,6 @@ class LineIterator implements GPathIterator {
      * the iteration.
      * The return value is the path segment type:
      * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
-     * A float array of length 6 must be passed in and may be used to
-     * store the coordinates of the point(s).
-     * Each point is stored as a pair of float x,y coordinates.
-     * SEG_MOVETO and SEG_LINETO types will return one point,
-     * SEG_QUADTO will return two points,
-     * SEG_CUBICTO will return 3 points
-     * and SEG_CLOSE will not return any points.
-     * @see #SEG_MOVETO
-     * @see #SEG_LINETO
-     * @see #SEG_QUADTO
-     * @see #SEG_CUBICTO
-     * @see #SEG_CLOSE
-     */
-//    public int currentSegment(float[] coords) {
-//        if (isDone()) {
-//            throw new NoSuchElementException("line iterator out of bounds");
-//        }
-//        int type;
-//        if (index == 0) {
-//            coords[0] = (float) line.getX1();
-//            coords[1] = (float) line.getY1();
-//            type = SEG_MOVETO;
-//        } else {
-//            coords[0] = (float) line.getX2();
-//            coords[1] = (float) line.getY2();
-//            type = SEG_LINETO;
-//        }
-//        if (affine != null) {
-//            affine.transform(coords, 0, coords, 0, 1);
-//        }
-//        return type;
-//    }
-
-    /**
-     * Returns the coordinates and type of the current path segment in
-     * the iteration.
-     * The return value is the path segment type:
-     * SEG_MOVETO, SEG_LINETO, SEG_QUADTO, SEG_CUBICTO, or SEG_CLOSE.
      * A double array of length 6 must be passed in and may be used to
      * store the coordinates of the point(s).
      * Each point is stored as a pair of double x,y coordinates.

@@ -722,19 +722,6 @@ class AreaIterator implements GPathIterator {
         }
     }
 
-    public int currentSegment(float coords[]) {
-        double dcoords[] = new double[6];
-        int segtype = currentSegment(dcoords);
-        int numpoints = (segtype == SEG_CLOSE ? 0
-                         : (segtype == SEG_QUADTO ? 2
-                            : (segtype == SEG_CUBICTO ? 3
-                               : 1)));
-        for (int i = 0; i < numpoints * 2; i++) {
-            coords[i] = (float) dcoords[i];
-        }
-        return segtype;
-    }
-
     public int currentSegment(double coords[]) {
         int segtype;
         int numpoints;
