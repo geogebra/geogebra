@@ -237,8 +237,7 @@ public class RelationNumerical {
 			return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
 		}
 
-		register(null, null, loc.getPlain("ABandCcannotBeCompared",
-				a.getColoredLabel(), b.getColoredLabel(), c.getColoredLabel()));
+		register(null, null, loc.getPlain("ComparisonNotPossible"));
 		return reports;
 	}
 
@@ -783,12 +782,14 @@ public class RelationNumerical {
 	 */
 	final public String equalityString(GeoElement a, GeoElement b,
 			GeoElement c, boolean equal) {
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+				+ and + " " + c.getColoredLabel();
+
 		if (equal) {
-			return loc.getPlain("ABandCareEqual", a.getColoredLabel(),
-					b.getColoredLabel(), c.getColoredLabel());
+			return loc.getPlain("TheFollowingAreEqualA", pars);
 		}
-		return loc.getPlain("ABandCareNotEqual", a.getColoredLabel(),
-				b.getColoredLabel(), c.getColoredLabel());
+		return loc.getPlain("TheFollowingAreNotEqualA", pars);
 	}
 
 	/**
@@ -809,15 +810,15 @@ public class RelationNumerical {
 	 */
 	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
 			GeoElement d, boolean equal) {
-		if (equal) {
-			return loc.getPlain("ABCandDareEqual", a.getColoredLabel(),
-					b.getColoredLabel(), c.getColoredLabel(),
-					d.getColoredLabel());
-		}
-		return loc.getPlain("ABCandDareNotEqual", a.getColoredLabel(),
-				b.getColoredLabel(), c.getColoredLabel(), d.getColoredLabel());
-	}
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+				+ c.getColoredLabel() + " " + and + " " + d.getColoredLabel();
 
+		if (equal) {
+			return loc.getPlain("TheFollowingAreEqualA", pars);
+		}
+		return loc.getPlain("TheFollowingAreNotEqualA", pars);
+	}
 	/**
 	 * Internationalized string of "a and b are congruent" (or not)
 	 * 
