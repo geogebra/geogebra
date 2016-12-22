@@ -1574,10 +1574,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		this.targetcellFrame = targetcellFrame;
 	}
 
-	final static float dash1[] = { 2.0f };
-	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0f,
-	        GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0f, dash1,
-	        0.0f);
+	final static double dash1[] = { 2.0 };
+	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
+			GBasicStrokeW.CAP_BUTT, GBasicStrokeW.JOIN_MITER, 10.0, dash1, 0.0);
 
 	/**
 	 * @param point

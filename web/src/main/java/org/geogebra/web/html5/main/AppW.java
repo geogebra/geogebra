@@ -3242,7 +3242,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * 
 	 * @return Pixel ratio including external transforms
 	 */
-	public float getPixelRatio() {
+	public double getPixelRatio() {
 		return Browser.getPixelRatio()
 				* articleElement.readScaleX();
 	}

@@ -18,16 +18,15 @@ public class GBufferedImageW implements GBufferedImage {
 
 	Canvas canv = null; // not necessary, but if present, this is the main one
 
-	private float pixelRatio;
+	private double pixelRatio;
 
-	public GBufferedImageW(int width, int height, float pixelRatio,
+	public GBufferedImageW(int width, int height, double pixelRatio,
 			boolean opaque) {
 		this(null, width, height, pixelRatio, opaque);
 	}
 
 	public GBufferedImageW(Canvas canvas, int width, int height,
-			float pixelRatio,
-	        boolean opaque) {
+			double pixelRatio, boolean opaque) {
 		this.pixelRatio = pixelRatio;
 
 		if (canvas == null)
@@ -60,7 +59,7 @@ public class GBufferedImageW implements GBufferedImage {
 		// img = getImageElement();
 	}
 
-	public GBufferedImageW(int width, int height, float pixelRatio) {
+	public GBufferedImageW(int width, int height, double pixelRatio) {
 		this(width, height, pixelRatio, false);
 	}
 
@@ -172,10 +171,6 @@ public class GBufferedImageW implements GBufferedImage {
 	public ImageData getImageData() {
 		return getCanvas().getContext2d().getImageData(0, 0, getWidth(),
 		        getHeight());
-	}
-
-	public float getPixelRatio() {
-		return pixelRatio;
 	}
 
 	public void flush() {

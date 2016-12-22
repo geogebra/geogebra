@@ -5,17 +5,17 @@ import org.geogebra.common.awt.GAlphaComposite;
 public class GAlphaCompositeW implements GAlphaComposite {
 
 	final public static GAlphaCompositeW Src = new GAlphaCompositeW(1.0f);
-	private float alpha;
+	private double alpha;
 
-	public GAlphaCompositeW(float alpha) {
+	public GAlphaCompositeW(double alpha) {
 		this.alpha = alpha;
 	}
 
-	public float getAlpha() {
+	public double getAlpha() {
 		return alpha;
 	}
 
-	public static GAlphaCompositeW getInstance(float a) {
+	public static GAlphaCompositeW getInstance(double a) {
 		return new GAlphaCompositeW(a);
 	}
 

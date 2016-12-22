@@ -146,7 +146,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	 * @param scale
 	 *            scale of the app, NOT including browser zoom
 	 */
-	public void setScale(float scale) {
+	public void setScale(double scale) {
 		if (slider != null) {
 			slider.setScale(scale);
 		}

@@ -84,7 +84,7 @@ public abstract class GFont {
 	 *            font size
 	 * @return derive fonts
 	 */
-	public abstract GFont deriveFont(int style, float fontSize);
+	public abstract GFont deriveFont(int style, double fontSize);
 
 	/**
 	 * @param style

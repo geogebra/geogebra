@@ -48,7 +48,7 @@ public class EpsGraphicsD extends EpsGraphics {
 	}
 
 	@Override
-	public void drawString(String s, float x, float y, GFont font) {
+	public void drawString(String s, double x, double y, GFont font) {
 		if (getAccurateTextMode()) {
 			GTextLayout layout = AwtFactory.getPrototype().newTextLayout(s,
 					font, getFontRenderContext());

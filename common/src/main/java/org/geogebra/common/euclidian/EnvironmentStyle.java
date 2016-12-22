@@ -8,14 +8,14 @@ public abstract class EnvironmentStyle {
 	/**
 	 * @return horizontal scale factor
 	 */
-	public float getScaleX() {
+	public double getScaleX() {
 		return 1;
 	}
 
 	/**
 	 * @return vertical scale factor
 	 */
-	public float getScaleY() {
+	public double getScaleY() {
 		return 1;
 	}
 

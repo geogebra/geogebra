@@ -80,7 +80,7 @@ public interface GGraphics2D {
 	 * @see #setComposite
 	 * @see #setClip
 	 */
-	public abstract void drawString(String str, float x, float y);
+	public abstract void drawString(String str, double x, double y);
 
 	/**
 	 * Fills the interior of a <code>Shape</code> using the settings of the

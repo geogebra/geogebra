@@ -360,16 +360,15 @@ public class HatchingHandler {
 	}
 
 	private static void drawDotted(double dist, GGraphics2D g2d) {
-		int distInt = (int) dist;
-		int size = 2;
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(distInt, distInt,
+		final double size = 2;
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(dist, dist,
 				size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * distInt,
-				distInt, size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(distInt,
-				2 * distInt, size, size));
-		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * distInt,
-				2 * distInt, size, size));
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * dist, dist,
+				size, size));
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(dist, 2 * dist,
+				size, size));
+		g2d.fill(AwtFactory.getPrototype().newEllipse2DDouble(2 * dist,
+				2 * dist, size, size));
 	}
 
 	private boolean drawChessboard(double angle, float hatchDist,

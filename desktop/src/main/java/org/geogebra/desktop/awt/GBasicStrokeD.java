@@ -6,6 +6,7 @@ import java.awt.geom.Path2D;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.factories.AwtFactory;
 
 /**
  * @author kondr
@@ -18,19 +19,19 @@ public class GBasicStrokeD implements GBasicStroke {
 		impl = basicStroke;
 	}
 
-	public GBasicStrokeD(float f, int cap, int join) {
-		impl = new BasicStroke(f, cap, join);
+	public GBasicStrokeD(double f, int cap, int join) {
+		impl = new BasicStroke((float) f, cap, join);
 	}
 
-	public GBasicStrokeD(float f) {
-		impl = new BasicStroke(f);
+	public GBasicStrokeD(double f) {
+		impl = new BasicStroke((float) f);
 	}
 
 	public int getEndCap() {
 		return impl.getEndCap();
 	}
 
-	public float getMiterLimit() {
+	public double getMiterLimit() {
 		return impl.getMiterLimit();
 	}
 
@@ -51,12 +52,12 @@ public class GBasicStrokeD implements GBasicStroke {
 		return new GGenericShapeD(impl.createStrokedShape(shapeD));
 	}
 
-	public float getLineWidth() {
+	public double getLineWidth() {
 		return impl.getLineWidth();
 	}
 
-	public float[] getDashArray() {
-		return impl.getDashArray();
+	public double[] getDashArray() {
+		return AwtFactory.floatToDouble(impl.getDashArray());
 	}
 
 	public BasicStroke getImpl() {

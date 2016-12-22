@@ -21,7 +21,7 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 		impl = ellipse;
 	}
 
-	public GEllipse2DDoubleD(int i, int j, int k, int l) {
+	public GEllipse2DDoubleD(double i, double j, double k, double l) {
 		impl = new Ellipse2D.Double(i, j, k, l);
 	}
 

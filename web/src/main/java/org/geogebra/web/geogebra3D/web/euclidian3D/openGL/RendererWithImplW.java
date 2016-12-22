@@ -97,7 +97,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 		// create and return a buffered image with power-of-two dimensions
 		return new GBufferedImageW(label.getWidthPowerOfTwo(),
-				label.getHeightPowerOfTwo(), 1);
+				label.getHeightPowerOfTwo(), 1d);
 	}
 
 	@Override

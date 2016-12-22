@@ -381,8 +381,8 @@ public final class DrawPoint extends Drawable {
 			view.toScreenCoords(coords1);
 
 			GEllipse2DDouble circleClip = AwtFactory.getPrototype()
-					.newEllipse2DDouble((int) coords1[0] - 30,
-							(int) coords1[1] - 30, 60, 60);
+					.newEllipse2DDouble(coords1[0] - 30, coords1[1] - 30, 60,
+							60);
 			g2.setClip(circleClip);
 			geo2.forceEuclidianVisible(true);
 			drawable.update();

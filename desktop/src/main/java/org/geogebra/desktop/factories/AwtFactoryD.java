@@ -79,7 +79,7 @@ public class AwtFactoryD extends AwtFactory {
 
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			float pixelRatio) {
+			double pixelRatio) {
 		return new GBufferedImageD(pixelWidth, pixelHeight,
 				GBufferedImage.TYPE_INT_ARGB);
 	}
@@ -148,28 +148,28 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GBasicStroke newMyBasicStroke(float f) {
+	public GBasicStroke newMyBasicStroke(double f) {
 		return new GBasicStrokeD(f, GBasicStroke.CAP_ROUND,
 				GBasicStroke.JOIN_ROUND);
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
-			float miterLimit, float[] dash, float f) {
-		BasicStroke s = new BasicStroke(width, endCap, lineJoin, miterLimit,
-				dash, f);
+	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
+			double miterLimit, double[] dash, double f) {
+		BasicStroke s = new BasicStroke((float) width, endCap, lineJoin,
+				(float) miterLimit, doubleToFloat(dash), (float) f);
 		return new GBasicStrokeD(s);
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float f) {
+	public GBasicStroke newBasicStroke(double f) {
 		return new GBasicStrokeD(f);
 	}
 
 	@Override
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
-	public GBasicStroke newBasicStrokeJoinMitre(float f) {
+	public GBasicStroke newBasicStrokeJoinMitre(double f) {
 		return new GBasicStrokeD(f, GBasicStroke.CAP_SQUARE,
 				GBasicStroke.JOIN_MITER);
 	}
@@ -196,7 +196,8 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(int i, int j, int k, int l) {
+	public GEllipse2DDouble newEllipse2DDouble(double i, double j, double k,
+			double l) {
 		return new GEllipse2DDoubleD(i, j, k, l);
 	}
 
@@ -231,7 +232,7 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float f, int cap, int join) {
+	public GBasicStroke newBasicStroke(double f, int cap, int join) {
 		return new GBasicStrokeD(f, cap, join);
 	}
 
@@ -242,14 +243,15 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GAlphaComposite newAlphaComposite(float alpha) {
+	public GAlphaComposite newAlphaComposite(double alpha) {
 		return new GAlphaCompositeD(
-				AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+				AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
+						(float) alpha));
 	}
 
 	@Override
-	public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
-			int i, GColor bg) {
+	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
+			double x2, double i, GColor bg) {
 		return new GGradientPaintD(x, y, bg2, x2, i, bg);
 	}
 

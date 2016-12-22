@@ -83,7 +83,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private Context2d ctx;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
-	private float ratio = 1;
+	private double ratio = 1;
 	private KeyListener keyListener;
 	private static Timer tick;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
@@ -160,7 +160,7 @@ public class MathFieldW implements MathField, IsWidget {
 		adapter.listenTo(html);
 	}
 
-	public void setPixelRatio(float ratio) {
+	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
 	}
 	@Override

@@ -8,7 +8,7 @@ import com.google.gwt.canvas.dom.client.Context2d;
 
 public class GGradientPaintW implements GGradientPaint {
 	private GColor color1, color2;
-	private float x1, x2, y1, y2;
+	private double x1, x2, y1, y2;
 
 	public CanvasGradient getGradient(Context2d c) {
 		CanvasGradient gradient = c.createLinearGradient(x1, y1, x2, y2);
@@ -17,8 +17,8 @@ public class GGradientPaintW implements GGradientPaint {
 		return gradient;
 	}
 
-	public GGradientPaintW(float x1, float y1,
-			GColor color1, float x2, float y2, GColor color2) {
+	public GGradientPaintW(double x1, double y1, GColor color1, double x2,
+			double y2, GColor color2) {
 		this.x1 = x1;
 		this.x2 = x2;
 		this.y1 = y1;

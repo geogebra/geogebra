@@ -567,17 +567,17 @@ public abstract class Drawable extends DrawableND {
 		if (lineThickness != fromGeo.getLineThickness()) {
 			lineThickness = fromGeo.getLineThickness();
 
-			float width = lineThickness / 2.0f;
+			double width = lineThickness / 2.0;
 			objStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), objStroke.getDashArray(), 0.0f);
+					objStroke.getMiterLimit(), objStroke.getDashArray(), 0);
 			decoStroke = AwtFactory.getPrototype().newBasicStroke(width,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), decoStroke.getDashArray(), 0.0f);
+					objStroke.getMiterLimit(), decoStroke.getDashArray(), 0);
 			selStroke = AwtFactory.getPrototype().newBasicStroke(
 					width + EuclidianStyleConstants.SELECTION_ADD,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
-					objStroke.getMiterLimit(), selStroke.getDashArray(), 0.0f);
+					objStroke.getMiterLimit(), selStroke.getDashArray(), 0);
 
 		}
 	}

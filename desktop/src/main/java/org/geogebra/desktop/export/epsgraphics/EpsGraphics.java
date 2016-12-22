@@ -399,7 +399,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws a string at (x,y)
 	 */
 	@Override
-	public void drawString(String s, float x, float y) {
+	public void drawString(String s, double x, double y) {
 		if (s != null && s.length() > 0) {
 			// AttributedString as = new AttributedString(s);
 			// as.addAttribute(TextAttribute.FONT, getFont());
@@ -412,7 +412,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws the characters of an AttributedCharacterIterator, starting from
 	 * (x,y).
 	 */
-	public abstract void drawString(String s, float x, float y, GFont font);
+	public abstract void drawString(String s, double x, double y, GFont font);
 
 	/**
 	 * Draws a GlyphVector at (x,y)
@@ -510,7 +510,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 			append(_stroke.getEndCap() + " setlinecap");
 			StringBuffer dashes = new StringBuffer();
 			dashes.append("[ ");
-			float[] dashArray = _stroke.getDashArray();
+			double[] dashArray = _stroke.getDashArray();
 			if (dashArray != null) {
 				for (int i = 0; i < dashArray.length; i++) {
 					dashes.append((dashArray[i]) + " ");

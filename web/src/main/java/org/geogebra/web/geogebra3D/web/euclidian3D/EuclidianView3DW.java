@@ -59,7 +59,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -427,7 +426,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	public float getPixelRatio() {
+	public double getPixelRatio() {
 		if (((AppW) app).getArticleElement().disableHiRes3D()) {
 			return 1;
 		}
@@ -634,7 +633,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void setPixelRatio(float pixelRatio) {
+	public void setPixelRatio(double pixelRatio) {
 		if (((AppW) app).getArticleElement().disableHiRes3D()) {
 			return;
 		}

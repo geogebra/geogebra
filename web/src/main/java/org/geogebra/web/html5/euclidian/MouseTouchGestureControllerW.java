@@ -662,7 +662,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @return the multiplier that must be used to multiply the native event
 	 *         coordinates
 	 */
-	public float getScaleXMultiplier() {
+	public double getScaleXMultiplier() {
 		return style.getScaleXMultiplier();
 	}
 
@@ -670,18 +670,18 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * @return the multiplier that must be used to multiply the native event
 	 *         coordinates
 	 */
-	public float getScaleYMultiplier() {
+	public double getScaleYMultiplier() {
 		return style.getScaleYMultiplier();
 	}
 
 	@Override
 	public int mouseEventX(int clientX) {
-		return Math.round((clientX) * (1 / style.getScaleX()));
+		return (int) Math.round((clientX) * (1 / style.getScaleX()));
 	}
 
 	@Override
 	public int mouseEventY(int clientY) {
-		return Math.round((clientY) * (1 / style.getScaleY()));
+		return (int) Math.round((clientY) * (1 / style.getScaleY()));
 	}
 
 	@Override

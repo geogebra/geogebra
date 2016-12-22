@@ -2,11 +2,11 @@ package org.geogebra.common.awt;
 
 public interface GGeneralPath extends GShape {
 
-	public abstract void moveTo(float f, float g);
+	public abstract void moveTo(double f, double g);
 
 	public abstract void reset();
 
-	public abstract void lineTo(float f, float g);
+	public abstract void lineTo(double f, double g);
 
 	public abstract void append(GShape s, boolean connect);
 
@@ -26,8 +26,8 @@ public interface GGeneralPath extends GShape {
 
 	public abstract boolean contains(GPoint2D p);
 
-	public abstract void curveTo(float parpoints, float parpoints2,
-			float parpoints3, float parpoints4, float parpoints5,
-			float parpoints6);
+	public abstract void curveTo(double parpoints, double parpoints2,
+			double parpoints3, double parpoints4, double parpoints5,
+			double parpoints6);
 
 }

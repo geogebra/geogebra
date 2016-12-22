@@ -38,7 +38,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		return ((GGeneralPathD) gp).impl;
 	}
 
-	public synchronized void moveTo(float f, float g) {
+	public synchronized void moveTo(double f, double g) {
 		impl.moveTo(f, g);
 
 	}
@@ -47,7 +47,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		impl.reset();
 	}
 
-	public synchronized void lineTo(float x, float y) {
+	public synchronized void lineTo(double x, double y) {
 		impl.lineTo(x, y);
 	}
 
@@ -132,9 +132,9 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 		return impl.contains(p.getX(), p.getY());
 	}
 
-	public void curveTo(float f, float g, float h, float i, float j, float k) {
-		impl.curveTo((float) f, (float) g, (float) h, (float) i, (float) j,
-				(float) k);
+	public void curveTo(double f, double g, double h, double i, double j,
+			double k) {
+		impl.curveTo(f, g, h, i, j, k);
 
 	}
 }

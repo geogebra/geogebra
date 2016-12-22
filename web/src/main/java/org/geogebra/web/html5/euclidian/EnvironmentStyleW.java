@@ -4,8 +4,8 @@ import org.geogebra.common.euclidian.EnvironmentStyle;
 
 public class EnvironmentStyleW extends EnvironmentStyle {
 
-	private float scaleX;
-	private float scaleY;
+	private double scaleX;
+	private double scaleY;
 	private int xOffset;
 	private int yOffset;
 	private int scrollLeft;
@@ -17,7 +17,7 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	/**
 	 * @return the scaleX
 	 */
-	public float getScaleX() {
+	public double getScaleX() {
 		return scaleX;
 	}
 
@@ -25,14 +25,14 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	 * @param scaleX
 	 *            the scaleX to set
 	 */
-	public void setScaleX(float scaleX) {
+	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;
 	}
 
 	/**
 	 * @return the scaleY
 	 */
-	public float getScaleY() {
+	public double getScaleY() {
 		return scaleY;
 	}
 
@@ -114,14 +114,14 @@ public class EnvironmentStyleW extends EnvironmentStyle {
 	/**
 	 * @return the multiplier that must be used on native event coordinates
 	 */
-	public float getScaleXMultiplier() {
+	public double getScaleXMultiplier() {
 		return (1 / getScaleX());
 	}
 
 	/**
 	 * @return the multiplier that must be used on native event coordinates
 	 */
-	public float getScaleYMultiplier() {
+	public double getScaleYMultiplier() {
 		return (1 / getScaleY());
 	}
 

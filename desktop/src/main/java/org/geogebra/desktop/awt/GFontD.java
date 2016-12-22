@@ -53,8 +53,8 @@ public class GFontD extends GFont {
 	}
 
 	@Override
-	public GFontD deriveFont(int style, float fontSize) {
-		return new GFontD(impl.deriveFont(style, fontSize));
+	public GFontD deriveFont(int style, double fontSize) {
+		return new GFontD(impl.deriveFont(style, (float) fontSize));
 	}
 
 	@Override

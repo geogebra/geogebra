@@ -316,7 +316,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * @return the multiplier that must be used to multiply the native event
 	 *         coordinates
 	 */
-	public float getScaleXMultiplier() {
+	public double getScaleXMultiplier() {
 		return mtg.getScaleXMultiplier();
 	}
 
@@ -324,7 +324,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * @return the multiplier that must be used to multiply the native event
 	 *         coordinates
 	 */
-	public float getScaleYMultiplier() {
+	public double getScaleYMultiplier() {
 		return mtg.getScaleYMultiplier();
 	}
 

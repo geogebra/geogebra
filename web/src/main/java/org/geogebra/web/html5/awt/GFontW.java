@@ -138,7 +138,7 @@ public class GFontW extends GFont {
 	}
 
 	@Override
-	public GFont deriveFont(int plain2, float fontSize) {
+	public GFont deriveFont(int plain2, double fontSize) {
 		return deriveFont(plain2, (int) fontSize);
 	}
 

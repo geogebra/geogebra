@@ -110,7 +110,7 @@ public class SliderW extends FocusWidget implements SliderWI {
 		}
 	}
 
-	public void setScale(float scale) {
+	public void setScale(double scale) {
 		// only needed for jQuery slider
 
 	}

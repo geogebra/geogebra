@@ -79,7 +79,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
-			float pixelRatio) {
+			double pixelRatio) {
 		return new GBufferedImageW(pixelWidth, pixelHeight, pixelRatio);
 	}
 
@@ -117,14 +117,14 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GBasicStroke newMyBasicStroke(float f) {
+	public GBasicStroke newMyBasicStroke(double f) {
 		return new GBasicStrokeW(f, GBasicStrokeW.CAP_ROUND,
 				GBasicStrokeW.JOIN_ROUND);
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
-			float miterLimit, float[] dash, float f) {
+	public GBasicStroke newBasicStroke(double width, int endCap, int lineJoin,
+			double miterLimit, double[] dash, double f) {
 		return new GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash, f);
 	}
 
@@ -144,19 +144,20 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(int i, int j, int k, int l) {
+	public GEllipse2DDouble newEllipse2DDouble(double i, double j, double k,
+			double l) {
 		return new Ellipse2D.Double(i, j, k, l);
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float f) {
+	public GBasicStroke newBasicStroke(double f) {
 		return new GBasicStrokeW(f);
 	}
 
 	@Override
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
-	public GBasicStroke newBasicStrokeJoinMitre(float f) {
+	public GBasicStroke newBasicStrokeJoinMitre(double f) {
 		return new GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
 				GBasicStroke.JOIN_MITER);
 	}
@@ -198,7 +199,7 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GBasicStroke newBasicStroke(float f, int cap, int join) {
+	public GBasicStroke newBasicStroke(double f, int cap, int join) {
 		return new GBasicStrokeW(f, cap, join);
 	}
 
@@ -209,13 +210,13 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GAlphaComposite newAlphaComposite(float alpha) {
+	public GAlphaComposite newAlphaComposite(double alpha) {
 		return new GAlphaCompositeW(alpha);
 	}
 
 	@Override
-	public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
-			int i, GColor bg) {
+	public GGradientPaint newGradientPaint(double x, double y, GColor bg2,
+			double x2, double i, GColor bg) {
 		return new GGradientPaintW(x, y, bg2, x2, i, bg);
 	}
 

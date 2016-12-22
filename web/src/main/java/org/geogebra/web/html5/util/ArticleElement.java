@@ -416,20 +416,21 @@ public final class ArticleElement extends Element {
 	/**
 	 * @return the CSS scale attached to the article element
 	 */
-	public float getScaleX() {
-		// no instance fields in subclasses of Element, so no way to asign it to
+	public double getScaleX() {
+		// no instance fields in subclasses of Element, so no way to assign it
+		// to
 		// a simple field
 		if ("".equals(this.getAttribute("data-scalex"))) {
 			this.setAttribute("data-scalex", String.valueOf(envScale("x")));
 		}
-		return Float.parseFloat(this.getAttribute("data-scalex"));
+		return Double.parseDouble(this.getAttribute("data-scalex"));
 	}
 
-	public float readScaleX() {
+	public double readScaleX() {
 		if ("".equals(this.getAttribute("data-scalex"))) {
 			return envScale("x");
 		}
-		return Float.parseFloat(this.getAttribute("data-scalex"));
+		return Double.parseDouble(this.getAttribute("data-scalex"));
 	}
 
 	/**

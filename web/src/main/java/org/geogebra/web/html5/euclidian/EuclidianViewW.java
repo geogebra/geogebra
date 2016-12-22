@@ -1138,7 +1138,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void setPixelRatio(float pixelRatio) {
+	public void setPixelRatio(double pixelRatio) {
 		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
 			return;
 		}
@@ -1196,7 +1196,7 @@ public class EuclidianViewW extends EuclidianView implements
 		});
 	}
 
-	public float getPixelRatio() {
+	public double getPixelRatio() {
 		return app.getPixelRatio();
 	}
 
@@ -1240,7 +1240,7 @@ public class EuclidianViewW extends EuclidianView implements
 		RootPanel.get().add(dummyDiv);
 	}
 	public void readText(final String text) {
-		String oldAltText = g2p.getAltText();
+		// String oldAltText = g2p.getAltText();
 		g2p.setAltText(text);
 
 		// RootPanel.getBodyElement().focus();

@@ -28,7 +28,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Stroke width
 	 */
-	float width;
+	double width;
 
 	/**
 	 * Stroke cap type
@@ -43,17 +43,17 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Stroke miter limit
 	 */
-	float miterLimit;
+	double miterLimit;
 
 	/**
 	 * Stroke dashes array
 	 */
-	float dash[];
+	double dash[];
 
 	/**
 	 * Stroke dash phase
 	 */
-	float dashPhase;
+	double dashPhase;
 
 	/**
 	 * The temporary pre-calculated values
@@ -88,9 +88,9 @@ public class DefaultBasicStroke implements GBasicStroke {
 		this(1.0f, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
 	}
 
-	public DefaultBasicStroke(float width, int cap, int join, float miterLimit,
-			float[] dash, float dashPhase) {
-		if (width < 0.0f) {
+	public DefaultBasicStroke(double width, int cap, int join, double miterLimit,
+			double[] dash, double dashPhase) {
+		if (width < 0) {
 			// awt.133=Negative width
 			throw new IllegalArgumentException(("Negative width awt.133")); //$NON-NLS-1$
 		}
@@ -141,19 +141,19 @@ public class DefaultBasicStroke implements GBasicStroke {
 		this.dashPhase = dashPhase;
 	}
 
-	public DefaultBasicStroke(float width, int cap, int join, float miterLimit) {
+	public DefaultBasicStroke(double width, int cap, int join, double miterLimit) {
 		this(width, cap, join, miterLimit, null, 0.0f);
 	}
 
-	public DefaultBasicStroke(float width, int cap, int join) {
+	public DefaultBasicStroke(double width, int cap, int join) {
 		this(width, cap, join, 10.0f, null, 0.0f);
 	}
 
-	public DefaultBasicStroke(float width) {
-		this(width, CAP_SQUARE, JOIN_MITER, 10.0f, null, 0.0f);
+	public DefaultBasicStroke(double width) {
+		this(width, CAP_SQUARE, JOIN_MITER, 10, null, 0);
 	}
 
-	public float getLineWidth() {
+	public double getLineWidth() {
 		return width;
 	}
 
@@ -165,15 +165,15 @@ public class DefaultBasicStroke implements GBasicStroke {
 		return join;
 	}
 
-	public float getMiterLimit() {
+	public double getMiterLimit() {
 		return miterLimit;
 	}
 
-	public float[] getDashArray() {
+	public double[] getDashArray() {
 		return dash;
 	}
 
-	public float getDashPhase() {
+	public double getDashPhase() {
 		return dashPhase;
 	}
 
@@ -1442,12 +1442,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		double pos;
 		boolean close, visible, first;
-		float dash[];
-		float phase;
+		double dash[];
+		double phase;
 		int index;
 		DashIterator iter;
 
-		Dasher(float dash[], float phase) {
+		Dasher(double dash[], double phase) {
 			this.dash = dash;
 			this.phase = phase;
 			index = 0;
@@ -1706,18 +1706,18 @@ public class DefaultBasicStroke implements GBasicStroke {
 				0 }; // CLOSE
 
 		byte[] types;
-		float[] points;
+		double[] points;
 		int typeSize;
 		int pointSize;
 
-		float xLast;
-		float yLast;
-		float xMove;
-		float yMove;
+		double xLast;
+		double yLast;
+		double xMove;
+		double yMove;
 
 		public BufferedPath() {
 			types = new byte[bufCapacity];
-			points = new float[bufCapacity * 2];
+			points = new double[bufCapacity * 2];
 		}
 
 		void checkBuf(int typeCount, int pointCount) {
@@ -1728,7 +1728,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 				types = tmp;
 			}
 			if (pointSize + pointCount > points.length) {
-				float tmp[] = new float[pointSize
+				double tmp[] = new double[pointSize
 						+ Math.max(bufCapacity * 2, pointCount)];
 				System.arraycopy(points, 0, tmp, 0, pointSize);
 				points = tmp;
@@ -1747,36 +1747,36 @@ public class DefaultBasicStroke implements GBasicStroke {
 		void moveTo(double x, double y) {
 			checkBuf(1, 2);
 			types[typeSize++] = GPathIterator.SEG_MOVETO;
-			points[pointSize++] = xMove = (float) x;
-			points[pointSize++] = yMove = (float) y;
+			points[pointSize++] = xMove = x;
+			points[pointSize++] = yMove = y;
 		}
 
 		void lineTo(double x, double y) {
 			checkBuf(1, 2);
 			types[typeSize++] = GPathIterator.SEG_LINETO;
-			points[pointSize++] = xLast = (float) x;
-			points[pointSize++] = yLast = (float) y;
+			points[pointSize++] = xLast = x;
+			points[pointSize++] = yLast = y;
 		}
 
 		void quadTo(double x1, double y1, double x2, double y2) {
 			checkBuf(1, 4);
 			types[typeSize++] = GPathIterator.SEG_QUADTO;
-			points[pointSize++] = (float) x1;
-			points[pointSize++] = (float) y1;
-			points[pointSize++] = xLast = (float) x2;
-			points[pointSize++] = yLast = (float) y2;
+			points[pointSize++] = x1;
+			points[pointSize++] = y1;
+			points[pointSize++] = xLast = x2;
+			points[pointSize++] = yLast = y2;
 		}
 
 		void cubicTo(double x1, double y1, double x2, double y2, double x3,
 				double y3) {
 			checkBuf(1, 6);
 			types[typeSize++] = GPathIterator.SEG_CUBICTO;
-			points[pointSize++] = (float) x1;
-			points[pointSize++] = (float) y1;
-			points[pointSize++] = (float) x2;
-			points[pointSize++] = (float) y2;
-			points[pointSize++] = xLast = (float) x3;
-			points[pointSize++] = yLast = (float) y3;
+			points[pointSize++] = x1;
+			points[pointSize++] = y1;
+			points[pointSize++] = x2;
+			points[pointSize++] = y2;
+			points[pointSize++] = xLast = x3;
+			points[pointSize++] = yLast = y3;
 		}
 
 		void closePath() {
@@ -1785,8 +1785,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 		}
 
 		void setLast(double x, double y) {
-			points[pointSize - 2] = xLast = (float) x;
-			points[pointSize - 1] = yLast = (float) y;
+			points[pointSize - 2] = xLast = x;
+			points[pointSize - 1] = yLast = y;
 		}
 
 		void append(BufferedPath p) {

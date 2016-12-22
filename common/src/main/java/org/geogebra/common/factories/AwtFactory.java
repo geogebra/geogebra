@@ -52,7 +52,7 @@ public abstract class AwtFactory {
 	public abstract GRectangle newRectangle(int x, int y, int w, int h);
 
 	public abstract GBufferedImage newBufferedImage(int pixelWidth,
-			int pixelHeight, float pixelRatio);
+			int pixelHeight, double pixelRatio);
 
 	public abstract GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency);
@@ -72,14 +72,14 @@ public abstract class AwtFactory {
 
 	public abstract GGeneralPath newGeneralPath();
 
-	public abstract GBasicStroke newMyBasicStroke(float f);
+	public abstract GBasicStroke newMyBasicStroke(double f);
 
-	public abstract GBasicStroke newBasicStroke(float f, int cap, int join);
+	public abstract GBasicStroke newBasicStroke(double f, int cap, int join);
 
-	public abstract GBasicStroke newBasicStroke(float width, int endCap,
-			int lineJoin, float miterLimit, float[] dash, float f);
+	public abstract GBasicStroke newBasicStroke(double width, int endCap,
+			int lineJoin, double miterLimit, double[] dash, double f);
 
-	public abstract GBasicStroke newBasicStroke(float f);
+	public abstract GBasicStroke newBasicStroke(double f);
 
 	public abstract GLine2D newLine2D();
 
@@ -87,8 +87,8 @@ public abstract class AwtFactory {
 
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
-	public abstract GEllipse2DDouble newEllipse2DDouble(int i, int j, int k,
-			int l);
+	public abstract GEllipse2DDouble newEllipse2DDouble(double i, double j,
+			double k, double l);
 
 	public abstract GArc2D newArc2D();
 
@@ -104,12 +104,12 @@ public abstract class AwtFactory {
 	public abstract GTextLayout newTextLayout(String string, GFont fontLine,
 			GFontRenderContext frc);
 
-	public abstract GAlphaComposite newAlphaComposite(float alpha);
+	public abstract GAlphaComposite newAlphaComposite(double alpha);
 
-	public abstract GBasicStroke newBasicStrokeJoinMitre(float f);
+	public abstract GBasicStroke newBasicStrokeJoinMitre(double f);
 
-	public abstract GGradientPaint newGradientPaint(int x, int y, GColor bg2,
-			int x2, int i, GColor bg);
+	public abstract GGradientPaint newGradientPaint(double x, double y,
+			GColor bg2, double x2, double i, GColor bg);
 
 	public abstract FocusListener newFocusListener(Object listener);
 
@@ -153,7 +153,8 @@ public abstract class AwtFactory {
 
 	public abstract int solveCubic(double[] eqn, double[] dest);
 
-	public static void fillTriangle(GGraphics2D g2, int x1, int y1, int x2,
+	public static void fillTriangle(GGraphics2D g2, double x1, double y1,
+			double x2,
 			int y2, int x3, int y3) {
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		gp.moveTo(x1, y1);

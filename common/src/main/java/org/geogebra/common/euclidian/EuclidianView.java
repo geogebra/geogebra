@@ -5534,7 +5534,7 @@ public abstract class EuclidianView
 	 * @param pixelRatio
 	 *            physical x logical pixel ratio
 	 */
-	public void setPixelRatio(float pixelRatio) {
+	public void setPixelRatio(double pixelRatio) {
 		// TODO Auto-generated method stub
 	}
 
@@ -5604,7 +5604,7 @@ public abstract class EuclidianView
 		return companion.isInPlane(sys);
 	}
 
-	public float getPixelRatio() {
+	public double getPixelRatio() {
 		return 1;
 	}
 

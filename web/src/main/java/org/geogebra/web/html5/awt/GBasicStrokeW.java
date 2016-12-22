@@ -16,20 +16,20 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 	// Private fields
 	private int lineCap = CAP_BUTT;
 
-	public GBasicStrokeW(float width, int cap, int join, float miterLimit,
-			float[] dash, float dashPhase) {
+	public GBasicStrokeW(double width, int cap, int join, double miterLimit,
+			double[] dash, double dashPhase) {
 		super(width, cap, join, miterLimit, dash, dashPhase);
 	}
 
-	public GBasicStrokeW(float width, int cap, int join, float miterLimit) {
+	public GBasicStrokeW(double width, int cap, int join, double miterLimit) {
 		super(width, cap, join, miterLimit);
 	}
 
-	public GBasicStrokeW(float width, int cap, int join) {
+	public GBasicStrokeW(double width, int cap, int join) {
 		super(width, cap, join);
 	}
 
-	public GBasicStrokeW(float width) {
+	public GBasicStrokeW(double width) {
 		super(width);
 	}
 

@@ -12,12 +12,12 @@ public interface GBasicStroke {
 
 	int getEndCap();
 
-	float getMiterLimit();
+	double getMiterLimit();
 
 	int getLineJoin();
 
-	float getLineWidth();
+	double getLineWidth();
 
-	float[] getDashArray();
+	double[] getDashArray();
 
 }

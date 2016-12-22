@@ -60,11 +60,11 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	}-*/ ;
 
-	public void setScale(float zoom) {
+	public void setScale(double zoom) {
 		setScale(range, zoom);
 	}
 
-	private native void setScale(Element range1, float zoom) /*-{
+	private native void setScale(Element range1, double zoom) /*-{
 		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		$(range1).slider("setzoom", zoom);
 	}-*/;

@@ -82,33 +82,33 @@ public class EuclidianStatic {
 	 *            stroke type (EuclidianStyleConstants.LINE_TYPE_*)
 	 * @return stroke
 	 */
-	public static GBasicStroke getStroke(float width, int type) {
-		float[] dash;
+	public static GBasicStroke getStroke(double width, int type) {
+		double[] dash;
 
 		switch (type) {
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			dash = new float[2];
+			dash = new double[2];
 			dash[0] = width; // dot
-			dash[1] = 3.0f; // space
+			dash[1] = 3.0; // space
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			dash = new float[2];
-			dash[0] = 4.0f + width;
+			dash = new double[2];
+			dash[0] = 4.0 + width;
 			// short dash
-			dash[1] = 4.0f; // space
+			dash[1] = 4.0; // space
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			dash = new float[2];
-			dash[0] = 8.0f + width; // long dash
-			dash[1] = 8.0f; // space
+			dash = new double[2];
+			dash[0] = 8.0 + width; // long dash
+			dash[1] = 8.0; // space
 			break;
 
 		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			dash = new float[4];
-			dash[0] = 8.0f + width; // dash
-			dash[1] = 4.0f; // space before dot
+			dash = new double[4];
+			dash[0] = 8.0 + width; // dash
+			dash[1] = 4.0; // space before dot
 			dash[2] = width; // dot
 			dash[3] = dash[1]; // space after dot
 			break;
@@ -416,10 +416,10 @@ public class EuclidianStatic {
 		GFontRenderContext frc = g3.getFontRenderContext();
 
 		int indexOffset = indexFont.getSize() / 2;
-		float maxY = 0;
+		double maxY = 0;
 		int depth = 0;
-		float x = xPos;
-		float y = yPos;
+		double x = xPos;
+		double y = yPos;
 		int startPos = 0;
 		if (str == null)
 			return null;
@@ -502,7 +502,8 @@ public class EuclidianStatic {
 		if (doDraw) {
 			g3.setFont(g2font);
 		}
-		return new GPoint(Math.round(x - xPos), Math.round(maxY - yPos));
+		return new GPoint((int) Math.round(x - xPos),
+				(int) Math.round(maxY - yPos));
 
 	}
 
@@ -536,7 +537,7 @@ public class EuclidianStatic {
 
 		int lines = 0;
 		int fontSize = textFont.getSize();
-		float lineSpread = fontSize * 1.5f;
+		double lineSpread = fontSize * 1.5f;
 
 		GFont font = app.getFontCanDisplay(labelDesc, serif,
 				textFont.getStyle(), fontSize);
@@ -567,7 +568,7 @@ public class EuclidianStatic {
 			}
 		}
 
-		float ypos = yLabel + lines * lineSpread;
+		double ypos = yLabel + lines * lineSpread;
 
 		// iOS (bug?) - bold text needs font setting for each line
 		g2.setFont(font);

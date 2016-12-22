@@ -51,8 +51,8 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void drawString(String str, float x, float y) {
-		impl.drawString(str, x, y);
+	public void drawString(String str, double x, double y) {
+		impl.drawString(str, (float) x, (float) y);
 
 	}
 

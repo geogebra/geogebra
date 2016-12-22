@@ -46,7 +46,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = GColor.newColor(255, 255, 255, 255);
-	private float[] dash_array = null;
+	private double[] dash_array = null;
 
 	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 	private JsArrayNumber jsarrn;
@@ -211,7 +211,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.fillText(str, x, y);
 	}
 
-	public void drawString(String str, float x, float y) {
+	public void drawString(String str, double x, double y) {
 		context.fillText(str, x, y);
 	}
 
@@ -282,7 +282,7 @@ public class GGraphics2DW implements GGraphics2D {
 			context.setLineCap(((GBasicStrokeW) stroke).getEndCapString());
 			context.setLineJoin(((GBasicStrokeW) stroke).getLineJoinString());
 
-			float[] dasharr = ((GBasicStrokeW) stroke).getDashArray();
+			double[] dasharr = ((GBasicStrokeW) stroke).getDashArray();
 			if (dasharr != null) {
 				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
@@ -353,7 +353,7 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public GComposite getComposite() {
-		return new GAlphaCompositeW((float) context.getGlobalAlpha());
+		return new GAlphaCompositeW(context.getGlobalAlpha());
 
 		// context.save();
 		// //just to not return null;
@@ -367,7 +367,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	public GBasicStroke getStroke() {
 
-		return new GBasicStrokeW((float) context.getLineWidth(),
+		return new GBasicStrokeW(context.getLineWidth(),
 		        GBasicStrokeW.getCap(context.getLineCap()),
 		        GBasicStrokeW.getJoin(context.getLineJoin()), 0, dash_array, 0);
 	}
@@ -581,7 +581,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	public void setClip(int x, int y, int width, int height) {
 
-		float[] dash_array_save = dash_array;
+		double[] dash_array_save = dash_array;
 		dash_array = null;
 		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
@@ -645,7 +645,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.beginPath();
 		int ey = y + h;
 		int ex = x + w;
-		float r2d = (float) Math.PI / 180;
+		double r2d = Math.PI / 180;
 		context.moveTo(x + r, y);
 		context.lineTo(ex - r, y);
 		context.arc(ex - r, y + r, r, r2d * 270, r2d * 360, false);
