@@ -847,7 +847,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void updateTextItems() {
-
 		// check for new LaTeX
 		boolean latexAfterEdit = false;
 
@@ -1110,6 +1109,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		controller.setEditing(false);
 
 		av.cancelEditItem();
+
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 				content.remove(btnClearInput);
@@ -1125,6 +1125,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			// Formula Hacks ended.
 			if (geo != null) {
+
 				boolean redefine = !isMoveablePoint(geo);
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true, getErrorHandler(true),
@@ -1142,6 +1143,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 							}
 						});
+				if (app.has(Feature.AV_SINGLE_TAP_EDIT)
+						&& !geo.isIndependent()) {
+					if (callback != null) {
+						callback.callback(geo);
+					}
+
+				}
+
 				return;
 			}
 		} else {
@@ -1149,6 +1158,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				cancelDV();
 			}
 		}
+
 		// empty new value -- consider success to make sure focus goes away
 		updateAfterRedefine(newValue0 == null);
 	}
@@ -1170,6 +1180,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 
 		}
+
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
 			LayoutUtilW.replace(content, getPlainTextItem(), latexItem);
@@ -1177,6 +1188,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {
+
 			doUpdate();
 		}
 
