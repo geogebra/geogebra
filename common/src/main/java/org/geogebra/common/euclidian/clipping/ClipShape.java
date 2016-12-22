@@ -87,7 +87,7 @@ public class ClipShape {
 		 */
 		public void moveTo(double x, double y) {
 			flush();
-			g.moveTo((float) x, (float) y);
+			g.moveTo(x, y);
 			initialX = x;
 			initialY = y;
 		}
@@ -116,9 +116,8 @@ public class ClipShape {
 			double y0 = yf.evaluate(t0);
 			double y1 = yf.evaluate(t1);
 
-			g.curveTo((float) (x0 + dx0 / 3), (float) (y0 + dy0 / 3),
-					(float) (x1 - dx1 / 3), (float) (y1 - dy1 / 3),
-					(float) (x1), (float) (y1));
+			g.curveTo((x0 + dx0 / 3), (y0 + dy0 / 3), (x1 - dx1 / 3),
+					(y1 - dy1 / 3), (x1), (y1));
 		}
 
 		/**
@@ -188,7 +187,7 @@ public class ClipShape {
 				}
 
 				double[] point = uncommittedPoints.remove(0);
-				g.lineTo((float) point[0], (float) point[1]);
+				g.lineTo(point[0], point[1]);
 				doubleFactory.putArray(point);
 			}
 		}

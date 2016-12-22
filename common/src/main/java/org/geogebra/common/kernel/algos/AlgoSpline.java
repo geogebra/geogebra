@@ -316,7 +316,7 @@ public class AlgoSpline extends AlgoElement {
 										- doublePoints[row - 1][i]);
 					}
 					cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
-							+ (float) Math.sqrt(value);
+							+ Math.sqrt(value);
 				}
 			}
 		}
@@ -416,7 +416,7 @@ public class AlgoSpline extends AlgoElement {
 			double currentValueFromZeroToOne) {
 		int exp = col % degreeValue;
 		exp = degreeValue - exp - 1;
-		float coeff = (float) Math.pow(currentValueFromZeroToOne, exp - 1);
+		double coeff = Math.pow(currentValueFromZeroToOne, exp - 1);
 		if (exp == 0) {
 			return 0;
 		}
@@ -431,7 +431,7 @@ public class AlgoSpline extends AlgoElement {
 			double currentValueFromZeroToOne) {
 		double value = 0;
 		for (int j = degreeValue - 1; j > -1; j--) {
-			matrix[row][col + degreeValue - j - 1] = (float) Math
+			matrix[row][col + degreeValue - j - 1] = Math
 					.pow(currentValueFromZeroToOne, j);
 		}
 		return value;

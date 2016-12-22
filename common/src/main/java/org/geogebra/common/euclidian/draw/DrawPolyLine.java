@@ -213,8 +213,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			coords[0] = v.getX();
 			coords[1] = v.getY();
 			view.toScreenCoords(coords);
-			GPoint p = new GPoint(Math.round((float) coords[0]),
-					Math.round((float) coords[1]));
+			GPoint p = new GPoint((int) Math.round(coords[0]),
+					(int) Math.round(coords[1]));
 			if (poly.getLineType() == EuclidianStyleConstants.LINE_TYPE_FULL) {
 				drawEllipse(g2, p);
 			} else {

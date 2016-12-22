@@ -33,7 +33,7 @@ public class CmdSetFilling extends CmdScripting {
 
 				GeoElement geo = arg[0];
 
-				geo.setAlphaValue((float) ((NumberValue) arg[1]).getDouble());
+				geo.setAlphaValue(((NumberValue) arg[1]).getDouble());
 				geo.updateRepaint();
 
 				return arg;
