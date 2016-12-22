@@ -18,7 +18,7 @@ public class MathFieldController {
     private MathField mathField;
     private TeXSerializer texSerializer;
 
-    private float size = 16;
+    private double size = 16;
     private int type = TeXFormula.SERIF;
 
 	private GraphicsStub graphics;
@@ -29,7 +29,7 @@ public class MathFieldController {
 		graphics = new GraphicsStub();
 	}
 
-    public void setSize(float size) {
+    public void setSize(double size) {
         this.size = size;
     }
 

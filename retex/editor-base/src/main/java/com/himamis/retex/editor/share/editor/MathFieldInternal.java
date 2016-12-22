@@ -90,7 +90,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         mathField.setKeyListener(this);
     }
 
-    public void setSize(float size) {
+    public void setSize(double size) {
         mathFieldController.setSize(size);
     }
 
