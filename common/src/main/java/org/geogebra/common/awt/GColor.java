@@ -337,6 +337,7 @@ public class GColor implements GPaint {
 			double q = brightness * (1.0f - saturation * f);
 			double t = brightness * (1.0f - (saturation * (1.0f - f)));
 			switch ((int) h) {
+			default:
 			case 0:
 				r = (int) (brightness * 255.0f + 0.5f);
 				g = (int) (t * 255.0f + 0.5f);

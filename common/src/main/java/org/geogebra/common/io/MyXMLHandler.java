@@ -2197,9 +2197,9 @@ public class MyXMLHandler implements DocHandler {
 					? width : height);
 			double relative;
 			if (tmp_showSpreadsheet) {
-				relative = tmp_sp1 / total;
+				relative = tmp_sp1 / (double) total;
 			} else {
-				relative = tmp_sp2 / total;
+				relative = tmp_sp2 / (double) total;
 			}
 			spXml = new DockSplitPaneData[] {
 					new DockSplitPaneData("", relative, splitOrientation) };

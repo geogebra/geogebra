@@ -427,6 +427,9 @@ public class EuclidianStatic {
 
 		for (int i = 0; i < length; i++) {
 			switch (str.charAt(i)) {
+			default:
+				// do nothing
+				break;
 			case '_':
 				// draw everything before _
 				if (i > startPos) {
