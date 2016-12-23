@@ -1231,12 +1231,15 @@ namespace giac {
 	  }
 #else
 	  vecteur newsol;
+	  int cm=calc_mode(contextptr);
+	  calc_mode(0,contextptr);
 	  try {
 	    newsol=solve(implicitsol,*y._IDNTptr,3,contextptr);
 	  } catch(std::runtime_error & err){
 	    newsol.clear();
 	    *logptr(contextptr) << "Unable to solve implicit equation "<< implicitsol << "=0 in " << y << endl;
 	  }
+	  calc_mode(cm,contextptr);
 #endif
 	  sol=mergevecteur(sol,newsol);
 	  continue;
