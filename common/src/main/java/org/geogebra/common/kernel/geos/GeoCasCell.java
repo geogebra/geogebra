@@ -1934,6 +1934,10 @@ public class GeoCasCell extends GeoElement
 					// switch twinGeo with new evaluation
 					// needed for undo->function wasn't draggable
 					else {
+
+						if (uniformListCommand() && lastOutputEvaluationGeo instanceof GeoList) {
+							makePlotable((GeoList) lastOutputEvaluationGeo);
+						}
 						// if both geos are the same type we can use set safely
 						twinGeo.set(lastOutputEvaluationGeo);
 						// update constants references
