@@ -117,6 +117,9 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	 * @Override public boolean isNearToAlgorithm() { return true; }
 	 */
 
+	private Coords vn = new Coords(3), tmpCoords = new Coords(3),
+			d1 = new Coords(3), d2 = new Coords(3);
+
 	@Override
 	public final void compute() {
 
@@ -127,11 +130,12 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 		Coords v2 = geth().getDirectionInD3();
 
 		// normal vector
-		Coords vn = v1.crossProduct4(v2).normalized();
+		vn.setCrossProduct(v1, v2);
+		vn.normalize();
 
 		if (!vn.isDefined()) { // g and h are parallel
 			// first bisector is parallel to g and h
-			bisector[0].setCoord(o1.add(o2).mul(0.5), v1);
+			bisector[0].setCoord(tmpCoords.setAdd3(o1, o2).mulInside(0.5), v1);
 			// second bisector is undefined
 			bisector[1].setUndefined();
 		} else { // standard case: g and h are not parallel
@@ -143,12 +147,12 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 				bisector[0].setUndefined();
 				bisector[1].setUndefined();
 			} else {
-				v1 = v1.copyVector();
-				v1.normalize();
-				v2 = v2.copyVector();
-				v2.normalize();
-				bisector[0].setCoord(points[0], v1.add(v2));
-				bisector[1].setCoord(points[0], v1.sub(v2));
+				d1.set3(v1);
+				d1.normalize();
+				d2.set3(v2);
+				d2.normalize();
+				bisector[0].setCoord(points[0], tmpCoords.setAdd3(d1, d2));
+				bisector[1].setCoord(points[0], tmpCoords.setSub3(d1, d2));
 			}
 		}
 	}
