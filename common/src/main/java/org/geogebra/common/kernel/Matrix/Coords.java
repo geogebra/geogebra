@@ -1903,18 +1903,29 @@ public class Coords {
 	 *            vector (length 4)
 	 */
 	public void completeOrthonormalKeepInXOYPlaneIfPossible(Coords vn1) {
+		vn1.val[3] = 0;
+		completeOrthonormalKeepInXOYPlaneIfPossible3(vn1);
+	}
+
+	/**
+	 * Assume that "this" is a non-zero vector in 3-space. This method sets the
+	 * vector vn1 so that (this, vn1) is orthonormal. If this is in xOy plane,
+	 * then vn1 will.
+	 * 
+	 * @param vn1
+	 *            vector (length 3)
+	 */
+	public void completeOrthonormalKeepInXOYPlaneIfPossible3(Coords vn1) {
 
 		if (!Kernel.isZero(val[0]) || !Kernel.isZero(val[1])) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
 			vn1.val[2] = 0;
-			vn1.val[3] = 0;
 			vn1.normalize();
 		} else {
 			vn1.val[0] = 1.0;
 			vn1.val[1] = 0.0;
 			vn1.val[2] = 0.0;
-			vn1.val[3] = 0.0;
 		}
 
 	}
@@ -2085,6 +2096,23 @@ public class Coords {
 	 */
 	public Coords setMul(Coords v, double val0) {
 		for (int i = 0; i < rows && i < v.rows; i++) {
+			val[i] = v.val[i] * val0;
+		}
+
+		return this;
+	}
+
+	/**
+	 * set this to v * val0 (only 3 first values)
+	 * 
+	 * @param v
+	 *            vector
+	 * @param val0
+	 *            value
+	 * @return this
+	 */
+	public Coords setMul3(Coords v, double val0) {
+		for (int i = 0; i < 3; i++) {
 			val[i] = v.val[i] * val0;
 		}
 

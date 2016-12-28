@@ -1756,15 +1756,15 @@ public class Manager3D implements Manager3DInterface {
 		// place the new point on the circle
 		Coords cA = A.getInhomCoordsInD3();
 		Coords cB = B.getInhomCoordsInD(3);
-		Coords AB = cB.sub(cA);
-		Coords vn = new Coords(4);
-		AB.completeOrthonormalKeepInXOYPlaneIfPossible(vn);
-		Coords coords = center.getInhomCoordsInD(3)
-				.add(vn.mul(radius.getDouble()));
+		createTmpCoords();
+		tmpCoords2.setSub3(cB, cA);
+		tmpCoords2.completeOrthonormalKeepInXOYPlaneIfPossible3(tmpCoords3);
+		tmpCoords3.mulInside(radius.getDouble());
+		tmpCoords.setAdd3(center.getInhomCoordsInD(3), tmpCoords3);
 
 		AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons, null,
-				algoCircle.getCircle(), coords.getX(), coords.getY(),
-				coords.getZ());
+				algoCircle.getCircle(), tmpCoords.getX(), tmpCoords.getY(),
+				tmpCoords.getZ());
 
 		// create solid
 		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(
@@ -1772,6 +1772,16 @@ public class Manager3D implements Manager3DInterface {
 
 		return algo.getOutput();
 
+	}
+
+	private Coords tmpCoords, tmpCoords2, tmpCoords3;
+
+	final private void createTmpCoords() {
+		if (tmpCoords == null) {
+			tmpCoords = new Coords(3);
+			tmpCoords2 = new Coords(3);
+			tmpCoords3 = new Coords(3);
+		}
 	}
 
 	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
