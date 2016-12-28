@@ -20,7 +20,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
-public class InputDialogAngleFixedW extends AngleInputDialog{
+public class InputDialogAngleFixedW extends AngleInputDialogW{
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	GeoSegmentND[] segments;

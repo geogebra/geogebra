@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.GeoGebraToPdf;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
@@ -28,21 +27,21 @@ public class GeoGebraToPdfD extends GeoGebraToPdf {
 
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2) {
+			Inequality inequality) {
 		try {
-			return new MyGraphicsPdf(ef, inequality, euclidianView2);
+			return new MyGraphicsPdf(ef, inequality);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
 	}
 
-	class MyGraphicsPdf extends MyGraphics {
+	class MyGraphicsPdf extends MyGraphicsD {
 
-		public MyGraphicsPdf(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
+		public MyGraphicsPdf(FunctionalNVar geo, Inequality ineq)
+				throws IOException {
 
-			super(geo, ineq, euclidianView);
+			super(geo, ineq);
 		}
 
 		@Override

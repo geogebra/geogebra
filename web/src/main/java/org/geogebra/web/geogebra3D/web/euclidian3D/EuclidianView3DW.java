@@ -30,7 +30,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MsZoomer;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
@@ -69,8 +68,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EuclidianView3DW extends EuclidianView3D implements
         EuclidianViewWInterface {
-
-	public int thisTabIndex = GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX;
 
 	protected EuclidianPanelWAbstract EVPanel;
 

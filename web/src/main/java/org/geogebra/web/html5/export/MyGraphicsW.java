@@ -19,13 +19,11 @@ abstract class MyGraphicsW extends GGraphics2DW {
 	protected EuclidianView view;
 	protected FunctionalNVar geo;
 
-	public MyGraphicsW(FunctionalNVar geo, Inequality ineq,
-			EuclidianView euclidianView) {
+	public MyGraphicsW(FunctionalNVar geo, Inequality ineq) {
 
 		// dummy canvas
 		super(Canvas.createIfSupported());
 
-		view = euclidianView;
 		this.geo = geo;
 		this.ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
 		this.ineq = ineq;

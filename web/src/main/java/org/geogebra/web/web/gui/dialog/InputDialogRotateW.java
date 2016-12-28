@@ -15,7 +15,7 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 
-public abstract class InputDialogRotateW extends AngleInputDialog implements KeyUpHandler {
+public abstract class InputDialogRotateW extends AngleInputDialogW implements KeyUpHandler {
 
 
 	GeoPolygon[] polys;

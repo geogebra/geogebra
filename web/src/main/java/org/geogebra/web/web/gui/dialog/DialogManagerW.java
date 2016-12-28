@@ -177,7 +177,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor(),callback, app, oldVal);
-		AngleInputDialog id = new AngleInputDialog(((AppW) app), message, title,
+		AngleInputDialogW id = new AngleInputDialogW(((AppW) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
 	}

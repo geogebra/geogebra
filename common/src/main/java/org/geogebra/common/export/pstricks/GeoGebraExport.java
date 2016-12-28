@@ -791,18 +791,18 @@ public abstract class GeoGebraExport {
 
 		if (tree.getLeft() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getLeft().get(i), euclidianView);
+				g = createGraphics(ef, tree.getLeft().get(i));
 				drawable.draw(g);
 			}
 		}
 		if (tree.getRight() != null) {
 			for (int i = 0; i < tree.getLeft().getSize(); i++) {
-				g = createGraphics(ef, tree.getRight().get(i), euclidianView);
+				g = createGraphics(ef, tree.getRight().get(i));
 				drawable.draw(g);
 			}
 		}
 		if (tree.getIneq() != null) {
-			g = createGraphics(ef, tree.getIneq(), euclidianView);
+			g = createGraphics(ef, tree.getIneq());
 			drawable.draw(g);
 		}
 		// Only for syntax. Never throws
@@ -823,7 +823,7 @@ public abstract class GeoGebraExport {
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2);
+			Inequality inequality);
 
 	abstract protected boolean fillSpline(GeoCurveCartesian[] curves);
 

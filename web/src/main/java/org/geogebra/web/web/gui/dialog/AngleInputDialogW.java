@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class AngleInputDialog extends InputDialogW {
+public class AngleInputDialogW extends InputDialogW {
 	
 
 	public static final int DEFAULT_COLUMNS = 30;
@@ -31,12 +31,10 @@ public class AngleInputDialog extends InputDialogW {
 
 	protected RadioButton rbCounterClockWise, rbClockWise;
 
-	public boolean success = true;
-
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialog(AppW app,  String message, String title, String initString,
+	public AngleInputDialogW(AppW app,  String message, String title, String initString,
 					boolean autoComplete, InputHandler handler, boolean modal) {
 		super(modal, app);
 		inputHandler = handler;
@@ -78,7 +76,6 @@ public class AngleInputDialog extends InputDialogW {
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
-		success=true;
 		try {
 
 			if (source == btOK || sourceShouldHandleOK(source)) {
@@ -101,13 +98,11 @@ public class AngleInputDialog extends InputDialogW {
 						});
 			} else if (source == btCancel) {
 				afterActionPerformed(true);
-				success=false;
 				inputPanel.getTextComponent().hideTablePopup();
 			}
 		} catch (Exception ex) {
 			afterActionPerformed(false);
 			// do nothing on uninitializedValue		
-			success=false;
 		}
 
 	}

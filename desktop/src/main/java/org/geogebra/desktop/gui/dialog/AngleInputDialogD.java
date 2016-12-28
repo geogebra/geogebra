@@ -30,16 +30,14 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author hohenwarter
  */
-public class AngleInputDialog extends InputDialogD {
+public class AngleInputDialogD extends InputDialogD {
 
 	protected JRadioButton rbCounterClockWise, rbClockWise;
-
-	public boolean success = true;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialog(AppD app, String message, String title,
+	public AngleInputDialogD(AppD app, String message, String title,
 			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal) {
 		super(app.getFrame(), modal, app.getLocalization());
@@ -78,7 +76,6 @@ public class AngleInputDialog extends InputDialogD {
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
 
-		success = true;
 		try {
 
 			if (source == btOK || source == inputPanel.getTextComponent()) {
@@ -100,12 +97,10 @@ public class AngleInputDialog extends InputDialogD {
 						});
 			} else if (source == btCancel) {
 
-				success = false;
 				setVisible(false);
 			}
 		} catch (Exception ex) {
 			// do nothing on uninitializedValue
-			success = false;
 			setVisible(false);
 		}
 

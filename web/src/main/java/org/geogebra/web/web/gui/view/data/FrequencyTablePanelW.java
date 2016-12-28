@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.Label;
 
 public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
 
-	protected AppW app;
 	private String[] strHeader;
 	// protected DataAnalysisViewD statDialog;
 	// private int mode;
@@ -17,7 +16,6 @@ public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfac
 	// private StatPanelSettings settings;
 
 	public FrequencyTablePanelW(AppW app) {
-		this.app = app;
 		statTable = new StatTableW(app);
 		statTable.setStyleName("frequencyTable");
 		add(statTable);

@@ -433,7 +433,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 		NumberInputHandler handler = new NumberInputHandler(
 				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
-		AngleInputDialog id = new AngleInputDialog(((AppD) app), message, title,
+		AngleInputDialogD id = new AngleInputDialogD(((AppD) app), message, title,
 				initText, false, handler, true);
 		id.setVisible(true);
 	}

@@ -63,7 +63,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 			allowStyleBar;
 	public boolean enableRightClick = true;
 	public boolean useBrowserForJavaScript = true;
-	public boolean enableChooserPopups = true;
 	public boolean errorDialogsActive = true;
 	public boolean enableLabelDrags = true;
 	boolean enableShiftDragZoom = true;
@@ -257,10 +256,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// rightClickActive, default is "true"
 		enableRightClick = !"false"
 				.equals(applet.getParameter("enableRightClick"));
-
-		// enableChooserPopups, default is "true"
-		enableChooserPopups = !"false"
-				.equals(applet.getParameter("enableChooserPopups"));
 
 		// errorDialogsActive, default is "true"
 		errorDialogsActive = !"false"

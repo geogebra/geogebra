@@ -16,7 +16,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public abstract class InputDialogRotateD extends AngleInputDialog
+public abstract class InputDialogRotateD extends AngleInputDialogD
 		implements KeyListener {
 
 	protected GeoPolygon[] polys;

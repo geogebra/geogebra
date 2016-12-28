@@ -22,7 +22,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
-public class InputDialogAngleFixedD extends AngleInputDialog
+public class InputDialogAngleFixedD extends AngleInputDialogD
 		implements KeyListener {
 
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;

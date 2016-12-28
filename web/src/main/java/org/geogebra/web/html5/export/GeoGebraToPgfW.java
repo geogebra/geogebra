@@ -3,7 +3,6 @@ package org.geogebra.web.html5.export;
 import java.io.IOException;
 
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
@@ -18,9 +17,9 @@ public class GeoGebraToPgfW extends GeoGebraToPgf {
 
 	@Override
 	protected GGraphics2DW createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2) {
+			Inequality inequality) {
 		try {
-			return new MyGraphicsPgfW(ef, inequality, euclidianView2);
+			return new MyGraphicsPgfW(ef, inequality);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
@@ -29,10 +28,10 @@ public class GeoGebraToPgfW extends GeoGebraToPgf {
 
 	class MyGraphicsPgfW extends MyGraphicsW {
 
-		public MyGraphicsPgfW(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
+		public MyGraphicsPgfW(FunctionalNVar geo, Inequality ineq)
+				throws IOException {
 
-			super(geo, ineq, euclidianView);
+			super(geo, ineq);
 		}
 
 		@Override

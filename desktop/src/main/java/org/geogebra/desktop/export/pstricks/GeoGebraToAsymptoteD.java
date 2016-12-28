@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
@@ -18,21 +17,21 @@ public class GeoGebraToAsymptoteD extends GeoGebraToAsymptote {
 
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
-			Inequality inequality, EuclidianView euclidianView2) {
+			Inequality inequality) {
 
 		try {
-			return new MyGraphicsAs(ef, inequality, euclidianView2);
+			return new MyGraphicsAs(ef, inequality);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 
-	class MyGraphicsAs extends MyGraphics {
+	class MyGraphicsAs extends MyGraphicsD {
 
-		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq,
-				EuclidianView euclidianView) throws IOException {
-			super(geo, ineq, euclidianView);
+		public MyGraphicsAs(FunctionalNVar geo, Inequality ineq)
+				throws IOException {
+			super(geo, ineq);
 		}
 
 		@Override
