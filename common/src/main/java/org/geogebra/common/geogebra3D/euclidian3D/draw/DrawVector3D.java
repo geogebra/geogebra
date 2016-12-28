@@ -79,21 +79,23 @@ public class DrawVector3D extends DrawJoinPoints {
 		}
 	}
 
+	private Coords[] points = { Coords.createInhomCoorsInD3(),
+			Coords.createInhomCoorsInD3() };
+
 	@Override
 	protected Coords[] calcPoints() {
 		GeoVectorND geo = ((GeoVectorND) getGeoElement());
 
 		geo.updateStartPointPosition();
 
-		Coords p1;
 		if (geo.getStartPoint() == null) {
-			p1 = new Coords(4);
-			p1.setW(1);
-		} else
-			p1 = geo.getStartPoint().getInhomCoordsInD3();
-		Coords p2 = p1.add(geo.getCoordsInD3());
+			points[0].set(0, 0, 0);
+		} else {
+			points[0].set3(geo.getStartPoint().getInhomCoordsInD3());
+		}
+		points[1].setAdd3(points[0], geo.getCoordsInD3());
 
-		return new Coords[] { p1, p2 };
+		return points;
 	}
 
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
