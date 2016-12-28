@@ -318,6 +318,11 @@ public class ManagerShadersElementsGlobalBuffer
 
 		@Override
 		public void drawLabel(RendererShadersInterface r) {
+
+			if (arrayI == null) {
+				return;
+			}
+
 			r.loadVertexBuffer(getVertices(), getLength());
 			if (r.areTexturesEnabled()) {
 				r.loadTextureBuffer(getTextures(), getLength());
