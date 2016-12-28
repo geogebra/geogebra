@@ -14,6 +14,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPointVectorND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -24,13 +25,18 @@ public class AlgoPointVector3D extends AlgoPointVectorND {
 		super(cons, P, v);
 	}
 
+	private Coords tmpCoords;
+
 	@Override
 	public final void compute() {
-		Q.setCoords(P.getInhomCoordsInD3().add(v.getCoordsInD3()), false);
+		tmpCoords.setAdd3(P.getInhomCoordsInD3(), v.getCoordsInD3());
+		Q.setCoords(tmpCoords, false);
 	}
 
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons1) {
+		// create tmpCoords here to avoid null at first compute
+		tmpCoords = Coords.createInhomCoorsInD3();
 		return new GeoPoint3D(cons1);
 	}
 
