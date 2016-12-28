@@ -57,7 +57,6 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	protected GeoPoint dummyPoint2;
 	protected GeoPoint[] dummyOutputPoints;
 
-	protected boolean isConicLimited;
 	protected boolean isPolyClosed;
 
 	/** outputHandler for variable no of output points */
@@ -106,8 +105,6 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 		this.conic = conic;
 		this.poly = poly;
 		this.isPolyClosed = isPolyClosed;
-
-		isConicLimited = conic.isLimitedPath();
 
 		initElements();
 

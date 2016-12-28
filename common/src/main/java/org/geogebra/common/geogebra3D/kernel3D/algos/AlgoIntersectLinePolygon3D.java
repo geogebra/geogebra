@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.kernelND.HasSegments;
 
 public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
-	protected int spaceDim = 3;
 	protected HasSegments p;
 	protected GeoLineND g;
 

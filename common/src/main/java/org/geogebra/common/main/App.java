@@ -262,11 +262,6 @@ public abstract class App implements UpdateSelection {
 	 * Whether input bar should be visible
 	 */
 	protected boolean showAlgebraInput = true;
-	/**
-	 * Whether toolbar should appear on top
-	 */
-	protected boolean showToolBarTop = true;
-	// note: It is not necessary to use powers of 2 for view IDs
 
 	// For eg Hebrew and Arabic.
 	/**
@@ -301,8 +296,6 @@ public abstract class App implements UpdateSelection {
 	protected Settings settings;
 	/** Selections in this app */
 	protected SelectionManager selection;
-	/** whether we should use antialisaing in EV */
-	protected boolean antialiasing = true;
 	/** whether grid should be visible when EV is created */
 	protected boolean showGrid = false;
 	/**

@@ -33,7 +33,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	private GeoPoint[] tempSegEndPoints;
 	private GeoSegment tempSeg;
 
-	protected Function yValFunction;
 	protected EquationSolverInterface eqnSolver;
 	private final Solution solution = new Solution();
 
@@ -119,7 +118,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	private void computePolyLineIntersection(GeoSegment seg,
 			ArrayList<Coords> intrsctCrds) {
 		if (func.isDefined() && seg.isDefined()) {
-			yValFunction = func.getFunction();
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
 			if (Kernel.isZero(seg.y)) {

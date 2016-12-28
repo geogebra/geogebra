@@ -2,7 +2,7 @@ package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
-import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.RadioButton;
  *
  */
 public class ProbabilityCalculatorStyleBarW extends
-        ProbabiltyCalculatorStyleBar implements ValueChangeHandler<Boolean> {
+        ProbabilityCalculatorStyleBar implements ValueChangeHandler<Boolean> {
 	
 	private MenuBar wrappedToolbar;
 	private MenuItem btnRounding;

@@ -8,7 +8,7 @@ import org.geogebra.common.main.App;
  *         Superclass for probability calculator stylebar
  *
  */
-public abstract class ProbabiltyCalculatorStyleBar {
+public abstract class ProbabilityCalculatorStyleBar {
 
 	protected App app;
 

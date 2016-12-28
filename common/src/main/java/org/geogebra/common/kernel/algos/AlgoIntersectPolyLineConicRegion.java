@@ -21,7 +21,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	protected GeoConic conic;
 
 	protected boolean polyClosed;
-	protected boolean conicLimitedPath;
 	protected boolean hasLabels;
 
 	protected int numOfOutputSegments, segCountOfPoly, polyPointCount;
@@ -85,7 +84,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		this.poly = poly;
 		this.conic = conic;
 
-		this.conicLimitedPath = conic.isLimitedPath();
 		this.polyClosed = isPolyClosed;
 
 		initElements();

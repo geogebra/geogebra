@@ -14,8 +14,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class Drawable3DSurfaces extends Drawable3D {
 
-	protected boolean elementHasChanged;
-
 	/**
 	 * common constructor
 	 * 
@@ -112,15 +110,6 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	@Override
 	protected void updateForView() {
 
-	}
-
-	/**
-	 * says that it has to be updated
-	 */
-	@Override
-	public void setWaitForUpdate() {
-		elementHasChanged = true;
-		super.setWaitForUpdate();
 	}
 
 	@Override

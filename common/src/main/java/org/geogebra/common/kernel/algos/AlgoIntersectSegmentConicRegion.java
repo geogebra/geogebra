@@ -39,7 +39,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	private int numberOfOutputLines;
 
 	protected boolean hasLabels;
-	protected boolean conicLimitedPath;
 
 	/**
 	 * constructor with label assignment for output
@@ -79,7 +78,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 		this.segment = segment;
 		this.conic = conic;
-		this.conicLimitedPath = conic.isLimitedPath();
 
 		initElements();
 

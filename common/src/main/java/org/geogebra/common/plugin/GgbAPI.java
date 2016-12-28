@@ -379,11 +379,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	private String[] objNames;
-	/**
-	 * Number of last geo elements
-	 */
-	public int lastGeoElementsIteratorSize = 0; // ulven 29.05.08: Had to change
-												// to public, used by applet
 
 	/**
 	 * 
@@ -400,7 +395,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		int size = geoSet.size();
 
 		// build objNames array
-		lastGeoElementsIteratorSize = size;
 		objNames = new String[size];
 
 		int i = 0;
@@ -421,7 +415,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		int size = geoSet.size();
 
 		// build objNames array
-		lastGeoElementsIteratorSize = size;
 		ArrayList<String> objList = new ArrayList<String>(size / 2);
 
 		Iterator<GeoElement> it = geoSet.iterator();

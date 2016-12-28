@@ -58,7 +58,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		implements ActionListener, FocusListener, ChangeListener {
 
-	private ProbabiltyCalculatorStyleBarD styleBar;
+	private ProbabilityCalculatorStyleBarD styleBar;
 
 	// GUI elements
 	private JComboBox comboDistribution, comboProbType;
@@ -139,9 +139,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	/**
 	 * @return The style bar for this view.
 	 */
-	public ProbabiltyCalculatorStyleBarD getStyleBar() {
+	public ProbabilityCalculatorStyleBarD getStyleBar() {
 		if (styleBar == null) {
-			styleBar = new ProbabiltyCalculatorStyleBarD((AppD) app, this);
+			styleBar = new ProbabilityCalculatorStyleBarD((AppD) app, this);
 		}
 
 		return styleBar;

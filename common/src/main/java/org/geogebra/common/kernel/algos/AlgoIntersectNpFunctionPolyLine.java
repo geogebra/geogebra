@@ -20,7 +20,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 	protected GeoFunction func; // input
 	protected GeoPoly poly; // input
 	protected GeoPoint startPoint, rootPoint;
-	protected boolean hasLabel, polyClosed;
+	protected boolean polyClosed;
 
 	protected int polySegCount, polyPointLength;
 
@@ -51,11 +51,11 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 			boolean polyClosed) {
 		this(cons, startPoint, func, poly, polyClosed);
 
-		if (label != null)
+		if (label != null) {
 			rootPoint.setLabel(label[0]);
-		else
+		} else {
 			rootPoint.setLabel(null);
-		hasLabel = true;
+		}
 
 	}
 

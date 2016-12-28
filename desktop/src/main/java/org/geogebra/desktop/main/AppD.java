@@ -3051,23 +3051,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	public boolean showToolBarTop() {
-		return showToolBarTop;
-	}
-
 	public boolean showToolBarHelp() {
 		return showToolBarHelp;
-	}
-
-	public void setShowToolBarTop(boolean showToolBarTop) {
-		if (this.showToolBarTop == showToolBarTop) {
-			return;
-		}
-
-		this.showToolBarTop = showToolBarTop;
-		if (!isIniting()) {
-			updateApplicationLayout();
-		}
 	}
 
 	public void updateToolBarLayout() {

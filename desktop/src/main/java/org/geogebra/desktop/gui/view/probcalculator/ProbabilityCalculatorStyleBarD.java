@@ -14,7 +14,7 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
-import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
+import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
@@ -26,7 +26,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar
+public class ProbabilityCalculatorStyleBarD extends ProbabilityCalculatorStyleBar
 		implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -48,7 +48,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar
 	 * @param probCalc
 	 *            probability calculator
 	 */
-	public ProbabiltyCalculatorStyleBarD(AppD app,
+	public ProbabilityCalculatorStyleBarD(AppD app,
 			ProbabilityCalculatorViewD probCalc) {
 
 		this.wrappedToolbar = new JToolBar();
