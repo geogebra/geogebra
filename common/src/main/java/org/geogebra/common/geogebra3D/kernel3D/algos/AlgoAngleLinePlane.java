@@ -130,11 +130,14 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 	}
 
-	private Coords vn, o, v1, v2;
+	private Coords vn, o, v1, v2, tmpCoords;
 
 	@Override
 	protected void initCoords() {
 		o = new Coords(4);
+		v1 = new Coords(4);
+		vn = new Coords(4);
+		tmpCoords = new Coords(3);
 	}
 
 	@Override
@@ -157,11 +160,12 @@ public class AlgoAngleLinePlane extends AlgoAngle
 		// project line direction on the plane
 		Coords vx = pMat.getVx();
 		Coords vy = pMat.getVy();
-		v1 = vx.mul(v2.dotproduct(vx)).add(vy.mul(v2.dotproduct(vy)));
+		v1.setAdd3(v1.setMul3(vx, v2.dotproduct(vx)),
+				tmpCoords.setMul3(vy, v2.dotproduct(vy)));
 		if (v1.isZero()) { // line orthogonal to plane
 			getAngle().setValue(Math.PI / 2);
-			v1 = vx;
-			vn = vy.mul(-1);
+			v1.set3(vx);
+			vn.setMul3(vy, -1);
 			return;
 		}
 
@@ -174,7 +178,8 @@ public class AlgoAngleLinePlane extends AlgoAngle
 
 		getAngle().setValue(AlgoAnglePoints3D.acos(c));
 
-		vn = v2.crossProduct4(v1).normalize();
+		vn.setCrossProduct(v2, v1);
+		vn.normalize();
 
 	}
 
