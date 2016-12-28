@@ -4302,6 +4302,15 @@ public abstract class GeoConicND extends GeoQuadricND
 		return ExtendedBoolean.FALSE;
 	}
 
+	private Coords tmpCoords1, tmpCoords2;
+
+	final private void createTmpCoords() {
+		if (tmpCoords1 == null) {
+			tmpCoords1 = new Coords(3);
+			tmpCoords2 = new Coords(3);
+		}
+	}
+
 	/**
 	 * @param tpl
 	 *            demplate
@@ -4346,9 +4355,10 @@ public abstract class GeoConicND extends GeoQuadricND
 			center = getMidpoint3D();
 			Coords d1 = getDirection3D(0);
 			Coords d2 = getDirection3D(1);
-			Coords e1 = d1.add(d2).mulInside(0.5);
-			Coords e2 = d2.sub(d1).mulInside(0.5);
-			e2.checkReverseForFirstValuePositive();
+			createTmpCoords();
+			tmpCoords1.setAdd(d1, d2).mulInside(0.5);
+			tmpCoords2.setSub(d2, d1).mulInside(0.5);
+			tmpCoords2.checkReverseForFirstValuePositive();
 			sbBuildValueString.append("X = (");
 			sbBuildValueString.append(kernel.format(center.getX(), tpl));
 			sbBuildValueString.append(", ");
@@ -4358,13 +4368,13 @@ public abstract class GeoConicND extends GeoQuadricND
 			sbBuildValueString.append(") + ");
 			sbBuildValueString.append(Unicode.lambda);
 			sbBuildValueString.append(" (");
-			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(")");
 			break;
@@ -4373,17 +4383,18 @@ public abstract class GeoConicND extends GeoQuadricND
 			Coords c1 = getOrigin3D(0);
 			Coords c2 = getOrigin3D(1);
 			Coords d = getDirection3D(0);
-			e1 = c1.add(c2).mulInside(0.5);
-			e2 = c2.sub(c1).mulInside(0.5);
-			e2.checkReverseForFirstValuePositive();
+			createTmpCoords();
+			tmpCoords1.setAdd(c1, c2).mulInside(0.5);
+			tmpCoords2.setSub(c2, c1).mulInside(0.5);
+			tmpCoords2.checkReverseForFirstValuePositive();
 			sbBuildValueString.append("X = (");
-			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(e1.getY(), e2.getY(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getY(), tmpCoords2.getY(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(", ");
-			kernel.appendTwoCoeffs(e1.getZ(), e2.getZ(), tpl,
+			kernel.appendTwoCoeffs(tmpCoords1.getZ(), tmpCoords2.getZ(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(") + ");
 			sbBuildValueString.append(Unicode.lambda);
