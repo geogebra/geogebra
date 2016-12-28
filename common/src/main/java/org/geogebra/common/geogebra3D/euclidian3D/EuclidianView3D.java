@@ -192,8 +192,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
 	public static double automaticGridDistanceFactor = DEFAULT_GRID_DIST_FACTOR;
 	protected Renderer renderer;
-	// distances between grid lines
-	protected boolean automaticGridDistance = true;
 	// viewing values
 	protected double zZero;
 	protected double zZeroOld = 0;
@@ -207,7 +205,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected Coords pickPoint = new Coords(0, 0, 0, 1);
 	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
 	protected Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
-	protected Hits3D tempArrayList = new Hits3D();
 	protected GColor bgColor, bgApplyedColor;
 
 	// cursor

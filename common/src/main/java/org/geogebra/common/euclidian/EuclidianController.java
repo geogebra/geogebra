@@ -201,7 +201,6 @@ public abstract class EuclidianController {
 	public double xRW;
 	public double yRW;
 	public GeoPointND movedGeoPoint;
-	public boolean movedGeoPointDragged = false;
 	public boolean hideIntersection = false;
 	public GeoElement resultedGeo;
 	public boolean draggingBeyondThreshold = false;
@@ -228,7 +227,6 @@ public abstract class EuclidianController {
 	protected GeoImage movedGeoImage;
 	protected GeoFunction movedGeoFunction;
 	protected GeoNumeric movedGeoNumeric;
-	protected boolean movedGeoNumericDragged = false;
 	protected GeoBoolean movedGeoBoolean;
 	protected Furniture movedGeoButton;
 	protected GeoElement movedLabelGeoElement;
@@ -306,10 +304,6 @@ public abstract class EuclidianController {
 	 * element with preview (e.g. a line or a segment)
 	 */
 	protected GPoint movePosition;
-	/**
-	 * coordinates of the center of the multitouch-event
-	 */
-	protected int oldCenterX, oldCenterY;
 	/**
 	 * the mode of the actual multitouch-event
 	 */
@@ -5860,10 +5854,6 @@ public abstract class EuclidianController {
 	 */
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
-		// deselect point after drag, but not on click
-		// outdated - we want to leave the point selected after drag now
-		// if (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
-
 		if (app.isUsingFullGui()) {
 			getMovedGeoPoint().resetTraceColumns();
 		}
@@ -5932,7 +5922,6 @@ public abstract class EuclidianController {
 				Kernel.checkDecimalFraction(yRW - transformCoordsOffset[1]),
 				1.0);
 		((GeoElement) movedGeoPoint).updateCascade();
-		movedGeoPointDragged = true;
 
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -6369,7 +6358,6 @@ public abstract class EuclidianController {
 		}
 
 		movedGeoNumeric.setValue(newVal);
-		movedGeoNumericDragged = true;
 
 		// movedGeoNumeric.setAnimating(false); // stop animation if slider
 		// dragged
@@ -9734,13 +9722,7 @@ public abstract class EuclidianController {
 		if (getMovedGeoPoint() != null) {
 
 			processReleaseForMovedGeoPoint(right);
-			/*
-			 * // deselect point after drag, but not on click if
-			 * (movedGeoPointDragged) getMovedGeoPoint().setSelected(false);
-			 *
-			 * if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
-			 * getMovedGeoPoint().resetTraceColumns();
-			 */
+
 		}
 		if (movedGeoElement instanceof GeoPointND
 				&& movedGeoElement.hasChangeableCoordParentNumbers()
@@ -9749,16 +9731,10 @@ public abstract class EuclidianController {
 		}
 		if (movedGeoNumeric != null) {
 
-			// deselect slider after drag, but not on click
-			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
-
 			if (app.isUsingFullGui()) {
 				movedGeoNumeric.resetTraceColumns();
 			}
 		}
-
-		movedGeoPointDragged = false;
-		movedGeoNumericDragged = false;
 
 		if (mayFocus && !hitComboBoxOrTextfield()) {
 			view.requestFocusInWindow();
@@ -10763,9 +10739,6 @@ public abstract class EuclidianController {
 
 		view.setHits(new GPoint((int) x2, (int) y2), PointerEventType.TOUCH);
 		Hits hits2 = view.getHits();
-
-		oldCenterX = (int) (x1 + x2) / 2;
-		oldCenterY = (int) (y1 + y2) / 2;
 
 		twoTouchStartX = (x1 + x2) / 2;
 		twoTouchStartY = (y1 + y2) / 2;

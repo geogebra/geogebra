@@ -131,9 +131,6 @@ public class EuclidianController3DCompanion
 			if (ec.view.getPreviewDrawable() != null)
 				ec.view.updatePreviewable();
 
-			// geo point has been moved
-			ec.movedGeoPointDragged = true;
-
 		} else { // 2D point
 			Coords o = ec3D.view3D
 					.getPickPoint(ec.mouseLoc);

@@ -418,7 +418,6 @@ public class EuclidianControllerCompanion {
 		}
 
 		((GeoElement) ec.movedGeoPoint).updateCascade();
-		ec.movedGeoPointDragged = true;
 
 		if (repaint) {
 			ec.kernel.notifyRepaint();

@@ -146,9 +146,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * Store infos for intersection curve
 	 */
 	public static class IntersectionCurve {
-		protected GeoElement geo1, geo2, result;
+		protected GeoElement geo1, geo2;
 		public Drawable3D drawable;
-		protected boolean hitted;
 
 		/**
 		 * constructor
@@ -168,8 +167,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoElement result, boolean hitted, Drawable3D drawable) {
 			this.geo1 = geo1;
 			this.geo2 = geo2;
-			this.result = result;
-			this.hitted = hitted;
 			this.drawable = drawable;
 		}
 
@@ -2584,9 +2581,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 																		// new
 																		// intersection
 			// only if mouse has moved
-			for (int i = 0; i < intersectionCurveList.size(); ++i) {
-				intersectionCurveList.get(i).hitted = false;
-			}
+			// for (int i = 0; i < intersectionCurveList.size(); ++i) {
+			// intersectionCurveList.get(i).hitted = false;
+			// }
 
 			// Log.debug(hits);
 
@@ -2729,7 +2726,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 					&& intersection.geo2 == getMetaIfJustOne(B)
 					|| intersection.geo1 == getMetaIfJustOne(B)
 							&& intersection.geo2 == getMetaIfJustOne(A)) {
-				intersection.hitted = true;
 				intersection.drawable.setWaitForUpdate();
 				return true;
 			}

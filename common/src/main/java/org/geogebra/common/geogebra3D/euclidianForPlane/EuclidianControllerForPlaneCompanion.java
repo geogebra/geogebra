@@ -71,8 +71,6 @@ public class EuclidianControllerForPlaneCompanion
 		ec.movedGeoPoint.setCoords(coords, true);
 		((GeoElement) ec.movedGeoPoint).updateCascade();
 
-		ec.movedGeoPointDragged = true;
-
 		if (repaint)
 			ec.kernel.notifyRepaint();
 	}

@@ -279,8 +279,6 @@ public abstract class EuclidianView
 
 	/** true if grid is displayed */
 	protected boolean showGrid = false;
-	/** true if antialiasing is used */
-	protected boolean antiAliasing = true;
 
 	protected boolean showMouseCoords = false;
 
