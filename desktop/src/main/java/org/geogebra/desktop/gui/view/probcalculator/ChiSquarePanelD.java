@@ -53,18 +53,17 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	private JPanel wrappedPanel;
 
 	/**
-	 * @param app
+	 * @param loc
 	 * @param statCalc
 	 */
-	public ChiSquarePanelD(AppD app, StatisticsCalculator statCalc) {
-		super(app, statCalc);
+	public ChiSquarePanelD(Localization loc, StatisticsCalculator statCalc) {
+		super(loc, statCalc);
 		createGUI();
 		setLabels();
 
 	}
 
 	public void setLabels() {
-		Localization loc = getApp().getLocalization();
 		lblRows.setText(loc.getMenu("Rows"));
 		lblColumns.setText(loc.getMenu("Columns"));
 		ckExpected.setText(loc.getMenu("ExpectedCount"));
@@ -381,7 +380,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			wrappedPanel.setLayout(
 					new BoxLayout(this.wrappedPanel, BoxLayout.Y_AXIS));
 
-			fldInput = new MyTextFieldD((AppD) getApp());
+			fldInput = new MyTextFieldD((AppD) statCalc.getApp());
 			fldInput.addActionListener(this);
 			fldInput.addFocusListener(this);
 			wrappedPanel.add(LayoutUtil.flowPanelCenter(0, 0, 0, fldInput));

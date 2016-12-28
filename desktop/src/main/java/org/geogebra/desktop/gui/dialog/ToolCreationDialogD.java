@@ -559,7 +559,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 	 * @param cbModel
 	 *            Combobox model with items than can be added to list (not
 	 *            displayed if null)
-	 * @param app
+	 * @param loc
 	 *            Application this dialog belongs to
 	 * @param listModel
 	 *            list model containing the input/output GeoElements
@@ -622,7 +622,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 	 * Creates a panel with a list on the left and buttons (up, down, remove) on
 	 * the right. If the combobox is not null it is added on top of the list.
 	 * 
-	 * @param app
+	 * @param loc
 	 *            Application this dialog belongs to
 	 * @param list
 	 * @param showRemoveButton

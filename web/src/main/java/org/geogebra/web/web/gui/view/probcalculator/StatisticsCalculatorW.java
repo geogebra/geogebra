@@ -89,7 +89,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		createControlPanel();
 		setInputPanelLayout();
 		
-		panelChiSquare = new ChiSquarePanelW(app, this);
+		panelChiSquare = new ChiSquarePanelW(loc, this);
 		
 		//prepare result panel
 		FlowPanel resultPanel = new FlowPanel();

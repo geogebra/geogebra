@@ -5,7 +5,6 @@ import org.geogebra.common.gui.view.probcalculator.ChiSquarePanel;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -53,14 +52,14 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	/**
 	 * Constructs chisquarepanel for web
 	 * 
-	 * @param app
+	 * @param loc
 	 *            application
 	 * @param statcalc
 	 *            calculator
 	 * 
 	 */
-	public ChiSquarePanelW(App app, StatisticsCalculator statcalc) {
-	    super(app, statcalc);
+	public ChiSquarePanelW(Localization loc, StatisticsCalculator statcalc) {
+		super(loc, statcalc);
 	    createGUI();
 	    setLabels();
 	    
@@ -282,7 +281,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	 * Update translation
 	 */
 	public void setLabels() {
-		Localization loc = getApp().getLocalization();
 		lblRows.setText(loc.getMenu("Rows"));
 		lblColumns.setText(loc.getMenu("Columns"));
 		ckExpected.setText(loc.getMenu("ExpectedCount"));
@@ -378,7 +376,7 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 			super(sc);
     		this.wrappedPanel = new FlowPanel();
     		this.wrappedPanel.addStyleName("ChiSquarePanelW");
-    		fldInput = new AutoCompleteTextFieldW(getApp());
+			fldInput = new AutoCompleteTextFieldW(statCalc.getApp());
 			fldInput.addKeyUpHandler(this);
     		fldInput.addFocusHandler(this);
     		wrappedPanel.add(fldInput);

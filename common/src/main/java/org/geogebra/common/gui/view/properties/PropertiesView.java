@@ -197,7 +197,7 @@ public abstract class PropertiesView implements View {
 	}
 
 	/**
-	 * @param app
+	 * @param loc
 	 * @param type
 	 * @return short version of Option type string
 	 */

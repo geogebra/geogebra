@@ -99,7 +99,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		createGUIElements();
 		createControlPanel();
 		setInputPanelLayout();
-		panelChiSquare = new ChiSquarePanelD((AppD) app, this);
+		panelChiSquare = new ChiSquarePanelD(loc, this);
 
 		// prepare result panel
 		resultPane.setBorder(BorderFactory.createCompoundBorder(
@@ -143,7 +143,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		panelControl = new JPanel(new BorderLayout());
 		panelControl.add(LayoutUtil.flowPanel(cbProcedure),
-				((AppD) app).getLocalization().borderWest());
+				loc.borderWest());
 		// panelControl.add(LayoutUtil.flowPanel(btnCalculate),
 		// BorderLayout.CENTER);
 		panelControl.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));

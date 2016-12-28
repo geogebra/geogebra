@@ -1,6 +1,6 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 /**
  * @author gabor
@@ -13,8 +13,8 @@ public abstract class ChiSquarePanel {
 	// ======================================
 	// GeoGebra fields
 	// ======================================
-	private App app;
-	private StatisticsCalculator statCalc;
+	protected Localization loc;
+	protected StatisticsCalculator statCalc;
 	private StatisticsCalculatorProcessor statProcessor;
 	private StatisticsCollection sc;
 
@@ -24,8 +24,8 @@ public abstract class ChiSquarePanel {
 	 * @param statCalc
 	 *            SatisticCalculator
 	 */
-	public ChiSquarePanel(App app, StatisticsCalculator statCalc) {
-		this.app = app;
+	public ChiSquarePanel(Localization loc, StatisticsCalculator statCalc) {
+		this.loc = loc;
 		this.statCalc = statCalc;
 		this.statProcessor = statCalc.getStatProcessor();
 		this.sc = statCalc.getStatististicsCollection();
@@ -33,9 +33,6 @@ public abstract class ChiSquarePanel {
 		sc.setChiSqData(3, 3);
 	}
 
-	public App getApp() {
-		return app;
-	}
 
 	public StatisticsCalculator getStatCalc() {
 		return statCalc;

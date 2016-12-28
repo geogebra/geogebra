@@ -327,38 +327,6 @@ public abstract class LocalizationJre extends Localization {
 		return rbcommand == null;
 	}
 
-	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderEast() so we're not dependent on awt
-	 * 
-	 * @return "East" or "West"
-	 */
-	final public String borderEast() {
-		// return app.borderEast();
-		if (isRightToLeftReadingOrder()) {
-			return "West";
-		}
-		return "East";
-	}
-
-	/**
-	 * 
-	 * return East/West as appropriate for eg Hebrew / Arabic
-	 * 
-	 * return String rather than app.borderWest() so we're not dependent on awt
-	 * 
-	 * @return "West" or "East"
-	 */
-	final public String borderWest() {
-		// return app.borderWest();
-		if (!isRightToLeftReadingOrder()) {
-			return "West";
-		}
-		return "East";
-	}
-
 	@Override
 	final protected String getLanguage(Locale locale) {
 		return locale.getLanguage();

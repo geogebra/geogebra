@@ -54,7 +54,7 @@ public abstract class StatisticsCalculator {
 
 	protected double[] s1;
 	protected double[] s2;
-	private Localization loc;
+	protected Localization loc;
 	protected App app;
 
 	// =========================================
@@ -186,6 +186,10 @@ public abstract class StatisticsCalculator {
 		strSuccesses = loc.getMenu("Successes");
 		strN = loc.getMenu("N");
 		// strPooled = loc.getMenu("Pooled");
+	}
+
+	public App getApp() {
+		return kernel.getApplication();
 	}
 	
 
