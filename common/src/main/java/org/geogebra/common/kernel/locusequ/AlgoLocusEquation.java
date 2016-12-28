@@ -158,13 +158,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 * not be the case if rounding/precision is not as presumed.
 	 */
 	private static String fingerprint(GeoElement[] input) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		int size = input.length;
 		for (int i = 0; i < size; ++i) {
-			ret += input[i].getAlgebraDescription(
-					StringTemplate.defaultTemplate) + ",";
+			ret.append(input[i]
+					.getAlgebraDescription(StringTemplate.defaultTemplate));
+			ret.append(",");
 		}
-		return ret;
+		return ret.toString();
 	}
 
 	/**

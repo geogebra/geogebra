@@ -330,15 +330,15 @@ public class GeoAssignment extends Assignment {
 	}
 
 	private static String toString(GeoElement[] elements) {
-		String solObj = "";
+		StringBuilder solObj = new StringBuilder();
 		for (GeoElement g : elements) {
-			if (!solObj.isEmpty()) {
-				solObj += ", ";
+			if (solObj.length() > 0) {
+				solObj.append(", ");
 			}
-			solObj += g.toString(StringTemplate.defaultTemplate);
+			solObj.append(g.toString(StringTemplate.defaultTemplate));
 
 		}
-		return solObj;
+		return solObj.toString();
 	}
 
 	/**

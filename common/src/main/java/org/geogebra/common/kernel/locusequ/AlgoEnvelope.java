@@ -272,11 +272,12 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		}
 		// We collect the used x1,x2,... variables (their order is not
 		// relevant):
-		String vars = "";
+		StringBuilder vars = new StringBuilder();
 		for (i = 0; i < varsN - 2; ++i) {
-			vars += "x" + scopeVarsI[i];
+			vars.append('x');
+			vars.append(scopeVarsI[i]);
 			if (i < varsN - 3) {
-				vars += ",";
+				vars.append(',');
 			}
 		}
 
@@ -338,7 +339,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 				Log.trace("Output from giac (compute det of Jacobi matrix): "
 						+ det);
 				String script2 = cas.getCurrentCAS().createLocusEquationScript(
-						polys + "," + det, vars + ",x,y", vars);
+						polys + "," + det, vars + ",x,y", vars.toString());
 
 				Log.trace("Input to giac: " + script2);
 				String result = cas.getCurrentCAS().evaluateRaw(script2);

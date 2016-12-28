@@ -40,7 +40,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private ListBox languageSelector;
 	private FlowPanel inputPanel;
 	private ScriptArea textArea;
-	private AppW app;
 	private FlowPanel btPanel;
 	private String inputText;
 	/**
@@ -57,7 +56,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 	public ScriptInputPanelW(AppW app, GeoElement geo,
 			int cols, int rows, boolean updateScript, boolean forceJavaScript) {
 
-		this.app = app;
 		model = new ScriptInputModel(app, this, updateScript, forceJavaScript);
 
 		inputPanel = new FlowPanel();

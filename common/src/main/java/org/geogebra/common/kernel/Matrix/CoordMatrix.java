@@ -546,20 +546,22 @@ public class CoordMatrix {
 
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 
 		for (int i = 1; i <= getRows(); i++) {
 
 			for (int j = 1; j <= getColumns(); j++) {
 				double v = get(i, j);
-				if (Kernel.isZero(v))
+				if (Kernel.isZero(v)) {
 					v = 0;
-				s += "  " + v;
+				}
+				s.append("  ");
+				s.append(v);
 			}
-			s += "\n";
+			s.append('\n');
 		}
 
-		return s;
+		return s.toString();
 	}
 
 	/**

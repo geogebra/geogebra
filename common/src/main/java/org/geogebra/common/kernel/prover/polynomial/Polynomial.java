@@ -881,14 +881,18 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @return the parameters for Singular (e.g. "v1,0,v2,0,v3,0,v4,1")
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		Iterator<Variable> it = substitutions.keySet().iterator();
 		while (it.hasNext()) {
 			Variable v = it.next();
-			ret += "," + v.toString() + "," + substitutions.get(v);
+			ret.append(',');
+			ret.append(v.toString());
+			ret.append(',');
+			ret.append(substitutions.get(v));
 		}
-		if (ret.length() > 0)
+		if (ret.length() > 0) {
 			return ret.substring(1);
+		}
 		return "";
 	}
 

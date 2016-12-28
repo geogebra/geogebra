@@ -1076,22 +1076,27 @@ public abstract class Prover {
 			Log.debug("portfolio csv_header:" + csv_header);
 			Log.debug("portfolio csv_data:" + csv_data);
 
-			String digraph = "digraph dependencies { ";
+			StringBuilder digraph = new StringBuilder("digraph dependencies { ");
 			Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
-			digraph += statement.getLabelSimple() + "_"
-					+ nodeComplexity.get(statement) + " [style=filled]; ";
+			digraph.append(statement.getLabelSimple()); 
+			digraph.append("_");
+			digraph.append(nodeComplexity.get(statement));
+			digraph.append(" [style=filled]; ");
 			while (it2.hasNext()) {
 				ArrayList<GeoElement> al = it2.next();
-				digraph += al.get(0).getLabelSimple() + "_"
-						+ nodeComplexity.get(al.get(0)) + " -> "
-						+ al.get(1).getLabelSimple() + "_"
-						+ nodeComplexity.get(al.get(1));
+				digraph.append(al.get(0).getLabelSimple());
+				digraph.append("_");
+				digraph.append(nodeComplexity.get(al.get(0)));
+				digraph.append(" -> ");
+				digraph.append(al.get(1).getLabelSimple());
+				digraph.append("_");
+				digraph.append(nodeComplexity.get(al.get(1)));
 				if (al.get(1).equals(statement)) {
-					digraph += " [style=dashed]";
+					digraph.append(" [style=dashed]");
 				}
-				digraph += "; ";
+				digraph.append("; ");
 			}
-			digraph += "}";
+			digraph.append("}");
 			Log.debug(digraph);
 		}
 

@@ -1320,18 +1320,18 @@ public class StringUtil {
 	 * @return the joined String
 	 */
 	public static String joinTokens(Iterable<String> tokens, String delimiter) {
-		String ret = "";
+		StringBuilder ret = new StringBuilder();
 		Iterator<String> it = tokens.iterator();
 		if (it.hasNext()) {
-			ret += it.next();
+			ret.append(it.next());
 		}
 		while (it.hasNext()) {
 			if (delimiter != null) {
-				ret += delimiter;
+				ret.append(delimiter);
 			}
-			ret += it.next();
+			ret.append(it.next());
 		}
-		return ret;
+		return ret.toString();
 	}
 
 	public static String cannonicNumber(String str) {

@@ -68,16 +68,16 @@ public class AlgoUnicodeToText extends AlgoElement {
 			return;
 		}
 
-		String s = "";
+		StringBuilder s = new StringBuilder();
 
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = list.get(i);
 
 			if (geo.isGeoNumeric()) {
-				s += (char) ((GeoNumeric) geo).getDouble();
+				s.append((char) ((GeoNumeric) geo).getDouble());
 			}
 		}
-		text.setTextString(s);
+		text.setTextString(s.toString());
 	}
 
 }

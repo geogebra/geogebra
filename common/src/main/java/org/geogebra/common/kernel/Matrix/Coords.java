@@ -2457,13 +2457,14 @@ public class Coords {
 
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 
 		for (int i = 0; i < val.length; i++) {
-			s += "" + val[i] + "\n";
+			s.append(val[i]);
+			s.append('\n');
 		}
 
-		return s;
+		return s.toString();
 	}
 
 	/**

@@ -35,7 +35,7 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 	 */
 	private String symetricOrAntisymetric(int n, double a, double b, double c) {
 
-		String equation = "0=0";
+		StringBuilder equation = new StringBuilder("0=0");
 		for (int p = 0; p < 3; p++) {
 			int q = (p + 1) % 3;
 			int r = (q + 1) % 3;
@@ -46,14 +46,14 @@ public class AlgoCubicSwitch implements AlgoCubicSwitchInterface {
 			}
 			double[] coeffR = getCoeff(n, sides[q], sides[p], sides[r]);
 			char A = "ABC".charAt(p), B = "ABC".charAt(q);
-			equation += "+(" + coeff[0] + ")*" + A + "^3";
-			equation += "+(" + coeff[1] + ")*" + A + "^2*" + B;
-			equation += "+(" + coeffR[2] + ")*" + B + "^2*" + A;
+			equation.append("+(" + coeff[0] + ")*" + A + "^3");
+			equation.append("+(" + coeff[1] + ")*" + A + "^2*" + B);
+			equation.append("+(" + coeffR[2] + ")*" + B + "^2*" + A);
 			if (p == 0) {
-				equation += "+(" + coeff[3] + ")*A*B*C";
+				equation.append("+(" + coeff[3] + ")*A*B*C");
 			}
 		}
-		return equation;
+		return equation.toString();
 	}
 
 	private static double[] a(double p, double q, double r) {
