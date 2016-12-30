@@ -151,6 +151,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	}
 
 	public void addDummyCursor(int caretPos) {
+		if (dummyCursor) {
+			return;
+		}
 		String text = getText();
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 

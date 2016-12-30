@@ -150,6 +150,9 @@ public class ScriptArea extends TextArea
 	}
 
 	public void addDummyCursor(int caretPos) {
+		if (dummyCursor) {
+			return;
+		}
 		String text = getText();
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 
