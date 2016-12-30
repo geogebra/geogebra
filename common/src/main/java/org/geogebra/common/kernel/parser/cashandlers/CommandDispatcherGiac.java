@@ -232,7 +232,8 @@ public class CommandDispatcherGiac {
 		try {
 			cmd = GiacCommands.valueOf(cmdName);
 		} catch (Exception Ex) {
-			Log.error("Unknow CAS command " + cmdName + ", arguments: " + args);
+			Log.error(
+					"Unknown CAS command " + cmdName + ", arguments: " + args);
 			return null;
 		}
 		try {
