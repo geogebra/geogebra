@@ -333,9 +333,7 @@ public class GeoInputBox extends GeoButton {
 
 				// want just a number for eg a=3 but we want variables for eg
 				// y=m x + c
-				boolean substituteNos = linkedGeo.isGeoNumeric()
-						&& linkedGeo.isIndependent();
-				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
+				linkedText = linkedGeo.getDefinition(tpl);
 			}
 
 			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
