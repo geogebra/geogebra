@@ -1282,6 +1282,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawGeoConic(GeoConic geo) {
 		switch (geo.getType()) {
+		default:
+			// do nothing
+			break;
 		// if conic is a circle
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			drawCircle(geo);
@@ -2093,6 +2096,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	// Append the linestyle to PSTricks code
 	private void LinestyleCode(int linestyle, StringBuilder sb) {
 		switch (linestyle) {
+		default:
+			// do nothing
+			break;
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			sb.append("linestyle=dotted");
 			break;
@@ -2279,6 +2285,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 		}
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 			if (isLatex)
 				code.append("\\mathbf{");
@@ -2477,6 +2486,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		switch (ineq.getType()) {
+		default:
+			// do nothing
+			break;
 		case INEQUALITY_CONIC:
 			GeoConicND conic = ineq.getConicBorder();
 			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE

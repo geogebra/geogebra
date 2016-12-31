@@ -198,6 +198,7 @@ public class EuclidianController3DCompanion
 		switch (ec.view.getPointCapturingMode()) {
 		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
 			// TODO
+		default:
 		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 			if (!ec.view.isGridOrAxesShown()) {
 				break;

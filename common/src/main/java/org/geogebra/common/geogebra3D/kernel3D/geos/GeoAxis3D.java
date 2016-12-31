@@ -44,6 +44,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		this.type = type;
 
 		switch (type) {
+		default:
 		case X_AXIS_3D:
 			setCoord(Coords.O, Coords.VX);
 			label = "xAxis3D";

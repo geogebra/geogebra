@@ -300,6 +300,7 @@ public class DrawAxis3D extends DrawLine3D {
 		if (!outsideBox) {
 			// check if outside the box
 			switch (type) {
+			default:
 			case GeoAxisND.X_AXIS:
 				outsideBox = (minMax[GeoAxisND.Y_AXIS][0]
 						* minMax[GeoAxisND.Y_AXIS][1] > 0)

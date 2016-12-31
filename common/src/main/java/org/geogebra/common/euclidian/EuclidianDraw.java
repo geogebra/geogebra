@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Factory class for drawables
@@ -93,6 +94,9 @@ public class EuclidianDraw {
 
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
+		default:
+			Log.debug("missing type " + geo.getGeoClassType());
+			break;
 		case BOOLEAN:
 			d = new DrawBoolean(ev, (GeoBoolean) geo);
 			break;

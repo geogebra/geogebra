@@ -449,6 +449,7 @@ public class DrawLine extends Drawable implements Previewable {
 
 	final public void updatePreview() {
 		switch (previewMode) {
+		default:
 		case LINE:
 		case PERPENDICULAR_BISECTOR:
 			isVisible = (points.size() == 1);
@@ -482,6 +483,7 @@ public class DrawLine extends Drawable implements Previewable {
 		if (isVisible) {
 
 			switch (previewMode) {
+			default:
 			case LINE:
 
 				// round angle to nearest 15 degrees if alt pressed

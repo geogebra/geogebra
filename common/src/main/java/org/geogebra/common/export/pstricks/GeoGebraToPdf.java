@@ -1123,6 +1123,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				st = st.replace("$\\euro$", "euro");
 			}
 			switch (style) {
+			default:
+				// do nothing
+				break;
 			case 1:
 				if (isLatex)
 					code.append("\\mathbf{");
@@ -1731,6 +1734,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	protected void drawGeoConic(GeoConic geo) {
 		switch (geo.getType()) {
 		// if conic is a circle
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			drawCircle(geo);
 			break;
@@ -2946,6 +2952,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 	 */
 	private void LinestyleCode(int linestyle, StringBuilder sb) {
 		switch (linestyle) {
+		default:
+			// do nothing
+			break;
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			sb.append("dotted");
 			break;
@@ -3248,6 +3257,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 		switch (ineq.getType()) {
+		default:
+			// do nothing
+			break;
 		case INEQUALITY_CONIC:
 			GeoConicND conic = ineq.getConicBorder();
 			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE

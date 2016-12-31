@@ -308,6 +308,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			switch (draw_type) {
+			default:
+				// do nothing
+				break;
 			case DRAW_TYPE_ELLIPSE:
 				fill(g2, shape); // fill using default/hatching/image as
 									// appropriate
@@ -372,6 +375,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 	@Override
 	protected final void drawTrace(GGraphics2D g2) {
 		switch (draw_type) {
+		default:
+			// do nothing
+			break;
 		case DRAW_TYPE_ELLIPSE:
 			fill(g2, shape); // fill using default/hatching/image as
 								// appropriate
@@ -398,6 +404,9 @@ public class DrawConicPart extends Drawable implements Previewable {
 		Construction cons = previewTempPoints[0].getConstruction();
 		int arcMode;
 		switch (previewMode) {
+		default:
+			// do nothing
+			break;
 		case EuclidianConstants.MODE_SEMICIRCLE:
 			AlgoSemicircle alg = new AlgoSemicircle(cons, previewTempPoints[0],
 					previewTempPoints[1]);

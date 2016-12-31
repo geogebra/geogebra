@@ -209,6 +209,9 @@ public class DrawSegment extends Drawable implements Previewable {
 			double vx, vy, factor;
 
 			switch (geo.getDecorationType()) {
+			default:
+				// do nothing
+				break;
 			case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 				// use perpendicular vector to set tick
 				factor = tickLength / nLength;
@@ -395,6 +398,9 @@ public class DrawSegment extends Drawable implements Previewable {
 				g2.setStroke(decoStroke);
 
 				switch (geo.getDecorationType()) {
+				default:
+					// do nothing
+					break;
 				case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 					g2.draw(decoTicks[0]);
 					break;

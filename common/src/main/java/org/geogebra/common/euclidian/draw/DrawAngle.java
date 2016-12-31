@@ -270,6 +270,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		// SPECIAL case for 90 degree angle, by Loic and Markus
 		if (show90degrees) {
 			switch (view.getRightAngleStyle()) {
+			default:
 			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 				// set 90 degrees square
 				if (square == null)

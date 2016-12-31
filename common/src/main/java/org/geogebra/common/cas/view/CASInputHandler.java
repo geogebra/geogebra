@@ -853,9 +853,9 @@ public class CASInputHandler {
 		boolean newNoParentheses = noParentheses;
 
 		StringBuilder sb = new StringBuilder();
-		switch (delimiter) {
-		case GeoCasCell.ROW_REFERENCE_DYNAMIC:
-		case GeoCasCell.ROW_REFERENCE_STATIC:
+		// switch (delimiter) {
+		// case GeoCasCell.ROW_REFERENCE_DYNAMIC:
+		// case GeoCasCell.ROW_REFERENCE_STATIC:
 			// Log.debug(selectedRow + ": " + str);
 
 			boolean foundReference = false;
@@ -919,8 +919,8 @@ public class CASInputHandler {
 				handleReference(sb, selectedRow, referenceNumber,
 						addParentheses, newNoParentheses, needOutput);
 			}
-			break;
-		}
+		// break;
+		// }
 		return sb.toString();
 	}
 

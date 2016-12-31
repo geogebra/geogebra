@@ -947,6 +947,9 @@ public abstract class GeoGebraExport {
 		// Michael Borcherds 20071006 end
 		double vx, vy, factor, x1, x2, y1, y2;
 		switch (deco) {
+		default:
+			// do nothing
+			break;
 		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 			factor = tickLength / nLength;
 			nx *= factor / xunit;
@@ -1142,6 +1145,9 @@ public abstract class GeoGebraExport {
 			double angSt, double angEnd) {
 		double rdiff;
 		switch (geo.getDecorationType()) {
+		default:
+			// do nothing
+			break;
 		case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 			rdiff = 4 + geo.getLineThickness() / 2d;
 			drawArc(geo, vertex, angSt, angEnd, r);

@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)
@@ -326,6 +327,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			double max) {
 
 		switch (type) {
+		default:
 		case QUADRIC_CYLINDER:
 			setCylinder(origin, direction, r, min, max);
 			break;
@@ -560,6 +562,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		}
 		double pih = Math.PI * Math.abs(topParameter - bottomParameter);
 		switch (type) {
+		default:
 		case QUADRIC_CYLINDER:
 			if (bottom.halfAxes == null) {
 				volume = radius * radius * pih;
@@ -604,9 +607,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 			return kernel.format(volume, tpl);
 		case QUADRIC_EMPTY:
 			return kernel.format(0, tpl);
+		default:
+			Log.debug("todo-GeoQuadric3DLimited");
+			return "?";
 		}
 
-		return "todo-GeoQuadric3DLimited";
 
 	}
 

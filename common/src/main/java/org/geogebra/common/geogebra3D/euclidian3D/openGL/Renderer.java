@@ -1768,6 +1768,7 @@ public abstract class Renderer {
 	protected void setProjectionMatrixForPicking() {
 
 		switch (view3D.getProjection()) {
+		default:
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 			viewOrtho();
 			break;
@@ -1787,6 +1788,7 @@ public abstract class Renderer {
 	public final void setProjectionMatrix() {
 
 		switch (view3D.getProjection()) {
+		default:
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 			viewOrtho();
 			break;
@@ -2014,6 +2016,7 @@ public abstract class Renderer {
 		}
 
 		switch (view3D.getProjection()) {
+		default:
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 			updateOrthoValues();
 			break;

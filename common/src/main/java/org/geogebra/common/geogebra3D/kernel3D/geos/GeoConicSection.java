@@ -128,6 +128,9 @@ public class GeoConicSection extends GeoConic3D
 
 		// handle conic types
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 
@@ -527,6 +530,9 @@ public class GeoConicSection extends GeoConic3D
 						P.setY(y);
 						P.setZ(1);
 						switch (type) {
+						default:
+							pp.t = Double.NaN;
+							break;
 						case GeoConicNDConstants.CONIC_CIRCLE:
 						case GeoConicNDConstants.CONIC_ELLIPSE:
 							// we map the [0,1] parameter to edge parameters

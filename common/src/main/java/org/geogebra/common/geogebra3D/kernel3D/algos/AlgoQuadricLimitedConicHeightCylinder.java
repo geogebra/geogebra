@@ -43,14 +43,18 @@ public class AlgoQuadricLimitedConicHeightCylinder
 			return GeoQuadricNDConstants.QUADRIC_PLANE;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 			return GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
+		default:
+			return GeoQuadricNDConstants.QUADRIC_CYLINDER;
 		}
-		return GeoQuadricNDConstants.QUADRIC_CYLINDER;
 	}
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
 			double r, double r2, double min, double max) {
 		switch (getExtrusionType(getBottomFace())) {
+		default:
+			// do nothing
+			break;
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			getQuadric().setCylinder(o1, d, r, min, max);
 			break;

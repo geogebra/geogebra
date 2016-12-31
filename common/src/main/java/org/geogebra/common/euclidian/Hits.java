@@ -127,6 +127,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 		} else if (geo instanceof GeoAxisND) {
 			switch (((GeoAxisND) geo).getType()) {
+			default:
 			case GeoAxisND.X_AXIS:
 				hasXAxis = true;
 				break;

@@ -26,6 +26,9 @@ public class GeoPlane3DConstant extends GeoPlane3D
 		super(c);
 
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case XOY_PLANE:
 			coordsys.addPoint(Coords.O);
 			coordsys.addVector(Coords.VX);

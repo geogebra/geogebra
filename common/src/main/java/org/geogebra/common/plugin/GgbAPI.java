@@ -1208,9 +1208,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
-		evs.setShowAxis(0, xVisible);
-		evs.setShowAxis(1, yVisible);
-		evs.setShowAxis(2, zVisible);
+		evs.setShowAxis(EuclidianViewInterfaceCommon.AXIS_X, xVisible);
+		evs.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, yVisible);
+		evs.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Z, zVisible);
 		evs.endBatch();
 		kernel.notifyRepaint();
 	}

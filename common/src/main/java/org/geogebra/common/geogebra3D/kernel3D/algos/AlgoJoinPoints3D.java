@@ -284,6 +284,7 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 						((GeoElement) P).getLabel(tpl),
 						((GeoElement) Q).getLabel(tpl)));
 			break;
+		default:
 		case LINE3D:
 			sb.append(getLoc().getPlain("LineThroughAB",
 					((GeoElement) P).getLabel(tpl),

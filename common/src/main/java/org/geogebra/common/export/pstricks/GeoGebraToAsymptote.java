@@ -1495,6 +1495,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected void drawGeoConic(GeoConic geo) {
 		switch (geo.getType()) {
 		// if conic is a circle
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			drawCircle(geo);
 			break;
@@ -2821,6 +2824,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	private static void LinestyleCode(int linestyle, StringBuilder sb) {
 		// note: removed 'pt' from linetype commands, seems to work better.
 		switch (linestyle) {
+		default:
+			// do nothing
+			break;
 		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
 			sb.append("dotted");
 			break;
@@ -3095,6 +3101,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					"\\\\textbackslash \\\\textbackslash ", "\\\\\\\\ ");
 		}
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 			if (isLatex)
 				code.append("\\mathbf{");
@@ -3614,6 +3623,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	public String penStyle(GeoElement geo) {
 		StringBuilder sb = new StringBuilder();
 		switch (geo.getLineType()) {
+		default:
 		case EuclidianStyleConstants.DEFAULT_LINE_TYPE:
 			sb.append("solid+");
 			break;
@@ -3722,6 +3732,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(";\nadd(\"hatch\",hatch(0.5mm,NW,fillstyle));\n");
 		}
 		switch (ineq.getType()) {
+		default:
+			// do nothing
+			break;
 		case INEQUALITY_CONIC:
 			GeoConicND conic = ineq.getConicBorder();
 			if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE

@@ -180,10 +180,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	// DrawList3D();
 	final static public int PROJECTION_EQUIRECTANGULAR = 4;
 	public static final int CURSOR_DEFAULT = 0;
-	/**
-	 * id of z-axis
-	 */
-	static final int AXIS_Z = 2; // AXIS_X and AXIS_Y already defined in
 
 	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
 	// maximum angle between two line segments
@@ -587,6 +583,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			switch (geo.getGeoClassType()) {
 
+			default:
+				Log.debug("missing case " + geo.getGeoClassType());
+				break;
 			// 2D also shown in 3D
 			case LIST:
 				d = new DrawList3D(this, (GeoList) geo);
@@ -1060,6 +1059,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	final private void processSetCoordSystemFromMouseMove() {
 		switch (mouseMoveMode) {
+		default:
+			// do nothing
+			break;
 		case EuclidianController.MOVE_ROTATE_VIEW:
 			setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
 			updateMatrix();
@@ -1103,6 +1105,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	final private void processSetCoordSystemFromAxisScale() {
 
 		switch (axisScaleMode) {
+		default:
+			// do nothing
+			break;
 		case EuclidianController.MOVE_X_AXIS:
 			setXZero(xZeroOld / axisScaleFactor);
 			getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
@@ -2073,6 +2078,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	private void animate() {
 
 		switch (animationType) {
+		default:
+			// do nothing
+			break;
 		case SCALE:
 			setScale(animatedScaleEndX, animatedScaleEndY, animatedScaleEndZ);
 			updateMatrix();
@@ -2516,6 +2524,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			switch (getCursor3DType()) {
 
+			default:
+				// do nothing
+				break;
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
@@ -2892,13 +2903,17 @@ public abstract class EuclidianView3D extends EuclidianView
 					case PREVIEW_POINT_ALREADY: // showing arrows directions
 						drawPointAlready(getCursor3D());
 						break;
+					default:
 					case PREVIEW_POINT_NONE:
-						// Log.debug("ici");
+						// do nothing
 						break;
 					}
 					break;
 				case HIT:
 					switch (getCursor3DType()) {
+					default:
+						// do nothing
+						break;
 					case PREVIEW_POINT_FREE:
 						if (getCompanion().drawCrossForFreePoint()) {
 							renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
@@ -2960,6 +2975,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		switch (pointMoveMode) {
+		default:
 		case GeoPointND.MOVE_MODE_XY:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
 			break;
@@ -3940,6 +3956,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setProjection(int projection) {
 		switch (projection) {
+		default:
 		case PROJECTION_ORTHOGRAPHIC:
 			setProjectionOrthographic();
 			break;

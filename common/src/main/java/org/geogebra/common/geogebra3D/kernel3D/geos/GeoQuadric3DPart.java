@@ -101,6 +101,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	public void set(Coords origin, Coords direction, Coords eigen, double r,
 			double r2) {
 		switch (type) {
+		default:
 		case QUADRIC_CYLINDER:
 			setCylinder(origin, direction, eigen, r, r2);
 			break;
@@ -127,10 +128,13 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		case QUADRIC_CYLINDER:
 		case QUADRIC_CONE:
 			return kernel.format(area, tpl);
+			default:
+				Log.debug("todo-GeoQuadric3DPart");
+				return "?";
+
 
 		}
 
-		return "todo-GeoQuadric3DPart";
 	}
 
 	@Override
@@ -311,6 +315,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 			}
 			area = Math.PI * h2 * r2 * Math.sqrt(1 + 1 / r2);
 			break;
+		default:
+			Log.debug("todo-area");
+			area = Double.NaN;
 		}
 	}
 

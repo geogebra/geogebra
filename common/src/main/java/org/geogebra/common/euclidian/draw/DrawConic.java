@@ -230,6 +230,7 @@ public class DrawConic extends Drawable implements Previewable {
 		Construction cons = view.getKernel().getConstruction();
 
 		switch (mode) {
+		default:
 		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
 			neededPrevPoints = 1;
@@ -332,6 +333,7 @@ public class DrawConic extends Drawable implements Previewable {
 		type = conic.getType();
 
 		switch (type) {
+		default:
 		case GeoConicNDConstants.CONIC_EMPTY:
 			setShape(null);
 			shape = null;
@@ -1371,6 +1373,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_LINE:
 			drawLines[0].draw(g2);
 			break;
+		default:
 		case GeoConicNDConstants.CONIC_EMPTY:
 			if (conic.isInverseFill()) {
 				fill(g2, getShape());
@@ -1529,6 +1532,9 @@ public class DrawConic extends Drawable implements Previewable {
 	final public void drawTrace(GGraphics2D g2) {
 		g2.setColor(getObjectColor());
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			drawPoint.drawTrace(g2);
 			break;
@@ -1597,6 +1603,9 @@ public class DrawConic extends Drawable implements Previewable {
 		// set a flag to say if point is on the boundary
 		boolean isOnBoundary = false;
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			isOnBoundary = drawPoint.hit(hitX, hitY, hitThreshold);
 			break;

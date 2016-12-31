@@ -54,6 +54,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		// set polyhedron type
 		switch (name) {
+		default:
 		case Tetrahedron:
 			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
 			solidDescription = PlatonicSolidsFactory.getTetrahedron();
@@ -280,6 +281,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	private void setVolumeAreaAndHeightFactors() {
 
 		switch (name) {
+		default:
 		case Tetrahedron:
 			volumeFactor = Math.sqrt(2) / 12;
 			heightFactor = Math.sqrt(2. / 3.);

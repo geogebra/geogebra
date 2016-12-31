@@ -807,6 +807,9 @@ public abstract class EuclidianController {
 
 	protected void endOfMode(int endMode) {
 		switch (endMode) {
+		default:
+			// do nothing
+			break;
 		case EuclidianConstants.MODE_MOVE:
 			deletePastePreviewSelected();
 			break;
@@ -3408,14 +3411,16 @@ public abstract class EuclidianController {
 			if (geo instanceof GeoAxis) {
 				switch (((GeoAxis) geo).getType()) {
 				case GeoAxisND.X_AXIS:
-					// view.showAxes(false, view.getShowYaxis());
 					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_X, false,
 							true);
 					break;
 
 				case GeoAxisND.Y_AXIS:
-					// view.showAxes(view.getShowXaxis(), false);
 					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Y, false,
+							true);
+					break;
+				case GeoAxisND.Z_AXIS:
+					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_Z, false,
 							true);
 					break;
 				}
@@ -4387,6 +4392,7 @@ public abstract class EuclidianController {
 				}
 				break;
 
+			default:
 			case EuclidianView.GRID_CARTESIAN:
 
 				// X = (x, y) ... next grid point

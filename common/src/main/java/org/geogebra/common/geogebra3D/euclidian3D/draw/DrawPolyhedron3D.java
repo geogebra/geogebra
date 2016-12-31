@@ -281,6 +281,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 				Construction cons = getView3D().getKernel().getConstruction();
 
 				switch (previewMode) {
+				default:
 				case EuclidianConstants.MODE_PYRAMID:
 					previewAlgo = new AlgoPolyhedronPointsPyramid(cons, null,
 							selectedPolygons.get(0), getView3D().getCursor3D());
@@ -365,6 +366,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			Construction cons = getView3D().getKernel().getConstruction();
 
 			switch (previewMode) {
+			default:
 			case EuclidianConstants.MODE_PYRAMID:
 				previewAlgo = new AlgoPolyhedronPointsPyramid(cons, null,
 						points);

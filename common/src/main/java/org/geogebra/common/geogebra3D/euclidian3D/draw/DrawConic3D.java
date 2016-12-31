@@ -499,6 +499,8 @@ public class DrawConic3D extends Drawable3DCurves
 																			// ellipse
 					updateForItSelf();
 				break;
+
+			default:
 			case GeoConicNDConstants.CONIC_SINGLE_POINT:
 				if (getView3D().viewChangedByZoom()) // update only if zoom
 														// occurred
@@ -542,6 +544,9 @@ public class DrawConic3D extends Drawable3DCurves
 	private void drawSurfaceGeometry(Renderer renderer) {
 
 		switch (((GeoConicND) getGeoElement()).getType()) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
@@ -739,6 +744,9 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		switch (conic.getType()) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:

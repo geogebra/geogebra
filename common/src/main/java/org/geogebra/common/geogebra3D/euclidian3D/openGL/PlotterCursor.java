@@ -254,6 +254,7 @@ public class PlotterCursor {
 	private void cursor(int i) {
 
 		switch (i) {
+		default:
 		case 0:
 			cursorCross2D();
 			break;

@@ -29,6 +29,8 @@ public interface EuclidianViewInterfaceCommon
 	public static final int AXIS_X = 0;
 	/** reference to y axis */
 	public static final int AXIS_Y = 1;
+	/** reference to z axis */
+	public static final int AXIS_Z = 2;
 
 	/**
 	 * Zooms around fixed point (px, py)
