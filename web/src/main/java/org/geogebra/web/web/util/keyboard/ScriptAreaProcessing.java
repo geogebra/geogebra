@@ -55,9 +55,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	public void onArrow(ArrowType type) {
-		//Log.debug("onArrow");
 		int cursorPos = field.getCursorPos();
-		//Log.debug("cursorpos: " + cursorPos);
 		switch (type) {
 		case left:
 			if (cursorPos > 0)

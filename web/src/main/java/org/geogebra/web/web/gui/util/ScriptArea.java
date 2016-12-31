@@ -104,10 +104,8 @@ public class ScriptArea extends TextArea
 	}
 
 	public void insertString(String text) {
-		//Log.debug("text: " + text);
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
-		//Log.debug("start, end: " + start + " " + end);
 
 		setText(start, end, text);
 		// if (insertHandler != null) {
