@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;
@@ -86,9 +87,27 @@ public class ScriptArea extends TextArea
 		return getText().indexOf(getSelectedText());
 	}
 
+	public void setCursorPos(int caretPos, boolean moveDummyCursor) {
+		if (dummyCursor && moveDummyCursor) {
+			if (caretPos == this.getText().length()) {
+				return;
+			}
+			removeDummyCursor();
+			addDummyCursor(caretPos);
+		} else {
+			setSelectionRange(caretPos, 0);
+		}
+	}
+	
+	public void setCursorPos(int pos){
+		setCursorPos(pos, true);
+	}
+
 	public void insertString(String text) {
+		//Log.debug("text: " + text);
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
+		//Log.debug("start, end: " + start + " " + end);
 
 		setText(start, end, text);
 		// if (insertHandler != null) {

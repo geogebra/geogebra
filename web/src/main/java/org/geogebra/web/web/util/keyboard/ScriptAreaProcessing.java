@@ -1,6 +1,7 @@
 package org.geogebra.web.web.util.keyboard;
 
 import org.geogebra.common.main.KeyboardLocale;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.util.ScriptArea;
@@ -54,7 +55,9 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	}
 
 	public void onArrow(ArrowType type) {
+		//Log.debug("onArrow");
 		int cursorPos = field.getCursorPos();
+		//Log.debug("cursorpos: " + cursorPos);
 		switch (type) {
 		case left:
 			if (cursorPos > 0)
