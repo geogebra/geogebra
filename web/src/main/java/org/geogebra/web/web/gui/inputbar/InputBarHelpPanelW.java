@@ -36,6 +36,8 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author G. Sturr
  * 
@@ -343,6 +345,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * 
 	 * TODO: handle accented characters
 	 */
+	@SuppressFBWarnings({ "SE_COMPARATOR_SHOULD_BE_SERIALIZABLE",
+			"not needed" })
 	private static class LocaleSensitiveComparator
 			implements Comparator<String> {
 

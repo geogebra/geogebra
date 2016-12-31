@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.discrete.delaunay;
 
 import java.util.Comparator;
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -102,11 +104,13 @@ public class Point_dt {
 	}
 
 	boolean isLess(Point_dt p) {
-		return (x < p.x) || ((x == p.x) && (y < p.y));
+		return Compare.lessThan(x, p.x)
+				|| (Compare.equals(x, p.x) && Compare.lessThan(y, p.y));
 	}
 
 	boolean isGreater(Point_dt p) {
-		return (x > p.x) || ((x == p.x) && (y > p.y));
+		return Compare.greaterThan(x, p.x)
+				|| (Compare.equals(x, p.x) && Compare.greaterThan(y, p.y));
 	}
 
 	/**
@@ -120,7 +124,8 @@ public class Point_dt {
 			return false;
 		}
 
-		return (x == ((Point_dt) p).x) && (y == ((Point_dt) p).y);
+		return Compare.equals(x, ((Point_dt) p).x)
+				&& Compare.equals(y, ((Point_dt) p).y);
 	}
 
 	/** return a String in the [x,y,z] format */
@@ -129,17 +134,19 @@ public class Point_dt {
 		return " Pt[" + x + "," + y + "," + z + "]";
 	}
 
-	/** @return the L2 distanse NOTE: 2D only!!! */
+	/** @return the L2 distance NOTE: 2D only!!! */
 	public double distance(Point_dt p) {
-		double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2);
-		return Math.sqrt(temp);
+		return MyMath.length(p.x() - x, p.y() - y);
+		//double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2);
+		//return Math.sqrt(temp);
 	}
 
-	/** @return the L2 distanse NOTE: 2D only!!! */
+	/** @return the L2 distance NOTE: 3D only!!! */
 	public double distance3D(Point_dt p) {
-		double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2)
-				+ Math.pow(p.z() - z, 2);
-		return Math.sqrt(temp);
+		return MyMath.length(p.x() - x, p.y() - y, p.z() - z);
+		// double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2)
+		// + Math.pow(p.z() - z, 2);
+		// return Math.sqrt(temp);
 	}
 
 	/**
@@ -277,45 +284,45 @@ class Compare implements Comparator {
 			Point_dt d1 = (Point_dt) o1;
 			Point_dt d2 = (Point_dt) o2;
 			if (_flag == 0) {
-				if (d1.x > d2.x)
+				if (greaterThan(d1.x, d2.x))
 					return 1;
-				if (d1.x < d2.x)
+				if (lessThan(d1.x, d2.x))
 					return -1;
 				// x1 == x2
-				if (d1.y > d2.y)
+				if (greaterThan(d1.y, d2.y))
 					return 1;
-				if (d1.y < d2.y)
+				if (lessThan(d1.y, d2.y))
 					return -1;
 			} else if (_flag == 1) {
-				if (d1.x > d2.x)
+				if (greaterThan(d1.x, d2.x))
 					return -1;
-				if (d1.x < d2.x)
+				if (lessThan(d1.x, d2.x))
 					return 1;
 				// x1 == x2
-				if (d1.y > d2.y)
+				if (greaterThan(d1.y, d2.y))
 					return -1;
-				if (d1.y < d2.y)
+				if (lessThan(d1.y, d2.y))
 					return 1;
 			} else if (_flag == 2) {
-				if (d1.y > d2.y)
+				if (greaterThan(d1.y, d2.y))
 					return 1;
-				if (d1.y < d2.y)
+				if (lessThan(d1.y, d2.y))
 					return -1;
 				// y1 == y2
-				if (d1.x > d2.x)
+				if (greaterThan(d1.x, d2.x))
 					return 1;
 				if (d1.x < d2.x)
 					return -1;
 
 			} else if (_flag == 3) {
-				if (d1.y > d2.y)
+				if (greaterThan(d1.y, d2.y))
 					return -1;
 				if (d1.y < d2.y)
 					return 1;
 				// y1 == y2
-				if (d1.x > d2.x)
+				if (greaterThan(d1.x, d2.x))
 					return -1;
-				if (d1.x < d2.x)
+				if (lessThan(d1.x, d2.x))
 					return 1;
 			}
 		} else {
@@ -327,6 +334,18 @@ class Compare implements Comparator {
 				return -1;
 		}
 		return ans;
+	}
+
+	public static boolean greaterThan(double x, double y) {
+		return Kernel.isGreater(x, y);
+	}
+
+	public static boolean lessThan(double x, double y) {
+		return Kernel.isGreater(y, x);
+	}
+
+	public static boolean equals(double x, double y) {
+		return Kernel.isEqual(x, y);
 	}
 
 }
