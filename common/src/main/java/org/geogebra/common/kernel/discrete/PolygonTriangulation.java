@@ -2051,7 +2051,7 @@ public class PolygonTriangulation {
 
 		// loop
 		while (firstAbove != null && firstBelow != null) {
-			StringBuilder s = new StringBuilder("fan : ");
+			// StringBuilder s = new StringBuilder("fan : ");
 			// ArrayList<Integer> currentTriangleFan = new ArrayList<Integer>();
 			TriangleFan currentTriangleFan;
 			Point top = stack.peek();
@@ -2105,11 +2105,11 @@ public class PolygonTriangulation {
 					clockWise = true;
 				}
 				currentTriangleFan = new TriangleFan(vi.id, clockWise);
-				s.append(vi.name);
+				// s.append(vi.name);
 				while (!stack.isEmpty()) {
 					Point v = stack.pop();
 					currentTriangleFan.add(v.id);
-					s.append(v.name);
+					// s.append(v.name);
 					debugDiagonal("diagonal : ", vi, v);
 				}
 				stack.push(top);
@@ -2123,12 +2123,12 @@ public class PolygonTriangulation {
 				}
 				currentTriangleFan = new TriangleFan(vi.id, clockWise);
 
-				s.append(vi.name);
+				// s.append(vi.name);
 
 				// first correct point
 				Point vk = stack.pop();
 				currentTriangleFan.add(vk.id);
-				s.append(vk.name);
+				// s.append(vk.name);
 				debugDiagonal("diagonal ", vi, vk);
 				double dx2 = vk.x - vi.x;
 				double dy2 = vk.y - vi.y;
@@ -2148,7 +2148,7 @@ public class PolygonTriangulation {
 					} else {
 						vk = v;
 						currentTriangleFan.add(vk.id);
-						s.append(vk.name);
+						// s.append(vk.name);
 						debugDiagonal("diagonal ", vi, vk);
 					}
 				}
@@ -2162,9 +2162,9 @@ public class PolygonTriangulation {
 				fansList.add(currentTriangleFan);
 				if (DEBUG) {
 					if (clockWise) {
-						error(s.toString());
+						// error(s.toString());
 					} else {
-						debug(s.toString());
+						// debug(s.toString());
 					}
 				}
 			}

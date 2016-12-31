@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.export;
 
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,7 +15,6 @@ abstract class MyGraphicsW extends GGraphics2DW {
 
 	protected double[] ds;
 	protected Inequality ineq;
-	protected EuclidianView view;
 	protected FunctionalNVar geo;
 
 	public MyGraphicsW(FunctionalNVar geo, Inequality ineq) {

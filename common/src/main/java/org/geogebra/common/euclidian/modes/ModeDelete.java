@@ -793,7 +793,7 @@ public class ModeDelete {
 			GeoPointND[] realPoints, int i) {
 		int index = i;
 		newDataAndRealPoint.clear();
-		ArrayList<GPoint2D> secondInterPoints = new ArrayList<GPoint2D>();
+		ArrayList<GPoint2D> secondInterPoints;
 		if (i + 1 < dataPoints.length && dataPoints[i + 1].isDefined()) {
 			// see if there is intersection point with next segment
 			secondInterPoints = getAllIntersectionPoint(dataPoints[i],
