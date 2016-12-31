@@ -43,8 +43,6 @@ public class AlgoAreEqual extends AlgoElement
 	 * 
 	 * @param cons
 	 *            The construction the objects depend on
-	 * @param label
-	 *            the name of the resulting boolean
 	 * @param inputElement1
 	 *            the first object
 	 * @param inputElement2
@@ -63,6 +61,18 @@ public class AlgoAreEqual extends AlgoElement
 
 	}
 
+	/**
+	 * Tests if two objects are equal
+	 * 
+	 * @param cons
+	 *            The construction the objects depend on
+	 * @param label
+	 *            the label for the AlgoAreEqual object
+	 * @param inputElement1
+	 *            the first object
+	 * @param inputElement2
+	 *            the second object
+	 */
 	public AlgoAreEqual(Construction cons, String label,
 			GeoElement inputElement1, GeoElement inputElement2) {
 		this(cons, inputElement1, inputElement2);
