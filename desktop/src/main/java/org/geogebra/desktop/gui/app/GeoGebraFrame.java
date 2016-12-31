@@ -561,7 +561,7 @@ public class GeoGebraFrame extends JFrame
 		 * 
 		 * @throws IOException
 		 */
-		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 				"don't need to check return value of mkdirs() or delete()" })
 		private void downloadGeoGebraJars() throws IOException {
 			ZipInputStream zis = null;

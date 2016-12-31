@@ -71,7 +71,7 @@ public class UndoManagerD extends UndoManager {
 			return f;
 		}
 
-		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+		@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 				"don't need to check return value" })
 		public void delete() {
 			f.delete();

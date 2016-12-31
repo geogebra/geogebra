@@ -389,7 +389,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Saves preferences by taking the application's current values.
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 			"don't need to check return value of mkdirs()" })
 	public void saveXMLPreferences(AppD app) {
 
@@ -626,7 +626,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	/**
 	 * Clears all user preferences.
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 			"don't need to check return value of delete()" })
 	public void clearPreferences(App app) {
 

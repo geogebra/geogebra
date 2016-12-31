@@ -26,7 +26,7 @@ public class MyClassPathLoader {
 	 *            eg javagiac or javagiac64
 	 * @return success
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 			"don't need to check return value of delete()" })
 	public boolean loadLibrary(String libname) {
 
@@ -77,7 +77,7 @@ public class MyClassPathLoader {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_NO_SIDE_EFFECT",
+	@SuppressFBWarnings({ "RV_RETURN_VALUE_IGNORED_BAD_PRACTICE",
 			"don't need to check return value of delete()" })
 	private static File writeTmpFile(InputStream ins, String filename)
 			throws IOException {
