@@ -417,6 +417,7 @@ public class FillingModel extends MultipleOptionsModel {
 			return false;
 		}
 		switch (type) {
+		default:
 		case 1:
 			algo.setBarFillType(getFillType(), selectedBarIndex);
 			algo.setBarHatchDistance(getDistanceValue(), selectedBarIndex);

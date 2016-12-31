@@ -783,6 +783,9 @@ public class Delaunay_Triangulation {
 		}
 
 		switch (p.pointLineTest(firstP, lastP)) {
+		default:
+			// do nothing
+			break;
 		case Point_dt.LEFT:
 			startTriangle = extendOutside(firstT.abnext, p);
 			allCollinear = false;
@@ -808,6 +811,9 @@ public class Delaunay_Triangulation {
 		Triangle_dt t, tp, u;
 
 		switch (res) {
+		default:
+			// do nothing
+			break;
 		case Point_dt.INFRONTOFA:
 			t = new Triangle_dt(firstP, p);
 			tp = new Triangle_dt(p, firstP);

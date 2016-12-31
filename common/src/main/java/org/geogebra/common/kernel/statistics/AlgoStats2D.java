@@ -176,6 +176,9 @@ public abstract class AlgoStats2D extends AlgoElement {
 		double var;
 
 		switch (stat) {
+		default:
+			result.setValue(Double.NaN);
+			break;
 		case STATS_MEANX:
 			result.setValue(mux);
 			break;

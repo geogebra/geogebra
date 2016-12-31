@@ -969,6 +969,7 @@ public abstract class ProbabilityCalculatorView
 		AlgoDependentNumber plusOneAlgo;
 		switch (selectedDist) {
 
+		default:
 		case BINOMIAL:
 
 			/*
@@ -1475,6 +1476,7 @@ public abstract class ProbabilityCalculatorView
 		boolean isValid = true;
 		switch (selectedDist) {
 
+		default:
 		case BINOMIAL:
 		case HYPERGEOMETRIC:
 			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
@@ -1508,6 +1510,7 @@ public abstract class ProbabilityCalculatorView
 
 		switch (selectedDist) {
 
+		default:
 		case F:
 		case STUDENT:
 		case EXPONENTIAL:

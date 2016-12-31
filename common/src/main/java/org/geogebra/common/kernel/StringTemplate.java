@@ -563,9 +563,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				boolean showMultiplicationSign = true;
 				boolean multiplicationSpaceNeeded = false;
 				if (nounary) {
-					switch (getStringType()) {
+					if (StringType.LATEX.equals(getStringType())) {
 
-					case LATEX:
 						// check if we need a multiplication sign, see #414
 						// digit-digit, e.g. 3 * 5
 						// digit-fraction, e.g. 3 * \frac{5}{2}
@@ -578,7 +577,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
 								&& Unicode.DEGREE.equals(
 										right.toString(defaultTemplate)));
-						break;
 
 					}
 

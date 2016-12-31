@@ -132,6 +132,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				numberOfOutputLines++;
 			}
 			break;
+		default:
 		case INTERSECTION_MEETING_LINE:
 			lines[0].setUndefined();
 			lines[2].setUndefined();

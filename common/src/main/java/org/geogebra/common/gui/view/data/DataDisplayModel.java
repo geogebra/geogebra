@@ -159,6 +159,7 @@ public class DataDisplayModel {
 
 	public void fillDisplayTypes() {
 		switch (daModel.getMode()) {
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 
 			if (!daModel.isNumericData()) {

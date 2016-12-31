@@ -177,6 +177,9 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 		double var;
 
 		switch (stat) {
+		default:
+			result.setValue(Double.NaN);
+			break;
 		case STATS_MEAN: // OK
 			result.setValue(mu);
 			break;

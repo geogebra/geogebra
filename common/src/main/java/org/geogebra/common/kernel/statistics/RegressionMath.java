@@ -529,6 +529,9 @@ public final class RegressionMath {
 			xx = x * x;
 			xy = x * y; // save some calculations
 			switch (degree) { // fall-through-switch
+			default:
+				// do nothing
+				break;
 			case 4:
 				sigmax4y += x * xx * xy;
 				sigmax7 += xx * xx * xx * x;
@@ -543,14 +546,14 @@ public final class RegressionMath {
 				sigmax4 += xx * xx;
 			case 1:
 				sigmay2 += y * y; // r only for linear
-			default:
-				sigmax += x;
-				sigmax2 += xx;
-				sigmaxy += xy;
-				sigmay += y;
-			}// switch
-		} // for
-	}// doSums(degree)
+			}
+			// always do these
+			sigmax += x;
+			sigmax2 += xx;
+			sigmaxy += xy;
+			sigmay += y;
+		} 
+	}
 
 	/* Get points to local array */
 	private final void getPoints() {

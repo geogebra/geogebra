@@ -872,11 +872,8 @@ public class ConstructionDefaults {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
-			switch (geo.getGeoClassType()) {
-
-			case ANGLE:
+			if (GeoClass.ANGLE.equals(geo.getGeoClassType())) {
 				((GeoAngle) geo).setArcSize(this.angleSize);
-				break;
 			}
 		}
 	}
@@ -898,6 +895,9 @@ public class ConstructionDefaults {
 			GeoElement geo = it.next();
 
 			switch (geo.getGeoClassType()) {
+			default:
+				// do nothing
+				break;
 			case POINT:
 
 				((GeoPoint) geo).setPointSize(geo.isMoveable() ? this.pointSize
@@ -935,11 +935,8 @@ public class ConstructionDefaults {
 				}
 			}
 
-			switch (geo.getGeoClassType()) {
-
-			case LIST:
+			if (GeoClass.LIST.equals(geo.getGeoClassType())) {
 				((GeoList) geo).setLineThickness(this.lineThickness);
-				break;
 			}
 		}
 	}

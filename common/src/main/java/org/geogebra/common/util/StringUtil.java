@@ -936,6 +936,9 @@ public class StringUtil {
 			}
 
 			switch (ch) {
+			default:
+				// do nothing
+				break;
 			case '"':
 				comment = !comment;
 				break;

@@ -146,6 +146,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (type) {
+		default:
 		case TYPE_RADIUS:
 			sphereND.setSphereND(M, r.getDouble());
 			break;

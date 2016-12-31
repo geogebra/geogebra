@@ -380,6 +380,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.setOrigin(origin);
 
 		switch (type) {
+		default:
 		case VX:
 			ret.setVx(direction);
 			ret.setVy(Vn1);
@@ -406,6 +407,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.setOrigin(origin);
 
 		switch (type) {
+		default:
 		case VX:
 			ret.setVx(direction);
 			ret.setVy(Vn1);

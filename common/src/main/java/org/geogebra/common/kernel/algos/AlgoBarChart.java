@@ -483,6 +483,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 
 		switch (type) {
+		default:
+			// do nothing
+			break;
 
 		case TYPE_BARCHART_EXPRESSION:
 
@@ -760,6 +763,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		switch (type) {
 
+		default:
+			// do nothing
+			break;
 		case TYPE_BARCHART_FREQUENCY_TABLE:
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			computeWithFrequency();
@@ -1061,6 +1067,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			// get the distribution and the first, last list values for given
 			// distribution type
 			switch (type) {
+			default:
+				// do nothing
+				break;
 			case TYPE_BARCHART_BINOMIAL:
 				if (!(p1geo.isDefined() && p2geo.isDefined()))
 					return false;

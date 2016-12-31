@@ -442,6 +442,7 @@ public class DataSource {
 
 		switch (mode) {
 
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			itemList.add(new DataItem(list.get(0)));
 			var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
@@ -493,6 +494,7 @@ public class DataSource {
 
 		switch (mode) {
 
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			itemList.add(new DataItem(rangeList));
 			var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);

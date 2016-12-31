@@ -1739,6 +1739,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			// get the distribution and the first, last list values for given
 			// distribution type
 			switch (type) {
+			default:
+				// do nothing
+				break;
 			case BARCHART_BINOMIAL:
 				if (!(p1geo.isDefined() && p2geo.isDefined()))
 					return false;

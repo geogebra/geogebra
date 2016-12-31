@@ -313,6 +313,9 @@ public class CoordSys {
 	 */
 	public void completeCoordSys2D() {
 		switch (getMadeCoordSys()) {
+		default:
+			// do nothing
+			break;
 		case 0:
 			addVectorWithoutCheckMadeCoordSys(Coords.VX);
 			addVectorWithoutCheckMadeCoordSys(Coords.VY);
@@ -385,6 +388,9 @@ public class CoordSys {
 	public void addVectorWithoutCheckMadeCoordSys(Coords v) {
 
 		switch (getMadeCoordSys()) {
+		default:
+			// do nothing
+			break;
 		case 0: // add first vector
 			// check if v==0
 			if (!Kernel.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {

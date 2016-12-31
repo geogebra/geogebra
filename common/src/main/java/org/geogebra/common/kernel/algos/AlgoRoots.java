@@ -152,6 +152,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	@Override
 	protected void setInputOutput() {
 		switch (type) {
+		default:
 		case TYPE_ROOTS:
 			input = new GeoElement[3];
 			input[0] = f0.toGeoElement();
@@ -181,6 +182,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		boolean ok = false;
 		switch (type) {
+		default:
 		case TYPE_ROOTS:
 			ok = f0.toGeoElement().isDefined() && left.isDefined()
 					&& right.isDefined();

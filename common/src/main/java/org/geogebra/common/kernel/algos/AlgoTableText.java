@@ -842,6 +842,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			}
 			switch (justification1) {
+			default:
+				// do nothing
+				break;
 			case '.':
 			case 'a':
 				if (geo1 instanceof GeoNumberValue) {

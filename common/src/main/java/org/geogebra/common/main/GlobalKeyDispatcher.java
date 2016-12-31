@@ -51,6 +51,9 @@ public abstract class GlobalKeyDispatcher {
 			return;
 
 		switch (fkey) {
+		default:
+			// do nothing
+			break;
 		case 3: // F3 key: copy definition to input field
 			app.getGuiManager().setInputText(geo.getDefinitionForInputBar());
 			break;
@@ -261,6 +264,9 @@ public abstract class GlobalKeyDispatcher {
 
 		// ESC and function keys
 		switch (key) {
+		default:
+			// do nothing
+			break;
 		case ESCAPE:
 
 			// ESC: set move mode
@@ -1224,6 +1230,9 @@ public abstract class GlobalKeyDispatcher {
 		// check for arrow keys: try to move objects accordingly
 		boolean moved = false;
 		switch (key) {
+		default:
+			// do nothing
+			break;
 		case UP:
 			// make sure arrow keys work in menus
 			if (app.getGuiManager() != null && app.isUsingFullGui()

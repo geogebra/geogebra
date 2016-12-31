@@ -363,6 +363,9 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	protected void setInputOutput() {
 
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case TYPE_QUARTILES:
 			input = new GeoElement[7];
 			input[0] = ageo;

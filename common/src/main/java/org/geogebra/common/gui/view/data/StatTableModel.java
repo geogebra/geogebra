@@ -153,6 +153,7 @@ public class StatTableModel {
 		}
 
 		switch (getListener().getMode()) {
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 
 			if (!getListener().isNumericData()) {

@@ -132,6 +132,7 @@ public abstract class DataAnalysisController {
 		ArrayList<GeoList> list = new ArrayList<GeoList>();
 
 		switch (getMode()) {
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 		case DataAnalysisModel.MODE_REGRESSION:
 			list = dataSource.toGeoList(getMode(), leftToRight, doCopy, 0);

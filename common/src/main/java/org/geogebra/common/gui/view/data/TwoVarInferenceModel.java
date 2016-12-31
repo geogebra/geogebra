@@ -93,6 +93,9 @@ public class TwoVarInferenceModel {
 		ArrayList<String> list = new ArrayList<String>();
 
 		switch (selectedInference) {
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_TTEST_2MEANS:
 		case StatisticsModel.INFER_TTEST_PAIRED:
 
@@ -138,6 +141,9 @@ public class TwoVarInferenceModel {
 		}
 
 		switch (selectedInference) {
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_TTEST_2MEANS:
 		case StatisticsModel.INFER_TTEST_PAIRED:
 
@@ -208,6 +214,9 @@ public class TwoVarInferenceModel {
 		try {
 
 			switch (selectedInference) {
+			default:
+				// do nothing
+				break;
 			case StatisticsModel.INFER_TTEST_2MEANS:
 			case StatisticsModel.INFER_TINT_2MEANS:
 

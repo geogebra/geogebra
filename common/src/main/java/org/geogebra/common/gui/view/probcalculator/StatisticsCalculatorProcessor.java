@@ -117,6 +117,7 @@ public class StatisticsCalculatorProcessor {
 
 		switch (statCalc.getSelectedProcedure()) {
 
+		default:
 		case ZMEAN_TEST:
 		case ZMEAN_CI:
 		case TMEAN_TEST:

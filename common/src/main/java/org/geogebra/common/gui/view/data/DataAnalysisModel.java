@@ -193,6 +193,7 @@ public class DataAnalysisModel {
 
 		switch (getMode()) {
 
+		default:
 		case MODE_ONEVAR:
 			if (!isNumericData()) {
 				getListener().setPlotPanelOVNotNumeric(getMode());

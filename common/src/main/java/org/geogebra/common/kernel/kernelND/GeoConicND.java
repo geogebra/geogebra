@@ -459,6 +459,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		pp.setPathType(type);
 
 		switch (type) {
+		default:
 		case CONIC_EMPTY:
 			P.setX(Double.NaN);
 			P.setY(Double.NaN);
@@ -875,6 +876,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			boolean checkSection) {
 
 		switch (type) {
+		default:
 		case CONIC_EMPTY:
 			P.setX(Double.NaN);
 			P.setY(Double.NaN);
@@ -1075,6 +1077,9 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		boolean result = false;
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			// x^2 + y^2 = r^2
 			double radius2 = halfAxes[0] * halfAxes[0];
@@ -2574,6 +2579,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	protected final void updateDegenerates() {
 		// update lines of degenerate conic
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case CONIC_SINGLE_POINT:
 			singlePoint();
 			break;
@@ -3601,6 +3609,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	public String getSpecificEquation() {
 		String ret = null;
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			ret = getLoc().getPlain("CircleEquation");
 			break;

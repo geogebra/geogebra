@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
@@ -75,30 +74,25 @@ public class CreateObjectModel {
 	}
 
 	public String getTitle() {
-		String titleText = "";
 		switch (getObjectType()) {
+		default:
+			return null;
+
 		case TYPE_LIST:
-			titleText = loc.getMenu("CreateList");
-			break;
+			return loc.getMenu("CreateList");
 
 		case TYPE_LISTOFPOINTS:
-			titleText = loc.getMenu("CreateListOfPoints");
-			break;
+			return loc.getMenu("CreateListOfPoints");
 
 		case TYPE_TABLETEXT:
-			titleText = loc.getMenu("CreateTable");
-			break;
+			return loc.getMenu("CreateTable");
 
 		case TYPE_POLYLINE:
-			titleText = loc.getMenu("CreatePolyLine");
-			break;
+			return loc.getMenu("CreatePolyLine");
 
 		case TYPE_MATRIX:
-			titleText = loc.getMenu("CreateMatrix");
-			break;
+			return loc.getMenu("CreateMatrix");
 		}
-		Log.debug("[CO] title is " + titleText);
-		return titleText;
 
 	}
 
@@ -215,6 +209,9 @@ public class CreateObjectModel {
 		try {
 			switch (getObjectType()) {
 
+			default:
+				// do nothing
+				break;
 			case TYPE_LIST:
 				newGeo = cp.createList(getSelectedCellRanges(), scanByColumn,
 						copyByValue);
@@ -331,20 +328,18 @@ public class CreateObjectModel {
 		int idx = 0;
 
 		switch (getObjectType()) {
+		default:
 		case CreateObjectModel.TYPE_LIST:
 			idx = OPTION_ORDER;
 			break;
+		case CreateObjectModel.TYPE_POLYLINE:
 		case CreateObjectModel.TYPE_LISTOFPOINTS:
 			idx = OPTION_XY;
 			break;
 		case CreateObjectModel.TYPE_MATRIX:
-			idx = OPTION_TRANSPOSE;
-			break;
 		case CreateObjectModel.TYPE_TABLETEXT:
 			idx = OPTION_TRANSPOSE;
 			break;
-		case CreateObjectModel.TYPE_POLYLINE:
-			idx = OPTION_XY;
 		}
 
 		return idx;

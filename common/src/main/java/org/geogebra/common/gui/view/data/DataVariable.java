@@ -480,6 +480,7 @@ public class DataVariable {
 
 			switch (mode) {
 
+			default:
 			case DataAnalysisModel.MODE_ONEVAR:
 				switch (groupType) {
 				case RAWDATA:

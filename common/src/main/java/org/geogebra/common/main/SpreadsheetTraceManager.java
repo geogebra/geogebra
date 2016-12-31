@@ -810,6 +810,9 @@ public class SpreadsheetTraceManager {
 
 		if (isUpdateCell) {
 			switch (geoClassType) {
+			default:
+				// do nothing
+				break;
 			case NUMERIC:
 				((GeoNumeric) cell).setValue((Double) value);
 				break;

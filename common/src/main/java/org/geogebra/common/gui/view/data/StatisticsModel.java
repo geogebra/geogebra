@@ -73,6 +73,7 @@ public class StatisticsModel {
 
 		switch (daModel.getMode()) {
 
+		default:
 		case DataAnalysisModel.MODE_ONEVAR:
 			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
 			listener.addInferenceMode(labelMap.get(INFER_ZTEST));
@@ -137,6 +138,7 @@ public class StatisticsModel {
 	public void update() {
 		switch (getSelectedMode()) {
 
+		default:
 		case INFER_ZTEST:
 		case INFER_TTEST:
 		case INFER_ZINT:

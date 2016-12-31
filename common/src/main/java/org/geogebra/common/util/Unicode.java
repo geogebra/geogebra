@@ -228,6 +228,7 @@ public class Unicode {
 		} else {
 			while (i > 0) {
 				switch (i % 10) {
+				default:
 				case 0:
 					sb.insert(0, Superscript_0);
 					break;

@@ -262,6 +262,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 		else {
 			// intersect two line bisectors according to casenr
 			switch (casenr) {
+			default:
 			case 0: // bisectors of AB, AC
 				s0.x = ABx;
 				s0.y = ABy;

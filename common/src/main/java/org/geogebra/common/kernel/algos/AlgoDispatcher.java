@@ -428,13 +428,14 @@ public class AlgoDispatcher {
 		String pointLabel = null, angleLabel = null;
 		if (labels != null) {
 			switch (labels.length) {
+			default:
+				// do nothing
+				break;
 			case 2:
 				pointLabel = labels[1];
 				// fall through
 			case 1:
 				angleLabel = labels[0];
-
-			default:
 			}
 		}
 

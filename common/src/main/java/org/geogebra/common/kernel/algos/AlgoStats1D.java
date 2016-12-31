@@ -269,6 +269,9 @@ public abstract class AlgoStats1D extends AlgoElement {
 		mu = sumVal / size;
 
 		switch (stat) {
+		default:
+			result.setValue(Double.NaN);
+			break;
 		case STATS_MEAN:
 			result.setValue(mu);
 			break;

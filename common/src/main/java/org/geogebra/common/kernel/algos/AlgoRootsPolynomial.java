@@ -201,6 +201,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	@Override
 	protected void setInputOutput() {
 		switch (mode) {
+		default:
 		case MULTIPLE_ROOTS:
 		case ROOTS: // roots of f
 			input = new GeoElement[1];
@@ -242,6 +243,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	@Override
 	public void compute() {
 		switch (mode) {
+		default:
 		case ROOTS:
 			// roots of f
 			computeRoots();

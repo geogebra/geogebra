@@ -396,6 +396,9 @@ public class SpreadsheetContextMenu {
 
 		switch (MenuCommand.valueOf(cmdString)) {
 
+		default:
+			// do nothing
+			break;
 		case ShowObject:
 			cmdShowObject();
 			break;

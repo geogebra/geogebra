@@ -216,6 +216,7 @@ public class ProbabilityManager {
 		AlgoDistribution ret = null;
 
 		switch (d) {
+		default:
 		case NORMAL:
 			ret = new AlgoInverseNormal(cons, param1, param2, x);
 			break;
@@ -688,6 +689,7 @@ public class ProbabilityManager {
 
 		switch (selectedDist) {
 
+		default:
 		case NORMAL:
 			mean = parms[0];
 			sigma = parms[1];

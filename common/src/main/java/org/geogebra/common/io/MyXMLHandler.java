@@ -600,6 +600,9 @@ public class MyXMLHandler implements DocHandler {
 			throws SAXException {
 		// String eName = qName;
 		switch (mode) {
+		default:
+			Log.debug("missing case " + mode);
+			break;
 		case MODE_EUCLIDIAN_VIEW:
 			// we should set the EV sizes if they were not yet set
 			app.ensureEvSizeSet(evSet);
@@ -5466,6 +5469,9 @@ public class MyXMLHandler implements DocHandler {
 				int start = 0;
 				for (int c = 1; c < data.length(); c++) {
 					switch (data.charAt(c)) {
+					default:
+						// do nothing
+						break;
 					case '[':
 						if (newRow.size() > 0)
 							return false;

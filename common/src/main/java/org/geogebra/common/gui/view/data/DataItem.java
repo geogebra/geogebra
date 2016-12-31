@@ -284,7 +284,7 @@ public class DataItem {
 	 */
 	public String getSourceString(App app) {
 
-		String sourceString = " ";
+		String sourceString;
 
 		switch (sourceType) {
 		case LIST:
@@ -301,6 +301,7 @@ public class DataItem {
 			sourceString = "Untitled";
 			break;
 
+		default:
 		case CLASS:
 			sourceString = " ";
 			break;

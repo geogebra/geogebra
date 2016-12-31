@@ -41,6 +41,11 @@ public class CmdSetActiveView extends CmdScripting {
 
 				// ignore all errors (eg when a view is not available etc)
 				switch (view) {
+				default:
+					// do nothing for now
+					// might be needed when support for more than 2
+					// Euclidian Views added
+					break;
 				case 1:
 					app.setActiveView(App.VIEW_EUCLIDIAN);
 					break;
@@ -50,8 +55,6 @@ public class CmdSetActiveView extends CmdScripting {
 				case -1:
 					app.setActiveView(App.VIEW_EUCLIDIAN3D);
 					break;
-				// default: // might be needed when support for more than 2
-				// Euclidian Views added
 				}
 
 				return arg;
