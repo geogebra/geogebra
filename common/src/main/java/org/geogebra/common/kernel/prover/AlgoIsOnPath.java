@@ -38,11 +38,9 @@ public class AlgoIsOnPath extends AlgoElement
 	 * 
 	 * @param cons
 	 *            the Construction
-	 * @param label
-	 *            the name of the boolean
 	 * @param inputPoint
 	 *            the point
-	 * @param inputLine
+	 * @param inputPath
 	 *            the line
 	 */
 	public AlgoIsOnPath(final Construction cons, final GeoPoint inputPoint,
