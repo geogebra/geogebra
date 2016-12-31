@@ -1,11 +1,16 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.view.spreadsheet.CellFormat;
+import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GuiManagerInterface;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -308,5 +313,47 @@ public class GeoElementSpreadsheet {
 			return cons.createSpreadsheetGeoElement(neighbourCell, label1);
 		}
 		return null;
+	}
+
+	/**
+	 * copies the background color from the cell to the object when an object is
+	 * created (or renamed)
+	 * 
+	 * @param geo
+	 *            to check
+	 */
+	public static void setBackgroundColor(GeoElement geo) {
+
+		if (geo.getKernel().getConstruction().isFileLoading()) {
+			return;
+		}
+
+		GuiManagerInterface guiManager = geo.getKernel().getApplication()
+				.getGuiManager();
+
+		if (guiManager == null || !guiManager.hasSpreadsheetView()) {
+			// no spreadsheet
+			return;
+		}
+
+		String label = geo.getLabelSimple();
+
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
+			GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+
+			SpreadsheetViewInterface spreadsheet = guiManager
+					.getSpreadsheetView();
+			CellFormatInterface formatHandler = spreadsheet
+					.getSpreadsheetTable().getCellFormatHandler();
+
+			Object c = formatHandler.getCellFormat(coords.x, coords.y,
+					CellFormat.FORMAT_BGCOLOR);
+
+			if (c instanceof GColor) {
+				geo.setBackgroundColor((GColor) c);
+			}
+
+		}
+
 	}
 }

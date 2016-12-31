@@ -22,6 +22,7 @@ import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -104,7 +105,7 @@ public interface GuiManagerInterface {
 
 	public boolean hasCasView();
 
-	public View getSpreadsheetView();
+	public SpreadsheetViewInterface getSpreadsheetView();
 
 	public View getProbabilityCalculator();
 

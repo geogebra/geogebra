@@ -562,6 +562,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void setLabelSimple(final String lab) {
 		label = lab;
+		GeoElementSpreadsheet.setBackgroundColor(this);
 	}
 
 	/**
@@ -594,7 +595,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            geo to receive the label copy
 	 */
 	public void copyLabel(final GeoElement c) {
-		label = c.label;
+		setLabelSimple(c.label);
 	}
 
 	/**
@@ -2869,7 +2870,8 @@ public abstract class GeoElement extends ConstructionElement
 				doSetLabel(getFreeLabel(newLabel));
 			} else {
 				// remember desired label
-				label = newLabel;
+				setLabelSimple(newLabel);
+
 			}
 		}
 		// try to rename
@@ -3168,7 +3170,8 @@ public abstract class GeoElement extends ConstructionElement
 			}
 		}
 
-		this.label = newLabel; // set new label
+		setLabelSimple(newLabel); // set new label
+
 		setLabelSet(true);
 		labelWanted = false; // got a label, no longer wanted
 
@@ -3306,7 +3309,10 @@ public abstract class GeoElement extends ConstructionElement
 		cons.removeLabel(this); // remove old table entry
 		oldLabel = label; // remember old label (for applet to javascript
 							// rename)
+
 		label = newLabel; // set new label
+		GeoElementSpreadsheet.setBackgroundColor(this);
+
 		// rename corresponding cas cell, before the label
 		// is in construction set
 		if (correspondingCasCell != null) {
