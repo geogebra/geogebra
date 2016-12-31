@@ -130,6 +130,8 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 		return C;
 	}
 
+	private Coords o = new Coords(3), d = new Coords(3), v1 = new Coords(3);
+
 	@Override
 	public final void compute() {
 		boolean infiniteB = B.isInfinite();
@@ -138,19 +140,19 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 		if (infiniteB) {
 			// if B is at infinity then use it for direction
 			// and midpoint(A,B) for start point
-			Coords o = A.getInhomCoordsInD3().add(C.getInhomCoordsInD3())
-					.mul(0.5);
-			Coords d = B.getCoordsInD3();
+			o.setAdd3(A.getInhomCoordsInD3(), C.getInhomCoordsInD3())
+					.mulInside(0.5);
+			d.set3(B.getCoordsInD3());
 			bisector.setCoord(o, d);
 		}
 		// standard case: B is not at infinity
 		else {
-			Coords o = B.getInhomCoordsInD3();
-			Coords v1 = A.getInhomCoordsInD3().sub(o);
+			o.set3(B.getInhomCoordsInD3());
+			v1.setSub3(A.getInhomCoordsInD3(), o);
 			v1.normalize();
-			Coords v2 = C.getInhomCoordsInD3().sub(o);
-			v2.normalize();
-			Coords d = v1.add(v2);
+			d.setSub3(C.getInhomCoordsInD3(), o);
+			d.normalize();
+			d.setAdd3(v1, d);
 			setCoordFromFiniteB(o, d, v1);
 		}
 	}
