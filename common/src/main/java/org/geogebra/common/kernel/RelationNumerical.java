@@ -197,7 +197,7 @@ public class RelationNumerical {
 	}
 
 	/**
-	 * description of the relation between two GeoElements a, b (equal,
+	 * Description of the relation between three GeoElements a, b and c (equal,
 	 * incident, intersect, parallel, linear dependent, tangent of, ...)
 	 * 
 	 * @param a
@@ -206,8 +206,6 @@ public class RelationNumerical {
 	 *            second geo
 	 * @param c
 	 *            third geo (optional)
-	 * @param d
-	 *            forth geo (optional)
 	 * @return string describing relation between these two
 	 */
 	final public Set<Report> relation(GeoElement a, GeoElement b,
