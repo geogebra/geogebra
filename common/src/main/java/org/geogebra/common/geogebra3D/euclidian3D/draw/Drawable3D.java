@@ -174,8 +174,8 @@ public abstract class Drawable3D extends DrawableND {
 	private double zPickNear;
 
 	/** (r,g,b,a) vector */
-	protected GColor[] color = new GColor[2];
-	protected GColor[] surfaceColor = new GColor[2];
+	protected GColor[] color = new GColor[]{GColor.BLACK, GColor.BLACK};
+	protected GColor[] surfaceColor = new GColor[]{GColor.BLACK, GColor.BLACK};
 	private GColor tmpColor2;
 	protected Trace trace;
 
