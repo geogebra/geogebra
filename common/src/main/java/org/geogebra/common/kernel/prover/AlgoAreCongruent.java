@@ -45,8 +45,6 @@ public class AlgoAreCongruent extends AlgoElement
 	 * 
 	 * @param cons
 	 *            the Construction
-	 * @param label
-	 *            the name of the boolean
 	 * @param a
 	 *            the first object
 	 * @param b
@@ -64,11 +62,22 @@ public class AlgoAreCongruent extends AlgoElement
 		compute();
 	}
 
+	/**
+	 * Creates a new AlgoAreCongruent function
+	 * 
+	 * @param cons
+	 *            the Construction
+	 * @param label
+	 *            the label for the AlgoAreCongruent object
+	 * @param a
+	 *            the first object
+	 * @param b
+	 *            the second object
+	 */
 	public AlgoAreCongruent(final Construction cons, final String label,
 			final GeoElement a, final GeoElement b) {
 		this(cons, a, b);
 		outputBoolean.setLabel(label);
-
 	}
 
 	@Override
