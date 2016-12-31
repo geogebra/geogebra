@@ -282,10 +282,16 @@ public class Relation {
 	 *            first object
 	 * @param g2
 	 *            second object
+	 * @param g3
+	 *            third object (may be null)
+	 * @param g4
+	 *            forth object (may be null)
+	 * 
 	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1,
 	 *         cond2, ...]: true under cond1 and cond2 and ...
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * 
 	 */
 	final public static String[] getNDGConditions(RelationCommand command,
 			GeoElement g1, GeoElement g2, GeoElement g3, GeoElement g4) {
