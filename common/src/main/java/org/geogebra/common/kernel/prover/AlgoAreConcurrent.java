@@ -38,8 +38,6 @@ public class AlgoAreConcurrent extends AlgoElement
 	 * 
 	 * @param cons
 	 *            the Construction
-	 * @param label
-	 *            the name of the boolean
 	 * @param inputLine1
 	 *            the first line
 	 * @param inputLine2
@@ -60,6 +58,20 @@ public class AlgoAreConcurrent extends AlgoElement
 		compute();
 	}
 
+	/**
+	 * Creates a new AlgoAreConcurrent function
+	 * 
+	 * @param cons
+	 *            the Construction
+	 * @param label
+	 *            the label for the AlgoAreConcurrent object
+	 * @param inputLine1
+	 *            the first line
+	 * @param inputLine2
+	 *            the second line
+	 * @param inputLine3
+	 *            the third line
+	 */
 	public AlgoAreConcurrent(final Construction cons, final String label,
 			final GeoLine inputLine1, final GeoLine inputLine2,
 			final GeoLine inputLine3) {
