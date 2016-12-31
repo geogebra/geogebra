@@ -40,8 +40,6 @@ public class AlgoAreConcyclic extends AlgoElement
 	 * 
 	 * @param cons
 	 *            The construction the lines depend on
-	 * @param label
-	 *            the name of the resulting boolean
 	 * @param inputPoint1
 	 *            the first point
 	 * @param inputPoint2
@@ -65,6 +63,22 @@ public class AlgoAreConcyclic extends AlgoElement
 		compute();
 	}
 
+	/**
+	 * Tests if four points are concyclic
+	 * 
+	 * @param cons
+	 *            The construction the lines depend on
+	 * @param label
+	 *            the label for the AlgoAreConcyclic object
+	 * @param inputPoint1
+	 *            the first point
+	 * @param inputPoint2
+	 *            the second point
+	 * @param inputPoint3
+	 *            the third point
+	 * @param inputPoint4
+	 *            the forth point
+	 */
 	public AlgoAreConcyclic(Construction cons, String label,
 			GeoPoint inputPoint1, GeoPoint inputPoint2, GeoPoint inputPoint3,
 			GeoPoint inputPoint4) {
