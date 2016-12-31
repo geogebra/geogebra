@@ -40,8 +40,6 @@ public class AlgoAreParallel extends AlgoElement
 	 * 
 	 * @param cons
 	 *            The construction the lines depend on
-	 * @param label
-	 *            the name of the resulting boolean
 	 * @param inputLine1
 	 *            the first line
 	 * @param inputLine2
@@ -59,6 +57,18 @@ public class AlgoAreParallel extends AlgoElement
 		compute();
 	}
 
+	/**
+	 * Tests if two lines are parallel
+	 * 
+	 * @param cons
+	 *            The construction the lines depend on
+	 * @param label
+	 *            the label for the AlgoAreParallel object
+	 * @param inputLine1
+	 *            the first line
+	 * @param inputLine2
+	 *            the second line
+	 */
 	public AlgoAreParallel(Construction cons, String label,
 			GeoElement inputLine1, GeoElement inputLine2) {
 		this(cons, inputLine1, inputLine2);
