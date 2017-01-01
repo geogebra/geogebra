@@ -2,6 +2,7 @@ package org.geogebra.common.cas.giac;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
@@ -780,13 +781,14 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Variable> it = substitutions.keySet().iterator();
+		Iterator<Entry<Variable, Long>> it = substitutions.entrySet()
+				.iterator();
 		while (it.hasNext()) {
-			Variable v = it.next();
+			Entry<Variable, Long> v = it.next();
 			ret.append(",");
-			ret.append(v.toString());
+			ret.append(v.getKey().toString());
 			ret.append("=");
-			ret.append(substitutions.get(v));
+			ret.append(v.getValue());
 		}
 		if (ret.length() > 0)
 			return ret.substring(1);

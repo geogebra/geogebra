@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
@@ -292,11 +293,14 @@ public class GeoPolyhedron extends GeoElement3D
 		Log.debug("old file version");
 
 		// create missing faces
-		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()) {
+		for (Entry<ConstructionElementCycle, Integer> currentFacePair : polygonsIndex
+				.entrySet()) {
+
+			currentFace = currentFacePair.getKey();
 
 			// if a polygons already corresponds to the face description, then
 			// pass it
-			if (polygons.containsKey(polygonsIndex.get(currentFace)))
+			if (polygons.containsKey(currentFacePair.getValue()))
 				continue;
 
 			// vertices of the face
@@ -701,7 +705,10 @@ public class GeoPolyhedron extends GeoElement3D
 	}
 
 	private void defaultPolygonsLabels() {
-		for (ConstructionElementCycle key : polygonsIndex.keySet()) {
+		for (Entry<ConstructionElementCycle, Integer> entry : polygonsIndex
+				.entrySet()) {
+
+			ConstructionElementCycle key = entry.getKey();
 
 			// stores points names and find the first
 			String label = null;
@@ -753,15 +760,18 @@ public class GeoPolyhedron extends GeoElement3D
 				label = sb.toString();
 			}
 
-			polygons.get(polygonsIndex.get(key)).setLabel(label);
+			polygons.get(entry.getValue()).setLabel(label);
 		}
 	}
 
 	private void defaultSegmentLabels() {
-		for (ConstructionElementCycle key : segmentsIndex.keySet()) {
+		for (Entry<ConstructionElementCycle, Long> entry : segmentsIndex
+				.entrySet()) {
+
+			ConstructionElementCycle key = entry.getKey();
 
 			int labelUsability = 0;
-			String label = null;
+			String label1 = null;
 
 			String[] points = new String[2];
 			int i = 0;
@@ -788,10 +798,10 @@ public class GeoPolyhedron extends GeoElement3D
 					sb.append(points[0]);
 				}
 
-				label = sb.toString();
+				label1 = sb.toString();
 			}
 
-			segments.get(segmentsIndex.get(key)).setLabel(label);
+			segments.get(entry.getValue()).setLabel(label1);
 		}
 	}
 

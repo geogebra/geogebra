@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -146,15 +147,16 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial add(final Polynomial poly) {
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>(terms);
 		TreeMap<Term, Long> terms2 = poly.getTerms();
-		Iterator<Term> it = terms2.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms2.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t = it.next();
+			Entry<Term, Long> entry = it.next();
+			Term t = entry.getKey();
 			if (terms.containsKey(t)) {
-				long coefficient = terms.get(t) + terms2.get(t);
+				long coefficient = terms.get(t) + entry.getValue();
 				if (coefficient == 0) {
 					result.remove(t);
 				} else {
-					result.put(t, terms.get(t) + terms2.get(t));
+					result.put(t, terms.get(t) + entry.getValue());
 				}
 			} else {
 				result.put(t, terms2.get(t));
@@ -170,10 +172,11 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public Polynomial negate() {
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t = it.next();
-			result.put(t, 0 - terms.get(t));
+			Entry<Term, Long> entry = it.next();
+			Term t = entry.getKey();
+			result.put(t, 0 - entry.getValue());
 		}
 		return new Polynomial(result);
 	}
@@ -213,14 +216,16 @@ public class Polynomial implements Comparable<Polynomial> {
 
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
 		TreeMap<Term, Long> terms2 = poly.getTerms();
-		Iterator<Term> it1 = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it1 = terms.entrySet().iterator();
 		while (it1.hasNext()) {
-			Term t1 = it1.next();
-			Iterator<Term> it2 = terms2.keySet().iterator();
+			Entry<Term, Long> entry1 = it1.next();
+			Term t1 = entry1.getKey();
+			Iterator<Entry<Term, Long>> it2 = terms2.entrySet().iterator();
 			while (it2.hasNext()) {
-				Term t2 = it2.next();
+				Entry<Term, Long> entry2 = it2.next();
+				Term t2 = entry2.getKey();
 				Term product = t1.times(t2);
-				long productCoefficient = terms.get(t1) * terms2.get(t2);
+				long productCoefficient = entry1.getValue() * entry2.getValue();
 				if (result.containsKey(product)) {
 					long sum = result.get(product) + productCoefficient;
 					if (sum == 0) {
@@ -295,13 +300,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms.entrySet().iterator();
 		if (!it.hasNext()) {
 			return "0";
 		}
 		while (it.hasNext()) {
-			Term t = it.next();
-			long c = terms.get(t);
+			Entry<Term, Long> entry = it.next();
+			Term t = entry.getKey();
+			long c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
 				if (c != 1)
 					sb.append(c + "*");
@@ -327,13 +333,14 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public String toTeX() {
 		StringBuilder sb = new StringBuilder();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms.entrySet().iterator();
 		if (!it.hasNext()) {
 			return "0";
 		}
 		while (it.hasNext()) {
-			Term t = it.next();
-			long c = terms.get(t);
+			Entry<Term, Long> entry = it.next();
+			Term t = entry.getKey();
+			long c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
 				if (c != 1) {
 					if (c != -1) {
@@ -731,13 +738,15 @@ public class Polynomial implements Comparable<Polynomial> {
 			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(
 					t1.getTerm());
 			BigInteger product = BigInteger.ONE;
-			Iterator<Variable> itSubst = substitutions.keySet().iterator();
+			Iterator<Entry<Variable, Long>> itSubst = substitutions.entrySet()
+					.iterator();
 			while (itSubst.hasNext()) {
-				Variable variable = itSubst.next();
+				Entry<Variable, Long> entry = itSubst.next();
+				Variable variable = entry.getKey();
 				Integer exponent = term.get(variable);
 				if (exponent != null) {
 					product = product.multiply(
-							BigInteger.valueOf(substitutions.get(variable))
+							BigInteger.valueOf(entry.getValue())
 									.pow(exponent));
 					term.remove(variable);
 				}
@@ -781,9 +790,10 @@ public class Polynomial implements Comparable<Polynomial> {
 	public Polynomial substitute(Variable oldVar, Variable newVar) {
 
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t1 = it.next();
+			Entry<Term, Long> entry = it.next();
+			Term t1 = entry.getKey();
 			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(
 					t1.getTerm());
 			Integer oldExponent = term.get(oldVar);
@@ -797,7 +807,7 @@ public class Polynomial implements Comparable<Polynomial> {
 				term.remove(oldVar);
 				term.put(newVar, oldExponent + newExponent);
 			}
-			long coeff = BigInteger.valueOf(terms.get(t1)).longValue();
+			long coeff = BigInteger.valueOf(entry.getValue()).longValue();
 			Term t = new Term(term);
 			result.put(t, coeff);
 		}
@@ -882,13 +892,15 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	static String substitutionsString(HashMap<Variable, Long> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Variable> it = substitutions.keySet().iterator();
+		Iterator<Entry<Variable, Long>> it = substitutions.entrySet()
+				.iterator();
 		while (it.hasNext()) {
-			Variable v = it.next();
+			Entry<Variable, Long> entry = it.next();
+			Variable v = entry.getKey();
 			ret.append(',');
 			ret.append(v.toString());
 			ret.append(',');
-			ret.append(substitutions.get(v));
+			ret.append(entry.getValue());
 		}
 		if (ret.length() > 0) {
 			return ret.substring(1);

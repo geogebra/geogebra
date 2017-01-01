@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -616,8 +617,10 @@ public class AlgoMacro extends AlgoElement
 
 		// set algo geos to macro geos state
 		//
-		for (GeoElementND me : macroToAlgoMap.keySet()) {
-			if (macroToAlgoMap.get(me) == geoPoint) {
+		for (Entry<GeoElementND, GeoElement> entry : macroToAlgoMap
+				.entrySet()) {
+			GeoElementND me = entry.getKey();
+			if (entry.getValue() == geoPoint) {
 				GeoPoint mp = ((GeoPoint) me);
 				mp.setCoords(x, y, z);
 				mp.updateCascade();

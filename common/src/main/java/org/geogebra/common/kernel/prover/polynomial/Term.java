@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.prover.polynomial;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -173,12 +174,13 @@ public class Term implements Comparable<Term> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Variable> it = variables.keySet().iterator();
+		Iterator<Entry<Variable, Integer>> it = variables.entrySet().iterator();
 		while (it.hasNext()) {
-			Variable fv = it.next();
+			Entry<Variable, Integer> entry = it.next();
+			Variable fv = entry.getKey();
 			sb.append("*");
 			sb.append(fv);
-			int power = variables.get(fv);
+			int power = entry.getValue();
 			if (power > 1) {
 				sb.append("^");
 				sb.append(power);
@@ -197,11 +199,12 @@ public class Term implements Comparable<Term> {
 	 */
 	public String toTeX() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Variable> it = variables.keySet().iterator();
+		Iterator<Entry<Variable, Integer>> it = variables.entrySet().iterator();
 		while (it.hasNext()) {
-			Variable fv = it.next();
+			Entry<Variable, Integer> entry = it.next();
+			Variable fv = entry.getKey();
 			sb.append(fv.toTeX());
-			int power = variables.get(fv);
+			int power = entry.getValue();
 			if (power > 1)
 				sb.append("^{" + power + "}");
 		}
@@ -243,11 +246,12 @@ public class Term implements Comparable<Term> {
 	 */
 	public static boolean divides(final Term f, final Term g) {
 		TreeMap<Variable, Integer> termG = g.getTerm();
-		Iterator<Variable> itG = termG.keySet().iterator();
+		Iterator<Entry<Variable, Integer>> itG = termG.entrySet().iterator();
 		while (itG.hasNext()) {
-			Variable var = itG.next();
+			Entry<Variable, Integer> entry = itG.next();
+			Variable var = entry.getKey();
 			Integer powF = f.getTerm().get(var);
-			if (powF == null || powF.intValue() < termG.get(var).intValue()) {
+			if (powF == null || powF.intValue() < entry.getValue().intValue()) {
 				return false;
 			}
 		}

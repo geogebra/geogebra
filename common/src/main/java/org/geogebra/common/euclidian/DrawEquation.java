@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
@@ -94,16 +95,18 @@ public abstract class DrawEquation {
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants
 				.getGeoGebraColors();
 
-		Iterator<String> it = ggbCols.keySet().iterator();
+		Iterator<Entry<String, GColor>> it = ggbCols.entrySet().iterator();
 
 		// add commands eg \red{text}
 		// same commands added to MathQuillGGB
 		while (it.hasNext()) {
-			String colStr = it.next();
+			Entry<String, GColor> colPair = it.next();
+
+			String colStr = colPair.getKey();
 
 			// can't have command eg \grey2
 			if (!Character.isDigit(colStr.charAt(colStr.length() - 1))) {
-				GColor col = ggbCols.get(colStr);
+				GColor col = colPair.getValue();
 
 				// eg
 				// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}}

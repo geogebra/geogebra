@@ -2,6 +2,7 @@ package org.geogebra.common.plugin;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -168,20 +169,23 @@ public abstract class SensorLogger {
 	public void removeRegisteredGeo(GeoElement geo) {
 		Types typeToRemove = null;
 		if (geo instanceof GeoNumeric) {
-			for (Types type : this.listeners.keySet()) {
-				if (this.listeners.get(type) == geo) {
+			for (Entry<Types, GeoNumeric> entry : this.listeners.entrySet()) {
+				Types type = entry.getKey();
+				if (entry.getValue() == geo) {
 					typeToRemove = type;
 				}
 			}
 		} else if (geo instanceof GeoList) {
-			for (Types type : this.listenersL.keySet()) {
-				if (this.listenersL.get(type) == geo) {
+			for (Entry<Types, GeoList> entry : this.listenersL.entrySet()) {
+				Types type = entry.getKey();
+				if (entry.getValue() == geo) {
 					typeToRemove = type;
 				}
 			}
 		} else if (geo instanceof GeoFunction) {
-			for (Types type : this.listenersF.keySet()) {
-				if (this.listenersF.get(type) == geo) {
+			for (Entry<Types, GeoFunction> entry : this.listenersF.entrySet()) {
+				Types type = entry.getKey();
+				if (entry.getValue() == geo) {
 					typeToRemove = type;
 				}
 			}
@@ -357,10 +361,12 @@ public abstract class SensorLogger {
 		int numOld = 0;
 		int numAll = 0;
 		// ages grow, and too little ages have to keep pace
-		Iterator it = listenersAges.keySet().iterator();
+		Iterator<Entry<Types, Integer>> it = listenersAges.entrySet()
+				.iterator();
 		while (it.hasNext()) {
-			thistype = (Types) it.next();
-			Integer age = listenersAges.get(thistype);
+			Entry<Types, Integer> entry = it.next();
+			thistype = entry.getKey();
+			Integer age = entry.getValue();
 			if (age > 100) {
 				numOld++;
 			}
@@ -388,10 +394,11 @@ public abstract class SensorLogger {
 
 		if (numOld == numAll) {
 			// we can decrease the ages of all
-			it = listenersAges.keySet().iterator();
+			it = listenersAges.entrySet().iterator();
 			while (it.hasNext()) {
-				thistype = (Types) it.next();
-				Integer age = listenersAges.get(thistype);
+				Entry<Types, Integer> entry = it.next();
+				thistype = entry.getKey();
+				Integer age = entry.getValue();
 				listenersAges.put(thistype, age - 100);
 			}
 		}

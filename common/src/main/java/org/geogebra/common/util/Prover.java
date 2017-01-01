@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -803,12 +804,13 @@ public abstract class Prover {
 				HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
 				GeoCollector gc = GeoCollector.getCollector(gSet);
 				root.traverse(gc);
-				Iterator<GeoElement> it = gSet.keySet().iterator();
+				Iterator<Entry<GeoElement, Integer>> it = gSet.entrySet().iterator();
 
 				while (it.hasNext()) {
-					GeoElement dependency = it.next();
+					Entry<GeoElement, Integer> entry = it.next();
+					GeoElement dependency = entry.getKey();
 					parentsComplexity += computeNodeComplexity(dependency)
-							* gSet.get(dependency);
+							* entry.getValue();
 				}
 
 			} else {
@@ -889,10 +891,12 @@ public abstract class Prover {
 			 * 7 ;A)+(1/7)*log(1/7;A))
 			 */
 			entropy = 0;
-			Iterator<Object> it2 = frequencies.keySet().iterator();
+			Iterator<Entry<Object, Integer>> it2 = frequencies.entrySet()
+					.iterator();
 			while (it2.hasNext()) {
-				Object node = it2.next();
-				int freq = frequencies.get(node);
+				Entry<Object, Integer> entry = it2.next();
+				Object node = entry.getKey();
+				int freq = entry.getValue();
 				if (freq < minimum) {
 					minimum = freq;
 				}

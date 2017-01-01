@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -234,8 +235,9 @@ public class SpreadsheetTraceManager {
 
 	public boolean isTraceColumn(int column) {
 		SpreadsheetTraceSettings t;
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			t = traceGeoCollection.get(geo);
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
+				.entrySet()) {
+			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)
 				return true;
 		}
@@ -251,8 +253,9 @@ public class SpreadsheetTraceManager {
 	 */
 	public SpreadsheetTraceSettings getTraceSettings(int column) {
 		SpreadsheetTraceSettings t;
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			t = traceGeoCollection.get(geo);
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
+				.entrySet()) {
+			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2)
 				return t;
 		}
@@ -272,10 +275,13 @@ public class SpreadsheetTraceManager {
 
 	public GeoElement getTraceGeo(int column) {
 		SpreadsheetTraceSettings t;
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			t = traceGeoCollection.get(geo);
-			if (column >= t.traceColumn1 && column <= t.traceColumn2)
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
+				.entrySet()) {
+			GeoElement geo = entry.getKey();
+			t = entry.getValue();
+			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
 				return geo;
+			}
 		}
 
 		return null;
@@ -291,8 +297,10 @@ public class SpreadsheetTraceManager {
 	public void togglePauseTraceGeo(int column) {
 
 		SpreadsheetTraceSettings t;
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			t = traceGeoCollection.get(geo);
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
+				.entrySet()) {
+			GeoElement geo = entry.getKey();
+			t = entry.getValue();
 			if (column >= t.traceColumn1 && column <= t.traceColumn2) {
 				togglePauseTraceGeo(geo, t);
 				return;
@@ -318,8 +326,10 @@ public class SpreadsheetTraceManager {
 	 */
 	public void pauseAllTraces(boolean pause) {
 		SpreadsheetTraceSettings t;
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			t = traceGeoCollection.get(geo);
+		for (Entry<GeoElement, SpreadsheetTraceSettings> entry : traceGeoCollection
+				.entrySet()) {
+			GeoElement geo = entry.getKey();
+			t = entry.getValue();
 			t.pause = pause;
 			if (!t.pause) {
 				traceToSpreadsheet(geo, t);

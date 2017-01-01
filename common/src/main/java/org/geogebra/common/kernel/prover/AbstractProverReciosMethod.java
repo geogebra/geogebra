@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.factories.UtilFactory;
@@ -218,9 +219,10 @@ public abstract class AbstractProverReciosMethod {
 		if (as != null) {
 			// use Botana's method
 			HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-			for (Variable v : values.keySet()) {
+			for (Entry<Variable, BigInteger> entry : values.entrySet()) {
+				Variable v = entry.getKey();
 				// FIXME: Change Long in Variable to BigInteger
-				substitutions.put(v, values.get(v).longValue());
+				substitutions.put(v, entry.getValue().longValue());
 			}
 			ProverSettings proverSettings = ProverSettings.get();
 			ExtendedBoolean solvable = Polynomial.solvable(
@@ -255,9 +257,10 @@ public abstract class AbstractProverReciosMethod {
 			if (as != null) {
 				// use Botana's method
 				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-				for (Variable v : values.keySet()) {
+				for (Entry<Variable, BigInteger> entry : values.entrySet()) {
+					Variable v = entry.getKey();
 					// FIXME: Change Long in Variable to BigInteger
-					substitutions.put(v, values.get(v).longValue());
+					substitutions.put(v, entry.getValue().longValue());
 				}
 				ProverSettings proverSettings = ProverSettings.get();
 				ExtendedBoolean solvable = Polynomial.solvable(
@@ -307,9 +310,11 @@ public abstract class AbstractProverReciosMethod {
 				if (as != null) {
 					// use Botana's method
 					HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-					for (Variable v : values.keySet()) {
+					for (Entry<Variable, BigInteger> entry : values
+							.entrySet()) {
+						Variable v = entry.getKey();
 						// FIXME: Change Long in Variable to BigInteger
-						substitutions.put(v, values.get(v).longValue());
+						substitutions.put(v, entry.getValue().longValue());
 					}
 					ExtendedBoolean solvable = Polynomial.solvable(
 							as.polynomials.toArray(

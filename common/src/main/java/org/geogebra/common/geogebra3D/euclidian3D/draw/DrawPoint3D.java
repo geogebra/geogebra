@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawPoint;
@@ -340,9 +341,10 @@ public class DrawPoint3D extends Drawable3DCurves
 			return;
 		}
 
-		for (TraceSettings settings : trace.keySet()) {
-			ArrayList<TraceIndex> indices = trace.get(settings);
-			setDrawingColor(settings.getColor());
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
+				.entrySet()) {
+			ArrayList<TraceIndex> indices = settings.getValue();
+			setDrawingColor(settings.getKey().getColor());
 			// Log.debug(indices.size());
 			for (TraceIndex index : indices) {
 				drawGeom(renderer, index);

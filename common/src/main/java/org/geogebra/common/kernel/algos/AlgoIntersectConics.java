@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -1391,10 +1392,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			 * ugly.
 			 */
 			Variable[] botanaVarsOther = new Variable[2];
-			Iterator<GeoElementND> it = botanaVars.keySet().iterator();
+			Iterator<Entry<GeoElementND, Variable[]>> it = botanaVars.entrySet()
+					.iterator();
 			boolean found = false;
 			while (it.hasNext()) {
-				GeoElementND otherGeo = it.next();
+				Entry<GeoElementND, Variable[]> entry = it.next();
+				GeoElementND otherGeo = entry.getKey();
 				/*
 				 * This should be at most one element. There is one element if
 				 * we found the second intersection point, otherwise (for the
@@ -1403,7 +1406,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				 */
 				if (!otherGeo.equals(geo)) {
 					botanaPolynomialsThis = new Polynomial[3 + excludePoint];
-					botanaVarsOther = botanaVars.get(otherGeo);
+					botanaVarsOther = entry.getValue();
 					botanaPolynomialsThis[2 + excludePoint] = (Polynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 									botanaVarsOther[0], botanaVarsOther[1])

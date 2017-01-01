@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -173,8 +174,9 @@ public abstract class StatisticsCalculator {
 		mapNameToProcedure.put(loc.getMenu("ChiSquaredTest"),
 				Procedure.CHISQ_TEST);
 
-		for (String s : mapNameToProcedure.keySet()) {
-			this.mapProcedureToName.put(mapNameToProcedure.get(s), s);
+		for (Entry<String, Procedure> entry : mapNameToProcedure.entrySet()) {
+
+			this.mapProcedureToName.put(entry.getValue(), entry.getKey());
 		}
 	}
 

@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -119,8 +120,8 @@ public class ProbabilityManager {
 
 		HashMap<DIST, String> plotMap = getDistributionMap();
 		HashMap<String, DIST> plotMapReverse = new HashMap<String, DIST>();
-		for (DIST key : plotMap.keySet()) {
-			plotMapReverse.put(plotMap.get(key), key);
+		for (Entry<DIST, String> entry : plotMap.entrySet()) {
+			plotMapReverse.put(entry.getValue(), entry.getKey());
 		}
 
 		return plotMapReverse;

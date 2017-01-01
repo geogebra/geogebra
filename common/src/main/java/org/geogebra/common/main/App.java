@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
 
@@ -3471,8 +3472,10 @@ public abstract class App implements UpdateSelection {
 			return;
 		}
 		boolean alreadyOne = false;
-		for (int id : showConsProtNavigation.keySet()) {
-			if (showConsProtNavigation.get(id)) {
+		for (Entry<Integer, Boolean> entry : showConsProtNavigation
+				.entrySet()) {
+			int id = entry.getKey();
+			if (entry.getValue()) {
 				if (alreadyOne) {
 					sb.append(" ");
 				} else {

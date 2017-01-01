@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
@@ -562,8 +563,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 			// column widths
 			HashMap<Integer, Integer> widthMap = getWidthMap();
-			for (Integer col : widthMap.keySet()) {
-				int colWidth = widthMap.get(col);
+			for (Entry<Integer, Integer> entry : widthMap.entrySet()) {
+				Integer col = entry.getKey();
+				int colWidth = entry.getValue();
 				if (colWidth != preferredColumnWidth()) {
 					sb.append("\t<spreadsheetColumn id=\"" + col + "\" width=\""
 							+ colWidth + "\"/>\n");

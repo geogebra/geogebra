@@ -115,8 +115,11 @@ public class NDGDetector {
 				boolean lt = false;
 				boolean rt = false;
 
-				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
-					Long coeff = tm1.get(t1); // e.g. 5
+				outerloop: for (Entry<Term, Long> entry : tm1.entrySet()) { // e.g.
+																			// 5*v1^3*v2
+
+					Term t1 = entry.getKey();
+					Long coeff = entry.getValue(); // e.g. 5
 					long absCoeff = Math.abs(coeff);
 					/* always use the absolute value */
 					ExpressionNode c = new ExpressionNode(kernel, absCoeff);

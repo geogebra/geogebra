@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.data;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -129,8 +130,9 @@ public class StatisticsModel {
 
 		// REVERSE LABEL MAP
 		labelMapReverse = new HashMap<String, Integer>();
-		for (Integer key : labelMap.keySet()) {
-			labelMapReverse.put(labelMap.get(key), key);
+		for (Entry<Integer, String> entry : labelMap.entrySet()) {
+
+			labelMapReverse.put(entry.getValue(), entry.getKey());
 		}
 
 	}

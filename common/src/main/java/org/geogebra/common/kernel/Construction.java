@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -1677,10 +1678,11 @@ public class Construction {
 		StringBuilder consXML = getCurrentUndoXML(false);
 
 		// replace all oldGeo -> newGeo pairs in XML
-		Iterator<GeoElement> it = redefineMap.keySet().iterator();
+		Iterator<Entry<GeoElement, GeoElement>> it = redefineMap.entrySet().iterator();
 		while (it.hasNext()) {
-			GeoElement oldGeo = it.next();
-			GeoElement newGeo = redefineMap.get(oldGeo);
+			Entry<GeoElement, GeoElement> entry = it.next();
+			GeoElement oldGeo = entry.getKey();
+			GeoElement newGeo = entry.getValue();
 
 			// 3) replace oldGeo by newGeo in XML
 			doReplaceInXML(consXML, oldGeo, newGeo);

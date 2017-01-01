@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -1341,9 +1342,10 @@ public abstract class Drawable3D extends DrawableND {
 					.setDashFromLineType(getGeoElement().getLineType());
 		}
 
-		for (TraceSettings settings : trace.keySet()) {
-			ArrayList<TraceIndex> indices = trace.get(settings);
-			setDrawingColor(settings.getColor());
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
+				.entrySet()) {
+			ArrayList<TraceIndex> indices = settings.getValue();
+			setDrawingColor(settings.getKey().getColor());
 			// Log.debug(indices.size());
 			for (TraceIndex index : indices) {
 				drawGeom(renderer, index);
@@ -1388,11 +1390,13 @@ public abstract class Drawable3D extends DrawableND {
 			return;
 		}
 
-		for (TraceSettings settings : trace.keySet()) {
-			ArrayList<TraceIndex> indices = trace.get(settings);
-			double a = settings.getAlpha();
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
+				.entrySet()) {
+			ArrayList<TraceIndex> indices = settings.getValue();
+			TraceSettings key = settings.getKey();
+			double a = key.getAlpha();
 			if (a > 0 && a < 1) {
-				setDrawingColor(settings.getColor());
+				setDrawingColor(key.getColor());
 				for (TraceIndex index : indices) {
 					drawSurface(renderer, index);
 				}
@@ -1413,9 +1417,10 @@ public abstract class Drawable3D extends DrawableND {
 			return;
 		}
 
-		for (TraceSettings settings : trace.keySet()) {
-			ArrayList<TraceIndex> indices = trace.get(settings);
-			double a = settings.getAlpha();
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
+				.entrySet()) {
+			ArrayList<TraceIndex> indices = settings.getValue();
+			double a = settings.getKey().getAlpha();
 			if (a > 0 && a < 1) {
 				for (TraceIndex index : indices) {
 					drawSurface(renderer, index);
@@ -1437,11 +1442,13 @@ public abstract class Drawable3D extends DrawableND {
 			return;
 		}
 
-		for (TraceSettings settings : trace.keySet()) {
-			ArrayList<TraceIndex> indices = trace.get(settings);
-			double a = settings.getAlpha();
+		for (Entry<TraceSettings, ArrayList<TraceIndex>> settings : trace
+				.entrySet()) {
+			ArrayList<TraceIndex> indices = settings.getValue();
+			TraceSettings key = settings.getKey();
+			double a = key.getAlpha();
 			if (a >= 1) {
-				setDrawingColor(settings.getColor());
+				setDrawingColor(key.getColor());
 				for (TraceIndex index : indices) {
 					drawSurface(renderer, index);
 				}
