@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -708,8 +709,26 @@ public class ProverBotanasMethod {
 				 * set will be negated.
 				 */
 
-				Polynomial[][] statements = ((SymbolicParametersBotanaAlgoAre) geoStatement
-						.getParentAlgorithm()).getBotanaPolynomials();
+				Polynomial[][] statements = null;
+				AlgoElement ae = geoStatement.getParentAlgorithm();
+				if (ae != null) {
+					statements = ((SymbolicParametersBotanaAlgoAre) ae)
+							.getBotanaPolynomials();
+				} else {
+					statements = new Polynomial[1][1];
+					if (geoStatement instanceof GeoBoolean) {
+						if (((GeoBoolean) geoStatement).getBoolean() == true) {
+							statements[0][0] = new Polynomial(0);
+						} else {
+							statements[0][0] = new Polynomial(1);
+						}
+					} else {
+						Log.debug(
+								"Unhandled case, statement is UNKNOWN at the moment");
+						result = ProofResult.UNKNOWN;
+						return;
+					}
+				}
 
 				/* case input was an expression */
 				if (statements == null) {

@@ -442,7 +442,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		if (sb.length() > 0)
 			return sb.substring(1); // removing first "," character
-		return "";
+		return "0";
 	}
 
 	/**

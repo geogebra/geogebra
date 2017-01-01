@@ -543,7 +543,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
 		if (result == null) {
 			Log.info("No such implicit curve exists (0=-1)");
-			return "1,1,1";
+			return "{{1,1,1},{1,1,1,1}}";
 		}
 
 		// Replacing variables to have x and y instead of vx and vy:
