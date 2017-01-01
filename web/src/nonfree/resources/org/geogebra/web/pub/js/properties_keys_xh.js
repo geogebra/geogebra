@@ -732,7 +732,7 @@ __GGB__keysVar.xh.command = {
     "ReducedRowEchelonForm": "ReducedRowEchelonForm",
     "ReducedRowEchelonForm.Syntax": "[ <Matrix> ]",
     "Relation": "iRelation",
-    "Relation.Syntax": "[ <Object>, <Object> ]",
+    "Relation.Syntax": "[ <List> ]\n[ <Object>, <Object> ]",
     "Remove": "Remove",
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "SusaeUndefined",
