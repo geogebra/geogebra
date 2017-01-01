@@ -3140,6 +3140,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// if (!geocolor.equals(Color.BLACK)) code.append("}");
 
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 		case 2:
 			code.append("}");

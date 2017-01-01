@@ -3,11 +3,11 @@ package org.geogebra.web.phone.gui.view.euclidian.toolbar;
 import java.util.Vector;
 
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.toolbar.ModeToggleMenu;
+import org.geogebra.web.web.gui.toolbar.ModeToggleMenuW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.ToolbarSubmenuW;
 
-public class ModeToggleMenuP extends ModeToggleMenu {
+public class ModeToggleMenuP extends ModeToggleMenuW {
 
 	public ModeToggleMenuP(AppW appl, Vector<Integer> menu1, ToolBarW tb,
 			int order) {

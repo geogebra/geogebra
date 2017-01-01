@@ -708,6 +708,9 @@ public abstract class EuclidianView3D extends EuclidianView
 			case FUNCTION_NVAR:
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch (geoFun.getVarNumber()) {
+				default:
+					// do nothing
+					break;
 				case 2:
 					d = newDrawSurface3D(geoFun);
 					break;
@@ -2594,6 +2597,9 @@ public abstract class EuclidianView3D extends EuclidianView
 						getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
 				switch (cursor) {
+				default:
+					// do nothing
+					break;
 				case RESIZE_X:
 					cursorMatrix.setVx(Coords.VY);
 					cursorMatrix.setVy(Coords.VZ);

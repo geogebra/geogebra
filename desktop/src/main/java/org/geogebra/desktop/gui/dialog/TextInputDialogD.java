@@ -835,6 +835,9 @@ public class TextInputDialogD extends InputDialogD
 
 			if ((e.isAltDown() || AppD.isAltDown(e))) {
 				switch (e.getKeyCode()) {
+				default:
+					// do nothing
+					break;
 				case KeyEvent.VK_LEFT:
 					Element elem;
 					int i;

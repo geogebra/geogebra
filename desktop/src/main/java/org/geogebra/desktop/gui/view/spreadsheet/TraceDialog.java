@@ -460,6 +460,7 @@ public class TraceDialog extends javax.swing.JDialog
 		sb.setLength(0);
 		sb.append("<html>");
 		switch (traceModes) {
+		default:
 		case ONE_VALUE_OR_COPY:
 		case ONE_VALUE_ONLY:
 			sb.append(app.getLocalization().getPlain("ValueOfA",
@@ -513,6 +514,9 @@ public class TraceDialog extends javax.swing.JDialog
 		updateTraceGeoList();
 		switch (mode) {
 
+		default:
+			// do nothing
+			break;
 		case MODE_ADD:
 
 			// promptPanel.setVisible(true);
@@ -811,6 +815,9 @@ public class TraceDialog extends javax.swing.JDialog
 		CellRange cr = new CellRange(app);
 
 		switch (mode) {
+		default:
+			// do nothing
+			break;
 		case MODE_NORMAL:
 			if (getSettings() == null) {
 				cr.setCellRange(-1, -1, -1, -1);

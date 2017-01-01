@@ -52,7 +52,7 @@ public class ToolbarD extends JToolBar {
 	 */
 	private int mode;
 
-	private ArrayList<ModeToggleMenu> modeToggleMenus;
+	private ArrayList<ModeToggleMenuD> modeToggleMenus;
 
 	/**
 	 * Creates general toolbar.
@@ -91,7 +91,7 @@ public class ToolbarD extends JToolBar {
 		mode = -1;
 
 		ModeToggleButtonGroup bg = new ModeToggleButtonGroup();
-		modeToggleMenus = new ArrayList<ModeToggleMenu>();
+		modeToggleMenus = new ArrayList<ModeToggleMenuD>();
 
 		// create toolbar
 		removeAll();
@@ -131,7 +131,7 @@ public class ToolbarD extends JToolBar {
 
 		if (modeToggleMenus != null) {
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
-				ModeToggleMenu mtm = modeToggleMenus.get(i);
+				ModeToggleMenuD mtm = modeToggleMenus.get(i);
 				if (mtm.selectMode(tmpMode)) {
 					success = true;
 					break;
@@ -168,7 +168,7 @@ public class ToolbarD extends JToolBar {
 		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
 			return -1;
 		}
-		ModeToggleMenu mtm = modeToggleMenus.get(0);
+		ModeToggleMenuD mtm = modeToggleMenus.get(0);
 		return mtm.getFirstMode();
 	}
 
@@ -220,7 +220,7 @@ public class ToolbarD extends JToolBar {
 
 			// new menu
 			Vector<Integer> menu = ob.getMenu();
-			ModeToggleMenu tm = new ModeToggleMenu(app, this, bg);
+			ModeToggleMenuD tm = new ModeToggleMenuD(app, this, bg);
 			modeToggleMenus.add(tm);
 
 			for (int k = 0; k < menu.size(); k++) {

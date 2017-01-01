@@ -66,6 +66,9 @@ public class WindowsUnicodeKeyboard extends Keyboard {
 	private void typeNumPad(int digit) {
 		// System.err.println(digit+"");
 		switch (digit) {
+		default:
+			// do nothing
+			break;
 		case 0:
 			doType(KeyEvent.VK_NUMPAD0);
 			break;

@@ -65,6 +65,9 @@ public class CmdSetActiveView extends CmdScripting {
 				if (code.length() == 1) {
 					char letter = code.charAt(0);
 					switch (letter) {
+					default:
+						// do nothing
+						break;
 					case 'G':
 						app.setActiveView(App.VIEW_EUCLIDIAN);
 						break;

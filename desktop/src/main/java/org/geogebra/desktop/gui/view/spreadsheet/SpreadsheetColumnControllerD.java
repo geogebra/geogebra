@@ -331,6 +331,9 @@ public class SpreadsheetColumnControllerD
 
 		switch (keyCode) {
 
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_LEFT:
 
 			if (shiftDown) {

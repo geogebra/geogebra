@@ -154,6 +154,9 @@ public class GeoGebraKeys implements KeyListener {
 				Log.debug("Unknown keyString: " + keyString);
 
 			switch (e.getKeyChar()) {
+			default:
+				// do nothing
+				break;
 			// workaround for shifted characters:
 			// (different in different locales)
 			case '+':

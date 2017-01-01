@@ -702,6 +702,7 @@ public class CellFormat implements CellFormatInterface {
 
 			switch (borderStyle) {
 
+			default:
 			case BORDER_STYLE_NONE:
 				setFormat(cr, FORMAT_BORDER, null);
 				break;

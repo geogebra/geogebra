@@ -201,6 +201,9 @@ public class OptionsPopup<T> {
 		}
 
 		switch (keyEvent.getKeyCode()) {
+		default:
+			// do nothing
+			break;
 		case VK_ESCAPE: // [ESC]
 			hideOptionsPopup();
 			keyEvent.consume();

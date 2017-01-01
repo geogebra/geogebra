@@ -262,6 +262,9 @@ public class EuclidianViewD extends EuclidianView
 		defaultCursor = null;
 
 		switch (getMode()) {
+		default:
+			// do nothing
+			break;
 		case EuclidianConstants.MODE_ZOOM_IN:
 			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN);
 			break;

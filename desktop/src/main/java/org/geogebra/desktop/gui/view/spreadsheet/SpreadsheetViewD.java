@@ -344,6 +344,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		GPoint location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()) {
+		default:
+			// do nothing
+			break;
 		case BOOLEAN:
 		case BUTTON:
 		case LIST:

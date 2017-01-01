@@ -376,6 +376,9 @@ public class DrawConic extends Drawable implements Previewable {
 		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
 				view.getWidth(), view.getHeight());
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:

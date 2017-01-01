@@ -189,6 +189,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
+				default:
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 					size *= 0.7071067811865;
 					offset = 0;

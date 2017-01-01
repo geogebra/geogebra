@@ -441,6 +441,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// SPECIAL KEYS
 			int keyCode = event.getKeyCode();
 			switch (keyCode) {
+			default:
+				// do nothing
+				break;
 			case KeyEvent.VK_DELETE:
 				ConstructionElement ce = kernel
 						.getConstructionElement(kernel.getConstructionStep());

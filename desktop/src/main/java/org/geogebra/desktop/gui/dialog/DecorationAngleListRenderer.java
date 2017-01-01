@@ -79,6 +79,9 @@ public class DecorationAngleListRenderer extends JPanel
 		arc.setArcByCenter(13, 27, 40, 0, 24, Arc2D.OPEN);
 		g2.draw(arc);
 		switch (id) {
+		default:
+			// do nothing
+			break;
 		case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 			arc.setArcByCenter(13, 27, 35, 0, 24, Arc2D.OPEN);
 			g2.draw(arc);

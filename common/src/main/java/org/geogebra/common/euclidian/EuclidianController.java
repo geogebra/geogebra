@@ -3410,6 +3410,7 @@ public abstract class EuclidianController {
 			// hide axis
 			if (geo instanceof GeoAxis) {
 				switch (((GeoAxis) geo).getType()) {
+				default:
 				case GeoAxisND.X_AXIS:
 					view.setShowAxis(EuclidianViewInterfaceCommon.AXIS_X, false,
 							true);

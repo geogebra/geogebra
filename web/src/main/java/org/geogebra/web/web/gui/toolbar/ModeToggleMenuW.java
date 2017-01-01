@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseUpHandler, 
+public class ModeToggleMenuW extends ListItem implements MouseDownHandler, MouseUpHandler, 
 TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler{
 
 
@@ -59,7 +59,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	protected int order;
 
-	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
+	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
 		super();
 		this.order = order;
 		this.app = appl;
@@ -124,7 +124,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 								var ct = ca.getContext("2d");
 								ct.drawImage(pi, 0, 0);
 								var dl = ca.toDataURL("image/png");
-								self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenu::onPaste(Ljava/lang/String;)(dl);
+								self.@org.geogebra.web.web.gui.toolbar.ModeToggleMenuW::onPaste(Ljava/lang/String;)(dl);
 							}
 							pi.src = sr;
 
@@ -318,9 +318,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 	
 	private void setCssToSelected(){
-		ArrayList<ModeToggleMenu> modeToggleMenus = toolbar.getModeToggleMenus();
+		ArrayList<ModeToggleMenuW> modeToggleMenus = toolbar.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
-			ModeToggleMenu mtm = modeToggleMenus.get(i);
+			ModeToggleMenuW mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
 				mtm.getToolbarButtonPanel().getElement().getStyle().setBorderWidth(1, Unit.PX);
 				mtm.getToolbarButtonPanel().getElement().setAttribute("isSelected","false");
@@ -567,7 +567,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	private void selectMenu(int index){
-		ModeToggleMenu mtm2 = toolbar.getModeToggleMenus().get(index);
+		ModeToggleMenuW mtm2 = toolbar.getModeToggleMenus().get(index);
 	
 		mtm2.tbutton.getElement().focus();
 		if(isMenuShown()){

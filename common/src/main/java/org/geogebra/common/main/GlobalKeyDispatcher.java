@@ -1314,6 +1314,9 @@ public abstract class GlobalKeyDispatcher {
 		double changeVal = 0;
 		// F2, PLUS, MINUS keys
 		switch (key) {
+		default:
+			// do nothing
+			break;
 		case F2:
 			// handle F2 key to start editing first selected element
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {

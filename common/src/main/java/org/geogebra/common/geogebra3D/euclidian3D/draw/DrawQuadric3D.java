@@ -1107,6 +1107,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		int type = quadric.getType();
 
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
 			initDrawPlanes(quadric);

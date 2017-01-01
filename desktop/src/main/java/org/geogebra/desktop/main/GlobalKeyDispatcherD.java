@@ -62,6 +62,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		boolean consumed = false;
 		switch (event.getID()) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.KEY_PRESSED:
 			consumed = handleKeyPressed(event);
 			break;

@@ -237,6 +237,9 @@ public class CASTableCellEditorD extends CASTableCell
 		int keyCode = e.getKeyCode();
 
 		switch (keyCode) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_ESCAPE:
 			e.consume();
 			getInputArea().setText("");
@@ -277,6 +280,9 @@ public class CASTableCellEditorD extends CASTableCell
 
 		if (!selCellValue.isError()) {
 			switch (ch) {
+			default:
+				// do nothing
+				break;
 			case ' ':
 			case '|':
 				// insert output of previous row (not in parentheses)

@@ -2322,6 +2322,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("}");
 		}
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 		case 2:
 			code.append("}");

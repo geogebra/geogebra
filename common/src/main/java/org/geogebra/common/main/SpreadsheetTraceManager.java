@@ -839,6 +839,9 @@ public class SpreadsheetTraceManager {
 					.getSpreadsheetCellName(column, row);
 			switch (geoClassType) {
 
+			default:
+				// do nothing
+				break;
 			case NUMERIC:
 				cell = new GeoNumeric(cons, (Double) value);
 				break;

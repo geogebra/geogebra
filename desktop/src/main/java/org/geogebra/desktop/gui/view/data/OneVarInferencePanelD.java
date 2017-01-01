@@ -44,7 +44,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * @author G. Sturr
  * 
  */
-public class OneVarInferencePanel extends JPanel
+public class OneVarInferencePanelD extends JPanel
 		implements ActionListener, FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 	// ggb fields
@@ -90,7 +90,7 @@ public class OneVarInferencePanel extends JPanel
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
-	public OneVarInferencePanel(AppD app, DataAnalysisViewD statDialog) {
+	public OneVarInferencePanelD(AppD app, DataAnalysisViewD statDialog) {
 
 		isIniting = true;
 		this.app = app;
@@ -235,6 +235,9 @@ public class OneVarInferencePanel extends JPanel
 		ArrayList<String> nameList = new ArrayList<String>();
 
 		switch (selectedPlot) {
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_ZTEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("ZStatistic"));
@@ -292,6 +295,9 @@ public class OneVarInferencePanel extends JPanel
 				+ statDialog.format(me);
 
 		switch (selectedPlot) {
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_ZTEST:
 			model.setValueAt(statDialog.format(P), 0, 0);
 			model.setValueAt(statDialog.format(testStat), 1, 0);
@@ -488,6 +494,9 @@ public class OneVarInferencePanel extends JPanel
 		try {
 			switch (selectedPlot) {
 
+			default:
+				// do nothing
+				break;
 			case StatisticsModel.INFER_ZTEST:
 			case StatisticsModel.INFER_ZINT:
 				normalDist = new NormalDistributionImpl(0, 1);

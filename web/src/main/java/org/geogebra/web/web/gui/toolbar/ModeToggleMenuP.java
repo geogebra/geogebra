@@ -25,7 +25,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ModeToggleMenuP extends ModeToggleMenu implements MouseMoveHandler {
+public class ModeToggleMenuP extends ModeToggleMenuW implements MouseMoveHandler {
 
 	FlowPanel submenuPanel;
 	StandardButton back;

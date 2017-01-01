@@ -106,6 +106,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		} else if (source.equals(btnViewDirection)) {
 			int si = btnViewDirection.getSelectedIndex();
 			switch (si) {
+			default:
 			case 0:
 				getView().setRotAnimation(-90, 90, true);
 				break;

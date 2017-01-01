@@ -149,6 +149,7 @@ public class AlgebraViewD extends AlgebraTree
 	protected void initModel() {
 		// build default tree structure
 		switch (treeMode) {
+		default:
 		case DEPENDENCY:
 			// don't re-init anything
 			if (rootDependency == null) {
@@ -305,6 +306,9 @@ public class AlgebraViewD extends AlgebraTree
 			clearView();
 
 			switch (getTreeMode()) {
+			default:
+				// do nothing
+				break;
 			case DEPENDENCY:
 				model.insertNodeInto(auxiliaryNode, rootDependency,
 						rootDependency.getChildCount() - 1);
@@ -338,6 +342,7 @@ public class AlgebraViewD extends AlgebraTree
 
 	public void setTreeMode(int mode) {
 		switch (mode) {
+		default:
 		case 0:
 			setTreeMode(SortMode.DEPENDENCY);
 			break;
@@ -461,6 +466,7 @@ public class AlgebraViewD extends AlgebraTree
 	protected void setTreeLabels() {
 		Localization loc = app.getLocalization();
 		switch (getTreeMode()) {
+		default:
 		case DEPENDENCY:
 
 			indNode.setUserObject(loc.getMenu("FreeObjects"));
@@ -608,6 +614,7 @@ public class AlgebraViewD extends AlgebraTree
 	@Override
 	protected void clearTree() {
 		switch (getTreeMode()) {
+		default:
 		case DEPENDENCY:
 			indNode.removeAllChildren();
 			depNode.removeAllChildren();
@@ -693,6 +700,9 @@ public class AlgebraViewD extends AlgebraTree
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
+		default:
+			// do nothing
+			break;
 		case TYPE:
 			super.removeFromModelForMode(node, model);
 			break;

@@ -37,6 +37,7 @@ public class MyRendererForAlgebraView extends MyRendererForAlgebraTree {
 			text = getAlgebraDescriptionTextOrHTML(geo);
 		} else {
 			switch (kernel.getAlgebraStyle()) {
+			default:
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				text = getAlgebraDescriptionTextOrHTML(geo);
 				break;

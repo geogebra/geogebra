@@ -270,6 +270,9 @@ public class ButtonDialogD extends JDialog
 
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_ENTER:
 			btOK.doClick();
 			break;

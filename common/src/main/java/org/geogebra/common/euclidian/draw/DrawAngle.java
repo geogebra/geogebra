@@ -367,6 +367,9 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			// For Decoration
 			switch (geo.getDecorationType()) {
+			default:
+				// do nothing
+				break;
 			case GeoElement.DECORATION_ANGLE_TWO_ARCS:
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * view.getInvXscale();

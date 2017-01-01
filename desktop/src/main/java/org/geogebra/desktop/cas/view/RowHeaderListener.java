@@ -133,6 +133,9 @@ public class RowHeaderListener extends MouseAdapter
 		boolean undoNeeded = false;
 
 		switch (e.getKeyCode()) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_DELETE:
 		case KeyEvent.VK_BACK_SPACE:
 			int[] selRows = rowHeader.getSelectedIndices();

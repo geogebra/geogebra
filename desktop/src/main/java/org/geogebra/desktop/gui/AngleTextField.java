@@ -52,6 +52,9 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 		switch (StringUtil.toLowerCase(KeyEvent.getKeyText(e.getKeyCode()))
 				.charAt(0)) {
+		default:
+			// do nothing
+			break;
 		case 'o':
 			insertString = Unicode.DEGREE;
 			break;

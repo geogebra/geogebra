@@ -39,7 +39,7 @@ public class ToolBarW extends FlowPanel
 	// panels for mobile submenu view
 	private FlowPanel submenuPanel;
 
-	private ArrayList<ModeToggleMenu> modeToggleMenus;
+	private ArrayList<ModeToggleMenuW> modeToggleMenus;
 	protected UnorderedList menuList;
 	private GGWToolBar tb;
 	private boolean isMobileToolbar;
@@ -118,7 +118,7 @@ public class ToolBarW extends FlowPanel
 
 		menuList = new UnorderedList();
 		menuList.getElement().addClassName("toolbar_mainItem");
-		modeToggleMenus = new ArrayList<ModeToggleMenu>();
+		modeToggleMenus = new ArrayList<ModeToggleMenuW>();
 		addCustomModesToToolbar(menuList);
 
 		this.clear();
@@ -143,7 +143,7 @@ public class ToolBarW extends FlowPanel
 		this.add(menuList);
 	}
 
-	protected ArrayList<ModeToggleMenu> getModeToggleMenus() {
+	protected ArrayList<ModeToggleMenuW> getModeToggleMenus() {
 		return modeToggleMenus;
 	}
 
@@ -170,7 +170,7 @@ public class ToolBarW extends FlowPanel
 
 		if (modeToggleMenus != null) {
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
-				ModeToggleMenu mtm = modeToggleMenus.get(i);
+				ModeToggleMenuW mtm = modeToggleMenus.get(i);
 				if (mtm.selectMode(tmpMode, m)) {
 					success = true;
 					break;
@@ -204,7 +204,7 @@ public class ToolBarW extends FlowPanel
 		if (modeToggleMenus == null || modeToggleMenus.size() == 0) {
 			return -1;
 		}
-		ModeToggleMenu mtm = modeToggleMenus.get(0);
+		ModeToggleMenuW mtm = modeToggleMenus.get(0);
 		return mtm.getFirstMode();
 	}
 
@@ -231,7 +231,7 @@ public class ToolBarW extends FlowPanel
 			Vector<Integer> menu = ob.getMenu();
 
 			if (app.isModeValid(menu.get(0).intValue())) {
-				ModeToggleMenu mtm = createModeToggleMenu(app, menu, i);
+				ModeToggleMenuW mtm = createModeToggleMenu(app, menu, i);
 				mtm.setButtonTabIndex(-1);
 				modeToggleMenus.add(mtm);
 				mainUl.add(mtm);
@@ -249,7 +249,7 @@ public class ToolBarW extends FlowPanel
 				Vector<Integer> menu = ob.getMenu();
 			 
 				if (app.isModeValid(menu.get(0).intValue())) {
-					ModeToggleMenu mtm = createModeToggleMenu(app, menu, i);
+					ModeToggleMenuW mtm = createModeToggleMenu(app, menu, i);
 					mtm.setButtonTabIndex(-1);
 			 
 					modeToggleMenus.add(mtm);
@@ -269,7 +269,7 @@ public class ToolBarW extends FlowPanel
 	}
 
 
-	protected ModeToggleMenu createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
+	protected ModeToggleMenuW createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			// toolbarVecSize is i.e. 12 for AV, 14 for 3D
@@ -278,11 +278,11 @@ public class ToolBarW extends FlowPanel
 				return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
 			} else {
 				isMobileToolbar = false;
-				return new ModeToggleMenu(app, menu, this, order);
+				return new ModeToggleMenuW(app, menu, this, order);
 			}
 
 		} else {
-			return new ModeToggleMenu(app, menu, this, order);
+			return new ModeToggleMenuW(app, menu, this, order);
 		}
 	}
 	
@@ -352,9 +352,9 @@ public class ToolBarW extends FlowPanel
 	 * 
 	 * @return true if any of the submenus are opened
 	 */
-	public boolean isAnyOtherSubmenuOpen(ModeToggleMenu exceptMenu) {
+	public boolean isAnyOtherSubmenuOpen(ModeToggleMenuW exceptMenu) {
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
-			ModeToggleMenu menu = modeToggleMenus.get(i);
+			ModeToggleMenuW menu = modeToggleMenus.get(i);
 			if (exceptMenu != menu && menu.isMenuShown()) {
 				return true;
 			}
@@ -378,7 +378,7 @@ public class ToolBarW extends FlowPanel
 		if (index < 0) {
 			positiveIndex = index + getModeToggleMenus().size();
 		}
-		ModeToggleMenu mtm2 = getModeToggleMenus().get(positiveIndex);
+		ModeToggleMenuW mtm2 = getModeToggleMenus().get(positiveIndex);
 
 		mtm2.getToolbarButtonPanel().getElement().focus();
 	}
@@ -391,7 +391,7 @@ public class ToolBarW extends FlowPanel
     }
 
 	public void setMaxButtons(int max) {
-		for(ModeToggleMenu m: this.modeToggleMenus){
+		for(ModeToggleMenuW m: this.modeToggleMenus){
 			m.setMaxHeight(app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		}
 

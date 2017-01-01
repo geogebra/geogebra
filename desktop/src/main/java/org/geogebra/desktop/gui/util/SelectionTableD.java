@@ -332,6 +332,9 @@ public class SelectionTableD extends JTable {
 
 		switch (mode) {
 
+		default:
+			// do nothing
+			break;
 		case MODE_ICON:
 		case MODE_LATEX:
 			icon = (ImageIcon) value;

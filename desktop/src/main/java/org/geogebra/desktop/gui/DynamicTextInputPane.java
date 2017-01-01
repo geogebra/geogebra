@@ -509,6 +509,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			public void keyPressed(KeyEvent e) {
 				if ((e.isAltDown() || AppD.isAltDown(e))) {
 					switch (e.getKeyCode()) {
+					default:
+						// do nothing
+						break;
 					case KeyEvent.VK_LEFT:
 						id.exitTextField(tf, true);
 						break;

@@ -185,6 +185,9 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 		ImageResourceD iconString = null;
 
 		switch (MenuCommand.valueOf(cmdString)) {
+		default:
+			// do nothing
+			break;
 		case Copy:
 			iconString = GuiResourcesD.MENU_EDIT_COPY;
 			break;

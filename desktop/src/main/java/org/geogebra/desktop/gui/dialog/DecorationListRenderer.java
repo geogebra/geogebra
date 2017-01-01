@@ -56,6 +56,7 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 		g.drawLine(0, mid, getWidth(), mid);
 
 		switch (id) {
+		default:
 		case GeoElement.DECORATION_NONE:
 			break;
 		case GeoElement.DECORATION_SEGMENT_ONE_TICK:

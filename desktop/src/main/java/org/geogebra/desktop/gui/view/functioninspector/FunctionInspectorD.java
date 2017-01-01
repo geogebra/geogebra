@@ -537,6 +537,9 @@ public class FunctionInspectorD extends FunctionInspector
 
 		tableXY.getSelectionModel().removeListSelectionListener(this);
 		switch (key) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_UP:
 			if (tableXY.getSelectedRow() == 0) {
 

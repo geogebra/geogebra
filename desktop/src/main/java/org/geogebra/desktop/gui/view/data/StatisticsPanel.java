@@ -43,7 +43,7 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 	// panels
 	private BasicStatTable statTable;
-	private OneVarInferencePanel oneVarInferencePanel;
+	private OneVarInferencePanelD oneVarInferencePanel;
 	private LinearRegressionPanel regressionPanel;
 	private TwoVarInferencePanel twoVarInferencePanel;
 	private ANOVATable anovaTable;
@@ -170,9 +170,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 		return anovaTable;
 	}
 
-	private OneVarInferencePanel getOneVarInferencePanel() {
+	private OneVarInferencePanelD getOneVarInferencePanel() {
 		if (oneVarInferencePanel == null)
-			oneVarInferencePanel = new OneVarInferencePanel(app, statDialog);
+			oneVarInferencePanel = new OneVarInferencePanelD(app, statDialog);
 		return oneVarInferencePanel;
 	}
 

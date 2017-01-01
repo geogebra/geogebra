@@ -136,6 +136,10 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		double root3over2 = Math.sqrt(3.0) / 2.0;
 
 		switch (pointStyle) {
+		case EuclidianStyleConstants.POINT_STYLE_DOT:
+		default:
+			// do nothing
+			break;
 		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
 
 			double xR = coords[0] + pointSize;

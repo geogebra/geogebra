@@ -200,6 +200,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (selectedProcedure) {
+		default:
+			// do nothing
+			break;
 		case ZMEAN_TEST:
 		case ZMEAN2_TEST:
 		case TMEAN_TEST:
@@ -461,6 +464,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (selectedProcedure) {
+		default:
+			// do nothing
+			break;
 		case ZMEAN_TEST:
 		case ZMEAN_CI:
 			lblSampleStat1[0].setText(strMean);
@@ -522,6 +528,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (selectedProcedure) {
+		default:
+			// do nothing
+			break;
 		case ZMEAN_TEST:
 		case ZMEAN_CI:
 		case TMEAN_TEST:
@@ -707,6 +716,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 			switch (selectedProcedure) {
 
+			default:
+				// do nothing
+				break;
 			case ZMEAN_TEST:
 			case ZMEAN_CI:
 			case TMEAN_TEST:

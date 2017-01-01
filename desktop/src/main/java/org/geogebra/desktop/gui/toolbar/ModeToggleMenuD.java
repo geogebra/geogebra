@@ -51,7 +51,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * JToggle button combined with popup menu for mode selection
  */
-public class ModeToggleMenu extends JPanel {
+public class ModeToggleMenuD extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	ModeToggleButtonGroup bg;
@@ -67,7 +67,7 @@ public class ModeToggleMenu extends JPanel {
 
 	final static Color bgColor = Color.white;
 
-	public ModeToggleMenu(AppD app, ToolbarD toolbar,
+	public ModeToggleMenuD(AppD app, ToolbarD toolbar,
 			ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;
@@ -285,7 +285,7 @@ class MyJToggleButton extends JToggleButton
 	private boolean showToolTipText = true;
 	boolean popupTriangleHighlighting = false;
 	boolean popupTriangleClicked = false;
-	ModeToggleMenu menu;
+	ModeToggleMenuD menu;
 
 	private static final Color arrowColor = new Color(0, 0, 0, 130);
 	// private static final Color selColor = new Color(166, 11, 30,150);
@@ -297,7 +297,7 @@ class MyJToggleButton extends JToggleButton
 	private ToolbarD toolbar;
 	private App app;
 
-	MyJToggleButton(ModeToggleMenu menu, ToolbarD toolbar, App app) {
+	MyJToggleButton(ModeToggleMenuD menu, ToolbarD toolbar, App app) {
 		super();
 		this.menu = menu;
 		this.toolbar = toolbar;
@@ -532,6 +532,7 @@ class MyJToggleButton extends JToggleButton
 			p.y = this.getY() + this.getHeight();
 			p.x = this.getX();
 			break;
+		default:
 		case SwingConstants.SOUTH:
 			p.y = this.getY();
 			p.x = this.getX();

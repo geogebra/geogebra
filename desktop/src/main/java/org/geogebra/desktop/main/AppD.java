@@ -1950,6 +1950,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		case 16:
 			px = 16;
 			break;
+		default:
 		case 18:
 		case 20:
 		case 24:
@@ -5325,6 +5326,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		ToolbarContainer.setShowHelp(showToolBarHelp);
 
 		switch (toolbarPosition) {
+		default:
 		case SwingConstants.NORTH:
 			northPanel.add(toolBarContainer, BorderLayout.NORTH);
 			break;

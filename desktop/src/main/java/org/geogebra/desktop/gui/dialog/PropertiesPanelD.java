@@ -4727,6 +4727,7 @@ class ColorFunctionPanel extends JPanel
 		allowSetComboBoxLabels = true;
 
 		switch (colorSpace) {
+		default:
 		case GeoElement.COLORSPACE_RGB:
 			nameLabelR.setText(loc.getMenu("Red") + ":");
 			nameLabelG.setText(loc.getMenu("Green") + ":");
@@ -5008,6 +5009,7 @@ class GraphicsViewLocationPanel extends JPanel
 
 	public void selectView(int index, boolean isSelected) {
 		switch (index) {
+		default:
 		case 0:
 			cbGraphicsView.setSelected(isSelected);
 			break;

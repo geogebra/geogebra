@@ -648,6 +648,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
+			default:
+				// do nothing
+				break;
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
 				insertString(")");

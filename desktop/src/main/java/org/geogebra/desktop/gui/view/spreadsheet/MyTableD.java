@@ -234,7 +234,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setSelectionForeground(Color.BLACK);
 
 		// add cell renderer & editors
-		setDefaultRenderer(Object.class, new MyCellRenderer(this));
+		setDefaultRenderer(Object.class, new MyCellRendererD(this));
 		editor = new MyCellEditorSpreadsheet(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 
@@ -569,6 +569,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			switch (selectionType) {
 
+			default:
 			case MyTable.CELL_SELECT:
 				newSelection.setCellRange(
 						getColumnModel().getSelectionModel()
@@ -905,6 +906,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		switch (selType) {
 
+		default:
 		case MyTable.CELL_SELECT:
 			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);

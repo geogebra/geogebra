@@ -36,7 +36,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
 
-public class MyCellRenderer extends DefaultTableCellRenderer {
+public class MyCellRendererD extends DefaultTableCellRenderer {
 	private static final long serialVersionUID = 1L;
 
 	// ggb fields
@@ -77,7 +77,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 	 * @param view
 	 * @param formatHandler
 	 */
-	public MyCellRenderer(MyTableInterface table) {
+	public MyCellRendererD(MyTableInterface table) {
 
 		this.myTable = table;
 		app = (AppD) myTable.getApplication();
@@ -198,6 +198,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 			} else {
 
 				switch (kernel.getAlgebraStyleSpreadsheet()) {
+				default:
 				case Kernel.ALGEBRA_STYLE_VALUE:
 					text = geo.toValueString(StringTemplate.defaultTemplate);
 					break;

@@ -358,6 +358,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 */
 	public void updatePanelGUI(int id) {
 		switch (id) {
+		default:
+			// do nothing
+			break;
 		case App.VIEW_EUCLIDIAN:
 			if (euclidianPanel != null) {
 				euclidianPanel.updateGUI();
@@ -740,6 +743,9 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	protected void setSelectedTab(OptionType type) {
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case EUCLIDIAN:
 			euclidianPanel.setSelectedTab(selectedTab);
 			break;
