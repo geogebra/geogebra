@@ -1,6 +1,7 @@
 package org.geogebra.desktop.geogebra3D.gui.view.algebra;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -139,8 +140,10 @@ public class AlgebraView3D extends AlgebraViewD {
 		}
 
 		DefaultMutableTreeNode node;
-		for (String key : viewNodesMap.keySet()) {
-			node = viewNodesMap.get(key);
+		for (Entry<String, DefaultMutableTreeNode> entry : viewNodesMap
+				.entrySet()) {
+			String key = entry.getKey();
+			node = entry.getValue();
 			node.setUserObject(app.getLocalization().getMenu(key));
 			model.nodeChanged(node);
 		}

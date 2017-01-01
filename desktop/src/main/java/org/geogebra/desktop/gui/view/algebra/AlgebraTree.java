@@ -3,6 +3,7 @@ package org.geogebra.desktop.gui.view.algebra;
 import java.awt.Font;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JTree;
@@ -175,8 +176,10 @@ public class AlgebraTree extends JTree {
 	 */
 	protected void setTreeLabels() {
 		DefaultMutableTreeNode node;
-		for (String key : typeNodesMap.keySet()) {
-			node = typeNodesMap.get(key);
+		for (Entry<String, DefaultMutableTreeNode> entry : typeNodesMap
+				.entrySet()) {
+			String key = entry.getKey();
+			node = entry.getValue();
 			node.setUserObject(app.getLocalization().getMenu(key));
 			model.nodeChanged(node);
 		}

@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -201,10 +202,12 @@ public class StatTable extends JScrollPane {
 			comboBoxRendererMap = new HashMap<Point, MyComboBoxRenderer>();
 		comboBoxRendererMap.clear();
 
-		for (Point cell : cellMap.keySet()) {
+		for (Entry<Point, String[]> entry : cellMap.entrySet()) {
+
+			Point cell = entry.getKey();
 
 			// get the String data for this combo box
-			String[] items = cellMap.get(cell);
+			String[] items = entry.getValue();
 
 			// extract the menu items and the combo box label
 			String comboBoxLabel = items[items.length - 1];

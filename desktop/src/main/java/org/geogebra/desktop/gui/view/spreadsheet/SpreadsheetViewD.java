@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -642,8 +643,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		table.setRowHeight(
 				app.getSettings().getSpreadsheet().preferredRowHeight());
 		if (!heightMap.isEmpty()) {
-			for (Integer r : heightMap.keySet()) {
-				table.setRowHeight(r, heightMap.get(r));
+			for (Entry<Integer, Integer> entry : heightMap.entrySet()) {
+				Integer r = entry.getKey();
+				table.setRowHeight(r, entry.getValue());
 			}
 		}
 	}

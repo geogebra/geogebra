@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.dataCollection.Settings;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -266,8 +267,9 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * update text of the content
 	 */
 	private void updateContent() {
-		for (Label label : this.rowCaptions.keySet()) {
-			label.setText(loc.getMenu(this.rowCaptions.get(label)));
+		for (Entry<Label, String> entry : this.rowCaptions.entrySet()) {
+			Label label = entry.getKey();
+			label.setText(loc.getMenu(entry.getValue()));
 		}
 	}
 

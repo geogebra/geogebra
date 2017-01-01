@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -866,14 +867,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			setUserObject(auxiliaryNode, loc.getPlain("AuxiliaryObjects"), "3");
 			break;
 		case TYPE:
-			for (String key : typeNodesMap.keySet()) {
-				node = typeNodesMap.get(key);
+			for (Entry<String, TreeItem> entry : typeNodesMap.entrySet()) {
+				String key = entry.getKey();
+				node = entry.getValue();
 				setUserObject(node, loc.getMenu(key), key);
 			}
 			break;
 		case LAYER:
-			for (Integer key : layerNodesMap.keySet()) {
-				node = layerNodesMap.get(key);
+			for (Entry<Integer, TreeItem> entry : layerNodesMap.entrySet()) {
+				Integer key = entry.getKey();
+				node = entry.getValue();
 				setUserObject(node, loc.getPlain("LayerA", key.toString()),
 						key.toString());
 			}

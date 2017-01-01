@@ -27,6 +27,7 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JTree;
@@ -483,8 +484,10 @@ public class AlgebraViewD extends AlgebraTree
 			break;
 		case LAYER:
 			DefaultMutableTreeNode node;
-			for (Integer key : layerNodesMap.keySet()) {
-				node = layerNodesMap.get(key);
+			for (Entry<Integer, DefaultMutableTreeNode> entry : layerNodesMap
+					.entrySet()) {
+				Integer key = entry.getKey();
+				node = entry.getValue();
 				node.setUserObject(key);
 				model.nodeChanged(node);
 			}

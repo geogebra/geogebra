@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map.Entry;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -230,14 +231,16 @@ public class LanguageDialog extends JDialog {
 
 		ImageIcon ic = app.getScaledFlagIcon(app.getFlagName());
 
-		for (Language loc : lblList.keySet()) {
+		for (Entry<Language, JLabel> entry : lblList.entrySet()) {
+
+			Language loc = entry.getKey();
 
 			if (ic != null && loc.locale.equals(currentLocale)) {
 
 				lblList.get(loc)
 						.setIcon(app.getScaledFlagIcon(app.getFlagName()));
 			} else {
-				lblList.get(loc).setIcon(app.getEmptyIcon());
+				entry.getValue().setIcon(app.getEmptyIcon());
 			}
 		}
 	}

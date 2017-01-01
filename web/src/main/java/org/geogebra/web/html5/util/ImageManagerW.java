@@ -95,9 +95,11 @@ public class ImageManagerW extends ImageManager {
 				&& fileName.length() > app1.getMD5folderLength(fileName)) {
 			int md5length = app1.getMD5folderLength(fileName);
 			String md5 = fileName.substring(0, md5length);
-			for (String s : externalImageTable.keySet()) {
+			for (Entry<String, ImageElement> entry : externalImageTable
+					.entrySet()) {
+				String s = entry.getKey();
 				if (md5.equals(s.substring(0, md5length))) {
-					return externalImageTable.get(s);
+					return entry.getValue();
 				}
 			}
 		}

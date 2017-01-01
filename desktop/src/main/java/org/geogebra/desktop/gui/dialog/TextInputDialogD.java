@@ -25,6 +25,7 @@ import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
@@ -484,8 +485,9 @@ public class TextInputDialogD extends InputDialogD
 		if (!isBtnInsertLatexLoaded)
 			return;
 
-		for (String text : laTexButtonTitleMap.keySet()) {
-			laTexButtonTitleMap.get(text).setText(loc.getMenu(text));
+		for (Entry<String, JMenuItem> entry : laTexButtonTitleMap.entrySet()) {
+			String text = entry.getKey();
+			entry.getValue().setText(loc.getMenu(text));
 		}
 	}
 

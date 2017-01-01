@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
@@ -69,9 +70,12 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 			if (as != null) {
 				// use Botana's method
 				HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
-				for (Variable v : values.keySet()) {
+				for (Entry<Variable, BigInteger> entry : values.entrySet()) {
+
+					Variable v = entry.getKey();
+
 					// FIXME: Change Long in Variable to BigInteger
-					substitutions.put(v, values.get(v).longValue());
+					substitutions.put(v, entry.getValue().longValue());
 				}
 				ExtendedBoolean solvable = Polynomial.solvable(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),

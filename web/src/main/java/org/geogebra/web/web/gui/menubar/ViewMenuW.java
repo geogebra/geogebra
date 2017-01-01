@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -228,8 +229,11 @@ public class ViewMenuW extends GMenuBar {
 	 * Update menu items
 	 */
 	public void update() {
-		for (int viewID : this.items.keySet()) {
-			this.items.get(viewID).setSelected(
+		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
+
+			int viewID = entry.getKey();
+
+			entry.getValue().setSelected(
 					app.getGuiManager().showView(viewID));
 		}
 		boolean linearInput = app.showAlgebraInput()
