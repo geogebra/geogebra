@@ -217,6 +217,8 @@ public class ProbabilityManager {
 
 		switch (d) {
 		default:
+			// no nothing
+			break;
 		case NORMAL:
 			ret = new AlgoInverseNormal(cons, param1, param2, x);
 			break;

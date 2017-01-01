@@ -129,7 +129,7 @@ public abstract class DataAnalysisController {
 
 		// retrieve data from the data source as a list of GeoLists
 
-		ArrayList<GeoList> list = new ArrayList<GeoList>();
+		ArrayList<GeoList> list;
 
 		switch (getMode()) {
 		default:
