@@ -334,6 +334,9 @@ public class ToolCreationDialogW extends DialogBoxW implements
 		} else {
 			ArrayList<Integer> selIndices = new ArrayList<Integer>();
 			switch (selectedTab) {
+			default:
+				// do nothing
+				break;
 			case 0:
 				if (outputLB.getSelectedIndex() >= 0) {
 					for (int i = 0; i < outputLB.getItemCount(); i++) {
@@ -366,7 +369,6 @@ public class ToolCreationDialogW extends DialogBoxW implements
 						toolModel.removeFromInput(selIndices);
 					}
 				}
-			default:
 			}
 		}
 	}

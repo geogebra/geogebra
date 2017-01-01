@@ -197,12 +197,6 @@ public class GeoTextEditor extends RichTextArea {
 			super.onBrowserEvent(event);
 		}
 
-		switch (DOM.eventGetType(event)) {
-		case Event.ONCONTEXTMENU:
-			Log.debug("contextmenu event in rta");
-			break;
-
-		}
 	}
 
 	public native void addCutHandler(Element elem)

@@ -964,6 +964,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			allowSetComboBoxLabels = true;
 
 			switch (colorSpace) {
+			default:
 			case GeoElement.COLORSPACE_RGB:
 				nameLabelR.setText(loc.getMenu("Red") + ":");
 				nameLabelG.setText(loc.getMenu("Green") + ":");
@@ -1164,6 +1165,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void selectView(int index, boolean isSelected) {
 			switch (index) {
+			default:
+				// do nothing
+				break;
 			case 0:
 				cbGraphicsView.setValue(isSelected);
 				break;

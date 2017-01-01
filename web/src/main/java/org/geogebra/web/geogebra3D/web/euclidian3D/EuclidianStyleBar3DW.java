@@ -239,6 +239,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void setDirection(int si) {
 
 			switch (si) {
+			default:
 			case 0: // standard view
 				getView().setStandardView(true);
 				break;

@@ -327,6 +327,9 @@ public class MyCellEditorW implements BaseCellEditor {
 			int keyCode = e.getNativeKeyCode();
 
 			switch (keyCode) {
+			default:
+				// do nothing
+				break;
 			case KeyCodes.KEY_ESCAPE:
 				e.preventDefault();
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
@@ -386,6 +389,9 @@ public class MyCellEditorW implements BaseCellEditor {
 			int keyCode = e.getNativeKeyCode();
 			// Application.debug(e+"");
 			switch (keyCode) {
+			default:
+				// do nothing
+				break;
 			case KeyCodes.KEY_UP:
 			
 				if(isSuggesting()){

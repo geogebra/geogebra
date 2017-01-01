@@ -773,6 +773,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void setRealFrequency(Types sensor, int freq) {
 		switch (sensor) {
+		default:
+			// do nothing
+			break;
 		case ACCELEROMETER_X:
 			this.acc.setRealFrequency(freq);
 			break;

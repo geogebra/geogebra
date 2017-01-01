@@ -408,6 +408,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		switch (keyCode) {
 
+		default:
+			// do nothing
+			break;
 		case KeyCodes.KEY_UP:
 			if (shiftDown) {
 				// extend the column selection

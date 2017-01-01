@@ -1021,6 +1021,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		        || MyTextField
 		                .isCloseBracketOrWhitespace(text.charAt(caretPos))) {
 			switch (ch) {
+			default:
+				// do nothing
+				break;
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
 				insertString(")");

@@ -84,6 +84,9 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	public void onKeyUp(KeyUpEvent event) {
 		int charCode = event.getNativeKeyCode();
 		switch (charCode) {
+		default:
+			// do nothing
+			break;
 		case GWTKeycodes.KEY_ESCAPE:
 			hide();
 			textField.setText(originalTextEditorContent);

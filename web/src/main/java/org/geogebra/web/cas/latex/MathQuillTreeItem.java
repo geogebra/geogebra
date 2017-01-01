@@ -418,6 +418,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 */
 	public void handleFKey(int fkey, GeoElement geo2) {
 		switch (fkey) {
+		default:
+			// do nothing
+			break;
 		case 3: // F3 key: copy definition to input field
 			getEquationEditor().setText(geo2.getDefinitionForInputBar(), true);
 			ensureEditing();

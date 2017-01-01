@@ -261,7 +261,7 @@ public class AlgebraViewD extends AlgebraTree
 		editTF.enableColoring(true);
 		editTF.setShowSymbolTableIcon(true);
 		editor = new MyDefaultTreeCellEditor(this, renderer,
-				new MyCellEditor(editTF, app));
+				new MyCellEditorD(editTF, app));
 
 		// add focus listener to the editor text field so that editing is
 		// canceled on a focus lost event

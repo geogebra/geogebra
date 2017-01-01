@@ -312,6 +312,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 			text = geo.toValueString(StringTemplate.defaultTemplate);
 		} else {
 			switch (kernel.getAlgebraStyleSpreadsheet()) {
+			default:
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				if (geo.isLaTeXDrawableGeo()
 				        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {

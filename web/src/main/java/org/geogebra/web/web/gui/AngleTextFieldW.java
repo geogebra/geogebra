@@ -49,6 +49,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 
 
 		switch (Character.toChars(e.getNativeEvent().getCharCode())[0]) {
+		default:
+			// do nothing
+			break;
 		case 'o':
 			insertString = Unicode.DEGREE;
 			break;

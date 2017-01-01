@@ -236,6 +236,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		this.visible = visible;
 		if (visible) {
 			switch (this.waitingOperation) {
+			default:
+				// do nothing
+				break;
 			case UPDATE:
 				updateStyleBar();
 				break;

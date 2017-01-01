@@ -113,6 +113,9 @@ public class GlobalKeyDispatcherW extends
 						.getGlobalKeyDispatcher().isFocused();
 
 				switch (event.getTypeInt()) {
+				default:
+					// do nothing
+					break;
 				case Event.ONKEYDOWN:
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB

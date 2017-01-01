@@ -157,6 +157,9 @@ public class GGraphics2DW implements GGraphics2D {
 		while (!it.isDone()) {
 			int cu = it.currentSegment(coords);
 			switch (cu) {
+			default:
+				// do nothing
+				break;
 			case PathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
 				if (enableDashEmulation)
@@ -189,8 +192,6 @@ public class GGraphics2DW implements GGraphics2D {
 				break;
 			case PathIterator.SEG_CLOSE:
 				context.closePath();
-			default:
-				break;
 			}
 			it.next();
 		}

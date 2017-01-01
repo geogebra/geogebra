@@ -405,6 +405,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 						geo.getDefinition(StringTemplate.defaultTemplate),
 						getBuilder(getPlainTextItem()));
 				break;
+			default:
 			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
 				buildItemContent();
 				break;

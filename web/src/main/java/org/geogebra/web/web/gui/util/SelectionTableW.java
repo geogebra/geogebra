@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -225,8 +224,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 			w = new Label();
 			object.applyToLabel((Label)w);
 			break;
+		default:
 		case MODE_LATEX:
-			Log.debug("SelectionTable mode latex");
 			break;
 	  	}
 		return w;

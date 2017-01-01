@@ -1388,6 +1388,9 @@ public class MathQuillHelper extends LaTeXHelper {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
 				switch (event.getTypeInt()) {
+				default:
+					// do nothing
+					break;
 				// AFAIK, mouse events do not fire on touch devices,
 				// and touch events do not fire on mouse devices,
 				// so this will be okay (except laptops with touch
@@ -1417,8 +1420,6 @@ public class MathQuillHelper extends LaTeXHelper {
 							AppW.giveFocusBack();
 						}
 					}
-				default:
-					break;
 				}
 			}
 		});

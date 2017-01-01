@@ -19,7 +19,7 @@ import org.geogebra.desktop.main.AppD;
 /**
  * Editor for AV
  */
-public class MyCellEditor extends DefaultCellEditor {
+public class MyCellEditorD extends DefaultCellEditor {
 
 	private static final long serialVersionUID = 1L;
 	private AppD app;
@@ -30,7 +30,7 @@ public class MyCellEditor extends DefaultCellEditor {
 	 * @param app
 	 *            application
 	 */
-	public MyCellEditor(final JTextField textField, AppD app) {
+	public MyCellEditorD(final JTextField textField, AppD app) {
 		super(textField);
 		this.app = app;
 	}

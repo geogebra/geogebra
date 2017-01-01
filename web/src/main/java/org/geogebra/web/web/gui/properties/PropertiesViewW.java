@@ -384,6 +384,9 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	protected void setSelectedTab(OptionType type) {
 		switch (type) {
+		default:
+			// do nothing
+			break;
 		case EUCLIDIAN:
 			euclidianPanel.setSelectedTab(selectedTab);
 			break;

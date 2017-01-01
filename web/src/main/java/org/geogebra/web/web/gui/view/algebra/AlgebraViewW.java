@@ -259,6 +259,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		switch (DOM.eventGetType(event)) {
 		case Event.ONKEYUP:
 			switch (event.getKeyCode()) {
+			default:
+				// do nothing
+				break;
 			case KeyCodes.KEY_UP:
 			case KeyCodes.KEY_DOWN:
 			case KeyCodes.KEY_LEFT:
@@ -625,6 +628,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			clearView();
 
 			switch (getTreeMode()) {
+			default:
+				// do nothing
+				break;
 			case DEPENDENCY:
 				addItem(auxiliaryNode);
 				break;
@@ -636,15 +642,16 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// auxiliary nodes might be scattered across the whole tree,
 			// therefore we just rebuild the tree
 			switch (getTreeMode()) {
+			default:
+				clearView();
+				kernel.notifyAddAll(this);
+				break;
 			case DEPENDENCY:
 				if (auxiliaryNode.getParentItem() != null) {
 					removeItem(auxiliaryNode);
 				}
 				break;
-			default:
 
-				clearView();
-				kernel.notifyAddAll(this);
 			}
 		}
 	}
@@ -738,6 +745,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	protected void initModel() {
 		// build default tree structure
 		switch (treeMode) {
+		default:
 		case DEPENDENCY:
 			// don't re-init anything
 			if (depNode == null || indNode == null || auxiliaryNode == null) {
@@ -826,6 +834,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	protected void clearTree() {
 		switch (getTreeMode()) {
+		default:
 		case DEPENDENCY:
 			indNode.removeItems();
 			depNode.removeItems();
@@ -1044,6 +1053,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
+		case DEPENDENCY:
+		default:
+			// do nothing
+			break;
 		case TYPE:
 			String typeString = ((GeoElement) node.getUserObject())
 			.getTypeStringForAlgebraView();

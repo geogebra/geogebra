@@ -272,6 +272,7 @@ public class GOptionPaneW extends GDialogBox implements ClickHandler {
 			icon = new Image(
 					GuiResourcesSimple.INSTANCE.dialog_question().getSafeUri());
 			break;
+		default:
 		case GOptionPane.PLAIN_MESSAGE:
 			icon = null;
 			break;
@@ -506,28 +507,4 @@ public class GOptionPaneW extends GDialogBox implements ClickHandler {
 
 	}
 
-	public void test(App app, int type) {
-
-		switch (type) {
-		case 1:
-			showConfirmDialog(app, "Something went wrong.", "Error Dialog",
-					GOptionPane.OK_CANCEL_OPTION, GOptionPane.ERROR_MESSAGE,
-					null);
-			break;
-		case 2:
-			showConfirmDialog(app, "The beer is free.", "Information Dialog",
-					GOptionPane.OK_CANCEL_OPTION,
-					GOptionPane.INFORMATION_MESSAGE, null);
-			break;
-		case 3:
-			showConfirmDialog(app, "Is the beer free?", "Question Dialog",
-					GOptionPane.OK_CANCEL_OPTION, GOptionPane.QUESTION_MESSAGE,
-					null);
-			break;
-		case 4:
-			showConfirmDialog(app, "Watch out!", "Warning Dialog",
-					GOptionPane.OK_CANCEL_OPTION, GOptionPane.WARNING_MESSAGE,
-					null);
-		}
-	}
 }

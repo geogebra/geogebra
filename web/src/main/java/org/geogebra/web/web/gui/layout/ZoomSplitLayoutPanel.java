@@ -141,6 +141,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
       }
       Element splitter = null;
       switch (event.getTypeInt()) {
+			default:
+				// do nothing
+				break;
         case Event.ONTOUCHSTART:
           splitter = impl.getSplitterElement();
           splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");

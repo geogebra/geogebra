@@ -518,6 +518,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		int keyCode = event.getNativeKeyCode();
 	
 		switch (keyCode){
+		default:
+			// do nothing
+			break;
 		case KeyCodes.KEY_ENTER:
 			onEnd(event);
 			break;

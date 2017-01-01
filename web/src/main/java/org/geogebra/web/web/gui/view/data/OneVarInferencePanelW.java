@@ -241,6 +241,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		ArrayList<String> nameList = new ArrayList<String>();
 
 		switch (selectedPlot){
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_ZTEST:
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("ZStatistic")); 
@@ -297,6 +300,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		String cInt = statDialog.format(mean) + " \u00B1 "  + statDialog.format(me);
 		
 		switch (selectedPlot){
+		default:
+			// do nothing
+			break;
 		case StatisticsModel.INFER_ZTEST:
 			resultTable.setValueAt(statDialog.format(P),0,1);
 			resultTable.setValueAt(statDialog.format(testStat), 1, 1);
@@ -483,6 +489,9 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		try {
 			switch (selectedPlot){
 
+			default:
+				// do nothing
+				break;
 			case StatisticsModel.INFER_ZTEST:
 			case StatisticsModel.INFER_ZINT:
 				normalDist = new NormalDistributionImpl(0,1);
