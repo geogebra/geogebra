@@ -732,7 +732,7 @@ __GGB__keysVar.it.command = {
     "ReducedRowEchelonForm": "MatriceRigheRidotte",
     "ReducedRowEchelonForm.Syntax": "[ <Matrice> ]",
     "Relation": "Relazione",
-    "Relation.Syntax": "[ <Oggetto>, <Oggetto> ]",
+    "Relation.Syntax": "[ <Lista> ]\n[ <Oggetto>, <Oggetto> ]",
     "Remove": "Rimuovi",
     "Remove.Syntax": "[ <Lista>, <Lista> ]",
     "RemoveUndefined": "EliminaNonDefiniti",
