@@ -732,9 +732,10 @@ public class Polynomial implements Comparable<Polynomial> {
 
 		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
 
-		Iterator<Term> it = terms.keySet().iterator();
+		Iterator<Entry<Term, Long>> it = terms.entrySet().iterator();
 		while (it.hasNext()) {
-			Term t1 = it.next();
+			Entry<Term, Long> entry0 = it.next();
+			Term t1 = entry0.getKey();
 			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(
 					t1.getTerm());
 			BigInteger product = BigInteger.ONE;
@@ -751,7 +752,7 @@ public class Polynomial implements Comparable<Polynomial> {
 					term.remove(variable);
 				}
 			}
-			product = product.multiply(BigInteger.valueOf(terms.get(t1)));
+			product = product.multiply(BigInteger.valueOf(entry0.getValue()));
 			Term t = new Term(term);
 			if (result.containsKey(t)) {
 				BigInteger sum = BigInteger.valueOf(result.get(t)).add(product);

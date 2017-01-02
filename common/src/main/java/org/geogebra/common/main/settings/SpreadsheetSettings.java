@@ -574,8 +574,9 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 			// row heights
 			HashMap<Integer, Integer> heightMap = getHeightMap();
-			for (Integer row : heightMap.keySet()) {
-				int rowHeight = heightMap.get(row);
+			for (Entry<Integer, Integer> entry : heightMap.entrySet()) {
+				Integer row = entry.getKey();
+				int rowHeight = entry.getValue();
 				if (rowHeight != preferredRowHeight()) {
 					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
 							+ rowHeight + "\"/>\n");

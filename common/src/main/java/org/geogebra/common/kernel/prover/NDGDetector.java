@@ -130,14 +130,16 @@ public class NDGDetector {
 
 					TreeSet<GeoElement> geoSet = new TreeSet<GeoElement>();
 					HashMap<GeoElement, ExpressionNode> bases = new HashMap<GeoElement, ExpressionNode>();
-					for (Variable t2 : tm2.keySet()) { // e.g. v1
+					for (Entry<Variable, Integer> entry0 : tm2.entrySet()) { // e.g.
+																				// v1
+						Variable t2 = entry0.getKey();
 						if (!geos.containsKey(t2)) {
 							qFormula = false;
 							break outerloop;
 						}
 						GeoElement g = geos.get(t2);
 						ExpressionValue t = g.toValidExpression();
-						int exponent = tm2.get(t2);
+						int exponent = entry0.getValue();
 						ExpressionNode base = new ExpressionNode(kernel, t);
 						if (exponent > 1) {
 							base = base.power(exponent);
