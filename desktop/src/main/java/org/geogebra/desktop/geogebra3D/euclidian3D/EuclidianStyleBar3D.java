@@ -122,24 +122,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			}
 		} else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
-			switch (si) {
-			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-				getView().getSettings()
-						.setProjection(EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
-				break;
-			case EuclidianView3D.PROJECTION_PERSPECTIVE:
-				getView().getSettings()
-						.setProjection(EuclidianView3D.PROJECTION_PERSPECTIVE);
-				break;
-			case EuclidianView3D.PROJECTION_GLASSES:
-				getView().getSettings()
-						.setProjection(EuclidianView3D.PROJECTION_GLASSES);
-				break;
-			case EuclidianView3D.PROJECTION_OBLIQUE:
-				getView().getSettings()
-						.setProjection(EuclidianView3D.PROJECTION_OBLIQUE);
-				break;
-			}
+			getView().getSettings().setProjection(si);
 		} else
 			super.processSource(source, targetGeos);
 	}
