@@ -55,7 +55,7 @@ public class ScriptArea extends TextArea
 	}
 
 	private void setText(int start, int end, String text) {
-		// clear selection if there is one
+		// clear selection if there is one		
 		if (start != end) {
 			String oldText = getText();
 			StringBuilder sb = new StringBuilder();
@@ -75,8 +75,7 @@ public class ScriptArea extends TextArea
 
 		// setCaretPosition(pos + text.length());
 		final int newPos = pos + text.length();
-
-		setCursorPos(newPos);
+		setCursorPos(newPos, false);
 	}
 
 	private int getSelectionEnd() {
