@@ -53,6 +53,9 @@ public class CASTableCellControllerD extends CASTableCellController
 		int rowCount = table.getRowCount();
 
 		switch (e.getKeyCode()) {
+		default:
+			// do nothing
+			break;
 		case KeyEvent.VK_A:
 		case KeyEvent.VK_C:
 		case KeyEvent.VK_X:

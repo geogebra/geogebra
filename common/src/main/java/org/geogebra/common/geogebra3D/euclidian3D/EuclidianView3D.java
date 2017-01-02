@@ -2620,6 +2620,9 @@ public abstract class EuclidianView3D extends EuclidianView
 		} else {
 			switch (getCursor3DType()) {
 
+			default:
+				// do nothing
+				break;
 			case PREVIEW_POINT_FREE:
 				// use default directions for the cross
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {

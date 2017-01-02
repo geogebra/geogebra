@@ -1129,6 +1129,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				code.append("$");
 
 			switch (style) {
+			default:
+				// do nothing
+				break;
 			case 1:
 				code.append("{\\bf ");
 				break;

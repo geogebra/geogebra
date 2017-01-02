@@ -259,6 +259,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			// surface
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
+				default:
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 					surface.start(getReusableSurfaceIndex());
 					surface.parallelogram(center, v1, v2, size, size);

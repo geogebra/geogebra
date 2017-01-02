@@ -258,6 +258,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
 		switch (DOM.eventGetType(event)) {
+		default:
+			// do nothing
+			break;
 		case Event.ONKEYUP:
 			switch (event.getKeyCode()) {
 			default:
