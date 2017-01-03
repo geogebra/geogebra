@@ -31,6 +31,7 @@ import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.DefaultListItemF
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.ListItemFactory;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -58,7 +59,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -69,11 +69,17 @@ import com.google.gwt.user.client.ui.Widget;
  * This is a combo box widget implementation.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
+ * @param <T>
+ *            model type
  * @since 1.2.0
  */
 public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         implements HasAllFocusHandlers, HasAllKeyHandlers, HasClickHandlers,
         ListModelListener, HasChangeHandlers, HasCloseHandlers<PopupPanel> {
+	/**
+	 * @param app
+	 *            application
+	 */
 	protected ComboBox(AppW app) {
 		super(app);
 		// TODO Auto-generated constructor stub
@@ -84,7 +90,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     /** a list item factory */
     private ListItemFactory listItemFactory;
     /** a list popup panel */
-    private ListPopupPanel listPanel;
+	private ListPopupPanel<T> listPanel;
     /** a combo box delegate listener */
     private DelegateHandler delegateHandler;
     /** a keyboard events listener that switches off default browser handling and replaces it with conponents' */
@@ -217,7 +223,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      *
      * @deprecated use {@link #getValue()} instead.
      */
-    public String getText() {
+	@Deprecated
+	public String getText() {
         return getSelectedValue().getText();
     }
 
@@ -252,6 +259,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         getListPanel().setStartItemIndex(index);
     }
 
+	/**
+	 * @return start index
+	 */
     public int getStartItemIndex() {
         return getListPanel().getStartItemIndex();
     }
@@ -264,7 +274,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      *
      * @deprecated use {@link #setValue(String)} instead.
      */
-    public void setText(String text) {
+	@Deprecated
+	public void setText(String text) {
         getSelectedValue().setText(text);
     }
 
@@ -336,13 +347,13 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             if (list.getWidgetCount() > getModel().getSelectedIndex())
                 return list.getWidget(getModel().getSelectedIndex());
             return null;
-        } else {
-            return null;
         }
+		return null;
     }
 
     /** {@inheritDoc} */
-    public void cleanSelection() {
+	@Override
+	public void cleanSelection() {
         super.cleanSelection();
         getModel().clear();
     }
@@ -455,7 +466,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     }
 
     /** {@inheritDoc} */
-    public void onModelEvent(ListModelEvent event) {
+	@Override
+	public void onModelEvent(ListModelEvent event) {
         if (event.getType() == ListModelEvent.ADD_ITEM) {
             add(event);
         } else if (event.getType() == ListModelEvent.CLEAN) {
@@ -478,16 +490,23 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     }
 
     /**
-     * Enables or disables lazy rendering option.<p/>
-     * If this option is enabled the widget displays only several items on lazily renders other ones on scroll down.<p/>
-     * By default lazy rendering is disabled. Switch it on for really large (over 500 items) lists only.<p/>
-     * Note that <i>lazy rendering</i> is not <i>lazy data loading</i>. The second one means that the data is loaded into
-     * the model on request where as the first option assumes that all necessary data has already been loaded and put
-     * into the model. If you need <i>lazy loading</i> please consider using {@link SuggestionBox} and
-     * {@link geogebra.html5.gui.advanced.client.datamodel.SuggestionBoxDataModel}.
-     *
-     * @param lazyRenderingEnabled is an option value.
-     */
+	 * Enables or disables lazy rendering option.
+	 * <p/>
+	 * If this option is enabled the widget displays only several items on
+	 * lazily renders other ones on scroll down.
+	 * <p/>
+	 * By default lazy rendering is disabled. Switch it on for really large
+	 * (over 500 items) lists only.
+	 * <p/>
+	 * Note that <i>lazy rendering</i> is not <i>lazy data loading</i>. The
+	 * second one means that the data is loaded into the model on request where
+	 * as the first option assumes that all necessary data has already been
+	 * loaded and put into the model. If you need <i>lazy loading</i> please
+	 * consider using SuggestionBox
+	 *
+	 * @param lazyRenderingEnabled
+	 *            is an option value.
+	 */
     public void setLazyRenderingEnabled(boolean lazyRenderingEnabled) {
         getListPanel().setLazyRenderingEnabled(lazyRenderingEnabled);
     }
@@ -517,7 +536,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @param handler is a handler to add.
      * @return a handler registration.
      */
-    public HandlerRegistration addCloseHandler(CloseHandler<PopupPanel> handler) {
+	@Override
+	public HandlerRegistration addCloseHandler(
+			CloseHandler<PopupPanel> handler) {
         return getListPanel().addCloseHandler(handler);
     }
 
@@ -538,16 +559,21 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     public void setValue(String value, boolean fireEvents) {
         getSelectedValue().setText(value);
         if (fireEvents) {
-            fireEvent(new ValueChangeEvent<String>(value){});
+			fireEvent(new ValueChangeEvent<String>(value) {
+				// nothing to implement
+			});
         }
     }
 
     /**
-     * Adds a value change handler to the component that will be invoked only if
-     * {@link #setValue(Object, boolean)} has the second parameter = {@code true}.<p/>
-     *
-     * Note that the widget doesn't fire the event if you don't use the method specified above.
-     */
+	 * Adds a value change handler to the component that will be invoked only if
+	 * {@link #setValue(String, boolean)} has the second parameter =
+	 * {@code true}.
+	 * <p/>
+	 *
+	 * Note that the widget doesn't fire the event if you don't use the method
+	 * specified above.
+	 */
     @Override
     public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
         return addHandler(handler, ValueChangeEvent.getType());
@@ -585,7 +611,6 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      *
      * @param event is a clean event.
      */
-    @SuppressWarnings({"UnusedDeclaration"})
     protected void clean(ListModelEvent event) {
         if (isListPanelOpened()) {
             getListPanel().getList().clear();
@@ -643,13 +668,15 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
     }
 
     /** {@inheritDoc} */
-    protected void prepareSelectedValue() {
+	@Override
+	protected void prepareSelectedValue() {
         super.prepareSelectedValue();
         getSelectedValue().setText(getListItemFactory().convert(getModel().getSelected()));
     }
 
     /** {@inheritDoc} */
-    protected void addComponentListeners() {
+	@Override
+	protected void addComponentListeners() {
 		AutoCompleteTextFieldW value = getSelectedValue();
         ToggleButton button = getChoiceButton();
 
@@ -672,9 +699,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      *
      * @return Value for property 'listPanel'.
      */
-    protected ListPopupPanel getListPanel() {
+	protected ListPopupPanel<T> getListPanel() {
         if (listPanel == null) {
-            listPanel = new ListPopupPanel(this);
+			listPanel = new ListPopupPanel<T>(this);
         }
         return listPanel;
     }
@@ -801,6 +828,9 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             fireEvent(event);
         }
 
+		/**
+		 * @return set of focuses
+		 */
         protected Set<Object> getFocuses() {
             if (focuses == null)
                 focuses = new HashSet<Object>();
@@ -833,7 +863,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             if (!Element.is(eventTarget)) //chrome fix
                 return;
 
-            Element target = (Element) Element.as(eventTarget);
+			Element target = Element.as(eventTarget);
 
             int type = event.getTypeInt();
             if (type == Event.ONKEYDOWN) {
@@ -842,7 +872,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
                     return;
 
                 boolean eventTargetsPopup = (target != null)
-                        && DOM.isOrHasChild(getElement(), target);
+						&& getElement().isOrHasChild(target);
                 int button = nativeEvent.getKeyCode();
                 boolean alt = nativeEvent.getAltKey();
                 boolean ctrl = nativeEvent.getCtrlKey();

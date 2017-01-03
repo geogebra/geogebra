@@ -22,6 +22,7 @@ import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.ComboBoxChangeEv
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.ListItemFactory;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,7 +39,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -48,13 +48,17 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This widget displays a scrollable list of items.<p/>
+ * This widget displays a scrollable list of items.
+ * <p/>
  * Don't try to use it directly. It's just for the combo box widget.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
+ * @param <T>
+ *            model type
  * @since 1.2.0
  */
-public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasChangeHandlers {
+public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
+		implements AdvancedWidget, HasChangeHandlers {
     /** a list of items */
     private FlowPanel list;
     /** items scrolling widget */
@@ -62,7 +66,7 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
     /** a flag meaning whether this widget is hidden */
     private boolean hidden = true;
     /** a parent selection box */
-    private ComboBox comboBox;
+	private ComboBox<T> comboBox;
     /** item click handler */
     private ClickHandler itemClickHandler;
     /** mouse event handler */
@@ -87,7 +91,7 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
      *
      * @param selectionTextBox is a selection box value.
      */
-    protected ListPopupPanel(ComboBox selectionTextBox) {
+	protected ListPopupPanel(ComboBox<T> selectionTextBox) {
         super(false, false);
         this.comboBox = selectionTextBox;
 
@@ -208,7 +212,8 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
     }
 
     /** {@inheritDoc} */
-    public void hide() {
+	@Override
+	public void hide() {
         if (clickSpyRegistration != null) {
             clickSpyRegistration.removeHandler();
             clickSpyRegistration = null;
@@ -218,7 +223,8 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
     }
 
     /** {@inheritDoc} */
-    public void show() {
+	@Override
+	public void show() {
         clickSpyRegistration = Event.addNativePreviewHandler(new ClickSpyHandler());
         setHidden(false);
         super.show();
@@ -227,6 +233,7 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
 
         setHighlightRow(getComboBox().getModel().getSelectedIndex());
         getComboBox().getDelegateHandler().onFocus(new FocusEvent() {
+			// nothing to do
         });
     }
 
@@ -260,13 +267,15 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
      * @param index is an index of the element to display.
      */
     public void setStartItemIndex(int index) {
-        if (index < 0)
-            index = 0;
-        this.startItemIndex = index;
+
+		this.startItemIndex = index < 0 ? 0 : index;
         if (isShowing())
             adjustSize();
     }
 
+	/**
+	 * @return start index
+	 */
     public int getStartItemIndex() {
         return startItemIndex;
     }
@@ -303,7 +312,7 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
             table.setHeight("");
             int spaceAbove = getComboBox().getAbsoluteTop();
             int spaceUnder = Window.getClientHeight() - getComboBox().getAbsoluteTop() - getComboBox().getOffsetHeight();
-            DOM.setStyleAttribute(table.getElement(), "maxHeight",
+			setStyleAttribute(table.getElement(), "maxHeight",
                     Math.min(Window.getClientHeight() * 0.3, Math.max(spaceAbove, spaceUnder)) + "px");
         } else if (getComboBox().getModel().getCount() > visibleRows) {
             int index = getStartItemIndex();
@@ -326,10 +335,10 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
             }
             table.setSize(table.getOffsetWidth() + "px", listHeight + "px");
             table.setScrollPosition(scrollPosition);
-            DOM.setStyleAttribute(table.getElement(), "maxHeight", "");
+			setStyleAttribute(table.getElement(), "maxHeight", "");
         } else {
             table.setHeight("");
-            DOM.setStyleAttribute(table.getElement(), "maxHeight", "");
+			setStyleAttribute(table.getElement(), "maxHeight", "");
         }
 
         resetPosition();
@@ -354,7 +363,10 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
      *
      * @deprecated you don't have to invoke this method to display the widget any more
      */
-    public void display() {
+	@Override
+	@Deprecated
+	public void display() {
+		// prevent
     }
 
     /**
@@ -465,7 +477,7 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
         panel.addMouseOverHandler(getMouseEventsHandler());
         panel.addMouseOutHandler(getMouseEventsHandler());
         panel.setStyleName("item");
-        DOM.removeElementAttribute(panel.getElement(), "tabindex");
+		panel.getElement().getStyle().clearProperty("tabindex");
         return panel;
     }
 
@@ -508,17 +520,23 @@ public class ListPopupPanel extends PopupPanel implements AdvancedWidget, HasCha
             scrollPanel = new ScrollPanel();
             scrollPanel.setAlwaysShowScrollBars(false);
             scrollPanel.setWidget(getList());
-            DOM.setStyleAttribute(scrollPanel.getElement(), "overflowX", "hidden");
+			setStyleAttribute(scrollPanel.getElement(), "overflowX", "hidden");
             scrollPanel.addScrollHandler(getListScrollHandler());
         }
         return scrollPanel;
     }
 
-    /**
-     * Getter for property 'itemClickHandler'.
-     *
-     * @return Value for property 'itemClickHandler'.
-     */
+	private static void setStyleAttribute(Element elem, String attr,
+			String value) {
+		elem.getStyle().setProperty(attr, value);
+
+	}
+
+	/**
+	 * Getter for property 'itemClickHandler'.
+	 *
+	 * @return Value for property 'itemClickHandler'.
+	 */
     protected ClickHandler getItemClickHandler() {
         if (itemClickHandler == null)
             itemClickHandler = new ItemClickHandler();

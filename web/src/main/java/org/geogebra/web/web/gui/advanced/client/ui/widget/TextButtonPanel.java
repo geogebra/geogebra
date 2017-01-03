@@ -30,8 +30,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 /**
  * This is a basic class for all text boxs with a button.
  * 
- * @see org.gwt.advanced.client.ui.widget.ComboBox
- * @see org.gwt.advanced.client.ui.widget.DatePicker
+ * @see ComboBox
  * 
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 1.2.0
@@ -135,11 +134,14 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      *
      * @deprecated you don't have to use this method to display the widget any more 
      */
-    public void display() {
+	@Override
+	@Deprecated
+	public void display() {
     }
 
     /** {@inheritDoc} */
-    public void setWidth(String width) {
+	@Override
+	public void setWidth(String width) {
         super.setWidth(width);
         this.width = width;
         prepareSelectedValue();
@@ -147,7 +149,8 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 
 
     /** {@inheritDoc} */
-    public void setHeight(String height) {
+	@Override
+	public void setHeight(String height) {
         super.setHeight(height);
         this.height = height;
         prepareSelectedValue();
