@@ -34,6 +34,9 @@ import com.google.gwt.core.client.JavaScriptObject;
 public final class MyDictionary {
 
 	private static Map<String, MyDictionary> cache = new HashMap<String, MyDictionary>();
+	private JavaScriptObject dict;
+
+	private String label;
 
 	/**
 	 * Returns the <code>Dictionary</code> object associated with the given
@@ -45,8 +48,10 @@ public final class MyDictionary {
 	 *            eg "en", "deAT"
 	 * @return specified dictionary
 	 * @throws MissingResourceException
+	 *             when no dictionary is available for given language
 	 */
-	public static MyDictionary getDictionary(String section, String language) {
+	public static MyDictionary getDictionary(String section, String language)
+			throws MissingResourceException {
 		MyDictionary target = cache.get(section + language);
 		if (target == null) {
 			target = new MyDictionary(section, language);
@@ -55,7 +60,7 @@ public final class MyDictionary {
 		return target;
 	}
 
-	static void resourceErrorBadType(String name) {
+	private static void resourceErrorBadType(String name) {
 		throw new MissingResourceException(
 		        "'"
 		                + name
@@ -63,9 +68,12 @@ public final class MyDictionary {
 		        null, name);
 	}
 
-	private JavaScriptObject dict;
+	private void resourceError(String key) {
+		String error = "Cannot find '" + key + "' in " + this;
+		throw new MissingResourceException(error, this.toString(), key);
+	}
 
-	private String label;
+
 
 	/**
 	 * Constructor for <code>Dictionary</code>.
@@ -73,7 +81,8 @@ public final class MyDictionary {
 	 * @param name
 	 *            name of linked JavaScript Object
 	 */
-	private MyDictionary(String section, String language) {
+	private MyDictionary(String section, String language)
+			throws MissingResourceException {
 		if (section == null || "".equals(section)) {
 			throw new IllegalArgumentException(
 			        "Cannot create a Dictionary with a null or empty name");
@@ -144,10 +153,7 @@ public final class MyDictionary {
 		return s;
 	}
 
-	void resourceError(String key) {
-		String error = "Cannot find '" + key + "' in " + this;
-		throw new MissingResourceException(error, this.toString(), key);
-	}
+
 
 	private native void addKeys(HashSet<String> s) /*-{
 		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict
