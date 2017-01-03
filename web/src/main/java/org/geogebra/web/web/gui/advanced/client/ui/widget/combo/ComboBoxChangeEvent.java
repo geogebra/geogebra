@@ -19,9 +19,12 @@ package org.geogebra.web.web.gui.advanced.client.ui.widget.combo;
 import com.google.gwt.event.dom.client.ChangeEvent;
 
 /**
- * This event extends the standard <code>ChangeEvent</code> class to provide more information about how
- * the event was produced.<p/>
- * It's fired by the {@link org.gwt.advanced.client.ui.widget.ComboBox} and subclasses.
+ * This event extends the standard <code>ChangeEvent</code> class to provide
+ * more information about how the event was produced.
+ * <p/>
+ * It's fired by the
+ * {@link org.geogebra.web.web.gui.advanced.client.ui.widget.ComboBox} and
+ * subclasses.
  * 
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 2.0.1
@@ -43,10 +46,16 @@ public class ComboBoxChangeEvent extends ChangeEvent {
         this.inputDevice = inputDevice;
     }
 
+	/**
+	 * @return row
+	 */
     public int getRow() {
         return row;
     }
 
+	/**
+	 * @return keyboard or mouse
+	 */
     public ChangeEventInputDevice getInputDevice() {
         return inputDevice;
     }

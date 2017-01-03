@@ -48,9 +48,9 @@ public class ComboBoxDataModel implements ListDataModel {
     }
 
     /** {@inheritDoc} */
-    public void add(int index, String id, Object item) {
+	public void add(int invalidIndex, String id, Object item) {
         List<String> ids = getItemIds();
-        index = getValidIndex(index);
+		int index = getValidIndex(invalidIndex);
 
         if (!ids.contains(id))
             ids.add(index, id);
@@ -60,13 +60,13 @@ public class ComboBoxDataModel implements ListDataModel {
 
     /** {@inheritDoc} */
     @Override
-    public void add(Map<String, Object> items) {
-        if (items == null) {
+    public void add(Map<String, Object> newItems) {
+        if (newItems == null) {
             return;
         }
 
         Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Object> entry : items.entrySet()) {
+        for (Map.Entry<String, Object> entry : newItems.entrySet()) {
             addInternally(entry.getKey(), entry.getValue());
             itemIndexes.put(entry.getKey(), getItemIds().indexOf(entry.getKey()));
         }
@@ -81,10 +81,10 @@ public class ComboBoxDataModel implements ListDataModel {
 
     /** {@inheritDoc} */
     public Object get(int index) {
-        if (isIndexValid(index))
+		if (isIndexValid(index)) {
             return get(getItemIds().get(index));
-        else
-            return null;
+		}
+		return null;
     }
 
     /** {@inheritDoc} */
@@ -262,11 +262,13 @@ public class ComboBoxDataModel implements ListDataModel {
      */
     protected int getValidIndex(int invalidIndex) {
         List<String> ids = getItemIds();
-
-        if (invalidIndex < 0)
-            invalidIndex = 0;
-        if (invalidIndex > ids.size())
-            invalidIndex = ids.size();
-        return invalidIndex;
+		int validIndex = invalidIndex;
+		if (invalidIndex < 0) {
+			validIndex = 0;
+		}
+		if (invalidIndex > ids.size()) {
+			validIndex = ids.size();
+		}
+		return validIndex;
     }
 }

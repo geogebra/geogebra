@@ -23,8 +23,5 @@ package org.geogebra.web.web.gui.advanced.client.ui;
  * @since 1.0.0
  */
 public interface AdvancedWidget {
-    /**
-     * This method displayes a widget.
-     */
-    void display();
+	// just tagging interface
 }

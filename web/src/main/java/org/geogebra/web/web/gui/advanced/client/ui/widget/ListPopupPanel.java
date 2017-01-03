@@ -38,7 +38,6 @@ import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -304,29 +303,29 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
     /** Adjusts drop down list sizes to make it take optimal area on the screen. */
     protected void adjustSize() {
         ScrollPanel table = getScrollPanel();
-        int visibleRows = getVisibleRows();
+        int rowsVisible = getVisibleRows();
         int delta = getElement().getOffsetWidth() - getElement().getClientWidth();
         getScrollPanel().setWidth((getComboBox().getOffsetWidth() - delta) + "px");
 
-        if (visibleRows <= 0) {
+        if (rowsVisible <= 0) {
             table.setHeight("");
             int spaceAbove = getComboBox().getAbsoluteTop();
             int spaceUnder = Window.getClientHeight() - getComboBox().getAbsoluteTop() - getComboBox().getOffsetHeight();
 			setStyleAttribute(table.getElement(), "maxHeight",
                     Math.min(Window.getClientHeight() * 0.3, Math.max(spaceAbove, spaceUnder)) + "px");
-        } else if (getComboBox().getModel().getCount() > visibleRows) {
+        } else if (getComboBox().getModel().getCount() > rowsVisible) {
             int index = getStartItemIndex();
             int count = getItemCount();
 
-            if (index + visibleRows > count) {
-                index = count - visibleRows + 1;
+            if (index + rowsVisible > count) {
+                index = count - rowsVisible + 1;
                 if (index < 0)
                     index = 0;
             }
 
             int listHeight = 0;
             int scrollPosition = 0;
-            for (int i = 0; i < index + visibleRows && i < count; i++) {
+            for (int i = 0; i < index + rowsVisible && i < count; i++) {
                 int height = getList().getWidget(i).getOffsetHeight();
                 if (i < index)
                     scrollPosition += height;
@@ -334,7 +333,7 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
                     listHeight += height;
             }
             table.setSize(table.getOffsetWidth() + "px", listHeight + "px");
-            table.setScrollPosition(scrollPosition);
+			table.setVerticalScrollPosition(scrollPosition);
 			setStyleAttribute(table.getElement(), "maxHeight", "");
         } else {
             table.setHeight("");
@@ -356,17 +355,6 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
             setPopupPosition(getComboBox().getAbsoluteLeft(),
                     getComboBox().getAbsoluteTop() + getComboBox().getOffsetHeight());
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated you don't have to invoke this method to display the widget any more
-     */
-	@Override
-	@Deprecated
-	public void display() {
-		// prevent
     }
 
     /**
@@ -495,7 +483,7 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
      *
      * @return Value for property 'comboBox'.
      */
-    protected ComboBox getComboBox() {
+	protected ComboBox<T> getComboBox() {
         return comboBox;
     }
 
@@ -617,7 +605,9 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
         @Override
         public void onScroll(ScrollEvent event) {
             if (isLazyRenderingEnabled() && !autoScrollingEnabled
-                    && getList().getOffsetHeight() - getScrollPanel().getScrollPosition() <= getScrollPanel().getOffsetHeight()) {
+					&& getList().getOffsetHeight() - getScrollPanel()
+							.getVerticalScrollPosition() <= getScrollPanel()
+									.getOffsetHeight()) {
                 int firstItemOnNextPage = getItemCount() - 1;
                 fillList(); //next page of data
                 if (firstItemOnNextPage >= 0 && firstItemOnNextPage < getItemCount()) {
@@ -659,9 +649,10 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
                 return;
             }
 
-            Element source = (Element) Element.as(nativePreviewEvent.getNativeEvent().getEventTarget());
-            if (!DOM.isOrHasChild(getElement(), source)
-                    && !DOM.isOrHasChild(getComboBox().getElement(), source)) {
+			Element source = Element
+					.as(nativePreviewEvent.getNativeEvent().getEventTarget());
+			if (!getElement().isOrHasChild(source)
+					&& !getComboBox().getElement().isOrHasChild(source)) {
                 hide();
                 getComboBox().getChoiceButton().setDown(false);
             }

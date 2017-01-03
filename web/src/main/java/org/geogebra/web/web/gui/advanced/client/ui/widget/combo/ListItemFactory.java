@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * This is a list item factory that helps to produce items in the
- * {@link org.gwt.advanced.client.ui.widget.ListPopupPanel}.
+ * {@link org.geogebra.web.web.gui.advanced.client.ui.widget.ListPopupPanel}.
  * 
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 1.2.0

@@ -33,6 +33,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * @see ComboBox
  * 
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
+ * @param <TypeOfSelectedValue>
+ *            value type
  * @since 1.2.0
  */
 public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
@@ -59,14 +61,22 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
     private String height;
     /** enabled panel controls flag */
     private boolean enabled;
-    /** action to be performed on Enter key press in the text field */
+
     private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
 	private AppW app;
 
+	/** action to be performed on Enter key press in the text field */
     public enum EnterAction {
-        OPEN_DROP_DOWN, DO_NOTHING;
+		/** open */
+		OPEN_DROP_DOWN,
+		/** ignore */
+		DO_NOTHING;
     }
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	protected TextButtonPanel(AppW app) {
 		this.app = app;
         getLayout().setWidget(0, 0, getSelectedValue());
@@ -127,16 +137,6 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
             prepareChoiceButton();
         }
         this.choiceButtonVisible = choiceButtonVisible;
-    }
-    
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated you don't have to use this method to display the widget any more 
-     */
-	@Override
-	@Deprecated
-	public void display() {
     }
 
     /** {@inheritDoc} */
@@ -225,9 +225,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * Prepares the selected value box for displaying.
      */
     protected void prepareSelectedValue() {
-		AutoCompleteTextFieldW selectedValue = getSelectedValue();
-		selectedValue.setEditable(!isCustomTextAllowed());
-        selectedValue.setStyleName("selected-value");
+		AutoCompleteTextFieldW selValue = getSelectedValue();
+		selValue.setEditable(!isCustomTextAllowed());
+		selValue.setStyleName("selected-value");
 
         if(getHeight() != null) {
             getLayout().setHeight("100%");
@@ -267,6 +267,10 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
         return layout;
     }
 
+	/**
+	 * @param tf
+	 *            textfield
+	 */
 	public void setTextField(AutoCompleteTextFieldW tf) {
 		selectedValue = tf;
 	}
@@ -369,10 +373,17 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
         return height;
     }
 
+	/**
+	 * @return action on enter
+	 */
     public ComboBox.EnterAction getEnterAction() {
         return enterAction;
     }
 
+	/**
+	 * @param enterAction
+	 *            action on enter
+	 */
     public void setEnterAction(ComboBox.EnterAction enterAction) {
         this.enterAction = enterAction;
     }
