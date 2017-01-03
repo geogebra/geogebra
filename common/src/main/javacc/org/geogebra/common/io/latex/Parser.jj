@@ -304,16 +304,22 @@ void arraySquare(MathContainer currentField) :
     {
         mathSequence = new MathSequence();
 
-        mathArray = new MathArray(metaModel.getArray(MetaArray.SQUARE), 0);
-        mathArray.addArgument(mathSequence);
+        mathArray = new MathArray(metaModel.getArray(MetaArray.SQUARE), 0);        
         currentField.addArgument(mathArray);
     }
-    ((LOOKAHEAD(2147483647) mathContainer(mathSequence) <COMMA>
-        {
+    (mathContainer(mathSequence))
+    {
+      	mathArray.addArgument(mathSequence);
             mathSequence = new MathSequence();
-            mathArray.addArgument(mathSequence);
+            
         }
-    )* mathContainer(mathSequence))
+    (LOOKAHEAD(2147483647)  <COMMA> mathContainer(mathSequence)
+        {
+          	mathArray.addArgument(mathSequence);
+            mathSequence = new MathSequence();
+            
+        }
+    )* 
 
     <SQUARE_BRACKETS_CLOSE>
 }
@@ -330,15 +336,21 @@ void arrayCurly(MathContainer currentField) :
         mathSequence = new MathSequence();
 
         mathArray = new MathArray(metaModel.getArray(MetaArray.CURLY), 0);
-        mathArray.addArgument(mathSequence);
         currentField.addArgument(mathArray);
     }
-    ((LOOKAHEAD(2147483647) mathContainer(mathSequence) <COMMA>
-        {
+       (mathContainer(mathSequence))
+    {
+      	mathArray.addArgument(mathSequence);
             mathSequence = new MathSequence();
-            mathArray.addArgument(mathSequence);
+            
         }
-    )* mathContainer(mathSequence))
+    (LOOKAHEAD(2147483647)  <COMMA> mathContainer(mathSequence)
+        {
+          	mathArray.addArgument(mathSequence);
+            mathSequence = new MathSequence();
+            
+        }
+    )* 
 
     <CURLY_BRACKETS_CLOSE>
     {
