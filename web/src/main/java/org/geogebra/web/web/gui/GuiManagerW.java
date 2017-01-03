@@ -1054,7 +1054,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	protected boolean loadURL_GGB(final String url) {
-		((AppW) app).loadURL_GGB(url);
+		((AppWFull) app).loadURL_GGB(url);
 		return true;
 	}
 

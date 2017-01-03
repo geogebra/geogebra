@@ -294,22 +294,22 @@ pr.menu_header_undo(), null, 32);
 					boolean supportsCAS = settings.getCasSettings().isEnabled();
 					boolean supports3D = settings.getEuclidian(-1).isEnabled();
 					if (!supports3D && supportsCAS) {
-						app.showMessage(true, exam.getLog(loc, settings),
+						app.showMessage(exam.getLog(loc, settings),
 								loc.getMenu("ExamCAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
 						if (app.enableGraphing()) {
-							app.showMessage(true, exam.getLog(loc, settings),
+							app.showMessage(exam.getLog(loc, settings),
 									loc.getMenu("ExamGraphingCalc.long"), null,
 									null);
 						} else {
-							app.showMessage(true, exam.getLog(loc, settings),
+							app.showMessage(exam.getLog(loc, settings),
 									app.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
 					}
 
 				} else {
-				app.showMessage(true,
+					app.showMessage(
 						app.getExam().getLog(app.getLocalization(),
 								app.getSettings()),
 							app.getMenu("exam_log_header") + " "

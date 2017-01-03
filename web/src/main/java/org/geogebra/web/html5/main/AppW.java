@@ -1892,6 +1892,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	// methods used just from AppWapplet (and AppWsimple)
+	/**
+	 * 
+	 * @param w
+	 *            last selected view
+	 * @param el
+	 *            target element
+	 */
 	public void focusLost(View w, Element el) {
 		// other things are handled in subclasses of AppW
 		// anyAppHasFocus = false;
@@ -1900,6 +1907,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
+	/**
+	 * 
+	 * @param w
+	 *            selected view
+	 * @param el
+	 *            target element
+	 */
 	public void focusGained(View w, Element el) {
 		// this is used through the super keyword
 		// anyAppHasFocus = true;
@@ -1982,17 +1996,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * 
 	 * @param evPanel
 	 * @param ec
-	 * @param showAxes
-	 * @param showGrid
+	 * @param showEvAxes
+	 * @param showEvGrid
 	 * @param id
 	 * @param settings
 	 *            view settings
 	 * @return new euclidian view
 	 */
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
-	        EuclidianController ec, boolean[] showAxes, boolean showGrid,
+			EuclidianController ec, boolean[] showEvAxes, boolean showEvGrid,
 			int id, EuclidianSettings evSettings) {
-		return new EuclidianViewW(evPanel, ec, showAxes, showGrid, id,
+		return new EuclidianViewW(evPanel, ec, showEvAxes, showEvGrid, id,
 				evSettings);
 	}
 
@@ -2142,7 +2156,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// IMAGES
 	// ============================================
 
-	private String createImageSrc(String ext, String base64) {
+	private static String createImageSrc(String ext, String base64) {
 		String dataUrl = "data:image/" + ext + ";base64," + base64;
 		return dataUrl;
 	}
@@ -2542,9 +2556,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return 0;
 	}
 
-	public void loadURL_GGB(String ggb) {
-	}
-
 	public String getAppletId() {
 		return articleElement.getDataParamId();
 	}
@@ -2726,7 +2737,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        null);
 	}
 	
-	public void showMessage(boolean scrollable, final String message,
+	public void showMessage(final String message,
 			final String title, String buttonText,
 			AsyncOperation<String[]> handler) {
 		HTML content = new HTML(message);
@@ -2829,10 +2840,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg) {
+	public void evalJavaScript(App app, String script0, String arg) {
 
 		// TODO: maybe use sandbox?
-
+		String script = script0;
 		String ggbApplet = getDataParamId();
 
 		script = "document.ggbApplet= document." + ggbApplet
@@ -2940,6 +2951,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void updateCenterPanel(boolean updateUI) {
+		// only needed with GUI
 	}
 
 	public Widget getSplitLayoutPanel() {
@@ -2997,7 +3009,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * (splitlayoutpanel center)
 	 *
 	 * @param width
-	 *            , height
+	 *            in pixels
+	 * @param height
+	 *            in pixels
 	 */
 	public void ggwGraphicsView3DDimChanged(int width, int height) {
 		// only used for 3D
@@ -3042,6 +3056,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	/**
 	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
+	 * 
+	 * @param textField
+	 *            keyboard listener
 	 */
 	public void showKeyboard(MathKeyboardListener textField) {
 		// Overwritten in subclass - nothing to do here
@@ -3195,6 +3212,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		getFileManager().setFileProvider(Provider.LOCAL);
 	}
 
+	/**
+	 * @param runnable
+	 *            callback for after file is saved
+	 */
 	public void checkSaved(Runnable runnable) {
 		// TODO Auto-generated method stub
 
@@ -3334,6 +3355,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	/**
+	 * @param index
+	 *            perspective ID
+	 */
 	public void setActivePerspective(int index) {
 		// only for GUI
 

@@ -82,78 +82,74 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
 
-			ExamEnvironment exam = app.getExam();
-			exam.exit();
-			boolean examFile = app.getArticleElement()
-					.hasDataParamEnableGraphing();
-			String buttonText = null;
-			AsyncOperation<String[]> handler = null;
+		ExamEnvironment exam = app.getExam();
+		exam.exit();
+		boolean examFile = app.getArticleElement().hasDataParamEnableGraphing();
+		String buttonText = null;
+		AsyncOperation<String[]> handler = null;
 
-			if (examFile) {
-				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP)
-						&& app.getVersion().isAndroidWebview()) {
-					handler = new AsyncOperation<String[]>() {
-						@Override
-						public void callback(String[] dialogResult) {
-							// for android tablets we just want to exit app
-							ExamDialog.exitApp();
-						}
-					};
-					buttonText = loc.getPlain("Exit");
-				} else {
-					handler = new AsyncOperation<String[]>() {
-						@Override
-						public void callback(String[] dialogResult) {
-							app.setNewExam();
-							ExamDialog.startExam(null, app);
-						}
-					};
-					buttonText = loc.getPlain("Restart");
-				}
-				exam.setHasGraph(true);
-				boolean supportsCAS = app.getSettings().getCasSettings()
-						.isEnabled();
-				boolean supports3D = app.getSettings().getEuclidian(-1)
-						.isEnabled();
-				if (!supports3D && supportsCAS) {
-					app.showMessage(true,
+		if (examFile) {
+			if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP)
+					&& app.getVersion().isAndroidWebview()) {
+				handler = new AsyncOperation<String[]>() {
+					@Override
+					public void callback(String[] dialogResult) {
+						// for android tablets we just want to exit app
+						ExamDialog.exitApp();
+					}
+				};
+				buttonText = loc.getPlain("Exit");
+			} else {
+				handler = new AsyncOperation<String[]>() {
+					@Override
+					public void callback(String[] dialogResult) {
+						app.setNewExam();
+						ExamDialog.startExam(null, app);
+					}
+				};
+				buttonText = loc.getPlain("Restart");
+			}
+			exam.setHasGraph(true);
+			boolean supportsCAS = app.getSettings().getCasSettings()
+					.isEnabled();
+			boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
+			if (!supports3D && supportsCAS) {
+					app.showMessage(
+						exam.getLog(app.getLocalization(), app.getSettings()),
+						loc.getMenu("ExamCAS"), buttonText, handler);
+			} else if (!supports3D && !supportsCAS) {
+				if (app.enableGraphing()) {
+					app.showMessage(
 							exam.getLog(app.getLocalization(),
 									app.getSettings()),
-							loc.getMenu("ExamCAS"), buttonText, handler);
-				} else if (!supports3D && !supportsCAS) {
-					if (app.enableGraphing()) {
-						app.showMessage(true,
-								exam.getLog(app.getLocalization(),
-										app.getSettings()),
-								loc.getMenu("ExamGraphingCalc.long"),
-								buttonText, handler);
-					} else {
-						app.showMessage(true,
-								exam.getLog(app.getLocalization(),
-										app.getSettings()),
-								loc.getMenu("ExamSimpleCalc.long"), buttonText,
-								handler);
-					}
+							loc.getMenu("ExamGraphingCalc.long"), buttonText,
+							handler);
+				} else {
+					app.showMessage(
+							exam.getLog(app.getLocalization(),
+									app.getSettings()),
+							loc.getMenu("ExamSimpleCalc.long"), buttonText,
+							handler);
 				}
-
-			} else {
-				app.showMessage(true, exam.getLog(loc, app.getSettings()),
-						loc.getMenu("exam_log_header") + " "
-								+ app.getVersionString(),
-						buttonText, handler);
 			}
-			app.setExam(null);
-			app.resetViewsEnabled();
-			Layout.initializeDefaultPerspectives(app, 0.2);
-			app.getLAF().addWindowClosingHandler(app);
-			app.fireViewsChangedEvent();
-			app.getGuiManager().updateToolbarActions();
-			app.getGuiManager().setGeneralToolBarDefinition(
-					ToolBar.getAllToolsNoMacros(true, false, app));
-			app.getGuiManager().resetMenu();
 
-			app.setActivePerspective(0);
+		} else {
+			app.showMessage(exam.getLog(loc, app.getSettings()),
+					loc.getMenu("exam_log_header") + " "
+							+ app.getVersionString(),
+					buttonText, handler);
+		}
+		app.setExam(null);
+		app.resetViewsEnabled();
+		Layout.initializeDefaultPerspectives(app, 0.2);
+		app.getLAF().addWindowClosingHandler(app);
+		app.fireViewsChangedEvent();
+		app.getGuiManager().updateToolbarActions();
+		app.getGuiManager().setGeneralToolBarDefinition(
+				ToolBar.getAllToolsNoMacros(true, false, app));
+		app.getGuiManager().resetMenu();
 
+		app.setActivePerspective(0);
 
 	}
 	

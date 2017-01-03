@@ -769,7 +769,10 @@ public abstract class AppWFull extends AppW {
 		return device;
 	}
 
-	@Override
+	/**
+	 * @param ggburl
+	 *            ggb file URL
+	 */
 	public final void loadURL_GGB(String ggburl) {
 		ViewW.fileLoader.getView().processFileName(ggburl);
 	}

@@ -505,7 +505,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private static native void nativeCopy(String value, Element el) /*-{
+	private native void nativeCopy(String value, Element el) /*-{
 		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
