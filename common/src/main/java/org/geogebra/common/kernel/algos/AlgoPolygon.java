@@ -58,6 +58,11 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		this(cons, labels, points, null);
 	}
 
+	public AlgoPolygon(Construction cons, String[] labels, GeoPointND[] points,
+			boolean createSegments) {
+		this(cons, labels, points, null, null, createSegments, null, null);
+	}
+
 	protected AlgoPolygon(Construction cons, String[] labels,
 			GeoPointND[] points, GeoList geoList) {
 		this(cons, labels, points, geoList, null, true, null, null);

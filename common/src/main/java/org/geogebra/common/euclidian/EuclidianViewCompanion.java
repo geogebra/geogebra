@@ -368,6 +368,13 @@ public class EuclidianViewCompanion {
 			view.drawZoomRectangle(g2);
 		}
 
+		// draw shape preview for shape tools
+		if (view.getShapeRectangle() != null) {
+			view.drawShapeRectangle(g2, EuclidianView.shapeRectangleFillCol,
+					EuclidianView.shapeRectangleObjCol,
+					EuclidianView.strokeShapeRectangle, view.shapeRectangle);
+		}
+
 		if (view.deletionRectangle != null) {
 			view.drawRect(g2, EuclidianView.colDeletionSquare,
 					EuclidianView.strokeDeletionSquare, view.deletionRectangle);

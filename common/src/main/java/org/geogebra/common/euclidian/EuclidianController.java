@@ -33,6 +33,7 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.modes.ModeDelete;
+import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
@@ -338,6 +339,7 @@ public abstract class EuclidianController {
 	private int index;
 	private double vertexX = Double.NaN, vertexY = Double.NaN;
 	private ModeDelete deleteMode;
+	private ModeShape shapeMode;
 	private GPoint2D.Double startPoint = new GPoint2D.Double();
 	private boolean externalHandling;
 	private long lastMouseRelease;
@@ -415,6 +417,23 @@ public abstract class EuclidianController {
 		return false;
 	}
 
+	public boolean shapeMode(int modeConst) {
+		switch (modeConst) {
+		case EuclidianConstants.MODE_SHAPE_CIRCLE:
+		case EuclidianConstants.MODE_SHAPE_ELLIPSE:
+		case EuclidianConstants.MODE_SHAPE_FREEFORM:
+		case EuclidianConstants.MODE_SHAPE_LINE:
+		case EuclidianConstants.MODE_SHAPE_POLYGON:
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE:
+		case EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES:
+		case EuclidianConstants.MODE_SHAPE_SQUARE:
+		case EuclidianConstants.MODE_SHAPE_TRIANGLE:
+			return true;
+
+		}
+		return false;
+	}
+
 	private static boolean modeCreatesHelperPoints(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_SEGMENT:
@@ -447,6 +466,13 @@ public abstract class EuclidianController {
 			deleteMode = new ModeDelete(view);
 		}
 		return deleteMode;
+	}
+
+	ModeShape getShapeMode() {
+		if (shapeMode == null && view != null) {
+			shapeMode = new ModeShape(view);
+		}
+		return shapeMode;
 	}
 
 	protected void createCompanions() {
@@ -8218,6 +8244,11 @@ public abstract class EuclidianController {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 
+		if (shapeMode(mode)) {
+			getShapeMode().handleMouseDraggedForShapeMode(event);
+			return;
+		}
+
 		if (!shouldCancelDrag()) {
 			if (shouldSetToFreehandMode()) {
 				setModeToFreehand();
@@ -9059,6 +9090,12 @@ public abstract class EuclidianController {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
+
+		if (shapeMode(mode)) {
+			getShapeMode().handleMousePressedForShapeMode(event);
+			return;
+		}
+
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
 			if (!app.showView(App.VIEW_PROPERTIES)) {
@@ -9576,6 +9613,12 @@ public abstract class EuclidianController {
 				storeUndoInfo();
 				return;
 			}
+		}
+
+		if (shapeMode(mode)) {
+			getShapeMode().handleMouseReleasedForShapeMode(event);
+			storeUndoInfo();
+			return;
 		}
 
 		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN

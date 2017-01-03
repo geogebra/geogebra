@@ -149,6 +149,16 @@ public abstract class EuclidianView
 			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
+	// shape tools
+	protected GRectangle shapeRectangle;
+	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
+			192, 192, 0.0);
+	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
+	protected static final GBasicStroke strokeShapeRectangle = AwtFactory
+			.getPrototype().newBasicStroke(2.0f,
+					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
+	private boolean isRounded = false;
+
 	// colors: axes, grid, background
 	GColor axesColor;
 	private GColor gridColor;
@@ -2504,6 +2514,14 @@ public abstract class EuclidianView
 		this.selectionRectangle = selectionRectangle;
 	}
 
+	/**
+	 * @param shapeRectangle
+	 *            - preview of rectangle for ShapeRectangle
+	 */
+	public void setShapeRectangle(GRectangle shapeRectangle) {
+		this.shapeRectangle = shapeRectangle;
+	}
+
 	public double[] getAxesCross() {
 		return axisCross;
 	}
@@ -3243,6 +3261,40 @@ public abstract class EuclidianView
 	}
 
 	/**
+	 * Draws preview of rectangle for ShapeRectangle and
+	 * ShapeRectangleRoundEdges
+	 * 
+	 * @param g2
+	 *            - graphics
+	 * @param fillCol
+	 *            - filling color of shape
+	 * @param objCol
+	 *            - color of line of shape
+	 * @param stroke
+	 *            - stroke of shape
+	 * @param rect
+	 *            - shape
+	 * @param isRounded
+	 *            - true if should have round edges
+	 */
+	protected void drawShapeRectangle(GGraphics2D g2, GColor fillCol,
+			GColor objCol, GBasicStroke stroke, GRectangle rect) {
+		g2.setColor(fillCol);
+		g2.setStroke(stroke);
+		g2.fill(shapeRectangle);
+		g2.setColor(objCol);
+		if (!isRounded) {
+			g2.draw(shapeRectangle);
+		} else {
+			// rectangle with rounded edges
+			g2.drawRoundRect((int) Math.round(shapeRectangle.getX()),
+					(int) Math.round(shapeRectangle.getY()),
+					(int) Math.round(shapeRectangle.getWidth()),
+					(int) Math.round(shapeRectangle.getHeight()), 20, 20);
+		}
+	}
+
+	/**
 	 * Draws rectangle with given options
 	 * 
 	 * @param g2
@@ -3825,6 +3877,21 @@ public abstract class EuclidianView
 
 	public GRectangle getSelectionRectangle() {
 		return selectionRectangle;
+	}
+
+	/**
+	 * @return shapeRectangle
+	 */
+	public GRectangle getShapeRectangle() {
+		return shapeRectangle;
+	}
+
+	public boolean isRounded() {
+		return isRounded;
+	}
+
+	public void setRounded(boolean isRounded) {
+		this.isRounded = isRounded;
 	}
 
 	/**
