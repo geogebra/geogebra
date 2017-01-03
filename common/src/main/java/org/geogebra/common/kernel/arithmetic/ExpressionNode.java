@@ -3295,20 +3295,24 @@ public class ExpressionNode extends ValidExpression
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 					break;
-
+				case DERIVATIVE:
+					if(stringType.isGiac()){
+						sb.append("diff(");
+						sb.append(en.getLeft().toValueString(tpl));
+						sb.append("(");
+						sb.append(rightStr);
+						sb.append("))");
+						break;
+					}
+					appendUserFunction(sb,leftStr, rightStr, tpl);
+					break;
 				default:
-					sb.append(leftStr);
-					sb.append(tpl.leftBracket());
-					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					appendUserFunction(sb,leftStr, rightStr, tpl);
 					break;
 				}
 			} else {
 				// standard case if we get here
-				sb.append(leftStr);
-				sb.append(tpl.leftBracket());
-				sb.append(rightStr);
-				sb.append(tpl.rightBracket());
+				appendUserFunction(sb,leftStr, rightStr, tpl);
 			}
 			break;
 
@@ -3404,12 +3408,10 @@ public class ExpressionNode extends ValidExpression
 			sb.append(rightStr);
 			sb.append(")");
 		case DERIVATIVE: // e.g. f''
-			// labeled GeoElements should not be expanded
 			if (tpl.hasCASType()) {
-				sb.append("diff(");
-				sb.append(leftStr);
-				break;
+				Log.error("Serialization not handled in Operation.Function");
 			}
+			// labeled GeoElements should not be expanded
 			if (left.isGeoElement() && ((GeoElement) left).isLabelSet()) {
 				sb.append(((GeoElement) left).getLabel(tpl));
 			} else {
@@ -3694,6 +3696,15 @@ public class ExpressionNode extends ValidExpression
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendUserFunction(StringBuilder sb, String leftStr,
+			String rightStr, StringTemplate tpl) {
+		sb.append(leftStr);
+		sb.append(tpl.leftBracket());
+		sb.append(rightStr);
+		sb.append(tpl.rightBracket());
+
 	}
 
 	private static void wrapInBackslashOperatorname(StringBuilder sb,
