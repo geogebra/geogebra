@@ -151,6 +151,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
 	private int keyboardHeight;
+	private DockPanelW dockPanelKB;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
@@ -361,7 +362,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (showKeyboardButton == null) {
 			DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 					.getDockManager();
-			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+			dockPanelKB = dm.getPanelForKeyboard();
 
 			if (dockPanelKB != null) {
 				showKeyboardButton = new ShowKeyboardButton(this, dm,
@@ -372,6 +373,18 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		if (showKeyboardButton != null) {
+			if(app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)){
+				DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+						.getDockManager();
+				DockPanelW newDockPanelKB = dm.getPanelForKeyboard();
+				if(dockPanelKB != newDockPanelKB){
+					dockPanelKB.setKeyBoardButton(null);
+					dockPanelKB = newDockPanelKB;
+					showKeyboardButton = new ShowKeyboardButton(this, dm,
+							dockPanelKB);
+					dockPanelKB.setKeyBoardButton(showKeyboardButton);
+				}
+			}
 			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 		}
 	}

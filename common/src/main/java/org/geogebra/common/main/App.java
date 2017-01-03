@@ -4186,7 +4186,10 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case READ_OBJECT_NAME_AT_SELECTING:
-			return false;
+			return true;
+
+		case SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW:
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
