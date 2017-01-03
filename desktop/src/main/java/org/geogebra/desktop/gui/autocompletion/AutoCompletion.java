@@ -45,6 +45,7 @@ public class AutoCompletion {
 	 * system.
 	 * 
 	 * @param fileChooser
+	 *            file chooser
 	 */
 	public static void install(JFileChooser fileChooser) {
 		install(fileChooser, caseInsensitivePaths);
@@ -86,6 +87,9 @@ public class AutoCompletion {
 						.listFiles(fileFilter);
 				// We cannot cache the above steps because the user could change
 				// the directory or file filter
+				if (options == null) {
+					return null;
+				}
 				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<File>(
 						options, caseInsensitiveCompletion) {
 					public String toString(File option) {
@@ -105,7 +109,12 @@ public class AutoCompletion {
 				POPUP_ROW_COUNT_FOR_FILE_CHOOSER);
 	}
 
-	private static String fileToString(File file) {
+	/**
+	 * @param file
+	 *            file
+	 * @return filename
+	 */
+	static String fileToString(File file) {
 		return file.getName();
 	}
 
