@@ -222,11 +222,14 @@ public class AutoCompletion {
 	 *            The maximum number of rows (height) of the completion popup,
 	 *            that is the number of options the user can see without
 	 *            scrolling
+	 * @return the popup
 	 */
-	public static <T> void install(JTextField textField,
+	@SuppressWarnings("rawtypes")
+	public static <T> Object install(JTextField textField,
 			CompletionProvider<T> completionProvider,
 			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
-		new OptionsPopup<T>(textField, completionProvider, listCellRenderer,
+		return new OptionsPopup<T>(textField, completionProvider,
+				listCellRenderer,
 				maxPopupRowCount);
 	}
 

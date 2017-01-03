@@ -153,9 +153,13 @@ public class Web implements EntryPoint {
 
 	/**
 	 * create app frame
+	 * 
+	 * @param device
+	 *            device
+	 * @return frame
 	 */
-	protected static void createGeoGebraAppFrame(GDevice device) {
-		new GeoGebraAppFrame(
+	protected static GeoGebraAppFrame createGeoGebraAppFrame(GDevice device) {
+		return new GeoGebraAppFrame(
 				Web.getLAF(ArticleElement.getGeoGebraMobileTags()), device,
 				(AppletFactory) GWT.create(AppletFactory.class));
 	}

@@ -486,6 +486,7 @@ public class MathFieldW implements MathField, IsWidget {
 			hiddenTextArea.style.position = 'absolute';
 			hiddenTextArea.style.zIndex = '100';
 			hiddenTextArea.style.left = '-1000px';
+			hiddenTextArea.style.top = '0px'; //prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
 		}
 		//hiddenTextArea.value = '';

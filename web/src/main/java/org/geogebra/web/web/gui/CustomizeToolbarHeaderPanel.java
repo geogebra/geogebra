@@ -17,12 +17,28 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * GUI for toolbar customization
+ * 
+ * @author Laszlo
+ *
+ */
 public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
+	/**
+	 * Listens to updates of the toolbar
+	 */
 	public interface CustomizeToolbarListener {
+		/**
+		 * @param id
+		 *            toolbar ID
+		 */
 		void update(int id);
 	}
 
+	/**
+	 * General toolbar id
+	 */
 	protected static final int GENERAL = -1;
 	private AppW app;
 	private FlowPanel buttons;
@@ -38,7 +54,18 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			this.id = viewId;
 		}
 
+		public int getId() {
+			return id;
+		}
+
 	}
+
+	/**
+	 * @param app
+	 *            application
+	 * @param gui
+	 *            frame
+	 */
 	CustomizeToolbarHeaderPanel(AppW app, MyHeaderPanel gui) {
 		super(app.getLocalization(), gui);
 		this.app = app;
@@ -86,9 +113,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 				btn.addClickHandler(new ClickHandler() {
 
 					public void onClick(ClickEvent event) {
-						uncheckAll(btn);
-						selectedViewId = viewId;
-						listener.update(selectedViewId);
+						selectAndUpdate(btn, viewId);
 					}
 				});
 
@@ -99,9 +124,8 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		btnGeneral.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				uncheckAll(btnGeneral);
-				selectedViewId = GENERAL;
-				listener.update(selectedViewId);
+				selectAndUpdate(btnGeneral, GENERAL);
+
 			}
 		});
 
@@ -109,6 +133,19 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
 		rightPanel.add(buttons);
 		add(rightPanel);
+
+	}
+
+	/**
+	 * @param btn
+	 *            clicked button
+	 * @param viewId
+	 *            view ID
+	 */
+	protected void selectAndUpdate(MyToggleButton2 btn, int viewId) {
+		uncheckAll(btn);
+		selectedViewId = viewId;
+		listener.update(selectedViewId);
 
 	}
 
@@ -126,17 +163,24 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			Widget w = buttons.getWidget(i);
 			if (w instanceof ViewButton) {
 				ViewButton btn = (ViewButton) w;
-				btn.setValue(btn.id == viewId);
+				btn.setValue(btn.getId() == viewId);
 			} else if (w instanceof MyToggleButton2) {
 				((MyToggleButton2) w).setValue(viewId == -1);
 			}
 		}
 	}
 
+	/**
+	 * @return view ID
+	 */
 	public int getSelectedViewId() {
 		return selectedViewId;
 	}
 
+	/**
+	 * @param viewId
+	 *            new view ID
+	 */
 	public void setSelectedViewId(int viewId) {
 		selectedViewId = viewId;
 		checkViewButton(viewId);

@@ -257,15 +257,25 @@ public class InputController {
     }
 
     /**
-     * Insert character.
-     */
+	 * Insert character.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @param meta
+	 *            character
+	 */
     public void newCharacter(EditorState editorState, MetaCharacter meta) {
         editorState.addArgument(new MathCharacter(meta));
     }
 
     /**
-     * Insert field.
-     */
+	 * Insert field.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @param ch
+	 *            bracket
+	 */
     public void endField(EditorState editorState, char ch) {
         MathSequence currentField = editorState.getCurrentField();
         int currentOffset = editorState.getCurrentOffset();
@@ -421,6 +431,12 @@ public class InputController {
         }
     }
 
+	/**
+	 * Backspace to remove container
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
     public void bkspContainer(EditorState editorState) {
         MathSequence currentField = editorState.getCurrentField();
 

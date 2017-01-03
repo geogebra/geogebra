@@ -7,6 +7,11 @@ import org.geogebra.web.web.gui.toolbar.svgimages.SvgToolbarResources;
 
 import com.google.gwt.core.shared.GWT;
 
+/**
+ * Provides access to SVG image resources
+ * 
+ * @author Zbynek
+ */
 public class SVGImageFactory implements ImageFactory {
 	private static ToolbarResources tb;
 

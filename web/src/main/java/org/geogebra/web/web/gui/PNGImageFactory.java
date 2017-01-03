@@ -7,6 +7,11 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.core.shared.GWT;
 
+/**
+ * Provides access to PNG image resources
+ * 
+ * @author Zbynek
+ */
 public class PNGImageFactory implements ImageFactory {
 	private static ToolbarResources tb;
 

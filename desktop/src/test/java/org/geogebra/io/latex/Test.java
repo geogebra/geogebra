@@ -99,7 +99,8 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("1+2+3+4+5");
+			MathFormula f = p
+					.parse(" a = Surface(sqrt(u), u, v, u, 0, 10, v, -10, 10)");
 			mathField.setFormula(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
