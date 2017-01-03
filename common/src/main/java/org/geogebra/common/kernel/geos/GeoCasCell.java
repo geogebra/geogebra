@@ -1996,7 +1996,13 @@ public class GeoCasCell extends GeoElement
 			cons.removeFromConstructionList(twinGeo);
 			return;
 		}
-		twinGeo.update();
+		if (isIndependent()) {
+			twinGeo.update();
+		} else {
+			// AlgoDependentCasCell calls one more update; important to skip
+			// this because of spreadsheet trace
+			twinGeo.updateGeo(false);
+		}
 	}
 
 	@Override
