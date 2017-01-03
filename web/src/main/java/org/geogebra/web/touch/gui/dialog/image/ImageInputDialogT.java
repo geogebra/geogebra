@@ -71,7 +71,7 @@ public class ImageInputDialogT extends UploadImageDialog {
     }
 
 	private void initFilePanel() {
-		this.options = new PictureOptions(this.PICTURE_QUALITY);
+		this.options = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
 		this.options.setSourceType(PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);//.PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
 		
 		filePanel = new FlowPanel();
@@ -90,6 +90,9 @@ public class ImageInputDialogT extends UploadImageDialog {
 		picturePanel.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
     }
 
+	/**
+	 * Callback for file open button
+	 */
 	void openFromFileClicked() {
 		PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
 	}
@@ -146,6 +149,9 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.inputPanel.setWidget(this.filePanel);
 	}
 	
+	/**
+	 * Callback for camera button
+	 */
 	protected void cameraClicked() {
 		if (this.pictureFromCameraString != null
 				&& !"".equals(this.pictureFromCameraString)) {
@@ -157,7 +163,9 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.camera.addStyleDependentName("highlighted");
 		this.upload.removeStyleDependentName("highlighted");
 		this.inputPanel.setWidget(this.cameraPanel);
-		PhoneGapManager.getPhoneGap().getCamera().getPicture(new PictureOptions(this.PICTURE_QUALITY), this.pictureCallback);
+		PhoneGapManager.getPhoneGap().getCamera().getPicture(
+				new PictureOptions(ImageInputDialogT.PICTURE_QUALITY),
+				this.pictureCallback);
     }
 
 	/**

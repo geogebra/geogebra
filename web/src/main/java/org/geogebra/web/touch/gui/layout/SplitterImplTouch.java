@@ -12,6 +12,10 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.layout.client.Layout.Layer;
 import com.google.gwt.user.client.Event;
 
+/**
+ * Override splitter behavior on touch devices: add glass dragging zone
+ *
+ */
 public class SplitterImplTouch extends SplitterImpl {
 
 	private Element mainDivElement;

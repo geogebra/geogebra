@@ -12,8 +12,18 @@ import org.geogebra.web.web.main.GDevice;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtphonegap.client.connection.Connection;
 
+/**
+ * Common for tablet app and Win Store app
+ *
+ */
 public abstract class TouchDevice implements GDevice {
 
+	/**
+	 * @param base64
+	 *            base64
+	 * @param title
+	 *            construction title
+	 */
 	protected native void nativeShare(String base64, String title)/*-{
 		
 	}-*/;
