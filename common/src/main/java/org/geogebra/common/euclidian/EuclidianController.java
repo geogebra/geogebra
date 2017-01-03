@@ -104,7 +104,6 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -180,7 +179,6 @@ public abstract class EuclidianController {
 	public static final int MOVE_Y_AXIS = 117;
 	protected static final int MOVE_BOOLEAN = 118;
 	protected static final int MOVE_BUTTON = 119;
-	protected static final int MOVE_IMPLICITPOLY = 121;
 	protected static final int MOVE_VECTOR_NO_GRID = 122;
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 	protected static final int MOVE_FREEHAND = 124;
@@ -214,7 +212,6 @@ public abstract class EuclidianController {
 	protected double yTemp;
 	protected boolean useLineEndPoint = false;
 	protected GeoConic tempConic;
-	protected GeoImplicit tempImplicitPoly;
 	protected GeoImplicitCurve tempImplicitCurve;
 	protected ArrayList<GeoPoint> moveDependentPoints;
 	protected GeoFunction tempFunction;
@@ -6125,19 +6122,7 @@ public abstract class EuclidianController {
 		movedGeoImplicitCurve.set(tempImplicitCurve);
 		movedGeoImplicitCurve.translate(xRW - getStartPointX(),
 				yRW - getStartPointY());
-		if (repaint) {
-			movedGeoImplicitCurve.updateRepaint();
-		} else {
-			movedGeoImplicitCurve.updateCascade();
-		}
-	}
 
-	protected final void moveImplicitPoly(boolean repaint) {
-		movedGeoImplicitPoly.set(tempImplicitPoly);
-		movedGeoImplicitPoly.translate(xRW - getStartPointX(),
-				yRW - getStartPointY());
-
-		// set points
 		for (int i = 0; i < moveDependentPoints.size(); i++) {
 			GeoPoint g = moveDependentPoints.get(i);
 			g.setCoords2D(tempDependentPointX.get(i),
@@ -6153,27 +6138,13 @@ public abstract class EuclidianController {
 		}
 
 		if (repaint) {
-			movedGeoImplicitPoly.updateRepaint();
+			movedGeoImplicitCurve.updateRepaint();
 		} else {
-			movedGeoImplicitPoly.updateCascade();
+			movedGeoImplicitCurve.updateCascade();
 		}
-
-		// int i=0;
-		// for (GeoElement elem:movedGeoImplicitPoly.getAllChildren()){
-		// if (elem instanceof GeoPoint){
-		// if (movedGeoImplicitPoly.isParentOf(elem)){
-		// GeoPoint g=((GeoPoint)elem);
-		// g.getPathParameter().setT(tempDependentPointOnPath.get(i++));
-		// tempImplicitPoly.pathChanged(g);
-		// g.translate(new Coords(xRW - getStartPointX(), yRW -
-		// getStartPointY()));
-		// }
-		// }else if (elem instanceof GeoImplicitPoly){
-		//
-		// }
-		// }
-
 	}
+
+
 
 	protected final void moveFreehand(boolean repaint) {
 
@@ -7354,8 +7325,7 @@ public abstract class EuclidianController {
 				tempConic = new GeoConic(kernel.getConstruction());
 			}
 			tempConic.set(movedGeoConic);
-		} else if (movedGeoElement.isGeoImplicitCurve()
-				&& !movedGeoElement.isGeoImplicitPoly()) {
+		} else if (movedGeoElement.isGeoImplicitCurve()) {
 			moveMode = MOVE_IMPLICIT_CURVE;
 			movedGeoImplicitCurve = (GeoImplicitCurve) movedGeoElement;
 			view.setShowMouseCoords(false);
@@ -7365,19 +7335,6 @@ public abstract class EuclidianController {
 				tempImplicitCurve = new GeoImplicitCurve(movedGeoImplicitCurve);
 			} else {
 				tempImplicitCurve.set(movedGeoImplicitCurve);
-			}
-
-		} else if (movedGeoElement.isGeoImplicitPoly()) {
-			moveMode = MOVE_IMPLICITPOLY;
-			movedGeoImplicitPoly = (GeoImplicit) movedGeoElement;
-			view.setShowMouseCoords(false);
-			setDragCursor();
-
-			setStartPointLocation();
-			if (tempImplicitPoly == null) {
-				tempImplicitPoly = new GeoImplicitPoly(movedGeoImplicitPoly);
-			} else {
-				tempImplicitPoly.set(movedGeoImplicitPoly);
 			}
 
 			if (tempDependentPointX == null) {
@@ -7398,12 +7355,12 @@ public abstract class EuclidianController {
 				moveDependentPoints.clear();
 			}
 
-			for (GeoElement f : movedGeoImplicitPoly.getAllChildren()) {
+			for (GeoElement f : movedGeoImplicitCurve.getAllChildren()) {
 				// if (f instanceof GeoPoint &&
 				// f.getParentAlgorithm().getInput().length==1 &&
 				// f.getParentAlgorithm().getInput()[0] instanceof Path){
 				if ((f instanceof GeoPoint)
-						&& movedGeoImplicitPoly.isParentOf(f)) {
+						&& movedGeoImplicitCurve.isParentOf(f)) {
 					GeoPoint g = (GeoPoint) f;
 					if (!Kernel.isZero(g.getZ())) {
 						moveDependentPoints.add(g);
@@ -7412,13 +7369,6 @@ public abstract class EuclidianController {
 					}
 				}
 			}
-			// for (GeoElement elem:movedGeoImplicitPoly.getAllChildren()){
-			// if (elem instanceof GeoPoint){
-			// if (movedGeoImplicitPoly.isParentOf(elem)){
-			// tempDependentPointOnPath.add(((GeoPoint)elem).getPathParameter().getT());
-			// }
-			// }
-			// }
 
 		}
 		// else removed otherwise AlgoFunctionFreehand can't be dragged
@@ -7880,10 +7830,6 @@ public abstract class EuclidianController {
 
 		case MOVE_CONIC:
 			moveConic(repaint);
-			break;
-
-		case MOVE_IMPLICITPOLY:
-			moveImplicitPoly(repaint);
 			break;
 
 		case MOVE_IMPLICIT_CURVE:

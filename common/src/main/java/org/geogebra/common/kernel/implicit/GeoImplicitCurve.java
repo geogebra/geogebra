@@ -426,7 +426,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public double derivativeX(double x, double y) {
 		if (coeff != null) {
-			return GeoImplicitPoly.evalDiffXPolyAt(x, y, coeff);
+			return evalDiffXPolyAt(x, y, coeff);
 		}
 		return derivative(diffExp[0], x, y);
 	}
@@ -442,9 +442,58 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	public double derivativeY(double x, double y) {
 		if (coeff != null) {
-			return GeoImplicitPoly.evalDiffYPolyAt(x, y, coeff);
+			return evalDiffYPolyAt(x, y, coeff);
 		}
 		return derivative(diffExp[1], x, y);
+	}
+
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param coeff1
+	 *            coefficients
+	 * 
+	 * @return value of dthis/dx at (x,y)
+	 */
+	public static double evalDiffXPolyAt(double x, double y, double[][] coeff1) {
+		double sum = 0;
+		double zs = 0;
+		// Evaluating Poly via the Horner-scheme
+		if (coeff1 != null)
+			for (int i = coeff1.length - 1; i >= 1; i--) {
+				zs = 0;
+				for (int j = coeff1[i].length - 1; j >= 0; j--) {
+					zs = y * zs + coeff1[i][j];
+				}
+				sum = sum * x + i * zs;
+			}
+		return sum;
+	}
+
+	/**
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param coeff1
+	 *            coefficients
+	 * @return value of dthis/dy at (x,y)
+	 */
+	public static double evalDiffYPolyAt(double x, double y, double[][] coeff1) {
+		double sum = 0;
+		double zs = 0;
+		// Evaluating Poly via the Horner-scheme
+		if (coeff1 != null)
+			for (int i = coeff1.length - 1; i >= 0; i--) {
+				zs = 0;
+				for (int j = coeff1[i].length - 1; j >= 1; j--) {
+					zs = y * zs + j * coeff1[i][j];
+				}
+				sum = sum * x + zs;
+			}
+		return sum;
 	}
 
 	/**
