@@ -14,6 +14,7 @@ sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
 gwt {
+	maxHeapSize = '2000M'
 	gwtVersion '2.8.0'
 	// only compilable module
 	modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
@@ -47,7 +48,7 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-port', '8888',
 		'-superDevMode',
 		'-war', file('war'),
-		'org.scilab.forge.JLaTeXMathGWTDev'
+		'com.himamis.retex.renderer.JLaTeXMathGWTDev'
 	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 task jarAll(type: Jar) {
