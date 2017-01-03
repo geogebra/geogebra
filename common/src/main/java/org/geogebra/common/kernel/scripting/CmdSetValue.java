@@ -89,7 +89,8 @@ public class CmdSetValue extends CmdScripting {
 			list.add((GeoElement) arg2.deepCopy(kernel));
 			if (list.getDefinition() != null) {
 				ExpressionValue root = list.getDefinition().unwrap();
-				if (root instanceof MyList && arg2.getDefinition() != null) {
+				if (root instanceof MyList && arg2.getDefinition() != null
+						&& arg2.isIndependent()) {
 					((MyList) root).addListElement(arg2.getDefinition());
 				} else {
 					list.setDefinition(null);
@@ -110,7 +111,8 @@ public class CmdSetValue extends CmdScripting {
 				ExpressionValue root = list.getDefinition().unwrap();
 				// sizes different == something went wrong
 				if (root instanceof MyList && arg2.getDefinition() != null
-						&& ((MyList) root).size() == list.size()) {
+						&& ((MyList) root).size() == list.size()
+						&& arg2.isIndependent()) {
 					((MyList) root).setListElement(nn - 1,
 							arg2.getDefinition());
 				} else {
