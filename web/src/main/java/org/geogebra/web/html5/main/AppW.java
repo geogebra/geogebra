@@ -2268,11 +2268,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return null;
 	}
 
-	public void showLoadingAnimation(boolean go) {
-		// showSplashImageOnCanvas();
-
-	}
-
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
 		Window.open(pageUrl, "_blank", "");

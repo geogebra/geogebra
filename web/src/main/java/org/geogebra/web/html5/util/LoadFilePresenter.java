@@ -276,7 +276,6 @@ public class LoadFilePresenter {
 	}
 
 	private void fetch(String fileName) {
-		getView().showLoadAnimation();
 		getView().processFileName(fileName);
 	}
 

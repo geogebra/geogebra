@@ -120,7 +120,6 @@ public class GgbAPIW extends GgbAPI {
 	public void openFile(String filename) {
 		resetPerspective();
 		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
-		view.showLoadAnimation();
 		view.processFileName(filename);
 	}
 

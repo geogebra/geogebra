@@ -510,7 +510,7 @@ public class MathFieldW implements MathField, IsWidget {
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
-		el.focus();
+		//	el.focus();
 	}-*/;
 
 	protected void listenToTextArea() {

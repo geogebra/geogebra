@@ -59,10 +59,6 @@ public class ViewW {
 		Log.debug("View.hide called");
 	}
 
-	public void showLoadAnimation() {
-		app.showLoadingAnimation(true);
-	}
-
 	public String getDataParamFileName() {
 		return ((ArticleElement) container).getDataParamFileName();
 	}
