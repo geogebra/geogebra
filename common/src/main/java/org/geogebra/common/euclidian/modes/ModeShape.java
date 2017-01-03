@@ -26,7 +26,7 @@ public class ModeShape {
 	/**
 	 * start point of dragging movement
 	 */
-	protected GPoint selectionStartPoint = new GPoint();
+	protected GPoint dragStartPoint = new GPoint();
 	/**
 	 * preview for ShapeRectangle
 	 */
@@ -50,7 +50,7 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMousePressedForShapeMode(AbstractEvent event) {
-		selectionStartPoint.setLocation(event.getX(), event.getY());
+		dragStartPoint.setLocation(event.getX(), event.getY());
 	}
 
 	/**
@@ -62,12 +62,17 @@ public class ModeShape {
 	public void handleMouseDraggedForShapeMode(AbstractEvent event) {
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
-			updateRectangle(event); 
+			updateRectangle(event, false);
 			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
 				view.setRounded(true);
 			} else {
 				view.setRounded(false);
 			}
+			view.setShapeRectangle(rectangle);
+			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
+			updateRectangle(event, true);
+			view.setRounded(false);
 			view.setShapeRectangle(rectangle);
 			view.repaintView();
 		}
@@ -79,13 +84,22 @@ public class ModeShape {
 	 * @param event
 	 *            - mouse event
 	 */
-	private GeoPointND[] getPointArray(AbstractEvent event) {
+	private GeoPointND[] getPointArray(AbstractEvent event, boolean isSquare) {
 		GeoPointND[] points = new GeoPointND[4];
 
-		double startPointX = view.toRealWorldCoordX(selectionStartPoint.x);
-		double startPointY = view.toRealWorldCoordY(selectionStartPoint.y);
-		double endPointX = view.toRealWorldCoordX(event.getX());
-		double endPointY = view.toRealWorldCoordY(event.getY());
+		double startPointX = view.toRealWorldCoordX(dragStartPoint.x);
+		double startPointY = view.toRealWorldCoordY(dragStartPoint.y);
+		double endPointX, endPointY;
+
+		// for width of square take the width of rectangle
+		if (isSquare) {
+			double[] coords = getEndPointRealCoords(event);
+			endPointX = coords[0];
+			endPointY = coords[1];
+		} else {
+			endPointX = view.toRealWorldCoordX(event.getX());
+			endPointY = view.toRealWorldCoordY(event.getY());
+		}
 
 		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
 				startPointX, startPointY, 1);
@@ -106,6 +120,23 @@ public class ModeShape {
 		return points;
 	}
 
+	private double[] getEndPointRealCoords(AbstractEvent event) {
+		double[] coords = new double[2];
+		if (dragStartPoint.x > event.getX()
+				&& dragStartPoint.y > event.getY()) {
+			coords[0] = view
+					.toRealWorldCoordX(dragStartPoint.x - rectangle.getWidth());
+			coords[1] = view
+					.toRealWorldCoordY(dragStartPoint.y - rectangle.getWidth());
+		} else {
+			coords[0] = view
+					.toRealWorldCoordX(dragStartPoint.x + rectangle.getWidth());
+			coords[1] = view
+					.toRealWorldCoordY(dragStartPoint.y + rectangle.getWidth());
+		}
+		return coords;
+	}
+
 	/**
 	 * with mouse release create geoElement
 	 * 
@@ -114,10 +145,16 @@ public class ModeShape {
 	 */
 	public void handleMouseReleasedForShapeMode(AbstractEvent event) {
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
-				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
-			algo = new AlgoPolygon(
+				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
+				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
+			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
+				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
+						getPointArray(event, true), false);
+			} else {
+				algo = new AlgoPolygon(
 					view.getKernel().getConstruction(),
-				null, getPointArray(event), false);
+				null, getPointArray(event,false), false);
+			}
 			GeoElement poly = algo.getOutput(0);
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
@@ -133,40 +170,42 @@ public class ModeShape {
 	 * 
 	 * @param event
 	 *            - mouse event
+	 * @param isSquare
+	 *            - true if we want square instead of rectangle
 	 */
-	protected void updateRectangle(AbstractEvent event) {
-		/*
-		 * if (!shouldUpdateRectangle(event)) {
-		 */
-
+	protected void updateRectangle(AbstractEvent event, boolean isSquare) {
 		if (rectangle == null) {
 			rectangle = AwtFactory.getPrototype().newRectangle();
 		}
 
-		int dx = event.getX() - selectionStartPoint.x;
-		int dy = event.getY() - selectionStartPoint.y;
+		int dx = event.getX() - dragStartPoint.x;
+		int dy = event.getY() - dragStartPoint.y;
 
 		int width = dx;
-		int height = dy;
+		int height;
+		if (isSquare) {
+			height = dx;
+		} else {
+			height = dy;
+		}
 
 		if (height >= 0) {
 			if (width >= 0) {
-				rectangle.setLocation(selectionStartPoint.x,
-						selectionStartPoint.y);
+				rectangle.setLocation(dragStartPoint.x, dragStartPoint.y);
 				rectangle.setSize(width, height);
 			} else { // width < 0
-				rectangle.setLocation(selectionStartPoint.x + width,
-						selectionStartPoint.y);
+				rectangle.setLocation(dragStartPoint.x + width,
+						dragStartPoint.y);
 				rectangle.setSize(-width, height);
 			}
 		} else { // height < 0
 			if (width >= 0) {
-				rectangle.setLocation(selectionStartPoint.x,
-						selectionStartPoint.y + height);
+				rectangle.setLocation(dragStartPoint.x,
+						dragStartPoint.y + height);
 				rectangle.setSize(width, -height);
 			} else { // width < 0
-				rectangle.setLocation(selectionStartPoint.x + width,
-						selectionStartPoint.y + height);
+				rectangle.setLocation(dragStartPoint.x + width,
+						dragStartPoint.y + height);
 				rectangle.setSize(-width, -height);
 			}
 		}
