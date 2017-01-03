@@ -4960,5 +4960,12 @@ public class GeoGebraCasIntegrationTest {
 		// 3)^(1 / 1057))^(1056))}}");
 	}
   
+	@Test
+	public void FDashedTest() {
+		t("f(x):=g(x)/x", "g(x) / x");
+		t("f'(x)", "(-g(x) + x * g'(x)) / x^(2)");
+		t("f'(x+1)", "(-g(x + 1) + g'(x + 1) * (x + 1)) / (x + 1)^(2)");
+
+	}
   
 }
