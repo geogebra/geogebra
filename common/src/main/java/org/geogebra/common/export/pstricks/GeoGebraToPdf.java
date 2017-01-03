@@ -1177,6 +1177,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 		code.append(st);
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 		case 2:
 		case 3:
@@ -1187,6 +1190,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			code.append("$");
 
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 			code.append("\\bf{");
 			break;
@@ -1199,6 +1205,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 		code.append(st);
 		switch (style) {
+		default:
+			// do nothing
+			break;
 		case 1:
 		case 2:
 			code.append("}");
