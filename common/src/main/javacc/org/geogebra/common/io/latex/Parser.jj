@@ -284,12 +284,18 @@ void arrayParantheses(MathContainer currentField) :
         //mathArray.addArgument(mathSequence);
         //currentField.addArgument(mathArray);
     }
-    ((LOOKAHEAD(2147483647) mathContainer(mathSequence) <COMMA>
-        {
+    mathContainer(mathSequence)
+    {
+      		//mathSequence is already in tree; just create a new one
             mathSequence = new MathSequence();
-            mathArrayOrFunction.addArgument(mathSequence);
         }
-    )* mathContainer(mathSequence))
+    (LOOKAHEAD(2147483647) <COMMA> mathContainer(mathSequence) 
+        {
+          	mathArrayOrFunction.addArgument(mathSequence);
+            mathSequence = new MathSequence();
+            
+        }
+    )* 
 
     <PARANTHESES_CLOSE>
 }
