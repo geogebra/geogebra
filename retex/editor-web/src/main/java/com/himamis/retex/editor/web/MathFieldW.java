@@ -387,11 +387,14 @@ public class MathFieldW implements MathField, IsWidget {
 	private native void installPaste() /*-{
 		var that = this;
 		$doc.body.addEventListener('paste',
-		function(a){
-			$wnd.console.log(a.clipboardData);
-			that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));
+			function(a){
+				if(a.clipboardData){
+					that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));
+				}else if($wnd.clipboardData){
+					that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)($wnd.clipboardData.getData("Text"));
+				}
 			}
-		);
+			);
 		
 	}-*/;
 

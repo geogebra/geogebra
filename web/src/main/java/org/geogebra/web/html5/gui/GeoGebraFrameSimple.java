@@ -28,7 +28,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	protected AppW createApplication(ArticleElement article,
 	        GLookAndFeelI laf) {
-		AppWsimple appl = new AppWsimple(article, this);
+		AppWsimple appl = new AppWsimple(article, this, true);
 		getArticleMap().put(article.getId(), appl);
 		return appl;
 	}

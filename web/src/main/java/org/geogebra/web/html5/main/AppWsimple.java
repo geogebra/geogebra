@@ -15,20 +15,20 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Simple app, may only have one EV
+ *
+ */
 public class AppWsimple extends AppW {
 	private GeoGebraFrameW frame;
-	/******************************************************
-	 * Constructs AppW for applets with undo enabled
-	 * 
-	 * @param ae
-	 * @param gf
-	 */
-	public AppWsimple(ArticleElement ae, GeoGebraFrameW gf) {
-		this(ae, gf, true);
-	}
 
 	/******************************************************
 	 * Constructs AppW for applets
+	 * 
+	 * @param ae
+	 *            article element
+	 * @param gf
+	 *            frame
 	 * 
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
@@ -76,6 +76,7 @@ public class AppWsimple extends AppW {
 		initing = false;
 	}
 
+	@Override
 	public void buildApplicationPanel() {
 		if (frame != null) {
 			frame.clear();

@@ -380,6 +380,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return timers;
 	}
 
+	/**
+	 * 
+	 * @param width
+	 *            view width
+	 * @param height
+	 *            view height
+	 * @param evNo
+	 *            view number
+	 */
 	public void syncAppletPanelSize(int width, int height, int evNo) {
 		// TODO Auto-generated method stub
 
@@ -660,6 +669,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		getImageManager().reset();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadFile(HashMap<String, String> archiveContent)
 	        throws Exception {
 		beforeLoadFile();
@@ -812,6 +822,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void setCurrentFile(Object file) {
 		if (currentFile == file) {
@@ -1532,8 +1543,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		doDropHappened(fn, fileStr, loc1, width, height);
 	}
 
+	/**
+	 * @param pt
+	 *            drop location TODO make sure it's used
+	 */
 	private void doDropHappened(String imgFileName, String fileStr,
-	        GeoPoint loc, int width, int height) {
+			GeoPoint pt, int width, int height) {
 
 		Construction cons = getKernel().getConstruction();
 		getImageManager().addExternalImage(imgFileName, fileStr);

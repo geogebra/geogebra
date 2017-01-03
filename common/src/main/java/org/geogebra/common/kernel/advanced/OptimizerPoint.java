@@ -4,10 +4,20 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Optimizer for Minimize[dependent number, point on path]
+ *
+ */
 public class OptimizerPoint extends Optimizer {
 
 	private GeoPointND indep;
 
+	/**
+	 * @param dep
+	 *            dependent number
+	 * @param indep
+	 *            independent point
+	 */
 	public OptimizerPoint(NumberValue dep, GeoPointND indep) {
 		super(dep);
 		this.indep = indep;

@@ -4,10 +4,19 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
+/**
+ * Optimizer for Minimize[dependent number,number]
+ */
 public class OptimizerNumeric extends Optimizer {
 
 	private GeoNumeric indep;
 
+	/**
+	 * @param dep
+	 *            dependent number
+	 * @param indep2
+	 *            independent number
+	 */
 	public OptimizerNumeric(NumberValue dep, GeoNumeric indep2) {
 		super(dep);
 		this.indep = indep2;

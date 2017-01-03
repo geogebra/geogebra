@@ -14,7 +14,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
-import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -22,7 +21,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
-import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.ColorW;
@@ -34,47 +32,7 @@ public class DrawEquationW extends DrawEquation {
 	static boolean scriptloaded = false;
  
 
-
-
-
 	private static Object initJLaTeXMath = null;
-
-	public DrawEquationW() {
-	}
-
-
-
-
-	
-	public static TeXIcon xcreateIcon(String latex, int size,
-			int texIconStyle) {
-
-		TeXFormula formula = null;
-		try {
-			formula = new TeXFormula(latex);
-		} catch (Throwable t) {
-			String[] msg = t.getMessage().split("\\n");
-			formula = new TeXFormula("\\text{" + msg[msg.length - 1] + "}");
-		}
-
-		TeXIcon icon = null;
-		try {
-			icon = formula.new TeXIconBuilder()
-					.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
-					.setSize(size).build();
-
-			icon.setInsets(new Insets(5, 5, 5, 5));
-			return icon;
-		} catch (Exception e) {
-			formula = new TeXFormula("\\text{Invalid LaTeX syntax.}");
-			icon = formula.new TeXIconBuilder()
-					.setStyle(TeXConstants.STYLE_DISPLAY).setType(texIconStyle)
-					.setSize(size).build();
-
-			icon.setInsets(new Insets(5, 5, 5, 5));
-		}
-		return icon;
-	}
 
 	@Override
 	public GDimension drawEquation(App app1, GeoElementND geo,
