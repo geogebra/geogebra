@@ -52,7 +52,8 @@ public class Test {
 		mathField.setFieldListener(new MathFieldListener() {
 
 			public void onEnter() {
-				// TODO Auto-generated method stub
+				System.out.println(GeoGebraSerializer
+						.serialize(mathField.getFormula().getRootComponent()));
 
 			}
 
