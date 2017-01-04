@@ -374,16 +374,25 @@ public final class EuclidianConstants {
 
 	/** WHITEBOARD TOOLS */
 	public static final int MODE_SHAPE_LINE = 101;
+	/** Triangle */
 	public static final int MODE_SHAPE_TRIANGLE = 102;
+	/** Square */
 	public static final int MODE_SHAPE_SQUARE = 103;
+	/** Rectangle */
 	public static final int MODE_SHAPE_RECTANGLE = 104;
+	/** Rounded rectangle */
 	public static final int MODE_SHAPE_RECTANGLE_ROUND_EDGES = 105;
+	/** Regular polygon */
 	public static final int MODE_SHAPE_POLYGON = 106;
+	/** Freeform TODO same as normal polygon? */
 	public static final int MODE_SHAPE_FREEFORM = 107;
+	/** Circle */
 	public static final int MODE_SHAPE_CIRCLE = 108;
+	/** Ellipse */
 	public static final int MODE_SHAPE_ELLIPSE = 109;
-
+	/** Eraser */
 	public static final int MODE_ERASER = 110;
+	/** Highlighter */
 	public static final int MODE_HIGHLIGHTER = 111;
 
 	/** macro tools ID offset */

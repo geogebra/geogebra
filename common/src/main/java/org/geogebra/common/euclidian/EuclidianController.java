@@ -217,7 +217,6 @@ public abstract class EuclidianController {
 	protected GeoFunction tempFunction;
 	protected GeoLineND movedGeoLine;
 	protected GeoConicND movedGeoConic;
-	protected GeoImplicit movedGeoImplicitPoly;
 	protected GeoImplicitCurve movedGeoImplicitCurve;
 	protected GeoVectorND movedGeoVector;
 	protected GeoText movedGeoText;
