@@ -55,6 +55,10 @@
             <Field cas="," />
             <Row cas=";" />
         </Array>
+       <Array name="apostrophes">
+            <Open cas="&quot;" tex=" \text{&quot;" />
+            <Close cas="&quot;" tex="&quot;} " />
+        </Array>
     </Arrays>
 
 	<Matrix>

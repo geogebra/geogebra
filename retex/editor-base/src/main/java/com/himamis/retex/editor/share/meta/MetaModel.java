@@ -202,7 +202,7 @@ public class MetaModel {
         }
 
         throw new ArrayIndexOutOfBoundsException(
-                "Component Not found " + name);
+				"Component Not found " + tabName + "/" + name);
     }
 
     /**

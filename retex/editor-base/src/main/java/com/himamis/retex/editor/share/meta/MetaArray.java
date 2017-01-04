@@ -61,7 +61,7 @@ public class MetaArray extends MetaComponent implements MetaGroup {
                 return metaComponent;
             }
         }
-        throw new RuntimeException("Component does not exist");
+		return null;
     }
 
     public MetaComponent getOpen() {
