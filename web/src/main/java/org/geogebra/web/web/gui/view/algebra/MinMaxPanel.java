@@ -102,6 +102,13 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			e.stopPropagation();
 		}
 
+		@Override
+		protected void fieldFocus() {
+			super.fieldFocus();
+			selectAll();
+
+		}
+
 	}
 
 	private SliderTreeItemInterface sliderTreeItem;
@@ -151,18 +158,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMax.addKeyHandler(this);
 		tfStep.addKeyHandler(this);
 
-		tfMin.addFocusHandler(new FocusHandler() {
 
-			public void onFocus(FocusEvent event) {
-				tfMin.selectAll();
-			}
-		});
-		tfMax.addFocusHandler(new FocusHandler() {
-
-			public void onFocus(FocusEvent event) {
-				tfMax.selectAll();
-			}
-		});
 		tfStep.addFocusHandler(new FocusHandler() {
 
 			public void onFocus(FocusEvent event) {
