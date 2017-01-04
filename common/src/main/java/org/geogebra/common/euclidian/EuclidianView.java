@@ -17,6 +17,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -153,6 +154,7 @@ public abstract class EuclidianView
 	protected GRectangle shapeRectangle;
 	protected GEllipse2DDouble shapeEllipse;
 	protected GLine2D shapeLine;
+	protected GGeneralPath shapeTriangle;
 	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
 			192, 192, 0.0);
 	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
@@ -2540,6 +2542,14 @@ public abstract class EuclidianView
 		this.shapeLine = shapeLine;
 	}
 
+	/**
+	 * @param shapeTriangle
+	 *            - preview of triangle for ShapeTriangle
+	 */
+	public void setShapeTriangle(GGeneralPath shapeTriangle) {
+		this.shapeTriangle = shapeTriangle;
+	}
+
 	public double[] getAxesCross() {
 		return axisCross;
 	}
@@ -3279,8 +3289,7 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * Draws preview of rectangle for ShapeRectangle, ShapeRectangleRoundEdges
-	 * and ShapeSquare
+	 * Draws preview of shape for ShapeTools
 	 * 
 	 * @param g2
 	 *            - graphics
@@ -3290,64 +3299,24 @@ public abstract class EuclidianView
 	 *            - color of line of shape
 	 * @param stroke
 	 *            - stroke of shape
+	 * @param shape
+	 *            - shape to draw
 	 */
-	protected void drawShapeRectangle(GGraphics2D g2, GColor fillCol,
-			GColor objCol, GBasicStroke stroke) {
+	protected void drawShape(GGraphics2D g2, GColor fillCol,
+			GColor objCol, GBasicStroke stroke, GShape shape) {
 		g2.setColor(fillCol);
 		g2.setStroke(stroke);
-		g2.fill(shapeRectangle);
+		g2.fill(shape);
 		g2.setColor(objCol);
 		if (!isRounded) {
-			g2.draw(shapeRectangle);
+			g2.draw(shape);
 		} else {
 			// rectangle with rounded edges
-			g2.drawRoundRect((int) Math.round(shapeRectangle.getX()),
-					(int) Math.round(shapeRectangle.getY()),
-					(int) Math.round(shapeRectangle.getWidth()),
-					(int) Math.round(shapeRectangle.getHeight()), 20, 20);
+			g2.drawRoundRect((int) Math.round(((GRectangle) shape).getX()),
+					(int) Math.round(((GRectangle) shape).getY()),
+					(int) Math.round(((GRectangle) shape).getWidth()),
+					(int) Math.round(((GRectangle) shape).getHeight()), 20, 20);
 		}
-	}
-
-	/**
-	 * Draws preview of ellipse for ShapeEllipse and ShapeCircle
-	 * 
-	 * @param g2
-	 *            - graphics
-	 * @param fillCol
-	 *            - filling color of shape
-	 * @param objCol
-	 *            - color of line of shape
-	 * @param stroke
-	 *            - stroke of shape
-	 */
-	protected void drawShapeEllipse(GGraphics2D g2, GColor fillCol,
-			GColor objCol, GBasicStroke stroke) {
-		g2.setColor(fillCol);
-		g2.setStroke(stroke);
-		g2.fill(shapeEllipse);
-		g2.setColor(objCol);
-		g2.draw(shapeEllipse);
-	}
-
-	/**
-	 * Draws preview of line for ShapeLine
-	 * 
-	 * @param g2
-	 *            - graphics
-	 * @param fillCol
-	 *            - filling color of shape
-	 * @param objCol
-	 *            - color of line of shape
-	 * @param stroke
-	 *            - stroke of shape
-	 */
-	protected void drawShapeLine(GGraphics2D g2, GColor fillCol, GColor objCol,
-			GBasicStroke stroke) {
-		g2.setColor(fillCol);
-		g2.setStroke(stroke);
-		g2.fill(shapeLine);
-		g2.setColor(objCol);
-		g2.draw(shapeLine);
 	}
 
 	/**
@@ -3954,6 +3923,13 @@ public abstract class EuclidianView
 	 */
 	public GLine2D getShapeLine() {
 		return shapeLine;
+	}
+
+	/**
+	 * @return shapeTriangle
+	 */
+	public GGeneralPath getShapeTriangle() {
+		return shapeTriangle;
 	}
 
 	/**

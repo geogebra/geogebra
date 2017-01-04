@@ -370,21 +370,29 @@ public class EuclidianViewCompanion {
 
 		// draw shape preview for shape tools
 		if (view.getShapeRectangle() != null) {
-			view.drawShapeRectangle(g2, EuclidianView.shapeRectangleFillCol,
+			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
 					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle);
+					EuclidianView.strokeShapeRectangle,
+					view.getShapeRectangle());
 		}
 
 		if (view.getShapeEllipse() != null) {
-			view.drawShapeEllipse(g2, EuclidianView.shapeRectangleFillCol,
+			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
 					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle);
+					EuclidianView.strokeShapeRectangle, view.getShapeEllipse());
 		}
 
 		if (view.getShapeLine() != null) {
-			view.drawShapeLine(g2, EuclidianView.shapeRectangleFillCol,
+			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
 					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle);
+					EuclidianView.strokeShapeRectangle, view.getShapeLine());
+		}
+
+		if (view.getShapeTriangle() != null) {
+			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
+					EuclidianView.shapeRectangleObjCol,
+					EuclidianView.strokeShapeRectangle,
+					view.getShapeTriangle());
 		}
 
 		if (view.deletionRectangle != null) {
