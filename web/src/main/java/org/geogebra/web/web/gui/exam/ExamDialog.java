@@ -26,10 +26,14 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Exam start dialog
+ */
 public class ExamDialog {
-	private AppW app;
-
-	private DialogBoxW box;
+	/** Application */
+	protected AppW app;
+	/** Wrapped box */
+	protected DialogBoxW box;
 
 	private Localization loc;
 
@@ -37,10 +41,17 @@ public class ExamDialog {
 
 	private Button btnOk;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ExamDialog(AppW app) {
 		this.app = app;
 	}
 
+	/**
+	 * Show the wrapped dialog
+	 */
 	public void show() {
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
@@ -170,15 +181,7 @@ public class ExamDialog {
 		btnCancel.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				app.getExam().exit();
-				app.setExam(null);
-				app.getLAF().toggleFullscreen(false);
-				app.fireViewsChangedEvent();
-				guiManager.updateToolbarActions();
-				guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, app));
-				guiManager.updateToolbar();
-				guiManager.resetMenu();
-				box.hide();
+				cancelExam();
 			}
 		});
 		// Help button
@@ -192,14 +195,46 @@ public class ExamDialog {
 	}
 
 
+	/**
+	 * Cancel button handler
+	 */
+	protected void cancelExam() {
+		app.getExam().exit();
+		app.setExam(null);
+		app.getLAF().toggleFullscreen(false);
+		app.fireViewsChangedEvent();
+		GuiManagerInterfaceW guiManager = app.getGuiManager();
+		guiManager.updateToolbarActions();
+		guiManager.setGeneralToolBarDefinition(
+				ToolBar.getAllToolsNoMacros(true, false, app));
+		guiManager.updateToolbar();
+		guiManager.resetMenu();
+		box.hide();
+
+	}
+
 	private void startExam(boolean needsFullscreen) {
 		startExam(box, app, needsFullscreen);
 	}
 
+	/**
+	 * @param box
+	 *            dialog
+	 * @param app
+	 *            application
+	 */
 	public static void startExam(DialogBoxW box, AppW app) {
 		startExam(box, app, true);
 	}
 
+	/**
+	 * @param box
+	 *            wrapped box
+	 * @param app
+	 *            application
+	 * @param needsFullscreen
+	 *            whether switch to fullscreen needs to be called
+	 */
 	public static void startExam(DialogBoxW box, AppW app, boolean needsFullscreen) {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		if (needsFullscreen) {
@@ -280,7 +315,10 @@ public class ExamDialog {
 
 	private DialogState dialogState;
 
-	private void onButtonOk() {
+	/**
+	 * Android exam OK button pressed
+	 */
+	protected void onButtonOk() {
 		switch (dialogState) {
 		default:
 			case WAIT_FOR_TASK_LOCK:
@@ -385,23 +423,31 @@ public class ExamDialog {
 		checkTaskLockTimer = app.newTimer(new GTimer.GTimerListener() {
 			@Override
 			public void onRun() {
-				Log.debug("check task lock");
-				if (!isAirplaneModeOn()) {
-					Log.debug("(check) airplane mode off");
-					checkTaskLockTimer.stop();
-					setAirplaneModeDialog();
-					return;
-				}
-				if (ExamEnvironmentW.checkTaskLocked()) {
-					Log.debug("(check) task is locked");
-					checkTaskLockTimer.stop();
-					setStartExamDialog();
-				} else {
-					Log.debug("(check) task is NOT locked");
-				}
+				checkTaskLock();
 			}
 		}, 100);
 		checkTaskLockTimer.startRepeat();
+	}
+
+	/**
+	 * Regular check for airplane mode
+	 */
+	protected void checkTaskLock() {
+		Log.debug("check task lock");
+		if (!isAirplaneModeOn()) {
+			Log.debug("(check) airplane mode off");
+			checkTaskLockTimer.stop();
+			setAirplaneModeDialog();
+			return;
+		}
+		if (ExamEnvironmentW.checkTaskLocked()) {
+			Log.debug("(check) task is locked");
+			checkTaskLockTimer.stop();
+			setStartExamDialog();
+		} else {
+			Log.debug("(check) task is NOT locked");
+		}
+
 	}
 
 	private static native boolean updateFullscreenStatusOn() /*-{
@@ -456,6 +502,9 @@ public class ExamDialog {
 		}
 	}
 
+	/**
+	 * Exit the app
+	 */
 	public static void exitApp() {
 		if (ExamEnvironmentW.checkLockTaskAvailable()) {
 			stopLockTask();
@@ -472,7 +521,7 @@ public class ExamDialog {
 		$wnd.GeoGebraExamAndroidJsBinder.setBluetoothOffIfNeeded();
 	}-*/;
 
-	public static native void exitAppJs()/*-{
+	private static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();
 	}-*/;
 

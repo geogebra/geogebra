@@ -61,7 +61,7 @@ public class MetaArray extends MetaComponent implements MetaGroup {
                 return metaComponent;
             }
         }
-		return null;
+		return new MetaComponent(name, "", "", (char) 0, (char) 0);
     }
 
     public MetaComponent getOpen() {

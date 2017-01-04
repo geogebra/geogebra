@@ -7,14 +7,18 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+/**
+ * Wrap MainMenu in composite
+ *
+ */
 public class GGWMenuBar extends Composite {
 	
 	private HorizontalPanel ggbmenubarwrapper;
 	private MainMenu menubar;
 
-	// added shift-click to toggle new menubar for testing
-	// TODO: remove temporary code
-	
+	/**
+	 * Create new menu wrapper
+	 */
 	public GGWMenuBar() {
 		ggbmenubarwrapper = new HorizontalPanel();
 		ggbmenubarwrapper.addStyleName("ggbmenubarwrapper");
@@ -22,15 +26,25 @@ public class GGWMenuBar extends Composite {
 		
 	}
 	
+	/**
+	 * @param app
+	 *            application to init menus
+	 */
 	public void init(AppW app) {
 		menubar = (MainMenu) app.getLAF().getMenuBar(app);
 		ggbmenubarwrapper.add(menubar);
 	}
 	
+	/**
+	 * @return wrapped menu
+	 */
 	public MainMenu getMenubar() {
 		return menubar;
 	}
 
+	/**
+	 * Clear the menu
+	 */
 	public void removeMenus(){
 		ggbmenubarwrapper.clear();
 	}
@@ -44,11 +58,18 @@ public class GGWMenuBar extends Composite {
 		}
 	}
 
+	/**
+	 * Focus the menu
+	 */
 	public void focus() {
-	    menubar.focus();
-	    
-    }
+		menubar.focus();
 
+	}
+
+	/**
+	 * @param height
+	 *            menu height
+	 */
 	public void updateHeight(int height) {
 		menubar.updateHeight(height);
 	}
