@@ -11,15 +11,34 @@ import com.google.gwt.user.client.ui.HeaderPanel;
  *
  */
 public interface HeaderPanelDeck extends HasAppletProperties {
-
+	/**
+	 * Hide the full-sized GUI, e.g. material browser
+	 * 
+	 * @param myHeaderPanel
+	 *            full-sized GUI
+	 */
 	void hideBrowser(MyHeaderPanel myHeaderPanel);
 
+	/** @return toolbar */
 	ToolBarInterface getToolbar();
 
-	void setMenuHeight(boolean b);
+	/**
+	 * Update component heights to account for input bar
+	 * 
+	 * @param inputShowing
+	 *            whether horizontal input bar is shown
+	 */
+	void setMenuHeight(boolean inputShowing);
 
+	/**
+	 * @param bg
+	 *            full-sized GUI
+	 */
 	void showBrowser(HeaderPanel bg);
 
+	/**
+	 * @return frame element
+	 */
 	Element getElement();
 
 }

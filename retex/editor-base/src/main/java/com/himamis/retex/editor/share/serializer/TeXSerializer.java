@@ -107,11 +107,11 @@ public class TeXSerializer extends SerializerAdapter {
 				if (currentOffset > 0) {
 					serialize(sequence, stringBuilder, 0, currentOffset);
 				}
-				// if (currentSelStart == null) {
+				if (currentSelStart == null) {
 					
 					stringBuilder.append(cursor);
 
-				// }
+				}
 				if (currentOffset < sequence.size()) {
 					serialize(sequence, stringBuilder, currentOffset,
 							sequence.size());

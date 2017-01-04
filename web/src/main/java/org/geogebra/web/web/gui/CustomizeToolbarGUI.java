@@ -46,7 +46,6 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener, SetLabels {
-	protected static final String PREFIX = "[Customize] ";
 
 	private static class ToolTreeResources implements Tree.Resources {
 
@@ -252,7 +251,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						return;
 					}
 					int idx = indexOf(item);
-					Log.debug(PREFIX + "drop on item " + idx);
+					Log.debug("[CUSTOMIZE] drop on item " + idx);
 					insertTool(idx, draggingTool);
 					tool.removeStyleName("insertAfterBranch");
 					tool.removeStyleName("insertBeforeBranch");
@@ -318,12 +317,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			addStyleName("insertAfterBorder");
 		}
 
-		public boolean isHit(int x, int y) {
-			int left = getAbsoluteLeft();
-			int top = getAbsoluteTop();
-			return (x >= left && x <= left + getOffsetWidth() && y >= top && y <= top
-			        + getOffsetHeight());
-		}
+
 
 		public boolean isInTree() {
 			return treeItem != null;
@@ -403,7 +397,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		}
 
-		private void removeFromTree() {
+		void removeFromTree() {
 			if (!isInTree()) {
 				return;
 			}
@@ -533,22 +527,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			        + getOffsetHeight() / 2);
 		}
 
-		public void onDragOver(DragOverEvent event, final String before,
-		        final String after) {
-			int y = event.getNativeEvent().getClientY();
-			boolean topHit = isTopHit(y);
 
-			if (topHit) {
-				addStyleName(before);
-				removeStyleName(after);
-			} else {
-				if (treeItem.getState()) {
-					return;
-				}
-				addStyleName(after);
-				removeStyleName(before);
-			}
-		}
 
 		public void addDropHandler(DropHandler handler) {
 			hrDrop = addDomHandler(handler, DropEvent.getType());
@@ -617,7 +596,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private String oldToolbarString;
 	private DockPanelW dockPanel;
 	private int toolbarId;
-	private Localization loc;
+	/** localization */
+	Localization loc;
 
 	/**
 	 * @param app
@@ -837,8 +817,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	/**
 	 * updates the tools
 	 */
-	public void update(int toolbarId) {
-		this.toolbarId = toolbarId;
+	public void update(int newToolbarId) {
+		this.toolbarId = newToolbarId;
 		updateTools();
 
 	}
@@ -1029,10 +1009,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		return app;
 	}
 
+	/**
+	 * @return toolbar ID
+	 */
 	public int getToolbarId() {
 		return toolbarId;
 	}
 
+	/**
+	 * @param activeToolbar
+	 *            active toolbar ID
+	 */
 	public void setToolbarId(int activeToolbar) {
 		int newToolbarId = activeToolbar;
 		// validate toolbar ID: make sure we can customize
@@ -1049,6 +1036,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		updateTools();
 	}
 
+	/**
+	 * Update the whole GUI
+	 */
 	public void updateTools() {
 		updateUsedTools(toolbarId);
 		updateAllTools();

@@ -22,13 +22,24 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AuxiliaryHeaderPanel extends FlowPanel {
 
+	/** back button */
 	protected StandardButton backButton;
 	private FlowPanel backPanel;
+	/** panel on the right */
 	protected FlowPanel rightPanel;
+	/** title label */
 	private final Label headerText;
-	private final MyHeaderPanel gui;
+	/** header panel */
+	protected final MyHeaderPanel gui;
+	/** localization */
 	protected final Localization loc;
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param gui
+	 *            header panel
+	 */
 	protected AuxiliaryHeaderPanel(final Localization loc,
 	        final MyHeaderPanel gui) {
 		this.setStyleName("headerbar");
@@ -78,10 +89,15 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		this.add(this.backPanel);
 	}
 
+	/** Update header */
 	public void setLabels() {
-		// this.backButton.setLabel(this.loc.getMenu("Back"));
+		// overriden in subclasses
 	}
 
+	/**
+	 * @param title
+	 *            set header text
+	 */
 	public void setText(final String title) {
 		this.headerText.setText(title);
 	}

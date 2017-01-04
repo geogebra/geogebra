@@ -362,7 +362,7 @@ public class MathFieldW implements MathField, IsWidget {
 			wrap.getElement().focus();
 			if (!pasteInstalled) {
 				pasteInstalled = true;
-				installPaste();
+				installPaste(this.getHiddenTextArea());
 			}
 
 		} else {
@@ -384,9 +384,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private native void installPaste() /*-{
+	private native void installPaste(Element target) /*-{
 		var that = this;
-		$doc.body.addEventListener('paste',
+		target.addEventListener('paste',
 			function(a){
 				if(a.clipboardData){
 					that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));
@@ -493,16 +493,7 @@ public class MathFieldW implements MathField, IsWidget {
 		return hiddenTextArea;
 	}-*/;
 
-	private static native String getSystemClipboardChromeWebapp(
-			Element el) /*-{
-		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
-		copyFrom.select();
-		$doc.execCommand('paste');
-		var contents = copyFrom.value;
-		copyFrom.value = "";
-		el.focus();
-		return contents;
-	}-*/;
+
 
 	public void copy() {
 		nativeCopy(mathFieldInternal.copy(), html.getElement());
