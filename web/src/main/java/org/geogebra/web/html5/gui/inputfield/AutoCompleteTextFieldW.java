@@ -82,10 +82,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
-		AutoCompleteW,
-		AutoCompleteTextField, KeyDownHandler,
-        KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>, SelectionHandler<Suggestion>,
+public class AutoCompleteTextFieldW extends FlowPanel
+		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
+		KeyDownHandler, KeyUpHandler, KeyPressHandler,
+		ValueChangeHandler<String>, SelectionHandler<Suggestion>,
 		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 
 	public interface InsertHandler {
@@ -139,11 +139,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 * information of a command.
 	 */
 	// private static Pattern syntaxArgPattern =
-	// Pattern.compile("[,\\[] *(?:<[\\(\\) \\-\\p{L}]*>|\\.\\.\\.) *(?=[,\\]])");
+	// Pattern.compile("[,\\[] *(?:<[\\(\\) \\-\\p{L}]*>|\\.\\.\\.)
+	// *(?=[,\\]])");
 	// Simplified to this as there are too many non-alphabetic character in
 	// parameter descriptions:
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
-	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
+			.compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	private int actualFontSize = 14;
 	private boolean deferredFocus = false;
@@ -160,14 +161,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		this(columns, (AppW) app, true, null, false);
 	}
 
-	public AutoCompleteTextFieldW(int columns, App app, Drawable drawTextField) {
+	public AutoCompleteTextFieldW(int columns, App app,
+			Drawable drawTextField) {
 		this(columns, app);
 		this.drawTextField = (DrawInputBox) drawTextField;
 		addStyleName("FromDrawTextFieldNew");
 	}
 
 	public AutoCompleteTextFieldW(int columns, final AppW app,
-	        boolean handleEscapeKey, KeyEventsHandler keyHandler, boolean forCAS) {
+			boolean handleEscapeKey, KeyEventsHandler keyHandler,
+			boolean forCAS) {
 		this.forCAS = forCAS;
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
@@ -210,7 +213,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if ((event.getTypeInt() == Event.ONKEYUP || event.getTypeInt() == Event.ONKEYPRESS)
+				if ((event.getTypeInt() == Event.ONKEYUP
+						|| event.getTypeInt() == Event.ONKEYPRESS)
 						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
@@ -248,8 +252,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				// i.e. do not do it for some event types, e.g.
 				// at least in the following three cases:
 				if (event.getTypeInt() == Event.ONMOUSEMOVE
-				        || event.getTypeInt() == Event.ONMOUSEOVER
-				        || event.getTypeInt() == Event.ONMOUSEOUT)
+						|| event.getTypeInt() == Event.ONMOUSEOVER
+						|| event.getTypeInt() == Event.ONMOUSEOUT)
 					return;
 
 				// autoCompleteTextField should not loose focus
@@ -364,7 +368,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				// textField.setFocus(true);
 				requestFocus();
 				if (app != null) {
-					((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).setFocused(true);
+					((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher())
+							.setFocused(true);
 				}
 			}
 		});
@@ -402,7 +407,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 			}
 		};
-		setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true), al);
+		setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true),
+				al);
 		this.setBorderButtonVisible(1, false);
 	}
 
@@ -411,7 +417,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	}
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
-	        ClickHandler al) {
+			ClickHandler al) {
 		//
 	}
 
@@ -429,9 +435,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// temp
 		// TODO: don't fix the popup button here, but it should appear if mouse
 		// clicked into the textfield.
-		if ((showSymbolTableIcon)
-		        && app.isAllowedSymbolTables()
-		        && this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH) {
+		if ((showSymbolTableIcon) && app.isAllowedSymbolTables()
+				&& this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH) {
 			showSymbolButton.getElement().addClassName("shown");
 			showSymbolButton.getElement().setAttribute("data-persist", "true");
 		} else {
@@ -465,7 +470,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			return null;
 
 		boolean korean = false; // AG
-		                        // app.getLocale().getLanguage().equals("ko");
+								// app.getLocale().getLanguage().equals("ko");
 
 		// start autocompletion only for words with at least two characters
 		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
@@ -511,15 +516,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			if (isCASInput) {
 				syntaxString = loc.getCommandSyntaxCAS(cmdInt);
 			} else {
-				syntaxString = app.getExam() == null ? loc
-						.getCommandSyntax(cmdInt) : app.getExam().getSyntax(
-								cmdInt, loc, app.getSettings());
+				syntaxString = app.getExam() == null
+						? loc.getCommandSyntax(cmdInt)
+						: app.getExam().getSyntax(cmdInt, loc,
+								app.getSettings());
 			}
 			if (syntaxString == null) {
 				continue;
 			}
 			if (syntaxString.endsWith(isCASInput ? Localization.syntaxCAS
-			        : Localization.syntaxStr)) {
+					: Localization.syntaxStr)) {
 
 				// command not found, check for macros
 				Macro macro = isCASInput ? null : app.getKernel().getMacro(cmd);
@@ -559,10 +565,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
 
 		if (showSymbolButton != null) {
+			showSymbolButton.getElement().getStyle().setFontSize(font.getSize(),
+					Unit.PX);
 			showSymbolButton.getElement().getStyle()
-			        .setFontSize(font.getSize(), Unit.PX);
-			showSymbolButton.getElement().getStyle()
-			        .setLineHeight(font.getSize(), Unit.PX);
+					.setLineHeight(font.getSize(), Unit.PX);
 		}
 
 		if (columns > 0) {
@@ -573,13 +579,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void setForeground(GColor color) {
 		textField.getElement().getStyle()
-		        .setColor(GColor.getColorString(color));
+				.setColor(GColor.getColorString(color));
 	}
 
 	@Override
 	public void setBackground(GColor color) {
 		textField.getElement().getStyle()
-		        .setBackgroundColor(GColor.getColorString(color));
+				.setBackgroundColor(GColor.getColorString(color));
 	}
 
 	@Override
@@ -596,7 +602,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public void setColumns(int columns) {
 		this.columns = columns;
 		if (showSymbolButton != null
-		        && (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
+				&& (this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
+						|| this.columns == -1)) {
 			prepareShowSymbolButton(true);
 		}
 
@@ -765,8 +772,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
-			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app
-			        .getCommandDictionary();
+			this.dict = this.forCAS ? app.getCommandDictionaryCAS()
+					: app.getCommandDictionary();
 		}
 		return dict;
 	}
@@ -775,9 +782,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public static String getWordAtPos(String text, int pos) {
 		// search to the left
 		int wordStart = pos - 1;
-		while (wordStart >= 0
-		        && StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(wordStart)))
+		while (wordStart >= 0 && StringUtil
+				.isLetterOrDigitOrUnderscore(text.charAt(wordStart)))
 			--wordStart;
 		wordStart++;
 
@@ -785,7 +791,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		int wordEnd = pos;
 		int length = text.length();
 		while (wordEnd < length
-		        && StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
+				&& StringUtil.isLetterOrDigitOrUnderscore(text.charAt(wordEnd)))
 			++wordEnd;
 
 		if (wordStart >= 0 && wordEnd <= length) {
@@ -806,16 +812,16 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 		// show help if available
 		if (help != null) {
-			app.showError(new MyError(loc, loc.getPlain("Syntax") + ":\n"
-					+ help, cmd, null));
+			app.showError(new MyError(loc,
+					loc.getPlain("Syntax") + ":\n" + help, cmd, null));
 		} else if (app.getGuiManager() != null) {
 			app.getGuiManager().openCommandHelp(null);
 		}
 	}
 
 	private void clearSelection() {
-		int start = textField.getText().indexOf(
-		        textField.getValueBox().getSelectedText());
+		int start = textField.getText()
+				.indexOf(textField.getValueBox().getSelectedText());
 		int end = start + textField.getValueBox().getSelectionLength();
 		// clear selection if there is one
 		if (start != end) {
@@ -836,14 +842,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 */
 	public void updateCurrentWord(boolean searchRight) {
 		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
-				getText(),
-				getCaretPosition(), true);
+				getText(), getCaretPosition(), true);
 		if (next > -1) {
 			this.curWordStart = next;
 		}
 	}
-
-
 
 	/*
 	 * just show syntax error (already correctly formulated by
@@ -899,7 +902,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 		// make sure it works if caret is just after [
 		if (caretPos > 0 && text.length() < caretPos
-		        && text.charAt(caretPos) != '[')
+				&& text.charAt(caretPos) != '[')
 			caretPos--;
 		String suffix = text.substring(caretPos);
 		int index = -1;
@@ -921,12 +924,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 		// if (hasNextArgument && (find || argMatcher.start() == caretPos)) {
 		if (hasNextArgument && argMatcher.getGroup(1) != null
-		        && (find || index == caretPos)) {
+				&& (find || index == caretPos)) {
 			// setCaretPosition(argMatcher.end();
 			// moveCaretPosition(argMatcher.start() + 1);
 			String groupStr = argMatcher.getGroup(1);
 			textField.getValueBox().setSelectionRange(index + 2,
-			        groupStr.length());
+					groupStr.length());
 
 			return true;
 		}
@@ -949,7 +952,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 		// only handle parentheses
 		char ch = e.getCharCode();
-
 
 		int caretPos = getCaretPosition();
 
@@ -977,7 +979,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			}
 		}
 
-		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
+		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')'
+				|| ch == ']')) {
 			// super.keyTyped(e);
 			Log.debug("super.keyTyped needed in AutocompleteTextField");
 			return;
@@ -1017,9 +1020,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 
 		// auto-close parentheses
-		if (caretPos == text.length()
-		        || MyTextField
-		                .isCloseBracketOrWhitespace(text.charAt(caretPos))) {
+		if (caretPos == text.length() || MyTextField
+				.isCloseBracketOrWhitespace(text.charAt(caretPos))) {
 			switch (ch) {
 			default:
 				// do nothing
@@ -1163,7 +1165,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				}
 			}
 			e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the
-			                     // euclidian view
+									// euclidian view
 			break;
 
 		case GWTKeycodes.KEY_F9:
@@ -1203,7 +1205,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 					String closest = getDictionary().lookup(lowerCurWord);
 
 					if (closest != null)// &&
-					                    // lowerCurWord.equals(closest.toLowerCase()))
+										// lowerCurWord.equals(closest.toLowerCase()))
 						showCommandHelp(app.getInternalCommand(closest));
 					else if (app.getGuiManager() != null) {
 						app.getGuiManager().openHelp(App.WIKI_MANUAL);
@@ -1238,8 +1240,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			// check for eg alt-shift-a for upper case alpha
 			if (e.isAltKeyDown()) {
 
-				String s = AltKeys.getAltSymbols(keyCode,
-						e.isShiftKeyDown(), true);
+				String s = AltKeys.getAltSymbols(keyCode, e.isShiftKeyDown(),
+						true);
 
 				if (s != null) {
 					insertString(s);
@@ -1250,7 +1252,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			 * Try handling here that is originaly in keyup
 			 */
 			boolean modifierKeyPressed = e.isControlKeyDown()
-			        || e.isAltKeyDown();
+					|| e.isAltKeyDown();
 
 			// we don't want to act when AltGr is down
 			// as it is used eg for entering {[}] is some locales
@@ -1260,8 +1262,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 			char charPressed = Character.valueOf((char) e.getNativeKeyCode());
 
-			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed) || modifierKeyPressed)
-					&& !(ctrlC)
+			if ((StringUtil.isLetterOrDigitOrUnderscore(charPressed)
+					|| modifierKeyPressed) && !(ctrlC)
 					&& (e.getNativeKeyCode() != GWTKeycodes.KEY_A)) {
 				clearSelection();
 			}
@@ -1316,8 +1318,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void onSelection(SelectionEvent<Suggestion> event) {
 		isSuggestionJustHappened = true;
-		int index = completions.indexOf(event.getSelectedItem()
-		        .getReplacementString());
+		int index = completions
+				.indexOf(event.getSelectedItem().getReplacementString());
 		validateAutoCompletion(index, getCompletions());
 	}
 
@@ -1384,7 +1386,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private int getSelectionEnd() {
 		return getSelectionStart()
-		        + textField.getValueBox().getSelectionLength();
+				+ textField.getValueBox().getSelectionLength();
 	}
 
 	private int getSelectionStart() {
@@ -1507,7 +1509,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 	};
 
-
 	@Override
 	public void requestFocus() {
 		// if (app.isPrerelease()) {
@@ -1605,15 +1606,25 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 		addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(AutoCompleteTextFieldW.this, app);
+				fieldFocus();
 			}
 		});
 
 		addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(AutoCompleteTextFieldW.this, app);
+				fieldBlur();
 			}
 		});
+	}
+
+	protected void fieldFocus() {
+		FieldHandler.focusGained(this, app);
+
+	}
+
+	protected void fieldBlur() {
+		FieldHandler.focusLost(this, app);
+
 	}
 
 	/**
@@ -1691,16 +1702,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 		Element showSymbolElement = this.showSymbolButton.getElement();
 		// Log.debug("AF focused" + show);
-		if (showSymbolElement != null
-		        && "true"
-		                .equals(showSymbolElement.getAttribute("data-visible"))) {
+		if (showSymbolElement != null && "true"
+				.equals(showSymbolElement.getAttribute("data-visible"))) {
 			if (show) {
 				// Log.debug("AF focused2" + show);
 				showSymbolElement.addClassName("shown");
 			} else {
 				// Log.debug("AF focused2" + show);
-				if (!"true".equals(showSymbolElement
-				        .getAttribute("data-persist"))) {
+				if (!"true".equals(
+						showSymbolElement.getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");
 				}
 			}
@@ -1744,8 +1754,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
-			int width,
-			int height) {
+			int width, int height) {
 		g2.setPaint(bgColor);
 		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
 
