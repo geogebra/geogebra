@@ -34,7 +34,7 @@ public class CmdEnvelope extends CommandProcessor {
 		case 2:
 			if ((ok[0] = (arg[0].isGeoElement()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				linear = (GeoElement) arg[0];
+				linear = arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
 				throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -51,6 +51,14 @@ public class CmdEnvelope extends CommandProcessor {
 
 	/**
 	 * locus equation for Q dependent on P.
+	 * 
+	 * @param label
+	 *            output label
+	 * @param linear
+	 *            dependent path
+	 * @param movingPoint
+	 *            moving point
+	 * @return implicit curve
 	 */
 	final public GeoImplicit envelope(String label, GeoElement linear,
 			GeoPoint movingPoint) {

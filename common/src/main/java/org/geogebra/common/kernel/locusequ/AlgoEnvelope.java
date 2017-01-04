@@ -282,17 +282,18 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		}
 
 		// Obtaining polynomials:
-		String polys = "";
+		StringBuilder polys = new StringBuilder();
 		it = restrictionsT.iterator();
 		while (it.hasNext()) {
-			polys += CASTranslator
-					.convertFloatsToRationals(it.next().toString()) + ",";
+			polys.append(
+					CASTranslator.convertFloatsToRationals(it.next().toString())
+							+ ",");
 		}
 		it = lastT.iterator();
 		for (i = 0; i < lastS.length; ++i) {
-			polys += CASTranslator.convertFloatsToRationals(lastS[i]);
+			polys.append(CASTranslator.convertFloatsToRationals(lastS[i]));
 			if (i < lastS.length - 1) {
-				polys += ",";
+				polys.append(",");
 			}
 		}
 
