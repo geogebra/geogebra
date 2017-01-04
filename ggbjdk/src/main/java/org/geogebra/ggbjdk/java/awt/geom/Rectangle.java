@@ -25,11 +25,10 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
-import org.geogebra.common.awt.GAffineTransform;
+import java.awt.Component;
+
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 

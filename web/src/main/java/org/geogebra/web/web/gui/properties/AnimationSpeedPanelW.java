@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;

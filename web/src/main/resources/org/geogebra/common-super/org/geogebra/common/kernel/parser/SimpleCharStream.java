@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.parser;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
-import org.geogebra.common.main.App;
 
 /**
  * An implementation of interface CharStream, where the stream is assumed to

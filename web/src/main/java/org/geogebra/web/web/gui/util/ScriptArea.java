@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;

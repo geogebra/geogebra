@@ -1,7 +1,6 @@
 package org.geogebra.web.web.util.keyboard;
 
 import org.geogebra.common.main.KeyboardLocale;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.util.ScriptArea;

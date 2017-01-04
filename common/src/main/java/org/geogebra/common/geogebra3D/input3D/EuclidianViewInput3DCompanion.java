@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Companion for EuclidianView3D using Input3D

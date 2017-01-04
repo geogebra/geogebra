@@ -11,7 +11,6 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
-import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
@@ -46,7 +45,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -60,6 +58,7 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.properties.AnimationSpeedPanelW;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.IOptionPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
@@ -1503,94 +1502,6 @@ public class OptionsTab extends FlowPanel {
 
 	public void setFocused(boolean b) {
 		this.focused = b;
-
-	}
-
-	public class AnimationSpeedPanelW extends ListBoxPanel implements
-			IAnimationSpeedListener {
-		private AutoCompleteTextFieldW tfAnimSpeed;
-		private Label modeLabel;
-		private AppW app;
-
-		public AnimationSpeedPanelW(AppW app) {
-			this(new AnimationSpeedModel(app), app);
-		}
-
-		public AnimationSpeedPanelW(AnimationSpeedModel m, AppW app) {
-			super(app.getLocalization(), loc.getMenu("AnimationSpeed"));
-			this.app = app;
-			m.setListener(this);
-			setModel(m);
-			modeLabel = new Label();
-
-			InputPanelW inputPanel = new InputPanelW(null, app, -1, false);
-			tfAnimSpeed = inputPanel.getTextComponent();
-			FlowPanel mainPanel = new FlowPanel();
-			FlowPanel speedPanel = new FlowPanel();
-			FlowPanel repeatPanel = new FlowPanel();
-			speedPanel.setStyleName("optionsPanel");
-			repeatPanel.setStyleName("optionsPanel");
-			speedPanel.add(getLabel());
-			speedPanel.add(tfAnimSpeed);
-			repeatPanel.add(modeLabel);
-			repeatPanel.add(getListBox());
-			mainPanel.add(speedPanel);
-			mainPanel.add(repeatPanel);
-			setWidget(mainPanel);
-
-			tfAnimSpeed.addKeyHandler(new KeyHandler() {
-
-				public void keyReleased(KeyEvent e) {
-					if (e.isEnterKey()) {
-						doActionPerformed();
-					}
-				}
-
-			});
-
-			tfAnimSpeed.addFocusListener(new FocusListenerW(this) {
-
-				@Override
-				protected void wrapFocusGained() {
-					// only need focus lost
-				}
-
-				@Override
-				protected void wrapFocusLost() {
-					doActionPerformed();
-				}
-			});
-			tfAnimSpeed.requestToShowSymbolButton();
-
-		}
-
-		/**
-		 * Change speed in model
-		 */
-		protected void doActionPerformed() {
-			GeoNumberValue animSpeed = app.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(tfAnimSpeed.getText(), false);
-			if (animSpeed != null) {
-				((AnimationSpeedModel) getModel()).applySpeedChanges(animSpeed);
-			}
-
-		}
-
-		@Override
-		public void setLabels() {
-			super.setLabels();
-			getLabel().setText(loc.getMenu("AnimationSpeed") + ":");
-			modeLabel.setText(loc.getMenu("Repeat") + ": ");
-		}
-
-		public void setText(String text) {
-			tfAnimSpeed.setText(text);
-		}
-
-		public void setPartOfSliderPanel() {
-			((AnimationSpeedModel) getModel()).setShowSliders(true);
-
-		}
 
 	}
 }
