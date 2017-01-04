@@ -102,6 +102,8 @@ public class ModeShape {
 	 * 
 	 * @param event
 	 *            - mouse event
+	 * @param isSquare
+	 *            - true if we have square
 	 */
 	private GeoPointND[] getPointArray(AbstractEvent event, boolean isSquare) {
 		GeoPointND[] points = new GeoPointND[4];
@@ -112,7 +114,7 @@ public class ModeShape {
 
 		// for width of square take the width of rectangle
 		if (isSquare) {
-			double[] coords = getEndPointRealCoords(event);
+			double[] coords = getEndPointRealCoords(event, true);
 			endPointX = coords[0];
 			endPointY = coords[1];
 		} else {
@@ -139,19 +141,28 @@ public class ModeShape {
 		return points;
 	}
 
-	private double[] getEndPointRealCoords(AbstractEvent event) {
+	private double[] getEndPointRealCoords(AbstractEvent event,
+			boolean isSquare) {
 		double[] coords = new double[2];
 		if (dragStartPoint.x > event.getX()
 				&& dragStartPoint.y > event.getY()) {
 			coords[0] = view
-					.toRealWorldCoordX(dragStartPoint.x - rectangle.getWidth());
+					.toRealWorldCoordX(
+							dragStartPoint.x - (isSquare ? rectangle.getWidth()
+									: ellipse.getBounds().getWidth()));
 			coords[1] = view
-					.toRealWorldCoordY(dragStartPoint.y - rectangle.getWidth());
+					.toRealWorldCoordY(
+							dragStartPoint.y - (isSquare ? rectangle.getWidth()
+									: ellipse.getBounds().getWidth()));
 		} else {
 			coords[0] = view
-					.toRealWorldCoordX(dragStartPoint.x + rectangle.getWidth());
+					.toRealWorldCoordX(
+							dragStartPoint.x + (isSquare ? rectangle.getWidth()
+									: ellipse.getBounds().getWidth()));
 			coords[1] = view
-					.toRealWorldCoordY(dragStartPoint.y + rectangle.getWidth());
+					.toRealWorldCoordY(
+							dragStartPoint.y + (isSquare ? rectangle.getWidth()
+									: ellipse.getBounds().getWidth()));
 		}
 		return coords;
 	}
@@ -183,7 +194,12 @@ public class ModeShape {
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_CIRCLE) {
-			Equation conicEqu = getEquationOfConic(event);
+			Equation conicEqu;
+			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
+				conicEqu = getEquationOfConic(event, false);
+			} else {
+				conicEqu = getEquationOfConic(event, true);
+			}
 			conicEqu.initEquation();
 			GeoElement[] geos = view.getKernel().getAlgebraProcessor()
 					.processConic(conicEqu, conicEqu.wrap());
@@ -194,12 +210,21 @@ public class ModeShape {
 		}
 	}
 
-	private Equation getEquationOfConic(AbstractEvent event) {
+	private Equation getEquationOfConic(AbstractEvent event, boolean isCircle) {
 		// real coords
 		double startX = view.toRealWorldCoordX(dragStartPoint.x);
 		double startY = view.toRealWorldCoordY(dragStartPoint.y);
-		double endX = view.toRealWorldCoordX(event.getX());
-		double endY = view.toRealWorldCoordY(event.getY());
+
+		double endX, endY;
+		if (isCircle) {
+			double[] coords = getEndPointRealCoords(event, false);
+			endX = coords[0];
+			endY = coords[1];
+		} else {
+			endX = view.toRealWorldCoordX(event.getX());
+			endY = view.toRealWorldCoordY(event.getY());
+		}
+
 		// coords of center
 		double centerX = (startX + endX) / 2;
 		double centerY = (startY + endY) / 2;
