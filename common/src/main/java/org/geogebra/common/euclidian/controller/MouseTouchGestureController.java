@@ -21,6 +21,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
+/**
+ * Handles mouse and touch events in EV
+ */
 public class MouseTouchGestureController {
 
 	/**
@@ -28,8 +31,9 @@ public class MouseTouchGestureController {
 	 */
 	public static final int MIN_MOVE = 5;
 
+	/** Application */
 	protected App app;
-
+	/** Controller */
 	protected EuclidianController ec;
 
 	/**
@@ -63,9 +67,13 @@ public class MouseTouchGestureController {
 	protected double[] originalPointY;
 
 	/**
-	 * Coordinates of the center of the multitouch-event.
+	 * x-coordinate of the center of the multitouch-event.
 	 */
-	protected int oldCenterX, oldCenterY;
+	protected int oldCenterX;
+	/**
+	 * y-coordinate of the center of the multitouch-event.
+	 */
+	protected int oldCenterY;
 
 	private double originalRadius;
 
@@ -76,12 +84,29 @@ public class MouseTouchGestureController {
 	private GeoLine lineToMove;
 
 	private boolean firstTouchIsAttachedToStartPoint;
+	private boolean mAllowPropertiesView = true;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param ec
+	 *            controller
+	 */
 	public MouseTouchGestureController(App app, EuclidianController ec) {
 		this.app = app;
 		this.ec = ec;
 	}
 
+	/**
+	 * @param x1d
+	 *            first touch x
+	 * @param y1d
+	 *            first touch y
+	 * @param x2d
+	 *            second touch x
+	 * @param y2d
+	 *            second touch y
+	 */
 	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
 		int x1 = (int) x1d;
 		int x2 = (int) x2d;
@@ -242,6 +267,16 @@ public class MouseTouchGestureController {
 		}
 	}
 
+	/**
+	 * @param x1
+	 *            first touch x
+	 * @param y1
+	 *            first touch y
+	 * @param x2
+	 *            second touch x
+	 * @param y2
+	 *            second touch y
+	 */
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		this.scaleConic = null;
 
@@ -346,7 +381,7 @@ public class MouseTouchGestureController {
 	 *            {@link GeoElement}
 	 * @return true if GeoElement should be movable with two fingers
 	 */
-	private boolean isMovableWithTwoFingers(GeoElement geoElement) {
+	private static boolean isMovableWithTwoFingers(GeoElement geoElement) {
 		return geoElement.getParentAlgorithm()
 				.getRelatedModeID() == EuclidianConstants.MODE_JOIN
 				|| geoElement.getParentAlgorithm()
@@ -394,10 +429,23 @@ public class MouseTouchGestureController {
 				&& Math.abs(oldEndY - newEndY) < capThreshold;
 	}
 
-	protected boolean mAllowPropertiesView = true;
-
+	/**
+	 * Used in Android
+	 * 
+	 * @param allowProperties
+	 *            whether properties are allowed
+	 */
 	public void allowPropertiesView(boolean allowProperties) {
-		// used in Android
 		mAllowPropertiesView = allowProperties;
+	}
+
+	/**
+	 * Used in Android
+	 * 
+	 * @return whether properties are allowed
+	 */
+	protected boolean isAllowPropertiesView() {
+
+		return mAllowPropertiesView;
 	}
 }
