@@ -1477,6 +1477,10 @@ public abstract class ProbabilityCalculatorView
 		switch (selectedDist) {
 
 		default:
+			Log.debug("Unknown distribution.");
+			return true;
+		case NORMAL:
+			return true;
 		case BINOMIAL:
 		case HYPERGEOMETRIC:
 			isValid = xLow >= getDiscreteXMin() && xHigh <= getDiscreteXMax();
@@ -1511,6 +1515,10 @@ public abstract class ProbabilityCalculatorView
 		switch (selectedDist) {
 
 		default:
+			Log.debug("Unknown distribution");
+			return true;
+		case NORMAL:
+			return true;
 		case F:
 		case STUDENT:
 		case EXPONENTIAL:

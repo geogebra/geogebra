@@ -73,6 +73,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
+	private boolean allowSettingUpate = true;
 
 	GPoint scrollPos = new GPoint();
 	
@@ -848,6 +849,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return settings().showFormulaBar();
 	}
 
+	/**
+	 * @return whether stylebar is visible
+	 */
 	public boolean isVisibleStyleBar() {
 		return styleBar == null || styleBar.isVisible();
 	}
@@ -876,13 +880,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	/**
-	 * gets requirement that commands entered into cells must start with "="
+	 * @return requirement that commands entered into cells must start with "="
 	 */
 	public boolean isEqualsRequired() {
 		return settings().equalsRequired();
 	}
 
-	boolean allowSettingUpate = true;
+
 
 	public void updateCellFormat(String cellFormat) {
 		if (!allowSettingUpate)
