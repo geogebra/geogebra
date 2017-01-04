@@ -1647,7 +1647,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			if (this.getLAF() != null && this.getLAF().externalDriveSupported()) {
+			if (this.getLAF() != null && this.getLAF().supportsGoogleDrive()) {
 				initGoogleDriveEventFlow();
 			}
 			if (mayLogIn) {

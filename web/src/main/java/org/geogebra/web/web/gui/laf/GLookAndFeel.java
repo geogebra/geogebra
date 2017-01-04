@@ -150,11 +150,6 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return true;
     }
 
-	@Override
-    public boolean externalDriveSupported() {
-	    return true;
-    }
-
 	public boolean supportsGoogleDrive() {
 		return true;
 	}

@@ -64,11 +64,6 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean externalDriveSupported() {
-		return false;
-	}
-
-	@Override
 	public boolean supportsGoogleDrive() {
 		return false;
 	}

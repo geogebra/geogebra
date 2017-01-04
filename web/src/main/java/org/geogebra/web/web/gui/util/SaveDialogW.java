@@ -371,7 +371,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		listBox.addItem(loc.getMenu("Shared"));
 		listBox.addItem(loc.getMenu("Public"));
 		listBox.setItemSelected(Visibility.Private.getIndex(), true);
-		if (app.getLAF().externalDriveSupported()) {
+		if (app.getLAF().supportsGoogleDrive()) {
 			providerPopup.addPopupHandler(this);
 			providerPopup.setSelectedIndex(app.getFileManager()
 			        .getFileProvider() == Provider.GOOGLE ? 1 : 0);

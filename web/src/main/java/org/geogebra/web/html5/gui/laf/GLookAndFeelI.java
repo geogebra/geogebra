@@ -41,8 +41,6 @@ public interface GLookAndFeelI {
 
 	boolean exportSupported();
 
-	boolean externalDriveSupported();
-
 	boolean supportsLocalSave();
 
 	boolean isEmbedded();

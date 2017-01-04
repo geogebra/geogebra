@@ -33,7 +33,7 @@ public class PhoneLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean externalDriveSupported() {
+	public boolean supportsGoogleDrive() {
 		return false;
 	}
 }
