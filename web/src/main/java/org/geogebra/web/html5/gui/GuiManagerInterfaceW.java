@@ -111,4 +111,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public SpreadsheetViewInterface getSpreadsheetView();
 
 	public void onScreenEditingEnded();
+
+	void setActivePanelAndToolbar(int viewID);
 }

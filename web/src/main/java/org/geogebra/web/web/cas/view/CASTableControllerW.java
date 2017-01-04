@@ -89,7 +89,7 @@ public class CASTableControllerW extends CASTableCellController implements
 	private void setActiveToolbar() {
 		if (app.getToolbar() != null) {
 			GuiManagerInterfaceW gm = app.getGuiManager();
-			gm.setActiveToolbarId(App.VIEW_CAS);
+			gm.setActivePanelAndToolbar(App.VIEW_CAS);
 		}
 	}
 

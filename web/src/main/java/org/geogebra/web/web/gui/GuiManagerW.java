@@ -1543,6 +1543,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
+	@Override
+	public void setActivePanelAndToolbar(final int viewID) {
+		if (app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)) {
+			getLayout().getDockManager().setFocusedPanel(viewID);
+		}
+
+		setActiveToolbarId(viewID);
+
+	}
 
 	@Override
 	public void setActiveToolbarId(final int toolbarID) {

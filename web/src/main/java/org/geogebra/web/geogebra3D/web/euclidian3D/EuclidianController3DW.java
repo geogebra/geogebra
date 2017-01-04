@@ -152,7 +152,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void onTouchStart(TouchStartEvent event) {
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
-			        .setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
+					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
@@ -166,7 +166,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void onPointerEventStart(AbstractEvent event) {
 		if (app.getGuiManager() != null) {
 			((GuiManagerW) app.getGuiManager())
-			        .setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
+					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN3D);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
