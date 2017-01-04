@@ -151,6 +151,7 @@ public abstract class EuclidianView
 
 	// shape tools
 	protected GRectangle shapeRectangle;
+	protected GEllipse2DDouble shapeEllipse;
 	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
 			192, 192, 0.0);
 	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
@@ -2522,6 +2523,14 @@ public abstract class EuclidianView
 		this.shapeRectangle = shapeRectangle;
 	}
 
+	/**
+	 * @param shapeEllipse
+	 *            - preview of ellipse for ShapeEllipse
+	 */
+	public void setShapeEllipse(GEllipse2DDouble shapeEllipse) {
+		this.shapeEllipse = shapeEllipse;
+	}
+
 	public double[] getAxesCross() {
 		return axisCross;
 	}
@@ -3261,8 +3270,8 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * Draws preview of rectangle for ShapeRectangle and
-	 * ShapeRectangleRoundEdges
+	 * Draws preview of rectangle for ShapeRectangle, ShapeRectangleRoundEdges
+	 * and ShapeSquare
 	 * 
 	 * @param g2
 	 *            - graphics
@@ -3274,11 +3283,9 @@ public abstract class EuclidianView
 	 *            - stroke of shape
 	 * @param rect
 	 *            - shape
-	 * @param isRounded
-	 *            - true if should have round edges
 	 */
 	protected void drawShapeRectangle(GGraphics2D g2, GColor fillCol,
-			GColor objCol, GBasicStroke stroke, GRectangle rect) {
+			GColor objCol, GBasicStroke stroke) {
 		g2.setColor(fillCol);
 		g2.setStroke(stroke);
 		g2.fill(shapeRectangle);
@@ -3291,6 +3298,34 @@ public abstract class EuclidianView
 					(int) Math.round(shapeRectangle.getY()),
 					(int) Math.round(shapeRectangle.getWidth()),
 					(int) Math.round(shapeRectangle.getHeight()), 20, 20);
+		}
+	}
+
+	/**
+	 * Draws preview of ellipse for ShapeEllipse and ShapeCircle
+	 * 
+	 * @param g2
+	 *            - graphics
+	 * @param fillCol
+	 *            - filling color of shape
+	 * @param objCol
+	 *            - color of line of shape
+	 * @param stroke
+	 *            - stroke of shape
+	 * @param shapeEllipse
+	 *            - shape
+	 */
+	protected void drawShapeEllipse(GGraphics2D g2, GColor fillCol,
+			GColor objCol, GBasicStroke stroke) {
+		g2.setColor(fillCol);
+		g2.setStroke(stroke);
+		g2.fill(shapeEllipse);
+		g2.setColor(objCol);
+		if (!isRounded) {
+			g2.draw(shapeEllipse);
+		} else {
+			// circle
+
 		}
 	}
 
@@ -3884,6 +3919,13 @@ public abstract class EuclidianView
 	 */
 	public GRectangle getShapeRectangle() {
 		return shapeRectangle;
+	}
+
+	/**
+	 * @return shapeEllipse
+	 */
+	public GEllipse2DDouble getShapeEllipse() {
+		return shapeEllipse;
 	}
 
 	public boolean isRounded() {

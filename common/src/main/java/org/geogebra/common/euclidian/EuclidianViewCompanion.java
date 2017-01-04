@@ -372,7 +372,13 @@ public class EuclidianViewCompanion {
 		if (view.getShapeRectangle() != null) {
 			view.drawShapeRectangle(g2, EuclidianView.shapeRectangleFillCol,
 					EuclidianView.shapeRectangleObjCol,
-					EuclidianView.strokeShapeRectangle, view.shapeRectangle);
+					EuclidianView.strokeShapeRectangle);
+		}
+
+		if (view.getShapeEllipse() != null) {
+			view.drawShapeEllipse(g2, EuclidianView.shapeRectangleFillCol,
+					EuclidianView.shapeRectangleObjCol,
+					EuclidianView.strokeShapeRectangle);
 		}
 
 		if (view.deletionRectangle != null) {
