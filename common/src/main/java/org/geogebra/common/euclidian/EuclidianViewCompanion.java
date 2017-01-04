@@ -381,6 +381,12 @@ public class EuclidianViewCompanion {
 					EuclidianView.strokeShapeRectangle);
 		}
 
+		if (view.getShapeLine() != null) {
+			view.drawShapeLine(g2, EuclidianView.shapeRectangleFillCol,
+					EuclidianView.shapeRectangleObjCol,
+					EuclidianView.strokeShapeRectangle);
+		}
+
 		if (view.deletionRectangle != null) {
 			view.drawRect(g2, EuclidianView.colDeletionSquare,
 					EuclidianView.strokeDeletionSquare, view.deletionRectangle);

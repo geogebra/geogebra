@@ -152,6 +152,7 @@ public abstract class EuclidianView
 	// shape tools
 	protected GRectangle shapeRectangle;
 	protected GEllipse2DDouble shapeEllipse;
+	protected GLine2D shapeLine;
 	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
 			192, 192, 0.0);
 	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
@@ -2531,6 +2532,14 @@ public abstract class EuclidianView
 		this.shapeEllipse = shapeEllipse;
 	}
 
+	/**
+	 * @param shapeLine
+	 *            - preview of line for ShapeLine
+	 */
+	public void setShapeLine(GLine2D shapeLine) {
+		this.shapeLine = shapeLine;
+	}
+
 	public double[] getAxesCross() {
 		return axisCross;
 	}
@@ -3281,8 +3290,6 @@ public abstract class EuclidianView
 	 *            - color of line of shape
 	 * @param stroke
 	 *            - stroke of shape
-	 * @param rect
-	 *            - shape
 	 */
 	protected void drawShapeRectangle(GGraphics2D g2, GColor fillCol,
 			GColor objCol, GBasicStroke stroke) {
@@ -3312,8 +3319,6 @@ public abstract class EuclidianView
 	 *            - color of line of shape
 	 * @param stroke
 	 *            - stroke of shape
-	 * @param shapeEllipse
-	 *            - shape
 	 */
 	protected void drawShapeEllipse(GGraphics2D g2, GColor fillCol,
 			GColor objCol, GBasicStroke stroke) {
@@ -3321,12 +3326,28 @@ public abstract class EuclidianView
 		g2.setStroke(stroke);
 		g2.fill(shapeEllipse);
 		g2.setColor(objCol);
-		if (!isRounded) {
-			g2.draw(shapeEllipse);
-		} else {
-			// circle
+		g2.draw(shapeEllipse);
+	}
 
-		}
+	/**
+	 * Draws preview of line for ShapeLine
+	 * 
+	 * @param g2
+	 *            - graphics
+	 * @param fillCol
+	 *            - filling color of shape
+	 * @param objCol
+	 *            - color of line of shape
+	 * @param stroke
+	 *            - stroke of shape
+	 */
+	protected void drawShapeLine(GGraphics2D g2, GColor fillCol, GColor objCol,
+			GBasicStroke stroke) {
+		g2.setColor(fillCol);
+		g2.setStroke(stroke);
+		g2.fill(shapeLine);
+		g2.setColor(objCol);
+		g2.draw(shapeLine);
 	}
 
 	/**
@@ -3928,10 +3949,24 @@ public abstract class EuclidianView
 		return shapeEllipse;
 	}
 
+	/**
+	 * @return shapeLine
+	 */
+	public GLine2D getShapeLine() {
+		return shapeLine;
+	}
+
+	/**
+	 * @return true if shape is rounded (e.g. for ShapeRectangleRoundEdges)
+	 */
 	public boolean isRounded() {
 		return isRounded;
 	}
 
+	/**
+	 * @param isRounded
+	 *            - true if shape is rounded (e.g. for ShapeRectangleRoundEdges)
+	 */
 	public void setRounded(boolean isRounded) {
 		this.isRounded = isRounded;
 	}

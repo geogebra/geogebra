@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.modes;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -10,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -42,6 +44,10 @@ public class ModeShape {
 	 */
 	protected GEllipse2DDouble ellipse = AwtFactory.getPrototype()
 			.newEllipse2DDouble(0, 0, 0, 0);
+	/**
+	 * preview for ShapeLine
+	 */
+	protected GLine2D line = AwtFactory.getPrototype().newLine2D();
 	private AlgoElement algo = null;
 
 	/**
@@ -93,6 +99,11 @@ public class ModeShape {
 				updateEllipse(event, true);
 			}
 			view.setShapeEllipse(ellipse);
+			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
+			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
+					event.getX(), event.getY());
+			view.setShapeLine(line);
 			view.repaintView();
 		}
 	}
@@ -207,7 +218,34 @@ public class ModeShape {
 			geos[0].updateRepaint();
 			view.setShapeEllipse(null);
 			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
+			GeoPoint[] points = getRealPointsOfLine(event);
+			algo = new AlgoJoinPointsSegment(view.getKernel().getConstruction(),
+					null, points[0], points[1]);
+			GeoElement segment = algo.getOutput(0);
+			segment.setLabelVisible(false);
+			segment.updateRepaint();
+			view.setShapeLine(null);
+			view.repaintView();
 		}
+	}
+
+	private GeoPoint[] getRealPointsOfLine(AbstractEvent event) {
+		GeoPoint[] points = new GeoPoint[2];
+
+		double startX = view.toRealWorldCoordX(dragStartPoint.getX());
+		double startY = view.toRealWorldCoordY(dragStartPoint.getY());
+		GeoPoint startPoint = new GeoPoint(view.getKernel().getConstruction(),
+				startX, startY, 1);
+
+		double endX = view.toRealWorldCoordX(event.getX());
+		double endY = view.toRealWorldCoordY(event.getY());
+		GeoPoint endPoint = new GeoPoint(view.getKernel().getConstruction(),
+				endX, endY, 1);
+
+		points[0] = startPoint;
+		points[1] = endPoint;
+		return points;
 	}
 
 	private Equation getEquationOfConic(AbstractEvent event, boolean isCircle) {
