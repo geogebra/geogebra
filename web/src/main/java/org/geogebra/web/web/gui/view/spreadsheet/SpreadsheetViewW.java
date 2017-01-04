@@ -73,7 +73,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
-	private boolean allowSettingUpate = true;
+	private boolean allowSettingUpdate = true;
 
 	GPoint scrollPos = new GPoint();
 	
@@ -889,7 +889,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 
 	public void updateCellFormat(String cellFormat) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -909,7 +909,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	 */
 
 	protected void updateRowHeightSetting(int row, int height) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -918,7 +918,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredRowHeight(int preferredRowHeight) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -928,7 +928,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -937,7 +937,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredColumnWidth(int colWidth) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -976,7 +976,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	public void settingsChangedCommand() {
 
-		allowSettingUpate = true;
+		allowSettingUpdate = true;
 
 		// layout
 		setShowColumnHeader(settings().showColumnHeader());
@@ -1026,7 +1026,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// getTable().setInitialCellSelection(settings.selectedCell().x,
 		// settings.selectedCell().y);
 
-		allowSettingUpate = true;
+		allowSettingUpdate = true;
 		if (getFocusPanel().getParent() == null) {
 			return;
 		}

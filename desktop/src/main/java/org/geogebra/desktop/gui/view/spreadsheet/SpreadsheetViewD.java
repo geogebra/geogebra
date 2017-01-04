@@ -863,10 +863,10 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return settings().equalsRequired();
 	}
 
-	boolean allowSettingUpate = true;
+	boolean allowSettingUpdate = true;
 
 	public void updateCellFormat(String cellFormat) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -875,7 +875,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updateAllRowSettings() {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -890,7 +890,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updateRowHeightSetting(int row, int height) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -899,7 +899,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredRowHeight(int preferredRowHeight) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -909,7 +909,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updateColumnWidth(int col, int colWidth) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -918,7 +918,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updatePreferredColumnWidth(int colWidth) {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -928,7 +928,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	}
 
 	protected void updateAllColumnWidthSettings() {
-		if (!allowSettingUpate)
+		if (!allowSettingUpdate)
 			return;
 
 		settings().removeListener(this);
@@ -949,7 +949,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	public void settingsChanged(AbstractSettings settings0) {
 
-		allowSettingUpate = false;
+		allowSettingUpdate = false;
 
 		// layout
 		setShowColumnHeader(settings().showColumnHeader());
@@ -983,7 +983,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// getTable().setInitialCellSelection(settings.selectedCell().x,
 		// settings.selectedCell().y);
 
-		allowSettingUpate = true;
+		allowSettingUpdate = true;
 
 	}
 
