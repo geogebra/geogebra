@@ -523,4 +523,17 @@ public class MathFieldW implements MathField, IsWidget {
 		return false;
 	}-*/;
 
+	public void moveCaretLeftOrRight(boolean right) {
+		if (right) {
+			mathFieldInternal.getCursorController()
+					.lastField(mathFieldInternal.getEditorState());
+		} else {
+			mathFieldInternal.getCursorController()
+					.firstField(mathFieldInternal.getEditorState());
+		}
+		// update even when cursor didn't change here
+		mathFieldInternal.update();
+
+	}
+
 }

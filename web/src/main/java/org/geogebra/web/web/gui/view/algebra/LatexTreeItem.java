@@ -457,4 +457,15 @@ public class LatexTreeItem extends RadioTreeItem {
 
 	}
 
+	@Override
+	public void adjustCaret(int x) {
+		if (mf != null && mf.asWidget().getAbsoluteLeft()
+				+ mf.asWidget().getOffsetWidth() < x) {
+			mf.moveCaretLeftOrRight(true);
+		} else if (mf != null && mf.asWidget().getAbsoluteLeft() > x) {
+			mf.moveCaretLeftOrRight(false);
+		}
+
+	}
+
 }

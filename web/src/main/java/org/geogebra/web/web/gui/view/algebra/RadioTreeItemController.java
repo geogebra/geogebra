@@ -192,6 +192,7 @@ public class RadioTreeItemController
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
+			item.adjustCaret(event.getClientX());
 			if (isEditing() && !item.isInputTreeItem()) {
 				return;
 			}
@@ -347,7 +348,10 @@ public class RadioTreeItemController
 			event.preventDefault();
 		}
 
+		int x = EventUtil.getTouchOrClickClientX(event);
+		int y = EventUtil.getTouchOrClickClientY(event);
 		if (isEditing()) {
+			item.adjustCaret(x);
 			return;
 		}
 		if (markForEdit()) {
@@ -355,8 +359,7 @@ public class RadioTreeItemController
 		}
 		// Do NOT prevent default, kills scrolling on touch
 		// event.preventDefault();
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
+
 		getLongTouchManager().scheduleTimer(this, x, y);
 
 		handleAVItem(event);

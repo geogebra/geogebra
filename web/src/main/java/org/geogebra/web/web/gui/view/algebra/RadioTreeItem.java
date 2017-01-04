@@ -2111,6 +2111,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void showKeyboard() {
 		app.showKeyboard(this);
 	}
+
+	/**
+	 * @param x
+	 *            click event x-coord
+	 */
+	public void adjustCaret(int x) {
+		// only in JLM
+
+	}
 }
 
 
