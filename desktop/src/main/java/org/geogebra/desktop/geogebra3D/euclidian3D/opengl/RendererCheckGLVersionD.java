@@ -261,7 +261,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 		drawScene();
 
-		if (EuclidianView3DD.EXPORT_TO_PRINTER_3D) {
+		if (((EuclidianView3DD) view3D).hasPrinter()) {
 			if (type == RendererType.SHADER) {
 				((EuclidianView3DD) view3D).exportToPrinter3D();
 			}

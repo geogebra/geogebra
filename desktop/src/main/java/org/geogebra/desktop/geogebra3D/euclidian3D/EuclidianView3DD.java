@@ -154,13 +154,15 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	private ExportToPrinter3DD exportToPrinter;
 
-	final static public boolean EXPORT_TO_PRINTER_3D = false;
-
 	@Override
 	protected void createExportToPrinter3D() {
-		if (EXPORT_TO_PRINTER_3D) {
+		if (hasPrinter()) {
 			exportToPrinter = new ExportToPrinter3DD();
 		}
+	}
+
+	public boolean hasPrinter() {
+		return false;
 	}
 
 	private boolean doExportToPrinter3D = true;
@@ -169,7 +171,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	 * export drawables to 3D printer file
 	 */
 	public void exportToPrinter3D() {
-		if (EXPORT_TO_PRINTER_3D) {
+		if (hasPrinter()) {
 			if (doExportToPrinter3D) {
 				try {
 					StringBuilder sb = new StringBuilder();
