@@ -79,6 +79,7 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
@@ -378,7 +379,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 		};
 
-		printPreviewAction = new AbstractAction(loc.getMenu("Print") + "...",
+		printPreviewAction = new AbstractAction(
+				loc.getMenu("Print") + Unicode.ellipsis,
 				((AppD) app)
 						.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW)) {
 			private static final long serialVersionUID = 1L;

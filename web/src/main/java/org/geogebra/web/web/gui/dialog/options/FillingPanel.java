@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -603,7 +604,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + "...");
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ellipsis);
 	}
 
 	@Override

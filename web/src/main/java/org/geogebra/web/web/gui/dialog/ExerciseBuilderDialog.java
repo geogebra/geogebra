@@ -17,6 +17,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.BoolAssignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -478,7 +479,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 						.getResult().name()));
 				String hint = assignment.getHint();
 				if (hint != null && hint.length() > 30) {
-					hint = hint.substring(0, hint.indexOf(" ", 25)) + "...";
+					hint = hint.substring(0, hint.indexOf(" ", 25))
+							+ Unicode.ellipsis;
 				}
 				checkAssignmentsTable.setWidget(i, k++, new Label(hint));
 				checkAssignmentsTable.setWidget(

@@ -44,6 +44,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -321,7 +322,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			// Show a login success message
 			if (!automatic) {
 				Object[] options = {
-						loc.getMenu("OpenFromGeoGebraTube") + "...",
+						loc.getMenu("OpenFromGeoGebraTube") + Unicode.ellipsis,
 						loc.getMenu("OK") };
 				int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 						loc.getMenu("ThanksForSigningIn"),

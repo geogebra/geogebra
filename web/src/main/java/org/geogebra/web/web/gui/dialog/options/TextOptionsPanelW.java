@@ -12,6 +12,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -301,7 +302,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			lbSize.addItem(fontSizes[i]);
 		}
 
-		lbSize.addItem(loc.getMenu("Custom") + "...");
+		lbSize.addItem(loc.getMenu("Custom") + Unicode.ellipsis);
 
 		lbSize.setSelectedIndex(selectedIndex);
 

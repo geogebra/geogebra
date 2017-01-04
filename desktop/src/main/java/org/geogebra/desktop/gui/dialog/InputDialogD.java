@@ -43,6 +43,7 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
@@ -348,7 +349,7 @@ public class InputDialogD extends InputDialog
 		btOK.setText(loc.getMenu("OK"));
 		btCancel.setText(loc.getMenu("Cancel"));
 		btApply.setText(loc.getMenu("Apply"));
-		btProperties.setText(loc.getMenu("Properties") + "...");
+		btProperties.setText(loc.getMenu("Properties") + Unicode.ellipsis);
 	}
 
 	// ===================================================

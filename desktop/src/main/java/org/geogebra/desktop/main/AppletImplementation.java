@@ -39,6 +39,7 @@ import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.CommandLineArguments;
@@ -482,7 +483,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 		JPanel p = new JPanel(new BorderLayout());
 		p.setBackground(Color.white);
 		JLabel label = new JLabel("GeoGebra "
-				+ app.getLocalization().getMenu("WindowOpened") + "...");
+				+ app.getLocalization().getMenu("WindowOpened")
+				+ Unicode.ellipsis);
 		label.setFont(app.getPlainFont());
 		p.add(label, BorderLayout.CENTER);
 		cp.add(p);

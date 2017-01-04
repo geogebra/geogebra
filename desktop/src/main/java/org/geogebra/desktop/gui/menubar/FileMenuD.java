@@ -17,6 +17,7 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.AnimationExportDialogD;
 import org.geogebra.desktop.export.WorksheetExportDialog;
@@ -247,7 +248,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		shareAction = new AbstractAction(loc.getMenu("Share") + "...",
+		shareAction = new AbstractAction(
+				loc.getMenu("Share") + Unicode.ellipsis,
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

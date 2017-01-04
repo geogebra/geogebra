@@ -3,6 +3,7 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -62,7 +63,8 @@ public class RelationPaneW extends DialogBox
 				callbacks[i] = relations[i].callback;
 				btnCallbacks[i] = new Button();
 				btnCallbacks[i]
-						.setText(app.getLocalization().getMenu("More") + "...");
+						.setText(app.getLocalization().getMenu("More")
+								+ Unicode.ellipsis);
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}

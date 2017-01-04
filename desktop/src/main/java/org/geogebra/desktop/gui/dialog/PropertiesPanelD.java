@@ -2888,7 +2888,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			imagePanel.setBorder(
 					BorderFactory.createTitledBorder(app.getMenu("Images")));
 
-			btnOpenFile.setText(app.getMenu("ChooseFromFile") + "...");
+			btnOpenFile
+					.setText(app.getMenu("ChooseFromFile") + Unicode.ellipsis);
 
 			// fill type combobox
 			lblFillType.setText(app.getMenu("Filling") + ":");

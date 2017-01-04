@@ -25,6 +25,7 @@ import javax.swing.table.TableCellRenderer;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -109,7 +110,8 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			callbacks[i] = relations[i].callback;
 			if (areCallbacks) {
 				if (relations[i].callback != null) {
-					data[i][1] = app.getLocalization().getMenu("More") + "...";
+					data[i][1] = app.getLocalization().getMenu("More")
+							+ Unicode.ellipsis;
 				} else {
 					data[i][1] = "";
 				}

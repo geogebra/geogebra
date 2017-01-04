@@ -9,6 +9,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.main.AppW;
@@ -303,7 +304,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		btOK.setText(loc.getPlain("OK"));
 		btApply.setText(loc.getPlain("Apply"));
 		btCancel.setText(loc.getPlain("Cancel"));
-		btProperties.setText(loc.getPlain("Properties") + "...");
+		btProperties.setText(loc.getPlain("Properties") + Unicode.ellipsis);
 	}
 
 	@Override

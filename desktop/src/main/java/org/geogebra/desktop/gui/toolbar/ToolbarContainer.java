@@ -797,7 +797,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					if (++line > maxLines) {
 						// show tool help only when it can be completely shown
 						sbToolHelp.setLength(0);
-						// sbToolHelp.append("...");
+						// sbToolHelp.append(Unicode.ellipsis);
 						break;
 					}
 					sbToolHelp.append("<br>");

@@ -33,6 +33,7 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
@@ -420,7 +421,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	AbstractAction exportGraphicAction = new AbstractAction(
 			getApplication().getLocalization().getMenu("ExportAsPicture")
-					+ "...",
+					+ Unicode.ellipsis,
 			getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 		private static final long serialVersionUID = 1L;
 
