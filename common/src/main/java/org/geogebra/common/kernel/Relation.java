@@ -29,6 +29,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -149,7 +150,8 @@ public class Relation {
 							rel.info += "</b>";
 						} else {
 							int ndgs = ndgResult.length;
-							if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
+							if ((ndgs == 2) && ((Unicode.ellipsis + "")
+									.equals(ndgResult[1]))) {
 								// UnderCertainConditionsA
 								rel.info += loc.getPlain(
 										"UnderCertainConditionsA",

@@ -35,6 +35,7 @@ import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.Prover.ProverEngine;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -268,7 +269,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 									if (geo != null)
 										s += ndgc.getGeos()[i].getLabelSimple();
 									else
-										s += "...";
+										s += Unicode.ellipsis;
 								}
 								s += "]";
 								if (relTool) {
@@ -292,7 +293,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
-					String cond = "...";
+					String cond = Unicode.ellipsis + "";
 					ndgConditionText.setTextString(cond);
 					ndgConditionText.setLabelVisible(false);
 					ndgConditionText.setEuclidianVisible(false);
