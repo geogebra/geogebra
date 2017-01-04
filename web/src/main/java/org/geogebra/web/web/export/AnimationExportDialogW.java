@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -14,11 +13,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
-import org.geogebra.web.web.gui.util.FrameCollectorW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 
@@ -113,35 +109,6 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		geoNumerics = new ArrayList<GeoElement>();
 		initGUI();
 		refreshGUI();
-	}
-
-	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
-	        int n, double val, double min, double max, double step) {
-		Log.debug("exporting animation");
-		for (int i = 0; i < n; i++) {
-
-			// avoid values like 14.399999999999968
-			val = Kernel.checkDecimalFraction(val);
-			num.setValue(val);
-			num.updateRepaint();
-
-			String url = ((EuclidianViewWInterface) app
-					.getActiveEuclidianView())
-			        .getExportImageDataUrl(1, false);
-			if (url == null) {
-				Log.error("image null");
-			} else {
-				gifEncoder.addFrame(url);
-			}
-			val += step;
-
-			if (val > max + 0.00000001 || val < min - 0.00000001) {
-				val -= 2 * step;
-				step *= -1;
-			}
-
-		}
-		gifEncoder.finish();
 	}
 
 	private void initGUI() {

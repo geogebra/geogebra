@@ -659,22 +659,6 @@ pr.menu_header_undo(), null, 32);
 	}
 
 	/**
-	 * Removes a toolbar from this container. Use {@link #updateToolbarPanel()}
-	 * to update the GUI after all toolbar changes were made. If the removed
-	 * toolbar was the active toolbar as well the active toolbar is changed to
-	 * the general (but again, {@link #updateToolbarPanel()} has to be called
-	 * for a visible effect).
-	 * 
-	 * @param toolbar
-	 */
-	public void removeToolbar(ToolBarW toolbar) {
-		toolbars.remove(toolbar);
-		/*AGif(getViewId(toolbar) == activeToolbar) {
-			activeToolbar = -1;
-		}*/
-	}
-
-	/**
 	 * Gets an HTML fragment that displays the image belonging to mode given in
 	 * parameter
 	 * 
@@ -1175,6 +1159,10 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
+	/**
+	 * @param index
+	 *            0 for open, 1 for menu
+	 */
 	public void selectMenuButton(int index) {
 		deselectButtons();
 
@@ -1193,11 +1181,18 @@ pr.menu_header_undo(), null, 32);
 	    
     }
 
+	/**
+	 * Deselect both menu and open
+	 */
 	public void deselectButtons() {
 		this.openSearchButton.getElement().removeClassName("selectedButton");
 		this.openMenuButton.getElement().removeClassName("selectedButton");
     }
 
+	/**
+	 * Reset the right panel to include menubar; checks if menubar is already
+	 * attached
+	 */
 	public void attachMenubar() {
 		if(!this.menuBarShowing){
 			this.rightButtonPanel.removeFromParent();
@@ -1205,6 +1200,9 @@ pr.menu_header_undo(), null, 32);
 		}
     }
 
+	/**
+	 * Update enabled/disabled for undo and redo
+	 */
 	public void updateUndoActions() {
 		if(undoButton != null){
 			this.undoButton.setEnabled(app.getKernel().undoPossible());
@@ -1274,13 +1272,17 @@ pr.menu_header_undo(), null, 32);
 		int max = (appWidth - extraButtons - 20) / 45;
 		if (max > 1) {
 			return max;
-		} else {
-			// make sure toolbar is always visible
-			return 2;
 		}
+		// make sure toolbar is always visible
+		return 2;
 	}
 
-	// sets the with of the submenu dynamically on resize
+	/**
+	 * sets the with of the submenu dynamically on resize
+	 * 
+	 * @param width
+	 *            toolbar width
+	 */
 	public void setSubmenuDimensions(double width) {
 		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
 			int maxButtons = getMaxButtons((int) width);

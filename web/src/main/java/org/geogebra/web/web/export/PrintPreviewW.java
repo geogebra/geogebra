@@ -27,12 +27,19 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * Print dialog
+ *
+ */
 public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		ChangeHandler {
+	/** application */
 	AppW app;
 	private Button btPrint;
 	private Button btCancel;
+	/** view list */
 	ListBox m_cbView;
+	/** print panel */
 	FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
 	private Localization loc;
@@ -54,6 +61,10 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	public static final int LHEIGHT = 900;
 
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public PrintPreviewW(AppW appl) {
 		super(appl.getPanel());
 		app = appl;
@@ -65,7 +76,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		center();
 	}
 
-	protected void createGUI() {
+	private void createGUI() {
 
 		// Maybe there is older print panel, because after open pdf in preview
 		// the previous print panel hasn't been removed
@@ -221,13 +232,13 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		}
 	}
 
-	public void createPreview(final String viewID) {
+	private void createPreview(final String viewID) {
 
 		createPrintables(Integer.parseInt(viewID), app, printPanel, btPrint);
 
 	}
 
-	static void createPrintables(int viewID, AppW app, FlowPanel pPanel,
+	private static void createPrintables(int viewID, AppW app, FlowPanel pPanel,
 			Button bPrint) {
 		GuiManagerW gui = (GuiManagerW) app.getGuiManager();
 		PrintableW view;
@@ -251,7 +262,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		view.getPrintable(pPanel, bPrint);
 	}
 
-	public static void removePrintPanelFromDOM() {
+	private static void removePrintPanelFromDOM() {
 		NodeList<com.google.gwt.dom.client.Element> pp = Dom
 				.getElementsByClassName("printPanel");
 		if (pp.getLength() != 0) {

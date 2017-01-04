@@ -15,6 +15,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
+/**
+ * Scale panel for print dialog
+ *
+ */
 public class PrintScalePanelW extends FlowPanel {
 
 	private TextBox tfScale1, tfScale2, tfScaleFixed;
@@ -26,17 +30,31 @@ public class PrintScalePanelW extends FlowPanel {
 	private FlowPanel cmModePanel, fixedSizeModePanel;
 
 	// private boolean noAction = false;
+	/** for each field remember if update handller is running */
 	HashMap<TextBox, Boolean> handlers = new HashMap<TextBox, Boolean>();
 
+	/**
+	 * Scale modes TODO move to common?
+	 *
+	 */
 	public enum PrintScaleModes {
-		SIZEINCM, FIXED_SIZE
-	};
+		/** scale using cm */
+		SIZEINCM,
+		/** fixed size in px */
+		FIXED_SIZE
+	}
 
 	private PrintScaleModes mode = PrintScaleModes.SIZEINCM;
 
 	private String jcbItemScaleInCentimeter;
 	private String jcbItemFixedSize;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param eview
+	 *            euclidian view
+	 */
 	PrintScalePanelW(AppW app, EuclidianView eview) {
 		ev = eview;
 		Localization loc = app.getLocalization();
@@ -99,6 +117,9 @@ public class PrintScalePanelW extends FlowPanel {
 
 	}
 
+	/**
+	 * Switch between fixed size and cm scale
+	 */
 	void switchMode() {
 		Log.debug("switchMode: " + exportMode.getSelectedValue());
 
@@ -144,11 +165,14 @@ public class PrintScalePanelW extends FlowPanel {
 		}
 	}
 
-	private void setTextNoListener(TextBox field, String s) {
+	private static void setTextNoListener(TextBox field, String s) {
 		// handlers.put(field, true);
 		field.setText(s);
 	}
 
+	/**
+	 * Fixed scale changed
+	 */
 	void fireFixedSizeTextFieldUpdate() {
 		// boolean viewChanged = false;
 
@@ -170,6 +194,9 @@ public class PrintScalePanelW extends FlowPanel {
 		// }
 	}
 
+	/**
+	 * x-scale or y-scale changed
+	 */
 	void fireTextFieldUpdate() {
 		// boolean viewChanged = false;
 
