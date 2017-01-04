@@ -378,6 +378,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				DockPanelW newDockPanelKB = dm.getPanelForKeyboard();
 				if(dockPanelKB != newDockPanelKB){
 					dockPanelKB.setKeyBoardButton(null);
+					showKeyboardButton.removeFromParent();
 					dockPanelKB = newDockPanelKB;
 					showKeyboardButton = new ShowKeyboardButton(this, dm,
 							dockPanelKB);
