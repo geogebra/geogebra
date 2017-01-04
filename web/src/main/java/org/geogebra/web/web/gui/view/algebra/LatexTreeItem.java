@@ -106,9 +106,14 @@ public class LatexTreeItem extends RadioTreeItem {
 
 		content.clear();
 
+		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
+			latexItem.setHeight(getController().getEditHeigth() + "px");
+		}
 
 		ensureCanvas();
 		appendCanvas();
+
+
 		if (!content.isAttached()) {
 			main.add(content);
 		}

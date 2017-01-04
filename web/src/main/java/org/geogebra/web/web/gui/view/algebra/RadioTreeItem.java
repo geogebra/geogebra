@@ -1098,6 +1098,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
 
+		Log.printStacktrace("-----");
 		styleEditor();
 
 		if (stylebarShown != null) {

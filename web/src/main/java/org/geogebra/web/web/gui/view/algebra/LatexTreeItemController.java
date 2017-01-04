@@ -74,7 +74,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 				return;
 			}
 			createGeoFromInput(keepFocus);
-
 			return;
 		}
 		if (!isEditing()) {

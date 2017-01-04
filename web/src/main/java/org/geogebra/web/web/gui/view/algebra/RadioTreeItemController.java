@@ -80,6 +80,7 @@ public class RadioTreeItemController
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
 		LongTouchHandler {
 
+	private static final int VERTICAL_PADDING = 12;
 	protected AppW app;
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
@@ -88,6 +89,7 @@ public class RadioTreeItemController
 
 	private boolean markForEdit = false;
 	public long latestTouchEndTime = 0;
+	private int editHeigth;
 
 	public RadioTreeItemController(RadioTreeItem item) {
 		this.item = item;
@@ -482,6 +484,7 @@ public class RadioTreeItemController
 		GeoElement geo = item.geo;
 		if (!isEditing()) {
 			geo.setAnimating(false);
+			setEditHeigth(item.getOffsetHeight());
 			getAV().startEditItem(geo);
 
 			if (app.has(Feature.AV_INPUT_BUTTON_COVER)
@@ -696,6 +699,14 @@ public class RadioTreeItemController
 	public void removeGeo() {
 		item.geo.remove();
 		getAV().setActiveTreeItem(null);
+	}
+
+	public int getEditHeigth() {
+		return editHeigth;
+	}
+
+	public void setEditHeigth(int editHeigth) {
+		this.editHeigth = editHeigth - VERTICAL_PADDING;
 	}
 }
 
