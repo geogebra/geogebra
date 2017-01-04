@@ -886,39 +886,21 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				// allow input such as sqrt(2)
 				NumberValue nv;
 				nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
-						false);
+							!intervalCheck);
+					if (nv == null) {
+						return;
+					}
 					double value = nv.getDouble();
-	
+
 				if (source == fldLow.getTextBox()) {
 
 						checkBounds(value, intervalCheck, false);
 				}
-					// if (intervalCheck) {
-					// if (isValidInterval(probMode, getHigh(), value)) {
-					// setLow(value);
-					// setXAxisPoints();
-					// } else {
-					// updateGUI();
-					// }
-					// } else {
-					// // setLow(value);
-					//
-					// }
-					// }
+
 				else if (source == fldHigh.getTextBox()) {
 						checkBounds(value, intervalCheck, true);
 				}
-					// if (isValidInterval(probMode, getLow(), value)) {
-					// setHigh(value);
-					// setXAxisPoints();
-					// } else {
-					// if (intervalCheck) {
-					// updateGUI();
-					// } else {
-					// fldResult.setText("?");
-					// }
-					// }
-					// }
+
 	
 				// handle inverse probability
 				else if (source == fldResult.getTextBox()) {
