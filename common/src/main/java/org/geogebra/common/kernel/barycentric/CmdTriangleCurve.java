@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.main.MyError;
 
@@ -62,7 +63,8 @@ public class CmdTriangleCurve extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoPoint)
 					&& (ok[1] = arg[1] instanceof GeoPoint)
 					&& (ok[2] = arg[2] instanceof GeoPoint)
-					&& (ok[3] = arg[3].isGeoImplicitCurve())) {
+					&& (ok[3] = arg[3].isGeoImplicitCurve()
+							&& arg[3].getParentAlgorithm() instanceof AlgoDependentImplicitPoly)) {
 
 				AlgoTriangleCurve algo = new AlgoTriangleCurve(cons,
 						c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1],

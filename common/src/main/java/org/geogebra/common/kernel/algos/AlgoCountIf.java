@@ -35,6 +35,15 @@ public class AlgoCountIf extends AlgoElement {
 
 	/**
 	 * Algorithm for handling of a CountIf construct
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param boolFun
+	 *            filter function
+	 * @param list
+	 *            filtered list
 	 */
 	public AlgoCountIf(Construction cons, String label, GeoFunction boolFun,
 			GeoList list) {
@@ -69,6 +78,9 @@ public class AlgoCountIf extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return object count
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}
@@ -92,7 +104,7 @@ public class AlgoCountIf extends AlgoElement {
 					if (boolFun.evaluateBoolean(((GeoNumeric) val).getValue()))
 						count++;
 				} else {
-					ExpressionNode ex = (ExpressionNode) boolFun.getFunction()
+					ExpressionNode ex = boolFun.getFunction()
 							.getExpression().deepCopy(kernel);
 					ex = ex.replace(var,
 							val.evaluate(StringTemplate.defaultTemplate))
