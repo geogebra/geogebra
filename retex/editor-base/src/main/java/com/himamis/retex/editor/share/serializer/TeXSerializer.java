@@ -107,11 +107,11 @@ public class TeXSerializer extends SerializerAdapter {
 				if (currentOffset > 0) {
 					serialize(sequence, stringBuilder, 0, currentOffset);
 				}
-				if (currentSelStart == null) {
+				// if (currentSelStart == null) {
 					
 					stringBuilder.append(cursor);
 
-				}
+				// }
 				if (currentOffset < sequence.size()) {
 					serialize(sequence, stringBuilder, currentOffset,
 							sequence.size());
@@ -364,6 +364,9 @@ public class TeXSerializer extends SerializerAdapter {
             stringBuilder.append(array.getClose().getCasName());
 
         } else {
+			if (this.currentSelStart == array) {
+				stringBuilder.append(TeXSerializer.selection_start);
+			}
             stringBuilder.append(array.getOpen().getTexName());
             for (int i = 0; i < array.rows(); i++) {
                 for (int j = 0; j < array.columns(); j++) {
@@ -376,6 +379,9 @@ public class TeXSerializer extends SerializerAdapter {
                 }
             }
             stringBuilder.append(array.getClose().getTexName());
+			if (this.currentSelEnd == array) {
+				stringBuilder.append(TeXSerializer.selection_end);
+			}
         }
     }
 
