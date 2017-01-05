@@ -234,7 +234,10 @@ public class ModeShape {
 					view.getKernel().getConstruction(),
 				null, getPointArray(event,false), false);
 			}
-			GeoElement poly = algo.getOutput(0);
+			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
+			for (GeoSegmentND geoSeg : poly.getSegments()) {
+				((GeoSegment) geoSeg).setLabelVisible(false);
+			}
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
 			poly.setObjColor(GColor.BLACK);
