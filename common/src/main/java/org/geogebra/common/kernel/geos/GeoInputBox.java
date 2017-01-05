@@ -236,9 +236,18 @@ public class GeoInputBox extends GeoButton {
 		}
 
 		double num = Double.NaN;
-
+		ExpressionNode parsed = null;
+		if (linkedGeo.isGeoNumeric()) {
+			try {
+				parsed = kernel.getParser()
+						.parseExpression(inputText);
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		// for a simple number, round it to the textfield setting (if set)
-		if (linkedGeo.isGeoNumeric() && linkedGeo.isIndependent()
+		if (parsed != null && parsed.isConstant()
 				&& !linkedGeo.isGeoAngle()
 				&& (printDecimals > -1 || printFigures > -1)) {
 			try {
@@ -256,9 +265,11 @@ public class GeoInputBox extends GeoButton {
 		}
 
 		try {
-			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent()) {
+			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent()
+					&& parsed != null && parsed.isConstant()) {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
+				Log.debug("Simple update");
 				kernel.getAlgebraProcessor().evaluateToDouble(defineText, false,
 						(GeoNumeric) linkedGeo);
 
@@ -333,7 +344,9 @@ public class GeoInputBox extends GeoButton {
 
 				// want just a number for eg a=3 but we want variables for eg
 				// y=m x + c
-				linkedText = linkedGeo.getDefinition(tpl);
+				boolean substituteNos = linkedGeo.isGeoNumeric()
+						&& linkedGeo.isIndependent();
+				linkedText = linkedGeo.getFormulaString(tpl, substituteNos);
 			}
 
 			if (linkedGeo.isGeoText() && (linkedText.indexOf("\n") > -1)) {
