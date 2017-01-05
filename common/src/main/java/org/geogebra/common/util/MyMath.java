@@ -156,32 +156,6 @@ public final class MyMath {
 		return Math.cos(a) / sin;
 	}
 
-	/*
-	 * replaced with Gamma.logGamma from Apache Commons Math // logarithm of
-	 * gamma function of xx public static double gammln(double xx) { double
-	 * x,y,tmp,ser; int j;
-	 * 
-	 * y=x=xx; tmp=x+5.5; tmp -= (x+0.5)* Math.log(tmp); ser=1.000000000190015;
-	 * for (j=0;j<=5;j++) ser += cof[j]/++y; return
-	 * -tmp+Math.log(2.5066282746310005*ser/x); } // coefficients for gammln
-	 * private static double [] cof = {76.18009172947146,-86.50532032941677,
-	 * 24.01409824083091,-1.231739572450155,
-	 * 0.1208650973866179e-2,-0.5395239384953e-5};
-	 */
-
-	/**
-	 * Round a double to the given number of digits
-	 * 
-	 * @param x
-	 * @param digits
-	 * @return number rounded to given number of digits
-	 */
-	final public static double truncate(double x, int digits) {
-		BigDecimal bd = new BigDecimal(x);
-		bd = bd.setScale(digits, BigDecimal.ROUND_HALF_UP);
-		return bd.doubleValue();
-	}
-
 	/**
 	 * Computes adjoint matrix to {{a00,a01,a02},{a10,a11,a12},{a20,a21,a22}}
 	 * 

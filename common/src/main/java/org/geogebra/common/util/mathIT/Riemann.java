@@ -343,7 +343,7 @@ public class Riemann {
 								// satisfactory ...
 			// use the reflection functional equation zeta(s) = chi(s)
 			// zeta(1-s):
-			return multiply(chi(s), zeta(subtract(Complex.ONE_, s)));
+			return multiply(chi(s), zeta(subtract(ONE_, s)));
 		} else {
 			// Algorithm according to Borwein et al (2008), p 35:
 			int n = 70; // should not be greater than 75, because overflow in
@@ -965,7 +965,7 @@ public class Riemann {
 	 * s = new double[]{Double.parseDouble(feld1.getText()),
 	 * Double.parseDouble(feld2.getText())}; ausgabe += "\n\n  \u03C7(" +
 	 * Complex.toString(s) + ") \u03C7("; ausgabe += Complex.toString(
-	 * Complex.subtract(Complex.ONE_, s) ); ausgabe += ") = "; ausgabe +=
+	 * Complex.subtract(ONE_, s) ); ausgabe += ") = "; ausgabe +=
 	 * Complex.toString( Complex.multiply( chi(s),
 	 * chi(Complex.subtract(Complex.ONE_, s)) ) );
 	 * 
