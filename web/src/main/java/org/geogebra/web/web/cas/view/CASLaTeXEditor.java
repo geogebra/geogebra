@@ -169,16 +169,22 @@ public class CASLaTeXEditor extends SimplePanel
 			@Override
 			public void onClickStart(int x, int y,
 					final PointerEventType type) {
-				app.getGuiManager().setOnScreenKeyboardTextField(retexListener);
-				// prevent that keyboard is closed on clicks (changing
-				// cursor position)
-				CancelEventTimer.keyboardSetVisible();
+				doClickStart();
 			}
 		});
 		setFocus(true, false);
 
 	}
 
+	/**
+	 * Click start callback
+	 */
+	protected void doClickStart() {
+		app.getGuiManager().setOnScreenKeyboardTextField(retexListener);
+		// prevent that keyboard is closed on clicks (changing
+		// cursor position)
+		CancelEventTimer.keyboardSetVisible();
+	}
 	public boolean getAutoComplete() {
 		return autocomplete;
 	}
@@ -270,14 +276,18 @@ public class CASLaTeXEditor extends SimplePanel
 		return retexListener.alt(unicodeKeyChar, shift);
 	}
 
-	public void onDownKeyPressed() {
-		// TODO Auto-generated method stub
+	public void onUpKeyPressed() {
+		if (isSuggesting()) {
+			sug.onKeyUp();
+		}
 
 	}
 
-	public void onUpKeyPressed() {
-		// TODO Auto-generated method stub
 
+	public void onDownKeyPressed() {
+		if (isSuggesting()) {
+			sug.onKeyDown();
+		}
 	}
 
 	public String serialize(MathSequence selectionText) {

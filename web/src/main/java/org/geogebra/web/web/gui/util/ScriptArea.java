@@ -10,7 +10,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -23,22 +22,21 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.TextArea;
 
-// Class for future syntax highlighting, line numbering and so on.
+/** Class for future syntax highlighting, line numbering and so on. */
 public class ScriptArea extends TextArea
  implements KeyPressHandler,
 		KeyDownHandler, KeyUpHandler, HasKeyboardTF {
 
 	private boolean dummyCursor = false;
 
+	/**
+	 * Creates new script area
+	 */
 	public ScriptArea() {
 		setStyleName("scriptArea");
 		addKeyPressHandler(this);
 		addKeyDownHandler(this);
 		addKeyUpHandler(this);
-	}
-
-	public ScriptArea(Element element) {
-		super(element);
 	}
 
 	public void onKeyUp(KeyUpEvent e) {
@@ -85,6 +83,12 @@ public class ScriptArea extends TextArea
 		return getText().indexOf(getSelectedText());
 	}
 
+	/**
+	 * @param caretPos
+	 *            caret position
+	 * @param moveDummyCursor
+	 *            whether dummy cursor needs to be moved
+	 */
 	public void setCursorPos(int caretPos, boolean moveDummyCursor) {
 		if (dummyCursor && moveDummyCursor) {
 			if (caretPos == this.getText().length()) {
@@ -97,10 +101,15 @@ public class ScriptArea extends TextArea
 		}
 	}
 	
+	@Override
 	public void setCursorPos(int pos){
 		setCursorPos(pos, true);
 	}
 
+	/**
+	 * @param text
+	 *            inserted text
+	 */
 	public void insertString(String text) {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
@@ -164,6 +173,10 @@ public class ScriptArea extends TextArea
 		dummyCursor = false;
 	}
 
+	/**
+	 * @param caretPos
+	 *            caret position
+	 */
 	public void addDummyCursor(int caretPos) {
 		if (dummyCursor) {
 			return;
@@ -195,6 +208,10 @@ public class ScriptArea extends TextArea
 		return false;
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public void enableGGBKeyboard(final AppW app) {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;

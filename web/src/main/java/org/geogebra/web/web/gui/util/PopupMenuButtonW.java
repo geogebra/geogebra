@@ -84,6 +84,8 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code boolean}
 	 * @param hasSlider
 	 *            {@code boolean}
+	 * @param lineStyleMap0
+	 *            maps item index to line style
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
@@ -110,6 +112,8 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code boolean}
 	 * @param selected
 	 *            which items are selected
+	 * @param lineStyleMap0
+	 *            maps item index to line style
 	 */
 	public PopupMenuButtonW(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
@@ -230,6 +234,14 @@ public class PopupMenuButtonW extends MyCJButton
 		myPopup.getPanel().add(myTable);
     }
 
+	/**
+	 * Show or hide item at given position
+	 * 
+	 * @param col
+	 *            item column
+	 * @param show
+	 *            visibility flag
+	 */
 	protected void showTableItem(int col, boolean show) {
 		myTable.getWidget(0, col).setVisible(show);
 	}
