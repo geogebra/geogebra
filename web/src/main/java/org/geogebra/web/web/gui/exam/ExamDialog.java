@@ -246,6 +246,9 @@ public class ExamDialog {
 		app.getLAF().removeWindowClosingHandler();
 		app.fileNew();
 		app.updateRounding();
+		// do this *before* perspective so that we have CAS toolbar for CAS
+		guiManager.setGeneralToolBarDefinition(
+				ToolBar.getAllToolsNoMacros(true, true, app));
 		if (app.enableGraphing()) {
 			// don't check for CAS supported but for data param
 			if (app.getArticleElement().getDataParamEnableCAS(false)) {
@@ -257,7 +260,7 @@ public class ExamDialog {
 		} else {
 			app.getGgbApi().setPerspective("A");
 		}
-		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, true, app));
+
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.getExam().setStart(date.getTime());
 		app.fireViewsChangedEvent();
