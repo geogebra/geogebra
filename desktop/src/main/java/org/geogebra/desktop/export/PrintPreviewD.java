@@ -328,6 +328,7 @@ public class PrintPreviewD extends JDialog {
 						panelForTitleAndScaling.revalidate();
 
 						initPages();
+						updateFormat();
 
 						m_preview.doLayout();
 						m_preview.getParent().getParent().validate();
@@ -410,6 +411,7 @@ public class PrintPreviewD extends JDialog {
 
 		// init the preview
 		initPages();
+		updateFormat();
 		centerOnScreen();
 
 		app.getMainComponent().setCursor(oldCursor);
@@ -671,6 +673,12 @@ public class PrintPreviewD extends JDialog {
 		m_preview.removeAll();
 		initPages();
 
+		updateFormat();
+		m_preview.doLayout();
+		m_preview.getParent().getParent().validate();
+	}
+
+	void updateFormat() {
 		PageFormat pageFormat = getDefaultPageFormat();
 		pageFormat.setOrientation(m_orientation);
 
@@ -681,8 +689,7 @@ public class PrintPreviewD extends JDialog {
 			PagePreview pp = (PagePreview) comps[k];
 			pp.setPageFormat(pageFormat);
 		}
-		m_preview.doLayout();
-		m_preview.getParent().getParent().validate();
+
 	}
 
 	void setScale(int scale) {
