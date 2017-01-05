@@ -17,6 +17,10 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
+/**
+ * Appends or prepends element to a list
+ *
+ */
 public class AlgoAppend extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -24,14 +28,14 @@ public class AlgoAppend extends AlgoElement {
 	private GeoList outputList; // output
 	private int size;
 	private int order;
-	private int ADD_OBJECT_AT_START = 0;
-	private int ADD_OBJECT_AT_END = 1;
+	private static final int ADD_OBJECT_AT_START = 0;
+	private static final int ADD_OBJECT_AT_END = 1;
 
-	public AlgoAppend(Construction cons, String label, GeoList inputList,
-			GeoElement geo) {
+	private AlgoAppend(Construction cons, String label, GeoList inputList,
+			GeoElement geo, int order) {
 		super(cons);
 
-		order = ADD_OBJECT_AT_END;
+		this.order = order;
 
 		this.inputList = inputList;
 		this.geo = geo;
@@ -43,20 +47,35 @@ public class AlgoAppend extends AlgoElement {
 		outputList.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list
+	 * @param geo
+	 *            appended element
+	 */
+	public AlgoAppend(Construction cons, String label, GeoList inputList,
+			GeoElement geo) {
+		this(cons, label, inputList, geo, ADD_OBJECT_AT_END);
+
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            list
+	 * @param geo
+	 *            prepended element
+	 */
 	public AlgoAppend(Construction cons, String label, GeoElement geo,
 			GeoList inputList) {
-		super(cons);
-
-		order = ADD_OBJECT_AT_START;
-
-		this.inputList = inputList;
-		this.geo = geo;
-
-		outputList = new GeoList(cons);
-
-		setInputOutput();
-		compute();
-		outputList.setLabel(label);
+		this(cons, label, inputList, geo, ADD_OBJECT_AT_START);
 	}
 
 	@Override
@@ -86,6 +105,9 @@ public class AlgoAppend extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return appended list
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

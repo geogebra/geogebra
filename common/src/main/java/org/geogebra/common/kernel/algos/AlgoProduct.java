@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Product of list elements
@@ -26,18 +25,19 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoProduct extends AlgoStats1D {
 
-	public AlgoProduct(Construction cons, String label, GeoList geoList) {
-		super(cons, label, geoList, AlgoStats1D.STATS_PRODUCT);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geoList
+	 *            numbers
+	 * @param freq
+	 *            frequencies
+	 */
 	public AlgoProduct(Construction cons, String label, GeoList geoList,
 			GeoList freq) {
 		super(cons, label, geoList, freq, AlgoStats1D.STATS_PRODUCT);
-	}
-
-	public AlgoProduct(Construction cons, String label, GeoList geoList,
-			GeoNumeric n) {
-		super(cons, label, geoList, n, AlgoStats1D.STATS_PRODUCT);
 	}
 
 	@Override

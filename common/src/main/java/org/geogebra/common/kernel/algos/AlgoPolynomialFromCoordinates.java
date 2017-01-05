@@ -39,6 +39,14 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoFunction g; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            points
+	 */
 	public AlgoPolynomialFromCoordinates(Construction cons, String label,
 			GeoList inputList) {
 		super(cons);
@@ -66,6 +74,9 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return polynomial function
+	 */
 	public GeoFunction getPolynomial() {
 		return g;
 	}
@@ -82,6 +93,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 	}
 
+	/**
+	 * @param g
+	 *            function
+	 * @param inputList
+	 *            pointlist
+	 */
 	public static void setFromPoints(GeoFunction g, GeoList inputList) {
 		int n = inputList.size();
 
@@ -173,6 +190,13 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param cof
+	 *            coefficients
+	 * @return function
+	 */
 	public static Function buildPolyFunctionExpression(Kernel kernel,
 			double[] cof) {
 		int n = cof.length;
@@ -248,36 +272,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 
 	}
 
-	private static void polcoe(double x[], double y[], int n, double cof[])
-	// Given arrays x[0..n-1] and y[0..n-1] containing a tabulated function yi =
-	// f(xi), this routine
-	// returns an array of coefficients cof[0..n], such that yi = Sigma cofj.xj
-	// adapted from Numerical Recipes chap 3.5
-	{
-		int k, j, i;
-		double phi, ff, b;
-		double s[] = new double[n];
-		for (i = 0; i < n; i++)
-			s[i] = cof[i] = 0.0;
-		s[n - 1] = -x[0];
-		for (i = 1; i < n; i++) {
-			for (j = n - 1 - i; j < n - 1; j++)
-				s[j] -= x[i] * s[j + 1];
-			s[n - 1] -= x[i];
-		}
-		for (j = 0; j < n; j++) {
-			phi = n;
-			for (k = n - 1; k > 0; k--)
-				phi = k * s[k] + x[j] * phi;
-			ff = y[j] / phi;
-			b = 1.0;
-			for (k = n - 1; k >= 0; k--) {
-				cof[k] += b * ff;
-				b = s[k] + x[j] * b;
-			}
-		}
 
-	}
 
 	private static void polcoeBig(double xx[], double yy[], int n,
 			double coff[])
@@ -299,7 +294,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		}
 		// double s[] = new double[n];
 		for (i = 0; i < n; i++)
-			s[i] = cof[i] = new BigDecimal(0.0d);
+			s[i] = cof[i] = BigDecimal.ZERO;
 		s[n - 1] = x[0].multiply(minusone);
 		for (i = 1; i < n; i++) {
 			for (j = n - 1 - i; j < n - 1; j++)
@@ -316,7 +311,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			// must specify a scale, otherwise 1/2 gives 1 not 0.5
 			ff = y[j].divide(phi, 50, BigDecimal.ROUND_HALF_UP);
 
-			b = new BigDecimal(1.0d);
+			b = BigDecimal.ONE;
 			for (k = n - 1; k >= 0; k--) {
 				cof[k] = cof[k].add(b.multiply(ff));
 				b = s[k].add(x[j].multiply(b));

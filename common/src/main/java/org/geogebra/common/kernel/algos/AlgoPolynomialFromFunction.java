@@ -29,6 +29,14 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 	private GeoFunction f; // input
 	private GeoFunction g; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param f
+	 *            function, possibly polynomial
+	 */
 	public AlgoPolynomialFromFunction(Construction cons, String label,
 			GeoFunction f) {
 		super(cons);
@@ -56,6 +64,9 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return polynomial function
+	 */
 	public GeoFunction getPolynomial() {
 		return g;
 	}
