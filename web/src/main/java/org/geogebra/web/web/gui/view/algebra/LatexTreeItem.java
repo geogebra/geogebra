@@ -106,7 +106,8 @@ public class LatexTreeItem extends RadioTreeItem {
 
 		content.clear();
 
-		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !(latexItem == null
+				|| isInputTreeItem() || isSliderItem())) {
 			latexItem.setHeight(getController().getEditHeigth() + "px");
 		}
 

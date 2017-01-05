@@ -3,8 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -13,10 +11,23 @@ public class CheckboxTreeItem extends LatexTreeItem {
 	/**
 	 * checkbox displaying boolean variables
 	 */
-	private CheckBox checkBox = null;
+	CheckBox checkBox = null;
 
 	public CheckboxTreeItem(GeoElement geo0) {
 		super(geo0);
+	}
+
+	@Override
+	protected RadioTreeItemController createController() {
+		return new CheckBoxTreeItemController(this);
+	}
+
+	/**
+	 * 
+	 * @return The controller as CheckBoxTreeItemController.
+	 */
+	public CheckBoxTreeItemController getCheckBoxController() {
+		return (CheckBoxTreeItemController) getController();
 	}
 
 	@Override
@@ -24,15 +35,7 @@ public class CheckboxTreeItem extends LatexTreeItem {
 		checkBox = new CheckBox();
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 		content.addStyleName("noPadding");
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				((GeoBoolean) geo).setValue(event.getValue());
-				geo.updateCascade();
-				kernel.notifyRepaint();
-
-			}
-		});		
+		checkBox.addValueChangeHandler(getCheckBoxController());
 	}
 
 	@Override
@@ -52,17 +55,20 @@ public class CheckboxTreeItem extends LatexTreeItem {
 			controls.updateAnimPanel();
 
 		}
+		content.clear();
 		createAvexWidget();
 		addAVEXWidget(content);
 
 		geo.getAlgebraDescriptionTextOrHTMLDefault(
 				getBuilder(getPlainTextItem()));
+		content.add(getPlainTextItem());
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 
 		updateColor(getPlainTextItem());
 
 	}
 
+	@Override
 	void addAVEXWidget(Widget w) {
 		main.clear();
 		main.add(marblePanel);
@@ -82,15 +88,17 @@ public class CheckboxTreeItem extends LatexTreeItem {
 		return geo instanceof GeoBoolean && geo.isSimple();
 	}
 
-	// @Override
-	// protected void buildItemWithSingleRow() {
-	// super.buildItemWithSingleRow();
-	// addAVEXWidget(ihtml);
-	// checkBox.setValue(((GeoBoolean) geo).getBoolean());
-	// Log.debug("Ez lesz az!!!");
-	// }
-
 	public static CheckboxTreeItem as(TreeItem ti) {
 		return (CheckboxTreeItem) ti;
+	}
+
+	@Override
+	public boolean isCheckBoxItem() {
+		return true;
+	}
+
+	@Override
+	public boolean isInputTreeItem() {
+		return false;
 	}
 }

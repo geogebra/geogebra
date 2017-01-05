@@ -2062,6 +2062,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return false;
 	}
 
+	public boolean isCheckBoxItem() {
+		return false;
+	}
+
 	public RadioTreeItemController getController() {
 		return controller;
 	}

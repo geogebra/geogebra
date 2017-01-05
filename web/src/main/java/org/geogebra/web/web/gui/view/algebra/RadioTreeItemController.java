@@ -80,7 +80,7 @@ public class RadioTreeItemController
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
 		LongTouchHandler {
 
-	private static final int VERTICAL_PADDING = 12;
+	private static final int VERTICAL_PADDING = 16;
 	protected AppW app;
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
@@ -508,9 +508,11 @@ public class RadioTreeItemController
 	}
 
 	public void stopEdit() {
+
 		if (!editing) {
 			return;
 		}
+
 		item.stopEditing(item.getText(), null);
 	}
 
