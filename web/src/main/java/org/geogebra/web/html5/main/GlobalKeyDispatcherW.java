@@ -130,16 +130,7 @@ public class GlobalKeyDispatcherW extends
 									getChildElementByStyleName(targetArticle,
 											"GeoGebraFrame"));
 							ArticleElement nextArticle = getNextArticle(targetArticle);
-							if (nextArticle == null) {
-								// TODO: go to a dummy after last article
-								Dom.getElementsByClassName(
-										"geogebraweb-dummy-invisible")
-										.getItem(0)
-										.focus();
-
-							} else {
-								nextArticle.focus();
-							}
+							focusArticle(nextArticle);
 						}
 					} 
 					preventIfNotTabOrEnter(event, appfocused);
@@ -154,6 +145,29 @@ public class GlobalKeyDispatcherW extends
 			}
 
 		});
+	}
+
+	/**
+	 * Focus article or dummy (if article is null)
+	 * 
+	 * @param nextArticle
+	 *            article to be focused
+	 */
+	protected void focusArticle(ArticleElement nextArticle) {
+		if (nextArticle == null) {
+			// TODO: go to a dummy after last article
+			NodeList<Element> dummies = Dom
+					.getElementsByClassName("geogebraweb-dummy-invisible");
+			if (dummies.getLength() > 0) {
+				dummies.getItem(0).focus();
+			} else {
+				Log.warn("No dummy found.");
+			}
+
+		} else {
+			nextArticle.focus();
+		}
+
 	}
 
 	/**
