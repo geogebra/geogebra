@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.modes;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
@@ -40,6 +42,7 @@ public class ModeShape {
 	 * start point of dragging movement
 	 */
 	protected GPoint dragStartPoint = new GPoint();
+	private boolean dragPointSet = false;
 	/**
 	 * preview for ShapeRectangle/ShapeRectangleRoundEdges/ShapeSquare
 	 */
@@ -60,6 +63,7 @@ public class ModeShape {
 	protected GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private AlgoElement algo = null;
+	private ArrayList<GPoint> pointListFreePoly = new ArrayList<GPoint>();
 
 	/**
 	 * @param view
@@ -71,13 +75,27 @@ public class ModeShape {
 	}
 
 	/**
+	 * @return true if dragStartPoint is set
+	 */
+	public boolean isDragStartPointSet() {
+		return dragPointSet;
+	}
+	/**
 	 * get start point of dragging
 	 * 
 	 * @param event
 	 *            - mouse event
 	 */
 	public void handleMousePressedForShapeMode(AbstractEvent event) {
-		dragStartPoint.setLocation(event.getX(), event.getY());
+		if (!dragPointSet) {
+			dragStartPoint.setLocation(event.getX(), event.getY());
+			pointListFreePoly.add(dragStartPoint);
+			dragPointSet = true;
+			return;
+		}
+		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
+		}
 	}
 
 	/**
@@ -87,6 +105,7 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseDraggedForShapeMode(AbstractEvent event) {
+		dragPointSet = false;
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
 			updateRectangle(event, false);
@@ -283,6 +302,25 @@ public class ModeShape {
 			poly.updateRepaint();
 			view.setShapePolygon(null);
 			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			polygon.reset();
+			polygon.moveTo(pointListFreePoly.get(0).x,
+						pointListFreePoly.get(0).y);
+			for (int index = 1; index < pointListFreePoly.size(); index++) {
+					polygon.lineTo(pointListFreePoly.get(index).x,
+							pointListFreePoly.get(index).y);
+				}
+			// close with double click
+			if (pointListFreePoly.size() >= 2
+					&& pointListFreePoly.get(pointListFreePoly.size() - 1)
+							.distance(
+					pointListFreePoly.get(pointListFreePoly.size() - 2)) == 0) {
+				polygon.closePath();
+				pointListFreePoly.clear();
+			}
+			view.setShapePolygon(polygon);
+			view.repaintView();
+
 		}
 	}
 
