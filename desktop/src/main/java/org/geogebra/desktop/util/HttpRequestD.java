@@ -48,10 +48,12 @@ public class HttpRequestD extends HttpRequest {
 			processed = true;
 			Log.error(ex.getMessage());
 		} finally {
-			try {
-				in.close();
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		setResponseText(answer);
@@ -79,7 +81,15 @@ public class HttpRequestD extends HttpRequest {
 
 	}
 
-	private void sendRequestPostSync(String url, String post,
+	/**
+	 * @param url
+	 *            url
+	 * @param post
+	 *            post data
+	 * @param callback
+	 *            callback
+	 */
+	void sendRequestPostSync(String url, String post,
 			AjaxCallback callback) {
 		try {
 			URL u = new URL(url);
