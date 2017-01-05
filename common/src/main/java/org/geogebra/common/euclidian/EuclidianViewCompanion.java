@@ -388,11 +388,11 @@ public class EuclidianViewCompanion {
 					EuclidianView.strokeShapeRectangle, view.getShapeLine());
 		}
 
-		if (view.getShapeTriangle() != null) {
+		if (view.getShapePolygon() != null) {
 			view.drawShape(g2, EuclidianView.shapeRectangleFillCol,
 					EuclidianView.shapeRectangleObjCol,
 					EuclidianView.strokeShapeRectangle,
-					view.getShapeTriangle());
+					view.getShapePolygon());
 		}
 
 		if (view.deletionRectangle != null) {

@@ -14,10 +14,12 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
+import org.geogebra.common.kernel.algos.AlgoPolygonRegular;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -55,7 +57,7 @@ public class ModeShape {
 	/**
 	 * preview for ShapeTriangle
 	 */
-	protected GGeneralPath triangle = AwtFactory.getPrototype()
+	protected GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private AlgoElement algo = null;
 
@@ -116,7 +118,11 @@ public class ModeShape {
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
 			updateTriangle(event);
-			view.setShapeTriangle(triangle);
+			view.setShapePolygon(polygon);
+			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_POLYGON) {
+			updateRegularPolygon(event);
+			view.setShapePolygon(polygon);
 			view.repaintView();
 		}
 	}
@@ -240,10 +246,26 @@ public class ModeShape {
 			segment.updateRepaint();
 			view.setShapeLine(null);
 			view.repaintView();
-		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
-			GeoPoint[] points = getRealPointsOfTriangle(event);
-			algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
-					points, false);
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE
+				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_POLYGON) {
+			GeoPoint[] points = null;
+			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
+				points = getRealPointsOfTriangle(event);
+				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
+						points, false);
+			} else {
+				points = getRealPointsOfPolygon(event);
+				algo = new AlgoPolygonRegular(
+						view.getKernel().getConstruction(), null, points[2],
+						points[1],
+						new GeoNumeric(view.getKernel().getConstruction(), 5));
+				// do not show edge points
+				for (GeoPointND geoPoint : ((GeoPolygon) algo.getOutput(0))
+						.getPoints()) {
+					geoPoint.setEuclidianVisible(false);
+					geoPoint.updateRepaint();
+				}
+			}
 			// do not show edge points
 			for (GeoPoint geoPoint : points) {
 				geoPoint.setEuclidianVisible(false);
@@ -254,13 +276,47 @@ public class ModeShape {
 			for (GeoSegmentND geoSeg : poly.getSegments()) {
 				((GeoSegment) geoSeg).setLabelVisible(false);
 			}
+			poly.setLabelVisible(false);
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
 			poly.setObjColor(GColor.BLACK);
 			poly.updateRepaint();
-			view.setShapeTriangle(null);
+			view.setShapePolygon(null);
 			view.repaintView();
 		}
+	}
+
+	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
+		GeoPoint[] points = new GeoPoint[5];
+		int pointsX[] = new int[5];
+		int pointsY[] = new int[5];
+
+		int height = event.getY() - dragStartPoint.y;
+		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
+
+		if (height >= 0) {
+			pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
+					radius, 5, -Math.PI / 2);
+			pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
+					radius, 5, -Math.PI / 2);
+			for (int i = 0; i < pointsX.length; i++) {
+				points[i] = new GeoPoint(view.getKernel().getConstruction(),
+						null, view.toRealWorldCoordX(pointsX[i]),
+						view.toRealWorldCoordY(pointsY[i]), 1);
+			}
+		} else {
+			pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
+					radius, 5, Math.PI / 2);
+			pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
+					radius, 5, Math.PI / 2);
+			for (int i = 0; i < pointsX.length; i++) {
+				points[i] = new GeoPoint(view.getKernel().getConstruction(),
+						null, view.toRealWorldCoordX(pointsX[i]),
+						view.toRealWorldCoordY(pointsY[i]), 1);
+			}
+		}
+
+		return points;
 	}
 
 	private GeoPoint[] getRealPointsOfTriangle(AbstractEvent event) {
@@ -480,11 +536,11 @@ public class ModeShape {
 		int pointsX[] = new int[3];
 		int pointsY[] = new int[3];
 
-		if (triangle == null) {
-			triangle = AwtFactory.getPrototype().newGeneralPath();
+		if (polygon == null) {
+			polygon = AwtFactory.getPrototype().newGeneralPath();
 		}
 
-		triangle.reset();
+		polygon.reset();
 		int height = event.getY() - dragStartPoint.y;
 
 		if (height >= 0) {
@@ -503,11 +559,71 @@ public class ModeShape {
 				pointsY[2] = dragStartPoint.y;
 		}
 
-		triangle.moveTo(pointsX[0], pointsY[0]);
+		polygon.moveTo(pointsX[0], pointsY[0]);
 		for (int index = 1; index < pointsX.length; index++) {
-			triangle.lineTo(pointsX[index], pointsY[index]);
+			polygon.lineTo(pointsX[index], pointsY[index]);
 		}
-		triangle.closePath();
+		polygon.closePath();
 	}
 
+	/**
+	 * update the coords of regular polygon
+	 * 
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateRegularPolygon(AbstractEvent event) {
+		int pointsX[] = new int[5];
+		int pointsY[] = new int[5];
+
+		if (polygon == null) {
+			polygon = AwtFactory.getPrototype().newGeneralPath();
+		}
+
+		polygon.reset();
+		int height = event.getY() - dragStartPoint.y;
+		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
+
+		if (height >= 0) {
+				pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
+						radius, 5, -Math.PI / 2);
+				pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
+						radius, 5, -Math.PI / 2);
+		} else {
+				pointsX = getXCoordinates((dragStartPoint.x + event.getX()) / 2,
+						radius, 5, Math.PI / 2);
+				pointsY = getYCoordinates((dragStartPoint.y + event.getY()) / 2,
+						radius, 5, Math.PI / 2);
+		}
+
+		polygon.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			polygon.lineTo(pointsX[index], pointsY[index]);
+		}
+		polygon.closePath();
+	}
+
+	private static int[] getXCoordinates(int centerX, int radius, int vertexNr,
+			double startAngle) {
+		int res[] = new int[vertexNr];
+		double addAngle = 2 * Math.PI / vertexNr;
+		double angle = startAngle;
+		for (int i = 0; i < vertexNr; i++) {
+			res[i] = (int) Math.round(radius * Math.cos(angle)) + centerX;
+			angle += addAngle;
+		}
+		return res;
+	}
+
+	private static int[] getYCoordinates(int centerY, int radius, int vertexNr,
+			double startAngle) {
+		int res[] = new int[vertexNr];
+		double addAngle = 2 * Math.PI / vertexNr;
+		double angle = startAngle;
+		for (int i = 0; i < vertexNr; i++) {
+			res[i] = (int) Math.round(radius * Math.sin(angle)) + centerY;
+			angle += addAngle;
+		}
+		return res;
+	}
 }

@@ -151,13 +151,35 @@ public abstract class EuclidianView
 	protected GRectangle deletionRectangle;
 
 	// shape tools
+	/**
+	 * preview shape for rectangle
+	 */
 	protected GRectangle shapeRectangle;
+	/**
+	 * preview shape for ellipse
+	 */
 	protected GEllipse2DDouble shapeEllipse;
+	/**
+	 * preview shape for line
+	 */
 	protected GLine2D shapeLine;
-	protected GGeneralPath shapeTriangle;
+	/**
+	 * preview shape for triangle/regular polygon/polygon
+	 */
+	protected GGeneralPath shapePolygon;
+	// design for shapes
+	/**
+	 * fill color of shape (transparent)
+	 */
 	protected static final GColor shapeRectangleFillCol = GColor.newColor(192,
 			192, 192, 0.0);
+	/**
+	 * object color of shape (black by default)
+	 */
 	protected static final GColor shapeRectangleObjCol = GColor.BLACK;
+	/**
+	 * stroke of shape
+	 */
 	protected static final GBasicStroke strokeShapeRectangle = AwtFactory
 			.getPrototype().newBasicStroke(2.0f,
 					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
@@ -2543,11 +2565,11 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * @param shapeTriangle
-	 *            - preview of triangle for ShapeTriangle
+	 * @param shapePolygon
+	 *            - preview of polygon for ShapeTriangle/RegularPolygon/Polygon
 	 */
-	public void setShapeTriangle(GGeneralPath shapeTriangle) {
-		this.shapeTriangle = shapeTriangle;
+	public void setShapePolygon(GGeneralPath shapePolygon) {
+		this.shapePolygon = shapePolygon;
 	}
 
 	public double[] getAxesCross() {
@@ -3926,10 +3948,10 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * @return shapeTriangle
+	 * @return shapePolygon
 	 */
-	public GGeneralPath getShapeTriangle() {
-		return shapeTriangle;
+	public GGeneralPath getShapePolygon() {
+		return shapePolygon;
 	}
 
 	/**
