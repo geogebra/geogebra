@@ -421,9 +421,7 @@ public abstract class Layout {
 			Perspective perspective) {
 		boolean changed = false;
 		if (!perspective.getId().equals("tmp")) {
-			Log.debug("App is" + app);
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			Log.debug("Ev is" + ev);
 			if (app.getEuclidianView1() == ev)
 				changed |= app.getSettings().getEuclidian(1).setShowAxes(
 						perspective.getShowAxes(), perspective.getShowAxes());
