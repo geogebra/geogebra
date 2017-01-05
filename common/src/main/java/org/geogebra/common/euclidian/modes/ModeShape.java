@@ -235,9 +235,7 @@ public class ModeShape {
 				null, getPointArray(event,false), false);
 			}
 			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
-			for (GeoSegmentND geoSeg : poly.getSegments()) {
-				((GeoSegment) geoSeg).setLabelVisible(false);
-			}
+			hideSegments(poly);
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
 			poly.setObjColor(GColor.BLACK);
@@ -295,9 +293,7 @@ public class ModeShape {
 			}
 			// do not show segment labels
 			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
-			for (GeoSegmentND geoSeg : poly.getSegments()) {
-				((GeoSegment) geoSeg).setLabelVisible(false);
-			}
+			hideSegments(poly);
 			poly.setLabelVisible(false);
 			poly.setAlphaValue(0);
 			poly.setBackgroundColor(GColor.WHITE);
@@ -325,6 +321,14 @@ public class ModeShape {
 			view.repaintView();
 
 		}
+	}
+
+	private static void hideSegments(GeoPolygon poly) {
+		for (GeoSegmentND geoSeg : poly.getSegments()) {
+			((GeoSegment) geoSeg).setLabelVisible(false);
+			((GeoSegment) geoSeg).setSelectionAllowed(false);
+		}
+
 	}
 
 	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
