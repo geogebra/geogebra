@@ -85,6 +85,8 @@ public class MathFieldW implements MathField, IsWidget {
 	private TeXIcon lastIcon;
 	private double ratio = 1;
 	private KeyListener keyListener;
+	private boolean rightAltDown = false;
+	private boolean leftAltDown = false;
 	private static Timer tick;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
@@ -130,6 +132,8 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onMouseDown(MouseDownEvent event) {
 				event.stopPropagation();
 				setFocus(true);
+				rightAltDown = false;
+				leftAltDown = false;
 
 			}
 		}, MouseDownEvent.getType());
@@ -176,7 +180,7 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onKeyPress(KeyPressEvent event) {
 				// don't kill Ctrl+V or write V
 				if (event.isControlKeyDown() && (event.getCharCode() == 'v'
-						|| event.getCharCode() == 'V')) {
+						|| event.getCharCode() == 'V') || leftAltDown) {
 
 					event.stopPropagation();
 				} else {
@@ -196,6 +200,12 @@ public class MathFieldW implements MathField, IsWidget {
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
+				if (isRightAlt(event.getNativeEvent())) {
+					rightAltDown = false;
+				}
+				if (isLeftAlt(event.getNativeEvent())) {
+					leftAltDown = false;
+				}
 				if (code == 8 || code == 27) {
 					event.preventDefault();
 				}
@@ -206,7 +216,12 @@ public class MathFieldW implements MathField, IsWidget {
 		html2.addDomHandler(new KeyDownHandler() {
 
 			public void onKeyDown(KeyDownEvent event) {
-				debug("keyDown");
+				if (isRightAlt(event.getNativeEvent())) {
+					rightAltDown = true;
+				}
+				if (isLeftAlt(event.getNativeEvent())) {
+					leftAltDown = true;
+				}
 				int code = event.getNativeEvent().getKeyCode();
 
 				code = fixCode(code);
@@ -226,6 +241,24 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
+	/**
+	 * @param nativeEvent
+	 *            native event
+	 * @return whether this is right alt up/down event
+	 */
+	public static native boolean isRightAlt(NativeEvent nativeEvent) /*-{
+		return nativeEvent.code == "AltRight";
+	}-*/;
+
+	/**
+	 * @param nativeEvent
+	 *            native event
+	 * @return whether this is left alt up/down event
+	 */
+	public static native boolean isLeftAlt(NativeEvent nativeEvent) /*-{
+		return nativeEvent.code == "AltLeft";
+	}-*/;
+
 	protected int fixCode(int code) {
 		switch (code) {
 		case 46:
@@ -241,7 +274,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 	protected int getModifiers(com.google.gwt.event.dom.client.KeyEvent event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
-				+ (event.isControlKeyDown() ? KeyEvent.CTRL_MASK : 0)
+				+ (event.isControlKeyDown() || rightAltDown ? KeyEvent.CTRL_MASK
+						: 0)
 				+ (event.isAltKeyDown() ? KeyEvent.ALT_MASK : 0);
 	}
 

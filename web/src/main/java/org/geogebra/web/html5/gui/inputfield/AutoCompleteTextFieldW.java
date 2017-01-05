@@ -79,6 +79,7 @@ import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.web.MathFieldW;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -942,6 +943,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	boolean ctrlC = false;
 
+	private boolean rightAltDown;
+	private boolean leftAltDown;
+
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
 		if (app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
@@ -1056,9 +1060,19 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (!isTabEnabled()) {
 			return;
 		}
+		if (MathFieldW.isRightAlt(e.getNativeEvent())) {
+			rightAltDown = true;
+		}
+		if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
+			leftAltDown = true;
+		}
+		if (leftAltDown) {
+			Log.debug("TODO: preventDefault");
+		}
 		int keyCode = e.getNativeKeyCode();
+		app.getGlobalKeyDispatcher();
 		if (keyCode == GWTKeycodes.KEY_TAB || keyCode == GWTKeycodes.KEY_F1
-				|| app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
+				|| GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
 			if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
 				AutoCompleteTextField tf = app.getActiveEuclidianView()
@@ -1235,10 +1249,15 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			// fall through eg Alt-2 for squared
 
 		default:
-
+			if (MathFieldW.isRightAlt(e.getNativeEvent())) {
+				rightAltDown = true;
+			}
+			if (MathFieldW.isLeftAlt(e.getNativeEvent())) {
+				leftAltDown = true;
+			}
 			// check for eg alt-a for alpha
 			// check for eg alt-shift-a for upper case alpha
-			if (e.isAltKeyDown()) {
+			if (e.isAltKeyDown() && !rightAltDown) {
 
 				String s = AltKeys.getAltSymbols(keyCode, e.isShiftKeyDown(),
 						true);
@@ -1248,6 +1267,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					break;
 				}
 			}
+
 			/*
 			 * Try handling here that is originaly in keyup
 			 */
