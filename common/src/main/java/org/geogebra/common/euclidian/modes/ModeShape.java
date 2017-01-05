@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.modes;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
@@ -18,7 +19,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -48,6 +52,11 @@ public class ModeShape {
 	 * preview for ShapeLine
 	 */
 	protected GLine2D line = AwtFactory.getPrototype().newLine2D();
+	/**
+	 * preview for ShapeTriangle
+	 */
+	protected GGeneralPath triangle = AwtFactory.getPrototype()
+			.newGeneralPath();
 	private AlgoElement algo = null;
 
 	/**
@@ -104,6 +113,10 @@ public class ModeShape {
 			line.setLine(dragStartPoint.getX(), dragStartPoint.getY(),
 					event.getX(), event.getY());
 			view.setShapeLine(line);
+			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
+			updateTriangle(event);
+			view.setShapeTriangle(triangle);
 			view.repaintView();
 		}
 	}
@@ -227,7 +240,59 @@ public class ModeShape {
 			segment.updateRepaint();
 			view.setShapeLine(null);
 			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_TRIANGLE) {
+			GeoPoint[] points = getRealPointsOfTriangle(event);
+			algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
+					points, false);
+			// do not show edge points
+			for (GeoPoint geoPoint : points) {
+				geoPoint.setEuclidianVisible(false);
+				geoPoint.updateRepaint();
+			}
+			// do not show segment labels
+			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
+			for (GeoSegmentND geoSeg : poly.getSegments()) {
+				((GeoSegment) geoSeg).setLabelVisible(false);
+			}
+			poly.setAlphaValue(0);
+			poly.setBackgroundColor(GColor.WHITE);
+			poly.setObjColor(GColor.BLACK);
+			poly.updateRepaint();
+			view.setShapeTriangle(null);
+			view.repaintView();
 		}
+	}
+
+	private GeoPoint[] getRealPointsOfTriangle(AbstractEvent event) {
+		GeoPoint[] points = new GeoPoint[3];
+
+		int height = event.getY() - dragStartPoint.y;
+
+		if (height >= 0) {
+			points[0] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(dragStartPoint.x),
+					view.toRealWorldCoordY(event.getY()), 1);
+			points[1] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(event.getX()),
+					view.toRealWorldCoordY(event.getY()), 1);
+			points[2] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(
+							(dragStartPoint.x + event.getX()) / 2),
+					view.toRealWorldCoordY(dragStartPoint.y), 1);
+		} else {
+			points[0] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(
+							(dragStartPoint.x + event.getX()) / 2),
+					view.toRealWorldCoordY(event.getY()), 1);
+			points[1] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(dragStartPoint.x),
+					view.toRealWorldCoordY(dragStartPoint.y), 1);
+			points[2] = new GeoPoint(view.getKernel().getConstruction(), null,
+					view.toRealWorldCoordX(event.getX()),
+					view.toRealWorldCoordY(dragStartPoint.y), 1);
+		}
+
+		return points;
 	}
 
 	private GeoPoint[] getRealPointsOfLine(AbstractEvent event) {
@@ -403,7 +468,46 @@ public class ModeShape {
 						dragStartPoint.y + height, -width, -height);
 			}
 		}
+	}
 
+	/**
+	 * update the coords of triangle
+	 * 
+	 * @param event
+	 *            - mouse event
+	 */
+	protected void updateTriangle(AbstractEvent event) {
+		int pointsX[] = new int[3];
+		int pointsY[] = new int[3];
+
+		if (triangle == null) {
+			triangle = AwtFactory.getPrototype().newGeneralPath();
+		}
+
+		triangle.reset();
+		int height = event.getY() - dragStartPoint.y;
+
+		if (height >= 0) {
+				pointsX[0] = dragStartPoint.x;
+				pointsX[1] = event.getX();
+				pointsX[2] = (dragStartPoint.x + event.getX()) / 2;
+				pointsY[0] = event.getY();
+				pointsY[1] = event.getY();
+				pointsY[2] = dragStartPoint.y;
+		} else {
+				pointsX[0] = (dragStartPoint.x + event.getX()) / 2;
+				pointsX[1] = dragStartPoint.x;
+				pointsX[2] = event.getX();
+				pointsY[0] = event.getY();
+				pointsY[1] = dragStartPoint.y;
+				pointsY[2] = dragStartPoint.y;
+		}
+
+		triangle.moveTo(pointsX[0], pointsY[0]);
+		for (int index = 1; index < pointsX.length; index++) {
+			triangle.lineTo(pointsX[index], pointsY[index]);
+		}
+		triangle.closePath();
 	}
 
 }
