@@ -3915,9 +3915,9 @@ namespace giac {
       intervalle2=args._VECTptr->back();
     }
     if (is_integral(intervalle1) && intervalle1.type==_INT_)
-      intervalle1=symb_interval(makevecteur(zero,intervalle1-1));
+      intervalle1=symb_interval(makevecteur(zero,giacmax(intervalle1.val,1)-1));
     if (is_integral(intervalle2) && intervalle2.type==_INT_)
-      intervalle2=symb_interval(makevecteur(zero,intervalle2-1));
+      intervalle2=symb_interval(makevecteur(zero,giacmax(intervalle2.val,1)-1));
     if ( (intervalle1.type!=_SYMB) || (intervalle1._SYMBptr->sommet!=at_interval) ||(intervalle2.type!=_SYMB) || (intervalle2._SYMBptr->sommet!=at_interval))
       return gensizeerr(gettext("makemat"));
     intervalle1=intervalle1._SYMBptr->feuille;

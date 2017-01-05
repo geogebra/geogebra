@@ -8262,6 +8262,15 @@ namespace giac {
       gen t(identificateur(t_orig.print(contextptr)+"_"));
       return rationalparam2equation(subst(at_orig,t_orig,t,false,contextptr),t,x,y,contextptr);
     }
+    // detect function plots
+    if (at_orig.is_symb_of_sommet(at_plus) && at_orig._SYMBptr->feuille.type==_VECT){
+      vecteur & v=*at_orig._SYMBptr->feuille._VECTptr;
+      if (v.size()==2 && v[0]==t_orig && v[1].is_symb_of_sommet(at_prod) && v[1]._SYMBptr->feuille.type==_VECT){
+	vecteur & w=*v[1]._SYMBptr->feuille._VECTptr;
+	if (w.size()==2 && w[0]==cst_i)
+	  return y-subst(w[1],t_orig,x,false,contextptr);
+      }
+    }
     gen anum,aden,ax,ay;
     gen at=at_orig;
     gen t=t_orig;
@@ -9138,6 +9147,7 @@ namespace giac {
 	  }
 	}
 	gen M=remove_at_pnt(t);
+	if (M.is_symb_of_sommet(at_curve)) return gensizeerr(contextptr);
 	gen m,tmin,tmax;
 	double T=1;
 	if (v[1].type==_IDNT && find_curve_parametrization(curve,m,v[1],T,tmin,tmax,false,contextptr)){

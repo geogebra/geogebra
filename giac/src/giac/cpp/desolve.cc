@@ -1260,6 +1260,11 @@ namespace giac {
 	  gen eff=subst(*it,y,y-fc*x,false,contextptr); // does not depend on x
 	  gen pr=integrate_without_lnabs(inv(eff+fc,contextptr),y,contextptr)+parameters.back();
 	  pr=subst(pr,y,y+fc*x,false,contextptr);	  
+	  vecteur l1=lop(lvarx(pr,y),at_floor);
+	  if (!l1.empty()){
+	    vecteur l2(l1.size());
+	    pr=subst(pr,l1,l2,false,contextptr);
+	  }
 	  vecteur sol1=solve(pr-x,*y._IDNTptr,3,contextptr);
 	  sol=mergevecteur(sol,sol1);
 	  continue;

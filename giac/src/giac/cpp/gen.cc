@@ -11183,6 +11183,8 @@ namespace giac {
     }
     if (g.type!=_SYMB)
       return g;
+    if (g._SYMBptr->sommet==at_pow && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille.subtype!=_SEQ__VECT)
+      return symbolic(at_pow,change_subtype(g._SYMBptr->feuille,_SEQ__VECT));
     if (g._SYMBptr->sommet==at_plus)
       return aplatir_plus(g);
     gen & f=g._SYMBptr->feuille;
