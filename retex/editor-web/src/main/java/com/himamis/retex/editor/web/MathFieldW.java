@@ -208,9 +208,7 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onKeyDown(KeyDownEvent event) {
 				debug("keyDown");
 				int code = event.getNativeEvent().getKeyCode();
-				if (code == KeyEvent.VK_CONTROL) {
-					preparePaste();
-				}
+
 				code = fixCode(code);
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
@@ -488,6 +486,10 @@ public class MathFieldW implements MathField, IsWidget {
 			hiddenTextArea.style.left = '-1000px';
 			hiddenTextArea.style.top = '0px'; //prevent messed up scrolling in FF/IE
 			$doc.body.appendChild(hiddenTextArea);
+			if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+					.test(window.navigator.userAgent)) {
+				hiddenTextArea.setAttribute("disabled", "true");
+			}
 		}
 		//hiddenTextArea.value = '';
 		return hiddenTextArea;
@@ -496,16 +498,16 @@ public class MathFieldW implements MathField, IsWidget {
 
 
 	public void copy() {
-		nativeCopy(mathFieldInternal.copy(), html.getElement());
+		nativeCopy(mathFieldInternal.copy());
 
 	}
 
-	private native void nativeCopy(String value, Element el) /*-{
+	private native void nativeCopy(String value) /*-{
 		var copyFrom = this.@com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
 		copyFrom.value = value;
 		copyFrom.select();
 		$doc.execCommand('copy');
-		//	el.focus();
+
 	}-*/;
 
 	protected void listenToTextArea() {
@@ -513,10 +515,6 @@ public class MathFieldW implements MathField, IsWidget {
 			getHiddenTextArea();
 			this.setKeyListener(wrap, keyListener);
 		}
-	}
-
-	protected void preparePaste() {
-		//wrap.setFocus(true);
 	}
 
 	public native boolean useCustomPaste() /*-{
