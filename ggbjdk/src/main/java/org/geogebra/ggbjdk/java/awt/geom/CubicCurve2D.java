@@ -284,10 +284,8 @@ public abstract class CubicCurve2D implements GShape  {
                                      Math.min(ctrlx1, ctrlx2));
             double top    = Math.min(Math.min(y1, y2),
                                      Math.min(ctrly1, ctrly2));
-            double right  = Math.max(Math.max(x1, x2),
-                                     Math.max(ctrlx1, ctrlx2));
-            double bottom = Math.max(Math.max(y1, y2),
-                                     Math.max(ctrly1, ctrly2));
+			double right = max(max(x1, x2), max(ctrlx1, ctrlx2));
+			double bottom = max(max(y1, y2), max(ctrly1, ctrly2));
             return new Rectangle2D.Double(left, top,
                                           right - left, bottom - top);
         }
@@ -530,7 +528,7 @@ public abstract class CubicCurve2D implements GShape  {
                                        double ctrlx1, double ctrly1,
                                        double ctrlx2, double ctrly2,
                                        double x2, double y2) {
-        return Math.max(Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx1, ctrly1),
+		return max(Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx1, ctrly1),
                         Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx2, ctrly2));
 
     }

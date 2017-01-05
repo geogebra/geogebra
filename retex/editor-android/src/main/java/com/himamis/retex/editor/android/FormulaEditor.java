@@ -51,7 +51,7 @@ public class FormulaEditor extends View implements MathField {
 
     private float mSize = 20;
     private int mBackgroundColor = Color.TRANSPARENT;
-    private ColorA mForegroundColor = new ColorA(android.graphics.Color.BLACK);
+    private ColorA mForegroundColor = new ColorA(Color.BLACK);
     private int mType = TeXFormula.SERIF;
     private String mText;
 
@@ -95,8 +95,8 @@ public class FormulaEditor extends View implements MathField {
 
         try {
             mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, 20);
-            mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, android.graphics.Color.TRANSPARENT);
-            mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, android.graphics.Color.BLACK));
+            mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
+            mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
             mText = a.getString(R.styleable.FormulaEditor_fe_text);
             mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SERIF);
         } finally {
