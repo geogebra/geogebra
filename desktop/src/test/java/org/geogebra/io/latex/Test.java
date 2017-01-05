@@ -54,7 +54,7 @@ public class Test {
 			public void onEnter() {
 				System.out.println(GeoGebraSerializer
 						.serialize(mathField.getFormula().getRootComponent()));
-
+				System.out.println(mathField.getCurrentWord());
 			}
 
 			public void onKeyTyped() {
@@ -101,8 +101,9 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse(" a = Surface(sqrt(u), u, v, u, 0, 10, v, -10, 10)");
+					.parse("Mod[a,b]");
 			mathField.setFormula(f);
+			System.out.println(mathField.getCurrentWord());
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

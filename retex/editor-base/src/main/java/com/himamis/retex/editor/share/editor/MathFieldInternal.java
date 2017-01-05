@@ -467,6 +467,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					}
 					str.append(
 							((MathCharacter) sel.getArgument(i)).getUnicode());
+				} else {
+					break;
 				}
 			}
 		}

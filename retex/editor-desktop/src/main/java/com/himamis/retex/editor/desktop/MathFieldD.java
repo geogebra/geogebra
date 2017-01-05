@@ -225,4 +225,8 @@ public class MathFieldD extends JLabel implements MathField {
 		return false;
 	}
 
+	public String getCurrentWord() {
+		return mathFieldInternal.getCurrentWord();
+	}
+
 }
