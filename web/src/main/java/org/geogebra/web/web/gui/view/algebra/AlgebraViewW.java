@@ -1685,6 +1685,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
 			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				if (getActiveTreeItem().isInputTreeItem()
+						&& getActiveTreeItem().isEmpty()) {
+					// GGB-1431
+					return;
+				}
 				getActiveTreeItem().onEnter(false);
 			} else if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 				getActiveTreeItem().stopEditing(null, null);
