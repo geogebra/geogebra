@@ -5254,9 +5254,11 @@ public abstract class GeoElement extends ConstructionElement
 					sb.append("\\text");
 				}
 
-				sb.append("{``"); // left quote
+				sb.append("{");
+				sb.append(Unicode.OPEN_DOUBLE_QUOTE);
 				sb.append(((GeoText) geo).getTextString());
-				sb.append("''}"); // right quote
+				sb.append(Unicode.CLOSE_DOUBLE_QUOTE);
+				sb.append("}");
 			}
 		}
 

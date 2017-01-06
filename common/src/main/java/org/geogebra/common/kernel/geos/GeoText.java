@@ -39,6 +39,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -374,7 +375,9 @@ public class GeoText extends GeoElement
 				sbToString.append("\\text");
 			}
 
-			sbToString.append("{``");
+			sbToString.append("{");
+			sbToString.append(Unicode.OPEN_DOUBLE_QUOTE);
+
 		} else {
 			sbToString.append('\"');
 		}
@@ -385,7 +388,8 @@ public class GeoText extends GeoElement
 		if (tpl1.isMathQuill()) {
 			sbToString.append("}");
 		} else if (printForm.equals(StringType.LATEX)) {
-			sbToString.append("''}");
+			sbToString.append(Unicode.CLOSE_DOUBLE_QUOTE);
+			sbToString.append("}");
 		} else {
 			sbToString.append('\"');
 		}
