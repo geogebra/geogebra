@@ -769,7 +769,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Update the toolbar GUI.
 	 */
 	public void updateToolbar() {
-		app.getGuiManager().setActiveToolbarId(id);
+		app.getGuiManager().setActivePanelAndToolbar(id);
 	}
 
 	/**
@@ -1111,7 +1111,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	protected void setActiveToolBar() {
 		if (hasToolbar()) {
-			((GuiManagerW) app.getGuiManager()).setActiveToolbarId(getViewId());
+			((GuiManagerW) app.getGuiManager())
+					.setActivePanelAndToolbar(getViewId());
 		} 
 	}
 

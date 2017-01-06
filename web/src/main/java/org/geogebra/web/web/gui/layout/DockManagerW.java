@@ -970,7 +970,7 @@ public class DockManagerW extends DockManager {
 		//	mainContainer.updateToolbarPanel();
 
 			app.setShowToolBar(true, true);
-			app.getGuiManager().setActiveToolbarId(panel.getViewId());
+			app.getGuiManager().setActivePanelAndToolbar(panel.getViewId());
 		}
 
 		// has to be called *after* the toolbar was added to the container
@@ -1214,7 +1214,7 @@ public class DockManagerW extends DockManager {
 			toolbarID = App.VIEW_ALGEBRA;
 		} 
 
-		guiManager.setActiveToolbarId(toolbarID);
+		guiManager.setActivePanelAndToolbar(toolbarID);
 
 	}
 	

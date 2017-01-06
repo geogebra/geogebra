@@ -170,7 +170,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// probably both are Okay not changing the toolbar to full Graphics
 			// view toolbar
 			((GuiManagerInterfaceW) app.getGuiManager())
-			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
+					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
@@ -242,7 +242,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// probably both are Okay not changing the toolbar to full Graphics
 			// view toolbar
 			((GuiManagerInterfaceW) app.getGuiManager())
-			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
+					.setActivePanelAndToolbar(App.VIEW_EUCLIDIAN);
 		} else {
 			if (mode == EuclidianConstants.MODE_MOVE
 					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW
