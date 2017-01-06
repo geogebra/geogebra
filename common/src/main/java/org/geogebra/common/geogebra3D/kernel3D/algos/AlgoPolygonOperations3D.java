@@ -356,11 +356,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		// one or more input polygons are undefined, terminate immediately
 		if (!this.inPoly0.isDefined() || !this.inPoly1.isDefined()) {
 			// Log.debug("one of the input polygons is not defined.");
-			outputPolygons.adjustOutputSize(1, false);
-			outputPoints.adjustOutputSize(1, false);
-			outputSegments.adjustOutputSize(1, false);
-			outputSegments.updateLabels();
-			outputPolygons.updateLabels();
+			setOutputUndefined();
 			return;
 		}
 
@@ -436,10 +432,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 			// assign output calculated using clipper library appropriately
 			if (!solutionValid) { // if there is no output
-				outputPolygons.adjustOutputSize(1, false);
-				outputPoints.adjustOutputSize(1, false);
-				outputSegments.adjustOutputSize(1, false);
-
+				setOutputUndefined();
 			} else {
 				// adjust output sizes
 				outputPolygons.adjustOutputSize(solution.size(), false);
@@ -517,9 +510,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		// the two input polygons are in two different parallel planes
 		else if (res[1].isZero() && res[0].isZero()) {
 			// Log.debug("two different parallel planes");
-			outputPolygons.adjustOutputSize(1, false);
-			outputPoints.adjustOutputSize(1, false);
-			outputSegments.adjustOutputSize(1, false);
+			setOutputUndefined();
 		}
 		// the two input polygons are in two different planes (not parallel)
 		else {
@@ -591,16 +582,21 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 			// for Difference, Xor, Union no output if the input polygons are in
 			// two different planes
 			else {
-				outputPolygons.adjustOutputSize(1, false);
-				outputPoints.adjustOutputSize(1, false);
-				outputSegments.adjustOutputSize(1, false);
-				outputSegments.updateLabels();
-				outputPolygons.updateLabels();
+				setOutputUndefined();
 			}
 		}
 
 		outputSegments.updateLabels();
 		outputPolygons.updateLabels();
+	}
+
+	private void setOutputUndefined() {
+		outputPolygons.adjustOutputSize(1, false);
+		outputPoints.adjustOutputSize(1, false);
+		outputSegments.adjustOutputSize(1, false);
+		outputSegments.updateLabels();
+		outputPolygons.updateLabels();
+		outputPolygons.setUndefined();
 	}
 
 	// ///////////////////////////////////////////////////////////////////////
