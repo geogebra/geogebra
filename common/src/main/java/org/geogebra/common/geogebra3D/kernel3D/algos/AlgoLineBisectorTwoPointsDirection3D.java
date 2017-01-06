@@ -59,6 +59,9 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 		return Commands.LineBisector;
 	}
 
+	private Coords d = new Coords(3), d1 = new Coords(3),
+			midpoint = new Coords(3);
+
 	@Override
 	public void compute() {
 
@@ -69,13 +72,13 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 
 		Coords ca = a.getInhomCoordsInD3();
 		Coords cb = b.getInhomCoordsInD3();
-		Coords d1 = cb.sub(ca);
+		d1.setSub3(cb, ca);
 
-		Coords d = d1.crossProduct(direction.getDirectionInD3());
+		d.setCrossProduct(d1, direction.getDirectionInD3());
 		if (d.isZero()) {
 			line.setUndefined();
 		} else {
-			Coords midpoint = ca.add(cb).mul(0.5);
+			midpoint.setAdd(ca, cb).mulInside(0.5);
 			line.setCoord(midpoint, d);
 		}
 
