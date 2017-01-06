@@ -35,7 +35,6 @@ public class CheckboxTreeItem extends LatexTreeItem {
 		checkBox = new CheckBox();
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 		content.addStyleName("noPadding");
-		checkBox.addValueChangeHandler(getCheckBoxController());
 	}
 
 	@Override
