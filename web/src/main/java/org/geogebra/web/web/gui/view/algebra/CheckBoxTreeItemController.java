@@ -6,6 +6,7 @@ import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
@@ -32,12 +33,24 @@ public class CheckBoxTreeItemController extends LatexTreeItemController
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
 		Log.debug("CB mouseDown");
-		if (isCheckboxHit(event)) {
+		if (isCheckboxHit()) {
 			stopEdit();
 			return;
 		}
 
 		super.onMouseDown(event);
+	}
+
+	@Override
+	public void onTouchStart(TouchStartEvent event) {
+		Log.debug("CB touchStart");
+
+		if (isCheckboxHit()) {
+			stopEdit();
+			return;
+		}
+
+		super.onTouchStart(event);
 	}
 
 	@Override
@@ -51,14 +64,14 @@ public class CheckBoxTreeItemController extends LatexTreeItemController
 	
 	}
 
-	public boolean isCheckboxHit(MouseEvent<?> event) {
+	public boolean isCheckboxHit() {
 		return checkboxHit;
 		// return isWidgetHit(((CheckboxTreeItem) item).checkBox, event);
 	}
 
 	@Override
 	protected boolean canEditStart(MouseEvent<?> event) {
-		boolean hit = isCheckboxHit(event);
+		boolean hit = isCheckboxHit();
 		Log.debug("CHECBOX HIT: " + hit);
 		checkboxHit = false;
 		return super.canEditStart(event) && !hit;
