@@ -32,9 +32,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.stopPropagation();
-		Log.debug("CB mouseDown");
 		if (isCheckboxHit()) {
-			stopEdit();
 			return;
 		}
 
@@ -43,13 +41,9 @@ public class CheckBoxTreeItemController extends LatexTreeItemController
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		Log.debug("CB touchStart");
-
 		if (isCheckboxHit()) {
-			stopEdit();
 			return;
 		}
-
 		super.onTouchStart(event);
 	}
 
@@ -64,9 +58,13 @@ public class CheckBoxTreeItemController extends LatexTreeItemController
 	
 	}
 
-	public boolean isCheckboxHit() {
-		return checkboxHit;
-		// return isWidgetHit(((CheckboxTreeItem) item).checkBox, event);
+
+	protected boolean isCheckboxHit() {
+		if (checkboxHit) {
+			checkboxHit = false;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
