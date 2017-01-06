@@ -83,6 +83,9 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 			boolean helper) {
 		super(cons, !helper);
 
+		// set origin w coord
+		pm.set(4, 3, 1);
+
 		this.quadric = quadric;
 
 		sections = new GeoConic3D[2];
@@ -120,6 +123,10 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	private CoordMatrix pm = new CoordMatrix(4, 3);
 	private CoordMatrix pmt = new CoordMatrix(3, 4);
 
+	private Coords o1 = new Coords(3), o2 = new Coords(3), v = new Coords(3),
+			vn1 = new Coords(3),
+			vn2 = new Coords(3);
+
 	@Override
 	public final void compute() {
 
@@ -132,10 +139,10 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		sections[0].setDefined();
 		sections[1].setDefined();
 
-		Coords o1 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2).mul(
-				((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));// point.getInhomCoordsInD3();
-		Coords o2 = quadric.getMidpoint3D().add(quadric.getEigenvec3D(2)
-				.mul(((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));// pointThrough.getInhomCoordsInD3();
+		o1.setAdd3(quadric.getMidpoint3D(), o1.setMul3(quadric.getEigenvec3D(2),
+				((GeoQuadric3DLimitedOrPart) quadric).getBottomParameter()));
+		o2.setAdd3(quadric.getMidpoint3D(), o2.setMul3(quadric.getEigenvec3D(2),
+				((GeoQuadric3DLimitedOrPart) quadric).getTopParameter()));
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
@@ -152,9 +159,10 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		CoordMatrix qm = quadric.getSymetricMatrix();
 
 		pm.setOrigin(o1);
-		Coords[] v = o2.sub(o1).completeOrthonormal();
-		pm.setVx(v[0]);
-		pm.setVy(v[1]);
+		v.setSub3(o2, o1);
+		v.completeOrthonormal3(vn1, vn2);
+		pm.setVx(vn1);
+		pm.setVy(vn2);
 		pm.transposeCopy(pmt);
 
 		// sets the conic matrix from plane and quadric matrix
@@ -164,8 +172,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 		coordsys1.resetCoordSys();
 		coordsys1.addPoint(o1);
-		coordsys1.addVector(v[0]);
-		coordsys1.addVector(v[1].mul(-1)); // orientation out of the quadric
+		coordsys1.addVector(vn1);
+		coordsys1.addVector(v.setMul3(vn2, -1)); // orientation out of the													// quadric
 		coordsys1.makeOrthoMatrix(false, false);
 
 		sections[0].setMatrix(cm);
@@ -178,8 +186,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 		coordsys2.resetCoordSys();
 		coordsys2.addPoint(o2);
-		coordsys2.addVector(v[0]);
-		coordsys2.addVector(v[1]);
+		coordsys2.addVector(vn1);
+		coordsys2.addVector(vn2);
 		coordsys2.makeOrthoMatrix(false, false);
 
 		sections[1].setMatrix(cm);
