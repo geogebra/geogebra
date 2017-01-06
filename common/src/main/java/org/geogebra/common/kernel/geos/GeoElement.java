@@ -5247,7 +5247,14 @@ public abstract class GeoElement extends ConstructionElement
 			if (geo.getParentAlgorithm() instanceof TableAlgo) {
 				sb.append(((GeoText) geo).getTextString());
 			} else {
-				sb.append("\\text{``"); // left quote
+
+				String str = ((GeoText) geo).getTextString();
+
+				if (!StringUtil.containsLaTeX(str)) {
+					sb.append("\\text");
+				}
+
+				sb.append("{``"); // left quote
 				sb.append(((GeoText) geo).getTextString());
 				sb.append("''}"); // right quote
 			}

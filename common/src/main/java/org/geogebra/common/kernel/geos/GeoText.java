@@ -365,13 +365,20 @@ public class GeoText extends GeoElement
 		StringType printForm = tpl1.getStringType();
 
 		sbToString.setLength(0);
+
 		if (tpl1.isMathQuill()) {
 			sbToString.append("\\quotation{");
-		} else if (printForm.equals(StringType.LATEX))
-			sbToString.append("\\text{``");
+		} else if (printForm.equals(StringType.LATEX)) {
 
-		else
+			if (!StringUtil.containsLaTeX(str)) {
+				sbToString.append("\\text");
+			}
+
+			sbToString.append("{``");
+		} else {
 			sbToString.append('\"');
+		}
+
 		if (str != null)
 			sbToString.append(str);
 

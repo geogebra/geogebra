@@ -1618,4 +1618,25 @@ public class StringUtil {
 		}
 	}
 
+	/**
+	 * check if string contains LaTeX codes. If so then wrapping in \text{}
+	 * probably isn't desirable eg https://www.geogebra.org/m/FH6NkgCN which has
+	 * \int_{0}^{12.03} 2 \; \sqrt{x}\cdot dx = 55.66
+	 * 
+	 * @param str
+	 *            string to check
+	 * @return true if str contains any of \ ^ _
+	 */
+	public static boolean containsLaTeX(String str) {
+		if (str == null) {
+			return false;
+		}
+
+		if (str.contains("\\") || str.contains("^") || str.contains("_")) {
+			return true;
+		}
+
+		return false;
+	}
+
 }
