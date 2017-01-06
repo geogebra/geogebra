@@ -107,6 +107,9 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	// /////////////////////////////////////////////
 	// COMPUTE
 
+	private Coords o = new Coords(3), v = new Coords(3), vn1 = new Coords(3),
+			vn2 = new Coords(3);
+
 	@Override
 	public void compute() {
 
@@ -145,7 +148,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 				}
 
 				// different centers
-				Coords v = o2.sub(o1);
+				v.setSub3(o2, o1);
 				v.calcNorm();
 				double d = v.getNorm();
 
@@ -155,19 +158,20 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 					return;
 				}
 
-				v = v.mul(1 / d);
+				v.mulInside(1 / d);
 				double x = (d + (r1 * r1 - r2 * r2) / d) / 2;
-				Coords o = o1.add(v.mul(x));
+				o.setAdd3(o1, o.setMul(v, x));
 
-				Coords[] vs = v.completeOrthonormal();
+				v.completeOrthonormal3(vn1, vn2);
 				CoordSys coordSys = circle.getCoordSys();
 				coordSys.resetCoordSys();
 				coordSys.addPoint(o);
-				coordSys.addVector(vs[0]);
-				coordSys.addVector(vs[1]);
+				coordSys.addVector(vn1);
+				coordSys.addVector(vn2);
 				coordSys.makeOrthoMatrix(false, false);
 				circle.setSphereND(new Coords(0, 0),
 						Math.sqrt(r1 * r1 - x * x));
+
 				return;
 
 			}
