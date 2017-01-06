@@ -282,6 +282,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected boolean rightClickEnabled = true;
 	/**
+	 * whether righ click is enabled for Algebra View
+	 */
+	protected boolean rightClickEnabledForAV = true;
+	/**
 	 * User Sign in handling
 	 */
 	protected LogInOperation loginOperation = null;
@@ -3224,6 +3228,23 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setRightClickEnabled(boolean flag) {
 		rightClickEnabled = flag;
+	}
+
+	/**
+	 * @return whether right click features are enabled for Algebra View
+	 */
+	final public boolean isRightClickEnabledForAV() {
+		return rightClickEnabledForAV;
+	}
+
+	/**
+	 * Enables or disables right clicking for Algebra View. Used e.g. in
+	 * Exam Simple Calc app
+	 *
+	 * @param flag whether right click features should be enabled
+	 */
+	public void setRightClickEnabledForAV(boolean flag) {
+		rightClickEnabledForAV = flag;
 	}
 
 	/**

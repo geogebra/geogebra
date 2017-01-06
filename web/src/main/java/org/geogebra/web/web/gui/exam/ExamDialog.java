@@ -145,6 +145,8 @@ public class ExamDialog {
 						// needed for GGB-1176
 						app.getGgbApi().setPerspective("A");
 						box.getCaption().setText(loc.getMenu("ExamSimpleCalc.long"));
+						// disable context menu in AV
+						app.setRightClickEnabledForAV(false);
 					}
 				}
 			} else {

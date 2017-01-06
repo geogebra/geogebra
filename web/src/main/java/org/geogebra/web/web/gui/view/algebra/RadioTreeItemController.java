@@ -593,6 +593,11 @@ public class RadioTreeItemController
 	}
 
 	private void onRightClick(int x, int y) {
+
+		if (!app.isRightClickEnabledForAV()) {
+			return;
+		}
+
 		if (checkEditing())
 			return;
 
