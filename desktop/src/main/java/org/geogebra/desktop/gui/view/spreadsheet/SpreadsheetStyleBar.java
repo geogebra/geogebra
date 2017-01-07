@@ -251,7 +251,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				CellRange cr = selectedCells.get(i);
 				ArrayList<GeoElement> ar = cr.toGeoList();
 				for (int j = 0; j < ar.size(); j++) {
-					GeoElement geo = ar.get(i);
+					GeoElement geo = ar.get(j);
 					if (bgCol == null) {
 						geo.setBackgroundColor(null);
 					} else {
