@@ -558,6 +558,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// used with GL.drawElements()
 	}
 
+	final private void startTriangles(PlotterSurface surface) {
+		surface.startTriangles(cornerListIndex * 16);
+	}
+
 	private void draw() {
 
 		Renderer renderer = getView3D().getRenderer();
@@ -575,7 +579,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			debug("\n--- draw size : " + drawListIndex);
 			if (drawListIndex > 0) {
-				surface.startTriangles(cornerListIndex * 12);
+				startTriangles(surface);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
@@ -587,7 +591,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		} else {
 			if (drawListIndex > 0 || splitsStartedNotFinished) {
-				surface.startTriangles(cornerListIndex * 12);
+				startTriangles(surface);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
