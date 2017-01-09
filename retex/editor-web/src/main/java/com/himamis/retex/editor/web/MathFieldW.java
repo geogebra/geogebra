@@ -496,15 +496,11 @@ public class MathFieldW implements MathField, IsWidget {
 				}
 			});
 		}
-		Timer tim = new Timer() {
-
-			@Override
-			public void run() {
+		if (html.getParent() instanceof Panel) {
 				((Panel) html.getParent()).add(wrap);
 
 			}
-		};
-		tim.schedule(5000);
+
 
 		return el;
 	}
