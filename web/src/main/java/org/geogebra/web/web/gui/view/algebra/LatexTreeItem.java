@@ -141,12 +141,12 @@ public class LatexTreeItem extends RadioTreeItem {
 		if (canvas == null) {
 			Log.debug("CANVAS IS NULL");
 			canvas = Canvas.createIfSupported();
-			mf = new MathFieldW(canvas, canvas.getContext2d(),
+			mf = new MathFieldW(latexItem, canvas,
 					getLatexController());
 			return true;
 		}
 		if (mf == null) {
-			mf = new MathFieldW(canvas, canvas.getContext2d(),
+			mf = new MathFieldW(latexItem, canvas,
 					getLatexController());
 		}
 		mf.setPixelRatio(app.getPixelRatio());

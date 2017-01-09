@@ -13,7 +13,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -49,7 +48,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		RootPanel parentWidget = RootPanel.get(id);
 		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
-		MathFieldW fld = new MathFieldW(HTML.wrap(el), canvas.getContext2d(),
+		MathFieldW fld = new MathFieldW(parentWidget, canvas,
 				this);
 		final OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
 				false);

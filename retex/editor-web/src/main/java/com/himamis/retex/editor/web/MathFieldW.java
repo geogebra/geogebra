@@ -28,6 +28,7 @@ package com.himamis.retex.editor.web;
 
 import java.util.ArrayList;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -79,8 +80,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 
 	private MathFieldInternal mathFieldInternal;
-	private Widget html;
+	private Canvas html;
 	private Context2d ctx;
+	private Panel parent;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
 	private double ratio = 1;
@@ -92,21 +94,22 @@ public class MathFieldW implements MathField, IsWidget {
 
 	/**
 	 * 
-	 * @param el
+	 * @param parent
 	 *            parent element
-	 * @param context
+	 * @param canvas
 	 *            drawing context
 	 * @param listener
 	 *            listener for special events
 	 */
-	public MathFieldW(Widget el, Context2d context,
+	public MathFieldW(Panel parent, Canvas canvas,
 			MathFieldListener listener) {
-		html = el;
+		html = canvas;
+		this.parent = parent;
 		mathFieldInternal = new MathFieldInternal(this);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
-		this.ctx = context;
+		this.ctx = canvas.getContext2d();
 		SelectionBox.touchSelection = false;
 
 		mathFieldInternal.setSelectionMode(true);
@@ -127,7 +130,7 @@ public class MathFieldW implements MathField, IsWidget {
 			tick.scheduleRepeating(500);
 		}
 		instances.add(this);
-		el.addDomHandler(new MouseDownHandler() {
+		canvas.addDomHandler(new MouseDownHandler() {
 
 			public void onMouseDown(MouseDownEvent event) {
 				event.stopPropagation();
@@ -475,6 +478,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	Element el = null;
 	private TextArea wrap;
+
 	private Element getHiddenTextArea() {
 		if (el == null) {
 			el = getHiddenTextAreaNative(instances.size());
@@ -496,8 +500,8 @@ public class MathFieldW implements MathField, IsWidget {
 				}
 			});
 		}
-		if (html.getParent() instanceof Panel) {
-				((Panel) html.getParent()).add(wrap);
+		if (parent != null) {
+			parent.add(wrap);
 
 			}
 
