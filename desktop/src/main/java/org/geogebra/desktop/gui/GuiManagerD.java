@@ -208,8 +208,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			redoAction;
 
 	public GuiManagerD(AppD app) {
-		this.app = app;
-		this.kernel = app.getKernel();
+		super(app);
 
 		// this flag prevents closing opened webpage without save (see #126)
 		htmlLoaded = false;
@@ -487,8 +486,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public ProbabilityCalculatorViewD getProbabilityCalculator() {
 
-		if (probCalculator == null)
-			probCalculator = new ProbabilityCalculatorViewD((AppD) app);
+		if (probCalculator == null) {
+			setProbCalculator(new ProbabilityCalculatorViewD((AppD) app));
+		}
 		return (ProbabilityCalculatorViewD) probCalculator;
 	}
 

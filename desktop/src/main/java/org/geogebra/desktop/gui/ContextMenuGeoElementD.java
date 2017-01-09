@@ -76,7 +76,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	 *            application
 	 */
 	ContextMenuGeoElementD(AppD app) {
-		this.app = app;
+		super(app);
 		this.loc = app.getLocalization();
 		this.wrappedPopup = new JPopupMenu();
 		wrappedPopup.setBackground(bgColor);

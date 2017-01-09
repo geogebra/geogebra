@@ -184,10 +184,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 *            device (browser / tablet)
 	 */
 	public GuiManagerW(final AppW app, GDevice device) {
-		this.app = app;
+		super(app);
+
 		this.loc = app.getLocalization();
 		this.device = device;
-		this.kernel = app.getKernel();
+
 		this.objectPool = new ObjectPool();
 		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
@@ -620,7 +621,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public View getProbabilityCalculator() {
 		if (probCalculator == null) {
-			probCalculator = new ProbabilityCalculatorViewW((AppW) app);
+			setProbCalculator(new ProbabilityCalculatorViewW((AppW) app));
 		}
 
 		return probCalculator;

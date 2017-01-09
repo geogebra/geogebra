@@ -15,6 +15,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.LayoutSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -23,7 +24,7 @@ import org.geogebra.common.util.debug.Log;
  *         Abstract class for Web and Desktop Layout
  *
  */
-public abstract class Layout {
+public abstract class Layout implements SettingListener {
 	/**
 	 * Perspectives used by current file (usually only "tmp")
 	 */
@@ -33,6 +34,8 @@ public abstract class Layout {
 	 * Layout settings.
 	 */
 	protected LayoutSettings settings;
+
+	private boolean isInitialized = false;
 
 	/**
 	 * An array with the default perspectives.
@@ -520,6 +523,17 @@ public abstract class Layout {
 			sb.append("\" />\n");
 		}
 
+	}
+
+	protected boolean initializeCommon(App app) {
+		if (isInitialized) {
+			return false;
+		}
+		isInitialized = true;
+
+		this.settings = app.getSettings().getLayout();
+		this.settings.addListener(this);
+		return true;
 	}
 
 	public abstract Perspective createPerspective(String string);

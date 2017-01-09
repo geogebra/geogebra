@@ -51,8 +51,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	 *            application
 	 */
 	ContextMenuGeoElementW(AppW app) {
-
-		this.app = app;
+		super(app);
 		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 

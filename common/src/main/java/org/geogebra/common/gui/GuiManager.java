@@ -83,9 +83,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	/**
 	 * Abstract constructor
+	 * 
+	 * @param app2
 	 */
-	public GuiManager() {
+	public GuiManager(App app2) {
 		setCallerApp();
+		this.app = app2;
+		this.kernel = app.getKernel();
 	}
 
 	public void updateMenubar() {
@@ -695,6 +699,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 		}
 
 		setModeFinished = true;
+	}
+
+	protected void setProbCalculator(ProbabilityCalculatorView pc) {
+		this.probCalculator = pc;
 	}
 
 	/**

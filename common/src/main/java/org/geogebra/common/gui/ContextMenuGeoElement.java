@@ -46,6 +46,9 @@ public abstract class ContextMenuGeoElement {
 	public App app;
 	protected boolean justOneGeo = false;
 
+	public ContextMenuGeoElement(App app) {
+		this.app = app;
+	}
 	/**
 	 * 
 	 * @param geo

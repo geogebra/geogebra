@@ -45,17 +45,15 @@ public class LayoutW extends Layout implements SettingListener {
 	/**
 	 * Initialize the layout component.
 	 * 
-	 * @param app
+	 * @param appw
+	 *            application
 	 */
 	public void initialize(AppW appw) {
-		if(isInitialized)
+		if (!initializeCommon(appw)) {
 			return;
-		
-		isInitialized = true;
+		}
 		
 		this.app = appw;
-		this.settings = appw.getSettings().getLayout();
-		this.settings.addListener(this);
 		this.dockManager = new DockManagerW(this);
 
 		// change inputPosition to default inputPosition
@@ -68,6 +66,8 @@ public class LayoutW extends Layout implements SettingListener {
 	}
 
 		
+
+
 	/**
 	 * Add a new dock panel to the list of known panels.
 	 * 

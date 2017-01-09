@@ -47,17 +47,16 @@ public class LayoutD extends Layout implements SettingListener {
 	/**
 	 * Initialize the layout component.
 	 * 
-	 * @param app
+	 * @param appd
+	 *            Application
 	 */
-	public void initialize(AppD app) {
-		if (isInitialized)
+	public void initialize(AppD appd) {
+		if (!initializeCommon(appd)) {
 			return;
+		}
 
-		isInitialized = true;
+		this.app = appd;
 
-		this.app = app;
-		this.settings = app.getSettings().getLayout();
-		this.settings.addListener(this);
 		this.dockManager = new DockManagerD(this);
 	}
 
