@@ -109,6 +109,12 @@ public class CmdDataFunction extends CommandProcessor {
 		if (ev instanceof ListValue) {
 			return (ListValue) ev;
 		}
+
+		// eg DataFunction[A2:A10, B2:B10]
+		if (ev.evaluatesToList()) {
+			return (ListValue) ev.evaluate(StringTemplate.maxPrecision);
+		}
+
 		throw argErr(app, c, ev);
 	}
 
