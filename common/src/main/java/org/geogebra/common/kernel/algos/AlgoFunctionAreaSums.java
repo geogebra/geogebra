@@ -227,6 +227,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	public AlgoFunctionAreaSums(GeoFunction f, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue n, GeoNumberValue d) {
 		super(f.cons, false);
+		this.type = SumType.RECTANGLESUM;
 		this.f = f;
 		this.a = a;
 		this.b = b;
@@ -236,8 +237,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		bgeo = b.toGeoElement();
 		ngeo = n.toGeoElement();
 		dgeo = d.toGeoElement();
-		N = (int) Math.round(n.getDouble());
 
+		sum = new GeoNumeric(cons); // output
+		setInputOutput(); // for AlgoElement
+		compute();
+		sum.setDrawable(true);
 	}
 
 	/**
