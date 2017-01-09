@@ -439,7 +439,7 @@ public class RelationNumerical {
 				return reports;
 			}
 			register(true, null, congruentSegmentString((GeoElement) a,
-						(GeoElement) b, (GeoElement) c, true));
+					(GeoElement) b, (GeoElement) c));
 			return reports;
 			}
 		/*
@@ -826,21 +826,15 @@ public class RelationNumerical {
 	 *            second object
 	 * @param c
 	 *            third object
-	 * @param equal
-	 *            if objects are congruent
 	 * 
 	 * @return internationalized string
 	 */
 	final public String congruentSegmentString(GeoElement a, GeoElement b,
-			GeoElement c, boolean equal) {
+			GeoElement c) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
 		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
 				+ and + " " + c.getColoredLabel();
-
-		if (equal) {
-			return loc.getPlain("TheFollowingAreCongruentA", pars);
-		}
-		return loc.getPlain("TheFollowingAreNotCongruentA", pars);
+		return loc.getPlain("TheFollowingAreCongruentA", pars);
 	}
 
 	/**
