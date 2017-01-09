@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PhoneUI extends VerticalPanel implements ViewContainer,
         ViewChangeHandler, ResizeHandler {
 
-	private AppW app;
 
 	private Header header;
 	private Panel panel;
@@ -35,7 +34,6 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 	 *            {@link AppW}
 	 */
 	public PhoneUI(AppW app) {
-		this.app = app;
 
 		setStyleName("PhoneGUI");
 		setPixelSize(Window.getClientWidth(), Window.getClientHeight());

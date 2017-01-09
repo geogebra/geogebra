@@ -8,10 +8,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 public abstract class AbstractViewPanel extends FlowPanel implements ViewPanel {
 
-	protected AppW app;
 
 	public AbstractViewPanel(AppW app) {
-		this.app = app;
 		setStyleName(getViewPanelStyleName());
 	}
 

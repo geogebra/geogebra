@@ -8,15 +8,18 @@ import org.geogebra.web.web.main.GDevice;
 
 public class GeoGebraAppFrameP extends GeoGebraAppFrame {
 
+	private Phone phone;
+
 	public GeoGebraAppFrameP(GLookAndFeel laf, GDevice device,
-	        AppletFactory factory) {
+			AppletFactory factory, Phone phone) {
 		super(laf, device, factory);
+		this.phone = phone;
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		Phone.initGUI();
+		phone.initGUI();
 	}
 
 }

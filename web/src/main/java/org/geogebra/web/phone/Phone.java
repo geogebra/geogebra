@@ -26,12 +26,12 @@ public class Phone implements EntryPoint {
 	private static PhoneUI phoneGui;
 	private static AbstractView euclidianView;
 	private static AbstractView browseView;
-	static GeoGebraAppFrame appFrame;
+	GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
 		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(),
 		        new PhoneDevice(),
-		        (AppletFactory) GWT.create(AppletFactory.class));
+				(AppletFactory) GWT.create(AppletFactory.class), this);
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
 		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {
@@ -45,7 +45,7 @@ public class Phone implements EntryPoint {
 		ResourcesInjector.injectResources();
 	}
 
-	private static void addViews() {
+	private void addViews() {
 		browseView = (AbstractView) appFrame.app.getGuiManager()
 				.getBrowseView();
 		phoneGui.addView(new AlgebraPhoneView(appFrame.app));
@@ -71,7 +71,7 @@ public class Phone implements EntryPoint {
 		// TODO implement
 	}
 
-	public static void initGUI() {
+	public void initGUI() {
 		phoneGui = new PhoneUI(appFrame.app);
 		addViews();
 		RootLayoutPanel.get().clear();
