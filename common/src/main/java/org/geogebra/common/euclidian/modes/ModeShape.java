@@ -109,6 +109,7 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseDraggedForShapeMode(AbstractEvent event) {
+		wasDragged = true;
 		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			dragPointSet = false;
 		}
@@ -150,7 +151,6 @@ public class ModeShape {
 			view.setShapePolygon(polygon);
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
-			wasDragged = true;
 			updateFreeFormPolygon(event, wasDragged);
 		}
 	}
@@ -233,6 +233,11 @@ public class ModeShape {
 	 */
 	public void handleMouseReleasedForShapeMode(AbstractEvent event) {
 		view.setRounded(false);
+		// make sure we set new start point after ignoring simple click
+		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
+			dragPointSet = false;
+			return;
+		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
@@ -302,7 +307,6 @@ public class ModeShape {
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
 				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
-				wasDragged = false;
 			}
 			updateFreeFormPolygon(event, false);
 			// close with double click
@@ -321,6 +325,8 @@ public class ModeShape {
 				view.repaintView();
 			}
 		}
+		// if was drag finished with release
+		wasDragged = false;
 	}
 
 	private static void createPolygon(AlgoElement algo) {
