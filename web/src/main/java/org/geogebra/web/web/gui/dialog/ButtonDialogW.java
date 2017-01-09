@@ -9,17 +9,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.inputfield.FieldHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -140,18 +135,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler {
 		tfScript = new ScriptArea();
 		
 		tfScript.enableGGBKeyboard(app);
-
-		tfScript.addFocusHandler(new FocusHandler() {
-			public void onFocus(FocusEvent event) {
-				FieldHandler.focusGained(tfScript, app);
-			}
-		});
-
-		tfScript.addBlurHandler(new BlurHandler() {
-			public void onBlur(BlurEvent event) {
-				FieldHandler.focusLost(tfScript, app);
-			}
-		});
 
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
