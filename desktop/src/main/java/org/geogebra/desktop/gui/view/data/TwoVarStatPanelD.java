@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.desktop.main.AppD;
 
@@ -24,7 +23,6 @@ public class TwoVarStatPanelD extends StatTable
 		implements ActionListener, TwoVarStatListener {
 	private static final long serialVersionUID = 1L;
 	protected AppD app;
-	private Kernel kernel;
 	protected DataAnalysisViewD statDialog;
 	protected MyTable statTable;
 	private TwoVarStatModel model;
@@ -37,7 +35,6 @@ public class TwoVarStatPanelD extends StatTable
 		model = new TwoVarStatModel(app, isPairedData, this);
 		this.app = app;
 		this.statDialog = statDialog;
-		kernel = app.getKernel();
 		statTable = this.getTable();
 		this.parentActionListener = parentActionListener;
 

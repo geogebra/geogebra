@@ -52,15 +52,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 	private JSlider mySlider;
 
-	private GColor fgColor;
-	private int fontStyle = 0;
 
-	public void setFontStyle(int fontStyle) {
-		this.fontStyle = fontStyle;
-	}
 
 	public void setFgColor(GColor fgColor) {
-		this.fgColor = fgColor;
 		if (myTable != null)
 			myTable.setFgColor(fgColor);
 		updateGUI();

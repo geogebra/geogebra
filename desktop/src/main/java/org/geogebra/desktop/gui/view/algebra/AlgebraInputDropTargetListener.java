@@ -24,10 +24,6 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 	private JTextComponent textComp;
 
 	// supported data flavors
-	private static final DataFlavor supportedFlavors[] = {
-			DataFlavor.javaFileListFlavor, DataFlavor.stringFlavor,
-			AlgebraViewTransferHandler.algebraViewFlavor };
-
 	private String textImport;
 
 	public AlgebraInputDropTargetListener(AppD app, JTextComponent textComp) {

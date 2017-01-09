@@ -1183,10 +1183,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		probCalculator.attachView();
 	}
 
-	@Override
-	public void attachAssignmentView() {
-		Log.debug("unimplemented");
-	}
 
 	/**
 	 * @return Data collection view
@@ -1295,10 +1291,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return true;
 	}
 
-	@Override
-	public void detachAssignmentView() {
-		Log.debug("unimplemented");
-	}
 
 	@Override
 	public void detachProbabilityCalculatorView() {

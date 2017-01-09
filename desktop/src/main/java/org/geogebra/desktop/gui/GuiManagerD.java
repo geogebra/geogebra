@@ -129,7 +129,6 @@ import org.geogebra.desktop.gui.util.GeoGebraFileChooser;
 import org.geogebra.desktop.gui.view.CompressedAlgebraView;
 import org.geogebra.desktop.gui.view.algebra.AlgebraControllerD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
-import org.geogebra.desktop.gui.view.assignment.AssignmentView;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ConstructionTableDataD;
@@ -167,7 +166,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private SpreadsheetViewD spreadsheetView;
 	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<EuclidianViewD>();
 	private ConstructionProtocolViewD constructionProtocolView;
-	private AssignmentView assignmentView;
 	private GeoGebraMenuBar menuBar;
 	private JMenuBar menuBar2;
 	private String strCustomToolbarDefinition;
@@ -440,13 +438,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				.getData();
 	}
 
-	public AssignmentView getAssignmentView() {
-		if (assignmentView == null) {
-			assignmentView = new AssignmentView((AppD) app);
-		}
-
-		return assignmentView;
-	}
 
 	public void startEditing(GeoElement geo) {
 		getAlgebraView().startEditItem(geo);
@@ -668,15 +659,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		getDataAnalysisView().detachView();
 	}
 
-	public void attachAssignmentView() {
-		getAssignmentView();
-		assignmentView.attachView();
-	}
-
-	public void detachAssignmentView() {
-		if (assignmentView != null)
-			assignmentView.detachView();
-	}
 
 	public void attachPropertiesView() {
 		getPropertiesView();

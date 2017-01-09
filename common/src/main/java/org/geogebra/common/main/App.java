@@ -164,8 +164,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public static final int VIEW_PROPERTIES = 4097;
 	// please let 1024 to 2047 empty
-	/** id for assignment view */
-	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
 	/** data collection view (web only) */

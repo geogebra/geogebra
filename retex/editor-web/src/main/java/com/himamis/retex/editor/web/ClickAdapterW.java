@@ -29,11 +29,9 @@ public class ClickAdapterW
 	private ClickListener handler;
 	private boolean pointerIsDown = false;
 	private Widget widget;
-	private MathFieldW mf;
 
 	public ClickAdapterW(ClickListener handler, MathFieldW mf) {
 		this.handler = handler;
-		this.mf = mf;
 	}
 
 	public void onMouseDown(MouseDownEvent event) {

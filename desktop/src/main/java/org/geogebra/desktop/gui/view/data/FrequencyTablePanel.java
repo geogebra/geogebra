@@ -9,7 +9,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.desktop.main.AppD;
 
@@ -17,7 +16,6 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
 	protected AppD app;
-	private Kernel kernel;
 	// protected DataAnalysisViewD statDialog;
 	// private int mode;
 	protected StatTable statTable;
@@ -26,7 +24,6 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 
 	public FrequencyTablePanel(AppD app) {
 		this.app = app;
-		this.kernel = app.getKernel();
 
 		statTable = new StatTable(app);
 

@@ -45,7 +45,6 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 	// The selection listener keeps them in sync.
 	private int minSelectionRow = -1;
 	private int maxSelectionRow = -1;
-	private ListSelectionModel selectionModel;
 
 	// fields for resizing rows
 	private static Cursor resizeCursor = Cursor

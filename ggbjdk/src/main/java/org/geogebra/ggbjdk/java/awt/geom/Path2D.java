@@ -1502,21 +1502,21 @@ public abstract class Path2D implements Shape, Cloneable {
     /*
      * Support fields and methods for serializing the subclasses.
      */
-    private static final byte SERIAL_STORAGE_FLT_ARRAY = 0x30;
-    private static final byte SERIAL_STORAGE_DBL_ARRAY = 0x31;
-
-    private static final byte SERIAL_SEG_FLT_MOVETO    = 0x40;
-    private static final byte SERIAL_SEG_FLT_LINETO    = 0x41;
-    private static final byte SERIAL_SEG_FLT_QUADTO    = 0x42;
-    private static final byte SERIAL_SEG_FLT_CUBICTO   = 0x43;
-
-    private static final byte SERIAL_SEG_DBL_MOVETO    = 0x50;
-    private static final byte SERIAL_SEG_DBL_LINETO    = 0x51;
-    private static final byte SERIAL_SEG_DBL_QUADTO    = 0x52;
-    private static final byte SERIAL_SEG_DBL_CUBICTO   = 0x53;
-
-    private static final byte SERIAL_SEG_CLOSE         = 0x60;
-    private static final byte SERIAL_PATH_END          = 0x61;
+	// private static final byte SERIAL_STORAGE_FLT_ARRAY = 0x30;
+	// private static final byte SERIAL_STORAGE_DBL_ARRAY = 0x31;
+	//
+	// private static final byte SERIAL_SEG_FLT_MOVETO = 0x40;
+	// private static final byte SERIAL_SEG_FLT_LINETO = 0x41;
+	// private static final byte SERIAL_SEG_FLT_QUADTO = 0x42;
+	// private static final byte SERIAL_SEG_FLT_CUBICTO = 0x43;
+	//
+	// private static final byte SERIAL_SEG_DBL_MOVETO = 0x50;
+	// private static final byte SERIAL_SEG_DBL_LINETO = 0x51;
+	// private static final byte SERIAL_SEG_DBL_QUADTO = 0x52;
+	// private static final byte SERIAL_SEG_DBL_CUBICTO = 0x53;
+	//
+	// private static final byte SERIAL_SEG_CLOSE = 0x60;
+	// private static final byte SERIAL_PATH_END = 0x61;
 
 //    final void writeObject(java.io.ObjectOutputStream s, boolean isdbl)
 //        throws java.io.IOException

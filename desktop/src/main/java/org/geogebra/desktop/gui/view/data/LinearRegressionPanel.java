@@ -28,16 +28,13 @@ public class LinearRegressionPanel extends JPanel
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 	private Kernel kernel;
-	private JList dataSourceList;
 	private DefaultTableModel model;
-	private DataAnalysisViewD statDialog;
 	private DefaultListModel headerModel;
 
 	public LinearRegressionPanel(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		kernel = app.getKernel();
-		this.statDialog = statDialog;
 
 		this.setOpaque(true);
 		this.setBackground(Color.WHITE);

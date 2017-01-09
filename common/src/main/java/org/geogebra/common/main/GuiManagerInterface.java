@@ -192,8 +192,6 @@ public interface GuiManagerInterface {
 
 	public void attachProbabilityCalculatorView();
 
-	public void attachAssignmentView();
-
 	public void attachDataAnalysisView();
 
 	public void detachDataAnalysisView();
@@ -227,8 +225,6 @@ public interface GuiManagerInterface {
 	 * @param viewId
 	 */
 	public void detachView(int viewId);
-
-	public void detachAssignmentView();
 
 	public void detachProbabilityCalculatorView();
 

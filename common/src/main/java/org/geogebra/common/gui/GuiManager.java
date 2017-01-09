@@ -323,9 +323,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		case App.VIEW_DATA_ANALYSIS:
 			attachDataAnalysisView();
 			break;
-		case App.VIEW_ASSIGNMENT:
-			attachAssignmentView();
-			break;
 		case App.VIEW_PROPERTIES:
 			attachPropertiesView();
 			break;
@@ -423,9 +420,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 			break;
 		case App.VIEW_PROBABILITY_CALCULATOR:
 			detachProbabilityCalculatorView();
-			break;
-		case App.VIEW_ASSIGNMENT:
-			detachAssignmentView();
 			break;
 		case App.VIEW_PROPERTIES:
 			detachPropertiesView();

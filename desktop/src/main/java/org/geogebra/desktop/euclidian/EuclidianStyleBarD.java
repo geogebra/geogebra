@@ -1210,7 +1210,7 @@ public class EuclidianStyleBarD extends JToolBar
 					}
 
 					setFgColor(geoColor);
-					setFontStyle(((TextProperties) geo).getFontStyle());
+					// setFontStyle(((TextProperties) geo).getFontStyle());
 				}
 			}
 

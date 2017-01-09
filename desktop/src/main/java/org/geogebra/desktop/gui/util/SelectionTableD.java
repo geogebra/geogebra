@@ -70,10 +70,8 @@ public class SelectionTableD extends JTable {
 
 	private SelectionTable mode;
 
-	private GColor fgColor;
 
 	public void setFgColor(GColor fgColor) {
-		this.fgColor = fgColor;
 		repaint();
 	}
 

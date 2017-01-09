@@ -34,7 +34,6 @@ public class AlgebraInputTransferHandler extends TransferHandler
 			DataFlavor.javaFileListFlavor, DataFlavor.stringFlavor,
 			AlgebraViewTransferHandler.algebraViewFlavor };
 
-	private boolean debug = false;
 
 	private String text;
 
