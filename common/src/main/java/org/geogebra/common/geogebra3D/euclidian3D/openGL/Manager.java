@@ -403,12 +403,7 @@ abstract public class Manager {
 	 * @param v
 	 */
 	protected void vertexDirect(Coords3 v) {
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			vertexDirect(v.getXf() * getXscale(), v.getYf() * getYscale(),
-					v.getZf() * getZscale());
-		} else {
-			vertexDirect(v.getXf(), v.getYf(), v.getZf());
-		}
+		vertexDirect(v.getXf(), v.getYf(), v.getZf());
 
 	}
 

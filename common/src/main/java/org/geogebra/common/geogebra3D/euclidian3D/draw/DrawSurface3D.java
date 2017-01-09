@@ -145,8 +145,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private void setTolerances() {
 
-		maxRWPixelDistance = getView3D().getMaxPixelDistance()
-				/ getView3D().getScale();
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			maxRWPixelDistance = getView3D().getMaxPixelDistance();
+		} else {
+			maxRWPixelDistance = getView3D().getMaxPixelDistance()
+					/ getView3D().getScale();
+		}
 
 		// set sizes
 		switch (levelOfDetail) {
@@ -566,6 +570,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		Renderer renderer = getView3D().getRenderer();
 
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			// point were already scaled
+			renderer.getGeometryManager().setScalerIdentity();
+		}
+
 		// draw splitted, still to split, and next to split
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
@@ -611,6 +620,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		setSurfaceIndex(surface.end());
 
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			renderer.getGeometryManager().setScalerView();
+		}
+
 		drawWireframe(renderer);
 	}
 
@@ -655,6 +668,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			// point were already scaled
+			renderer.getGeometryManager().setScalerIdentity();
+		}
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(thickness, (float) getView3D().getScale());
 		brush.setAffineTexture(0f, 0f);
@@ -711,6 +728,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setGeometryIndex(brush.end());
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			// point were already scaled
+			renderer.getGeometryManager().setScalerView();
+		}
 	}
 
 	private boolean splitsStartedNotFinished, stillRoomLeft;
@@ -999,6 +1020,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return new CoordsDouble3();
 	}
 
+	final private void scaleXYZ(Coords3 p) {
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			getView3D().scaleXYZ(p);
+		}
+	}
+
+	final private void scaleAndNormalizeNormalXYZ(Coords3 n) {
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			getView3D().scaleAndNormalizeNormalXYZ(n);
+		}
+	}
+
 	protected Coords3 evaluatePoint(double u, double v) {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
@@ -1009,6 +1042,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		updateBounds(evaluatedPoint);
 
 		if (inCullingBox(evaluatedPoint)) {
+			scaleXYZ(evaluatedPoint);
 			return evaluatedPoint.copyVector();
 		}
 
@@ -1028,6 +1062,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			updateBounds(evaluatedPoint);
 
 			if (inCullingBox(evaluatedPoint)) {
+				scaleXYZ(evaluatedPoint);
 				return evaluatedPoint.copyVector();
 			}
 
@@ -1044,6 +1079,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		updateBounds(p);
 
 		if (inCullingBox(p)) {
+			scaleXYZ(p);
 			return p;
 		}
 
@@ -1062,6 +1098,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return Coords3.UNDEFINED;
 			}
 
+			scaleAndNormalizeNormalXYZ(evaluatedNormal);
 			return evaluatedNormal.copyVector();
 		}
 
@@ -1072,6 +1109,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return Coords3.UNDEFINED;
 		}
 
+		scaleAndNormalizeNormalXYZ(normal);
 		return normal;
 
 	}
