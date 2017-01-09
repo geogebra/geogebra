@@ -202,25 +202,43 @@ public class ModeShape {
 	private double[] getEndPointRealCoords(AbstractEvent event,
 			boolean isSquare) {
 		double[] coords = new double[2];
-		if (dragStartPoint.x > event.getX()
-				&& dragStartPoint.y > event.getY()) {
+		if (dragStartPoint.x >= event.getX()) {
+			if (dragStartPoint.y >= event.getY()) {
+				coords[0] = view.toRealWorldCoordX(
+						dragStartPoint.x - (isSquare ? rectangle.getWidth()
+								: ellipse.getBounds().getWidth()));
+				coords[1] = view.toRealWorldCoordY(
+						dragStartPoint.y - (isSquare ? rectangle.getWidth()
+								: ellipse.getBounds().getWidth()));
+			} else {
+				coords[0] = view.toRealWorldCoordX(
+						dragStartPoint.x - (isSquare ? rectangle.getWidth()
+								: ellipse.getBounds().getWidth()));
+				coords[1] = view.toRealWorldCoordY(
+						dragStartPoint.y - (isSquare ? rectangle.getWidth()
+								: -ellipse.getBounds().getWidth()));
+			}
+		} else {
+			if (dragStartPoint.y >= event.getY()) {
 			coords[0] = view
 					.toRealWorldCoordX(
 							dragStartPoint.x - (isSquare ? rectangle.getWidth()
-									: ellipse.getBounds().getWidth()));
+									: -ellipse.getBounds().getWidth()));
 			coords[1] = view
 					.toRealWorldCoordY(
 							dragStartPoint.y - (isSquare ? rectangle.getWidth()
-									: ellipse.getBounds().getWidth()));
-		} else {
-			coords[0] = view
+												: ellipse.getBounds()
+														.getWidth()));
+			} else {
+				coords[0] = view
 					.toRealWorldCoordX(
 							dragStartPoint.x + (isSquare ? rectangle.getWidth()
 									: ellipse.getBounds().getWidth()));
-			coords[1] = view
+				coords[1] = view
 					.toRealWorldCoordY(
 							dragStartPoint.y + (isSquare ? rectangle.getWidth()
 									: ellipse.getBounds().getWidth()));
+			}
 		}
 		return coords;
 	}
@@ -608,28 +626,44 @@ public class ModeShape {
 		int dy = event.getY() - dragStartPoint.y;
 
 		int width = dx;
-		int height;
-		if (isCircle) {
-			height = dx;
-		} else {
-			height = dy;
-		}
+		int height = dy;
 
 		if (height >= 0) {
 			if (width >= 0) {
-				ellipse.setFrame(dragStartPoint.x, dragStartPoint.y, width,
+				if (isCircle) {
+					ellipse.setFrame(dragStartPoint.x, dragStartPoint.y, width,
+							width);
+				} else {
+					ellipse.setFrame(dragStartPoint.x, dragStartPoint.y, width,
 						height);
+				}
 			} else { // width < 0
-				ellipse.setFrame(dragStartPoint.x + width, dragStartPoint.y,
-						-width, height);
+				if (isCircle) {
+					ellipse.setFrame(dragStartPoint.x + width, dragStartPoint.y,
+							-width, -width);
+				} else {
+					ellipse.setFrame(dragStartPoint.x + width, dragStartPoint.y,
+							-width, height);
+				}
 			}
 		} else { // height < 0
 			if (width >= 0) {
-				ellipse.setFrame(dragStartPoint.x, dragStartPoint.y + height,
+				if (isCircle) {
+					ellipse.setFrame(dragStartPoint.x,
+							dragStartPoint.y - width, width, width);
+				} else {
+					ellipse.setFrame(dragStartPoint.x,
+							dragStartPoint.y + height,
 						width, -height);
+				}
 			} else { // width < 0
-				ellipse.setFrame(dragStartPoint.x + width,
+				if (isCircle) {
+					ellipse.setFrame(dragStartPoint.x + width,
+							dragStartPoint.y + width, -width, -width);
+				} else {
+					ellipse.setFrame(dragStartPoint.x + width,
 						dragStartPoint.y + height, -width, -height);
+				}
 			}
 		}
 	}
