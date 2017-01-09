@@ -64,7 +64,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof ParametricCurve))
@@ -90,7 +90,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 7:
 			// create local variables and resolve arguments
 			// Surface[(1;a;b),a,0,pi,b,0,pi]
@@ -121,7 +121,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]);
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 9:
 			// create local variables and resolve arguments
 			arg = resArgsLocalNumVar(c, new int[] { 3, 6 }, new int[] { 4, 7 });
@@ -144,7 +144,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

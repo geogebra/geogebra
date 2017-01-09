@@ -33,7 +33,7 @@ public class CmdSetFixed extends CmdScripting {
 			arg2 = arg[2];
 
 			if (!arg2.isGeoBoolean()) {
-				throw argErr(app, c.getName(), arg2);
+				throw argErr(app, c, arg2);
 			}
 		case 2:
 			if (arg[1].isGeoBoolean()) {
@@ -49,7 +49,7 @@ public class CmdSetFixed extends CmdScripting {
 
 				return arg;
 			}
-			throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c, arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

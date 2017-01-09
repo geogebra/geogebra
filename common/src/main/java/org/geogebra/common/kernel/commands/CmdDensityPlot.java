@@ -48,7 +48,7 @@ public class CmdDensityPlot extends CommandProcessor {
 			args = resArgs(c);
 			if (!args[0].isGeoFunctionNVar()
 					|| ((GeoFunctionNVar) args[0]).getVarNumber() != 2) {
-				throw argErr(app, c.getName(), args[0]);
+				throw argErr(app, c, args[0]);
 			}
 			AlgoDensityPlot algo = new AlgoDensityPlot(cons,
 					(GeoFunctionNVar) args[0]);
@@ -77,20 +77,20 @@ public class CmdDensityPlot extends CommandProcessor {
 		args = resArgs(c);
 		if (!args[0].isGeoFunctionNVar()
 				|| ((GeoFunctionNVar) args[0]).getVarNumber() != 2) {
-			throw argErr(app, c.getName(), args[0]);
+			throw argErr(app, c, args[0]);
 		}
 		lowX = c.getArgument(1).evaluateDouble();
 		highX = c.getArgument(2).evaluateDouble();
 		lowY = c.getArgument(3).evaluateDouble();
 		highY = c.getArgument(4).evaluateDouble();
 		if (Double.isNaN(lowX) || Double.isNaN(highX) || lowX >= highX) {
-			throw argErr(app, c.getName(), c.getArgument(1));
+			throw argErr(app, c, c.getArgument(1));
 		}
 		if (Double.isNaN(lowY) || Double.isNaN(highY) || lowY >= highY) {
-			throw argErr(app, c.getName(), c.getArgument(3));
+			throw argErr(app, c, c.getArgument(3));
 		}
 		if (args.length == 6 && !args[5].isGeoBoolean()) {
-			throw argErr(app, c.getName(), args[5]);
+			throw argErr(app, c, args[5]);
 		}
 	}
 

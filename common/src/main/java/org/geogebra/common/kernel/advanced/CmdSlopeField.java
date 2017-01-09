@@ -40,7 +40,7 @@ public class CmdSlopeField extends CommandProcessor {
 								null, null, null, null, null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
@@ -50,7 +50,7 @@ public class CmdSlopeField extends CommandProcessor {
 						null, null, null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3:
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
@@ -61,7 +61,7 @@ public class CmdSlopeField extends CommandProcessor {
 						(GeoNumeric) arg[2], null, null, null, null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 7:
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
@@ -78,7 +78,7 @@ public class CmdSlopeField extends CommandProcessor {
 								(GeoNumeric) arg[5], (GeoNumeric) arg[6]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

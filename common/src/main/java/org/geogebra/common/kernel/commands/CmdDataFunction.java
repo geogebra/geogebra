@@ -109,7 +109,7 @@ public class CmdDataFunction extends CommandProcessor {
 		if (ev instanceof ListValue) {
 			return (ListValue) ev;
 		}
-		throw argErr(app, c.getName(), ev);
+		throw argErr(app, c, ev);
 	}
 
 	/**

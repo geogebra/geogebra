@@ -34,7 +34,7 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -50,7 +50,8 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
-		throw argErr(app, a, b);
+		// never gets called
+		return null;
 	}
 
 }

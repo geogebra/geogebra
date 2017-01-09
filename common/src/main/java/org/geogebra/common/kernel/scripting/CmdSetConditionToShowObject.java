@@ -38,13 +38,13 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 					geo.setShowObjectCondition((GeoBoolean) arg2[1]);
 				} catch (CircularDefinitionException e) {
 					e.printStackTrace();
-					throw argErr(app, c.getName(), arg2[1]);
+					throw argErr(app, c, arg2[1]);
 				}
 				geo.updateRepaint();
 
 				return new GeoElement[0];
 			}
-			throw argErr(app, c.getName(), arg2[1]);
+			throw argErr(app, c, arg2[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -44,7 +44,7 @@ public class CmdMidpoint extends CommandProcessor {
 				return twoPoints(c.getLabel(), (GeoPointND) arg[0],
 						(GeoPointND) arg[1]);
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -89,7 +89,7 @@ public class CmdMidpoint extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		} else
-			throw argErr(app, c.getName(), arg);
+			throw argErr(app, c, arg);
 	}
 
 	/**

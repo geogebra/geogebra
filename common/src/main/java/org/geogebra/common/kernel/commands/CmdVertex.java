@@ -73,7 +73,7 @@ public class CmdVertex extends CommandProcessor {
 								(GeoNumberValue) arg[0], null) };
 				return ret;
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 			// Corner[ <Image>, <number> ]
@@ -125,7 +125,7 @@ public class CmdVertex extends CommandProcessor {
 					return ret;
 				}
 
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 				GeoElement[] ret = {
@@ -135,7 +135,7 @@ public class CmdVertex extends CommandProcessor {
 				return ret;
 
 			} else {
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 			}
 
 		default:

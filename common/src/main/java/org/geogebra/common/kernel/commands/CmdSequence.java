@@ -50,7 +50,7 @@ public class CmdSequence extends CommandProcessor {
 						(GeoNumberValue) arg[0]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 2:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
@@ -59,12 +59,12 @@ public class CmdSequence extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 4:
 
 			// make sure Sequence[i,i,i,i] gives an error
-			checkDependency(arg, c.getName(), 2, 1);
-			checkDependency(arg, c.getName(), 3, 1);
+			checkDependency(arg, c, 2, 1);
+			checkDependency(arg, c, 3, 1);
 
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -77,13 +77,13 @@ public class CmdSequence extends CommandProcessor {
 
 				return algo.getOutput();
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 5:
 			// make sure Sequence[i,i,i,i,i] gives an error
-			checkDependency(arg, c.getName(), 2, 1);
-			checkDependency(arg, c.getName(), 3, 1);
-			checkDependency(arg, c.getName(), 4, 1);
+			checkDependency(arg, c, 2, 1);
+			checkDependency(arg, c, 3, 1);
+			checkDependency(arg, c, 4, 1);
 
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -97,7 +97,7 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

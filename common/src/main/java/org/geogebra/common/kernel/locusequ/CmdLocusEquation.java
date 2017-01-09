@@ -47,7 +47,7 @@ public class CmdLocusEquation extends CommandProcessor {
 				locusPoint = (GeoPoint) algo.getLocusPoint();
 				movingPoint = (GeoPoint) algo.getMovingPoint();
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			break;
 
@@ -69,7 +69,7 @@ public class CmdLocusEquation extends CommandProcessor {
 							implicitLocus, movingPoint).toGeoElement() };
 
 				} // else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 			}
 			break;
 

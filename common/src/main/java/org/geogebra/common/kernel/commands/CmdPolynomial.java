@@ -53,7 +53,7 @@ public class CmdPolynomial extends CommandProcessor {
 			}
 			// Michael Borcherds 2008-01-22 END
 			else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 			// more than one argument
 		default:

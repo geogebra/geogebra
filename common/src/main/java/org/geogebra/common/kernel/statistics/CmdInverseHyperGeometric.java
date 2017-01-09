@@ -45,13 +45,13 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -56,11 +56,11 @@ public class CmdSetDynamicColor extends CmdScripting {
 				return new GeoElement[0];
 
 			} else if (!ok[1])
-				throw argErr(app, c.getName(), arg2[1]);
+				throw argErr(app, c, arg2[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg2[2]);
+				throw argErr(app, c, arg2[2]);
 			else
-				throw argErr(app, c.getName(), arg2[3]);
+				throw argErr(app, c, arg2[3]);
 		case 5:
 			ok = new boolean[n];
 			arg2 = resArgs(c);
@@ -87,13 +87,13 @@ public class CmdSetDynamicColor extends CmdScripting {
 				return new GeoElement[0];
 
 			} else if (!ok[1])
-				throw argErr(app, c.getName(), arg2[1]);
+				throw argErr(app, c, arg2[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg2[2]);
+				throw argErr(app, c, arg2[2]);
 			else if (!ok[3])
-				throw argErr(app, c.getName(), arg2[3]);
+				throw argErr(app, c, arg2[3]);
 			else
-				throw argErr(app, c.getName(), arg2[4]);
+				throw argErr(app, c, arg2[4]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

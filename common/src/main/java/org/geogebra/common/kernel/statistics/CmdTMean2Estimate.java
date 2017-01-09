@@ -45,13 +45,13 @@ public class CmdTMean2Estimate extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 		case 8:
 			if ((ok[0] = arg[0].isGeoNumeric())
@@ -73,21 +73,21 @@ public class CmdTMean2Estimate extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			else if (!ok[3])
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 			else if (!ok[4])
-				throw argErr(app, c.getName(), arg[4]);
+				throw argErr(app, c, arg[4]);
 			else if (!ok[5])
-				throw argErr(app, c.getName(), arg[5]);
+				throw argErr(app, c, arg[5]);
 			else if (!ok[6])
-				throw argErr(app, c.getName(), arg[6]);
+				throw argErr(app, c, arg[6]);
 			else
-				throw argErr(app, c.getName(), arg[7]);
+				throw argErr(app, c, arg[7]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

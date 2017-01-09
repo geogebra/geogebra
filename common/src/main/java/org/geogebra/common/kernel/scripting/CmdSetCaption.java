@@ -41,7 +41,7 @@ public class CmdSetCaption extends CmdScripting {
 
 				return arg;
 			}
-			throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c, arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

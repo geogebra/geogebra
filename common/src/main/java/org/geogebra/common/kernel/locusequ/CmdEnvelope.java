@@ -37,7 +37,7 @@ public class CmdEnvelope extends CommandProcessor {
 				linear = arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 			}
 			break;
 

@@ -41,7 +41,7 @@ public class CmdLineBisector extends CommandProcessor {
 			}
 
 			// syntax error
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2: // two points
 			arg = resArgs(c);
@@ -85,7 +85,7 @@ public class CmdLineBisector extends CommandProcessor {
 		}
 
 		// syntax error
-		throw argErr(app, c.getName(), getBadArg(ok, arg));
+		throw argErr(app, c, getBadArg(ok, arg));
 	}
 
 	/**

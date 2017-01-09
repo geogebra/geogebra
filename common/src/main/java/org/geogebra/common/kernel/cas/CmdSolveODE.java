@@ -45,7 +45,7 @@ public class CmdSolveODE extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 2:
 			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
 					&& (ok[1] = arg[1] instanceof GeoPointND)) {
@@ -56,7 +56,7 @@ public class CmdSolveODE extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 5:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -69,7 +69,7 @@ public class CmdSolveODE extends CommandProcessor {
 								(GeoNumeric) arg[3], (GeoNumeric) arg[4]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 6:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1] instanceof FunctionalNVar)
@@ -83,7 +83,7 @@ public class CmdSolveODE extends CommandProcessor {
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 8: // second order ODE
 			if ((ok[0] = arg[0].isGeoFunctionable())
@@ -104,7 +104,7 @@ public class CmdSolveODE extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 			// more than one argument
 		default:

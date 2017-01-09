@@ -45,20 +45,20 @@ public class CmdElement extends CommandProcessor {
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			arg = resArgs(c);
 			// list
 			GeoNumberValue[] nvs = new GeoNumberValue[n - 1];
 			if (!arg[0].isGeoList()) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			for (int i = 1; i < n; i++) {
 				if (arg[i] instanceof GeoNumberValue)
 					nvs[i - 1] = (GeoNumberValue) arg[i];
 				else {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 			}
 

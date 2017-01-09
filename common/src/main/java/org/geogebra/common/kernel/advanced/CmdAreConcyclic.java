@@ -44,16 +44,16 @@ public class CmdAreConcyclic extends CommandProcessor {
 		arg = resArgs(c);
 		if (n == 4) {
 			if (!(arg[0] instanceof GeoPoint)) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!(arg[1] instanceof GeoPoint)) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 			if (!(arg[2] instanceof GeoPoint)) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 			if (!(arg[3] instanceof GeoPoint)) {
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 			}
 
 			AlgoAreConcyclic algo = new AlgoAreConcyclic(cons, c.getLabel(),

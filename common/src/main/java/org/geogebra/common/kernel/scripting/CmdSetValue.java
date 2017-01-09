@@ -53,11 +53,11 @@ public class CmdSetValue extends CmdScripting {
 						(int) ((NumberValue) arg[1]).getDouble(), arg[2]);
 
 				if (!success) {
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[1]);
 				}
 
 			} else
-				throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+				throw argErr(app, c, ok ? arg[1] : arg[0]);
 
 			return arg;
 

@@ -45,7 +45,7 @@ public class CmdNormal extends CommandProcessor {
 			if (arg[3] instanceof BooleanValue) {
 				cumulative = (BooleanValue) arg[3];
 			} else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 			// fall through
 		case 3:
@@ -69,9 +69,9 @@ public class CmdNormal extends CommandProcessor {
 					return ret;
 
 				} else
-					throw argErr(app, c.getName(), arg[2]);
+					throw argErr(app, c, arg[2]);
 			}
-			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+			throw argErr(app, c, ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

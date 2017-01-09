@@ -55,7 +55,7 @@ public class CmdCurveCartesian3D extends CmdCurveCartesian {
 			}
 			for (int i = 0; i < n; i++) {
 				if (!ok[i])
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 			}
 
 		}

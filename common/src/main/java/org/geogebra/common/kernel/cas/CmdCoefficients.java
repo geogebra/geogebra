@@ -44,7 +44,7 @@ public class CmdCoefficients extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 			// more than one argument
 		default:

@@ -45,7 +45,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			throw argErr(app, c, ok0 ? arg[1] : arg[0]);
 		case 3:
 			arg = resArgs(c);
 			if ((ok0 = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()) {
@@ -64,7 +64,7 @@ public class CmdSetAxesRatio extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c.getName(), ok0 ? arg[1] : arg[0]);
+			throw argErr(app, c, ok0 ? arg[1] : arg[0]);
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

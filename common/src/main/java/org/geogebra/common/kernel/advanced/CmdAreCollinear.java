@@ -44,13 +44,13 @@ public class CmdAreCollinear extends CommandProcessor {
 		arg = resArgs(c);
 		if (n == 3) {
 			if (!arg[0].isGeoPoint()) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!arg[1].isGeoPoint()) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 			if (!arg[2].isGeoPoint()) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 
 			AlgoAreCollinear algo = new AlgoAreCollinear(cons,

@@ -74,7 +74,7 @@ public class CmdUnitVector extends CommandProcessor {
 	 */
 	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
 			throws MyError {
-		throw argErr(app, c.getName(), arg);
+		throw argErr(app, c, arg);
 	}
 
 	/**

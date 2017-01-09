@@ -41,9 +41,9 @@ public class CmdJoin extends CommandProcessor {
 			} else
 
 			if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 		default:
 			// try to create list of numbers

@@ -46,7 +46,7 @@ public class CmdDerivative extends CommandProcessor {
 				GeoElement[] ret = { derivative(label, f, null, null, info) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			boolean suppress = cons.isSuppressLabelsActive(); // we need to
@@ -138,7 +138,7 @@ public class CmdDerivative extends CommandProcessor {
 			}
 
 			// if we get here, the first argument must have been wrong
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 3:
 			// Derivative[ f(a,b), a, 2 ]
@@ -169,7 +169,7 @@ public class CmdDerivative extends CommandProcessor {
 				return ret;
 			}
 			// if we get here, the first argument must have been wrong
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -37,7 +37,7 @@ public class CmdCircumcircleArc extends CommandProcessor {
 						getArc(c.getLabel(), arg[0], arg[1], arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

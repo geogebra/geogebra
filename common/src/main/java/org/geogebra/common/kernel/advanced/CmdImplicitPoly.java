@@ -67,7 +67,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 			} else {
 				Log.debug(arg[0] + ": " + arg[0].getGeoClassType() + "; "
 						+ arg[0].getClass());
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 			// more than one argument
@@ -78,7 +78,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 			for (int i = 0; i < n; i++) {
 				if (!arg[i].isGeoPoint()) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 			}
 
@@ -87,7 +87,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 				GeoElement[] ret = { doCommand(c.getLabel(), list) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 	}
 }

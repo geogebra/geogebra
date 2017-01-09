@@ -47,7 +47,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 				GeoElement[] ret = { algo.getRandomPoint() };
 				return ret;
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 		} else if (n == 4 && arg[0].isNumberValue() && arg[1].isNumberValue()
 				&& arg[2].isNumberValue() && arg[3].isNumberValue()) {
@@ -63,7 +63,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 				points[i] = (GeoPointND) arg[i];
 			}

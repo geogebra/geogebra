@@ -46,7 +46,7 @@ public class CmdZoomIn extends CmdScripting {
 
 				double factor = numGeo.getDouble();
 				if (Kernel.isZero(factor))
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 
 				ev.zoom(px, py, factor, 4, true);
 
@@ -55,15 +55,15 @@ public class CmdZoomIn extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 2:
 			arg = resArgs(c);
-			return zoomIn2(arg, c.getName(), arg[0].evaluateDouble(), this);
+			return zoomIn2(arg, c, arg[0].evaluateDouble(), this);
 		case 4:
 			arg = resArgs(c);
 			for (int i = 0; i < 3; i++) {
 				if (!(arg[i] instanceof NumberValue)) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 			}
 			EuclidianSettings evs = app.getActiveEuclidianView().getSettings();
@@ -90,7 +90,7 @@ public class CmdZoomIn extends CmdScripting {
 	 *            command processor
 	 * @return args to delete
 	 */
-	protected static GeoElement[] zoomIn2(GeoElement[] arg, String cName,
+	protected static GeoElement[] zoomIn2(GeoElement[] arg, Command c,
 			double factor, CmdScripting proc) {
 
 		boolean ok0;
@@ -113,6 +113,6 @@ public class CmdZoomIn extends CmdScripting {
 			return arg;
 
 		}
-		throw proc.argErr(proc.getApp(), cName, ok0 ? arg[1] : arg[0]);
+		throw proc.argErr(proc.getApp(), c, ok0 ? arg[1] : arg[0]);
 	}
 }

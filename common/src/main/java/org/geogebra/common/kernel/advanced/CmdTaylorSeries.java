@@ -43,7 +43,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 				GeoElement[] ret = { algo.getPolynomial() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), null);
+			throw argErr(app, c, null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

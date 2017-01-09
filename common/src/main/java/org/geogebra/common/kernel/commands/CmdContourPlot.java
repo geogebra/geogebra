@@ -49,11 +49,11 @@ public class CmdContourPlot extends CommandProcessor {
 						app.getActiveEuclidianView().getYmax(),
 						arg[1].evaluateDouble());
 			} else {
-				throw this.argErr(app, c.getName(), arg[1]);
+				throw this.argErr(app, c, arg[1]);
 			}
 			return algo.getOutput();
 		}
-		throw this.argErr(app, c.getName(), arg[0]);
+		throw this.argErr(app, c, arg[0]);
 
 	}
 

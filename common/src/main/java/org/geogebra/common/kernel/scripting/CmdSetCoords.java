@@ -40,7 +40,7 @@ public class CmdSetCoords extends CmdScripting {
 			double y = getDouble(arg[2], c);
 
 			if (!setCoords(arg[0], x, y)) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			return arg;
 		case 4:
@@ -53,7 +53,7 @@ public class CmdSetCoords extends CmdScripting {
 			double z = getDouble(arg[3], c);
 
 			if (!setCoords(arg[0], x, y, z)) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			return arg;
 		default:
@@ -63,7 +63,7 @@ public class CmdSetCoords extends CmdScripting {
 
 	private double getDouble(GeoElement geo, Command c) {
 		if (!geo.isNumberValue()) {
-			throw argErr(app, c.getName(), geo);
+			throw argErr(app, c, geo);
 		}
 		return geo.evaluateDouble();
 	}

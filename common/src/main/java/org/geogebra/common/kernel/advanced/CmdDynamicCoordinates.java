@@ -45,11 +45,11 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;
 			} else if (!ok[0]) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			} else {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 
 		case 4:
@@ -67,13 +67,13 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 				GeoElement[] ret = { (GeoElement) algo.getPoint() };
 				return ret;
 			} else if (!ok[0]) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			} else if (!ok[2]) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			} else {
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 			}
 
 		default:

@@ -92,7 +92,7 @@ public class CmdLength extends CommandProcessor {
 				return ret;
 
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 			// Victor Franco 18-04-2007
@@ -149,7 +149,7 @@ public class CmdLength extends CommandProcessor {
 
 			else {
 
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 			}
 
 			// Victor Franco 18-04-2007 (end)

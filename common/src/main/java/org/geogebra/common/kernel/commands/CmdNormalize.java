@@ -43,7 +43,7 @@ public class CmdNormalize extends CommandProcessor {
 				return ret;
 
 			} else if (!(arg[0] instanceof VectorValue))
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 		default:
 

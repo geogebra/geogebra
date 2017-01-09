@@ -28,7 +28,7 @@ public class CmdImplicitDerivative extends CommandProcessor {
 		if (args.length != 1)
 			throw argNumErr(app, c.getName(), args.length);
 		if (!(args[0] instanceof FunctionalNVar))
-			throw argErr(app, c.getName(), args[0]);
+			throw argErr(app, c, args[0]);
 
 		AlgoImplicitDerivative algo = new AlgoImplicitDerivative(cons,
 				c.getLabel(), (FunctionalNVar) args[0]);

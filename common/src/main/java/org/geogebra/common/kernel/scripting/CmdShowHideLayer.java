@@ -56,7 +56,7 @@ public class CmdShowHideLayer extends CmdScripting {
 				return arg;
 
 			}
-			throw argErr(app, c.getName(), null);
+			throw argErr(app, c, null);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

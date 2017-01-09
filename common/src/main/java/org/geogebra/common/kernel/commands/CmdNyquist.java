@@ -42,10 +42,10 @@ public class CmdNyquist extends CommandProcessor {
 		switch (n) {
 		case 2:
 			if (!arg[0].isGeoList()) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!arg[1].isGeoList()) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 			AlgoTransferFunction algo = new AlgoTransferFunction(cons,
 					c.getLabel(), (GeoList) arg[0], (GeoList) arg[1]);
@@ -53,10 +53,10 @@ public class CmdNyquist extends CommandProcessor {
 			return ret;
 		case 3:
 			if (!arg[0].isGeoList()) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!arg[1].isGeoList()) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 			if (arg[2] instanceof GeoNumberValue) {
 				algo = new AlgoTransferFunction(cons, c.getLabel(),
@@ -66,7 +66,7 @@ public class CmdNyquist extends CommandProcessor {
 				ret[0] = algo.getResult();
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[2]);
+			throw argErr(app, c, arg[2]);
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

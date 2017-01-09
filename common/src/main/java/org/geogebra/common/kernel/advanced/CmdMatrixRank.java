@@ -31,7 +31,7 @@ public class CmdMatrixRank extends CommandProcessor {
 		if (args.length != 1)
 			throw argNumErr(app, c.getName(), args.length);
 		if (!args[0].isGeoList())
-			throw argErr(app, c.getName(), args[0]);
+			throw argErr(app, c, args[0]);
 
 		AlgoMatrixRank algo = new AlgoMatrixRank(cons, c.getLabel(),
 				(GeoList) args[0]);

@@ -294,7 +294,7 @@ public abstract class CommandProcessor {
 		// check if there is a local variable in arguments
 		String localVarName = c.getVariableName(varPos);
 		if (localVarName == null) {
-			throw argErr(app, c.getName(), c.getArgument(varPos));
+			throw argErr(app, c, c.getArgument(varPos));
 		}
 		// imaginary unit as local variable name
 		else if (localVarName.equals(Unicode.IMAGINARY)) {
@@ -389,7 +389,7 @@ public abstract class CommandProcessor {
 			}
 
 			if (localVarName == null) {
-				throw argErr(app, c.getName(), c.getArgument(varPos));
+				throw argErr(app, c, c.getArgument(varPos));
 			}
 
 			// add local variable name to construction
@@ -452,7 +452,7 @@ public abstract class CommandProcessor {
 		EvalInfo argInfo = new EvalInfo(false);
 		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo)[0];
 		if (geo != null && !(geo instanceof GeoList)) {
-			throw argErr(app, c.getName(), c.getArgument(numArgs - 2));
+			throw argErr(app, c, c.getArgument(numArgs - 2));
 		}
 		GeoList gl = (GeoList) geo;
 		GeoElement num = null;
@@ -480,7 +480,7 @@ public abstract class CommandProcessor {
 			}
 
 			if (localVarName == null) {
-				throw argErr(app, c.getName(), c.getArgument(varPos));
+				throw argErr(app, c, c.getArgument(varPos));
 			}
 
 			// add local variable name to construction
@@ -551,7 +551,7 @@ public abstract class CommandProcessor {
 			// check if there is a local variable in arguments
 			localVarName[i] = c.getVariableName(varPos[i]);
 			if (localVarName[i] == null) {
-				throw argErr(app, c.getName(), c.getArgument(varPos[i]));
+				throw argErr(app, c, c.getArgument(varPos[i]));
 			}
 			// imaginary unit as local variable name
 			else if (localVarName[i].equals(Unicode.IMAGINARY)) {
@@ -623,9 +623,13 @@ public abstract class CommandProcessor {
 	 *            faulty argument
 	 * @return wrong argument error
 	 */
-	public final MyError argErr(App app1, String cmd, ExpressionValue arg) {
-		return argErr(app1.getLocalization(), cmd, arg);
+	public final MyError argErr(App app1, Command cmd, ExpressionValue arg) {
+		return argErr(app1.getLocalization(), cmd.getName(), arg);
+	}
 
+	@Deprecated
+	public final MyError argErr(App app1, String cmdName, ExpressionValue arg) {
+		return argErr(app1.getLocalization(), cmdName, arg);
 	}
 
 	/**
@@ -692,6 +696,10 @@ public abstract class CommandProcessor {
 			sb.setLength(0);
 		getCommandSyntax(sb, app1.getLocalization(), cmd, argNumber);
 		return new MyError(app1.getLocalization(), sb.toString(), cmd, null);
+	}
+
+	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
+		return argNumErr(app1, cmd.getName(), argNumber);
 	}
 
 	/**
@@ -867,14 +875,14 @@ public abstract class CommandProcessor {
 	 * @param j
 	 *            index of independent argument
 	 */
-	protected void checkDependency(GeoElement[] arg, String name, int i,
+	protected void checkDependency(GeoElement[] arg, Command c, int i,
 			int j) {
 		if (arg[i].isChildOrEqual(arg[j])) {
 			if (kernelA.getConstruction().isFileLoading()) {
 				// make sure old files can be loaded (and fixed)
-				Log.warn("wrong dependency in " + name);
+				Log.warn("wrong dependency in " + c.getName());
 			} else {
-				throw argErr(app, name, arg[i]);
+				throw argErr(app, c, arg[i]);
 			}
 		}
 
@@ -906,7 +914,7 @@ public abstract class CommandProcessor {
 	 * @return throws error
 	 */
 	protected final MyError argErr(GeoElement geo, Command c) {
-		return argErr(app, c.getName(), geo);
+		return argErr(app, c, geo);
 	}
 
 	/**

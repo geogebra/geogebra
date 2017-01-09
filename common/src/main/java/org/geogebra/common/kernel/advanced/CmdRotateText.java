@@ -40,7 +40,7 @@ public class CmdRotateText extends CommandProcessor {
 				return new GeoElement[] { algo.getResult() };
 
 			}
-			throw argErr(app, c.getName(), ok[0] ? arg[1] : arg[0]);
+			throw argErr(app, c, ok[0] ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

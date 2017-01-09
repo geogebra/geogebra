@@ -43,13 +43,13 @@ public class CmdChiSquared extends CommandProcessor {
 
 			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
 					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 
 			if (arg[2].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[2];
 			} else
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 
 			// fall through
 		case 2:
@@ -68,10 +68,10 @@ public class CmdChiSquared extends CommandProcessor {
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[1]);
 
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

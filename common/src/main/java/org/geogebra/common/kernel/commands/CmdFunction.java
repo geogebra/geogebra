@@ -62,7 +62,7 @@ public class CmdFunction extends CommandProcessor {
 				GeoElement[] ret = { algo.getFunction() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 4:
 			varName = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			c.setArgument(1, c.getArgument(2));
@@ -140,7 +140,7 @@ public class CmdFunction extends CommandProcessor {
 					return new GeoElement[] { gf };
 
 				}
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 
 			}
 
@@ -180,9 +180,9 @@ public class CmdFunction extends CommandProcessor {
 					GeoElement high = kernelA.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(2), silent)[0];
 					if (!(low instanceof NumberValue))
-						throw argErr(app, c.getName(), low);
+						throw argErr(app, c, low);
 					if (!(high instanceof NumberValue))
-						throw argErr(app, c.getName(), high);
+						throw argErr(app, c, high);
 					c.getArgument(1).replaceVariables(varName, fv);
 					c.getArgument(0).resolveVariables(argInfo);
 
@@ -200,7 +200,7 @@ public class CmdFunction extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

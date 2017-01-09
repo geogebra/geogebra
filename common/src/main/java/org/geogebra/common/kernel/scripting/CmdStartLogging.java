@@ -54,7 +54,7 @@ public class CmdStartLogging extends CmdScripting {
 			for (int i = offset; i <= n - 2; i += 2) {
 				argument = arg[i + 1];
 				if (!(arg[i] instanceof GeoText)) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 				String varName = ((GeoText) arg[i]).getTextString();
 				if (argument instanceof GeoNumeric
@@ -85,7 +85,7 @@ public class CmdStartLogging extends CmdScripting {
 								(GeoFunction) argument);
 					}
 				} else {
-					throw argErr(app, c.getName(), argument);
+					throw argErr(app, c, argument);
 				}
 				if (!argument.isLabelSet()) {
 					argument.setLabel(varName);

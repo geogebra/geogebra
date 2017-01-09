@@ -46,7 +46,7 @@ public class CmdIncircle extends CommandProcessor {
 				GeoElement[] ret = { circle };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

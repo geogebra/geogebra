@@ -38,7 +38,7 @@ public class CmdScientificText extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
+			throw argErr(app, c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
 		case 2:
 
 			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
@@ -47,7 +47,7 @@ public class CmdScientificText extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
+			throw argErr(app, c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

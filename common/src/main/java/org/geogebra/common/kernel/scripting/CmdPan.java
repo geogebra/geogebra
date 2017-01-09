@@ -43,9 +43,9 @@ public class CmdPan extends CmdScripting {
 
 				return arg;
 			} else if (!ok)
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 		case 3:
 			arg = resArgs(c);
 			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()
@@ -62,9 +62,9 @@ public class CmdPan extends CmdScripting {
 
 				return arg;
 			} else if (!ok)
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

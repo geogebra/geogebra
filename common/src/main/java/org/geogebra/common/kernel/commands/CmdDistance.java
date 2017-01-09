@@ -66,8 +66,8 @@ public class CmdDistance extends CommandProcessor {
 			// syntax error
 			else {
 				if (ok[0] && !ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[1]);
+				throw argErr(app, c, arg[0]);
 			}
 
 		default:

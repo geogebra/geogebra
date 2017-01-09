@@ -44,7 +44,7 @@ public class CmdFirst extends CommandProcessor {
 						First(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 		case 2:
 			boolean list = arg[0].isGeoList();
 			boolean string = arg[0].isGeoText();
@@ -65,7 +65,7 @@ public class CmdFirst extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
-				throw argErr(app, c.getName(),
+				throw argErr(app, c,
 						(list && string) ? arg[1] : arg[0]);
 
 		default:

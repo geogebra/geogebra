@@ -49,7 +49,7 @@ public class CmdFitImplicit extends CommandProcessor {
 				GeoElement[] ret = { algo.getFit().toGeoElement() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 

@@ -42,14 +42,14 @@ public class CmdStemPlot extends CommandProcessor {
 				GeoElement[] ret = { StemPlot(c.getLabel(), list, null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			if (!arg[0].isGeoList()) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!arg[1].isGeoNumeric()) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 
 			GeoElement[] ret = { StemPlot(c.getLabel(), (GeoList) arg[0],
@@ -68,7 +68,7 @@ public class CmdStemPlot extends CommandProcessor {
 				return ret2;
 			}
 
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 	}
 

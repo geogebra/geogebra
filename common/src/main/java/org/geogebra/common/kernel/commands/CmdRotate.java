@@ -84,7 +84,7 @@ public class CmdRotate extends CommandProcessor {
 			return Rotate(c.getLabel(), arg[0], phi);
 		}
 
-		throw argErr(app, c.getName(), arg[0]);
+		throw argErr(app, c, arg[0]);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class CmdRotate extends CommandProcessor {
 			return getAlgoDispatcher().Rotate(c.getLabel(), arg[0], phi, Q);
 		}
 
-		throw argErr(app, c.getName(), getBadArg(ok, arg));
+		throw argErr(app, c, getBadArg(ok, arg));
 	}
 
 	/**

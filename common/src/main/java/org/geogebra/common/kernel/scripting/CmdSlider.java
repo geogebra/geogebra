@@ -38,10 +38,10 @@ public class CmdSlider extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		for (int i = 0; i < Math.min(n, 5); i++)
 			if (!(arg[i] instanceof GeoNumberValue))
-				throw argErr(app, c.getName(), arg[i]);
+				throw argErr(app, c, arg[i]);
 		for (int i = 5; i < n; i++)
 			if (!(arg[i] instanceof BooleanValue))
-				throw argErr(app, c.getName(), arg[i]);
+				throw argErr(app, c, arg[i]);
 
 		GeoNumeric slider = null;
 

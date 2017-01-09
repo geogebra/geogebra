@@ -62,7 +62,7 @@ public class CmdSum extends CommandProcessor {
 		}
 
 		// this is bad - list can be saved later with size 0
-		// if (size == 0) throw argErr(app, c.getName(), arg[0]);
+		// if (size == 0) throw argErr(app, c, arg[0]);
 
 		switch (n) {
 		case 1:
@@ -73,7 +73,7 @@ public class CmdSum extends CommandProcessor {
 				GeoElement[] ret = { Sum(c.getLabel(), list, null, fold) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			if (arg[1].isGeoNumeric()) {
@@ -89,7 +89,7 @@ public class CmdSum extends CommandProcessor {
 							(GeoNumeric) arg[1], fold) };
 					return ret;
 				} else {
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				}
 			} else if (arg[1].isGeoList()) {
 				if (((GeoList) arg[0])
@@ -101,9 +101,9 @@ public class CmdSum extends CommandProcessor {
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				}
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			// try to create list of numbers

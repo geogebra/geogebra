@@ -44,13 +44,13 @@ public class CmdAreConcurrent extends CommandProcessor {
 		arg = resArgs(c);
 		if (n == 3) {
 			if (!(arg[0] instanceof GeoLine)) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			if (!(arg[1] instanceof GeoLine)) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 			if (!(arg[2] instanceof GeoLine)) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 
 			AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, c.getLabel(),

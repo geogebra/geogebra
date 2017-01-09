@@ -42,7 +42,7 @@ public class CmdPoisson extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -65,9 +65,9 @@ public class CmdPoisson extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 		case 3:
 			arg = resArgs(c);
@@ -83,11 +83,11 @@ public class CmdPoisson extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

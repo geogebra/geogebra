@@ -43,8 +43,8 @@ public class CmdPyramid extends CommandProcessor {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[0]);
+				throw argErr(app, c, arg[1]);
 			}
 		} else if (n > 2) {
 			// polygon for given points
@@ -52,7 +52,7 @@ public class CmdPyramid extends CommandProcessor {
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 				points[i] = (GeoPointND) arg[i];
 			}

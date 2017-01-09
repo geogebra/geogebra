@@ -38,7 +38,7 @@ public class CmdFocus extends CommandProcessor {
 				return (GeoElement[]) algo.getFocus();
 
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

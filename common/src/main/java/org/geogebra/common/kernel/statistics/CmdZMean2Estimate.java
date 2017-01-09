@@ -47,7 +47,7 @@ public class CmdZMean2Estimate extends CommandProcessor {
 
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 7:
 			if ((ok[0] = arg[0].isGeoNumeric())
@@ -69,7 +69,7 @@ public class CmdZMean2Estimate extends CommandProcessor {
 
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

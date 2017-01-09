@@ -45,7 +45,7 @@ public class CmdTake extends CommandProcessor {
 						(GeoNumeric) arg[1], null) };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3:
 
@@ -61,7 +61,7 @@ public class CmdTake extends CommandProcessor {
 						(GeoNumeric) arg[1], (GeoNumeric) arg[2]) };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

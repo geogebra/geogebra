@@ -45,7 +45,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoFunction gf = ((GeoFunctionable) arg[0]).getGeoFunction();
 				return Root(c, gf);
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 			// root with start value
 		case 2:
@@ -60,7 +60,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 			// root in interval
 		case 3:
@@ -76,7 +76,7 @@ public class CmdRoot extends CommandProcessor {
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -104,7 +104,7 @@ public class CmdRoot extends CommandProcessor {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.getConstruction().isFileLoading()
 				&& !f.isPolynomialFunction(true) && f.isDefined())
-			throw argErr(app, c.getName(), f);
+			throw argErr(app, c, f);
 
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
 				f);

@@ -73,7 +73,7 @@ public class CmdRotate3D extends CmdRotate {
 						(GeoDirectionND) arg[3]);
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		}
 

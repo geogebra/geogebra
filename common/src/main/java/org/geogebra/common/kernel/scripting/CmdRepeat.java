@@ -36,7 +36,7 @@ public class CmdRepeat extends CmdScripting {
 
 			int loopMax = (int) arg[0].evaluateDouble();
 			if (loopMax < 1) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 			for (int loop = 0; loop < loopMax; loop++) {
@@ -47,14 +47,14 @@ public class CmdRepeat extends CmdScripting {
 						GeoScriptAction script = (GeoScriptAction) arg[object];
 						script.perform();
 					} else {
-						throw argErr(app, c.getName(), arg[object]);
+						throw argErr(app, c, arg[object]);
 					}
 				}
 			}
 
 			return arg;
 		}
-		throw argErr(app, c.getName(), arg[0]);
+		throw argErr(app, c, arg[0]);
 
 	}
 }

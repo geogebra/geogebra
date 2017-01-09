@@ -42,9 +42,9 @@ public class CmdAngularBisector extends CommandProcessor {
 						(GeoLineND) arg[1]);
 			}
 			if (!ok[0]) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
-			throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c, arg[1]);
 
 		case 3:
 
@@ -58,11 +58,11 @@ public class CmdAngularBisector extends CommandProcessor {
 				return ret;
 			}
 			if (!ok[0]) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			} else if (!ok[1]) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			} else {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 		case 4:
 			return process4(arg, ok, c);

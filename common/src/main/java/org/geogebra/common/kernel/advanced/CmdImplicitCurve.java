@@ -37,7 +37,7 @@ public class CmdImplicitCurve extends CommandProcessor {
 				return new GeoElement[] {
 						getAlgoDispatcher().ImplicitCurve(c.getLabel(), func) };
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 		throw argNumErr(app, c.getName(), n);
 	}

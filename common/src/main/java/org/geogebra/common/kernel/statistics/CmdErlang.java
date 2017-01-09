@@ -42,13 +42,13 @@ public class CmdErlang extends CommandProcessor {
 		case 4:
 			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
 					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[3];
 			} else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 			// fall through
 		case 3:
@@ -70,12 +70,12 @@ public class CmdErlang extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else
-					throw argErr(app, c.getName(), arg[2]);
+					throw argErr(app, c, arg[2]);
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

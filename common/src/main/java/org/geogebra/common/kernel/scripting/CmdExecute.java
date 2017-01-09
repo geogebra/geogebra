@@ -36,7 +36,7 @@ public class CmdExecute extends CmdScripting {
 			return new GeoElement[] {};
 		if ((!arg[0].isGeoList()) || (!((GeoList) arg[0])
 				.getGeoElementForPropertiesDialog().isGeoText()))
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		GeoList list = (GeoList) arg[0];
 
 		// this is new in GeoGebra 4.2 and it will stop some files working

@@ -46,7 +46,7 @@ public class CmdZMeanTest extends CommandProcessor {
 
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 5:
 			if ((ok[0] = arg[0].isGeoNumeric())
@@ -65,7 +65,7 @@ public class CmdZMeanTest extends CommandProcessor {
 
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

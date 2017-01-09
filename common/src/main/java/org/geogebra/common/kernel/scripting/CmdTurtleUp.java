@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
@@ -20,7 +21,7 @@ public class CmdTurtleUp extends CmdTurtleCommand {
 	}
 
 	@Override
-	protected void performTurtleCommand(String cname, GeoElement[] args)
+	protected void performTurtleCommand(Command c, GeoElement[] args)
 			throws MyError {
 		getTurtle(args).setPenDown(false);
 	}

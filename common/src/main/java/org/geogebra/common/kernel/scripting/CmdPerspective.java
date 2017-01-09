@@ -33,7 +33,7 @@ public class CmdPerspective extends CmdScripting {
 			return args;
 		}
 
-		throw this.argErr(app, c.getName(), args[0]);
+		throw this.argErr(app, c, args[0]);
 	}
 
 }

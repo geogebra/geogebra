@@ -71,8 +71,8 @@ public class CmdCircle extends CommandProcessor {
 			return ret;
 		} else {
 			if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
-			throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[0]);
+			throw argErr(app, c, arg[1]);
 		}
 
 	}
@@ -127,7 +127,7 @@ public class CmdCircle extends CommandProcessor {
 					(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 			return ret;
 		}
-		throw argErr(app, c.getName(), getBadArg(ok, arg));
+		throw argErr(app, c, getBadArg(ok, arg));
 
 	}
 

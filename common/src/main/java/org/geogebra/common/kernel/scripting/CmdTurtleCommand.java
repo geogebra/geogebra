@@ -44,13 +44,13 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	 * @throws MyError
 	 *             thrown can't be done
 	 */
-	protected final double getNumArg(String cname, GeoElement[] args)
+	protected final double getNumArg(Command c, GeoElement[] args)
 			throws MyError {
 		if (args.length != 2) {
-			throw argNumErr(app, cname, args.length);
+			throw argNumErr(app, c, args.length);
 		}
 		if (!(args[1] instanceof NumberValue)) {
-			throw argErr(app, cname, args[1]);
+			throw argErr(app, c, args[1]);
 		}
 		return ((NumberValue) args[1]).getDouble();
 	}
@@ -65,7 +65,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	 * @throws MyError
 	 *             possible error
 	 */
-	protected abstract void performTurtleCommand(String cname,
+	protected abstract void performTurtleCommand(Command c,
 			GeoElement[] args) throws MyError;
 
 	@Override
@@ -76,9 +76,9 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 		}
 		GeoElement[] args = resArgs(c);
 		if (!args[0].isGeoTurtle()) {
-			throw argErr(app, c.getName(), args[0]);
+			throw argErr(app, c, args[0]);
 		}
-		performTurtleCommand(c.getName(), args);
+		performTurtleCommand(c, args);
 		return args;
 	}
 }

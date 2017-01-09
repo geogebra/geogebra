@@ -43,7 +43,7 @@ public class CmdContingencyTable extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
@@ -66,7 +66,7 @@ public class CmdContingencyTable extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 4:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
@@ -79,7 +79,7 @@ public class CmdContingencyTable extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

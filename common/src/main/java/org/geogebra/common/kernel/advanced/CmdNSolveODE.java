@@ -33,28 +33,28 @@ public class CmdNSolveODE extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (!arg[0].isGeoList()) {
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 		if (!arg[2].isGeoList()) {
-			throw argErr(app, c.getName(), arg[2]);
+			throw argErr(app, c, arg[2]);
 		}
 		int dim1 = ((GeoList) arg[0]).size();
 		int dim2 = ((GeoList) arg[2]).size();
 		for (int i = 0; i < dim1; i++) {
 			if (!(((GeoList) arg[0]).get(i) instanceof FunctionalNVar)) {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 		}
 		for (int i = 0; i < dim2; i++) {
 			if (!(((GeoList) arg[2]).get(i)).isGeoNumeric()) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 		}
 		if (dim1 != dim2) {
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 		if (dim1 == 0) {
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 
 		if (n == 4) {
@@ -68,7 +68,7 @@ public class CmdNSolveODE extends CommandProcessor {
 						(GeoNumeric) arg[3]);
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		}
 		throw argNumErr(app, c.getName(), n);
 	}

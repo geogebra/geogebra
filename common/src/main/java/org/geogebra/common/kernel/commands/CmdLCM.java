@@ -42,7 +42,7 @@ public class CmdLCM extends CommandProcessor {
 				GeoElement[] ret = { algo.getLCM() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -56,7 +56,7 @@ public class CmdLCM extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

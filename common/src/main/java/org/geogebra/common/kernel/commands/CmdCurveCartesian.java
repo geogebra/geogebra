@@ -72,8 +72,8 @@ public class CmdCurveCartesian extends CommandProcessor {
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
 
 				// make sure Curve[i,i,i,i,i] gives an error
-				checkDependency(arg, c.getName(), 3, 2);
-				checkDependency(arg, c.getName(), 4, 2);
+				checkDependency(arg, c, 3, 2);
+				checkDependency(arg, c, 4, 2);
 
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, null,
 						new GeoNumberValue[] { (GeoNumberValue) arg[0],
@@ -87,7 +87,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 			}
 			for (int i = 0; i < n; i++) {
 				if (!ok[i])
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 			}
 
 		default:

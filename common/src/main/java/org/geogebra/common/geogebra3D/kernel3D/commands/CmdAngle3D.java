@@ -63,7 +63,7 @@ public class CmdAngle3D extends CmdAngle {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		}
 
 		return super.process(c, n, ok);

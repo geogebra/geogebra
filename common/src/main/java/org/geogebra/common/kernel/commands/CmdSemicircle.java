@@ -37,7 +37,7 @@ public class CmdSemicircle extends CommandProcessor {
 						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3:
 			arg = resArgs(c);

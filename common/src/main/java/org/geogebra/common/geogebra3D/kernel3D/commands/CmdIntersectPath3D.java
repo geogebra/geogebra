@@ -121,7 +121,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				return new GeoElement[] { ret };
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			return super.process(c);

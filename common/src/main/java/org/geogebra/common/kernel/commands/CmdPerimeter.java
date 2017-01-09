@@ -55,7 +55,7 @@ public class CmdPerimeter extends CommandProcessor {
 				return ret;
 
 			} else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -50,7 +50,7 @@ public class CmdSimplify extends CommandProcessor {
 						(GeoText) arg[0]);
 
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 			GeoElement[] ret = { algo.getOutput(0) };
 			return ret;

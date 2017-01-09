@@ -40,7 +40,7 @@ public class CmdTextfield extends CommandProcessor {
 				return new GeoElement[] {
 						getAlgoDispatcher().textfield(c.getLabel(), arg[0]) };
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 0:
 			return new GeoElement[] {
 					getAlgoDispatcher().textfield(c.getLabel(), null) };

@@ -60,7 +60,7 @@ public class CmdPoint extends CommandProcessor {
 						(Path) arg[0], null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -77,8 +77,8 @@ public class CmdPoint extends CommandProcessor {
 				return ret;
 			} else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[0]);
+				throw argErr(app, c, arg[1]);
 			}
 
 		default:

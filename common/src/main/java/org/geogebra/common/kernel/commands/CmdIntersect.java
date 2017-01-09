@@ -411,8 +411,8 @@ public class CmdIntersect extends CommandProcessor {
 
 			else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[0]);
+				throw argErr(app, c, arg[1]);
 			}
 
 		case 3: // only one of the intersection points: the third argument
@@ -480,7 +480,7 @@ public class CmdIntersect extends CommandProcessor {
 								(GeoLine) arg[1], (GeoNumberValue) arg[2]);
 
 				if (ret == null) {
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				}
 
 				return new GeoElement[] { ret };
@@ -497,7 +497,7 @@ public class CmdIntersect extends CommandProcessor {
 								(GeoLine) arg[0], (GeoNumberValue) arg[2]);
 
 				if (ret == null) {
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				}
 
 				return new GeoElement[] { ret };
@@ -555,7 +555,7 @@ public class CmdIntersect extends CommandProcessor {
 						(GeoNumberValue) arg[2]);
 
 				if (ret == null) {
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				}
 
 				return new GeoElement[] { ret };
@@ -572,7 +572,7 @@ public class CmdIntersect extends CommandProcessor {
 						(GeoNumberValue) arg[2]);
 
 				if (ret == null) {
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[1]);
 				}
 
 				return new GeoElement[] { ret };
@@ -672,11 +672,11 @@ public class CmdIntersect extends CommandProcessor {
 			// Syntax Error
 			else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[1]);
 				else
-					throw argErr(app, c.getName(), arg[2]);
+					throw argErr(app, c, arg[2]);
 			}
 
 		case 4:
@@ -704,7 +704,7 @@ public class CmdIntersect extends CommandProcessor {
 						(GeoNumberValue) arg[3]);
 				return algo.getOutput();
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -868,11 +868,11 @@ public class CmdIntersect extends CommandProcessor {
 
 		if (!a.getConstruction().isFileLoading()
 				&& !a.isPolynomialFunction(false)) {
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		}
 		if (!b.getConstruction().isFileLoading()
 				&& !b.isPolynomialFunction(false)) {
-			throw argErr(app, c.getName(), arg[1]);
+			throw argErr(app, c, arg[1]);
 		}
 
 		AlgoIntersectPolynomials algo = getAlgoDispatcher()

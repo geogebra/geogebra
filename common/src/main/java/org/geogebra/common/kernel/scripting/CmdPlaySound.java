@@ -56,7 +56,7 @@ public class CmdPlaySound extends CmdScripting {
 				sm.pauseResumeSound((((GeoBoolean) arg[0]).getBoolean()));
 				return arg;
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 		case 2:
@@ -84,7 +84,7 @@ public class CmdPlaySound extends CmdScripting {
 				return arg;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3:
 			arg = resArgs(c);
@@ -112,7 +112,7 @@ public class CmdPlaySound extends CmdScripting {
 				return arg;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 5:
 			arg = resArgs(c);
@@ -131,7 +131,7 @@ public class CmdPlaySound extends CmdScripting {
 
 				return arg;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

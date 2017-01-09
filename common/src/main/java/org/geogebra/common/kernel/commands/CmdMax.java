@@ -51,7 +51,7 @@ public class CmdMax extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -74,7 +74,7 @@ public class CmdMax extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 3: // Max[f,a,b]
 			arg = resArgs(c);
@@ -90,7 +90,7 @@ public class CmdMax extends CommandProcessor {
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

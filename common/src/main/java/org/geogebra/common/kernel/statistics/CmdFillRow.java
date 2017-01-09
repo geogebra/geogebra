@@ -38,7 +38,7 @@ public class CmdFillRow extends CommandProcessor {
 				int row = -1 + (int) ((GeoNumeric) arg[0]).getDouble();
 
 				if (row < 0 || row > Kernel.MAX_SPREADSHEET_ROWS_DESKTOP)
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 
 				GeoList list = (GeoList) arg[1];
 
@@ -56,7 +56,7 @@ public class CmdFillRow extends CommandProcessor {
 								.setSpreadsheetCell(app, row, col, cellGeo);
 					} catch (Exception e) {
 						e.printStackTrace();
-						throw argErr(app, c.getName(), arg[1]);
+						throw argErr(app, c, arg[1]);
 					}
 
 				}
@@ -65,9 +65,9 @@ public class CmdFillRow extends CommandProcessor {
 				return ret;
 
 			} else if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

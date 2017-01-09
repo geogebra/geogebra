@@ -86,7 +86,7 @@ public class CmdPolygon extends CommandProcessor {
 			boolean is3D = false;
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint()))
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				points[i] = (GeoPointND) arg[i];
 				is3D = checkIs3D(is3D, arg[i]);
 			}

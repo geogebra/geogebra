@@ -50,7 +50,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 						(GeoPointND) arg[1], (GeoPointND) arg[2]) };
 				return ret;
 			} else {
-				throw argErr(app, c.getName(), getBadArg(ok, arg));
+				throw argErr(app, c, getBadArg(ok, arg));
 			}
 
 		case 4:

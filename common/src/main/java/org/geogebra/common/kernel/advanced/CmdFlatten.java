@@ -41,6 +41,6 @@ public class CmdFlatten extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
-		throw argErr(app, c.getName(), arg);
+		throw argErr(app, c, arg);
 	}
 }

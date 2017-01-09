@@ -41,13 +41,13 @@ public class CmdLogistic extends CommandProcessor {
 		case 4:
 			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
 					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			}
 
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[3];
 			} else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 			// fall through
 		case 3:
@@ -68,9 +68,9 @@ public class CmdLogistic extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else
-					throw argErr(app, c.getName(), arg[2]);
+					throw argErr(app, c, arg[2]);
 			}
-			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+			throw argErr(app, c, ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

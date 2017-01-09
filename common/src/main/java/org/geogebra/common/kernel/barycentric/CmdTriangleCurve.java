@@ -51,7 +51,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.addLocalVariable("C", tc);
 			if (!(c.getArgument(3).unwrap() instanceof Equation)) {
 				clearLocal();
-				throw argErr(app, c.getName(), c.getArgument(3));
+				throw argErr(app, c, c.getArgument(3));
 			}
 			// need to allow constants as A+B=C does not include x
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -76,7 +76,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 			}
 			clearLocal();
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			clearLocal();

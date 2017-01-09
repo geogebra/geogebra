@@ -34,20 +34,12 @@ public class CmdQuadricSide extends CommandProcessor {
 				return new GeoElement[] { kernelA.getManager3D()
 						.QuadricSide(c.getLabel(), (GeoQuadricND) arg[0]) };
 			}
-			throw argErr(arg[0]);
+			throw argErr(arg[0], c);
 
 		default:
-			throw argNumErr(n);
+			throw argNumErr(n, c);
 		}
 
-	}
-
-	private MyError argErr(GeoElement geo) {
-		return argErr(app, "QuadricSide", geo);
-	}
-
-	private MyError argNumErr(int n) {
-		return argNumErr(app, "QuadricSide", n);
 	}
 
 }

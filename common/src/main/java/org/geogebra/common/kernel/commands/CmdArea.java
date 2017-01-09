@@ -50,7 +50,7 @@ public class CmdArea extends CommandProcessor {
 				GeoElement[] ret = { algo.getArea() };
 				return ret;
 			} else {
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 		}
 
@@ -62,7 +62,7 @@ public class CmdArea extends CommandProcessor {
 			// check arguments
 			for (int i = 0; i < n; i++) {
 				if (!(arg[i].isGeoPoint())) {
-					throw argErr(app, c.getName(), arg[i]);
+					throw argErr(app, c, arg[i]);
 				}
 				points[i] = (GeoPointND) arg[i];
 				if (!is3D && arg[i].isGeoElement3D()) {

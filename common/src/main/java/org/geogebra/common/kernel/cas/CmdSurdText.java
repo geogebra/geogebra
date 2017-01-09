@@ -49,7 +49,7 @@ public class CmdSurdText extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 
@@ -64,7 +64,7 @@ public class CmdSurdText extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), arg[ok0 ? 0 : 1]);
+			throw argErr(app, c, arg[ok0 ? 0 : 1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

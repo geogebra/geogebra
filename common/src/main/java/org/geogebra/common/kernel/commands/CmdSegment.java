@@ -47,8 +47,8 @@ public class CmdSegment extends CommandProcessor {
 						(GeoPointND) arg[0], (GeoNumberValue) arg[1]);
 			else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[0]);
+				throw argErr(app, c, arg[1]);
 			}
 
 		case 3: // special case for Segment[A,B,poly1] -> do nothing!

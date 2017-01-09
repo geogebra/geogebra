@@ -51,7 +51,7 @@ public class CmdLast extends CommandProcessor {
 						(GeoFunction) arg[0]);
 				return new GeoElement[] { algo.getResult() };
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			boolean list = arg[0].isGeoList();
@@ -65,7 +65,7 @@ public class CmdLast extends CommandProcessor {
 						(GeoNumeric) arg[1]) };
 				return ret;
 			} else
-				throw argErr(app, c.getName(),
+				throw argErr(app, c,
 						(list && text) ? arg[1] : arg[0]);
 
 		default:

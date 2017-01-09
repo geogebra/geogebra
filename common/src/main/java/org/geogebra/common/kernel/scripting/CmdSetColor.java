@@ -59,7 +59,7 @@ public class CmdSetColor extends CmdScripting {
 
 				// SetBackgroundColor("none") is NOT OK
 				if (col == null) {
-					throw argErr(app, c.getName(), ev);
+					throw argErr(app, c, ev);
 				}
 
 				EuclidianViewInterfaceCommon view = app
@@ -71,7 +71,7 @@ public class CmdSetColor extends CmdScripting {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw argErr(app, c.getName(), ev);
+				throw argErr(app, c, ev);
 			}
 
 		}
@@ -88,15 +88,15 @@ public class CmdSetColor extends CmdScripting {
 			double blueD = enB.evaluateDouble();
 
 			if (Double.isNaN(redD) || Double.isInfinite(redD)) {
-				throw argErr(app, c.getName(),
+				throw argErr(app, c,
 						enR.evaluate(StringTemplate.defaultTemplate));
 			}
 			if (Double.isNaN(greenD) || Double.isInfinite(greenD)) {
-				throw argErr(app, c.getName(),
+				throw argErr(app, c,
 						enG.evaluate(StringTemplate.defaultTemplate));
 			}
 			if (Double.isNaN(blueD) || Double.isInfinite(blueD)) {
-				throw argErr(app, c.getName(),
+				throw argErr(app, c,
 						enB.evaluate(StringTemplate.defaultTemplate));
 			}
 
@@ -142,7 +142,7 @@ public class CmdSetColor extends CmdScripting {
 		case 2:
 
 			if (!arg[1].isGeoText())
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 
 			try {
 
@@ -165,7 +165,7 @@ public class CmdSetColor extends CmdScripting {
 
 				// SetBackgroundColor(text1, "none") is OK
 				if (col == null && !background) {
-					throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[1]);
 				}
 
 				if (background) {
@@ -180,7 +180,7 @@ public class CmdSetColor extends CmdScripting {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 		case 4:
@@ -208,11 +208,11 @@ public class CmdSetColor extends CmdScripting {
 				return arg;
 
 			} else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else if (!ok[2])
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 			else
-				throw argErr(app, c.getName(), arg[3]);
+				throw argErr(app, c, arg[3]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

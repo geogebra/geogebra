@@ -38,7 +38,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 						(GeoNumberValue) arg[0], null, null) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 2:
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
@@ -54,7 +54,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 3:
 
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
@@ -65,7 +65,7 @@ public class CmdContinuedFraction extends CommandProcessor {
 								(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

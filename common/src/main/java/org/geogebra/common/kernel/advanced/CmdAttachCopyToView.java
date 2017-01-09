@@ -67,19 +67,19 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					if (arg[2].isGeoPoint())
 						corner1 = (GeoPointND) arg[2];
 					else
-						throw argErr(app, c.getName(), arg[2]);
+						throw argErr(app, c, arg[2]);
 					if (arg[3].isGeoPoint())
 						corner3 = (GeoPointND) arg[3];
 					else
-						throw argErr(app, c.getName(), arg[3]);
+						throw argErr(app, c, arg[3]);
 					if (arg[4].isGeoPoint())
 						screenCorner1 = (GeoPointND) arg[4];
 					else
-						throw argErr(app, c.getName(), arg[4]);
+						throw argErr(app, c, arg[4]);
 					if (arg[5].isGeoPoint())
 						screenCorner3 = (GeoPointND) arg[5];
 					else
-						throw argErr(app, c.getName(), arg[5]);
+						throw argErr(app, c, arg[5]);
 				}
 
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
@@ -100,9 +100,9 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					}
 					return ret;
 				}
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

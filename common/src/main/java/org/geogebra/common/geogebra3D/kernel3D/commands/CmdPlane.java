@@ -44,7 +44,7 @@ public class CmdPlane extends CommandProcessor {
 				return ret;
 			}
 
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
@@ -67,8 +67,8 @@ public class CmdPlane extends CommandProcessor {
 
 			} else {
 				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				throw argErr(app, c.getName(), arg[1]);
+					throw argErr(app, c, arg[0]);
+				throw argErr(app, c, arg[1]);
 			}
 
 		case 3:
@@ -100,11 +100,11 @@ public class CmdPlane extends CommandProcessor {
 			}
 
 			if (!ok[0])
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			else if (!ok[1])
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			else
-				throw argErr(app, c.getName(), arg[2]);
+				throw argErr(app, c, arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

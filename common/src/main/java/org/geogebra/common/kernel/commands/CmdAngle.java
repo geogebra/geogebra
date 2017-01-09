@@ -123,7 +123,7 @@ public class CmdAngle extends CommandProcessor {
 				}
 			}
 
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -136,9 +136,9 @@ public class CmdAngle extends CommandProcessor {
 
 			// syntax error
 			if (ok[0] && !ok[1]) {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 3:
 			arg = resArgs(c);
@@ -150,7 +150,7 @@ public class CmdAngle extends CommandProcessor {
 			}
 
 			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

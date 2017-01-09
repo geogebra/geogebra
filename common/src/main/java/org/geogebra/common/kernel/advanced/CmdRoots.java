@@ -43,7 +43,7 @@ public class CmdRoots extends CommandProcessor {
 						((GeoFunctionable) arg[0]).getGeoFunction(), view);
 				return algo.getRootPoints();
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		case 3:
 			arg = resArgs(c);
@@ -58,7 +58,7 @@ public class CmdRoots extends CommandProcessor {
 				GeoElement[] ret = algo.getRootPoints();
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

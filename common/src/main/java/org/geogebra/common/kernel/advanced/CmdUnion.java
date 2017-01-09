@@ -50,7 +50,7 @@ public class CmdUnion extends CommandProcessor {
 				return union(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);
 			} else
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

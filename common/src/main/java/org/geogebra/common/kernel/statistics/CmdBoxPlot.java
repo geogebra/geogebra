@@ -45,7 +45,7 @@ public class CmdBoxPlot extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 4:
 			arg = resArgs(c);
@@ -61,7 +61,7 @@ public class CmdBoxPlot extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
 				// Frequencies>, <Boolean Outliers> ]
@@ -80,7 +80,7 @@ public class CmdBoxPlot extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 7:
 			arg = resArgs(c);
@@ -102,7 +102,7 @@ public class CmdBoxPlot extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

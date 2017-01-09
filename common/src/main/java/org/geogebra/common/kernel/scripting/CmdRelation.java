@@ -39,7 +39,7 @@ public class CmdRelation extends CmdScripting {
 			}
 
 			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 1:
 			if (arg[0] instanceof GeoList) {
@@ -56,7 +56,7 @@ public class CmdRelation extends CmdScripting {
 						return ge;
 					}
 					// syntax error
-					throw argErr(app, c.getName(), getBadArg(ok, ge));
+					throw argErr(app, c, getBadArg(ok, ge));
 				}
 				if (ge.length == 3) {
 					if ((ok[0] = (ge[0].isGeoElement()))
@@ -66,7 +66,7 @@ public class CmdRelation extends CmdScripting {
 						return ge;
 					}
 					// syntax error
-					throw argErr(app, c.getName(), getBadArg(ok, ge));
+					throw argErr(app, c, getBadArg(ok, ge));
 				}
 				if (ge.length == 4) {
 					if ((ok[0] = (ge[0].isGeoElement()))
@@ -77,14 +77,14 @@ public class CmdRelation extends CmdScripting {
 						return ge;
 					}
 					// syntax error
-					throw argErr(app, c.getName(), getBadArg(ok, ge));
+					throw argErr(app, c, getBadArg(ok, ge));
 				}
 			}
 
 			ok = new boolean[1];
 			ok[0] = false;
 			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

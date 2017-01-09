@@ -42,7 +42,7 @@ public class CmdExtremum extends CommandProcessor {
 			ok[0] = arg[0].isGeoFunctionable();
 			if (ok[0])
 				return Extremum(c, ((GeoFunctionable) arg[0]).getGeoFunction());
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
@@ -58,7 +58,7 @@ public class CmdExtremum extends CommandProcessor {
 				return algo.getExtremumPoints();
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

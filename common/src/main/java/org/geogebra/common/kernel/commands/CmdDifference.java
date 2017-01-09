@@ -45,7 +45,7 @@ public class CmdDifference extends CommandProcessor {
 				return difference(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 		case 3:
 			if ((ok[0] = arg[0] instanceof GeoPolygon)
 					&& (ok[1] = arg[1] instanceof GeoPolygon)
@@ -59,7 +59,7 @@ public class CmdDifference extends CommandProcessor {
 						(GeoPolygon) arg[1], (GeoBoolean) arg[2]);
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), argumentNo);

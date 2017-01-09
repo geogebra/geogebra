@@ -74,7 +74,7 @@ public class CmdFitPoly extends CommandProcessor {
 
 				}
 
-				throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c, arg[0]);
 			}
 
 		default:

@@ -46,7 +46,7 @@ public class CmdButton extends CommandProcessor {
 				gb.updateRepaint();
 				return new GeoElement[] { gb };
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 		case 0:
 			GeoButton gb = new GeoButton(cons);
 			gb.setLabelVisible(true);

@@ -42,14 +42,14 @@ public class CmdToolImage extends CommandProcessor {
 			if (arg[1] instanceof GeoPoint) {
 				corner = (GeoPoint) arg[1];
 			} else {
-				throw argErr(app, c.getName(), arg[1]);
+				throw argErr(app, c, arg[1]);
 			}
 
 			if (n == 3) {
 				if (arg[2] instanceof GeoPoint) {
 					corner2 = (GeoPoint) arg[2];
 				} else {
-					throw argErr(app, c.getName(), arg[2]);
+					throw argErr(app, c, arg[2]);
 				}
 
 			}
@@ -64,7 +64,7 @@ public class CmdToolImage extends CommandProcessor {
 						.toLowerCase(EuclidianConstants.getModeText(mode));
 
 				if ("".equals(modeStr)) {
-					throw argErr(app, c.getName(), arg[0]);
+					throw argErr(app, c, arg[0]);
 				}
 
 				// TODO Fix me
@@ -102,7 +102,7 @@ public class CmdToolImage extends CommandProcessor {
 				return ret;
 
 			}
-			throw argErr(app, c.getName(), arg[0]);
+			throw argErr(app, c, arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
