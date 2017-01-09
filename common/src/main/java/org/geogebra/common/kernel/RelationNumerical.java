@@ -856,7 +856,7 @@ public class RelationNumerical {
 	final public String equalityString(GeoElement a, GeoElement b, GeoElement c,
 			GeoElement d, boolean equal) {
 		String and = loc.getMenu("Symbol.And").toLowerCase();
-		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + ", "
 				+ c.getColoredLabel() + " " + and + " " + d.getColoredLabel();
 
 		if (equal) {
