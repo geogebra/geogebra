@@ -215,14 +215,15 @@ public class ModeShape {
 						dragStartPoint.x - (isSquare ? rectangle.getWidth()
 								: ellipse.getBounds().getWidth()));
 				coords[1] = view.toRealWorldCoordY(
-						dragStartPoint.y - (isSquare ? rectangle.getWidth()
+						dragStartPoint.y - (isSquare ? -rectangle.getWidth()
 								: -ellipse.getBounds().getWidth()));
 			}
 		} else {
 			if (dragStartPoint.y >= event.getY()) {
 			coords[0] = view
 					.toRealWorldCoordX(
-							dragStartPoint.x - (isSquare ? rectangle.getWidth()
+								dragStartPoint.x - (isSquare
+										? -rectangle.getWidth()
 									: -ellipse.getBounds().getWidth()));
 			coords[1] = view
 					.toRealWorldCoordY(
@@ -580,31 +581,47 @@ public class ModeShape {
 		int dy = event.getY() - dragStartPoint.y;
 
 		int width = dx;
-		int height;
-		if (isSquare) {
-			height = dx;
-		} else {
-			height = dy;
-		}
+		int height = dy;
 
 		if (height >= 0) {
 			if (width >= 0) {
 				rectangle.setLocation(dragStartPoint.x, dragStartPoint.y);
-				rectangle.setSize(width, height);
+				if (isSquare) {
+					rectangle.setSize(width, width);
+				} else {
+					rectangle.setSize(width, height);
+				}
 			} else { // width < 0
 				rectangle.setLocation(dragStartPoint.x + width,
 						dragStartPoint.y);
-				rectangle.setSize(-width, height);
+				if (isSquare) {
+					rectangle.setSize(-width, -width);
+				} else {
+					rectangle.setSize(-width, height);
+				}
 			}
 		} else { // height < 0
 			if (width >= 0) {
-				rectangle.setLocation(dragStartPoint.x,
+				if (isSquare) {
+					rectangle.setLocation(dragStartPoint.x,
+							dragStartPoint.y - width);
+					rectangle.setSize(width, width);
+
+				} else {
+					rectangle.setLocation(dragStartPoint.x,
 						dragStartPoint.y + height);
-				rectangle.setSize(width, -height);
+					rectangle.setSize(width, -height);
+				}
 			} else { // width < 0
+				if (isSquare) {
+					rectangle.setLocation(dragStartPoint.x + width,
+							dragStartPoint.y + width);
+					rectangle.setSize(-width, -width);
+				} else {
 				rectangle.setLocation(dragStartPoint.x + width,
 						dragStartPoint.y + height);
 				rectangle.setSize(-width, -height);
+				}
 			}
 		}
 	}
