@@ -64,7 +64,8 @@ public class InputPanelW extends FlowPanel {
 
 			if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 				atf.enableGGBKeyboard();
-				app.registerPopup(this);
+				// app.registerPopup(this); TODO do we need this? It kills input
+				// in properties view
 			}
 		}
 	}
@@ -141,6 +142,9 @@ public class InputPanelW extends FlowPanel {
 		return textAreaComponent.getText();
 	}
 
+	/**
+	 * Focus text component
+	 */
 	public void setTextComponentFocus() {
 		if (textComponent != null) {
 			textComponent.getTextBox().getElement().focus();
