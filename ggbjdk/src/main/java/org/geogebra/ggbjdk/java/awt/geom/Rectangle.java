@@ -25,8 +25,6 @@
 
 package org.geogebra.ggbjdk.java.awt.geom;
 
-import java.awt.Component;
-
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
