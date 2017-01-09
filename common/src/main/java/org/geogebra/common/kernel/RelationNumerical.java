@@ -230,6 +230,10 @@ public class RelationNumerical {
 		if (a instanceof GeoPoint && b instanceof GeoPoint
 				&& c instanceof GeoPoint) {
 			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c);
+		} else if (a instanceof GeoSegmentND && b instanceof GeoSegmentND
+				&& c instanceof GeoSegmentND) {
+			return relation((GeoSegmentND) a, (GeoSegmentND) b,
+					(GeoSegmentND) c);
 		} else if (a instanceof GeoLine && b instanceof GeoLine
 				&& c instanceof GeoLine) {
 			return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
@@ -417,6 +421,32 @@ public class RelationNumerical {
 		}
 
 		return reports;
+	}
+
+	/**
+	 * description of the relation among segments a, b and c (equal, unequal)
+	 */
+	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b,
+			GeoSegmentND c) {
+		/* Checking if the objects/lengths are equal. */
+		if (Kernel.isEqual(((NumberValue) a).getDouble(),
+				((NumberValue) b).getDouble())
+				&& Kernel.isEqual(((NumberValue) b).getDouble(),
+						((NumberValue) c).getDouble())) {
+			if (a.isEqual(b) && b.isEqual(c)) {
+				register(true, null, equalityString((GeoElement) a,
+						(GeoElement) b, (GeoElement) c, true));
+				return reports;
+			}
+			register(true, null, congruentSegmentString((GeoElement) a,
+						(GeoElement) b, (GeoElement) c, true));
+			return reports;
+			}
+		/*
+		 * As segments there is no relation among them. Maybe there is positive
+		 * result when they are considered as lines.
+		 */
+		return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
 	}
 
 	/**
@@ -788,6 +818,32 @@ public class RelationNumerical {
 	}
 
 	/**
+	 * Internationalized string of "a, b and c are congruent" (or not)
+	 * 
+	 * @param a
+	 *            first object
+	 * @param b
+	 *            second object
+	 * @param c
+	 *            third object
+	 * @param equal
+	 *            if objects are congruent
+	 * 
+	 * @return internationalized string
+	 */
+	final public String congruentSegmentString(GeoElement a, GeoElement b,
+			GeoElement c, boolean equal) {
+		String and = loc.getMenu("Symbol.And").toLowerCase();
+		String pars = a.getColoredLabel() + ", " + b.getColoredLabel() + " "
+				+ and + " " + c.getColoredLabel();
+
+		if (equal) {
+			return loc.getPlain("TheFollowingAreCongruentA", pars);
+		}
+		return loc.getPlain("TheFollowingAreNotCongruentA", pars);
+	}
+
+	/**
 	 * Internationalized string of "a, b, c and d are equal" (or not)
 	 * 
 	 * @param a
@@ -814,6 +870,7 @@ public class RelationNumerical {
 		}
 		return loc.getPlain("TheFollowingAreNotEqualA", pars);
 	}
+
 	/**
 	 * Internationalized string of "a and b are congruent" (or not)
 	 * 
