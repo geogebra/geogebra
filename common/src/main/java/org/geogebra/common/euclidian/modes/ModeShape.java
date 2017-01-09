@@ -390,8 +390,8 @@ public class ModeShape {
 
 	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
 		GeoPoint[] points = new GeoPoint[5];
-		int pointsX[] = new int[5];
-		int pointsY[] = new int[5];
+		int pointsX[];
+		int pointsY[];
 
 		int height = event.getY() - dragStartPoint.y;
 		int radius = event.getY() - (dragStartPoint.y + event.getY()) / 2;
@@ -435,12 +435,12 @@ public class ModeShape {
 					view.toRealWorldCoordY(event.getY()), 1);
 			points[2] = new GeoPoint(view.getKernel().getConstruction(), null,
 					view.toRealWorldCoordX(
-							(dragStartPoint.x + event.getX()) / 2),
+							(dragStartPoint.x + event.getX()) / 2.0),
 					view.toRealWorldCoordY(dragStartPoint.y), 1);
 		} else {
 			points[0] = new GeoPoint(view.getKernel().getConstruction(), null,
 					view.toRealWorldCoordX(
-							(dragStartPoint.x + event.getX()) / 2),
+							(dragStartPoint.x + event.getX()) / 2.0),
 					view.toRealWorldCoordY(event.getY()), 1);
 			points[1] = new GeoPoint(view.getKernel().getConstruction(), null,
 					view.toRealWorldCoordX(dragStartPoint.x),
@@ -648,12 +648,13 @@ public class ModeShape {
 		if (height >= 0) {
 				pointsX[0] = dragStartPoint.x;
 				pointsX[1] = event.getX();
-				pointsX[2] = (dragStartPoint.x + event.getX()) / 2;
+			pointsX[2] = Math
+					.round((dragStartPoint.x + event.getX()) / 2);
 				pointsY[0] = event.getY();
 				pointsY[1] = event.getY();
 				pointsY[2] = dragStartPoint.y;
 		} else {
-				pointsX[0] = (dragStartPoint.x + event.getX()) / 2;
+			pointsX[0] = Math.round((dragStartPoint.x + event.getX()) / 2);
 				pointsX[1] = dragStartPoint.x;
 				pointsX[2] = event.getX();
 				pointsY[0] = event.getY();
@@ -675,8 +676,8 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	protected void updateRegularPolygon(AbstractEvent event) {
-		int pointsX[] = new int[5];
-		int pointsY[] = new int[5];
+		int pointsX[];
+		int pointsY[];
 
 		if (polygon == null) {
 			polygon = AwtFactory.getPrototype().newGeneralPath();
