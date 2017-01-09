@@ -627,11 +627,6 @@ public abstract class CommandProcessor {
 		return argErr(app1.getLocalization(), cmd.getName(), arg);
 	}
 
-	@Deprecated
-	public final MyError argErr(App app1, String cmdName, ExpressionValue arg) {
-		return argErr(app1.getLocalization(), cmdName, arg);
-	}
-
 	/**
 	 * Creates wrong argument error
 	 * 
@@ -689,17 +684,15 @@ public abstract class CommandProcessor {
 	 *            (-1 for just show syntax)
 	 * @return wrong parameter count error
 	 */
-	protected final MyError argNumErr(App app1, String cmd, int argNumber) {
+
+	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		getCommandSyntax(sb, app1.getLocalization(), cmd, argNumber);
-		return new MyError(app1.getLocalization(), sb.toString(), cmd, null);
-	}
-
-	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
-		return argNumErr(app1, cmd, argNumber);
+		getCommandSyntax(sb, app1.getLocalization(), cmd.getName(), argNumber);
+		return new MyError(app1.getLocalization(), sb.toString(), cmd.getName(),
+				null);
 	}
 
 	/**
@@ -868,8 +861,8 @@ public abstract class CommandProcessor {
 	 * 
 	 * @param arg
 	 *            arguments
-	 * @param name
-	 *            argument name
+	 * @param c
+	 *            command
 	 * @param i
 	 *            index of possibly dependent argument
 	 * @param j
