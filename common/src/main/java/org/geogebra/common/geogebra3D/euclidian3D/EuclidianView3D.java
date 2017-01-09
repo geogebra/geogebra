@@ -3668,10 +3668,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
 			double[][] minMax = clippingCubeDrawable.updateMinMax();
+			// e.g. Corner[] algos are updated by clippingCubeDrawable
 			clippingCubeDrawable.setWaitForUpdate();
-
-			// update e.g. Corner[]
-			kernel.notifyEuclidianViewCE(EVProperty.ZOOM);
 
 			// xOy plane wait for update
 			xOyPlaneDrawable.setWaitForUpdate();
