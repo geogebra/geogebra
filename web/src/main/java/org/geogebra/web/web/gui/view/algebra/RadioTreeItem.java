@@ -1079,7 +1079,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		if (isInputTreeItem()) {
-			setItemWidth(getAV().getMaxItemWidth());
+			// setItemWidth(getAV().getMaxItemWidth());
 		} else {
 			content.removeStyleName("scrollableTextBox");
 
