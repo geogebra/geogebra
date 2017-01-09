@@ -6669,6 +6669,11 @@ public abstract class EuclidianController {
 			}
 		}
 
+		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			getShapeMode().handleMouseMoveForShapeMode(event);
+			return;
+		}
+
 		// standard handling
 		Hits hits = new Hits();
 		boolean noHighlighting = false;

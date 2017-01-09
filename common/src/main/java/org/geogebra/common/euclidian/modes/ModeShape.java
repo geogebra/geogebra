@@ -43,6 +43,8 @@ public class ModeShape {
 	 */
 	protected GPoint dragStartPoint = new GPoint();
 	private boolean dragPointSet = false;
+	private boolean moveEnded = false;
+	private boolean wasDragged = false;
 	/**
 	 * preview for ShapeRectangle/ShapeRectangleRoundEdges/ShapeSquare
 	 */
@@ -87,8 +89,10 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMousePressedForShapeMode(AbstractEvent event) {
+		moveEnded = true;
 		if (!dragPointSet) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
+			pointListFreePoly.clear();
 			pointListFreePoly.add(dragStartPoint);
 			dragPointSet = true;
 			return;
@@ -105,7 +109,9 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseDraggedForShapeMode(AbstractEvent event) {
-		dragPointSet = false;
+		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			dragPointSet = false;
+		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES) {
 			updateRectangle(event, false);
@@ -143,6 +149,9 @@ public class ModeShape {
 			updateRegularPolygon(event);
 			view.setShapePolygon(polygon);
 			view.repaintView();
+		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			wasDragged = true;
+			updateFreeFormPolygon(event, wasDragged);
 		}
 	}
 
@@ -223,6 +232,7 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseReleasedForShapeMode(AbstractEvent event) {
+		view.setRounded(false);
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
@@ -234,12 +244,7 @@ public class ModeShape {
 					view.getKernel().getConstruction(),
 				null, getPointArray(event,false), false);
 			}
-			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
-			hideSegments(poly);
-			poly.setAlphaValue(0);
-			poly.setBackgroundColor(GColor.WHITE);
-			poly.setObjColor(GColor.BLACK);
-			poly.updateRepaint();
+			createPolygon(algo);
 			view.setShapeRectangle(null);
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
@@ -291,35 +296,73 @@ public class ModeShape {
 				geoPoint.setEuclidianVisible(false);
 				geoPoint.updateRepaint();
 			}
-			// do not show segment labels
-			GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
-			hideSegments(poly);
-			poly.setLabelVisible(false);
-			poly.setAlphaValue(0);
-			poly.setBackgroundColor(GColor.WHITE);
-			poly.setObjColor(GColor.BLACK);
-			poly.updateRepaint();
+			createPolygon(algo);
 			view.setShapePolygon(null);
 			view.repaintView();
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
-			polygon.reset();
-			polygon.moveTo(pointListFreePoly.get(0).x,
-						pointListFreePoly.get(0).y);
-			for (int index = 1; index < pointListFreePoly.size(); index++) {
-					polygon.lineTo(pointListFreePoly.get(index).x,
-							pointListFreePoly.get(index).y);
-				}
+			if (wasDragged) {
+				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
+				wasDragged = false;
+			}
+			updateFreeFormPolygon(event, false);
 			// close with double click
-			if (pointListFreePoly.size() >= 2
+			if (pointListFreePoly.size() > 2
 					&& pointListFreePoly.get(pointListFreePoly.size() - 1)
 							.distance(
 					pointListFreePoly.get(pointListFreePoly.size() - 2)) == 0) {
-				polygon.closePath();
+				// polygon.closePath();
+				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
+						getRealPointsOfFreeFormPolygon(), false);
+				createPolygon(algo);
 				pointListFreePoly.clear();
+				dragPointSet = false;
+				polygon.reset();
+				view.setShapePolygon(null);
+				view.repaintView();
 			}
-			view.setShapePolygon(polygon);
-			view.repaintView();
+		}
+	}
 
+	private static void createPolygon(AlgoElement algo) {
+		GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
+		// do not show segment labels
+		hideSegments(poly);
+		poly.setLabelVisible(false);
+		poly.setAlphaValue(0);
+		poly.setBackgroundColor(GColor.WHITE);
+		poly.setObjColor(GColor.BLACK);
+		poly.updateRepaint();
+	}
+
+	/**
+	 * needed only for free form polygon
+	 * 
+	 * @param event
+	 *            - mouse event
+	 */
+	public void handleMouseMoveForShapeMode(AbstractEvent event) {
+		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+			if (dragPointSet) {
+				if (moveEnded) {
+					polygon.lineTo(event.getX(), event.getY());
+					moveEnded = false;
+				} else {
+					if (pointListFreePoly.isEmpty()) {
+						return;
+					}
+					polygon.reset();
+					polygon.moveTo(pointListFreePoly.get(0).x,
+							pointListFreePoly.get(0).y);
+					for (int index = 1; index < pointListFreePoly
+							.size(); index++) {
+						polygon.lineTo(pointListFreePoly.get(index).x,
+								pointListFreePoly.get(index).y);
+					}
+					polygon.lineTo(event.getX(), event.getY());
+				}
+				view.setShapePolygon(polygon);
+				view.repaintView();
+			}
 		}
 	}
 
@@ -329,6 +372,20 @@ public class ModeShape {
 			((GeoSegment) geoSeg).setSelectionAllowed(false);
 		}
 
+	}
+
+	private GeoPoint[] getRealPointsOfFreeFormPolygon() {
+		GeoPoint[] realPoints = new GeoPoint[pointListFreePoly.size()];
+		int i = 0;
+		for (GPoint gPoint : pointListFreePoly) {
+			realPoints[i] = new GeoPoint(view.getKernel().getConstruction(),
+					null, view.toRealWorldCoordX(gPoint.getX()),
+					view.toRealWorldCoordY(gPoint.getY()), 1);
+			realPoints[i].setEuclidianVisible(false);
+			realPoints[i].updateRepaint();
+			i++;
+		}
+		return realPoints;
 	}
 
 	private GeoPoint[] getRealPointsOfPolygon(AbstractEvent event) {
@@ -646,6 +703,28 @@ public class ModeShape {
 			polygon.lineTo(pointsX[index], pointsY[index]);
 		}
 		polygon.closePath();
+	}
+
+	/**
+	 * update coords of free form polygon
+	 * 
+	 * @param event
+	 *            - mouse event
+	 * @param wasDrag
+	 *            - true if mouse was dragged
+	 */
+	protected void updateFreeFormPolygon(AbstractEvent event, boolean wasDrag) {
+		polygon.reset();
+		polygon.moveTo(pointListFreePoly.get(0).x, pointListFreePoly.get(0).y);
+		for (int index = 1; index < pointListFreePoly.size(); index++) {
+			polygon.lineTo(pointListFreePoly.get(index).x,
+					pointListFreePoly.get(index).y);
+		}
+		if (wasDrag) {
+			polygon.lineTo(event.getX(), event.getY());
+		}
+		view.setShapePolygon(polygon);
+		view.repaintView();
 	}
 
 	private static int[] getXCoordinates(int centerX, int radius, int vertexNr,
