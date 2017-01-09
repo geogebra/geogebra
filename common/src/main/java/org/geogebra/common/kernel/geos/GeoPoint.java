@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -50,6 +51,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDependentPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParameters;
@@ -1309,8 +1311,8 @@ public class GeoPoint extends GeoVec3D
 	 * Michael Borcherds 2008-02-10 Invert point in circle
 	 */
 	final public void mirror(GeoConic c) {
-		if (c.getType() == 4/* GeoConic.CONIC_CIRCLE */) { // Mirror point in
-			// circle
+		if (c.getType() == GeoConic.CONIC_CIRCLE) {
+			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
 			GeoVec2D midpoint = (c.getTranslationVector());
 			double a = midpoint.getX();
@@ -1322,6 +1324,42 @@ public class GeoPoint extends GeoVec3D
 						+ (inhomY - b) * (inhomY - b));
 				setCoords(a + sf * (inhomX - a), b + sf * (inhomY - b), 1.0);
 			}
+		} else if (/*
+					 * c.getType() == GeoConic.CONIC_LINE ||
+					 */ c.getType() == GeoConic.CONIC_PARALLEL_LINES) {
+			/* In the case the conic is a line we mirror about that line. */
+			ArrayList<GeoPointND> ps = c.getPointsOnConic();
+			HashSet<GeoPointND> Ps = new HashSet<GeoPointND>();
+			for (GeoPointND p : ps) {
+				Ps.add(p);
+			}
+			Iterator<GeoPointND> it = Ps.iterator();
+			GeoPointND P1 = it.next();
+			double P1inhomX = P1.getInhomX();
+			double P1inhomY = P1.getInhomY();
+			double P2inhomX;
+			double P2inhomY;
+			boolean found = false;
+			GeoPointND P2;
+			do {
+				P2 = it.next();
+				P2inhomX = P2.getInhomX();
+				P2inhomY = P2.getInhomY();
+				if (!(P1inhomX == P2inhomX && P1inhomY == P2inhomY)) {
+					found = true;
+				}
+			} while (!found);
+			/* In P1 and P2 we have two different points of that line. */
+			GeoLine g = new GeoLine(cons);
+			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, (GeoPoint) P1,
+					(GeoPoint) P2);
+			ajp.compute();
+			g = (GeoLine) ajp.getOutput(0);
+			/* g = Line[P1,P2] */
+			mirror(g);
+			/* g is not needed anymore, so we remove it. */
+			g.remove();
+
 		} else {
 			setUndefined();
 		}
