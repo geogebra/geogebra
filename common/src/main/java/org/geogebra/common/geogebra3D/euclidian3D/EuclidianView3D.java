@@ -1278,14 +1278,20 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public double getYscale() {
-		return getSettings().getYscale();
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return getSettings().getYscale();
+		}
+		return getXscale();
 	}
 
 	/**
 	 * @return the z-scale
 	 */
 	public double getZscale() {
-		return getSettings().getZscale();
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return getSettings().getZscale();
+		}
+		return getXscale();
 	}
 
 	@Override
@@ -1293,11 +1299,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		switch (i) {
 		case 0:
 		default:
-			return getSettings().getXscale();
+			return getXscale();
 		case 1:
-			return getSettings().getYscale();
+			return getYscale();
 		case 2:
-			return getSettings().getZscale();
+			return getZscale();
 		}
 	}
 
