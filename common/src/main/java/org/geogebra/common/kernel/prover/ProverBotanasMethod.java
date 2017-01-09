@@ -717,7 +717,7 @@ public class ProverBotanasMethod {
 				} else {
 					statements = new Polynomial[1][1];
 					if (geoStatement instanceof GeoBoolean) {
-						if (((GeoBoolean) geoStatement).getBoolean() == true) {
+						if (((GeoBoolean) geoStatement).getBoolean()) {
 							statements[0][0] = new Polynomial(0);
 						} else {
 							statements[0][0] = new Polynomial(1);

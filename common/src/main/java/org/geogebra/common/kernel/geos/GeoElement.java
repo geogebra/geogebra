@@ -36,7 +36,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -2840,8 +2839,7 @@ public abstract class GeoElement extends ConstructionElement
 				if (kernel.getApplication().getGuiManager() != null
 						&& kernel.getApplication().getGuiManager()
 								.hasSpreadsheetView()) {
-					((SpreadsheetViewInterface) kernel.getApplication()
-							.getGuiManager().getSpreadsheetView())
+					kernel.getApplication().getGuiManager().getSpreadsheetView()
 									.scrollIfNeeded(this, labelNew);
 				}
 			}
@@ -7198,7 +7196,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            true to trace to spreadsheet
 	 */
 	public void setSpreadsheetTrace(final boolean traceFlag) {
-		if (traceFlag != true) {
+		if (!traceFlag) {
 			traceSettings = null;
 		}
 		spreadsheetTrace = traceFlag;

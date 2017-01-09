@@ -1346,7 +1346,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		this.isSelectNone = isSelectNone;
 
-		if (isSelectNone == true) {
+		if (isSelectNone) {
 			setSelection(-1, -1, -1, -1);
 			// TODO//view.updateFormulaBar();
 		}

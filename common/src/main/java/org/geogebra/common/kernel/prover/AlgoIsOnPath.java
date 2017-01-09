@@ -88,6 +88,9 @@ public class AlgoIsOnPath extends AlgoElement
 		outputBoolean.setUndefined();
 	}
 
+	/**
+	 * @return botana vars
+	 */
 	public Variable[] getBotanaVars() {
 		return botanaVars;
 	}
@@ -104,7 +107,7 @@ public class AlgoIsOnPath extends AlgoElement
 				Variable[] fv1 = new Variable[2];
 				Variable[] fv2 = new Variable[4];
 				fv1 = inputPoint.getBotanaVars(inputPoint);
-				fv2 = ((GeoLine) inputPath).getBotanaVars((GeoLine) inputPath);
+				fv2 = ((GeoLine) inputPath).getBotanaVars(inputPath);
 
 				botanaPolynomials = new Polynomial[1][1];
 				botanaPolynomials[0][0] = Polynomial.collinear(fv1[0], fv1[1],
@@ -116,7 +119,7 @@ public class AlgoIsOnPath extends AlgoElement
 					Variable[] fv2 = new Variable[4];
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					fv2 = ((GeoConic) inputPath)
-							.getBotanaVars((GeoConic) inputPath);
+							.getBotanaVars(inputPath);
 
 					botanaPolynomials = new Polynomial[1][1];
 					botanaPolynomials[0][0] = Polynomial.equidistant(fv1[0],
@@ -135,7 +138,7 @@ public class AlgoIsOnPath extends AlgoElement
 					Variable[] fv2 = new Variable[10];
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					fv2 = ((GeoConic) inputPath)
-							.getBotanaVars((GeoConic) inputPath);
+							.getBotanaVars(inputPath);
 
 					botanaPolynomials = new Polynomial[1][3];
 
@@ -173,7 +176,7 @@ public class AlgoIsOnPath extends AlgoElement
 					fv1 = inputPoint.getBotanaVars(inputPoint);
 					// botana variables of input path
 					fv2 = ((GeoConic) inputPath)
-							.getBotanaVars((GeoConic) inputPath);
+							.getBotanaVars(inputPath);
 
 					botanaPolynomials = new Polynomial[1][3];
 

@@ -3118,6 +3118,9 @@ public class GeoList extends GeoElement
 		return false;
 	}
 
+	/**
+	 * Select next or previous index based on animation props
+	 */
 	public void selectNext() {
 		if (selectedIndex >= size() - 1 && getAnimationDirection() > 0) {
 			this.changeAnimationDirection();
