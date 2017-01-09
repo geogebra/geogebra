@@ -35,6 +35,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 	 *            polynomial
 	 * @param point
 	 *            point
+	 * @param pointOnPath
+	 *            whether point is on path by definition
 	 */
 	public AlgoImplicitPolyTangentCurve(Construction c, GeoImplicit poly,
 			GeoPointND point, boolean pointOnPath) {

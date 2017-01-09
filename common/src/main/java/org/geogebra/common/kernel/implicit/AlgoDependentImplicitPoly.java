@@ -58,8 +58,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			Log.error("RuntimeException " + e.getMessage());
 		}
 		c.addToConstructionList(this, false);
-
-		switch (equ.preferredDegree()) {
+		int deg = equ.preferredDegree();
+		if (!equ.mayBePolynomial()) {
+			deg = -1;
+		}
+		switch (deg) {
 		// linear equation -> LINE
 		case 1:
 			geoElement = new GeoLine(c);
