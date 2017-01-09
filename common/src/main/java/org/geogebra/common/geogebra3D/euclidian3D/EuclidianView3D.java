@@ -82,6 +82,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -4743,6 +4744,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		coords.mulInside(getXscale(), getYscale(), getZscale());
 	}
 
+	public void scaleXYZ(Coords3 coords) {
+		coords.mulInside(getXscale(), getYscale(), getZscale());
+	}
+
 	/**
 	 * scale coords as normal vector
 	 * 
@@ -4756,6 +4761,16 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 		coords.mulInside(settings.getYZscale(), settings.getZXscale(),
 				settings.getXYscale());
+	}
+
+	public void scaleAndNormalizeNormalXYZ(Coords3 coords) {
+		EuclidianSettings3D settings = getSettings();
+		if (settings.hasSameScales()) {
+			return;
+		}
+		coords.mulInside(settings.getYZscale(), settings.getZXscale(),
+				settings.getXYscale());
+		coords.normalizeIfPossible();
 	}
 
 	/**
