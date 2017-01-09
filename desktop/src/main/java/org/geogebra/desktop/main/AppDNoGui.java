@@ -2,6 +2,8 @@ package org.geogebra.desktop.main;
 
 import java.util.Locale;
 
+import javax.swing.SwingUtilities;
+
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -725,5 +727,11 @@ public class AppDNoGui extends App {
 		return new EuclidianView3DNoGui(
 				new EuclidianController3DNoGui(this, kernel),
 				this.getSettings().getEuclidian(3));
+	}
+
+	@Override
+	public void invokeLater(Runnable runnable) {
+		SwingUtilities.invokeLater(runnable);
+
 	}
 }

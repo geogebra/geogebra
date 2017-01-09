@@ -633,7 +633,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	public void show() {
 		this.setAnimationEnabled(false);
 		super.show();
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 			public void run() {
 				position();
 			}

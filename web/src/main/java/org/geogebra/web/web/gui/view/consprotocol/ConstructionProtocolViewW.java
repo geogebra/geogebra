@@ -887,7 +887,7 @@ myCell) {
 					break;
 			}
 			final int row2 = row;
-			app.getGuiManager().invokeLater(new Runnable() {
+			app.invokeLater(new Runnable() {
 
 				@Override
 				public void run() {
@@ -959,7 +959,7 @@ myCell) {
 	}
 
 	void rowCountChanged() {
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 	    	public void run(){
 	    		makeTableRowsDragable();
 	    	}

@@ -74,7 +74,7 @@ public class ToolbarSubmenuW extends FlowPanel {
 		super.setVisible(visible);
 		setStyleName("visible", visible);
 		if(visible){
-			app.getGuiManager().invokeLater(new Runnable(){
+			app.invokeLater(new Runnable() {
 
 				@Override
                 public void run() {

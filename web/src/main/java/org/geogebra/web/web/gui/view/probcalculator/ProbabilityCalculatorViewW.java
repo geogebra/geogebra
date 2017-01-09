@@ -1000,7 +1000,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		// setPersective is called early
 		// during Win8 app initialization, we also need to update the tabbed
 		// pane and make the whole process deferred
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {

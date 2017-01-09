@@ -4714,4 +4714,6 @@ public abstract class App implements UpdateSelection {
 		return singularWS.directCommand(s);
 	}
 
+	abstract public void invokeLater(Runnable runnable);
+
 }

@@ -58,7 +58,7 @@ public class CASViewW extends CASView implements PrintableW {
 		component.addDomHandler(ml, TouchMoveEvent.getType());
 		component.addDomHandler(ml, TouchEndEvent.getType());
 
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 
 			public void run() {
 				getCAS().initCurrentCAS();
@@ -166,7 +166,7 @@ public class CASViewW extends CASView implements PrintableW {
 			return;
 		}
 		final AppW app1 = app;
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 
 			public void run() {
 				app1.showKeyboard(getEditor(), force);

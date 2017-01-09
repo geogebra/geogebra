@@ -3187,11 +3187,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		caller_APP = DESKTOP;
 	}
 
-	@Override
-	public void invokeLater(Runnable runnable) {
-		SwingUtilities.invokeLater(runnable);
-
-	}
 
 	@Override
 	public int getEuclidianViewCount() {

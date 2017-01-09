@@ -418,7 +418,7 @@ public class DataAnalysisModel {
 		if (!isIniting() && ctrl.isInDataSource(geo)) {
 
 			// use a runnable to allow spreadsheet table model to update
-			app.getGuiManager().invokeLater(new Runnable() {
+			app.invokeLater(new Runnable() {
 				public void run() {
 					ctrl.updateDataAnalysisView();
 				}

@@ -325,8 +325,6 @@ public interface GuiManagerInterface {
 
 	public void logout();
 
-	public void invokeLater(Runnable runnable);
-
 	int getEuclidianViewCount();
 
 	public void addToToolbarDefinition(int mode);

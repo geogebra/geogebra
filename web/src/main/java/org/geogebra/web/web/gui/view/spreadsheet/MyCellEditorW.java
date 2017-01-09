@@ -356,7 +356,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			final String charcode = e.getCharCode() + "";
 			if (MyCellEditorW.this.allowAutoEdit) {
-				app.getGuiManager().invokeLater(new Runnable() {
+				app.invokeLater(new Runnable() {
 
 					public void run() {
 						String text = autoCompleteTextField.getText();

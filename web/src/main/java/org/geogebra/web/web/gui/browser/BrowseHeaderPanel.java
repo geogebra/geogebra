@@ -240,7 +240,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		if(this.searchPanel != null){
 			this.searchPanel.setLabels();
 		}
-		app.getGuiManager().invokeLater(new Runnable(){
+		app.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				onResize();

@@ -118,8 +118,6 @@ import org.geogebra.web.web.util.keyboard.ScriptAreaProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.resources.client.ImageResource;
@@ -1866,17 +1864,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 */
 	public boolean browseGUIwasLoaded() {
 		return this.browseGUI != null;
-	}
-
-	@Override
-	public void invokeLater(final Runnable runnable) {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			@Override
-			public void execute() {
-				runnable.run();
-			}
-		});
 	}
 
 	@Override

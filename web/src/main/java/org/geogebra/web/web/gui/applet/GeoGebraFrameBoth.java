@@ -270,7 +270,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.add(keyBoard);
 
-		app.getGuiManager().invokeLater(new Runnable() {
+		app.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -431,7 +431,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
 				if (!app.isStartedWithFile()) {
 					keyboardShowing = true;
-					app.getGuiManager().invokeLater(new Runnable() {
+					app.invokeLater(new Runnable() {
 
 						@Override
 						public void run() {

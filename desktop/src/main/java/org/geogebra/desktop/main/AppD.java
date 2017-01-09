@@ -5418,4 +5418,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		return copyPaste;
 	}
 
+	@Override
+	public void invokeLater(Runnable runnable) {
+		SwingUtilities.invokeLater(runnable);
+
+	}
+
 }

@@ -195,7 +195,7 @@ public abstract class AppWFull extends AppW {
 	public void updateKeyboard() {
 
 		getGuiManager().focusScheduled(false, false, false);
-		getGuiManager().invokeLater(new Runnable() {
+		invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
