@@ -34,7 +34,7 @@ public class CmdSetViewDirection extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		if (n > 2) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 		// no argument: set default orientation

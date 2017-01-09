@@ -92,7 +92,7 @@ public class CmdPascal extends CommandProcessor {
 				throw argErr(app, c, arg[3]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

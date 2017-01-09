@@ -68,7 +68,7 @@ public class CmdNyquist extends CommandProcessor {
 			}
 			throw argErr(app, c, arg[2]);
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

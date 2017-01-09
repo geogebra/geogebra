@@ -50,7 +50,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 
 		case 0:
 		case 2:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		case 3:
 			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue

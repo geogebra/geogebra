@@ -27,7 +27,7 @@ public abstract class CmdOneNumber extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1)
-			throw argNumErr(app, c.getName(), args.length);
+			throw argNumErr(app, c, args.length);
 		if (!(args[0] instanceof GeoNumberValue))
 			throw argErr(app, c, args[0]);
 		return new GeoElement[] {

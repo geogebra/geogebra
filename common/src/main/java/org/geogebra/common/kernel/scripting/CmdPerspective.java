@@ -25,7 +25,7 @@ public class CmdPerspective extends CmdScripting {
 	protected GeoElement[] perform(Command c) {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1) {
-			throw this.argNumErr(app, c.getName(), args.length);
+			throw this.argNumErr(app, c, args.length);
 		}
 		if (args[0] instanceof GeoText || args[0] instanceof GeoNumberValue) {
 			String code = args[0].toValueString(StringTemplate.defaultTemplate);

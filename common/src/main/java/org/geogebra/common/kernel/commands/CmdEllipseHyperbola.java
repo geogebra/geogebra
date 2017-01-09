@@ -61,7 +61,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
@@ -96,7 +96,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 	 */
 	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
-		throw argNumErr(app, c.getName(), 4);
+		throw argNumErr(app, c, 4);
 	}
 
 	/**

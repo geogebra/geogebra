@@ -31,7 +31,7 @@ public class CmdSort extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -63,7 +63,7 @@ public class CmdSort extends CommandProcessor {
 				return ret;
 			}
 
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

@@ -37,7 +37,7 @@ public class CmdMeanY extends CmdOneOrTwoListsFunction {
 			throw argErr(app, c, arg[0]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

@@ -91,7 +91,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

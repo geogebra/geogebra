@@ -30,7 +30,7 @@ public class CmdExecute extends CmdScripting {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n > 10)
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
 				|| !arg[0].isDefined())
 			return new GeoElement[] {};

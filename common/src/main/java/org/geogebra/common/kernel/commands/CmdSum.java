@@ -43,7 +43,7 @@ public class CmdSum extends CommandProcessor {
 
 		// needed for Sum[]
 		if (c.getArgumentNumber() == 0) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 		if (c.getArgumentNumber() == 4) {
 			GeoElement[] res = processSymb(this, c, Operation.PLUS);
@@ -160,7 +160,7 @@ public class CmdSum extends CommandProcessor {
 					return ret;
 				}
 			}
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

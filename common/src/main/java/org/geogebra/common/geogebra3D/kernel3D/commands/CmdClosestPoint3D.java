@@ -86,7 +86,7 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 
 		default:
 			// return super.process(c);
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

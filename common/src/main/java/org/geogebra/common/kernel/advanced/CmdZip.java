@@ -31,7 +31,7 @@ public class CmdZip extends CommandProcessor {
 		// "Command Sequence not known eg
 		// Sequence[If[Element[list1,i]=="b",0,1]]
 		if (n < 3)
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement arg = null;

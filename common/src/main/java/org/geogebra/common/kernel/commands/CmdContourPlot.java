@@ -27,7 +27,7 @@ public class CmdContourPlot extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n != 1 && n != 2) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 		GeoElement[] arg;
 		arg = resArgs(c);

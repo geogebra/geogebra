@@ -53,7 +53,7 @@ public class CmdPolygon extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 			// G.Sturr 2010-3-14
 		case 1:
 			GeoList l = null;

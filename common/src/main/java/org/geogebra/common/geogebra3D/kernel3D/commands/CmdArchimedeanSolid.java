@@ -93,7 +93,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			break;
 		}
 
-		throw argNumErr(app, c.getName(), n);
+		throw argNumErr(app, c, n);
 
 	}
 

@@ -97,7 +97,7 @@ public class CmdIf extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		if (n < 2) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 		if (kernelA.getConstruction().getRegisteredFunctionVariable() != null) {

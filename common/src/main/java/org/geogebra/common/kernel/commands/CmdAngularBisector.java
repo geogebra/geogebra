@@ -68,7 +68,7 @@ public class CmdAngularBisector extends CommandProcessor {
 			return process4(arg, ok, c);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class CmdAngularBisector extends CommandProcessor {
 	 * @return bisector
 	 */
 	protected GeoElement[] process4(GeoElement[] arg, boolean[] ok, Command c) {
-		throw argNumErr(app, c.getName(), 4);
+		throw argNumErr(app, c, 4);
 	}
 
 	/**

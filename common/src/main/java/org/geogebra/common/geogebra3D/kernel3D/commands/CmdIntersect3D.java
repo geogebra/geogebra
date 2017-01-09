@@ -369,7 +369,7 @@ public class CmdIntersect3D extends CmdIntersect {
 
 		default:
 			return super.process(c);
-		// throw argNumErr(app, c.getName(), n);
+		// throw argNumErr(app, c, n);
 		}
 	}
 }

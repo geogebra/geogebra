@@ -47,20 +47,20 @@ public class CmdCellRange extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
 	private String spreadsheetLabel(ExpressionNode expressionNode, Command c) {
 		if (expressionNode.getOperation() != Operation.NO_OPERATION
 				|| !expressionNode.getLeft().isVariable()) {
-			throw argErr(loc, c.getName(), expressionNode);
+			throw argErr(app, c, expressionNode);
 		}
 		String cell = ((Variable) expressionNode.getLeft()).getName();
 		if (GeoElementSpreadsheet.isSpreadsheetLabel(cell)) {
 			return cell;
 		}
-		throw argErr(loc, c.getName(), expressionNode);
+		throw argErr(app, c, expressionNode);
 	}
 
 }

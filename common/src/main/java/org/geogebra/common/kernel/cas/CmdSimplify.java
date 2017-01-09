@@ -56,7 +56,7 @@ public class CmdSimplify extends CommandProcessor {
 			return ret;
 		// more than one argument
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

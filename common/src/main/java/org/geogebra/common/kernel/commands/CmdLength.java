@@ -154,7 +154,7 @@ public class CmdLength extends CommandProcessor {
 
 			// Victor Franco 18-04-2007 (end)
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

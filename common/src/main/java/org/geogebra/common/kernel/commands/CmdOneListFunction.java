@@ -38,7 +38,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 1:
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
@@ -101,7 +101,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				}
 
 			}
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
@@ -131,7 +131,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	 */
 	protected GeoElement doCommand(String label, Command c, GeoList list,
 			GeoList list2) {
-		throw argNumErr(app, c.getName(), 2);
+		throw argNumErr(app, c, 2);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	 */
 	protected GeoElement doCommand(String label, Command c, GeoList list,
 			GeoList list2, GeoBoolean flag) {
-		throw argNumErr(app, c.getName(), 3);
+		throw argNumErr(app, c, 3);
 	}
 
 }

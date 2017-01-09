@@ -88,7 +88,7 @@ public class CmdTableText extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		default:
 			// try to create list of numbers

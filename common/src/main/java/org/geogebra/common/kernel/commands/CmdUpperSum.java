@@ -47,7 +47,7 @@ public class CmdUpperSum extends CommandProcessor {
 			throw argErr(app, c, null);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

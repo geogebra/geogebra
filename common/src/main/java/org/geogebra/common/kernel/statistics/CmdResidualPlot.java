@@ -52,7 +52,7 @@ public class CmdResidualPlot extends CommandProcessor {
 			throw argErr(app, c, arg[0]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}// switch(number of arguments)
 	}// process(Command)
 }// class CmdRSquare

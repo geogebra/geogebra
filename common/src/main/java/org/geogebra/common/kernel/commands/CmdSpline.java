@@ -38,7 +38,7 @@ public class CmdSpline extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
@@ -88,7 +88,7 @@ public class CmdSpline extends CommandProcessor {
 				return ret;
 			}
 
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

@@ -60,10 +60,10 @@ public class CmdSegment extends CommandProcessor {
 				GeoElement[] ret = {};
 				return ret;
 			}
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

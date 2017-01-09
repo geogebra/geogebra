@@ -47,7 +47,7 @@ public class CmdSigmaXX extends CmdOneListFunction {
 	@Override
 	protected GeoElement doCommand(String a, Command c, GeoList list,
 			GeoList freq, GeoBoolean isGrouped) {
-		throw argNumErr(app, c.getName(), 3);
+		throw argNumErr(app, c, 3);
 	}
 
 }

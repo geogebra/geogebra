@@ -26,7 +26,7 @@ public class CmdRandomPolynomial extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 3)
-			throw argNumErr(app, c.getName(), args.length);
+			throw argNumErr(app, c, args.length);
 		for (int i = 1; i < 3; i++) {
 			if (!(args[i] instanceof GeoNumberValue))
 				throw argErr(app, c, args[i]);

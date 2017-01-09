@@ -72,7 +72,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	public final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n < 1) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 		GeoElement[] args = resArgs(c);
 		if (!args[0].isGeoTurtle()) {

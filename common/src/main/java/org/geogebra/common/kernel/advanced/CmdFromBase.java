@@ -66,7 +66,7 @@ public class CmdFromBase extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

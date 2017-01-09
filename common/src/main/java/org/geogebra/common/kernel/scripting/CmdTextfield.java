@@ -46,7 +46,7 @@ public class CmdTextfield extends CommandProcessor {
 					getAlgoDispatcher().textfield(c.getLabel(), null) };
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 	}

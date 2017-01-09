@@ -109,7 +109,7 @@ public class CmdFinancialPV extends CommandProcessor {
 				throw argErr(app, c, arg[4]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

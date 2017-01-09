@@ -42,7 +42,7 @@ public class CmdEnvelope extends CommandProcessor {
 			break;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 		return new GeoElement[] {

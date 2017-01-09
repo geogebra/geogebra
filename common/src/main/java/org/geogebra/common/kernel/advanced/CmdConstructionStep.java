@@ -45,7 +45,7 @@ public class CmdConstructionStep extends CommandProcessor {
 			return ret2;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

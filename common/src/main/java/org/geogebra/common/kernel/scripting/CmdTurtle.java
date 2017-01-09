@@ -31,7 +31,7 @@ public class CmdTurtle extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
 		if (n > 0) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 		AlgoTurtle algo = new AlgoTurtle(cons, c.getLabel());
 		GeoTurtle turtle = algo.getTurtle();

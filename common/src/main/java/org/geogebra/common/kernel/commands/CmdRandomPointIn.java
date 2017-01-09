@@ -75,7 +75,7 @@ public class CmdRandomPointIn extends CommandProcessor {
 			GeoElement[] ret = { algo.getRandomPoint() };
 			return ret;
 		} else {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

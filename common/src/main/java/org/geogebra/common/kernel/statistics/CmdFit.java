@@ -64,7 +64,7 @@ public class CmdFit extends CommandProcessor {
 
 		default:
 
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}// switch(number of arguments)
 	}// process(Command)
 }// class CmdFit

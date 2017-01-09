@@ -32,7 +32,7 @@ public class CmdElement extends CommandProcessor {
 		switch (n) {
 		case 0:
 		case 1:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 2:
 			arg = resArgs(c);
 			// list

@@ -48,7 +48,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 1:
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
@@ -73,7 +73,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 			// more than one argument
 		default:
 			if ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n))) {
-				throw argNumErr(app, c.getName(), n);
+				throw argNumErr(app, c, n);
 			}
 
 			for (int i = 0; i < n; i++) {

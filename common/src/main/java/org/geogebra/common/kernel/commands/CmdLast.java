@@ -69,7 +69,7 @@ public class CmdLast extends CommandProcessor {
 						(list && text) ? arg[1] : arg[0]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

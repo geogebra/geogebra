@@ -35,7 +35,7 @@ public class CmdSlider extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n < 2 || n > 9)
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		for (int i = 0; i < Math.min(n, 5); i++)
 			if (!(arg[i] instanceof GeoNumberValue))
 				throw argErr(app, c, arg[i]);

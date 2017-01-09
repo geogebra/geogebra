@@ -29,7 +29,7 @@ public class CmdMatrixRank extends CommandProcessor {
 			throws MyError, CircularDefinitionException {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1)
-			throw argNumErr(app, c.getName(), args.length);
+			throw argNumErr(app, c, args.length);
 		if (!args[0].isGeoList())
 			throw argErr(app, c, args[0]);
 

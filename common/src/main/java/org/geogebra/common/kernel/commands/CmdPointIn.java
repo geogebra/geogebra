@@ -41,7 +41,7 @@ public class CmdPointIn extends CommandProcessor {
 			throw argErr(app, c, arg[0]);
 		}
 
-		throw argNumErr(app, c.getName(), n);
+		throw argNumErr(app, c, n);
 
 	}
 

@@ -43,7 +43,7 @@ public class CmdDataFunction extends CommandProcessor {
 			geo.setLabel(c.getLabel());
 			return new GeoElement[] { geo };
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

@@ -60,7 +60,7 @@ public class CmdAreCollinear extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
-		throw argNumErr(app, c.getName(), n);
+		throw argNumErr(app, c, n);
 
 	}
 

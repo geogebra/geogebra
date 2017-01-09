@@ -50,7 +50,7 @@ public class CmdScientificText extends CommandProcessor {
 			throw argErr(app, c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

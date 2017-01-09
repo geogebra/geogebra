@@ -93,7 +93,7 @@ public class CmdKeepIf extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, args));
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

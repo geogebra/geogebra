@@ -80,7 +80,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 		default:
 			clearLocal();
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

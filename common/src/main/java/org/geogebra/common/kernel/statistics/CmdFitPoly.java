@@ -87,7 +87,7 @@ public class CmdFitPoly extends CommandProcessor {
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}// switch(number of arguments)
 	}// process(Command)
 

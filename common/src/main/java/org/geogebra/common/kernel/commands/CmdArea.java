@@ -77,7 +77,7 @@ public class CmdArea extends CommandProcessor {
 			GeoElement[] ret = { algo.getArea() };
 			return ret;
 		} else {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

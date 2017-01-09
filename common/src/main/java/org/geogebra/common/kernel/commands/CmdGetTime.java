@@ -85,7 +85,7 @@ public class CmdGetTime extends CommandProcessor {
 			GeoElement[] ret1 = { retText };
 			return ret1;
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

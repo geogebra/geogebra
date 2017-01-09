@@ -55,7 +55,7 @@ public class CmdButton extends CommandProcessor {
 			return new GeoElement[] { gb };
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 	}

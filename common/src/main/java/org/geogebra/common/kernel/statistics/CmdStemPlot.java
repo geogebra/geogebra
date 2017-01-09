@@ -57,7 +57,7 @@ public class CmdStemPlot extends CommandProcessor {
 			return ret;
 
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		default:
 

@@ -699,7 +699,7 @@ public abstract class CommandProcessor {
 	}
 
 	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
-		return argNumErr(app1, cmd.getName(), argNumber);
+		return argNumErr(app1, cmd, argNumber);
 	}
 
 	/**
@@ -925,7 +925,7 @@ public abstract class CommandProcessor {
 	 * @return throws error
 	 */
 	protected final MyError argNumErr(int n, Command c) {
-		return argNumErr(app, c.getName(), n);
+		return argNumErr(app, c, n);
 	}
 
 }

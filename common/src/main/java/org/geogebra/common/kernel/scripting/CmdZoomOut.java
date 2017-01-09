@@ -57,7 +57,7 @@ public class CmdZoomOut extends CmdScripting {
 					1 / arg[0].evaluateDouble(), this);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

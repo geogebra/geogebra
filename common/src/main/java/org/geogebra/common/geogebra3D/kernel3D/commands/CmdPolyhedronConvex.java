@@ -25,7 +25,7 @@ public class CmdPolyhedronConvex extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		if (n < 4) {
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 		GeoElement[] arg;

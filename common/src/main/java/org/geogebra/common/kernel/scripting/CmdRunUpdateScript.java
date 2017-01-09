@@ -41,7 +41,7 @@ public class CmdRunUpdateScript extends CmdScripting {
 			return args;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 
 	}

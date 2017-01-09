@@ -47,7 +47,7 @@ public class CmdSemicircle extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
@@ -81,6 +81,6 @@ public class CmdSemicircle extends CommandProcessor {
 	 */
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
-		throw argNumErr(app, c.getName(), 3);
+		throw argNumErr(app, c, 3);
 	}
 }

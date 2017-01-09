@@ -43,7 +43,7 @@ public class CmdPartialFractions extends CommandProcessor {
 
 			// more than one argument
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 }

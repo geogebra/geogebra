@@ -61,10 +61,10 @@ public class CmdPolyhedronNet extends CommandProcessor {
 
 		case 0:
 		case 1:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 
 		default:
-			// throw argNumErr(app, c.getName(), n);
+			// throw argNumErr(app, c, n);
 
 			arg = resArgs(c);
 

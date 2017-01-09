@@ -65,7 +65,7 @@ public class CmdPolynomial extends CommandProcessor {
 				return ret;
 			}
 			// Markus Hohenwarter 2008-01-26 END
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

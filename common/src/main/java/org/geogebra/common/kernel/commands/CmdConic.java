@@ -51,7 +51,7 @@ public class CmdConic extends CommandProcessor {
 					return ret;
 				}
 			}
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 

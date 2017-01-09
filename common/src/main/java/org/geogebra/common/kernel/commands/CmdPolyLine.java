@@ -31,7 +31,7 @@ public class CmdPolyLine extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		case 1:
 			if (arg[0].isGeoList())
 				return polyLine(c.getLabel(), (GeoList) arg[0]);

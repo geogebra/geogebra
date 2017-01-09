@@ -52,7 +52,7 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 			throw argErr(app, c, arg[0]);
 
 		default:
-			throw argNumErr(app, c.getName(), n);
+			throw argNumErr(app, c, n);
 		}
 	}
 
@@ -85,6 +85,6 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	 */
 	protected GeoElement doCommand2(Command c, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue d) {
-		throw argNumErr(app, c.getName(), 3);
+		throw argNumErr(app, c, 3);
 	}
 }
