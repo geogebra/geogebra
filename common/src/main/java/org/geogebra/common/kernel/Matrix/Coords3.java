@@ -98,6 +98,19 @@ public abstract class Coords3 {
 	abstract public void mulInside(double v);
 
 	/**
+	 * multiply values by a/b/c
+	 * 
+	 * @param a
+	 *            x factor
+	 * @param b
+	 *            y factor
+	 * @param c
+	 *            z factor
+	 * 
+	 */
+	abstract public void mulInside(double a, double b, double c);
+
+	/**
 	 * normalize this (if norm != 0)
 	 */
 	abstract public void normalizeIfPossible();

@@ -127,4 +127,11 @@ public class CoordsFloat3 extends Coords3 {
 		return ret.toString();
 	}
 
+	@Override
+	public void mulInside(double a, double b, double c) {
+		x *= a;
+		y *= b;
+		z *= c;
+	}
+
 }
