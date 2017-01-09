@@ -66,10 +66,4 @@ public class ColorW implements Color {
 		return cssColor;
 	}
 
-	@Override
-	@Deprecated
-	public int getColor() {
-		return 0; // unused
-	}
-
 }
