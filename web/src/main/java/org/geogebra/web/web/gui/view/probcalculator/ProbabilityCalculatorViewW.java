@@ -951,11 +951,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
 				@Override
 				public void onInsert(String text) {
-					field.removeDummyCursor();
+					int cursorPos = field.removeDummyCursor();
 					doTextFieldActionPerformed((TextBox) field.getTextBox(),
 							false);
 					if (Browser.isAndroid() || Browser.isIPad()) {
-						field.addDummyCursor(field.getCaretPosition());
+						field.addDummyCursor(cursorPos);
 					}
 				}
 			});
