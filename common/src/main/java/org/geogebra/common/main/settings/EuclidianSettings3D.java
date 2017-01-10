@@ -77,7 +77,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		updateScaleHelpers();
 	}
 
-	private boolean hasSameScales = false;
+	private boolean hasSameScales = true;
 	private double xyScale, yzScale, zxScale, maxScale;
 
 	private void updateScaleHelpers() {
