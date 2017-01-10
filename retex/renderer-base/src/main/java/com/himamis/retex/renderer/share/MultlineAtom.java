@@ -69,6 +69,7 @@ public class MultlineAtom extends Atom {
 		this(false, column, type);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		double tw = env.getTextwidth();
 		if (tw == Double.POSITIVE_INFINITY || type == GATHERED) {

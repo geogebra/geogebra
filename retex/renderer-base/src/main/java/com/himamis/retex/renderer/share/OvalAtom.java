@@ -54,6 +54,7 @@ public class OvalAtom extends FBoxAtom {
 		super(base);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new OvalBox((FramedBox) super.createBox(env));
 	}

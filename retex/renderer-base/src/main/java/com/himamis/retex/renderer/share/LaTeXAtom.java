@@ -55,6 +55,7 @@ public class LaTeXAtom extends Atom {
 	public LaTeXAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy(env.getTeXFont().copy());
 		env.getTeXFont().setRoman(true);

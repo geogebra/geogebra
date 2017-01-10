@@ -56,6 +56,7 @@ public class BoldAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box box;
 		if (base != null) {

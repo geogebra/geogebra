@@ -70,14 +70,17 @@ public class TypedAtom extends Atom {
 		return atom;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return atom.createBox(env);
 	}
 
+	@Override
 	public int getLeftType() {
 		return leftType;
 	}
 
+	@Override
 	public int getRightType() {
 		return rightType;
 	}

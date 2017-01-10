@@ -84,6 +84,7 @@ public class InputIntelRealsense3D extends Input3D {
 	}
 	
 	
+	@Override
 	public boolean update() {
 	
 		boolean updateOccured = false;
@@ -126,54 +127,66 @@ public class InputIntelRealsense3D extends Input3D {
 		
 	}
 	
+	@Override
 	public double[] getInputPosition(){
 		return mousePosition;
 	}
 	
+	@Override
 	public double[] getInputOrientation(){
 		return mouseOrientation;
 	}
 	
+	@Override
 	public boolean isRightPressed(){
 		return isRightPressed;
 	}
 	
+	@Override
 	public boolean isLeftPressed(){
 		return isLeftPressed;
 	}
 
+	@Override
 	public boolean isThirdButtonPressed() {
 		return false;
 	}
 
+	@Override
 	public boolean isButtonPressed(){
 		return isRightPressed() || isLeftPressed();
 	}
 
+	@Override
 	public double[] getGlassesPosition(int i){
 		return null; // not implemented yet
 	}
 	
+	@Override
 	public double getEyeSeparation(){
 		return 0; // not implemented yet
 	}
 	
+	@Override
 	public boolean useInputDepthForHitting(){
 		return false;
 	}
 	
+	@Override
 	public boolean useMouseRobot(){
 		return false;
 	}
 
 
 	
+	@Override
 	public DeviceType getDeviceType(){
 		return DeviceType.HAND;
 	}
 	
 	private OutOfField outOfField;
 
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
 		OutOfField oof = socket.getOutOfField(); // this is camera field of view
 		if (oof == OutOfField.NO) {
@@ -250,24 +263,29 @@ public class InputIntelRealsense3D extends Input3D {
 		return socket.hasTrackedHand();
 	}
 
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D) {
 		return socket.hasTrackedHand();
 	}
 
+	@Override
 	public boolean currentlyUseMouse2D(){
 		return !socket.hasTrackedHand();
 	}
 	
 	private boolean hasCompletedGrabbingDelay = false;
 
+	@Override
 	public void setHasCompletedGrabbingDelay(boolean flag){
 		hasCompletedGrabbingDelay = flag;
 	}
 	
+	@Override
 	public boolean hasCompletedGrabbingDelay(){
 		return hasCompletedGrabbingDelay;
 	}
 	
+	@Override
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
 			int panelDimW, int panelDimH)  {
@@ -277,82 +295,102 @@ public class InputIntelRealsense3D extends Input3D {
 
 	}
 	
+	@Override
 	public boolean useScreenZOffset(){
 		return false;
 	}
 	
+	@Override
 	public boolean isStereoBuffered() {
 		return false;
 	}
 	
+	@Override
 	public boolean useInterlacedPolarization(){
 		return false;
 	}
 	
+	@Override
 	public boolean useCompletingDelay(){
 		return true;
 	}
 	
+	@Override
 	public boolean hasMouseDirection() {
 		return false;
 	}
 
+	@Override
 	public double[] getInputDirection() {
 		return null;
 	}
 
+	@Override
 	public boolean useQuaternionsForRotate() {
 		return false;
 	}
 
+	@Override
 	public boolean wantsStereo() {
 		return false;
 	}
 
+	@Override
 	public double getDefaultRotationOz() {
 		return EuclidianView3D.ANGLE_ROT_OZ;
 	}
 
+	@Override
 	public double getDefaultRotationXOY() {
 		return EuclidianView3D.ANGLE_ROT_XOY;
 	}
 
+	@Override
 	public boolean shouldStoreStereoToXML() {
 		return true;
 	}
 
+	@Override
 	public boolean needsGrayBackground() {
 		return false;
 	}
 
+	@Override
 	public boolean useHeadTracking() {
 		return false;
 	}
 
+	@Override
 	public boolean useHandGrabbing() {
 		return true;
 	}
 
+	@Override
 	public OutOfField getOutOfField() {
 		return outOfField;
 	}
 
+	@Override
 	public void exit() {
 		// socket.exit();
 	}
 
+	@Override
 	public void setPositionOnScreen() {
 		// nothing to do
 	}
 
+	@Override
 	public void setPositionOffScreen() {
 		// nothing to do
 	}
 
+	@Override
 	public boolean isZSpace() {
 		return false;
 	}
 
+	@Override
 	public void setSpecificSettings(EuclidianSettings3D settings) {
 		// nothing to do
 	}

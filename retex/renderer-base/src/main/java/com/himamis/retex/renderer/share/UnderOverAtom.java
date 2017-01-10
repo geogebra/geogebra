@@ -116,6 +116,7 @@ public class UnderOverAtom extends Atom {
 		this.overScriptSize = overScriptSize;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		// create boxes in right style and calculate maximum width
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));
@@ -171,10 +172,12 @@ public class UnderOverAtom extends Atom {
 			return b;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}

@@ -73,6 +73,7 @@ public class ZSpaceGeoGebra {
 		{
 			this.zsggb = zsggb;
 		}
+		@Override
 		public void runWithEventData(final ZSTrackerEventData eventData){
 			
 			zsggb.setEventOccured();
@@ -118,12 +119,14 @@ public class ZSpaceGeoGebra {
 			super(zsggb);
 		}
 		
+		@Override
 		public void runWithEventData(final ZSTrackerEventData eventData) {
 
 			zsggb.setStylusDetected();
 			super.runWithEventData(eventData);
 		}
 
+		@Override
 		protected void updateCoords(){
 			// update x, y, z
 			x = viewPortMatrix.getM03() * zsggb.toPixelRatio;
@@ -188,12 +191,14 @@ public class ZSpaceGeoGebra {
 			super(zsggb);
 		}
 
+		@Override
 		public void runWithEventData(final ZSTrackerEventData eventData) {
 
 			zsggb.setGlassesDetected();
 			super.runWithEventData(eventData);
 		}
 		
+		@Override
 		protected void updateCoords(){
 			
 			// update eyes
@@ -225,6 +230,7 @@ public class ZSpaceGeoGebra {
 			this.zsggb = zsggb;
 		}
 		
+		@Override
 		public void runWithEventData(final ZSTrackerEventData eventData){
 			
 			zsggb.setEventOccured();
@@ -244,6 +250,7 @@ public class ZSpaceGeoGebra {
 			this.zsggb = zsggb;
 		}
 		
+		@Override
 		public void runWithEventData(final ZSTrackerEventData eventData){
 			
 			zsggb.setEventOccured();

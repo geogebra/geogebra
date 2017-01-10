@@ -56,6 +56,7 @@ public class UnderscoreAtom extends Atom {
 	public UnderscoreAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 		HorizontalBox hb = new HorizontalBox(s.createBox(env));

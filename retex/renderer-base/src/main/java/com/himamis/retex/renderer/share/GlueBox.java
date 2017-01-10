@@ -61,10 +61,12 @@ public class GlueBox extends Box {
 		this.shrink = shrink;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		// no visible effect
 	}
 
+	@Override
 	public int getLastFontId() {
 		return TeXFont.NO_FONT;
 	}

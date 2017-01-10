@@ -72,11 +72,13 @@ public class FontInfo {
 			right = r;
 		}
 
+		@Override
 		public boolean equals(Object o) {
 			CharCouple lig = (CharCouple) o;
 			return left == lig.left && right == lig.right;
 		}
 
+		@Override
 		public int hashCode() {
 			return (left + right) % 128;
 		}

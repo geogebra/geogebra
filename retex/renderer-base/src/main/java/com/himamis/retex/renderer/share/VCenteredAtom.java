@@ -59,6 +59,7 @@ public class VCenteredAtom extends Atom {
 		this.atom = atom;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = atom.createBox(env);
 

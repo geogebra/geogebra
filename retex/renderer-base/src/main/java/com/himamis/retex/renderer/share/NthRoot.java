@@ -66,6 +66,7 @@ public class NthRoot extends Atom {
 		this.root = root == null ? new EmptyAtom() : root;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		// first create a simple square root construction
 

@@ -65,6 +65,7 @@ public class UnderOverArrowAtom extends Atom {
 		this.dble = true;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = base != null ? base.createBox(env) : new StrutBox(0, 0, 0, 0);
 		double sep = new SpaceAtom(TeXConstants.UNIT_POINT, 1f, 0, 0).createBox(env).getWidth();

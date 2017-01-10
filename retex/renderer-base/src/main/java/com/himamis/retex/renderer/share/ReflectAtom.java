@@ -57,6 +57,7 @@ public class ReflectAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new ReflectBox(base.createBox(env));
 	}

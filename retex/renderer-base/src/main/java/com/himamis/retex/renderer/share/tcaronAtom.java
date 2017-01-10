@@ -53,6 +53,7 @@ public class tcaronAtom extends Atom {
 	public tcaronAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		CharBox A = new CharBox(env.getTeXFont().getChar("textapos", env.getStyle()));
 		CharBox t = new CharBox(env.getTeXFont().getChar('t', "mathnormal", env.getStyle()));

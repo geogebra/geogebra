@@ -56,6 +56,7 @@ public class LCaronAtom extends Atom {
 		this.upper = upper;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		CharBox A = new CharBox(env.getTeXFont().getChar("textapos", env.getStyle()));
 		CharBox L = new CharBox(env.getTeXFont().getChar(upper ? 'L' : 'l', "mathnormal", env.getStyle()));

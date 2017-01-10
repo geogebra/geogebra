@@ -90,6 +90,7 @@ public class HorizontalRule extends Box {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Color old = g2.getColor();
 		if (color != null)
@@ -104,6 +105,7 @@ public class HorizontalRule extends Box {
 		g2.setColor(old);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return TeXFont.NO_FONT;
 	}

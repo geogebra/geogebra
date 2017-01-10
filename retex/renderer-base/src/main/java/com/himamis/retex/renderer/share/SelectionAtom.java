@@ -8,6 +8,7 @@ public class SelectionAtom extends ColorAtom {
 		super(atom, bg, c);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box box = super.createBox(env);
 		return new SelectionBox(box);

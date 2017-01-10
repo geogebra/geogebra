@@ -56,6 +56,7 @@ public class StrikeThroughAtom extends Atom {
 		this.at = at;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();

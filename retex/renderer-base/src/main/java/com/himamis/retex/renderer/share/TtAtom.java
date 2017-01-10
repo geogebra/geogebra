@@ -56,6 +56,7 @@ public class TtAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy(env.getTeXFont().copy());
 		env.getTeXFont().setTt(true);

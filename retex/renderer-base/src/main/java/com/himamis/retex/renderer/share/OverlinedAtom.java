@@ -59,6 +59,7 @@ public class OverlinedAtom extends Atom {
 		type = TeXConstants.TYPE_ORDINARY;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 

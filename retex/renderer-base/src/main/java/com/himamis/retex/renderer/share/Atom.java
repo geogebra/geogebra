@@ -106,6 +106,7 @@ public abstract class Atom implements Cloneable {
 		return type;
 	}
 
+	@Override
 	public Atom clone() {
 		try {
 			return (Atom) super.clone();

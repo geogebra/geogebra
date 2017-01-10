@@ -139,6 +139,7 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		HorizontalBox hBox = new HorizontalBox(env.getColor(), env.getBackground());
@@ -233,10 +234,12 @@ public class RowAtom extends Atom implements Row {
 		return hBox;
 	}
 
+	@Override
 	public void setPreviousAtom(Dummy prev) {
 		previousAtom = prev;
 	}
 
+	@Override
 	public int getLeftType() {
 		if (elements.size() == 0) {
 			return TeXConstants.TYPE_ORDINARY;
@@ -245,6 +248,7 @@ public class RowAtom extends Atom implements Row {
 		}
 	}
 
+	@Override
 	public int getRightType() {
 		if (elements.size() == 0) {
 			return TeXConstants.TYPE_ORDINARY;

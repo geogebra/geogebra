@@ -96,6 +96,7 @@ public class BigOperatorAtom extends Atom {
 		limitsSet = true;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();

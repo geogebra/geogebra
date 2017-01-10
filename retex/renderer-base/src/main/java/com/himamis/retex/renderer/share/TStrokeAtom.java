@@ -56,6 +56,7 @@ public class TStrokeAtom extends Atom {
 		this.upper = upper;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Char ch = env.getTeXFont().getChar("bar", env.getStyle());
 		double italic = ch.getItalic();

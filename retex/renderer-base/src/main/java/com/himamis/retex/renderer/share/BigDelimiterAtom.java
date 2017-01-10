@@ -58,6 +58,7 @@ public class BigDelimiterAtom extends Atom {
 		this.size = size;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = DelimiterFactory.create(delim, env, size);
 		HorizontalBox hbox = new HorizontalBox();

@@ -58,6 +58,7 @@ public class StyleAtom extends Atom {
 		this.at = at;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		int sstyle = env.getStyle();
 		env.setStyle(style);

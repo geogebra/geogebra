@@ -60,10 +60,12 @@ public class StrutBox extends Box {
 		shift = s;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		// no visual effect
 	}
 
+	@Override
 	public int getLastFontId() {
 		return TeXFont.NO_FONT;
 	}

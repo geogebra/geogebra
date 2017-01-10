@@ -58,6 +58,7 @@ public class MathAtom extends Atom {
 		this.style = style;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy(env.getTeXFont().copy());
 		env.getTeXFont().setRoman(false);

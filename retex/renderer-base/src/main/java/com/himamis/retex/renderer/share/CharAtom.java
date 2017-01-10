@@ -70,6 +70,7 @@ public class CharAtom extends CharSymbol {
 		this.textStyle = textStyle;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (textStyle == null) {
 			String ts = env.getTextStyle();
@@ -109,10 +110,12 @@ public class CharAtom extends CharSymbol {
 		}
 	}
 
+	@Override
 	public CharFont getCharFont(TeXFont tf) {
 		return getChar(tf, TeXConstants.STYLE_DISPLAY, false).getCharFont();
 	}
 
+	@Override
 	public String toString() {
 		return "CharAtom: \'" + c + "\'";
 	}

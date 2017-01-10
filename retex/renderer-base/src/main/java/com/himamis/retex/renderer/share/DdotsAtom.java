@@ -53,6 +53,7 @@ public class DdotsAtom extends Atom {
 	public DdotsAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box ldots = TeXFormula.get("ldots").root.createBox(env);
 		double w = ldots.getWidth();

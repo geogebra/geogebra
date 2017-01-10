@@ -134,6 +134,7 @@ public class MulticolumnAtom extends Atom {
 		return align;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b;
 		if (w == 0) {

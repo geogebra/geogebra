@@ -105,6 +105,7 @@ public class HorizontalBox extends Box {
 		return b;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		startDraw(g2, x, y);
 		double xPos = x;
@@ -120,11 +121,13 @@ public class HorizontalBox extends Box {
 		endDraw(g2);
 	}
 
+	@Override
 	public final void add(Box b) {
 		recalculate(b);
 		super.add(b);
 	}
 
+	@Override
 	public final void add(int pos, Box b) {
 		recalculate(b);
 		super.add(pos, b);
@@ -140,6 +143,7 @@ public class HorizontalBox extends Box {
 		depth = Math.max((children.size() == 0 ? Double.NEGATIVE_INFINITY : depth), b.depth + b.shift);
 	}
 
+	@Override
 	public int getLastFontId() {
 		// iterate from the last child box to the first untill a font id is found
 		// that's not equal to NO_FONT

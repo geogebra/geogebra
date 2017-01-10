@@ -240,7 +240,8 @@ abstract public class MathContainer extends MathComponent {
         return false;
     }
 
-    public abstract MathContainer copy();
+    @Override
+	public abstract MathContainer copy();
 
 	public int indexOf(MathComponent argument) {
 		return arguments.indexOf(argument);

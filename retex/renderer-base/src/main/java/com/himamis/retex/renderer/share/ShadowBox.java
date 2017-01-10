@@ -68,6 +68,7 @@ public class ShadowBox extends FramedBox {
 		rectangle = geom.createRectangle2D(0, 0, 0, 0);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		double th = thickness / 2;
 		box.draw(g2, x + space + thickness, y);
@@ -88,6 +89,7 @@ public class ShadowBox extends FramedBox {
 		g2.setStroke(st);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}

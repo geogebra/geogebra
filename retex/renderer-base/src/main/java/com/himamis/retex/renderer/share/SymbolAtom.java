@@ -169,6 +169,7 @@ public class SymbolAtom extends CharSymbol {
 		return name;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
@@ -197,6 +198,7 @@ public class SymbolAtom extends CharSymbol {
 		return cb;
 	}
 
+	@Override
 	public CharFont getCharFont(TeXFont tf) {
 		// style doesn't matter here
 		return tf.getChar(name, TeXConstants.STYLE_DISPLAY).getCharFont();

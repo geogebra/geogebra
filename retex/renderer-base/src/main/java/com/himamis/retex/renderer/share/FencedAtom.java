@@ -94,10 +94,12 @@ public class FencedAtom extends Atom {
 		middle = m;
 	}
 
+	@Override
 	public int getLeftType() {
 		return TeXConstants.TYPE_INNER;
 	}
 
+	@Override
 	public int getRightType() {
 		return TeXConstants.TYPE_INNER;
 	}
@@ -112,6 +114,7 @@ public class FencedAtom extends Atom {
 		box.setShift(-(total / 2 - h) - axis);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		Box content = base.createBox(env);

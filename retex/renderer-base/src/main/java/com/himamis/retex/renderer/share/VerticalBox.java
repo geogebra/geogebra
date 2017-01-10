@@ -80,6 +80,7 @@ class VerticalBox extends Box {
 		}
 	}
 
+	@Override
 	public final void add(Box b) {
 		super.add(b);
 		if (children.size() == 1) {
@@ -103,6 +104,7 @@ class VerticalBox extends Box {
 		width = rightMostPos - leftMostPos;
 	}
 
+	@Override
 	public void add(int pos, Box b) {
 		super.add(pos, b);
 		if (pos == 0) {
@@ -113,6 +115,7 @@ class VerticalBox extends Box {
 		recalculateWidth(b);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		double yPos = y - height;
 		for (Box b : children) {
@@ -126,6 +129,7 @@ class VerticalBox extends Box {
 		return children.size();
 	}
 
+	@Override
 	public int getLastFontId() {
 		// iterate from the last child box (the lowest) to the first (the highest)
 		// untill a font id is found that's not equal to NO_FONT

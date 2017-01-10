@@ -63,6 +63,7 @@ public class InputLeo3D extends Input3D {
 	}
 	
 	
+	@Override
 	public boolean update() {
 	
 		boolean updateOccured = false;
@@ -143,42 +144,52 @@ public class InputLeo3D extends Input3D {
 		
 	}
 	
+	@Override
 	public double[] getInputPosition(){
 		return mousePosition;
 	}
 	
+	@Override
 	public double[] getInputOrientation(){
 		return mouseOrientation;
 	}
 	
+	@Override
 	public boolean isRightPressed(){
 		return isRightPressed;
 	}
 	
+	@Override
 	public boolean isLeftPressed(){
 		return isLeftPressed;
 	}
 
+	@Override
 	public boolean isThirdButtonPressed() {
 		return false;
 	}
 
+	@Override
 	public boolean isButtonPressed() {
 		return isRightPressed() || isLeftPressed();
 	}
 
+	@Override
 	public double[] getGlassesPosition(int i){
 		return glassesPosition[i];
 	}
 	
+	@Override
 	public double getEyeSeparation(){
 		return eyeSeparation;
 	}
 	
+	@Override
 	public boolean useInputDepthForHitting(){
 		return true;
 	}
 	
+	@Override
 	public boolean useMouseRobot(){
 		return true;
 	}
@@ -198,30 +209,37 @@ public class InputLeo3D extends Input3D {
 //		return 1f;
 //	}
 	
+	@Override
 	public DeviceType getDeviceType(){
 		return DeviceType.PEN;
 	}
 	
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
 		return view3D.hasMouse2D();
 	}
 
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D) {
 		return view3D.hasMouse2D();
 	}
 
+	@Override
 	public boolean currentlyUseMouse2D(){
 		return false;
 	}
 	
+	@Override
 	public void setHasCompletedGrabbingDelay(boolean flag) {
 		// not used for leo
 	}
 	
+	@Override
 	public boolean hasCompletedGrabbingDelay(){
 		return false;
 	}
 
+	@Override
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
 			int panelDimW, int panelDimH) {
@@ -232,82 +250,102 @@ public class InputLeo3D extends Input3D {
 
 	}
 	
+	@Override
 	public boolean useScreenZOffset(){
 		return true;
 	}
 	
+	@Override
 	public boolean isStereoBuffered() {
 		return false;
 	}
 	
+	@Override
 	public boolean useInterlacedPolarization(){
 		return true;
 	}
 	
+	@Override
 	public boolean useCompletingDelay(){
 		return false;
 	}
 	
+	@Override
 	public boolean hasMouseDirection() {
 		return false;
 	}
 
+	@Override
 	public double[] getInputDirection() {
 		return null;
 	}
 
+	@Override
 	public boolean useQuaternionsForRotate() {
 		return true;
 	}
 
+	@Override
 	public boolean wantsStereo() {
 		return true;
 	}
 
+	@Override
 	public double getDefaultRotationOz() {
 		return EuclidianView3D.ANGLE_ROT_OZ;
 	}
 
+	@Override
 	public double getDefaultRotationXOY() {
 		return EuclidianView3D.ANGLE_ROT_XOY;
 	}
 
+	@Override
 	public boolean shouldStoreStereoToXML() {
 		return false;
 	}
 
+	@Override
 	public boolean needsGrayBackground() {
 		return false;
 	}
 
+	@Override
 	public boolean useHeadTracking() {
 		return true;
 	}
 
+	@Override
 	public boolean useHandGrabbing() {
 		return false;
 	}
 
+	@Override
 	public OutOfField getOutOfField() {
 		return OutOfField.NEVER;
 	}
 
+	@Override
 	public void exit() {
 		// not used here
 	}
 
+	@Override
 	public void setPositionOnScreen() {
 		// nothing to do
 	}
 
+	@Override
 	public void setPositionOffScreen() {
 		// nothing to do
 	}
 
+	@Override
 	public boolean isZSpace() {
 		return false;
 	}
 
+	@Override
 	public void setSpecificSettings(EuclidianSettings3D settings) {
 		// nothing to do
 	}

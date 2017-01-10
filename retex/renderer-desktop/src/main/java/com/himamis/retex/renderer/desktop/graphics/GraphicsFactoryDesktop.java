@@ -73,6 +73,7 @@ public class GraphicsFactoryDesktop extends GraphicsFactory {
 		return new ImageD(width, height, type);
 	}
 
+	@Override
 	public Image getImage(String path) {
 		BufferedImage img = null;
 		try {

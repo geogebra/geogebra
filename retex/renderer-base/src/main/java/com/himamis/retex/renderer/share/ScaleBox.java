@@ -71,6 +71,7 @@ public class ScaleBox extends Box {
 		this.factor = factor;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		if (xscl != 0 && yscl != 0) {
@@ -83,6 +84,7 @@ public class ScaleBox extends Box {
 		}
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}

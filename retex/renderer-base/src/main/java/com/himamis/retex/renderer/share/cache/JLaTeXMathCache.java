@@ -340,6 +340,7 @@ public final class JLaTeXMathCache {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public boolean equals(Object o) {
 			if (o != null && o instanceof CachedTeXFormula) {
 				CachedTeXFormula c = (CachedTeXFormula) o;
@@ -366,6 +367,7 @@ public final class JLaTeXMathCache {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public int hashCode() {
 			return f.hashCode();
 		}

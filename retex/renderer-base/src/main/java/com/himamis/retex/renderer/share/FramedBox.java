@@ -82,6 +82,7 @@ public class FramedBox extends Box {
 		this.bg = bg;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Stroke st = g2.getStroke();
 		g2.setStroke(graphics.createBasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER));
@@ -108,6 +109,7 @@ public class FramedBox extends Box {
 		box.draw(g2, x + space + thickness, y);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}

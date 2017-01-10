@@ -59,6 +59,7 @@ class UnderlinedAtom extends Atom {
 		type = TeXConstants.TYPE_ORDINARY; // for spacing rules
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 

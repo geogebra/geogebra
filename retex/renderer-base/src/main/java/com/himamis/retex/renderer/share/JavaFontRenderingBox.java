@@ -111,6 +111,7 @@ public class JavaFontRenderingBox extends Box {
 		font = fontAdapter.createFont(name, Font.PLAIN, 10);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		g2.translate(x, y);
@@ -120,6 +121,7 @@ public class JavaFontRenderingBox extends Box {
 		g2.translate(-x, -y);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return 0;
 	}

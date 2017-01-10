@@ -201,6 +201,7 @@ public class RotateBox extends Box {
 		return p;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		box.drawDebug(g2, x, y, true);
@@ -212,6 +213,7 @@ public class RotateBox extends Box {
 		g2.rotate(angle, x, y);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}

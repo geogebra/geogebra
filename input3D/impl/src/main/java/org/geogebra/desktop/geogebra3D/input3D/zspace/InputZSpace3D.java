@@ -65,6 +65,7 @@ public class InputZSpace3D extends Input3D {
 	}
 	
 	
+	@Override
 	public boolean update() {
 
 		// set view port and check if changed
@@ -138,71 +139,88 @@ public class InputZSpace3D extends Input3D {
 		
 	}
 	
+	@Override
 	public double[] getInputPosition(){
 		return mousePosition;
 	}
 	
+	@Override
 	public double[] getInputOrientation(){
 		return mouseOrientation;
 	}
 	
+	@Override
 	public boolean isRightPressed(){
 		return isRightPressed;
 	}
 	
+	@Override
 	public boolean isLeftPressed(){
 		return isLeftPressed;
 	}
 
+	@Override
 	public boolean isThirdButtonPressed() {
 		return isThirdButtonPressed;
 	}
 
+	@Override
 	public boolean isButtonPressed() {
 		return isRightPressed() || isLeftPressed() || isThirdButtonPressed();
 	}
 
+	@Override
 	public double[] getGlassesPosition(int i){
 		return socketGlassesPosition[i];
 	}
 	
+	@Override
 	public double getEyeSeparation(){
 		return eyeSeparation;
 	}
 	
+	@Override
 	public boolean useInputDepthForHitting(){
 		return false;
 	}
 	
+	@Override
 	public boolean useMouseRobot(){
 		return true;
 	}
 	
 	
+	@Override
 	public DeviceType getDeviceType(){
 		return DeviceType.PEN;
 	}
 	
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D, Coords mouse3DPosition){
 		return view3D.hasMouse2D();
 	}
 
+	@Override
 	public boolean hasMouse(EuclidianView3D view3D) {
 		return view3D.hasMouse2D();
 	}
 
+	@Override
 	public boolean currentlyUseMouse2D(){
 		return hasStylusNotIntersectingPhysicalScreen || !stylusDetected;
 	}
 	
+	@Override
 	public void setHasCompletedGrabbingDelay(boolean flag){
 		// not used
 	}
 	
+	@Override
 	public boolean hasCompletedGrabbingDelay(){
 		return false;
 	}
 
+	@Override
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
 			int panelDimW, int panelDimH) {
@@ -213,74 +231,92 @@ public class InputZSpace3D extends Input3D {
 		
 	}
 	
+	@Override
 	public boolean useScreenZOffset(){
 		return false;
 	}
 	
+	@Override
 	public boolean isStereoBuffered() {
 		return true;
 	}
 	
+	@Override
 	public boolean useInterlacedPolarization(){
 		return false;
 	}
 	
+	@Override
 	public boolean useCompletingDelay(){
 		return false;
 	}
 	
+	@Override
 	public boolean hasMouseDirection() {
 		return true;
 	}
 
+	@Override
 	public double[] getInputDirection() {
 		return mouseDirection;
 	}
 
+	@Override
 	public boolean useQuaternionsForRotate() {
 		return false;
 	}
 
+	@Override
 	public boolean wantsStereo() {
 		return socket.wantsStereo;
 	}
 
+	@Override
 	public double getDefaultRotationOz() {
 		return 270;
 	}
 
+	@Override
 	public double getDefaultRotationXOY() {
 		return socket.getDisplayAngle();
 	}
 
+	@Override
 	public boolean shouldStoreStereoToXML() {
 		return false;
 	}
 
+	@Override
 	public boolean needsGrayBackground() {
 		return true;
 	}
 
+	@Override
 	public boolean useHeadTracking() {
 		return true;
 	}
 
+	@Override
 	public boolean useHandGrabbing() {
 		return false;
 	}
 
+	@Override
 	public OutOfField getOutOfField() {
 		return OutOfField.NEVER;
 	}
 
+	@Override
 	public void exit() {
 		// not used here
 	}
 
+	@Override
 	public void setPositionOnScreen() {
 		hasStylusNotIntersectingPhysicalScreen = false;
 	}
 
+	@Override
 	public void setPositionOffScreen() {
 		hasStylusNotIntersectingPhysicalScreen = true;
 	}
@@ -288,10 +324,12 @@ public class InputZSpace3D extends Input3D {
 	private boolean hasStylusNotIntersectingPhysicalScreen = true,
 			stylusDetected = false;
 
+	@Override
 	public boolean isZSpace() {
 		return true;
 	}
 
+	@Override
 	public void setSpecificSettings(EuclidianSettings3D settings) {
 		if (!settings.hadSettingChanged()) {
 			settings.beginBatch();

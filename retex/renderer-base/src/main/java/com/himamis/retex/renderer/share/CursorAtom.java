@@ -12,6 +12,7 @@ public class CursorAtom extends Atom {
 		this.height = height;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();

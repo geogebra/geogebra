@@ -56,6 +56,7 @@ public class SmallCapAtom extends Atom {
 		this.base = base;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		boolean prev = env.getSmallCap();
 		env.setSmallCap(true);

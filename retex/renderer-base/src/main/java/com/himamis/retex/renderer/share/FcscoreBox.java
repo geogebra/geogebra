@@ -75,6 +75,7 @@ public class FcscoreBox extends Box {
 		line = geom.createLine2D();
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Transform transf = g2.getTransform();
 		g2.saveTransformation();
@@ -114,6 +115,7 @@ public class FcscoreBox extends Box {
 		g2.setStroke(oldStroke);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return TeXFont.NO_FONT;
 	}

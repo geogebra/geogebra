@@ -60,6 +60,7 @@ public class XArrowAtom extends Atom {
 		this.left = left;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box O = over != null ? over.createBox(env.supStyle()) : new StrutBox(0, 0, 0, 0);
 		Box U = under != null ? under.createBox(env.subStyle()) : new StrutBox(0, 0, 0, 0);

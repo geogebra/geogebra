@@ -63,6 +63,7 @@ public class RuleAtom extends Atom {
 		this.r = raise;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new HorizontalRule(h * SpaceAtom.getFactor(hunit, env), w * SpaceAtom.getFactor(wunit, env), r
 				* SpaceAtom.getFactor(runit, env));

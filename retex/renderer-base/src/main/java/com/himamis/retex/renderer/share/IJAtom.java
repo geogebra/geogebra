@@ -56,6 +56,7 @@ public class IJAtom extends Atom {
 		this.upper = upper;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		CharBox I = new CharBox(env.getTeXFont().getChar(upper ? 'I' : 'i', "mathnormal", env.getStyle()));
 		CharBox J = new CharBox(env.getTeXFont().getChar(upper ? 'J' : 'j', "mathnormal", env.getStyle()));

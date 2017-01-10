@@ -57,10 +57,12 @@ public class FixedCharAtom extends CharSymbol {
 		cf = c;
 	}
 
+	@Override
 	public CharFont getCharFont(TeXFont tf) {
 		return cf;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		Char c = tf.getChar(cf, env.getStyle());

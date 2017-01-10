@@ -51,11 +51,13 @@ public class MathFunction extends MathContainer {
     /**
      * Gets parent of this component.
      */
-    public MathSequence getParent() {
+    @Override
+	public MathSequence getParent() {
         return (MathSequence) super.getParent();
     }
 
-    public MathSequence getArgument(int i) {
+    @Override
+	public MathSequence getArgument(int i) {
         return (MathSequence) super.getArgument(i);
     }
 
@@ -87,14 +89,16 @@ public class MathFunction extends MathContainer {
     /**
      * Insert Index
      */
-    public int getInsertIndex() {
+    @Override
+	public int getInsertIndex() {
         return meta.getInsertIndex();
     }
 
     /**
      * Initial Index
      */
-    public int getInitialIndex() {
+    @Override
+	public int getInitialIndex() {
         return meta.getInitialIndex();
     }
 
@@ -112,7 +116,8 @@ public class MathFunction extends MathContainer {
         return meta.getDownIndex(n);
     }
 
-    public MathFunction copy() {
+    @Override
+	public MathFunction copy() {
         MathFunction function = new MathFunction(meta);
         for (int i = 0; i < arguments.size(); i++) {
             MathContainer component = getArgument(i);

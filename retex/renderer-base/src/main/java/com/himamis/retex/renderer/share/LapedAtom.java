@@ -58,6 +58,7 @@ public class LapedAtom extends Atom {
 		this.type = type;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = at.createBox(env);
 		VerticalBox vb = new VerticalBox();

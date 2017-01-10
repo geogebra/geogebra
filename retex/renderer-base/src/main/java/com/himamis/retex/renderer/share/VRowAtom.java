@@ -101,6 +101,7 @@ public class VRowAtom extends Atom {
 			elements.add(el);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
 		Box interline = new StrutBox(0, env.getInterline(), 0, 0);

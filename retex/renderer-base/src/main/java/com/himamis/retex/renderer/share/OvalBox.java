@@ -63,6 +63,7 @@ public class OvalBox extends FramedBox {
 		roundRectangle = geom.createRoundRectangle2D(0, 0, 0, 0, 0, 0);
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		box.draw(g2, x + space + thickness, y);
 		Stroke st = g2.getStroke();
@@ -76,6 +77,7 @@ public class OvalBox extends FramedBox {
 		g2.setStroke(st);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}

@@ -57,6 +57,7 @@ public class MiddleAtom extends Atom {
 		base = at;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return box;
 	}

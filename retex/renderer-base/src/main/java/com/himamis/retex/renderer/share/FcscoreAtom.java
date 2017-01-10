@@ -56,14 +56,17 @@ public class FcscoreAtom extends Atom {
 		this.N = N;
 	}
 
+	@Override
 	public int getLeftType() {
 		return TeXConstants.TYPE_ORDINARY;
 	}
 
+	@Override
 	public int getRightType() {
 		return TeXConstants.TYPE_ORDINARY;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		final double factor = 12 * SpaceAtom.getFactor(TeXConstants.UNIT_MU, env);
 

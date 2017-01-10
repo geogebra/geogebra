@@ -258,6 +258,7 @@ public class SpaceAtom extends Atom {
 		return new double[] {  unit, f };
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
 			if (blankType == 0)

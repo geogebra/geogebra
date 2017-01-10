@@ -67,6 +67,7 @@ public class JavaFontRenderingAtom extends Atom {
 		this.fontInfos = fontInfos;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (fontInfos == null) {
 			return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.getStyle()));

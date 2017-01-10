@@ -73,6 +73,7 @@ public class FBoxAtom extends Atom {
 		this.line = line;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbase = base.createBox(env);
 		double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());

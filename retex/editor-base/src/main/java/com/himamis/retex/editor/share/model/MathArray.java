@@ -71,7 +71,8 @@ public class MathArray extends MathContainer {
         rows += 1;
     }
 
-    public MathSequence getArgument(int i) {
+    @Override
+	public MathSequence getArgument(int i) {
         return (MathSequence) super.getArgument(i);
     }
 
@@ -98,7 +99,8 @@ public class MathArray extends MathContainer {
         columns += 1;
     }
 
-    public void delArgument(int i) {
+    @Override
+	public void delArgument(int i) {
         super.removeArgument(i);
         columns -= 1;
     }
@@ -172,7 +174,8 @@ public class MathArray extends MathContainer {
         return meta.isMatrix();
     }
 
-    public MathArray copy() {
+    @Override
+	public MathArray copy() {
         MathArray array = new MathArray(meta, columns, rows);
         array.copy(0, 0, this);
         return array;

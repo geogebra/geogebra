@@ -64,14 +64,17 @@ public class RaiseAtom extends Atom {
 		this.d = d;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box bbox = base.createBox(env);
 		if (runit == -1) {

@@ -1056,7 +1056,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getScaleX() {
+    @Override
+	public double getScaleX() {
         return m00;
     }
 
@@ -1068,7 +1069,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getScaleY() {
+    @Override
+	public double getScaleY() {
         return m11;
     }
 
@@ -1080,7 +1082,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getShearX() {
+    @Override
+	public double getShearX() {
         return m01;
     }
 
@@ -1092,7 +1095,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getShearY() {
+    @Override
+	public double getShearY() {
         return m10;
     }
 
@@ -1104,7 +1108,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getTranslateX() {
+    @Override
+	public double getTranslateX() {
         return m02;
     }
 
@@ -1116,7 +1121,8 @@ public class AffineTransform implements Cloneable, Transform {
      * @see #getMatrix
      * @since 1.2
      */
-    public double getTranslateY() {
+    @Override
+	public double getTranslateY() {
         return m12;
     }
 
@@ -1135,7 +1141,8 @@ public class AffineTransform implements Cloneable, Transform {
      * Y axis direction
      * @since 1.2
      */
-    public void translate(double tx, double ty) {
+    @Override
+	public void translate(double tx, double ty) {
         switch (state) {
             default:
                 stateError();
@@ -1522,7 +1529,8 @@ public class AffineTransform implements Cloneable, Transform {
      * Y axis direction
      * @since 1.2
      */
-    public void scale(double sx, double sy) {
+    @Override
+	public void scale(double sx, double sy) {
         int state = this.state;
         switch (state) {
             default:
@@ -1591,7 +1599,8 @@ public class AffineTransform implements Cloneable, Transform {
      * direction of the positive Y axis as a factor of their X coordinate
      * @since 1.2
      */
-    public void shear(double shx, double shy) {
+    @Override
+	public void shear(double shx, double shy) {
         int state = this.state;
         switch (state) {
             default:
@@ -2091,7 +2100,8 @@ public class AffineTransform implements Cloneable, Transform {
      * <code>Object</code>.
      * @since 1.2
      */
-    public String toString() {
+    @Override
+	public String toString() {
         return ("AffineTransform[["
                 + _matround(m00) + ", "
                 + _matround(m01) + ", "
@@ -2118,7 +2128,8 @@ public class AffineTransform implements Cloneable, Transform {
      * <code>AffineTransform</code> object.
      * @since 1.2
      */
-    public Object clone(){
+    //@Override GWT doesn't like this
+	public Object clone(){
         return new AffineTransform(this);
     }
 

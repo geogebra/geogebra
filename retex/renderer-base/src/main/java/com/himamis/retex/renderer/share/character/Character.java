@@ -613,6 +613,7 @@ public final class Character {
 		 * only if {@code this} and the argument refer to the same object; since this method is
 		 * {@code final}, this guarantee holds for all subclasses.
 		 */
+		@Override
 		public final boolean equals(Object obj) {
 			return (this == obj);
 		}
@@ -622,6 +623,7 @@ public final class Character {
 		 * method is {@code final} in order to ensure that the {@code equals} and {@code hashCode}
 		 * methods will be consistent in all subclasses.
 		 */
+		@Override
 		public final int hashCode() {
 			return super.hashCode();
 		}
@@ -629,6 +631,7 @@ public final class Character {
 		/**
 		 * Returns the name of this subset.
 		 */
+		@Override
 		public final String toString() {
 			return name;
 		}
@@ -2771,6 +2774,7 @@ public final class Character {
 	 *
 	 * @return a hash code value for this {@code Character}
 	 */
+	@Override
 	public int hashCode() {
 		return (int) value;
 	}
@@ -2783,6 +2787,7 @@ public final class Character {
 	 * @param obj the object to compare with.
 	 * @return {@code true} if the objects are the same; {@code false} otherwise.
 	 */
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Character) {
 			return value == ((Character) obj).charValue();
@@ -2797,6 +2802,7 @@ public final class Character {
 	 *
 	 * @return a string representation of this object.
 	 */
+	@Override
 	public String toString() {
 		char buf[] = { value };
 		return String.valueOf(buf);

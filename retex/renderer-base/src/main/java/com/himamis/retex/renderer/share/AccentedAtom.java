@@ -138,6 +138,7 @@ public class AccentedAtom extends Atom {
 		}
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();

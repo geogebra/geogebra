@@ -185,6 +185,7 @@ public class FractionAtom extends Atom {
 			return TeXConstants.ALIGN_CENTER;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();

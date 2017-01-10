@@ -53,6 +53,7 @@ public class BreakMarkAtom extends Atom {
 	public BreakMarkAtom() {
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new StrutBox(0, 0, 0, 0);
 	}

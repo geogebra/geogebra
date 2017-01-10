@@ -57,6 +57,7 @@ public class MonoScaleAtom extends ScaleAtom {
 		this.factor = factor;
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env = env.copy();
 		double f = env.getScaleFactor();

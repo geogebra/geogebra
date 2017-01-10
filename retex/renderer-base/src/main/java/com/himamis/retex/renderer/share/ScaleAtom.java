@@ -60,14 +60,17 @@ public class ScaleAtom extends Atom {
 		this.yscl = yscl;
 	}
 
+	@Override
 	public int getLeftType() {
 		return base.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return base.getRightType();
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		return new ScaleBox(base.createBox(env), xscl, yscl);
 	}

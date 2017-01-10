@@ -62,6 +62,7 @@ public class ReflectBox extends Box {
 		shift = b.shift;
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		drawDebug(g2, x, y);
 		g2.translate(x, y);
@@ -71,6 +72,7 @@ public class ReflectBox extends Box {
 		g2.translate(-x, -y);
 	}
 
+	@Override
 	public int getLastFontId() {
 		return box.getLastFontId();
 	}
