@@ -141,9 +141,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 	}
 
 
-	public void removeDummyCursor() {
+	public int removeDummyCursor() {
 		if (!dummyCursor) {
-			return;
+			return -1;
 		}
 		String text = getText();
 		int cpos = getCursorPos();
@@ -151,6 +151,7 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 
 		setValue(text);
 		dummyCursor = false;
+		return cpos;
 	}
 
 	public void addDummyCursor(int caretPos) {

@@ -161,9 +161,9 @@ public class ScriptArea extends TextArea
 		});
 	}
 
-	public void removeDummyCursor() {
+	public int removeDummyCursor() {
 		if (!dummyCursor) {
-			return;
+			return -1;
 		}
 		String text = getText();
 		int cpos = getCursorPos();
@@ -171,6 +171,7 @@ public class ScriptArea extends TextArea
 
 		setValue(text);
 		dummyCursor = false;
+		return cpos;
 	}
 
 	/**

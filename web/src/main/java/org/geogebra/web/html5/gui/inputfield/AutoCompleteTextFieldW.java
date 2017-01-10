@@ -748,9 +748,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		});
 	}
 
-	public void removeDummyCursor() {
+	public int removeDummyCursor() {
 		if (!dummyCursor) {
-			return;
+			return -1;
 		}
 		String text = textField.getText();
 		int cpos = getCaretPosition();
@@ -758,6 +758,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		textField.setValue(text);
 		dummyCursor = false;
+		return cpos;
 	}
 
 	public boolean hasDummyCursor() {

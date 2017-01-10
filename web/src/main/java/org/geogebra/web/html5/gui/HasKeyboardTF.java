@@ -14,7 +14,12 @@ public interface HasKeyboardTF extends MathKeyboardListener {
 
 	public void addDummyCursor();
 
-	public void removeDummyCursor();
+	/**
+	 * Remove the dummy cursor
+	 * 
+	 * @return the position of removed cursor
+	 */
+	public int removeDummyCursor();
 
 	public void setFocus(boolean b);
 
