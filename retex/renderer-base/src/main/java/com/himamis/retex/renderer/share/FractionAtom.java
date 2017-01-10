@@ -178,7 +178,7 @@ public class FractionAtom extends Atom {
 
 	// Checks if the alignment constant is valid.
 	// If not, a default value will be used.
-	private int checkAlignment(int align) {
+	private static int checkAlignment(int align) {
 		if (align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT)
 			return align;
 		else

@@ -287,7 +287,7 @@ public class MetaModel {
         return isFunctionOpenKey;
     }
 
-    private MetaArray getMetaArray(MetaGroup metaGroup, String name) {
+    private static MetaArray getMetaArray(MetaGroup metaGroup, String name) {
         return (MetaArray) metaGroup.getComponent(name);
     }
 

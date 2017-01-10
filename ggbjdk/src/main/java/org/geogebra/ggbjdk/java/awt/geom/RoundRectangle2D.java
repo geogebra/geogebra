@@ -331,7 +331,7 @@ public abstract class RoundRectangle2D extends RectangularShape {
         return (x * x + y * y <= 1.0);
     }
 
-    private int classify(double coord, double left, double right,
+    private static int classify(double coord, double left, double right,
                          double arcsize)
     {
         if (coord < left) {

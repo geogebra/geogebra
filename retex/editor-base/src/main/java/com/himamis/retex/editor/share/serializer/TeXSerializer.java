@@ -385,7 +385,7 @@ public class TeXSerializer extends SerializerAdapter {
         }
     }
 
-    private int letterLength(MathSequence symbol, int i) {
+    private static int letterLength(MathSequence symbol, int i) {
         if (symbol.getArgument(i) instanceof MathCharacter) {
             return ((MathCharacter) symbol.getArgument(i)).getTexName()
                     .length();
@@ -394,7 +394,7 @@ public class TeXSerializer extends SerializerAdapter {
         }
     }
 
-    private boolean isLatexFunction(String texName) {
+    private static boolean isLatexFunction(String texName) {
         for (int i = 0; i < latexFunctions.length; i++) {
             if (latexFunctions[i].equals(texName)) {
                 return true;

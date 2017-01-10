@@ -133,7 +133,7 @@ public class GlueSettingsParser {
 		}
 	}
 
-	private Glue createGlue(Element type, String name) throws ResourceParseException {
+	private static Glue createGlue(Element type, String name) throws ResourceParseException {
 		final String[] names = { "space", "stretch", "shrink" };
 		double[] values = new double[names.length];
 		for (int i = 0; i < names.length; i++) {

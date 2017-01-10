@@ -104,7 +104,7 @@ public class TeXSymbolParser {
 		return res;
 	}
 
-	private void setTypeMappings() {
+	private static void setTypeMappings() {
 		typeMappings.put("ord", TeXConstants.TYPE_ORDINARY);
 		typeMappings.put("op", TeXConstants.TYPE_BIG_OPERATOR);
 		typeMappings.put("bin", TeXConstants.TYPE_BINARY_OPERATOR);

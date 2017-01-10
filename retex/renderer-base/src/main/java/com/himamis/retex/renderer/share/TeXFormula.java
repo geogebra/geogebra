@@ -557,7 +557,7 @@ public class TeXFormula {
 			return root.createBox(style);
 	}
 
-	private DefaultTeXFont createFont(double size, int type) {
+	private static DefaultTeXFont createFont(double size, int type) {
 		DefaultTeXFont dtf = new DefaultTeXFont(size);
 		if (type == 0) {
 			dtf.setSs(false);

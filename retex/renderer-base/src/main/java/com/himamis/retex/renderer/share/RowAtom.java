@@ -125,7 +125,7 @@ public class RowAtom extends Atom implements Row {
 	 * @param cur current atom being processed
 	 * @param prev previous atom
 	 */
-	private void changeToOrd(Dummy cur, Dummy prev, Atom next) {
+	private static void changeToOrd(Dummy cur, Dummy prev, Atom next) {
 		int type = cur.getLeftType();
 		if (type == TeXConstants.TYPE_BINARY_OPERATOR
 				&& ((prev == null || binSet.getBit(prev.getRightType())) || next == null)) {

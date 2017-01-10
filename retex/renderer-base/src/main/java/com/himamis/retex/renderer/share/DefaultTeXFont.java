@@ -418,7 +418,7 @@ public class DefaultTeXFont implements TeXFont {
 		return null;
 	}
 
-	private Metrics getMetrics(CharFont cf, double size) {
+	private static Metrics getMetrics(CharFont cf, double size) {
 		FontInfo info = fontInfo[cf.fontId];
 		double[] m = info.getMetrics(cf.c);
 		if (m == null) {

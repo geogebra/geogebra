@@ -580,7 +580,7 @@ public class InputController {
         }
     }
 
-    private void delContaner(EditorState editorState, MathContainer container, MathSequence operand) {
+    private static void delContaner(EditorState editorState, MathContainer container, MathSequence operand) {
         if (container.getParent() instanceof MathSequence) {
             // when parent is sequence
             MathSequence parent = (MathSequence) container.getParent();
@@ -598,7 +598,7 @@ public class InputController {
         }
     }
 
-    private void delCharacters(EditorState editorState, int length) {
+    private static void delCharacters(EditorState editorState, int length) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
         while (length > 0 && currentOffset > 0 && currentField.getArgument(currentOffset - 1) instanceof MathCharacter) {
@@ -751,7 +751,7 @@ public class InputController {
         return handled;
     }
 
-    private boolean isArrayCloseKey(char key, EditorState editorState) {
+    private static boolean isArrayCloseKey(char key, EditorState editorState) {
         MathContainer parent = editorState.getCurrentField().getParent();
         if (parent != null && parent instanceof MathArray) {
             MathArray array = (MathArray) parent;

@@ -152,7 +152,7 @@ public class EditorState {
 						getCurrentField().size() - 1)));
 	}
 
-	private boolean contains(MathContainer commonParent,
+	private static boolean contains(MathContainer commonParent,
 			MathComponent cursorField) {
 		while (cursorField != null) {
 			if (cursorField == commonParent) {

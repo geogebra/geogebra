@@ -198,7 +198,7 @@ public class CursorController {
 		return false;
 	}
 
-	private boolean checkMoveArray(MathComponent component,
+	private static boolean checkMoveArray(MathComponent component,
 			EditorState editorState, int rowChange) {
 		if (component.getParent() instanceof MathArray) {
 			MathArray function = (MathArray) component.getParent();

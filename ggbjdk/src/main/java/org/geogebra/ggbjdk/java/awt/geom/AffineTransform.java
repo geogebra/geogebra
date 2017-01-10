@@ -1080,7 +1080,7 @@ public class AffineTransform implements GAffineTransform {
      * Convenience method used internally to throw exceptions when
      * a case was forgotten in a switch statement.
      */
-    private void stateError() {
+    private static void stateError() {
         throw new Error("missing case in transform state switch");
     }
 

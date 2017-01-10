@@ -261,7 +261,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     }
 
-	private double length(double d, double e) {
+	private static double length(double d, double e) {
 		return Math.sqrt(d * d + e * e);
 	}
 
@@ -408,7 +408,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	}
 
-	private boolean compare(ArrayList<Integer> list, ArrayList<Integer> list2) {
+	private static boolean compare(ArrayList<Integer> list, ArrayList<Integer> list2) {
 		for (int i = 0; i < list.size() && i < list2.size(); i++) {
 			if (list.get(i) > list2.get(i)) {
 				return false;

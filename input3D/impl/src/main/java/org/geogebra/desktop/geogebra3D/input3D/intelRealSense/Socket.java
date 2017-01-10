@@ -663,7 +663,9 @@ public class Socket {
 					Log.debug("Successful update");
 					showMessage(loc.getMenu("RealSense.UpdatedRuntimes"),
 							loc.getMenu("RealSenseUpdated2"));
-					destWebSetup.delete();
+					if (destWebSetup != null) {
+						destWebSetup.delete();
+					}
 				}
 
 				installRuntimes = false;

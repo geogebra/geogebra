@@ -46,7 +46,7 @@ public class BasicTest {
 		doTest(latex, "Basic/Example2");
 	}
 
-	private void doTest(String latex, String exampleName) {
+	private static void doTest(String latex, String exampleName) {
 		TeXIcon icon = createTeXIcon(latex);
 		Image image = createImage(icon);
 		byte[] imageBytes = getImageBytes(image);
@@ -54,7 +54,7 @@ public class BasicTest {
 		Assert.assertArrayEquals(expectedBytes, imageBytes);
 	}
 	
-	private TeXIcon createTeXIcon(String latex) {
+	private static TeXIcon createTeXIcon(String latex) {
 		TeXFormula formula = null;
 		try {
 			formula = new TeXFormula(latex);
@@ -67,7 +67,7 @@ public class BasicTest {
 		return icon;
 	}
 
-	private Image createImage(TeXIcon icon) {
+	private static Image createImage(TeXIcon icon) {
 		Image image = new ImageD(icon.getIconWidth(), icon.getIconHeight(), Image.TYPE_INT_ARGB);
 		Graphics2DInterface g2 = image.createGraphics2D();
 		g2.setColor(ColorUtil.WHITE);
@@ -76,7 +76,7 @@ public class BasicTest {
 		return image;
 	}
 
-	private byte[] getImageBytes(Image image) {
+	private static byte[] getImageBytes(Image image) {
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		try {
 			ImageIO.write((BufferedImage) image, "png", os);
@@ -85,7 +85,7 @@ public class BasicTest {
 		return os.toByteArray();
 	}
 
-	private byte[] loadResourceFile(String name) {
+	private static byte[] loadResourceFile(String name) {
 		String path = ClassLoader.getSystemResource(name).getFile().substring(1);
 		try {
 			return Files.readAllBytes(Paths.get(path));

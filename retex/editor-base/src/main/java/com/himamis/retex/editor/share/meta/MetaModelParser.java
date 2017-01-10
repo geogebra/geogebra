@@ -76,7 +76,7 @@ public class MetaModelParser {
         }
     }
 
-    private MetaCharacter parseArrayElement(Element element) throws Exception {
+    private static MetaCharacter parseArrayElement(Element element) throws Exception {
 
         String name = element.getTagName();
         String cas = getStringAttribute(CAS, element);
@@ -98,7 +98,7 @@ public class MetaModelParser {
         return metaCharacter;
     }
 
-    private MetaArray parseArray(Element element) throws Exception {
+    private static MetaArray parseArray(Element element) throws Exception {
         String tagName = element.getTagName();
         String name = getStringAttribute(NAME, element);
 
@@ -108,7 +108,7 @@ public class MetaModelParser {
 		return metaArray;
 	}
 
-	private ArrayList<MetaComponent> getComponents(Element element)
+	private static ArrayList<MetaComponent> getComponents(Element element)
 			throws Exception {
 		ArrayList<MetaComponent> components = new ArrayList<MetaComponent>();
         NodeList elements = element.getChildNodes();
@@ -125,7 +125,7 @@ public class MetaModelParser {
 		return components;
 	}
 
-	private MetaCharacter parseCharacter(Element element) throws Exception {
+	private static MetaCharacter parseCharacter(Element element) throws Exception {
 
         String name = getStringAttribute(NAME, element);
         String cas = name;
@@ -159,7 +159,7 @@ public class MetaModelParser {
         return metaCharacter;
     }
 
-    private MetaSymbol parseSymbol(Element element) throws Exception {
+    private static MetaSymbol parseSymbol(Element element) throws Exception {
         String elementName = element.getTagName();
         int type = elementName.equals(OPERATOR) ? MetaCharacter.OPERATOR : MetaCharacter.SYMBOL;
 
@@ -200,7 +200,7 @@ public class MetaModelParser {
         return metaSymbol;
     }
 
-    private MetaFunction parseFunction(Element element) throws Exception {
+    private static MetaFunction parseFunction(Element element) throws Exception {
         String name = getStringAttribute(NAME, element);
         String cas = name;
         String tex = name;
@@ -274,7 +274,7 @@ public class MetaModelParser {
         return metaFunction;
     }
 
-    private MetaModel parseComponents(Element parent) throws Exception {
+    private static MetaModel parseComponents(Element parent) throws Exception {
         MetaModel metaModel = new MetaModel();
         NodeList rootChildNodes = parent.getChildNodes();
         for (int i = 0; i < rootChildNodes.getLength(); i++) {

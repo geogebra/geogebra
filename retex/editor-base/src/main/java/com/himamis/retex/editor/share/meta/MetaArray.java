@@ -55,7 +55,7 @@ public class MetaArray extends MetaComponent implements MetaGroup {
         row = getComponent(metaComponents, MetaModel.ROW);
     }
 
-    private MetaComponent getComponent(List<MetaComponent> metaComponents, String name) {
+    private static MetaComponent getComponent(List<MetaComponent> metaComponents, String name) {
         for (MetaComponent metaComponent : metaComponents) {
             if (metaComponent.getName().equals(name)) {
                 return metaComponent;
