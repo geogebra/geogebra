@@ -28,7 +28,6 @@ import org.geogebra.desktop.main.AppD;
  * @author Florian Sonner
  */
 public class LayoutD extends Layout implements SettingListener {
-	private boolean isInitialized = false;
 
 	private AppD app;
 	private DockManagerD dockManager;

@@ -26,8 +26,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class LayoutW extends Layout implements SettingListener {
 	
-	private boolean isInitialized = false;
-	
 	private AppW app;
 
 	private DockManagerW dockManager;

@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -1311,7 +1312,7 @@ public class GeoPoint extends GeoVec3D
 	 * Michael Borcherds 2008-02-10 Invert point in circle
 	 */
 	final public void mirror(GeoConic c) {
-		if (c.getType() == GeoConic.CONIC_CIRCLE) {
+		if (c.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 			// Mirror point in circle
 			double r = c.getHalfAxes()[0];
 			GeoVec2D midpoint = (c.getTranslationVector());
@@ -1326,7 +1327,7 @@ public class GeoPoint extends GeoVec3D
 			}
 		} else if (/*
 					 * c.getType() == GeoConic.CONIC_LINE ||
-					 */ c.getType() == GeoConic.CONIC_PARALLEL_LINES) {
+					 */ c.getType() == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 			/* In the case the conic is a line we mirror about that line. */
 			ArrayList<GeoPointND> ps = c.getPointsOnConic();
 			HashSet<GeoPointND> Ps = new HashSet<GeoPointND>();
@@ -1350,7 +1351,7 @@ public class GeoPoint extends GeoVec3D
 				}
 			} while (!found);
 			/* In P1 and P2 we have two different points of that line. */
-			GeoLine g = new GeoLine(cons);
+			GeoLine g;
 			AlgoJoinPoints ajp = new AlgoJoinPoints(cons, (GeoPoint) P1,
 					(GeoPoint) P2);
 			ajp.compute();
