@@ -6,7 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -532,8 +531,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	
 	}
 	private void createGUIElements() {
-		FieldFocusHandler focusHandler = new FieldFocusHandler((AppW) app);
-
 		tabIndex = 1; // 0 as first tabindex does not work.
 	    //resultPane = new RichTextArea();
 		resultPane = new FlowPanel();
@@ -586,7 +583,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addKeyUpHandler(this);
-		fldNullHyp.addFocusHandler(focusHandler);
+		fldNullHyp.enableGGBKeyboard();
 		this.addInsertHandler(fldNullHyp);
 		addNextTabIndex(fldNullHyp);
 		
@@ -594,7 +591,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyUpHandler(this);
-		fldConfLevel.addFocusHandler(focusHandler);
+		fldConfLevel.enableGGBKeyboard();
 		this.addInsertHandler(fldConfLevel);
 
 		addNextTabIndex(fldConfLevel);
@@ -603,7 +600,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyUpHandler(this);
-		fldSigma.addFocusHandler(focusHandler);
+		fldSigma.enableGGBKeyboard();
 		this.addInsertHandler(fldSigma);
 		
 		addNextTabIndex(fldSigma);
@@ -621,7 +618,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
-			fldSampleStat1[i].addFocusHandler(focusHandler);
+			fldSampleStat1[i].enableGGBKeyboard();
 			this.addInsertHandler(fldSampleStat1[i]);
 
 			addNextTabIndex(fldSampleStat1[i]);
@@ -639,7 +636,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
-			fldSampleStat2[i].addFocusHandler(focusHandler);
+			fldSampleStat2[i].enableGGBKeyboard();
 			this.addInsertHandler(fldSampleStat2[i]);
 
 			addNextTabIndex(fldSampleStat2[i]);

@@ -331,7 +331,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void createGUIElements() {
-		FieldFocusHandler focusHandler = new FieldFocusHandler((AppW) app);
 		setLabelArrays();
 	    comboDistribution = new ListBox();
 	    comboDistribution.addStyleName("comboDistribution");
@@ -366,7 +365,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    	fldParameterArray[i] = new AutoCompleteTextFieldW(app);
 	    	fldParameterArray[i].setColumns(4);
 	    	fldParameterArray[i].addKeyUpHandler(this);
-			fldParameterArray[i].addFocusHandler(focusHandler);
+			fldParameterArray[i].enableGGBKeyboard();
 	    	fldParameterArray[i].addBlurHandler(this);
 			addInsertHandler(fldParameterArray[i]);
 	    	fldParameterArray[i].getTextBox().setTabIndex(i + 1);
@@ -384,7 +383,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldLow = new AutoCompleteTextFieldW(app);
 	    fldLow.setColumns(4);
 	    fldLow.addKeyUpHandler(this);
-		fldLow.addFocusHandler(focusHandler);
+		fldLow.enableGGBKeyboard();
 	    fldLow.addBlurHandler(this);
 		addInsertHandler(fldLow);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
@@ -393,7 +392,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
-		fldHigh.addFocusHandler(focusHandler);
+		fldHigh.enableGGBKeyboard();
 	    fldHigh.addBlurHandler(this);
 		addInsertHandler(fldHigh);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
@@ -401,7 +400,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    fldResult = new AutoCompleteTextFieldW(app);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
-		fldResult.addFocusHandler(focusHandler);
+		fldResult.enableGGBKeyboard();
 	    fldResult.addBlurHandler(this);
 		addInsertHandler(fldResult);
 	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
