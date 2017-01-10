@@ -209,6 +209,14 @@ public class InputIntelRealsense3D extends Input3D {
 					outOfField = OutOfField.NO;
 				}
 				break;
+			case NEVER:
+				break;
+			case NO:
+				break;
+			case YES:
+				break;
+			default:
+				break;
 
 			}
 

@@ -412,6 +412,26 @@ public class Socket {
 				case ALERT_HAND_TOO_FAR:
 					handOut = OutOfField.FAR;
 					break;
+				case ALERT_HAND_CALIBRATED:
+					break;
+				case ALERT_HAND_DETECTED:
+					break;
+				case ALERT_HAND_INSIDE_BORDERS:
+					break;
+				case ALERT_HAND_LOW_CONFIDENCE:
+					break;
+				case ALERT_HAND_NOT_CALIBRATED:
+					break;
+				case ALERT_HAND_NOT_DETECTED:
+					break;
+				case ALERT_HAND_NOT_TRACKED:
+					break;
+				case ALERT_HAND_OUT_OF_BORDERS:
+					break;
+				case ALERT_HAND_TRACKED:
+					break;
+				default:
+					break;
 				}
 			}
 		}else if (handId == id){ // new alert from tracked hand
