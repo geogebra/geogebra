@@ -192,6 +192,13 @@ public class ModeDelete {
 						}
 					}
 
+					deleteUnnecessaryUndefPoints(dataPoints, realPoints);
+					if (newDataAndRealPoint != null
+							&& !newDataAndRealPoint.isEmpty()) {
+						dataPoints = newDataAndRealPoint.get(0);
+						realPoints = newDataAndRealPoint.get(1);
+					}
+
 					updatePolyLineDataPoints(dataPoints, gps);
 
 				} else {
@@ -214,6 +221,36 @@ public class ModeDelete {
 		ec.deleteAll(h);
 		if (as != null)
 			as.updateAll();
+	}
+
+	private void deleteUnnecessaryUndefPoints(GeoPointND[] dataPoints,
+			GeoPointND[] realPoints) {
+		newDataAndRealPoint.clear();
+		ArrayList<GeoPointND> dataPointList = new ArrayList<GeoPointND>(
+				dataPoints.length);
+		ArrayList<GeoPointND> realPointList = new ArrayList<GeoPointND>(
+				realPoints.length);
+		int i = 1;
+		while (i < dataPoints.length) {
+			if (!dataPoints[i].isDefined()
+					&& !dataPoints[i - 1].isDefined()) {
+				i++;
+			} else {
+				dataPointList.add(dataPoints[i - 1]);
+				realPointList.add(realPoints[i - 1]);
+				i++;
+			}
+		}
+		dataPointList.add(dataPoints[i - 1]);
+		realPointList.add(realPoints[i - 1]);
+		GeoPointND[] newDataPoints = new GeoPointND[dataPointList.size()];
+		GeoPointND[] newRealPoints = new GeoPointND[dataPointList.size()];
+		dataPointList.toArray(newDataPoints);
+		realPointList.toArray(newRealPoints);
+		if (newDataPoints.length != dataPoints.length) {
+			newDataAndRealPoint.add(newDataPoints);
+			newDataAndRealPoint.add(newRealPoints);
+		}
 	}
 
 	// add new undefined points and update old points coordinates
@@ -652,6 +689,13 @@ public class ModeDelete {
 						if (!hasVisiblePart && dataPoints[i].isDefined()) {
 							hasVisiblePart = true;
 						}
+					}
+
+					deleteUnnecessaryUndefPoints(dataPoints, realPoints);
+					if (newDataAndRealPoint != null
+							&& !newDataAndRealPoint.isEmpty()) {
+						dataPoints = newDataAndRealPoint.get(0);
+						realPoints = newDataAndRealPoint.get(1);
 					}
 
 					updatePolyLineDataPoints(dataPoints, gps);
