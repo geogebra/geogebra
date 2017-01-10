@@ -571,10 +571,6 @@ public class RadioTreeItemController
 				return true;
 			}
 			markForEdit = true;
-			Log.debug("[AVTAP] single tap is about to start");
-			// app.getSelectionManager().clearSelectedGeos();
-			getAV().unselectActiveItem();
-
 			return true;
 		}
 
