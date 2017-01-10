@@ -194,7 +194,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Calculates allowable curve derivation
 	 */
-	double getCurveDelta(double width) {
+	static double getCurveDelta(double width) {
 		double a = width + CURVE_DELTA;
 		double cos = 1.0 - 2.0 * width * width / (a * a);
 		double sin = Math.sqrt(1.0 - cos * cos);
@@ -204,14 +204,14 @@ public class DefaultBasicStroke implements GBasicStroke {
 	/**
 	 * Calculates value to detect small angle
 	 */
-	double getCornerDelta(double width) {
+	static double getCornerDelta(double width) {
 		return width * width * Math.sin(Math.PI * CORNER_ANGLE / 180.0);
 	}
 
 	/**
 	 * Calculates value to detect zero angle
 	 */
-	double getZeroDelta(double width) {
+	static double getZeroDelta(double width) {
 		return width * width * Math.sin(Math.PI * CORNER_ZERO / 180.0);
 	}
 

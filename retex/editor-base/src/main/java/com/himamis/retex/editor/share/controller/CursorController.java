@@ -48,11 +48,11 @@ public class CursorController {
         }
     }
 
-    public void firstField(EditorState editorState) {
+    public static void firstField(EditorState editorState) {
         firstField(editorState, editorState.getRootComponent());
     }
 
-    public void firstField(EditorState editorState, MathContainer component) {
+    public static void firstField(EditorState editorState, MathContainer component) {
         // surface to first symbol
         while (!(component instanceof MathSequence)) {
             int current = component.first();
@@ -62,11 +62,11 @@ public class CursorController {
         editorState.setCurrentOffset(0);
     }
 
-    public void lastField(EditorState editorState) {
+    public static void lastField(EditorState editorState) {
         lastField(editorState, editorState.getRootComponent());
     }
 
-    public void lastField(EditorState editorState, MathContainer component) {
+    public static void lastField(EditorState editorState, MathContainer component) {
         // surface to last symbol
         while (!(component instanceof MathSequence)) {
             int current = component.last();
@@ -226,7 +226,7 @@ public class CursorController {
 	 *            starting container
 	 * @param editorState
 	 */
-	public void setPath(ArrayList<Integer> list, MathContainer ct,
+	public static void setPath(ArrayList<Integer> list, MathContainer ct,
 			EditorState editorState) {
 		MathContainer current = ct;
         int i = list.size() - 1;
@@ -268,13 +268,13 @@ public class CursorController {
      * @param list tree path
      * @param editorState
      */
-    public void setPath(ArrayList<Integer> list, EditorState editorState) {
+    public static void setPath(ArrayList<Integer> list, EditorState editorState) {
         editorState.setCurrentOffset(0);
         setPath(list, editorState.getRootComponent(), editorState);
     }
 
 
-    public ArrayList<Integer> getPath(EditorState editorState){
+    public static ArrayList<Integer> getPath(EditorState editorState){
 
         ArrayList<Integer> path = new ArrayList<Integer>();
 

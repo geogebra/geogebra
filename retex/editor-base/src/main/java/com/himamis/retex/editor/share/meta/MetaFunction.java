@@ -126,11 +126,11 @@ public class MetaFunction extends MetaComponent {
 		return order[casOrder];
 	} */
 
-    public String getOpeningBracket() {
+    public static String getOpeningBracket() {
         return "(";
     }
 
-    public String getClosingBracket() {
+    public static String getClosingBracket() {
         return ")";
     }
 }

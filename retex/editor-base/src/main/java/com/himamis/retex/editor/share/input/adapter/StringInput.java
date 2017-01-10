@@ -22,13 +22,13 @@ public abstract class StringInput implements KeyboardAdapter {
         return keyboard.equals(input);
     }
 
-    protected void commitFunction(MathFieldInternal mfi, String function) {
+    protected static void commitFunction(MathFieldInternal mfi, String function) {
         EditorState editorState = mfi.getEditorState();
         InputController inputController = mfi.getInputController();
         inputController.newFunction(editorState, function);
     }
 
-    protected void typeCharacter(MathFieldInternal mfi, char character) {
+    protected static void typeCharacter(MathFieldInternal mfi, char character) {
         KeyListenerImpl keyListener = mfi.getKeyListener();
         keyListener.onKeyTyped(character);
     }

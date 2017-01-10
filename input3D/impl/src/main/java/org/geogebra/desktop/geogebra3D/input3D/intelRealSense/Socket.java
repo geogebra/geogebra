@@ -956,7 +956,7 @@ public class Socket {
 	/**
 	 * exit and close manager
 	 */
-	public void exit() {
+	public static void exit() {
 		CAPTURE_MANAGER.CloseStreams();
 		SENSE_MANAGER.Close();
 		SENSE_MANAGER = null;

@@ -330,7 +330,7 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append("{\\mathrm{" + function.getTexName() + "}");
             }
             stringBuilder.append("\\left");
-            stringBuilder.append(function.getOpeningBracket());
+            stringBuilder.append(MathFunction.getOpeningBracket());
             for (int i = 0; i < function.size(); i++) {
                 serialize(function.getArgument(i), stringBuilder);
                 if (i + 1 < function.size()) {
@@ -338,7 +338,7 @@ public class TeXSerializer extends SerializerAdapter {
                 }
             }
             stringBuilder.append("\\right");
-            stringBuilder.append(function.getClosingBracket());
+            stringBuilder.append(MathFunction.getClosingBracket());
             stringBuilder.append("}");
         }
 		if (function == currentSelEnd) {

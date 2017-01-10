@@ -127,11 +127,11 @@ public class MathFunction extends MathContainer {
         return function;
     }
 
-    public String getOpeningBracket() {
-        return meta.getOpeningBracket();
+    public static String getOpeningBracket() {
+        return MetaFunction.getOpeningBracket();
     }
 
-    public String getClosingBracket() {
-        return meta.getClosingBracket();
+    public static String getClosingBracket() {
+        return MetaFunction.getClosingBracket();
     }
 }

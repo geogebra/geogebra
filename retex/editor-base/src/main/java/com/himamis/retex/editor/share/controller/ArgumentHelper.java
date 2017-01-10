@@ -8,7 +8,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public class ArgumentHelper {
 
-    public void passArgument(EditorState editorState, MathContainer container) {
+    public static void passArgument(EditorState editorState, MathContainer container) {
         MathSequence currentField = editorState.getCurrentField();
         int currentOffset = editorState.getCurrentOffset();
         // get pass to argument
@@ -74,7 +74,7 @@ public class ArgumentHelper {
         editorState.setCurrentOffset(currentOffset);
     }
 
-    public String readCharacters(EditorState editorState) {
+    public static String readCharacters(EditorState editorState) {
         StringBuilder stringBuilder = new StringBuilder();
         int offset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();

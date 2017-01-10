@@ -40,7 +40,7 @@ public class KeyListenerImpl {
 		case KeyEvent.VK_X:
 			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
 				inputController.copy();
-				inputController.deleteSelection(editorState);
+				InputController.deleteSelection(editorState);
 				return true;
 			}
 			return false;
@@ -48,10 +48,10 @@ public class KeyListenerImpl {
 			inputController.escSymbol(editorState);
 			return true;
 		case KeyEvent.VK_HOME:
-			cursorController.firstField(editorState);
+			CursorController.firstField(editorState);
 			return true;
 		case KeyEvent.VK_END:
-			cursorController.lastField(editorState);
+			CursorController.lastField(editorState);
 			return true;
 		case KeyEvent.VK_LEFT:
 			cursorController.prevCharacter(editorState);
@@ -76,19 +76,19 @@ public class KeyListenerImpl {
 			cursorController.downField(editorState);
 			return true;
 		case KeyEvent.VK_DELETE:
-			if (!inputController.deleteSelection(editorState)) {
-				inputController.delCharacter(editorState);
+			if (!InputController.deleteSelection(editorState)) {
+				InputController.delCharacter(editorState);
 			}
 			return true;
 		case KeyEvent.VK_BACK_SPACE:
-			if (!inputController.deleteSelection(editorState)) {
+			if (!InputController.deleteSelection(editorState)) {
 				inputController.bkspCharacter(editorState);
 			}
 			return true;
 		case KeyEvent.VK_SHIFT:
 			return false;
 		default:
-			inputController.deleteSelection(editorState);
+			InputController.deleteSelection(editorState);
 			return false;
         }
     }

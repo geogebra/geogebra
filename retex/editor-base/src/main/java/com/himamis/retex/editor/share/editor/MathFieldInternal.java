@@ -116,7 +116,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         mathFormula = formula;
         editorState = new EditorState(mathField.getMetaModel());
         editorState.setRootComponent(formula.getRootComponent());
-        cursorController.setPath(path, getEditorState());
+        CursorController.setPath(path, getEditorState());
         keyListener.setEditorState(editorState);
         mathFieldController.update(formula, editorState, false);
     }
@@ -251,7 +251,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 			mathFieldController.getPath(mathFormula, x, y, list);
             editorState.resetSelection();
-            cursorController.firstField(editorState);
+            CursorController.firstField(editorState);
             this.mouseDownPos = new int[]{x, y};
 
 			moveToSelection(x, y);
@@ -280,7 +280,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             mathFieldController.getPath(mathFormula, x, y, list);
             MathComponent cursor = editorState.getCursorField(false);
 
-            cursorController.firstField(editorState);
+            CursorController.firstField(editorState);
 
 			moveToSelection(x, y);
 
@@ -395,7 +395,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		MathComponent cursor = editorState.getCursorField(false);
 		MathSequence current = editorState.getCurrentField();
 		int offset = editorState.getCurrentOffset();
-		cursorController.firstField(editorState);
+		CursorController.firstField(editorState);
 		moveToSelection(x, y);
 		editorState.resetSelection();
 		editorState.extendSelection(false);
@@ -510,8 +510,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	public String copy() {
 		if(listener!=null){
+			getInputController();
 			return (listener.serialize(
-					getInputController().getSelectionText(getEditorState())));
+					InputController.getSelectionText(getEditorState())));
 		}
 		return "";
 

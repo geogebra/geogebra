@@ -1185,7 +1185,7 @@ public abstract class Curve {
         }
     }
 
-    public boolean fairlyClose(double v1, double v2) {
+    public static boolean fairlyClose(double v1, double v2) {
         return (Math.abs(v1 - v2) <
                 Math.max(Math.abs(v1), Math.abs(v2)) * 1E-10);
     }

@@ -818,7 +818,7 @@ public class TeXFormula {
 				.setWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
 	}
 
-	public void createImage(String format, int style, double size, String out, Color bg, Color fg,
+	public static void createImage(String format, int style, double size, String out, Color bg, Color fg,
 			boolean transparency) {
 		// TODO
 		throw new UnsupportedOperationException();
@@ -845,15 +845,15 @@ public class TeXFormula {
 		 */
 	}
 
-	public void createPNG(int style, double size, String out, Color bg, Color fg) {
+	public static void createPNG(int style, double size, String out, Color bg, Color fg) {
 		createImage("png", style, size, out, bg, fg, bg == null);
 	}
 
-	public void createGIF(int style, double size, String out, Color bg, Color fg) {
+	public static void createGIF(int style, double size, String out, Color bg, Color fg) {
 		createImage("gif", style, size, out, bg, fg, bg == null);
 	}
 
-	public void createJPEG(int style, double size, String out, Color bg, Color fg) {
+	public static void createJPEG(int style, double size, String out, Color bg, Color fg) {
 		// There is a bug when a BufferedImage has a component alpha so we disabel it
 		createImage("jpeg", style, size, out, bg, fg, false);
 	}

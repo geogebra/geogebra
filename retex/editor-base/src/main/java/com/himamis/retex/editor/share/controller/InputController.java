@@ -103,7 +103,7 @@ public class InputController {
      * Insert braces (), [], {}, "".
      */
     public void newBraces(EditorState editorState, char ch) {
-        String casName = argumentHelper.readCharacters(editorState);
+        String casName = ArgumentHelper.readCharacters(editorState);
         if (ch == FUNCTION_OPEN_KEY && metaModel.isGeneral(casName)) {
             delCharacters(editorState, casName.length());
             newFunction(editorState, casName);
@@ -174,14 +174,14 @@ public class InputController {
 
         // pass characters for fraction and factorial only
         if ("frac".equals(name) /*|| "factorial".equals(name)*/) {
-            argumentHelper.passArgument(editorState, function);
+            ArgumentHelper.passArgument(editorState, function);
         }
         currentOffset = editorState.getCurrentOffset();
         currentField.addArgument(currentOffset, function);
 
         if (function.hasChildren()) {
             // set current sequence
-            cursorController.firstField(editorState, function.getArgument(initial));
+            CursorController.firstField(editorState, function.getArgument(initial));
             editorState.setCurrentOffset(editorState.getCurrentField().size());
         } else {
             editorState.incCurrentOffset();
@@ -264,7 +264,7 @@ public class InputController {
 	 * @param meta
 	 *            character
 	 */
-    public void newCharacter(EditorState editorState, MetaCharacter meta) {
+    public static void newCharacter(EditorState editorState, MetaCharacter meta) {
         editorState.addArgument(new MathCharacter(meta));
     }
 
@@ -411,7 +411,7 @@ public class InputController {
 	 * Insert symbol.
 	 */
     public void escSymbol(EditorState editorState) {
-        String name = argumentHelper.readCharacters(editorState);
+        String name = ArgumentHelper.readCharacters(editorState);
         while (name.length() > 0) {
             if (metaModel.isSymbol(name)) {
                 delCharacters(editorState, name.length());
@@ -503,7 +503,7 @@ public class InputController {
         // we stop here for now
     }
 
-    public void delContainer(EditorState editorState) {
+    public static void delContainer(EditorState editorState) {
         MathSequence currentField = editorState.getCurrentField();
 
         // if parent is function (cursor is at the end of the field)
@@ -570,7 +570,7 @@ public class InputController {
         }
     }
 
-    public void delCharacter(EditorState editorState) {
+    public static void delCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
         if (currentOffset < currentField.size()) {
@@ -621,7 +621,7 @@ public class InputController {
      * @param lengthBeforeCursor
      * @param lengthAfterCursor
      */
-    public void removeCharacters(EditorState editorState, int lengthBeforeCursor, int lengthAfterCursor) {
+    public static void removeCharacters(EditorState editorState, int lengthBeforeCursor, int lengthAfterCursor) {
         if (lengthBeforeCursor == 0 && lengthAfterCursor == 0) {
             return; // nothing to delete
         }
@@ -641,7 +641,7 @@ public class InputController {
      * @param ret
      * @return word length before cursor
      */
-    public int getWordAroundCursor(EditorState editorState, StringBuilder ret) {
+    public static int getWordAroundCursor(EditorState editorState, StringBuilder ret) {
         int pos = editorState.getCurrentOffset();
         MathSequence seq = editorState.getCurrentField();
 
@@ -672,7 +672,7 @@ public class InputController {
 
     }
 
-	public boolean deleteSelection(EditorState editorState) {
+	public static boolean deleteSelection(EditorState editorState) {
 		boolean nonempty = false;
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();
@@ -790,7 +790,7 @@ public class InputController {
 
 	}
 
-	public MathSequence getSelectionText(EditorState editorState) {
+	public static MathSequence getSelectionText(EditorState editorState) {
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();
 			int end, start;
