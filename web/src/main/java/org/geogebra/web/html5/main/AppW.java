@@ -1994,11 +1994,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public boolean isWhiteBoard() {
-		return getArticleElement().getDataParamPerspective() == "7";
-	}
-
-	@Override
 	public boolean isApplet() {
 		return !getArticleElement().getDataParamApp();
 	}

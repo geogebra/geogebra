@@ -4207,6 +4207,9 @@ public abstract class App implements UpdateSelection {
 		case SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW:
 			return true;
 
+		case ERASER:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4347,12 +4350,6 @@ public abstract class App implements UpdateSelection {
 
 	public boolean isExam() {
 		return exam != null;
-	}
-
-	;
-
-	public boolean isWhiteBoard() {
-		return false;
 	}
 
 	public void setExam(ExamEnvironment exam) {

@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 /**
  * @author gabor
@@ -51,6 +52,10 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_PEN);
+		if (app != null && app.has(Feature.ERASER)) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ERASER);
+		}
 
 		// points
 		sb.append(" | ");

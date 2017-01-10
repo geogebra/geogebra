@@ -146,6 +146,7 @@ public enum Feature {
 	/** MOW */
 	WHITEBOARD_APP,
 
+
 	/**
 	 * MOB-961, MOB-962
 	 */
@@ -204,6 +205,9 @@ public enum Feature {
 	/**
 	 * GGB-1398
 	 */
-	SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW
+	SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW,
+
+	/** MOW-97 */
+	ERASER
 
 }
