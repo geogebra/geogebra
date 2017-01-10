@@ -2392,9 +2392,14 @@ public abstract class App implements UpdateSelection {
 		
 		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
 			if (0 < this.getSelectionManager().getSelectedGeos().size()) {
-				getActiveEuclidianView().readText(
-						this.getSelectionManager().getSelectedGeos().get(0)
-								.getNameDescription());
+				GeoElement geo0 = this.getSelectionManager().getSelectedGeos()
+						.get(0);
+				String text = geo0.getCaptionSimple();
+				if (text == null || "".equals(text)) {
+					text = geo0.getNameDescription();
+				}
+
+				getActiveEuclidianView().readText(text);
 			}
 		}
 		
