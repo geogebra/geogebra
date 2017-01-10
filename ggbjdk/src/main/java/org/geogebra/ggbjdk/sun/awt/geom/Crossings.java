@@ -101,7 +101,7 @@ public abstract class Crossings {
                                           double xhi, double yhi)
     {
         Crossings cross;
-        if (pi.getWindingRule() == pi.WIND_EVEN_ODD) {
+        if (pi.getWindingRule() == PathIterator.WIND_EVEN_ODD) {
             cross = new EvenOdd(xlo, ylo, xhi, yhi);
         } else {
             cross = new NonZero(xlo, ylo, xhi, yhi);
