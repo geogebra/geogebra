@@ -140,15 +140,23 @@ public class AlgoTaylorSeries extends AlgoElement {
 						new MyDouble(kernel, -ad));
 			}
 
+			Function deriv = f.getFunction();
+
 			for (int k = 1; k <= order; k++) {
-				Function deriv = f.getFunction().getDerivative(k, true);
+
+				// calculate next derivative from the last one
+				deriv = deriv.getDerivative(1, true);
+
 				if (deriv == null) {
 					g.setUndefined();
 					return;
 				}
 				coeff = deriv.evaluate(ad);
 
-				// Application.debug("coeff(" + k + ") = " + coeff);
+				// Log.debug("deriv = "
+				// + deriv.toValueString(StringTemplate.giacTemplate));
+
+				// Log.debug("coeff(" + k + ") = " + coeff);
 
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					g.setUndefined();
