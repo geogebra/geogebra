@@ -4202,10 +4202,10 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case READ_OBJECT_NAME_AT_SELECTING:
-			return true;
+			return prerelease;
 
 		case SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW:
-			return true;
+			return prerelease;
 
 		case ERASER:
 			return prerelease;
