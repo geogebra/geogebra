@@ -154,6 +154,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 		sliderContent.removeStyleName("elemPanel");
 		sliderContent.addStyleName("avItemContent");
+		content.addStyleName("avSliderValue");
 
 		sliderPanel.setVisible(true);
 
