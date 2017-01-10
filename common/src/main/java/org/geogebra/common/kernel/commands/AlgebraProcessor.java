@@ -658,13 +658,12 @@ public class AlgebraProcessor {
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
 				undefinedVariables, autoCreateSliders, callback0,
 				new EvalInfo(!cons.isSuppressLabelsActive()));
+		final int step = cons.getStep();
 		if (ret != null) {
 			if (storeUndo) {
 				app.storeUndoInfo();
 			}
-			if (callback0 != null) {
-				callback0.callback(ret);
-			}
+			runCallback(callback0, ret, step);
 			return ret;
 		}
 		if (undefinedVariables.size() > 0) {
@@ -691,9 +690,7 @@ public class AlgebraProcessor {
 
 				// this was forgotten to do here, added by Arpad
 				// TODO: maybe need to add this to more places here?
-				if (callback0 != null) {
-					callback0.callback(geoElements);
-				}
+				runCallback(callback0, geoElements, step);
 
 				return geoElements;
 			}
@@ -727,8 +724,8 @@ public class AlgebraProcessor {
 				// eg from Spreadsheet we don't want a popup
 				if (!autoCreateSliders) {
 					GeoElementND[] rett = tryReplacingProducts(ve, handler);
-					if (callback0 != null && rett != null) {
-						callback0.callback(rett);
+					if (rett != null) {
+						runCallback(callback0, rett, step);
 					}
 					return rett;
 				}
@@ -776,9 +773,7 @@ public class AlgebraProcessor {
 							return;
 						}
 
-						if (callback0 != null) {
-							callback0.callback(geos);
-						}
+						runCallback(callback0, geos, step);
 					}
 
 				};
@@ -799,11 +794,33 @@ public class AlgebraProcessor {
 		}
 
 		// process ValidExpression (built by parser)
+
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
 				info);
-		if (callback0 != null)
-			callback0.callback(geos);
+		runCallback(callback0, geos, step);
 		return geos;
+
+	}
+
+	/**
+	 * Run callbackl on new geos if there are any or empty array otherwise
+	 * 
+	 * @param callback0
+	 *            callback
+	 * @param ret
+	 *            possible new geos
+	 * @param step
+	 *            construction step before geos were created
+	 */
+	void runCallback(AsyncOperation<GeoElementND[]> callback0,
+			GeoElementND[] ret, int step) {
+		if (callback0 != null) {
+			if (cons.getStep() > step) {
+				callback0.callback(ret);
+			} else {
+				callback0.callback(new GeoElement[0]);
+			}
+		}
 
 	}
 
