@@ -703,20 +703,19 @@ public class ModeShape {
 		int height = event.getY() - dragStartPoint.y;
 
 		if (height >= 0) {
-				pointsX[0] = dragStartPoint.x;
-				pointsX[1] = event.getX();
-			pointsX[2] = Math
-					.round((dragStartPoint.x + event.getX()) / 2);
-				pointsY[0] = event.getY();
-				pointsY[1] = event.getY();
-				pointsY[2] = dragStartPoint.y;
+			pointsX[0] = dragStartPoint.x;
+			pointsX[1] = event.getX();
+			pointsX[2] = Math.round((dragStartPoint.x + event.getX()) / 2.0f);
+			pointsY[0] = event.getY();
+			pointsY[1] = event.getY();
+			pointsY[2] = dragStartPoint.y;
 		} else {
-			pointsX[0] = Math.round((dragStartPoint.x + event.getX()) / 2);
-				pointsX[1] = dragStartPoint.x;
-				pointsX[2] = event.getX();
-				pointsY[0] = event.getY();
-				pointsY[1] = dragStartPoint.y;
-				pointsY[2] = dragStartPoint.y;
+			pointsX[0] = Math.round((dragStartPoint.x + event.getX()) / 2.0f);
+			pointsX[1] = dragStartPoint.x;
+			pointsX[2] = event.getX();
+			pointsY[0] = event.getY();
+			pointsY[1] = dragStartPoint.y;
+			pointsY[2] = dragStartPoint.y;
 		}
 
 		polygon.moveTo(pointsX[0], pointsY[0]);
