@@ -9,7 +9,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
-import org.geogebra.common.javax.swing.GSplitPane;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -94,7 +93,7 @@ public abstract class Layout implements SettingListener {
 
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent,
-				GSplitPane.HORIZONTAL_SPLIT);
+				SwingConstants.HORIZONTAL_SPLIT);
 
 		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
 				app.isExam(), app);
@@ -150,7 +149,7 @@ public abstract class Layout implements SettingListener {
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", 0.45,
-				GSplitPane.HORIZONTAL_SPLIT);
+				SwingConstants.HORIZONTAL_SPLIT);
 
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
@@ -220,7 +219,7 @@ public abstract class Layout implements SettingListener {
 
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent,
-				GSplitPane.HORIZONTAL_SPLIT);
+				SwingConstants.HORIZONTAL_SPLIT);
 
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 			// algebra & 3D graphics
@@ -295,7 +294,7 @@ public abstract class Layout implements SettingListener {
 
 		spData = new DockSplitPaneData[1];
 		spData[0] = new DockSplitPaneData("", AVpercent,
-				GSplitPane.HORIZONTAL_SPLIT);
+				SwingConstants.HORIZONTAL_SPLIT);
 		//
 
 		// Note: toolbar definition is always for EV1, for 3D we use definition
