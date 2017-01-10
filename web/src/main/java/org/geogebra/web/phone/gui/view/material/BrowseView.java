@@ -36,13 +36,17 @@ public class BrowseView extends AbstractView implements BrowseViewI,
         BooleanRenderable, EventRenderable, OpenFileListener {
 
 	private BrowseViewPanel browseViewPanel;
+	private Phone phone;
 
 	/**
 	 * @param app
 	 *            {@link AppW}
+	 * @param phone
+	 *            phone
 	 */
-	public BrowseView(AppW app) {
+	public BrowseView(AppW app, Phone phone) {
 		super(app);
+		this.phone = phone;
 		this.browseViewPanel = new BrowseViewPanel(app);
 		this.browseViewPanel.getMaterialPanel().loadAllMaterials();
 		app.registerOpenFileListener(this);
@@ -99,7 +103,7 @@ public class BrowseView extends AbstractView implements BrowseViewI,
 
 	@Override
 	public void close() {
-		Phone.showEuclidianView();
+		phone.showEuclidianView();
 	}
 
 	@Override

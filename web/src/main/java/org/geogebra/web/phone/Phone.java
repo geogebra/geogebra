@@ -23,14 +23,14 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  */
 public class Phone implements EntryPoint {
 
-	private static PhoneUI phoneGui;
-	private static AbstractView euclidianView;
-	private static AbstractView browseView;
+	private PhoneUI phoneGui;
+	private AbstractView euclidianView;
+	private AbstractView browseView;
 	GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
 		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(),
-		        new PhoneDevice(),
+				new PhoneDevice(this),
 				(AppletFactory) GWT.create(AppletFactory.class), this);
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
@@ -55,15 +55,15 @@ public class Phone implements EntryPoint {
 		phoneGui.showView(browseView);
 	}
 
-	public static void showEuclidianView() {
+	public void showEuclidianView() {
 		phoneGui.showView(euclidianView);
 	}
 
-	public static void showBrowseView() {
+	public void showBrowseView() {
 		phoneGui.showView(browseView);
 	}
 
-	public static PhoneUI getGUI() {
+	public PhoneUI getGUI() {
 		return phoneGui;
 	}
 

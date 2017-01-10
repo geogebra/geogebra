@@ -7,7 +7,11 @@ import org.geogebra.web.touch.main.TouchDevice;
 import org.geogebra.web.web.main.FileManager;
 
 public class PhoneDevice extends TouchDevice {
+	private Phone phone;
 
+	public PhoneDevice(Phone phone) {
+		this.phone = phone;
+	}
 	@Override
 	public FileManager createFileManager(AppW app) {
 		return new FileManagerP(app);
@@ -15,12 +19,16 @@ public class PhoneDevice extends TouchDevice {
 
 	@Override
 	public BrowseViewI createBrowseView(AppW app) {
-		return new BrowseView(app);
+		return new BrowseView(app, phone);
 	}
 
 	public void resizeView(int width, int height) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Phone getPhone() {
+		return phone;
 	}
 
 }
