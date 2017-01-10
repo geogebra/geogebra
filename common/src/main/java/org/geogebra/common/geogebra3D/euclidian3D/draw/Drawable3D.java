@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -875,39 +874,25 @@ public abstract class Drawable3D extends DrawableND {
 		// focus
 		if (this.getPickOrder() == d.getPickOrder()) {
 
-			if (getView3D().getApplication()
-					.has(Feature.HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED)) {
-				GeoElement thisGeo = this.getGeoElement();
-				GeoElement otherGeo = d.getGeoElement();
-				// check one (only) is selected
-				if (thisGeo.isSelected() && !otherGeo.isSelected()) {
-					return -1;
-				}
-				if (!thisGeo.isSelected() && otherGeo.isSelected()) {
-					return 1;
-				}
-				// check can drag one (only) -- if same type
-				if (thisGeo.getGeoClassType() == otherGeo.getGeoClassType()) {
-					boolean thisDraggable = EuclidianController3D
-							.isDraggable(thisGeo, getView3D());
-					boolean otherDraggable = EuclidianController3D
-							.isDraggable(otherGeo, getView3D());
-					if (thisDraggable && !otherDraggable) {
+			GeoElement thisGeo = this.getGeoElement();
+			GeoElement otherGeo = d.getGeoElement();
+			// check one (only) is selected
+			if (thisGeo.isSelected() && !otherGeo.isSelected()) {
 						return -1;
 					}
-					if (!thisDraggable && otherDraggable) {
+			if (!thisGeo.isSelected() && otherGeo.isSelected()) {
 						return 1;
 					}
-				}
-			} else {
-				if (this.getGeoElement().isSelected()
-						&& this.getGeoElement().isMoveable(getView3D())
-						&& !d.getGeoElement().isSelected()) {
+			// check can drag one (only) -- if same type
+			if (thisGeo.getGeoClassType() == otherGeo.getGeoClassType()) {
+				boolean thisDraggable = EuclidianController3D
+						.isDraggable(thisGeo, getView3D());
+				boolean otherDraggable = EuclidianController3D
+						.isDraggable(otherGeo, getView3D());
+				if (thisDraggable && !otherDraggable) {
 					return -1;
 				}
-				if (!this.getGeoElement().isSelected()
-						&& d.getGeoElement().isSelected()
-						&& d.getGeoElement().isMoveable(getView3D())) {
+				if (!thisDraggable && otherDraggable) {
 					return 1;
 				}
 			}

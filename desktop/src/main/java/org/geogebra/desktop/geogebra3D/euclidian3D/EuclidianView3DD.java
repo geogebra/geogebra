@@ -40,7 +40,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
@@ -138,8 +137,7 @@ public class EuclidianView3DD extends EuclidianView3D
 		// return new RendererGLPickingGL2(this, !app.isApplet());
 
 		// we don't want shaders with win os < vista
-		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()
-				&& !AppD.WINDOWS_VISTA_OR_EARLIER) {
+		if (!app.isApplet() && !AppD.WINDOWS_VISTA_OR_EARLIER) {
 			return new RendererCheckGLVersionD(this, canUseCanvas());
 		}
 

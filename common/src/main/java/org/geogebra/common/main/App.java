@@ -4053,12 +4053,6 @@ public abstract class App implements UpdateSelection {
 		case EXAM_TABLET:
 			return prerelease;
 
-		// Java Applets are only used in IE8/9
-		// ie on old computers
-		// so use old plotting method in Java Applets
-		case SHADERS_IN_DESKTOP:
-			return !isApplet();
-
 		case SAVE_SETTINGS_TO_FILE:
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;
@@ -4168,9 +4162,6 @@ public abstract class App implements UpdateSelection {
 
 		case WHITEBOARD_APP:
 			return prerelease;
-
-		case HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED:
-			return true; // 5.0.290
 
 		case MOBILE_CACHE_FEATURED:
 			return prerelease;
