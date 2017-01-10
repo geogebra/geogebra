@@ -1482,7 +1482,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		// footer
 		sb.append(
-				((GuiManagerD) app.getGuiManager()).getCreatedWithHTML(false));
+				((GuiManagerD) app.getGuiManager()).getCreatedWithHTML());
 
 		// append base64 string so that file can be reloaded with File -> Open
 		sb.append(

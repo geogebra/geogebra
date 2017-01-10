@@ -238,14 +238,15 @@ public class MD5EncrypterGWTImpl {
 	}
 
 	private String wordToHex(int lValue) {
-		String WordToHexValue = "", WordToHexValue_temp = "";
+		StringBuilder WordToHexValue = new StringBuilder();
+		String WordToHexValue_temp = "";
 		int lByte, lCount;
 		for (lCount = 0; lCount <= 3; lCount++) {
 			lByte = (lValue >>> (lCount * 8)) & 255;
 			WordToHexValue_temp = "0" + Integer.toHexString(lByte);
-			WordToHexValue = WordToHexValue + WordToHexValue_temp
-					.substring(WordToHexValue_temp.length() - 2);
+			WordToHexValue.append(WordToHexValue + WordToHexValue_temp
+					.substring(WordToHexValue_temp.length() - 2));
 		}
-		return WordToHexValue;
+		return WordToHexValue.toString();
 	}
 }

@@ -196,34 +196,34 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			return;
 		}
 		// List<Macro> macros = toolList.getSelectedMacros();
-		String macroNamesNoDel = "";
-		String macroNamesDel = "";
+		StringBuilder macroNamesNoDel = new StringBuilder();
+		StringBuilder macroNamesDel = new StringBuilder();
 
 		for (int j = 0; j < selIndexesTemp.size(); j++) {
 			int i = selIndexesTemp.get(j);
 			if (toolList.getMacro(i).isUsed()) {
-				macroNamesNoDel += "\n"
+				macroNamesNoDel.append("\n"
 						+ toolList.getMacro(i).getToolOrCommandName() + ": "
-						+ toolList.getMacro(i).getNeededTypesString();
+						+ toolList.getMacro(i).getNeededTypesString());
 				toolList.setItemSelected(j, false);
 			} else {
-				macroNamesDel += "\n"
+				macroNamesDel.append("\n"
 						+ toolList.getMacro(i).getToolOrCommandName() + ": "
-						+ toolList.getMacro(i).getNeededTypesString();
+						+ toolList.getMacro(i).getNeededTypesString());
 			}
 		}
 		final List<Integer> selIndexes = ListBoxApi
 				.getSelectionIndexes(toolList);
 		String question = "";
 		String message = "";
-		if (macroNamesDel.isEmpty()) {
+		if (macroNamesDel.length() == 0) {
 			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
 					+ " " + macroNamesNoDel);
 		} else {
 			question = loc.getMenu("Question");
 			message = loc.getMenu("Tool.DeleteQuestion") + macroNamesDel;
 
-			if (!macroNamesNoDel.isEmpty()) {
+			if (macroNamesNoDel.length() != 0) {
 				message += "\n" + loc.getError("Tool.DeleteUsed")
 						+ macroNamesNoDel;
 			}

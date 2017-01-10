@@ -896,11 +896,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// gwt does not support reverse() ??
 		// return def.reverse().toString();
 
-		String s = "";
-		for (int i = def.length() - 1; i >= 0; i--) {
-			s += def.charAt(i);
-		}
-		return s;
+		// reverse is OK for GWT 2.8
+		return def.reverse().toString();
 	}
 
 	/**
