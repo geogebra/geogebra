@@ -6704,6 +6704,12 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
 			view.setCursor(EuclidianCursor.DEFAULT);
+			if (event.isShiftDown()
+					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW) {
+				setCursorForTranslateViewNoHit();
+			} else {
+				view.setCursor(EuclidianCursor.DEFAULT);
+			}
 		} else {
 			if ((event.isShiftDown()
 					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW)
@@ -6795,6 +6801,10 @@ public abstract class EuclidianController {
 			view.repaintView();
 		}
 		stopCollectingMinorRepaints();
+	}
+
+	protected void setCursorForTranslateViewNoHit() {
+		view.setCursor(EuclidianCursor.DEFAULT);
 	}
 
 	protected void setCursorForTranslateView(Hits hits) {

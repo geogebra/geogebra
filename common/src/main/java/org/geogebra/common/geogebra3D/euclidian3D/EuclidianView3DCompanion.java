@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
@@ -189,6 +190,12 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	}
 
 	protected boolean moveCursorIsVisible() {
+		if (getView().getEuclidianController()
+				.getMoveMode() != EuclidianController.MOVE_NONE
+				&& getView().getEuclidianController()
+						.getMoveMode() != EuclidianController.MOVE_VIEW) {
+			return false;
+		}
 		return getView().cursorIsTranslateViewCursor()
 				|| getView().getEuclidianController()
 						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;

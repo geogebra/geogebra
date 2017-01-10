@@ -3067,6 +3067,11 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	public void setCursorForTranslateViewNoHit() {
+		cursor = EuclidianCursor.MOVE;
+		setCursor(EuclidianCursor.DEFAULT);
+	}
+
 	public void setCursor(EuclidianCursor cursor1) {
 		switch (cursor1) {
 		case HIT:

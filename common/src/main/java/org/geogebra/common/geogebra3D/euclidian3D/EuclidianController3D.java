@@ -4458,6 +4458,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setCursorForTranslateView(hits);
 	}
 
+	protected void setCursorForTranslateViewNoHit() {
+		view3D.setCursorForTranslateViewNoHit();
+	}
+
 	public void setViewRotationOccured(boolean flag) {
 		viewRotationOccured = flag;
 	}
