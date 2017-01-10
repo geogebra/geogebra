@@ -265,6 +265,7 @@ public class GgbAPID extends GgbAPIJre {
 			String ret = Base64.encodeToString(baos.toByteArray(), false);
 
 			baos.close();
+			ios.close();
 
 			return ret;
 		} catch (IOException e) {

@@ -63,6 +63,8 @@ public class OFFReader {
 					new InputStreamReader(stream, Charsets.UTF_8));
 			parse(br, handler);
 
+			br.close();
+
 			Log.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",
 					handler.getVertexCount(), handler.getEdgeCount(),
 					handler.getEdgeCount()));

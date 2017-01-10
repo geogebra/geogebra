@@ -82,6 +82,10 @@ public class DownloadManager {
 		} catch (Exception e) {
 			try {
 				in.close();
+			} catch (Exception ex) {
+				Log.error(ex.toString());
+			}
+			try {
 				out.close();
 			} catch (Exception ex) {
 				Log.error(ex.toString());

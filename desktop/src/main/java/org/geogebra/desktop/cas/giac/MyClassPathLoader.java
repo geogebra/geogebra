@@ -59,9 +59,15 @@ public class MyClassPathLoader {
 			File tmpFile = writeTmpFile(ins, fname);
 			System.load(tmpFile.getAbsolutePath());
 			tmpFile.delete();
+			ins.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			Log.debug("error loading: " + fname);
+			try {
+				ins.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			return false;
 		}
 

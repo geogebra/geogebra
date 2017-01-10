@@ -129,6 +129,7 @@ public class MyResourceBundle extends PropertyResourceBundle
 			InputStream in = MyResourceBundle.class
 					.getResourceAsStream(fileName);
 			MyResourceBundle ret = new MyResourceBundle(in);
+			in.close();
 			return ret;
 		} catch (Exception e) {
 			Log.error("Warning: could not load bundle: " + fileName);

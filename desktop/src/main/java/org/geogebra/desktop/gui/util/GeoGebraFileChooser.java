@@ -452,8 +452,10 @@ public class GeoGebraFileChooser extends JFileChooser
 
 						if (fileName.endsWith(".svg")) {
 
+							FileInputStream is = new FileInputStream(file);
 							String svg = UtilD
-									.loadIntoString(new FileInputStream(file));
+									.loadIntoString(is);
+							is.close();
 
 							tmpImage = new MyImageD(svg, fileName);
 						} else {
