@@ -1442,13 +1442,13 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		double pos;
 		boolean close, visible, first;
-		double dash[];
+		double dash1[];
 		double phase;
 		int index;
 		DashIterator iter;
 
 		Dasher(double dash[], double phase) {
-			this.dash = dash;
+			this.dash1 = dash;
 			this.phase = phase;
 			index = 0;
 			pos = phase;
@@ -1500,12 +1500,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		void next() {
 			if (close) {
-				pos += dash[index];
-				index = (index + 1) % dash.length;
+				pos += dash1[index];
+				index = (index + 1) % dash1.length;
 			} else {
 				// Go back
-				index = (index + dash.length - 1) % dash.length;
-				pos -= dash[index];
+				index = (index + dash1.length - 1) % dash1.length;
+				pos -= dash1[index];
 			}
 			visible = !visible;
 		}

@@ -51,11 +51,11 @@ package com.himamis.retex.renderer.share;
 public class LapedAtom extends Atom {
 
 	private Atom at;
-	private char type;
+	private char type1;
 
 	public LapedAtom(Atom at, char type) {
 		this.at = at;
-		this.type = type;
+		this.type1 = type;
 	}
 
 	@Override
@@ -64,7 +64,7 @@ public class LapedAtom extends Atom {
 		VerticalBox vb = new VerticalBox();
 		vb.add(b);
 		vb.setWidth(0);
-		switch (type) {
+		switch (type1) {
 		case 'l':
 			b.setShift(-b.getWidth());
 			break;

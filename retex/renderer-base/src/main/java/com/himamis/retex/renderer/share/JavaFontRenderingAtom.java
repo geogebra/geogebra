@@ -54,12 +54,12 @@ import com.himamis.retex.renderer.share.platform.font.Font;
 public class JavaFontRenderingAtom extends Atom {
 
 	private String str;
-	private int type;
+	private int type1;
 	private TeXFormula.FontInfos fontInfos;
 
 	public JavaFontRenderingAtom(String str, int type) {
 		this.str = str;
-		this.type = type;
+		this.type1 = type;
 	}
 
 	public JavaFontRenderingAtom(String str, TeXFormula.FontInfos fontInfos) {
@@ -70,7 +70,7 @@ public class JavaFontRenderingAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (fontInfos == null) {
-			return new JavaFontRenderingBox(str, type, DefaultTeXFont.getSizeFactor(env.getStyle()));
+			return new JavaFontRenderingBox(str, type1, DefaultTeXFont.getSizeFactor(env.getStyle()));
 		} else {
 			DefaultTeXFont dtf = (DefaultTeXFont) env.getTeXFont();
 			int type = dtf.isIt ? Font.ITALIC : Font.PLAIN;

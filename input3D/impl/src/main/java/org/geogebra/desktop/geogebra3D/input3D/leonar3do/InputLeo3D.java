@@ -26,10 +26,7 @@ public class InputLeo3D extends Input3D {
 	
 	private boolean isRightPressed, isLeftPressed;
 	
-	private double screenHalfWidth;
-	
-	
-	private double[][] glassesPosition;
+	private double[][] glassesPosition1;
 	
 	private double eyeSeparation;
 	
@@ -45,9 +42,9 @@ public class InputLeo3D extends Input3D {
 		mouseOrientation = new double[4];
 		
 		// glasses position
-		glassesPosition = new double[2][];
+		glassesPosition1 = new double[2][];
 		for (int i = 0 ; i < 2 ; i++){
-			glassesPosition[i] = new double[3];
+			glassesPosition1[i] = new double[3];
 		}
 		
 		// screen dimensions
@@ -106,12 +103,12 @@ public class InputLeo3D extends Input3D {
 			eyeSeparation = (leoSocket.leftEyeX - leoSocket.rightEyeX) * screenHalfWidth;
 
 			// glasses position
-			glassesPosition[0][0] = leoSocket.leftEyeX * screenHalfWidth;
-			glassesPosition[0][1] = leoSocket.leftEyeY * screenHalfWidth;
-			glassesPosition[0][2] = leoSocket.leftEyeZ * screenHalfWidth;
-			glassesPosition[1][0] = leoSocket.rightEyeX * screenHalfWidth;
-			glassesPosition[1][1] = leoSocket.rightEyeY * screenHalfWidth;
-			glassesPosition[1][2] = leoSocket.rightEyeZ * screenHalfWidth;
+			glassesPosition1[0][0] = leoSocket.leftEyeX * screenHalfWidth;
+			glassesPosition1[0][1] = leoSocket.leftEyeY * screenHalfWidth;
+			glassesPosition1[0][2] = leoSocket.leftEyeZ * screenHalfWidth;
+			glassesPosition1[1][0] = leoSocket.rightEyeX * screenHalfWidth;
+			glassesPosition1[1][1] = leoSocket.rightEyeY * screenHalfWidth;
+			glassesPosition1[1][2] = leoSocket.rightEyeZ * screenHalfWidth;
 
 			/*
 			App.debug("\nleft eye"
@@ -176,7 +173,7 @@ public class InputLeo3D extends Input3D {
 
 	@Override
 	public double[] getGlassesPosition(int i){
-		return glassesPosition[i];
+		return glassesPosition1[i];
 	}
 	
 	@Override

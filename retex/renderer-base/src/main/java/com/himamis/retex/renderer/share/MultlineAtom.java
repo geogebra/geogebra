@@ -56,13 +56,13 @@ public class MultlineAtom extends Atom {
 	public static final int GATHERED = 2;
 
 	private ArrayOfAtoms column;
-	private int type;
+	private int type1;
 	private boolean isPartial;
 
 	public MultlineAtom(boolean isPartial, ArrayOfAtoms column, int type) {
 		this.isPartial = isPartial;
 		this.column = column;
-		this.type = type;
+		this.type1 = type;
 	}
 
 	public MultlineAtom(ArrayOfAtoms column, int type) {
@@ -72,13 +72,13 @@ public class MultlineAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		double tw = env.getTextwidth();
-		if (tw == Double.POSITIVE_INFINITY || type == GATHERED) {
+		if (tw == Double.POSITIVE_INFINITY || type1 == GATHERED) {
 			return new MatrixAtom(isPartial, column, "").createBox(env);
 		}
 
 		VerticalBox vb = new VerticalBox();
 		Atom at = column.get(0, 0);
-		int alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_LEFT;
+		int alignment = type1 == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_LEFT;
 		if (at.alignment != -1) {
 			alignment = at.alignment;
 		}
@@ -96,7 +96,7 @@ public class MultlineAtom extends Atom {
 
 		if (column.row > 1) {
 			at = column.get(column.row - 1, 0);
-			alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_RIGHT;
+			alignment = type1 == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_RIGHT;
 			if (at.alignment != -1) {
 				alignment = at.alignment;
 			}

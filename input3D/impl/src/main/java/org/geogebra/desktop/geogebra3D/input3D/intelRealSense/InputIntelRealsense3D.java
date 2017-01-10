@@ -31,8 +31,7 @@ public class InputIntelRealsense3D extends Input3D {
 	
 	private boolean isRightPressed, isLeftPressed;
 	
-	private double screenHalfWidth;
-	
+
 	/**
 	 * Check if realsense camera can be inited (check registry)
 	 * 
