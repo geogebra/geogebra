@@ -692,7 +692,7 @@ public class TransformW implements Transform {
 			/* NOTREACHED */
 		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
 			ret = TYPE_TRANSLATION;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (APPLY_SHEAR | APPLY_SCALE):
 			if ((M0 = m00) * (M2 = m01) + (M3 = m10) * (M1 = m11) != 0) {
 				// Transformed unit vectors are not perpendicular...
@@ -725,7 +725,7 @@ public class TransformW implements Transform {
 			break;
 		case (APPLY_SHEAR | APPLY_TRANSLATE):
 			ret = TYPE_TRANSLATION;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (APPLY_SHEAR):
 			sgn0 = ((M0 = m01) >= 0.0);
 			sgn1 = ((M1 = m10) >= 0.0);
@@ -749,7 +749,7 @@ public class TransformW implements Transform {
 			break;
 		case (APPLY_SCALE | APPLY_TRANSLATE):
 			ret = TYPE_TRANSLATION;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (APPLY_SCALE):
 			sgn0 = ((M0 = m00) >= 0.0);
 			sgn1 = ((M1 = m11) >= 0.0);
@@ -1415,7 +1415,7 @@ public class TransformW implements Transform {
 		case (APPLY_SHEAR | APPLY_SCALE):
 			m00 *= sx;
 			m11 *= sy;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (APPLY_SHEAR | APPLY_TRANSLATE):
 		case (APPLY_SHEAR):
 			m01 *= sy;
@@ -2011,11 +2011,11 @@ public class TransformW implements Transform {
 		case (HI_SHEAR | HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
 			m01 = Tx.m01;
 			m10 = Tx.m10;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
 			m00 = Tx.m00;
 			m11 = Tx.m11;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (HI_TRANSLATE | APPLY_IDENTITY):
 			m02 = Tx.m02;
 			m12 = Tx.m12;
@@ -2025,7 +2025,7 @@ public class TransformW implements Transform {
 		case (HI_SHEAR | HI_SCALE | APPLY_IDENTITY):
 			m01 = Tx.m01;
 			m10 = Tx.m10;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (HI_SCALE | APPLY_IDENTITY):
 			m00 = Tx.m00;
 			m11 = Tx.m11;
@@ -2035,7 +2035,7 @@ public class TransformW implements Transform {
 		case (HI_SHEAR | HI_TRANSLATE | APPLY_IDENTITY):
 			m02 = Tx.m02;
 			m12 = Tx.m12;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (HI_SHEAR | APPLY_IDENTITY):
 			m01 = Tx.m01;
 			m10 = Tx.m10;
@@ -2120,7 +2120,7 @@ public class TransformW implements Transform {
 			/* NOTREACHED */
 		case (APPLY_SHEAR | APPLY_SCALE):
 			state = mystate | txstate;
-			/* NOBREAK */
+			//$FALL-THROUGH$
 		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
 			M0 = m00;
 			M1 = m01;

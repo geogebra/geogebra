@@ -760,6 +760,7 @@ public class TeXParser {
 				case '\n':
 					line++;
 					col = pos;
+					//$FALL-THROUGH$
 				case '\t':
 				case '\r':
 					pos++;

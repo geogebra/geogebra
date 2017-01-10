@@ -45,6 +45,7 @@ public class RawImageWriter extends ImageWriter {
 		byte[] bytes = ImageUtilities.getBytes(ri, rawParam.getBackground(),
 				rawParam.getCode(), rawParam.getPad());
 		ios.write(bytes);
+		ios.close();
 	}
 
 	public IIOMetadata convertStreamMetadata(IIOMetadata inData,

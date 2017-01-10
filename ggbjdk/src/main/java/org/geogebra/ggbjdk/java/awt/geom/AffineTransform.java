@@ -838,9 +838,10 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            ret = TYPE_TRANSLATION;
-            /* NOBREAK */
+        	ret = TYPE_TRANSLATION;
+        //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_SCALE):
             if ((M0 = m00) * (M2 = m01) + (M3 = m10) * (M1 = m11) != 0) {
                 // Transformed unit vectors are not perpendicular...
@@ -877,7 +878,7 @@ public class AffineTransform implements GAffineTransform {
             break;
         case (APPLY_SHEAR | APPLY_TRANSLATE):
             ret = TYPE_TRANSLATION;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR):
             sgn0 = ((M0 = m01) >= 0.0);
             sgn1 = ((M1 = m10) >= 0.0);
@@ -905,7 +906,7 @@ public class AffineTransform implements GAffineTransform {
             break;
         case (APPLY_SCALE | APPLY_TRANSLATE):
             ret = TYPE_TRANSLATION;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SCALE):
             sgn0 = ((M0 = m00) >= 0.0);
             sgn1 = ((M1 = m11) >= 0.0);
@@ -997,7 +998,8 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+			//$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (APPLY_SHEAR | APPLY_SCALE):
             return m00 * m11 - m01 * m10;
         case (APPLY_SHEAR | APPLY_TRANSLATE):
@@ -1593,11 +1595,12 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+			//$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (APPLY_SHEAR | APPLY_SCALE):
             m00 *= sx;
             m11 *= sy;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_TRANSLATE):
         case (APPLY_SHEAR):
             m01 *= sy;
@@ -2211,11 +2214,11 @@ public class AffineTransform implements GAffineTransform {
         case (HI_SHEAR | HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
             m01 = Tx.m01;
             m10 = Tx.m10;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SCALE | HI_TRANSLATE | APPLY_IDENTITY):
             m00 = Tx.m00;
             m11 = Tx.m11;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_TRANSLATE | APPLY_IDENTITY):
             m02 = Tx.m02;
             m12 = Tx.m12;
@@ -2225,7 +2228,7 @@ public class AffineTransform implements GAffineTransform {
         case (HI_SHEAR | HI_SCALE | APPLY_IDENTITY):
             m01 = Tx.m01;
             m10 = Tx.m10;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SCALE | APPLY_IDENTITY):
             m00 = Tx.m00;
             m11 = Tx.m11;
@@ -2235,7 +2238,7 @@ public class AffineTransform implements GAffineTransform {
         case (HI_SHEAR | HI_TRANSLATE | APPLY_IDENTITY):
             m02 = Tx.m02;
             m12 = Tx.m12;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SHEAR | APPLY_IDENTITY):
             m01 = Tx.m01;
             m10 = Tx.m10;
@@ -2313,9 +2316,10 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
-        case (APPLY_SHEAR | APPLY_SCALE):
+			//$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE):
             state = mystate | txstate;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M0 = m00;
             M1 = m01;
@@ -2439,7 +2443,7 @@ public class AffineTransform implements GAffineTransform {
         case (HI_SCALE | APPLY_IDENTITY):
             // Only these two existing states need a new state
             state = mystate | APPLY_SCALE;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SCALE | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (HI_SCALE | APPLY_SHEAR | APPLY_SCALE):
         case (HI_SCALE | APPLY_SHEAR | APPLY_TRANSLATE):
@@ -2469,13 +2473,13 @@ public class AffineTransform implements GAffineTransform {
         case (HI_SHEAR | APPLY_SHEAR | APPLY_TRANSLATE):
         case (HI_SHEAR | APPLY_SHEAR):
             mystate = mystate | APPLY_SCALE;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SHEAR | APPLY_TRANSLATE):
         case (HI_SHEAR | APPLY_IDENTITY):
         case (HI_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (HI_SHEAR | APPLY_SCALE):
             state = mystate ^ APPLY_SHEAR;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
         case (HI_SHEAR | APPLY_SHEAR | APPLY_SCALE):
             // Tx is SHEAR, this is anything
@@ -2504,13 +2508,14 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+			//$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             M0 = m02;
             M1 = m12;
             T02 += M0 * T00 + M1 * T01;
             T12 += M0 * T10 + M1 * T11;
 
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_SCALE):
             m02 = T02;
             m12 = T12;
@@ -2532,7 +2537,7 @@ public class AffineTransform implements GAffineTransform {
             T02 += M0 * T00 + M1 * T01;
             T12 += M0 * T10 + M1 * T11;
 
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR):
             m02 = T02;
             m12 = T12;
@@ -2552,7 +2557,7 @@ public class AffineTransform implements GAffineTransform {
             T02 += M0 * T00 + M1 * T01;
             T12 += M0 * T10 + M1 * T11;
 
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SCALE):
             m02 = T02;
             m12 = T12;
@@ -2572,7 +2577,7 @@ public class AffineTransform implements GAffineTransform {
             T02 += M0 * T00 + M1 * T01;
             T12 += M0 * T10 + M1 * T11;
 
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_IDENTITY):
             m02 = T02;
             m12 = T12;
@@ -3124,10 +3129,11 @@ public class AffineTransform implements GAffineTransform {
         default:
             stateError();
             /* NOTREACHED */
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+			//$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             x -= m02;
             y -= m12;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR | APPLY_SCALE):
             double det = m00 * m11 - m01 * m10;
             if (Math.abs(det) <= Double.MIN_VALUE) {
@@ -3140,7 +3146,7 @@ public class AffineTransform implements GAffineTransform {
         case (APPLY_SHEAR | APPLY_TRANSLATE):
             x -= m02;
             y -= m12;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SHEAR):
             if (m01 == 0.0 || m10 == 0.0) {
                 throw new NoninvertibleTransformException("Determinant is 0");
@@ -3150,7 +3156,7 @@ public class AffineTransform implements GAffineTransform {
         case (APPLY_SCALE | APPLY_TRANSLATE):
             x -= m02;
             y -= m12;
-            /* NOBREAK */
+            //$FALL-THROUGH$
         case (APPLY_SCALE):
             if (m00 == 0.0 || m11 == 0.0) {
                 throw new NoninvertibleTransformException("Determinant is 0");

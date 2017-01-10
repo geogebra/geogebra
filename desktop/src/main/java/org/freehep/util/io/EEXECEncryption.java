@@ -119,8 +119,10 @@ public class EEXECEncryption extends OutputStream implements EEXECConstants {
 			throws IOException {
 		IntOutputStream resultStr = new IntOutputStream(chars.length + 4);
 		EEXECEncryption eout = new EEXECEncryption(resultStr, r, n);
-		for (int i = 0; i < chars.length; i++)
+		for (int i = 0; i < chars.length; i++) {
 			eout.write(chars[i]);
+		}
+		eout.close();
 		return resultStr.getInts();
 	}
 }

@@ -269,8 +269,7 @@ public final class Base64 {
 					throw new IOException("malformed Base64 sequence");
 				}
 				i++;
-				// Fall-through.
-
+				//$FALL-THROUGH$
 			case 3:
 				i++;
 				for (; i < b64.length(); i++) {

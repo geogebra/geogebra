@@ -834,9 +834,10 @@ public class AffineTransform implements Cloneable, Transform {
             default:
                 stateError();
             /* NOTREACHED */
-            case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
+            //$FALL-THROUGH$
+		case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
                 ret = TYPE_TRANSLATION;
-            /* NOBREAK */
+            //$FALL-THROUGH$
             case (APPLY_SHEAR | APPLY_SCALE):
                 if ((M0 = m00) * (M2 = m01) + (M3 = m10) * (M1 = m11) != 0) {
                     // Transformed unit vectors are not perpendicular...
@@ -873,8 +874,8 @@ public class AffineTransform implements Cloneable, Transform {
                 break;
             case (APPLY_SHEAR | APPLY_TRANSLATE):
                 ret = TYPE_TRANSLATION;
-            /* NOBREAK */
-            case (APPLY_SHEAR):
+            //$FALL-THROUGH$
+		case (APPLY_SHEAR):
                 sgn0 = ((M0 = m01) >= 0.0);
                 sgn1 = ((M1 = m10) >= 0.0);
                 if (sgn0 != sgn1) {
@@ -901,7 +902,8 @@ public class AffineTransform implements Cloneable, Transform {
                 break;
             case (APPLY_SCALE | APPLY_TRANSLATE):
                 ret = TYPE_TRANSLATION;
-            /* NOBREAK */
+            //$FALL-THROUGH$
+          //$FALL-THROUGH$
             case (APPLY_SCALE):
                 sgn0 = ((M0 = m00) >= 0.0);
                 sgn1 = ((M1 = m11) >= 0.0);
@@ -1138,6 +1140,7 @@ public class AffineTransform implements Cloneable, Transform {
             default:
                 stateError();
             /* NOTREACHED */
+              //$FALL-THROUGH$
             case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
                 m02 = tx * m00 + ty * m01 + m02;
                 m12 = tx * m10 + ty * m11 + m12;
@@ -1525,11 +1528,12 @@ public class AffineTransform implements Cloneable, Transform {
             default:
                 stateError();
             /* NOTREACHED */
+              //$FALL-THROUGH$
             case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             case (APPLY_SHEAR | APPLY_SCALE):
                 m00 *= sx;
                 m11 *= sy;
-            /* NOBREAK */
+            //$FALL-THROUGH$
             case (APPLY_SHEAR | APPLY_TRANSLATE):
             case (APPLY_SHEAR):
                 m01 *= sy;
@@ -1593,6 +1597,7 @@ public class AffineTransform implements Cloneable, Transform {
             default:
                 stateError();
             /* NOTREACHED */
+              //$FALL-THROUGH$
             case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
             case (APPLY_SHEAR | APPLY_SCALE):
                 double M0, M1;

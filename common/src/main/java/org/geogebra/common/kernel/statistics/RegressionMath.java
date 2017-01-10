@@ -528,7 +528,7 @@ public final class RegressionMath {
 			y = ylist[i];
 			xx = x * x;
 			xy = x * y; // save some calculations
-			switch (degree) { // fall-through-switch
+			switch (degree) { // fall through switch
 			default:
 				// do nothing
 				break;
@@ -536,14 +536,17 @@ public final class RegressionMath {
 				sigmax4y += x * xx * xy;
 				sigmax7 += xx * xx * xx * x;
 				sigmax8 += xx * xx * xx * xx;
+				//$FALL-THROUGH$
 			case 3:
 				sigmax3y += xx * xy;
 				sigmax5 += xx * xx * x;
 				sigmax6 += xx * xx * xx;
+				//$FALL-THROUGH$
 			case 2:
 				sigmax2y += xx * y;
 				sigmax3 += xx * x;
 				sigmax4 += xx * xx;
+				//$FALL-THROUGH$
 			case 1:
 				sigmay2 += y * y; // r only for linear
 			}

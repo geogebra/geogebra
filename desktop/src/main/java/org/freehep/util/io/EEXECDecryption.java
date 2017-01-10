@@ -75,6 +75,8 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 					decrypt(asciiDecoded);
 					byteCount++;
 				}
+				tempIn.close();
+
 				in = new ASCIIHexInputStream(in, true);
 				while (byteCount < n) {
 					decrypt(in.read());
