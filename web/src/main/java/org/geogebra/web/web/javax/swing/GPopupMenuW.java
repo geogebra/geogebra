@@ -72,8 +72,11 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 		popupPanel.setAutoHideEnabled(true);
 	}
 
-	/*
+	/**
 	 * Constructor for submenu-popups
+	 * 
+	 * @param mb
+	 *            menu
 	 */
 	public GPopupMenuW(MenuBar mb) {
 		popupPanel = new PopupPanel();
@@ -85,6 +88,10 @@ public class GPopupMenuW extends GPopupMenu implements AttachedToDOM {
 	//
 	// }
 
+	/**
+	 * @param v
+	 *            whether to show this
+	 */
 	public void setVisible(boolean v) {
 		popupPanel.setVisible(v);
 	}
