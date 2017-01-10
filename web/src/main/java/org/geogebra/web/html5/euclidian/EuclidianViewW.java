@@ -668,6 +668,8 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		addDummyDiv();
+		this.g2p.getCanvas().getElement().setAttribute("aria-live",
+				"polite");
 
 	}
 
@@ -1239,19 +1241,30 @@ public class EuclidianViewW extends EuclidianView implements
 		dummyDiv.getElement().setTabIndex(-1);
 		RootPanel.get().add(dummyDiv);
 	}
+
+	boolean temp = true;
 	public void readText(final String text) {
+		Log.debug("read text: " + text);
 		// String oldAltText = g2p.getAltText();
 		g2p.setAltText(text);
+		
+		//if (temp) {
+		//	g2p.setAltText("this is a text for test");
+		//} else {
+		//	g2p.setAltText("another text");
+		//}
+		//temp = !temp;
+
 
 		// RootPanel.getBodyElement().focus();
-		printFocusedElement();
+		// printFocusedElement();
 		// DOM.getElementById("ggbPage").focus();
-		dummyDiv.getElement().focus();
+		// dummyDiv.getElement().focus();
 		// printFocusedElement();
 		// g2p.getCanvas().getCanvasElement().blur();
-		printFocusedElement();
-		g2p.getCanvas().getCanvasElement().focus();
-		printFocusedElement();
+		// printFocusedElement();
+		// g2p.getCanvas().getCanvasElement().focus();
+		// printFocusedElement();
 
 		// g2p.setAltText(oldAltText);
 	}
