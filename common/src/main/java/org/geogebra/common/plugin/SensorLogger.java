@@ -29,6 +29,7 @@ public abstract class SensorLogger {
 	public static int port = 7166;
 	public static String appID = "ABCD";
 	public boolean oldUndoActive = false;
+	protected long now;
 
 	public static enum Types {
 		// DON'T CHANGE STRINGS - USED IN XML FOR DATA COLLECTION VIEW
@@ -115,7 +116,7 @@ public abstract class SensorLogger {
 	protected HashMap<Types, GeoFunction> listenersF = new HashMap<Types, GeoFunction>();
 	protected HashMap<Types, Integer> listLimits = new HashMap<Types, Integer>();
 	protected HashMap<Types, Integer> listenersAges = new HashMap<Types, Integer>();
-	protected long now;
+
 
 	private int stepsToGo = DEFAULT_LIMIT;
 
@@ -248,8 +249,6 @@ public abstract class SensorLogger {
 	}
 
 	protected void initStartLogging() {
-		now = System.currentTimeMillis();
-
 		Log.debug(
 				"startLogging called, undoActive is: " + kernel.isUndoActive());
 		// make sure that running StartLogging twice does not switch undo off

@@ -113,7 +113,7 @@ public class GeoGebraTubeExportW extends
 
 						Log.debug(response.getText());
 
-						statusLabelSetText(loc.getPlain("UploadError",
+						statusLabelSetText(getLoc().getPlain("UploadError",
 						        Integer.toString(response.getStatusCode())));
 						setEnabled(false);
 						pack();
@@ -123,7 +123,7 @@ public class GeoGebraTubeExportW extends
 				}
 			});
 		} catch (RequestException e) {
-			statusLabelSetText(loc.getPlain("UploadError",
+			statusLabelSetText(getLoc().getPlain("UploadError",
 			        Integer.toString(500)));
 			setEnabled(false);
 			pack();
@@ -149,7 +149,7 @@ public class GeoGebraTubeExportW extends
 
 			doUploadWorksheet(rb, postData, pba);
 		} catch (Exception e) {
-			statusLabelSetText(loc.getPlain("UploadError",
+			statusLabelSetText(getLoc().getPlain("UploadError",
 			        Integer.toString(400)));
 			setEnabled(false);
 			pack();
@@ -178,7 +178,7 @@ public class GeoGebraTubeExportW extends
 			String postData = getPostData().toString();
 			doUploadWorksheet(rb, postData, pba);
 		} catch (Exception e) {
-			statusLabelSetText(loc.getPlain("UploadError",
+			statusLabelSetText(getLoc().getPlain("UploadError",
 			        Integer.toString(400)));
 			setEnabled(false);
 			pack();

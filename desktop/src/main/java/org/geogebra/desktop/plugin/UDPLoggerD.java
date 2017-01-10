@@ -245,7 +245,7 @@ public class UDPLoggerD extends SensorLogger {
 
 	@Override
 	public boolean startLogging() {
-
+		now = System.currentTimeMillis();
 		initStartLogging();
 
 		// Create a socket to listen on the port.

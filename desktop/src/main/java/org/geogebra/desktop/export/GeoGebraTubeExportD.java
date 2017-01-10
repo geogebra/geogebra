@@ -197,7 +197,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 							output.toString());
 
 					if (results.hasError()) {
-						statusLabelSetText(loc.getPlain("UploadError",
+						statusLabelSetText(getLoc().getPlain("UploadError",
 								results.getErrorMessage()));
 						setEnabled(false);
 
@@ -245,14 +245,14 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 					Log.debug(errorBuffer.toString());
 
-					statusLabelSetText(loc.getPlain("UploadError",
+					statusLabelSetText(getLoc().getPlain("UploadError",
 							Integer.toString(responseCode)));
 					setEnabled(false);
 					pack();
 				}
 			} catch (IOException e) {
 				statusLabelSetText(
-						loc.getPlain("UploadError", Integer.toString(500)));
+						getLoc().getPlain("UploadError", Integer.toString(500)));
 				setEnabled(false);
 				pack();
 
@@ -260,7 +260,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			}
 		} catch (IOException e) {
 			statusLabelSetText(
-					loc.getPlain("UploadError", Integer.toString(400)));
+					getLoc().getPlain("UploadError", Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
@@ -275,10 +275,10 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	protected void showDialog() {
 		// initialize components
 		progressBar = new JProgressBar();
-		statusLabel = new JLabel(loc.getPlain("UploadPrepare") + " ...");
+		statusLabel = new JLabel(getLoc().getPlain("UploadPrepare") + " ...");
 
 		// setup buttons
-		abortButton = new JButton(loc.getMenu("Close"));
+		abortButton = new JButton(getLoc().getMenu("Close"));
 		abortButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				hideDialog();

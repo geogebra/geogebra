@@ -21,7 +21,7 @@ public abstract class GeoGebraTubeExport {
 	 * Application instance.
 	 */
 	public App app;
-	public Localization loc;
+	private Localization loc;
 
 	protected ArrayList<Macro> macros;
 
@@ -32,7 +32,7 @@ public abstract class GeoGebraTubeExport {
 	 */
 	public GeoGebraTubeExport(App app) {
 		this.app = app;
-		this.loc = app.getLocalization();
+		this.setLoc(app.getLocalization());
 	}
 
 	/**
@@ -178,5 +178,13 @@ public abstract class GeoGebraTubeExport {
 		}
 
 		return GeoGebraConstants.uploadURL;
+	}
+
+	public Localization getLoc() {
+		return loc;
+	}
+
+	public void setLoc(Localization loc) {
+		this.loc = loc;
 	}
 }
