@@ -4807,7 +4807,11 @@ public class ExpressionNode extends ValidExpression
 				if (right.isConstant()) {
 
 					double rightDoub = right.evaluateDouble();
-
+					if (Kernel.isEqual(rightDoub, 2)) {
+						return wrap(left)
+								.multiply(left.derivative(fv, kernel0))
+								.multiply(right);
+					}
 					// not an integer, convert to x^(a/b)
 					if (!Kernel.isInteger(rightDoub)) {
 
@@ -4852,6 +4856,18 @@ public class ExpressionNode extends ValidExpression
 		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left).derivative(fv, kernel0).divide(right);
+			}
+			if (right.isExpressionNode()
+					&& ((ExpressionNode) right).getOperation() == Operation.POWER
+					&& !((ExpressionNode) right).getRight().contains(fv)) {
+				ExpressionValue rl = getRightTree().getLeft();
+				ExpressionValue rr = getRightTree().getRight();
+				return wrap(left.derivative(fv, kernel0))
+						.multiply(rl)
+						.subtract(
+								wrap(rl.derivative(fv, kernel0)).multiply(left)
+										.multiply(rr))
+						.divide(wrap(rl).power(rr.wrap().plus(1)));
 			}
 			return wrap(left.derivative(fv, kernel0)).multiply(right)
 					.subtract(
