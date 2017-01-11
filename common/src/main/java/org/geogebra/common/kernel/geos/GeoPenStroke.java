@@ -56,6 +56,11 @@ public class GeoPenStroke extends GeoPolyLine {
 	}
 
 	@Override
+	final public boolean isAlgebraViewEditable() {
+		return false;
+	}
+
+	@Override
 	public boolean isLabelVisible() {
 		return false;
 	}

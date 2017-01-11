@@ -405,6 +405,7 @@ public class AlgebraViewD extends AlgebraTree
 			return;
 
 		// open Object Properties for eg GeoImages
+		// also for GeoPenStroke
 		if (!geo.isAlgebraViewEditable()) {
 			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 			geos.add(geo);
