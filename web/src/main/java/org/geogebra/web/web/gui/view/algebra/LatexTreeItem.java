@@ -141,18 +141,23 @@ public class LatexTreeItem extends RadioTreeItem {
 		if (canvas == null) {
 			Log.debug("CANVAS IS NULL");
 			canvas = Canvas.createIfSupported();
-			mf = new MathFieldW(latexItem, canvas,
-					getLatexController());
+			initMathField();
 			return true;
 		}
 		if (mf == null) {
-			mf = new MathFieldW(latexItem, canvas,
-					getLatexController());
+			initMathField();
 		}
-		mf.setPixelRatio(app.getPixelRatio());
+
 		return false;
 	}
 
+
+	private void initMathField() {
+		mf = new MathFieldW(latexItem, canvas,
+				getLatexController());
+		mf.setFontSize(app.getFontSizeWeb());
+		mf.setPixelRatio(app.getPixelRatio());
+	}
 
 	@Override
 	public void setFocus(boolean focus, boolean sv) {
@@ -467,6 +472,13 @@ public class LatexTreeItem extends RadioTreeItem {
 			mf.moveCaretLeftOrRight(false);
 		}
 
+	}
+
+	public void updateFonts() {
+		if (mf != null) {
+			mf.setFontSize(app.getFontSizeWeb());
+		}
+		super.updateFonts();
 	}
 
 }

@@ -33,6 +33,9 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
 
+	/**
+	 * @return current panel
+	 */
 	public static MinMaxPanel getOpenedPanel() {
 		return openedMinMaxPanel;
 	}

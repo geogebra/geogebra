@@ -1990,7 +1990,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			((LaTeXHelper) GWT.create(LaTeXHelper.class))
 					.setFontSize(mqFontSize);
 			if (getInputTreeItem() != null) {
-				getInputTreeItem().updateLineHeight();
+				getInputTreeItem().updateFonts();
 			}
 		}
 	}

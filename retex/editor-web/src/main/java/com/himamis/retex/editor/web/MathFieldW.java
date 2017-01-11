@@ -575,4 +575,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
+	public void setFontSize(double size) {
+		this.mathFieldInternal.setSize(size);
+		this.mathFieldInternal.update();
+	}
+
 }

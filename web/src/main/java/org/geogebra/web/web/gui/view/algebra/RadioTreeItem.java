@@ -1100,7 +1100,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElementND> callback) {
 
-		Log.printStacktrace("-----");
 		styleEditor();
 
 		if (stylebarShown != null) {
@@ -1192,7 +1191,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {
-
 			doUpdate();
 		}
 
@@ -2134,6 +2132,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void adjustCaret(int x) {
 		// only in JLM
 
+	}
+
+	public void updateFonts() {
+		updateLineHeight();
 	}
 }
 
