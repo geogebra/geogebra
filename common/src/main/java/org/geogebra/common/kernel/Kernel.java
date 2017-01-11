@@ -1187,7 +1187,8 @@ public class Kernel {
 	 * precision.
 	 * 
 	 * @param x
-	 * @return
+	 *            input number to be rationalized
+	 * @return numerator and denominator
 	 */
 	public long[] doubleToRational(double x) {
 		double y;
@@ -1200,7 +1201,7 @@ public class Kernel {
 			y *= 10;
 			rounding--;
 		}
-		ret[0] = (int) Math.floor(y);
+		ret[0] = Math.round(y);
 		long gcd = gcd(ret[0], ret[1]);
 		ret[0] /= gcd;
 		ret[1] /= gcd;
