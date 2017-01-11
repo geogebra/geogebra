@@ -292,7 +292,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private GeoInputBox geoUsedForInputBox;
 
-	private boolean previewActive;
+	private boolean previewActive = true;
 
 	@Override
 	public void keyPressed(KeyEvent e) {

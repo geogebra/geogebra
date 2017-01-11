@@ -2,13 +2,8 @@ project.setDescription('Common parts of GeoGebra for various platforms')
 
 buildscript {
 	dependencies {
-		classpath "ca.coglinc:javacc-gradle-plugin:2.3.1"
+		classpath "ca.coglinc:javacc-gradle-plugin:2.4.0"
 		
-	}
-	configurations.all {
-		resolutionStrategy {
-			force 'net.java.dev.javacc:javacc:5.0'
-		}
 	}
 }
 
@@ -49,7 +44,7 @@ sourceSets {
 
 
 compileJavacc {
-	arguments = [static: 'false']
+	arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern']
 }
 
 task cleanJavacc(type: Delete) {

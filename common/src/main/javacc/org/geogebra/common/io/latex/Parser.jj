@@ -4,7 +4,6 @@ package org.geogebra.common.io.latex;
 import com.himamis.retex.editor.share.model.*;
 import com.himamis.retex.editor.share.meta.*;
 import com.himamis.retex.editor.share.controller.*;
-import java.io.StringReader;
 
 public class Parser {
 
@@ -16,7 +15,7 @@ public class Parser {
 
 
     public Parser(MetaModel metaModel) {
-		this(new StringReader(""));      
+		this(new StringProvider(""));      
         this.metaModel = metaModel;
         this.editorState = new EditorState(metaModel);
         this.argumentHelper = new ArgumentHelper();
@@ -64,7 +63,7 @@ public class Parser {
     }
 
     public MathFormula parse(String text) throws ParseException {
-        ReInit(new StringReader(text));
+        ReInit(new StringProvider(text));
         MathFormula mathFormula = new MathFormula(metaModel);
         MathSequence mathSequence = new MathSequence();
         mathFormula.setRootComponent(mathSequence);

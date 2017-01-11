@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -104,7 +105,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
-		if (validInput == null) {
+		if (StringUtil.empty(validInput)) {
 			if (validation != null) {
 				// timeout -- assume OK as we don't know if it's wrong
 				validation.showError(maxLength != DEFAULT_MAX_LENGTH ? null
