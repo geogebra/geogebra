@@ -59,11 +59,13 @@ public class IconHelper {
 	public static javax.swing.Icon createIcon(final Icon icon) {
 		return new javax.swing.Icon() {
 
+			@Override
 			public void paintIcon(Component c, Graphics g, int x, int y) {
 				final Component component = c;
 				final Graphics2DD g2d = new Graphics2DD((Graphics2D) g);
 				icon.paintIcon(new HasForegroundColor() {
 
+					@Override
 					public Color getForegroundColor() {
 						if (component != null) {
 							return new ColorD(component.getForeground());
@@ -73,10 +75,12 @@ public class IconHelper {
 				}, g2d, x, y);
 			}
 
+			@Override
 			public int getIconWidth() {
 				return icon.getIconWidth();
 			}
 
+			@Override
 			public int getIconHeight() {
 				return icon.getIconHeight();
 			}

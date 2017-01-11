@@ -56,26 +56,32 @@ public class ElementD extends NodeD implements Element {
 		this.impl = impl;
 	}
 
+	@Override
 	public NodeList getElementsByTagName(String name) {
 		return new NodeListD(impl.getElementsByTagName(name));
 	}
 	
+	@Override
 	public String getAttribute(String name) {
 		return impl.getAttribute(name);
 	}
 	
+	@Override
 	public String getTagName() {
 		return impl.getTagName();
 	}
 
+	@Override
 	public NodeList getChildNodes() {
 		return new NodeListD(impl.getChildNodes());
 	}
 
+	@Override
 	public NamedNodeMap getAttributes() {
 		return new NamedNodeMapD(impl.getAttributes());
 	}
 
+	@Override
 	public boolean isNull() {
 		return impl == null;
 	}

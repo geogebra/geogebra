@@ -54,14 +54,17 @@ public class AttrD extends NodeD implements Attr {
 		this.impl = impl;
 	}
 
+	@Override
 	public String getName() {
 		return impl.getName();
 	}
 
+	@Override
 	public boolean isSpecified() {
 		return impl.getSpecified();
 	}
 
+	@Override
 	public String getValue() {
 		return impl.getValue();
 	}

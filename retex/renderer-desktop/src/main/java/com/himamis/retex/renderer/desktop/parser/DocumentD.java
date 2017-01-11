@@ -54,6 +54,7 @@ public class DocumentD implements Document {
 		this.impl = impl;
 	}
 
+	@Override
 	public Element getDocumentElement() {
 		return new ElementD(impl.getDocumentElement());
 	}

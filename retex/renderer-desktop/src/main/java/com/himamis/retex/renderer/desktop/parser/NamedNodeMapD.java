@@ -54,10 +54,12 @@ public class NamedNodeMapD implements NamedNodeMap {
 		this.impl = impl;
 	}
 
+	@Override
 	public int getLength() {
 		return impl.getLength();
 	}
 
+	@Override
 	public Node item(int index) {
 		return new NodeD(impl.item(index));
 	}

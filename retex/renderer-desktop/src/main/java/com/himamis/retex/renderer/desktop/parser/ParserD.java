@@ -59,6 +59,7 @@ public class ParserD implements Parser {
 		factory = DocumentBuilderFactory.newInstance();
 	}
 
+	@Override
 	public Document parse(Object input) throws ResourceParseException {
 		// On the desktop platform, the input is an InputSource object
 		// Please refer to the ResourceLoaderD class
@@ -77,10 +78,12 @@ public class ParserD implements Parser {
 		}
 	}
 
+	@Override
 	public void setIgnoringElementContentWhitespace(boolean whitespace) {
 		factory.setIgnoringElementContentWhitespace(whitespace);
 	}
 
+	@Override
 	public void setIgnoringComments(boolean ignoreComments) {
 		factory.setIgnoringComments(ignoreComments);
 	}

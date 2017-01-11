@@ -54,10 +54,12 @@ public class RoundRectangle2DD extends RoundRectangle2D.Float implements com.him
 		setRoundRect(x, y, w, h, arcw, arch);
 	}
 
+	@Override
 	public double getArcW() {
 		return getArcWidth();
 	}
 
+	@Override
 	public double getArcH() {
 		return getArcHeight();
 	}
@@ -66,6 +68,7 @@ public class RoundRectangle2DD extends RoundRectangle2D.Float implements com.him
 		return this;
 	}
 
+	@Override
 	public void setRoundRectangle(double x, double y, double w, double h, double arcw, double arch) {
 		setRoundRect(x, y, w, h, arcw, arch);
 	}

@@ -55,14 +55,17 @@ public class NodeD implements Node {
 		this.impl = impl;
 	}
 
+	@Override
 	public short getNodeType() {
 		return impl.getNodeType();
 	}
 
+	@Override
 	public Element castToElement() {
 		return new ElementD((org.w3c.dom.Element) impl);
 	}
 
+	@Override
 	public Attr castToAttr() {
 		return new AttrD((org.w3c.dom.Attr) impl);
 	}

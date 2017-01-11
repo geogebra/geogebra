@@ -58,6 +58,7 @@ public class ImageD extends BufferedImage implements Image {
 		super(width, height, imageType);
 	}
 
+	@Override
 	public Graphics2DInterface createGraphics2D() {
 		return new Graphics2DD(createGraphics());
 	}

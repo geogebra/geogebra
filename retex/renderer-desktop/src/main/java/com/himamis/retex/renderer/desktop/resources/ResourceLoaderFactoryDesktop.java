@@ -48,6 +48,7 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoaderFactory
 
 public class ResourceLoaderFactoryDesktop implements ResourceLoaderFactory {
 
+	@Override
 	public ResourceLoader createResourceLoader() {
 		return new ResourceLoaderD();
 	}

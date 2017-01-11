@@ -61,10 +61,12 @@ public class FontD implements Font {
 		impl = new java.awt.Font(name, style, size);
 	}
 
+	@Override
 	public Font deriveFont(int type) {
 		return new FontD(impl.deriveFont(type));
 	}
 
+	@Override
 	public Font deriveFont(Map<TextAttribute, Object> map) {
 		return new FontD(impl.deriveFont(convertMap(map)));
 	}

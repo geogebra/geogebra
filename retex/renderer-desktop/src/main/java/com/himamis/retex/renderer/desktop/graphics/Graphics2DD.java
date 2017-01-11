@@ -76,103 +76,128 @@ public class Graphics2DD implements Graphics2DInterface {
 		return impl;
 	}
 
+	@Override
 	public void setStroke(Stroke stroke) {
 		impl.setStroke((java.awt.Stroke) stroke);
 	}
 
+	@Override
 	public Stroke getStroke() {
 		return new StrokeD(impl.getStroke());
 	}
 
+	@Override
 	public void setColor(Color color) {
 		impl.setColor((java.awt.Color) color);
 	}
 
+	@Override
 	public Color getColor() {
 		return new ColorD(impl.getColor());
 	}
 
+	@Override
 	public Transform getTransform() {
 		return new TransformD(impl.getTransform());
 	}
 
+	@Override
 	public Font getFont() {
 		return new FontD(impl.getFont());
 	}
 
+	@Override
 	public void setFont(Font font) {
 		impl.setFont(((FontD) font).impl);
 	}
 
+	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
 	}
 
+	@Override
 	public void fill(Rectangle2D rectangle) {
 		impl.fill((Shape) rectangle);
 	}
 
+	@Override
 	public void draw(Rectangle2D rectangle) {
 		impl.draw((Shape) rectangle);
 	}
 
+	@Override
 	public void draw(RoundRectangle2D rectangle) {
 		impl.draw((Shape) rectangle);
 	}
 
+	@Override
 	public void draw(Line2D line) {
 		impl.draw((Shape) line);
 	}
 
+	@Override
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		impl.drawChars(data, offset, length, x, y);
 
 	}
 
+	@Override
 	public void drawArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		impl.drawArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void fillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		impl.fillArc(x, y, width, height, startAngle, arcAngle);
 	}
 
+	@Override
 	public void translate(double x, double y) {
 		impl.translate(x, y);
 	}
 
+	@Override
 	public void scale(double x, double y) {
 		impl.scale(x, y);
 	}
 
+	@Override
 	public void rotate(double theta, double x, double y) {
 		impl.rotate(theta, x, y);
 	}
 
+	@Override
 	public void rotate(double theta) {
 		impl.rotate(theta);
 	}
 
+	@Override
 	public void drawImage(Image image, int x, int y) {
 		impl.drawImage((java.awt.Image) image, x, y, null);
 	}
 
+	@Override
 	public void drawImage(Image image, Transform transform) {
 		impl.drawImage((java.awt.Image) image, (AffineTransform) transform, null);
 	}
 
+	@Override
 	public FontRenderContext getFontRenderContext() {
 		return new FontRenderContextD(impl.getFontRenderContext());
 	}
 
+	@Override
 	public void dispose() {
 		impl.dispose();
 	}
 
+	@Override
 	public void setRenderingHint(int key, int value) {
 		impl.setRenderingHint(getNativeRenderingKey(key), getNativeRenderingValue(value));
 	}
 
+	@Override
 	public int getRenderingHint(int key) {
 		Key nKey = getNativeRenderingKey(key);
 		Object val = impl.getRenderingHint(nKey);
@@ -218,10 +243,12 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 
+	@Override
 	public void saveTransformation() {
 		transformationStack.add(new TransformD(impl.getTransform()));
 	}
 
+	@Override
 	public void restoreTransformation() {
 		TransformD last = transformationStack.removeLast();
 		impl.setTransform(last);

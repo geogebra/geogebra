@@ -51,6 +51,7 @@ import com.himamis.retex.renderer.share.platform.resources.ResourceLoader;
 
 public class ResourceLoaderD implements ResourceLoader {
 
+	@Override
 	public InputStream loadResource(Object base, String path) throws ResourceParseException {
 		InputStream is = FactoryProviderDesktop.class.getResourceAsStream(
 				"/com/himamis/retex/renderer/desktop/" + path);

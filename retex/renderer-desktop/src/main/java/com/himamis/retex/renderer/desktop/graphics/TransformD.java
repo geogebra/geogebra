@@ -59,6 +59,7 @@ public class TransformD extends AffineTransform implements Transform {
 		super(transform);
 	}
 
+	@Override
 	public Transform createClone() {
 		return new TransformD(this);
 	}

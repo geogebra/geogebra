@@ -61,6 +61,7 @@ public class Rectangle2DD extends Rectangle2D.Float implements com.himamis.retex
 		return this;
 	}
 
+	@Override
 	public void setRectangle(double x, double y, double width, double height) {
 		setRect(x, y, width, height);
 	}

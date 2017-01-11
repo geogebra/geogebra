@@ -53,10 +53,12 @@ public class Point2DD extends Point2D.Float implements com.himamis.retex.rendere
 		setLocation(x, y);
 	}
 	
+	@Override
 	public void setX(double x) {
 		this.x = (float) x;
 	}
 
+	@Override
 	public void setY(double y) {
 		this.y = (float) y;
 	}

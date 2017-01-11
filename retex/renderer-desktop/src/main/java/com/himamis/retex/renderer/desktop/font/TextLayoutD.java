@@ -58,10 +58,12 @@ public class TextLayoutD implements TextLayout {
 		layout = new java.awt.font.TextLayout(string, font, fontRenderContext);
 	}
 
+	@Override
 	public Rectangle2D getBounds() {
 		return new Rectangle2DD(layout.getBounds());
 	}
 
+	@Override
 	public void draw(Graphics2DInterface graphics, int x, int y) {
 		Graphics2DD g2 = (Graphics2DD) graphics;
 		layout.draw(g2.getImpl(), x, y);

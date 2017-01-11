@@ -57,6 +57,7 @@ public class FontLoaderD implements FontLoader {
 
 	private static boolean shouldRegisterFonts = true;
 
+	@Override
 	public Font loadFont(Object base, String name) throws ResourceParseException {
 
 		InputStream fontIn = (InputStream) new Resource().loadResource(base, name);
@@ -96,8 +97,9 @@ public class FontLoaderD implements FontLoader {
 					"FontLoader" + ": FontLoader '" + name + "'. Error message: " + e.getMessage());
 		} finally {
 			try {
-				if (fontIn != null)
+				if (fontIn != null) {
 					fontIn.close();
+				}
 			} catch (IOException ioex) {
 				throw new RuntimeException("Close threw exception", ioex);
 			}

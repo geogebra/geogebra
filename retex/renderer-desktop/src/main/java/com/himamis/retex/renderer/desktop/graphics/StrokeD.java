@@ -55,6 +55,7 @@ public class StrokeD implements Stroke, java.awt.Stroke {
 		this.impl = impl;
 	}
 
+	@Override
 	public Shape createStrokedShape(Shape p) {
 		return impl.createStrokedShape(p);
 	}
