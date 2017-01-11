@@ -77,14 +77,11 @@ public class Input3DFactory {
 	/**
 	 * try to init realsense
 	 * 
-	 * @param app
-	 *            application
-	 * 
 	 * @throws Input3DException
 	 *             if none
 	 */
-	public static void initRealsense(final App app) throws Input3DException {
-		InputIntelRealsense3D.init(app);
+	public static void initRealsense() throws Input3DException {
+		InputIntelRealsense3D.init();
 	}
 
 	/**
@@ -93,7 +90,7 @@ public class Input3DFactory {
 	 * @throws Input3DException
 	 *             if none
 	 */
-	public static void initZSpace(final App app) throws Input3DException {
+	public static void initZSpace() throws Input3DException {
 		InputZSpace3D.initZSpace();
 	}
 

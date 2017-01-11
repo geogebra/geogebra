@@ -465,7 +465,7 @@ public class Socket {
 		SENSE_MANAGER = null;
 
 		// query registry to get installed version
-		if (queryRegistry(app)) {
+		if (queryRegistry()) {
 			try {
 				// Create session
 				SESSION = PXCMSession.CreateInstance();
@@ -497,14 +497,12 @@ public class Socket {
 	/**
 	 * Query windows registry to check version
 	 * 
-	 * @param app
-	 *            application
 	 * @return true if up-to-date
 	 * 
 	 * @throws Input3DException
 	 *             if no key in registry
 	 */
-	static public boolean queryRegistry(final App app) throws Input3DException {
+	static public boolean queryRegistry() throws Input3DException {
 		int registryQueryResult = 1; // inited to bad value (correct value = 0)
 		boolean upToDate = false;
 		String version = null;

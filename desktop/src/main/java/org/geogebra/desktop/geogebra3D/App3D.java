@@ -136,7 +136,7 @@ public class App3D extends AppD {
 		private boolean initRealsense() {
 			try {
 				// try to init realsense
-				Input3DFactory.initRealsense(app);
+				Input3DFactory.initRealsense();
 				Log.debug("RealSense: Session successfully created");
 
 				// save in prefs
@@ -160,7 +160,7 @@ public class App3D extends AppD {
 			try {
 				// try to init zSpace
 				Log.debug("zSpace: try to init");
-				Input3DFactory.initZSpace(app);
+				Input3DFactory.initZSpace();
 				Log.debug("zSpace: successfully detected");
 
 				// save in prefs

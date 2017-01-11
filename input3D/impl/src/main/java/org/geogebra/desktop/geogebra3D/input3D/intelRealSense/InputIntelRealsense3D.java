@@ -38,10 +38,10 @@ public class InputIntelRealsense3D extends Input3D {
 	 * @throws Input3DException
 	 *             if no camera installed
 	 */
-	public static void init(final App app) throws Input3DException {
+	public static void init() throws Input3DException {
 
 		try {
-			Socket.queryRegistry(app);
+			Socket.queryRegistry();
 		} catch (Input3DException e) {
 			throw e;
 		} catch (Throwable e) {
