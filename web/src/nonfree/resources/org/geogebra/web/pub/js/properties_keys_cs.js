@@ -253,6 +253,8 @@ __GGB__keysVar.cs.command = {
     "Determinant.Syntax": "[ <Matice> ]",
     "Diameter": "SdruzenyPrumer",
     "Diameter.Syntax": "[ <Vektor>, <Ku\u017eelose\u010dka> ]\n[ <P\u0159\xedmka>, <Ku\u017eelose\u010dka> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Stejnolehlost",
     "Dilate.Syntax": "[ <Objekt>, <Koeficient stejnolehlosti> ]\n[ <Objekt>, <Koeficient stejnolehlosti>, <St\u0159ed stejnolehlosti> ]",
     "Dimension": "Rozmer",

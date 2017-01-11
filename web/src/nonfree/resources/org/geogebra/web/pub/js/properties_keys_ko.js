@@ -253,6 +253,8 @@ __GGB__keysVar.ko.command = {
     "Determinant.Syntax": "[ <\ud589\ub82c> ]",
     "Diameter": "\ucf24\ub808\uc9c0\ub984",
     "Diameter.Syntax": "[ <\ubca1\ud130>, <\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)> ]\n[ <\uc9c1\uc120>, <\uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\ud655\ub300",
     "Dilate.Syntax": "[ <\ub300\uc0c1>, <\ud655\ub300 \ube44\uc728> ]\n[ <\ub300\uc0c1>, <\ud655\ub300 \ube44\uc728>, <\ud655\ub300 \uc911\uc2ec\uc810> ]",
     "Dimension": "\ucc28\uc6d0",

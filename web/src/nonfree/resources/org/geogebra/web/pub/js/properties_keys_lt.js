@@ -253,6 +253,8 @@ __GGB__keysVar.lt.command = {
     "Determinant.Syntax": "[ <Matrica> ]",
     "Diameter": "Diametras",
     "Diameter.Syntax": "[ <Vektorius>, <Antros eil\u0117s kreiv\u0117> ]\n[ <Ties\u0117>, <Antros eil\u0117s kreiv\u0117> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Pl\u0117sti",
     "Dilate.Syntax": "[ <Objektas>, <Pl\u0117timo faktorius>, <Pl\u0117timo centro ta\u0161kas> ]",
     "Dimension": "Dimensija",

@@ -253,6 +253,8 @@ __GGB__keysVar.de.command = {
     "Determinant.Syntax": "[ <Matrix> ]",
     "Diameter": "KonjugierterDurchmesser",
     "Diameter.Syntax": "[ <Gerade>, <Kegelschnitt> ]\n[ <Vektor>, <Kegelschnitt> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "StreckeZentrisch",
     "Dilate.Syntax": "[ <Objekt>, <Streckungsfaktor> ]\n[ <Objekt>, <Streckungsfaktor>, <Zentrum der Streckung> ]",
     "Dimension": "Dimension",

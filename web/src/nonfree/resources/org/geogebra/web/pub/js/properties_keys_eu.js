@@ -253,6 +253,8 @@ __GGB__keysVar.eu.command = {
     "Determinant.Syntax": "[ <Matrizea> ]",
     "Diameter": "DiametroKonjugatua",
     "Diameter.Syntax": "[ <Bektorea>, <Konika> ]\n[ <Lerroa>, <Konika> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homotezia",
     "Dilate.Syntax": "[ <Objektua>, <Homotezia-Arrazoia> ]\n[ <Objektua>, <Homotezia-Arrazoia>, <Homotezia-Zentroa> ]",
     "Dimension": "Dimentsioa",

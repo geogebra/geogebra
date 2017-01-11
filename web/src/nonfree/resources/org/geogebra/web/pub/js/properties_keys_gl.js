@@ -253,6 +253,8 @@ __GGB__keysVar.gl.command = {
     "Determinant.Syntax": "[ <Matriz> ]",
     "Diameter": "Di\xe1metroConxugado",
     "Diameter.Syntax": "[ <Vector>, <C\xf3nica> ]\n[ <Direcci\xf3n (recta, semirrecta ou segmento)>, <C\xf3nica> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homotecia",
     "Dilate.Syntax": "[ <Obxecto>, <Factor de Escala (n\xfamero o valor num\xe9rico)>, <Centro (punto)> ]\n[ <Obxecto>, <Factor de Escala (n\xfamero o valor num\xe9rico)> ]",
     "Dimension": "Dimensi\xf3n",

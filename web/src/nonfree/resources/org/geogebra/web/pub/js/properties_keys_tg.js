@@ -253,6 +253,8 @@ __GGB__keysVar.tg.command = {
     "Determinant.Syntax": "[ <\u041c\u0430\u0442\u0440\u0438\u0441\u0430> ]",
     "Diameter": "ConjugateDiameter",
     "Diameter.Syntax": "[ <\u0412\u0435\u043a\u0442\u043e\u0440>, <\u041a\u043e\u043d> ]\n[ <\u0425\u0430\u0442>, <\u041a\u043e\u043d> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Dilate",
     "Dilate.Syntax": "[ <Object>, <Dilation Factor> ]\n[ <Object>, <Dilation Factor>, <Dilation Center Point> ]",
     "Dimension": "Dimension",

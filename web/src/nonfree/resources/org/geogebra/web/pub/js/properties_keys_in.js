@@ -253,6 +253,8 @@ __GGB__keysVar.in.command = {
     "Determinant.Syntax": "[ <Matriks> ]",
     "Diameter": "Diameter",
     "Diameter.Syntax": "[ <Vektor>, <Konik> ]\n[ <Garis>, <Konik> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Dilatasi",
     "Dilate.Syntax": "[ <Objek>, <Faktor Dilatasi>, <Titik Pusat Dilatasi> ]",
     "Dimension": "Dimensi",

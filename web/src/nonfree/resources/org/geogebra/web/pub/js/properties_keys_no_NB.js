@@ -253,6 +253,8 @@ __GGB__keysVar.no_NB.command = {
     "Determinant.Syntax": "[ <Matrise> ]",
     "Diameter": "KonjugatDiameter",
     "Diameter.Syntax": "[ <Vektor>, <Kjeglesnitt> ]\n[ <Linje>, <Kjeglesnitt> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Forst\xf8rr",
     "Dilate.Syntax": "[ <Objekt>, <Forst\xf8rr med faktoren> ]\n[ <Objekt>, <Forst\xf8rr med faktoren>, <Forst\xf8rr fra punktet> ]",
     "Dimension": "Dimensjon",

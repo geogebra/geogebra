@@ -253,6 +253,8 @@ __GGB__keysVar.pl.command = {
     "Determinant.Syntax": "[ <Macierz> ]",
     "Diameter": "\u015arednica",
     "Diameter.Syntax": "[ <Wektor>, <Sto\u017ckowa> ]\n[ <Prosta>, <Sto\u017ckowa> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Jednok\u0142adno\u015b\u0107",
     "Dilate.Syntax": "[ <Obiekt>, <Skala> ]\n[ <Obiekt>, <Skala>, <\u015arodek> ]",
     "Dimension": "Wymiar",

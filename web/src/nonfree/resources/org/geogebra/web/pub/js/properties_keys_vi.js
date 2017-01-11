@@ -253,6 +253,8 @@ __GGB__keysVar.vi.command = {
     "Determinant.Syntax": "[ <Ma tr\u1eadn> ]",
     "Diameter": "\u0110\u01b0\u1eddngK\xednhLi\xeanH\u1ee3p",
     "Diameter.Syntax": "[ <V\xe9c t\u01a1>, <\u0110\u01b0\u1eddng c\xf4n\xedc> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng c\xf4n\xedc> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "PhepViTu",
     "Dilate.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <T\u1ec9 s\u1ed1 v\u1ecb t\u1ef1> ]\n[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <T\u1ec9 s\u1ed1 v\u1ecb t\u1ef1>, <T\xe2m v\u1ecb t\u1ef1> ]",
     "Dimension": "S\u1ed1Chi\u1ec1u",

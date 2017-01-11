@@ -253,6 +253,8 @@ __GGB__keysVar.lv.command = {
     "Determinant.Syntax": "[ <Matrica> ]",
     "Diameter": "Kop\u0113jaisDiametrs",
     "Diameter.Syntax": "[ <Vektors>, <Konisks> ]\n[ <Taisne>, <Konisks> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Izplest",
     "Dilate.Syntax": "[ <Objekts>, <Izple\u0161anas Koeficients> ]\n[ <Objekts>, <Izple\u0161anas Koeficients>, <Izple\u0161anas Centra Punkts> ]",
     "Dimension": "Dimensija",

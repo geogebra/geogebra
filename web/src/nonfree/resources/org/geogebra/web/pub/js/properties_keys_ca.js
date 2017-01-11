@@ -253,6 +253,8 @@ __GGB__keysVar.ca.command = {
     "Determinant.Syntax": "[ <Matriu> ]",
     "Diameter": "Di\xe0metreConjugat",
     "Diameter.Syntax": "[ <Vector>, <C\xf2nica> ]\n[ <Recta>, <C\xf2nica> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homot\xe8cia",
     "Dilate.Syntax": "[ <Objecte>, <Ra\xf3> ]\n[ <Objecte>, <Ra\xf3>, <Centre d'homot\xe8cia> ]",
     "Dimension": "Dimensi\xf3",

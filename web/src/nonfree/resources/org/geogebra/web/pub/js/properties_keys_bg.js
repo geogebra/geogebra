@@ -253,6 +253,8 @@ __GGB__keysVar.bg.command = {
     "Determinant.Syntax": "[ <\u041c\u0430\u0442\u0440\u0438\u0446\u0430> ]",
     "Diameter": "\u0421\u043f\u0440\u0435\u0433\u043d\u0430\u0442\u0414\u0438\u0430\u043c\u0435\u0442\u044a\u0440",
     "Diameter.Syntax": "[ <\u0412\u0435\u043a\u0442\u043e\u0440>, <\u041a\u043e\u043d\u0438\u0447\u043d\u043e \u0441\u0435\u0447\u0435\u043d\u0438\u0435> ]\n[ <\u041f\u0440\u0430\u0432\u0430>, <\u041a\u043e\u043d\u0438\u0447\u043d\u043e \u0441\u0435\u0447\u0435\u043d\u0438\u0435> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\u0425\u043e\u043c\u043e\u0442\u0435\u0442\u0438\u044f",
     "Dilate.Syntax": "[ <\u041e\u0431\u0435\u043a\u0442>, <Dilation Factor> ]\n[ <\u041e\u0431\u0435\u043a\u0442>, <Dilation Factor>, <Dilation Center Point> ]",
     "Dimension": "\u0418\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u0435",

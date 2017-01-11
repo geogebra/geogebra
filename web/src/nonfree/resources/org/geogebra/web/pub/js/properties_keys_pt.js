@@ -253,6 +253,8 @@ __GGB__keysVar.pt.command = {
     "Determinant.Syntax": "[ <Matriz> ]",
     "Diameter": "Di\xe2metroConjugado",
     "Diameter.Syntax": "[ <Vetor>, <C\xf4nica> ]\n[ <Reta>, <C\xf4nica> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homotetia",
     "Dilate.Syntax": "[ <Objeto>, <Raz\xe3o> ]\n[ <Objeto>, <Raz\xe3o>, <Centro> ]",
     "Dimension": "Dimens\xe3o",

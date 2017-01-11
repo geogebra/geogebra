@@ -253,6 +253,8 @@ __GGB__keysVar.bs.command = {
     "Determinant.Syntax": "[ <Matrica> ]",
     "Diameter": "KonjugiraniPre\u010dnik",
     "Diameter.Syntax": "[ <Vektor>, <Konika> ]\n[ <Prava>, <Konika> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homotetija",
     "Dilate.Syntax": "[ <Figura>, <Koeficijent homotetije> ]\n[ <Figura>, <Koeficijent homotetije>, <Centar homotetije> ]",
     "Dimension": "Dimenzija",

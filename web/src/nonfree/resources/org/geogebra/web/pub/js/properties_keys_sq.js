@@ -253,6 +253,8 @@ __GGB__keysVar.sq.command = {
     "Determinant.Syntax": "[ <Matrica> ]",
     "Diameter": "Diameter",
     "Diameter.Syntax": "[ <Vektor>, <Konike> ]\n[ <Vije>, <Konike> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Zmadhoj",
     "Dilate.Syntax": "[ <Objekt>, <Koef. Zmadhimi>, <Qendra e Zmadhimit> ]",
     "Dimension": "Dimension",

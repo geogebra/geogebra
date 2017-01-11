@@ -253,6 +253,8 @@ __GGB__keysVar.nl_NL.command = {
     "Determinant.Syntax": "[ <Matrix> ]",
     "Diameter": "Middellijn",
     "Diameter.Syntax": "[ <Vector>, <Kegelsnede> ]\n[ <Rechte>, <Kegelsnede> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homothetie",
     "Dilate.Syntax": "[ <Punt>, <Getal>, <Punt> ]\n[ <Rechte>, <Getal>, <Punt> ]\n[ <Kegelsnede>, <Getal>, <Punt> ]\n[ <Veelhoek>, <Getal>, <Punt> ]\n[ <Afbeelding>, <Getal>, <Punt> ]",
     "Dimension": "Dimensie",

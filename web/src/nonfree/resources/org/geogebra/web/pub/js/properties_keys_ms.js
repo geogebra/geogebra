@@ -253,6 +253,8 @@ __GGB__keysVar.ms.command = {
     "Determinant.Syntax": "[ <Matriks> ]",
     "Diameter": "DiameterKonjugat",
     "Diameter.Syntax": "[ <Vektor>, <Keratan Kon> ]\n[ <Garis>, <Keratan Kon> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Pembesaran",
     "Dilate.Syntax": "[ <Objek>, <Faktor Pembesaran> ]\n[ <Objek>, <Faktor Pembesaran>, <Titik Pusat Pembesaran> ]",
     "Dimension": "Dimensi",

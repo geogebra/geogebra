@@ -253,6 +253,8 @@ __GGB__keysVar.mr.command = {
     "Determinant.Syntax": "[ <\u0938\u093e\u0930\u0923\u0940> ]",
     "Diameter": "\u0938\u0902\u092f\u0941\u0917\u094d\u092e\u0940\u0935\u094d\u092f\u093e\u0938",
     "Diameter.Syntax": "[ <\u0938\u0926\u093f\u0936> ]\n[ <\u0930\u0947\u0937\u093e>, <\u0936\u093e\u0902\u0915\u0935> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\u0935\u093f\u0938\u094d\u0924\u093e\u0930\u0923",
     "Dilate.Syntax": "[ <\u0918\u091f\u0915>, <\u0935\u093f\u0938\u094d\u0924\u093e\u0930\u0923 \u0905\u0935\u092f\u0935>, <\u0935\u093f\u0938\u094d\u0924\u093e\u0930\u0923 \u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942> ]",
     "Dimension": "\u0921\u093e\u092f\u092e\u0947\u0902\u0936\u0928",

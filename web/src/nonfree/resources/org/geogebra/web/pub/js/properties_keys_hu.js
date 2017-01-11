@@ -253,6 +253,8 @@ __GGB__keysVar.hu.command = {
     "Determinant.Syntax": "[ <M\xe1trix> ]",
     "Diameter": "\xc1tm\xe9r\u0151",
     "Diameter.Syntax": "[ <Vektor>, <K\xfapszelet> ]\n[ <Egyenes>, <K\xfapszelet> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Ny\xfajt\xe1s",
     "Dilate.Syntax": "[ <Alakzat>, <Ny\xfajt\xe1si ar\xe1ny> ]\n[ <Alakzat>, <Ny\xfajt\xe1si ar\xe1ny>, <Ny\xfajt\xe1s k\xf6z\xe9ppontja> ]",
     "Dimension": "Dimenzi\xf3",

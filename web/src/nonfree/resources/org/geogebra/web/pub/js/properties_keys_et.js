@@ -253,6 +253,8 @@ __GGB__keysVar.et.command = {
     "Determinant.Syntax": "[ <Maatriks> ]",
     "Diameter": "Kaasdiameeter",
     "Diameter.Syntax": "[ <Vektor>, <Koonusel\xf5ige> ]\n[ <Sirge>, <Koonusel\xf5ige> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homoteetsusteisendus",
     "Dilate.Syntax": "[ <Objekt>, <Homoteetsustegur> ]\n[ <Objekt>, <Homoteetsustegur>, <Homoteetsuskeskpunkt> ]",
     "Dimension": "Dimensioon",

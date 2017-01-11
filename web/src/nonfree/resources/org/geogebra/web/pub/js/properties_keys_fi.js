@@ -253,6 +253,8 @@ __GGB__keysVar.fi.command = {
     "Determinant.Syntax": "[ <Matriisi> ]",
     "Diameter": "Liittohalkaisija",
     "Diameter.Syntax": "[ <Vektori>, <Kartioleikkaus> ]\n[ <Suora>, <Kartioleikkaus> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Venytys",
     "Dilate.Syntax": "[ <Objekti>, <Venytyskerroin> ]\n[ <Objekti>, <Venytyskerroin>, <Venytyskeskus> ]",
     "Dimension": "Dimensio",

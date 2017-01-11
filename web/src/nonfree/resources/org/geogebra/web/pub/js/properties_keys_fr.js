@@ -253,6 +253,8 @@ __GGB__keysVar.fr.command = {
     "Determinant.Syntax": "[ <Matrice> ]",
     "Diameter": "Diam\xe8tre",
     "Diameter.Syntax": "[ <Vecteur>, <Conique> ]\n[ <Droite>, <Conique> ]",
+    "Difference": "Diff\xe9rence",
+    "Difference.Syntax": "[ <Polygone>, <Polygone> ]",
     "Dilate": "Homoth\xe9tie",
     "Dilate.Syntax": "[ <Objet>, <Rapport> ]\n[ <Objet>, <Rapport>, <Centre> ]",
     "Dimension": "Dimension",

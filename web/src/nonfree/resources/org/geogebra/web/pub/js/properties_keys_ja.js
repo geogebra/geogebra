@@ -253,6 +253,8 @@ __GGB__keysVar.ja.command = {
     "Determinant.Syntax": "[ <\u884c\u5217> ]",
     "Diameter": "ConjugateDiameter",
     "Diameter.Syntax": "[ <\u30d9\u30af\u30c8\u30eb>, <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u76f4\u7dda>, <\uff12\u6b21\u66f2\u7dda> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Dilate",
     "Dilate.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u62e1\u5927\u7387> ]\n[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u62e1\u5927\u7387>, <\u62e1\u5927\u306e\u4e2d\u5fc3\u70b9> ]",
     "Dimension": "Dimension",

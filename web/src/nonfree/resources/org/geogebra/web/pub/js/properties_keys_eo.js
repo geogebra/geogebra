@@ -253,6 +253,8 @@ __GGB__keysVar.eo.command = {
     "Determinant.Syntax": "[ <Matrico> ]",
     "Diameter": "KonjugitaDiametro",
     "Diameter.Syntax": "[ <Vektoro>, <Koniko> ]\n[ <Rekto>, <Koniko> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Homotetio",
     "Dilate.Syntax": "[ <Objekto>, <Rilato> ]\n[ <Objekto>, <Rilato>, <Centro> ]",
     "Dimension": "Dimensio",

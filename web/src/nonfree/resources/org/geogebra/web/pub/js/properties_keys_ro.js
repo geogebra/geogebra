@@ -253,6 +253,8 @@ __GGB__keysVar.ro.command = {
     "Determinant.Syntax": "[ <Matrice> ]",
     "Diameter": "DiametruConjugat",
     "Diameter.Syntax": "[ <Vector>, <Conic\u0103> ]\n[ <Dreapt\u0103>, <Conic\u0103> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Dilatare",
     "Dilate.Syntax": "[ <Obiect>, <Factor de Dilatare> ]\n[ <Obiect>, <Factor de Dilatare>, <Punct Central al Dilat\u0103rii> ]",
     "Dimension": "Dimensiune",

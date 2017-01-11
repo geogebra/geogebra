@@ -253,6 +253,8 @@ __GGB__keysVar.sv.command = {
     "Determinant.Syntax": "[ <Matris> ]",
     "Diameter": "Diameter",
     "Diameter.Syntax": "[ <Vektor>, <K\xe4gelsnitt> ]\n[ <Linje>, <K\xe4gelsnitt> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Utvidga",
     "Dilate.Syntax": "[ <Objekt>, <Utt\xe4njningsfaktor> ]\n[ <Objekt>, <Utt\xe4njningsfaktor>, <Punkt> ]",
     "Dimension": "Dimension",

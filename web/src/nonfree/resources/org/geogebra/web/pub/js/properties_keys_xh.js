@@ -253,6 +253,8 @@ __GGB__keysVar.xh.command = {
     "Determinant.Syntax": "[ <iMatrix> ]",
     "Diameter": "iConjugateDiameter",
     "Diameter.Syntax": "[ <iVector>, <iConic> ]\n[ <uMgca>, <iConic> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Khulisa",
     "Dilate.Syntax": "[ <Object>, <Dilation Factor> ]\n[ <Object>, <Dilation Factor>, <Dilation Center Point> ]",
     "Dimension": "Inkalo",

@@ -253,6 +253,8 @@ __GGB__keysVar.ta.command = {
     "Determinant.Syntax": "[ <\u0b85\u0ba3\u0bbf> ]",
     "Diameter": "\u0b89\u0b9f\u0ba9\u0bcd\u0baa\u0bc1\u0ba3\u0bb0\u0bbf\u0bb5\u0bbf\u0b9f\u0bcd\u0b9f\u0bae\u0bcd",
     "Diameter.Syntax": "[ <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd>, <\u0b95\u0bc2\u0bae\u0bcd\u0baa\u0bc1 \u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bbf\u0bb5\u0bb3\u0bc8\u0bb5\u0bb0\u0bc8> ]\n[ <\u0b95\u0bcb\u0b9f\u0bc1>, <\u0b95\u0bc2\u0bae\u0bcd\u0baa\u0bc1 \u0bb5\u0bc6\u0b9f\u0bcd\u0b9f\u0bbf\u0bb5\u0bb3\u0bc8\u0bb5\u0bb0\u0bc8> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\u0b85\u0b95\u0bb2\u0bbf\u0baa\u0bcd\u0baa\u0bc1",
     "Dilate.Syntax": "[ <Object>, <Dilation Factor> ]\n[ <Object>, <Dilation Factor>, <Dilation Center Point> ]",
     "Dimension": "Dimension",

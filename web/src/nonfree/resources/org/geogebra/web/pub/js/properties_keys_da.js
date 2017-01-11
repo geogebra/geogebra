@@ -253,6 +253,8 @@ __GGB__keysVar.da.command = {
     "Determinant.Syntax": "[ <Matrix> ]",
     "Diameter": "Diameter",
     "Diameter.Syntax": "[ <Vektor>, <Keglesnit> ]\n[ <Linje>, <Keglesnit> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Multiplicer",
     "Dilate.Syntax": "[ <objekt>, <faktor> ]\n[ <objekt>, <faktor>, <Punkt der multipliceres om> ]",
     "Dimension": "Dimension",

@@ -253,6 +253,8 @@ __GGB__keysVar.zh_CN.command = {
     "Determinant.Syntax": "[ <\u77e9\u9635> ]",
     "Diameter": "\u5171\u8f6d\u76f4\u5f84",
     "Diameter.Syntax": "[ <\u5411\u91cf>, <\u5706\u9525\u66f2\u7ebf> ]\n[ <\u76f4\u7ebf>, <\u5706\u9525\u66f2\u7ebf> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\u4f4d\u4f3c",
     "Dilate.Syntax": "[ <\u51e0\u4f55\u5bf9\u8c61>, <\u4f4d\u4f3c\u6bd4> ]\n[ <\u51e0\u4f55\u5bf9\u8c61>, <\u4f4d\u4f3c\u6bd4>, <\u4f4d\u4f3c\u4e2d\u5fc3> ]",
     "Dimension": "\u7ef4\u5ea6",

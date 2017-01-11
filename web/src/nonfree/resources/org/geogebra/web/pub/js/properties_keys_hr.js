@@ -253,6 +253,8 @@ __GGB__keysVar.hr.command = {
     "Determinant.Syntax": "[ <matrica> ]",
     "Diameter": "KonjugiraniPromjer",
     "Diameter.Syntax": "[ <vektor>, <konika> ]\n[ <pravac>, <konika> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Rastezanje",
     "Dilate.Syntax": "[ <objekt>, <faktor rastezanja> ]\n[ <objekt>, <faktor rastezanja>, <sredi\u0161te rastezanja> ]",
     "Dimension": "Dimenzija",

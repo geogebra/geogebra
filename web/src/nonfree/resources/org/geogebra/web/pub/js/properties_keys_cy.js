@@ -253,6 +253,8 @@ __GGB__keysVar.cy.command = {
     "Determinant.Syntax": "[ <Matrics> ]",
     "Diameter": "DiamedrCyfiau",
     "Diameter.Syntax": "[ <Fector>, <Conig> ]\n[ <Llinell>, <Conig> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Helaethu",
     "Dilate.Syntax": "[ <Gwrthrych>, <Ffactor Graddfa> ]\n[ <Gwrthrych>, <Ffactor Graddfa>, <Canolbwynt Helaethu> ]",
     "Dimension": "Dimensiwn",

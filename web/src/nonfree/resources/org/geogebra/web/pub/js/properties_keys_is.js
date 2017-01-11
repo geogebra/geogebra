@@ -253,6 +253,8 @@ __GGB__keysVar.is.command = {
     "Determinant.Syntax": "[ <Fylki> ]",
     "Diameter": "SamokaMi\xf0strengur",
     "Diameter.Syntax": "[ <Vigur>, <Keilusni\xf0> ]\n[ <L\xedna>, <Keilusni\xf0> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Str\xedkka",
     "Dilate.Syntax": "[ <Hlutur>, <Str\xedkkunar\xfe\xe1ttur> ]\n[ <Hlutur>, <Str\xedkkunar\xfe\xe1ttur>, <Str\xedkkunarmi\xf0ja> ]",
     "Dimension": "V\xeddd",

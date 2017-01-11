@@ -253,6 +253,8 @@ __GGB__keysVar.en_GB.command = {
     "Determinant.Syntax": "[ <Matrix> ]",
     "Diameter": "ConjugateDiameter",
     "Diameter.Syntax": "[ <Vector>, <Conic> ]\n[ <Line>, <Conic> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Enlarge",
     "Dilate.Syntax": "[ <Object>, <Scale Factor>, <Centre Point> ]",
     "Dimension": "Dimension",

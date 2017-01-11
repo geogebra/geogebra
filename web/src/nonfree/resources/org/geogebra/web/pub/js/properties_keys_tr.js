@@ -253,6 +253,8 @@ __GGB__keysVar.tr.command = {
     "Determinant.Syntax": "[ <Matris> ]",
     "Diameter": "\xc7ap",
     "Diameter.Syntax": "[ <Vekt\xf6r>, <Konik> ]\n[ <Do\u011fru>, <Konik> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Geni\u015flet",
     "Dilate.Syntax": "[ <Nesne>, <Geni\u015fletme Katsay\u0131s\u0131> ]\n[ <Nesne>, <Geni\u015fletme Katsay\u0131s\u0131>, <Geni\u015fletme Merkez Noktas\u0131> ]",
     "Dimension": "Boyut",

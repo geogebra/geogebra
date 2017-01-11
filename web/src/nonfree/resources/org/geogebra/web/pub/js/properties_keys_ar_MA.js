@@ -253,6 +253,8 @@ __GGB__keysVar.ar_MA.command = {
     "Determinant.Syntax": "[ <\u0645\u0635\u0641\u0648\u0641\u0629> ]",
     "Diameter": "\u0623\u0642\u0637\u0627\u0631_\u0645\u062a\u0632\u0627\u0648\u062c\u0629",
     "Diameter.Syntax": "[ <\u0645\u062a\u062c\u0647>, <\u0645\u062e\u0631\u0648\u0637\u064a> ]\n[ <\u062e\u0637>, <\u0645\u062e\u0631\u0648\u0637\u064a> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "\u062a\u0645\u062f\u062f",
     "Dilate.Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u0639\u0627\u0645\u0644 \u0627\u0644\u062a\u0645\u062f\u062f> ]\n[ <\u0643\u0627\u0626\u0646>, <\u0639\u0627\u0645\u0644 \u0627\u0644\u062a\u0645\u062f\u062f>, <\u0646\u0642\u0637\u0629 \u0627\u0644\u0648\u0633\u0637 \u0644\u0644\u062a\u0645\u062f\u062f> ]",
     "Dimension": "\u0628\u0639\u062f",

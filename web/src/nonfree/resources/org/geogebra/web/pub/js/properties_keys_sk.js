@@ -253,6 +253,8 @@ __GGB__keysVar.sk.command = {
     "Determinant.Syntax": "[ <Matica> ]",
     "Diameter": "PriemerKu\u017eelose\u010dky",
     "Diameter.Syntax": "[ <Vektor>, <Ku\u017ee\u013eose\u010dka> ]\n[ <Priamka>, <Ku\u017ee\u013eose\u010dka> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Rovno\u013eahlos\u0165",
     "Dilate.Syntax": "[ <Objekt>, <Koeficient rovno\u013eahlosti> ]\n[ <Objekt>, <Koeficient rovno\u013eahlosti>, <Stred rovno\u013eahlosti> ]",
     "Dimension": "Dimenzia",

@@ -253,6 +253,8 @@ __GGB__keysVar.sl.command = {
     "Determinant.Syntax": "[ <matrika> ]",
     "Diameter": "Premer",
     "Diameter.Syntax": "[ <vektor>, <sto\u017enica> ]\n[ <premica>, <sto\u017enica> ]",
+    "Difference": "Difference",
+    "Difference.Syntax": "[ <Polygon>, <Polygon> ]",
     "Dilate": "Razteg",
     "Dilate.Syntax": "[ <objekt>, <faktor raztega> ]\n[ <objekt>, <faktor raztega>, <sredi\u0161\u010de raztega> ]",
     "Dimension": "Razse\u017enost",
