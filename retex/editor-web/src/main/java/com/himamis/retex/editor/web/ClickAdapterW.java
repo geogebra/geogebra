@@ -34,6 +34,7 @@ public class ClickAdapterW
 		this.handler = handler;
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		SelectionBox.touchSelection = false;
 		handler.onPointerDown(event.getX(), event.getY());
@@ -41,6 +42,7 @@ public class ClickAdapterW
 		this.pointerIsDown = true;
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		SelectionBox.touchSelection = true;
 
@@ -64,24 +66,28 @@ public class ClickAdapterW
 				? event.getChangedTouches() : event.getTouches();
 		return (Touch) touches.get(0);
 	}
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
 		handler.onPointerUp(event.getX(), event.getY());
 
 	}
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
 		handler.onPointerUp(getX(event), getY(event));
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		if (this.pointerIsDown) {
 			handler.onPointerMove(getX(event), getY(event));
 		}
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (this.pointerIsDown) {
 			handler.onPointerMove(event.getX(), event.getY());
@@ -103,6 +109,7 @@ public class ClickAdapterW
 		html.addDomHandler(this, DoubleClickEvent.getType());
 	}
 
+	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 		handler.onLongPress(event.getX(), event.getY());
 		

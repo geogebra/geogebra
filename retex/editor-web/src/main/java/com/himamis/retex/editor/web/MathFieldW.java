@@ -133,6 +133,7 @@ public class MathFieldW implements MathField, IsWidget {
 		instances.add(this);
 		canvas.addDomHandler(new MouseDownHandler() {
 
+			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				event.stopPropagation();
 				setFocus(true);
@@ -181,6 +182,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private void setKeyListener(Widget html2, final KeyListener keyListener) {
 		html2.addDomHandler(new KeyPressHandler() {
 
+			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				// don't kill Ctrl+V or write V
 				if (event.isControlKeyDown() && (event.getCharCode() == 'v'
@@ -198,6 +200,7 @@ public class MathFieldW implements MathField, IsWidget {
 			}
 		}, KeyPressEvent.getType());
 		html2.addDomHandler(new KeyUpHandler() {
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
@@ -219,6 +222,7 @@ public class MathFieldW implements MathField, IsWidget {
 		}, KeyUpEvent.getType());
 		html2.addDomHandler(new KeyDownHandler() {
 
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (isRightAlt(event.getNativeEvent())) {
 					rightAltDown = true;
@@ -271,6 +275,7 @@ public class MathFieldW implements MathField, IsWidget {
 		return code;
 	}
 
+	@Override
 	public native void debug(String string) /*-{
 		$wnd.console.log(string);
 
@@ -308,9 +313,11 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
+	@Override
 	public MetaModel getMetaModel() {
 		return metaModel;
 	}
+	@Override
 	public void repaint() {
 
 	}
@@ -339,35 +346,42 @@ public class MathFieldW implements MathField, IsWidget {
 	// $wnd.console.trace(txt);
 	// }-*/;
 
+	@Override
 	public boolean hasFocus() {
 		return focused;
 	}
 
+	@Override
 	public void hideCopyPasteButtons() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean showKeyboard() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void showCopyPasteButtons() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void scroll(int dx, int dy) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public Widget asWidget() {
 		return html;
 	}
@@ -465,6 +479,7 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 	}
 
+	@Override
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
 
@@ -490,6 +505,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 			wrap.addFocusHandler(new FocusHandler() {
 
+				@Override
 				public void onFocus(FocusEvent event) {
 					event.stopPropagation();
 
@@ -497,6 +513,7 @@ public class MathFieldW implements MathField, IsWidget {
 			});
 			wrap.addBlurHandler(new BlurHandler() {
 
+				@Override
 				public void onBlur(BlurEvent event) {
 					event.stopPropagation();
 
@@ -536,6 +553,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 
 
+	@Override
 	public void copy() {
 		nativeCopy(mathFieldInternal.copy());
 
@@ -556,6 +574,7 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 	}
 
+	@Override
 	public native boolean useCustomPaste() /*-{
 		return false;
 	}-*/;
