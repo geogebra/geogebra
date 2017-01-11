@@ -285,7 +285,7 @@ public class MetaModelParser {
             }
             Element rootChild = rootChildNode.castToElement();
             String groupName = rootChild.getTagName(), group = groupName;
-            int columns = 0;
+            //int columns = 0;
             try {
                 groupName = getStringAttribute(NAME, rootChild);
             } catch (Exception e) {
@@ -296,10 +296,10 @@ public class MetaModelParser {
             } catch (Exception e) {
             }
 
-            try {
-                columns = getIntAttribute(COLUMNS, rootChild);
-            } catch (Exception e) {
-            }
+//            try {
+//                columns = getIntAttribute(COLUMNS, rootChild);
+//            } catch (Exception e) {
+//            }
 
             ArrayList<MetaComponent> metas = new ArrayList<MetaComponent>();
             NodeList elementsChildNodes = rootChild.getChildNodes();
@@ -341,7 +341,7 @@ public class MetaModelParser {
 						getComponents(rootChild)));
             } else {
 				metaModel.addGroup(
-						new ListMetaGroup(groupName, group, metas, columns));
+						new ListMetaGroup(groupName, group, metas));
 			}
         }
         return metaModel;

@@ -567,20 +567,20 @@ public class DefaultTeXFont implements TeXFont {
 		return info.getExtension(c.getChar()) != null;
 	}
 
-	public static void setMathSizes(double ds, double ts, double ss, double sss) {
+//	public static void setMathSizes(double ds, double ts, double ss, double sss) {
 //		if (magnificationEnable) {
 //			generalSettings.put("scriptfactor", Math.abs(ss / ds));
 //			generalSettings.put("scriptscriptfactor", Math.abs(sss / ds));
 //			generalSettings.put("textfactor", Math.abs(ts / ds));
 //			TeXIcon.defaultSize = Math.abs(ds);
 //		}
-	}
+//	}
 
-	public static void setMagnification(double mag) {
+//	public static void setMagnification(double mag) {
 //		if (magnificationEnable) {
 //			TeXIcon.magFactor = mag / 1000f;
 //		}
-	}
+//	}
 
 //	public static void enableMagnification(boolean b) {
 //		magnificationEnable = b;

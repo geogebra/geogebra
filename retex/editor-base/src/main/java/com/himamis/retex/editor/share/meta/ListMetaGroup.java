@@ -40,7 +40,7 @@ public class ListMetaGroup implements MetaGroup {
     private String name;
     private String group;
 
-    ListMetaGroup(String name, String group, List<MetaComponent> components, int columns) {
+    ListMetaGroup(String name, String group, List<MetaComponent> components) {
         this.name = name;
         this.group = group;
         this.components = components;

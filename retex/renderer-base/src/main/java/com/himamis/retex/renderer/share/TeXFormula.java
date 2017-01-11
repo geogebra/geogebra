@@ -818,10 +818,10 @@ public class TeXFormula {
 				.setWidth(widthUnit, textwidth, align).setInterLineSpacing(interlineUnit, interline).build();
 	}
 
-	public static void createImage(String format, int style, double size, String out, Color bg, Color fg,
-			boolean transparency) {
-		// TODO
-		throw new UnsupportedOperationException();
+//	public static void createImage(String format, int style, double size, String out, Color bg, Color fg,
+//			boolean transparency) {
+//		// TODO
+//		throw new UnsupportedOperationException();
 		/*TeXIcon icon = createTeXIcon(style, size);
 		icon.setInsets(new Insets(1, 1, 1, 1));
 		int w = icon.getIconWidth(), h = icon.getIconHeight();
@@ -843,20 +843,20 @@ public class TeXFormula {
 		 * 
 		 * g2.dispose();
 		 */
-	}
+	//}
 
-	public static void createPNG(int style, double size, String out, Color bg, Color fg) {
-		createImage("png", style, size, out, bg, fg, bg == null);
-	}
-
-	public static void createGIF(int style, double size, String out, Color bg, Color fg) {
-		createImage("gif", style, size, out, bg, fg, bg == null);
-	}
-
-	public static void createJPEG(int style, double size, String out, Color bg, Color fg) {
-		// There is a bug when a BufferedImage has a component alpha so we disabel it
-		createImage("jpeg", style, size, out, bg, fg, false);
-	}
+//	public static void createPNG(int style, double size, String out, Color bg, Color fg) {
+//		createImage("png", style, size, out, bg, fg, bg == null);
+//	}
+//
+//	public static void createGIF(int style, double size, String out, Color bg, Color fg) {
+//		createImage("gif", style, size, out, bg, fg, bg == null);
+//	}
+//
+//	public static void createJPEG(int style, double size, String out, Color bg, Color fg) {
+//		// There is a bug when a BufferedImage has a component alpha so we disabel it
+//		createImage("jpeg", style, size, out, bg, fg, false);
+//	}
 
 	/**
 	 * @param formula the formula
@@ -896,10 +896,6 @@ public class TeXFormula {
 		g2.dispose();
 
 		return image;
-	}
-
-	public void setDEBUG(boolean b) {
-		//Box.DEBUG = b;
 	}
 
 	/**

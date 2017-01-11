@@ -82,21 +82,21 @@ final class PredefinedCommands {
 		rule(2, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.rule_macro(tp, args);
+				return PredefMacros.rule_macro(args);
 			}
 		},
 
 		hspace(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.hvspace_macro(tp, args);
+				return PredefMacros.hvspace_macro(args);
 			}
 		},
 
 		vspace(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.hvspace_macro(tp, args);
+				return PredefMacros.hvspace_macro(args);
 			}
 		},
 		llap(1) {
@@ -168,7 +168,7 @@ final class PredefinedCommands {
 		over(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.over_macro(tp, args);
+				return PredefMacros.over_macro(tp);
 			}
 		},
 		overwithdelims(2) {
@@ -180,7 +180,7 @@ final class PredefinedCommands {
 		atop(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.atop_macro(tp, args);
+				return PredefMacros.atop_macro(tp);
 			}
 		},
 		atopwithdelims(2) {
@@ -192,13 +192,13 @@ final class PredefinedCommands {
 		choose(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.choose_macro(tp, args);
+				return PredefMacros.choose_macro(tp);
 			}
 		},
 		underscore(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.underscore_macro(tp, args);
+				return PredefMacros.underscore_macro();
 			}
 		},
 		mbox(1) {
@@ -234,7 +234,7 @@ final class PredefinedCommands {
 		bf(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.bf_macro(tp, args);
+				return PredefMacros.bf_macro(tp);
 			}
 		},
 		mathbb(1) {
@@ -264,7 +264,7 @@ final class PredefinedCommands {
 		it(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.it_macro(tp, args);
+				return PredefMacros.it_macro(tp);
 			}
 		},
 		mathrm(1) {
@@ -276,7 +276,7 @@ final class PredefinedCommands {
 		rm(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.rm_macro(tp, args);
+				return PredefMacros.rm_macro(tp);
 			}
 		},
 		mathscr(1) {
@@ -294,7 +294,7 @@ final class PredefinedCommands {
 		sf(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.sf_macro(tp, args);
+				return PredefMacros.sf_macro(tp);
 			}
 		},
 		mathtt(1) {
@@ -306,7 +306,7 @@ final class PredefinedCommands {
 		tt(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.tt_macro(tp, args);
+				return PredefMacros.tt_macro(tp);
 			}
 		},
 		mathfrak(1) {
@@ -528,7 +528,7 @@ final class PredefinedCommands {
 		nbsp(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.nbsp_macro(tp, args);
+				return PredefMacros.nbsp_macro();
 			}
 		},
 		smallmatrix__env("smallmatrix@@env", 1) {
@@ -702,7 +702,7 @@ final class PredefinedCommands {
 		joinrel(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.joinrel_macro(tp, args);
+				return PredefMacros.joinrel_macro();
 			}
 		},
 		smash(1, 1) {
@@ -714,49 +714,49 @@ final class PredefinedCommands {
 		vdots(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.vdots_macro(tp, args);
+				return PredefMacros.vdots_macro();
 			}
 		},
 		ddots(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.ddots_macro(tp, args);
+				return PredefMacros.ddots_macro();
 			}
 		},
 		iddots(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.iddots_macro(tp, args);
+				return PredefMacros.iddots_macro();
 			}
 		},
 		nolimits(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.nolimits_macro(tp, args);
+				return PredefMacros.nolimits_macro(tp);
 			}
 		},
 		limits(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.limits_macro(tp, args);
+				return PredefMacros.limits_macro(tp);
 			}
 		},
 		normal(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.normal_macro(tp, args);
+				return PredefMacros.normal_macro(tp);
 			}
 		},
 		_parenthesis("(", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.leftparenthesis_macro(tp, args);
+				return PredefMacros.leftparenthesis_macro(tp);
 			}
 		},
 		_squarebracket("[", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.leftbracket_macro(tp, args);
+				return PredefMacros.leftbracket_macro(tp);
 			}
 		},
 		left(1) {
@@ -774,7 +774,7 @@ final class PredefinedCommands {
 		cr(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.cr_macro(tp, args);
+				return PredefMacros.cr_macro(tp);
 			}
 		},
 		multicolumn(3) {
@@ -858,31 +858,31 @@ final class PredefinedCommands {
 		_backslash("\\", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.backslashcr_macro(tp, args);
+				return PredefMacros.backslashcr_macro(tp);
 			}
 		},
 		newenvironment(3) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.newenvironment_macro(tp, args);
+				return PredefMacros.newenvironment_macro(args);
 			}
 		},
 		renewenvironment(3) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.renewenvironment_macro(tp, args);
+				return PredefMacros.renewenvironment_macro(args);
 			}
 		},
 		makeatletter(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.makeatletter_macro(tp, args);
+				return PredefMacros.makeatletter_macro(tp);
 			}
 		},
 		makeatother(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.makeatother_macro(tp, args);
+				return PredefMacros.makeatother_macro(tp);
 			}
 		},
 		fbox(1) {
@@ -960,7 +960,7 @@ final class PredefinedCommands {
 		LaTeX(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.LaTeX_macro(tp, args);
+				return PredefMacros.LaTeX_macro();
 			}
 		},
 		// GeoGebra(0) {
@@ -1044,25 +1044,25 @@ final class PredefinedCommands {
 		displaystyle(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.displaystyle_macro(tp, args);
+				return PredefMacros.displaystyle_macro(tp);
 			}
 		},
 		textstyle(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.textstyle_macro(tp, args);
+				return PredefMacros.textstyle_macro(tp);
 			}
 		},
 		scriptstyle(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.scriptstyle_macro(tp, args);
+				return PredefMacros.scriptstyle_macro(tp);
 			}
 		},
 		scriptscriptstyle(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.scriptscriptstyle_macro(tp, args);
+				return PredefMacros.scriptscriptstyle_macro(tp);
 			}
 		},
 		sideset(3) {
@@ -1146,19 +1146,19 @@ final class PredefinedCommands {
 		sp_breve("sp@breve", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.spATbreve_macro(tp, args);
+				return PredefMacros.spATbreve_macro();
 			}
 		},
 		sp_hat("sp@hat", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.spAThat_macro(tp, args);
+				return PredefMacros.spAThat_macro();
 			}
 		},
 		definecolor(3) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.definecolor_macro(tp, args);
+				return PredefMacros.definecolor_macro(args);
 			}
 		},
 		textcolor(2) {
@@ -1196,7 +1196,7 @@ final class PredefinedCommands {
 			@Override
 			public Object executeMacro(final TeXParser tp,
 					final String[] args) {
-				return PredefMacros.cursor_macro(tp, args);
+				return PredefMacros.cursor_macro(args);
 			}
 		},
 		colorbox(2) {
@@ -1220,43 +1220,43 @@ final class PredefinedCommands {
 		IJ(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.IJ_macro(tp, args);
+				return PredefMacros.IJ_macro(args);
 			}
 		},
 		ij(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.IJ_macro(tp, args);
+				return PredefMacros.IJ_macro(args);
 			}
 		},
 		TStroke(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.TStroke_macro(tp, args);
+				return PredefMacros.TStroke_macro(args);
 			}
 		},
 		tStroke(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.TStroke_macro(tp, args);
+				return PredefMacros.TStroke_macro(args);
 			}
 		},
 		Lcaron(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.LCaron_macro(tp, args);
+				return PredefMacros.LCaron_macro(args);
 			}
 		},
 		tcaron(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.tcaron_macro(tp, args);
+				return PredefMacros.tcaron_macro();
 			}
 		},
 		lcaron(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.LCaron_macro(tp, args);
+				return PredefMacros.LCaron_macro(args);
 			}
 		},
 		k(1) {
@@ -1268,13 +1268,13 @@ final class PredefinedCommands {
 		cong(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.cong_macro(tp, args);
+				return PredefMacros.cong_macro();
 			}
 		},
 		doteq(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.doteq_macro(tp, args);
+				return PredefMacros.doteq_macro();
 			}
 		},
 		// jlmDynamic(1,1) {
@@ -1286,49 +1286,49 @@ final class PredefinedCommands {
 		jlmExternalFont(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmExternalFont_macro(tp, args);
+				return PredefMacros.jlmExternalFont_macro(args);
 			}
 		},
 		jlmText(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmText_macro(tp, args);
+				return PredefMacros.jlmText_macro(args);
 			}
 		},
 		jlmTextit(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextit_macro(tp, args);
+				return PredefMacros.jlmTextit_macro(args);
 			}
 		},
 		jlmTextbf(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextbf_macro(tp, args);
+				return PredefMacros.jlmTextbf_macro(args);
 			}
 		},
 		jlmTextitbf(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.jlmTextitbf_macro(tp, args);
+				return PredefMacros.jlmTextitbf_macro(args);
 			}
 		},
-		DeclareMathSizes(4) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.DeclareMathSizes_macro(tp, args);
-			}
-		},
-		magnification(1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.magnification_macro(tp, args);
-			}
-		},
+//		DeclareMathSizes(4) {
+//			@Override
+//			public Object executeMacro(final TeXParser tp, final String[] args) {
+//				return PredefMacros.DeclareMathSizes_macro(tp, args);
+//			}
+//		},
+//		magnification(1) {
+//			@Override
+//			public Object executeMacro(final TeXParser tp, final String[] args) {
+//				return PredefMacros.magnification_macro(tp, args);
+//			}
+//		},
 		hline(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.hline_macro(tp, args);
+				return PredefMacros.hline_macro(tp);
 			}
 		},
 		tiny(0) {
@@ -1406,157 +1406,157 @@ final class PredefinedCommands {
 		hstrok(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.hstrok_macro(tp, args);
+				return PredefMacros.hstrok_macro(tp);
 			}
 		},
 		Hstrok(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.Hstrok_macro(tp, args);
+				return PredefMacros.Hstrok_macro(tp);
 			}
 		},
 		dstrok(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.dstrok_macro(tp, args);
+				return PredefMacros.dstrok_macro(tp);
 			}
 		},
 		Dstrok(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.Dstrok_macro(tp, args);
+				return PredefMacros.Dstrok_macro(tp);
 			}
 		},
 		dotminus(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.dotminus_macro(tp, args);
+				return PredefMacros.dotminus_macro();
 			}
 		},
 		ratio(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.ratio_macro(tp, args);
+				return PredefMacros.ratio_macro();
 			}
 		},
 		smallfrowneq(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.smallfrowneq_macro(tp, args);
+				return PredefMacros.smallfrowneq_macro();
 			}
 		},
 		geoprop(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.geoprop_macro(tp, args);
+				return PredefMacros.geoprop_macro();
 			}
 		},
 		minuscolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.minuscolon_macro(tp, args);
+				return PredefMacros.minuscolon_macro();
 			}
 		},
 		minuscoloncolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.minuscoloncolon_macro(tp, args);
+				return PredefMacros.minuscoloncolon_macro();
 			}
 		},
 		simcolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.minuscoloncolon_macro(tp, args);
+				return PredefMacros.minuscoloncolon_macro();
 			}
 		},
 		simcoloncolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.simcoloncolon_macro(tp, args);
+				return PredefMacros.simcoloncolon_macro();
 			}
 		},
 		approxcolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.approxcolon_macro(tp, args);
+				return PredefMacros.approxcolon_macro();
 			}
 		},
 		approxcoloncolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.approxcoloncolon_macro(tp, args);
+				return PredefMacros.approxcoloncolon_macro();
 			}
 		},
 		coloncolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.coloncolon_macro(tp, args);
+				return PredefMacros.coloncolon_macro();
 			}
 		},
 		equalscolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.equalscolon_macro(tp, args);
+				return PredefMacros.equalscolon_macro();
 			}
 		},
 		equalscoloncolon(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.equalscoloncolon_macro(tp, args);
+				return PredefMacros.equalscoloncolon_macro();
 			}
 		},
 		colonminus(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.colonminus_macro(tp, args);
+				return PredefMacros.colonminus_macro();
 			}
 		},
 		coloncolonminus(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.coloncolonminus_macro(tp, args);
+				return PredefMacros.coloncolonminus_macro();
 			}
 		},
 		colonequals(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.colonequals_macro(tp, args);
+				return PredefMacros.colonequals_macro();
 			}
 		},
 		coloncolonequals(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.coloncolonequals_macro(tp, args);
+				return PredefMacros.coloncolonequals_macro();
 			}
 		},
 		colonsim(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.colonsim_macro(tp, args);
+				return PredefMacros.colonsim_macro();
 			}
 		},
 		coloncolonsim(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.coloncolonsim_macro(tp, args);
+				return PredefMacros.coloncolonsim_macro();
 			}
 		},
 		colonapprox(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.colonapprox_macro(tp, args);
+				return PredefMacros.colonapprox_macro();
 			}
 		},
 		coloncolonapprox(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.coloncolonapprox_macro(tp, args);
+				return PredefMacros.coloncolonapprox_macro();
 			}
 		},
 		kern(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.kern_macro(tp, args);
+				return PredefMacros.kern_macro(args);
 			}
 		},
 		_char("char", 1) {
@@ -1568,13 +1568,13 @@ final class PredefinedCommands {
 		roman(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.romannumeral_macro(tp, args);
+				return PredefMacros.romannumeral_macro(args);
 			}
 		},
 		Roman(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.romannumeral_macro(tp, args);
+				return PredefMacros.romannumeral_macro(args);
 			}
 		},
 		textcircled(1) {
@@ -1592,139 +1592,139 @@ final class PredefinedCommands {
 		sc(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.sc_macro(tp, args);
+				return PredefMacros.sc_macro(tp);
 			}
 		},
 		_comma(",", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		_colon(":", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		_semicolon(";", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		thinspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		medspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		thickspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		_pling("!", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		negthinspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		negmedspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		negthickspace(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.muskip_macros(tp, args);
+				return PredefMacros.muskip_macros(args);
 			}
 		},
 		quad(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.quad_macro(tp, args);
+				return PredefMacros.quad_macro();
 			}
 		},
 		qquad(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.qquad_macro(tp, args);
+				return PredefMacros.qquad_macro();
 			}
 		},
 		surd(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.surd_macro(tp, args);
+				return PredefMacros.surd_macro();
 			}
 		},
 		iint(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.iint_macro(tp, args);
+				return PredefMacros.iint_macro();
 			}
 		},
 		iiint(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.iiint_macro(tp, args);
+				return PredefMacros.iiint_macro();
 			}
 		},
 		iiiint(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.iiiint_macro(tp, args);
+				return PredefMacros.iiiint_macro();
 			}
 		},
 		idotsint(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.idotsint_macro(tp, args);
+				return PredefMacros.idotsint_macro();
 			}
 		},
 		_int("int", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.int_macro(tp, args);
+				return PredefMacros.int_macro();
 			}
 		},
 		oint(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.oint_macro(tp, args);
+				return PredefMacros.oint_macro();
 			}
 		},
 		lmoustache(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.lmoustache_macro(tp, args);
+				return PredefMacros.lmoustache_macro();
 			}
 		},
 		rmoustache(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.rmoustache_macro(tp, args);
+				return PredefMacros.rmoustache_macro();
 			}
 		},
 		_dash("-", 0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.insertBreakMark_macro(tp, args);
+				return PredefMacros.insertBreakMark_macro();
 			}
 		},
 		jlmXML(1) {
@@ -1736,7 +1736,7 @@ final class PredefinedCommands {
 		above(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.above_macro(tp, args);
+				return PredefMacros.above_macro(tp);
 			}
 		},
 		abovewithdelims(2) {
@@ -1754,7 +1754,7 @@ final class PredefinedCommands {
 		fcscore(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.fcscore_macro(tp, args);
+				return PredefMacros.fcscore_macro(args);
 			}
 		};
 
