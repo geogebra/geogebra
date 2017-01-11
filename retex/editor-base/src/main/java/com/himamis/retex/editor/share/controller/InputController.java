@@ -438,7 +438,7 @@ public class InputController {
 	 *            current state
 	 */
     public void bkspContainer(EditorState editorState) {
-        MathSequence currentField = editorState.getCurrentField();
+		MathSequence currentField = editorState.getCurrentField();
 
         // if parent is function (cursor is at the beginning of the field)
         if (currentField.getParent() instanceof MathFunction) {
@@ -458,7 +458,7 @@ public class InputController {
                     delContaner(editorState, parent, currentField);
                 }
 
-            } else if (metaModel.isGeneral(parent.getName())) {
+			} else if (metaModel.isGeneral(parent.getName())) {
                 if (currentField.getParentIndex() == parent.getInsertIndex()) {
                     delContaner(editorState, parent, currentField);
                 }
@@ -621,13 +621,19 @@ public class InputController {
      * @param lengthBeforeCursor
      * @param lengthAfterCursor
      */
-    public static void removeCharacters(EditorState editorState, int lengthBeforeCursor, int lengthAfterCursor) {
+	public void removeCharacters(EditorState editorState,
+			int lengthBeforeCursor, int lengthAfterCursor) {
         if (lengthBeforeCursor == 0 && lengthAfterCursor == 0) {
             return; // nothing to delete
         }
         MathSequence seq = editorState.getCurrentField();
         for (int i = 0; i < lengthBeforeCursor; i++) {
             editorState.decCurrentOffset();
+			if (editorState.getCurrentOffset() < 0
+					|| editorState.getCurrentOffset() >= seq.size()) {
+				bkspContainer(editorState);
+				return;
+			}
             seq.delArgument(editorState.getCurrentOffset());
         }
         for (int i = 0; i < lengthAfterCursor; i++) {
