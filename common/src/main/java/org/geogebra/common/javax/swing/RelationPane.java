@@ -19,7 +19,7 @@ public interface RelationPane {
 	 */
 	public class RelationRow {
 
-		public String info;
+		private String info;
 		private RelationMore callback;
 
 		/**
