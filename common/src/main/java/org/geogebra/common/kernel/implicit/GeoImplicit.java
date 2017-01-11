@@ -10,18 +10,41 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 
+/**
+ * Interface for iplicit curves
+ */
 public interface GeoImplicit extends Path {
 
+	/**
+	 * @return coefficients
+	 */
 	double[][] getCoeff();
 
+	/**
+	 * @param coeff
+	 *            coefficients
+	 */
 	void setCoeff(double[][] coeff);
 
+	/**
+	 * @param coeff
+	 *            factored coefficients
+	 */
 	void setCoeff(double[][][] coeff);
 
+	/**
+	 * Reset undefined flag
+	 */
 	void setDefined();
 
+	/**
+	 * @return total degree
+	 */
 	int getDeg();
 
+	/**
+	 * @return whether it's visible in at least one view
+	 */
 	boolean isOnScreen();
 
 	/**
@@ -44,10 +67,22 @@ public interface GeoImplicit extends Path {
 	 */
 	void setInputForm();
 
-	void translate(double d, double e);
+	/**
+	 * @param dx
+	 *            horizontal shift
+	 * @param dy
+	 *            vertical shift
+	 */
+	void translate(double dx, double dy);
 
+	/**
+	 * @return LHS-RHS
+	 */
 	FunctionNVar getExpression();
 
+	/**
+	 * @return whether user input can be used
+	 */
 	boolean isValidInputForm();
 
 	/**

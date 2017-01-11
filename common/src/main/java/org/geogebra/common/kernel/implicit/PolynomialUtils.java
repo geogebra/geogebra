@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.polynomial.BigPolynomial;
 
 /**
  * This class provides functionality for work with polynomials. It allows one to
@@ -128,20 +127,6 @@ public class PolynomialUtils {
 	 */
 	public static double getLeadingCoeff(PolynomialFunction p) {
 		return getLeadingCoeff(p.getCoefficients());
-	}
-
-	/**
-	 * @param poly
-	 *            polynomial
-	 * @return degree
-	 */
-	public static int getDegree(BigPolynomial poly) {
-		for (int i = poly.degree(); i >= 0; i--) {
-			if (!Kernel.isEqual(poly.getCoeff(i).doubleValue(), 0.,
-					Kernel.MAX_DOUBLE_PRECISION))
-				return i;
-		}
-		return -1;
 	}
 
 	/**
