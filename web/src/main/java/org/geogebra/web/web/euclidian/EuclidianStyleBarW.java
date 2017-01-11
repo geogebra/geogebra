@@ -72,7 +72,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		@Override
 		public void update(Object[] geos) {
 			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
-			        && mode != EuclidianConstants.MODE_DELETE);
+					&& mode != EuclidianConstants.MODE_DELETE
+					&& mode != EuclidianConstants.MODE_ERASER);
 		}
 	}
 
@@ -505,7 +506,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	protected void addAxesAndGridButtons() {
 		add(btnShowAxes);
-		add(btnShowGrid);
+		if (mode != EuclidianConstants.MODE_ERASER) {
+			add(btnShowGrid);
+		}
 	}
 
 	/**
@@ -629,7 +632,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				@Override
 				public void update(Object[] geos) {
 					// always show this button unless in pen mode
-					this.setVisible(mode == EuclidianConstants.MODE_DELETE);
+					this.setVisible(mode == EuclidianConstants.MODE_DELETE
+							|| mode == EuclidianConstants.MODE_ERASER);
 				}
 
 			};
@@ -650,7 +654,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				// same as axes
 				this.setVisible(geos.length == 0
 				        && !EuclidianView.isPenMode(mode)
-				        && mode != EuclidianConstants.MODE_DELETE);
+						&& mode != EuclidianConstants.MODE_DELETE
+						&& mode != EuclidianConstants.MODE_ERASER);
 			}
 
 			@Override

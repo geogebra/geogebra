@@ -91,7 +91,8 @@ public class EuclidianStyleBarD extends JToolBar
 		@Override
 		public void update(Object[] geos) {
 			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
-					&& mode != EuclidianConstants.MODE_DELETE);
+					&& mode != EuclidianConstants.MODE_DELETE
+					&& mode != EuclidianConstants.MODE_ERASER);
 		}
 
 		/*
@@ -322,7 +323,8 @@ public class EuclidianStyleBarD extends JToolBar
 		// display a selection for the drag-delete-tool
 		// can't use a geo element for this
 		// -----------------------------------------------------
-		else if (mode == EuclidianConstants.MODE_DELETE) {
+		else if (mode == EuclidianConstants.MODE_DELETE
+				|| mode == EuclidianConstants.MODE_ERASER) {
 
 		}
 
@@ -587,7 +589,8 @@ public class EuclidianStyleBarD extends JToolBar
 
 				@Override
 				public void update(Object[] geos) {
-					this.setVisible(mode == EuclidianConstants.MODE_DELETE);
+					this.setVisible(mode == EuclidianConstants.MODE_DELETE
+							|| mode == EuclidianConstants.MODE_ERASER);
 				}
 			};
 			btnDeleteSize[i].addActionListener(this);
@@ -899,7 +902,8 @@ public class EuclidianStyleBarD extends JToolBar
 			public void update(Object[] geos) {
 				this.setVisible(
 						geos.length == 0 && !EuclidianView.isPenMode(mode)
-								&& mode != EuclidianConstants.MODE_DELETE);
+								&& mode != EuclidianConstants.MODE_DELETE
+								&& mode != EuclidianConstants.MODE_ERASER);
 			}
 
 			@Override
