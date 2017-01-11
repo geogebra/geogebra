@@ -458,6 +458,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			}
 		}
 
+		/* free point support */
+		/* Note that sometimes also points on a path are considered free. */
 		Iterator<GeoElement> it = freePoints.iterator();
 		String vx = "", vy = "";
 		while (it.hasNext()) {
@@ -471,40 +473,64 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			}
 			if (condition) {
 				double x = ((GeoPoint) freePoint).getInhomX();
+				/*
+				 * Use the fraction P/Q according to the current kernel setting.
+				 * We use the P/Q=x <=> P-Q*x=0 equation.
+				 */
+				long[] q = new long[2]; // P and Q for P/Q
 				if ((x % 1) == 0) { // integer
-					substitutions.put(vars[0], (long) x);
-					vars[0].setFree(true);
+					q[0] = (long) x;
+					q[1] = 1L;
 				} else { // fractional
-					/*
-					 * Use the fraction P/Q according to the current kernel
-					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
-					 */
-					long[] q = k.doubleToRational(x);
-					vars[0].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(vars[0])
-									.multiply(new Polynomial((int) q[1])));
-					as.addPolynomial(ph);
-					Log.debug("Extra poly 1 for " + freePoint.getLabelSimple()
-							+ ": " + ph);
+					q = k.doubleToRational(x);
 				}
+				vars[0].setFree(false);
+				Polynomial ph = new Polynomial((int) q[0])
+						.subtract(new Polynomial(vars[0])
+								.multiply(new Polynomial((int) q[1])));
+				as.addPolynomial(ph);
+				Log.debug("Extra poly 1 for " + freePoint.getLabelSimple()
+						+ ": " + ph);
 				double y = ((GeoPoint) freePoint).getInhomY();
 				if ((y % 1) == 0) {
 					substitutions.put(vars[1], (long) y);
 					vars[1].setFree(true);
+					Log.debug("Substituting " + vars[1] + "=" + (int) y);
 				} else { // fractional
+					AlgoElement ae = freePoint.getParentAlgorithm();
 					/*
-					 * Use the fraction P/Q according to the current kernel
-					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
+					 * If this "free" point is on a path, then its path may be
+					 * important to be kept as a symbolic object for
+					 * consistency. Let's try to do that.
 					 */
-					long[] q = k.doubleToRational(y);
-					vars[1].setFree(false);
-					Polynomial ph = new Polynomial((int) q[0])
-							.subtract(new Polynomial(vars[1])
-									.multiply(new Polynomial((int) q[1])));
-					as.addPolynomial(ph);
-					Log.debug("Extra poly 1 for " + freePoint.getLabelSimple()
-							+ ": " + ph);
+					if (ae != null
+							&& freePoint instanceof SymbolicParametersBotanaAlgo) {
+						Polynomial[] symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
+								.getBotanaPolynomials(freePoint);
+						int i = 1;
+						for (Polynomial symPoly : symPolys) {
+							as.addPolynomial(symPoly);
+							Log.debug("Extra symbolic poly " + i + " for "
+									+ freePoint.getLabelSimple() + ": "
+									+ symPoly);
+						}
+						vars[1].setFree(false);
+					} else {
+						/*
+						 * If keeping the symbolic object is not possible, we
+						 * simple use the approximate coordinates. Again use the
+						 * fraction P/Q according to the current kernel setting.
+						 * We use the P/Q=x <=> P-Q*x=0 equation.
+						 */
+						q = k.doubleToRational(y);
+						vars[1].setFree(false);
+						ph = new Polynomial((int) q[0])
+								.subtract(new Polynomial(vars[1])
+										.multiply(new Polynomial((int) q[1])));
+						as.addPolynomial(ph);
+						Log.debug("Extra poly 2 for "
+								+ freePoint.getLabelSimple() + ": " + ph);
+					}
 				}
 			} else {
 				condition = true;
