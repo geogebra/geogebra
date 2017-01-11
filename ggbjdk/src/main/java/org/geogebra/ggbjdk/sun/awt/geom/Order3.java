@@ -54,7 +54,8 @@ final class Order3 extends Curve {
     private double ycoeff2;
     private double ycoeff3;
 
-    public static void insert(Vector curves, double tmp[],
+    @SuppressWarnings("rawtypes")
+	public static void insert(Vector curves, double tmp[],
                               double x0, double y0,
                               double cx0, double cy0,
                               double cx1, double cy1,
@@ -106,7 +107,8 @@ final class Order3 extends Curve {
         }
     }
 
-    public static void addInstance(Vector curves,
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void addInstance(Vector curves,
                                    double x0, double y0,
                                    double cx0, double cy0,
                                    double cx1, double cy1,

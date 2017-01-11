@@ -408,19 +408,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	}
 
-	private static boolean compare(ArrayList<Integer> list, ArrayList<Integer> list2) {
-		for (int i = 0; i < list.size() && i < list2.size(); i++) {
-			if (list.get(i) > list2.get(i)) {
-				return false;
-			}
-			if (list.get(i) < list2.get(i)) {
-				return true;
-			}
-		}
-		return list2.size() > list.size();
-	}
-
-    public boolean isEmpty() {
+	public boolean isEmpty() {
         return mathFormula.isEmpty();
     }
 

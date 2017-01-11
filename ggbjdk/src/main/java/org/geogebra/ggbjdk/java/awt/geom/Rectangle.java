@@ -160,12 +160,7 @@ public class Rectangle extends Rectangle2D    implements Shape, GRectangle
      */
     public int height;
 
-    /*
-     * JDK 1.1 serialVersionUID
-     */
-     private static final long serialVersionUID = -4345857070255674764L;
-
-    /**
+     /**
      * Initialize JNI field and method IDs
      */
     //private static native void initIDs();

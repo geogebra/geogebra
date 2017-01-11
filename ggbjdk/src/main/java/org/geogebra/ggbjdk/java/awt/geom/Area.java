@@ -105,9 +105,9 @@ import org.geogebra.ggbjdk.sun.awt.geom.Curve;
  * @since 1.2
  */
 public class Area implements Shape, Cloneable, GArea {
-    private static Vector EmptyCurves = new Vector();
+    private static Vector<?> EmptyCurves = new Vector<Object>();
 
-    private Vector curves;
+    private Vector<?> curves;
 
     /**
      * Default constructor which creates an empty area.
@@ -135,8 +135,8 @@ public class Area implements Shape, Cloneable, GArea {
         }
     }
 
-    private static Vector pathToCurves(GPathIterator pi) {
-        Vector curves = new Vector();
+    private static Vector<?> pathToCurves(GPathIterator pi) {
+        Vector<?> curves = new Vector<Object>();
         int windingRule = pi.getWindingRule();
         // coords array is big enough for holding:
         //     coordinates returned from currentSegment (6)
@@ -342,7 +342,7 @@ public class Area implements Shape, Cloneable, GArea {
      * @since 1.2
      */
     public void reset() {
-        curves = new Vector();
+        curves = new Vector<Object>();
         invalidateBounds();
     }
 
@@ -365,7 +365,7 @@ public class Area implements Shape, Cloneable, GArea {
      * @since 1.2
      */
     public boolean isPolygonal() {
-        Enumeration enum_ = curves.elements();
+        Enumeration<?> enum_ = curves.elements();
         while (enum_.hasMoreElements()) {
             if (((Curve) enum_.nextElement()).getOrder() > 1) {
                 return false;
@@ -419,7 +419,7 @@ public class Area implements Shape, Cloneable, GArea {
         if (curves.size() < 3) {
             return true;
         }
-        Enumeration enum_ = curves.elements();
+        Enumeration<?> enum_ = curves.elements();
         enum_.nextElement(); // First Order0 "moveto"
         while (enum_.hasMoreElements()) {
             if (((Curve) enum_.nextElement()).getOrder() == 0) {
@@ -515,7 +515,7 @@ public class Area implements Shape, Cloneable, GArea {
         if (other == null) {
             return false;
         }
-        Vector c = new AreaOp.XorOp().calculate(this.curves, ((Area)other).curves);
+        Vector<?> c = new AreaOp.XorOp().calculate(this.curves, ((Area)other).curves);
         return c.isEmpty();
     }
 
@@ -563,7 +563,7 @@ public class Area implements Shape, Cloneable, GArea {
         if (!getCachedBounds().contains(x, y)) {
             return false;
         }
-        Enumeration enum_ = curves.elements();
+        Enumeration<?> enum_ = curves.elements();
         int crossings = 0;
         while (enum_.hasMoreElements()) {
             Curve c = (Curve) enum_.nextElement();
@@ -678,12 +678,12 @@ public class Area implements Shape, Cloneable, GArea {
 
 class AreaIterator implements GPathIterator {
     private GAffineTransform transform;
-    private Vector curves;
+    private Vector<?> curves;
     private int index;
     private Curve prevcurve;
     private Curve thiscurve;
 
-    public AreaIterator(Vector curves, GAffineTransform at) {
+    public AreaIterator(Vector<?> curves, GAffineTransform at) {
         this.curves = curves;
         this.transform = at;
         if (curves.size() >= 1) {

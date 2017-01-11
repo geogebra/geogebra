@@ -68,9 +68,7 @@ public class LeoSocket {
     public boolean gotMessage = false;      
     
     
-    private Session session;
-    
-    private WebSocketClient client;
+   private WebSocketClient client;
     
     private RemoteEndpoint remoteEndpoint;
     
@@ -105,7 +103,7 @@ public class LeoSocket {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         System.out.printf("Connection closed: %d - %s%n", statusCode, reason);
-        this.session = null;
+        //this.session = null;
     }
     
     private boolean connected = false;
@@ -113,7 +111,7 @@ public class LeoSocket {
     @OnWebSocketConnect
     public void onConnect(Session session) {
         System.out.printf("Got connect: %s%n", session);
-        this.session = session;
+        //this.session = session;
         remoteEndpoint = session.getRemote();
        
         connected = true;

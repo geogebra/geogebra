@@ -37,7 +37,7 @@ public class KeyboardInputAdapter {
     };
 
     static {
-        adapters = new ArrayList();
+        adapters = new ArrayList<KeyboardAdapter>();
         adapters.add(new FunctionsAdapter());
         adapters.add(new StringCharAdapter(divide, '/'));
         adapters.add(new StringCharAdapter(times, '*'));

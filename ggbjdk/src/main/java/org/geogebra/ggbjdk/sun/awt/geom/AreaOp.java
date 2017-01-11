@@ -152,16 +152,16 @@ public abstract class AreaOp {
 
     public abstract int getState();
 
-    public Vector calculate(Vector left, Vector right) {
-        Vector edges = new Vector();
+    public Vector<Object> calculate(Vector<?> left, Vector<?> right) {
+        Vector<Object> edges = new Vector<Object>();
         addEdges(edges, left, AreaOp.CTAG_LEFT);
         addEdges(edges, right, AreaOp.CTAG_RIGHT);
         edges = pruneEdges(edges);
         return edges;
     }
 
-    private static void addEdges(Vector edges, Vector curves, int curvetag) {
-        Enumeration enum_ = curves.elements();
+    private static void addEdges(Vector<Object> edges, Vector<?> curves, int curvetag) {
+        Enumeration<?> enum_ = curves.elements();
         while (enum_.hasMoreElements()) {
             Curve c = (Curve) enum_.nextElement();
             if (c.getOrder() > 0) {
@@ -170,7 +170,7 @@ public abstract class AreaOp {
         }
     }
 
-    private static Comparator YXTopComparator = new Comparator() {
+    private static Comparator<Object> YXTopComparator = new Comparator<Object>() {
         public int compare(Object o1, Object o2) {
             Curve c1 = ((Edge) o1).getCurve();
             Curve c2 = ((Edge) o2).getCurve();
@@ -187,7 +187,7 @@ public abstract class AreaOp {
         }
     };
 
-    private Vector pruneEdges(Vector edges) {
+    private Vector<Object> pruneEdges(Vector<Object> edges) {
         int numedges = edges.size();
         if (numedges < 2) {
             return edges;
@@ -200,9 +200,9 @@ public abstract class AreaOp {
         int cur = 0;
         int next = 0;
         double yrange[] = new double[2];
-        Vector subcurves = new Vector();
-        Vector chains = new Vector();
-        Vector links = new Vector();
+        Vector<CurveLink> subcurves = new Vector<CurveLink>();
+        Vector<ChainEnd> chains = new Vector<ChainEnd>();
+        Vector<CurveLink> links = new Vector<CurveLink>();
         // Active edges are between left (inclusive) and right (exclusive)
         while (left < numedges) {
             double y = yrange[0];
@@ -361,8 +361,8 @@ public abstract class AreaOp {
             yrange[0] = yend;
         }
         finalizeSubCurves(subcurves, chains);
-        Vector ret = new Vector();
-        Enumeration enum_ = subcurves.elements();
+        Vector<Object> ret = new Vector<Object>();
+        Enumeration<CurveLink> enum_ = subcurves.elements();
         while (enum_.hasMoreElements()) {
             CurveLink link = (CurveLink) enum_.nextElement();
             ret.add(link.getMoveto());
@@ -378,7 +378,7 @@ public abstract class AreaOp {
         return ret;
     }
 
-    public static void finalizeSubCurves(Vector subcurves, Vector chains) {
+    public static void finalizeSubCurves(Vector<CurveLink> subcurves, Vector<ChainEnd> chains) {
         int numchains = chains.size();
         if (numchains == 0) {
             return;
@@ -402,9 +402,9 @@ public abstract class AreaOp {
     private static CurveLink[] EmptyLinkList = new CurveLink[2];
     private static ChainEnd[] EmptyChainList = new ChainEnd[2];
 
-    public static void resolveLinks(Vector subcurves,
-                                    Vector chains,
-                                    Vector links)
+    public static void resolveLinks(Vector<CurveLink> subcurves,
+                                    Vector<ChainEnd> chains,
+                                    Vector<CurveLink> links)
     {
         int numlinks = links.size();
         CurveLink[] linklist;

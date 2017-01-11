@@ -20,16 +20,16 @@ public class MetaModelParser {
     private static final String ARRAY = "Array";
     /* Category attributes. */
     private static final String GROUP = "group";
-    private static final String COLUMNS = "columns";
+    //private static final String COLUMNS = "columns";
     /* Element attributes. */
     private static final String NAME = "name";
     private static final String DESC = "desc";
-    private static final String TYPE = "type";
+    //private static final String TYPE = "type";
     private static final String CAS = "cas";
     private static final String TEX = "tex";
     private static final String KEY = "key";
     private static final String UNICODE = "unicode";
-    private static final String IMG = "img";
+    //private static final String IMG = "img";
     private static final String UP = "up";
     private static final String DOWN = "down";
     private static final String CODE = "code";

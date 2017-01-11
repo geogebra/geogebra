@@ -828,7 +828,6 @@ public class AffineTransform implements GAffineTransform {
      * they have not been cached.
      * @see #getType
      */
-    @SuppressWarnings("fallthrough")
     private void calculateType() {
         int ret = TYPE_IDENTITY;
         boolean sgn0, sgn1;
@@ -992,7 +991,6 @@ public class AffineTransform implements GAffineTransform {
      * @see #TYPE_UNIFORM_SCALE
      * @since 1.2
      */
-    @SuppressWarnings("fallthrough")
     public double getDeterminant() {
         switch (state) {
         default:
@@ -1588,7 +1586,6 @@ public class AffineTransform implements GAffineTransform {
      * Y axis direction
      * @since 1.2
      */
-    @SuppressWarnings("fallthrough")
     public void scale(double sx, double sy) {
         int state = this.state;
         switch (state) {
@@ -2187,7 +2184,6 @@ public class AffineTransform implements GAffineTransform {
      * @see #preConcatenate
      * @since 1.2
      */
-    @SuppressWarnings("fallthrough")
     public void concatenate(GAffineTransform Tx0) {
     	
     	AffineTransform Tx = (AffineTransform) Tx0;
@@ -2400,7 +2396,6 @@ public class AffineTransform implements GAffineTransform {
      * @see #concatenate
      * @since 1.2
      */
-    @SuppressWarnings("fallthrough")
     public void preConcatenate(AffineTransform Tx) {
         double M0, M1;
         double T00, T01, T10, T11;
@@ -3109,7 +3104,6 @@ public class AffineTransform implements GAffineTransform {
      *                                         inverted.
      * @since 1.2
      */
-    @SuppressWarnings("fallthrough")
     public GPoint2D inverseTransform(GPoint2D ptSrc, GPoint2D ptDst)
         throws NoninvertibleTransformException
     {
@@ -3579,12 +3573,7 @@ public class AffineTransform implements GAffineTransform {
      * readObject method as it is in the 6-argument matrix constructor.
      */
 
-    /*
-     * JDK 1.2 serialVersionUID
-     */
-    private static final long serialVersionUID = 1330973210523860834L;
-
-//    private void writeObject(java.io.ObjectOutputStream s)
+ //    private void writeObject(java.io.ObjectOutputStream s)
 //        throws java.lang.ClassNotFoundException, java.io.IOException
 //    {
 //        s.defaultWriteObject();

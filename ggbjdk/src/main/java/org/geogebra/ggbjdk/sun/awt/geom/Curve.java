@@ -39,11 +39,13 @@ public abstract class Curve {
 
     protected int direction;
 
-    public static void insertMove(Vector curves, double x, double y) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void insertMove(Vector curves, double x, double y) {
         curves.add(new Order0(x, y));
     }
 
-    public static void insertLine(Vector curves,
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void insertLine(Vector curves,
                                   double x0, double y0,
                                   double x1, double y1)
     {
@@ -60,7 +62,8 @@ public abstract class Curve {
         }
     }
 
-    public static void insertQuad(Vector curves,
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void insertQuad(Vector curves,
                                   double x0, double y0,
                                   double coords[])
     {
@@ -83,7 +86,8 @@ public abstract class Curve {
         }
     }
 
-    public static void insertCubic(Vector curves,
+    @SuppressWarnings("rawtypes")
+	public static void insertCubic(Vector curves,
                                    double x0, double y0,
                                    double coords[])
     {

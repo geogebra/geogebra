@@ -30,7 +30,7 @@ public class ClickAdapterW
 	private boolean pointerIsDown = false;
 	private Widget widget;
 
-	public ClickAdapterW(ClickListener handler, MathFieldW mf) {
+	public ClickAdapterW(ClickListener handler) {
 		this.handler = handler;
 	}
 
@@ -49,18 +49,18 @@ public class ClickAdapterW
 		this.pointerIsDown = true;
 	}
 
-	private int getX(TouchEvent event) {
+	private static int getX(TouchEvent<?> event) {
 		Touch touch = getRelevantTouch(event);
 		return touch == null ? 0 : touch.getClientX();
 	}
 
-	private int getY(TouchEvent event) {
+	private static int getY(TouchEvent<?> event) {
 		Touch touch = getRelevantTouch(event);
 		return touch == null ? 0 : touch.getClientY();
 	}
 
-	public static Touch getRelevantTouch(TouchEvent event) {
-		JsArray touches = event.getTouches().length() == 0
+	public static Touch getRelevantTouch(TouchEvent<?> event) {
+		JsArray<?> touches = event.getTouches().length() == 0
 				? event.getChangedTouches() : event.getTouches();
 		return (Touch) touches.get(0);
 	}

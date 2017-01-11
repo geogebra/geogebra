@@ -78,12 +78,12 @@ public abstract class Crossings {
 
     public abstract boolean covers(double ystart, double yend);
 
-    public static Crossings findCrossings(Vector curves,
+    public static Crossings findCrossings(Vector<?> curves,
                                           double xlo, double ylo,
                                           double xhi, double yhi)
     {
         Crossings cross = new EvenOdd(xlo, ylo, xhi, yhi);
-        Enumeration enum_ = curves.elements();
+        Enumeration<?> enum_ = curves.elements();
         while (enum_.hasMoreElements()) {
             Curve c = (Curve) enum_.nextElement();
             if (c.accumulateCrossings(cross)) {
@@ -238,7 +238,7 @@ public abstract class Crossings {
         return false;
     }
 
-    private Vector tmp = new Vector();
+    private Vector<Order2> tmp = new Vector<Order2>();
 
     public boolean accumulateQuad(double x0, double y0, double coords[]) {
         if (y0 < ylo && coords[1] < ylo && coords[3] < ylo) {
@@ -259,7 +259,7 @@ public abstract class Crossings {
             return false;
         }
         Curve.insertQuad(tmp, x0, y0, coords);
-        Enumeration enum_ = tmp.elements();
+        Enumeration<Order2> enum_ = tmp.elements();
         while (enum_.hasMoreElements()) {
             Curve c = (Curve) enum_.nextElement();
             if (c.accumulateCrossings(this)) {
@@ -297,7 +297,7 @@ public abstract class Crossings {
             return false;
         }
         Curve.insertCubic(tmp, x0, y0, coords);
-        Enumeration enum_ = tmp.elements();
+        Enumeration<Order2> enum_ = tmp.elements();
         while (enum_.hasMoreElements()) {
             Curve c = (Curve) enum_.nextElement();
             if (c.accumulateCrossings(this)) {

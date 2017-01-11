@@ -290,12 +290,7 @@ public abstract class CubicCurve2D implements GShape  {
                                           right - left, bottom - top);
         }
 
-        /*
-         * JDK 1.6 serialVersionUID
-         */
-        private static final long serialVersionUID = -4202960122839707295L;
-
-    }
+     }
 
     /**
      * This is an abstract class that cannot be instantiated directly.

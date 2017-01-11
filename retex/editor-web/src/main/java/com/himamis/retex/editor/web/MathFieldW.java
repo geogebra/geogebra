@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -163,7 +164,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickAdapterW adapter = new ClickAdapterW(clickListener, this);
+		ClickAdapterW adapter = new ClickAdapterW(clickListener);
 		adapter.listenTo(html);
 	}
 
@@ -275,7 +276,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}-*/;
 
-	protected int getModifiers(com.google.gwt.event.dom.client.KeyEvent event) {
+	protected int getModifiers(
+			com.google.gwt.event.dom.client.KeyEvent<?> event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
 				+ (event.isControlKeyDown() || rightAltDown ? KeyEvent.CTRL_MASK
 						: 0)
@@ -435,7 +437,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void startEditing() {
 		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
-			mathFieldInternal.getCursorController()
+			mathFieldInternal.getCursorController();
+			CursorController
 					.lastField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
@@ -559,10 +562,12 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void moveCaretLeftOrRight(boolean right) {
 		if (right) {
-			mathFieldInternal.getCursorController()
+			mathFieldInternal.getCursorController();
+			CursorController
 					.lastField(mathFieldInternal.getEditorState());
 		} else {
-			mathFieldInternal.getCursorController()
+			mathFieldInternal.getCursorController();
+			CursorController
 					.firstField(mathFieldInternal.getEditorState());
 		}
 		// update even when cursor didn't change here
