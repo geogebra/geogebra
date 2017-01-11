@@ -1778,10 +1778,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		((AppW) app).closePopups();
 	}
 
-	@Override
-	protected void setCallerApp() {
-		this.caller_APP = WEB;
-	}
 
 	@Override
 	public int setToolbarMode(final int mode, ModeSetter m) {

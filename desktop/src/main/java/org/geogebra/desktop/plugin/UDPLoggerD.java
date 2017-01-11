@@ -30,6 +30,7 @@ public class UDPLoggerD extends SensorLogger {
 
 	@SuppressWarnings("javadoc")
 	DatagramSocket dsocket;
+	private long now;
 
 	/**
 	 * @param kernel

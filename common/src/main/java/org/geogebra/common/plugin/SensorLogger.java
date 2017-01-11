@@ -29,7 +29,6 @@ public abstract class SensorLogger {
 	public static int port = 7166;
 	public static String appID = "ABCD";
 	public boolean oldUndoActive = false;
-	protected long now;
 
 	public static enum Types {
 		// DON'T CHANGE STRINGS - USED IN XML FOR DATA COLLECTION VIEW

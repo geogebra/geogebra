@@ -87,7 +87,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param app2
 	 */
 	public GuiManager(App app2) {
-		setCallerApp();
 		this.app = app2;
 		this.kernel = app.getKernel();
 	}
@@ -675,7 +674,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	private boolean setModeFinished;
 	protected ProbabilityCalculatorView probCalculator;
-	protected int caller_APP;
 
 	@Override
 	public void setMode(int mode, ModeSetter m) {
@@ -754,10 +752,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		// should be implemented in subclasses if needed
 	}
 
-	/**
-	 * sets the caller app to the prober value
-	 */
-	protected abstract void setCallerApp();
 
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language

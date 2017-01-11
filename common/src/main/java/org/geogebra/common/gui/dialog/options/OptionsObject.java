@@ -2,7 +2,6 @@ package org.geogebra.common.gui.dialog.options;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -11,7 +10,6 @@ public abstract class OptionsObject {
 
 	protected static final int MIN_LIST_WIDTH = 120;
 	public static final int TEXT_FIELD_FRACTION_DIGITS = 8;
-	protected Kernel kernel;
 	public static final int SLIDER_MAX_WIDTH = 170;
 	protected static final int MIN_WIDTH = 500;
 	protected static final int MIN_HEIGHT = 300;

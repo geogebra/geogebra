@@ -75,7 +75,8 @@ public class AlgebraControllerW extends AlgebraController
 			// In this case a DnD drag starts first and grabs the previously selected 
 			// geos (e.g. cntrl-selected or EV selected) as the user expects.
 
-			skipSelection = false; // flag to prevent duplicate selection in MouseClicked
+			// skipSelection = false; // flag to prevent duplicate selection in
+			// MouseClicked
 
 			// view.getPathForLocation is not yet implemented, but if it will be, note Window.getScrollLeft() (ticket #4049)
 

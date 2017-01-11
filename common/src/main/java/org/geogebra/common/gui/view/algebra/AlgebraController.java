@@ -31,6 +31,7 @@ public class AlgebraController {
 	protected App app;
 	protected SelectionManager selection;
 	protected AlgebraView view;
+	protected GeoElement lastSelectedGeo = null;
 
 	// private GeoVector tempVec;
 	// private boolean kernelChanged;
@@ -53,9 +54,6 @@ public class AlgebraController {
 	public Kernel getKernel() {
 		return kernel;
 	}
-
-	protected GeoElement lastSelectedGeo = null;
-	protected boolean skipSelection;
 
 	public String getDragText() {
 		return getDragText(new ArrayList<String>());

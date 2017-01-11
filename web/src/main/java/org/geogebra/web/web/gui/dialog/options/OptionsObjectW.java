@@ -60,7 +60,6 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -600,18 +599,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			// App.printStacktrace(""+geo);
 		}
 
-		public void updateName(GeoElement geo) {
-
-			//		// do nothing if called by doActionPerformed
-			//		if (actionPerforming)
-			//			return;
-			//
-			model.getNameInputHandler().setGeoElement(geo);
-			tfName.setText(geo.getLabel(StringTemplate.editTemplate));
-
-			// App.printStacktrace(""+geo);
-		}
-
 		@Override
 		public void setNameText(final String text) {
 			tfName.setText(text);
@@ -800,10 +787,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
-		public void addItem(GeoElement item) {
-			// TODO Auto-generated method stub
-
-		}
 
 	}
 
@@ -1230,23 +1213,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 
-
-
-
-
-
-
-	
-
-
-	
-
-
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
-		kernel = app.getKernel();
 		loc = app.getLocalization();
 		// build GUI
 		initGUI(onTabSelection);

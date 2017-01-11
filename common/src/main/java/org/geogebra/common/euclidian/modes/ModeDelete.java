@@ -298,7 +298,7 @@ public class ModeDelete {
 		return dataAndRealPoint;
 	}
 
-	private void populateAlgoUpdateSet(GeoPoint point) {
+	private void populateAlgoUpdateSet(GeoPointND point) {
 		if (as == null) {
 			as = point.getAlgoUpdateSet();
 		} else {

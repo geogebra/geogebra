@@ -290,7 +290,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
-		return 0;
+		return (char) nativeEvent.getCharCode();
 	}
 
 	@Override

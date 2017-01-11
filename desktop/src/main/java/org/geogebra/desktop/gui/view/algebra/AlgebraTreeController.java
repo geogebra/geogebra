@@ -30,6 +30,7 @@ public class AlgebraTreeController extends AlgebraController
 
 	/** tree */
 	private AlgebraTree tree;
+	private boolean skipSelection;
 
 	/**
 	 * Creator

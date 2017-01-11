@@ -25,6 +25,7 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsObject;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
@@ -56,8 +57,6 @@ public class OptionsObjectD extends OptionsObject
 	public OptionsObjectD(AppD app) {
 
 		this.app = app;
-		kernel = app.getKernel();
-
 		// build GUI
 		initGUI();
 	}
@@ -74,6 +73,7 @@ public class OptionsObjectD extends OptionsObject
 		}
 
 		// LIST PANEL
+		Kernel kernel = app.getKernel();
 		tree = new AlgebraTree(new AlgebraTreeController(kernel), false);
 		listScroller = new JScrollPane(tree);
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
@@ -140,7 +140,7 @@ public class OptionsObjectD extends OptionsObject
 	 * shows this dialog and select GeoElement geo at screen position location
 	 */
 	public void setVisibleWithGeos(ArrayList<GeoElement> geos) {
-		kernel.clearJustCreatedGeosInViews();
+		app.getKernel().clearJustCreatedGeosInViews();
 
 		setViewActive(true);
 
