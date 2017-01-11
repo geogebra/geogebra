@@ -236,6 +236,21 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return GeoClass.POLYGON;
 	}
 
+	private HitType lastHitType = HitType.ON_FILLING;
+
+	/**
+	 * @param type
+	 *            hit type
+	 */
+	final public void setLastHitType(HitType type) {
+		lastHitType = type;
+	}
+	
+	@Override
+	final public HitType getLastHitType() {
+		return lastHitType;
+	}
+
 	/**
 	 * set the vertices to points
 	 * 
@@ -2555,11 +2570,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					.setEuclidianVisibleIfNoConditionToShowObject(false);
 			point.updateRepaint();
 		}
-	}
-
-	@Override
-	final public HitType getLastHitType() {
-		return HitType.ON_FILLING;
 	}
 
 	/**

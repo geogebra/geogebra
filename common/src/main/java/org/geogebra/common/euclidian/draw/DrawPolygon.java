@@ -20,6 +20,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
@@ -32,11 +33,14 @@ import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -630,12 +634,46 @@ public class DrawPolygon extends Drawable implements Previewable {
 		// do nothing
 	}
 
+	/**
+	 * 
+	 * @return true if it has to check it's on filling
+	 */
+	protected boolean checkIsOnFilling() {
+		return geo.isFilled();
+	}
+
 	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
 		GShape t = geo.isInverseFill() ? getShape() : gp;
-		return t != null && (t.contains(x, y) || t.intersects(x - hitThreshold,
-				y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
+		
+		// needed for MOW-114
+		GeoSegmentND[] segmentsOfPoly = poly.getSegments();
+		boolean wasSegmentHit = false;
+		// check if one of sides was hit
+		for (GeoSegmentND geoSegmentND : segmentsOfPoly) {
+			DrawableND d = view.getDrawableFor((GeoSegment) geoSegmentND);
+			if (d != null && d instanceof DrawSegment
+					&& ((DrawSegment) d).hit(x, y, hitThreshold)) {
+				wasSegmentHit = true;
+				break;
+			}
+		}
+		// no filling
+		if (!checkIsOnFilling()) {
+			// draggable only from sides
+			if (wasSegmentHit) {
+				poly.setLastHitType(HitType.ON_BOUNDARY);
+				return true;
+			}
+			poly.setLastHitType(HitType.NONE);
+			return false;
+		}
+
+		return t != null
+				&& (t.contains(x, y) || t.intersects(x - hitThreshold,
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold));
 	}
+
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
