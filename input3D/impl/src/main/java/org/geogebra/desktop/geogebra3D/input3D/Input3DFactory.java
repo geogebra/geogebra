@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.input3D;
 
+import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
@@ -48,13 +49,13 @@ public class Input3DFactory {
 
 		switch (type.charAt(0)) {
 		case 'r':
-			if (type.equals(Input3D.PREFS_REALSENSE)) {
+			if (type.equals(Input3DConstants.PREFS_REALSENSE)) {
 				// check for realsense
 				return new InputIntelRealsense3D(app);
 			}
 			return null;
 		case 'z':
-			if (type.equals(Input3D.PREFS_ZSPACE)) {
+			if (type.equals(Input3DConstants.PREFS_ZSPACE)) {
 				// check for zSpace
 				return new InputZSpace3D();
 			}
