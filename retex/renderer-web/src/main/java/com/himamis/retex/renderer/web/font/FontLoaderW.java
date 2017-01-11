@@ -68,8 +68,9 @@ public class FontLoaderW implements FontLoader {
 	}
 
 	private String extractFileName(String filePathName) {
-		if (filePathName == null)
+		if (filePathName == null) {
 			return null;
+		}
 
 		int dotPos = filePathName.lastIndexOf('.');
 		int slashPos = filePathName.lastIndexOf('\\');

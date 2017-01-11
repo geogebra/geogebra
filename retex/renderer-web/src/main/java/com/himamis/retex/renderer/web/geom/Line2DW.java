@@ -56,6 +56,7 @@ public class Line2DW implements Line2D {
 		setLine(x1, y1, x2, y2);
 	}
 
+	@Override
 	public double getX1() {
 		return x1;
 	}
@@ -64,6 +65,7 @@ public class Line2DW implements Line2D {
 		this.x1 = x1;
 	}
 
+	@Override
 	public double getX2() {
 		return x2;
 	}
@@ -72,6 +74,7 @@ public class Line2DW implements Line2D {
 		this.x2 = x2;
 	}
 
+	@Override
 	public double getY1() {
 		return y1;
 	}
@@ -80,6 +83,7 @@ public class Line2DW implements Line2D {
 		this.y1 = y1;
 	}
 
+	@Override
 	public double getY2() {
 		return y2;
 	}

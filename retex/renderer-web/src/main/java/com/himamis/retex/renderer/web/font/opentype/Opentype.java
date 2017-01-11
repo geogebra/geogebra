@@ -161,10 +161,12 @@ public class Opentype implements FontLoaderWrapper {
 				.setRemoveTag(true)
 				.setCallback(new Callback<Void, Exception>() {
 
+					@Override
 					public void onFailure(Exception reason) {
 						fireFontInactiveEvent(reason, familyName);
 					}
 
+					@Override
 					public void onSuccess(Void result) {
 						nativeParseFont(familyName);
 					}

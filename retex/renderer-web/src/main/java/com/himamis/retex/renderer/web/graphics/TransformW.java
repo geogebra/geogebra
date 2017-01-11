@@ -952,6 +952,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getScaleX() {
 		return m00;
 	}
@@ -964,6 +965,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getScaleY() {
 		return m11;
 	}
@@ -976,6 +978,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getShearX() {
 		return m01;
 	}
@@ -988,6 +991,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getShearY() {
 		return m10;
 	}
@@ -1001,6 +1005,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getTranslateX() {
 		return m02;
 	}
@@ -1014,6 +1019,7 @@ public class TransformW implements Transform {
 	 * @see #getMatrix
 	 * @since 1.2
 	 */
+	@Override
 	public double getTranslateY() {
 		return m12;
 	}
@@ -1032,6 +1038,7 @@ public class TransformW implements Transform {
 	 * @param ty the distance by which coordinates are translated in the Y axis direction
 	 * @since 1.2
 	 */
+	@Override
 	public void translate(double tx, double ty) {
 		switch (state) {
 		default:
@@ -1405,6 +1412,7 @@ public class TransformW implements Transform {
 	 * @param sy the factor by which coordinates are scaled along the Y axis direction
 	 * @since 1.2
 	 */
+	@Override
 	public void scale(double sx, double sy) {
 		int state = this.state;
 		switch (state) {
@@ -1470,6 +1478,7 @@ public class TransformW implements Transform {
 	 *        axis as a factor of their X coordinate
 	 * @since 1.2
 	 */
+	@Override
 	public void shear(double shx, double shy) {
 		int state = this.state;
 		switch (state) {

@@ -56,6 +56,7 @@ public class Rectangle2DW implements Rectangle2D {
 		setRectangle(x, y, width, height);
 	}
 
+	@Override
 	public double getX() {
 		return x;
 	}
@@ -64,6 +65,7 @@ public class Rectangle2DW implements Rectangle2D {
 		this.x = x;
 	}
 
+	@Override
 	public double getY() {
 		return y;
 	}
@@ -72,6 +74,7 @@ public class Rectangle2DW implements Rectangle2D {
 		this.y = y;
 	}
 
+	@Override
 	public double getWidth() {
 		return width;
 	}
@@ -80,6 +83,7 @@ public class Rectangle2DW implements Rectangle2D {
 		this.width = width;
 	}
 
+	@Override
 	public double getHeight() {
 		return height;
 	}

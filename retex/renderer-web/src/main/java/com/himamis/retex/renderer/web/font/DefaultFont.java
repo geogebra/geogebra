@@ -81,6 +81,7 @@ public class DefaultFont extends FontW implements FontWrapper {
 		return true;
 	}
 
+	@Override
 	public Rectangle2D measureGlyph(String string) {
 		return null;
 	}

@@ -58,6 +58,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		setRoundRectangle(x, y, width, height, arcw, arch);
 	}
 
+	@Override
 	public double getX() {
 		return x;
 	}
@@ -66,6 +67,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.x = x;
 	}
 
+	@Override
 	public double getY() {
 		return y;
 	}
@@ -74,6 +76,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.y = y;
 	}
 
+	@Override
 	public double getWidth() {
 		return width;
 	}
@@ -82,6 +85,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.width = width;
 	}
 
+	@Override
 	public double getHeight() {
 		return height;
 	}
@@ -90,6 +94,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.height = height;
 	}
 
+	@Override
 	public double getArcW() {
 		return arcW;
 	}
@@ -98,6 +103,7 @@ public class RoundRectangle2DW implements RoundRectangle2D {
 		this.arcW = arcW;
 	}
 
+	@Override
 	public double getArcH() {
 		return arcH;
 	}

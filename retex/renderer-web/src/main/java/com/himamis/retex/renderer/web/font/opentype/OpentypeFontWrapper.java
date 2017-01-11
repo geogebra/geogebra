@@ -64,6 +64,7 @@ public class OpentypeFontWrapper implements FontWrapper {
 		drawGlyphNative(c, x, y, size, ctx);
 	}
 
+	@Override
 	public Rectangle2D measureGlyph(String c) {
 		JsArrayNumber obj = JavaScriptObject.createArray(4).cast();
 		measureNative(c, obj);
