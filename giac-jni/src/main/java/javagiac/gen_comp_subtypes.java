@@ -40,16 +40,20 @@ public final class gen_comp_subtypes {
     return swigValue;
   }
 
-  public String toString() {
+  @Override
+public String toString() {
     return swigName;
   }
 
   public static gen_comp_subtypes swigToEnum(int swigValue) {
-    if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
-      return swigValues[swigValue];
-    for (int i = 0; i < swigValues.length; i++)
-      if (swigValues[i].swigValue == swigValue)
-        return swigValues[i];
+    if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue) {
+		return swigValues[swigValue];
+	}
+    for (int i = 0; i < swigValues.length; i++) {
+		if (swigValues[i].swigValue == swigValue) {
+			return swigValues[i];
+		}
+	}
     throw new IllegalArgumentException("No enum " + gen_comp_subtypes.class + " with value " + swigValue);
   }
 

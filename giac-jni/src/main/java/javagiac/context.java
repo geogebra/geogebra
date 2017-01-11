@@ -21,7 +21,8 @@ public class context {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  protected void finalize() {
+  @Override
+protected void finalize() {
     System.err.println("context.java: ignoring finalize()");
     // delete();
   }
@@ -120,7 +121,8 @@ public class context {
     this(giacJNI.new_context__SWIG_2(name), true);
   }
 
-  public context clone() {
+  @Override
+public context clone() {
     long cPtr = giacJNI.context_clone(swigCPtr, this);
     return (cPtr == 0) ? null : new context(cPtr, false);
   }

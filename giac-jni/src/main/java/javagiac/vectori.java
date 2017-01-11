@@ -21,7 +21,8 @@ public class vectori {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  protected void finalize() {
+  @Override
+protected void finalize() {
     System.err.println("vectori.java: ignoring finalize()");
     // delete();
   }

@@ -21,7 +21,8 @@ public class gen {
     return (obj == null) ? 0 : obj.swigCPtr;
   }
 
-  protected void finalize() {
+  @Override
+protected void finalize() {
 		// Too verbose:
 		// System.err.println("gen.java: ignoring finalize()");
     // delete();

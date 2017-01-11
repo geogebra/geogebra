@@ -36,16 +36,20 @@ public final class gen_unary_types {
     return swigValue;
   }
 
-  public String toString() {
+  @Override
+public String toString() {
     return swigName;
   }
 
   public static gen_unary_types swigToEnum(int swigValue) {
-    if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue)
-      return swigValues[swigValue];
-    for (int i = 0; i < swigValues.length; i++)
-      if (swigValues[i].swigValue == swigValue)
-        return swigValues[i];
+    if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue) {
+		return swigValues[swigValue];
+	}
+    for (int i = 0; i < swigValues.length; i++) {
+		if (swigValues[i].swigValue == swigValue) {
+			return swigValues[i];
+		}
+	}
     throw new IllegalArgumentException("No enum " + gen_unary_types.class + " with value " + swigValue);
   }
 
