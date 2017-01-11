@@ -62,9 +62,10 @@ public class NewEnvironmentMacro extends NewCommandMacro {
 
 	public static void addReNewEnvironment(String name, String begdef, String enddef, int nbArgs)
 			throws ParseException {
-		if (macrocode.get(name + "@env") == null)
+		if (macrocode.get(name + "@env") == null) {
 			throw new ParseException("Environment " + name
 					+ "is not defined ! Use newenvironment instead ...");
+		}
 		addReNewCommand(name + "@env", begdef + " #" + (nbArgs + 1) + " " + enddef, nbArgs + 1);
 	}
 }

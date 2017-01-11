@@ -164,36 +164,41 @@ public class FontInfo {
 	}
 
 	public int[] getExtension(char ch) {
-		if (unicode == null)
+		if (unicode == null) {
 			return extensions[ch];
+		}
 		return extensions[unicode.get(ch)];
 	}
 
 	public double getKern(char left, char right, double factor) {
 		Object obj = kern.get(new CharCouple(left, right));
-		if (obj == null)
+		if (obj == null) {
 			return 0;
-		else
+		} else {
 			return ((Double) obj).doubleValue() * factor;
+		}
 	}
 
 	public CharFont getLigature(char left, char right) {
 		Object obj = lig.get(new CharCouple(left, right));
-		if (obj == null)
+		if (obj == null) {
 			return null;
-		else
+		} else {
 			return new CharFont(((Character) obj).charValue(), fontId);
+		}
 	}
 
 	public double[] getMetrics(char c) {
-		if (unicode == null)
+		if (unicode == null) {
 			return metrics[c];
+		}
 		return metrics[unicode.get(c)];
 	}
 
 	public CharFont getNextLarger(char ch) {
-		if (unicode == null)
+		if (unicode == null) {
 			return nextLarger[ch];
+		}
 		return nextLarger[unicode.get(ch)];
 	}
 
@@ -221,36 +226,39 @@ public class FontInfo {
 	}
 
 	public void setExtension(char ch, int[] ext) {
-		if (unicode == null)
+		if (unicode == null) {
 			extensions[ch] = ext;
-		else if (!unicode.containsKey(ch)) {
+		} else if (!unicode.containsKey(ch)) {
 			char s = (char) unicode.size();
 			unicode.put(ch, s);
 			extensions[s] = ext;
-		} else
+		} else {
 			extensions[unicode.get(ch)] = ext;
+		}
 	}
 
 	public void setMetrics(char c, double[] arr) {
-		if (unicode == null)
+		if (unicode == null) {
 			metrics[c] = arr;
-		else if (!unicode.containsKey(c)) {
+		} else if (!unicode.containsKey(c)) {
 			char s = (char) unicode.size();
 			unicode.put(c, s);
 			metrics[s] = arr;
-		} else
+		} else {
 			metrics[unicode.get(c)] = arr;
+		}
 	}
 
 	public void setNextLarger(char ch, char larger, int fontLarger) {
-		if (unicode == null)
+		if (unicode == null) {
 			nextLarger[ch] = new CharFont(larger, fontLarger);
-		else if (!unicode.containsKey(ch)) {
+		} else if (!unicode.containsKey(ch)) {
 			char s = (char) unicode.size();
 			unicode.put(ch, s);
 			nextLarger[s] = new CharFont(larger, fontLarger);
-		} else
+		} else {
 			nextLarger[unicode.get(ch)] = new CharFont(larger, fontLarger);
+		}
 	}
 
 	public void setSkewChar(char c) {

@@ -70,8 +70,9 @@ public class VlineAtom extends Atom {
 		if (n != 0) {
 			double drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
 			return drt * (3 * n - 2);
-		} else
+		} else {
 			return 0;
+		}
 	}
 
 	@Override

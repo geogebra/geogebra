@@ -79,14 +79,16 @@ public class TeXFormulaSettingsParser {
 			throws ResourceParseException {
 		Element charToSymbol = root.getElementsByTagName("CharacterToFormulaMappings").item(0)
 				.castToElement();
-		if (!charToSymbol.isNull()) // element present
+		if (!charToSymbol.isNull()) {
 			addFormulaToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
+		}
 	}
 
 	public void parseSymbolMappings(String[] mappings, String[] textMappings) throws ResourceParseException {
 		Element charToSymbol = root.getElementsByTagName("CharacterToSymbolMappings").item(0).castToElement();
-		if (!charToSymbol.isNull()) // element present
+		if (!charToSymbol.isNull()) {
 			addToMap(charToSymbol.getElementsByTagName("Map"), mappings, textMappings);
+		}
 	}
 
 	private static void addToMap(NodeList mapList, String[] tableMath, String[] tableText)
@@ -125,16 +127,18 @@ public class TeXFormulaSettingsParser {
 			String formula = map.getAttribute("formula");
 			String text = map.getAttribute("text");
 			// both attributes are required!
-			if ("".equals(ch))
+			if ("".equals(ch)) {
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char", null);
-			else if ("".equals(formula))
+			} else if ("".equals(formula)) {
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "formula", null);
+			}
 			if (ch.length() == 1) {// valid element found
 				tableMath[ch.charAt(0)] = formula;
-			} else
+			} else {
 				// only single-character mappings allowed, ignore others
 				throw new XMLResourceParseException(RESOURCE_NAME, map.getTagName(), "char",
 						"must have a value that contains exactly 1 character!");
+			}
 
 			if (tableText != null && !"".equals(text)) {
 				tableText[ch.charAt(0)] = text;

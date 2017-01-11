@@ -1,5 +1,8 @@
 package com.himamis.retex.renderer.share.platform.graphics.stubs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
 import com.himamis.retex.renderer.share.platform.geom.Line2D;
@@ -10,9 +13,6 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GraphicsStub implements Graphics2DInterface {
 

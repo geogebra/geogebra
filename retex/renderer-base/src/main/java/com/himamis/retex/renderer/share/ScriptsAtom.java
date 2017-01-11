@@ -72,31 +72,34 @@ public class ScriptsAtom extends Atom {
 
 	public ScriptsAtom(Atom base, Atom sub, Atom sup, boolean left) {
 		this(base, sub, sup);
-		if (!left)
+		if (!left) {
 			align = TeXConstants.ALIGN_RIGHT;
+		}
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = (base == null ? new StrutBox(0, 0, 0, 0) : base.createBox(env));
 		Box deltaSymbol = new StrutBox(0, 0, 0, 0);
-		if (subscript == null && superscript == null)
+		if (subscript == null && superscript == null) {
 			return b;
-		else {
+		} else {
 			TeXFont tf = env.getTeXFont();
 			int style = env.getStyle();
 
 			if (base.type_limits == TeXConstants.SCRIPT_LIMITS
-					|| (base.type_limits == TeXConstants.SCRIPT_NORMAL && style == TeXConstants.STYLE_DISPLAY))
+					|| (base.type_limits == TeXConstants.SCRIPT_NORMAL && style == TeXConstants.STYLE_DISPLAY)) {
 				return new UnderOverAtom(new UnderOverAtom(base, subscript, TeXConstants.UNIT_POINT, 0.3f,
 						true, false), superscript, TeXConstants.UNIT_POINT, 3.0f, true, true).createBox(env);
+			}
 
 			HorizontalBox hor = new HorizontalBox(b);
 
 			int lastFontId = b.getLastFontId();
 			// if no last font found (whitespace box), use default "mu font"
-			if (lastFontId == TeXFont.NO_FONT)
+			if (lastFontId == TeXFont.NO_FONT) {
 				lastFontId = tf.getMuFontId();
+			}
 
 			TeXEnvironment subStyle = env.subStyle(), supStyle = env.supStyle();
 
@@ -114,9 +117,10 @@ public class ScriptsAtom extends Atom {
 																									// operator
 																									// symbol
 				Char c = tf.getChar(((SymbolAtom) base).getName(), style);
-				if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c)) // display
+				if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c)) {
 					// style
 					c = tf.getNextLarger(c, style);
+				}
 				Box x = new CharBox(c);
 
 				x.setShift(-(x.getHeight() + x.getDepth()) / 2
@@ -126,8 +130,9 @@ public class ScriptsAtom extends Atom {
 				// include delta in width or not?
 				delta = c.getItalic();
 				deltaSymbol = new SpaceAtom(TeXConstants.MEDMUSKIP).createBox(env);
-				if (delta > TeXFormula.PREC && subscript == null)
+				if (delta > TeXFormula.PREC && subscript == null) {
 					hor.add(new StrutBox(delta, 0, 0, 0));
+				}
 
 				shiftUp = hor.getHeight() - tf.getSupDrop(supStyle.getStyle());
 				shiftDown = hor.getDepth() + tf.getSubDrop(subStyle.getStyle());
@@ -167,12 +172,13 @@ public class ScriptsAtom extends Atom {
 				sup.add(SCRIPT_SPACE.createBox(env));
 				// adjust shift-up
 				double p;
-				if (style == TeXConstants.STYLE_DISPLAY)
+				if (style == TeXConstants.STYLE_DISPLAY) {
 					p = tf.getSup1(style);
-				else if (env.crampStyle().getStyle() == style)
+				} else if (env.crampStyle().getStyle() == style) {
 					p = tf.getSup3(style);
-				else
+				} else {
 					p = tf.getSup2(style);
+				}
 				shiftUp = Math.max(Math.max(shiftUp, p),
 						x.getDepth() + Math.abs(tf.getXHeight(style, lastFontId)) / 4);
 

@@ -61,10 +61,11 @@ public class LCaronAtom extends Atom {
 		CharBox A = new CharBox(env.getTeXFont().getChar("textapos", env.getStyle()));
 		CharBox L = new CharBox(env.getTeXFont().getChar(upper ? 'L' : 'l', "mathnormal", env.getStyle()));
 		HorizontalBox hb = new HorizontalBox(L);
-		if (upper)
+		if (upper) {
 			hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.3f, 0, 0).createBox(env));
-		else
+		} else {
 			hb.add(new SpaceAtom(TeXConstants.UNIT_EM, -0.13f, 0, 0).createBox(env));
+		}
 		hb.add(A);
 		return hb;
 	}

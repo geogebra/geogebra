@@ -1791,6 +1791,7 @@ final class PredefinedCommands {
 			numArgs = 2;
 		}
 
+		@Override
 		abstract public Object executeMacro(TeXParser tp, String[] args);
 
 	}

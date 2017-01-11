@@ -69,8 +69,9 @@ public class OgonekAtom extends Atom {
 		if (Math.abs(italic) > TeXFormula.PREC) {
 			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
 			y.add(ogonek);
-		} else
+		} else {
 			y = ogonek;
+		}
 
 		Box og = new HorizontalBox(y, b.getWidth(), TeXConstants.ALIGN_RIGHT);
 		vb.add(new StrutBox(0, -ogonek.getHeight(), 0, 0));

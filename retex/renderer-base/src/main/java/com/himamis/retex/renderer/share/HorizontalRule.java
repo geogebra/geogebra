@@ -93,8 +93,9 @@ public class HorizontalRule extends Box {
 	@Override
 	public void draw(Graphics2DInterface g2, double x, double y) {
 		Color old = g2.getColor();
-		if (color != null)
+		if (color != null) {
 			g2.setColor(color);
+		}
 
 		if (speShift == 0) {
 			rectangle.setRectangle(x, y - height, width, height);

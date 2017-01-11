@@ -81,10 +81,11 @@ public class FencedAtom extends Atom {
 	}
 
 	public FencedAtom(Atom base, SymbolAtom l, List m, SymbolAtom r) {
-		if (base == null)
+		if (base == null) {
 			this.base = new RowAtom(); // empty base
-		else
+		} else {
 			this.base = base;
+		}
 		if (l == null || !l.getName().equals("normaldot")) {
 			left = l;
 		}

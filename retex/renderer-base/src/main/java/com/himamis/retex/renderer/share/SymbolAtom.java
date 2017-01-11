@@ -90,13 +90,15 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	public SymbolAtom(SymbolAtom s, int type) throws InvalidSymbolTypeException {
-		if (!validSymbolTypes.getBit(type))
+		if (!validSymbolTypes.getBit(type)) {
 			throw new InvalidSymbolTypeException("The symbol type was not valid! "
 					+ "Use one of the symbol type constants from the class 'TeXConstants'.");
+		}
 		name = s.name;
 		this.type = type;
-		if (type == TeXConstants.TYPE_BIG_OPERATOR)
+		if (type == TeXConstants.TYPE_BIG_OPERATOR) {
 			this.type_limits = TeXConstants.SCRIPT_NORMAL;
+		}
 
 		delimiter = s.delimiter;
 	}
@@ -112,8 +114,9 @@ public class SymbolAtom extends CharSymbol {
 	public SymbolAtom(String name, int type, boolean del) {
 		this.name = name;
 		this.type = type;
-		if (type == TeXConstants.TYPE_BIG_OPERATOR)
+		if (type == TeXConstants.TYPE_BIG_OPERATOR) {
 			this.type_limits = TeXConstants.SCRIPT_NORMAL;
+		}
 
 		delimiter = del;
 	}
@@ -151,10 +154,11 @@ public class SymbolAtom extends CharSymbol {
 	 */
 	public static SymbolAtom get(String name) throws SymbolNotFoundException {
 		Object obj = symbols.get(name);
-		if (obj == null) // not found
+		if (obj == null) {
 			throw new SymbolNotFoundException(name);
-		else
+		} else {
 			return (SymbolAtom) obj;
+		}
 	}
 
 	/**
@@ -184,15 +188,17 @@ public class SymbolAtom extends CharSymbol {
 		}
 
 		if (type == TeXConstants.TYPE_BIG_OPERATOR) {
-			if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c))
+			if (style < TeXConstants.STYLE_TEXT && tf.hasNextLarger(c)) {
 				c = tf.getNextLarger(c, style);
+			}
 			cb = new CharBox(c);
 			cb.setShift(-(cb.getHeight() + cb.getDepth()) / 2
 					- env.getTeXFont().getAxisHeight(env.getStyle()));
 			double delta = c.getItalic();
 			HorizontalBox hb = new HorizontalBox(cb);
-			if (delta > TeXFormula.PREC)
+			if (delta > TeXFormula.PREC) {
 				hb.add(new StrutBox(delta, 0, 0, 0));
+			}
 			return hb;
 		}
 		return cb;

@@ -149,8 +149,9 @@ public class HorizontalBox extends Box {
 		// that's not equal to NO_FONT
 		int fontId = TeXFont.NO_FONT;
 		for (ListIterator it = children.listIterator(children.size()); fontId == TeXFont.NO_FONT
-				&& it.hasPrevious();)
+				&& it.hasPrevious();) {
 			fontId = ((Box) it.previous()).getLastFontId();
+		}
 
 		return fontId;
 	}

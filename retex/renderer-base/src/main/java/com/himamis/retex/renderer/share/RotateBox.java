@@ -139,9 +139,9 @@ public class RotateBox extends Box {
 			return BBC;
 		} else if ("Br".equals(option) || "rB".equals(option)) {
 			return BBR;
-		} else
-
+		} else {
 			return BBL;
+		}
 	}
 
 	private static Point2D calculateShift(Box b, int option) {

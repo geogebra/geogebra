@@ -53,15 +53,18 @@ public class CyrillicRegistration implements AlphabetRegistration {
     public CyrillicRegistration() {
     }
 
-    public Character.UnicodeBlock[] getUnicodeBlock() {
+    @Override
+	public Character.UnicodeBlock[] getUnicodeBlock() {
 	return new Character.UnicodeBlock[]{Character.UnicodeBlock.CYRILLIC};
     }
 
-    public Object getPackage() {
+    @Override
+	public Object getPackage() {
 	return CyrillicRegistration.class;
     }
 
-    public String getTeXFontFileName() {
+    @Override
+	public String getTeXFontFileName() {
 	return "fonts/language_cyrillic.xml";
     }
 }

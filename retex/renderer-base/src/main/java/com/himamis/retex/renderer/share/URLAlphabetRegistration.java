@@ -68,10 +68,12 @@ public class URLAlphabetRegistration implements AlphabetRegistration {
 		DefaultTeXFont.registerAlphabet(new URLAlphabetRegistration(url, language, blocks));
 	}
 
+	@Override
 	public Character.UnicodeBlock[] getUnicodeBlock() {
 		return blocks;
 	}
 
+	@Override
 	public Object getPackage() throws AlphabetRegistrationException {
 		URL urls[] = { url };
 		language = language.toLowerCase();
@@ -91,6 +93,7 @@ public class URLAlphabetRegistration implements AlphabetRegistration {
 		return pack;
 	}
 
+	@Override
 	public String getTeXFontFileName() {
 		return pack.getTeXFontFileName();
 	}

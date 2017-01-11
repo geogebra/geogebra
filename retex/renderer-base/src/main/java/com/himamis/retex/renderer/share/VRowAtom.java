@@ -67,11 +67,12 @@ public class VRowAtom extends Atom {
 
 	public VRowAtom(Atom el) {
 		if (el != null) {
-			if (el instanceof VRowAtom)
+			if (el instanceof VRowAtom) {
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((VRowAtom) el).elements);
-			else
+			} else {
 				elements.add(el);
+			}
 		}
 	}
 
@@ -92,13 +93,15 @@ public class VRowAtom extends Atom {
 	}
 
 	public final void add(Atom el) {
-		if (el != null)
+		if (el != null) {
 			elements.add(0, el);
+		}
 	}
 
 	public final void append(Atom el) {
-		if (el != null)
+		if (el != null) {
 			elements.add(el);
+		}
 	}
 
 	@Override

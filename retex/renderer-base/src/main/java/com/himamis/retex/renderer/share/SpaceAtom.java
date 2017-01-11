@@ -85,36 +85,42 @@ public class SpaceAtom extends Atom {
 	private static UnitConversion[] unitConversions = new UnitConversion[] {
 
 	new UnitConversion() {// EM
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return env.getTeXFont().getEM(env.getStyle());
 				}
 			},
 
 			new UnitConversion() {// EX
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return env.getTeXFont().getXHeight(env.getStyle(), env.getLastFontId());
 				}
 			},
 
 			new UnitConversion() {// PIXEL
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return 1 / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// BP (or PostScript point)
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return TeXFormula.PIXELS_PER_POINT / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// PICA
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (12 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// MU
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					TeXFont tf = env.getTeXFont();
 					return tf.getQuad(env.getStyle(), tf.getMuFontId()) / 18;
@@ -122,42 +128,49 @@ public class SpaceAtom extends Atom {
 			},
 
 			new UnitConversion() {// CM
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (28.346456693f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// MM
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (2.8346456693f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// IN
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (72 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// SP
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (65536 * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// PT (or Standard Anglo-American point)
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (.9962640099f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// DD
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (1.0660349422f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
 			},
 
 			new UnitConversion() {// CC
+				@Override
 				public double getPixelConversion(TeXEnvironment env) {
 					return (12.7924193070f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
@@ -208,8 +221,9 @@ public class SpaceAtom extends Atom {
 	 * @throws InvalidUnitException if the given integer value does not represent a valid unit
 	 */
 	public static void checkUnit(int unit) throws InvalidUnitException {
-		if (unit < 0 || unit >= unitConversions.length)
+		if (unit < 0 || unit >= unitConversions.length) {
 			throw new InvalidUnitException();
+		}
 	}
 
 	public SpaceAtom(int widthUnit, double width, int heightUnit, double height, int depthUnit, double depth)
@@ -239,8 +253,9 @@ public class SpaceAtom extends Atom {
 		}
 
 		int i = 0;
-		for (; i < lgth.length() && !Character.isLetter(lgth.charAt(i)); i++)
+		for (; i < lgth.length() && !Character.isLetter(lgth.charAt(i)); i++) {
 			;
+		}
 		double f = 0;
 		try {
 			f = Double.parseDouble(lgth.substring(0, i));
@@ -261,19 +276,21 @@ public class SpaceAtom extends Atom {
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		if (blankSpace) {
-			if (blankType == 0)
+			if (blankType == 0) {
 				return new StrutBox(env.getSpace(), 0, 0, 0);
-			else {
+			} else {
 				int bl = blankType < 0 ? -blankType : blankType;
 				Box b;
 				if (bl == TeXConstants.THINMUSKIP) {
 					b = Glue.get(TeXConstants.TYPE_INNER, TeXConstants.TYPE_BIG_OPERATOR, env);
-				} else if (bl == TeXConstants.MEDMUSKIP)
+				} else if (bl == TeXConstants.MEDMUSKIP) {
 					b = Glue.get(TeXConstants.TYPE_BINARY_OPERATOR, TeXConstants.TYPE_BIG_OPERATOR, env);
-				else
+				} else {
 					b = Glue.get(TeXConstants.TYPE_RELATION, TeXConstants.TYPE_BIG_OPERATOR, env);
-				if (blankType < 0)
+				}
+				if (blankType < 0) {
 					b.negWidth();
+				}
 				return b;
 			}
 		} else {

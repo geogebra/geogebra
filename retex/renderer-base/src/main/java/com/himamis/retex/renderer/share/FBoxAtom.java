@@ -59,9 +59,9 @@ public class FBoxAtom extends Atom {
 	protected Color bg = null, line = null;
 
 	public FBoxAtom(Atom base) {
-		if (base == null)
+		if (base == null) {
 			this.base = new RowAtom(); // empty base
-		else {
+		} else {
 			this.base = base;
 			this.type = base.type;
 		}

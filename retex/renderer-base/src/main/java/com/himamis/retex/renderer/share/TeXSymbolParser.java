@@ -95,9 +95,10 @@ public class TeXSymbolParser {
 			boolean isDelimiter = (del != null && "true".equals(del));
 			// check if type is known
 			Object typeVal = typeMappings.get(type);
-			if (typeVal == null) // unknown type
+			if (typeVal == null) {
 				throw new XMLResourceParseException(RESOURCE_NAME, "Symbol", "type", "has an unknown value '"
 						+ type + "'!");
+			}
 			// add symbol to the hash table
 			res.put(name, new SymbolAtom(name, ((Integer) typeVal).intValue(), isDelimiter));
 		}
@@ -118,8 +119,9 @@ public class TeXSymbolParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if ("".equals(attrValue))
+		if ("".equals(attrValue)) {
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+		}
 		return attrValue;
 	}
 }

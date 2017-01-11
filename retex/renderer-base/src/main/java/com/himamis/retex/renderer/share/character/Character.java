@@ -673,8 +673,9 @@ public final class Character {
 		 */
 		private UnicodeBlock(String idName, String... aliases) {
 			this(idName);
-			for (String alias : aliases)
+			for (String alias : aliases) {
 				map.put(alias, this);
+			}
 		}
 
 		/**
@@ -2734,8 +2735,9 @@ public final class Character {
 		static final Character cache[] = new Character[127 + 1];
 
 		static {
-			for (int i = 0; i < cache.length; i++)
+			for (int i = 0; i < cache.length; i++) {
 				cache[i] = new Character((char) i);
+			}
 		}
 	}
 

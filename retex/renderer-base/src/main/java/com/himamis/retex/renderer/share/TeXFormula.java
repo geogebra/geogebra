@@ -400,8 +400,9 @@ public class TeXFormula {
 	 */
 	public TeXFormula add(Atom el) {
 		if (el != null) {
-			if (el instanceof MiddleAtom)
+			if (el instanceof MiddleAtom) {
 				middle.add((MiddleAtom) el);
+			}
 			if (root == null) {
 				root = el;
 			} else {
@@ -465,21 +466,24 @@ public class TeXFormula {
 	private void addImpl(TeXFormula f) {
 		if (f.root != null) {
 			// special copy-treatment for Mrow as a root!!
-			if (f.root instanceof RowAtom)
+			if (f.root instanceof RowAtom) {
 				add(new RowAtom(f.root));
-			else
+			} else {
 				add(f.root);
+			}
 		}
 	}
 
 	public void setLookAtLastAtom(boolean b) {
-		if (root instanceof RowAtom)
+		if (root instanceof RowAtom) {
 			((RowAtom) root).lookAtLastAtom = b;
+		}
 	}
 
 	public boolean getLookAtLastAtom() {
-		if (root instanceof RowAtom)
+		if (root instanceof RowAtom) {
 			return ((RowAtom) root).lookAtLastAtom;
+		}
 		return false;
 	}
 
@@ -551,10 +555,11 @@ public class TeXFormula {
 	 * Convert this TeXFormula into a box, starting form the given style
 	 */
 	private Box createBox(TeXEnvironment style) {
-		if (root == null)
+		if (root == null) {
 			return new StrutBox(0, 0, 0, 0);
-		else
+		} else {
 			return root.createBox(style);
+		}
 	}
 
 	private static DefaultTeXFont createFont(double size, int type) {
@@ -910,10 +915,11 @@ public class TeXFormula {
 	 */
 	public TeXFormula setBackground(Color c) {
 		if (c != null) {
-			if (root instanceof ColorAtom)
+			if (root instanceof ColorAtom) {
 				root = new ColorAtom(c, null, (ColorAtom) root);
-			else
+			} else {
 				root = new ColorAtom(root, c, null);
+			}
 		}
 		return this;
 	}
@@ -931,10 +937,11 @@ public class TeXFormula {
 	 */
 	public TeXFormula setColor(Color c) {
 		if (c != null) {
-			if (root instanceof ColorAtom)
+			if (root instanceof ColorAtom) {
 				root = new ColorAtom(null, c, (ColorAtom) root);
-			else
+			} else {
 				root = new ColorAtom(root, null, c);
+			}
 		}
 		return this;
 	}

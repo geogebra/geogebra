@@ -106,8 +106,9 @@ public class GlueSettingsParser {
 				// retrieve required attribute value, throw exception if not set
 				String name = getAttrValueAndCheckIfNotNull("name", type);
 				Glue glue = createGlue(type, name);
-				if (name.equalsIgnoreCase("default")) // default must have value
+				if (name.equalsIgnoreCase("default")) {
 					defaultIndex = index;
+				}
 				glueTypesList.add(glue);
 				index++;
 			}
@@ -141,8 +142,9 @@ public class GlueSettingsParser {
 			String attrVal = null;
 			try {
 				attrVal = type.getAttribute(names[i]);
-				if (!"".equals(attrVal)) // attribute present
+				if (!"".equals(attrVal)) {
 					val = Double.parseDouble(attrVal);
+				}
 			} catch (NumberFormatException e) {
 				throw new XMLResourceParseException(RESOURCE_NAME, "GlueType", names[i],
 						"has an invalid real value '" + attrVal + "'!");
@@ -206,16 +208,18 @@ public class GlueSettingsParser {
 
 	private static void checkMapping(Object val, String elementName, String attrName, String attrValue)
 			throws ResourceParseException {
-		if (val == null)
+		if (val == null) {
 			throw new XMLResourceParseException(RESOURCE_NAME, elementName, attrName,
 					"has an unknown value '" + attrValue + "'!");
+		}
 	}
 
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if ("".equals(attrValue))
+		if ("".equals(attrValue)) {
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+		}
 		return attrValue;
 	}
 }

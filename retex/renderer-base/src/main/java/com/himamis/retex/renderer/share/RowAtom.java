@@ -98,11 +98,12 @@ public class RowAtom extends Atom implements Row {
 
 	public RowAtom(Atom el) {
 		if (el != null) {
-			if (el instanceof RowAtom)
+			if (el instanceof RowAtom) {
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((RowAtom) el).elements);
-			else
+			} else {
 				elements.add(el);
+			}
 		}
 	}
 

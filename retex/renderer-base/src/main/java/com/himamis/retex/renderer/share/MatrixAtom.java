@@ -548,8 +548,9 @@ public class MatrixAtom extends Atom {
 				hb.setDepth(lineDepth[i]);
 				vb.add(hb);
 
-				if (i < row - 1)
+				if (i < row - 1) {
 					vb.add(Vsep);
+				}
 			} else {
 				vb.add(hb);
 			}

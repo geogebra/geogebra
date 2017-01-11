@@ -16,8 +16,9 @@ public class CursorAtom extends Atom {
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();
-		if (color != null)
+		if (color != null) {
 			copy.setColor(color);
+		}
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
 		Char c = tf.getChar("vert", style);

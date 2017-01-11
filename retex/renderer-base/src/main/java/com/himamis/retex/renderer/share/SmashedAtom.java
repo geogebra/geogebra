@@ -55,19 +55,22 @@ public class SmashedAtom extends Atom {
 
 	public SmashedAtom(Atom at, String opt) {
 		this.at = at;
-		if ("t".equals(opt))
+		if ("t".equals(opt)) {
 			d = false;
-		else if ("b".equals(opt))
+		} else if ("b".equals(opt)) {
 			h = false;
+		}
 	}
 
 	@Override
 	public Box createBox(TeXEnvironment env) {
 		Box b = at.createBox(env);
-		if (h)
+		if (h) {
 			b.setHeight(0);
-		if (d)
+		}
+		if (d) {
 			b.setDepth(0);
+		}
 		return b;
 	}
 }

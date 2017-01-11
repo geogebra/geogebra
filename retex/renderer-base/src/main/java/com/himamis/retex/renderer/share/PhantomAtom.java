@@ -58,10 +58,11 @@ public class PhantomAtom extends Atom implements Row {
 	private boolean w = true, h = true, d = true;
 
 	public PhantomAtom(Atom el) {
-		if (el == null)
+		if (el == null) {
 			elements = new RowAtom();
-		else
+		} else {
 			elements = new RowAtom(el);
+		}
 	}
 
 	public PhantomAtom(Atom el, boolean width, boolean height, boolean depth) {

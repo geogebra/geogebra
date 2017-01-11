@@ -66,8 +66,9 @@ public class TStrokeAtom extends Atom {
 		if (Math.abs(italic) > TeXFormula.PREC) {
 			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
 			y.add(B);
-		} else
+		} else {
 			y = B;
+		}
 		Box b = new HorizontalBox(y, T.getWidth(), TeXConstants.ALIGN_CENTER);
 		VerticalBox vb = new VerticalBox();
 		vb.add(T);

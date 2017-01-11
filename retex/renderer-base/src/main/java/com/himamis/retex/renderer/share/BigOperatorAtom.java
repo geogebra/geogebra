@@ -112,8 +112,9 @@ public class BigOperatorAtom extends Atom {
 					&& base.type_limits != TeXConstants.SCRIPT_LIMITS) {
 				base = ((RowAtom) at).getLastAtom();
 				bbase = (RowAtom) at;
-			} else
+			} else {
 				base = at;
+			}
 		}
 
 		if ((limitsSet && !limits) || (!limitsSet && style >= TeXConstants.STYLE_TEXT)
@@ -147,10 +148,12 @@ public class BigOperatorAtom extends Atom {
 
 			// limits
 			Box x = null, z = null;
-			if (over != null)
+			if (over != null) {
 				x = over.createBox(env.supStyle());
-			if (under != null)
+			}
+			if (under != null) {
 				z = under.createBox(env.subStyle());
+			}
 
 			// make boxes equally wide
 			double maxWidth = Math.max(Math.max(x == null ? 0 : x.getWidth(), y.getWidth()),
@@ -189,8 +192,9 @@ public class BigOperatorAtom extends Atom {
 
 			// set height and depth vertical box and return it
 			double h = y.getHeight(), total = vBox.getHeight() + vBox.getDepth();
-			if (x != null)
+			if (x != null) {
 				h += bigop5 + kern + x.getHeight() + x.getDepth();
+			}
 			vBox.setHeight(h);
 			vBox.setDepth(total - h);
 
@@ -210,9 +214,10 @@ public class BigOperatorAtom extends Atom {
 	 * Centers the given box in a new box that has the given width
 	 */
 	private static Box changeWidth(Box b, double maxWidth) {
-		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC)
+		if (b != null && Math.abs(maxWidth - b.getWidth()) > TeXFormula.PREC) {
 			return new HorizontalBox(b, maxWidth, TeXConstants.ALIGN_CENTER);
-		else
+		} else {
 			return b;
+		}
 	}
 }

@@ -74,10 +74,11 @@ public class NthRoot extends Atom {
 		int style = env.getStyle();
 		// calculate minimum clearance clr
 		double clr, drt = tf.getDefaultRuleThickness(style);
-		if (style < TeXConstants.STYLE_TEXT)
+		if (style < TeXConstants.STYLE_TEXT) {
 			clr = tf.getXHeight(style, tf.getChar(sqrtSymbol, style).getFontCode());
-		else
+		} else {
 			clr = drt;
+		}
 		clr = drt + Math.abs(clr) / 4;
 
 		// cramped style for the formula under the root sign
@@ -99,10 +100,10 @@ public class NthRoot extends Atom {
 		HorizontalBox squareRoot = new HorizontalBox(rootSign);
 		squareRoot.add(ob);
 
-		if (root == null)
+		if (root == null) {
 			// simple square root
 			return squareRoot;
-		else { // nthRoot, not a simple square root
+		} else { // nthRoot, not a simple square root
 
 			// create box from root
 			Box r = root.createBox(env.rootStyle());
@@ -117,8 +118,9 @@ public class NthRoot extends Atom {
 			// arrange both boxes together with the negative kern
 			Box res = new HorizontalBox();
 			double pos = r.getWidth() + negativeKern.getWidth();
-			if (pos < 0)
+			if (pos < 0) {
 				res.add(new StrutBox(-pos, 0, 0, 0));
+			}
 
 			res.add(r);
 			res.add(negativeKern);

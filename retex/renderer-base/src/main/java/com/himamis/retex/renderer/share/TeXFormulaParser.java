@@ -74,6 +74,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public void parse(Element el) throws ResourceParseException {
 			// get required string attributes
 			String methodName = getAttrValueAndCheckIfNotNull("name", el);
@@ -110,6 +111,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public void parse(Element el) throws ResourceParseException {
 			// get required string attribute
 			String name = getAttrValueAndCheckIfNotNull("name", el);
@@ -140,6 +142,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public void parse(Element el) throws ResourceParseException {
 			// get required string attribute
 			String name = getAttrValueAndCheckIfNotNull("name", el);
@@ -179,6 +182,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			try {
@@ -196,6 +200,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			if (value.length() == 1) {
@@ -213,6 +218,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			if ("true".equals(value)) {
@@ -232,6 +238,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			try {
@@ -250,6 +257,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public void parse(Element el) throws ResourceParseException {
 			// get required string attribute
 			String name = getAttrValueAndCheckIfNotNull("name", el);
@@ -270,6 +278,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			return value;
 		}
@@ -281,6 +290,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			if (value == null) {// null pointer argument
 				return null;
@@ -303,6 +313,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			try {
@@ -323,6 +334,7 @@ public class TeXFormulaParser {
 			// avoids creation of special accessor type
 		}
 
+		@Override
 		public Object parseValue(String value, String type) throws ResourceParseException {
 			checkNullValue(value, type);
 			try {
@@ -371,10 +383,11 @@ public class TeXFormulaParser {
 		this.type = "Command".equals(type) ? COMMAND : TEXFORMULA;
 
 		// action parsers
-		if ("Command".equals(type))
+		if ("Command".equals(type)) {
 			actionParsers.put("CreateCommand", new CreateCommandParser());
-		else
+		} else {
 			actionParsers.put("CreateTeXFormula", new CreateTeXFormulaParser());
+		}
 
 		actionParsers.put("MethodInvocation", new MethodInvocationParser());
 		actionParsers.put(RETURN_EL, new ReturnParser());

@@ -67,8 +67,9 @@ public class NewCommandMacro implements Macro {
 	}
 
 	public static void addNewCommand(String name, String code, int nbargs, String def) throws ParseException {
-		if (macrocode.get(name) != null)
+		if (macrocode.get(name) != null) {
 			throw new ParseException("Command " + name + " already exists ! Use renewcommand instead ...");
+		}
 		macrocode.put(name, code);
 		macroreplacement.put(name, def);
 		MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs, 1));
@@ -79,12 +80,14 @@ public class NewCommandMacro implements Macro {
 	}
 
 	public static void addReNewCommand(String name, String code, int nbargs) {
-		if (macrocode.get(name) == null)
+		if (macrocode.get(name) == null) {
 			throw new ParseException("Command " + name + " is not defined ! Use newcommand instead ...");
+		}
 		macrocode.put(name, code);
 		MacroInfo.Commands.put(name, new MacroInfo(new NewCommandMacro(), nbargs));
 	}
 
+	@Override
 	public String executeMacro(TeXParser tp, String[] args) {
 		String code = macrocode.get(args[0]);
 		String rep;

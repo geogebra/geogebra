@@ -86,8 +86,9 @@ class VerticalBox extends Box {
 		if (children.size() == 1) {
 			height = b.height;
 			depth = b.depth;
-		} else
+		} else {
 			depth += b.height + b.depth;
+		}
 		recalculateWidth(b);
 	}
 
@@ -110,8 +111,9 @@ class VerticalBox extends Box {
 		if (pos == 0) {
 			depth += b.depth + height;
 			height = b.height;
-		} else
+		} else {
 			depth += b.height + b.depth;
+		}
 		recalculateWidth(b);
 	}
 
@@ -135,8 +137,9 @@ class VerticalBox extends Box {
 		// untill a font id is found that's not equal to NO_FONT
 		int fontId = TeXFont.NO_FONT;
 		for (ListIterator it = children.listIterator(children.size()); fontId == TeXFont.NO_FONT
-				&& it.hasPrevious();)
+				&& it.hasPrevious();) {
 			fontId = ((Box) it.previous()).getLastFontId();
+		}
 
 		return fontId;
 	}

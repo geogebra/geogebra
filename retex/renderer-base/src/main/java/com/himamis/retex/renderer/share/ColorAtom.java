@@ -105,10 +105,12 @@ public class ColorAtom extends Atom implements Row {
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();
-		if (background != null)
+		if (background != null) {
 			copy.setBackground(background);
-		if (color != null)
+		}
+		if (color != null) {
 			copy.setColor(color);
+		}
 		return elements.createBox(copy);
 	}
 

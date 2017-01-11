@@ -66,13 +66,15 @@ public class AccentedAtom extends Atom {
 
 	public AccentedAtom(Atom base, Atom accent) throws InvalidSymbolTypeException {
 		this.base = base;
-		if (base instanceof AccentedAtom)
+		if (base instanceof AccentedAtom) {
 			underbase = ((AccentedAtom) base).underbase;
-		else
+		} else {
 			underbase = base;
+		}
 
-		if (!(accent instanceof SymbolAtom))
+		if (!(accent instanceof SymbolAtom)) {
 			throw new InvalidSymbolTypeException("Invalid accent");
+		}
 
 		this.accent = (SymbolAtom) accent;
 		this.acc = true;
@@ -96,14 +98,16 @@ public class AccentedAtom extends Atom {
 		accent = SymbolAtom.get(accentName);
 		if (accent.type == TeXConstants.TYPE_ACCENT) {
 			this.base = base;
-			if (base instanceof AccentedAtom)
+			if (base instanceof AccentedAtom) {
 				underbase = ((AccentedAtom) base).underbase;
-			else
+			} else {
 				underbase = base;
-		} else
+			}
+		} else {
 			throw new InvalidSymbolTypeException("The symbol with the name '" + accentName
 					+ "' is not defined as an accent (" + TeXSymbolParser.TYPE_ATTR + "='acc') in '"
 					+ TeXSymbolParser.RESOURCE_NAME + "'!");
+		}
 	}
 
 	/**
@@ -118,23 +122,25 @@ public class AccentedAtom extends Atom {
 	 */
 	public AccentedAtom(Atom base, TeXFormula acc) throws InvalidTeXFormulaException,
 			InvalidSymbolTypeException {
-		if (acc == null)
+		if (acc == null) {
 			throw new InvalidTeXFormulaException("The accent TeXFormula can't be null!");
-		else {
+		} else {
 			Atom root = acc.root;
 			if (root instanceof SymbolAtom) {
 				accent = (SymbolAtom) root;
-				if (accent.type == TeXConstants.TYPE_ACCENT)
+				if (accent.type == TeXConstants.TYPE_ACCENT) {
 					this.base = base;
-				else
+				} else {
 					throw new InvalidSymbolTypeException(
 							"The accent TeXFormula represents a single symbol with the name '"
 									+ accent.getName() + "', but this symbol is not defined as an accent ("
 									+ TeXSymbolParser.TYPE_ATTR + "='acc') in '"
 									+ TeXSymbolParser.RESOURCE_NAME + "'!");
-			} else
+				}
+			} else {
 				throw new InvalidTeXFormulaException(
 						"The accent TeXFormula does not represent a single symbol!");
+			}
 		}
 	}
 
@@ -148,17 +154,19 @@ public class AccentedAtom extends Atom {
 
 		double u = b.getWidth();
 		double s = 0;
-		if (underbase instanceof CharSymbol)
+		if (underbase instanceof CharSymbol) {
 			s = tf.getSkew(((CharSymbol) underbase).getCharFont(tf), style);
+		}
 
 		// retrieve best Char from the accent symbol
 		Char ch = tf.getChar(accent.getName(), style);
 		while (tf.hasNextLarger(ch)) {
 			Char larger = tf.getNextLarger(ch, style);
-			if (larger.getWidth() <= u)
+			if (larger.getWidth() <= u) {
 				ch = larger;
-			else
+			} else {
 				break;
+			}
 		}
 
 		// calculate delta
@@ -172,20 +180,23 @@ public class AccentedAtom extends Atom {
 		Box y;
 		double italic = ch.getItalic();
 		Box cb = new CharBox(ch);
-		if (acc)
+		if (acc) {
 			cb = accent.createBox(changeSize ? env.subStyle() : env);
+		}
 
 		if (Math.abs(italic) > TeXFormula.PREC) {
 			y = new HorizontalBox(new StrutBox(-italic, 0, 0, 0));
 			y.add(cb);
-		} else
+		} else {
 			y = cb;
+		}
 
 		// if diff > 0, center accent, otherwise center base
 		double diff = (u - y.getWidth()) / 2;
 		y.setShift(s + (diff > 0 ? diff : 0));
-		if (diff < 0)
+		if (diff < 0) {
 			b = new HorizontalBox(b, y.getWidth(), TeXConstants.ALIGN_CENTER);
+		}
 		vBox.add(y);
 
 		// kern

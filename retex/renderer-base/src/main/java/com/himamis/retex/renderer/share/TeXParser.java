@@ -365,8 +365,9 @@ public class TeXParser {
 	 */
 	public Atom getLastAtom() {
 		Atom at = formula.root;
-		if (at instanceof RowAtom)
+		if (at instanceof RowAtom) {
 			return ((RowAtom) at).getLastAtom();
+		}
 		formula.root = null;
 		return at;
 	}
@@ -469,15 +470,17 @@ public class TeXParser {
 	 *             if the parser is not in array mode
 	 */
 	public void addRow() throws ParseException {
-		if (!arrayMode)
+		if (!arrayMode) {
 			throw new ParseException("You can add a row only in array mode !");
+		}
 		((ArrayOfAtoms) formula).addRow();
 	}
 
 	public void cellColor(Color color) throws ParseException {
-		if (!arrayMode)
+		if (!arrayMode) {
 			throw new ParseException(
 					"You can use cellcolor only in array mode !");
+		}
 		((ArrayOfAtoms) formula).cellColor(color);
 	}
 
@@ -537,8 +540,9 @@ public class TeXParser {
 								String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
 								String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
 								String expr = "{\\makeatletter \\" + args[1] + "@env";
-								for (int i = 1; i <= mac.nbArgs - 1; i++)
+								for (int i = 1; i <= mac.nbArgs - 1; i++) {
 									expr += "{" + optarg[i] + "}";
+								}
 								expr += "{" + grp + "}\\makeatother}";
 								parseString.replace(spos, pos, expr);
 								len = parseString.length();
@@ -549,11 +553,11 @@ public class TeXParser {
 								}
 							}
 						}
-					} else if ("makeatletter".equals(com))
+					} else if ("makeatletter".equals(com)) {
 						atIsLetter++;
-					else if ("makeatother".equals(com))
+					} else if ("makeatother".equals(com)) {
 						atIsLetter--;
-					else if (unparsedContents.contains(com)) {
+					} else if (unparsedContents.contains(com)) {
 						getOptsArgs(1, 0);
 					}
 					break;
@@ -772,8 +776,9 @@ public class TeXParser {
 						formula.add(new BreakMarkAtom());
 						while (pos < len) {
 							ch = parseString.charAt(pos);
-							if (ch != ' ' || ch != '\t' || ch != '\r')
+							if (ch != ' ' || ch != '\t' || ch != '\r') {
 								break;
+							}
 							pos++;
 						}
 					}
@@ -823,9 +828,10 @@ public class TeXParser {
 				case R_GROUP:
 					group--;
 					pos++;
-					if (group == -1)
+					if (group == -1) {
 						throw new ParseException(
 								"Found a closing '" + R_GROUP + "' without an opening '" + L_GROUP + "'!");
+					}
 					return;
 				case SUPER_SCRIPT:
 					formula.add(getScripts(ch));
@@ -839,8 +845,9 @@ public class TeXParser {
 					}
 					break;
 				case '&':
-					if (!arrayMode)
+					if (!arrayMode) {
 						throw new ParseException("Character '&' is only available in array mode !");
+					}
 					((ArrayOfAtoms) formula).addCol();
 					pos++;
 					break;
@@ -888,8 +895,9 @@ public class TeXParser {
 		Atom second = null;
 		char s = '\0';
 
-		if (pos < len)
+		if (pos < len) {
 			s = parseString.charAt(pos);
+		}
 
 		if (f == SUPER_SCRIPT && s == SUPER_SCRIPT) {
 			second = first;
@@ -916,9 +924,9 @@ public class TeXParser {
 			formula.root = null;
 		}
 
-		if (at.getRightType() == TeXConstants.TYPE_BIG_OPERATOR)
+		if (at.getRightType() == TeXConstants.TYPE_BIG_OPERATOR) {
 			return new BigOperatorAtom(at, first, second);
-		else if (at instanceof OverUnderDelimiter) {
+		} else if (at instanceof OverUnderDelimiter) {
 			if (((OverUnderDelimiter) at).isOver()) {
 				if (second != null) {
 					((OverUnderDelimiter) at).addScript(second);
@@ -972,8 +980,9 @@ public class TeXParser {
 	 *             if the contents are badly enclosed
 	 */
 	public String getGroup(char open, char close) throws ParseException {
-		if (pos == len)
+		if (pos == len) {
 			return null;
+		}
 
 		int group, spos;
 		char ch = parseString.charAt(pos);
@@ -984,12 +993,13 @@ public class TeXParser {
 			while (pos < len - 1 && group != 0) {
 				pos++;
 				ch = parseString.charAt(pos);
-				if (ch == open)
+				if (ch == open) {
 					group++;
-				else if (ch == close)
+				} else if (ch == close) {
 					group--;
-				else if (ch == ESCAPE && pos != len - 1)
+				} else if (ch == ESCAPE && pos != len - 1) {
 					pos++;
+				}
 			}
 
 			pos++;
@@ -1040,18 +1050,20 @@ public class TeXParser {
 				}
 			}
 
-			if (c == open.charAt(oc))
+			if (c == open.charAt(oc)) {
 				oc++;
-			else
+			} else {
 				oc = 0;
+			}
 
 			if (c == close.charAt(cc)) {
 				if (cc == 0) {
 					startC = pos;
 				}
 				cc++;
-			} else
+			} else {
 				cc = 0;
+			}
 
 			if (pos + 1 < len) {
 				c1 = parseString.charAt(pos + 1);
@@ -1141,8 +1153,9 @@ public class TeXParser {
 	}
 
 	public String getOverArgument() throws ParseException {
-		if (pos == len)
+		if (pos == len) {
 			return null;
+		}
 
 		int ogroup = 1, spos;
 		char ch = '\0';
@@ -1185,9 +1198,10 @@ public class TeXParser {
 			pos++;
 		}
 
-		if (ogroup >= 2)
+		if (ogroup >= 2) {
 			// end of string reached, but not processed properly
 			throw new ParseException("Illegal end,  missing '}' !");
+		}
 
 		String str;
 		if (ogroup == 0) {
@@ -1197,15 +1211,17 @@ public class TeXParser {
 			ch = '\0';
 		}
 
-		if (ch == '&' || ch == '\\' || ch == R_GROUP)
+		if (ch == '&' || ch == '\\' || ch == R_GROUP) {
 			pos--;
+		}
 
 		return str;
 	}
 
 	public double[] getLength() throws ParseException {
-		if (pos == len)
+		if (pos == len) {
 			return null;
+		}
 
 		int spos;
 		char ch = '\0';
@@ -1326,14 +1342,16 @@ public class TeXParser {
 
 		while (pos < len) {
 			ch = parseString.charAt(pos);
-			if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z') && (atIsLetter == 0 || ch != '@'))
+			if ((ch < 'a' || ch > 'z') && (ch < 'A' || ch > 'Z') && (atIsLetter == 0 || ch != '@')) {
 				break;
+			}
 
 			pos++;
 		}
 
-		if (ch == '\0')
+		if (ch == '\0') {
 			return "";
+		}
 
 		if (pos == spos) {
 			pos++;
@@ -1355,8 +1373,9 @@ public class TeXParser {
 			return new EmptyAtom();
 		}
 
-		if (MacroInfo.Commands.get(command) != null)
+		if (MacroInfo.Commands.get(command) != null) {
 			return processCommands(command);
+		}
 
 		try {
 			return TeXFormula.get(command).root;
@@ -1419,8 +1438,9 @@ public class TeXParser {
 				if (parseString.charAt(pos) != '\\') {
 					args[1] = "" + parseString.charAt(pos);
 					pos++;
-				} else
+				} else {
 					args[1] = getCommandWithArgs(getCommand());
+				}
 			}
 
 			// We get the options after the first argument
@@ -1508,8 +1528,9 @@ public class TeXParser {
 	private Atom processCommands(String command) throws ParseException {
 		MacroInfo mac = MacroInfo.Commands.get(command);
 		int opts = 0;
-		if (mac.hasOptions)
+		if (mac.hasOptions) {
 			opts = mac.posOpts;
+		}
 
 		String[] args = getOptsArgs(mac.nbArgs, opts);
 		args[0] = command;
@@ -1542,8 +1563,9 @@ public class TeXParser {
 			int len = com.length();
 			while (pos < len) {
 				c = com.charAt(pos);
-				if (!java.lang.Character.isLetter(c) && (atIsLetter == 0 || c != '@'))
+				if (!java.lang.Character.isLetter(c) && (atIsLetter == 0 || c != '@')) {
 					break;
+				}
 				pos++;
 			}
 		} else {
@@ -1569,8 +1591,9 @@ public class TeXParser {
 		char c;
 		while (pos < len) {
 			c = parseString.charAt(pos);
-			if (c != ' ' && c != '\t' && c != '\n' && c != '\r')
+			if (c != ' ' && c != '\t' && c != '\n' && c != '\r') {
 				break;
+			}
 			if (c == '\n') {
 				line++;
 				col = pos;

@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.share.platform.graphics.stubs;
 
+import java.util.Map;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
-
-import java.util.Map;
 
 public class FontStub implements Font {
 

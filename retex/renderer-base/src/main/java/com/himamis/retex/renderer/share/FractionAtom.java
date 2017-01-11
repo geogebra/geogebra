@@ -179,10 +179,11 @@ public class FractionAtom extends Atom {
 	// Checks if the alignment constant is valid.
 	// If not, a default value will be used.
 	private static int checkAlignment(int align) {
-		if (align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT)
+		if (align == TeXConstants.ALIGN_LEFT || align == TeXConstants.ALIGN_RIGHT) {
 			return align;
-		else
+		} else {
 			return TeXConstants.ALIGN_CENTER;
+		}
 	}
 
 	@Override
@@ -191,20 +192,22 @@ public class FractionAtom extends Atom {
 		int style = env.getStyle();
 		// set thickness to default if default value should be used
 		double drt = tf.getDefaultRuleThickness(style);
-		if (noDefault)
+		if (noDefault) {
 			// convert the thickness to pixels
 			thickness *= SpaceAtom.getFactor(unit, env);
-		else
+		} else {
 			thickness = (defFactorSet ? defFactor * drt : drt);
+		}
 
 		// create equal width boxes (in appropriate styles)
 		Box num = (numerator == null ? new StrutBox(0, 0, 0, 0) : numerator.createBox(env.numStyle()));
 		Box denom = (denominator == null ? new StrutBox(0, 0, 0, 0) : denominator.createBox(env.denomStyle()));
 
-		if (num.getWidth() < denom.getWidth())
+		if (num.getWidth() < denom.getWidth()) {
 			num = new HorizontalBox(num, denom.getWidth(), numAlign);
-		else
+		} else {
 			denom = new HorizontalBox(denom, num.getWidth(), denomAlign);
+		}
 
 		// calculate default shift amounts
 		double shiftUp, shiftDown;
@@ -213,10 +216,11 @@ public class FractionAtom extends Atom {
 			shiftDown = tf.getDenom1(style);
 		} else {
 			shiftDown = tf.getDenom2(style);
-			if (thickness > 0)
+			if (thickness > 0) {
 				shiftUp = tf.getNum2(style);
-			else
+			} else {
 				shiftUp = tf.getNum3(style);
+			}
 		}
 
 		// upper part of vertical box = numerator
@@ -228,10 +232,11 @@ public class FractionAtom extends Atom {
 
 		if (thickness > 0) { // WITH fraction rule
 			// clearance clr
-			if (style < TeXConstants.STYLE_TEXT)
+			if (style < TeXConstants.STYLE_TEXT) {
 				clr = 3 * thickness;
-			else
+			} else {
 				clr = thickness;
+			}
 
 			// adjust shift amounts
 			delta = thickness / 2;
@@ -253,10 +258,11 @@ public class FractionAtom extends Atom {
 			vBox.add(new StrutBox(0, kern2, 0, 0));
 		} else { // WITHOUT fraction rule
 			// clearance clr
-			if (style < TeXConstants.STYLE_TEXT)
+			if (style < TeXConstants.STYLE_TEXT) {
 				clr = 7 * drt;
-			else
+			} else {
 				clr = 3 * drt;
+			}
 
 			// adjust shift amounts
 			double kern = shiftUp - num.getDepth() - (denom.getHeight() - shiftDown);

@@ -167,8 +167,9 @@ public class TeXIcon implements Icon {
      */
     public void setIconWidth(int width, int alignment) {
     	double diff = width - getIconWidth();
-        if (diff > 0)
-            box = new HorizontalBox(box, box.getWidth() + diff, alignment);
+        if (diff > 0) {
+			box = new HorizontalBox(box, box.getWidth() + diff, alignment);
+		}
     }
 
     /**
@@ -182,14 +183,16 @@ public class TeXIcon implements Icon {
      */
     public void setIconHeight(int height, int alignment) {
     	double diff = height - getIconHeight();
-        if (diff > 0)
-            box = new VerticalBox(box, diff, alignment);
+        if (diff > 0) {
+			box = new VerticalBox(box, diff, alignment);
+		}
     }
 
     /**
      * Get the total height of the TeXIcon. This also includes the insets.
      */
-    public int getIconHeight() {
+    @Override
+	public int getIconHeight() {
         return ((int) ((box.getHeight()) * size + 0.99 + insets.top)) +  ((int) ((box.getDepth()) * size + 0.99 + insets.bottom));
     }
 
@@ -204,7 +207,8 @@ public class TeXIcon implements Icon {
      * Get the total width of the TeXIcon. This also includes the insets.
      */
 
-    public int getIconWidth() {
+    @Override
+	public int getIconWidth() {
         return (int) (box.getWidth() * size + 0.99 + insets.left + insets.right);
     }
 
@@ -239,7 +243,8 @@ public class TeXIcon implements Icon {
     /**
      * Paint the {@link TeXFormula} that created this icon.
      */
-    public void paintIcon(HasForegroundColor c, Graphics2DInterface g2, int x, int y) {
+    @Override
+	public void paintIcon(HasForegroundColor c, Graphics2DInterface g2, int x, int y) {
         // copy graphics settings
     	// TODO implement getRenderingHints
         //RenderingHints oldHints = g2.getRenderingHints();

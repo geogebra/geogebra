@@ -95,12 +95,13 @@ public class PredefinedTeXFormulaParser {
 					String name = getAttrValueAndCheckIfNotNull("name", formula);
 
 					// parse and build the formula and add it to the table
-					if ("TeXFormula".equals(this.type))
+					if ("TeXFormula".equals(this.type)) {
 						predefinedTeXFormulas.put(name, new TeXFormulaParser(name, formula,
 								this.type).parse());
-					else
+					} else {
 						predefinedTeXFormulas.put(name, new TeXFormulaParser(name, formula,
 								this.type).parse());
+					}
 				}
 			}
 		}
@@ -109,8 +110,9 @@ public class PredefinedTeXFormulaParser {
 	private static String getAttrValueAndCheckIfNotNull(String attrName, Element element)
 			throws ResourceParseException {
 		String attrValue = element.getAttribute(attrName);
-		if ("".equals(attrValue))
+		if ("".equals(attrValue)) {
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+		}
 		return attrValue;
 	}
 }

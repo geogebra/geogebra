@@ -54,16 +54,18 @@ package com.himamis.retex.renderer.share; // NOPMD
 public class DelimiterFactory {
 
 	public static Box create(SymbolAtom symbol, TeXEnvironment env, int size) {
-		if (size > 4)
+		if (size > 4) {
 			return symbol.createBox(env);
+		}
 
 		TeXFont tf = env.getTeXFont();
 		int style = env.getStyle();
 		Char c = tf.getChar(symbol.getName(), style);
 		int i;
 
-		for (i = 1; i <= size && tf.hasNextLarger(c); i++)
+		for (i = 1; i <= size && tf.hasNextLarger(c); i++) {
 			c = tf.getNextLarger(c, style);
+		}
 
 		if (i <= size && !tf.hasNextLarger(c)) {
 			CharBox A = new CharBox(tf.getChar('A', "mathnormal", style));
@@ -127,17 +129,20 @@ public class DelimiterFactory {
 			while (vBox.getHeight() + vBox.getDepth() <= minHeight) {
 				if (ext.hasTop() && ext.hasBottom()) {
 					vBox.add(1, rep);
-					if (middle)
+					if (middle) {
 						vBox.add(vBox.getSize() - 1, rep);
-				} else if (ext.hasBottom())
+					}
+				} else if (ext.hasBottom()) {
 					vBox.add(0, rep);
-				else
+				} else {
 					vBox.add(rep);
+				}
 			}
 
 			return vBox;
-		} else
+		} else {
 			// no extensions, so return tallest possible character
 			return new CharBox(c);
+		}
 	}
 }

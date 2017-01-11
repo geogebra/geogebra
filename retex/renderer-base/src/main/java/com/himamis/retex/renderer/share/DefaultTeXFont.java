@@ -127,10 +127,11 @@ public class DefaultTeXFont implements TeXFont {
 
 		// check if mufontid exists
 		int muFontId = generalSettings.get(DefaultTeXFontParser.MUFONTID_ATTR).intValue();
-		if (muFontId < 0 || muFontId >= fontInfo.length || fontInfo[muFontId] == null)
+		if (muFontId < 0 || muFontId >= fontInfo.length || fontInfo[muFontId] == null) {
 			throw new XMLResourceParseException(DefaultTeXFontParser.RESOURCE_NAME,
 					DefaultTeXFontParser.GEN_SET_EL, DefaultTeXFontParser.MUFONTID_ATTR,
 					"contains an unknown font id!");
+		}
 	}
 
 	private final double size; // standard size
@@ -244,42 +245,52 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
+	@Override
 	public TeXFont copy() {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
+	@Override
 	public TeXFont deriveFont(double size) {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
+	@Override
 	public TeXFont scaleFont(double factor) {
 		return new DefaultTeXFont(size, factor, isBold, isRoman, isSs, isTt, isIt);
 	}
 
+	@Override
 	public double getScaleFactor() {
 		return factor;
 	}
 
+	@Override
 	public double getAxisHeight(int style) {
 		return getParameter("axisheight") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getBigOpSpacing1(int style) {
 		return getParameter("bigopspacing1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getBigOpSpacing2(int style) {
 		return getParameter("bigopspacing2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getBigOpSpacing3(int style) {
 		return getParameter("bigopspacing3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getBigOpSpacing4(int style) {
 		return getParameter("bigopspacing4") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getBigOpSpacing5(int style) {
 		return getParameter("bigopspacing5") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
@@ -301,20 +312,24 @@ public class DefaultTeXFont implements TeXFont {
 		}
 
 		// if the mapping for the character's range, then use the default style
-		if (cf[kind] == null)
+		if (cf[kind] == null) {
 			return getDefaultChar(c, style);
-		else
+		} else {
 			return getChar(new CharFont((char) (cf[kind].c + offset), cf[kind].fontId), style);
+		}
 	}
 
+	@Override
 	public Char getChar(char c, String textStyle, int style) throws TextStyleMappingNotFoundException {
 		Object mapping = textStyleMappings.get(textStyle);
-		if (mapping == null) // text style mapping not found
+		if (mapping == null) {
 			throw new TextStyleMappingNotFoundException(textStyle);
-		else
+		} else {
 			return getChar(c, (CharFont[]) mapping, style);
+		}
 	}
 
+	@Override
 	public Char getChar(CharFont cf, int style) {
 		double fsize = getSizeFactor(style);
 		int id = isBold ? cf.boldFontId : cf.fontId;
@@ -348,6 +363,7 @@ public class DefaultTeXFont implements TeXFont {
 		return new Char(cf.c, font, id, getMetrics(cf, factor * fsize));
 	}
 
+	@Override
 	public Char getChar(String symbolName, int style) throws SymbolMappingNotFoundException {
 		Object obj = symbolMappings.get(symbolName);
 		if (obj == null) {// no symbol mapping found!
@@ -357,6 +373,7 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
+	@Override
 	public Char getDefaultChar(char c, int style) {
 		// these default text style mappings will allways exist,
 		// because it's checked during parsing
@@ -369,18 +386,22 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
+	@Override
 	public double getDefaultRuleThickness(int style) {
 		return getParameter("defaultrulethickness") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getDenom1(int style) {
 		return getParameter("denom1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getDenom2(int style) {
 		return getParameter("denom2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public Extension getExtension(Char c, int style) {
 		Font f = c.getFont();
 		int fc = c.getFontCode();
@@ -401,6 +422,7 @@ public class DefaultTeXFont implements TeXFont {
 		return new Extension(parts[TOP], parts[MID], parts[REP], parts[BOT]);
 	}
 
+	@Override
 	public double getKern(CharFont left, CharFont right, int style) {
 		if (left.fontId == right.fontId) {
 			FontInfo info = fontInfo[left.fontId];
@@ -410,6 +432,7 @@ public class DefaultTeXFont implements TeXFont {
 		}
 	}
 
+	@Override
 	public CharFont getLigature(CharFont left, CharFont right) {
 		if (left.fontId == right.fontId) {
 			FontInfo info = fontInfo[left.fontId];
@@ -428,10 +451,12 @@ public class DefaultTeXFont implements TeXFont {
 		return new Metrics(m[WIDTH], m[HEIGHT], m[DEPTH], m[IT], size * TeXFormula.PIXELS_PER_POINT, size);
 	}
 
+	@Override
 	public int getMuFontId() {
 		return generalSettings.get(DefaultTeXFontParser.MUFONTID_ATTR).intValue();
 	}
 
+	@Override
 	public Char getNextLarger(Char c, int style) {
 		FontInfo info = fontInfo[c.getFontCode()];
 		CharFont ch = info.getNextLarger(c.getChar());
@@ -439,129 +464,159 @@ public class DefaultTeXFont implements TeXFont {
 		return new Char(ch.c, newInfo.getFont(), ch.fontId, getMetrics(ch, getSizeFactor(style)));
 	}
 
+	@Override
 	public double getNum1(int style) {
 		return getParameter("num1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getNum2(int style) {
 		return getParameter("num2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getNum3(int style) {
 		return getParameter("num3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getQuad(int style, int fontCode) {
 		FontInfo info = fontInfo[fontCode];
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
+	@Override
 	public double getSize() {
 		return size;
 	}
 
+	@Override
 	public double getSkew(CharFont cf, int style) {
 		FontInfo info = fontInfo[cf.fontId];
 		char skew = info.getSkewChar();
-		if (skew == -1)
+		if (skew == -1) {
 			return 0;
-		else
+		} else {
 			return getKern(cf, new CharFont(skew, cf.fontId), style);
+		}
 	}
 
+	@Override
 	public double getSpace(int style) {
 		int spaceFontId = generalSettings.get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
 		FontInfo info = fontInfo[spaceFontId];
 		return info.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
+	@Override
 	public double getSub1(int style) {
 		return getParameter("sub1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSub2(int style) {
 		return getParameter("sub2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSubDrop(int style) {
 		return getParameter("subdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSup1(int style) {
 		return getParameter("sup1") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSup2(int style) {
 		return getParameter("sup2") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSup3(int style) {
 		return getParameter("sup3") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getSupDrop(int style) {
 		return getParameter("supdrop") * getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public double getXHeight(int style, int fontCode) {
 		FontInfo info = fontInfo[fontCode];
 		return info.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
+	@Override
 	public double getEM(int style) {
 		return getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT;
 	}
 
+	@Override
 	public boolean hasNextLarger(Char c) {
 		FontInfo info = fontInfo[c.getFontCode()];
 		return (info.getNextLarger(c.getChar()) != null);
 	}
 
+	@Override
 	public void setBold(boolean bold) {
 		isBold = bold;
 	}
 
+	@Override
 	public boolean getBold() {
 		return isBold;
 	}
 
+	@Override
 	public void setRoman(boolean rm) {
 		isRoman = rm;
 	}
 
+	@Override
 	public boolean getRoman() {
 		return isRoman;
 	}
 
+	@Override
 	public void setTt(boolean tt) {
 		isTt = tt;
 	}
 
+	@Override
 	public boolean getTt() {
 		return isTt;
 	}
 
+	@Override
 	public void setIt(boolean it) {
 		isIt = it;
 	}
 
+	@Override
 	public boolean getIt() {
 		return isIt;
 	}
 
+	@Override
 	public void setSs(boolean ss) {
 		isSs = ss;
 	}
 
+	@Override
 	public boolean getSs() {
 		return isSs;
 	}
 
+	@Override
 	public boolean hasSpace(int font) {
 		FontInfo info = fontInfo[font];
 		return info.hasSpace();
 	}
 
+	@Override
 	public boolean isExtensionChar(Char c) {
 		FontInfo info = fontInfo[c.getFontCode()];
 		return info.getExtension(c.getChar()) != null;
@@ -588,20 +643,22 @@ public class DefaultTeXFont implements TeXFont {
 
 	private static double getParameter(String parameterName) {
 		Object param = parameters.get(parameterName);
-		if (param == null)
+		if (param == null) {
 			return 0;
-		else
+		} else {
 			return ((Double) param).doubleValue();
+		}
 	}
 
 	public static double getSizeFactor(int style) {
-		if (style < TeXConstants.STYLE_TEXT)
+		if (style < TeXConstants.STYLE_TEXT) {
 			return 1;
-		else if (style < TeXConstants.STYLE_SCRIPT)
+		} else if (style < TeXConstants.STYLE_SCRIPT) {
 			return generalSettings.get("textfactor").doubleValue();
-		else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT)
+		} else if (style < TeXConstants.STYLE_SCRIPT_SCRIPT) {
 			return generalSettings.get("scriptfactor").doubleValue();
-		else
+		} else {
 			return generalSettings.get("scriptscriptfactor").doubleValue();
+		}
 	}
 }

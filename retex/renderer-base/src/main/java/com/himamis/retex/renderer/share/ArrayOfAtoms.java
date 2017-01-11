@@ -103,10 +103,11 @@ public class ArrayOfAtoms extends TeXFormula {
 	}
 
 	public void checkDimensions() {
-		if (array.getLast().size() != 0)
+		if (array.getLast().size() != 0) {
 			addRow();
-		else if (root != null)
+		} else if (root != null) {
 			addRow();
+		}
 
 		row = array.size() - 1;
 		col = array.get(0).size();

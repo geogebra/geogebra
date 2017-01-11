@@ -63,10 +63,12 @@ public class WebStartAlphabetRegistration implements AlphabetRegistration {
 		DefaultTeXFont.registerAlphabet(new WebStartAlphabetRegistration(blocks));
 	}
 
+	@Override
 	public Character.UnicodeBlock[] getUnicodeBlock() {
 		return blocks;
 	}
 
+	@Override
 	public Object getPackage() throws AlphabetRegistrationException {
 		if (blocks == JLM_GREEK) {
 			reg = new GreekRegistration();
@@ -78,6 +80,7 @@ public class WebStartAlphabetRegistration implements AlphabetRegistration {
 		return reg;
 	}
 
+	@Override
 	public String getTeXFontFileName() {
 		return reg.getTeXFontFileName();
 	}
