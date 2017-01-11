@@ -122,8 +122,9 @@ public class LeoSocket {
     
     public boolean getLeoData(){
     	
-    	if (!connected)
-    		return false;
+    	if (!connected) {
+			return false;
+		}
     	
     	try {
     		gotMessage = false;

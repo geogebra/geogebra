@@ -859,8 +859,9 @@ public class Socket {
 	 */
 	public boolean getData(){
 
-		if (!connected)
+		if (!connected) {
 			return false;
+		}
 
 		sts = SENSE_MANAGER.AcquireFrame(true);
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR)<0){
