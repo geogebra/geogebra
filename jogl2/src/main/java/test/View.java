@@ -55,6 +55,7 @@ public class View implements GLEventListener {
 		animator.start();
 	}
 
+	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
 		gl.glClear(GLlocal.GL_COLOR_BUFFER_BIT | GLlocal.GL_DEPTH_BUFFER_BIT); // clear
@@ -80,11 +81,13 @@ public class View implements GLEventListener {
 
 		gl.glEnd();
 	}
+	@Override
 	public void dispose(GLAutoDrawable arg0) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void init(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL graphics context
 		glu = new GLU(); // get GL Utilities
@@ -108,7 +111,9 @@ public class View implements GLEventListener {
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
 
 		if (height == 0)
+		 {
 			height = 1; // prevent divide by zero
+		}
 		float aspect = (float) width / height;
 
 		// Set the view port (display area) to cover the entire window
