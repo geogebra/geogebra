@@ -18,14 +18,40 @@ public interface RelationPane {
 	 *
 	 */
 	public class RelationRow {
+
+		private String info;
+		private RelationMore callback;
+
 		/**
-		 * The information shown in the left column.
+		 * @return The information shown in the left column.
 		 */
-		public String info;
+		public String getInfo() {
+			return info;
+		}
+
 		/**
-		 * The action to be started when the user clicks on "More...".
+		 * @param info
+		 *            The information shown in the left column.
 		 */
-		public RelationMore callback;
+		public void setInfo(String info) {
+			this.info = info;
+		}
+
+		/**
+		 * @return The action to be started when the user clicks on "More...".
+		 */
+		public RelationMore getCallback() {
+			return callback;
+		}
+
+		/**
+		 * @param callback
+		 *            The action to be started when the user clicks on
+		 *            "More...".
+		 */
+		public void setCallback(RelationMore callback) {
+			this.callback = callback;
+		}
 	}
 
 	/**

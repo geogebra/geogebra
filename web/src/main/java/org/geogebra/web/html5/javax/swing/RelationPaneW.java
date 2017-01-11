@@ -56,11 +56,11 @@ public class RelationPaneW extends DialogBox
 		for (int i = 0; i < rels; ++i) {
 			texts[i] = new FlowPanel();
 			buttons[i] = new FlowPanel();
-			HTML text = new HTML(relations[i].info);
+			HTML text = new HTML(relations[i].getInfo());
 			texts[i].add(text);
 
-			if (relations[i].callback != null) {
-				callbacks[i] = relations[i].callback;
+			if (relations[i].getCallback() != null) {
+				callbacks[i] = relations[i].getCallback();
 				btnCallbacks[i] = new Button();
 				btnCallbacks[i]
 						.setText(app.getLocalization().getMenu("More")
@@ -117,9 +117,9 @@ public class RelationPaneW extends DialogBox
 
 	public void updateRow(int row, RelationRow relation) {
 		texts[row].clear();
-		HTML text = new HTML(relation.info);
+		HTML text = new HTML(relation.getInfo());
 		texts[row].add(text);
-		callbacks[row] = relation.callback;
+		callbacks[row] = relation.getCallback();
 		if (callbacks[row] == null) {
 			buttons[row].setVisible(false);
 		}

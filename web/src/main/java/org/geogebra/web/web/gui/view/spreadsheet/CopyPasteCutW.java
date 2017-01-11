@@ -75,24 +75,24 @@ public class CopyPasteCutW extends CopyPasteCut {
 		sourceRow1 = row1;
 
 		// copy tab-delimited geo values into the external buffer
-		if (cellBufferStr == null) {
-			cellBufferStr = new StringBuilder();
+		if (getCellBufferStr() == null) {
+			setCellBufferStr(new StringBuilder());
 		} else {
-			cellBufferStr.setLength(0);
+			getCellBufferStr().setLength(0);
 		}
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
 				GeoElement value = RelativeCopy.getValue(app, column, row);
 				if (value != null) {
-					cellBufferStr.append(value
+					getCellBufferStr().append(value
 							.toValueString(StringTemplate.maxPrecision));
 				}
 				if (column != column2) {
-					cellBufferStr.append('\t');
+					getCellBufferStr().append('\t');
 				}
 			}
 			if (row != row2) {
-				cellBufferStr.append('\n');
+				getCellBufferStr().append('\n');
 			}
 		}
 
@@ -107,9 +107,9 @@ public class CopyPasteCutW extends CopyPasteCut {
 		if (nat) {
 			// if called from native event, setting clipboard contents
 			// is not crucial, and redundant/harmful in IE...
-			setInternalClipboardContents(new String(cellBufferStr));
+			setInternalClipboardContents(new String(getCellBufferStr()));
 		} else {
-			setClipboardContents(new String(cellBufferStr), getFocusCallback());
+			setClipboardContents(new String(getCellBufferStr()), getFocusCallback());
 		}
 
 		// store copies of the actual geos in the internal buffer
@@ -178,8 +178,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
-		boolean doInternalPaste = cellBufferStr != null
-				&& transferString.equals(cellBufferStr.toString());
+		boolean doInternalPaste = getCellBufferStr() != null
+				&& transferString.equals(getCellBufferStr().toString());
 
 		if (doInternalPaste && cellBufferGeo != null) {
 
@@ -225,7 +225,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		copy(column1, row1, column2, row2, false, nat);
 		// null out the external buffer so that paste will not do a relative
 		// copy
-		cellBufferStr = null;
+		setCellBufferStr(null);
 		return delete(column1, row1, column2, row2);
 	}
 

@@ -91,9 +91,9 @@ public class Relation {
 			rr[i] = new RelationRow();
 			final String relInfo = relInfos[i].replace("\n", "<br>");
 			// First information shown (result of numerical checks):
-			rr[i].info = "<html>" + relInfo + "<br>"
+			rr[i].setInfo("<html>" + relInfo + "<br>"
 					+ app.getLocalization().getMenu("CheckedNumerically")
-					+ "</html>";
+					+ "</html>");
 			final RelationCommand relAlgo = relAlgos[i];
 
 			RelationMore rm = new RelationMore() {
@@ -105,11 +105,11 @@ public class Relation {
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
-					rel.info = "<html>";
+					rel.setInfo("<html>");
 					if (result != null && !result) {
 						// Prove==false
-						rel.info += relInfo + "<br><b>"
-								+ loc.getMenu("ButNotGenerallyTrue") + "</b>";
+						rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
+								+ loc.getMenu("ButNotGenerallyTrue") + "</b>");
 						app.setDefaultCursor();
 					} else {
 						// We don't show the second information unless
@@ -127,36 +127,39 @@ public class Relation {
 						// command):
 						if (ndgResult.length == 1) {
 							// ProveDetails=={true} or =={false} or ==undefined
-							rel.info += relInfo + "<br><b>";
+							rel.setInfo(
+									rel.getInfo() + relInfo + "<br><b>");
 							if ("".equals(ndgResult[0])) {
 								// ProveDetails==undefined
 								if (result != null && result) {
 									// Using Prove's result (since ProveDetails
 									// couldn't find any interesting):
-									rel.info += loc.getMenu("GenerallyTrue");
+									rel.setInfo(
+											rel.getInfo() + loc.getMenu("GenerallyTrue"));
 								} else {
 									// Prove==ProveDetails==undefined
-									rel.info += loc
-											.getMenu("PossiblyGenerallyTrue");
+									rel.setInfo(
+											rel.getInfo() + loc
+													.getMenu("PossiblyGenerallyTrue"));
 								}
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
-								rel.info += loc.getMenu("AlwaysTrue");
+								rel.setInfo(rel.getInfo() + loc.getMenu("AlwaysTrue"));
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
-								rel.info += loc.getMenu("ButNotGenerallyTrue");
+								rel.setInfo(rel.getInfo() + loc.getMenu("ButNotGenerallyTrue"));
 							}
-							rel.info += "</b>";
+							rel.setInfo(rel.getInfo() + "</b>");
 						} else {
 							int ndgs = ndgResult.length;
 							if ((ndgs == 2) && ((Unicode.ellipsis + "")
 									.equals(ndgResult[1]))) {
 								// UnderCertainConditionsA
-								rel.info += loc.getPlain(
+								rel.setInfo(rel.getInfo() + loc.getPlain(
 										"UnderCertainConditionsA",
 										"<ul><li " + liStyle + ">" + relInfo
-												+ "</ul>");
+												+ "</ul>"));
 
 							} else {
 								// GenerallyTrueAcondB
@@ -172,27 +175,27 @@ public class Relation {
 									}
 								}
 								conds.append("</ul>");
-								rel.info += loc
+								rel.setInfo(rel.getInfo() + loc
 										.getPlain("GenerallyTrueAcondB",
 												"<ul><li " + liStyle + ">"
 														+ relInfo + "</ul>",
-												conds.toString());
+												conds.toString()));
 							}
 						}
 					}
-					rel.info += "</html>";
-					rel.callback = null;
+					rel.setInfo(rel.getInfo() + "</html>");
+					rel.setCallback(null);
 					table.updateRow(row, rel);
 				}
 			};
 
 			if (relBools[i] != null && relBools[i] && relAlgos[i] != null) {
-				rr[i].callback = rm;
+				rr[i].setCallback(rm);
 			}
 		}
 
 		// just send first row to event
-		app.dispatchEvent(new Event(EventType.RELATION_TOOL, null, rr[0].info));
+		app.dispatchEvent(new Event(EventType.RELATION_TOOL, null, rr[0].getInfo()));
 
 		tablePane.showDialog(app.getLocalization().getCommand("Relation"), rr,
 				ra.getConstruction().getApplication());

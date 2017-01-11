@@ -1034,12 +1034,12 @@ public class Polynomial implements Comparable<Polynomial> {
 		StringBuilder ret = new StringBuilder("ring ");
 		ret.append(ringVariable);
 		ret.append("=0,(");
-		String vars = "";
+		StringBuilder vars = new StringBuilder();
 		for (Variable v : pVariables) {
-			vars += v + ",";
+			vars.append(v + ",");
 		}
 		if (!"".equals(vars)) {
-			vars = vars.substring(0, vars.length() - 1);
+			vars.setLength(vars.length() - 1);
 		}
 
 		if (!"".equals(vars)) {
@@ -1065,16 +1065,16 @@ public class Polynomial implements Comparable<Polynomial> {
 		ret.append(idealVariable);
 		ret.append(",");
 
-		vars = "";
+		vars = new StringBuilder();
 		Iterator<Variable> dependentVariablesIterator = dependentVariables
 				.iterator();
 		while (dependentVariablesIterator.hasNext()) {
-			vars += dependentVariablesIterator.next();
+			vars.append(dependentVariablesIterator.next());
 			if (dependentVariablesIterator.hasNext()) {
-				vars += "*";
+				vars.append("*");
 			}
 		}
-		if (!"".equals(vars))
+		if (vars.length() > 0)
 			ret.append(vars);
 		else
 			ret.append(dummyVar);

@@ -100,16 +100,16 @@ public class MidiSoundD implements MetaEventListener {
 
 		int size = Math.min(128, instruments.length);
 
-		String list = "{";
+		StringBuilder list = new StringBuilder("{");
 		for (int i = 0; i < size; i++) {
-			list += "\"" + i + ": " + instruments[i].getName() + "\"";
+			list.append("\"" + i + ": " + instruments[i].getName() + "\"");
 			if (i != (size - 1)) {
-				list += ",";
+				list.append(",");
 			}
 		}
-		list += "}";
+		list.append("}");
 
-		return list;
+		return list.toString();
 	}
 
 	/**

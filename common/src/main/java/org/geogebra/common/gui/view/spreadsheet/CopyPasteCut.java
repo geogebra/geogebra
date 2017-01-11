@@ -24,7 +24,7 @@ public abstract class CopyPasteCut {
 	/**
 	 * Stores copied cell geo values as a tab-delimited string.
 	 */
-	protected StringBuilder cellBufferStr;
+	private StringBuilder cellBufferStr;
 
 	/**
 	 * Stores copied cell geos as GeoElement[columns][rows]
@@ -110,7 +110,7 @@ public abstract class CopyPasteCut {
 		copy(column1, row1, column2, row2, false);
 		// null out the external buffer so that paste will not do a relative
 		// copy
-		cellBufferStr = null;
+		setCellBufferStr(null);
 		return delete(column1, row1, column2, row2);
 	}
 
@@ -593,6 +593,21 @@ public abstract class CopyPasteCut {
 		}
 
 		return comparator;
+	}
+
+	/**
+	 * @return copied cell geo values as a tab-delimited string.
+	 */
+	protected StringBuilder getCellBufferStr() {
+		return cellBufferStr;
+	}
+
+	/**
+	 * @param cellBufferStr
+	 *            copied cell geo values as a tab-delimited string.
+	 */
+	protected void setCellBufferStr(StringBuilder cellBufferStr) {
+		this.cellBufferStr = cellBufferStr;
 	}
 
 	private static Comparator comparator;

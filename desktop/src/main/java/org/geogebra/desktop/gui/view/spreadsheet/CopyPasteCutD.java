@@ -40,10 +40,10 @@ public class CopyPasteCutD extends CopyPasteCut {
 		 */
 
 		// copy tab-delimited geo values into the external buffer
-		if (cellBufferStr == null) {
-			cellBufferStr = new StringBuilder();
+		if (getCellBufferStr() == null) {
+			setCellBufferStr(new StringBuilder());
 		} else {
-			cellBufferStr.setLength(0);
+			getCellBufferStr().setLength(0);
 		}
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
@@ -52,15 +52,15 @@ public class CopyPasteCutD extends CopyPasteCut {
 					String valueStr = value
 							.toValueString(StringTemplate.maxPrecision);
 
-					cellBufferStr.append(valueStr);
+					getCellBufferStr().append(valueStr);
 
 				}
 				if (column != column2) {
-					cellBufferStr.append('\t');
+					getCellBufferStr().append('\t');
 				}
 			}
 			if (row != row2) {
-				cellBufferStr.append('\n');
+				getCellBufferStr().append('\n');
 			}
 		}
 
@@ -68,7 +68,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
 		StringSelection stringSelection = new StringSelection(
-				cellBufferStr.toString());
+				getCellBufferStr().toString());
 		clipboard.setContents(stringSelection, null);
 
 		// store copies of the actual geos in the internal buffer
@@ -124,8 +124,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 		// test if the transfer string is the same as the internal cell copy
 		// string. If true, then we have a tab-delimited list of cell geos and
 		// can paste them with relative cell references
-		boolean doInternalPaste = cellBufferStr != null
-				&& transferString.equals(cellBufferStr.toString());
+		boolean doInternalPaste = getCellBufferStr() != null
+				&& transferString.equals(getCellBufferStr().toString());
 
 		if (doInternalPaste && cellBufferGeo != null) {
 

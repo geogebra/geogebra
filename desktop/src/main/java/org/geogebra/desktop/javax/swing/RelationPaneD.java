@@ -89,7 +89,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		final int rels = relations.length;
 
 		for (int i = 0; i < rels; ++i) {
-			if (relations[i].callback != null) {
+			if (relations[i].getCallback() != null) {
 				areCallbacks = true;
 				morewidth = MOREWIDTH;
 			}
@@ -106,10 +106,10 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		int height = 0;
 
 		for (int i = 0; i < rels; ++i) {
-			data[i][0] = relations[i].info;
-			callbacks[i] = relations[i].callback;
+			data[i][0] = relations[i].getInfo();
+			callbacks[i] = relations[i].getCallback();
 			if (areCallbacks) {
-				if (relations[i].callback != null) {
+				if (relations[i].getCallback() != null) {
 					data[i][1] = app.getLocalization().getMenu("More")
 							+ Unicode.ellipsis;
 				} else {
@@ -142,7 +142,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		for (int i = 0; i < rels; ++i) {
 			int thisHeight = (int) (ROWHEIGHT
-					* (countLines(relations[i].info)));
+					* (countLines(relations[i].getInfo())));
 			table.setRowHeight(i, thisHeight - 2 * (ROWMARGIN + 1)); // button
 																		// border
 			height += thisHeight;
@@ -250,9 +250,9 @@ public class RelationPaneD implements RelationPane, ActionListener {
 	}
 
 	public synchronized void updateRow(int row, RelationRow relation) {
-		table.setValueAt(relation.info, row, 0);
-		callbacks[row] = relation.callback;
-		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.info))
+		table.setValueAt(relation.getInfo(), row, 0);
+		callbacks[row] = relation.getCallback();
+		table.setRowHeight(row, (int) (ROWHEIGHT * (countLines(relation.getInfo()))
 				- 2 * (ROWMARGIN + 1)));
 		int height = 0;
 
